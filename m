@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-35960-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-35961-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B32AE9EE1
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:35:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6DCAE9EE2
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 15:35:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB31A189D672
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 13:35:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5AD2D3BDE73
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jun 2025 13:34:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 983A82E54BB;
-	Thu, 26 Jun 2025 13:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4000F2E5437;
+	Thu, 26 Jun 2025 13:35:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n92wpJ7Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMc+ghXT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09082E5437
-	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A1B2E1C65
+	for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 13:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750944909; cv=none; b=hcO4VIAHUbcO4Pu7FW0iqzu0pxVk6J2leqjqTEnzDdfbCfCQ3Tek/hvO21sZvxykSMoh5ng/WHJb+sokAVQrPSEcVANfzUsVKSWKgfLr0aVDAwjkNfv8NwEx220LvhsvwQ+jrOIFE8FhrJI7ZVz5xcpRS5yzgRamQl8/muK3QPY=
+	t=1750944915; cv=none; b=OqV55edR8wPrYq3lDAS45WU3CEwqWqp4ivjkSY6vP/KtmraaoBXqGUbvlCK3ZAltNlCm+9LUt/XwCTobM1/o9ivBFtA9YuwYAaTAB36/sUgUXP77izg033aFBoawJ8bn3salmeF8dxJPQIGlJ5mMB5sCHdfQsmU6qBkBCpDnc8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750944909; c=relaxed/simple;
-	bh=P2q9rx+vJThKDAJ1r2EhNGorbt9q2KPodpy2TYQWork=;
+	s=arc-20240116; t=1750944915; c=relaxed/simple;
+	bh=1h1BHN4rd2rOfv/qZjoIyCr0clmk8yMLOzg4ygy7TSQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TThcduEK9xhleyLKbUWnywZTMoGYkZXBrsh6l8L68FAZurKppYlFE6ke/D04vJHv5ib5KODoZCCz0B9N9fascU8gOwzG3Uj5XHVkghsbUNSmhj+YFBiNj8SjzyIKWM8mOhhPECe8VFRopmgPgwzP3ITb4uXFeUYoIUMjMU7xkls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n92wpJ7Y; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version:Content-Type; b=lQnui4el/KSnXnzsCqxhBMXOvPrRlFStFfBcHrw2bStKC3w9Egkbcfj5laaPw+BB99u71Y7FUh87vzhokt+90xuxkHmRLqLyxqaaVxJ35orfC/vyn+KKMrry6ssx9zcPqQj2vriU4NTUfnw6ufDPOUAop5ggikW94whDsxmv5G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMc+ghXT; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750944907; x=1782480907;
+  t=1750944914; x=1782480914;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=P2q9rx+vJThKDAJ1r2EhNGorbt9q2KPodpy2TYQWork=;
-  b=n92wpJ7YJfuMEkV8cGDtX9iGJS9qmRqg7LYxLkqwdDQUpQtdNaqQFqOS
-   82TVasYs01MoWwAMJckw5GsV0q10vZ747shO8sJniqMtuArSf5ByFUn7r
-   muHm2XF0eQc0vG6SJs8tMeaIgrkUCCtobKRUYBJfDQQAG1tX2br2NxAdP
-   dnJAhnK+tUM27eZ2hnZTqopwrgEflHrrPZOJ4M5c75P7fT/Y9DpkiqPep
-   qrlhG+nDJVOTHDjfqxQqG1zOPdl44Tz1+a/kMEN//B3cAxw6JKms9lVki
-   WO0TmsHCtRSLA+gqithEVrmxfL9u5GM+n3Wi+f69Inl/PHtwZEb4TLASR
-   A==;
-X-CSE-ConnectionGUID: x7/TC5WfTq615HwEfC4kaQ==
-X-CSE-MsgGUID: 2X815eeSRU+BWpWNqmL4hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="56921198"
+  bh=1h1BHN4rd2rOfv/qZjoIyCr0clmk8yMLOzg4ygy7TSQ=;
+  b=HMc+ghXTYxsxueadQk5HN0bdEG+qyRUdMlOhpnuVDSeVkUzac0anAeMP
+   It9KjzloiSayXpvF9To1P72FR3W6djnBWBhuwdJl4FIRiewpfilOA2ODM
+   rOB8Z6SbNp3xtXgq5ciNMg1Ybz3Qa7St+O6fCWLhhuxjubnTENbfuhDPr
+   fc65WOR3LF72f4TRrwe6FCqGIPAZfvdqW9LFNbX0o9RHACatcX+CDZVPZ
+   qKTSHr0F0SsDX+2IeQVuuZr6S7bdNFbENHyt7dLaw1fORQxEOp43TymSf
+   1eHsoSHA4Al0iWN7p22USExcVN2L4Ei+JIzMVmGShR6KQwt7g5zSlEd9v
+   g==;
+X-CSE-ConnectionGUID: qMpup8BATgWDdBIrmTfZjQ==
+X-CSE-MsgGUID: JBfCX2NBRmuDHM/6ztjYQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="56921210"
 X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="56921198"
+   d="scan'208";a="56921210"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:35:07 -0700
-X-CSE-ConnectionGUID: mjPnq1KMRPCAHt8UGsP2GQ==
-X-CSE-MsgGUID: xiMe8u3MTcWwva6O3FVdHg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:35:13 -0700
+X-CSE-ConnectionGUID: J6iVVMF1S66MEj1fPx2Ibw==
+X-CSE-MsgGUID: KVmx6ImPSOuZomrFPdegYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="153049305"
+   d="scan'208";a="153049316"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.244.225])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:35:00 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:35:07 -0700
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: laurent.pinchart@ideasonboard.com,
 	sakari.ailus@linux.intel.com
@@ -92,9 +92,9 @@ Cc: stanislaw.gruszka@linux.intel.com,
 	umang.jain@ideasonboard.com,
 	linux-media@vger.kernel.org,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 02/48] Documentation: media: camera-sensor: Mention v4l2_devm_sensor_clk_get() for obtaining the clock
-Date: Thu, 26 Jun 2025 15:33:53 +0200
-Message-ID: <095af35c322e523aba8ea8f70157077f4196feb5.1750942967.git.mehdi.djait@linux.intel.com>
+Subject: [PATCH v2 03/48] media: i2c: ar0521: Use the v4l2 helper for obtaining the clock
+Date: Thu, 26 Jun 2025 15:33:54 +0200
+Message-ID: <abee0a45d9fe56c9ef0e6eac6db19d8d45cfff6f.1750942967.git.mehdi.djait@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1750942967.git.mehdi.djait@linux.intel.com>
 References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
@@ -104,63 +104,44 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add the new v4l2 helper devm_v4l2_sensor_clk_get() to Documentation. the
-helper works on both DT- and ACPI-based platforms to retrieve a
-reference to the clock producer from firmware.
+devm_clk_get() fails on ACPI-based platforms, where firmware does not
+provide a direct reference to the clock producer.
 
+Replace devm_clk_get() with the new v4l2 helper devm_v4l2_sensor_clk_get()
+that works on both DT- and ACPI-based platforms to retrieve a reference to
+the clock producer from firmware.
+
+Acked-By: Krzysztof Hałasa <khalasa@piap.pl>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 ---
- .../driver-api/media/camera-sensor.rst        | 24 +++++++++++++------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ drivers/media/i2c/ar0521.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-index c290833165e6..94bd1dae82d5 100644
---- a/Documentation/driver-api/media/camera-sensor.rst
-+++ b/Documentation/driver-api/media/camera-sensor.rst
-@@ -29,21 +29,31 @@ used in the system. Using another frequency may cause harmful effects
- elsewhere. Therefore only the pre-determined frequencies are configurable by the
- user.
+diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+index 24873149096c..939bf590d4b2 100644
+--- a/drivers/media/i2c/ar0521.c
++++ b/drivers/media/i2c/ar0521.c
+@@ -1077,11 +1077,10 @@ static int ar0521_probe(struct i2c_client *client)
+ 	}
  
-+The external clock frequency shall be retrieved by obtaining the external clock
-+using the ``devm_v4l2_sensor_clk_get()`` helper function, and then getting its
-+frequency with ``clk_get_rate()``. Usage of the helper function guarantees
-+correct behaviour regardless of whether the sensor is integrated in a DT-based
-+or ACPI-based system.
-+
- ACPI
- ~~~~
+ 	/* Get master clock (extclk) */
+-	sensor->extclk = devm_clk_get(dev, "extclk");
+-	if (IS_ERR(sensor->extclk)) {
+-		dev_err(dev, "failed to get extclk\n");
+-		return PTR_ERR(sensor->extclk);
+-	}
++	sensor->extclk = devm_v4l2_sensor_clk_get(dev, "extclk");
++	if (IS_ERR(sensor->extclk))
++		return dev_err_probe(dev, PTR_ERR(sensor->extclk),
++				     "failed to get extclk\n");
  
--Read the ``clock-frequency`` _DSD property to denote the frequency. The driver
--can rely on this frequency being used.
-+ACPI-based systems typically don't register the sensor external clock with the
-+kernel, but specify the external clock frequency in the ``clock-frequency``
-+_DSD property. The ``devm_v4l2_sensor_clk_get()`` helper creates and returns a
-+fixed clock set at that rate.
+ 	sensor->extclk_freq = clk_get_rate(sensor->extclk);
  
- Devicetree
- ~~~~~~~~~~
- 
--The preferred way to achieve this is using ``assigned-clocks``,
--``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
--`clock device tree bindings
-+Devicetree-based systems declare the sensor external clock in the device tree
-+and reference it from the sensor node. The preferred way to select the external
-+clock frequency is to use the ``assigned-clocks``, ``assigned-clock-parents``
-+and ``assigned-clock-rates`` properties in the sensor node to set the clock
-+rate. See the `clock device tree bindings
- <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
--for more information. The driver then gets the frequency using
--``clk_get_rate()``.
-+for more information. The ``devm_v4l2_sensor_clk_get()`` helper retrieves and
-+returns that clock.
- 
- This approach has the drawback that there's no guarantee that the frequency
- hasn't been modified directly or indirectly by another driver, or supported by
 -- 
 2.49.0
 
