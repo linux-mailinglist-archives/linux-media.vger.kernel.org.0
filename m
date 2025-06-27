@@ -1,127 +1,118 @@
-Return-Path: <linux-media+bounces-36127-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36128-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5A7AEBCF8
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 18:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470E4AEBD8A
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 18:35:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4002E1C240CF
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 16:18:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4568F1899952
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 16:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B21A1A7AE3;
-	Fri, 27 Jun 2025 16:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268D02EA48D;
+	Fri, 27 Jun 2025 16:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvgZlx4u"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a3ju6iLw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5689E1A08A4;
-	Fri, 27 Jun 2025 16:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ACA2EA491
+	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 16:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751041095; cv=none; b=ccjumgaVcAX1ThnUZXpl6whGEk6vsggZqKS87IRW/PdM/wDEDPtjiuwABDRNgK1ve4JYG7halVmjhklpcXvqh612Cd0o+G4cArB5scy4a2xAI9vQC13gn3U88NB2EjiCfGULQ0K5wiGRm4QIHsEG3tT7F3bbvGlKW6m8fURZV2M=
+	t=1751041824; cv=none; b=r+CoES13mkCbJv0JCgbcfraAWTjiK00yBnEAYPQPKWwqV0RtjBEF+wbU41LF5/WVKfk3DBabpfWUm9rhmQRiW1RNn/FjmHein8CfzNfocO4xjSc3bJcLE+H+xoZPZX3ALrCYcv9YdH3IOYrvMSxhc1pXRGjlDTj7evN/FUHNefU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751041095; c=relaxed/simple;
-	bh=vNyKPuHzCNUHX4x3bntCWHqAQ4zTRDjMdL7Oc2xzQyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s+2QyuGIPDcNQ7Niw2eVxFK34rwhqlH0vUhxFO9VGEDud6bQbrb11mDakX1PfndkAAuLSW/Et46GyEG8tzkowWYXZnF0SZDE336KLKZlbAxiUJWkOlrBQEpRW1wPDhzCYYwvHWsVbz9+WKu/91d2MwlvMx0wXnIR3m2mW1ScODs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvgZlx4u; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751041094; x=1782577094;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vNyKPuHzCNUHX4x3bntCWHqAQ4zTRDjMdL7Oc2xzQyI=;
-  b=kvgZlx4u3zsCh4/ThTmTOpv/tnPY+XxsuDvqz3ngp7afkzQKcuhZpZNY
-   IjdC22XHUxeHburD50xEVTfx05vOxPETtm6F/gy87e6XdjjMeSpRdl5Yt
-   Ck+XBBUIivM/tiZaXDYRnfrrAjyGzm1kE9tt8JDlGGKUJ4Q8G+dYmjR6P
-   NFiiJF4KEc63VGsSkUfx/SSFRckfph0Yg6vhFiRSEsvCkbu6OKOucq+4s
-   dXaImImHE/jbxvgUqbsdAuHIiducSNYqUWYRctlhXMOnH2H32RYEAoSj6
-   EengU73QJ7Qg5dwAbrIzLMUDwGcemmACIoucSRmacJN35e0kPfC1WjZRC
-   w==;
-X-CSE-ConnectionGUID: 3e3NQTRpTg244UziF44Org==
-X-CSE-MsgGUID: 2sXXAbucTyG/+aWCo0pAdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="40983254"
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="40983254"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 09:17:27 -0700
-X-CSE-ConnectionGUID: x6MOS/2zRwqYo99kITkz4g==
-X-CSE-MsgGUID: ZwvY1V5LQ5qWmx5VIdRoJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="157129155"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 09:17:24 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uVBlQ-0000000AX4s-2NUJ;
-	Fri, 27 Jun 2025 19:17:20 +0300
-Date: Fri, 27 Jun 2025 19:17:20 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: LiangCheng Wang <zaq14760@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v6] staging: media: atomisp: apply clang-format and fix
- checkpatch.pl errors
-Message-ID: <aF7EEAxXsurLvIt9@smile.fi.intel.com>
-References: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com>
- <e201c4b0-4fcc-4d98-9d76-0e9c41dc4d9f@kernel.org>
+	s=arc-20240116; t=1751041824; c=relaxed/simple;
+	bh=+ky15PA9sAU81b8+V7nmFYxwth/v2pUQufrrrH6DTSY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HWpUqZlIkchVH+zLL/3e0fFBMbEOAPzVVBD1foc6yMhZQeTocmyp5MQfjyGMLPnvzEO+cVfjyAewAuwQ8UOmGF+aiTTWjK1GW4YRraU5UBtsGho+8bix+/FMKIP+aiT2ZLC9XJ4tkv8dekYtIy+ee5fIQB0PIBdv4abWlEjuqv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a3ju6iLw; arc=none smtp.client-ip=209.85.221.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-3a536ecbf6fso1411237f8f.2
+        for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 09:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751041821; x=1751646621; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OMfsTlgLNGWbyjCpDV2kNGIGNepZ5m2Z+f7NA8cGiMI=;
+        b=a3ju6iLw0ZHfoLG6cZru2H0lhvbNIw1nR7Vy73N3HMsS04XQUMiGpx52+JWXqofAXB
+         cZv/r1tFU4BkfExWCCITskeMRvYA1JHcHFiz8YVAvYBDIB14Qg1jXZqaSsTQp3KPSRql
+         Erybc5dAYUMmKI0lxVrohxgwlRL789vnOtkOE8vNT5vrbkgOT/+VfGrJGCpHZzad0jBu
+         XTcaQEcGkH599Gwi8wYMS6Lqov8Bcf5LN8kL7Sk4dbv8pWLpJz1AV4i+w8z55RAYSACB
+         7vDz/+z1aU3pHEDSdDZ0lEkD3t+PgjqFiTqKImsZOhRWqINX6oMgE+UmfhjZvszolUsq
+         ucmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751041821; x=1751646621;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OMfsTlgLNGWbyjCpDV2kNGIGNepZ5m2Z+f7NA8cGiMI=;
+        b=AQBSufYxqqYISxmN6zVUpv4FaQAGUfm7sTz/SOB5Lp8VDCMqzSDRYSZjKBmFrbnZls
+         L0xKXjbs+Hx0HSXNybGgN3bqwDFUT5pwaVuciHqLFcsCbfxSGmxQOxAdp57ypXT6HsPp
+         ljq5kqmlqN8BfXG0KeNLk1gWFk9U6tA+zy0UeUqubBhmFBGz3N5a2w80qNS2UYw93fof
+         vhZIyTMHSURUjc3cMwdYzorMjE9D5IuCgkDGYVqB2sO+4j46lSQzg7idviKWI4Z+6Trz
+         RXpEx12bnXAk2ZGQFakNROETKkh9HhT55qqnRFu788tixfBwrsNE3aSlze81dtQE6OEJ
+         qXYw==
+X-Gm-Message-State: AOJu0YxqZyoAkM4cG1QAEEhPrv2eKBvxjwoo8ONtuvLVc6yecJjHlGE0
+	oOq9lNJPFk2MtuJWUXEDssv5CILeCZMeLNYIM+rUF8oQ+PvvpkxSGioFyISQ504w7qY=
+X-Gm-Gg: ASbGncvRh7jQn7UCeCLOfIpwc6gervV7lEh/V/jWArJvED/2jKOAyDZ+g/UViPH19i8
+	NVwFOwWYXddhLjikhbgNudsJ+Ku8coykjCv9/nSpByoBgMCdP6Bfecb+a2rB9I1vFKdlGL6AxCR
+	L4JUtl+tu3xpMpjQDd5roah1y48IAgJVGc3WNoLwlK6z7/k2A8ZZQt9E6GdJWgCJMfrDBzRETzf
+	96JpMZ2QY4fsfPqtNOsSPnqVbDsN0QNn9OjboHryHuS7ClGb+kz9IK8H9w3AcAmwcqu1bGvk3FA
+	qULMaHBxMwHYOrIjvq1xS9h2p7HdV/xMkwxvhIuZSMeJCDs6vqK+uScevb+s+pEjhvovTSUNMw0
+	APE2hgRIRtywbrPY56gebrMAYZMw=
+X-Google-Smtp-Source: AGHT+IE6RvCylbJtuXzitjd3EIhVHVaEWYawghuzYHxPMnQLEtrSpXpyi025NQRd8ywU2ZWXXTQ42A==
+X-Received: by 2002:adf:b64f:0:b0:3a5:39bb:3d61 with SMTP id ffacd0b85a97d-3a8ffcc979fmr3582621f8f.27.1751041821125;
+        Fri, 27 Jun 2025 09:30:21 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fab7asm3110493f8f.24.2025.06.27.09.30.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jun 2025 09:30:20 -0700 (PDT)
+Message-ID: <306223e7-b760-4d37-b5d2-ac04e3c98842@linaro.org>
+Date: Fri, 27 Jun 2025 17:30:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e201c4b0-4fcc-4d98-9d76-0e9c41dc4d9f@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 27, 2025 at 06:05:08PM +0200, Hans de Goede wrote:
-> On 27-Jun-25 4:56 PM, LiangCheng Wang wrote:
+On 27/06/2025 16:48, Vikash Garodia wrote:
+> Changes in v3:
+> - Add info about change in iommus binding (Thanks Krzysztof)
+> - Link to v2:https://lore.kernel.org/r/20250627-video_cb-v2-0-3931c3f49361@quicinc.com
 
-...
+Hmm.
 
->  	for (i = 0; i < count; i++) {
-> -		err = i2c_smbus_write_byte_data(client, reglist[i].reg, reglist[i].val);
-> +		err = i2c_smbus_write_byte_data(client, reglist[i].reg,
-> +						reglist[i].val);
->  		if (err) {
-> -			dev_err(&client->dev, "write error: wrote 0x%x to offset 0x%x error %d",
-> 
-> The original line here had a length below 100 chars, so it was fine
-> and log messages are allowed to go over the length limit
+I would be nice to see what also _wasn't_ done i.e. why you didn't do 
+what Dmitry was suggesting, IMO that's as important as stating what you 
+did change.
 
-Actually I tend to agree with clang-format on this case and that's why:
-until V4L2 becomes less pedantic and fanatic about 80 characters
-limit, the 100 is not applicable for this driver to be moved under
-their umbrella.
+Not a huge deal you explained in a response email your logic already but 
+just as suggestion for future, I think its good practice to go through 
+each point and say what you did do, what you didn't do, perhaps what you 
+tried and then decided to do in a different way.
 
-> +			dev_err(&client->dev,
-> +				"write error: wrote 0x%x to offset 0x%x error %d",
->  				reglist[i].val, reglist[i].reg, err);
->  			return err;
->  		}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+---
+bod
 
