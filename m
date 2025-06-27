@@ -1,168 +1,200 @@
-Return-Path: <linux-media+bounces-36100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0151AEB9CB
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 16:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4F3AEB9EC
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 16:33:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC1994A1C6D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 14:25:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F1A8163691
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 14:33:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A60142E336C;
-	Fri, 27 Jun 2025 14:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D80302206AF;
+	Fri, 27 Jun 2025 14:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="adPe40Td"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MX1+L2z/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CE82E2EF2
-	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 14:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405C13234
+	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 14:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751034223; cv=none; b=t1Mfn78Fqu6JulxAkzLStwMti+4zaSjdrqX3+6iyYbUiBZyjz28TgJYePKCcMYuDC7vk5gpU6Zjmkc5V3nb8bUWreZ3ARx+sj9fwGXY/wWlS802GSXtLFyJtA4QRArAkJJ7jvw0UFkUF/lnBqno+PlP3PWi0de0tMSkv0tdi7J8=
+	t=1751034830; cv=none; b=ZL++Ph9z3l0MM1lI3fgPqvlRFslT8WhaHgr2DaEUiGEOcS1LBMljpL90C7+83CsoC6c38t+GN91YLODF5q2vm5yVYCSkaUXIWfvcCzWC42MHJOc5a9EfmU+oPUmqjMjsq1qDc38qcL8WCYjqBImkPQIB3OhiryM74ig4i4eJqxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751034223; c=relaxed/simple;
-	bh=QXCsL7vS7mFvhzNXf8DjS7hrvdMO+odeJz0t39ie72o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e3a1n7pf3ZCi7yi9WIDhlkQwQZ3K8MlwS6h+VkzGBx918+Zbq0JIbrdWFLAufoa8G+lHkNGtI2pP39HX9YS1FDbG99U0fHxn8XYj53+aTYZwPTplrouJZVfuFtI4rlQ4zuj0KuKJC5U2+Ts1H/3U2qlgLO9o/ekj2/a0Tx0f6u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=adPe40Td; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6fada2dd785so26345536d6.2
-        for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 07:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1751034220; x=1751639020; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A9NXmX4vbwGCbqn6D1k17tKEXOD0obRo+KVbdSlDBXM=;
-        b=adPe40Td5LzEDQsf9wp+elHaMnh38hiBs8g4L+qg3Js2dxU/jv4kyg1i87sytO5AG/
-         KIgysClKYU6sCfe4akhWzbV0eHDts4OqoBQY8oH+lDPq3KZpIIvHbx0kf8zBLKurAWIQ
-         peDE/DophJo9kr1PDHk0QJMNC6BwQuCSwocNwxxX2MVas4DvfoqAkFwyKF6vLP9UODZs
-         ln4zjTGeOsUuCxP3HF7fw2tYmTAuXOid+N7VaQUyvUVG1CCgNSo8enrA3lcdBmLwUCCO
-         4sIy8sMb5/IIqLanC3/D+PGl88lIKFAJwgrVMkP5l+y9kqbam/EZ49rK/9hlzHsW7aA5
-         I7yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751034220; x=1751639020;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A9NXmX4vbwGCbqn6D1k17tKEXOD0obRo+KVbdSlDBXM=;
-        b=NJQTcfwt8cAS8hGwxBOQ1aQ1NTOLTvtv/LJMNZz8b7UTx3+9T7ezl8AutDe3MAVahl
-         ZrkXq37nPrj8YvxY/WJN/KuH0HwaT3Q4mbcQjgt/FlbkVmdh1c9Ag23SOdIk3aRf/ihe
-         VpCw5tAVHbTkazGea7g/+g4eS3ahQqLKXuLhdyd4DEspDdNGyhyVS7LBaveq2h6DavBh
-         ikqqam2Uuen/4MoYAYJGu8ARNGl+xfEtp1RV/wX+Ji4JDh3jPdblo9KU3ns43z1hG6Bx
-         IzEoxmCxs5JYwLZ0/gkJxfeRHrUXLDy+88QtnFJqHSuY3RMPFwV36Xh1JRxC+8g59D70
-         r0nA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcR2sQdbId5tp6foBHXKl0DCmJLmVSE/n+NLl3JYTxJJI/LJi/B3dDsD18zxw5TNhHmgDxqyNaFdyNKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzm932eZdlTgz+seCgTk/QPlc/egbh/t5mqsfHVX4MtZQX7D+AZ
-	v7GFCdkWNLO8MsB/0NWrH9k/3YVF79nNvACrMBl7aRUfvmCGJ6jSs0JUbg5cWfLDVw==
-X-Gm-Gg: ASbGncuvjMHLiC/CEBbBtt8z2KMaF39ssqDv9SQ5TE6/JhEETZ0oTNVTRiN6YV2shRk
-	bKJ/G3OHmABBBWN0onWa7aUQg5ZWo3JEeTe3LJiLmSJm6D9u/3Q5pjLgfHuKnDOD0JyEYqWkNff
-	IaK6dLtf9R2i6NbP7JE+2909agrwVTP719U3g/PyIuMdUdO8cv7ggqdVn2Bbu9SG3weWtZP+wq2
-	tgtEsNHSRMHqWi1Voo+6GhF76a+cdGIEZGu7KcW2Urvn5lT1NpPBc2bATMKUpXqhuzQ2W4mm7Vp
-	XbF6ai3B9/wMY9TBDqI+a0cFkPHm9kTUlmomuxJQ0SMcOP99qIe4NPMvjdt2pxAhwNKVRNoua1v
-	TIp9X
-X-Google-Smtp-Source: AGHT+IGuzlQ4coveIb3aJO1JXLxRiAQiyFnfLoJRnxBPJ+E7GV+Z/ZfFSQcDG+29Z/ZESK2AT9OPdg==
-X-Received: by 2002:a05:6214:2468:b0:6fa:c5be:dad6 with SMTP id 6a1803df08f44-6ffed7a55fdmr51444156d6.6.1751034219846;
-        Fri, 27 Jun 2025 07:23:39 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d44313926asm137703185a.22.2025.06.27.07.23.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 07:23:39 -0700 (PDT)
-Date: Fri, 27 Jun 2025 10:23:36 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
-	laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
-	gregkh@linuxfoundation.org, mingo@kernel.org, tglx@linutronix.de,
-	andriy.shevchenko@linux.intel.com, viro@zeniv.linux.org.uk,
-	thomas.weissschuh@linutronix.de, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v2 1/3] usb: core: add dma-noncoherent buffer alloc and
- free API
-Message-ID: <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu>
-References: <20250627101939.3649295-1-xu.yang_2@nxp.com>
- <20250627101939.3649295-2-xu.yang_2@nxp.com>
+	s=arc-20240116; t=1751034830; c=relaxed/simple;
+	bh=rl9EYbyT0y9FYZdvewg/K/Xb4dTKsSavzm2Eb+vSW6E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z/+4tUBQbqmFK9A7KnDkAVPy6uZn9VvyyikyYdi6xmH/zuOOrJJ3QgOeHUHMQEJ40YZZolfMXdhL7CMdg8O0uHZI+xR9SLEbyRbk0pSWY/YZxR4sH/RYeQERKs62UOjo0qyp9AL8VWwoXSpGoBkPRZTZvRUjbgFnfErJ6QyfqpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MX1+L2z/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEB7C4CEE3;
+	Fri, 27 Jun 2025 14:33:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751034829;
+	bh=rl9EYbyT0y9FYZdvewg/K/Xb4dTKsSavzm2Eb+vSW6E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MX1+L2z/28XVmVpF5DstGnjakJVc528PkdM9WvtoqKYVIQbM8yt3akGNma83UAkKX
+	 tAbw+ghTVF6NT93pjKzpSdFUjV5FzNqMsoV0waYXmkDxcZnQHItKfTrLVD6HkPQIH4
+	 EGHnnbBPVFifvxgsd+lCkQFjf1AH7NRRwd/0whglfFjPR4Cg8TxR19HVko7VSk5DFs
+	 tTuP2wIFNKBjbBzPieuEb9mgur5P8RVhr4DRI5YN+C55QL7Ft5rewSEpgH6giYxiUL
+	 yefwcwTeRP0ggWfoO63SB+22n4NhxCGKP3C9o/Lg4vbfYTtp8Gi4sD5THG7KgW8J4n
+	 ekiRXklqqpSBg==
+Message-ID: <40f968d7-2c88-4eb4-b9ce-604de03bf7be@kernel.org>
+Date: Fri, 27 Jun 2025 16:33:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250627101939.3649295-2-xu.yang_2@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/12] media: mt9m114: Use aptina-PLL helper to get PLL
+ values
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, Mathis Foerst <mathis.foerst@mt.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20250531163148.83497-1-hansg@kernel.org>
+ <20250531163148.83497-4-hansg@kernel.org>
+ <20250603105712.GA27361@pendragon.ideasonboard.com>
+ <f7d0ab89-f119-4ff9-a78d-00c51d45bb43@kernel.org>
+ <20250603140557.GB12117@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250603140557.GB12117@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 27, 2025 at 06:19:37PM +0800, Xu Yang wrote:
-> This will add usb_alloc_noncoherent() and usb_free_noncoherent()
-> functions to support alloc and free buffer in a dma-noncoherent way.
+Hi Laurent,
+
+On 3-Jun-25 4:05 PM, Laurent Pinchart wrote:
+> On Tue, Jun 03, 2025 at 03:29:42PM +0200, Hans de Goede wrote:
+>> On 3-Jun-25 12:57 PM, Laurent Pinchart wrote:
+>>> On Sat, May 31, 2025 at 06:31:38PM +0200, Hans de Goede wrote:
+>>>> Before this change the driver used hardcoded PLL m, n and p values to
+>>>> achieve a 48MHz pixclock when used with an external clock with a frequency
+>>>> of 24 MHz.
+>>>>
+>>>> Use aptina_pll_calculate() to allow the driver to work with different
+>>>> external clock frequencies. The m, n, and p values will be unchanged
+>>>> with a 24 MHz extclk and this has also been tested with a 19.2 MHz
+>>>> clock where m gets increased from 32 to 40.
+>>>>
+>>>> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>> Signed-off-by: Hans de Goede <hansg@kernel.org>
+>>>> ---
+>>>> Changes in v2:
+>>>> - Add select VIDEO_APTINA_PLL to Kconfig
+>>>> - Use correct aptina_pll_limits
+>>>> ---
+>>>>  drivers/media/i2c/Kconfig   |  1 +
+>>>>  drivers/media/i2c/mt9m114.c | 54 ++++++++++++++++++++++++++-----------
+>>>>  2 files changed, 40 insertions(+), 15 deletions(-)
+
+...
+
+>>>> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+>>>> index 5a7c45ce2169..e12c69dc9df0 100644
+>>>> --- a/drivers/media/i2c/mt9m114.c
+>>>> +++ b/drivers/media/i2c/mt9m114.c
+>>>> @@ -31,6 +31,8 @@
+>>>>  #include <media/v4l2-mediabus.h>
+>>>>  #include <media/v4l2-subdev.h>
+>>>>  
+>>>> +#include "aptina-pll.h"
+>>>> +
+>>>>  /* Sysctl registers */
+>>>>  #define MT9M114_CHIP_ID					CCI_REG16(0x0000)
+>>>>  #define MT9M114_COMMAND_REGISTER			CCI_REG16(0x0080)
+
+...
+
+>>>> @@ -2262,12 +2262,29 @@ static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
+>>>>  
+>>>>  static int mt9m114_clk_init(struct mt9m114 *sensor)
+>>>>  {
+>>>> +	static const struct aptina_pll_limits limits = {
+>>>> +		.ext_clock_min = 6000000,
+>>>> +		.ext_clock_max = 54000000,
+>>>> +		/* int_clock_* limits are not documented taken from mt9p031.c */
+>>>> +		.int_clock_min = 2000000,
+>>>> +		.int_clock_max = 13500000,
+>>>> +		/*
+>>>> +		 * out_clock_min is not documented, taken from mt9p031.c.
+>>>> +		 * out_clock_max is documented as 768MHz, but this leads to
+>>>> +		 * different PLL settings then used by the vendor's drivers.
+>>>
+>>> s/then/than/
+>>>
+>>> Is that an issue though ? Does it prevent the sensor from working ?
+>>
+>> I did not try. It seems safer to just stick with the tested / proven
+>> values from the older register-list based drivers?
 > 
-> To explicit manage the memory ownership for the kernel and device,
-> this will also add usb_dma_noncoherent_sync_for_cpu/device() functions
-> and call it at proper time.  The management requires the user save
-> sg_table returned by usb_alloc_noncoherent() to urb->sgt.
+> Sometimes there are multiple options without any practical differences.
+> I wouldn't necessarily assume we have to follow the hardcoded register
+> values. Can you share the two PLL configurations ?
 > 
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> ---
->  drivers/usb/core/hcd.c | 30 ++++++++++++++++
->  drivers/usb/core/usb.c | 80 ++++++++++++++++++++++++++++++++++++++++++
->  include/linux/usb.h    |  9 +++++
->  3 files changed, 119 insertions(+)
+>> Even if it does work on my single mt9m114 sensor, that hardly
+>> constitutes testing on a representative sample.
 > 
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index c22de97432a0..5fa00d32afb8 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -1496,6 +1496,34 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
->  }
->  EXPORT_SYMBOL_GPL(usb_hcd_map_urb_for_dma);
->  
-> +static void usb_dma_noncoherent_sync_for_cpu(struct usb_hcd *hcd,
-> +					     struct urb *urb)
-> +{
-> +	enum dma_data_direction dir;
-> +
-> +	if (!urb->sgt)
-> +		return;
-> +
-> +	dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+> This sensor is rather old and not widely used. If using the correct
+> limits doesn't cause issues on platforms we can test, that's good enough
+> for me. We can always address problems later if any arise.
 
-Are the following operations really necessary if the direction is OUT?  
-There are no bidirectional URBs, and an OUT transfer never modifies the 
-contents of the transfer buffer so the buffer contents will be the same 
-after the URB completes as they were when the URB was submitted.
+Ok, so I've tried setting out_clock_max to 768MHz, but that results
+in PLL setting which cause the sensor to fail to stream.
 
-> +	invalidate_kernel_vmap_range(urb->transfer_buffer,
-> +				     urb->transfer_buffer_length);
-> +	dma_sync_sgtable_for_cpu(hcd->self.sysdev, urb->sgt, dir);
-> +}
+So this should be kept at 400, I'll update the comment to reflect
+that the datasheet says 768 but that that does not work.
 
-This entire routine should be inserted at the appropriate place in 
-usb_hcd_unmap_urb_for_dma() instead of being standalone.
+Regards,
 
-> +static void usb_dma_noncoherent_sync_for_device(struct usb_hcd *hcd,
-> +						struct urb *urb)
-> +{
-> +	enum dma_data_direction dir;
-> +
-> +	if (!urb->sgt)
-> +		return;
-> +
-> +	dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> +	flush_kernel_vmap_range(urb->transfer_buffer,
-> +				urb->transfer_buffer_length);
-> +	dma_sync_sgtable_for_device(hcd->self.sysdev, urb->sgt, dir);
-> +}
+Hans
 
-Likewise, this code belongs inside usb_hcd_map_urb_for_dma().
 
-Also, the material that this routine replaces in the uvc and stk1160 
-drivers do not call flush_kernel_vmap_range().  Why did you add that 
-here?  Was this omission a bug in those drivers?
 
-Alan Stern
+> 
+>>>> +		 */
+>>>> +		.out_clock_min = 180000000,
+>>>> +		.out_clock_max = 400000000,
+>>>> +		.pix_clock_max = 48000000,
+>>>> +		.n_min = 1,
+>>>> +		.n_max = 64,
+>>>> +		.m_min = 16,
+>>>> +		.m_max = 192,
+>>>> +		.p1_min = 1,
+>>>> +		.p1_max = 64,
+>>>> +	};
+>>>>  	unsigned int pixrate;
+>>>> -
+>>>> -	/* Hardcode the PLL multiplier and dividers to default settings. */
+>>>> -	sensor->pll.m = 32;
+>>>> -	sensor->pll.n = 1;
+>>>> -	sensor->pll.p = 7;
+>>>> +	int ret;
+>>>>  
+>>>>  	/*
+>>>>  	 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
+>>>> @@ -2287,8 +2304,15 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
+>>>>  	}
+>>>>  
+>>>>  	/* Check if the PLL configuration fits the configured link frequency. */
+>>>> +	sensor->pll.ext_clock = sensor->clk_freq;
+>>>> +	sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
+>>>> +
+>>>> +	ret = aptina_pll_calculate(&sensor->client->dev, &limits, &sensor->pll);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>>  	pixrate = sensor->clk_freq * sensor->pll.m
+>>>> -		/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
+>>>> +		/ (sensor->pll.n * sensor->pll.p1);
+>>>>  	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
+>>>>  		sensor->pixrate = pixrate;
+>>>>  		sensor->bypass_pll = false;
+> 
+
 
