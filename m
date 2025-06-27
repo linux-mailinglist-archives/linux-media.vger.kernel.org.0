@@ -1,125 +1,147 @@
-Return-Path: <linux-media+bounces-36054-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36055-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFD1AEAC22
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 03:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C92AEAC28
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 03:07:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0247D4A367F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 01:05:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F01214A7982
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 01:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3154EB38;
-	Fri, 27 Jun 2025 01:05:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB3837081A;
+	Fri, 27 Jun 2025 01:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mCWxXp0E"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ki1VJ7Dt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5605288A2
-	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 01:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893C33FF1;
+	Fri, 27 Jun 2025 01:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750986348; cv=none; b=ktNHyzYGIr7KFAe+ffmx63RNoZGB/9QVY+LoyDGzlFdwcsXrgk4TbxJ4YmQ0SdgKu44H4oAzA1yO7G/Lp0OeZpYYxVcY08bedJ1yLbcnl0pJnlP0MdccEK6fhBbd9JH6GeskNg+rEAzwN0quqfOvHpkn5hzUiY2LInJbsbXNUYM=
+	t=1750986416; cv=none; b=hzBtEv+L1cVZ3xDyzL+snXxoWN/gYa1P7LlHz90VkjZUNQIgmmxnjZPmU9QWw+5v73rW1hb/QQcdBX/ZOiijtqPkX8zmGFAnCqJ5DwsMLGTqTcuYdCI1iRcnsHRN1s4M7McRwxULsHPPewDTGYcECdX3njf0sO05Z+ows0TugDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750986348; c=relaxed/simple;
-	bh=5pMT3+eEro9ox0pu/3gJoCitkuT60qFDYmpBxmejqZQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FPTCD46jXMd3FkgOsw5t3rctsvXvUS/VamOhn8nkWcI4hOZhucLmRpccRBu6DQTmM5vgDS46LsHXHinnQ4vvVLZ3pphSfSFX9wMYHNGpzz/8TudfYwdrGyCVZQoUxz+bnrqdsHcZWWCFmOzJVLRipbvFOxkIf0D/fGS2Q0ap4xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mCWxXp0E; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4ef2c2ef3so1446523f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Jun 2025 18:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750986345; x=1751591145; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zCEH4/nYFQC/5D2TWQLQCIAUawTphbfim/GsSeVhbPY=;
-        b=mCWxXp0Edg++D7XPrK91D4EXpGANa4cc3wqKnU7lbaLyHmbh1u1oi4QQwgHQzME2Ob
-         GFTe43xf4cAnAqB9SLIpTNf+xBglj3OTc3yl2Y00yz5fKgqnMDqFYJEO/9ySK9GmG7Ja
-         Ni5Uvw105ixK9RVs3WtrDAUxmBROT8MlrdSasyAZdmKaeMfhy168vGnCVvthIfSckGeV
-         7p7bcP8HpSa/PVezEMrggjSpdfn+wNZQ2zSHfIv3DcxnjfktFjXEb4sqaJ2RtaZTmLtd
-         xfd4xnQqddM/Q2ByLssfG5VewSOzvsp/SniHYe8zXDXN+S67cXpSa+yEGrT2jbCVSqDL
-         Y6eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750986345; x=1751591145;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zCEH4/nYFQC/5D2TWQLQCIAUawTphbfim/GsSeVhbPY=;
-        b=UFaPJbYJWB/XUkYj9yy/DMMioRpC0s1T8KxBkHYhkcUdlmhogMGUM328ppAdPg9aR9
-         0QFUHUrNOpxdZSlhg7simcvFCdyroPO0PR3/OoY0fxPNRS7S6pQgW3MS/YzTS5g4l+ir
-         f6b0GZu7580SNzcYbdxLPcIUxRT6Rz6HNVf1vr6wz5Bci13aDSOgU1QxpgQSCYCP3Bg5
-         FZzzd1JfY+RFIw1HCncoq06NZ+nuQy9BT6SMgEo1t0JEU2K3V9k7KLNh/e9pHPQh8ib3
-         W4E7FWhkJinNV9QyM+KQqmShnwNRUuQ2CSGxF7Dqw7UZY53KxTxfWpwcmYINXKm8XUgo
-         eNVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNarvGUNoQ/2y3nvBV2VumG/BxpV4zPrHsVd9pNiDC/f6qfHF20qFnM6jShGeZaNfn8SJH2w/P0lcYmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBvaufK0NQaQ6aWc4DJM1JlCezOvcPQ4kE5Za2You6IjLLVcYy
-	xRcEhMaVLbqoFAeb5GiKk91KBdsf8evgZlSOhh5Zqsd5ZxiY/ONdYkTSqdD6cnTjFtA=
-X-Gm-Gg: ASbGnctwb52s8wi4QCWHRUc7YBBphfSnju/b0vsokw+sizy1Ns7Utn8tg907bIYd1FP
-	cg6tN29plDWbEhsCqiP2l+ml9knxUubpQ/a5pP1DFPzgftXqPj/fJEJiad6WslppQIcNb3+2NJb
-	NQLSmq5Fgbz3dFygJp+qeJLoloLZhSMjM2Wwem0BhGro0lYExN1a4VAlbhFB3nLqyR73vFAWAF5
-	fv3h6N4ESoLJQy/TCG+YcuMyhlXEg1lJ74qLMfTd+0NEaA9xzEWov56VGqw5pU7S24eWshtwwis
-	bDn6YlXa+b43EY9PIwylRSNlLrHp3rXbh2FSlD/rdcMFWVFIiCnXcIR+YMMtWQAaw9dTYx3KH9A
-	JKadQgb1V8Q+gD8Sn/TLUHrOfT1AHZP9uDF5/fw==
-X-Google-Smtp-Source: AGHT+IFey/mVIRKk3UWUu/tEfrImgRAEJgM0T9pJubxRsrTOR9on5HnEM0Ys6a04nuCT6wlQIXOdGQ==
-X-Received: by 2002:a05:6000:21c3:b0:3a4:fb7e:5fa6 with SMTP id ffacd0b85a97d-3a8f435e29cmr997757f8f.1.1750986345232;
-        Thu, 26 Jun 2025 18:05:45 -0700 (PDT)
-Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45380d0f15esm59111445e9.1.2025.06.26.18.05.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 18:05:44 -0700 (PDT)
-Message-ID: <9153b2cb-b123-4799-939f-cc8b7e3f1330@linaro.org>
-Date: Fri, 27 Jun 2025 02:05:43 +0100
+	s=arc-20240116; t=1750986416; c=relaxed/simple;
+	bh=wtlsORu13UCAA4aV7x/B2uSQ50GX6pj6+sSkEpKa1TM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ODoLf1ybepJA4k+H3AuSnVIP16IbFyH6FWB6O2AzQtAh2zuSXuv4ErlKGt6rn7WbpucZlDlO77CXc/WOylYRJ/7TdOJkO7qdnJLI3Pc7SlIFTasVAg2X7HhDhQcsawyowQcTN/laUlwjzuIrvoCBB7bI7QwVWHAd95W/mPPLc6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ki1VJ7Dt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2601:602:8100:c320::cf66])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D712173B;
+	Fri, 27 Jun 2025 03:06:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1750986393;
+	bh=wtlsORu13UCAA4aV7x/B2uSQ50GX6pj6+sSkEpKa1TM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Ki1VJ7DtJ71esov07rQp6bb4tM+e12UGJvwoHHnaAN1z8vZTI7Quc8goDBmfKvrRg
+	 ONH2vYYi+cnIg98y3qFvt4SmIsFaId44NSKcChGYKQwVKrqWh3FYReISjuXBCko6vv
+	 sGFB+DQ7IbSq1Jiq1tiAjAvMf1oEZNqHmZAXiLnA=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH v3 0/6] media: ti, cdns: Multiple pixel support and misc
+ fixes
+Date: Thu, 26 Jun 2025 18:06:05 -0700
+Message-Id: <20250626-probe_fixes-v3-0-83e735ae466e@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: Remove extraneous -supply postfix on
- supply names
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- vladimir.zapolskiy@linaro.org
-References: <20250626012433.261328-1-bryan.odonoghue@linaro.org>
- <0975cd75-2363-44b9-8ae8-b2430799ab78@oss.qualcomm.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <0975cd75-2363-44b9-8ae8-b2430799ab78@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH3uXWgC/23MSwrCMBSF4a1IxkbyaK06ch8iktyc2gxsSiJBK
+ d27aRGk4PDcy/+NLCF6JHbajCwi++RDX4bebhh1pr+De1c2U0LVQsuKDzFY3Fr/QuINBEhralq
+ AlWKIWB4luFzL7nx6hvhe8Czn69dRaydLLnhNrrZHSGoNnb2DSaG3wUS3o/BgM5fVj6ikWBOqE
+ AchLe0BW+o/xDRNH5kRDELwAAAA
+X-Change-ID: 20250314-probe_fixes-7e0ec33c7fee
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>
+Cc: Devarsh Thakkar <devarsht@ti.com>, 
+ Rishikesh Donadkar <r-donadkar@ti.com>, Vaishnav Achath <vaishnav.a@ti.com>, 
+ Changhuang Liang <changhuang.liang@starfivetech.com>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Jai Luthra <jai.luthra@ideasonboard.com>, stable@vger.kernel.org, 
+ Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2322;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=wtlsORu13UCAA4aV7x/B2uSQ50GX6pj6+sSkEpKa1TM=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBoXe6hWQJ6jYOA37I5J0UnWz/F8NO3Y25xnwov4
+ Nnyb2immHOJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaF3uoQAKCRBD3pH5JJpx
+ RcZkD/9wGtGcziYqXfycZy/jAKSKqVpv0PtHQ4l0TeAKdFLrUgl/GUQzn+y+qYJI51PKthd2sOS
+ hB1rIqffi4bg+c4nrs6ngdj/jDLXaBMVW4ZMSw20f6npDJWLlF7IEm0icKu3rGafOwvpsi6TZo2
+ I6SlCYQN/iD48fc9OOGjDoIWhwlkHrSBLeK1gup0bQ+uJz6m6k6ONAclTdRTMpcrDIty8/6FCNZ
+ 07zlGfddvyXAZ9dB3FhyYZXszWXgKIqsKqEegZ5LxdSc5A5BrCTg9TfJgYZhqrgnyE19cVlU4hH
+ LAE3Wu//h9uF68uNR4wPlTUXg4NsTcGaSih/xiNETINNMcAJJWw+81y971SddTrvgEQ+3Wrg/b/
+ If3C34+irMuX6e/BkeswkkdeuNHz0l8Z043p/AagpOAtsLRqtyNKoTaC4pmB+UUYlo7pmSFFZ4o
+ MngB4aZoT2RSYpf5hAMhNmN6s1Wt3QLuxMGNN4JEwIyKcA465rez7YRas8AJ3Lcfaj9wk+d1wva
+ YILvWU5sMtLwfEPjSwZn4Pj/uhkkYq0kf0AIO9iFsjf6mSNLU9MAxVroYjRcn5cPq15oqN8U0Oy
+ /q3kwfreGetm0xy/Bm/w0plIK856BQXxpA7t9/z9t9zLWIl4maU6ohD0M1fJHzFa5oPzLyEDHdC
+ a+UTOEnJjUBNFNQ==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-On 27/06/2025 01:43, Konrad Dybcio wrote:
-> On 6/26/25 3:24 AM, Bryan O'Donoghue wrote:
->> The -supply postfix is wrong but wasn't noticed on the CRD devices or
->> indeed the Dell devices, however on Lenovo devices the error comes up.
-> 
-> Please give the commit message another shot, perhaps with "PM" in the
-> commit date above ;)
+Hi,
 
+The first four patches in this series are miscellaneous fixes and
+improvements in the Cadence and TI CSI-RX drivers around probing, fwnode
+and link creation.
 
-On 27/06/2025 01:43, Konrad Dybcio wrote:
+The last two patches add support for transmitting multiple pixels per
+clock on the internal bus between Cadence CSI-RX bridge and TI CSI-RX
+wrapper. As this internal bus is 32-bit wide, the maximum number of
+pixels that can be transmitted per cycle depend upon the format's bit
+width. Secondly, the downstream element must support unpacking of
+multiple pixels.
 
-lol
+Thus we export a module function that can be used by the downstream
+driver to negotiate the pixels per cycle on the output pixel stream of
+the Cadence bridge.
 
-> 
-> For the code:
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> Konrad
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Changes in v3:
+- Move cdns-csi2rx header to include/media
+- Export symbol from cdns-csi2rx.c to be used only through
+  the j721e-csi2rx.c module namespace
+- Other minor fixes suggested by Sakari
+- Add Abhilash's T-by tags
+- Link to v2: https://lore.kernel.org/r/20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com
 
-thx for RB
-
-I'll translate my commit log to English after my suspend/resume cycle.
+Changes in v2:
+- Rebase on v6.15-rc1
+- Fix lkp warnings in PATCH 5/6 missing header for FIELD_PREP
+- Add R-By tags from Devarsh and Changhuang
+- Link to v1: https://lore.kernel.org/r/20250324-probe_fixes-v1-0-5cd5b9e1cfac@ideasonboard.com
 
 ---
-bod
+Jai Luthra (6):
+      media: ti: j721e-csi2rx: Use devm_of_platform_populate
+      media: ti: j721e-csi2rx: Use fwnode_get_named_child_node
+      media: ti: j721e-csi2rx: Fix source subdev link creation
+      media: cadence: csi2rx: Implement get_fwnode_pad op
+      media: cadence: cdns-csi2rx: Support multiple pixels per clock cycle
+      media: ti: j721e-csi2rx: Support multiple pixels per clock
+
+ MAINTAINERS                                        |  1 +
+ drivers/media/platform/cadence/cdns-csi2rx.c       | 74 ++++++++++++++++------
+ drivers/media/platform/ti/Kconfig                  |  3 +-
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 65 ++++++++++++++-----
+ include/media/cadence/cdns-csi2rx.h                | 19 ++++++
+ 5 files changed, 127 insertions(+), 35 deletions(-)
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250314-probe_fixes-7e0ec33c7fee
+
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
+
 
