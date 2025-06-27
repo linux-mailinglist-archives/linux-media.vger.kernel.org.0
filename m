@@ -1,80 +1,71 @@
-Return-Path: <linux-media+bounces-36126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36127-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81401AEBCF1
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 18:17:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5A7AEBCF8
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 18:18:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 874F77B1B35
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 16:15:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4002E1C240CF
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 16:18:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996461CD1E1;
-	Fri, 27 Jun 2025 16:16:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B21A1A7AE3;
+	Fri, 27 Jun 2025 16:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nKhXmo+7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvgZlx4u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797081A2396
-	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 16:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5689E1A08A4;
+	Fri, 27 Jun 2025 16:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751040999; cv=none; b=ByuxdigY0BIkaCk/I8jKX72e2BOJxgoRZEr4mVgeYc0QyLJLBv2mxNm+2lJDl09z7GWFh3saa7et7VjVGtO2+ad4yuKSgvUmkxrQ8flLfKJZlIAxRJ2e+4EIAs8CboohwXBMgvs77H57nUQBBVNCU0vApHxpq7Fy0laQOtZdaN8=
+	t=1751041095; cv=none; b=ccjumgaVcAX1ThnUZXpl6whGEk6vsggZqKS87IRW/PdM/wDEDPtjiuwABDRNgK1ve4JYG7halVmjhklpcXvqh612Cd0o+G4cArB5scy4a2xAI9vQC13gn3U88NB2EjiCfGULQ0K5wiGRm4QIHsEG3tT7F3bbvGlKW6m8fURZV2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751040999; c=relaxed/simple;
-	bh=5BCZIdNRkhUIBdY64OeUY7sVGNbJ/g40WgIHT6thUNg=;
+	s=arc-20240116; t=1751041095; c=relaxed/simple;
+	bh=vNyKPuHzCNUHX4x3bntCWHqAQ4zTRDjMdL7Oc2xzQyI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NfiAbblE7EyWYOwA2MwFSPNwclzVmAi+WMgkELdisXwNf0FIAWHU5In99It75u5lLGHe+RaUlrYb8cXEkLRbyfcWd78x/h7ojpSnmQ9TFW77XI/oaDgnpQ5ThucH9ox9UqpLn3/yNjcB6yj11qlBtdDWyuFuyuKLkO3yP+mG4Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nKhXmo+7; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-73a9c5ccfcdso38579a34.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 09:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751040996; x=1751645796; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DPbqcYbTYh3za1zv46G3MUpPRWr3UKkA5XAz/GSvqf4=;
-        b=nKhXmo+7XNP5eVmOzGmJBRICZIMSAX8pp7fND7kEIUI0MM2kJ56TBWxAtL8xziH5kA
-         iQHWoNkDFkGN1bmF2Uy1wE/JMSzx53dKAWYbYvotSvSCDQWfWDKiM+Q+KmN4zJIkLwV/
-         7PDkJFzDyJ6zhkBRwc16M3pY/yXyczQ/KlG18MbfWQzfLS/pG+SFzpfphC56Crtyz3Ks
-         jVxyDScSNWMxpfKlPXYT+Z8a2h+l6FkS/lwFsQwlpt9CWiBnwuI6Ej24wfd4etdUoZi8
-         EmlcZnHfSoJ772Ij5OwQco4HoedFVq2e7TstB57pUIcPU99j2DB3qVT8IdS3NP1Rmmzb
-         CBKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751040996; x=1751645796;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DPbqcYbTYh3za1zv46G3MUpPRWr3UKkA5XAz/GSvqf4=;
-        b=tT/PIBupqWc2tBFZ7iCiWpRZOg7gR/ZEtwwchXFiTEMZaNnQh8W6QMGIBevPfmO7sq
-         pM/7TVdx2fY1vkXIIfKyE5cbace/kXZHN7zMsX59SOY5FGL6SSntI/SEC78L6hyv5rM5
-         ObjOgTMRA/Gy8Ey0VLXUNpN0P6gM+ChG8HI4dIBcqbLiwkQ8r84/mg4rdpqXDeJNYaq2
-         FBOPWNUt+1eMYAVi7wUltK/+ihg9KZMtzAUyyQfuFTPKmRGlePUBfFvotfnW5hf7Khy6
-         AhEzDZjs31qw4AGF2RwD1YSreeL204Gg5hS0yF6GBGs5ibfhJKdFoWb8okzfZNZx3VMr
-         jT1w==
-X-Forwarded-Encrypted: i=1; AJvYcCU/DZe1gepGYDwLteyvS+3EddjozqyAa27UQT/6JNgIFQQLPorJ1p5tzK2O1B/Uf4aQOe7fPjfL+6FHiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNge4utx+JL7ZApDnUm0Ew8EgAmh7xlMntkyF8mwGEitEmZAkQ
-	4ie00HsESnarxjgajA01J7kyhv3OXIXeTxWyFWYeAa9sBUfI8OD8C1SPhn6jkSGibsA=
-X-Gm-Gg: ASbGnctfr1/wSNhZ8Af1gCRHtIWAY1GO2THLRToy5cMFS0c6QMtcmTtrnVjKwRoVhWf
-	7aDxcjb6YOj/71QAsNaJfd4eC7qPSv/YVYG2XundtRtz4zhahZf2PWQ5fbk3mIosBDaxGObIAB/
-	h+boo+OWDyx6jmTjnZAqfJiXSQkymOuV+u1myQarvX76hjwt6sNPPrKBQC0XU3XQ2Hi07XAg99X
-	j5rH7Gp86d0Rr45exGMX8DwbD16AbFKxSxkGuXpZz7bX1tnVOWLKr8D6jJviENU3VmAhnHhWP5h
-	a3BR8plGbmpgNJZ/CzCmQRJ6+iFXo5Qw+nDTLTjfgy/QCIfBVfPjKyvb/gdx1OWpWI1Npg==
-X-Google-Smtp-Source: AGHT+IHSu+h2Kzxlf1fk0VB81UI24jyMyrVK0+P5Y1H7EQ3VQt8CFFGwqHkfpVATJdlBq2OYHofbSQ==
-X-Received: by 2002:a05:6830:4d87:b0:727:3f3e:53bb with SMTP id 46e09a7af769-73afc600f17mr2265204a34.24.1751040996481;
-        Fri, 27 Jun 2025 09:16:36 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afb0e2ed7sm406749a34.35.2025.06.27.09.16.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 09:16:36 -0700 (PDT)
-Date: Fri, 27 Jun 2025 19:16:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: LiangCheng Wang <zaq14760@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=s+2QyuGIPDcNQ7Niw2eVxFK34rwhqlH0vUhxFO9VGEDud6bQbrb11mDakX1PfndkAAuLSW/Et46GyEG8tzkowWYXZnF0SZDE336KLKZlbAxiUJWkOlrBQEpRW1wPDhzCYYwvHWsVbz9+WKu/91d2MwlvMx0wXnIR3m2mW1ScODs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvgZlx4u; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751041094; x=1782577094;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vNyKPuHzCNUHX4x3bntCWHqAQ4zTRDjMdL7Oc2xzQyI=;
+  b=kvgZlx4u3zsCh4/ThTmTOpv/tnPY+XxsuDvqz3ngp7afkzQKcuhZpZNY
+   IjdC22XHUxeHburD50xEVTfx05vOxPETtm6F/gy87e6XdjjMeSpRdl5Yt
+   Ck+XBBUIivM/tiZaXDYRnfrrAjyGzm1kE9tt8JDlGGKUJ4Q8G+dYmjR6P
+   NFiiJF4KEc63VGsSkUfx/SSFRckfph0Yg6vhFiRSEsvCkbu6OKOucq+4s
+   dXaImImHE/jbxvgUqbsdAuHIiducSNYqUWYRctlhXMOnH2H32RYEAoSj6
+   EengU73QJ7Qg5dwAbrIzLMUDwGcemmACIoucSRmacJN35e0kPfC1WjZRC
+   w==;
+X-CSE-ConnectionGUID: 3e3NQTRpTg244UziF44Org==
+X-CSE-MsgGUID: 2sXXAbucTyG/+aWCo0pAdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="40983254"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="40983254"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 09:17:27 -0700
+X-CSE-ConnectionGUID: x6MOS/2zRwqYo99kITkz4g==
+X-CSE-MsgGUID: ZwvY1V5LQ5qWmx5VIdRoJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="157129155"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 09:17:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uVBlQ-0000000AX4s-2NUJ;
+	Fri, 27 Jun 2025 19:17:20 +0300
+Date: Fri, 27 Jun 2025 19:17:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: LiangCheng Wang <zaq14760@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>,
@@ -87,8 +78,9 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	llvm@lists.linux.dev
 Subject: Re: [PATCH v6] staging: media: atomisp: apply clang-format and fix
  checkpatch.pl errors
-Message-ID: <0256dbd4-a08d-4549-a520-63ee88eb3c1f@suswa.mountain>
+Message-ID: <aF7EEAxXsurLvIt9@smile.fi.intel.com>
 References: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com>
+ <e201c4b0-4fcc-4d98-9d76-0e9c41dc4d9f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,12 +89,39 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com>
+In-Reply-To: <e201c4b0-4fcc-4d98-9d76-0e9c41dc4d9f@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Heh.  No.  This patch is way way way to giant.  It's 80 thousand lines
-long.  Anything longer than a few hundred lines is probably suspect.
+On Fri, Jun 27, 2025 at 06:05:08PM +0200, Hans de Goede wrote:
+> On 27-Jun-25 4:56 PM, LiangCheng Wang wrote:
 
-regards,
-dan carpenter
+...
+
+>  	for (i = 0; i < count; i++) {
+> -		err = i2c_smbus_write_byte_data(client, reglist[i].reg, reglist[i].val);
+> +		err = i2c_smbus_write_byte_data(client, reglist[i].reg,
+> +						reglist[i].val);
+>  		if (err) {
+> -			dev_err(&client->dev, "write error: wrote 0x%x to offset 0x%x error %d",
+> 
+> The original line here had a length below 100 chars, so it was fine
+> and log messages are allowed to go over the length limit
+
+Actually I tend to agree with clang-format on this case and that's why:
+until V4L2 becomes less pedantic and fanatic about 80 characters
+limit, the 100 is not applicable for this driver to be moved under
+their umbrella.
+
+> +			dev_err(&client->dev,
+> +				"write error: wrote 0x%x to offset 0x%x error %d",
+>  				reglist[i].val, reglist[i].reg, err);
+>  			return err;
+>  		}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
