@@ -1,203 +1,121 @@
-Return-Path: <linux-media+bounces-36136-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36137-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B172AEBEDE
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 20:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397C8AEBF5F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 21:00:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3E6B16A28F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 18:07:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5193A4A0978
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 19:00:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73DA2EB5A8;
-	Fri, 27 Jun 2025 18:07:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307811EE03D;
+	Fri, 27 Jun 2025 19:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p2DLteOs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jXuD8baw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5732DD5EB
-	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 18:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78781F4727
+	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 19:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751047633; cv=none; b=S1acN4BVNrFULwh6SUE6lCEI0hBsRhsAx8fTRErQrofcDyMAgUiKuxD+AS1I7WWdMXIFlL+LecGoHFtCV4D9YJZDVQaK9GReu+M6d7cUb6a14A2BzZcTrpWmMixigiWpT/cVmaIbq6fS8TqzZgH67A0BEwAP8WerMPCN3Phip2c=
+	t=1751050828; cv=none; b=g9A1sn773TkpaS1Wmd9U2kj3z4VzxXhNhgxr/UTczR8yR8KX0hkYPMlhp2rfQZ9rVDJjBcGaG9YEaRYZsEKX4BElmmfdMRZv/m+//LEppSwbeD1RCpAQo7x7Y0qvW7N8Po6OhfFNobTSP8OYOllLuLsUYIN28C0IDm+UQ+AqTF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751047633; c=relaxed/simple;
-	bh=TMOhJvHnS7G1WUqpYbD97IhcaQfiGBLHxpcg8KIxYUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QDSvfonN4bcMqOB9ZLwKG1eisZqLVSy1Hr9o9uZyjO6lqjhAUQYhn/Fk+56SPEmIjXgyED46yGPvC9V7zYNhuN4tFpaSz2lScgSMXI9uroU9vP1a0FW8EYTzvapWmdNmS6XLzr02mkDl2K61YLWVeOs5tBmh6EtzcuaLJtVgZqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p2DLteOs; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ACE427E1;
-	Fri, 27 Jun 2025 20:06:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751047602;
-	bh=TMOhJvHnS7G1WUqpYbD97IhcaQfiGBLHxpcg8KIxYUY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p2DLteOsJutZiiixb82hW5rTW8gf4xFV8nsBv4w8CV6JRow+FBka8AFvn82GGVy7t
-	 NbytUMiYn3zxmR3rWH3Mu56XOnC6NmTU5E5e7laW249Tq38sh4s/4nOiRCb+JvF3l7
-	 xeQQJ3ptOdsGOe7YI6AV6iDI+v6c/9MF/795xp/8=
-Date: Fri, 27 Jun 2025 21:06:39 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mathis Foerst <mathis.foerst@mt.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 03/12] media: mt9m114: Use aptina-PLL helper to get
- PLL values
-Message-ID: <20250627180639.GE24912@pendragon.ideasonboard.com>
-References: <20250531163148.83497-1-hansg@kernel.org>
- <20250531163148.83497-4-hansg@kernel.org>
- <20250603105712.GA27361@pendragon.ideasonboard.com>
- <f7d0ab89-f119-4ff9-a78d-00c51d45bb43@kernel.org>
- <20250603140557.GB12117@pendragon.ideasonboard.com>
- <40f968d7-2c88-4eb4-b9ce-604de03bf7be@kernel.org>
+	s=arc-20240116; t=1751050828; c=relaxed/simple;
+	bh=ndRWdxr49e/jXxQYWjxwHuoYEIrfH/0Wj+KnGgJHgrg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UBjBl6eqWFPShAeXvKDaiPn4MBoe0vsGZo27adUbstEz7ttA4RErsOEhgrCjpSfXcQSsXCiWjFnTnckWY20hGwU0oKJ+Z/T4QA7B6LjuAtaLErV0we5IO7Aq4fTyVeANs+D5O5u8owY5a5mpPy9wHlAPtlEp0KbChmEWC9J9U3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jXuD8baw; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-32b48f8b6d7so2032851fa.2
+        for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 12:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751050825; x=1751655625; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UjZwMJhvPU4TchnxBQBmlDx0CKx7+6S3ru5N/9YysgE=;
+        b=jXuD8baw+V291Eh8D/XwcOlX99utHuuVxKsY2YqYDZvrcAcdmn9U8RAqWfNytbyhdO
+         WMRwHJc5uV7Tb8TYwdWwmZ+F0XntssMiU4YuUX50/SbYJo6H2K9K4n1QJo02hP+uIAiZ
+         lZUbAmQhA4wqfmAoSceh9QPzn0e6KwL75SQlnAx08w+/QTJecXTJLl3jNjPgeA/1to9b
+         JR8MgbK1AuhlMWQphfmJpWucAf1t4l52vnE1W+5KMCFHonptTfZ8cpC6XZKip3rhoz9K
+         IDOF/BkOO+tIqqs123zW7liRL6Rg5jA9eu+VAIseiv6hnNZuqjzMlg1BDTQf2HZuu48I
+         km7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751050825; x=1751655625;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UjZwMJhvPU4TchnxBQBmlDx0CKx7+6S3ru5N/9YysgE=;
+        b=MUFlyQ7kQiVqdbyzcp76POg5G+jRYRIc6YjD1tu/FZxfxD0GleO9fmK5MDx/OWRXjQ
+         jbobnaXztV25WQVAKlD6VxoulGFopNWVbzwY0mXnEqolvVikE+HVUFVA0i7vztFHCpEm
+         MCYlwTDHHhWSDxbcpN6rw4DWzC8T3P0W/eHYkK2tsZriKZYnGcdn2gcTYBF6JDjWqzPZ
+         pooUuw11n1OW0EDSj438AuhESxljZ9sVDjrFlRFI4y0UCEyi+qnDrpCUdQsU82rg4UMt
+         hydai0wgqEwEF9VG7jE7LSX1YEyMk7gfq9RihAy2Id6o7ToODXimSM9CKT9URlTa608Z
+         KTAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdt2RaGV/OgFGPqKrZ3N0AqVx0ZuT+tOQ+5QVmJzVLZ2qpYROEy5qo4CuNDN7fJTGH76LyuWMImDVeRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9oMO/ti/YSa0XnROk1tjy4qbcgiOmUAf+mawj2R+oLWiMv46F
+	yy4KRL2FUllIGMDR5Vq0UEzMTOZBIX/Tp1DGZnrYkYUW8gy0nISl59TtPH6blXjWvEw=
+X-Gm-Gg: ASbGncu8cVIdDbD8J/XKmQ2n2HteInq8NeedD/8HioWoEJd58J7SjfUadp20yOjvnWE
+	r2K9ykCxrBLDoeKNYaG7PcCYdikxVugnNP/Ybhk2Et5l3dcfP4nHixTCUhwdZqH5JNu3K3ohzoU
+	YUma7D70klYmMziT7UROoHVVTUiXaAHhwPQ1yYrC/cR14XdvpiRMKekwpEJNAFd7b0ME2mrW1Su
+	jvycyudPBG0CQxXEd2I6Y9yqcJdrFu1gyJ/v6NEE6ozmTe4E0oJZs5UgvfHm8GtpyuOCVpREv3r
+	TXwyB9cxJRcs+IlmmPWekQbyVNbisWstpZnW2vHZvAprjCeRvmE1sCEUH12UbFKpt0T54+SiuZ/
+	iKRb7p6N8X4JdgKKLy5o9i6Z/pGZyUpJIOTY231dwJB+jiPkCTJ4=
+X-Google-Smtp-Source: AGHT+IHS7/YUdVd9N78mZEq7odVLeFh5PX4g1N6Q7PSq9p1Ya0HmgAlKpprzVfyGeSWO0V84ErR5iA==
+X-Received: by 2002:a05:651c:4098:b0:328:423:cd41 with SMTP id 38308e7fff4ca-32ce6d66fdamr406581fa.8.1751050824938;
+        Fri, 27 Jun 2025 12:00:24 -0700 (PDT)
+Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2c2dbe8sm6312981fa.0.2025.06.27.12.00.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 12:00:23 -0700 (PDT)
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: media: qcom,x1e80100-camss: correct description of vdd-csiphy-1p2-supply
+Date: Fri, 27 Jun 2025 22:00:21 +0300
+Message-ID: <20250627190021.139373-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <40f968d7-2c88-4eb4-b9ce-604de03bf7be@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Correct the given description of vdd-csiphy-1p2-supply property,
+it shall indicate a 1.2V supply.
 
-On Fri, Jun 27, 2025 at 04:33:46PM +0200, Hans de Goede wrote:
-> On 3-Jun-25 4:05 PM, Laurent Pinchart wrote:
-> > On Tue, Jun 03, 2025 at 03:29:42PM +0200, Hans de Goede wrote:
-> >> On 3-Jun-25 12:57 PM, Laurent Pinchart wrote:
-> >>> On Sat, May 31, 2025 at 06:31:38PM +0200, Hans de Goede wrote:
-> >>>> Before this change the driver used hardcoded PLL m, n and p values to
-> >>>> achieve a 48MHz pixclock when used with an external clock with a frequency
-> >>>> of 24 MHz.
-> >>>>
-> >>>> Use aptina_pll_calculate() to allow the driver to work with different
-> >>>> external clock frequencies. The m, n, and p values will be unchanged
-> >>>> with a 24 MHz extclk and this has also been tested with a 19.2 MHz
-> >>>> clock where m gets increased from 32 to 40.
-> >>>>
-> >>>> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>> Signed-off-by: Hans de Goede <hansg@kernel.org>
-> >>>> ---
-> >>>> Changes in v2:
-> >>>> - Add select VIDEO_APTINA_PLL to Kconfig
-> >>>> - Use correct aptina_pll_limits
-> >>>> ---
-> >>>>  drivers/media/i2c/Kconfig   |  1 +
-> >>>>  drivers/media/i2c/mt9m114.c | 54 ++++++++++++++++++++++++++-----------
-> >>>>  2 files changed, 40 insertions(+), 15 deletions(-)
-> 
-> ...
-> 
-> >>>> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> >>>> index 5a7c45ce2169..e12c69dc9df0 100644
-> >>>> --- a/drivers/media/i2c/mt9m114.c
-> >>>> +++ b/drivers/media/i2c/mt9m114.c
-> >>>> @@ -31,6 +31,8 @@
-> >>>>  #include <media/v4l2-mediabus.h>
-> >>>>  #include <media/v4l2-subdev.h>
-> >>>>  
-> >>>> +#include "aptina-pll.h"
-> >>>> +
-> >>>>  /* Sysctl registers */
-> >>>>  #define MT9M114_CHIP_ID					CCI_REG16(0x0000)
-> >>>>  #define MT9M114_COMMAND_REGISTER			CCI_REG16(0x0080)
-> 
-> ...
-> 
-> >>>> @@ -2262,12 +2262,29 @@ static int mt9m114_verify_link_frequency(struct mt9m114 *sensor,
-> >>>>  
-> >>>>  static int mt9m114_clk_init(struct mt9m114 *sensor)
-> >>>>  {
-> >>>> +	static const struct aptina_pll_limits limits = {
-> >>>> +		.ext_clock_min = 6000000,
-> >>>> +		.ext_clock_max = 54000000,
-> >>>> +		/* int_clock_* limits are not documented taken from mt9p031.c */
-> >>>> +		.int_clock_min = 2000000,
-> >>>> +		.int_clock_max = 13500000,
-> >>>> +		/*
-> >>>> +		 * out_clock_min is not documented, taken from mt9p031.c.
-> >>>> +		 * out_clock_max is documented as 768MHz, but this leads to
-> >>>> +		 * different PLL settings then used by the vendor's drivers.
-> >>>
-> >>> s/then/than/
-> >>>
-> >>> Is that an issue though ? Does it prevent the sensor from working ?
-> >>
-> >> I did not try. It seems safer to just stick with the tested / proven
-> >> values from the older register-list based drivers?
-> > 
-> > Sometimes there are multiple options without any practical differences.
-> > I wouldn't necessarily assume we have to follow the hardcoded register
-> > values. Can you share the two PLL configurations ?
-> > 
-> >> Even if it does work on my single mt9m114 sensor, that hardly
-> >> constitutes testing on a representative sample.
-> > 
-> > This sensor is rather old and not widely used. If using the correct
-> > limits doesn't cause issues on platforms we can test, that's good enough
-> > for me. We can always address problems later if any arise.
-> 
-> Ok, so I've tried setting out_clock_max to 768MHz, but that results
-> in PLL setting which cause the sensor to fail to stream.
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+ .../devicetree/bindings/media/qcom,x1e80100-camss.yaml          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you for testing.
-
-Could you share the PLL configuration you obtain with the 400 MHz and
-768 MHz limits ?
-
-> So this should be kept at 400, I'll update the comment to reflect
-> that the datasheet says 768 but that that does not work.
-> 
-> >>>> +		 */
-> >>>> +		.out_clock_min = 180000000,
-> >>>> +		.out_clock_max = 400000000,
-> >>>> +		.pix_clock_max = 48000000,
-> >>>> +		.n_min = 1,
-> >>>> +		.n_max = 64,
-> >>>> +		.m_min = 16,
-> >>>> +		.m_max = 192,
-> >>>> +		.p1_min = 1,
-> >>>> +		.p1_max = 64,
-> >>>> +	};
-> >>>>  	unsigned int pixrate;
-> >>>> -
-> >>>> -	/* Hardcode the PLL multiplier and dividers to default settings. */
-> >>>> -	sensor->pll.m = 32;
-> >>>> -	sensor->pll.n = 1;
-> >>>> -	sensor->pll.p = 7;
-> >>>> +	int ret;
-> >>>>  
-> >>>>  	/*
-> >>>>  	 * Calculate the pixel rate and link frequency. The CSI-2 bus is clocked
-> >>>> @@ -2287,8 +2304,15 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
-> >>>>  	}
-> >>>>  
-> >>>>  	/* Check if the PLL configuration fits the configured link frequency. */
-> >>>> +	sensor->pll.ext_clock = sensor->clk_freq;
-> >>>> +	sensor->pll.pix_clock = MT9M114_DEF_PIXCLOCK;
-> >>>> +
-> >>>> +	ret = aptina_pll_calculate(&sensor->client->dev, &limits, &sensor->pll);
-> >>>> +	if (ret)
-> >>>> +		return ret;
-> >>>> +
-> >>>>  	pixrate = sensor->clk_freq * sensor->pll.m
-> >>>> -		/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
-> >>>> +		/ (sensor->pll.n * sensor->pll.p1);
-> >>>>  	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
-> >>>>  		sensor->pixrate = pixrate;
-> >>>>  		sensor->bypass_pll = false;
-
+diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+index 113565cf2a99..b5fbf7476da9 100644
+--- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+@@ -124,7 +124,7 @@ properties:
+ 
+   vdd-csiphy-1p2-supply:
+     description:
+-      Phandle to 1.8V regulator supply to a PHY.
++      Phandle to 1.2V regulator supply to a PHY.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
 -- 
-Regards,
+2.49.0
 
-Laurent Pinchart
 
