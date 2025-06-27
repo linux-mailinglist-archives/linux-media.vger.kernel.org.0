@@ -1,171 +1,119 @@
-Return-Path: <linux-media+bounces-36069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB27AEB025
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 09:33:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A74AAEB035
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 09:37:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23F7C1C21818
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 07:34:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 939243BE232
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 07:37:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E17621C166;
-	Fri, 27 Jun 2025 07:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E58121D3E1;
+	Fri, 27 Jun 2025 07:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="JciHfeKa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nAgKAGKh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A463C2F;
-	Fri, 27 Jun 2025 07:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9170621771A;
+	Fri, 27 Jun 2025 07:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751009622; cv=none; b=M2L96mG9IxbtDvYfv2tOKtki0gKab1wwb9UaYu2LkbBqXV5vlUHpJ5mP/Pg2SxdC82w2Z5asL0QvOC706hQWQHbF61KZTS6Wyut3/9zqlnkDxOstPHUxwGU2fY12gxnOOlE6Zp1j+cgz+03EErIW4LFZFCKSsB/qpNl2RaZ/f3A=
+	t=1751009833; cv=none; b=M0/aPzJytiKIwUVYHLtgpVF0x64bYW3Y0dvEa2qwlHTmp3NoQYgp6cghbZdG+QeUhkw4dWiC09CqIU4fJMmHrLhkj0LeksSp8fU8jL2IzhgPNHEGa2IUlF6D+0ywOo5pj1gBohxUa4O2bBM1AVlIHCrwUHJ0bfZr9iPC5nNUyy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751009622; c=relaxed/simple;
-	bh=qar+YM6XTszYLM/wb/kz1CEveLAhfKbgBVNFhbZ4MkY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kog0f4WAvI/JABhU4mhukS0iUwfq43I+VRJN7gH1YB2bSOHCaRFW9SSbJGwrrAspB5kLoNU4TJWl326OQZKOZDbsiE6NBCXur6LkcRE0OR5qaVryfizazxWdN36y88kI+Da/GhfF9r7h76Oi3uko5Xt4LbrSXkEdWLQIwaNQX7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=JciHfeKa; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55R2c6Rv030383;
-	Fri, 27 Jun 2025 09:33:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	1Q285Yr3y+87stzQw+zewu692BZK8q52Hv1ctiichRc=; b=JciHfeKa47Iu6sv9
-	VamsVMjg7X+3xY77tw1LBPC1uO0q239nBfbj9K2yYucT7DBEvknjB4ki34TlgIQM
-	kT9l3BL9rSYIVPSOYQuuwFHPM8NLr0Sul81CP9YJTAxGEogTs5EQpBj/SeNjaoxn
-	0uikTuHhBtYBklAU2vdyVdbr+IO3IxqUdINDgEtk1pxPdad87hoI9LFPtfSjBfwE
-	uF4Yt94SE6OrzVJCx4Cn7OhQ/rcndL1sD1V79C0aCep5vlzfCb6dLLYyAsxutFaP
-	W6aiOrLrzFTkaXNSUxw0RaatwVKHUpU21YKkwrxYPXwC/bd5b73z7Eag1onrHItW
-	+GOw8A==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dm33tthg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 27 Jun 2025 09:33:14 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 282D540044;
-	Fri, 27 Jun 2025 09:31:50 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9DDC1BCF079;
-	Fri, 27 Jun 2025 09:30:47 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 27 Jun
- 2025 09:30:46 +0200
-Message-ID: <9bb4ab7d-afe2-4508-a18e-12cb1485a5a0@foss.st.com>
-Date: Fri, 27 Jun 2025 09:30:46 +0200
+	s=arc-20240116; t=1751009833; c=relaxed/simple;
+	bh=iNtT7Ig4gUsAWw009qIB0VjlU9S39cJ9P4Au0J+rgaI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UmaqNXWntl/Go2HyM9fIdQkEv3/iic6vUQl03rIkw81h2DhoMdUpF9y85ChW6t+6w637qHRWllydZXAbprXdO++nH59kbDpTQjWBgnURHumqdNlGchaq7D4uGSYUYPbKwN0BswZ5oqdO/QUNPg/0aQcugxxC/2H158wDeWRaRhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nAgKAGKh; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7150af9d35cso1678637b3.2;
+        Fri, 27 Jun 2025 00:37:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751009830; x=1751614630; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6sA0r3f6XV4xU1B5CfRo9ELlQCW7Ef8m5W1FCGlyqw8=;
+        b=nAgKAGKh+HgnZAN2H2QB8fFLMv9U1tKHk8o86vgjWk2zxWcbwpztV7hGRq/2mxAMp9
+         FI0C44eOTaDqwDKXWkqCr5zGH82z/qPMv3UvKEgRtv3KL2AXUHNuHwZ/w4K6fAf6su0E
+         YjJ4Gp6cCGKi/ayPWTfiQxJc1+QNWW16SgUKWmQdUMgX147Ixx2GFwaTNetQ3a4a1GhY
+         zkltYzVDzR0DBsMHT9f5iW3SUFd18hOWrZquzRWVwQxB7Xgd10J9Oy+3Mi60h46tLyts
+         iWiOhwPLVZi5U8luzf9epaLmBUCipI2mknPr3369e9CLcnOVpBHTYDuwzjbcRPoYML2c
+         5JQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751009830; x=1751614630;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6sA0r3f6XV4xU1B5CfRo9ELlQCW7Ef8m5W1FCGlyqw8=;
+        b=BNYwb56jhQc+z2hj9aqc88+g6B/W15f4xGKqv1meHlaqr9l/m/EqLQOqDaZWR4ln7/
+         qey639+OOwZ57Rl5z3J+VkrXOSCA9g2RbSD1rLJwA5ET7dTafpolx72R06gxfH3JXYu2
+         sqocC6gbAAY2DAhan10ppN0FO5gUuKdzPWLxe3AGgYmVzFkpNu6o6Ab96N4huYQ0k6Ej
+         68rlqNcO2BNMmYPD7LIPaV88w33winnDthkNbsBvEdVj7uADvmSdC7I9Hp236jyyKJAx
+         zfhL7ugjOkO21h9ah4CHsb+yV99hnKYCzl7RncUHuyOdBZBq5TaxWO0EVBJynyZutYDm
+         o27w==
+X-Forwarded-Encrypted: i=1; AJvYcCVDKA5QjAT6X+VEGa7VNDQe3lLnkbM7pLt719DwEcuekuY4EsYg8dcFk70VVkHgnb4hhuy7YBI2Dk+grI4=@vger.kernel.org, AJvYcCXREzLDWIZlegDJZeFAmSZ+0ZMWOokolXBRtvdl/OMD7wc3pyUJFAQYnUkf49WsaXV3l64lHzKAme8WlNE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDJ8C9r3eI7cPhAvnpaak5bQTAbNtwcARRx6WQCritx3cK0Xh9
+	VPs4llRHBRfrcb08UIpHIecxwVEHiq1ugQ29iVCTAbuzjiVRuVjUr7OOST1PFMHZumXwTUMdhJD
+	91hGFb8Nzq6x3BQt3/nLR2RlzAX3K8uo=
+X-Gm-Gg: ASbGncsud1mS7abQiSNbE8HtxLdyr3nk+hCHAZ4lh/vI3MxGsjj6d3MfN4Gj/jwm77s
+	6cCJqxjg32C5OQr2rWA1c8Zka629Nc5lEOzjpdRLQx8qLMPlfMMZIt8bmGGfmZ3Eu2Zh55wXGtk
+	+9NpjiknHYyOVxWzuzML2H/+L8aAyfMjQ/jWo1SVIDgQ6Vog==
+X-Google-Smtp-Source: AGHT+IGXrRbXdekGAxcLwEUiLasd+6MZyxZ2iVrP0RGSn67kPXOVJQQMOGBlvg/6NdE2FE2/MYbSnknHoEAJHioHdas=
+X-Received: by 2002:a05:690c:dc8:b0:711:457a:401f with SMTP id
+ 00721157ae682-7151717952fmr15019877b3.4.1751009830383; Fri, 27 Jun 2025
+ 00:37:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] i2c: stm32: fix the device used for the DMA map
-To: Alain Volmat <alain.volmat@foss.st.com>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-        Andi Shyti
-	<andi.shyti@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        M'boumba Cedric Madianga
-	<cedric.madianga@gmail.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        "Pierre-Yves
- MORDRET" <pierre-yves.mordret@st.com>,
-        <linux-i2c@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
- <20250616-i2c-upstream-v1-1-42d3d5374e65@foss.st.com>
- <20250626083744.GA348766@gnbcxd0016.gnb.st.com>
- <20250626084356.GB348766@gnbcxd0016.gnb.st.com>
-Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <20250626084356.GB348766@gnbcxd0016.gnb.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_02,2025-06-26_05,2025-03-28_01
+References: <20250624170746.47188-1-abdelrahmanfekry375@gmail.com>
+ <fdaedc62-2beb-4f18-9e4f-f60ef35e1b38@suswa.mountain> <CAGn2d8ND8Gm8E=CwyNbejmOeuqwk32zNCV-EW-k_N6GTOn7aZw@mail.gmail.com>
+ <CAHp75VfQ9geeSOjSq8GoBuk_8ZrrCrkgpLxn1nXWgHU0dLnavg@mail.gmail.com>
+In-Reply-To: <CAHp75VfQ9geeSOjSq8GoBuk_8ZrrCrkgpLxn1nXWgHU0dLnavg@mail.gmail.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Fri, 27 Jun 2025 10:36:59 +0300
+X-Gm-Features: Ac12FXybXbhduWlOSQ9Z9m0DIJUDxuKrI5GJg7A1TRboqkqKYi0C3Vv7Qc3bI3c
+Message-ID: <CAGn2d8MVQx_bkC8_TtcV4-WyO--kFs2Sm4ho5Mg-uFW+15_93g@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, andy@kernel.org, hdegoede@redhat.com, 
+	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/26/25 10:43, Alain Volmat wrote:
-> Hi Clément,
-> 
-> Oups, I was too fast.
-> 
-> there might be another place to correct in the driver, dma_unmap_single
-> within the error handling of the function stm32_i2c_prep_dma_xfer.
-> 
->     err:
->              dma_unmap_single(chan_dev, dma->dma_buf, dma->dma_len,
->                               dma->dma_data_dir);
-> 
-> Could you also correct this one as well ?
-> 
-> Alain
+On Fri, Jun 27, 2025 at 9:59=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Fri, Jun 27, 2025 at 9:39=E2=80=AFAM Abdelrahman Fekry
+> <abdelrahmanfekry375@gmail.com> wrote:
+> > On Fri, Jun 27, 2025 at 12:32=E2=80=AFAM Dan Carpenter <dan.carpenter@l=
+inaro.org> wrote:
+>
+> ...
+>
+> > > The other things we discussed can be done separately.  It's also fine
+> > > to never do them.  I'm not your boss.  ;)
+> > >
+> > I think I will continue working on it. I'm very excited to contribute
+> > to something as big as this .
+>
+> This driver is a rabbit hole. You've been warned! :-)
+haha, well, i guess there is only one way to find out .
 
-Hi Alain,
-
-Oh yes you're right, I'll send a v2
-
-Best regard,
-Clément
-> 
-> 
-> On Thu, Jun 26, 2025 at 10:37:51AM +0200, Alain Volmat wrote:
->> Hi Clément,
->>
->> On Mon, Jun 16, 2025 at 10:53:54AM +0200, Clément Le Goffic wrote:
->>> If the DMA mapping failed, it produced an error log with the wrong
->>> device name:
->>> "stm32-dma3 40400000.dma-controller: rejecting DMA map of vmalloc memory"
->>> Fix this issue by replacing the dev with the I2C dev.
->>
->> Indeed, nice catch ! Thanks a lot !
->>
->>>
->>> Fixes: bb8822cbbc53 ("i2c: i2c-stm32: Add generic DMA API")
->>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
->>> ---
->>>   drivers/i2c/busses/i2c-stm32.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/i2c/busses/i2c-stm32.c b/drivers/i2c/busses/i2c-stm32.c
->>> index 157c64e27d0b..5e0b31aed774 100644
->>> --- a/drivers/i2c/busses/i2c-stm32.c
->>> +++ b/drivers/i2c/busses/i2c-stm32.c
->>> @@ -118,7 +118,7 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
->>>   	dma->dma_len = len;
->>>   	chan_dev = dma->chan_using->device->dev;
->>>   
->>> -	dma->dma_buf = dma_map_single(chan_dev, buf, dma->dma_len,
->>> +	dma->dma_buf = dma_map_single(dev, buf, dma->dma_len,
->>>   				      dma->dma_data_dir);
->>>   	if (dma_mapping_error(chan_dev, dma->dma_buf)) {
->>>   		dev_err(dev, "DMA mapping failed\n");
->>>
->>> -- 
->>> 2.43.0
->>>
->>
->> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
->>
->> Regards,
->> Alain
-
+> With Best Regards,
+> Andy Shevchenko
+Best Regards,
+Abdelrahman Fekry
 
