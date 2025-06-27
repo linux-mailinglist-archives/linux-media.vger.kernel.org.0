@@ -1,112 +1,124 @@
-Return-Path: <linux-media+bounces-36074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F18AEB1AB
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 10:52:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1C1AEB1EB
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 11:04:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 221E57B4928
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 08:51:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7CFA57A7E60
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jun 2025 09:02:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E58127EFE2;
-	Fri, 27 Jun 2025 08:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56B4D293B69;
+	Fri, 27 Jun 2025 09:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrAEIWU7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N8ME8cDw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E14126B2A9
-	for <linux-media@vger.kernel.org>; Fri, 27 Jun 2025 08:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C42222590;
+	Fri, 27 Jun 2025 09:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751014359; cv=none; b=XwsjfgL8YW35PcrMlyzFIaoyVdP0HIFUFBt+KQHBuqZxRBk9XeMYA6yK8uYlnlGdYAOb7IAExndMoLu991m8kUOcfWAEZqXT0BW0Jl9OcazjntIKZE4plEWvrwJ8sYFLqxNEbbrT3856r9iuiGnBhA9TzkukwSBJCtqw92Zlv3A=
+	t=1751015032; cv=none; b=hMAJIphW5xnZosq1wOlenjppdiOwqOl0NxagWmr1H4PUXK0VvHC2mhRVmtNl/V9haiOTiAJHMnlypvR+WI1Add8MUYEWvUAcb/PbB0ZIaX36iwy5LD3P9CRvEv4vkEg4YdQ1R3x6JyMgrytQcA6m8/Hc465WPJV20vmsIdb91pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751014359; c=relaxed/simple;
-	bh=37FJ2yC5SgZteMKXtF/XijG36Vlm4EttECt3jV8XUkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZGRHEWwDH3GMqg05mJoaMfmUyRY9NtrAStDzfZ6tMXYbC13KV9msg0eTvNA79myzabRqmp1yd1KdI6bTsFeX770DqS5mUVLZWJfsXw4Xek7g25FYDaIZX9Pdzs78RJjO/ReYo8KUZgxN6ulXKbA+jQHbPedAEjYXISggQRqJFHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrAEIWU7; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751014358; x=1782550358;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=37FJ2yC5SgZteMKXtF/XijG36Vlm4EttECt3jV8XUkI=;
-  b=SrAEIWU7mmrZwdJt/aiB0Ut/bwNVQbszjOL2S3IoTfwj2YJas4cuAYmN
-   3jz7JM5q8n5oS2BJ6mZO5qn0PtypU3hL9pbV63kcp6bS7TpCbO7WTCyI+
-   5k+hvHs+g5rdIkzehlK7K7voyWsj3TU0tuGy5QOtWchHAMkd6olmKLiGN
-   cD1BuQxe0H0DbT5X9Rej4Dh0LIlVQzFJ9zf6/2lTD4SYyCL8W4Apq9Mmw
-   HMWkBRp8zxbv9S8uCLXdACoFr4C75kTCWEDnfUwf1NbASTtiv2vL8rZCw
-   sJeJmOVp61hPyDqPuqCg3zmiv8Iz7S1C75DNauOY63aXwpWTH3RYm2ejM
-   g==;
-X-CSE-ConnectionGUID: l8usihcgQIe/uFXK2WU5CA==
-X-CSE-MsgGUID: Em32fYShTgiFZ9gjTr5P/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="55946395"
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="55946395"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:52:36 -0700
-X-CSE-ConnectionGUID: 2xC0O6pPSyC+YNbc7luYXg==
-X-CSE-MsgGUID: JPX+O1UPRjeESWYfw1eUlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="152495772"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Jun 2025 01:52:35 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uV4oy-000Vzu-2e;
-	Fri, 27 Jun 2025 08:52:32 +0000
-Date: Fri, 27 Jun 2025 16:51:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bingbu Cao <bingbu.cao@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:ipu7 1/7] versioncheck:
- ./drivers/staging/media/ipu7/ipu7.c: 24 linux/version.h not needed.
-Message-ID: <202506271629.IqnPPnFu-lkp@intel.com>
+	s=arc-20240116; t=1751015032; c=relaxed/simple;
+	bh=SkT01FuiroIHQcsTRFpB/e7tKPVnTyJoT7yGqpKBv3k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G7nxjodLTutSdVBZs8yzZudBHnE8yKaEuHGxWZjgAze/mKqC3FlhrlJji3TVdEY2aAzwifX1Iog5zE44gjHde9k0xlQnkb8U2qK065+5l+ZCovqjQ6EPvC0VLhNP40I33vqnCivmDZMoeFXgXPsL0buoJ5eVdIz2XW1W72GNWQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N8ME8cDw; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-70e3caa3f7cso1403367b3.3;
+        Fri, 27 Jun 2025 02:03:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751015030; x=1751619830; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LxPXFm/2Af/O0czSgJFjpR6ljpGP3r1+LOljZ09h6rw=;
+        b=N8ME8cDw1BIMkfuXB0WG0ElQlHkW3U17C67Wgz+4E9SAal8vP8PjvUskV1wyEgJoHg
+         jbYyIrG/BoNxj8LOyZd+jqkFbblv1gwQfnMU7dfE70tR2AM31YE7qs/2zaHH0vCTJ7Hh
+         HhONzU0UpQRkLxlo6SYORtQjZXYDQTjR7VhTgYUow+uJrxt8y6tfXGVaQBm5IV/xOjv3
+         Kq3nwN/u+VZHNeo7o5kf0yEu5cKRHY+p0uBldWziPb+UjTc2g08SaUE+a1Ri3Bye6isu
+         5U8ZPKIfw8JcEDuKPOL+DAZoKo9vZbqm7Lmtcv85DmxI34XAyqzZLiao+fY+wcJIPe3X
+         ekuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751015030; x=1751619830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LxPXFm/2Af/O0czSgJFjpR6ljpGP3r1+LOljZ09h6rw=;
+        b=wJaZve6x9KvNh5pqPaEYmoDJ7e7bbF4B23Ywm+3476F/ginz78B2S+7D+JYp2x9SWb
+         zgUlURLTatSGOoL4XW3+hNigvgVAnxBZXcRx879FU0RXGzzG0QBU9BvAZD0cTNRRUcqd
+         yB4vKhWx3bKRZmrcvCPu5HD5J6RPWqppey+6vo6o1IAS/kXO0tnYQp0E/xS1nD7hW/qw
+         uZl3LqJEe2K3XQqhjNI3lVmAPjzLqIYgTrwOuaz83HFU/DEetuqUNTMNi3jyDXmBB1OP
+         ZjqoB1vyAMvxLiD0fEHcWxb2hkyJyyRhMfjEnInPa1+ZnQ+Ktsarq4sEcMKayCxMVCLR
+         Guug==
+X-Forwarded-Encrypted: i=1; AJvYcCUYXqXDMwzFINZVKu/SusxfyV2/pFxaz8b1TIeiolNwxDUXJlv8BEv6xIWHOrg+BgKIXq5T55ilvi1tJ6Q=@vger.kernel.org, AJvYcCXp5b7C81NywhBmLbv9NJHY1nBZ4cOsVov+UT0B9Rc4M1LeD2kdANde+bHuSpbQg3gdLTGkMshpN+gcrWI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypJIjrM43flE5eZo0Rnvr69ZCdf1Hzgn9J9HFufcKHzkV24cqo
+	6UOt6pQY2GbDd3FFd3UzMQ7OpVlgULPUJGRZHqeymzjeO00wqd1Mqrfmo86H79ZPxRZmTfYdgXo
+	e6rZmyHcg6O8721mjlGcBlJ2A4x5iN0I=
+X-Gm-Gg: ASbGncvp9WAuwxjRaNovrlXGiyjSF5T9q1F4Nv9sm3/+Ej4jp2CY5zmvSUa7wiyiQ0p
+	mXt7N1Dg008LVmM1d37Kaa6i27zGf0JHLGryE+Sf0zgKyvIzZgGOV29XMxq2SsFuFmIZmRj54Ze
+	uuSs1hhwoIdPUKxbnj2ZyitBBrqcoa/QQZr+jepNJ0/Y5JBg==
+X-Google-Smtp-Source: AGHT+IHxWtIJzA7AjqYBeRaD1K1kJoZF1TThU2Qzy0U70LW+zaf9l8TXpjHPTMMpS0pxvero1s7YpQzkzOAIKEGREi8=
+X-Received: by 2002:a05:690c:4a01:b0:713:fff3:62ad with SMTP id
+ 00721157ae682-7151719d791mr15585547b3.8.1751015030205; Fri, 27 Jun 2025
+ 02:03:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250627072939.21447-1-abdelrahmanfekry375@gmail.com> <aF5Y5MurVIn1mUk1@smile.fi.intel.com>
+In-Reply-To: <aF5Y5MurVIn1mUk1@smile.fi.intel.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Fri, 27 Jun 2025 12:03:39 +0300
+X-Gm-Features: Ac12FXwOUEosg--SmicR1srEOI1Ci9W95VvN9pfI47FDKsi8dSoopfUooLVYraM
+Message-ID: <CAGn2d8O-X8mgmf9kED=XbFYAoySs6+is=dorkz4yPbrSLiP6Nw@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	skhan@linuxfoundation.com, dan.carpenter@linaro.org, 
+	Hans de Goede <hansg@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://linuxtv.org/sailus/media_tree.git ipu7
-head:   0542d88a01679ac03a980f7d53daefe8caebe345
-commit: 4fc6f9e2be4048a8e695d2b7545df344554f5fd6 [1/7] media: staging/ipu7: add Intel IPU7 PCI device driver
-reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271629.IqnPPnFu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271629.IqnPPnFu-lkp@intel.com/
-
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/media/i2c/ov02c10.c: 12 linux/version.h not needed.
->> ./drivers/staging/media/ipu7/ipu7.c: 24 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 432: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Fri, Jun 27, 2025 at 11:40=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Fri, Jun 27, 2025 at 10:29:39AM +0300, Abdelrahman Fekry wrote:
+> > The sysfs attributes active_bo and free_bo expose internal buffer
+> > state used only for debugging purposes. These are not part of
+> > any standard kernel ABI, and need to be removed before this
+> > driver may be moved out of drivers/staging.
+> >
+> > - Remove active_bo and free_bo attributes
+> > - Remove group registration calls form hmm_init() and hmm_cleanup()
+>
+> ...
+>
+> >       /* free dummy memory first */
+> >       hmm_free(dummy_ptr);
+> >       dummy_ptr =3D 0;
+> > -
+> >       hmm_bo_device_exit(&bo_device);
+> >       hmm_initialized =3D false;
+>
+> Stray change.
+>
+sorry for that , will fix and resend it right away
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 
