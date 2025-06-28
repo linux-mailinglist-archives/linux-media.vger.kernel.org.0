@@ -1,163 +1,153 @@
-Return-Path: <linux-media+bounces-36146-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36147-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB6EAEC46F
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 05:17:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC9FAEC52A
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 07:26:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 747234A0FF6
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 03:17:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8401C4A68C7
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 05:26:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 224F021A94F;
-	Sat, 28 Jun 2025 03:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD85221E087;
+	Sat, 28 Jun 2025 05:26:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f44yNolg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j1Z3fxyy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C933136A;
-	Sat, 28 Jun 2025 03:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F67198A09;
+	Sat, 28 Jun 2025 05:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751080622; cv=none; b=aTBgEMHkvmoF5FyNqO/bBU75C60dY51HrSD3/KsppDwldz6IHOyIRZ+9vYKjpRq0tOryyrhj0xTyxWIpeSREhfmQOGlsqU71NF/HyMDrE4FhFler5Ehk0cHG6CE86iD+iDLNOI0aSdtjAKT1HckkZnwu8cxVONOO143A7qsd8pY=
+	t=1751088387; cv=none; b=oqPS9xEYTJoR4QmAxmWL2/SS77JITmjLOPU+ewTSP9owl+qJj/12EyHHycSW27sN+nmwVA78HAtgkTyhodZT/2VnlKydCJwaH+Pb7R4HhXtlnQpBx+YdP/WiVg5e1IZSEtYPzoFxlmRY/iwLepekojhy03ji5BfKKuYcWBFiFv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751080622; c=relaxed/simple;
-	bh=6mAPUo5M30mh/gfv/HY1yAxEErHGF9CWTrvu3RVcfe8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=owqNHpGciyerwLnvSvupkQyyzgZjiIVS1nGQO/bVvL8MQhwrD/gMsc9ILU9a3QHLRdhpMiiZAyqRavUEfwi3W1VNr2CaUltpOMHLHqID6wTTl1L/eW3siOE/ijcQhNQXs9JJe+4QMWH/hgB1xoRGAgyzjp2bKQTSwa8PjqbG+Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f44yNolg; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1751088387; c=relaxed/simple;
+	bh=boM0zRBXLjwthJwgYSDO0LB1VAaDDug+6PDOcd8jBGc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ce1gZ3gYsMpCRDwel4wZKrftjtz3B9R1BPZtKd/8EYsnzAUcVLYJa+5slzF8u72N7idPYUOHmSYayoMwREBCCidVcuZWLDAwcvbIwpTpKOdW8Q64B/LxsC4hfAFoC6QqSivVjgf8gi/zc5Ig3PALdjiZy48r/xvEms2VqpIdk5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j1Z3fxyy; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ae0df6f5758so70899166b.0;
-        Fri, 27 Jun 2025 20:17:00 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a4eb4dfd8eso407154f8f.2;
+        Fri, 27 Jun 2025 22:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751080619; x=1751685419; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J9dPAwsn+P9UsNtzqpwYoo0ORtcX9rmxgV7CliMPtZM=;
-        b=f44yNolgOnPM4niuN40VPwPzyxLYXcQoOhMsiO3K7mvp9rw2D11WGi+kcT5vmKS+sJ
-         VI3Uqjn2wEOFUzJV0u6MSBCA+QzUg7CgZIFOQLRIUMxjpFuqVAE23fo9Lnc7Jy6X/Zlk
-         HJB3wPrF18MiOrdj/Sy0F1787gilsY30nFX70ySlFLaSStFs2aDrwqw/xGMnFDiDb1Nm
-         HWBtyCKDN6X+JmtpPE1pbjm6NlQ6GJsHeYm5QC44qisYmMoppjx6gItywybLLMlQJsUH
-         vk+h0eCmN9vZi72sgGfRmPq6o7+FXKWWt3YIHk6gj9o3AQuBGdb1km5rOdPjaFsR9yp9
-         MTmg==
+        d=gmail.com; s=20230601; t=1751088384; x=1751693184; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uKiNM7/pAXmiQj3djLWyWoHT8Gthrzr/6qV9hsqDsUI=;
+        b=j1Z3fxyyD6tHbzSwj/YISqBys+3g2mc4OowbEOfXMAjeg1ERIlOOJc3WAF0UQ3VU9d
+         HaQnVqb1/5qt7zXxWIRib2qn6e4qp/+eRIjiBLEK147Xj3CPZxU/HSKxKn0brJApkNVp
+         bK7DTHXQ1pXqdt/8g0FEQ29QF2yBxRWX9fmQK/fs9Jcp95lxRbvoCZg4Xda42beasDvE
+         gcX7gE3Qlfu+p7kdN/GcJpf/Psx7sR4sTAx+bMVA2H7XSzI/9CsiBPCqaU8kOgSzKJo3
+         8e3rgOd6RefYsFlhc6kw29qRJzo7Cm6EGgz7pkCkVooIniLrlqJPqTcI7lazZ49kRut8
+         5qBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751080619; x=1751685419;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J9dPAwsn+P9UsNtzqpwYoo0ORtcX9rmxgV7CliMPtZM=;
-        b=rjEmmnsQjDkPXXClkYzF+tUnlax9wIXXkBWfgNGPO/qDBFS296X7rrPY1/ok963DWJ
-         BD2McjqdkWNLIXafDqwcuoLK3Mr3qipRCG8i1994M4V2znBTsvbhG2C1y8NHLp2VacAf
-         MZQcPxkVSUSe80eW5VMCUR53vBFeixvvEKvgzJqakEetPK+IdinkVreIfHShb1D2fj80
-         IPX5NuYDB3y2VoJQCqAMHwjz0s4x4JZ4ijI8GUlBSDoNwVtSgTC7GkSxJ6tAyQmoxU0Y
-         9AXdnl2v4JzCvZZg6y1sCybY/6oz/ydNtNxqoDmkNb3i9QoSL+VwVCt9nOZ/VAP6mxmv
-         oZ/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWAQvbFZ+AF6fpi8SnteN0i0g5oJTHpK0gelwvFAhve7uIkV8QiiDLJh0sE5BULD1tXpSIwE/SkpKKqZQw=@vger.kernel.org, AJvYcCWw9zuCjXPgeGn7bcXTW+2vUL1I+fsFBdF5hHVIO0OI2iJJr/eH7wzHgh6BYILssAbFlhew2tGbUEXeCmA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTTz2XqR7NomaWxZ+qm9PB4esW3tPN7mDgT1to4OyaUeqEnBkZ
-	DsetrKgzsuppPuViRbolBySZ2n4K37g4GY7K3k+gNic04GhtXeDb3lnT/z/ZzJmeuVsGHYydry1
-	SEVxl/PHZZSzzOLfGlQ4j2COSRxtDm7w=
-X-Gm-Gg: ASbGnctNF0kORYiA5VFbDQ7WRZH2jJs5fe3pgy5WXvr88zOFubStayn0rGoQgEaj+GA
-	wXHoQW2qfq7c7TtofjPGqG2L7vCgojFe98c28Q+jDsJx5R4QHKdv3DI/ELs5u8/IvcWPuJ2KuV4
-	C+2SBE0AkSahF749Wk3D5JSyHXhMwQCg4iAmKrH66oTVWD9g==
-X-Google-Smtp-Source: AGHT+IEteJajU9ian7N9eS7scey4zLc0G1Nzpgd7jSI+mWoqHjDGRUZ49Gk9VxMXNJBvOtj/Mpn85MpDdpYDRfRKTW0=
-X-Received: by 2002:a17:907:720f:b0:ae0:c86a:12c2 with SMTP id
- a640c23a62f3a-ae35018f413mr583112166b.53.1751080619216; Fri, 27 Jun 2025
- 20:16:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751088384; x=1751693184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uKiNM7/pAXmiQj3djLWyWoHT8Gthrzr/6qV9hsqDsUI=;
+        b=CFv8nJZ+igkADLmS4Me2bM4c1WjXvwUr+bjFUv48NSC5a710n1eegc7CMcox2teek6
+         eQ1Dl88/5MUVw4kkHmKK9gsQ9Vk03dMB64aUuvaqy9fj2YFoG7M5q1l/Yln2xF6gpMym
+         IQ6+sUjNMHVam2xw9SWlDJwU0HzJkd7JGSu3Q4JK+cp/yhJ5+5AHQA7hHJg6y8GQ4Ifu
+         RTaKMS2DFZd7E6Xv3i6S07uUVOzYEJmquVlAdP7QtMZD9ctcwb62mgB31gX3JZ7O8YiV
+         wxdh/Dw+0O8VovghpX5XQxZfY36In5cf0M6VS9bKVwcD8XnIDfqJxQpRRu9KCwYg2GB9
+         EFvA==
+X-Forwarded-Encrypted: i=1; AJvYcCVbPyXcbmhmALSLd2x6ms+q7URHYIUso4DHoHisRbFdQlYw0oLk8i4QqN+h8t7575WB2+Jk1eKTtO77tU8=@vger.kernel.org, AJvYcCVbYcR7G6Q2g7TbyYDwhmNEQDZDqzWjhJ9oxjfC7e3M3tYPpQI3BN4asKQWartNbQErt6e9+I1Tjnz9Vko=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxTAh/anZCl78c9rsOUt9z4jtzekvLDJlF3actUnTC5sdVxowh
+	ZLSgQA6Saxk8Z/MtDqUBDhr/Qi7CWRGqfE+iTmeutoNtbf32qK3uL+6O
+X-Gm-Gg: ASbGncvtpKanV4yFBwgXd5IV79DL7N8/enYQOKmyXlC1t8tkHDpHmPKgKwVP2B7YWFW
+	geRUoFynTnQJRNACdei+tFRGO/svUhcldYmW7fXGXBsAIqWG52WfW9YY1QUvEGRP+VGLJumuk/y
+	DhpbaSIAEdFdhC+Ks/VH2nSWIZToHurUY5kVDmysWGna6Bqk02DOp0zFwcikHYedxNJ8JiOIw3Z
+	NScC++gGblIbfXraHBO6CCmhv8PQNMlhdomOWEzDxLGU194hmJxFGfVovr4EpTBUv+3yv2uLEhf
+	Thje9KYj7slg983y0h2qTwWhepsRL5tde31O63xaNcoEdPkxuMFkDCl1K6/R2cKVle3+oIni6p7
+	tXfn9aMbfIZkW7DOenpt7fJ4=
+X-Google-Smtp-Source: AGHT+IEhmKtKJ6ishzSKPnEF+eduFX7OxjSKBg8TeE0H+zh5uxxd+nQywKJLgF9bYCuTnjTMwE84Dg==
+X-Received: by 2002:a05:600c:c0c3:20b0:453:bf1:8895 with SMTP id 5b1f17b1804b1-453955642e3mr2860875e9.5.1751088383609;
+        Fri, 27 Jun 2025 22:26:23 -0700 (PDT)
+Received: from localhost.localdomain ([156.208.43.188])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823ad01csm99905265e9.22.2025.06.27.22.26.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 22:26:23 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: andy@kernel.org,
+	hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.com,
+	dan.carpenter@linaro.org,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Fix premature setting of HMM_BO_DEVICE_INITED flag
+Date: Sat, 28 Jun 2025 08:25:36 +0300
+Message-Id: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com> <e201c4b0-4fcc-4d98-9d76-0e9c41dc4d9f@kernel.org>
- <aF7EEAxXsurLvIt9@smile.fi.intel.com>
-In-Reply-To: <aF7EEAxXsurLvIt9@smile.fi.intel.com>
-From: =?UTF-8?B?546L6Imv5Lie?= <zaq14760@gmail.com>
-Date: Sat, 28 Jun 2025 11:16:47 +0800
-X-Gm-Features: Ac12FXxsU5dpiPb917Qnz6Mirm0LCeuQaVZZ2cq-H5v4MpNZKgpLGFZPrQY3-yk
-Message-ID: <CAKEtaPCibkPWtkRi5xJr8__jzsoPwrrb7LaG3p7_kTK-R5p6gQ@mail.gmail.com>
-Subject: Re: [PATCH v6] staging: media: atomisp: apply clang-format and fix
- checkpatch.pl errors
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Dear Hans, Andy, and all,
+The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
+before key initialization steps like kmem_cache_create(),
+kmem_cache_alloc(), and __bo_init().
 
-Thank you for the detailed feedback.
+This means that if any of these steps fail, the flag remains set,
+misleading other parts of the driver (e.g. hmm_bo_alloc())
+into thinking the device is initialized. This could lead
+to undefined behavior or invalid memory use.
 
-I understand the patch is too large and unreviewable in its current
-form. I also see now that splitting the clang-format changes and the
-manual checkpatch.pl ERROR fixes into separate patches would make it
-clearer and easier to review. I will also avoid touching any files
-under drivers/staging/media/i2c/ and any other parts where future
-plans involve rewriting or upstream work.
+Additionally, since __bo_init() is called from inside
+hmm_bo_device_init() after the flag was already set, its internal
+check for HMM_BO_DEVICE_INITED is redundant.
 
-For the next version (v7), I plan to:
+- Move the flag assignment to the end after all allocations succeed.
+- Remove redundant check of the flag inside __bo_init()
 
-Separate the clang-format automated changes into a standalone patch.
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Place the manual checkpatch.pl ERROR fixes into another patch.
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 224ca8d42721..5d0cd5260d3a 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -37,8 +37,6 @@ static int __bo_init(struct hmm_bo_device *bdev, struct hmm_buffer_object *bo,
+ 		     unsigned int pgnr)
+ {
+ 	check_bodev_null_return(bdev, -EINVAL);
+-	var_equal_return(hmm_bo_device_inited(bdev), 0, -EINVAL,
+-			 "hmm_bo_device not inited yet.\n");
+ 	/* prevent zero size buffer object */
+ 	if (pgnr == 0) {
+ 		dev_err(atomisp_dev, "0 size buffer is not allowed.\n");
+@@ -341,7 +339,6 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
+ 	spin_lock_init(&bdev->list_lock);
+ 	mutex_init(&bdev->rbtree_mutex);
 
-Remove any changes in drivers/staging/media/i2c/ and leave those untouched.
+-	bdev->flag = HMM_BO_DEVICE_INITED;
 
-Ensure that style changes such as macro alignment or tab changes
-respect the existing code style and preferences.
+ 	INIT_LIST_HEAD(&bdev->entire_bo_list);
+ 	bdev->allocated_rbtree = RB_ROOT;
+@@ -376,6 +373,8 @@ int hmm_bo_device_init(struct hmm_bo_device *bdev,
 
-I appreciate your guidance on this and will prepare the updated series
-accordingly.
+ 	__bo_insert_to_free_rbtree(&bdev->free_rbtree, bo);
 
-Best regards,
-LiangCheng Wang
++	bdev->flag = HMM_BO_DEVICE_INITED;
++
+ 	return 0;
+ }
 
-Andy Shevchenko <andriy.shevchenko@intel.com> =E6=96=BC 2025=E5=B9=B46=E6=
-=9C=8828=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=8812:18=E5=AF=AB=E9=81=
-=93=EF=BC=9A
->
-> On Fri, Jun 27, 2025 at 06:05:08PM +0200, Hans de Goede wrote:
-> > On 27-Jun-25 4:56 PM, LiangCheng Wang wrote:
->
-> ...
->
-> >       for (i =3D 0; i < count; i++) {
-> > -             err =3D i2c_smbus_write_byte_data(client, reglist[i].reg,=
- reglist[i].val);
-> > +             err =3D i2c_smbus_write_byte_data(client, reglist[i].reg,
-> > +                                             reglist[i].val);
-> >               if (err) {
-> > -                     dev_err(&client->dev, "write error: wrote 0x%x to=
- offset 0x%x error %d",
-> >
-> > The original line here had a length below 100 chars, so it was fine
-> > and log messages are allowed to go over the length limit
->
-> Actually I tend to agree with clang-format on this case and that's why:
-> until V4L2 becomes less pedantic and fanatic about 80 characters
-> limit, the 100 is not applicable for this driver to be moved under
-> their umbrella.
->
-> > +                     dev_err(&client->dev,
-> > +                             "write error: wrote 0x%x to offset 0x%x e=
-rror %d",
-> >                               reglist[i].val, reglist[i].reg, err);
-> >                       return err;
-> >               }
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+--
+2.25.1
+
 
