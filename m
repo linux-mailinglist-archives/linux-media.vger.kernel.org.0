@@ -1,274 +1,174 @@
-Return-Path: <linux-media+bounces-36153-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794B0AEC9BC
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 20:27:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31306AECA07
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 21:24:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 367D43BEDD8
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 18:27:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 557D96E0D82
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 19:24:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 194E226E707;
-	Sat, 28 Jun 2025 18:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3208F287515;
+	Sat, 28 Jun 2025 19:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="QLmVyJNM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jl+LhK9/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3B0219302;
-	Sat, 28 Jun 2025 18:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751135246; cv=pass; b=jPDO5o10f3eHgwc5hA0FJcYq+MzDHANGUXk/kfcb+OZfSn3kaFKOqf4u57ptkgSSkmUzmlsW34iY7dhja8svasmuilzUsSHfH/iYyXoVoihsnxyeCrm6zYAyCtUDuL7+KEThk+5TcAcEctK2zNWyIYBrMZe6Tn2IhVQ0lCg0u88=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751135246; c=relaxed/simple;
-	bh=E4wVzdmWrKSdbCHEX3fuS6RQ4A6N3MxxO7f/PNjRrdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nlp9QKKJFFyuhV45fZuYnpkD+rt45ZW3WM0BDixLa35jOX76IIU1pxC8pRCkjRWU/2J3jS9l6xLUdkyOBmCoYVN+K/sSsmegsVBStsvAq/AzFw3R43vlsQU1cy5g3pN0LaXz+v46ojVIyw2QR6Cg0glk8dzvtuLPew+KraE+Tzs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=QLmVyJNM; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4bV19S63SFzyR7;
-	Sat, 28 Jun 2025 21:27:08 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1751135230;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AJ+fyHtmJgkbOU1+JyFtXH3gaU+q/29nr2pOPL97MlE=;
-	b=QLmVyJNMvqxwfO0CArLdeO6wOs1//3c4tn4KDUZMTr5X802pz27ofknwz+YxdcB22rnJlQ
-	zpM+OSPevLjEbVpxqKCjaC9/R8l2HDRV+rTN6O8zz3UY0IdBGaMreahAjQ3oL4EfsNi3nY
-	3YligLK/XR2yj1meIXyygqIOJT6fzWI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1751135230;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AJ+fyHtmJgkbOU1+JyFtXH3gaU+q/29nr2pOPL97MlE=;
-	b=AtTGil98qxH/ITrG4U16BCZcrRV+4Q0yfntxEI7XheX4cwPrrH/03deT+a71Z4qUmIxmjN
-	CgrDhYeO26PyhxVDNCCJCxVfYkCNnQ07gci4t6flA2JqMbdchdXistk3tyG0LI89/NOlKe
-	+zlEaMKOoHXuDLpBiLQd8zyiuU1HtyQ=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1751135230; a=rsa-sha256; cv=none;
-	b=EVxqihENwKj6379ITkl30lwgNmbxDaEhEoPu398eDx7f3Oy405bLTjL5HPg15IL+hnJJ44
-	rhDGXmKRwdEQ041aAK9HS66V0ZNxzr3SP0lQf2YKvGzh2pTRRPKDO5H6EaPxdMsaLIW+aY
-	FAigjoot/Y0GkPXR4gwRCq4yG4gvytU=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0AF47634C93;
-	Sat, 28 Jun 2025 21:27:05 +0300 (EEST)
-Date: Sat, 28 Jun 2025 18:27:05 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Mirela Rabulea <mirela.rabulea@nxp.com>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	hverkuil-cisco@xs4all.nl, laurent.pinchart+renesas@ideasonboard.com,
-	robh@kernel.org, krzk+dt@kernel.org, bryan.odonoghue@linaro.org,
-	laurentiu.palcu@nxp.com, robert.chiras@nxp.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com,
-	hdegoede@redhat.com, dave.stevenson@raspberrypi.com,
-	mike.rudenko@gmail.com, alain.volmat@foss.st.com,
-	devicetree@vger.kernel.org, conor+dt@kernel.org,
-	alexander.stein@ew.tq-group.com, umang.jain@ideasonboard.com,
-	zhi.mao@mediatek.com, festevam@denx.de, julien.vuillaumier@nxp.com
-Subject: Re: [PATCH v4 1/4] dt-bindings: media: i2c: Add OX05B1S sensor
-Message-ID: <aGAz-TA7fjI-m76N@valkosipuli.retiisi.eu>
-References: <20250305094359.299895-1-mirela.rabulea@nxp.com>
- <20250305094359.299895-2-mirela.rabulea@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB3B287270;
+	Sat, 28 Jun 2025 19:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751138650; cv=none; b=Z77kBKkw3CkeNaBz3u4a3gRh3tlpD0Y7dlMnMTXjZWweOowOt0rPQYRNvaStux/Jlg2m1I1S5B+Ph/MhGSbODEt07BRN8L3lYGnd4OGb3KXb6TXlqmzAyfoYCapOqtb/9yFlL+B57GSMW4HqTSiC5I2coARxKctt6HwYcdGfJc0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751138650; c=relaxed/simple;
+	bh=Ek2LOhtKf+5FqLiZdfp4mmxJnFDeeSWIVbC+Mg0ivk4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fRJVjw+apByIYJFDQJWazkjktoe4CDIuPDgDwFbcdhJq1Xg+tXNUZiNijPvhZqMyWHERk+keik4GCKTmZRybkiqI89X5hOOuAKM+xQSoXTxz11b3tv9MR4u4/xRyOm5VcBA7lJ8WTwFUGxJ/lOqxryT5X4PgTzoSjRDrNTcRKEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jl+LhK9/; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751138649; x=1782674649;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Ek2LOhtKf+5FqLiZdfp4mmxJnFDeeSWIVbC+Mg0ivk4=;
+  b=Jl+LhK9/oB6UwVTv1B39I1isqhEpYuk4aKgT9qA9zjLq2nZFtCJwIvNK
+   QY+Gx48A43qFoIlO5SrJYrK8zdLRhGFIU0gXa0Yy2csj0zkvRcfe3xSd/
+   HBeuPwtxBXNeZOjzomtgAnW5kNMNzwRuVj4DqxwEVdQaKoMxeXUYiVxnx
+   i/PYWGt+cHFCWnR5L0Ay5P3yH4M+jjYXsGESb5/6Lo9mIIFdptxlhNCQy
+   fpoubO6TrrAmXr8ieEAs7jX8FKiLX+qfPGpidXCfq1sLl5V/3AFwOOsQ8
+   ouNJtef/EGNV+a66XLNuLK14xmT4iXc9F3ttA6pVVihOOHsHWQBgw5aCE
+   g==;
+X-CSE-ConnectionGUID: fc0xdWmLSvCXKcSkWDWWBg==
+X-CSE-MsgGUID: yBb+FivdR9+8Il+KNtwWUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="64769817"
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="64769817"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:09 -0700
+X-CSE-ConnectionGUID: fkyhn1+TSoCEV6oPbLbfvQ==
+X-CSE-MsgGUID: +iTPhjcDQcK8LdoNy/Hu9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="153792135"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.245.225])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:03 -0700
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 2735944390;
+	Sat, 28 Jun 2025 22:24:01 +0300 (EEST)
+Message-ID: <44b71f16-edc5-46c3-96d1-53aceba537be@linux.intel.com>
+Date: Sat, 28 Jun 2025 22:23:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250305094359.299895-2-mirela.rabulea@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+To: "Nirujogi, Pratap" <pnirujog@amd.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, Hao Yao
+ <hao.yao@intel.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>
+Cc: mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+ hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
+ dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+ jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
+ dantony@amd.com, vengutta@amd.com, dongcheng.yan@intel.com,
+ jason.z.chen@intel.com, jimmy.su@intel.com
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+ <174981257597.425770.15369432320575770694@ping.linuxembedded.co.uk>
+ <152051eb-7faa-4ff7-8e4f-14a12ff7c8cb@amd.com>
+Content-Language: en-US
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+In-Reply-To: <152051eb-7faa-4ff7-8e4f-14a12ff7c8cb@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Mirela,
+Hi Pratap, Kieran,
 
-On Wed, Mar 05, 2025 at 11:43:56AM +0200, Mirela Rabulea wrote:
-> Add bindings for Omnivision OX05B1S sensor.
-> Also add compatible for Omnivision OS08A20 sensor.
+On 6/17/25 02:46, Nirujogi, Pratap wrote:
+> Hi Kieran,
 > 
-> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+> Thank you for reviewing and sharing your feedback.
 > 
-> Changes in v4:
-> 	Collect Reviewed-by
+> On 6/13/2025 7:02 AM, Kieran Bingham wrote:
+>> Caution: This message originated from an External Source. Use proper 
+>> caution when opening attachments, clicking links, or responding.
+>>
+>>
+>> Quoting Hao Yao (2025-06-13 05:55:46)
+>> I think it will highlight that werever possible - the code below should
+>> be factored out to support the different configuration requirements.
+>> Cleaning up the large tables of register addresses and making those
+>> configurable functions for example configuring the link rate
+>> independently would be really beneficial!
+>>
+>> That's precisely why we continually push for reducing the large
+>> "undocumented register" tables in sensor drivers...
+>>
+> Yes, I agree, it is best to have documented settings and make 
+> calculation for sensor modes instead of array of undocumented settings. 
+> However the usual practice is that we send requirements to sensor vendor 
+> and they provide us the settings array to be applied. May be we can try 
+> to move PLL settings to different array but it is not always just the 
+> PLL, there are a lot of undocumented settings which are in sync with PLL 
+> and sometimes changing the PLL may result in misbehaviour of the sensor...
 > 
-> Changes in v3:
-> 	Use unevaluatedProperties: false and drop orientation/rotation
-> 	Drop items and keep alphabetical order in compatible property
-> 	Shorten the description for reset_gpio
-> 	Make the supplies required.
-> 	Use generic node name (camera instead of ox05b1s)
-> 
-> Changes in v2:
-> 	Small updates on description
-> 	Update subject, drop "bindings" and "driver"
-> 	Just one binding patch (squash os08a20 bindings)
-> 	Re-flow to 80 columns.
-> 	Drop clock name (not needed in case of single clock)
-> 	Make the clock required property, strictly from sensor module point of view, it is mandatory (will use a fixed clock for nxp board)
-> 	Add regulators: avdd, dvdd, dovdd
-> 	Add $ref: /schemas/media/video-interface-devices.yaml
-> 	Drop assigned-clock* properties (defined in clocks.yaml)
-> 	Keep "additionalProperties : false" and orientation/rotation (unevaluatedProperties: false was suggested, but only orientation/rotation are needed from video-interface-devices.yaml)
-> 	Include assigned-clock* in the example, for completeness sake (although it was also suggested to omit them)
-> 
->  .../bindings/media/i2c/ovti,ox05b1s.yaml      | 119 ++++++++++++++++++
->  1 file changed, 119 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
-> new file mode 100644
-> index 000000000000..9f35b4e67bea
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ox05b1s.yaml
-> @@ -0,0 +1,119 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2024 NXP
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ox05b1s.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OX05B1S Image Sensor
-> +
-> +maintainers:
-> +  - Mirela Rabulea <mirela.rabulea@nxp.com>
-> +
-> +description:
-> +  The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an active
-> +  array size of 2592 x 1944. It is programmable through I2C interface.
-> +  Image data is available via MIPI CSI-2 serial data output.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ovti,os08a20
-> +      - ovti,ox05b1s
+> We will try to move PLL settings to separate array but cannot guarantee 
+> changing these settings alone will make the sensor functional.
 
-The bindings only describe ox05b1s. How are the two different?
+I did discuss this with Laurent as well and based on that I'd suggest 
+the following split:
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: Input clock (24 MHz)
-> +    maxItems: 1
+- power-on register list,
+- external clock / link frequency specific list (often these are tied)
+   and
+- sensor mode
 
-Is this really a hardware limitation, or what the driver is currently
-limited to? In the former case, I'd include the range.
+Which of these lists a particular register is written in isn't crucial 
+at the moment, this can be always changed later on.
 
-> +
-> +  reset-gpios:
-> +    description: Active low XSHUTDOWN pin
-> +    maxItems: 1
-> +
-> +  avdd-supply:
-> +    description: Power for analog circuit (2.8V)
-> +
-> +  dovdd-supply:
-> +    description: Power for I/O circuit (1.8V)
-> +
-> +  dvdd-supply:
-> +    description: Power for digital circuit (1.2V)
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +    description: MIPI CSI-2 transmitter port
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            anyOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +        required:
-> +          - data-lanes
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - port
-> +  - avdd-supply
-> +  - dovdd-supply
-> +  - dvdd-supply
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera@36 {
-> +            compatible = "ovti,ox05b1s";
-> +            reg = <0x36>;
-> +            clocks = <&ox05b1s_clk>;
-> +
-> +            assigned-clocks = <&ox05b1s_clk>;
-> +            assigned-clock-parents = <&ox05b1s_clk_parent>;
-> +            assigned-clock-rates = <24000000>;
-> +
-> +            reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
-> +
-> +            avdd-supply = <&camera_avdd_2v8>;
-> +            dovdd-supply = <&camera_dovdd_1v8>;
-> +            dvdd-supply = <&camera_dvdd_1v2>;
-> +
-> +            orientation = <2>;
-> +            rotation = <0>;
-> +
-> +            port {
-> +                ox05b1s_mipi_0_ep: endpoint {
-> +                    remote-endpoint = <&mipi_csi0_ep>;
-> +                    data-lanes = <1 2 3 4>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
+I'd leave the possible PLL calculator for later. Having more 
+configurations is also useful for validating its function. A different 
+PLL configuration from the original doesn't necessarily mean it would be 
+wrong.
+
+...
+
+>>>> +     page = OV05C10_GET_PAGE_NUM(reg);
+>>>> +     addr = OV05C10_GET_REG_ADDR(reg);
+>>>> +     ov05c10_switch_page(ov05c10, page, &ret);
+>>>> +     cci_write(ov05c10->regmap, addr, val, &ret);
+>>>> +     if (err)
+>>>> +             *err = ret;
+>>>> +
+>>>> +     return ret;
+>>>> +}
+>>
+>> One of the main goals of CCI helpers was to avoid all of the custom
+>> device accessors being duplicated in each driver, so I think extending
+>> the CCI helpers to support page based accesses in some common way would
+>> be beneficial.
+>>
+> Yes, I agree. We can take on this enhancement either now or in the 
+> future, depending on the direction. We'll wait for Sakari's feedback to 
+> determine the best way to proceed.
+
+As Laurent suggested, keep the page-based helper macros/functions in 
+this driver, we can generalise them later on as needed.
 
 -- 
 Kind regards,
 
 Sakari Ailus
+
 
