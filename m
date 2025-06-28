@@ -1,174 +1,122 @@
-Return-Path: <linux-media+bounces-36155-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36156-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31306AECA07
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 21:24:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81211AECA1D
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 21:52:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 557D96E0D82
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 19:24:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBFD117C5D8
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jun 2025 19:52:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3208F287515;
-	Sat, 28 Jun 2025 19:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA6521D5147;
+	Sat, 28 Jun 2025 19:52:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jl+LhK9/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hznnc77i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB3B287270;
-	Sat, 28 Jun 2025 19:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B668612EBE7;
+	Sat, 28 Jun 2025 19:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751138650; cv=none; b=Z77kBKkw3CkeNaBz3u4a3gRh3tlpD0Y7dlMnMTXjZWweOowOt0rPQYRNvaStux/Jlg2m1I1S5B+Ph/MhGSbODEt07BRN8L3lYGnd4OGb3KXb6TXlqmzAyfoYCapOqtb/9yFlL+B57GSMW4HqTSiC5I2coARxKctt6HwYcdGfJc0=
+	t=1751140362; cv=none; b=sxHg85owRcxTv5kwPQaNlgY03RSqM1+sZi+UU9yAtamsshc+4a0twFatvvMALjfVxMCaXa/SHX4b9WO+j6TXG0/6BSUzNmEu7vIlkBAqAzK+IeV1s+k1btzfud0FU+fcsvLrdto/R6ZMDyTFj1QntqwRLVApRhLS4VRpF08OHlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751138650; c=relaxed/simple;
-	bh=Ek2LOhtKf+5FqLiZdfp4mmxJnFDeeSWIVbC+Mg0ivk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fRJVjw+apByIYJFDQJWazkjktoe4CDIuPDgDwFbcdhJq1Xg+tXNUZiNijPvhZqMyWHERk+keik4GCKTmZRybkiqI89X5hOOuAKM+xQSoXTxz11b3tv9MR4u4/xRyOm5VcBA7lJ8WTwFUGxJ/lOqxryT5X4PgTzoSjRDrNTcRKEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jl+LhK9/; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751138649; x=1782674649;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Ek2LOhtKf+5FqLiZdfp4mmxJnFDeeSWIVbC+Mg0ivk4=;
-  b=Jl+LhK9/oB6UwVTv1B39I1isqhEpYuk4aKgT9qA9zjLq2nZFtCJwIvNK
-   QY+Gx48A43qFoIlO5SrJYrK8zdLRhGFIU0gXa0Yy2csj0zkvRcfe3xSd/
-   HBeuPwtxBXNeZOjzomtgAnW5kNMNzwRuVj4DqxwEVdQaKoMxeXUYiVxnx
-   i/PYWGt+cHFCWnR5L0Ay5P3yH4M+jjYXsGESb5/6Lo9mIIFdptxlhNCQy
-   fpoubO6TrrAmXr8ieEAs7jX8FKiLX+qfPGpidXCfq1sLl5V/3AFwOOsQ8
-   ouNJtef/EGNV+a66XLNuLK14xmT4iXc9F3ttA6pVVihOOHsHWQBgw5aCE
-   g==;
-X-CSE-ConnectionGUID: fc0xdWmLSvCXKcSkWDWWBg==
-X-CSE-MsgGUID: yBb+FivdR9+8Il+KNtwWUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="64769817"
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="64769817"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:09 -0700
-X-CSE-ConnectionGUID: fkyhn1+TSoCEV6oPbLbfvQ==
-X-CSE-MsgGUID: +iTPhjcDQcK8LdoNy/Hu9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="153792135"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.245.225])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:03 -0700
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 2735944390;
-	Sat, 28 Jun 2025 22:24:01 +0300 (EEST)
-Message-ID: <44b71f16-edc5-46c3-96d1-53aceba537be@linux.intel.com>
-Date: Sat, 28 Jun 2025 22:23:41 +0300
+	s=arc-20240116; t=1751140362; c=relaxed/simple;
+	bh=p5dDr/QmlkdAT4RE6psUgiwKICVbxaJ/GCmdG5WoHkg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hYtoDYRiUXeH77QkcKOEM+0QVL1iMdaW+/LuLdqYMIx1DlUsU9rhruAT7gb6mnXxLfawfPldm7aYK8tVIqusTrjrQf514+8STLMOSEgqLIWtWgxdWy8ZtgdHQU8YHwuy7SCIBYwBKIb8kD/g0jxIIsRXvcoNRNvLLBewEnD0M10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hznnc77i; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ae360b6249fso274604066b.1;
+        Sat, 28 Jun 2025 12:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751140359; x=1751745159; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p5dDr/QmlkdAT4RE6psUgiwKICVbxaJ/GCmdG5WoHkg=;
+        b=hznnc77iNCgggBCTe5rDo7K/K/TfJzikNQ/adQD9H9wJj8atcmYPuTzMDSTEU116lX
+         NTC5juxCVxURwnVRJ5WjZueDIgndQbHZMLGB4URs5ox64aP2J+Y9fZQEozj4vMina+ac
+         vXJlvbVJZBGGCkf42Ev0Xy7fFbPgtf5mPwrmgoYkGsC+lv8UHebSPo47G/BZbw6dreuT
+         Az8WkEewyV0u1TgG/DndKQUyQwKMUZg5FuWPr8TgfHqFpzbeQpchIbQN/vCCg5g/4i+x
+         8K0Ja7oEJSl+EUXkhapswnODZokeYU1nZgNLakBZrPaNqcWSRMiU6nCpeJXiRRLK20bh
+         7XDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751140359; x=1751745159;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p5dDr/QmlkdAT4RE6psUgiwKICVbxaJ/GCmdG5WoHkg=;
+        b=c894m90/y8EfSJZajjEn4gWK0orheEaHN42iPtxgiwJbMvZ5GLnR/hW9ss33Dj3UAX
+         gFNg999k8avazUwGHWTtNFa09u4o1xVyrXzmhUfwXgbhmCVRSZt7sJPA7YvVitkZqC29
+         iD+8p4of6CWhLwQ+c7AV1g6MpIEkP4IGWiA01fzaXREL0woksoUWYWVQQhLWrlr+3KsE
+         4J8Ey/8Q5tC6dbW4D3sMp2iOSh0agCjIBZDXUHbQa7/IK7kqYYa/YjOSpBcuuWqtksed
+         mecwCYOF36lwzEEZ0/nYVGziPzw46WA81HOtHyGfVzkgvSZPbiQWn0McahH45Nz6HB9v
+         Df1g==
+X-Forwarded-Encrypted: i=1; AJvYcCW2ILHkj1ZZIH3OrUYwtSzLBIHYWaH1YvzpphrmXUpT9X1ZRs9CZ4c4FD0g445pnOUJ31fzeUSWqocaQQs=@vger.kernel.org, AJvYcCWgWDkylAKdAW78cfaQ60vYgs8Z9oXDJWLKn9cXUhVaKk3fxiXvPnQNnbEFFOPj45dTbAHrOT155Qb3dFE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypDTJ0orUjGsM5kvKApPOUllNFPWV/adr53lZSnZLrBtjFMjQj
+	tbXjA8njZlAVSBM/VUTC5wQlZyE9KcGd8F+0ERmukpOS6gyLZflc8CDheBHN0pYxobkYrVdq4n4
+	4RrymhBhNltl0ousJYIAQgr6jJO2kw/4=
+X-Gm-Gg: ASbGnctgrysWFU/N0pR2YlXWjlbQ+jNepvQ91+TGwb8lAwGkHpeBme0n3V9+rspyRc+
+	Lh1UC76Xgf69MknPyiZk75bOceq89ZPcsGCd0iJgPEPbfiT4OaQB5O9mFhd8CIcZSdyN0axs8G9
+	XjvFHamqO5LM3LmXvmiPGdZlDBLUMu3v6HuUixSR6H6Bs=
+X-Google-Smtp-Source: AGHT+IFBHBg3vA0AFVg02J52ULkzSBs1nSVBKO1AVzpVaER5V/vml4hMtzUii6kiTf6eFhi6SMgNg7P5g/X4e+kpJ/4=
+X-Received: by 2002:a17:906:d554:b0:ae0:4820:2474 with SMTP id
+ a640c23a62f3a-ae35015c079mr767127866b.43.1751140358759; Sat, 28 Jun 2025
+ 12:52:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
-To: "Nirujogi, Pratap" <pnirujog@amd.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, Hao Yao
- <hao.yao@intel.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>
-Cc: mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
- hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
- dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
- jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
- dantony@amd.com, vengutta@amd.com, dongcheng.yan@intel.com,
- jason.z.chen@intel.com, jimmy.su@intel.com
-References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
- <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
- <174981257597.425770.15369432320575770694@ping.linuxembedded.co.uk>
- <152051eb-7faa-4ff7-8e4f-14a12ff7c8cb@amd.com>
-Content-Language: en-US
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-In-Reply-To: <152051eb-7faa-4ff7-8e4f-14a12ff7c8cb@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 28 Jun 2025 22:52:02 +0300
+X-Gm-Features: Ac12FXwisHFwiusykwimkGfvNJfdF3Mavaq2pBz6g46Qc34NpDDwkbGORGvQ7S8
+Message-ID: <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
+ HMM_BO_DEVICE_INITED flag
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	skhan@linuxfoundation.com, dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pratap, Kieran,
+On Sat, Jun 28, 2025 at 8:26=E2=80=AFAM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+>
+> The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
+> before key initialization steps like kmem_cache_create(),
+> kmem_cache_alloc(), and __bo_init().
+>
+> This means that if any of these steps fail, the flag remains set,
+> misleading other parts of the driver (e.g. hmm_bo_alloc())
+> into thinking the device is initialized. This could lead
+> to undefined behavior or invalid memory use.
 
-On 6/17/25 02:46, Nirujogi, Pratap wrote:
-> Hi Kieran,
-> 
-> Thank you for reviewing and sharing your feedback.
-> 
-> On 6/13/2025 7:02 AM, Kieran Bingham wrote:
->> Caution: This message originated from an External Source. Use proper 
->> caution when opening attachments, clicking links, or responding.
->>
->>
->> Quoting Hao Yao (2025-06-13 05:55:46)
->> I think it will highlight that werever possible - the code below should
->> be factored out to support the different configuration requirements.
->> Cleaning up the large tables of register addresses and making those
->> configurable functions for example configuring the link rate
->> independently would be really beneficial!
->>
->> That's precisely why we continually push for reducing the large
->> "undocumented register" tables in sensor drivers...
->>
-> Yes, I agree, it is best to have documented settings and make 
-> calculation for sensor modes instead of array of undocumented settings. 
-> However the usual practice is that we send requirements to sensor vendor 
-> and they provide us the settings array to be applied. May be we can try 
-> to move PLL settings to different array but it is not always just the 
-> PLL, there are a lot of undocumented settings which are in sync with PLL 
-> and sometimes changing the PLL may result in misbehaviour of the sensor...
-> 
-> We will try to move PLL settings to separate array but cannot guarantee 
-> changing these settings alone will make the sensor functional.
+Nice. Can you make some fault injection (temporary by modifying the
+code to always fail, for example) and actually prove this in practice?
+If so, the few (important) lines from the given Oops would be nice to
+have here.
 
-I did discuss this with Laurent as well and based on that I'd suggest 
-the following split:
+> Additionally, since __bo_init() is called from inside
+> hmm_bo_device_init() after the flag was already set, its internal
+> check for HMM_BO_DEVICE_INITED is redundant.
+>
+> - Move the flag assignment to the end after all allocations succeed.
+> - Remove redundant check of the flag inside __bo_init()
 
-- power-on register list,
-- external clock / link frequency specific list (often these are tied)
-   and
-- sensor mode
 
-Which of these lists a particular register is written in isn't crucial 
-at the moment, this can be always changed later on.
-
-I'd leave the possible PLL calculator for later. Having more 
-configurations is also useful for validating its function. A different 
-PLL configuration from the original doesn't necessarily mean it would be 
-wrong.
-
-...
-
->>>> +     page = OV05C10_GET_PAGE_NUM(reg);
->>>> +     addr = OV05C10_GET_REG_ADDR(reg);
->>>> +     ov05c10_switch_page(ov05c10, page, &ret);
->>>> +     cci_write(ov05c10->regmap, addr, val, &ret);
->>>> +     if (err)
->>>> +             *err = ret;
->>>> +
->>>> +     return ret;
->>>> +}
->>
->> One of the main goals of CCI helpers was to avoid all of the custom
->> device accessors being duplicated in each driver, so I think extending
->> the CCI helpers to support page based accesses in some common way would
->> be beneficial.
->>
-> Yes, I agree. We can take on this enhancement either now or in the 
-> future, depending on the direction. We'll wait for Sakari's feedback to 
-> determine the best way to proceed.
-
-As Laurent suggested, keep the page-based helper macros/functions in 
-this driver, we can generalise them later on as needed.
-
--- 
-Kind regards,
-
-Sakari Ailus
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
