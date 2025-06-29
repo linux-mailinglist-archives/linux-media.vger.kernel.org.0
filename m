@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-36198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36199-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9CDAED014
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 21:17:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B67DAED018
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 21:20:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 793B83B608E
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 19:15:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85FE67A5A86
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 19:18:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A3C23B63C;
-	Sun, 29 Jun 2025 19:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F3B5239E74;
+	Sun, 29 Jun 2025 19:19:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQL7oBFI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmwLp9g5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D2023B625;
-	Sun, 29 Jun 2025 19:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BFA21CFF6;
+	Sun, 29 Jun 2025 19:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751224518; cv=none; b=RQFNiEdahz5Hyp66qiDlirXYIoBHuupoR0zP20WKLy+r7JBooIeuijmnX1Yq6Pu3G1xyTVttNOuRS6NyQrdbU3ytKkeuOohXHC2JGb/SWL7VmoGsL5TzK0Kbz47/zyla10vWcJqqBNfrPNBhX+qSZKEg/3GJjdMmkDh7Phg0Ikg=
+	t=1751224791; cv=none; b=WGPpA6sZPy9G07gs8MBkobIz+fjsRkZitShUtayJxxg13byHaxtp1AgMvSpXxo5xQ3IZ9MbQS7qH6ebprbJ9XxpmGMZlwIVfGCYN6Vgpg/o7XBoEcE3pvy2VZwh4Bly3aauLbkZf2wGmVhxGLgAe95SAMzMZIj5GIO0G9OblObI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751224518; c=relaxed/simple;
-	bh=nA3MXBps3409L4F1Tl6lV76sgIZsFK+ko4yqfWlQmyA=;
+	s=arc-20240116; t=1751224791; c=relaxed/simple;
+	bh=fqvFj4fP57bdlkH2Z9EVvhU1TU+soWmoIpIUNeszUe4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fLf9Q6d9e7U7h9lnRuxNx4KRAj4ShyfampjXfA23C1nDoTEGtlVvTKc58j1N4SEzGGKpocCpWdU977F86hdTi6Ne/AVUaOzFonZZdg6D7t59szJrTjJjojoOxJ+Cp30uMQ5fwNrbwYuBiAi0H2ftTBG/oqKDCz8EtG4e879/FJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DQL7oBFI; arc=none smtp.client-ip=209.85.218.44
+	 To:Cc:Content-Type; b=mPXLdPKyaaY7s//G7UM/yLAmv6dN6WTiJAnpJS0OIyLyBj/r79etSHLd1bg15TQx1o6iQVT32Vpf0FgS5oi27nDr2UVy4iu3SaQkoBoD/psGgWpdGYTX/Aioa8DHiqAWAmUUrwjpYjuGBkV3Z0sSNwXfnq/RjnDzqZBPHBg3/YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmwLp9g5; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ae0bde4d5c9so703379366b.3;
-        Sun, 29 Jun 2025 12:15:16 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2352b04c7c1so3688635ad.3;
+        Sun, 29 Jun 2025 12:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751224515; x=1751829315; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751224789; x=1751829589; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nA3MXBps3409L4F1Tl6lV76sgIZsFK+ko4yqfWlQmyA=;
-        b=DQL7oBFI6tQ178ll8tyqJ7Gsypdku5yw8ZWRiJLJTqapPMCIvRJ0fQ6l0RqPQIDZKt
-         /EbYdNGx/q6ePeNzgC35t5ZiojNoS62GdEXv0r5SFWL9oOCjaQ+7Cz0btF+qT86owfGc
-         XuXjAyezGpYuKS9X7nt/0DLqFoSq0NgABJO3HgHe4IZCPc1DqLvvA3ikMf86Q4mvWhv7
-         whyyCmndli0+lLzE3HaPOIIkj7UiD8T1MdebYu86RqacRJxkDYLm6flDqUMHHWSxEYUp
-         q1WI77gHEyLKodi44Zy2LGT7vFWf82QCEiYcs5Tux64Z72ObpuslYBRU9vBQDtAYYlia
-         tr3g==
+        bh=fqvFj4fP57bdlkH2Z9EVvhU1TU+soWmoIpIUNeszUe4=;
+        b=dmwLp9g5RER2DwnUvMce6caI6UPTupllN2ghcnKTm4cac/OIToLYB0tt+RfeymJHGo
+         snSFR/mZzkZawGqKX7jXPXOSbHxUZ8ZZOU6T+/Q8dTpt5m8/0Z+OJDC752+QJbKIVUL7
+         tGL48HDRl/+GCOEmNKgDvkVof79+qQsGxq29NIAP1lbOwgq7NmogIpqkZ48Kj4YBNgLb
+         Kh1kKjaS2EBmllQDVEPL6NyvaZrN2cMCH2m+QhEmi4PxDDWjgRBPXsE8CdIVHkGAFlZA
+         N/anDu+gya4iRyjRguWcm8qsYcJufWl/bxbppW3oetTQfBBmJKn6isDxkiH3bcb3T6vr
+         uGSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751224515; x=1751829315;
+        d=1e100.net; s=20230601; t=1751224789; x=1751829589;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nA3MXBps3409L4F1Tl6lV76sgIZsFK+ko4yqfWlQmyA=;
-        b=SjF9hoOQi7bqi2gr3249x/4/g2uxHRVC73+FfLzuIukDBwjAqfR2gArAQkel/uVx1I
-         EfVkKzCpY1g20FC2HweNqW95cnUz+PJyOlm1YufQgPcYAtsHDwK0rEXvIfKZJt1WtW1/
-         vtSMsUZ4MkiZCq1SEeJXi5BWbpABa3OvC//pO7Zr4gMDGLTwp1PHTAsBJI31RQSnmkCM
-         Vfz5Le8Vg7YbhMZJTf3NzFLgM9j7pIcyCkF0xLqhoq6t1WLNhaQTOpq7mcvFfpEyNmNr
-         NMpgYgQsWDo6I2Dq64vjNJTMPkEm2btnrklBcBzl//faXUlmJPNSpwt0xO4ldGoeYEqs
-         HCbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVhHvO4PUlXa3atEjPzJqID5QqJHqS2f2sfDIUkRzDaPVt9QdlCU/kc+aw7KyY9jVQ/+T/kNlawAQ6fq+E=@vger.kernel.org, AJvYcCVs5slNmMzKWSgq0FLLOvDjuxJUmasegc6SCztF3Iv0Knp95sNtvwvLE0Rry+MHMMb/TrsUmn2CW3CIlsY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8KiRc24pTSXVV/bCQE1u1ZsyNk206H0nj5ai+n/yhE4l5bNPP
-	NdnENFJ9t4lYgLhvxbnXLKIBAx9Fvfhow49Z5omvMVylIOxsQp9g7Km2cGd3ZaMiSpGsaY/Kexj
-	j8frHNsK4K1Vjh4wXzymmlT3JTmKCDhKvHbBShMU=
-X-Gm-Gg: ASbGncusiikHXGL3SvQdgAeS02ZF8xMBDD+bxXZf8XLBb+mtiL+BB9MMCthIhgf67Y6
-	GWqOxeAY/lxYNSu3vlP9Y9ruWfHNNoA7uopiIL0UmbvTlg9vGm8nX9+g4ph3ZblgfnRZMdU1xr/
-	iuCE4bhpcCAOkMlmws7J9QJtXN88sjecykD8hbl61qh8g=
-X-Google-Smtp-Source: AGHT+IHVLeKPvjWhLiEPl0f2FVlhTG8fSUCZfh+VEwlG/bHm3jjxUD6UhJ42wGzBGMVKWRIdPbpJKXU51NRWNY9Lvt0=
-X-Received: by 2002:a17:907:96ab:b0:ad5:2e5b:d16b with SMTP id
- a640c23a62f3a-ae34fef316dmr1106599366b.27.1751224514565; Sun, 29 Jun 2025
- 12:15:14 -0700 (PDT)
+        bh=fqvFj4fP57bdlkH2Z9EVvhU1TU+soWmoIpIUNeszUe4=;
+        b=dvZ+eLyjfBhrf7Lvy/CNJlRcgfF+tO7tqg+mBpv4XC3iqBc1Y3WOH565lG5mkPg8lh
+         6Vn3d2VO4EV7v0sSbeVi9DC21QLcRh6l/+eJdK30FpC+g07KVPEXECP8M33NKZsWNmTT
+         0DIgSg/qPFCVAKe96ZvrVRyYgqdtL4su5G9laKXY0AONE4dSY7GL9mTHChtRCLa21QmN
+         zel7pWcris+8MOyMwCHoIHErfVEjBXhzc2/b9JGoUmIOEFe8HDNtohBpJ9ik0xrQh7lK
+         IlENiVUaKP6v0fFhZt71IScEoUNOLA+HFUhHkZNsXllXMC2yYy7rajL8aHlICkALy2iv
+         iTbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvER8yGFwo58ia7gNmkMv/E6ptsb2CjrN55PpwEoPVWEZ2kPzyj0eHKVrYWuMLkJHUu2ndSqdVwt8rReI=@vger.kernel.org, AJvYcCWe7dvLctOfc6GKxC5Dx/bpt0of1sL9n/OU3zHxYhBVJTFGpjm8VeKe8T+6acRqRWKBslmQQugVAK3SWZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnvgSecDVKZpjOwIq/CR2hA4OqXAt9/Zwobrvj16BvY1OC+Ufd
+	bdUoB8yYmsG6JEDy8DH/7fuOno3/uCEf/Q5T1HT8TNPtemQeNT3dXcmVfzSkN7v0V15MgSHInhL
+	PDE4t5DRsIKNvknygFLEVeeaMaSQIZdw=
+X-Gm-Gg: ASbGncsNYLmPQhS8W6hk3QSi0yUQNiF+4H5jY72GrkRyNFVpZoeYFZFHqVGa5vbXLZk
+	DDbmLTxF15Lq+8hgzx3U0NpxgUe6npeblKIBiiAJ6T5H9X4Z7YR+Ft2lId+qfwJFlohXrVBqk6S
+	z3Tu8P/47p/y/hWar/cfbUdoPH/1CNtI8chxrryyfyWSY=
+X-Google-Smtp-Source: AGHT+IHaVfsV20gbxGDGp7LaY+Szjj4MSE87ay8AXbrRlFNzSCMZkBxp3FxomgpoZ7gVrxtk8A6cpio/2KB/6lEK1OQ=
+X-Received: by 2002:a17:903:1a68:b0:234:bfe3:c4a3 with SMTP id
+ d9443c01a7336-23ae86b628emr36405245ad.0.1751224788949; Sun, 29 Jun 2025
+ 12:19:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,93 +75,37 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250629113050.58138-1-zaq14760@gmail.com> <092f5109-ca31-4949-bda8-7e0d946c3aa0@kernel.org>
- <CAKEtaPAr6g5bGFwPJZXRHN6p9u5SrUo3kQi6Zcpp7hbFCp-J2A@mail.gmail.com>
-In-Reply-To: <CAKEtaPAr6g5bGFwPJZXRHN6p9u5SrUo3kQi6Zcpp7hbFCp-J2A@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 29 Jun 2025 22:14:38 +0300
-X-Gm-Features: Ac12FXydlwNxphQQICIaM92cAbX2WVQiWOlAM9z1fp8Uu1oKuuhB6Lx6O4rANHY
-Message-ID: <CAHp75VcPzq9XrFD29+uZ1rbFcDxb4UbXNkv_QZ=3iyVm3dxyPg@mail.gmail.com>
+ <CAHp75VfoJ17a=3P3fXHa2mN00S+hdz-vRtLfjmsT7-+i2NfWEw@mail.gmail.com>
+In-Reply-To: <CAHp75VfoJ17a=3P3fXHa2mN00S+hdz-vRtLfjmsT7-+i2NfWEw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 29 Jun 2025 21:19:36 +0200
+X-Gm-Features: Ac12FXyWIHNh1JvbdxU6VSHhJ3heIYBUycyIfCLNs5T8MXPWmqc3XrvDjIWToRg
+Message-ID: <CANiq72nu3KKovTfkoSofNX05ScvP83Dc2GusP7JJwWD1g2rbog@mail.gmail.com>
 Subject: Re: [PATCH v7] staging: media: atomisp: code style cleanup series
-To: =?UTF-8?B?546L6Imv5Lie?= <zaq14760@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
-	andy@kernel.org, gregkh@linuxfoundation.org, nathan@kernel.org, 
-	nick.desaulniers+lkml@gmail.com, morbo@google.com, justinstitt@google.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, llvm@lists.linux.dev
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>, LiangCheng Wang <zaq14760@gmail.com>, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org, 
+	nathan@kernel.org, nick.desaulniers+lkml@gmail.com, morbo@google.com, 
+	justinstitt@google.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 29, 2025 at 4:02=E2=80=AFPM =E7=8E=8B=E8=89=AF=E4=B8=9E <zaq147=
-60@gmail.com> wrote:
+On Sun, Jun 29, 2025 at 9:13=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> Dear Hans and Andy,
+> Yeah, that what I was afraid of. I don't know clang-format well
+> enough, but it might be that tweaking existing .clang-format in the
+> kernel can give something better.
 
-First of all, please stop top-posting!
+Yeah, there are some proposed changes for the config that I have in
+the backlog, and with a minimum upgrade we can also improve it further
+(some things just couldn't be done well with the options that were
+available at the time when I introduced it). That is why, at least so
+far, clang-format worked best for formatting snippets or for new
+files.
 
-> Thanks for the feedback. I'll wait for Andy's opinion on this before
-> taking further actions.
-
-TBH I don't know what I can help with or should do. I expressed my
-worries already in one of the previous emails where I suggested to
-check clang-format and then when we see the first attempt of using it.
-
-> Meanwhile, I understand Hans' concerns about clang-format changes and
-> I can prepare manual cleanup patches as suggested if needed.
-
-Or you can try (without sending each time the result) amending output
-of clang-format, or you can do a set of scripts based on the problems
-found... Take your time and experiment more, no need to send a new
-version every couple of days or so.
-
-> > On 29-Jun-25 1:30 PM, LiangCheng Wang wrote:
-> > > This series applies clang-format and fixes all checkpatch.pl-reported=
- ERRORs in the AtomISP driver, excluding the i2c directory as advised by ma=
-intainers.
-> > >
-> > > The changes include:
-> > > - Applying clang-format (excluding drivers/staging/media/i2c)
-> > > - Removing unnecessary parentheses in return statements
-> > > - Removing unnecessary zero-initialized globals
-> > > - Fixing space issues after unary minus operators
-> > > - Wrapping complex macro values in parentheses
-> > > - These patches focus solely on mechanical style cleanups with no fun=
-ctional changes.
-> > > - WARNINGs reported by checkpatch.pl were intentionally left for futu=
-re work to keep each patch clear and manageable.
-> > >
-> > > The full series and corresponding commits are also available in my pu=
-blic Git repository:
-> > >
-> > > https://github.com/lc-wang/linux/tree/b4/atomisp
-
-> > > Changes in v7:
-> > > - Split previous monolithic patch into multiple smaller patches
-> > > - Applied clang-format to entire driver excluding i2c directory
-> >
-> > I took a quick look at just the clang-format patch and looking
-> > at the bits of the diff which were not collapsed by github because
-> > the changes are too big, it looks like the changes which clang-format
-> > makes are useless and often make things worse, e.g. just looking
-> > at the first diff which github shows for:
-> >
-> > https://github.com/lc-wang/linux/commit/8a3bbdba275e42dfcb0af2ddcc2f274=
-63bb316d2
-> >
-> > which is for drivers/staging/media/atomisp/include/hmm/hmm.h
-> > then all of the changes are undesirable and unneeded.
-> >
-> > so the running of clang-format just seems to make things worse.
-> >
-> > I appreciate coding-style cleanups outside of the i2c dir,
-> > but it looks like you need to do everything manually since
-> > clang-format is just making a mess of things.
-> >
-> > Also if you do manual code-style cleanups please do one
-> > type of cleanup per patches, e.g. only fix indentation
-> > using spaces instead of tabs and do so on groups of say
-> > 10 files at a time to keep things reviewable.
-
---=20
-With Best Regards,
-Andy Shevchenko
+Cheers,
+Miguel
 
