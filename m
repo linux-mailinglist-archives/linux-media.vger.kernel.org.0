@@ -1,164 +1,253 @@
-Return-Path: <linux-media+bounces-36231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E918AED414
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 07:48:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB806AED537
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 09:08:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A10D3165CB4
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 05:48:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 632CA1897C9B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 07:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 331641411DE;
-	Mon, 30 Jun 2025 05:48:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 128A722B594;
+	Mon, 30 Jun 2025 07:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MSweGBlY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkBLXqnL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8B218C011
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 05:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07120226CFF;
+	Mon, 30 Jun 2025 07:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751262510; cv=none; b=Quux2Mh33nKDpmUrzA48dGsDvWayndVzPdMowegeV5tO6IX3DGkZPlS0EeodW2MrN1VmpwWGmNt3MMgMyMLzIqvhip1lqJCjPMaMItaLn6TEuwi2jjYaJ9HDi5I8Yr/Y7KI3Lxi5zycZVNRSUJP1BasBn8mPCb9tJgG4br5YqCo=
+	t=1751267202; cv=none; b=oa25dyX7UUPguylDQI8hAR4NT19MFh1EhaQA6U7XH9hFN+sVex3LhKa1CZN5lKz/ULHrdNz3N8cxr+UzHfKEshFE1Uysx1BwBhe7mL/jzpWDYwwoAQ3P35GJkZOyX06tEUmzU38Yc6SGRpINnzoKgWeDZgyxljpXtuqjsCabN9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751262510; c=relaxed/simple;
-	bh=uPfJ30+khHvCcsrYciNspNKqfzyTHwcTtneVwzPX7t4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Sh0C0RYX2geg2fy7+/uH+c5WcmIH0wephUH9jX0K3sPr10b+x0yE/ftnHm8w52iQkcPwEcMRpg+co1sTRQHNsJDwRFmqQeNnnTFxNyLCEMdmEA3veOjvNroRjyP6plHLdORJ4wj9JUeyYXcrqUt+UuQP8HEy0Vm3EOe3pOb/+Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MSweGBlY; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751267202; c=relaxed/simple;
+	bh=2lce8mSrNrekb88IdCzkJIG6HQNp6B1zAzKDYe1G7M4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qfGNsBV9QNZojk4DLq/pvNQH5oQQPG4ojBpaGW1E0CZyGXb5T+2fzbZ8wSZX7fQShUu32Wvr4ALa/omdiZMwHQ0kc7FnnC8n7vsLPGB2MLVCPYFQmRiXn+SdQ1bC9y66hCfyoq0mVJm++qjLb6+mHSm37a5UQXVWpuvMxBEq0P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkBLXqnL; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751262508; x=1782798508;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uPfJ30+khHvCcsrYciNspNKqfzyTHwcTtneVwzPX7t4=;
-  b=MSweGBlYkXm7GKQkuJWiI62Dhqb+DIktF5rH2cgDPTzc3jtYYoTVPFGq
-   CN7jhi5uW72CS/vkW8Y6GFf0+6UKV+U9WVGUzutOKjxgnviNGwTBJZPOd
-   LAp79WpWFYUuxejDLmjhM+zl2/FjV/yV/+/IKmCtmn/kqeavyz3C/E3bL
-   DIDQQG4genSRowd5mkX9hUVpqBmzGuAVE8Z562sLRW1u8uRrEpg8U2AKm
-   svbJK3nTtt4P0Ga5WWGrsMEQiYuqiaAaXCsFpsfkUOgUApXWwtgmPjxJ3
-   Y7DcduJRfEFRyaVMNhsj0UfRtNSajE1qZe0emuF7KM5LmGhKCfNbYx2SG
+  t=1751267201; x=1782803201;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2lce8mSrNrekb88IdCzkJIG6HQNp6B1zAzKDYe1G7M4=;
+  b=ZkBLXqnLOZf2y6TwTSe+B06GNUsBcyx40XG/XX6VJ5+CDuIWmYyggPa7
+   qoTdWuQ/vIxWTd0ydClYUL0ba7J1aKrCp6TXoIAeFz9olTNZTAnQ/yVYa
+   7RzjEPA35gD3ALp/rJ24BKzORfpXyptUzxEFamlR0oCbXeZIwTzd2ozmk
+   93rhX4HINEi3ACVzkhyCla2rp7FcAUDl66/wreQ160z90ZnkG9HtPG2iI
+   b5dUJAAOH5yJRF1b3ZpmdC2z7b4BME0QX6C3TjQIFhBnsmENj+D3jOKSX
+   Puu77JzxNYheuGLEnLe4GIfAdL97uCEegWmFIpCy58RpgL14+0fGe+Y6e
    A==;
-X-CSE-ConnectionGUID: JekNOTP9TcCX5XkNLE3RZQ==
-X-CSE-MsgGUID: NHzAHtpqSkO37soZ8lslpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53418617"
+X-CSE-ConnectionGUID: wj6rNWf1RjW06dnd/jh3eQ==
+X-CSE-MsgGUID: fsvTdaaUSr6cMSHc1cKAgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53589130"
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="53418617"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 22:48:25 -0700
-X-CSE-ConnectionGUID: 7E41IuInSfWAxeR+8MZlkA==
-X-CSE-MsgGUID: KA4uyOwyTaabwXvsMDeLRw==
+   d="scan'208";a="53589130"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 00:06:30 -0700
+X-CSE-ConnectionGUID: W0s88ZrpQ7WGmEpYI5kNxw==
+X-CSE-MsgGUID: HBjUdj/kQkKof9wkzEBQCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="159087338"
-Received: from vtg-chrome.bj.intel.com ([172.16.127.120])
-  by orviesa005.jf.intel.com with ESMTP; 29 Jun 2025 22:48:24 -0700
-From: bingbu.cao@intel.com
-To: linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	hansg@kernel.org
-Cc: bingbu.cao@intel.com,
-	bingbu.cao@linux.intel.com
-Subject: [PATCH] media: hi556: correct the test pattern configuration
-Date: Mon, 30 Jun 2025 13:48:22 +0800
-Message-Id: <20250630054822.859782-1-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.34.1
+   d="scan'208";a="152865860"
+Received: from agladkov-desk.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.57])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 00:06:24 -0700
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 27F41427EA;
+	Mon, 30 Jun 2025 10:06:21 +0300 (EEST)
+Message-ID: <ec790d0e-4bdb-49b9-80ad-f44e1b700a5e@linux.intel.com>
+Date: Sun, 29 Jun 2025 10:40:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+Content-Language: en-US
+To: "Nirujogi, Pratap" <pnirujog@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hao Yao <hao.yao@intel.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>,
+ mchehab@kernel.org, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org,
+ krzk@kernel.org, dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+ jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
+ dantony@amd.com, vengutta@amd.com, dongcheng.yan@intel.com,
+ jason.z.chen@intel.com, jimmy.su@intel.com
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+ <aEygCdk-zEqRwfoF@kekkonen.localdomain>
+ <20250614225257.GO10542@pendragon.ideasonboard.com>
+ <f6d1d8f7-d953-4f86-a196-f713726bd5f8@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+In-Reply-To: <f6d1d8f7-d953-4f86-a196-f713726bd5f8@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+Hi Pratap,
 
-Hynix hi556 support 8 test pattern modes:
-hi556_test_pattern_menu[] = {
-{
-	"Disabled",
-	"Solid Colour",
-	"100% Colour Bars",
-	"Fade To Grey Colour Bars",
-	"PN9",
-	"Gradient Horizontal",
-	"Gradient Vertical",
-	"Check Board",
-	"Slant Pattern",
-}
+On 6/17/25 01:33, Nirujogi, Pratap wrote:
+...
+>>>>> +static const struct cci_reg_sequence ov05c10_2888x1808_regs[] = {
+>>>>> + { CCI_REG8(0xfd),  0x00 },
+>>>>> + { CCI_REG8(0x20),  0x00 },
+>>>>> + { CCI_REG8(0xfd),  0x00 },
+>>>>> + { CCI_REG8(0x20),  0x0b },
+>>>>> + { CCI_REG8(0xc1),  0x09 },
+>>>>> + { CCI_REG8(0x21),  0x06 },
+>>>>> + { CCI_REG8(0x14),  0x78 },
+>>>>> + { CCI_REG8(0xe7),  0x03 },
+>>>>> + { CCI_REG8(0xe7),  0x00 },
+>>>>> + { CCI_REG8(0x21),  0x00 },
+>>>>> + { CCI_REG8(0xfd),  0x01 },
+>>>>> + { CCI_REG8(0x03),  0x00 },
+>>>>> + { CCI_REG8(0x04),  0x06 },
+>>>>> + { CCI_REG8(0x05),  0x07 },
+>>>>> + { CCI_REG8(0x06),  0x44 },
+>>>>> + { CCI_REG8(0x07),  0x08 },
+>>>>> + { CCI_REG8(0x1b),  0x01 },
+>>>>> + { CCI_REG8(0x24),  0xff },
+>>>>> + { CCI_REG8(0x32),  0x03 },
+>>>>> + { CCI_REG8(0x42),  0x5d },
+>>>>> + { CCI_REG8(0x43),  0x08 },
+>>>>> + { CCI_REG8(0x44),  0x81 },
+>>>>> + { CCI_REG8(0x46),  0x5f },
+>>>>> + { CCI_REG8(0x48),  0x18 },
+>>>>> + { CCI_REG8(0x49),  0x04 },
+>>>>> + { CCI_REG8(0x5c),  0x18 },
+>>>>> + { CCI_REG8(0x5e),  0x13 },
+>>>>> + { CCI_REG8(0x70),  0x15 },
+>>>>> + { CCI_REG8(0x77),  0x35 },
+>>>>> + { CCI_REG8(0x79),  0x00 },
+>>>>> + { CCI_REG8(0x7b),  0x08 },
+>>>>> + { CCI_REG8(0x7d),  0x08 },
+>>>>> + { CCI_REG8(0x7e),  0x08 },
+>>>>> + { CCI_REG8(0x7f),  0x08 },
+>>>>> + { CCI_REG8(0x90),  0x37 },
+>>>>> + { CCI_REG8(0x91),  0x05 },
+>>>>> + { CCI_REG8(0x92),  0x18 },
+>>>>> + { CCI_REG8(0x93),  0x27 },
+>>>>> + { CCI_REG8(0x94),  0x05 },
+>>>>> + { CCI_REG8(0x95),  0x38 },
+>>>>> + { CCI_REG8(0x9b),  0x00 },
+>>>>> + { CCI_REG8(0x9c),  0x06 },
+>>>>> + { CCI_REG8(0x9d),  0x28 },
+>>>>> + { CCI_REG8(0x9e),  0x06 },
+>>>>> + { CCI_REG8(0xb2),  0x0f },
+>>>>> + { CCI_REG8(0xb3),  0x29 },
+>>>>> + { CCI_REG8(0xbf),  0x3c },
+>>>>> + { CCI_REG8(0xc2),  0x04 },
+>>>>> + { CCI_REG8(0xc4),  0x00 },
+>>>>> + { CCI_REG8(0xca),  0x20 },
+>>>>> + { CCI_REG8(0xcb),  0x20 },
+>>>>> + { CCI_REG8(0xcc),  0x28 },
+>>>>> + { CCI_REG8(0xcd),  0x28 },
+>>>>> + { CCI_REG8(0xce),  0x20 },
+>>>>> + { CCI_REG8(0xcf),  0x20 },
+>>>>> + { CCI_REG8(0xd0),  0x2a },
+>>>>> + { CCI_REG8(0xd1),  0x2a },
+>>>>> + { CCI_REG8(0xfd),  0x0f },
+>>>>> + { CCI_REG8(0x00),  0x00 },
+>>>>> + { CCI_REG8(0x01),  0xa0 },
+>>>>> + { CCI_REG8(0x02),  0x48 },
+>>>>> + { CCI_REG8(0x07),  0x8f },
+>>>>> + { CCI_REG8(0x08),  0x70 },
+>>>>> + { CCI_REG8(0x09),  0x01 },
+>>>>> + { CCI_REG8(0x0b),  0x40 },
+>>>>> + { CCI_REG8(0x0d),  0x07 },
+>>>>> + { CCI_REG8(0x11),  0x33 },
+>>>>> + { CCI_REG8(0x12),  0x77 },
+>>>>> + { CCI_REG8(0x13),  0x66 },
+>>>>> + { CCI_REG8(0x14),  0x65 },
+>>>>> + { CCI_REG8(0x15),  0x37 },
+>>>>> + { CCI_REG8(0x16),  0xbf },
+>>>>> + { CCI_REG8(0x17),  0xff },
+>>>>> + { CCI_REG8(0x18),  0xff },
+>>>>> + { CCI_REG8(0x19),  0x12 },
+>>>>> + { CCI_REG8(0x1a),  0x10 },
+>>>>> + { CCI_REG8(0x1c),  0x77 },
+>>>>> + { CCI_REG8(0x1d),  0x77 },
+>>>>> + { CCI_REG8(0x20),  0x0f },
+>>>>> + { CCI_REG8(0x21),  0x0f },
+>>>>> + { CCI_REG8(0x22),  0x0f },
+>>>>> + { CCI_REG8(0x23),  0x0f },
+>>>>> + { CCI_REG8(0x2b),  0x20 },
+>>>>> + { CCI_REG8(0x2c),  0x20 },
+>>>>> + { CCI_REG8(0x2d),  0x04 },
+>>>>> + { CCI_REG8(0xfd),  0x03 },
+>>>>> + { CCI_REG8(0x9d),  0x0f },
+>>>>> + { CCI_REG8(0x9f),  0x40 },
+>>>>> + { CCI_REG8(0xfd),  0x00 },
+>>>>> + { CCI_REG8(0x20),  0x1b },
+>>>>> + { CCI_REG8(0xfd),  0x04 },
+>>>>> + { CCI_REG8(0x19),  0x60 },
+>>>>> + { CCI_REG8(0xfd),  0x02 },
+>>>>> + { CCI_REG8(0x75),  0x05 },
+>>>>> + { CCI_REG8(0x7f),  0x06 },
+>>>>> + { CCI_REG8(0x9a),  0x03 },
+>>>>> + { CCI_REG8(0xa2),  0x07 },
+>>>>> + { CCI_REG8(0xa3),  0x10 },
+>>>>> + { CCI_REG8(0xa5),  0x02 },
+>>>>> + { CCI_REG8(0xa6),  0x0b },
+>>>>> + { CCI_REG8(0xa7),  0x48 },
+>>>>> + { CCI_REG8(0xfd),  0x07 },
+>>>>> + { CCI_REG8(0x42),  0x00 },
+>>>>> + { CCI_REG8(0x43),  0x80 },
+>>>>> + { CCI_REG8(0x44),  0x00 },
+>>>>> + { CCI_REG8(0x45),  0x80 },
+>>>>> + { CCI_REG8(0x46),  0x00 },
+>>>>> + { CCI_REG8(0x47),  0x80 },
+>>>>> + { CCI_REG8(0x48),  0x00 },
+>>>>> + { CCI_REG8(0x49),  0x80 },
+>>>>> + { CCI_REG8(0x00),  0xf7 },
+>>>>> + { CCI_REG8(0xfd),  0x00 },
+>>>>> + { CCI_REG8(0xe7),  0x03 },
+>>>>> + { CCI_REG8(0xe7),  0x00 },
+>>>>> + { CCI_REG8(0xfd),  0x00 },
+>>>>> + { CCI_REG8(0x93),  0x18 },
+>>>>> + { CCI_REG8(0x94),  0xff },
+>>>>> + { CCI_REG8(0x95),  0xbd },
+>>>>> + { CCI_REG8(0x96),  0x1a },
+>>>>> + { CCI_REG8(0x98),  0x04 },
+>>>>> + { CCI_REG8(0x99),  0x08 },
+>>>>> + { CCI_REG8(0x9b),  0x10 },
+>>>>> + { CCI_REG8(0x9c),  0x3f },
+>>>>> + { CCI_REG8(0xa1),  0x05 },
+>>>>> + { CCI_REG8(0xa4),  0x2f },
+>>>>> + { CCI_REG8(0xc0),  0x0c },
+>>>>> + { CCI_REG8(0xc1),  0x08 },
+>>>>> + { CCI_REG8(0xc2),  0x00 },
+>>>>> + { CCI_REG8(0xb6),  0x20 },
+>>>>> + { CCI_REG8(0xbb),  0x80 },
+>>>>> + { CCI_REG8(0xfd),  0x00 },
+>>>>> + { CCI_REG8(0xa0),  0x01 },
+>>>>> + { CCI_REG8(0xfd),  0x01 },
+>>
+>> Please replace these with names macros where possible. I'm sure quite a
+>> few of the registers configured here are documented in the datasheet.
+>> The registers that configure the mode (analog crop, digital crop,
+>> binning, skipping, ...) should be computed dynamically from the subdev
+>> pad format and selection rectangles, not hardcoded.
+>>
+> I agree, but we get the sensor settings based on our requirements from 
+> the vendor, i will check if we can get some more info regarding the 
+> crop, binning, skipping etc...
 
-The test pattern is set by a 8-bit register according to the
-specification.
-+--------+-------------------------------+
-| BIT[0] |  Solid color                  |
-+--------+-------------------------------+
-| BIT[1] |  Color bar                    |
-+--------+-------------------------------+
-| BIT[2] |  Fade to grey color bar       |
-+--------+-------------------------------+
-| BIT[3] |  PN9                          |
-+--------+-------------------------------+
-| BIT[4] |  Gradient horizontal          |
-+--------+-------------------------------+
-| BIT[5] |  Gradient vertical            |
-+--------+-------------------------------+
-| BIT[6] |  Check board                  |
-+--------+-------------------------------+
-| BIT[7] |  Slant pattern                |
-+--------+-------------------------------+
-Based on function above, current test pattern programming is wrong.
-This patch fixes it by '1 << (pattern - 1)'.
+Some of this infomation should be available in the datasheet. Use at 
+least the register names that can be found, for those that can't there's 
+not much that could be done.
 
-Fixes: e62138403a84 ("media: hi556: Add support for Hi-556 sensor")
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/media/i2c/hi556.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index aed258211b8a..fc4d63160a59 100644
---- a/drivers/media/i2c/hi556.c
-+++ b/drivers/media/i2c/hi556.c
-@@ -756,21 +756,22 @@ static int hi556_test_pattern(struct hi556 *hi556, u32 pattern)
- 	int ret;
- 	u32 val;
- 
--	if (pattern) {
--		ret = hi556_read_reg(hi556, HI556_REG_ISP,
--				     HI556_REG_VALUE_08BIT, &val);
--		if (ret)
--			return ret;
-+	if (!pattern)
-+		return 0;
- 
--		ret = hi556_write_reg(hi556, HI556_REG_ISP,
--				      HI556_REG_VALUE_08BIT,
--				      val | HI556_REG_ISP_TPG_EN);
--		if (ret)
--			return ret;
--	}
-+	ret = hi556_read_reg(hi556, HI556_REG_ISP,
-+			     HI556_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = hi556_write_reg(hi556, HI556_REG_ISP,
-+			      HI556_REG_VALUE_08BIT,
-+			      val | HI556_REG_ISP_TPG_EN);
-+	if (ret)
-+		return ret;
- 
- 	return hi556_write_reg(hi556, HI556_REG_TEST_PATTERN,
--			       HI556_REG_VALUE_08BIT, pattern);
-+			       HI556_REG_VALUE_08BIT, 1 << (pattern - 1));
- }
- 
- static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
 -- 
-2.34.1
+Regards,
 
+Sakari Ailus
 
