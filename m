@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36179-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36180-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEC8AECE54
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 17:29:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3A3AECE58
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 17:39:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFD3B1892CEE
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 15:29:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0FDF3B4F37
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 15:38:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7C4230264;
-	Sun, 29 Jun 2025 15:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDE0120468E;
+	Sun, 29 Jun 2025 15:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GWXV2Qpc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b++x8Ffu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDECF6FB9
-	for <linux-media@vger.kernel.org>; Sun, 29 Jun 2025 15:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DC243147
+	for <linux-media@vger.kernel.org>; Sun, 29 Jun 2025 15:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751210938; cv=none; b=aLILei03oSoi0XzIRIZmVNkCWgPMLz0a34Mg4gC1xXjURaMoyexaSc2nY0cr47Zm9/qbnasBFay8PZtY+2BRN2/SXu9t0xNKHxwR68iaucIJ5VQispAYsy0YYQ/xHRvlVkRUZ4dNIjWkXMGUPZNcmsnxOpNjv2HLKAo+CsKuvnI=
+	t=1751211539; cv=none; b=mVcbPMlna6GqSWj6XOaDj9QhdyVNmg6jSO5U/vnGdRXidIkIxIXS58Dj5fPH8MvW1BEiCADP3/gETs8lszzoOM5WvUUG7a4wJUGAvjGH/OqxYFIcNXrRXCQSS9KObm70YMqS0Ln/YBZiUs7bfbHk+sWYgUvMRrBQ2yYzPY+bJlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751210938; c=relaxed/simple;
-	bh=4UvkGdf5K7sGGFMG2NkYH9lxo3gP8BlNzbnwN3HYG/M=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=q9uYI96x2SIwgl5eSKZz7BjI3r5f9K6L53hcR62odNEiYTNL0npsW7HebpXLfUKXlEJ3NA+6LBiXhVv1RQvUiwSgm1T6XLxFSelD7E+M3Ls4gQfgVvIWv2W/0R2FT9BoQVqbU7z1VgjCk27fLtRdW/A0rCIsZASEdrxSoM/zS6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GWXV2Qpc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D565C4CEEB;
-	Sun, 29 Jun 2025 15:28:56 +0000 (UTC)
+	s=arc-20240116; t=1751211539; c=relaxed/simple;
+	bh=3Q6GImyYN69ONOQA10gjhIP0ghQf8hUuW9TOCdRS7TE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QJ6OVvoERBxBgPB9XYZb4/nCsvm6MO69oeY31EZQEhzuXs3lEFjo8ltv//zuj5c/p4uz99GTKSEenUG/g474/s1q+biEBAhhBborWbrqkZyONHgQ4arKEOP8CVDe+6zXCFba/GI+AC/xKJIMnmySNPb7YvIPwe8kjK7oQKYlOaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b++x8Ffu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A971CC4CEEB;
+	Sun, 29 Jun 2025 15:38:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751210937;
-	bh=4UvkGdf5K7sGGFMG2NkYH9lxo3gP8BlNzbnwN3HYG/M=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=GWXV2Qpcj2mJBIo/59LsiQ7736tc5yxZVv3olF1j2cEhjPP9niTL4TWH7u4xN/KiY
-	 z8xaOrYN/j2UMDlGeIJT+dBZToqMlagTtYZKIX5yrpPzyM5vfyyafsHDNnqPVqwKED
-	 YamRkwDPcqyxTfNpsXfGg89X5PEl99qtbwQtS8VNsaPfdC/LMRwD3IguQZvUPt96tw
-	 C4E6JwyqSbHQmQM9k9on2Qn94cydxFX8lQ/LajWkALcJClp0ksFIs87ZkoECB5cLmv
-	 QO1qJ7APEwUAB1GfdubJaa9ptqX91Wu/xAg98AlWkdAQa3p2E+ujIcQLrnrnHVjHrT
-	 DXd/XFhLR7ZGw==
-Message-ID: <f0c66067-00d9-4f2d-bfb0-776ca2ebd09b@kernel.org>
-Date: Sun, 29 Jun 2025 17:28:53 +0200
+	s=k20201202; t=1751211538;
+	bh=3Q6GImyYN69ONOQA10gjhIP0ghQf8hUuW9TOCdRS7TE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b++x8Ffu5cZzj2eeMSUZMm+sPt8YofhUoS/2xcDVLzmdZvWUbVp3XMbx2G7UBDVOH
+	 dvsgVVAWkcIC7rQhEv/uc50waaM96QIjeB4oWE2oJzUtgyc749L+U61qrP3G2oDgSo
+	 yhkpupgiyi9Hv/3FK29fU7hZvb5Ubh9/Y62mh+cha3UVJ3zQR4W1iWsCrh11n0Kp1W
+	 PyAwo9XxcSb9XNh/z1Qj6Cfh9HRHHECCWb7OLF0KUJKxRuAWHYY0Uj/CSPoGxu7znn
+	 mV5ZtrP23daWa43F/xjbtVvAJE2bVU1C4/O7ARQ+gcUKY8ztpcLVSnR4rJJCdfHWt/
+	 s+QsyKIIV4jFw==
+Message-ID: <845d7894-34c7-4a10-9cac-dc00fc0935fd@kernel.org>
+Date: Sun, 29 Jun 2025 17:38:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,224 +50,155 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v2 09/12] media: mt9m114: Fix scaler bypass mode
+Subject: Re: [PATCH v2 10/12] media: mt9m114: Drop start-, stop-streaming
+ sequence from initialize
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Hans de Goede <hdegoede@redhat.com>, Mathis Foerst <mathis.foerst@mt.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 References: <20250531163148.83497-1-hansg@kernel.org>
- <20250531163148.83497-10-hansg@kernel.org>
- <20250603124814.GF27361@pendragon.ideasonboard.com>
+ <20250531163148.83497-11-hansg@kernel.org>
+ <20250603113342.GD27361@pendragon.ideasonboard.com>
 Content-Language: en-US, nl
-In-Reply-To: <20250603124814.GF27361@pendragon.ideasonboard.com>
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250603113342.GD27361@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 3-Jun-25 2:48 PM, Laurent Pinchart wrote:
+Hi Laurent,
+
+On 3-Jun-25 1:33 PM, Laurent Pinchart wrote:
 > Hi Hans,
 > 
 > Thank you for the patch.
 > 
-> On Sat, May 31, 2025 at 06:31:44PM +0200, Hans de Goede wrote:
->> As indicated by the comment in mt9m114_ifp_set_fmt():
+> On Sat, May 31, 2025 at 06:31:45PM +0200, Hans de Goede wrote:
+>> Drop the start-, stop-streaming sequence from initialize.
 >>
->> 	/* If the output format is RAW10, bypass the scaler. */
->> 	if (format->code == MEDIA_BUS_FMT_SGRBG10_1X10)
->> 		...
+>> When streaming is started with a runtime-suspended sensor,
+>> mt9m114_start_streaming() will runtime-resume the sensor which calls
+>> mt9m114_initialize() immediately followed by calling
+>> mt9m114_set_state(ENTER_CONFIG_CHANGE).
 >>
->> The intend of the driver is that the scalar is bypassed when the ISP
->> source/output pad's pixel-format is set to MEDIA_BUS_FMT_SGRBG10_1X10.
+>> This results in the following state changes in quick succession:
 >>
->> This patch makes 2 changes which are required to get this to work properly:
+>> mt9m114_set_state(ENTER_CONFIG_CHANGE) -> transitions to STREAMING
+>> mt9m114_set_state(ENTER_SUSPEND)       -> transitions to SUSPENDED
+>> mt9m114_set_state(ENTER_CONFIG_CHANGE) -> transitions to STREAMING
 >>
->> 1. Set the MT9M114_CAM_OUTPUT_FORMAT_BT656_CROP_SCALE_DISABLE bit in
->>    the MT9M114_CAM_OUTPUT_FORMAT register.
-> 
-> Does that bit actually make a difference ? It's documented as only being
-> effective when MT9M114_CAM_OUTPUT_FORMAT_BT656_ENABLE is also set, and
-> the driver never sets that.
-
-I've just given not setting the bit a try and indeed setting the bit
-is not necessary. I'll drop this for the next version.
-
->> 2. Disable cropping/composing by setting crop and compose selections on
->>    the ISP sink/input format to the format widthxheight @ 0x0.
+>> these quick state changes confuses the CSI receiver on atomisp devices
+>> causing streaming to not work.
+>>
+>> Drop the state changes from mt9m114_initialize() so that only
+>> a single mt9m114_set_state(ENTER_CONFIG_CHANGE) call is made
+>> when streaming is started with a runtime-suspend sensor.
+>>
+>> This means that the sensor may have config changes pending when
+>> mt9m114_runtime_suspend() gets called the first time after mt9m114_probe(),
+>> when streaming was not started within the 1 second runtime-pm timeout.
+>> Keep track of this and do the ENTER_CONFIG_CHANGE + ENTER suspend from
+>> mt9m114_runtime_suspend() if necessary.
 >>
 >> Signed-off-by: Hans de Goede <hansg@kernel.org>
 >> ---
->> Changes in v2:
->> - When bypassing the scalar make ifp_get_selection() / ifp_set_selection()
->>   fill sel->r with a rectangle of (0,0)/wxh and return 0 instead of
->>   returning -EINVAL
->> ---
->>  drivers/media/i2c/mt9m114.c | 35 ++++++++++++++++++++++++++++++-----
->>  1 file changed, 30 insertions(+), 5 deletions(-)
+>>  drivers/media/i2c/mt9m114.c | 19 +++++++++++--------
+>>  1 file changed, 11 insertions(+), 8 deletions(-)
 >>
 >> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
->> index 7a1451006cfe..d954f2be8f0d 100644
+>> index d954f2be8f0d..c4d3122d698e 100644
 >> --- a/drivers/media/i2c/mt9m114.c
 >> +++ b/drivers/media/i2c/mt9m114.c
->> @@ -467,7 +467,8 @@ static const struct mt9m114_format_info mt9m114_format_infos[] = {
->>  		/* Keep the format compatible with the IFP sink pad last. */
->>  		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
->>  		.output_format = MT9M114_CAM_OUTPUT_FORMAT_BAYER_FORMAT_RAWR10
->> -			| MT9M114_CAM_OUTPUT_FORMAT_FORMAT_BAYER,
->> +			| MT9M114_CAM_OUTPUT_FORMAT_FORMAT_BAYER
->> +			| MT9M114_CAM_OUTPUT_FORMAT_BT656_CROP_SCALE_DISABLE,
->>  		.flags = MT9M114_FMT_FLAG_PARALLEL | MT9M114_FMT_FLAG_CSI2,
->>  	}
->>  };
->> @@ -850,6 +851,7 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
->>  	const struct v4l2_mbus_framefmt *format;
->>  	const struct v4l2_rect *crop;
->>  	const struct v4l2_rect *compose;
->> +	unsigned int border;
->>  	u64 output_format;
->>  	int ret = 0;
+>> @@ -389,6 +389,7 @@ struct mt9m114 {
 >>  
->> @@ -869,10 +871,12 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
->>  	 * by demosaicing that are taken into account in the crop rectangle but
->>  	 * not in the hardware.
->>  	 */
-> 
-> The comment should be updated.
-
-Ack.
-
->> +	border = (format->code == MEDIA_BUS_FMT_SGRBG10_1X10) ? 0 : 4;
-> 
-> No need for parentheses.
-
-Ack.
-
->> +
->>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_XOFFSET,
->> -		  crop->left - 4, &ret);
->> +		  crop->left - border, &ret);
->>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_YOFFSET,
->> -		  crop->top - 4, &ret);
->> +		  crop->top - border, &ret);
->>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_WIDTH,
->>  		  crop->width, &ret);
->>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_HEIGHT,
->> @@ -911,7 +915,8 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
->>  			   MT9M114_CAM_OUTPUT_FORMAT_BAYER_FORMAT_MASK |
->>  			   MT9M114_CAM_OUTPUT_FORMAT_FORMAT_MASK |
->>  			   MT9M114_CAM_OUTPUT_FORMAT_SWAP_BYTES |
->> -			   MT9M114_CAM_OUTPUT_FORMAT_SWAP_RED_BLUE);
->> +			   MT9M114_CAM_OUTPUT_FORMAT_SWAP_RED_BLUE |
->> +			   MT9M114_CAM_OUTPUT_FORMAT_BT656_CROP_SCALE_DISABLE);
->>  	output_format |= info->output_format;
+>>  	unsigned int pixrate;
+>>  	bool streaming;
+>> +	bool config_change_pending;
+>>  	u32 clk_freq;
 >>  
->>  	cci_write(sensor->regmap, MT9M114_CAM_OUTPUT_FORMAT,
->> @@ -1810,6 +1815,7 @@ static int mt9m114_ifp_set_fmt(struct v4l2_subdev *sd,
->>  {
->>  	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
->>  	struct v4l2_mbus_framefmt *format;
->> +	struct v4l2_rect *crop;
+>>  	/* Pixel Array */
+>> @@ -782,14 +783,7 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
+>>  	if (ret < 0)
+>>  		return ret;
 >>  
->>  	format = v4l2_subdev_state_get_format(state, fmt->pad);
->>  
->> @@ -1830,8 +1836,15 @@ static int mt9m114_ifp_set_fmt(struct v4l2_subdev *sd,
->>  		format->code = info->code;
->>  
->>  		/* If the output format is RAW10, bypass the scaler. */
->> -		if (format->code == MEDIA_BUS_FMT_SGRBG10_1X10)
->> +		if (format->code == MEDIA_BUS_FMT_SGRBG10_1X10) {
->>  			*format = *v4l2_subdev_state_get_format(state, 0);
->> +			crop = v4l2_subdev_state_get_crop(state, 0);
->> +			crop->left = 0;
->> +			crop->top = 0;
->> +			crop->width = format->width;
->> +			crop->height = format->height;
->> +			*v4l2_subdev_state_get_compose(state, 0) = *crop;
->> +		}
+>> -	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
+>> -	if (ret < 0)
+>> -		return ret;
 > 
-> This one is annoying. Normally changing a format or selection rectangle
-> in a subdev should only propagate the configuration downstream. Here
-> you're modiying selection rectangles upstream of the source pad. I think
-> we'll need to live with it, I don't really see a way around that. It's a
-> non-standard behaviour though, and would require sensor-specific
-> userspace to handle this right.
+> Entering Config-Change here was meant to ensure the PLL and output mode
+> settings get applied. The PLL settings can probably wait until we start
+> streaming. For the output mode, I'm slightly concerned that incorrect
+> settings could lead to hardware issues, as the sensor starts in parallel
+> output mode. I suppose it shouldn't cause any hardware damage, so I
+> think we could try to just delay Config-Change until we start streaming.
 > 
-> There's however one issue. When switching back from a raw output to a
-> processed output, the crop and compose rectangles will remain the same,
-> and will have values that are not valid for processed output as they
-> won't have the 4 pixels border subtracted. I think you'll need to update
-> them, but only when the source format actually changes. Setting the
-> source format without modifying the media bus code should not result in
-> the selection rectangles being reset.
+>> -
+>> -	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_SUSPEND);
+>> -	if (ret < 0)
+>> -		return ret;
 > 
-> All this needs to be explained in a comment in the code.
+> This bothers me a bit more. As far as I understand, the sensor starts
+> streaming right after power on reset, so I'd like to disable streaming
+> as quickly as possible.
 
-Ok, I'll modify the code to fixup the rectangles when the output-format
-changes from MEDIA_BUS_FMT_SGRBG10_1X10 -> not MEDIA_BUS_FMT_SGRBG10_1X10.
+I tried doing the MT9M114_SYS_STATE_ENTER_SUSPEND without a prior
+MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE but that does not work, then
+mt9m114_poll_command() times out.
 
-And I'll add a comment explaining this.
+Also I believe that the start/stop/start streaming vs just a
+single start streaming is actually causing the issues on atomisp
+devices.
 
-Actually given the above comment it is best to split this change
-into multiple patches, so for v3 I'm going to do as you request
-but it will be split out a bit more.
+Normally we only come out of runtime-suspend from
+mt9m114_start_streaming() so in this case there is no issue
+with not disabling streaming from mt9m114_initialize().
 
->>  	}
->>  
->>  	fmt->format = *format;
->> @@ -1851,6 +1864,12 @@ static int mt9m114_ifp_get_selection(struct v4l2_subdev *sd,
->>  	if (sel->pad != 0)
->>  		return -EINVAL;
->>  
->> +	/* Crop and compose cannot be changed when bypassing the scaler */
-> 
-> s/scaler/scaler./
-> 
-> Same below.
+The only case where the sensor would be streaming when
+we do not want it would be after the power-up +
+mt9m114_initialize() from probe().
 
-Ack.
+And we can get the desired "disable streaming
+as quickly as possible." by forcing a runtime-suspend
+from probe() directly after mt9m114_initialize() instead
+of waiting for the auto runtimesuspend.
 
->> +	if (v4l2_subdev_state_get_format(state, 1)->code == MEDIA_BUS_FMT_SGRBG10_1X10) {
->> +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
->> +		return 0;
->> +	}
-> 
-> Instead of special-casing this, can you use a similar approach as in
-> mt9m114_configure_ifp() and replace the 4 and 8 below with border and
-> boarder * 2 (with an update to the comment too) ?
-
-Ack, this is part of the splitting of this patch mentioned above.
-
-> 
->> +
->>  	switch (sel->target) {
->>  	case V4L2_SEL_TGT_CROP:
->>  		sel->r = *v4l2_subdev_state_get_crop(state, 0);
->> @@ -1911,6 +1930,12 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
->>  	if (sel->pad != 0)
->>  		return -EINVAL;
->>  
->> +	/* Crop and compose cannot be changed when bypassing the scaler */
->> +	if (v4l2_subdev_state_get_format(state, 1)->code == MEDIA_BUS_FMT_SGRBG10_1X10) {
->> +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
->> +		return 0;
->> +	}
-> 
-> Let's add a source_format variable to avoid duplicating the
-> v4l2_subdev_state_get_format(), call, as we use the source format at the
-> end of the function.
-
-Ack.
+I'll make probe() immediately runtime-suspend the sensor
+after mt9m114_initialize() in the next version.
 
 Regards,
 
 Hans
 
 
-> 
->> +
->>  	format = v4l2_subdev_state_get_format(state, 0);
->>  	crop = v4l2_subdev_state_get_crop(state, 0);
->>  	compose = v4l2_subdev_state_get_compose(state, 0);
-> 
 
+> 
+>> -
+>> +	sensor->config_change_pending = true;
+>>  	return 0;
+>>  }
+>>  
+>> @@ -976,6 +970,7 @@ static int mt9m114_start_streaming(struct mt9m114 *sensor,
+>>  	if (ret)
+>>  		goto error;
+>>  
+>> +	sensor->config_change_pending = false;
+>>  	sensor->streaming = true;
+>>  
+>>  	return 0;
+>> @@ -2267,6 +2262,14 @@ static int __maybe_unused mt9m114_runtime_suspend(struct device *dev)
+>>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>>  	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+>>  
+>> +	if (sensor->config_change_pending) {
+>> +		/* mt9m114_set_state() prints errors itself, no need to check */
+>> +		mt9m114_set_state(sensor,
+>> +				  MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
+>> +		mt9m114_set_state(sensor,
+>> +				  MT9M114_SYS_STATE_ENTER_SUSPEND);
+>> +	}
+>> +
+>>  	mt9m114_power_off(sensor);
+>>  
+>>  	return 0;
+> 
 
 
