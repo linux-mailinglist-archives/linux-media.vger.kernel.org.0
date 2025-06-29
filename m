@@ -1,301 +1,133 @@
-Return-Path: <linux-media+bounces-36196-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36197-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394CBAECF98
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 20:36:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B6DAECFE9
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 21:13:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64310171AE6
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 18:36:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27C89174B82
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 19:12:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91936238D54;
-	Sun, 29 Jun 2025 18:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48A722405F6;
+	Sun, 29 Jun 2025 19:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d2MEmpHN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D5w2yU9V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC8F2BB04;
-	Sun, 29 Jun 2025 18:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F163123FC49;
+	Sun, 29 Jun 2025 19:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751222176; cv=none; b=EMc8Wzyf3XCRXzO4yg5ZENO3ZvotcWvGIXRnKaRwg5X6Jxuuqc3Nh7paEVBWOfglyoHLAcgpe/HoQ7uYLU5ujxK2WpdBCJyZg+88mB547MyRDrRuQWa7q4L3u+iyPIuNR+Y+7/3PFO+2tnca4gfrNd0i9IYxyIUPo5CiLa2hQH8=
+	t=1751224307; cv=none; b=qYUHbk91f7wy1EFu75iGV9/Etw9cgUuRpQVCSanHsQ7n1Wt0lfHEiXGu6945WuPKGzLHmpIKx/vUXz1iA+rmVlgvGDvTUDbU1WcT1qCreHZH457AC3uZCiSAjB1bjtgYRk4FHp8DSYw7y2xCAmHto0IgyKKvGMEP85igGky6JFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751222176; c=relaxed/simple;
-	bh=32FpsSVva6Ct7+vcUYGDjM+Rgiv3IafWs2+hUtbwmcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOOuxJI34KBV3d0gcQY1CL2W8pO017Qzi3PMREFRHme4cQklHpqyEr+/mE++FOqudNKhjO8WcIWRyAWFa+TciK7W3gfIyo7RZx0MDBhyWrlvGc36JozWnWKcLwdW/780/p8Nl41y6BykONdi32MBHIY4jLmwjODkJu+E7cnZrx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d2MEmpHN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AB512C67;
-	Sun, 29 Jun 2025 20:35:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751222150;
-	bh=32FpsSVva6Ct7+vcUYGDjM+Rgiv3IafWs2+hUtbwmcg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d2MEmpHN8YxUWCxQbDTGSt+w3rnYrXGfBXRKCzo9xRL7SipYrY2Eg3ewM/deWR4C8
-	 BK7zW4E3qE0NIaUWYpT6VBrPisVcSFWT7BUSNv/UHViEAcc20D1zCf0NF+fHwnWrKf
-	 oG2cJYDX5fiW2Rk2+yAxw+OHv/qMCiFQzTLkLXrY=
-Date: Sun, 29 Jun 2025 21:35:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
-	jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com,
-	robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v10 07/17] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <20250629183547.GF6260@pendragon.ideasonboard.com>
-References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
- <20250624-c55-v10-7-54f3d4196990@ideasonboard.com>
- <cee962ce-3719-4ae7-9849-548a95d98e99@linux.intel.com>
+	s=arc-20240116; t=1751224307; c=relaxed/simple;
+	bh=KIuW9sjx4dcbvHL9RVmzBjBUM3fm9MxRJEUqHt3Why8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NLN0i/OYS9ab/5K14UpiVcuhRSOtu7G1vgUf4s5ai2bYIZIv92WSahbtetyTBGe0DiJ3QJNUo3QIIpC3uCoo3p2OHp03pgtx44vt+Drc9qxjz+dbK9kYYhIl92iYGN0MaLi5O/eM9XPtazSuST8kF0Hv0NPt3wU3dzu6lZrqJ8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D5w2yU9V; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ae36dc91dc7so233998466b.2;
+        Sun, 29 Jun 2025 12:11:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751224304; x=1751829104; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KIuW9sjx4dcbvHL9RVmzBjBUM3fm9MxRJEUqHt3Why8=;
+        b=D5w2yU9VZJ1ZAooiVmtUHJ50gSCS2/wmDEVB8xkfWqPddcev9cyb/8ydYr6pz6Fl3S
+         ph+CpFWsDZzNKQDPdx57QRlgMYEL3QO8d7dcp8sRoXONVzTVvI3ZHJf0pqsKRHzzxPQj
+         3SLwJTJB9pI/xEKtNMp+bGCgeUMzzpp7SQV1tHK8Bm8ir+kaFr7gKeqIHy3bFeChW7GL
+         /Qqt0kNE82muR14qPfB8qJymg33ik/KoVo2O7iznj/CrkpTj83vo3VL8kVQ/DczpvfGN
+         U7mjMqnbScG9nZD+fgh0gNToTHAO1qeAfU5znYhqjIA0V167oD8BVUJ2vcOu94dUbpWl
+         /m3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751224304; x=1751829104;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KIuW9sjx4dcbvHL9RVmzBjBUM3fm9MxRJEUqHt3Why8=;
+        b=PvwUceTFc9T+t2PjOUw7X770OBrZ0JlbV7FCyZ7MqjkZCfS42UblLKKxfm1pAwLD0A
+         qUmkCCRfhtySqeOqeWIMZ7MCRwthrNuyeVoRqaPjYGcxt0m9PG1EAOiv9c+QbIRCeLzC
+         siUFSfuIJ/2wla7c7OdrKIo61z2bAQHO+e+7k/62fb4BflE/Z6JFDzSHTkNc7GIcxXWu
+         pgYKmrQcNgFDHsrAZeExqOqcnwSdmLvwhQZvG6v3YsKOv17sMojtg59IqjhjISSAk2I3
+         57xY1MhDJugNDraV26SucFsTSSVxYxaWt+QusVf5+VM17F4dUuiLiNM57KZeM753umEf
+         66/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV571ZgLdo0YSfEpGh5PPXmH6Ryrv9wgKDHawUKe9/JfqUS5vAVJnMfgCQoQJrUeVqwT2og/m29LOkBYg4=@vger.kernel.org, AJvYcCWwCAWkGeaUltse4dmGb6EXozQEGWtuzvSBnvTT0aCreGh/BNVnAsJvB8NP/VXCLb1HFlJqOVf83/d+HtQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQIGm8IRww/m63pSsxt1r7mf6S/ndGembkGyPqbFoCJvdm9/Sk
+	EJJBGpaQdYIRe9uNFXFvILB+Tunj5D3smaEaHjV8Fzk2RQVNWnducObacAt00Je9OlTHFDhUmqL
+	KcA5aPThYGxnEmVln2zuX9KTRIFLBj6c=
+X-Gm-Gg: ASbGncuaiTKBBTj32MwndlGaJjK1G3BMGnRZzpxaxg44fXI3qSpqBn4wUnMPg1BWiaf
+	mZeWIwlDRUdfEI2Kxx4va3igyCPe1YPHtDM/71z7v+2FcMyjVz5TFK5W9iBnWzc8cPyWeuFHO5e
+	zt4kmijl90n4nB8Qu852Thvcz00cHE5EVNDfu5qc1FkI8=
+X-Google-Smtp-Source: AGHT+IGe/ajxK31MAPrFTYR3q3cl77r0rWbJzrwAwVbOdmeARB/jCZaAJCpV0Yy/6WYPlbf+AudWc2QhY3x7eVnHktI=
+X-Received: by 2002:a17:907:1b22:b0:ae3:6744:3661 with SMTP id
+ a640c23a62f3a-ae36744387dmr617057066b.44.1751224303820; Sun, 29 Jun 2025
+ 12:11:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cee962ce-3719-4ae7-9849-548a95d98e99@linux.intel.com>
+References: <20250629113050.58138-1-zaq14760@gmail.com> <092f5109-ca31-4949-bda8-7e0d946c3aa0@kernel.org>
+In-Reply-To: <092f5109-ca31-4949-bda8-7e0d946c3aa0@kernel.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 29 Jun 2025 22:11:07 +0300
+X-Gm-Features: Ac12FXyOA0o2IpCk1vTrAEEanA2XeDyWAwBQtiRP0ln3yoGv0i-yIsp9xk2rAb0
+Message-ID: <CAHp75VfoJ17a=3P3fXHa2mN00S+hdz-vRtLfjmsT7-+i2NfWEw@mail.gmail.com>
+Subject: Re: [PATCH v7] staging: media: atomisp: code style cleanup series
+To: Hans de Goede <hansg@kernel.org>
+Cc: LiangCheng Wang <zaq14760@gmail.com>, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, nathan@kernel.org, 
+	nick.desaulniers+lkml@gmail.com, morbo@google.com, justinstitt@google.com, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 28, 2025 at 11:06:54PM +0300, Sakari Ailus wrote:
-> On 6/24/25 13:21, Daniel Scally wrote:
+On Sun, Jun 29, 2025 at 3:20=E2=80=AFPM Hans de Goede <hansg@kernel.org> wr=
+ote:
+> On 29-Jun-25 1:30 PM, LiangCheng Wang wrote:
 
-[snip]
+...
 
-> > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..20d4d16c75fbf0d5519ecadb5ed1d080bdae05de
-> > --- /dev/null
-> > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> > @@ -0,0 +1,656 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * ARM Mali-C55 ISP Driver - Image signal processor
-> > + *
-> > + * Copyright (C) 2024 Ideas on Board Oy
-> 
-> It's 2025 already.
-> 
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/iopoll.h>
-> > +#include <linux/property.h>
-> > +#include <linux/string.h>
-> > +
-> > +#include <linux/media/arm/mali-c55-config.h>
-> 
-> If this is a UAPI header, please include uapi in the path, too.
-> 
-> Earlier such headers have been under include/uapi/linux, I don't object 
-> putting new ones elsewhere in principle though. Just check with Hans and 
-> Laurent, too... I don't have an opinion yet really.
+> > Changes in v7:
+> > - Split previous monolithic patch into multiple smaller patches
+> > - Applied clang-format to entire driver excluding i2c directory
+>
+> I took a quick look at just the clang-format patch and looking
+> at the bits of the diff which were not collapsed by github because
+> the changes are too big, it looks like the changes which clang-format
+> makes are useless and often make things worse, e.g. just looking
+> at the first diff which github shows for:
+>
+> https://github.com/lc-wang/linux/commit/8a3bbdba275e42dfcb0af2ddcc2f27463=
+bb316d2
+>
+> which is for drivers/staging/media/atomisp/include/hmm/hmm.h
+> then all of the changes are undesirable and unneeded.
+>
+> so the running of clang-format just seems to make things worse.
+>
+> I appreciate coding-style cleanups outside of the i2c dir,
+> but it looks like you need to do everything manually since
+> clang-format is just making a mess of things.
 
-With each new media header we add to include/uapi/linux/, I wish
-stronger and stronger that we had created include/uapi/linux/media/. We
-don't have to do it now, my regret will just grow stronger :-)
+Yeah, that what I was afraid of. I don't know clang-format well
+enough, but it might be that tweaking existing .clang-format in the
+kernel can give something better.
 
-> > +/* NOT const because the default needs to be filled in at runtime */
-> > +static struct v4l2_ctrl_config mali_c55_isp_v4l2_custom_ctrls[] = {
-> > +	{
-> > +		.ops = &mali_c55_isp_ctrl_ops,
-> > +		.id = V4L2_CID_MALI_C55_CAPABILITIES,
-> > +		.name = "Mali-C55 ISP Capabilities",
-> > +		.type = V4L2_CTRL_TYPE_BITMASK,
-> > +		.min = 0,
-> > +		.max = MALI_C55_GPS_PONG_FITTED |
-> > +		       MALI_C55_GPS_WDR_FITTED |
-> > +		       MALI_C55_GPS_COMPRESSION_FITTED |
-> > +		       MALI_C55_GPS_TEMPER_FITTED |
-> > +		       MALI_C55_GPS_SINTER_LITE_FITTED |
-> > +		       MALI_C55_GPS_SINTER_FITTED |
-> > +		       MALI_C55_GPS_IRIDIX_LTM_FITTED |
-> > +		       MALI_C55_GPS_IRIDIX_GTM_FITTED |
-> > +		       MALI_C55_GPS_CNR_FITTED |
-> > +		       MALI_C55_GPS_FRSCALER_FITTED |
-> > +		       MALI_C55_GPS_DS_PIPE_FITTED,
-> > +		.def = 0,
-> > +	},
-> > +};
-> > +
-> > +static int mali_c55_isp_init_controls(struct mali_c55 *mali_c55)
-> > +{
-> > +	struct v4l2_ctrl_handler *handler = &mali_c55->isp.handler;
-> > +	struct v4l2_ctrl *capabilities;
-> > +	int ret;
-> > +
-> > +	ret = v4l2_ctrl_handler_init(handler, 1);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	mali_c55_isp_v4l2_custom_ctrls[0].def = mali_c55->capabilities;
-> 
-> The capabilities here are still specific to a device, not global, in 
-> principle at least. Can you move it here, as a local variable?
-> 
-> > +
-> > +	capabilities = v4l2_ctrl_new_custom(handler,
-> > +					    &mali_c55_isp_v4l2_custom_ctrls[0],
-> > +					    NULL);
-> > +	if (capabilities)
-> > +		capabilities->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > +
-> > +	if (handler->error) {
-> > +		dev_err(mali_c55->dev, "failed to register capabilities control\n");
-> > +		v4l2_ctrl_handler_free(handler);
-> > +		return handler->error;
-> 
-> v4l2_ctrl_handler_free() will return the error soon, presumably sooner 
-> than the above code makes it to upstream. Before that, this pattern 
-> won't work as v4l2_ctrl_handler_free() also resets the handler's error 
-> field. :-)
-> 
-> > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..36a81be0191a15da91809dd2da5d279716f6d725
-> > --- /dev/null
-> > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> > @@ -0,0 +1,318 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * ARM Mali-C55 ISP Driver - Register definitions
-> > + *
-> > + * Copyright (C) 2024 Ideas on Board Oy
-> > + */
-> > +
-> > +#ifndef _MALI_C55_REGISTERS_H
-> > +#define _MALI_C55_REGISTERS_H
-> > +
-> > +#include <linux/bits.h>
-> > +
-> > +/* ISP Common 0x00000 - 0x000ff */
-> > +
-> > +#define MALI_C55_REG_API				0x00000
-> > +#define MALI_C55_REG_PRODUCT				0x00004
-> > +#define MALI_C55_REG_VERSION				0x00008
-> > +#define MALI_C55_REG_REVISION				0x0000c
-> > +#define MALI_C55_REG_PULSE_MODE				0x0003c
-> > +#define MALI_C55_REG_INPUT_MODE_REQUEST			0x0009c
-> > +#define MALI_C55_INPUT_SAFE_STOP			0x00
-> > +#define MALI_C55_INPUT_SAFE_START			0x01
-> > +#define MALI_C55_REG_MODE_STATUS			0x000a0
-> > +#define MALI_C55_REG_INTERRUPT_MASK_VECTOR		0x00030
-> > +#define MALI_C55_INTERRUPT_MASK_ALL			GENMASK(31, 0)
-> > +
-> > +#define MALI_C55_REG_GLOBAL_MONITOR			0x00050
-> > +
-> > +#define MALI_C55_REG_GEN_VIDEO				0x00080
-> > +#define MALI_C55_REG_GEN_VIDEO_ON_MASK			BIT(0)
-> > +#define MALI_C55_REG_GEN_VIDEO_MULTI_MASK		BIT(1)
-> > +#define MALI_C55_REG_GEN_PREFETCH_MASK			GENMASK(31, 16)
-> > +
-> > +#define MALI_C55_REG_MCU_CONFIG				0x00020
-> > +#define MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK		BIT(0)
-> > +#define MALI_C55_REG_MCU_CONFIG_WRITE_MASK		BIT(1)
-> > +#define MALI_C55_MCU_CONFIG_WRITE(x)			((x) << 1)
-> 
-> Is x unsigned?
+> Also if you do manual code-style cleanups please do one
+> type of cleanup per patches, e.g. only fix indentation
+> using spaces instead of tabs and do so on groups of say
+> 10 files at a time to keep things reviewable.
 
-Does it matter ? The reason why the BIT() macro uses (UL(1) << (nr))
-instead of (1 << (nr)) is (if I'm not mistaken) to avoid incorrect
-handling of bit 31. As long as x doesn't take negative values and
-doesn't extend to bit 31, it should be fine.
-
-> > +#define MALI_C55_REG_MCU_CONFIG_WRITE_PING		BIT(1)
-> > +#define MALI_C55_REG_MCU_CONFIG_WRITE_PONG		0x00
-> > +#define MALI_C55_REG_MULTI_CONTEXT_MODE_MASK		BIT(8)
-> > +#define MALI_C55_REG_PING_PONG_READ			0x00024
-> > +#define MALI_C55_REG_PING_PONG_READ_MASK		BIT(2)
-> > +#define MALI_C55_INTERRUPT_BIT(x)			BIT(x)
-> > +
-> > +#define MALI_C55_REG_GLOBAL_PARAMETER_STATUS		0x00068
-> > +#define MALI_C55_GPS_PONG_FITTED			BIT(0)
-> > +#define MALI_C55_GPS_WDR_FITTED				BIT(1)
-> > +#define MALI_C55_GPS_COMPRESSION_FITTED			BIT(2)
-> > +#define MALI_C55_GPS_TEMPER_FITTED			BIT(3)
-> > +#define MALI_C55_GPS_SINTER_LITE_FITTED			BIT(4)
-> > +#define MALI_C55_GPS_SINTER_FITTED			BIT(5)
-> > +#define MALI_C55_GPS_IRIDIX_LTM_FITTED			BIT(6)
-> > +#define MALI_C55_GPS_IRIDIX_GTM_FITTED			BIT(7)
-> > +#define MALI_C55_GPS_CNR_FITTED				BIT(8)
-> > +#define MALI_C55_GPS_FRSCALER_FITTED			BIT(9)
-> > +#define MALI_C55_GPS_DS_PIPE_FITTED			BIT(10)
-> > +
-> > +#define MALI_C55_REG_BLANKING				0x00084
-> > +#define MALI_C55_REG_HBLANK_MASK			GENMASK(15, 0)
-> > +#define MALI_C55_REG_VBLANK_MASK			GENMASK(31, 16)
-> > +#define MALI_C55_VBLANK(x)				((x) << 16)
-> 
-> Same question for the bit shifts left elsewhere in the header.
-> 
-> > +
-> > +#define MALI_C55_REG_HC_START				0x00088
-> > +#define MALI_C55_HC_START(h)				(((h) & 0xffff) << 16)
-> > +#define MALI_C55_REG_HC_SIZE				0x0008c
-> > +#define MALI_C55_HC_SIZE(h)				((h) & 0xffff)
-> > +#define MALI_C55_REG_VC_START_SIZE			0x00094
-> > +#define MALI_C55_VC_START(v)				((v) & 0xffff)
-> > +#define MALI_C55_VC_SIZE(v)				(((v) & 0xffff) << 16)
-> > +
-> > +/* Ping/Pong Configuration Space */
-> > +#define MALI_C55_REG_BASE_ADDR				0x18e88
-> > +#define MALI_C55_REG_BYPASS_0				0x18eac
-> > +#define MALI_C55_REG_BYPASS_0_VIDEO_TEST		BIT(0)
-> > +#define MALI_C55_REG_BYPASS_0_INPUT_FMT			BIT(1)
-> > +#define MALI_C55_REG_BYPASS_0_DECOMPANDER		BIT(2)
-> > +#define MALI_C55_REG_BYPASS_0_SENSOR_OFFSET_WDR		BIT(3)
-> > +#define MALI_C55_REG_BYPASS_0_GAIN_WDR			BIT(4)
-> > +#define MALI_C55_REG_BYPASS_0_FRAME_STITCH		BIT(5)
-> > +#define MALI_C55_REG_BYPASS_1				0x18eb0
-> > +#define MALI_C55_REG_BYPASS_1_DIGI_GAIN			BIT(0)
-> > +#define MALI_C55_REG_BYPASS_1_FE_SENSOR_OFFS		BIT(1)
-> > +#define MALI_C55_REG_BYPASS_1_FE_SQRT			BIT(2)
-> > +#define MALI_C55_REG_BYPASS_1_RAW_FE			BIT(3)
-> > +#define MALI_C55_REG_BYPASS_2				0x18eb8
-> > +#define MALI_C55_REG_BYPASS_2_SINTER			BIT(0)
-> > +#define MALI_C55_REG_BYPASS_2_TEMPER			BIT(1)
-> > +#define MALI_C55_REG_BYPASS_3				0x18ebc
-> > +#define MALI_C55_REG_BYPASS_3_SQUARE_BE			BIT(0)
-> > +#define MALI_C55_REG_BYPASS_3_SENSOR_OFFSET_PRE_SH	BIT(1)
-> > +#define MALI_C55_REG_BYPASS_3_MESH_SHADING		BIT(3)
-> > +#define MALI_C55_REG_BYPASS_3_WHITE_BALANCE		BIT(4)
-> > +#define MALI_C55_REG_BYPASS_3_IRIDIX			BIT(5)
-> > +#define MALI_C55_REG_BYPASS_3_IRIDIX_GAIN		BIT(6)
-> > +#define MALI_C55_REG_BYPASS_4				0x18ec0
-> > +#define MALI_C55_REG_BYPASS_4_DEMOSAIC_RGB		BIT(1)
-> > +#define MALI_C55_REG_BYPASS_4_PF_CORRECTION		BIT(3)
-> > +#define MALI_C55_REG_BYPASS_4_CCM			BIT(4)
-> > +#define MALI_C55_REG_BYPASS_4_CNR			BIT(5)
-> > +#define MALI_C55_REG_FR_BYPASS				0x18ec4
-> > +#define MALI_C55_REG_DS_BYPASS				0x18ec8
-> > +#define MALI_C55_BYPASS_CROP				BIT(0)
-> > +#define MALI_C55_BYPASS_SCALER				BIT(1)
-> > +#define MALI_C55_BYPASS_GAMMA_RGB			BIT(2)
-> > +#define MALI_C55_BYPASS_SHARPEN				BIT(3)
-> > +#define MALI_C55_BYPASS_CS_CONV				BIT(4)
-> > +#define MALI_C55_REG_ISP_RAW_BYPASS			0x18ecc
-> > +#define MALI_C55_ISP_RAW_BYPASS_BYPASS_MASK		BIT(0)
-> > +#define MALI_C55_ISP_RAW_BYPASS_FR_BYPASS_MASK		GENMASK(9, 8)
-> > +#define MALI_C55_ISP_RAW_BYPASS_RAW_FR_BYPASS		(2 << 8)
-> > +#define MALI_C55_ISP_RAW_BYPASS_RGB_FR_BYPASS		(1 << 8)
-> 
-> BIT() or make these unsigned.
-
-It's a 2 bits field, BIT() isn't appropriate.
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+--=20
+With Best Regards,
+Andy Shevchenko
 
