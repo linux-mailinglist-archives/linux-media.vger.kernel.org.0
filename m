@@ -1,63 +1,58 @@
-Return-Path: <linux-media+bounces-36225-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36226-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAE5AED1D4
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 01:40:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1287BAED1DA
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 01:46:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56C2F3A3713
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 23:39:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12CDA17148A
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 23:46:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C462424290D;
-	Sun, 29 Jun 2025 23:39:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33BA71FBE8A;
+	Sun, 29 Jun 2025 23:45:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZscVSics"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XFT4/4BT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982FD237707;
-	Sun, 29 Jun 2025 23:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C7023CB
+	for <linux-media@vger.kernel.org>; Sun, 29 Jun 2025 23:45:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751240393; cv=none; b=q+fTl/j9rDgJGd4USDwGZelY/966RroT7rhWxYdYse+3Eq7rFu/KdmWun/pDjZrrBotepWJu40tcFkC1JpWeKhnH96F357M+VJPVUQ0WFgdosoBTHoAFiBMlixEJmy/ci4Sy4vum/euS8Ldas26AtwREDjdeMHYBmHdAtbl9g1I=
+	t=1751240758; cv=none; b=sC7bv7OgxhU/XVi9/BTFAecq7OXdXIGybsSF40yM6JMmqCEPwUkQkzBWdhqIMWyoSJtK8tgSseCUg8kc/d0jbg+iF61Ow/ckgeI2PEaKo28L+H/9Awwa47YWgLbL5h6crrB+rk8EofzbvHGl6MUuxwQeJXQnOKCBQzrwmG0g7L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751240393; c=relaxed/simple;
-	bh=duyH01qOwJHRvyxCFaAsXWWg9+tURXrWgirrUu1Bvgs=;
+	s=arc-20240116; t=1751240758; c=relaxed/simple;
+	bh=MYbY3u7A0Exgt9vzMCH13BkJJNWld7Hj35T2d22dHcY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGRO2mM9nFq4Xz1gkK+N9GkOSEL573JJq7qx9Uu5Qk89TaZOdf9TS7vKytRKOEUnB6DFeSkG3DdQBMu4EugfUHJ91u04bF7VRscwS8ukLFDSqtUAuKsFsAEuy9bBY9Caq3hGitbLa3DNXufuq678rCTc7PbLns+OobQuvVHnK4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZscVSics; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=jxc1cWphwQnr5WxbGw2owOD+7pO578y/pym8XX0JDmL5lxqEc1izCbwlCBdBNSq9ItTYgnIYSt6KyryOZayUoCn3grLGIy9rkX7CH5p3J/TP391yhFMmgDNJgmIaZO91rv5iBVkcBzQkYlaB2eikK2Dcr8F8kl9TbqXbVOeJjLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XFT4/4BT; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 64511C78;
-	Mon, 30 Jun 2025 01:39:27 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A26D5101F;
+	Mon, 30 Jun 2025 01:45:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751240367;
-	bh=duyH01qOwJHRvyxCFaAsXWWg9+tURXrWgirrUu1Bvgs=;
+	s=mail; t=1751240733;
+	bh=MYbY3u7A0Exgt9vzMCH13BkJJNWld7Hj35T2d22dHcY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZscVSicsm/wXkRud4SlMwFAe0Xv32SrHoGv9SmgA+5cxotxtcN8of3ToEP+/n9Fcf
-	 4F+GAoPz4couZYgiQHe2la+4BAQR+dS7Ubenxof0dLiE1ctcKu9PiuBDaUUgYHMhrf
-	 1/71UsCcD8xYj+KcvuZ3FjtLOq1v690uJh8yx4qw=
-Date: Mon, 30 Jun 2025 02:39:24 +0300
+	b=XFT4/4BT73DfqGgzpgkPmGeWPzB+0o/v7BtP7SnGNLmWIPLrUAMrAAzEtRJV9O05A
+	 +D8tjHdlqxcGAQk67qXgM2sGhK+sTT7oxDDL0iBGjl0Sc7U5NhVozfe/2CBPXiN2hc
+	 lyyJ2/DOrEuqtZMO0QCnj/uN6cvSgSRGIZpX17II=
+Date: Mon, 30 Jun 2025 02:45:31 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Xu Yang <xu.yang_2@nxp.com>, ezequiel@vanguardiasur.com.ar,
-	mchehab@kernel.org, hdegoede@redhat.com, gregkh@linuxfoundation.org,
-	mingo@kernel.org, tglx@linutronix.de,
-	andriy.shevchenko@linux.intel.com, viro@zeniv.linux.org.uk,
-	thomas.weissschuh@linutronix.de, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v2 1/3] usb: core: add dma-noncoherent buffer alloc and
- free API
-Message-ID: <20250629233924.GC20732@pendragon.ideasonboard.com>
-References: <20250627101939.3649295-1-xu.yang_2@nxp.com>
- <20250627101939.3649295-2-xu.yang_2@nxp.com>
- <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jacopo.mondi@ideasonboard.com, Hans Verkuil <hverkuil@xs4all.nl>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>
+Subject: Re: [PATCH v6 5/6] media: rzg2l-cru: Support multiple mbus codes per
+ pixel format
+Message-ID: <20250629234531.GA24641@pendragon.ideasonboard.com>
+References: <20250625-rzg2l-cru-v6-0-a9099ed26c14@ideasonboard.com>
+ <20250625-rzg2l-cru-v6-5-a9099ed26c14@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,110 +61,215 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu>
+In-Reply-To: <20250625-rzg2l-cru-v6-5-a9099ed26c14@ideasonboard.com>
 
-On Fri, Jun 27, 2025 at 10:23:36AM -0400, Alan Stern wrote:
-> On Fri, Jun 27, 2025 at 06:19:37PM +0800, Xu Yang wrote:
-> > This will add usb_alloc_noncoherent() and usb_free_noncoherent()
-> > functions to support alloc and free buffer in a dma-noncoherent way.
-> > 
-> > To explicit manage the memory ownership for the kernel and device,
-> > this will also add usb_dma_noncoherent_sync_for_cpu/device() functions
-> > and call it at proper time.  The management requires the user save
-> > sg_table returned by usb_alloc_noncoherent() to urb->sgt.
-> > 
-> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> > ---
-> >  drivers/usb/core/hcd.c | 30 ++++++++++++++++
-> >  drivers/usb/core/usb.c | 80 ++++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/usb.h    |  9 +++++
-> >  3 files changed, 119 insertions(+)
-> > 
-> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> > index c22de97432a0..5fa00d32afb8 100644
-> > --- a/drivers/usb/core/hcd.c
-> > +++ b/drivers/usb/core/hcd.c
-> > @@ -1496,6 +1496,34 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
-> >  }
-> >  EXPORT_SYMBOL_GPL(usb_hcd_map_urb_for_dma);
-> >  
-> > +static void usb_dma_noncoherent_sync_for_cpu(struct usb_hcd *hcd,
-> > +					     struct urb *urb)
-> > +{
-> > +	enum dma_data_direction dir;
-> > +
-> > +	if (!urb->sgt)
-> > +		return;
-> > +
-> > +	dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+Hi Dan,
+
+On Wed, Jun 25, 2025 at 10:20:31AM +0100, Daniel Scally wrote:
+> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
 > 
-> Are the following operations really necessary if the direction is OUT?  
-> There are no bidirectional URBs, and an OUT transfer never modifies the 
-> contents of the transfer buffer so the buffer contents will be the same 
-> after the URB completes as they were when the URB was submitted.
-
-The arch part of dma_sync_sgtable_for_cpu(DMA_TO_DEVICE) is a no-op on
-all architectures but microblaze, mips, parisc and powerpc (at least in
-some configurations of those architectures).
-
-The IOMMU DMA mapping backend calls into the arch-specific code, and
-also handles swiotlb, which is a no-op for DMA_TO_DEVICE. There's also
-some IOMMU-related arch-specific handling for sparc.
-
-I think dma_sync_sgtable_for_cpu() should be called for the
-DMA_TO_DEVICE direction, to ensure proper operation in those uncommon
-but real cases where platforms need to perform some operation. It has a
-non-zero cost on other platforms, as the CPU will need to go through a
-few function calls to end up in no-ops and then go back up the call
-stack.
-
-invalidate_kernel_vmap_range() may not be needed. I don't recall why it
-was added. The call was introduced in
-
-commit 20e1dbf2bbe2431072571000ed31dfef09359c08
-Author: Ricardo Ribalda <ribalda@chromium.org>
-Date:   Sat Mar 13 00:55:20 2021 +0100
-
-    media: uvcvideo: Use dma_alloc_noncontiguous API
-
-Ricardo, do we need to invalidate the vmap range in the DMA_TO_DEVICE
-case ?
-
-> > +	invalidate_kernel_vmap_range(urb->transfer_buffer,
-> > +				     urb->transfer_buffer_length);
-> > +	dma_sync_sgtable_for_cpu(hcd->self.sysdev, urb->sgt, dir);
-
-In the DMA_FROM_DEVICE case, shouldn't the vmap range should be
-invalidated after calling dma_sync_sgtable_for_cpu() ? Otherwise I think
-speculative reads coming between invalidation and dma sync could result
-in data corruption.
-
-> > +}
+> As a preliminary step for supporting the CRU pixel formats, extend
+> the driver such that multiple media bus codes can support each of
+> the output pixel formats.
 > 
-> This entire routine should be inserted at the appropriate place in 
-> usb_hcd_unmap_urb_for_dma() instead of being standalone.
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> ---
+> Changes in v5:
 > 
-> > +static void usb_dma_noncoherent_sync_for_device(struct usb_hcd *hcd,
-> > +						struct urb *urb)
-> > +{
-> > +	enum dma_data_direction dir;
-> > +
-> > +	if (!urb->sgt)
-> > +		return;
-> > +
-> > +	dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> > +	flush_kernel_vmap_range(urb->transfer_buffer,
-> > +				urb->transfer_buffer_length);
-> > +	dma_sync_sgtable_for_device(hcd->self.sysdev, urb->sgt, dir);
-> > +}
+> 	- None
 > 
-> Likewise, this code belongs inside usb_hcd_map_urb_for_dma().
+> Changes in v4:
 > 
-> Also, the material that this routine replaces in the uvc and stk1160 
-> drivers do not call flush_kernel_vmap_range().  Why did you add that 
-> here?  Was this omission a bug in those drivers?
+> 	- None
 > 
-> Alan Stern
+> Changes in v3:
+> 
+> 	- New patch due to changes to patch 1
+> ---
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  8 ++-
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    | 67 +++++++++++++++++-----
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-video.c |  2 +-
+>  3 files changed, 61 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index 8d74bdfae7c854f8f4c9c82303b455ef8c6d5db3..49b11d0b814850042d1b3ca3b72725d0220c2987 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -71,7 +71,11 @@ struct rzg2l_cru_ip {
+>   * @yuv: Flag to indicate whether the format is YUV-based.
+>   */
+>  struct rzg2l_cru_ip_format {
+> -	u32 code;
+> +	/*
+> +	 * RAW output formats might be produced by RAW media codes with any one
+> +	 * of the 4 common bayer patterns.
+> +	 */
+> +	u32 codes[4];
+
+It looks like you forgot to update the documentation. Please make sure
+to build documentation when submitting a patch series.
+
+You can send a v6.1 of this patch as a reply, no need to post a full v7.
+
+>  	u32 datatype;
+>  	u32 format;
+>  	u32 icndmr;
+> @@ -190,6 +194,8 @@ struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru);
+>  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code);
+>  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format);
+>  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
+> +bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
+> +					 unsigned int code);
+>  
+>  void rzg2l_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
+>  void rzg2l_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> index 15fc1028082add27ad3d6fa9e1314b6240ff0d4e..fbbcdb96c4570baf07cc9685c2fc847fb489df89 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
+> @@ -13,35 +13,45 @@
+>  
+>  static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  	{
+> -		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> +		.codes = {
+> +			MEDIA_BUS_FMT_UYVY8_1X16,
+> +		},
+>  		.datatype = MIPI_CSI2_DT_YUV422_8B,
+>  		.format = V4L2_PIX_FMT_UYVY,
+>  		.icndmr = ICnDMR_YCMODE_UYVY,
+>  		.yuv = true,
+>  	},
+>  	{
+> -		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		.codes = {
+> +			MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		},
+>  		.format = V4L2_PIX_FMT_SBGGR8,
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.icndmr = 0,
+>  		.yuv = false,
+>  	},
+>  	{
+> -		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		.codes = {
+> +			MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		},
+>  		.format = V4L2_PIX_FMT_SGBRG8,
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.icndmr = 0,
+>  		.yuv = false,
+>  	},
+>  	{
+> -		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		.codes = {
+> +			MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		},
+>  		.format = V4L2_PIX_FMT_SGRBG8,
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.icndmr = 0,
+>  		.yuv = false,
+>  	},
+>  	{
+> -		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		.codes = {
+> +			MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		},
+>  		.format = V4L2_PIX_FMT_SRGGB8,
+>  		.datatype = MIPI_CSI2_DT_RAW8,
+>  		.icndmr = 0,
+> @@ -51,11 +61,14 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
+>  
+>  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
+>  {
+> -	unsigned int i;
+> +	unsigned int i, j;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++)
+> -		if (rzg2l_cru_ip_formats[i].code == code)
+> -			return &rzg2l_cru_ip_formats[i];
+> +	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
+> +		for (j = 0; j < ARRAY_SIZE(rzg2l_cru_ip_formats[i].codes); j++) {
+> +			if (rzg2l_cru_ip_formats[i].codes[j] == code)
+> +				return &rzg2l_cru_ip_formats[i];
+> +		}
+> +	}
+>  
+>  	return NULL;
+>  }
+> @@ -80,6 +93,17 @@ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
+>  	return &rzg2l_cru_ip_formats[index];
+>  }
+>  
+> +bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
+> +					 unsigned int code)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(fmt->codes); i++)
+> +		if (fmt->codes[i] == code)
+> +			return true;
+> +
+> +	return false;
+> +}
+>  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru)
+>  {
+>  	struct v4l2_subdev_state *state;
+> @@ -157,7 +181,7 @@ static int rzg2l_cru_ip_set_format(struct v4l2_subdev *sd,
+>  	sink_format = v4l2_subdev_state_get_format(state, fmt->pad);
+>  
+>  	if (!rzg2l_cru_ip_code_to_fmt(fmt->format.code))
+> -		sink_format->code = rzg2l_cru_ip_formats[0].code;
+> +		sink_format->code = rzg2l_cru_ip_formats[0].codes[0];
+>  	else
+>  		sink_format->code = fmt->format.code;
+>  
+> @@ -183,11 +207,26 @@ static int rzg2l_cru_ip_enum_mbus_code(struct v4l2_subdev *sd,
+>  				       struct v4l2_subdev_state *state,
+>  				       struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -	if (code->index >= ARRAY_SIZE(rzg2l_cru_ip_formats))
+> -		return -EINVAL;
+> +	unsigned int index = code->index;
+> +	unsigned int i, j;
+>  
+> -	code->code = rzg2l_cru_ip_formats[code->index].code;
+> -	return 0;
+> +	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
+> +		const struct rzg2l_cru_ip_format *fmt = &rzg2l_cru_ip_formats[i];
+> +
+> +		for (j = 0; j < ARRAY_SIZE(fmt->codes); j++) {
+> +			if (!fmt->codes[j])
+> +				continue;
+> +
+> +			if (!index) {
+> +				code->code = fmt->codes[j];
+> +				return 0;
+> +			}
+> +
+> +			index--;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+>  }
+>  
+>  static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 650a23f7b5bd61ee035dd35d1754c5d9b5e614f6..8e83eb5ed5c32e1ee1a8355dc6144eb18ca598cf 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -1147,7 +1147,7 @@ static int rzg2l_cru_video_link_validate(struct media_link *link)
+>  	if (fmt.format.width != cru->format.width ||
+>  	    fmt.format.height != cru->format.height ||
+>  	    fmt.format.field != cru->format.field ||
+> -	    video_fmt->code != fmt.format.code)
+> +	    !rzg2l_cru_ip_fmt_supports_mbus_code(video_fmt, fmt.format.code))
+>  		return -EPIPE;
+>  
+>  	return 0;
 
 -- 
 Regards,
