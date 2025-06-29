@@ -1,200 +1,125 @@
-Return-Path: <linux-media+bounces-36185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36186-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DF9AECEED
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 19:12:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 927D7AECEF4
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 19:16:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ABC367A5E09
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 17:10:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 521D93A71F7
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jun 2025 17:16:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6FB3233D85;
-	Sun, 29 Jun 2025 17:11:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C2B3224B14;
+	Sun, 29 Jun 2025 17:16:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCBftVkg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FDFrEqYz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555656FB9
-	for <linux-media@vger.kernel.org>; Sun, 29 Jun 2025 17:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C924812F5A5;
+	Sun, 29 Jun 2025 17:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751217117; cv=none; b=a0T67lrWIm38rIVw3nrXV5JFhmRE1V60cR6Gq/lFUi7Hdg0T+HhybYvzXjNPOprxzA4SVmra3ltN3st2wCmQjNbM/d9DSTcDwooenGxRWe/ZNOzpoBkFgrL1/9E5BS7wz3JP374DLWVJIsXJvUddZ4iZO0pah26qiC30D9UuFRg=
+	t=1751217390; cv=none; b=I6ObUP0NpuVh2ZEqull6iEpZYoAqd82L/q5TqlnzvbuwTU3CtqgZbcagV0tEL4GYNFVlcM/vQub++Opmdhz982+aMa4jpMKWAzQ9HIvndcPXSs0UKCHKGLHf5xl7aYuAGA1UDr6YlPeoAzRem/28oTB4VR7guj67gNKVPLTDaak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751217117; c=relaxed/simple;
-	bh=6kYIq2dfaj3R5rZX59NDYSIS8MUBEYKNt+ZlFkO+TMg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FBnYFrSB6CMgK0dlyjaQrWT3YoYHRAB/y/O8bfgSmed65cBh1h+IQ4w1tP/G9YdhvRS8AiucksPXau8Kq5JSweUZ6EggqIVwJAs4AGBAslzJNXKHQk7ZYJkJqUaO1Q1lfq0xTjAgrKBJllPe3EBo3ErH9z3tccjWnTymPid4crM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCBftVkg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F109CC4CEEB;
-	Sun, 29 Jun 2025 17:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751217117;
-	bh=6kYIq2dfaj3R5rZX59NDYSIS8MUBEYKNt+ZlFkO+TMg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WCBftVkglhayBnoY3/6W0P/tv8YV/VtA0fAYlKOGyBEdkdTlCQHyGuYhBUxFV6rE4
-	 /68MsyY83lSDsIIrt/3bAlYTo3dEnqbrXkCHbyEpSYvqjsxYxuwmTcppT1dA4UOFdl
-	 s7kzwyb78I218Fr9u3VOtZ5bvG1NHWmzTDkKHJWRGKBXRKvFFw+PhcWXI0YRNQs91R
-	 fPjcEe1f5//nbW5v/uNPWdHQbWHm+xn3yNBDUm9BmWlqRSudU3MK18anq6xOlpF9kb
-	 tPHoEREcvq/CJn6PglHwA7lhEfmnBXQT/u6updMt+ualW0FEf4IGyxJJWkY3svvuUh
-	 DLwBqAxgFU+Gw==
-Message-ID: <968b4629-68e3-48e4-ba1d-2b8c6bac4926@kernel.org>
-Date: Sun, 29 Jun 2025 19:11:54 +0200
+	s=arc-20240116; t=1751217390; c=relaxed/simple;
+	bh=+61X1gEWlsCC3/dpsReOqdY0iTcsmsfQumqoa2sk50E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IURy9I1vW0URnDEHfA90cO4HM0nJyzOcHecIATAfMDe2+OcjpxG99vdjqIdOsGbnKzqS+7OX93BVnQuNXmZSauu4x/cWU0ETh6AhvKS9hmT3rRVrJHlh7zeq/9eI19+lPtpchPbbrIaUZmxNnnMp2S5N+Ke1RmA3lAJdzkNw8Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FDFrEqYz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9DE171128;
+	Sun, 29 Jun 2025 19:16:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751217365;
+	bh=+61X1gEWlsCC3/dpsReOqdY0iTcsmsfQumqoa2sk50E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FDFrEqYzF2qQoGn1VWiGp2oXc9ft2eu/6wkxj+zS5B9VcqfLkg7KnBas8ZODbAAW3
+	 lqSgMM+nAD87NMhZ3ob5WNbknAeeVodg6oa3Z2A+JamG5/gEoVo86FwwPwiiO/VPyN
+	 g/HwvkvbgBjEwxJd5+g6lhk3gLBhObND26qwhbv4=
+Date: Sun, 29 Jun 2025 20:16:02 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: git@apitzsch.eu
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ricardo Ribalda <ribalda@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] media: i2c: imx214: Use __free(fwnode_handle)
+Message-ID: <20250629171602.GK24912@pendragon.ideasonboard.com>
+References: <20250629-imx214_fixes-v1-0-873eb94ad635@apitzsch.eu>
+ <20250629-imx214_fixes-v1-3-873eb94ad635@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/12] media: mt9m114: Drop start-, stop-streaming
- sequence from initialize
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans de Goede <hdegoede@redhat.com>, Mathis Foerst <mathis.foerst@mt.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20250531163148.83497-1-hansg@kernel.org>
- <20250531163148.83497-11-hansg@kernel.org>
- <20250603113342.GD27361@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250603113342.GD27361@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250629-imx214_fixes-v1-3-873eb94ad635@apitzsch.eu>
 
-Hi Laurent,
+Hi André,
 
-On 3-Jun-25 1:33 PM, Laurent Pinchart wrote:
-> Hi Hans,
+Thank you for the patch.
+
+On Sun, Jun 29, 2025 at 04:49:22PM +0200, André Apitzsch via B4 Relay wrote:
+> From: André Apitzsch <git@apitzsch.eu>
 > 
-> Thank you for the patch.
+> Use the __free(fwnode_handle) hook to free the endpoint when the
+> function exits to simplify the error path.
 > 
-> On Sat, May 31, 2025 at 06:31:45PM +0200, Hans de Goede wrote:
->> Drop the start-, stop-streaming sequence from initialize.
->>
->> When streaming is started with a runtime-suspended sensor,
->> mt9m114_start_streaming() will runtime-resume the sensor which calls
->> mt9m114_initialize() immediately followed by calling
->> mt9m114_set_state(ENTER_CONFIG_CHANGE).
->>
->> This results in the following state changes in quick succession:
->>
->> mt9m114_set_state(ENTER_CONFIG_CHANGE) -> transitions to STREAMING
->> mt9m114_set_state(ENTER_SUSPEND)       -> transitions to SUSPENDED
->> mt9m114_set_state(ENTER_CONFIG_CHANGE) -> transitions to STREAMING
->>
->> these quick state changes confuses the CSI receiver on atomisp devices
->> causing streaming to not work.
->>
->> Drop the state changes from mt9m114_initialize() so that only
->> a single mt9m114_set_state(ENTER_CONFIG_CHANGE) call is made
->> when streaming is started with a runtime-suspend sensor.
->>
->> This means that the sensor may have config changes pending when
->> mt9m114_runtime_suspend() gets called the first time after mt9m114_probe(),
->> when streaming was not started within the 1 second runtime-pm timeout.
->> Keep track of this and do the ENTER_CONFIG_CHANGE + ENTER suspend from
->> mt9m114_runtime_suspend() if necessary.
->>
->> Signed-off-by: Hans de Goede <hansg@kernel.org>
->> ---
->>  drivers/media/i2c/mt9m114.c | 19 +++++++++++--------
->>  1 file changed, 11 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
->> index d954f2be8f0d..c4d3122d698e 100644
->> --- a/drivers/media/i2c/mt9m114.c
->> +++ b/drivers/media/i2c/mt9m114.c
->> @@ -389,6 +389,7 @@ struct mt9m114 {
->>  
->>  	unsigned int pixrate;
->>  	bool streaming;
->> +	bool config_change_pending;
->>  	u32 clk_freq;
->>  
->>  	/* Pixel Array */
->> @@ -782,14 +783,7 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
->>  	if (ret < 0)
->>  		return ret;
->>  
->> -	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
->> -	if (ret < 0)
->> -		return ret;
+> While at it, simplify return if parsing endpoint node failed.
+
+I think I'd drop this sentence, I don't see where the patch brings a
+simplification beside the error path simplification mentioned in the
+previous sentence.
+
 > 
-> Entering Config-Change here was meant to ensure the PLL and output mode
-> settings get applied. The PLL settings can probably wait until we start
-> streaming. For the output mode, I'm slightly concerned that incorrect
-> settings could lead to hardware issues, as the sensor starts in parallel
-> output mode. I suppose it shouldn't cause any hardware damage, so I
-> think we could try to just delay Config-Change until we start streaming.
+> Signed-off-by: André Apitzsch <git@apitzsch.eu>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/imx214.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 > 
->> -
->> -	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_SUSPEND);
->> -	if (ret < 0)
->> -		return ret;
-> 
-> This bothers me a bit more. As far as I understand, the sensor starts
-> streaming right after power on reset, so I'd like to disable streaming
-> as quickly as possible.
+> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> index d9193bafa3cbb8fec2679200c38d30077d1b11bd..b84197ee5177d609b1395e14e1404ffa5b9a6dbf 100644
+> --- a/drivers/media/i2c/imx214.c
+> +++ b/drivers/media/i2c/imx214.c
+> @@ -1326,8 +1326,8 @@ static int imx214_identify_module(struct imx214 *imx214)
+>  
+>  static int imx214_parse_fwnode(struct imx214 *imx214)
+>  {
+> +	struct fwnode_handle *endpoint __free(fwnode_handle) = NULL;
+>  	struct v4l2_fwnode_endpoint *bus_cfg = &imx214->bus_cfg;
+> -	struct fwnode_handle *endpoint;
+>  	struct device *dev = imx214->dev;
+>  	unsigned int i;
+>  	int ret;
+> @@ -1338,11 +1338,8 @@ static int imx214_parse_fwnode(struct imx214 *imx214)
+>  
+>  	bus_cfg->bus_type = V4L2_MBUS_CSI2_DPHY;
+>  	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, bus_cfg);
+> -	fwnode_handle_put(endpoint);
+> -	if (ret) {
+> -		dev_err_probe(dev, ret, "parsing endpoint node failed\n");
+> -		goto error;
+> -	}
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "parsing endpoint node failed\n");
+>  
+>  	/* Check the number of MIPI CSI2 data lanes */
+>  	if (bus_cfg->bus.mipi_csi2.num_data_lanes != 4) {
 
-Actually while working on immediately putting the sensor back in
-suspend from probe() I noticed that mt9m114_power_on() puts the
-sensor in standby at the end even checks for this:
-
-        /*
-         * Before issuing any Set-State command, we must ensure that the sensor
-         * reaches the standby mode (either initiated manually above in
-         * parallel mode, or automatically after reset in MIPI mode).
-         */
-        ret = mt9m114_poll_state(sensor, MT9M114_SYS_STATE_STANDBY);
-        if (ret < 0)
-                goto error_clock;
-
-        return 0;
-
-Which means should not be streaming after power-on. So I believe that
-this patch is fine as is and I'm going to keep this version  for v3
-of the patch-set.
-
+-- 
 Regards,
 
-Hans
-
-
-
-
-> 
->> -
->> +	sensor->config_change_pending = true;
->>  	return 0;
->>  }
->>  
->> @@ -976,6 +970,7 @@ static int mt9m114_start_streaming(struct mt9m114 *sensor,
->>  	if (ret)
->>  		goto error;
->>  
->> +	sensor->config_change_pending = false;
->>  	sensor->streaming = true;
->>  
->>  	return 0;
->> @@ -2267,6 +2262,14 @@ static int __maybe_unused mt9m114_runtime_suspend(struct device *dev)
->>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->>  	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
->>  
->> +	if (sensor->config_change_pending) {
->> +		/* mt9m114_set_state() prints errors itself, no need to check */
->> +		mt9m114_set_state(sensor,
->> +				  MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
->> +		mt9m114_set_state(sensor,
->> +				  MT9M114_SYS_STATE_ENTER_SUSPEND);
->> +	}
->> +
->>  	mt9m114_power_off(sensor);
->>  
->>  	return 0;
-> 
-
+Laurent Pinchart
 
