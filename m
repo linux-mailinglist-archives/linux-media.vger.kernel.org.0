@@ -1,249 +1,71 @@
-Return-Path: <linux-media+bounces-36296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615EAAEDF38
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:35:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D79F3AEDF4A
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:38:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D87E16F59C
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:35:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 222B63A712F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:37:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D83F28B4EC;
-	Mon, 30 Jun 2025 13:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="n6h0365B"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C72428B519;
+	Mon, 30 Jun 2025 13:37:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD182417D9;
-	Mon, 30 Jun 2025 13:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041D125B30D;
+	Mon, 30 Jun 2025 13:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751290528; cv=none; b=V6qTqh7mUPWSOatkQ1I4+1B+q8Xa0D2O9pf9Z3JwA0I1PuV+8objxSgzD6oFkiH8Kr7mmkmx1acYi6h12hQexqGMtXoamtKg7NWGpurYuLg+5WuwoTGeeKxeoVMI3s/ojigdLB8blR0yUpl6BPcHWAyN0S7HwygKubzXr2TXQAw=
+	t=1751290662; cv=none; b=Xq197WEJfft7DjcOraUvNDba4qSV0kvO0sZipMmwHuZpPFnJjUV7FYooQrlQWSOJyDp07+lrdPZM9orbdcZLYHMi5gxbNrv/Qx1vLKW9qbRoh4Rd4NesAdzqSZP68N8IUe7i3LxuVX6tmazlHjEvYBiXtB/OR5cUIolt7bX8hVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751290528; c=relaxed/simple;
-	bh=/P7Bb+GBCsmkTGvOU3/poAoYvv8Pc3kcHUkQcSsenkc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=YJh3PtwBZ/KWvC8AKGUzw+YU7xbo+w0Wx1g3qXdCrLPwoPOB55sqcM8nm1vHjMKVbpRJraIowecJRI3Pf5+r6B9LYzzWVvBeokPLQnks/2b68PeJL93ZvJIBhfepxhpbcGwsjyCSg4/oMNwMADwUD6pb1sFIaaq3TDOSexRTb/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=n6h0365B; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4bW6bq41dtz176Q;
-	Mon, 30 Jun 2025 13:35:19 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4bW6bp12Cjz2xWq;
-	Mon, 30 Jun 2025 13:35:18 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=n6h0365B;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1751290519;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=IJJ0grH+oA2m0rVJnHlQgIHDE18CS9HCDq8kRv7TDlk=;
-	b=n6h0365B3pRTq4w/xIbmJszGc6lp+4nCAEq3mJpYLtIo9g9RcER4LhI/s5W5/eQW2XEQ+h
-	uwBlqq++nlHjnVBcKx42yRA767lZLqzN4/On3fmQBSGWsdKhKTzp0HJ7oPp9qYylAyKVD8
-	seTZ+BGbdCloqW6pmoBP4aMwH+OK/W/+PRoE7ujr3D6Dqrl17cKykmJTdaYm/Bs6ixrPIt
-	dJpfUcUHF1NxoqLBcnCWhBBd4Z+l9EKfume8P9ogERQcNumG8dKLdPMMRw6dZlC+6Y2gGY
-	rhFOsQ2gWjZkgM9EMLOr2sRXEJMuVrwYVw2X8/MLkWSqdt8u9Cu4g5GFy9ddKQ==
-X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=68629296 a=IkcTkHD0fZMA:10 a=WN6_cwnCAAAA:8 a=cm27Pg_UAAAA:8 a=Af4PZqHWQyhPqpcfzgoA:9 a=QEXdDO2ut3YA:10 a=ndfOWLLM0rR49n6Yv1rF:22
-Message-ID: <c10e3dbf-c0c0-44f3-8699-48ac6fedb157@jjverkuil.nl>
-Date: Mon, 30 Jun 2025 15:35:17 +0200
+	s=arc-20240116; t=1751290662; c=relaxed/simple;
+	bh=O4qRLRexRAuK+5ApxruyQ2/Nu+qVASNZCX7hgb3Bh1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=owIYBkKIyE7SQmq+TY56kclRKWdlC4BjsJF8FwWKKowAX+RISDkiytJMmQyyteh+XCvqQje7f5/xSg8fZOziZ1aP2myazz96sYy9CGdZb/FVlrX+FlSPsbdkbxOftEkZhZlJ0ZDlBTo2CbZlk4lYTzITrslcS3WWibtZmLgWxdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id DB46968AA6; Mon, 30 Jun 2025 15:37:34 +0200 (CEST)
+Date: Mon, 30 Jun 2025 15:37:34 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, Christoph Hellwig <hch@lst.de>,
+	Alan Stern <stern@rowland.harvard.edu>, Xu Yang <xu.yang_2@nxp.com>,
+	ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+	hdegoede@redhat.com, gregkh@linuxfoundation.org, mingo@kernel.org,
+	tglx@linutronix.de, andriy.shevchenko@linux.intel.com,
+	viro@zeniv.linux.org.uk, thomas.weissschuh@linutronix.de,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
+Subject: Re: [PATCH v2 1/3] usb: core: add dma-noncoherent buffer alloc and
+ free API
+Message-ID: <20250630133734.GA26768@lst.de>
+References: <20250627101939.3649295-1-xu.yang_2@nxp.com> <20250627101939.3649295-2-xu.yang_2@nxp.com> <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu> <20250629233924.GC20732@pendragon.ideasonboard.com> <CANiDSCswzMouJrRn2A3EAbGzHTf88q_qQ=DC_KX7dbf_LJzqBg@mail.gmail.com> <20250630082313.GB23516@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Hans Verkuil <hans@jjverkuil.nl>
-Subject: Re: [PATCH v2 7/9] media: uvcvideo: uvc_v4l2_unlocked_ioctl: Invert
- PM logic
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250602-uvc-grannular-invert-v2-0-c871934ad880@chromium.org>
- <20250602-uvc-grannular-invert-v2-7-c871934ad880@chromium.org>
-Content-Language: en-US, nl
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-In-Reply-To: <20250602-uvc-grannular-invert-v2-7-c871934ad880@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250630082313.GB23516@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Ricardo,
-
-These last three patches are a bit messy.
-
-It is much better to combine patch 7 and 9, and move patch 7 as the first
-one (but see my upcoming comment for that one, you should export a different
-function).
-
-More comments below:
-
-On 02/06/2025 15:06, Ricardo Ribalda wrote:
-> Instead of listing the IOCTLs that do not need to turn on the camera,
-> list the IOCTLs that need to turn it on. This makes the code more
-> maintainable.
+On Mon, Jun 30, 2025 at 11:23:13AM +0300, Laurent Pinchart wrote:
+> Christoph, you mentioned
 > 
-> This patch changes the behaviour for unsupported IOCTLs. Those IOCTLs
-> will not turn on the camera.
+>   Right now we don't have a proper state machine for the
+>   *_kernel_vmap_range, but we should probably add one once usage of this
+>   grows.
 > 
-> Suggested-by: Hans Verkuil <hans@jjverkuil.nl>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 61 ++++++++++++++++++++++++----------------
->  1 file changed, 36 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 020def11b60e00ca2875dd96f23ef9591fed11d9..13388879091c46ff74582226146521b5b5eb3d10 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1219,43 +1219,54 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
->  }
->  #endif
->  
-> -static long uvc_v4l2_unlocked_ioctl(struct file *file,
-> -				    unsigned int cmd, unsigned long arg)
-> +static long uvc_v4l2_pm_ioctl(struct file *file,
-> +			      unsigned int cmd, unsigned long arg)
+> Has there been any progress on that front ?
 
-You don't need this function...
+None that I'm aware off anyway.
 
->  {
->  	struct uvc_fh *handle = file->private_data;
->  	int ret;
->  
-> -	/* The following IOCTLs do not need to turn on the camera. */
-> -	switch (cmd) {
-> -	case UVCIOC_CTRL_MAP:
-> -	case VIDIOC_CREATE_BUFS:
-> -	case VIDIOC_DQBUF:
-> -	case VIDIOC_ENUM_FMT:
-> -	case VIDIOC_ENUM_FRAMEINTERVALS:
-> -	case VIDIOC_ENUM_FRAMESIZES:
-> -	case VIDIOC_ENUMINPUT:
-> -	case VIDIOC_EXPBUF:
-> -	case VIDIOC_G_FMT:
-> -	case VIDIOC_G_PARM:
-> -	case VIDIOC_G_SELECTION:
-> -	case VIDIOC_QBUF:
-> -	case VIDIOC_QUERYCAP:
-> -	case VIDIOC_REQBUFS:
-> -	case VIDIOC_SUBSCRIBE_EVENT:
-> -	case VIDIOC_UNSUBSCRIBE_EVENT:
-> -		return video_ioctl2(file, cmd, arg);
-> -	}
-> -
->  	ret = uvc_pm_get(handle->stream->dev);
->  	if (ret)
->  		return ret;
-> -
->  	ret = video_ioctl2(file, cmd, arg);
-> -
->  	uvc_pm_put(handle->stream->dev);
-> +
->  	return ret;
->  }
->  
-> +static long uvc_v4l2_unlocked_ioctl(struct file *file,
-> +				    unsigned int cmd, unsigned long arg)
-> +{
-> +	/*
-> +	 * For now, we do not support granular power saving for compat
-> +	 * syscalls.
-> +	 */
-> +	if (in_compat_syscall())
-> +		return uvc_v4l2_pm_ioctl(file, cmd, arg);
-
-...you can drop this and just obtain the translated cmd (no need to
-check in_compat_syscall for that)...
-
-> +
-> +	/* The following IOCTLs do need to turn on the camera. */
-> +	switch (cmd) {
-> +	case UVCIOC_CTRL_QUERY:
-> +	case VIDIOC_G_CTRL:
-> +	case VIDIOC_G_EXT_CTRLS:
-> +	case VIDIOC_G_INPUT:
-> +	case VIDIOC_QUERYCTRL:
-> +	case VIDIOC_QUERYMENU:
-> +	case VIDIOC_QUERY_EXT_CTRL:
-> +	case VIDIOC_S_CTRL:
-> +	case VIDIOC_S_EXT_CTRLS:
-> +	case VIDIOC_S_FMT:
-> +	case VIDIOC_S_INPUT:
-> +	case VIDIOC_S_PARM:
-> +	case VIDIOC_TRY_EXT_CTRLS:
-> +	case VIDIOC_TRY_FMT:
-> +		return uvc_v4l2_pm_ioctl(file, cmd, arg);
-
-...and here you call uvc_pm_get/video_ioctl2/uvc_pm_put. It keeps everything nicely
-localized, no need to look up what happens in a different function.
-
-> +	}
-> +
-> +	/* The other IOCTLs can run with the camera off. */
-> +	return video_ioctl2(file, cmd, arg);
-> +}
-> +
->  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
->  	.vidioc_g_fmt_vid_cap = uvc_ioctl_g_fmt,
->  	.vidioc_g_fmt_vid_out = uvc_ioctl_g_fmt,
-> 
-
-Regards,
-
-	Hans
 
