@@ -1,218 +1,217 @@
-Return-Path: <linux-media+bounces-36315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8734AEE15C
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 16:48:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FD6AEE184
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 16:53:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3992D188E823
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 14:45:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 901233AB029
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 14:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E0628C87F;
-	Mon, 30 Jun 2025 14:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7888728C87A;
+	Mon, 30 Jun 2025 14:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="CnaA+VsE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FrVC81eu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C5328C868;
-	Mon, 30 Jun 2025 14:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C49928C5B4;
+	Mon, 30 Jun 2025 14:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751294606; cv=none; b=UneeGDv1chDfDqywVNa1VhR/nDdB850Eywf1ZB1eSpdFibFVAXoUApqfGQ8DaVy0iTkNPmKxNYM3TN3b+JlaM0TnPFRKslZq8KXPf3Kpm03WHoURgTNctJ5zJxJalzP2WWbCU5cblBKUNb0S9g5taGJNfzgpslN6GkE+uttF6zQ=
+	t=1751295180; cv=none; b=i9uM9NP52w1xijm8RgDBo0cDOTGvm8+G4ubsaL/D9QeaAXVOVkJ5PeHoVLRgD0MLO3XJu9XKAVOcI/FYAWMrdaGOwbw1BBw5318zvSDj/ByBlFPlKlEe7DMB9eMyi/P1jl6OhtvngOh9WZ3ypVg69lVpuyXrfVbI/99huZ5oSgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751294606; c=relaxed/simple;
-	bh=ilmhCUcpL/i5Mksi9L81Yb0NbqlLiM9joUwzKLfdgFM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=JBc9VFic7H2u4JdtN3AwJZFnCx5eLtelVvfB0nO82PepyDqklAH/ziYh1mVf5mkIApTz6e4aYOlw5wQw0c1p7HwA9+e40oVat8jh304k+EvDQNzvARBSubvGHIRDX6vYnmk3oWEHYieLyrnX48Zf+K54qzaAye8ipaPsnEXLvmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=CnaA+VsE; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4bW86K2f5Yz19Vq;
-	Mon, 30 Jun 2025 14:43:21 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4bW86J6jHGz2xWq;
-	Mon, 30 Jun 2025 14:43:20 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=CnaA+VsE;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1751294601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=HgIxYYWW7PGDTgooNb8M5sfCGnHXfJotXMCL7q2P04g=;
-	b=CnaA+VsE7wLrE1veVf2zmo9ECiE4Bhz3w3gZa5Gx+GAjA67SPDAVp3ASzjMqIFPAwbfx7z
-	sIGV5kCjR2W8NCKEUz2VsARYOXcmIxuAT/dOdoAFXozo1B3NEx5zGgvrZpVTggP+OCjpOG
-	iajtEUR5JzcwY/YVLV+0BTb9jUjv5/WUCCfXfGrZOtIRyv2HlBJfuiW59IWqvbquSQLEhS
-	SxzcK6UqS9argctMI5jSm44qp+N4AlX6to5qSCssm/oYnSK5IJzx9q74+HfT+47YAfqbs1
-	TG6ZhVVR6vQPl5np9XOP6/JGWmMEenjgF5kMc6eUp2nl4vPseYay9blhNDUdog==
-X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=6862a289 a=IkcTkHD0fZMA:10 a=WN6_cwnCAAAA:8 a=VwQbUJbxAAAA:8 a=cm27Pg_UAAAA:8 a=Za3Eev7SAAAA:8 a=T8oQY5rHyaLtZB5ehecA:9 a=QEXdDO2ut3YA:10 a=ndfOWLLM0rR49n6Yv1rF:22 a=I3fWsOZ8Wfyo0pj9SUN0:22
-Message-ID: <08670ad6-063e-4d56-a58d-9b8bb5520b54@jjverkuil.nl>
-Date: Mon, 30 Jun 2025 16:43:20 +0200
+	s=arc-20240116; t=1751295180; c=relaxed/simple;
+	bh=GfcQ1h5xe67+iOKtTI1u9okHTCuFwUSKZpV/NpPYlzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rPuk/R94D7ckZy+vMFKWMWrl9CGtrp64DX97A5agb2KKkt22UmpaVWwbXPzObOEQe1r9MssSxw0aCi0Ik28vaGbppDVpWw/8YjqCVoawQRAJUCko26NElEDk+Vu0w1TXTnVMymE+zRc43gJurldKdFmITfNFYEbM/Iz2QBBGhz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FrVC81eu; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751295179; x=1782831179;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GfcQ1h5xe67+iOKtTI1u9okHTCuFwUSKZpV/NpPYlzA=;
+  b=FrVC81euBHRfx6Ho/cRm6j5iFHs8wPHh2JkfotXulgpmADaAC1f+p9SR
+   vd7CLvj63q4S4yJHL5RNNA3rGMaFft7v5rW7Dd784BYjmcBa8qPcPTvVf
+   U7WJ8qzxChfzHRgbO1QAGdi9S8uubjVuW5Y1dktCAz3NJPGT520CkxZ9h
+   lKznRT0AMOQzq7Udq/V9bBKCdiycTREpSwVBRgBQd5IyFBLTU9N6567Jl
+   c7wEy/yTuD9ALgaC+X+cZHHmbtej9qUiRo44SKRnWrg4sajX4OUic3DVT
+   8zJbCs1lixMAReHSQsAj6+ZhwyOE8LvioyBstKzp7LKxabESRcUNMhj3v
+   g==;
+X-CSE-ConnectionGUID: Z1tDgYIZT26fGJ05fbOGjA==
+X-CSE-MsgGUID: svPslZNFQwu/w9zekLIgKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="57204704"
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="57204704"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 07:52:58 -0700
+X-CSE-ConnectionGUID: JT2C5obwRyeffzhGksAX0g==
+X-CSE-MsgGUID: MGEMhyFcQAekjScF5+D3Cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="157510211"
+Received: from agladkov-desk.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.57])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 07:52:54 -0700
+Received: from svinhufvud (syyslaukka.retiisi.eu [IPv6:::1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTPS id 7619840142;
+	Mon, 30 Jun 2025 17:52:51 +0300 (EEST)
+Date: Mon, 30 Jun 2025 17:52:49 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v10 16/17] media: platform: Add mali-c55 parameters video
+ node
+Message-ID: <aGKkwXjQH0H1ghG1@svinhufvud>
+References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
+ <20250624-c55-v10-16-54f3d4196990@ideasonboard.com>
+ <cd60eec7-cb91-4c88-9a63-298ed6582379@linux.intel.com>
+ <5zbhnrplppbnrapyvcz2pviavbwsmqy5reofmkas7ouil5o6mr@62xlfol4ld7d>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Hans Verkuil <hans@jjverkuil.nl>
-Subject: Re: [PATCH v3 8/8] media: uvcvideo: uvc_v4l2_unlocked_ioctl: Invert
- PM logic
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250630-uvc-grannular-invert-v3-0-abd5cb5c45b7@chromium.org>
- <20250630-uvc-grannular-invert-v3-8-abd5cb5c45b7@chromium.org>
-Content-Language: en-US, nl
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-In-Reply-To: <20250630-uvc-grannular-invert-v3-8-abd5cb5c45b7@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5zbhnrplppbnrapyvcz2pviavbwsmqy5reofmkas7ouil5o6mr@62xlfol4ld7d>
 
-On 30/06/2025 16:20, Ricardo Ribalda wrote:
-> Instead of listing the IOCTLs that do not need to turn on the camera,
-> list the IOCTLs that need to turn it on. This makes the code more
-> maintainable.
+Hi Jacopo,
+
+On Mon, Jun 30, 2025 at 03:59:42PM +0200, Jacopo Mondi wrote:
+> Hi Sakari, Dan
+> >
+> > On 6/24/25 13:21, Daniel Scally wrote:
+> > > +static void mali_c55_params_buf_queue(struct vb2_buffer *vb)
+> > > +{
+> > > +	struct mali_c55_params *params = vb2_get_drv_priv(vb->vb2_queue);
+> > > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > > +	struct mali_c55_params_buf *buf = to_mali_c55_params_buf(vbuf);
+> > > +	struct mali_c55 *mali_c55 = params->mali_c55;
+> > > +	struct mali_c55_params_buffer *config;
+> > > +	struct list_head *queue;
+> > > +	size_t block_offset = 0;
+> > > +	size_t max_offset;
+> > > +
+> > > +	/*
+> > > +	 * Before accepting the buffer we should check that the data within it
+> > > +	 * is valid.
+> > > +	 */
+> > > +	config = vb2_plane_vaddr(vb, 0);
+> > > +
+> > > +	if (config->total_size > MALI_C55_PARAMS_MAX_SIZE) {
+> > > +		dev_dbg(mali_c55->dev, "Invalid parameters buffer size %u\n",
+> > > +			config->total_size);
+> > > +		goto err_buffer_done;
+> > > +	}
+> > > +
+> > > +	/* Currently only v1 is supported */
+> > > +	if (config->version != MALI_C55_PARAM_BUFFER_V1) {
+> > > +		dev_dbg(mali_c55->dev, "Invalid parameters version\n");
+> > > +		goto err_buffer_done;
+> > > +	}
+> > > +
+> > > +	max_offset = config->total_size - sizeof(struct mali_c55_params_block_header);
+> > > +	while (block_offset < max_offset) {
+> > > +		const struct mali_c55_block_handler *block_handler;
+> > > +		union mali_c55_params_block block;
+> > > +
+> > > +		block = (union mali_c55_params_block)
+> > > +			 &config->data[block_offset];
+> > > +
+> > > +		if (block.header->type >= ARRAY_SIZE(mali_c55_block_handlers)) {
+> > > +			dev_dbg(mali_c55->dev, "Invalid parameters block type\n");
+> > > +			goto err_buffer_done;
+> > > +		}
+> > > +
+> > > +		if (block_offset + block.header->size > config->total_size) {
+> > > +			dev_dbg(mali_c55->dev, "Parameters block too large\n");
+> > > +			goto err_buffer_done;
+> > > +		}
+> > > +
+> > > +		block_handler = &mali_c55_block_handlers[block.header->type];
+> > > +
+> > > +		/*
+> > > +		 * Userspace can optionally omit all but the header of a block
+> > > +		 * if it only intends to disable the block.
+> > > +		 */
+> > > +		if (block.header->size != block_handler->size &&
+> > > +		    block.header->size != sizeof(*block.header)) {
+> > > +			dev_dbg(mali_c55->dev, "Invalid parameters block size\n");
+> > > +			goto err_buffer_done;
+> > > +		}
+> > > +
+> > > +		block_offset += block.header->size;
+> >
+> > I recall discussing with Jacopo in the context of another ISP driver
+> > (Rockchip?) that this piece of non-trivial code should make it into the
 > 
-> This patch changes the behaviour for unsupported IOCTLs. Those IOCTLs
-> will not turn on the camera.
+> I think it was in the context of the recent Amlogic C3 ISP review
 > 
-> Suggested-by: Hans Verkuil <hans@jjverkuil.nl>
-> Reviewed-by: Hans de Goede <hansg@kernel.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Reviewed-by: Hans Verkuil <hans@hverkuil.nl>
-
-Much nicer!
-
-Regards,
-
-	Hans
-
-> ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 52 +++++++++++++++++++---------------------
->  1 file changed, 25 insertions(+), 27 deletions(-)
+> and yes, c3_isp_params_vb2_buf_prepare() and
+> rkisp1_params_prepare_ext_params() are identical.
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 350cd2cc88f872d2e8bd19e2b8fb067894916364..94dc97448446d36a85a1b36d16c29f22af89c640 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1222,37 +1222,35 @@ static long uvc_v4l2_unlocked_ioctl(struct file *file,
->  				    unsigned int cmd, unsigned long arg)
->  {
->  	struct uvc_fh *handle = file->private_data;
-> +	unsigned int converted_cmd = v4l2_translate_cmd(cmd);
->  	int ret;
->  
-> -	/* The following IOCTLs do not need to turn on the camera. */
-> -	switch (cmd) {
-> -	case UVCIOC_CTRL_MAP:
-> -	case VIDIOC_CREATE_BUFS:
-> -	case VIDIOC_DQBUF:
-> -	case VIDIOC_ENUM_FMT:
-> -	case VIDIOC_ENUM_FRAMEINTERVALS:
-> -	case VIDIOC_ENUM_FRAMESIZES:
-> -	case VIDIOC_ENUMINPUT:
-> -	case VIDIOC_EXPBUF:
-> -	case VIDIOC_G_FMT:
-> -	case VIDIOC_G_PARM:
-> -	case VIDIOC_G_SELECTION:
-> -	case VIDIOC_QBUF:
-> -	case VIDIOC_QUERYCAP:
-> -	case VIDIOC_REQBUFS:
-> -	case VIDIOC_SUBSCRIBE_EVENT:
-> -	case VIDIOC_UNSUBSCRIBE_EVENT:
-> -		return video_ioctl2(file, cmd, arg);
-> -	}
-> -
-> -	ret = uvc_pm_get(handle->stream->dev);
-> -	if (ret)
-> +	/* The following IOCTLs need to turn on the camera. */
-> +	switch (converted_cmd) {
-> +	case UVCIOC_CTRL_QUERY:
-> +	case VIDIOC_G_CTRL:
-> +	case VIDIOC_G_EXT_CTRLS:
-> +	case VIDIOC_G_INPUT:
-> +	case VIDIOC_QUERYCTRL:
-> +	case VIDIOC_QUERYMENU:
-> +	case VIDIOC_QUERY_EXT_CTRL:
-> +	case VIDIOC_S_CTRL:
-> +	case VIDIOC_S_EXT_CTRLS:
-> +	case VIDIOC_S_FMT:
-> +	case VIDIOC_S_INPUT:
-> +	case VIDIOC_S_PARM:
-> +	case VIDIOC_TRY_EXT_CTRLS:
-> +	case VIDIOC_TRY_FMT:
-> +		ret = uvc_pm_get(handle->stream->dev);
-> +		if (ret)
-> +			return ret;
-> +		ret = video_ioctl2(file, cmd, arg);
-> +		uvc_pm_put(handle->stream->dev);
->  		return ret;
-> +	}
->  
-> -	ret = video_ioctl2(file, cmd, arg);
-> -
-> -	uvc_pm_put(handle->stream->dev);
-> -	return ret;
-> +	/* The other IOCTLs can run with the camera off. */
-> +	return video_ioctl2(file, cmd, arg);
->  }
->  
->  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
+> The here introduced mali_c55_params_buf_queue() is indeed very
+> similar (*). I guess it has been developed before the RkISP1
+> implementation (from which the Amlogic one was copied) was refined.
 > 
+> *) The Mali C55 implementation happens at .buf_queue time and not at
+> .buf_prepare time, not sure if it's intentional (and doesn't probably
+> make much difference anyway). It also copies the parameters buffer
+> -after- having validated the content, creating a tiny window between
+> validation and copy where userspace can modify the buffer, Very
+> unlikely but possible.
+> 
+> Understanding if the rkisp1/c3 routines can be copied in the mali c55
+> implementation would make sure that yes, we should defintely move the
+> validation to the core.
+> 
+> 
+> > framework side before a next driver using it has been added. What's the
+> > status of that? Same for other related bits.
+> >
+> 
+> Yes, three users (if confirmed that mali can use the same validation
+> code as the other two) are enough as indication we should move this to
+> the framework. Problem is how to better design this.
+> 
+> My first thought would be to provide a .buf_prepare helper specific
+> for extensible parameters that drivers can use. It would however need
+> to receive some configuration parameters the validation code would
+> need to know about: the version flags, the enable/disable flags, the
+> expected sizes etc
+> 
+> Looking at other parts of the code that could be facotrized out,
+> indeed the rkisp1_ext_params_config() and c3_isp_params_cfg_blocks()
+> functions are very similar. The RkISP1 is a bit more complex
+> (supports 'group' and 'features') and the handlers function
+> signatures are slightly different. With some type punning and macro
+> magic I'm sure we could factorize t out as well, but I would indeed
+> start with validation...
+> 
+> Time for a drivers/media/v4l2-core/v4l2_extensible_params.c ?
 
+I'd call this v4l2-params.c or something alike. Feel free to post an RFC.
+:-)
+
+If there are details that require different handling, it's possible to
+have callbacks as well.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
