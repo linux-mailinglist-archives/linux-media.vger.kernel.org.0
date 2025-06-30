@@ -1,187 +1,138 @@
-Return-Path: <linux-media+bounces-36280-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17478AEDD3C
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 14:42:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BFBAEDDBA
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 14:58:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EF92189C8DB
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 12:42:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D92A217808D
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 12:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9B0328B41D;
-	Mon, 30 Jun 2025 12:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5554D28B407;
+	Mon, 30 Jun 2025 12:58:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="OJlTGLHc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fNsN4DaM"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Esr/VsQn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DD7285CA4
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 12:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0127027726;
+	Mon, 30 Jun 2025 12:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751287180; cv=none; b=vERdfQTFEgGTwKipIiIf0+iAzyC9MgZDnkrJQ56Mv6jdR4nCixz7ypCOUI/JCnkE8Z+rCEYTobRpQKvw2Qd4aTT9oEEcCt+Dd4XYCrcpWZbRsG+tMt/gw6bZV4zv2wrs1VV9gNN+KmqwtgoGFt4OEtd+jeDIyVcKNW7m4ZaowVI=
+	t=1751288296; cv=none; b=fSyOnm9hmTNI8rLaa9cmjYrpvT1sL2XmQKqZgRthtiUCrgbiyehk7lDttsgv51iqes8WtLZGhwy8oo01vgcvqrBlRGpnH/6ZK4NCXrtIE7Vn29eapzQNtHTlTkLmLOmGkh5WkSbgTgnSGKmiKGcs6e8f+4Xz+rCxN6ZwsUDWVhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751287180; c=relaxed/simple;
-	bh=M44bk2bwCVBrAvn7O2ExAoP2lKoHoBEuE1OK+X3uIAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gqcfeVXmhBAovvx4odk2XtCLHfvIxQrceIR8bCvZ2UcgTwOXXtTEMmTZBnrlW6eTXHHXtTiibOo2KUkUrN869rOSZDjNP51fpMGhchusPwVMIn6FbcnNyRbJM0V5F3kKdGDrihTl7CFlPb4RWOIcbVm6eopRCnzbkU7BXLxHU7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com; spf=pass smtp.mailfrom=invisiblethingslab.com; dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b=OJlTGLHc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fNsN4DaM; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invisiblethingslab.com
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id 9E6ECEC0469;
-	Mon, 30 Jun 2025 08:39:37 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Mon, 30 Jun 2025 08:39:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1751287177; x=1751373577; bh=nk
-	dRNfd3lE0yat064NDmAlRKJ4WAtSfHUvnZtT3K0T8=; b=OJlTGLHcBrUthoE6+P
-	iSUpLc0NF3jjYAwoxqzCS0jJpEmgMxLWSLjxYWPL7wlJc2OMVTdSPbVlt4XTQCHl
-	STtBdMKp3imU0ORJxfzIyR7RyoKTV6CYvGd92lUd0TNmfU/2qMdo7MSl0qRvUNNO
-	VqRKxfFayXBaidLvl17DR8ZVSbqm5WRi9v94Bh8WKTmdvfFrng9Mterqblgd3Kr0
-	L5z/xbRv1XUJWAsdWpjNP/1w3nBBmFPgFITDNuDeVTf+8Ezp+o9k+OlfgdVdQGi8
-	a9Cu1YqggYeVvKqo0hq6G2h0bwhvmYH21Nh9TwWy98rhnzWg+HnAo5DAUEP9eTvi
-	DRBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751287177; x=
-	1751373577; bh=nkdRNfd3lE0yat064NDmAlRKJ4WAtSfHUvnZtT3K0T8=; b=f
-	NsN4DaMFOgbRdUpfb3+1/Ao1JKUSJVrPZIe1QEkODg167jhttr5rzShtwZ+O6dgH
-	cv2LyHuXLBjgM4RViihs1CWXG/iFD0Nhm6VUNP1kqJDxDNj4v/ZChjaWVgZdg0IE
-	nQ362CFMIxWw7PhfMQ2DBuOxULyH1EoyF0KfbA0mkpmwrXvRId+CL9hMMzwXGgp4
-	lO5nb+lQx3TjAz+E9mzqA1Idnc3BqtD0nna3Kv88N8ecF3Qxjk2LMKWYji/3wTiC
-	FB3E4p3KRZHvBAw7KEsAj+x7Ct5YGGBTzNrYso6Y0v2Kpe2bByQKg7SbFeeihYXD
-	5iikCb2MV7q9TQXCYFbkA==
-X-ME-Sender: <xms:iYViaA9B_3XctE1-E_DTyvFUvu9g5XIG-Nkahz1HMXmD3zfUxVOqHA>
-    <xme:iYViaItJ7NU8lslXXSRaUt4_42LerwFrLn5ESFVJ6XBJgxVue1cB6obbujlRdAdcy
-    2zh9OBinDvogQ>
-X-ME-Received: <xmr:iYViaGCKMq21yD88KnHueVE3G4ux3NCh4pVXyWkVbx9TytpSqOCVfqPiGxNuKRaJlzwqs5jVQa8eQxw9LE7AYmuoC7nGsP7axAM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduudejvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfggtggusehgtderredttdejnecuhfhrohhmpeforghrvghkucforghr
-    tgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrghrmhgrrhgvkhesihhnvhhishhisg
-    hlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeehveetveetvedv
-    udffteeugfeiveejkeevgfetvdevheefgefghfduhffhuefgteenucffohhmrghinheptg
-    holhhlrggsohhrrgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
-    mhgrihhlfhhrohhmpehmrghrmhgrrhgvkhesihhnvhhishhisghlvghthhhinhhgshhlrg
-    gsrdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehsvggsrghsthhirghnrdhrvghitghhvghlsegtohhllhgrsghorhgrrdgtohhmpd
-    hrtghpthhtohepughmihhtrhihrdhoshhiphgvnhhkohestgholhhlrggsohhrrgdrtgho
-    mhdprhgtphhtthhopehshhhrvggvhigrrdhprghtvghlsegtohhllhgrsghorhgrrdgtoh
-    hmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehkvghrnhgvlhestgholhhlrggsohhrrgdrtghomh
-X-ME-Proxy: <xmx:iYViaAeXOjyzoodZU0aIXjq1wIf60mzo6NHWCKHISO43JFWLJk4scA>
-    <xmx:iYViaFNcWtEowFT2spk7wDPXAf4BfmPTFTxL4wBiCfDXUW8Wuxw-Rg>
-    <xmx:iYViaKl91ukP7ucAp_9d8pcPWh_HS-Ip2mkmIzst8xCHXkLlBDVy0g>
-    <xmx:iYViaHvooh0_SDhfg_koJ9hpazNSVqwq-epzXwQW1orqSgTS0D1UAg>
-    <xmx:iYViaFLS7QwD0g-6Wav_yNNXTm56BjLt1_WbaUAOEEwRe4QOpKNxpSHg>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Jun 2025 08:39:36 -0400 (EDT)
-Date: Mon, 30 Jun 2025 14:39:32 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Shreeya Patel <shreeya.patel@collabora.com>
-Cc: linux-media@vger.kernel.org, kernel@collabora.com
-Subject: "signal is not locked" with HDMI RX driver on RK3588
-Message-ID: <aGKFhDmBwYp5KV3k@mail-itl>
+	s=arc-20240116; t=1751288296; c=relaxed/simple;
+	bh=T7kfgnNMrQ5va5/Q6TdW3ICribflYFmyl+hiADpXtWo=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=suV2znrTq8JlT8HQirLuBfE6xl07DCAIKUZCQIRf9sPgpQGgKQXw0JWg4ops1Du6YAuPRuU22C7JySd6EIAa2ZylBH7CkJ0i6DWFIB39GRNkOL60qZk89ZT/SS0foFtyV3vSVIrl9sJa+ioLLH1RVFuINuu109/07T5KyHEWvBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Esr/VsQn; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55UAX7hQ009897;
+	Mon, 30 Jun 2025 14:57:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=uzwpacVr2LDq5kXvxCDUAt
+	NWqyaw9cIFdQ9xmj0ioPk=; b=Esr/VsQn/f4180soFFWYt9BFaYfONy5OyL4uY7
+	bWHr81wKH7xj8/aPYzLmpbHVWKiBZS6MKchZJWGmyolwKMvl+9Lu5jl4Qa8wiNz7
+	BxUwJ2/RTmqnktLySHmr3zDI8RVftAuqg1BZ18tZPJ9+zjj46CcAe6G9diP0l6lk
+	1cM9NXXntZHnb2gJg4tOdW7LWmMOwV8Aggc/Wo+lUFDz7VVATsqEs6F28eev9ecT
+	ujfuAjQK4w7oiP8XNJ7i61nxhHmhr868Ytoj8RBXxS/OJMAfP8PzJE113WZm+9Vo
+	8oSILwgrWBYmoG7K/AhxR+L16nU4B0pAvg8OCQtMwP2Drhxw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47j79h7b9q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Jun 2025 14:57:53 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 962744004D;
+	Mon, 30 Jun 2025 14:56:23 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 80204B42908;
+	Mon, 30 Jun 2025 14:55:23 +0200 (CEST)
+Received: from localhost (10.252.20.7) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 30 Jun
+ 2025 14:55:23 +0200
+From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Subject: [PATCH v3 0/3] Fix STM32 I2C dma operations
+Date: Mon, 30 Jun 2025 14:55:12 +0200
+Message-ID: <20250630-i2c-upstream-v3-0-7a23ab26683a@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cE09OWMmQ2hMQDGg"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADCJYmgC/12Oyw6CMBQFf4V0bUlft4Ar/8O4wLZIF1DSi42G8
+ O8W3IjLOclMzkLQRe+QnIuFRJc8+jBmkKeCmL4dH456m5kIJoCBqKgXhj4nnKNrB+rgrhtgXEL
+ TkqxM0XX+teeut8y9xznE915PfFu/Ic31MZQ4ZVQJKy3ISjkNly4gljiXJgxkSyXxo///SCLrt
+ eEKhFQ1t+aor+v6AZ5tRpHpAAAA
+X-Change-ID: 20250527-i2c-upstream-e5b69501359a
+To: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+        Alain Volmat
+	<alain.volmat@foss.st.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "M'boumba Cedric
+ Madianga" <cedric.madianga@gmail.com>,
+        Wolfram Sang <wsa@kernel.org>
+CC: Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
+        <linux-i2c@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        =?utf-8?q?Cl=C3=A9ment_Le_Goffic?=
+	<clement.legoffic@foss.st.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-30_03,2025-06-27_01,2025-03-28_01
 
+This patch series aims to fix some issues inside the driver's DMA
+handling.
+It also uses newer I2C DMA API.
 
---cE09OWMmQ2hMQDGg
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 30 Jun 2025 14:39:32 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Shreeya Patel <shreeya.patel@collabora.com>
-Cc: linux-media@vger.kernel.org, kernel@collabora.com
-Subject: "signal is not locked" with HDMI RX driver on RK3588
+Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+---
+Changes in v3:
+- Add Alain Volmat's "Acked-by" on patch 1 and 2
+- Link to v2: https://lore.kernel.org/r/20250627-i2c-upstream-v2-0-8c14523481dc@foss.st.com
 
-Hi,
+Changes in v2:
+- Fix the dev used in dma_unmap also in the error path of
+  `stm32_i2c_prep_dma_xfer`
+- Add a dma_unmap_single also in the ITs error handler
+- Add Alain Volmat's "Acked-by" on patch 3
+- Link to v1: https://lore.kernel.org/r/20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com
 
-First of all, thanks for all the work regarding upstreaming the driver!
+---
+Clément Le Goffic (3):
+      i2c: stm32: fix the device used for the DMA map
+      i2c: stm32f7: unmap DMA mapped buffer
+      i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
 
-I try to use it on two boards:
-- Orange Pi 5B
-- Rock 5B+
+ drivers/i2c/busses/i2c-stm32.c   |  4 ++--
+ drivers/i2c/busses/i2c-stm32f7.c | 42 +++++++++++++++++++++++++++++-----------
+ 2 files changed, 33 insertions(+), 13 deletions(-)
+---
+base-commit: d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
+change-id: 20250527-i2c-upstream-e5b69501359a
 
-In both cases, when I use the upstream driver in 6.16-rc, I hit similar
-issue:
-1. `v4l2-ctl -d /dev/video2 --set-edid type=3Dhdmi-4k-300mhz` - this works
-2. EDID is properly presented to the device on the other side of the
-HDMI cable, I can select to use that "display"
-3. But then, the hdmirx complains:
+Best regards,
+-- 
+Clément Le Goffic <clement.legoffic@foss.st.com>
 
-    v4l2-ctl -d /dev/video2 --query-dv-timings
-    VIDIOC_QUERY_DV_TIMINGS: failed: No locks available
-
-And kernel shows:
-[ 4033.823023] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_writ=
-e wait cr write done failed
-[ 4033.847027] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_writ=
-e wait cr write done failed
-[ 4033.870976] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_writ=
-e wait cr write done failed
-[ 4033.894998] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_writ=
-e wait cr write done failed
-=2E..
-[ 4061.975400] fdee0000.hdmi_receiver: hdmirx_query_dv_timings: signal is n=
-ot locked
-
-In this state actually capturing video stream doesn't work either.
-
-I tried also rockchip-release branch from
-https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux (at
-33755850faeb0e53e634390d147cc261a60d2898) with the same result.
-
-If I try the same with the 6.12.13-current-rockchip64 kernel from Armbian,
-it works fine. I tried to compare the drivers, but there are quite a few
-differences so it's hard to spot any obvious issue (it could be also an
-issue somewhere else...).
-
-Any ideas? I can try to add some debugging info or test patches, if you
-point me what would be helpful.
-
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-
---cE09OWMmQ2hMQDGg
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmhihYQACgkQ24/THMrX
-1yyWPwf/TmMbSuUqb3wb5uGkM53ZeimXPuVcv/MVJPSuu37YDAYFRJJeps0bAacq
-+8zumrK2uOLI30ykLOaAtaSToYRIdrGLQ62fcXDBYHrGlMqDWOuFjHjKGgDQCsj4
-Y8W3LP4teYF34BbWMi1J5Mf5DLkyHknr3x7u9Ygz08v1kULChFsjuJljA2oHMet+
-G2s4s6pK5sJlvWkowGKZJUk6KaO5vnFahM+uzNU27Qgy8HNr42KEc+7k/ejm97nC
-cCRNELYJ6YCbyYYIOZgGKTKcAlIwlvoqle/a37xV85snC/lT5L6eOra9LrFufMte
-G2qOQKBpU0niHcNlWTfT2bY8aQ7LtQ==
-=Wltx
------END PGP SIGNATURE-----
-
---cE09OWMmQ2hMQDGg--
 
