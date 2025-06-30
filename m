@@ -1,157 +1,121 @@
-Return-Path: <linux-media+bounces-36229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36230-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78202AED201
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 02:46:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AB4AED202
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 02:47:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3904189223C
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 00:46:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 444DB7A2853
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 00:46:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30BED6BFCE;
-	Mon, 30 Jun 2025 00:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB46282FA;
+	Mon, 30 Jun 2025 00:47:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ngXeuiYQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hLgsiMBE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1DB29B0
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 00:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C1110957
+	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 00:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751244393; cv=none; b=ejCCq4pc4uHSgLFCRzU7HIxbWQZqDYy2v1WyX5bWwYt+wCCTCUHcP9kzmIGA4XC5oJUFs41kyuK5+1V2UGqBglJkpHZSPGI5Z2Hi3AB496tYlRI7GPD3zdT1vofcqNoUf3BM/KMUlQpiBautJfD30wi9491NVCDaPtZpFQ2euYg=
+	t=1751244467; cv=none; b=UsB0nbDL7rUcaLQSDjBNGE9kSFiNLQG5P3tGAVSTKU3wpTPGLHDJBX3T/0d8tgN9oKpxuLvmiKn5H/TgAjnJi9i1467FNFlCYHzlcBb8J3pTSTsaRXIyxR8MABsRWH7hDhokm2yguJNFDMjBwOe4m/u7+YYGTy9KVTZBIiEuVL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751244393; c=relaxed/simple;
-	bh=gLMNpRP05MX1WGOLRc48zrRDvntmjtakdsiRTBsViHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s073Ud/DbUrQjiD+OE1ait36VBpgSV8gJYm+mVsYvDDImFpVvnXPXH01fCvrotcAYa7WJQFmT6DwI8GESSWcAMmSj44wsbyemh/OgMBMTVLlCiWKnN5w6bUif6/PIcpSYMeOQhmtnBQyah5HZqZC51V/N2HeMpRJepvKEHgiyHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ngXeuiYQ; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1751244467; c=relaxed/simple;
+	bh=viBuxpqGxuVyvBaB+mjvSBlXMzlmg3MJt4aGbRXKovU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbAMTdBBiWbVSLtGLmO60G7mdGZCRqnv9FFI4SmdR0Fr89PWdWXBmJpUMNohL/pyIjbDyuZSrRAD7aLfXQGhbOMQqXJ5qesVdg7Tq62v73CLdV4wzIHs0GzeRADQf0LSdgk3xyJcqvAb6grxcXKTCa1LIdKsKGlbtzeHGc9v0C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hLgsiMBE; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 02B88C6A;
-	Mon, 30 Jun 2025 02:46:07 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7CE083D5;
+	Mon, 30 Jun 2025 02:47:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751244368;
-	bh=gLMNpRP05MX1WGOLRc48zrRDvntmjtakdsiRTBsViHg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ngXeuiYQ61s2Y3O0Zv5YTJZ1V2TRYx/usX54WwMxbrb8O165i9uBeMhlabqjKmMy7
-	 nuRTInxYbtVWpP36gN8xsezyWH0tYm7nmL6lVOtBHo+wO7qAo+FJgpogBAu464HzPv
-	 ezy1PAXC94tXmWtwT2F2JM+46oWDMC3ahmpysnQk=
+	s=mail; t=1751244442;
+	bh=viBuxpqGxuVyvBaB+mjvSBlXMzlmg3MJt4aGbRXKovU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hLgsiMBEyi91Mwdr0jD2s/rBM7Nx9nn99VZQjA147bcWzxYlhvla76LP7s0FalnEs
+	 8V2ZZVe7BF2ePLANSdfYJHThZUs+/HMPb2gyrgtiZlZ1H7MQjT6TAxZKKhB5AVB0r/
+	 9GRDMm1YEglLYrP3rZ4+zz1GqsYfceFoalnRvJYE=
+Date: Mon, 30 Jun 2025 03:47:20 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hans@jjverkuil.nl>
-Subject: [PATCH 2/2] media: v4l2-subdev: Make struct v4l2_subdev_stream_config private
-Date: Mon, 30 Jun 2025 03:46:02 +0300
-Message-ID: <20250630004602.23075-3-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250630004602.23075-1-laurent.pinchart@ideasonboard.com>
-References: <20250630004602.23075-1-laurent.pinchart@ideasonboard.com>
+	linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com
+Subject: Re: [PATCH 06/13] media: v4l2-subdev: Mark both streams of a route
+ enabled
+Message-ID: <20250630004720.GB24861@pendragon.ideasonboard.com>
+References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
+ <20250619081546.1582969-7-sakari.ailus@linux.intel.com>
+ <15ed5a72-8c0d-4e94-90e6-dc3ea6e39e89@ideasonboard.com>
+ <aF41n2Y3Rf6HneiD@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aF41n2Y3Rf6HneiD@kekkonen.localdomain>
 
-The v4l2_subdev_stream_config structure holds configuration data for a
-stream. It was meant to be used internally only, but already found its
-way into the ds90ub913 driver. Now that the driver has been fixed, make
-the structure private to v4l2-subdev.c to avoid using it by accident.
+On Fri, Jun 27, 2025 at 06:09:35AM +0000, Sakari Ailus wrote:
+> On Thu, Jun 26, 2025 at 06:17:13PM +0300, Tomi Valkeinen wrote:
+> > On 19/06/2025 11:15, Sakari Ailus wrote:
+> > > Streams are stored in sink-source pairs in sub-device state. When a stream
+> > > was marked enabled (or disabled), only the state of one end of the stream
+> > > was modified, leaving the stream in an incoherent state. Mark both ends of
+> > > the stream enabled (or disabled).
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-subdev.c | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > index 60b8febd3339..5afdd9d548b5 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > @@ -2254,9 +2254,11 @@ static void v4l2_subdev_set_streams_enabled(struct v4l2_subdev *sd,
+> > >  	for (unsigned int i = 0; i < state->stream_configs.num_configs; ++i) {
+> > >  		struct v4l2_subdev_stream_config *cfg =
+> > >  			&state->stream_configs.configs[i];
+> > > +		struct v4l2_subdev_stream_config *cfg2 =
+> > > +			&state->stream_configs.configs[i ^ 1U];
+> > 
+> > I don't think this is correct. There's no specific rule that the stream
+> > configs would be in a particular order. Or that there even are a pair.
+> > 
+> > You should look for the other end of the stream from the routing table.
+> 
+> Currently the code managing the streams stores them in this array in pairs,
+> the sink followed by the source for each route. As noted in the commit
+> message, this patch also fixes a bug.
+> 
+> I can change the patch to use routes to find the other end, but over time
+> we might want to use a different data structure to store this information
+> (a linked list perhaps). The number of routes and stream configurations is
+> presumably fairly small in most cases so right now I presume there's no
+> noteworthy effect on performance.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 24 ++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 25 +------------------------
- 2 files changed, 25 insertions(+), 24 deletions(-)
+At the very least I would like to document somewhere that each route
+stores a pair of stream config. We also really, *really*, *REALLY* need
+to make sure that as little code as possible depends on this, and
+especially that no driver accesses the stream configs directly...
+aargghghhhh the ds90ub913 driver does already :'-(
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index a3074f469b15..bc813f25c0d2 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -26,6 +26,30 @@
- #include <media/v4l2-fh.h>
- #include <media/v4l2-ioctl.h>
- 
-+/**
-+ * struct v4l2_subdev_stream_config - Used for storing stream configuration.
-+ *
-+ * @pad: pad number
-+ * @stream: stream number
-+ * @enabled: has the stream been enabled with v4l2_subdev_enable_streams()
-+ * @fmt: &struct v4l2_mbus_framefmt
-+ * @crop: &struct v4l2_rect to be used for crop
-+ * @compose: &struct v4l2_rect to be used for compose
-+ * @interval: frame interval
-+ *
-+ * This structure stores configuration for a stream.
-+ */
-+struct v4l2_subdev_stream_config {
-+	u32 pad;
-+	u32 stream;
-+	bool enabled;
-+
-+	struct v4l2_mbus_framefmt fmt;
-+	struct v4l2_rect crop;
-+	struct v4l2_rect compose;
-+	struct v4l2_fract interval;
-+};
-+
- #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
- /*
-  * The Streams API is an experimental feature. To use the Streams API, set
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 57f2bcb4eb16..b867d3a96a51 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -36,6 +36,7 @@ struct v4l2_event_subscription;
- struct v4l2_fh;
- struct v4l2_subdev;
- struct v4l2_subdev_fh;
-+struct v4l2_subdev_stream_config;
- struct tuner_setup;
- struct v4l2_mbus_frame_desc;
- struct led_classdev;
-@@ -686,30 +687,6 @@ struct v4l2_subdev_pad_config {
- 	struct v4l2_fract interval;
- };
- 
--/**
-- * struct v4l2_subdev_stream_config - Used for storing stream configuration.
-- *
-- * @pad: pad number
-- * @stream: stream number
-- * @enabled: has the stream been enabled with v4l2_subdev_enable_streams()
-- * @fmt: &struct v4l2_mbus_framefmt
-- * @crop: &struct v4l2_rect to be used for crop
-- * @compose: &struct v4l2_rect to be used for compose
-- * @interval: frame interval
-- *
-- * This structure stores configuration for a stream.
-- */
--struct v4l2_subdev_stream_config {
--	u32 pad;
--	u32 stream;
--	bool enabled;
--
--	struct v4l2_mbus_framefmt fmt;
--	struct v4l2_rect crop;
--	struct v4l2_rect compose;
--	struct v4l2_fract interval;
--};
--
- /**
-  * struct v4l2_subdev_stream_configs - A collection of stream configs.
-  *
+I've submitted [1] to make the v4l2_subdev_stream_config structure
+private.
+
+[1] https://lore.kernel.org/r/20250630004602.23075-1-laurent.pinchart@ideasonboard.com
+
 -- 
 Regards,
 
 Laurent Pinchart
-
 
