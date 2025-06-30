@@ -1,203 +1,171 @@
-Return-Path: <linux-media+bounces-36289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36290-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88ABBAEDEA1
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:16:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC55AEDE9B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:15:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 498E61884FC7
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:13:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A3061615C9
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:13:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C528828C02B;
-	Mon, 30 Jun 2025 13:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABAEE28A1D0;
+	Mon, 30 Jun 2025 13:10:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="pBg5XVT8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L05Dk8Jn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9DA28B7D4;
-	Mon, 30 Jun 2025 13:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6384723A987;
+	Mon, 30 Jun 2025 13:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751289001; cv=none; b=qDqhQ7sUQHXyxKGxJY667Nc0opZKsArXhFLvlnuEOfd+ih/REY+5XHxXg/S32kdxez1AbnSFRZcKyMK3TQmWLsS0MMfGsAnUxlT0Kzj60QkEntmcSU1AYSWfzIGyleTVohgMzSKrXMEnM4kpF5VaMacpf+ceZgyNpBOK64TD0f8=
+	t=1751289033; cv=none; b=DOfxVvC7Fwrbisb39wflfNSOAGH0I20LSSy7zwl3vHU3Uu/MVCcCDA2ZbzcOzd/eIi2M3j6Bol+YmDviBIimswaW9YkYkW9QTAWW8YOoZZr6ODX9D7XrUJ2rD6K8O6pky27a3o5k4Vq/fHAu6oStxWXLd8UEbPcCptFXakF8FXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751289001; c=relaxed/simple;
-	bh=HyPlXMrc9xrAdA7GVaJ7JofLJq3ayXCcPOeFElNxizs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Y38W7StLJumZ0kMuhJZ0MrJMVZYDpFgcVOH91cjfhLtNwbaPqIu9y7GMRLBdHaYdgVhVn9RCfBblt34ySxs8WVU1qo/Br9UwTgZu3TeV4PJLUrqIaiNZ+AdL73NJdvLc5Qx3OxJ7yO/Jg5q+AApMGSvs6dLygIP5O76mG3ydk28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=pBg5XVT8; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55UBlus3021366;
-	Mon, 30 Jun 2025 15:09:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	s6SnTj7TQmM6IV7OH8vHiU8wCQ741Ir076aqyio17M0=; b=pBg5XVT8Yg+YHR19
-	hSMKT4IhjJyppJ/mHjK699QA1oMWSFbCESVoG39WjiLB4ou3GCGBkQ0ICIUT33BH
-	BDDNh622ioVsXNwqrH+no+HJDTdyoHoMxVDSQ+PUcyYg66tIkzTLpP4yjoB8kcwX
-	MWjj+SATjcY0SCtMAqZAsMHRJG5mSlW5G302JRVljZ5EkPfyEWcSJXlk9XeYYni2
-	9U62A0DtoY9YYSKILLetlmYf7g4uD2d2Rad9VzI1FsxmwVb6LTW/dS+eCESicZ+d
-	F0xix/SV8A5wQ5+Uu5WHBYhLYRNVJFZW1KljFhcCxVJZXaPUZ/QJcr0kvzqUAx+B
-	dYiAhA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47j7r5yt8m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Jun 2025 15:09:37 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id DBE5A4004B;
-	Mon, 30 Jun 2025 15:08:13 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 48160B4CBCE;
-	Mon, 30 Jun 2025 15:07:22 +0200 (CEST)
-Received: from [10.252.14.13] (10.252.14.13) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 30 Jun
- 2025 15:07:21 +0200
-Message-ID: <74981e35-1d0f-4649-bb10-2b54e4db5e47@foss.st.com>
-Date: Mon, 30 Jun 2025 15:07:20 +0200
+	s=arc-20240116; t=1751289033; c=relaxed/simple;
+	bh=mZZD5+PO07CcheATfAnTTx+8kWiU0ytL1U4UNq+W0h8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D/UFehKY39NLzoczI+im3sSJH4NdfuI90ZykWFReYVHQYORnC86PPzE5F/X4JodFsdGlHcEJdoAk4bMye4cvwRXZj5Q4XMEh0sBf8FOPX3UgoR105oLQa2MRdaZmIXjMhRRP60yS1dDSyXuW+ZU+l/X2goG7R39O1htlnUAcy+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L05Dk8Jn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A7B9911EB;
+	Mon, 30 Jun 2025 15:10:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751289007;
+	bh=mZZD5+PO07CcheATfAnTTx+8kWiU0ytL1U4UNq+W0h8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L05Dk8Jn2QisbsgNo8u6bk0OMEJqFCQ4ksW7293E5Lhf0y5ks5GN2dfxFirTz8meT
+	 JHxZxr4SJjEC26DpPbue+TxNaUyHzWBZt1itcMm97kSj4DNShFWoyLv1gDCJr5lo0W
+	 0y8JH2dlOj6O//eicFZ5Y2hhz2jKGgfRYhftIpcU=
+Date: Mon, 30 Jun 2025 16:10:04 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 3/5] media: uvcvideo: Split uvc_stop_streaming()
+Message-ID: <20250630131004.GF20333@pendragon.ideasonboard.com>
+References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
+ <20250616-uvc-fop-v4-3-250286570ee7@chromium.org>
+ <04e10cfa-f1b1-4327-b0ca-c66f8450d42f@xs4all.nl>
+ <c97af8e7-5c11-45f4-838c-d934b0a379c1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
-To: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>,
-        "Alain
- Volmat" <alain.volmat@foss.st.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "M'boumba Cedric
- Madianga" <cedric.madianga@gmail.com>,
-        Wolfram Sang <wsa@kernel.org>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
-        <linux-i2c@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-References: <20250630-i2c-upstream-v3-0-7a23ab26683a@foss.st.com>
- <20250630-i2c-upstream-v3-3-7a23ab26683a@foss.st.com>
-Content-Language: en-US
-From: Pierre Yves MORDRET <pierre-yves.mordret@foss.st.com>
-In-Reply-To: <20250630-i2c-upstream-v3-3-7a23ab26683a@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-30_03,2025-06-27_01,2025-03-28_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c97af8e7-5c11-45f4-838c-d934b0a379c1@kernel.org>
 
-Hi Clement,
-
-On 6/30/25 14:55, Clément Le Goffic wrote:
-> Use the i2c-core-base APIs to allocate a DMA safe buffer when needed.
+On Mon, Jun 30, 2025 at 02:59:05PM +0200, Hans de Goede wrote:
+> On 17-Jun-25 11:27 AM, Hans Verkuil wrote:
+> > On 16/06/2025 17:24, Ricardo Ribalda wrote:
+> >> uvc_stop_streaming() is used for meta and video nodes. Split the function
+> >> in two to avoid confusion.
+> >>
+> >> Use this opportunity to rename uvc_start_streaming() to
+> >> uvc_start_streaming_video(), as it is only called by the video nodes.
+> >>
+> >> Reviewed-by: Hans de Goede <hansg@kernel.org>
+> >> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> >> ---
+> >>  drivers/media/usb/uvc/uvc_queue.c | 22 +++++++++++++++-------
+> >>  1 file changed, 15 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> >> index 8f9737ac729546683ca48f5e71ce3dfacbae2926..3f357c2d48cfd258c26f0342007d1d12f1e01007 100644
+> >> --- a/drivers/media/usb/uvc/uvc_queue.c
+> >> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> >> @@ -167,7 +167,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
+> >>  		uvc_video_clock_update(stream, vbuf, buf);
+> >>  }
+> >>  
+> >> -static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >> +static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
+> >>  {
+> >>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+> >>  	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+> >> @@ -186,14 +186,22 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >>  	return ret;
+> >>  }
+> >>  
+> >> -static void uvc_stop_streaming(struct vb2_queue *vq)
+> >> +static void uvc_stop_streaming_video(struct vb2_queue *vq)
+> >>  {
+> >>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+> >>  
+> >>  	lockdep_assert_irqs_enabled();
+> >>  
+> >> -	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
+> >> -		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+> >> +	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+> >> +
+> >> +	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+> >> +}
+> >> +
+> >> +static void uvc_stop_streaming_meta(struct vb2_queue *vq)
+> >> +{
+> >> +	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+> >> +
+> >> +	lockdep_assert_irqs_enabled();
+> >>  
+> >>  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+> >>  }
+> >> @@ -203,15 +211,15 @@ static const struct vb2_ops uvc_queue_qops = {
+> >>  	.buf_prepare = uvc_buffer_prepare,
+> >>  	.buf_queue = uvc_buffer_queue,
+> >>  	.buf_finish = uvc_buffer_finish,
+> >> -	.start_streaming = uvc_start_streaming,
+> >> -	.stop_streaming = uvc_stop_streaming,
+> >> +	.start_streaming = uvc_start_streaming_video,
+> >> +	.stop_streaming = uvc_stop_streaming_video,
+> >>  };
+> >>  
+> >>  static const struct vb2_ops uvc_meta_queue_qops = {
+> >>  	.queue_setup = uvc_queue_setup,
+> >>  	.buf_prepare = uvc_buffer_prepare,
+> >>  	.buf_queue = uvc_buffer_queue,
+> >> -	.stop_streaming = uvc_stop_streaming,
+> >> +	.stop_streaming = uvc_stop_streaming_meta,
+> >>  };
+> > 
+> > I think there should be a comment stating that the metadata stream
+> > expects that video is streaming, it does not start streaming by itself.
+> > 
+> > Something like:
+> > 
+> > 	/*
+> > 	 * .start_streaming is not provided here. Metadata relies on
+> > 	 * video streaming being active. If video isn't streaming, then
+> > 	 * no metadata will arrive either.
+> > 	 */
+> > 
+> > It's unexpected that there is no start_streaming for metadata, so a
+> > comment wouldn't hurt.
 > 
-> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
-> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
-> ---
->  drivers/i2c/busses/i2c-stm32f7.c | 36 +++++++++++++++++++++++++-----------
->  1 file changed, 25 insertions(+), 11 deletions(-)
+> I've added this comment while merging this series and I've now pushed
+> the entire series to uvc.git/for-next .
 > 
-> diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
-> index 042386b4cabe..d06f0efdece3 100644
-> --- a/drivers/i2c/busses/i2c-stm32f7.c
-> +++ b/drivers/i2c/busses/i2c-stm32f7.c
-> @@ -742,9 +742,12 @@ static void stm32f7_i2c_dma_callback(void *arg)
->  	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
->  	struct stm32_i2c_dma *dma = i2c_dev->dma;
->  	struct device *dev = dma->chan_using->device->dev;
-> +	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
->  
->  	stm32f7_i2c_disable_dma_req(i2c_dev);
->  	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
-> +	if (!f7_msg->smbus)
-> +		i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, true);
->  	complete(&dma->dma_complete);
->  }
->  
-> @@ -880,6 +883,7 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
->  {
->  	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
->  	void __iomem *base = i2c_dev->base;
-> +	u8 *dma_buf;
->  	u32 cr1, cr2;
->  	int ret;
->  
-> @@ -929,17 +933,23 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
->  
->  	/* Configure DMA or enable RX/TX interrupt */
->  	i2c_dev->use_dma = false;
-> -	if (i2c_dev->dma && f7_msg->count >= STM32F7_I2C_DMA_LEN_MIN
-> -	    && !i2c_dev->atomic) {
-> -		ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
-> -					      msg->flags & I2C_M_RD,
-> -					      f7_msg->count, f7_msg->buf,
-> -					      stm32f7_i2c_dma_callback,
-> -					      i2c_dev);
-> -		if (!ret)
-> -			i2c_dev->use_dma = true;
-> -		else
-> -			dev_warn(i2c_dev->dev, "can't use DMA\n");
-> +	if (i2c_dev->dma && !i2c_dev->atomic) {
-> +		dma_buf = i2c_get_dma_safe_msg_buf(msg, STM32F7_I2C_DMA_LEN_MIN);
-> +		if (dma_buf) {
-> +			f7_msg->buf = dma_buf;
-> +			ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
-> +						      msg->flags & I2C_M_RD,
-> +						      f7_msg->count, f7_msg->buf,
-> +						      stm32f7_i2c_dma_callback,
-> +						      i2c_dev);
-> +			if (ret) {
-> +				dev_warn(i2c_dev->dev, "can't use DMA\n");
-> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, msg, false);
-> +				f7_msg->buf = msg->buf;
-> +			} else {
-> +				i2c_dev->use_dma = true;
-> +			}
-> +		}
->  	}
->  
->  	if (!i2c_dev->use_dma) {
-> @@ -1626,6 +1636,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
->  			dmaengine_terminate_async(dma->chan_using);
->  			dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
->  					 dma->dma_data_dir);
-> +			if (!f7_msg->smbus)
-> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
->  		}
->  		f7_msg->result = -ENXIO;
->  	}
-> @@ -1648,6 +1660,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
->  				dmaengine_terminate_async(dma->chan_using);
->  				dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
->  						 dma->dma_data_dir);
-> +				if (!f7_msg->smbus)
-> +					i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
->  				f7_msg->result = -ETIMEDOUT;
->  			}
->  		}
-> 
+> BTW it seems that both uvc.git/next and uvc.git/for-next are in
+> use now?  With uvc.git/next seemingly following media-commiters/next ?
 
-Thx for this V3 submission
+As far as I understand, some jobs in the media CI use the next branch,
+for instance the bisect job that tries to compile every commit uses the
+next branch as a base. We therefore need to keep the next branch
+up-to-date, mirroring upstream.
 
-Reviewed-by: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>
-
-Regards
+> I thought we had agreed to only use uvc.git/for-next ?
 
 -- 
---
-~ Py MORDRET
---
+Regards,
+
+Laurent Pinchart
 
