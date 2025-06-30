@@ -1,170 +1,478 @@
-Return-Path: <linux-media+bounces-36333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36334-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62786AEE6C2
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 20:31:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF44CAEE729
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 21:05:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A229F17F878
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 18:31:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEB2E3B675B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 19:05:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55CCA1EDA2F;
-	Mon, 30 Jun 2025 18:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A679728EBE0;
+	Mon, 30 Jun 2025 19:05:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iWOD1r6r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZbTwiYx2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FDC1B5EB5;
-	Mon, 30 Jun 2025 18:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D073379D2;
+	Mon, 30 Jun 2025 19:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751308292; cv=none; b=QUjC8BSUr9tyD4nbLmnAHIieVL5G65y3AWMVnxfHRzTa5iBaDuwMbKLfa6wSvhLc+CuZM+WsY7SKBbAeVnQFNL7DsmqkjF+SQ/Cm/2FqpRMTfoo03KMqgKiYXaBjF7HycR0aG8qjWcvZce7deA50M3eFtaBIu4WuJQ956/kycCo=
+	t=1751310328; cv=none; b=s/opFbh76UkQ2AiZJAqI3JNhsadODfZrb9U86C0ML+2cHBReqTQJCA5DrWB4Rs49m1yM4gkJSfBP6XCd/lQUCeHAKpbqfVWXqwTwSAoCPGwqC8p6LjcCyLnPP1o5yZ9ikMrvzIAMiAjHgxpQBalEW2RakIW2yx3ce6SnZxsKuCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751308292; c=relaxed/simple;
-	bh=QWChR3Bdm/NXwz4NQqvvVjxKeDXNgvFduFPy7gDqv0A=;
+	s=arc-20240116; t=1751310328; c=relaxed/simple;
+	bh=psDLQgMF9qmmKcTRLvKhuLBjMrAT6NjMMMj08Enkoe0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fRfn70WcopDRzk1N0ld7z40tqGjOMNFXR97OtOYaT4uFQWTSOeyt91UU46xDz0BrChEjmlEgkLa6l4dSKyOyXaBjEW8jFPBEcUBC9v5+aph29L89ciPisXzL3fPtOhU+iXxpo1q81JM8X7ycTDAmgh8Jp6TwPS4fGvvvt8c7IWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iWOD1r6r; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EFCEF928;
-	Mon, 30 Jun 2025 20:31:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751308268;
-	bh=QWChR3Bdm/NXwz4NQqvvVjxKeDXNgvFduFPy7gDqv0A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iWOD1r6r7qsDh4XzrvRYnEO4ppSt2wJKYZWZ9CMuw80d5WfZ7R5t+nu0Ht/aOQgse
-	 UDZtSEEOYe/se0eEZzDsiBBXbeSOreocpnPnnew1YtaRlCzYmIQAxHZ3DEhFM7zlkb
-	 Z6W1uZoukW9gI+0q/te9Z+3+bXg1lHg6EIm8jJYI=
-Date: Mon, 30 Jun 2025 21:31:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: robh@kernel.org, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: Compatible vs onnn,model at ap1302 binding
-Message-ID: <20250630183104.GB17697@pendragon.ideasonboard.com>
-References: <aGLRbiqT8qVdG40z@lizhi-Precision-Tower-5810>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MMMSQG8eAVcd4dHI+7HNdz9ioxR2pxK8FJdBgnS8d1+luze9DL9CUi4VXyGc/GtBCskNPTWwaHiRcfOLrvMxyKbto3yTPPtojx1EalrFLOkTdcDp8HcQ2xUQk2fqiwko7fnoNEzVGRZbBjcdWzaj++JaJ8USmB/4FtxVCkiQIBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZbTwiYx2; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751310326; x=1782846326;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=psDLQgMF9qmmKcTRLvKhuLBjMrAT6NjMMMj08Enkoe0=;
+  b=ZbTwiYx2smRfzD9EBckXpA3zpPxRrS817lq9C7xRGBL5rmpIjhKT8Xth
+   blwHPJspOJvVnu07hZWvzWvjp5LZ2fCx5W3Bm/5RGsfCPb5Dgr66ynJIL
+   O9M/yHq2fOzT1e1r6WMJ+4HDdo3pCJtFLqfLsBj4XRToX9+JXhMfMrYOE
+   BqYKd7CRa5dPCIBdaU1wKV/0UlwboUhzpx4EL9jc/ABIjOVVJrvw5a0q7
+   dKtSDYe1KCxqykPRyElRyrvppefKzdOp1oGkZfMc4WFKbDQPIrAiWO2YX
+   cgj7D6WP6xJTBU+UbKuHTzIxglWHfUAJQRcUsZt6WhH7tesbfdK0yd5UU
+   A==;
+X-CSE-ConnectionGUID: l24jxXxKQpe7EOttL9/CNA==
+X-CSE-MsgGUID: mnlCsX4hTyuSqr+i8uGPTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="53510912"
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="53510912"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 12:05:25 -0700
+X-CSE-ConnectionGUID: SIxJ2dbvRR6/ih/kUFyP6g==
+X-CSE-MsgGUID: Yd78Ci1SQt62sNi0hQN41Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="157591189"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 30 Jun 2025 12:05:21 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWJod-000ZHu-1F;
+	Mon, 30 Jun 2025 19:05:19 +0000
+Date: Tue, 1 Jul 2025 03:04:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: LiangCheng Wang <zaq14760@gmail.com>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
+Subject: Re: [PATCH v6] staging: media: atomisp: apply clang-format and fix
+ checkpatch.pl errors
+Message-ID: <202507010257.2IAupxkl-lkp@intel.com>
+References: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aGLRbiqT8qVdG40z@lizhi-Precision-Tower-5810>
+In-Reply-To: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com>
 
-Hi Frank,
+Hi LiangCheng,
 
-On Mon, Jun 30, 2025 at 02:04:21PM -0400, Frank Li wrote:
-> Hi Rob:
-> 
-> There are long discussion about AP1302 support.
-> 
-> https://lore.kernel.org/imx/20250623-ap1302-v3-0-c9ca5b791494@nxp.com/T/#m9ecad9fcbfd1ac1c59b3aa5737e3860a64db2eb4
-> previous thread
-> https://lore.kernel.org/linux-media/1631091372-16191-1-git-send-email-anil.mamidala@xilinx.com/
-> 
-> Let me summary the key points.
+kernel test robot noticed the following build errors:
 
-Thanks for the summary.
+[auto build test ERROR on 67a993863163cb88b1b68974c31b0d84ece4293e]
 
-> AP1302 is I2C ISP processor, which can connect to some RAW sensors. such as
-> AR0144. AR0144 can work alone, a RFC upstreaming at
-> https://lore.kernel.org/linux-devicetree/20240630141802.15830-2-laurent.pinchart@ideasonboard.com/
-> 
-> When AR0144 connect to AP1302, it is not 100% transparents for software,
-> It needs power supplies for it.
-> 
-> The basically there are two methods now.
-> 
-> Method 1 ( Laurent Pinchart purposed ):
-> 
-> use a vendor's specific property like model
-> 
-> camera@3c {
->         compatible = "onnn,ap1302";
->         ...
->         sensors {
->                 onnn,model = "onnn,ar0144";
->                 ^^^^
->                 sensor@0 {
->                         reg = <0>;
->                         vdd-supply = <&mt6358_vcamd_reg>;
->                         vaa-supply = <&mt6358_vcama1_reg>;
->                         vddio-supply = <&reg_1p8v_ext>;
->         ....
-> 
-> 
-> Method 2 ( suggested by Rob at 2021 ):
-> 
-> use compatible string:
-> 
-> camera@3c {
->         compatible = "onnn,ap1302";
->         ...
->         ports {
->                 port@0 {
->                         compatible = "onnn,ar0144";
->                         ^^^^
->                         reg = <0>;
->                         vaa-supply = <&vaa_regulator>;
-> 
->         ...
-> 
-> 
->                Method 2                              Mathod 1
-> The same hardware should use the         There are not driver to match onnn,ar0144.
-> same binding regardless connect to       AR0144 is not visilable from host point.
-> which bus/devices
-> 
->                                          compatible means software comaptible, but
->                                          there are not driver for it at this case.
-> 
-> reg in difference spi/i2c also have      reg is i2c's address, but here is port or
-> difference means.                        sensor index.
-> 
-> Similar case for spi and i2c devices.    There are difference set of mandatory properties
->                                          when connect to ISP or SoC.
-> 
-> 
-> Rob and Laurent Pinchart:
-> 
->         Need a direction to move forwards!
+url:    https://github.com/intel-lab-lkp/linux/commits/LiangCheng-Wang/staging-media-atomisp-apply-clang-format-and-fix-checkpatch-pl-errors/20250627-230151
+base:   67a993863163cb88b1b68974c31b0d84ece4293e
+patch link:    https://lore.kernel.org/r/20250627-bar-v6-1-b22b5ea3ced0%40gmail.com
+patch subject: [PATCH v6] staging: media: atomisp: apply clang-format and fix checkpatch.pl errors
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250701/202507010257.2IAupxkl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507010257.2IAupxkl-lkp@intel.com/reproduce)
 
-There are two things to consider here. One is the DT property we want to
-use to identify the sensor model. It can be argued that the "compatible"
-property is widely used for this purpose. This is true, but the
-"compatible" property is meant to indicate compatibility from an
-operating system software point of view (regardless of which operating
-system is used). As a result, it serves as the central piece around
-which drivers are bound to devices, and therefore is also used to match
-DT schemas for the device.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507010257.2IAupxkl-lkp@intel.com/
 
-What we need here is to identify the sensor model, first and foremost to
-load the corresponding AP1302 firmware, and to know which power supplies
-the AP1302 driver needs to control for the sensor. Note that it would be
-entirely feasible for the sensor power supplies to be connected to GPIOs
-of the AP1302 and entirely controlled by the AP1302 firmware, but on
-some designs those power supplies are connected to GPIOs of the main
-SoC, and therefore need to be controlled by the AP1302 driver.
+All error/warnings (new ones prefixed by >>):
 
-While I think a custom property is better, I could live with
-"compatible" *iif* it does not imply at the corresponding DT schema for
-the sensor is pulled in. The DT binding for the sensor when controlled
-from the main SoC describe the properties of the sensor that are
-required for that use case, and those only overlap slightly with the
-properties of the sensor needed by the AP1302. Using "compatible" in
-such a case would in my opinion be misleading as it would imply
-compatibility with the sensor DT binding.
+   In file included from drivers/staging/media/atomisp//pci/ia_css_acc_types.h:16,
+                    from drivers/staging/media/atomisp//pci/ia_css_pipe_public.h:20,
+                    from drivers/staging/media/atomisp/pci/sh_css_legacy.h:14,
+                    from drivers/staging/media/atomisp/pci/atomisp_internal.h:24,
+                    from drivers/staging/media/atomisp/pci/atomisp_cmd.h:19,
+                    from drivers/staging/media/atomisp/pci/atomisp_cmd.c:26:
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/runtime/isp_param/interface/ia_css_isp_param_types.h:69:17: note: in expansion of macro 'CSS_ALIGN'
+      69 |                 CSS_ALIGN(struct ia_css_memory_offsets *param, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/runtime/isp_param/interface/ia_css_isp_param_types.h:74:17: note: in expansion of macro 'CSS_ALIGN'
+      74 |                 CSS_ALIGN(void *ptr, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:92:9: note: in expansion of macro 'CSS_ALIGN'
+      92 |         CSS_ALIGN(
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:202:9: note: in expansion of macro 'CSS_ALIGN'
+     202 |         CSS_ALIGN(u32 id, 8); /* IA_CSS_BINARY_ID_* */
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:276:9: note: in expansion of macro 'CSS_ALIGN'
+     276 |         CSS_ALIGN(s32 num_output_formats, 8);
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:365:9: note: in expansion of macro 'CSS_ALIGN'
+     365 |         CSS_ALIGN(u32 type, 8);
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/sh_css_internal.h:687:9: note: in expansion of macro 'CSS_ALIGN'
+     687 |         CSS_ALIGN(u64 cookie_ptr,
+         |         ^~~~~~~~~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/gfp_types.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/linux/firmware.h:8,
+                    from drivers/staging/media/atomisp/pci/atomisp_cmd.c:10:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct sh_css_hmm_buffer) == SIZE_OF_SH_CSS_HMM_BUFFER_STRUCT"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp//pci/sh_css_internal.h:710:1: note: in expansion of macro 'static_assert'
+     710 | static_assert(sizeof(struct sh_css_hmm_buffer) ==
+         | ^~~~~~~~~~~~~
+   In file included from drivers/staging/media/atomisp//pci/hive_isp_css_include/vmem.h:25,
+                    from drivers/staging/media/atomisp//pci/isp/kernels/ob/ob_1.0/ia_css_ob_param.h:11,
+                    from drivers/staging/media/atomisp/pci/sh_css_params.h:29,
+                    from drivers/staging/media/atomisp/pci/atomisp_tables.h:12,
+                    from drivers/staging/media/atomisp/pci/atomisp_cmd.c:32:
+>> drivers/staging/media/atomisp//pci/hive_isp_css_common/host/vmem_local.h:16:26: error: expected specifier-qualifier-list before '(' token
+      16 | #define VMEM_ARRAY(x, s) (t_vmem_elem x[(s) / ISP_NWAY][ISP_NWAY])
+         |                          ^
+   drivers/staging/media/atomisp//pci/isp/kernels/ob/ob_1.0/ia_css_ob_param.h:36:9: note: in expansion of macro 'VMEM_ARRAY'
+      36 |         VMEM_ARRAY(vmask, OBAREA_MASK_SIZE);
+         |         ^~~~~~~~~~
+--
+   In file included from drivers/staging/media/atomisp/pci/ia_css_acc_types.h:16,
+                    from drivers/staging/media/atomisp/pci/ia_css.h:17,
+                    from drivers/staging/media/atomisp/pci/atomisp_compat_css20.h:13,
+                    from drivers/staging/media/atomisp/pci/atomisp_compat.h:11,
+                    from drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:16:
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/runtime/isp_param/interface/ia_css_isp_param_types.h:69:17: note: in expansion of macro 'CSS_ALIGN'
+      69 |                 CSS_ALIGN(struct ia_css_memory_offsets *param, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/runtime/isp_param/interface/ia_css_isp_param_types.h:74:17: note: in expansion of macro 'CSS_ALIGN'
+      74 |                 CSS_ALIGN(void *ptr, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:92:9: note: in expansion of macro 'CSS_ALIGN'
+      92 |         CSS_ALIGN(
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:202:9: note: in expansion of macro 'CSS_ALIGN'
+     202 |         CSS_ALIGN(u32 id, 8); /* IA_CSS_BINARY_ID_* */
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:276:9: note: in expansion of macro 'CSS_ALIGN'
+     276 |         CSS_ALIGN(s32 num_output_formats, 8);
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:365:9: note: in expansion of macro 'CSS_ALIGN'
+     365 |         CSS_ALIGN(u32 type, 8);
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/sh_css_internal.h:687:9: note: in expansion of macro 'CSS_ALIGN'
+     687 |         CSS_ALIGN(u64 cookie_ptr,
+         |         ^~~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:103,
+                    from include/linux/ktime.h:24,
+                    from include/linux/poll.h:7,
+                    from include/media/v4l2-dev.h:13,
+                    from drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:8:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct sh_css_hmm_buffer) == SIZE_OF_SH_CSS_HMM_BUFFER_STRUCT"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp//pci/sh_css_internal.h:710:1: note: in expansion of macro 'static_assert'
+     710 | static_assert(sizeof(struct sh_css_hmm_buffer) ==
+         | ^~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: In function 'atomisp_css_dump_blob_infor':
+>> drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3330:37: error: 'struct ia_css_fw_info' has no member named 'type'
+    3330 |                 switch (bd[i].header.type) {
+         |                                     ^
+   In file included from include/linux/printk.h:616:
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3334:74: error: 'struct ia_css_fw_info' has no member named 'type'
+    3334 |                                 i + NUM_OF_SPS, fw_type_name[bd[i].header.type],
+         |                                                                          ^
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3332:25: note: in expansion of macro 'dev_dbg'
+    3332 |                         dev_dbg(isp->dev,
+         |                         ^~~~~~~
+>> drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3335:62: error: 'struct ia_css_fw_info' has no member named 'info'
+    3335 |                                 fw_acc_type_name[bd[i].header.info.isp.type],
+         |                                                              ^
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3332:25: note: in expansion of macro 'dev_dbg'
+    3332 |                         dev_dbg(isp->dev,
+         |                         ^~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3336:45: error: 'struct ia_css_fw_info' has no member named 'info'
+    3336 |                                 bd[i].header.info.isp.sp.id, bd[i].name);
+         |                                             ^
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3332:25: note: in expansion of macro 'dev_dbg'
+    3332 |                         dev_dbg(isp->dev,
+         |                         ^~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3340:74: error: 'struct ia_css_fw_info' has no member named 'type'
+    3340 |                                 i + NUM_OF_SPS, fw_type_name[bd[i].header.type],
+         |                                                                          ^
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:3339:25: note: in expansion of macro 'dev_dbg'
+    3339 |                         dev_dbg(isp->dev, "Num%2d type %s, name is %s\n",
+         |                         ^~~~~~~
+--
+   In file included from drivers/staging/media/atomisp//pci/ia_css_acc_types.h:16,
+                    from drivers/staging/media/atomisp//pci/ia_css_pipe_public.h:20,
+                    from drivers/staging/media/atomisp/pci/sh_css_legacy.h:14,
+                    from drivers/staging/media/atomisp/pci/atomisp_internal.h:24,
+                    from drivers/staging/media/atomisp/pci/atomisp_cmd.h:19,
+                    from drivers/staging/media/atomisp/pci/atomisp_csi2.c:10:
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/runtime/isp_param/interface/ia_css_isp_param_types.h:69:17: note: in expansion of macro 'CSS_ALIGN'
+      69 |                 CSS_ALIGN(struct ia_css_memory_offsets *param, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/runtime/isp_param/interface/ia_css_isp_param_types.h:74:17: note: in expansion of macro 'CSS_ALIGN'
+      74 |                 CSS_ALIGN(void *ptr, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:92:9: note: in expansion of macro 'CSS_ALIGN'
+      92 |         CSS_ALIGN(
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:202:9: note: in expansion of macro 'CSS_ALIGN'
+     202 |         CSS_ALIGN(u32 id, 8); /* IA_CSS_BINARY_ID_* */
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:276:9: note: in expansion of macro 'CSS_ALIGN'
+     276 |         CSS_ALIGN(s32 num_output_formats, 8);
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/ia_css_acc_types.h:365:9: note: in expansion of macro 'CSS_ALIGN'
+     365 |         CSS_ALIGN(u32 type, 8);
+         |         ^~~~~~~~~
+--
+   In file included from drivers/staging/media/atomisp/pci/ia_css_acc_types.h:16,
+                    from drivers/staging/media/atomisp/pci/ia_css.h:17,
+                    from drivers/staging/media/atomisp/pci/atomisp_compat_css20.h:13,
+                    from drivers/staging/media/atomisp/pci/atomisp_compat.h:11,
+                    from drivers/staging/media/atomisp/pci/atomisp_drvfs.c:12:
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/runtime/isp_param/interface/ia_css_isp_param_types.h:69:17: note: in expansion of macro 'CSS_ALIGN'
+      69 |                 CSS_ALIGN(struct ia_css_memory_offsets *param, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/runtime/isp_param/interface/ia_css_isp_param_types.h:74:17: note: in expansion of macro 'CSS_ALIGN'
+      74 |                 CSS_ALIGN(void *ptr, 8);
+         |                 ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:92:9: note: in expansion of macro 'CSS_ALIGN'
+      92 |         CSS_ALIGN(
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:202:9: note: in expansion of macro 'CSS_ALIGN'
+     202 |         CSS_ALIGN(u32 id, 8); /* IA_CSS_BINARY_ID_* */
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:276:9: note: in expansion of macro 'CSS_ALIGN'
+     276 |         CSS_ALIGN(s32 num_output_formats, 8);
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp/pci/ia_css_acc_types.h:365:9: note: in expansion of macro 'CSS_ALIGN'
+     365 |         CSS_ALIGN(u32 type, 8);
+         |         ^~~~~~~~~
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:23:25: error: expected specifier-qualifier-list before '(' token
+      23 | #define CSS_ALIGN(d, a) (d __attribute__((aligned(a))))
+         |                         ^
+   drivers/staging/media/atomisp//pci/sh_css_internal.h:687:9: note: in expansion of macro 'CSS_ALIGN'
+     687 |         CSS_ALIGN(u64 cookie_ptr,
+         |         ^~~~~~~~~
+   In file included from include/linux/bits.h:32,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/staging/media/atomisp/pci/atomisp_drvfs.c:8:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct sh_css_hmm_buffer) == SIZE_OF_SH_CSS_HMM_BUFFER_STRUCT"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp//pci/sh_css_internal.h:710:1: note: in expansion of macro 'static_assert'
+     710 | static_assert(sizeof(struct sh_css_hmm_buffer) ==
+         | ^~~~~~~~~~~~~
+..
+
+
+vim +3330 drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3314  
+250977de59340d2 drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Andy Shevchenko       2020-06-26  3315  int atomisp_css_dump_blob_infor(struct atomisp_device *isp)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3316  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3317  	struct ia_css_blob_descr *bd = sh_css_blob_info;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3318  	unsigned int i, nm = sh_css_num_binaries;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3319  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3320  	if (nm == 0)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3321  		return -EPERM;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3322  	if (!bd)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3323  		return -EPERM;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3324  
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3325  	/*
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3326  	 * The sh_css_load_firmware function discard the initial
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3327  	 * "SPS" binaries
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3328  	 */
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3329  	for (i = 0; i < sh_css_num_binaries - NUM_OF_SPS; i++) {
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29 @3330  		switch (bd[i].header.type) {
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3331  		case ia_css_isp_firmware:
+19a0f50c655afde drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          LiangCheng Wang       2025-06-27  3332  			dev_dbg(isp->dev,
+19a0f50c655afde drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          LiangCheng Wang       2025-06-27  3333  				"Num%2d type %s (%s), binary id is %2d, name is %s\n",
+19a0f50c655afde drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          LiangCheng Wang       2025-06-27  3334  				i + NUM_OF_SPS, fw_type_name[bd[i].header.type],
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29 @3335  				fw_acc_type_name[bd[i].header.info.isp.type],
+19a0f50c655afde drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          LiangCheng Wang       2025-06-27  3336  				bd[i].header.info.isp.sp.id, bd[i].name);
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3337  			break;
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3338  		default:
+250977de59340d2 drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Andy Shevchenko       2020-06-26  3339  			dev_dbg(isp->dev, "Num%2d type %s, name is %s\n",
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3340  				i + NUM_OF_SPS, fw_type_name[bd[i].header.type],
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3341  				bd[i].name);
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3342  		}
+0cd8726c26edd1d drivers/staging/media/atomisp/pci/atomisp_compat_css20.c          Mauro Carvalho Chehab 2020-05-29  3343  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3344  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3345  	return 0;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3346  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/atomisp_compat_css20.c Mauro Carvalho Chehab 2020-04-19  3347  
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
