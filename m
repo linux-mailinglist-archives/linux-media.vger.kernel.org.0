@@ -1,228 +1,193 @@
-Return-Path: <linux-media+bounces-36292-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36293-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF072AEDED9
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:22:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D73AEDEDA
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:22:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44B4A3BF488
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:16:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C2397A5164
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:20:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D17528DB4F;
-	Mon, 30 Jun 2025 13:13:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40D4828643C;
+	Mon, 30 Jun 2025 13:21:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYBzNDgS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qiZU2hig"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF982749E1;
-	Mon, 30 Jun 2025 13:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AD425A32C;
+	Mon, 30 Jun 2025 13:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751289219; cv=none; b=l4NcjQF6sQX9ai6eXSQkO6ouh0k197w+Mkr1nXPdy4wsggzA89Aa1gOzk9DBjPVoGpKD2KTvWd68N0T/aAabdOrfB+RWu0I51JzgkeHciMgBe4Xk1iWTgpIxcG+q67ltnZo+/9ovgKuLTxjLvlTnCO96Yx9VPxZFPKiIv6PipUs=
+	t=1751289717; cv=none; b=hqe8rKtN++rjw9siN42lm0RJgJOO6/7+fwgj/+MLlp2VH2bSsjGRhX5HW2o0B6mQyxxULwhiPKvzA+2pcGe2p1ExLx2b0e+OYpW0srbB4ZY6j3LTcQAUTsPpvUqSJQfV6kBubM5kHzDYIzb0f5Jm+9bc5zFePAx2R+Ep1lxZAk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751289219; c=relaxed/simple;
-	bh=ticg8F/QpgM6uZ+Xc7lwFuLN1jw7UH52pw2WrhaQ6Oo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iuQ8UMJDkIDI6g/+M6pHBzbabwLo7ioJXBY0Abb7vFcAKzyBB/5L5sSxNBbCkRRG8Qxrk6tXpSTU+/RU8WBSE2PRcqPD3qhQZPVpxUC8uRdgIQbWcK216bI5qNrzDXWMLpJdzypzm2swLRY6ek639vMBT/M+JiVOVGuiMMokcss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AYBzNDgS; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-607cf70b00aso8997645a12.2;
-        Mon, 30 Jun 2025 06:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751289216; x=1751894016; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fswOJF6o7qkEIMaZT5o1n79zw+u/hsqnIJovmiTNbVw=;
-        b=AYBzNDgS++l1+XVOLEK3vUgfJQAkpnUOFlJUwf3cutYC6nIdyewLXo8QrvsLcuc03m
-         Vwe6+zkXokW/U3hsUOS1swBDXcl8FtJklU7Zv7/tS6uzDH6wBVKTdTlkB/iE3uUN6seO
-         MFDniZzsabShMy64Fgtxby2rchTXmNq0mh9nOQ5DiGM8GYE1o757BgswGD8CBLVUdaVk
-         6NpjRBWUERowS7xzCmLJxd8PYYC+4UtyKrmekENYX+8FQ8O8oSKlHUe8ovKC137z6xrF
-         8p44jKyTO9r5oi/aEiandHmbT9NSSsZKmDAhhNSEUvTFXoeHYbsfsNsRF7+UMFYRyQKR
-         PGVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751289216; x=1751894016;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fswOJF6o7qkEIMaZT5o1n79zw+u/hsqnIJovmiTNbVw=;
-        b=SEpFTNF+NgSZx7ehyAEFRtKJC+e5tu7JzeFKWKL6W6pmF7MYz+igcO77C5wv12zxvC
-         o+Akl3Cu6HjwmKw2dYdszrQUcNZ3jJq7eTwGSiQ9S8G89G5hnTd6KQrZR6tOty5VUgqu
-         pTVOslAh0CMLKv06uW4IxCcm87jnd3S4TEvNNQpNlNn2IlSpVIa0B3sQhh+Aq+Wzww2S
-         F6HxOENcxI+T91iBBL1n2OZ+kov5jLh09ROQ7BbJ9+KN/ZgIaobLFT5D5B38oPXaoSB9
-         8PVAJHaMpkjFyy1S338OKf96AXanyqa5E8BMycnqkba4pUAGvinkDGjNoYLOVA9tls6X
-         9maQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcdno2n8+TEW6nFIccE7SJZiMFCMwnTATeiZNgUnTwzTFtQWceS461nX0/Seo6R6mLeMQdICT893gGH40=@vger.kernel.org, AJvYcCXBbdupR+IxGmlhzurUNmluSo1D/A4HZgmcJZiAEE52Iyc+FhfSgP3FJE5LyTq0gbNwnDSZ/mxrUZzp6IU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgNrP3RXSXYSJlqlgXgT4S1f14pl1bTFc9yrlVT1VQFjG3wT7s
-	DoPuM3lY8QCASqtt8YWujhTS4TGtF76K1ZndYi7ZFhJ2UCWdOvr2WmYZ0VCCciEEifxy+5qPI86
-	bAFfxkgPvizS7LuZFQrB5yvN3+eot8/o=
-X-Gm-Gg: ASbGncstY46O+BXjkdGaGT9tRqWBKB+waGZX/xA5HGv4NFpSu5WCL5qUqbztcIEpO8J
-	PidXhb/XY7rF6ag5xfngHkU/kSS8tSq5BEmD5SSf0iirZIetlQbAeg0PTHWoL1YeLQHtzWBxn6B
-	l1lKV6XPkrJhoJfZvFZqRAECqlQddey8SE3JFn9tIi3Bs=
-X-Google-Smtp-Source: AGHT+IE/CC3UTiSZbneeJ7xdPR3D+CONWMBjZY1fQXWksoJ1Ise2YdpYc11zDtz5TdPhrowIOpBFW+ey/+B2c8Fx1NU=
-X-Received: by 2002:a17:907:3e27:b0:ae0:b34d:907 with SMTP id
- a640c23a62f3a-ae35012229amr1126361566b.44.1751289215905; Mon, 30 Jun 2025
- 06:13:35 -0700 (PDT)
+	s=arc-20240116; t=1751289717; c=relaxed/simple;
+	bh=3yMBCPTuS/l6omIAvTwcC7MGrMhRvoP2UInGJJ5GhjE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=t4b2OHOF0k4D3VaebCMJeqDizePQLIGCIvvbF3AE0CZhEy+M3Czelml4v4u1tTzqOEFJVtTO08/WMvGNEZTyhEBfl+40XGinBf75pVzxC1F+HnGbyl5yV/OIg0atQj5beTafDUNDt0r18R2g3ypnYawiN7AA4rQJaXoNzxJlnWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qiZU2hig; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79F2C4CEE3;
+	Mon, 30 Jun 2025 13:21:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751289717;
+	bh=3yMBCPTuS/l6omIAvTwcC7MGrMhRvoP2UInGJJ5GhjE=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=qiZU2higmNr3YU1RA0OeGd/CaGK0pSV13XxOzV/+L16A/R6jyulCv3DuXESJ65/8D
+	 h6mGVnAowlkLxUliyA5EmyMe8R3kHRMxtP9veO6YC94oZDFBCvdUUWJRguKWgwa79D
+	 R3jDAOUbP5GDtu4px+ZUZAK+DUocxDySYn6vYqWd+P1unejJA3U/1hO3+fmLQ96MUG
+	 fIGkpgSxhz+vdRYTbqVZEAP+N95WfxnjPuPJtHghVEkVGBY42dR1ztZk4waZl7KRAT
+	 xCDuFXvoj0vZIgro0w5dmnI8N1J7mJyXYTrHI/wd8aEVZH1Vc0CiFK/xzFtjotuuax
+	 zMPUG5gRt1+uw==
+Message-ID: <6f6c7a57-7d51-4902-8ece-c661427f2290@kernel.org>
+Date: Mon, 30 Jun 2025 15:21:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250628181530.873795-1-pedro.nariyoshi@gmail.com>
- <c8b65585-18bb-435c-9667-b202fb768299@jjverkuil.nl> <CAHPgyW5s8HB5op9z8cMPJPJ-9=e4Ufp6R3U3jABOxXD0Rzt06g@mail.gmail.com>
-In-Reply-To: <CAHPgyW5s8HB5op9z8cMPJPJ-9=e4Ufp6R3U3jABOxXD0Rzt06g@mail.gmail.com>
-From: "Mr. Chromebox" <mrchromebox@gmail.com>
-Date: Mon, 30 Jun 2025 08:13:23 -0500
-X-Gm-Features: Ac12FXxBe-NEPpyJu-_Iu88iVvt-iIfxyFjpehXXJ6E0qwyuiKPHOgUZMjqEmNo
-Message-ID: <CAFTm+6CQ+EkMyt35bLzb0+GcHaCiCk8XFP5-dSwev90on4GT=A@mail.gmail.com>
-Subject: Re: [PATCH] media: cros-ec-cec: Add Fizz board variants, so driver
- can detect them
-To: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
-Cc: hans@jjverkuil.nl, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-media@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/9] media: uvcvideo: uvc_v4l2_unlocked_ioctl: Invert
+ PM logic
+From: Hans de Goede <hansg@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hans Verkuil <hans@jjverkuil.nl>
+References: <20250602-uvc-grannular-invert-v2-0-c871934ad880@chromium.org>
+ <20250602-uvc-grannular-invert-v2-7-c871934ad880@chromium.org>
+ <ba461646-c639-4e66-9f6d-c34f59d39f82@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <ba461646-c639-4e66-9f6d-c34f59d39f82@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> (Sorry to those re-receiving this message, my email client added HTML tag=
-s to the links and I didn't notice until too late)
+Hi,
 
-same apologies from me
-
-On Mon, Jun 30, 2025 at 7:52=E2=80=AFAM Pedro Nariyoshi
-<pedro.nariyoshi@gmail.com> wrote:
->
-> (Sorry to those re-receiving this message, my email client added HTML tag=
-s to the links and I didn't notice until too late)
->
-> Hello Hans,
-> I don't particularly have a preference on what we match against. I went i=
-n this direction because I felt it was less disruptive to add elements to a=
- table, than rewrite the matching function and the table (especially withou=
-t the hardware to validate the changes on). I started looking at devices ba=
-sed on the same board on the chromium developer list (searching for "Fizz")=
-:
->
-> https://www.chromium.org/chromium-os/developer-library/reference/developm=
-ent/developer-information-for-chrome-os-devices/
->
-> This list gave me Kench, Sion, Teemo and Wukong. Then I looked at the sup=
-ported list for the coreboot implementation I am using:
->
-> https://github.com/MrChromebox/scripts/blob/main/functions.sh
->
-> The remaining boards seem to be rare variants of these devices (google me=
-et hardware, i7 variants of the same board, etc). This gave me the rest of =
-the boards I have added. Although, I now realize, I should have just gone t=
-o the source of coreboot:
->
-> https://github.com/coreboot/coreboot/blob/main/src/mainboard/google/fizz/=
-mainboard.c#L184-L194
->
-> This made me realize I am missing Karma (an acer all-in-one) and Endeavor=
- (another google meet variant). I could add these two missing boards, but I=
- think it'd be helpful to have someone from Google chime in as to whether i=
-t'd make sense to change the matching scheme instead. Depending on what the=
-y think, I'd be open to rewrite the patch whichever way it is decided.
-> Regards,
->
-> Pedro Nariyoshi
->
-> On Mon, Jun 30, 2025 at 2:25=E2=80=AFAM <hans@jjverkuil.nl> wrote:
+On 16-Jun-25 4:14 PM, Hans de Goede wrote:
+> Hi,
+> 
+> On 2-Jun-25 15:06, Ricardo Ribalda wrote:
+>> Instead of listing the IOCTLs that do not need to turn on the camera,
+>> list the IOCTLs that need to turn it on. This makes the code more
+>> maintainable.
 >>
->> Hi Pedro,
+>> This patch changes the behaviour for unsupported IOCTLs. Those IOCTLs
+>> will not turn on the camera.
 >>
->> On 28/06/2025 20:14, Pedro Nariyoshi wrote:
->> > I recently reflashed a Chromebox (Wukong variant of the Fizz board) wi=
-th
->> > coreboot and I noticed that the cec driver refused to load with a bit =
-of
->> > tinkering, I realized that the dmi_match_table was expecting the produ=
-ct
->> > name to be Fizz, but `dmidecode` reports `Wukong` as the product name.=
- I
->> > am not sure if this is the best approach, but adding this patch lets m=
-e
->> > load the driver and it works properly.
->> >
->> > Alternatively, we could instead match the DMI_PRODUCT_FAMILY, instead =
-of
->> > DMI_SYS_VENDOR and DMI_PRODUCT_NAME. In my board at least, that says
->> > "Google_Fizz".
->> >
->> > I am open to suggestions for alternative solutions and I hope I did't
->> > break any rules (this is my first kernel patch). (And sorry for the
->> > previous submissions with errors in the subject line)
->> >
->> > Signed-off-by: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+>> Suggested-by: Hans Verkuil <hans@jjverkuil.nl>
+>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> ---
+>>  drivers/media/usb/uvc/uvc_v4l2.c | 61 ++++++++++++++++++++++++----------------
+>>  1 file changed, 36 insertions(+), 25 deletions(-)
 >>
->> Thank you for your patch, but I would like to have someone from Google
->> review this as well.
+>> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+>> index 020def11b60e00ca2875dd96f23ef9591fed11d9..13388879091c46ff74582226146521b5b5eb3d10 100644
+>> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+>> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+>> @@ -1219,43 +1219,54 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
+>>  }
+>>  #endif
+>>  
+>> -static long uvc_v4l2_unlocked_ioctl(struct file *file,
+>> -				    unsigned int cmd, unsigned long arg)
+>> +static long uvc_v4l2_pm_ioctl(struct file *file,
+>> +			      unsigned int cmd, unsigned long arg)
+>>  {
+>>  	struct uvc_fh *handle = file->private_data;
+>>  	int ret;
+>>  
+>> -	/* The following IOCTLs do not need to turn on the camera. */
+> 
+> s/do need/need/
+
+Actually this review-remark belongs to when this comment is re-added
+below ...
+
+>> -	switch (cmd) {
+>> -	case UVCIOC_CTRL_MAP:
+>> -	case VIDIOC_CREATE_BUFS:
+>> -	case VIDIOC_DQBUF:
+>> -	case VIDIOC_ENUM_FMT:
+>> -	case VIDIOC_ENUM_FRAMEINTERVALS:
+>> -	case VIDIOC_ENUM_FRAMESIZES:
+>> -	case VIDIOC_ENUMINPUT:
+>> -	case VIDIOC_EXPBUF:
+>> -	case VIDIOC_G_FMT:
+>> -	case VIDIOC_G_PARM:
+>> -	case VIDIOC_G_SELECTION:
+>> -	case VIDIOC_QBUF:
+>> -	case VIDIOC_QUERYCAP:
+>> -	case VIDIOC_REQBUFS:
+>> -	case VIDIOC_SUBSCRIBE_EVENT:
+>> -	case VIDIOC_UNSUBSCRIBE_EVENT:
+>> -		return video_ioctl2(file, cmd, arg);
+>> -	}
+>> -
+>>  	ret = uvc_pm_get(handle->stream->dev);
+>>  	if (ret)
+>>  		return ret;
+>> -
+>>  	ret = video_ioctl2(file, cmd, arg);
+>> -
+>>  	uvc_pm_put(handle->stream->dev);
+>> +
+>>  	return ret;
+>>  }
+>>  
+>> +static long uvc_v4l2_unlocked_ioctl(struct file *file,
+>> +				    unsigned int cmd, unsigned long arg)
+>> +{
+>> +	/*
+>> +	 * For now, we do not support granular power saving for compat
+>> +	 * syscalls.
+>> +	 */
+>> +	if (in_compat_syscall())
+>> +		return uvc_v4l2_pm_ioctl(file, cmd, arg);
+>> +
+>> +	/* The following IOCTLs do need to turn on the camera. */
+
+So the 's/do need/need/' should be done here. I can fix this
+up while merging. All that is necessary to merge this is an
+ack from Hans V for merging the EXPORT in the core through
+the UVC git tree.
+
+Regards,
+
+Hans
+
+
+
+>> +	switch (cmd) {
+>> +	case UVCIOC_CTRL_QUERY:
+>> +	case VIDIOC_G_CTRL:
+>> +	case VIDIOC_G_EXT_CTRLS:
+>> +	case VIDIOC_G_INPUT:
+>> +	case VIDIOC_QUERYCTRL:
+>> +	case VIDIOC_QUERYMENU:
+>> +	case VIDIOC_QUERY_EXT_CTRL:
+>> +	case VIDIOC_S_CTRL:
+>> +	case VIDIOC_S_EXT_CTRLS:
+>> +	case VIDIOC_S_FMT:
+>> +	case VIDIOC_S_INPUT:
+>> +	case VIDIOC_S_PARM:
+>> +	case VIDIOC_TRY_EXT_CTRLS:
+>> +	case VIDIOC_TRY_FMT:
+>> +		return uvc_v4l2_pm_ioctl(file, cmd, arg);
+>> +	}
+>> +
+>> +	/* The other IOCTLs can run with the camera off. */
+>> +	return video_ioctl2(file, cmd, arg);
+>> +}
+>> +
+>>  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
+>>  	.vidioc_g_fmt_vid_cap = uvc_ioctl_g_fmt,
+>>  	.vidioc_g_fmt_vid_out = uvc_ioctl_g_fmt,
 >>
->> The number of entries keeps increasing, so perhaps switching to
->> DMI_PRODUCT_FAMILY would make sense. But I have no insight in how this
->> is done internally at Google.
+> 
 
-DMI_PRODUCT_FAMILY is the baseboard/reference board name (Fizz, Puff,
-Brask, etc). The individual boards/retail products each have their own
-codename as well, which Google sets as the ChromeOS HWID in their
-custom coreboot firmware. With upstream coreboot firmware, the
-individual board names are used for the DMI_PRODUCT_NAME as the HWID
-doesn't exist there, which is why the existing matching works with
-Google's firmware but not mine.
-
-I highly recommend switching to use the DMI_PRODUCT_FAMILY instead, as
-it's deterministic and a simpler match. Using it along with
-DMI_SYS_VENDOR is fine.
-
->> One question for Pedro: where did you get all the other code names
->> from? Based on the commit message you have the Wukong variant, but how
->> did you find all the other variants?
-
-they're available from many sources online, including my website
-(mrchromebox.tech) and the coreboot source code
-
->> Regards,
->>
->>         Hans
->>
-
-regards,
-Matt
-
->> > ---
->> >  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 9 ++++++++-
->> >  1 file changed, 8 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/driver=
-s/media/cec/platform/cros-ec/cros-ec-cec.c
->> > index 419b9a7abcce..a26473c3cd84 100644
->> > --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
->> > +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
->> > @@ -302,8 +302,15 @@ static const char *const port_ab_conns[] =3D { "P=
-ort A", "Port B", NULL };
->> >  static const char *const port_d_conns[] =3D { "Port D", NULL };
->> >
->> >  static const struct cec_dmi_match cec_dmi_match_table[] =3D {
->> > -     /* Google Fizz */
->> > +     /* Google Fizz and variants*/
->> >       { "Google", "Fizz", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Bleemo", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Excelsior", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Jax", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Kench", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Sion", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Teemo", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Wukong", "0000:00:02.0", port_b_conns },
->> >       /* Google Brask */
->> >       { "Google", "Brask", "0000:00:02.0", port_b_conns },
->> >       /* Google Moli */
->>
 
