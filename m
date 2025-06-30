@@ -1,319 +1,365 @@
-Return-Path: <linux-media+bounces-36254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBD5AED771
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 10:35:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3183EAED7A4
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 10:43:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F311188E5CF
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 08:36:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33EF63A3513
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 08:43:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409B023B63C;
-	Mon, 30 Jun 2025 08:35:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4550242909;
+	Mon, 30 Jun 2025 08:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JKcCOSo+"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d7/juvx4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z+QxDf0u";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d7/juvx4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z+QxDf0u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2643226165;
-	Mon, 30 Jun 2025 08:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443E323B63C
+	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 08:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751272548; cv=none; b=VnKHnleQOBj7ZiqIuWDzbXvAwHtHDakc/9PUJ9AIu0HB8weX+i6tuzC9ly43U/hdcKz0ozGmARLtHx1rBOA+prjpqLdiWyavmPrSo9M8vBGTlHXLjFcdMCyMq7qMSI59+8/9udb2djZ+ficvEfMltsYIxW18V/oHvQwc5AX1d+I=
+	t=1751273002; cv=none; b=cPuTMFd+0iVfdLTcxf/ezEC+67l/h3wbf+IZU9rU6FZUz9gfy1EZ0DPZ4vlb+orb4poBJz9C4u8w1q8KuYK2GT/HgRexLUqmZOggb3/Q9OT6rwFNUVSVZYFEUWjQBUyvYzh51XYtr1DxXEfwKvhSF6qqMlBJK79YysbGLGAQ9sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751272548; c=relaxed/simple;
-	bh=Pb8HJ471aqOcZe2ewCJBa4HubsqOuoiKPklFjxSLp/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OwhTpOAPVTRw9FC/HK0OAlpzhagqliJ7/lrbDyMpF309OgvFLJOzFYnmNU1qaMOdDLa18N6M+EC1G4Igk7s3Q11qeFVxGoeL7Z5rubWbck458X/a+cVENk49AW8q4OmFIlOguheP0pSkOOCs3P7u/MoS1q7Pd2lFDBzHViA8vmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JKcCOSo+; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D8AAF6BE;
-	Mon, 30 Jun 2025 10:35:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751272523;
-	bh=Pb8HJ471aqOcZe2ewCJBa4HubsqOuoiKPklFjxSLp/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JKcCOSo+cwUx9poxNlqs4DGrbNCXBZaz2O219ud9nTwTvXH/eute7KRzNKn3JAaZo
-	 4N471DvD7OdYOC3Ex1b9MXymlYKvrP7la99f3LF19kUN96JevmnbLyFW9vSbw2ct2y
-	 eJRyGlYNKWezQnh3So3ujeextefNec1ww5ED0Aag=
-Date: Mon, 30 Jun 2025 11:35:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
-	jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com,
-	robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v10 07/17] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <20250630083519.GC24861@pendragon.ideasonboard.com>
-References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
- <20250624-c55-v10-7-54f3d4196990@ideasonboard.com>
- <cee962ce-3719-4ae7-9849-548a95d98e99@linux.intel.com>
- <20250629183547.GF6260@pendragon.ideasonboard.com>
- <aGI+y4sOlPAQMzWI@svinhufvud>
+	s=arc-20240116; t=1751273002; c=relaxed/simple;
+	bh=zUvOlFW0n5fZq41hWVdOSTeTqAg753yHp7wp889PbRY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uy5NqAP3mxVm1dw/qslf63GD9j/NEpMbTQGHKWEjqBpuCSlH1CjjhpwN55HHtD+Gwl1LB6KnPPG5lyc9AsfB2ZcV0zPXkYtJsxxjaumvuPM7kXXeQvRUXPdBPC2hKjnyn019lEEi7cZPunYJFkjGJfEtRtYz+vrnT11KOFtnE+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d7/juvx4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z+QxDf0u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d7/juvx4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z+QxDf0u; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3EC511F445;
+	Mon, 30 Jun 2025 08:43:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751272998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+	b=d7/juvx479uHngSufonZGZiAku6yGTuxHewCHkLHRCV0fQl85s8Jjm+g2jiHziahMwf+6Q
+	mTkXJK7Pp7WGUsHbSFAo1agWyqS9LjJTm8T4rlQiJd5FZwCaxdQEwNmqIREaItcrcqj0Oc
+	/AXZOMAU+2T2N7f0cAOhMz4+Y51IpmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751272998;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+	b=z+QxDf0uKn/tj2/6xbHHDaQZBjRCXXO0rpNt/CoLSx/TXctMaZ9QstF4J8YgsyfTxUKxln
+	84f9jFFiq7IkeJCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="d7/juvx4";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=z+QxDf0u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751272998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+	b=d7/juvx479uHngSufonZGZiAku6yGTuxHewCHkLHRCV0fQl85s8Jjm+g2jiHziahMwf+6Q
+	mTkXJK7Pp7WGUsHbSFAo1agWyqS9LjJTm8T4rlQiJd5FZwCaxdQEwNmqIREaItcrcqj0Oc
+	/AXZOMAU+2T2N7f0cAOhMz4+Y51IpmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751272998;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+	b=z+QxDf0uKn/tj2/6xbHHDaQZBjRCXXO0rpNt/CoLSx/TXctMaZ9QstF4J8YgsyfTxUKxln
+	84f9jFFiq7IkeJCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA66A1399F;
+	Mon, 30 Jun 2025 08:43:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eQzaMyVOYmgLAgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 30 Jun 2025 08:43:17 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: christian.koenig@amd.com,
+	asrivats@redhat.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] drm/gem: Acquire references on GEM handles for framebuffers
+Date: Mon, 30 Jun 2025 10:36:47 +0200
+Message-ID: <20250630084001.293053-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aGI+y4sOlPAQMzWI@svinhufvud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 3EC511F445
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[amd.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,linaro.org:email,suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-On Mon, Jun 30, 2025 at 10:37:47AM +0300, Sakari Ailus wrote:
-> On Sun, Jun 29, 2025 at 09:35:47PM +0300, Laurent Pinchart wrote:
-> > On Sat, Jun 28, 2025 at 11:06:54PM +0300, Sakari Ailus wrote:
-> > > On 6/24/25 13:21, Daniel Scally wrote:
-> > 
-> > [snip]
-> > 
-> > > > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> > > > new file mode 100644
-> > > > index 0000000000000000000000000000000000000000..20d4d16c75fbf0d5519ecadb5ed1d080bdae05de
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> > > > @@ -0,0 +1,656 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > +/*
-> > > > + * ARM Mali-C55 ISP Driver - Image signal processor
-> > > > + *
-> > > > + * Copyright (C) 2024 Ideas on Board Oy
-> > > 
-> > > It's 2025 already.
-> > > 
-> > > > + */
-> > > > +
-> > > > +#include <linux/delay.h>
-> > > > +#include <linux/iopoll.h>
-> > > > +#include <linux/property.h>
-> > > > +#include <linux/string.h>
-> > > > +
-> > > > +#include <linux/media/arm/mali-c55-config.h>
-> > > 
-> > > If this is a UAPI header, please include uapi in the path, too.
-> > > 
-> > > Earlier such headers have been under include/uapi/linux, I don't object 
-> > > putting new ones elsewhere in principle though. Just check with Hans and 
-> > > Laurent, too... I don't have an opinion yet really.
-> > 
-> > With each new media header we add to include/uapi/linux/, I wish
-> > stronger and stronger that we had created include/uapi/linux/media/. We
-> > don't have to do it now, my regret will just grow stronger :-)
-> 
-> I'm fine with using include/uapi/linux/media/.
-> 
-> > > > +/* NOT const because the default needs to be filled in at runtime */
-> > > > +static struct v4l2_ctrl_config mali_c55_isp_v4l2_custom_ctrls[] = {
-> > > > +	{
-> > > > +		.ops = &mali_c55_isp_ctrl_ops,
-> > > > +		.id = V4L2_CID_MALI_C55_CAPABILITIES,
-> > > > +		.name = "Mali-C55 ISP Capabilities",
-> > > > +		.type = V4L2_CTRL_TYPE_BITMASK,
-> > > > +		.min = 0,
-> > > > +		.max = MALI_C55_GPS_PONG_FITTED |
-> > > > +		       MALI_C55_GPS_WDR_FITTED |
-> > > > +		       MALI_C55_GPS_COMPRESSION_FITTED |
-> > > > +		       MALI_C55_GPS_TEMPER_FITTED |
-> > > > +		       MALI_C55_GPS_SINTER_LITE_FITTED |
-> > > > +		       MALI_C55_GPS_SINTER_FITTED |
-> > > > +		       MALI_C55_GPS_IRIDIX_LTM_FITTED |
-> > > > +		       MALI_C55_GPS_IRIDIX_GTM_FITTED |
-> > > > +		       MALI_C55_GPS_CNR_FITTED |
-> > > > +		       MALI_C55_GPS_FRSCALER_FITTED |
-> > > > +		       MALI_C55_GPS_DS_PIPE_FITTED,
-> > > > +		.def = 0,
-> > > > +	},
-> > > > +};
-> > > > +
-> > > > +static int mali_c55_isp_init_controls(struct mali_c55 *mali_c55)
-> > > > +{
-> > > > +	struct v4l2_ctrl_handler *handler = &mali_c55->isp.handler;
-> > > > +	struct v4l2_ctrl *capabilities;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = v4l2_ctrl_handler_init(handler, 1);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	mali_c55_isp_v4l2_custom_ctrls[0].def = mali_c55->capabilities;
-> > > 
-> > > The capabilities here are still specific to a device, not global, in 
-> > > principle at least. Can you move it here, as a local variable?
-> > > 
-> > > > +
-> > > > +	capabilities = v4l2_ctrl_new_custom(handler,
-> > > > +					    &mali_c55_isp_v4l2_custom_ctrls[0],
-> > > > +					    NULL);
-> > > > +	if (capabilities)
-> > > > +		capabilities->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > > +
-> > > > +	if (handler->error) {
-> > > > +		dev_err(mali_c55->dev, "failed to register capabilities control\n");
-> > > > +		v4l2_ctrl_handler_free(handler);
-> > > > +		return handler->error;
-> > > 
-> > > v4l2_ctrl_handler_free() will return the error soon, presumably sooner 
-> > > than the above code makes it to upstream. Before that, this pattern 
-> > > won't work as v4l2_ctrl_handler_free() also resets the handler's error 
-> > > field. :-)
-> > > 
-> > > > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> > > > new file mode 100644
-> > > > index 0000000000000000000000000000000000000000..36a81be0191a15da91809dd2da5d279716f6d725
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> > > > @@ -0,0 +1,318 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > > +/*
-> > > > + * ARM Mali-C55 ISP Driver - Register definitions
-> > > > + *
-> > > > + * Copyright (C) 2024 Ideas on Board Oy
-> > > > + */
-> > > > +
-> > > > +#ifndef _MALI_C55_REGISTERS_H
-> > > > +#define _MALI_C55_REGISTERS_H
-> > > > +
-> > > > +#include <linux/bits.h>
-> > > > +
-> > > > +/* ISP Common 0x00000 - 0x000ff */
-> > > > +
-> > > > +#define MALI_C55_REG_API				0x00000
-> > > > +#define MALI_C55_REG_PRODUCT				0x00004
-> > > > +#define MALI_C55_REG_VERSION				0x00008
-> > > > +#define MALI_C55_REG_REVISION				0x0000c
-> > > > +#define MALI_C55_REG_PULSE_MODE				0x0003c
-> > > > +#define MALI_C55_REG_INPUT_MODE_REQUEST			0x0009c
-> > > > +#define MALI_C55_INPUT_SAFE_STOP			0x00
-> > > > +#define MALI_C55_INPUT_SAFE_START			0x01
-> > > > +#define MALI_C55_REG_MODE_STATUS			0x000a0
-> > > > +#define MALI_C55_REG_INTERRUPT_MASK_VECTOR		0x00030
-> > > > +#define MALI_C55_INTERRUPT_MASK_ALL			GENMASK(31, 0)
-> > > > +
-> > > > +#define MALI_C55_REG_GLOBAL_MONITOR			0x00050
-> > > > +
-> > > > +#define MALI_C55_REG_GEN_VIDEO				0x00080
-> > > > +#define MALI_C55_REG_GEN_VIDEO_ON_MASK			BIT(0)
-> > > > +#define MALI_C55_REG_GEN_VIDEO_MULTI_MASK		BIT(1)
-> > > > +#define MALI_C55_REG_GEN_PREFETCH_MASK			GENMASK(31, 16)
-> > > > +
-> > > > +#define MALI_C55_REG_MCU_CONFIG				0x00020
-> > > > +#define MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK		BIT(0)
-> > > > +#define MALI_C55_REG_MCU_CONFIG_WRITE_MASK		BIT(1)
-> > > > +#define MALI_C55_MCU_CONFIG_WRITE(x)			((x) << 1)
-> > > 
-> > > Is x unsigned?
-> > 
-> > Does it matter ? The reason why the BIT() macro uses (UL(1) << (nr))
-> > instead of (1 << (nr)) is (if I'm not mistaken) to avoid incorrect
-> > handling of bit 31. As long as x doesn't take negative values and
-> > doesn't extend to bit 31, it should be fine.
-> 
-> For that reason exactly. If you're unsure, maybe at least cast it as
-> unsigned?
+A GEM handle can be released while the GEM buffer object is attached
+to a DRM framebuffer. This leads to the release of the dma-buf backing
+the buffer object, if any. [1] Trying to use the framebuffer in further
+mode-setting operations leads to a segmentation fault. Most easily
+happens with driver that use shadow planes for vmap-ing the dma-buf
+during a page flip. An example is shown below.
 
-The MCU_CONFIG_WRITE field is on bit long, so there's no practical
-issue. I also don't expect the driver to pass a negative value. We could
-still add an unsigned cast if there's a general rule that all register
-fields must be cast to unsigned. This isn't done in the vast majority of
-drivers though.
+[  156.791968] ------------[ cut here ]------------
+[  156.796830] WARNING: CPU: 2 PID: 2255 at drivers/dma-buf/dma-buf.c:1527 dma_buf_vmap+0x224/0x430
+[...]
+[  156.942028] RIP: 0010:dma_buf_vmap+0x224/0x430
+[  157.043420] Call Trace:
+[  157.045898]  <TASK>
+[  157.048030]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.052436]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.056836]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.061253]  ? drm_gem_shmem_vmap+0x74/0x710
+[  157.065567]  ? dma_buf_vmap+0x224/0x430
+[  157.069446]  ? __warn.cold+0x58/0xe4
+[  157.073061]  ? dma_buf_vmap+0x224/0x430
+[  157.077111]  ? report_bug+0x1dd/0x390
+[  157.080842]  ? handle_bug+0x5e/0xa0
+[  157.084389]  ? exc_invalid_op+0x14/0x50
+[  157.088291]  ? asm_exc_invalid_op+0x16/0x20
+[  157.092548]  ? dma_buf_vmap+0x224/0x430
+[  157.096663]  ? dma_resv_get_singleton+0x6d/0x230
+[  157.101341]  ? __pfx_dma_buf_vmap+0x10/0x10
+[  157.105588]  ? __pfx_dma_resv_get_singleton+0x10/0x10
+[  157.110697]  drm_gem_shmem_vmap+0x74/0x710
+[  157.114866]  drm_gem_vmap+0xa9/0x1b0
+[  157.118763]  drm_gem_vmap_unlocked+0x46/0xa0
+[  157.123086]  drm_gem_fb_vmap+0xab/0x300
+[  157.126979]  drm_atomic_helper_prepare_planes.part.0+0x487/0xb10
+[  157.133032]  ? lockdep_init_map_type+0x19d/0x880
+[  157.137701]  drm_atomic_helper_commit+0x13d/0x2e0
+[  157.142671]  ? drm_atomic_nonblocking_commit+0xa0/0x180
+[  157.147988]  drm_mode_atomic_ioctl+0x766/0xe40
+[...]
+[  157.346424] ---[ end trace 0000000000000000 ]---
 
-> > > > +#define MALI_C55_REG_MCU_CONFIG_WRITE_PING		BIT(1)
-> > > > +#define MALI_C55_REG_MCU_CONFIG_WRITE_PONG		0x00
-> > > > +#define MALI_C55_REG_MULTI_CONTEXT_MODE_MASK		BIT(8)
-> > > > +#define MALI_C55_REG_PING_PONG_READ			0x00024
-> > > > +#define MALI_C55_REG_PING_PONG_READ_MASK		BIT(2)
-> > > > +#define MALI_C55_INTERRUPT_BIT(x)			BIT(x)
-> > > > +
-> > > > +#define MALI_C55_REG_GLOBAL_PARAMETER_STATUS		0x00068
-> > > > +#define MALI_C55_GPS_PONG_FITTED			BIT(0)
-> > > > +#define MALI_C55_GPS_WDR_FITTED				BIT(1)
-> > > > +#define MALI_C55_GPS_COMPRESSION_FITTED			BIT(2)
-> > > > +#define MALI_C55_GPS_TEMPER_FITTED			BIT(3)
-> > > > +#define MALI_C55_GPS_SINTER_LITE_FITTED			BIT(4)
-> > > > +#define MALI_C55_GPS_SINTER_FITTED			BIT(5)
-> > > > +#define MALI_C55_GPS_IRIDIX_LTM_FITTED			BIT(6)
-> > > > +#define MALI_C55_GPS_IRIDIX_GTM_FITTED			BIT(7)
-> > > > +#define MALI_C55_GPS_CNR_FITTED				BIT(8)
-> > > > +#define MALI_C55_GPS_FRSCALER_FITTED			BIT(9)
-> > > > +#define MALI_C55_GPS_DS_PIPE_FITTED			BIT(10)
-> > > > +
-> > > > +#define MALI_C55_REG_BLANKING				0x00084
-> > > > +#define MALI_C55_REG_HBLANK_MASK			GENMASK(15, 0)
-> > > > +#define MALI_C55_REG_VBLANK_MASK			GENMASK(31, 16)
-> > > > +#define MALI_C55_VBLANK(x)				((x) << 16)
-> > > 
-> > > Same question for the bit shifts left elsewhere in the header.
-> > > 
-> > > > +
-> > > > +#define MALI_C55_REG_HC_START				0x00088
-> > > > +#define MALI_C55_HC_START(h)				(((h) & 0xffff) << 16)
-> > > > +#define MALI_C55_REG_HC_SIZE				0x0008c
-> > > > +#define MALI_C55_HC_SIZE(h)				((h) & 0xffff)
-> > > > +#define MALI_C55_REG_VC_START_SIZE			0x00094
-> > > > +#define MALI_C55_VC_START(v)				((v) & 0xffff)
-> > > > +#define MALI_C55_VC_SIZE(v)				(((v) & 0xffff) << 16)
-> > > > +
-> > > > +/* Ping/Pong Configuration Space */
-> > > > +#define MALI_C55_REG_BASE_ADDR				0x18e88
-> > > > +#define MALI_C55_REG_BYPASS_0				0x18eac
-> > > > +#define MALI_C55_REG_BYPASS_0_VIDEO_TEST		BIT(0)
-> > > > +#define MALI_C55_REG_BYPASS_0_INPUT_FMT			BIT(1)
-> > > > +#define MALI_C55_REG_BYPASS_0_DECOMPANDER		BIT(2)
-> > > > +#define MALI_C55_REG_BYPASS_0_SENSOR_OFFSET_WDR		BIT(3)
-> > > > +#define MALI_C55_REG_BYPASS_0_GAIN_WDR			BIT(4)
-> > > > +#define MALI_C55_REG_BYPASS_0_FRAME_STITCH		BIT(5)
-> > > > +#define MALI_C55_REG_BYPASS_1				0x18eb0
-> > > > +#define MALI_C55_REG_BYPASS_1_DIGI_GAIN			BIT(0)
-> > > > +#define MALI_C55_REG_BYPASS_1_FE_SENSOR_OFFS		BIT(1)
-> > > > +#define MALI_C55_REG_BYPASS_1_FE_SQRT			BIT(2)
-> > > > +#define MALI_C55_REG_BYPASS_1_RAW_FE			BIT(3)
-> > > > +#define MALI_C55_REG_BYPASS_2				0x18eb8
-> > > > +#define MALI_C55_REG_BYPASS_2_SINTER			BIT(0)
-> > > > +#define MALI_C55_REG_BYPASS_2_TEMPER			BIT(1)
-> > > > +#define MALI_C55_REG_BYPASS_3				0x18ebc
-> > > > +#define MALI_C55_REG_BYPASS_3_SQUARE_BE			BIT(0)
-> > > > +#define MALI_C55_REG_BYPASS_3_SENSOR_OFFSET_PRE_SH	BIT(1)
-> > > > +#define MALI_C55_REG_BYPASS_3_MESH_SHADING		BIT(3)
-> > > > +#define MALI_C55_REG_BYPASS_3_WHITE_BALANCE		BIT(4)
-> > > > +#define MALI_C55_REG_BYPASS_3_IRIDIX			BIT(5)
-> > > > +#define MALI_C55_REG_BYPASS_3_IRIDIX_GAIN		BIT(6)
-> > > > +#define MALI_C55_REG_BYPASS_4				0x18ec0
-> > > > +#define MALI_C55_REG_BYPASS_4_DEMOSAIC_RGB		BIT(1)
-> > > > +#define MALI_C55_REG_BYPASS_4_PF_CORRECTION		BIT(3)
-> > > > +#define MALI_C55_REG_BYPASS_4_CCM			BIT(4)
-> > > > +#define MALI_C55_REG_BYPASS_4_CNR			BIT(5)
-> > > > +#define MALI_C55_REG_FR_BYPASS				0x18ec4
-> > > > +#define MALI_C55_REG_DS_BYPASS				0x18ec8
-> > > > +#define MALI_C55_BYPASS_CROP				BIT(0)
-> > > > +#define MALI_C55_BYPASS_SCALER				BIT(1)
-> > > > +#define MALI_C55_BYPASS_GAMMA_RGB			BIT(2)
-> > > > +#define MALI_C55_BYPASS_SHARPEN				BIT(3)
-> > > > +#define MALI_C55_BYPASS_CS_CONV				BIT(4)
-> > > > +#define MALI_C55_REG_ISP_RAW_BYPASS			0x18ecc
-> > > > +#define MALI_C55_ISP_RAW_BYPASS_BYPASS_MASK		BIT(0)
-> > > > +#define MALI_C55_ISP_RAW_BYPASS_FR_BYPASS_MASK		GENMASK(9, 8)
-> > > > +#define MALI_C55_ISP_RAW_BYPASS_RAW_FR_BYPASS		(2 << 8)
-> > > > +#define MALI_C55_ISP_RAW_BYPASS_RGB_FR_BYPASS		(1 << 8)
-> > > 
-> > > BIT() or make these unsigned.
-> > 
-> > It's a 2 bits field, BIT() isn't appropriate.
-> 
-> That leaves us with the other alternative, doesn't it?
+Acquiring GEM handles for the framebuffer's GEM buffer objects prevents
+this from happening. The framebuffer's cleanup later puts the handle
+references.
 
-Absolutely, although unsigned is unnecessary in this case as we're not
-approaching bit 31.
+Commit 1a148af06000 ("drm/gem-shmem: Use dma_buf from GEM object
+instance") triggers the segmentation fault easily by using the dma-buf
+field more widely. The underlying issue with reference counting has
+been present before.
 
+v2:
+- acquire the handle instead of the BO (Christian)
+- fix comment style (Christian)
+- drop the Fixes tag (Christian)
+- rename err_ gotos
+- add missing Link tag
+
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/drm_gem.c#L241 # [1]
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org>
+---
+ drivers/gpu/drm/drm_gem.c                    | 44 ++++++++++++++++++--
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 +++----
+ drivers/gpu/drm/drm_internal.h               |  2 +
+ 3 files changed, 51 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 19d50d254fe6..bc505d938b3e 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -213,6 +213,35 @@ void drm_gem_private_object_fini(struct drm_gem_object *obj)
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_fini);
+ 
++static void drm_gem_object_handle_get(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
++
++	if (obj->handle_count++ == 0)
++		drm_gem_object_get(obj);
++}
++
++/**
++ * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
++ * @obj: GEM object
++ *
++ * Acquires a reference on the GEM buffer object's handle. Required
++ * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
++ * to release the reference.
++ */
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	guard(mutex)(&dev->object_name_lock);
++
++	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
++	drm_gem_object_handle_get(obj);
++}
++EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
++
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -243,8 +272,14 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
+ 	}
+ }
+ 
+-static void
+-drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
++/**
++ * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
++ * @obj: GEM object
++ *
++ * Releases a reference on the GEM buffer object's handle. Possibly releases
++ * the GEM buffer object and associated dma-buf objects.
++ */
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ {
+ 	struct drm_device *dev = obj->dev;
+ 	bool final = false;
+@@ -269,6 +304,7 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ 	if (final)
+ 		drm_gem_object_put(obj);
+ }
++EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+ 
+ /*
+  * Called at device or object close to release the file's
+@@ -390,8 +426,8 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 	int ret;
+ 
+ 	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+-	if (obj->handle_count++ == 0)
+-		drm_gem_object_get(obj);
++
++	drm_gem_object_handle_get(obj);
+ 
+ 	/*
+ 	 * Get the user-visible handle using idr.  Preload and perform
+diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+index 618ce725cd75..c60d0044d036 100644
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -100,7 +100,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++)
+-		drm_gem_object_put(fb->obj[i]);
++		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+ 
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+@@ -183,8 +183,10 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+ 		if (!objs[i]) {
+ 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+ 			ret = -ENOENT;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
++		drm_gem_object_handle_get_unlocked(objs[i]);
++		drm_gem_object_put(objs[i]);
+ 
+ 		min_size = (height - 1) * mode_cmd->pitches[i]
+ 			 + drm_format_info_min_pitch(info, i, width)
+@@ -194,22 +196,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+ 			drm_dbg_kms(dev,
+ 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+ 				    objs[i]->size, min_size, i);
+-			drm_gem_object_put(objs[i]);
++			drm_gem_object_handle_put_unlocked(objs[i]);
+ 			ret = -EINVAL;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
+ 	}
+ 
+ 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+ 	if (ret)
+-		goto err_gem_object_put;
++		goto err_gem_object_handle_put_unlocked;
+ 
+ 	return 0;
+ 
+-err_gem_object_put:
++err_gem_object_handle_put_unlocked:
+ 	while (i > 0) {
+ 		--i;
+-		drm_gem_object_put(objs[i]);
++		drm_gem_object_handle_put_unlocked(objs[i]);
+ 	}
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 442eb31351dd..f7b414a813ae 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -161,6 +161,8 @@ void drm_sysfs_lease_event(struct drm_device *dev);
+ 
+ /* drm_gem.c */
+ int drm_gem_init(struct drm_device *dev);
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+ int drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 			       struct drm_gem_object *obj,
+ 			       u32 *handlep);
 -- 
-Regards,
+2.50.0
 
-Laurent Pinchart
 
