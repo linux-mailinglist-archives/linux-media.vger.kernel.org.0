@@ -1,192 +1,192 @@
-Return-Path: <linux-media+bounces-36331-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36332-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BAEAEE61B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 19:52:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490B2AEE66A
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 20:05:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94731179D1D
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 17:52:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 652DA3E0694
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 18:05:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0ED1290BA2;
-	Mon, 30 Jun 2025 17:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C112E7180;
+	Mon, 30 Jun 2025 18:04:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="I5FdRRvv"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dNfo2goI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556C323ABB1
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 17:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751305919; cv=pass; b=Z83GmnhAwUUq6J/1g8pYJVLvgKZgztyxOR6UHJgierC611FxClEhFf3CQmYIAeQjxYtCGDqIFP/mMwlv0msfukkMUgKLeRU+phCOhEbTydGUO4f/njtcBThbltqLuWyoRG3LjdU1J2jPGE+SbqLe5Fdl0iWQm70rRYgOIz2xL9c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751305919; c=relaxed/simple;
-	bh=BcMd0WsYtOzHWgem1p61VuZFdisCfkdy5LAIvzNcZ8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P+VUTkCHHYzbXOIfbKFFxOChVXhV276ncNwFZtwLrlr0rM9Lyrn3hLbOASEu8WymNjRaN5VR+54WLg5lvwfawwyXVLMWK05CaMJnVvFpTm/EqJesTLYKwb/YMV5vdRq3uShR/wi1+bEZnnHkx6HmxQmTxW7WpdAiHDEtMsumEEs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=I5FdRRvv; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1751305905; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VJ9MmyiOgyamV4pjAqCdRoC9MlKXl9F6/tsK6jWFjdgWJ+zCMFo6JkTK8odOKrfTi+mZaQx9C3lSQYY1LlaYfvxJM4G0Tvxdh6pPkovCy/o8mii27bSY2aQMtfpdpCh2s9+yNOhYsksuYhOG1rl1J75yqpM9ZfoHuiYxLkGl1gI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751305905; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=BDYbAacxyWQ707HfIlInVC+o+4iUe5YfN8e242xLQfk=; 
-	b=a3soNhWHSm6fQWWypY/HRS9C4ldN9+tX+F+JrmgNtdpnAW420T2JwZjuIL2DtnUsBOEUM79uVmpwuiqSJEK3rGATsUvr8yHZX4qwJXODQvlnduZhDzrQxHh6NFRs6sbcxu2IRMoGuRWdJmjXChqKSWHtswe3MDPVA5CLnmySYoQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751305905;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=BDYbAacxyWQ707HfIlInVC+o+4iUe5YfN8e242xLQfk=;
-	b=I5FdRRvvrNt8B2hFcVb+gXhhTcu1eY92WtzutlfPCqBUgbdjTyXRxJEzQN3Sp8pC
-	T/s86GOVQyLXPekCixQZgEG1kAVaKInWGQq6v17k5mxam322p6PUM7lbpdUE9GnAjs9
-	p+4xU4CUwFAS+QC7foNChyOOpfUCBLf1PU8J6Sz0=
-Received: by mx.zohomail.com with SMTPS id 175130590302977.33523669450506;
-	Mon, 30 Jun 2025 10:51:43 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 36F2D1807A4; Mon, 30 Jun 2025 19:51:40 +0200 (CEST)
-Date: Mon, 30 Jun 2025 19:51:39 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
-	Shreeya Patel <shreeya.patel@collabora.com>, linux-media@vger.kernel.org, kernel@collabora.com
-Subject: Re: "signal is not locked" with HDMI RX driver on RK3588
-Message-ID: <qazkvgdtozck65s2lstvxfwplhlvf3ynm5z6c6gdpgaytja7v4@f5gsnd7urzp6>
-References: <aGKFhDmBwYp5KV3k@mail-itl>
- <aGKXr0Z96zGU74q6@mail-itl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9C82E6125
+	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 18:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751306672; cv=none; b=tki3sz81IDqSuzmrOfdde4soNi+n98RMOiNCRqZMEfaMlZxi7NRZCQQQMKnSa9f4Mt+NQuAlpSa+JCJo9AhKzGONOiyiC0cwGlPbHU0sq/hd+1v8KW6TgrR+pCwNtff9bfN90Ber56RHDIYyKGBq/kAE+Nx3DfF1JdbvokW3d64=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751306672; c=relaxed/simple;
+	bh=ZKPRDHlzzHNCWDVJJNURpJpvT7hM8AuBE6fLXfb0op0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=pVc2XYSV6jZBTD6fOJUlsIQnw4vLvOkRPZQ3nEtVovEYRef8lnbH4+wpmKRbnwso+ehqUNooOqu4E5cCsuxTuVWKCllLdZSUQCUFr1sezZcxNv5IYKeqiHxjF2fZKlBTldGweNTkoLGDUI7okaa2EHCB4ydwrzK9pldzEaQ8qwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dNfo2goI; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so31725685e9.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 11:04:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751306669; x=1751911469; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jzyLhIO2/dVrs9OAoxTRKyeEq4PGZq1spv/1YCsSOCU=;
+        b=dNfo2goIpl5wV6V2veov662LG74KoaGqMj6A65ZDQ72YiIwaHRk9FxXqAXYcIXjWVs
+         Rv3Aalv7Ob90lu7+vGPCopR6t41rd9oabuL3B315B6qTYwUPdOaOqxT4kwCNfo5fGl5M
+         N31wquRT80OQfjK3K0S/PDe++PRwSRVrLhQdGf+j+vRLfCgfJe9kDFkNYTqux8L+eBIS
+         P5j17dJRh6+rzpLfZBgwRP5jiy15p3ZBFH9PGxXpc2OpZdQ5trddANbv9ZGSGj5DgQed
+         PnLo8EcnJlRDwJEC/GrNxiNlwScx6BwOQzu6ua23X/l4cmim8W/NzQQVLhnvN9Ug59t8
+         qqZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751306669; x=1751911469;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jzyLhIO2/dVrs9OAoxTRKyeEq4PGZq1spv/1YCsSOCU=;
+        b=gM7GE5+hEFAETEduhZERf0gq//R1SQU+PjKCRBfjxh4FZ5FYOr5ORNLvsElO17Ed2O
+         o1k6aILgmF+DjkzIUIIkzYb/cIuPYQwy3/iOcEN/52EPisOQPxVldprJWEjQI84/CwWb
+         kIaDqRIhuengR+iX4dE0GjRsYy8JbI6DhPQcPZLAhqiepAzmX+Rt2nOzwiBKxuSStq+d
+         SBGNXdNS2Cr67xF8vjdfzi5DbeqAi1tvK9XOJUHnHMh5IMGZCYQy3wNpoDAehVvI1SD1
+         rOe/LYiy7nnoCyH55EmBVgaZEWIKeDduaTt5WcIrMl3NQ5PVEYVQWBhFl5PlXI5ZVLVt
+         Lucw==
+X-Gm-Message-State: AOJu0YzhHQHWRpx/gCybjR3qKEIrlacXqeC90vTS0hJrf+44XTYei/dZ
+	2kdDFQSmZPkRUCDL1FHFskUrMA/F3Uyh+at2bRYkFpLSsepH1YdJSal6G/c0vQKGU3E=
+X-Gm-Gg: ASbGncsatnMZS4bA5/5GYxNQlPZIDXn1a3gUUTn7IsRTvQXzktrezOdjAsr5SFUZvE1
+	3OduEWvvCw6tZtwtSq9ARh2PdToJ4F76mw191f9w2HnQabtf5KNP4UH6ICvTJtcEJ8MTyMHgoli
+	+n8Nax/IJX+jN0n82FRkow3y058pNz0YficIeU5Fmv7wqceGKuM9E4pdf6Tt8yjn57WQI+5/+4q
+	8FKMyyTt1VbJM2mj4Mgtl9Bg2m3TJpvOCBDgyKhZjQuFNZTQFA4PTiex/l4ep1lRQ7O2F2DbIU5
+	kcbLB0ajGWSgl287fJLyUu73SbbNCng9IyNxd1Ep/Sd96JE/rdVNQYNadvcSCpe/VUpjZSliZtb
+	25UiiFNTSU3cCYKHtfnj3WR6DRQ8/JsX7wnTroPQ=
+X-Google-Smtp-Source: AGHT+IHRSx5CGZmWRMNIAetHYhuZITQEsB0DhmQXeUhagKx55LzxJzkoo1AhHNRcIq8szEkLC4wGIw==
+X-Received: by 2002:a05:6000:2b0d:b0:3a4:dfc2:2a3e with SMTP id ffacd0b85a97d-3a90038b75bmr9898270f8f.39.1751306668625;
+        Mon, 30 Jun 2025 11:04:28 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb? ([2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e5f8e1sm10875328f8f.88.2025.06.30.11.04.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 11:04:28 -0700 (PDT)
+Message-ID: <6c5d9ff2-fa59-4151-99fe-3bddae46b507@linaro.org>
+Date: Mon, 30 Jun 2025 20:04:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="momx5acl2vgpgupg"
-Content-Disposition: inline
-In-Reply-To: <aGKXr0Z96zGU74q6@mail-itl>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/251.291.35
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 27/06/2025 17:48, Vikash Garodia wrote:
+> This series introduces a sub node "non-pixel" within iris video node.
+> Video driver registers this sub node as a platform device and configure
+> it for DMA operations. All non pixel buffers, i.e bitstream, HFI queues
+> and internal buffers related to bitstream processing, would be managed
+> by this non_pixel device.
+> 
+> Purpose to add this sub-node:
+> Iris device limits the IOVA to an addressable range of 4GiB, and even
+> within that range, some of the space is used by IO registers, thereby
+> limiting the available IOVA to even lesser. For certain video usecase,
+> this limited range in not sufficient enough, hence it brings the need to
+> extend the possibility of higher IOVA range.
+> 
+> Video hardware is designed to emit different stream-ID for pixel and
+> non-pixel buffers, thereby introduce a non-pixel sub node to handle
+> non-pixel stream-ID into a separate platform device.
+> With this, both iris and non-pixel device can have IOVA range of
+> approximately 0-4GiB individually for each device, thereby doubling the
+> range of addressable IOVA.
+> 
+> Tested on SM8550 and SA8775p hardwares.
+> 
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+> Changes in v3:
+> - Add info about change in iommus binding (Thanks Krzysztof)
+> - Link to v2: https://lore.kernel.org/r/20250627-video_cb-v2-0-3931c3f49361@quicinc.com
+> 
+> Changes in v2:
+> - Add ref to reserve-memory schema and drop it from redefining it in
+> iris schema (Thanks Krzysztof)
+> - Drop underscores and add info about non pixel buffers (Thanks Dmitry)
+> - Link to v1: https://lore.kernel.org/r/20250620-video_cb-v1-0-9bcac1c8800c@quicinc.com
+> 
+> ---
+> Vikash Garodia (5):
+>        media: dt-bindings: add non-pixel property in iris schema
+>        media: iris: register and configure non-pixel node as platform device
+>        media: iris: use np_dev as preferred DMA device in HFI queue management
+>        media: iris: select appropriate DMA device for internal buffers
+>        media: iris: configure DMA device for vb2 queue on OUTPUT plane
+> 
+>   .../bindings/media/qcom,sm8550-iris.yaml           | 40 ++++++++++++++++-
+>   drivers/media/platform/qcom/iris/iris_buffer.c     | 15 ++++++-
+>   drivers/media/platform/qcom/iris/iris_core.h       |  2 +
+>   drivers/media/platform/qcom/iris/iris_hfi_queue.c  | 20 ++++++---
+>   drivers/media/platform/qcom/iris/iris_probe.c      | 50 +++++++++++++++++++++-
+>   drivers/media/platform/qcom/iris/iris_vb2.c        |  4 ++
+>   6 files changed, 119 insertions(+), 12 deletions(-)
+> ---
+> base-commit: 8d2b7fde56597ca912f5daaf3ab58915458ba1fc
+> change-id: 20250619-video_cb-ea872d6e6627
+> 
+> Best regards,
 
---momx5acl2vgpgupg
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: "signal is not locked" with HDMI RX driver on RK3588
-MIME-Version: 1.0
+I tried the patchset on SM8550 QRD and SM8650 QRD/HDK and the system just reboots
+a few millisecond after probing iris, no error messages nor reboot to sahara mode.
 
-Hi,
+The DT changeset for reference:
+https://git.codelinaro.org/neil.armstrong/linux/-/commit/e1b3628469c038559a60d310386f006f353e3d59
 
-On Mon, Jun 30, 2025 at 03:57:03PM +0200, Marek Marczykowski-G=F3recki wrot=
-e:
-> On Mon, Jun 30, 2025 at 02:39:32PM +0200, Marek Marczykowski-G=F3recki wr=
-ote:
-> > Hi,
-> >=20
-> > First of all, thanks for all the work regarding upstreaming the driver!
-> >=20
-> > I try to use it on two boards:
-> > - Orange Pi 5B
-> > - Rock 5B+
-> >=20
-> > In both cases, when I use the upstream driver in 6.16-rc, I hit similar
-> > issue:
-> > 1. `v4l2-ctl -d /dev/video2 --set-edid type=3Dhdmi-4k-300mhz` - this wo=
-rks
-> > 2. EDID is properly presented to the device on the other side of the
-> > HDMI cable, I can select to use that "display"
-> > 3. But then, the hdmirx complains:
-> >=20
-> >     v4l2-ctl -d /dev/video2 --query-dv-timings
-> >     VIDIOC_QUERY_DV_TIMINGS: failed: No locks available
-> >=20
-> > And kernel shows:
-> > [ 4033.823023] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
-write wait cr write done failed
-> > [ 4033.847027] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
-write wait cr write done failed
-> > [ 4033.870976] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
-write wait cr write done failed
-> > [ 4033.894998] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
-write wait cr write done failed
-> > ...
-> > [ 4061.975400] fdee0000.hdmi_receiver: hdmirx_query_dv_timings: signal =
-is not locked
-> >=20
-> > In this state actually capturing video stream doesn't work either.
-> >=20
-> > I tried also rockchip-release branch from
-> > https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux (at
-> > 33755850faeb0e53e634390d147cc261a60d2898) with the same result.
-> >=20
-> > If I try the same with the 6.12.13-current-rockchip64 kernel from Armbi=
-an,
-> > it works fine. I tried to compare the drivers, but there are quite a few
-> > differences so it's hard to spot any obvious issue (it could be also an
-> > issue somewhere else...).
-> >=20
-> > Any ideas? I can try to add some debugging info or test patches, if you
-> > point me what would be helpful.
->=20
-> If I take u-boot from
-> https://gitlab.collabora.com/hardware-enablement/rockchip-3588/u-boot/
-> (rockchip branch at 60501605e3f48b155af83193dfd9ad73362b8e25) and stop
-> loading device-tree from a separate file, I get a different error:
->=20
->     VIDIOC_QUERY_DV_TIMINGS: failed: Numerical result out of range
->=20
-> (and no extra messages from kernel)
-> My goal is to capture in 4k at 30fps (or even lower), but I get this
-> error also with lower resolutions like 1920x1200@60fps. Unfortunately I
-> don't know which value specifically is out of range...
-
-You are probably just using the wrong TF-A firmware. Rockchip's
-binary-only firmware contains a workaround/quirk, which handles the
-main HDMI-RX interrupt and then provides a virtual one on one of the
-reserved interrupt lines. The kernel has to use the virtual one,
-otherwise the driver is not functional.
-
-The upstream (open source) TF-A does not contain this workaround and
-the kernel must use the original HDMI-RX interrupt line, as the
-reserved interrupt line is not doing anything at all.
-
-The RK3588 device tree, which is provided as part of the mainline
-Linux kernel describes the interrupt lines from the hardware and
-thus needs to be used with the upstream TF-A.
-
-Greetings,
-
--- Sebastian
-
---momx5acl2vgpgupg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmhizqcACgkQ2O7X88g7
-+pr3MA//aHtskbkNlCI3Um9rJzetiZrmEtSohTFRPBKl9DtqpuC2Bl/hUAyhKJTi
-viZPnW6P6gEYnxKSqFU4SjMbAs6YUZdnbhHu9/QswrgNny7qx89IXjRtv4wrUhqR
-oE2ubQXoLqZ7BrDH4btPPSHi2N26hwFjRAvLM3/mC6T0UQYOt8B1XR3PKpM65Acv
-CtgWlt0q63Kl3grmSC+Y7WtJ2x+xHLI1binHdLrKKJxYEO8xvqrS6e+AOjI5tXPU
-0UBRmef75gxN5eZyyh39Gxv5Ihdfvlpss3Rz7dmq+EcGgTj9WemkVaypRgv4f3zv
-S1Mx3lsn91ybXaPeMJXEaUCgb6LWaZE9XynhQzmS4n2FQFySsppHBT/sZpvPQeWx
-KOSGNb8F+DFVy5QKn9XNCksL7RBBCo/nUD087d9bgF0jfvN4qmMoXxvZhA+Gh+Mo
-mH4YhtliqxlbQ6TMB8qpe2WBCIVnmzIwu0M90BUmJ7e4GJ7yrGJkP+YWBcuvrEQ5
-KntipvERe7xTndSkngZ0SUuu1a2Nn8lgbXkzmDnqoOXmBIk2x3Xk08hLhq/JWrRH
-j6t12NkfcXj23DDhuIuhS4oJlkUcq5fUG7AYqgHJh0XD9THGcRBrpcu1Hycu1qRq
-wfhqFwqbEI7sk3ViWWIfs+tcPHpKwguqncufWB4+hcAvCm7IiH4=
-=JXuc
------END PGP SIGNATURE-----
-
---momx5acl2vgpgupg--
+Neil
 
