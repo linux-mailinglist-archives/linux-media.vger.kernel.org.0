@@ -1,223 +1,249 @@
-Return-Path: <linux-media+bounces-36295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5696BAEDEF5
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:26:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 615EAAEDF38
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:35:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 42C1D188AA16
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:27:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D87E16F59C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:35:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B901289E3D;
-	Mon, 30 Jun 2025 13:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D83F28B4EC;
+	Mon, 30 Jun 2025 13:35:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NYJUclhE"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="n6h0365B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D8F2522B6
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 13:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD182417D9;
+	Mon, 30 Jun 2025 13:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751289998; cv=none; b=RU+9vWRmzpBoFN963kAomaRoGalDdvrw2OC2CBIelypkClsuDxKJCFhAuVhL51MOmOm9te01+rLNg10uUEK/E9WvA7+PCMA0oqMg4HQR8nSkwHRrPyk2lI/PRSU0ya4mUqtOIR1TnVzaUJutfOIacqxkg0PeOQTsGr0MhKa8tUE=
+	t=1751290528; cv=none; b=V6qTqh7mUPWSOatkQ1I4+1B+q8Xa0D2O9pf9Z3JwA0I1PuV+8objxSgzD6oFkiH8Kr7mmkmx1acYi6h12hQexqGMtXoamtKg7NWGpurYuLg+5WuwoTGeeKxeoVMI3s/ojigdLB8blR0yUpl6BPcHWAyN0S7HwygKubzXr2TXQAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751289998; c=relaxed/simple;
-	bh=M1gIl4A5i8ayEO1pxADobOUImr5L3pLVRkhSls5BvUo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mDc2qNZG16mJ7Mz4yHrr/v5hRjbKYebGoLNRq7lG70GtibVtkQ0/xakUw+ArZeqNOk7E3UvRMJo3mSDE8gRYKPaPJZKGLbdsURu9POMGN+1hrGfLjvX8jDqWfv/l1rtSBpnp4M/86Lak26EQCSFxuwS24R48Kvu1Lk5Ao/ZRxdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NYJUclhE; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32b7123edb9so21689781fa.2
-        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 06:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751289995; x=1751894795; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NYKy3F2tRQ3p0Wg9vlb3oxo+88BM8VahKr4/uuCEpwI=;
-        b=NYJUclhEbWpXxXdRlEvRtbJ2VPNcZQof2RBVvBoZBFkst9AbFiRMiW8HVK62xt70hk
-         Y35n4PblDSltHlY4/ZA7Ch5QW88IChcZclzT0WzSrERP2SQkuW5SFVjbGOWyrhT/HyB9
-         4Nm1Rf+XVz35RY1U3Ux47QIVsOSibsnm7tuKo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751289995; x=1751894795;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NYKy3F2tRQ3p0Wg9vlb3oxo+88BM8VahKr4/uuCEpwI=;
-        b=kkkoGBix80GNWoZKjU1XoeIhwBS7HpRb43gDyaomXPoW+dLxSqwLW4jsfteanou4sO
-         5NkesGguiMnLkHAwJDq3z1GHFK6TP29RyR20u4CJhvhXkjP/dyhHK2SAkf8flIwlIIv6
-         J1N6h43BFeTr/QuF6g7gUepXKxXqAhBAwDboQ9ceZFMpKVlMwKL8pg/5+efFoMUJbonz
-         lPEJgb8kYJ8QRDRzvdlL+43dlJMz8owe7NMrnZ0Sz2DQ+KQsGKiAnJ8ujZx/pW2DYaQD
-         UrziWUT2hTQo2JbIB5EUgdJAMGbiYBXEWBI+wqUwwv6EbouWM9pQPJ13QUtx9m52IojQ
-         Pd8w==
-X-Forwarded-Encrypted: i=1; AJvYcCUcJZ44Zsl0ipIauyzOyB1XHcTVVNE+fVGxqLHFOI2ShiuU18BLKbUZO2Jw/ghtPr/O+BUFBfoV8JGy9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAGmwfKZ/Ma9LkP2yQgasIjhVIPWN2oW4lELd1ExrPJe9rCZYH
-	w5i25tjkCRutINp1jgCM2IoeQBXkpRvRgVB5b0sAUt1VTM+fsBW+Uu8lNPMzU24PY4z/v+XiOGs
-	WDOE+UA==
-X-Gm-Gg: ASbGncvp0MA0z8oAkZZALYNTG3jWqLBQ2wsgwzyrEx0VkAfMXVrDsypLKrCRI4Zg0Fl
-	07JbSCNkB+2LhYAEi8cZcQ/3ef/LsYw7pgshi8BzK7nL66j7yH2YTkEmIFOiK87l24OpwVKTb2+
-	K2VZSTNBsTnUcq8cTY2icv1ud8KqZwyzTMgr77B0RRNGp0OgACSAx1LfIIK4r/VbwIPP9teLStI
-	BziK9ELDuG/jS+32H09CrJ0h5y8MCrTuyejvsUmdVBPBGjINC6DWWgxXKsJs6Vydn3fY1mpdoJy
-	r0MWXBw3lAjgXSi6QxPlG7Zf3AHW8L0G0Jc41BW6ck0IicrzU/5nJydhtXdwJ4QqIIKSgdvnvpI
-	Bc5afxM+8W251Usdv3U500ePV
-X-Google-Smtp-Source: AGHT+IHs785rSuGPHHgvNJODUs3I2voMJnrr63AHffQUCtJ2yMyGXdxTgCrUDYg1CR3zuQfMKSQp2w==
-X-Received: by 2002:a05:651c:12c7:b0:32b:47be:e1a5 with SMTP id 38308e7fff4ca-32cdc5270e1mr33595331fa.39.1751289994457;
-        Mon, 30 Jun 2025 06:26:34 -0700 (PDT)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2e0c0d1sm12384631fa.28.2025.06.30.06.26.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jun 2025 06:26:34 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-553bcba4ff8so2251818e87.2
-        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 06:26:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVn1IYW4uZ6VIjx2NNmVSirYeaKxpWcNmOuh/83JQkC50IUfgYvIYNqYtJToABph1OOQdmFzROoVVyyvQ==@vger.kernel.org
-X-Received: by 2002:a05:6512:b1c:b0:553:ae51:1066 with SMTP id
- 2adb3069b0e04-5550b82a987mr4432157e87.12.1751289993106; Mon, 30 Jun 2025
- 06:26:33 -0700 (PDT)
+	s=arc-20240116; t=1751290528; c=relaxed/simple;
+	bh=/P7Bb+GBCsmkTGvOU3/poAoYvv8Pc3kcHUkQcSsenkc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=YJh3PtwBZ/KWvC8AKGUzw+YU7xbo+w0Wx1g3qXdCrLPwoPOB55sqcM8nm1vHjMKVbpRJraIowecJRI3Pf5+r6B9LYzzWVvBeokPLQnks/2b68PeJL93ZvJIBhfepxhpbcGwsjyCSg4/oMNwMADwUD6pb1sFIaaq3TDOSexRTb/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=n6h0365B; arc=none smtp.client-ip=185.233.34.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
+Received: from smtp.freedom.nl (unknown [10.10.4.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by dane.soverin.net (Postfix) with ESMTPS id 4bW6bq41dtz176Q;
+	Mon, 30 Jun 2025 13:35:19 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4bW6bp12Cjz2xWq;
+	Mon, 30 Jun 2025 13:35:18 +0000 (UTC)
+Authentication-Results: smtp.freedom.nl;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=n6h0365B;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
+	s=soverin1; t=1751290519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=IJJ0grH+oA2m0rVJnHlQgIHDE18CS9HCDq8kRv7TDlk=;
+	b=n6h0365B3pRTq4w/xIbmJszGc6lp+4nCAEq3mJpYLtIo9g9RcER4LhI/s5W5/eQW2XEQ+h
+	uwBlqq++nlHjnVBcKx42yRA767lZLqzN4/On3fmQBSGWsdKhKTzp0HJ7oPp9qYylAyKVD8
+	seTZ+BGbdCloqW6pmoBP4aMwH+OK/W/+PRoE7ujr3D6Dqrl17cKykmJTdaYm/Bs6ixrPIt
+	dJpfUcUHF1NxoqLBcnCWhBBd4Z+l9EKfume8P9ogERQcNumG8dKLdPMMRw6dZlC+6Y2gGY
+	rhFOsQ2gWjZkgM9EMLOr2sRXEJMuVrwYVw2X8/MLkWSqdt8u9Cu4g5GFy9ddKQ==
+X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=68629296 a=IkcTkHD0fZMA:10 a=WN6_cwnCAAAA:8 a=cm27Pg_UAAAA:8 a=Af4PZqHWQyhPqpcfzgoA:9 a=QEXdDO2ut3YA:10 a=ndfOWLLM0rR49n6Yv1rF:22
+Message-ID: <c10e3dbf-c0c0-44f3-8699-48ac6fedb157@jjverkuil.nl>
+Date: Mon, 30 Jun 2025 15:35:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
- <20250616-uvc-fop-v4-3-250286570ee7@chromium.org> <04e10cfa-f1b1-4327-b0ca-c66f8450d42f@xs4all.nl>
- <c97af8e7-5c11-45f4-838c-d934b0a379c1@kernel.org> <20250630131004.GF20333@pendragon.ideasonboard.com>
- <d449ae59-11a2-436e-a51c-cf2fa3657ba2@kernel.org> <20250630132438.GC23516@pendragon.ideasonboard.com>
-In-Reply-To: <20250630132438.GC23516@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Jun 2025 15:26:20 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvAtKJdwLONx1crMOB5So8qgcSheEwYnxBggN3y11LkPw@mail.gmail.com>
-X-Gm-Features: Ac12FXwvKUIA629DH0E0JvIObI7A8b82i8Me-5Azyiq6zhmwYQ-DqwoYZeZa2es
-Message-ID: <CANiDSCvAtKJdwLONx1crMOB5So8qgcSheEwYnxBggN3y11LkPw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] media: uvcvideo: Split uvc_stop_streaming()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+From: Hans Verkuil <hans@jjverkuil.nl>
+Subject: Re: [PATCH v2 7/9] media: uvcvideo: uvc_v4l2_unlocked_ioctl: Invert
+ PM logic
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250602-uvc-grannular-invert-v2-0-c871934ad880@chromium.org>
+ <20250602-uvc-grannular-invert-v2-7-c871934ad880@chromium.org>
+Content-Language: en-US, nl
+Autocrypt: addr=hans@jjverkuil.nl; keydata=
+ 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
+In-Reply-To: <20250602-uvc-grannular-invert-v2-7-c871934ad880@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spampanel-Class: ham
 
-On Mon, 30 Jun 2025 at 15:25, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Mon, Jun 30, 2025 at 03:12:38PM +0200, Hans de Goede wrote:
-> > On 30-Jun-25 3:10 PM, Laurent Pinchart wrote:
-> > > On Mon, Jun 30, 2025 at 02:59:05PM +0200, Hans de Goede wrote:
-> > >> On 17-Jun-25 11:27 AM, Hans Verkuil wrote:
-> > >>> On 16/06/2025 17:24, Ricardo Ribalda wrote:
-> > >>>> uvc_stop_streaming() is used for meta and video nodes. Split the function
-> > >>>> in two to avoid confusion.
-> > >>>>
-> > >>>> Use this opportunity to rename uvc_start_streaming() to
-> > >>>> uvc_start_streaming_video(), as it is only called by the video nodes.
-> > >>>>
-> > >>>> Reviewed-by: Hans de Goede <hansg@kernel.org>
-> > >>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > >>>> ---
-> > >>>>  drivers/media/usb/uvc/uvc_queue.c | 22 +++++++++++++++-------
-> > >>>>  1 file changed, 15 insertions(+), 7 deletions(-)
-> > >>>>
-> > >>>> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> > >>>> index 8f9737ac729546683ca48f5e71ce3dfacbae2926..3f357c2d48cfd258c26f0342007d1d12f1e01007 100644
-> > >>>> --- a/drivers/media/usb/uvc/uvc_queue.c
-> > >>>> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> > >>>> @@ -167,7 +167,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
-> > >>>>                  uvc_video_clock_update(stream, vbuf, buf);
-> > >>>>  }
-> > >>>>
-> > >>>> -static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
-> > >>>> +static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
-> > >>>>  {
-> > >>>>          struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> > >>>>          struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> > >>>> @@ -186,14 +186,22 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
-> > >>>>          return ret;
-> > >>>>  }
-> > >>>>
-> > >>>> -static void uvc_stop_streaming(struct vb2_queue *vq)
-> > >>>> +static void uvc_stop_streaming_video(struct vb2_queue *vq)
-> > >>>>  {
-> > >>>>          struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> > >>>>
-> > >>>>          lockdep_assert_irqs_enabled();
-> > >>>>
-> > >>>> -        if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
-> > >>>> -                uvc_video_stop_streaming(uvc_queue_to_stream(queue));
-> > >>>> +        uvc_video_stop_streaming(uvc_queue_to_stream(queue));
-> > >>>> +
-> > >>>> +        uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> > >>>> +}
-> > >>>> +
-> > >>>> +static void uvc_stop_streaming_meta(struct vb2_queue *vq)
-> > >>>> +{
-> > >>>> +        struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> > >>>> +
-> > >>>> +        lockdep_assert_irqs_enabled();
-> > >>>>
-> > >>>>          uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> > >>>>  }
-> > >>>> @@ -203,15 +211,15 @@ static const struct vb2_ops uvc_queue_qops = {
-> > >>>>          .buf_prepare = uvc_buffer_prepare,
-> > >>>>          .buf_queue = uvc_buffer_queue,
-> > >>>>          .buf_finish = uvc_buffer_finish,
-> > >>>> -        .start_streaming = uvc_start_streaming,
-> > >>>> -        .stop_streaming = uvc_stop_streaming,
-> > >>>> +        .start_streaming = uvc_start_streaming_video,
-> > >>>> +        .stop_streaming = uvc_stop_streaming_video,
-> > >>>>  };
-> > >>>>
-> > >>>>  static const struct vb2_ops uvc_meta_queue_qops = {
-> > >>>>          .queue_setup = uvc_queue_setup,
-> > >>>>          .buf_prepare = uvc_buffer_prepare,
-> > >>>>          .buf_queue = uvc_buffer_queue,
-> > >>>> -        .stop_streaming = uvc_stop_streaming,
-> > >>>> +        .stop_streaming = uvc_stop_streaming_meta,
-> > >>>>  };
-> > >>>
-> > >>> I think there should be a comment stating that the metadata stream
-> > >>> expects that video is streaming, it does not start streaming by itself.
-> > >>>
-> > >>> Something like:
-> > >>>
-> > >>>   /*
-> > >>>    * .start_streaming is not provided here. Metadata relies on
-> > >>>    * video streaming being active. If video isn't streaming, then
-> > >>>    * no metadata will arrive either.
-> > >>>    */
-> > >>>
-> > >>> It's unexpected that there is no start_streaming for metadata, so a
-> > >>> comment wouldn't hurt.
-> > >>
-> > >> I've added this comment while merging this series and I've now pushed
-> > >> the entire series to uvc.git/for-next .
-> > >>
-> > >> BTW it seems that both uvc.git/next and uvc.git/for-next are in
-> > >> use now?  With uvc.git/next seemingly following media-commiters/next ?
-> > >
-> > > As far as I understand, some jobs in the media CI use the next branch,
-> > > for instance the bisect job that tries to compile every commit uses the
-> > > next branch as a base. We therefore need to keep the next branch
-> > > up-to-date, mirroring upstream.
-> >
-> > Ok, so we have the next branch mirroring upstream and then we
-> > use for-next to merge new patches as I've just done ?
->
-> Sounds good.
+Hi Ricardo,
 
-BTW the auto-mirroring from media-committers has not been enabled. Do
-you want it?
+These last three patches are a bit messy.
 
->
-> --
-> Regards,
->
-> Laurent Pinchart
+It is much better to combine patch 7 and 9, and move patch 7 as the first
+one (but see my upcoming comment for that one, you should export a different
+function).
 
+More comments below:
 
+On 02/06/2025 15:06, Ricardo Ribalda wrote:
+> Instead of listing the IOCTLs that do not need to turn on the camera,
+> list the IOCTLs that need to turn it on. This makes the code more
+> maintainable.
+> 
+> This patch changes the behaviour for unsupported IOCTLs. Those IOCTLs
+> will not turn on the camera.
+> 
+> Suggested-by: Hans Verkuil <hans@jjverkuil.nl>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 61 ++++++++++++++++++++++++----------------
+>  1 file changed, 36 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 020def11b60e00ca2875dd96f23ef9591fed11d9..13388879091c46ff74582226146521b5b5eb3d10 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -1219,43 +1219,54 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
+>  }
+>  #endif
+>  
+> -static long uvc_v4l2_unlocked_ioctl(struct file *file,
+> -				    unsigned int cmd, unsigned long arg)
+> +static long uvc_v4l2_pm_ioctl(struct file *file,
+> +			      unsigned int cmd, unsigned long arg)
 
--- 
-Ricardo Ribalda
+You don't need this function...
+
+>  {
+>  	struct uvc_fh *handle = file->private_data;
+>  	int ret;
+>  
+> -	/* The following IOCTLs do not need to turn on the camera. */
+> -	switch (cmd) {
+> -	case UVCIOC_CTRL_MAP:
+> -	case VIDIOC_CREATE_BUFS:
+> -	case VIDIOC_DQBUF:
+> -	case VIDIOC_ENUM_FMT:
+> -	case VIDIOC_ENUM_FRAMEINTERVALS:
+> -	case VIDIOC_ENUM_FRAMESIZES:
+> -	case VIDIOC_ENUMINPUT:
+> -	case VIDIOC_EXPBUF:
+> -	case VIDIOC_G_FMT:
+> -	case VIDIOC_G_PARM:
+> -	case VIDIOC_G_SELECTION:
+> -	case VIDIOC_QBUF:
+> -	case VIDIOC_QUERYCAP:
+> -	case VIDIOC_REQBUFS:
+> -	case VIDIOC_SUBSCRIBE_EVENT:
+> -	case VIDIOC_UNSUBSCRIBE_EVENT:
+> -		return video_ioctl2(file, cmd, arg);
+> -	}
+> -
+>  	ret = uvc_pm_get(handle->stream->dev);
+>  	if (ret)
+>  		return ret;
+> -
+>  	ret = video_ioctl2(file, cmd, arg);
+> -
+>  	uvc_pm_put(handle->stream->dev);
+> +
+>  	return ret;
+>  }
+>  
+> +static long uvc_v4l2_unlocked_ioctl(struct file *file,
+> +				    unsigned int cmd, unsigned long arg)
+> +{
+> +	/*
+> +	 * For now, we do not support granular power saving for compat
+> +	 * syscalls.
+> +	 */
+> +	if (in_compat_syscall())
+> +		return uvc_v4l2_pm_ioctl(file, cmd, arg);
+
+...you can drop this and just obtain the translated cmd (no need to
+check in_compat_syscall for that)...
+
+> +
+> +	/* The following IOCTLs do need to turn on the camera. */
+> +	switch (cmd) {
+> +	case UVCIOC_CTRL_QUERY:
+> +	case VIDIOC_G_CTRL:
+> +	case VIDIOC_G_EXT_CTRLS:
+> +	case VIDIOC_G_INPUT:
+> +	case VIDIOC_QUERYCTRL:
+> +	case VIDIOC_QUERYMENU:
+> +	case VIDIOC_QUERY_EXT_CTRL:
+> +	case VIDIOC_S_CTRL:
+> +	case VIDIOC_S_EXT_CTRLS:
+> +	case VIDIOC_S_FMT:
+> +	case VIDIOC_S_INPUT:
+> +	case VIDIOC_S_PARM:
+> +	case VIDIOC_TRY_EXT_CTRLS:
+> +	case VIDIOC_TRY_FMT:
+> +		return uvc_v4l2_pm_ioctl(file, cmd, arg);
+
+...and here you call uvc_pm_get/video_ioctl2/uvc_pm_put. It keeps everything nicely
+localized, no need to look up what happens in a different function.
+
+> +	}
+> +
+> +	/* The other IOCTLs can run with the camera off. */
+> +	return video_ioctl2(file, cmd, arg);
+> +}
+> +
+>  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
+>  	.vidioc_g_fmt_vid_cap = uvc_ioctl_g_fmt,
+>  	.vidioc_g_fmt_vid_out = uvc_ioctl_g_fmt,
+> 
+
+Regards,
+
+	Hans
 
