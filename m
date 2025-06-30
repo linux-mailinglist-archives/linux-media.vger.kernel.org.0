@@ -1,263 +1,333 @@
-Return-Path: <linux-media+bounces-36247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36248-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10367AED5C1
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 09:34:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E318AED5DC
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 09:38:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 289FE1887F26
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 07:34:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 473C93B1B63
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 07:37:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09EC221DB1;
-	Mon, 30 Jun 2025 07:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B41B2222A6;
+	Mon, 30 Jun 2025 07:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5iYqKxw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gF+4Ie7J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9541FF7D7
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 07:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155971E502;
+	Mon, 30 Jun 2025 07:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751268847; cv=none; b=fjSWaKXODM3s04gIiP707E9a2mEgs8VFJ4rz6V0J31UFIg9O9ytJ8WEsB59Nx/xoyxQ/pCGPRWgZP1CxrfkLKF31133KPulytcJjvZ8nM3BtNKZLjDahDc19ib5jQuX7PoIwqVXH8Lh8j+cL7521psRJf9Zd/Wm4zX4k1q7J6ws=
+	t=1751269077; cv=none; b=WS+izp2QjGSbXqHCUuXGGD8d+vksVSiafmZmuIyxAaWL4IvB2UEXnfZcVBFg2E4VeZJodHkjyOWOgOnwXygzQJVAVF03tw/As/aFZhXbwOErdA694QpbcMD0C/+WWnSlxUCoBs/fKw86SZFhN8JdcjVstkOWD0siQ0ruwPFipW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751268847; c=relaxed/simple;
-	bh=M+ch0LUtsHrdhbUL1za51HX4TSXIiP9nIRbudq4L83w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=RA2uYnuRceOfty3hVT0e88WaXSn3GnYIJ/aZ5y8qNQhJOaiP3O28BJnD369tdLCLfZzZko9ivlO36sbuG/m9dqEj0heFCIPiWffH8xrED8Mgdn9Dv+020FM4apkdadFtiMLI4i3QlEBcMANm8vxBiQ7FlLFBiA/6tfyz++aeuQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5iYqKxw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63B66C4CEE3
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 07:34:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751268846;
-	bh=M+ch0LUtsHrdhbUL1za51HX4TSXIiP9nIRbudq4L83w=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=G5iYqKxwn6kganKMPoVgeQkFqXT2JSwjm4lBf11AGAvrFuGWOxeaHCnLltuWLxqTS
-	 0QcWPDwii97BaAVFaEbTkfJZGQS5XUK6ZMIwIe/FCA+/9OtpYtxcm6NO5PTZwtdRv8
-	 XZc4a1w12Rgpq38KvSQb8Pq917aM/lha1kdrQHNy0u1E+IXUtuT1LGPmCA43IGgUqv
-	 8AMK48Z/gmON7odfFQJJwLPlDHJSAMgwA5X9psaIqUsabYzODDHVcF/8L02F3ARsGS
-	 Bb8T3/XZl0a082DGXSl5gyqVcxJio6oIUwJH60ncBsqWG7oWFQ7BF3YtiPMkxWXUFu
-	 HwaBNEVqlxTHg==
-Message-ID: <ceffaf7a-94f0-41d3-8036-e636458dc0f9@kernel.org>
-Date: Mon, 30 Jun 2025 09:34:04 +0200
+	s=arc-20240116; t=1751269077; c=relaxed/simple;
+	bh=J+i5E5nappl0ril9BLgF8kvARi1HEQJl5YkrGc6cR6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qM8wj7M/bFpMHWGK0jPCh4MprpL9drP7BWPtLDCtV98yb2MWjwiYufwlD3GZi7+79os/ioq0/8vzdGHFlZMyi4Er+BDQ1VKBmhlVBZ8SXOllvffoJonmeT9pnP/bWoS23MGR0Zh2NWg6Z5JkFhL8K5/IvkO9yj6xODFjVgnUhrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gF+4Ie7J; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751269076; x=1782805076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J+i5E5nappl0ril9BLgF8kvARi1HEQJl5YkrGc6cR6s=;
+  b=gF+4Ie7JEXuaq19WazK9iYg605tvepq9IG/5y9p4ydRfgJ9ZdX85J0l+
+   YXtSzRfS8R09tA9ZUe0r9HXAw5CWP7Ihwj9+TESEXShSVQzlANPrgM/74
+   KUYnA8mprf7E9Ww42kL9VbSj7fH5Y1D8ppEGMWW/s0MXbGRz7s5ejfdVW
+   1WleC3PDLo1fJpcvYRfMm+0eWMy98DYz39C+ImyYreZJgj99mmHGqf11c
+   fTehYho1GfiC8pudxqU5uPiIKBEjmwm9qGS5T0cMhJwr/ulcz8GMqz3//
+   7YmBtRWInSSJlR55p8girZg54Bow8v7MqKgjeP8I/zBw0gTaWcyXuzC95
+   A==;
+X-CSE-ConnectionGUID: 3IcLBw4YRDeqaI8p54YDDw==
+X-CSE-MsgGUID: oDy46JGLSp+tzcgXjmbwFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53633733"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="53633733"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 00:37:55 -0700
+X-CSE-ConnectionGUID: mqYOQuhjQ+6VZF9w7ycY/A==
+X-CSE-MsgGUID: EIrgA14pTqC5j6UZ3LB+8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="153481695"
+Received: from agladkov-desk.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.57])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 00:37:52 -0700
+Received: from svinhufvud (syyslaukka.retiisi.eu [IPv6:::1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTPS id 5414C427E5;
+	Mon, 30 Jun 2025 10:37:49 +0300 (EEST)
+Date: Mon, 30 Jun 2025 10:37:47 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+	jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com,
+	robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v10 07/17] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <aGI+y4sOlPAQMzWI@svinhufvud>
+References: <20250624-c55-v10-0-54f3d4196990@ideasonboard.com>
+ <20250624-c55-v10-7-54f3d4196990@ideasonboard.com>
+ <cee962ce-3719-4ae7-9849-548a95d98e99@linux.intel.com>
+ <20250629183547.GF6260@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3,00/15] media: mt9m114: Changes to make it work with atomisp
- devices
-To: linux-media@vger.kernel.org
-References: <20250629205626.68341-1-hansg@kernel.org>
- <6861b00f.050a0220.379e4a.5185@mx.google.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <6861b00f.050a0220.379e4a.5185@mx.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250629183547.GF6260@pendragon.ideasonboard.com>
 
-Hi All,
-On 29-Jun-25 11:28 PM, Patchwork Integration wrote:
-> Dear Hans de Goede:
+Hi Laurent,
+
+On Sun, Jun 29, 2025 at 09:35:47PM +0300, Laurent Pinchart wrote:
+> On Sat, Jun 28, 2025 at 11:06:54PM +0300, Sakari Ailus wrote:
+> > On 6/24/25 13:21, Daniel Scally wrote:
 > 
-> Thanks for your patches! Unfortunately the Media CI robot has not been
-> able to test them.
+> [snip]
 > 
-> Make sure that the whole series 20250629205626.68341-1-hansg@kernel.org is
-> available at lore. And that it can be cherry-picked on top the "next"
-> branch of "https://gitlab.freedesktop.org/linux-media/media-committers.git".
+> > > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..20d4d16c75fbf0d5519ecadb5ed1d080bdae05de
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+> > > @@ -0,0 +1,656 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * ARM Mali-C55 ISP Driver - Image signal processor
+> > > + *
+> > > + * Copyright (C) 2024 Ideas on Board Oy
+> > 
+> > It's 2025 already.
+> > 
+> > > + */
+> > > +
+> > > +#include <linux/delay.h>
+> > > +#include <linux/iopoll.h>
+> > > +#include <linux/property.h>
+> > > +#include <linux/string.h>
+> > > +
+> > > +#include <linux/media/arm/mali-c55-config.h>
+> > 
+> > If this is a UAPI header, please include uapi in the path, too.
+> > 
+> > Earlier such headers have been under include/uapi/linux, I don't object 
+> > putting new ones elsewhere in principle though. Just check with Hans and 
+> > Laurent, too... I don't have an opinion yet really.
 > 
-> You can try something like this:
->     git fetch https://gitlab.freedesktop.org/linux-media/media-committers.git next
->     git checkout FETCH_HEAD
->     b4 shazam 20250629205626.68341-1-hansg@kernel.org
+> With each new media header we add to include/uapi/linux/, I wish
+> stronger and stronger that we had created include/uapi/linux/media/. We
+> don't have to do it now, my regret will just grow stronger :-)
 
-My bad, this is based on top of:
+I'm fine with using include/uapi/linux/media/.
 
-https://git.linuxtv.org/sailus/media_tree.git/log/?h=fixes
-
-since that has some pending mt9m114 patches. I should have
-added a base-commit to the cover-letter.
-
-Regards,
-
-Hans
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-> Error message:
-> Trying branch next c0b1da281d84d33281fc49289f0c7f8aada450ff...
-> Running in OFFLINE mode
-> Analyzing 16 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   [PATCH v3 1/15] media: aptina-pll: Debug log p1 min and max values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-2-hansg@kernel.org
->   [PATCH v3 2/15] media: mt9m114: Add support for clock-frequency property
->     + Link: https://lore.kernel.org/r/20250629205626.68341-3-hansg@kernel.org
->   [PATCH v3 3/15] media: mt9m114: Use aptina-PLL helper to get PLL values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-4-hansg@kernel.org
->   [PATCH v3 4/15] media: mt9m114: Lower minimum vblank value
->     + Link: https://lore.kernel.org/r/20250629205626.68341-5-hansg@kernel.org
->   [PATCH v3 5/15] media: mt9m114: Fix default hblank and vblank values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-6-hansg@kernel.org
->   [PATCH v3 6/15] media: mt9m114: Tweak default hblank and vblank for more accurate fps
->     + Link: https://lore.kernel.org/r/20250629205626.68341-7-hansg@kernel.org
->   [PATCH v3 7/15] media: mt9m114: Avoid a reset low spike during probe()
->     + Link: https://lore.kernel.org/r/20250629205626.68341-8-hansg@kernel.org
->   [PATCH v3 8/15] media: mt9m114: Put sensor in reset on power down
->     + Link: https://lore.kernel.org/r/20250629205626.68341-9-hansg@kernel.org
->   [PATCH v3 9/15] media: mt9m114: Add and use mt9m114_ifp_get_border() helper function
->     + Link: https://lore.kernel.org/r/20250629205626.68341-10-hansg@kernel.org
->   [PATCH v3 10/15] media: mt9m114: Adjust IFP selections and src format when src pixelfmt changes to/from RAW10
->     + Link: https://lore.kernel.org/r/20250629205626.68341-11-hansg@kernel.org
->   [PATCH v3 11/15] media: mt9m114: Update src pad sel and format when sink pad format changes
->     + Link: https://lore.kernel.org/r/20250629205626.68341-12-hansg@kernel.org
->   [PATCH v3 12/15] media: mt9m114: Don't allow changing the IFP crop/compose selections when bypassing the scaler
->     + Link: https://lore.kernel.org/r/20250629205626.68341-13-hansg@kernel.org
->   [PATCH v3 13/15] media: mt9m114: Drop start-, stop-streaming sequence from initialize
->     + Link: https://lore.kernel.org/r/20250629205626.68341-14-hansg@kernel.org
->   [PATCH v3 14/15] media: mt9m114: Return -EPROBE_DEFER if no endpoint is found
->     + Link: https://lore.kernel.org/r/20250629205626.68341-15-hansg@kernel.org
->   [PATCH v3 15/15] media: mt9m114: Add ACPI enumeration support
->     + Link: https://lore.kernel.org/r/20250629205626.68341-16-hansg@kernel.org
-> ---
-> Total patches: 15
-> ---
-> Applying: media: aptina-pll: Debug log p1 min and max values
-> Applying: media: mt9m114: Add support for clock-frequency property
-> Patch failed at 0002 media: mt9m114: Add support for clock-frequency property
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: patch failed: drivers/media/i2c/mt9m114.c:2279
-> error: drivers/media/i2c/mt9m114.c: patch does not apply
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
 > 
-> Trying branch fixes 19272b37aa4f83ca52bdf9c16d5d81bdd1354494...
-> Running in OFFLINE mode
-> Analyzing 16 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   [PATCH v3 1/15] media: aptina-pll: Debug log p1 min and max values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-2-hansg@kernel.org
->   [PATCH v3 2/15] media: mt9m114: Add support for clock-frequency property
->     + Link: https://lore.kernel.org/r/20250629205626.68341-3-hansg@kernel.org
->   [PATCH v3 3/15] media: mt9m114: Use aptina-PLL helper to get PLL values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-4-hansg@kernel.org
->   [PATCH v3 4/15] media: mt9m114: Lower minimum vblank value
->     + Link: https://lore.kernel.org/r/20250629205626.68341-5-hansg@kernel.org
->   [PATCH v3 5/15] media: mt9m114: Fix default hblank and vblank values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-6-hansg@kernel.org
->   [PATCH v3 6/15] media: mt9m114: Tweak default hblank and vblank for more accurate fps
->     + Link: https://lore.kernel.org/r/20250629205626.68341-7-hansg@kernel.org
->   [PATCH v3 7/15] media: mt9m114: Avoid a reset low spike during probe()
->     + Link: https://lore.kernel.org/r/20250629205626.68341-8-hansg@kernel.org
->   [PATCH v3 8/15] media: mt9m114: Put sensor in reset on power down
->     + Link: https://lore.kernel.org/r/20250629205626.68341-9-hansg@kernel.org
->   [PATCH v3 9/15] media: mt9m114: Add and use mt9m114_ifp_get_border() helper function
->     + Link: https://lore.kernel.org/r/20250629205626.68341-10-hansg@kernel.org
->   [PATCH v3 10/15] media: mt9m114: Adjust IFP selections and src format when src pixelfmt changes to/from RAW10
->     + Link: https://lore.kernel.org/r/20250629205626.68341-11-hansg@kernel.org
->   [PATCH v3 11/15] media: mt9m114: Update src pad sel and format when sink pad format changes
->     + Link: https://lore.kernel.org/r/20250629205626.68341-12-hansg@kernel.org
->   [PATCH v3 12/15] media: mt9m114: Don't allow changing the IFP crop/compose selections when bypassing the scaler
->     + Link: https://lore.kernel.org/r/20250629205626.68341-13-hansg@kernel.org
->   [PATCH v3 13/15] media: mt9m114: Drop start-, stop-streaming sequence from initialize
->     + Link: https://lore.kernel.org/r/20250629205626.68341-14-hansg@kernel.org
->   [PATCH v3 14/15] media: mt9m114: Return -EPROBE_DEFER if no endpoint is found
->     + Link: https://lore.kernel.org/r/20250629205626.68341-15-hansg@kernel.org
->   [PATCH v3 15/15] media: mt9m114: Add ACPI enumeration support
->     + Link: https://lore.kernel.org/r/20250629205626.68341-16-hansg@kernel.org
-> ---
-> Total patches: 15
-> ---
-> Applying: media: aptina-pll: Debug log p1 min and max values
-> Applying: media: mt9m114: Add support for clock-frequency property
-> Patch failed at 0002 media: mt9m114: Add support for clock-frequency property
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: patch failed: drivers/media/i2c/mt9m114.c:2279
-> error: drivers/media/i2c/mt9m114.c: patch does not apply
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
+> > > +/* NOT const because the default needs to be filled in at runtime */
+> > > +static struct v4l2_ctrl_config mali_c55_isp_v4l2_custom_ctrls[] = {
+> > > +	{
+> > > +		.ops = &mali_c55_isp_ctrl_ops,
+> > > +		.id = V4L2_CID_MALI_C55_CAPABILITIES,
+> > > +		.name = "Mali-C55 ISP Capabilities",
+> > > +		.type = V4L2_CTRL_TYPE_BITMASK,
+> > > +		.min = 0,
+> > > +		.max = MALI_C55_GPS_PONG_FITTED |
+> > > +		       MALI_C55_GPS_WDR_FITTED |
+> > > +		       MALI_C55_GPS_COMPRESSION_FITTED |
+> > > +		       MALI_C55_GPS_TEMPER_FITTED |
+> > > +		       MALI_C55_GPS_SINTER_LITE_FITTED |
+> > > +		       MALI_C55_GPS_SINTER_FITTED |
+> > > +		       MALI_C55_GPS_IRIDIX_LTM_FITTED |
+> > > +		       MALI_C55_GPS_IRIDIX_GTM_FITTED |
+> > > +		       MALI_C55_GPS_CNR_FITTED |
+> > > +		       MALI_C55_GPS_FRSCALER_FITTED |
+> > > +		       MALI_C55_GPS_DS_PIPE_FITTED,
+> > > +		.def = 0,
+> > > +	},
+> > > +};
+> > > +
+> > > +static int mali_c55_isp_init_controls(struct mali_c55 *mali_c55)
+> > > +{
+> > > +	struct v4l2_ctrl_handler *handler = &mali_c55->isp.handler;
+> > > +	struct v4l2_ctrl *capabilities;
+> > > +	int ret;
+> > > +
+> > > +	ret = v4l2_ctrl_handler_init(handler, 1);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	mali_c55_isp_v4l2_custom_ctrls[0].def = mali_c55->capabilities;
+> > 
+> > The capabilities here are still specific to a device, not global, in 
+> > principle at least. Can you move it here, as a local variable?
+> > 
+> > > +
+> > > +	capabilities = v4l2_ctrl_new_custom(handler,
+> > > +					    &mali_c55_isp_v4l2_custom_ctrls[0],
+> > > +					    NULL);
+> > > +	if (capabilities)
+> > > +		capabilities->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > +
+> > > +	if (handler->error) {
+> > > +		dev_err(mali_c55->dev, "failed to register capabilities control\n");
+> > > +		v4l2_ctrl_handler_free(handler);
+> > > +		return handler->error;
+> > 
+> > v4l2_ctrl_handler_free() will return the error soon, presumably sooner 
+> > than the above code makes it to upstream. Before that, this pattern 
+> > won't work as v4l2_ctrl_handler_free() also resets the handler's error 
+> > field. :-)
+> > 
+> > > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..36a81be0191a15da91809dd2da5d279716f6d725
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+> > > @@ -0,0 +1,318 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * ARM Mali-C55 ISP Driver - Register definitions
+> > > + *
+> > > + * Copyright (C) 2024 Ideas on Board Oy
+> > > + */
+> > > +
+> > > +#ifndef _MALI_C55_REGISTERS_H
+> > > +#define _MALI_C55_REGISTERS_H
+> > > +
+> > > +#include <linux/bits.h>
+> > > +
+> > > +/* ISP Common 0x00000 - 0x000ff */
+> > > +
+> > > +#define MALI_C55_REG_API				0x00000
+> > > +#define MALI_C55_REG_PRODUCT				0x00004
+> > > +#define MALI_C55_REG_VERSION				0x00008
+> > > +#define MALI_C55_REG_REVISION				0x0000c
+> > > +#define MALI_C55_REG_PULSE_MODE				0x0003c
+> > > +#define MALI_C55_REG_INPUT_MODE_REQUEST			0x0009c
+> > > +#define MALI_C55_INPUT_SAFE_STOP			0x00
+> > > +#define MALI_C55_INPUT_SAFE_START			0x01
+> > > +#define MALI_C55_REG_MODE_STATUS			0x000a0
+> > > +#define MALI_C55_REG_INTERRUPT_MASK_VECTOR		0x00030
+> > > +#define MALI_C55_INTERRUPT_MASK_ALL			GENMASK(31, 0)
+> > > +
+> > > +#define MALI_C55_REG_GLOBAL_MONITOR			0x00050
+> > > +
+> > > +#define MALI_C55_REG_GEN_VIDEO				0x00080
+> > > +#define MALI_C55_REG_GEN_VIDEO_ON_MASK			BIT(0)
+> > > +#define MALI_C55_REG_GEN_VIDEO_MULTI_MASK		BIT(1)
+> > > +#define MALI_C55_REG_GEN_PREFETCH_MASK			GENMASK(31, 16)
+> > > +
+> > > +#define MALI_C55_REG_MCU_CONFIG				0x00020
+> > > +#define MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK		BIT(0)
+> > > +#define MALI_C55_REG_MCU_CONFIG_WRITE_MASK		BIT(1)
+> > > +#define MALI_C55_MCU_CONFIG_WRITE(x)			((x) << 1)
+> > 
+> > Is x unsigned?
 > 
-> Trying branch None 27b0a9c2a67d483a9d4a941882b779a199ff281e...
-> Running in OFFLINE mode
-> Analyzing 16 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   [PATCH v3 1/15] media: aptina-pll: Debug log p1 min and max values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-2-hansg@kernel.org
->   [PATCH v3 2/15] media: mt9m114: Add support for clock-frequency property
->     + Link: https://lore.kernel.org/r/20250629205626.68341-3-hansg@kernel.org
->   [PATCH v3 3/15] media: mt9m114: Use aptina-PLL helper to get PLL values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-4-hansg@kernel.org
->   [PATCH v3 4/15] media: mt9m114: Lower minimum vblank value
->     + Link: https://lore.kernel.org/r/20250629205626.68341-5-hansg@kernel.org
->   [PATCH v3 5/15] media: mt9m114: Fix default hblank and vblank values
->     + Link: https://lore.kernel.org/r/20250629205626.68341-6-hansg@kernel.org
->   [PATCH v3 6/15] media: mt9m114: Tweak default hblank and vblank for more accurate fps
->     + Link: https://lore.kernel.org/r/20250629205626.68341-7-hansg@kernel.org
->   [PATCH v3 7/15] media: mt9m114: Avoid a reset low spike during probe()
->     + Link: https://lore.kernel.org/r/20250629205626.68341-8-hansg@kernel.org
->   [PATCH v3 8/15] media: mt9m114: Put sensor in reset on power down
->     + Link: https://lore.kernel.org/r/20250629205626.68341-9-hansg@kernel.org
->   [PATCH v3 9/15] media: mt9m114: Add and use mt9m114_ifp_get_border() helper function
->     + Link: https://lore.kernel.org/r/20250629205626.68341-10-hansg@kernel.org
->   [PATCH v3 10/15] media: mt9m114: Adjust IFP selections and src format when src pixelfmt changes to/from RAW10
->     + Link: https://lore.kernel.org/r/20250629205626.68341-11-hansg@kernel.org
->   [PATCH v3 11/15] media: mt9m114: Update src pad sel and format when sink pad format changes
->     + Link: https://lore.kernel.org/r/20250629205626.68341-12-hansg@kernel.org
->   [PATCH v3 12/15] media: mt9m114: Don't allow changing the IFP crop/compose selections when bypassing the scaler
->     + Link: https://lore.kernel.org/r/20250629205626.68341-13-hansg@kernel.org
->   [PATCH v3 13/15] media: mt9m114: Drop start-, stop-streaming sequence from initialize
->     + Link: https://lore.kernel.org/r/20250629205626.68341-14-hansg@kernel.org
->   [PATCH v3 14/15] media: mt9m114: Return -EPROBE_DEFER if no endpoint is found
->     + Link: https://lore.kernel.org/r/20250629205626.68341-15-hansg@kernel.org
->   [PATCH v3 15/15] media: mt9m114: Add ACPI enumeration support
->     + Link: https://lore.kernel.org/r/20250629205626.68341-16-hansg@kernel.org
-> ---
-> Total patches: 15
-> ---
-> Applying: media: aptina-pll: Debug log p1 min and max values
-> Applying: media: mt9m114: Add support for clock-frequency property
-> Patch failed at 0002 media: mt9m114: Add support for clock-frequency property
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: drivers/media/i2c/mt9m114.c: does not exist in index
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> 
-> 
-> 
-> Best regards, and Happy Hacking!
-> Media CI robot on behalf of the linux-media community.
-> 
-> ---
-> Check the latest rules for contributing your patches at:
-> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
-> 
-> If you believe that the CI is wrong, kindly open an issue at
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> to this message.
-> 
+> Does it matter ? The reason why the BIT() macro uses (UL(1) << (nr))
+> instead of (1 << (nr)) is (if I'm not mistaken) to avoid incorrect
+> handling of bit 31. As long as x doesn't take negative values and
+> doesn't extend to bit 31, it should be fine.
 
+For that reason exactly. If you're unsure, maybe at least cast it as
+unsigned?
+
+> 
+> > > +#define MALI_C55_REG_MCU_CONFIG_WRITE_PING		BIT(1)
+> > > +#define MALI_C55_REG_MCU_CONFIG_WRITE_PONG		0x00
+> > > +#define MALI_C55_REG_MULTI_CONTEXT_MODE_MASK		BIT(8)
+> > > +#define MALI_C55_REG_PING_PONG_READ			0x00024
+> > > +#define MALI_C55_REG_PING_PONG_READ_MASK		BIT(2)
+> > > +#define MALI_C55_INTERRUPT_BIT(x)			BIT(x)
+> > > +
+> > > +#define MALI_C55_REG_GLOBAL_PARAMETER_STATUS		0x00068
+> > > +#define MALI_C55_GPS_PONG_FITTED			BIT(0)
+> > > +#define MALI_C55_GPS_WDR_FITTED				BIT(1)
+> > > +#define MALI_C55_GPS_COMPRESSION_FITTED			BIT(2)
+> > > +#define MALI_C55_GPS_TEMPER_FITTED			BIT(3)
+> > > +#define MALI_C55_GPS_SINTER_LITE_FITTED			BIT(4)
+> > > +#define MALI_C55_GPS_SINTER_FITTED			BIT(5)
+> > > +#define MALI_C55_GPS_IRIDIX_LTM_FITTED			BIT(6)
+> > > +#define MALI_C55_GPS_IRIDIX_GTM_FITTED			BIT(7)
+> > > +#define MALI_C55_GPS_CNR_FITTED				BIT(8)
+> > > +#define MALI_C55_GPS_FRSCALER_FITTED			BIT(9)
+> > > +#define MALI_C55_GPS_DS_PIPE_FITTED			BIT(10)
+> > > +
+> > > +#define MALI_C55_REG_BLANKING				0x00084
+> > > +#define MALI_C55_REG_HBLANK_MASK			GENMASK(15, 0)
+> > > +#define MALI_C55_REG_VBLANK_MASK			GENMASK(31, 16)
+> > > +#define MALI_C55_VBLANK(x)				((x) << 16)
+> > 
+> > Same question for the bit shifts left elsewhere in the header.
+> > 
+> > > +
+> > > +#define MALI_C55_REG_HC_START				0x00088
+> > > +#define MALI_C55_HC_START(h)				(((h) & 0xffff) << 16)
+> > > +#define MALI_C55_REG_HC_SIZE				0x0008c
+> > > +#define MALI_C55_HC_SIZE(h)				((h) & 0xffff)
+> > > +#define MALI_C55_REG_VC_START_SIZE			0x00094
+> > > +#define MALI_C55_VC_START(v)				((v) & 0xffff)
+> > > +#define MALI_C55_VC_SIZE(v)				(((v) & 0xffff) << 16)
+> > > +
+> > > +/* Ping/Pong Configuration Space */
+> > > +#define MALI_C55_REG_BASE_ADDR				0x18e88
+> > > +#define MALI_C55_REG_BYPASS_0				0x18eac
+> > > +#define MALI_C55_REG_BYPASS_0_VIDEO_TEST		BIT(0)
+> > > +#define MALI_C55_REG_BYPASS_0_INPUT_FMT			BIT(1)
+> > > +#define MALI_C55_REG_BYPASS_0_DECOMPANDER		BIT(2)
+> > > +#define MALI_C55_REG_BYPASS_0_SENSOR_OFFSET_WDR		BIT(3)
+> > > +#define MALI_C55_REG_BYPASS_0_GAIN_WDR			BIT(4)
+> > > +#define MALI_C55_REG_BYPASS_0_FRAME_STITCH		BIT(5)
+> > > +#define MALI_C55_REG_BYPASS_1				0x18eb0
+> > > +#define MALI_C55_REG_BYPASS_1_DIGI_GAIN			BIT(0)
+> > > +#define MALI_C55_REG_BYPASS_1_FE_SENSOR_OFFS		BIT(1)
+> > > +#define MALI_C55_REG_BYPASS_1_FE_SQRT			BIT(2)
+> > > +#define MALI_C55_REG_BYPASS_1_RAW_FE			BIT(3)
+> > > +#define MALI_C55_REG_BYPASS_2				0x18eb8
+> > > +#define MALI_C55_REG_BYPASS_2_SINTER			BIT(0)
+> > > +#define MALI_C55_REG_BYPASS_2_TEMPER			BIT(1)
+> > > +#define MALI_C55_REG_BYPASS_3				0x18ebc
+> > > +#define MALI_C55_REG_BYPASS_3_SQUARE_BE			BIT(0)
+> > > +#define MALI_C55_REG_BYPASS_3_SENSOR_OFFSET_PRE_SH	BIT(1)
+> > > +#define MALI_C55_REG_BYPASS_3_MESH_SHADING		BIT(3)
+> > > +#define MALI_C55_REG_BYPASS_3_WHITE_BALANCE		BIT(4)
+> > > +#define MALI_C55_REG_BYPASS_3_IRIDIX			BIT(5)
+> > > +#define MALI_C55_REG_BYPASS_3_IRIDIX_GAIN		BIT(6)
+> > > +#define MALI_C55_REG_BYPASS_4				0x18ec0
+> > > +#define MALI_C55_REG_BYPASS_4_DEMOSAIC_RGB		BIT(1)
+> > > +#define MALI_C55_REG_BYPASS_4_PF_CORRECTION		BIT(3)
+> > > +#define MALI_C55_REG_BYPASS_4_CCM			BIT(4)
+> > > +#define MALI_C55_REG_BYPASS_4_CNR			BIT(5)
+> > > +#define MALI_C55_REG_FR_BYPASS				0x18ec4
+> > > +#define MALI_C55_REG_DS_BYPASS				0x18ec8
+> > > +#define MALI_C55_BYPASS_CROP				BIT(0)
+> > > +#define MALI_C55_BYPASS_SCALER				BIT(1)
+> > > +#define MALI_C55_BYPASS_GAMMA_RGB			BIT(2)
+> > > +#define MALI_C55_BYPASS_SHARPEN				BIT(3)
+> > > +#define MALI_C55_BYPASS_CS_CONV				BIT(4)
+> > > +#define MALI_C55_REG_ISP_RAW_BYPASS			0x18ecc
+> > > +#define MALI_C55_ISP_RAW_BYPASS_BYPASS_MASK		BIT(0)
+> > > +#define MALI_C55_ISP_RAW_BYPASS_FR_BYPASS_MASK		GENMASK(9, 8)
+> > > +#define MALI_C55_ISP_RAW_BYPASS_RAW_FR_BYPASS		(2 << 8)
+> > > +#define MALI_C55_ISP_RAW_BYPASS_RGB_FR_BYPASS		(1 << 8)
+> > 
+> > BIT() or make these unsigned.
+> 
+> It's a 2 bits field, BIT() isn't appropriate.
+
+That leaves us with the other alternative, doesn't it?
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
