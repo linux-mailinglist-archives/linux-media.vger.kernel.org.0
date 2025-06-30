@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-36275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36276-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB8FAEDA91
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:14:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F787AEDA92
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:14:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43D503A7DF4
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 11:13:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 390A11898D53
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 11:14:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B22AB25BF1C;
-	Mon, 30 Jun 2025 11:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB87525C6EC;
+	Mon, 30 Jun 2025 11:14:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A70425B687
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 11:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758112580E7
+	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 11:14:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751282045; cv=none; b=qjqPbtbsH3baXC8uFd9MdKjODnkPFaa++87dSxEXAOf1yqcK4kbporLoHLjwgVxQi9bjX8AK9upMnA6U6DPZds9ul3DXxQp0zAQhxOct/jbSF0VqIN1WIpQc54wRJCWuo4GH0ESr7s7w/eFgRGONZYSzroKetizUwxbthjjQmuQ=
+	t=1751282046; cv=none; b=qMh6jPiCAYsq+nrJQ4pGjlyl5AkyqCRZ08g5MSGIMa2rrDkCcVlrM06mjlquvp6GCwB8ZgwZ2YszQjDLZZ9wA9MXOhL72JZAyWtAzDNXWIDQnUuRoYD/fK+PZfzKtNpC4Z+EHQ1QA0hQpR2qKBkCKwGLrbJkIScfI0XnOnLI+fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751282045; c=relaxed/simple;
-	bh=EILKW+tKvdnHm4Wly/lh0yvLRS1rCkKfnSGN6Gds6CY=;
+	s=arc-20240116; t=1751282046; c=relaxed/simple;
+	bh=GejUCUhYWx03b71qR0kPTh1uESMTUdHP/x7UIWghJ4c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sZXesWnAlgalgRI3qrP4KrOCsdD7FusOMgeUTeUDTzaRrJcTgvPvMQAdcXfTcOi7RMbFcWuKUfrxasDRqM1Vyd20c5TXI8kzwsUcK6Hyvn3MctJ30AiJUNVkb4qSTosZ8B3rI39xR6r6M3LV39HuJCGN+nDXHtlFCiBP+OyZZm0=
+	 MIME-Version; b=TmagXpJHQ89e2iUQpw8KNwmPaiimT9Rwq2SlsTn78sRw03IE+LVnrtV0qPOqW6Mlfi5//d2RhVTEquVuIS5UEAYY7DrdLRlnbPxB5EqLj0FQNK4uCTP+KKcdpCL/SZk/srcsA4I+AH7D9KTX4c4o/0zVBmeH8p0lB2BdB6n+3O0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3490DC4CEE3;
-	Mon, 30 Jun 2025 11:14:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5827BC4CEEB;
+	Mon, 30 Jun 2025 11:14:05 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 4/5] media: cec: cec-gpio: rename functions
-Date: Mon, 30 Jun 2025 13:08:49 +0200
-Message-ID: <334e4093bcf1684a123b753504e098287610e724.1751281730.git.hverkuil@xs4all.nl>
+Subject: [PATCH 5/5] media: cec: cec-gpio: reading hpd/5v is allowed to sleep
+Date: Mon, 30 Jun 2025 13:08:50 +0200
+Message-ID: <d5cf23f38d0aa2e10d768ffd8eaaea2e6bc055ac.1751281730.git.hverkuil@xs4all.nl>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <cover.1751281730.git.hverkuil@xs4all.nl>
 References: <cover.1751281730.git.hverkuil@xs4all.nl>
@@ -46,125 +46,91 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Ensure that the interrupt function names clearly state for which
-gpio they are (cec/hpd/5v). No functional changes.
+Reading the hpd or 5v gpios is something that can sleep, so rework
+the code to allow this.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- .../media/cec/platform/cec-gpio/cec-gpio.c    | 32 +++++++++----------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ .../media/cec/platform/cec-gpio/cec-gpio.c    | 26 ++++++++++---------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-index 50cdc557c943..fd5d810d55a6 100644
+index fd5d810d55a6..3c27789d8657 100644
 --- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
 +++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-@@ -61,15 +61,15 @@ static void cec_gpio_low(struct cec_adapter *adap)
- 	gpiod_set_value(cec->cec_gpio, 0);
- }
- 
--static irqreturn_t cec_hpd_gpio_irq_handler_thread(int irq, void *priv)
-+static irqreturn_t cec_gpio_5v_irq_handler_thread(int irq, void *priv)
+@@ -64,7 +64,13 @@ static void cec_gpio_low(struct cec_adapter *adap)
+ static irqreturn_t cec_gpio_5v_irq_handler_thread(int irq, void *priv)
  {
  	struct cec_gpio *cec = priv;
++	int val = gpiod_get_value_cansleep(cec->v5_gpio);
++	bool is_high = val > 0;
  
--	cec_queue_pin_hpd_event(cec->adap, cec->hpd_is_high, cec->hpd_ts);
-+	cec_queue_pin_5v_event(cec->adap, cec->v5_is_high, cec->v5_ts);
++	if (val < 0 || is_high == cec->v5_is_high)
++		return IRQ_HANDLED;
++
++	cec->v5_is_high = is_high;
+ 	cec_queue_pin_5v_event(cec->adap, cec->v5_is_high, cec->v5_ts);
  	return IRQ_HANDLED;
  }
- 
--static irqreturn_t cec_5v_gpio_irq_handler(int irq, void *priv)
-+static irqreturn_t cec_gpio_5v_irq_handler(int irq, void *priv)
+@@ -72,20 +78,21 @@ static irqreturn_t cec_gpio_5v_irq_handler_thread(int irq, void *priv)
+ static irqreturn_t cec_gpio_5v_irq_handler(int irq, void *priv)
  {
  	struct cec_gpio *cec = priv;
- 	int val = gpiod_get_value(cec->v5_gpio);
-@@ -82,15 +82,15 @@ static irqreturn_t cec_5v_gpio_irq_handler(int irq, void *priv)
+-	int val = gpiod_get_value(cec->v5_gpio);
+-	bool is_high = val > 0;
+ 
+-	if (val < 0 || is_high == cec->v5_is_high)
+-		return IRQ_HANDLED;
+ 	cec->v5_ts = ktime_get();
+-	cec->v5_is_high = is_high;
  	return IRQ_WAKE_THREAD;
  }
  
--static irqreturn_t cec_5v_gpio_irq_handler_thread(int irq, void *priv)
-+static irqreturn_t cec_gpio_hpd_irq_handler_thread(int irq, void *priv)
+ static irqreturn_t cec_gpio_hpd_irq_handler_thread(int irq, void *priv)
  {
  	struct cec_gpio *cec = priv;
++	int val = gpiod_get_value_cansleep(cec->hpd_gpio);
++	bool is_high = val > 0;
  
--	cec_queue_pin_5v_event(cec->adap, cec->v5_is_high, cec->v5_ts);
-+	cec_queue_pin_hpd_event(cec->adap, cec->hpd_is_high, cec->hpd_ts);
++	if (val < 0 || is_high == cec->hpd_is_high)
++		return IRQ_HANDLED;
++
++	cec->hpd_is_high = is_high;
+ 	cec_queue_pin_hpd_event(cec->adap, cec->hpd_is_high, cec->hpd_ts);
  	return IRQ_HANDLED;
  }
- 
--static irqreturn_t cec_hpd_gpio_irq_handler(int irq, void *priv)
-+static irqreturn_t cec_gpio_hpd_irq_handler(int irq, void *priv)
+@@ -93,13 +100,8 @@ static irqreturn_t cec_gpio_hpd_irq_handler_thread(int irq, void *priv)
+ static irqreturn_t cec_gpio_hpd_irq_handler(int irq, void *priv)
  {
  	struct cec_gpio *cec = priv;
- 	int val = gpiod_get_value(cec->hpd_gpio);
-@@ -103,7 +103,7 @@ static irqreturn_t cec_hpd_gpio_irq_handler(int irq, void *priv)
+-	int val = gpiod_get_value(cec->hpd_gpio);
+-	bool is_high = val > 0;
+ 
+-	if (val < 0 || is_high == cec->hpd_is_high)
+-		return IRQ_HANDLED;
+ 	cec->hpd_ts = ktime_get();
+-	cec->hpd_is_high = is_high;
  	return IRQ_WAKE_THREAD;
  }
  
--static irqreturn_t cec_gpio_irq_handler(int irq, void *priv)
-+static irqreturn_t cec_gpio_cec_irq_handler(int irq, void *priv)
- {
- 	struct cec_gpio *cec = priv;
- 	int val = gpiod_get_value(cec->cec_gpio);
-@@ -113,7 +113,7 @@ static irqreturn_t cec_gpio_irq_handler(int irq, void *priv)
- 	return IRQ_HANDLED;
+@@ -148,7 +150,7 @@ static int cec_gpio_read_hpd(struct cec_adapter *adap)
+ 
+ 	if (!cec->hpd_gpio)
+ 		return -ENOTTY;
+-	return gpiod_get_value(cec->hpd_gpio);
++	return gpiod_get_value_cansleep(cec->hpd_gpio);
  }
  
--static bool cec_gpio_enable_irq(struct cec_adapter *adap)
-+static bool cec_gpio_cec_enable_irq(struct cec_adapter *adap)
- {
- 	struct cec_gpio *cec = cec_get_drvdata(adap);
+ static int cec_gpio_read_5v(struct cec_adapter *adap)
+@@ -157,7 +159,7 @@ static int cec_gpio_read_5v(struct cec_adapter *adap)
  
-@@ -121,7 +121,7 @@ static bool cec_gpio_enable_irq(struct cec_adapter *adap)
- 	return true;
+ 	if (!cec->v5_gpio)
+ 		return -ENOTTY;
+-	return gpiod_get_value(cec->v5_gpio);
++	return gpiod_get_value_cansleep(cec->v5_gpio);
  }
  
--static void cec_gpio_disable_irq(struct cec_adapter *adap)
-+static void cec_gpio_cec_disable_irq(struct cec_adapter *adap)
- {
- 	struct cec_gpio *cec = cec_get_drvdata(adap);
- 
-@@ -164,8 +164,8 @@ static const struct cec_pin_ops cec_gpio_pin_ops = {
- 	.read = cec_gpio_read,
- 	.low = cec_gpio_low,
- 	.high = cec_gpio_high,
--	.enable_irq = cec_gpio_enable_irq,
--	.disable_irq = cec_gpio_disable_irq,
-+	.enable_irq = cec_gpio_cec_enable_irq,
-+	.disable_irq = cec_gpio_cec_disable_irq,
- 	.status = cec_gpio_status,
- 	.read_hpd = cec_gpio_read_hpd,
- 	.read_5v = cec_gpio_read_5v,
-@@ -209,7 +209,7 @@ static int cec_gpio_probe(struct platform_device *pdev)
- 	if (IS_ERR(cec->adap))
- 		return PTR_ERR(cec->adap);
- 
--	ret = devm_request_irq(dev, cec->cec_irq, cec_gpio_irq_handler,
-+	ret = devm_request_irq(dev, cec->cec_irq, cec_gpio_cec_irq_handler,
- 			       IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN,
- 			       cec->adap->name, cec);
- 	if (ret)
-@@ -218,8 +218,8 @@ static int cec_gpio_probe(struct platform_device *pdev)
- 	if (cec->hpd_gpio) {
- 		cec->hpd_irq = gpiod_to_irq(cec->hpd_gpio);
- 		ret = devm_request_threaded_irq(dev, cec->hpd_irq,
--			cec_hpd_gpio_irq_handler,
--			cec_hpd_gpio_irq_handler_thread,
-+			cec_gpio_hpd_irq_handler,
-+			cec_gpio_hpd_irq_handler_thread,
- 			IRQF_ONESHOT |
- 			IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING,
- 			"hpd-gpio", cec);
-@@ -230,8 +230,8 @@ static int cec_gpio_probe(struct platform_device *pdev)
- 	if (cec->v5_gpio) {
- 		cec->v5_irq = gpiod_to_irq(cec->v5_gpio);
- 		ret = devm_request_threaded_irq(dev, cec->v5_irq,
--			cec_5v_gpio_irq_handler,
--			cec_5v_gpio_irq_handler_thread,
-+			cec_gpio_5v_irq_handler,
-+			cec_gpio_5v_irq_handler_thread,
- 			IRQF_ONESHOT |
- 			IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING,
- 			"v5-gpio", cec);
+ static const struct cec_pin_ops cec_gpio_pin_ops = {
 -- 
 2.47.2
 
