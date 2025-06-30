@@ -1,128 +1,192 @@
-Return-Path: <linux-media+bounces-36330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0629AEE5F9
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 19:39:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BAEAEE61B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 19:52:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1401E168D45
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 17:39:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94731179D1D
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 17:52:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE74E2E3371;
-	Mon, 30 Jun 2025 17:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0ED1290BA2;
+	Mon, 30 Jun 2025 17:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NWHHWooW"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="I5FdRRvv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9173128D8E1;
-	Mon, 30 Jun 2025 17:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751305166; cv=none; b=spftoFKiPIgfDMx98jVuUGoe9AlL6jbhnAPDtz5nvjjT7YZJ1a1q/y1ZZxdPoe2ZB/Q3A0lrs8IJm+2AUu/ONZK9+l/cAjx5mX8wpkxr639z5zS065hF/rrTH+BAEO8XuUx/Nihx/GWz/NCpaRTlucINVXPdxbXj0afIcaUTbo0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751305166; c=relaxed/simple;
-	bh=u8fX7/Ls7MJ7zE7uXZsFHq8gKRiPLQqVOwd4iyuc1j0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556C323ABB1
+	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 17:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751305919; cv=pass; b=Z83GmnhAwUUq6J/1g8pYJVLvgKZgztyxOR6UHJgierC611FxClEhFf3CQmYIAeQjxYtCGDqIFP/mMwlv0msfukkMUgKLeRU+phCOhEbTydGUO4f/njtcBThbltqLuWyoRG3LjdU1J2jPGE+SbqLe5Fdl0iWQm70rRYgOIz2xL9c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751305919; c=relaxed/simple;
+	bh=BcMd0WsYtOzHWgem1p61VuZFdisCfkdy5LAIvzNcZ8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H4xsk84cbs4EeazgeNTThvkygJid1e/fpSZf2eR+C7R/xewn5i3Evp463gQo28AgxDkPonP9WFpiOFi/a4TpNsuc1WwuXiUrZRIyHm8zZhHtaB/mahrth15SXuUJZV/E7DyROCbXbsgwDlKJe58VY0jJk+3TH73QwRI/rjy7j24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NWHHWooW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EA547667;
-	Mon, 30 Jun 2025 19:38:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751305135;
-	bh=u8fX7/Ls7MJ7zE7uXZsFHq8gKRiPLQqVOwd4iyuc1j0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NWHHWooWumxzLXT1idCf/DInO8fgfGVWLXC4fUvTapZBSmzMEDuRRDRrBk2J66vrj
-	 NZcDPKDqlIRfqORoLkrdnpZZhVE2YCQDYmxRODMiS/IpzDVyf8Cbtq0Atmjy2CXByD
-	 jj54u7+boOAPF4WzqNjGMLFx227jTYQCam06mewY=
-Date: Mon, 30 Jun 2025 20:38:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Xu Yang <xu.yang_2@nxp.com>, Christoph Hellwig <hch@lst.de>,
-	ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
-	hdegoede@redhat.com, gregkh@linuxfoundation.org, mingo@kernel.org,
-	tglx@linutronix.de, andriy.shevchenko@linux.intel.com,
-	viro@zeniv.linux.org.uk, thomas.weissschuh@linutronix.de,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v2 1/3] usb: core: add dma-noncoherent buffer alloc and
- free API
-Message-ID: <20250630173851.GH20333@pendragon.ideasonboard.com>
-References: <20250627101939.3649295-1-xu.yang_2@nxp.com>
- <20250627101939.3649295-2-xu.yang_2@nxp.com>
- <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu>
- <wddmyx4lccthln7mbngkd4zbh6y7mwetdba5e7ob6u4xevecmj@zopp65eqbeuu>
- <e908261b-2acd-46ac-b3ef-92691eb50f88@rowland.harvard.edu>
+	 Content-Type:Content-Disposition:In-Reply-To; b=P+VUTkCHHYzbXOIfbKFFxOChVXhV276ncNwFZtwLrlr0rM9Lyrn3hLbOASEu8WymNjRaN5VR+54WLg5lvwfawwyXVLMWK05CaMJnVvFpTm/EqJesTLYKwb/YMV5vdRq3uShR/wi1+bEZnnHkx6HmxQmTxW7WpdAiHDEtMsumEEs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=I5FdRRvv; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1751305905; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VJ9MmyiOgyamV4pjAqCdRoC9MlKXl9F6/tsK6jWFjdgWJ+zCMFo6JkTK8odOKrfTi+mZaQx9C3lSQYY1LlaYfvxJM4G0Tvxdh6pPkovCy/o8mii27bSY2aQMtfpdpCh2s9+yNOhYsksuYhOG1rl1J75yqpM9ZfoHuiYxLkGl1gI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1751305905; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=BDYbAacxyWQ707HfIlInVC+o+4iUe5YfN8e242xLQfk=; 
+	b=a3soNhWHSm6fQWWypY/HRS9C4ldN9+tX+F+JrmgNtdpnAW420T2JwZjuIL2DtnUsBOEUM79uVmpwuiqSJEK3rGATsUvr8yHZX4qwJXODQvlnduZhDzrQxHh6NFRs6sbcxu2IRMoGuRWdJmjXChqKSWHtswe3MDPVA5CLnmySYoQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751305905;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=BDYbAacxyWQ707HfIlInVC+o+4iUe5YfN8e242xLQfk=;
+	b=I5FdRRvvrNt8B2hFcVb+gXhhTcu1eY92WtzutlfPCqBUgbdjTyXRxJEzQN3Sp8pC
+	T/s86GOVQyLXPekCixQZgEG1kAVaKInWGQq6v17k5mxam322p6PUM7lbpdUE9GnAjs9
+	p+4xU4CUwFAS+QC7foNChyOOpfUCBLf1PU8J6Sz0=
+Received: by mx.zohomail.com with SMTPS id 175130590302977.33523669450506;
+	Mon, 30 Jun 2025 10:51:43 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id 36F2D1807A4; Mon, 30 Jun 2025 19:51:40 +0200 (CEST)
+Date: Mon, 30 Jun 2025 19:51:39 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+	Shreeya Patel <shreeya.patel@collabora.com>, linux-media@vger.kernel.org, kernel@collabora.com
+Subject: Re: "signal is not locked" with HDMI RX driver on RK3588
+Message-ID: <qazkvgdtozck65s2lstvxfwplhlvf3ynm5z6c6gdpgaytja7v4@f5gsnd7urzp6>
+References: <aGKFhDmBwYp5KV3k@mail-itl>
+ <aGKXr0Z96zGU74q6@mail-itl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="momx5acl2vgpgupg"
 Content-Disposition: inline
-In-Reply-To: <e908261b-2acd-46ac-b3ef-92691eb50f88@rowland.harvard.edu>
+In-Reply-To: <aGKXr0Z96zGU74q6@mail-itl>
+X-Zoho-Virus-Status: 1
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.3/251.291.35
+X-ZohoMailClient: External
 
-Hi Alan,
 
-On Mon, Jun 30, 2025 at 10:16:30AM -0400, Alan Stern wrote:
-> On Mon, Jun 30, 2025 at 04:18:51PM +0800, Xu Yang wrote:
-> > > Also, the material that this routine replaces in the uvc and stk1160 
-> > > drivers do not call flush_kernel_vmap_range().  Why did you add that 
-> > > here?  Was this omission a bug in those drivers?
-> > 
-> > According to dma-api.rst:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/tree/Documentation/core-api/dma-api.rst?h=linux-6.15.y#n664
-> > 
-> > "Once a non-contiguous allocation is mapped using this function, the
-> > flush_kernel_vmap_range() and invalidate_kernel_vmap_range() APIs must
-> > be used to manage the coherency between the kernel mapping, the device
-> > and user space mappings (if any)."
-> > 
-> > Possibly the uvc and stk1160 missed calling it, but since they won't be
-> > the only user of the USB core, so we'd better call these APIs.
-> 
-> Documentation/core-api/cachetbl.rst says:
-> 
->   ``void flush_kernel_vmap_range(void *vaddr, int size)``
-> 
->        flushes the kernel cache for a given virtual address range in
->        the vmap area.  This is to make sure that any data the kernel
->        modified in the vmap range is made visible to the physical
->        page.  The design is to make this area safe to perform I/O on.
->        Note that this API does *not* also flush the offset map alias
->        of the area.
-> 
->   ``void invalidate_kernel_vmap_range(void *vaddr, int size) invalidates``
-> 
->        the cache for a given virtual address range in the vmap area
->        which prevents the processor from making the cache stale by
->        speculatively reading data while the I/O was occurring to the
->        physical pages.  This is only necessary for data reads into the
->        vmap area.
-> 
-> So invalidate_kernel_vmap_range() is not needed for data writes, that 
-> is, for OUT transfers.  And ironically, flush_kernel_vmap_range() _is_ 
-> needed (but only for OUT transfers).
+--momx5acl2vgpgupg
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: "signal is not locked" with HDMI RX driver on RK3588
+MIME-Version: 1.0
 
-flush_kernel_vmap_range() for OUT transfers and
-invalidate_kernel_vmap_range() for IN transfers make sense to me.
+Hi,
 
-> On the other hand, Christoph may think these call should be included 
-> regardless.  Let's see what he recommends.  Christoph?
-> 
-> (Actually, I would expect dma_sync_sgtable_for_cpu() and 
-> dma_sync_sgtable_for_device() to handle all of this for us 
-> automatically, but never mind...)
+On Mon, Jun 30, 2025 at 03:57:03PM +0200, Marek Marczykowski-G=F3recki wrot=
+e:
+> On Mon, Jun 30, 2025 at 02:39:32PM +0200, Marek Marczykowski-G=F3recki wr=
+ote:
+> > Hi,
+> >=20
+> > First of all, thanks for all the work regarding upstreaming the driver!
+> >=20
+> > I try to use it on two boards:
+> > - Orange Pi 5B
+> > - Rock 5B+
+> >=20
+> > In both cases, when I use the upstream driver in 6.16-rc, I hit similar
+> > issue:
+> > 1. `v4l2-ctl -d /dev/video2 --set-edid type=3Dhdmi-4k-300mhz` - this wo=
+rks
+> > 2. EDID is properly presented to the device on the other side of the
+> > HDMI cable, I can select to use that "display"
+> > 3. But then, the hdmirx complains:
+> >=20
+> >     v4l2-ctl -d /dev/video2 --query-dv-timings
+> >     VIDIOC_QUERY_DV_TIMINGS: failed: No locks available
+> >=20
+> > And kernel shows:
+> > [ 4033.823023] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
+write wait cr write done failed
+> > [ 4033.847027] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
+write wait cr write done failed
+> > [ 4033.870976] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
+write wait cr write done failed
+> > [ 4033.894998] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_register_=
+write wait cr write done failed
+> > ...
+> > [ 4061.975400] fdee0000.hdmi_receiver: hdmirx_query_dv_timings: signal =
+is not locked
+> >=20
+> > In this state actually capturing video stream doesn't work either.
+> >=20
+> > I tried also rockchip-release branch from
+> > https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux (at
+> > 33755850faeb0e53e634390d147cc261a60d2898) with the same result.
+> >=20
+> > If I try the same with the 6.12.13-current-rockchip64 kernel from Armbi=
+an,
+> > it works fine. I tried to compare the drivers, but there are quite a few
+> > differences so it's hard to spot any obvious issue (it could be also an
+> > issue somewhere else...).
+> >=20
+> > Any ideas? I can try to add some debugging info or test patches, if you
+> > point me what would be helpful.
+>=20
+> If I take u-boot from
+> https://gitlab.collabora.com/hardware-enablement/rockchip-3588/u-boot/
+> (rockchip branch at 60501605e3f48b155af83193dfd9ad73362b8e25) and stop
+> loading device-tree from a separate file, I get a different error:
+>=20
+>     VIDIOC_QUERY_DV_TIMINGS: failed: Numerical result out of range
+>=20
+> (and no extra messages from kernel)
+> My goal is to capture in 4k at 30fps (or even lower), but I get this
+> error also with lower resolutions like 1920x1200@60fps. Unfortunately I
+> don't know which value specifically is out of range...
 
--- 
-Regards,
+You are probably just using the wrong TF-A firmware. Rockchip's
+binary-only firmware contains a workaround/quirk, which handles the
+main HDMI-RX interrupt and then provides a virtual one on one of the
+reserved interrupt lines. The kernel has to use the virtual one,
+otherwise the driver is not functional.
 
-Laurent Pinchart
+The upstream (open source) TF-A does not contain this workaround and
+the kernel must use the original HDMI-RX interrupt line, as the
+reserved interrupt line is not doing anything at all.
+
+The RK3588 device tree, which is provided as part of the mainline
+Linux kernel describes the interrupt lines from the hardware and
+thus needs to be used with the upstream TF-A.
+
+Greetings,
+
+-- Sebastian
+
+--momx5acl2vgpgupg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmhizqcACgkQ2O7X88g7
++pr3MA//aHtskbkNlCI3Um9rJzetiZrmEtSohTFRPBKl9DtqpuC2Bl/hUAyhKJTi
+viZPnW6P6gEYnxKSqFU4SjMbAs6YUZdnbhHu9/QswrgNny7qx89IXjRtv4wrUhqR
+oE2ubQXoLqZ7BrDH4btPPSHi2N26hwFjRAvLM3/mC6T0UQYOt8B1XR3PKpM65Acv
+CtgWlt0q63Kl3grmSC+Y7WtJ2x+xHLI1binHdLrKKJxYEO8xvqrS6e+AOjI5tXPU
+0UBRmef75gxN5eZyyh39Gxv5Ihdfvlpss3Rz7dmq+EcGgTj9WemkVaypRgv4f3zv
+S1Mx3lsn91ybXaPeMJXEaUCgb6LWaZE9XynhQzmS4n2FQFySsppHBT/sZpvPQeWx
+KOSGNb8F+DFVy5QKn9XNCksL7RBBCo/nUD087d9bgF0jfvN4qmMoXxvZhA+Gh+Mo
+mH4YhtliqxlbQ6TMB8qpe2WBCIVnmzIwu0M90BUmJ7e4GJ7yrGJkP+YWBcuvrEQ5
+KntipvERe7xTndSkngZ0SUuu1a2Nn8lgbXkzmDnqoOXmBIk2x3Xk08hLhq/JWrRH
+j6t12NkfcXj23DDhuIuhS4oJlkUcq5fUG7AYqgHJh0XD9THGcRBrpcu1Hycu1qRq
+wfhqFwqbEI7sk3ViWWIfs+tcPHpKwguqncufWB4+hcAvCm7IiH4=
+=JXuc
+-----END PGP SIGNATURE-----
+
+--momx5acl2vgpgupg--
 
