@@ -1,168 +1,157 @@
-Return-Path: <linux-media+bounces-36319-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36320-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D736AEE20A
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 17:12:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87299AEE223
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 17:16:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF40316C736
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:12:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C0B33A5703
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:15:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5364E28DF06;
-	Mon, 30 Jun 2025 15:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF08228DF3C;
+	Mon, 30 Jun 2025 15:15:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aAuXvgUC"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TQAoN6PW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8FA28C5D9;
-	Mon, 30 Jun 2025 15:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E9428CF43
+	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 15:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751296353; cv=none; b=oT2rG9/QKCrGfwRWFXMgmLpE9MEKaHReS/isnKBjFbMg1voSsYH9a+uniY8LMbVucS0qwQ0cczP9bIAZoKOJcPJhcbyrhH5SMS4HrumhKoj0yTLm81ZTOZaO+X2jb2OPNd4DcqN5v1ElN9dxx2Gr+vAPY2ZUlFATyVrJtm3LyA0=
+	t=1751296557; cv=none; b=slSwWgHG/w3CAKwYQgzkMz7RHnkwn/cxddcmJ64BygrU1+ZDErk99Rq3a9vRbCWeHriefZmAZ5wKDuxMpwZkCG+zb1VeSDBbLYEHUIxVRiOOfNlcIcTNnSYPOoj+qAdMDWxWUG0J08sHK8btYlpNA+uvxkF5yL8IqPXqmEikvCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751296353; c=relaxed/simple;
-	bh=kqQwD4dI35GDJ8LUupgJ6KuSllagGFe0S0gE3Z/ZbXc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jnCFK0yDazg/Ht9AsqTbMNvvVhkthBxvL2suckp1kfxaJ8vkXX5cjiI+6121rxIMraLq0wku1V6BIw1F51S6CpxKqilkk5btyo/SA/dNOEifyDzlVMZoXlaUfLfQrodyypPh0XOtAHpF1GHE1CZKz53RD34vuRLC5e/Iu8CSSvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aAuXvgUC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D19D3C4CEE3;
-	Mon, 30 Jun 2025 15:12:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751296353;
-	bh=kqQwD4dI35GDJ8LUupgJ6KuSllagGFe0S0gE3Z/ZbXc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aAuXvgUCSRPlmMdd0Ns01q3UnPR5Wvwiu2j/PzFWMG0Ed0i2E61bgpkhZSnaWnGfl
-	 ETF4Yo2DPDa1fVM0Rd4Jw3wKS7XVT05iqlp20dlCGf5SXaoX2CnNfpsgVVHXECe6ui
-	 d32S2kCETf1h7kQpR1wFQ3/HUMdOu3kcRK81gc8CdcYG9z6yYvSw/p8SpFZ679BkOU
-	 gRp3P7K5BgU7/JO0/qfpZTIxlqlUiD3gW8YidmNhIfl5nx4Bh85q8um9j13uYfGUyE
-	 5Kg2Sy0W7yH7WWgB3B2Ewgf+bhd3hftGK9XnmUp5FVHJTuJB5IIzHQCPbUFLxDIf0Q
-	 4mwmvuyaKl8JQ==
-Message-ID: <d541ee58-2fa5-4c1e-b744-2e080065fe39@kernel.org>
-Date: Mon, 30 Jun 2025 17:12:29 +0200
+	s=arc-20240116; t=1751296557; c=relaxed/simple;
+	bh=qUjuLTmNcbaEXQsGgwDbeTL7U1+S0S4WiD49WjSD3hw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uvGj228UXvv0mosGCsdwHP/6tqRyRGZEV/PrHTwv0czGQLcAjnD3v7eRylOAB/yAf+mAvxB+9fppjnhZc7Nxpq2B0vNb5Wku7rNUF5/RS5AqjUN+aAbwHGoCwzNjfnLQ80r85GQAkR9Z2eOI46ZfS7tIfxJXlu7dL2tTnfyDJQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TQAoN6PW; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54b10594812so2616770e87.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 08:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1751296554; x=1751901354; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t1AOLwFTOE5XzMvxlxFognU3FkvdviGhVUSRhoNGQGM=;
+        b=TQAoN6PWYOwSesONO36GPRP21VgQrpH3wl3WIVvFbDUaF4qTe40uHgKeVJ5pjCgAZ6
+         HlqjnF5kDC61oBwxX4ZO18IihrIzsioGYOGfmFvQFF7IQBhcw1sokX/Unviphc0O/TLT
+         dKZuuvJ1AZF7eeYljvFCNa0hzndEwbVIc+LAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751296554; x=1751901354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t1AOLwFTOE5XzMvxlxFognU3FkvdviGhVUSRhoNGQGM=;
+        b=JWDKwkzLUVYCmbv/0Vz4JQQia9AzQ5ffOYV4hncgXiCErzznrRrHzdiEBqHeDw7zcr
+         1S+Lzm36h3NPiOAhXeuseE+9yhOAuEIr1IJGstUKOx7C4HMUInHTFRqzEunpbiEqMA69
+         C8o6K88X8rxVa1xOjphKRzPGTkCbujJVrgYm6hfOs4OqJ8Y9+qt1FhMZXKOv5r7jKXNU
+         ZdZezNxsPQBawSouxNqEFUVyJOPKPeatBecKGDDBpC5wm6O7u1SGIuORl4Z4KVSAIlZ+
+         d84Wtq+FoF8PIDkgHgKdteB+XMQeI/5TZAB+DEZiFTwbVsFLZPKII3PV6WftTBoOSBFn
+         9mHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUpODwWxkQaT+E3PAHAsTRktgxtM3WRrzF6pDaTcHYvwYbavRQx6ngeBNiphfD1sRVrfYc0Wzm9RIQsJg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJYdSmnn+63CGszOVvkf+p2tMrK4vsTugWSzigBSIVb4Pd+JnH
+	sYs4SMHT4SmUbojIxXr39VhxEDyKSiw5fJ7WHrktyIt5R7QWcRD2ADwCr/BbZCv5ojPwkfQRJdh
+	zOMTy+Q==
+X-Gm-Gg: ASbGncsdwm1k/J5jhbAgFwxLbv1RDqRV8vt7RqJ975jUgeZNRM0R4GkEHr683EtyQJ1
+	QzQu2Fd56Pr6WWY1bUTk/CwMLgkklJD41DqQd9hjh5FOk1Ty+SGruY13oHXobt6e0jOf6anw9/M
+	EvPxG0OOlRW7hyLEdV9NMhogYaTTdk2uvqvp8F/4o1dmWkN4t1uGbx9MWvnQzIRFx0QkljtOYek
+	z9nUU1InAV2e730WQ7a34NFEqTjtJhgwINgjej8XjIhxdIw6oiuxc4iTpeFFx0tWHi7A+w+Jkcr
+	MfbI1vuSuOgyRoOK2lH5K+nJXzK3OSToFc4nQRggv4z+YAGBiy77q0vTWzIs1t9rNms4QubjXk2
+	EZ4jLIWE5jDMrqiSFTzFuLJEY
+X-Google-Smtp-Source: AGHT+IEyqmUd0HTjwS0/cuTUgNrgXqCEvY/R+JOx3gyAojRSLVWuSKhfdlmituHnR2wEWtPoik8lBA==
+X-Received: by 2002:a05:6512:340f:b0:554:f9cc:bea5 with SMTP id 2adb3069b0e04-5550b9e4a95mr3915201e87.34.1751296553446;
+        Mon, 30 Jun 2025 08:15:53 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5550b2a73a4sm1474980e87.106.2025.06.30.08.15.52
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 08:15:53 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54b10594812so2616732e87.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 08:15:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWZ69spKNd0fTQO6QuWSr1HMJ/oM6QTUix2jE782lROh3X6mUKtnGlDjQ4EwT4E1+pPxRWx2vb47L/pQg==@vger.kernel.org
+X-Received: by 2002:a05:6512:3d1d:b0:553:2f8c:e631 with SMTP id
+ 2adb3069b0e04-5550b860cc9mr4540604e87.9.1751296552162; Mon, 30 Jun 2025
+ 08:15:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/5] media: uvcvideo: Split uvc_stop_streaming()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
- <20250616-uvc-fop-v4-3-250286570ee7@chromium.org>
- <20250630141707.GG20333@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250630141707.GG20333@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250630150107.23421-1-desnesn@redhat.com>
+In-Reply-To: <20250630150107.23421-1-desnesn@redhat.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 30 Jun 2025 17:15:38 +0200
+X-Gmail-Original-Message-ID: <CANiDSCu83Ky-604gu2Yt34Wj1Km6Xh+TcPYzQxKZJNWdT7=m8A@mail.gmail.com>
+X-Gm-Features: Ac12FXygYZhncua2VSpYRf_F0i2gDNxE8CXtvpMAoS-xI7uTpLX06TMihRMBcX8
+Message-ID: <CANiDSCu83Ky-604gu2Yt34Wj1Km6Xh+TcPYzQxKZJNWdT7=m8A@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: fix build error in uvc_ctrl_cleanup_fh
+To: Desnes Nunes <desnesn@redhat.com>
+Cc: laurent.pinchart@ideasonboard.com, hansg@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent
+Hi Desdes
 
-On 30-Jun-25 4:17 PM, Laurent Pinchart wrote:
-> On Mon, Jun 16, 2025 at 03:24:40PM +0000, Ricardo Ribalda wrote:
->> uvc_stop_streaming() is used for meta and video nodes. Split the function
->> in two to avoid confusion.
->>
->> Use this opportunity to rename uvc_start_streaming() to
->> uvc_start_streaming_video(), as it is only called by the video nodes.
->>
->> Reviewed-by: Hans de Goede <hansg@kernel.org>
->> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->> ---
->>  drivers/media/usb/uvc/uvc_queue.c | 22 +++++++++++++++-------
->>  1 file changed, 15 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
->> index 8f9737ac729546683ca48f5e71ce3dfacbae2926..3f357c2d48cfd258c26f0342007d1d12f1e01007 100644
->> --- a/drivers/media/usb/uvc/uvc_queue.c
->> +++ b/drivers/media/usb/uvc/uvc_queue.c
->> @@ -167,7 +167,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
->>  		uvc_video_clock_update(stream, vbuf, buf);
->>  }
->>  
->> -static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
->> +static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
->>  {
->>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
->>  	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
->> @@ -186,14 +186,22 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
->>  	return ret;
->>  }
->>  
->> -static void uvc_stop_streaming(struct vb2_queue *vq)
->> +static void uvc_stop_streaming_video(struct vb2_queue *vq)
->>  {
->>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
->>  
->>  	lockdep_assert_irqs_enabled();
->>  
->> -	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
->> -		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
->> +	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
->> +
->> +	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
->> +}
->> +
->> +static void uvc_stop_streaming_meta(struct vb2_queue *vq)
->> +{
->> +	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
->> +
->> +	lockdep_assert_irqs_enabled();
->>  
->>  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> 
-> I haven't checked where it was introduced, but I think you have a race
-> here. uvc_queue_return_buffers() will return all buffers currently
-> sitting in the queue->irqqueue. This can race with a bunch of places in
-> uvc_video.c that call uvc_queue_get_current_buffer() or
-> uvc_queue_get_next_buffer(), as those functions return a buffer without
-> removing it from the list.
+How did you trigger this build warning? I believe we use C11
 
-This change just splits uvc_stop_streaming() into 2 separate
-functions for uvc_queue_qops + uvc_meta_queue_qops to remove
-the weird looking "if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)"
-check done in the shared uvc_stop_streaming().
-
-This patch does not make any functional changes. So if such
-a race exists then that is a pre-existing problem and not
-caused by this patch.
-
-Regards,
-
-Hans
+https://www.kernel.org/doc/html/latest/process/programming-language.html
 
 
+Regards!
 
-> 
->>  }
->> @@ -203,15 +211,15 @@ static const struct vb2_ops uvc_queue_qops = {
->>  	.buf_prepare = uvc_buffer_prepare,
->>  	.buf_queue = uvc_buffer_queue,
->>  	.buf_finish = uvc_buffer_finish,
->> -	.start_streaming = uvc_start_streaming,
->> -	.stop_streaming = uvc_stop_streaming,
->> +	.start_streaming = uvc_start_streaming_video,
->> +	.stop_streaming = uvc_stop_streaming_video,
->>  };
->>  
->>  static const struct vb2_ops uvc_meta_queue_qops = {
->>  	.queue_setup = uvc_queue_setup,
->>  	.buf_prepare = uvc_buffer_prepare,
->>  	.buf_queue = uvc_buffer_queue,
->> -	.stop_streaming = uvc_stop_streaming,
->> +	.stop_streaming = uvc_stop_streaming_meta,
->>  };
->>  
->>  int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type)
-> 
+On Mon, 30 Jun 2025 at 17:07, Desnes Nunes <desnesn@redhat.com> wrote:
+>
+> This fixes the following compilation failure: "error: =E2=80=98for=E2=80=
+=99 loop
+> initial declarations are only allowed in C99 or C11 mode"
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 221cd51efe45 ("media: uvcvideo: Remove dangling pointers")
+> Signed-off-by: Desnes Nunes <desnesn@redhat.com>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc=
+_ctrl.c
+> index 44b6513c5264..532615d8484b 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -3260,7 +3260,7 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
+>  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>  {
+>         struct uvc_entity *entity;
+> -       int i;
+> +       unsigned int i;
+>
+>         guard(mutex)(&handle->chain->ctrl_mutex);
+>
+> @@ -3268,7 +3268,7 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>                 return;
+>
+>         list_for_each_entry(entity, &handle->chain->dev->entities, list) =
+{
+> -               for (unsigned int i =3D 0; i < entity->ncontrols; ++i) {
+> +               for (i =3D 0; i < entity->ncontrols; ++i) {
+>                         if (entity->controls[i].handle !=3D handle)
+>                                 continue;
+>                         uvc_ctrl_set_handle(handle, &entity->controls[i],=
+ NULL);
+> --
+> 2.49.0
+>
+>
 
+
+--=20
+Ricardo Ribalda
 
