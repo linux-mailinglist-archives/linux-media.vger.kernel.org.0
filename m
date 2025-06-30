@@ -1,432 +1,157 @@
-Return-Path: <linux-media+bounces-36351-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB423AEEA0F
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 00:18:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E895AEEA2C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 00:26:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0886A167936
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 22:18:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 526E31BC3B3C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 22:26:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83C523ABBD;
-	Mon, 30 Jun 2025 22:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC3724503C;
+	Mon, 30 Jun 2025 22:26:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6iEO/SH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Vg4u7wh3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560DC53365
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 22:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04ADB21C161;
+	Mon, 30 Jun 2025 22:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751321882; cv=none; b=TlbouNvCbeX4rrTBD9VDTONUa5oW4Z9PqeuNJNrGg0oB0BvNAode/0k942WawablfSXzHCYcJS86vXZAYJey0de8z6RYUrDOx3Hw8jUXOf2RbtVlONoNFetQoiIUuVj9ujdZnJiepqeoH8FSXWwUR7rDq8Qhl89n9KPQ6A8yOKE=
+	t=1751322375; cv=none; b=o4TMeyW7oywH5vH0aD++pX2YQA4D89UFk/12oh35LnXTx4ryb/Q5O9+HC4KHH6dDSjpBMzVaUehBh1DX9rn3QyLWuJCQqDOBpi8T397WjJyecircxOYddXJPXGaMMLxRN/q3FHpvmeuExNsxe9TiJEv0Dpvvjqa9qIlwl7K1oQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751321882; c=relaxed/simple;
-	bh=1G99FLJO6aUnBkv0QjhNx16FSg5P4pZpdFA4jvIH84Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=aauTqpidy+b835cfzjhpQnsGVdIwZouEGcpjbffo/9Zpdh+pWTC8jVsZlcK9vHkBvlCiM471gI7cRx1ArKW/kSLc9z681xTWualigw1+licuMGoEuwmJV+NBS/dN/NDW/ZWM3GiUr40FALcp2lbCZgbtxNih0pvc7Y4IgPIADyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6iEO/SH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41285C4CEE3;
-	Mon, 30 Jun 2025 22:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751321881;
-	bh=1G99FLJO6aUnBkv0QjhNx16FSg5P4pZpdFA4jvIH84Y=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=D6iEO/SHF8eiqM1NXGM2NFlFAQtdkAbFU1Wx7tnr/LeS/gm/HB5p06vcnnyoaOJ7M
-	 ByQBQsoteFVl44RXxg2iJvROTBZHS3QJVUpZ34o7dbsE6whgmrwSO9nxzL2UoR5ajb
-	 SAetMMRqJOZi03RWb2+cWGn8uF6/dRkP5IlmSNjidPOR10hll54JtV9STGJAuKHC5B
-	 RQSlR+NF4Xj1YeKA+yrxU9t0FYrWZA1T7VmVtdhgjW2xGcKWYxgotLpzcrcJKZNtKQ
-	 lB3OQSCACqy+jvSqvUfv2RsdGEu6BdfRiWzMRK6SXoy6R7D+pY1EK2WZXRn396QeB8
-	 7e8LLtoEFKIXQ==
-Message-ID: <bad61509-5620-4576-aa4b-6a132f7229ad@kernel.org>
-Date: Tue, 1 Jul 2025 00:17:59 +0200
+	s=arc-20240116; t=1751322375; c=relaxed/simple;
+	bh=ywo5xG10qEL/PmGcJLop0F3WizcSPgoGQDCvcIqhRs0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z8TkyoWVtbwdN37/Pkvn0/pCRDT4tcAe1jRBEzfnk4K9W0UGxIelRZrnDGTdk/5J5zJ59u5vo2qAqlFMAcsap/CMnritcXv0xXq3puS7ffwg9wvfVm2cLw66SkuhH52abMeBfg2v/fBhwQX84ZBreOkdiPPIJk1ufYxMays2V80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Vg4u7wh3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5BA786A6;
+	Tue,  1 Jul 2025 00:25:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751322350;
+	bh=ywo5xG10qEL/PmGcJLop0F3WizcSPgoGQDCvcIqhRs0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Vg4u7wh3em1w7h5WWSduiae3z3bysZC8T8/famWZE6Xp/Q6iaorQ3d65BXNV9hygg
+	 WoSKN3PTtEUCDcybik5Db1+ypycyh0wsiKxDpmj3pHkCzokFKA2ZrBp9rCoJzmlHKs
+	 Ao4uw90bkpHqLqmBNwUct6mLuRMT1NzAGvRzUaIc=
+Date: Tue, 1 Jul 2025 01:25:46 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans Verkuil <hans@jjverkuil.nl>
+Subject: Re: [PATCH v3 8/8] media: uvcvideo: uvc_v4l2_unlocked_ioctl: Invert
+ PM logic
+Message-ID: <20250630222546.GC15184@pendragon.ideasonboard.com>
+References: <20250630-uvc-grannular-invert-v3-0-abd5cb5c45b7@chromium.org>
+ <20250630-uvc-grannular-invert-v3-8-abd5cb5c45b7@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [media.git/next] MAINTAINERS: .mailmap: Update Hans de Goede's
- email address
-To: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-References: <E1uWJhm-0008Ki-2g@linuxtv.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <E1uWJhm-0008Ki-2g@linuxtv.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250630-uvc-grannular-invert-v3-8-abd5cb5c45b7@chromium.org>
 
-Hi Hans,
+Hi Ricardo,
 
-On 30-Jun-25 8:58 PM, media-ci@linuxtv.org wrote:
-> On Mon Jun 9 16:35:57 2025 +0200, Hans de Goede wrote:
->> I'm moving all my kernel work over to using my kernel.org email address.
->> Update .mailmap and MAINTAINER entries still using hdegoede@redhat.com.
->>
->> Signed-off-by: Hans de Goede <hansg@kernel.org>
->> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+On Mon, Jun 30, 2025 at 02:20:33PM +0000, Ricardo Ribalda wrote:
+> Instead of listing the IOCTLs that do not need to turn on the camera,
+> list the IOCTLs that need to turn it on. This makes the code more
+> maintainable.
 > 
-> Patch committed.
+> This patch changes the behaviour for unsupported IOCTLs. Those IOCTLs
+> will not turn on the camera.
+
+The idea is good, but you'll have to add UVCIOC_CTRL_MAP back (see 6/8).
+
+> Suggested-by: Hans Verkuil <hans@jjverkuil.nl>
+> Reviewed-by: Hans de Goede <hansg@kernel.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 52 +++++++++++++++++++---------------------
+>  1 file changed, 25 insertions(+), 27 deletions(-)
 > 
-> Thanks,
-> Hans Verkuil
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 350cd2cc88f872d2e8bd19e2b8fb067894916364..94dc97448446d36a85a1b36d16c29f22af89c640 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -1222,37 +1222,35 @@ static long uvc_v4l2_unlocked_ioctl(struct file *file,
+>  				    unsigned int cmd, unsigned long arg)
+>  {
+>  	struct uvc_fh *handle = file->private_data;
+> +	unsigned int converted_cmd = v4l2_translate_cmd(cmd);
+>  	int ret;
+>  
+> -	/* The following IOCTLs do not need to turn on the camera. */
+> -	switch (cmd) {
+> -	case UVCIOC_CTRL_MAP:
+> -	case VIDIOC_CREATE_BUFS:
+> -	case VIDIOC_DQBUF:
+> -	case VIDIOC_ENUM_FMT:
+> -	case VIDIOC_ENUM_FRAMEINTERVALS:
+> -	case VIDIOC_ENUM_FRAMESIZES:
+> -	case VIDIOC_ENUMINPUT:
+> -	case VIDIOC_EXPBUF:
+> -	case VIDIOC_G_FMT:
+> -	case VIDIOC_G_PARM:
+> -	case VIDIOC_G_SELECTION:
+> -	case VIDIOC_QBUF:
+> -	case VIDIOC_QUERYCAP:
+> -	case VIDIOC_REQBUFS:
+> -	case VIDIOC_SUBSCRIBE_EVENT:
+> -	case VIDIOC_UNSUBSCRIBE_EVENT:
+> -		return video_ioctl2(file, cmd, arg);
+> -	}
+> -
+> -	ret = uvc_pm_get(handle->stream->dev);
+> -	if (ret)
+> +	/* The following IOCTLs need to turn on the camera. */
+> +	switch (converted_cmd) {
+> +	case UVCIOC_CTRL_QUERY:
+> +	case VIDIOC_G_CTRL:
+> +	case VIDIOC_G_EXT_CTRLS:
+> +	case VIDIOC_G_INPUT:
+> +	case VIDIOC_QUERYCTRL:
+> +	case VIDIOC_QUERYMENU:
+> +	case VIDIOC_QUERY_EXT_CTRL:
+> +	case VIDIOC_S_CTRL:
+> +	case VIDIOC_S_EXT_CTRLS:
+> +	case VIDIOC_S_FMT:
+> +	case VIDIOC_S_INPUT:
+> +	case VIDIOC_S_PARM:
+> +	case VIDIOC_TRY_EXT_CTRLS:
+> +	case VIDIOC_TRY_FMT:
+> +		ret = uvc_pm_get(handle->stream->dev);
+> +		if (ret)
+> +			return ret;
+> +		ret = video_ioctl2(file, cmd, arg);
+> +		uvc_pm_put(handle->stream->dev);
+>  		return ret;
+> +	}
+>  
+> -	ret = video_ioctl2(file, cmd, arg);
+> -
+> -	uvc_pm_put(handle->stream->dev);
+> -	return ret;
+> +	/* The other IOCTLs can run with the camera off. */
+> +	return video_ioctl2(file, cmd, arg);
+>  }
+>  
+>  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
 
-This has already been picked-up by Ilpo the pdx86 maintainer
-(as I suggested in the cover-letter) and this already is in
-Linus' tree now.
-
+-- 
 Regards,
 
-Hans
-
-
-
-> 
->  .mailmap    |  1 +
->  MAINTAINERS | 72 ++++++++++++++++++++++++++++++-------------------------------
->  2 files changed, 37 insertions(+), 36 deletions(-)
-> 
-> ---
-> 
-> diff --git a/.mailmap b/.mailmap
-> index c8a21d72241f..645294560b19 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -282,6 +282,7 @@ Gustavo Padovan <gustavo@las.ic.unicamp.br>
->  Gustavo Padovan <padovan@profusion.mobi>
->  Hamza Mahfooz <hamzamahfooz@linux.microsoft.com> <hamza.mahfooz@amd.com>
->  Hanjun Guo <guohanjun@huawei.com> <hanjun.guo@linaro.org>
-> +Hans de Goede <hansg@kernel.org> <hdegoede@redhat.com>
->  Hans Verkuil <hverkuil@xs4all.nl> <hansverk@cisco.com>
->  Hans Verkuil <hverkuil@xs4all.nl> <hverkuil-cisco@xs4all.nl>
->  Harry Yoo <harry.yoo@oracle.com> <42.hyeyoo@gmail.com>
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a92290fffa16..e8f3dc93a569 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -207,7 +207,7 @@ X:	arch/*/include/uapi/
->  X:	include/uapi/
->  
->  ABIT UGURU 1,2 HARDWARE MONITOR DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-hwmon@vger.kernel.org
->  S:	Maintained
->  F:	drivers/hwmon/abituguru.c
-> @@ -371,7 +371,7 @@ S:	Maintained
->  F:	drivers/platform/x86/quickstart.c
->  
->  ACPI SERIAL MULTI INSTANTIATE DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  F:	drivers/platform/x86/serial-multi-instantiate.c
-> @@ -3551,7 +3551,7 @@ F:	arch/arm64/boot/Makefile
->  F:	scripts/make_fit.py
->  
->  ARM64 PLATFORM DRIVERS
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->  R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->  L:	platform-driver-x86@vger.kernel.org
-> @@ -3712,7 +3712,7 @@ F:	drivers/platform/x86/asus*.c
->  F:	drivers/platform/x86/eeepc*.c
->  
->  ASUS TF103C DOCK DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
-> @@ -5613,14 +5613,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git
->  F:	drivers/usb/chipidea/
->  
->  CHIPONE ICN8318 I2C TOUCHSCREEN DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/input/touchscreen/chipone,icn8318.yaml
->  F:	drivers/input/touchscreen/chipone_icn8318.c
->  
->  CHIPONE ICN8505 I2C TOUCHSCREEN DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	drivers/input/touchscreen/chipone_icn8505.c
-> @@ -6917,7 +6917,7 @@ F:	include/dt-bindings/pmu/exynos_ppmu.h
->  F:	include/linux/devfreq-event.h
->  
->  DEVICE RESOURCE MANAGEMENT HELPERS
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  R:	Matti Vaittinen <mazziesaccount@gmail.com>
->  S:	Maintained
->  F:	include/linux/devm-helpers.h
-> @@ -7516,7 +7516,7 @@ F:	drivers/gpu/drm/gud/
->  F:	include/drm/gud.h
->  
->  DRM DRIVER FOR GRAIN MEDIA GM12U320 PROJECTORS
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	drivers/gpu/drm/tiny/gm12u320.c
-> @@ -7916,7 +7916,7 @@ F:	drivers/gpu/drm/ci/xfails/vkms*
->  F:	drivers/gpu/drm/vkms/
->  
->  DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> @@ -8317,7 +8317,7 @@ F:	drivers/gpu/drm/panel/
->  F:	include/drm/drm_panel.h
->  
->  DRM PRIVACY-SCREEN CLASS
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> @@ -10221,7 +10221,7 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/connector/gocontroll,moduline-module-slot.yaml
->  
->  GOODIX TOUCHSCREEN
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	drivers/input/touchscreen/goodix*
-> @@ -10260,7 +10260,7 @@ F:	include/dt-bindings/clock/google,gs101.h
->  K:	[gG]oogle.?[tT]ensor
->  
->  GPD POCKET FAN DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  F:	drivers/platform/x86/gpd-pocket-fan.c
-> @@ -11421,7 +11421,7 @@ F:	drivers/i2c/busses/i2c-via.c
->  F:	drivers/i2c/busses/i2c-viapro.c
->  
->  I2C/SMBUS INTEL CHT WHISKEY COVE PMIC DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-i2c@vger.kernel.org
->  S:	Maintained
->  F:	drivers/i2c/busses/i2c-cht-wc.c
-> @@ -12011,13 +12011,13 @@ S:	Supported
->  F:	sound/soc/intel/
->  
->  INTEL ATOMISP2 DUMMY / POWER-MANAGEMENT DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  F:	drivers/platform/x86/intel/atomisp2/pm.c
->  
->  INTEL ATOMISP2 LED DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  F:	drivers/platform/x86/intel/atomisp2/led.c
-> @@ -13678,7 +13678,7 @@ S:	Maintained
->  F:	drivers/platform/x86/lenovo-wmi-hotkey-utilities.c
->  
->  LETSKETCH HID TABLET DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-> @@ -13728,7 +13728,7 @@ F:	drivers/ata/sata_gemini.c
->  F:	drivers/ata/sata_gemini.h
->  
->  LIBATA SATA AHCI PLATFORM devices support
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-ide@vger.kernel.org
->  S:	Maintained
->  F:	drivers/ata/ahci_platform.c
-> @@ -14098,7 +14098,7 @@ F:	Documentation/admin-guide/ldm.rst
->  F:	block/partitions/ldm.*
->  
->  LOGITECH HID GAMING KEYBOARDS
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-> @@ -14780,7 +14780,7 @@ F:	Documentation/devicetree/bindings/power/supply/maxim,max17040.yaml
->  F:	drivers/power/supply/max17040_battery.c
->  
->  MAXIM MAX17042 FAMILY FUEL GAUGE DRIVERS
-> -R:	Hans de Goede <hdegoede@redhat.com>
-> +R:	Hans de Goede <hansg@kernel.org>
->  R:	Krzysztof Kozlowski <krzk@kernel.org>
->  R:	Marek Szyprowski <m.szyprowski@samsung.com>
->  R:	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-> @@ -15582,7 +15582,7 @@ Q:	https://patchwork.kernel.org/project/netdevbpf/list/
->  F:	drivers/net/ethernet/mellanox/mlxfw/
->  
->  MELLANOX HARDWARE PLATFORM SUPPORT
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->  M:	Vadim Pasternak <vadimp@nvidia.com>
->  L:	platform-driver-x86@vger.kernel.org
-> @@ -16538,7 +16538,7 @@ S:	Maintained
->  F:	drivers/platform/surface/surface_gpe.c
->  
->  MICROSOFT SURFACE HARDWARE PLATFORM SUPPORT
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->  M:	Maximilian Luz <luzmaximilian@gmail.com>
->  L:	platform-driver-x86@vger.kernel.org
-> @@ -17706,7 +17706,7 @@ F:	tools/include/nolibc/
->  F:	tools/testing/selftests/nolibc/
->  
->  NOVATEK NVT-TS I2C TOUCHSCREEN DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/input/touchscreen/novatek,nvt-ts.yaml
-> @@ -22708,7 +22708,7 @@ K:	fu[57]40
->  K:	[^@]sifive
->  
->  SILEAD TOUCHSCREEN DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
-> @@ -22741,7 +22741,7 @@ F:	Documentation/devicetree/bindings/i3c/silvaco,i3c-master.yaml
->  F:	drivers/i3c/master/svc-i3c-master.c
->  
->  SIMPLEFB FB DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-fbdev@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-> @@ -22870,7 +22870,7 @@ F:	Documentation/hwmon/emc2103.rst
->  F:	drivers/hwmon/emc2103.c
->  
->  SMSC SCH5627 HARDWARE MONITOR DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-hwmon@vger.kernel.org
->  S:	Supported
->  F:	Documentation/hwmon/sch5627.rst
-> @@ -23525,7 +23525,7 @@ S:	Supported
->  F:	Documentation/process/stable-kernel-rules.rst
->  
->  STAGING - ATOMISP DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  M:	Mauro Carvalho Chehab <mchehab@kernel.org>
->  R:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:	linux-media@vger.kernel.org
-> @@ -23822,7 +23822,7 @@ F:	arch/m68k/sun3*/
->  F:	drivers/net/ethernet/i825xx/sun3*
->  
->  SUN4I LOW RES ADC ATTACHED TABLET KEYS DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
-> @@ -25590,7 +25590,7 @@ F:	Documentation/hid/hiddev.rst
->  F:	drivers/hid/usbhid/
->  
->  USB INTEL XHCI ROLE MUX DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-usb@vger.kernel.org
->  S:	Maintained
->  F:	drivers/usb/roles/intel-xhci-usb-role-switch.c
-> @@ -25781,7 +25781,7 @@ F:	Documentation/firmware-guide/acpi/intel-pmc-mux.rst
->  F:	drivers/usb/typec/mux/intel_pmc_mux.c
->  
->  USB TYPEC PI3USB30532 MUX DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-usb@vger.kernel.org
->  S:	Maintained
->  F:	drivers/usb/typec/mux/pi3usb30532.c
-> @@ -25810,7 +25810,7 @@ F:	drivers/usb/host/uhci*
->  
->  USB VIDEO CLASS
->  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  W:	http://www.ideasonboard.org/uvc/
-> @@ -26341,7 +26341,7 @@ F:	include/uapi/linux/virtio_snd.h
->  F:	sound/virtio/*
->  
->  VIRTUAL BOX GUEST DEVICE DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  M:	Arnd Bergmann <arnd@arndb.de>
->  M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->  S:	Maintained
-> @@ -26350,7 +26350,7 @@ F:	include/linux/vbox_utils.h
->  F:	include/uapi/linux/vbox*.h
->  
->  VIRTUAL BOX SHARED FOLDER VFS DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-fsdevel@vger.kernel.org
->  S:	Maintained
->  F:	fs/vboxsf/*
-> @@ -26604,7 +26604,7 @@ F:	drivers/mmc/host/wbsd.*
->  
->  WACOM PROTOCOL 4 SERIAL TABLETS
->  M:	Julian Squires <julian@cipht.net>
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	drivers/input/tablet/wacom_serial4.c
-> @@ -26771,7 +26771,7 @@ F:	include/linux/wwan.h
->  F:	include/uapi/linux/wwan.h
->  
->  X-POWERS AXP288 PMIC DRIVERS
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  S:	Maintained
->  F:	drivers/acpi/pmic/intel_pmic_xpower.c
->  N:	axp288
-> @@ -26863,14 +26863,14 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/mm
->  F:	arch/x86/mm/
->  
->  X86 PLATFORM ANDROID TABLETS DSDT FIXUP DRIVER
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
->  F:	drivers/platform/x86/x86-android-tablets/
->  
->  X86 PLATFORM DRIVERS
-> -M:	Hans de Goede <hdegoede@redhat.com>
-> +M:	Hans de Goede <hansg@kernel.org>
->  M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
-
+Laurent Pinchart
 
