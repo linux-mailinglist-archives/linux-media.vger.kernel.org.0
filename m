@@ -1,281 +1,168 @@
-Return-Path: <linux-media+bounces-36318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36319-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04F1AEE1F5
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 17:08:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D736AEE20A
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 17:12:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1A803AE0E3
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:08:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF40316C736
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 15:12:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9A128CF74;
-	Mon, 30 Jun 2025 15:07:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5364E28DF06;
+	Mon, 30 Jun 2025 15:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bV/PXD8A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aAuXvgUC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A8523ABB1
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 15:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8FA28C5D9;
+	Mon, 30 Jun 2025 15:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751296028; cv=none; b=mKjs3bICBwLKKBddfNP5K39I1mhb4rhOeMkx0NbqZ27QTsFRsIKmuaJH33SMeFXy7732yB+M28SAZBkkfWfkcM3Tvt3qOjzgPg3qBke3mj6ET2TQiG79eX4DVqUjlp305Mp2Kvo1fwgX7iVbUcRRZfFHxvw6GMNVVPXXJa8VN+s=
+	t=1751296353; cv=none; b=oT2rG9/QKCrGfwRWFXMgmLpE9MEKaHReS/isnKBjFbMg1voSsYH9a+uniY8LMbVucS0qwQ0cczP9bIAZoKOJcPJhcbyrhH5SMS4HrumhKoj0yTLm81ZTOZaO+X2jb2OPNd4DcqN5v1ElN9dxx2Gr+vAPY2ZUlFATyVrJtm3LyA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751296028; c=relaxed/simple;
-	bh=sx5p5G5+2skkdjVuGHr64Pg5tkmmhIDv6CDXC/tAokQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UL8VkgayEwMt0RBBchG/V5yOaZ0J4N1pj37+4xOZAPoGUj3qIPb169OGCAGPpXbQ3mNiwbP1LHn3La7YFu9kqPLjIrg+LB/L5H4YEhY2/V8OkmKVlJgGlE1NttJD9fm58DhmWvSiyxQ68FPXPDIEQYljkGd2mAb3UwLaHNDuw1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bV/PXD8A; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA7A9928;
-	Mon, 30 Jun 2025 17:06:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751296003;
-	bh=sx5p5G5+2skkdjVuGHr64Pg5tkmmhIDv6CDXC/tAokQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bV/PXD8A8ig+B2MDfjLgsm56d/F5XzmV+Bv5rCnmqchClBqDHxquzHe4vFRYtzRB0
-	 36eU0vaqranjPUbIDfdvCnh95NoFALVrky182joTYGIgn9K3Q7dZHFMI2ai8qpzNvT
-	 jPhyUkUb/cm6C0G5Li9wv0xefw6Uai8Rx31EaOZ8=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	jacopo.mondi@ideasonboard.com,
-	dan.scally@ideasonboard.com,
-	hverkuil@xs4all.nl,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v6.1 5/6] media: rzg2l-cru: Support multiple mbus codes per pixel format
-Date: Mon, 30 Jun 2025 16:06:51 +0100
-Message-Id: <20250630150651.2698237-1-dan.scally@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250625-rzg2l-cru-v6-5-a9099ed26c14@ideasonboard.com>
-References: <20250625-rzg2l-cru-v6-5-a9099ed26c14@ideasonboard.com>
+	s=arc-20240116; t=1751296353; c=relaxed/simple;
+	bh=kqQwD4dI35GDJ8LUupgJ6KuSllagGFe0S0gE3Z/ZbXc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jnCFK0yDazg/Ht9AsqTbMNvvVhkthBxvL2suckp1kfxaJ8vkXX5cjiI+6121rxIMraLq0wku1V6BIw1F51S6CpxKqilkk5btyo/SA/dNOEifyDzlVMZoXlaUfLfQrodyypPh0XOtAHpF1GHE1CZKz53RD34vuRLC5e/Iu8CSSvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aAuXvgUC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D19D3C4CEE3;
+	Mon, 30 Jun 2025 15:12:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751296353;
+	bh=kqQwD4dI35GDJ8LUupgJ6KuSllagGFe0S0gE3Z/ZbXc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aAuXvgUCSRPlmMdd0Ns01q3UnPR5Wvwiu2j/PzFWMG0Ed0i2E61bgpkhZSnaWnGfl
+	 ETF4Yo2DPDa1fVM0Rd4Jw3wKS7XVT05iqlp20dlCGf5SXaoX2CnNfpsgVVHXECe6ui
+	 d32S2kCETf1h7kQpR1wFQ3/HUMdOu3kcRK81gc8CdcYG9z6yYvSw/p8SpFZ679BkOU
+	 gRp3P7K5BgU7/JO0/qfpZTIxlqlUiD3gW8YidmNhIfl5nx4Bh85q8um9j13uYfGUyE
+	 5Kg2Sy0W7yH7WWgB3B2Ewgf+bhd3hftGK9XnmUp5FVHJTuJB5IIzHQCPbUFLxDIf0Q
+	 4mwmvuyaKl8JQ==
+Message-ID: <d541ee58-2fa5-4c1e-b744-2e080065fe39@kernel.org>
+Date: Mon, 30 Jun 2025 17:12:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/5] media: uvcvideo: Split uvc_stop_streaming()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hans@jjverkuil.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250616-uvc-fop-v4-0-250286570ee7@chromium.org>
+ <20250616-uvc-fop-v4-3-250286570ee7@chromium.org>
+ <20250630141707.GG20333@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250630141707.GG20333@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+Hi Laurent
 
-As a preliminary step for supporting the CRU pixel formats, extend
-the driver such that multiple media bus codes can support each of
-the output pixel formats.
+On 30-Jun-25 4:17 PM, Laurent Pinchart wrote:
+> On Mon, Jun 16, 2025 at 03:24:40PM +0000, Ricardo Ribalda wrote:
+>> uvc_stop_streaming() is used for meta and video nodes. Split the function
+>> in two to avoid confusion.
+>>
+>> Use this opportunity to rename uvc_start_streaming() to
+>> uvc_start_streaming_video(), as it is only called by the video nodes.
+>>
+>> Reviewed-by: Hans de Goede <hansg@kernel.org>
+>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> ---
+>>  drivers/media/usb/uvc/uvc_queue.c | 22 +++++++++++++++-------
+>>  1 file changed, 15 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+>> index 8f9737ac729546683ca48f5e71ce3dfacbae2926..3f357c2d48cfd258c26f0342007d1d12f1e01007 100644
+>> --- a/drivers/media/usb/uvc/uvc_queue.c
+>> +++ b/drivers/media/usb/uvc/uvc_queue.c
+>> @@ -167,7 +167,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
+>>  		uvc_video_clock_update(stream, vbuf, buf);
+>>  }
+>>  
+>> -static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+>> +static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
+>>  {
+>>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+>>  	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+>> @@ -186,14 +186,22 @@ static int uvc_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>  	return ret;
+>>  }
+>>  
+>> -static void uvc_stop_streaming(struct vb2_queue *vq)
+>> +static void uvc_stop_streaming_video(struct vb2_queue *vq)
+>>  {
+>>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+>>  
+>>  	lockdep_assert_irqs_enabled();
+>>  
+>> -	if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)
+>> -		uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+>> +	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
+>> +
+>> +	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+>> +}
+>> +
+>> +static void uvc_stop_streaming_meta(struct vb2_queue *vq)
+>> +{
+>> +	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
+>> +
+>> +	lockdep_assert_irqs_enabled();
+>>  
+>>  	uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
+> 
+> I haven't checked where it was introduced, but I think you have a race
+> here. uvc_queue_return_buffers() will return all buffers currently
+> sitting in the queue->irqqueue. This can race with a bunch of places in
+> uvc_video.c that call uvc_queue_get_current_buffer() or
+> uvc_queue_get_next_buffer(), as those functions return a buffer without
+> removing it from the list.
 
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
----
-Changes in v7:
+This change just splits uvc_stop_streaming() into 2 separate
+functions for uvc_queue_qops + uvc_meta_queue_qops to remove
+the weird looking "if (vq->type != V4L2_BUF_TYPE_META_CAPTURE)"
+check done in the shared uvc_stop_streaming().
 
-	- Updated kerneldoc comment for struct rzg2l_cru_ip_format
+This patch does not make any functional changes. So if such
+a race exists then that is a pre-existing problem and not
+caused by this patch.
 
-Changes in v5:
+Regards,
 
-	- None
+Hans
 
-Changes in v4:
 
-	- None
 
-Changes in v3:
-
-	- New patch due to changes to patch 1
----
- .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 10 ++-
- .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 67 +++++++++++++++----
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  2 +-
- 3 files changed, 62 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index 8d74bdfae7c8..a1034feda4af 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -64,14 +64,18 @@ struct rzg2l_cru_ip {
- 
- /**
-  * struct rzg2l_cru_ip_format - CRU IP format
-- * @code: Media bus code
-+ * @codes: Array of up to four media bus codes
-  * @datatype: MIPI CSI2 data type
-  * @format: 4CC format identifier (V4L2_PIX_FMT_*)
-  * @icndmr: ICnDMR register value
-  * @yuv: Flag to indicate whether the format is YUV-based.
-  */
- struct rzg2l_cru_ip_format {
--	u32 code;
-+	/*
-+	 * RAW output formats might be produced by RAW media codes with any one
-+	 * of the 4 common bayer patterns.
-+	 */
-+	u32 codes[4];
- 	u32 datatype;
- 	u32 format;
- 	u32 icndmr;
-@@ -190,6 +194,8 @@ struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru);
- const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code);
- const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format);
- const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
-+bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
-+					 unsigned int code);
- 
- void rzg2l_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
- void rzg2l_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index 15fc1028082a..fbbcdb96c457 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -13,35 +13,45 @@
- 
- static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 	{
--		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-+		.codes = {
-+			MEDIA_BUS_FMT_UYVY8_1X16,
-+		},
- 		.datatype = MIPI_CSI2_DT_YUV422_8B,
- 		.format = V4L2_PIX_FMT_UYVY,
- 		.icndmr = ICnDMR_YCMODE_UYVY,
- 		.yuv = true,
- 	},
- 	{
--		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.codes = {
-+			MEDIA_BUS_FMT_SBGGR8_1X8,
-+		},
- 		.format = V4L2_PIX_FMT_SBGGR8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
- 		.icndmr = 0,
- 		.yuv = false,
- 	},
- 	{
--		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.codes = {
-+			MEDIA_BUS_FMT_SGBRG8_1X8,
-+		},
- 		.format = V4L2_PIX_FMT_SGBRG8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
- 		.icndmr = 0,
- 		.yuv = false,
- 	},
- 	{
--		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.codes = {
-+			MEDIA_BUS_FMT_SGRBG8_1X8,
-+		},
- 		.format = V4L2_PIX_FMT_SGRBG8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
- 		.icndmr = 0,
- 		.yuv = false,
- 	},
- 	{
--		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.codes = {
-+			MEDIA_BUS_FMT_SRGGB8_1X8,
-+		},
- 		.format = V4L2_PIX_FMT_SRGGB8,
- 		.datatype = MIPI_CSI2_DT_RAW8,
- 		.icndmr = 0,
-@@ -51,11 +61,14 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
- 
- const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
- {
--	unsigned int i;
-+	unsigned int i, j;
- 
--	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++)
--		if (rzg2l_cru_ip_formats[i].code == code)
--			return &rzg2l_cru_ip_formats[i];
-+	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
-+		for (j = 0; j < ARRAY_SIZE(rzg2l_cru_ip_formats[i].codes); j++) {
-+			if (rzg2l_cru_ip_formats[i].codes[j] == code)
-+				return &rzg2l_cru_ip_formats[i];
-+		}
-+	}
- 
- 	return NULL;
- }
-@@ -80,6 +93,17 @@ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
- 	return &rzg2l_cru_ip_formats[index];
- }
- 
-+bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
-+					 unsigned int code)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(fmt->codes); i++)
-+		if (fmt->codes[i] == code)
-+			return true;
-+
-+	return false;
-+}
- struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru)
- {
- 	struct v4l2_subdev_state *state;
-@@ -157,7 +181,7 @@ static int rzg2l_cru_ip_set_format(struct v4l2_subdev *sd,
- 	sink_format = v4l2_subdev_state_get_format(state, fmt->pad);
- 
- 	if (!rzg2l_cru_ip_code_to_fmt(fmt->format.code))
--		sink_format->code = rzg2l_cru_ip_formats[0].code;
-+		sink_format->code = rzg2l_cru_ip_formats[0].codes[0];
- 	else
- 		sink_format->code = fmt->format.code;
- 
-@@ -183,11 +207,26 @@ static int rzg2l_cru_ip_enum_mbus_code(struct v4l2_subdev *sd,
- 				       struct v4l2_subdev_state *state,
- 				       struct v4l2_subdev_mbus_code_enum *code)
- {
--	if (code->index >= ARRAY_SIZE(rzg2l_cru_ip_formats))
--		return -EINVAL;
-+	unsigned int index = code->index;
-+	unsigned int i, j;
- 
--	code->code = rzg2l_cru_ip_formats[code->index].code;
--	return 0;
-+	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
-+		const struct rzg2l_cru_ip_format *fmt = &rzg2l_cru_ip_formats[i];
-+
-+		for (j = 0; j < ARRAY_SIZE(fmt->codes); j++) {
-+			if (!fmt->codes[j])
-+				continue;
-+
-+			if (!index) {
-+				code->code = fmt->codes[j];
-+				return 0;
-+			}
-+
-+			index--;
-+		}
-+	}
-+
-+	return -EINVAL;
- }
- 
- static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 650a23f7b5bd..8e83eb5ed5c3 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -1147,7 +1147,7 @@ static int rzg2l_cru_video_link_validate(struct media_link *link)
- 	if (fmt.format.width != cru->format.width ||
- 	    fmt.format.height != cru->format.height ||
- 	    fmt.format.field != cru->format.field ||
--	    video_fmt->code != fmt.format.code)
-+	    !rzg2l_cru_ip_fmt_supports_mbus_code(video_fmt, fmt.format.code))
- 		return -EPIPE;
- 
- 	return 0;
--- 
-2.34.1
+> 
+>>  }
+>> @@ -203,15 +211,15 @@ static const struct vb2_ops uvc_queue_qops = {
+>>  	.buf_prepare = uvc_buffer_prepare,
+>>  	.buf_queue = uvc_buffer_queue,
+>>  	.buf_finish = uvc_buffer_finish,
+>> -	.start_streaming = uvc_start_streaming,
+>> -	.stop_streaming = uvc_stop_streaming,
+>> +	.start_streaming = uvc_start_streaming_video,
+>> +	.stop_streaming = uvc_stop_streaming_video,
+>>  };
+>>  
+>>  static const struct vb2_ops uvc_meta_queue_qops = {
+>>  	.queue_setup = uvc_queue_setup,
+>>  	.buf_prepare = uvc_buffer_prepare,
+>>  	.buf_queue = uvc_buffer_queue,
+>> -	.stop_streaming = uvc_stop_streaming,
+>> +	.stop_streaming = uvc_stop_streaming_meta,
+>>  };
+>>  
+>>  int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type)
+> 
 
 
