@@ -1,330 +1,139 @@
-Return-Path: <linux-media+bounces-36263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32678AED870
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 11:18:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 904C1AED90B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 11:50:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0AC3D7A1773
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 09:17:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 460AD1894D0A
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 09:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC127220680;
-	Mon, 30 Jun 2025 09:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20A4D24A052;
+	Mon, 30 Jun 2025 09:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TOCghPeL"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="OKbbifEZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE0E137750
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 09:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FF9248F4B;
+	Mon, 30 Jun 2025 09:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751275121; cv=none; b=Ofl030hqaZ/5uo9cs98weknoq11kRtLMghSiWV1E9BhpCBE2gaS/n9nOOp6cr6ivXEpFSh5kyyL9JyfU+agz5In/iA030pirze8YVofedoAv2JRQ+srs8DKk3DCyFPVL5WWbNBanDGfLIM+Jwpfnklk0QZV8PBpfeNPay7nXjs0=
+	t=1751277023; cv=none; b=cfe9n0ru9b6L+liJmsBHR8dno99Sx5G42Z/ItTtX+VXoChhAacSACVqkfaikL8erTtEOhazjw/nSQmNqFjwozPhL2O6jdOoCu2xFMCjdGv9OLecqDvjV5r8gZvO9MATSWR+OwfGNdBFwP+TTU2s9cetNh4acHlc0sIBNvj7W5zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751275121; c=relaxed/simple;
-	bh=IbJXv2pRhbPeaCTAuGxwimaz7yPvfjwf5lhK3g8llbA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NGQt7Hg5UAPsNLjwsErkabMtPK9AMmU3JfydSPTRR2s9WPEHpIz4vAkA4X+i4XOoWDGx9I48vPamfvl+dbYJlG1mpLfyvP8ByKcKi/RGoaNANagNn9tyKjcIouADt66RoU47CCG8u1wbMKg1BjFmwZv8hE+22VhmonpkZci8hfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TOCghPeL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4480EEFF;
-	Mon, 30 Jun 2025 11:18:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751275096;
-	bh=IbJXv2pRhbPeaCTAuGxwimaz7yPvfjwf5lhK3g8llbA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TOCghPeLI8gVGS7/Yt5vK8aRIobu9yLTlgYez0DPCAYYznREWZNO1QhYszd3Vd4zW
-	 BNRrOpj55Q+FK/MxJOKVJJVjDvvSBCKhMndzjZdXjp2qBIKaFfhMZC4BO0psqcRnUr
-	 QAHvpemrjWbp4OY17J9UAebXeMd4WHIAvXVGoJX4=
-Message-ID: <055cbdb1-f084-4355-849b-6ebcb9f4cde1@ideasonboard.com>
-Date: Mon, 30 Jun 2025 10:18:34 +0100
+	s=arc-20240116; t=1751277023; c=relaxed/simple;
+	bh=OlR9PO94f1hpbZsfLLpaoTmAlbcl6nqpnsyTcK20dmY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jlpwIFFvwRcb/i6JyEhlQGTyif1THPWbm0FvcKk34KF0VrxeWfNSurpXkFZvHhJByYq8BjHS8FRvadHrXMwZoSeIBVUL2bt9c4YW4NGXsZyQexOxINQM5t0BzX/0OCojsCdbTOM4/2m4mMVp5jZxoRym5OCdsCDB67jof9cQewY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=OKbbifEZ; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=fdCzhVsNXpe5AUC2cbbE/8xzVg3QlWI9Hb+MzbVyv/U=; b=OKbbifEZUNsRrPyg/milb2gP6P
+	Lo2KatzmVJ+9ENyCsgIIQ5f4iQPQ1FOk5hemSdMqb+pbAsqtHLlUqf6VAhM1MOqOWy/GeDHNBy5xf
+	ZIUEYXZdhdvfFeM4fDtf4+9FWUkluhSmHBG1yhA7ridYmCy63fgzTmHa5FGFfxJyWeUxaIuYM9Oot
+	F4FbPP8wwK1npthTkVx3BkLHcVhJUZ5YpYbqPSDxHm7As9nAoXivSp4o6DHeFxxndUy/THVqBI3KW
+	jbAN4pP3/DaJxjgM+nz6G3CaOhLIKUKEWuxejLgRMmHfNUVpXjeKtrK4f/3HCHy7Cm4Wb2Ua3XUKy
+	s0DXQP7g==;
+Received: from i53875bfd.versanet.de ([83.135.91.253] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uWB9Q-0006dy-Kw; Mon, 30 Jun 2025 11:50:12 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Olivier Benjamin <olivier.benjamin@bootlin.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Nicholas Roth <nicholas@rothemail.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, imx@lists.linux.dev,
+ ~diederik/pine64-discuss@lists.sr.ht, Dragan Simic <dsimic@manjaro.org>,
+ Ondrej Jirman <megi@xff.cz>
+Subject: Re: [PATCH v4 0/4] Describe the cameras in the PinePhone Pro dts
+Date: Mon, 30 Jun 2025 11:50:11 +0200
+Message-ID: <7067942.rnE6jSC6OK@diego>
+In-Reply-To: <aFknh7weIKoGKajQ@kekkonen.localdomain>
+References:
+ <20250620-camera-v4-0-0201a8ed5fae@bootlin.com> <13788127.uLZWGnKmhe@phil>
+ <aFknh7weIKoGKajQ@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/6] media: rzg2l-cru: Support multiple mbus codes per
- pixel format
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, jacopo.mondi@ideasonboard.com,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>
-References: <20250625-rzg2l-cru-v6-0-a9099ed26c14@ideasonboard.com>
- <20250625-rzg2l-cru-v6-5-a9099ed26c14@ideasonboard.com>
- <20250629234531.GA24641@pendragon.ideasonboard.com>
- <f19463f3-d74c-49b7-8f96-d862f6bfebdf@ideasonboard.com>
- <20250630090745.GD24861@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250630090745.GD24861@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Laurent
+Am Montag, 23. Juni 2025, 12:08:07 Mitteleurop=C3=A4ische Sommerzeit schrie=
+b Sakari Ailus:
+> Hi Heiko,
+>=20
+> On Mon, Jun 23, 2025 at 12:05:22PM +0200, Heiko Stuebner wrote:
+> > Hi,
+> >=20
+> > Am Montag, 23. Juni 2025, 08:47:44 Mitteleurop=C3=A4ische Sommerzeit sc=
+hrieb Sakari Ailus:
+> > > Hi Olivier,
+> > >=20
+> > > On Fri, Jun 20, 2025 at 05:21:31PM +0200, Olivier Benjamin wrote:
+> > > > This series adds support for the Pine64 PinePhone Pro's rear and fr=
+ont
+> > > > cameras in Device Tree.
+> > > > This is based on some of Ondrej Jirman's patches hosted in his tree=
+ at
+> > > > https://codeberg.org/megi/linux, but I have also fully reviewed and
+> > > > re-written the code from the RK3399 datasheet, the PinePhone Pro
+> > > > schematic, and the IMX258-0AQH5 software reference manual.
+> > > >=20
+> > > > I have tested these changes on my PinePhone Pro and am able to take
+> > > > photos from both cameras using libcamera's cam.
+> > > >=20
+> > > > This series has raised a question about the proper label name for t=
+he
+> > > > front/user camera and rear/world camera for phones.
+> > > > This series is using "ucam" and "wcam", which is used in a few other
+> > > > Rockship DTBs:
+> > > >  - arch/arm64/boot/dts/rockchip/px30-evb.dts
+> > > >  - rk3399-gru-scarlet.dtsi
+> > > >=20
+> > > > Signed-off-by: Olivier Benjamin <olivier.benjamin@bootlin.com>
+> > >=20
+> > > Thanks for the patches.
+> > >=20
+> > > I've picked the first two in the set, presumably the rest will be mer=
+ged
+> > > via another tree?
+> >=20
+> > correct, and with the first two being applied, I can now also safely pi=
+ck
+> > the other two :-)
+>=20
+> Once in my tree, they'll next end up to the media committers' tree and
+> after some time you should be able to find them in linux-next. This proce=
+ss
+> will take some time. Just FYI.
 
-On 30/06/2025 10:07, Laurent Pinchart wrote:
-> On Mon, Jun 30, 2025 at 09:49:55AM +0100, Daniel Scally wrote:
->> On 30/06/2025 00:45, Laurent Pinchart wrote:
->>> On Wed, Jun 25, 2025 at 10:20:31AM +0100, Daniel Scally wrote:
->>>> From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>>>
->>>> As a preliminary step for supporting the CRU pixel formats, extend
->>>> the driver such that multiple media bus codes can support each of
->>>> the output pixel formats.
->>>>
->>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>>> Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
->>>> ---
->>>> Changes in v5:
->>>>
->>>> 	- None
->>>>
->>>> Changes in v4:
->>>>
->>>> 	- None
->>>>
->>>> Changes in v3:
->>>>
->>>> 	- New patch due to changes to patch 1
->>>> ---
->>>>    .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  8 ++-
->>>>    .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    | 67 +++++++++++++++++-----
->>>>    .../media/platform/renesas/rzg2l-cru/rzg2l-video.c |  2 +-
->>>>    3 files changed, 61 insertions(+), 16 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->>>> index 8d74bdfae7c854f8f4c9c82303b455ef8c6d5db3..49b11d0b814850042d1b3ca3b72725d0220c2987 100644
->>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->>>> @@ -71,7 +71,11 @@ struct rzg2l_cru_ip {
->>>>     * @yuv: Flag to indicate whether the format is YUV-based.
->>>>     */
->>>>    struct rzg2l_cru_ip_format {
->>>> -	u32 code;
->>>> +	/*
->>>> +	 * RAW output formats might be produced by RAW media codes with any one
->>>> +	 * of the 4 common bayer patterns.
->>>> +	 */
->>>> +	u32 codes[4];
->>> It looks like you forgot to update the documentation.
->> I'm sorry, I'm confused; I can see that I forgot to update the references to the pixel formats in
->> patch 1, but I can't see what Documentation needs updating for this patch.
-> You're modifying the structure, and there's a kerneldoc block
-> documenting it right above.
-Ah-ha! Sorry about that, thanks, I'll do that today
->>>    Please make sure
->>> to build documentation when submitting a patch series.
->>>
->>> You can send a v6.1 of this patch as a reply, no need to post a full v7.
->> Ack
->>
->>>>    	u32 datatype;
->>>>    	u32 format;
->>>>    	u32 icndmr;
->>>> @@ -190,6 +194,8 @@ struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru);
->>>>    const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code);
->>>>    const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format);
->>>>    const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
->>>> +bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
->>>> +					 unsigned int code);
->>>>    
->>>>    void rzg2l_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
->>>>    void rzg2l_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
->>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
->>>> index 15fc1028082add27ad3d6fa9e1314b6240ff0d4e..fbbcdb96c4570baf07cc9685c2fc847fb489df89 100644
->>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
->>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
->>>> @@ -13,35 +13,45 @@
->>>>    
->>>>    static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
->>>>    	{
->>>> -		.code = MEDIA_BUS_FMT_UYVY8_1X16,
->>>> +		.codes = {
->>>> +			MEDIA_BUS_FMT_UYVY8_1X16,
->>>> +		},
->>>>    		.datatype = MIPI_CSI2_DT_YUV422_8B,
->>>>    		.format = V4L2_PIX_FMT_UYVY,
->>>>    		.icndmr = ICnDMR_YCMODE_UYVY,
->>>>    		.yuv = true,
->>>>    	},
->>>>    	{
->>>> -		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
->>>> +		.codes = {
->>>> +			MEDIA_BUS_FMT_SBGGR8_1X8,
->>>> +		},
->>>>    		.format = V4L2_PIX_FMT_SBGGR8,
->>>>    		.datatype = MIPI_CSI2_DT_RAW8,
->>>>    		.icndmr = 0,
->>>>    		.yuv = false,
->>>>    	},
->>>>    	{
->>>> -		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
->>>> +		.codes = {
->>>> +			MEDIA_BUS_FMT_SGBRG8_1X8,
->>>> +		},
->>>>    		.format = V4L2_PIX_FMT_SGBRG8,
->>>>    		.datatype = MIPI_CSI2_DT_RAW8,
->>>>    		.icndmr = 0,
->>>>    		.yuv = false,
->>>>    	},
->>>>    	{
->>>> -		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
->>>> +		.codes = {
->>>> +			MEDIA_BUS_FMT_SGRBG8_1X8,
->>>> +		},
->>>>    		.format = V4L2_PIX_FMT_SGRBG8,
->>>>    		.datatype = MIPI_CSI2_DT_RAW8,
->>>>    		.icndmr = 0,
->>>>    		.yuv = false,
->>>>    	},
->>>>    	{
->>>> -		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
->>>> +		.codes = {
->>>> +			MEDIA_BUS_FMT_SRGGB8_1X8,
->>>> +		},
->>>>    		.format = V4L2_PIX_FMT_SRGGB8,
->>>>    		.datatype = MIPI_CSI2_DT_RAW8,
->>>>    		.icndmr = 0,
->>>> @@ -51,11 +61,14 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] = {
->>>>    
->>>>    const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int code)
->>>>    {
->>>> -	unsigned int i;
->>>> +	unsigned int i, j;
->>>>    
->>>> -	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++)
->>>> -		if (rzg2l_cru_ip_formats[i].code == code)
->>>> -			return &rzg2l_cru_ip_formats[i];
->>>> +	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
->>>> +		for (j = 0; j < ARRAY_SIZE(rzg2l_cru_ip_formats[i].codes); j++) {
->>>> +			if (rzg2l_cru_ip_formats[i].codes[j] == code)
->>>> +				return &rzg2l_cru_ip_formats[i];
->>>> +		}
->>>> +	}
->>>>    
->>>>    	return NULL;
->>>>    }
->>>> @@ -80,6 +93,17 @@ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index)
->>>>    	return &rzg2l_cru_ip_formats[index];
->>>>    }
->>>>    
->>>> +bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_format *fmt,
->>>> +					 unsigned int code)
->>>> +{
->>>> +	unsigned int i;
->>>> +
->>>> +	for (i = 0; i < ARRAY_SIZE(fmt->codes); i++)
->>>> +		if (fmt->codes[i] == code)
->>>> +			return true;
->>>> +
->>>> +	return false;
->>>> +}
->>>>    struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev *cru)
->>>>    {
->>>>    	struct v4l2_subdev_state *state;
->>>> @@ -157,7 +181,7 @@ static int rzg2l_cru_ip_set_format(struct v4l2_subdev *sd,
->>>>    	sink_format = v4l2_subdev_state_get_format(state, fmt->pad);
->>>>    
->>>>    	if (!rzg2l_cru_ip_code_to_fmt(fmt->format.code))
->>>> -		sink_format->code = rzg2l_cru_ip_formats[0].code;
->>>> +		sink_format->code = rzg2l_cru_ip_formats[0].codes[0];
->>>>    	else
->>>>    		sink_format->code = fmt->format.code;
->>>>    
->>>> @@ -183,11 +207,26 @@ static int rzg2l_cru_ip_enum_mbus_code(struct v4l2_subdev *sd,
->>>>    				       struct v4l2_subdev_state *state,
->>>>    				       struct v4l2_subdev_mbus_code_enum *code)
->>>>    {
->>>> -	if (code->index >= ARRAY_SIZE(rzg2l_cru_ip_formats))
->>>> -		return -EINVAL;
->>>> +	unsigned int index = code->index;
->>>> +	unsigned int i, j;
->>>>    
->>>> -	code->code = rzg2l_cru_ip_formats[code->index].code;
->>>> -	return 0;
->>>> +	for (i = 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
->>>> +		const struct rzg2l_cru_ip_format *fmt = &rzg2l_cru_ip_formats[i];
->>>> +
->>>> +		for (j = 0; j < ARRAY_SIZE(fmt->codes); j++) {
->>>> +			if (!fmt->codes[j])
->>>> +				continue;
->>>> +
->>>> +			if (!index) {
->>>> +				code->code = fmt->codes[j];
->>>> +				return 0;
->>>> +			}
->>>> +
->>>> +			index--;
->>>> +		}
->>>> +	}
->>>> +
->>>> +	return -EINVAL;
->>>>    }
->>>>    
->>>>    static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
->>>> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->>>> index 650a23f7b5bd61ee035dd35d1754c5d9b5e614f6..8e83eb5ed5c32e1ee1a8355dc6144eb18ca598cf 100644
->>>> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->>>> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->>>> @@ -1147,7 +1147,7 @@ static int rzg2l_cru_video_link_validate(struct media_link *link)
->>>>    	if (fmt.format.width != cru->format.width ||
->>>>    	    fmt.format.height != cru->format.height ||
->>>>    	    fmt.format.field != cru->format.field ||
->>>> -	    video_fmt->code != fmt.format.code)
->>>> +	    !rzg2l_cru_ip_fmt_supports_mbus_code(video_fmt, fmt.format.code))
->>>>    		return -EPIPE;
->>>>    
->>>>    	return 0;
+thanks for the heads up :-) .
+
+So I'll give that a bit more time for the bindings to appear.
+
+Thanks
+Heiko
+
+
+
 
