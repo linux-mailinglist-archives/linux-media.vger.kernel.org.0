@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-36365-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36366-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9932AEEAB2
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 01:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5E4AEEAB5
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 01:00:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAE7C3E1214
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 23:00:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 735F517FD3B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 23:00:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 958DB2E6D1D;
-	Mon, 30 Jun 2025 23:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB0C92E8E0E;
+	Mon, 30 Jun 2025 23:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcphTyqe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFMiprAn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D11B2E718C;
-	Mon, 30 Jun 2025 23:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CB6246784;
+	Mon, 30 Jun 2025 23:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751324407; cv=none; b=idCkLYdZqMqsJ+e2bwPkXhAcYAeljfL+lw20octpuiMYcYQ53aaJ1iZ3u7XvMieZJ2RAuRDbnKHT/zs6e/WxrmD/QJxnCIAMX/OyXXTE4Ga1ilPuVKf9uEM7GgAUGQAJ+0h/55+FndaVP1boFlw0ZAwEVt+0LqUvAPUcLmhf0ls=
+	t=1751324409; cv=none; b=B3gtlN8LQgc6AgUl4G/FYQyZQ8+lBMb4yohfmtRnD95nea/TNJESRbZ8XvOB0K076wiIRwv6plGay2KT+wgIgzPXBkcMG/hlyOF/kPahdxP2zLFoLsYKOuBYT+nspu0Fk6Bj756vuKRfeWMMsID5WICdf9nZ/JYS3KZ5TzlZ258=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751324407; c=relaxed/simple;
-	bh=qsIidrhNfKGSVk7uQ8jDl0FBbzluCvDK3rJ3EfxQixY=;
+	s=arc-20240116; t=1751324409; c=relaxed/simple;
+	bh=Y+wmYlRIXuieODgN5f+0lJX29hjBfVXZNDN8pndGqno=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uJdhmDfRxFX7PEgFbYhiw1rxGvfDtmst/cz7U13ffL3iV6HX2DXnVTBvjJfYfugvTOdKavX3FucVUDK4C6aymTPwFSAT9E5yZhdbummjujt2nl8kW3DC7QoVyfddpFI5mkiRDe13qQ0T7WmvFv0kmWf1AaI6QjkKaqxlXQiS0C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PcphTyqe; arc=none smtp.client-ip=209.85.222.174
+	 MIME-Version; b=QARKi5Ib0WXqG88ZDB13e+SzopOPPVuhCpQgc/CJKpFb5BoFZMzdI45jXL+sflesY2a6/Jsr02Z0LCOZ1P8Pxmu61M4+KKpjqQdUAebsNJtdHbqcGY7GaQvwz3AlYQJ+pXFLdc/TbBID640mA7ptvGi/enLD/UptyUQ3YfrhB8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nFMiprAn; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7d20451c016so155291485a.1;
-        Mon, 30 Jun 2025 16:00:05 -0700 (PDT)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6faf66905baso32889266d6.2;
+        Mon, 30 Jun 2025 16:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751324404; x=1751929204; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751324406; x=1751929206; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=08EjIcq2LEkTE1bSmA43WtkLhKmuoGBOobnc+exfdE4=;
-        b=PcphTyqeQ7uTbU7wqemhBKbBccnYm8sQr6VZ4nZas6md32hFhMUyCalNDR1IiHmU8s
-         VfDwAPjySmPprv21G2qWY5fmJHnQD4K5f7HXFkbY03oDbzfHzsJtd3qnPkkW0dDtPg1N
-         /yAP8tJl8SawTBO8AS9Ea1mBn45UK2ZjZgTp1IKyxgutT86M7z7Uhasl/5DOBBEM2YMG
-         fUAft5W5hlJsNYG7njG9jiymd/YxbRQOEoDoJ6WsbRfZycHR0EC79Gkwvvy+yYchoquj
-         GQiLjILJxl0VrcRWyK8gOwyKQt9ziB2Zh7ASPaAwl8FXEfK9DKnnYObRDmbuNi0gs9rn
-         rOpQ==
+        bh=HhOdcdV9XVCx+ru/5FX4x8f8sDwW5BnVIi0tXeeokRE=;
+        b=nFMiprAnq2BlSniDWDQjemvc5JwWR5iLzuotq/4os/KLdjXwvPs9r3dgbPlmdCKeoF
+         M0l9AexwJU2B601mB8zgq8u3rtw8sly8JZ1/upbAtoEmEHCeg9bXuU0mriOsMW2ClfFs
+         vBPudb2lnFBTR0oCbni776yuUBQJjumH+gRdfFnIwZBOeYAhuDDGZHkNZdBrwWXADi0I
+         aDOlFyW9yubldJzZtLPfGmuRpmGZtmMgdrSEZ7QhS2BIYFT7wGF7dMFqQ4qSO/mH8CZK
+         LR/KJJPBPEPSIMkv2nIyzAnIKin6f24uF65sSvHAaTmKSHo/P80h627mQk0uiDTq+eKJ
+         Y7ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751324404; x=1751929204;
+        d=1e100.net; s=20230601; t=1751324406; x=1751929206;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=08EjIcq2LEkTE1bSmA43WtkLhKmuoGBOobnc+exfdE4=;
-        b=aGfidDNSvJV6s52/9/R6gXgaLHUJr3SsYSCyqASXyle8+ZdveB/Sq5eCodquWUheCl
-         33gfiTiTBufQR4mNT3hHg8z+cXU6WDKr8aoAj9no6ji1PSbhrMQgT/4mBB2nlTNJtN9l
-         PoWL9rQEFERutZrCPVk441Ln7qhRs6imgMHVgzwFOIAE8f/LC+6KfHi87JszlMfY3s52
-         uX33+r5u+3HD2e7KhaVOObo+ymwfKMiOWqJfvgd5jdi6wFP96G+7mP1chqsp3OXSZ6Qq
-         NJ1s5NpCyH0MmdGquPP4xT5gmaxHr01EMOOfye5VUB25XEViRB5ghWXbUaRoScZffxF2
-         09oQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVHqCgnD7SlJJZzb0L4lUH/pLZMJbmTXPMbvCighQhpGwHmxxokWODpHLO96tFL9WD7s3M6P8fIhU43nbc=@vger.kernel.org, AJvYcCVbV04tujt+epKiJJsnMZz0/pmIihY8ilGq6IN47zk7qeOG2tM/Gvkv8eE091ac7GM1jR/X1x8cvv4j@vger.kernel.org, AJvYcCXLFmfz5lkRw8NeLOO881sa8pZ2El8pKP055OyjuWH7VwdwMmpgisTkY/bxXHEfLvyCdxmjy/PIw2QKSRYNjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnP/Ucc+GO2gsBObks3e8hU9+89tOeJfoDA4TL1EcBBOFN/jUc
-	G8Z46GYJ4L6lD08pZo9qQo+DbpSChjqn1WCpl9d0hHu00ycUjY3IZiGA
-X-Gm-Gg: ASbGnct58LyC4L65lIQ+ZOj1BxsQtHHmM/cH6FRfzdsOm3VFjwgooAIzc8HkgL7iil8
-	Zths+BcCJ+KYL+YlITDJuEVSHNgfTujbhJZYuoFTh0dU3V0JDT+6mHRxrtA+tfnQgv6YbAasT/Y
-	TGwDh+egV4ZABGaWfM/956GmpUFSy3ieYhSLVFkHs2+9OR2DOand6oPueXaIQVU5syaVbkzSltp
-	qum42HttycvjcHDVa5cjGn0MP9BM+O8V3ujWvHWmAMkUsRtYVY2dg6ryYkhk+rQnaOP3TYSbU86
-	2ScJcDm2crLLhFbNFGlxhlKOAwBz1VTuZf8zpin8wC2FjenePQ==
-X-Google-Smtp-Source: AGHT+IF1nJXKNkN6in6rmbJoeP1x8joPOObXsKBGV+zmcwU8cNSkvCUAR97Me9gPm7qCbpkYKk9CVQ==
-X-Received: by 2002:a05:620a:1a83:b0:7d4:5b4b:530c with SMTP id af79cd13be357-7d45b4b542amr873678685a.35.1751324404133;
-        Mon, 30 Jun 2025 16:00:04 -0700 (PDT)
+        bh=HhOdcdV9XVCx+ru/5FX4x8f8sDwW5BnVIi0tXeeokRE=;
+        b=kg1Kc/Oom9FObdUWR4l96xS1KKm7ROWma8rz0ut+yyV6KW6Z8xJZfWqdiieXmRIoe9
+         t2AYEfqNSTCZknGpmWHiEe7fDNxuRaJfzoJJwDdgXxRSYqWKcKG1DASNmEFmUlnZB0XZ
+         l0MoL/c55px7mO6J7u/EPOcY7zN36Ma13zvo6mAZUQI6Yldzl65c0UuKV0EsK7+JxYWI
+         onTEbjkUNEn/Zn8y50vGk1PbuqJso2/2QpUhzcVyLRYou5+68JPf23l3C1rIvZASFiCQ
+         1dPP32l8J1ursVfkX3XpGL8xMtCsg0Bq7BHJU3pVPMo0MGFawKYsbzoJCqup2j6MoUmd
+         Co8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUbFWWqTjXm0Uf2fvun3cuteqqxbZZMBCT6QHDxWfFg96PjO20v4BnO+u1NgKg0qx9ZM4rLEFenGDPeEKeIIA==@vger.kernel.org, AJvYcCV/ZjDTkmDpYAjuL++Pm1XYJ3ABH3f1eVA1nq4ezCpx2KHaP6XZHJffEBnLCn28VFxuy+xP0210hlKoDgE=@vger.kernel.org, AJvYcCX9FIC2+p3s8KQjvUe8Dzvw5qSr3FX5hyBiLwrA8ctFAuHf3EKOG0457Xn1ZPOotfMNTSjAoz8zG0Io@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZipiLTxCSPbIswV33r14n+4KgrCgTZjcceABQEgi4vectTQe9
+	39678xEeGFeoT3LWhEFskKOzvbWgQnh5qij3uBfaHWRs0++YqQH7zP9u
+X-Gm-Gg: ASbGncvmO0Uo+e2ZSM5xgdzHewpDF228SRR+LMpJh2Yd+SqsH62lJWKoO40qc1dm92b
+	o1GzO+8QH36yZMRv0zc3G1zYZzBjAv2bqiPBP67AApn6yYEQiTZh0fEZGSzz3WGDxbPuGeRBXh7
+	JRiTCRQRek1q7C1Slc8qGDnqQRM7Fmij7L3cTA06JiB2zS/Wb+GZofpqlyyISfToYbGl7E6cOqO
+	I+W2xKLqODb8YQm0Zg68sSeME3a9zaF9KcvYc0/T58lm4q7a4/VEhs/Cdp1w0Q8N1A0hCqKP6cX
+	IRN3CPNRbo9N1USjI5oWGUbYrfXuVjddtvMG2gOBX0K9hpvbUw==
+X-Google-Smtp-Source: AGHT+IEM8su59K+sGXqsx2QL+MXaxGU3ssE+dZg5NYnCiMOizG48GHsYfFcPMPOfp57WYOxFKpfkpQ==
+X-Received: by 2002:ad4:5d6b:0:b0:6fa:9f9b:8df0 with SMTP id 6a1803df08f44-7001378c6bemr192296006d6.20.1751324406293;
+        Mon, 30 Jun 2025 16:00:06 -0700 (PDT)
 Received: from localhost ([2607:fea8:3140:6800::10ce])
-        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-7d443134584sm679582885a.18.2025.06.30.16.00.03
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6fd772fa9e3sm74391396d6.81.2025.06.30.16.00.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 16:00:03 -0700 (PDT)
+        Mon, 30 Jun 2025 16:00:05 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -85,9 +85,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org
 Cc: Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH 2/5] media: i2c: imx355: Support device tree probing and resource management
-Date: Mon, 30 Jun 2025 18:59:47 -0400
-Message-ID: <20250630225944.320755-9-mailingradian@gmail.com>
+Subject: [PATCH 3/5] media: i2c: imx355: Add power management for managed resources
+Date: Mon, 30 Jun 2025 18:59:48 -0400
+Message-ID: <20250630225944.320755-10-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250630225944.320755-7-mailingradian@gmail.com>
 References: <20250630225944.320755-7-mailingradian@gmail.com>
@@ -99,130 +99,76 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A device tree compatible makes it possible for this driver to be used on
-Open Firmware devices. Initialization of resources such as the reset
-GPIO and voltage regulators can be specified in the device tree and
-handled by the driver. Add support for this so the Pixel 3a can use the
-driver.
+When enabled, the resources consume power, even if the camera sensor
+itself is unused. Add power management functions to release the
+resources when the device is suspended.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- drivers/media/i2c/imx355.c | 63 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ drivers/media/i2c/imx355.c | 46 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
 diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index b2dce67c0b6b..42bd08e8ac50 100644
+index 42bd08e8ac50..112b1f22afbd 100644
 --- a/drivers/media/i2c/imx355.c
 +++ b/drivers/media/i2c/imx355.c
-@@ -3,9 +3,14 @@
- 
- #include <linux/unaligned.h>
- #include <linux/acpi.h>
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
-@@ -121,6 +126,16 @@ struct imx355 {
- 	 * Protect access to sensor v4l2 controls.
- 	 */
- 	struct mutex mutex;
-+
-+	struct clk *mclk;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[3];
-+};
-+
-+static const char * const imx355_supply_names[] = {
-+	"vana",
-+	"vdig",
-+	"vio",
+@@ -1531,6 +1531,51 @@ static const struct v4l2_subdev_internal_ops imx355_internal_ops = {
+ 	.open = imx355_open,
  };
  
- static const struct imx355_reg imx355_global_regs[] = {
-@@ -1683,6 +1698,7 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct device *dev)
- static int imx355_probe(struct i2c_client *client)
- {
- 	struct imx355 *imx355;
-+	size_t i;
- 	int ret;
- 
- 	imx355 = devm_kzalloc(&client->dev, sizeof(*imx355), GFP_KERNEL);
-@@ -1694,6 +1710,42 @@ static int imx355_probe(struct i2c_client *client)
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&imx355->sd, client, &imx355_subdev_ops);
- 
-+	for (i = 0; i < ARRAY_SIZE(imx355_supply_names); i++)
-+		imx355->supplies[i].supply = imx355_supply_names[i];
++static int imx355_suspend(struct device *dev)
++{
++	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct imx355 *imx355 = to_imx355(sd);
++	int ret;
 +
-+	ret = devm_regulator_bulk_get(&client->dev,
-+				      ARRAY_SIZE(imx355->supplies),
-+				      imx355->supplies);
++	clk_disable_unprepare(imx355->mclk);
++
++	gpiod_set_value_cansleep(imx355->reset_gpio, 0);
++
++	ret = regulator_bulk_disable(ARRAY_SIZE(imx355->supplies),
++				    imx355->supplies);
 +	if (ret) {
-+		dev_err_probe(&client->dev, ret, "could not get regulators");
++		dev_err(dev, "failed to disable regulators: %d\n", ret);
 +		return ret;
 +	}
++
++	return 0;
++}
++
++static int imx355_resume(struct device *dev)
++{
++	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct imx355 *imx355 = to_imx355(sd);
++	int ret;
 +
 +	ret = regulator_bulk_enable(ARRAY_SIZE(imx355->supplies),
 +				    imx355->supplies);
 +	if (ret) {
-+		dev_err(&client->dev, "failed to enable regulators: %d\n", ret);
++		dev_err(dev, "failed to enable regulators: %d\n", ret);
 +		return ret;
 +	}
 +
-+	imx355->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
-+						     GPIOD_OUT_HIGH);
-+	if (IS_ERR(imx355->reset_gpio)) {
-+		ret = PTR_ERR(imx355->reset_gpio);
-+		dev_err_probe(&client->dev, ret, "failed to get gpios");
-+		goto error_vreg_disable;
-+	}
-+
-+	imx355->mclk = devm_clk_get(&client->dev, "mclk");
-+	if (IS_ERR(imx355->mclk)) {
-+		ret = PTR_ERR(imx355->mclk);
-+		dev_err_probe(&client->dev, ret, "failed to get mclk");
-+		goto error_vreg_disable;
-+	}
++	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
 +
 +	clk_prepare_enable(imx355->mclk);
 +	usleep_range(12000, 13000);
 +
- 	/* Check module identity */
- 	ret = imx355_identify_module(imx355);
- 	if (ret) {
-@@ -1756,6 +1808,10 @@ static int imx355_probe(struct i2c_client *client)
- 
- error_probe:
- 	mutex_destroy(&imx355->mutex);
-+	clk_disable_unprepare(imx355->mclk);
++	return 0;
++}
 +
-+error_vreg_disable:
-+	regulator_bulk_disable(ARRAY_SIZE(imx355->supplies), imx355->supplies);
- 
- 	return ret;
- }
-@@ -1781,10 +1837,17 @@ static const struct acpi_device_id imx355_acpi_ids[] __maybe_unused = {
- };
- MODULE_DEVICE_TABLE(acpi, imx355_acpi_ids);
- 
-+static const struct of_device_id imx355_match_table[] __maybe_unused = {
-+	{ .compatible = "sony,imx355", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx355_match_table);
++DEFINE_RUNTIME_DEV_PM_OPS(imx355_pm_ops, imx355_suspend, imx355_resume, NULL);
 +
- static struct i2c_driver imx355_i2c_driver = {
- 	.driver = {
+ /* Initialize control handlers */
+ static int imx355_init_controls(struct imx355 *imx355)
+ {
+@@ -1848,6 +1893,7 @@ static struct i2c_driver imx355_i2c_driver = {
  		.name = "imx355",
  		.acpi_match_table = ACPI_PTR(imx355_acpi_ids),
-+		.of_match_table = of_match_ptr(imx355_match_table),
+ 		.of_match_table = of_match_ptr(imx355_match_table),
++		.pm = &imx355_pm_ops,
  	},
  	.probe = imx355_probe,
  	.remove = imx355_remove,
