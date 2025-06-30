@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-36273-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36274-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75AAAEDA8F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:14:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16430AEDA90
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 13:14:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2D62177B01
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 11:14:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE918189898C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 11:14:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16B2D25B30E;
-	Mon, 30 Jun 2025 11:14:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE7425B311;
+	Mon, 30 Jun 2025 11:14:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11C425B2FD
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 11:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EF725B67D
+	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 11:14:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751282042; cv=none; b=pYVBPgF9DHqH8UjIIXUT9VswYcNprdW2cr4UtzBu9XfHL3xky4LlBrsyAX9a98hij1DEBbQVn/g5zfBq/sZDAgr+X/HZS2Ie/c0NQ8f4WdssOWuD0Ic3C+Ayy4HtWZ/lNW7c88a7wqzggUihXtBpMZkexj1CVBmfknV7FB9YSHI=
+	t=1751282044; cv=none; b=drJr4bgyYIFE73jrpC9gZnQDPsd3K2xcrIxqc6POKBu1IG7NNDovuktD8DJhWrQuFwOoc3zRRr5Zby+K0RSunjadw+rNY8KNJk15U8jhz5mzhXGcLRqDqmQyWfw31KVC5p2rPUriJtbGUJ2QZwEWI2nn2ejQb5YmXEsK0S1ex8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751282042; c=relaxed/simple;
-	bh=JMGEwEUheuFKDSMKpdDWD41T0lyTn2o/63HWpFtZ/2I=;
+	s=arc-20240116; t=1751282044; c=relaxed/simple;
+	bh=Wi4e7EYaHCnBdaUTJf7HBaT24fBVDIFn/Incuka7XYg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ce78EVbbjs+Nn762d53H6FbKM93P2W4FpLsJqsCFUgPW1iFBS3gEHTb8yYC1NHRbWZa/A77L6vvSOgF4DB/JPNmJYIHiH+/5YrRp8Yj5T+yVFZMzJQBI2NmNoz+5BcXBIB5DUH6v6q4XzOy2a7UsP8FamAyd7X0a5CdcH6aqA7c=
+	 MIME-Version; b=nzeP3ipfAXOHNfM/WSuDC7vDkRpmNTAaWYRtOxTGUByoARwvYTpb3BFxzfEFS4XySWkd/xhlX42UxFepr8QwuCzLTseuy0XJ8orDACaSPFc1SWp4ixWzq2pG1ZHfUFVnflvW7DSHcIJrg3z6vSRRHvZMp/+e8kPcxATHF/BNeqw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0CAAC4CEEB;
-	Mon, 30 Jun 2025 11:14:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10ABCC4CEEB;
+	Mon, 30 Jun 2025 11:14:02 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 2/5] media: cec: core: add rx-no-low-drive setting
-Date: Mon, 30 Jun 2025 13:08:47 +0200
-Message-ID: <3997f6234d150bd5b61c4d8b7138037116fb0320.1751281730.git.hverkuil@xs4all.nl>
+Subject: [PATCH 3/5] Documentation: media: cec: update error inj doc
+Date: Mon, 30 Jun 2025 13:08:48 +0200
+Message-ID: <d88eae34a4ba4b8cb67ed104ba09afb10fb60531.1751281730.git.hverkuil@xs4all.nl>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <cover.1751281730.git.hverkuil@xs4all.nl>
 References: <cover.1751281730.git.hverkuil@xs4all.nl>
@@ -46,96 +46,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If rx-no-low-drive is set, then the CEC pin framework will disable
-the detection of situations where a Low Drive has to be generated.
-
-So if this is set, then we will never generate Low Drives.
-
-This helps testing whether other CEC devices generate Low Drive
-pulses by ensuring it is not us that is generating them.
+Document rx-no-low-drive and the new support to inject
+glitches.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/cec/core/cec-pin-error-inj.c | 11 +++++++++++
- drivers/media/cec/core/cec-pin-priv.h      |  1 +
- drivers/media/cec/core/cec-pin.c           |  2 +-
- 3 files changed, 13 insertions(+), 1 deletion(-)
+ .../media/cec/cec-pin-error-inj.rst           | 42 +++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/drivers/media/cec/core/cec-pin-error-inj.c b/drivers/media/cec/core/cec-pin-error-inj.c
-index 68cbd83dfd6e..d9e613c7ce3f 100644
---- a/drivers/media/cec/core/cec-pin-error-inj.c
-+++ b/drivers/media/cec/core/cec-pin-error-inj.c
-@@ -91,6 +91,7 @@ bool cec_pin_error_inj_parse_line(struct cec_adapter *adap, char *line)
- 	if (!strcmp(token, "clear")) {
- 		memset(pin->error_inj, 0, sizeof(pin->error_inj));
- 		pin->rx_toggle = pin->tx_toggle = false;
-+		pin->rx_no_low_drive = false;
- 		pin->tx_ignore_nack_until_eom = false;
- 		pin->tx_custom_pulse = false;
- 		pin->tx_custom_low_usecs = CEC_TIM_CUSTOM_DEFAULT;
-@@ -105,6 +106,7 @@ bool cec_pin_error_inj_parse_line(struct cec_adapter *adap, char *line)
- 		for (i = 0; i <= CEC_ERROR_INJ_OP_ANY; i++)
- 			pin->error_inj[i] &= ~CEC_ERROR_INJ_RX_MASK;
- 		pin->rx_toggle = false;
-+		pin->rx_no_low_drive = false;
- 		return true;
- 	}
- 	if (!strcmp(token, "tx-clear")) {
-@@ -121,6 +123,10 @@ bool cec_pin_error_inj_parse_line(struct cec_adapter *adap, char *line)
- 		pin->tx_glitch_rising_edge = false;
- 		return true;
- 	}
-+	if (!strcmp(token, "rx-no-low-drive")) {
-+		pin->rx_no_low_drive = true;
-+		return true;
-+	}
- 	if (!strcmp(token, "tx-ignore-nack-until-eom")) {
- 		pin->tx_ignore_nack_until_eom = true;
- 		return true;
-@@ -305,6 +311,9 @@ int cec_pin_error_inj_show(struct cec_adapter *adap, struct seq_file *sf)
- 	seq_puts(sf, "#   <op> rx-clear  clear all rx error injections for <op>\n");
- 	seq_puts(sf, "#   <op> tx-clear  clear all tx error injections for <op>\n");
- 	seq_puts(sf, "#\n");
-+	seq_puts(sf, "# RX error injection settings:\n");
-+	seq_puts(sf, "#   rx-no-low-drive                    do not generate low-drive pulses\n");
-+	seq_puts(sf, "#\n");
- 	seq_puts(sf, "# RX error injection:\n");
- 	seq_puts(sf, "#   <op>[,<mode>] rx-nack              NACK the message instead of sending an ACK\n");
- 	seq_puts(sf, "#   <op>[,<mode>] rx-low-drive <bit>   force a low-drive condition at this bit position\n");
-@@ -368,6 +377,8 @@ int cec_pin_error_inj_show(struct cec_adapter *adap, struct seq_file *sf)
- 		}
- 	}
+diff --git a/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst b/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
+index 411d42a742f3..c02790319f3f 100644
+--- a/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
++++ b/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
+@@ -41,6 +41,9 @@ error injection status::
+ 	#   <op> rx-clear  clear all rx error injections for <op>
+ 	#   <op> tx-clear  clear all tx error injections for <op>
+ 	#
++	# RX error injection settings:
++	#   rx-no-low-drive                    do not generate low-drive pulses
++	#
+ 	# RX error injection:
+ 	#   <op>[,<mode>] rx-nack              NACK the message instead of sending an ACK
+ 	#   <op>[,<mode>] rx-low-drive <bit>   force a low-drive condition at this bit position
+@@ -53,6 +56,10 @@ error injection status::
+ 	#   tx-custom-low-usecs <usecs>        define the 'low' time for the custom pulse
+ 	#   tx-custom-high-usecs <usecs>       define the 'high' time for the custom pulse
+ 	#   tx-custom-pulse                    transmit the custom pulse once the bus is idle
++	#   tx-glitch-low-usecs <usecs>        define the 'low' time for the glitch pulse
++	#   tx-glitch-high-usecs <usecs>       define the 'high' time for the glitch pulse
++	#   tx-glitch-falling-edge             send the glitch pulse after every falling edge
++	#   tx-glitch-rising-edge              send the glitch pulse after every rising edge
+ 	#
+ 	# TX error injection:
+ 	#   <op>[,<mode>] tx-no-eom            don't set the EOM bit
+@@ -193,6 +200,14 @@ Receive Messages
+     This does not work if the remote CEC transmitter has logical address
+     0 ('TV') since that will always win.
  
-+	if (pin->rx_no_low_drive)
-+		seq_puts(sf, "rx-no-low-drive\n");
- 	if (pin->tx_ignore_nack_until_eom)
- 		seq_puts(sf, "tx-ignore-nack-until-eom\n");
- 	if (pin->tx_glitch_falling_edge)
-diff --git a/drivers/media/cec/core/cec-pin-priv.h b/drivers/media/cec/core/cec-pin-priv.h
-index 88eefcb60ab8..e7801be9adb9 100644
---- a/drivers/media/cec/core/cec-pin-priv.h
-+++ b/drivers/media/cec/core/cec-pin-priv.h
-@@ -228,6 +228,7 @@ struct cec_pin {
- 	u32				timer_max_overrun;
- 	u32				timer_sum_overrun;
++``rx-no-low-drive``
++    The receiver will ignore situations that would normally generate a
++    Low Drive pulse (3.6 ms). This is typically done if a spurious pulse is
++    detected when receiving a message, and it indicates to the transmitter that
++    the message has to be retransmitted since the receiver got confused.
++    Disabling this is useful to test how other CEC devices handle glitches
++    by ensuring we will not be the one that generates a Low Drive.
++
+ Transmit Messages
+ -----------------
  
-+	bool				rx_no_low_drive;
- 	u32				tx_custom_low_usecs;
- 	u32				tx_custom_high_usecs;
- 	u32				tx_glitch_low_usecs;
-diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
-index f3b0febf0f1c..4d7155281daa 100644
---- a/drivers/media/cec/core/cec-pin.c
-+++ b/drivers/media/cec/core/cec-pin.c
-@@ -797,7 +797,7 @@ static void cec_pin_rx_states(struct cec_pin *pin, ktime_t ts)
- 		 * Go to low drive state when the total bit time is
- 		 * too short.
- 		 */
--		if (delta < CEC_TIM_DATA_BIT_TOTAL_MIN) {
-+		if (delta < CEC_TIM_DATA_BIT_TOTAL_MIN && !pin->rx_no_low_drive) {
- 			if (!pin->rx_data_bit_too_short_cnt++) {
- 				pin->rx_data_bit_too_short_ts = ktime_to_ns(pin->ts);
- 				pin->rx_data_bit_too_short_delta = delta;
+@@ -327,3 +342,30 @@ Custom Pulses
+ 
+ ``tx-custom-pulse``
+     Transmit a single custom pulse as soon as the CEC bus is idle.
++
++Glitch Pulses
++-------------
++
++This emulates what happens if the signal on the CEC line is seeing spurious
++pulses. Typically this happens after the falling or rising edge where there
++is a short voltage fluctuation that, if the CEC hardware doesn't do
++deglitching, can be seen as a spurious pulse and can cause a Low Drive
++condition or corrupt data.
++
++``tx-glitch-low-usecs <usecs>``
++    This defines the duration in microseconds that the glitch pulse pulls
++    the CEC line low. The default is 1 microsecond. The range is 0-100
++    microseconds. If 0, then no glitch pulse will be generated.
++
++``tx-glitch-high-usecs <usecs>``
++    This defines the duration in microseconds that the glitch pulse keeps the
++    CEC line high (unless another CEC adapter pulls it low in that time).
++    The default is 1 microseconds. The range is 0-100 microseconds. If 0, then
++    no glitch pulse will be generated.The total period of the glitch pulse is
++    ``tx-custom-low-usecs + tx-custom-high-usecs``.
++
++``tx-glitch-falling-edge``
++    Send the glitch pulse right after the falling edge.
++
++``tx-glitch-rising-edge``
++    Send the glitch pulse right after the rising edge.
 -- 
 2.47.2
 
