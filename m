@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-36335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C81AEE743
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 21:10:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 453ECAEE74D
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 21:11:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02BF21884B7D
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5415B44181B
 	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 19:10:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F532ECEA8;
-	Mon, 30 Jun 2025 19:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EAB32EE299;
+	Mon, 30 Jun 2025 19:07:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="luyHbFhr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7KngRev"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9033A20AF98;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44572EBDFC;
 	Mon, 30 Jun 2025 19:07:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751310421; cv=none; b=nE47C0bAcLNk/Vx4QD5xPRjEk/bc6gTuStiZxjbpmrZXiTeATErL8zBVNZcefNMsYaM38076Tp1YiarQQraH6OXPNq6t69IvmO/eRwDU2bkj0gj8m1sgYoFHarhVfAZqiq7fDD2N22yrllZWJgVCRxOtYkIQDJM9Hl/e66+UY0g=
+	t=1751310422; cv=none; b=KuPTjBH5EFP9s0RZK30QTAyztpCzuOsKNa2AvOtkLrjQ3GHf9aksUDk6mgHegtG/CiOGdGght8X7xN4aUIRiZoWVrM+iEpRHR8MCWjF5n7WWm8Q8cYS/VfI19Z6f+58UZJWg7yHipY5ZyOW3HGOtuO6PlhNxi5DnCEIX8vC0xxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751310421; c=relaxed/simple;
-	bh=NsEEdeaScrNvRlWgHTamA27d9Qr5O3nCYMeIbvgGo+g=;
+	s=arc-20240116; t=1751310422; c=relaxed/simple;
+	bh=PWNLGqQvd1xRaJ5tWni10l1Xvs3GUdrsPLnEj/U5JIs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GfjKlXYBiOgFYR/eaODazPii0abpR65SVVhz/1Tb1IZQoxoEnAyRR/jOMgOc5XBg5jtMRnnj9QPEKGJEOmvlhIaVw4vvYmtrZPB9QEfI2XEB28Z5io1DQ6wJz+p0sjocCG5odPJsuPWTya77BeV1pUCIRrj96u5EbVQ0W0aZyOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=luyHbFhr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C686C4CEEF;
+	 In-Reply-To:To:Cc; b=EVpCgSKBWV3nzz2oTLO2GuJF01ag3ZZB0SgMJmPJRNDOHonCnGHAfQVZ5D+x+CI8XPROht2KCEZByf7S/pNkHm0GUMqUYFYkh1V8SqNMywcVlk0gOwOdIJcJmpQh5KnaQLlRw8nhGk6HvyY701KiOKPbYH7ZxCYVInkvUijm/eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7KngRev; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7AC02C4CEEB;
 	Mon, 30 Jun 2025 19:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1751310421;
-	bh=NsEEdeaScrNvRlWgHTamA27d9Qr5O3nCYMeIbvgGo+g=;
+	bh=PWNLGqQvd1xRaJ5tWni10l1Xvs3GUdrsPLnEj/U5JIs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=luyHbFhrQTI2BbNS6Yx5cEal34x42vYxQlUB8lwNoFvayrso/kvieRt6Hmq4B3hym
-	 P1BQxvFWYW06hHaWRWxzp/o1vmB2rTzndQLEcVyaSenbAVTDO+6gg6pbaXj1QbgVHN
-	 ANez+Tsac7B/D7qINGeVNN1kSkOr2nTtihs36zR1ZRVLJxDwiXmRRG/Pft4bCEJId1
-	 NesFWo7hVxmVu22HcYgUUqkMbbR9uSBJx5ecHZ3txpwgrz62GIvMgnt1dHyWq3kgFt
-	 bHXMgCgZyiDEP4Vt/qHvVecxMxpmeO+1lXKgfMJJc+yeduebSQdmeaQewCjs8pB+WN
-	 1JyfwmSU8SaVw==
+	b=R7KngRevJvHozRN14ltrrY+EfTzJG15+PGQ1zLP9X+cNSy81anFQZJYgGK3Iq8pmo
+	 kp3WZQn0r/8ASewE2YHU5vPY38G9h3pRMVJ4Kj/nKMhtFCUwQAIaYT25pz+t4tjMUd
+	 tydlPlgEy7LAmg64W0X+qDNd9x6gBGRS52N+fxfAx092OIdRlMZMjoKuN7y18bcde5
+	 LTZYwf5HaVcJ5oPTzcQNglEZXVPek1aXjJyl4ED10UU8R6mhKX9nTwVPaM0wP2I3qt
+	 pKaFL2v0CutA40LrOY1pbw+ROZ+iZ1uFGgx07rISx28bmGfrxyEGDk1sdo7IpejjCh
+	 T5xpxZx9ve/jA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64CA9C83029;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B9FC83033;
 	Mon, 30 Jun 2025 19:07:01 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Mon, 30 Jun 2025 21:05:21 +0200
-Subject: [PATCH v2 1/5] media: i2c: imx214: Remove unneeded parentheses
+Date: Mon, 30 Jun 2025 21:05:22 +0200
+Subject: [PATCH v2 2/5] media: i2c: imx214: Drop dev argument from
+ imx214_parse_fwnode()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250630-imx214_fixes-v2-1-cd1a76c412c0@apitzsch.eu>
+Message-Id: <20250630-imx214_fixes-v2-2-cd1a76c412c0@apitzsch.eu>
 References: <20250630-imx214_fixes-v2-0-cd1a76c412c0@apitzsch.eu>
 In-Reply-To: <20250630-imx214_fixes-v2-0-cd1a76c412c0@apitzsch.eu>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -67,11 +68,11 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751310420; l=950;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751310420; l=1203;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=e5+tRksV+Fgl0BxWMBz64V6Vf1Cb5OmGU/GImJC7m7A=;
- b=8tixpZey59d010cuk2qUfM6JIln2FMlXURuGTGQANKhAnO3Kx+0wtuCINSlZn1eCDTxJsMsa1
- FY2l+SxzSTxDcQlwMrxqCtdWjOyIemQ9rIFmFJom0R4PhbJa45ptRZ4
+ bh=8u7kv1mgw/QKJdeWTXhTPT8LKCS1xuLLRvq/xmXOvBo=;
+ b=ToWSc5B6DJjGz2WMGw4W7TFI5mokx8CV8T18Q5O6VEdbrQF/Yx96+MnE0ZCf301wY3Txnm9OY
+ czNV4TdIxIyCGsfRZ4dg0F21bhGjVLEo2YA8lunnMFZzAX8YastMotQ
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -81,29 +82,40 @@ Reply-To: git@apitzsch.eu
 
 From: André Apitzsch <git@apitzsch.eu>
 
-The parentheses are not needed to calculate bit_rate_mbps.
+The device can be accessed from struct imx214.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- drivers/media/i2c/imx214.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/i2c/imx214.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index a0cef9e61b41be8ea76a6d6e4b8c9fc4060cfa0f..8e9b5c9c93b0888f3d6be857168711edaf050db3 100644
+index 8e9b5c9c93b0888f3d6be857168711edaf050db3..d9193bafa3cbb8fec2679200c38d30077d1b11bd 100644
 --- a/drivers/media/i2c/imx214.c
 +++ b/drivers/media/i2c/imx214.c
-@@ -1029,8 +1029,8 @@ static int imx214_start_streaming(struct imx214 *imx214)
- 		return ret;
- 	}
+@@ -1324,10 +1324,11 @@ static int imx214_identify_module(struct imx214 *imx214)
+ 	return 0;
+ }
  
--	bit_rate_mbps = (imx214->pll.pixel_rate_csi / 1000000)
--			* imx214->pll.bits_per_pixel;
-+	bit_rate_mbps = imx214->pll.pixel_rate_csi / 1000000
-+		      * imx214->pll.bits_per_pixel;
- 	ret = cci_write(imx214->regmap, IMX214_REG_REQ_LINK_BIT_RATE,
- 			IMX214_LINK_BIT_RATE_MBPS(bit_rate_mbps), NULL);
- 	if (ret) {
+-static int imx214_parse_fwnode(struct device *dev, struct imx214 *imx214)
++static int imx214_parse_fwnode(struct imx214 *imx214)
+ {
+ 	struct v4l2_fwnode_endpoint *bus_cfg = &imx214->bus_cfg;
+ 	struct fwnode_handle *endpoint;
++	struct device *dev = imx214->dev;
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -1415,7 +1416,7 @@ static int imx214_probe(struct i2c_client *client)
+ 		return dev_err_probe(dev, PTR_ERR(imx214->regmap),
+ 				     "failed to initialize CCI\n");
+ 
+-	ret = imx214_parse_fwnode(dev, imx214);
++	ret = imx214_parse_fwnode(imx214);
+ 	if (ret)
+ 		return ret;
+ 
 
 -- 
 2.50.0
