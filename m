@@ -1,162 +1,177 @@
-Return-Path: <linux-media+bounces-36328-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36329-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C9CAEE409
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 18:16:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 628B1AEE4CE
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 18:41:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7CB0C7A8515
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 16:14:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B7BF171E4C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jun 2025 16:41:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C5C1299957;
-	Mon, 30 Jun 2025 16:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D4028DF06;
+	Mon, 30 Jun 2025 16:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VTO1O5TW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XWA673Ws"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD84298CAB
-	for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 16:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1629078F2E;
+	Mon, 30 Jun 2025 16:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751299970; cv=none; b=I0lf4QMs1G8uo2Si4Wu1ywGcoyhlEjCzet6+dJDRKZXNP0rn8c4CppfPCHNTG+aWu60v4SBCxOwX97r6WVca33wLuf+xeJbjanSKWvMetsHimPQbA0vmXHAAl+HKNMAIBe+nMfMsJWZ+pJ/tr4gAby6Ihqp/mWfxckAh28sGbVo=
+	t=1751301701; cv=none; b=eJfghxkWlGV4fLXSVA3nS8oPLOPDIgfaNMJPKyRzk8xNUOoz+as1aXf2sX4ZVpWgo0uTGDdMns3yFH4RffHx8bHfR62Hfz1Zz8D+dRPxRCjuAmjN+s9qJjlZIXu1/alQSN3VD6l4MZPa3+JNm5GbPN+dTsHsTNmzwH4RKvaDbl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751299970; c=relaxed/simple;
-	bh=q4VIj35HGYUMrlmf/wPQyD4fjoYIUJIrYvqyNvRayR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=VfaYq6bJGhGrKrOKQkPFwjTQTKEQjfDblEyN0PAJCzMhPFQKyM1wir76OWwsLiQDjEw0ybotEMSydHEQA71AlmMdIDDR0axTaizMDw4FCAVaWcEhkqfMPL52VIVINYbCMg5Vkgr/17FuT2LDeh5gdUJOllqPztR3wNmQNxqprrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VTO1O5TW; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-72c13802133so712854a34.3
-        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 09:12:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751299968; x=1751904768; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pdpheBuXy6YZBSAAaSyOQsX5JfXKwGuw8lus8OBrp2Y=;
-        b=VTO1O5TWcOJwA2x5zFHWwXtfwvKZij7C2SDUIXCFdTU/dhTIxgl7S8uUmhmjX7tg+o
-         Rzz4MqknZDpm4f6bGoPJO66mFBorVaIS9LDcaqvnGv6vnOuSLeSndTkkjVrISHW88XbJ
-         rd2gmPeF2tjMCsLyHEk70jPmycpGv5A71Kl4I8t9Um2QV3krtnDIjM015wCiTj2yn1BW
-         Hlk/sTYLJwMwzqO9gF2pElCGBzw60glpUnQ7hlBtKfbsPsd7gqyJj/rb20zEKJnyHxyI
-         zn1lu72XoQ3Rc8aSkLfkWBIbdLZtq0qziLOk12n1EI2Us3xvQeybXa2NmMFHKdmcDDSr
-         qs1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751299968; x=1751904768;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pdpheBuXy6YZBSAAaSyOQsX5JfXKwGuw8lus8OBrp2Y=;
-        b=j2mI52BHHrzIbRftjRuOFjmt6QKNFTewfXe3GrmEur043HR7HaJpKjBWnpkf+5P1pZ
-         9VAitweVEeewd5YjPQwmxH1lPZvLEHyI9dp2XhrTrDKF7rlximn7/b4SbdkvQxDaWv2S
-         L0d5HLHpVBPzS09trMynYW76Qmc4e+oo9vyefil8SBCDIvCtTlwnzXTb8SB+or5o2FIX
-         ot3qLfAzG1TM1ZnLbPjqqPlFSaZClXxPvbGZh4EuNotC4dBFM7Bz8JVeswL36gnacmAb
-         +uLVn4B9lbAHzEBNJcMmqvyWvapPeTeUp3QA/QmQaUtuAi2DkV4MUqz2rxP6g7bzSGY/
-         Rsjg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhkGMaLhAVe1NMeiaV6/KrxGFrmMNgPZQlrkQnkKp05IX9EyInFLAWpoJw6vx9HMxqVzMmhdLd2vx2pw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzshPDAeqtfZMD9XGq+BKgRtC1OAJ9+OmhfHG+zE0E8jdGTFVyT
-	25kkkP5Hl7JZijfoTeIv+kKucf8EJsx9H1EMLsAVPllag3QLkc62dKdo2zm5BmrZ2+Q=
-X-Gm-Gg: ASbGncv1x267oheQafSS6arE1ECJ/kTwj/HaMLSTzXpzYmOfAadALxGURBSE9my7dnA
-	OxRqXkuIvYXEyC1liF69bgeQVVv8fihuoJUdms6vowmM1eqFwB0gNThbVlo2UTYvnHVlGEYued+
-	3EVnFg7ImJnB2aHNQDNfFYvscTu/hpsLtIvrP1yfNCwrhBfwrfjgo1QpZo8Q7DEmfnZUVXo3Ojh
-	zP2LU9jls/7ToTFVDgJBGGtzw647VvZG0J1j+CD3dnhmIchWRX5Mo4WSXc3HqPGX9qq4Y5iKF4t
-	p9o9CXYHMM8COuZ2O9guJCf727j34I1agBkV3xJsD5MZS2zwTDa23kuasFGuKWuVM4UFbyiMOFC
-	aozY=
-X-Google-Smtp-Source: AGHT+IE+3YuCeYJGJwDn+sNWhMGj764qlZlwHp5410p/o2A5QqpknTmv1v4Do0ZjuVRqdyPgQ/jIbQ==
-X-Received: by 2002:a05:6830:2c0a:b0:72b:a9f0:50 with SMTP id 46e09a7af769-73afc57dacdmr7936452a34.6.1751299967924;
-        Mon, 30 Jun 2025 09:12:47 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:fb67:363d:328:e253])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afb0e47f8sm1717811a34.43.2025.06.30.09.12.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 09:12:47 -0700 (PDT)
-Date: Mon, 30 Jun 2025 19:12:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	jacopo.mondi@ideasonboard.com,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v2 2/3] media: mc: Add media jobs framework
-Message-ID: <24a14a22-9798-420e-b515-87183e898137@suswa.mountain>
+	s=arc-20240116; t=1751301701; c=relaxed/simple;
+	bh=+fzJq5ixdgdDsnkL9zpCdV4dSmtyoicJ975neBoN5dc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bAbbIbw+xvGVHT6oxT7XliR9qryv0SzqRxF+qbSP+eBLUKFpLr2pNz7+IE66vYkegckiBGrTBWdibDS0cgbYkju5kMklUfqyhycaj+myWYnurta18JEq+UqSf0ErUP0HxWufwJQkwJ5j9JO4hSIcmFQcMtjkfL0gdN5GsdQX2Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XWA673Ws; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E12C4CEE3;
+	Mon, 30 Jun 2025 16:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751301700;
+	bh=+fzJq5ixdgdDsnkL9zpCdV4dSmtyoicJ975neBoN5dc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XWA673WsZi/9juIWGGOo2N0P7u/VnXFY70GIwq4ILqSo0txSgrnfrhwvMbi5EuxIg
+	 HjEW2c/DnrBbLWdxkAOamPc82T8aeofo/G7Ne4oVWi4yLOFWVb2WkxwXmwVfrqGk8K
+	 6i5rj1Vi8eNFPPn5u3ilSoIxOdZUluLG4AU/WmrLd63syv+OsN4nQifQuav+99BfZ1
+	 3+66aCbMtVWr2QiS8fpTGd/FujkAd01dgEg8gZ8vbMP5hkYcBwFDzfd4h7U5CO2KFF
+	 yKI925sbdHiKwYMV+VnQVcDc/CvZuPufZ9qilMn2d+7oGQCpA9tgFJ15Jt5oW4LvUv
+	 InjlAXiwpavfA==
+Date: Mon, 30 Jun 2025 18:41:38 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Saravana Kannan <saravanak@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
+	Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: reserved-memory: Introduce
+ carved-out memory region binding
+Message-ID: <20250630-attentive-fortunate-turaco-2e36d2@houat>
+References: <20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org>
+ <20250617-dma-buf-ecc-heap-v5-1-0abdc5863a4f@kernel.org>
+ <20250627193132.GB4032621-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="jeexq3trpqyreenu"
 Content-Disposition: inline
-In-Reply-To: <20250624-media-jobs-v2-2-8e649b069a96@ideasonboard.com>
+In-Reply-To: <20250627193132.GB4032621-robh@kernel.org>
 
-Hi Daniel,
 
-kernel test robot noticed the following build warnings:
+--jeexq3trpqyreenu
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 1/2] dt-bindings: reserved-memory: Introduce
+ carved-out memory region binding
+MIME-Version: 1.0
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-mc-entity-Add-pipeline_started-stopped-ops/20250624-160120
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20250624-media-jobs-v2-2-8e649b069a96%40ideasonboard.com
-patch subject: [PATCH v2 2/3] media: mc: Add media jobs framework
-config: nios2-randconfig-r073-20250627 (https://download.01.org/0day-ci/archive/20250628/202506282351.uufwOAwG-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.4.0
+Hi Rob,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506282351.uufwOAwG-lkp@intel.com/
+On Fri, Jun 27, 2025 at 02:31:32PM -0500, Rob Herring wrote:
+> On Tue, Jun 17, 2025 at 02:25:40PM +0200, Maxime Ripard wrote:
+> > Some parts of the memory can be dedicated to specific purposes and
+> > exposed as a dedicated memory allocator.
+> >=20
+> > This is especially useful if that particular region has a particular
+> > properties the rest of the memory doesn't have. For example, some
+> > platforms have their entire RAM covered by ECC but for a small area
+> > meant to be used by applications that don't need ECC, and its associated
+> > overhead.
+> >=20
+> > Let's introduce a binding to describe such a region and allow the OS to
+> > create a dedicated memory allocator for it.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  .../bindings/reserved-memory/carved-out.yaml       | 49 ++++++++++++++=
+++++++++
+> >  1 file changed, 49 insertions(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/reserved-memory/carved-o=
+ut.yaml b/Documentation/devicetree/bindings/reserved-memory/carved-out.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..9ab5d1ebd9ebd9111b7c064=
+fabe1c45e752da83b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/reserved-memory/carved-out.yaml
+> > @@ -0,0 +1,49 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/reserved-memory/carved-out.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Carved-out Memory Region
+> > +
+> > +description: |
+>=20
+> Don't need '|'.
+>=20
+> > +  Specifies that the reserved memory region has been carved out of the
+> > +  main memory allocator, and is intended to be used by the OS as a
+> > +  dedicated memory allocator.
+>=20
+> Other than the commit msg, it is completely lost that this is for=20
+> ECC-less memory.
 
-New smatch warnings:
-drivers/media/mc/mc-jobs.c:285 __media_jobs_run_jobs() error: we previously assumed 'step->run_step' could be null (see line 281)
+Because it's not. One of the first feedback I got was that the way to
+identify what a heap provides was the heap name.
 
-vim +285 drivers/media/mc/mc-jobs.c
+So, as far as the binding go, a heap just exposes a chunk of memory the
+memory allocator wouldn't use. The actual semantics of that chunk of
+memory don't matter.
 
-4be0a59bfc044b0 Daniel Scally 2025-06-24  257  static void __media_jobs_run_jobs(struct work_struct *work)
-4be0a59bfc044b0 Daniel Scally 2025-06-24  258  {
-4be0a59bfc044b0 Daniel Scally 2025-06-24  259  	struct media_job_scheduler *sched = container_of(work,
-4be0a59bfc044b0 Daniel Scally 2025-06-24  260  							 struct media_job_scheduler,
-4be0a59bfc044b0 Daniel Scally 2025-06-24  261  							 work);
-4be0a59bfc044b0 Daniel Scally 2025-06-24  262  	struct media_job_step *step;
-4be0a59bfc044b0 Daniel Scally 2025-06-24  263  	struct media_job *job;
-4be0a59bfc044b0 Daniel Scally 2025-06-24  264  
-4be0a59bfc044b0 Daniel Scally 2025-06-24  265  	while (true) {
-4be0a59bfc044b0 Daniel Scally 2025-06-24  266  		scoped_guard(spinlock, &sched->lock) {
-4be0a59bfc044b0 Daniel Scally 2025-06-24  267  			if (list_empty(&sched->queue))
-4be0a59bfc044b0 Daniel Scally 2025-06-24  268  				return;
-4be0a59bfc044b0 Daniel Scally 2025-06-24  269  
-4be0a59bfc044b0 Daniel Scally 2025-06-24  270  			job = list_first_entry(&sched->queue, struct media_job,
-4be0a59bfc044b0 Daniel Scally 2025-06-24  271  					       list);
-4be0a59bfc044b0 Daniel Scally 2025-06-24  272  
-4be0a59bfc044b0 Daniel Scally 2025-06-24  273  			list_del(&job->list);
-4be0a59bfc044b0 Daniel Scally 2025-06-24  274  		}
-4be0a59bfc044b0 Daniel Scally 2025-06-24  275  
-4be0a59bfc044b0 Daniel Scally 2025-06-24  276  		list_for_each_entry(step, &job->steps, list) {
-4be0a59bfc044b0 Daniel Scally 2025-06-24  277  			/*
-4be0a59bfc044b0 Daniel Scally 2025-06-24  278  			 * Theoretically impossible as this should have been
-4be0a59bfc044b0 Daniel Scally 2025-06-24  279  			 * validated in media_jobs_add_job_step()
-4be0a59bfc044b0 Daniel Scally 2025-06-24  280  			 */
-4be0a59bfc044b0 Daniel Scally 2025-06-24 @281  			if (!step->run_step)
-4be0a59bfc044b0 Daniel Scally 2025-06-24  282  				WARN_ONCE(1, "%s(): No .run_step() operation\n",
-4be0a59bfc044b0 Daniel Scally 2025-06-24  283  					  __func__);
+> This description applies to CMA area as well. So what's the difference?
 
-We print a warning and then crash...  The NULL dereference
-will have the same stack trace that the WARN_ONCE() does.
+Yeah, I kind of agree, which is why I initially started with a property,
+and you then asked for a compatible.
 
-4be0a59bfc044b0 Daniel Scally 2025-06-24  284  
-4be0a59bfc044b0 Daniel Scally 2025-06-24 @285  			step->run_step(step->data);
-4be0a59bfc044b0 Daniel Scally 2025-06-24  286  		}
-4be0a59bfc044b0 Daniel Scally 2025-06-24  287  
-4be0a59bfc044b0 Daniel Scally 2025-06-24  288  		media_jobs_free_job(job);
-4be0a59bfc044b0 Daniel Scally 2025-06-24  289  	}
-4be0a59bfc044b0 Daniel Scally 2025-06-24  290  }
+CMA (assuming you mean the allocator, not the CMA heap) is still more
+though: it only covers some shared-dma-pool memory regions.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > +
+> > +maintainers:
+> > +  - Maxime Ripard <mripard@kernel.org>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: carved-out
+>=20
+> Isn't everything in reserved-memory a carve out for some purpose. I'm=20
+> not sure if I'd add 'no ECC' or more along the lines of how this is=20
+> used. The latter might be useful on platforms which can't disable ECC or=
+=20
+> don't have ECC at all.
 
+I don't think we need any discriminant for ECC vs non-ECC. It's just a
+carved-out memory region at some offset, and the system won't use it.
+
+Maxime
+
+--jeexq3trpqyreenu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGK+PQAKCRAnX84Zoj2+
+dq2AAYC/J24SOTg9EyGxv1tRVE/FGgngduiiWSIJWT4SdOTb4teAfc/lr4p6puTF
+EHX68lcBgJBy43wXgAeh2TO5BWA3Jm3akW90xbdFedZD8i8vgdHvFYsiZ1npib1E
+ysoB3LOWSA==
+=JcqH
+-----END PGP SIGNATURE-----
+
+--jeexq3trpqyreenu--
 
