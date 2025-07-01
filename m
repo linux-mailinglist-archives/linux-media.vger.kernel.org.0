@@ -1,165 +1,208 @@
-Return-Path: <linux-media+bounces-36402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36403-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BDFAEF57D
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:47:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C4BAEF5A1
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:53:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7064B4A4D4E
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 10:47:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E04A1BC5DD3
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 10:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC5726FDA9;
-	Tue,  1 Jul 2025 10:47:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD018270EC3;
+	Tue,  1 Jul 2025 10:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="StbridQJ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kpO+o37z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8C613AA53
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 10:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A11926FA58
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 10:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751366845; cv=none; b=kDqPp/FYg2EcPZY4ZSB5eKj6cCpb5D6TLfVMRZZRpaRxXRqC37Bvryyi8LstSAMacF5kS8J6LetNjTG187Mq4d8XifJN6banL5pagd2iUQjTYxiMrX/k+qsfYSr2edO1ZjtT6VjxmY/pe7sMMGRM8P01iefmBuA9eZmrJk7DYPo=
+	t=1751367180; cv=none; b=VB7btX+bV8zOSvrjho24XsyyZfDQUEDS0sQbrCwrXF2CORDM4OD82+o6eC7VvbnplnkIgseenCRwgBKPlK0gDCGT/rFzTfrga7SfEO9UDdTre0I0jg25wHNnLgJBjAWxLZA/ekmONdWf6q2GYdxCrBBIwQN6y/ThufStDgQIINo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751366845; c=relaxed/simple;
-	bh=jEOE45SJ1iugQkRpA0TPKc2rU9KMQQOdwjokxdoa/vU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KSEoDtGHx2oRvbgDCEx7pJp+D6oQI1mNYrpre6TU0p4CLHJCknuf1jrEi+5/EOYIkqWsOfy4kduR1fPeHDr3rAQvsU2ak1TR9CFt9Rshyl250BVehw5F6RZoq7bFEoPhtoxTJENJ/PoEBPgVY/DZrZrpSPxm6mzqNGW2vYuQx5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=StbridQJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 929566F3;
-	Tue,  1 Jul 2025 12:46:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751366818;
-	bh=jEOE45SJ1iugQkRpA0TPKc2rU9KMQQOdwjokxdoa/vU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=StbridQJH3qJeK+ooTE5GauoRugoyFWtxec+UsyY5slx0E4KmsPHiEGMGX2bxSpz/
-	 vchj7lAeOOJWCymL53hyuiN+gi59mQ7KldmN/pldP/EAPCOYe25kXoQOwXPHIXH1op
-	 pkmYsMnDFDxoNPvCeLD9Bvc15WXjwl0yBpFGrVro=
-Date: Tue, 1 Jul 2025 12:47:16 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	laurent.pinchart@ideasonboard.com, stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com, 
-	arnd@arndb.de, alain.volmat@foss.st.com, andrzej.hajda@intel.com, 
-	benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com, hansg@kernel.org, 
-	hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com, kieran.bingham@ideasonboard.com, 
-	khalasa@piap.pl, mani@kernel.org, m.felsch@pengutronix.de, 
-	matthias.fend@emfend.at, mchehab@kernel.org, michael.riesch@collabora.com, 
-	naush@raspberrypi.com, nicholas@rothemail.net, nicolas.dufresne@collabora.com, 
-	paul.elder@ideasonboard.com, dan.scally@ideasonboard.com, pavel@kernel.org, 
-	rashanmu@gmail.com, ribalda@chromium.org, slongerbeam@gmail.com, 
-	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, linux-media@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 01/48] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <hiug6e7fuzxe3v3nja2nghons3q3ghax3ic6wx6usliotvtlxh@3akcx4g62fwj>
-References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
- <8ecbcafbd91b25ad5e188dbe127b921a1643027e.1750942967.git.mehdi.djait@linux.intel.com>
- <aF5ERIaLioVAzjZm@kekkonen.localdomain>
- <gcmikcuq4xio47ceyxoeuwomjj26phpvzt4plz3p63j427hft6@yiaq6l4fxlpu>
- <aGOyb7ZcoZ57WXYF@svinhufvud>
+	s=arc-20240116; t=1751367180; c=relaxed/simple;
+	bh=kR+ZkS9e9E9ecNCnSafkiQB90cSgCsUd8H0SkECdtdg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Z/AmxrFWqhQWlF4ms+M1MtuJzVveK9Igi0U0/VXE7LNdasCH0sjiDmnUJ2I/rLqNi1G/HIk1zF1RK1LD+zos0aaEuGPF9bwuxoDxzLTnuSQNegjiK0+b+OL2nDtj+xxyWYAPulgQNmd54mD0ZDOamKWWu0HrPUToPxxf5QNjXAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kpO+o37z; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 561AUMH3001184
+	for <linux-media@vger.kernel.org>; Tue, 1 Jul 2025 10:52:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QxbRybMavykaO3hOyS4gFxOqBrYNmHEunWQ2+lzoQ0E=; b=kpO+o37ziGhx1lEN
+	mP41qeGktyBF4IN4ceoOB+k7fMbgsFM+m560HEnRYfXI7hmRzA30Qy1NEfXwgRFu
+	kTasNqI1WbpXhNGg54e9yP3kj/nnbyx3wbdsraD/DboBVdBTsw2DHuoOODMmMciZ
+	s/98+J55ThxB/NPQfiUzImrOnZOdXmbxc4a1nc5WLKGq6O3GB5K6kJ4pRdPev+xg
+	oseFMBnqGHMilSsBiowEdXkiH/xHiOsNDzFUDj7f540+g540vk8ELJsFUJQHz2wT
+	w5lMMrKp7FuGyLar2RFXspy2VFB8B93Ne8MMpH75+pwbHPClyNd+e3onRHmt4V6c
+	1Uu9Vg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j7qm8h4r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 10:52:56 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4a43924a1bcso8398031cf.2
+        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 03:52:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751367176; x=1751971976;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QxbRybMavykaO3hOyS4gFxOqBrYNmHEunWQ2+lzoQ0E=;
+        b=w/RMr6WPwub38BvMgznBPBLnQ1wVgeas2XgkCcd31huFRSSymHk7jvF0Rs0OJ9xv3M
+         Lem4VvVYalkgEzf3dN/2gi+K9A47uf6+2/dWfFdhMBN0lW4mT5k7aznxOuHGgV0DKWDj
+         wWLKieeccAhijqpi9r66vnbbn74Qopft/GLyHiRL05YQprtTzbNARBWYU24lKPWpPCz8
+         pubqYOLYmmTDHpGxTTNmw1xbDMJnLwvEMa893p84LSvAmTrLE7XIomxOwtWbpVLq1uLs
+         ETJc8Q9Bz/iXFMSdwD6GG0ox6GpjZjenIuaG9qPuFCB6/gwPcq4r6QprXcCjJwVW14TQ
+         YuUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzSTVyw9A594kVnodpftomxhUPYcCcSq3qd4WpU9xreTOkDX0UCB9SREvAi+iVAxgr1dU0j1e+usMEqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyaw0umi2kB1OYZX+0/wz43ZT3oD3xxdmq0r7IdV+cibrNWMeet
+	0nlR0tk3TAzrn/rCm6aQK8rqRUAIUi0eBcA3aaVhL0Phj9vn/U8AZHiBK6X47MaiaziiXlYQiiP
+	0Ou7IEd6UD7s9/LilkF1kkRRtTyrvr5QPNHt96FHK3b/c7rY0J+4PIhu88HErfLArww==
+X-Gm-Gg: ASbGncufPoZLc6F9G1wFl6PmNBE6gHl6RKQAjvAolCmgNIq6oUK1u38qLdi0A1QhInm
+	i7d/nBkWzkslQvcrCRN0OfrEwL7RIxFhjYDhcdVenULQXK79D429C3x0FoEv5XSp961TZ353W/B
+	QhNActqsrFkh7ShXV1bswEVk8F2K3FKHBzsEtiIDJTDg6NoJjwhSAGudMOPrP/a4D18NtzcnidP
+	E1x2Y0OCJO8dGscFQpZpcwppTKGvbupnxyCpFluR0XW3W2QcxMEO3/IghCJfnSLdTpVUlm+H+3U
+	x727CVoPy44sqGCcMwoHlqltgstsVeTfFw7tb0SQCu/vjyfPQMIYyCUQ/8bcTyIWhc5BAA6kBwC
+	8vIejyA7n
+X-Received: by 2002:ac8:5f88:0:b0:474:faeb:50aa with SMTP id d75a77b69052e-4a82fa6dc8fmr15414331cf.5.1751367175884;
+        Tue, 01 Jul 2025 03:52:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFwuhymIujTpbLs+Uj+WN+K42bm42dkWUnlK1+8TUnmYd2rxY2XjyypP9SJRtzMLocaOTr6Nw==
+X-Received: by 2002:ac8:5f88:0:b0:474:faeb:50aa with SMTP id d75a77b69052e-4a82fa6dc8fmr15414201cf.5.1751367175428;
+        Tue, 01 Jul 2025 03:52:55 -0700 (PDT)
+Received: from [192.168.1.114] (83.9.29.190.neoplus.adsl.tpnet.pl. [83.9.29.190])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60c832165b2sm7335176a12.77.2025.07.01.03.52.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jul 2025 03:52:54 -0700 (PDT)
+Message-ID: <b1567c91-9e0c-4519-b575-c365405494cf@oss.qualcomm.com>
+Date: Tue, 1 Jul 2025 12:52:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aGOyb7ZcoZ57WXYF@svinhufvud>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+To: Richard Acayan <mailingradian@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20250630225944.320755-7-mailingradian@gmail.com>
+ <20250630225944.320755-11-mailingradian@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250630225944.320755-11-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=C4TpyRP+ c=1 sm=1 tr=0 ts=6863be08 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=fKQzr7EGRj+VoE0XNsDNvQ==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=pGLkceISAAAA:8 a=yHq2CAHK8kHy-pw9ZNkA:9
+ a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-ORIG-GUID: prxOFkmQA8zgG_CJrGcAI1Lmpy-KJzUl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDA2NSBTYWx0ZWRfX/Z3y2bLBm3tQ
+ ys474mAuXWA91xpTqTzDuQ3hzzS2TXUVQvQH56mDknVw+/QDMOcoH6YsyeSVaDJ4TgqFwNYqvkQ
+ z9GSFYKggmKjsSVZRB1unM3FbEJjuc9fQKMKKkuWm4l0TgOH5e8dAFGw1WjHU03pJQg9y9huf/d
+ pVI7jJ6YLI+IErn2qTJV21PglHh5Phn88MpOLUxaj4amxWMorftZsk3OFQ2YUo5RGb7FU8SPmYS
+ ywdfktLG/8OCCoYtSWIbcGiG5+jFR4rUwa3CXsoWoRBPn/G6/2KMVVrN8O4LiozcQWsSRG5hArm
+ VSq8QlE+5x858XhAizUsT8N1iAv0OrUH4fUF8SCONO/mWqjBKbDV7U3xyVA3MH/+3iOa7j7T5kU
+ szA9ttAxeJ+dErcJHETdpxJPcZRIIoWqqp7JvuTcEGvIl1bGCNa0Ed+GS16RCUzZRBXN55UI
+X-Proofpoint-GUID: prxOFkmQA8zgG_CJrGcAI1Lmpy-KJzUl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507010065
 
-Hi Sakari, Mehdi,
 
-On Tue, Jul 01, 2025 at 01:03:27PM +0300, Sakari Ailus wrote:
-> Hi Mehdi,
->
-> On Tue, Jul 01, 2025 at 11:51:02AM +0200, Mehdi Djait wrote:
-> > Hi Sakari,
-> >
-> > On Fri, Jun 27, 2025 at 07:12:04AM +0000, Sakari Ailus wrote:
-> > > Hi Mehdi,
-> > >
-> > > On Thu, Jun 26, 2025 at 03:33:52PM +0200, Mehdi Djait wrote:
-> > > > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> > > > platforms to retrieve a reference to the clock producer from firmware.
-> > > >
-> > > > This helper behaves the same as devm_clk_get() except where there is
-> > > > no clock producer like in ACPI-based platforms.
-> > > >
-> > > > For ACPI-based platforms the function will read the "clock-frequency"
-> > > > ACPI _DSD property and register a fixed frequency clock with the frequency
-> > > > indicated in the property.
-> > > >
-> > > > This function also handles the special ACPI-based system case where:
-> > > > The clock-frequency _DSD property is present.
-> > > > A reference to the clock producer is present, where the clock is provided
-> > > > by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> > >
-> > > Missing leading dot. You could also rewrap this paragraph, using longer
-> > > lines up to 75 characters.
-> > >
-> > > If there's not going to be further versions of the patch, I'll just rewrap
-> > > this while applying.
-> >
-> > Two things before applying:
-> >
-> > - A missing Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > for the Documentation patch -> [PATCH 02/48]
->
-> Is Co-developed-by: also relevant?
->
-> >
-> > - We still need to agree on how to proceed for the sensor drivers I mentioned
-> >   in the cover Letter:
-> >
-> > 1) drivers/media/i2c/s5k5baf.c
-> > 	Always returns -EPROBE_DEFER if getting the clock fails ?!
->
-> This can be fixed later on IMO.
->
-> >
-> > 2) drivers/media/i2c/mt9t112.c
-> > 	This drivers seems to be implementing the behaviour of
-> > 	devm_clk_get_optional() while using devm_clk_get(): remove it from the
-> > 	list of changed drivers ?
->
-> There are no DT bindings. I wonder if this is still relevant. Maybe Jacopo
-> has an idea?
 
-Not really, the driver has been ported to be a regular i2c driver from
-its soc-camera-based legacy implementation but has seen basically no
-development since then, if not for sub-system wide changes or odd fixes.
+On 01-Jul-25 00:59, Richard Acayan wrote:
+> The Sony IMX355 is the front camera on the Pixel 3a. It is connected to
+> CSIPHY1 and CCI I2C1, and uses MCLK2. Add support for it.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  .../boot/dts/qcom/sdm670-google-sargo.dts     | 112 ++++++++++++++++++
+>  1 file changed, 112 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> index d01422844fbf..0af6a440ecbc 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> @@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
+>  		regulator-min-microvolt = <1050000>;
+>  		regulator-max-microvolt = <1050000>;
+>  	};
+> +
+> +	cam_front_ldo: cam-front-ldo-regulator {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "cam_front_ldo";
+> +		regulator-min-microvolt = <1352000>;
+> +		regulator-max-microvolt = <1352000>;
+> +		regulator-enable-ramp-delay = <135>;
+> +
+> +		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&cam_front_ldo_pin>;
 
-Looking at the implementatio, the driver indeed seems to implement what
-_optional() does already, so it might be more opportune to convert it
-to _optional() first maybe ? However in my understanding your patch
-doesn't change the current behaviour, doesn't it ? In this case I think
-you can go ahead.
+property-n
+property-names
 
-Thanks
-  j
+please
 
->
-> >
-> > 3) drivers/media/i2c/ov8856.c
-> > 	Getting the clock, setting the rate, getting the optional gpio and the
-> > 	regulator_bulk is only when the fwnode is NOT acpi.
->
-> Isn't this a similar case than the other sensor (which I can't remember
-> anymore), where effectively the rate set couldn't be different than the
-> clock already had?
->
-> I think this also could be handled after this set.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
->
+[...]
+
+> +&camss {
+> +	vdda-phy-supply = <&vreg_l1a_1p225>;
+> +	status = "okay";
+
+Please consistently add a newline before 'status'
+
+[...]
+
+> +&cci_i2c1 {
+> +	camera@1a {
+> +		compatible = "sony,imx355";
+> +		reg = <0x1a>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		clock-names = "mclk";
+> +
+> +		clock-frequency = <19200000>;
+> +
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <24000000>;
+
+This and the above rate are in a bit of a disagreement..
+
+[...]
+
+> +	cam_mclk_default: cam-default-state {
+> +		mclk2-pins {
+
+You can drop this extra level of {} and put the properties
+directly under cam-default-state
+
+Konrad
 
