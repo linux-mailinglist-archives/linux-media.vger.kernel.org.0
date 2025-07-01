@@ -1,150 +1,143 @@
-Return-Path: <linux-media+bounces-36462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385E6AF02EA
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 20:42:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30357AF0356
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 21:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6A874A7F0D
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 18:42:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 879F71C062D8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 19:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0B727EFE2;
-	Tue,  1 Jul 2025 18:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93DD628314E;
+	Tue,  1 Jul 2025 19:06:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GuXyeAzV"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I2v5m+Ji"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C061E1308;
-	Tue,  1 Jul 2025 18:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6F7281370
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 19:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751395329; cv=none; b=HFpU9UOqAaCmAPNN9lGr+81pSVYOgkFNMwKk9Ucx2LdlWDMe1Z80n2msx4GCUYJKMEfZ5PWG0gWXpFCDyumRtw1kFqANkQlyNILaCl9c3wXVJ8qz9rqLDfTA4JvyKdybue79XOg5bo9N/I/gsEm0KbAOXhb4+wH9A+IqHdU0R0w=
+	t=1751396765; cv=none; b=nr68X9QvcOX+KnKjTHBA0PT+Sp+mJswJVyzo6rcmlGZGRgzlkyeql877DY6DQUR0tyU3EgoeNFOn0v0o668SKpQ581j04enUtZmQ/GMWvZOBHvhSL5dO8lGO+ILq8lsrQBpSJV+R/P93QMKWeyMdc1WHirUJ+DRHFvKUF5PHk+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751395329; c=relaxed/simple;
-	bh=hTAKzDSpqOWH6oNEG3mvFlGYvEadh1l19viyvjMn+f0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CS9L3iA0/ZxYrwkvQAEbYZ9R+Ski7ZkLfdSrrFNEmnI2T/R2YGf0td5mgHD7I8i41YvwRJi3nAuoBFFjGrCjkuqsOGpLRwAbDsBh0UWBx+LxxRacIN+mHaMRMkZnJiuzXsN3sfGnOVEUeU8ywR6PU6zJMUIpGQPA3y8Zkbssn1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GuXyeAzV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EAA397E0;
-	Tue,  1 Jul 2025 20:41:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751395298;
-	bh=hTAKzDSpqOWH6oNEG3mvFlGYvEadh1l19viyvjMn+f0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GuXyeAzVKf3P1IdPNwV8CpzzersBhulaJMIFMkaQt5M5OtfxfpgIbW2mXRtd17BAy
-	 mP9RcT4H4Ia5BJHh5q8xzCLBpax1aOPVkccanh8vNAE3Kab6GKNAmjIllSwp3JqTlU
-	 6W8jUuWL5rZgdsVJNaorS55jMGMnVHMi4LjFSY7c=
-Date: Tue, 1 Jul 2025 21:41:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Desnes Nunes <desnesn@redhat.com>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, hansg@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: avoid variable shadowing in
- uvc_ctrl_cleanup_fh
-Message-ID: <20250701184134.GC1936@pendragon.ideasonboard.com>
-References: <20250701145240.105959-1-desnesn@redhat.com>
- <CANiDSCs_Pz-wgnYNVA7Zt4RhtgN256i32aCw0mE4XFv3b49ygw@mail.gmail.com>
- <CACaw+ex_T5xS9rw1651TV_z1myXxPGmtpeEB4HWA7S0xU+C9GQ@mail.gmail.com>
+	s=arc-20240116; t=1751396765; c=relaxed/simple;
+	bh=p6/XqN280IkAJFF5P5KHzujwv+QUHuSl4ozM3BoRZsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y9mIJm2ijy5ESPdTmZOOQ49QVoowjrSDbgLRUJsdwyf0T7nIg5yLQhAZwS9gJ+mv+HjGbGXX6HpoYGFzx7dQE5mvSYtOJWFt3fLOVbZxFXaJsILQ666MBTLbcUYhMTjG37l4tSJNQ4Rvswg6CRH1aR6RPF5LCvxQG0rUsT53/xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=I2v5m+Ji; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-32b7123edb9so37512791fa.2
+        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 12:06:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1751396761; x=1752001561; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OztRvSb6DKrNM/Q8mdgSvvCpah/vYheo31tsm4TiWc4=;
+        b=I2v5m+Ji7xFQUugmN0p/pepc9+u7v3a/OsE2YvLtOsgnHYt/vcVoPL8l13eCbhKF26
+         HmABKuug5JPJoWmG2vInJF0I6Bh0r3YFT4kd0lYxVVP8DS5aWwtTNInbACTTl745wWSU
+         u8WuFzBr6QLW82JsFioD56OlsUqabtqB41Ed4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751396761; x=1752001561;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OztRvSb6DKrNM/Q8mdgSvvCpah/vYheo31tsm4TiWc4=;
+        b=Wu0rS1aKC+2LQl3gwHuC2UL0L6A5Q8zEHRvX4BeInW59AKFz8ULSZ1Vh5Ywf+S13qe
+         uNDo+Gf+ucp0C26uS5rfjeZc9EP0u1UVeoOHT8HV5TtmSgzYedt7tYo9IMCSHBYAqpVY
+         x5CwC0pHj4Mu+d6seYnvAPdIXdH3Fwy7IYKFyZf3pRqbdUQKh/flfT1RewW0o3cu1epF
+         D3cysdL8JnN2hKKyhhEVEHg6McLN9nIBQrrRNuJeaa0OcIPh4di2+y1rAGQcLOzbFVq3
+         I8VFJNsc31qFXaZ+muxiusJNp2oZrW8KuFtFxfpII5ob4w+A0+LzGJcYHJ3fjrHXg/iy
+         w0QQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYmNa07f4RpW4foCfIwC2icIaXQL64VKp6BqYRnyZY10UnCyhXT8sxpokslpbQArkjaxl1vXwRT9eDCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJob0R8UOibXHGWclDeaT6kbAiQ3jqUdORCA6d0S1yOvptrRe1
+	pPiD0ob733nl+hTnwZN0zmfqOuI3rSw5xcjnLEPNZsDnEJzpY576YxJcawPn3hLoEkxHq+8m/LN
+	UtWXiFw==
+X-Gm-Gg: ASbGncvs/frkxjol/vXOMkQHOml15FQbwqLmuxo3sr+ikoC5007gifr/dEy+8ZvMv6S
+	AtcNk6CVEtnbZcov6Bi/8pA+5TVw7vGc2ZbVX8zECUcC8GwVSE8DLmDmqTafykfXC1UlraMpa0C
+	fY3H5IXjPOCkcOwp9l0MA5iCiTW0HccvTNUB8Ua6afy8bv8Fs3/beoyEte4oTbxRucJ9ft9SW9l
+	h4FkdzKe6Rj3CZ53X+mWvA5GuKlc/C0onVFu0VGF1rctZrT7qD1eJ7371ziJkbzdkiMGfAnGYWk
+	NgcKtwjy18b+IYMy0P7Psx/o6xb1WLPThaO0uh31q9/L1Rgh7HvBrb3VDyJfR2tl/U04taAFjaY
+	Qgv+lth6VsXJ5hv5zA3MEcPNM
+X-Google-Smtp-Source: AGHT+IHHctRURb4qw5w2kyPnvNuw1TwTN+hUWntlOKWNJK4cfLliXnz38BX72Yzl6ESOSTnkPfLE3A==
+X-Received: by 2002:a05:651c:40cc:b0:32c:4306:5a94 with SMTP id 38308e7fff4ca-32e000d7a87mr463171fa.37.1751396761224;
+        Tue, 01 Jul 2025 12:06:01 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2ec5deasm17870531fa.58.2025.07.01.12.06.00
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jul 2025 12:06:00 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5550dca1241so3652075e87.0
+        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 12:06:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWjEfV1CmHSZOcho2U1usyq+0iHsEIwuCpQy2QKmww/c2Ua/V4PoDhuSbDdpGYajOjjN1htRTJGySecuA==@vger.kernel.org
+X-Received: by 2002:a05:6512:1046:b0:553:d573:cd6b with SMTP id
+ 2adb3069b0e04-556282b48bdmr32743e87.10.1751396759656; Tue, 01 Jul 2025
+ 12:05:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACaw+ex_T5xS9rw1651TV_z1myXxPGmtpeEB4HWA7S0xU+C9GQ@mail.gmail.com>
+References: <20250701172556.117872-1-desnesn@redhat.com>
+In-Reply-To: <20250701172556.117872-1-desnesn@redhat.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 1 Jul 2025 21:05:46 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvMwyPo2ZDnBP84oRXEON_1Lda3oWh_5YZ0aTh4kDc3DQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyehtMimSZE5IfsufDIGL7kQPuiODqwi6T9oMoHxqi-PVf6QJ_fyL41l3Q
+Message-ID: <CANiDSCvMwyPo2ZDnBP84oRXEON_1Lda3oWh_5YZ0aTh4kDc3DQ@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: avoid variable shadowing in uvc_ctrl_cleanup_fh
+To: Desnes Nunes <desnesn@redhat.com>
+Cc: laurent.pinchart@ideasonboard.com, hansg@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 01, 2025 at 02:20:53PM -0300, Desnes Nunes wrote:
-> On Tue, Jul 1, 2025 at 1:48 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
-> > On Tue, 1 Jul 2025 at 16:59, Desnes Nunes <desnesn@redhat.com> wrote:
-> > >
-> > > This avoids a variable loop shadowing occurring between the local loop
-> > > iterating through the uvc_entity's controls and the global one going
-> > > through the pending async controls of the file handle
-> > >
-> > > Fixes: 10acb9101355 ("media: uvcvideo: Increase/decrease the PM counter per IOCTL")
-> > If you add a fixes you need to add
-> > Cc: stable@kernel.org
-> 
-> Thanks for letting me know
-> 
-> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > Signed-off-by: Desnes Nunes <desnesn@redhat.com>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_ctrl.c | 3 +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > index 44b6513c5264..91cc874da798 100644
-> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > @@ -3260,7 +3260,6 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
-> > >  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> > >  {
-> > >         struct uvc_entity *entity;
-> > > -       int i;
-> > >
-> > >         guard(mutex)(&handle->chain->ctrl_mutex);
-> > >
-> > > @@ -3278,7 +3277,7 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> > >         if (!WARN_ON(handle->pending_async_ctrls))
-> > >                 return;
-> > >
-> > > -       for (i = 0; i < handle->pending_async_ctrls; i++)
-> >
-> > nitpick: I would have called the variable i, not j.  For me j usually
-> > means nested loop. But up to you
-> 
-> Noted - I used a different variable name because I wanted to
-> differentiate the loops.
+On Tue, 1 Jul 2025 at 19:27, Desnes Nunes <desnesn@redhat.com> wrote:
+>
+> This avoids a variable loop shadowing occurring between the local loop
+> iterating through the uvc_entity's controls and the global one going
+> through the pending async controls of the file handle
+>
+> Cc: stable@kernel.org
+> Fixes: 10acb9101355 ("media: uvcvideo: Increase/decrease the PM counter per IOCTL")
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Desnes Nunes <desnesn@redhat.com>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 44b6513c5264..532615d8484b 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -3260,7 +3260,7 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
+>  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>  {
+>         struct uvc_entity *entity;
+> -       int i;
+> +       unsigned int i;
+>
+>         guard(mutex)(&handle->chain->ctrl_mutex);
+>
+> @@ -3268,7 +3268,7 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>                 return;
+>
+>         list_for_each_entry(entity, &handle->chain->dev->entities, list) {
+> -               for (unsigned int i = 0; i < entity->ncontrols; ++i) {
+> +               for (i = 0; i < entity->ncontrols; ++i) {
+>                         if (entity->controls[i].handle != handle)
+>                                 continue;
+>                         uvc_ctrl_set_handle(handle, &entity->controls[i], NULL);
+> --
+> 2.49.0
+>
+>
 
-Variable declaration in the loop statement is relatively new in the
-kernel, so there's no consensus yet (to my knowledge) on clear coding
-styles, but I would have simply used the same variable name in both
-loops, with two separate declarations:
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 303b7509ec47..6b9486749c3f 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -3299,7 +3299,6 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
- void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
- {
- 	struct uvc_entity *entity;
--	int i;
-
- 	guard(mutex)(&handle->chain->ctrl_mutex);
-
-@@ -3317,7 +3316,7 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
- 	if (!WARN_ON(handle->pending_async_ctrls))
- 		return;
-
--	for (i = 0; i < handle->pending_async_ctrls; i++)
-+	for (unsigned int i = 0; i < handle->pending_async_ctrls; i++)
- 		uvc_pm_put(handle->stream->dev);
- }
-
-Is there a downside to this ?
-
-> > I am also not against your first version with a different commit message.
-> 
-> Third time's a charm then!
-> 
-> Will send a v2 with the first version having this commit message.
-> 
-> Thanks for the review Ricardo,
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
 
