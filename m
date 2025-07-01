@@ -1,192 +1,223 @@
-Return-Path: <linux-media+bounces-36387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36388-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83515AEEF8E
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 09:12:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16698AEF08D
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 10:10:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60D4D7ACD01
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 07:11:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7674C1BC3A5A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 08:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 756AF1CBEAA;
-	Tue,  1 Jul 2025 07:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059442698AE;
+	Tue,  1 Jul 2025 08:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pdxa7Ygw"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sjoerd@collabora.com header.b="CEwRl1S/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AD9258CD0;
-	Tue,  1 Jul 2025 07:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751353938; cv=none; b=b4M47tkzCiVVl82mptWNqkYX1tMKImK8cfYQ8CVQh/diIn0CCvwqZJ6ASfwY1NAwnj3WIfy7DaI9ngQ6QSOUB/oqRF4BfHFL4YxB4VQDHmhuae/o1J5mH1ww7zehecBJbAR8KNIYWBjk8pqQXfRGnTpuF96Nn1erA6stBwPWRBI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751353938; c=relaxed/simple;
-	bh=oDlHROwnSUQAjiRI45qrW1tco2YeBy9XuAhSB10GC4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=by5q+peidXxgkHFTvXY+ipWVCcSNeK9gKGo3b43FD0qoDXkqDtqGgnoKYAzsYIJcYJMmRZIUJqW4KB1AECTjohfTu34rAkDutmOigBNR8KizMy6+njWfxJ54yvBWZYlIg3F2jCLxp3MKcfChlcfL6ijV6EXQDKqh/CnzJOA+8vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pdxa7Ygw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C02C4CEEB;
-	Tue,  1 Jul 2025 07:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751353938;
-	bh=oDlHROwnSUQAjiRI45qrW1tco2YeBy9XuAhSB10GC4I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pdxa7Ygw0iJhae1lmE6peOvCQtLgifNJK5c0mRyb3+SFBZLhdLNY0bFDrJ3SUGD0u
-	 ImPPVaUPmNG7KQQaVsPfr4SRenJxTXESTN4Ho9vHaxONsdrzWLQGCGwdCuEOqijCa+
-	 7HbfMqyIZpHZUVguVWh5fFgx5gO5TkmWUi3qRLa0ekyGhNYefhRy95kMYljud5+wJG
-	 ANUfwQM2wzzKsOEKdRtS1jAW2TnjM2NHPixM5R4Eo1bAS4rmOXFqVhhKnEOMxZmD7A
-	 FKJCOfBX8oXEB5oxIxcWTxmrPuAMlK7KPn3trYtQf7YgPZjI8XD/xDVu+FStj5kvkp
-	 5OufS2d464zQw==
-Date: Tue, 1 Jul 2025 09:12:15 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
-	Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: reserved-memory: Introduce
- carved-out memory region binding
-Message-ID: <20250701-frisky-resolute-hamster-3dfedc@houat>
-References: <20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org>
- <20250617-dma-buf-ecc-heap-v5-1-0abdc5863a4f@kernel.org>
- <20250627193132.GB4032621-robh@kernel.org>
- <20250630-attentive-fortunate-turaco-2e36d2@houat>
- <20250630220819.GA3454648-robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5AA26A1C4;
+	Tue,  1 Jul 2025 08:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751357434; cv=pass; b=jBeh4Vxm8c+dVn7A2ebBjr5euAhU9Ub6eBpQq4Hpywuq6d9QbKGLXEGCOPQTWSWWc5ENM2Y6gpawVJ2XHJN1KZlFkgutD698iyeq8jZAefWfj7uMA8N0JhkgnNoJrUCAsbROVldqTlYWRhxqdNZtf59xNSun1lpfGl5aZwfOrVM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751357434; c=relaxed/simple;
+	bh=FmbvPSfq2h3/miVw2Ia9z7emMBNvSwQsnVph+ENro/I=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NQyExS6EQD2K7a3PLaokXgO9VIWZH7DD6W3QSvM+JmEadu9zvKUrkJBNbJAYiEte8FMN9bNhmJQp70KA1HkEZxcAi8h4v3KRVak5i0yDvfmMxBkW0MNChMqu+N290cPkRQwE0SaxlcC1RnNMejfE01lxZ3jYAYrnAaFBSjGQz6c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sjoerd@collabora.com header.b=CEwRl1S/; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1751357386; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=NsNPod/rgbsI8etHvV0H9s0eMrCC/J2cbSS4S8fF/5nsovJflukEmqAYheJfelsIP9BWe5gr+C1i/2q2Vc7FS6PXryS49tcV+n9GwB/pg0aQ9WFQyS+/5Fis+dqlE9Nj5PIwvd/5pX9WXjt+CgZ8Q0bqGfbNvGPHf4vg/Ea6408=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1751357386; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=K4dZn3NVcIpGzrcKLP4sLnB7bPgQrfNojFnFyr8sESg=; 
+	b=KckBD0XaJ0B4O1uPqqsKmddpOoqY/s6X6uETq3rEfcNhXQTf3VlkZCnQKIlklePwuLPC4izIjcF2nFAYFfDfLOmEjGdkIt4rAhdYOwS6x9gGqreRTI1kzxYPvO4xoacgvZ920TQQ2AxHnrnWQpsqwYOWhNmzcX/Wle5+EgUDydM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sjoerd@collabora.com;
+	dmarc=pass header.from=<sjoerd@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751357386;
+	s=zohomail; d=collabora.com; i=sjoerd@collabora.com;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=K4dZn3NVcIpGzrcKLP4sLnB7bPgQrfNojFnFyr8sESg=;
+	b=CEwRl1S/yF6Q0GCS6KBd50fV9lOKsJp3NnCBRbtaTD2N/6St+xsbXXSGFIXDNn23
+	o+feq0345bK7zuHJI1MR8KmKxRzyYcDqLhlKSi3q+toQbgdXV7GUoGZY4xBmHmDqAfJ
+	Xq3vh6RN9qTQVru33omY7yilCp2q8eUoF8bZ0nuw=
+Received: by mx.zohomail.com with SMTPS id 1751357383778894.2496083182277;
+	Tue, 1 Jul 2025 01:09:43 -0700 (PDT)
+Message-ID: <ab421c6f9fc804a6f03833d824d5776c7272e6bb.camel@collabora.com>
+Subject: Re: [PATCH v4 11/12] media: ti: j721e-csi2rx: Submit all available
+ buffers
+From: Sjoerd Simons <sjoerd@collabora.com>
+To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev, 
+	laurent.pinchart@ideasonboard.com, mripard@kernel.org, Julien Massot
+	 <jmassot@collabora.com>
+Cc: y-abhilashchandra@ti.com, devarsht@ti.com, vaishnav.a@ti.com,
+ s-jain1@ti.com, 	vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, 	conor+dt@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, 	tomi.valkeinen@ideasonboard.com,
+ jai.luthra@ideasonboard.com, 	changhuang.liang@starfivetech.com,
+ jack.zhu@starfivetech.com, 	linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, 	devicetree@vger.kernel.org, "Liu (EP), Bin"
+ <b-liu@ti.com>
+Date: Tue, 01 Jul 2025 10:09:38 +0200
+In-Reply-To: <20250514112527.1983068-12-r-donadkar@ti.com>
+References: <20250514112527.1983068-1-r-donadkar@ti.com>
+	 <20250514112527.1983068-12-r-donadkar@ti.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="rehsid5ue72jvztb"
-Content-Disposition: inline
-In-Reply-To: <20250630220819.GA3454648-robh@kernel.org>
+X-ZohoMailClient: External
 
+Hey,
 
---rehsid5ue72jvztb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 1/2] dt-bindings: reserved-memory: Introduce
- carved-out memory region binding
-MIME-Version: 1.0
-
-On Mon, Jun 30, 2025 at 05:08:19PM -0500, Rob Herring wrote:
-> On Mon, Jun 30, 2025 at 06:41:38PM +0200, Maxime Ripard wrote:
-> > Hi Rob,
-> >=20
-> > On Fri, Jun 27, 2025 at 02:31:32PM -0500, Rob Herring wrote:
-> > > On Tue, Jun 17, 2025 at 02:25:40PM +0200, Maxime Ripard wrote:
-> > > > Some parts of the memory can be dedicated to specific purposes and
-> > > > exposed as a dedicated memory allocator.
-> > > >=20
-> > > > This is especially useful if that particular region has a particular
-> > > > properties the rest of the memory doesn't have. For example, some
-> > > > platforms have their entire RAM covered by ECC but for a small area
-> > > > meant to be used by applications that don't need ECC, and its assoc=
-iated
-> > > > overhead.
-> > > >=20
-> > > > Let's introduce a binding to describe such a region and allow the O=
-S to
-> > > > create a dedicated memory allocator for it.
-> > > >=20
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  .../bindings/reserved-memory/carved-out.yaml       | 49 ++++++++++=
-++++++++++++
-> > > >  1 file changed, 49 insertions(+)
-> > > >=20
-> > > > diff --git a/Documentation/devicetree/bindings/reserved-memory/carv=
-ed-out.yaml b/Documentation/devicetree/bindings/reserved-memory/carved-out.=
-yaml
-> > > > new file mode 100644
-> > > > index 0000000000000000000000000000000000000000..9ab5d1ebd9ebd9111b7=
-c064fabe1c45e752da83b
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/reserved-memory/carved-out.=
-yaml
-> > > > @@ -0,0 +1,49 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/reserved-memory/carved-out.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Carved-out Memory Region
-> > > > +
-> > > > +description: |
-> > >=20
-> > > Don't need '|'.
-> > >=20
-> > > > +  Specifies that the reserved memory region has been carved out of=
- the
-> > > > +  main memory allocator, and is intended to be used by the OS as a
-> > > > +  dedicated memory allocator.
-> > >=20
-> > > Other than the commit msg, it is completely lost that this is for=20
-> > > ECC-less memory.
-> >=20
-> > Because it's not. One of the first feedback I got was that the way to
-> > identify what a heap provides was the heap name.
-> >=20
-> > So, as far as the binding go, a heap just exposes a chunk of memory the
-> > memory allocator wouldn't use. The actual semantics of that chunk of
-> > memory don't matter.
+On Wed, 2025-05-14 at 16:55 +0530, Rishikesh Donadkar wrote:
+> From: Jai Luthra <j-luthra@ti.com>
 >=20
-> But they do because you use one carve out for one thing and another=20
-> carve out for another purpose and they probably aren't interchangeable.
-
-That was also my initial thought, but it was then discussed that the
-name of the region is enough of a discriminant. And it makes sense too,
-it's a sufficient discriminant for the device tree to uniquely identify
-a given memory region on a given platform already, so we don't really
-need anything else.
-
-> For the most part, everything in /reserved-memory is a carve out from=20
-> regular memory though we failed to enforce that.
+> We already make sure to submit all available buffers to DMA in each DMA
+> completion callback.
 >=20
-> > > This description applies to CMA area as well. So what's the differenc=
-e?
-> >=20
-> > Yeah, I kind of agree, which is why I initially started with a property,
-> > and you then asked for a compatible.
+> Move that logic in a separate function, and use it during stream start
+> as well, as most application queue all their buffers before stream on.
 >=20
-> My issues with properties is we have to support N factorial cases for=20
-> combinations of N properties. It's already fragile. Whereas a compatible=
-=20
-> is (hopefully) well defined as to what's needed and is only 1 more case=
-=20
-> to support.
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> ---
+> =C2=A0.../platform/ti/j721e-csi2rx/j721e-csi2rx.c=C2=A0=C2=A0 | 43 ++++++=
++++++--------
+> =C2=A01 file changed, 24 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> index 7986f96c5e11b..ba2a30bfed37d 100644
+> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> @@ -651,6 +651,27 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx =
+*ctx)
+> =C2=A0	return ret;
+> =C2=A0}
+> =C2=A0
+> +static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx)
+> +{
+> +	struct ti_csi2rx_dma *dma =3D &ctx->dma;
+> +	struct ti_csi2rx_buffer *buf;
+> +	int ret =3D 0;
+> +
+> +	/* If there are more buffers to process then start their transfer. */
+> +	while (!list_empty(&dma->queue)) {
+> +		buf =3D list_entry(dma->queue.next, struct ti_csi2rx_buffer,
+> list);
+> +		ret =3D ti_csi2rx_start_dma(ctx, buf);
+> +		if (ret) {
+> +			dev_err(ctx->csi->dev,
+> +				"Failed to queue the next buffer for DMA\n");
+> +			vb2_buffer_done(&buf->vb.vb2_buf,
+> VB2_BUF_STATE_ERROR);
+> +			break;
 
-I think that's also what John especially wanted to avoid. If we have a
-generic compatible, but the attributes/properties/whatever of the
-buffers allocated from that region differ (like ecc vs non-ecc,
-protected vs non-protected, etc.) we will need properties in the device
-tree to describe them too.
+The break here seems wrong and does change the previous logic; It means onc=
+e *a*
+buffer fails to start DMA, you'll no longer try to submit the other (queued=
+)
+buffers. If this was called from the DMA callback of the last submitted buf=
+fer
+and userspace doesn't re-queue the error buffer, then capturing will stop, =
+even
+if there were still queued up buffers from a userspace pov.
 
-Maxime
 
---rehsid5ue72jvztb
-Content-Type: application/pgp-signature; name="signature.asc"
+For a potential next iteration you probably also want to wrap in the change=
+s
+from to fix list_del corruption:
+https://lore.kernel.org/all/20250630-j721e-dma-fixup-v1-1-591e378ab3a8@coll=
+abora.com/
 
------BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGOKSgAKCRAnX84Zoj2+
-drdWAX9sIEhbIgQPAplf8S31a/8A+5wsrLKgnLMLcjff1DMeHSs96RQVVeLyGvXL
-12TzaegBf1HuvPhapoA7UkipLJ02FrPK1L91laUNIvV3mjRVccezFspf68+ATWbr
-/C5budOfXA==
-=akIL
------END PGP SIGNATURE-----
 
---rehsid5ue72jvztb--
+> +		}
+> +		list_move_tail(&buf->list, &dma->submitted);
+> +	}
+> +	return ret;
+> +}
+> +
+> =C2=A0static void ti_csi2rx_dma_callback(void *param)
+> =C2=A0{
+> =C2=A0	struct ti_csi2rx_buffer *buf =3D param;
+> @@ -671,18 +692,7 @@ static void ti_csi2rx_dma_callback(void *param)
+> =C2=A0	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> =C2=A0	list_del(&buf->list);
+> =C2=A0
+> -	/* If there are more buffers to process then start their transfer. */
+> -	while (!list_empty(&dma->queue)) {
+> -		buf =3D list_entry(dma->queue.next, struct ti_csi2rx_buffer,
+> list);
+> -
+> -		if (ti_csi2rx_start_dma(ctx, buf)) {
+> -			dev_err(ctx->csi->dev,
+> -				"Failed to queue the next buffer for DMA\n");
+> -			vb2_buffer_done(&buf->vb.vb2_buf,
+> VB2_BUF_STATE_ERROR);
+> -		} else {
+> -			list_move_tail(&buf->list, &dma->submitted);
+> -		}
+> -	}
+> +	ti_csi2rx_dma_submit_pending(ctx);
+> =C2=A0
+> =C2=A0	if (list_empty(&dma->submitted))
+> =C2=A0		dma->state =3D TI_CSI2RX_DMA_IDLE;
+> @@ -941,7 +951,6 @@ static int ti_csi2rx_start_streaming(struct vb2_queue=
+ *vq,
+> unsigned int count)
+> =C2=A0	struct ti_csi2rx_ctx *ctx =3D vb2_get_drv_priv(vq);
+> =C2=A0	struct ti_csi2rx_dev *csi =3D ctx->csi;
+> =C2=A0	struct ti_csi2rx_dma *dma =3D &ctx->dma;
+> -	struct ti_csi2rx_buffer *buf;
+> =C2=A0	unsigned long flags;
+> =C2=A0	int ret =3D 0;
+> =C2=A0
+> @@ -980,16 +989,13 @@ static int ti_csi2rx_start_streaming(struct vb2_que=
+ue
+> *vq, unsigned int count)
+> =C2=A0	ctx->sequence =3D 0;
+> =C2=A0
+> =C2=A0	spin_lock_irqsave(&dma->lock, flags);
+> -	buf =3D list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
+> =C2=A0
+> -	ret =3D ti_csi2rx_start_dma(ctx, buf);
+> +	ret =3D ti_csi2rx_dma_submit_pending(ctx);
+> =C2=A0	if (ret) {
+> -		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
+> =C2=A0		spin_unlock_irqrestore(&dma->lock, flags);
+> -		goto err_pipeline;
+> +		goto err_dma;
+> =C2=A0	}
+> =C2=A0
+> -	list_move_tail(&buf->list, &dma->submitted);
+> =C2=A0	dma->state =3D TI_CSI2RX_DMA_ACTIVE;
+> =C2=A0	spin_unlock_irqrestore(&dma->lock, flags);
+> =C2=A0
+> @@ -1004,7 +1010,6 @@ static int ti_csi2rx_start_streaming(struct vb2_que=
+ue
+> *vq, unsigned int count)
+> =C2=A0
+> =C2=A0err_dma:
+> =C2=A0	ti_csi2rx_stop_dma(ctx);
+> -err_pipeline:
+> =C2=A0	video_device_pipeline_stop(&ctx->vdev);
+> =C2=A0	writel(0, csi->shim + SHIM_CNTL);
+> =C2=A0	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
 
