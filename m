@@ -1,134 +1,148 @@
-Return-Path: <linux-media+bounces-36418-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36419-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9FDBAEF913
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 14:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903D3AEF91D
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 14:48:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FF221C01C5A
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:46:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D10461C0472A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:48:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D20E274669;
-	Tue,  1 Jul 2025 12:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7BD92727E5;
+	Tue,  1 Jul 2025 12:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUNUk+U7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gd8TZmdp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F792741D4;
-	Tue,  1 Jul 2025 12:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E72E158DD4
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 12:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751373934; cv=none; b=ra0WcHYZ5Ob4R2czSo5fkNaWAyptXh6qPpQ5R3zU9oSXG9zW+SVMdGh24WDYfR6F6JgKK7iSik0BkgG0DHD+Pm/9JudIlwYM7GKZ4qyr/nyMgj1at6jbvWUtrFlxe/NCcj2MvIQ2Evcjo+cCYCpM/Vdi5ttVSm1ctb1S0TD93/I=
+	t=1751374100; cv=none; b=MXqEcx/GfP6rqLn82xpTZFkifVRU/5X90aGYboFdXECEXJsLcilUg0Vg5fcwZNE+Qhwu+Scgv/dZ10bjtIvXIiX/oBphbtlTv/PnKKNWVHYHTolV28e4R6KjQCKK4FSpAgQYsIC4sOttGDbQQ7KEUsmf+7gE1BJxZuCJIlrHFJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751373934; c=relaxed/simple;
-	bh=jLzMVW+bdlcX8BieIAvHsE5uVq8etbvJL+agrUWGPV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GSHJMIsubAF3Ppi0ErMWHzGyd817vdiFzym1nmGJsB8s6JMnKXe+Hispc0QWiWY7k9IQNrtN8FBFKjo4cyejgBA8ym2YVtuecfepv0kutURW2XRpZBwdBYXuCCAbl3j+RzKxqdXwaHTSkdX4aeJpAkhVM5a5LjrC5y6gPAeQtOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUNUk+U7; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751373933; x=1782909933;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=jLzMVW+bdlcX8BieIAvHsE5uVq8etbvJL+agrUWGPV8=;
-  b=cUNUk+U7q1kM5Y6wReW7oVYPeshrFsgV8VG4y7m/OaOigklM3Dttxi9q
-   vMu8HxUcuqlV0DJGldcob2JlFqdP54M0FyzS7qp94xKN5lVJXXPDqSs9w
-   LBWiQS3+TQFKX8EKn3rMtVFx/CnJOHmLyeKK0sGzJjByXMMub/FmloIS4
-   aDudAyndVJY3O/XZqNjQSLiDGM2FMvNUTIg9m2E4s8z4HP3L+e12rne5Y
-   JIq7clWHRjNyUCLxZyzlgYlzCTQ5WzDDYD+wb/UlPus/RzgzLRAK9OVqX
-   TdOkPeDJyN+cZnVpdtl1slY55gJV4HmPTdj6/Bb8FD6auLYS3cu5yxQoU
-   A==;
-X-CSE-ConnectionGUID: g+otYfVwSSG77sK6cp+4fQ==
-X-CSE-MsgGUID: a/T9W2POT6GXo0nYjBhrVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="57318037"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="57318037"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 05:45:32 -0700
-X-CSE-ConnectionGUID: SRVgI8rqQ4WsstZn1bAFyw==
-X-CSE-MsgGUID: uaVhz3xfQcK7oIGIqObU4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153851008"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 05:45:29 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uWaMY-0000000BbAP-1iXd;
-	Tue, 01 Jul 2025 15:45:26 +0300
-Date: Tue, 1 Jul 2025 15:45:26 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org,
-	hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.com, dan.carpenter@linaro.org
-Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
- HMM_BO_DEVICE_INITED flag
-Message-ID: <aGPYZhK65LaD0wVO@smile.fi.intel.com>
-References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
- <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
- <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
+	s=arc-20240116; t=1751374100; c=relaxed/simple;
+	bh=B5sYwCzrOUsbU8d2XsfZDMOWyPI4TT2SG8glzF58Rjg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=p/toIqeADcEwewpLxHhO+fX8YDJq0ysQE61u3Jh8OhPGD1lmiLBvIBSAHbBNvNTM6GnLsNAvyycE36G05lCrbXtGpO75LGFmE8PtLACQlMtHoWvubCRUfPM2xv/ziBkSKXauSO9sKLvP8tWT19h9laMeuzWsz5+rbVIadDj+Iyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gd8TZmdp; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4537deebb01so16703515e9.0
+        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 05:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751374097; x=1751978897; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DFgm4nb9P5q9Y36iXQaitvKFdafFjm+S1uOuQEYApsc=;
+        b=gd8TZmdph5XWeYYTFgghe58oAWYdKEA+sObAWnRWt04NOEcCAuaBXbBEImHKtJTzpx
+         7JVnDNrEMtt8JifbaSoNMNG6Xlf5lrLAN2iiSEbaMnwy3N1ORLvAzypcazItkQU5I9rY
+         77kiFbbHufn+cyE0Qekhj7TZ9d9i4axC2A3/uCWA032M+vcnnfGNB1P8keu4LNuqDkow
+         mUlYBbVG7KVHhTMfPEmlTKsK0X7pJK8M5LynsqGytAfKh8vINIDPyEIhlVv6DfDPeGAu
+         1H58AiuAEdz/TZH0Cv7PKWLc40eUlcOeBlOT/w3aGkmfjr05KuI2Ugl7Yf09X0yOWWxq
+         ps7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751374097; x=1751978897;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DFgm4nb9P5q9Y36iXQaitvKFdafFjm+S1uOuQEYApsc=;
+        b=wSaJ7IPrtkPELiq1E8srxo9GyPpNxiLQoDrjL+n+uo45JcbqdCv1OVd2qiDuPll9Cf
+         7XClnQRBtcfbdXOFeyosRa2KwFeZVYLoJbdmzP4DwpwOiA9/Xk18MMdYwkhZ8pFzmWhe
+         HuclRZ2l7gLOdkKMt5uXGOHp9NRRgWFLNuopgspFHrTeQZeCU2aur/ftvqKm9ht85Nkk
+         TvBoFY+NF447ptLr2oKx7DB3cxqiuTNZC9rNmkp7joLjjnivP2kQYAXDw3i1a6n5U13M
+         mSKPwtfERGLhdiAoUGL2OCyKGBrO4CJ1ZCZHXPdC09z/08iK0J2fGSTREw4othfg5YLl
+         OOyw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTUra6T94Wl7NssTbYjgwd52zNb33iIaJPm3r6uLwSYfSz4npKCGtrpa3PS5yJjEXA/LEcs2VmRG8yTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe98L9sVlk/X5tpf4d7bHyJPN/cfEXvuL47HtSFnht17YSr6mY
+	CQLaehwzze6N7RMLCwck+i1E7bdQyzbnqxkHE2Hob+gfxYRrIbDpX+JqiVM23LyvR5c=
+X-Gm-Gg: ASbGncvv2+NmstdFDTqCnOnVOY65qykK55SURpA35j6L2W4WFGuTcz7IuQEJOBWNQdP
+	wGUWxoRnjFDAbPAEF7LndaQAllDDNw4NX5vxXRNWajsDXh20koarV/ZNOjkORLLV1tmFssqkGpQ
+	yhEfk2ewLspoYmwK5WceuFXFPxa8CHQpiJa/VIniEU5HELSpP94BrBUyidZXN8nAY0D9i+WmAyo
+	GMiFM7SCtdg27l7OcozFEW0GSszO63oJeUrne50NFa0d/fdS+AoBe+uUR8+CrqvN4dUO1VwO5XR
+	Ch0eMJzEfRg51wjDHq2+S6oFJ8aGqU7RiUXlkJIdfka7MwjzlbAp+Pidi3Gb3HnlnyV4EqfNnC4
+	c5PXtv6SMa4a+wfG4XchFSaaMUJoVbMETVC08rg==
+X-Google-Smtp-Source: AGHT+IEBhwcFqQlAPSzSQUtiRdSN/GLV080z0dQVtAlBuMYPKfmioQErq23N/4IGxkxNFd6RD6iFSw==
+X-Received: by 2002:a05:600c:8b01:b0:450:d30e:ff96 with SMTP id 5b1f17b1804b1-4538ee5dc58mr175426545e9.0.1751374096628;
+        Tue, 01 Jul 2025 05:48:16 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a390d11sm167773995e9.7.2025.07.01.05.48.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jul 2025 05:48:16 -0700 (PDT)
+Message-ID: <d3c56e1c-69fa-4bf0-8257-aa18ff7d33cd@linaro.org>
+Date: Tue, 1 Jul 2025 13:48:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] media: i2c: imx355: Add power management for managed
+ resources
+To: Richard Acayan <mailingradian@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20250630225944.320755-7-mailingradian@gmail.com>
+ <BD1H-JCa9XL3c2ph25inGRiOw1mADgqVDBbKWBM8giD8IGia2UIudM4TAJPOLq09nlmGCzZf1YtrH07VyqDqtw==@protonmail.internalid>
+ <20250630225944.320755-10-mailingradian@gmail.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250630225944.320755-10-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 01, 2025 at 02:58:43PM +0300, Abdelrahman Fekry wrote:
-> Hello Andy,
-> On Sat, Jun 28, 2025 at 10:52 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Sat, Jun 28, 2025 at 8:26 AM Abdelrahman Fekry
-> > <abdelrahmanfekry375@gmail.com> wrote:
+On 30/06/2025 23:59, Richard Acayan wrote:
+> +static int imx355_resume(struct device *dev)
+> +{
+> +	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct imx355 *imx355 = to_imx355(sd);
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(imx355->supplies),
+> +				    imx355->supplies);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable regulators: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
+> +
+> +	clk_prepare_enable(imx355->mclk);
+> +	usleep_range(12000, 13000);
+> +
+> +	return 0;
+> +}
 
-> > > The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
-> > > before key initialization steps like kmem_cache_create(),
-> > > kmem_cache_alloc(), and __bo_init().
-> > >
-> > > This means that if any of these steps fail, the flag remains set,
-> > > misleading other parts of the driver (e.g. hmm_bo_alloc())
-> > > into thinking the device is initialized. This could lead
-> > > to undefined behavior or invalid memory use.
-> >
-> > Nice. Can you make some fault injection (temporary by modifying the
-> > code to always fail, for example) and actually prove this in practice?
-> > If so, the few (important) lines from the given Oops would be nice to
-> > have here.
+I'd say this sequence is out of spec w/r/t your sensor.
 
-> I have been trying to test it without having any intel atomisp
-> hardware and failed continuously, do you have any tips or maybe some
-> resources on how i can test this driver.
+Almost certainly should be
 
-So, the easiest way as I can see it is to ask people who possess the HW to
-test, but you need to provide a testing patch (which can be applied on top
-of this one, for example).
+- clock
+- rails
+- reset lines
 
-> > > Additionally, since __bo_init() is called from inside
-> > > hmm_bo_device_init() after the flag was already set, its internal
-> > > check for HMM_BO_DEVICE_INITED is redundant.
-> > >
-> > > - Move the flag assignment to the end after all allocations succeed.
-> > > - Remove redundant check of the flag inside __bo_init()
+The reset sequence should be
 
--- 
-With Best Regards,
-Andy Shevchenko
+- Assert reset
+- Wait for some amount of time. Either you get this from the spec
+   or you borrow a value from a similar driver...
+   Suggest again what we've done for ov02c10 and ov02e10
+- De-assert reset
 
+Then use these power_on/power_off sequences in your probe discovery, 
+since they will already have error jump labels to do your tidy up.
 
+---
+bod
 
