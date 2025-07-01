@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36424-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189EDAEF9DD
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:10:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7908AEF9E6
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:11:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9FB534855EE
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:09:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37A014E156F
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:10:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB4325B301;
-	Tue,  1 Jul 2025 13:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6502749FA;
+	Tue,  1 Jul 2025 13:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qo0zAEw1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3emicZQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0A02236E1;
-	Tue,  1 Jul 2025 13:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A652475CB;
+	Tue,  1 Jul 2025 13:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751375330; cv=none; b=eMygw5bSEi8t5rlJ6ddOptQgmrh4K4jKyDbZvxLLgNJ118pAL6AsoIV2y0EuEFDfnLNdDWkjBMr6+vsLXx/cmR/3GE10LbstzEUHsc0T5ba3kxvcwrjsSx3j+Qsvm7HPhYGKKtiiJitdODTmDrCNlpwTI69AZG2Bp7CRp9bEMqg=
+	t=1751375423; cv=none; b=C7nMT7r68YTFmTDpLu4+dwj35za9sqjvegJk1AbgHV81m/lPeZZx5YBaoI9+nQTxwqkAL9OWUgxRAT31TPbhViKv0P5SH6HixHZFaaAaIa8KTwCqF+KN3q90VseIY/iVZmMf4mq6y+mz2AihJ4izWC3aH7zulGK7ZpZRFo3WqMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751375330; c=relaxed/simple;
-	bh=Z2QwnDgHmONeoGR9tPxcnnsAHdlgZ+2lba+PnYp2OdQ=;
+	s=arc-20240116; t=1751375423; c=relaxed/simple;
+	bh=+jjtoaTMgIiVPiVyIcSdTsXzxVU7AJ0+D9yCuI6epP0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=cbO+aNuUZ78wbivVjIPxu2zqXgazgXdNFjuJengQFVq+S20EWBcChAeMIqAFtyKOqIeptFNbKiYNSHYRNAaLtibW3BbyL9i6F/f6MoA0FYugNj/eKup0bUDyZzx42PsFP/8WX3gjztwVjeI0jpheGsIEVw6WRGTqq0PlJ3KdASE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qo0zAEw1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C979C4CEEB;
-	Tue,  1 Jul 2025 13:08:45 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=FwfC73EgYj6DAo50Vc1+lv5se6JuCGAUzWZx7R9ObNzFtmUnYkaq8n+HLs3c4YkO7robUEr0f0QfMrJziSwxxQ4Naub0UK6Pwqj9M+sGPhuu/ThoDKIvsnaMNFkxl0h1/Z7eEjOB99asm9/aGYgMR4xqEM9dezADWHhvVzCI6rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J3emicZQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DD8C4CEEB;
+	Tue,  1 Jul 2025 13:10:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751375329;
-	bh=Z2QwnDgHmONeoGR9tPxcnnsAHdlgZ+2lba+PnYp2OdQ=;
+	s=k20201202; t=1751375423;
+	bh=+jjtoaTMgIiVPiVyIcSdTsXzxVU7AJ0+D9yCuI6epP0=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Qo0zAEw1yJCGd+1KFG9apzM9W0FbppqbK3DNx0PdQEzWi0L5oljkvwQJ4amysWs1j
-	 fOAuA2ejJIl8RSd7QPCvLrNQoRXlezg2DLlC7pCiuZtnejurWwSKOFZ4rgQHuS+akp
-	 UNcCG4oINQosAu1RWXcNjYFIpb/ZPjcyjq+6l2z8kjrjbQBCGpaXwieDziXEbAlKhq
-	 0OuRfogwotgAV0roPGuzAAgXEnlsbvy8bdBXacC1BTd7FzxJg2eJtgsVKGcRK9iWGh
-	 MVTWj2RylNpEoJOZt92uCbm2FdNesKKAbZgmmA/z1GpEhxGNTJiP6XZAmjSL3QlrAa
-	 dY9YUoad6PNHw==
-Message-ID: <39ee70ab-fc5b-462d-860b-aeeabea7417d@kernel.org>
-Date: Tue, 1 Jul 2025 15:08:40 +0200
+	b=J3emicZQms8ShRxuuu/C5X0CDZyVhP7DRhaWtM4NYlj+/ui3JzQ8SYjpnGvksSjlT
+	 hjG0F5EqZQLsrXgsX5dko/RFZhHF8DNUi6Yp3VRogmZuqdoe2RTZ6/njzhEjvu4A7V
+	 YaC9LzJ0hLyklZTFfdAcyy/lx5SIaiBCpwvWzDBZLklNidW6vEt/8KzCfKOyQSm98Y
+	 W2eVN4/fpBcH6G844CpbzdUaFgKumqB8W9B/kztkQq2EXLOEAbwR0I67Ml0OpXjkeR
+	 XqzfnyDT7aNH/HpSa/WQTPru09LR6c1oEQOg8dlYb+GxQgsvgV6oaLz5/swOkGsciW
+	 218R5oS6YBC2w==
+Message-ID: <274ddf4e-2fab-4428-8207-e06522800982@kernel.org>
+Date: Tue, 1 Jul 2025 15:10:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] media: i2c: imx355: Support device tree probing and
- resource management
+Subject: Re: [PATCH 4/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
 To: Richard Acayan <mailingradian@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -61,7 +61,7 @@ To: Richard Acayan <mailingradian@gmail.com>,
  Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
 References: <20250630225944.320755-7-mailingradian@gmail.com>
- <20250630225944.320755-9-mailingradian@gmail.com>
+ <20250630225944.320755-11-mailingradian@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,88 +107,22 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250630225944.320755-9-mailingradian@gmail.com>
+In-Reply-To: <20250630225944.320755-11-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 01/07/2025 00:59, Richard Acayan wrote:
-
->  static const struct imx355_reg imx355_global_regs[] = {
-> @@ -1683,6 +1698,7 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct device *dev)
->  static int imx355_probe(struct i2c_client *client)
->  {
->  	struct imx355 *imx355;
-> +	size_t i;
->  	int ret;
->  
->  	imx355 = devm_kzalloc(&client->dev, sizeof(*imx355), GFP_KERNEL);
-> @@ -1694,6 +1710,42 @@ static int imx355_probe(struct i2c_client *client)
->  	/* Initialize subdev */
->  	v4l2_i2c_subdev_init(&imx355->sd, client, &imx355_subdev_ops);
->  
-> +	for (i = 0; i < ARRAY_SIZE(imx355_supply_names); i++)
-> +		imx355->supplies[i].supply = imx355_supply_names[i];
+> +&cci_i2c1 {
+> +	camera@1a {
+> +		compatible = "sony,imx355";
+> +		reg = <0x1a>;
 > +
-> +	ret = devm_regulator_bulk_get(&client->dev,
-> +				      ARRAY_SIZE(imx355->supplies),
-> +				      imx355->supplies);
-> +	if (ret) {
-> +		dev_err_probe(&client->dev, ret, "could not get regulators");
-
-Syntax is return dev_err_probe
-
-> +		return ret;
-> +	}
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		clock-names = "mclk";
 > +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(imx355->supplies),
-> +				    imx355->supplies);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	imx355->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
-> +						     GPIOD_OUT_HIGH);
+> +		clock-frequency = <19200000>;
 
-So you keep the device disabled all the time... this makes no sense. How
-can it work if it is always disabled?
-
-> +	if (IS_ERR(imx355->reset_gpio)) {
-> +		ret = PTR_ERR(imx355->reset_gpio);
-> +		dev_err_probe(&client->dev, ret, "failed to get gpios");
-> +		goto error_vreg_disable;
-> +	}
-> +
-> +	imx355->mclk = devm_clk_get(&client->dev, "mclk");
-> +	if (IS_ERR(imx355->mclk)) {
-> +		ret = PTR_ERR(imx355->mclk);
-> +		dev_err_probe(&client->dev, ret, "failed to get mclk");
-
-No, syntax is ret = dev_err_probe.
-
-> +		goto error_vreg_disable;
-> +	}
-> +
-> +	clk_prepare_enable(imx355->mclk);
-> +	usleep_range(12000, 13000);
-> +
->  	/* Check module identity */
->  	ret = imx355_identify_module(imx355);
->  	if (ret) {
-> @@ -1756,6 +1808,10 @@ static int imx355_probe(struct i2c_client *client)
->  
->  error_probe:
->  	mutex_destroy(&imx355->mutex);
-> +	clk_disable_unprepare(imx355->mclk);
-
-
-
-And where do you clean in remove()? No, just use devm_clk_get_enabled. I
-think you are trying to upstream some old code. No, don't. You repeat
-several poor patterns, like these err_probe handling or above clock bug
-(actual bug). Just look how newest drivers are doing, not the
-downstream. Downstream is the greatest antipattern. Absolute antipattern.
-
+No, drop. This is not a suitable property for DT I2C devices.
 
 Best regards,
 Krzysztof
