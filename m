@@ -1,143 +1,249 @@
-Return-Path: <linux-media+bounces-36466-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36467-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6657AF03D5
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 21:32:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D87AF03D8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 21:33:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B26167A4097
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 19:31:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D56E37AD89D
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 19:32:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE19280022;
-	Tue,  1 Jul 2025 19:32:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76D52280CD5;
+	Tue,  1 Jul 2025 19:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="COv/WEvL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a27X8C34"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8407A25B1FC;
-	Tue,  1 Jul 2025 19:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494B6275AED;
+	Tue,  1 Jul 2025 19:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751398365; cv=none; b=jLtG+eYqpt2QjEXH0KNq4rSaebw2DiUKR2nUuZLLOVQyekdH5e6Qfhj4vEaXN1qOf8U3M3sqGK06r/vyGCfsRQifiKlb6KLc+EhTvKpQUCwgiIS3cqoKxGQXON5hII0PI+alEot7A2AbmBCIVIWUGvt284ISAwGRzDHcRKUcGnA=
+	t=1751398402; cv=none; b=fUJmrwo64YomNRNG/uLilBlWJ9s7+TR4nSOyWI/+sjqwwT7o9PcJmzclZSbd0sXYi4XXG95hvpCW7uhQpf6OKnwkyEFj59LThO5PmnterYEMZEbp/s0Gh6R0qeQjgOfxkBtRxTkSvPdupmATAUfsZgLC4aRpDUWspuAdzj+LYXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751398365; c=relaxed/simple;
-	bh=niNzJeXLvd5lsHTembyVglZRkYxCH3CvL+tZgUzKEfY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TaX77UP326RdMtL3aLAclr9rbfVDTJTfB+SgO0WKqbUJdV+hO2RIXtPbFY7Tgxr27ySxF0MSzhJqjWvEQpTw7RVy3nd6FnKmGngZ2WQNYMDC97CZQSBmvdmuJFlVDjIx8r0IlThsrlaasIYuEPIgBAli68tGLBRu15z7Y8ab42U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=COv/WEvL; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=Dj2RXbZ/Tv5yAxHz/6WWadAXm0f+rEasqd5wSxNrNfk=; b=COv/WEvLADeJ6fd21KY0S80AoD
-	XAN2jdqZDbmJLuHjkwzeQOPC/J+uLnEp4cOPZMr64nMBTTT7O9tyv1Eo5P3D9VzrPR9ii5R68h9u8
-	x0wMgRHL8MjOUXKpx0bTeMlN96lBxW0hVtxOE/OolJEMZsQgACj71Dk+raYFqFUv+5Gt3KAdnqG5O
-	zQjvfJUL9d9YX9i6ONayuZX4GPHZyO0Ot9qQXBgoQ4iOfk84Nb3DKg+BwfGpR8mQuFu0N7a1Z0iag
-	J4Vn9kQA332jEckCkT25MeMr0VHE/7KDpvPcC6ylfJlD/Vwf3GgBc+asJkJag5aiUgs2e71ApfHnG
-	sFw0nDZw==;
-Received: from i53875bc7.versanet.de ([83.135.91.199] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1uWgi0-0007Fd-TC; Tue, 01 Jul 2025 21:32:00 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v7 03/10] accel/rocket: Add IOCTL for BO creation
-Date: Tue, 01 Jul 2025 21:31:59 +0200
-Message-ID: <8888010.K2JlShyGXD@diego>
-In-Reply-To: <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
-References:
- <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
+	s=arc-20240116; t=1751398402; c=relaxed/simple;
+	bh=e0LWiiDV7mWe0O80pfeWjuB7jaudkzgYWw5HdH9efCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ad1Cv323G8x6IFTcOQqRWdSCg398dbKFhNllQ3blmHTUkYsHHoUZd23O4ZoX1UO46Gw9Me78ysxUZB0KG7f14itReBGn+LBVVof+FVOQgArN60SFWlaiw4pgNJrakWqPTE9DNfjUE1CQM7MIp5u7v1pIQHZyW08EWBTHLrST9JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a27X8C34; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E2056778;
+	Tue,  1 Jul 2025 21:32:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751398377;
+	bh=e0LWiiDV7mWe0O80pfeWjuB7jaudkzgYWw5HdH9efCA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a27X8C34QS5VN4dnhLZAKZSUd6LBGiQLq4F//Qhwj82D7UqXa6QniZMFYVbBPThKq
+	 aRM8wspnHZVliCC3L6fwPQzCJe5cxY6RPNn0Em9d8xjueZhI9cTI3K+5Jf3FW0XGOJ
+	 mLz8q8cTw5EXbXeOUJH/AdoqAuVcMAp/2dw8JkJg=
+Date: Tue, 1 Jul 2025 22:32:53 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Alice Yuan <alice.yuan@nxp.com>
+Subject: Re: [PATCH 2/5] dt-bindings: media: add i.MX parallel csi support
+Message-ID: <20250701193253.GC16835@pendragon.ideasonboard.com>
+References: <20250630-imx8qxp_pcam-v1-0-eccd38d99201@nxp.com>
+ <20250630-imx8qxp_pcam-v1-2-eccd38d99201@nxp.com>
+ <20250630225340.GE15184@pendragon.ideasonboard.com>
+ <aGP2yT9ID1E0BepB@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aGP2yT9ID1E0BepB@lizhi-Precision-Tower-5810>
 
-Am Freitag, 6. Juni 2025, 08:28:23 Mitteleurop=C3=A4ische Sommerzeit schrie=
-b Tomeu Vizoso:
-> This uses the SHMEM DRM helpers and we map right away to the CPU and NPU
-> sides, as all buffers are expected to be accessed from both.
->=20
-> v2:
-> - Sync the IOMMUs for the other cores when mapping and unmapping.
->=20
-> v3:
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
->=20
-> v6:
-> - Use mutexes guard (Markus Elfring)
->=20
-> v7:
-> - Assign its own IOMMU domain to each client, for isolation (Daniel
->   Stone and Robin Murphy)
->=20
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
+On Tue, Jul 01, 2025 at 10:55:32AM -0400, Frank Li wrote:
+> On Tue, Jul 01, 2025 at 01:53:40AM +0300, Laurent Pinchart wrote:
+> > On Mon, Jun 30, 2025 at 06:28:18PM -0400, Frank Li wrote:
+> > > From: Alice Yuan <alice.yuan@nxp.com>
+> > >
+> > > Document the binding for parallel CSI controller found in i.MX8QXP, i.MX93
+> > > and i.MX91 SoCs.
+> > >
+> > > Signed-off-by: Alice Yuan <alice.yuan@nxp.com>
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > ---
+> > >  .../bindings/media/fsl,imx93-parallel-csi.yaml     | 108 +++++++++++++++++++++
+> > >  MAINTAINERS                                        |   1 +
+> > >  2 files changed, 109 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml b/Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
+> > > new file mode 100644
+> > > index 0000000000000..b4657c913adad
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
+> > > @@ -0,0 +1,108 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/fsl,imx93-parallel-csi.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: i.MX8/9 Parallel Camera Interface
+> > > +
+> > > +maintainers:
+> > > +  - Frank Li <Frank.Li@nxp.com>
+> > > +
+> > > +description: |
+> > > +  This is device node for the Parallel Camera Interface which enables the
+> > > +  chip to connect directly to external Parallel CMOS image sensors.
+> > > +  Supports up to 80MHz input clock from sensor.
+> > > +  Supports the following input data formats
+> > > +    - 8-bit/10-bit Camera Sensor Interface (CSI)
+> > > +    - 8-bit data port for RGB, YCbCr, and YUV data input
+> > > +    - 8-bit/10-bit data ports for Bayer data input
+> > > +  Parallel Camera Interface is hooked to the Imaging subsystem via the
+> > > +  Pixel Link.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> > > +      - const: fsl,imx8qxp-parallel-csi
+> >
+> > Is there any chance we could avoid calling this "csi", given that the
+> > whole block is called "Parallel Capture Interface" in the reference
+> > manual ? "CSI" is horribly confusing as it usually refers to MIPI CSI-2.
+> > I suppose calling it "PCI" for "Parallel Capture Interface" wouldn't
+> > help :-/
+> 
+> PCI is too famous for PCI(Peripheral Component Interconnec) bus. It will be
+> more confused.
 
-> diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/roc=
-ket_gem.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..61b7f970a6885aa13784daa12=
-22611a02aa10dee
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_gem.c
-> @@ -0,0 +1,115 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_utils.h>
-> +#include <drm/rocket_accel.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/iommu.h>
-> +
-> +#include "rocket_device.h"
-> +#include "rocket_drv.h"
-> +#include "rocket_gem.h"
-> +
-> +static void rocket_gem_bo_free(struct drm_gem_object *obj)
-> +{
-> +	struct rocket_device *rdev =3D to_rocket_device(obj->dev);
-> +	struct rocket_gem_object *bo =3D to_rocket_bo(obj);
-> +	size_t unmapped;
-> +
-> +	drm_WARN_ON(obj->dev, bo->base.pages_use_count > 1);
+Yes, I wasn't really proposing it. We have too few TLAs :)
 
-This should probably be
-    drm_WARN_ON(obj->dev, refcount_read(&bo->base.pages_use_count) > 1);
+> Can we use pcam? fsl,imx8qxp-pcam
 
-as pages_use_count is of type refcount_t since
-commit 051b6646d36d ("drm/shmem-helper: Use refcount_t for pages_use_count")
+Brainstorming a bit, we could use use pcif (Pixel Capture InterFace).
 
-Heiko
+> > > +      - items:
+> > > +          - enum:
+> > > +              - fsl,imx91-parallel-csi
+> > > +          - const: fsl,imx93-parallel-csi
+> > > +      - const: fsl,imx93-parallel-csi
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 2
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: pixel
+> > > +      - const: ipg
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +
+> > > +    properties:
+> > > +      port@0:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description:
+> > > +          Input port node.
+> > > +
+> > > +      port@1:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description:
+> > > +          Output port node.
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - ports
+> >
+> > Patch 4/5 lists a power domain, and so does the example below for
+> > i.MX93. Should the power-domains property be mandatory ?
+> >
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/clock/imx93-clock.h>
+> > > +    #include <dt-bindings/power/fsl,imx93-power.h>
+> > > +
+> > > +    parallel-csi@4ac10070 {
+> > > +        compatible = "fsl,imx93-parallel-csi";
+> > > +        reg = <0x4ac10070 0x10>;
+> >
+> > The i.MX93 reference manual doesn't document the register set for this
+> > block, so I have a hard time reviewing this. Is there a plan to publish
+> > a new version of the reference manual with the complete documentation
+> > for the parallel interface ?
+> >
+> > > +        clocks = <&clk IMX93_CLK_MIPI_CSI_GATE>,
+> > > +                 <&clk IMX93_CLK_MEDIA_APB>;
+> > > +        clock-names = "pixel", "ipg";
+> > > +        assigned-clocks = <&clk IMX93_CLK_CAM_PIX>;
+> > > +        assigned-clock-parents = <&clk IMX93_CLK_VIDEO_PLL>;
+> > > +        assigned-clock-rates = <140000000>;
+> > > +        power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_CSI>;
+> > > +
+> > > +        ports {
+> > > +            #address-cells = <1>;
+> > > +            #size-cells = <0>;
+> > > +
+> > > +            port@0 {
+> > > +                reg = <0>;
+> > > +
+> > > +                endpoint {
+> > > +                    remote-endpoint = <&mt9m114_ep>;
+> > > +                };
+> > > +            };
+> > > +
+> > > +            port@1 {
+> > > +                reg = <1>;
+> > > +                endpoint {
+> > > +                    remote-endpoint = <&isi_in>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 8dc0f6609d1fe..3bd6772c11539 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -15107,6 +15107,7 @@ L:	linux-media@vger.kernel.org
+> > >  S:	Maintained
+> > >  T:	git git://linuxtv.org/media.git
+> > >  F:	Documentation/admin-guide/media/imx7.rst
+> > > +F:	Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
+> > >  F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+> > >  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > >  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
 
+-- 
+Regards,
 
+Laurent Pinchart
 
