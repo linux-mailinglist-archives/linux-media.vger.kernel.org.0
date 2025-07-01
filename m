@@ -1,87 +1,80 @@
-Return-Path: <linux-media+bounces-36415-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36416-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B08AEF7BF
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 14:05:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E68AEF863
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 14:27:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA4DE4A72D8
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:04:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 331791C03C2A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:27:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0082727FF;
-	Tue,  1 Jul 2025 12:04:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAC87278774;
+	Tue,  1 Jul 2025 12:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fsstwGVy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AA5kOqEB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72D12144C7
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 12:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3246727817D
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 12:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751371483; cv=none; b=kWMhbqedtajBLVDipeNU9v5v5/6B9aCL3qXOUTJixYANvBu8GVV556Y5XX937RZrbUUidTZOTA9X8DXgLh9MQJOASoelx30IG33RLUi8DTnL8fqsOBErzDQ+NWBTC4ANGS55DlftKxX4f8+K5TBEEvmfxrRiVO/QctTb7h1g4MY=
+	t=1751372631; cv=none; b=BloHraUewynSAIHsjT4wkQlj79OcCvL/WTMZlhm8CcTQYcflw4v3GI5PTpJDwCOVS/i+KqlhK/j2/7e26OwuIKwmu6dguhKsx0y3c0wClw3UNUsYSTXI7OplzXHD/9/Igg5h2EsWrSsPFWz5Q5+vX2ARkuPJ6ZDjxqNL9Bw/DfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751371483; c=relaxed/simple;
-	bh=1lbvkwmcN9+XPKXalOgA9l2vSu8vLVpKPb/SY3OyzR4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UXg8oMrxRjedMzkrqEbRDRG0uZlcjDTJOdZb1RpAQOMkc21/fUUdU1rzoIZRZQDvu57p0Rr9ASiWOv0hfY944wSnIFFfxaEHD5GhP8ZvSuhE1aBL9xSYb1EeC5zjLfgYy/XLGi6GtPyxlbGY+ZHSfsm6oKpm9d8TVpq+oJIo31o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fsstwGVy; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 561A0xw9018559
-	for <linux-media@vger.kernel.org>; Tue, 1 Jul 2025 12:04:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8NHaWBJg+Ds90gbf6gIrNnGLkbKxLD7AC/sDGjFqo0Y=; b=fsstwGVyEgtyq39g
-	I3qt8UYvjp80hCeAeu2Dmo+eU4zHnDDMIaTGO0RKueua50jsSOoWrL/Yme3lz3RS
-	G3/D0BCyRUqcOA86qi4KkDHUz7iTU9YvY4bOP3DDsCvus6+n8CMGvKMjfqu50lWf
-	WDlUkH2fluJltkZlpl+mSZR7jpG4mmiyaoyXyulDTcQfPgI1KwNSvqlDtKR3SaIX
-	E+sfMhD/KSxl8SntvfYVUlXcPGw5iu3qHcOe1yydYwsSsTpxaQzg+j4n+9srw5do
-	FpBOO/JjPs3/IOQF/wMByIsSonVwFMttvux/fboUlqBiJFRlH1UxMxoKRXPgyR0i
-	UbKMlA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8fxguwb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 12:04:40 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4a5832bdd8dso5770901cf.1
-        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 05:04:40 -0700 (PDT)
+	s=arc-20240116; t=1751372631; c=relaxed/simple;
+	bh=NJ124Dp79Lr/97fmwOSr//WxXPtWTp675G0RTga2t9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=kAAhfTBqD/i8chQY6Toa0hmWANr2EdgfAwvpImpAyyNALj38/UzuOXgXsfipUTPPeWpCc57S4u380M8U9zjHZW6zUJ5oGgIU/asiN50Q/Qk+1d01XBrxLQGTaG/sqyMcowLkbCq2qyeJb/XLGrLH4lWeAsMD/PY5jfft4MxpgO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AA5kOqEB; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45363645a8eso38612645e9.1
+        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 05:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751372626; x=1751977426; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fP9MBwzFb18vSW3lc2L/Hc8pl9m7MaNHnOhRmIvCcfk=;
+        b=AA5kOqEB4lYVNPXUaCRx7pSNm4iM/jvh0yJqKr/ps3Jp6NVhiFI/oc7uXgr+0rqlZU
+         tiMwgFtitmG1DJMI07e57jqDRAMjczIRLDfk7AN8ZTDqUUxCs4OTGqdg9vrsaKQXuOdl
+         llr/cFAZdvTuWrC4LmSio1SwgkzijmOggMr0KCzUG3tAg4ZBqykTt9Y9tWGvHrL/dYxM
+         Nx1BEzvyhqHL6IfpUJFdNTxFsIQXpjCc4G3OiDUbkkpEVRR5n9y/ely6LCyW4yh1L2rd
+         yPLpjwbwmCKsYz1II1TbkHtz85vDR0n5MgF8kZNFv7C73YYF1vEBO7U3fbV2GKhtPxvC
+         KLMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751371480; x=1751976280;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1751372626; x=1751977426;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8NHaWBJg+Ds90gbf6gIrNnGLkbKxLD7AC/sDGjFqo0Y=;
-        b=MY/xZaiJZa+XArLXmOkFWZaRaRoSrIcsRkw4L3IwEhfpGxUq+UYH4NvMBalQNRfYdV
-         8SX/DxvDQfYfWzXl/pjc8sjdtPRJmRcq1zvK+Y76ecmxwBT/6XtF2T4o/HmmSTM88vK8
-         72PWpu99sIoHOynoEobWDNPW/F55dkW2A7NGNMf99azTo+GWLCcIUdDGHIWmvFQLy/se
-         iEVlF62T9Hy5kdqdtniNKXIzVthq0i4BwrwzM/D8Y3TsdkxSdkcCi8eIut0qAc6Ud1X+
-         PvZ3s7IErMtIhSwIvgSyuPlGHePfh9Sptp8c1D1YNazQMn9HrCTWpyOckNjPYt62mYQS
-         dWXg==
-X-Gm-Message-State: AOJu0Yx+4mTTolC04/Q6lN2jIeKMb9MWPICNKjYoZIjKsadQC4XCUjvC
-	NGpGq8qUzU0nWF1zLnMRjJVra8l0i+5AoPgiPMdbTckwFimlXdP75NCiq8fVjWg3MLGMd3BFUjz
-	OChCiII1bL+8tJzzJlT4ougk65mpe08jFy8zc6Cy1QtyUfYbhTu+bjwRVujmLT9M+9w==
-X-Gm-Gg: ASbGncslqyFTDtN4JP++gbEX9nAfZpuWo5HTlulikpVnoQQozJOmwXSeHSHAWS2GS0B
-	NfDO94azeY8ocvLIaCVDJEN11iwW4JO7jU6Dq03lQ9UwU270NHfCg7oQPhX2ED0j0zjeTYC523P
-	DJlLFG6R/x4YfwRGMLX+AsHMl0A8sz4/A3pyqRYaxz2oVQB6HUhPVDWSSyccrNM0L63OHf+gD1F
-	TnbXwD0KTbJNUu9xkTu4hp0+sZteo0URWnHIfyyRs1/iRPAVGQnLDA6/ggxaAsiYez/EUbq5mSB
-	OgpX6bQIQkm+UcEr25t0TyxtGsAqAHHJgrHnd65gkeDLndMk/NV4W85JGEgjpomrTPqr4btGsUq
-	TmrWovdo3
-X-Received: by 2002:a05:620a:294a:b0:7c3:d798:e8ae with SMTP id af79cd13be357-7d4688a26d0mr124885785a.2.1751371479561;
-        Tue, 01 Jul 2025 05:04:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH8XZoEPSj7bokOOVZKz/UcTzyquGklqsan9ThQP9FrWzaAytiLBv4obM8TRklGr/BZUMuQwA==
-X-Received: by 2002:a05:620a:294a:b0:7c3:d798:e8ae with SMTP id af79cd13be357-7d4688a26d0mr124876985a.2.1751371477590;
-        Tue, 01 Jul 2025 05:04:37 -0700 (PDT)
-Received: from [192.168.1.114] (83.9.29.190.neoplus.adsl.tpnet.pl. [83.9.29.190])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353ca20a0sm866875566b.177.2025.07.01.05.04.35
+        bh=fP9MBwzFb18vSW3lc2L/Hc8pl9m7MaNHnOhRmIvCcfk=;
+        b=fmTg+Am+T+6om1vBm5ZT7r3DVPZJwyF5hRmQ84A4eb7ZYYKjX6GRm4lMNhxa8NOCdN
+         7eYuJptJqPt6zp1IrOfZ9mksLQP9l3Kh8GeL4HkBK0/QzaKenZa8FqcwYkZt9HbZ4G4G
+         c8PCDsey9BiOFCgF6QL/KOqX1v8gdymj3+EnbDWahllH7vLCugX4tA9xg69nXo4KiTGe
+         aizwqptgGW/juDB23Sq1w93qv8K8CqTdMaRDcnsRoW8KxEyrwSfd8gHBx0msiqXsZAhz
+         kPyqg7YfyKFOX34OmOO4pK+GH5/QWmmqvEKH8Bfx89JMVG6sop7fSitrQmr2uzWAWa5o
+         PIWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNEtaBVBL8utjntD2JV0Vsg8wvVj8UCUrLDZl+Ih4CbfTrH0r2LoFGiAJDuNXvH9STZiSMdS88z9ejSg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjcCO3PgyjviRsIykL1f1fbxPg1eJqqMnKqlSYtwK99aQ7aXeN
+	mQftgzmsJ0/tIvmqLtFIPsEV3tq2j9492q6T0eq7dJGml4gme//w8URdLzfsjPu3lkA=
+X-Gm-Gg: ASbGncsUMpaBNRp89tyBM5IPQutpAZ1CcaBwT1zsSaayrON/sm6LcSwfzoX0CzmFXrS
+	j99Pefo5A6W3IDYcc/ZEdsP/CL62QJTWx3oSbPlypc8vc9Uu7GCxRY7u6xOEXKwk7ncWFO6dv74
+	iCpAM1QyW/0bNQgqtdreA2BQ5kD2K+zsreaeFsH9nej3qEGfiXG6IOQUUiHXQYOKWNiXM3RNMW/
+	SjuPAxFPe24Mnq+2cDEkKVHX3LCbrRYW4sMMqzBlDWCRuUaO1QlOAXJQdpRkHdQ7mXsJVCQ05x8
+	FwGbtWR2LLdfylLrMUKyrzjonKZEuxQEPWNqG/weEeHfF60wjc6OUC/5ABsW81c9r4j56nDGAmm
+	RxTHQJrjYyYv+98zdh5dupSb7gqqPO+eokGGI8Q==
+X-Google-Smtp-Source: AGHT+IF2T/ew6ItA1dECwcwzpkVi16Ul9/UBVeAKXTtxDNk7WlS01HZkQ9dvJOSWDY34euUgABO/8A==
+X-Received: by 2002:a05:600c:358d:b0:450:d367:c385 with SMTP id 5b1f17b1804b1-4538ee5d5f8mr200886185e9.16.1751372626384;
+        Tue, 01 Jul 2025 05:23:46 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c05csm194901555e9.5.2025.07.01.05.23.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 05:04:36 -0700 (PDT)
-Message-ID: <84861a4d-3016-4d67-b606-ef698ea10e7d@oss.qualcomm.com>
-Date: Tue, 1 Jul 2025 14:04:34 +0200
+        Tue, 01 Jul 2025 05:23:45 -0700 (PDT)
+Message-ID: <488281f6-5e5d-4864-8220-63e2a0b2d7f2@linaro.org>
+Date: Tue, 1 Jul 2025 13:23:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,85 +82,152 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] media: iris: configure DMA device for vb2 queue on
- OUTPUT plane
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
- <20250627-video_cb-v3-5-51e18c0ffbce@quicinc.com>
- <d8a1fdd4-0056-480f-ade1-318a34d27204@linaro.org>
+Subject: Re: [PATCH 4/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+To: Richard Acayan <mailingradian@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20250630225944.320755-7-mailingradian@gmail.com>
+ <3qGugliBdtpdHGZzR9xh_974TfJigMYERGVAfqmpCqe1R7O0CLU8FzXVcIESzTIc-SKzpk42ZAx5-38eDX00Eg==@protonmail.internalid>
+ <20250630225944.320755-11-mailingradian@gmail.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <d8a1fdd4-0056-480f-ade1-318a34d27204@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDA3NSBTYWx0ZWRfX6rCc9AzS0Pg4
- MfBAdnoJh7jRPfMOEZn/OlVwYGzH5bHLUl6tatYPa1zJ2vTXSUSzYzO1eDBnjaIIMaJQEVKtmJ7
- FsXFgi4Sdkv4Y7pSuThml+e4PsLS+MWVMb3ow4abPiB3bpD2OCepGNEyMHzYEAQRCU0vINSg9nw
- KKP9HHgCKuXJlHTnsCGJmnEkr8Yy/Mf6blhr1d6S/gNNOzUOX12SaXJ630r4gqSDnmC/1ttPPJk
- UNlRObfzX6pf5g/r/HYK0kK3ewQgZ4xoH4tPoFlCrIaPvUE3Unab0gNp2zlFlLyjNVAXJHTo1Gp
- H31HuvvjQ94hd8EG5Cqaaie3B4HyZoc8OWO7CZHRrrWFjniYqRPoqjW3kROUsgdknTUFaoXKq7X
- EhGpXDPYQbqciJfgDcVpEebfaOgPqXyS8ixWPxlMyXJF4MXn/ClJAiTbBuQTUTKWxALScWrk
-X-Proofpoint-GUID: IkTszjeTIddCvwh8o_opNn0-Hw1uejcl
-X-Proofpoint-ORIG-GUID: IkTszjeTIddCvwh8o_opNn0-Hw1uejcl
-X-Authority-Analysis: v=2.4 cv=TqPmhCXh c=1 sm=1 tr=0 ts=6863ced8 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=fKQzr7EGRj+VoE0XNsDNvQ==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=QmyDNCatlCRWdA39UCgA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
- phishscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0
- impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507010075
+In-Reply-To: <20250630225944.320755-11-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-On 27-Jun-25 19:08, Bryan O'Donoghue wrote:
-> On 27/06/2025 16:48, Vikash Garodia wrote:
->> While setting up the vb2 queues, assign "non_pixel" device to manage
->> OUTPUT plane buffers i.e bitstream buffers incase of decoder. It prefers
->> the non_pixel device(np_dev) when available, falling back to core->dev
->> otherwise.
->>
->> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/iris/iris_vb2.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
->> index cdf11feb590b5cb7804db3fcde7282fb1f9f1a1e..01cc337970400d48063c558c1ac039539dbcbaba 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vb2.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
->> @@ -159,6 +159,10 @@ int iris_vb2_queue_setup(struct vb2_queue *q,
->>       *num_planes = 1;
->>       sizes[0] = f->fmt.pix_mp.plane_fmt[0].sizeimage;
->>   +    if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT ||
->> +        q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
->> +        q->dev = core->np_dev ? core->np_dev : core->dev;
->> +
->>   unlock:
->>       mutex_unlock(&inst->lock);
->>  
+On 30/06/2025 23:59, Richard Acayan wrote:
+> The Sony IMX355 is the front camera on the Pixel 3a. It is connected to
+> CSIPHY1 and CCI I2C1, and uses MCLK2. Add support for it.
 > 
-> q->dev = core->dev;
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>   .../boot/dts/qcom/sdm670-google-sargo.dts     | 112 ++++++++++++++++++
+>   1 file changed, 112 insertions(+)
 > 
-> if (thing || thing_else)
->     q->dev = core->np_dev;
+> diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> index d01422844fbf..0af6a440ecbc 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> @@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
+>   		regulator-min-microvolt = <1050000>;
+>   		regulator-max-microvolt = <1050000>;
+>   	};
+> +
+> +	cam_front_ldo: cam-front-ldo-regulator {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "cam_front_ldo";
+> +		regulator-min-microvolt = <1352000>;
+> +		regulator-max-microvolt = <1352000>;
+> +		regulator-enable-ramp-delay = <135>;
+> +
+> +		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&cam_front_ldo_pin>;
+> +	};
+> +
+> +	cam_vio_ldo: cam-vio-ldo-regulator {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "cam_vio_ldo";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +		regulator-enable-ramp-delay = <233>;
+> +
+> +		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&cam_vio_pin>;
+> +	};
+>   };
+> 
+>   &apps_rsc {
+> @@ -392,6 +420,58 @@ vreg_bob: bob {
+>   	};
+>   };
+> 
+> +&camss {
+> +	vdda-phy-supply = <&vreg_l1a_1p225>;
 
-q->dev = core->np_dev ?: core->dev;
+You've got your 1p2 but looks like you are missing your 0p8 supply
 
-Konrad
+> +	status = "okay";
+> +};
+> +
+> +&camss_endpoint1 {
+> +	clock-lanes = <7>;
+> +	data-lanes = <0 1 2 3>;
+> +	remote-endpoint = <&cam_front_endpoint>;
+> +	status = "okay";
+> +};
+
+This looks not like how the other dts are upstream. Does this work and 
+pass the dt checker ?
+
+Right now upstream wants something like this
+
+&camss {
+         vdda-phy-supply = <&vreg_l5a_0p88>;
+         vdda-pll-supply = <&vreg_l9a_1p2>;
+         status = "okay";
+
+         ports {
+                 /* The port index denotes CSIPHY id i.e. csiphy2 */
+                 port@2 {
+                         csiphy2_ep: endpoint {
+                                 clock-lanes = <7>;
+                                 data-lanes = <0 1 2 3>;
+                                 remote-endpoint = <&imx577_ep>;
+                         };
+                 };
+         };
+};
+
+Can the upstream driver actually consume the dt as you specified above ?
+
+> +
+> +&cci {
+> +	pinctrl-names = "default", "sleep";
+> +	pinctrl-0 = <&cci1_default &cam_mclk_default>;
+> +	pinctrl-1 = <&cci1_sleep>;
+> +
+> +	status = "okay";
+> +};
+> +
+> +&cci_i2c1 {
+> +	camera@1a {
+> +		compatible = "sony,imx355";
+> +		reg = <0x1a>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		clock-names = "mclk";
+> +
+> +		clock-frequency = <19200000>;
+> +
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <24000000>;
+> +
+> +		reset-gpios = <&tlmm 9 GPIO_ACTIVE_HIGH>;
+> +
+> +		vana-supply = <&cam_front_ldo>;
+> +		vdig-supply = <&cam_front_ldo>;
+> +		vio-supply = <&cam_vio_ldo>;
+
+These are the downstream names, taking imx512/477 as a reference point
+
+                 dovdd-supply = <&vreg_l7f_1p8>;
+                 avdd-supply = <&vdc_5v>;
+                 dvdd-supply = <&vdc_5v>;
+
+I'd guess the data sheet probably has better names like that.
+
+---
+bod
 
