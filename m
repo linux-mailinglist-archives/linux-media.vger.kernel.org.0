@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-36416-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36417-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E68AEF863
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 14:27:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF5CAEF906
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 14:43:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 331791C03C2A
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:27:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A674B1C04700
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:43:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAC87278774;
-	Tue,  1 Jul 2025 12:23:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2160E18DB27;
+	Tue,  1 Jul 2025 12:43:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AA5kOqEB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oQ8XjfBp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3246727817D
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 12:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6B026D4D0
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 12:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751372631; cv=none; b=BloHraUewynSAIHsjT4wkQlj79OcCvL/WTMZlhm8CcTQYcflw4v3GI5PTpJDwCOVS/i+KqlhK/j2/7e26OwuIKwmu6dguhKsx0y3c0wClw3UNUsYSTXI7OplzXHD/9/Igg5h2EsWrSsPFWz5Q5+vX2ARkuPJ6ZDjxqNL9Bw/DfM=
+	t=1751373806; cv=none; b=C9rDq0/adoavZTEDtLtiT0WfJSoWpaGnv9rHKuhKYENcK+QqziOBP8ng0eafCH0sCx/rQWkRdC8y8YeOiiNqYsMlB1u2HjOClxQG7q2S587rV5Pa9emRTXq98K9eFoJTptCdnnXmeWbQp6y1EITJsRBY/19WxS2WeHCd1hN8eNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751372631; c=relaxed/simple;
-	bh=NJ124Dp79Lr/97fmwOSr//WxXPtWTp675G0RTga2t9M=;
+	s=arc-20240116; t=1751373806; c=relaxed/simple;
+	bh=7NWxO7PaQI8/4JG0A3Vx4+jVhpSF8WKBKHv2nqV56Ck=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=kAAhfTBqD/i8chQY6Toa0hmWANr2EdgfAwvpImpAyyNALj38/UzuOXgXsfipUTPPeWpCc57S4u380M8U9zjHZW6zUJ5oGgIU/asiN50Q/Qk+1d01XBrxLQGTaG/sqyMcowLkbCq2qyeJb/XLGrLH4lWeAsMD/PY5jfft4MxpgO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AA5kOqEB; arc=none smtp.client-ip=209.85.128.44
+	 In-Reply-To:Content-Type; b=oDrjViLDn8ao/ozwXRrgztzn//uVLGXxw0s1tB83CB5cEqG4g3/Hmiu8qcgRSG8vjGlTiXa0qOBGMxCS6PK+T/vs9N4L1pGSEKkyf/gFARVM4rzt+QK+fuxZ/OIVUzp+ToCztpY9vGBaWG0QBAlXQNTN03IYCfTfRKB6sWjFJqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oQ8XjfBp; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45363645a8eso38612645e9.1
-        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 05:23:47 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ade76b8356cso636742566b.2
+        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 05:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751372626; x=1751977426; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1751373803; x=1751978603; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fP9MBwzFb18vSW3lc2L/Hc8pl9m7MaNHnOhRmIvCcfk=;
-        b=AA5kOqEB4lYVNPXUaCRx7pSNm4iM/jvh0yJqKr/ps3Jp6NVhiFI/oc7uXgr+0rqlZU
-         tiMwgFtitmG1DJMI07e57jqDRAMjczIRLDfk7AN8ZTDqUUxCs4OTGqdg9vrsaKQXuOdl
-         llr/cFAZdvTuWrC4LmSio1SwgkzijmOggMr0KCzUG3tAg4ZBqykTt9Y9tWGvHrL/dYxM
-         Nx1BEzvyhqHL6IfpUJFdNTxFsIQXpjCc4G3OiDUbkkpEVRR5n9y/ely6LCyW4yh1L2rd
-         yPLpjwbwmCKsYz1II1TbkHtz85vDR0n5MgF8kZNFv7C73YYF1vEBO7U3fbV2GKhtPxvC
-         KLMg==
+        bh=vO82p+Ymyw4qd8ylLEXsAIS4Z9o8M8tSvKaMqhmYjc8=;
+        b=oQ8XjfBpvw1Pv2n4JNw1ODJ5YmJXXVaE4qUY/fOmm4FLQguPgLstiDTsKIj3RFabKZ
+         fKYL6spcRYFIYp9a+U9SjyM+CdoclLepxWGwAqcyVQlrhLpNSMdTDfZ0rsjxOO47+gow
+         nBpD2/6Qae1Vn4EVMY3say8QvyahDhv/MVNK/nkyeh+nxiemFj3mbtLSFTpsH0Wx+GT6
+         +WWjGcc6aUemqC0QzUDFtSNCHXiM0oKj6zxYGdmH7idXlzy4NiDIpJGXCWwim3D6ySkS
+         Cd5iiDXIOA5oCBkVHZ4rlznsgqRh1vv+V0UJx7sw8DLx4+Ow/aPo5mQkRKEG/PhSMcaW
+         uixg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751372626; x=1751977426;
+        d=1e100.net; s=20230601; t=1751373803; x=1751978603;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fP9MBwzFb18vSW3lc2L/Hc8pl9m7MaNHnOhRmIvCcfk=;
-        b=fmTg+Am+T+6om1vBm5ZT7r3DVPZJwyF5hRmQ84A4eb7ZYYKjX6GRm4lMNhxa8NOCdN
-         7eYuJptJqPt6zp1IrOfZ9mksLQP9l3Kh8GeL4HkBK0/QzaKenZa8FqcwYkZt9HbZ4G4G
-         c8PCDsey9BiOFCgF6QL/KOqX1v8gdymj3+EnbDWahllH7vLCugX4tA9xg69nXo4KiTGe
-         aizwqptgGW/juDB23Sq1w93qv8K8CqTdMaRDcnsRoW8KxEyrwSfd8gHBx0msiqXsZAhz
-         kPyqg7YfyKFOX34OmOO4pK+GH5/QWmmqvEKH8Bfx89JMVG6sop7fSitrQmr2uzWAWa5o
-         PIWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNEtaBVBL8utjntD2JV0Vsg8wvVj8UCUrLDZl+Ih4CbfTrH0r2LoFGiAJDuNXvH9STZiSMdS88z9ejSg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjcCO3PgyjviRsIykL1f1fbxPg1eJqqMnKqlSYtwK99aQ7aXeN
-	mQftgzmsJ0/tIvmqLtFIPsEV3tq2j9492q6T0eq7dJGml4gme//w8URdLzfsjPu3lkA=
-X-Gm-Gg: ASbGncsUMpaBNRp89tyBM5IPQutpAZ1CcaBwT1zsSaayrON/sm6LcSwfzoX0CzmFXrS
-	j99Pefo5A6W3IDYcc/ZEdsP/CL62QJTWx3oSbPlypc8vc9Uu7GCxRY7u6xOEXKwk7ncWFO6dv74
-	iCpAM1QyW/0bNQgqtdreA2BQ5kD2K+zsreaeFsH9nej3qEGfiXG6IOQUUiHXQYOKWNiXM3RNMW/
-	SjuPAxFPe24Mnq+2cDEkKVHX3LCbrRYW4sMMqzBlDWCRuUaO1QlOAXJQdpRkHdQ7mXsJVCQ05x8
-	FwGbtWR2LLdfylLrMUKyrzjonKZEuxQEPWNqG/weEeHfF60wjc6OUC/5ABsW81c9r4j56nDGAmm
-	RxTHQJrjYyYv+98zdh5dupSb7gqqPO+eokGGI8Q==
-X-Google-Smtp-Source: AGHT+IF2T/ew6ItA1dECwcwzpkVi16Ul9/UBVeAKXTtxDNk7WlS01HZkQ9dvJOSWDY34euUgABO/8A==
-X-Received: by 2002:a05:600c:358d:b0:450:d367:c385 with SMTP id 5b1f17b1804b1-4538ee5d5f8mr200886185e9.16.1751372626384;
-        Tue, 01 Jul 2025 05:23:46 -0700 (PDT)
+        bh=vO82p+Ymyw4qd8ylLEXsAIS4Z9o8M8tSvKaMqhmYjc8=;
+        b=HeFAaCYZVsmPuRSpHa7+C9/YTY/pr5ej67D2xeVXDU69Oz7uUHEZx265t4GEFJwKnl
+         FMFFzAmOCZaxuVqPyIJ45HkfBP9//TNUAdbCXUdt1418KbO9ixQCaYFcKNfzjAPHoo+g
+         zHVfPAXEe4STjo12IdTr4HMaVQ6Nc92cGuqgpkoMwE5ymO1MjCY4BHtAgC5BhTEV6evH
+         bCO6HKUvEpRnwxETT7u5dSqiv61G/nliW9ryqC0yirhzmtR0FwyAIbCga0JiUZ5Y2TCk
+         2X8oCKMIV+IFg+k73K8aBLZaLHBVWGlGNvRnYcHhsCoPh86SfDDLuhyNVK/YqepRlSOs
+         dPng==
+X-Forwarded-Encrypted: i=1; AJvYcCXVQ/0+olMuhjOcsMcms+4NiaNRV49esLehUJtxVlgi30s7le/QDVUzkyPEoNV0wpuP0s/eXYoNGGcd6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx65RvG1Nvv6q1XhtzLhZSXglsD/v1REgi+A/ObHxbxsOTd33Fx
+	vm/IIxs7ai2ms6kafYI67dy/koxWsh9m4S92lzd0p9Ss/W/VCwwryiEe30EMclBYz08=
+X-Gm-Gg: ASbGncv2FI5DbmpZA8uaU7NiuF24gFj5JFdvKHkG7zP+ryPpNk3Ohs7dn9ok2M8Wqkq
+	anhw4adxZjqp5VOCFDriSccEDE9eW6ViziGAynlWAd52/Ff2wwu32971OhuKaFE4vsu9c+OilPs
+	fjiH0S5daAuFLIVlDllLD0lU3O4TYEE3RqT0+Z2+0IFK6f5ujwoJgvhvPc97kdx3P+i1fe35tJx
+	3gF63nkRfLBATKMdDp96GFrE+XC5711WrBjFCrUWT8A4tz/+5iDtYfqAF6uTwGjbIL5gLyCu7M5
+	fFQCPxM1KZMTHn9q83RIT2yofZdkUk8q6jdBBGJEC5Tfj9FyYLfxNeKEvW0ZzuL5lpL7L/SWhWR
+	LNV5IovWeWia+SbENbqn3CygvHnY=
+X-Google-Smtp-Source: AGHT+IE6xeF663Ehtkx+Tn7K0YByRaw3WGT5qhe7eblpPQ0dM4VjdYTgHjq2bWdoW1KfC5x11Xkqkg==
+X-Received: by 2002:a17:907:c78b:b0:ade:cdec:7085 with SMTP id a640c23a62f3a-ae34fee181emr1637881166b.26.1751373803200;
+        Tue, 01 Jul 2025 05:43:23 -0700 (PDT)
 Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233c05csm194901555e9.5.2025.07.01.05.23.44
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353659fdesm872608566b.69.2025.07.01.05.43.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 05:23:45 -0700 (PDT)
-Message-ID: <488281f6-5e5d-4864-8220-63e2a0b2d7f2@linaro.org>
-Date: Tue, 1 Jul 2025 13:23:44 +0100
+        Tue, 01 Jul 2025 05:43:22 -0700 (PDT)
+Message-ID: <177a3018-1170-4c92-8657-32edc165bb47@linaro.org>
+Date: Tue, 1 Jul 2025 13:43:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,8 +82,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
- front camera
+Subject: Re: [PATCH 2/5] media: i2c: imx355: Support device tree probing and
+ resource management
 To: Richard Acayan <mailingradian@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -93,141 +93,131 @@ To: Richard Acayan <mailingradian@gmail.com>,
  Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
 References: <20250630225944.320755-7-mailingradian@gmail.com>
- <3qGugliBdtpdHGZzR9xh_974TfJigMYERGVAfqmpCqe1R7O0CLU8FzXVcIESzTIc-SKzpk42ZAx5-38eDX00Eg==@protonmail.internalid>
- <20250630225944.320755-11-mailingradian@gmail.com>
+ <Vrnknr6oE7SMsU5fexDRxfCdLZypJp6UaPEae_ubAOcQuXsTWz6kOpoQB3jZWXUlEu09hp5XjfLAXD2AhuOK9A==@protonmail.internalid>
+ <20250630225944.320755-9-mailingradian@gmail.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20250630225944.320755-11-mailingradian@gmail.com>
+In-Reply-To: <20250630225944.320755-9-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 30/06/2025 23:59, Richard Acayan wrote:
-> The Sony IMX355 is the front camera on the Pixel 3a. It is connected to
-> CSIPHY1 and CCI I2C1, and uses MCLK2. Add support for it.
+> A device tree compatible makes it possible for this driver to be used on
+> Open Firmware devices. Initialization of resources such as the reset
+> GPIO and voltage regulators can be specified in the device tree and
+> handled by the driver. Add support for this so the Pixel 3a can use the
+> driver.
 > 
 > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 > ---
->   .../boot/dts/qcom/sdm670-google-sargo.dts     | 112 ++++++++++++++++++
->   1 file changed, 112 insertions(+)
+>   drivers/media/i2c/imx355.c | 63 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 63 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-> index d01422844fbf..0af6a440ecbc 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-> +++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-> @@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
->   		regulator-min-microvolt = <1050000>;
->   		regulator-max-microvolt = <1050000>;
->   	};
+> diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
+> index b2dce67c0b6b..42bd08e8ac50 100644
+> --- a/drivers/media/i2c/imx355.c
+> +++ b/drivers/media/i2c/imx355.c
+> @@ -3,9 +3,14 @@
+> 
+>   #include <linux/unaligned.h>
+>   #include <linux/acpi.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+>   #include <linux/i2c.h>
+>   #include <linux/module.h>
+> +#include <linux/of.h>
+>   #include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+>   #include <media/v4l2-ctrls.h>
+>   #include <media/v4l2-device.h>
+>   #include <media/v4l2-event.h>
+> @@ -121,6 +126,16 @@ struct imx355 {
+>   	 * Protect access to sensor v4l2 controls.
+>   	 */
+>   	struct mutex mutex;
 > +
-> +	cam_front_ldo: cam-front-ldo-regulator {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "cam_front_ldo";
-> +		regulator-min-microvolt = <1352000>;
-> +		regulator-max-microvolt = <1352000>;
-> +		regulator-enable-ramp-delay = <135>;
+> +	struct clk *mclk;
+> +	struct gpio_desc *reset_gpio;
+> +	struct regulator_bulk_data supplies[3];
+> +};
 > +
-> +		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&cam_front_ldo_pin>;
-> +	};
-> +
-> +	cam_vio_ldo: cam-vio-ldo-regulator {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "cam_vio_ldo";
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-enable-ramp-delay = <233>;
-> +
-> +		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&cam_vio_pin>;
-> +	};
+> +static const char * const imx355_supply_names[] = {
+> +	"vana",
+> +	"vdig",
+> +	"vio",
 >   };
 > 
->   &apps_rsc {
-> @@ -392,6 +420,58 @@ vreg_bob: bob {
->   	};
->   };
+>   static const struct imx355_reg imx355_global_regs[] = {
+> @@ -1683,6 +1698,7 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct device *dev)
+>   static int imx355_probe(struct i2c_client *client)
+>   {
+>   	struct imx355 *imx355;
+> +	size_t i;
+>   	int ret;
 > 
-> +&camss {
-> +	vdda-phy-supply = <&vreg_l1a_1p225>;
-
-You've got your 1p2 but looks like you are missing your 0p8 supply
-
-> +	status = "okay";
-> +};
+>   	imx355 = devm_kzalloc(&client->dev, sizeof(*imx355), GFP_KERNEL);
+> @@ -1694,6 +1710,42 @@ static int imx355_probe(struct i2c_client *client)
+>   	/* Initialize subdev */
+>   	v4l2_i2c_subdev_init(&imx355->sd, client, &imx355_subdev_ops);
+> 
+> +	for (i = 0; i < ARRAY_SIZE(imx355_supply_names); i++)
+> +		imx355->supplies[i].supply = imx355_supply_names[i];
 > +
-> +&camss_endpoint1 {
-> +	clock-lanes = <7>;
-> +	data-lanes = <0 1 2 3>;
-> +	remote-endpoint = <&cam_front_endpoint>;
-> +	status = "okay";
-> +};
+> +	ret = devm_regulator_bulk_get(&client->dev,
+> +				      ARRAY_SIZE(imx355->supplies),
+> +				      imx355->supplies);
+> +	if (ret) {
+> +		dev_err_probe(&client->dev, ret, "could not get regulators");
+> +		return ret;
+> +	}
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(imx355->supplies),
+> +				    imx355->supplies);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to enable regulators: %d\n", ret);
+> +		return ret;
+> +	}
 
-This looks not like how the other dts are upstream. Does this work and 
-pass the dt checker ?
+You should stick to dev_err_probe().
 
-Right now upstream wants something like this
-
-&camss {
-         vdda-phy-supply = <&vreg_l5a_0p88>;
-         vdda-pll-supply = <&vreg_l9a_1p2>;
-         status = "okay";
-
-         ports {
-                 /* The port index denotes CSIPHY id i.e. csiphy2 */
-                 port@2 {
-                         csiphy2_ep: endpoint {
-                                 clock-lanes = <7>;
-                                 data-lanes = <0 1 2 3>;
-                                 remote-endpoint = <&imx577_ep>;
-                         };
-                 };
-         };
-};
-
-Can the upstream driver actually consume the dt as you specified above ?
+There's no reason to enable the rails this early either, should be in a 
+dedicated power_on() function called in the right place with its own 
+cleanup logic for error - to save us from replicating cleanup with jump 
+labels.
 
 > +
-> +&cci {
-> +	pinctrl-names = "default", "sleep";
-> +	pinctrl-0 = <&cci1_default &cam_mclk_default>;
-> +	pinctrl-1 = <&cci1_sleep>;
+> +	imx355->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> +						     GPIOD_OUT_HIGH);
+> +	if (IS_ERR(imx355->reset_gpio)) {
+> +		ret = PTR_ERR(imx355->reset_gpio);
+> +		dev_err_probe(&client->dev, ret, "failed to get gpios");
+> +		goto error_vreg_disable;
+> +	}
 > +
-> +	status = "okay";
-> +};
+> +	imx355->mclk = devm_clk_get(&client->dev, "mclk");
+> +	if (IS_ERR(imx355->mclk)) {
+> +		ret = PTR_ERR(imx355->mclk);
+> +		dev_err_probe(&client->dev, ret, "failed to get mclk");
+> +		goto error_vreg_disable;
+> +	}
 > +
-> +&cci_i2c1 {
-> +	camera@1a {
-> +		compatible = "sony,imx355";
-> +		reg = <0x1a>;
-> +
-> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +		clock-names = "mclk";
-> +
-> +		clock-frequency = <19200000>;
-> +
-> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +		assigned-clock-rates = <24000000>;
-> +
-> +		reset-gpios = <&tlmm 9 GPIO_ACTIVE_HIGH>;
-> +
-> +		vana-supply = <&cam_front_ldo>;
-> +		vdig-supply = <&cam_front_ldo>;
-> +		vio-supply = <&cam_vio_ldo>;
+> +	clk_prepare_enable(imx355->mclk);
+> +	usleep_range(12000, 13000);
+This should go into a dedicated power_on() routine which is reusable, so 
+that we have one place to get the power-on sequence right.
 
-These are the downstream names, taking imx512/477 as a reference point
+Something like drivers/media/i2c/ov02e10.c::ov02e10_power_on()
 
-                 dovdd-supply = <&vreg_l7f_1p8>;
-                 avdd-supply = <&vdc_5v>;
-                 dvdd-supply = <&vdc_5v>;
+> +
+>   	/* Check module identity */
+>   	ret = imx355_identify_module(imx355);
 
-I'd guess the data sheet probably has better names like that.
+If you move identify_module to come after get_hwcfg then all of the 
+above code can be buried inside of get_hwcfg which IMO would be a nice 
+pattern to follow.
 
----
-bod
+driver/media/i2c/ov02[c|e].c
+
+---bod
 
