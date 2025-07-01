@@ -1,426 +1,233 @@
-Return-Path: <linux-media+bounces-36395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36397-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E58AEF322
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 11:22:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BF6AEF37C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 11:37:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7EB901BC2218
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 09:23:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09C357AC76A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 09:35:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6187626E715;
-	Tue,  1 Jul 2025 09:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A47B226D4E7;
+	Tue,  1 Jul 2025 09:37:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DNT/Xo0p"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="oComJHA7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012009.outbound.protection.outlook.com [52.101.66.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B246526B0A7
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 09:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751361749; cv=none; b=bGaPhHrYDx4yR3xXsASdAIxAYvNbKEPDfRjiT4guze00uSzoaddGBhbnB7FdXI91kzAj+5aM7mQ1/zTyyV/mPzvtdH4B1r4ETcqL8agvI3g8HOOJBSMIHFZ3LQoXOmkIbghOtpJlQnSJq19R1Uqv8pRsqjJlR8cFTR3esci8Hz4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751361749; c=relaxed/simple;
-	bh=j5wlMbPmUjf27ANZh10nnvtw/xfZ70MwhNN1zPJjxpI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lJApis4j+PPGVNoVF+XT5cAbBrtfIBLOnaPHPmE9HaoT613nKSh3XaFKaUKA1Xind7Y1rpjePqboLQIV8uwXlvLxWCPuUcq4ZkM5vFcyB6Roif77Fvr4tYac/4mJWWJDDzsEdp0PUkBSdB4okQz7Z46YEmNngD6ZHUhyzwedNXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DNT/Xo0p; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553b544e7b4so3157981e87.3
-        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 02:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751361746; x=1751966546; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z9tMwKKV17TTvsTFK7dQXew3Cofw+lQuFXBbrD3s440=;
-        b=DNT/Xo0ppMBViHLK5XI03YGlmx4IaVnrzEPnfIJJV+LNxtxFnQIOv855TIoh++aF3K
-         wZ+Qe9/uLUogzmaXANQbFMyujYUsogVO7+1g4+2aRRfTla4Uvf82/ERatw1vMK5ctRoz
-         vZQG+4s/9Ddz3nkuuFP+Tt6SsrIaI0p1E+Bkc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751361746; x=1751966546;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z9tMwKKV17TTvsTFK7dQXew3Cofw+lQuFXBbrD3s440=;
-        b=CWDSyKISdcYGEDtkMjJ5xUC9s/iaa+9f2IGQ6Em05V1a0/qDptcGQoi1Urjs9wjxKl
-         0BYIUs0noV8FU5WEpAkDGl4WmJNYlmGg8OhkBCt+l7UMqN2MBUu0dQiXUmETkuXF7y6P
-         yDJLZFZQOw60t25Nny5bs+pWxAcNI7zWFvTOt6BylF9tLvpBu8NFm8uKLlrpj9YCZVsg
-         EfSlQFk8/3J0O46uRmO3I9ndss90aCuF/YkyqgS0AkKXgyy8XE2uBHfrq/kStvaoxihk
-         XQsCIjQux02w+dP4jeS7CMHcfTFndZwjFRqyqu2+PiY/+ZE7laW0SZu7Hx1VgnuzwMMA
-         lxgg==
-X-Forwarded-Encrypted: i=1; AJvYcCU2NCk0D08Ux8OuIral890ViLZmSq6+xZN+S3uOPLShMwZFOmmX8fraZ72cTWZVwo+2ogx011SFFUDMCw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxhWyTbbVS4OaRtjsjrvnjqGcQ4ytgswbQNlpFp0SA6Dd52PCX
-	XAo7Y+ZKLvMB3Aq0rKHk3yxFRLSP3ceSUuMsgM8VN93Ygs/i8SAxSwfbdFqTqV+aNlHFRXd9vW2
-	CT/hZkg==
-X-Gm-Gg: ASbGncv96geCiIkRC4G6WFAAEvTaKcCitFGLUcaS1PJFWex4+QheEQCcp9Do9JKAvX5
-	uZdsw1v2XCBT2AtTS7ggt5IRT5e/E6VXTmd2LR9o24yR57wArujaY9HGVIjHH1pwF06omh0ISKQ
-	tuOifkjRVjqB6yu+vTIHB4bSEMIimFQKTJokpHvN4FzpkA+b5Pcu1mxEhlifnxi6eZBej5HhjAb
-	Y3eVY1C4UMsDXQSnik4AlxMefrxWH6okuSzB19b1UZQyFu9ApX8Dfd0vYtUU6c3I0ErgheBFQ7U
-	sniVUYqsL7EfLncfrkCF7NYrhtuIthfsn03XBrH4xQK6iAYLLaV6672qziA66mbEG2v/rhk7xSo
-	BI9wpTuzwKsjgBxQgdyAE0eqT6QAw
-X-Google-Smtp-Source: AGHT+IFJctnVl3kAivitqXQwO6WiV+HcT09pB5cJ/QUjC004rSXYmchG7+a9AExtBSWJk7tswmYDbg==
-X-Received: by 2002:a05:6512:318f:b0:553:510d:f46b with SMTP id 2adb3069b0e04-5550b8b0549mr5997813e87.32.1751361745495;
-        Tue, 01 Jul 2025 02:22:25 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5550b2b934csm1733763e87.95.2025.07.01.02.22.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 02:22:23 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-32b5226e6beso26386661fa.2
-        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 02:22:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXGsXKYPZnqQcSdOfwAtOAa8qUncUU/bL9HLv2OlDHH54IDILpMPn3oINthbjbmlXTuXwbZYRhem9o8lw==@vger.kernel.org
-X-Received: by 2002:a05:651c:3c6:b0:32b:590f:47cb with SMTP id
- 38308e7fff4ca-32cdc49c942mr31566521fa.15.1751361742529; Tue, 01 Jul 2025
- 02:22:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D35130A73;
+	Tue,  1 Jul 2025 09:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751362623; cv=fail; b=NjT9RIbb1F4J8epzAM1hXfxSGEQSmKtc5NJdLWQuFyjGSx+9n0lq5qMKV8bCm8pv5LTCPLkj9pOniNqh9ZTtt1sQ8NPxuzg1kcEfFQ4ogz0BCfFqdPF0Rx+2C6Xa2uX6pHCQMLhVwQU1yJRZwXTNaqo6c2QvvXU3j1IZFOWMOzQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751362623; c=relaxed/simple;
+	bh=+jaxuokSHZsh7PHaeo2V4SlPDU9injMx/ymB187kH+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ERSMuLibKf619QyNjOfU+xTfBBe57EXYEWTSW+e/wwNIPLh14P2Q1+xwxCTm4dQvTvRinSte+9YZecFekOUYiQOquhnu70+ONQq094CqLyprh7UTPFpss1EZ8H7WKAvWCqkdB5vqMEpKNiyg4qehXzA7gP1phuaKkTpYrSkYYQ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=oComJHA7; arc=fail smtp.client-ip=52.101.66.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e0x1we34AGnhb70q/4PsBSTxeglvv7/yCUvu/3Qla9Za0Lzy49V3l9hmQW/CKs58DJkdU4Vjr+9LRCZIUFLcG8FLRB++4ekjqkTQhVkLG2D+zUJjGogvl1W+DIwjrmlOA2jTHdorzwMM2NrzLovcS+rosdvzS/EAKNF+8YLkUWyKzo2F62VcZXPwGI/ybsHH6Q2+KPic53FH3Tk0Xj9kGlUOQQsvrKrjJjQQDlmxhMORM7k14rRJgBkhLPd1jXa9oDqId7iG8LHQhy3uTFnF3DO3v5evCYuKW96rKJuc6CUJO5jq9K5fZIjkteUHJTPFe4PbXgzfl9T69oDbsCJBHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=al7ply/EvpkMKlpihNL0uRZNIP4lYYXDSRMwCB3+ZpU=;
+ b=bItlOJmm6mAbtD/INIzhXB29SQXUX3zTFlk8ihyYk82yhdPQe9XExUrOt+nP59g7IhGuWreG5Efh8vTMDSej0oDj3FN+XQB2gugA/MOd36bMfyjBvF3MT+ZSCHgpNXu9BG2ho+UFDiK2R2Bv5eNdSxWS1L+OjVcEE8BWyRDyaPxSMApjNix28HsTTbdrLLBcMumSoXmAqYDvgccOkfzrEWJy1AFosW9OsIFr4avEB5WurklzvT3yiB/g7BjnUu5Z9ULvNzXes+iYOZEiy6pfiMB87qzBZQLCtnqDVxLHQKQ+ERtuTOi79k2v6WhpFqHfZ/CnDOpzSei6LTDPE8dmLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=al7ply/EvpkMKlpihNL0uRZNIP4lYYXDSRMwCB3+ZpU=;
+ b=oComJHA7u5NoSFK7IIw5KfGO6VH8l+44hd8Uj5fQUpsW/qhuR5JSty0HHKNQl1IFnEIXOtMI9Wc+/NW8Xrkq2Iyy7bdtyb9Dh3P52UxcEpIn+zye9bkFmJNFH1TCCrYe6mb5k88AQltzB8THnSyBE5tCfttxtIeuBiIcNw7bab9d8qpxVLRvDa60IZU9wiPf4go5+kq+21jQOBojafcP7mmrO8tgjqfmIgoXB2jLSkk3lFqRmdJ98P260OlmaTzMcV2h0cahTETd05apcdhsUat4hztAYm0+3KcLlL3rCrMAloxsp2QJ8Cg1bcqHUkdhYqSALL8kz8VLRjOgjc7Urg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
+ by PAXPR04MB9186.eurprd04.prod.outlook.com (2603:10a6:102:232::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.29; Tue, 1 Jul
+ 2025 09:36:56 +0000
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7%6]) with mapi id 15.20.8880.029; Tue, 1 Jul 2025
+ 09:36:55 +0000
+Date: Tue, 1 Jul 2025 17:32:03 +0800
+From: Xu Yang <xu.yang_2@nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Christoph Hellwig <hch@lst.de>, 
+	ezequiel@vanguardiasur.com.ar, mchehab@kernel.org, hdegoede@redhat.com, 
+	gregkh@linuxfoundation.org, mingo@kernel.org, tglx@linutronix.de, 
+	andriy.shevchenko@linux.intel.com, viro@zeniv.linux.org.uk, thomas.weissschuh@linutronix.de, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	imx@lists.linux.dev, jun.li@nxp.com
+Subject: Re: [PATCH v2 1/3] usb: core: add dma-noncoherent buffer alloc and
+ free API
+Message-ID: <h7ovqshmy4s6kehal3gywuxxj6zf4uajqpu6lxdmo6id5mpvs5@e47v6d5tfe4q>
+References: <20250627101939.3649295-1-xu.yang_2@nxp.com>
+ <20250627101939.3649295-2-xu.yang_2@nxp.com>
+ <1c4f505f-d684-4643-bf77-89d97e01a9f2@rowland.harvard.edu>
+ <wddmyx4lccthln7mbngkd4zbh6y7mwetdba5e7ob6u4xevecmj@zopp65eqbeuu>
+ <e908261b-2acd-46ac-b3ef-92691eb50f88@rowland.harvard.edu>
+ <20250630173851.GH20333@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250630173851.GH20333@pendragon.ideasonboard.com>
+X-ClientProxiedBy: FR4P281CA0312.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f6::19) To DU2PR04MB8822.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e1::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-8-5710f9d030aa@chromium.org> <20250629175045.GC6260@pendragon.ideasonboard.com>
-In-Reply-To: <20250629175045.GC6260@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 1 Jul 2025 11:22:10 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuUFUtwenuefqf__=bpyNr0jxFML0hq5spktA+w441Jjw@mail.gmail.com>
-X-Gm-Features: Ac12FXw-vWZDkC22fNJPHs7bYPytUF_2gtuqpU-8HcNvZI1K7oxyCe6dK0RwoJs
-Message-ID: <CANiDSCuUFUtwenuefqf__=bpyNr0jxFML0hq5spktA+w441Jjw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/12] media: uvcvideo: Add support for V4L2_CID_CAMERA_ORIENTATION
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|PAXPR04MB9186:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e02513b-5221-405f-c49b-08ddb882d160
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|1800799024|19092799006|7416014|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?/CmWMpjLL9VdoNvgD+vRguIQ7u0sIvEVL8znu3dj5KjtZUawX8KHvLkKxqT2?=
+ =?us-ascii?Q?h19rVszCq7S0szPqigsZQRPCRVkWXkOrTVP2ll/sBFnWLZPecyYNIRCaaGZL?=
+ =?us-ascii?Q?mfPqbIztHql2aXkl7RiunR3MT8Q9SHJMA9sKBP9SEYwe6HlpW6SjxpK5cKYP?=
+ =?us-ascii?Q?rBn3wPV0o12t6IyJICpizCXJbdvkWrmEUkvrlLvL7IyJiY0rre0AdAKjd34l?=
+ =?us-ascii?Q?eFje5X1LNg2MzDIDX3mJC6It7XfVh2dQkOLGxskMHYJZxMhaPmQgxfKx9kvf?=
+ =?us-ascii?Q?SaYAiVf6krl+SX91Ii8b8R6PO4Wd4IP7aJufFS9TVL3lik0do+lGBZ6M9rk9?=
+ =?us-ascii?Q?9JD7gLYtbSijQQIebcnXS3gLdse4HuIn3MqsokKopNk5+qhrwA5IsVCO5Cs0?=
+ =?us-ascii?Q?Kys2ZOc0B4vSNVxLdy1roK0wAw4B+K73odhLEKSPWXlyMPL+v8ySKAzHzUJx?=
+ =?us-ascii?Q?yhqysylif7Brg2PbsvEer8clhIqJaboTqWsox7AkZqCYcZvW6Q5uJsH/Z51P?=
+ =?us-ascii?Q?l0SjlD8DfNkU2T61OOFqheWFyAWTYYPOGsyAcrLib+eWtyxMN9geDbMeCxR+?=
+ =?us-ascii?Q?uQHLiqaxWGJXhjTEi05r91rN5ICTt4gVAL5p/WBPEIMIEPszABjbe92GbIDJ?=
+ =?us-ascii?Q?M/r+8fbFXiMLFEHRN3GnfraBxT72IwnCcBqC2sZ6MaaLkgkLZHgqJ14jecKv?=
+ =?us-ascii?Q?1xokS+NOzRlgCb7ycciID2aejUoOpZokjm5Euw3n+Kx7FKQegrJjCJ9KtfK6?=
+ =?us-ascii?Q?JOhtOO49g4n6VdQCqySdtMKo+AKX+wrwJGEDA5E5BSdSHA9FYp8MbL8iL9Bc?=
+ =?us-ascii?Q?T/tZ10Sg12svBKanDL1BiXyBO+fzTkKU3NULZFv3ilsc+uHSFbiMGohZ33ky?=
+ =?us-ascii?Q?Q/3dasWLpl+n0l6m/qjP0I3ak1jaGTiLSrE/SER+pHaLPSWpaWoWmMvD+YnH?=
+ =?us-ascii?Q?M0W8M+j3dUMNZ0iWlQqu4dWqoxvGeee9RwpO71KE7fTaId6kJUWlh60ex91G?=
+ =?us-ascii?Q?EovQK/JKVEKTv+E24T9hWupHry4tzAjAU6QYO284yuBnCvY6OVphMwwp2adF?=
+ =?us-ascii?Q?E16GIxKOs5Ie8+1BV/FdKQr4KTwfyYICJ5f3XP7iUFy3vP402EPlmfJ6npqt?=
+ =?us-ascii?Q?4nLG6V1rIyUtJm9gN/W4YfM9BGUsLw4DqK5sHvLPPxmBtFOlCAfOqptO2TJz?=
+ =?us-ascii?Q?ytngPgFeenrk5csmuEE0PeZGrtNx95Wx8T5tbvdvtowRK6tirUd95MXGAoYT?=
+ =?us-ascii?Q?2plwV7Dn45zNp7Ikh99/d+KxyTbjvV6dnlecChImzCE8zqSTf40HPBvrdLgp?=
+ =?us-ascii?Q?JXwwuFMVsBDC+aQ641WDqQdipkoJlHXfNNGAqlyR8J3Vs6FUqhFhH/T920tl?=
+ =?us-ascii?Q?2cbKfacuo3NZqWUXCZDKgZSv/ZbfDjKyonU32/SZBIjLcBU0XYRZ0Ay7ayyG?=
+ =?us-ascii?Q?xkkczBRHYs5+sCuc2HwgNgAnUytOYiSFjsA+TUSI+JmOkMJ8sx9wXTHcvJzl?=
+ =?us-ascii?Q?Qfv7Hc4hQFotGOk=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?4b7ub7MchxeFUmihIZGwfBCskP3pg0a6v4MEV1PfHX9/Pmo53t8U5nItMe0g?=
+ =?us-ascii?Q?VOUPu7EqDBvZjC/eCeh5WnyFW9werlVHJ0/2gi1b+hHonwhIyT7fDBlV5UDF?=
+ =?us-ascii?Q?Vy0kRj8U6DDv5CzPnAVa3ISNqW8JT6FrhPcMMFMu4QpUIwPSU9QKQgpYKcnA?=
+ =?us-ascii?Q?c97p+SunF/M9w9yyJ8Ch9diOHraZBPgppm2i7N49bRT9jay5jbbycLGKC81a?=
+ =?us-ascii?Q?Sk1gaVMDp72n1letVowF9z1QKss0jY+WePYoedElYj/iMC4LPEWK7jf/hk/G?=
+ =?us-ascii?Q?+2+4anJnHW2sf2s6YjrbwpKiaBOW0g4U3k8+wRzFQB/GLGRudx8QsJiJ6ri7?=
+ =?us-ascii?Q?/NSOena3liifpS6plrw70oDeI8jHCU2Bgg/oiNH12IPTP/v+4dXxF55glbHz?=
+ =?us-ascii?Q?hBxu2tDgw+OvALQk1OEM1YYGkVwHvbSp0wIg5x1V0Eb4FX4mvkdBoccnL4OD?=
+ =?us-ascii?Q?AhBt2Eot3sbmh1PfEgG64wji3l8iPSm5UVbCcFac3mUF6bCLg4vv5xXV6kVa?=
+ =?us-ascii?Q?lyA4l8Z5kjkbA7sdLEkxuy+yw9q1F5LVnhiNQwXuxquikivZZilZk6a6OKdR?=
+ =?us-ascii?Q?FeI+0bOawWK8/89MrwHizLSjKPt+COtRVZXuJfJW2fvU6jrdlwsvoAiDdYZK?=
+ =?us-ascii?Q?qpX3B0/AcLhta+z90T+JfYqsXT5AArmZHZuf6gXfRNragn4iPMKooLzJ+7fV?=
+ =?us-ascii?Q?pl0IQXBE/EveBBrKbqmyipvp1cTGvlL7ZNQHKOs9DrDE5jJPciheEYBYnc1d?=
+ =?us-ascii?Q?kF0f1visNGX6+b79/inltP1p42M1HDbPd4afxTRogAeUswoIBgtxblehtW4s?=
+ =?us-ascii?Q?1QWKlexTARZ51ZsPKmSzt1WG8dXwtBbrQKDKlPKFR65OWImBv6lHnbegfv5o?=
+ =?us-ascii?Q?JJvDSdcbqPWP31xZ1ubivyp2m4fDeVRhSpES2EwQxlWC5E/bHGHfunQXnlHl?=
+ =?us-ascii?Q?aresscEylPiFWTAEd/Y9b58wYi2zV1zPetW0TFXQfCmbp+ZN13C1XmQg/hJA?=
+ =?us-ascii?Q?bDUbH+uizTpvxhAflhoNZ6hpqBEPY8EwIIEj1kEdoyAKxcYrH3kpL4paYzJW?=
+ =?us-ascii?Q?OCsncAFd2wE917/2WVJitldhKUiKmAo0KHGqNC5yvVvH8AMMSxFkch//RGSp?=
+ =?us-ascii?Q?rzp2vr+XxPBG/BHqB7RgDye2tVouYUFVrnpwGUZnACvyfIsAujA5U9bbPXup?=
+ =?us-ascii?Q?AmFGibYCmTnG3RHrzhqNmvFTgGZeCg9PS1gIvUJAZvhpzicZIWT3oP+IQ6x9?=
+ =?us-ascii?Q?hcsB4ywaGRyfrkxep2+cbFA8BEqczd+5XE296mcRy2JTcqBs0LaGkRyJhM9L?=
+ =?us-ascii?Q?gedHpna/J53vtUOu34j1qGaNTGX5XmVJYknkNAaRFve69aZxBAEDPrizKI3I?=
+ =?us-ascii?Q?9J0dcQBA3k8dn/FzQKdFfi4fMiwUJ5hB5pDrxFwj3D7gx2QjxsYxazjFMgf6?=
+ =?us-ascii?Q?cBOuCrpWViuO05C3+0VmbXr31du0NS7RBU02mYWUxv4kEvh0QUJfTglYx8QJ?=
+ =?us-ascii?Q?HeGK7hny3bbU8G8qYdEP+WDMUWjNy98vvqdDty+JQX8aycXa4njxLGJ0Ee+p?=
+ =?us-ascii?Q?m5EKVz4DNx2foopsy6waif/HV75I1muph4kA+CCP?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e02513b-5221-405f-c49b-08ddb882d160
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 09:36:55.6522
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YbKZdnATcsVgWPq+fN3+UTT4dR/9GVp72cjXBIBjvH5v2Yt4I5xkcG7s+lqfOeNQjkOnV1KRLi6CgvBLUGQcxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9186
 
-On Sun, 29 Jun 2025 at 19:51, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Thu, Jun 05, 2025 at 05:53:01PM +0000, Ricardo Ribalda wrote:
-> > Fetch the orientation from the fwnode and map it into a control.
-> >
-> > The uvc driver does not use the media controller, so we need to create a
-> > virtual entity, like we previously did with the external gpio.
-> >
-> > We do not re-purpose the external gpio entity because its is planned to
-> > remove it.
->
-> Comparing the GUIDs for the EXT_GPIO_CONTROLLER and SWENTITY, we have
->
-> #define UVC_GUID_EXT_GPIO_CONTROLLER \
->         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
-> #define UVC_GUID_SWENTITY \
->         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04}
->
-> The GUIDs don't carry any special meaning in their values. I agree with
-> the plan to drop the existing features of the GPIO entity, but wouldn't
-> it be easier to rename UVC_GUID_EXT_GPIO_CONTROLLER to UVC_GUID_SWENTITY
-> and UVC_EXT_GPIO_UNIT* to UVC_SWENTITY_UNIT* (the macros are not exposed
-> to userspace), and later drop the existing GPIO controls from the entity
+Hi Alan and Laurent,
 
-It would make my life easier if we keep the naming as is, the final
-result will be identical.
+On Mon, Jun 30, 2025 at 08:38:51PM +0300, Laurent Pinchart wrote:
+> Hi Alan,
+> 
+> On Mon, Jun 30, 2025 at 10:16:30AM -0400, Alan Stern wrote:
+> > On Mon, Jun 30, 2025 at 04:18:51PM +0800, Xu Yang wrote:
+> > > > Also, the material that this routine replaces in the uvc and stk1160 
+> > > > drivers do not call flush_kernel_vmap_range().  Why did you add that 
+> > > > here?  Was this omission a bug in those drivers?
+> > > 
+> > > According to dma-api.rst:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/tree/Documentation/core-api/dma-api.rst?h=linux-6.15.y#n664
+> > > 
+> > > "Once a non-contiguous allocation is mapped using this function, the
+> > > flush_kernel_vmap_range() and invalidate_kernel_vmap_range() APIs must
+> > > be used to manage the coherency between the kernel mapping, the device
+> > > and user space mappings (if any)."
+> > > 
+> > > Possibly the uvc and stk1160 missed calling it, but since they won't be
+> > > the only user of the USB core, so we'd better call these APIs.
+> > 
+> > Documentation/core-api/cachetbl.rst says:
+> > 
+> >   ``void flush_kernel_vmap_range(void *vaddr, int size)``
+> > 
+> >        flushes the kernel cache for a given virtual address range in
+> >        the vmap area.  This is to make sure that any data the kernel
+> >        modified in the vmap range is made visible to the physical
+> >        page.  The design is to make this area safe to perform I/O on.
+> >        Note that this API does *not* also flush the offset map alias
+> >        of the area.
+> > 
+> >   ``void invalidate_kernel_vmap_range(void *vaddr, int size) invalidates``
+> > 
+> >        the cache for a given virtual address range in the vmap area
+> >        which prevents the processor from making the cache stale by
+> >        speculatively reading data while the I/O was occurring to the
+> >        physical pages.  This is only necessary for data reads into the
+> >        vmap area.
+> > 
+> > So invalidate_kernel_vmap_range() is not needed for data writes, that 
+> > is, for OUT transfers.  And ironically, flush_kernel_vmap_range() _is_ 
+> > needed (but only for OUT transfers).
+> 
+> flush_kernel_vmap_range() for OUT transfers and
+> invalidate_kernel_vmap_range() for IN transfers make sense to me.
 
-Maybe you want to take a look into
-https://patchwork.linuxtv.org/project/linux-media/list/?series=14066 ?
+Many thanks for your suggestions!
+I'll do it in next version.
 
-Will it help if I rebase it to the current media-committers/next. It
-has been hanging around since november.
+Thanks,
+Xu Yang
 
-
-
-> ?
->
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/Makefile       |  3 +-
-> >  drivers/media/usb/uvc/uvc_ctrl.c     | 21 +++++++++++
-> >  drivers/media/usb/uvc/uvc_driver.c   | 14 +++++--
-> >  drivers/media/usb/uvc/uvc_entity.c   |  1 +
-> >  drivers/media/usb/uvc/uvc_swentity.c | 73 ++++++++++++++++++++++++++++++++++++
-> >  drivers/media/usb/uvc/uvcvideo.h     | 14 +++++++
-> >  include/linux/usb/uvc.h              |  3 ++
-> >  7 files changed, 125 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/Makefile b/drivers/media/usb/uvc/Makefile
-> > index 4f9eee4f81ab6436a8b90324a688a149b2c3bcd1..b4398177c4bb0a9bd49dfd4ca7f2e933b4a1d7df 100644
-> > --- a/drivers/media/usb/uvc/Makefile
-> > +++ b/drivers/media/usb/uvc/Makefile
-> > @@ -1,6 +1,7 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >  uvcvideo-objs  := uvc_driver.o uvc_queue.o uvc_v4l2.o uvc_video.o uvc_ctrl.o \
-> > -               uvc_status.o uvc_isight.o uvc_debugfs.o uvc_metadata.o
-> > +               uvc_status.o uvc_isight.o uvc_debugfs.o uvc_metadata.o \
-> > +               uvc_swentity.o
-> >  ifeq ($(CONFIG_MEDIA_CONTROLLER),y)
-> >  uvcvideo-objs  += uvc_entity.o
-> >  endif
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 47e8ccc39234d1769384b55539a21df07f3d57c7..b2768080c08aafa85acb9b7f318672c043d84e55 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -376,6 +376,13 @@ static const struct uvc_control_info uvc_ctrls[] = {
-> >                               | UVC_CTRL_FLAG_GET_DEF
-> >                               | UVC_CTRL_FLAG_AUTO_UPDATE,
-> >       },
-> > +     {
-> > +             .entity         = UVC_GUID_SWENTITY,
-> > +             .selector       = 0,
-> > +             .index          = 0,
-> > +             .size           = 1,
-> > +             .flags          = UVC_CTRL_FLAG_GET_CUR,
-> > +     },
-> >  };
-> >
-> >  static const u32 uvc_control_classes[] = {
-> > @@ -975,6 +982,17 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
-> >               .data_type      = UVC_CTRL_DATA_TYPE_BITMASK,
-> >               .name           = "Region of Interest Auto Ctrls",
-> >       },
-> > +     {
-> > +             .id             = V4L2_CID_CAMERA_ORIENTATION,
-> > +             .entity         = UVC_GUID_SWENTITY,
-> > +             .selector       = 0,
-> > +             .size           = 8,
-> > +             .offset         = 0,
-> > +             .v4l2_type      = V4L2_CTRL_TYPE_MENU,
-> > +             .data_type      = UVC_CTRL_DATA_TYPE_ENUM,
-> > +             .menu_mask      = GENMASK(V4L2_CAMERA_ORIENTATION_EXTERNAL,
-> > +                                       V4L2_CAMERA_ORIENTATION_FRONT),
-> > +     },
-> >  };
-> >
-> >  /* ------------------------------------------------------------------------
-> > @@ -3210,6 +3228,9 @@ static int uvc_ctrl_init_chain(struct uvc_video_chain *chain)
-> >               } else if (UVC_ENTITY_TYPE(entity) == UVC_EXT_GPIO_UNIT) {
-> >                       bmControls = entity->gpio.bmControls;
-> >                       bControlSize = entity->gpio.bControlSize;
-> > +             } else if (UVC_ENTITY_TYPE(entity) == UVC_SWENTITY_UNIT) {
-> > +                     bmControls = entity->swentity.bmControls;
-> > +                     bControlSize = entity->swentity.bControlSize;
-> >               }
-> >
-> >               /* Remove bogus/blacklisted controls */
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index bcc97f71fa1703aea1119469fb32659c17d9409a..96eeb3aee546487d15f3c30dfe1775189ddf7e47 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -1869,11 +1869,15 @@ static int uvc_scan_device(struct uvc_device *dev)
-> >               return -1;
-> >       }
-> >
-> > -     /* Add GPIO entity to the first chain. */
-> > -     if (dev->gpio_unit) {
-> > +     /* Add virtual entities to the first chain. */
-> > +     if (dev->gpio_unit || dev->swentity_unit) {
-> >               chain = list_first_entry(&dev->chains,
-> >                                        struct uvc_video_chain, list);
-> > -             list_add_tail(&dev->gpio_unit->chain, &chain->entities);
-> > +             if (dev->gpio_unit)
-> > +                     list_add_tail(&dev->gpio_unit->chain, &chain->entities);
-> > +             if (dev->swentity_unit)
-> > +                     list_add_tail(&dev->swentity_unit->chain,
-> > +                                   &chain->entities);
-> >       }
-> >
-> >       return 0;
-> > @@ -2249,6 +2253,10 @@ static int uvc_probe(struct usb_interface *intf,
-> >       if (ret < 0)
-> >               goto error;
-> >
-> > +     ret = uvc_swentity_init(dev);
-> > +     if (ret < 0)
-> > +             goto error;
-> > +
-> >       dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
-> >                dev->uvc_version >> 8, dev->uvc_version & 0xff,
-> >                udev->product ? udev->product : "<unnamed>",
-> > diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-> > index cc68dd24eb42dce5b2846ca52a8dfa499c8aed96..d1a652ef35ec34801bd39a5124b834edf838a79e 100644
-> > --- a/drivers/media/usb/uvc/uvc_entity.c
-> > +++ b/drivers/media/usb/uvc/uvc_entity.c
-> > @@ -106,6 +106,7 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
-> >               case UVC_OTT_MEDIA_TRANSPORT_OUTPUT:
-> >               case UVC_EXTERNAL_VENDOR_SPECIFIC:
-> >               case UVC_EXT_GPIO_UNIT:
-> > +             case UVC_SWENTITY_UNIT:
-> >               default:
-> >                       function = MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN;
-> >                       break;
-> > diff --git a/drivers/media/usb/uvc/uvc_swentity.c b/drivers/media/usb/uvc/uvc_swentity.c
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..702a2c26e029a0655dade177ed2a9b88d7a4136d
-> > --- /dev/null
-> > +++ b/drivers/media/usb/uvc/uvc_swentity.c
-> > @@ -0,0 +1,73 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + *      uvc_swentity.c  --  USB Video Class driver
-> > + *
-> > + *      Copyright 2025 Google LLC
-> > + */
-> > +
-> > +#include <linux/kernel.h>
-> > +#include <linux/usb/uvc.h>
-> > +#include <media/v4l2-fwnode.h>
-> > +#include "uvcvideo.h"
->
-> Blank lines between header groups would be nice.
-ack
->
-> > +
-> > +static int uvc_swentity_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
-> > +                             u8 cs, void *data, u16 size)
-> > +{
-> > +     if (size < 1)
-> > +             return -EINVAL;
-> > +
-> > +     switch (entity->swentity.props.orientation) {
-> > +     case V4L2_FWNODE_ORIENTATION_FRONT:
-> > +             *(u8 *)data = V4L2_CAMERA_ORIENTATION_FRONT;
-> > +             break;
-> > +     case V4L2_FWNODE_ORIENTATION_BACK:
-> > +             *(u8 *)data = V4L2_CAMERA_ORIENTATION_BACK;
-> > +             break;
-> > +     default:
-> > +             *(u8 *)data = V4L2_CAMERA_ORIENTATION_EXTERNAL;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int uvc_swentity_get_info(struct uvc_device *dev,
-> > +                              struct uvc_entity *entity, u8 cs, u8 *caps)
-> > +{
-> > +     *caps = UVC_CONTROL_CAP_GET;
-> > +     return 0;
-> > +}
-> > +
-> > +int uvc_swentity_init(struct uvc_device *dev)
-> > +{
-> > +     static const u8 uvc_swentity_guid[] = UVC_GUID_SWENTITY;
-> > +     struct v4l2_fwnode_device_properties props;
-> > +     struct uvc_entity *unit;
-> > +     int ret;
-> > +
-> > +     ret = v4l2_fwnode_device_parse(&dev->udev->dev, &props);
-> > +     if (ret)
-> > +             return dev_err_probe(&dev->intf->dev, ret,
-> > +                                  "Can't parse fwnode\n");
-> > +
-> > +     if (props.orientation == V4L2_FWNODE_PROPERTY_UNSET)
-> > +             return 0;
-> > +
-> > +     unit = uvc_alloc_entity(UVC_SWENTITY_UNIT, UVC_SWENTITY_UNIT_ID, 0, 1);
-> > +     if (!unit)
-> > +             return -ENOMEM;
-> > +
-> > +     memcpy(unit->guid, uvc_swentity_guid, sizeof(unit->guid));
-> > +     unit->swentity.props = props;
-> > +     unit->swentity.bControlSize = 1;
-> > +     unit->swentity.bmControls = (u8 *)unit + sizeof(*unit);
-> > +     unit->swentity.bmControls[0] = 1;
-> > +     unit->get_cur = uvc_swentity_get_cur;
-> > +     unit->get_info = uvc_swentity_get_info;
-> > +     strscpy(unit->name, "SWENTITY", sizeof(unit->name));
-> > +
-> > +     list_add_tail(&unit->list, &dev->entities);
-> > +
-> > +     dev->swentity_unit = unit;
-> > +
-> > +     return 0;
-> > +}
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index dc23d8a97340dc4615d4182232d395106e6d9ed5..a931750bdea25b9062dcc7644bf5f2ed89c1cb4c 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -19,6 +19,7 @@
-> >  #include <media/v4l2-event.h>
-> >  #include <media/v4l2-fh.h>
-> >  #include <media/videobuf2-v4l2.h>
-> > +#include <media/v4l2-fwnode.h>
->
-> Alphabetical order.
->
-> >
-> >  /* --------------------------------------------------------------------------
-> >   * UVC constants
-> > @@ -41,6 +42,9 @@
-> >  #define UVC_EXT_GPIO_UNIT            0x7ffe
-> >  #define UVC_EXT_GPIO_UNIT_ID         0x100
-> >
-> > +#define UVC_SWENTITY_UNIT            0x7ffd
-> > +#define UVC_SWENTITY_UNIT_ID         0x101
-> > +
-> >  /* ------------------------------------------------------------------------
-> >   * Driver specific constants.
-> >   */
-> > @@ -242,6 +246,12 @@ struct uvc_entity {
-> >                       int irq;
-> >                       bool initialized;
-> >               } gpio;
-> > +
-> > +             struct {
-> > +                     u8  bControlSize;
-> > +                     u8  *bmControls;
-> > +                     struct v4l2_fwnode_device_properties props;
-> > +             } swentity;
-> >       };
-> >
-> >       u8 bNrInPins;
-> > @@ -617,6 +627,7 @@ struct uvc_device {
-> >       } async_ctrl;
-> >
-> >       struct uvc_entity *gpio_unit;
-> > +     struct uvc_entity *swentity_unit;
-> >  };
-> >
-> >  enum uvc_handle_state {
-> > @@ -836,4 +847,7 @@ void uvc_debugfs_cleanup_stream(struct uvc_streaming *stream);
-> >  size_t uvc_video_stats_dump(struct uvc_streaming *stream, char *buf,
-> >                           size_t size);
-> >
-> > +/* swentity */
-> > +int uvc_swentity_init(struct uvc_device *dev);
-> > +
-> >  #endif
-> > diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-> > index bce95153e5a65613a710d7316fc17cf5462b5bce..88a23e8919d1294da4308e0e3ca0eccdc66a318f 100644
-> > --- a/include/linux/usb/uvc.h
-> > +++ b/include/linux/usb/uvc.h
-> > @@ -29,6 +29,9 @@
-> >  #define UVC_GUID_EXT_GPIO_CONTROLLER \
-> >       {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-> >        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
-> > +#define UVC_GUID_SWENTITY \
-> > +     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-> > +      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04}
-> >
-> >  #define UVC_GUID_FORMAT_MJPEG \
-> >       { 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
->
-> --
+> 
+> > On the other hand, Christoph may think these call should be included 
+> > regardless.  Let's see what he recommends.  Christoph?
+> > 
+> > (Actually, I would expect dma_sync_sgtable_for_cpu() and 
+> > dma_sync_sgtable_for_device() to handle all of this for us 
+> > automatically, but never mind...)
+> 
+> -- 
 > Regards,
->
+> 
 > Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
 
