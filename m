@@ -1,171 +1,143 @@
-Return-Path: <linux-media+bounces-36465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36466-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35084AF03C7
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 21:30:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6657AF03D5
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 21:32:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7737516A6FC
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 19:30:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B26167A4097
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 19:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A82E27FD5B;
-	Tue,  1 Jul 2025 19:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE19280022;
+	Tue,  1 Jul 2025 19:32:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LQ9IBkJ9"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="COv/WEvL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4946A382;
-	Tue,  1 Jul 2025 19:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8407A25B1FC;
+	Tue,  1 Jul 2025 19:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751398197; cv=none; b=VAiuE5CH+IBt/8pPgOW8oX4aiGebxmH3qF0HajyxOVhIyev+9627M+Sf+MnzrZG5uWVAnQUtLrfGvVJe3CAkf8ns61Lg4Uhyb9+Za1Yb8t8kNUAk3l2ZcFsE1++sG2Oz4h6L0IDvPtj6zv6udHsx9POK6kc3G+GtNywU//eFz8g=
+	t=1751398365; cv=none; b=jLtG+eYqpt2QjEXH0KNq4rSaebw2DiUKR2nUuZLLOVQyekdH5e6Qfhj4vEaXN1qOf8U3M3sqGK06r/vyGCfsRQifiKlb6KLc+EhTvKpQUCwgiIS3cqoKxGQXON5hII0PI+alEot7A2AbmBCIVIWUGvt284ISAwGRzDHcRKUcGnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751398197; c=relaxed/simple;
-	bh=UeQXokiUpfIRKzCV4siHL91mgA1HxJxuNduWOJ0cc/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ct5CiTOe//1QSOgPtbGkw3qcWjltLphjnLRvZ7c/zjMvIkfCtrDjMvxJjHz86vY+43q5HCF0XKW6MtlRXj7syb8Z1BK3airmpr+2VylytZXlX8PqcAvypCKu1LhjNOLBQZ7lXOSVs3n8gqYgmtWsYLEcL1cp/fhvtLIMnDH3QWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LQ9IBkJ9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D5B04778;
-	Tue,  1 Jul 2025 21:29:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751398172;
-	bh=UeQXokiUpfIRKzCV4siHL91mgA1HxJxuNduWOJ0cc/A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LQ9IBkJ9E0I0v8VB4ePqnqGQXO8B6MacZ/vgwdwg/GXmzybL/r52BD0gYWBXAS4er
-	 cKvwJsS5e3KuHLR6Znb/VAKxSi+UeCOruuiBrFm5zClONa+rSKsXTG9UYJAtF5zIXQ
-	 Wcd87Cr5Qn5C5mKsXIvPOjN9OPBs2jKUXym2txSc=
-Date: Tue, 1 Jul 2025 22:29:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Desnes Nunes <desnesn@redhat.com>, hansg@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: avoid variable shadowing in
- uvc_ctrl_cleanup_fh
-Message-ID: <20250701192928.GB16835@pendragon.ideasonboard.com>
-References: <20250701145240.105959-1-desnesn@redhat.com>
- <CANiDSCs_Pz-wgnYNVA7Zt4RhtgN256i32aCw0mE4XFv3b49ygw@mail.gmail.com>
- <CACaw+ex_T5xS9rw1651TV_z1myXxPGmtpeEB4HWA7S0xU+C9GQ@mail.gmail.com>
- <20250701184134.GC1936@pendragon.ideasonboard.com>
- <CANiDSCt5OZ8dAvZ7G_fic6eCaCsGvmnprjmG9p_9kLbv9cX76A@mail.gmail.com>
+	s=arc-20240116; t=1751398365; c=relaxed/simple;
+	bh=niNzJeXLvd5lsHTembyVglZRkYxCH3CvL+tZgUzKEfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TaX77UP326RdMtL3aLAclr9rbfVDTJTfB+SgO0WKqbUJdV+hO2RIXtPbFY7Tgxr27ySxF0MSzhJqjWvEQpTw7RVy3nd6FnKmGngZ2WQNYMDC97CZQSBmvdmuJFlVDjIx8r0IlThsrlaasIYuEPIgBAli68tGLBRu15z7Y8ab42U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=COv/WEvL; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=Dj2RXbZ/Tv5yAxHz/6WWadAXm0f+rEasqd5wSxNrNfk=; b=COv/WEvLADeJ6fd21KY0S80AoD
+	XAN2jdqZDbmJLuHjkwzeQOPC/J+uLnEp4cOPZMr64nMBTTT7O9tyv1Eo5P3D9VzrPR9ii5R68h9u8
+	x0wMgRHL8MjOUXKpx0bTeMlN96lBxW0hVtxOE/OolJEMZsQgACj71Dk+raYFqFUv+5Gt3KAdnqG5O
+	zQjvfJUL9d9YX9i6ONayuZX4GPHZyO0Ot9qQXBgoQ4iOfk84Nb3DKg+BwfGpR8mQuFu0N7a1Z0iag
+	J4Vn9kQA332jEckCkT25MeMr0VHE/7KDpvPcC6ylfJlD/Vwf3GgBc+asJkJag5aiUgs2e71ApfHnG
+	sFw0nDZw==;
+Received: from i53875bc7.versanet.de ([83.135.91.199] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uWgi0-0007Fd-TC; Tue, 01 Jul 2025 21:32:00 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH v7 03/10] accel/rocket: Add IOCTL for BO creation
+Date: Tue, 01 Jul 2025 21:31:59 +0200
+Message-ID: <8888010.K2JlShyGXD@diego>
+In-Reply-To: <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
+References:
+ <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiDSCt5OZ8dAvZ7G_fic6eCaCsGvmnprjmG9p_9kLbv9cX76A@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Jul 01, 2025 at 09:25:59PM +0200, Ricardo Ribalda wrote:
-> On Tue, 1 Jul 2025 at 20:42, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > On Tue, Jul 01, 2025 at 02:20:53PM -0300, Desnes Nunes wrote:
-> > > On Tue, Jul 1, 2025 at 1:48 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
-> > > > On Tue, 1 Jul 2025 at 16:59, Desnes Nunes <desnesn@redhat.com> wrote:
-> > > > >
-> > > > > This avoids a variable loop shadowing occurring between the local loop
-> > > > > iterating through the uvc_entity's controls and the global one going
-> > > > > through the pending async controls of the file handle
-> > > > >
-> > > > > Fixes: 10acb9101355 ("media: uvcvideo: Increase/decrease the PM counter per IOCTL")
-> > > > If you add a fixes you need to add
-> > > > Cc: stable@kernel.org
-> > >
-> > > Thanks for letting me know
-> > >
-> > > > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > Signed-off-by: Desnes Nunes <desnesn@redhat.com>
-> > > > > ---
-> > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 3 +--
-> > > > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > index 44b6513c5264..91cc874da798 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > @@ -3260,7 +3260,6 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
-> > > > >  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> > > > >  {
-> > > > >         struct uvc_entity *entity;
-> > > > > -       int i;
-> > > > >
-> > > > >         guard(mutex)(&handle->chain->ctrl_mutex);
-> > > > >
-> > > > > @@ -3278,7 +3277,7 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> > > > >         if (!WARN_ON(handle->pending_async_ctrls))
-> > > > >                 return;
-> > > > >
-> > > > > -       for (i = 0; i < handle->pending_async_ctrls; i++)
-> > > >
-> > > > nitpick: I would have called the variable i, not j.  For me j usually
-> > > > means nested loop. But up to you
-> > >
-> > > Noted - I used a different variable name because I wanted to
-> > > differentiate the loops.
-> >
-> > Variable declaration in the loop statement is relatively new in the
-> > kernel, so there's no consensus yet (to my knowledge) on clear coding
-> > styles, but I would have simply used the same variable name in both
-> > loops, with two separate declarations:
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 303b7509ec47..6b9486749c3f 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -3299,7 +3299,6 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
-> >  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> >  {
-> >         struct uvc_entity *entity;
-> > -       int i;
-> >
-> >         guard(mutex)(&handle->chain->ctrl_mutex);
-> >
-> > @@ -3317,7 +3316,7 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> >         if (!WARN_ON(handle->pending_async_ctrls))
-> >                 return;
-> >
-> > -       for (i = 0; i < handle->pending_async_ctrls; i++)
-> > +       for (unsigned int i = 0; i < handle->pending_async_ctrls; i++)
-> >                 uvc_pm_put(handle->stream->dev);
-> >  }
-> >
-> > Is there a downside to this ?
-> 
-> The toolchain that they are using does not seem to like it,
+Am Freitag, 6. Juni 2025, 08:28:23 Mitteleurop=C3=A4ische Sommerzeit schrie=
+b Tomeu Vizoso:
+> This uses the SHMEM DRM helpers and we map right away to the CPU and NPU
+> sides, as all buffers are expected to be accessed from both.
+>=20
+> v2:
+> - Sync the IOMMUs for the other cores when mapping and unmapping.
+>=20
+> v3:
+> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
+>=20
+> v6:
+> - Use mutexes guard (Markus Elfring)
+>=20
+> v7:
+> - Assign its own IOMMU domain to each client, for isolation (Daniel
+>   Stone and Robin Murphy)
+>=20
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
 
-Well, this is mainline :-)
+> diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/roc=
+ket_gem.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..61b7f970a6885aa13784daa12=
+22611a02aa10dee
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_gem.c
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
+> +
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_utils.h>
+> +#include <drm/rocket_accel.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/iommu.h>
+> +
+> +#include "rocket_device.h"
+> +#include "rocket_drv.h"
+> +#include "rocket_gem.h"
+> +
+> +static void rocket_gem_bo_free(struct drm_gem_object *obj)
+> +{
+> +	struct rocket_device *rdev =3D to_rocket_device(obj->dev);
+> +	struct rocket_gem_object *bo =3D to_rocket_bo(obj);
+> +	size_t unmapped;
+> +
+> +	drm_WARN_ON(obj->dev, bo->base.pages_use_count > 1);
 
-> and there
-> is no benefit for having two initialization vs one.
-> 
-> (also makes the lines shorter... but that is just a matter of taste).
-> 
-> I don't really have a preference.
+This should probably be
+    drm_WARN_ON(obj->dev, refcount_read(&bo->base.pages_use_count) > 1);
 
-Declaring the variable in the loop statement removes the possibility of
-using it outside of the loop. I think that's an improvement in general,
-it makes reading the code simpler, and avoids accidental misuse.
+as pages_use_count is of type refcount_t since
+commit 051b6646d36d ("drm/shmem-helper: Use refcount_t for pages_use_count")
 
-> > > > I am also not against your first version with a different commit message.
-> > >
-> > > Third time's a charm then!
-> > >
-> > > Will send a v2 with the first version having this commit message.
-> > >
-> > > Thanks for the review Ricardo,
+Heiko
 
--- 
-Regards,
 
-Laurent Pinchart
 
