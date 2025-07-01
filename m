@@ -1,360 +1,234 @@
-Return-Path: <linux-media+bounces-36447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36448-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16360AEFE67
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 17:35:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DCBAEFE60
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 17:34:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE88E1C22D68
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:28:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7FD8C7A4AE7
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:32:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3ED12798F0;
-	Tue,  1 Jul 2025 15:27:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E204D2797B8;
+	Tue,  1 Jul 2025 15:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Qu/MAypY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CqKAfjv6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013002.outbound.protection.outlook.com [40.107.159.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C41278E71;
-	Tue,  1 Jul 2025 15:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751383629; cv=fail; b=CMfk1/xX95ZZmdj7rzoFAMHuvus+duSI41L25ZRTMAN2tUDqmGO1l4ZkdnqC1k17GshlwBAC38zSzMFdgA/0M9wJevJzzwK/48XrjNSckR8TwoOq6/8OEyZzTBbgAoMuQeu1Hj/eu2vkeT0COrAmKCZzG/ozsEuk5n4MokaGwS4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751383629; c=relaxed/simple;
-	bh=0STHoDJyQZnFT5aSbc7YFtcTv3OyUu5Qbc4dmfJOrUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=R/POouNCIIXtwUrXIF1TwhILfIAOBthXcoenYSUTmxukRYBkNB2RGWaeckC6IjlMqD2KNpprWCdBwi2Iy6X3RypJGa1vdJ+6dZuptezvbZUuRzBkbU9eI6LhhJ/GeAV1o8JLJXmwG8LDPPziukhW9NBswxy61u5EODsdMeMCX7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Qu/MAypY; arc=fail smtp.client-ip=40.107.159.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YE+OD6/3kcwfXQaATpYg4WIrkPHf11YoWvGNWvwWCuHv1UKXMIwOhna+d9dqKC5legKRlEVbd5uB+BBL3aCGYyQt3b4zxdjUZLPgP7zqyQtBJlcc4HHuxGUPdCvOGglI8zEi6CCUaukyUwPiXnV9KNcQdRjYuGWITAWO/yWXC/XnSNnL9uP8wfmwpj81NsAVLBJYTHi2zoDkeJObA5RwAe9+zjMpRe2J0E7ht3I+ArynoaneNKwxsy2lfdkQoVpfcq1j25T/x3l7+K/KYV3P5uI88394E98pn3NPOL6f3vrfHPkivUGsuhbtuQi8m6OKb6MzGJdcns48PmZduTqGXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a1vAPUnGWR1pdyehsUwVSXIDRI7Be4eSqO7E0WhnYro=;
- b=O9XS5xFFGVT2TCuuQ6f/9HmeELf46vHu5CzJurZlBMaovaINoASVCZBQUaFbyZxCigiHI6SLavVbCMbej4TzvRhb+WoMjb/O0rY70+Vp2aNgt0OzikhBP1+MVJJxrmpKeqn1VoRcA4nz//9lGiou0BwrhD3AEHY80UwavTxtmrj/6ifau1TIlN/xJn5cQMqXMaCtShRS+VaaJAiTRdNwbvyiwEdkP2Pv34AnkPVlB+abtNhx5AJM/lSJldWgS2+jpstquwPDOIinUKDX8uB864Rb2Kg39CIKHgbMS2QSVMGfKVJGESWPNvaIMQN51LG/NqoJGjzmR+ks5IZMHBpBcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a1vAPUnGWR1pdyehsUwVSXIDRI7Be4eSqO7E0WhnYro=;
- b=Qu/MAypYun+o5o1IWBTXPOv39s8xEutkQKm6Z70kq78QlOvFdsPW8YosDorZaKIiy8kMSSgp80BeVmv6NGuS6ALn0mh/vsk5S2jy61RGsVA29I1J18GrrEKdKbAe+PDQuL2DrgNfggi4N/xdgUFqy6SK4kS/VH+D3XxYNQKhD3eq+m0Rb9GM1hOBXoaoy3oabi9pdIWVyoBshdE3Tdq2t+pdHSlKZc/AGVdRZ8tRlVYWwxWn+Fibejwr7pxIQCah2bj4SFrzYkHKfrNinJ/l4EvEGjkOPY0DSIQqvz+furqcmFwDJ56eDB+3y6XcrogMwqz2y2rzniSJmi59/EUd9A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by AM9PR04MB8339.eurprd04.prod.outlook.com (2603:10a6:20b:3e6::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.30; Tue, 1 Jul
- 2025 15:27:04 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%7]) with mapi id 15.20.8880.029; Tue, 1 Jul 2025
- 15:27:04 +0000
-Date: Tue, 1 Jul 2025 11:26:58 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Alice Yuan <alice.yuan@nxp.com>
-Subject: Re: [PATCH 2/5] dt-bindings: media: add i.MX parallel csi support
-Message-ID: <aGP+L6aRsi7GT9mf@lizhi-Precision-Tower-5810>
-References: <20250630-imx8qxp_pcam-v1-0-eccd38d99201@nxp.com>
- <20250630-imx8qxp_pcam-v1-2-eccd38d99201@nxp.com>
- <20250630225340.GE15184@pendragon.ideasonboard.com>
- <aGP2yT9ID1E0BepB@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aGP2yT9ID1E0BepB@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: AM0PR02CA0178.eurprd02.prod.outlook.com
- (2603:10a6:20b:28e::15) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B87B27932B;
+	Tue,  1 Jul 2025 15:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751384042; cv=none; b=o7Cynic81TLqrsvWOfdo/GTowvVTLLSClsuxH9i9WBLwMS+wpDcmoYt6bAnDJKhy+PGrL4Lm+hFlxJFXg6zDF89BJh1xOTv1iCBeb85Z3RPTfSD0HTSMSP5WA3pTA0KQpyvjj4ecyjNHCYbBWIlJbq8g3wOAC507QFt47V1/z6g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751384042; c=relaxed/simple;
+	bh=qQ3EePd46gcHTXj8xnWA6RkVYwV+x8EZZ1MfpsCMXfM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GBJquipkms3BLCTVW8kMWL6n2dppIKdZFmpBZthQyUgX6lK+TKbFMCFN9xX/Rri8x4IiecIAdPT6IJw8Nk5NobbXDJEBZ9tzKdFb6zSo2Z6JC4j4HZZHRQC3rTODA/CvE0CamStSmpPazJoVbrpnpwWeQESO4po2GmmrRt9uW3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CqKAfjv6; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e81881bdd55so553768276.0;
+        Tue, 01 Jul 2025 08:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751384039; x=1751988839; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4nN2brsZ8jWbfGT4ZLwpaNj0SJ51Kk3PP0m0nDTI1zI=;
+        b=CqKAfjv6/9bA0rYjd0/OrjvWLLVUWH38HXVIdgwuVYSpk0sn5hO2t14XZ/O/DLG4ms
+         8jbkoH+1JVp9Mn3lhSQ2TbaL/s8HIUL+33C+B5heO6/yTA9RLXkCcIL224g1AouZFM/9
+         PjfSLF05sWHDftsFnPTCdDN/iYk8WiFk99cYqEJzE5K8O4o7Ry7rDc7/UTLkLAUzbA/d
+         o745b91arZoToSjjd+qx5oeLZUkVQTPqIFod/+LfymsauWIuWZUUISvUecfh/k8Yb9lL
+         2JJ1/j1y71C5KTRLSpIexnY7mh4e4yenR3te0wq/PhSf8+M9xCQHnMxssTBEBHTrt+QM
+         5l/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751384039; x=1751988839;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4nN2brsZ8jWbfGT4ZLwpaNj0SJ51Kk3PP0m0nDTI1zI=;
+        b=fR0JhmOutwaU/WrbJFocAYiaMuD9D4EjZD33iahi7JW2mhzv/BcUjEDvCBGC/AhFJq
+         e6fKcboWX9TJf8aiTcixMJ8gc0jww1rPKVkyYBj19sFZ+MGB9YS+A9x+Zpn+DXCd7WTI
+         9mWRSdqtHSavBHxYLfeHzn/0Lw7Mt3iJCqOzs0WPWnEcrzbgnEEg8CS8QiDlqhiFb57z
+         6JNYnFGWtwvGNXLFEe2Io5DhmBx+opo92NeUpjxh97BMAN4z9nV8EP3h01bOC6ZmF4M3
+         jnx0gI9DknnVipC9F0WVe6pMSEFcCOySbUEpZGRQ/DWIzKj/OA4L6HwttG+UgR3PuGBz
+         niVw==
+X-Forwarded-Encrypted: i=1; AJvYcCULbe003vnIpExwBUAuG04lr7B57jTyx3dMsQdMDGvqX9vZm4A1Hym/KjOnmCH/fLbcEVj2ll2CwxqZpVI=@vger.kernel.org, AJvYcCVuzWZFvmxQpxg3NOkhmeG6g8uBX+KG3zpby2gGgrUIpdTBjBK5N1w80WrKdY86iOVQi6d8kf89U9xCPjo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY7WnkfEw8MXvd24D/YXpbtQTR8xKnAZg0pZ9asBCtBSVMM884
+	ZZ+zZFZXrqXx/g4XUAxHqyFM/YlRTCwj6w5oNpst7OcmVpgVDqpocuZ8qoMPEuhfmlIGpwXcxRC
+	b1/4C0vD5hEr6HDfNgiD7aSNUNuLE/MBg9iyLfxc=
+X-Gm-Gg: ASbGncs0P2b3RSG5c+7iPAiPqcdDCD/TwuHJRuS1KMK9Cak2szJ3CBUEz9ESVCYEdQx
+	+mckkAPb95SNg1TGcrR2MQuV6oKvx9oVQsT6jzhXhDGHaVV6F87TBa2NpwRvyvb3jf7Mrwhq/El
+	vio/sbAGMA5ZB1262Sq9dRKt4MNdi6qi7t01GS6ItTmOnHwA==
+X-Google-Smtp-Source: AGHT+IFmuhdQA4chjO1UerExkei66B1tPjaaDTa4uwC17TYvzZDREfWVIA/zAABYinglwQIb14fRHynXMFvAPyO5BXI=
+X-Received: by 2002:a05:690c:fcc:b0:712:b566:bf7c with SMTP id
+ 00721157ae682-7163f6e9a9dmr24531877b3.1.1751384039129; Tue, 01 Jul 2025
+ 08:33:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AM9PR04MB8339:EE_
-X-MS-Office365-Filtering-Correlation-Id: e783c1d2-b3a5-4e30-ec14-08ddb8b3bb65
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|19092799006|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?nq87R146M6wuSr3U/WbDcKt6kHTcst2zd0sIKZDXuzEgWfq2BGLd+AH+OFKY?=
- =?us-ascii?Q?n+D/DcOjWDPfrmFaXoGJwPDNItAz2ykkY77J8zghY+k6Cy4uxZP0ygcbU+76?=
- =?us-ascii?Q?/8lbxOxz5CLpqhLnUr/Qf7KvxBP5ZcaGQ2FfhIcebsuzxgojkwcICDytEmYZ?=
- =?us-ascii?Q?HJl6+SXUIHMZ/VvDcZJmvYrZ3+Ml7At4OppepchwZiBM5TZmqhYjLGeSnauQ?=
- =?us-ascii?Q?3J5BMStRLXxxI4fKXmY7hP0hpUCHu5XZ3aTu1zHTxAVh5L85UQjgYgc3G/iZ?=
- =?us-ascii?Q?e9Nimm5oIQM4vA9j1OF+vsSWt8Wl5mPEe7NP43iy3V+n4hQve86m5XT/st7j?=
- =?us-ascii?Q?yFBy+HMf61Tc6pkYIhjQUoOEMZTWEAo9Tv1151a2gNJlWgMfbUmIoD8VQXs0?=
- =?us-ascii?Q?3Sa8INgEVdzsk4G+kEtJostrhe9pi9IwEQXvwvfDsrmThA/Sy8GKMhRpUb3N?=
- =?us-ascii?Q?z8VHIGa04/edVUSLq7W/+q4Ic6kPVNCs55sgALlrPXd+yALpjpzNKJAAmxNK?=
- =?us-ascii?Q?7Zw36+DvEs4exl7s6dGMXnWqxNnjTDX/KAsRZdcF/mCj/bxTeI6c6sHklxSX?=
- =?us-ascii?Q?7Dmk61ULgLExBSOsqdniNnqW39gWs9SWbnAy1uO7WcGL43C5O2LpVfeyKyHR?=
- =?us-ascii?Q?huGu18L7OpgJ16G5l2pEW86OoiNryAgsDEvJBmanb5q20Vj7Qh97iCPHGYJu?=
- =?us-ascii?Q?G8uJRh+EaMvWYAFLMs0yRYm72Nv4/0bm/CAlyISIfqdzLeJH9pqo+T7P02EE?=
- =?us-ascii?Q?MsFnqAD+06RMkKivmHobPiXn5z1C2+tDaIH26W07UupdH6k+aBIXVl+QdAVB?=
- =?us-ascii?Q?m6i52J9kGRmOlLz5M8DCObCjAbz0AYHGR1Or2lylOTsTz/k57CgEsriCgZBu?=
- =?us-ascii?Q?px9BcMMcQc+zJfPvW8OXOlHEwFyEryLRZRjlyvIPvQXIfrG8XpoDUczV5GOK?=
- =?us-ascii?Q?NH3l4uZWdJ1Eo/kuOXChGdy0w9mQ9btHfP2+95dEXN4YJa3yqmF6t34+57U8?=
- =?us-ascii?Q?myQ/mofsjvMcCzxJl9BkQGeDFKdxsDFUoPFXU8V44O/tCUvMR1x3qQreOoQP?=
- =?us-ascii?Q?QhYEn+cdYBP9Km5OPvrnU5bShdbSCtkRV45LChrtTq2jbpblBfrdYYmqAEUx?=
- =?us-ascii?Q?g2dM7MloSN0zrlOGRhP2PZn76aFANzA93n9EPDRBLPD+R+9IqtHKZ5q+Xdcp?=
- =?us-ascii?Q?xi1Oa55inrYbMMFxvRBPwVUe7zrSBHSA5X5eabv7UbaGap6tF533Lfdnp3sg?=
- =?us-ascii?Q?QbReSjmSnLqbA6Abqd0DB2806HmOS3v5KErj1kb3E2K7DWmor/ZenQS67BlG?=
- =?us-ascii?Q?98pAoWHs3LQaor7B3xo57KBpkZxTjvQoc5ZA6uUhpjhItVRBlnfEt1Wc08Ph?=
- =?us-ascii?Q?2GW6AYZnFTXuH110IJgRgeVuXM64N3xUOmeb5hEUad0OCJQ1QYgJANz7K1lt?=
- =?us-ascii?Q?3i4jr/KefcVo7EOqw3/1IX2CIA7Hug0Y?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(19092799006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?rCQSIph0jvGMBJSNldy7AR1F+hlavzGSuAEzTHL+Omu8Xrt/M7AsWThEuP5t?=
- =?us-ascii?Q?w38mSEO2rWZFbXotdNBkHKMLuz0GvE/CKOPVd6n75oVUizGcOLAoTzTRcEb4?=
- =?us-ascii?Q?3rKb8IM8NRQn1Tkc/W1Ck9Emmb6eke8byMRPPsO49golNFmkoSmZMAZuiKwe?=
- =?us-ascii?Q?+1ClTtQQ/pcEGVwpPt8STlUUwY+mlD2MR0zGudO4aZycc2F2gAdkg13Srtne?=
- =?us-ascii?Q?G/9jxM7b0QdXWpF48WhALrwr+ij/0Wx7fVqNY52MgEBu+MjxL/haxRLFBbNq?=
- =?us-ascii?Q?x+QsxeAm02vIitDv5LAxxOtAM0G8hfcuYQ3ktwZbyQWyvxmaNtfCG6J4Q2t8?=
- =?us-ascii?Q?L0SLTkGCmKAey849OCbjYlKjfahs/oAQ8f3MR504j57MkC0N16Pvr2VlwzFn?=
- =?us-ascii?Q?Y7qEh0cPsXg+jKCLTEwoXk4wiRib3n/iQis9s7MtZ13qbgiFQglMRrNQxqib?=
- =?us-ascii?Q?U4gU6XkLuYqdQ034akL+40Cw5fcKm634Di1qSl1Cb9/Yqx06PCvMRScnvoZR?=
- =?us-ascii?Q?2C3MM4Km0Aa3j1P4jw9jiveg+1Ntay+WNidBS2UwFDGoOP46UiXYBBZIbVPO?=
- =?us-ascii?Q?WjCY+QjMgFw7wG2gXSx6MfFZQpVCkO+VDlx8S/1oV4YuiofOkTuDOJr8KRRg?=
- =?us-ascii?Q?QpI6bNWVFgmH7ljG0+V5FFfnTXLSp2ysW3BaWO1tmzwI0LFl2rn5DgFsp0WD?=
- =?us-ascii?Q?YJBmMmE48/3h/oEgzR5qDfDFKbzDmYc5raFsAmFXr3RBVjbDp/oExx93useY?=
- =?us-ascii?Q?V+CV5BdBWQpyHYUO0uZ/jfdxEi5gDSHAIlvxVx8g5Ls7OGDuwv2zOSjk+wdZ?=
- =?us-ascii?Q?6bvFE4dwrXInawx/6T4N8p2BbVzYWw4X4yQR4S3dC88mHlOdS5kFR+jJfFkx?=
- =?us-ascii?Q?MgocfVk+uKS1+nvMRRl5Wy7zN3oKM3NCxKGj+Xg1cRWXWMl6VNU7aK92mx6K?=
- =?us-ascii?Q?FrA/342C3dM/PFx2U4V0vuDMVcz78boxiTJR/lRW619yQ6Iwj10OPkyD8tq0?=
- =?us-ascii?Q?w4Yjt1o6JSypu6K82JLEi7PgRwQjaLf0wmtZuj5aZhFUrokWlTWVpCzSVR0b?=
- =?us-ascii?Q?WiiLCV3cUx86Q3NvmMDHYakr2QJ6jT509qVDQjl+aVafl8CGjZV5KhkASjJN?=
- =?us-ascii?Q?CckHRSbEpbl0bc+/LBBWbByLySv5veviP2EyXTaGF1YqX18Bme6nOUhgdBI9?=
- =?us-ascii?Q?igLCS+AhmfVM3glSDpfC34QDczRd4pD48haDV/40YSp1L3ZV0Uc1cf1aY+7L?=
- =?us-ascii?Q?Yn9UdmKPigia6+/vfgnhfKqm8wH8ZtAJkWYh9sMTZ4HmiJ/J6sYqPiTICy6T?=
- =?us-ascii?Q?LbrMtrNivLIOq3UKipt/ls9GPxXxykKL4Q38UgRhB3x/l2BSwJktwOileo1D?=
- =?us-ascii?Q?FNe912S3c4DumNTXHDBTAivzvauwAPFSORMLkrt2Su+IZlLm9vE5Cl7YckmF?=
- =?us-ascii?Q?pnnGoq1Xcam+N7dnkcIU4wB19dhnf7suqa+24z6OfIe7K2yVLf7dC+0Y+CKW?=
- =?us-ascii?Q?q93K+WO02cZBVsf2HXgbCcq8O9Q2G6Px9MTQL9VenFUl2PnG1tm0QlglsxCM?=
- =?us-ascii?Q?jBkQHFmb3RyzK//VdcBuviQyDD3+nQ6FxutNUL/N?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e783c1d2-b3a5-4e30-ec14-08ddb8b3bb65
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 15:27:04.1553
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XvFtH31Ecqmpt7/fA8G41JYaIPwpp8Fl1c2A9OLSuUIB9Rz2cAXpGiW/8ZU/0zwwAZkD5hb7Gqy2HSwr6lcTaQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8339
+References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+ <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
+ <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com> <aGPYZhK65LaD0wVO@smile.fi.intel.com>
+In-Reply-To: <aGPYZhK65LaD0wVO@smile.fi.intel.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Tue, 1 Jul 2025 18:33:47 +0300
+X-Gm-Features: Ac12FXxu143NJfeCyJzpFMkjr5UhMphuJFKw55RkiPP1VxDmU_e220rWksBxkXE
+Message-ID: <CAGn2d8ONZpOHXex8kjeUDgRPiMqKp8vZ=xhGbEDGphV1t7ZEFw@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
+ HMM_BO_DEVICE_INITED flag
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org, hdegoede@redhat.com, 
+	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	skhan@linuxfoundation.com, dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 01, 2025 at 10:55:32AM -0400, Frank Li wrote:
-> On Tue, Jul 01, 2025 at 01:53:40AM +0300, Laurent Pinchart wrote:
-> > Hi Frank, Alice,
-> >
-> > Thank you for the patch.
-> >
-> > On Mon, Jun 30, 2025 at 06:28:18PM -0400, Frank Li wrote:
-> > > From: Alice Yuan <alice.yuan@nxp.com>
-> > >
-> > > Document the binding for parallel CSI controller found in i.MX8QXP, i.MX93
-> > > and i.MX91 SoCs.
-> > >
-> > > Signed-off-by: Alice Yuan <alice.yuan@nxp.com>
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > >  .../bindings/media/fsl,imx93-parallel-csi.yaml     | 108 +++++++++++++++++++++
-> > >  MAINTAINERS                                        |   1 +
-> > >  2 files changed, 109 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml b/Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
-> > > new file mode 100644
-> > > index 0000000000000..b4657c913adad
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
-> > > @@ -0,0 +1,108 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/fsl,imx93-parallel-csi.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: i.MX8/9 Parallel Camera Interface
-> > > +
-> > > +maintainers:
-> > > +  - Frank Li <Frank.Li@nxp.com>
-> > > +
-> > > +description: |
-> > > +  This is device node for the Parallel Camera Interface which enables the
-> > > +  chip to connect directly to external Parallel CMOS image sensors.
-> > > +  Supports up to 80MHz input clock from sensor.
-> > > +  Supports the following input data formats
-> > > +    - 8-bit/10-bit Camera Sensor Interface (CSI)
-> > > +    - 8-bit data port for RGB, YCbCr, and YUV data input
-> > > +    - 8-bit/10-bit data ports for Bayer data input
-> > > +  Parallel Camera Interface is hooked to the Imaging subsystem via the
-> > > +  Pixel Link.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    oneOf:
-> > > +      - const: fsl,imx8qxp-parallel-csi
-> >
-> > Is there any chance we could avoid calling this "csi", given that the
-> > whole block is called "Parallel Capture Interface" in the reference
-> > manual ? "CSI" is horribly confusing as it usually refers to MIPI CSI-2.
-> > I suppose calling it "PCI" for "Parallel Capture Interface" wouldn't
-> > help :-/
+Hi andy ,
+On Tue, Jul 1, 2025 at 3:45=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+
+> > > Nice. Can you make some fault injection (temporary by modifying the
+> > > code to always fail, for example) and actually prove this in practice=
+?
+> > > If so, the few (important) lines from the given Oops would be nice to
+> > > have here.
 >
-> PCI is too famous for PCI(Peripheral Component Interconnec) bus. It will be
-> more confused.
+> > I have been trying to test it without having any intel atomisp
+> > hardware and failed continuously, do you have any tips or maybe some
+> > resources on how i can test this driver.
 >
-> Can we use pcam? fsl,imx8qxp-pcam
+> So, the easiest way as I can see it is to ask people who possess the HW t=
+o
+> test, but you need to provide a testing patch (which can be applied on to=
+p
+> of this one, for example).
 >
-> Frank
->
-> >
-> > > +      - items:
-> > > +          - enum:
-> > > +              - fsl,imx91-parallel-csi
-> > > +          - const: fsl,imx93-parallel-csi
-> > > +      - const: fsl,imx93-parallel-csi
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 2
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: pixel
-> > > +      - const: ipg
-> > > +
-> > > +  power-domains:
-> > > +    maxItems: 1
-> > > +
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        unevaluatedProperties: false
-> > > +        description:
-> > > +          Input port node.
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        unevaluatedProperties: false
-> > > +        description:
-> > > +          Output port node.
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - ports
-> >
-> > Patch 4/5 lists a power domain, and so does the example below for
-> > i.MX93. Should the power-domains property be mandatory ?
-> >
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/clock/imx93-clock.h>
-> > > +    #include <dt-bindings/power/fsl,imx93-power.h>
-> > > +
-> > > +    parallel-csi@4ac10070 {
-> > > +        compatible = "fsl,imx93-parallel-csi";
-> > > +        reg = <0x4ac10070 0x10>;
-> >
-> > The i.MX93 reference manual doesn't document the register set for this
-> > block, so I have a hard time reviewing this. Is there a plan to publish
-> > a new version of the reference manual with the complete documentation
-> > for the parallel interface ?
 
-Sorry, I missed this part at last email. It already imx93's reference
-manual, but it is bindle to
+Well, after several hours of trial and error, I finally managed to
+find a workaround that allowed me to test the scenario. As expected,
+the system crashed exactly at the point we discussed. I was able to
+capture the kernel panic log, which is shown below.
 
-82.4.1.1 mediamix_GPR_ctrl memory map
-BLK_CTRL_MEDIAMIX base address: 4AC1_0000h
+To simulate the issue, I injected a failure right after setting the
+HMM_BO_DEVICE_INITED flag, this mimics a failure in one of the
+subsequent initialization steps. Then, I wrote a test module that
+calls the hmm_init() function directly. As anticipated, the kernel
+panicked at the hmm_alloc(1) call inside hmm_init().
 
-because it is tail part of this space, we can simple strink mediamix_GPR_ctrl
-space in dts.
+Here=E2=80=99s the relevant panic log:
+[  161.802542] atomisp: loading out-of-tree module taints kernel.
+[  161.823358] =3D=3D=3D=3D=3D HMM BO DEVICE TEST =3D=3D=3D=3D=3D
+[  161.823666] (NULL device *): Simulated failure for testing purposes.
+[  161.824064] (NULL device *): invalid L1PT: pte =3D 0x7fffffff
+[  161.824427] (NULL device *): hmm_bo_device_init failed.
+[  161.824818] BUG: kernel NULL pointer dereference, address: 0000000000000=
+020
+[  161.825309] #PF: supervisor read access in kernel mode
+[  161.825693] #PF: error_code(0x0000) - not-present page
+[  161.826100] PGD 0 P4D 0
+[  161.826237] Oops: Oops: 0000 [#1] SMP PTI
+[  161.826482] CPU: 2 UID: 0 PID: 3688 Comm: modprobe Kdump: loaded
+Tainted: G           O        6.16.0-rc4+ #2 PREEMPT(voluntary)
+[  161.827445] Tainted: [O]=3DOOT_MODULE
+[  161.827650] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS
+VirtualBox 12/01/2006
+[  161.828273] RIP:
+0010:__bo_search_and_remove_from_free_rbtree+0xf/0xd0 [atomisp]
+[  161.828977] Code: 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
+90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00 00 55 48 89 e5 41 54 49
+89 fc 53 <8b> 47 20 39 f0 74 46 89 f3 76 07 48 83 7f 10 00 74 3b 39 d8
+73 1f
+[  161.830239] RSP: 0018:ffffb28104a2e970 EFLAGS: 00010246
+[  161.830588] RAX: 0000000000000000 RBX: ffffffffc0a868e0 RCX: ffff8d6141e=
+1ce88
+[  161.831071] RDX: ffff8d5f47601980 RSI: 0000000000000001 RDI: 00000000000=
+00000
+[  161.831524] RBP: ffffb28104a2e980 R08: 0000000000000003 R09: 00000000000=
+00001
+[  161.831977] R10: 6369766564204c4c R11: 6564204c4c554e28 R12: 00000000000=
+00000
+[  161.832422] R13: 0000000000000000 R14: ffffffffc0a87950 R15: 00000000000=
+00001
+[  161.833019] FS:  00007f04fce83740(0000) GS:ffff8d619f0c4000(0000)
+knlGS:0000000000000000
+[  161.833527] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  161.833868] CR2: 0000000000000020 CR3: 000000010625a003 CR4: 00000000000=
+706f0
+[  161.834307] Call Trace:
+[  161.834434]  <TASK>
+[  161.834545]  hmm_bo_alloc+0x5c/0x2c0 [atomisp]
+[  161.834959]  __hmm_alloc+0x48/0xf0 [atomisp]
+[  161.835267]  hmm_init+0x98/0xd0 [atomisp]
+[  161.835561]  ? __pfx_test_init+0x10/0x10 [atomisp]
+[  161.835863]  test_init+0x42/0xff0 [atomisp]
+[  161.836174]  do_one_initcall+0x4b/0x320
+[  161.836446]  do_init_module+0x6a/0x2b0
+[  161.836675]  load_module+0x24f7/0x25c0
+[  161.836905]  ? kernel_read_file+0x226/0x2d0
+[  161.837160]  init_module_from_file+0x9b/0xe0
+[  161.837413]  ? init_module_from_file+0x9b/0xe0
+[  161.837687]  idempotent_init_module+0x170/0x270
+[  161.837958]  __x64_sys_finit_module+0x6f/0xe0
+[  161.838225]  x64_sys_call+0x1b7a/0x2150
+[  161.838454]  do_syscall_64+0x74/0x1d0
+[  161.838701]  ? ksys_mmap_pgoff+0x1b7/0x240
+[  161.838950]  ? __x64_sys_mmap+0x37/0x50
+[  161.839176]  ? x64_sys_call+0x2008/0x2150
+[  161.839429]  ? do_syscall_64+0xa3/0x1d0
+[  161.839640]  ? __x64_sys_read+0x1e/0x30
+[  161.839863]  ? x64_sys_call+0x1b90/0x2150
+[  161.840098]  ? do_syscall_64+0xa3/0x1d0
+[  161.840315]  ? do_syscall_64+0x199/0x1d0
+[  161.840538]  ? x64_sys_call+0x1b90/0x2150
+[  161.840775]  ? do_syscall_64+0xa3/0x1d0
+[  161.841007]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  161.841289] RIP: 0033:0x7f04fc92695d
+[  161.841490] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e
+fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24
+08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 03 35 0d 00 f7 d8 64 89
+01 48
+[  161.842992] RSP: 002b:00007ffd12ffbb88 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[  161.843500] RAX: ffffffffffffffda RBX: 0000557fdea491a0 RCX: 00007f04fc9=
+2695d
+[  161.843968] RDX: 0000000000000000 RSI: 0000557fd288c358 RDI: 00000000000=
+0000c
+[  161.844401] RBP: 0000000000040000 R08: 0000000000000000 R09: 00000000000=
+00000
+[  161.844857] R10: 000000000000000c R11: 0000000000000246 R12: 0000557fd28=
+8c358
+[  161.845285] R13: 0000000000000000 R14: 0000557fdea492b0 R15: 0000557fdea=
+491a0
+[  161.845740]  </TASK>
+[  161.845844] Modules linked in: atomisp(O+) ipu_bridge v4l2_fwnode
+videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common
+v4l2_async videodev mc isofs vboxsf vboxguest vboxvideo
+drm_vram_helper nls_iso8859_1 intel_rapl_msr intel_rapl_common
+intel_uncore_frequency_common ghash_clmulni_intel sha512_ssse3
+sha1_ssse3 aesni_intel snd_intel8x0 rapl snd_ac97_codec ac97_bus
+snd_pcm binfmt_misc joydev snd_seq_midi snd_seq_midi_event snd_rawmidi
+snd_seq vga16fb snd_seq_device vgastate input_leds sch_fq_codel
+snd_timer snd mac_hid soundcore serio_raw vmwgfx drm_ttm_helper ttm
+drm_client_lib drm_kms_helper drm msr parport_pc ppdev lp parport
+ramoops pstore_blk reed_solomon efi_pstore pstore_zone ip_tables
+x_tables autofs4 hid_generic usbhid hid e1000 video psmouse wmi ahci
+libahci i2c_piix4 pata_acpi i2c_smbus [last unloaded: vboxguest]
+[  161.851072] CR2: 0000000000000020
 
-I am working on this.
 
-Frank
+> With Best Regards,
+> Andy Shevchenko
 
-> >
-> > > +        clocks = <&clk IMX93_CLK_MIPI_CSI_GATE>,
-> > > +                 <&clk IMX93_CLK_MEDIA_APB>;
-> > > +        clock-names = "pixel", "ipg";
-> > > +        assigned-clocks = <&clk IMX93_CLK_CAM_PIX>;
-> > > +        assigned-clock-parents = <&clk IMX93_CLK_VIDEO_PLL>;
-> > > +        assigned-clock-rates = <140000000>;
-> > > +        power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_CSI>;
-> > > +
-> > > +        ports {
-> > > +            #address-cells = <1>;
-> > > +            #size-cells = <0>;
-> > > +
-> > > +            port@0 {
-> > > +                reg = <0>;
-> > > +
-> > > +                endpoint {
-> > > +                    remote-endpoint = <&mt9m114_ep>;
-> > > +                };
-> > > +            };
-> > > +
-> > > +            port@1 {
-> > > +                reg = <1>;
-> > > +                endpoint {
-> > > +                    remote-endpoint = <&isi_in>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +...
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 8dc0f6609d1fe..3bd6772c11539 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -15107,6 +15107,7 @@ L:	linux-media@vger.kernel.org
-> > >  S:	Maintained
-> > >  T:	git git://linuxtv.org/media.git
-> > >  F:	Documentation/admin-guide/media/imx7.rst
-> > > +F:	Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
-> > >  F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > >  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > >  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+Best Regards,
+Abelrahman Fekry
 
