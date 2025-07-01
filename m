@@ -1,196 +1,263 @@
-Return-Path: <linux-media+bounces-36374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36375-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE44AEED51
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 06:40:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 351B6AEED74
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 07:11:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2BD813B979B
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 04:40:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E92117BDFD
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 05:11:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA49E21128D;
-	Tue,  1 Jul 2025 04:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA201FBEB6;
+	Tue,  1 Jul 2025 05:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DDbEIsbN"
+	dkim=pass (2048-bit key) header.d=de.bosch.com header.i=@de.bosch.com header.b="YjLi7zdc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013038.outbound.protection.outlook.com [40.107.162.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EC71E5B7C
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 04:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751344824; cv=none; b=iS1I3J8eU9POxoRjxldDIqHd/VgInPO6Xs2qMRc8j987m1lTx2G0n3E2lvGAlpFh8gn2azN5SnxiL93EObSbNaKEy3s7yPpi0ZeT5kIQYhNhYdXARRpTuVKYjbFoIjmUUqqx7kDoMPI8H7oMBcHKJ5rdUFgP+o+o9BpSJeg0fOQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751344824; c=relaxed/simple;
-	bh=CYmy2H6dallMLWHK/Xm8cQj0mMftS1YKv0q1HOUJcE4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GNpuhS7uj/NaE0xEw3rEk8QqF8H0AofiK4pzMSeWtgoilY1c8kPDwdWGJBiraW/cPbU4hABISelaKFqymB3otomM8JV0vGurKYKG4/Z0nkPJdg+I3xlPyJIB4N9HRF+dbCxw6c11kVf2bwu7ZD915x5Y52TOYP3Qs9ZP3SP8wkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DDbEIsbN; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-32b7113ed6bso26209441fa.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 21:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751344820; x=1751949620; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ttKaGOM1HLHnoSRZq1EsamPtO7ym6WKYXwUSXbl5tM=;
-        b=DDbEIsbNmO2zh+/dXij8l9OLF3FjuWdzMHDmv9V2waTcPl2GbwojiKPfmMq9v7DJNS
-         zlnq63y61kw4ru8o5xT+zpnq21hghTWedRaOEEbFP9B2+Y57Ujf7QoNmJPOTxaOmiPU6
-         eRrLRlJlGgxL/PvggfUTpGo4d4TNB+yVG7FtY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751344820; x=1751949620;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2ttKaGOM1HLHnoSRZq1EsamPtO7ym6WKYXwUSXbl5tM=;
-        b=k0yOJHKZJ7adM+fYO8n0Bp3+zxowx7Vymp4oiBQ/ttbKZwDHPjk/CFM83EDkoEXRcp
-         mkeVPwdVmm95auddVwMIfjl/NWhyhDaIbGrrUsAMtuVRqNfeN9iDGWoB23uN1l7m5iNS
-         BXqwqK9rYh8E8frY3qdrCuKSeZWT0X3UMDOqmEC76As13KRAU9GKX0/fF5hKcKkdT+07
-         2zqtzaXDDCfNT6r/w8bJ0woCRw0nHW1oAiSOay/HizgWlhNlAcn8XSOZabsJXUwI+fPb
-         Kpgd4+lr13KgaLJgYdzcs9zmdcqbUkWrzldY/dmfjLiJBznbedghbSduTIYzoQExm+wz
-         p4XA==
-X-Forwarded-Encrypted: i=1; AJvYcCUstNFRmAGa0WD3Gjfgg35ConYgJqFgZEcAuooxzsAN2KMtqOKYzdxhhPOviwBLyO6h8X5SL2h9fKZsQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjsDC/3ohHADjsasFS6/amWMRQoAdbjTobhp1K0PXr2CFXD6ZR
-	bbVtoErTsQVF+wTwQ8qFueY3TR1afzRget4dJhpDkxsSt0JPfpnX2c0VeQBjKnQq+29IzWCXcya
-	2KmMjbQ==
-X-Gm-Gg: ASbGncv2s2NEoyjVqXRRyWHQQTaJU7NxdaML2U5UtmWzpscajaqzCjy9rLcdLilp6WD
-	3E7VGBmtrHKK0T8IcvdppJRGc/8y8sY2n8LJH+aHJbzTmlJu2Kt+3O4q7wQQeuDzGuzjxEEJk0v
-	m7JfZoKwNXR9K8HKkQ4asetVu7kfrDq63BUoYtPLbUojZvF2m7EI16ohmRfa/fcVlDbcLF5cWKj
-	UzTfpUdoTYnv/tP/x70XZ37GMGA7c4/WNq4uvT544w7yF1vWAfha6nEAL38CWmjoHN8zC6N8E9z
-	j/TKa3P+kna1g/ks8lowzvA3XrCfkFHnAJasZ3dA2rpz4jqwp/Fo5bhFxCuWTDNGCvmzw4WVqwo
-	/HyiFCyNYYaKichc6eJo5UOeIZisDAstckV8=
-X-Google-Smtp-Source: AGHT+IG8k5kxdnbW85pxNYJaHUKGq8XBB276ZF6X9TlbTfcMxGG3EnVESJHBGSR+BnBIHO1qI+xKPA==
-X-Received: by 2002:ac2:4c54:0:b0:553:cfa8:dd25 with SMTP id 2adb3069b0e04-5550b81122cmr6541972e87.3.1751344820185;
-        Mon, 30 Jun 2025 21:40:20 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2ec6974sm14232211fa.54.2025.06.30.21.40.19
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jun 2025 21:40:19 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553be4d2fbfso3124905e87.0
-        for <linux-media@vger.kernel.org>; Mon, 30 Jun 2025 21:40:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVqRoCj5txkAofFKSBWdlm2hJ8bMeyxX+arVg2WVJL+4zK/lTYSubIMfgn+gzRPthU0SyH6J9kRg+AOUQ==@vger.kernel.org
-X-Received: by 2002:a05:6512:6d0:b0:553:2def:1ae8 with SMTP id
- 2adb3069b0e04-5550b8b0b26mr4937295e87.30.1751344818626; Mon, 30 Jun 2025
- 21:40:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9FEA47;
+	Tue,  1 Jul 2025 05:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.38
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751346685; cv=fail; b=LjVI7v3dsZh9xnJ6gflDxTt5c3AE2J6l+DVPDB88m6L2S4Ug0R0KpK9kHUJNu0HH2qnkOupBRtrAvJq7Zsy5n53kxft3HhPsvYm7k+07DcCzD3zq2ctZMujRaVh21whjcRG4Q4EURXyNNzWV5Ad4HHqOCTnMMu9Hj5ULI+ga7fo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751346685; c=relaxed/simple;
+	bh=iFo8AaUw9AVT9PVWCAlcLUYe8ChC4oF+rmu5ELWka9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IN4RGBDaPs6guomEqmz+hoHz1YZbpUZWAtlI7pliFW6al5ciHrCabWKWWMa1Z6kqDsmaZLkibrDAteAfGUh+8uD25rai6O5uDDWSHSRgr+osU0mSvUBOy1Dc1RWIOWqsaeVTZpWRZFFv5FSRBMC0d2Kp+BjD4HuD+Xbcfqz+FyE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=de.bosch.com; spf=pass smtp.mailfrom=de.bosch.com; dkim=pass (2048-bit key) header.d=de.bosch.com header.i=@de.bosch.com header.b=YjLi7zdc; arc=fail smtp.client-ip=40.107.162.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=de.bosch.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=de.bosch.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KIWnvk1VEnDkXb3haZvLeIgANQnVsT1k5+eCCSL3rwob8QljFRIbkQXtCbChLPOle+tIhhhv7zpVQH4NsPRsak8p0TAfZLKWnsDD0TAlirk+9GnbhYzy/yW4OE/IZX8XDgQEzFAFTnhY9agY1GyeyuXjyzEEQO1QBwiOz+lYjrtBpEkCsydm/hWdAeZrV/HlPcTldVuMd2g67IO+sWuscPIyJxuaMI2j1s4gMqldkEdCTnfNY72O3UJxfujY+Gv7fvkRIdse3kaXuvqMJKtvzbmW0mNvJJWThKCajmfUcX7lvgrIWKZVAGmY4WzHcapGfkMHPYezfyIY/OjaZF6zUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VR3ZiYiPc9ZCHSEJ/2Rm6c9AaMCkMRDGpxz6vIBO2GI=;
+ b=RVe2PrDhgPIdZoBv/P3LD8s9Xq9GNhVEnqPN/zu8C2dlv+plgfgG3i4Kik8rZTfWDMn8K1z24cWvESbW0IY+xLhILJnnmQlhB0ne1TN6BtcA+4r5k94vuN6D5rbw11GRMnTkThSfPo/jX2QhGN/B+rZ5uGMRDWgrn/60pnJJO8QrF/N8uBS3d2kLaYMQWkepyIO8K2R1WndlaU9ctCfynhxxxzXaKaxYDmABFQSPnKdb8t/hHDwhDGQ9pgecucP0pzG8HHnJ+bGzkNwFrngFwPSrEWWvQmUiG99zY44M8aBN4E4SUEyncd3qAGYQvAu2HIpzv1+iCdvPBYvBvZlh6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.206) smtp.rcpttodomain=collabora.com smtp.mailfrom=de.bosch.com;
+ dmarc=pass (p=reject sp=none pct=100) action=none header.from=de.bosch.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VR3ZiYiPc9ZCHSEJ/2Rm6c9AaMCkMRDGpxz6vIBO2GI=;
+ b=YjLi7zdc10AwSlqlvoXc1Sqd1qvB8m1yAbF+bEwRHHTy3rJiFpVP3Jkly0cAECLVK/uMZDdkVaWn/rFFmKUlzh0yiIwWaI0eCZFOfk53G7sXNcKFoHN5k+qnJJiEChURuPSpr9gBkK+7RIvu1CaYgMq/7fUp+D+c2fcBEjOQsuc7GwrgYkms7v8qGia6M7ZJ80YpdbMiNVFB83OSTkCzVYGfDOi8KHZt3JYa74MwVseLJcNGU6j2tDcLz4ejrsvnTfBttXqj81lcwfEC5zdC5daca/4buUJ0ikO2PoVKsMwLUp9jPnC4VmF+FcxA91+5v2E+MfR5ztQ9qRxHV6wAOQ==
+Received: from DB3PR08CA0031.eurprd08.prod.outlook.com (2603:10a6:8::44) by
+ GVXPR10MB8083.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:115::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.30; Tue, 1 Jul
+ 2025 05:11:17 +0000
+Received: from DU6PEPF0000B61C.eurprd02.prod.outlook.com
+ (2603:10a6:8:0:cafe::99) by DB3PR08CA0031.outlook.office365.com
+ (2603:10a6:8::44) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.32 via Frontend Transport; Tue,
+ 1 Jul 2025 05:11:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.206)
+ smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=de.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
+ 139.15.153.206 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.206; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.206) by
+ DU6PEPF0000B61C.mail.protection.outlook.com (10.167.8.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8901.15 via Frontend Transport; Tue, 1 Jul 2025 05:11:16 +0000
+Received: from FE-EXCAS2000.de.bosch.com (10.139.217.199) by eop.bosch-org.com
+ (139.15.153.206) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Tue, 1 Jul
+ 2025 07:10:48 +0200
+Received: from RNGMBX3003.de.bosch.com (10.124.11.208) by
+ FE-EXCAS2000.de.bosch.com (10.139.217.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.57; Tue, 1 Jul 2025 07:10:48 +0200
+Received: from [10.34.219.93] (10.34.219.93) by smtp.app.bosch.com
+ (10.124.11.208) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Tue, 1 Jul
+ 2025 07:09:30 +0200
+Message-ID: <225bb9d1-1c50-411c-bb77-d336b1446dff@de.bosch.com>
+Date: Tue, 1 Jul 2025 07:09:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250630-uvc-grannular-invert-v3-0-abd5cb5c45b7@chromium.org>
- <20250630-uvc-grannular-invert-v3-6-abd5cb5c45b7@chromium.org> <20250630221439.GB15184@pendragon.ideasonboard.com>
-In-Reply-To: <20250630221439.GB15184@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 1 Jul 2025 06:40:05 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvhqp-m6=Tijrk77KpHAQJV3XA5WpbYmprwhQaTsikwdg@mail.gmail.com>
-X-Gm-Features: Ac12FXwBINTRyFxGvfZfPUmWTCRuWET0Fgjjg3b8Tw-xFADZ51wdeV9Hi008xwg
-Message-ID: <CANiDSCvhqp-m6=Tijrk77KpHAQJV3XA5WpbYmprwhQaTsikwdg@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] media: uvcvideo: Do not enable camera during UVCIOC_CTRL_MAP*
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH] media: ti: j721e-csi2rx: fix list_del corruption
+To: Julien Massot <julien.massot@collabora.com>, <kernel@collabora.com>, "Jai
+ Luthra" <jai.luthra@linux.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Pratyush Yadav <p.yadav@ti.com>, Tomi Valkeinen
+	<tomi.valkeinen@ideasonboard.com>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@xs4all.nl>
+CC: Vaishnav Achath <vaishnav.a@ti.com>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Sjoerd Simons <sjoerd@collabora.com>
+References: <20250630-j721e-dma-fixup-v1-1-591e378ab3a8@collabora.com>
+Content-Language: en-GB
+From: Dirk Behme <dirk.behme@de.bosch.com>
+In-Reply-To: <20250630-j721e-dma-fixup-v1-1-591e378ab3a8@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61C:EE_|GVXPR10MB8083:EE_
+X-MS-Office365-Filtering-Correlation-Id: 630ef638-7fa7-44a1-d130-08ddb85db55d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WlRKQUhsK1ZXaGI0T05SZldWTVA2ekVweFZ1Sk1kV2oyQTFwb0JYRk10V3gr?=
+ =?utf-8?B?SFlaRnJDbEFvNk1CV2ZIR2RPSU9YRFYxRXFXbDdaV0NoaWN5YWVKU0dzendH?=
+ =?utf-8?B?RmoxSFdZQ1NHZ0JkUUZ1bDJ5ZzhiQ05ueFp6YXFJYnJVWHRrczVtcXFPUDBz?=
+ =?utf-8?B?S3orNUt1ZlAzYWFQVERwRTdKQ1RsZVduN3JyTjFPT2FvQXE3c3FWRmpPOVBq?=
+ =?utf-8?B?UmZ4NC9SZFUyMkJOYWZLSWJNZ1J5Rm5mZVFvUWllQWRCb0J3M1g0VkJHWGRX?=
+ =?utf-8?B?MGphenhJbVZYZDk1ZWRsVVhyNkhrUEFkWWVDamJpellzQ1N4K3pYNjhERVdO?=
+ =?utf-8?B?RXlya1JacHl1WXVFc0lrV2FhOHNSVGJzYk5ES3RFdzVkMWMxdElOUDk1ZUZ3?=
+ =?utf-8?B?Q3A1cUF1VlFhdURreGxJZHh5SVhiQnNUYk5mczlYUW5aYXgxUTNBa1lEVmk5?=
+ =?utf-8?B?d0tON2I2dVRwblJXNWtDVzFUS1B2cUxUNUxTWXNsNUpvT0RxM2IzRzdPeElX?=
+ =?utf-8?B?ZHJhMWd1bWNrZGxQMDNOc0pkZDlzYWExSGU5cUQ4QzExK0Rza3czQ3B4WGU0?=
+ =?utf-8?B?dENrTCtrbmFTRE9SNDlzVmJXZ29LbTlPbkk0TVNVS1p2UzdSOHZ6RUdPUHZF?=
+ =?utf-8?B?ZXZtSStEVWRhalhSSWVjVFZaT3ZXc0lzUjhiWGJGanFsbmx2c1hiWGdpRERT?=
+ =?utf-8?B?WWpVZXN3YytJUE9mQlBPdFNNWTVSVHBjRnRvN2huazVRdElTUzhPd1F2VHZ2?=
+ =?utf-8?B?VWNYRU1vRyt4dUUrc0xoczZ1RUVjZGtjdUlqSTZ3dXpqYmR6SGRpMC95MWRq?=
+ =?utf-8?B?N3VsejRsNzN2dkFZbUdnSzBEVHJ3V2dKWDVIeTM5TnNGTHdrelNSY1pvazVT?=
+ =?utf-8?B?cG82cmJMTlFSYzJ1WHBsRmZnNEsxUUtFOWlmOUw4eXZEWWZOaFc1ZTdRbldT?=
+ =?utf-8?B?ejJNSlZvRmhMUThlTy9pRzB6SDhZMEllM1RQN1d1NGdzZlhUekVkUHpaZGUv?=
+ =?utf-8?B?aGFrMllpTXByNG9CbVNkRG0xUEpTWEx0SU1Ma3ZKREhhdUlKc3RjOVk2dlJD?=
+ =?utf-8?B?cmluMTVmNk9OZ2hCTzk1bFpTTW5GUzdLMGlNOVNHNjkrT0dYOVNMZUpGaC9Q?=
+ =?utf-8?B?U1RhMi9IdkNETWUzL25MQTI1UWwvQkt1TE16UGYrNGh5b2hrT3JKVlgvMDI3?=
+ =?utf-8?B?bVBPMXJyZmFGTGpROVozUEtERm5MdWNZSTRIQkF5azVZZHB5V3dFU1UraXU3?=
+ =?utf-8?B?a3RkNUdyUlBkZGpjckdQalpjcG41VndlekxJWnJFZGU5TEd6L2tsUTNMb0Uv?=
+ =?utf-8?B?UXlYWGhTMUhmQW9IcFpMcFZpZkZLaFA0WHBHS0NhZlY3KzJpajAycjAwNTl5?=
+ =?utf-8?B?ajl5NjRqQ2o3MDBzSE5Xa3BtaUNkNGMrR2ZCU2I3aUVxYk5rV2dPYTM0Q1pR?=
+ =?utf-8?B?azRBQ0lpUkhLbHZIdEYwYk1yWlFISFA0eE1Tdk9LZTArZ1NiajFwZTltTjha?=
+ =?utf-8?B?MUV3cFVVZU9pc1h4V2pFcHlrUHVJQU1lN0hqOWUvZjhqTnhoN2U1VWlsY2p3?=
+ =?utf-8?B?MFZudVhodE5sR1BIMHEyejhQWVgvTHNjcWhoRkhmRUpvTlkrdEdWR25JY0dB?=
+ =?utf-8?B?dHVIVHBRelFnK0xPUFVmS0NzM1BYTTdWMzZ4Qm5ld0taTFJlSnhSQU4wMzA4?=
+ =?utf-8?B?ZjhDSnRtMWdSQXllNEYvekdBZG1iRWJwT3dBZklieFB1NVNSWTc2UGNEN0xO?=
+ =?utf-8?B?czhQLzYySmw2QktZU2NES1R3K1pSTjJMd0hLSUVoU1k1NXJHcVpTTkh3b0Vj?=
+ =?utf-8?B?VnVwa3pabmVVSTI3ai9QTGJ1TXRiekdXTHREU3VLWFRON3AyOFhzcGVFMWQr?=
+ =?utf-8?B?WU9VMS9oTkpwdWhkSkt5d3dPL3Q1akZpQi9SQ2VNc21iTEVjYWIvZUtBVXlm?=
+ =?utf-8?B?R0lxRnF4UmtEaFRrSkU1UHR3bjNUQjgwa2tQaGtmd2s4QnBUSllzYncrZVhJ?=
+ =?utf-8?B?aHJobjhjeCtFZWsrNHkwVG5BQk8xN0svQVpTTlE0dXZYK2tEL2FteU02ZGRC?=
+ =?utf-8?Q?6Owp1m?=
+X-Forefront-Antispam-Report:
+	CIP:139.15.153.206;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: de.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 05:11:16.9710
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 630ef638-7fa7-44a1-d130-08ddb85db55d
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.206];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU6PEPF0000B61C.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8083
 
-Hi
-
-On Tue, 1 Jul 2025 at 00:15, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> On Mon, Jun 30, 2025 at 02:20:31PM +0000, Ricardo Ribalda wrote:
-> > The device does not need to be enabled to do this, it is merely an
-> > internal data operation.
->
-> How about the following code path ?
-
-Ups, thanks for catching this.
-
-I will probably rename uvc_ctrl_add_mapping() to
-uvc_ctrl_add_xu_mapping() in a future set.
-
-Regards!
-
->
-> uvc_ioctl_xu_ctrl_map()
->   uvc_ctrl_add_mapping()
->     uvc_ctrl_init_xu_ctrl()
->       uvc_ctrl_fill_xu_info()
->         uvc_query_ctrl()
->
-> ?
->
-> > Reviewed-by: Hans de Goede <hansg@kernel.org>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_v4l2.c | 13 +++++++------
-> >  1 file changed, 7 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index 7ab1bdcfb493fe9f47dbdc86da23cba98d7d10ff..350cd2cc88f872d2e8bd19e2b8fb067894916364 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -1178,10 +1178,6 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
-> >       void __user *up = compat_ptr(arg);
-> >       long ret;
-> >
-> > -     ret = uvc_pm_get(handle->stream->dev);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> >       switch (cmd) {
-> >       case UVCIOC_CTRL_MAP32:
-> >               ret = uvc_v4l2_get_xu_mapping(&karg.xmap, up);
-> > @@ -1197,9 +1193,15 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
-> >
-> >       case UVCIOC_CTRL_QUERY32:
-> >               ret = uvc_v4l2_get_xu_query(&karg.xqry, up);
-> > +             if (ret)
-> > +                     break;
-> > +
-> > +             ret = uvc_pm_get(handle->stream->dev);
-> >               if (ret)
-> >                       break;
-> >               ret = uvc_xu_ctrl_query(handle->chain, &karg.xqry);
-> > +             uvc_pm_put(handle->stream->dev);
-> > +
-> >               if (ret)
-> >                       break;
-> >               ret = uvc_v4l2_put_xu_query(&karg.xqry, up);
-> > @@ -1212,8 +1214,6 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
-> >               break;
-> >       }
-> >
-> > -     uvc_pm_put(handle->stream->dev);
-> > -
-> >       return ret;
-> >  }
-> >  #endif
-> > @@ -1226,6 +1226,7 @@ static long uvc_v4l2_unlocked_ioctl(struct file *file,
-> >
-> >       /* The following IOCTLs do not need to turn on the camera. */
-> >       switch (cmd) {
-> > +     case UVCIOC_CTRL_MAP:
-> >       case VIDIOC_CREATE_BUFS:
-> >       case VIDIOC_DQBUF:
-> >       case VIDIOC_ENUM_FMT:
->
-> --
-> Regards,
->
-> Laurent Pinchart
+On 30/06/2025 12:46, Julien Massot wrote:
+> If ti_csi2rx_start_dma() fails in ti_csi2rx_dma_callback(), the buffer is
+> marked done with VB2_BUF_STATE_ERROR but is not removed from the DMA queue.
+> This causes the same buffer to be retried in the next iteration, resulting in
+> a double list_del() and eventual list corruption.
+> 
+> Fix this by removing the buffer from the queue before calling vb2_buffer_done()
+> on error.
+> 
+> This resolves a crash due to list_del corruption:
+> [   37.811243] j721e-csi2rx 30102000.ticsi2rx: Failed to queue the next buffer for DMA
+> [   37.832187]  slab kmalloc-2k start ffff00000255b000 pointer offset 1064 size 2048
+> [   37.839761] list_del corruption. next->prev should be ffff00000255bc28, but was ffff00000255d428. (next=ffff00000255b428)
+> [   37.850799] ------------[ cut here ]------------
+> [   37.855424] kernel BUG at lib/list_debug.c:65!
+> [   37.859876] Internal error: Oops - BUG: 00000000f2000800 [#1]  SMP
+> [   37.866061] Modules linked in: i2c_dev usb_f_rndis u_ether libcomposite dwc3 udc_core usb_common aes_ce_blk aes_ce_cipher ghash_ce gf128mul sha1_ce cpufreq_dt dwc3_am62 phy_gmii_sel sa2ul
+> [   37.882830] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.16.0-rc3+ #28 VOLUNTARY
+> [   37.890851] Hardware name: Bosch STLA-GSRV2-B0 (DT)
+> [   37.895737] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [   37.902703] pc : __list_del_entry_valid_or_report+0xdc/0x114
+> [   37.908390] lr : __list_del_entry_valid_or_report+0xdc/0x114
+> [   37.914059] sp : ffff800080003db0
+> [   37.917375] x29: ffff800080003db0 x28: 0000000000000007 x27: ffff800080e50000
+> [   37.924521] x26: 0000000000000000 x25: ffff0000016abb50 x24: dead000000000122
+> [   37.931666] x23: ffff0000016abb78 x22: ffff0000016ab080 x21: ffff800080003de0
+> [   37.938810] x20: ffff00000255bc00 x19: ffff00000255b800 x18: 000000000000000a
+> [   37.945956] x17: 20747562202c3832 x16: 6362353532303030 x15: 0720072007200720
+> [   37.953101] x14: 0720072007200720 x13: 0720072007200720 x12: 00000000ffffffea
+> [   37.960248] x11: ffff800080003b18 x10: 00000000ffffefff x9 : ffff800080f5b568
+> [   37.967396] x8 : ffff800080f5b5c0 x7 : 0000000000017fe8 x6 : c0000000ffffefff
+> [   37.974542] x5 : ffff00000fea6688 x4 : 0000000000000000 x3 : 0000000000000000
+> [   37.981686] x2 : 0000000000000000 x1 : ffff800080ef2b40 x0 : 000000000000006d
+> [   37.988832] Call trace:
+> [   37.991281]  __list_del_entry_valid_or_report+0xdc/0x114 (P)
+> [   37.996959]  ti_csi2rx_dma_callback+0x84/0x1c4
+> [   38.001419]  udma_vchan_complete+0x1e0/0x344
+> [   38.005705]  tasklet_action_common+0x118/0x310
+> [   38.010163]  tasklet_action+0x30/0x3c
+> [   38.013832]  handle_softirqs+0x10c/0x2e0
+> [   38.017761]  __do_softirq+0x14/0x20
+> [   38.021256]  ____do_softirq+0x10/0x20
+> [   38.024931]  call_on_irq_stack+0x24/0x60
+> [   38.028873]  do_softirq_own_stack+0x1c/0x40
+> [   38.033064]  __irq_exit_rcu+0x130/0x15c
+> [   38.036909]  irq_exit_rcu+0x10/0x20
+> [   38.040403]  el1_interrupt+0x38/0x60
+> [   38.043987]  el1h_64_irq_handler+0x18/0x24
+> [   38.048091]  el1h_64_irq+0x6c/0x70
+> [   38.051501]  default_idle_call+0x34/0xe0 (P)
+> [   38.055783]  do_idle+0x1f8/0x250
+> [   38.059021]  cpu_startup_entry+0x34/0x3c
+> [   38.062951]  rest_init+0xb4/0xc0
+> [   38.066186]  console_on_rootfs+0x0/0x6c
+> [   38.070031]  __primary_switched+0x88/0x90
+> [   38.074059] Code: b00037e0 91378000 f9400462 97e9bf49 (d4210000)
+> [   38.080168] ---[ end trace 0000000000000000 ]---
+> [   38.084795] Kernel panic - not syncing: Oops - BUG: Fatal exception in interrupt
+> [   38.092197] SMP: stopping secondary CPUs
+> [   38.096139] Kernel Offset: disabled
+> [   38.099631] CPU features: 0x0000,00002000,02000801,0400420b
+> [   38.105202] Memory Limit: none
+> [   38.108260] ---[ end Kernel panic - not syncing: Oops - BUG: Fatal exception in interrupt ]---
+> 
+> Fixes: b4a3d877dc92 ("media: ti: Add CSI2RX support for J721E")
+> Suggested-by: Sjoerd Simons <sjoerd@collabora.com>
+> Signed-off-by: Sjoerd Simons <sjoerd@collabora.com>
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
 
 
+Tested-by: Dirk Behme <dirk.behme@de.bosch.com>
 
--- 
-Ricardo Ribalda
+Thanks!
+
+Dirk
+
+
+> ---
+>  drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> index 6412a00be8eab89548950dd21b3b3ec02dafa5b4..0e358759e35faac95d1520e14a75096375c806bb 100644
+> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> @@ -619,6 +619,7 @@ static void ti_csi2rx_dma_callback(void *param)
+>  
+>  		if (ti_csi2rx_start_dma(csi, buf)) {
+>  			dev_err(csi->dev, "Failed to queue the next buffer for DMA\n");
+> +			list_del(&buf->list);
+>  			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>  		} else {
+>  			list_move_tail(&buf->list, &dma->submitted);
+> 
+> ---
+> base-commit: 1343433ed38923a21425c602e92120a1f1db5f7a
+> change-id: 20250630-j721e-dma-fixup-5b4f9678b7a6
+> 
+> Best regards,
+
 
