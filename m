@@ -1,153 +1,141 @@
-Return-Path: <linux-media+bounces-36404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36405-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38D8AEF5A4
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 12:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0540DAEF606
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:04:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D40C316AE3B
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 10:53:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F4E517A794
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 11:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CDB551022;
-	Tue,  1 Jul 2025 10:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D57D270EBC;
+	Tue,  1 Jul 2025 11:04:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P9WCRPNL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oeatJp9N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE0922F76F
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 10:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D7B27057D
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 11:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751367204; cv=none; b=X7PuXYCEYUN+nNdzx8Nrqe9Pfunz0W1PU6l0wYQh+CkA4bRweujkuLyj7iENufjxBYYoxun6t9GypPQhNnullOPNdl0vKnyqkYfl88WyZ7rYN47q2UphslNIDs3t0grDO8Sut4gSIwMFGZNGApGjBOrl523fPN7WBBAig/mmsic=
+	t=1751367847; cv=none; b=r44to9yHmBMUlEkzbnWr0H0yDxy5LBRf/ZVy5fLyN6Ntjn8XzSrnRKBhJ6aCP5X+U9w57LRGv3tEJw+k9bNQ+wtNez35/Pz8+549A8k1911lsUH1udnqK3uCnnyt2qgGGmjaQHUY9Hf7aAM8vmJXClWsOtcmalzjKElesx2Y94A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751367204; c=relaxed/simple;
-	bh=joA1eh4bQwcVS8h/KDAgRVDT/6KvsS0SR9c6ySZiuwI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Q7Dm8P7cIgj6+A0farBhA4Vjx+RPKYv8QmYcZXt+GBhnLKTNUh8Ze4F+sBeAgdA/AnaQ6xc+/v8MjRhM/34r+64P5cbWQBjO5vg+i/TkBmfjv8QgsvSNjBDd+4O4lAy0WZeG/NPkEoy101ULCkhFwxWiRuoGlrZcIWQAJriur8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P9WCRPNL; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5619t06X029524
-	for <linux-media@vger.kernel.org>; Tue, 1 Jul 2025 10:53:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mZPBYxrtQdOrEqq8pmWOEhqiMtINa7r1itDL7uE0VUs=; b=P9WCRPNLyjhvEf2n
-	mmUmn+bc8vrRYlzHutpMUWnU+8kKw7arBEal53L/JXUQVOIusMcZxxxeef7F87zZ
-	EOkCSlLwPjVdh5EH6UrHq2S016JjMcGue/uXusLnEacZ2fIvDNzZVtE7FtRXeMgF
-	x0f6DFpjJfyoF4lJvSchkCNT+Us8hrAa2KfYsuS/y3IixtPMbChVhg2SmJDzD1tp
-	/e1EI/5Ea/gQdnlR5IxWqadKukvWLCNaz20XIXqmyku814KLnL0jSSx7bkuiP6BI
-	sz++zioeMDZU1y+fUHp+hwVvUC8vDN2h1HExn3BdnQnXCUkWHQxRjF//6lhUBuLL
-	+Lx30A==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j95j0cah-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 10:53:22 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6fac0b29789so11543046d6.2
-        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 03:53:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751367201; x=1751972001;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mZPBYxrtQdOrEqq8pmWOEhqiMtINa7r1itDL7uE0VUs=;
-        b=qnOsbDpXoWAcgZS/GRXHec+/X4Gv3pYrxmz9qAudXiBZzKaZ19DZ/1GuRn+/PQPUrD
-         fSiS1QbAi5uy5l0F5Xw8XBzPB+sPcY03vKltcuraKv89XZ5gblegeYiwO7vMtfSpPkI5
-         yAVHZG7EzE/2h2W0zzlraKs5B/kk3Ul3wVANJBqgo/OHTe76bg7Q0mMuJ2iC+ub07H/u
-         s9cu/053uCSzlmjdr7UOZI0pTqFfNpOpruPFx+acMSpngvfN/rOxCKKUjPkBtGGI4zpS
-         YwoNPUGQ6sKNB8a3QXClYqMrJggAZwhroLO895FOn/vcx/dAZkQpdAce4pRboYAtPXmH
-         vQqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUbanRto6Zeh+jHcsTp11c7OtIdWfj6iztZ9+X3Yblbkv111Ylu8iHgzCC1tutfnOsEdPfavCMTDyjrLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFRSgwnlmGL63rCqCg2TM/A79T+iEKEZv6UESDlwRPtl0GFtwR
-	QcwsX1SWDbVEjVkrVN3LF1kgx//lQzM0tmHKFImu36mu79xyGiSvXTTDH4DZTSiXUiiWbtdmucq
-	v76XMMB4WV+jpURq/713fJvw4Z9f3RoDF/etmQdakmfaPVB73jQdYQk00NTOvLeW9tQ==
-X-Gm-Gg: ASbGnctGKPwhPf4s1qHnHJJJO9RvIdQxgCPeG9EwkoYa1ikkH3u6Cfyv2/QOSC7T6Aq
-	TxuJ/F3Nc5yQHmERg9BTsdh1EoMBSouA76iD+KX+XiNwmG0cGRrh/PNPoOPqJHTeuxIPACGeYPY
-	viUE2MvuizR/dKMoYnE8ljQKlnKyz2/Lkr5AifAudlPe+9cSkaNlU8MuXnrGJMENTu9BFNNmoiD
-	QLxqT/QNdY6khrY18WJ8m6cCg+BcXUa/5Bw14jS/m6ev6I1PgW0oOgPus4fTHUhhqH3pR7mNt5c
-	fahpJMxS+8QhLcOBCAGrOLAIYWxhggxF2OZHQ4M0PWoAYr4hoDOnubfAmEVS+HsrM/0hTXQqVUV
-	n+uNc794g
-X-Received: by 2002:a05:622a:34b:b0:4a4:3b38:cfe6 with SMTP id d75a77b69052e-4a82fb2f746mr17034671cf.4.1751367201147;
-        Tue, 01 Jul 2025 03:53:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFGvMQQbpgZu6HTRT/Ygye0EH03aZTPwfzYQFJ2rhLYRICyS7XOyOcoKvtslyyiyzF7MlUlFw==
-X-Received: by 2002:a05:622a:34b:b0:4a4:3b38:cfe6 with SMTP id d75a77b69052e-4a82fb2f746mr17034501cf.4.1751367200717;
-        Tue, 01 Jul 2025 03:53:20 -0700 (PDT)
-Received: from [192.168.1.114] (83.9.29.190.neoplus.adsl.tpnet.pl. [83.9.29.190])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60c828bbd34sm7312209a12.9.2025.07.01.03.53.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 03:53:20 -0700 (PDT)
-Message-ID: <8c4c791e-856f-4838-86d9-bfa2934aee41@oss.qualcomm.com>
-Date: Tue, 1 Jul 2025 12:53:18 +0200
+	s=arc-20240116; t=1751367847; c=relaxed/simple;
+	bh=ymH2AkFiWIUmWFvALbJr0OAinhK1NlPRxjR2AO+B4wo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qZb5gVGcj2pqGOeCdKiSwU/gMznnmeqTLQTuImV1153/uZCWw41EeKzkyA7UmDtKD8lQd/hxGteiVjvn3depvgJPTlEuyH99jY9NQhrmQ1yTL0fwGQjqlS9jJ7+lnchbcFb/zzu2XMWEOCeP2zheorXjUQrRWBWgWl5lgFdceTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oeatJp9N; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DCD8F78C;
+	Tue,  1 Jul 2025 13:03:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751367819;
+	bh=ymH2AkFiWIUmWFvALbJr0OAinhK1NlPRxjR2AO+B4wo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oeatJp9NQ7pjoZydftLhIulYr3SRn8AqcMOnjEut9QjyLsa4fCbMQcUpcJhXVil87
+	 D8cv6mPvpCS940+JcdKW68Q0W1Wcg3aNWtmNdXWn1GF8SvSDRtLDJMu95vW8xXyDOK
+	 2Z8JwCaSfxm2Kbio6C0pkGiakrddxXM3DJte2qAk=
+Date: Tue, 1 Jul 2025 14:03:35 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: sakari.ailus@linux.intel.com, stanislaw.gruszka@linux.intel.com,
+	hdegoede@redhat.com, arnd@arndb.de, alain.volmat@foss.st.com,
+	andrzej.hajda@intel.com, benjamin.mugnier@foss.st.com,
+	dave.stevenson@raspberrypi.com, hansg@kernel.org,
+	hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com,
+	kieran.bingham@ideasonboard.com, khalasa@piap.pl, mani@kernel.org,
+	m.felsch@pengutronix.de, matthias.fend@emfend.at,
+	mchehab@kernel.org, michael.riesch@collabora.com,
+	naush@raspberrypi.com, nicholas@rothemail.net,
+	nicolas.dufresne@collabora.com, paul.elder@ideasonboard.com,
+	dan.scally@ideasonboard.com, pavel@kernel.org, rashanmu@gmail.com,
+	ribalda@chromium.org, slongerbeam@gmail.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 02/48] Documentation: media: camera-sensor: Mention
+ v4l2_devm_sensor_clk_get() for obtaining the clock
+Message-ID: <20250701110335.GA28643@pendragon.ideasonboard.com>
+References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
+ <095af35c322e523aba8ea8f70157077f4196feb5.1750942967.git.mehdi.djait@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] arm64: dts: qcom: sdm670-google-sargo: Add front
- camera rotation/orientation
-To: Richard Acayan <mailingradian@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20250630225944.320755-7-mailingradian@gmail.com>
- <20250630225944.320755-12-mailingradian@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250630225944.320755-12-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDA2NSBTYWx0ZWRfX8jA/kg+Fkcyo
- 4awxYkANFAE4h5LtlxWSe+exPKSMjo2SGcmbOnZnnZd+Tuy83fk3WQuuRT+nVqtjYquymYa13BX
- 8DRqwi36u6eSU7WlKECJeXKKH3yKFFMCMLNI/ocQgdflHVqGFBtQpPFlhHuqqlVsSKDosLwGGQO
- KZ06ZdFaAXcp3l7/vUoQHIqO8t2IcIfM2AcFiIQEss9iBx1GJrZCjTYOSBgj4W8Rg4bHwRjib1A
- IAMkj4qjjaxn+d2x0Xuivq3+QJrawMZsThM3pCi4L/Jg/qYwWMaVP3Evo3FCyElTzNP3igMilGi
- 2p53EjvE37LJ36wVSjF2JQ5kokIq/VuEfmhxvsXA+7/r4HQgSfIIfWLNf9GDmmDrawwAJPaKQmu
- Vcx+G6lOsBhdvEmfWU+hiqbKG3u4r7tx4jCY9zlhK+nCMz3LLFCTrrV5eHe0KjWoFiL4NGbA
-X-Proofpoint-ORIG-GUID: EKREFe3mopd6IW1y2OFD_8Iy-Zlyt4pK
-X-Authority-Analysis: v=2.4 cv=EuHSrTcA c=1 sm=1 tr=0 ts=6863be22 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=fKQzr7EGRj+VoE0XNsDNvQ==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=QX4gbG5DAAAA:8 a=pGLkceISAAAA:8
- a=JCdkjPdcWiFbGMzKlCMA:9 a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
- a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-GUID: EKREFe3mopd6IW1y2OFD_8Iy-Zlyt4pK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=798 malwarescore=0 mlxscore=0 phishscore=0
- spamscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507010065
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <095af35c322e523aba8ea8f70157077f4196feb5.1750942967.git.mehdi.djait@linux.intel.com>
 
-
-
-On 01-Jul-25 00:59, Richard Acayan wrote:
-> From: Robert Mader <robert.mader@collabora.com>
+On Thu, Jun 26, 2025 at 03:33:53PM +0200, Mehdi Djait wrote:
+> Add the new v4l2 helper devm_v4l2_sensor_clk_get() to Documentation. the
+> helper works on both DT- and ACPI-based platforms to retrieve a
+> reference to the clock producer from firmware.
 > 
-> So it gets properly reported to clients like libcamera.
-> 
-> Signed-off-by: Robert Mader <robert.mader@collabora.com>
-> [richard: rebase onto patch series]
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 > ---
+>  .../driver-api/media/camera-sensor.rst        | 24 +++++++++++++------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index c290833165e6..94bd1dae82d5 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -29,21 +29,31 @@ used in the system. Using another frequency may cause harmful effects
+>  elsewhere. Therefore only the pre-determined frequencies are configurable by the
+>  user.
+>  
+> +The external clock frequency shall be retrieved by obtaining the external clock
+> +using the ``devm_v4l2_sensor_clk_get()`` helper function, and then getting its
+> +frequency with ``clk_get_rate()``. Usage of the helper function guarantees
+> +correct behaviour regardless of whether the sensor is integrated in a DT-based
+> +or ACPI-based system.
+> +
+>  ACPI
+>  ~~~~
+>  
+> -Read the ``clock-frequency`` _DSD property to denote the frequency. The driver
+> -can rely on this frequency being used.
+> +ACPI-based systems typically don't register the sensor external clock with the
+> +kernel, but specify the external clock frequency in the ``clock-frequency``
+> +_DSD property. The ``devm_v4l2_sensor_clk_get()`` helper creates and returns a
+> +fixed clock set at that rate.
+>  
+>  Devicetree
+>  ~~~~~~~~~~
+>  
+> -The preferred way to achieve this is using ``assigned-clocks``,
+> -``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
+> -`clock device tree bindings
+> +Devicetree-based systems declare the sensor external clock in the device tree
+> +and reference it from the sensor node. The preferred way to select the external
+> +clock frequency is to use the ``assigned-clocks``, ``assigned-clock-parents``
+> +and ``assigned-clock-rates`` properties in the sensor node to set the clock
+> +rate. See the `clock device tree bindings
+>  <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> -for more information. The driver then gets the frequency using
+> -``clk_get_rate()``.
+> +for more information. The ``devm_v4l2_sensor_clk_get()`` helper retrieves and
+> +returns that clock.
+>  
+>  This approach has the drawback that there's no guarantee that the frequency
+>  hasn't been modified directly or indirectly by another driver, or supported by
 
-It would make sense to squash this patch into the previous one,
-you can mention Robert's contribution in the commit message
+-- 
+Regards,
 
-Konrad
+Laurent Pinchart
 
