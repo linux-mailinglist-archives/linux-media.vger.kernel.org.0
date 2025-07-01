@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7908AEF9E6
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:11:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D87AEF9E8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:12:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37A014E156F
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:10:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C6221683C8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:11:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6502749FA;
-	Tue,  1 Jul 2025 13:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 640EA2749CB;
+	Tue,  1 Jul 2025 13:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3emicZQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uadwpon+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A652475CB;
-	Tue,  1 Jul 2025 13:10:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB6522094;
+	Tue,  1 Jul 2025 13:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751375423; cv=none; b=C7nMT7r68YTFmTDpLu4+dwj35za9sqjvegJk1AbgHV81m/lPeZZx5YBaoI9+nQTxwqkAL9OWUgxRAT31TPbhViKv0P5SH6HixHZFaaAaIa8KTwCqF+KN3q90VseIY/iVZmMf4mq6y+mz2AihJ4izWC3aH7zulGK7ZpZRFo3WqMQ=
+	t=1751375499; cv=none; b=QWDGB2q/jaEWAbbPwf3fw1+exagqj6zKHstyTDTTMDfGNj8ghCahTtChVsnnlg2cZlYYOSSbymoKbCKHl4dhahCkdbvFeyYInrG76RqNex6F2zntwDQkrz0ndZleb8jCK1vxDDrwh29VuApT5lYA419KYCOUz3Ta2yUqRZJZjeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751375423; c=relaxed/simple;
-	bh=+jjtoaTMgIiVPiVyIcSdTsXzxVU7AJ0+D9yCuI6epP0=;
+	s=arc-20240116; t=1751375499; c=relaxed/simple;
+	bh=RaX/GIB04q0A6Agt1WLBLLAJ37DBzrU1hxiUbA7qFdc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=FwfC73EgYj6DAo50Vc1+lv5se6JuCGAUzWZx7R9ObNzFtmUnYkaq8n+HLs3c4YkO7robUEr0f0QfMrJziSwxxQ4Naub0UK6Pwqj9M+sGPhuu/ThoDKIvsnaMNFkxl0h1/Z7eEjOB99asm9/aGYgMR4xqEM9dezADWHhvVzCI6rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J3emicZQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DD8C4CEEB;
-	Tue,  1 Jul 2025 13:10:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Jw6ackv9UcAOmZ2kj202LDltdRj7UC2kG6CzUQGssuhEq7Cjwt66jSouLIFWSxhEE1Byl4GpOybf3R7CwDHAhEC4DlULV07zoJkIDXX1M9xnAoJyx8UBwOVeGYYFLZ3mKcSiUTW8P7zjdUDKqvG9e73Tubj3yyJYrq8brwTMX70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uadwpon+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88EE7C4CEEB;
+	Tue,  1 Jul 2025 13:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751375423;
-	bh=+jjtoaTMgIiVPiVyIcSdTsXzxVU7AJ0+D9yCuI6epP0=;
+	s=k20201202; t=1751375499;
+	bh=RaX/GIB04q0A6Agt1WLBLLAJ37DBzrU1hxiUbA7qFdc=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=J3emicZQms8ShRxuuu/C5X0CDZyVhP7DRhaWtM4NYlj+/ui3JzQ8SYjpnGvksSjlT
-	 hjG0F5EqZQLsrXgsX5dko/RFZhHF8DNUi6Yp3VRogmZuqdoe2RTZ6/njzhEjvu4A7V
-	 YaC9LzJ0hLyklZTFfdAcyy/lx5SIaiBCpwvWzDBZLklNidW6vEt/8KzCfKOyQSm98Y
-	 W2eVN4/fpBcH6G844CpbzdUaFgKumqB8W9B/kztkQq2EXLOEAbwR0I67Ml0OpXjkeR
-	 XqzfnyDT7aNH/HpSa/WQTPru09LR6c1oEQOg8dlYb+GxQgsvgV6oaLz5/swOkGsciW
-	 218R5oS6YBC2w==
-Message-ID: <274ddf4e-2fab-4428-8207-e06522800982@kernel.org>
-Date: Tue, 1 Jul 2025 15:10:15 +0200
+	b=Uadwpon+xbMx6oB86v9xrmDwroD5xVmMbnCaegHrxjKa7eKCNBxsA+x26fgsoiHpI
+	 BTjL36vshfspW7lwUey0QFjwuDj1ttYTdgZV9LcEnV0gC7qaheGm5VVC/npnMRirUf
+	 53p0jIS+REzf+ro1W+A5otLemyy53PJUbD/Igq6cWruVhdxMNzRRghZefMYgvMSnqN
+	 oHE5S0dQf0CP0AAbxus8lbtCgY7ZwyLqa1L09nBbeqeRuOPy0BG8i6MeomXxKbAyjd
+	 kI4Bg1M8Y34mR7ODI9eFapTM8tMXEnPbL2ykWnuC+A+xeTYa8KZ1tCnXQAPYvpE4rQ
+	 MzDZ1wRA90ZJA==
+Message-ID: <fd4d74f7-3c8f-4ad2-8af0-af6eb26f8b61@kernel.org>
+Date: Tue, 1 Jul 2025 15:11:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
- front camera
+Subject: Re: [PATCH 5/5] arm64: dts: qcom: sdm670-google-sargo: Add front
+ camera rotation/orientation
 To: Richard Acayan <mailingradian@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -61,7 +61,7 @@ To: Richard Acayan <mailingradian@gmail.com>,
  Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
 References: <20250630225944.320755-7-mailingradian@gmail.com>
- <20250630225944.320755-11-mailingradian@gmail.com>
+ <20250630225944.320755-12-mailingradian@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,22 +107,37 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250630225944.320755-11-mailingradian@gmail.com>
+In-Reply-To: <20250630225944.320755-12-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 01/07/2025 00:59, Richard Acayan wrote:
-> +&cci_i2c1 {
-> +	camera@1a {
-> +		compatible = "sony,imx355";
-> +		reg = <0x1a>;
+> From: Robert Mader <robert.mader@collabora.com>
+> 
+> So it gets properly reported to clients like libcamera.
+> 
+> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+> [richard: rebase onto patch series]
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> index 0af6a440ecbc..fcd2f1b77679 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> @@ -462,6 +462,9 @@ camera@1a {
+>  		pinctrl-names = "default";
+>  		pinctrl-0 = <&cam_front_default>;
+>  
+> +		rotation = <270>;
+> +		orientation = <0>;
 > +
-> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +		clock-names = "mclk";
-> +
-> +		clock-frequency = <19200000>;
 
-No, drop. This is not a suitable property for DT I2C devices.
+So your previous commit added buggy code which you fix now. No, add
+correct code in the first place - not a bug which later you fix. This
+must be squashed.
 
 Best regards,
 Krzysztof
