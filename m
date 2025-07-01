@@ -1,48 +1,56 @@
-Return-Path: <linux-media+bounces-36393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36394-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB8FAEF2C2
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 11:10:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BDEDAEF30A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 11:19:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1A5F16D420
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 09:10:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C55C1178FA5
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 09:19:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D44226B740;
-	Tue,  1 Jul 2025 09:09:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCAE426AA8C;
+	Tue,  1 Jul 2025 09:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="f85xjx3X"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="iVpcNRk5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1E1220F36;
-	Tue,  1 Jul 2025 09:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29184266B41;
+	Tue,  1 Jul 2025 09:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751360991; cv=none; b=hD5fVMRgWZiyA55HaOueyvyPjaMiAzukdcRpstFZ28V28eyc29NEcfLNcTbCCkHJMjAtf8vgxs/XwyQnC5t9XYaajmXiA6B7DX4M3qBYBUjO1iVfblS6BjQaOXIs2mOFN7yTP9Vx/U7cLGy761SRlzfRlMg4U1dj7v0RvEfVuwI=
+	t=1751361533; cv=none; b=NeAalLooSnc+C/lwa/nCbsRTRyrtn1Es4to+inOoyJtupFjpMzdIpUYqQJUBFGlJmmhAfaA7mtUG5T1E/KbplIWBBU4OVmExaBwnOpEUyjoK8Mw9V5guGPpHOP151EScxXS0uaqPwFzhWMkMLr5i+wEXF2zbvyIOHuxkXJb0mZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751360991; c=relaxed/simple;
-	bh=uA087uJ67e7A8AlIZXGViEZobK9A8ZE5VGDbvUT8jLk=;
+	s=arc-20240116; t=1751361533; c=relaxed/simple;
+	bh=rf4CGdCHUYs1dOhweYzyYABZwQzYP0vkcgLdE2l/Kzw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tC6eDUkGG3SZWH5uqhC0vPku49gy2+tkeD07h/0FJO0ylYQ4szmLiETwqIyCQLht6Tvw5N01zH1muuCaYKfmF9+JqK2rK2nNLp+tr9rmvuD7dQw3U4CU4ZGbIHjwH3uwCmoeX8OKn/3+EX4VYtJH3Bp9L4VNurIXOkyXyHtLTyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=f85xjx3X; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81D70C74;
-	Tue,  1 Jul 2025 11:09:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751360966;
-	bh=uA087uJ67e7A8AlIZXGViEZobK9A8ZE5VGDbvUT8jLk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=f85xjx3XHd6cdXvcO5zBY8dLuwPVDtSPBrBTePAVCxMSQs3MfcXl60zFehajMNz4X
-	 owdv62riaGJOQdBkEAJHUzH0Xxlqi1S5GNrT4fydrhbZkEBaNf0G43cnAA2RJIhW0A
-	 K+tcJjdMvPnr7BU+/4a4JSayR+2rVC7sA3aZTvns=
-Message-ID: <d7f001a8-b5b4-4174-ad27-3d0739d1f375@ideasonboard.com>
-Date: Tue, 1 Jul 2025 10:09:44 +0100
+	 In-Reply-To:Content-Type; b=gAZOEgmIX7lP+A6vm1JSuYvC2WwsZJEl0GknqSzTOOA1TZ6I3mEE6jB1qzc93Zi67f9N/T6ZjF9CU5K2+/4YBgKGPIJYXAS22na3roNBR1hjdCzui9b36x6HCFvjFIS4jSm0x8zp62KIZbA39kzGgwhfM3CDDYVT+jyerfK4OdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=iVpcNRk5; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1751361497; x=1751966297; i=markus.elfring@web.de;
+	bh=rf4CGdCHUYs1dOhweYzyYABZwQzYP0vkcgLdE2l/Kzw=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=iVpcNRk5sF1p84NA1BzyN7RdA6bVU1D52ORf74wrZwsJHXlUmxO5vtzryIUT2ivn
+	 fKhDV+n1/mDAx0Lbstq/JQZ47wpRDabiSPHyAwpPer7UThijYyG206exxwiCSOUc6
+	 1l3Exam7tTGW+7jZB9p7J+pHgoy77zbf9OqynnRnQ3/kPn5Ntp+5tAz3KCMNthwsX
+	 BzBn1mrz9K6PPxrPZbQt19UYjT3juVBH+a6B4zK5wj31GH0wORcASKGihq2z5AHE3
+	 OCcASwy/xduYhtMc+iuhe/BTxqrdlf5ewXl7n3C1w77M1387eRt2+C8RslU4u9C6N
+	 qkVwan+gXx3hHGjZ6w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.242]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MGQGH-1uV91Q10of-000hlo; Tue, 01
+ Jul 2025 11:18:17 +0200
+Message-ID: <35924ff7-4703-4cac-88da-dc01d22c8dd8@web.de>
+Date: Tue, 1 Jul 2025 11:18:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,138 +58,84 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: pisp_be: Use clamp() and define max sizes
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+Subject: Re: [v2 0/5] media: i2c: imx214: Add some style improvements
+To: =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ linux-media@vger.kernel.org, phone-devel@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250701-pispbe-clamp-v1-1-31243db3439b@ideasonboard.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250701-pispbe-clamp-v1-1-31243db3439b@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Ricardo Ribalda Delgado <ribalda@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20250630-imx214_fixes-v2-0-cd1a76c412c0@apitzsch.eu>
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250630-imx214_fixes-v2-0-cd1a76c412c0@apitzsch.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dhr0VNQ99MR4kUX866Kelg7mQlii5oZLe86NT+j7lKybosK1ez3
+ Glabh4DZj0pxiSpapz0aT1QqEWpVyAp19e5bLNn/ZJ8v7GeYkbAnP6doKY7lQ9CrJdKSOkD
+ sn3szAJm1QHkZAKo36LHPuhiAZnhZKpMtZ4/0svUB27mU6e/FHYjnghj44tTs+H6jm2XhFQ
+ xbpL4X5XMxd2UAeA+Eomg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Hwzo/Mfj13E=;0/qKqkeTsQibfMaoSz9biGyBu9P
+ 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
 
-Hi Jacopo, thanks for the patch
+=E2=80=A6> ---
+> Changes in v2:
+=E2=80=A6
+> - Use imperative mood for commit message (patch =E2=80=A6)
+=E2=80=A6
 
-On 01/07/2025 09:55, Jacopo Mondi wrote:
-> Use the clamp() from minmax.h and provide a define for the max size as
-> they will be used in sequent patches.
+Will this review concern become relevant for further update steps?
 
-s/sequent/subsequent
-
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
->
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->   drivers/media/platform/raspberrypi/pisp_be/pisp_be.c  | 11 +++++++----
->   include/uapi/linux/media/raspberrypi/pisp_be_config.h |  9 +++++----
->   2 files changed, 12 insertions(+), 8 deletions(-)
->
->
-> ---
-> base-commit: 35392e855abf7d02ad3b061cbc75c7c7c37f0577
-> change-id: 20250623-pispbe-clamp-4b33011d0e85
->
-> Best regards,
->
-> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> index 7596ae1f7de6671484d4d351015b234829f642d4..ac5840b4be478ccdd7da9d6d0745649e0c1b2b6f 100644
-> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> @@ -9,6 +9,7 @@
->   #include <linux/io.h>
->   #include <linux/kernel.h>
->   #include <linux/lockdep.h>
-> +#include <linux/minmax.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
-> @@ -1114,10 +1115,12 @@ static void pispbe_try_format(struct v4l2_format *f, struct pispbe_node *node)
->   	f->fmt.pix_mp.pixelformat = fmt->fourcc;
->   	f->fmt.pix_mp.num_planes = fmt->num_planes;
->   	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
-> -	f->fmt.pix_mp.width = max(min(f->fmt.pix_mp.width, 65536u),
-> -				  PISP_BACK_END_MIN_TILE_WIDTH);
-> -	f->fmt.pix_mp.height = max(min(f->fmt.pix_mp.height, 65536u),
-> -				   PISP_BACK_END_MIN_TILE_HEIGHT);
-> +	f->fmt.pix_mp.width = clamp(f->fmt.pix_mp.width,
-> +				    PISP_BACK_END_MIN_TILE_WIDTH,
-> +				    PISP_BACK_END_MAX_TILE_WIDTH);
-> +	f->fmt.pix_mp.height = clamp(f->fmt.pix_mp.height,
-> +				     PISP_BACK_END_MIN_TILE_HEIGHT,
-> +				     PISP_BACK_END_MAX_TILE_HEIGHT);
->   
->   	/*
->   	 * Fill in the actual colour space when the requested one was
-> diff --git a/include/uapi/linux/media/raspberrypi/pisp_be_config.h b/include/uapi/linux/media/raspberrypi/pisp_be_config.h
-> index cbeb714f4d61ad53162c0450f2303431a5958040..2ad3b90684d7be80776af75b5c5009f7b677f466 100644
-> --- a/include/uapi/linux/media/raspberrypi/pisp_be_config.h
-> +++ b/include/uapi/linux/media/raspberrypi/pisp_be_config.h
-> @@ -21,10 +21,11 @@
->   /* preferred byte alignment for outputs */
->   #define PISP_BACK_END_OUTPUT_MAX_ALIGN 64u
->   
-> -/* minimum allowed tile width anywhere in the pipeline */
-> -#define PISP_BACK_END_MIN_TILE_WIDTH 16u
-> -/* minimum allowed tile width anywhere in the pipeline */
-> -#define PISP_BACK_END_MIN_TILE_HEIGHT 16u
-> +/* minimum allowed tile sizes anywhere in the pipeline */
-> +#define PISP_BACK_END_MIN_TILE_WIDTH	16u
-> +#define PISP_BACK_END_MIN_TILE_HEIGHT	16u
-> +#define PISP_BACK_END_MAX_TILE_WIDTH	65536u
-> +#define PISP_BACK_END_MAX_TILE_HEIGHT	65536u
->   
->   #define PISP_BACK_END_NUM_OUTPUTS 2
->   #define PISP_BACK_END_HOG_OUTPUT 1
+Regards,
+Markus
 
