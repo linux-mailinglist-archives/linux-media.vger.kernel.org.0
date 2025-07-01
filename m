@@ -1,223 +1,165 @@
-Return-Path: <linux-media+bounces-36388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36389-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16698AEF08D
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 10:10:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA52AEF146
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 10:35:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7674C1BC3A5A
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 08:11:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE6AE3AC9A0
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 08:34:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059442698AE;
-	Tue,  1 Jul 2025 08:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sjoerd@collabora.com header.b="CEwRl1S/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 278E726AA85;
+	Tue,  1 Jul 2025 08:35:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5AA26A1C4;
-	Tue,  1 Jul 2025 08:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751357434; cv=pass; b=jBeh4Vxm8c+dVn7A2ebBjr5euAhU9Ub6eBpQq4Hpywuq6d9QbKGLXEGCOPQTWSWWc5ENM2Y6gpawVJ2XHJN1KZlFkgutD698iyeq8jZAefWfj7uMA8N0JhkgnNoJrUCAsbROVldqTlYWRhxqdNZtf59xNSun1lpfGl5aZwfOrVM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751357434; c=relaxed/simple;
-	bh=FmbvPSfq2h3/miVw2Ia9z7emMBNvSwQsnVph+ENro/I=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29232266F0D
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 08:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751358903; cv=none; b=p7Fljy0xoOoyikbfXA75T+jCHEijB8alYENcY/6qu5ISpzxNQl+Etyn060702rSU7uEWL2QbkMKt++us+RgYx9981xKIvxz+quN3a/73GK0FGE8qYwq2lCB76jHp+BeDkbfn8eeE0YDxFF+Hj97+PrbyrMwkRI1YSdi8WbJtA+Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751358903; c=relaxed/simple;
+	bh=0xe8FGfrXDzC5wjnPnQaezc6X0eO0KIJ+XiANWs49w4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NQyExS6EQD2K7a3PLaokXgO9VIWZH7DD6W3QSvM+JmEadu9zvKUrkJBNbJAYiEte8FMN9bNhmJQp70KA1HkEZxcAi8h4v3KRVak5i0yDvfmMxBkW0MNChMqu+N290cPkRQwE0SaxlcC1RnNMejfE01lxZ3jYAYrnAaFBSjGQz6c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sjoerd@collabora.com header.b=CEwRl1S/; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1751357386; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=NsNPod/rgbsI8etHvV0H9s0eMrCC/J2cbSS4S8fF/5nsovJflukEmqAYheJfelsIP9BWe5gr+C1i/2q2Vc7FS6PXryS49tcV+n9GwB/pg0aQ9WFQyS+/5Fis+dqlE9Nj5PIwvd/5pX9WXjt+CgZ8Q0bqGfbNvGPHf4vg/Ea6408=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751357386; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=K4dZn3NVcIpGzrcKLP4sLnB7bPgQrfNojFnFyr8sESg=; 
-	b=KckBD0XaJ0B4O1uPqqsKmddpOoqY/s6X6uETq3rEfcNhXQTf3VlkZCnQKIlklePwuLPC4izIjcF2nFAYFfDfLOmEjGdkIt4rAhdYOwS6x9gGqreRTI1kzxYPvO4xoacgvZ920TQQ2AxHnrnWQpsqwYOWhNmzcX/Wle5+EgUDydM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sjoerd@collabora.com;
-	dmarc=pass header.from=<sjoerd@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751357386;
-	s=zohomail; d=collabora.com; i=sjoerd@collabora.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=K4dZn3NVcIpGzrcKLP4sLnB7bPgQrfNojFnFyr8sESg=;
-	b=CEwRl1S/yF6Q0GCS6KBd50fV9lOKsJp3NnCBRbtaTD2N/6St+xsbXXSGFIXDNn23
-	o+feq0345bK7zuHJI1MR8KmKxRzyYcDqLhlKSi3q+toQbgdXV7GUoGZY4xBmHmDqAfJ
-	Xq3vh6RN9qTQVru33omY7yilCp2q8eUoF8bZ0nuw=
-Received: by mx.zohomail.com with SMTPS id 1751357383778894.2496083182277;
-	Tue, 1 Jul 2025 01:09:43 -0700 (PDT)
-Message-ID: <ab421c6f9fc804a6f03833d824d5776c7272e6bb.camel@collabora.com>
-Subject: Re: [PATCH v4 11/12] media: ti: j721e-csi2rx: Submit all available
- buffers
-From: Sjoerd Simons <sjoerd@collabora.com>
-To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev, 
-	laurent.pinchart@ideasonboard.com, mripard@kernel.org, Julien Massot
-	 <jmassot@collabora.com>
-Cc: y-abhilashchandra@ti.com, devarsht@ti.com, vaishnav.a@ti.com,
- s-jain1@ti.com, 	vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, 	conor+dt@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, 	tomi.valkeinen@ideasonboard.com,
- jai.luthra@ideasonboard.com, 	changhuang.liang@starfivetech.com,
- jack.zhu@starfivetech.com, 	linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 	devicetree@vger.kernel.org, "Liu (EP), Bin"
- <b-liu@ti.com>
-Date: Tue, 01 Jul 2025 10:09:38 +0200
-In-Reply-To: <20250514112527.1983068-12-r-donadkar@ti.com>
-References: <20250514112527.1983068-1-r-donadkar@ti.com>
-	 <20250514112527.1983068-12-r-donadkar@ti.com>
-Organization: Collabora
+	 Content-Type:MIME-Version; b=LAGqKJqJ+Aa22c5QsionBCnDJ+nXyB+Z9X4IFvjgCkTyZR3inrnHNvzStAEl99YueZ73LqntJgVmqLe3Q7gtBIxprTsmcimR7dB04R6aXrclXO/gyHwhC6iYgc9+j9sNanRmkU/ETGvYm/63rpVO3OC3pbbxWxQwZx81G6tykz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uWWS2-0000f8-Nt; Tue, 01 Jul 2025 10:34:50 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uWWS0-006F1A-37;
+	Tue, 01 Jul 2025 10:34:48 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uWWS0-0003VY-2v;
+	Tue, 01 Jul 2025 10:34:48 +0200
+Message-ID: <8301d2862546507303e2dba1dd61906b848552c2.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/3] media: platform: Add Renesas Input Video Control
+ block driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+ linux-media@vger.kernel.org,  devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+ jacopo.mondi@ideasonboard.com,  biju.das.jz@bp.renesas.com
+Date: Tue, 01 Jul 2025 10:34:48 +0200
+In-Reply-To: <20250624-ivc-v2-2-e4ecdddb0a96@ideasonboard.com>
+References: <20250624-ivc-v2-0-e4ecdddb0a96@ideasonboard.com>
+	 <20250624-ivc-v2-2-e4ecdddb0a96@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hey,
-
-On Wed, 2025-05-14 at 16:55 +0530, Rishikesh Donadkar wrote:
-> From: Jai Luthra <j-luthra@ti.com>
+On Di, 2025-06-24 at 13:35 +0100, Daniel Scally wrote:
+> Add a driver for the Input Video Control block in an RZ/V2H SoC which
+> feeds data into the Arm Mali-C55 ISP.
 >=20
-> We already make sure to submit all available buffers to DMA in each DMA
-> completion callback.
->=20
-> Move that logic in a separate function, and use it during stream start
-> as well, as most application queue all their buffers before stream on.
->=20
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 > ---
-> =C2=A0.../platform/ti/j721e-csi2rx/j721e-csi2rx.c=C2=A0=C2=A0 | 43 ++++++=
-+++++--------
-> =C2=A01 file changed, 24 insertions(+), 19 deletions(-)
+> Changes in v2:
 >=20
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 7986f96c5e11b..ba2a30bfed37d 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -651,6 +651,27 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx =
-*ctx)
-> =C2=A0	return ret;
-> =C2=A0}
-> =C2=A0
-> +static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx)
-> +{
-> +	struct ti_csi2rx_dma *dma =3D &ctx->dma;
-> +	struct ti_csi2rx_buffer *buf;
-> +	int ret =3D 0;
+> 	- Added selects and depends statements to Kconfig entry
+> 	- Fixed copyright year
+> 	- Stopped including in .c files headers already included in .h
+> 	- Fixed uninitialized variable in iterator
+> 	- Only check vvalid member in interrupt function and wait
+> 	  unconditionally elsewhere
+> 	- __maybe_unused for the PM ops
+> 	- Initialise the subdevice after setting up PM
+> 	- Fixed the remove function for the driver to actually do
+> 	  something.
+> 	- Some minor formatting changes
+> 	- Fixed the quantization member for the format
+> 	- Changes accounting for the v2 of the media jobs framework
+> 	- Change min_queued_buffers to 0
+> ---
+>  drivers/media/platform/renesas/Kconfig             |   2 +
+>  drivers/media/platform/renesas/Makefile            |   1 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  15 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 237 +++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 379 ++++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 678 +++++++++++++++=
+++++++
+>  .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h   | 133 ++++
+>  8 files changed, 1450 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platf=
+orm/renesas/Kconfig
+> index 27a54fa7908384f2e8200f0f7283a82b0ae8435c..5462e524c3708be87a50dd80d=
+4b4017a2466aa99 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -42,6 +42,8 @@ config VIDEO_SH_VOU
+>  source "drivers/media/platform/renesas/rcar-isp/Kconfig"
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+> +source "drivers/media/platform/renesas/rzv2h-ivc/Kconfig"
 > +
-> +	/* If there are more buffers to process then start their transfer. */
-> +	while (!list_empty(&dma->queue)) {
-> +		buf =3D list_entry(dma->queue.next, struct ti_csi2rx_buffer,
-> list);
-> +		ret =3D ti_csi2rx_start_dma(ctx, buf);
-> +		if (ret) {
-> +			dev_err(ctx->csi->dev,
-> +				"Failed to queue the next buffer for DMA\n");
-> +			vb2_buffer_done(&buf->vb.vb2_buf,
-> VB2_BUF_STATE_ERROR);
-> +			break;
-
-The break here seems wrong and does change the previous logic; It means onc=
-e *a*
-buffer fails to start DMA, you'll no longer try to submit the other (queued=
-)
-buffers. If this was called from the DMA callback of the last submitted buf=
-fer
-and userspace doesn't re-queue the error buffer, then capturing will stop, =
-even
-if there were still queued up buffers from a userspace pov.
-
-
-For a potential next iteration you probably also want to wrap in the change=
-s
-from to fix list_del corruption:
-https://lore.kernel.org/all/20250630-j721e-dma-fixup-v1-1-591e378ab3a8@coll=
-abora.com/
-
-
-
-> +		}
-> +		list_move_tail(&buf->list, &dma->submitted);
-> +	}
-> +	return ret;
-> +}
+> =20
+>  # Mem2mem drivers
+> =20
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/plat=
+form/renesas/Makefile
+> index 1127259c09d6a51b70803e76c495918e06777f67..b6b4abf01db246aaf8269b802=
+7efee9b0b32083a 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -6,6 +6,7 @@
+>  obj-y +=3D rcar-isp/
+>  obj-y +=3D rcar-vin/
+>  obj-y +=3D rzg2l-cru/
+> +obj-y +=3D rzv2h-ivc/
+>  obj-y +=3D vsp1/
+> =20
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) +=3D rcar-csi2.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Kconfig b/drivers/m=
+edia/platform/renesas/rzv2h-ivc/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..3df8ff585c36fe7c74e1eb040=
+8b344cbc2b4d898
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
 > +
-> =C2=A0static void ti_csi2rx_dma_callback(void *param)
-> =C2=A0{
-> =C2=A0	struct ti_csi2rx_buffer *buf =3D param;
-> @@ -671,18 +692,7 @@ static void ti_csi2rx_dma_callback(void *param)
-> =C2=A0	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> =C2=A0	list_del(&buf->list);
-> =C2=A0
-> -	/* If there are more buffers to process then start their transfer. */
-> -	while (!list_empty(&dma->queue)) {
-> -		buf =3D list_entry(dma->queue.next, struct ti_csi2rx_buffer,
-> list);
-> -
-> -		if (ti_csi2rx_start_dma(ctx, buf)) {
-> -			dev_err(ctx->csi->dev,
-> -				"Failed to queue the next buffer for DMA\n");
-> -			vb2_buffer_done(&buf->vb.vb2_buf,
-> VB2_BUF_STATE_ERROR);
-> -		} else {
-> -			list_move_tail(&buf->list, &dma->submitted);
-> -		}
-> -	}
-> +	ti_csi2rx_dma_submit_pending(ctx);
-> =C2=A0
-> =C2=A0	if (list_empty(&dma->submitted))
-> =C2=A0		dma->state =3D TI_CSI2RX_DMA_IDLE;
-> @@ -941,7 +951,6 @@ static int ti_csi2rx_start_streaming(struct vb2_queue=
- *vq,
-> unsigned int count)
-> =C2=A0	struct ti_csi2rx_ctx *ctx =3D vb2_get_drv_priv(vq);
-> =C2=A0	struct ti_csi2rx_dev *csi =3D ctx->csi;
-> =C2=A0	struct ti_csi2rx_dma *dma =3D &ctx->dma;
-> -	struct ti_csi2rx_buffer *buf;
-> =C2=A0	unsigned long flags;
-> =C2=A0	int ret =3D 0;
-> =C2=A0
-> @@ -980,16 +989,13 @@ static int ti_csi2rx_start_streaming(struct vb2_que=
-ue
-> *vq, unsigned int count)
-> =C2=A0	ctx->sequence =3D 0;
-> =C2=A0
-> =C2=A0	spin_lock_irqsave(&dma->lock, flags);
-> -	buf =3D list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
-> =C2=A0
-> -	ret =3D ti_csi2rx_start_dma(ctx, buf);
-> +	ret =3D ti_csi2rx_dma_submit_pending(ctx);
-> =C2=A0	if (ret) {
-> -		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
-> =C2=A0		spin_unlock_irqrestore(&dma->lock, flags);
-> -		goto err_pipeline;
-> +		goto err_dma;
-> =C2=A0	}
-> =C2=A0
-> -	list_move_tail(&buf->list, &dma->submitted);
-> =C2=A0	dma->state =3D TI_CSI2RX_DMA_ACTIVE;
-> =C2=A0	spin_unlock_irqrestore(&dma->lock, flags);
-> =C2=A0
-> @@ -1004,7 +1010,6 @@ static int ti_csi2rx_start_streaming(struct vb2_que=
-ue
-> *vq, unsigned int count)
-> =C2=A0
-> =C2=A0err_dma:
-> =C2=A0	ti_csi2rx_stop_dma(ctx);
-> -err_pipeline:
-> =C2=A0	video_device_pipeline_stop(&ctx->vdev);
-> =C2=A0	writel(0, csi->shim + SHIM_CNTL);
-> =C2=A0	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
+> +config VIDEO_RZV2H_IVC
+> +	tristate "Renesas RZ/V2H Input Video Control block driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on OF
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select RESET_CONTROLLER
+
+There is no need to select RESET_CONTROLLER, the API has stubs to allow
+compiling without it.
+
+regards
+Philipp
 
