@@ -1,203 +1,147 @@
-Return-Path: <linux-media+bounces-36436-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36429-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C142FAEFA73
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:27:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EABAEFA66
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 15:26:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D156188C7C5
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:26:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBC213B3837
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:24:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC14427A925;
-	Tue,  1 Jul 2025 13:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3EB91487E9;
+	Tue,  1 Jul 2025 13:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qVMYqytS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmTyD/Fi"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCF4277CB9;
-	Tue,  1 Jul 2025 13:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0CF274B57
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 13:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751376169; cv=none; b=EmnWt6eCTsCCgKuFpAEPBeclRVtz7hsGIu0SRe0B01OwwLB6HWxSi6YsNe86Oxu/6GhnXhmxO/XKOepCt33CQ1wduaE7fxnS+adDop9wAY5bZmC7JOTooaTDBVGne48h3z2OM0DE9Di6VdkeaRDnCZ6P94J19SEs2nyQynTqLGE=
+	t=1751376121; cv=none; b=Mpq6EtTlN4EFCwlIdHigFvNpqLR2ZOOBj14m9O+WCtiqyH1dVn1uzZquFhrMlQkqggSRr2GScevHUONEqtLofIkaIz1MLpYI1DmXerBTBHd2fJ+P9KmQQhm6jL0GNRs5qAcw/aKzAqDGwiXU73jGhcDfID4/jX30dH02fRLBAkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751376169; c=relaxed/simple;
-	bh=kFeQuslhr/3hnNLg6rE8C4RDktELrENqA7ibJjiDglQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kid2pCn6OmqTNFE+l3/Av6U4M+f/d9JulGMsVI1+0l2Q+MA1iup01QzyUb66+B0ldW0s1d4RTqo7qf8qV9i9TqpfGUw4oIwZIIxcMqW9LU0R5pLwsh1uH/sVu3Cq7VxUi9i7xXQvKYPNLLFMvvvVtqUJLHtyFr9akffPUyFLLEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qVMYqytS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 985E3C4CEEB;
-	Tue,  1 Jul 2025 13:22:44 +0000 (UTC)
+	s=arc-20240116; t=1751376121; c=relaxed/simple;
+	bh=H5kWuddo58V3QaFpjOnz/bBIzRobKuxlthL2e3hLdIc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mnTx72VWlcKAj31fo4dsmOSuwtx1q60H+hfRnj1vkvwZg4mHVT027nRAkSj5kl1WWl3nR/lCUC+Zkk48Uv5bujXJjEKS3Tr2/0KquaEb9R9TUrrCek0fmmDe48Pw2jvaDJt9QfiEj+CnTgYOhZCT9LRcZQmQKjbRiOYlUJJwjIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmTyD/Fi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6CE9C4CEEB;
+	Tue,  1 Jul 2025 13:21:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751376168;
-	bh=kFeQuslhr/3hnNLg6rE8C4RDktELrENqA7ibJjiDglQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qVMYqytSw4c+fOMd9l6LPJD418MTvLPABae9DgFK+vaNEH1vhTzBpc9VyIPGUMBd+
-	 67F+gIEdEkgPGeoBLs+MSn5KLtNV9/ImU4Ogas2XPmphymo7NE659PBCiONYHE4Gb5
-	 sA+RkUa4y8aPlSMY2v/mzMzSiP53nfZV4rSdsb+4IxxciCaVQJUlVh8Ts9uSSFsPDf
-	 xoVErj0Q7+AutJ7ZX2T2WQ/N6PXU9Tx3Bt/kVwnDaoxAVJu+x0Fm9z+r6RTxvsQ7pH
-	 XxqGScWN/T4f43vb4VvDg/x7PZhhIjSHwnb7rKSUlHExD2+QKk4eIA1UoFuCQ/24ui
-	 YnOKOoZmuHC+A==
-From: Philipp Stanner <phasta@kernel.org>
-To: Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 6/6] drm/nouveau: Remove waitque for sched teardown
-Date: Tue,  1 Jul 2025 15:21:44 +0200
-Message-ID: <20250701132142.76899-9-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250701132142.76899-3-phasta@kernel.org>
-References: <20250701132142.76899-3-phasta@kernel.org>
+	s=k20201202; t=1751376120;
+	bh=H5kWuddo58V3QaFpjOnz/bBIzRobKuxlthL2e3hLdIc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZmTyD/FiWvl3FfE2kBnTzg7TztLVBDomVi5YeoOgRkL0V2k1cgWZKjWz2q4m/XOT4
+	 ktglJiow0LF0mfXqbBGgEZxPDIkRukh9Xx1CA1QWHJ3pRTPFaU6kcz9BiGUqe3BmM7
+	 YnsGFcyEPRF50YkARR/ulNQDxNU+Uz+JQUBFPq7rlbZ9XfAtfa6zi54DJnRliJjhE1
+	 SMwJcjnsVHw+KsRrshy7QMqWw+cR7jIJcJkclTqxDhFGhlaQ/O/cJ36+hlcvpACEiG
+	 YC9pZd4cDMXdTfo/UyCNt1b17KChGC5sQ4k9unMhogyIcfN3xl/+c6SAnv0A0vlVgB
+	 TxG1YuQK94bWA==
+Message-ID: <45c2cdfa-2bae-4dc6-a509-13adb86dd3b8@kernel.org>
+Date: Tue, 1 Jul 2025 15:21:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/15] media: mt9m114: Changes to make it work with
+ atomisp devices
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mathis Foerst <mathis.foerst@mt.com>, linux-media@vger.kernel.org
+References: <20250629205626.68341-1-hansg@kernel.org>
+ <20250630222821.GD15184@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250630222821.GD15184@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-struct nouveau_sched contains a waitque needed to prevent
-drm_sched_fini() from being called while there are still jobs pending.
-Doing so so far would have caused memory leaks.
+Hi Laurent,
 
-With the new memleak-free mode of operation switched on in
-drm_sched_fini() by providing the callback
-nouveau_sched_fence_context_kill() the waitque is not necessary anymore.
+On 1-Jul-25 12:28 AM, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Sun, Jun 29, 2025 at 10:56:10PM +0200, Hans de Goede wrote:
+>> Hi All,
+>>
+>> Here is v3 of my series to make the "mainline" mt9m114 driver work
+>> on devices with an atomisp CSI2 receiver / ISP. This has been tested on
+>> an Asus T100TA.
+>>
+>> Changes in v3:
+>> - Document that using 768Mhz for out_clock_max does not work
+>> - Improve "media: mt9m114: Put sensor in reset on power down" commit message
+>> - Drop setting of the MT9M114_CAM_OUTPUT_FORMAT_BT656_CROP_SCALE_DISABLE bit
+>> - Split "media: mt9m114: Fix scaler bypass mode" into multiple patches,
+>>   addressing various review comments as part of this
+>>
+>> Changes in v2:
+>> - Rebase on top of sailus/media_tree.git/fixes which now has 4 of
+>>   the patches from Mathis': "MT9M114 driver bugfix and improvements"
+>>   series, this avoids most of the conlicts between the 2 series
+>> - Add Laurent's Reviewed-by to some of the patches
+>> - Add select VIDEO_APTINA_PLL to Kconfig
+>> - Use correct aptina_pll_limits
+>> - After setting reset high wait 20 clk cycles before disabling
+>>   the clk and regulators
+>> - When bypassing the scalar make ifp_get_selection() / ifp_set_selection()
+>>   fill sel->r with a rectangle of (0,0)/wxh and return 0 instead of
+>>   returning -EINVAL
+> 
+> It appears that some of my review comments on v2 crossed your v3. That's
+> the case for 03/12 and 10/12. For 03/12 in particular, I think the
+> comments will result in changes for v4.
 
-Remove the waitque.
+Yes I realized that myself for 03/12 too. I think that for
+10/12 we agreed to keep that as is, but I may have misunderstood ?
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/gpu/drm/nouveau/nouveau_sched.c | 20 +++++++-------------
- drivers/gpu/drm/nouveau/nouveau_sched.h |  9 +++------
- drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 ++++----
- 3 files changed, 14 insertions(+), 23 deletions(-)
+> How would you like to proceed,
+> should I review the rest first ?
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-index 2ec62059c351..7d9c3418e76b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-@@ -122,11 +122,9 @@ nouveau_job_done(struct nouveau_job *job)
- {
- 	struct nouveau_sched *sched = job->sched;
- 
--	spin_lock(&sched->job.list.lock);
-+	spin_lock(&sched->job_list.lock);
- 	list_del(&job->entry);
--	spin_unlock(&sched->job.list.lock);
--
--	wake_up(&sched->job.wq);
-+	spin_unlock(&sched->job_list.lock);
- }
- 
- void
-@@ -307,9 +305,9 @@ nouveau_job_submit(struct nouveau_job *job)
- 	}
- 
- 	/* Submit was successful; add the job to the schedulers job list. */
--	spin_lock(&sched->job.list.lock);
--	list_add(&job->entry, &sched->job.list.head);
--	spin_unlock(&sched->job.list.lock);
-+	spin_lock(&sched->job_list.lock);
-+	list_add(&job->entry, &sched->job_list.head);
-+	spin_unlock(&sched->job_list.lock);
- 
- 	drm_sched_job_arm(&job->base);
- 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
-@@ -460,9 +458,8 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
- 		goto fail_sched;
- 
- 	mutex_init(&sched->mutex);
--	spin_lock_init(&sched->job.list.lock);
--	INIT_LIST_HEAD(&sched->job.list.head);
--	init_waitqueue_head(&sched->job.wq);
-+	spin_lock_init(&sched->job_list.lock);
-+	INIT_LIST_HEAD(&sched->job_list.head);
- 
- 	return 0;
- 
-@@ -502,9 +499,6 @@ nouveau_sched_fini(struct nouveau_sched *sched)
- 	struct drm_gpu_scheduler *drm_sched = &sched->base;
- 	struct drm_sched_entity *entity = &sched->entity;
- 
--	rmb(); /* for list_empty to work without lock */
--	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
--
- 	drm_sched_entity_fini(entity);
- 	drm_sched_fini(drm_sched);
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
-index 20cd1da8db73..b98c3f0bef30 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
-@@ -103,12 +103,9 @@ struct nouveau_sched {
- 	struct mutex mutex;
- 
- 	struct {
--		struct {
--			struct list_head head;
--			spinlock_t lock;
--		} list;
--		struct wait_queue_head wq;
--	} job;
-+		struct list_head head;
-+		spinlock_t lock;
-+	} job_list;
- };
- 
- int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 48f105239f42..ddfc46bc1b3e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 	u64 end = addr + range;
- 
- again:
--	spin_lock(&sched->job.list.lock);
--	list_for_each_entry(__job, &sched->job.list.head, entry) {
-+	spin_lock(&sched->job_list.lock);
-+	list_for_each_entry(__job, &sched->job_list.head, entry) {
- 		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
- 
- 		list_for_each_op(op, &bind_job->ops) {
-@@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 
- 				if (!(end <= op_addr || addr >= op_end)) {
- 					nouveau_uvmm_bind_job_get(bind_job);
--					spin_unlock(&sched->job.list.lock);
-+					spin_unlock(&sched->job_list.lock);
- 					wait_for_completion(&bind_job->complete);
- 					nouveau_uvmm_bind_job_put(bind_job);
- 					goto again;
-@@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 			}
- 		}
- 	}
--	spin_unlock(&sched->job.list.lock);
-+	spin_unlock(&sched->job_list.lock);
- }
- 
- static int
--- 
-2.49.0
+With the exception of 03/12 yes please then I can add
+any necessary changes to v4.
+
+For 03/12 I'll reply to your last answer in the v2 thread
+when I can make some time for this.
+
+Regards,
+
+Hans
+
+
+
+> 
+>> Hans de Goede (15):
+>>   media: aptina-pll: Debug log p1 min and max values
+>>   media: mt9m114: Add support for clock-frequency property
+>>   media: mt9m114: Use aptina-PLL helper to get PLL values
+>>   media: mt9m114: Lower minimum vblank value
+>>   media: mt9m114: Fix default hblank and vblank values
+>>   media: mt9m114: Tweak default hblank and vblank for more accurate fps
+>>   media: mt9m114: Avoid a reset low spike during probe()
+>>   media: mt9m114: Put sensor in reset on power down
+>>   media: mt9m114: Add and use mt9m114_ifp_get_border() helper function
+>>   media: mt9m114: Adjust IFP selections and src format when src pixelfmt
+>>     changes to/from RAW10
+>>   media: mt9m114: Update src pad sel and format when sink pad format
+>>     changes
+>>   media: mt9m114: Don't allow changing the IFP crop/compose selections
+>>     when bypassing the scaler
+>>   media: mt9m114: Drop start-, stop-streaming sequence from initialize
+>>   media: mt9m114: Return -EPROBE_DEFER if no endpoint is found
+>>   media: mt9m114: Add ACPI enumeration support
+>>
+>>  drivers/media/i2c/Kconfig      |   1 +
+>>  drivers/media/i2c/aptina-pll.c |   2 +
+>>  drivers/media/i2c/mt9m114.c    | 255 +++++++++++++++++++++++++--------
+>>  3 files changed, 196 insertions(+), 62 deletions(-)
+> 
 
 
