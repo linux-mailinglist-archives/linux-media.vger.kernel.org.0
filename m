@@ -1,198 +1,166 @@
-Return-Path: <linux-media+bounces-36408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36409-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AADAEF641
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93108AEF654
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 13:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E41B3A8D59
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 11:13:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 616A73AAF40
+	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 11:17:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656B62727FF;
-	Tue,  1 Jul 2025 11:13:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA4D257451;
+	Tue,  1 Jul 2025 11:18:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JddWcaDL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HoYkqoGS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488B221281
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 11:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FB18821
+	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 11:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751368408; cv=none; b=qju7vJRvj8iHIQ9Pw+eSIhMyxKhkADBHL1MVbw2OK6YKUgB5IZbkPSci6pI6gO9xtxbMDx7jEtUfq4qwc/Npy1x15sRRgc7ZReeqLCuZ/hbxDn2GE2ljXcwtyOehyY52KXqvVxVmUXM8/E73Yiu16ZF6dzY9rcivZ7pmljJ0KNE=
+	t=1751368695; cv=none; b=YLS5PLi7RWlW9JDkH5re+5ddO7liGQEHPxsZbfC+/4+goE4xn90tc/85VvT6hgmXtwnYrTQ2hvJlSDLp4idZfkpXgzHBLOCC9E0fTiZLlKVHqF54p0agjVtQU4M1aTu3GSL6PY5WxKzYOsN1y0Xs9rNfYjjGCA18RRZ7Z7h3rPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751368408; c=relaxed/simple;
-	bh=FeqVp2yCUZ3ij1peE3WeZz1cWGh+QgySUCT2N/2Xbjo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sqm1KeRI0hWrubNrJLnYRNH/42pejxw8UzHfFb4xnrRWGrAy61DVcxZfvFI5KcP1uwx5BQNFMhoVD+9/Mu+757/qJ/PpguI802sc2P7noTG5KX85YUzVDjLwxgkbs0S8pPjrsYZcwZtEn4lzzh1lc9lXcTf5IOncLRRipWLnRZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JddWcaDL; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54b10594812so3694178e87.1
-        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 04:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751368405; x=1751973205; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bGjQ61S1++mVkf3/jYVKvuXkIa1IOFszhbgMmRDC9tQ=;
-        b=JddWcaDLnK2wDhdA4L+9ZyeeWDb9HoAUziWpGpePC9PwYv+i572RcoiNLzdmmuRPrq
-         hyFm49ZvbBGLY7oW5pQvlX7J2KbpdCj1Cgad9IPrgV8WPKjOaR6XgPJ8deF/LeSzRncr
-         3aZ3CMCmoWamDAXoUBFcbk5UuJIh8uaHyh9D4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751368405; x=1751973205;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bGjQ61S1++mVkf3/jYVKvuXkIa1IOFszhbgMmRDC9tQ=;
-        b=GsTp/TE/2wu11sGnoPC2KOlEPHktq9/PuPuIqunS6bD9jVTC8ru6cN1NRLL60EdV9B
-         oiVkbsXHyOay+exxt9kCux8BIxaMZqaha+n1oFZi3Lb4D06s/pDT8KvwjWZRX4CiEIvG
-         MFir/auwjZa3Zz9TLV72pfFx9rxs2k4haHU+GkVsBg8aSgTLra2chP9LD1uozBSReags
-         nwGWugJlzfKtayFy0IZm1Dyc8XBfKH0J5J4NFPKch+d+2FuOAxtzFjOU4S69+l/OylDy
-         yDGNjuePzIVQ3qrddInMre2KRsbDburELAsM0DS9sniqGtzZaOFVoNRNSfgrXf1wNj/5
-         +40Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW+hLu0PQqnW8yuFrr77VcU16pcuMe3+tCOqX6NWhcovO7/C3B22pae+hLZEqRu+8bjji9Dw2U1PmxOTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCB/079iaxIqNvOSu2dzuRda3TTVbHEA49GfC31ezyyg6ttkW4
-	ZFK86YrlVStU80AZWvLIxXPUDFeV35OmLm/ChJm3xbEvBUGCXS8Fns/u+nVy8wg+WH3QtZ1nlTH
-	17js5iw==
-X-Gm-Gg: ASbGncssOoLRCajy9GmrMJIMy31yW6TaIAVzLMZcZa0bJTP0RMb0Z8764yQS2LklwuV
-	RwZFI86PMiZ6Y3no4KAC8S3/kvs631T6yY+YXdfXFjgEXJPLujAzNfmGgvTCxyVAeXDKHhlOExu
-	fyV8OovTv9YGUJHI7rMC87DxfL74mf4u+G2OVsGVVvPr+PRz/zyi/XEVgGNMQFhmf3L4Ob5tmN/
-	uQBj0kYW59xEtSWz26a9t/+fqwHAonFWWHDFZO84I98PAQE8JBaxbv0XMyeBx8x0wDQrqwwuF7p
-	QL67u7NN/66s6JJHjAfCD8hDQq8bG2gnUlsg3Ddv7jytuXEYywvkDKLGAegHGki7gTRo1wW1E/t
-	BLZ4g0c/rSt/sTuofVQvN8fxYUPEnQ0PmxWM=
-X-Google-Smtp-Source: AGHT+IGC52TUycU2vpfY2/io836hB/q5YNEuk0xl5slvwWcWMKQ5BeRWzmYYcAQmxDYW+ULmZ1hpDw==
-X-Received: by 2002:a05:6512:3c87:b0:553:2927:985f with SMTP id 2adb3069b0e04-5550b860bafmr5284452e87.5.1751368404805;
-        Tue, 01 Jul 2025 04:13:24 -0700 (PDT)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2f173fcsm15841311fa.112.2025.07.01.04.13.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 04:13:24 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-553b82f3767so3591765e87.3
-        for <linux-media@vger.kernel.org>; Tue, 01 Jul 2025 04:13:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW11XZAZifOV2fBX48nLx8KpimCZ8ZtZNG5R2u4P+2TsOv19omu0Ib88bWAkALr8+gldBGhgStOO1FeeA==@vger.kernel.org
-X-Received: by 2002:a05:6512:224b:b0:553:cf38:5ea1 with SMTP id
- 2adb3069b0e04-5550b87b62cmr5806214e87.15.1751368403239; Tue, 01 Jul 2025
- 04:13:23 -0700 (PDT)
+	s=arc-20240116; t=1751368695; c=relaxed/simple;
+	bh=yhVEqUKOZ6RwAWXxbfXkLf5aJ8AMIySbswPBYfE2/iI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LenfLfnxdcC9+2vL01tvwHXQSoeo3Jw5Nl3+8uodAGe8Zwj5Hti9w5s5E9YM3ESAC2EeDOT8wXBcpAT4KtyQJmPtyPmmKJ3OFgttWqFlzND+jOq0lWGYntki6CTcNMckMffG/+XVOjYT6vIFGjCGTm6IgN1p2YGi77g4RwB4Uw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HoYkqoGS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ECC3D78C;
+	Tue,  1 Jul 2025 13:17:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751368666;
+	bh=yhVEqUKOZ6RwAWXxbfXkLf5aJ8AMIySbswPBYfE2/iI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HoYkqoGSsFA/W6Hoi3uiUbUeARbXdKcwookW9zPMSc9IsCaTsMEXEHrUAMSQLQwCX
+	 LfqnUJ1HDeN5Uup1bxKvdapVsao0JsG2Y6lnDyVXWkvR4iEPyzH2S+LFY8FNd9C9Wg
+	 QG84kp/XF5pCA8Rqwh2UgqDGZcWpS54H9Z9g9Lv0=
+Date: Tue, 1 Jul 2025 14:17:42 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com,
+	arnd@arndb.de, alain.volmat@foss.st.com, andrzej.hajda@intel.com,
+	benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com,
+	hansg@kernel.org, hverkuil@xs4all.nl,
+	kieran.bingham@ideasonboard.com, khalasa@piap.pl, mani@kernel.org,
+	m.felsch@pengutronix.de, matthias.fend@emfend.at,
+	mchehab@kernel.org, michael.riesch@collabora.com,
+	naush@raspberrypi.com, nicholas@rothemail.net,
+	nicolas.dufresne@collabora.com, paul.elder@ideasonboard.com,
+	dan.scally@ideasonboard.com, pavel@kernel.org, rashanmu@gmail.com,
+	ribalda@chromium.org, slongerbeam@gmail.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 01/48] media: v4l2-common: Add a helper for obtaining
+ the clock producer
+Message-ID: <20250701111742.GJ15184@pendragon.ideasonboard.com>
+References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
+ <8ecbcafbd91b25ad5e188dbe127b921a1643027e.1750942967.git.mehdi.djait@linux.intel.com>
+ <aF5ERIaLioVAzjZm@kekkonen.localdomain>
+ <gcmikcuq4xio47ceyxoeuwomjj26phpvzt4plz3p63j427hft6@yiaq6l4fxlpu>
+ <aGOyb7ZcoZ57WXYF@svinhufvud>
+ <hiug6e7fuzxe3v3nja2nghons3q3ghax3ic6wx6usliotvtlxh@3akcx4g62fwj>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-10-5710f9d030aa@chromium.org> <20250629181246.GE6260@pendragon.ideasonboard.com>
-In-Reply-To: <20250629181246.GE6260@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 1 Jul 2025 13:13:10 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
-X-Gm-Features: Ac12FXyUB7J2CzeHXupatytT-Rncr6S6tZS3kWRK4b67_iOG9R3ef-6_Er_0YxQ
-Message-ID: <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
-Subject: Re: [PATCH v2 10/12] media: uvcvideo: Add get_* functions to uvc_entity
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <hiug6e7fuzxe3v3nja2nghons3q3ghax3ic6wx6usliotvtlxh@3akcx4g62fwj>
 
-Hi Laurent
+On Tue, Jul 01, 2025 at 12:47:16PM +0200, Jacopo Mondi wrote:
+> On Tue, Jul 01, 2025 at 01:03:27PM +0300, Sakari Ailus wrote:
+> > On Tue, Jul 01, 2025 at 11:51:02AM +0200, Mehdi Djait wrote:
+> > > On Fri, Jun 27, 2025 at 07:12:04AM +0000, Sakari Ailus wrote:
+> > > > On Thu, Jun 26, 2025 at 03:33:52PM +0200, Mehdi Djait wrote:
+> > > > > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
+> > > > > platforms to retrieve a reference to the clock producer from firmware.
+> > > > >
+> > > > > This helper behaves the same as devm_clk_get() except where there is
+> > > > > no clock producer like in ACPI-based platforms.
+> > > > >
+> > > > > For ACPI-based platforms the function will read the "clock-frequency"
+> > > > > ACPI _DSD property and register a fixed frequency clock with the frequency
+> > > > > indicated in the property.
+> > > > >
+> > > > > This function also handles the special ACPI-based system case where:
+> > > > > The clock-frequency _DSD property is present.
+> > > > > A reference to the clock producer is present, where the clock is provided
+> > > > > by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
+> > > >
+> > > > Missing leading dot. You could also rewrap this paragraph, using longer
+> > > > lines up to 75 characters.
+> > > >
+> > > > If there's not going to be further versions of the patch, I'll just rewrap
+> > > > this while applying.
+> > >
+> > > Two things before applying:
+> > >
+> > > - A missing Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > for the Documentation patch -> [PATCH 02/48]
 
-On Sun, 29 Jun 2025 at 20:13, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> On Thu, Jun 05, 2025 at 05:53:03PM +0000, Ricardo Ribalda wrote:
-> > Virtual entities need to provide more values than get_cur and get_cur
->
-> I think you meant "get_info and get_cur".
->
-> > for their controls. Add support for get_def, get_min, get_max and
-> > get_res.
->
-> Do they ? The UVC specification defines controls that don't list
-> GET_DEF, GET_MIN, GET_MAX and GET_RES as mandatory requests. Can't we do
-> the same for the software controls ? This patch is meant to support the
-> UVC_SWENTITY_ORIENTATION and UVC_SWENTITY_ROTATION control in the next
-> patch, and those are read-only controls. Aren't GET_INFO and GET_CUR
-> enough ?
+Fixed.
 
-V4L2_CID_CAMERA_ROTATION has the type UVC_CTRL_DATA_TYPE_UNSIGNED,
-that time requires get_min and get_max.
-We can create a new type UVC_CTRL_DATA_TYPE_UNSIGNED_READ_ONLY that
-fakes min, max and res, but I think that it is cleaner this approach.
-
->
+> > Is Co-developed-by: also relevant?
 > >
-> > This is a preparation patch.
+> > > - We still need to agree on how to proceed for the sensor drivers I mentioned
+> > >   in the cover Letter:
+> > >
+> > > 1) drivers/media/i2c/s5k5baf.c
+> > > 	Always returns -EPROBE_DEFER if getting the clock fails ?!
 > >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 12 ++++++++++++
-> >  drivers/media/usb/uvc/uvcvideo.h |  8 ++++++++
-> >  2 files changed, 20 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 21ec7b978bc7aca21db7cb8fd5d135d876f3330c..59be62ae24a4219fa9d7aacf2ae7382c95362178 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -596,6 +596,18 @@ static int uvc_ctrl_query_entity(struct uvc_device *dev,
-> >       if (query == UVC_GET_CUR && ctrl->entity->get_cur)
-> >               return ctrl->entity->get_cur(dev, ctrl->entity,
-> >                                            ctrl->info.selector, data, len);
-> > +     if (query == UVC_GET_DEF && ctrl->entity->get_def)
-> > +             return ctrl->entity->get_def(dev, ctrl->entity,
-> > +                                          ctrl->info.selector, data, len);
-> > +     if (query == UVC_GET_MIN && ctrl->entity->get_min)
-> > +             return ctrl->entity->get_min(dev, ctrl->entity,
-> > +                                          ctrl->info.selector, data, len);
-> > +     if (query == UVC_GET_MAX && ctrl->entity->get_max)
-> > +             return ctrl->entity->get_max(dev, ctrl->entity,
-> > +                                          ctrl->info.selector, data, len);
-> > +     if (query == UVC_GET_RES && ctrl->entity->get_res)
-> > +             return ctrl->entity->get_res(dev, ctrl->entity,
-> > +                                          ctrl->info.selector, data, len);
-> >       if (query == UVC_GET_INFO && ctrl->entity->get_info)
-> >               return ctrl->entity->get_info(dev, ctrl->entity,
-> >                                             ctrl->info.selector, data);
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index a931750bdea25b9062dcc7644bf5f2ed89c1cb4c..d6da8ed3ad4cf3377df49923e051fe04d83d2e38 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -261,6 +261,14 @@ struct uvc_entity {
-> >                       u8 cs, u8 *caps);
-> >       int (*get_cur)(struct uvc_device *dev, struct uvc_entity *entity,
-> >                      u8 cs, void *data, u16 size);
-> > +     int (*get_def)(struct uvc_device *dev, struct uvc_entity *entity,
-> > +                    u8 cs, void *data, u16 size);
-> > +     int (*get_min)(struct uvc_device *dev, struct uvc_entity *entity,
-> > +                    u8 cs, void *data, u16 size);
-> > +     int (*get_max)(struct uvc_device *dev, struct uvc_entity *entity,
-> > +                    u8 cs, void *data, u16 size);
-> > +     int (*get_res)(struct uvc_device *dev, struct uvc_entity *entity,
-> > +                    u8 cs, void *data, u16 size);
-> >
-> >       unsigned int ncontrols;
-> >       struct uvc_control *controls;
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> > This can be fixed later on IMO.
 
+Agreed.
 
+> > >
+> > > 2) drivers/media/i2c/mt9t112.c
+> > > 	This drivers seems to be implementing the behaviour of
+> > > 	devm_clk_get_optional() while using devm_clk_get(): remove it from the
+> > > 	list of changed drivers ?
+> >
+> > There are no DT bindings. I wonder if this is still relevant. Maybe Jacopo
+> > has an idea?
+> 
+> Not really, the driver has been ported to be a regular i2c driver from
+> its soc-camera-based legacy implementation but has seen basically no
+> development since then, if not for sub-system wide changes or odd fixes.
+> 
+> Looking at the implementatio, the driver indeed seems to implement what
+> _optional() does already, so it might be more opportune to convert it
+> to _optional() first maybe ? However in my understanding your patch
+> doesn't change the current behaviour, doesn't it ? In this case I think
+> you can go ahead.
+
+Agreed too.
+
+> > > 3) drivers/media/i2c/ov8856.c
+> > > 	Getting the clock, setting the rate, getting the optional gpio and the
+> > > 	regulator_bulk is only when the fwnode is NOT acpi.
+> >
+> > Isn't this a similar case than the other sensor (which I can't remember
+> > anymore), where effectively the rate set couldn't be different than the
+> > clock already had?
+> > 
+> > I think this also could be handled after this set.
+
+Ideally we should stop setting the rate and simplify the driver, but we
+have to be careful about regressions. I agree with Sakari, we can
+address this later.
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
 
