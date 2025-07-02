@@ -1,175 +1,162 @@
-Return-Path: <linux-media+bounces-36560-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36561-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CBB7AF1514
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 14:12:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B3AAF154C
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 14:18:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 342344417BF
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:11:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B89FD1C43904
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:17:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B1682701BA;
-	Wed,  2 Jul 2025 12:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sRi+xsZ9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63ABE27511E;
+	Wed,  2 Jul 2025 12:16:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B70D23D2A3;
-	Wed,  2 Jul 2025 12:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AE4264F8A;
+	Wed,  2 Jul 2025 12:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751458300; cv=none; b=GYL8e7FWyecC6yVZj3eusrT5ct3UR0e3R3V5ACji+Up+mIs3wqVkx4X7cuAgLmje1Dp9DCB66cuvjs3kmX+XCFVGkSMqptce+xHEY4L97az0EbqLN5Q3LknGjmyCQeitQiCMD3j6phNXWRca63+zJq54R7Rv98W31MYNlvlDJJk=
+	t=1751458571; cv=none; b=ix7R5+R12xzgxb9i4+5mGKPkdt07z6Vtte9HoK58JtK83dG6Qy6w2FVpLBx3jRfOxvEWDfxEZsNQ9rdR4Tr73RA1c+EYtS5qMWQcwjKD/PtrdLZKfV7Am2BHxaXhap7gDoq3ua18LrhjEJdfItEP6Kq4gnPvrWsZtRafROfc3L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751458300; c=relaxed/simple;
-	bh=C6TFBmrfVjExnWTXpHpcNDBsptXWGqMJMSNbdjB9Dsc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GRRnSQvOk0TbakKzreDPrXjdPfNhzFsgUIY9xUQQsq8tBImBrlfH3DRCNwaAyf83eCvtoMeydisdAAccsV3T71tC2BhBSK6RWweMfYO6nk5RY24st4QlKRhapakzWv7NLcJSsZYMoAbQuktXyrqCB2gERxDBU79ArIiRrnN2Dl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sRi+xsZ9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EEB1C4CEED;
-	Wed,  2 Jul 2025 12:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751458299;
-	bh=C6TFBmrfVjExnWTXpHpcNDBsptXWGqMJMSNbdjB9Dsc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sRi+xsZ9QbF3yUiq3dqKYF/zZrk8tOZF45+9yTlxFrJoS5sBraE58BkNmSIofx3Yq
-	 HGCgTyMkOyDjGMSU7hI1YJENxKCTG5XF/+1JdLPu155hvc94K8lFNmTbFdsYvWuac2
-	 FwZh9B7T+GllpGaw2JdtHo8FDQgXureyBOMnE4BX99e3eSpimPHIUIHeEJi54CkPFQ
-	 gziXP66tWp6o29He2NAqbx+kL6n9JhK7BZuxrSWTJULHRu6iRVWrTvlNC68ommt+Lq
-	 BwQcCzavA2Kjb5Z6l6GXdh6DCjFIPsj2aeBM7RrMbLrhbrfTF4Dz0GymJ3P3mfVhdY
-	 eqBAH/vWgG7Yw==
-Message-ID: <1cc6f462-dfd2-46ed-8534-a44812ef1cbd@kernel.org>
-Date: Wed, 2 Jul 2025 14:11:35 +0200
+	s=arc-20240116; t=1751458571; c=relaxed/simple;
+	bh=Yk7dR2itmICJrASu1wQYTL0JAgzGuSjOR7cDtLlcqMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FwUs1N9oSxfmxiVc1W2Q8ApVnK4MNjm0g0MWYylD4C/ExDR8DHvKmqFnE0WdejWj0g1ces7K3CIEKQH4TqotX2/3FiRmNl7wYoVDV/jHQQF+JPh7yEjfRDPv/fBGQTEoJrWX7b+ZivoMPrWIQJkQhnBgIlF3jkEQ4wHz2z2pir4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id C3B4B1F00057;
+	Wed,  2 Jul 2025 12:15:54 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 1A9CFAC9A6F; Wed,  2 Jul 2025 12:15:52 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id B1D2AAC9A5F;
+	Wed,  2 Jul 2025 12:15:48 +0000 (UTC)
+Date: Wed, 2 Jul 2025 14:15:46 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+	Yong Deng <yong.deng@magewell.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Icenowy Zheng <icenowy@aosc.xyz>,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH 5/5] drm/sun4i: Run the mixer clock at 297 MHz on V3s
+Message-ID: <aGUi8ot1-0WaReyp@collins>
+References: <20250701201124.812882-1-paulk@sys-base.io>
+ <20250701201124.812882-6-paulk@sys-base.io>
+ <20250702-psychedelic-stalwart-jerboa-a626eb@houat>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] media: dt-bindings: add non-pixel property in iris
- schema
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
- <20250627-video_cb-v3-1-51e18c0ffbce@quicinc.com>
- <6fd3fa34-69e1-484f-ad6f-8caa852f1a6c@kernel.org>
- <dc6e82a1-82be-b8b8-31c3-8b85447d4e43@quicinc.com>
- <8b88cea4-b9f2-4365-829c-2a255aed6c69@kernel.org>
- <ae23ebae-3101-4a73-2bbd-0dabb4efaba1@quicinc.com>
- <45fdf98c-32f7-4b5f-889c-6d2f1fa5fbd6@kernel.org>
- <87d0795e-82d5-3274-4909-dd795d082295@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <87d0795e-82d5-3274-4909-dd795d082295@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 02/07/2025 14:08, Vikash Garodia wrote:
-> 
-> On 7/2/2025 5:28 PM, Krzysztof Kozlowski wrote:
->> On 02/07/2025 13:55, Vikash Garodia wrote:
->>>
->>>
->>> On 7/2/2025 5:17 PM, Krzysztof Kozlowski wrote:
->>>> On 02/07/2025 13:45, Vikash Garodia wrote:
->>>>>
->>>>> On 7/2/2025 4:53 PM, Krzysztof Kozlowski wrote:
->>>>>> On 27/06/2025 17:48, Vikash Garodia wrote:
->>>>>>> +
->>>>>>>      video-codec@aa00000 {
->>>>>>>          compatible = "qcom,sm8550-iris";
->>>>>>>          reg = <0x0aa00000 0xf0000>;
->>>>>>> @@ -144,12 +176,16 @@ examples:
->>>>>>>          resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
->>>>>>>          reset-names = "bus";
->>>>>>>  
->>>>>>> -        iommus = <&apps_smmu 0x1940 0x0000>,
->>>>>>> -                 <&apps_smmu 0x1947 0x0000>;
->>>>>>> +        iommus = <&apps_smmu 0x1947 0x0000>;
->>>>>>
->>>>>> I missed, that's technically ABI break and nothing in commit msg
->>>>>> explains that. You need to clearly explain the reasons and impact.
->>>>> No, it is not. Interface works well with old or new approach.
->>>>
->>>>
->>>> You changed the order of IOMMUs, so yes it is. Which interface works
->>>> well - FreeBSD? Or other? You are changing ABI for every user.
->>> Why do i need to change, when without changing would work as well ?
->> ? I don't understand. I made a statement, not a question. You are doing
->> this - you are changing the ABI.
->>
->> Which item was the first IOMMU before and which was second?
->>
->> Which item is the first IOMMU now?
-> Old approach - max 2 iommus interface - <SID-A, SID-B>
-> New approach - min 1/max 2, iommu interface - <SID-B>, child - <SID-A>
-
-So you changed first IOMMU entry, first IOMMU master and that is
-technically ABI break.
-
-> 
-> If both works, how is interchanging impacting any existing hardware OR breaking
-> ABI ?
-
-Because you change the entries. The ordering of lists - not iommus which
-do not matter for Linux here - was discussed many times, so just refer
-to that discussions.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VVuCxM2QjPKpSc9g"
+Content-Disposition: inline
+In-Reply-To: <20250702-psychedelic-stalwart-jerboa-a626eb@houat>
 
 
+--VVuCxM2QjPKpSc9g
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+Hi Maxime,
+
+Le Wed 02 Jul 25, 13:36, Maxime Ripard a =C3=A9crit :
+> On Tue, Jul 01, 2025 at 10:11:24PM +0200, Paul Kocialkowski wrote:
+> > The DE mixer clock is currently set to run at 150 MHz, while the
+> > Allwinner BSP configures it at 300 MHz and other platforms typically
+> > run at 297 MHz.
+> >=20
+> > 150 MHz appears to be enough given the restricted graphics capabilities
+> > of the SoC (with a work area of only 1024x1024). However it typically
+> > causes the DE clock to be parented to the periph0 pll instead of the
+> > video PLL.
+> >=20
+> > While this should generally not be a concern, it appears (based on
+> > experimentation) that both the DE and TCON clocks need to be parented
+> > to the same PLL for these units to work. While we cannot represent this
+> > constraint in the clock driver, it appears that the TCON clock will
+> > often get parented to the video pll (typically running at 297 MHz for
+> > the CSI units needs), for instance when driving displays with a 33 MHz
+> > pixel clock (33 being a natural divider of 297).
+> >=20
+> > Running the DE clock at 297 MHz will typically result in parenting to
+> > the video pll instead of the periph0 pll, thus making the display
+> > output functional.
+> >=20
+> > This is all a bit fragile but it solves the issue with displays running
+> > at 33 Mhz and brings V3s to use the same frequency as other platforms,
+> > making support more unified.
+>=20
+> It's beyond fragile, and doesn't have anything to do with the DRM driver.
+>=20
+> You should set up the clock tree properly in the clock driver, and then
+> add NO_REPARENT to the DE clock to make sure it stays that way.
+
+Thanks for the suggestion! I wasn't aware there was a flag to avoid
+reparenting, sounds like the most reasonable way to solve this issue then.
+
+I'll send another iteration reworking the clock tree then.
+
+> And then, you can change the clock rate if you want to, but at least you
+> don't set a rate and hope that the side effects work your way, and won't
+> happen again.
+
+We might as well still change it. To be honest I don't really see why it was
+set to 150 MHz in the first place.
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--VVuCxM2QjPKpSc9g
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhlIvIACgkQhP3B6o/u
+lQyH5w/+JIxMLNpE+lve3HbxC4wqX2HIz1pGfWw1ZFhfrKgJmKhN4IiqfmZpGnPe
+mC+U8F1T4hnqbmEc57eIo6Q1C3hEncq7EyY3oN0TJj7N5MM81Z/eVP1JUZ7XHq3V
+q4Xy9b8/Zm5gDakbUe8ZZD4mLaugMafHA0lQK7OmKd75MeqP+OV68OPpuXCTCQnA
+pVL7vDw19P0paH9sIUOe0NQ0SWYbFYZExVsOxoQnfT1BHz6ltM4bCyTdRNKDcakp
+j56Yd0hPMnlV0khThy0+3tDenkUjPgiznqTzC6pWzhtysXvT4XRQOWQGXaN9C/w5
+BrPbm79yFJ4UOZE0YBIcQNEvpNLP/7ApnMstKs2B4PlU1B6zJeYRWuPWmj7ZJIiO
+H4ckfdJN0+KMtWsm/qOGQ95PgfE2ZjZX17NRq742azRJ/i+YvdjLQQS/BkflehU6
+PUKcSgVecGQU8FXeU3da6ZMViNjy8xalVFceDaoLOMMruRA7dY1hJnRhawQIGJd1
+1soYIRsyZq3y9F+Ij05BxC8TVp5rarfwlwDGdA/53ghGd0/uTikAMzsxpY+HKlCi
+z+JXYN6BqGkUQ7YnqtRU0NoDcKwDWjiinOGaypzT9ULFaPhglmUkHfofqP7R1S7w
+NCbV9amc9uAOOaFNSLb+zIYpYIPr0UPaQ8xCkwJJ1cPHGTUPQgQ=
+=z/Ou
+-----END PGP SIGNATURE-----
+
+--VVuCxM2QjPKpSc9g--
 
