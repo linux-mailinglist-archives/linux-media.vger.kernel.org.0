@@ -1,211 +1,140 @@
-Return-Path: <linux-media+bounces-36625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36626-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78202AF6300
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:09:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C692FAF630B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:12:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97B771C44CA7
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:09:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87D064A075C
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53DDD2DCF49;
-	Wed,  2 Jul 2025 20:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A4A72F5C5D;
+	Wed,  2 Jul 2025 20:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B2kY0nU6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CaWmvrdX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C4A2F7D15
-	for <linux-media@vger.kernel.org>; Wed,  2 Jul 2025 20:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEA12E4990;
+	Wed,  2 Jul 2025 20:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751486961; cv=none; b=kx2tfxEAXwFwn1uE0m5OkMDdVu58WW4p0VBSPPBaXLMgFdgvMnhmDAITIBPbZ8Otp2U/lLEfPYaPsV7YgXGqiJZJ8QtzkFOQntIgyNl1ZuzxnFuCJbP87G6tlaSo06dVkyG/9An3+utOJuJbx00uz7tsD1pRkj0XNJX5UsNQiGY=
+	t=1751487149; cv=none; b=XM76rlZCy+Qbpe1E9xixB5WkX0+MrMlM28iPe18jC1ljGOsXABls31hk1GmEn0M1pjc+edLBn2R+P/H0TVMm+BTMR9ix8HlmN62HDBgzvbpB22pWcKMWu72z9MP7njfUB5P4pNoZ2sqc+2FZ929dTFVkrd8SUoNkJz+PdYWS9OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751486961; c=relaxed/simple;
-	bh=L1Inr7/YLN0CUaTqcEs+zl3s6iGD/59iy5j35NVXa70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lfRG++25e6ALvnEBuwhQbhWfv29QpunzpFbSBTaAKddApk30Bgh4sMJBKSzY6iCPBYmhcVGT2myPZ9HCda8qh4h7NmHXNHqutlvCAuNgShDd208U3SCU9OxdPBDngPGE9HNFgzBh0+DWzwt6e0G5+QdzxMOO+vSc9G0wGJgzK5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B2kY0nU6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C58C11D4C;
-	Wed,  2 Jul 2025 22:08:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751486935;
-	bh=L1Inr7/YLN0CUaTqcEs+zl3s6iGD/59iy5j35NVXa70=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B2kY0nU6f+ftGddgCaswHeJaueIzpSZxml6ChE8kwghPJUz4jKnXcyPGhfYr2rNBV
-	 eYz89OqM6R4sy3p/wUk8MCaa9zXAqsywqRny0WyDU9d9zddz8JjOtpaDXu92tsMxhB
-	 00w8pRhK9Po1pgvVTj5wbnCgfeAMmSYaAjSrkIeY=
-Date: Wed, 2 Jul 2025 23:08:50 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 3/4] media: mc: entity: Add pipeline_started/stopped ops
-Message-ID: <20250702200850.GL17819@pendragon.ideasonboard.com>
-References: <20250702-pipelines-v1-0-34525973e773@ideasonboard.com>
- <20250702-pipelines-v1-3-34525973e773@ideasonboard.com>
+	s=arc-20240116; t=1751487149; c=relaxed/simple;
+	bh=Mrq/asFIQ+v9UShz0BqkOf/pQym57BDMDfvP5z1UQM4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uvHeJmGWfnAmbrn61ijQ4Hy2efczwKv+Y6O69k2u0Kp+33pBx1timixRlzr26QKa0EqYDrHc3aMzcbzJjV0wGQCqcZ1eHHwZm37WLw2FyjYQ2RVu4ubgjhro/w6qDC63YDJNuvUfBCPo8btFL1f/AU+YsUgIbuCdk8CHexiLDlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CaWmvrdX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF01C4CEEE;
+	Wed,  2 Jul 2025 20:12:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751487149;
+	bh=Mrq/asFIQ+v9UShz0BqkOf/pQym57BDMDfvP5z1UQM4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CaWmvrdXFYdnbr0EkcQRaz7TP9MHNf/JzYBItAy+N3ZxqySIuFg4pBXdAUwfyKGwM
+	 9eB7iACRSgY4vkyfuvBFx6brP1RoT/JFEo75pD3o3h4+iAshwL53FvGRPy4LUQzwoE
+	 9NuJyQkuOQp8Fl6VLXCRnphOXXaouk6rZwoQWO3MwMYgCZgV0wIuEWq9LDBbzPr+If
+	 nOLRZV1KTC5uil+1TTugLEfyUEAuBdI7nb6jeetIhPcLnFbsUPEQHuDJC/uSHTyqMI
+	 PtBGkB022IdlOhlr18IzauCyz177Klx1esksSQI0w5Z2wtypxt6TMPN8Kx1zewRtSN
+	 3A3Zq3Nf6pxeA==
+Message-ID: <2e9cba16-0e5b-44b1-9333-fdb08505a2fe@kernel.org>
+Date: Wed, 2 Jul 2025 22:12:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250702-pipelines-v1-3-34525973e773@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/7] dt-bindings: soc: imx-blk-ctrl: add MIPI CSI2 dphy
+ support
+To: Frank Li <frank.li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
+References: <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
+ <20250701-95_cam-v1-2-c5172bab387b@nxp.com>
+ <f0c8c043-9c9d-427c-94a6-f46f6b7d0c50@kernel.org>
+ <PAXPR04MB9642848BFCA791A634D276A18840A@PAXPR04MB9642.eurprd04.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <PAXPR04MB9642848BFCA791A634D276A18840A@PAXPR04MB9642.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dan,
-
-Thank you for the patch.
-
-On Wed, Jul 02, 2025 at 04:15:04PM +0100, Daniel Scally wrote:
-> Add two new members to struct media_entity_operations, along with new
-> functions in media-entity.c to traverse a media pipeline and call the
-> new operations. The new functions are intended to be used to signal
-> to a media pipeline that it has fully started, with the entity ops
-> allowing drivers to define some action to be taken when those
-> conditions are met.
+On 02/07/2025 20:02, Frank Li wrote:
+> For example: driver need touch a bit of this CSR, but we missed at begin.
+> We need find new interfaces, some time it is disaster for whole subnode
+> binding. We don't want to wrong use a reset interface to work around driver
+> need touch a bits of CSR.
 > 
-> The combination of the new functions and operations allows drivers
-> which are part of a multi-driver pipeline to delay actually starting
-> streaming until all of the conditions for streaming succcessfully are
-> met across all drivers.
+> So I try to upstream "confidence" part gradually.
+No, you cannot, because you add incompatible style of children. By
+adding piece by piece, without looking at big picture, you add different
+solutions. And that was one of the points before.
 
-I can't review this patch properly without looking at how it will be
-used. I don't think this series should be split out of the media jobs
-series.
-
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
-> This commit was originally in the "Add media jobs framework" series
-> but will now be dropped from there.
-> 
-> Changes in this version:
-> 
-> 	- Dropped the iter variable now that the pipeline entity
-> 	  iterator functions don't need it.
-> 	- Updated documentation to specify Optional and return
-> 	  values
-> 
-> Changes in the previous version:
-> 
-> 	- Refactored media_pipeline_started() such that the cleanup
-> 	  function for media_pipeline_entity_iter is unconditionally
-> 	  called
-> 	- Avoided using media_entity_call() helper for operation that
-> 	  has return type void to avoid compiler warnings
-> ---
->  drivers/media/mc/mc-entity.c | 29 +++++++++++++++++++++++++++++
->  include/media/media-entity.h | 27 +++++++++++++++++++++++++++
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 30d15a180ad4525e9438083216ac328a4b76653a..64bacb3197a8a6b4af312abfc1ea9e3dfacdc012 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -1059,6 +1059,35 @@ __media_pipeline_pad_iter_next(struct media_pipeline *pipe,
->  }
->  EXPORT_SYMBOL_GPL(__media_pipeline_pad_iter_next);
->  
-> +int media_pipeline_started(struct media_pipeline *pipe)
-
-The name "started" sounds like it's related to media_pipeline_start(),
-but it doesn't seem to be the case. That's confusing, we need clearer
-names.
-
-> +{
-> +	struct media_entity *entity;
-> +	int ret;
-> +
-> +	media_pipeline_for_each_entity(pipe, entity) {
-> +		ret = media_entity_call(entity, pipeline_started);
-> +		if (ret && ret != -ENOIOCTLCMD)
-> +			break;
-> +	}
-> +
-> +	ret = ret == -ENOIOCTLCMD ? 0 : ret;
-> +	if (ret)
-> +		media_pipeline_stopped(pipe);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(media_pipeline_started);
-> +
-> +void media_pipeline_stopped(struct media_pipeline *pipe)
-> +{
-> +	struct media_entity *entity;
-> +
-> +	media_pipeline_for_each_entity(pipe, entity)
-> +		if (entity->ops && entity->ops->pipeline_stopped)
-> +			entity->ops->pipeline_stopped(entity);
-> +}
-> +EXPORT_SYMBOL_GPL(media_pipeline_stopped);
-> +
->  /* -----------------------------------------------------------------------------
->   * Links management
->   */
-> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index 0f3bad2b9c319b1792bd62fff336bf09c1a42c1b..6e3a97183cc44a084581a941a1b5c02bef38b036 100644
-> --- a/include/media/media-entity.h
-> +++ b/include/media/media-entity.h
-> @@ -271,6 +271,10 @@ struct media_pad {
->   *			media_entity_has_pad_interdep().
->   *			Optional: If the operation isn't implemented all pads
->   *			will be considered as interdependent.
-> + * @pipeline_started:	Notify this entity that the pipeline it is a part of has
-> + *			been started
-> + * @pipeline_stopped:	Notify this entity that the pipeline it is a part of has
-> + *			been stopped
->   *
->   * .. note::
->   *
-> @@ -286,6 +290,8 @@ struct media_entity_operations {
->  	int (*link_validate)(struct media_link *link);
->  	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int pad0,
->  				 unsigned int pad1);
-> +	int (*pipeline_started)(struct media_entity *entity);
-> +	void (*pipeline_stopped)(struct media_entity *entity);
->  };
->  
->  /**
-> @@ -1231,6 +1237,27 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
->  	     entity != NULL;							\
->  	     entity = __media_pipeline_entity_iter_next((pipe), entity))
->  
-> +/**
-> + * media_pipeline_started - Inform entities in a pipeline that it has started
-> + * @pipe:	The pipeline
-> + *
-> + * Iterate on all entities in a media pipeline and call their pipeline_started
-> + * member of media_entity_operations. Optional.
-> + *
-> + * Return: zero on success, or a negative error code passed through from an
-> + * entity's .pipeline_started() operation.
-> + */
-> +int media_pipeline_started(struct media_pipeline *pipe);
-> +
-> +/**
-> + * media_pipeline_stopped - Inform entities in a pipeline that it has stopped
-> + * @pipe:	The pipeline
-> + *
-> + * Iterate on all entities in a media pipeline and call their pipeline_stopped
-> + * member of media_entity_operations. Optional.
-> + */
-> +void media_pipeline_stopped(struct media_pipeline *pipe);
-> +
->  /**
->   * media_pipeline_alloc_start - Mark a pipeline as streaming
->   * @pad: Starting pad
-
--- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Krzysztof
 
