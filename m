@@ -1,133 +1,130 @@
-Return-Path: <linux-media+bounces-36627-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36629-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE48AF6331
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:17:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B32AF6392
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:55:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 371DB481953
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:17:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38D7E1C424D0
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5095B2DE6E2;
-	Wed,  2 Jul 2025 20:16:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 750232E03E5;
+	Wed,  2 Jul 2025 20:55:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0HZqPnp"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="M7Imxov9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7A42DE6EE;
-	Wed,  2 Jul 2025 20:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575A42DE6FD;
+	Wed,  2 Jul 2025 20:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751487411; cv=none; b=c7rT3cDvRMjC0tfDvNuDEB9y4NaYa2o6W491CCSXA3Wvc3zi2y6mC2q311JqGCPl1MvrQmnEzC4oxy+XFjhxyWKtGFtVU86EDG0th981bUALCjTuNbHkHGhvEbcGuSH4p7fLVatougvfxyEgEtTVTQHp40TYUAgazCMZYJuxvyY=
+	t=1751489737; cv=none; b=omL7AR226gMaSCRV/wpyWrLtkUaw9oMXe/QNjQ20jKovlJafe3n0Mv+/iGsGhVoXmxhXTXsArAR5PqYWhKcD86RXiteZPzumHD6SkzoRHcacqryCgYnFxcUOkAgbt4x25VL+rFnPgn6txL450c+hM9XbCxvtPXDHiE1TNFPzrUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751487411; c=relaxed/simple;
-	bh=kKwgqTUxVWwdPmdc+f5tNybuH8KrJ5yHvr4ySbSweco=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PItkeiIJG44u/6INTyxMhKPILht2QyEdl8Fqn3jp8e6Fb66SiFLAUgOkAkrBuysKrTdnXc8o48zQFCGk9Dh0Jf6OPqyWV760nfL+ojZ8ZA4cMrOWnCv+E0/tnYdMlO3PS2KMO5crCEfuEesmaEQEVUj3d5KgSoahrdtVohvfKKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0HZqPnp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C470C4CEE7;
-	Wed,  2 Jul 2025 20:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751487411;
-	bh=kKwgqTUxVWwdPmdc+f5tNybuH8KrJ5yHvr4ySbSweco=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j0HZqPnpyqmitn684wftBUqS8D/8gqCYud30k/xqnoCp1iN/P0IFfll/kT+mecpBF
-	 SJj7I3WIr0Wg6ksoawA1+kHwRfQSfTnRHFi9U0Dn5dd2phxzF1MV7ZvQgaxEK46DMm
-	 tHEEiy7gMoSWEnS9qdOv6S8En5SRuspaneiiIMBV58K1GPyoC4Q64qmmQKun2KASJC
-	 tNUY+DfnesF1+u38s3Ma/caW9blHf5RphalgZwHvrBZwtw7UatpT0FVVvYJDpuhPa4
-	 CBi1smMK+j6E89OIZXmj0pQAlmpw+zbABPDIqXNPRuxWg/SX/O9w0ed45AJz2D+lHu
-	 tajzfy7ak/YNA==
-Message-ID: <e40211c4-8ae3-4aa1-af80-f4a0525a863b@kernel.org>
-Date: Wed, 2 Jul 2025 22:16:44 +0200
+	s=arc-20240116; t=1751489737; c=relaxed/simple;
+	bh=jMqNUzCzdviSMaixKOdDfxxH8LW66AFo7krUQNRNHeI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=vDK8Pm91Kh1DBZhyg2MLDCU5ez0Vi/RpJ192XpI+L+Ya7JiPPoy5vmwZ/Mx9rL48AwyR6Ysa7nzyKSBjKq9H+kFKyb33/IXzeJxhJd9Nnsa/7IrO0qK2sFGIuH5rt+RdOssvppWlGfWOYpJjx7mEwtnSfTg3VcskY3DyfWJXizo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=M7Imxov9; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=jMqNUzCzdviSMaixKOdDfxxH8LW66AFo7krUQNRNHeI=; b=M7Imxov9Ftjj1N+R6ItFyHHOBO
+	3Jfb6H1RyvVQ+6aTwKoPc/yv0bEGaj1s5chIR7785vj3Rfc0wfX5f2McFnQlzAkuwKIlFPniSMmVm
+	PhlVklY4zGfE9NCL8sAyYWV/XKO2m2wwPtQ7ingNcnDArspO6/FV2Z5Ku7Tgfrby4u3F0yqyYG7B8
+	VuRBE3BvmPIoYKF8z2WpZLdYTQZUblE1xG/9L4hMa1gOnHc8lK1BpgXmYIE07WUGOSLOOmOitTJhv
+	UKqjJ2KuMmVzk0F79Wtc1YJBzS+lRh9BVH0vC8DQTLHVu/Epx01k/jqvJvorhnfIBdUaYt1WGWZZ5
+	/XLFABiQ==;
+Received: from sslproxy08.your-server.de ([78.47.166.52])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uX47U-0003SF-2m;
+	Wed, 02 Jul 2025 22:31:52 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uX47V-000Hyo-0Q;
+	Wed, 02 Jul 2025 22:31:52 +0200
+Message-ID: <a64eddca62e9ab72eefe2bf347f4633550965433.camel@apitzsch.eu>
+Subject: Re: [PATCH 1/5] media: dt-bindings: i2c: add DW9719/DW9718S VCM
+ binding
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Sakari Ailus
+	 <sakari.ailus@linux.intel.com>
+Cc: Val Packett <val@packett.cool>, Daniel Scally <djrscally@gmail.com>, 
+ Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 02 Jul 2025 22:31:51 +0200
+In-Reply-To: <e6daacbf-2cfe-4489-942d-037b542143d4@kernel.org>
+References: <20250210082035.8670-1-val@packett.cool>
+	 <20250210082035.8670-2-val@packett.cool>
+	 <c2ff273a-bac5-4fa3-8339-ab722c9e63bf@kernel.org>
+	 <Z6nWp3bpoiqpvpS-@kekkonen.localdomain>
+	 <e6daacbf-2cfe-4489-942d-037b542143d4@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] media: dt-bindings: add non-pixel property in iris
- schema
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
- <20250627-video_cb-v3-1-51e18c0ffbce@quicinc.com>
- <19dd2e69-ad13-46f2-b99f-04a5e26f10d3@kernel.org>
- <08c8cdfd-099e-7b90-b163-23ecee3a5da4@quicinc.com>
- <118f2cbe-d8bd-4177-b0d5-91d9f1dbbef0@kernel.org>
- <9f5be122-302d-402f-91f2-675507612d32@oss.qualcomm.com>
- <023038d4-2258-4b2d-a3f9-b817ef0173bc@kernel.org>
- <7aa47821-ed22-2602-f56d-a6d58195e75f@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <7aa47821-ed22-2602-f56d-a6d58195e75f@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27687/Wed Jul  2 10:35:26 2025)
 
-On 02/07/2025 18:36, Vikash Garodia wrote:
->>
->> Also commit msg says "Existing definition limits the IOVA to an
->> addressable range of 4GiB, and" but I do not see such definition in the
->> binding at all. So what does it refer to?
-> Processors based out of 32 bit OS, can serve addresses in range 0-31, which
-> implies 4GiB (2pow31).
-You are not replying to statements. Your commit msg said "existing
-definition". Point me to the binding part saying that.
+Hi Krzysztof, hi Sakari,
+
+Am Montag, dem 10.02.2025 um 12:04 +0100 schrieb Krzysztof Kozlowski:
+> On 10/02/2025 11:36, Sakari Ailus wrote:
+> > Hi Krzysztof,
+> >=20
+> > On Mon, Feb 10, 2025 at 09:29:25AM +0100, Krzysztof Kozlowski
+> > wrote:
+> > > > +=C2=A0 dongwoon,vcm-freq:
+> > > > +=C2=A0=C2=A0=C2=A0 description:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The switching frequency for the voi=
+ce coil motor.
+> > >=20
+> > > Frequency is in Hertz, so use proper property unit suffix. BTW,
+> > > you cannot add incorrect properties post-factum based on already
+> > > accepted ACPI driver. This would be nice bypass of review, right?
+> >=20
+> > What's actually configured here is the divisor (10 MHz clock,
+> > divisor seems to be value + 2). It's similar to existing
+> > Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml .
+> > I prefer this as it's much easier to use that in a driver (think of
+> > having values like 1428571 in DT, too).
+>=20
+>=20
+> Sure, but then this should be renamed to match purpose and
+> description rephrased.
+>=20
+
+What would be a better name for the property?
 
 Best regards,
-Krzysztof
+Andr=C3=A9
+
+> >=20
+> > >=20
+> > > > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/uint32
+>=20
+>=20
+> And this would stay + constraints.
+>=20
+>=20
+> Best regards,
+> Krzysztof
 
