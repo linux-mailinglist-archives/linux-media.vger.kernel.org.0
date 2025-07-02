@@ -1,238 +1,237 @@
-Return-Path: <linux-media+bounces-36485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36486-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6188AAF06EA
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 01:20:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A22AF0733
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 02:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45676189F1E3
-	for <lists+linux-media@lfdr.de>; Tue,  1 Jul 2025 23:21:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B6BF1C07214
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 00:18:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9800C284B5D;
-	Tue,  1 Jul 2025 23:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58A0E17F7;
+	Wed,  2 Jul 2025 00:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="erI1xFfV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jC8UaT9V"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SJmKRD5B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E1E241CB7
-	for <linux-media@vger.kernel.org>; Tue,  1 Jul 2025 23:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F3139B
+	for <linux-media@vger.kernel.org>; Wed,  2 Jul 2025 00:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751412052; cv=none; b=bqySpyS8vGzmFeJ6R4K/Wm0r0f61mpn+oCUqa+gueXJQlgg4x/Zz8TwPJduuFHnccuD+ZF5CYbW0/sjq3h4/f8i6chCL00ZDZZ/RMEd9GRlgXlb/CNSjW5gn8yDsaRli4IuXdBUPEct/4ZbYL+eVZZrQ8G8F2WvREVo9kquIfDo=
+	t=1751415495; cv=none; b=aLtt0pyPdOxkCu2IhEBmL7NEd0nXopZcmPz0UI1i7YS6748S0KetjV8LyD6rmgq9NybORSO6m/orUpYNBFBwVISOPdPHjTk3SKuhKhmSO+JaaQcnXEo4OcV1aRXzt1rNWe6Fmg+RbFk4XTbS3awefNane9XTiPNluGGbhHjdDGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751412052; c=relaxed/simple;
-	bh=iqwY9Cr+3YLBz5+RWA7ZHq7TBUGfQXjiOC3MbRIqx54=;
+	s=arc-20240116; t=1751415495; c=relaxed/simple;
+	bh=8PlsIZ6g3scn8WFouS5+jWRUGiSA87a5hnWO8Ziuv7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MFsTmsKq8n/qKc9IHuBLxMUFrssn0OOSqJOxkzh0rvihBCp4xZR9mRRspdGGgbBfOLgxuyISRuqLXrxfo2CBUwd+u4qLXyAj3SMgbRhCCkMZr/+/SplOLokoapsXR3nYtXxceqnFyUe5ZrAIBpsnydbS2B62qWQBa4XZgZqxXeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com; spf=pass smtp.mailfrom=invisiblethingslab.com; dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b=erI1xFfV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jC8UaT9V; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invisiblethingslab.com
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4E65114002EE;
-	Tue,  1 Jul 2025 19:20:49 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 01 Jul 2025 19:20:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1751412049;
-	 x=1751498449; bh=hrhkKSB49C4hbDTxp3WKdo9s71rIjfQmzIvpXXKQJ+k=; b=
-	erI1xFfVEf8nU35OQcKeJDrfqsgSrYLuE+k0NUW/2AvHoRgvwCwzVhq0CW4HKpCn
-	MMGdNWcPF0afUexlycS9KpdyJ+nQUn//OqqW8AiTA7aBJvSGewuGfKh4QDhva3Xy
-	vOK+9ZwcUhIwCUBPcDOrxfuQ54luNl4qdAW5n3LXreSG7F+Om+1jMeNNHOyHf+BG
-	lKxvngqii5q6EoNHqeLgwFSQd7tpGPbAYu+aQk7oFZsPWNsCPciE4YJJvuUA1WOi
-	r2f24HlW9go15L8i4sP8uAeEGzWBuqSzNWoRX+Mim0haHnnk5ZrMnR6kIgHGndkh
-	2oXNxBdDXkq9w+Ir1xZydw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1751412049; x=1751498449; bh=hrhkKSB49C4hbDTxp3WKdo9s71rIjfQmzIv
-	pXXKQJ+k=; b=jC8UaT9VDyYoush0lj9aQOfB19knoxN19YmS0sPkhm4vmZ62Y5w
-	/6HIYR5KMFOvBnziG7D1SeNMlZFFOGKJVLWN5g7ECT/HFXW8QxcGRgIMuO78j/0V
-	2aqvaQaMrvfhDyJdP0j9YBhM0Ac2TS9f6omUwmahBV167ugS/LQCkwq9dNFbIGqt
-	/ulvoRSazf8FKbXDuHZoo2Tdlv9jkdYlk3KHdAjqe+swabmfgG6Y7cWY8LC63oOv
-	ztfKSN+dSiEgGwUgbxwkZvQmxzxJLSVglh9URT9tDYUNf9Y5Pz4ZMEj+v89NENpW
-	M870S4A5+J8kLkJCUiKZz/z27xY2N6saa5Q==
-X-ME-Sender: <xms:UG1kaAVc3ZV2TLc7epsg38J-fTcQbCweYL0hKxcJxkc3cxm7UPhUMg>
-    <xme:UG1kaEnIfiLQtS9dzeJ59VS8Pzac4zpG8_yg1iWKkGGOXLex46bcBj4cat_t4bguR
-    F9FJdC-oxOk6A>
-X-ME-Received: <xmr:UG1kaEY1mYD5Fe7aURIV0CLXa4jB19wKVzR3BqjhhCZcRV4ZbiW6tw7Ia4Tp6VZBKZhIxnTArjbEADNBfJbuqbd75okkYBj-8Uk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduheekvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforghrvghkucfo
-    rghrtgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrghrmhgrrhgvkhesihhnvhhish
-    hisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpedtveeltddt
-    jeffleehffehgfeghfeuvedvueevkeeutdelfeeuvdelieehgefftdenucffohhmrghinh
-    eptgholhhlrggsohhrrgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehmrghrmhgrrhgvkhesihhnvhhishhisghlvghthhhinhhgsh
-    hlrggsrdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehsvggsrghsthhirghnrdhrvghitghhvghlsegtohhllhgrsghorhgrrdgtoh
-    hmpdhrtghpthhtohepughmihhtrhihrdhoshhiphgvnhhkohestgholhhlrggsohhrrgdr
-    tghomhdprhgtphhtthhopehshhhrvggvhigrrdhprghtvghlsegtohhllhgrsghorhgrrd
-    gtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehkvghrnhgvlhestgholhhlrggsohhrrgdrtghomh
-X-ME-Proxy: <xmx:UW1kaPX-g3zhrf8_hWD5bD6xmyFuiGIk895Wb4Ib7zRfDEeXnKqlCw>
-    <xmx:UW1kaKlwY1eJ8sKt9xOxJirAhP4lauQACse724l_90OrlhspJ5E3NQ>
-    <xmx:UW1kaEdqQXe2tZf44GAfpVyoRZNSmdZq8qnMIttQtGJU-RwaUvI6Qw>
-    <xmx:UW1kaMGbZ4pAfr6b6QQeoiW7io99flvoWOkKn_mi4L3_HGXRYilNTg>
-    <xmx:UW1kaNBBumNte9pqXLFkKcE8_liABsk5T2ThwKs6xGJZujRl5HR-W2JG>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Jul 2025 19:20:47 -0400 (EDT)
-Date: Wed, 2 Jul 2025 01:20:45 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	linux-media@vger.kernel.org, kernel@collabora.com
-Subject: Re: "signal is not locked" with HDMI RX driver on RK3588
-Message-ID: <aGRtTghd0MDOv01x@mail-itl>
-References: <aGKFhDmBwYp5KV3k@mail-itl>
- <aGKXr0Z96zGU74q6@mail-itl>
- <qazkvgdtozck65s2lstvxfwplhlvf3ynm5z6c6gdpgaytja7v4@f5gsnd7urzp6>
+	 Content-Type:Content-Disposition:In-Reply-To; b=O8BO3XpRL8Xzv1zU4KEGzCsqro8QgN3bG7Ol1fy8eVGP9FbfEC34UpdLR3slun1K0Vt3czMGtFT3uF5KWiSlkDNBVc8o/1idPyjRzTspW3o09TRAm/x8eGXnvsTcjsl/RwKT3Fo3N27uZ+HM2H8vxJNu3RW2YWGn3mDuGFle9wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SJmKRD5B; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 754A5111D;
+	Wed,  2 Jul 2025 02:17:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751415469;
+	bh=8PlsIZ6g3scn8WFouS5+jWRUGiSA87a5hnWO8Ziuv7w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SJmKRD5BG78FOcDM1Bknwa8cL45C3Uke37s2l4JTj1BRv2V2LWZeYq41OCvdtG06l
+	 E5+8T9aMBhU+jLtGrDdMhDBcI/EC/dtZPeEpjaImXz5ZH0r5gnRQGqYNpAPyLn2STA
+	 UEtrVL+gkZlxzOrug6Ntq9vhF9x6qa/V9LllQhtI=
+Date: Wed, 2 Jul 2025 03:17:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mathis Foerst <mathis.foerst@mt.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 09/15] media: mt9m114: Add and use
+ mt9m114_ifp_get_border() helper function
+Message-ID: <20250702001745.GD17819@pendragon.ideasonboard.com>
+References: <20250629205626.68341-1-hansg@kernel.org>
+ <20250629205626.68341-10-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FTh4xEuQT9kCRZxi"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <qazkvgdtozck65s2lstvxfwplhlvf3ynm5z6c6gdpgaytja7v4@f5gsnd7urzp6>
+In-Reply-To: <20250629205626.68341-10-hansg@kernel.org>
 
+Hi Hans,
 
---FTh4xEuQT9kCRZxi
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 2 Jul 2025 01:20:45 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	linux-media@vger.kernel.org, kernel@collabora.com
-Subject: Re: "signal is not locked" with HDMI RX driver on RK3588
+On Sun, Jun 29, 2025 at 10:56:19PM +0200, Hans de Goede wrote:
+> Normally the IFP removes a 4 pixel border all around its sink format
+> size for demosaicing. But in RAW10 mode it does not do this.
+> 
+> Add a new mt9m114_ifp_get_border() helper function to get the border size
+> (4 or 0) and use this where applicable instead of hardcoding a border
+> of 4 pixels everywhere.
+> 
+> Signed-off-by: Hans de Goede <hansg@kernel.org>
+> ---
+> Changes in v3:
+> - New patch in v3 of this patch-set
+> ---
+>  drivers/media/i2c/mt9m114.c | 54 ++++++++++++++++++++++++++-----------
+>  1 file changed, 38 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index d4aad77b095b..020caae95a3d 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -843,6 +843,18 @@ static int mt9m114_configure_pa(struct mt9m114 *sensor,
+>  	return ret;
+>  }
+>  
+> +/*
+> + * For src pad fmts other then RAW10 the IFP removes a 4 pixel border from its
 
-On Mon, Jun 30, 2025 at 07:51:39PM +0200, Sebastian Reichel wrote:
-> Hi,
->=20
-> On Mon, Jun 30, 2025 at 03:57:03PM +0200, Marek Marczykowski-G=C3=B3recki=
- wrote:
-> > On Mon, Jun 30, 2025 at 02:39:32PM +0200, Marek Marczykowski-G=C3=B3rec=
-ki wrote:
-> > > Hi,
-> > >=20
-> > > First of all, thanks for all the work regarding upstreaming the drive=
-r!
-> > >=20
-> > > I try to use it on two boards:
-> > > - Orange Pi 5B
-> > > - Rock 5B+
-> > >=20
-> > > In both cases, when I use the upstream driver in 6.16-rc, I hit simil=
-ar
-> > > issue:
-> > > 1. `v4l2-ctl -d /dev/video2 --set-edid type=3Dhdmi-4k-300mhz` - this =
-works
-> > > 2. EDID is properly presented to the device on the other side of the
-> > > HDMI cable, I can select to use that "display"
-> > > 3. But then, the hdmirx complains:
-> > >=20
-> > >     v4l2-ctl -d /dev/video2 --query-dv-timings
-> > >     VIDIOC_QUERY_DV_TIMINGS: failed: No locks available
-> > >=20
-> > > And kernel shows:
-> > > [ 4033.823023] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_registe=
-r_write wait cr write done failed
-> > > [ 4033.847027] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_registe=
-r_write wait cr write done failed
-> > > [ 4033.870976] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_registe=
-r_write wait cr write done failed
-> > > [ 4033.894998] snps_hdmirx fdee0000.hdmi_receiver: hdmirx_phy_registe=
-r_write wait cr write done failed
-> > > ...
-> > > [ 4061.975400] fdee0000.hdmi_receiver: hdmirx_query_dv_timings: signa=
-l is not locked
-> > >=20
-> > > In this state actually capturing video stream doesn't work either.
-> > >=20
-> > > I tried also rockchip-release branch from
-> > > https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux =
-(at
-> > > 33755850faeb0e53e634390d147cc261a60d2898) with the same result.
-> > >=20
-> > > If I try the same with the 6.12.13-current-rockchip64 kernel from Arm=
-bian,
-> > > it works fine. I tried to compare the drivers, but there are quite a =
-few
-> > > differences so it's hard to spot any obvious issue (it could be also =
-an
-> > > issue somewhere else...).
-> > >=20
-> > > Any ideas? I can try to add some debugging info or test patches, if y=
-ou
-> > > point me what would be helpful.
-> >=20
-> > If I take u-boot from
-> > https://gitlab.collabora.com/hardware-enablement/rockchip-3588/u-boot/
-> > (rockchip branch at 60501605e3f48b155af83193dfd9ad73362b8e25) and stop
-> > loading device-tree from a separate file, I get a different error:
-> >=20
-> >     VIDIOC_QUERY_DV_TIMINGS: failed: Numerical result out of range
-> >=20
-> > (and no extra messages from kernel)
-> > My goal is to capture in 4k at 30fps (or even lower), but I get this
-> > error also with lower resolutions like 1920x1200@60fps. Unfortunately I
-> > don't know which value specifically is out of range...
->=20
-> You are probably just using the wrong TF-A firmware. Rockchip's
-> binary-only firmware contains a workaround/quirk, which handles the
-> main HDMI-RX interrupt and then provides a virtual one on one of the
-> reserved interrupt lines. The kernel has to use the virtual one,
-> otherwise the driver is not functional.
->=20
-> The upstream (open source) TF-A does not contain this workaround and
-> the kernel must use the original HDMI-RX interrupt line, as the
-> reserved interrupt line is not doing anything at all.
->=20
-> The RK3588 device tree, which is provided as part of the mainline
-> Linux kernel describes the interrupt lines from the hardware and
-> thus needs to be used with the upstream TF-A.
+"source pad formats"
 
-That was it, thanks! Not it just works!
+> + * sink pad format size for demosaicing.
+> + */
+> +static int mt9m114_ifp_get_border(struct v4l2_subdev_state *state)
+> +{
+> +	const struct v4l2_mbus_framefmt *format =
+> +		v4l2_subdev_state_get_format(state, 1);
+> +
+> +	return format->code == MEDIA_BUS_FMT_SGRBG10_1X10 ? 0 : 4;
+> +}
+> +
+>  static int mt9m114_configure_ifp(struct mt9m114 *sensor,
+>  				 struct v4l2_subdev_state *state)
+>  {
+> @@ -850,6 +862,7 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
+>  	const struct v4l2_mbus_framefmt *format;
+>  	const struct v4l2_rect *crop;
+>  	const struct v4l2_rect *compose;
+> +	unsigned int border;
+>  	u64 output_format;
+>  	int ret = 0;
+>  
+> @@ -864,15 +877,18 @@ static int mt9m114_configure_ifp(struct mt9m114 *sensor,
+>  		return ret;
+>  
+>  	/*
+> +	 * For src pad fmts other then RAW10 adjust cropping coordinates for
 
-Is it possible for the driver to detect this situation and either
-adjust, or at least print some more helpful message? I would have never
-guessed to look there based on the existing symptoms...
+Ditto.
 
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
+>  	 * Color pipeline (IFP) cropping and scaling. Subtract 4 from the left
+>  	 * and top coordinates to compensate for the lines and columns removed
+>  	 * by demosaicing that are taken into account in the crop rectangle but
+>  	 * not in the hardware.
 
---FTh4xEuQT9kCRZxi
-Content-Type: application/pgp-signature; name=signature.asc
+But while at it this can be improved, as it took me a moment to remember
+what was going on.
 
------BEGIN PGP SIGNATURE-----
+	/*
+	 * Color pipeline (IFP) cropping and scaling. The crop window registers
+	 * apply cropping after demosaicing, which itself consumes 4 pixels on
+	 * each side of the image. The crop rectangle exposed to userspace
+	 * includes that demosaicing border, subtract it from the left and top
+	 * coordinates to configure the crop window.
+	 */
 
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmhkbU4ACgkQ24/THMrX
-1yyewQf9HbgUYMj+xeHcXbwC/JwRH3EfEOzaizt0Gi8+S1ehQpglgtBBags5H3br
-O6yAyztppd45Im4iG9k2U6u8g7l2Sn6T9n6h6dbXGjtfGl7s1ievcojorxGPAZZy
-vNGHwqTSYr1P8BayV/CZ1g8SdPopJtVCVaMpF+8fQrAVExFwj+/bUsvyGqJMA+rn
-4BZxGQTN3phftmFr+WqmMkAIE0OZ76zw5ecjBshHowoI5ML5vp1FZb7BPb1AMLuG
-Py6n54F0xc1MELkBI57huZVN/xGAbVdoep0I6RD2wkPWwjIBw3Tn3O5JCmfXZiV8
-EjEgDJ/QQGXhZ9TeAqcS6YQs0ldbLw==
-=Wnx4
------END PGP SIGNATURE-----
+>  	 */
+> +	border = mt9m114_ifp_get_border(state);
+> +
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_XOFFSET,
+> -		  crop->left - 4, &ret);
+> +		  crop->left - border, &ret);
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_YOFFSET,
+> -		  crop->top - 4, &ret);
+> +		  crop->top - border, &ret);
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_WIDTH,
+>  		  crop->width, &ret);
+>  	cci_write(sensor->regmap, MT9M114_CAM_CROP_WINDOW_HEIGHT,
+> @@ -1845,6 +1861,7 @@ static int mt9m114_ifp_get_selection(struct v4l2_subdev *sd,
+>  {
+>  	const struct v4l2_mbus_framefmt *format;
+>  	const struct v4l2_rect *crop;
+> +	unsigned int border;
+>  	int ret = 0;
+>  
+>  	/* Crop and compose are only supported on the sink pad. */
+> @@ -1859,15 +1876,17 @@ static int mt9m114_ifp_get_selection(struct v4l2_subdev *sd,
+>  	case V4L2_SEL_TGT_CROP_DEFAULT:
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+>  		/*
+> -		 * The crop default and bounds are equal to the sink
+> -		 * format size minus 4 pixels on each side for demosaicing.
+> +		 * Crop defaults and bounds are equal to the sink format size.
+> +		 * For src pad fmts other then RAW10 this gets reduced by 4
 
---FTh4xEuQT9kCRZxi--
+"For source pad formats".
+
+> +		 * pixels on each side for demosaicing.
+>  		 */
+>  		format = v4l2_subdev_state_get_format(state, 0);
+> +		border = mt9m114_ifp_get_border(state);
+>  
+> -		sel->r.left = 4;
+> -		sel->r.top = 4;
+> -		sel->r.width = format->width - 8;
+> -		sel->r.height = format->height - 8;
+> +		sel->r.left = border;
+> +		sel->r.top = border;
+> +		sel->r.width = format->width - 2 * border;
+> +		sel->r.height = format->height - 2 * border;
+>  		break;
+>  
+>  	case V4L2_SEL_TGT_COMPOSE:
+> @@ -1902,6 +1921,7 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *crop;
+>  	struct v4l2_rect *compose;
+> +	unsigned int border;
+>  
+>  	if (sel->target != V4L2_SEL_TGT_CROP &&
+>  	    sel->target != V4L2_SEL_TGT_COMPOSE)
+> @@ -1917,21 +1937,23 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
+>  
+>  	if (sel->target == V4L2_SEL_TGT_CROP) {
+>  		/*
+> -		 * Clamp the crop rectangle. Demosaicing removes 4 pixels on
+> -		 * each side of the image.
+> +		 * Clamp the crop rectangle. For src pad fmts other then RAW10
+
+Same here.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +		 * demosaicing removes 4 pixels on each side of the image.
+>  		 */
+> -		crop->left = clamp_t(unsigned int, ALIGN(sel->r.left, 2), 4,
+> -				     format->width - 4 -
+> +		border = mt9m114_ifp_get_border(state);
+> +
+> +		crop->left = clamp_t(unsigned int, ALIGN(sel->r.left, 2), border,
+> +				     format->width - border -
+>  				     MT9M114_SCALER_CROPPED_INPUT_WIDTH);
+> -		crop->top = clamp_t(unsigned int, ALIGN(sel->r.top, 2), 4,
+> -				    format->height - 4 -
+> +		crop->top = clamp_t(unsigned int, ALIGN(sel->r.top, 2), border,
+> +				    format->height - border -
+>  				    MT9M114_SCALER_CROPPED_INPUT_HEIGHT);
+>  		crop->width = clamp_t(unsigned int, ALIGN(sel->r.width, 2),
+>  				      MT9M114_SCALER_CROPPED_INPUT_WIDTH,
+> -				      format->width - 4 - crop->left);
+> +				      format->width - border - crop->left);
+>  		crop->height = clamp_t(unsigned int, ALIGN(sel->r.height, 2),
+>  				       MT9M114_SCALER_CROPPED_INPUT_HEIGHT,
+> -				       format->height - 4 - crop->top);
+> +				       format->height - border - crop->top);
+>  
+>  		sel->r = *crop;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
