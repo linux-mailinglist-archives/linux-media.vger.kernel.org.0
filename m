@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-36624-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36625-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A83CAF62FB
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:05:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78202AF6300
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:09:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1802C484196
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:05:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97B771C44CA7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:09:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A6882D77E0;
-	Wed,  2 Jul 2025 20:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53DDD2DCF49;
+	Wed,  2 Jul 2025 20:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WzknEB0S"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B2kY0nU6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7D9289836
-	for <linux-media@vger.kernel.org>; Wed,  2 Jul 2025 20:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C4A2F7D15
+	for <linux-media@vger.kernel.org>; Wed,  2 Jul 2025 20:09:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751486749; cv=none; b=Gi8SfSzBd0k9SYPyIkLxKXlunMPurS7vM3G+haUJxVF3XZ5ck8GWCEN03jQTRnkDHlInW8pADy5Dfd+ZB19RWyF1RMoYKa/azMVPDGPWvk4wazymPNLwMpIQj8aU4EQ4MtNDrg9IGCT7KVvzTCRECfaOKQ8y+LCoz/og67Um580=
+	t=1751486961; cv=none; b=kx2tfxEAXwFwn1uE0m5OkMDdVu58WW4p0VBSPPBaXLMgFdgvMnhmDAITIBPbZ8Otp2U/lLEfPYaPsV7YgXGqiJZJ8QtzkFOQntIgyNl1ZuzxnFuCJbP87G6tlaSo06dVkyG/9An3+utOJuJbx00uz7tsD1pRkj0XNJX5UsNQiGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751486749; c=relaxed/simple;
-	bh=DGJIIFYZMEc8fMqYAG/sdljdMGw54fG59USE+xOL15I=;
+	s=arc-20240116; t=1751486961; c=relaxed/simple;
+	bh=L1Inr7/YLN0CUaTqcEs+zl3s6iGD/59iy5j35NVXa70=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pQoIe5eWHk199HX1pwLy10ID0ojiPdXSpFGLbdOmBbD4E+f/9P5ZS9G0vUegbh45PTk9TKda0suDgIJVsaXu25kfwgrtJprDJow5SAuxG/7RdU+Droekkv4EKQAvGldYoCKfbMYejNIXodlQnms9ag3ileg85fHgwNiodhmNazU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WzknEB0S; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=lfRG++25e6ALvnEBuwhQbhWfv29QpunzpFbSBTaAKddApk30Bgh4sMJBKSzY6iCPBYmhcVGT2myPZ9HCda8qh4h7NmHXNHqutlvCAuNgShDd208U3SCU9OxdPBDngPGE9HNFgzBh0+DWzwt6e0G5+QdzxMOO+vSc9G0wGJgzK5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B2kY0nU6; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 45E901D4C;
-	Wed,  2 Jul 2025 22:05:16 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C58C11D4C;
+	Wed,  2 Jul 2025 22:08:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751486716;
-	bh=DGJIIFYZMEc8fMqYAG/sdljdMGw54fG59USE+xOL15I=;
+	s=mail; t=1751486935;
+	bh=L1Inr7/YLN0CUaTqcEs+zl3s6iGD/59iy5j35NVXa70=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WzknEB0SL27igzhcL95hEMWuzc1ZTdkDJtE/dvNoRyjAoY7Er7TV4ExBLUlmHzU5s
-	 kqgVTxE97Ds44TLxeho3D+ir1yzPcGa1uN7WBu/bYZLDeWhy2SrJ+lLU4Q+hNQhX5Z
-	 uZ15x9ro0FDN2rggkkIohplbbsodKVNWV7P1pb3w=
-Date: Wed, 2 Jul 2025 23:05:11 +0300
+	b=B2kY0nU6f+ftGddgCaswHeJaueIzpSZxml6ChE8kwghPJUz4jKnXcyPGhfYr2rNBV
+	 eYz89OqM6R4sy3p/wUk8MCaa9zXAqsywqRny0WyDU9d9zddz8JjOtpaDXu92tsMxhB
+	 00w8pRhK9Po1pgvVTj5wbnCgfeAMmSYaAjSrkIeY=
+Date: Wed, 2 Jul 2025 23:08:50 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Daniel Scally <dan.scally@ideasonboard.com>
 Cc: linux-media@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 2/4] media: mc: entity: Embed entity iterator in pipeline
-Message-ID: <20250702200511.GK17819@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/4] media: mc: entity: Add pipeline_started/stopped ops
+Message-ID: <20250702200850.GL17819@pendragon.ideasonboard.com>
 References: <20250702-pipelines-v1-0-34525973e773@ideasonboard.com>
- <20250702-pipelines-v1-2-34525973e773@ideasonboard.com>
+ <20250702-pipelines-v1-3-34525973e773@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,249 +59,150 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250702-pipelines-v1-2-34525973e773@ideasonboard.com>
+In-Reply-To: <20250702-pipelines-v1-3-34525973e773@ideasonboard.com>
 
 Hi Dan,
 
 Thank you for the patch.
 
-On Wed, Jul 02, 2025 at 04:15:03PM +0100, Daniel Scally wrote:
-> Embed a struct media_pipeline_entity_iter into struct media_pipeline.
-> Init the iterator in _media_pipeline_start() and clean it up during
-> media_pipeline_cleanup(). Update call-sites for the related functions
-> to not require a pointer to a struct media_pipeline_entity_iter.
+On Wed, Jul 02, 2025 at 04:15:04PM +0100, Daniel Scally wrote:
+> Add two new members to struct media_entity_operations, along with new
+> functions in media-entity.c to traverse a media pipeline and call the
+> new operations. The new functions are intended to be used to signal
+> to a media pipeline that it has fully started, with the entity ops
+> allowing drivers to define some action to be taken when those
+> conditions are met.
 > 
-> With this change the following functions no longer need to be
-> exported; make them static.
-> 
-> media_pipeline_entity_iter_init()
-> media_pipeline_entity_iter_cleanup()
+> The combination of the new functions and operations allows drivers
+> which are part of a multi-driver pipeline to delay actually starting
+> streaming until all of the conditions for streaming succcessfully are
+> met across all drivers.
 
-The commit message doesn't explain *why* this is desired. That's the
-most important information you need in every commit message.
-
-What will happen if code tries to iterate over entities multiple times,
-either in consecutive operations, or as nested operations ?
+I can't review this patch properly without looking at how it will be
+used. I don't think this series should be split out of the media jobs
+series.
 
 > Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 > ---
->  drivers/media/mc/mc-entity.c                  | 24 ++++++----
->  drivers/media/platform/ti/omap3isp/ispvideo.c |  9 +---
->  include/media/media-entity.h                  | 64 +++++++--------------------
->  3 files changed, 33 insertions(+), 64 deletions(-)
+> This commit was originally in the "Add media jobs framework" series
+> but will now be dropped from there.
+> 
+> Changes in this version:
+> 
+> 	- Dropped the iter variable now that the pipeline entity
+> 	  iterator functions don't need it.
+> 	- Updated documentation to specify Optional and return
+> 	  values
+> 
+> Changes in the previous version:
+> 
+> 	- Refactored media_pipeline_started() such that the cleanup
+> 	  function for media_pipeline_entity_iter is unconditionally
+> 	  called
+> 	- Avoided using media_entity_call() helper for operation that
+> 	  has return type void to avoid compiler warnings
+> ---
+>  drivers/media/mc/mc-entity.c | 29 +++++++++++++++++++++++++++++
+>  include/media/media-entity.h | 27 +++++++++++++++++++++++++++
+>  2 files changed, 56 insertions(+)
 > 
 > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index eef2fd4b73a11eba143243c964852cd494422204..30d15a180ad4525e9438083216ac328a4b76653a 100644
+> index 30d15a180ad4525e9438083216ac328a4b76653a..64bacb3197a8a6b4af312abfc1ea9e3dfacdc012 100644
 > --- a/drivers/media/mc/mc-entity.c
 > +++ b/drivers/media/mc/mc-entity.c
-> @@ -704,24 +704,22 @@ static int media_pipeline_explore_next_link(struct media_pipeline *pipe,
->  	return 0;
+> @@ -1059,6 +1059,35 @@ __media_pipeline_pad_iter_next(struct media_pipeline *pipe,
 >  }
+>  EXPORT_SYMBOL_GPL(__media_pipeline_pad_iter_next);
 >  
-> -int media_pipeline_entity_iter_init(struct media_pipeline *pipe,
-> -				    struct media_pipeline_entity_iter *iter)
-> +static int media_pipeline_entity_iter_init(struct media_pipeline *pipe)
->  {
-> -	return media_entity_enum_init(&iter->ent_enum, pipe->mdev);
-> +	return media_entity_enum_init(&pipe->entity_iter.ent_enum, pipe->mdev);
->  }
-> -EXPORT_SYMBOL_GPL(media_pipeline_entity_iter_init);
->  
-> -void media_pipeline_entity_iter_cleanup(struct media_pipeline_entity_iter *iter)
-> +static void media_pipeline_entity_iter_cleanup(struct media_pipeline *pipe)
->  {
-> -	media_entity_enum_cleanup(&iter->ent_enum);
-> +	media_entity_enum_cleanup(&pipe->entity_iter.ent_enum);
->  }
-> -EXPORT_SYMBOL_GPL(media_pipeline_entity_iter_cleanup);
->  
->  struct media_entity *
->  __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
-> -				  struct media_pipeline_entity_iter *iter,
->  				  struct media_entity *entity)
->  {
-> +	struct media_pipeline_entity_iter *iter = &pipe->entity_iter;
+> +int media_pipeline_started(struct media_pipeline *pipe)
+
+The name "started" sounds like it's related to media_pipeline_start(),
+but it doesn't seem to be the case. That's confusing, we need clearer
+names.
+
+> +{
+> +	struct media_entity *entity;
+> +	int ret;
 > +
->  	if (!entity)
->  		iter->cursor = pipe->pads.next;
->  
-> @@ -733,7 +731,7 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
->  		entity = ppad->pad->entity;
->  		iter->cursor = iter->cursor->next;
->  
-> -		if (!media_entity_enum_test_and_set(&iter->ent_enum, entity))
-> +		if (!media_entity_enum_test(&iter->ent_enum, entity))
->  			return entity;
->  	}
->  
-> @@ -743,6 +741,8 @@ EXPORT_SYMBOL_GPL(__media_pipeline_entity_iter_next);
->  
->  static void media_pipeline_cleanup(struct media_pipeline *pipe)
->  {
-> +	media_pipeline_entity_iter_cleanup(pipe);
-> +
->  	while (!list_empty(&pipe->pads)) {
->  		struct media_pipeline_pad *ppad;
->  
-> @@ -928,6 +928,12 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
->  		pad->pipe = pipe;
->  	}
->  
-> +	ret = media_pipeline_entity_iter_init(pipe);
-> +	if (ret) {
-> +		dev_err(mdev->dev, "Failed to init pipeline iterator\n");
-> +		goto error;
+> +	media_pipeline_for_each_entity(pipe, entity) {
+> +		ret = media_entity_call(entity, pipeline_started);
+> +		if (ret && ret != -ENOIOCTLCMD)
+> +			break;
 > +	}
 > +
->  	pipe->start_count++;
->  
->  	return 0;
-> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
-> index 78e30298c7ad155c70a2a369daa8c232b97e55b7..54ff16d4a2ef1cb6436de98487851caa6e380d7d 100644
-> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
-> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
-> @@ -221,16 +221,11 @@ isp_video_remote_subdev(struct isp_video *video, u32 *pad)
->  static int isp_video_get_graph_data(struct isp_video *video,
->  				    struct isp_pipeline *pipe)
->  {
-> -	struct media_pipeline_entity_iter iter;
->  	struct media_entity *entity;
->  	struct isp_video *far_end = NULL;
->  	int ret;
->  
-> -	ret = media_pipeline_entity_iter_init(&pipe->pipe, &iter);
-> -	if (ret)
-> -		return ret;
-> -
-> -	media_pipeline_for_each_entity(&pipe->pipe, &iter, entity) {
-> +	media_pipeline_for_each_entity(&pipe->pipe, entity) {
->  		struct isp_video *__video;
->  
->  		media_entity_enum_set(&pipe->ent_enum, entity);
-> @@ -249,8 +244,6 @@ static int isp_video_get_graph_data(struct isp_video *video,
->  			far_end = __video;
->  	}
->  
-> -	media_pipeline_entity_iter_cleanup(&iter);
-> -
->  	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
->  		pipe->input = far_end;
->  		pipe->output = video;
+> +	ret = ret == -ENOIOCTLCMD ? 0 : ret;
+> +	if (ret)
+> +		media_pipeline_stopped(pipe);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(media_pipeline_started);
+> +
+> +void media_pipeline_stopped(struct media_pipeline *pipe)
+> +{
+> +	struct media_entity *entity;
+> +
+> +	media_pipeline_for_each_entity(pipe, entity)
+> +		if (entity->ops && entity->ops->pipeline_stopped)
+> +			entity->ops->pipeline_stopped(entity);
+> +}
+> +EXPORT_SYMBOL_GPL(media_pipeline_stopped);
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Links management
+>   */
 > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index 64cf590b11343f68a456c5870ca2f32917c122f9..0f3bad2b9c319b1792bd62fff336bf09c1a42c1b 100644
+> index 0f3bad2b9c319b1792bd62fff336bf09c1a42c1b..6e3a97183cc44a084581a941a1b5c02bef38b036 100644
 > --- a/include/media/media-entity.h
 > +++ b/include/media/media-entity.h
-> @@ -97,6 +97,17 @@ struct media_graph {
->  	int top;
+> @@ -271,6 +271,10 @@ struct media_pad {
+>   *			media_entity_has_pad_interdep().
+>   *			Optional: If the operation isn't implemented all pads
+>   *			will be considered as interdependent.
+> + * @pipeline_started:	Notify this entity that the pipeline it is a part of has
+> + *			been started
+> + * @pipeline_stopped:	Notify this entity that the pipeline it is a part of has
+> + *			been stopped
+>   *
+>   * .. note::
+>   *
+> @@ -286,6 +290,8 @@ struct media_entity_operations {
+>  	int (*link_validate)(struct media_link *link);
+>  	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int pad0,
+>  				 unsigned int pad1);
+> +	int (*pipeline_started)(struct media_entity *entity);
+> +	void (*pipeline_stopped)(struct media_entity *entity);
 >  };
+>  
+>  /**
+> @@ -1231,6 +1237,27 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
+>  	     entity != NULL;							\
+>  	     entity = __media_pipeline_entity_iter_next((pipe), entity))
 >  
 > +/**
-> + * struct media_pipeline_entity_iter - Iterator for media_pipeline_for_each_entity
+> + * media_pipeline_started - Inform entities in a pipeline that it has started
+> + * @pipe:	The pipeline
 > + *
-> + * @ent_enum: The entity enumeration tracker
-> + * @cursor: The current element
+> + * Iterate on all entities in a media pipeline and call their pipeline_started
+> + * member of media_entity_operations. Optional.
+> + *
+> + * Return: zero on success, or a negative error code passed through from an
+> + * entity's .pipeline_started() operation.
 > + */
-> +struct media_pipeline_entity_iter {
-> +	struct media_entity_enum ent_enum;
-> +	struct list_head *cursor;
-> +};
+> +int media_pipeline_started(struct media_pipeline *pipe);
+> +
+> +/**
+> + * media_pipeline_stopped - Inform entities in a pipeline that it has stopped
+> + * @pipe:	The pipeline
+> + *
+> + * Iterate on all entities in a media pipeline and call their pipeline_stopped
+> + * member of media_entity_operations. Optional.
+> + */
+> +void media_pipeline_stopped(struct media_pipeline *pipe);
 > +
 >  /**
->   * struct media_pipeline - Media pipeline related information
->   *
-> @@ -104,12 +115,14 @@ struct media_graph {
->   * @mdev:		The media device the pipeline is part of
->   * @pads:		List of media_pipeline_pad
->   * @start_count:	Media pipeline start - stop count
-> + * @entity_iter:	Iterator for media_pipeline_for_each_entity()
->   */
->  struct media_pipeline {
->  	bool allocated;
->  	struct media_device *mdev;
->  	struct list_head pads;
->  	int start_count;
-> +	struct media_pipeline_entity_iter entity_iter;
->  };
->  
->  /**
-> @@ -139,17 +152,6 @@ struct media_pipeline_pad_iter {
->  	struct list_head *cursor;
->  };
->  
-> -/**
-> - * struct media_pipeline_entity_iter - Iterator for media_pipeline_for_each_entity
-> - *
-> - * @ent_enum: The entity enumeration tracker
-> - * @cursor: The current element
-> - */
-> -struct media_pipeline_entity_iter {
-> -	struct media_entity_enum ent_enum;
-> -	struct list_head *cursor;
-> -};
-> -
->  /**
->   * struct media_link - A link object part of a media graph.
->   *
-> @@ -1211,55 +1213,23 @@ __media_pipeline_pad_iter_next(struct media_pipeline *pipe,
->  	     pad != NULL;						\
->  	     pad = __media_pipeline_pad_iter_next((pipe), iter, pad))
->  
-> -/**
-> - * media_pipeline_entity_iter_init - Initialize a pipeline entity iterator
-> - * @pipe: The pipeline
-> - * @iter: The iterator
-> - *
-> - * This function must be called to initialize the iterator before using it in a
-> - * media_pipeline_for_each_entity() loop. The iterator must be destroyed by a
-> - * call to media_pipeline_entity_iter_cleanup after the loop (including in code
-> - * paths that break from the loop).
-> - *
-> - * The same iterator can be used in multiple consecutive loops without being
-> - * destroyed and reinitialized.
-> - *
-> - * Return: 0 on success or a negative error code otherwise.
-> - */
-> -int media_pipeline_entity_iter_init(struct media_pipeline *pipe,
-> -				    struct media_pipeline_entity_iter *iter);
-> -
-> -/**
-> - * media_pipeline_entity_iter_cleanup - Destroy a pipeline entity iterator
-> - * @iter: The iterator
-> - *
-> - * This function must be called to destroy iterators initialized with
-> - * media_pipeline_entity_iter_init().
-> - */
-> -void media_pipeline_entity_iter_cleanup(struct media_pipeline_entity_iter *iter);
-> -
->  struct media_entity *
->  __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
-> -				  struct media_pipeline_entity_iter *iter,
->  				  struct media_entity *entity);
->  
->  /**
->   * media_pipeline_for_each_entity - Iterate on all entities in a media pipeline
->   * @pipe: The pipeline
-> - * @iter: The iterator (struct media_pipeline_entity_iter)
->   * @entity: The iterator entity
->   *
->   * Iterate on all entities in a media pipeline. This is only valid after the
->   * pipeline has been built with media_pipeline_start() and before it gets
-> - * destroyed with media_pipeline_stop(). The iterator must be initialized with
-> - * media_pipeline_entity_iter_init() before iteration, and destroyed with
-> - * media_pipeline_entity_iter_cleanup() after (including in code paths that
-> - * break from the loop).
-> + * destroyed with media_pipeline_stop().
->   */
-> -#define media_pipeline_for_each_entity(pipe, iter, entity)			\
-> -	for (entity = __media_pipeline_entity_iter_next((pipe), iter, NULL);	\
-> +#define media_pipeline_for_each_entity(pipe, entity)			\
-> +	for (entity = __media_pipeline_entity_iter_next((pipe), NULL);	\
->  	     entity != NULL;							\
-> -	     entity = __media_pipeline_entity_iter_next((pipe), iter, entity))
-> +	     entity = __media_pipeline_entity_iter_next((pipe), entity))
->  
->  /**
 >   * media_pipeline_alloc_start - Mark a pipeline as streaming
+>   * @pad: Starting pad
 
 -- 
 Regards,
