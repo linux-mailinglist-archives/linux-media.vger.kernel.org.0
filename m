@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36533-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36534-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D982AAF1335
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:07:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E45AAAF1341
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:08:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E036F1C24E43
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:06:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0571A171366
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD1D26F471;
-	Wed,  2 Jul 2025 11:04:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38B5C26560B;
+	Wed,  2 Jul 2025 11:06:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kkn9q4u8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAWBvy3U"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4BF25F97F;
-	Wed,  2 Jul 2025 11:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABE5264A65;
+	Wed,  2 Jul 2025 11:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751454267; cv=none; b=SzjunkxsoFgLFTjv+EJbLN14YdJbjzrr/lnOn01qI+qOUBCGAmta0kuZXc6hsDD2owqTkACrb0hj6HkwK/dqhgK/RzHmcIDsFyf1f49zuFkVXhTO8YqJJRLbcLetUyHCzcqmmkePqGm2KBXx5LibxLNyGJsgH72h5vkPeu5KMLA=
+	t=1751454362; cv=none; b=onsjX8GKzHW8S9lrOMivzL03pGYrEr0YFrQFFXuY+ah1CcCOz//1Q61OJizCPHnS5rcokVz+IkDfxb/wKV17gEhBV0DeD2zVIQqkPDOoxhEACF3Lk1j6c881Z73Te3J83qdaGLX0woUvpXhXrIE8L8zFi6r6cexDabt99lY0wIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751454267; c=relaxed/simple;
-	bh=VnrLLpvVSLYOlpdQt2Fw/U4XhbYdJYLDafJ/3N4W8Vc=;
+	s=arc-20240116; t=1751454362; c=relaxed/simple;
+	bh=DBTO8D+30wGh1S4OOyF3phDbrBujYAx0coPXHDO94c0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ijZ1+w/IyuM3h5MXYCoFvjmrlGR9Jb9ZAarZSPkKfb84s+qiac83hBfHozFaPITddeqvMziar78XkU4PxobNwkwUYvQ+NdVEDJ3c0zdVqXzkWcqPQZUYJEbnv+g8adgpsylkAhGpYRwnx1cyO7acCmlpTyd50XMJLp+G7C24WM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kkn9q4u8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEE3C4CEED;
-	Wed,  2 Jul 2025 11:04:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=BtMbWx9Uu+p9Ljx8UlThpITQX2kSpxGtQOWH5TJq9Z8nYQ5x2KSdqdwoOS0Zj5jHVza3OpDt66OX85KjgPpU1abGOc68feR9TXnGtb5a8OYh20RJmr5FmlaK1XdW/GifPKlJ9xI9f4OgzVPcIikKzpY+uSulDozbk3Sreagcwr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAWBvy3U; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B27D8C4CEED;
+	Wed,  2 Jul 2025 11:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751454266;
-	bh=VnrLLpvVSLYOlpdQt2Fw/U4XhbYdJYLDafJ/3N4W8Vc=;
+	s=k20201202; t=1751454362;
+	bh=DBTO8D+30wGh1S4OOyF3phDbrBujYAx0coPXHDO94c0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Kkn9q4u8iaQeWMYm3tZPKBbdeaME23/2zMEjew2hg1/o4z/q2BSAGydCHCddzP6iE
-	 VXXO0oDaHiZxYCnrmaH3D7kuirLDEYToyHWCkx7SjTGEMA7WPaynTWnpsECWK9+iW3
-	 gBGsj7l1MKv22wg/zD+9+RMheoqgf2ydp9iUYOE96EhSTKXTuWKjRdmC6X9myc6rGB
-	 OeD8yY/W/Z2iRuv7xK/LY6VSEHAp2TeVY2grpjA8OzgpoKgDJ2oaf5cduDpN9sgOD8
-	 HlKVoZwwxS8Abc/1b+gDoSjcXomeocYoUly/KJtSDO7YaRxIKgFj85AcNXM0DXT/Vq
-	 8zfvKlqor7ixw==
-Message-ID: <156729ff-86f6-49a9-8b3c-7d0fd6737fb9@kernel.org>
-Date: Wed, 2 Jul 2025 13:04:18 +0200
+	b=RAWBvy3U3+LWW8x3BTqH1CYGqM0oukqKytZLAjKnom+37DRllWpj40wkcIDUBu1Mg
+	 sjLlGMjR31CYXK920fB4vAOLNeUF3JU424br75X9NC9spMwQLNPzZJroui/FZQvO11
+	 IZIJv12s7kxxonMry1+2ObdUOS/v7kMxpyin/MxED3NDRfWNczMhDbHCH3U4Y1eIjR
+	 dUBKNvSZ6c9K44V9DvlrVleLVNvJYP8o6wmTbX31kBL5by+6stZ+G9B9N7+f6yoImk
+	 C06bxYUVGWO6Y9rm1SxRAHEii73YIZzHnj4pyGkSVK85p3Omuig2MpUI2zwN4iueFL
+	 vAzcEI4I1mI9g==
+Message-ID: <8d243f98-76a8-4126-8f08-651f9d19f6af@kernel.org>
+Date: Wed, 2 Jul 2025 13:05:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +50,18 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/5] media: iris: register and configure non-pixel node
- as platform device
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
  Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
- <20250627-video_cb-v3-2-51e18c0ffbce@quicinc.com>
+ <306223e7-b760-4d37-b5d2-ac04e3c98842@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,22 +107,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250627-video_cb-v3-2-51e18c0ffbce@quicinc.com>
+In-Reply-To: <306223e7-b760-4d37-b5d2-ac04e3c98842@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/06/2025 17:48, Vikash Garodia wrote:
->  
-> +static int iris_init_non_pixel_node(struct iris_core *core)
-> +{
-> +	struct platform_device_info info;
-> +	struct platform_device *pdev;
-> +	struct device_node *np_node;
-> +	int ret;
-> +
-> +	np_node = of_get_child_by_name(core->dev->of_node, "non_pixel");
+On 27/06/2025 18:30, Bryan O'Donoghue wrote:
+> On 27/06/2025 16:48, Vikash Garodia wrote:
+>> Changes in v3:
+>> - Add info about change in iommus binding (Thanks Krzysztof)
+>> - Link to v2:https://lore.kernel.org/r/20250627-video_cb-v2-0-3931c3f49361@quicinc.com
+> 
+> Hmm.
+> 
+> I would be nice to see what also _wasn't_ done i.e. why you didn't do 
+> what Dmitry was suggesting, IMO that's as important as stating what you 
+> did change.
+> 
+> Not a huge deal you explained in a response email your logic already but 
 
-Never tested.
+
+It is a deal. Not doing what reviewers are asking is not the standard
+practice.
+
+> just as suggestion for future, I think its good practice to go through 
+> each point and say what you did do, what you didn't do, perhaps what you 
+> tried and then decided to do in a different way.
 
 Best regards,
 Krzysztof
