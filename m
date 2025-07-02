@@ -1,189 +1,153 @@
-Return-Path: <linux-media+bounces-36552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36553-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7ECAF149F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:54:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C104FAF14A7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:56:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A0AC17776E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:54:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7005F1C408BC
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:56:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 142D7269D11;
-	Wed,  2 Jul 2025 11:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA65A269D17;
+	Wed,  2 Jul 2025 11:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+pCYzVF"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QKmBzVRm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652CC253350;
-	Wed,  2 Jul 2025 11:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99172673B7;
+	Wed,  2 Jul 2025 11:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751457253; cv=none; b=huU+In9DcKjUN1eA3DiFdjj+xmi2myMQps+mKYw2UsRls/QW287dE6Gz6fRuW1klUZo2JSd0CPdvmS2BC5qIDOewuE8yDk4S5qY9aJqwjBw42ovIZi1EZWWVd/FiQcqV5zr/4p9FkH5PVlr+XgPx5Iip58J4b6WZpspsvT/SRmw=
+	t=1751457354; cv=none; b=LeAqriy2mEjapv35/rfcffxkoUnPlTUKQ514u7WMHtuNRiGoFIZfVSi4G0yapwdUsaYFtSd9/F0U35gBvaluvNHgsFS9XcJJV7mDf3vfUBtUIKATdukdeOeVEEyQo1B1xyQzS3g/BnRp6e67ejuoQLaWzNr/L7oQo84YQoiv674=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751457253; c=relaxed/simple;
-	bh=51ntc3v8cmvjZI/r+UiTIJnPnh8GVtBK5vSwJbWdrI4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=t63uHVGbTzLioaFF2xheDbYYB9RKyN2a5LEcCwLOR2UhL/Fyp9YFcTEMaqj6pHFGrRpfhOcbjXhTSUiOCevUUu3oqsCl+zw3Usqn8lVmQ1OmICeVcg8iBM0qdkvUh8qvde9bKuuaqtKeuaJ87LA8jjhaP1DrsDVEVyMAwY7SnZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+pCYzVF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B828DC4CEED;
-	Wed,  2 Jul 2025 11:54:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751457252;
-	bh=51ntc3v8cmvjZI/r+UiTIJnPnh8GVtBK5vSwJbWdrI4=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=q+pCYzVFO55aHFyrvBVjgygMtcQMI6Ye0hKajIJ8n26GD2aqs2TceVcVwi/9oromQ
-	 UrxxWb3Ft+xQ6aZHHAvWDx4pgofuBAGhL7gqeuheELCBi/CuoDFV8SOrrBybQYMTD2
-	 xqsQTwRsJ64or+winuXHlspiQAUzUhDLTbQX4loj5R7R+OCjNvUMkDGAyeQlhIhmbl
-	 QdlRuADQ8ei/tBjQF7XXO1DXrBp+6TMtIOKnewtMAeI7OtU2UoesLFu5KjHtniFJUD
-	 vcrIgcw/c8oGPwDv6HZWPxHWoT4I00SYi/GgBEhS1MX4lwRAW8cLn7x6XL8jfi2QMz
-	 W91t6dtKrP64A==
-Message-ID: <5a5bb85f-84de-4e3a-83ff-4516706b7ad4@kernel.org>
-Date: Wed, 2 Jul 2025 13:54:07 +0200
+	s=arc-20240116; t=1751457354; c=relaxed/simple;
+	bh=JKG4bTsUc4OMkDkUNEVDnvaZBSVqpkyFWjRSdRDgFyQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=BDwsyEkL6VHtj8EvjWECu8BfwBormkRzOapqwIjvbFn1drPhJ8l7rr6Y0Ms0H+ramAjE6OSFDerv+pKqKz7kLkziM3qwd09Dd0e+Y3osE+vsIbHf2baFUKVtvgKbRghutk0qZ+FffC3kwyavinx5An9QgjoGaQDCeK+KeL3G+eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QKmBzVRm; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5626iHU4002161;
+	Wed, 2 Jul 2025 11:55:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	E1kdNW8YYBLwi5EQQTJ4MiR8ojIiKBMr9MuT+dS8cv8=; b=QKmBzVRmzeR9ZZzL
+	r4pd+Me1dZhKH3Zl3iY+CKm5mY3+OZwBsOU6lwN+/ZxWC3Rk/B+XnNdxJN2CA8g5
+	MxSxPkkBQdTOqLJLqnrohZCMtlEkqTJz453nEu3HKTJHCZc8ungScYfUiyM27+z7
+	lo2Wxxvs0MpWMrixTvTenYSVVhBxTv5AL9aw9yzlpjNJ2QdKZrGJDPrTGUYY2KX9
+	VjT+cDCpLc2i4j81jheWOO0o9ygAF/7ZauqVLDPW9X2RADp/19//EPqBP3G6leje
+	N6kRXdIIYo/TSLFmw9u606PABzwb0zrWjTogmwCd+b+IpQFgLzOdhBsktYUaj6cp
+	ihnkOw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j9pcvcqe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Jul 2025 11:55:47 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 562BtkT7021000
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 2 Jul 2025 11:55:46 GMT
+Received: from [10.50.58.161] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 2 Jul 2025
+ 04:55:43 -0700
+Message-ID: <ae23ebae-3101-4a73-2bbd-0dabb4efaba1@quicinc.com>
+Date: Wed, 2 Jul 2025 17:25:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
- node
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
- <5f90547d-945a-4e26-b36c-75f2d8a1af97@kernel.org>
- <eab8d79f-7188-9537-9176-3e4d22f0978a@quicinc.com>
- <5ad418d9-8199-43c9-a477-1e3b939c054c@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 1/5] media: dt-bindings: add non-pixel property in iris
+ schema
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <5ad418d9-8199-43c9-a477-1e3b939c054c@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        "Bryan
+ O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+ <20250627-video_cb-v3-1-51e18c0ffbce@quicinc.com>
+ <6fd3fa34-69e1-484f-ad6f-8caa852f1a6c@kernel.org>
+ <dc6e82a1-82be-b8b8-31c3-8b85447d4e43@quicinc.com>
+ <8b88cea4-b9f2-4365-829c-2a255aed6c69@kernel.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <8b88cea4-b9f2-4365-829c-2a255aed6c69@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: KqOVzbqZ97s99M5XHOETyQxTHAWH92jO
+X-Proofpoint-ORIG-GUID: KqOVzbqZ97s99M5XHOETyQxTHAWH92jO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDA5NyBTYWx0ZWRfX3D/85o0mbvOF
+ Oe6pJO1QDxyRPQTUL85VnnXcvsFax3P/a1jT/2HxQLGlBIgV/Jc4uFoiEjIXtj+xmat+oyfR679
+ HpNg+M63Q2JUZbXq8DwR762tqOHx/9RfxkMBKNo/LwHTvhW1dq05Zp/OzRjE3gA8oZQB0gN08Ze
+ jhe8PLBtP0N4GrDxWx6nouhi+qaXqcioambuFY0BDipavglrTMSnhDJ2W9Ya6QGMEpb/PBBlCJr
+ eLKncY7Alg2qMG7vApnIFSzEF6el2kn/4hRYe3V4ZhpJ6tKoWOjymVSwuB3HuX1tS9q4nudliqS
+ oBzHh5zcUZd+kPcDuJFT3In4zRgugTYAWehotJsE/lCv0zP1HXeIMkJ8KJqPM0Sb/3Xj1ngjjZD
+ p2wdPoHTuBtYx5Ohc1Q7NxYjHdAQbCz62fKV6qRcZJsX8jknzUiISoDbgRHUrlMpsylDb4SX
+X-Authority-Analysis: v=2.4 cv=QMFoRhLL c=1 sm=1 tr=0 ts=68651e43 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
+ a=yYeFI0odNK6BD0YTbn8A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-02_01,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 spamscore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507020097
 
-On 02/07/2025 13:52, Krzysztof Kozlowski wrote:
-> On 02/07/2025 13:37, Vikash Garodia wrote:
+
+
+On 7/2/2025 5:17 PM, Krzysztof Kozlowski wrote:
+> On 02/07/2025 13:45, Vikash Garodia wrote:
 >>
->> On 7/2/2025 4:48 PM, Krzysztof Kozlowski wrote:
+>> On 7/2/2025 4:53 PM, Krzysztof Kozlowski wrote:
 >>> On 27/06/2025 17:48, Vikash Garodia wrote:
->>>> This series introduces a sub node "non-pixel" within iris video node.
->>>> Video driver registers this sub node as a platform device and configure 
->>>> it for DMA operations. All non pixel buffers, i.e bitstream, HFI queues 
->>>> and internal buffers related to bitstream processing, would be managed 
->>>> by this non_pixel device.
->>>>
->>>> Purpose to add this sub-node:
->>>> Iris device limits the IOVA to an addressable range of 4GiB, and even 
->>>> within that range, some of the space is used by IO registers, thereby 
->>>> limiting the available IOVA to even lesser. For certain video usecase, 
->>>> this limited range in not sufficient enough, hence it brings the need to 
->>>> extend the possibility of higher IOVA range.
->>>>
->>>> Video hardware is designed to emit different stream-ID for pixel and 
->>>> non-pixel buffers, thereby introduce a non-pixel sub node to handle 
->>>> non-pixel stream-ID into a separate platform device.
->>>> With this, both iris and non-pixel device can have IOVA range of 
->>>> approximately 0-4GiB individually for each device, thereby doubling the 
->>>> range of addressable IOVA.
->>>>
->>>> Tested on SM8550 and SA8775p hardwares.
->>>>
->>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>>> ---
->>>> Changes in v3:
->>>> - Add info about change in iommus binding (Thanks Krzysztof)
+>>>> +
+>>>>      video-codec@aa00000 {
+>>>>          compatible = "qcom,sm8550-iris";
+>>>>          reg = <0x0aa00000 0xf0000>;
+>>>> @@ -144,12 +176,16 @@ examples:
+>>>>          resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
+>>>>          reset-names = "bus";
+>>>>  
+>>>> -        iommus = <&apps_smmu 0x1940 0x0000>,
+>>>> -                 <&apps_smmu 0x1947 0x0000>;
+>>>> +        iommus = <&apps_smmu 0x1947 0x0000>;
 >>>
->>> Nothing improved in commit msg. You are changing existing device and the
->>> reason for that change is not communicated at all.
->>>
->>> There was big feedback from qualcomm saying that some commit in the past
->>> received review, so future commits can repeat the same stuff. If qcom
->>> approaches that way, sorry, no you need to come with proper commit
->>> description.
->>>
->>> Please align internally how to solve it, because my response that past
->>> imperfect review is not justification for whatever future issues was not
->>> enough.
->> Sure, lets take this as an example and you can suggest to provide a better
->> commit message for this case, it would help me to compare where is the gap. I
->> have tried my best to capture and explain the limitations and how the changes
->> address those limitations. If that is not sufficient, we might have the perfect
->> message from you and compare to find the gaps and improve, I am sorry, but thats
+>>> I missed, that's technically ABI break and nothing in commit msg
+>>> explains that. You need to clearly explain the reasons and impact.
+>> No, it is not. Interface works well with old or new approach.
 > 
-> It is not question to me: I did not want imperfectness. Qualcomm
-
-Double negation... should be:
-
-"It is not question to me: I did not want perfectness. Qualcomm"
-
-> engineer used issues in existing commits or imperfect commit in
-> discussion, so that's my solution. I don't need that perfect commit, but
-> it seems if I agree to that, then I will have to defend it later. Well,
-> no, I don't want it.
 > 
->> how i feel at the moment.
-> Sure, I feel confused now as well.
+> You changed the order of IOMMUs, so yes it is. Which interface works
+> well - FreeBSD? Or other? You are changing ABI for every user.
+Why do i need to change, when without changing would work as well ?
+
 > 
-> Anyway, in other messages I explained what is missing. You are changing
-> existing hardware and you clearly must explain how existing hardware is
-> affected, how can we reproduce it, how users are affected.
-> 
-> All these answers.
-
-
-
-Best regards,
-Krzysztof
+> Best regards,
+> Krzysztof
 
