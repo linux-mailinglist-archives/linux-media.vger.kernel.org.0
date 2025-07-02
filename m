@@ -1,171 +1,201 @@
-Return-Path: <linux-media+bounces-36523-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1763BAF119A
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:20:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D7DAF121F
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:39:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1AAD4A01CF
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 10:19:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B6114A76CF
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 10:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E19258CD4;
-	Wed,  2 Jul 2025 10:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2093C2571AC;
+	Wed,  2 Jul 2025 10:39:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KcwzrEY1"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Rcf7g8RV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03589254B18;
-	Wed,  2 Jul 2025 10:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85B424DCEF;
+	Wed,  2 Jul 2025 10:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751451565; cv=none; b=hI6+KpuiOKiYXOZQ6yR8xx2k+XtwwajYnL9S4hmGTn5FVZPo54YJ1eYlGc5iAnmmSa5sSnyI7wcwfdykNB3EUyAsNRhTHxdBvodvIJUrJHj4NswVi0aElb0BpkZPbwbu9+9pCursTRMiLvS15fEMpXemk0artOC/eJgElankoLw=
+	t=1751452748; cv=none; b=ot5uxlYg5oHgaZyJBHUbI0+2UqPNfoNrwAQl59JnZ3ob66smtue1BbzIc42l3BC1arH0qyAGEtjQZb/1I3na3Sbmdc9Hu8ZgNChHG3IX/6dw4I+eb4tsUSfx+DsPE5UO1oK21hlTrOCbam1UlxwJ5Ql4Q51gv6MCWb7HpcE6PaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751451565; c=relaxed/simple;
-	bh=MI9v+T1vRm2UOm6bwtBl32ZAGRMRsZgCocLfyH2LcB0=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=NfnrAWrmNwbv9Oo5zk1b57zqO6te/FfGDrHaqHbzdyYYEBNzzs8IrQRabXc7faueVA2XLLXdeqZ76EF7eJqdWZEqA2kYbp274YOJd8w7G2F6XErGCx4rtaqX3okNwUza+t0D1FJX50CyRirN3a6xIc5Bf7oVyzPlGymCkK6SfkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KcwzrEY1; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751451564; x=1782987564;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=MI9v+T1vRm2UOm6bwtBl32ZAGRMRsZgCocLfyH2LcB0=;
-  b=KcwzrEY1n7ZBW1pFRz2Es2XwrTWARkLRqB5r4Ke7Tm5eeT0cgKwwELc4
-   TOy9t+fSf1KwIX+xKzZ6avZ1bLB6VqMoa5ErSfyCRfo+wsJlZUvbr+SAJ
-   oK2sv/Q4yr7+zjlflkJp28uINWkQ8Jv5nzNBBDyvhI12JHK2gWrxT8mqg
-   D3x234AAzsTjYzNGpo6Yzb7BY5A7BUX1arA9r8YxkxGzITEChbD/uTHMJ
-   /VGJ+xytiWt/xOLfzB7sEXsUthPNTwIk5m2GLSWZaOJAWk+2B/xAfJTLQ
-   6E+Pr6dr/2HxTPs3NgPBPHxDkwMtJa8AUg9JtiMDnOfSaKoigBGEP9klK
-   Q==;
-X-CSE-ConnectionGUID: cxknw5LhS8Kl7T6GjsgNGw==
-X-CSE-MsgGUID: rS7ZHop8TBKcNMecV3v60g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="65195588"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="65195588"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 03:19:23 -0700
-X-CSE-ConnectionGUID: 5Tf4oaJNQBeALBNQklx4ZQ==
-X-CSE-MsgGUID: xqeQ+ZU7QeSeQTgNS/ALKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="154115244"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.228])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 03:19:20 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 2 Jul 2025 13:19:16 +0300 (EEST)
-To: Dongcheng Yan <dongcheng.yan@intel.com>
-cc: LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org, 
-    sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Hans de Goede <hdegoede@redhat.com>, u.kleine-koenig@baylibre.com, 
-    ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com, 
-    stable@vger.kernel.org, dongcheng.yan@linux.intel.com, hao.yao@intel.com
-Subject: Re: [PATCH v3 1/2] platform/x86: int3472: add hpd pin support
-In-Reply-To: <20250425104331.3165876-1-dongcheng.yan@intel.com>
-Message-ID: <5a04f105-3075-3226-6ad6-f2c3f31b29da@linux.intel.com>
-References: <20250425104331.3165876-1-dongcheng.yan@intel.com>
+	s=arc-20240116; t=1751452748; c=relaxed/simple;
+	bh=yHMAhzuhapGfBSWOsT8w1SUO7EwV8BAxCiSVneEapuE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EcnzgLZ7ysLEzOrt947ew9koGl0SEtJSddzgcjhj7+n8Akz9GIVvJKVcOqL5IQDehWPO68yNOZi7c0eR1fHO+Hb6VE9yYBT28T9tDv/M3HOzyrTlOPizr4T9bPRbNMubUD7sUaleM2bWGsehbEubNTpZUnmRIMe+V77pBCacH8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Rcf7g8RV; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=MzngX37uvz6d6lF8YACHw9qO2X6AeXWw1SWs2AOP1WE=; b=Rcf7g8RVQfKIrVxyn7c63p17YJ
+	IvqJHB0AmaNPPr6i7R9XE6SNPXBtFQ9jASR3sUp2vv3sBUYlLfgrqwJtQsl1XxtuS4BPKInKaazxT
+	ZSY98oWk0IM9KkVBAqQLLymVJDGjuBuhpg5mw3BbLM88ODkM1YXObjbHCrYwqIFh2hTJwiy0aHC8Q
+	kxWFmG0PM7XLEMkl7MparOA3/bgwB8Ra3mehn6Am+tngJvPgUUrRyjd3LEnZi6nMgvDaGDiJkbj9u
+	tFNMHcgLo8e7eDnH3ASvt6AdKmPcORmAMqgVeNQsbAYEPUhyVeXawm/BlCce53jWRiOpN98dJ7hAA
+	TOOvBE4Q==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1uWuYs-00BPA0-Es; Wed, 02 Jul 2025 12:19:30 +0200
+Message-ID: <ed5f6666-5c73-494c-835c-7e407dfd737b@igalia.com>
+Date: Wed, 2 Jul 2025 11:19:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-729750740-1751451556=:939"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/sched: Avoid memory leaks with cancel_job()
+ callback
+To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250701132142.76899-3-phasta@kernel.org>
+ <20250701132142.76899-4-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250701132142.76899-4-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-729750740-1751451556=:939
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Fri, 25 Apr 2025, Dongcheng Yan wrote:
-
-> Typically HDMI to MIPI CSI-2 bridges have a pin to signal image data is
-> being received. On the host side this is wired to a GPIO for polling or
-> interrupts. This includes the Lontium HDMI to MIPI CSI-2 bridges
-> lt6911uxe and lt6911uxc.
->=20
-> The GPIO "hpd" is used already by other HDMI to CSI-2 bridges, use it
-> here as well.
->=20
-> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
+On 01/07/2025 14:21, Philipp Stanner wrote:
+> Since its inception, the GPU scheduler can leak memory if the driver
+> calls drm_sched_fini() while there are still jobs in flight.
+> 
+> The simplest way to solve this in a backwards compatible manner is by
+> adding a new callback, drm_sched_backend_ops.cancel_job(), which
+> instructs the driver to signal the hardware fence associated with the
+> job. Afterwards, the scheduler can savely use the established free_job()
+> callback for freeing the job.
+> 
+> Implement the new backend_ops callback cancel_job().
+> 
+> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Link: https://lore.kernel.org/dri-devel/20250418113211.69956-1-tvrtko.ursulin@igalia.com/
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 > ---
->  drivers/platform/x86/intel/int3472/common.h   | 1 +
->  drivers/platform/x86/intel/int3472/discrete.c | 6 ++++++
->  2 files changed, 7 insertions(+)
->=20
-> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platfo=
-rm/x86/intel/int3472/common.h
-> index 51b818e62a25..4593d567caf4 100644
-> --- a/drivers/platform/x86/intel/int3472/common.h
-> +++ b/drivers/platform/x86/intel/int3472/common.h
-> @@ -23,6 +23,7 @@
->  #define INT3472_GPIO_TYPE_CLK_ENABLE=09=09=09=090x0c
->  #define INT3472_GPIO_TYPE_PRIVACY_LED=09=09=09=090x0d
->  #define INT3472_GPIO_TYPE_HANDSHAKE=09=09=09=090x12
-> +#define INT3472_GPIO_TYPE_HOTPLUG_DETECT=09=09=090x13
-> =20
->  #define INT3472_PDEV_MAX_NAME_LEN=09=09=09=0923
->  #define INT3472_MAX_SENSOR_GPIOS=09=09=09=093
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/plat=
-form/x86/intel/int3472/discrete.c
-> index 394975f55d64..efa3bc7af193 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -191,6 +191,10 @@ static void int3472_get_con_id_and_polarity(struct i=
-nt3472_discrete_device *int3
->  =09=09*con_id =3D "privacy-led";
->  =09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
->  =09=09break;
-> +=09case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
-> +=09=09*con_id =3D "hpd";
-> +=09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
-> +=09=09break;
->  =09case INT3472_GPIO_TYPE_POWER_ENABLE:
->  =09=09*con_id =3D "avdd";
->  =09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
-> @@ -221,6 +225,7 @@ static void int3472_get_con_id_and_polarity(struct in=
-t3472_discrete_device *int3
->   * 0x0b Power enable
->   * 0x0c Clock enable
->   * 0x0d Privacy LED
-> + * 0x13 Hotplug detect
->   *
->   * There are some known platform specific quirks where that does not qui=
-te
->   * hold up; for example where a pin with type 0x01 (Power down) is mappe=
-d to
-> @@ -290,6 +295,7 @@ static int skl_int3472_handle_gpio_resources(struct a=
-cpi_resource *ares,
->  =09switch (type) {
->  =09case INT3472_GPIO_TYPE_RESET:
->  =09case INT3472_GPIO_TYPE_POWERDOWN:
-> +=09case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
->  =09=09ret =3D skl_int3472_map_gpio_to_sensor(int3472, agpio, con_id, gpi=
-o_flags);
->  =09=09if (ret)
->  =09=09=09err_msg =3D "Failed to map GPIO pin to sensor\n";
+>   drivers/gpu/drm/scheduler/sched_main.c | 34 ++++++++++++++++----------
+>   include/drm/gpu_scheduler.h            | 18 ++++++++++++++
+>   2 files changed, 39 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index c63543132f9d..1239954f5f7c 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1353,6 +1353,18 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+>   }
+>   EXPORT_SYMBOL(drm_sched_init);
+>   
+> +static void drm_sched_cancel_remaining_jobs(struct drm_gpu_scheduler *sched)
+> +{
+> +	struct drm_sched_job *job, *tmp;
+> +
+> +	/* All other accessors are stopped. No locking necessary. */
+> +	list_for_each_entry_safe_reverse(job, tmp, &sched->pending_list, list) {
+> +		sched->ops->cancel_job(job);
+> +		list_del(&job->list);
 
-I was informed about existance of this patch through an off-band channel=20
-(as I was not among receipients). In future, please include all relevant=20
-maintainers and MLs as receipients as indicated by=20
-scripts/get_maintainers.pl.
+List_del is just for the warning in 3/6 I guess? You could in theory zap 
+the whole list in one go and avoid the safe iterator. Not that it 
+matters really so:
 
-This may go through a media tree,
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+Regards,
 
+Tvrtko
 
---=20
- i.
+> +		sched->ops->free_job(job);
+> +	}
+> +}
+> +
+>   /**
+>    * drm_sched_fini - Destroy a gpu scheduler
+>    *
+> @@ -1360,19 +1372,11 @@ EXPORT_SYMBOL(drm_sched_init);
+>    *
+>    * Tears down and cleans up the scheduler.
+>    *
+> - * This stops submission of new jobs to the hardware through
+> - * drm_sched_backend_ops.run_job(). Consequently, drm_sched_backend_ops.free_job()
+> - * will not be called for all jobs still in drm_gpu_scheduler.pending_list.
+> - * There is no solution for this currently. Thus, it is up to the driver to make
+> - * sure that:
+> - *
+> - *  a) drm_sched_fini() is only called after for all submitted jobs
+> - *     drm_sched_backend_ops.free_job() has been called or that
+> - *  b) the jobs for which drm_sched_backend_ops.free_job() has not been called
+> - *     after drm_sched_fini() ran are freed manually.
+> - *
+> - * FIXME: Take care of the above problem and prevent this function from leaking
+> - * the jobs in drm_gpu_scheduler.pending_list under any circumstances.
+> + * This stops submission of new jobs to the hardware through &struct
+> + * drm_sched_backend_ops.run_job. If &struct drm_sched_backend_ops.cancel_job
+> + * is implemented, all jobs will be canceled through it and afterwards cleaned
+> + * up through &struct drm_sched_backend_ops.free_job. If cancel_job is not
+> + * implemented, memory could leak.
+>    */
+>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>   {
+> @@ -1402,6 +1406,10 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>   	/* Confirm no work left behind accessing device structures */
+>   	cancel_delayed_work_sync(&sched->work_tdr);
+>   
+> +	/* Avoid memory leaks if supported by the driver. */
+> +	if (sched->ops->cancel_job)
+> +		drm_sched_cancel_remaining_jobs(sched);
+> +
+>   	if (sched->own_submit_wq)
+>   		destroy_workqueue(sched->submit_wq);
+>   	sched->ready = false;
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index e62a7214e052..190844370f48 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -512,6 +512,24 @@ struct drm_sched_backend_ops {
+>            * and it's time to clean it up.
+>   	 */
+>   	void (*free_job)(struct drm_sched_job *sched_job);
+> +
+> +	/**
+> +	 * @cancel_job: Used by the scheduler to guarantee remaining jobs' fences
+> +	 * get signaled in drm_sched_fini().
+> +	 *
+> +	 * Used by the scheduler to cancel all jobs that have not been executed
+> +	 * with &struct drm_sched_backend_ops.run_job by the time
+> +	 * drm_sched_fini() gets invoked.
+> +	 *
+> +	 * Drivers need to signal the passed job's hardware fence with an
+> +	 * appropriate error code (e.g., -ECANCELED) in this callback. They
+> +	 * must not free the job.
+> +	 *
+> +	 * The scheduler will only call this callback once it stopped calling
+> +	 * all other callbacks forever, with the exception of &struct
+> +	 * drm_sched_backend_ops.free_job.
+> +	 */
+> +	void (*cancel_job)(struct drm_sched_job *sched_job);
+>   };
+>   
+>   /**
 
---8323328-729750740-1751451556=:939--
 
