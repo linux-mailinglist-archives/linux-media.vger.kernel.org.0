@@ -1,203 +1,201 @@
-Return-Path: <linux-media+bounces-36508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36509-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A54AF0BD0
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:40:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FB5AF0BD7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:41:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C97C7AC804
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:38:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ACFE51C216F2
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:41:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B7AF230BC2;
-	Wed,  2 Jul 2025 06:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A7B9224B07;
+	Wed,  2 Jul 2025 06:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TFWydULa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78962236F3;
-	Wed,  2 Jul 2025 06:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FE822257E;
+	Wed,  2 Jul 2025 06:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751438340; cv=none; b=fb/Yg1kSsgWNoG63O1AP+IN5NG9OvzvPW7nKK3g351lNpH63fOUJCFVXuiu5yreDZxYI+zglQ52xjzS3vf1njQVEZuhRP7WbwcTEXBz8FSvX38HIXzcjkr6k6Ugrk4FRma/NrrIUYVFNCM2H6Sk9W9An+Fk7uN4oK6oPcx0IH8U=
+	t=1751438467; cv=none; b=R/sRQiZdDwTLIU2/S0UTkme8CJ54jiIsuf1q8fL/P71iq76YjivtzlXGEwzo8HlVEBJW5PobTYcpGv7PGXdct7sXxd0tuUUhZiyTtdPUW5JlaqeYQb86HZsqhSxSwm+xjORYmloXBPAWHKWPe8nhAn9bmebmRW8dzjGKYkbC4dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751438340; c=relaxed/simple;
-	bh=pL0ZMotY71CP45hBo02QTexa6+MqXmOEhp0hVHal67Q=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UmkDrpLCBJlsn8A9fEyykp4oC5pVP4zB/AqedU/5/ftHr63pwDcUVkpsVCdNVXKrSITs8dB86dHbvYXGZ5Bug9LjQXD+qcXv+GVFVtWpD38PQ5Okd1v6ELEmFnE2k/ved7oz1056rj+cOMftobgWNeJRx5D6LzaitrWm8uAOLI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7426c44e014so6588697b3a.3;
-        Tue, 01 Jul 2025 23:38:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751438337; x=1752043137;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TXwezkP7c8pGscSKlBvamtKez7/0qfT6TtR30gL2C34=;
-        b=TrbcNwrKPqY+lklj25d9czk2tXL4DS9mj6/cRp4ZbGgH3pyMpKGS+yuSs4/QWNjyG3
-         1j5JNLQ3ikY3IwrpydRPGj+2dWM9g61Rnmi2r7ztjL1cnWYLjtfGbIl5NIAt0EUbqnIM
-         2lRuNccXizYXNlNiAtk6WSeGa1+zqQiPMPjqk/1PmgNW4bP0onUR04lN3Upsil83vzu3
-         9A0zYBENO5oFlYKW3560FFFkTixjoHiaXbr/jlD7bHl6WuzJqKUubeF1ldCbnceL6Qpl
-         KF6PXCepNTytx4X7IBEsPsHv8uSscYAcgz1vdj9CerIq13Z7ba8+6jA9lMPxomKK1x/M
-         DI7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXP6znjVQwd9ePWZ0I/0pZPp7uVbT6MjGSSfkP7KEI7VssDWRGFE1TOSx1R84X4QDzphjbUe1g3jQa61T4=@vger.kernel.org, AJvYcCXXshEbibhaKk3lyZSfyvolaLd+zq1aB3uk3ZM9QTdhtQ4lzHfqMraFiJwZZrKMQ2LOAfe6qq/j4VTvUFN5@vger.kernel.org, AJvYcCXatJmz6ndIr8G+QQF8QvfCyjsLp3pYVYe3uHk8uOfP4X85PA4ErzTG4CvcqCyqhnWbAyOmH0QfKdKw@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0HuXnaVph3JnXcV0wtWpvAbnVWSfPUJsqVUx2mC41LGl9HsKA
-	lf9jeOoNXCQhq3YOp4dVFDI8r9Ec21jZ4Zsyfec5k6Uhs0M0+cxQ5S2k
-X-Gm-Gg: ASbGncvgVYBmXbpLux6n4fcgv+I17UovONpKxAuoHeMcSD253avFoDSECAcBFHwZriV
-	rW3psI9uz1JxGWGaXwJAYY8yrfV6BGsVFLHG64wS1MG6MTYRHYWZt4OnY3njHC8/QiQZqn+asQp
-	ObFZV7kMMYnY8H5O0dLnGkGM2Mpvd7Iv0JR0I0W0onjcOkPthuQlalqi4ADtB7kvzA3e5env3Bn
-	P3M9CXxVNPIMg5XpNsAIIu8Py3ho15FFrVohu9Ykki4l4A9sFp1E+EPi6p4eR9CLQHJ+aX9rUjr
-	brBFV5Yvoutom3K9DwUWJEfakDNBYaZCZ1c2X9670LkNm+smIl7LDGtibfsYzSUswc24WM11OQm
-	EHbdeqdgTnPBOnEfcNPcnjQ8IDMazXw==
-X-Google-Smtp-Source: AGHT+IEuZYwGM2AS0Kzh5zxNMXbQXDcl00Lu716BusQDkwurQQA7D5GDryC+Vasxb2gvxpSwIi3/6Q==
-X-Received: by 2002:a05:6a00:1253:b0:736:5e28:cfba with SMTP id d2e1a72fcca58-74b50f54180mr2680527b3a.18.1751438337114;
-        Tue, 01 Jul 2025 23:38:57 -0700 (PDT)
-Received: from localhost.localdomain (c-24-4-34-163.hsd1.ca.comcast.net. [24.4.34.163])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af541bd0fsm13044966b3a.40.2025.07.01.23.38.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 23:38:55 -0700 (PDT)
-From: Will Whang <will@willwhang.com>
-To: Will Whang <will@willwhang.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-media@vger.kernel.org (open list:SONY IMX585 SENSOR DRIVER),
-	linux-kernel@vger.kernel.org (open list),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
-Subject: [PATCH v1 4/4] media: docs: Add userspace-API guide for the IMX585 driver
-Date: Wed,  2 Jul 2025 07:38:36 +0100
-Message-Id: <20250702063836.3984-5-will@willwhang.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250702063836.3984-1-will@willwhang.com>
-References: <20250702063836.3984-1-will@willwhang.com>
+	s=arc-20240116; t=1751438467; c=relaxed/simple;
+	bh=58rHWvmguDNq7qyQ1jxM+RaoQiyWMC2whgv5J7yu51g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=soRwfPsYPKImPC/zDohJOUAx9CdF/2xPLzu/DQgjXqdhgLQeVwU366BzKfTPJkAfKXSU5wmSVMWQirRL6+uGGHfnPKogSzQWaQ4PcWqjTEvbUYL6hzYG9GIAqIhzT1sYCDDP2AVIBTcQwqNxwTW0zX4ZsEm0HWgi2oImCnJuU00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TFWydULa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DAA0C4CEEE;
+	Wed,  2 Jul 2025 06:41:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751438466;
+	bh=58rHWvmguDNq7qyQ1jxM+RaoQiyWMC2whgv5J7yu51g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TFWydULaaB5+SW+m3JZvNMoczmvosf9eVBqiiUCVpM4cWXbYA9kFq/Wacnnbq9Z4s
+	 6fpPidjXtaPKdmR+VLVJBY31W4Ufxrhavrzl6A3RSGWVTMoIllDjkE789wVj9Inf34
+	 KstckRS2wtdrz3tDVkaORQSS6BrzVdOghCM59BPfefcldyRjoeLPsuqlohOcpi4VMQ
+	 UptO2TcHskCxLcIeA2F2gOXHMTr91r7C2Izrn6X1OxB/xlS8RFRngqhZlD+UEKyNC7
+	 UJULOkT6FjTkX73KFfnQ9/SwcyuDvLECZ5bkEzCcHS32W8csdG9M+mQUbbeqUYgd2t
+	 IloUGxwcS6jhw==
+Message-ID: <5d22829c-f807-4416-ab5a-87d210ade897@kernel.org>
+Date: Wed, 2 Jul 2025 08:40:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/7] dt-bindings: soc: imx-blk-ctrl: add MIPI CSI2 dphy
+ support
+To: Frank Li <Frank.Li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
+References: <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
+ <20250701-95_cam-v1-2-c5172bab387b@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250701-95_cam-v1-2-c5172bab387b@nxp.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-The new IMX585 V4L2 sub-device driver introduces several
-driver-specific controls for configuring Clear-HDR blending,
-gradation compression thresholds, and HCG enabling.  This patch adds
-an rst document under Documentation/userspace-api/media/drivers/
-that details each control, allowed values, and their effect
+On 02/07/2025 00:06, Frank Li wrote:
+> Add child node dphy-rx, which export phys interface to MIPI CSI2
+> controller.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> imx media blk ctrl combined many small glue logic registers for display
+> , camera, power, clk and reset.
+> 
+> There are some discussion at
+> https://lore.kernel.org/all/4414669.ejJDZkT8p0@steina-w/
+> to define whole schema for this.
+> 
+> But there are some difficults to cover whole once.
+> 
+> Plan use two steps to complete it
+> - add all camera related property and subnode
+> - add all display related property and subnode
+> ---
+>  .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml | 28 ++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+> index b3554e7f9e76d..708cd00f2b896 100644
+> --- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+> +++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+> @@ -46,6 +46,34 @@ properties:
+>        - const: csi
+>        - const: dsi
+>  
+> +  dphy-rx:
+> +    type: object
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - fsl,imx93-dphy-rx
+> +
+> +      clocks:
+> +        maxItems: 1
+> +
+> +      clock-names:
+> +        items:
+> +          - const: cfg
+> +
+> +      '#phy-cells':
+> +        const: 0
+> +
+> +      power-domains:
+> +        maxItems: 1
 
-Signed-off-by: Will Whang <will@willwhang.com>
----
- .../userspace-api/media/drivers/imx585.rst    | 95 +++++++++++++++++++
- 1 file changed, 95 insertions(+)
- create mode 100644 Documentation/userspace-api/media/drivers/imx585.rst
+This looks wrong. How a parent device can take one power domain and
+child take a different one? If that's the same, then it is redundant,
+because it is part of parent's power domain.
 
-diff --git a/Documentation/userspace-api/media/drivers/imx585.rst b/Documentation/userspace-api/media/drivers/imx585.rst
-new file mode 100644
-index 000000000..bb08afa93
---- /dev/null
-+++ b/Documentation/userspace-api/media/drivers/imx585.rst
-@@ -0,0 +1,95 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+Sony IMX585 driver
-+==================
-+
-+The IMX585 image-sensor driver provides the following *driver-specific*
-+V4L2 controls.  They are visible only when the IMX585 driver is loaded
-+and sit in the sensor-private control class.
-+
-+HDR data blending
-+-----------------
-+
-+``V4L2_CID_IMX585_HDR_DATASEL_TH``  (``U16[2]``)
-+    Lower/upper **thresholds** (0 – 4095) that decide which exposure is
-+    chosen—or blended—for each pixel in Clear-HDR mode.
-+
-+``V4L2_CID_IMX585_HDR_DATASEL_BK``  (menu)
-+    **Blending ratio** between the long-gain (LG) and
-+    high-gain (HG) read-outs.
-+
-+    .. flat-table::
-+        :stub-columns: 0
-+        :widths: 1 5
-+
-+        * - ``0``  - HG ½, LG ½
-+        * - ``1``  - HG ¾, LG ¼
-+        * - ``2``  - HG ½, LG ½  *(duplicate ratio present in the
-+          datasheet)*
-+        * - ``3``  - HG ⅞, LG ⅛
-+        * - ``4``  - HG 15⁄16, LG 1⁄16
-+        * - ``5``  - **2ⁿᵈ** HG ½, LG ½  *(second 50 %-50 % entry as
-+          documented)*
-+        * - ``6``  - HG 1⁄16, LG 15⁄16
-+        * - ``7``  - HG ⅛, LG ⅞
-+        * - ``8``  - HG ¼, LG ¾
-+
-+Gradation compression
-+---------------------
-+
-+``V4L2_CID_IMX585_HDR_GRAD_TH``  (``U32[2]``)
-+    17-bit **break-points** (0 – 0x1ffff) that shape the 16-bit
-+    gradation-compression curve.
-+
-+``V4L2_CID_IMX585_HDR_GRAD_COMP_L``  (menu)
-+``V4L2_CID_IMX585_HDR_GRAD_COMP_H``  (menu)
-+    **Compression ratios** below the first break-point and between the
-+    two break-points, respectively.
-+
-+    .. flat-table::
-+        :stub-columns: 0
-+        :widths: 1 4
-+
-+        * - ``0``  - 1 : 1
-+        * - ``1``  - 1 : 2
-+        * - ``2``  - 1 : 4   *(default for COMP_L)*
-+        * - ``3``  - 1 : 8
-+        * - ``4``  - 1 : 16
-+        * - ``5``  - 1 : 32
-+        * - ``6``  - 1 : 64  *(default for COMP_H)*
-+        * - ``7``  - 1 : 128
-+        * - ``8``  - 1 : 256
-+        * - ``9``  - 1 : 512
-+        * - ``10`` - 1 : 1024
-+        * - ``11`` - 1 : 2048
-+
-+Gain settings
-+-------------
-+
-+``V4L2_CID_IMX585_HDR_GAIN``  (menu)
-+    **Additional gain** (in dB) applied to the high-gain path when
-+    Clear-HDR is active.
-+
-+    .. flat-table::
-+        :stub-columns: 0
-+        :widths: 1 3
-+
-+        * - ``0``  - +0 dB
-+        * - ``1``  - +6 dB
-+        * - ``2``  - +12 dB *(default)*
-+        * - ``3``  - +18 dB
-+        * - ``4``  - +24 dB
-+        * - ``5``  - +29.1 dB
-+
-+``V4L2_CID_IMX585_HCG_GAIN``  (boolean)
-+    Toggle **High-Conversion-Gain** mode.
-+
-+    *0 = LCG (default), 1 = HCG.*
-+
-+Notes
-+-----
-+
-+* Controls are writable while streaming; changes take effect from the
-+  next frame.
-+* HDR-specific controls are hidden when HDR is disabled.
-+* Inter-control dependencies are enforced by the driver.
--- 
-2.39.5
+I have also some doubts about clock. Rarely syscon children have their
+own resources which would make this entire node redundant.
 
+Provide complete picture on this in commit msg.
+
+> +
+> +    required:
+> +      - compatible
+> +      - clocks
+> +      - clock-names
+> +      - '#phy-cells'
+> +
+> +    additionalProperties: false
+
+Please place it after type:.
+
+You also need to update the example.
+> +
+>  required:
+>    - compatible
+>    - reg
+> 
+
+
+Best regards,
+Krzysztof
 
