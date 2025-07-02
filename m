@@ -1,116 +1,171 @@
-Return-Path: <linux-media+bounces-36522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36523-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4B0AF1023
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:39:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1763BAF119A
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:20:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD9B652081F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 09:39:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1AAD4A01CF
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 10:19:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7844A24A064;
-	Wed,  2 Jul 2025 09:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E19258CD4;
+	Wed,  2 Jul 2025 10:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OaQRH80s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KcwzrEY1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF392472B5;
-	Wed,  2 Jul 2025 09:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03589254B18;
+	Wed,  2 Jul 2025 10:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751449114; cv=none; b=UBtEDYnEf2Eji78G5JS4A+GgFND/egdZDX9SGr/ndtD0HJC2aFnGvCDucCIF30VGloX1WRw1/x2n/to61QFJEGZgJ65RO+dAIPnMKWcMs8HxcjEDGxbW6lWnqiW30KBrhgYzJIV2roz034WSSgWhk7a1SvLiIymAD7ZqF/baXLg=
+	t=1751451565; cv=none; b=hI6+KpuiOKiYXOZQ6yR8xx2k+XtwwajYnL9S4hmGTn5FVZPo54YJ1eYlGc5iAnmmSa5sSnyI7wcwfdykNB3EUyAsNRhTHxdBvodvIJUrJHj4NswVi0aElb0BpkZPbwbu9+9pCursTRMiLvS15fEMpXemk0artOC/eJgElankoLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751449114; c=relaxed/simple;
-	bh=DGKrttRsQr4Iev/uBW1PHry4ekiuQTspS65d9746Hfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxF6osuBjd7aOoerHPS1qCtox6aJETJQRYnPXaHZaioMrgOc0oXSoMjcLhADAAyhgHaTlDcVnqfrIFSJGtoM0FiWSV33zjFc1nbRyHbUftDkQ3b4jmwv7mLeo4W163C7QU6Cf1mT9yeHP8NcF8J/jeiEEd9ZHHkp0g8o7W/eoRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OaQRH80s; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 966C4E91;
-	Wed,  2 Jul 2025 11:38:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751449088;
-	bh=DGKrttRsQr4Iev/uBW1PHry4ekiuQTspS65d9746Hfk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OaQRH80s6vm2oaq0DfRpQ8cCRCiwGUiKn9uTbKfY2N5A5lVPkpUNu2d23a80gt6kj
-	 ZNipU0xVGKEARmwGwLxQve3e93XgPhXPlqa4QG1qZ0GEyo+pcKGpKPDLEGG1Z9DQTT
-	 JGHs9kaLxL5FYJyPWFLq6nEjQDFhfcGOBwG1hLd0=
-Date: Wed, 2 Jul 2025 12:38:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org, "Guoniu.zhou" <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH 5/7] media: nxp: add DesignWare MIPI CSI2 controller
- driver
-Message-ID: <20250702093806.GF16835@pendragon.ideasonboard.com>
-References: <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
- <20250701-95_cam-v1-5-c5172bab387b@nxp.com>
+	s=arc-20240116; t=1751451565; c=relaxed/simple;
+	bh=MI9v+T1vRm2UOm6bwtBl32ZAGRMRsZgCocLfyH2LcB0=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=NfnrAWrmNwbv9Oo5zk1b57zqO6te/FfGDrHaqHbzdyYYEBNzzs8IrQRabXc7faueVA2XLLXdeqZ76EF7eJqdWZEqA2kYbp274YOJd8w7G2F6XErGCx4rtaqX3okNwUza+t0D1FJX50CyRirN3a6xIc5Bf7oVyzPlGymCkK6SfkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KcwzrEY1; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751451564; x=1782987564;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=MI9v+T1vRm2UOm6bwtBl32ZAGRMRsZgCocLfyH2LcB0=;
+  b=KcwzrEY1n7ZBW1pFRz2Es2XwrTWARkLRqB5r4Ke7Tm5eeT0cgKwwELc4
+   TOy9t+fSf1KwIX+xKzZ6avZ1bLB6VqMoa5ErSfyCRfo+wsJlZUvbr+SAJ
+   oK2sv/Q4yr7+zjlflkJp28uINWkQ8Jv5nzNBBDyvhI12JHK2gWrxT8mqg
+   D3x234AAzsTjYzNGpo6Yzb7BY5A7BUX1arA9r8YxkxGzITEChbD/uTHMJ
+   /VGJ+xytiWt/xOLfzB7sEXsUthPNTwIk5m2GLSWZaOJAWk+2B/xAfJTLQ
+   6E+Pr6dr/2HxTPs3NgPBPHxDkwMtJa8AUg9JtiMDnOfSaKoigBGEP9klK
+   Q==;
+X-CSE-ConnectionGUID: cxknw5LhS8Kl7T6GjsgNGw==
+X-CSE-MsgGUID: rS7ZHop8TBKcNMecV3v60g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="65195588"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="65195588"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 03:19:23 -0700
+X-CSE-ConnectionGUID: 5Tf4oaJNQBeALBNQklx4ZQ==
+X-CSE-MsgGUID: xqeQ+ZU7QeSeQTgNS/ALKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="154115244"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.228])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 03:19:20 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 2 Jul 2025 13:19:16 +0300 (EEST)
+To: Dongcheng Yan <dongcheng.yan@intel.com>
+cc: LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org, 
+    sakari.ailus@linux.intel.com, hverkuil@xs4all.nl, 
+    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+    Hans de Goede <hdegoede@redhat.com>, u.kleine-koenig@baylibre.com, 
+    ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com, 
+    stable@vger.kernel.org, dongcheng.yan@linux.intel.com, hao.yao@intel.com
+Subject: Re: [PATCH v3 1/2] platform/x86: int3472: add hpd pin support
+In-Reply-To: <20250425104331.3165876-1-dongcheng.yan@intel.com>
+Message-ID: <5a04f105-3075-3226-6ad6-f2c3f31b29da@linux.intel.com>
+References: <20250425104331.3165876-1-dongcheng.yan@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250701-95_cam-v1-5-c5172bab387b@nxp.com>
+Content-Type: multipart/mixed; boundary="8323328-729750740-1751451556=:939"
 
-Hi Frank,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Thank you for the patch.
+--8323328-729750740-1751451556=:939
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Tue, Jul 01, 2025 at 06:06:10PM -0400, Frank Li wrote:
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
-> 
-> Add V4L2 subdev driver for DesignWare MIPI CSI2 controller.
+On Fri, 25 Apr 2025, Dongcheng Yan wrote:
 
-This seems to be at least the third instance of a driver for the CSI-2
-receiver, the first two being
-drivers/media/platform/raspberrypi/rp1-cfe/dphy.c and the second one
-drivers/media/platform/renesas/rcar-csi2.c (the latter seems to support
-multiple CSI-2 receivers). drivers/staging/media/imx/imx6-mipi-csi2.c
-seem related too, likely for an old version of the IP.
-
-Could we please try to avoid code duplication ?
-
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> Typically HDMI to MIPI CSI-2 bridges have a pin to signal image data is
+> being received. On the host side this is wired to a GPIO for polling or
+> interrupts. This includes the Lontium HDMI to MIPI CSI-2 bridges
+> lt6911uxe and lt6911uxc.
+>=20
+> The GPIO "hpd" is used already by other HDMI to CSI-2 bridges, use it
+> here as well.
+>=20
+> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
 > ---
->  MAINTAINERS                                |    1 +
->  drivers/media/platform/nxp/Kconfig         |   11 +
->  drivers/media/platform/nxp/Makefile        |    1 +
->  drivers/media/platform/nxp/dwc-mipi-csi2.c | 1675 ++++++++++++++++++++++++++++
+>  drivers/platform/x86/intel/int3472/common.h   | 1 +
+>  drivers/platform/x86/intel/int3472/discrete.c | 6 ++++++
+>  2 files changed, 7 insertions(+)
+>=20
+> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platfo=
+rm/x86/intel/int3472/common.h
+> index 51b818e62a25..4593d567caf4 100644
+> --- a/drivers/platform/x86/intel/int3472/common.h
+> +++ b/drivers/platform/x86/intel/int3472/common.h
+> @@ -23,6 +23,7 @@
+>  #define INT3472_GPIO_TYPE_CLK_ENABLE=09=09=09=090x0c
+>  #define INT3472_GPIO_TYPE_PRIVACY_LED=09=09=09=090x0d
+>  #define INT3472_GPIO_TYPE_HANDSHAKE=09=09=09=090x12
+> +#define INT3472_GPIO_TYPE_HOTPLUG_DETECT=09=09=090x13
+> =20
+>  #define INT3472_PDEV_MAX_NAME_LEN=09=09=09=0923
+>  #define INT3472_MAX_SENSOR_GPIOS=09=09=09=093
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/plat=
+form/x86/intel/int3472/discrete.c
+> index 394975f55d64..efa3bc7af193 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -191,6 +191,10 @@ static void int3472_get_con_id_and_polarity(struct i=
+nt3472_discrete_device *int3
+>  =09=09*con_id =3D "privacy-led";
+>  =09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
+>  =09=09break;
+> +=09case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
+> +=09=09*con_id =3D "hpd";
+> +=09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
+> +=09=09break;
+>  =09case INT3472_GPIO_TYPE_POWER_ENABLE:
+>  =09=09*con_id =3D "avdd";
+>  =09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
+> @@ -221,6 +225,7 @@ static void int3472_get_con_id_and_polarity(struct in=
+t3472_discrete_device *int3
+>   * 0x0b Power enable
+>   * 0x0c Clock enable
+>   * 0x0d Privacy LED
+> + * 0x13 Hotplug detect
+>   *
+>   * There are some known platform specific quirks where that does not qui=
+te
+>   * hold up; for example where a pin with type 0x01 (Power down) is mappe=
+d to
+> @@ -290,6 +295,7 @@ static int skl_int3472_handle_gpio_resources(struct a=
+cpi_resource *ares,
+>  =09switch (type) {
+>  =09case INT3472_GPIO_TYPE_RESET:
+>  =09case INT3472_GPIO_TYPE_POWERDOWN:
+> +=09case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
+>  =09=09ret =3D skl_int3472_map_gpio_to_sensor(int3472, agpio, con_id, gpi=
+o_flags);
+>  =09=09if (ret)
+>  =09=09=09err_msg =3D "Failed to map GPIO pin to sensor\n";
 
-This should go to drivers/media/platform/synopsys/
+I was informed about existance of this patch through an off-band channel=20
+(as I was not among receipients). In future, please include all relevant=20
+maintainers and MLs as receipients as indicated by=20
+scripts/get_maintainers.pl.
 
->  4 files changed, 1688 insertions(+)
+This may go through a media tree,
 
-[snip]
+Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
 
--- 
-Regards,
 
-Laurent Pinchart
+--=20
+ i.
+
+--8323328-729750740-1751451556=:939--
 
