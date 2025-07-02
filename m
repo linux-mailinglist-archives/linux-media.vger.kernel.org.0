@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36511-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905E4AF0BDB
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:42:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F9BAF0BE0
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:43:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C55B91C03688
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:42:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86DEC3A4E22
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:43:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F3C223DDF;
-	Wed,  2 Jul 2025 06:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD0CF223714;
+	Wed,  2 Jul 2025 06:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O0RfQ+Js"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b9xafZOO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD2013AA53;
-	Wed,  2 Jul 2025 06:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E61221FD4;
+	Wed,  2 Jul 2025 06:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751438539; cv=none; b=DKcchh1dF5dxfcKsM6PVCp+/WHqS8Ue8sAaKjDoLAVw0y3od3XQxUOjM9xhjkQscPMgE/dlV/o+hdzfuM+MbC8jj/mLBBgbR1BGotLEdrO49uxFop9p9h1hEf7JwHzK9JbvNexaaoB/ld9S7lSXDSRZhxPLgiFPAM+gQYdeLjuI=
+	t=1751438610; cv=none; b=nquSa6G4tcZb2ykT8wJdyWNkQ3A6vKdosFoa4wHI+AUIxaSAli6qHnhlYy2wZtarCF9fRNIFtjZ7FZ6LZc7czf9RrgWPZfyUsaeInZ4YtztM6kt9deCfm0o0kUh+Q+dxPpn5QwLy6pxML4BdDAKEVrinY7hT6pf+q7wJswMWQwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751438539; c=relaxed/simple;
-	bh=GnLnWpZBLWcU+Uo5nfmmedmOE25NXe70aO8oHDjb7cY=;
+	s=arc-20240116; t=1751438610; c=relaxed/simple;
+	bh=Fk9PaELzKt/em5fGqjZSJYVdH9FMrP2aaGm6uG1HvWk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Va864kitPoLBoKYP1Muw8WteOIVsiYoKemztgD66C4v4cynoTaiYHP6kSf+EiFkYCupA1QEd9bErZ7uksjU08cNFwoP5szI8iNGV5o/wXTmsE3camlrKDVlB6zzkbHbfgUDgYPkPqM+tfcjKhW9dcXCXmt/0R6wUdG9OudDol9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O0RfQ+Js; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77F39C4CEEE;
-	Wed,  2 Jul 2025 06:42:13 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=VcsurIc7t5UJaQRHXNl7DOa89sg+P94j/+6VW7vWsVyyOeRIk2Ih07lTHYTNQtwwmTh99p0lHjKQB8QgYOJ+JQoUzCJ+lXkpZD1DQKTja97Kc1EyYWZWuKJBSqtr6YJD+WS6MEFZ1nkrNYLYihg2NZWNWdJQuF3/j6GSB/BEioI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b9xafZOO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2998BC4CEEE;
+	Wed,  2 Jul 2025 06:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751438538;
-	bh=GnLnWpZBLWcU+Uo5nfmmedmOE25NXe70aO8oHDjb7cY=;
+	s=k20201202; t=1751438609;
+	bh=Fk9PaELzKt/em5fGqjZSJYVdH9FMrP2aaGm6uG1HvWk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=O0RfQ+Jsg9ufLqonIBlzFzRQRuCZWd1Cbk3WygoWo8VWARzTgMcN4SoSV5lOUHfm+
-	 m9x+9j6vfuF2LOvzF6DphDyQHuV/uhX0mn7FQ5FQFW5s2vrYZtn7iQZDPFCI4NccqQ
-	 Ecdj9BAHpz9ZYVcjhhcwKVKsuesqYjWYHnQy//1uThJe5uv37HVecAQYedNWbwLs7G
-	 g7itH7GthVfPJnpxdDrlu+qVH3Mm48TODZ8dSSXkl4UETPYne4WXs9MrXTh1nb3UF5
-	 Ngm2sYgTpZsYFL5fNwHBXfHU2Iiy21nf1FKRyK5klQbr99W78A7ejQEV+zkbPNzFqc
-	 glSmimqLX1BNg==
-Message-ID: <f0c8c043-9c9d-427c-94a6-f46f6b7d0c50@kernel.org>
-Date: Wed, 2 Jul 2025 08:42:11 +0200
+	b=b9xafZOOBBw0kIheC+ugirX0VAXvQA2AzmozxOjp2KBwhOGL3bDKJiAecMOFSFk8L
+	 XOZKiveVrzzqxCxAVTrRMMceOqtWDVgVBsx6DJauaQt/hi5ypJ4jwkJjpEb4xj06VL
+	 lvCri9xWubi/PHQNS51LDU1Yvl049e5SlwM01xCVahYxx9PB34DXSLfylEVv44OKp1
+	 Z3lJZsin8mm/ntGSxVpa1rwU03/CsnsfwPB1RxC7zeZNiJpkN142nLuemv2ajuqLEF
+	 bJjRShp4GxSHq1CosFSv3XlRULEPXjJQTMTebNVNRtiyYR/wufR7rJBSp/5GUpfUrl
+	 ZZyLGAbLr7EOA==
+Message-ID: <d0e70c51-57ab-44cd-9930-d4ce2cd06109@kernel.org>
+Date: Wed, 2 Jul 2025 08:43:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,25 +50,22 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] dt-bindings: soc: imx-blk-ctrl: add MIPI CSI2 dphy
- support
-To: Frank Li <Frank.Li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+Subject: Re: [PATCH 3/5] media: nxp: add V4L2 subdev driver for parallel CSI
+To: Frank Li <Frank.Li@nxp.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
-References: <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
- <20250701-95_cam-v1-2-c5172bab387b@nxp.com>
+ Fabio Estevam <festevam@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Alice Yuan <alice.yuan@nxp.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Zhipeng Wang <zhipeng.wang_1@nxp.com>
+References: <20250630-imx8qxp_pcam-v1-0-eccd38d99201@nxp.com>
+ <20250630-imx8qxp_pcam-v1-3-eccd38d99201@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,35 +111,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250701-95_cam-v1-2-c5172bab387b@nxp.com>
+In-Reply-To: <20250630-imx8qxp_pcam-v1-3-eccd38d99201@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/07/2025 00:06, Frank Li wrote:
-> Add child node dphy-rx, which export phys interface to MIPI CSI2
-> controller.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> imx media blk ctrl combined many small glue logic registers for display
-> , camera, power, clk and reset.
-> 
-> There are some discussion at
-> https://lore.kernel.org/all/4414669.ejJDZkT8p0@steina-w/
-> to define whole schema for this.
-> 
-> But there are some difficults to cover whole once.
-> 
-> Plan use two steps to complete it
-> - add all camera related property and subnode
-> - add all display related property and subnode
-And what was the comment there?
+On 01/07/2025 00:28, Frank Li wrote:
+> +static struct platform_driver _driver = {
+> +	.probe = parallel_csi_probe,
+> +	.remove = parallel_csi_remove,
+> +	.driver = {
+> +		.of_match_table = _of_match,
+> +		.name = "imx-parallel-csi",
+> +		.pm = pm_ptr(&parallel_csi_pm_ops),
+> +	},
+> +};
+> +
+> +module_platform_driver(_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX9 Parallel CSI receiver driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:imx-parallel-csi");
 
-"Binding is supposed to be complete. We have several examples when people
-added children one-by-one, everytime with different reasoning about
-child addressing."
-
-NAK. At least try to read previous discussion.
+Pleasse stop this downstream pattern. It's second driver you upstream now.
 
 Best regards,
 Krzysztof
