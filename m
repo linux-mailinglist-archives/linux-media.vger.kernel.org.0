@@ -1,206 +1,251 @@
-Return-Path: <linux-media+bounces-36536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E928AF1357
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:09:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A68AF1363
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:13:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D3BE1887849
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:09:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 780B33A6DAB
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:13:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B446256C84;
-	Wed,  2 Jul 2025 11:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92EF32609C4;
+	Wed,  2 Jul 2025 11:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJBgwbCM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="taQoeuCG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244C92F42;
-	Wed,  2 Jul 2025 11:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE75623956E;
+	Wed,  2 Jul 2025 11:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751454556; cv=none; b=uZKnV9yFRS4jQLSZnt5tM4Vyb6dt/4mhaLTfw4ZJKXuzT1BXaBZjL28anN5skAiP44zxAdYt4TrM1Slse/uqv3ebsZa1n8QHWRIHjPBLtnL8YAoRhdiObeYblJUyalDf9ptBLoW9apQoZAexMorxdU9++JKbIPwh+wsRnc7IQ74=
+	t=1751454819; cv=none; b=JOFnTLbuYLFyFw2/vHDyTJUnDisnJ0sWlE1obzVRyHxY+bhK7b6XLpCu3tO8wTUbvpmhtUsZXnDlqLwuUa/XeX7tO+xqE8mULB3KfW+I019g6obm1lfQkjLms001bOotdGMOOAhcUO9ORygvb/xK1KkHllwzAPp27v2gdzLoWKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751454556; c=relaxed/simple;
-	bh=7Gy/vOo38uHF282ZpQJ3LrAPxZY9lz8SjOqzD0Ag+Sk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=lKa8wVcc2IvBMCdZL9Zj5hbD6YsUu2wfb1X/czOxaMzMAPy+Xq4KXpiGpvJqKHjf/AHJEHMJbgIDMpSi/n3TuE3e0onDik2bJNJ8JcuGL14mJt4hP+HyW4ZGhR5Yw/LZ1mjSnz/O51uw+nRRleNAgPRNxotxdW4oZA3dxc88EYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJBgwbCM; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751454555; x=1782990555;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=7Gy/vOo38uHF282ZpQJ3LrAPxZY9lz8SjOqzD0Ag+Sk=;
-  b=FJBgwbCMlmRz8HSHbdXoj112ggqp3/Xdh5X9olEgO9cwHD7/60+KncaA
-   WbMjpLtY4warjNbSqsvvsS6OF9K2Kex6dC4YvAe+iKmLTmOVwD9OY8wjX
-   Oe8PqPnjhHf6Sf3h1dmr6kHiDlPwoh5/pi4n/GRZ9Vk+ZJT81h7iP/cOt
-   jnBw3burDG5n/NUc9EiHEhjw5yztbgXdKsVvLuLT8nsTQAlMcNom4MOpW
-   THvuhqrb0cbl+Zg6rLptO1aXtTpgXe8zGLkcYYKF6xhHMJ+Hgj9/Uo1g9
-   veITdn+PuqXPDZaHDf2x5iQsHtaYZqVp+/o43YXoEyvZeKKseXvlKrJC5
-   w==;
-X-CSE-ConnectionGUID: PWwc0a/KTX2N/8Thy2aB9Q==
-X-CSE-MsgGUID: Plk/PXsVS/+3SSaM8ds3vQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="65199949"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="65199949"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 04:09:14 -0700
-X-CSE-ConnectionGUID: e0oVH/PYTzCPINcOkkH7fQ==
-X-CSE-MsgGUID: Y8f6r5DpSxOAVF1eNkQloA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="177723447"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.228])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 04:09:08 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 2 Jul 2025 14:09:04 +0300 (EEST)
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-    "Yan, Dongcheng" <dongcheng.yan@intel.com>
-cc: LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org, 
-    hverkuil@xs4all.nl, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Hans de Goede <hdegoede@redhat.com>, u.kleine-koenig@baylibre.com, 
-    ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com, 
-    stable@vger.kernel.org, dongcheng.yan@linux.intel.com, hao.yao@intel.com
-Subject: Re: [PATCH v3 1/2] platform/x86: int3472: add hpd pin support
-In-Reply-To: <aGUPsDglThYGc/3g@svinhufvud>
-Message-ID: <268e959b-84e8-ddb0-e760-46b7901b4c2e@linux.intel.com>
-References: <20250425104331.3165876-1-dongcheng.yan@intel.com> <5a04f105-3075-3226-6ad6-f2c3f31b29da@linux.intel.com> <116ea6fa-e9b8-4c28-bc31-f4d1589eb34b@intel.com> <aGUPsDglThYGc/3g@svinhufvud>
+	s=arc-20240116; t=1751454819; c=relaxed/simple;
+	bh=/3UcYFAtiHdK/x/wf/hpXgHjxC2DHsZORgWcfa0tL2c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qYMXHrMvaGbHC4/H5KjCtMLsZeD73cF2mply6b8DvZM16bcgcMGJlm4TvSEs1+Gta6YpPNNo3E+alLjUSsEtEST2rbzmS6YpHkVt9xPtOkFo52BLcH62A6LS8gKJe4BKYzzxUKR2Pr2frzV8pXMJ/A2lx3/Ux+UwWNluXQqg9Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=taQoeuCG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E6D2C4CEED;
+	Wed,  2 Jul 2025 11:13:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751454818;
+	bh=/3UcYFAtiHdK/x/wf/hpXgHjxC2DHsZORgWcfa0tL2c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=taQoeuCGyVGXCF3ArPdIgGKzktogQkojqAiYSWlI2bP0V1r193wDfgwFYXXKaCwRc
+	 nxtGQ0aW4R78AXPSwYeOHTLMG/OiaBjXSP3FBUonzgsLKsjhJxFu+1bmixSEerQcjO
+	 hpLhoyuSWkKAXmDKY2udJknbBCATqzZVDIlPZhWrewbX9zcQYRIrIDGf1lXb/RiKUN
+	 A0DM80KxchAhfTk62BLcIS0ByTjib7oLh/UgW54ifuWhdHK4C349y9L01BDfQ45l9x
+	 ZzZq1H9RV2k9SqtMiNgAzv0hED7aXkEsu86qIR+jujS8FPX0pdhLlyzKCxnhEIdw6a
+	 Mo3ovL6+xnw2w==
+Message-ID: <19dd2e69-ad13-46f2-b99f-04a5e26f10d3@kernel.org>
+Date: Wed, 2 Jul 2025 13:13:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1366388325-1751454544=:939"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] media: dt-bindings: add non-pixel property in iris
+ schema
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+ <20250627-video_cb-v3-1-51e18c0ffbce@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20250627-video_cb-v3-1-51e18c0ffbce@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 27/06/2025 17:48, Vikash Garodia wrote:
+> Existing definition limits the IOVA to an addressable range of 4GiB, and
+> even within that range, some of the space is used by IO registers,
+> thereby limiting the available IOVA to even lesser. Video hardware is
+> designed to emit different stream-ID for pixel and non-pixel buffers,
+> thereby introduce a non-pixel sub node to handle non-pixel stream-ID.
+> 
+> With this, both iris and non-pixel device can have IOVA range of 0-4GiB
+> individually. Certain video usecases like higher video concurrency needs
+> IOVA higher than 4GiB.
+> 
+> Add reference to the reserve-memory schema, which defines reserved IOVA
 
---8323328-1366388325-1751454544=:939
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+No. That schema is always selected. This makes no sense at all.
 
-On Wed, 2 Jul 2025, Sakari Ailus wrote:
+> regions that are *excluded* from addressable range. Video hardware
+> generates different stream IDs based on the predefined range of IOVA
+> addresses. Thereby IOVA addresses for firmware and data buffers need to
+> be non overlapping. For ex. 0x0-0x25800000 address range is reserved for
+> firmware stream-ID, while non-pixel (bitstream) stream-ID can be
+> generated by hardware only when bitstream buffers IOVA address is from
+> 0x25800000-0xe0000000.
+> Non-pixel stream-ID can now be part of the new sub-node, hence iommus in
+> iris node can have either 1 entry for pixel stream-id or 2 entries for
+> pixel and non-pixel stream-ids.
+> 
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  .../bindings/media/qcom,sm8550-iris.yaml           | 40 ++++++++++++++++++++--
+>  1 file changed, 38 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> index c79bf2101812d83b99704f38b7348a9f728dff44..4dda2c9ca1293baa7aee3b9ee10aff38d280fe05 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> @@ -65,10 +65,31 @@ properties:
+>        - const: core
+>  
+>    iommus:
+> +    minItems: 1
+>      maxItems: 2
 
-> Hi Dongcheng, Ilpo,
->=20
-> On Wed, Jul 02, 2025 at 06:23:19PM +0800, Yan, Dongcheng wrote:
-> > Hi Ilpo,
-> >=20
-> > On 7/2/2025 6:19 PM, Ilpo J=E4rvinen wrote:
-> > > On Fri, 25 Apr 2025, Dongcheng Yan wrote:
-> > >=20
-> > >> Typically HDMI to MIPI CSI-2 bridges have a pin to signal image data=
- is
-> > >> being received. On the host side this is wired to a GPIO for polling=
- or
-> > >> interrupts. This includes the Lontium HDMI to MIPI CSI-2 bridges
-> > >> lt6911uxe and lt6911uxc.
-> > >>
-> > >> The GPIO "hpd" is used already by other HDMI to CSI-2 bridges, use i=
-t
-> > >> here as well.
-> > >>
-> > >> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
-> > >> ---
-> > >>  drivers/platform/x86/intel/int3472/common.h   | 1 +
-> > >>  drivers/platform/x86/intel/int3472/discrete.c | 6 ++++++
-> > >>  2 files changed, 7 insertions(+)
-> > >>
-> > >> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/p=
-latform/x86/intel/int3472/common.h
-> > >> index 51b818e62a25..4593d567caf4 100644
-> > >> --- a/drivers/platform/x86/intel/int3472/common.h
-> > >> +++ b/drivers/platform/x86/intel/int3472/common.h
-> > >> @@ -23,6 +23,7 @@
-> > >>  #define INT3472_GPIO_TYPE_CLK_ENABLE=09=09=09=090x0c
-> > >>  #define INT3472_GPIO_TYPE_PRIVACY_LED=09=09=09=090x0d
-> > >>  #define INT3472_GPIO_TYPE_HANDSHAKE=09=09=09=090x12
-> > >> +#define INT3472_GPIO_TYPE_HOTPLUG_DETECT=09=09=090x13
-> > >> =20
-> > >>  #define INT3472_PDEV_MAX_NAME_LEN=09=09=09=0923
-> > >>  #define INT3472_MAX_SENSOR_GPIOS=09=09=09=093
-> > >> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers=
-/platform/x86/intel/int3472/discrete.c
-> > >> index 394975f55d64..efa3bc7af193 100644
-> > >> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> > >> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> > >> @@ -191,6 +191,10 @@ static void int3472_get_con_id_and_polarity(str=
-uct int3472_discrete_device *int3
-> > >>  =09=09*con_id =3D "privacy-led";
-> > >>  =09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
-> > >>  =09=09break;
-> > >> +=09case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
-> > >> +=09=09*con_id =3D "hpd";
-> > >> +=09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
-> > >> +=09=09break;
-> > >>  =09case INT3472_GPIO_TYPE_POWER_ENABLE:
-> > >>  =09=09*con_id =3D "avdd";
-> > >>  =09=09*gpio_flags =3D GPIO_ACTIVE_HIGH;
-> > >> @@ -221,6 +225,7 @@ static void int3472_get_con_id_and_polarity(stru=
-ct int3472_discrete_device *int3
-> > >>   * 0x0b Power enable
-> > >>   * 0x0c Clock enable
-> > >>   * 0x0d Privacy LED
-> > >> + * 0x13 Hotplug detect
-> > >>   *
-> > >>   * There are some known platform specific quirks where that does no=
-t quite
-> > >>   * hold up; for example where a pin with type 0x01 (Power down) is =
-mapped to
-> > >> @@ -290,6 +295,7 @@ static int skl_int3472_handle_gpio_resources(str=
-uct acpi_resource *ares,
-> > >>  =09switch (type) {
-> > >>  =09case INT3472_GPIO_TYPE_RESET:
-> > >>  =09case INT3472_GPIO_TYPE_POWERDOWN:
-> > >> +=09case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
-> > >>  =09=09ret =3D skl_int3472_map_gpio_to_sensor(int3472, agpio, con_id=
-, gpio_flags);
-> > >>  =09=09if (ret)
-> > >>  =09=09=09err_msg =3D "Failed to map GPIO pin to sensor\n";
-> > >=20
-> > > I was informed about existance of this patch through an off-band chan=
-nel=20
-> > > (as I was not among receipients). In future, please include all relev=
-ant=20
-> > > maintainers and MLs as receipients as indicated by=20
-> > > scripts/get_maintainers.pl.
->=20
-> Hans used to handle these previously and I think that's why you weren't
-> cc'd.
+No, why hardware suddenly has different amount?
 
-I understand I'm relatively new to this and changes such as this can be=20
-easily missed for relatively long time. However, it won't explain why=20
-pdx86 ML was not included.
+>  
+>    dma-coherent: true
+>  
+> +  non-pixel:
 
-Usually it's an indication of using fragile patch sending routine if the=20
-get_maintainers.pl provided receipients are not factored in at least=20
-semi-automatically at the time of sending, and ends up easily missing=20
-necessary receipients. So my suggestion is the original submitter looks=20
-into the process used at the moment of sending the patches out.
+Why EXISTING hardware grows?
 
---=20
- i.
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    description:
+> +      Non pixel context bank is needed when video hardware have distinct iommus
+> +      for non pixel buffers. Non pixel buffers are mainly compressed and
+> +      internal buffers.
+> +
+> +    properties:
+> +      iommus:
+> +        maxItems: 1
+> +
+> +      memory-region:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - iommus
+> +      - memory-region
+> +
+>    operating-points-v2: true
+>  
+>    opp-table:
+> @@ -86,6 +107,7 @@ required:
+>  
+>  allOf:
+>    - $ref: qcom,venus-common.yaml#
+> +  - $ref: /schemas/reserved-memory/reserved-memory.yaml
 
-> > > This may go through a media tree,
-> > >=20
-> > > Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
->=20
-> Thank you!
->=20
-> > >=20
-> > >=20
-> >=20
-> > Thanks a lot and sorry for the trouble caused by me.
->=20
-> No worries.
->=20
->=20
---8323328-1366388325-1751454544=:939--
+This makes no sense. how is this device a reserved memory?
+
+>    - if:
+>        properties:
+>          compatible:
+> @@ -117,6 +139,16 @@ examples:
+>      #include <dt-bindings/power/qcom-rpmpd.h>
+>      #include <dt-bindings/power/qcom,rpmhpd.h>
+>  
+> +    reserved-memory {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+
+Why do you need this?
+
+> +
+> +      iris_resv: reservation-iris {
+
+Mixing MMIO and non-MMIO is not the way to go. This is also not relevant
+here. Don't embed other things into your binding example.
+
+
+> +        iommu-addresses = <&iris_non_pixel 0x0 0x0 0x0 0x25800000>,
+> +                          <&iris_non_pixel 0x0 0xe0000000 0x0 0x20000000>;
+> +      };
+> +    };
+> +
+>      video-codec@aa00000 {
+>          compatible = "qcom,sm8550-iris";
+>          reg = <0x0aa00000 0xf0000>;
+> @@ -144,12 +176,16 @@ examples:
+>          resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
+>          reset-names = "bus";
+>  
+> -        iommus = <&apps_smmu 0x1940 0x0000>,
+> -                 <&apps_smmu 0x1947 0x0000>;
+> +        iommus = <&apps_smmu 0x1947 0x0000>;
+
+Why did the device or hardware change? Nothing explains in commit msg
+what is wrong with existing device and existing binding.
+
+>          dma-coherent;
+>  
+>          operating-points-v2 = <&iris_opp_table>;
+>  
+> +        iris_non_pixel: non-pixel {
+> +            iommus = <&apps_smmu 0x1940 0x0000>;
+> +            memory-region = <&iris_resv>;
+> +        };
+> +
+>          iris_opp_table: opp-table {
+>              compatible = "operating-points-v2";
+>  
+> 
+
+
+Best regards,
+Krzysztof
 
