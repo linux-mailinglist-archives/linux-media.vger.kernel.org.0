@@ -1,48 +1,79 @@
-Return-Path: <linux-media+bounces-36557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C29AF14EE
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 14:05:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1642BAF14FB
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 14:06:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 628C84819DB
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:04:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C551B1C270A9
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:06:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3783726D4E4;
-	Wed,  2 Jul 2025 12:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79B0826E146;
+	Wed,  2 Jul 2025 12:06:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n0hA37z4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="elPdaOBf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A225CC78;
-	Wed,  2 Jul 2025 12:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F00226B77C
+	for <linux-media@vger.kernel.org>; Wed,  2 Jul 2025 12:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751457908; cv=none; b=sbms5wfYclikxTXmD7CF24PA9rtZ4Kvl4Q/Kwn4p75ncxfLVmbLD3MN1gwAkncVsyIPZu49QnAKJkSS3djpGy8AlQm2Jh0/hmrmc8iBp6SETDJiFzpyqhDP1oWbDV/jxVCFBpTWHBUYQNltE9eIEVo+uZ8anXFotqa2bQRKQxa8=
+	t=1751457982; cv=none; b=I+wmTGa7t7oQa2DKH3NyDICCK50NN03KhlFVsuiX5Bclw33qhtvLpglcNjUvVto2nkI/mLHXqLLQBYRrOlEeh4FveyKrZ6ONCQEHY3aYPGskMUh9Ljo/TB535xW1LISLC8J7+O04aRZT83Wq9RXr1gsUmlDVtFzosfu5xHFKgPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751457908; c=relaxed/simple;
-	bh=eXrSReE/2UtB0WR1repBoMLQ9GhS3cE3pbJuSLKxPRo=;
+	s=arc-20240116; t=1751457982; c=relaxed/simple;
+	bh=GVNj0GiDbzEfuPNlWlITePA20oGFkxhZ//VQ6Wqj9z0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UiVsg6f5zGLO4wpJ7u2eo0PJqSdtRTzY4s1fR/wabVc4SIug0zGvOX9EC+4LBewzWHOlhH7yIBp/gX0OQQ9AZJCGP3VUSHVR8ddTS09PahhXjnmrSfY787DlhiiPQBcl8t8tW/H7w2ld0WXNOsKM/8gjmUBcLm5vmusVUSpRt0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n0hA37z4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21963C4CEED;
-	Wed,  2 Jul 2025 12:05:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751457907;
-	bh=eXrSReE/2UtB0WR1repBoMLQ9GhS3cE3pbJuSLKxPRo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n0hA37z4CjjouH9LR87gt16wZnmC1SKXUQLyl6I8xBjP0OFkhnaNST09qnvewzNk3
-	 w89VuTbLYzB8f+UfRO5QzhZwG2mJ9YXpy7aQMXODsQ+u4TAOpuAo01EVvDS530smTt
-	 ypssHVMfBd2vNQgy8RU4CPrZsIT/NNlAZW3uNRiPQAilcwkKxHp6kOapprGFUdLdu9
-	 gRhE8KCAgF5Qu+DROwNA43CqFNUfbB2RysKZs6btD+xkayRbrzWAY7if9Ofrs3Zf53
-	 myh4UUzAu1XTbUh9Y+5eww4r2+jKoP821esQZ/GEIo7svNMUCtfUz9ZlHc7WIMNs3E
-	 8e+h9URYD1bQQ==
-Message-ID: <729d83e1-f28c-4e95-bcba-52f7d7a166ee@kernel.org>
-Date: Wed, 2 Jul 2025 14:05:03 +0200
+	 In-Reply-To:Content-Type; b=Okk399cli8jgdiu3V2xjrNA3TZ45h2ztQukdhmVmexTdh1DVFmu+H8YGrWfOECA10zNMwGW9azwqXYkOL6PtoTjHkB7Kg+sfmROZjq92cJse3cngKALaUAQhUQI96ZuzG9n9ix/tVRESp2ftYOWu4R5LK97oHKx50Ji7RtXOnoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=elPdaOBf; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451e2f0d9c2so47598605e9.1
+        for <linux-media@vger.kernel.org>; Wed, 02 Jul 2025 05:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751457979; x=1752062779; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4I9wHRK6ycL/nw5skCVK6BibKiZIXkW4VmffJ6mPK24=;
+        b=elPdaOBf1Y1osT08GlI0yQdY9yz4+VCtXoORGaEDDCY6UpcbTyPRcbfPBqjBONJVnx
+         MmhuaPOftEXpMQBKVAKHoeXygZ5GBU9TwsTIduNp3yrNBhLzfMmkKlZKb1iWcLUu9KgI
+         7+Blwbrbc5wPF3Uo98ROKzmJMaJX+7urND9kwFBD7IMGk2FLoCclyVkPxEhvDiQA7X6D
+         UXe77TD3LlZqg/anNUEQ3Huokik7tBwmQQGqmKnUrJRy1A7ZKjvRvDaeUSMyMqAIQfKL
+         jt6SEqYCwGM4FQuD0sJ+hYi1Hdc/z4TwR6l5UJcdc2bortlRVmFZbmCMY5VunfmHTQqv
+         AZfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751457979; x=1752062779;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4I9wHRK6ycL/nw5skCVK6BibKiZIXkW4VmffJ6mPK24=;
+        b=gZ50I4sAQPR6LOL+pYeBFP69Y8IO2/PhiMEf3FIV5APbMx8ZZBtpwrlu578vDUi4V2
+         KK/aa5gF4pT4jCdxJ925hNUGzkixbt29e4txhQ22l3xTI28kSNhyAzkbzrjsjQgko8Ox
+         sAcWklsH6xQUHtlb3w3osUJrWSx19l7rAM+4UJmfjDSZ2MwfInVsQj8D7tnOdWNK81Da
+         q+48smJAUeUn/44z/V7Z1rBP8DgHpkxTwEEaIU50E+YKzGFK2gBkz6Cxm3vV9FMubyQ/
+         L4134ecN7KvK79YjYJ0HWbJj5/nyugWd3BPiDWpmuJ1W8lUf4DMTg0oAyKoHvP0kJE7G
+         Ttlg==
+X-Gm-Message-State: AOJu0YwbSoGGC2yHyaUuMAJs/JsGZ/TntpADQYyHwyBypCnm2KQcAM4d
+	5CHENgb13auonnL1p3PtlbkRE4GBEg6wP9QoDLpKSaniddXOpM00UbDYsTGTWn+Vm5I=
+X-Gm-Gg: ASbGncvfwt2Ty1mXaQGkpSQVgJyq+Hhj/ebfWQ/Uo4S+rXQ9qfYHXab1NjYEfDK9vbN
+	StwBCee072E0KZbBqMEuNzxBv9NAxPr6XG8CpT03J8uLLVIv09Lfhd3bB0tRyItO154zTSlHXgp
+	lYTA2zEdNDOCGsOYz11DbzOmwlpb8OvuG8gBREfyEffzlbqib0IvOw6s0XF6uV2Hlj+Jptj7kBp
+	H6KI30CW1/MaUwjIYQnkYo76FX9IqbtUTRzp2aQmVY0zSsKNXoLMlSYRo5bqQOrJDejrC56awrD
+	VV4tF0cwCUjECfLKThbT7SY2Ph+wI4d01TwCI9Hrt23FrHs38QB/3GkN6yIhWmxYE1LKAum9cxR
+	kZaxx/2z5mVjK2IuwKkojcu6jNjdi
+X-Google-Smtp-Source: AGHT+IFiGQ8eoDbIef8H5WgcGBsaUK7l+LIPHU5+0N6yFyzZ/rasF17jb2K+ACo904sf9rWYtcqByA==
+X-Received: by 2002:a05:600c:c08d:b0:453:8e3d:26ef with SMTP id 5b1f17b1804b1-454a3c22568mr18064675e9.6.1751457979384;
+        Wed, 02 Jul 2025 05:06:19 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233bd14sm230508525e9.2.2025.07.02.05.06.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 05:06:18 -0700 (PDT)
+Message-ID: <f5ebf0d6-2f0b-45cc-b99a-b786e5df9edc@linaro.org>
+Date: Wed, 2 Jul 2025 13:06:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,9 +84,9 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
  node
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
  Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
@@ -65,139 +96,27 @@ References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
  <eab8d79f-7188-9537-9176-3e4d22f0978a@quicinc.com>
  <5ad418d9-8199-43c9-a477-1e3b939c054c@kernel.org>
  <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 In-Reply-To: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/07/2025 14:01, Vikash Garodia wrote:
-> 
-> 
-> On 7/2/2025 5:22 PM, Krzysztof Kozlowski wrote:
->> On 02/07/2025 13:37, Vikash Garodia wrote:
->>>
->>> On 7/2/2025 4:48 PM, Krzysztof Kozlowski wrote:
->>>> On 27/06/2025 17:48, Vikash Garodia wrote:
->>>>> This series introduces a sub node "non-pixel" within iris video node.
->>>>> Video driver registers this sub node as a platform device and configure 
->>>>> it for DMA operations. All non pixel buffers, i.e bitstream, HFI queues 
->>>>> and internal buffers related to bitstream processing, would be managed 
->>>>> by this non_pixel device.
->>>>>
->>>>> Purpose to add this sub-node:
->>>>> Iris device limits the IOVA to an addressable range of 4GiB, and even 
->>>>> within that range, some of the space is used by IO registers, thereby 
->>>>> limiting the available IOVA to even lesser. For certain video usecase, 
->>>>> this limited range in not sufficient enough, hence it brings the need to 
->>>>> extend the possibility of higher IOVA range.
->>>>>
->>>>> Video hardware is designed to emit different stream-ID for pixel and 
->>>>> non-pixel buffers, thereby introduce a non-pixel sub node to handle 
->>>>> non-pixel stream-ID into a separate platform device.
->>>>> With this, both iris and non-pixel device can have IOVA range of 
->>>>> approximately 0-4GiB individually for each device, thereby doubling the 
->>>>> range of addressable IOVA.
->>>>>
->>>>> Tested on SM8550 and SA8775p hardwares.
->>>>>
->>>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>>>> ---
->>>>> Changes in v3:
->>>>> - Add info about change in iommus binding (Thanks Krzysztof)
->>>>
->>>> Nothing improved in commit msg. You are changing existing device and the
->>>> reason for that change is not communicated at all.
->>>>
->>>> There was big feedback from qualcomm saying that some commit in the past
->>>> received review, so future commits can repeat the same stuff. If qcom
->>>> approaches that way, sorry, no you need to come with proper commit
->>>> description.
->>>>
->>>> Please align internally how to solve it, because my response that past
->>>> imperfect review is not justification for whatever future issues was not
->>>> enough.
->>> Sure, lets take this as an example and you can suggest to provide a better
->>> commit message for this case, it would help me to compare where is the gap. I
->>> have tried my best to capture and explain the limitations and how the changes
->>> address those limitations. If that is not sufficient, we might have the perfect
->>> message from you and compare to find the gaps and improve, I am sorry, but thats
->>
->> It is not question to me: I did not want imperfectness. Qualcomm
->> engineer used issues in existing commits or imperfect commit in
->> discussion, so that's my solution. I don't need that perfect commit, but
->> it seems if I agree to that, then I will have to defend it later. Well,
->> no, I don't want it.
->>
->>> how i feel at the moment.
->> Sure, I feel confused now as well.
->>
+On 02/07/2025 13:01, Vikash Garodia wrote:
 >> Anyway, in other messages I explained what is missing. You are changing
 >> existing hardware and you clearly must explain how existing hardware is
 >> affected, how can we reproduce it, how users are affected.
 > Exactly all of these i have explained in the commit message. The limitation with
+> existing hardware binding usage and how my new approach mitigates that limition.
+> 
+> Coming to usecase, i made a generic comment saying usecases which needs higher
+> IOVA, i can add the explicit detail about usecase like 8k or higher
+> concurrencies like 32 or higher concurrent sessions.
 
-Well, no.
+Why not make this change for a new SoC, instead of an existing ?
 
-I did not see reproduce steps, users affected, which boards, nothing
-like that.
+That way you don't have to make the argument for retrospective ABI changes.
 
-Your commit says "certain video usecases"... how is this specific?
-
-You are deflecting now questions. Point me then part of commit msg which
-answers to:
-
-"explain how existing hardware is affected"
-
-"how can we reproduce it"
-
-"how users are affected."
-
-
-
-Best regards,
-Krzysztof
+---
+bod
 
