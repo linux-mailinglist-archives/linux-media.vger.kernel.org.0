@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C692FAF630B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:12:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE48AF6331
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 22:17:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87D064A075C
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:12:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 371DB481953
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 20:17:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A4A72F5C5D;
-	Wed,  2 Jul 2025 20:12:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5095B2DE6E2;
+	Wed,  2 Jul 2025 20:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CaWmvrdX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0HZqPnp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEA12E4990;
-	Wed,  2 Jul 2025 20:12:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7A42DE6EE;
+	Wed,  2 Jul 2025 20:16:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751487149; cv=none; b=XM76rlZCy+Qbpe1E9xixB5WkX0+MrMlM28iPe18jC1ljGOsXABls31hk1GmEn0M1pjc+edLBn2R+P/H0TVMm+BTMR9ix8HlmN62HDBgzvbpB22pWcKMWu72z9MP7njfUB5P4pNoZ2sqc+2FZ929dTFVkrd8SUoNkJz+PdYWS9OM=
+	t=1751487411; cv=none; b=c7rT3cDvRMjC0tfDvNuDEB9y4NaYa2o6W491CCSXA3Wvc3zi2y6mC2q311JqGCPl1MvrQmnEzC4oxy+XFjhxyWKtGFtVU86EDG0th981bUALCjTuNbHkHGhvEbcGuSH4p7fLVatougvfxyEgEtTVTQHp40TYUAgazCMZYJuxvyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751487149; c=relaxed/simple;
-	bh=Mrq/asFIQ+v9UShz0BqkOf/pQym57BDMDfvP5z1UQM4=;
+	s=arc-20240116; t=1751487411; c=relaxed/simple;
+	bh=kKwgqTUxVWwdPmdc+f5tNybuH8KrJ5yHvr4ySbSweco=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uvHeJmGWfnAmbrn61ijQ4Hy2efczwKv+Y6O69k2u0Kp+33pBx1timixRlzr26QKa0EqYDrHc3aMzcbzJjV0wGQCqcZ1eHHwZm37WLw2FyjYQ2RVu4ubgjhro/w6qDC63YDJNuvUfBCPo8btFL1f/AU+YsUgIbuCdk8CHexiLDlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CaWmvrdX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF01C4CEEE;
-	Wed,  2 Jul 2025 20:12:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=PItkeiIJG44u/6INTyxMhKPILht2QyEdl8Fqn3jp8e6Fb66SiFLAUgOkAkrBuysKrTdnXc8o48zQFCGk9Dh0Jf6OPqyWV760nfL+ojZ8ZA4cMrOWnCv+E0/tnYdMlO3PS2KMO5crCEfuEesmaEQEVUj3d5KgSoahrdtVohvfKKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0HZqPnp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C470C4CEE7;
+	Wed,  2 Jul 2025 20:16:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751487149;
-	bh=Mrq/asFIQ+v9UShz0BqkOf/pQym57BDMDfvP5z1UQM4=;
+	s=k20201202; t=1751487411;
+	bh=kKwgqTUxVWwdPmdc+f5tNybuH8KrJ5yHvr4ySbSweco=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CaWmvrdXFYdnbr0EkcQRaz7TP9MHNf/JzYBItAy+N3ZxqySIuFg4pBXdAUwfyKGwM
-	 9eB7iACRSgY4vkyfuvBFx6brP1RoT/JFEo75pD3o3h4+iAshwL53FvGRPy4LUQzwoE
-	 9NuJyQkuOQp8Fl6VLXCRnphOXXaouk6rZwoQWO3MwMYgCZgV0wIuEWq9LDBbzPr+If
-	 nOLRZV1KTC5uil+1TTugLEfyUEAuBdI7nb6jeetIhPcLnFbsUPEQHuDJC/uSHTyqMI
-	 PtBGkB022IdlOhlr18IzauCyz177Klx1esksSQI0w5Z2wtypxt6TMPN8Kx1zewRtSN
-	 3A3Zq3Nf6pxeA==
-Message-ID: <2e9cba16-0e5b-44b1-9333-fdb08505a2fe@kernel.org>
-Date: Wed, 2 Jul 2025 22:12:18 +0200
+	b=j0HZqPnpyqmitn684wftBUqS8D/8gqCYud30k/xqnoCp1iN/P0IFfll/kT+mecpBF
+	 SJj7I3WIr0Wg6ksoawA1+kHwRfQSfTnRHFi9U0Dn5dd2phxzF1MV7ZvQgaxEK46DMm
+	 tHEEiy7gMoSWEnS9qdOv6S8En5SRuspaneiiIMBV58K1GPyoC4Q64qmmQKun2KASJC
+	 tNUY+DfnesF1+u38s3Ma/caW9blHf5RphalgZwHvrBZwtw7UatpT0FVVvYJDpuhPa4
+	 CBi1smMK+j6E89OIZXmj0pQAlmpw+zbABPDIqXNPRuxWg/SX/O9w0ed45AJz2D+lHu
+	 tajzfy7ak/YNA==
+Message-ID: <e40211c4-8ae3-4aa1-af80-f4a0525a863b@kernel.org>
+Date: Wed, 2 Jul 2025 22:16:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,31 +50,25 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] dt-bindings: soc: imx-blk-ctrl: add MIPI CSI2 dphy
- support
-To: Frank Li <frank.li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
+Subject: Re: [PATCH v3 1/5] media: dt-bindings: add non-pixel property in iris
+ schema
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
-References: <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
- <20250701-95_cam-v1-2-c5172bab387b@nxp.com>
- <f0c8c043-9c9d-427c-94a6-f46f6b7d0c50@kernel.org>
- <PAXPR04MB9642848BFCA791A634D276A18840A@PAXPR04MB9642.eurprd04.prod.outlook.com>
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+ <20250627-video_cb-v3-1-51e18c0ffbce@quicinc.com>
+ <19dd2e69-ad13-46f2-b99f-04a5e26f10d3@kernel.org>
+ <08c8cdfd-099e-7b90-b163-23ecee3a5da4@quicinc.com>
+ <118f2cbe-d8bd-4177-b0d5-91d9f1dbbef0@kernel.org>
+ <9f5be122-302d-402f-91f2-675507612d32@oss.qualcomm.com>
+ <023038d4-2258-4b2d-a3f9-b817ef0173bc@kernel.org>
+ <7aa47821-ed22-2602-f56d-a6d58195e75f@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -120,20 +114,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <PAXPR04MB9642848BFCA791A634D276A18840A@PAXPR04MB9642.eurprd04.prod.outlook.com>
+In-Reply-To: <7aa47821-ed22-2602-f56d-a6d58195e75f@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/07/2025 20:02, Frank Li wrote:
-> For example: driver need touch a bit of this CSR, but we missed at begin.
-> We need find new interfaces, some time it is disaster for whole subnode
-> binding. We don't want to wrong use a reset interface to work around driver
-> need touch a bits of CSR.
-> 
-> So I try to upstream "confidence" part gradually.
-No, you cannot, because you add incompatible style of children. By
-adding piece by piece, without looking at big picture, you add different
-solutions. And that was one of the points before.
+On 02/07/2025 18:36, Vikash Garodia wrote:
+>>
+>> Also commit msg says "Existing definition limits the IOVA to an
+>> addressable range of 4GiB, and" but I do not see such definition in the
+>> binding at all. So what does it refer to?
+> Processors based out of 32 bit OS, can serve addresses in range 0-31, which
+> implies 4GiB (2pow31).
+You are not replying to statements. Your commit msg said "existing
+definition". Point me to the binding part saying that.
 
 Best regards,
 Krzysztof
