@@ -1,269 +1,172 @@
-Return-Path: <linux-media+bounces-36563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C711EAF15AE
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 14:31:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD1AAF1601
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 14:46:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFAD648347F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:30:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A93407AC3C0
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 12:44:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC18B2749F4;
-	Wed,  2 Jul 2025 12:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15ACD274FD1;
+	Wed,  2 Jul 2025 12:45:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ebomNcYL"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X/5x6WQx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5267D274651
-	for <linux-media@vger.kernel.org>; Wed,  2 Jul 2025 12:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D484414
+	for <linux-media@vger.kernel.org>; Wed,  2 Jul 2025 12:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751459466; cv=none; b=qkDcrhDOEu5ienBL2FCp21ra2S3AMDi6LunHY/SA6cTgqiz+Z9UL3WVMfo8EBxps94q3PzabHFFdPRLGxdnljNGwa3ZBpG521kh4E8KLOngstAQigygUEoAicyWfv7P3qXDSH1VvDrR2Mh9eZI2OkcMAZ8FrndKgORfVPB3kKlE=
+	t=1751460354; cv=none; b=CtLhqGoITJFzgD5rXfdQwtVSAc4ecjb8TeddChE5m+IcHbr4OSc5/8YVO5VyT7Z4bkRDZlms5FAhkIfewbgF3As8lDcuwXwLL519hoAlaz1KQ0uqEiFhkdO16FJLLl5RPwvrpScUyUEmsOM/H18kxlZEmhiT2i6PP9zLC2Faqxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751459466; c=relaxed/simple;
-	bh=3jVBuetEQaE9y3rWF5YWJVyzPa0BCvXjKpAA4Ev7OUo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EEDMI+FSO2S8zDfjm/ABtAIYZpv6A+ZcmIG99VppVfw+PGZbYJ5VMdOOLmTCmJua/KTKNyntTgJI8sDD2cEv7jWzQimlhLemTgso6eFXizkzhQw1l0JY4TQFDOlQStkpW/rO3N4zEPUJ8nQZ1hcoPKlxBWEgcd9q5CINO6FfhH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ebomNcYL; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32b78b5aa39so42500351fa.1
-        for <linux-media@vger.kernel.org>; Wed, 02 Jul 2025 05:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751459462; x=1752064262; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5PT9is2pvFA0KpCrDjVS0+5mGqE0uBCeYvu5bKfsZsk=;
-        b=ebomNcYL1X+3f77j8kev0MQOmDgY4mbABxH5nahoTIT7Cu9yInZl0iXpanyaWyGkWv
-         m+Ubj2jF3n81Fw+R3asnBH4C+Vp28pzM6VOiVTX3ZTKRQN4s/p6afrNNGSmA2Q3WbImt
-         ZwF8H3Qn3ffsQIGFbL37QN/QCOooQMqVVhOzw=
+	s=arc-20240116; t=1751460354; c=relaxed/simple;
+	bh=L6hhUirJkO/7sMRAQX56jA6n5wv/jVQ37SKFMn2Twmg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n2z6bIqI3FhHJ+ChYwCm3R9KPBPn+mmespfU+k8Cnvxg7ihDZF1LDllMSFfTEI5buug+eYt4e1LfzCjiJTeD4WPveW7c+aJsmSs5/RyhXiBsZ0dhZqlmzk9lzn5uISw8qxef0daehbqqa+xssi3Dzp3m72ZfAM13CNmdMzGZ1fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X/5x6WQx; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5625oqeF007227
+	for <linux-media@vger.kernel.org>; Wed, 2 Jul 2025 12:45:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/aPyaghMl71l2+WzfUFrAleiaGBW4YqofoCOldr6ncM=; b=X/5x6WQxi9fGjLKr
+	rheR6uxLJBHs7sCO/OqCjPbI3v0159zQ59jiEx2Qc7IbQiRAGxaVHL0f981YgjQI
+	7/vIXPtP0KlBPab7cdrQHK2+O9VmDiyjnNNNNsgVmw8n8ThUcie7QmffSJMRH7i9
+	T1pnTkMvWCYnjc+s/QjUbIlnsY2jRBcvlbc9VXR+2mFdCGhg4N8aS9ORaHfZytdY
+	EBgwc1t1uTQ/qmk/kgtIeaqDJ+XatGLU2Tc6mpy6XUXk7n/ksouzXz7TZ6fdycUu
+	bRUGaiDbIiWNWLRJIit9T/a66HJgcWUMOMGZybp2ZVLzCtnbORFgHWkQf2klhfD4
+	z4OiUw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kn5jh0yj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 02 Jul 2025 12:45:50 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7d0a9d20c2eso149477885a.0
+        for <linux-media@vger.kernel.org>; Wed, 02 Jul 2025 05:45:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751459462; x=1752064262;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5PT9is2pvFA0KpCrDjVS0+5mGqE0uBCeYvu5bKfsZsk=;
-        b=Y5NU0ZOhXA/UGHwCE1TPzQvGpjZK8lUwimvBE5APXUx+lcdWU4YrZtIEW1R1RqEwws
-         sK1olcdjLzEHLcnUB7gzcVTBD09+gMGJkli/HH6Pg9nOu6UXn21+GNoTF1JnNnVgyCdb
-         jgcsovr+ztiLSAnoiFh2RgsFM5JG6fbDm0zbJYnJheGqOUiRuDy/AAwiGg5LEZIfvtDj
-         u44YB2E4WtvylOQG+XhMWsFeG/wDqHkI2yTqp+MDZV3TB7xkgpT6R1J61BIWI7fvr00W
-         7Od6ksmaUe/ZnELYLZ4HEq3mmWyk/BLGiBRvrnwUc/lfgJKeDqFxpngshfDfjB7iuLGY
-         4Isg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYPCKrwwmA4UhaMhC+spdgoUXNearBllovir95+znhnPt3fanmAKbTUvGi6NERb6+13un51fFK2uo7+Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUdMZy2BwGoY8yCSlFpfuscMjstkhhz85Ir2Lv93xh6xwUwk1z
-	449jJ53avh4qN8UqT25szmn0OwLLK5QX/CKDlcnoa9o8FjGMgXM/u+CfjUHyWUE1Lb3m9s8LvuL
-	bgho=
-X-Gm-Gg: ASbGnct0BMyjQ1dbvgj4Tr8eJeb5YRbHhYTBnNfpK6Y7lC3hNYD3YHJT75+QOE+TOYC
-	ObABbrufbB8WtZlgu2kdxPw+liVapEQ5Oh/acb483d2EZjbG4yn1ZrP0/FVWGTUqqu+WlMYdiJM
-	jQrxMkfmkp1rwLxjq2k3xZbA+TQcy1uZFfhASIyiMNu7C6D9xdhcLwY+CUbIFXO3YUZ+EgwCBJh
-	unWsCBRv4APSJ9iiIhUldJPcl7v0pfRKwDIlFb6U110dJJpax+qqHKD96annLb3N6SfpWIDVUiX
-	V7K99jkpD5IQu1vmJzMc7Z6WbWYAaefK5i364EAMZYlntetQ7IDCPPbNSEn5EsqQkW0l9WkQLKO
-	d7GnI5Dau6PsDxx/u5lIUqDCuxUw9
-X-Google-Smtp-Source: AGHT+IFbNUYT6Ihp/TKwnvuMz0bIdjOAztpVVl8RKp5NdUUfgFYChmkRb9Sw2AJCezdJUAa4ygHf6g==
-X-Received: by 2002:a05:651c:41d4:b0:32b:3c94:992d with SMTP id 38308e7fff4ca-32e0007e323mr12909381fa.28.1751459462293;
-        Wed, 02 Jul 2025 05:31:02 -0700 (PDT)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2e0c83bsm19260231fa.25.2025.07.02.05.30.59
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1751460349; x=1752065149;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/aPyaghMl71l2+WzfUFrAleiaGBW4YqofoCOldr6ncM=;
+        b=Dw/eNVJQlhBK5qoIKMuCEYh5T2cRiuDixxOKungzY/70/dL40rULM+RBJSgTWeF8VW
+         6IzlD+CW53ln8GnotWY7NibWwzLKTqWShr8ToLHm1v7Q5EAEkvNmr9FoxXZKNSmGYDUr
+         6oh8k7fcUdGUMQ9YMwNdVG4j4oy37Js8N6Oe+OE2gDaY65zBxv6bys2z6bcz7EFh3Fbe
+         l5dBeT9m189hb9zeW09K/C8hOntqV4rVpUwArzrST5XUT0q0gqd0zXXhLfYQxCMBqKq9
+         chkApYYv/kU+IPpVBKnC/3u03gWZErd8y188dp6KolUvKN04OGJ0GLAjBT19QSUjMAVq
+         QC9w==
+X-Gm-Message-State: AOJu0Ywe6MCN97DyGpanp5P5bY83sihaMnLTFh2VigLRyQNC1QnaKgLI
+	Tm91VPEB0KW0GwQHFCl3hlfguUG35frFw0NmQu2cXL/A7+3pApwIhD4lsr9G58NWe6JQ8nb4fMy
+	NsuTQIJs/Kp7JutJ5s4d6ZDZv4YBbuxsLv2r4gdEryxSe23ousjJ/a2OTrYB4AhjZ8A==
+X-Gm-Gg: ASbGncuOy9ylELACtoEE0hzo9TuxM5YFP6t5KZExeBiUAghMeqgMLumiOSZXOsh/ldU
+	hDrBoHqPCxJEttH+TYGCSJAP+KNc0fQHQTORvt61dYkWFQHK7TNARhnC2G3Y1JSvw9ov3+Dz8Ee
+	x3Ha07RjpkcGsJeMeqqMFeIVkX8gVYlD4gutrKd/o5cL3cKk9d8bL356ukwVnjBqwna3px9bI1i
+	bbpfBNpT7vgzgG4+DTjeydOjZk19LCyoxF8m2ttDCDW9gGP0jrDQAPhR9HWMrV3Q8hNm9Ua6gzg
+	vgWKug5qJSDg/hJeWnuUnqxghqTyJm5vDHPXiWjzaS8cKTJuGhTdIT2wSntavecO0N2k8jC6Isl
+	L32Q=
+X-Received: by 2002:a05:620a:3954:b0:7d4:1ecb:dc36 with SMTP id af79cd13be357-7d5c471292emr162613585a.3.1751460349403;
+        Wed, 02 Jul 2025 05:45:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGenMXUQ0DABCm6z4G1Os0/aj+Iw9lPISHCubjt8QuuBByfXmzEI7utX9xCWSS65elyzu6UuA==
+X-Received: by 2002:a05:620a:3954:b0:7d4:1ecb:dc36 with SMTP id af79cd13be357-7d5c471292emr162611685a.3.1751460348937;
+        Wed, 02 Jul 2025 05:45:48 -0700 (PDT)
+Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353c6bfafsm1081492366b.130.2025.07.02.05.45.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 05:31:00 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-32b553e33e6so38035161fa.2
-        for <linux-media@vger.kernel.org>; Wed, 02 Jul 2025 05:30:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVBaBkt4xtL0hKytPtiveSTjVwN45tW2Xpe6j91z3f/dWPicxujkusj3QVzbP9+X/QlQyumEvkEcnhtPA==@vger.kernel.org
-X-Received: by 2002:a05:6512:3990:b0:553:2ff8:5e0b with SMTP id
- 2adb3069b0e04-556283700e9mr1016619e87.42.1751459458668; Wed, 02 Jul 2025
- 05:30:58 -0700 (PDT)
+        Wed, 02 Jul 2025 05:45:48 -0700 (PDT)
+Message-ID: <13046a5b-f66e-42f6-90e3-17f7adb709b4@oss.qualcomm.com>
+Date: Wed, 2 Jul 2025 14:45:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702110222.3926355-1-xu.yang_2@nxp.com> <20250702110222.3926355-3-xu.yang_2@nxp.com>
-In-Reply-To: <20250702110222.3926355-3-xu.yang_2@nxp.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 2 Jul 2025 14:30:45 +0200
-X-Gmail-Original-Message-ID: <CANiDSCum3xkgr1QgdvsuZ3ySNJyoLUe_RWyeSDiM0S87YJ-uTw@mail.gmail.com>
-X-Gm-Features: Ac12FXwZ_BR0qOSlJcIB1oB_o-14xQ1JZQnu8mI8P7iUMcywnlv20QQJ74Gt2Y0
-Message-ID: <CANiDSCum3xkgr1QgdvsuZ3ySNJyoLUe_RWyeSDiM0S87YJ-uTw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] media: uvcvideo: use usb_alloc_noncoherent/usb_free_noncoherent()
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: ezequiel@vanguardiasur.com.ar, mchehab@kernel.org, 
-	laurent.pinchart@ideasonboard.com, hdegoede@redhat.com, 
-	gregkh@linuxfoundation.org, mingo@kernel.org, tglx@linutronix.de, 
-	andriy.shevchenko@linux.intel.com, viro@zeniv.linux.org.uk, 
-	thomas.weissschuh@linutronix.de, dafna.hirschfeld@collabora.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/5] media: iris: register and configure non-pixel node
+ as platform device
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+ <20250627-video_cb-v3-2-51e18c0ffbce@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250627-video_cb-v3-2-51e18c0ffbce@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=KtJN2XWN c=1 sm=1 tr=0 ts=686529fe cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=Fpb8j_qVfG1HvjMpLOEA:9
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: CxDkeaGQ6utmEElR0iOiorjtZD69h-02
+X-Proofpoint-GUID: CxDkeaGQ6utmEElR0iOiorjtZD69h-02
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDEwNCBTYWx0ZWRfX+xieyl/g+XHW
+ XH5pjf3ckMLDlu4BdduLjJJQanEDuf/uSOv0mqXizexj/lcnrTcfh8STPe0N/lSOUC5U7keYbv+
+ Cgx/GgKFDkT3CumUUh8eRVscM8/gxxda+p3d+pPpqhs7PKb0lru2Ag9kqjx7ieyfhTnsfA1QoD3
+ xVRMaMjjRE/WJhc9dvPUg+BTHo3v9gDkShJtYfjgn2oJK2ANgqxwuml0fQt4up/NUkJL8SisPEC
+ c556b5cODQZrzMJ8CJxohxcrq7xYADzRSepbO6L3Ycdn57t6ilyzp3O/bpTVveObXAZAFDe6B0p
+ 80NQOOgUaLHBMbF6Hyf1dNak4qpRLN5iGzwovEBsP3ZFEAuZc/Y4lXdsSLK3Uyp99lokTSwLBIT
+ XnTRdwW8dhLGaLmFMUEi3Utei7BLIKbxC5K7I2u3qeRI08MvFv4+HSrBgInyM1ApUI3hbyq1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-02_01,2025-07-02_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ mlxscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ clxscore=1015 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507020104
 
-Hi Xu
-
-The code looks much cleaner :)
-
-It seems that the hcd.c uses the urb transfer_flags to know the
-direction of the transfer.
-But the uvc driver is not setting it, you probably want to set it.
-
-On Wed, 2 Jul 2025 at 13:01, Xu Yang <xu.yang_2@nxp.com> wrote:
->
-> This will use USB noncoherent API to alloc/free urb buffers, then
-> uvc driver needn't to do dma sync operations by itself.
->
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
->
+On 6/27/25 5:48 PM, Vikash Garodia wrote:
+> Register "non_pixel" child node as a platform device, and configure its
+> DMA via of_dma_configure(). This ensures proper IOMMU attachment and DMA
+> setup for the "non_pixel" device.
+> All non pixel memory, i.e bitstream buffers, HFI queues and internal
+> buffers related to bitstream processing, would be managed by non_pixel
+> device.
+> 
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
-> Changes in v3:
->  - no changes
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 56 ++++++++-----------------------
->  1 file changed, 14 insertions(+), 42 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index e3567aeb0007..614cf4781221 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -1280,15 +1280,6 @@ static inline struct device *uvc_stream_to_dmadev(struct uvc_streaming *stream)
->         return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
->  }
 
-The uvc_stream_to_dmadev() function is not used anymore, please drop it.
+[...]
 
+> +	memset(&info, 0, sizeof(info));
+> +	info.fwnode = &np_node->fwnode;
+> +	info.parent = core->dev;
+> +	info.name = np_node->name;
+> +	info.dma_mask = DMA_BIT_MASK(32);
 
+I'm not 1000% sure, but I fear that with the current description:
 
->
-> -static int uvc_submit_urb(struct uvc_urb *uvc_urb, gfp_t mem_flags)
-> -{
-> -       /* Sync DMA. */
-> -       dma_sync_sgtable_for_device(uvc_stream_to_dmadev(uvc_urb->stream),
-> -                                   uvc_urb->sgt,
-> -                                   uvc_stream_dir(uvc_urb->stream));
-> -       return usb_submit_urb(uvc_urb->urb, mem_flags);
-> -}
-> -
->  /*
->   * uvc_video_decode_data_work: Asynchronous memcpy processing
->   *
-> @@ -1310,7 +1301,7 @@ static void uvc_video_copy_data_work(struct work_struct *work)
->                 uvc_queue_buffer_release(op->buf);
->         }
->
-> -       ret = uvc_submit_urb(uvc_urb, GFP_KERNEL);
-> +       ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
->         if (ret < 0)
->                 dev_err(&uvc_urb->stream->intf->dev,
->                         "Failed to resubmit video URB (%d).\n", ret);
-> @@ -1736,12 +1727,6 @@ static void uvc_video_complete(struct urb *urb)
->         /* Re-initialise the URB async work. */
->         uvc_urb->async_operations = 0;
->
-> -       /* Sync DMA and invalidate vmap range. */
-> -       dma_sync_sgtable_for_cpu(uvc_stream_to_dmadev(uvc_urb->stream),
-> -                                uvc_urb->sgt, uvc_stream_dir(stream));
-> -       invalidate_kernel_vmap_range(uvc_urb->buffer,
-> -                                    uvc_urb->stream->urb_size);
-> -
->         /*
->          * Process the URB headers, and optionally queue expensive memcpy tasks
->          * to be deferred to a work queue.
-> @@ -1750,7 +1735,7 @@ static void uvc_video_complete(struct urb *urb)
->
->         /* If no async work is needed, resubmit the URB immediately. */
->         if (!uvc_urb->async_operations) {
-> -               ret = uvc_submit_urb(uvc_urb, GFP_ATOMIC);
-> +               ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
->                 if (ret < 0)
->                         dev_err(&stream->intf->dev,
->                                 "Failed to resubmit video URB (%d).\n", ret);
-> @@ -1765,17 +1750,15 @@ static void uvc_video_complete(struct urb *urb)
->   */
->  static void uvc_free_urb_buffers(struct uvc_streaming *stream)
->  {
-> -       struct device *dma_dev = uvc_stream_to_dmadev(stream);
-> +       struct usb_device *udev = stream->dev->udev;
->         struct uvc_urb *uvc_urb;
->
->         for_each_uvc_urb(uvc_urb, stream) {
->                 if (!uvc_urb->buffer)
->                         continue;
->
-> -               dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
-> -               dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
-> -                                      uvc_stream_dir(stream));
-> -
-> +               usb_free_noncoherent(udev, stream->urb_size, uvc_urb->buffer,
-> +                                    uvc_stream_dir(stream), uvc_urb->sgt);
->                 uvc_urb->buffer = NULL;
->                 uvc_urb->sgt = NULL;
->         }
-> @@ -1786,26 +1769,13 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
->  static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
->                                  struct uvc_urb *uvc_urb, gfp_t gfp_flags)
->  {
-> -       struct device *dma_dev = uvc_stream_to_dmadev(stream);
-> -
-> -       uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
-> -                                              uvc_stream_dir(stream),
-> -                                              gfp_flags, 0);
-> -       if (!uvc_urb->sgt)
-> -               return false;
-> -       uvc_urb->dma = uvc_urb->sgt->sgl->dma_address;
-> -
-> -       uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
-> -                                                uvc_urb->sgt);
-> -       if (!uvc_urb->buffer) {
-> -               dma_free_noncontiguous(dma_dev, stream->urb_size,
-> -                                      uvc_urb->sgt,
-> -                                      uvc_stream_dir(stream));
-> -               uvc_urb->sgt = NULL;
-> -               return false;
-> -       }
-> +       struct usb_device *udev = stream->dev->udev;
->
-> -       return true;
-> +       uvc_urb->buffer = usb_alloc_noncoherent(udev, stream->urb_size,
-> +                                               gfp_flags, &uvc_urb->dma,
-> +                                               uvc_stream_dir(stream),
-> +                                               &uvc_urb->sgt);
-> +       return !!uvc_urb->buffer;
->  }
->
->  /*
-> @@ -1953,6 +1923,7 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
->                 urb->complete = uvc_video_complete;
->                 urb->number_of_packets = npackets;
->                 urb->transfer_buffer_length = size;
-> +               urb->sgt = uvc_urb->sgt;
->
->                 for (i = 0; i < npackets; ++i) {
->                         urb->iso_frame_desc[i].offset = i * psize;
-> @@ -2009,6 +1980,7 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
->                                   size, uvc_video_complete, uvc_urb);
->                 urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
->                 urb->transfer_dma = uvc_urb->dma;
-> +               urb->sgt = uvc_urb->sgt;
->
->                 uvc_urb->urb = urb;
->         }
-> @@ -2120,7 +2092,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
->
->         /* Submit the URBs. */
->         for_each_uvc_urb(uvc_urb, stream) {
-> -               ret = uvc_submit_urb(uvc_urb, gfp_flags);
-> +               ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
->                 if (ret < 0) {
->                         dev_err(&stream->intf->dev,
->                                 "Failed to submit URB %u (%d).\n",
-> --
-> 2.34.1
->
->
+iris_resv: reservation-iris {
+	iommu-addresses = <&iris_non_pixel 0x0 0x0 0x0 0x25800000>,
+	                  <&iris_non_pixel 0x0 0xe0000000 0x0 0x20000000>;
+};
 
+this only works by luck, and once we introduce a platform that needs >32b
+address space access, a change here will break the existing platforms, as
+the higher parts are not forbidden.
 
---
-Ricardo Ribalda
+We can work around it like the Tegra folks by filling out the upper size
+dword, but I think it only further makes the iommu-addresses binding look
+silly..
+
+I'll submit a patch to (in my view) improve it soon
+
+Konrad
+
 
