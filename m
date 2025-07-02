@@ -1,132 +1,160 @@
-Return-Path: <linux-media+bounces-36496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36497-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D45AF090D
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 05:11:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C70AAF0A75
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 07:17:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 962B53BB5EB
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 03:10:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E4BBD7B26A1
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 05:16:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CEDB1DACB1;
-	Wed,  2 Jul 2025 03:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D0BC225A3E;
+	Wed,  2 Jul 2025 05:15:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="cFlxaOsx"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="TOKXt0Wh";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="cF618pGX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0512A1AA;
-	Wed,  2 Jul 2025 03:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751425851; cv=pass; b=pG/5s3PEAeE7VPE48I5zGwGTzjdBd+3p5SDSZR+6NEfMQAQI93Q3/2t4dRp65MINixscSGFuVi0EaiFQn4y86H6VC1xa69VdQD+N0tRYsJrCg8eTg8ItISqLx0iz8Vj89zxnZUMMooa9yLeSgtvNXCdtid2Ldsu6Y94XsJ1ZBA8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751425851; c=relaxed/simple;
-	bh=vB/bRw7mFEOpN1qxnHiykYCOW17QQ/rr/o+IPmh4y5Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EOdYukiz9pt/MGzr14KJ+gjtSOwoKgn8GPRlwJjQyymfRkOUQKGW0OsBDI1VyrVO64FlQt7XIaM0yYoBOLV/GpTPE9pyFuQOffrkgqvBeakqW+nKsVBOx90URDAQetVH1dRWwhFkJkBn+VVYmbSLRVGqMwyqeqH8m00c6Qe2iFY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=cFlxaOsx; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
-ARC-Seal: i=1; a=rsa-sha256; t=1751425814; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Xr2cK+CvHwCuLF6dqXXOm/rllWOBEN3wTLEfVyx3HLw+Tx8nsUmMnmuBj9W6XziZWV+cj7hneaVu7wXBvA9yzfX+uT8PfA9a3p5HwkhipQD2Hi8Xucq88FlOlY4pcH3wFl+HKzuIAniXGtsoSaUhEzM1p/lWq/xgTZ0kzAjX/Cg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751425814; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=vB/bRw7mFEOpN1qxnHiykYCOW17QQ/rr/o+IPmh4y5Q=; 
-	b=UNQtavYyRj4TxsQRH734yLFUks9OFmyPo2t8gUt0F+p0DqsZwx+9Vb4/qx5LDBac+Id+oPXfwziiUXBEoj2i2GBuJCRkua6Vl0sTET2IkDZRcFxuucIYmvIrJMnf+U19+gfKFLNOaksL5yYROvfLrJMN8FbcSgkugQLt8YvvJiI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751425814;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=vB/bRw7mFEOpN1qxnHiykYCOW17QQ/rr/o+IPmh4y5Q=;
-	b=cFlxaOsxOq+v8V4Nltv2Ir58bEEoGVmiSvLcstC5HyUk/RCZcqn+vgiFAuJxBWWo
-	EdHlWnIUU+E6xh7d06gfViIrGt4VDk619PqpMN+p550b/GFbehA2rAgvIg8L3Z5G/Cm
-	8eKKru+QCFjsQHFklTpaCyHWVwVEoBwf19cNevA5B9IjJFAQ/v3IbIJtu9ZmPYCWunE
-	854MkUXIw5et57gmT36wcwLJqRsXavJgFP9dGRMZ0XpWB7UbCJu1fXzaqNcaRYbBAao
-	vMFrIZi6sSXF7a/ZEEt+nOwGVpeniKAaRbqPmrIj8PxpGr8TvSPdquQwtjARmUNfBFH
-	EyDbRayMsw==
-Received: by mx.zohomail.com with SMTPS id 175142581211425.435655253733216;
-	Tue, 1 Jul 2025 20:10:12 -0700 (PDT)
-Message-ID: <4a9b51f36da2500604f8d1099b0765f1e3764f10.camel@icenowy.me>
-Subject: Re: [PATCH 3/5] clk: sunxi-ng: v3s: Fix CSI1 MCLK clock name
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-gpio@vger.kernel.org
-Cc: Yong Deng <yong.deng@magewell.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,  Icenowy Zheng
- <icenowy@aosc.xyz>, Andre Przywara <andre.przywara@arm.com>
-Date: Wed, 02 Jul 2025 11:10:02 +0800
-In-Reply-To: <20250701201124.812882-4-paulk@sys-base.io>
-References: <20250701201124.812882-1-paulk@sys-base.io>
-	 <20250701201124.812882-4-paulk@sys-base.io>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457F8219A7A;
+	Wed,  2 Jul 2025 05:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751433357; cv=none; b=OdKJpbNfklvBtW4EsRi1tBXUxC4hXc7DANk5D0YhxrWV6wuP2EXukKein2gHEvZnf1O2GM8onjEEafLkZVjkNrD7wk12VSyLTcfNA6KfxoOM4qgLcE6VpviTI/prt8AvfJENiJh2em+k8OBNw5pKyII+E55JHC/IgLTeJu1MBzg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751433357; c=relaxed/simple;
+	bh=609em8duwn1TuR7A8MeBu753B5OAPg1aWBaZfiCHuf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WRVXZear+8Y2dfP2hwYZyegbBv3RMgMeB/ZVmfwm96jERSOPm67Seh/V7SuI+zNvbtgGWauoqhDxlQ7z4/XIwxUK4zQTW4mdTrodEz94lXXJQKSFXFQTOcg/nFEX269OE9DiQPKi9n5LXZcDJ/p4dZ7mVu3qV4Gr1eYTGa1yk1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=TOKXt0Wh; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=cF618pGX reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1751433354; x=1782969354;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=yEbAI3opm4LnixMNPD4CJAcS1fuxSWr4Pdo00xuzpFY=;
+  b=TOKXt0WhGRqtccPEOjmPu7X14LaQsk0a1aoTnFSijVkhf5Zysb12MyMU
+   Bzqfac/hxcr1jS4IW9CyTkJYourAOEyAwKvQcAn2JxWNDaUv3YsUc21f6
+   HvqvQJhvsRuk8txaVVyZkl06stxK+f8shuukHv3H67ueGnX5/efHwscwA
+   a4EAVcSkjaE7mKIM8aCBmcqJgn/LyzZmrbHbgy6gLjCA+DvNt/SirOfTF
+   X5kjKANfDgH9QHViZY/BGm5wP2iLiZXJ6tmfHwp8yG3BWv/gL7qtsaXkM
+   B7knFm4nkHHAD4tvZ8pQcGy3thxrz+UOtlaerScRPGeVmag9h28S+CmgV
+   A==;
+X-CSE-ConnectionGUID: eIs4CnGHQlWPEHsu6qr5AA==
+X-CSE-MsgGUID: ERVeFJYmQfG8spIkNsSiLA==
+X-IronPort-AV: E=Sophos;i="6.16,281,1744063200"; 
+   d="scan'208";a="44969913"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 02 Jul 2025 07:15:50 +0200
+X-CheckPoint: {6864C085-39-B6FA1C9B-ED1A9D03}
+X-MAIL-CPID: 7C0C64754A18A0C5244284046CA090FF_2
+X-Control-Analysis: str=0001.0A006371.6864C09E.0036,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B95DA1609FC;
+	Wed,  2 Jul 2025 07:15:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1751433345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yEbAI3opm4LnixMNPD4CJAcS1fuxSWr4Pdo00xuzpFY=;
+	b=cF618pGXKLBuYLWJzcG6yKxN6HvPJZ3OnzuLEmANIX9+PK+VYRbMI4jhxz1Vp9MpJjcL4q
+	DP/tq6zlyoJctpFzYH6DACLXA9gX9E4ETE1oCbnLP+OdSd0ldDYS7s5U91NVaRVj8YmGhD
+	mi0e/RFIx3A+oxWRWYME+JgWfucWZeAmbB3vgaJTZwofsXB6zLTxPbYoWiMdk4LLFPN6Rv
+	BimCqaXrReERUtViTT11VULX6JSEgaScb7ZQnJ2+QgOQtVwTVrv4uI3VVOiPNEak+PfBtO
+	xwmC5iDg3mkguCVlmoDwq96bJgvsvhTiIScf1lrG5gGikyChpuTjvkDGXsvlhg==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Rui Miguel Silva <rmfrfs@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Eugen Hristev <eugen.hristev@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH 3/7] pmdomain: imx93-blk-ctrl: populate child devices
+Date: Wed, 02 Jul 2025 07:15:41 +0200
+Message-ID: <2232630.irdbgypaU6@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250701-95_cam-v1-3-c5172bab387b@nxp.com>
+References:
+ <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
+ <20250701-95_cam-v1-3-c5172bab387b@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-=E5=9C=A8 2025-07-01=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 22:11 +0200=EF=BC=
-=8CPaul Kocialkowski=E5=86=99=E9=81=93=EF=BC=9A
-> The CSI1 MCLK clock is reported as "csi-mclk" while it is specific to
-> CSI1 as the name of the definition indicates. Fix it in the driver.
+Hi,
+
+thanks for the patch.
+
+Am Mittwoch, 2. Juli 2025, 00:06:08 CEST schrieb Frank Li:
+> imx93-blk-ctrl is miscellaneous devices, which include reset, clock, MIPI
+> CSI2 PHY and DSI's miscellaneous logic. Call of_platform_populate() to
+> probe child nodes.
 >=20
-> Fixes: d0f11d14b0bc ("clk: sunxi-ng: add support for V3s CCU")
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
-> =C2=A0drivers/clk/sunxi-ng/ccu-sun8i-v3s.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/pmdomain/imx/imx93-blk-ctrl.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> index d12791b31a9d..86d933d1ac72 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
-> @@ -366,7 +366,7 @@ static const char * const csi_sclk_parents[] =3D {
-> "pll-video", "pll-isp" };
-> =C2=A0static SUNXI_CCU_M_WITH_MUX_GATE(csi_sclk_clk, "csi-sclk",
-> csi_sclk_parents,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x134, 16, 4, 24, 3, BIT(31),=
- 0);
-> =C2=A0
-> -static SUNXI_CCU_M_WITH_MUX_GATE(csi1_mclk_clk, "csi-mclk",
-> csi_mclk_parents,
-> +static SUNXI_CCU_M_WITH_MUX_GATE(csi1_mclk_clk, "csi1-mclk",
-> csi_mclk_parents,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x134, 0, 5, 8, 3, BIT(15), 0=
-);
+> diff --git a/drivers/pmdomain/imx/imx93-blk-ctrl.c b/drivers/pmdomain/imx=
+/imx93-blk-ctrl.c
+> index 0e2ba8ec55d75..ba2dd8bd143d1 100644
+> --- a/drivers/pmdomain/imx/imx93-blk-ctrl.c
+> +++ b/drivers/pmdomain/imx/imx93-blk-ctrl.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/device.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/pm_runtime.h>
+> @@ -297,7 +298,7 @@ static int imx93_blk_ctrl_probe(struct platform_devic=
+e *pdev)
+> =20
+>  	dev_set_drvdata(dev, bc);
+> =20
+> -	return 0;
+> +	return of_platform_populate(dev->of_node, NULL, NULL, dev);
 
-Yes, there exists csi0-mclk.
+Please use devm_ same as in [1], which you Sob'ed as well.
 
-Reviewed-By: Icenowy Zheng <uwu@icenowy.me>
+[1] https://lore.kernel.org/all/20250304154929.1785200-4-alexander.stein@ew=
+=2Etq-group.com/
 
-> =C2=A0
-> =C2=A0static SUNXI_CCU_M_WITH_GATE(ve_clk, "ve", "pll-ve",
+> =20
+>  cleanup_pds:
+>  	for (i--; i >=3D 0; i--)
+>=20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
 
