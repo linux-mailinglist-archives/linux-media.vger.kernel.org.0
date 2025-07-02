@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-36529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D61AF12E9
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:00:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A907AF1310
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:02:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E851418917AF
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:00:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF0707B3F6B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 10:59:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC5F8264606;
-	Wed,  2 Jul 2025 10:59:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B941A26562D;
+	Wed,  2 Jul 2025 11:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Scr0g2AC"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="JcwikjEU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011052.outbound.protection.outlook.com [52.101.70.52])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012032.outbound.protection.outlook.com [52.101.66.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC776246781;
-	Wed,  2 Jul 2025 10:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57F7245038;
+	Wed,  2 Jul 2025 10:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751453997; cv=fail; b=ZLEmV8yK3j/WZ9ex+pocwVYvyXjXf1z9rVOYYkkkQt5Ocm3PWWobcBcBSsD9Co2+1/mV6Zj+7Lk1ALrPpPLfC5X1IF+f4im4wKl9VuLBlFDQmKFl6kvL3IIMuvS7cJEh5/CA+DdOQLUw74ptIPtn1i10OnH625RlYyrZrj1QtXk=
+	t=1751454002; cv=fail; b=dCtocvmSRvGdYeDdrooCOtCjFfQpwj6ASlE1HjiFOfiopt6OF9+gFPyCaUAn3/bBV8htzC63aK5BRyXYCKxJfOdxbt32vnp5Dq/rHHHkYnhG2MLmJ22ZDk7qPGGwixvGSa7F7zbxRO3ybGjCA2jefNyuwm41xCigl6LntI+GZpE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751453997; c=relaxed/simple;
-	bh=5hNZ2gRtiBK80k6IkJd33BgRbGSLsrAUl/6BrgUuD/A=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=T2ByYxzTRMahJxmw+qF3kr57Wk6gOATXGr7QV+3QVI2PtPpKidDrByn96I3hnWgAIamC1/YbPzXHqusXP+YaSV0RnftlqjE1qz4vHyGxFD4yl7ZpC9062m27Rahxgplx2uS47CAOsLN+bYYYh6WJVzbhvagZdbvTLWkOMJ+5Z6Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Scr0g2AC; arc=fail smtp.client-ip=52.101.70.52
+	s=arc-20240116; t=1751454002; c=relaxed/simple;
+	bh=KKK3T2Tn8w/JJjjM1i+W0GhRumqvrPtd46g/MyiMSVA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ov4kgzKqOBj0Lsz2NSBCdP4ve+4Ew95Fmmcyl2PuqM4Kygt6oIxdouwifWQ/xgipYSafZxpmiRYYtT7p5wmDlkCmnbYRjtKnWz/b2JKdhqg5Y6lONjhL9mbdVptnaWXZ2pTVJyrDrdefZrLX5NGq/s6Q6VJU1H3Ej9HiJeCG6CQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=JcwikjEU; arc=fail smtp.client-ip=52.101.66.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dz28O3B+wh0ye/FveQLr0c49NN37iuWsUZMPdNI/qaOJpMsDgTolwyeWoXx+SgRf7JD+Tx4/ZMVz11/VIrfPjcpvDAn4rfsj4sHT5UsXPf3kkHBpYb5MpLPRIKqwGt2y6yovLF+BvwKiNKvxUSbYPL9l2oHY23iJQW/F4hrrVTacgVp9NPwgeERfyG5pcNlHTO0NQNJGhZF+MD6kDHd5RNLB+p6WfKWvS6b1hWgLS5LkKfr5lpYWydGIj/w1mEFTCwRdo4heTnf0cE+12G5IZ0cnlOLqyczv9+ViIqImJEaHeRMTXH2i8o5/KMsfxTT4LridaHkYz/aPV0eJpvKTrA==
+ b=pJemYVEh2RLvYYlkuSwbE5D3thyzUwKufr8HN+EJXtW3h4Tv5oooBVDR6csoV6OqqdXst/idmHdZ0oAZmv6DdvyY95q+WC1wDTv48hzk7aI9rlY+G24RQfK+C+rCqDLfU2O28BbEKmdtgfg/+9DNrnwY+KXGp73/jAZFI8/r7s9l+cCd+XllCe4N6BqO38w5WM9iQc2LgRWKhFKhQ/bWqnOPutF9GZRa8IE3Pt/tO1CSRSS/vr6Ddy0zC6RQm4FsGzqrPvhlo+ya4RXhM7GSNtiYrSCwkolQPbAgmF2aWoB2KpKfFk0+3wXNf56593/isa89klFF20RVZ8fhDNGGdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PioYGM7XvuEOwSKgGyM49uZtGkyKPKmJwsrFHTWH3Ic=;
- b=f4I43zDfmE0emHn4/pRksuQzf3WJqGj6nPxYiq3baYaJrdzH75dL8yTdjRw73YpBx085t6ZH/vqLDrqxSLXLG/n6T7iqcna6RfQwfKHguFb50/2o3JgMdDSsGq4PKnAQP0K7XaiECWEcRJLRG+QLsQmblFCY2eg2jpIsMI7slbWMt60MUmC88WrQIX1L9looM5ulqUN6ny+lMCXgQHICaJE9yoJZT9uGpeZawfhEU1oEUsiWWW7yQFoDDCpqKrAh6hO+l4HxKnm2rEDHqQk5Oig/XjpMo8Zn9vcTqZcnSoANc2UnTyTlJTQB9nmBmG/439HXcImK6EZCRHDftkJ8Kg==
+ bh=VAZl4m7RIJEB9oH5FlCMCVONnVySE6kkk5W0qO98TF0=;
+ b=LtPX8ONolkmAm5hu+AmjvHP175/mYjNYXjYmG/wHxPC3hJDcOp+5jOU2yjbiLS13KSXdrIufRDUKqmAJCGxjDf+BP25AvQJGVu3rNwmrJFCw+nECaiHZTfMc0FXuJCFWm5P/lMEq98gVLvFpBIBoe6HVG3T6IZ6ofh+sKfhmppVn5qBGUFWsGkY54fS+h4x+++YgeYKkTkbkGgHETqLwMAms/Id4IEr4RHLjLPNXtTyEdcgLgsU/PAXe9oEFJHG+VFdtaB9XUmWW/32y24rI8Lim0Q+0OejnqJy5T9dke8n9HTcKRN7LX/n5JCL8QI9E6ZKOBMOfMQDN0OHUPlEUuA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PioYGM7XvuEOwSKgGyM49uZtGkyKPKmJwsrFHTWH3Ic=;
- b=Scr0g2ACOHICW2M/EsjUU2nkxYo3Rd2jFB1mZB+ZIHJKOONFJv9kVtcBmLcl8YDu5acDzOsAXyTbfOaPN9CD2L2PrvbCMTzxqiH/voD9cNgVyQu38LMd2uX6SUXPdto/MDweoxpuXA/VzGRVM/z9bPjh4/RKBTWSqF012nGS2GRWDkveOv589jsvLL91CluDaHiSvUUw9QKvPUfy45gZ257xZNFln5bsmQPYJbbwZe70Q6FW4k52f/z004BjFulGY/FT9esyDCFolf/+B24FIw8cdtKEjGU7Ey013Rsn7auIXmI/VD2nYHilcCtnp1sUsOX8YophksMTs+GgsXTgXg==
+ bh=VAZl4m7RIJEB9oH5FlCMCVONnVySE6kkk5W0qO98TF0=;
+ b=JcwikjEUAjOaD+cixKb/Eih4Q88A1WND0A3R7aAcIsl3ACR7i9uzj11L/uP0O3CSHXNfP4rZSpMisvLcXmzWUmYmiZlQVaXdiwh1Qqh/95GpQPioSi3jS1Al/Y+MgUV/GSkUHAcAdZB5hd9C9KoYYjkmNH7g54CRACkMCPtz1MOPFksvuTRfr49eEPDaopj3EX0clEMM7ZOW6dBic0LiAkfHh+IIyr/xUSCf0B9PEzvLVfVvqaa+I7cDGsUn6zn7G+A109/idj/n/DQH0NSAMZWVZad4yRqdWAe8gD6ko/nC+KjXEWQtn2IlHh2FSw/tmXIxGSJJFdmym5iTAeFk6Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
- by PAXPR04MB8639.eurprd04.prod.outlook.com (2603:10a6:102:21e::19) with
+ by PAWPR04MB9888.eurprd04.prod.outlook.com (2603:10a6:102:385::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.19; Wed, 2 Jul
- 2025 10:59:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Wed, 2 Jul
+ 2025 10:59:57 +0000
 Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
  ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
  ([fe80::4e24:c2c7:bd58:c5c7%6]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
- 10:59:51 +0000
+ 10:59:57 +0000
 From: Xu Yang <xu.yang_2@nxp.com>
 To: ezequiel@vanguardiasur.com.ar,
 	mchehab@kernel.org,
@@ -73,10 +74,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	imx@lists.linux.dev,
 	jun.li@nxp.com
-Subject: [PATCH v3 0/3] add dma noncoherent API
-Date: Wed,  2 Jul 2025 19:02:19 +0800
-Message-Id: <20250702110222.3926355-1-xu.yang_2@nxp.com>
+Subject: [PATCH v3 1/3] usb: core: add dma-noncoherent buffer alloc and free API
+Date: Wed,  2 Jul 2025 19:02:20 +0800
+Message-Id: <20250702110222.3926355-2-xu.yang_2@nxp.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250702110222.3926355-1-xu.yang_2@nxp.com>
+References: <20250702110222.3926355-1-xu.yang_2@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: MA0PR01CA0073.INDPRD01.PROD.OUTLOOK.COM
@@ -89,106 +92,94 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|PAXPR04MB8639:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57917d06-5f77-4b82-7439-08ddb957918a
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|PAWPR04MB9888:EE_
+X-MS-Office365-Filtering-Correlation-Id: a21bdb0b-15dd-4ddb-ce65-08ddb95794cf
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|19092799006|921020|38350700014;
+ BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|52116014|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?dCHx8m96nvnHqEGXUrEOkwakNzUB86Zvj2bdASxSRRUam8cq7b79m0aJydCp?=
- =?us-ascii?Q?ppplQS/X6/WuC0CeMB+YRkKpO4QL/92dv9i7q7OPbNwW8hLO52GE7u4uSh04?=
- =?us-ascii?Q?VZKD6Zu7KSZYNMloczoFGV1Fn+xQ8DGy0SmviZy3jO+mKhIrRfDdJq6Dh7WT?=
- =?us-ascii?Q?zuy0O1fBnn5yxXzsIZMbSwagU10Uqyf9c61+Yylvu1g2m+SKssbc85/F1cB6?=
- =?us-ascii?Q?O6bARL0FW21BQ9TSdEbb+6w2J0C4fiT3kk3R+wGyZTR2eo73+9DnJqGBosXa?=
- =?us-ascii?Q?de3dqHEAhvo6Jv5GiUhWxqyV+QYfL7qnl8YCvvaif38H28zn/UcbPBcJUQT3?=
- =?us-ascii?Q?5cXpDlazUGKIas9Bqoa0QPP/X0REVyoDoWN8q2vuubKYfImDyGk0RTyu7NvY?=
- =?us-ascii?Q?FuM9Col4YRZInzQibZl6NUvURe0EpgRBJ+lxudMQLqE0WHC9aWvespi7gUpZ?=
- =?us-ascii?Q?w8wme6Fa/0Ktl+L1JerFr2d9YHnfWLT9jQt7mgaZZRqhQVMwWDTgdMgkvjT6?=
- =?us-ascii?Q?CMzMFxpvKjtliq5aT15hK4o8YuCky5jH2RB5lTHde3ZwTFNHFAo8cEDDLCg6?=
- =?us-ascii?Q?hzeoMtVO2jfCPkDqdipyuyBWOjoWZ47jXTA8rELEtGs8kIJ8aayAZrQF56BX?=
- =?us-ascii?Q?GJmlyFjB+U5+tom1CSBjBEo9GWwcKprWg266NBrHiuv9HUxM2h1lCd+ww4Gc?=
- =?us-ascii?Q?K1QSGisrLsvHGDe8the0YbNzRqo1RksCRTlcQKrRm4/Ua9N9B4g/QElBKeuL?=
- =?us-ascii?Q?byjRW+w7DEnnBRcLutUAN+K68D6Awf74VivZRXccyR4sczHY6ycx7C2WUMtv?=
- =?us-ascii?Q?y/kCwfkyxQ0q6N3d6n6xB/QYRhTAVW4zbjhWUByPG09ArBwWTb8b01mk068r?=
- =?us-ascii?Q?NeNgHIA1j8BwVPVxSF5S+NMK1MYVsTO+L08B6wUh0kJq2mN2/Mlxl/cyzX02?=
- =?us-ascii?Q?sHTMElh1os4MngoA+Y5NRW313zYZ1FV1Fbk58VJbeXtX9lx+7TKzE8kxqSk4?=
- =?us-ascii?Q?egBM67TMFR4EsswQxB3nMhbBMULBPOtW5Nav1eyYoNAoYQ2nGdDBuKIK4EAX?=
- =?us-ascii?Q?x7JFYWHFymUATvppm/V5/OwAaeyaYeOHfIJ950VOHhQpq2wNhxUa2PdyqBA6?=
- =?us-ascii?Q?9SeB3cUnwbTIJtpTSrv9n28Dok73+qDUInruDf9FlL7cOfwF1BgcGQfl63+q?=
- =?us-ascii?Q?W2qWToAbaIQxbhg3W8rBdOu7VOSOJro7YCzqkIqX6zfmRgm1kHGCYDgjGH2q?=
- =?us-ascii?Q?WVJ0hUJjHM9CmfQ3SNnOsi/E9OxaSAAVxj6Cy7EDWnn5GzqUhMVBAPbh/B5v?=
- =?us-ascii?Q?ByHy0n2J2Q02vreD6A9yRCKZDLCyIvVdSkDUDyxIDvOptcogyqCUQhj1e5a6?=
- =?us-ascii?Q?VwXQ7hCsmNTl22kqjw8Nb73IxtpYG8+8Aqsq0TUqUWhohXIUk+Gi5sioLpun?=
- =?us-ascii?Q?PGb3/fgXGeFYRBPxoZDXBRILlfk6xuI1KrWbU2Wk8gnmS6BviQspSLPgZq6o?=
- =?us-ascii?Q?y6gqAl6OZa3pUQ8WGABatS6y3DHapHxaRwAS?=
+ =?us-ascii?Q?qHFwlc9R1SzAmQLNgbkxt3WEF38y3ZdEbBuqSHdUEBAQBZP2XAkca8v1kadQ?=
+ =?us-ascii?Q?imWvuy009Bk/jRRLsX/e/oxwfQkNuLYrMfq3JpUC/h/yHXjX6hX9atjyQPPN?=
+ =?us-ascii?Q?sSxOWHXoYce1OrlDmMepyY2Pmp00bU3H7rqQRnjL5Bj2Ayk8z52oNrZBFhw6?=
+ =?us-ascii?Q?yYozG9bl/ujye9AqgNuOhRuxa9Y8Y62dptSd+x2uG/u7i3DiJQW7Lr6zdLDf?=
+ =?us-ascii?Q?BJLX8oJzG+jmV+2uOVAn4i3qix9VqjfiBH1F0pKscv+pjLm59IO8Ilvj+hcH?=
+ =?us-ascii?Q?eEvJjATD7SZNdSBqpQtVOd9vsJvUscQ6w20dSOdNa1BzTSjnF4IT2nCF4gNF?=
+ =?us-ascii?Q?KgULwJ6QdmS++LTrgER86Erw3/h8nyJI/v/8N+EWUQW+f76/4gPJ+JCk5MMq?=
+ =?us-ascii?Q?2x/rmA8ARcwm+wewt10nJYQ2iDiWyuQTmhQDcAFeQGWzBntV/nc2VUtYwPvO?=
+ =?us-ascii?Q?WpelnKusW2eGf3Wxq1UMGkpWXEgET5hvNqkubnIAB8FkS8sGT94HZLr1vRyw?=
+ =?us-ascii?Q?zZf4UaBLc15tgtphs+VV0ni4CXXU07EjRoJbl6eahIwdR9+3G+uFqZHdt/0f?=
+ =?us-ascii?Q?NITZC4DzmGqQN32/zRktErGhMR0Xf69YpHGQJYdTn4WuwG7hHBxdoJuIf3Aq?=
+ =?us-ascii?Q?y3oFsvnsgukXDquDk9CHRH3C/H/pkCkwBwEIb7F2wiVlcK/Bkv6Aoa6ubhqb?=
+ =?us-ascii?Q?WJ1hAmPSd7zK9z5GbY1ibWW6trRh15E/P0KMDRkkyozg029aMjkNlWgvlTwi?=
+ =?us-ascii?Q?KJseQvKlOJwB417/HrSnZW5IxVuNQShoL+wBIUaDtR8Wnxpt1yTjASPlgMBp?=
+ =?us-ascii?Q?RC+Ahpa0xzO+S/em41IEs+5aHaw0yZKF2JAIiqxy0sLaw/4nCUNJLUGHULyq?=
+ =?us-ascii?Q?mDUZiAxsfxHQ9nDZby9mURF/n+75WVOpzrcPF/GVwNeCm6rM5fjZLGrgcsNG?=
+ =?us-ascii?Q?WL1Z8AekmEookY9mGj1Dy7y329NmmgVPQWqEQR2r+HJFUvR+Upyi+ZRzC4RI?=
+ =?us-ascii?Q?Aba/nVPyXnlY5KY2GgwVEj4IDyJLtxMIlSTDaV5Us2O91lOtpuf+Q+vxRAJd?=
+ =?us-ascii?Q?L3QTf9RmVX2dAQPygB0aj0r1jRPcPGWPeKodJ6IvJVKYew0S9iKjOZ6NLQdv?=
+ =?us-ascii?Q?BZZeVjmXuXjCeYLZ5xtCdnYxlzv5zRA+k5dPFh1lVBg375ZuB7+jXVomsImE?=
+ =?us-ascii?Q?kM1nIP/kvq5JiHg9PRrqmVq7vLkfkaxHh76vly20AjqeiFbL2y1F5kVm/FjV?=
+ =?us-ascii?Q?NKcjTR280jPlaqK7VAx/73mp0/LKg3ozZwt13XRGIULYU6UmNrcFApBeZKir?=
+ =?us-ascii?Q?ZR/L/lIkEHfygpWcux9/YgEx7rSLBnvQHeL6sAQAVvkdtdAWwNHeifFQd7de?=
+ =?us-ascii?Q?2jZHZVw8cTd/CRM5P2JFXzqi4dL56iIMHbGSbjtvNAinYDRcq0LalJbqUnEv?=
+ =?us-ascii?Q?iUamZrb9VDo8jZUtfAIWBe0EgYSStiLDgZMfAWAV9mUGh5ks5tKtF2wI3GiO?=
+ =?us-ascii?Q?Y0hRZ0tbNDzKls8=3D?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(52116014)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?ojoQOkS4cY+EYO30C+rDhwjAguyh8pCq39krkfOxJn/Vd/eIrIZHoSi9Ke23?=
- =?us-ascii?Q?Xsd/xDQ235EnTORL/ulf5gwJXuvfc087pELVixua4Ko4zU043uknNZHbevCM?=
- =?us-ascii?Q?+FphkJSnzg/6ai3yKo/VrJPLfqeXoPi83i1D8nt5YgdgUVYbSp1OW+uK0Gcp?=
- =?us-ascii?Q?rlRG1aFpgMT2STaWrD4azKtb+H6VOGZEhwqjy8d4dDw2A+d45SedsGPAaDdj?=
- =?us-ascii?Q?bPlDIqG5Zd1ys94zAR0N+RmrweduglucfC+skSr8QOxsaQuLLPbuciQTKOMl?=
- =?us-ascii?Q?gE6VUMSldv0SnE8ogURrP0X4S48NYetWFgKly3DqsDD82Z8g3+19BwH0rTMg?=
- =?us-ascii?Q?cFulu/2VSKLLRIF/IlBYz6QMyJMuM84Z5ml5fNWz6ng5PFhJMTyLxJZXT3wE?=
- =?us-ascii?Q?kqD/mKPp03dYcPPfkp4w8j3Gw3Z0k5Ho2Imld3ErF7ZvDNvF8hQWMl2d4bav?=
- =?us-ascii?Q?/YeHbuYF07p9SJ6qAck239leyHuPpkHE5j5qNoxPdwR3FNKIoDe2qBfSwbgA?=
- =?us-ascii?Q?6KBidzSS1TfHIPHwEdwAB62KTp12ghCOXgm/VX48M8jGN+ZtBcMbvPDU7GPw?=
- =?us-ascii?Q?MpZ1o/eg/dOK6e9lQVS4yxHELZ86tggmtMto69qrehjyr7z9GH0qLhevlKF3?=
- =?us-ascii?Q?1RuEkfEG/UmOtJt6K2YNwUs7bQeZEEdAPVbTskBYGUJaLGQ3k/NmXMWYBG7B?=
- =?us-ascii?Q?QuXv6XIC4iR96dtcO5mgwJ25XoIwrY/1BfzDGMQSEQ1nMBFwDzqUDdlTF4kk?=
- =?us-ascii?Q?3FxQkyq7Vy4adr+iXip2u8yIOdE+8k4eD102KzJndz2SVqKOOHl/Ae/zaNJj?=
- =?us-ascii?Q?z9uVOLT75o5Z19oJzRGQYKLjnx/nB38f9fWa+n75+Od1TtI7glkrIpBZPmww?=
- =?us-ascii?Q?wBVOvDA38u7YgKsGOwUngslykENSY4J1RVhtHY2nN0TsbDNijWxtzn+Yf729?=
- =?us-ascii?Q?lrZnbIF1lEBx+Xh2R1d/0FXPR/Q/emxRrTG3xx8asd+wRqSk2SYptejVz4/0?=
- =?us-ascii?Q?IPnkNfz3Xht1pNDgvTtjwuC5juUk7NgnX07JeOL0am+vl2YQr+aVV6N7BiAK?=
- =?us-ascii?Q?c9RXPDLPTQZINNITyuvpCcVC7tpplRR5w0NUMMAmCkvfAbljybND+QsKuVk0?=
- =?us-ascii?Q?vpSJT4VbO0g3et0UHOQpqCyIVvjEKMhAwjL0XsKPyijny2IaA/PpwAnv9Cwu?=
- =?us-ascii?Q?Tjjbt6ZO0iQeb3wvFdm+OL5vbJyVqAITniKVGq+nLjAKovn/zj63b8lbjIvA?=
- =?us-ascii?Q?wfYohd9GAwkS9DgtjZGOTWIzReGK8LYfZbEeHBAAlH03XULy4cKQx74lwUbr?=
- =?us-ascii?Q?e/kUIHTIx93MR7UAAer9BNwOyOp3V1rxax9eBEp97Sv6uuQ22UUbeCLDAUX1?=
- =?us-ascii?Q?YzLqCyPYVWVegKQ2UZvfKkte8w7r1HIp4mSm53qLqbfjBNiqjhF9nGgLTQ5X?=
- =?us-ascii?Q?F7HulNnj9OtudfajdLP4VfCqwUZJuPNwVrzG3z88f2OoeeLU1yGjrkI+tBxC?=
- =?us-ascii?Q?aJjF6RcVHEHQm0j/degmVhkoj2aKCZgw2b5BxMulRLmJjo1ZNUdH8hqd28xW?=
- =?us-ascii?Q?B9gkpkhCGWj5/wFXf/UhPFGv5fw93K6gmU0EGShy?=
+ =?us-ascii?Q?bWr0ZaPiGDKz5DYq877klw2TYYqTlID9zFsiTM3PFJz5TDTdI8tbrdznYxSM?=
+ =?us-ascii?Q?aQSCJiaeT2yVCWDEgLMSWjdV9tyQ83KnoIZQ+FnHFM1VGir20H/QRDI9QLuB?=
+ =?us-ascii?Q?syJNE2sM/qljDcgRcu+VevbcszBsqlPg+8cQluk3TY58JCQzHDjvW8AeJweN?=
+ =?us-ascii?Q?D+qUZICULCKoo8Wh838ZHeRSzVw4/3XJcupUv58OA3Dr0AHQnEM3F2i49y9y?=
+ =?us-ascii?Q?tM0pIhPixyXsUYN+cYc4FagXl1YXE61vUy/mQfPdFt9immG6tiL8u7W2RAym?=
+ =?us-ascii?Q?Xoey1EhHukbnYzEjA/v/YDiyaDy2qlW66IB381WAahnGp9bVFwT2rolTBY3t?=
+ =?us-ascii?Q?wMTzjpjnzgM1BVLfHFa/OCFVQVd/CdvA+bM1klw6kU/wxJbHSBXAc5G3Zshh?=
+ =?us-ascii?Q?1/BpeVyoyCl0t5PUGT4UVlV951uTZKRdqb7Zqw4sdgh/NXG2ItDz0wjEsd9v?=
+ =?us-ascii?Q?Rh+ERtvkugslgJgVzIOWQQZbl3cGRcRlreX4c1bgqrjCts9vOv+BkSJOEqbm?=
+ =?us-ascii?Q?EBFGYOFxdE+H/WjOtgi774M3QiEfdsq21lpbSdmFmr9vQFi0idqOiwJl/hrV?=
+ =?us-ascii?Q?DQO/n7Fqgf05HpkSTAIgb/m49Y8i2Dbz80C9dp2159woV4X3rub4da5Xlm8F?=
+ =?us-ascii?Q?z0P47jTRyJHZwng2mLaFsIIKIZsvelU1+2QGYq2TKbnVhMPxRj/wnj2zZOse?=
+ =?us-ascii?Q?//OB5J+Cz0asHfzjYaq93pBUtWFIcbN/d2wVw8ftIkCeHP14um50ZoLFtQMs?=
+ =?us-ascii?Q?eW7GNyYks73USRMTC8w2H26ZvkXonp0LZY94DGnp/7yIYZZ1JzSByl2djTFi?=
+ =?us-ascii?Q?Ga2p3MoIurmjmOh8T9Lgq1zzei+dom3sZ4e4sQoIaPk7EtvlaDUNFQWI3wXE?=
+ =?us-ascii?Q?CBjT5zk6FuKcBmJ3uLf3cHD6i6KZJoYH8hZXRTSqktTK+7MPhExZ7m8EijtK?=
+ =?us-ascii?Q?k97m3nZJiI6cN7oYJiZYM8k5ZpnFMAzpRp+vI3S/JzEUgaPzaATR7kczYXlk?=
+ =?us-ascii?Q?glfGTaAn8Yk/dbUaLI67KzaXPTJ/o3dugwb7A/Q6eoRgcz5A6KfogavIeM+3?=
+ =?us-ascii?Q?Upx8H03ICl7t0m059a/2Om/dgGC7zkHgzzletM7ZWUkHprlx3c+jdGo8lGzz?=
+ =?us-ascii?Q?hOu1Ei8wEcn+WZKHO/xcNte/EH6pxC1o99JtpZWywYdsKHgBcThyb/3fhw0u?=
+ =?us-ascii?Q?2wAcefgDwuPWaJDSROvOABZctmprcBic2xxFLF2vGjEovtBcrI1zniWCaqej?=
+ =?us-ascii?Q?bh2+Kc/9+I6/VdGo0plTRJOOVZiakRZsFWNgwXosOvlNoyKDckFfC0saiArF?=
+ =?us-ascii?Q?mGW5Q4Zu7Z9fEpS0p8p3YDYPTiKLGCh0BJwnVX7Ovs6Xwss6Ws1UOsFEpIKF?=
+ =?us-ascii?Q?FIrwxj7qvwSIMl294pnau585E4XoJDRx06fSfu5A7ilqKXjQ5/NCoYbMOXCI?=
+ =?us-ascii?Q?gf6SlrMptoZy7bT0h/33QWeGdW8Skc3E/6uH2Y7v7XfW4hyeJLxTo1g3CBDw?=
+ =?us-ascii?Q?aFWzdVqcZU4gCvl52Xl0FWikPT37ekLC3TQbqP/BuO+cG+dU1oleFJy74Jno?=
+ =?us-ascii?Q?eTe5sC0rRFmtHNmSK9OLMlewzd8GLAVil+23XaZa?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57917d06-5f77-4b82-7439-08ddb957918a
+X-MS-Exchange-CrossTenant-Network-Message-Id: a21bdb0b-15dd-4ddb-ce65-08ddb95794cf
 X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 10:59:51.4285
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 10:59:57.0155
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pj+9zODZPopUwyZjyuozBN78OAsF+De5yivK3CNrRc/trbakycprXERXNNiFCgXzgmNP4vr5pgYUsTas+YIkeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8639
+X-MS-Exchange-CrossTenant-UserPrincipalName: aKo29Oet7rU1cr6rcvMw9SJdJ3hI5uL5K7bSZXgackDqtZFwcez3+iO9HXIIJu8YwPoOncHd6I0NKITQ8BRhWw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9888
 
-On architectures where there is no coherent caching such as ARM it's
-proved that using dma_alloc_noncontiguous API and handling manually
-the cache flushing will significantly improve performance.
+This will add usb_alloc_noncoherent() and usb_free_noncoherent()
+functions to support alloc and free buffer in a dma-noncoherent way.
 
-Refer to:
-commit 20e1dbf2bbe2 ("media: uvcvideo: Use dma_alloc_noncontiguous API")
-commit 68d0c3311ec1 ("media: stk1160: use dma_alloc_noncontiguous API")
+To explicit manage the memory ownership for the kernel and device,
+this will also add usb_dma_noncoherent_sync_for_cpu/device() functions
+and call it at proper time.  The management requires the user save
+sg_table returned by usb_alloc_noncoherent() to urb->sgt.
 
-However, it's obvious that there is significant code duplication between
-these two commits. Besides, a potential user USB Monitor may read outdated
-data before the driver do DMA sync for CPU which will make the data
-unreliable.
+Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 
-To reduce code duplication and avoid USB Monitor result unreliable, this
-series will introduce DMA noncoherent API to USB core. And the USB core
-layer will manage synchronization itself.
-
-Then the last 2 patches have used the API.
-
-I have tested uvcvideo driver. But I haven't tested stk1160 driver as I
-don't have such boards. @Ezequiel Garcia, @Dafna Hirschfeld do you have
-time to test it? Your support on this would be greatly appreciated.
-
+---
 Changes in v3:
  - put Return section at the end of description
  - correct some abbreviations
@@ -197,29 +188,171 @@ Changes in v3:
  - do DMA sync in usb_hcd_map_urb_for_dma() and
    usb_hcd_unmap_urb_for_dma()
  - call flush_kernel_vmap_range() for OUT transfers
-   and invalidate_kernel_vmap_range() for IN transfers 
+   and invalidate_kernel_vmap_range() for IN transfers
+---
+ drivers/usb/core/hcd.c | 19 ++++++++++
+ drivers/usb/core/usb.c | 80 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/usb.h    | 11 ++++++
+ 3 files changed, 110 insertions(+)
 
-Changes in v2:
- - https://lore.kernel.org/all/20250627101939.3649295-1-xu.yang_2@nxp.com/
- - handle it in USB core
-
-v1:
- - https://lore.kernel.org/linux-usb/20250614132446.251218-1-xu.yang_2@nxp.com/
-
-Xu Yang (3):
-  usb: core: add dma-noncoherent buffer alloc and free API
-  media: uvcvideo: use usb_alloc_noncoherent/usb_free_noncoherent()
-  media: stk1160: use usb_alloc_noncoherent/usb_free_noncoherent()
-
- drivers/media/usb/stk1160/stk1160-v4l.c   |  4 --
- drivers/media/usb/stk1160/stk1160-video.c | 43 ++++--------
- drivers/media/usb/stk1160/stk1160.h       |  7 --
- drivers/media/usb/uvc/uvc_video.c         | 56 ++++------------
- drivers/usb/core/hcd.c                    | 19 ++++++
- drivers/usb/core/usb.c                    | 80 +++++++++++++++++++++++
- include/linux/usb.h                       | 11 ++++
- 7 files changed, 135 insertions(+), 85 deletions(-)
-
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index c22de97432a0..e0fa6d6d273b 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -1366,6 +1366,14 @@ void usb_hcd_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
+ 				urb->transfer_buffer_length,
+ 				dir);
+ 
++	if ((urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP) &&
++	    urb->sgt) {
++		dma_sync_sgtable_for_cpu(hcd->self.sysdev, urb->sgt, dir);
++		if (dir == DMA_FROM_DEVICE)
++			invalidate_kernel_vmap_range(urb->transfer_buffer,
++						     urb->transfer_buffer_length);
++	}
++
+ 	/* Make it safe to call this routine more than once */
+ 	urb->transfer_flags &= ~(URB_DMA_MAP_SG | URB_DMA_MAP_PAGE |
+ 			URB_DMA_MAP_SINGLE | URB_MAP_LOCAL);
+@@ -1491,7 +1499,18 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
+ 		if (ret && (urb->transfer_flags & (URB_SETUP_MAP_SINGLE |
+ 				URB_SETUP_MAP_LOCAL)))
+ 			usb_hcd_unmap_urb_for_dma(hcd, urb);
++
++		return ret;
+ 	}
++
++	if ((urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP) &&
++	    urb->sgt) {
++		if (dir == DMA_TO_DEVICE)
++			flush_kernel_vmap_range(urb->transfer_buffer,
++						urb->transfer_buffer_length);
++		dma_sync_sgtable_for_device(hcd->self.sysdev, urb->sgt, dir);
++	}
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(usb_hcd_map_urb_for_dma);
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index 118fa4c93a79..fca7735fc660 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -1030,6 +1030,86 @@ void usb_free_coherent(struct usb_device *dev, size_t size, void *addr,
+ }
+ EXPORT_SYMBOL_GPL(usb_free_coherent);
+ 
++/**
++ * usb_alloc_noncoherent - allocate dma-noncoherent buffer for URB_NO_xxx_DMA_MAP
++ * @dev: device the buffer will be used with
++ * @size: requested buffer size
++ * @mem_flags: affect whether allocation may block
++ * @dma: used to return DMA address of buffer
++ * @dir: DMA transfer direction
++ * @table: used to return sg_table of allocated memory
++ *
++ * To explicit manage the memory ownership for the kernel vs the device by
++ * USB core, the user needs save sg_table to urb->sgt. Then USB core will
++ * do DMA sync for CPU and device properly.
++ *
++ * When the buffer is no longer used, free it with usb_free_noncoherent().
++ *
++ * Return: Either null (indicating no buffer could be allocated), or the
++ * cpu-space pointer to a buffer that may be used to perform DMA to the
++ * specified device.  Such cpu-space buffers are returned along with the DMA
++ * address (through the pointer provided).
++ */
++void *usb_alloc_noncoherent(struct usb_device *dev, size_t size,
++			    gfp_t mem_flags, dma_addr_t *dma,
++			    enum dma_data_direction dir,
++			    struct sg_table **table)
++{
++	struct device *dmadev;
++	struct sg_table *sgt;
++	void *buffer;
++
++	if (!dev || !dev->bus)
++		return NULL;
++
++	dmadev = bus_to_hcd(dev->bus)->self.sysdev;
++
++	sgt = dma_alloc_noncontiguous(dmadev, size, dir, mem_flags, 0);
++	if (!sgt)
++		return NULL;
++
++	buffer = dma_vmap_noncontiguous(dmadev, size, sgt);
++	if (!buffer) {
++		dma_free_noncontiguous(dmadev, size, sgt, dir);
++		return NULL;
++	}
++
++	*table = sgt;
++	*dma = sg_dma_address(sgt->sgl);
++
++	return buffer;
++}
++EXPORT_SYMBOL_GPL(usb_alloc_noncoherent);
++
++/**
++ * usb_free_noncoherent - free memory allocated with usb_alloc_noncoherent()
++ * @dev: device the buffer was used with
++ * @size: requested buffer size
++ * @addr: CPU address of buffer
++ * @dir: DMA transfer direction
++ * @table: describe the allocated and DMA mapped memory,
++ *
++ * This reclaims an I/O buffer, letting it be reused.  The memory must have
++ * been allocated using usb_alloc_noncoherent(), and the parameters must match
++ * those provided in that allocation request.
++ */
++void usb_free_noncoherent(struct usb_device *dev, size_t size,
++			  void *addr, enum dma_data_direction dir,
++			  struct sg_table *table)
++{
++	struct device *dmadev;
++
++	if (!dev || !dev->bus)
++		return;
++	if (!addr)
++		return;
++
++	dmadev = bus_to_hcd(dev->bus)->self.sysdev;
++	dma_vunmap_noncontiguous(dmadev, addr);
++	dma_free_noncontiguous(dmadev, size, table, dir);
++}
++EXPORT_SYMBOL_GPL(usb_free_noncoherent);
++
+ /*
+  * Notifications of device and interface registration
+  */
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index e8662843e68c..9ade441ab4c8 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1619,6 +1619,7 @@ struct urb {
+ 	void *transfer_buffer;		/* (in) associated data buffer */
+ 	dma_addr_t transfer_dma;	/* (in) dma addr for transfer_buffer */
+ 	struct scatterlist *sg;		/* (in) scatter gather buffer list */
++	struct sg_table *sgt;		/* (in) scatter gather table for noncoherent buffer */
+ 	int num_mapped_sgs;		/* (internal) mapped sg entries */
+ 	int num_sgs;			/* (in) number of entries in the sg list */
+ 	u32 transfer_buffer_length;	/* (in) data buffer length */
+@@ -1824,6 +1825,16 @@ void *usb_alloc_coherent(struct usb_device *dev, size_t size,
+ void usb_free_coherent(struct usb_device *dev, size_t size,
+ 	void *addr, dma_addr_t dma);
+ 
++enum dma_data_direction;
++
++void *usb_alloc_noncoherent(struct usb_device *dev, size_t size,
++			    gfp_t mem_flags, dma_addr_t *dma,
++			    enum dma_data_direction dir,
++			    struct sg_table **table);
++void usb_free_noncoherent(struct usb_device *dev, size_t size,
++			  void *addr, enum dma_data_direction dir,
++			  struct sg_table *table);
++
+ /*-------------------------------------------------------------------*
+  *                         SYNCHRONOUS CALL SUPPORT                  *
+  *-------------------------------------------------------------------*/
 -- 
 2.34.1
 
