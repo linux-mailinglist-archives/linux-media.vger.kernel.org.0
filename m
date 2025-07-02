@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36503-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D746AF0BB8
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:36:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 879D0AF0BBF
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:38:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E90A4E1601
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:36:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 200171C03285
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:39:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 744BA2222AA;
-	Wed,  2 Jul 2025 06:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C3C722257E;
+	Wed,  2 Jul 2025 06:38:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FnqVTslP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZZZf4FM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A3E1B4F1F;
-	Wed,  2 Jul 2025 06:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7884C98;
+	Wed,  2 Jul 2025 06:38:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751438153; cv=none; b=cELha6YQaQ1BXoJPaYQgIXuPvrgkssNaG5O8y8NYvX88w3HmBQeQsM/dristANj9kD8dM+WmDFWKecqZyzMB8dJRueoZgHDUfKCBWDSD6XKwMRkFzCObP+DR1u0TYK0vyVCHYCdA1DTwtqTrUDl2OGwbEHDs3QE4Kpvu6X/t22M=
+	t=1751438320; cv=none; b=BoPFujdunFKrFVwFUB5b8XQtBUQpXyQ6UBzvUCQX5zVp/lpniK7smLibbO8gpjy3AnE3d6jbhNLTHhNcBW3U6dkAczvm4yTxp7yFGfP2YA16QIRSvnHOERWTwRsyvCf6QxLqGovp6R6M7cU19KPu9jlPnOK0IQl2CIskrz7UQLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751438153; c=relaxed/simple;
-	bh=fqRreMA45Df/KL0jkrdfhWf0A/YHyyRMveuTP4pWk1k=;
+	s=arc-20240116; t=1751438320; c=relaxed/simple;
+	bh=oe9RZ6MJcibDug6PUcYbdx59wQ/BkvhR+1mgEYq+q7U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PPYB11HPaGrsS2cNLTIwtVkDclI6hUG/Rh/AWhlbA7pq75ZyPcRCvjY97SQihrkoPPuPw6N9HxYSU7k+Rg4cNasS0WBDyB1jjuZIOS49+8aj/H8pU8nD6TFAuPGhAsQYhIa21f4fndRhcoIiAyxsHQZfxLBzX9aTyJWGlL+IkQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FnqVTslP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98DFBC4CEEF;
-	Wed,  2 Jul 2025 06:35:45 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ZgZ0z+CTgirmFuFLuJxGZXAXZre/zUWDKJwPUjuakb+5pCVSogbEISSbNxPzbZ5g3cvezzcMsiZtkPWmYHIItRtC4/DYsK74/NkoogfNHRWHBHE8S5+Bneri1quihC0ZSVw1Hi6Pf4jFsoe3MAO00yuKWl4lF3jxqHfdMxgMAj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZZZf4FM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4AFBC4CEEE;
+	Wed,  2 Jul 2025 06:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751438152;
-	bh=fqRreMA45Df/KL0jkrdfhWf0A/YHyyRMveuTP4pWk1k=;
+	s=k20201202; t=1751438317;
+	bh=oe9RZ6MJcibDug6PUcYbdx59wQ/BkvhR+1mgEYq+q7U=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FnqVTslPsn1EY7AXbZKh8dNczsiWErGA7u5XM2+Z1Bw/rmh9BfEqA+8Rka5HTH5h6
-	 ZuYbzQxZqGIkoXHIHLvcDd6SAxNWguinhQAAHiWKE7nR9AdP4UoyZmEIrS6dh+cjZt
-	 OAAftjALjnsN8a46ehHdmnljPdkucF6giob2qG/RTmve6wrn/92G5vXvUZG0ZUHunE
-	 IVWjfl3hNRLqpIOsJgEcowpLWi4jBuI5af5WrvORk3ztFhT8O1L+g83dzSwHNV38ow
-	 YE4FI2UAaelPXD9D3T+AoVdpxCMCDIYBsAoBQIIjEO7/wMIvT2421QNX5+t+XdYlfI
-	 w3svJ24Yj8/Yg==
-Message-ID: <daf6fb72-5849-49f7-b17a-818944eb9f1e@kernel.org>
-Date: Wed, 2 Jul 2025 08:35:42 +0200
+	b=cZZZf4FMD+xbd+LpVV+KtWdHfUJmTEmy2AM5l+WTBwR5cgqoQ03JnatWWWQ4+hPJK
+	 jrCROBqnYxDMWJxIT1QI+WsIkr7i2lCfnWWh3jMLBnJux+GaPGiPbeRft+Ybqt79X9
+	 Qer16xeThDhczV10AcgdNPbswruesSzgQKiZzxQ0vtyob9YQSmtWkJX1tNLDe5t1Sv
+	 m1/VaIJrw7Plm2ceW67J75nYIlmwzPOXSJHD/aoz+nncsdLNmwNBGC3jzowyntT9lj
+	 ePLKJJPbNcpWn6GFWkSavMcbCsdZx4aKV0NEgP0nTYkYflwqquTKRpAcoXPFGoYNYd
+	 48nis1FrrYGUg==
+Message-ID: <e4e612bc-b052-412b-952b-b7eee21d9a03@kernel.org>
+Date: Wed, 2 Jul 2025 08:38:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] media: nxp: add DesignWare MIPI CSI2 controller
- driver
+Subject: Re: [PATCH 1/7] dt-bindings: media: add DW MIPI CSI-2 Host support
 To: Frank Li <Frank.Li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
@@ -67,9 +66,9 @@ To: Frank Li <Frank.Li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- "Guoniu.zhou" <guoniu.zhou@nxp.com>
+ Luis Oliveira <lolivei@synopsys.com>
 References: <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
- <20250701-95_cam-v1-5-c5172bab387b@nxp.com>
+ <20250701-95_cam-v1-1-c5172bab387b@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -115,41 +114,175 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250701-95_cam-v1-5-c5172bab387b@nxp.com>
+In-Reply-To: <20250701-95_cam-v1-1-c5172bab387b@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 02/07/2025 00:06, Frank Li wrote:
-> +
-> +static const struct of_device_id dwc_csi_device_of_match[] = {
-> +	{ .compatible = "snps,dw-mipi-csi2-v150" },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, dwc_csi_device_of_match);
-> +
-> +static struct platform_driver dwc_csi_device_driver = {
-> +	.driver = {
-> +		.owner          = THIS_MODULE,
+> From: Eugen Hristev <eugen.hristev@linaro.org>
 
-That's 12 or 15 year old downstream code. Drop.
+Linaro?
 
-> +		.name           = "dwc-mipi-csi2",
-> +		.of_match_table = dwc_csi_device_of_match,
-> +		.pm             = &dwc_csi_device_pm_ops,
-> +	},
-> +	.probe  = dwc_csi_device_probe,
-> +	.remove = dwc_csi_device_remove,
-> +};
+> 
+> Add bindings for Synopsys DesignWare MIPI CSI-2 host, which used at i.MX93
+> and i.MX95 platform.
+> 
+> Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+
+Microchip?
+
+Sorry, these two must match.
+
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> This is continue previous thread
+> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221216143717.1002015-2-eugen.hristev@microchip.com/#3023663
+> 
+> change in v1 (compared to previous post)
+> - add reg-names
+> - remove clk surfix
+> - add imx93,dw-csi compatible string
+> - add dphys subnode name
+> - use compatible string snps,dw-mipi-csi2-v150 to avoid use general fallback
+> compatible string.
+> ---
+>  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     | 161 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 162 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
+> new file mode 100644
+> index 0000000000000..2a93bd72498f8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
+> @@ -0,0 +1,161 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/snps,dw-mipi-csi2-v150.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +module_platform_driver(dwc_csi_device_driver);
+> +title: Synopsys DesignWare CSI-2 Host controller (csi2host)
 > +
-> +MODULE_DESCRIPTION("DesignWare Core MIPI CSI2 driver");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform: dwc-mipi-csi2");
+> +maintainers:
+> +  - Frank Li <Frank.Li@nxp.com>
+> +  - Eugen Hristev <eugen.hristev@microchip.com>
 
-No, drop.
+For sure does not work. Also, needs some sort of Ack from Eugen now.
 
-> +MODULE_AUTHOR("NXP Semiconductor, Inc.");
+> +
+> +description:
+> +  CSI2HOST is used to receive image coming from an MIPI CSI-2 compatible
+> +  camera. It will convert the incoming CSI-2 stream into a dedicated
+> +  interface called the Synopsys IDI (Image Data Interface).
+> +  This interface is a 32-bit SoC internal only, and can be assimilated
+> +  with a CSI-2 interface.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - fsl,imx93-mipi-csi2
+> +          - const: snps,dw-mipi-csi2-v150
+> +      - const: snps,dw-mipi-csi2-v150
+
+Same comment as before, you need SoC compatible. Drop the last one. You
+cannot use DW in a DW soc, can you?
+
+> +
+> +  reg:
+> +    items:
+> +      - description: MIPI CSI-2 core register
+> +
+> +  reg-names:
+> +    items:
+> +      - const: core
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: per
+> +      - const: pixel
+> +
+> +  phys:
+> +    maxItems: 1
+> +    description: MIPI D-PHY
+> +
+> +  phy-names:
+> +    items:
+> +      - const: rx
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the input port.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +            description: Endpoint connected to input device
+> +
+> +            properties:
+> +              bus-type:
+> +                const: 4
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  maximum: 4
+> +
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              remote-endpoint: true
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Output port node, single endpoint describing the output port.
+> +
+> +        properties:
+> +          endpoint:
+> +            unevaluatedProperties: false
+> +            $ref: video-interfaces.yaml#
+> +            description: Endpoint connected to output device
+> +
+> +            properties:
+> +              bus-type:
+> +                const: 4
+> +
+> +              remote-endpoint: true
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +additionalProperties: false
+
+This goes after required: block.
+
+> +
 > 
 
 
