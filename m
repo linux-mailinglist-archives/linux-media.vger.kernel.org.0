@@ -1,291 +1,140 @@
-Return-Path: <linux-media+bounces-36503-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36504-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879D0AF0BBF
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:38:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31979AF0BC2
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 08:39:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 200171C03285
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:39:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBA5C1BC641B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 06:39:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C3C722257E;
-	Wed,  2 Jul 2025 06:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZZZf4FM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B07224B01;
+	Wed,  2 Jul 2025 06:38:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7884C98;
-	Wed,  2 Jul 2025 06:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E65B4C98;
+	Wed,  2 Jul 2025 06:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751438320; cv=none; b=BoPFujdunFKrFVwFUB5b8XQtBUQpXyQ6UBzvUCQX5zVp/lpniK7smLibbO8gpjy3AnE3d6jbhNLTHhNcBW3U6dkAczvm4yTxp7yFGfP2YA16QIRSvnHOERWTwRsyvCf6QxLqGovp6R6M7cU19KPu9jlPnOK0IQl2CIskrz7UQLc=
+	t=1751438329; cv=none; b=VFagoESz+w5IR0oCTzZr80ajC7IcsDA7qWiqD8ESM2hs9WuPer9xMDMT6EyL6HgfwNqM+biREdZ3nja+z2jF6kb3AZBf58dCfEsmszRkioy9PunqsBv7wSqZnup2hIFVK8m/0PWTqhrWIyDJFuEnPn+rkKeXdwKYiUDT3NNRm8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751438320; c=relaxed/simple;
-	bh=oe9RZ6MJcibDug6PUcYbdx59wQ/BkvhR+1mgEYq+q7U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZgZ0z+CTgirmFuFLuJxGZXAXZre/zUWDKJwPUjuakb+5pCVSogbEISSbNxPzbZ5g3cvezzcMsiZtkPWmYHIItRtC4/DYsK74/NkoogfNHRWHBHE8S5+Bneri1quihC0ZSVw1Hi6Pf4jFsoe3MAO00yuKWl4lF3jxqHfdMxgMAj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZZZf4FM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4AFBC4CEEE;
-	Wed,  2 Jul 2025 06:38:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751438317;
-	bh=oe9RZ6MJcibDug6PUcYbdx59wQ/BkvhR+1mgEYq+q7U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cZZZf4FMD+xbd+LpVV+KtWdHfUJmTEmy2AM5l+WTBwR5cgqoQ03JnatWWWQ4+hPJK
-	 jrCROBqnYxDMWJxIT1QI+WsIkr7i2lCfnWWh3jMLBnJux+GaPGiPbeRft+Ybqt79X9
-	 Qer16xeThDhczV10AcgdNPbswruesSzgQKiZzxQ0vtyob9YQSmtWkJX1tNLDe5t1Sv
-	 m1/VaIJrw7Plm2ceW67J75nYIlmwzPOXSJHD/aoz+nncsdLNmwNBGC3jzowyntT9lj
-	 ePLKJJPbNcpWn6GFWkSavMcbCsdZx4aKV0NEgP0nTYkYflwqquTKRpAcoXPFGoYNYd
-	 48nis1FrrYGUg==
-Message-ID: <e4e612bc-b052-412b-952b-b7eee21d9a03@kernel.org>
-Date: Wed, 2 Jul 2025 08:38:29 +0200
+	s=arc-20240116; t=1751438329; c=relaxed/simple;
+	bh=Cf3l06xHvHtNnLb0KdSSZDQ+C93CQDr1YKJxP72iPzQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=QNIcmFIYfybDGpEXA/QyqID7EWAEJhqWxJkoNWzR441oe12EDqIwrcNx+GUk1eRiP96R1nyxkRDlr6TO+qdQIy+gOsdiu8dl1iOJv6cj09xDE1mGpVAyTiiBFtDoL5LAINBas7lPORTUHdbHZzLsSyXC3tnKHskRCjLtzxAfwaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-748e63d4b05so2698576b3a.2;
+        Tue, 01 Jul 2025 23:38:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751438328; x=1752043128;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5aF+x884e7po8uJiTEdxxj0MJKFysogBgcedgVoopug=;
+        b=Dyl1LRnLZL2p/ofMk0kpVXKJdunCnAiVPgzPHCEZW8L2wdhG1UuNzlM0feXYt58S+I
+         tfSDLGk4S+hEtERWOfArr6Dxzp5xRmgqz/cF+TIF0KOcGJiDYksL63JWqNgqTWa3fyYz
+         pNnJbcQYvgo2O4DmYdzmO7vmyDBqxA9GTLV17tALktSy1hztPLEeYXlfu/n8VL1ipbDR
+         qPNWvnm/dZFLNbWrX3mAnmBu4x3fjC68/2ploxC2I3+/mv8aBh/42q3XlmQMr08+kpNQ
+         OX5kktgpmQVYO138kyUF+6GQIsV7UNLB1yw7rwJuHc6GO2ufyvX5QKsMUaCGREOfWyMH
+         KQfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlmoGjfnkJ2EVaL6XHLYEUphnfBfYuOPiFDbQxiKRh1R88/uFJsLnbiZELGVyIws6IdoBuCesuA8SVGD7D@vger.kernel.org, AJvYcCWBt+9ciAH/ELcIdyC2uLGDkrxPpo+hJ74BMY1Ho9uBEm3pLsL0doYrEB9onxWLeVHWGkTQSVAcTh1x@vger.kernel.org, AJvYcCWiF143gqxMHw/CdC/WL51Bg2Wgz/r6IGdRHo1U5qpJoPTtgv1UAoUy6ZF+DzOJToRfSxp1DzlY00K+y4k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOQ+ni0BQPyiDJ5Vh+zyiyIEu/LnsP/aiOqb9rzl3YsckBxjWV
+	bSwYB+8Mt+R1n85fkASi+Z53M++adCbxpFppYNUP1tZGonByRWljSaoU
+X-Gm-Gg: ASbGncu2M3NzG8+D9e/NlqBi7DN9oO3JG4HerOt2F/Q6BzovzzuoMGLkoXs3T4pd1ba
+	7W28u+IdCHrH6FNDwhTkWOtp8byr5NdeL6GgqXa+AcpbDFE483FT1Cid1OL160GVc8wTH4ZB0N3
+	vpWNcaTcqCKUvcNcNg0HfOvRZ2yVnt85NoyWCBHDpLFBUmy2Y4vWoG/qWQI1AtVqZFCxf8vn9d4
+	ZH3sS/ix5+rjqul2rcrqEMODP0WD4sTmTqpuUITz6UvythDCswAG6og7QEBmBOjitqAm6IV2MCA
+	YYsTHwqiZHob9p+2IroDbgRuCxSaD3CTD73K1Gs+BoL1jV43HnUaS7gt80gQil/8hsrdAYwgsFu
+	QTUA0DLxTgcpfwUSLtMLYPKR3N5j35w==
+X-Google-Smtp-Source: AGHT+IF7l9eDVq7s4+Ly+sarfvaf4sApavVOT+Vk3RN3qImFJb19SlYtMSU7h2Fk8oqh98QDVDt04A==
+X-Received: by 2002:a05:6a21:7a47:b0:220:689c:315c with SMTP id adf61e73a8af0-222d7dc4f50mr3536922637.3.1751438327580;
+        Tue, 01 Jul 2025 23:38:47 -0700 (PDT)
+Received: from localhost.localdomain (c-24-4-34-163.hsd1.ca.comcast.net. [24.4.34.163])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af541bd0fsm13044966b3a.40.2025.07.01.23.38.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 23:38:46 -0700 (PDT)
+From: Will Whang <will@willwhang.com>
+To: Will Whang <will@willwhang.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-media@vger.kernel.org (open list:SONY IMX585 SENSOR DRIVER),
+	linux-kernel@vger.kernel.org (open list),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+Subject: [PATCH v1 0/4] media: Add Sony IMX585 image sensor support
+Date: Wed,  2 Jul 2025 07:38:32 +0100
+Message-Id: <20250702063836.3984-1-will@willwhang.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] dt-bindings: media: add DW MIPI CSI-2 Host support
-To: Frank Li <Frank.Li@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- Luis Oliveira <lolivei@synopsys.com>
-References: <20250701-95_cam-v1-0-c5172bab387b@nxp.com>
- <20250701-95_cam-v1-1-c5172bab387b@nxp.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250701-95_cam-v1-1-c5172bab387b@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/07/2025 00:06, Frank Li wrote:
-> From: Eugen Hristev <eugen.hristev@linaro.org>
+The following 4-patch series adds upstream support for the Sony
+IMX585 CMOS image-sensor.
 
-Linaro?
+Features
+==========
+  * 4-lane or 2-lane MIPI-CSI-2 up to 2079 Mbps/lane
+  * 4 K @ 60 fps 12-bit linear, 4 K @ 30 fps 16-bit Clear-HDR,
+    4 K @ 30 fps 12-bit gradient compression Clear-HDR
+    1080p binning mode, mono hardware variant, HCG support.
+  * New Sensor Dependent V4L2 controls for
+    HDR blending, grad-compression, HCG enable and Enable ClearHDR.
+  * Additional IRCut filter support through V4L2_CID_BAND_STOP_FILTER.
+  * Blacklevel adjustments through V4L2_CID_BRIGHTNESS.
+  * Multi Camera synchronization mode support.
 
-> 
-> Add bindings for Synopsys DesignWare MIPI CSI-2 host, which used at i.MX93
-> and i.MX95 platform.
-> 
-> Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+The driver has been validated on Raspberry Pi 4 B and Pi 5 using libcamera
+with a 24 MHz master clock.
 
-Microchip?
+Series layout
+=============
 
-Sorry, these two must match.
+  1. **dt-bindings: media: Add Sony IMX585 CMOS image sensor**
+  2. **media: uapi: Add custom IMX585 control IDs**
+  3. **media: i2c: imx585: Add Sony IMX585 image-sensor driver**
+  4. **media: docs: Add userspace-API guide for the IMX585 driver**
 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> This is continue previous thread
-> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221216143717.1002015-2-eugen.hristev@microchip.com/#3023663
-> 
-> change in v1 (compared to previous post)
-> - add reg-names
-> - remove clk surfix
-> - add imx93,dw-csi compatible string
-> - add dphys subnode name
-> - use compatible string snps,dw-mipi-csi2-v150 to avoid use general fallback
-> compatible string.
-> ---
->  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     | 161 +++++++++++++++++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 162 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
-> new file mode 100644
-> index 0000000000000..2a93bd72498f8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
-> @@ -0,0 +1,161 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/snps,dw-mipi-csi2-v150.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synopsys DesignWare CSI-2 Host controller (csi2host)
-> +
-> +maintainers:
-> +  - Frank Li <Frank.Li@nxp.com>
-> +  - Eugen Hristev <eugen.hristev@microchip.com>
+Feedback is welcome, in particular on the private-control API.
+Thanks in advance for your review!
 
-For sure does not work. Also, needs some sort of Ack from Eugen now.
+v1:
+ - initial posting
 
-> +
-> +description:
-> +  CSI2HOST is used to receive image coming from an MIPI CSI-2 compatible
-> +  camera. It will convert the incoming CSI-2 stream into a dedicated
-> +  interface called the Synopsys IDI (Image Data Interface).
-> +  This interface is a 32-bit SoC internal only, and can be assimilated
-> +  with a CSI-2 interface.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - fsl,imx93-mipi-csi2
-> +          - const: snps,dw-mipi-csi2-v150
-> +      - const: snps,dw-mipi-csi2-v150
+Regards,
+Will
 
-Same comment as before, you need SoC compatible. Drop the last one. You
-cannot use DW in a DW soc, can you?
+Will Whang (4):
+  dt-bindings: media: Add Sony IMX585 CMOS image sensor
+  media: uapi: Add custom IMX585 control IDs
+  media: i2c: imx585: Add Sony IMX585 image-sensor driver
+  media: docs: Add userspace-API guide for the IMX585 driver
 
-> +
-> +  reg:
-> +    items:
-> +      - description: MIPI CSI-2 core register
-> +
-> +  reg-names:
-> +    items:
-> +      - const: core
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: per
-> +      - const: pixel
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: MIPI D-PHY
-> +
-> +  phy-names:
-> +    items:
-> +      - const: rx
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the input port.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +            description: Endpoint connected to input device
-> +
-> +            properties:
-> +              bus-type:
-> +                const: 4
-> +
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 4
-> +
-> +              clock-lanes:
-> +                maxItems: 1
-> +
-> +              remote-endpoint: true
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Output port node, single endpoint describing the output port.
-> +
-> +        properties:
-> +          endpoint:
-> +            unevaluatedProperties: false
-> +            $ref: video-interfaces.yaml#
-> +            description: Endpoint connected to output device
-> +
-> +            properties:
-> +              bus-type:
-> +                const: 4
-> +
-> +              remote-endpoint: true
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +additionalProperties: false
+ .../bindings/media/i2c/sony,imx585.yaml       |  120 +
+ .../userspace-api/media/drivers/imx585.rst    |   95 +
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |    9 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/imx585.c                    | 2466 +++++++++++++++++
+ include/uapi/linux/imx585.h                   |   20 +
+ include/uapi/linux/v4l2-controls.h            |    6 +
+ 8 files changed, 2725 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml
+ create mode 100644 Documentation/userspace-api/media/drivers/imx585.rst
+ create mode 100644 drivers/media/i2c/imx585.c
+ create mode 100644 include/uapi/linux/imx585.h
 
-This goes after required: block.
+-- 
+2.39.5
 
-> +
-> 
-
-
-Best regards,
-Krzysztof
 
