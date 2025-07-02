@@ -1,328 +1,129 @@
-Return-Path: <linux-media+bounces-36532-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36533-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04DAAF1302
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:01:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D982AAF1335
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 13:07:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35BEB3A3E69
-	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:01:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E036F1C24E43
+	for <lists+linux-media@lfdr.de>; Wed,  2 Jul 2025 11:06:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC811269880;
-	Wed,  2 Jul 2025 11:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD1D26F471;
+	Wed,  2 Jul 2025 11:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="NrA6v1Lf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kkn9q4u8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012002.outbound.protection.outlook.com [52.101.66.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F16325523C;
-	Wed,  2 Jul 2025 11:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751454013; cv=fail; b=FEmV7dzHmkC/N9oRTGoJnWSgky1loi/3ij7wI8c6IPqroTh6QllVBmtf2nDldBqmyDzMxeqajIByItc3LauhfQ8Bt/PB8fZvQu0d6IfmL9uZadxgaFILaxhJCR8QR6Hoca/IgqiJouJLMcC9L7dkKReZ6FQJE0Ja3M5CzJoYOI0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751454013; c=relaxed/simple;
-	bh=wE/rZyxZUNuzCDeOCQTT64rFWdHMt7tJHeVEavsNuuE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IFXQL+2yy0PtK6Q8SMrvpgzG8jUxy+ueMyEdjVLoDtpQZnETanXhZqwXZFd109mCta8rFS+0XyOV5qkvj/NC0kDcLnuNBU8J6K8ZEzl1Onh64rtDr7fidPGhRT/rHk38eCXHxHLtfiYfU3KuwtFPSdqAxUEVyJd56JFBBVw4AtM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=NrA6v1Lf; arc=fail smtp.client-ip=52.101.66.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v5GRYuyVHUxW74lqlrd4WVYuDbSU3LInRMDbAqEvOYyCaEkFKHSehJJsdVQbsl65tbeqLd/bvPegVMWWsqM/6o7+hH+Fxx4elkzpboh9Dhof/lTqCzjTxDKKj+2Z3cke///QoShnolINMvrDVYv5mfHRzl4eDf3UxcA/38s5ndhlIhqAVoNkE0KK/Y1zabLeegiWRt+0Q/TyoUeCkNRkgJhSt3I9p7VeHbRRmBQI6B70f8SbFSgsyi4mf0E8uxWXSCy0X0ivkTg+MaJGpjr/s3j0iQU36+IUkgNWozE8KiUKcu5ghByw5dg7LKlahBBz8V7K9cnMbJlEAzxurPPFVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XJa5NFWO9AUJOy6LGENilO2nrVdxIkLW3KrikaEwpg8=;
- b=TrJm+HFiXI1jRjgv1q+Frh0cTuj1FZbhZ8J38OJh3eMgWKEaMClSXaukm/sFbdL2A9NcysS+FgHNKMUnJvzkO86Gny2cKek4u9ePOj0Ky7sTDIioxdx2oDQJW+rmRB7KZibl5GsLbQ40sUE0ttSxWsqMyd86Snn+v+BrrOI0t2sJNsqBmirbaxFozN1+OdLwykYA4lhuQtEONh1J1QuQb7Qdqc8NICzFtRVylXiiXKGp7Z6MuIH4DLsG0CSRMneB4CugJoqXRrp5joJg8UYggxA5zlDN5sTX6wnzywjviMBylXoUROkk6s6w6t9bzLddIQ09vsxRU2NFSbfowyaX0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XJa5NFWO9AUJOy6LGENilO2nrVdxIkLW3KrikaEwpg8=;
- b=NrA6v1LfeYzbd8+5xYQfTCvLGNxJpqNZJP0E27h+2MiiewO46R8trp8pBldTeo3DHdq4AF2V8MZEHYZVNSmtaFDUskvUtR8oKeveQUkU/J+IdaWO5QYnl6p47GJkqDB3+3o6ocATf/jtHowzkQkFK6fA3QxPq+0wVsrBBHWMuK/Fu7iLOwXvtUGehMHKlY6r+iQzJaDg4iUxt11t3qEpTzIrEesuUjPnH1hpLipgMr0nvAXTDN3IL/0WEsl61rddrblHnqq/WfZ+enG6lFtx9QSjNUAi89tHKCgI/m0gt+NV40g9wZkcLzcnbEI7ff69FODoFFDcYFqi19krtQsx6A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
- by PAWPR04MB9888.eurprd04.prod.outlook.com (2603:10a6:102:385::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Wed, 2 Jul
- 2025 11:00:08 +0000
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::4e24:c2c7:bd58:c5c7%6]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
- 11:00:08 +0000
-From: Xu Yang <xu.yang_2@nxp.com>
-To: ezequiel@vanguardiasur.com.ar,
-	mchehab@kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com,
-	gregkh@linuxfoundation.org,
-	xu.yang_2@nxp.com,
-	mingo@kernel.org,
-	tglx@linutronix.de,
-	andriy.shevchenko@linux.intel.com,
-	viro@zeniv.linux.org.uk,
-	thomas.weissschuh@linutronix.de,
-	dafna.hirschfeld@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	imx@lists.linux.dev,
-	jun.li@nxp.com
-Subject: [PATCH v3 3/3] media: stk1160: use usb_alloc_noncoherent/usb_free_noncoherent()
-Date: Wed,  2 Jul 2025 19:02:22 +0800
-Message-Id: <20250702110222.3926355-4-xu.yang_2@nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250702110222.3926355-1-xu.yang_2@nxp.com>
-References: <20250702110222.3926355-1-xu.yang_2@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA0PR01CA0073.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:ad::12) To DU2PR04MB8822.eurprd04.prod.outlook.com
- (2603:10a6:10:2e1::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4BF25F97F;
+	Wed,  2 Jul 2025 11:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751454267; cv=none; b=SzjunkxsoFgLFTjv+EJbLN14YdJbjzrr/lnOn01qI+qOUBCGAmta0kuZXc6hsDD2owqTkACrb0hj6HkwK/dqhgK/RzHmcIDsFyf1f49zuFkVXhTO8YqJJRLbcLetUyHCzcqmmkePqGm2KBXx5LibxLNyGJsgH72h5vkPeu5KMLA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751454267; c=relaxed/simple;
+	bh=VnrLLpvVSLYOlpdQt2Fw/U4XhbYdJYLDafJ/3N4W8Vc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ijZ1+w/IyuM3h5MXYCoFvjmrlGR9Jb9ZAarZSPkKfb84s+qiac83hBfHozFaPITddeqvMziar78XkU4PxobNwkwUYvQ+NdVEDJ3c0zdVqXzkWcqPQZUYJEbnv+g8adgpsylkAhGpYRwnx1cyO7acCmlpTyd50XMJLp+G7C24WM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kkn9q4u8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEE3C4CEED;
+	Wed,  2 Jul 2025 11:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751454266;
+	bh=VnrLLpvVSLYOlpdQt2Fw/U4XhbYdJYLDafJ/3N4W8Vc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Kkn9q4u8iaQeWMYm3tZPKBbdeaME23/2zMEjew2hg1/o4z/q2BSAGydCHCddzP6iE
+	 VXXO0oDaHiZxYCnrmaH3D7kuirLDEYToyHWCkx7SjTGEMA7WPaynTWnpsECWK9+iW3
+	 gBGsj7l1MKv22wg/zD+9+RMheoqgf2ydp9iUYOE96EhSTKXTuWKjRdmC6X9myc6rGB
+	 OeD8yY/W/Z2iRuv7xK/LY6VSEHAp2TeVY2grpjA8OzgpoKgDJ2oaf5cduDpN9sgOD8
+	 HlKVoZwwxS8Abc/1b+gDoSjcXomeocYoUly/KJtSDO7YaRxIKgFj85AcNXM0DXT/Vq
+	 8zfvKlqor7ixw==
+Message-ID: <156729ff-86f6-49a9-8b3c-7d0fd6737fb9@kernel.org>
+Date: Wed, 2 Jul 2025 13:04:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|PAWPR04MB9888:EE_
-X-MS-Office365-Filtering-Correlation-Id: c83d5ce2-c1e6-4532-23d3-08ddb9579b81
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|52116014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?t322hwP76nfbZ5gxxQpqDylGFJHtmb2Nh5h8HaImaZvI9s00YKR8uuvYLYMn?=
- =?us-ascii?Q?S0L1CMXeX5u0fFtGC8iuWN/4PkLQXFk6tpXVcI1khTuD3hzrzfGBQzWBwIWs?=
- =?us-ascii?Q?o2CGj5sinj/MaOmdFcdEnLQtA2sIXVTNxlYOsB1aS1uRZ5iaHjgMfylrGU0k?=
- =?us-ascii?Q?PtXnQ0no6MobvJEov8/zL6k4jz8+Ja5VJOQlvrRDgErxGXZo0xk5MOd6MCUm?=
- =?us-ascii?Q?4WXr1B1AKoYw4HlZnZkLIsDELS8YraigxlKCcfQ1S2l/7MQUTJqRqOYFFKSn?=
- =?us-ascii?Q?9p9/OyWB7V8whDk+sdWGqB+1Rg4nEJLHar4TLeS1DuyGx0Y0RiaY/gtKOV+J?=
- =?us-ascii?Q?bVKGtYbFhDH0fHDRZoXdkxdagySwIuCS/Vz/ePqaiGPI1OgsXoWaeIM/hiXP?=
- =?us-ascii?Q?kDUXsjJb3N0L80KjyLtgi7QNl8dz2lakQu5O6WRGgOunccQDDDRyCXU3byjf?=
- =?us-ascii?Q?FeGvOOxhqZwjVL5OghVApYbg/+TsG20DQyMOptUggp2663fcQuw35F13hMOz?=
- =?us-ascii?Q?KgqBbRroWE+h3CSQ8RzYdW7ySBy1Y6GHEzOP1IBUA/ABa96zPqy+0hxI/Yew?=
- =?us-ascii?Q?ZI6UnY/ZhWu2o2XQOVvd1/3t/ANyICcwuaWm5zy1jjA7xx8Xu/z5MYa2Ti5/?=
- =?us-ascii?Q?kkWhW0poix5tFjDpyCKvTr6rTvieALoZwcL6LSg3xZ3rMPvAO7QtGOguC8Cj?=
- =?us-ascii?Q?hfQI3Pm0zgweFlDDWDbqle1fXteuo9nOfCIwEDqovXFQXdgwK95mJiheEMJA?=
- =?us-ascii?Q?w70kexLguJNYRS2hLJ0D8R/PDP9tlSoFWsF3BFS0sVQJKsbQpe/1aPMXxM6m?=
- =?us-ascii?Q?Fcut667Dx5XfF3fd+nSvUn8Ukxe0DKRHR7gIJGY5rpZD4wOQ2xOe6BNqfDwa?=
- =?us-ascii?Q?zO7mA2o30bImFfxCzeD/5idrus75aX/q1rsIgiDX5N08T8mbcUuP+OHQhTlx?=
- =?us-ascii?Q?IkmJudH6hFj8trM2MRZ2IWHiGSzwOLW1G0u8ONseOtJJkiUSyF/C0N3YkJI8?=
- =?us-ascii?Q?r0i+aOfXzxt8EyAULo2IL2xl4fsws+FAzJ1r8I9KiR+yo+PlwJYj1RFY0M9P?=
- =?us-ascii?Q?WJsi9RQnkzEdzSUK4lmmUX/Tol9qe59RJXw3zsi43GX3az/JQQ7XihMbi/wZ?=
- =?us-ascii?Q?oRWr3cgHM4dXWZVlwX8p8Jx1H0mXNkuy1JmDj7Z2u90U6QYyz1NkKIB0jJJq?=
- =?us-ascii?Q?OcD357lSCkNTijgyNdxoSZ35FgiGgL9k5m42FXGciX/LifmQYC5yJV4BYpR0?=
- =?us-ascii?Q?7vlsr2w8SLAakMyoKkfzDOkBsKsHxvXQLe4i07ezw0ndDVCkEoq2LUtNT4YU?=
- =?us-ascii?Q?mQxWSOxnq9nAw6mFyAKk7gnH0g2fakgcMzwRZK7bgbzWfQEO589f8aOHxx8o?=
- =?us-ascii?Q?zA0iioTwTJd00lU+050FpXh2G27Q61o/E8YqOqhzA2cz4MmSF9sz0GKaxOlh?=
- =?us-ascii?Q?IwJEjtU/D19uFBss4ppt5DMmh1zEfE0We+IC3JcFKJp055uahpRE72xJpc1i?=
- =?us-ascii?Q?Nkroc3A+iEIjzcA=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(52116014)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?SSeABD97VRXKAeeLRXjNTZw3Ct2bVBa3ev0L9wtSV3GIEbvs0nUtRvXfHFlc?=
- =?us-ascii?Q?VfPquE+LapZ7mM60UruVwaXjASbc0m1B614wQoTPjzORGLL/29A/sm+Jh+4B?=
- =?us-ascii?Q?To0XF0YdSeEQC51+/7bq62GttIZHzOUcwMM9Cjd+UelFKudp1qFvsjsBIXui?=
- =?us-ascii?Q?BwC6zMYIUYC2hea4brtaORBfW1fvpukilpqtF63Pjzr/uBTBhrKdIZLLLHww?=
- =?us-ascii?Q?X/+Dylqh3ecQug+5KjYPeymYloKYtlfUcCfzKhHkOwcmk0xMscMnVnkxrC4a?=
- =?us-ascii?Q?AOIwqUOtHfY8XGu1cOSrnZFdCpE2epAObTfZALmIR8/LvvhY/eW8Xq2dPCsM?=
- =?us-ascii?Q?pUMrYYUHf2n7gJQ0YGroeHlJqhGT2vEnwF7nvWDQxUtRuYGuhM6YKWFYw3ri?=
- =?us-ascii?Q?8OsXdL6wrFfMu3jJnSUthIrryrhmbhWbLPfMA0Ag8iCUpeP4xdH5LU1BX5sF?=
- =?us-ascii?Q?Fo8mYhtKY91a9tatHEWlRnZlDIftp8XILueWLOEX6jSbhnwKBMOUE3VbpbPl?=
- =?us-ascii?Q?KctCZ03epyedBonXpc3bktFceg4Wx16UxPETsWM0PfVNpfiA470h90xfd7Mw?=
- =?us-ascii?Q?m6JhmIC7lIIhdPIkS9eYodKVULKBE2lfpicOggIG3wSu5ujmnxRjnaM8JxoL?=
- =?us-ascii?Q?DjTBcv0pUX9EZRMziqE7btYE9kwfGg3Xm4AmBKrXYdgkTsub5BCDwoH9kM0G?=
- =?us-ascii?Q?W2LEIY2yH359sPH+9Qlj7CtQbasZC9hvzeFqRQHZHe30tXRXuHSLrdaQB1Ak?=
- =?us-ascii?Q?NJ5utcMiU+SkyMYHAHVKHHN+ggoiyE5JovLBxf9MbtSHrEHVXOEzvp3fWA6i?=
- =?us-ascii?Q?FAf4fUr+/3jY77Z7FkNRvbXgAK3lbFySAzFjDB+oVNwWIhEkWZ87OpPscCkj?=
- =?us-ascii?Q?PmVYSX72vDfX7EQLCBhLMDv76Btugjls+tDZu+8Gpr/iJapQxi86exKAaANR?=
- =?us-ascii?Q?FcSAWSAILi76n+7u3M5bxJ6bcvM3mnap6YSWfd0QQnxAxJu9axh6Mi8pVfzE?=
- =?us-ascii?Q?h5IP9ZsXHHUlW3sljfcFjqOenoxvggW5MpxIO3Pmq6EVuf/B00d+Vo9DdMp1?=
- =?us-ascii?Q?jgGrvByhk4RemkYo+CnBliCbhh/HqjBcLyZGhAczlAWux9MESiCJf0DlFl6/?=
- =?us-ascii?Q?RI96NcPBRPcRWZAC0IlfB4CZ7FyiirRvEnbfKfjPDS1xY0PEBiZ0WkaRZdkn?=
- =?us-ascii?Q?G21WClyph+DquIejjpqllXqG/geDYhGWUHVPRhox2JX+fcRd/+IyshIKAk0Y?=
- =?us-ascii?Q?f9V6vaeUY4Ku5SiSGfLLa5LKQQaDMMuRd3fJ3aeSkmrK3PrhHBjUaUnV86Ss?=
- =?us-ascii?Q?oazQq6Se0rQCrjK60HGYy2QqG6EoMKM4d2qMMEDxOUU2Ij74D3/YwgM2UTp/?=
- =?us-ascii?Q?/FjFfwSIiwUUbluPtGWffwerPCaIBEXaohhwQCAiOW3d8ZxvSM/1BuXrEzyv?=
- =?us-ascii?Q?nlVdmbRyVPJ/LjlJ8jOCUVTpyD7qTGft/F8T9nA2ZeF3Idc30cKHJHW8NQnr?=
- =?us-ascii?Q?FAkPxu7ps7mpZAnzAXaAeAmdDGNsY4yC7mA2zZmlDyxlqfR3cXTE+aTN6F11?=
- =?us-ascii?Q?SZwVH2EYVKELYZ8+fOUpOh08Zite4k3lvvjhRneQ?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c83d5ce2-c1e6-4532-23d3-08ddb9579b81
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 11:00:08.0000
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SrthMtGhfot0NjKFC6vTFSoQujsU26Qk+Cfs1Ab+DW/8lHEdE30cdepRxg50My5/OUEzGn+QH4qmOw9IrTN5fA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9888
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/5] media: iris: register and configure non-pixel node
+ as platform device
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+ <20250627-video_cb-v3-2-51e18c0ffbce@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250627-video_cb-v3-2-51e18c0ffbce@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This will use USB noncoherent API to alloc/free urb buffers, then
-stk1160 driver needn't to do dma sync operations by itself.
+On 27/06/2025 17:48, Vikash Garodia wrote:
+>  
+> +static int iris_init_non_pixel_node(struct iris_core *core)
+> +{
+> +	struct platform_device_info info;
+> +	struct platform_device *pdev;
+> +	struct device_node *np_node;
+> +	int ret;
+> +
+> +	np_node = of_get_child_by_name(core->dev->of_node, "non_pixel");
 
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+Never tested.
 
----
-Changes in v3:
- - no changes
----
- drivers/media/usb/stk1160/stk1160-v4l.c   |  4 ---
- drivers/media/usb/stk1160/stk1160-video.c | 43 ++++++-----------------
- drivers/media/usb/stk1160/stk1160.h       |  7 ----
- 3 files changed, 11 insertions(+), 43 deletions(-)
-
-diff --git a/drivers/media/usb/stk1160/stk1160-v4l.c b/drivers/media/usb/stk1160/stk1160-v4l.c
-index 5ba3d9c4b3fb..715ce1dcb304 100644
---- a/drivers/media/usb/stk1160/stk1160-v4l.c
-+++ b/drivers/media/usb/stk1160/stk1160-v4l.c
-@@ -232,10 +232,6 @@ static int stk1160_start_streaming(struct stk1160 *dev)
- 
- 	/* submit urbs and enables IRQ */
- 	for (i = 0; i < dev->isoc_ctl.num_bufs; i++) {
--		struct stk1160_urb *stk_urb = &dev->isoc_ctl.urb_ctl[i];
--
--		dma_sync_sgtable_for_device(stk1160_get_dmadev(dev), stk_urb->sgt,
--					    DMA_FROM_DEVICE);
- 		rc = usb_submit_urb(dev->isoc_ctl.urb_ctl[i].urb, GFP_KERNEL);
- 		if (rc) {
- 			stk1160_err("cannot submit urb[%d] (%d)\n", i, rc);
-diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
-index 9cbd957ecc90..416cb74377eb 100644
---- a/drivers/media/usb/stk1160/stk1160-video.c
-+++ b/drivers/media/usb/stk1160/stk1160-video.c
-@@ -298,9 +298,7 @@ static void stk1160_process_isoc(struct stk1160 *dev, struct urb *urb)
- static void stk1160_isoc_irq(struct urb *urb)
- {
- 	int i, rc;
--	struct stk1160_urb *stk_urb = urb->context;
--	struct stk1160 *dev = stk_urb->dev;
--	struct device *dma_dev = stk1160_get_dmadev(dev);
-+	struct stk1160 *dev = urb->context;
- 
- 	switch (urb->status) {
- 	case 0:
-@@ -315,10 +313,6 @@ static void stk1160_isoc_irq(struct urb *urb)
- 		return;
- 	}
- 
--	invalidate_kernel_vmap_range(stk_urb->transfer_buffer,
--				     urb->transfer_buffer_length);
--	dma_sync_sgtable_for_cpu(dma_dev, stk_urb->sgt, DMA_FROM_DEVICE);
--
- 	stk1160_process_isoc(dev, urb);
- 
- 	/* Reset urb buffers */
-@@ -327,7 +321,6 @@ static void stk1160_isoc_irq(struct urb *urb)
- 		urb->iso_frame_desc[i].actual_length = 0;
- 	}
- 
--	dma_sync_sgtable_for_device(dma_dev, stk_urb->sgt, DMA_FROM_DEVICE);
- 	rc = usb_submit_urb(urb, GFP_ATOMIC);
- 	if (rc)
- 		stk1160_err("urb re-submit failed (%d)\n", rc);
-@@ -365,11 +358,9 @@ void stk1160_cancel_isoc(struct stk1160 *dev)
- 
- static void stk_free_urb(struct stk1160 *dev, struct stk1160_urb *stk_urb)
- {
--	struct device *dma_dev = stk1160_get_dmadev(dev);
--
--	dma_vunmap_noncontiguous(dma_dev, stk_urb->transfer_buffer);
--	dma_free_noncontiguous(dma_dev, stk_urb->urb->transfer_buffer_length,
--			       stk_urb->sgt, DMA_FROM_DEVICE);
-+	usb_free_noncoherent(dev->udev, stk_urb->urb->transfer_buffer_length,
-+			     stk_urb->transfer_buffer, DMA_FROM_DEVICE,
-+			     stk_urb->sgt);
- 	usb_free_urb(stk_urb->urb);
- 
- 	stk_urb->transfer_buffer = NULL;
-@@ -410,32 +401,19 @@ void stk1160_uninit_isoc(struct stk1160 *dev)
- static int stk1160_fill_urb(struct stk1160 *dev, struct stk1160_urb *stk_urb,
- 			    int sb_size, int max_packets)
- {
--	struct device *dma_dev = stk1160_get_dmadev(dev);
--
- 	stk_urb->urb = usb_alloc_urb(max_packets, GFP_KERNEL);
- 	if (!stk_urb->urb)
- 		return -ENOMEM;
--	stk_urb->sgt = dma_alloc_noncontiguous(dma_dev, sb_size,
--					       DMA_FROM_DEVICE, GFP_KERNEL, 0);
--
--	/*
--	 * If the buffer allocation failed, we exit but return 0 since
--	 * we allow the driver working with less buffers
--	 */
--	if (!stk_urb->sgt)
--		goto free_urb;
- 
--	stk_urb->transfer_buffer = dma_vmap_noncontiguous(dma_dev, sb_size,
--							  stk_urb->sgt);
-+	stk_urb->transfer_buffer = usb_alloc_noncoherent(dev->udev, sb_size,
-+							 GFP_KERNEL, &stk_urb->dma,
-+							 DMA_FROM_DEVICE, &stk_urb->sgt);
- 	if (!stk_urb->transfer_buffer)
--		goto free_sgt;
-+		goto free_urb;
- 
--	stk_urb->dma = stk_urb->sgt->sgl->dma_address;
- 	stk_urb->dev = dev;
- 	return 0;
--free_sgt:
--	dma_free_noncontiguous(dma_dev, sb_size, stk_urb->sgt, DMA_FROM_DEVICE);
--	stk_urb->sgt = NULL;
-+
- free_urb:
- 	usb_free_urb(stk_urb->urb);
- 	stk_urb->urb = NULL;
-@@ -494,12 +472,13 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
- 		urb->transfer_buffer = dev->isoc_ctl.urb_ctl[i].transfer_buffer;
- 		urb->transfer_buffer_length = sb_size;
- 		urb->complete = stk1160_isoc_irq;
--		urb->context = &dev->isoc_ctl.urb_ctl[i];
-+		urb->context = dev;
- 		urb->interval = 1;
- 		urb->start_frame = 0;
- 		urb->number_of_packets = max_packets;
- 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
- 		urb->transfer_dma = dev->isoc_ctl.urb_ctl[i].dma;
-+		urb->sgt = dev->isoc_ctl.urb_ctl[i].sgt;
- 
- 		k = 0;
- 		for (j = 0; j < max_packets; j++) {
-diff --git a/drivers/media/usb/stk1160/stk1160.h b/drivers/media/usb/stk1160/stk1160.h
-index 7b498d14ed7a..4cbcb0a03bab 100644
---- a/drivers/media/usb/stk1160/stk1160.h
-+++ b/drivers/media/usb/stk1160/stk1160.h
-@@ -16,8 +16,6 @@
- #include <media/videobuf2-v4l2.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-ctrls.h>
--#include <linux/usb.h>
--#include <linux/usb/hcd.h>
- 
- #define STK1160_VERSION		"0.9.5"
- #define STK1160_VERSION_NUM	0x000905
-@@ -195,8 +193,3 @@ void stk1160_select_input(struct stk1160 *dev);
- 
- /* Provided by stk1160-ac97.c */
- void stk1160_ac97_setup(struct stk1160 *dev);
--
--static inline struct device *stk1160_get_dmadev(struct stk1160 *dev)
--{
--	return bus_to_hcd(dev->udev->bus)->self.sysdev;
--}
--- 
-2.34.1
-
+Best regards,
+Krzysztof
 
