@@ -1,74 +1,55 @@
-Return-Path: <linux-media+bounces-36682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2927AF78EC
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 16:56:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE17AF79DA
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 17:06:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 271FA4E7735
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 14:54:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D6963BFC54
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 15:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8D632E7F0B;
-	Thu,  3 Jul 2025 14:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AEA72E7BBF;
+	Thu,  3 Jul 2025 15:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjE4mXtC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VLIiBmn0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC9B2EAB95
-	for <linux-media@vger.kernel.org>; Thu,  3 Jul 2025 14:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A4B2EE299
+	for <linux-media@vger.kernel.org>; Thu,  3 Jul 2025 15:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751554407; cv=none; b=F0C0mcnka3tBAQ8YRwVOnd0aUa7BWyiACLYacJXayAkxAI9dXdrtawQjJTGY5KPb5d6MMKIIkeIdQ3F7ufd5gP+AbgHfyjDnXsPh35GrIbt7n/q88TqDlp3Eek4XHOOzDv4NQQo1WX3XIRpBb+aE4DdpFljZcymy4qUJFG6VmOU=
+	t=1751555007; cv=none; b=O07wQzY6xRfgVnlSd6lXibptBoev5DeKXcVMY1MTGvefOFwctPu6Wcm8Bt1NQswF+fDHJu1SEmr0zN27o/UuxHKRzlRebHw2SfvNhouBqZK0ge1C0ofvXlnhJAZ5DCFwbSALTA2idzvLvt0IOPR/lQG3nITlhvzqGvQtynl9yv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751554407; c=relaxed/simple;
-	bh=8lEc1bxD5ddHBG0PumhK5oOLEI4pDpj5bp0OTcJyPCI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=umMQMaAxAtSikpcP/QW5hrBQGq91OvhxN6ofnq0wc9CtmdGC92IH7AZQ4OSYug9jJGVRHY+KiWRVAnj+A19SipLeSTOMrVKCkuHLmnhByxS2oH+iqyvvj+y1e0nMZ8RyTIU/tB9aTxlIYImGXovI9HxQ0/JnTio/Vxjs/ERc4+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjE4mXtC; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751554405; x=1783090405;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8lEc1bxD5ddHBG0PumhK5oOLEI4pDpj5bp0OTcJyPCI=;
-  b=OjE4mXtCbc4ySnAVmv7+oLBhkvNxVWPBZU15WqsnJiEGBK7BCrXfTKOw
-   zgi9NykLALiii08T/BtvlPAeA6fo4a6Md4YyeCX92wVPw2NVwWn2dTuyz
-   1a0cXrbYZWfvBsS0vu9/G3Y2PZVx70Hp7N5mT9O8tg4mE6fSFZUl4Cp41
-   4EcJjTvJL+o1vw+HgGJjRTL/s3mhpbdBU/mL9WXhz0GSS+v2PQhzTi0JT
-   tXp1xZAevZGIeYVSyu0aPNWxuytt3u1BZMelt47BxitKsSr/6hM6P/nha
-   amftsBOaIqWwgYP5jwJz9jfa0wveEUSuFFTlcnJY79bXvezLPmbJqj1/Z
-   Q==;
-X-CSE-ConnectionGUID: OZks3ozqS0K2yi6oA15gSA==
-X-CSE-MsgGUID: hbNsEH4JR+Wtga4FrD6HxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53601922"
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53601922"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 07:53:25 -0700
-X-CSE-ConnectionGUID: NHr4XpJ4QDihGyjkEzC/lA==
-X-CSE-MsgGUID: Es93ZFKZSku72wJlg1eeuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="154885483"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.116])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 07:53:24 -0700
-Received: from svinhufvud.lan (syyslaukka.retiisi.eu [IPv6:::1])
-	by svinhufvud.fi.intel.com (Postfix) with ESMTP id DCFF144419;
-	Thu,  3 Jul 2025 17:53:19 +0300 (EEST)
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl,
-	bingbu.cao@intel.com
-Subject: [PATCH 1/1] media: ipu7: Drop IPU8 PCI ID for now
-Date: Thu,  3 Jul 2025 17:53:19 +0300
-Message-Id: <20250703145319.1757064-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1751555007; c=relaxed/simple;
+	bh=QW0BACX/d+IzlFbytQXmRqmZFSTB5MZXFlpT8mlsP0s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZqAz5EUXp2ESMSXn60srXMljR51XtjFuKxGvGIeD1oYQUL5uwPfOT1/IjSwyAS9aNXup4iQ6tF3GEDKCGnN4R5aR+xDuE9D08LafavA8BvI7vsKNIoeF/8yPXlnY7obBWeLrO2aFtcrS+1BXEHRUhc07ycU5Q33xxDv4I+glqQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VLIiBmn0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86BCBC4CEED;
+	Thu,  3 Jul 2025 15:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751555006;
+	bh=QW0BACX/d+IzlFbytQXmRqmZFSTB5MZXFlpT8mlsP0s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VLIiBmn0NiOfvE0T/UBiIUYYjn3442Sqp2BKSgCCaPX9DJDNO6eUbo1fydh5dPejw
+	 8gNVTd+9viE8omUTBsmHjfcTdAM0PFWUKHQ25DboVZhCcKnm246wnoCJjvsG9TekfK
+	 8pgJXauEe9YqQrK8wmnnSll2718qkgXnYf2+6+AlyzmxcM8eiRsee9OVLNCVq9srLL
+	 s8IipX8zu3QRhixBWZ8jTG2diP83oioKBwPhwZlQyfBSeukejg2G6Z2qUG224AOD8Z
+	 shMoRHy/rSL4sjRe1HjrfRkhSKJR2edOUdjxHMkH8K71Svtx7BdWCOal9TJbWaQcxQ
+	 QPOcoNP4yAEgQ==
+From: Hans de Goede <hansg@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	linux-media@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH resend] media: i2c: Automatically select common options for lens drivers
+Date: Thu,  3 Jul 2025 17:03:15 +0200
+Message-ID: <20250703150315.25187-1-hansg@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,28 +58,123 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver is intended for IPU7 at the moment so drop the IPU8 PCI ID.
+From: Hans de Goede <hdegoede@redhat.com>
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+In commit 7d3c7d2a2914 ("media: i2c: Add a camera sensor top level menu")
+a top level menu was added for sensor drivers so that all sensor drivers
+would depend on I2C and so that MEDIA_CONTROLLER, FWNODE and
+VIDEO_V4L2_SUBDEV_API would be automatically selected for all sensor
+drivers.
+
+All lens drivers must depend on I2C and VIDEO_DEV and must select
+MEDIA_CONTROLLER, V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API and most already
+do, but e.g. VIDEO_V4L2_SUBDEV_API is not consistenly selected.
+
+Change the "Lens drivers" menu into a menuconfig option with
+the necessary depends and selects. This ensures that these options are
+depended on / selected consistently and simplifies the Kconfig snippets
+for the various lens voice coil drivers.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202411061152.VKd9JYpa-lkp@intel.com/
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-This goes on top of the IPU7 patches.
+ drivers/media/i2c/Kconfig | 38 ++++++++++++--------------------------
+ 1 file changed, 12 insertions(+), 26 deletions(-)
 
- drivers/staging/media/ipu7/ipu7.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-index 4a70d3527cb7..1b4f01db13ca 100644
---- a/drivers/staging/media/ipu7/ipu7.c
-+++ b/drivers/staging/media/ipu7/ipu7.c
-@@ -2752,7 +2752,6 @@ static const struct dev_pm_ops ipu7_pm_ops = {
- static const struct pci_device_id ipu7_pci_tbl[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, IPU7_PCI_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, IPU7P5_PCI_ID)},
--	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, IPU8_PCI_ID)},
- 	{0,}
- };
- MODULE_DEVICE_TABLE(pci, ipu7_pci_tbl);
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 616b3cf25e3a..48a4b3b1ded3 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -778,24 +778,25 @@ config VIDEO_THP7312
+ 
+ endmenu
+ 
+-menu "Lens drivers"
+-	visible if MEDIA_CAMERA_SUPPORT
++menuconfig VIDEO_CAMERA_LENS
++	bool "Lens drivers"
++	depends on MEDIA_CAMERA_SUPPORT && I2C
++	select MEDIA_CONTROLLER
++	select V4L2_FWNODE
++	select VIDEO_V4L2_SUBDEV_API
++	default y
++
++if VIDEO_CAMERA_LENS
+ 
+ config VIDEO_AD5820
+ 	tristate "AD5820 lens voice coil support"
+-	depends on GPIOLIB && I2C && VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select V4L2_ASYNC
++	depends on GPIOLIB
+ 	help
+ 	  This is a driver for the AD5820 camera lens voice coil.
+ 	  It is used for example in Nokia N900 (RX-51).
+ 
+ config VIDEO_AK7375
+ 	tristate "AK7375 lens voice coil support"
+-	depends on I2C && VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the AK7375 camera lens voice coil.
+ 	  AK7375 is a 12 bit DAC with 120mA output current sink
+@@ -804,10 +805,7 @@ config VIDEO_AK7375
+ 
+ config VIDEO_DW9714
+ 	tristate "DW9714 lens voice coil support"
+-	depends on GPIOLIB && I2C && VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_ASYNC
++	depends on GPIOLIB
+ 	help
+ 	  This is a driver for the DW9714 camera lens voice coil.
+ 	  DW9714 is a 10 bit DAC with 120mA output current sink
+@@ -816,10 +814,6 @@ config VIDEO_DW9714
+ 
+ config VIDEO_DW9719
+ 	tristate "DW9719 lens voice coil support"
+-	depends on I2C && VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_ASYNC
+ 	select V4L2_CCI_I2C
+ 	help
+ 	  This is a driver for the DW9719 camera lens voice coil.
+@@ -828,10 +822,6 @@ config VIDEO_DW9719
+ 
+ config VIDEO_DW9768
+ 	tristate "DW9768 lens voice coil support"
+-	depends on I2C && VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_FWNODE
+ 	help
+ 	  This is a driver for the DW9768 camera lens voice coil.
+ 	  DW9768 is a 10 bit DAC with 100mA output current sink
+@@ -840,17 +830,13 @@ config VIDEO_DW9768
+ 
+ config VIDEO_DW9807_VCM
+ 	tristate "DW9807 lens voice coil support"
+-	depends on I2C && VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select V4L2_ASYNC
+ 	help
+ 	  This is a driver for the DW9807 camera lens voice coil.
+ 	  DW9807 is a 10 bit DAC with 100mA output current sink
+ 	  capability. This is designed for linear control of
+ 	  voice coil motors, controlled via I2C serial interface.
+ 
+-endmenu
++endif
+ 
+ menu "Flash devices"
+ 	visible if MEDIA_CAMERA_SUPPORT
 -- 
-2.39.5
+2.49.0
 
 
