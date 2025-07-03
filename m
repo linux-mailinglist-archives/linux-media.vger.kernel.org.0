@@ -1,175 +1,214 @@
-Return-Path: <linux-media+bounces-36679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7365DAF77A7
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 16:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6933AF77BE
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 16:38:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEF003A4F8D
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 14:35:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93D033B48D7
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 14:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC2642ED84C;
-	Thu,  3 Jul 2025 14:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 759D72EE61F;
+	Thu,  3 Jul 2025 14:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="pclih5rz"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vr4BfFWK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2049.outbound.protection.outlook.com [40.107.212.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43A72E7BBE
-	for <linux-media@vger.kernel.org>; Thu,  3 Jul 2025 14:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751553330; cv=none; b=tOkSjcWxA/9vjnzxGVqdafBYxaz57JfShmSIHjYd8Mb1wTrIf+aijlf/TBj3/0P2O7fpJ1RqewMHSBypbpb/mu2e9+6NlgjuDkwkTRdhq0fs1rPL16zJoxeGj2/YEvY6inahQ5hp+VXWlEQ27h6ANF+M4Xe62FW2hZ7afGWQRlw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751553330; c=relaxed/simple;
-	bh=Y+evtO57jDRO4cx5S0JrB8XOjRXeEqoQzMPAkDgXmEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mIWwBjj0CMAnkcsYk5enedxQztw3Wr4NP/0v4q/Eg2Ak1KOhGhVKPI+wfDqrUIHeXu/o47zsEwUa++e4hnHn7/0jjyXfkLkK1KlfmBgzM/HiqmVLJkXzHVrkCqDk0Zx5lSG8gG1tTfwTzeAivumMEmvqkyGxRbZRypR1rbBZWQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=pclih5rz; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4a7f46f9bb6so74683921cf.3
-        for <linux-media@vger.kernel.org>; Thu, 03 Jul 2025 07:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1751553327; x=1752158127; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kgzlPHtDsUP2XFZstpiCKw99h73zAxNOOZoeiHHd4NQ=;
-        b=pclih5rzHDdfqMD/KrXoFwPkIBGUj9xUYM5F8R7j4cC3phkLt2ukipGvuyAHeUpsG8
-         c+uaWfNpsCrtWPF2gSuo9waMbS0NVPAjWp6Z1Mv+FtJi/lgfR0kZsWer3nPwgTGxNvUR
-         RUl2jc/E6W4lrtQ0JnT6FQyDI7frX2fcvtSJA9Z9AxeBnyeXx7M9LPszNL913yNURMVw
-         ZM69rZn4zOxX6cDDtSFlMMAq+1U89HB7UrSs0nQ7qSIQfxsa2au/vcZJva7Gb+7lEugM
-         Eg8Uug3rPhe87BQ2BUH8O0lYMn6dsQ/C9Bgh5/r+dQfDg4aww+wxgOgGrwzJMVqD1Kan
-         Lhsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751553327; x=1752158127;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kgzlPHtDsUP2XFZstpiCKw99h73zAxNOOZoeiHHd4NQ=;
-        b=KPKtUi9+EArg+eCapdcZEGZ/MMSkefAnT+6+KuONTjCnJ/P6l07AgbgSvBdvBVUlzd
-         CYbCZwMPpKnA/U/t6THwmrsNV/YJZCq52QFStmUOxV1dMIheIs6IoDBBdB0wNCYOnxdb
-         sbYcIGrjC98T1TG+HbH5T84VekxzuAwlCQyjCQGcm4m5WwZRgcQa1v+X4FZtBTF/arD5
-         VJo4jOZlXUy9jcDIMimtoX/ETXCSYdc7+EDGQuM0qZ6sU6OwYugcHTteGkyeuuBoNlAf
-         2C2VKxGiY8m9YT3qZ4xsF70+qR8YhaPX7PWx/qijN1+z/WpbZ6kmWz6yiZNtcJH3Pu/R
-         6uSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVBkB2/omWLcUvQncNc+zXNdp2uJeq1YW3HL1KwIFb9lK0/GBkHb8BUgnNWJGUmAmMA0FPwLT+yxEqHmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSwBXmI9uGj7N1GIWz7//RBfWEj4z40sL4JABeYQEb2n0abeEI
-	quKzgk7Q7I7EYWitSNZ0SZ+JAJSeTo1x7vGdvXMC+ra7fJ6bxQII2cDHpnl0+6G6xA==
-X-Gm-Gg: ASbGncu0NCJ6ho0Pb4yjhiQSVANI0dJk32+qSmFGD9LAsdYoRt9XHog8dyDtHLHXZml
-	jVJWMagN4YAsZLfeWpvHXhaHRKiblpVvjNQTiVRdSm/TiCRr1FsSfrt1X+WAI9Ure6jSOBd7dG0
-	gnKlAQCWTOB6YjopFXIM+Jly9BhU1WdWrX8p5Zh33xlV8tjrVsgQojcovq37qRSoBH8XKqPrD8T
-	7v1qf5J1aPcrgCNQWbLnigrP1di+Wt0iNXB3YUodbe2VrADaFmhclIqtuHhpwlN3egEimK/QSxL
-	UBZJXRIrYCLPW6EQAd0kWBDuVqX/5bOburz8jP+IlTm8z1Pa/bCR4jqaGssVgpgC6YA1lrT8xAi
-	6IBFt
-X-Google-Smtp-Source: AGHT+IGK8KAo4mpA+JVTB3ZTXwVBkpsgEauagc0TG5bpf3JShjIVuuf8H4Nd2foOv6ZumStKh0znCw==
-X-Received: by 2002:a05:622a:5143:b0:4a4:2f42:a668 with SMTP id d75a77b69052e-4a9769765b0mr144026911cf.31.1751553326431;
-        Thu, 03 Jul 2025 07:35:26 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a7fc55d92esm109947251cf.49.2025.07.03.07.35.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 07:35:25 -0700 (PDT)
-Date: Thu, 3 Jul 2025 10:35:23 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
-	laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
-	gregkh@linuxfoundation.org, mingo@kernel.org, tglx@linutronix.de,
-	andriy.shevchenko@linux.intel.com, viro@zeniv.linux.org.uk,
-	thomas.weissschuh@linutronix.de, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v4 1/3] usb: core: add dma-noncoherent buffer alloc and
- free API
-Message-ID: <30f04c8e-5074-4262-bf5a-da022b89c276@rowland.harvard.edu>
-References: <20250703103811.4048542-1-xu.yang_2@nxp.com>
- <20250703103811.4048542-2-xu.yang_2@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C08A2ED16A;
+	Thu,  3 Jul 2025 14:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751553451; cv=fail; b=IM2Z58oZ87APtuUZgNppMTHP3yGLa77Ehanr0fREglGjDRzoyJIKDi+peV3Z1yHAFS3Ik4Z0QRbLC34EWNVRw8I9d0boPxgmZdFUtIR3CUM9j8W4TWIXSVUsON1LIKWV+ymA/fTGlSWptnIf88knsTSBsTq20Mu1zSOEmtMx7Sc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751553451; c=relaxed/simple;
+	bh=Q0bEPus0nlsF3eX57XumyiTNUYx5fWYmzOFEGYwkZCc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RScDxoJxUNyjI+4t/XvyPBA2LCTdUpLvgiBy0TS7D8gLuav0CXWrkvrlahsGDj6QCiW1v3znxMfbjOJX+Vt3NAr0IGM8q8ugfk09lNnh4BsCyLmXzd4pBx1cc7++YIMw9EnpYZYc93i4vc9Kb/QwS5k9ABkQdHFF01oiQqT+94A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vr4BfFWK; arc=fail smtp.client-ip=40.107.212.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TQUvqFtTobfkdouwoZY7G+bixl35o+DdZmtQJJlX8e8oCjZwS1SbK/aJfgXcCuBNTzMB4nfveOsbf/peotxcQPLH5VnK9LPqFjB+EL0apSRDLRjLYcmZ4NiC97cdvBM+c8pLVtmtIKzqUFhzLb6U9kjo53Jf/9GnH/ELjip7KjrrEsngfC6qbPSItm5NOOzV8jq2LQV66L5iWUG17zwRZqyKtxdedjHTxKD7vFQ15hx1CfR5cVFnlE0JANxl4haFg/jEqIQLNtGzoKXo8LuiY8EtA2/gtrXO1Y60m5FqHHsIWmavzafOCPttuMJNi1IqYS/3DNrZxOEW7DT4Si+qKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BxHMaho2erQqDxTATB+OACZguSTthkklO4vjRfJ4w84=;
+ b=mGHuNS5E5fz6URRx1D6MFrBFcZTwadUiMm+8JKRJysdBg4GHQUMdZZT4458xhn+foBgdo9CV9fx4z65etkMceu6ajatSoJsIomtL1xPFTo8cEQUO+rPM9qdTcGMAX3C46fKtaPWo4fihSegkop+tB06o3E/29+yYgagYL0GFM7/hK46vLdQttuxExp4KkFHyqnCn1UK3ZNLlLBY4BrYwk/BMha+4FGpU9FK8N/HMbhP50qoMVAl+RoxsEa2jDsZ/rhAD+GxnKM5ewKi9r8VHLEEXCRo8oOYrf7GOjcbA7wQQUcIdqU/+Nd2kIvcyQW50ioSY9+fT743+c2aPFCp0lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BxHMaho2erQqDxTATB+OACZguSTthkklO4vjRfJ4w84=;
+ b=vr4BfFWKBspdtH3EAZRl1qIqI6Fgd4UcMLCT+r4XSBc7RLAWxmy0PiaZHaolS/bTYAwkOdFTxRKkuDRQl/qq6PGVgnvDEE3G4ptYkn7JcLd3/OFFzG+Y14o7Fx3NPCUhnAYKC5ziW+PYvCaPLfP1JKuHZ0sQPl+UkFwPOZeZ0rk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS0PR12MB7897.namprd12.prod.outlook.com (2603:10b6:8:146::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.19; Thu, 3 Jul
+ 2025 14:37:25 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.018; Thu, 3 Jul 2025
+ 14:37:24 +0000
+Message-ID: <cccb46ae-8b20-47fe-92b2-059a0afdf95f@amd.com>
+Date: Thu, 3 Jul 2025 16:37:19 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 00/12] io_uring dmabuf read/write support
+To: Christoph Hellwig <hch@infradead.org>,
+ Pavel Begunkov <asml.silence@gmail.com>
+Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, David Wei <dw@davidwei.uk>,
+ Vishal Verma <vishal1.verma@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <cover.1751035820.git.asml.silence@gmail.com>
+ <aGaSb5rpLD9uc1IK@infradead.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aGaSb5rpLD9uc1IK@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0133.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250703103811.4048542-2-xu.yang_2@nxp.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7897:EE_
+X-MS-Office365-Filtering-Correlation-Id: c92afd25-501b-47ca-5709-08ddba3f206e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZWx4VkVPczdvQW1qVTM2RkRJbnVKLzFiQVdEZlZwN2tqckViY0hEdmtLM0hT?=
+ =?utf-8?B?WktZZzNPOFltNVlCUFNnTjgybG5kWXpDMndhc1Vlc0t0L0h3UkpOUVhsZlFY?=
+ =?utf-8?B?aDdQdXN3elFUcTVVZjRZQzFLNVdFNGozazBzM2Z3WXpCU1dBc21wcDNXc1pO?=
+ =?utf-8?B?Z0xXclI0aVcyU2cwdzFwY0ZZaHc4VExSYjNDbm91VWp5SytoMXROdHZXY0VZ?=
+ =?utf-8?B?VHU2akRQSUluaVhFMjJGQjQ1eGZuT1REeWIwVDZJdVZwZHlKLzFZNXA4Y1VP?=
+ =?utf-8?B?enRId2hFT2o0RThwRmR4Zk96WGNiODBaZjVSMStCSytJVFE1N3d6QVVDTzlI?=
+ =?utf-8?B?eXpiUCtVMEYvL2NpcmhFOEVjckVvT1o5bUliTVIzK0NMTWJxNEJ3M2RhLzZs?=
+ =?utf-8?B?Y2FJQytlTXcrTzErb3RLTW84bmtmZDA4dnlCQ2tDN2pkUEg1dkEvUnhXYnJm?=
+ =?utf-8?B?b08xTzJYaFRXZ0JUSVYrSjNZNzF1U01NUTlxTGRZUFF5NnJSS1c2My9rU0N0?=
+ =?utf-8?B?NjA0V1dlRk0xbExvN2h6MzRiYWdsc0ZZK1k2STZNZ0ZxREJIZStTN3dyWWpE?=
+ =?utf-8?B?VzFjNU1lUUpQT0VUNFE0MHFiTEZUUW1iK3l3Sm8vYlVOTFloYjBWNDNMVldB?=
+ =?utf-8?B?elhVZ2Y0M2xZM0xrTnk0M3JtS3ZQYUtKaHQ0SW01TnA3TnZicnE3cGZkTW9h?=
+ =?utf-8?B?bk5CWVo4RWRYaWRJQmVnWnJJQUtNeDFoZUF2UXlDMnBFMEcxdlk2cnlBdVlF?=
+ =?utf-8?B?UnVPRm1vakExWU1jaFpCNW1GVjBkMldNRnpDUVduakJORVdkYzgxZjRsQ3g5?=
+ =?utf-8?B?NkJqOTM2eDhURk1vbjRmVTdhMW02WWhTUlllUkJ3djJqdEN4VDRlM1BieDRL?=
+ =?utf-8?B?ZGZrZjBzVm5qbTVXbjFxUmR6bjFSNFFpOTZUcmQ2d3UwcDJkOFJkY01SbGc3?=
+ =?utf-8?B?bHhucmxwQlJWSVhsVkpxMENXTlN2L1Rla2l4dUJpRmhiQW81NUNuZWc1NlMr?=
+ =?utf-8?B?eGlQZ2FqSnFpeVA3YkhqMnpjSE90akgzU1NseU1oL2srNnV1NC9sMzdXd2xZ?=
+ =?utf-8?B?djA5dnI5b2xhOW9YSWlXUmVoL0JnSEREYm9LZk4rejZ5S1UxcTZYZ0tyV0s1?=
+ =?utf-8?B?eFpKYnFSK3pnR2JUQ0pWNTJESUlkMVFYYmpSVWFhcnhBa2ZvRVVYaTc3WU1j?=
+ =?utf-8?B?dHFkR2tDc0ZnaGpEc2cwN0VwS25KbmNXTmxPMHNrQmlsTCt2bUEyWlJZcVdw?=
+ =?utf-8?B?UktyWHhyMENwUE1mMUljSXZTV05QdmdraDdqV01wZ21BZVh2ZlNLZEtnUFM4?=
+ =?utf-8?B?bjBGcklzejdlZXhRT1dOckVnb1BJN0NhV0hNK1NhUkRYNkh0RXBJaXFnazcv?=
+ =?utf-8?B?dDRNU21aTkpRU0V4Q3hzVU9DRFNoL3NZeGE3bTlrUlRvM0hIV3RWQ2pxT0JZ?=
+ =?utf-8?B?clY5a09zcVVoa1gzVWhaajZtL05jUUcrK2UrZkVhWVNycS9ISXM4cmc2cUJS?=
+ =?utf-8?B?RlZJcFVOTzBPNHVmMjVmdnRpdHZ6M2tpOFlnUzk3MGJvRUdWdTFsdTZBWUp6?=
+ =?utf-8?B?V0hGTmQvNEszb0MwSm1FM2xTUWZiTUNCWCtPQys1KzFmc0N4R1Q1dFdZN3dE?=
+ =?utf-8?B?ZG9SYnRoRmFoNXNaejlqb3F3aW1EY1hIZ3poRG1uU1BmclRNMm9meDFGZGZS?=
+ =?utf-8?B?ejUyeUw2UkVVWVFXRHdTck8rWWZTU0lUanR2R0pudlVKbWpiWm9QUHYzY1Vp?=
+ =?utf-8?B?VEI1ditZYkhjdEVzVmxzVHlNaEVIUVIxSVF2dUV0OXlCeUR5bTlMdlUzYi9k?=
+ =?utf-8?B?RXhxeVNFS3ZHYXprRFFrMzVzTTNuKy9vN2FFM0RrTHNtbmtnVGdYdUo5TDVk?=
+ =?utf-8?B?cXovQ1NaejBiRnIybEhMVGFBb0NXSzVUWFNnZDVHOEtBb2s2bkg0b2N5ODBI?=
+ =?utf-8?Q?QbOqz7vuCq8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SmxHVTdpRTJ5VWt6ZXl3aVBVNUpuUWZiRjBTbHBBTFNuT1hGMkNBOWNHczl4?=
+ =?utf-8?B?Tnh5QmhJY3Uwd0wzLzVMT2FEYzliSEMrR0RwSVVlREU1YUpKTVl5WmsyYm1F?=
+ =?utf-8?B?U1pJdnZHWi85QUkzWDZ2UXZwN1BuU0NlRGN0TTR3RDlWV202Y2x4dEg5dDVZ?=
+ =?utf-8?B?aDdkMTFyWU81ZmhIdWNQWm9pWVROQmdTalNtYXlpUXNPb3JFZ0hucXByTTZP?=
+ =?utf-8?B?ZHhwM2hUUFF6cnVKcVRLYWhGa2xBcUM0ZWtJeFhrTG1PSjJCc0o0SEcvU2tw?=
+ =?utf-8?B?WEhWVU0xa2NvSk9BdHdueCtPSnVWOVhYVE94YlVkU1ZQNnVkQmJhSnFGUEVC?=
+ =?utf-8?B?RUFWdm1IYlVqSlp1T1A5UUdpdnJoYzFUWWtTV3NYTzRabUVncjlMZHhtNG1r?=
+ =?utf-8?B?cjdXUlR6eTByN3N2SFljWFVyUUN4OU96YWoveU8wZHNKb2ZmMUhtM0d2LzJi?=
+ =?utf-8?B?MGw3UzRMdHFnc1dEVitvQytoUDVjME9sczBoNEZBb1g3SERZT2tmM3phUlRz?=
+ =?utf-8?B?RVJBbStkcmtqVW5GYytsOWhjMzFqeGs2SXZMd1I0YzhhNDlORTEvTnJyR2Mr?=
+ =?utf-8?B?NmNxeEZRb296UStiOVpPbmRXNWtRdVZwcm10UXRJN29FVlhmdlg0UnV1L3Zk?=
+ =?utf-8?B?b2x1d202RFhmajJzTjRoajFUa0hPSWMvS3JKUjl0SG5HRHc5d0paL093aElN?=
+ =?utf-8?B?QlY0amlwd0xvdjEyUVRoK1IxTnJmOHN2UHlad1NDRGV2bXJwMXNVRWVvUnNz?=
+ =?utf-8?B?YnZwcllMYTY5RmM5aGhxWGhoeGovVEVmd3YwWnpPeHhXazhZMUNnYnQzY0tm?=
+ =?utf-8?B?ZXNlbVFCbXczeTVzOTVZbytLdmQyK1Zjd25RMHVpR1FYMFp4bzFsZlJNcWoz?=
+ =?utf-8?B?VVBxMTUzRFdHTUw0ZmhNUnM3ZzhhSHRXT1hMOEcwTVRoV2JUL0NKcS9WK2F1?=
+ =?utf-8?B?MXUveEMzeHQ3Qk9ZN0V4REpmUzhHdWdHbjc0U2VIQlp4MnZDd3NldWtkREhn?=
+ =?utf-8?B?aW9kNVJSaTlmdmpPaURsRjlseWxnVWV3U1BWZkxUeGNXT01YZHJLdHh0Nklp?=
+ =?utf-8?B?Zi96eUVvZElhbGlMcmxtdDM4R3ZDVFBINUR1b3A5OWdpd2hLM0JPTXNQZ2Jx?=
+ =?utf-8?B?a3I3TmZYTUxaWW5BY0lJK3pvbFhWZjd4RGZEcXk2T2I3WGtxOWdVeW9kUzZo?=
+ =?utf-8?B?SFRDYlNQS0RFR1dseXFNU29Ha1YzRlBBVnY4T3VKWlFVZ01OaENOTERsRGtK?=
+ =?utf-8?B?YzFlc3laVkExM0NkWk1lSitBaUd3Wk55MzU5RTNyUy9MajNxeFh6cnp2OGFL?=
+ =?utf-8?B?TU1SVHNUT2NFc0ovZXNDRDljV3ZheUlDUDhQN1VnTDd1NGNmRHNYRUxZYUNZ?=
+ =?utf-8?B?WU1DMXU1NUtKR2lpdHRsdTNSRHcrL2RHWCtoa0dneWEwRWVuREF2c0gvVUdp?=
+ =?utf-8?B?RWRWZ0tKZjMvN0o3K3lROXBSZTBXcTdWeEVjbkN4Q215OHFneGJ6NXVNSHNT?=
+ =?utf-8?B?YXlPRkxaaEFVNmRKNTZWV0FIYVZsaVo1MHJBSWsvQlExSEpsVUhVanRvUEpn?=
+ =?utf-8?B?LzRYajFlRkRLUXdjei90NTdQdGlPeWVxUzl5RWkwR1VaNWZNYXo5UmRqcVJ0?=
+ =?utf-8?B?RzdtMFdZTzFPRnpCWm45NXhQVkVYeGZqRHdRSmMvUHd1TU0wUG16b2hsd3dO?=
+ =?utf-8?B?OFpBczNmM3QzK3BMRUxac1VTbVdUcGRQVDF0N1JiS2FibkljSjkxd29xN3pF?=
+ =?utf-8?B?Z3Fua0ZaVG1kOTZwbE1hSmZ5dENCU1BVUnp1cFJ3Vmd1TTAzcGpqSGtRZ3hh?=
+ =?utf-8?B?SzR4VVBlS0RjVkJXb0xFYTJobUJQSFNiSUdSelJ3ZDJ0clFhbVRCZ0dtNkFN?=
+ =?utf-8?B?SzJOK2IyaHdqMnEzVm5INDRFT2RaZ3J1bXREN1hiVitxdXRmdUY0MXlZNmtR?=
+ =?utf-8?B?UDhpcE41cjBGYkRGQmRQTFUxcERnTWlqNmpyc2xGWFd5ZkdVWTFPMDg0amtF?=
+ =?utf-8?B?eU4xa3lnclNwRUM0bnVlZVpydTdtd1lLMzd1WHphNG45TjU5RzdxQ2xETWEw?=
+ =?utf-8?B?Q3FrbElra2plcWhPdU1EeUlQTHE5MXE2VEhDQUtJUVRLWWVqRStZaHR4d1JP?=
+ =?utf-8?Q?jCpc6+mYLxl6HwxDd+xtlPObE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c92afd25-501b-47ca-5709-08ddba3f206e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 14:37:24.8327
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C1K/4pYPWU43t+kChGriSXNTmOCcs4TUofrHjMimtXftHm9KlkKfLLixRzXWwnWl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7897
 
-On Thu, Jul 03, 2025 at 06:38:09PM +0800, Xu Yang wrote:
-> This will add usb_alloc_noncoherent() and usb_free_noncoherent()
-> functions to support alloc and free buffer in a dma-noncoherent way.
+On 03.07.25 16:23, Christoph Hellwig wrote:
+> [Note: it would be really useful to Cc all relevant maintainers]
 > 
-> To explicit manage the memory ownership for the kernel and device,
-> this will also add usb_dma_noncoherent_sync_for_cpu/device() functions
-> and call it at proper time.  The management requires the user save
-> sg_table returned by usb_alloc_noncoherent() to urb->sgt.
+> On Fri, Jun 27, 2025 at 04:10:27PM +0100, Pavel Begunkov wrote:
+>> This series implements it for read/write io_uring requests. The uAPI
+>> looks similar to normal registered buffers, the user will need to
+>> register a dmabuf in io_uring first and then use it as any other
+>> registered buffer. On registration the user also specifies a file
+>> to map the dmabuf for.
 > 
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> Just commenting from the in-kernel POV here, where the interface
+> feels wrong.
 > 
-> ---
-> Changes in v4:
->  - improve if-else logic
+> You can't just expose 'the DMA device' up file operations, because
+> there can be and often is more than one.  Similarly stuffing a
+> dma_addr_t into an iovec is rather dangerous.
 > 
-> Changes in v3:
->  - put Return section at the end of description
->  - correct some abbreviations
->  - remove usb_dma_noncoherent_sync_for_cpu() and
->    usb_dma_noncoherent_sync_for_device()
->  - do DMA sync in usb_hcd_map_urb_for_dma() and
->    usb_hcd_unmap_urb_for_dma()
->  - call flush_kernel_vmap_range() for OUT transfers
->    and invalidate_kernel_vmap_range() for IN transfers
-> ---
->  drivers/usb/core/hcd.c | 33 ++++++++++++-----
->  drivers/usb/core/usb.c | 80 ++++++++++++++++++++++++++++++++++++++++++
->  include/linux/usb.h    | 11 ++++++
->  3 files changed, 116 insertions(+), 8 deletions(-)
+> The model that should work much better is to have file operations
+> to attach to / detach from a dma_buf, and then have an iter that
+> specifies a dmabuf and offsets into.  That way the code behind the
+> file operations can forward the attachment to all the needed
+> devices (including more/less while it remains attached to the file)
+> and can pick the right dma address for each device.
 > 
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index c22de97432a0..42d9d8db0968 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
+> I also remember some discussion that new dma-buf importers should
+> use the dynamic imported model for long-term imports, but as I'm
+> everything but an expert in that area I'll let the dma-buf folks
+> speak.
 
-> @@ -1425,8 +1431,10 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
->  	}
->  
->  	dir = usb_urb_dir_in(urb) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> -	if (urb->transfer_buffer_length != 0
-> -	    && !(urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP)) {
-> +	if (!(urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP)) {
-> +		if (!urb->transfer_buffer_length)
-> +			return ret;
-> +
->  		if (hcd->localmem_pool) {
->  			ret = hcd_alloc_coherent(
->  					urb->dev->bus, mem_flags,
-> @@ -1491,7 +1499,16 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
->  		if (ret && (urb->transfer_flags & (URB_SETUP_MAP_SINGLE |
->  				URB_SETUP_MAP_LOCAL)))
->  			usb_hcd_unmap_urb_for_dma(hcd, urb);
-> +	} else {
-> +		if (!urb->sgt)
-> +			return ret;
-> +
-> +		if (dir == DMA_TO_DEVICE)
-> +			flush_kernel_vmap_range(urb->transfer_buffer,
-> +						urb->transfer_buffer_length);
-> +		dma_sync_sgtable_for_device(hcd->self.sysdev, urb->sgt, dir);
->  	}
+Completely correct.
 
-This could be done a little more cleanly.  It's always awkward to read
-an "else" clause for a negated test.
+As long as you don't have a really good explanation and some mechanism to prevent abuse long term pinning of DMA-bufs should be avoided.
 
-Instead, change the "else" to:
-
-	if (urb->transfer_flags & URB_NO_TRANFER_DMA_MAP) {
-
-and move this whole section to the top of the big "if".  Then you can 
-change the test that's already there to:
-
-	} else if (urb->transfer_buffer_length != 0) {
-
-Alan Stern
+Regards,
+Christian.
 
