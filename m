@@ -1,214 +1,226 @@
-Return-Path: <linux-media+bounces-36680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6933AF77BE
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 16:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00031AF7825
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 16:47:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93D033B48D7
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 14:37:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A756D3B8158
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 14:46:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 759D72EE61F;
-	Thu,  3 Jul 2025 14:37:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E07E2EE29E;
+	Thu,  3 Jul 2025 14:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vr4BfFWK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a+sUUeut"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2049.outbound.protection.outlook.com [40.107.212.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C08A2ED16A;
-	Thu,  3 Jul 2025 14:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751553451; cv=fail; b=IM2Z58oZ87APtuUZgNppMTHP3yGLa77Ehanr0fREglGjDRzoyJIKDi+peV3Z1yHAFS3Ik4Z0QRbLC34EWNVRw8I9d0boPxgmZdFUtIR3CUM9j8W4TWIXSVUsON1LIKWV+ymA/fTGlSWptnIf88knsTSBsTq20Mu1zSOEmtMx7Sc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751553451; c=relaxed/simple;
-	bh=Q0bEPus0nlsF3eX57XumyiTNUYx5fWYmzOFEGYwkZCc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RScDxoJxUNyjI+4t/XvyPBA2LCTdUpLvgiBy0TS7D8gLuav0CXWrkvrlahsGDj6QCiW1v3znxMfbjOJX+Vt3NAr0IGM8q8ugfk09lNnh4BsCyLmXzd4pBx1cc7++YIMw9EnpYZYc93i4vc9Kb/QwS5k9ABkQdHFF01oiQqT+94A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vr4BfFWK; arc=fail smtp.client-ip=40.107.212.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TQUvqFtTobfkdouwoZY7G+bixl35o+DdZmtQJJlX8e8oCjZwS1SbK/aJfgXcCuBNTzMB4nfveOsbf/peotxcQPLH5VnK9LPqFjB+EL0apSRDLRjLYcmZ4NiC97cdvBM+c8pLVtmtIKzqUFhzLb6U9kjo53Jf/9GnH/ELjip7KjrrEsngfC6qbPSItm5NOOzV8jq2LQV66L5iWUG17zwRZqyKtxdedjHTxKD7vFQ15hx1CfR5cVFnlE0JANxl4haFg/jEqIQLNtGzoKXo8LuiY8EtA2/gtrXO1Y60m5FqHHsIWmavzafOCPttuMJNi1IqYS/3DNrZxOEW7DT4Si+qKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BxHMaho2erQqDxTATB+OACZguSTthkklO4vjRfJ4w84=;
- b=mGHuNS5E5fz6URRx1D6MFrBFcZTwadUiMm+8JKRJysdBg4GHQUMdZZT4458xhn+foBgdo9CV9fx4z65etkMceu6ajatSoJsIomtL1xPFTo8cEQUO+rPM9qdTcGMAX3C46fKtaPWo4fihSegkop+tB06o3E/29+yYgagYL0GFM7/hK46vLdQttuxExp4KkFHyqnCn1UK3ZNLlLBY4BrYwk/BMha+4FGpU9FK8N/HMbhP50qoMVAl+RoxsEa2jDsZ/rhAD+GxnKM5ewKi9r8VHLEEXCRo8oOYrf7GOjcbA7wQQUcIdqU/+Nd2kIvcyQW50ioSY9+fT743+c2aPFCp0lQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BxHMaho2erQqDxTATB+OACZguSTthkklO4vjRfJ4w84=;
- b=vr4BfFWKBspdtH3EAZRl1qIqI6Fgd4UcMLCT+r4XSBc7RLAWxmy0PiaZHaolS/bTYAwkOdFTxRKkuDRQl/qq6PGVgnvDEE3G4ptYkn7JcLd3/OFFzG+Y14o7Fx3NPCUhnAYKC5ziW+PYvCaPLfP1JKuHZ0sQPl+UkFwPOZeZ0rk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7897.namprd12.prod.outlook.com (2603:10b6:8:146::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.19; Thu, 3 Jul
- 2025 14:37:25 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.018; Thu, 3 Jul 2025
- 14:37:24 +0000
-Message-ID: <cccb46ae-8b20-47fe-92b2-059a0afdf95f@amd.com>
-Date: Thu, 3 Jul 2025 16:37:19 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 00/12] io_uring dmabuf read/write support
-To: Christoph Hellwig <hch@infradead.org>,
- Pavel Begunkov <asml.silence@gmail.com>
-Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, David Wei <dw@davidwei.uk>,
- Vishal Verma <vishal1.verma@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <cover.1751035820.git.asml.silence@gmail.com>
- <aGaSb5rpLD9uc1IK@infradead.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aGaSb5rpLD9uc1IK@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0133.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E842E7F07;
+	Thu,  3 Jul 2025 14:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751554017; cv=none; b=tzJnpolx4kr8dYXLJxv9vVE0XB82bT2A+2xKulOOZD84Fre0P27CwVhZoqzppQeN8XsYyjSYk95pvYHBylBQqp5EVF+SfC7Pwc8aodWwrYww7XNvuFotM/hjY9XYEJVaFGbArmW7XVT0QGFyqZwiDi/kgp5gl+nFKNjH9HQzniQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751554017; c=relaxed/simple;
+	bh=lN5s32Jbcs7WNkSmhy7bYvtYTmkxdABMhyRkzs0DgUQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iEslgP8/YgAO2ux7DxmnWa8i6f+XD4XKHySAsR6vTU/Mcj0OhqQeRo98dCkBpxIxDAdGtj2Pac7Mr5N6/fqkDJEQMovV7W/2hxuUw4vk/nIYgkASNNiWpDu/XyyOAHMqGvfcGEMlzyFPsit0zMnrEyc8IMAAiu8axzkiVDTxCiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a+sUUeut; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-60789b450ceso10743965a12.2;
+        Thu, 03 Jul 2025 07:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751554013; x=1752158813; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1vG5loofJoHI/2oT8MQ0obd1zMTsI6DHFF+BLI2gKVY=;
+        b=a+sUUeutEhHjW6FY/Ru5O6nVJf87XPWxn6aTyH5qdgE91zLdVdhV3OtVKlZbounLvW
+         w1LnTtpDBBPrGVOH5sg7CEQYqrSxbv5B+hJJkeaD15etdL15IYD9dM/dgIvrgvxw7pYn
+         XVKgXS7MsWikh1GKaEMxSVG6dE4Kb/wYJoIDVyLirW0ig6nxMSFJ6xVkBq1Fci/BU7wq
+         MMHb5TL5FgeRFNZGVVqrkhsV0NoPRMENUnwFxK0gggaBPRw1ncXl53jz4a5oYZqFMOt4
+         2yKfS4lWU62ZEPj5UpGkCqy2NxvyJg7P9jPS5wPROXe8gdqoHk7NeQvTUg6Lolsjv8Ah
+         fEcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751554013; x=1752158813;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1vG5loofJoHI/2oT8MQ0obd1zMTsI6DHFF+BLI2gKVY=;
+        b=igFP119sQH1nhz4xlA6XtYmZZKBytwMx1CJlaz58dfcgGWdqdRBRRSt92T8jID07Bu
+         ISeai9+Rkxg8CBNXmftJm0tbGDTPzIw1Uw4oI4WqVREACHlZPjlm8apyNUtoGtrshgbU
+         2nFr/p7oVMthbtjVIs/H5Fyu8DZGqCPRtTyusN+PwdrUcn3Ay7T7Sc4fgceMMBBZx3AY
+         M6lleHdQrEwMNqA7guhs6xrLE4Mat09P9aZVECrF6aiihAb1o82S1KeTyO++rcmCWUir
+         3z3e6FtXCM8HYLwO5fb+rJdqP9SxX4h1RJWG5Fvr7ewu0sxMcr9NOyNrT31iw5rbJX1j
+         z6JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1jG86jY5gx73KTX60qlFq0L9Oe5KoLJdI2rRvXclcYL0nZutAkkA4YOGaPuto+/50ssOPzp3AnoNy@vger.kernel.org, AJvYcCWZKPG3OWEpCKXsX98HnYz3HwGQxjEmg7Z7ZkNdGYoadcNHi42N2LoLIXh65D6sfTYKmGv/HZzhq95h26VD@vger.kernel.org, AJvYcCXn2cqoi6OcolgW2qmlzgzKaq3pPq9nsCErnzxgBCDaqeOEHe5l3T+j2DpTD2Fg2qVr9bJ0ktWuvEKEVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yze+9Bl2AfYCkL4mxgvqRNe6/sW55Y++IS4gydYENKhXLUeaTq8
+	k1o0W/fYfOfA0o5UzNLTIheU7u9sB/xINelIqNMnqUQM3gFrUsvkHztj
+X-Gm-Gg: ASbGnct+2Sxepa85v9ih4cjvy/ftPdOMjQ+5CncKV9ugDopIk3F1OvVhu/7wOw92D6o
+	79nTbEyCR0l24+FQ+hI+0GlsWHtSgPveB0GsWpHtMysiTSuz+NEGd2lXyyAbJxP84o1DHJ4kP6i
+	S6NOGGxmpzPPj/PO1rpiTcW1nMGA2pwbCWB+Unn7YOnHIQm763wybp6VP7eUCtDcHhpdeZrFT52
+	QuwkbakZY81fOguio/98mksj90Xmgf5ra3Aisxj5/4d5uPEHvTL+iqgdBk0YX1VMERScWMbWz87
+	3+3LDB2Pl2NzVQkrt1h8p31IAhELd2pKTrXeZkFNKLz8RSEjXseMteUC2iWcXqrPEdteMLytt7z
+	d9sg=
+X-Google-Smtp-Source: AGHT+IG3d3NfRg9+cPD1+4PBfyGx8gRVD7/AozdqjiToYMztJLCFly4TfxgJoNGqYews3daJwQLNLg==
+X-Received: by 2002:a05:6402:35d3:b0:608:155c:bf81 with SMTP id 4fb4d7f45d1cf-60e6ce24caemr3706836a12.31.1751554012933;
+        Thu, 03 Jul 2025 07:46:52 -0700 (PDT)
+Received: from [192.168.0.100] ([188.27.131.45])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60c828bb5b2sm10745485a12.4.2025.07.03.07.46.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jul 2025 07:46:52 -0700 (PDT)
+Message-ID: <cbf8d7bd-24a4-4dc1-8d9f-bbc4bee45d8d@gmail.com>
+Date: Thu, 3 Jul 2025 17:46:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7897:EE_
-X-MS-Office365-Filtering-Correlation-Id: c92afd25-501b-47ca-5709-08ddba3f206e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZWx4VkVPczdvQW1qVTM2RkRJbnVKLzFiQVdEZlZwN2tqckViY0hEdmtLM0hT?=
- =?utf-8?B?WktZZzNPOFltNVlCUFNnTjgybG5kWXpDMndhc1Vlc0t0L0h3UkpOUVhsZlFY?=
- =?utf-8?B?aDdQdXN3elFUcTVVZjRZQzFLNVdFNGozazBzM2Z3WXpCU1dBc21wcDNXc1pO?=
- =?utf-8?B?Z0xXclI0aVcyU2cwdzFwY0ZZaHc4VExSYjNDbm91VWp5SytoMXROdHZXY0VZ?=
- =?utf-8?B?VHU2akRQSUluaVhFMjJGQjQ1eGZuT1REeWIwVDZJdVZwZHlKLzFZNXA4Y1VP?=
- =?utf-8?B?enRId2hFT2o0RThwRmR4Zk96WGNiODBaZjVSMStCSytJVFE1N3d6QVVDTzlI?=
- =?utf-8?B?eXpiUCtVMEYvL2NpcmhFOEVjckVvT1o5bUliTVIzK0NMTWJxNEJ3M2RhLzZs?=
- =?utf-8?B?Y2FJQytlTXcrTzErb3RLTW84bmtmZDA4dnlCQ2tDN2pkUEg1dkEvUnhXYnJm?=
- =?utf-8?B?b08xTzJYaFRXZ0JUSVYrSjNZNzF1U01NUTlxTGRZUFF5NnJSS1c2My9rU0N0?=
- =?utf-8?B?NjA0V1dlRk0xbExvN2h6MzRiYWdsc0ZZK1k2STZNZ0ZxREJIZStTN3dyWWpE?=
- =?utf-8?B?VzFjNU1lUUpQT0VUNFE0MHFiTEZUUW1iK3l3Sm8vYlVOTFloYjBWNDNMVldB?=
- =?utf-8?B?elhVZ2Y0M2xZM0xrTnk0M3JtS3ZQYUtKaHQ0SW01TnA3TnZicnE3cGZkTW9h?=
- =?utf-8?B?bk5CWVo4RWRYaWRJQmVnWnJJQUtNeDFoZUF2UXlDMnBFMEcxdlk2cnlBdVlF?=
- =?utf-8?B?UnVPRm1vakExWU1jaFpCNW1GVjBkMldNRnpDUVduakJORVdkYzgxZjRsQ3g5?=
- =?utf-8?B?NkJqOTM2eDhURk1vbjRmVTdhMW02WWhTUlllUkJ3djJqdEN4VDRlM1BieDRL?=
- =?utf-8?B?ZGZrZjBzVm5qbTVXbjFxUmR6bjFSNFFpOTZUcmQ2d3UwcDJkOFJkY01SbGc3?=
- =?utf-8?B?bHhucmxwQlJWSVhsVkpxMENXTlN2L1Rla2l4dUJpRmhiQW81NUNuZWc1NlMr?=
- =?utf-8?B?eGlQZ2FqSnFpeVA3YkhqMnpjSE90akgzU1NseU1oL2srNnV1NC9sMzdXd2xZ?=
- =?utf-8?B?djA5dnI5b2xhOW9YSWlXUmVoL0JnSEREYm9LZk4rejZ5S1UxcTZYZ0tyV0s1?=
- =?utf-8?B?eFpKYnFSK3pnR2JUQ0pWNTJESUlkMVFYYmpSVWFhcnhBa2ZvRVVYaTc3WU1j?=
- =?utf-8?B?dHFkR2tDc0ZnaGpEc2cwN0VwS25KbmNXTmxPMHNrQmlsTCt2bUEyWlJZcVdw?=
- =?utf-8?B?UktyWHhyMENwUE1mMUljSXZTV05QdmdraDdqV01wZ21BZVh2ZlNLZEtnUFM4?=
- =?utf-8?B?bjBGcklzejdlZXhRT1dOckVnb1BJN0NhV0hNK1NhUkRYNkh0RXBJaXFnazcv?=
- =?utf-8?B?dDRNU21aTkpRU0V4Q3hzVU9DRFNoL3NZeGE3bTlrUlRvM0hIV3RWQ2pxT0JZ?=
- =?utf-8?B?clY5a09zcVVoa1gzVWhaajZtL05jUUcrK2UrZkVhWVNycS9ISXM4cmc2cUJS?=
- =?utf-8?B?RlZJcFVOTzBPNHVmMjVmdnRpdHZ6M2tpOFlnUzk3MGJvRUdWdTFsdTZBWUp6?=
- =?utf-8?B?V0hGTmQvNEszb0MwSm1FM2xTUWZiTUNCWCtPQys1KzFmc0N4R1Q1dFdZN3dE?=
- =?utf-8?B?ZG9SYnRoRmFoNXNaejlqb3F3aW1EY1hIZ3poRG1uU1BmclRNMm9meDFGZGZS?=
- =?utf-8?B?ejUyeUw2UkVVWVFXRHdTck8rWWZTU0lUanR2R0pudlVKbWpiWm9QUHYzY1Vp?=
- =?utf-8?B?VEI1ditZYkhjdEVzVmxzVHlNaEVIUVIxSVF2dUV0OXlCeUR5bTlMdlUzYi9k?=
- =?utf-8?B?RXhxeVNFS3ZHYXprRFFrMzVzTTNuKy9vN2FFM0RrTHNtbmtnVGdYdUo5TDVk?=
- =?utf-8?B?cXovQ1NaejBiRnIybEhMVGFBb0NXSzVUWFNnZDVHOEtBb2s2bkg0b2N5ODBI?=
- =?utf-8?Q?QbOqz7vuCq8=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SmxHVTdpRTJ5VWt6ZXl3aVBVNUpuUWZiRjBTbHBBTFNuT1hGMkNBOWNHczl4?=
- =?utf-8?B?Tnh5QmhJY3Uwd0wzLzVMT2FEYzliSEMrR0RwSVVlREU1YUpKTVl5WmsyYm1F?=
- =?utf-8?B?U1pJdnZHWi85QUkzWDZ2UXZwN1BuU0NlRGN0TTR3RDlWV202Y2x4dEg5dDVZ?=
- =?utf-8?B?aDdkMTFyWU81ZmhIdWNQWm9pWVROQmdTalNtYXlpUXNPb3JFZ0hucXByTTZP?=
- =?utf-8?B?ZHhwM2hUUFF6cnVKcVRLYWhGa2xBcUM0ZWtJeFhrTG1PSjJCc0o0SEcvU2tw?=
- =?utf-8?B?WEhWVU0xa2NvSk9BdHdueCtPSnVWOVhYVE94YlVkU1ZQNnVkQmJhSnFGUEVC?=
- =?utf-8?B?RUFWdm1IYlVqSlp1T1A5UUdpdnJoYzFUWWtTV3NYTzRabUVncjlMZHhtNG1r?=
- =?utf-8?B?cjdXUlR6eTByN3N2SFljWFVyUUN4OU96YWoveU8wZHNKb2ZmMUhtM0d2LzJi?=
- =?utf-8?B?MGw3UzRMdHFnc1dEVitvQytoUDVjME9sczBoNEZBb1g3SERZT2tmM3phUlRz?=
- =?utf-8?B?RVJBbStkcmtqVW5GYytsOWhjMzFqeGs2SXZMd1I0YzhhNDlORTEvTnJyR2Mr?=
- =?utf-8?B?NmNxeEZRb296UStiOVpPbmRXNWtRdVZwcm10UXRJN29FVlhmdlg0UnV1L3Zk?=
- =?utf-8?B?b2x1d202RFhmajJzTjRoajFUa0hPSWMvS3JKUjl0SG5HRHc5d0paL093aElN?=
- =?utf-8?B?QlY0amlwd0xvdjEyUVRoK1IxTnJmOHN2UHlad1NDRGV2bXJwMXNVRWVvUnNz?=
- =?utf-8?B?YnZwcllMYTY5RmM5aGhxWGhoeGovVEVmd3YwWnpPeHhXazhZMUNnYnQzY0tm?=
- =?utf-8?B?ZXNlbVFCbXczeTVzOTVZbytLdmQyK1Zjd25RMHVpR1FYMFp4bzFsZlJNcWoz?=
- =?utf-8?B?VVBxMTUzRFdHTUw0ZmhNUnM3ZzhhSHRXT1hMOEcwTVRoV2JUL0NKcS9WK2F1?=
- =?utf-8?B?MXUveEMzeHQ3Qk9ZN0V4REpmUzhHdWdHbjc0U2VIQlp4MnZDd3NldWtkREhn?=
- =?utf-8?B?aW9kNVJSaTlmdmpPaURsRjlseWxnVWV3U1BWZkxUeGNXT01YZHJLdHh0Nklp?=
- =?utf-8?B?Zi96eUVvZElhbGlMcmxtdDM4R3ZDVFBINUR1b3A5OWdpd2hLM0JPTXNQZ2Jx?=
- =?utf-8?B?a3I3TmZYTUxaWW5BY0lJK3pvbFhWZjd4RGZEcXk2T2I3WGtxOWdVeW9kUzZo?=
- =?utf-8?B?SFRDYlNQS0RFR1dseXFNU29Ha1YzRlBBVnY4T3VKWlFVZ01OaENOTERsRGtK?=
- =?utf-8?B?YzFlc3laVkExM0NkWk1lSitBaUd3Wk55MzU5RTNyUy9MajNxeFh6cnp2OGFL?=
- =?utf-8?B?TU1SVHNUT2NFc0ovZXNDRDljV3ZheUlDUDhQN1VnTDd1NGNmRHNYRUxZYUNZ?=
- =?utf-8?B?WU1DMXU1NUtKR2lpdHRsdTNSRHcrL2RHWCtoa0dneWEwRWVuREF2c0gvVUdp?=
- =?utf-8?B?RWRWZ0tKZjMvN0o3K3lROXBSZTBXcTdWeEVjbkN4Q215OHFneGJ6NXVNSHNT?=
- =?utf-8?B?YXlPRkxaaEFVNmRKNTZWV0FIYVZsaVo1MHJBSWsvQlExSEpsVUhVanRvUEpn?=
- =?utf-8?B?LzRYajFlRkRLUXdjei90NTdQdGlPeWVxUzl5RWkwR1VaNWZNYXo5UmRqcVJ0?=
- =?utf-8?B?RzdtMFdZTzFPRnpCWm45NXhQVkVYeGZqRHdRSmMvUHd1TU0wUG16b2hsd3dO?=
- =?utf-8?B?OFpBczNmM3QzK3BMRUxac1VTbVdUcGRQVDF0N1JiS2FibkljSjkxd29xN3pF?=
- =?utf-8?B?Z3Fua0ZaVG1kOTZwbE1hSmZ5dENCU1BVUnp1cFJ3Vmd1TTAzcGpqSGtRZ3hh?=
- =?utf-8?B?SzR4VVBlS0RjVkJXb0xFYTJobUJQSFNiSUdSelJ3ZDJ0clFhbVRCZ0dtNkFN?=
- =?utf-8?B?SzJOK2IyaHdqMnEzVm5INDRFT2RaZ3J1bXREN1hiVitxdXRmdUY0MXlZNmtR?=
- =?utf-8?B?UDhpcE41cjBGYkRGQmRQTFUxcERnTWlqNmpyc2xGWFd5ZkdVWTFPMDg0amtF?=
- =?utf-8?B?eU4xa3lnclNwRUM0bnVlZVpydTdtd1lLMzd1WHphNG45TjU5RzdxQ2xETWEw?=
- =?utf-8?B?Q3FrbElra2plcWhPdU1EeUlQTHE5MXE2VEhDQUtJUVRLWWVqRStZaHR4d1JP?=
- =?utf-8?Q?jCpc6+mYLxl6HwxDd+xtlPObE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c92afd25-501b-47ca-5709-08ddba3f206e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 14:37:24.8327
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C1K/4pYPWU43t+kChGriSXNTmOCcs4TUofrHjMimtXftHm9KlkKfLLixRzXWwnWl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7897
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/24] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: Julien Massot <julien.massot@collabora.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+References: <20250702132104.1537926-1-demonsingur@gmail.com>
+ <5e1b26637706f6eac92acbbb3d5a7dafa0c2c232.camel@collabora.com>
+ <d4052ab3-9cd1-45e8-81b0-b6512822e646@gmail.com>
+ <c661e7f3faec269f73d6240fbe7b84e3bc97157a.camel@collabora.com>
+From: Cosmin Tanislav <demonsingur@gmail.com>
+Content-Language: en-US
+In-Reply-To: <c661e7f3faec269f73d6240fbe7b84e3bc97157a.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 03.07.25 16:23, Christoph Hellwig wrote:
-> [Note: it would be really useful to Cc all relevant maintainers]
-> 
-> On Fri, Jun 27, 2025 at 04:10:27PM +0100, Pavel Begunkov wrote:
->> This series implements it for read/write io_uring requests. The uAPI
->> looks similar to normal registered buffers, the user will need to
->> register a dmabuf in io_uring first and then use it as any other
->> registered buffer. On registration the user also specifies a file
->> to map the dmabuf for.
-> 
-> Just commenting from the in-kernel POV here, where the interface
-> feels wrong.
-> 
-> You can't just expose 'the DMA device' up file operations, because
-> there can be and often is more than one.  Similarly stuffing a
-> dma_addr_t into an iovec is rather dangerous.
-> 
-> The model that should work much better is to have file operations
-> to attach to / detach from a dma_buf, and then have an iter that
-> specifies a dmabuf and offsets into.  That way the code behind the
-> file operations can forward the attachment to all the needed
-> devices (including more/less while it remains attached to the file)
-> and can pick the right dma address for each device.
-> 
-> I also remember some discussion that new dma-buf importers should
-> use the dynamic imported model for long-term imports, but as I'm
-> everything but an expert in that area I'll let the dma-buf folks
-> speak.
 
-Completely correct.
 
-As long as you don't have a really good explanation and some mechanism to prevent abuse long term pinning of DMA-bufs should be avoided.
+On 7/3/25 4:54 PM, Julien Massot wrote:
+> On Thu, 2025-07-03 at 15:17 +0300, Cosmin Tanislav wrote:
+>>
+>>
+>> On 7/3/25 3:07 PM, Julien Massot wrote:
+>>> Hi Cosmin,
+>>>
+>>> On Wed, 2025-07-02 at 16:20 +0300, Cosmin Tanislav wrote:
+>>>> This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+>>>> replacing the few GMSL2 drivers already in upstream, and introducing a
+>>>> common framework that can be used to implement such GMSL chips, which
+>>>> avoids code duplication while also adding support for previously
+>>>> unsupported features.
+>>>>
+>>>> While the normally acceptable and polite way would be to extend the
+>>>> current mainline drivers, the choice was made here to add a totally new
+>>>> set of drivers. The current drivers support only a small subset of the
+>>>> possible features, and only a few devices, so the end result after
+>>>> extending them would in any case be essentially fully rewritten, new
+>>>> drivers.
+>>>>
+>>> Thanks for your work,
+>>> The common framework will help a lot to drive new GMSL chips, and most of the
+>>> features are covered.
+>>>
+>>>> This series depends on support for internal pads, for which a patch has
+>>>> been added.
+>>>>
+>>>> The previous version is at:
+>>>> https://lore.kernel.org/lkml/20250618095858.2145209-1-demonsingur@gmail.com
+>>>>
+>>>> The following deserializers are supported:
+>>>>    * MAX96712 (already exists in staging)
+>>>>    * MAX96714 (already exists)
+>>>>    * MAX96714F (already exists)
+>>>>    * MAX96714R (GMSL2)
+>>>>    * MAX96716 (GMSL2)
+>>>>    * MAX96724 (already exists as part of existing MAX96712 driver)
+>>>>    * MAX96724F (GMSL2)
+>>>>    * MAX96724R (GMSL2)
+>>>>    * MAX9296A (GMSL2)
+>>>>    * MAX96792A (GMSL3)
+>>>>
+>>>> The following serializers are supported:
+>>>>    * MAX96717 (already exists)
+>>>>    * MAX9295A (GMSL2)
+>>>>    * MAX96793 (GMSL3)
+>>>>
+>>>> Known backward compatibility breakages:
+>>>>    * No default routing. Default routing has been intentionally ommitted
+>>>>      as the devices support quite complex routing and it would be
+>>>>      unfeasible to provide sane defaults for multi-link deserialziers.
+>>>>      It is expected that userspace programs would set appropritate
+>>>>      routing.
+>>>>
+>>> This part is the most annoying one: at the moment, there is no way to set the routing except by
+>>> manually enabling a boolean within the kernel source.
+>>> You can't guess what routing the user really wants, but please at least provide a default
+>>> routing
+>>> table that allows using your drivers — for example, the device's default routing.
+>>>
+>>
+>> It's a very delicate issue... I'll try to see if I can do that.
+>> It would be great if we could enable the streams API globally since it's
+>> been merged since Jan 15 2023. It's been over two years.
+>>
+>>
+>> Thanks,
+>>
+>>>
+>>>
+>>>> The following list enumerates new features that are supported by the
+>>>> common framework and their respective chip-specific drivers:
+>>>>    * Full Streams API support. Most deserializers have support for more
+>>>>      than one link, and more than one PHY. Streams support allows
+>>>>      configuration of routing between these links and PHYs.
+>>>>
+>>>>    * .get_frame_desc() support. Both the serializers and deserializers
+>>>>      implement this to query and provide frame descriptor data. This is
+>>>>      used in features explained in-depth below.
+>>>
+>>> So are almost all the sensor drivers incompatible?
+>>>
+>>
+>> Yes, sensor drivers need to have .get_frame_desc() implemented... It's
+>> not a huge feat and it's the only way this type of bridge could work
+>> properly.
+>>
+>> Alternatively, we could add a fallback that bases its decision on the
+>> stream format, but I'd prefer if we didn't and we would just implement
+>> .get_frame_desc(). After this series is merged I can submit my patches
+>> for imx219.
+> There is already one pending on the mailing list
+> "media: i2c: imx219: Report streams using frame descriptors"
+> I guess it's fine if we require the sensor to implement this function.
+> 
+> But I had to do it for vgxy61.
+> 
+> Btw I tested:
+> TI AM62x + max96716 + 1 x max96717f + stvg5661 (tunnel mode)
+> With special lanes mapping and polarities.
+> 
+> And I had to:
+> 
+> - Apply pending patches for j721e to support the enable_stream API instead of s_stream
+> - Enable the experimental v4l2_subdev_enable_streams_api
+> - Add get_frame_desc to the sensor driver
 
-Regards,
-Christian.
+Did it work without issues with those changes?
+
+If that's the case then I think all I can do to make it is easier is to
+add default routing. I'm not a fan of each driver having its own
+get_frame_desc() fallback, especially when it's a very small change to
+do to the sensor drivers.
+
 
