@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-36706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36705-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF50AF800F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 20:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7208AF800E
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 20:33:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 960CD4A1E48
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 18:33:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61F5B546880
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 18:33:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE9112F3620;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC9942F2C7A;
 	Thu,  3 Jul 2025 18:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qwwzqZjc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R9uvwg7H"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3366228A3E2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335F428A1EE;
 	Thu,  3 Jul 2025 18:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751567593; cv=none; b=ZSnCxJ5OuRLeq154Gur+yqeBBl0B3fDGzVj1DhWJIfP3VJ7vjf2/2wJVlT1F8Vrdd0Gzh2ovzunfT9eoJNOex6MyBt8mxnn+W0ScRXPKR6qPu21b5OxCyAwe+qO9sz28VDENV0c7NHRvtRN66xe87qDIR/JfsO4jxMo5CYk/vms=
+	t=1751567593; cv=none; b=XTvC75xS2g/ZJdV2khTMT6rSVzMlrnLucZi0aYcEksqI09gvGcyJi4l0b0Us0u/O2jifXWtS4RGDqTx0T+Up33HGX5BAK5m6ySCktjiVxaPf34rVDStoUNBFhwYddFXYPnFDhWpy8xgdofxyU/I3Q/kyiVpuyfHWtun2lG8Md/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1751567593; c=relaxed/simple;
-	bh=lnATMb/XmCNNMy1igSdCLxsZP2Vd/a/i5coedasJ6Ec=;
+	bh=twKLCDvgvJ4N3es1zViUdUytVpc1yuuskuyBdmZ+9lY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RiFznfOxZn+ZcrMocce+s2D9803ISFSvahxuJshF2ubWiAL5iRHbkiOhAR2vlGONqMgToDHCJNJbXNW56FuFudtVhfqJOL4HzW5Rl2B1/MvEIXQ7+iPdEN7ozh9IQIKtT1wxeZUjhNpxD1RtvqiJK1Q+VnlWJ91dgqMu02cL9/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qwwzqZjc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C0AAAC4AF09;
+	 In-Reply-To:To:Cc; b=GR049/tMCV8+9qE0wbT/+SX+1PmTfjBCLYtV0JBGjapNXYCecgXm1FQldyDdQOWk8k7k0yAzTkXC8KqDaDfx5eCfABgZ5/EHIx+gQHyVeTZsKI26mCqjR6Hkr/wb9HWH5X1eTYFowt67f2e6mB+er/Xn1+n4tLfeLt7f9HaifcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R9uvwg7H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C5E7FC4AF0B;
 	Thu,  3 Jul 2025 18:33:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1751567592;
-	bh=lnATMb/XmCNNMy1igSdCLxsZP2Vd/a/i5coedasJ6Ec=;
+	bh=twKLCDvgvJ4N3es1zViUdUytVpc1yuuskuyBdmZ+9lY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=qwwzqZjcKtOl8/553fhUXtGV5cSS+O56najS82u0rLCWI5zFaQwv7KxGgmdECxS3U
-	 s2dkH5ydHtL1Xrb/O4ydhNxlIcwhLzhYLJEK75Yudxr95MZRHdFMyT/FH9aUq9OYtZ
-	 Lj4Gc4ESm9tQ1RCKRSeY1bmk/iF/oZbLqowhr0TVgrcBPr3mO3xtn/yXtcB6Yhy3nX
-	 y4mbGrRkH7p8JaNBQ/TAhSYiX5iVSecnD78N1MfwLRCfWx/CTGTRCiZG3+d05TPVlk
-	 OhIMHdeNtrbFiHQBTfgXD3J1C3AYtEEohNsePKJiThhvWfLsAZoJn7yGtefFj2E0sR
-	 /35+V/uFd7Edg==
+	b=R9uvwg7H/tZrWUiU2XNSphV19N7RZhq3VTIpr7RkePXVvXiuqfSjEbdEzy1u3/L8b
+	 BFLr0DNU/yhCT7/1IUGjYrZD/H05T7tEsS0jatIK1XXfmfDWAUPuGGBDy8c23cOExj
+	 99fYWcPpD/ie3wppt3cOBlDSeYIDsq3Hr+XpZ2pZ6oILdUhX5+oqPnhX2yZNxn9iKM
+	 cDxSZ9sAdczy71F/0yRRIpGi10PELYcwYHEwGh61oXrPqdUz1J0KtPNjV7NBnE43JE
+	 TwJk1hGaFpCJt7EdrJ0AVHb6dA0HIynhRAO3yFkVg9dZmdIUzqjuQ8/ajijWxBMs1n
+	 aLjKhv9aeVDcg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF646C83F0A;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1BBC83F05;
 	Thu,  3 Jul 2025 18:33:12 +0000 (UTC)
 From: Frank Li via B4 Relay <devnull+Frank.Li.nxp.com@kernel.org>
-Date: Thu, 03 Jul 2025 14:33:08 -0400
-Subject: [PATCH v2 3/4] arm64: dts: imx8: add parallel CSI node
+Date: Thu, 03 Jul 2025 14:33:09 -0400
+Subject: [PATCH v2 4/4] arm64: dts: imx8qxp-mek: add parallel ov5640 camera
+ support
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250703-imx8qxp_pcam-v2-3-188be85f06f1@nxp.com>
+Message-Id: <20250703-imx8qxp_pcam-v2-4-188be85f06f1@nxp.com>
 References: <20250703-imx8qxp_pcam-v2-0-188be85f06f1@nxp.com>
 In-Reply-To: <20250703-imx8qxp_pcam-v2-0-188be85f06f1@nxp.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -70,11 +71,11 @@ Cc: linux-media@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751567591; l=2229;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751567591; l=3715;
  i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=egvyIYm9Ny7RwG4VqCUmjTBkLSU8NimkbRJ5GJUfMCg=;
- b=0DiK8tKXGe724gjHRzMZk45Ar6ghYBLBifnXK2kF2u5SRCj3q649yBEdL/Rg9kJnjnsrMYMyP
- KvscQ92k649AaIVhdfok6kql5Di1O3TLWV46TiUjkLyRHXO0YE1oDIc
+ bh=xrlatQtLaiuinBwAmL4cEzL3pNe437Uvr/YWmYMVyX4=;
+ b=OrYhgbxp0mxYiuvD4zwpejFQ9E/eldojxDR2ZfCT44z4t7F/rAzD6h8/JvNn4OeWKbkLfnHiQ
+ jMyCzGG8e6aCOEQMci3BgiDtLjGFLAEhTs1FhhzET3OdH5wncSPru8A
 X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
  pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
 X-Endpoint-Received: by B4 Relay for Frank.Li@nxp.com/20240130 with
@@ -84,79 +85,118 @@ Reply-To: Frank.Li@nxp.com
 
 From: Frank Li <Frank.Li@nxp.com>
 
-Add parallel CSI nodes.
+Add parallel ov5640 nodes in imx8qxp-mek and create overlay file to enable
+it because it can work at two mode: MIPI and parallel mode.
 
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
-changes in v2
-- update compatible string to match binding's change
+change in v2
+- move ov5640 part to overlay file
+- rename to imx8qxp-mek-ov5640-parallel.dtso
+- remove data-lanes
 ---
- arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi    | 13 +++++++++++
- arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi | 27 +++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ arch/arm64/boot/dts/freescale/Makefile             |  3 +
+ .../dts/freescale/imx8qxp-mek-ov5640-parallel.dtso | 82 ++++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-index 2cf0f7208350a416d77b11140279d2f66f41498f..1f7bf9efdbca266fbda82d2bc84acd9a27ed0bd1 100644
---- a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-@@ -224,6 +224,19 @@ irqsteer_parallel: irqsteer@58260000 {
- 		status = "disabled";
- 	};
+diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
+index 02ef35578dbc7e05b35b781dbfca0f0bc124ead1..25787fc7143f36301f8b334d4b0d84d543e1f320 100644
+--- a/arch/arm64/boot/dts/freescale/Makefile
++++ b/arch/arm64/boot/dts/freescale/Makefile
+@@ -330,6 +330,9 @@ dtb-$(CONFIG_ARCH_MXC) += imx8qxp-mek-pcie-ep.dtb
+ imx8qxp-mek-ov5640-csi-dtbs := imx8qxp-mek.dtb imx8qxp-mek-ov5640-csi.dtbo
+ dtb-${CONFIG_ARCH_MXC} += imx8qxp-mek-ov5640-csi.dtb
  
-+	parallel_csi: csi@58261000 {
-+		compatible = "fsl,imx8qxp-pcif";
-+		reg = <0x58261000 0x1000>;
-+		clocks = <&pi0_pxl_lpcg IMX_LPCG_CLK_0>,
-+			 <&pi0_ipg_lpcg IMX_LPCG_CLK_4>;
-+		clock-names = "pixel", "ipg";
-+		assigned-clocks = <&clk IMX_SC_R_PI_0 IMX_SC_PM_CLK_PER>;
-+		assigned-clock-parents = <&clk IMX_SC_R_PI_0_PLL IMX_SC_PM_CLK_PLL>;
-+		assigned-clock-rates = <160000000>;
-+		power-domains = <&pd IMX_SC_R_PI_0>;
-+		status = "disabled";
-+	};
++imx8qxp-mek-ov5640-parallel-dtbs := imx8qxp-mek.dtb imx8qxp-mek-ov5640-parallel.dtbo
++dtb-${CONFIG_ARCH_MXC} += imx8qxp-mek-ov5640-parallel.dtb
 +
- 	pi0_ipg_lpcg: clock-controller@58263004 {
- 		compatible = "fsl,imx8qxp-lpcg";
- 		reg = <0x58263004 0x4>;
-diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
-index 50015f8dd4e43b507c879479e7320cb58ec8bf74..60aa43c45d15c8b0c2c425be52ed79458d8c96b9 100644
---- a/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
-@@ -62,6 +62,14 @@ isi_in_2: endpoint {
- 				remote-endpoint = <&mipi_csi0_out>;
- 			};
- 		};
+ dtb-$(CONFIG_ARCH_MXC) += imx8qxp-tqma8xqp-mba8xx.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8qxp-tqma8xqps-mb-smarc-2.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8ulp-evk.dtb
+diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-parallel.dtso b/arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-parallel.dtso
+new file mode 100644
+index 0000000000000000000000000000000000000000..e184a5beb5c835e6801495ae2adc3b14cfcde2e5
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-parallel.dtso
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright 2025 NXP
++ */
 +
-+		port@4 {
-+			reg = <4>;
++/dts-v1/;
++/plugin/;
 +
-+			isi_in_4: endpoint {
-+				remote-endpoint = <&parallel_csi_out>;
++#include <dt-bindings/clock/imx8-lpcg.h>
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/media/video-interfaces.h>
++#include <dt-bindings/pinctrl/pads-imx8qxp.h>
++
++&cm40_i2c {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	ov5640_pi: camera@3c {
++		compatible = "ovti,ov5640";
++		reg = <0x3c>;
++		clocks = <&pi0_misc_lpcg IMX_LPCG_CLK_0>;
++		clock-names = "xclk";
++		assigned-clocks = <&pi0_misc_lpcg IMX_LPCG_CLK_0>;
++		assigned-clock-rates = <24000000>;
++		AVDD-supply = <&reg_2v8>;
++		DOVDD-supply = <&reg_1v8>;
++		DVDD-supply = <&reg_1v5>;
++		pinctrl-0 = <&pinctrl_parallel_csi>;
++		pinctrl-names = "default";
++		powerdown-gpios = <&lsio_gpio3 2 GPIO_ACTIVE_HIGH>;
++		reset-gpios = <&lsio_gpio3 3 GPIO_ACTIVE_LOW>;
++
++		port {
++			ov5640_pi_ep: endpoint {
++				bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
++				bus-width = <8>;
++				hsync-active = <1>;
++				pclk-sample = <1>;
++				remote-endpoint = <&parallel_csi_in>;
++				vsync-active = <0>;
 +			};
 +		};
- 	};
- };
- 
-@@ -94,3 +102,22 @@ &jpegenc {
- &mipi_csi_1 {
- 	status = "disabled";
- };
++	};
++};
++
++&iomuxc {
++	pinctrl_parallel_csi: parallelcsigrp {
++		fsl,pins = <
++			IMX8QXP_CSI_D00_CI_PI_D02		0xc0000041
++			IMX8QXP_CSI_D01_CI_PI_D03		0xc0000041
++			IMX8QXP_CSI_D02_CI_PI_D04		0xc0000041
++			IMX8QXP_CSI_D03_CI_PI_D05		0xc0000041
++			IMX8QXP_CSI_D04_CI_PI_D06		0xc0000041
++			IMX8QXP_CSI_D05_CI_PI_D07		0xc0000041
++			IMX8QXP_CSI_D06_CI_PI_D08		0xc0000041
++			IMX8QXP_CSI_D07_CI_PI_D09		0xc0000041
++
++			IMX8QXP_CSI_MCLK_CI_PI_MCLK		0xc0000041
++			IMX8QXP_CSI_PCLK_CI_PI_PCLK		0xc0000041
++			IMX8QXP_CSI_HSYNC_CI_PI_HSYNC		0xc0000041
++			IMX8QXP_CSI_VSYNC_CI_PI_VSYNC		0xc0000041
++			IMX8QXP_CSI_EN_LSIO_GPIO3_IO02		0xc0000041
++			IMX8QXP_CSI_RESET_LSIO_GPIO3_IO03	0xc0000041
++		>;
++	};
++};
++
++&isi {
++	status = "okay";
++};
 +
 +&parallel_csi {
++	status = "okay";
++
 +	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
 +		port@0 {
-+			reg = <0>;
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			parallel_csi_out: endpoint {
-+				remote-endpoint = <&isi_in_4>;
++			parallel_csi_in: endpoint {
++				remote-endpoint = <&ov5640_pi_ep>;
 +			};
 +		};
 +	};
