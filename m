@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-36650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36651-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBC0AF7082
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 12:37:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A000BAF7089
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 12:37:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF4711889DFA
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 10:36:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD8ED1885B8D
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 10:37:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD5C32D46D0;
-	Thu,  3 Jul 2025 10:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C64B12E4243;
+	Thu,  3 Jul 2025 10:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="YFM1ciD7"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ZovBS5k5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013039.outbound.protection.outlook.com [40.107.162.39])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011050.outbound.protection.outlook.com [40.107.130.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9A42E3390;
-	Thu,  3 Jul 2025 10:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1852E3B0A;
+	Thu,  3 Jul 2025 10:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751538954; cv=fail; b=BK9Ue0+q8q/hlviYHO1xMwEpnb+Snn14ol4J/+oqB7g/pXPqGbkiZus7ViKzQYcyJSbnGvHNcEX0oP/zitVWeHLs+4ZNR9zYEJisj6JSfJq4V8aq/z/3ql2pFKhvT1fDCpLENujmqs+qG2AJWn2Lrs4vk41KOEDF/J+wxfycrTE=
+	t=1751538960; cv=fail; b=ZrbYqpYcEPBZgcVf1nWCKdxEZQSikqKSpVinb+rGEmarfuqtHBatZ7M+q6kJ4i4ef+THd+GuguwciiHbJK/unvo91GI1Yjm7O5fw78jw5rKAejQRAHer/Hy9A5IqO70R2zta7gkm4C+MblWJ+HSmvRImuECNgBbCha2nU8mLbeY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751538954; c=relaxed/simple;
-	bh=LALhuZvhWsh68GrPWAr+N/INxrWA4QS3c46mkXobpWg=;
+	s=arc-20240116; t=1751538960; c=relaxed/simple;
+	bh=X1r+fS34EO+oP6hvm2GwMZ6ZYVuh3L0ke5KSqG4aZbQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Bw7cVE1ZBHKI1XTznjC/3nh+VZKGZV2JxniyA25nOpXpZz6mo8EHkkzzao8l5U6HMgX9kqb9+RiehYWxx4E8SY2xyzPxc/77ucBM/YUKmj65aKd/XCMmDjroyjbduARHacE3ZCrvQziDTjfSxcqjZom+98ZnjtlM8/SB2VOklTg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=YFM1ciD7; arc=fail smtp.client-ip=40.107.162.39
+	 Content-Type:MIME-Version; b=EGwF0fqM576kmXvP6PFFp1abKtz07zGIfzFgm4Q1Nkt8SeaXMM5b/IY0bDccvZOr+FSgn0r85GyJKmUX99LQeXfSB69J1/T0rjHzmFRUHGPCH7hpeJcK7vvu6nQ704P13pO2Re7JqqVC7qVu0QWh7wY1KK0ABmZbHxZrVRONilY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ZovBS5k5; arc=fail smtp.client-ip=40.107.130.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TjUSOtMozW+TGTuPiXXWs5VJmPGPKpkkyLzPIHtydtVFraloF+t+j5D7LzQb8IxzMAZoHrpMj57hcNPCp0fQizavNpYe/aIE1DAuzN+sB1NoAMDtkSmsqyyoHB9zkndKJau8bhzSSWe4XM9PDHbTbtVjoJZBTfHEahc+zC3tJjZsNnAzvuQPnuE/peTR+RCE1RXrm4TTMFbAhVIcseTwi0yS+Wc/HmjDSoUugbf6f+dz90xxVv10Fr7JahXnSu3p4QfFd2CEIJYfUJ1oS2eku81wIMmFT1hPxDqMTIvWoVJdWZ0+xoHyuoPvxZvxIoX9z+DIPN7QD2qmcUQdetrv4w==
+ b=lkbp4rh+NZHaMKf1TQu46Fdz3DeNvV7rj2GzVhHFdedrVDmO8By6UEUINSywradSXEMMxonqEFwZGgu+/AoCYXAcW8svmaBOudZomWOjbxb3AUzomlJ+mZZ85hc7HZO5CZswjYPX6gxf3v2Xv/SHfYXge4rUnXgapf+HiAR55lUJ4EMWm3q1s9LDlPthJOW8NPdN/iMF+OfIP+8HXeURP8g/4WEObeTblgm4UU7CEWKFAG3Ms4JvjnlbZ5A165b3xRl2QqdkzyTFJMkZrLucyE0+Lfhml5arGXPTfKNyqDwe4eaeaYUTH6zesPwKeEi+XmXoBZmTAOt67eg6ofADow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LNyWHexmtHJkE0z6rxmA/nCGJi0Y+hSdRCe07jFZATA=;
- b=Wu2K1PoYOrxlVRqsMX0y+TdZ3do9JYERFC7542BGdZsK0cQ9z9FhklXRo+UIUU91U+6aIn0e+0XkGSPi5RP0GY5SX+dyO8JscBy0QeLNd5BYkAsci23fKF/PfvO/eX8EVDMD9zAziteaXYeC2FGiO5mq0mmLsibUgASTquLzam13s/JkMvEej5M1noraBiYUJDoKxHf+BucvxFTk7azKJG9xsyL/Fe5P2Hg9CCvTYrEloJzSw8/STsuI4s3cg3AhyDK5k3plpGJ6UJMT6MhIICVjBlQs7MehYdZKbpsKHjIL2NAEyWuV4IOlrvzQwwmxrLW8WhHE1rUQObJ80mAkSg==
+ bh=aSKy1xmXRvzEA2tWhXJskNFy7c382nQM50HD36q4zLI=;
+ b=MXSpTaU3vZbitORJ+jM5lZglFHUPBZnuFZvPOxoTr5i1vzL+7OwU46XKB4Y+bprXSIihDxOauAyUPxWiEaIktfSeBmfShG+q8GDU/6LjMjcC94b5212oFvZP2AEgxr3H9Td5thqm9xdCjit6wF8RoV2BH6Y6n9FrlxyOxgK5cOCjdyFPw5zTwy32mONxhSHkeUdd0tKT+TZXQ1jA2PgEZovHk570kZcBOG0LcmPMhLR+O0+44df6ClaJZyDntF6TufMCIja43Ej10OXB3C/3ckCfYW30Bl0nqZTXCM6RqLdWvsxuP4Qyq6vbVnwpcohHIOWBXojJUGSvOD36z2dG4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LNyWHexmtHJkE0z6rxmA/nCGJi0Y+hSdRCe07jFZATA=;
- b=YFM1ciD7XDhWHyYn32cjvq1/+b8Pm1VTJh4JDK2Ha8QOmFsCPCezdjtTJlkRZS0oMyr1YyhvD1blxTNqPTgwB2J0J74rQUdPBvPimfuMiMt4mOSn3FAH0JaUJhnne5ajCNtMZJz5pYfS8h6ES+9VzY60fH1RlyEujuIpK57JTw80I9boHgFOuKFShaj9BaVt2aTVjw2q2bDm4RXkyCZXnymkvgZH+Zc93wOGZj3QLLZCblWjPsZmbtZ3CQJSOVha90oOYOOTt4CVjbUOG7TOJkLcEd2L5nKmSiG+xm9rnHJcZvRpIn7PRFQod3C5l1bSbjplvUwEIhFZnaAg2wQ6aQ==
+ bh=aSKy1xmXRvzEA2tWhXJskNFy7c382nQM50HD36q4zLI=;
+ b=ZovBS5k56KmUue0sQ+yZCzRJBrXAPMu1r0X10/mArEQbB/qMQ2dwitNzPkC1x2k56a+cIigN/Lf0hODgl5driW02Nofof3pb7/0B64mCtbkprFhg/O7c7vxfvH2bqxxqzXIeCfDkpx9N3P6CmhGPl8hmKH+5cbYKI5jpucH6rGY3XvNBFITstfTtw+vvhB8ckZXqKrgYelJDZDUS5jnt+SoinvSggvWKo/MMDJpiYNRVd29ZbiqvhAsTDhvkHdWAZREfvKVBcejhfg09gtNIKZ3DtNpAAcFduSOBdGJ4mZEik9U00MbzBBVe3FT1ZdwObmTYxywtodeQ9j36PZfy+Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
- by VI0PR04MB10928.eurprd04.prod.outlook.com (2603:10a6:800:261::8) with
+ by AM8PR04MB7826.eurprd04.prod.outlook.com (2603:10a6:20b:234::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Thu, 3 Jul
- 2025 10:35:48 +0000
+ 2025 10:35:55 +0000
 Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
  ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
  ([fe80::4e24:c2c7:bd58:c5c7%6]) with mapi id 15.20.8901.021; Thu, 3 Jul 2025
- 10:35:48 +0000
+ 10:35:53 +0000
 From: Xu Yang <xu.yang_2@nxp.com>
 To: ezequiel@vanguardiasur.com.ar,
 	mchehab@kernel.org,
@@ -73,9 +73,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	imx@lists.linux.dev,
 	jun.li@nxp.com
-Subject: [PATCH v4 2/3] media: uvcvideo: use usb_alloc_noncoherent/usb_free_noncoherent()
-Date: Thu,  3 Jul 2025 18:38:10 +0800
-Message-Id: <20250703103811.4048542-3-xu.yang_2@nxp.com>
+Subject: [PATCH v4 3/3] media: stk1160: use usb_alloc_noncoherent/usb_free_noncoherent()
+Date: Thu,  3 Jul 2025 18:38:11 +0800
+Message-Id: <20250703103811.4048542-4-xu.yang_2@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250703103811.4048542-1-xu.yang_2@nxp.com>
 References: <20250703103811.4048542-1-xu.yang_2@nxp.com>
@@ -91,232 +91,238 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|VI0PR04MB10928:EE_
-X-MS-Office365-Filtering-Correlation-Id: c36469aa-1538-4d21-bf03-08ddba1d5ffe
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|AM8PR04MB7826:EE_
+X-MS-Office365-Filtering-Correlation-Id: 78481ca1-c75e-42e1-6550-08ddba1d6322
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|19092799006|376014|52116014|7416014|366016|38350700014|921020;
+ BCL:0;ARA:13230040|7416014|52116014|19092799006|376014|1800799024|366016|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?SFGyUabvPDtaPXuLiyBIgLAMa6f7iil7fei0NPEuJgRevtPbqTQ5mpRwj3qh?=
- =?us-ascii?Q?4oNwR73cP95KCNcUZCKB+3VXznL0vPaZK98JpM2gm5cqd6NXrbO22l8WdZ1a?=
- =?us-ascii?Q?r1EiOYvKOszjhogpE3HQREC726EB6DIwgj2q/UbasQEvERuKv2q9vssJssMw?=
- =?us-ascii?Q?KreSGfGXeCuF5ct2MXa/2PiLW+1NTv7E9RWOiJyh5+yE585bSZYFFhdlzklM?=
- =?us-ascii?Q?e5z6BP3fHDMtrB4A+kLm+F7+0JklbzlAd5Oz3Mwa2kGulEhBwFnqXap+u8MS?=
- =?us-ascii?Q?jmJziqkBebi7HNCiKCNJjaHwhFvMqpsCjkL/6ZhHkksnsA29TeGtX0LblWOD?=
- =?us-ascii?Q?xDeC/nZVFWBAxt0bC2vX9sMRNLMsRLkQ4jSCA8YB+Njwf/ZV7PUk0jHlODmd?=
- =?us-ascii?Q?hYWAMfiDIpnb5SUkBs8HXOQpJ7OPa8SZF5Y+ghkjMTiTVzr4BAkRLK7ra1Ay?=
- =?us-ascii?Q?ux4cfsmzugdofqrVpzqzljKxhgs7Ww+LRDG0pfSb1gQ6KlzLj0xM1lbANuVZ?=
- =?us-ascii?Q?9Uj3XihOEN1vxkqoq408erxkHEsZAnJk9TuoCO81DC3BXvgRpy6AIbN8UvP+?=
- =?us-ascii?Q?eEAreELwP4UchEUacuUO77loXCmp/kN4eZ0zXJxEfMcsCoucagcXthu+qeJr?=
- =?us-ascii?Q?eu7vkzBdW8HfLAmWEMar1YHMaG93t64xo9orihbUtGKiAwQ3q3+liRsx9xGc?=
- =?us-ascii?Q?/NsMZmBuWosOpTXrS5wW87IpTcauppIt+eCIfwRw5v3tLKdZgrsvE4/gzRe0?=
- =?us-ascii?Q?XPR4kgS92RsZlPeZkH8rncmV6IYlBJvLZxzwASztWkA8mAhAGTAQeZabJ8h5?=
- =?us-ascii?Q?16GijJqf5DKlvIoIh6+emxpYXVelYBMIZq5enw4VX8FPliX+QOrKBrKymW7Z?=
- =?us-ascii?Q?ck7VjG9h7kxfpvEUh1XI3zkrVvTLcAoOXpKF9T27ID5rGoiAjW82VkAZ3Tnc?=
- =?us-ascii?Q?0dwdX1KEaEAWiOzNXyaBb5C67DxF1RC1lZZUttnfBZgXGIMiGvn7AiJfkZWo?=
- =?us-ascii?Q?yyH1y5+yfkoy7U0h++RLIEPKRpI8zbzRXKyH5Q0T2RDSNV9D6ISpzaX83+op?=
- =?us-ascii?Q?E5fNxTrWI0g8GkCQmSbmHaVEeDfOUShsV1wR1Fox3A2z3WmcoSkdIjKONka4?=
- =?us-ascii?Q?qdWrgwfYUA4p/yimckLvOnBgEXuqShsHSv+1CQWq4kfFZmw2445xDjf1ZB5+?=
- =?us-ascii?Q?cF6YGIl4CJfbBN5/NQAgb4o74hz+sOlBosR7oPAAM9pUF3Vh3nnkxwapTl26?=
- =?us-ascii?Q?2R43pDUjKoDZw29nOvtfSYbSunP4iy0Z4Us4XLBCRlC+/dAo5UnrlBMzeCQ6?=
- =?us-ascii?Q?UpCWZY77PXcHIIGORC3Ao+CJlEswf7v+mGu7qxj96kCR1nT5UCqpJTKe1zRd?=
- =?us-ascii?Q?h//R4wM+kmoDeYWH7tqqYdgJ7wcyjvp46ilVaJa5uNaEHKq3SV1pBWrsK+Fw?=
- =?us-ascii?Q?O/XU+F77/Q+KWy3n/hIcfrUMpv8gvNT24lEzPzfZKr9M6MdhvqGGkrC5YXDr?=
- =?us-ascii?Q?stRu+fH24JsG8PU=3D?=
+ =?us-ascii?Q?4CWgaBNi5NgkR+liz/zcLbMwk9nqBoHo4Dr3JvYO9J8nKMqSwEfjyT7hLgac?=
+ =?us-ascii?Q?UYElwWBmpO36jS7n0d416NMvNYCqA36QFlGw+pkJTGr9dEcLoyJHjUApSvVt?=
+ =?us-ascii?Q?A54v8fdAWX1koyBCnG0gtoN4LZLRm8O6og2jG8D3uk3xBDX2E5exFH6dVdgS?=
+ =?us-ascii?Q?cPCTTou/Rj3avOG9WNga4MU6009Ok8Z24IVvCbSORiZJraUml0tsgU7yJfWY?=
+ =?us-ascii?Q?ToDR6JYvvb9S/cHgJtnGo0pVaBzIev8NasoQiKgNbEr8nhM4A5Mtcr2sRFEj?=
+ =?us-ascii?Q?g+43/WXs3swhSSgsjkn/T+MxEMH+5s0fmySAjVQ1BmSvqG/yF6bR4YUicjZm?=
+ =?us-ascii?Q?DmDKrCBAzI9wIFPUkIzFeo29UCNaEPLpMJt7ywI0iZxCpbd2J8+CiOQuTZPU?=
+ =?us-ascii?Q?/O0nkUfh6SUSmR6ILc0CyoTYXkgWiya49+Ziq2Jo+7vevhTm1ogk0rQtuXG6?=
+ =?us-ascii?Q?fQG2owpeqaERcu/H9mahFwECFRyCBfh8IZlX1iH41epmnbO05By3ivWUKuRa?=
+ =?us-ascii?Q?2qOpcy4JaW22yqVH9m7KkUq745Vc4MObKEnyC6BPORZDof+m5lH6heokC4T+?=
+ =?us-ascii?Q?1gMiPLWi8nF/TwMhg6USwc82zB1hzZVIBvEmABhStSGCTAIE3fCxtNO8X1Qp?=
+ =?us-ascii?Q?KTwYS6kn5OsO/lCU1Yqo9aEzfXQiBrfMfF9trHE/qo7VRtapJbTh0jOqKAq/?=
+ =?us-ascii?Q?DivH73w2Qbc+tr7BK6Fu+fhP8WPxc0OJ2nX20YIEvGQh2J/BtLC2Q7vE7y08?=
+ =?us-ascii?Q?1XQJ5xQxCD0fEMHsW6cPszEmCq5VCk/rSFG36gCqIkBNU7+xd2vIxNjV3iSQ?=
+ =?us-ascii?Q?EQy0ZFhJFVKcnU8MCsAH3Wm0QBctuuHLIWYTlgZMTkTO7c63NfntkEv7lcgb?=
+ =?us-ascii?Q?CjmQbJDptKmFfFnClzWuboVQPpO9EyuowGmv2kNz7J5z/RxvkK+H93FGl9xz?=
+ =?us-ascii?Q?ZMlM9XVpZ5xzoC8N4SZf295HquoZm786HIfMflK/zBSHMWp3BMDQG2RSgvl4?=
+ =?us-ascii?Q?GJ4TN6rtK2cRYcb6R/jtWoVOFY5N/TxHCxsYiieaXoZcFA9XD/PVcBE39MTl?=
+ =?us-ascii?Q?GbV/hymuODqtR7hTnkn+2uLvp2gA3ivaQNmld70ERxkm48U4/JDttjAS5qF9?=
+ =?us-ascii?Q?Xj8EbObz5lTKhWL4ujfkhofleTX/TnuBHU2SVgGOWah+3arbdxpwWV6Xn6ML?=
+ =?us-ascii?Q?QOWawfccgL2DOdzCMUDGKcWGpkBA+BJ3LNmkNMJykPHTG/+UjP2wku1BTrgM?=
+ =?us-ascii?Q?b8xRxXwR4z7sfrQBUllF9UzZRsyc0j8oSFg8R3o1Qo5r02KU8/C5fwJAtj1x?=
+ =?us-ascii?Q?KaqsoWPZaoRre7DbiRZtLn9fp1MGFM+V5iD/Z5BcRh+APixHHD1jFzybmjtV?=
+ =?us-ascii?Q?eCafn+B752auUURyGGzk1ZJiO1iC1p3QTAYgJApCesRjQSH689ZDztbS63O5?=
+ =?us-ascii?Q?9h3KT3DY61gAxMbCPdoI07QJvXI3IPg0Ix9c2tmJ7ILEOvVq1rHtNrM56fNw?=
+ =?us-ascii?Q?LgCpWjWSwX/Ka1Y=3D?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(52116014)(7416014)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(19092799006)(376014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?2afdWAX1dUjSZorHMKWButcLkqZ5TYUcNAwaQiIl2+rnYYShAF9Wb0YNVP/W?=
- =?us-ascii?Q?DyHHAPPk8O5Sjjc+Ey88RCkbg2r2s2dJBYgiPKkNna4AH6WUN9Pf5rb/VBGq?=
- =?us-ascii?Q?3cJmPeOcZI64rD9ONq+WPETihrQZ7eVeMEX3WtRtDX/T4QGba9946O7tlT/w?=
- =?us-ascii?Q?no5RLEwNG/jV19dq1nzssX9JMvvYKvMA/UTHfRvDM7uVaBfAOWVvRhnYW3Zk?=
- =?us-ascii?Q?MT/dkl3OuCMiTPA1Fu67JvekJVu45P0qEKMjAQU1GWoWotFtPK5gwmdPbQCw?=
- =?us-ascii?Q?ot68fxPS9Aw0JohIDeDWM9NS1RsvxVHFDCMUdML7L3NrY9SfOJM20qe3bVrK?=
- =?us-ascii?Q?YprvtHpNS65He4fWu8YGfNO67ap+ai6f0buKrdsqoiliX9kVrAfGB3cSLqg9?=
- =?us-ascii?Q?LzNoa+Fe9BXKonRIeRkdt96WoONurxygQ30z+MxR13zR3m50ZchjuKDWyplX?=
- =?us-ascii?Q?s3k7goJMPmIpjTUGQuPm+8kebRKtrbPSYB5uMZJNziPX0xKH2g3LS/pLpzql?=
- =?us-ascii?Q?hB+BWAdPhQWTyifBedKxC0V5z1Ch9+JdjA+J8cUNoJHfnM1vzl4nC9cTTcJS?=
- =?us-ascii?Q?MgDdVm5fUftpGAmBVqSvTgoWXlvLmB9DlgUqV65JpNCsPT6Bbe1DqE+VDzbj?=
- =?us-ascii?Q?URw4JMHyaNhKt6jMp2+6/gwZECDv7+DJgFX4cnxaEc+/jZPbWRroYTdyIb9/?=
- =?us-ascii?Q?cxASq9KNPeOofTMqyMI7DFMqhBBaaH4oDbAcQr6edmQ/dA+iVYuw/hPuw6iN?=
- =?us-ascii?Q?wA8Vqw4XHm7bVH5X8jvfPyN5g4f03sjlZIbuqVAg2WwhPwvcINHcsoahVuWW?=
- =?us-ascii?Q?foXk3KBNIPiNgX2inNaZRyBxnkWwx88hvFDDPNTfDhKe3gLDA3BpCiScbipA?=
- =?us-ascii?Q?annSuvfBGvoHBFTAFlniacpWMwf+YhC60Py0RzETPSbhAeB+cNK9b2zEDreQ?=
- =?us-ascii?Q?yreWcLIGFHLQ1BPu2TvGwS3kcxFW92IL5UbTLvH6xXfByDzibx9EGC04M0Q5?=
- =?us-ascii?Q?V79nYcHzMECPKRvofERNbyfqBP5d5yPCY7ZgN4yjTuUkML2mDHuJxd4MrGYk?=
- =?us-ascii?Q?Rwa0DF/aNGNt59v77THrkq8k4399Rv8bzzgbUyxUXwuxdSD4mF8lVBQcUKoz?=
- =?us-ascii?Q?koeCSstmCpN2fCcNy7Md24pFOx7dM9M8EJET+tkffHN6CbtSr+/UxyEQe8nn?=
- =?us-ascii?Q?OniSp6MXWH4xaBS8uS+20bvI/c/Ss9linp+1sNFNj5rlsOalmXmXPmt2cYyF?=
- =?us-ascii?Q?u9y93b7jv6IYVDAmXiTzDB/bVAOaUUVTevESCtbsDP59NPFv9m6wqLw4Kl28?=
- =?us-ascii?Q?xpVVCqsJWzGX1PLlbJfJ2pB/3x3NBNr42+IJAZfoix7Kod0OuoSrStNx1ZFT?=
- =?us-ascii?Q?UWqfB+XrIq0UmoOYcxcvjSpR02cUwGx/1p9I4jb42/XYPpUSBC1ZHdWWvwky?=
- =?us-ascii?Q?9CrQAOW/rcMVYSk9x4eh4+jFD1aO1YaJ0rVvSrzhhUfNoGmcvWMwXFxcTUjW?=
- =?us-ascii?Q?hzh44Ps01hjqHfzuDn/aD6TWBORpIj1gDFFIwLt/WLZNPoqTNH7DjfNCzTM9?=
- =?us-ascii?Q?08c4LzsAfzClj8a30n8mYJPw2WAgFSLZ5YnefylM?=
+ =?us-ascii?Q?91/7lKicjMKvcdrbgqZhkbFMmRPex3przcSg1+15YZi/F/NtC97A9oN21Dfz?=
+ =?us-ascii?Q?XFtU4oONl73nIqLMlSo8tH2nGVQh1KUejh/9i77KnCRQsFe8wIKyiabub8bQ?=
+ =?us-ascii?Q?jRmPw0SFz1fS6Ykb6AbXyk3A4wmnBWC6ioLjKXNDplClEUcKxZN2vMKwFC3M?=
+ =?us-ascii?Q?KjrQavVdBPMWTcdiPZRLqb7LvDpcn2CR0AuJhD6h7Jl+LGumNDQs+q0b4iA+?=
+ =?us-ascii?Q?NBR1ZCIXG7S+g7TAMp2G/jaThvd4J/bFAjgHc/5R9qlTJIQRQKADzxJcUvW7?=
+ =?us-ascii?Q?2CEZ3fWFKaxhVijixOMCaqTS9IcVmNKzQm6Oxe02oVhn/bcHXbsrAfHzO+Il?=
+ =?us-ascii?Q?n6xp4cZEpcPo6kwKODIx+5uUj8sTmlGdy5gjUHsIKmgi6gV4lpicsEdOBdNa?=
+ =?us-ascii?Q?lrdkwDZDtipv2RJ9B2BS+JchKu4M3Ucite3e485DlqvwIfBUGLgXAZa/40h0?=
+ =?us-ascii?Q?BScHDB9G5NN1s16mJD1eMvh2oZQ+fsyRpWkAcfI9qMdSD34tbHoApfAGozoO?=
+ =?us-ascii?Q?HysHDEFv8AWNIje6rfZ0U7xPlz+Y/r0SrblXtz5t3B2vrsou7NZg+fF30Zxx?=
+ =?us-ascii?Q?sPwa9yr+WiKPrzFW1ndkHaz44471jZf9ZiBx1meIgN1qoAyhwl4a6VF4p80g?=
+ =?us-ascii?Q?VtDTO927LHWPzCUYpVS65uedJEbvUeQITOIGbqlOeW+NFbIEe3h1cKpsUc+c?=
+ =?us-ascii?Q?mR9wv8tEKYwKIb+qEP5GPkAVSSeB25yadAR+fml3tD/LrvlCsSeVVsveq4x1?=
+ =?us-ascii?Q?rAC3UzbkNoO/BG8OfSq61z4pXDlj8znry5BtNaSIB9K1iZ+dR7e46wmA7oCK?=
+ =?us-ascii?Q?9wwFwZH5WQKe9O3XyPODtrTmU0+2CNv2bVWowSJiVakbphJ/qYR5dQ9N78/e?=
+ =?us-ascii?Q?ncRq2o0gNRNKqFLvBWbiKfI0NTd/CeHgnNcBqvngLfJkYNgDDuDDdKPPqKJF?=
+ =?us-ascii?Q?o+y8T/gLp8352DPNK/4vBHRIfyy5HArnKStFTMSgpkCHhbYKtkvJB8FORGBQ?=
+ =?us-ascii?Q?wBmqN+Pzetevwvd0oS0HJTvsGKAQWZgaEEwnqXToiivUspWIVscbRN8wshj+?=
+ =?us-ascii?Q?9x2Wd8Uy9a/pVPJmhAmreiyn21aVIvgJup9J0z+P0kHBMnCTFR1qqER0YvTz?=
+ =?us-ascii?Q?D7KExAm+vpepD9SdaPiZop8q7oZv8VQ5VcOzHAM+8x5gCZGWYzPl7shluQ0u?=
+ =?us-ascii?Q?fqAqxix0GjdvjVJFSixC6b7f/2h0P3a4EhbJKetNz10fV+2VZImfXQsyJt8D?=
+ =?us-ascii?Q?miGbqbjVD1a49FlrnBOka+TITcDpYWLoJ7dgTPXHFO7gvSYzZvirCjU8Ao8q?=
+ =?us-ascii?Q?Z0QUy/qqLOsf4X+MZKAFemNbyh8Xl1WC9IKhYwb6UVk8dXjhhXLpXT/EtEKt?=
+ =?us-ascii?Q?GdqFVUC1eA3uTjVFVy22osP88uGT4dThVasTQXt+5E3VU3AGqKAMNwUMb+DV?=
+ =?us-ascii?Q?kOYqYLQo5XwN6EN7hokCvzfD3j8NfEa863iFvxnXYYaRzGgov2bXLtKp2cXc?=
+ =?us-ascii?Q?o+F2/l3JiojW79fupDE/HNfXSqmrxHd4L4rOlS3/riAHl8kmsn56RLeB/qOC?=
+ =?us-ascii?Q?dWZ99YcPMf9gCaRXvX7rSPAmQBaENTlJdQBQrntm?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c36469aa-1538-4d21-bf03-08ddba1d5ffe
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78481ca1-c75e-42e1-6550-08ddba1d6322
 X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 10:35:48.6171
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 10:35:53.8485
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PoQrUqi171a8p8GykdywmdcDvV/PKwQvChxfQqt3ozCJzbiYjyjuktmbTkoEvcF16Kpf4WRBsDVS0sPfPq9Y2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10928
+X-MS-Exchange-CrossTenant-UserPrincipalName: cgPJruMX09ikIIhpM/llUFuklRVxoBDQy7QzroWbTr/IrfFRpZVMiGPZ1RdjqvqEY5ONwjKORHZ7ZnA05+QoQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7826
 
 This will use USB noncoherent API to alloc/free urb buffers, then
-uvc driver needn't to do dma sync operations by itself.
+stk1160 driver needn't to do dma sync operations by itself.
 
 Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 
 ---
 Changes in v4:
- - remove uvc_stream_to_dmadev()
+ - no changes
 Changes in v3:
  - no changes
 ---
- drivers/media/usb/uvc/uvc_video.c | 61 +++++++------------------------
- 1 file changed, 14 insertions(+), 47 deletions(-)
+ drivers/media/usb/stk1160/stk1160-v4l.c   |  4 ---
+ drivers/media/usb/stk1160/stk1160-video.c | 43 ++++++-----------------
+ drivers/media/usb/stk1160/stk1160.h       |  7 ----
+ 3 files changed, 11 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index e3567aeb0007..a75af314e46b 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1275,20 +1275,6 @@ static inline enum dma_data_direction uvc_stream_dir(
- 		return DMA_TO_DEVICE;
- }
+diff --git a/drivers/media/usb/stk1160/stk1160-v4l.c b/drivers/media/usb/stk1160/stk1160-v4l.c
+index 5ba3d9c4b3fb..715ce1dcb304 100644
+--- a/drivers/media/usb/stk1160/stk1160-v4l.c
++++ b/drivers/media/usb/stk1160/stk1160-v4l.c
+@@ -232,10 +232,6 @@ static int stk1160_start_streaming(struct stk1160 *dev)
  
--static inline struct device *uvc_stream_to_dmadev(struct uvc_streaming *stream)
--{
--	return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
--}
+ 	/* submit urbs and enables IRQ */
+ 	for (i = 0; i < dev->isoc_ctl.num_bufs; i++) {
+-		struct stk1160_urb *stk_urb = &dev->isoc_ctl.urb_ctl[i];
 -
--static int uvc_submit_urb(struct uvc_urb *uvc_urb, gfp_t mem_flags)
--{
--	/* Sync DMA. */
--	dma_sync_sgtable_for_device(uvc_stream_to_dmadev(uvc_urb->stream),
--				    uvc_urb->sgt,
--				    uvc_stream_dir(uvc_urb->stream));
--	return usb_submit_urb(uvc_urb->urb, mem_flags);
--}
--
- /*
-  * uvc_video_decode_data_work: Asynchronous memcpy processing
-  *
-@@ -1310,7 +1296,7 @@ static void uvc_video_copy_data_work(struct work_struct *work)
- 		uvc_queue_buffer_release(op->buf);
- 	}
- 
--	ret = uvc_submit_urb(uvc_urb, GFP_KERNEL);
-+	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
- 	if (ret < 0)
- 		dev_err(&uvc_urb->stream->intf->dev,
- 			"Failed to resubmit video URB (%d).\n", ret);
-@@ -1736,12 +1722,6 @@ static void uvc_video_complete(struct urb *urb)
- 	/* Re-initialise the URB async work. */
- 	uvc_urb->async_operations = 0;
- 
--	/* Sync DMA and invalidate vmap range. */
--	dma_sync_sgtable_for_cpu(uvc_stream_to_dmadev(uvc_urb->stream),
--				 uvc_urb->sgt, uvc_stream_dir(stream));
--	invalidate_kernel_vmap_range(uvc_urb->buffer,
--				     uvc_urb->stream->urb_size);
--
- 	/*
- 	 * Process the URB headers, and optionally queue expensive memcpy tasks
- 	 * to be deferred to a work queue.
-@@ -1750,7 +1730,7 @@ static void uvc_video_complete(struct urb *urb)
- 
- 	/* If no async work is needed, resubmit the URB immediately. */
- 	if (!uvc_urb->async_operations) {
--		ret = uvc_submit_urb(uvc_urb, GFP_ATOMIC);
-+		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
- 		if (ret < 0)
- 			dev_err(&stream->intf->dev,
- 				"Failed to resubmit video URB (%d).\n", ret);
-@@ -1765,17 +1745,15 @@ static void uvc_video_complete(struct urb *urb)
-  */
- static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+-		dma_sync_sgtable_for_device(stk1160_get_dmadev(dev), stk_urb->sgt,
+-					    DMA_FROM_DEVICE);
+ 		rc = usb_submit_urb(dev->isoc_ctl.urb_ctl[i].urb, GFP_KERNEL);
+ 		if (rc) {
+ 			stk1160_err("cannot submit urb[%d] (%d)\n", i, rc);
+diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+index 9cbd957ecc90..416cb74377eb 100644
+--- a/drivers/media/usb/stk1160/stk1160-video.c
++++ b/drivers/media/usb/stk1160/stk1160-video.c
+@@ -298,9 +298,7 @@ static void stk1160_process_isoc(struct stk1160 *dev, struct urb *urb)
+ static void stk1160_isoc_irq(struct urb *urb)
  {
--	struct device *dma_dev = uvc_stream_to_dmadev(stream);
-+	struct usb_device *udev = stream->dev->udev;
- 	struct uvc_urb *uvc_urb;
+ 	int i, rc;
+-	struct stk1160_urb *stk_urb = urb->context;
+-	struct stk1160 *dev = stk_urb->dev;
+-	struct device *dma_dev = stk1160_get_dmadev(dev);
++	struct stk1160 *dev = urb->context;
  
- 	for_each_uvc_urb(uvc_urb, stream) {
- 		if (!uvc_urb->buffer)
- 			continue;
- 
--		dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
--		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
--				       uvc_stream_dir(stream));
--
-+		usb_free_noncoherent(udev, stream->urb_size, uvc_urb->buffer,
-+				     uvc_stream_dir(stream), uvc_urb->sgt);
- 		uvc_urb->buffer = NULL;
- 		uvc_urb->sgt = NULL;
+ 	switch (urb->status) {
+ 	case 0:
+@@ -315,10 +313,6 @@ static void stk1160_isoc_irq(struct urb *urb)
+ 		return;
  	}
-@@ -1786,26 +1764,13 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
- static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
- 				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
+ 
+-	invalidate_kernel_vmap_range(stk_urb->transfer_buffer,
+-				     urb->transfer_buffer_length);
+-	dma_sync_sgtable_for_cpu(dma_dev, stk_urb->sgt, DMA_FROM_DEVICE);
+-
+ 	stk1160_process_isoc(dev, urb);
+ 
+ 	/* Reset urb buffers */
+@@ -327,7 +321,6 @@ static void stk1160_isoc_irq(struct urb *urb)
+ 		urb->iso_frame_desc[i].actual_length = 0;
+ 	}
+ 
+-	dma_sync_sgtable_for_device(dma_dev, stk_urb->sgt, DMA_FROM_DEVICE);
+ 	rc = usb_submit_urb(urb, GFP_ATOMIC);
+ 	if (rc)
+ 		stk1160_err("urb re-submit failed (%d)\n", rc);
+@@ -365,11 +358,9 @@ void stk1160_cancel_isoc(struct stk1160 *dev)
+ 
+ static void stk_free_urb(struct stk1160 *dev, struct stk1160_urb *stk_urb)
  {
--	struct device *dma_dev = uvc_stream_to_dmadev(stream);
+-	struct device *dma_dev = stk1160_get_dmadev(dev);
 -
--	uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
--					       uvc_stream_dir(stream),
--					       gfp_flags, 0);
--	if (!uvc_urb->sgt)
--		return false;
--	uvc_urb->dma = uvc_urb->sgt->sgl->dma_address;
+-	dma_vunmap_noncontiguous(dma_dev, stk_urb->transfer_buffer);
+-	dma_free_noncontiguous(dma_dev, stk_urb->urb->transfer_buffer_length,
+-			       stk_urb->sgt, DMA_FROM_DEVICE);
++	usb_free_noncoherent(dev->udev, stk_urb->urb->transfer_buffer_length,
++			     stk_urb->transfer_buffer, DMA_FROM_DEVICE,
++			     stk_urb->sgt);
+ 	usb_free_urb(stk_urb->urb);
+ 
+ 	stk_urb->transfer_buffer = NULL;
+@@ -410,32 +401,19 @@ void stk1160_uninit_isoc(struct stk1160 *dev)
+ static int stk1160_fill_urb(struct stk1160 *dev, struct stk1160_urb *stk_urb,
+ 			    int sb_size, int max_packets)
+ {
+-	struct device *dma_dev = stk1160_get_dmadev(dev);
 -
--	uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
--						 uvc_urb->sgt);
--	if (!uvc_urb->buffer) {
--		dma_free_noncontiguous(dma_dev, stream->urb_size,
--				       uvc_urb->sgt,
--				       uvc_stream_dir(stream));
--		uvc_urb->sgt = NULL;
--		return false;
--	}
-+	struct usb_device *udev = stream->dev->udev;
+ 	stk_urb->urb = usb_alloc_urb(max_packets, GFP_KERNEL);
+ 	if (!stk_urb->urb)
+ 		return -ENOMEM;
+-	stk_urb->sgt = dma_alloc_noncontiguous(dma_dev, sb_size,
+-					       DMA_FROM_DEVICE, GFP_KERNEL, 0);
+-
+-	/*
+-	 * If the buffer allocation failed, we exit but return 0 since
+-	 * we allow the driver working with less buffers
+-	 */
+-	if (!stk_urb->sgt)
+-		goto free_urb;
  
--	return true;
-+	uvc_urb->buffer = usb_alloc_noncoherent(udev, stream->urb_size,
-+						gfp_flags, &uvc_urb->dma,
-+						uvc_stream_dir(stream),
-+						&uvc_urb->sgt);
-+	return !!uvc_urb->buffer;
- }
+-	stk_urb->transfer_buffer = dma_vmap_noncontiguous(dma_dev, sb_size,
+-							  stk_urb->sgt);
++	stk_urb->transfer_buffer = usb_alloc_noncoherent(dev->udev, sb_size,
++							 GFP_KERNEL, &stk_urb->dma,
++							 DMA_FROM_DEVICE, &stk_urb->sgt);
+ 	if (!stk_urb->transfer_buffer)
+-		goto free_sgt;
++		goto free_urb;
  
- /*
-@@ -1953,6 +1918,7 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
- 		urb->complete = uvc_video_complete;
- 		urb->number_of_packets = npackets;
- 		urb->transfer_buffer_length = size;
-+		urb->sgt = uvc_urb->sgt;
+-	stk_urb->dma = stk_urb->sgt->sgl->dma_address;
+ 	stk_urb->dev = dev;
+ 	return 0;
+-free_sgt:
+-	dma_free_noncontiguous(dma_dev, sb_size, stk_urb->sgt, DMA_FROM_DEVICE);
+-	stk_urb->sgt = NULL;
++
+ free_urb:
+ 	usb_free_urb(stk_urb->urb);
+ 	stk_urb->urb = NULL;
+@@ -494,12 +472,13 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
+ 		urb->transfer_buffer = dev->isoc_ctl.urb_ctl[i].transfer_buffer;
+ 		urb->transfer_buffer_length = sb_size;
+ 		urb->complete = stk1160_isoc_irq;
+-		urb->context = &dev->isoc_ctl.urb_ctl[i];
++		urb->context = dev;
+ 		urb->interval = 1;
+ 		urb->start_frame = 0;
+ 		urb->number_of_packets = max_packets;
+ 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
+ 		urb->transfer_dma = dev->isoc_ctl.urb_ctl[i].dma;
++		urb->sgt = dev->isoc_ctl.urb_ctl[i].sgt;
  
- 		for (i = 0; i < npackets; ++i) {
- 			urb->iso_frame_desc[i].offset = i * psize;
-@@ -2009,6 +1975,7 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
- 				  size, uvc_video_complete, uvc_urb);
- 		urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
- 		urb->transfer_dma = uvc_urb->dma;
-+		urb->sgt = uvc_urb->sgt;
+ 		k = 0;
+ 		for (j = 0; j < max_packets; j++) {
+diff --git a/drivers/media/usb/stk1160/stk1160.h b/drivers/media/usb/stk1160/stk1160.h
+index 7b498d14ed7a..4cbcb0a03bab 100644
+--- a/drivers/media/usb/stk1160/stk1160.h
++++ b/drivers/media/usb/stk1160/stk1160.h
+@@ -16,8 +16,6 @@
+ #include <media/videobuf2-v4l2.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+-#include <linux/usb.h>
+-#include <linux/usb/hcd.h>
  
- 		uvc_urb->urb = urb;
- 	}
-@@ -2120,7 +2087,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+ #define STK1160_VERSION		"0.9.5"
+ #define STK1160_VERSION_NUM	0x000905
+@@ -195,8 +193,3 @@ void stk1160_select_input(struct stk1160 *dev);
  
- 	/* Submit the URBs. */
- 	for_each_uvc_urb(uvc_urb, stream) {
--		ret = uvc_submit_urb(uvc_urb, gfp_flags);
-+		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
- 		if (ret < 0) {
- 			dev_err(&stream->intf->dev,
- 				"Failed to submit URB %u (%d).\n",
+ /* Provided by stk1160-ac97.c */
+ void stk1160_ac97_setup(struct stk1160 *dev);
+-
+-static inline struct device *stk1160_get_dmadev(struct stk1160 *dev)
+-{
+-	return bus_to_hcd(dev->udev->bus)->self.sysdev;
+-}
 -- 
 2.34.1
 
