@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-36715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A8DAF822B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 22:53:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18575AF822D
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 22:53:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B066D5449C6
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 20:52:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 832A41C87958
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 20:53:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF262BE626;
-	Thu,  3 Jul 2025 20:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBC52BE7A8;
+	Thu,  3 Jul 2025 20:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="whc/b/DD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lUfgs7D7"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="M7KRAeYI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="COrzhS0j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14052BCF48;
-	Thu,  3 Jul 2025 20:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BC62BE656;
+	Thu,  3 Jul 2025 20:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751575983; cv=none; b=ZGxmE1xkTIXU+Nohu6wf27NxwgFWK711QdXVEFWvF81mR8lonqcGgElQ7kn/h2Xripv4P1bZcpu0mvevd4cyu0V9sd5n8w1X+MM+NJ+gsR0GU0cWf5w49ZgokNhAadA8QitOpyR5Wv49RsTr87agecvNLJcEBN6EE7HG4J51Ar4=
+	t=1751575985; cv=none; b=kvQI25/zNvYxEP6XPjwqZUzBdRP8D47KaaTdB+aVylsRpx/Z9Hg6BM+fmmXHlFSNllyQdt7cjsqTHAlIjoJxsDgH2tvUxMQD9074oFh5aqKwJq8ZKHKZsrnFti4tTJP0JRhPIlkYMpKlzlCA5rNqjdIe8F8kHUye4at411Im/kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751575983; c=relaxed/simple;
-	bh=2TIX6mlFQZkNrxwFAY3ChIo8CwYy46M8R9+PsxM6C64=;
+	s=arc-20240116; t=1751575985; c=relaxed/simple;
+	bh=lJnPnfXktNn6wZVcIYgJrlMU/hfkjJnlgLoFam9qisQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OVipjIV97KVHqK1U5xK4tQwkXI5l+oVmmtvZidPhK+mTlYAENaxAEW3GRSKDpQTyflyLr99zkwpCmBqrDMJBnrxOXZSLcqgUmGKSN12it0K/O1z8QJ5sB8ZrUqnILlq+aoBD02W661YgBrQvhIUC41ESZq/56/xpm9dEIVmV/Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=whc/b/DD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lUfgs7D7; arc=none smtp.client-ip=103.168.172.155
+	 MIME-Version:Content-Type; b=QwH4U3BFoxS44NnPk+e1iBtJdC7AwaDCnufMKMLXiOu9be82M3zvGkm8RyqJblxutIpDNRvTXUDIDF0/rB4AAjs9X2brGogEapnhrloSrKqBig5vf145kxwTRGl3QSNvvMOhxWXgBZTBKNBMi021w0roX0553Y+MHowPu315DYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=M7KRAeYI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=COrzhS0j; arc=none smtp.client-ip=103.168.172.146
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 116B81400E2A;
-	Thu,  3 Jul 2025 16:53:01 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Thu, 03 Jul 2025 16:53:01 -0400
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 215E3EC1031;
+	Thu,  3 Jul 2025 16:53:03 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Thu, 03 Jul 2025 16:53:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1751575981;
-	 x=1751662381; bh=kod0WhDlqN/k3kw2GaBuVWXkQcrouyL64zxLgSRj7pw=; b=
-	whc/b/DDu8wM6x7Q6xvo4LSLbBG3hcyLGm6DVTT6hh1yEe062uT6+YMjTCjcEGuG
-	IZnN+DEmYX4m4C6uvisCXQ9Sk3VuYAKTma3loIBY/DRJYVwX6lziZeOiixipe2De
-	dTorcSE2ircxeRkYo7UUdiG+mRasnwH/1HdDmuqutzVsKFg7iux4YK9AH7GCfdkg
-	nVHWP6Q6az5iVmpELNPP8BE6xqUCYvpQo+Kxa2vISitv/ZUMdzdx64fGfoCHXgpM
-	yKJ+NmR8YpRHRnFNpWbNrUuUYtIrTTOyq5pz4LGBKmd0ApWb8VFISOliOm/kvCbw
-	n4fYc9/W3efgheacLbC7TQ==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1751575983;
+	 x=1751662383; bh=OA85e1V7cf4XTBxrWIU1L4wKj9ZHBlZ/xxsGQzrAzIU=; b=
+	M7KRAeYIFf4oMddmysRcRk8+NWDq50kn91lMi9bpGbxWn6ut/+W7u6/GBC3hKrED
+	RCXWUQNBDfn/JsOsGt60A0uyRIXCQSIrHf915HbWzVqjlgiBIEn0/XLiuPJ1oNvB
+	x8kS20cJIRzXuHgaub8Xf5W1i8biRXbuZqwBY1fzKxhdMlxgRg5qDbaNGRwO+bQj
+	n4SN0POMdUkgPJp0SvmJ66ql3FySeTDDUWCT8lLSude4Qm7KZbUgnUfUJ++MBJE2
+	lDbzZTeSLtevKXQWSZjqp3iTZ6BA52HSpA3acsYNeT21RDsCp0fQyuv5O7E38VMS
+	nTv6EpsbYnUIBKZbaNQCCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751575981; x=
-	1751662381; bh=kod0WhDlqN/k3kw2GaBuVWXkQcrouyL64zxLgSRj7pw=; b=l
-	Ufgs7D73Z2qeCsiUk+zzX0sD36IPdOM2pn350KsFpp+1vYwAvhHVQNk83CP0byZ3
-	C6+w90MFNHy1+eSiHHHEmiY1nM95ag5Ls+GzhQn4/D39Q1WR6i9YxoUDcW+7i8VK
-	NkJTlEL8vl80B4XciWXo2DI+wCqrWDnLruOT6oJqjlUUkCa97Pn1uGJ1mxtrA0an
-	2OqLsYXk1NjDOrtogAeAdzb1CS/AOYg4gpzXOWuWiiXTsAUIJJQ5VbJnzqeQnKXa
-	SCjoJ3FxOoGPKOb05bPgN8sNgz67Q9+/XvgjC60KgrFJsyuAp8+6dgYOlZP1b7/i
-	Ln3gB9OP0aGDs6K9/V9DQ==
-X-ME-Sender: <xms:rO1maFfUj-Rjg02qGakTHCRIHfScTrvJNiWcfyziGEd_3aDbo-994w>
-    <xme:rO1maDOvLQTcv62R3NlLndm55yz-MZzYttx8vGSnB82HsJjLNB-ClzN-71pGDli5H
-    vizLp3z2ziVkXpTne4>
-X-ME-Received: <xmr:rO1maOjCP4dllMNNS66z1CzOLaZmvmi5HkuW6Zk-xT9QTPhO3Q-a3xLpwCZmH5ouen_aIJGQNJYpI7Lf0n2WS1hv7g>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751575983; x=
+	1751662383; bh=OA85e1V7cf4XTBxrWIU1L4wKj9ZHBlZ/xxsGQzrAzIU=; b=C
+	OrzhS0j9Kz1e+g2VAkub52As3IKHuf4LamdM0tHUzahpnHvmxVJjxQcq3Iug5gy8
+	ouBfAvcIpU4YXOnXw84IkXCZ5XfJFXl1NPtNWlvLBwwpYO7bnJUT8Gdcwq92qRY4
+	jjgBOxGM0h1tLqSI+rgCs+UNlDXMS9dxERCRdDBm8u7cW2MzjqPMSlq4OI8eN1/U
+	UgHT2uavxNuXK5JB6lH2aJby0fFNtkI6gcyHfweMQTVWFz262J7I/tXJkzFcED8x
+	N7AxUVUlrebUUIAowhvN1Arxzpa79vO4a4v1oGWQkZa+uqg2ZTA9zuIpuFY0qTiw
+	wBXSmy3HcNLT1GVKSvktw==
+X-ME-Sender: <xms:ru1maC1pwsqxQGNq2gdYA-QGO4Xx03nLEjodaE-JQNr42Vk1Fmd-Cg>
+    <xme:ru1maFFSt0K6s9jkbmRjxRBrK_Ue3PpVmfq60rRa_SNAOFguwgggun_pTbgeL1DFm
+    cRAHJhIzk8cgAgA-Dw>
+X-ME-Received: <xmr:ru1maK4qDzRI_IBwhaK5FZGwGtEJHySuXf27FJr7iTuQtEEqxlXizrdKg2K8_vXvgaoU2FYBZxogBWwk8EM9Ptypcw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvuddvkecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
@@ -72,7 +72,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvuddvkecutefuodetgg
     ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
     hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeutdef
     hfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrhfuih
-    iivgepudenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
     nhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmh
     htphhouhhtpdhrtghpthhtoheplhgrrhhssehmvghtrghfohhordguvgdprhgtphhtthho
     pehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhvhgvrhhkuhhilh
@@ -81,14 +81,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvuddvkecutefuodetgg
     esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghs
     rghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrg
     hsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:rO1maO_YBQLzquLsKIPVdoLfSnI0QpXZ2-L-RtlSBHUlsTL_kLzIMg>
-    <xmx:rO1maBvc-5fc31HQjP5N_Usw6ty2d0vvf_YcjyIUtIqYQkqhDt6ouQ>
-    <xmx:rO1maNGVx9GwjPaRrbhCS1oxd0Lil7ewSKAGp9q0vQzaX0jqx-4zJw>
-    <xmx:rO1maIMh3m8qRqDWPtmA0eYiojV6R30y5FDqgMIojzidCut5FzSUUg>
-    <xmx:re1maKT49nmv0IqOhbuH6vG5ke-YcKz3m6oZxCJ-wXXejVmV69n4lOdL>
+X-ME-Proxy: <xmx:ru1maD3sGExfSXa-I8mKLd4KNG0VXkCutP0aInUr3LCJjAOb5qKd3Q>
+    <xmx:ru1maFEoW7XVDpaecTbX-QAPBwRnXLa0LF5xgIaf2-mtD0P08Mi2uw>
+    <xmx:ru1maM-MmwcguadFVIIMZIJuvA4hJDKABEuF8H3JH1Wom077WdHoSA>
+    <xmx:ru1maKl_LsFdH0-u0NZCZ5OLRgRdY5Qjz32Ls7e-SgIQUB8PvNdTNw>
+    <xmx:r-1maIKv4aAKnIoH6v-GPNt5sAN2rTrvK3NubUUmXuLTggdflFnZh23I>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Jul 2025 16:53:00 -0400 (EDT)
+ 3 Jul 2025 16:53:02 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Lars-Peter Clausen <lars@metafoo.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -97,9 +97,9 @@ To: Lars-Peter Clausen <lars@metafoo.de>,
 	linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 03/11] media: adv7180: Move state mutex handling outside init_device()
-Date: Thu,  3 Jul 2025 22:52:15 +0200
-Message-ID: <20250703205223.2810806-4-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 04/11] media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
+Date: Thu,  3 Jul 2025 22:52:16 +0200
+Message-ID: <20250703205223.2810806-5-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250703205223.2810806-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250703205223.2810806-1-niklas.soderlund+renesas@ragnatech.se>
@@ -112,102 +112,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Future rework to get rid of .s_power requires the state mutex to be
-held for multiple operations where initializing the device is one of
-them.
+Instead of handling the state lock ourself in .s_ctrl use the v4l2-ctrls
+core to handle it for us. This will allow us later to use the unlocked
+__v4l2_ctrl_handler_setup() in initialization code where the state lock
+is already held.
 
-Move lock handling outside init_device() but enforce the lock is held
-with a lockdep_assert_held().
+Add a lockdep assert to demonstrate the mutex must be held when setting
+controls.
+
+There is no functional change.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/i2c/adv7180.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ drivers/media/i2c/adv7180.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 0c5511a7667d..bef708916190 100644
+index bef708916190..c2a79eba4dcd 100644
 --- a/drivers/media/i2c/adv7180.c
 +++ b/drivers/media/i2c/adv7180.c
-@@ -893,7 +893,7 @@ static int init_device(struct adv7180_state *state)
+@@ -601,11 +601,11 @@ static int adv7180_s_ctrl(struct v4l2_ctrl *ctrl)
  {
- 	int ret;
+ 	struct v4l2_subdev *sd = to_adv7180_sd(ctrl);
+ 	struct adv7180_state *state = to_state(sd);
+-	int ret = mutex_lock_interruptible(&state->mutex);
++	int ret = 0;
+ 	int val;
  
--	mutex_lock(&state->mutex);
+-	if (ret)
+-		return ret;
 +	lockdep_assert_held(&state->mutex);
- 
- 	adv7180_set_power_pin(state, true);
- 	adv7180_set_reset_pin(state, false);
-@@ -903,11 +903,11 @@ static int init_device(struct adv7180_state *state)
- 
- 	ret = state->chip_info->init(state);
- 	if (ret)
--		goto out_unlock;
-+		return ret;
- 
- 	ret = adv7180_program_std(state);
- 	if (ret)
--		goto out_unlock;
-+		return ret;
- 
- 	adv7180_set_field_mode(state);
- 
-@@ -918,31 +918,28 @@ static int init_device(struct adv7180_state *state)
- 				    ADV7180_ICONF1_ACTIVE_LOW |
- 				    ADV7180_ICONF1_PSYNC_ONLY);
- 		if (ret < 0)
--			goto out_unlock;
-+			return ret;
- 
- 		ret = adv7180_write(state, ADV7180_REG_IMR1, 0);
- 		if (ret < 0)
--			goto out_unlock;
-+			return ret;
- 
- 		ret = adv7180_write(state, ADV7180_REG_IMR2, 0);
- 		if (ret < 0)
--			goto out_unlock;
-+			return ret;
- 
- 		/* enable AD change interrupts */
- 		ret = adv7180_write(state, ADV7180_REG_IMR3,
- 				    ADV7180_IRQ3_AD_CHANGE);
- 		if (ret < 0)
--			goto out_unlock;
-+			return ret;
- 
- 		ret = adv7180_write(state, ADV7180_REG_IMR4, 0);
- 		if (ret < 0)
--			goto out_unlock;
-+			return ret;
++
+ 	val = ctrl->val;
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_BRIGHTNESS:
+@@ -647,7 +647,6 @@ static int adv7180_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		ret = -EINVAL;
  	}
  
--out_unlock:
 -	mutex_unlock(&state->mutex);
--
--	return ret;
-+	return 0;
+ 	return ret;
  }
  
- static int adv7180_s_stream(struct v4l2_subdev *sd, int enable)
-@@ -1493,7 +1490,9 @@ static int adv7180_probe(struct i2c_client *client)
- 	if (ret)
- 		goto err_free_ctrl;
+@@ -668,6 +667,7 @@ static const struct v4l2_ctrl_config adv7180_ctrl_fast_switch = {
+ static int adv7180_init_controls(struct adv7180_state *state)
+ {
+ 	v4l2_ctrl_handler_init(&state->ctrl_hdl, 4);
++	state->ctrl_hdl.lock = &state->mutex;
  
-+	mutex_lock(&state->mutex);
- 	ret = init_device(state);
-+	mutex_unlock(&state->mutex);
- 	if (ret)
- 		goto err_media_entity_cleanup;
- 
-@@ -1576,6 +1575,8 @@ static int adv7180_resume(struct device *dev)
- 	struct adv7180_state *state = to_state(sd);
- 	int ret;
- 
-+	guard(mutex)(&state->mutex);
-+
- 	ret = init_device(state);
- 	if (ret < 0)
- 		return ret;
+ 	v4l2_ctrl_new_std(&state->ctrl_hdl, &adv7180_ctrl_ops,
+ 			  V4L2_CID_BRIGHTNESS, ADV7180_BRI_MIN,
 -- 
 2.50.0
 
