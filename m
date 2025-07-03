@@ -1,119 +1,144 @@
-Return-Path: <linux-media+bounces-36709-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36710-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6976DAF81D6
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 22:20:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12693AF81F1
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 22:28:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1B06166965
-	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 20:20:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F63F17CCEC
+	for <lists+linux-media@lfdr.de>; Thu,  3 Jul 2025 20:28:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 989192BCF67;
-	Thu,  3 Jul 2025 20:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2DB72BDC35;
+	Thu,  3 Jul 2025 20:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gL1N+Tkz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ROXWG759"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E372F229B36;
-	Thu,  3 Jul 2025 20:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F6E291C00
+	for <linux-media@vger.kernel.org>; Thu,  3 Jul 2025 20:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751574003; cv=none; b=l5t8zjKZv0pgbQxrI28r1Y8xX/CLYMqkYL1YFiNJSSwzTEH28J53/b/AkoisdByhpUSzYFXoEFh4WI1Hp/cymQK4rvhO/YHemtSecTE3by4gyElcMxKilyFjvBq1wnGFARywdvimAg3elhutIFKzEOm9R4oJvA1JmL5XW6E39ag=
+	t=1751574498; cv=none; b=KXH9netHPLe8D+qpTfzn4nVhzkFpLD1/qcu5wJneI1eeIPGGotRSkUMQSZdm0P5N7qlJtyZg0qa/69Exliv8RRqQ3h1Pghl8Bu3g23p8gFbktpyL3IVNJDHN42nejRFAZr9zt6gKWygRY+XcKKLOXlWdSYt8toqmKcdYipys4c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751574003; c=relaxed/simple;
-	bh=/Z6dqwWKcpslEvJUI8LhwqbM2J/z4HV3/9EflldkIS4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VsKVhX6m2p+g8P5qx5nqjgVQ0YHIP8nWQG7ZyfxXBGfvNMGH+WhpiaMIj5VTyVdFkEXEVMBiXx/mqrtLDTRYohs9ap9wwGArHROxVZGcHnLyVrb85QoR/ocgJ7hsplwdRn4iwy5JmMZuQ/cK+P9Q56pEPIFd3S88kVqHgaajf2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gL1N+Tkz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73F6BC4CEF1;
-	Thu,  3 Jul 2025 20:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751574002;
-	bh=/Z6dqwWKcpslEvJUI8LhwqbM2J/z4HV3/9EflldkIS4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=gL1N+Tkz0OLj2NMAhLtIDCKg5/fS+DhRasCnj+SqRlpM8NFvysOtOlTCR5iYjE8ed
-	 xnfhUAewgXuKSGrWeNGmZoEST0fJhvNY9eAEkrzZTIj/Qs5yYvOti1bbwBIDWZd6no
-	 b9AZ6LqyGe/3aOe4Xgjsv/wIJ8DJh4R8tYO+zv1VkJgInVHm2eOEKA/JSjvcD7lDwG
-	 Hc9EWXC1HmCdYS3Ymzsg3gfeSebgRURaV2bSFSHl+PbqMyZ0dFw3geasAyJNOJ0E9j
-	 A5591Ld/1BadRwFSBKP5ged+niipxIlcxHPQyhDU3DaG2EA71By+6UQi1dZKyo7b11
-	 v/IlvtbIMeleA==
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60c5b7cae8bso417391a12.1;
-        Thu, 03 Jul 2025 13:20:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW+JCbqLn+r0S2QtpFGQm84jJkeof/qE4VZeYxC/vvJqQoeSOqBMbGVFUEiKFxWU/O0Tg+fXGHySeOsY2BIsg==@vger.kernel.org, AJvYcCWEDsr/67B32EShW9O5re8IbTbm1lZSmXmDS8S6nNNstPRiqqrezqOmxiAnEaDwTQ/I70mT6lUfcEBCn30=@vger.kernel.org, AJvYcCWUVZ71ehxEae113sbPFB73gUwwbH4b/rIe7QhwQlGyUU0hsoNSmrzlHg0qgnY/804xIXW1l16cueU7do0O@vger.kernel.org, AJvYcCXU6PltZ+8DHau95W7wAezUkWdU6OggdYnc2JFMF8sUqhWIMCYR0v/AHXRUnFLFgk2Fv3hWBWwTxxiW@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcYXBVatCt7asSDIXLKtUxcUL1t2Cls++9O2NIa0DNkD/jDX3j
-	LIJjYTXIiVFyUZA0ZdJxdIEDK8lvp8knFvtPQz3NnToZc0IvP6LeTnl2G9Qq3ZaKxkIDxUVCjBL
-	emCAjlw8RAnbl7bnhnAnVZijCoTqjlg==
-X-Google-Smtp-Source: AGHT+IE9hz7l5h4gKfA2Gok0trbBLrord6Qv4/OAvtCHoDspRQQMpgsUWP4XL2MXTLDAW0VEjFlalhjZGgWnYj7Qmpg=
-X-Received: by 2002:a17:907:2d2c:b0:adb:2a66:85bc with SMTP id
- a640c23a62f3a-ae3d89953bamr452586966b.34.1751574000959; Thu, 03 Jul 2025
- 13:20:00 -0700 (PDT)
+	s=arc-20240116; t=1751574498; c=relaxed/simple;
+	bh=U7AmtgF3IwYm62ypi/7AR530Tbla2xssqfyVoRZWF0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G/3w6nUFTupKGtv0xht6R/NtQXhPm8xrlk5rUxWHti/iVJ1j1RRYez47M3rODTKgsiCSKYaEpSVRmu6AMc32Iz2AmVSuyfHzy8f7siHMGBcJ7d1MXCSL5Z2XmGj7wNp67ZOD+xc/bOUucZipIFKVL8Of04GfLvJuYUP2kuCHisg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ROXWG759; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a51481a598so105176f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 03 Jul 2025 13:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751574495; x=1752179295; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e5O8px/YNH1nurLN4WTbK3SKi9r/Z6D8/ENOb+Qojmw=;
+        b=ROXWG759KEzAxozseKEVlD5kT/yOw7CH1eGFL6Ovpj2sSThf7Szvuo6NGt8mFblMmG
+         om8JZQ2Kl8gdP25bHeXX1iWILPnjmlry7Jga/hv7/igZeAt7xhtxnkFOsVLTNsgZpV/I
+         EhIZr9IUftmZhye+VOMGpKvtsDBU86zAeDY18fw/uK5MTLaFftc4Fuj0fjmGJyHB04mp
+         Y3quHxZSFfqj9/uPF9sZ4RrAbQTCj4g2o2q5Z3ZTEsDE/HtNSk6hJ860yDlpFoGb9eSH
+         OclIoJhS+cktCec7Vp54urAY3xP+ULuW97BHLdnXokLbGOKrnZuG2cwEg7lT5TKkuLBV
+         PnUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751574495; x=1752179295;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e5O8px/YNH1nurLN4WTbK3SKi9r/Z6D8/ENOb+Qojmw=;
+        b=O+GB3cnSVTnFwfWXWF9I2mA8Smh04ftyB3o1J9SsFWCMa4tbZ45TotLLqaOZ4QBR1z
+         ZWH5WlPA94v5X5W+n3vj3KhK5x9/FlSkqVSvlb3uKjVzYGjfqXkYz0bvlFNrnW2dDoe9
+         lzosute96fNxL1JjeocRmv92HaTn8aBA7E6XXGHHQfqlROGbrymbNQaTYX9MiNKh+z++
+         PxuPercK117BhzofnJcfZ15mKa2nYASpZQ+cveSWGn3LhtQwNEf1dgFvmfYkvRUBXJtd
+         F/yZAXqELA7/P9zJsqXaVEIkf8Sdodz1r8pB8hx9D9wKeckkB8otqOOxC6I/maS2Z6Em
+         6hSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUypzHElN0jQlXXlpsZ4R2J6OuQJAlbMx3uIDsnRPdtNFUix7TJ3vtGmdM8GECgjMJIYp2CZKRj2z8RKQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQVeR/g8YwF6n6H4jCynZlrw8zmTqQqK1waB0QZSqVYMtXgjhN
+	snLU65NPkYETrf9LKNXli91BcmmWbmf5qUdha/QbQto5M75YKo4mdhjmTvJTEwKHQdI=
+X-Gm-Gg: ASbGncsf/OCgVv5bFcO4gJGKd8BQohIRY9NSucZAp2e6ADZJEp1v7iW4eR5bAIA+Qm1
+	UknDiBs6WVz2mlx4KGX5E6oa4szUmxecI/0IUWUhAKtefW5QY5vDTlpaJlY7fu75C6z8JpXhF+B
+	J29wBNRQ8iCSkYvHCzSi8ytSukvVljjyN3OwdMqQxI6e+vmCLaKi4fYF1GMk2ASVoxbTCRRkp50
+	lYa/OF20jLqBsdJ3xe/zfoHN01x3dYWrccJSfUdGaRQM4lmywDrUnr3nzL1GSxqnFAqlicskxVd
+	UCJ7yTdTPYBXeAFIDZgL1ggGpmwewrNDUns8a4VgrWGRv1o+bRNRHPDdtTIdSOPIGry/zN+d2ip
+	TpURVLYKn1NSYjHXVtiIG/w2Agjg=
+X-Google-Smtp-Source: AGHT+IH4o4ymOoffJrXAfZdAqSKhMIFw7CrgjjaM1GKfgO81ydOA6IKmZrwgR7eOW421JQWOQM5WOg==
+X-Received: by 2002:a05:6000:26cd:b0:3a5:3a3b:6a3a with SMTP id ffacd0b85a97d-3b201ba1ebdmr6512564f8f.54.1751574494978;
+        Thu, 03 Jul 2025 13:28:14 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47225afd4sm597179f8f.83.2025.07.03.13.28.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jul 2025 13:28:14 -0700 (PDT)
+Message-ID: <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
+Date: Thu, 3 Jul 2025 21:28:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250612-sm8550-camss-v2-1-ed370124075e@quicinc.com> <175021976651.732077.6463322520296960558.b4-ty@kernel.org>
-In-Reply-To: <175021976651.732077.6463322520296960558.b4-ty@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 3 Jul 2025 15:19:49 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+46ThxSwJm2RjPDjmK9LmhkFhc9UidjBirEq7-kescPw@mail.gmail.com>
-X-Gm-Features: Ac12FXzxV16zTuZlQN8D9DXY_qZpyOqeBk68ONoeu6ESaQCeuGhWEMIIFPY_tlk
-Message-ID: <CAL_Jsq+46ThxSwJm2RjPDjmK9LmhkFhc9UidjBirEq7-kescPw@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: qcom: sm8550: Add support for camss
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, todor.too@gmail.com, rfoss@kernel.org, 
-	bryan.odonoghue@linaro.org, Wenmeng Liu <quic_wenmliu@quicinc.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Depeng Shao <quic_depengs@quicinc.com>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com>
+ <5f90547d-945a-4e26-b36c-75f2d8a1af97@kernel.org>
+ <eab8d79f-7188-9537-9176-3e4d22f0978a@quicinc.com>
+ <5ad418d9-8199-43c9-a477-1e3b939c054c@kernel.org>
+ <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <f5ebf0d6-2f0b-45cc-b99a-b786e5df9edc@linaro.org>
+ <5qsgbqml367yq6g5vb4lotrzulojqhi5zlwwribze373a63qrn@rxi4kwyt66m2>
+ <4f38058d-a2f1-4ac5-b234-228cfb2e85ff@kernel.org>
+ <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
+ <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org>
+ <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 17, 2025 at 11:09=E2=80=AFPM Bjorn Andersson <andersson@kernel.=
-org> wrote:
->
->
-> On Thu, 12 Jun 2025 16:01:26 +0800, Wenmeng Liu wrote:
-> > Add support for the camera subsystem on the SM8550 Qualcomm SoC. This
-> > includes bringing up the CSIPHY, CSID, VFE/RDI interfaces.
-> >
-> > SM8550 provides
-> > - 3 x VFE, 3 RDI per VFE
-> > - 2 x VFE Lite, 4 RDI per VFE
-> > - 3 x CSID
-> > - 2 x CSID Lite
-> > - 8 x CSI PHY
-> >
-> > [...]
->
-> Applied, thanks!
->
-> [1/1] arm64: dts: qcom: sm8550: Add support for camss
->       commit: c5aeb681fcdd23d042d780f89ddcf908a13baee2
+On 03/07/2025 16:28, Konrad Dybcio wrote:
+> Back to the point, I actually think what this patchset does is
+> resonable, especially given the address range and SMMU SID requirements
+> that the OS*must* be aware of (or the device will crash after a
+> translation fault / security violation).
 
-And adds warnings:
+I still give my RB for the series.
 
-      6  clock-controller@ade0000 (qcom,sm8550-camcc): required-opps:
-[[33]] is too short
-      6  clock-controller@ade0000 (qcom,sm8550-camcc): power-domains:
-[[56, 6]] is too short
-      6  clock-controller@ade0000 (qcom,sm8550-camcc): Unevaluated
-properties are not allowed ('power-domains', 'required-opps' were
-unexpected)
-      6  clock-controller@aaf0000 (qcom,sm8550-videocc):
-required-opps: [[33]] is too short
-      6  clock-controller@aaf0000 (qcom,sm8550-videocc):
-power-domains: [[56, 6]] is too short
-      6  clock-controller@aaf0000 (qcom,sm8550-videocc): Unevaluated
-properties are not allowed ('power-domains', 'required-opps' were
-unexpected)
+To me the only question is should it be applied to sm8550 or to new SoCs 
+from now on, sa8775p, x1e and derivatives.
 
-Rob
+I take the point on ABI breakage on 8550, so to me it seems fully 
+consistent with Krzysztof's statements on ABI maintenance and indeed the 
+need to expand the features of this driver to do so from the next 
+submission onwards.
+
+That can be as simple as
+
+schema.yaml
+
+if compatible newsoc
+     minItems:1
+     maxItems:2
+
+8550's ABI is stable and new SoC submissions will support the 
+secure/non-pixel method.
+
+---
+bod
 
