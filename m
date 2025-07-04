@@ -1,149 +1,197 @@
-Return-Path: <linux-media+bounces-36846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36848-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2C1AF96A4
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 17:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFA6AF9724
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 17:41:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 91E681C4194E
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 15:20:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA23F1898BB0
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 15:41:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699101E9B21;
-	Fri,  4 Jul 2025 15:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035492E06C9;
+	Fri,  4 Jul 2025 15:41:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2B07ix0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WXGmh2nE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFFD273F9;
-	Fri,  4 Jul 2025 15:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEDF4501A;
+	Fri,  4 Jul 2025 15:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751642394; cv=none; b=IUlBKPF9pfAIKw5Nv7R380mMJZ7bUQDaPkq+ubxJ80qHN6QFDVvS8UNZ0TVkxZCvgYuJl3NIQ/P79Zgzm6YvQG1yAZ/P5HGvgzwX1UbO0dC4Vc+bSTxnkHD2qd85Step9ctuRu1Tzg2VEe4JQQwQp/fP1ZJ99ZFcE5CWjHbbxs0=
+	t=1751643672; cv=none; b=rTBGM8Eykv7OWsre5vGoLToCzbig0FZ0eFDHHGk8m2NHWMF+QrLsqjOsWT1lOC/Xsh3TAh3YVLKsvO10xTaLdn2WjtwHYblOo+urtTPxYhwGCaWsBQszbpyo3NXVAtcWHUn9UsPc/2NVs2ZFMllK+fRe+ePXfbMwxL2KSxS7iSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751642394; c=relaxed/simple;
-	bh=/ew8MS09xmL3iUz0ZzBhcbPd2CRWVgMKzYHPaMgmnZw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z1U+nkSHtt0mt+7qWiqexn+MimXgKu9vRipmht428N2AjYcM4JsHLBXFrtARTQAfj4IMPJJuEhTFQeopLH8KD3A9S2evJPDyXIujTMG8DWqsYNi/88mQW0u+eOj+fhZQw/29n4sEIVWYpuoLVZjoUAUqazd3UnRF5KZsbDPe1JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A2B07ix0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA64C4CEE3;
-	Fri,  4 Jul 2025 15:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751642394;
-	bh=/ew8MS09xmL3iUz0ZzBhcbPd2CRWVgMKzYHPaMgmnZw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A2B07ix0OA27DrqIeFKXIbrYFiuNNYfzmRMHpf7hkTFpC+hob+oIF9tWG4XmAXVat
-	 Nwj9fwQiU8vJHuCeJTU1dQMaNKZc5vybp0GzyFspI1feNLD9VfaNUmMUEtH2gSLNWV
-	 j01zjK/Z/4FguO3enRnXNErzj1+fXNc3hIQSCChG1cIrAxzekp1FC/JV2lS7xAD0An
-	 qR7Bl+YY7JyvjpEYkEjGDAswbpY8SuZ+ZREXzQCxiBrnRQzVi1d7rnAusXeqFLMtYA
-	 0ZPUOrb2NikR/Pokw4E1VmG+HzOnTd6Y5wcEzFGvXNHMAd0Wwcrf+IA0gXj423pi6M
-	 PwLtSJXOohqrg==
-Message-ID: <879d1fa7-04a5-403c-8d23-76631a67f560@kernel.org>
-Date: Fri, 4 Jul 2025 17:19:49 +0200
+	s=arc-20240116; t=1751643672; c=relaxed/simple;
+	bh=Im8I+7hlGniAQNwn5GxMLcoY1pxk5HJSJUp96zBoC2Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=X5r/zTKLmZMhwhnjiaBDOg+9QnKZB6EFjpuhBCx/n493/JJcTBaV3DuqAXedXQIw+qa77kepsOMGeDofWWwoVzNvvS3jZr6zmMHc3nSaRM3793LPy65uLEx5tXkl70ORPRF5DJg6CMwSSdmbe9OIWLBnZTPo8sYtsjGUP32dAMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WXGmh2nE; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2349f096605so14984095ad.3;
+        Fri, 04 Jul 2025 08:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751643670; x=1752248470; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OedcBPFbzsQsV/0/v5ae1F3cwXPOlb49ooocQIKNZl4=;
+        b=WXGmh2nEwVgJIHhfCSWRWrPYtxzk/xdpg/f7sd7nF00o7EfKzz/t70twFUlNS0mu/e
+         o3nF6famN3ruflcIVTON6eDt3u9RSG0tcl4Qp4+QAu+ywUm+LX768UbbBDyVOm27o0wt
+         4w9BNjoV4iSUjw+cNSjqCiFmllts6Rkkmo1u9o7EJAVPLh6v60hqZwsTOa8qFtSxR8eL
+         4/6iUpaSTwt9kd5MK2jkZEqpOteb3mMJSzEykY4VOi30k34TIlI5xI594OxCNKLBYvCi
+         TLgcSU4hNjSUEM1vJVDUAuhx6snWWb473R79eTc/jnb8MTaO4BPe035AMGWxKEVZp6qn
+         4nQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751643670; x=1752248470;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OedcBPFbzsQsV/0/v5ae1F3cwXPOlb49ooocQIKNZl4=;
+        b=KDOLi6Ae3vh/X8X83sIxTcOdtcqss/nZsxOqm62tYeeOrVsM6kyHBXwlbB12CGMvmq
+         3w1cSIg9raWRb/LKxApalOaGAy6tPPrv+M0irKM7W0Nk4Dyv3uKOqRn6QBYcymfQlZFh
+         3N6qAz43kZxvzlAIQJq+CxmVt93g82ED+Mi+rki4Ir/z+JrsU1NStVOAm+V+yc9WHnH4
+         X5UkuksZk0OMV3PPWUYUvGpO/oePIxgYFPUh9okylcfPvn1kPmI/cn3+05r0OT1wyIW7
+         P5oaOqpisBnaM9Dm2XTf54POS7iW+poWvr4UMfH3hnhXMWNJOdRMFZOLi9ZHfDjTs1jx
+         g4iw==
+X-Forwarded-Encrypted: i=1; AJvYcCX78UdA1PM0Q7BRsnj5UNueseTCnGQAcJs79WzlW9n3YecTtSugFZJumt6b2N5GZUDFaEtW1Db5GI3Khuo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6hhq1kCKHNN4kKiTtwQ/VXEo2tJS6U41bTh229pbiQeAJyAvH
+	LHFnplj84OVmo8FTfir94+TNNMCqqyApr2uikAkwpTa8lnTtUgE4F+kS
+X-Gm-Gg: ASbGnctrStmiCL00cu+iRwScpHFNwPbtlOjb4rYxisNPfv95lUZpKrnK6yL0xc1HlYY
+	O0x61IXYi8und3vRuYv9fa4hdNJYvg7/B6FlOEnlKcVGf+I8CK0iUhgxTwtWqyTcAKJdawtq2hh
+	jfgXNKzzHwtxRF7m9GAzYewSNmgilQoq5SF/7ljKBgMcyzgPn2lTnnL3a5pXmfHn6xkCgtbV0DC
+	1wke24p3Se2QmOzTxpWAVGwALheoM/d9gO74/G/VLoWCiCXbF4IidaYnlray8tfJPv8xu7S66ld
+	bBm10FQYid6XTcEoyvevV0GTUrSAl2PjkeXkWUz9TpGQeap3RH/cWBkDPzGIhq+Q6JtvQvIXAa8
+	e8hNjzB3WxyhbKfjL1oU1iCuf5ENNVKCaRlELgmCGQWWsboZofQ==
+X-Google-Smtp-Source: AGHT+IG1TDVx9zaBJ67Uj+KJrT++joFV5lUfwhoIBw0a6RJIPN4Mg//ySNPgrJ9HLqu6bkHlyCZM1w==
+X-Received: by 2002:a17:902:f682:b0:234:b422:7120 with SMTP id d9443c01a7336-23c8746d75bmr34272925ad.9.1751643669593;
+        Fri, 04 Jul 2025 08:41:09 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8431a4b6sm21912375ad.29.2025.07.04.08.41.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 08:41:08 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Subject: [PATCH v8 0/3] staging: media: atomisp: indentation cleanup per
+ directory
+Date: Fri, 04 Jul 2025 23:40:51 +0800
+Message-Id: <20250704-new_atomisp-v8-0-2a8560cbd9be@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] virtio: Add missing kerneldoc for virtio_dma_buf_attach
-To: jiang.peng9@zte.com.cn, jasowang@redhat.com, xuanzhuo@linux.alibaba.com
-Cc: mst@redhat.com, eperezma@redhat.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- xu.xin16@zte.com.cn, yang.yang29@zte.com.cn
-References: <20250704152047205U11FdEih1MxrmcmAz0Xpp@zte.com.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250704152047205U11FdEih1MxrmcmAz0Xpp@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAP2Z2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyLHQUlJIzE
+ vPSU3UzU4B8JSMDI1MDcwMT3bzU8vjEkvzczOIC3VRz4zQTc8M0YwNzCyWgjoKi1LTMCrBp0bG
+ 1tQAqBeK0XQAAAA==
+X-Change-ID: 20250704-new_atomisp-e73f471f3078
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751643666; l=3949;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=Im8I+7hlGniAQNwn5GxMLcoY1pxk5HJSJUp96zBoC2Y=;
+ b=7Fs8CESTiTtc3P9HHWidgMqselOticjAAk5NbwihSCq27lVxaK+8mJ/UFthtNl9QL4+1adfpN
+ DHLAq81vczqCQaXIx39XSBWWwqwKLzwQbLuJcnYe0ktQoayc3Gv6BoA
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
 
-On 04/07/2025 09:20, jiang.peng9@zte.com.cn wrote:
-> From: Peng Jiang <jiang.peng9@zte.com.cn>
-> 
-> Add kerneldoc for 'virtio_dma_buf_attach' function to fix W=1 warnings:
-> 
-> drivers/virtio/virtio_dma_buf.c:41 function parameter 'dma_buf' not described in 'virtio_dma_buf_attach'
-> drivers/virtio/virtio_dma_buf.c:41 function parameter 'attach' not described in 'virtio_dma_buf_attach'
-> 
-> Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
-> ---
->  drivers/virtio/virtio_dma_buf.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
-> index 3fe1d03b0645..18d261ba5197 100644
-> --- a/drivers/virtio/virtio_dma_buf.c
-> +++ b/drivers/virtio/virtio_dma_buf.c
-> @@ -35,7 +35,16 @@ struct dma_buf *virtio_dma_buf_export
->  EXPORT_SYMBOL(virtio_dma_buf_export);
-> 
->  /**
-> - * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
-> + * virtio_dma_buf_attach - Mandatory attach callback for virtio dma-bufs
+This patch series focuses on cleaning up indentation (spaces, tabs) in the
+AtomISP driver under drivers/staging/media/atomisp/pci/isp/kernels/.
 
-Read kernel-doc.rst. Missing ()
+Following previous discussions, this version:
+- Applies only indentation-related changes
+- Touches a limited number of files to keep the series reviewable
+- Splits patches by subdirectory to improve traceability and clarity
+- Does not include any clang-format output or automated rewrites
+- Leaves all non-indentation checkpatch.pl warnings or errors untouched
 
-> + * @dma_buf: Pointer to the shared dma-buf structure
-> + * @attach: Pointer to the newly created attachment metadata
-> + *
-> + * Description: Implements the standard dma-buf attach operation for virtio devices.
+There is no functional logic change.
 
-That's not kerneldoc. Which part of kernel-doc document documents such
-syntax?
+---
+Changes in v8:
+- Reorganized cleanup by subdirectory (one commit per directory)
+- Focused only on indentation fixes (spaces, tabs)
+- Removed all clang-format involvement
+- No functional changes
+- Link to v7: https://lore.kernel.org/all/20250629113050.58138-1-zaq14760@gmail.com/
 
+Changes in v7:
+- Split previous monolithic patch into multiple smaller patches
+- Applied clang-format to entire driver excluding i2c directory
+- Fixed checkpatch.pl-reported ERRORs (parentheses in macros, unnecessary return parentheses, zero-initialized globals, spaces after unary minus)
+- Left WARNINGS untouched for future cleanup
+- No functional logic changes
+- Link to v6: https://lore.kernel.org/r/20250627-bar-v6-1-b22b5ea3ced0@gmail.com
 
-> + *              Retrieves virtio-specific operations through container_of macro,
-> + *              then invokes device-specific attach callback if present.
+Changes in v6:
+- Applied clang-format across the entire AtomISP driver
+- Fixed all checkpatch.pl-reported ERRORs
+- Added explanation of tooling and scope
+- No functional logic modified
+- Moved 'Suggested-by' and 'Link' tags above Signed-off-by
+- Link to v5: https://lore.kernel.org/r/20250625-bar-v5-1-db960608b607@gmail.com
+
+Changes in v5:
+- Replaced space-based indentation with tabs in output_1.0 directory
+- Used checkpatch.pl and grep to identify formatting issues
+- No functional changes made
+- This patch is now focused solely on tab/space issues
+- Link to v4: https://lore.kernel.org/r/20250624-bar-v4-1-9f9f9ae9f868@gmail.com
+
+Changes in v4:
+- Moved assignment operator '=' to the same line for static struct definitions
+- Remove unnecessary line breaks in function definitions
+- Update commit message to reflect all the coding style fixes
+- Link to v3: https://lore.kernel.org/r/20250622-bar-v3-1-4cc91ef01c3a@gmail.com
+
+Changes in v3:
+- Removed extra spaces between type and asterisk (e.g., `*to`) in function
+  declarations, as pointed out by Andy Shevchenko
+- Update commit message to reflect all the coding style fixes
+- Link to v2: https://lore.kernel.org/r/20250621-bar-v2-1-4e6cfc779614@gmail.com
+
+Changes in v2:
+- Fix patch subject prefix to "staging: media: atomisp:" to comply with media CI style.
+- No other functional changes.
+- Link to v1: https://lore.kernel.org/r/20250621-bar-v1-1-5a3e7004462c@gmail.com
+
+Thanks for your previous feedback.
+
+Best regards,  
+LiangCheng Wang <zaq14760@gmail.com>
+
+Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+
+---
+LiangCheng Wang (3):
+      staging: media: atomisp: fix indentation in aa
+      staging: media: atomisp: fix indentation in anr
+      staging: media: atomisp: fix indentation in bh
+
+ .../pci/isp/kernels/aa/aa_2/ia_css_aa2_types.h     |  2 +-
+ .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c  | 29 +++++++++-------------
+ .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h  | 17 ++++++-------
+ .../pci/isp/kernels/anr/anr_1.0/ia_css_anr_types.h |  4 +--
+ .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c   | 12 ++++-----
+ .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h   | 11 ++++----
+ .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.c       | 18 ++++++--------
+ .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.h       | 12 ++++-----
+ .../pci/isp/kernels/bh/bh_2/ia_css_bh_types.h      | 14 +++++------
+ 9 files changed, 52 insertions(+), 67 deletions(-)
+---
+base-commit: 4c06e63b92038fadb566b652ec3ec04e228931e8
+change-id: 20250704-new_atomisp-e73f471f3078
+
 Best regards,
-Krzysztof
+-- 
+LiangCheng Wang <zaq14760@gmail.com>
+
 
