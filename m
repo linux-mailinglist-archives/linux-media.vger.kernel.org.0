@@ -1,48 +1,80 @@
-Return-Path: <linux-media+bounces-36870-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36871-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD451AF9BCD
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 22:54:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53880AF9C96
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 00:44:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D938567F22
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 20:54:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97C3C3B18CC
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 22:44:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2981C215789;
-	Fri,  4 Jul 2025 20:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FF3928D8F3;
+	Fri,  4 Jul 2025 22:44:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qy+9wgpP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SgG36D9h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868451A83E4;
-	Fri,  4 Jul 2025 20:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672352135AD
+	for <linux-media@vger.kernel.org>; Fri,  4 Jul 2025 22:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751662437; cv=none; b=XcztNFCdDjQfo6/hR4DUX7nivd0N8VzpnMTq5jNpyhumjSJcWMIJvfw3W0rZOSm3ZYZNez1lQZTBXgSNzBpyo0EfLtMA7xOKO93n+phUt849NNtHFA5J/2Kw9+7QVG2dhKImJWipnycy4+wT7UgTdXKU9+PFXyDpqGJEAHRehjE=
+	t=1751669090; cv=none; b=DUQw1T6A2ZgqlgzwuomXUXTc8axcVRbKMrCERCJ8gguG6HvPOZcvJdDtwCYE6wGSn71RJzqGeRxeyU+hi/3WuMbPIQz8PQmUm8VOl21J6Z8CHzN318MjRWBVmewwXP0tOAK84Qp/XVHGeTkXtWse76irqpUKDLLGOHFcnpcKdf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751662437; c=relaxed/simple;
-	bh=Ne9AmoxN3z3zc+TjqJ/AesjfpnzXFrEC21F/4uGvKto=;
+	s=arc-20240116; t=1751669090; c=relaxed/simple;
+	bh=Y3Qo6AMyh3vAZ7BoOZ9CqjFHltIfXfXPWxwA17fB/4o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KVcmHj8+la82zmW4Nhnp4tEmo5j0jnCTeusjgG+lK/OZLRh3Vc56oVFEjuyVo6B2cAMhb8uKD+jFeva6crYYCT7tt38WqXK6GNz50QjuFUSzWXrmjK/8qnfhsQanr5OC5FY/H5c6Bz2nstcchm4zsx20gm9c4lmyjc1d1/KWs08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qy+9wgpP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF9DC4CEE3;
-	Fri,  4 Jul 2025 20:53:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751662437;
-	bh=Ne9AmoxN3z3zc+TjqJ/AesjfpnzXFrEC21F/4uGvKto=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Qy+9wgpPGVcbo+soLEs+pdj58Rd2ZIzfkwabviSeYC5TJMxy4QZQ8Zt1Wwu1uNBdw
-	 UbSv5wsOwd3Yua3xLQwQkaTmqecmZlTceqp6xXckHL6Wa6n9r79iGmN4tJH876jH+7
-	 lxZIMzvKDpQIkpEYe4GUMpZX5/FHQPq0srJN4+qIBHyDNzWRYBYkrZSftKgciLZW2j
-	 +UaSVn4vMCqREmEhuDEQUPj54xsqYnxhGQqUaMGFqY12nPwNETN8bg4utQMmZR4591
-	 msWgHXKf7iF9T71E3/pEoRcbJWPujbh/pKWuIzCEX/19Uw8bjt1k5Y2WaA3QjLKacE
-	 se2dXTepgTMeQ==
-Message-ID: <2bee7047-ce37-4878-bf19-37c323f256cf@kernel.org>
-Date: Fri, 4 Jul 2025 22:53:52 +0200
+	 In-Reply-To:Content-Type; b=Sev+PXUBXypNjkZjGFQ8Og7oikS+8PjJ6nrrJQ+atPIQYxugYTfrIHjJPKVM/gBvxIPPsG7KJO3AV8xeasR9kQgf1E2R5mh5KPFRelnzm+TIfpOHwzP75j6zzHMB0p0HX/HCN/ZQ6UWMpesPP3MJqY/GWc+/T0f3sqIJckDNdGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SgG36D9h; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a6cdc27438so1085554f8f.2
+        for <linux-media@vger.kernel.org>; Fri, 04 Jul 2025 15:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751669087; x=1752273887; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H0R2mMftv88Zra/AIwb5aEOqQ/EqgpXNN3YEG/zf/es=;
+        b=SgG36D9hQ0m5tcKWZElF0xQboJRs8Xkcu6ZiIQQaIO1r29lbEoK3c5WPEK2v/SI7TB
+         XYYYOMflN0LKu5K887b4tx97eDifDwyeQfawsTfXWa+j1GrSM0kz4tpmsbE9y5ZhmvTM
+         DRsrhJR+XpPQW5AsvVjBSVJy7UK3aoS8GLEee6qQI5+aEn+FLRELmWrvLjGmDc5ojbfW
+         XY9IzZLIjyLj+e1hHtR7ba9UUX/J4mkXH5aPBUQhBmGwinmT2gsb0E62klfwbqkw6oJ5
+         vWEgJtUzGzCNssimrkZPUwsGglwb8kLgJ25f1HnD/hucYHkczbbkZ/wuJsmQIF8CoM5X
+         wpCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751669087; x=1752273887;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=H0R2mMftv88Zra/AIwb5aEOqQ/EqgpXNN3YEG/zf/es=;
+        b=JVBAlXMDl1fsK0C2aDCVQ9htG79+hoL/j2uiYa4dUcTUImCaO/2TdlRuial53mdiwR
+         CB1bQCvDJV9cXkOyA2amOExqoL9YYTOXVRsqE4m1NrKFtrdyUU2TdmFXtW4rqGQldYkp
+         abc3K9p3duMIdF/BZI52L/VB2ww59VgIzu9YETPohgLNj23ZP6+aYAAaAlz98y+EHVNl
+         TFFO/Tk5k3T5PtdU2ZXRodFhRU6KxONJ8nj/+E6k/bGcW29UlDsOguZwBGfbP2UnPdKB
+         6MS+dZei6G1h1eRPN/Y+kXcdM09rZfEZ/WF01eVpMGDSxQJaf9FY/x0I8Iwa/XPg9qsx
+         EDww==
+X-Forwarded-Encrypted: i=1; AJvYcCVf50lxMiiLom6CVAn9RPQdok6tch9DtL6ux8twnQYXOo+pApfVsu31RIkG+JFa7n3QoVLwp2JFEYjblw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgSCQx1wIoElbl/fVRgbk8DPhDQG6NKfHhS/ctrRmo1T9yLKwo
+	0byaL6ULAZg27l8wll4C0lbCbj4UuOCPsj9RVZyzgx0T8OsQNHZtscWXsGhqIJQOVGg=
+X-Gm-Gg: ASbGnctGvhj/xmIF42mOlkCfNI7HiRqPFSScJBGaYgarkVVntNNQIgYVvBu0OF0jRDB
+	fcdOu3c4jJF9/Fwc1pU+xszbVTgmfsrhFjv0n3d5CvQ5K/uFJbQvR9LaLzJ1+HE+pjGdc+e2jT1
+	INW9Xb/Z0qg6dB5EZAnYreAWUmoc6R1ZFe1whTE/PM5isSsZgkDsefIzq6O2kznJ7SuAgqS3RTn
+	Cj1P1alhQZk2cvtHdq+ZnCE2i185RggQhR2kk/300zNNPuFfFgJeOTPY407DBna6jCjJ5u1821D
+	c03em0nD6S+G72Y3Q9UZzyKstZhzFP7ouHSL29+3rIWk+8zWTBKcuvrdMvN08y7NWmpiwyxSPie
+	cDtDXSUlq7tmD4NuYwVtndc5LP+f7
+X-Google-Smtp-Source: AGHT+IGpEZrUwZf0KcjBtL/RVMyaOw7wHDyiLG1R8UVH19QzDTg+4QvrI8tBK/wuGCA67B2E3somGQ==
+X-Received: by 2002:a05:6000:2912:b0:3a5:2e9c:edb with SMTP id ffacd0b85a97d-3b497038f72mr2896312f8f.47.1751669086724;
+        Fri, 04 Jul 2025 15:44:46 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454b1699162sm38709165e9.31.2025.07.04.15.44.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jul 2025 15:44:46 -0700 (PDT)
+Message-ID: <6c6f6bc9-7c34-4961-8b5e-e6d02c4b2f6d@linaro.org>
+Date: Fri, 4 Jul 2025 23:44:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,113 +82,58 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/23] media: atomisp: gc0310: Use V4L2_CID_ANALOGUE_GAIN
- for gain control
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-6-hdegoede@redhat.com>
- <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <f5ebf0d6-2f0b-45cc-b99a-b786e5df9edc@linaro.org>
+ <5qsgbqml367yq6g5vb4lotrzulojqhi5zlwwribze373a63qrn@rxi4kwyt66m2>
+ <4f38058d-a2f1-4ac5-b234-228cfb2e85ff@kernel.org>
+ <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
+ <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org>
+ <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
+ <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
+ <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
+ <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org>
+ <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Kieran,
-
-Thank you for the reviews.
-
-On 17-May-25 23:09, Kieran Bingham wrote:
-> Quoting Hans de Goede (2025-05-17 12:40:48)
->> Use V4L2_CID_ANALOGUE_GAIN for gain control, as expected by userspace.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->> index ee039f3be4da..756e56f639b7 100644
->> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->> @@ -289,7 +289,7 @@ static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
->>                 ret = cci_write(sensor->regmap, GC0310_AEC_PK_EXPO_REG,
->>                                 ctrl->val, NULL);
->>                 break;
->> -       case V4L2_CID_GAIN:
->> +       case V4L2_CID_ANALOGUE_GAIN:
->>                 ret = gc0310_gain_set(sensor, ctrl->val);
->>                 break;
->>         default:
->> @@ -533,7 +533,7 @@ static int gc0310_init_controls(struct gc0310_device *sensor)
->>  
->>         /* 32 steps at base gain 1 + 64 half steps at base gain 2 */
+On 04/07/2025 17:45, Dmitry Baryshkov wrote:
+> What about instead:
 > 
-> sounds like a curious gain model...
-> 
-> Will be interesting when we get the sensor calibration tools up and
-> running to plot this. (Or is there already a public datasheet
-> documenting this?)
+> - keep IOMMU entries as is
+ack
 
-There is a datasheet but it does not document much other then
-register names.
- 
-> Is there a split here between analogue gain and digital gain ? Or is it
-> all expected to be 'analogue gain' ?
+> - Add iommu-maps, mapping the non-pixel SID
+> - In future expand iommu-maps, describing the secure contexts?
 
-here is the actual method setting the gain:
+Interesting, we are _adding_ so that's not an ABI break and if I'm 
+reading the documentation right, there's no hard rule on what iommu-map 
+defines i.e. nothing to preclude us from encoding the information we 
+want here.
 
-        /* Taken from original driver, this never sets dgain lower then 32? */
+This might work.
 
-        /* Change 0 - 95 to 32 - 127 */
-        gain += 32;
+drivers/pci/controller/dwc/pcie-qcom.c::qcom_pcie_config_sid_1_9_0()
 
-        if (gain < 64) {
-                again = 0x0; /* sqrt(2) */
-                dgain = gain;
-        } else {
-                again = 0x2; /* 2 * sqrt(2) */
-                dgain = gain / 2;
-        }
+You can register your platform device to the SID map you parse.
 
-        cci_write(sensor->regmap, GC0310_AGC_ADJ_REG, again, &ret);
-        cci_write(sensor->regmap, GC0310_DGC_ADJ_REG, dgain, &ret);
+Worth an experiment.
 
-The 32 half steps come from the dgain = gain / 2 for steps 32 - 95 .
-
-Note the again / dgain names here are confusing. The data sheet describes
-the 2 registers which are being written as follows:
-
-AGC:
-P0:0x48 ANALOG_COL_gain-col_code 4 bit wide default 0x00 RO [7:4] ANALOG_COL_gain [2:0] col_code
-
-DGC:
-P0:0x71 Auto_pregain 8 bit wide default 0x20 RO Auto_pregain
-
-Note DGC is described as read-only in the datasheet, maybe the datesheet is off by one
-and we should actually look at register 0x70 in the datasheet:
-
-P0:0x70 Global_gain 8 bit wide default 0x40 RW Global_gain
-
-Either way based on the function calculations I get the feeling that
-the first register is actually setting some fixed analog pre-multiplier
-and the second register is the actual analog gain.
-
-Despite the names used in the driver (inherited from Android kernels) it
-does not feel to me like one of the 2 registers is a digital gain
-register.
-
-So I'm going to keep this as is for now and once we've gain calibration
-tooling up and running make a plot with the current gain code and then
-modify the driver to make this fit one of the standard gain models.
-
-Regards,
-
-Hans
-
-
+---
+bod
 
