@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-36756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BE6AF8510
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 03:03:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5F4AF8511
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 03:03:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1912548439
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 01:02:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6278D162F57
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 01:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A4378F32;
-	Fri,  4 Jul 2025 01:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B726BB5B;
+	Fri,  4 Jul 2025 01:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="S5MM96BU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ox7LHjQE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601AE72610
-	for <linux-media@vger.kernel.org>; Fri,  4 Jul 2025 01:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0690E8F6E
+	for <linux-media@vger.kernel.org>; Fri,  4 Jul 2025 01:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751590978; cv=none; b=TCSiN83CEGU88MSyP9hduuGEE+J9DPPqXdT1IQJGrYFtlrU07e+B+Gu5IpTN/mORJUpsSfIWZMrkLyZkuJ8KE7vqPpYS7PozV3Opw830u73iPJknpwI1BbhsgHxytOxg3LFrsoEdaK1muCs9X4BGJTZyl5vXUS6J3oajhOLO0jQ=
+	t=1751590983; cv=none; b=pgO8ZcEPgnmFCefdgrnZQDuEkuf+XmDBhphwwCSKmE30KSR/rbg7C7MMsPz2v6MaknKb1uz2u0Xtik8j+Am1iIbrYJOyL5cxDKHun1ZOzbp3HhgfbvBTViPAFXa5nOvKs2uBLd2h+YuXAlCSSQR2dpyIBuDCyO7t9Qnz4nluz38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751590978; c=relaxed/simple;
-	bh=IGPuW+93VdWmLQukhynWciPnNyLDJpvkMu+tOTp927U=;
+	s=arc-20240116; t=1751590983; c=relaxed/simple;
+	bh=yIoMRuOsza0cFOJsNVOgSlXIaC+LJYdKfThGdDdrJ7I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=g9wrHXIQU5+P3DTsdVFPPhO7DSNfedovTzzsd09xnSf4YXj3oAJqRakUjWGAeVhcxiCeDtMakfk9ny5GJlo4e86Wx1zsfUAeDaoHX8yEIN0rPxscqnFtJXwe1cUjr3y2ziGknBbIgq+pAEUH90tksJBF3W9s3jWE4Q4MHKf/pkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=S5MM96BU; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=U0qCDUU9xlBIJLnnyarBSBIurrePvqFdLCV2bOcUz33oHXXE/iEOzOQUgaG1Ym7afsS0vQm4PmojCW9dJG+yXS9G9tCOmbwSGqK0kMFl+NOw4QyY28PENQ0dkEmXSKGQK2O8G6hYFSw5ZoUSTPSahbs0xFhvVO/U0AgOXg7wU+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ox7LHjQE; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2601:602:8100:c320::3926])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D7E2524;
-	Fri,  4 Jul 2025 03:02:30 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14CEC524;
+	Fri,  4 Jul 2025 03:02:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751590950;
-	bh=IGPuW+93VdWmLQukhynWciPnNyLDJpvkMu+tOTp927U=;
+	s=mail; t=1751590955;
+	bh=yIoMRuOsza0cFOJsNVOgSlXIaC+LJYdKfThGdDdrJ7I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=S5MM96BU8MgT3mMthWMdV3LFKDAGVshLj7+uX6Kno3b++jOyQf3f7K/r6WKjOVuOx
-	 fpjv2CgIxKhnIrW7PEjq80YqBlmv2tFxz8Ci5GhIPN8+HsEkbSL7PpZtJX1jxNLWNx
-	 WbcLLxTt9yxXBig6Aafn2y0uzV/IfHh+pXGcHf/M=
+	b=Ox7LHjQEOne67wptqiJ2pNkbl7BbWzOlaHHfe75ffOWZJHxocebA6pjtlqRGjymmZ
+	 dHzAu0J8bqWt3d7ABuL1XFu6LLxWadRtUVlhvZn5xMdgUXHivGNbStf58rYz5WgESk
+	 l/fZJB9jpnEQ06xOwLW9uA8RRUJ3rXE3DPuM/lbg=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Thu, 03 Jul 2025 18:02:09 -0700
-Subject: [PATCH RFC 2/3] media: ti: j721e-csi2rx: Use video_device_state
+Date: Thu, 03 Jul 2025 18:02:10 -0700
+Subject: [PATCH RFC 3/3] media: rkisp1: Use video_device_state
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250703-vdev-state-v1-2-d647a5e4986d@ideasonboard.com>
+Message-Id: <20250703-vdev-state-v1-3-d647a5e4986d@ideasonboard.com>
 References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
 In-Reply-To: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
@@ -63,195 +63,349 @@ Cc: Heiko Stuebner <heiko@sntech.de>,
  Dafna Hirschfeld <dafna@fastmail.com>, linux-media@vger.kernel.org, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6320;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12712;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=IGPuW+93VdWmLQukhynWciPnNyLDJpvkMu+tOTp927U=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBoZygvOAdHusCZY0HyFRKv9t1Og/WeDhmsE71mw
- oBWHDJ9hzmJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaGcoLwAKCRBD3pH5JJpx
- RX6yD/9UtKNwabY3DpcGL12ObmqYiZnGLIRyeQpbR9wN/7ZBUSi1003AyLUkFVctkI0DoVzCkH3
- qFFhqoO2s290wIuzdl+vBwjgdH+nA5gAypmtsj3oNCUA6cLXXNShki4WZfy/XBS1AerByP5t+DO
- KqffmDzrJ6HFd5EdemMs+UnH/aj8l9JZc4x4tCCNYkPLOv6+NLKwhi3Bg7+UvSv7eHZgLbGomFv
- HWFzYalPKn0ogiu+dQKttzrGyugjU/rYCi9aoUz0VJSq8iylp6c7zxC2U9wbOXOeVc7rG/EbMe/
- e/1ewOOdSVwRqHY4Q6RzglGLKL61efMfIAIzqXJkqTEGC2WBnzPh/LtjB97lTa9l1ywu5Pd+PGf
- btGrbEInFziQ7InASL6CrLghco7XygZVdJ0va6+MEq2Bw7/utDpIPT3OvpEnzkT20Ml4vyUGfY+
- FIArXn19HukrQi0kA4A6jet+dbET2M7PcGOhq8Q2YFgpqO3VToztP2/S8Msi+xuwMBcD6rf6wCX
- dK+p3iFk+Oy5c9pBaNzFkpuVjy38B6iqBEk9VCu/H0FGsDYB2u9UncY6ZqxVOJNkTIxhMie1McS
- q0KiHAhaBoIDR2s41WZUCVBecau3siOCY4yZ641DeY5wIl26nOtdGP7zQ1mDn1cv3levN/tGJW6
- l5+wMnV8q9VSkWw==
+ bh=yIoMRuOsza0cFOJsNVOgSlXIaC+LJYdKfThGdDdrJ7I=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBoZygwhX13mqtRd3BH5nvvFUABMonRA6tpohoJh
+ J/NgVJG0QKJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaGcoMAAKCRBD3pH5JJpx
+ RUMwEACJi8kfBs1/neT7otDC73bpitTAALSOfr7DVCkAU17I1cvXy60F1Q35/kjJKUBjslwmv9r
+ U1dqmp/6q3J/jxCe0N0HE8FjyWBgEG92txDpKwADmOAQACZywzuZcGeFVXJgN2Y+34Wo43Xd2he
+ qWmOWRtia9bf+NTP815on2TvM7C2E8DAXawYgz3V1YT/3Hu6U0MNseH9b90LceQL0ISfv8lkFzu
+ HnmEfkFcqEG6b6YYm7oY7IJ6UiIvUesCUF5oUN8my0pqGTvlurBP7xIBc/6w+vGvC/S7Pv5hspr
+ ZmNSQmXSjeM2DJbCA4SbUV7OhqP2t0trsjVsNbhn8kS9Y8LnPcURHU8IKTjY7sDRl0f/jQMuNHk
+ rLYq9AOYcKV7hfK1zcOSJWLkE4+ssSg1V8SlFKPX0DjEkbV6avSbBYguhsa43ToZ2gOiKvNsTlj
+ 7izy7PBSjzBwnjAA0vTlYnNaCqR6PQv89ENy2CXPmvuVZYhPuc07ZkQm40HhQvmuRmSFt7CfZti
+ GN3UaPrZKfYMKKGD1lnzy0mArXzC7Xzp4hIsxNHL5m41iMkWe+2jKzDQQmT+YD8FusHgVJxOcC4
+ beMftIAl5aa21j8VY8UsGC3HlOq71PRyhiRx5laJC6vpPPN9zWBsiwHzp6JO0CzsF2j1wFfTgfU
+ B8lQGSnuAm0lVQA==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
 Use the newly introduced video_device_state to store the active v4l2
 format for the video device.
 
-With this change, we can use a single function for the .s_fmt and
-.try_fmt hooks, and the framework helper for the .g_fmt hook.
+Additionally, perform the stride calculation when required instead of
+storing it in the driver context structure.
 
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 57 +++++++---------------
- 1 file changed, 17 insertions(+), 40 deletions(-)
+ .../platform/rockchip/rkisp1/rkisp1-capture.c      | 113 +++++++++------------
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |   4 -
+ 2 files changed, 50 insertions(+), 67 deletions(-)
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 6412a00be8eab89548950dd21b3b3ec02dafa5b4..5aed3c005c8788f77690104c1c1d63509fd59e09 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -15,6 +15,7 @@
- #include <linux/platform_device.h>
- 
- #include <media/mipi-csi2.h>
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index 6dcefd144d5abe358323e37ac6133c6134ac636e..f3f2a7c3c11319470f6619cb83a87d39ee21ba61 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -11,6 +11,7 @@
+ #include <linux/delay.h>
+ #include <linux/pm_runtime.h>
+ #include <media/v4l2-common.h>
 +#include <media/v4l2-dev.h>
- #include <media/v4l2-device.h>
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-fh.h>
  #include <media/v4l2-ioctl.h>
- #include <media/v4l2-mc.h>
-@@ -104,7 +105,6 @@ struct ti_csi2rx_dev {
- 	struct v4l2_subdev		*source;
- 	struct vb2_queue		vidq;
- 	struct mutex			mutex; /* To serialize ioctls. */
--	struct v4l2_format		v_fmt;
- 	struct ti_csi2rx_dma		dma;
- 	u32				sequence;
- };
-@@ -299,19 +299,10 @@ static int ti_csi2rx_enum_fmt_vid_cap(struct file *file, void *priv,
+@@ -482,7 +483,9 @@ static void rkisp1_irq_frame_end_enable(struct rkisp1_capture *cap)
+ 
+ static void rkisp1_mp_config(struct rkisp1_capture *cap)
+ {
+-	const struct v4l2_pix_format_mplane *pixm = &cap->pix.fmt;
++	const struct v4l2_pix_format_mplane *pixm =
++		&cap->vnode.vdev.state.vid_fmt.fmt.pix_mp;
++	u32 stride = pixm->plane_fmt[0].bytesperline / cap->pix.info->bpp[0];
+ 	struct rkisp1_device *rkisp1 = cap->rkisp1;
+ 	u32 reg;
+ 
+@@ -494,11 +497,11 @@ static void rkisp1_mp_config(struct rkisp1_capture *cap)
+ 		     rkisp1_pixfmt_comp_size(pixm, RKISP1_PLANE_CR));
+ 
+ 	if (rkisp1_has_feature(rkisp1, MAIN_STRIDE)) {
+-		rkisp1_write(rkisp1, RKISP1_CIF_MI_MP_Y_LLENGTH, cap->stride);
++		rkisp1_write(rkisp1, RKISP1_CIF_MI_MP_Y_LLENGTH, stride);
+ 		rkisp1_write(rkisp1, RKISP1_CIF_MI_MP_Y_PIC_WIDTH, pixm->width);
+ 		rkisp1_write(rkisp1, RKISP1_CIF_MI_MP_Y_PIC_HEIGHT, pixm->height);
+ 		rkisp1_write(rkisp1, RKISP1_CIF_MI_MP_Y_PIC_SIZE,
+-			     cap->stride * pixm->height);
++			     stride * pixm->height);
+ 	}
+ 
+ 	rkisp1_irq_frame_end_enable(cap);
+@@ -546,7 +549,9 @@ static void rkisp1_mp_config(struct rkisp1_capture *cap)
+ 
+ static void rkisp1_sp_config(struct rkisp1_capture *cap)
+ {
+-	const struct v4l2_pix_format_mplane *pixm = &cap->pix.fmt;
++	const struct v4l2_pix_format_mplane *pixm =
++		&cap->vnode.vdev.state.vid_fmt.fmt.pix_mp;
++	u32 stride = pixm->plane_fmt[0].bytesperline / cap->pix.info->bpp[0];
+ 	struct rkisp1_device *rkisp1 = cap->rkisp1;
+ 	u32 mi_ctrl, reg;
+ 
+@@ -557,11 +562,11 @@ static void rkisp1_sp_config(struct rkisp1_capture *cap)
+ 	rkisp1_write(rkisp1, cap->config->mi.cr_size_init,
+ 		     rkisp1_pixfmt_comp_size(pixm, RKISP1_PLANE_CR));
+ 
+-	rkisp1_write(rkisp1, RKISP1_CIF_MI_SP_Y_LLENGTH, cap->stride);
++	rkisp1_write(rkisp1, RKISP1_CIF_MI_SP_Y_LLENGTH, stride);
+ 	rkisp1_write(rkisp1, RKISP1_CIF_MI_SP_Y_PIC_WIDTH, pixm->width);
+ 	rkisp1_write(rkisp1, RKISP1_CIF_MI_SP_Y_PIC_HEIGHT, pixm->height);
+ 	rkisp1_write(rkisp1, RKISP1_CIF_MI_SP_Y_PIC_SIZE,
+-		     cap->stride * pixm->height);
++		     stride * pixm->height);
+ 
+ 	rkisp1_irq_frame_end_enable(cap);
+ 
+@@ -704,7 +709,8 @@ static const struct rkisp1_capture_ops rkisp1_capture_ops_sp = {
+ 
+ static int rkisp1_dummy_buf_create(struct rkisp1_capture *cap)
+ {
+-	const struct v4l2_pix_format_mplane *pixm = &cap->pix.fmt;
++	const struct v4l2_pix_format_mplane *pixm =
++		&cap->vnode.vdev.state.vid_fmt.fmt.pix_mp;
+ 	struct rkisp1_dummy_buffer *dummy_buf = &cap->buf.dummy;
+ 
+ 	dummy_buf->size = max3(rkisp1_pixfmt_comp_size(pixm, RKISP1_PLANE_Y),
+@@ -869,7 +875,8 @@ static int rkisp1_vb2_queue_setup(struct vb2_queue *queue,
+ 				  struct device *alloc_devs[])
+ {
+ 	struct rkisp1_capture *cap = queue->drv_priv;
+-	const struct v4l2_pix_format_mplane *pixm = &cap->pix.fmt;
++	const struct v4l2_pix_format_mplane *pixm =
++		&cap->vnode.vdev.state.vid_fmt.fmt.pix_mp;
+ 	unsigned int i;
+ 
+ 	if (*num_planes) {
+@@ -894,7 +901,8 @@ static int rkisp1_vb2_buf_init(struct vb2_buffer *vb)
+ 	struct rkisp1_buffer *ispbuf =
+ 		container_of(vbuf, struct rkisp1_buffer, vb);
+ 	struct rkisp1_capture *cap = vb->vb2_queue->drv_priv;
+-	const struct v4l2_pix_format_mplane *pixm = &cap->pix.fmt;
++	const struct v4l2_pix_format_mplane *pixm =
++		&cap->vnode.vdev.state.vid_fmt.fmt.pix_mp;
+ 	unsigned int i;
+ 
+ 	memset(ispbuf->buff_addr, 0, sizeof(ispbuf->buff_addr));
+@@ -936,10 +944,12 @@ static void rkisp1_vb2_buf_queue(struct vb2_buffer *vb)
+ static int rkisp1_vb2_buf_prepare(struct vb2_buffer *vb)
+ {
+ 	struct rkisp1_capture *cap = vb->vb2_queue->drv_priv;
++	const struct v4l2_pix_format_mplane *pixm =
++		&cap->vnode.vdev.state.vid_fmt.fmt.pix_mp;
+ 	unsigned int i;
+ 
+-	for (i = 0; i < cap->pix.fmt.num_planes; i++) {
+-		unsigned long size = cap->pix.fmt.plane_fmt[i].sizeimage;
++	for (i = 0; i < pixm->num_planes; i++) {
++		unsigned long size = pixm->plane_fmt[i].sizeimage;
+ 
+ 		if (vb2_plane_size(vb, i) < size) {
+ 			dev_err(cap->rkisp1->dev,
+@@ -1278,7 +1288,7 @@ rkisp1_find_fmt_cfg(const struct rkisp1_capture *cap, const u32 pixelfmt)
+ 	return NULL;
+ }
+ 
+-static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
++static void rkisp1_adj_fmt(const struct rkisp1_capture *cap,
+ 			   struct v4l2_pix_format_mplane *pixm,
+ 			   const struct rkisp1_capture_fmt_cfg **fmt_cfg,
+ 			   const struct v4l2_format_info **fmt_info)
+@@ -1317,22 +1327,20 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+ 		*fmt_info = info;
+ }
+ 
+-static void rkisp1_set_fmt(struct rkisp1_capture *cap,
+-			   struct v4l2_pix_format_mplane *pixm)
+-{
+-	rkisp1_try_fmt(cap, pixm, &cap->pix.cfg, &cap->pix.info);
+-
+-	cap->pix.fmt = *pixm;
+-	cap->stride = pixm->plane_fmt[0].bytesperline / cap->pix.info->bpp[0];
+-}
+-
+-static int rkisp1_try_fmt_vid_cap_mplane(struct file *file, void *fh,
++static int rkisp1_adj_fmt_vid_cap_mplane(struct file *file, void *priv,
+ 					 struct v4l2_format *f)
+ {
+ 	struct rkisp1_capture *cap = video_drvdata(file);
++	struct video_device_state *state = priv;
+ 
+-	rkisp1_try_fmt(cap, &f->fmt.pix_mp, NULL, NULL);
++	if (state->which == VIDEO_DEVICE_FORMAT_ACTIVE) {
++		rkisp1_adj_fmt(cap, &f->fmt.pix_mp, &cap->pix.cfg,
++			       &cap->pix.info);
++	} else {
++		rkisp1_adj_fmt(cap, &f->fmt.pix_mp, NULL, NULL);
++	}
+ 
++	state->vid_fmt = *f;
  	return 0;
  }
  
--static int ti_csi2rx_g_fmt_vid_cap(struct file *file, void *prov,
--				   struct v4l2_format *f)
+@@ -1399,31 +1407,6 @@ static int rkisp1_enum_framesizes(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
+-static int rkisp1_s_fmt_vid_cap_mplane(struct file *file,
+-				       void *priv, struct v4l2_format *f)
 -{
--	struct ti_csi2rx_dev *csi = video_drvdata(file);
+-	struct rkisp1_capture *cap = video_drvdata(file);
+-	struct rkisp1_vdev_node *node =
+-				rkisp1_vdev_to_node(&cap->vnode.vdev);
 -
--	*f = csi->v_fmt;
--
--	return 0;
--}
--
--static int ti_csi2rx_try_fmt_vid_cap(struct file *file, void *priv,
-+static int ti_csi2rx_adj_fmt_vid_cap(struct file *file, void *priv,
- 				     struct v4l2_format *f)
- {
-+	struct video_device_state *state = priv;
- 	const struct ti_csi2rx_fmt *fmt;
- 
- 	/*
-@@ -327,24 +318,7 @@ static int ti_csi2rx_try_fmt_vid_cap(struct file *file, void *priv,
- 
- 	ti_csi2rx_fill_fmt(fmt, f);
- 
--	return 0;
--}
--
--static int ti_csi2rx_s_fmt_vid_cap(struct file *file, void *priv,
--				   struct v4l2_format *f)
--{
--	struct ti_csi2rx_dev *csi = video_drvdata(file);
--	struct vb2_queue *q = &csi->vidq;
--	int ret;
--
--	if (vb2_is_busy(q))
+-	if (vb2_is_busy(&node->buf_queue))
 -		return -EBUSY;
 -
--	ret = ti_csi2rx_try_fmt_vid_cap(file, priv, f);
--	if (ret < 0)
--		return ret;
+-	rkisp1_set_fmt(cap, &f->fmt.pix_mp);
 -
--	csi->v_fmt = *f;
-+	state->vid_fmt = *f;
- 
- 	return 0;
- }
-@@ -380,9 +354,9 @@ static int ti_csi2rx_enum_framesizes(struct file *file, void *fh,
- static const struct v4l2_ioctl_ops csi_ioctl_ops = {
- 	.vidioc_querycap      = ti_csi2rx_querycap,
- 	.vidioc_enum_fmt_vid_cap = ti_csi2rx_enum_fmt_vid_cap,
--	.vidioc_try_fmt_vid_cap = ti_csi2rx_try_fmt_vid_cap,
--	.vidioc_g_fmt_vid_cap = ti_csi2rx_g_fmt_vid_cap,
--	.vidioc_s_fmt_vid_cap = ti_csi2rx_s_fmt_vid_cap,
-+	.vidioc_try_fmt_vid_cap = ti_csi2rx_adj_fmt_vid_cap,
-+	.vidioc_g_fmt_vid_cap = video_device_g_fmt_vid,
-+	.vidioc_s_fmt_vid_cap = ti_csi2rx_adj_fmt_vid_cap,
- 	.vidioc_enum_framesizes = ti_csi2rx_enum_framesizes,
- 	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
- 	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
-@@ -488,7 +462,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
- 	const struct ti_csi2rx_fmt *fmt;
- 	unsigned int reg;
- 
--	fmt = find_format_by_fourcc(csi->v_fmt.fmt.pix.pixelformat);
-+	fmt = find_format_by_fourcc(csi->vdev.state.vid_fmt.fmt.pix.pixelformat);
- 
- 	/* De-assert the pixel interface reset. */
- 	reg = SHIM_CNTL_PIX_RST;
-@@ -636,7 +610,7 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_dev *csi,
+-	return 0;
+-}
+-
+-static int rkisp1_g_fmt_vid_cap_mplane(struct file *file, void *fh,
+-				       struct v4l2_format *f)
+-{
+-	struct rkisp1_capture *cap = video_drvdata(file);
+-
+-	f->fmt.pix_mp = cap->pix.fmt;
+-
+-	return 0;
+-}
+-
+ static int
+ rkisp1_querycap(struct file *file, void *priv, struct v4l2_capability *cap)
  {
- 	unsigned long addr;
- 	struct dma_async_tx_descriptor *desc;
--	size_t len = csi->v_fmt.fmt.pix.sizeimage;
-+	size_t len = csi->vdev.state.vid_fmt.fmt.pix.sizeimage;
- 	dma_cookie_t cookie;
- 	int ret = 0;
+@@ -1444,9 +1427,9 @@ static const struct v4l2_ioctl_ops rkisp1_v4l2_ioctl_ops = {
+ 	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+ 	.vidioc_streamon = vb2_ioctl_streamon,
+ 	.vidioc_streamoff = vb2_ioctl_streamoff,
+-	.vidioc_try_fmt_vid_cap_mplane = rkisp1_try_fmt_vid_cap_mplane,
+-	.vidioc_s_fmt_vid_cap_mplane = rkisp1_s_fmt_vid_cap_mplane,
+-	.vidioc_g_fmt_vid_cap_mplane = rkisp1_g_fmt_vid_cap_mplane,
++	.vidioc_try_fmt_vid_cap_mplane = rkisp1_adj_fmt_vid_cap_mplane,
++	.vidioc_s_fmt_vid_cap_mplane = rkisp1_adj_fmt_vid_cap_mplane,
++	.vidioc_g_fmt_vid_cap_mplane = video_device_g_fmt_vid,
+ 	.vidioc_enum_fmt_vid_cap = rkisp1_enum_fmt_vid_cap_mplane,
+ 	.vidioc_enum_framesizes = rkisp1_enum_framesizes,
+ 	.vidioc_querycap = rkisp1_querycap,
+@@ -1461,8 +1444,10 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+ 	struct v4l2_subdev *sd =
+ 		media_entity_to_v4l2_subdev(link->source->entity);
+ 	struct rkisp1_capture *cap = video_get_drvdata(vdev);
++	const struct v4l2_pix_format_mplane *pixm =
++		&vdev->state.vid_fmt.fmt.pix_mp;
+ 	const struct rkisp1_capture_fmt_cfg *fmt =
+-		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
++		rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
+ 	struct v4l2_subdev_format sd_fmt = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.pad = link->source->index,
+@@ -1473,16 +1458,16 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+ 	if (ret)
+ 		return ret;
  
-@@ -714,7 +688,7 @@ static int ti_csi2rx_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
- 				 struct device *alloc_devs[])
- {
- 	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(q);
--	unsigned int size = csi->v_fmt.fmt.pix.sizeimage;
-+	unsigned int size = csi->vdev.state.vid_fmt.fmt.pix.sizeimage;
+-	if (sd_fmt.format.height != cap->pix.fmt.height ||
+-	    sd_fmt.format.width != cap->pix.fmt.width ||
++	if (sd_fmt.format.height != pixm->height ||
++	    sd_fmt.format.width != pixm->width ||
+ 	    sd_fmt.format.code != fmt->mbus) {
+ 		dev_dbg(cap->rkisp1->dev,
+ 			"link '%s':%u -> '%s':%u not valid: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
+ 			link->source->entity->name, link->source->index,
+ 			link->sink->entity->name, link->sink->index,
+ 			sd_fmt.format.code, sd_fmt.format.width,
+-			sd_fmt.format.height, fmt->mbus, cap->pix.fmt.width,
+-			cap->pix.fmt.height);
++			sd_fmt.format.height, fmt->mbus, pixm->width,
++			pixm->height);
+ 		return -EPIPE;
+ 	}
  
- 	if (*nplanes) {
- 		if (sizes[0] < size)
-@@ -731,7 +705,7 @@ static int ti_csi2rx_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
- static int ti_csi2rx_buffer_prepare(struct vb2_buffer *vb)
- {
- 	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vb->vb2_queue);
--	unsigned long size = csi->v_fmt.fmt.pix.sizeimage;
-+	unsigned long size = csi->vdev.state.vid_fmt.fmt.pix.sizeimage;
- 
- 	if (vb2_plane_size(vb, 0) < size) {
- 		dev_err(csi->dev, "Data will not fit into plane\n");
-@@ -910,7 +884,7 @@ static int ti_csi2rx_link_validate(struct media_link *link)
- 	struct media_entity *entity = link->sink->entity;
- 	struct video_device *vdev = media_entity_to_video_device(entity);
- 	struct ti_csi2rx_dev *csi = container_of(vdev, struct ti_csi2rx_dev, vdev);
--	struct v4l2_pix_format *csi_fmt = &csi->v_fmt.fmt.pix;
-+	struct v4l2_pix_format *csi_fmt = &vdev->state.vid_fmt.fmt.pix;
- 	struct v4l2_subdev_format source_fmt = {
- 		.which	= V4L2_SUBDEV_FORMAT_ACTIVE,
- 		.pad	= link->source->index,
-@@ -1001,13 +975,15 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
- 	struct media_device *mdev = &csi->mdev;
- 	struct video_device *vdev = &csi->vdev;
- 	const struct ti_csi2rx_fmt *fmt;
--	struct v4l2_pix_format *pix_fmt = &csi->v_fmt.fmt.pix;
-+	struct v4l2_pix_format *pix_fmt;
+@@ -1531,6 +1516,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+ 	};
+ 	struct v4l2_device *v4l2_dev = &cap->rkisp1->v4l2_dev;
+ 	struct video_device *vdev = &cap->vnode.vdev;
++	struct v4l2_pix_format_mplane *pixm;
+ 	struct rkisp1_vdev_node *node;
+ 	struct vb2_queue *q;
  	int ret;
- 
- 	fmt = find_format_by_fourcc(V4L2_PIX_FMT_UYVY);
- 	if (!fmt)
- 		return -EINVAL;
- 
-+	vdev->state.vid_fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+	pix_fmt = &vdev->state.vid_fmt.fmt.pix;
- 	pix_fmt->width = 640;
- 	pix_fmt->height = 480;
- 	pix_fmt->field = V4L2_FIELD_NONE;
-@@ -1016,7 +992,7 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
- 	pix_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
- 	pix_fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
- 
--	ti_csi2rx_fill_fmt(fmt, &csi->v_fmt);
-+	ti_csi2rx_fill_fmt(fmt, &vdev->state.vid_fmt);
- 
- 	mdev->dev = csi->dev;
- 	mdev->hw_revision = 1;
-@@ -1033,6 +1009,7 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
- 	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
- 			    V4L2_CAP_IO_MC;
- 	vdev->lock = &csi->mutex;
+@@ -1548,6 +1534,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+ 	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE |
+ 			    V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
+ 	vdev->entity.ops = &rkisp1_media_ops;
 +	set_bit(V4L2_FL_USES_STATE, &vdev->flags);
- 	video_set_drvdata(vdev, csi);
+ 	video_set_drvdata(vdev, cap);
+ 	vdev->vfl_dir = VFL_DIR_RX;
+ 	node->pad.flags = MEDIA_PAD_FL_SINK;
+@@ -1572,6 +1559,13 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
  
- 	csi->pad.flags = MEDIA_PAD_FL_SINK;
+ 	vdev->queue = q;
+ 
++	vdev->state.vid_fmt.type = q->type;
++	pixm = &vdev->state.vid_fmt.fmt.pix_mp;
++	pixm->pixelformat = V4L2_PIX_FMT_YUYV;
++	pixm->width = RKISP1_DEFAULT_WIDTH;
++	pixm->height = RKISP1_DEFAULT_HEIGHT;
++	rkisp1_adj_fmt(cap, pixm, &cap->pix.cfg, &cap->pix.info);
++
+ 	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
+ 	if (ret)
+ 		goto error;
+@@ -1598,7 +1592,6 @@ static void
+ rkisp1_capture_init(struct rkisp1_device *rkisp1, enum rkisp1_stream_id id)
+ {
+ 	struct rkisp1_capture *cap = &rkisp1->capture_devs[id];
+-	struct v4l2_pix_format_mplane pixm;
+ 
+ 	memset(cap, 0, sizeof(*cap));
+ 	cap->id = id;
+@@ -1616,12 +1609,6 @@ rkisp1_capture_init(struct rkisp1_device *rkisp1, enum rkisp1_stream_id id)
+ 	}
+ 
+ 	cap->is_streaming = false;
+-
+-	memset(&pixm, 0, sizeof(pixm));
+-	pixm.pixelformat = V4L2_PIX_FMT_YUYV;
+-	pixm.width = RKISP1_DEFAULT_WIDTH;
+-	pixm.height = RKISP1_DEFAULT_HEIGHT;
+-	rkisp1_set_fmt(cap, &pixm);
+ }
+ 
+ int rkisp1_capture_devs_register(struct rkisp1_device *rkisp1)
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index ca952fd0829ba7d923ad42fec92840ccd422b6e5..7c1556bc5980f937ff2c503282bb5623283bda1a 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -304,7 +304,6 @@ struct rkisp1_device;
+  *		  handler to stop the streaming by waiting on the 'done' wait queue.
+  *		  If the irq handler is not called, the stream is stopped by the callback
+  *		  after timeout.
+- * @stride:       the line stride for the first plane, in pixel units
+  * @buf.lock:	  lock to protect buf.queue
+  * @buf.queue:	  queued buffer list
+  * @buf.dummy:	  dummy space to store dropped data
+@@ -314,7 +313,6 @@ struct rkisp1_device;
+  * @buf.next:	  the buffer used for next frame
+  * @pix.cfg:	  pixel configuration
+  * @pix.info:	  a pointer to the v4l2_format_info of the pixel format
+- * @pix.fmt:	  buffer format
+  */
+ struct rkisp1_capture {
+ 	struct rkisp1_vdev_node vnode;
+@@ -325,7 +323,6 @@ struct rkisp1_capture {
+ 	bool is_streaming;
+ 	bool is_stopping;
+ 	wait_queue_head_t done;
+-	unsigned int stride;
+ 	struct {
+ 		/* protects queue, curr and next */
+ 		spinlock_t lock;
+@@ -337,7 +334,6 @@ struct rkisp1_capture {
+ 	struct {
+ 		const struct rkisp1_capture_fmt_cfg *cfg;
+ 		const struct v4l2_format_info *info;
+-		struct v4l2_pix_format_mplane fmt;
+ 	} pix;
+ };
+ 
 
 -- 
 2.49.0
