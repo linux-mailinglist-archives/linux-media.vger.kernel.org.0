@@ -1,191 +1,136 @@
-Return-Path: <linux-media+bounces-36803-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701CAAF8BB5
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 10:32:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BB3AF8BD8
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 10:35:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2E7B56827F
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 08:32:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D2211892B4A
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 08:34:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B91E628640A;
-	Fri,  4 Jul 2025 08:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3E6328935F;
+	Fri,  4 Jul 2025 08:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="ZavIZXmt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h2yq6RkE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCA9328B12;
-	Fri,  4 Jul 2025 08:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AD82874F5
+	for <linux-media@vger.kernel.org>; Fri,  4 Jul 2025 08:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751617308; cv=none; b=TjnIfvhVeXx/5vWl6bzd/jpcJX47WKUgi7+UXJY8Z75UfMG09DDn/vdG6uoVRX+hmZAjqLYMHfwwc+h9NtWGzbvVJH3fIMq7S+kFlTYO+dEs5P1Xh3iyKGvwerMA7A9swGQZtsP75aFVrQAs1OLM/9yjioTtusaIjYPBbsxYPU0=
+	t=1751617392; cv=none; b=jEzzMmR7A8cIP/TsA6rmgh6SY62HCvuFFkXB5tKn3LBuI2/6khXJ5WazBhkmMNDUvzBZlsgjSh62384TAsFG+v8q8i+IrRZtWQ9KdR9neqXglvOg1VYpEn7y+NyWgH5D0m0H/QUZAEFYdKLjRWXWR1pk4mlmTK6+Aa0U6CkiQ/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751617308; c=relaxed/simple;
-	bh=C39CAOss3qy24guk6Pk9qdKydSinnm2BWkFOQLmwFfo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S4gX5gXU7RKGrupg+8MnPfRGfoJ6o9Y1EQ8ZEH9LsSO9g5eROEyIa0phgt/dyUg7K6R3SgoyVUCYdsB0jRyMiKznoeND3yGrMzCKdwxU0w2PC4q2lhwZ5QfMoyxzyDV/EOg4nB/cXgnAgZ/T/wOKSrSL+yxRYdsiazrbrIXy5Bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=ZavIZXmt; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1751617292; x=1752222092; i=spasswolf@web.de;
-	bh=C39CAOss3qy24guk6Pk9qdKydSinnm2BWkFOQLmwFfo=;
-	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ZavIZXmtXg/FQFT2xteQmlrDagQY6+wbWgfzTrIR29yXI3q5V0k1VrC6rdj7IiEq
-	 QxBGGfUIuehUaaCKxw7UbgMVOvQQoxRJfl5COPQ4Jp236yJ5et71wAhGgjkFTesf0
-	 0Rfdl2+h+XVa2LsjI+HNKBzn6QDnO+cfYgzdcwk2vRlLB+zek7V7H8g+IXX/SXUvV
-	 OvMyRBmhKIvMePJ09k05y1jtFCB9M4iEGmEokbfUXU3ZMTyPTOt+T4iR1+J4vEmNG
-	 Ya8YtC0L2ctZUNO2BlGWW4f5Jr0pN7tIdsAbQvLYa0DlxEoByFg1lV58vMcMjqaC/
-	 Zm56//83dAMhAQnEhA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.0.101] ([95.223.134.88]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M9ISr-1ua5iW3alz-00DeQV; Fri, 04
- Jul 2025 10:21:31 +0200
-Message-ID: <7be4f337df6f882ac53a47db851ae92d7a2d1dc0.camel@web.de>
-Subject: Re: Warnings in next-20250703 caused by commit 582111e630f5
-From: Bert Karwatzki <spasswolf@web.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, Anusha
- Srivatsa	 <asrivats@redhat.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 	stable@vger.kernel.org, spasswolf@web.de
-Date: Fri, 04 Jul 2025 10:21:30 +0200
-In-Reply-To: <c17428b3-6f04-4eb7-9140-92c7f27eae4f@suse.de>
-References: <20250703115915.3096-1-spasswolf@web.de>
-	 <75abf5c1-aa1a-4405-aae4-a2efccbc3bcb@suse.de>
-	 <7a56d95dc2b15fa2dac0c8a4dd20f0e253bf414f.camel@web.de>
-	 <c17428b3-6f04-4eb7-9140-92c7f27eae4f@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.1-1 
+	s=arc-20240116; t=1751617392; c=relaxed/simple;
+	bh=0vKgJofS2qfVbDLeJnc2bc+mCh9FaxZgAqij7cOILPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mu/5Hs9OIkiFGZ9DzzUodsV2Erqul9hGdQ5nNNYRCiU74t2aynPG+b+xpaZriLFrjF/KwOFVPPdwoiH2bKtZsDo1RODSq9nDg59ID21OzPazwPNt2Eg1LjjlPPDVdlE6TG/wQfZuFGDayjVVmWk+NR3ZLNM7SCpmMQ037I8RQbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h2yq6RkE; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a57ae5cb17so382239f8f.0
+        for <linux-media@vger.kernel.org>; Fri, 04 Jul 2025 01:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751617389; x=1752222189; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LQl9Ypa8N/fQd7fiGf/U1lVWGmgfHhe4fQnd3suQNU0=;
+        b=h2yq6RkEUxLi2dNB8LeODuf5RevRCS/+2/AVSY4zW9+odjyF/zNuRi8UemXJ0m1kPl
+         ZErnMrzlAMn55CkLX4o/H9LBAVQfNLf/N/NOAGEJqwar45g3T3Qx37iGYB+Lpg88lvR4
+         +crA4+ugZ7LZwC1rsu9bS1EB0h2onJBuPyEdKZ5kwT7NPQ6o++B/aGXxJGe+3+6/BjDN
+         ud8BhzImFmKJmokQUGIqrZ2/bZo+m71E7xrpuYtQHhjxg9n5UHLQ8SPo7PhmRSJQydhw
+         ejZ5toevOBZIZC5byEuCj5qfYFtuXPf40hVLBBnZbMt0ytJxK2DyCZN0s7UUTfwMOLE5
+         06dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751617389; x=1752222189;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LQl9Ypa8N/fQd7fiGf/U1lVWGmgfHhe4fQnd3suQNU0=;
+        b=LrwN18KSTnuo+MWoN/7M0enBN5lUT0S0eXx5Tqj/VUii+W26qMYHFjaitYteW91BlG
+         lDecwAYmj5VdbAtt+9KkPQG1w52YGmdZwXN/SSsaiyCILUJGdZveT7SmtAEOHNa1YR2q
+         b0N28q+CoXyavuQ/0ihf14as1zcSypV0hKQ3BS4WGQxe/IZyIjNJvOG4+QYY8x6v1+Pd
+         3SRgtxtOhdozipvUG9Q6z2wQ3FA/fk6nGH9wsPRFNB2NmEJ372ARqxksAsAwg5FIKJy7
+         GTvd3XmaVI4hDDlk44IZXQDBgRQR9cNiwglH63WVAdunvM4UxrrvwWATr84HxroX+vtU
+         6xmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUupLXu1bh2oxs7LKA8oL80oen8Jj8uhUvFsjSwlCFb/p4DQ/mOd+z4U6OAd2mFWTPbgiQplLP9xV+t3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3lrvwOl3bYQxeeW1XY+P0AcKHx4Fly8beN828afIlDaSD2Inn
+	6ac3JSOGBV5xXlsoVNj4aURbAxh3sKzjiilYjoU+Obzezh0uziD8lf6E0g0JtgkEuBw=
+X-Gm-Gg: ASbGncsH5lpmbUoBoPbOFgkmPuMxGbCf3pj8da/EUrZUXRfiJlCy+lI0I17jPCV9Qsk
+	yqR4UDYLsowlgu4x+gFsqEmkogw7I5peQUPbD9VcATz6W82iKIcvnBM2hkyPDx+CC9yK9qkKlSs
+	AXfTsT31/84epn5zI7fpIqucn8IF/arxG6UHDN7JiLV9JIVwW3Ak/uVVkS80BxHPuiViUYfP4J6
+	hJXdeTMA3A3hAQBQsqyWeakVH+Au0HXxdwfWDTLhXRURpN8dS/gGlwQJtn6gHchx/4mhHFOEYyq
+	0SF+gBDlgUsg9jPyxwNIvFYs0CZMFoFQObreoLA9aOvAYF1CXgRWFUYKqCzV5pUcMcYsV2WN+g/
+	I4jG5nerA4My4JTiJ2WAu1A04vbs=
+X-Google-Smtp-Source: AGHT+IHHgjaBnAo5QwMN3YDy0wbG9DnxVwT7uttl5fAV0MIC0EYWYl5on3snuz454zD1gSCLp/iWwQ==
+X-Received: by 2002:a05:6000:2888:b0:3b3:bd27:f2ab with SMTP id ffacd0b85a97d-3b4964bb66fmr1281979f8f.5.1751617388607;
+        Fri, 04 Jul 2025 01:23:08 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454a9969f2asm49958455e9.8.2025.07.04.01.23.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jul 2025 01:23:08 -0700 (PDT)
+Message-ID: <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org>
+Date: Fri, 4 Jul 2025 09:23:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HfCm/7Fv8dgkG6loGeHxqXFrpz+KpHQw0Z465EklLVw/e1uNhkc
- vXCMGkYddY6JUPyPiPH3se8uq5m//yXK6DestbiLP7drF3HmPBILrZdwx2uH3DFj61hY3T7
- +AA9IyMyvKKfSjDD04iqL30eOrP83LMHkwTvoSzlRD7+W0fxg7hx80iAcD0TCfEhAq8Z7Yt
- o6Wj3wOamoLkGxI0NxRcQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:TZ/o5+bl1dU=;LZcyToSejdtbsXI4+pyo5epAmVM
- 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
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <eab8d79f-7188-9537-9176-3e4d22f0978a@quicinc.com>
+ <5ad418d9-8199-43c9-a477-1e3b939c054c@kernel.org>
+ <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <f5ebf0d6-2f0b-45cc-b99a-b786e5df9edc@linaro.org>
+ <5qsgbqml367yq6g5vb4lotrzulojqhi5zlwwribze373a63qrn@rxi4kwyt66m2>
+ <4f38058d-a2f1-4ac5-b234-228cfb2e85ff@kernel.org>
+ <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
+ <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org>
+ <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
+ <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
+ <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Am Freitag, dem 04.07.2025 um 09:51 +0200 schrieb Thomas Zimmermann:
-> Hi
->=20
-> Am 03.07.25 um 19:23 schrieb Bert Karwatzki:
-> > Am Donnerstag, dem 03.07.2025 um 18:09 +0200 schrieb Thomas Zimmermann=
-:
-> > > Hi,
-> > >=20
-> > > before I give up on the issue, could you please test the attached pa=
-tch?
-> > >=20
-> > > Best regards
-> > > Thomas
-> > >=20
-> > >=20
-> > > --
-> > > Thomas Zimmermann
-> > > Graphics Driver Developer
-> > > SUSE Software Solutions Germany GmbH
-> > > Frankenstrasse 146, 90461 Nuernberg, Germany
-> > > GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> > > HRB 36809 (AG Nuernberg)
-> > I applied the patch on top of next-20250703
-> >=20
-> > $ git log --oneline
-> > 18ee3ed3cb60 (HEAD -> drm_gem_object_handle_put) drm/amdgpu: Provide c=
-ustom framebuffer destroy function
-> > 8d6c58332c7a (tag: next-20250703, origin/master, origin/HEAD, master) =
-Add linux-next specific files for 20250703
-> >=20
-> > and it solves the issue for me (i.e. no warnings).
->=20
-> Great, thanks for testing. If nothing else, that's the minimal workaroun=
-d.
->=20
-> Here's another patch, which should solve the problem for all drivers.=20
-> Could you please revert the old fix and apply the new one and test again=
-?
->=20
-> Best regards
-> Thomas
->=20
->=20
-> >=20
-> > Bert Karwatzki
+On 03/07/2025 22:23, Dmitry Baryshkov wrote:
+>> I still give my RB for the series.
+>>
+>> To me the only question is should it be applied to sm8550 or to new SoCs
+>> from now on, sa8775p, x1e and derivatives.
+> I think we need to apply it to_all_ SoCs, maybe starting from MSM8x26
+> and MSM8x16. Likewise, we need to think bout secure buffers usecase. And
+> once we do that, we will realize that it also changes the ABI for all
+> SoCs that support either Venus or Iris.
 
-Applied your patch after reverting:
+I think a dts change is a non-starter as its an ABI break.
 
-$ git log --oneline
-f4e557e3ae37 (HEAD -> drm_gem_object_handle_put) drm/framebuffer: Acquire =
-internal references on GEM handles
-49f9aa27dc15 Revert "drm/amdgpu: Provide custom framebuffer destroy functi=
-on"
-18ee3ed3cb60 drm/amdgpu: Provide custom framebuffer destroy function
-8d6c58332c7a (tag: next-20250703, origin/master, origin/HEAD, master) Add =
-linux-next specific files for 20250703
+So if ABI break is out and reworking future dts to allow for a new 
+device is out, then some API change is needed to allow the driver to 
+stop the kernel automatically setting up the IOMMUs, create the new 
+device as a platform device not dependent on DT change and have the 
+probe() of the relevant drivers setup their own IOMMU extents based on - 
+probably indexes we have in the driver configuration parameters.
 
-again everything works without warning.
-
-Bert Karwatzki
+---
+bod
 
