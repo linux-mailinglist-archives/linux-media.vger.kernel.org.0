@@ -1,279 +1,340 @@
-Return-Path: <linux-media+bounces-36862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC4BAF979E
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 18:11:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6C4AF9823
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 18:28:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA737484E25
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 16:10:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6BFF4543F3E
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 16:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 247FA326A71;
-	Fri,  4 Jul 2025 16:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43C322E0904;
+	Fri,  4 Jul 2025 16:27:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L2CTRHV3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LCGwqARu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF90C30E857;
-	Fri,  4 Jul 2025 16:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1C62BE04B;
+	Fri,  4 Jul 2025 16:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751645461; cv=none; b=fB1j/z9BCd6qjF/v1CM9hb77hn8oRgQb5bnCTF4RpkYP+TF+zYVkN61C+RqfXME78jWn2GzDXRU/ZhaVBWrLAYcJVbAmyyZ3pu8+UhYZoYthLS1wjHhxpFrl0VU/lG9wbTl1xFnAan2IeuU75CwAvU93DH89hQ3969zl+gaFX3o=
+	t=1751646476; cv=none; b=RoaseRbeTb0Bdp97HMfpXqHi6CDiV6AXWG2hErcTwuMG49sQ72ktBfOG+GXCmozJO0dacilqkJTe8jG9Ee8WmxvPrNb97DJNb72Pg211oLkUktCWKZUdz3Kckri+AOgq7E/QGDwBuQTiXA2BPx6ycX/7ZSFv/3pYzMtqNH7sIoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751645461; c=relaxed/simple;
-	bh=cwdZtGz3IXQ1EG/p34K3KVA9kUdd0ZAHJagpVOIanHA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VGYHwMPGFZl0og21crruIXT+By+fjiuPYm+CmhFOK1MHcaJm/uv5vMRHNuyaYSNFfCnzL1XAbSakxvzVqOqmP8GoPmIwq5HeXFK/YJHiYOqnAnW/iabKzyiYqQBckGrv67/gC/ArMsGa4LaGvyWsoNJWjY697DK3giIQ0csmnvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L2CTRHV3; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ae0bf1616b9so20265366b.0;
-        Fri, 04 Jul 2025 09:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751645458; x=1752250258; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TWKv6PM/BcPQ/i8arO/1LhjBpgoq9M2qMlX7Y0R2Fpg=;
-        b=L2CTRHV3nvPBMngPfEFbjLg1w6ft5rG2kAth2sR/RMVypRS1Q8UNj7Wwqw85zQNkn2
-         0/gWoXyRxKG+SHIM+edn29FaCW94r+zsb4L7OZHHgYx3G+7zMVd8bQab2kcNERZUjD+U
-         tMpI2EW7o33jaRyMUBg7Pn/VHjqq9rdyDkaWSZR/th0OTOCPMm4lbX88VDwkDeg3Bdke
-         /OyNOASVZo2B+ZEZXUOswfDssvQlPrzha16gJWeEsXLGrzfX8wfFISb4JHvTlEw3u4g7
-         aOqESNeB0wU6y/IZpa2IlaNcId3LMOLGbkCx99ANJYxufzuCnYLa3yNxiBJL6oxtoipS
-         QIiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751645458; x=1752250258;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TWKv6PM/BcPQ/i8arO/1LhjBpgoq9M2qMlX7Y0R2Fpg=;
-        b=gWb338Q8qsUO/Z9Fy9CPzH+ALrK4gCv37viNFmI6xTcWe0PYjRVRHlecWX5oimg7tW
-         qdqhqlTcNd+xsQChVT828WEFpCCn5vfL+NWCpXVcSajXwtcz/kIFsSQMcaSQC7LMQFiX
-         YsvtlT+aRKBP/+iniSms/DUgqItWuGwBiuuU48uYHnGvXnFiuGFF9JZHaY0m2VZbn0kz
-         t+PzaDcs+wMRHLAhRka5AkD31xLMOxQonexkYstO00yr/XoPuLk8bVav69/yy0fcMI6D
-         TKBSJ+CNj0FCfyQJynrUQK/2rRRQjyrKFTFp2N06MI1nPMr3Fw6fWnNsH7S4fKB11KP4
-         W9qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9KFgDd+hWFPem9wgk+VjgjpfLdlTu81D4kZe8IOprGWIcewOah2RjOxDd8Lh0lUYSfbjEnkYXxplDKq0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYky1WyWjDjSv+TX4cCsXoLAJy+jPiBrWcA/dCxo3agQAdoEVE
-	xISW70znWGtIb8UGkW7zzSMrrfD+m1+vbZ3aQW5AyjdVHJo1bWhhYYAo
-X-Gm-Gg: ASbGncuvssHQ51q7ZtqT0syfPePvAieWphXWgAOMFuNmwX1KByaOBRLZm7q7FtVx+FN
-	N+o68md989VXA8KreWCkUDVAi6wyB+MSkBsLsVFzidRHXk11crf4xmshIo6zbpMw2uDAU1lYtAI
-	9cdwZyW8Z+txXrvllXOLlSRUk3XdBel6z+2kZSv6CNTnN6+usmN5mNhnYvbenDaZl+tTRiXEO3v
-	bgK6n01Z/Eogi4SxNXpVBsH88ayTAkJHVp5Rb6lyQKWK3rd7lPFu3iQGFwloiAh7nH0XSZH1sse
-	qnsnCPFgTWzC7lzp0n11fhmhIAFXr9HhrDFkKkIWvavW106IUcsMPzqNFVdJ/6zGsOgwax8GQlW
-	07LVq+bpeJhZjx61SZXi2GO/qjWVR2bdn
-X-Google-Smtp-Source: AGHT+IEi7/w7Pg0qVqgIrY+90Z1GOtJ0vUjMDQm+fZE47PMuaudthmL0Fjysm83XElDu8wKctqr5kA==
-X-Received: by 2002:a17:906:f583:b0:ade:40ed:9f3e with SMTP id a640c23a62f3a-ae3fbe6027amr111119666b.0.1751645457649;
-        Fri, 04 Jul 2025 09:10:57 -0700 (PDT)
-Received: from localhost.localdomain ([41.37.222.172])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f6b04d30sm192940066b.133.2025.07.04.09.10.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 09:10:57 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v3] staging: media: atomisp: Remove custom sysfs attributes from atomisp_drvfs.c
-Date: Fri,  4 Jul 2025 19:10:51 +0300
-Message-Id: <20250704161051.16733-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1751646476; c=relaxed/simple;
+	bh=ENkHb/UDY+ZdjHwl01NUONqHHbQa9bsjE2fkRf4Gp74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOZCPAcx+T1d1g1hxMv7bWqXWEnwJv37ipiKgjgCTVZ2F7aPnNw+BKvbWZMMRIR4SfO+/oUMV26AlxAZCf5fPca8blNgODngqI5pEKZbG/eksbnFP7LppABAiW73UlzMk9++6mqVAdt4P3arxY64hkXA1HsxZDa+jnjiM23IvaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LCGwqARu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDF15669;
+	Fri,  4 Jul 2025 18:27:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751646448;
+	bh=ENkHb/UDY+ZdjHwl01NUONqHHbQa9bsjE2fkRf4Gp74=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LCGwqARueJorZurfUiR07qw2x7xd+/DhTYhB08M+Wbe7pJJBtytZjfqjcnu3gp0zN
+	 GPnWhM6XUhpYwQqgYhC0rOpOZ3AgtAGsPzc/6k9J8nlLalWwUzFETGWjrt6GfHuCaD
+	 dhYh+FRj0WqzzC7VGj7LFD+0vCLm94aUk1FmOpOY=
+Date: Fri, 4 Jul 2025 18:27:48 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v3 3/8] media: renesas: vsp1: Fix code checks in frame
+ size enumeration
+Message-ID: <tsa2qbc6lqvo5xbl4rdr5suxpoqlxd3qppvx7mvliwv2jinzij@3vjpl4df23ec>
+References: <20250704001812.30064-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20250704001812.30064-4-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250704001812.30064-4-laurent.pinchart+renesas@ideasonboard.com>
 
-Continue the cleanup of the AtomISP driver as discussed with Hans and Andy
-in [1].
+Hi Laurent
 
-Tackle TODO item: "Remove custom sysfs files created by atomisp_drvfs.c":
-- Remove the sysfs attributes `dbglvl`, `dbgfun`, and `dbgopt`.
-- Delete their associated show/store handler functions.
-- Remove the corresponding attribute group definitions.
-- Keep `dbg_attr_groups[]` as an empty array to preserve compatibility.
+On Fri, Jul 04, 2025 at 03:18:07AM +0300, Laurent Pinchart wrote:
+> The media bus code passed to the .enum_frame_size() operation for the
+> sink pad is required to be supported by the device, but not to match the
+> current format. All entities that use the vsp1_subdev_enum_frame_size()
+> helper, as well as the SRU and UDS entities that implement the operation
+> manually, perform the check incorrectly.
+>
+> Fix the issue by implementing the correct code check in the
+> vsp1_subdev_enum_frame_size(). For the SRU and UDS, to avoid duplicating
+> code, use the vsp1_subdev_enum_frame_size() as a base and override the
+> enumerated size on the source pad with entity-specific constraints.
+>
+> While at it, include the missing <linux/mutex.h> as the code locks
+> mutexes.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+>
+> - Include <linux/cleanup.h> and <linux/mutex.h>
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_entity.c | 49 ++++++++++++-------
+>  .../media/platform/renesas/vsp1/vsp1_sru.c    | 38 +++++++-------
+>  .../media/platform/renesas/vsp1/vsp1_uds.c    | 38 +++++++-------
+>  3 files changed, 64 insertions(+), 61 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> index 04b7ae6fb935..892a2adfdf3a 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> @@ -7,8 +7,10 @@
+>   * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/gfp.h>
+> +#include <linux/mutex.h>
+>
+>  #include <media/media-entity.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -238,42 +240,51 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+>  				struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_mbus_framefmt *format;
+> -	int ret = 0;
+>
+> -	state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> -	if (!state)
+> +	if (fse->index)
+>  		return -EINVAL;
+>
+> -	format = v4l2_subdev_state_get_format(state, fse->pad);
+> -
+> -	mutex_lock(&entity->lock);
+> -
+> -	if (fse->index || fse->code != format->code) {
+> -		ret = -EINVAL;
+> -		goto done;
+> -	}
+> -
+>  	if (fse->pad == 0) {
+> +		unsigned int i;
+> +
+> +		for (i = 0; i < entity->num_codes; ++i) {
+> +			if (fse->code == entity->codes[i])
+> +				break;
+> +		}
+> +
+> +		if (i == entity->num_codes)
+> +			return -EINVAL;
+> +
+>  		fse->min_width = entity->min_width;
+>  		fse->max_width = entity->max_width;
+>  		fse->min_height = entity->min_height;
+>  		fse->max_height = entity->max_height;
+>  	} else {
+> +		struct v4l2_subdev_state *state;
+> +		struct v4l2_mbus_framefmt *format;
+> +
+> +		state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> +		if (!state)
+> +			return -EINVAL;
+> +
+>  		/*
+> -		 * The size on the source pad are fixed and always identical to
+> -		 * the size on the sink pad.
+> +		 * The media bus code and size on the source pad are fixed and
+> +		 * always identical to the sink pad.
+>  		 */
+> +		format = v4l2_subdev_state_get_format(state, 0);
+> +
+> +		guard(mutex)(&entity->lock);
+> +
+> +		if (fse->code != format->code)
+> +			return -EINVAL;
+> +
+>  		fse->min_width = format->width;
+>  		fse->max_width = format->width;
+>  		fse->min_height = format->height;
+>  		fse->max_height = format->height;
+>  	}
+>
+> -done:
+> -	mutex_unlock(&entity->lock);
+> -	return ret;
+> +	return 0;
+>  }
+>
+>  /*
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> index 1dc34e6a510d..37fd36d09045 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> @@ -7,8 +7,10 @@
+>   * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/gfp.h>
+> +#include <linux/mutex.h>
+>
+>  #include <media/v4l2-subdev.h>
+>
+> @@ -116,29 +118,25 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_sru *sru = to_sru(subdev);
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_mbus_framefmt *format;
+> -	int ret = 0;
+> +	int ret;
+>
+> -	state = vsp1_entity_get_state(&sru->entity, sd_state, fse->which);
+> -	if (!state)
+> -		return -EINVAL;
+> +	ret = vsp1_subdev_enum_frame_size(subdev, sd_state, fse);
+> +	if (ret)
+> +		return ret;
 
-Link: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org/ [1]
-Suggested-by: Hans de Goede <hansg@kernel.org>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
-v3:
-- fix style warning
-v2:
-- modify the reference link line.
+Here, in case of PAD_SOURCE, we have validated that the fse->code
+matches the format on the sink
 
- .../staging/media/atomisp/pci/atomisp_drvfs.c | 138 ------------------
- 1 file changed, 138 deletions(-)
+>
+> -	format = v4l2_subdev_state_get_format(state, SRU_PAD_SINK);
+> +	if (fse->pad == SRU_PAD_SOURCE) {
+> +		struct v4l2_subdev_state *state;
+> +		struct v4l2_mbus_framefmt *format;
+>
+> -	mutex_lock(&sru->entity.lock);
+> +		state = vsp1_entity_get_state(&sru->entity, sd_state,
+> +					      fse->which);
+> +		if (!state)
+> +			return -EINVAL;
+>
+> -	if (fse->index || fse->code != format->code) {
+> -		ret = -EINVAL;
+> -		goto done;
+> -	}
+> +		format = v4l2_subdev_state_get_format(state, SRU_PAD_SINK);
+> +
+> +		guard(mutex)(&sru->entity.lock);
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-index 31c82c3c0d33..c25fd3ff003d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-@@ -1,9 +1,4 @@
- // SPDX-License-Identifier: GPL-2.0
--/*
-- * Support for atomisp driver sysfs interface
-- *
-- * Copyright (c) 2014 Intel Corporation. All Rights Reserved.
-- */
+and we get here where we do SRU-specific adjustments to the sizes but
+we don't re-check for the code.
 
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -16,140 +11,7 @@
- #include "hmm/hmm.h"
- #include "ia_css_debug.h"
+Can the code on the sink change between the above call to
+vsp1_subdev_enum_frame_size() and here ? Is this a concern ?
 
--#define OPTION_BIN_LIST			BIT(0)
--#define OPTION_BIN_RUN			BIT(1)
--#define OPTION_VALID			(OPTION_BIN_LIST | OPTION_BIN_RUN)
--
--/*
-- * dbgopt: iunit debug option:
-- *        bit 0: binary list
-- *        bit 1: running binary
-- *        bit 2: memory statistic
-- */
--static unsigned int dbgopt = OPTION_BIN_LIST;
--
--static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
--				    unsigned int opt)
--{
--	int ret = 0;
--
--	if (opt & OPTION_VALID) {
--		if (opt & OPTION_BIN_LIST) {
--			ret = atomisp_css_dump_blob_infor(isp);
--			if (ret) {
--				dev_err(isp->dev, "%s dump blob infor err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--
--		if (opt & OPTION_BIN_RUN) {
--			if (isp->asd.streaming) {
--				atomisp_css_dump_sp_raw_copy_linecount(true);
--				atomisp_css_debug_dump_isp_binary();
--			} else {
--				ret = -EPERM;
--				dev_err(isp->dev, "%s dump running bin err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--	} else {
--		ret = -EINVAL;
--		dev_err(isp->dev, "%s dump nothing[ret=%d]\n", __func__, ret);
--	}
--
--opt_err:
--	return ret;
--}
--
--static ssize_t dbglvl_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbglvl = ia_css_debug_get_dtrace_level();
--
--	return sysfs_emit(buf, "dtrace level:%u\n", dbglvl);
--}
--
--static ssize_t dbglvl_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	unsigned int dbglvl;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &dbglvl);
--	if (ret)
--		return ret;
--
--	if (dbglvl < 1 || dbglvl > 9)
--		return -ERANGE;
--
--	ia_css_debug_set_dtrace_level(dbglvl);
--	return size;
--}
--static DEVICE_ATTR_RW(dbglvl);
--
--static ssize_t dbgfun_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbgfun = atomisp_get_css_dbgfunc();
--
--	return sysfs_emit(buf, "dbgfun opt:%u\n", dbgfun);
--}
--
--static ssize_t dbgfun_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	return atomisp_set_css_dbgfunc(isp, opt);
--}
--static DEVICE_ATTR_RW(dbgfun);
--
--static ssize_t dbgopt_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	return sysfs_emit(buf, "option:0x%x\n", dbgopt);
--}
--
--static ssize_t dbgopt_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	dbgopt = opt;
--	ret = iunit_dump_dbgopt(isp, dbgopt);
--	if (ret)
--		return ret;
--
--	return size;
--}
--static DEVICE_ATTR_RW(dbgopt);
--
--static struct attribute *dbg_attrs[] = {
--	&dev_attr_dbglvl.attr,
--	&dev_attr_dbgfun.attr,
--	&dev_attr_dbgopt.attr,
--	NULL
--};
--
--static const struct attribute_group dbg_attr_group = {
--	.attrs = dbg_attrs,
--};
+Same for UDS I guess..
 
- const struct attribute_group *dbg_attr_groups[] = {
--	&dbg_attr_group,
- 	NULL
- };
---
-2.25.1
+Thanks
+  j
 
+>
+> -	if (fse->pad == SRU_PAD_SINK) {
+> -		fse->min_width = SRU_MIN_SIZE;
+> -		fse->max_width = SRU_MAX_SIZE;
+> -		fse->min_height = SRU_MIN_SIZE;
+> -		fse->max_height = SRU_MAX_SIZE;
+> -	} else {
+>  		fse->min_width = format->width;
+>  		fse->min_height = format->height;
+>  		if (format->width <= SRU_MAX_SIZE / 2 &&
+> @@ -151,9 +149,7 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+>  		}
+>  	}
+>
+> -done:
+> -	mutex_unlock(&sru->entity.lock);
+> -	return ret;
+> +	return 0;
+>  }
+>
+>  static void sru_try_format(struct vsp1_sru *sru,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> index 8006d49ffbea..dd4722315c56 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> @@ -7,8 +7,10 @@
+>   * Contact: Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/gfp.h>
+> +#include <linux/mutex.h>
+>
+>  #include <media/v4l2-subdev.h>
+>
+> @@ -121,38 +123,32 @@ static int uds_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_uds *uds = to_uds(subdev);
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_mbus_framefmt *format;
+> -	int ret = 0;
+> +	int ret;
+>
+> -	state = vsp1_entity_get_state(&uds->entity, sd_state, fse->which);
+> -	if (!state)
+> -		return -EINVAL;
+> +	ret = vsp1_subdev_enum_frame_size(subdev, sd_state, fse);
+> +	if (ret)
+> +		return ret;
+>
+> -	format = v4l2_subdev_state_get_format(state, UDS_PAD_SINK);
+> +	if (fse->pad == UDS_PAD_SOURCE) {
+> +		struct v4l2_subdev_state *state;
+> +		struct v4l2_mbus_framefmt *format;
+>
+> -	mutex_lock(&uds->entity.lock);
+> +		state = vsp1_entity_get_state(&uds->entity, sd_state,
+> +					      fse->which);
+> +		if (!state)
+> +			return -EINVAL;
+>
+> -	if (fse->index || fse->code != format->code) {
+> -		ret = -EINVAL;
+> -		goto done;
+> -	}
+> +		format = v4l2_subdev_state_get_format(state, UDS_PAD_SINK);
+> +
+> +		guard(mutex)(&uds->entity.lock);
+>
+> -	if (fse->pad == UDS_PAD_SINK) {
+> -		fse->min_width = UDS_MIN_SIZE;
+> -		fse->max_width = UDS_MAX_SIZE;
+> -		fse->min_height = UDS_MIN_SIZE;
+> -		fse->max_height = UDS_MAX_SIZE;
+> -	} else {
+>  		uds_output_limits(format->width, &fse->min_width,
+>  				  &fse->max_width);
+>  		uds_output_limits(format->height, &fse->min_height,
+>  				  &fse->max_height);
+>  	}
+>
+> -done:
+> -	mutex_unlock(&uds->entity.lock);
+> -	return ret;
+> +	return 0;
+>  }
+>
+>  static void uds_try_format(struct vsp1_uds *uds,
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+>
 
