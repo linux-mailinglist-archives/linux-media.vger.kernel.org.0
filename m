@@ -1,385 +1,238 @@
-Return-Path: <linux-media+bounces-36833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36834-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B13AF9188
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 13:27:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B28FAAF91A3
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 13:32:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0AFD584D87
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 11:27:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2417D1CA5078
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 11:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09E3B2C324F;
-	Fri,  4 Jul 2025 11:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BC542D0C97;
+	Fri,  4 Jul 2025 11:32:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="reUC8JMd"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DQHc7R8C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8CA1F3FF8;
-	Fri,  4 Jul 2025 11:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB49184524;
+	Fri,  4 Jul 2025 11:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751628436; cv=none; b=LIt5F8DtkSjwWNnR3PdaYL/Y/hyAtIR5FxtI4ZANP2aHiJRVkmdy2Cpo/el5OrNdmRJi20VuawBg9A203+Jpo1YQYJIl2oj4NhVLQoXhzJL521DxXVl+9X90Fz2etRjy4HAcuLuXASSkXcTSuMAVy6rFSja8Gwc7xV1LATt0k7g=
+	t=1751628763; cv=none; b=PNMsBdRFhQaDvWv0BMH1frhhyHVk0LHDlZ+eSUBoPCXcsdwAwcA5xto9YbyxX3OhH1XKhcp4OKKU9bMajWezcMeqFLVHBqWLPi/jL9vTWf2hX0f2cC4NRRpVmfDSncLFVGncM4sAEksD60M8c2ry3H2YIxWF14YGGSyJgeiZ3JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751628436; c=relaxed/simple;
-	bh=fhBU/Pey4GmlX6hAWSw1Y0Cwt2nPnXQHs0/FOycJi70=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rCl3zakwzVTsT0OKCAWr/I21A1fceCPTDC07fx6ULvKZfIWWxQUtBh66FM9CaLHwCEhqyiRyQKsN6FhtTDf/TDde7FJAGHEXt2tvphzNz6N8ULG+wWqZ51ekpDI4vTPOB4h0JfKOKMh/KLOvxQ5tBWid3KnudkP+V8umcS2daO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=reUC8JMd; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bYWZ61yKtz9tPc;
-	Fri,  4 Jul 2025 13:27:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1751628430; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vAYgujU/GayRVUHzZeIwhj6KjiLXs1qZHyUAQpSCpDs=;
-	b=reUC8JMdywTHa6SGNGQxlb/EI8+C7FIDEBI3laF3FTZloaaiv/+lVs1AxWDebUi2nwdZrF
-	sNVoBUfpAwFWLFCirX+bP5/ECcGKZpWeSzwgUuCnpP8YT1U8CInxZgzM8kD9eZeZDct6Hh
-	1d2TaTWXCm/uQzOy8rs/3njSclVgH6A9dHRkJTnxfep/rxH58aAbsskMyd1hfMQyA++30H
-	+6dzSHOBG2XMLBGxJS/+VmpLu2hTVwmjviygZ5kQdFz57vwa6dlv8vfDQX6QesieBH5PVt
-	qsXccfyh0CtgFmM169spDeFMlycwq5bcpmw7yJlsZPjauIahOlGzSNE1X58o0A==
-Message-ID: <298eeb951676d24981f1d9208b076ec03563a3ae.camel@mailbox.org>
-Subject: Re: [PATCH 2/6] drm/sched/tests: Port to cancel_job()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: phasta@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Lyude
- Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew Brost
- <matthew.brost@intel.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Pierre-Eric Pelloux-Prayer
- <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org
-Date: Fri, 04 Jul 2025 13:27:04 +0200
-In-Reply-To: <fc61c7c9d5d341d752458d0ee6313ec932803ab3.camel@mailbox.org>
-References: <20250701132142.76899-3-phasta@kernel.org>
-	 <20250701132142.76899-5-phasta@kernel.org>
-	 <f9b55d5b-0018-4850-a9b7-2f267467e957@igalia.com>
-	 <6762d33b4fe8e7b264a7403f228e6ec6723ae623.camel@mailbox.org>
-	 <9a070a66-f6fd-45b4-958c-c6e9f3487a0c@igalia.com>
-	 <fc61c7c9d5d341d752458d0ee6313ec932803ab3.camel@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1751628763; c=relaxed/simple;
+	bh=J/0vq2ZoK2QG2Gtlt5KoL+rfuVd8z9RZpvDx12P9vsA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Q7oSzk2OO8NV6ij0/jVV4ZuRHnorJNOrg/LdrfhncmZtTthDUSM4g+ftklXLgvB0n7CqpaACo8d99yK3wOFZDTK8hysei7bLuI9INOm/qt9qJP5wVekOs6Ay8ERBYFNu56PID1QxzbMtLAMa6in49BaPZt4V1z3/xUZ5hr/cIEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DQHc7R8C; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5645iBLC018568;
+	Fri, 4 Jul 2025 11:31:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2C1tL1cyUjmdUt5666UxjttpvYe1I2PpGbZ0Gq7p9u0=; b=DQHc7R8C6yKFEVK/
+	6IboEgwHcO3cocNXxQqLXFhnT2HU/ASiS1aEsWxKDNo96h0JIevrTyWfg0BzweZS
+	uxasC4MbRMOBokwc7WL105SP5o8CF9e9jhIjI17G2WK8gsie3QbpNsr5d7Qn43Jr
+	vDUT/NZGrHTAa2LUHRqFupSTjLZRN/kq/hP/yem0y2tQtKym33+fthgb6rah7y8C
+	Q68Jg4Q6vVUVFlnS0Rhx00T+JrvHESixRuV6u9g0ruedJQMQD1Lhm/w8ESdmPE1L
+	hRBgMIeruYtmoc9U8Ky1I7CIQ8s6kg5w/hLlDE1b2o8xE1i+uIYRjpsCbGa40iei
+	NDLwjg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8fxuupq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 04 Jul 2025 11:31:09 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 564BV8lC008382
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 4 Jul 2025 11:31:08 GMT
+Received: from [10.50.59.132] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 4 Jul
+ 2025 04:30:55 -0700
+Message-ID: <edfd0bd9-e2b0-93ef-a573-2f2a3ae8d810@quicinc.com>
+Date: Fri, 4 Jul 2025 17:00:48 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: ashhwffr5of6bn8qo63jw5reyuy595af
-X-MBO-RS-ID: 6ddbd0de627db6a1644
-
-On Fri, 2025-07-04 at 11:53 +0200, Philipp Stanner wrote:
-> On Wed, 2025-07-02 at 12:25 +0100, Tvrtko Ursulin wrote:
-> >=20
-> > On 02/07/2025 11:56, Philipp Stanner wrote:
-> > > On Wed, 2025-07-02 at 11:36 +0100, Tvrtko Ursulin wrote:
-> > > >=20
-> > > > On 01/07/2025 14:21, Philipp Stanner wrote:
-> > > > > The GPU Scheduler now supports a new callback, cancel_job(),
-> > > > > which
-> > > > > lets
-> > > > > the scheduler cancel all jobs which might not yet be freed
-> > > > > when
-> > > > > drm_sched_fini() runs. Using this callback allows for
-> > > > > significantly
-> > > > > simplifying the mock scheduler teardown code.
-> > > > >=20
-> > > > > Implement the cancel_job() callback and adjust the code where
-> > > > > necessary.
-> > > >=20
-> > > > Cross referencing against my version I think you missed this
-> > > > hunk:
-> > > >=20
-> > > > --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > > > +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > > > @@ -49,7 +49,6 @@ struct drm_mock_scheduler {
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0	spinlock_t		lock;
-> > > > =C2=A0=C2=A0=C2=A0	struct list_head	job_list;
-> > > > -	struct list_head	done_list;
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0	struct {
-> > > > =C2=A0=C2=A0=C2=A0		u64		context;
-> > > >=20
-> > >=20
-> > > Right, overlooked that one.
-> > >=20
-> > > >=20
-> > > > I also had this:
-> > > >=20
-> > > > @@ -97,7 +96,8 @@ struct drm_mock_sched_job {
-> > > > =C2=A0=C2=A0=C2=A0	struct completion	done;
-> > > >=20
-> > > > =C2=A0=C2=A0 #define DRM_MOCK_SCHED_JOB_DONE		0x1
-> > > > -#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
-> > > > +#define DRM_MOCK_SCHED_JOB_CANCELED	0x2
-> > > > +#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x4
-> > > >=20
-> > > > And was setting it in the callback. And since we should add a
-> > > > test to
-> > > > explicitly cover the new callback, and just the callback, that
-> > > > could
-> > > > make it very easy to do it.
-> > >=20
-> > > What do you imagine that to look like? The scheduler only invokes
-> > > the
-> > > callback on tear down.
-> > >=20
-> > > We also don't have tests that only test free_job() and the like,
-> > > do
-> > > we?
-> > >=20
-> > > You cannot test a callback for the scheduler, because the
-> > > callback
-> > > is
-> > > implemented in the driver.
-> > >=20
-> > > Callbacks are tested by using the scheduler. In this case, it's
-> > > tested
-> > > the intended way by the unit tests invoking drm_sched_free().
-> >=20
-> > Something like (untested):
-> >=20
-> > static void drm_sched_test_cleanup(struct kunit *test)
-> > {
-> > 	struct drm_mock_sched_entity *entity;
-> > 	struct drm_mock_scheduler *sched;
-> > 	struct drm_mock_sched_job job;
-> > 	bool done;
-> >=20
-> > 	/*
-> > 	 * Check that the job cancel callback gets invoked by the
-> > scheduler.
-> > 	 */
-> >=20
-> > 	sched =3D drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-> > 	entity =3D drm_mock_sched_entity_new(test,
-> > 					=C2=A0=C2=A0
-> > DRM_SCHED_PRIORITY_NORMAL,
-> > 					=C2=A0=C2=A0 sched);
-> >=20
-> > 	job =3D drm_mock_sched_job_new(test, entity);
-> > 	drm_mock_sched_job_submit(job);
-> > 	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
-> > 	KUNIT_ASSERT_TRUE(test, done);
-> >=20
-> > 	drm_mock_sched_entity_free(entity);
-> > 	drm_mock_sched_fini(sched);
-> >=20
-> > 	KUNIT_ASSERT_TRUE(test, job->flags &
-> > DRM_MOCK_SCHED_JOB_CANCELED);
-> > }
->=20
-> That could work =E2=80=93 but it's racy.
->=20
-> I wonder if we want to introduce a mechanism into the mock scheduler
-> through which we can enforce a simulated GPU hang. Then it would
-> never
-> race, and that might be useful for more advanced tests for reset
-> recovery and those things.
->=20
-> Opinions?
-
-Ah wait, we can do that with job_duration =3D 0
-
-Very good, I'll include something like that in v2.
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 41/80] media: Remove redundant pm_runtime_mark_last_busy()
+ calls
+Content-Language: en-US
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tommaso Merciai
+	<tomm.merciai@gmail.com>,
+        Martin Hecht <mhecht73@gmail.com>,
+        "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Alain
+ Volmat <alain.volmat@foss.st.com>,
+        Dave Stevenson
+	<dave.stevenson@raspberrypi.com>,
+        Kieran Bingham
+	<kieran.bingham@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>,
+        Michael Riesch
+	<michael.riesch@collabora.com>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Jacopo Mondi
+	<jacopo.mondi@ideasonboard.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        "Matt Ranostay" <matt@ranostay.sg>,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        "Jackson Lee" <jackson.lee@chipsnmedia.com>,
+        Dmitry Osipenko
+	<digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan
+ Hunter <jonathanh@nvidia.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        "Abhinav Kumar" <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Raspberry Pi Kernel Maintenance
+	<kernel-list@raspberrypi.com>,
+        Florian Fainelli
+	<florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list
+	<bcm-kernel-feedback-list@broadcom.com>,
+        Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>,
+        Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Matthias Fend
+	<matthias.fend@emfend.at>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        "Tomi
+ Valkeinen" <tomi.valkeinen@ideasonboard.com>,
+        Ricardo Ribalda
+	<ribalda@chromium.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-rockchip@lists.infradead.org>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+ <20250704075431.3220262-1-sakari.ailus@linux.intel.com>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250704075431.3220262-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDA4OCBTYWx0ZWRfX94SUNz9Zog9s
+ 241uiCiS8OVAytLuDJY25SN5WBo2A15VpvTMJToQUJBTBD5tSk4brYdb7zaZPtNru1KP2D7ucOI
+ MP7OoWwNRfSp2vZyGAhRtK+GWPKPTC8CYcaz3pJrf0bvbPF0p6Tg6lQG8kNVwjM1v/lwgpbm1sI
+ 9W3lBD8vDg9u5BhiyrHx5ES5xCkubkQOLvlAYhlLN0xeAziKI1O0M/r0b5MHvmDpyLTQ/s38Dus
+ XjjluoWlT5f2jJF+Y1Ri81wN8xu6nn2AJfKF+gtxVeKeSC6SS29JcpLv2ONoxL/lbwrkxGfP05S
+ WrLFk95oIfphsWUlPaLpl9uKyc9zZz6KR54Jmd1IWdNNg8BmRm8DRjzYRKFQFU3BwFHPABy84mN
+ k7jN9W2mHATSPb7ZegYBV/S0C/iK3zQm+yZ/iqD+JuVLZ4pubHA+BceFQgNCaautkqWZ1okn
+X-Proofpoint-GUID: L0pLOEq6Xr5MYWPfr9s13YUNZ-ZnYjRo
+X-Proofpoint-ORIG-GUID: L0pLOEq6Xr5MYWPfr9s13YUNZ-ZnYjRo
+X-Authority-Analysis: v=2.4 cv=TqPmhCXh c=1 sm=1 tr=0 ts=6867bb7d cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8
+ a=QyXUC8HyAAAA:8 a=COk6AnOGAAAA:8 a=PTLqzckoA416w6NZUygA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-04_04,2025-07-02_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
+ phishscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507040088
 
 
-P.
 
->=20
->=20
-> P.
->=20
->=20
-> >=20
-> > Or via the hw fence status.
-> >=20
-> > Regards,
-> >=20
-> > Tvrtko
-> >=20
-> > > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > > > ---
-> > > > > =C2=A0=C2=A0 .../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 |=
- 66
-> > > > > +++++++--
-> > > > > -----
-> > > > > -----
-> > > > > =C2=A0=C2=A0 1 file changed, 23 insertions(+), 43 deletions(-)
-> > > > >=20
-> > > > > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > > index 49d067fecd67..2d3169d95200 100644
-> > > > > --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > > @@ -63,7 +63,7 @@ static void
-> > > > > drm_mock_sched_job_complete(struct
-> > > > > drm_mock_sched_job *job)
-> > > > > =C2=A0=C2=A0=C2=A0	lockdep_assert_held(&sched->lock);
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0	job->flags |=3D DRM_MOCK_SCHED_JOB_DONE;
-> > > > > -	list_move_tail(&job->link, &sched->done_list);
-> > > > > +	list_del(&job->link);
-> > > > > =C2=A0=C2=A0=C2=A0	dma_fence_signal_locked(&job->hw_fence);
-> > > > > =C2=A0=C2=A0=C2=A0	complete(&job->done);
-> > > > > =C2=A0=C2=A0 }
-> > > > > @@ -236,26 +236,39 @@ mock_sched_timedout_job(struct
-> > > > > drm_sched_job
-> > > > > *sched_job)
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0 static void mock_sched_free_job(struct drm_sched_job
-> > > > > *sched_job)
-> > > > > =C2=A0=C2=A0 {
-> > > > > -	struct drm_mock_scheduler *sched =3D
-> > > > > -			drm_sched_to_mock_sched(sched_job-
-> > > > > > sched);
-> > > > > =C2=A0=C2=A0=C2=A0	struct drm_mock_sched_job *job =3D
-> > > > > drm_sched_job_to_mock_job(sched_job);
-> > > > > -	unsigned long flags;
-> > > > > =C2=A0=C2=A0=20
-> > > > > -	/* Remove from the scheduler done list. */
-> > > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > > -	list_del(&job->link);
-> > > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > > =C2=A0=C2=A0=C2=A0	dma_fence_put(&job->hw_fence);
-> > > > > -
-> > > > > =C2=A0=C2=A0=C2=A0	drm_sched_job_cleanup(sched_job);
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0	/* Mock job itself is freed by the kunit frame=
-work.
-> > > > > */
-> > > > > =C2=A0=C2=A0 }
-> > > > > =C2=A0=C2=A0=20
-> > > > > +static void mock_sched_cancel_job(struct drm_sched_job
-> > > > > *sched_job)
-> > > > > +{
-> > > > > +	struct drm_mock_scheduler *sched =3D
-> > > > > drm_sched_to_mock_sched(sched_job->sched);
-> > > > > +	struct drm_mock_sched_job *job =3D
-> > > > > drm_sched_job_to_mock_job(sched_job);
-> > > > > +	unsigned long flags;
-> > > > > +
-> > > > > +	hrtimer_cancel(&job->timer);
-> > > > > +
-> > > > > +	spin_lock_irqsave(&sched->lock, flags);
-> > > > > +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
-> > > > > +		list_del(&job->link);
-> > > > > +		dma_fence_set_error(&job->hw_fence, -
-> > > > > ECANCELED);
-> > > > > +		dma_fence_signal_locked(&job->hw_fence);
-> > > > > +	}
-> > > > > +	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > > +
-> > > > > +	/* The GPU Scheduler will call
-> > > > > drm_sched_backend_ops.free_job(), still.
-> > > > > +	 * Mock job itself is freed by the kunit framework.
-> > > > > */
-> > > >=20
-> > > > /*
-> > > > =C2=A0=C2=A0 * Multiline comment style to stay consistent, at least=
- in
-> > > > this
-> > > > file.
-> > > > =C2=A0=C2=A0 */
-> > > >=20
-> > > > The rest looks good, but I need to revisit the timeout/free
-> > > > handling
-> > > > since it has been a while and you changed it recently.
-> > > >=20
-> > > > Regards,
-> > > >=20
-> > > > Tvrtko
-> > > >=20
-> > > > > +}
-> > > > > +
-> > > > > =C2=A0=C2=A0 static const struct drm_sched_backend_ops
-> > > > > drm_mock_scheduler_ops
-> > > > > =3D {
-> > > > > =C2=A0=C2=A0=C2=A0	.run_job =3D mock_sched_run_job,
-> > > > > =C2=A0=C2=A0=C2=A0	.timedout_job =3D mock_sched_timedout_job,
-> > > > > -	.free_job =3D mock_sched_free_job
-> > > > > +	.free_job =3D mock_sched_free_job,
-> > > > > +	.cancel_job =3D mock_sched_cancel_job,
-> > > > > =C2=A0=C2=A0 };
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0 /**
-> > > > > @@ -289,7 +302,6 @@ struct drm_mock_scheduler
-> > > > > *drm_mock_sched_new(struct kunit *test, long timeout)
-> > > > > =C2=A0=C2=A0=C2=A0	sched->hw_timeline.context =3D
-> > > > > dma_fence_context_alloc(1);
-> > > > > =C2=A0=C2=A0=C2=A0	atomic_set(&sched->hw_timeline.next_seqno, 0);
-> > > > > =C2=A0=C2=A0=C2=A0	INIT_LIST_HEAD(&sched->job_list);
-> > > > > -	INIT_LIST_HEAD(&sched->done_list);
-> > > > > =C2=A0=C2=A0=C2=A0	spin_lock_init(&sched->lock);
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0	return sched;
-> > > > > @@ -304,38 +316,6 @@ struct drm_mock_scheduler
-> > > > > *drm_mock_sched_new(struct kunit *test, long timeout)
-> > > > > =C2=A0=C2=A0=C2=A0 */
-> > > > > =C2=A0=C2=A0 void drm_mock_sched_fini(struct drm_mock_scheduler *=
-sched)
-> > > > > =C2=A0=C2=A0 {
-> > > > > -	struct drm_mock_sched_job *job, *next;
-> > > > > -	unsigned long flags;
-> > > > > -	LIST_HEAD(list);
-> > > > > -
-> > > > > -	drm_sched_wqueue_stop(&sched->base);
-> > > > > -
-> > > > > -	/* Force complete all unfinished jobs. */
-> > > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > > -	list_for_each_entry_safe(job, next, &sched-
-> > > > > >job_list,
-> > > > > link)
-> > > > > -		list_move_tail(&job->link, &list);
-> > > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > > -
-> > > > > -	list_for_each_entry(job, &list, link)
-> > > > > -		hrtimer_cancel(&job->timer);
-> > > > > -
-> > > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > > -	list_for_each_entry_safe(job, next, &list, link)
-> > > > > -		drm_mock_sched_job_complete(job);
-> > > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > > -
-> > > > > -	/*
-> > > > > -	 * Free completed jobs and jobs not yet processed by
-> > > > > the
-> > > > > DRM scheduler
-> > > > > -	 * free worker.
-> > > > > -	 */
-> > > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > > -	list_for_each_entry_safe(job, next, &sched-
-> > > > > >done_list,
-> > > > > link)
-> > > > > -		list_move_tail(&job->link, &list);
-> > > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > > -
-> > > > > -	list_for_each_entry_safe(job, next, &list, link)
-> > > > > -		mock_sched_free_job(&job->base);
-> > > > > -
-> > > > > =C2=A0=C2=A0=C2=A0	drm_sched_fini(&sched->base);
-> > > > > =C2=A0=C2=A0 }
-> > > > > =C2=A0=C2=A0=20
-> > > >=20
-> > >=20
-> >=20
->=20
+On 7/4/2025 1:24 PM, Sakari Ailus wrote:
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> The cover letter of the set can be found here
+> <URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+> 
+> In brief, this patch depends on PM runtime patches adding marking the last
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+> 
+>         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+>                 pm-runtime-6.17-rc1
+> 
+>  drivers/media/i2c/alvium-csi2.c                          | 1 -
+>  drivers/media/i2c/ccs/ccs-core.c                         | 4 ----
+>  drivers/media/i2c/dw9768.c                               | 1 -
+>  drivers/media/i2c/gc0308.c                               | 3 ---
+>  drivers/media/i2c/gc2145.c                               | 3 ---
+>  drivers/media/i2c/imx219.c                               | 2 --
+>  drivers/media/i2c/imx283.c                               | 3 ---
+>  drivers/media/i2c/imx290.c                               | 3 ---
+>  drivers/media/i2c/imx296.c                               | 1 -
+>  drivers/media/i2c/imx415.c                               | 1 -
+>  drivers/media/i2c/mt9m114.c                              | 6 ------
+>  drivers/media/i2c/ov4689.c                               | 3 ---
+>  drivers/media/i2c/ov5640.c                               | 4 ----
+>  drivers/media/i2c/ov5645.c                               | 3 ---
+>  drivers/media/i2c/ov64a40.c                              | 4 ----
+>  drivers/media/i2c/ov8858.c                               | 2 --
+>  drivers/media/i2c/st-mipid02.c                           | 2 --
+>  drivers/media/i2c/tc358746.c                             | 5 -----
+>  drivers/media/i2c/thp7312.c                              | 4 ----
+>  drivers/media/i2c/vd55g1.c                               | 4 ----
+>  drivers/media/i2c/vd56g3.c                               | 4 ----
+>  drivers/media/i2c/video-i2c.c                            | 4 ----
+>  drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 4 ----
+>  drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 5 -----
+>  drivers/media/platform/nvidia/tegra-vde/h264.c           | 2 --
+>  drivers/media/platform/qcom/iris/iris_hfi_queue.c        | 1 -
+>  drivers/media/platform/raspberrypi/pisp_be/pisp_be.c     | 2 --
+>  drivers/media/platform/verisilicon/hantro_drv.c          | 1 -
+>  drivers/media/rc/gpio-ir-recv.c                          | 1 -
+>  29 files changed, 83 deletions(-)
+> 
+[snip]> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+> index fac7df0c4d1a..0b37f9b76da5 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_queue.c
+> @@ -142,7 +142,6 @@ int iris_hfi_queue_cmd_write(struct iris_core *core, void *pkt, u32 pkt_size)
+>  	}
+>  	mutex_unlock(&core->lock);
+>  
+> -	pm_runtime_mark_last_busy(core->dev);
+>  	pm_runtime_put_autosuspend(core->dev);
+>  
+>  	return 0;
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
+Thanks,
+Dikshita
 
