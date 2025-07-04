@@ -1,137 +1,133 @@
-Return-Path: <linux-media+bounces-36840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36841-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1371AF9394
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 15:06:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FBDAF9460
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 15:39:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D0267A95B9
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 13:04:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CD9B1881FD5
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 13:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1911B2F7D00;
-	Fri,  4 Jul 2025 13:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22F222FF497;
+	Fri,  4 Jul 2025 13:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eRDThnc/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HsGrDjsm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB54E2D0C8C;
-	Fri,  4 Jul 2025 13:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7DC2D77E6
+	for <linux-media@vger.kernel.org>; Fri,  4 Jul 2025 13:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751634351; cv=none; b=qirEcNNEP5bBe/fJa7tCfSEDZjejMHWHP9RsijfqYZ4GLvEv6rxm+CRfG1v/dPSZv6n2pYoILs5fGC1ySD20/wi2DYpcj/9isb5u9hNJzXVNUHcVHT92cPaGxF8k444HOriB7deuxS6iiQXAXHzCojp0ZduwaYOB6N72IxKgcSo=
+	t=1751636337; cv=none; b=Cn0CwXyxiFD5tCUNTHN52Rt5t/UcppVZPNML0gBpjPP51FEpcfy96eiB4NIrivXcT5n291Zl+Iyr2FatXlV1C5H3WOACj00BV1NdB4UekjtjNFp/xY6DW6NcL4faWSoJr5f/O+X8QuW88C+NwuFZBHAscAPM8ySpl/96zKxUsXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751634351; c=relaxed/simple;
-	bh=yBMvYngooK6EJfsWMCJUDLpwW8VA0ZjBtwiC97EGBZc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Rc54U993athXhiHomIUlvdOk8DABrx8B2zK/HIb4nsligODU9W0jbbiaar5To/69vL5039poISVfSSnbn8pIEjej1CjYRmi26qEa1gIA9s5NQgULKCrNRrbA7uj8nLFx+a7Q2l9dYDsvtXvQnlh/I8CkfiS5MmHOf9eEpN9uEkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eRDThnc/; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1751634346;
-	bh=yBMvYngooK6EJfsWMCJUDLpwW8VA0ZjBtwiC97EGBZc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=eRDThnc/NDm+M2Ul2z1dSvnrLN1ARR5Yf31jhgrVTzShjPxH4+IbwZpP0AgIgm/6F
-	 uUMxC0TXKjnqNkXruIGbTD4QErwDA8a5FKoc3tu0d6A+lqen6BKupBIe67xuoYfMQ5
-	 lTvXpIp1IlDzDeiMpto7Q6fiYAB7nkatXOz1YcjbFN2q3w78XHIQnZtNYyh9zbUGpu
-	 w30keY0Mk/jh3vEsLi40EpzxFd0OxeeFz5/QliOcWMJKHwNu8y2GmoU7ASoyMs6J9g
-	 Kl99sKoWC+weIGC8MrUl86OTec/pFD0u21eErD5o/hFNHi3+dv5m2ZZliIkcsh555G
-	 2qaI/S05E36tg==
-Received: from [IPv6:2606:6d00:17:b699::c41] (unknown [IPv6:2606:6d00:17:b699::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9711217E07FF;
-	Fri,  4 Jul 2025 15:05:45 +0200 (CEST)
-Message-ID: <88675ffb0b8336c0b2c195bdc53dc9823849055b.camel@collabora.com>
-Subject: Re: [PATCH 64/80] media: rkvdec: Remove redundant
- pm_runtime_mark_last_busy() calls
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Ezequiel Garcia	
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Fri, 04 Jul 2025 09:05:44 -0400
-In-Reply-To: <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
-References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
-	 <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1751636337; c=relaxed/simple;
+	bh=Ni0dpnJU3rhbEwaxJZOcN4eUR3ubAzS3k4xsQNwjQ0c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iaXVlBywYdwd2ljf+1fUVGz/A2HwbF+tc5IHbIWq/849sx+JCotQknyp1MC27KbGj986c0jCY+4YZRQCT0aWow9UUtgIxpw2lmi8EkHo29svXvi7J2Sqoj/4OLg0h/MJQsPfr84tPwWWKGRoCV4ER0C/5GpIrNNUZnEmJ++zw6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HsGrDjsm; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a50fc7ac4dso428708f8f.0
+        for <linux-media@vger.kernel.org>; Fri, 04 Jul 2025 06:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751636334; x=1752241134; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tmZly46HF2qvPjEzdRLzoBDfMCOkNolKlPyBFoDkbDc=;
+        b=HsGrDjsm0QXN3BGJspmN4I1SPw2PkWKcLIG1PAB6d5wlv2qABupgrsW17gDSXdjJly
+         H3nkncaRANAvkPwlPd4Bu633OEkh42Hf8ThuefKjbleUkfrYKAnL0kq0Ep1YgUHXhU8d
+         d4PYtpkCDfJU+lojQUbRUF5rEaxJSE8XO2N9u18/JDeE3ulgi8Tuc/bzsU813KelxP9i
+         qR/m61OVMC/MwAquVMr5nkfBYPu3UK3n/zY3a0n689LQWrgsdICYFk5CvKTDW1tTjKQX
+         RPHpI+2XGRwiR5eFDbai5alqWudmawg+AmA8/50aMNsl61sJMLOTekon7mnEFwWkpdEX
+         9vlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751636334; x=1752241134;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tmZly46HF2qvPjEzdRLzoBDfMCOkNolKlPyBFoDkbDc=;
+        b=s2rDu1isxh9KZmjjTZIyELuMT+IO7R5V5udfYBgbPBB/osOS6Kxlh/aUxJwU1p8E/V
+         kDeTgAPYYML02+gVFwwqy0gdtgtdl1CY/SQkDCEAp2xk2kOhSs4mp9ro9+RgmYvdWklM
+         sDRhMxjR3vGyQqXy7DgHeM8LVVQc5HzWyWPM2jYtijI71DNMbt8MW5kHxyjd/ws2J6VB
+         M1lpRh0gqdwdaHghAR+bf6eEKcKlvsICNR2pa9vEygE4//bF6HqFJl1wIcUgASWJd6Xh
+         WKI+ukc37O84MZX5/M1uRtqoYgCBrb50Hp9r+Svqrd+dwKvgTvLkybyzbHU5gh0Mr5Gh
+         x75w==
+X-Forwarded-Encrypted: i=1; AJvYcCVDMR0HXG96UPTLrnfkdVH8vqrgYHPSyKbgwzPkQMF78jA679Xb58TTc/8kcKrFW3IbpJEG4dU6tE+5Rg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsNZYSl+DM8kWM6CLbWN9bVvJV7eTViHOCp9Zhi9JLGEwh2Mv5
+	ID/mw1VEatdRltd1jaaQVLEmctaRXS/G6l7+lC5l+pNr+wRZH8GDlwzco2Or1uInRiU=
+X-Gm-Gg: ASbGncunlxGP8qxV1CXGtQhlGx432qRmtD2C28sH8gWFX+SyP8EL3P9xnojIYAVma7C
+	FvUf2rFzhWLxGAKnJbjbr5rn7zuZvJojMRdXpAUwHTBXk+fjodiV0p02pg34zN96t2C9FEx9rjj
+	anqq6pY/+/rTndH7hLwRopGqJLOyta8Etkq3KUstw7lpgaTR0hBWJQ3URHwDbIc5xkmVZFLZpTs
+	88xh4FLV5CBLK6+IHYtA+2Zax8rOXKVGk+LraW1AuBu94DkOhqkaaObP0fFMARxve7SQy1sPjkb
+	dVMO2tP18EfHOOjYHy01W85lJdRHhuwOstFkxdvt9UT7I14EZi5te0BypX1/dT4jMMx2xRU3G1k
+	4+pBugzwE8BEq
+X-Google-Smtp-Source: AGHT+IFbADOmXUyvQXWzmqL0Vi+x5HWen9VdaHK/QLd7cw/v0MlRhdUI0DW37OsEiFwGE10fuPnNcQ==
+X-Received: by 2002:a05:6000:4025:b0:3a4:c2e4:11b with SMTP id ffacd0b85a97d-3b4964fc4bdmr2704268f8f.51.1751636333777;
+        Fri, 04 Jul 2025 06:38:53 -0700 (PDT)
+Received: from [127.0.0.2] ([2a02:2454:ff21:ef41:779f:7637:a2a6:1bda])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47030bc79sm2522595f8f.9.2025.07.04.06.38.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jul 2025 06:38:53 -0700 (PDT)
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+Date: Fri, 04 Jul 2025 15:38:41 +0200
+Subject: [PATCH] dt-bindings: media: qcom,sm8550-iris: Add X1E80100
+ compatible
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250704-x1e-iris-v1-1-c3137d979e43@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAGDZZ2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDcwMT3QpDoFBRZrGuSaJpioGxcZpJolGKElB5QVFqWmYF2Kjo2NpaALM
+ e2UdaAAAA
+X-Change-ID: 20250704-x1e-iris-4a5d033f4a2d
+To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Stefan Schmidt <stefan.schmidt@linaro.org>
+X-Mailer: b4 0.14.2
 
-Le vendredi 04 juillet 2025 à 10:54 +0300, Sakari Ailus a écrit :
-> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-> pm_runtime_mark_last_busy().
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Iris in X1E80100 is pretty much identical to SM8550. We can use the same
+firmware image and the same definitions in the driver, so just add
+qcom,x1e80100-iris to the existing list with qcom,sm8550-iris as fallback
+compatible.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+---
+ Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
-> The cover letter of the set can be found here
-> <URL:
-> https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.i
-> ntel.com>.
-> 
-> In brief, this patch depends on PM runtime patches adding marking the last
-> busy timestamp in autosuspend related functions. The patches are here, on
-> rc2:
-> 
->         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
->                 pm-runtime-6.17-rc1
-> 
->  drivers/staging/media/rkvdec/rkvdec.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
-> b/drivers/staging/media/rkvdec/rkvdec.c
-> index d707088ec0dc..445f7c92eee3 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -765,7 +765,6 @@ static void rkvdec_job_finish(struct rkvdec_ctx *ctx,
->  {
->  	struct rkvdec_dev *rkvdec = ctx->dev;
->  
-> -	pm_runtime_mark_last_busy(rkvdec->dev);
->  	pm_runtime_put_autosuspend(rkvdec->dev);
->  	rkvdec_job_finish_no_pm(ctx, result);
->  }
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+index c79bf2101812d83b99704f38b7348a9f728dff44..9504d7ea23f4a30fd2d03e8683721641f8b1a115 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+@@ -20,6 +20,7 @@ properties:
+       - items:
+           - enum:
+               - qcom,sa8775p-iris
++              - qcom,x1e80100-iris
+           - const: qcom,sm8550-iris
+       - enum:
+           - qcom,qcs8300-iris
+
+---
+base-commit: 26ffb3d6f02cd0935fb9fa3db897767beee1cb2a
+change-id: 20250704-x1e-iris-4a5d033f4a2d
+
+Best regards,
+-- 
+Stephan Gerhold <stephan.gerhold@linaro.org>
+
 
