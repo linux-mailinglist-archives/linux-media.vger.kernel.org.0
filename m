@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-36861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36858-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E340AAF9780
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 18:00:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAEDAF9773
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 17:59:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B8CD4588703
-	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 16:00:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4B9D3B3F90
+	for <lists+linux-media@lfdr.de>; Fri,  4 Jul 2025 15:59:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C6B930E82D;
-	Fri,  4 Jul 2025 15:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75BEB326A74;
+	Fri,  4 Jul 2025 15:59:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7282BE02B;
-	Fri,  4 Jul 2025 15:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD8D3196CA;
+	Fri,  4 Jul 2025 15:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751644768; cv=none; b=kMqevB3GFiZrAxOetlUIdtKM+yvOCPizt1cXPfMbKijEYYfYbQNb1HhzOFUjYimSa7BPGubX1QTtV2sTzX1C43O5Ns0zvpo6ou0ZHVmDfsHDHm7SCL5L3k4nWZ/ZxOfxX4pqvQqEtu3yjjw1b36RsYhGdmVwNMtFXvU6sau39YQ=
+	t=1751644749; cv=none; b=qFsmdteBdAQ+wxnsPAKjxGVMZLza8U8XVSY7O3/YkFo3vyElhXfWRM+SZhVHr5j5RhH4TPs/IprlsZu7e0trXCn5H3WSakq4qmm4G0YI3+R7dEwmw6hnFj4yHPk2Vsg0/tGbsioJxsqtfIvjF8b299hbR8of0Plat9i/aG9pTk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751644768; c=relaxed/simple;
-	bh=QVSeZ6PtbaeDbrhk8YqxchSiZQ1NssifHK0pZD4PtYc=;
+	s=arc-20240116; t=1751644749; c=relaxed/simple;
+	bh=BJu/qu+MScmnB/kg3RgdS3D4V86q3Wnt0q/kJ5vJObs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F+mXKwil7rL5HFci+/M2sbRrhe8PheM6YscoTYVzuflA/wCABjf3XZeGUk3SZQw7RsOhEmTeeCCYWgQNgA+3NL+MbLo5cbs5hdesiV3HvRvzpbnV8wCH/D5/9ObVr8WyQ8J6YqM+7U2nQ/R8cTu/kN2r+FTesVIUvutkcjQrMb8=
+	 MIME-Version; b=OyC44fBfaJIjfD2Xa5TVJRp8ndu2E96r9G5GtuHPKdaYg/9GwhwzNUJdwcHGrWIkSW3VGe5bW7VRsd5k9owDnW5EV8eNJuCJ1FmP2sWcAa840x+m4d83m5wedY9EE7srtBtbI+PPa4JxTH1fG8zOtVOXNs86UJS4d4rxuGHV6EM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id C62DA1F00056;
-	Fri,  4 Jul 2025 15:59:03 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id AC6601F00059;
+	Fri,  4 Jul 2025 15:58:56 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id B9533ACA685; Fri,  4 Jul 2025 15:49:18 +0000 (UTC)
+	id 7F129ACA698; Fri,  4 Jul 2025 15:49:52 +0000 (UTC)
 X-Spam-Level: *
 Received: from localhost.localdomain (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id F11FBACA655;
-	Fri,  4 Jul 2025 15:46:34 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 7C358ACA656;
+	Fri,  4 Jul 2025 15:46:35 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v8 3/9] clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
-Date: Fri,  4 Jul 2025 17:46:20 +0200
-Message-ID: <20250704154628.3468793-4-paulk@sys-base.io>
+Subject: [PATCH v8 4/9] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
+Date: Fri,  4 Jul 2025 17:46:21 +0200
+Message-ID: <20250704154628.3468793-5-paulk@sys-base.io>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250704154628.3468793-1-paulk@sys-base.io>
 References: <20250704154628.3468793-1-paulk@sys-base.io>
@@ -74,58 +74,42 @@ Content-Transfer-Encoding: 8bit
 
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-In order to declare a mbus node for the v3s, expose its associated
-clocks to the public header.
+The V3s uses the mbus interconnect to provide DRAM access for a
+number of blocks. The SoC can only map 2 GiB of DRAM, which is
+reflected in the dma-ranges property.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Reviewed-by: Samuel Holland <samuel@sholland.org>
-Acked-by: Rob Herring <robh@kernel.org>
 ---
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.h      | 4 ----
- include/dt-bindings/clock/sun8i-v3s-ccu.h | 4 ++--
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-index 345cdbbab362..c933ef016570 100644
---- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
-@@ -39,14 +39,10 @@
+diff --git a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+index fa54510319ac..02d6c62b3874 100644
+--- a/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun8i-v3s.dtsi
+@@ -629,6 +629,21 @@ int_mii_phy: ethernet-phy@1 {
+ 			};
+ 		};
  
- /* The first bunch of module clocks are exported */
- 
--#define CLK_DRAM		58
--
- /* All the DRAM gates are exported */
- 
- /* Some more module clocks are exported */
- 
--#define CLK_MBUS		72
--
- /* And the GPU module clock is exported */
- 
- #define CLK_PLL_DDR1		74
-diff --git a/include/dt-bindings/clock/sun8i-v3s-ccu.h b/include/dt-bindings/clock/sun8i-v3s-ccu.h
-index c4055629c9f9..d635bffd6914 100644
---- a/include/dt-bindings/clock/sun8i-v3s-ccu.h
-+++ b/include/dt-bindings/clock/sun8i-v3s-ccu.h
-@@ -87,7 +87,7 @@
- #define CLK_SPI0		55
- #define CLK_USB_PHY0		56
- #define CLK_USB_OHCI0		57
--
-+#define CLK_DRAM		58
- #define CLK_DRAM_VE		59
- #define CLK_DRAM_CSI		60
- #define CLK_DRAM_EHCI		61
-@@ -101,7 +101,7 @@
- #define CLK_VE			69
- #define CLK_AC_DIG		70
- #define CLK_AVS			71
--
-+#define CLK_MBUS		72
- #define CLK_MIPI_CSI		73
- 
- /* Clocks not available on V3s */
++		mbus: dram-controller@1c62000 {
++			compatible = "allwinner,sun8i-v3s-mbus";
++			reg = <0x01c62000 0x1000>,
++			      <0x01c63000 0x1000>;
++			reg-names = "mbus", "dram";
++			clocks = <&ccu CLK_MBUS>,
++				 <&ccu CLK_DRAM>,
++				 <&ccu CLK_BUS_DRAM>;
++			clock-names = "mbus", "dram", "bus";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			dma-ranges = <0x00000000 0x40000000 0x80000000>;
++			#interconnect-cells = <1>;
++		};
++
+ 		spi0: spi@1c68000 {
+ 			compatible = "allwinner,sun8i-h3-spi";
+ 			reg = <0x01c68000 0x1000>;
 -- 
 2.49.0
 
