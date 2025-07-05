@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-36879-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36880-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E4AAF9F34
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 10:38:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90269AF9F36
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 10:39:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CDDB5817AF
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 08:38:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 187084A7F3E
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 08:38:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E59D28935D;
-	Sat,  5 Jul 2025 08:38:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C25B289367;
+	Sat,  5 Jul 2025 08:38:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="i+ZeIC8h";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ODVVi61U"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ZrbPE4h8";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZTD/LkXW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF42E288509;
-	Sat,  5 Jul 2025 08:38:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A26286884;
+	Sat,  5 Jul 2025 08:38:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751704730; cv=none; b=Ar0LUAdDpS12UUTm1ooijc/75/pYgQ5+ZgTUFggiaV7uJ48+1dSyQExjVTts2TDh9rchx45MlIrzl2RCcyh9GkQqW6el5rCOcFt4Fw0B5XL9SAA8TwxQJjXiC/4+3su/BFnCSun6EwhuUXDMQNU5THXPXwLeFy+ba9XTi3L/VIs=
+	t=1751704732; cv=none; b=VDcnE9MDFrVEHqRiVoW0vr3Kr+rCZcTACz/MqkSg55M37P9jtVYUZTxQ4/WGJ2Pdsc99gug8Ei5PA1pkUhexwwqrDOj/0hO9YLOlolN9GcJDludXVmeRTLHM1Kwtsh7XjLxftevlmXny0H/bARg1U/KEqxSvuWxkU7CqeSrXdss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751704730; c=relaxed/simple;
-	bh=pmk7YPkZiScL4SZ4iplC92qayaP+SFrVXxQhq7jDTqg=;
+	s=arc-20240116; t=1751704732; c=relaxed/simple;
+	bh=FeJb/+raB5fJYbcRusFo2MVz/GABXUMa5w+fD8Z6fJM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Npr05gH+g5GMZZ6EyTKOZI0y2WSXbE+5pubkExK8iw3k6Vputw3QRiTTDtnUabMWkTaHeGArFm4+MmbeBNmPOaeWJS2tc0rgcC47/b3/cawzSkVBlgod90p8mfu3BlsfS6sijRBtp3M/ibvf7ycY+PnUe0t8IBOc+2Bu1pKMs8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=i+ZeIC8h; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ODVVi61U; arc=none smtp.client-ip=202.12.124.155
+	 MIME-Version:Content-Type; b=ZDbKxLBMQy7Red2PkgJ7kKdx+J+fuJK3jRWAu+NfQxLR9zjlCJ4nSsXtekSOpF9hRMmEL2JEqpWQqJp9n2x07eoWxnJAdy/ILrvOo320BXq79mg1rR6pih/f4EYCdLLtjv6W+P6m2CXDc3QEgusd63JE8bSjYx+IgO2w3MrkdhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ZrbPE4h8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZTD/LkXW; arc=none smtp.client-ip=202.12.124.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id EF9797A0186;
-	Sat,  5 Jul 2025 04:38:47 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Sat, 05 Jul 2025 04:38:48 -0400
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 2B2B57A018D;
+	Sat,  5 Jul 2025 04:38:50 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Sat, 05 Jul 2025 04:38:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1751704727;
-	 x=1751791127; bh=dyp1R103fi3l7/oLQ8rCzbeCv/EOPmioAaVMjZotNqU=; b=
-	i+ZeIC8h6BLMAZChnFBXJ0tU4xhqOYRQHekaIxWCb8Cs7OY+t1joRoeBtWzwAwxV
-	0/LklkDU/MM6N5e5SX7ovAiPMwt6ThB8gZCfA81NFi9PhJEnckWpSPAXs7VGNOyj
-	yy3n2oP4wnhg4xJGhcGo81naO3sXVKgt1ZURHje/obfsekVE4+s+eAX+crdGT4AB
-	vHp/o1/hIct8270+ApI+Bj42/XKpH9U45ohuQKI+igLug3ezAlEyJPpskF8n7XlK
-	BIQuikR8DCMhHatE4qpgvJR7dNhqrQq4E0LIylpGgY0YP5qsGdoHNfj3XIzDpzQn
-	pr24mxEGBcCDi22zG+JycQ==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1751704730;
+	 x=1751791130; bh=8MjIBc3ZL0ZoYs26maUNFYFLttQFUEIkeWGgCNlQ2PA=; b=
+	ZrbPE4h84LW+BIXm2bKZxEOH+jejKO6++1RtgEzbIRUaS7iFzw3cv29DVn+1MB5k
+	WPqmlJkRHoDUCYxoYhhyiXNtWGa1ICLCNhX+BH0tTn8EeUBoR+MQ327O0k4SlOO0
+	cKzbtPCWTXWqnCf3+SUFj9BF4gbVIIgXVw1acO1AHOdIZRDkkgC78nN4kfbBDoio
+	izV4aybudaR1l/B4IQgT1tXTU5wGVQ3bsPVIbhLHcONqeE66QunSKJHX5acOgh51
+	O69OtjtZII1pG+kIdM98VQSGXg1iaS0CN6wExs2GTspmZyuUujkfNABo5Z8k8/6s
+	5oymJQuANPbjR/qhyp0xdQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751704727; x=
-	1751791127; bh=dyp1R103fi3l7/oLQ8rCzbeCv/EOPmioAaVMjZotNqU=; b=O
-	DVVi61Uynm8VH7Vy1rb++qSnG2/CQSKAO4Vp8nWKBYTX56ZzNubGvLAWPLn3ZIom
-	Qe/sMABfT9+tLJqq5z+WIfOPXumrgk19l2EliGFmOng2MTiRJhWJEGLBbfEP+qcO
-	fa8r4xee4JfWeC+Ku85zVq6AO4y/SNQBV8pOMZwDTaF9JkyuX4e2QG0KSYfMEvjH
-	wt1MCLXlSG9ol7bckUetShONeK1ApRSmtmuapKB3ub8WzpzNYwFWbNj8L9f34t4+
-	MMkgo2XZRqUkAgagjCs5LlC0mTfDUtzBpaiB5FCni56n1t5hkshMyiwpHgXmEERj
-	qa8cedfNhyeWS4uRB3VaQ==
-X-ME-Sender: <xms:l-RoaCrFca3DudPMQIqSXrbe4r794CaiRz13APTRlr_f1EcoHnrd5A>
-    <xme:l-RoaArLQof1GksXZq3e3vq-DCpa2y2TMDowYfPnsxUtfZ-Q-wWxh5-b7Kgkdk4JP
-    1uXzwpNU1wwYcKWnlY>
-X-ME-Received: <xmr:l-RoaHPHc2r03DjNEa6SGZX3qkAU-xZDMhg0UAHjz3oMMIjhxmzXsUiE7vRxN6iG3kx-ocdfkIkYiWf3LRambQqh_w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvheehkecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1751704730; x=
+	1751791130; bh=8MjIBc3ZL0ZoYs26maUNFYFLttQFUEIkeWGgCNlQ2PA=; b=Z
+	TD/LkXWX8BnmlB+i8D1iW0sNrHeNoceoZvEsAtICDDir6wxJDaKIGrrDxhfV9XHX
+	bGNAho2UQ4QytnMMGA+R1hfbVL3jDA5G/iaQ3A88nAF2o9G5FaLBVnHcylnYfRah
+	DhwcWjOtBAOfbve6Xaf+WL8md5QUsjLh0gMAWeIa0Utul/ksj1pC158he3TKJmrM
+	HRtP/60l9FNzs6qSKdsO9cXdVf6OFMDQNl959Vn1QBgKDHy1YakcIlO3PAsELKnU
+	MRs+B4XPDLgJwsQG30YlyfCuqSxsYGbZFvIC9iBGkXN8iZ1VgTCjX8sWD7br4z4f
+	sRgf9/+PrrysgbQ+Ens7w==
+X-ME-Sender: <xms:meRoaL0TMOsuwZ_PjV3RKsO4o5eUp_9tvgGz_AQErTrouitFdcXh3w>
+    <xme:meRoaKFRZrXZHhEnGMebV3-n-BjEnj3cKpw3Klp-0zU6p9kU9owU3INyTjaxJtCfB
+    CsAzEV3hOeaBsJz7FM>
+X-ME-Received: <xmr:meRoaL6_s_-34CWIPiharvyzfZLarVlVNOFgtNarA6uJqxhLQOyYGFS_Hw3KjW90DDQnJyl3crSmKRjDBafTbiu04g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvheehjecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghs
     ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
     hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeutdef
     hfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
+    iivgepudenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
     nhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmh
     htphhouhhtpdhrtghpthhtoheplhgrrhhssehmvghtrghfohhordguvgdprhgtphhtthho
     pehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkihgvrhgrnhdrsg
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvheehkecutefuodetgg
     oheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
     dprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgr
     ghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:l-RoaB6qZDW8ZPqaZeU_qxRb6p5wdHlufNzMSB3ddyQJhqU4nkmA8g>
-    <xmx:l-RoaB4nn0DmPZ8Lt7Nr7dy3tHtfZsREbFcIJbV_A-waik5ou-8AlQ>
-    <xmx:l-RoaBg4dxUzW4EupZHKnCpeSXCDiQ8TnxIcywItyOLGwP02hRDnOg>
-    <xmx:l-RoaL4D5ji-lpcUudtQZ8TZiNeH_3-Bkdw5FpB50E4gipg6_R4wdQ>
-    <xmx:l-RoaFK2hfVPTSg39-NwdbQrn38SY1cEvDA672lIenIqJNYdd6NxzFZh>
+X-ME-Proxy: <xmx:meRoaA3E2Ckgrx9LFVuwVB4pPANq1rvmWhUYJRtvpgO8FAjkBr_IZw>
+    <xmx:meRoaOHrrs-vCPCMvrHSJGk8hmRPcNoex0Mzk1frat0O-GP47UWA0w>
+    <xmx:meRoaB8xuaezCdnbJC4kGNepANoUUEmu2FZERFnTQ6szS0RWuKn_tg>
+    <xmx:meRoaLlVLWlp8xOTdhxJyWKr4DCTGwrzCwSMsZmS_KPR01aTYPyc_w>
+    <xmx:muRoaEHXPgCS3dp8XCkZjCGH0HYisQAX1oGJeA_Nnjj_WhLD9F6UyqLp>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 5 Jul 2025 04:38:47 -0400 (EDT)
+ 5 Jul 2025 04:38:49 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Lars-Peter Clausen <lars@metafoo.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -98,9 +98,9 @@ To: Lars-Peter Clausen <lars@metafoo.de>,
 	linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/3] media: adv748x: Remove g_pixelaspect implementation
-Date: Sat,  5 Jul 2025 10:37:40 +0200
-Message-ID: <20250705083741.77517-3-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 3/3] media: v4l2-subdev: Remove g_pixelaspect operation
+Date: Sat,  5 Jul 2025 10:37:41 +0200
+Message-ID: <20250705083741.77517-4-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250705083741.77517-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250705083741.77517-1-niklas.soderlund+renesas@ragnatech.se>
@@ -113,75 +113,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-There are no consumer left of g_pixelaspect in the tree, remove the
-implementation from the adv748x driver in preparation of removing it
-from struct v4l2_subdev_video_ops all together.
+There are no consumers or implementations left in tree for the subdevice
+operation g_pixelaspect, delete it.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/i2c/adv748x/adv748x-afe.c  | 17 -----------------
- drivers/media/i2c/adv748x/adv748x-hdmi.c | 10 ----------
- 2 files changed, 27 deletions(-)
+ include/media/v4l2-subdev.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/media/i2c/adv748x/adv748x-afe.c b/drivers/media/i2c/adv748x/adv748x-afe.c
-index 5edb3295dc58..678199196b84 100644
---- a/drivers/media/i2c/adv748x/adv748x-afe.c
-+++ b/drivers/media/i2c/adv748x/adv748x-afe.c
-@@ -161,22 +161,6 @@ int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input)
- 	return sdp_write(state, ADV748X_SDP_INSEL, input);
- }
- 
--static int adv748x_afe_g_pixelaspect(struct v4l2_subdev *sd,
--				     struct v4l2_fract *aspect)
--{
--	struct adv748x_afe *afe = adv748x_sd_to_afe(sd);
--
--	if (afe->curr_norm & V4L2_STD_525_60) {
--		aspect->numerator = 11;
--		aspect->denominator = 10;
--	} else {
--		aspect->numerator = 54;
--		aspect->denominator = 59;
--	}
--
--	return 0;
--}
--
- /* -----------------------------------------------------------------------------
-  * v4l2_subdev_video_ops
-  */
-@@ -307,7 +291,6 @@ static const struct v4l2_subdev_video_ops adv748x_afe_video_ops = {
- 	.g_tvnorms = adv748x_afe_g_tvnorms,
- 	.g_input_status = adv748x_afe_g_input_status,
- 	.s_stream = adv748x_afe_s_stream,
--	.g_pixelaspect = adv748x_afe_g_pixelaspect,
- };
- 
- /* -----------------------------------------------------------------------------
-diff --git a/drivers/media/i2c/adv748x/adv748x-hdmi.c b/drivers/media/i2c/adv748x/adv748x-hdmi.c
-index a4db9bae5f79..b154dea29ba2 100644
---- a/drivers/media/i2c/adv748x/adv748x-hdmi.c
-+++ b/drivers/media/i2c/adv748x/adv748x-hdmi.c
-@@ -382,19 +382,9 @@ static int adv748x_hdmi_s_stream(struct v4l2_subdev *sd, int enable)
- 	return ret;
- }
- 
--static int adv748x_hdmi_g_pixelaspect(struct v4l2_subdev *sd,
--				      struct v4l2_fract *aspect)
--{
--	aspect->numerator = 1;
--	aspect->denominator = 1;
--
--	return 0;
--}
--
- static const struct v4l2_subdev_video_ops adv748x_video_ops_hdmi = {
- 	.g_input_status = adv748x_hdmi_g_input_status,
- 	.s_stream = adv748x_hdmi_s_stream,
--	.g_pixelaspect = adv748x_hdmi_g_pixelaspect,
- };
- 
- /* -----------------------------------------------------------------------------
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 57f2bcb4eb16..5dcf4065708f 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -460,8 +460,6 @@ enum v4l2_subdev_pre_streamon_flags {
+  *	but use the v4l2_subdev_enable_streams() and
+  *	v4l2_subdev_disable_streams() helpers.
+  *
+- * @g_pixelaspect: callback to return the pixelaspect ratio.
+- *
+  * @s_rx_buffer: set a host allocated memory buffer for the subdev. The subdev
+  *	can adjust @size to a lower value and must not write more data to the
+  *	buffer starting at @data than the original value of @size.
+@@ -491,7 +489,6 @@ struct v4l2_subdev_video_ops {
+ 	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
+ 	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
+ 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+-	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
+ 	int (*s_rx_buffer)(struct v4l2_subdev *sd, void *buf,
+ 			   unsigned int *size);
+ 	int (*pre_streamon)(struct v4l2_subdev *sd, u32 flags);
 -- 
 2.50.0
 
