@@ -1,86 +1,86 @@
-Return-Path: <linux-media+bounces-36886-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36887-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E9DAFA02F
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 15:08:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50BCAFA031
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 15:09:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EB683BB222
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 13:08:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C4233BD482
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 13:08:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA89257AFB;
-	Sat,  5 Jul 2025 13:08:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C408125A2CC;
+	Sat,  5 Jul 2025 13:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vkh34VYO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLf5xh+8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB117256C9B;
-	Sat,  5 Jul 2025 13:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D633A2580D7;
+	Sat,  5 Jul 2025 13:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751720915; cv=none; b=qyttiQPmOUMgeTydVNAL9ELH/A7q/TKFbvUe7h3DPdLXqj/9zk+3zGpIWzT0XoJ7s8QrKFLQGH806xGq8x0tTrAKX+tbwv8UWfjKjZAJ191dE1UA7z6yRC+vJG1xWCnYYHYH/Ed4KK9vRt95hn4XnFZ6zccLKYBYzy0k7Sr8LO4=
+	t=1751720917; cv=none; b=cliwOMF8wYZCHRunVtPZJZCNfjbibeU+MD3v+g8YlO239LlmeP3VsNrUGng9xPJWrh9iMZ3PNcIPCWfAYFe0NH28VDULS0Lb4gmiUMcRTUZ2T2fIkrhwGsDv3cQuOr+95Zq0cT21qSXmNjH0+m83QoY1DSzicsUG9OoR/dCC6MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751720915; c=relaxed/simple;
-	bh=7nrB0pm6XeKOKTWQ/7ZSFuf1c7zycO+2BLXYYJ6dKfg=;
+	s=arc-20240116; t=1751720917; c=relaxed/simple;
+	bh=PY4C9YkzB4XNqZGeXjJ0WvzqHJuE9/agmQPhZCUcsAM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UjDK6QdtgtsjlYkYuCG4l3rdzw3wkktn92mapzsfxSJUxI9cGdeoupdOfO+/AZ8pX9+Hwy/vCTU9N8CrLFQZt6t33g1saCXkAti+bdRuhcH8IdnlD7U5nosJ1/VNy3uRCLdWtqZuzn2DA+Gty576W+LhUfdY7FvadsspZkVC0hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vkh34VYO; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version; b=m+XnaY0KRRB0PjwPhKoX7HcpNrdiN9cQ9Z2D65tezjOmVjbx06eFto8sFAHQiNwOG80oy6ZBkXZ7rCMktIRi0fraMAV1J/umSt/CxhabCLAx+uQj6wPo70KX9YrEcp3u0Q4dZx85PJj94iIpYjDCQFZGQBbmwGRtcP1YM18VyK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WLf5xh+8; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7481600130eso2388750b3a.3;
-        Sat, 05 Jul 2025 06:08:33 -0700 (PDT)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so1562488b3a.0;
+        Sat, 05 Jul 2025 06:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751720913; x=1752325713; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751720915; x=1752325715; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IKb/RjujJ09Wos/zTMgKzH0CuSzFR52/Xqq9tPXCgm4=;
-        b=Vkh34VYOE2A21w/+z6/yeXH7bI8ljQLvHJqh0B+NTVzpKxb+M8IhDzWUic+gZ9vneF
-         jnkyfG89K9meFBMAtgDXFxLGL647SEjqprGcWSYNKzUbAc7q6jfk7b53vVtqTZiD4cGb
-         /HoGRbz1gLS7Skv+8fjLtHrCAas4MtqA6soft0i4QFQ1kB4vHKgk6Lw7rdjcKwE53oW1
-         HbwdCkNCPsDeOD7xC6U4nX9gsomNjhJotTQ32DafiWFh6ewor0NMND6jMttZeKnb+I5B
-         dYsH3ByKYm629fDkIsnu3pBA5AKy3nmFEptBWXnM0A4vGtG8UcFOEFIblMWZ8FY6+j/5
-         j5XA==
+        bh=Xrm1kWoPaGkxV4g2GOWN3UThzaZG17eDiDzIl7208/Q=;
+        b=WLf5xh+8EWlhBi53gnNKudmYR0IU8x9kUAw/mKgMuYJVV4fJNb4kaIKzRHF5vzvGuI
+         ej6VcVOroProgpAW4KzH2ilENEtGnc60uWOpbkdBIwUPpmozCzKBYdBjmjXaykss0g14
+         co/pVQRMTmPQ6jV5kunSXCU6V+J2ZjYUEAx0B/7f1TvqEqFOoHV4NFUAqjelPcapvj6Y
+         HWTTmHtd5olM93Y/xsJME4ZuF1gHVdPVMRRHevAEP8MWkwAmZqS1kWueSvoX7Qt3GJNj
+         +KrhetBVYEK5gC2N2U9+PYeYSs6svsIwab9j1ntS++JCYfPtKMPkdS6ZFktOvJJfij99
+         ow7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751720913; x=1752325713;
+        d=1e100.net; s=20230601; t=1751720915; x=1752325715;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IKb/RjujJ09Wos/zTMgKzH0CuSzFR52/Xqq9tPXCgm4=;
-        b=rSlOuuxCIoBY5OSMcS7l3dL+7F4zWJ/medxkonkLapBXeYINxjNWjvLeMMjEEZoPLQ
-         qQJdQdSRON3tL3cUY0zPFurMkIJjM3mDObtg9kX+YnlufspzO5MbQMXAlh1d3DXhfMdG
-         qCDEGClBVYTV/weQnyUfcgDZo+bUufv+1PhIhZliAlnEZe3QySae9yhE+WwF13EaDeZl
-         T5ebiX58Zav++OtQtWKXxKaBdZ3hIK9zBnOe6EA4YY/3eZ26kYA1KrI+CN4OV4yksG9v
-         LBBWyJPHPFpSCvGm3a0DnAPRArftxLMF3bPveXXnHEhbAajaNsKXdC3nrjqLS2TdmVUd
-         VOeA==
-X-Forwarded-Encrypted: i=1; AJvYcCWIyr6l0fhmU5L1Q3P2G+ERy83TCE1mTq+r1MYwSONS8MzOkHb85UX56DmW7YiMVvo3EvWF7NJi1z81ve0=@vger.kernel.org, AJvYcCXyb9DUHN5cZO7pgt3UYSD3wpa5ew1oYACvTWbJESOSwKVzl/jMYCS12r4N2bdysDm9TQ2CUPbZW1js8bQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+VtAOp64fhtvg9vNgxeRDggxlBH/glFN2J2SczSXvUfZsb2H1
-	AIu860anvCCokQ8tllrUPE70ZCqZ1BBXVA7SDCC8feXdMLWwGr4IWDkR
-X-Gm-Gg: ASbGncsxRoV0CrWSWqLHsT7aSQpMEJcEHsPiBF2Dmq2CST9jJqWEn9aAEKxOwK2b++d
-	8E/t2gM476RYdI/Y4nYM41XXFEIfQnnvVYbuWPzZvj/Og1TxXHVQPZLs4Bj50uRzxCDig9owEMG
-	Y0ppr3Kd/s9nRbKudSpI+oDAaR7c73ROal8oxwNlXhQo2oK0Uhhh/GZNRHcnngrqOQV869f+of+
-	7Z9+C1fyMTmaTprjSxqeZYiLMWfPv150vM7B4aFUOtqLevVdoxinPvuePMAxjYn9OxLj6LtA4aD
-	+YMP23UTDsWo6ncpZkdOsBY7aEqrEKPPY8wBPsIO7tUrRwwjTEUW8osLhXyIYQWByQFPNk8IGjh
-	Jfvj9Qhw=
-X-Google-Smtp-Source: AGHT+IEbnbCplS+ls4OmO37F1YpTS9oMfGDhC7hyfHqjUgsi31bgHLZhxmdpwrzRjZU1gPcpGBZF6g==
-X-Received: by 2002:a05:6a21:339b:b0:215:cf53:c35 with SMTP id adf61e73a8af0-225ba537030mr9953332637.31.1751720913040;
-        Sat, 05 Jul 2025 06:08:33 -0700 (PDT)
+        bh=Xrm1kWoPaGkxV4g2GOWN3UThzaZG17eDiDzIl7208/Q=;
+        b=KwV6rQpuqSQJdK/xZoVeh3MLFS4o8EU2dKlK53uc+MVfN00p0l6iUXEa0qIg9pPxEX
+         bx4UAJjghG7TENqYZgeqZcuX4pevT5nmTlZui5VkaT5G3s1B8aUnhdDnlLbohvalgRUk
+         NcBsPB+cKhzRtaQsZjv2/FIrPZM0KdO9+ptkWiXuKDEdaqmytQGt5jYCgBeEZBrTqIyU
+         RItY6xKZ3RV1iocezhv8rM25NTufveXNn0lc4/YULwafmoekp6EE1M0F+Zp6tHk0FECU
+         ogsAvIdjFsdMKFe9GqaX5LAIgCJFlNPp/MTeWLkm2/xzrg6ufSK4bIQgXq4GI4zu8gaU
+         4/0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUtURxZy598H7m8a13JVk9JNE+2+GnNEgchEByawcieM9rXQaacncfyEYN/6TbNcOMp7Tb2yXisJK2xZyU=@vger.kernel.org, AJvYcCWC8Fv8YqOP54/YxyszYdr6JiwoAOu6QchFZbjzcqt65o4ulhhBqgasELHTpzsGZHHs1d7BFUB5OFfHT68=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkM+SAdg27Y57S7rrri8wYc2XYpSgxNyMVd90SPCH/kxTExJIa
+	0FVKJobzSRLwSbje5kICFwlhpot3u8gc87wst+EvGH0WmUEuIK86HkRj+6RyvA==
+X-Gm-Gg: ASbGncvUpUmHCi835lnZbtBbiYfYK5ogqN3JvHhKJgP1qWwNT/rXOm9h3FsUds4i5xP
+	0b2SBcKTXbl0HonG5leo5ovZSKecGU8hWiAgo7lMxti3nQE4tbnua1Qr+wLOPNIkDov/A7pssw0
+	NeoKTYCLG/5Y0dwQVJ6wXL91tad8YLa+Prm+pbUdPyVwIQJA1OWrAdLEE+zGr0lcJx89VoiZy1k
+	7slzBu7h/MuGRTDsW66Gjf+ZL4Z8epsRZVTJQgk9/hYvmrFmc5rq3iUY4lC8KcJ82FUqRgFu4li
+	zaYHsuETCEVZcJgsbw6fv4fq19ZjhHxQ6B4qAEYzSvrUO9/2jjfBjzu/XSGG1mEhwdwZEJYnh/H
+	f/2BNzmc=
+X-Google-Smtp-Source: AGHT+IE2Y6SHkgc+b9WM/ZkTHDlh4SguFcHr9tiVijW+NDcNvcqG7NZGJw14l/s37y48JMNEqf0xUQ==
+X-Received: by 2002:a05:6a00:3c90:b0:748:f6ee:d1f with SMTP id d2e1a72fcca58-74cf6fbdb12mr3253705b3a.20.1751720915034;
+        Sat, 05 Jul 2025 06:08:35 -0700 (PDT)
 Received: from localhost.localdomain ([112.149.32.52])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a4146sm4434618b3a.141.2025.07.05.06.08.31
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a4146sm4434618b3a.141.2025.07.05.06.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jul 2025 06:08:32 -0700 (PDT)
+        Sat, 05 Jul 2025 06:08:34 -0700 (PDT)
 From: Jesung Yang <y.j3ms.n@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Jesung Yang <y.j3ms.n@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] media: dvb_frontend.h: fix ktime_t type description in kernel-doc
-Date: Sat,  5 Jul 2025 13:06:56 +0000
-Message-Id: <d0c3bb1478c7d8e75eda892f990c5782ea769e2f.1751719712.git.y.j3ms.n@gmail.com>
+Subject: [PATCH 2/2] media: dvb_frontend.h: fix typo in kernel-doc
+Date: Sat,  5 Jul 2025 13:06:57 +0000
+Message-Id: <5905eba60c787f75d2e20ef42690a9ba8cff0770.1751719712.git.y.j3ms.n@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1751719712.git.y.j3ms.n@gmail.com>
 References: <cover.1751719712.git.y.j3ms.n@gmail.com>
@@ -92,12 +92,8 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the kernel-doc comment for dvb_frontend_sleep_until() that incorrectly
-described ktime_t as a struct.
-
-ktime_t is a typedef for s64, not a struct or union. It was formerly
-implemented as a union, which was removed in the commit 2456e8553544
-("ktime: Get rid of the union").
+Fix grammar in kernel-doc for dvb_frontend_sleep_until() by replacing
+"Its" to "It's".
 
 Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
 ---
@@ -105,18 +101,18 @@ Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
-index e7c44870f20d..607f7645468e 100644
+index 607f7645468e..12143f0b14a8 100644
 --- a/include/media/dvb_frontend.h
 +++ b/include/media/dvb_frontend.h
-@@ -810,7 +810,7 @@ void dvb_frontend_reinitialise(struct dvb_frontend *fe);
-  * dvb_frontend_sleep_until() - Sleep for the amount of time given by
-  *                      add_usec parameter
+@@ -818,7 +818,7 @@ void dvb_frontend_reinitialise(struct dvb_frontend *fe);
+  * as possible, as it affects the detection of the dish tone command at the
+  * satellite subsystem.
   *
-- * @waketime: pointer to &struct ktime_t
-+ * @waketime: pointer to &ktime_t
-  * @add_usec: time to sleep, in microseconds
+- * Its used internally by the DVB frontend core, in order to emulate
++ * It's used internally by the DVB frontend core, in order to emulate
+  * FE_DISHNETWORK_SEND_LEGACY_CMD() using the &dvb_frontend_ops.set_voltage\(\)
+  * callback.
   *
-  * This function is used to measure the time required for the
 -- 
 2.39.5
 
