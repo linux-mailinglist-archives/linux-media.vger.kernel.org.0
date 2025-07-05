@@ -1,103 +1,111 @@
-Return-Path: <linux-media+bounces-36884-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36885-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3A4AF9FF2
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 14:10:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4179AFA02E
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 15:08:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ACE185802E7
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 12:10:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43A223B8ABD
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 13:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4828E254854;
-	Sat,  5 Jul 2025 12:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF045256C8D;
+	Sat,  5 Jul 2025 13:08:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AdqQL7Xh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxsoVPDb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C214E231845;
-	Sat,  5 Jul 2025 12:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE4F220F36;
+	Sat,  5 Jul 2025 13:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751717438; cv=none; b=LuGhfVl1xiuT7xDIhhkmKNWRDB78NsD4RajJQH5lOrT9G68XK4L3fsXbi1HIVbiryy+ZxNY/9K/sDfwVFpHzd9Shtuupj5u0qcnHpO3E52PhSAMbMzmTF+dUQW9w8lzsOwg953+0MWbaqnyuMKnsn7ihJSPtfmQhzSWoSJOxNkw=
+	t=1751720913; cv=none; b=EutfqmVYqKoLMTNB7moDqR8hWaU0vOPuOcleCOmT5bsaNK6WO/jZ+1bi3F8fqP9xIymiO/x6hTtDnY3RL9xo7LN3ue341FVDW2utTIvdiVbUooR8aQIOrw/3LDTXZoTrPaDezltHc4wq5STkutB7/GZW+7fLlo2QplYPn5k1bgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751717438; c=relaxed/simple;
-	bh=NstjxlBy9MNLPLgGJ8aLC/DH2Z6Z6ZEgfM7odRukTeo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gliy9kn22SbtXYySRaZplhQqAzXiKvnKYkZJwujiw5IOhF1zeE4CKcmhr9lGM10VdLmdMklSKF0W6OpLQrdMzDR60ytrcllh96KftzwGGfBinoEzjlMDKcjNMJWLWhrVs2Rkvo4xARm8ZV/HXz7PWaibkEkVbuHn0QXL6gg1Kpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AdqQL7Xh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B3268A98;
-	Sat,  5 Jul 2025 14:10:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751717403;
-	bh=NstjxlBy9MNLPLgGJ8aLC/DH2Z6Z6ZEgfM7odRukTeo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AdqQL7XhdTucIugj7CskDKXjaTo1+n1dntRBFL0pzJ27p8EedRY/6HUD+6rm0U6Wr
-	 luzrJWgA+Lt5GUVzY9LI42JzW757lIKzR+BgaE0JPGuwzZ6qBS/G4CrBcjMJt8ZKXF
-	 kLyNk0PA1OL1HsTIvY54SX5J3nwL/uYHxxQAbSzg=
-Date: Sat, 5 Jul 2025 15:10:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/3] media: Remove remains of
- v4l2_subdev_video_ops.g_pixelaspect
-Message-ID: <20250705121000.GD30285@pendragon.ideasonboard.com>
-References: <20250705083741.77517-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1751720913; c=relaxed/simple;
+	bh=P1THOPizc4yPRbXdgqx5IlzZo8w8HRGIW4wNgIvmk0k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d0SMLk4C0gCi3qaziZxTT2A0/aw5alJdknH2jbU8F7/+eXHZelgtlaz6lYCbHHrBBlS86MU84LQMTBaOph0RjNbc5gkktV7Jr5dRe/3A+lPKg7IytlSWq1e1gcce679t96phz7SAnBdaDP+UxGUnvaGHBQFws5KJM/dOv9p9pKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxsoVPDb; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7481600130eso2388734b3a.3;
+        Sat, 05 Jul 2025 06:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751720911; x=1752325711; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0C0QF9E9ThI+tzjv6xggGhgRFFtUbxQgOLH9sLDDPRo=;
+        b=fxsoVPDbfmyC86jP2aPCPbgzqxrx9mP96GUYGet8cq4SvZ++yO8EYw3YjDIxLwKql5
+         NEycfjrYsQZ/+1kqRq4oykquMfXwa+SjGi8BcL4Tt1BW7duWzXe2U2RCKop5w/smiBNc
+         oPe2k5eBmZnnFf+8JIrVFVbRSNIt7dEeHZgL7xIqbMQdoREqd1OtzLNIPntBoZTgA1xm
+         aqG0CZ/7BlR8MWsZIFDGM1gka1lfAGAiR8jFg2WCiv5ctY6jFt3LHU8CFOPbiSnm/fGm
+         GJ/fLrYu1tobCw6yKhxNQWEfBDEO1HqsUBR/CvjzVkIKC1FzJ310K7PcGCDpiUnteTAX
+         gIrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751720911; x=1752325711;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0C0QF9E9ThI+tzjv6xggGhgRFFtUbxQgOLH9sLDDPRo=;
+        b=RUZKYdD73aHhfDwpBvS7plwAH7qTw1214MECOT7b/CcMsrDNFRAVX0/E6P+KETRlDE
+         H9P/bs2pBiBJlP9wLP8XWZzyMidbm4HK0L9dG9C3fV8rfL/v1V/tRZJ+wbJSVOYvOxlb
+         iN3DEO7iDcL+oyB5iNJlhQugYw+xqXWLqf77+hTmVG8v4RX8jtBrMuG68XnZkpmiPn6f
+         lraqy/X7PJWxtIs7ymB/CsjEeQWkRlP/cqLc6tLfqEguQ8OinG3pPQ3OSwxxJs7tajHU
+         ahTOSgucCeBU9F8BvwbeYy/Wd1lhGWJGm58PeuSXPSTRdQp2OIgFMwZdOAOiwHvEmGwE
+         GN0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUhD0v9IievNXdZWUWhqFVRCHEw7VXGrc9AJtKfKmAMwbsHR6Pyav81KdJryvvT2mz/gp985OZoofNPYX4=@vger.kernel.org, AJvYcCXM5ZLcSpLsmULfiTA/b6DNWfOJ4QfB462aitGs1GMRa8fux8BRj5aGbb/liadmUdojtyeIYNgVCDPGwtQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3/wPpOaK7VjuwpeQRF8SnDpCzyiiM+3M0JP+O1vvtF1xp5Buc
+	74OeQ9fSDu6wI5SbEZhGylSssNpWk+p7u/d2/NUHVU0uQl+eL5wdrQyv
+X-Gm-Gg: ASbGncuDeYIZ32RIrf9k7SveKj5ln23rE3y/wC41ZYmYG6xcsIoV2mzvrNp/QO/7gik
+	EL/5TdpZngZ+Mc2QebSIgUKKLAxXKEpOQ4VoYucE0xGt8025dVoGVgrhpL4EKCjkcCMoQx/7OPp
+	W4+kStu0zFw5kG7/bZ6ZFnCOM/7HEk99rmyyzH8tjB2sAwgPQ1POV+5cQvTzaw/5oum4gzaVc8+
+	GUYIxmHwEL3YLnFdRmFdJOw3FDI9wsaVj/hWV6Ecfyc8DfRoKN5cku3Go8iT3Y4VjT8dxmaS0Ah
+	4lPj3YuRC6m38VIH0PiGdU44E9u8SHLtSqKi2iQzLN3nrtIf64LaKhZQ7go7meRFVSq598pbcun
+	S/5U6YfM=
+X-Google-Smtp-Source: AGHT+IEhSirVJWlKVQcuRTLCdn7wt37nvrtVitxl7oEj3VzJkhWBx4oIcs8uuEy7tn6Lai2Tx4/LTw==
+X-Received: by 2002:a05:6a00:986:b0:748:3385:a4a with SMTP id d2e1a72fcca58-74ce66d56c3mr7910774b3a.23.1751720911036;
+        Sat, 05 Jul 2025 06:08:31 -0700 (PDT)
+Received: from localhost.localdomain ([112.149.32.52])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a4146sm4434618b3a.141.2025.07.05.06.08.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Jul 2025 06:08:30 -0700 (PDT)
+From: Jesung Yang <y.j3ms.n@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Jesung Yang <y.j3ms.n@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] media: dvb_frontend.h: clean up kernel-doc comment
+Date: Sat,  5 Jul 2025 13:06:55 +0000
+Message-Id: <cover.1751719712.git.y.j3ms.n@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250705083741.77517-1-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Niklas,
+This series fixes two minor issues in the kernel-doc comment
+for dvb_frontend_sleep_until():
 
-Thank you for the patches.
+  - PATCH 1/2 corrects the type description of ktime_t.
+  - PATCH 2/2 fixes a grammar issue.
 
-On Sat, Jul 05, 2025 at 10:37:38AM +0200, Niklas Söderlund wrote:
-> Hello,
-> 
-> With the recent cleanup of the R-Car VIN driver the last user of the 
-> subdevice operation .g_pixelaspect have been addressed. We can now 
-> remove the two last implementations in adv7180 and adv748x, and then 
-> remove the operation from the internal API.
-> 
-> The operation where kept in adv7180 and adv748x to support to R-Car VIN 
-> as these devices are used on some of the evaluation platforms.
-> 
-> Patch 1/3 and 2/3 removes the implementations while patch 3/3 removes 
-> the operation from the internal API.
-> 
-> Niklas Söderlund (3):
->   media: adv7180: Remove g_pixelaspect implementation
->   media: adv748x: Remove g_pixelaspect implementation
->   media: v4l2-subdev: Remove g_pixelaspect operation
+These are documentation-only changes with no functional impact.
 
-For the whole series,
+Jesung Yang (2):
+  media: dvb_frontend.h: fix ktime_t type description in kernel-doc
+  media: dvb_frontend.h: fix typo in kernel-doc
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ include/media/dvb_frontend.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->  drivers/media/i2c/adv7180.c              | 16 ----------------
->  drivers/media/i2c/adv748x/adv748x-afe.c  | 17 -----------------
->  drivers/media/i2c/adv748x/adv748x-hdmi.c | 10 ----------
->  include/media/v4l2-subdev.h              |  3 ---
->  4 files changed, 46 deletions(-)
 
+base-commit: 35392e855abf7d02ad3b061cbc75c7c7c37f0577
 -- 
-Regards,
+2.39.5
 
-Laurent Pinchart
 
