@@ -1,89 +1,74 @@
-Return-Path: <linux-media+bounces-36887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36888-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50BCAFA031
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 15:09:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA454AFA0F4
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 18:36:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C4233BD482
-	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 13:08:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20DC87B279E
+	for <lists+linux-media@lfdr.de>; Sat,  5 Jul 2025 16:35:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C408125A2CC;
-	Sat,  5 Jul 2025 13:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AC3B20487E;
+	Sat,  5 Jul 2025 16:36:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLf5xh+8"
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="Ax8ulBTO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D633A2580D7;
-	Sat,  5 Jul 2025 13:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA02B2E36F1;
+	Sat,  5 Jul 2025 16:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751720917; cv=none; b=cliwOMF8wYZCHRunVtPZJZCNfjbibeU+MD3v+g8YlO239LlmeP3VsNrUGng9xPJWrh9iMZ3PNcIPCWfAYFe0NH28VDULS0Lb4gmiUMcRTUZ2T2fIkrhwGsDv3cQuOr+95Zq0cT21qSXmNjH0+m83QoY1DSzicsUG9OoR/dCC6MI=
+	t=1751733395; cv=none; b=TvZvQCfrOs7GlZw1RrZ7gLcSAEtOxFHrq4Chj2jwe0HCW2C4Qb67w53zpPlFKrWF0ncqUPluaScCdba6sBhquf/z69nPo/BenQ3by4zJirC7nbsLDmVZLR8Z7wPDh9yvAAwps1jUQWcPoi0TPq3F/womU04SwqMRlW50xxPVyHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751720917; c=relaxed/simple;
-	bh=PY4C9YkzB4XNqZGeXjJ0WvzqHJuE9/agmQPhZCUcsAM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m+XnaY0KRRB0PjwPhKoX7HcpNrdiN9cQ9Z2D65tezjOmVjbx06eFto8sFAHQiNwOG80oy6ZBkXZ7rCMktIRi0fraMAV1J/umSt/CxhabCLAx+uQj6wPo70KX9YrEcp3u0Q4dZx85PJj94iIpYjDCQFZGQBbmwGRtcP1YM18VyK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WLf5xh+8; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so1562488b3a.0;
-        Sat, 05 Jul 2025 06:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751720915; x=1752325715; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xrm1kWoPaGkxV4g2GOWN3UThzaZG17eDiDzIl7208/Q=;
-        b=WLf5xh+8EWlhBi53gnNKudmYR0IU8x9kUAw/mKgMuYJVV4fJNb4kaIKzRHF5vzvGuI
-         ej6VcVOroProgpAW4KzH2ilENEtGnc60uWOpbkdBIwUPpmozCzKBYdBjmjXaykss0g14
-         co/pVQRMTmPQ6jV5kunSXCU6V+J2ZjYUEAx0B/7f1TvqEqFOoHV4NFUAqjelPcapvj6Y
-         HWTTmHtd5olM93Y/xsJME4ZuF1gHVdPVMRRHevAEP8MWkwAmZqS1kWueSvoX7Qt3GJNj
-         +KrhetBVYEK5gC2N2U9+PYeYSs6svsIwab9j1ntS++JCYfPtKMPkdS6ZFktOvJJfij99
-         ow7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751720915; x=1752325715;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xrm1kWoPaGkxV4g2GOWN3UThzaZG17eDiDzIl7208/Q=;
-        b=KwV6rQpuqSQJdK/xZoVeh3MLFS4o8EU2dKlK53uc+MVfN00p0l6iUXEa0qIg9pPxEX
-         bx4UAJjghG7TENqYZgeqZcuX4pevT5nmTlZui5VkaT5G3s1B8aUnhdDnlLbohvalgRUk
-         NcBsPB+cKhzRtaQsZjv2/FIrPZM0KdO9+ptkWiXuKDEdaqmytQGt5jYCgBeEZBrTqIyU
-         RItY6xKZ3RV1iocezhv8rM25NTufveXNn0lc4/YULwafmoekp6EE1M0F+Zp6tHk0FECU
-         ogsAvIdjFsdMKFe9GqaX5LAIgCJFlNPp/MTeWLkm2/xzrg6ufSK4bIQgXq4GI4zu8gaU
-         4/0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUtURxZy598H7m8a13JVk9JNE+2+GnNEgchEByawcieM9rXQaacncfyEYN/6TbNcOMp7Tb2yXisJK2xZyU=@vger.kernel.org, AJvYcCWC8Fv8YqOP54/YxyszYdr6JiwoAOu6QchFZbjzcqt65o4ulhhBqgasELHTpzsGZHHs1d7BFUB5OFfHT68=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkM+SAdg27Y57S7rrri8wYc2XYpSgxNyMVd90SPCH/kxTExJIa
-	0FVKJobzSRLwSbje5kICFwlhpot3u8gc87wst+EvGH0WmUEuIK86HkRj+6RyvA==
-X-Gm-Gg: ASbGncvUpUmHCi835lnZbtBbiYfYK5ogqN3JvHhKJgP1qWwNT/rXOm9h3FsUds4i5xP
-	0b2SBcKTXbl0HonG5leo5ovZSKecGU8hWiAgo7lMxti3nQE4tbnua1Qr+wLOPNIkDov/A7pssw0
-	NeoKTYCLG/5Y0dwQVJ6wXL91tad8YLa+Prm+pbUdPyVwIQJA1OWrAdLEE+zGr0lcJx89VoiZy1k
-	7slzBu7h/MuGRTDsW66Gjf+ZL4Z8epsRZVTJQgk9/hYvmrFmc5rq3iUY4lC8KcJ82FUqRgFu4li
-	zaYHsuETCEVZcJgsbw6fv4fq19ZjhHxQ6B4qAEYzSvrUO9/2jjfBjzu/XSGG1mEhwdwZEJYnh/H
-	f/2BNzmc=
-X-Google-Smtp-Source: AGHT+IE2Y6SHkgc+b9WM/ZkTHDlh4SguFcHr9tiVijW+NDcNvcqG7NZGJw14l/s37y48JMNEqf0xUQ==
-X-Received: by 2002:a05:6a00:3c90:b0:748:f6ee:d1f with SMTP id d2e1a72fcca58-74cf6fbdb12mr3253705b3a.20.1751720915034;
-        Sat, 05 Jul 2025 06:08:35 -0700 (PDT)
-Received: from localhost.localdomain ([112.149.32.52])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a4146sm4434618b3a.141.2025.07.05.06.08.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jul 2025 06:08:34 -0700 (PDT)
-From: Jesung Yang <y.j3ms.n@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Jesung Yang <y.j3ms.n@gmail.com>,
+	s=arc-20240116; t=1751733395; c=relaxed/simple;
+	bh=MhRXGLOx9YI7OF9HeGPxrYc2otnoj4dqXsLLtPSES3I=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=gq0bPXRIjsUQwmBZOxGyqIZXl4eVqgmu5TspNHuV/tdvKxuxU28FCaoQB/bK7CrFRRYvZD7AmjN6QBmu0EE/jCIwrn6c1Qmw4LstoN8GISqiGs51tzPSd9OSJRl486ZLAyLMx4kjkBpGvCw3EbmoSIQCBbN7SlG7f2maiOBjt3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=Ax8ulBTO; arc=none smtp.client-ip=162.62.57.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1751733078;
+	bh=VRQDu5gbkSUt0yy6u5srlQ1NMyyenQ731udJHBRNu+Y=;
+	h=From:To:Cc:Subject:Date;
+	b=Ax8ulBTOoVe6STJ6PXNgd/jK1rMRszado3w9w/vnWX7fekZBRVRNTyC5dnRfbnQJc
+	 qTVtuP399au2K33tdwHMIRyTDzIXQfcBACrd1cZEPpa0PFnEXKbWg2kiQFckU6uh2n
+	 LxC9HfBCW53FvH5vCU5XUWWmMZLt3/3VGePFhVTY=
+Received: from KernelDevBox.byted.org ([115.190.40.14])
+	by newxmesmtplogicsvrsza28-0.qq.com (NewEsmtp) with SMTP
+	id 7D02C42D; Sun, 06 Jul 2025 00:31:16 +0800
+X-QQ-mid: xmsmtpt1751733076tdfjqvdx2
+Message-ID: <tencent_BFA6B5F65B7B607F1E7E0AB0A843129B3708@qq.com>
+X-QQ-XMAILINFO: NMiAo2azIaDAspBmoJ0cBdXt7n1GlUAnF8SpN/szs9H4A4l7F1snduk789AoPn
+	 2BLe65A8/tnUqOBf0o2HJW52A0B3dNf+wMOrwztQdlq5KP2AkY00gz7YLTB0rYrqauJSPw9fZu2m
+	 EtmZY5wp4YP8t1Riw9qVvhXr2CDv9S/WrwyMBXmkFDaKkQnTFxH3C3eERWmW1AcTz651rSP5ZbgI
+	 irpJuizi+9ANtvlqCTDpkqWlz7/3x0XT9jZZzYN9IJaD5iFLSaQcdPvTkcsGghTL4EDaH2T3dEmL
+	 VDAsBElxHteQqyvAdKAXYjpe0278TKKnS9mAu8uawUVF536X42NY3hXr8mCNiVbxmRqyt3CFN8qN
+	 McByxC4IMoHiG4zSXeVc4uBYqF0NGuq/xU8thRNqr4wxPRsnZpPwLGRoUzeFpelrHBjBa7PaedDC
+	 Qfs7+mN4ekGr8clyS9UxDlj5RA8CqQAtY2sb70etcdSBt6Y4ieUczjW+jKoq6eheyVED0N3Zb1E9
+	 XGboSH9M6sVFaQuoFTiWtalQaukOtv+pfxHR63/O6GvTgz2+X6XwhNJoXFfZcs7ioaLM9GCeE9vV
+	 qjRPtw7y9uFAMG4TMi6CXpU0vjfto7SW4S1BKxi8HxChLm0K2y2FHgF9t98JXFMc2afq52cYgoxE
+	 Qkka01yMAY36lbvx/vrgP9T53RjIOyoSwyJFpfah0PeV2ZwMQaw+5cRRTH76JN7fs05PCWIrcXal
+	 lA9/6bLjq84ll3qaJ+XX4f93K8ChjheHaOLGFYOU+ve0UVyFb4UIvw04GMfDHIoH4LZhnUaGLEsB
+	 R4//fTchMUrKdNChUBOC+BV1WgbWC50nKpKsPYjy+RvwtwYh3rT5XioX1R7p5f3nD+IhfJWYUlYd
+	 bBqsf7ANxAKseQac4jI2j4mrA2tzHWplbSv3qMTCZzlYBqdGTp9v1T+Y17cuJ4EMt8yUs5t+RTIJ
+	 Bljr54naq3rE9dlkX5wV60o4RlMldPdkmKGGF9WtvfFCOfUX8pIvZcYHUCU9ceEcxIzGAIB26gVV
+	 ZuJwJcNA==
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+To: prabhakar.csengg@gmail.com
+Cc: sakari.ailus@linux.intel.com,
+	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: dvb_frontend.h: fix typo in kernel-doc
-Date: Sat,  5 Jul 2025 13:06:57 +0000
-Message-Id: <5905eba60c787f75d2e20ef42690a9ba8cff0770.1751719712.git.y.j3ms.n@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Zhang Shurong <zhang_shurong@foxmail.com>
+Subject: [PATCH v2] media: ov2659: Fix memory leaks in ov2659_probe()
+Date: Sun,  6 Jul 2025 00:31:09 +0800
+X-OQ-MSGID: <20250705163109.3493366-1-zhang_shurong@foxmail.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <cover.1751719712.git.y.j3ms.n@gmail.com>
-References: <cover.1751719712.git.y.j3ms.n@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,27 +77,41 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix grammar in kernel-doc for dvb_frontend_sleep_until() by replacing
-"Its" to "It's".
+ov2659_probe() doesn't properly free control handler resources in failure
+paths, causing memory leaks. Add v4l2_ctrl_handler_free() to prevent these
+memory leaks and reorder the ctrl_handler assignment for better code flow.
 
-Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
+Fixes: c4c0283ab3cd ("[media] media: i2c: add support for omnivision's ov2659 sensor")
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
 ---
- include/media/dvb_frontend.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2: 
+- Updated commit message to use proper terminology ("memory leak") as suggested by Markus
+- No code changes from v1
+---
+ drivers/media/i2c/ov2659.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
-index 607f7645468e..12143f0b14a8 100644
---- a/include/media/dvb_frontend.h
-+++ b/include/media/dvb_frontend.h
-@@ -818,7 +818,7 @@ void dvb_frontend_reinitialise(struct dvb_frontend *fe);
-  * as possible, as it affects the detection of the dish tone command at the
-  * satellite subsystem.
-  *
-- * Its used internally by the DVB frontend core, in order to emulate
-+ * It's used internally by the DVB frontend core, in order to emulate
-  * FE_DISHNETWORK_SEND_LEGACY_CMD() using the &dvb_frontend_ops.set_voltage\(\)
-  * callback.
-  *
+diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+index 06b7896c3eaf..586b31ba076b 100644
+--- a/drivers/media/i2c/ov2659.c
++++ b/drivers/media/i2c/ov2659.c
+@@ -1469,14 +1469,15 @@ static int ov2659_probe(struct i2c_client *client)
+ 				     V4L2_CID_TEST_PATTERN,
+ 				     ARRAY_SIZE(ov2659_test_pattern_menu) - 1,
+ 				     0, 0, ov2659_test_pattern_menu);
+-	ov2659->sd.ctrl_handler = &ov2659->ctrls;
+ 
+ 	if (ov2659->ctrls.error) {
+ 		dev_err(&client->dev, "%s: control initialization error %d\n",
+ 			__func__, ov2659->ctrls.error);
++		v4l2_ctrl_handler_free(&ov2659->ctrls);
+ 		return  ov2659->ctrls.error;
+ 	}
+ 
++	ov2659->sd.ctrl_handler = &ov2659->ctrls;
+ 	sd = &ov2659->sd;
+ 	client->flags |= I2C_CLIENT_SCCB;
+ 
 -- 
 2.39.5
 
