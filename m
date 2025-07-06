@@ -1,60 +1,48 @@
-Return-Path: <linux-media+bounces-36898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36899-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9503AFA4AD
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 12:57:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFC3AFA534
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 15:22:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 032FB17C91B
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 10:57:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0574E7A73D3
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 13:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D575202983;
-	Sun,  6 Jul 2025 10:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6E9212F98;
+	Sun,  6 Jul 2025 13:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="ll5k4P+j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZzGC6MHn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1A71BF58
-	for <linux-media@vger.kernel.org>; Sun,  6 Jul 2025 10:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9FE4C9D;
+	Sun,  6 Jul 2025 13:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751799413; cv=none; b=edgS3/yjRv+YEv8Aa4+HpAuLZSMV6aauZB3NuSAwLGXUQtY4yz9cJ0GMNcajJ3C5Ay+xD/KFbRlI66FpxcGiLwdidEON6ad0NIv3EOdQQb9HN7kO9+V6tvozP43WzC3kMBfSsP1+U0quA3xVZO1EhldLCJFKWRfVl2lKNfp2Bvs=
+	t=1751808109; cv=none; b=d1tHlQEX7rDC9Cfx96zcFT+RCVurD6HVh3uVobm0wfK4WYhtihfPjvYttyzToauuMfwWzaceqwWEG5vkZQRlmcu9YdPWe3VwA3+IpoI9ODdPYFaBCLrtiJoo65sHcBE5nErc5OnT+kkaaxiI36KolrhQUWDST498vx3YHtN/exs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751799413; c=relaxed/simple;
-	bh=1JQZ46+Wv7UhDRpikQLDAX2CziEwqtSR11lUWMvtrsI=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=rQaB5WKfcqS/ABUO5nOyW2n8HslyhqOr+lQoopQq5KXdJL9t0tj1ghRNi0XKcN2WO/D+jIdY6CSaQDAOxl/BJ8/9WMOB8m9EZRThhADCd9l8BAyqR6ff3so0tXXhlzEsSJb23cm3lvAcndUc2fM114LTV+fI7rzRWcbSh5GSlYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=ll5k4P+j; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 30946aae-5a58-11f0-8ecb-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 30946aae-5a58-11f0-8ecb-005056994fde;
-	Sun, 06 Jul 2025 12:58:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:subject:from:to:mime-version:date:message-id;
-	bh=w9Ly20thFuX32C6rcla1NQ+/2Q6PJG4G3zL9IZMAvpA=;
-	b=ll5k4P+jzfnNVNti0ViN8ihC06CYLLrGjtcz41jG5y1Mpj7cN0HMy7K7njgFzW4LYhm9p2M6PHaaz
-	 ljhl6QOFE4w7GcADBlfGhjv9L8UMhRPHE1qWeaLROnKePCANMOMGesj+wCFQUXMUM49ArFwoMAnGiz
-	 6wRIQcmHVR8X9bASMtHnFAHgMzxiDzZardgBb8wR9ewfuUrajwwTWvLHBvi4zCpudpcN1Aq8OIlELF
-	 zhxJEWI2vKD76FwY0cpO0TTb8VAbM9Z2FFMG51n9PCfFQOz0DKirIlmS7x0lHAvXe+ZyNqp+7qOg8z
-	 1qauaCwxKqmvrkHVQlOA8X/m829R71A==
-X-KPN-MID: 33|m2rnT96xI2WdLEgWT3x+6lkA7WmvFs/5O9djulOQXTQ08xFb1Ql5jCsmSRlwakN
- ADUxNJ40cUVADsNs49vjY0pN+hjTYo67nRRJeY38h9N8=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|5oYJM2SjSaKqW4wA4ADY9/JsXN9ek6eoNa84PA5LU1yZTGg90bSh4Ugc/WTT3c0
- 2cxV5BD22hzFPY0RgtA+qHw==
-Received: from [192.168.2.10] (unknown [178.74.16.2])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id c1bd6949-5a57-11f0-9a40-00505699772e;
-	Sun, 06 Jul 2025 12:55:41 +0200 (CEST)
-Message-ID: <e91096cc-477f-4182-8bad-036f49534996@xs4all.nl>
-Date: Sun, 6 Jul 2025 12:55:40 +0200
+	s=arc-20240116; t=1751808109; c=relaxed/simple;
+	bh=rtd/ACfsAIc+de3WJ5vYRrflT9lyO/15kAn2renzT+M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bDRFF47MlcTrzuCcKmxJOfFloADjvvtjNY7TGNPNRbnkUe8+eD3x6g6JtIpl+q2TtbUNRsHkYCBYtGAqNnmb5ylE79mlmtlll+zAe2pwaJH9oYmXlVALgYNPZLEecgyDkjGcYWLWeizi62NN5PstOAgKxX/OTSyjxXTCiWTAJeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZzGC6MHn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE38C4CEED;
+	Sun,  6 Jul 2025 13:21:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751808108;
+	bh=rtd/ACfsAIc+de3WJ5vYRrflT9lyO/15kAn2renzT+M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZzGC6MHnygsWl6LZka+mxlfg+EUBX1TFY6NPIZlhRqwH1x7l5ht0f8aGhiHifzHix
+	 KCBuMUjgMw7dFYwasFockmtaod71ruy6F688xKKmDXTz1j2COWpV1HSNMKIH42sbjv
+	 H3kCSbt9enOnFy3hQw+6xpz21kxQEOnJl+AMGPzkHaIl1EBfJgrTrqWhIGZQP4dyq9
+	 mgeR+ztGIbTzD+ftxX3F6XQ+PSBzn0tllTOPoQSqC/urME8sRzRkroQuGflyytKw+a
+	 Q/fEfigOWBfady+Gb87Yn2MLV19bUipczWMfz5Aaawm3wAscdSnIIY/f7kv1j9//nT
+	 TvUkHbHnomiYg==
+Message-ID: <663110e1-3aa0-4f6f-8727-3a240bc96075@kernel.org>
+Date: Sun, 6 Jul 2025 09:21:41 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,102 +50,329 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: vivid: fix wrong pixel_array control size
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] drm/framebuffer: Acquire internal references on GEM
+ handles
+To: Thomas Zimmermann <tzimmermann@suse.de>, christian.koenig@amd.com,
+ asrivats@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, patrik.r.jakobsson@gmail.com
+Cc: dri-devel@lists.freedesktop.org, Bert Karwatzki <spasswolf@web.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+References: <20250704085541.28165-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20250704085541.28165-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The pixel_array control size was calculated incorrectly:
-the dimensions were swapped (dims[0] should be the height), and the
-values should be the width or height divided by PIXEL_ARRAY_DIV
-and rounded up. So don't use roundup, but use DIV_ROUND_UP instead.
 
-This bug is harmless in the sense that nothing will break, except that
-it consumes way too much memory for this control.
 
-Fixes: 6bc7643d1b9c ("media: vivid: add pixel_array test control")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
- drivers/media/test-drivers/vivid/vivid-ctrls.c   | 3 ++-
- drivers/media/test-drivers/vivid/vivid-vid-cap.c | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+On 7/4/25 04:53, Thomas Zimmermann wrote:
+> Acquire GEM handles in drm_framebuffer_init() and release them in
+> the corresponding drm_framebuffer_cleanup(). Ties the handle's
+> lifetime to the framebuffer. Not all GEM buffer objects have GEM
+> handles. If not set, no refcounting takes place. This is the case
+> for some fbdev emulation. This is not a problem as these GEM objects
+> do not use dma-bufs and drivers will not release them while fbdev
+> emulation is running.
+> 
+> As all drivers use drm_framebuffer_init(), they will now all hold
+> dma-buf references as fixed in commit 5307dce878d4 ("drm/gem: Acquire
+> references on GEM handles for framebuffers").
+> 
+> In the GEM framebuffer helpers, restore the original ref counting
+> on buffer objects. As the helpers for handle refcounting are now
+> no longer called from outside the DRM core, unexport the symbols.
+> 
+> Gma500 (unnecessarily) clears the framebuffer's GEM-object pointer
+> before calling drm_framebuffer_cleanup(). Remove these lines to
+> make it consistent with the rest of the drivers. It's one of the
+> fbdev emulations with no GEM handle on their buffers. The change
+> to gma500 is therefore rather cosmetic.
+> 
+> Tested on i915, amdgpu (by Bert) and gma500. Also tested on i915
+> plus udl for the original problem with dma-buf sharing.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 5307dce878d4 ("drm/gem: Acquire references on GEM handles for framebuffers")
+> Reported-by: Bert Karwatzki <spasswolf@web.de>
+> Closes: https://lore.kernel.org/dri-devel/20250703115915.3096-1-spasswolf@web.de/
+> Tested-by: Bert Karwatzki <spasswolf@web.de>
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-index e340df0b6261..f94c15ff84f7 100644
---- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-+++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-@@ -244,7 +244,8 @@ static const struct v4l2_ctrl_config vivid_ctrl_u8_pixel_array = {
- 	.min = 0x00,
- 	.max = 0xff,
- 	.step = 1,
--	.dims = { 640 / PIXEL_ARRAY_DIV, 360 / PIXEL_ARRAY_DIV },
-+	.dims = { DIV_ROUND_UP(360, PIXEL_ARRAY_DIV),
-+		  DIV_ROUND_UP(640, PIXEL_ARRAY_DIV) },
- };
+(In what's probably no surprise) I reproduced the same issue Bert 
+reported and also confirmed this does fix it.
 
- static const struct v4l2_ctrl_config vivid_ctrl_s32_array = {
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-index 84e9155b5815..2e4c1ed37cd2 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-@@ -454,8 +454,8 @@ void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
- 	if (keep_controls)
- 		return;
+Tested-by: Mario Limonciello <superm1@kernel.org>
 
--	dims[0] = roundup(dev->src_rect.width, PIXEL_ARRAY_DIV);
--	dims[1] = roundup(dev->src_rect.height, PIXEL_ARRAY_DIV);
-+	dims[0] = DIV_ROUND_UP(dev->src_rect.height, PIXEL_ARRAY_DIV);
-+	dims[1] = DIV_ROUND_UP(dev->src_rect.width, PIXEL_ARRAY_DIV);
- 	v4l2_ctrl_modify_dimensions(dev->pixel_array, dims);
- }
+This was my HEAD:
 
--- 
-2.47.2
+commit 1f988d0788f50 ("Merge tag 'hid-for-linus-2025070502' of 
+git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid")
+
+
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Anusha Srivatsa <asrivats@redhat.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: <stable@vger.kernel.org>
+> ---
+>   drivers/gpu/drm/drm_framebuffer.c            | 23 +++++++-
+>   drivers/gpu/drm/drm_gem.c                    | 59 +++++++++++++-------
+>   drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 +++---
+>   drivers/gpu/drm/drm_internal.h               |  4 +-
+>   drivers/gpu/drm/gma500/fbdev.c               |  2 -
+>   5 files changed, 69 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> index b781601946db..e4a10dd053fc 100644
+> --- a/drivers/gpu/drm/drm_framebuffer.c
+> +++ b/drivers/gpu/drm/drm_framebuffer.c
+> @@ -862,11 +862,17 @@ EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebuffer_free);
+>   int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
+>   			 const struct drm_framebuffer_funcs *funcs)
+>   {
+> +	unsigned int i;
+>   	int ret;
+>   
+>   	if (WARN_ON_ONCE(fb->dev != dev || !fb->format))
+>   		return -EINVAL;
+>   
+> +	for (i = 0; i < fb->format->num_planes; i++) {
+> +		if (fb->obj[i])
+> +			drm_gem_object_handle_get_if_exists_unlocked(fb->obj[i]);
+> +	}
+> +
+>   	INIT_LIST_HEAD(&fb->filp_head);
+>   
+>   	fb->funcs = funcs;
+> @@ -875,7 +881,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
+>   	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
+>   				    false, drm_framebuffer_free);
+>   	if (ret)
+> -		goto out;
+> +		goto err;
+>   
+>   	mutex_lock(&dev->mode_config.fb_lock);
+>   	dev->mode_config.num_fb++;
+> @@ -883,7 +889,14 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
+>   	mutex_unlock(&dev->mode_config.fb_lock);
+>   
+>   	drm_mode_object_register(dev, &fb->base);
+> -out:
+> +
+> +	return 0;
+> +
+> +err:
+> +	for (i = 0; i < fb->format->num_planes; i++) {
+> +		if (fb->obj[i])
+> +			drm_gem_object_handle_put_if_exists_unlocked(fb->obj[i]);
+> +	}
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(drm_framebuffer_init);
+> @@ -960,6 +973,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister_private);
+>   void drm_framebuffer_cleanup(struct drm_framebuffer *fb)
+>   {
+>   	struct drm_device *dev = fb->dev;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < fb->format->num_planes; i++) {
+> +		if (fb->obj[i])
+> +			drm_gem_object_handle_put_if_exists_unlocked(fb->obj[i]);
+> +	}
+>   
+>   	mutex_lock(&dev->mode_config.fb_lock);
+>   	list_del(&fb->head);
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index bc505d938b3e..9d8b9e6b7d25 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -224,23 +224,27 @@ static void drm_gem_object_handle_get(struct drm_gem_object *obj)
+>   }
+>   
+>   /**
+> - * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
+> + * drm_gem_object_handle_get_if_exists_unlocked - acquire reference on user-space handle, if any
+>    * @obj: GEM object
+>    *
+> - * Acquires a reference on the GEM buffer object's handle. Required
+> - * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
+> - * to release the reference.
+> + * Acquires a reference on the GEM buffer object's handle. Required to keep
+> + * the GEM object alive. Call drm_gem_object_handle_put_if_exists_unlocked()
+> + * to release the reference. Does nothing if the buffer object has no handle.
+>    */
+> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
+> +void drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj)
+>   {
+>   	struct drm_device *dev = obj->dev;
+>   
+>   	guard(mutex)(&dev->object_name_lock);
+>   
+> -	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
+> -	drm_gem_object_handle_get(obj);
+> +	/*
+> +	 * First ref taken during GEM object creation, if any. Some
+> +	 * drivers set up internal framebuffers with GEM objects that
+> +	 * do not have a GEM handle. Hence, this counter can be zero.
+> +	 */
+> +	if (obj->handle_count)
+> +		drm_gem_object_handle_get(obj);
+>   }
+> -EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
+>   
+>   /**
+>    * drm_gem_object_handle_free - release resources bound to userspace handles
+> @@ -272,21 +276,11 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
+>   	}
+>   }
+>   
+> -/**
+> - * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
+> - * @obj: GEM object
+> - *
+> - * Releases a reference on the GEM buffer object's handle. Possibly releases
+> - * the GEM buffer object and associated dma-buf objects.
+> - */
+> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+> +static void drm_gem_object_handle_put_unlocked_tail(struct drm_gem_object *obj)
+>   {
+>   	struct drm_device *dev = obj->dev;
+>   	bool final = false;
+>   
+> -	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
+> -		return;
+> -
+>   	/*
+>   	* Must bump handle count first as this may be the last
+>   	* ref, in which case the object would disappear before we
+> @@ -304,7 +298,32 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>   	if (final)
+>   		drm_gem_object_put(obj);
+>   }
+> -EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+> +
+> +static void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+> +{
+> +	struct drm_device *dev = obj->dev;
+> +
+> +	if (drm_WARN_ON(dev, READ_ONCE(obj->handle_count) == 0))
+> +		return;
+> +
+> +	drm_gem_object_handle_put_unlocked_tail(obj);
+> +}
+> +
+> +/**
+> + * drm_gem_object_handle_put_if_exists_unlocked - releases reference on user-space handle, if any
+> + * @obj: GEM object
+> + *
+> + * Releases a reference on the GEM buffer object's handle. Possibly releases
+> + * the GEM buffer object and associated dma-buf objects. Does nothing if the
+> + * buffer object has no handle.
+> + */
+> +void drm_gem_object_handle_put_if_exists_unlocked(struct drm_gem_object *obj)
+> +{
+> +	if (!obj->handle_count)
+> +		return;
+> +
+> +	drm_gem_object_handle_put_unlocked_tail(obj);
+> +}
+>   
+>   /*
+>    * Called at device or object close to release the file's
+> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> index c60d0044d036..618ce725cd75 100644
+> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> @@ -100,7 +100,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+>   	unsigned int i;
+>   
+>   	for (i = 0; i < fb->format->num_planes; i++)
+> -		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+> +		drm_gem_object_put(fb->obj[i]);
+>   
+>   	drm_framebuffer_cleanup(fb);
+>   	kfree(fb);
+> @@ -183,10 +183,8 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+>   		if (!objs[i]) {
+>   			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+>   			ret = -ENOENT;
+> -			goto err_gem_object_handle_put_unlocked;
+> +			goto err_gem_object_put;
+>   		}
+> -		drm_gem_object_handle_get_unlocked(objs[i]);
+> -		drm_gem_object_put(objs[i]);
+>   
+>   		min_size = (height - 1) * mode_cmd->pitches[i]
+>   			 + drm_format_info_min_pitch(info, i, width)
+> @@ -196,22 +194,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+>   			drm_dbg_kms(dev,
+>   				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+>   				    objs[i]->size, min_size, i);
+> -			drm_gem_object_handle_put_unlocked(objs[i]);
+> +			drm_gem_object_put(objs[i]);
+>   			ret = -EINVAL;
+> -			goto err_gem_object_handle_put_unlocked;
+> +			goto err_gem_object_put;
+>   		}
+>   	}
+>   
+>   	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+>   	if (ret)
+> -		goto err_gem_object_handle_put_unlocked;
+> +		goto err_gem_object_put;
+>   
+>   	return 0;
+>   
+> -err_gem_object_handle_put_unlocked:
+> +err_gem_object_put:
+>   	while (i > 0) {
+>   		--i;
+> -		drm_gem_object_handle_put_unlocked(objs[i]);
+> +		drm_gem_object_put(objs[i]);
+>   	}
+>   	return ret;
+>   }
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index f7b414a813ae..9233019f54a8 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -161,8 +161,8 @@ void drm_sysfs_lease_event(struct drm_device *dev);
+>   
+>   /* drm_gem.c */
+>   int drm_gem_init(struct drm_device *dev);
+> -void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
+> -void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+> +void drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj);
+> +void drm_gem_object_handle_put_if_exists_unlocked(struct drm_gem_object *obj);
+>   int drm_gem_handle_create_tail(struct drm_file *file_priv,
+>   			       struct drm_gem_object *obj,
+>   			       u32 *handlep);
+> diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+> index 8edefea2ef59..afd252108cfa 100644
+> --- a/drivers/gpu/drm/gma500/fbdev.c
+> +++ b/drivers/gpu/drm/gma500/fbdev.c
+> @@ -121,7 +121,6 @@ static void psb_fbdev_fb_destroy(struct fb_info *info)
+>   	drm_fb_helper_fini(fb_helper);
+>   
+>   	drm_framebuffer_unregister_private(fb);
+> -	fb->obj[0] = NULL;
+>   	drm_framebuffer_cleanup(fb);
+>   	kfree(fb);
+>   
+> @@ -243,7 +242,6 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+>   
+>   err_drm_framebuffer_unregister_private:
+>   	drm_framebuffer_unregister_private(fb);
+> -	fb->obj[0] = NULL;
+>   	drm_framebuffer_cleanup(fb);
+>   	kfree(fb);
+>   err_drm_gem_object_put:
 
 
