@@ -1,130 +1,191 @@
-Return-Path: <linux-media+bounces-36894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CEB2AFA3DA
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 11:11:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0075BAFA42A
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 11:52:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F04E7172F79
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 09:11:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 539F53AFE7C
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 09:52:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41DCB1EF09D;
-	Sun,  6 Jul 2025 09:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51BD41FCFFB;
+	Sun,  6 Jul 2025 09:52:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fD8M5i1J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oQAFbB6p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2267735972;
-	Sun,  6 Jul 2025 09:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF515145355;
+	Sun,  6 Jul 2025 09:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751793073; cv=none; b=TNTiNrkBxWpE6VcUTW7E5IxquywFqPo0Nyin/2o4gOandsgojmAN2OCtQGr1M386n8gx7bF5o98kWLGGaxfsi3o9Cz1huZPgzSaDP30JBNcSmEFJ8aNlfZG22jWE0mD3DiCBNZ3b0krUcW6jejyx/use09gS5kio2Cmw3JCrufI=
+	t=1751795559; cv=none; b=Z3t/BI9J70foYHKh5EKVTy3SHtyXjJGana5K+4ueM3WhNs8BrkrE/3vc7cYrgyE21O3GFdryW5wg2HEjgLAOxPaq2HYrnWJIhsJ2tirZog7h+Z4ZcBEr9laJ9ryvaNYfHrmQiGIgXQLQOFsxrvhPZMh2ciHOG6LFEkizaXEMeOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751793073; c=relaxed/simple;
-	bh=4/MwW2GFqctxs8AwHFUVz/ovktRzCYfQs/DtWq+q+Tc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJ0O/O/vDud9KEZAAj1VIqTRBaN+VRCq6Lk5DYv0k2ERfU4x4zctrvSVlG60nrbIxYmiP0NKZrIgfu1s9ZF6ZXVjWmxn6QCLUXObw3dKkAo3+ElUaRo0N02vL2dCA8oGFXLxqzQtAd59E3m3yK2L/McEvzaX5oSwGxnu7gWjTaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fD8M5i1J; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751793072; x=1783329072;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4/MwW2GFqctxs8AwHFUVz/ovktRzCYfQs/DtWq+q+Tc=;
-  b=fD8M5i1JVv48UnHC/ZSXjbJVLYFMZrw0T4Xn+dmCZr8tK0Hh/2lFD5Rc
-   G2vOxpR8R+HU+jDUl3UurFVvd+RweAKbcvq+e8tunsW6JYYplgFktb7Kr
-   QFU5slizzVUKz57rHUThdYn4xYosBH63T5xLm9ayfKv6njGYFrpY93YXv
-   YUpxl49foRoJsNxHpzKSARDr5FGY/4q3Atqph9RBtBiLklDgvdyw9y8z6
-   T0KhnNE1eiylHhB44DUG32lPBTqsVFvxI1/wIj/HJf8ylxKCgGbTD7Bef
-   71Ipa/EV4xnqIrTxaUDiJUxWQDsGqRo7JuFBDNqPekUKKwlVdPHM5s8hI
-   w==;
-X-CSE-ConnectionGUID: FWwHqtZcRnyyjacCtiJ7jg==
-X-CSE-MsgGUID: JlzNgX1oQ06UgHmuI5N8mA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="54008307"
-X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="54008307"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 02:11:12 -0700
-X-CSE-ConnectionGUID: jOcQzLO/Q36lCbTAGdlLzQ==
-X-CSE-MsgGUID: BBERMaveRQeTDCeutEmg9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="158989402"
-Received: from johunt-mobl9.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.198])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 02:11:06 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6E1A91202F1;
-	Sun,  6 Jul 2025 12:11:12 +0300 (EEST)
-Date: Sun, 6 Jul 2025 09:11:12 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Nirujogi, Pratap" <pnirujog@amd.com>
-Cc: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hao Yao <hao.yao@intel.com>,
-	Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
-	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org, krzk@kernel.org,
-	dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
-	jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com,
-	king.li@amd.com, dantony@amd.com, vengutta@amd.com,
-	dongcheng.yan@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com
-Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
-Message-ID: <aGo9sDWSiZGvOhR4@kekkonen.localdomain>
-References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
- <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
- <aEygCdk-zEqRwfoF@kekkonen.localdomain>
- <20250614225257.GO10542@pendragon.ideasonboard.com>
- <f6d1d8f7-d953-4f86-a196-f713726bd5f8@amd.com>
- <ec790d0e-4bdb-49b9-80ad-f44e1b700a5e@linux.intel.com>
- <702594a4-ebc3-471e-8551-d94f0dee2982@amd.com>
- <0d45fca3-5b6f-42e5-acec-bca2dda25f15@linux.intel.com>
- <aGTN5PbfyHTw529O@svinhufvud>
- <91985c5e-fc69-4d12-b5b0-3dff0ba1b078@amd.com>
+	s=arc-20240116; t=1751795559; c=relaxed/simple;
+	bh=R9AAxE/+829Tt+JSvGzFir/1HWKdhEnNQDZCmYa4sgQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QGjYI/7AhQdD5Ov7rWqDbqOF3QSmoxwQFqTrEfGTy0MJbnSVgzKFpZqbC75JmTcDfN0Tj1Vebno/dzUuoFYKFe7vwDs8o0zrO+x8UdCcSF6kcH1YdyroCBlV3cxfAD1MaL/W1EzUNacyJRlwLPBo3PJDNUBabY+qI+rarSHx8V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oQAFbB6p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44C8C4CEF2;
+	Sun,  6 Jul 2025 09:52:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751795558;
+	bh=R9AAxE/+829Tt+JSvGzFir/1HWKdhEnNQDZCmYa4sgQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oQAFbB6pzYYEFkF83535YFt7xjYccWy5TE+0m5kZX8AYLvrz4c2zBpklxXj1fLgJj
+	 31rxh7KzC8s0Q5m/ekbdd7s6f0ouY7O9c4XDG9P6ZRJEsjeI7kbfJV4do2I3tUVvu7
+	 v/XeSteYxqYkDwJZqw/J6eaRbCJpSh7KwIAp2EawJt/0rA7SteaDsecwwaJrbbiZHx
+	 9paBnX1SkwuqOWrZ8kLZByTLF7NreZjcQ4PMKJjgPASaI7hTPMbQlT+OltnSvaz0kw
+	 lOpyVXsnVzwa+3FoF1lF+L8KaXVJFL5T8JOmnXRv82yHVwm8LiLjSx06SaTPJuW5J7
+	 ICFJPCtWWTS+g==
+Message-ID: <c389587a-483b-43f7-9393-cdfd8132df20@kernel.org>
+Date: Sun, 6 Jul 2025 11:52:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <91985c5e-fc69-4d12-b5b0-3dff0ba1b078@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/23] media: atomisp: gc0310: Add selection API support
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20250517114106.43494-1-hdegoede@redhat.com>
+ <20250517114106.43494-7-hdegoede@redhat.com>
+ <174751450775.281096.10701361397332094857@ping.linuxembedded.co.uk>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <174751450775.281096.10701361397332094857@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Pratap,
+Hi Kieran,
 
-On Wed, Jul 02, 2025 at 12:47:40PM -0400, Nirujogi, Pratap wrote:
-> > > If you have a spec of OV05C10 (I assume you do, as the developer of this
-> > > driver), it is not a issue.
-> > > Take P0:0x14 as an example, it's named as DPLL_NC_SEL in spec and set to
-> > > 0x78 in your reglist ov05c10_2888x1808_regs. If define all named
-> > > registers rather than the confusing magic hardcode, the driver code will
-> > > be more readable and easy to review.
-> > > I think this is what Sakari thought.
-> > 
-> > Yes. And even if it happens that a register write slips to a wrong list,
-> > we can fix it later.
-> > 
-> I agree with the suggestion on proper naming of register offsets, but
-> unfortunately we lack access to the spec. We are completely relying on the
-> sensor vendor for these sequences, which they are not willing to share the
-> details.
+On 17-May-25 10:41 PM, Kieran Bingham wrote:
+> Quoting Hans de Goede (2025-05-17 12:40:49)
+>> Add support for the selection API as expected by libcamera.
+>>
+>> Note the driver only supports a single fixed resolution and
+>> no cropping, so this is a simple read-only implementation.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  .../media/atomisp/i2c/atomisp-gc0310.c        | 42 ++++++++++++++++++-
+>>  1 file changed, 41 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+>> index 756e56f639b7..7902e732a3ca 100644
+>> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+>> @@ -3,7 +3,7 @@
+>>   * Support for GalaxyCore GC0310 VGA camera sensor.
+>>   *
+>>   * Copyright (c) 2013 Intel Corporation. All Rights Reserved.
+>> - * Copyright (c) 2023 Hans de Goede <hdegoede@redhat.com>
+>> + * Copyright (c) 2023-2025 Hans de Goede <hansg@kernel.org>
+>>   */
+>>  
+>>  #include <linux/delay.h>
+>> @@ -352,6 +352,43 @@ static int gc0310_get_fmt(struct v4l2_subdev *sd,
+>>         return 0;
+>>  }
+>>  
+>> +static int gc0310_get_selection(struct v4l2_subdev *sd,
+>> +                               struct v4l2_subdev_state *state,
+>> +                               struct v4l2_subdev_selection *sel)
+>> +{
+>> +       /* Only the single fixed 656x496 mode is supported, without croping */
+>> +       switch (sel->target) {
+>> +       case V4L2_SEL_TGT_CROP:
+>> +       case V4L2_SEL_TGT_CROP_BOUNDS:
+>> +       case V4L2_SEL_TGT_CROP_DEFAULT:
+>> +       case V4L2_SEL_TGT_NATIVE_SIZE:
+>> +               sel->r.top = 0;
+>> +               sel->r.left = 0;
+>> +               sel->r.width = GC0310_NATIVE_WIDTH;
+>> +               sel->r.height = GC0310_NATIVE_HEIGHT;
+>> +               break;
+>> +       default:
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int gc0310_set_selection(struct v4l2_subdev *sd,
+>> +                               struct v4l2_subdev_state *state,
+>> +                               struct v4l2_subdev_selection *sel)
+>> +{
+>> +       if (sel->target != V4L2_SEL_TGT_CROP)
+>> +               return -EINVAL;
+>> +
+>> +       /* Only the single fixed 656x496 mode is supported, without croping */
+>> +       sel->r.top = 0;
+>> +       sel->r.left = 0;
+>> +       sel->r.width = GC0310_NATIVE_WIDTH;
+>> +       sel->r.height = GC0310_NATIVE_HEIGHT;
+>> +       return 0;
+>> +}
+>> +
+>>  static int gc0310_detect(struct gc0310_device *sensor)
+>>  {
+>>         struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
+>> @@ -509,6 +546,8 @@ static const struct v4l2_subdev_pad_ops gc0310_pad_ops = {
+>>         .enum_frame_size = gc0310_enum_frame_size,
+>>         .get_fmt = gc0310_get_fmt,
+>>         .set_fmt = gc0310_set_fmt,
+>> +       .get_selection = gc0310_get_selection,
+>> +       .set_selection = gc0310_set_selection,
+> 
+> On other sensors I've worked on, we haven't implemented .set_selection()
+> unless it can be changed. I think this could be simplified here? - Just
+> the implementation in .get_selection should be enough I think ?
+> 
+> Saves a few lines when it's not configurable.
 
-I find it difficult to believe a company such as AMD would use a camera
-sensor without having documentation on it. It is essentially required for
-hardware design, too.
+Right. I'm working on merging this series now (minus the last
+patch), preparing an atomisp pull-request for 6.17, addressing
+review comments as I go.
 
-Have you asked around?
+I've gone with using get_selection for set_selection while
+merging this.
 
--- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Hans
+
+
+
+
+
+> 
+> In imx283.c we have no implementation of .set_selection; though in
+> imx335.c - we simply set .set_selection = imx335_get_selection;
+> 
+> imx415.c also only sets the .get_selection callback ... so maybe I could
+> already simplify imx335 too!
+> 
+> 
+> 
+>>         .get_frame_interval = gc0310_get_frame_interval,
+>>  };
+>>  
+>> @@ -671,5 +710,6 @@ static struct i2c_driver gc0310_driver = {
+>>  module_i2c_driver(gc0310_driver);
+>>  
+>>  MODULE_AUTHOR("Lai, Angie <angie.lai@intel.com>");
+>> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+>>  MODULE_DESCRIPTION("A low-level driver for GalaxyCore GC0310 sensors");
+>>  MODULE_LICENSE("GPL");
+>> -- 
+>> 2.49.0
+>>
+> 
+
 
