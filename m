@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36908-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36909-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58BBAFA68A
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 18:33:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F363AAFA6F2
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 20:26:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BD3D169D60
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 16:33:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51E4E3B3B2B
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 18:25:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BAC528852B;
-	Sun,  6 Jul 2025 16:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F14D229E0FC;
+	Sun,  6 Jul 2025 18:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caKjmjNo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vqe3go0t"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68973165F1A;
-	Sun,  6 Jul 2025 16:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6E5522F;
+	Sun,  6 Jul 2025 18:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751819583; cv=none; b=u9/fgaRDHGhEqbGzGo+dTVIEBUwysnEFzxsLhPSUU+kqda/Q5pTwaLizWez1POmUS4JQxEYXRS9JeqrKJxEDdYusKYZpfTV0NrG41CxRo9khSyAc1v/XN1wKjgPt1sN2bnY84MNpIVWWDDdkGzzBpaPoZ1FhX2j1OwYxrdxK74g=
+	t=1751826358; cv=none; b=a8XirDekdtofFBqldeBe47VlOvQBWAWe+TPzRaVHlKg9CydrA0m6vecf6Qm6fjPX3Cg2fFhSq8KjKiwOjkqZRxY1BjioeC5a1X/z1Ltkr1zj+KYIo1pk+klEXWOpbKncsKzRg+aUJtMo3X2ALhaEZO0igp2+5VUK9irCAmSvESg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751819583; c=relaxed/simple;
-	bh=D3csnNiWzV+4H8jKc6H3AANx0qZiRfy9ICHeopQoqUg=;
+	s=arc-20240116; t=1751826358; c=relaxed/simple;
+	bh=TiRh17OBztLl/5Um33JRzwwVspvarTEzm3jzvByfFbI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AIfJB3+sQnBF1B3QqcVeKTp0dHV2IHpv26jU6NNWSFXGBdRDhGw13EIGiyvy5aacWTl1zI8tJsoVz4gA0L1zACrdzkTLfSuav1atVeq/XHDjLuLkHUaVGWrulOZnEsfKH8acAkqFbcygl2ZTRLY3tRl65C+lgCwHRVyFvPui3P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caKjmjNo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7433C4CEED;
-	Sun,  6 Jul 2025 16:33:00 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=AEBFWMyhHyi0iPw0OwF2shT+fPi0lYPXs8cML4JqLyx8t2MAEsPRO/y+/mGT92p4s14zGt3OqOgi4Kfq/Bv1cbdFhlJ61/PbDkIOyZ68C589IOAJ2Q7X/t+TctA73c/dLidTZ++yr0z/GD/FRCroQeg8N+JljSn5vlPaBfo+nK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vqe3go0t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D7E9C4CEED;
+	Sun,  6 Jul 2025 18:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751819582;
-	bh=D3csnNiWzV+4H8jKc6H3AANx0qZiRfy9ICHeopQoqUg=;
+	s=k20201202; t=1751826357;
+	bh=TiRh17OBztLl/5Um33JRzwwVspvarTEzm3jzvByfFbI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=caKjmjNo3TtFswOeaowun5Tzf1O6QYV2asbNjhArS3WeYX3isz5K0RlNReCrrRdgt
-	 CX8SLXOFN58G5ffmHocgwHLyXwfjvL6K+s9JseXyyfWWpNH6z7cdGPsZBhSgjMuN22
-	 mSwso4k9Uix41z2SpMxPzD8geKz7X5jlGSonqWL0dGCikIwnJppZ+Anmo90HgB2ESM
-	 hxpS8GjVWM64GjtW4vG0zkwzEIJlBcEmRTripjS5u47XYywbIUkY+KjlRoRLv6RWtW
-	 SbAmPBAVfNCHjOEGUkioocDeUhc1xNZtZHyCodlc7VsOxoJOELge4GgXweyyFWHi1H
-	 0FC+g+J27n/dA==
-Message-ID: <878c2301-7c3e-4325-917f-cc1d7ce4191a@kernel.org>
-Date: Sun, 6 Jul 2025 18:32:58 +0200
+	b=Vqe3go0tIOi/wdCLN4qfOdxNrHYmlMt5FPsrNnA2BPXh6D+V8JgBEh/uOl8usVpnt
+	 LcdFvEGUR8qLAYzxBY1MgTrsNazo10ZAMc57diVKTS/PCwXV3cL7x6jkYdn+YyTz2v
+	 zVKzPyHEmFOzdKRIfXUd1fu+KF0rBZJnMTCp7Kepaund2hyAJsIvrt8UXsZV9d+gZO
+	 IXV7h5nmhmLW7Bo0j6JN46ORuPcQf8yPfJ9l19VrVfNRYnr8p4DSKuyY6ER0K/Tysf
+	 /l9g/3A8t9P8WPWJRQ2QQGxtZ04eCT8QvkwY5t4XqdCqtuuhRhz7TIgoEwQAqp6uAu
+	 MeOO4FnqNI0pQ==
+Message-ID: <fbfbd0e5-2c27-4f32-a3d7-9cf57fde5098@kernel.org>
+Date: Sun, 6 Jul 2025 20:25:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,227 +50,73 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: media: atomisp: Remove custom sysfs
- attributes from atomisp_drvfs.c
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, dan.carpenter@linaro.org
-References: <20250704161051.16733-1-abdelrahmanfekry375@gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
+ HMM_BO_DEVICE_INITED flag
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org,
+ mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, skhan@linuxfoundation.com,
+ dan.carpenter@linaro.org
+References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+ <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
+ <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
+ <aGPYZhK65LaD0wVO@smile.fi.intel.com>
+ <836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org>
+ <CAGn2d8NBEwWm0mQ0YQ3KZ+V1Zon84zusfsQQV2foVmUTBAzEAQ@mail.gmail.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250704161051.16733-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <CAGn2d8NBEwWm0mQ0YQ3KZ+V1Zon84zusfsQQV2foVmUTBAzEAQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi, Abdelrahman
 
-Thank you for your patch.
-
-On 4-Jul-25 6:10 PM, Abdelrahman Fekry wrote:
-> Continue the cleanup of the AtomISP driver as discussed with Hans and Andy
-> in [1].
+On 1-Jul-25 5:45 PM, Abdelrahman Fekry wrote:
+> Hi Hans,
 > 
-> Tackle TODO item: "Remove custom sysfs files created by atomisp_drvfs.c":
-> - Remove the sysfs attributes `dbglvl`, `dbgfun`, and `dbgopt`.
-> - Delete their associated show/store handler functions.
-> - Remove the corresponding attribute group definitions.
-> - Keep `dbg_attr_groups[]` as an empty array to preserve compatibility.
+> On Tue, Jul 1, 2025 at 4:54 PM Hans de Goede <hansg@kernel.org> wrote:
 
-That is the last bit left over in the atomisp_drvfs.c file.
+...
 
-Instead of pointing atomisp_pci_driver.driver.dev_groups to the empty
-`dbg_attr_groups[]` the initialization of atomisp_pci_driver.driver.dev_groups
-can simply be removed (making it NULL, which is allowed).
+>> Actually I'm pretty sure that there will be quite a few
+>> error-handling paths with bugs in the atomisp code given
+>> its overall quality. But lets clean things up first, that
+>> should make addressing any such cases easier.
+>>
+> I totally agree with this , i have submitted a patch that cleans the
+> custom sysfs atrributes
+> as you suggested as a beginning , the patch got reviewed by andy and dan
+> here is the link
+> https://lore.kernel.org/all/20250627100604.29061-1-abdelrahmanfekry375@gmail.com/
+> 
+> What do you think I should work on next after these two patches, do
+> you have any suggestions?
 
-And then the entire atomisp_drvfs.[c|h] files can both be removed.
+The hmm_alloc code can use some more cleanups:
 
-Since I'm about the send out a pull-request with atomisp changes
-for kernel 6.17 I've made this change myself and squashed it
-into your patch (keeping you as the author of course), see:
+* hmm_get_mmu_base_addr() should be moved to drivers/staging/media/atomisp/pci/hmm/hmm.c
+  and then the "struct hmm_bo_device bo_device;" in hmm.c can be made static
 
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp&id=532fd10da0f58e7f313ff576bb1e6cab1f758bbe
+* hmm_init() sets hmm_initialized = true even on errors. It should
+  immediately exit (return ret) on errors instead of continue-ing
+  with calling hmm_alloc() even though hmm_bo_device_init() failed.
 
-And I've also dropped the TODO list item for this :)
+* I've checked the code and hmm_init() is called before any hmm_alloc()
+  calls are made so the extra hmm_init() call in __hmm_alloc() can be
+  dropped.
+
+* After dropping the extra hmm_init() call in __hmm_alloc() the
+  hmm_initialized flag can be removed since it is now no longer read
+  anywhere.
+
+* And maybe you'll find more possible cleanups while working on this
 
 Regards,
 
 Hans
 
-
-
-> 
-> Link: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org/ [1]
-> Suggested-by: Hans de Goede <hansg@kernel.org>
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
-> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-> ---
-> v3:
-> - fix style warning
-> v2:
-> - modify the reference link line.
-> 
->  .../staging/media/atomisp/pci/atomisp_drvfs.c | 138 ------------------
->  1 file changed, 138 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-> index 31c82c3c0d33..c25fd3ff003d 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-> @@ -1,9 +1,4 @@
->  // SPDX-License-Identifier: GPL-2.0
-> -/*
-> - * Support for atomisp driver sysfs interface
-> - *
-> - * Copyright (c) 2014 Intel Corporation. All Rights Reserved.
-> - */
-> 
->  #include <linux/device.h>
->  #include <linux/err.h>
-> @@ -16,140 +11,7 @@
->  #include "hmm/hmm.h"
->  #include "ia_css_debug.h"
-> 
-> -#define OPTION_BIN_LIST			BIT(0)
-> -#define OPTION_BIN_RUN			BIT(1)
-> -#define OPTION_VALID			(OPTION_BIN_LIST | OPTION_BIN_RUN)
-> -
-> -/*
-> - * dbgopt: iunit debug option:
-> - *        bit 0: binary list
-> - *        bit 1: running binary
-> - *        bit 2: memory statistic
-> - */
-> -static unsigned int dbgopt = OPTION_BIN_LIST;
-> -
-> -static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
-> -				    unsigned int opt)
-> -{
-> -	int ret = 0;
-> -
-> -	if (opt & OPTION_VALID) {
-> -		if (opt & OPTION_BIN_LIST) {
-> -			ret = atomisp_css_dump_blob_infor(isp);
-> -			if (ret) {
-> -				dev_err(isp->dev, "%s dump blob infor err[ret:%d]\n",
-> -					__func__, ret);
-> -				goto opt_err;
-> -			}
-> -		}
-> -
-> -		if (opt & OPTION_BIN_RUN) {
-> -			if (isp->asd.streaming) {
-> -				atomisp_css_dump_sp_raw_copy_linecount(true);
-> -				atomisp_css_debug_dump_isp_binary();
-> -			} else {
-> -				ret = -EPERM;
-> -				dev_err(isp->dev, "%s dump running bin err[ret:%d]\n",
-> -					__func__, ret);
-> -				goto opt_err;
-> -			}
-> -		}
-> -	} else {
-> -		ret = -EINVAL;
-> -		dev_err(isp->dev, "%s dump nothing[ret=%d]\n", __func__, ret);
-> -	}
-> -
-> -opt_err:
-> -	return ret;
-> -}
-> -
-> -static ssize_t dbglvl_show(struct device *dev, struct device_attribute *attr,
-> -			   char *buf)
-> -{
-> -	unsigned int dbglvl = ia_css_debug_get_dtrace_level();
-> -
-> -	return sysfs_emit(buf, "dtrace level:%u\n", dbglvl);
-> -}
-> -
-> -static ssize_t dbglvl_store(struct device *dev, struct device_attribute *attr,
-> -			    const char *buf, size_t size)
-> -{
-> -	unsigned int dbglvl;
-> -	int ret;
-> -
-> -	ret = kstrtouint(buf, 10, &dbglvl);
-> -	if (ret)
-> -		return ret;
-> -
-> -	if (dbglvl < 1 || dbglvl > 9)
-> -		return -ERANGE;
-> -
-> -	ia_css_debug_set_dtrace_level(dbglvl);
-> -	return size;
-> -}
-> -static DEVICE_ATTR_RW(dbglvl);
-> -
-> -static ssize_t dbgfun_show(struct device *dev, struct device_attribute *attr,
-> -			   char *buf)
-> -{
-> -	unsigned int dbgfun = atomisp_get_css_dbgfunc();
-> -
-> -	return sysfs_emit(buf, "dbgfun opt:%u\n", dbgfun);
-> -}
-> -
-> -static ssize_t dbgfun_store(struct device *dev, struct device_attribute *attr,
-> -			    const char *buf, size_t size)
-> -{
-> -	struct atomisp_device *isp = dev_get_drvdata(dev);
-> -	unsigned int opt;
-> -	int ret;
-> -
-> -	ret = kstrtouint(buf, 10, &opt);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return atomisp_set_css_dbgfunc(isp, opt);
-> -}
-> -static DEVICE_ATTR_RW(dbgfun);
-> -
-> -static ssize_t dbgopt_show(struct device *dev, struct device_attribute *attr,
-> -			   char *buf)
-> -{
-> -	return sysfs_emit(buf, "option:0x%x\n", dbgopt);
-> -}
-> -
-> -static ssize_t dbgopt_store(struct device *dev, struct device_attribute *attr,
-> -			    const char *buf, size_t size)
-> -{
-> -	struct atomisp_device *isp = dev_get_drvdata(dev);
-> -	unsigned int opt;
-> -	int ret;
-> -
-> -	ret = kstrtouint(buf, 10, &opt);
-> -	if (ret)
-> -		return ret;
-> -
-> -	dbgopt = opt;
-> -	ret = iunit_dump_dbgopt(isp, dbgopt);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return size;
-> -}
-> -static DEVICE_ATTR_RW(dbgopt);
-> -
-> -static struct attribute *dbg_attrs[] = {
-> -	&dev_attr_dbglvl.attr,
-> -	&dev_attr_dbgfun.attr,
-> -	&dev_attr_dbgopt.attr,
-> -	NULL
-> -};
-> -
-> -static const struct attribute_group dbg_attr_group = {
-> -	.attrs = dbg_attrs,
-> -};
-> 
->  const struct attribute_group *dbg_attr_groups[] = {
-> -	&dbg_attr_group,
->  	NULL
->  };
-> --
-> 2.25.1
-> 
 
 
