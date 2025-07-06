@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36896-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36897-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60465AFA431
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 11:57:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA45FAFA43A
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 11:59:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB34A3B4220
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 09:56:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2929F17D91B
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 09:59:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B25F1FECAD;
-	Sun,  6 Jul 2025 09:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A55711FF7C8;
+	Sun,  6 Jul 2025 09:58:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8tU/qJx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qS+vZ2Cm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B677F1EA7D2;
-	Sun,  6 Jul 2025 09:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ED81FF7BC;
+	Sun,  6 Jul 2025 09:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751795840; cv=none; b=nshNhAlMAruOsTCUfgHlIY91QaOxZ9HjIR3vWk2VKOpYhLDWkNdt7XpTvWTZMl58ZVo2PCmcXp/xmgzMdjMt8TwBWHpOnjsXOmBt37rMWUWa4qM6CkRPRHgNrOnnBZtX6Zfq2qfGyKKzfO4s0x2WWQ6jxjN2mDtYIRerxTojWWM=
+	t=1751795935; cv=none; b=GgTlY/lUb7+CCYh3ePv1fLol6Jy/Nlprw+XTWfYjRpUZZh9nQyok0UQYDoE6fgx5UnUm6w9msN1GRAZlF9eowWlyzAnZ6G6Dp1SAhQhKR/ev6S9CApaogWCQc81/xqaUdX3cAeELyK6qNmEo1a0mj2WOIpf2MJdB3gA0O8P8IZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751795840; c=relaxed/simple;
-	bh=6Z6xk0hZ4ym+h4tpElA1QGUyo+jiCU3uLtQ3R3vzSRY=;
+	s=arc-20240116; t=1751795935; c=relaxed/simple;
+	bh=sFq2D70TtLqED4H2fXdaTrrvqq+ts9ySPJxShkZRK6Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jnIH6V8mDXXz1lso8Kdo3s2NfrZq9e76ytT/DexK/+lJPEFXY987GXJb46Y1Uagi5dfkdJujcb+S0LJFjlnF8N0oVXK+hlCvkay/cS6fknWwRvzfQ8JvzTScrUVOVuhUnrAn++hR9FicjMCw2ZV+GmM/y9otdNUThPOuKcZrIp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8tU/qJx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE0FC4CEED;
-	Sun,  6 Jul 2025 09:57:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ovU6tw36/aro5KlsKbL5BuC2p/DYlgk/ytqpxEoiJMkWBPAWuDEz23Z0rN2i4p8ZktdkIVotrc2uT5L0UC29wndPV12HIoS/0k5toh9E3ivJfy2IJSBpfVLqu+aFfZVbX+nYd0iq6OXFbeQtTKmX8fT1R0R4L0Z0b0ZxzWwC3d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qS+vZ2Cm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C67BC4CEED;
+	Sun,  6 Jul 2025 09:58:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751795840;
-	bh=6Z6xk0hZ4ym+h4tpElA1QGUyo+jiCU3uLtQ3R3vzSRY=;
+	s=k20201202; t=1751795934;
+	bh=sFq2D70TtLqED4H2fXdaTrrvqq+ts9ySPJxShkZRK6Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j8tU/qJx9kd0NaEWySF5SW5mbIYBR0xYoCD7jZOK4M+q5VLSi7nqF1JyaBXWUU7ED
-	 SsW9zNLF007mcfOYR1SRdjA/6ijPaokJHUPlr6tzN2YwfT8T0wwXusnsdFZ3r6MLvX
-	 8hjIiASrSVnHhQC++PmrJ3NaOpV37kpQ8gUaykGVBS1bvZ4O8SJptUfsDMDYoefiTy
-	 7mvGb2KTm5gXSau0Fex/T5ipdpSmPde1SLvfY5GqJ3pFT+tg8TsAEpWyUdyAzq1IDE
-	 d+ZoWYDKxAZHJoAg96FAYtlbitgxVaCwGfWRPV+RIxnqK95Ta/buO/Wi1n6uJHZqQ+
-	 p3xbpol/32oBA==
-Message-ID: <3bb4690c-eedf-4cb6-8779-2ea1004510e2@kernel.org>
-Date: Sun, 6 Jul 2025 11:57:17 +0200
+	b=qS+vZ2Cm9UGGQ+V6wtxonhp1YpfG6UCT3QnGtlhy+PzaYSfUCuos0Nh7ptveynZ11
+	 uSHZVi7yIqk5OhmMVMuWbe/nq8mSJxkxAdtkyEu0nlNOqcq6wwImy/kAsZMpc7UykW
+	 IkUEBDJ7LnQgjP3yQ7cBC5DNm7kc5/n4Q/hjir/bLdqVO3UfU0Y4ezX2684EN/xmVQ
+	 1gqElWfVptd9nPooy/4uCUlgf6TlkPrw4rA4E6B2SQi5fhoxNoIbc+blpwAlq9wrbi
+	 i2Gjg2btIOXmqubPRORJ6LGkHOXg/6lxF1Gjdn0ht23jmeoYlZ7ttMLqnRc+tacVrN
+	 a7IOdlEv5fwgg==
+Message-ID: <3ea3d1c7-b6e1-48f2-8d2f-ce62b0471e2f@kernel.org>
+Date: Sun, 6 Jul 2025 11:58:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,62 +50,65 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/23] media: atomisp: gc0310: Add link-frequency and
- pixelrate controls
+Subject: Re: [PATCH 11/23] media: atomisp: gc0310: Add check_hwcfg() function
 To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev
 References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-8-hdegoede@redhat.com>
- <aCsWY1ICUoHTq07L@smile.fi.intel.com>
+ <20250517114106.43494-12-hdegoede@redhat.com>
+ <aCsXg_gj2VOoFPeO@smile.fi.intel.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <aCsWY1ICUoHTq07L@smile.fi.intel.com>
+In-Reply-To: <aCsXg_gj2VOoFPeO@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Andy,
+Hi,
 
-On 19-May-25 1:30 PM, Andy Shevchenko wrote:
-> On Sat, May 17, 2025 at 01:40:50PM +0200, Hans de Goede wrote:
->> Add support for the pixelrate control as expected by libcamera,
->> while at it also add the link-frequency control.
+On 19-May-25 1:35 PM, Andy Shevchenko wrote:
+> On Sat, May 17, 2025 at 01:40:54PM +0200, Hans de Goede wrote:
+>> Add a check_hwcfg() function to check if the external clk-freq, CSI
+>> link-freq and lane-count match the driver's expectations.
 > 
 > ...
 > 
->> +/*
->> + * The actual PLL output rate is unknown, the datasheet
->> + * says that the formula for the frame-time in pixels is:
->> + * rowtime = win-width + hblank + sh-delay + 4
->> + * frametime = rowtime * (win-height + vblank)
->> + * Filling this in and multiplying by 30 fps gives:
->> + * pixelrate = (660 + 178 + 42 + 4) * (498 + 27) * 30 = 13923000
->> + */
->> +#define GC0310_PIXELRATE			13923000
+>> +	struct v4l2_fwnode_endpoint bus_cfg = {
+>> +		.bus_type = V4L2_MBUS_CSI2_DPHY
 > 
-> Why not utilise the preprocessor to calculate the above?
-> I mean we can define an arithmetic expression instead of the result
-> (which is mentioned in the comments anyway).
+> Leave trailing comma, it might help in case we add anything later on.
 
-I don't really see any added value in using the pre-processor
-for this, it just makes the #define line unnecessarily long.
+Ack I've fixed this while merging this series
+for the atomisp pull-request for 6.17 which I'm preparing.
+
+> 
+>> +	};
+> 
+> ...
+> 
+>> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+>> +				       &mclk);
+>> +	if (ret) {
+>> +		fwnode_handle_put(ep_fwnode);
+> 
+> Hmm... Can we switch driver to use __free() instead?
+
+None of the other sensor drivers do that and IIRC it is
+also put a few lines below when we're done with it,
+well before the end of the function making __free not
+suitable.
 
 Regards,
 
 Hans
 
 
+
+
 > 
-> ...
-> 
->> +/* single lane, bus-format is 8 bpp, CSI-2 is double data rate */
->> +#define GC0310_LINK_FREQ			(GC0310_PIXELRATE * 8 / 2)
-> 
-> Hmm... I believe it won't be ever the case, but still the Q here is
-> if we expect rounded up value? In such a case perhaps BITS_TO_BYTES()
-> would make sense. OTOH the format theoretically can be not only 8bpp
-> in some cases, but let's say 9bpp, that macro wouldn't help then.
+>> +		return dev_err_probe(dev, ret,
+>> +				     "reading clock-frequency property\n");
+>> +	}
 > 
 
 
