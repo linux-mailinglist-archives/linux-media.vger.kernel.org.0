@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-36910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A70AFA745
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 20:44:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEC5AFA746
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 20:45:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A6F617C0EF
-	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 18:44:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A30CF17BEC0
+	for <lists+linux-media@lfdr.de>; Sun,  6 Jul 2025 18:45:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0921293C40;
-	Sun,  6 Jul 2025 18:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685C41ACEDA;
+	Sun,  6 Jul 2025 18:45:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SbIrT/yY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HI55Foi4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585DC800;
-	Sun,  6 Jul 2025 18:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74A91459FA;
+	Sun,  6 Jul 2025 18:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751827477; cv=none; b=sqYUk/8pmk5Uhe2KttB5oGysksaBX3wnnBuGaXE3i9ByBhqDnI583mBeLS3xXrTAg/j7sslHtPwxlPucsZPZERVfiqle/n+N8Dm+RXbaqXp8ZcVxZxANdcr3OSJLkMzcY20v3HHzUP48VHTo9sozWSuJ88Pts+8KWq5p5BqH/FU=
+	t=1751827521; cv=none; b=JFy612+lu1sp9gaoCsv5tA6HISxQw4q2WEp76v4C5/1qEIAqQE6yIXBuPI0WhhmiBhmJWwr/ldjG2qFDIQdA3+plqBM48VO2YEf1pDhfQzER2pfbEQ/AjBexFyhQd1w6J7Ma9nnOdS5l0TJhXqvZXwVUoPFLyT/XJQT3RLDZEY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751827477; c=relaxed/simple;
-	bh=5cOnGwV3gzqMFT5vM9FUW1YYjKHNX124/bLLxN48RjM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=scYOsEA45B2Xa/NJoj2dIvfD81npb49cfCvuIefLzf4GcJE3QC5qPBjMKdh1vChjJ4phcFcdt9mh00FArVqQtOZimibrDKpo3ZKY800FrLk9J8MIoF/hj0wU32pXSq7R7yoUwtvhS5xxn4vzbG8/HCSBIH8Fu3LAMJZt2q4zZ0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SbIrT/yY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B25FC4CEED;
-	Sun,  6 Jul 2025 18:44:35 +0000 (UTC)
+	s=arc-20240116; t=1751827521; c=relaxed/simple;
+	bh=GgHua8TkjPWUlhZv1QzhEYxoibHxjhTxNRAMa4swJj4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=UKYyhe4dnMgF6wySbaTHtCkeAJKkUtlP87ycNIixDh6GOtTjSKWeYFJd8rqaQYSGvO5RzGfdZGZsrwTyS/8Y5VwDZfA5VJLL5jEcC7go8G5vK49HzNN06F/xitL5Jxt/aCfeRmFptHUfvx+nKjmrjz/N48QejnHCpcebeHdmDyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HI55Foi4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE21C4CEED;
+	Sun,  6 Jul 2025 18:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751827476;
-	bh=5cOnGwV3gzqMFT5vM9FUW1YYjKHNX124/bLLxN48RjM=;
+	s=k20201202; t=1751827521;
+	bh=GgHua8TkjPWUlhZv1QzhEYxoibHxjhTxNRAMa4swJj4=;
 	h=Date:From:Subject:To:Cc:From;
-	b=SbIrT/yYP9+6IN1gbELJ4M+2rp/PP9n0eNOTtmvGm1imLtAb7KWG6OBST5VwOyrAi
-	 rSS9leXTezp87uC67SFSSCU57bHiNzHF0mVQYDWu8CmM/bggjrCC/AxZnHp3klPKc7
-	 Z1SKZVVsnMTv6U+7Gbi03bYUeaMFtY28yfv2ASMZYv5PjH3NGZB4zVInJIQtukxZfY
-	 tMkMNUrRWecVuZeU6QNfm68XOqXpCVs5LDNMa6qlRZW4sjXKsV7DfsP9WGu6O5LmhC
-	 ZKpyDLxYmCvYHTMf6usvZLqjbvezUm8vIp4eV0CCYXvsltIN8hOcT2gTk5uwCNCN2X
-	 NRSv8Een1u7rg==
-Message-ID: <0203a666-4e54-4c57-96a1-a9afb7f7fb4b@kernel.org>
-Date: Sun, 6 Jul 2025 20:44:33 +0200
+	b=HI55Foi4b7IYQ9cbsNsYKLSJuAcEIcB+mFHX2mI13K8g86Id9MdgMg2+iXar4qqB5
+	 KW0mw1PvUacHjsftWn1Yi5QcgqA+o3ED1U4US0QtzZpdxXOr1EyP+7zH4vtx2qjB1N
+	 iCsRHn6mmwF18KJ2x0J5r5hogRuePQ4lpkh69hFQcqcNMUQhG/hJkrtwMRQcRC9mpt
+	 tHkxJfSU99ZgRcDMlII+WBrR7WOjX0Tt5CYsAq/2GLir3YR0HnEPOpF/PFOUnI252z
+	 gC1p6vUyrKmja3BAl+3VbA34q9QmxI3D8uGR+QuM1OQkaZhSYH9XFvpnJUtyG83FN8
+	 +jy3A93fBksJQ==
+Message-ID: <9ade8070-eed6-4576-a462-458ad2458080@kernel.org>
+Date: Sun, 6 Jul 2025 20:45:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans de Goede <hansg@kernel.org>
-Subject: [GIT PULL] media: atomisp: Changes for 6.16-1
+Subject: [GIT PULL] media: atomisp: Changes for 6.17-1
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Linux Media Mailing List <linux-media@vger.kernel.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
@@ -61,6 +61,8 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+
+<resend with fixed subject, to make sure this does not get missed, sorry>
 
 Hi Mauro, Hans,
 
@@ -199,5 +201,6 @@ Thomas Andreatta (3):
  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_drvfs.c
  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_drvfs.h
  delete mode 100644 drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
+
 
 
