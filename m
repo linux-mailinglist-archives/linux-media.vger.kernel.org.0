@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36994-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37EFAFB361
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 14:35:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 801C3AFB375
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 14:43:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06CE73A500D
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 12:35:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F2471AA3C3C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 12:43:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DD4F29ACEC;
-	Mon,  7 Jul 2025 12:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBEE029B229;
+	Mon,  7 Jul 2025 12:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3rdwYeU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRTK8kCE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8F4191499;
-	Mon,  7 Jul 2025 12:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD4229B201;
+	Mon,  7 Jul 2025 12:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751891739; cv=none; b=Q9aPIxd652+dUXi666NXxkNiW2HeDYXeEffsUOk6rc4YOkO1zab4GNMXSv6hdfBBeXOi8Mr46eppiVY0Mq8vMuS6SphY0EOfip1qlL1+tKdwpVFBtqs+oB+QN89NKgDgrtIYL7WXzeJM/3kZ6kGXROCpAlt9QK9iTkbVMXX6Em4=
+	t=1751892193; cv=none; b=YOYseMIk6f4E21Gjr6x/5kCc8VKAUPLZn5SKQDSDkkk+oUojIFKnSADWPpnGIDQNuBS3W4ZQrGBoJfqW+AI+KkDXP0RF4C+X12HnKOD8BiprbzHDJm7gKqzKQCILRKuZZeA8712Ny/VuvLBvmXWnjQ9xz96XvSwNO6yM74jqU2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751891739; c=relaxed/simple;
-	bh=AMzaUSoJy5HuJsmRdDMekOD2Y59C75fgScMvtA7Ujcc=;
+	s=arc-20240116; t=1751892193; c=relaxed/simple;
+	bh=xrRnIx9QpUIyAN1PO+JteAVR0eYKq/l6fSp6iyFVuO4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eXecvlugBZ+M+QC0WZD04vpY5cDWolcdEX6TRbuuBvT6fVX83P3K1dFQCLaf5n4cP7lvm3jx8XCp8lwG0wfVDbr9NOTMK+zRxNjT3HpABKDC+Mm5UKEG/J1F1UilqFzAETgpTTjHLOe6GYJGz9YfhJLcNqqrZgLqYo6/f81ESXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3rdwYeU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1592DC4CEE3;
-	Mon,  7 Jul 2025 12:35:35 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=RCQjMLHurpwyBFWCWZoV9ekFnXRYv/ZCLyiSgwJIdnlG3/XNMZT9HDdctHXPSqLHOYEhngz06oOfHbFVVKbs2+xYNz/s6VEDgJfyi5UP2L0k8CxQ5C9GUpQG6cZtiCjRUwS3PnDC42t4ikcqHQAABXc8bprPq2lxseFy1bQ/Y9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRTK8kCE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C21C4CEE3;
+	Mon,  7 Jul 2025 12:43:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751891737;
-	bh=AMzaUSoJy5HuJsmRdDMekOD2Y59C75fgScMvtA7Ujcc=;
+	s=k20201202; t=1751892192;
+	bh=xrRnIx9QpUIyAN1PO+JteAVR0eYKq/l6fSp6iyFVuO4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=k3rdwYeUu75ztPB4K03rhaxVDR9iXgx82gdHw7RCP4nQcPbh6RKB2OrGeK8j7Ech0
-	 7DYuk4whxaxnpqj/ysftMOqMaBpy/CR1nPjn9ffKsfT09tiNAdNjelZiv+DDf8mRt+
-	 5xLH9xLDwhqmr4nA+F7Cq2zTuDQXJYyzWgOaYnW1lJWEFkrSq0DHkipTCGWdCgI7Q3
-	 phC1Wuf1bL4pHaEdxYWxGndRsV7hoHehjFNIncd/tQ4M+JwU7iyIKiKIYD1Bm9K++a
-	 sWhD3gk8fD8bC+SZSOMtSU0Fqv5x3m7/BM+4WzDOsO653SjJ7iDStYHNNCyATobltE
-	 gpJ9Jyrt6rgQQ==
-Message-ID: <470d3b4c-453b-4412-957f-f7cd9ab2e997@kernel.org>
-Date: Mon, 7 Jul 2025 14:35:33 +0200
+	b=vRTK8kCE04woMUA7dPr0UBnKPKTote9Sf7GXxIoG/uOFcb4TUj5oK8NKfc+VO8fja
+	 MxHRA3CLUjWGq3+TzMYrP3WW/btL5PZZh8X7fD4mT8+U2r798iPUbAZhv8trTihgbm
+	 mXF52KiUQJOUK+ZXAmvtxGLP5krkBk0eQRPNy/1vFaKNlFzs8tZJTurxqIcf9Fj/qz
+	 16wgtm7D3SKjYEtppr2ItqvSGFWfAiPk2srkrvVWJngaPn44le3YNz13QZ944W3ikL
+	 SC6PZ+8quzTtv6stQButSSzlL0d1P18nNXHxBZYiiMzhAfvfIFY1L0ZsV0nnsX7FhY
+	 Lz5T5SpIjfXFw==
+Message-ID: <45b69c6c-e8d5-4b71-9759-cd76eb1a7258@kernel.org>
+Date: Mon, 7 Jul 2025 14:43:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,96 +50,75 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/7] media: uvcvideo: Invert granular PM logic + PM fix
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v2] media: uvcvideo: avoid variable shadowing in
+ uvc_ctrl_cleanup_fh
+To: Desnes Nunes <desnesn@redhat.com>, laurent.pinchart@ideasonboard.com
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hans Verkuil <hans@jjverkuil.nl>, Hans Verkuil <hans@hverkuil.nl>
-References: <20250701-uvc-grannular-invert-v4-0-8003b9b89f68@chromium.org>
+ stable@kernel.org
+References: <20250701172556.117872-1-desnesn@redhat.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250701-uvc-grannular-invert-v4-0-8003b9b89f68@chromium.org>
+In-Reply-To: <20250701172556.117872-1-desnesn@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 1-Jul-25 08:45, Ricardo Ribalda wrote:
-> It makes more sense to have a list of the ioctls that need power than
-> the other way around. This patchset takes care of this.
+On 1-Jul-25 19:25, Desnes Nunes wrote:
+> This avoids a variable loop shadowing occurring between the local loop
+> iterating through the uvc_entity's controls and the global one going
+> through the pending async controls of the file handle
 > 
-> It also fixes one error in the PM logic introduced in a recent patchset.
-> 
-> To support CI I have included patches that are in uvc/for-next but not
-> in media-committer:
-> media: uvcvideo: Remove stream->is_streaming field
-> media: uvcvideo: Split uvc_stop_streaming()
-> media: uvcvideo: Handle locks in uvc_queue_return_buffers
-> media: uvcvideo: Use vb2 ioctl and fop helpers
-> Do not review them again.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Cc: stable@kernel.org
+> Fixes: 10acb9101355 ("media: uvcvideo: Increase/decrease the PM counter per IOCTL")
+> Signed-off-by: Desnes Nunes <desnesn@redhat.com>
 
 Thank you for the new version.
 
-I've pushed patches 5-7 to uvc/for-next now (1-4 are
-already there).
+I've pushed this to uvc/for-next now:
 
-I plan to send a pull-request with these changes this Thursday.
+https://gitlab.freedesktop.org/linux-media/users/uvc/-/commits/for-next/
+
+Note I had to manually apply the patch because of it conflicting with:
+
+https://gitlab.freedesktop.org/linux-media/users/uvc/-/commit/2b1e8e9f7bb30204ddb42887c4e554c131f003c9
+
+So if you want this backported to stable you will need to send
+the original version to stable your self.
+
+I plan to send a pull-request with the changes from for-next this Thursday.
 
 Regards,
 
 Hans
 
 
+
 > ---
-> Changes in v4:
-> - CTRL_MAP DO need the device powered. Thanks Laurent
-> - CodeStyle
-> - use EXPORT_SYMBOL_GPL
-> - Link to v3: https://lore.kernel.org/r/20250630-uvc-grannular-invert-v3-0-abd5cb5c45b7@chromium.org
+>  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Changes in v3:
-> - Rebase
-> - Merge Invert PM patch with add support for compat ioctls
-> - Export different core function
-> - Inline the pm_ioctl patch
-> - Fix typo in comment
-> - Link to v2: https://lore.kernel.org/r/20250602-uvc-grannular-invert-v2-0-c871934ad880@chromium.org
-> 
-> Changes in v2. Thanks HdG:
-> - Rebase fop
-> - CodeStyle
-> - Refactor SEND_INITIAL to avoid lis_del()
-> - Squash "invert PM logic" and "unless is needed"
-> - Link to v1: https://lore.kernel.org/r/20250528-uvc-grannular-invert-v1-0-d01581f9cc25@chromium.org
-> 
-> ---
-> Hans Verkuil (1):
->       media: uvcvideo: Use vb2 ioctl and fop helpers
-> 
-> Ricardo Ribalda (6):
->       media: uvcvideo: Handle locks in uvc_queue_return_buffers
->       media: uvcvideo: Split uvc_stop_streaming()
->       media: uvcvideo: Remove stream->is_streaming field
->       media: uvcvideo: Turn on the camera if V4L2_EVENT_SUB_FL_SEND_INITIAL
->       media: core: export v4l2_translate_cmd
->       media: uvcvideo: uvc_v4l2_unlocked_ioctl: Invert PM logic
-> 
->  drivers/media/usb/uvc/uvc_ctrl.c     |  10 +-
->  drivers/media/usb/uvc/uvc_driver.c   |  37 +---
->  drivers/media/usb/uvc/uvc_metadata.c |   8 +-
->  drivers/media/usb/uvc/uvc_queue.c    | 199 +++++---------------
->  drivers/media/usb/uvc/uvc_v4l2.c     | 345 +++++------------------------------
->  drivers/media/usb/uvc/uvcvideo.h     |  37 +---
->  drivers/media/v4l2-core/v4l2-ioctl.c |   5 +-
->  include/media/v4l2-ioctl.h           |   1 +
->  8 files changed, 112 insertions(+), 530 deletions(-)
-> ---
-> base-commit: 35392e855abf7d02ad3b061cbc75c7c7c37f0577
-> change-id: 20250528-uvc-grannular-invert-19ad34c59391
-> 
-> Best regards,
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 44b6513c5264..532615d8484b 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -3260,7 +3260,7 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
+>  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>  {
+>  	struct uvc_entity *entity;
+> -	int i;
+> +	unsigned int i;
+>  
+>  	guard(mutex)(&handle->chain->ctrl_mutex);
+>  
+> @@ -3268,7 +3268,7 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>  		return;
+>  
+>  	list_for_each_entry(entity, &handle->chain->dev->entities, list) {
+> -		for (unsigned int i = 0; i < entity->ncontrols; ++i) {
+> +		for (i = 0; i < entity->ncontrols; ++i) {
+>  			if (entity->controls[i].handle != handle)
+>  				continue;
+>  			uvc_ctrl_set_handle(handle, &entity->controls[i], NULL);
 
 
