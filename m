@@ -1,54 +1,80 @@
-Return-Path: <linux-media+bounces-37033-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37034-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCAEAFB745
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 17:26:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C89AFB79A
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 17:40:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69B2E421C0E
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:25:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1AF664A66BA
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:40:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A82F2E337A;
-	Mon,  7 Jul 2025 15:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73AAB1EE03D;
+	Mon,  7 Jul 2025 15:40:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="dsR4xg0i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RFi1DEKs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A5A2E2EF6;
-	Mon,  7 Jul 2025 15:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E7C1DDC3F;
+	Mon,  7 Jul 2025 15:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751901934; cv=none; b=LREt0iiPuvNymirAAbsaT0fM99f+sq8kHnwIIy+MA5vlDn9JiE0MzXO4Se/miv1i18VEn3/JUcyxYgLUey7mspz8fPE6lB21f0o5ulFPQOrSOP9OVpn7869uFgCD9kcfQpHM/mot2Z/TMeD1cpAzTG0mMSI6DjRljlBkSFU+g3c=
+	t=1751902799; cv=none; b=g+z3SQ1LVn6WrCZEpnE+xsF7dXeEwkSbz6meA2OtMXWJkCfauj44OaVOcgVXfVo9YZIb01al5ptX3U4mXx6wBZQc7+C9DVpcnfrLUIGX3O0dkcw2kUIKnbVAg+Ds00q67dPXFfWOnHiaj2rBgg/NKHBaA0dTcA2XnvBek+T9/Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751901934; c=relaxed/simple;
-	bh=mdaLIDVjJ7ih3f59DLnrGDEVt54p29Slav4mQ87b5Ss=;
+	s=arc-20240116; t=1751902799; c=relaxed/simple;
+	bh=ZhePww66v7+1u0nIf44yCLlcotDjaiAnFcUMwsGVNqU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CrZeuDoC3olWROTNKbHnvRPK6ZLt08Qr7K7hXw7QXqKIXEiZsINFsNx4PaZQ8bcapuQiR9SzcQhP75Euyuo8oeWhEOGL4vxoZ09hC1N0XQrZd4WfPs4KW/C7DcFBv8OLB48HX0D9oQsZCLGkdweNDIwvAKP1PE6kLauV8Klzj8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=dsR4xg0i; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=St8BIQfR0g/bkj5Q2vbzyU5XeiMPVTu5DtKzmShcTZA=; b=dsR4xg0ipSXR9KEalJjr778CD8
-	rPdAyDcbkUwvqsSZaYzhNRukXe5zYO2FUe8Y49ijLn++ZiuUs4JyWY6a/c9+q4TdUPqBNhID+8BdG
-	K3mEXx1J1tyWFlidkjkpaUb1bREve84+ueR7B3wZvO10vmveutZQSeUE0PTEY43UoXecugEhHRySO
-	n5r3LX+1gvoKtmf/X+dUCjyI+rAPggCZIW8xNutF2aWq96F3ilVINa/PaA5pGjBRxWleslWcjAh+G
-	ou1BlgNSU6rkQnIbIX64CgjRQH5RxFdqGYsGMjQDpA+C7Xl+2tEuD23hJ1xalrZsCt4D7yjw8fzct
-	nulK/Giw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uYniZ-00DbXM-Ad; Mon, 07 Jul 2025 17:25:19 +0200
-Message-ID: <790c4053-cc63-4020-96ac-2650c8f009d3@igalia.com>
-Date: Mon, 7 Jul 2025 16:25:18 +0100
+	 In-Reply-To:Content-Type; b=G35s7rAnBvxon/p/XRY4sYV9GZZqktFf6/HpCWoU1KNyyOwi7q31ciBhcyQD0NyrEjfstNpN7wV0jUbotv7HaflctJg3KEmSLczBDxmNn1/g5vQTAESBNLBlaFBhmkKcQS0XinbShJgoM2vodsoedYF6PD2R5GLgtxK3v2US1MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RFi1DEKs; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-60c9d8a16e5so6021600a12.0;
+        Mon, 07 Jul 2025 08:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751902796; x=1752507596; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ezjQuXHd5Rf3mpNjV8Fq8zwJgH75aSXDhZDfm3b1TCM=;
+        b=RFi1DEKsK5xAwKTB1PhW4pIYpw/cY2GRAqlmIQeFkaxgCQavx1aFtvvRIudV0+Z5qk
+         Oy7RNEDDK9yIrffoJRE11EFP9agoDvvQ/65+c/Fc7pKN6v8bsGzWpfnZBaN+AnXYX8/j
+         GQdEPtEudQHOqtfLxj+RLw6Fnwnw7KKroFtg0qCXan4Kr7oKGBAMUWAkI7NvCN+/j7A0
+         dRthouoLfW9g0OGWxfLFpYnbkyuhwowCsWn8uG2Ef5yUOYHkf3umU8tWhUUsSCfWtUv5
+         F+tWRzwgeTyoERaxT7oP4POR9vzVz+IsvDcyGvs5nPe9c0cyZNdtRzpTntghUAoW8bZ8
+         BNFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751902796; x=1752507596;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ezjQuXHd5Rf3mpNjV8Fq8zwJgH75aSXDhZDfm3b1TCM=;
+        b=VoHmg+tsAArpdCmmDXluEfkW0zGu6MWRHS8WvyXk91Sg4eE9P2YmUNkplHnKrO4vvK
+         uR0FstOWaz1aIdzkiI2pjZP+G2C1GfDnehqtOPaZXzcLcAaBAuD1eFsgopHsUawxnIrP
+         mUKy7usKHmpl8NSL/Mp07J8FjNMAq/uGCqe8ssbqVyIXmBZQx9vPNjLWkKX7/y3ZAEyd
+         qpeMxTu7oTPXoSiyDIf9JTZN/U2RO85NHEfPNf5j4CIWBtpDnWcSS/zcIEUa8OFEs0IH
+         X4L7SpNYkUy2HB0+yJUErVw/5GGZ7q2h8aJA/JsHHZbwNcNIn67tJ8WlvctMZdopShKF
+         WzUg==
+X-Forwarded-Encrypted: i=1; AJvYcCVBvZKcUBYngIgUZgbfb3THjBl0eRZxRlu7ah67K/gPzTnpYnKRXBfryj1dZqw9j1MgwJZxTUbnsgQ6BaClHQ==@vger.kernel.org, AJvYcCVhxBfomePNfYOrBbo43dXI7S2QqjYTKnBX9kahEhfAzlWIDGsKgbG0bZyJe7MOu4qXVMxBkUxHm1oHCxY=@vger.kernel.org, AJvYcCWqNpFIXfP9Olc/tFVYnQjSOK4P7VdMcytwnyj7BX5JQ6un73rzoGNhhHupJbUhZNoaVkXyiqZtJec/Bw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsGbsopAn/7/8rBHjvgT0kclySpXNDCmpU8wYBvWflY1eW2dzD
+	HcPZMTs9BRS7uBxoNRjB7sCzefy3WKNM4HqN2TgAVBnoN2Pd+PrOgcsMGWAykQ==
+X-Gm-Gg: ASbGncvzPeFT41pFMPNzgpo2UqlCOd50igmMP81NFAW7DUUMmFbb/Awcu34eUiwMbPB
+	SkJPzDN3AtO8DjocWd4cP7jCTj7zvTBZ6A6ZVTp+krRRXtPej74rg1PikvveCITpgga6tbCiKB5
+	qhxTZQZIacuMWMeK8FNG2h3wnKmCMqO9W2/xxEqmcf7A+6xSMYcmG0WAwG2Lr0Fff9IMmvk5l/E
+	xgK/MHzMMIsNdn2TxMbBHgekO8OB+/RZE73x3d/wav45YaAfQGjS0QUYKdo4maQdOvIPNenKykX
+	OLKfVFI1xzjTr4fQEqPHXf3oc4JoPKyECtM10aJQlzCRBEDFfeAqBnBN2BVhcW1LpQKX52wCGNY
+	raK3hYAk=
+X-Google-Smtp-Source: AGHT+IECUz+0dR+mX/jDHZopafgoqx5arH4cJ6TohfaPi6RZy5DB6VxRs0wsEPpg/JVzP6t3CV7CTA==
+X-Received: by 2002:a17:907:c29:b0:ad5:78ca:2126 with SMTP id a640c23a62f3a-ae4109062f9mr811114166b.59.1751902795974;
+        Mon, 07 Jul 2025 08:39:55 -0700 (PDT)
+Received: from [192.168.8.100] ([148.252.146.232])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb0c78efsm5939890a12.44.2025.07.07.08.39.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 08:39:55 -0700 (PDT)
+Message-ID: <e210595b-d01f-4405-9b5d-a486ddca49ed@gmail.com>
+Date: Mon, 7 Jul 2025 16:41:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,162 +82,79 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] drm/sched/tests: Implement cancel_job() callback
-To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [RFC 00/12] io_uring dmabuf read/write support
+To: Christoph Hellwig <hch@infradead.org>
+Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, David Wei <dw@davidwei.uk>,
+ Vishal Verma <vishal1.verma@intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250707134221.34291-2-phasta@kernel.org>
- <20250707134221.34291-4-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250707134221.34291-4-phasta@kernel.org>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <cover.1751035820.git.asml.silence@gmail.com>
+ <aGaSb5rpLD9uc1IK@infradead.org>
+ <f2216c30-6540-4b1a-b798-d9a3f83547b2@gmail.com>
+ <aGveLlLDcsyCBKuU@infradead.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <aGveLlLDcsyCBKuU@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-On 07/07/2025 14:42, Philipp Stanner wrote:
-> The GPU Scheduler now supports a new callback, cancel_job(), which lets
-> the scheduler cancel all jobs which might not yet be freed when
-> drm_sched_fini() runs. Using this callback allows for significantly
-> simplifying the mock scheduler teardown code.
+On 7/7/25 15:48, Christoph Hellwig wrote:
+> On Mon, Jul 07, 2025 at 12:15:54PM +0100, Pavel Begunkov wrote:
+>>> to attach to / detach from a dma_buf, and then have an iter that
+>>> specifies a dmabuf and offsets into.  That way the code behind the
+>>> file operations can forward the attachment to all the needed
+>>> devices (including more/less while it remains attached to the file)
+>>> and can pick the right dma address for each device.
+>>
+>> By "iter that specifies a dmabuf" do you mean an opaque file-specific
+>> structure allocated inside the new fop?
 > 
-> Implement the cancel_job() callback and adjust the code where necessary.
+> I mean a reference the actual dma_buf (probably indirect through the file
+> * for it, but listen to the dma_buf experts for that and not me).
+
+My expectation is that io_uring would pass struct dma_buf to the
+file during registration, so that it can do a bunch of work upfront,
+but iterators will carry sth already pre-attached and pre dma mapped,
+probably in a file specific format hiding details for multi-device
+support, and possibly bundled with the dma-buf pointer if necessary.
+(All modulo move notify which I need to look into first).
+
+>> Akin to what Keith proposed back
+>> then. That sounds good and has more potential for various optimisations.
+>> My concern would be growing struct iov_iter by an extra pointer:
 > 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->   .../gpu/drm/scheduler/tests/mock_scheduler.c  | 66 +++++++------------
->   1 file changed, 23 insertions(+), 43 deletions(-)
+>> struct iov_iter {
+>> 	union {
+>> 		struct iovec *iov;
+>> 		struct dma_seg *dmav;
+>> 		...
+>> 	};
+>> 	void *dma_token;	
+>> };
+>>
+>> But maybe that's fine. It's 40B -> 48B,
 > 
-> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> index 49d067fecd67..2d3169d95200 100644
-> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> @@ -63,7 +63,7 @@ static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
->   	lockdep_assert_held(&sched->lock);
->   
->   	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
-> -	list_move_tail(&job->link, &sched->done_list);
-> +	list_del(&job->link);
->   	dma_fence_signal_locked(&job->hw_fence);
->   	complete(&job->done);
->   }
-> @@ -236,26 +236,39 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
->   
->   static void mock_sched_free_job(struct drm_sched_job *sched_job)
->   {
-> -	struct drm_mock_scheduler *sched =
-> -			drm_sched_to_mock_sched(sched_job->sched);
->   	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
-> -	unsigned long flags;
->   
-> -	/* Remove from the scheduler done list. */
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_del(&job->link);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
->   	dma_fence_put(&job->hw_fence);
-> -
->   	drm_sched_job_cleanup(sched_job);
->   
->   	/* Mock job itself is freed by the kunit framework. */
->   }
->   
-> +static void mock_sched_cancel_job(struct drm_sched_job *sched_job)
-> +{
-> +	struct drm_mock_scheduler *sched = drm_sched_to_mock_sched(sched_job->sched);
-> +	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
-> +	unsigned long flags;
-> +
-> +	hrtimer_cancel(&job->timer);
-> +
-> +	spin_lock_irqsave(&sched->lock, flags);
-> +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
-> +		list_del(&job->link);
-> +		dma_fence_set_error(&job->hw_fence, -ECANCELED);
-> +		dma_fence_signal_locked(&job->hw_fence);
-> +	}
-> +	spin_unlock_irqrestore(&sched->lock, flags);
-> +
-> +	/* The GPU Scheduler will call drm_sched_backend_ops.free_job(), still.
-> +	 * Mock job itself is freed by the kunit framework. */
+> Alternatively we could the union point to a struct that has the dma buf
+> pointer and a variable length array of dma_segs. Not sure if that would
+> create a mess in the callers, though.
 
-I suggest sticking with the multi-line comment format as used in this 
-file. Ie.
+Iteration helpers adjust the pointer, so either it needs to store
+the pointer directly in iter or keep the current index. It could rely
+solely on offsets, but that'll be a mess with nested loops (where the
+inner one would walk some kind of sg table).
 
-/*
-  * Multi-line comment.
-  */
+>> and it'll get back to
+>> 40 when / if xarray_start / ITER_XARRAY is removed.
+> 
+> Would it?  At least for 64-bit architectures nr_segs is the same size.
 
-> +}
-> +
->   static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
->   	.run_job = mock_sched_run_job,
->   	.timedout_job = mock_sched_timedout_job,
-> -	.free_job = mock_sched_free_job
-> +	.free_job = mock_sched_free_job,
-> +	.cancel_job = mock_sched_cancel_job,
->   };
->   
->   /**
-> @@ -289,7 +302,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
->   	sched->hw_timeline.context = dma_fence_context_alloc(1);
->   	atomic_set(&sched->hw_timeline.next_seqno, 0);
->   	INIT_LIST_HEAD(&sched->job_list);
-> -	INIT_LIST_HEAD(&sched->done_list);
+Ah yes
 
-You forgot to remove done_list from the struct definition.
-
-Regards,
-
-Tvrtko
-
->   	spin_lock_init(&sched->lock);
->   
->   	return sched;
-> @@ -304,38 +316,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
->    */
->   void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
->   {
-> -	struct drm_mock_sched_job *job, *next;
-> -	unsigned long flags;
-> -	LIST_HEAD(list);
-> -
-> -	drm_sched_wqueue_stop(&sched->base);
-> -
-> -	/* Force complete all unfinished jobs. */
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_for_each_entry_safe(job, next, &sched->job_list, link)
-> -		list_move_tail(&job->link, &list);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
-> -
-> -	list_for_each_entry(job, &list, link)
-> -		hrtimer_cancel(&job->timer);
-> -
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_for_each_entry_safe(job, next, &list, link)
-> -		drm_mock_sched_job_complete(job);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
-> -
-> -	/*
-> -	 * Free completed jobs and jobs not yet processed by the DRM scheduler
-> -	 * free worker.
-> -	 */
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_for_each_entry_safe(job, next, &sched->done_list, link)
-> -		list_move_tail(&job->link, &list);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
-> -
-> -	list_for_each_entry_safe(job, next, &list, link)
-> -		mock_sched_free_job(&job->base);
-> -
->   	drm_sched_fini(&sched->base);
->   }
->   
+-- 
+Pavel Begunkov
 
 
