@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-36990-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36991-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567C7AFB299
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:51:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12526AFB2A2
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:52:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95AB33AE6A0
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 11:50:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4051C1AA2DD7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 11:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6742B29A30F;
-	Mon,  7 Jul 2025 11:50:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6DE429A9E6;
+	Mon,  7 Jul 2025 11:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lTMHyhqT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3P8OI9Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5DA946C
-	for <linux-media@vger.kernel.org>; Mon,  7 Jul 2025 11:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B13F946C;
+	Mon,  7 Jul 2025 11:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751889056; cv=none; b=dFeKXbSVpmDEGbgCX77Qc7qkTU6yZQW9CZuzWRO1gVy4zbtYVb/0NnRHQ41DzG4fA9ugPav9+wjlOCCjpdrK8f216alzWylCrM9rnMcF0KFoWCLg9YDJhqZyOw7zbO7MnuxiFWIy2C90SgU2hc1egXLusYIOswSS1HzlefnK/MA=
+	t=1751889136; cv=none; b=QbyMJKaAogjbcN1fXRMoUo0M4T+TC4b5bagLrpFj82RGFwbK443cygYi/ANs6w7i/EZHWoP6mDidx9gq9GqO7AtXxsPb46mDmjfjX5b0fRQKHQ2adcA35wExSDaNESLbX4KTuh4DFf5c2EtlSl+7JkYtXvsqidqNhPNEpCwBuGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751889056; c=relaxed/simple;
-	bh=Z5HIfjFBmTSQOe1fyFkdwJuncwv/8XRN2Jcmc9kzJrE=;
+	s=arc-20240116; t=1751889136; c=relaxed/simple;
+	bh=ThC+k7ImXIsIuFGC+UGo5nJy3Jz/LAN/pjvD1oQNvcY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OhEj4S3zEswYurbb60sUJxOO+U5mTsBDgD3MA08rSJekVFdLGi6b0ngoT4FD/O4ca/QZzPuIX3BxoFs+JUlecmiJZwjEe4BGv/v1CAYrk7Iv+RFgTqT1HdHAOHd4dF59Xdpm9KjjhUXeZWpYxFQ0EIoirsKAkeQhswF5cTz5R54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lTMHyhqT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DCBA5664;
-	Mon,  7 Jul 2025 13:50:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1751889026;
-	bh=Z5HIfjFBmTSQOe1fyFkdwJuncwv/8XRN2Jcmc9kzJrE=;
+	 In-Reply-To:Content-Type; b=aMk0xoDBajyNIPKpg9HWZq+1aH45G50GdyPs3RDWu1PegmCDHcylu6XiziisIsC8pL9ur+iE5cMBa+02O34uvWApv8SJ9LLyKkSDvz1PMREHqPESJ7RuZBdYVYfP/HM4/0rCDeuLT2hVEKMzxey5F2c1ACky8YIBWamIevP5U1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3P8OI9Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E29EBC4CEE3;
+	Mon,  7 Jul 2025 11:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751889134;
+	bh=ThC+k7ImXIsIuFGC+UGo5nJy3Jz/LAN/pjvD1oQNvcY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lTMHyhqTvddxlmnhZACfWOKowWpmxsvkSkG/Ikv7BRdffHQJ2yz25sb+SRyxrnY5s
-	 eg+Zvrfo4cV0fK5wg7XGpZKKsOkZcpWhxqMdmtRgAdp0zSdh+kDmTXuKQkTVe1YkCS
-	 4AFgkpEpyppzhMrCOvueS5qWGm/sb2ZijXetDDWM=
-Message-ID: <1de5300c-f1f5-40af-af9a-87f4e28387b9@ideasonboard.com>
-Date: Mon, 7 Jul 2025 12:50:50 +0100
+	b=R3P8OI9QHni9OFYzNHos+BWoI0Y6eNYnYj+mdkQ5iO2exKlHwKPI/X2y7HEtWXxJ4
+	 oq6SnVjpx+hneia4FH/Y5sJ6G2nVmsRPEYCxo7dB6m4a/HseTeinmW12AMmBn8OqEV
+	 q34lTSfeEXOL8Y7qjGmwaMqm2RKzH5osl7nru/il19QEVI4Ro2uiGrho2x4DBCZRCO
+	 WGppKa4SVv5jCmTfrR/Skv2kgZenSJ8dNEglketBROLz8E70fT/llH7yMsVgCNzNng
+	 0vhHtiIDEbGR0/nFi7bzkeMclh4ux4cMahzUzF0Px8vPvPooNhHiMyYz1sz8GZgff2
+	 4zBhbDsDzjdFw==
+Message-ID: <13ee783b-7753-49f6-9efd-8989ddf0fe47@kernel.org>
+Date: Mon, 7 Jul 2025 13:52:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,134 +50,292 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] media: Documentation: Add documentation for media
- jobs
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v7 4/5] media: uvcvideo: Introduce
+ V4L2_META_FMT_UVC_MSXU_1_5
+To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, jacopo.mondi@ideasonboard.com
-References: <20250624-media-jobs-v2-0-8e649b069a96@ideasonboard.com>
- <20250624-media-jobs-v2-3-8e649b069a96@ideasonboard.com>
- <c388880c-f20d-404b-8deb-4813f44c7690@linux.intel.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <c388880c-f20d-404b-8deb-4813f44c7690@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20250617-uvc-meta-v7-0-9c50623e2286@chromium.org>
+ <20250617-uvc-meta-v7-4-9c50623e2286@chromium.org>
+ <60643043-4543-4882-81fe-18a809d02b1c@kernel.org>
+ <CANiDSCsqB6ktOXPg5S+He4bk8X_xA9y1r9AE9qc1AZ=edDYfrQ@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <CANiDSCsqB6ktOXPg5S+He4bk8X_xA9y1r9AE9qc1AZ=edDYfrQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari
+Hi,
 
-On 29/06/2025 10:11, Sakari Ailus wrote:
-> Hi Daniel,
->
-> On 6/24/25 10:59, Daniel Scally wrote:
->> +   struct isp {
->> +
->> +       ...;
->> +
->> +       struct {
->> +           struct list_head pending;
->> +       struct list_head processing;
->> +       } buffers;
->> +   }
->> +
->> +   static bool isp_driver_job_ready(void *data)
->> +   {
->> +       struct isp *isp = data;
->> +
->> +       /*
->> +        * Do we have a buffer queued ready to accept the ISP's output data?
->> +        */
->> +       if (list_empty(isp->buffers.pending))
->> +           return false;
->> +
->> +       return true;
->> +   }
->> +
->> +   static void isp_driver_job_queue(void *data)
->> +   {
->> +       struct isp *isp = data;
->> +       struct buf *buf;
->> +
->> +       /*
->> +        * We need to "consume" the buffer so that it's not also considered as
->> +        * meeting this dependency for the next attempt to queue a job
->> +        */
->> +       buf = list_first_entry(&isp->buffers.pending, struct buf, list);
->> +       list_move_tail(&buf->list, isp->buffers.processing);
->> +   }
->> +
->> +   static void isp_driver_job_abort(void *data)
->> +   {
->> +       struct isp *isp = data;
->> +       struct buf *buf;
->> +
->> +       /*
->> +        * If a queued job is cancelled then we need to return the dependency to
->> +        * its original state, which in this example means returning it to the
->> +        * pending queue.
->> +        */
->> +       buf = list_first_entry(&isp->buffers.pending, struct buf, list);
->> +       list_move_tail(&buf->list, isp->buffers.pending);
->> +   }
->> +
->> +   static struct media_job_contributor_ops isp_media_job_contributor_ops = {
->> +       .add_steps = isp_driver_job_add_steps
->> +       .ready = isp_driver_job_ready,
->> +       .queue = isp_driver_job_queue,
->> +       .abort = isp_driver_job_abort,
->> +   }
->
-> The media jobs framework has data structures that span over multiple sub-devices, each of which 
-> provide their of UAPI etc. Does a driver need to serialise access to some parts of this or is it 
-> all taken care of in the framework?
->
-> This would be good to be documented at least.
+On 7-Jul-25 13:44, Ricardo Ribalda wrote:
+> On Mon, 7 Jul 2025 at 13:34, Hans de Goede <hansg@kernel.org> wrote:
+>>
+>> Hi Ricardo,
+>>
+>> Thank you for the new version of this series.
+>>
+>> On 17-Jun-25 16:42, Ricardo Ribalda wrote:
+>>> The UVC driver provides two metadata types V4L2_META_FMT_UVC, and
+>>> V4L2_META_FMT_D4XX. The only difference between the two of them is that
+>>> V4L2_META_FMT_UVC only copies PTS, SCR, size and flags, and
+>>> V4L2_META_FMT_D4XX copies the whole metadata section.
+>>>
+>>> Now we only enable V4L2_META_FMT_D4XX for the Intel D4xx family of
+>>> devices, but it is useful to have the whole metadata payload for any
+>>> device where vendors include other metadata, such as the one described by
+>>> Microsoft:
+>>> https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
+>>>
+>>> This patch introduces a new format V4L2_META_FMT_UVC_MSXU_1_5, that is
+>>> identical to V4L2_META_FMT_D4XX.
+>>>
+>>> Let the user enable this format with a quirk for now. This way they can
+>>> test if their devices provide useful metadata without rebuilding the
+>>> kernel. They can later contribute patches to auto-quirk their devices.
+>>> We will also work in methods to auto-detect devices compatible with this
+>>> new metadata format.
+>>>
+>>> Suggested-by: Hans de Goede <hdegoede@redhat.com>
+>>> Reviewed-by: Hans de Goede <hansg@kernel.org>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> ---
+>>>  .../userspace-api/media/v4l/meta-formats.rst       |  1 +
+>>>  .../media/v4l/metafmt-uvc-msxu-1-5.rst             | 23 ++++++++++++++++++++++
+>>>  MAINTAINERS                                        |  1 +
+>>>  drivers/media/usb/uvc/uvc_metadata.c               | 20 +++++++++++++++++--
+>>>  drivers/media/usb/uvc/uvcvideo.h                   |  1 +
+>>>  drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
+>>>  include/uapi/linux/videodev2.h                     |  1 +
+>>>  7 files changed, 46 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+>>> index bb6876cfc271e1a0543eee4209d6251e1a6a73cc..0de80328c36bf148051a19abe9e5241234ddfe5c 100644
+>>> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+>>> @@ -20,6 +20,7 @@ These formats are used for the :ref:`metadata` interface only.
+>>>      metafmt-pisp-fe
+>>>      metafmt-rkisp1
+>>>      metafmt-uvc
+>>> +    metafmt-uvc-msxu-1-5
+>>>      metafmt-vivid
+>>>      metafmt-vsp1-hgo
+>>>      metafmt-vsp1-hgt
+>>> diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
+>>> new file mode 100644
+>>> index 0000000000000000000000000000000000000000..dd1c3076df243d770a13e7f6d07c3296a269e16a
+>>> --- /dev/null
+>>> +++ b/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
+>>> @@ -0,0 +1,23 @@
+>>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+>>> +
+>>> +.. _v4l2-meta-fmt-uvc-msxu-1-5:
+>>> +
+>>> +***********************************
+>>> +V4L2_META_FMT_UVC_MSXU_1_5 ('UVCM')
+>>> +***********************************
+>>> +
+>>> +Microsoft(R)'s UVC Payload Metadata.
+>>> +
+>>> +
+>>> +Description
+>>> +===========
+>>> +
+>>> +V4L2_META_FMT_UVC_MSXU_1_5 buffers follow the metadata buffer layout of
+>>> +V4L2_META_FMT_UVC with the only difference that it includes all the UVC
+>>> +metadata in the `buffer[]` field, not just the first 2-12 bytes.
+>>> +
+>>> +The metadata format follows the specification from Microsoft(R) [1].
+>>> +
+>>> +.. _1:
+>>> +
+>>> +[1] https://docs.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index e8f3dc93a56921924f57e7d5a03ea2fa182a4448..87101630e528297c57b22ffc2fe553e3864d25cc 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -25816,6 +25816,7 @@ S:    Maintained
+>>>  W:   http://www.ideasonboard.org/uvc/
+>>>  T:   git git://linuxtv.org/media.git
+>>>  F:   Documentation/userspace-api/media/drivers/uvcvideo.rst
+>>> +F:   Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
+>>>  F:   Documentation/userspace-api/media/v4l/metafmt-uvc.rst
+>>>  F:   drivers/media/common/uvc.c
+>>>  F:   drivers/media/usb/uvc/
+>>> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+>>> index bc84e849174397f41d1e20bf890a876eeb5a9c67..b09f81d907d64f7d7a3b0dc52de319879b7e68be 100644
+>>> --- a/drivers/media/usb/uvc/uvc_metadata.c
+>>> +++ b/drivers/media/usb/uvc/uvc_metadata.c
+>>> @@ -190,13 +190,29 @@ int uvc_meta_init(struct uvc_device *dev)
+>>>       static const u32 uvch_only[] = {V4L2_META_FMT_UVC, 0};
+>>>       static const u32 d4xx_format[] = {V4L2_META_FMT_UVC, V4L2_META_FMT_D4XX,
+>>>                                         0};
+>>> +     static const u32 all_formats[] = {V4L2_META_FMT_UVC, V4L2_META_FMT_D4XX,
+>>> +                                       V4L2_META_FMT_UVC_MSXU_1_5, 0};
+>>> +     static const u32 ms_format[] = {V4L2_META_FMT_UVC,
+>>> +                                     V4L2_META_FMT_UVC_MSXU_1_5, 0};
+>>
+>> Hmm, this does not look great, I guess we are not expecting any
+>> new metadata formats soon but just needing the 4 arrays here and
+>> then ... (continued below).
+> 
+> Yeah, this looks better :)
+> 
+> 
+> Will implement it as you describe. Just a couple of comments.
+> 
+> 
+> 
+>>
+>>
+>>> +     bool support_msxu;
+>>> +
+>>> +     support_msxu = dev->quirks & UVC_QUIRK_MSXU_META;
+>>>
+>>>       switch (dev->info->meta_format) {
+>>> +     case V4L2_META_FMT_UVC_MSXU_1_5:
+>>> +             dev->meta_formats = ms_format;
+>>> +             break;
+>>>       case V4L2_META_FMT_D4XX:
+>>> -             dev->meta_formats = d4xx_format;
+>>> +             if (support_msxu)
+>>> +                     dev->meta_formats = all_formats;
+>>> +             else
+>>> +                     dev->meta_formats = d4xx_format;
+>>>               break;
+>>>       case 0:
+>>> -             dev->meta_formats = uvch_only;
+>>> +             if (support_msxu)
+>>> +                     dev->meta_formats = ms_format;
+>>> +             else
+>>> +                     dev->meta_formats = uvch_only;
+>>
+>> Also having these if else's here both don't look nice /
+>> this does not feel clean.
+>>
+>> My suggestion would be to instead do the following:
+>>
+>> 1. Add a #define UVC_MAX_META_DATA_FORMATS 3 to uvcvideo.h
+>> 2. In the struct uvc_device definition change meta_formats to:
+>>
+>>         u32 meta_formats[UVC_MAX_META_DATA_FORMATS + 1];
+>>
+>> 3. Change uvc_meta_init() to:
+>>
+>> void uvc_meta_init(struct uvc_device *dev)
+>> {
+>>         unsigned int i = 0;
+>>
+>>         dev->meta_formats[i++] = V4L2_META_FMT_UVC;
+>>
+>>         if (dev->info->meta_format)
+>>                 dev->meta_formats[i++] = dev->info->meta_format;
+>>
+>>         if (dev->quirks & UVC_QUIRK_MSXU_META)
+> 
+>          if (dev->quirks & UVC_QUIRK_MSXU_META) &&
+> dev->meta_formats[i-1] != V4L2_META_FMT_UVC_MSXU_1_5)
+>>                 dev->meta_formats[i++] = V4L2_META_FMT_UVC_MSXU_1_5;
+>>
+>>         /* IMPORTANT for new meta-formats update UVC_MAX_META_DATA_FORMATS */
+> 
+> Do we really need this comment? Even if we add more formats the total
+> number of formats supported will never be more than 3.
+> 
+> FMT_UVC, device_specific, msxu
+
+The comment is at the place where one would add a new if in case
+for some reason we do add another path to add a meta-format in
+that case if all 3 (with the new if) if conditions evaluate to
+true then we would overrun the array.
+
+Unfortunately there is no way to do e.g. a static_assert()
+for that, which is why I still believe at least having
+the comment would be good.
+
+That and/or add a:
+
+	WARN_ON(i > UVC_MAX_META_DATA_FORMATS);
+
+Before adding the final 0 terminator. I actually had
+the WARN_ON in there first, but a comment seemed to make
+more sense...
+
+Regards,
+
+Hans
 
 
-The intention is that that would all be handled within the framework; I'll make that explicit in the 
-documentation
+
+
+
+>>         dev->meta_formats[i++] = 0;
+>> }
+>>
+>> Note uvc_meta_init() now also is void, so no more need to error check it.
+>>
+>> The only downside I can see is that if we ever actually start setting
+>> dev->info->meta_format = V4L2_META_FMT_UVC_MSXU_1_5 and a user manually
+>> enables the quirk we get V4L2_META_FMT_UVC_MSXU_1_5 listed twice, but
+>> that should not cause any issues and normally that will never happen.
+>>
+>> IMHO this is better, then the switch-case + if-else code.
+>>
+>> Stating the obvious: some / most of these changes should be done in patch 3/5
+>> already.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>
+>>
+>>>               break;
+>>>       default:
+>>>               dev_err(&dev->udev->dev, "Unknown metadata format 0x%x\n",
+>>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+>>> index 502f1d5608637cd28ce6f01aee31c4f5df160081..3578ce72fb6a1153ae79c244ec10093e8efdd739 100644
+>>> --- a/drivers/media/usb/uvc/uvcvideo.h
+>>> +++ b/drivers/media/usb/uvc/uvcvideo.h
+>>> @@ -77,6 +77,7 @@
+>>>  #define UVC_QUIRK_DISABLE_AUTOSUSPEND        0x00008000
+>>>  #define UVC_QUIRK_INVALID_DEVICE_SOF 0x00010000
+>>>  #define UVC_QUIRK_MJPEG_NO_EOF               0x00020000
+>>> +#define UVC_QUIRK_MSXU_META          0x00040000
+>>>
+>>>  /* Format flags */
+>>>  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>> index 650dc1956f73d2f1943b56c42140c7b8d757259f..ba508f7fb577021497009ab23a7be5add23fd08c 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>> @@ -1459,6 +1459,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>>       case V4L2_META_FMT_VSP1_HGO:    descr = "R-Car VSP1 1-D Histogram"; break;
+>>>       case V4L2_META_FMT_VSP1_HGT:    descr = "R-Car VSP1 2-D Histogram"; break;
+>>>       case V4L2_META_FMT_UVC:         descr = "UVC Payload Header Metadata"; break;
+>>> +     case V4L2_META_FMT_UVC_MSXU_1_5:        descr = "UVC MSXU Metadata"; break;
+>>>       case V4L2_META_FMT_D4XX:        descr = "Intel D4xx UVC Metadata"; break;
+>>>       case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+>>>       case V4L2_META_FMT_RK_ISP1_PARAMS:      descr = "Rockchip ISP1 3A Parameters"; break;
+>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>> index 9e3b366d5fc79d8a04c6f0752858fc23363db65c..75f2096b2d4fed5e0235ea4732d35044ff77a98b 100644
+>>> --- a/include/uapi/linux/videodev2.h
+>>> +++ b/include/uapi/linux/videodev2.h
+>>> @@ -861,6 +861,7 @@ struct v4l2_pix_format {
+>>>  #define V4L2_META_FMT_VSP1_HGT    v4l2_fourcc('V', 'S', 'P', 'T') /* R-Car VSP1 2-D Histogram */
+>>>  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
+>>>  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+>>> +#define V4L2_META_FMT_UVC_MSXU_1_5  v4l2_fourcc('U', 'V', 'C', 'M') /* UVC MSXU metadata */
+>>>  #define V4L2_META_FMT_VIVID    v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+>>>
+>>>  /* Vendor specific - used for RK_ISP1 camera sub-system */
+>>>
+>>
+> 
+> 
 
 
