@@ -1,218 +1,183 @@
-Return-Path: <linux-media+bounces-37002-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37003-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27ABCAFB4AF
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:35:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C21AFB4B4
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:35:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17F9A4A4EB4
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:34:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E214188776E
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:35:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC38B29CB3E;
-	Mon,  7 Jul 2025 13:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD4F29B228;
+	Mon,  7 Jul 2025 13:35:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2HRdFvtm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9UZxAhEp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2HRdFvtm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9UZxAhEp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t++THqT9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9660C29B8C7
-	for <linux-media@vger.kernel.org>; Mon,  7 Jul 2025 13:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112411FF1C7
+	for <linux-media@vger.kernel.org>; Mon,  7 Jul 2025 13:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751895219; cv=none; b=I+jVAp0+Q23Am1y3f+9MsUzqX0HuE+b/8kEhoLndPIOGh8+3OIAfeKu6RNJEWPaplbrZSutTdn/2iIBsQB/+pZnf8shB7Ucmygw4cXYIOfAkYDFOT7gRRfZG4TvkMcUZeDzLp9UDkQ83SMP1kCSeqv2W2J51JtDLikWnJCLiA4A=
+	t=1751895323; cv=none; b=P2+2zsyf4ccyxgJ7v4DclKjidZeigyHIwqo5xy5oMxiM1UrQzCT1oe9/I4fP2Z8es/tnbXuOsCBILp1looXmuiSbAQOBEG4XVeFdz1eVJnci75yLbjQgS5Sg+EJyqiD0Hs9wG4E68bdc8x16NhbBBExUXL5tsjTJB3WFDpehUwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751895219; c=relaxed/simple;
-	bh=ef2P+c2p9MB2G6rkZzfHJnAfCTKbynW6yIMx0Gbfh1U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oBwPE9fDYz0zl5/M5awdOuPnsZC4DuwWPYQbod3NwE1DvUR4CJVri8w7at1CyVtvT2uRtZOAtdH32fNTBudoDh0Up5a/JvUElQ9uxnyTyc61Fha9tdxfmB5lc9fShHuXuUVLP3/VV0FGYJbkuz8XFONFZTYVPeUx/aoRyhD/6Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2HRdFvtm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9UZxAhEp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2HRdFvtm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9UZxAhEp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 99B3D210F9;
-	Mon,  7 Jul 2025 13:33:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751895213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
-	b=2HRdFvtmnWk/4qlRqjQacbX0wOVfu0ClTAIZu3icmvJFVHemHKwA55HMGL7lrBFGJ0S11W
-	fliw5G0VohOSxJ5OhzieLCfzif2p286trQGX44ypsilNKwIcPxBD5AcraUgUfH1Cjb/K5A
-	z/LtQFFfZ+AzOW7GGufLgyoWoJewquQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751895213;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
-	b=9UZxAhEpF7iHtiaLfd499fX6ox7Vt+Qb6Rzbl14HCglQJtWUW/GfSSa/oy8zLvi+v4BYUM
-	EyO/7F8aPzTC6VDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2HRdFvtm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9UZxAhEp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751895213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
-	b=2HRdFvtmnWk/4qlRqjQacbX0wOVfu0ClTAIZu3icmvJFVHemHKwA55HMGL7lrBFGJ0S11W
-	fliw5G0VohOSxJ5OhzieLCfzif2p286trQGX44ypsilNKwIcPxBD5AcraUgUfH1Cjb/K5A
-	z/LtQFFfZ+AzOW7GGufLgyoWoJewquQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751895213;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
-	b=9UZxAhEpF7iHtiaLfd499fX6ox7Vt+Qb6Rzbl14HCglQJtWUW/GfSSa/oy8zLvi+v4BYUM
-	EyO/7F8aPzTC6VDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 15A1F13757;
-	Mon,  7 Jul 2025 13:33:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ozdEA63Ma2grHAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 07 Jul 2025 13:33:33 +0000
-Message-ID: <4c1bc40d-6bd4-4102-b12f-fda320216e1d@suse.de>
-Date: Mon, 7 Jul 2025 15:33:32 +0200
+	s=arc-20240116; t=1751895323; c=relaxed/simple;
+	bh=O8hQBASf5iMOBLgxVLic0uuXr1IXkFH1Kh4Bty5fihM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mM4jSNnCRSvVGZGd/Qc9cTVv/LN85nYN/sW1/z5SdqedGWw2kSzXpdG/V3opeGqLA9vanETU9CXMG/x+UhPJfsRrD0d26ZkHYOCCwMrtx1yUr+0GbZVvRGAaQ35XEMy/cA/PGMoB2sVndEmzOOP8yroJ/+/8gXGbl9Z9UikNjq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t++THqT9; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60c4f796446so4634843a12.1
+        for <linux-media@vger.kernel.org>; Mon, 07 Jul 2025 06:35:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751895320; x=1752500120; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iglN2fDJo6Jj8oOAA17PlpCWLQPcfqHRK3QqDqJauNc=;
+        b=t++THqT95wpZgG/8BQyOvlDdpS61ZE5mR5RIGRcuwNE0bFbY3U5+c0F3bPrvTcDeWL
+         +r/f9QOjdiw16LIXmsn9jRKfaXrLZUcsozK67OV5m2IKpFq0iTaNG6NgzIVwEIF0/Erl
+         61kbwrrqb25HXLB9SleCLITSkJsKPhhZHC+UX5Y+Eg24a2MfiW5ZgmTQ8OdxQjRKzKjr
+         fzyvKq2FxjNuzDuHm0jP59RjqP0fdjpyvESC6K3fb/Nv5QYkJEH+PaZ5AuLE8c6mxx8k
+         HSmbnr5g9DIdWpQwcndOJQ4exk3xXvvt1i4sQ/3Ea/3+fX1SPvOH4WB8S4oIVvH34a1/
+         fGEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751895320; x=1752500120;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iglN2fDJo6Jj8oOAA17PlpCWLQPcfqHRK3QqDqJauNc=;
+        b=g4SojiCCL4K9YUkFjPjh8NuNOTq/bf7vAPpKcKTO//e7EPz2f09H2r7T/6h8WfMSOJ
+         u6GLcNq9WbDnOAOiVRPG527MkuRccjxZUjeo9wnQxzoFBInk/RfbX1r6Axfdjz48wurq
+         GjuKNMYdygaoVnQwUITZeE0pCO19wkXfpbahQXMDWMVoLgzpZksTcXCmpf08KQ9G5tdx
+         z2W9oHJakbtuRmH3rJtsKJe5WYGVOnGXtAzyCfxrAaxarggekLCBAPmtlH2RC9qlWVSN
+         x3+gwe+pvhV9sGingq7NM842oYBm+rVzNODNChrKGH6ubGWtSfE+lCC7XX8B2Y2WzFFv
+         iBgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjKO2ALdK7YiTbOHkHruvvXCvcYaqRGaimg7dsDxZ+n8GKl55mMTegqHt5sOrOBxCfBFgiqwE1pge8Dw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzngfDc2yF99bz9UscQCaSnZbYpXp2AaSDjGVqkP5uVuM5VfCkh
+	O6bAu/5lO/8yXcjMhnhiReTW+e5PMMZ/sVSoQYS/kM+ypbov35CMz5yafnCQi9GVZ9KjvZKzX7L
+	YGdtWAWDj+JfBXHAHl5gjCMWOzareEj+Z0DdzWiz1wA==
+X-Gm-Gg: ASbGncvMLYWZq7TuIUS6qKZ2aff9IX6XNNT/hclFWHA+t4flaVn3Q6n2m14Q873d9yf
+	TwiI7kmFdfUAsRW00h9rFBjfeKG7E2CefSTFSCs7xKQssKxEOJtWs4gGlvYntKWyNxqxsq4gX5B
+	dHUh+g8fmZmzBIiDUSTUWvFjCHUOy1DdDsoBkZ8z1ZPscsDyUPLuCOrCoaxkM/73sf2njCKLt/4
+	bGIE4qMdVOfiw==
+X-Google-Smtp-Source: AGHT+IET++QyEw80P77BIRzs6JWa9kHBMfwtkMIUTg5pCT3exqjnCE5AHFUJIOdI1A973C72FUTiNPTJJ/5qE+IOutw=
+X-Received: by 2002:a50:eb0c:0:b0:607:32e8:652 with SMTP id
+ 4fb4d7f45d1cf-60ff3c0d6e8mr6977121a12.19.1751895320263; Mon, 07 Jul 2025
+ 06:35:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/framebuffer: Acquire internal references on GEM
- handles
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- asrivats@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, jean-christophe@guillain.net,
- superm1@kernel.org, satadru@gmail.com, bp@alien8.de
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Bert Karwatzki <spasswolf@web.de>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- stable@vger.kernel.org
-References: <20250707131224.249496-1-tzimmermann@suse.de>
- <a3336964-1b72-421c-b4dc-2ac3f548430b@amd.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <a3336964-1b72-421c-b4dc-2ac3f548430b@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[amd.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,guillain.net,alien8.de];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,web.de,linaro.org,lists.linaro.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 99B3D210F9
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+References: <20250610131231.1724627-1-jkangas@redhat.com> <aGvHUTC7Kbe9lru3@jkangas-thinkpadp1gen3.rmtuswa.csb>
+In-Reply-To: <aGvHUTC7Kbe9lru3@jkangas-thinkpadp1gen3.rmtuswa.csb>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Mon, 7 Jul 2025 19:05:09 +0530
+X-Gm-Features: Ac12FXyRxHcDe4-WqyYgc42A2U_9x5Uy_U3EHMTjmhyPcBLa1jvXKcYwtoIgS80
+Message-ID: <CAO_48GHtUG_hTFvLVQfG06FxdO_6z5m0WofXKh=WhgCjNguxPg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] dma-buf: heaps: Use constant name for CMA heap
+To: Jared Kangas <jkangas@redhat.com>
+Cc: benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, 
+	tjmercier@google.com, christian.koenig@amd.com, mripard@kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hello Jared,
 
-Am 07.07.25 um 15:21 schrieb Christian König:
+On Mon, 7 Jul 2025 at 18:40, Jared Kangas <jkangas@redhat.com> wrote:
+>
+> On Tue, Jun 10, 2025 at 06:12:28AM -0700, Jared Kangas wrote:
+> > Hi all,
+> >
+> > This patch series is based on a previous discussion around CMA heap
+> > naming. [1] The heap's name depends on the device name, which is
+> > generally "reserved", "linux,cma", or "default-pool", but could be any
+> > arbitrary name given to the default CMA area in the devicetree. For a
+> > consistent userspace interface, the series introduces a constant name
+> > for the CMA heap, and for backwards compatibility, an additional Kconfi=
+g
+> > that controls the creation of a legacy-named heap with the same CMA
+> > backing.
+> >
+> > The ideas to handle backwards compatibility in [1] are to either use a
+> > symlink or add a heap node with a duplicate minor. However, I assume
+> > that we don't want to create symlinks in /dev from module initcalls, an=
+d
+> > attempting to duplicate minors would cause device_create() to fail.
+> > Because of these drawbacks, after brainstorming with Maxime Ripard, I
+> > went with creating a new node in devtmpfs with its own minor. This
+> > admittedly makes it a little unclear that the old and new nodes are
+> > backed by the same heap when both are present. The only approach that I
+> > think would provide total clarity on this in userspace is symlinking,
+> > which seemed like a fairly involved solution for devtmpfs, but if I'm
+> > wrong on this, please let me know.
+> >
+> > Changelog:
+> >
+> > v4:
+> >   - Fix ERR_PTR() usage for negative return value.
+> >
+> > v3:
+> >   - Extract documentation markup fix to separate patch.
+> >   - Adjust DEFAULT_CMA_NAME per discussion in [2].
+> >   - Warn if the legacy heap name and the default heap name are the same=
+.
+> >   - Fix DMABUF_HEAPS_CMA_LEGACY prompt.
+> >   - Touch up commit log wording.
+> >
+> > v2:
+> >   - Use tabs instead of spaces for large vertical alignment.
+> >
+> > [1]: https://lore.kernel.org/all/f6412229-4606-41ad-8c05-7bbba2eb6e08@t=
+i.com/
+> > [2]: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=3Dc71kzFFaWK-fF5rCdn=
+r9P5h1sgPOWSGSw@mail.gmail.com/
+> >
+> > Jared Kangas (3):
+> >   Documentation: dma-buf: heaps: Fix code markup
+> >   dma-buf: heaps: Parameterize heap name in __add_cma_heap()
+> >   dma-buf: heaps: Give default CMA heap a fixed name
+> >
+> >  Documentation/userspace-api/dma-buf-heaps.rst | 11 +++---
+> >  drivers/dma-buf/heaps/Kconfig                 | 10 ++++++
+> >  drivers/dma-buf/heaps/cma_heap.c              | 36 +++++++++++++++----
+> >  3 files changed, 46 insertions(+), 11 deletions(-)
+> >
+> > --
+> > 2.49.0
+> >
+>
+> Hi Sumit,
+>
+> Just wanted to check in on this since discussion has died down this
+> iteration: what's the status on this series? If there's anything I can
+> do to help, I'm happy to lend a hand.
 
->>   
->> +#define DRM_FRAMEBUFFER_HAS_HANDLE_REF(_i)	BIT(0u + (_i))
-> Why the "0u + (_i)" here? An macro trick?
+I'm sorry, I had to be out for a bit due to some personal reasons;
+overall it looks good to me. I'll apply it very soon.
 
-You mean why not just BIT(_i)? internal_flags could possibly contain 
-additional flags. Just using BIT(_i) would make it look as if it's only 
-for those handle refs.
-
-Best regards
-Thomas
+Thank you for your patience!
 
 >
-> Regards,
-> Christian.
+> Thanks,
+> Jared
+Best,
+Sumit.
 >
->> +
->>   /**
->>    * struct drm_framebuffer - frame buffer object
->>    *
->> @@ -188,6 +191,10 @@ struct drm_framebuffer {
->>   	 * DRM_MODE_FB_MODIFIERS.
->>   	 */
->>   	int flags;
->> +	/**
->> +	 * @internal_flags: Framebuffer flags like DRM_FRAMEBUFFER_HAS_HANDLE_REF.
->> +	 */
->> +	unsigned int internal_flags;
->>   	/**
->>   	 * @filp_head: Placed on &drm_file.fbs, protected by &drm_file.fbs_lock.
->>   	 */
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
 
+--=20
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Senior Tech Lead - Android, Platforms and Virtualisation
+Linaro.org =E2=94=82 Arm Solutions at Light Speed
 
