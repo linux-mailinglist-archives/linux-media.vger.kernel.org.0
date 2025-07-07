@@ -1,161 +1,143 @@
-Return-Path: <linux-media+bounces-36985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36986-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB83AFB214
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:14:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F66AFB228
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:20:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 31E9B3B99A2
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 11:14:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6457A1706E5
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 11:20:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD4B298CD2;
-	Mon,  7 Jul 2025 11:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A754B29994A;
+	Mon,  7 Jul 2025 11:20:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UMo9NfOm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXwgORC1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F072286412;
-	Mon,  7 Jul 2025 11:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DC51EA7F4
+	for <linux-media@vger.kernel.org>; Mon,  7 Jul 2025 11:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751886869; cv=none; b=hURLY24HF5GErRBNwW4W3k/avBviE1u7M83jQqHiygLsC1dUllPhQsygoz6ey3hHuEh1bvGWzo07PCYsC1kGC8pYklVW5TAYAPyZwS4BiZGYkeGuXS2Q9lGXdXqlgtgrBdE+cp/y1thfykZiUqQnwv+ZU+0K2Lg7lbB7V52i+vQ=
+	t=1751887209; cv=none; b=d2H5mUY5lJVEf+bLanWxakiSx5Cax+bK5W45entRw0/VpR9u78Vwd8nxv/l03YhvFVcDWlfLzPFvVNB5w1GsGZQOUgB+AboRDGFSCX6P6ivjOtG3Oo6IiRmX0h3ybkdMxrfXGjxBmT/hoytRpEJJpRR9gG3UHIuqAspCm9bVTgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751886869; c=relaxed/simple;
-	bh=wwNXOhUEkGQ4Opb7mt27btwQxprj7tTLk9RgnSGIES0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NHPAyOKQ6iH+I46CPTAoS9HdbTcLBjgLsctVFunNyMVvk/YNXq/114klT2LQC68BLhUnXIbM/zxg1L5yxS9LJgfmPiFONM+OOW2fNO0FqKXkLczvORc9xbvVbFM9bt13Sfl1XsNonOXdelPTypooAasTfay0jR8bIGULtgO73V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UMo9NfOm; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ae0bde4d5c9so618688866b.3;
-        Mon, 07 Jul 2025 04:14:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751886866; x=1752491666; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ISbJeBw9NAi5f57BeJCVw181+eBAYp7u8b9Kdohio9o=;
-        b=UMo9NfOmOSGbxiBAzf71HNdkuFC5l6f3NKcKIe/1W3nD8dQtvnRGhSKGe9N3kgqLxJ
-         41X9JZwffr7XouSoEVHQjND8TLxbfW/2qZj40hmu/i46j3hemHHY8XurNwq//FdeVaDX
-         JcYm3cmDw58v8QAZF+EP1hvFS3gc8PRWrG5c9a3v969N1b0iWn3RTRWene2enUdaajcf
-         OvkyJuq+JmKljJ+lruF/YQR2JxanWFp+XhoK5bO97v+4/WCpdTAFvuzaxcSnvM4S+nnt
-         vvChgeURE04XN4ZyUAYf4u+3uLlBS5qQhFwrQAVuR41VXH8rxKPCAAJau/d9LWyS8Cvx
-         /qcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751886866; x=1752491666;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ISbJeBw9NAi5f57BeJCVw181+eBAYp7u8b9Kdohio9o=;
-        b=BwYJRzgP46HkG1xNF5NtkIBueXuidvFuHaSWzZb/Wmc2fhKlDwqn+cZUSHd15q2OJ0
-         3rBsd0IKcGx0UmIIIEtdEb1ix9BcKkXH7XKNYGUDUtG6KQbMkp/nJLc61KeaVg+nAEvQ
-         j4SnDt9BvmQdF2RYNOKMll9s8UUoyfvfgvmJ+XmybOX9Q9XkOWvdJqOAoUpGpBCYN1Ml
-         oAMC8g/G9kTwLVZU8etG5HkZE9QGXzq0OxCKDqpFy2P3iJiUCNkKMjJI7hPCahWEjzU0
-         7xMAJpTkL1+NgBcZAEPEQu4kwWVe8kRZTWDxiVgGSA0nZmXhyUPgC+nIcE8mfzi0xs8Y
-         rFcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWxlyDx0+Ns6tyCgxIlkv3LXrtzRJeI5WmXX5kZWgUu7pqgci/X1bdjuEIv9VQEja+ITMOntn72jFtmAw==@vger.kernel.org, AJvYcCXLDUGzRzAWeqvNqLSj5iZrhJneSQYwThUl2v3bnYDPyLyfrNVYNx3YtwZX1c7JcETdnz5albyX4wxOx5E=@vger.kernel.org, AJvYcCXNwYqwZdySWRHcpa4J48mneLc5v5SHS8CdGVvTO31NXZQ+WgAIBqg6bzUklnAu0m0q8e5qn5U22RKfPeSVyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSCerHjTCL5obybB1SlBlneKeQMOtH1Z3Dkrto4swHdr4Yahhy
-	XgBq09s8PtfTA7pVWc4VNIrBjnsuJQ6ldtVCXM28UCz2c7GMHmdUfp9I
-X-Gm-Gg: ASbGncumIL/65aVnZoCmuOBo6Ycyhv9uDb42KabGuTiFH7V9AO0KB/Mg2MW0LUJP1TE
-	nPt0/7dB87PW8XovK0ENs10m+/fzvemEwlTZHTlPyjXgr/70KmV2msAbdgkKCvR8g8l+C7H3ET5
-	9BMRdGO6+kXzRySBFGogLiabWFq9KSwenIUKeX7yJfUl0umbFdfhw3eHG/7LqE8vbPBmmkxyUd4
-	NweLz7NkkgAXmScTBWYaRZ2iOQpq5jW+tZHyAosuOh0NZnCwRhC2awpV9iZcNuFF59DOHvQ7lHl
-	0sEN8gmT39N7fgbcRSeF+d69WxBO4pE5Iymz+CHBWgVYArP00CsYOfxwtUUa+DVL0MeNS/kRg9b
-	Fs6H5SujD9A==
-X-Google-Smtp-Source: AGHT+IHXy0DieX4Ryfe7fnqNm2npiGA05vFcH84u4de0iwjmdTb2PEXlvbji/iKcic0iBMD+4uS9wg==
-X-Received: by 2002:a17:907:dab:b0:ae0:c523:780c with SMTP id a640c23a62f3a-ae4108c85a2mr739098066b.5.1751886865420;
-        Mon, 07 Jul 2025 04:14:25 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325::1ac? ([2620:10d:c092:600::1:adc3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f6b0336asm688993666b.115.2025.07.07.04.14.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jul 2025 04:14:24 -0700 (PDT)
-Message-ID: <f2216c30-6540-4b1a-b798-d9a3f83547b2@gmail.com>
-Date: Mon, 7 Jul 2025 12:15:54 +0100
+	s=arc-20240116; t=1751887209; c=relaxed/simple;
+	bh=bSGhFDjhKbAh5jTSPYc1zs6QthHUlQee4oW5K2f/adk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q83xoMyU2BAFLVckDLOhIhC3/CsHnKCc8rMis9bsyqqy0nL5ws1CTp5n1LVh+RIUk+XzPwBFYD7OYTM8GF1wTxwlGfaOobtVv9IwC1/O9mZ0y4+bCrIkZyVyBb36NAgW1vufXt5iX4qpKqyXeKZj9jk1KxhY9o3N73Q3vT6CEwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXwgORC1; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751887207; x=1783423207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bSGhFDjhKbAh5jTSPYc1zs6QthHUlQee4oW5K2f/adk=;
+  b=aXwgORC1upM4n69AjZGeDbF2JP/nObf7d4pQHKhnLgx4Do5BToN6Cbj/
+   hJp+IpBOVYBMbV2jkKd9G7ErS46jPzjd818qe5gWim0A4lVrvrUuQr37U
+   VOtmSnIGNhPBlW6X/sTPObaGn6xsi0GpQTaxGlnKAOASOb58T4F4NN49P
+   uewLp2+GprgjEQIwmOmPxBphPmWgf3IFbJtEvBW3l9m/wzXyqS5WoNdkl
+   9nxgGpuTTUWQvav5idapkSWJ8KFLd1i4DkEA+glhx5iCeG1alRLh+xXrN
+   S8itaV2qpi+vj2PkizPaXSEqp0za49sO+p543Kf9OhxBCDGNZW33oUeb0
+   g==;
+X-CSE-ConnectionGUID: ahhEycExTD2sQXIhaLN2/Q==
+X-CSE-MsgGUID: NoWwM3jHSJ+ldD8kv78eTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="65451821"
+X-IronPort-AV: E=Sophos;i="6.16,294,1744095600"; 
+   d="scan'208";a="65451821"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 04:20:06 -0700
+X-CSE-ConnectionGUID: Yrx4J8pXRGS+UOBmM0KdXw==
+X-CSE-MsgGUID: ZOW+Q3PORIGJmTEv4+rB9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,294,1744095600"; 
+   d="scan'208";a="155773487"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.101])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 04:20:06 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0C36411F8D7;
+	Mon,  7 Jul 2025 14:20:04 +0300 (EEST)
+Date: Mon, 7 Jul 2025 11:20:03 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: bingbu.cao@intel.com
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+	bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] media: staging/ipu7: use 64-bit macro for post delay
+ calculation
+Message-ID: <aGutY-iTiwBuHt0W@kekkonen.localdomain>
+References: <20250707095806.3425876-1-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 00/12] io_uring dmabuf read/write support
-To: Christoph Hellwig <hch@infradead.org>
-Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, David Wei <dw@davidwei.uk>,
- Vishal Verma <vishal1.verma@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <cover.1751035820.git.asml.silence@gmail.com>
- <aGaSb5rpLD9uc1IK@infradead.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <aGaSb5rpLD9uc1IK@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250707095806.3425876-1-bingbu.cao@intel.com>
 
-On 7/3/25 15:23, Christoph Hellwig wrote:
-> [Note: it would be really useful to Cc all relevant maintainers]
+Hi Bingbu,
 
-Will do next time
+Thanks for the patch.
 
-> On Fri, Jun 27, 2025 at 04:10:27PM +0100, Pavel Begunkov wrote:
->> This series implements it for read/write io_uring requests. The uAPI
->> looks similar to normal registered buffers, the user will need to
->> register a dmabuf in io_uring first and then use it as any other
->> registered buffer. On registration the user also specifies a file
->> to map the dmabuf for.
+On Mon, Jul 07, 2025 at 05:58:06PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
 > 
-> Just commenting from the in-kernel POV here, where the interface
-> feels wrong.
+> When build ipu7 driver with i386 config, it will report error:
+> ERROR: modpost: "__udivdi3" [../intel-ipu7-isys.ko] undefined!
 > 
-> You can't just expose 'the DMA device' up file operations, because
-> there can be and often is more than one.  Similarly stuffing a
-> dma_addr_t into an iovec is rather dangerous.
+> This patch fix the problem by using correct math macro to implement
+> the 64-bit value division instead of C divide operator.
 > 
-> The model that should work much better is to have file operations
-> to attach to / detach from a dma_buf, and then have an iter that
-> specifies a dmabuf and offsets into.  That way the code behind the
-> file operations can forward the attachment to all the needed
-> devices (including more/less while it remains attached to the file)
-> and can pick the right dma address for each device.
+> This patch also update the calculation to make it aligned with
+> the formula in the specification.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202507051239.cb4TkmuW-lkp@intel.com/
+> 
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> ---
+>  drivers/staging/media/ipu7/ipu7-isys-csi-phy.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+> index 4407750c7f40..1ac68696983e 100644
+> --- a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+> +++ b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+> @@ -731,6 +731,7 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+>  	u16 delay_thresh;
+>  	u16 reset_thresh;
+>  	u16 cap_prog = 6U;
+> +	u32 t3 = 224U;
+>  	u16 reg;
+>  	u16 val;
+>  	u32 i;
+> @@ -815,9 +816,7 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+>  		dwc_phy_write_mask(isys, id, reg + 0x400 * i,
+>  				   deass_thresh, 0, 7);
+>  
+> -	delay_thresh =
+> -		((224U - (9U * 7U)) * 1000U) / (5U * mbps) - 7U;
+> -
+> +	delay_thresh = div64_u64((t3 - 63U) * 1000U, 5U * mbps) - 7U;
 
-By "iter that specifies a dmabuf" do you mean an opaque file-specific
-structure allocated inside the new fop? Akin to what Keith proposed back
-then. That sounds good and has more potential for various optimisations.
-My concern would be growing struct iov_iter by an extra pointer:
+Not directly related to this patch, but what these values signify?
 
-struct dma_seg {
-	size_t 	off;
-	unsigned len;
-};
+Moving 224U to a new local variable named t3 doesn't really change this.
+I.e. I'd just use the plain value here, too, and have some explanation
+added for these later on.
 
-struct iov_iter {
-	union {
-		struct iovec *iov;
-		struct dma_seg *dmav;
-		...
-	};
-	void *dma_token;	
-};
-
-But maybe that's fine. It's 40B -> 48B, and it'll get back to
-40 when / if xarray_start / ITER_XARRAY is removed.
-
-> I also remember some discussion that new dma-buf importers should
-> use the dynamic imported model for long-term imports, but as I'm
-> everything but an expert in that area I'll let the dma-buf folks
-> speak.
-
-I'll take a look
+>  	if (delay_thresh < 1)
+>  		delay_thresh = 1;
+>  
 
 -- 
-Pavel Begunkov
+Kind regards,
 
+Sakari Ailus
 
