@@ -1,154 +1,310 @@
-Return-Path: <linux-media+bounces-37046-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37047-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39CAAFBD03
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 23:00:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB6DAFBD0C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 23:02:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B1B84A6E24
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 21:00:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 292F61BC1C41
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 21:02:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0C7E27FD51;
-	Mon,  7 Jul 2025 21:00:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C992857DA;
+	Mon,  7 Jul 2025 21:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bCS4dlVm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghZyrLLN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3886E27E04F;
-	Mon,  7 Jul 2025 21:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B37219300;
+	Mon,  7 Jul 2025 21:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751922040; cv=none; b=T4LrJQJuLF75DF984Z7gFGxkLeeOdxpnqPYG5gW9LR+aLvnAjOpscSJmJj9nqAhUDwk58PQZwrQLk9aEbrdhmew5s49aDAtkMvvbKZbKa8Q4KeFJ5UIqiiPhqEXpvD8f21XpH7xnFmUkvBrMuppmSOeanh421wEXa7vACLmUrTU=
+	t=1751922125; cv=none; b=O37Ktoy5jd4vz5dFxcqgxScMXg1X7EH7DdvEMH8+fTVx6KzqwpESRaSorGAqCswOsxwQE3Ek0X2gedC5KzL7/dIhXhIlH52P4jNH90BY+pX3IZKitNc6A/ookGJnLiTyrqkMkc3BS9DD7VbpSx8QVnfV3io9QFnJxJ/AafefNNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751922040; c=relaxed/simple;
-	bh=ly/B021ynYzPCz1B63mrRbLIIKOdCMkQUxYcm0H81YE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bu5v1HR72U8avCRHuHd7gudPkT9nXLRJQdJ+TUHcXxDEFQKpXPxsxdpnzuddeAb96ip8SCq21+touL4jXfMtZ0uqLqUPIWqsMTeYFDY94+RLZXtSl1bhsuctbKG3okCQBdTeWnEnsZEnmQ2XejUAXEchQPQNrdX7OtnOGHQHXQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bCS4dlVm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01C2C4CEE3;
-	Mon,  7 Jul 2025 21:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751922039;
-	bh=ly/B021ynYzPCz1B63mrRbLIIKOdCMkQUxYcm0H81YE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bCS4dlVmb6G0eHO6gwM5KgLApXv+p1pvwi3tE8cLIzARq+1MaJZueScgTDRlYcKox
-	 zyKGQU6239B8KB7wr9wlfoAYbfzN8jxl7L5jHmwjk0XLIK7zko5+LLcPe0TG6NerME
-	 Bd+xw0KWwETD68YqKtNwnGITXWdoIX1y5ga7EZzVIZyUXi7MjodUcsAta15Kyafu6l
-	 luTscLqYgBJ3WwZAJPwvzfptMsgc4yQAen2oFlqn94BJVGX5DZKnxdJ68vb/YRJTly
-	 MqEzv/wggfp3NTFcU8QyTY3KY6rj8Vr4n6TLdaE1WHORP93dyDAZD7sxiUhzTth/HT
-	 tPA7H9IOGYPjQ==
-Message-ID: <54f9d2ee-5c04-4756-8695-54a9176ddac6@kernel.org>
-Date: Mon, 7 Jul 2025 23:00:36 +0200
+	s=arc-20240116; t=1751922125; c=relaxed/simple;
+	bh=/snNK1gcGR4AUFDaQtgHQLqOJK90XFRCeKSSseXe54g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O8CebZ7//EtQ/TCoAvH+oxo1Pqw8dm4wRgC/sKjaNMnWtVaVoVHu5iPLHuhv7qdPiFFmO7qSyA2gyO4AhTstEyu9ja5ykEhSS7i8+SZSyRyUojevjpE2kjO6taFN3oUYxedjtQJ7d/QpQLTCbWWVJioXe1UMy+yoVGKRMlC06ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghZyrLLN; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751922124; x=1783458124;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/snNK1gcGR4AUFDaQtgHQLqOJK90XFRCeKSSseXe54g=;
+  b=ghZyrLLNOXhWvURnB2CjpgooeOtg/nGaOmDtqj0iQDrc7BduNn7AcDcK
+   8OuEBy6vKOw3mGdLHdKDd9BS2rtBz0uPEm8NTe6iU0AtJRCMe5aFXt8Ql
+   xOwsTjpSnnvRwVhkCCljsHb82ia7Jm0YvHwL5e134932IckmaqmD5GmHx
+   A/B+Tir/R/FHJ7knfY1Zh9zTyAyCt83tO4prneX+HbAOuTgARiFMAaZXu
+   oGBVcq1j7wbdSiazV1NhREdu5Zytnr9rm84bQw2hyPxHSO6EL54L2yVTS
+   EmcgxUnxHvjVVJNdrlRqbbRg/gkwXK5+MYR1A1ceZXbNFcRbE1Yxf5R61
+   Q==;
+X-CSE-ConnectionGUID: k5NHlYMoSgKAcHBAoZxsCQ==
+X-CSE-MsgGUID: vd6lTJrrSli9eMbMhGa3sA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="65215279"
+X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
+   d="scan'208";a="65215279"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 14:02:02 -0700
+X-CSE-ConnectionGUID: sAQ9d22YRBaRzIbrKBCasA==
+X-CSE-MsgGUID: OzwtYBTaRoG6tjhUhOaR9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
+   d="scan'208";a="154733864"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.166])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 14:01:57 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5AD1F11FC1A;
+	Tue,  8 Jul 2025 00:01:54 +0300 (EEST)
+Date: Mon, 7 Jul 2025 21:01:54 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 02/12] media: v4l: fwnode: Support ACPI's _PLD for
+ v4l2_fwnode_device_parse
+Message-ID: <aGw1wo3lUCJtzLiZ@kekkonen.localdomain>
+References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
+ <20250605-uvc-orientation-v2-2-5710f9d030aa@chromium.org>
+ <1ac49bd3-1b65-4611-8c90-92fb2c2ffd4a@linux.intel.com>
+ <CANiDSCuRLVtT54ZxxAh6031OLg422VApsocvOTCOnavQgifTaA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 0/5] media: uvcvideo: Introduce
- V4L2_META_FMT_UVC_MSXU_1_5 + other meta fixes
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, stable@vger.kernel.org
-References: <20250707-uvc-meta-v8-0-ed17f8b1218b@chromium.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250707-uvc-meta-v8-0-ed17f8b1218b@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuRLVtT54ZxxAh6031OLg422VApsocvOTCOnavQgifTaA@mail.gmail.com>
 
 Hi Ricardo,
 
-On 7-Jul-25 8:34 PM, Ricardo Ribalda wrote:
-> This series introduces a new metadata format for UVC cameras and adds a
-> couple of improvements to the UVC metadata handling.
+On Tue, Jul 01, 2025 at 11:04:25AM +0200, Ricardo Ribalda wrote:
+> Hi Sakari
 > 
-> The new metadata format can be enabled in runtime with quirks.
+> Thanks for your review!
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Changes in v8:
-> - Dynamically fill dev->meta_formats instead of be const.
-> - Link to v7: https://lore.kernel.org/r/20250617-uvc-meta-v7-0-9c50623e2286@chromium.org
+> On Mon, 30 Jun 2025 at 09:06, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Ricardo,
+> >
+> > Thanks for the update.
+> >
+> > On 6/5/25 20:52, Ricardo Ribalda wrote:
+> > > Currently v4l2_fwnode_device_parse() obtains the orientation and
+> > > rotation via fwnode properties.
+> > >
+> > > Extend the function to support as well ACPI devices with _PLD info.
+> > >
+> > > We give a higher priority to fwnode, because it might contain quirks
+> > > injected via swnodes.
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >   drivers/media/v4l2-core/v4l2-fwnode.c | 85 ++++++++++++++++++++++++++++++++---
+> > >   1 file changed, 79 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > index cb153ce42c45d69600a3ec4e59a5584d7e791a2a..379290ab3cfde74c8f663d61837a9a95011b5ae0 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > @@ -15,6 +15,7 @@
+> > >    * Author: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+> > >    */
+> > >   #include <linux/acpi.h>
+> > > +#include <acpi/acpi_bus.h>
+> > >   #include <linux/kernel.h>
+> > >   #include <linux/mm.h>
+> > >   #include <linux/module.h>
+> > > @@ -807,16 +808,65 @@ int v4l2_fwnode_connector_add_link(struct fwnode_handle *fwnode,
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_add_link);
+> > >
+> > > -int v4l2_fwnode_device_parse(struct device *dev,
+> > > -                          struct v4l2_fwnode_device_properties *props)
+> > > +static int v4l2_fwnode_device_parse_acpi(struct device *dev,
+> > > +                                      struct v4l2_fwnode_device_properties *props)
+> > > +{
+> > > +     struct acpi_pld_info *pld;
+> > > +     int ret = 0;
+> > > +
+> > > +     if (!is_acpi_device_node(dev_fwnode(dev)))
+> > > +             return 0;
+> > > +
+> > > +     if (!acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld)) {
+> > > +             dev_dbg(dev, "acpi _PLD call failed\n");
+> >
+> > I'd do:
+> >
+> > acpi_handle_debug(ACPI_HANDLE(dev), "cannot obtain _PLD\n");
+> ack
+> >
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     if (props->orientation != V4L2_FWNODE_PROPERTY_UNSET) {
+> > > +             switch (pld->panel) {
+> > > +             case ACPI_PLD_PANEL_FRONT:
+> > > +                     props->orientation = V4L2_FWNODE_ORIENTATION_FRONT;
+> > > +                     break;
+> > > +             case ACPI_PLD_PANEL_BACK:
+> > > +                     props->orientation = V4L2_FWNODE_ORIENTATION_BACK;
+> > > +                     break;
+> > > +             case ACPI_PLD_PANEL_TOP:
+> > > +             case ACPI_PLD_PANEL_LEFT:
+> > > +             case ACPI_PLD_PANEL_RIGHT:
+> > > +             case ACPI_PLD_PANEL_UNKNOWN:
+> > > +                     props->orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
+> > > +                     break;
+> > > +             default:
+> > > +                     dev_dbg(dev, "Unknown _PLD panel val %d\n", pld->panel);
+> >
+> > Similarly:
+> >
+> > acpi_handle_debug(ACPI_HANDLE(dev), "invalid panel %u in _PLD\n",
+> >                   pld->panel);
+> >
+> > > +                     ret = -EINVAL;
+> >
+> > Should this be an error or should we simply ignore it here (and maybe
+> > use acpi_handle_warn())?
+> 
+> v4l2_fwnode_device_parse_of() returns -EINVAL for a similar situation,
+> so I think it is better to be consistent and return -EINVAL here.
+> But I agree that acpi_handle_warn() better suits here than _dbg.
 
-Thank you for the new version. I've merged this series
-and pushed this to uvc/for-next now.
+Ack.
 
+> 
+> >
+> > > +                     goto done;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     if (props->rotation != V4L2_FWNODE_PROPERTY_UNSET) {
+> > > +             switch (pld->rotation) {
+> > > +             case 0 ... 7:
+> > > +                     props->rotation = pld->rotation * 45;
+> > > +                     break;
+> > > +             default:
+> > > +                     dev_dbg(dev, "Unknown _PLD rotation val %d\n", pld->panel);
+> >
+> > acpi_handle_debug(ACPI_HANDLE(dev), "invalid rotation %u in _PLD\n",
+> >                   pld->rotation);
+> >
+> > > +                     ret = -EINVAL;
+> > > +                     goto done;
+> > > +             }
+> > > +     }
+> > > +
+> > > +done:
+> > > +     ACPI_FREE(pld);
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static int v4l2_fwnode_device_parse_dt(struct device *dev,
+> >
+> > I'd call this v4l2_fwnode_device_parse_of() as we're parsing OF nodes
+> > and properties here.
+> ack
+> >
+> > > +                                    struct v4l2_fwnode_device_properties *props)
+> > >   {
+> > >       struct fwnode_handle *fwnode = dev_fwnode(dev);
+> > >       u32 val;
+> > >       int ret;
+> > >
+> > > -     memset(props, 0, sizeof(*props));
+> > > -
+> > > -     props->orientation = V4L2_FWNODE_PROPERTY_UNSET;
+> > >       ret = fwnode_property_read_u32(fwnode, "orientation", &val);
+> > >       if (!ret) {
+> > >               switch (val) {
+> > > @@ -833,7 +883,6 @@ int v4l2_fwnode_device_parse(struct device *dev,
+> > >               dev_dbg(dev, "device orientation: %u\n", val);
+> > >       }
+> > >
+> > > -     props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
+> > >       ret = fwnode_property_read_u32(fwnode, "rotation", &val);
+> > >       if (!ret) {
+> > >               if (val >= 360) {
+> > > @@ -847,6 +896,30 @@ int v4l2_fwnode_device_parse(struct device *dev,
+> > >
+> > >       return 0;
+> > >   }
+> > > +
+> > > +int v4l2_fwnode_device_parse(struct device *dev,
+> > > +                          struct v4l2_fwnode_device_properties *props)
+> > > +{
+> > > +     int ret;
+> > > +
+> > > +     memset(props, 0, sizeof(*props));
+> > > +
+> > > +     props->orientation = V4L2_FWNODE_PROPERTY_UNSET;
+> > > +     props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
+> > > +
+> > > +     /* Start by looking into swnodes and dt. */
+
+s/dt/DT/
+
+> > > +     ret =  v4l2_fwnode_device_parse_dt(dev, props);
+
+		 ^
+
+Extra space.
+
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     /* Orientation and rotation found!, we are ready. */
+> > > +     if (props->orientation != V4L2_FWNODE_PROPERTY_UNSET &&
+> > > +         props->rotation != V4L2_FWNODE_PROPERTY_UNSET)
+> > > +             return 0;
+> >
+> > I think you can remove this check without affecting the functionality.
+> I want to avoid calling an acpi method unless it is strictly
+> necessary. The check is not that ugly... if it is ok with you i'd
+> rather keep it.
+
+The function is already checking the node is an ACPI node and returns 0
+otherwise. The above is simply redundant.
+
+> 
+> >
+> > > +
+> > > +     /* Let's check the acpi table. */
+
+s/acpi/ACPI/
+
+> > > +     return v4l2_fwnode_device_parse_acpi(dev, props);
+> > > +}
+> > >   EXPORT_SYMBOL_GPL(v4l2_fwnode_device_parse);
+> > >
+> > >   /*
+> > >
+
+-- 
 Regards,
 
-Hans
-
-
-
-
-> Changes in v7:
-> - Add patch: Introduce dev->meta_formats
-> - Link to v6: https://lore.kernel.org/r/20250604-uvc-meta-v6-0-7141d48c322c@chromium.org
-> 
-> Changes in v6 (Thanks Laurent):
-> - Fix typo in metafmt-uvc.rst
-> - Improve metafmt-uvc-msxu-1-5.rst
-> - uvc_meta_v4l2_try_format() block MSXU format unless the quirk is
->   active
-> - Refactor uvc_enable_msxu
-> - Document uvc_meta_detect_msxu
-> - Rebase series
-> - Add R-b
-> - Link to v5: https://lore.kernel.org/r/20250404-uvc-meta-v5-0-f79974fc2d20@chromium.org
-> 
-> Changes in v5:
-> - Fix codestyle and kerneldoc warnings reported by media-ci
-> - Link to v4: https://lore.kernel.org/r/20250403-uvc-meta-v4-0-877aa6475975@chromium.org
-> 
-> Changes in v4:
-> - Rename format to V4L2_META_FMT_UVC_MSXU_1_5 (Thanks Mauro)
-> - Flag the new format with a quirk.
-> - Autodetect MSXU devices.
-> - Link to v3: https://lore.kernel.org/linux-media/20250313-uvc-metadata-v3-0-c467af869c60@chromium.org/
-> 
-> Changes in v3:
-> - Fix doc syntax errors.
-> - Link to v2: https://lore.kernel.org/r/20250306-uvc-metadata-v2-0-7e939857cad5@chromium.org
-> 
-> Changes in v2:
-> - Add metadata invalid fix
-> - Move doc note to a separate patch
-> - Introduce V4L2_META_FMT_UVC_CUSTOM (thanks HdG!).
-> - Link to v1: https://lore.kernel.org/r/20250226-uvc-metadata-v1-1-6cd6fe5ec2cb@chromium.org
-> 
-> ---
-> Ricardo Ribalda (5):
->       media: uvcvideo: Do not mark valid metadata as invalid
->       media: Documentation: Add note about UVCH length field
->       media: uvcvideo: Introduce dev->meta_formats
->       media: uvcvideo: Introduce V4L2_META_FMT_UVC_MSXU_1_5
->       media: uvcvideo: Auto-set UVC_QUIRK_MSXU_META
-> 
->  .../userspace-api/media/v4l/meta-formats.rst       |   1 +
->  .../media/v4l/metafmt-uvc-msxu-1-5.rst             |  23 +++++
->  .../userspace-api/media/v4l/metafmt-uvc.rst        |   4 +-
->  MAINTAINERS                                        |   1 +
->  drivers/media/usb/uvc/uvc_driver.c                 |   7 ++
->  drivers/media/usb/uvc/uvc_metadata.c               | 115 +++++++++++++++++++--
->  drivers/media/usb/uvc/uvc_video.c                  |  12 +--
->  drivers/media/usb/uvc/uvcvideo.h                   |   7 ++
->  drivers/media/v4l2-core/v4l2-ioctl.c               |   1 +
->  include/linux/usb/uvc.h                            |   3 +
->  include/uapi/linux/videodev2.h                     |   1 +
->  11 files changed, 161 insertions(+), 14 deletions(-)
-> ---
-> base-commit: a8598c7de1bcd94461ca54c972efa9b4ea501fb9
-> change-id: 20250403-uvc-meta-e556773d12ae
-> 
-> Best regards,
-
+Sakari Ailus
 
