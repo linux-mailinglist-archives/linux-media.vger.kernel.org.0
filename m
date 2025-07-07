@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-37018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F43AFB597
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 16:10:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FAAAFB598
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 16:10:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 722761AA02EB
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 14:10:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDC7A1AA0485
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 14:11:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CD6A2BE7C0;
-	Mon,  7 Jul 2025 14:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30C9A2BEFE3;
+	Mon,  7 Jul 2025 14:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yxh0fZDU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JA1LXgAW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1039D2BDC27;
-	Mon,  7 Jul 2025 14:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6382BDC27;
+	Mon,  7 Jul 2025 14:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751897417; cv=none; b=TLYpXfrzJjAR7yrYxZIMIJ/XX7j57gogVgSjakUZKghWJXwJGpxxgdRA8EUjN7N6npKE8KrnOrCHWfzl4fahrVZi1EX/Cyusomf5Ens6OuGDfruOpBt3nSvhilYDt1K521LLl9PQ48XRl4unn8tmMV8W3xTxlax0sqLyQm1fJ2E=
+	t=1751897422; cv=none; b=aaLsZB9wj0m3MNVZl/nAYykXgzNnC4e2zgyn2i07170mm9vfUO3BTnJANDPS+7lu/wNfBpBRRTd+SLT5xSQLuiFoJnkU5eqlPyP4M5ru+bwsss62Ao2y2+9kBnShWX1jsPex0Y2oKlhp/XyuQTZbV/BxpBtSA1lI3VRnmz8XfgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751897417; c=relaxed/simple;
-	bh=Ym1eaiaVRia3tu27Gd2iINJBWKHQtzx9zAsS8xqQYcc=;
+	s=arc-20240116; t=1751897422; c=relaxed/simple;
+	bh=b/B3k1831vUi2pwNP8MdNzWU1miTvc6hCuBnBbTpojo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GyUtpXBEHDGdG7x7bOD8Nb4VV+b7TIq6GxLkgPJeazu1lQa6Mtlldnl483wDAgE9LuDQxqVcVLVHvHwnQTkiXZ+hU1ODUk6V+ZckjshQGws0aUdHEmfHB/GsARyFhq53N29Rmr61dZRuvD7O5MU25S23NGX7WSYE/ntmeU5YoyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yxh0fZDU; arc=none smtp.client-ip=209.85.208.43
+	 MIME-Version; b=PHfPeTkrf18y8AUB4Pgrn39q1j/8E7w7PG33eITbu1fJacYyWZAIx0EFslItRsmFbWciBAi1K/QpeJY5LvJhIJHRRmrXxbOIYt4D/opnqTW2XDUq4UAxwRe7jly45QwPT1YrEDPYgcQairLlWaNWpPUKq9x//T5/DCxHvj1m+Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JA1LXgAW; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60fdd24613fso346687a12.1;
-        Mon, 07 Jul 2025 07:10:15 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6095cea1f4eso309049a12.0;
+        Mon, 07 Jul 2025 07:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751897414; x=1752502214; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751897418; x=1752502218; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zfoXr039Mj+Ko7iKVd/LqK9c7pPjVthdjnKyL8+H+oc=;
-        b=Yxh0fZDU21aGKLXozCDotpb/micivIORtk8Q7MtX6VmjfB+Q0DAgeDPhYQV8BwtPKq
-         Z+tEfZoEmhDxAjlhItPFuySQQBsghQij2YkdBBVEAIbKBnPK1s5f5WcArOnka39NOBzo
-         Y3ttQ8AOeqTjT9LZz7BhQpml97nlUANMbgbLmnqfjlR1jJBLXjUAEytBg7gzh91U8HPg
-         Gq//8KgFzxx4E5cvc6OqXthHCeEDHDdZK3ZkqTJTU4HnstjhcwrSNEzU/gvic2vid+b4
-         Bs3EN8zNMd2wSF8qbIQ5YmwTfHEPdlkdymUCvsXbug+HK+GsT68F8xW93A7ktgBDxV3y
-         lxyQ==
+        bh=SG5eCNv6FpOvgmpPlEUgxQt8hhDv8eg5LGuMjXE/ZtE=;
+        b=JA1LXgAWI3Zp2AbVc7wch14ch/1p+Uzr8rEwlWQpnX8/bjJPuArYr2GNraeE9gD7UQ
+         HY7gwzPiKAypSSkk69XS/btzD1pcX01znv9HDFARFlat4vZCA9vUAjQYu+i1+RoCQV1I
+         pVpY+RdZz/xey4rYHGG0E5v2koxta/JTom7Tqf1kH1B6ji89FobH1BrH2jsn+aAGKV8Y
+         vWcYqMoX2tG6FKo6hongy/Un55ltPQQAlm24EE7icJYcozR9qOt8Xm9E8/rOsJaPUosi
+         nL/hjPkL5Tls9wWvR5KcrzYCLssmUmB1QYd6nDBQwMNmKcQIuTbKp8qSeDpZC4uyhlKR
+         B4Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751897414; x=1752502214;
+        d=1e100.net; s=20230601; t=1751897418; x=1752502218;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zfoXr039Mj+Ko7iKVd/LqK9c7pPjVthdjnKyL8+H+oc=;
-        b=WyeO01gf6AMKzMYJaPFIri6qG1RAs4tLjczh4Ro2qZjEqrI8W1mlFYjASDSR+dvzjJ
-         /gXBC3JFVNTFIMl/lO6mzl/YsY5l+WMOTflFRHOTxCuX6x/HySSV08x2KmffbPnb31if
-         XELkqKtdD1A1efwJDi5yeRZvbJItkb8FpHFglEyaz6//UKf+cFJ5zUmFmlQMaPvJ67aR
-         LP6WMso0uESSmYrjLgJ3OAZ8fdwp7Sr1QtovroWn/q53fMQG5abnSmMy0anpP6tutoGa
-         GVzvrVhgbNbdmAs0cW/zGl8xhtr3yGm96uhwNx3jMj7QfBRAzU3Ajgxg599v4yv41rSI
-         L3bw==
-X-Forwarded-Encrypted: i=1; AJvYcCWs86znmGDI0XydcR3YsHp8FRLFAJmeW//CFvES3UXxG+sStp3L/1WpWgIVr9VNAyhByYFXtpuNgAfBKSM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxAQg7R3UratI4BETXuIfVJ20vPm8HiI1C8q5L9mGwq8DGgJ+H
-	0gc6FKhCcLpeijFMBDlxrOxBtW2Ynacv/1aFgaNznCuZuAWCsBzSYfWo
-X-Gm-Gg: ASbGncu+xC/46rZMxNEoONKhVFrRuK8A55m2i0GXcZYIo24n6VQfLwtrDN+/pM66YN9
-	c7Ra4Yq142M4C6BROXVNufPCo67vCe08FJpoPeorUV6G6GDJB8fdtGPTWOPh/IhaQRUfxxqg/iu
-	IDeUEHC0bbGY6geKXcnws0BaWH0tqbq/ShVOjg/ZZH4Qb7kTvuAyZIBElmUpSUTAAsmPLmETNCs
-	6jVGbr6w2lSl2nFH31QJZNdCjRADNaVI7BpFWRgYhjXw7QKVOcg1RZlkPeFvR6XRpncf9bH7GA6
-	kiNXuvfc/P29vmMDtcIhIx4QBBlYUwv8LY34RccDSk03JXI2RSVgP2l6GleR78otfynGlmamFif
-	CbTY3JxzqjGkKPTNsHHqkc/WZwqe5vJ76sBej9F0eSAYXWp7ODHg12aCdSRtc
-X-Google-Smtp-Source: AGHT+IEKnVBWadATSlejdndh1B5AdduKqoWoYdl+TXtUEryj64Oa+knTxIvJk4uK+Ngcdhrr6ocq9Q==
-X-Received: by 2002:a17:907:8688:b0:ae4:1eb:c461 with SMTP id a640c23a62f3a-ae401ebc908mr384594066b.14.1751897413716;
-        Mon, 07 Jul 2025 07:10:13 -0700 (PDT)
+        bh=SG5eCNv6FpOvgmpPlEUgxQt8hhDv8eg5LGuMjXE/ZtE=;
+        b=ec1nJhDcnrEdlJWha5fm8ieNwQSLgp3pt5Eira4q0kfn8FA0c2vUMLREH6EtjBcyKk
+         F5AoKq45eb7Fzr8muB3xsOa4upHQOkrbvgQrwWF32Zlib/7VHW2w9QYkTfXflHLgHEGS
+         LuQd9tj8zXhnAz+aLAgir3D0TAEkz/i2OgaNxOCEO+1DkxlS2Zi4T4NgfLbHdyV6FHJT
+         WbI1SFpUQUlaK2MpXEDC1TGQYMCzr/0loU5VcRCiXmwgALVe/ed8E115TwNXDDk+cTkl
+         c0trKrN3odUvt/vqjUO9ssvbg+NOGFvA9v9hhys4/KSNvFaJ9fL4svNNILYoaF9Wlsv2
+         XlMg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxkuKCdLlj3QfDbuBb+5X3kagT0BPN+nIajksMjr8/S1QcT5Av9wod7fbcOsr/jV8TQELjnhdepOnWyS0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYDQ4gECr2NYL5Yy6/UiYdun85BIvRu0O9q86p5ph2HIySwWd7
+	pP/2z5zyFV5pAMdhr6fARRgXB1SEVGXEkhVdbxRl/hhP6CuejtwsGk+Z
+X-Gm-Gg: ASbGncsa2LWnNfrrgRcZ4krKpbLUR0eaNUGUiAI1F9wN/+fsxt6CdVQpcAl8/Om72OR
+	8iU4qdmUle3cKbkfopxsKsksjvTYVO1+luDcg9Ku35qvTx9Llha5hi5qjFxunLQGz5DvJa7bdqq
+	VWF+aMGz8JgW/knhdwSEeDXGNY5lSktn3DWZZ8fkJPZI44mnXUkUvePIaohLa2Hc8btfMX5ucLN
+	vNpJz3v4i1c4AWfH0/auNNpMVdid3m6arcTslJvylo8Bj97uTxRuknpvtx3aqNxoMSvbetyBmQb
+	ZgjeeWmdwKj4bhYUX7KtzhtjPDXjrsrY+BNzfhCkrYLkOgZz4Rzj+q5O0LK+fVHrIA9cSCe9HWB
+	NiOFYB8aQ4M6zeIRUzP5/lCbkfNbtP44/czL+yUiZ4hImlS5y8BpgdNlNy+sV
+X-Google-Smtp-Source: AGHT+IF9z5sVVDWOycBuMijosCyGfwSOuw8mnL36RrKe51aZtDKZ8djtk/Tm+po0MIBLgZLcfzMdvg==
+X-Received: by 2002:a17:907:6d28:b0:ad8:882e:38a with SMTP id a640c23a62f3a-ae3fc4b69d3mr413085966b.14.1751897417713;
+        Mon, 07 Jul 2025 07:10:17 -0700 (PDT)
 Received: from yousrii-VirtualBox.hotspot.internet-for-guests.com ([82.129.154.18])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f66d1ae3sm710370466b.7.2025.07.07.07.10.11
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f66d1ae3sm710370466b.7.2025.07.07.07.10.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 07:10:13 -0700 (PDT)
+        Mon, 07 Jul 2025 07:10:17 -0700 (PDT)
 From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 To: hansg@kernel.org,
 	mchehab@kernel.org,
@@ -86,9 +86,9 @@ Cc: linux-media@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	dan.carpenter@linaro.org,
 	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH 1/2] staging: media: atomisp: return early on hmm_bo_device_init() failure
-Date: Mon,  7 Jul 2025 17:09:22 +0300
-Message-Id: <20250707140923.58935-2-abdelrahmanfekry375@gmail.com>
+Subject: [PATCH 2/2] staging: media: atomisp: unify initialization flag usage in HMM
+Date: Mon,  7 Jul 2025 17:09:23 +0300
+Message-Id: <20250707140923.58935-3-abdelrahmanfekry375@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250707140923.58935-1-abdelrahmanfekry375@gmail.com>
 References: <20250707140923.58935-1-abdelrahmanfekry375@gmail.com>
@@ -100,37 +100,104 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-hmm_init() would continue execution even if hmm_bo_device_init() failed,
-potentially leading to bad behaviour when calling hmm_alloc().
+Previously, the initialization state of the `hmm_bo_device` was tracked
+in two places: a global `hmm_initialized` boolean in `hmm.c`, and a local
+integer `flag` in the `hmm_bo_device` struct. This was redundant and could
+lead to inconsistent state checks.
 
-- returns the error immediately if hmm_bo_device_init() fails.
+- Removes the global `hmm_initialized` variable and all checks against it.
+- Replaces the `int flag` in `struct hmm_bo_device` with a strongly-typed 
+ `enum hmm_bo_device_init_flag flag` (values: UNINITED = 0, INITED = 1).
+- Initializes `flag` to `HMM_BO_DEVICE_UNINITED` at declaration to 
+  ensure a well-defined starting state.
+- Removes a redundant `hmm_init()` call inside `__hmm_alloc()` since its
+  always called after hmm_init()
+
+This change improves type safety, consistency, and readability when
+handling the HMM initialization state.
 
 Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../staging/media/atomisp/include/hmm/hmm_bo.h   |  9 +++++++--
+ drivers/staging/media/atomisp/pci/hmm/hmm.c      | 16 ++++------------
+ 2 files changed, 11 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+index e09ac29ac43d..155f9d89b365 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+@@ -58,7 +58,10 @@
+ #define	ISP_VM_SIZE	(0x7FFFFFFF)	/* 2G address space */
+ #define	ISP_PTR_NULL	NULL
+ 
+-#define	HMM_BO_DEVICE_INITED	0x1
++enum hmm_bo_device_init_flag {
++	HMM_BO_DEVICE_INITED	= 0x1,
++	HMM_BO_DEVICE_UNINITED	= 0x2,
++};
+ 
+ enum hmm_bo_type {
+ 	HMM_BO_PRIVATE,
+@@ -86,7 +89,9 @@ struct hmm_bo_device {
+ 
+ 	/* list lock is used to protect the entire_bo_list */
+ 	spinlock_t	list_lock;
+-	int flag;
++
++	/* flag to indicate whether the bo device is inited or not */
++	enum hmm_bo_device_init_flag flag;
+ 
+ 	/* linked list for entire buffer object */
+ 	struct list_head entire_bo_list;
 diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index f998b57f90c4..c2ee9d2ec0d5 100644
+index c2ee9d2ec0d5..767a3a24f8e5 100644
 --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
 +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -36,6 +36,7 @@ int hmm_init(void)
- 				 ISP_VM_START, ISP_VM_SIZE);
- 	if (ret)
+@@ -24,9 +24,10 @@
+ #include "mmu/isp_mmu.h"
+ #include "mmu/sh_mmu_mrfld.h"
+ 
+-struct hmm_bo_device bo_device;
++struct hmm_bo_device bo_device = {
++	.flag = HMM_BO_DEVICE_UNINITED,
++};
+ static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
+-static bool hmm_initialized;
+ 
+ int hmm_init(void)
+ {
+@@ -38,8 +39,6 @@ int hmm_init(void)
  		dev_err(atomisp_dev, "hmm_bo_device_init failed.\n");
-+		return ret;
+ 		return ret;
  
- 	hmm_initialized = true;
+-	hmm_initialized = true;
+-
+ 	/*
+ 	 * As hmm use NULL to indicate invalid ISP virtual address,
+ 	 * and ISP_VM_START is defined to 0 too, so we allocate
+@@ -62,7 +61,7 @@ void hmm_cleanup(void)
+ 	dummy_ptr = 0;
  
-@@ -48,7 +49,7 @@ int hmm_init(void)
- 	 */
- 	dummy_ptr = hmm_alloc(1);
- 
--	return ret;
-+	return 0;
+ 	hmm_bo_device_exit(&bo_device);
+-	hmm_initialized = false;
++	bo_device.flag = HMM_BO_DEVICE_UNINITED;
  }
  
- void hmm_cleanup(void)
+ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+@@ -72,13 +71,6 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 	struct hmm_buffer_object *bo;
+ 	int ret;
+ 
+-	/*
+-	 * Check if we are initialized. In the ideal world we wouldn't need
+-	 * this but we can tackle it once the driver is a lot cleaner
+-	 */
+-
+-	if (!hmm_initialized)
+-		hmm_init();
+ 	/* Get page number from size */
+ 	pgnr = size_to_pgnr_ceil(bytes);
+ 
 -- 
 2.25.1
 
