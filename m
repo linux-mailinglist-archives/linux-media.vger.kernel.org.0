@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-37007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37008-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35903AFB4E7
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:43:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEBFAFB4E8
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:43:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 666A817868D
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:43:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B4A47AE994
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:42:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2A402BD025;
-	Mon,  7 Jul 2025 13:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE562BD590;
+	Mon,  7 Jul 2025 13:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKws/67E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKaWRNw6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC672BCF4A;
-	Mon,  7 Jul 2025 13:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DF72BD58F;
+	Mon,  7 Jul 2025 13:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751895764; cv=none; b=RhMol7/g2fUDhJq8yxiZYFo3EO5Ts0RaDwM8sgOdSALqAlnxXhc+flwv02bFo94a8Qg65RH12l8+bZYFN7tkllS1bcNNu6XGidVSUgxrQi2Qz0cueGHhl1u0VJv1z6l+B7dImLownTKjzUDqaLHzv2La9c8lijnTGNr80PYBrQw=
+	t=1751895768; cv=none; b=hL5iziVIMIj6ldqIkgtbhhEIu5Q3dGxe9ceX4gh7ptTpkYPHDHdP2C26GkOojBLK8p+BRQMwD6MFzErtNF4Lzg+h8fbSikLoxm0iFNdR3EuMWc61feFpAKsosY82KeJhjVSzSntyQTDjMugg7mYaxP3ZLQ2mru2yuZ7a8Q7YRh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751895764; c=relaxed/simple;
-	bh=Q7QXEZRxCNICRO2IlbnIh26kG/g8UZeXIk3BFaIKQJk=;
+	s=arc-20240116; t=1751895768; c=relaxed/simple;
+	bh=UQqJCi3q3248PmPaymeTCZH4g0d/zd1eLvZ5EVok/aw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OAzA3Hlse1nxiAAo3uRtiWfLQ5KwAYrSFICZSEGYgQoemw8onXs1affgGh5vwEiojiC7VtcE0V0+moCaj15o8sX6mEX5ASd0T+uh/X7dIOj5RG7s/5vJjJtc6LiL31heNCeOUxrHJixTNPYp/gj910Iy7Eu4XdVzf1UocG3nTNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKws/67E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3428C4CEE3;
-	Mon,  7 Jul 2025 13:42:39 +0000 (UTC)
+	 MIME-Version; b=kSJVb4WVdNYDl16A2+bZgRvLsKvpCS5eiXeCvNHD6T6BJT120Ud5boqG/TUYeJGNYnoZ3PuKOW049f+5r9YGZPDLQl1w4FB7uruHxNRaU81JfSj1VQ9MtnteTXREHGZthI1MCW/Vto5wedTMaWMjy/6nuP2ysr4dA5bsFpTHgW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKaWRNw6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CE9AC4CEF4;
+	Mon,  7 Jul 2025 13:42:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751895763;
-	bh=Q7QXEZRxCNICRO2IlbnIh26kG/g8UZeXIk3BFaIKQJk=;
+	s=k20201202; t=1751895768;
+	bh=UQqJCi3q3248PmPaymeTCZH4g0d/zd1eLvZ5EVok/aw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PKws/67ExSqQWUmERDOLccJ/K7eEsvAYaqK3dnWLk0pIuiP55W7JTeMv9/4iQDjCI
-	 6UNn2RQ6BMLnul54rD1RL8Jv4NeigznMb0x3Azsd4QzPDnUS/6KvFPQrib6rFHn3bK
-	 uW8aC7fN5CtpWYlHXbgmMio2SuZ/ryD0B98q/FUiOyG8VewJKThlo8+oPqXIuSZIWo
-	 ImmfdX1w93AYC/pUUNdgLgIS3IjGKq1l0f6ENMnbOqbec16kl+DawXWL/V7OAq4nwU
-	 WjDnw3kUnKNI7Omr5ZfHubOKbL5ajywtA7zA76ax3NgPVOgV4FC5paLaJEap5nXZf3
-	 VjVW7cqLcnjGw==
+	b=sKaWRNw6rzetS4hgXXzsihe0ACF22tZm2IJXFpvG5XItP0bHQJTC2obbzQMYHd3me
+	 XYMlaPiCZdaaOsdoMVInJSQuMggkxzcU9/XL1vhfIZ47c9z8QIbMt2DyOrC2yOq+bL
+	 7dpBu1pFR27MUxJR5C9/PogpOphu6U+dYqpa0eRZ/HLvICpiSi+H36hbPfgXnZCTCR
+	 vB3IS3ceH4NKjQKqQdt4I2NLP9LPGxPc43x8E5n/h1I8w7mngG24TkqjJtLkCasyOT
+	 BbmbKOgVObQc4KbXmRzi3poIjr+EcgOQwh+Mi+X1UhPOb/kKivMG2XuiTjuNeqXvs5
+	 aQyDFs4mrgOWA==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -59,9 +59,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	nouveau@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v2 3/7] drm/sched/tests: Add unit test for cancel_job()
-Date: Mon,  7 Jul 2025 15:42:16 +0200
-Message-ID: <20250707134221.34291-5-phasta@kernel.org>
+Subject: [PATCH v2 4/7] drm/sched: Warn if pending list is not empty
+Date: Mon,  7 Jul 2025 15:42:17 +0200
+Message-ID: <20250707134221.34291-6-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250707134221.34291-2-phasta@kernel.org>
 References: <20250707134221.34291-2-phasta@kernel.org>
@@ -73,78 +73,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The scheduler unit tests now provide a new callback, cancel_job(). This
-callback gets used by drm_sched_fini() for all still pending jobs to
-cancel them.
+drm_sched_fini() can leak jobs under certain circumstances.
 
-Implement a new unit test to test this.
+Warn if that happens.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/tests/tests_basic.c | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ drivers/gpu/drm/scheduler/sched_main.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index 7230057e0594..fa3da2db4893 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -204,6 +204,48 @@ static struct kunit_suite drm_sched_basic = {
- 	.test_cases = drm_sched_basic_tests,
- };
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 1239954f5f7c..dadf1a22ddf6 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1415,6 +1415,9 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ 	sched->ready = false;
+ 	kfree(sched->sched_rq);
+ 	sched->sched_rq = NULL;
++
++	if (!list_empty(&sched->pending_list))
++		dev_err(sched->dev, "Tearing down scheduler while jobs are pending!\n");
+ }
+ EXPORT_SYMBOL(drm_sched_fini);
  
-+static void drm_sched_basic_cancel(struct kunit *test)
-+{
-+	struct drm_mock_sched_entity *entity;
-+	struct drm_mock_scheduler *sched;
-+	struct drm_mock_sched_job *job;
-+	bool done;
-+
-+	/*
-+	 * Check that the configured credit limit is respected.
-+	 */
-+
-+	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-+	sched->base.credit_limit = 1;
-+
-+	entity = drm_mock_sched_entity_new(test, DRM_SCHED_PRIORITY_NORMAL,
-+					   sched);
-+
-+	job = drm_mock_sched_job_new(test, entity);
-+
-+	drm_mock_sched_job_submit(job);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job, HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	drm_mock_sched_entity_free(entity);
-+	drm_mock_sched_fini(sched);
-+
-+	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
-+}
-+
-+static struct kunit_case drm_sched_cancel_tests[] = {
-+	KUNIT_CASE(drm_sched_basic_cancel),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_cancel = {
-+	.name = "drm_sched_basic_cancel_tests",
-+	.init = drm_sched_basic_init,
-+	.exit = drm_sched_basic_exit,
-+	.test_cases = drm_sched_cancel_tests,
-+};
-+
- static void drm_sched_basic_timeout(struct kunit *test)
- {
- 	struct drm_mock_scheduler *sched = test->priv;
-@@ -471,6 +513,7 @@ static struct kunit_suite drm_sched_credits = {
- 
- kunit_test_suites(&drm_sched_basic,
- 		  &drm_sched_timeout,
-+		  &drm_sched_cancel,
- 		  &drm_sched_priority,
- 		  &drm_sched_modify_sched,
- 		  &drm_sched_credits);
 -- 
 2.49.0
 
