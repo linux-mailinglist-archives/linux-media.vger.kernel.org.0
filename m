@@ -1,88 +1,109 @@
-Return-Path: <linux-media+bounces-37013-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37015-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EADCAFB51B
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:49:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B45B6AFB562
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:55:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D716B172C58
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:49:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F10063A8E3F
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 13:54:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E203F1F4CAE;
-	Mon,  7 Jul 2025 13:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 826022BE044;
+	Mon,  7 Jul 2025 13:54:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jLkNWj/e"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DXOoGT8M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B181EF1D;
-	Mon,  7 Jul 2025 13:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E974A2BDC23;
+	Mon,  7 Jul 2025 13:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751896052; cv=none; b=Odd/CNPq9jqWCgGKjI1u6v6K9mgXwlwhN5pjlag0Ek6Z4+brvUllYQ27+A9XswkwszygvjEWBSXIvXh6YhtyiHt0aAWbNzbeSazr1soRc9qk3IhdmNglzBNWy0/9yrzCYtbeRXL3vDWVq+ccxn3kuYat8b0X1P8Rdsfm/ar8wwI=
+	t=1751896479; cv=none; b=I6Mssc78lCB9AtZLcyJBZTJ642M1MFeryEUkmdx3vXlu5szrkY0SbvCQcFxzb/jxvHQP3DaDABB9daM8pnSLzTE4GG9l9nyAl0oylPp2/nxrBkTIxVnGCX6aOgZCYoB1ItvmA1EQyZ3pH9w3JLVb58W0N09p4Ork4CKUDjrHBfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751896052; c=relaxed/simple;
-	bh=NkJ28C6WWVMhFFn2trWWf6jY+uHY6XH7e1z7DoddFtA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FuQ4HcGXau1FkYclNzzHVwNB0Yto/mUnxTimGGATDcZ/Ntv1wKWyPXNPlKPq1ONJ44qrtuJll8c52O68n1GlcTRGVC6NB3r7gKPIMzp2mw/plHykjS3KKJdtMkCCE5zH9/p/pYGkqnm6DHYlTp5jsJdZMAcWlWZPu95KYb3nOz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jLkNWj/e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82BEC4CEF4;
-	Mon,  7 Jul 2025 13:47:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751896051;
-	bh=NkJ28C6WWVMhFFn2trWWf6jY+uHY6XH7e1z7DoddFtA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jLkNWj/eSCL6Op2B7n+OrHoC1annBvQxj4QC8Z6bqxoENFIw5wQA0O/ujXkebp7DQ
-	 YORxsB710egtIKAPSJxQP3v77rtnW8nU9vYiDabPH2OJiMdMQarG50yNOZSaCIyvo7
-	 AqSkt31ClNyES1eafiZBXFgOW/IO6dDf9YLbtPYlkGRJLNTqMDi6Rd2chTfH6MZkE0
-	 SBmXJhRPCOqdksUpsIFDRhw09NGKnC6yd69eIwJZeTwCoXd1+Y1LhTRVUbu6XbglOH
-	 O0W9AB6sVUJsjlbEfPoWnswdFLbqHax8E5zzoaOg+2M2aNo+XmyVnDep/y/X1JrmIn
-	 HjZrl3Jo8HsUQ==
-Message-ID: <89b0a4bf-2a66-4610-93d2-8f2f096592a3@kernel.org>
-Date: Mon, 7 Jul 2025 15:47:27 +0200
+	s=arc-20240116; t=1751896479; c=relaxed/simple;
+	bh=2BqhwT8Nr4vG7FFUJaWUmxP9QQSwgaOjItrDKQSh2ZI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=oawGYhpTUcxsDEBB4aoHpadZrjQ6Nzd3S9fTnuWN3WkbNSdWkRn/UxctY4hewcmjCtoHcK9lPnAxrctf8C8DqzYDO0XSXYcnM6uhx1mcBDgNckLZLqmh5RYiWX5DIPGgn3dP6dkziVzWLKwov44OF1jLrhft3+l7t2SRYFKbps8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DXOoGT8M; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bbQhp2bbYz9snN;
+	Mon,  7 Jul 2025 15:54:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1751896474; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2BqhwT8Nr4vG7FFUJaWUmxP9QQSwgaOjItrDKQSh2ZI=;
+	b=DXOoGT8MhARLRaliROBmSJNijpxY/AbJ1O2N+jsG4asOTxRB2QMjWeigPRlxYJ19SFGNAB
+	H78kQ3V6kMaRn5qC9e0bVKE3bg7a3N+yhqp+UwMMVZuksOuojGriUpoNOkWuPIubPoxRlF
+	bQEluWwQELB92vGG+VKzOI7RB8a25NY+BsW8/tx2d4NHVok3qpujZv97NnMYg76/jCDoFf
+	4/404RsQyMoxxzVQghu+dDOeTDXLU0h1x2JhTzlY+AZlShxjk5gREAu6K58ychlZUC/Cyq
+	ymms1NCjYmdCo3qpHT/4vFCpMaaqbjqL3TaoXdlw779PSJQ/jiQYHvBC6klDag==
+Message-ID: <7d5137a8c71c525c4e806f8ff06102d2e3a47ccc.camel@mailbox.org>
+Subject: Re: [PATCH v2 7/7] drm/nouveau: Remove waitque for sched teardown
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date: Mon, 07 Jul 2025 15:54:26 +0200
+In-Reply-To: <89b0a4bf-2a66-4610-93d2-8f2f096592a3@kernel.org>
+References: <20250707134221.34291-2-phasta@kernel.org>
+	 <20250707134221.34291-9-phasta@kernel.org>
+	 <89b0a4bf-2a66-4610-93d2-8f2f096592a3@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] drm/nouveau: Remove waitque for sched teardown
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250707134221.34291-2-phasta@kernel.org>
- <20250707134221.34291-9-phasta@kernel.org>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20250707134221.34291-9-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: b05b9421ee7d28b08f7
+X-MBO-RS-META: kuh7iboedyuumzst34pgyixoy47xmkat
 
-On 7/7/25 3:42 PM, Philipp Stanner wrote:
-> struct nouveau_sched contains a waitque needed to prevent
-> drm_sched_fini() from being called while there are still jobs pending.
-> Doing so so far would have caused memory leaks.
-> 
-> With the new memleak-free mode of operation switched on in
-> drm_sched_fini() by providing the callback
-> nouveau_sched_fence_context_kill() the waitque is not necessary anymore.
-> 
-> Remove the waitque.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+On Mon, 2025-07-07 at 15:47 +0200, Danilo Krummrich wrote:
+> On 7/7/25 3:42 PM, Philipp Stanner wrote:
+> > struct nouveau_sched contains a waitque needed to prevent
+> > drm_sched_fini() from being called while there are still jobs
+> > pending.
+> > Doing so so far would have caused memory leaks.
+> >=20
+> > With the new memleak-free mode of operation switched on in
+> > drm_sched_fini() by providing the callback
+> > nouveau_sched_fence_context_kill() the waitque is not necessary
+> > anymore.
+> >=20
+> > Remove the waitque.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>=20
+> Doesn't this break the driver until fixed up by the subsequent patch?
+>=20
 
-Doesn't this break the driver until fixed up by the subsequent patch?
+Did you mean to answer to patch 6?
 
+Patch 6 implements the cancel_job() callback for nouveau, which makes
+sure the (still existing) waitque will never block. The, now redundant,
+waitque then gets removed in patch 7.
+
+
+P.
 
