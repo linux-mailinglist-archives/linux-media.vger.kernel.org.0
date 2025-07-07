@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-36946-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-36947-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3BFAFACA4
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 09:05:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F20AFACA6
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 09:05:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E16B3B6651
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 07:04:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6078F3A6B42
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 07:04:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 162342868AC;
-	Mon,  7 Jul 2025 07:01:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8799927A477;
+	Mon,  7 Jul 2025 07:03:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pzx2rAga"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juhvhw3W"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A67F27AC48;
-	Mon,  7 Jul 2025 07:01:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F1CF510;
+	Mon,  7 Jul 2025 07:03:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751871711; cv=none; b=KOf2FSS/c/a7wxux9SaIaaj/DCzcsnQc0rsHBt3LqxaLaK70TQ7ivPbq0+JIbbPkxjQh5rYt8q6nRkZa71SlNhdbm4EB3D0GY/onW6R3PoFOb9zI6elEX6jbA1nCm6E0pZu5q3MzCNpLo6nNbwhFFZqLN715XLiZGhy+r/QNFm0=
+	t=1751871808; cv=none; b=dj6JGe8cgxdoC4OJsUfSrN9K/ugKaWKJc0RxoAbx+inLBgniziN3Or75sw6TojPGKSYlnMmhxqvzhwdgZBqs5Ak0bSa8RR8fObiArp4W2cyy77oBHpoyyEDpbbnIzVEBFWh9gB++sPtUx6965jgFNw/MnGYf2rLkIOvDGrbSBxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751871711; c=relaxed/simple;
-	bh=9ahq02cohoNR+foDAFJMfZIF5F/Fa4v6CbCiyG7PpJs=;
+	s=arc-20240116; t=1751871808; c=relaxed/simple;
+	bh=C7uOTK0k8vI5Rytb4z6FYorlHJkqS3b6pXeuWrE6ydE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uei3iyNHvavtrwsIz9GC7VjLn3Bt+ydupk8dJpFfqcdjRgPouBandQLQEFIIkZq6lRwCdM2B8WmxvZQJziOmZ1Hm026h7oiK5AAL5fYY7MU32GhBxzcJUtMkBRJUaI1UxBskf759Nz8v2T8RrywsSvhkzlgwtcxfgxqK67ns2I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pzx2rAga; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B398C4CEE3;
-	Mon,  7 Jul 2025 07:01:50 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=NBOMdiRNQ6tEFk1IpqGLU2fAkH496qNuIe/wh2cxX61wi1AeheklLuvkzhykkssIpHI+agH2fPfIo577mpeXIf0mXCck8JPIURojUQQOi2UnEBpKcUtNN6qZ5seVUOZfmmmuFud3gBgnwopD8MUO047iCO1ubT+Urx+PvuCtz7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juhvhw3W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6986C4CEE3;
+	Mon,  7 Jul 2025 07:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751871711;
-	bh=9ahq02cohoNR+foDAFJMfZIF5F/Fa4v6CbCiyG7PpJs=;
+	s=k20201202; t=1751871807;
+	bh=C7uOTK0k8vI5Rytb4z6FYorlHJkqS3b6pXeuWrE6ydE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pzx2rAgaDSMTqCdsMQAZzcI60zpddtZZXP3MPU/Q2kyKr/NHBzLVj2c30LiWuh7qh
-	 ioXzgDGjdc1uIVuzM0XE90IwUs3WE8ktA/y9x31tvkj+zahhSqtvji/j18jEXCF2x6
-	 InrfatdgvcM37KbdMgLRHKZO812uQSnnvv123mCNuZRNATAa6xAhEMXib9N8uuondR
-	 b5ao/iR1S0BLl521Q0teBAYJZFSRbQPdnYfTjJksvJ5qdeKxgaBwhUte+gNfte2akq
-	 P6A8E/Xqmrr5wUbpoznVgDc45x3m2OfhI9TsIH+cMGKYrrgnhZ92Pe1/R55d0FrzAX
-	 x7KyRftNihRsg==
-Date: Mon, 7 Jul 2025 09:01:48 +0200
+	b=juhvhw3WpehmoYS3yhMSeHhbSJHFjabaH4UVU914nbBJLsczWs9I2wPEtRq7olY08
+	 GBWxYeU16OKlR1EM0xg8BB3VCqWUb9XFoKeQbr6akcK9u64d1pOZz6Q1rmHNp0UD1A
+	 e4OhC/sgy/PkTEEDoUx/++7WBvepuiev5p8MQCQW6ARuHVB8GS2efXl+1B9Ca1lPBy
+	 uDeqS9LQp3gV5dlacwuw5wjPp0dHhTws7+EoXVlbwgxCWzdjeFlInMwoK1HD/E1ijt
+	 h/N9XfUMi9P4+zsKrjoq7EvZdfR/PLOs1d9UFJ6yx9DHTNE3ZaErPgmlyY6mCSOFQq
+	 lXAKKtP1vrbqg==
+Date: Mon, 7 Jul 2025 09:03:24 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Frank Li <Frank.Li@nxp.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -52,11 +52,11 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
 	linux-media@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Alice Yuan <alice.yuan@nxp.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: add i.MX parallel csi support
-Message-ID: <20250707-mustard-avocet-of-success-e68cbf@krzk-bin>
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] arm64: dts: imx8: add parallel CSI node
+Message-ID: <20250707-authentic-jellyfish-of-tact-ef6f0d@krzk-bin>
 References: <20250703-imx8qxp_pcam-v2-0-188be85f06f1@nxp.com>
- <20250703-imx8qxp_pcam-v2-1-188be85f06f1@nxp.com>
+ <20250703-imx8qxp_pcam-v2-3-188be85f06f1@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,79 +65,36 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250703-imx8qxp_pcam-v2-1-188be85f06f1@nxp.com>
+In-Reply-To: <20250703-imx8qxp_pcam-v2-3-188be85f06f1@nxp.com>
 
-On Thu, Jul 03, 2025 at 02:33:06PM -0400, Frank Li wrote:
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: fsl,imx8qxp-pcif
-> +      - items:
-> +          - enum:
-> +              - fsl,imx91-pcif
-> +          - const: fsl,imx93-pcif
-> +      - const: fsl,imx93-pcif
+On Thu, Jul 03, 2025 at 02:33:08PM -0400, Frank Li wrote:
+> Add parallel CSI nodes.
 
-This one should be an enum with imx8qxp.
+CSI is serial. How this can be a parallel serial? Binding speaks nothing
+about CSI, so this is just confusing. About which MIPI standard are we
+talking here?
 
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> changes in v2
+> - update compatible string to match binding's change
+> ---
+>  arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi    | 13 +++++++++++
+>  arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi | 27 +++++++++++++++++++++++
+>  2 files changed, 40 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> index 2cf0f7208350a416d77b11140279d2f66f41498f..1f7bf9efdbca266fbda82d2bc84acd9a27ed0bd1 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> @@ -224,6 +224,19 @@ irqsteer_parallel: irqsteer@58260000 {
+>  		status = "disabled";
+>  	};
+>  
+> +	parallel_csi: csi@58261000 {
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: pixel
-> +      - const: ipg
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-
-Use the properties/port schema instead, you do not have any properties
-here (although then question - don't you need anything from video
-interfaces?)
-
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-
-Same here
-
-> +        unevaluatedProperties: false
-> +        description:
-> +          Output port node.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx93-clock.h>
-> +    #include <dt-bindings/power/fsl,imx93-power.h>
-> +
-> +    pcif@4ac10070 {
-
-That's a CPI bus from MIPI so cpi@, no?
+And here it is called csi, not cpi, although binding calls pcif. Decide.
 
 Best regards,
 Krzysztof
