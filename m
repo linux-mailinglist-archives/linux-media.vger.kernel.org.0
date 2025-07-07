@@ -1,48 +1,54 @@
-Return-Path: <linux-media+bounces-37028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F28AFB6B2
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 17:01:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B58AFB728
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 17:21:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97FDC3A51D9
-	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:01:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03F1617DB97
+	for <lists+linux-media@lfdr.de>; Mon,  7 Jul 2025 15:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4DD2E174A;
-	Mon,  7 Jul 2025 15:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC332E266E;
+	Mon,  7 Jul 2025 15:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lohaAPHP"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Hhtprq5E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F932D8DA8;
-	Mon,  7 Jul 2025 15:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16622D9785;
+	Mon,  7 Jul 2025 15:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751900493; cv=none; b=A3uxZ7OdlinTWSfMA9nGia5NLACjSYIWdKcIESMim3o+FDphYi8lUmzLiG/i89H+g2coI2uZAKiaZ8a9/IC4XTioyiDxcDBMfL1QLQfa6nf0pEH+EUfv+iUXKahiBg6wAxk0Tvf5Y/LgC4w6kXYV8hq9dw2B9/vGnsXY/vp9nio=
+	t=1751901662; cv=none; b=YrjI3Oh78jMSNv8tWhPEP4dXmle99vY3K5u5mLefBKSrRV1m6/omI7kgnWWkHS4UqYfMgvm94NJ2lhP3ahjLOGtRanfVs3TS4wfZOwJVZf3Mne6rhb7hBEr0vJFvzZUA5dJeD2VClXV8AuO9HOLdsbwZDEcOAxIBjUiylBKdjR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751900493; c=relaxed/simple;
-	bh=bDeOA9LNZPnxTNLqEm+hANJIkTLV5RLBv0lR/n6Vkf4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RYqPJ+FIQ5fHTsWrnI0Rn2lmFAfcryRtZ2NRC3NTAvNXql9a6U1tJMDH9wgv5gR4atvcG+D4O9uFuTFMmGc5hsZHXr6N0f8+nj8ukT6rTIfMCf+hUH3guEOEKAiq7JlTH1irxOtlWc8foYiS2WOZT1KCAN5e7WBl7yw3QwPO1FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lohaAPHP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7793C4CEE3;
-	Mon,  7 Jul 2025 15:01:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751900492;
-	bh=bDeOA9LNZPnxTNLqEm+hANJIkTLV5RLBv0lR/n6Vkf4=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=lohaAPHPXCoMNk6HZgIRmMLDCBsO1a8u2mot/h/UUsVV9h9rCPfgpeVeYehsS4xdf
-	 bXzzc/loEl3MQxlZv3afzoSxo1wJZLFktdqqz+BpHjHXM8x32q5+bmBdEe4PSTX/Aj
-	 Q4fKrs5lhSwk5EcmpgVndQhKUcsvgwL1xMNLG+fidqT2SEbYkkr8Lc+9J3N27x06S8
-	 3OATFWswRDBcO+RFIuUoQHl0zhq8nsqi+qzDCKpQu2eMSn6h4Hvgc0Qx0YAs9ArPRW
-	 Yz/u/LbSw0DmVIAs6ijZV9J0E6pPyjJGzcsrnWsVdgqSBoQ5DKE0agKUiWhMXb41XI
-	 9Nqx4pRxORX4w==
-Message-ID: <ade60c0c-f3ef-4089-89e5-f57483ac8b66@kernel.org>
-Date: Mon, 7 Jul 2025 17:01:28 +0200
+	s=arc-20240116; t=1751901662; c=relaxed/simple;
+	bh=MMDzTIwflD/c7ViaPINS1dRraANKxnV5iV4Y9/FiAnM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=moW4g6XH4KDSmoTIm3uiCmAmajjIpGPBaBMvd8NVgVKwxQtMS5pgBqbhi/Wx6s6IOH/UyZP1MCOv3EIedxo4Ok+MFPhVLWTZIzruJUi0YY4OTMy0EPcpGB96N96OekSRu83At9ttDd53PKbrljJuA5MeJU5LYl4oRQwdA4DMuqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Hhtprq5E; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Zq2+ThBa+lAaOI5QZ1x0KzDEfrFEgq2eWz6RBj1v4QA=; b=Hhtprq5EbhIkcc473r6XI9FsIt
+	HPcAgrYA2Xhl9aRlTYSrPcW5cn0+koJvrV7aIWpDBxzSEUcavfOdvUiMIsOYZZh+qlq4e5qEUM14A
+	19h6waJK7mSkuNbH8PaPbQB9LpHZrqXpAkIEwxW+YSs37lR6LPWQqJ9I1ffA+Qkky56dsxFVago2S
+	P8iceOHi56MH9KiHUSX9rMxsvgtMnScTyclY1DwxeeEOu7M9lZT2dhkZyC6BQQqWmuJovlZuyasfv
+	AV2lESv+GF/JqcRn+LGiojiVinT0Bace7NC4JIG5xBtgi++YgmEyGS293I2JkTXVStHBERw64ZDDc
+	sziUIqWQ==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1uYndu-00DbQm-Id; Mon, 07 Jul 2025 17:20:30 +0200
+Message-ID: <d4323b23-e977-4ea9-892a-78e11a2e98a9@igalia.com>
+Date: Mon, 7 Jul 2025 16:20:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,123 +56,113 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] staging: media: atomisp: unify initialization flag
- usage in HMM
-From: Hans de Goede <hansg@kernel.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.org, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, dan.carpenter@linaro.org
-References: <20250707140923.58935-1-abdelrahmanfekry375@gmail.com>
- <20250707140923.58935-3-abdelrahmanfekry375@gmail.com>
- <d063964c-5ca9-4602-8338-05c46c2d2775@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <d063964c-5ca9-4602-8338-05c46c2d2775@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 3/7] drm/sched/tests: Add unit test for cancel_job()
+To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250707134221.34291-2-phasta@kernel.org>
+ <20250707134221.34291-5-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250707134221.34291-5-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 7-Jul-25 4:14 PM, Hans de Goede wrote:
-> Hi Abdelrahman,
+On 07/07/2025 14:42, Philipp Stanner wrote:
+> The scheduler unit tests now provide a new callback, cancel_job(). This
+> callback gets used by drm_sched_fini() for all still pending jobs to
+> cancel them.
 > 
-> On 7-Jul-25 16:09, Abdelrahman Fekry wrote:
->> Previously, the initialization state of the `hmm_bo_device` was tracked
->> in two places: a global `hmm_initialized` boolean in `hmm.c`, and a local
->> integer `flag` in the `hmm_bo_device` struct. This was redundant and could
->> lead to inconsistent state checks.
->>
->> - Removes the global `hmm_initialized` variable and all checks against it.
->> - Replaces the `int flag` in `struct hmm_bo_device` with a strongly-typed 
->>  `enum hmm_bo_device_init_flag flag` (values: UNINITED = 0, INITED = 1).
->> - Initializes `flag` to `HMM_BO_DEVICE_UNINITED` at declaration to 
->>   ensure a well-defined starting state.
->> - Removes a redundant `hmm_init()` call inside `__hmm_alloc()` since its
->>   always called after hmm_init()
->>
->> This change improves type safety, consistency, and readability when
->> handling the HMM initialization state.
->>
->> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
->> ---
->>  .../staging/media/atomisp/include/hmm/hmm_bo.h   |  9 +++++++--
->>  drivers/staging/media/atomisp/pci/hmm/hmm.c      | 16 ++++------------
->>  2 files changed, 11 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> index e09ac29ac43d..155f9d89b365 100644
->> --- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> +++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> @@ -58,7 +58,10 @@
->>  #define	ISP_VM_SIZE	(0x7FFFFFFF)	/* 2G address space */
->>  #define	ISP_PTR_NULL	NULL
->>  
->> -#define	HMM_BO_DEVICE_INITED	0x1
->> +enum hmm_bo_device_init_flag {
->> +	HMM_BO_DEVICE_INITED	= 0x1,
->> +	HMM_BO_DEVICE_UNINITED	= 0x2,
->> +};
->>  
->>  enum hmm_bo_type {
->>  	HMM_BO_PRIVATE,
->> @@ -86,7 +89,9 @@ struct hmm_bo_device {
->>  
->>  	/* list lock is used to protect the entire_bo_list */
->>  	spinlock_t	list_lock;
->> -	int flag;
->> +
->> +	/* flag to indicate whether the bo device is inited or not */
->> +	enum hmm_bo_device_init_flag flag;
+> Implement a new unit test to test this.
 > 
-> Please just replace this with a "bool initialized"; data
-> member taking `true` and `false as values instead of
-> introducing a new type for this.
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c | 43 +++++++++++++++++++
+>   1 file changed, 43 insertions(+)
 > 
->>  
->>  	/* linked list for entire buffer object */
->>  	struct list_head entire_bo_list;
->> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> index c2ee9d2ec0d5..767a3a24f8e5 100644
->> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> @@ -24,9 +24,10 @@
->>  #include "mmu/isp_mmu.h"
->>  #include "mmu/sh_mmu_mrfld.h"
->>  
->> -struct hmm_bo_device bo_device;
->> +struct hmm_bo_device bo_device = {
->> +	.flag = HMM_BO_DEVICE_UNINITED,
->> +};
->>  static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
->> -static bool hmm_initialized;
->>  
->>  int hmm_init(void)
->>  {
->> @@ -38,8 +39,6 @@ int hmm_init(void)
->>  		dev_err(atomisp_dev, "hmm_bo_device_init failed.\n");
->>  		return ret;
->>  
->> -	hmm_initialized = true;
->> -
->>  	/*
->>  	 * As hmm use NULL to indicate invalid ISP virtual address,
->>  	 * and ISP_VM_START is defined to 0 too, so we allocate
->> @@ -62,7 +61,7 @@ void hmm_cleanup(void)
->>  	dummy_ptr = 0;
->>  
->>  	hmm_bo_device_exit(&bo_device);
->> -	hmm_initialized = false;
->> +	bo_device.flag = HMM_BO_DEVICE_UNINITED;
-> 
-> This clearing of the flag / setting `initialized = false` belongs inside bo_exit()
-> not here.
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index 7230057e0594..fa3da2db4893 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -204,6 +204,48 @@ static struct kunit_suite drm_sched_basic = {
+>   	.test_cases = drm_sched_basic_tests,
+>   };
+>   
+> +static void drm_sched_basic_cancel(struct kunit *test)
+> +{
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_mock_scheduler *sched;
+> +	struct drm_mock_sched_job *job;
+> +	bool done;
+> +
+> +	/*
+> +	 * Check that the configured credit limit is respected.
+> +	 */
 
-To be clear I meant this belongs inside hmm_bo_device_exit().
+Copy & paste mishap.
+
+> +
+> +	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
+> +	sched->base.credit_limit = 1;
+
+Ditto.
+
+> +
+> +	entity = drm_mock_sched_entity_new(test, DRM_SCHED_PRIORITY_NORMAL,
+> +					   sched);
+> +
+> +	job = drm_mock_sched_job_new(test, entity);
+> +
+> +	drm_mock_sched_job_submit(job);
+> +
+> +	done = drm_mock_sched_job_wait_scheduled(job, HZ);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +	drm_mock_sched_fini(sched);
+> +
+> +	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
+> +}
+> +
+> +static struct kunit_case drm_sched_cancel_tests[] = {
+> +	KUNIT_CASE(drm_sched_basic_cancel),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite drm_sched_cancel = {
+> +	.name = "drm_sched_basic_cancel_tests",
+> +	.init = drm_sched_basic_init,
+> +	.exit = drm_sched_basic_exit,
+> +	.test_cases = drm_sched_cancel_tests,
+> +};
+> +
+>   static void drm_sched_basic_timeout(struct kunit *test)
+>   {
+>   	struct drm_mock_scheduler *sched = test->priv;
+> @@ -471,6 +513,7 @@ static struct kunit_suite drm_sched_credits = {
+>   
+>   kunit_test_suites(&drm_sched_basic,
+>   		  &drm_sched_timeout,
+> +		  &drm_sched_cancel,
+>   		  &drm_sched_priority,
+>   		  &drm_sched_modify_sched,
+>   		  &drm_sched_credits);
+
+The rest looks good. With the comment fixed and credit limit setting 
+removed:
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
 Regards,
 
-Hans
-
+Tvrtko
 
 
