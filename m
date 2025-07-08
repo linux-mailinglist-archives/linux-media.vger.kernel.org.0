@@ -1,460 +1,473 @@
-Return-Path: <linux-media+bounces-37057-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37058-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725C3AFC45D
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 09:41:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDC6AFC465
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 09:43:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4CDE426986
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 07:40:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04960189BD5D
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 07:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD45029A331;
-	Tue,  8 Jul 2025 07:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662AF299AAF;
+	Tue,  8 Jul 2025 07:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UfO7kD62"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjripq4f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2884298258;
-	Tue,  8 Jul 2025 07:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE7C17BB6
+	for <linux-media@vger.kernel.org>; Tue,  8 Jul 2025 07:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751960471; cv=none; b=uskcDtA5fu0DoBaYRSfpPcE2p5uvsbSvWSvP7FUxOWedzQoqHniRgEeGzC+SNXPHjaw/ZK9meMsyFiaLPQiDSxWyvuwA2Xpux3Z3jghNVH+Yw1Cg+XLLuhn4MZi3CL0D6+pPpAbJayFItQyf01ZV/Asl4r7jyZrdEnGqSyyFHFM=
+	t=1751960582; cv=none; b=BvLp0fGql4F2wCu1TolywslCjXr5A0O3V50RWcYJslvGNo13RZHezl7yxlO8JAJ+Dxi7CHRqYYLIiop7Zpt3HnO3BEGddKhNPg42k7d8QBUwEObv1KmV9a3EFywymQQ1ktGSDkGETVurFKcpyB+FZ1UyLSvDbnMZicmUYGOTqX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751960471; c=relaxed/simple;
-	bh=Y5aa14T6jauvypMBTXb+fnAe1LTjxhMSNTyKV7M0rTY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AfJL9KWA7saGKkdmpCmQ0cd5bXO543i37RLhK5DfxyfbaOOXjRjA0b7i2l/E+XEVhxZERoYXWhzBtfuB5Y8kj5QUkm2h5nW4WLTSIDmXD9kLxuhMQh/raMXcppLFUr3KzoAaO/OMeW0TxjFuUcosjc3Wdz/ex8VJVn+KQ+oR3tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UfO7kD62; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751960582; c=relaxed/simple;
+	bh=rw3QyhzUii8LmY53DvQkT8PNSn+NYfcXlCfb3tBi7Ak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MSD93MS4l7gIaW4jVQErzHYYdRI03o9WzZURA4c9sFI1hJv77BQSh0COfpSdALVLN8Rpn/P2e57nP0XjvRlSzotPe2SDzIK5DYSMPNdwx218yHcaGTrF1I/mHKnWefRDYfKVZ4Oq59oLdch95XWGHyr9lA5CMnEqA/XKcj37z7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjripq4f; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751960470; x=1783496470;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Y5aa14T6jauvypMBTXb+fnAe1LTjxhMSNTyKV7M0rTY=;
-  b=UfO7kD62MyrupeBt25wSwbmjT24sSXK7uY4PpintGWQQwlBQjn3oVK5A
-   PMjIkxcZY/9O1BJenKNOMYSKgtrxKLSDS9BdB9GwP5F+uXh7BhtPRQik1
-   UTIPjMlS9NeZVLuIVQ3qEoLLkQlUUOrBXNtJihfDBPdnRzd4QvgCCKCb0
-   d1B5RikXGQulXMlnJHvx9N57yDce5Zt4AQIR5zgX65trWnkQjGqFOfKpJ
-   hhJlHRvNKt+wELimYJLlaWov4+JvzKNUYmdFMBFlojdiF/y7QlNZpve8X
-   tYli/8grPh0d0JHEftQy7HdmPtF0bmfNxeAw0pQNDaq1YowVV+m+OqNwj
-   A==;
-X-CSE-ConnectionGUID: dbX6t0waS1Gouikzkv8BgQ==
-X-CSE-MsgGUID: FHec6TZKQDqY9goUy03+hw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54317234"
+  t=1751960581; x=1783496581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rw3QyhzUii8LmY53DvQkT8PNSn+NYfcXlCfb3tBi7Ak=;
+  b=hjripq4f4RBff7UmUYMWsEDzZ0X4bWVHqvRcRaIGIUFoTAspmFDWiicf
+   6tyX08FqVCLf9QnTJZ9c6chZLIuXv7iSBFpkFoyIu4QMVEYx3DP+qM7Ry
+   j/GaX10fzEvHW4gc+LIhRAmDBdeQxC4vt5b2jkQtGMp8QHk+iXNt4XAOG
+   R0t8lcYlsMGlzA6ILfl1R47bUp/UcY3ruSb7PeuOd0V+0C2RsHL8W+yZn
+   BpBoQpTPxrFzxc3Btxab+KCiauLBUS/D+mSekDYOjME4V010qFsjcb7jP
+   FKXmJaqylxO2EktEoCkth68Zr2dg63BStAoXTfAMSKpZbUQSvIyCQJBts
+   g==;
+X-CSE-ConnectionGUID: Vn0JjXDPTQyYJLjf79q+ww==
+X-CSE-MsgGUID: WgRYx8r9Q92WJURu9MfZ3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="53905853"
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="54317234"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 00:41:09 -0700
-X-CSE-ConnectionGUID: scmlibf3StyPr3xtPtjMXA==
-X-CSE-MsgGUID: B1uChcq+Q1uEgaYjrQ+O0Q==
+   d="scan'208";a="53905853"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 00:43:01 -0700
+X-CSE-ConnectionGUID: hbd33qqmRtS4CE/cM9m4YA==
+X-CSE-MsgGUID: s0oFF7vPQGWTrIiqPMdVEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="159698073"
-Received: from unknown (HELO [10.238.224.209]) ([10.238.224.209])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 00:41:03 -0700
-Message-ID: <d7c44d80-f8b6-48ff-a41a-c340bee4e5af@intel.com>
-Date: Tue, 8 Jul 2025 15:41:00 +0800
+   d="scan'208";a="155770991"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.230])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 00:42:58 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 19B82120898;
+	Tue,  8 Jul 2025 10:42:55 +0300 (EEST)
+Date: Tue, 8 Jul 2025 07:42:55 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dafna Hirschfeld <dafna@fastmail.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC 1/3] media: v4l2-core: Add support for video device
+ state
+Message-ID: <aGzL_8BFEfZ6Co_u@kekkonen.localdomain>
+References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
+ <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: i2c: add ov2735 image sensor driver
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Hans de Goede <hansg@kernel.org>,
- Tarang Raval <tarang.raval@siliconsignals.io>,
- Jingjing Xiong <jingjing.xiong@intel.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Matthias Fend <matthias.fend@emfend.at>, Arnd Bergmann <arnd@arndb.de>,
- Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250707150118.20536-1-hardevsinh.palaniya@siliconsignals.io>
- <20250707150118.20536-3-hardevsinh.palaniya@siliconsignals.io>
- <aGwuRP42mtFZmLT8@smile.fi.intel.com>
- <PN3P287MB351968C7B57C3C97D799D1E1FF4EA@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: "Yan, Dongcheng" <dongcheng.yan@intel.com>
-In-Reply-To: <PN3P287MB351968C7B57C3C97D799D1E1FF4EA@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com>
 
-Hi Hardevsinh,
+Hi Jai,
 
-On 7/8/2025 3:04 PM, Hardevsinh Palaniya wrote:
-> Hi Andy,
+Thanks for the patchset.
+
+On Thu, Jul 03, 2025 at 06:02:08PM -0700, Jai Luthra wrote:
+> Simplify video capture device drivers by maintaining active and try
+> states to track the v4l2 formats (for video and metadata capture) of the
+> device.
 > 
-> Thanks for the review.
+> A lot of boilerplate in the drivers can be reduced by combining the
+> implementation of s_fmt and try_fmt hooks, and using a framework helper
+> for the g_fmt hook.
 > 
-> I have corrected the code, and all of your comments have now been addressed.
+> To achieve this, we pass the newly introduced state structure to the
+> hooks through the already existing private void pointer. For S_FMT, we
+> pass the pointer to the active state and enforce that the vb2 queue is
+> not busy before calling the driver hook. For TRY_FMT, we pass the
+> pointer to the temporary state stored in the file handle. Finally, we
+> introduce a framework helper for the g_fmt hook that the drivers can
+> use.
 > 
-> However, I have a question about one of the comments. Please see below. 
+> The private void pointer argument already had some rare uses, so we
+> switch away from using it in the v4l_*ctrl functions to access
+> file->private_data, instead doing that access directly. Some drivers'
+> hooks might still expect it to point to file->private_data, so we
+> replace it with the state pointer only if a driver selects the
+> V4L2_FL_USES_STATE flag while registering the device.
 > 
->> On Mon, Jul 07, 2025 at 08:31:06PM +0530, Hardevsinh Palaniya wrote:
->>> Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.
->>>
->>> The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an
->>> active array size of 1920 x 1080.
->>>
->>> - Manual exposure an gain control support
->>> - vblank/hblank control support
->>> - Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)
->>
->> ...
->>
->>> +#include <linux/clk.h>
->>> +#include <linux/delay.h>
->>> +#include <linux/i2c.h>
->>> +#include <linux/module.h>
->>> +#include <linux/pm_runtime.h>
->>> +#include <linux/regulator/consumer.h>
->>> +#include <linux/units.h>
->>
->> More stuff is in use than just these headers provide.
->> E.g.,
->>
->> + array_size.h
->> + container_of.h
->> + gpio/consumer.h
->> + types.h
->>
->> And so on... Also in some cases the forward declarations are enough to have.
->>
->> .,,
->>
->>> +#define OV2735_LINK_FREQ_420MHZ                      420000000
->>
->> HZ_PER_MHZ ?
->>
->> ...
->>
->>> +#define OV2735_PIXEL_RATE                    168000000
->>
->> What's the unit?
->>
->> ...
->>
->>> +static const s64 link_freq_menu_items[] = {
->>> +     OV2735_LINK_FREQ_420MHZ
->>
->> Keep the trailing comma like you have done in other cases.
->>
->>> +};
->>
->> ...
->>
->>> +static int ov2735_enable_test_pattern(struct ov2735 *ov2735, u32 pattern)
->>> +{
->>> +     int ret;
->>> +     u64 val;
->>> +
->>> +     ret = cci_read(ov2735->cci, OV2735_REG_TEST_PATTERN, &val, NULL);
->>> +     if (ret)
->>> +             return ret;
->>> +
->>> +     switch (pattern) {
->>> +     case 0:
->>> +             val &= ~OV2735_TEST_PATTERN_ENABLE;
->>> +             break;
->>> +     case 1:
->>> +             val |= OV2735_TEST_PATTERN_ENABLE;
->>> +             break;
->>> +     }
->>
->>> +     ret = cci_write(ov2735->cci, OV2735_REG_TEST_PATTERN, val, NULL);
->>> +     if (ret)
->>> +             return ret;
->>> +
->>> +     return 0;
->>
->> Is this the required style? Because these 5 LoCs is just a simple
->>
->>         return cci_write(ov2735->cci, OV2735_REG_TEST_PATTERN, val, NULL);
->>
->>> +}
->>
->> ...
->>
->>> +static int ov2735_set_ctrl(struct v4l2_ctrl *ctrl)
->>> +{
->>> +     struct ov2735 *ov2735 = container_of(ctrl->handler, struct ov2735,
->>> +                                          handler);
->>> +     const struct ov2735_mode *mode;
->>> +     struct v4l2_mbus_framefmt *fmt;
->>> +     struct v4l2_subdev_state *state;
->>
->>> +     int vts;
->>
->> Can be negative?
->>
->>> +     int ret = 0;
->>
->> How is this assignment useful?
->>
->>> +     state = v4l2_subdev_get_locked_active_state(&ov2735->sd);
->>> +     fmt = v4l2_subdev_state_get_format(state, 0);
->>> +
->>> +     mode = v4l2_find_nearest_size(supported_modes,
->>> +                                   ARRAY_SIZE(supported_modes),
->>> +                                   width, height,
->>> +                                   fmt->width, fmt->height);
->>> +
->>> +     if (ctrl->id == V4L2_CID_VBLANK) {
->>> +             /* Honour the VBLANK limits when setting exposure. */
->>> +             s64 max = mode->height + ctrl->val - 4;
->>> +
->>> +             ret = __v4l2_ctrl_modify_range(ov2735->exposure,
->>> +                                            ov2735->exposure->minimum, max,
->>> +                                      ov2735->exposure->step,
->>> +                                      ov2735->exposure->default_value);
->>> +             if (ret)
->>> +                     return ret;
->>> +     }
->>> +
->>> +     /*
->>> +      * Applying V4L2 control value only happens
->>> +      * when power is up for streaming
->>
->> Multi-line comments shouldn't neglect punctuation.
->>
->>> +      */
->>> +     if (pm_runtime_get_if_in_use(ov2735->dev) == 0)
->>> +             return 0;
->>> +
->>> +     ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x01, NULL);
->>> +
->>> +     switch (ctrl->id) {
->>> +     case V4L2_CID_EXPOSURE:
->>> +             ret |= cci_write(ov2735->cci, OV2735_REG_LONG_EXPOSURE, ctrl->val, NULL);
->>> +             break;
->>> +     case V4L2_CID_ANALOGUE_GAIN:
->>> +             ret |= cci_write(ov2735->cci, OV2735_REG_ANALOG_GAIN, ctrl->val, NULL);
->>> +             break;
->>> +     case V4L2_CID_HBLANK:
->>> +             ret |= cci_write(ov2735->cci, OV2735_REG_HBLANK, ctrl->val, NULL);
->>> +             break;
->>> +     case V4L2_CID_VBLANK:
->>> +             vts = ctrl->val + mode->height;
->>> +             ret |= cci_write(ov2735->cci, OV2735_REG_FRAME_EXP_SEPERATE_EN,
->>> +                              OV2735_FRAME_EXP_SEPERATE_EN, NULL);
->>> +             ret |= cci_write(ov2735->cci, OV2735_REG_FRAME_LENGTH, vts, NULL);
->>> +             break;
->>> +     case V4L2_CID_TEST_PATTERN:
->>> +             ret = ov2735_enable_test_pattern(ov2735, ctrl->val);
->>> +             break;
->>> +     default:
->>> +             dev_err(ov2735->dev, "ctrl(id:0x%x, val:0x%x) is not handled\n",
->>> +                     ctrl->id, ctrl->val);
->>> +             break;
->>> +     }
->>> +     ret |= cci_write(ov2735->cci, OV2735_REG_FRAME_SYNC, 0x01, NULL);
->>> +
->>> +     pm_runtime_put(ov2735->dev);
->>> +
->>> +     return ret;
->>> +}
->>
->> ...
->>
->>> +static int ov2735_init_controls(struct ov2735 *ov2735)
->>> +{
->>> +     struct v4l2_ctrl_handler *ctrl_hdlr;
->>> +     struct v4l2_fwnode_device_properties props;
->>> +     const struct ov2735_mode *mode = &supported_modes[0];
->>> +     u64 hblank_def, vblank_def, exp_max;
->>> +     int ret;
->>> +
->>> +     ctrl_hdlr = &ov2735->handler;
->>> +     ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
->>> +     if (ret)
->>> +             return ret;
->>> +
->>> +     ov2735->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops, V4L2_CID_PIXEL_RATE,
->>> +                                            0, OV2735_PIXEL_RATE, 1, OV2735_PIXEL_RATE);
->>
->> Besides it's too long, it has trailing space.
->>
->>> +
->>> +     ov2735->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2735_ctrl_ops,
->>> +                                                V4L2_CID_LINK_FREQ,
->>> +                                                0, 0, link_freq_menu_items);
->>> +     if (ov2735->link_freq)
->>> +             ov2735->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>> +
->>> +     hblank_def =  mode->hts_def - mode->width;
->>> +     ov2735->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops, V4L2_CID_HBLANK,
->>> +                                        hblank_def, hblank_def, 1, hblank_def);
->>> +
->>> +     vblank_def = mode->vts_def - mode->height;
->>> +     ov2735->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
->>> +                                        V4L2_CID_VBLANK, vblank_def,
->>> +                             OV2735_VTS_MAX - mode->height,
->>> +                             1, vblank_def);
->>
->> It's weird indentation.
->>
->>> +
->>> +     exp_max = mode->vts_def - 4;
->>> +     ov2735->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
->>> +                                          V4L2_CID_EXPOSURE, OV2735_EXPOSURE_MIN,
->>> +                             exp_max, OV2735_EXPOSURE_STEP, mode->exp_def);
->>> +
->>> +     ov2735->gain = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
->>> +                                      V4L2_CID_ANALOGUE_GAIN, ANALOG_GAIN_MIN,
->>> +                             ANALOG_GAIN_MAX, ANALOG_GAIN_STEP,
->>> +                             ANALOG_GAIN_DEFAULT);
->>
->> Ditto.
->>
->>> +     ov2735->test_pattern = v4l2_ctrl_new_std_menu_items(ctrl_hdlr,
->>> +                                                         &ov2735_ctrl_ops, V4L2_CID_TEST_PATTERN,
->>> +                     ARRAY_SIZE(ov2735_test_pattern_menu) - 1,
->>> +                     0, 0, ov2735_test_pattern_menu);
->>
->> Ditto.
->>
->>> +     if (ctrl_hdlr->error) {
->>> +             ret = ctrl_hdlr->error;
->>> +             dev_err(ov2735->dev, "control init failed (%d)\n", ret);
->>> +             goto error;
->>> +     }
->>> +
->>> +     ret = v4l2_fwnode_device_parse(ov2735->dev, &props);
->>> +     if (ret)
->>> +             goto error;
->>> +
->>> +     ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov2735_ctrl_ops,
->>> +                                           &props);
->>> +     if (ret)
->>> +             goto error;
->>> +
->>> +     ov2735->sd.ctrl_handler = ctrl_hdlr;
->>> +
->>> +     return 0;
->>> +error:
->>
->> Usual way of naming labels is to explain what is going to  happen when goto.
->> Moreover it's even inconsistent, the below code use err prefix, but better
->> naming.
->>
->> Here the
->>
->> err_handler_free:
->>
->> for example is better.
->>
->>> +     v4l2_ctrl_handler_free(ctrl_hdlr);
->>> +
->>> +     return ret;
->>> +}
->>
->> ...
->>
->>> +static int ov2735_enable_streams(struct v4l2_subdev *sd,
->>> +                              struct v4l2_subdev_state *state, u32 pad,
->>> +                             u64 streams_mask)
->>
->> Indentation issue.
->>
->>> +{
->>> +     struct ov2735 *ov2735 = to_ov2735(sd);
->>> +     const struct ov2735_mode *mode;
->>> +     const struct ov2735_reglist *reg_list;
->>> +     const struct v4l2_mbus_framefmt *fmt;
->>> +     int ret = 0;
->>
->> Needless assignment.
->>
->>> +     fmt = v4l2_subdev_state_get_format(state, 0);
->>> +     mode = v4l2_find_nearest_size(supported_modes,
->>> +                                   ARRAY_SIZE(supported_modes),
->>> +                                   width, height,
->>> +                                   fmt->width, fmt->height);
->>> +
->>> +     ret = pm_runtime_resume_and_get(ov2735->dev);
->>> +     if (ret < 0)
->>> +             return ret;
->>> +
->>> +     reg_list = &mode->reg_list;
->>> +     ret = cci_multi_reg_write(ov2735->cci, reg_list->regvals, reg_list->num_regs, NULL);
->>> +     if (ret) {
->>> +             dev_err(ov2735->dev, "%s failed to send mfg header\n", __func__);
->>> +             goto err_rpm_put;
->>> +     }
->>> +
->>> +     /* Apply customized values from user */
->>> +     ret =  __v4l2_ctrl_handler_setup(ov2735->sd.ctrl_handler);
->>> +     if (ret)
->>> +             goto err_rpm_put;
->>> +
->>> +     /* set stream on register */
->>> +     ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x01, NULL);
->>> +     ret |= cci_write(ov2735->cci, OV2735_REG_STREAM_CTRL, OV2735_STREAM_ON, NULL);
->>> +     if (ret)
->>> +             goto err_rpm_put;
->>> +
->>> +     return 0;
->>> +
->>> +err_rpm_put:
->>> +     pm_runtime_put(ov2735->dev);
->>> +     return ret;
->>> +}
->>
->> ...
->>
->>> +static int ov2735_disable_streams(struct v4l2_subdev *sd,
->>> +                               struct v4l2_subdev_state *state, u32 pad,
->>> +                               u64 streams_mask)
->>> +{
->>> +     struct ov2735 *ov2735 = to_ov2735(sd);
->>> +     int ret = 0;
->>> +
->>> +     /* set stream off register */
->>> +     ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x01, NULL);
->>> +     ret |= cci_write(ov2735->cci, OV2735_REG_STREAM_CTRL, OV2735_STREAM_OFF, NULL);
->>
->> Why not using the ret parameter? Same for other similar cases above and beyond.
+> State support may be extended in the future to other device types, such
+> as video/metadata output or M2M devices.
 > 
-> I am not sure what you want to suggest here.
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c   | 32 ++++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-fh.c    |  1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 44 ++++++++++++++++++++++++------
+>  include/media/v4l2-dev.h             | 52 ++++++++++++++++++++++++++++++++++++
+>  include/media/v4l2-fh.h              |  5 +++-
+>  5 files changed, 125 insertions(+), 9 deletions(-)
 > 
-> Do I need to check ret like this?
-> 
-> ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x01, NULL);
-> if (ret) {
->     // error message
-> }
-> 
-> ret = cci_write(ov2735->cci, OV2735_REG_STREAM_CTRL, OV2735_STREAM_OFF, NULL);
-> if (ret) {
->     // error message
-> }
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index c369235113d98ae26c30a1aa386e7d60d541a66e..b8227d5508dc5bd775706264739e5db2d577f7fd 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/uaccess.h>
+>  
+>  #include <media/v4l2-common.h>
+> +#include <media/v4l2-dev.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-event.h>
+> @@ -163,6 +164,34 @@ void video_device_release_empty(struct video_device *vdev)
+>  }
+>  EXPORT_SYMBOL(video_device_release_empty);
+>  
+> +int video_device_g_fmt_vid(struct file *file, void *priv,
+> +			   struct v4l2_format *fmt)
+> +{
+> +	struct video_device_state *state = priv;
+> +
+> +	if (WARN_ON_ONCE(!state))
+> +		return -EINVAL;
+> +
+> +	*fmt = state->vid_fmt;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(video_device_g_fmt_vid);
+
+EXPORT_SYMBOL_GPL(), please.
+
+> +
+> +int video_device_g_fmt_meta(struct file *file, void *priv,
+> +			    struct v4l2_format *fmt)
+> +{
+> +	struct video_device_state *state = priv;
+> +
+> +	if (WARN_ON_ONCE(!state))
+> +		return -EINVAL;
+> +
+> +	*fmt = state->meta_fmt;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(video_device_g_fmt_meta);
+> +
+>  static inline void video_get(struct video_device *vdev)
+>  {
+>  	get_device(&vdev->dev);
+> @@ -927,6 +956,9 @@ int __video_register_device(struct video_device *vdev,
+>  	spin_lock_init(&vdev->fh_lock);
+>  	INIT_LIST_HEAD(&vdev->fh_list);
+>  
+> +	/* video_device_state support */
+> +	vdev->state.which = VIDEO_DEVICE_FORMAT_ACTIVE;
+> +
+>  	/* Part 1: check device type */
+>  	switch (type) {
+>  	case VFL_TYPE_VIDEO:
+> diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
+> index 90eec79ee995a2d214590beeacc91b9f8f33236d..d246e05f8ef1244e212412caa5c9c6788a5c948a 100644
+> --- a/drivers/media/v4l2-core/v4l2-fh.c
+> +++ b/drivers/media/v4l2-core/v4l2-fh.c
+> @@ -37,6 +37,7 @@ void v4l2_fh_init(struct v4l2_fh *fh, struct video_device *vdev)
+>  	INIT_LIST_HEAD(&fh->available);
+>  	INIT_LIST_HEAD(&fh->subscribed);
+>  	fh->sequence = -1;
+> +	fh->state.which = VIDEO_DEVICE_FORMAT_TRY;
+>  	mutex_init(&fh->subscribe_lock);
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_fh_init);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 650dc1956f73d2f1943b56c42140c7b8d757259f..78a0db364725ec6641be37d0c4804edb222a9154 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -21,6 +21,7 @@
+>  
+>  #include <media/media-device.h> /* for media_set_bus_info() */
+>  #include <media/v4l2-common.h>
+> +#include <media/v4l2-dev.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-fh.h>
+> @@ -1745,6 +1746,15 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+>  	if (ret)
+>  		return ret;
+>  
+> +	/*
+> +	 * Make sure queue isn't busy for devices that use state, as they have a
+> +	 * single implementation for .s_fmt and .try_fmt, and rely on us to make
+> +	 * sure the queue is not busy when calling for the .s_fmt case
+> +	 */
+> +	if (test_bit(V4L2_FL_USES_STATE, &vfd->flags) && vfd->queue &&
+> +	    vb2_is_busy(vfd->queue))
+> +		return -EBUSY;
+> +
+>  	ret = v4l_enable_media_source(vfd);
+>  	if (ret)
+>  		return ret;
+> @@ -2293,7 +2303,7 @@ static int v4l_queryctrl(const struct v4l2_ioctl_ops *ops,
+>  	struct v4l2_query_ext_ctrl qec = {};
+>  	struct v4l2_queryctrl *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  	int ret;
+>  
+>  	if (vfh && vfh->ctrl_handler)
+> @@ -2318,7 +2328,7 @@ static int v4l_query_ext_ctrl(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vfd = video_devdata(file);
+>  	struct v4l2_query_ext_ctrl *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  
+>  	if (vfh && vfh->ctrl_handler)
+>  		return v4l2_query_ext_ctrl(vfh->ctrl_handler, p);
+> @@ -2335,7 +2345,7 @@ static int v4l_querymenu(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vfd = video_devdata(file);
+>  	struct v4l2_querymenu *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  
+>  	if (vfh && vfh->ctrl_handler)
+>  		return v4l2_querymenu(vfh->ctrl_handler, p);
+> @@ -2352,7 +2362,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vfd = video_devdata(file);
+>  	struct v4l2_control *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  	struct v4l2_ext_controls ctrls;
+>  	struct v4l2_ext_control ctrl;
+>  
+> @@ -2384,7 +2394,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vfd = video_devdata(file);
+>  	struct v4l2_control *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  	struct v4l2_ext_controls ctrls;
+>  	struct v4l2_ext_control ctrl;
+>  	int ret;
+> @@ -2414,7 +2424,7 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vfd = video_devdata(file);
+>  	struct v4l2_ext_controls *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  
+>  	p->error_idx = p->count;
+>  	if (vfh && vfh->ctrl_handler)
+> @@ -2435,7 +2445,7 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vfd = video_devdata(file);
+>  	struct v4l2_ext_controls *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  
+>  	p->error_idx = p->count;
+>  	if (vfh && vfh->ctrl_handler)
+> @@ -2456,7 +2466,7 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vfd = video_devdata(file);
+>  	struct v4l2_ext_controls *p = arg;
+>  	struct v4l2_fh *vfh =
+> -		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+>  
+>  	p->error_idx = p->count;
+>  	if (vfh && vfh->ctrl_handler)
+> @@ -3057,6 +3067,21 @@ void v4l_printk_ioctl(const char *prefix, unsigned int cmd)
+>  }
+>  EXPORT_SYMBOL(v4l_printk_ioctl);
+>  
+> +static struct video_device_state *
+> +video_device_get_state(struct video_device *vfd, struct v4l2_fh *vfh,
+> +		       unsigned int cmd, void *arg)
+> +{
+> +	switch (cmd) {
+> +	default:
+> +		return NULL;
+> +	case VIDIOC_G_FMT:
+> +	case VIDIOC_S_FMT:
+> +		return &vfd->state;
+> +	case VIDIOC_TRY_FMT:
+> +		return &vfh->state;
+> +	}
+> +}
+> +
+>  static long __video_do_ioctl(struct file *file,
+>  		unsigned int cmd, void *arg)
+>  {
+> @@ -3081,6 +3106,9 @@ static long __video_do_ioctl(struct file *file,
+>  	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
+>  		vfh = file->private_data;
+>  
+> +	if (vfh && test_bit(V4L2_FL_USES_STATE, &vfd->flags))
+> +		fh = video_device_get_state(vfd, vfh, cmd, arg);
+> +
+>  	/*
+>  	 * We need to serialize streamon/off with queueing new requests.
+>  	 * These ioctls may trigger the cancellation of a streaming
+> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> index 1b6222fab24eda96cbe459b435431c01f7259366..8e6e7799212cd07ae4ad3dfc85912c21a9bcab2d 100644
+> --- a/include/media/v4l2-dev.h
+> +++ b/include/media/v4l2-dev.h
+> @@ -89,12 +89,18 @@ struct dentry;
+>   *	set by the core when the sub-devices device nodes are registered with
+>   *	v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
+>   *	handler to restrict access to some ioctl calls.
+> + * @V4L2_FL_USES_STATE:
+> + *	indicates that the &struct video_device has state support.
+> + *	The active video and metadata formats are stored in video_device.state,
+> + *	and the try video and metadata formats are stored in v4l2_fh.state.
+> + *	All new drivers should use it.
+>   */
+>  enum v4l2_video_device_flags {
+>  	V4L2_FL_REGISTERED		= 0,
+>  	V4L2_FL_USES_V4L2_FH		= 1,
+>  	V4L2_FL_QUIRK_INVERTED_CROP	= 2,
+>  	V4L2_FL_SUBDEV_RO_DEVNODE	= 3,
+> +	V4L2_FL_USES_STATE		= 4,
+>  };
+>  
+>  /* Priority helper functions */
+> @@ -214,6 +220,30 @@ struct v4l2_file_operations {
+>  	int (*release) (struct file *);
+>  };
+>  
+> +/**
+> + * enum video_device_format_whence - Video device format type
+
+What about selection rectangles?
+
+Should this be called video_device_state_whence?
+
+> + *
+> + * @V4L2_DEVICE_FORMAT_TRY: from VIDIOC_TRY_FMT, for negotiation only
+> + * @V4L2_DEVICE_FORMAT_ACTIVE: from VIDIOC_S_FMT, applied to the device
+> + */
+> +enum video_device_format_whence {
+> +	VIDEO_DEVICE_FORMAT_TRY = 0,
+> +	VIDEO_DEVICE_FORMAT_ACTIVE = 1,
+> +};
+> +
+> +/**
+> + * struct video_device_state - Used for storing video device state information.
+> + *
+> + * @vid_fmt: Format of the video capture stream
+> + * @meta_fmt: Format of the metadata capture stream
+> + * @which: is this a TRY or ACTIVE format?
+> + */
+> +struct video_device_state {
+> +	struct v4l2_format vid_fmt;
+> +	struct v4l2_format meta_fmt;
+> +	enum video_device_format_whence which;
+> +};
+> +
+>  /*
+>   * Newer version of video_device, handled by videodev2.c
+>   *	This version moves redundant code from video device code to
+> @@ -238,6 +268,7 @@ struct v4l2_file_operations {
+>   * @queue: &struct vb2_queue associated with this device node. May be NULL.
+>   * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
+>   *	 If NULL, then v4l2_dev->prio will be used.
+> + * @state: &struct video_device_state, holds the active state for the device.
+>   * @name: video device name
+>   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
+>   * @vfl_dir: V4L receiver, transmitter or m2m
+> @@ -283,6 +314,7 @@ struct video_device {
+>  	struct vb2_queue *queue;
+>  
+>  	struct v4l2_prio_state *prio;
+> +	struct video_device_state state;
+>  
+>  	/* device info */
+>  	char name[64];
+> @@ -540,6 +572,26 @@ static inline int video_is_registered(struct video_device *vdev)
+>  	return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
+>  }
+>  
+> +/**
+> + * video_device_g_fmt_vid() - fill video v4l2_format from the state.
+> + *
+> + * @file: pointer to struct file
+> + * @state: pointer to video device state
+> + * @format: pointer to &struct v4l2_format
+> + */
+> +int video_device_g_fmt_vid(struct file *file, void *state,
+> +			   struct v4l2_format *format);
+> +
+> +/**
+> + * video_device_g_fmt_meta() - fill metadata v4l2_format from the state.
+> + *
+> + * @file: pointer to struct file
+> + * @state: pointer to video device state
+> + * @format: pointer to &struct v4l2_format
+> + */
+> +int video_device_g_fmt_meta(struct file *file, void *state,
+> +			    struct v4l2_format *format);
+> +
+>  /**
+>   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
+>   *
+> diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+> index b5b3e00c8e6a0b082d9cd8a0c972a5094adcb6f2..02579f87ba99d0c849a0865f8cc4295446c39f94 100644
+> --- a/include/media/v4l2-fh.h
+> +++ b/include/media/v4l2-fh.h
+> @@ -18,7 +18,8 @@
+>  #include <linux/list.h>
+>  #include <linux/videodev2.h>
+>  
+> -struct video_device;
+> +#include <media/v4l2-dev.h>
+> +
+>  struct v4l2_ctrl_handler;
+>  
+>  /**
+> @@ -28,6 +29,7 @@ struct v4l2_ctrl_handler;
+>   * @vdev: pointer to &struct video_device
+>   * @ctrl_handler: pointer to &struct v4l2_ctrl_handler
+>   * @prio: priority of the file handler, as defined by &enum v4l2_priority
+> + * @state: try state used for format negotiation on the video device
+>   *
+>   * @wait: event' s wait queue
+>   * @subscribe_lock: serialise changes to the subscribed list; guarantee that
+> @@ -44,6 +46,7 @@ struct v4l2_fh {
+>  	struct video_device	*vdev;
+>  	struct v4l2_ctrl_handler *ctrl_handler;
+>  	enum v4l2_priority	prio;
+> +	struct video_device_state state;
+>  
+>  	/* Events */
+>  	wait_queue_head_t	wait;
 > 
 
-cci_write/read has a param named ret, for example:
-cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x01, &ret);
-cci_write(ov2735->cci, OV2735_REG_STREAM_CTRL, OV2735_STREAM_OFF, &ret);
-then check ret here or return ret.
+It'd be also nice to have a callback to initialise the state. That could
+well go to a separate patch though.
 
-Thanks,
-Dongcheng> Best Regards,
-> Hardev
+-- 
+Regards,
 
+Sakari Ailus
 
