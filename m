@@ -1,217 +1,148 @@
-Return-Path: <linux-media+bounces-37119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37120-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A5FAFCE65
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:00:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F51BAFCEF0
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:20:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06894172BCF
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 14:59:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E952E174512
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 15:20:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9E8D2E041C;
-	Tue,  8 Jul 2025 14:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A295E2E11D1;
+	Tue,  8 Jul 2025 15:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iV/SHiw1"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O+CkKxN9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681B42E041F
-	for <linux-media@vger.kernel.org>; Tue,  8 Jul 2025 14:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B4D2E0412;
+	Tue,  8 Jul 2025 15:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751986724; cv=none; b=nydHNOdn6jtnfRQ+Muij0yaCvOlMV9OPP/NRyioKmEVsB6NeELF/41prxKp3C9VCG8pEIHlxFtc1ENNe0jbOnbuO1ucvqn7X24gPvupu+scl5B6GmR+qMQUypQXQmxcZmN0dykb7Q4wzVFnLfOCPbvGzEL52gBMI/wwTTdrmDCE=
+	t=1751988005; cv=none; b=EHRwsxoUBl4ACgWVYS4AOWmzRMGUF8NxXRNqaWevtRs2yUVYo7TG4XWwGwTgcds2In1VThETum1KdVqo0xYiQKPHW8r1wnyapqZeZwKUCCopPbAYZshIFcv6mTIq3hRuywvQaBj9W8norJvlhiCmwvVLwo+TWqxE1IQzWwDqbjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751986724; c=relaxed/simple;
-	bh=HGTpVxEEJn+4Z8F/2vfMSUr1vMJyUPWvL7WDo/xrVN0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=luLV3sbeR+MY1MCjxMLsfSVwDlUc7bAF+kGtWc4G89F9FqPHByeTZtoncwsRqcDYnK23TbtinzWUG/AXOtHz1J1tpnyqojmBoB+gBh5av2gjXeKcQ2hDEX5GTcaBcO1fp7IvBSKWv0Nw6eAG2KsnhfZR6aCbegXzXHFPltC7gLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iV/SHiw1; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-55511c3e203so4057600e87.3
-        for <linux-media@vger.kernel.org>; Tue, 08 Jul 2025 07:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751986720; x=1752591520; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lsjEc9LmeMOTlM1N3xvojXwrwvOBpBec3I1iTp5IlDk=;
-        b=iV/SHiw1WPWcKwV+GMPbxGhFJWHy3MSOaVW3Q6Nz2n2AqdKiKGyAed3rI3h+s6Y06K
-         edWkKrK8zTRDLssDBG1VL9FrH57jl7+wla8Hv1JqWMZA6rpjQ0/R+LYEPx6eXcIt4/ie
-         6FOrMOKFq6jQGWc2aqpC6JlsKHrq7rgCCULvw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751986720; x=1752591520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lsjEc9LmeMOTlM1N3xvojXwrwvOBpBec3I1iTp5IlDk=;
-        b=RT5dSLCTkkQwNYDa8cwlM1B7KIP+xNKHIJlcV9ZXZdRwG5hl9/ch0riZ/jHLa4Wqej
-         vJ00YEFroW9JxUAW8dO5bycjVYlDAY+M3XQ/MJVCUxbxo3ckPthTvkdrtNJvFqRfz/Mt
-         YitOqZI6XvYVSQ+vFiY30BgV9l7GC+eZ+mVeyAZdU3jhvr9WcS9pI9NGPnGrmeV9NWq5
-         99xcLGFygDVErWhcyEWpBJkycNUX83Y307rYqGPhy1WqxQ12eicK+KbXdmGyJjC/B1Or
-         XdpXAr6GCHM0xTRxPGYFfirBkpobSma7eYWvKWZ+VrxIoFRgpiQ3RQ/PV+ad76lIBDhb
-         iHpA==
-X-Forwarded-Encrypted: i=1; AJvYcCXjNFKDuim5/tOX0lL6G52RzNx/NUXVjM2TpKvIamkpG9/n0ytutXPvEvXAwM9GiqZe19uw415rneLLGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCxiPXXYnyXqt0qFTp5hCNVEMEE62+SRZx30+IkoXn+V8htWaO
-	64HVsSuOsIhc9NWDCtrD6oigP1j241fak4xv1fi2ITHUB6nplpSSbIrp1t1GbIsY0M1fHMoaWj9
-	qQ2Psrmf8
-X-Gm-Gg: ASbGnctR/k54ec55k5JKvHwUsHB4W568K1vLZRS6DwtnsyiHYaNl1NmJ914AjuVHB9K
-	IHAIhPh05bvDPbYfePmZ8OVhp/E2WeWpMXFZNjkbssSTDaL3rkC+xlSiEtpdodTwmC9VvHubpV3
-	s13RzRK85+L3/dEPI/hsuU3M8YALEDUTErWx/aHSYYYyhtutCM9kUjlPE93Pr+sMcK6UBuf3YnB
-	QjBYO5m5AHpnkX/TLklmepoi78HNl+W/7/pqrXyjdZ/I5NFjcVyrDVHTPf0/xRw3rxczT90KOzU
-	y3k77sVicC1sf0ycaRCHzfCFUfZCJK384OHmhSvN6aROCytDwDARfF8j+rmvWv1fLMXc8Te+ZpB
-	zayBdLzPp8R+9zjwy+jnlD0D4
-X-Google-Smtp-Source: AGHT+IGFGzV9/dRdzf5qelLEINyd2VPmir++KJOh43xvU3CWfTttqi2PTgUVWL4638yuTr3dht+PKQ==
-X-Received: by 2002:a05:6512:3050:b0:553:358e:72a8 with SMTP id 2adb3069b0e04-556ddb95ff6mr5454741e87.38.1751986720441;
-        Tue, 08 Jul 2025 07:58:40 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556383bb16dsm1674576e87.24.2025.07.08.07.58.38
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Jul 2025 07:58:39 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55511c3e203so4057551e87.3
-        for <linux-media@vger.kernel.org>; Tue, 08 Jul 2025 07:58:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVNHNYF+X5F4i+Ckep76Vc3PXxJmozvgeThvG+mMrH8xaanRH8xLIe1tf7i8oKhw25srhMDrj7vi+yWgg==@vger.kernel.org
-X-Received: by 2002:a05:6512:ac8:b0:553:3028:75ae with SMTP id
- 2adb3069b0e04-556de076273mr5727105e87.46.1751986718368; Tue, 08 Jul 2025
- 07:58:38 -0700 (PDT)
+	s=arc-20240116; t=1751988005; c=relaxed/simple;
+	bh=ldW+8NLIWI9EH03+6vgdJz7W7PLDyT0T4sDDOhAg+Wg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=idMOoE6QBZqvnF88mttoNtLrHsmggMTNEQUW4g/ELvrCWWHav8VzyjU/2KvybHicNqbpLeLW5pAod9oyILU4Kj10x63NJ/dhARtevUR1OXAZgfoEOZ/QhkwKEXct+R5u4Bk6n5NuGHd6ziDdL1bsk/7NeAsnOUtYwuJcjT9JNIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=O+CkKxN9; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1751987994;
+	bh=ldW+8NLIWI9EH03+6vgdJz7W7PLDyT0T4sDDOhAg+Wg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=O+CkKxN93ev5LYgwxsRmUCBdvNE/oYc0sqGBkbZ1MUyp44t3xf4+NPkhZT6wvE942
+	 jQ/tj8uxiQfjqptkJKJStnaUiKXwJKTvulWEPCu0ZbhwOA/0X1qFKSqOAjcHPeCQBm
+	 uWUk+hibDaS74i0MBmV7/X18hRMViszziMfnInJi918cH9kY54UH6owlK0xZKgNJlH
+	 HPKFSL7JsPB9irr6cg2AKGycNpMJEMViNXGZkVGSfz4duo5WkxqyCPsKRbYEhqTURo
+	 GtX6MdeoBXv55dm/xfBErTeENjeudFeY7E7lkhxFXrdjOdqo2aYWLjnK9kiYpOCpRr
+	 5C08OcXMP3upQ==
+Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7E28017E0456;
+	Tue,  8 Jul 2025 17:19:53 +0200 (CEST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Detlev Casanova <detlev.casanova@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	kernel@collabora.com,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH 00/12] media: rkvdec: Add support for VDPU381 and VDPU383
+Date: Tue,  8 Jul 2025 11:19:33 -0400
+Message-ID: <20250708151946.374349-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-5-5710f9d030aa@chromium.org> <aGw_1T_Edm8--gXW@kekkonen.localdomain>
- <CANiDSCup2iRx+0RcaijSmbn04nBY4Ui9=esCPFsQzOKe=up9Gg@mail.gmail.com>
- <aGzjTRSco39mKJcf@kekkonen.localdomain> <CANiDSCsqEHTnbvzLMoe_yxi8JRzp+2PQe3ksXhD=Y3+AqC_9hw@mail.gmail.com>
- <aG0NI2V0Tfh2HZ6O@kekkonen.localdomain>
-In-Reply-To: <aG0NI2V0Tfh2HZ6O@kekkonen.localdomain>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 8 Jul 2025 16:58:25 +0200
-X-Gmail-Original-Message-ID: <CANiDSCu=wU_Oi7CLPcYTC3Xf_pGbDroaVitPAiAj7ND5pXy-6g@mail.gmail.com>
-X-Gm-Features: Ac12FXx3zIz7eqEIVhgOFhdr-yyA-k97hK_sQ1bucetsK4DfnOnoX-8awEd9Sp8
-Message-ID: <CANiDSCu=wU_Oi7CLPcYTC3Xf_pGbDroaVitPAiAj7ND5pXy-6g@mail.gmail.com>
-Subject: Re: [PATCH v2 05/12] media: ipu-bridge: Use v4l2_fwnode for unknown rotations
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 8 Jul 2025 at 14:21, Sakari Ailus <sakari.ailus@linux.intel.com> wr=
-ote:
->
-> Hi Ricardo,
->
-> On Tue, Jul 08, 2025 at 02:09:28PM +0200, Ricardo Ribalda wrote:
-> > On Tue, 8 Jul 2025 at 11:22, Sakari Ailus <sakari.ailus@linux.intel.com=
-> wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > On Tue, Jul 08, 2025 at 11:16:25AM +0200, Ricardo Ribalda wrote:
-> > > > Hi Sakari
-> > > >
-> > > > Thanks for your review
-> > > >
-> > > > On Mon, 7 Jul 2025 at 23:45, Sakari Ailus <sakari.ailus@linux.intel=
-.com> wrote:
-> > > > >
-> > > > > Hi Ricardo,
-> > > > >
-> > > > > On Thu, Jun 05, 2025 at 05:52:58PM +0000, Ricardo Ribalda wrote:
-> > > > > > The v4l2_fwnode_device_properties contains information about th=
-e
-> > > > > > rotation. Use it if the ssdb data is inconclusive.
-> > > > >
-> > > > > As SSDB and _PLD provide the same information, are they always al=
-igned? Do
-> > > > > you have any experience on how is this actually in firmware?
-> > > >
-> > > > Not really, in ChromeOS we are pretty lucky to control the firmware=
-.
-> > > >
-> > > > @HdG Do you have some experience/opinion here?
-> > > >
-> > > > >
-> > > > > _PLD is standardised so it would seem reasonable to stick to that=
- -- if it
-> > > > > exists. Another approach could be to pick the one that doesn't tr=
-anslate to
-> > > > > a sane default (0=C2=B0).
-> > > >
-> > > > I'd rather stick to the current prioritization unless there is a
-> > > > strong argument against it. Otherwise there is a chance that we wil=
-l
-> > > > have regressions (outside CrOS)
-> > >
-> > > My point was rather there are no such rules currently for rotation: o=
-nly
-> > > SSDB was being used by the IPU bridge to obtain the rotation value,
-> > > similarly only _PLD is consulted when it comes to orientation.
-> >
-> > So something like this:?
-> >
-> > static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
-> >                                      struct ipu_sensor_ssdb *ssdb,
-> >                                      struct
-> > v4l2_fwnode_device_properties *props)
-> > {
-> >         if (props->rotation !=3D V4L2_FWNODE_PROPERTY_UNSET)
-> >                 return props->rotation;
-> >
-> >         switch (ssdb->degree) {
-> >         case IPU_SENSOR_ROTATION_NORMAL:
-> >                 return 0;
-> >         case IPU_SENSOR_ROTATION_INVERTED:
-> >                 return 180;
-> >         }
-> >
-> >         dev_warn(ADEV_DEV(adev),
-> >                  "Unknown rotation %d. Assume 0 degree rotation\n",
-> >                  ssdb->degree);
->
-> Maybe:
->
->         acpi_handle_warn(acpi_device_handle(adev), ...);
->
-> ?
->
-> >         return 0;
-> > }
->
-> Looks good to me. Maybe something similar for orientation?
+These variants are found respectively in the RK3588 and RK3576 SoCs.
+This patch only adds support for H264 and H265 in both variants.
 
-Do you mean using ssdb also for orientation or using acpi_handle_warn?
+As there is a considerable part of the code that can be shared with the
+already supported rkvdec decoder driver, the support for these variants
+is added here rather than writing a new driver.
 
+This patch set uses the newly introduced EXT_SPS_RPS v4l2 control for
+HEVC [1].
+Therefore, a patched version of userpace tools is needed for HEVC
+support (currently only added for GStreamer[2])
 
-I cannot find anything related to orientation for SSDB
-https://github.com/coreboot/coreboot/blob/main/src/drivers/intel/mipi_camer=
-a/chip.h#L150
+This patch set also depends on the preparation patch set sent earlier [3]
+as well as the iommu restore fix [4] (already merged in linux-media) and
+Nicolas Frattaroli's bitmap patch [5] to support setting registers that
+uses upper 16 bits as masks.
 
-Am I looking in the right place?
+[1]: https://lore.kernel.org/all/20250623160722.55938-7-detlev.casanova@collabora.com/
+[2]: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9355
+[3]: https://lore.kernel.org/all/20250623160722.55938-1-detlev.casanova@collabora.com/
+[4]: https://lore.kernel.org/all/20250508-rkvdec-iommu-reset-v1-1-c46b6efa6e9b@collabora.com/
+[5]: https://lore.kernel.org/all/20250623-byeword-update-v2-1-cf1fc08a2e1f@collabora.com/
 
-Regards!
->
-> --
-> Regards,
->
-> Sakari Ailus
+Detlev Casanova (12):
+  media: rkvdec: Switch to using structs instead of writel
+  media: rkvdec: Move cabac table to its own source file
+  media: rkvdec: Use structs to represent the HW RPS
+  media: rkvdec: Move h264 functions to common file
+  media: rkvdec: Add per variant configuration
+  media: rkvdec: Add RCB and SRAM support
+  media: rkvdec: Support per-variant interrupt handler
+  media: rkvdec: Enable all clocks without naming them
+  media: rkvdec: Add H264 support for the VDPU381 variant
+  media: rkvdec: Add H264 support for the VDPU383 variant
+  media: rkvdec: Add HEVC support for the VDPU381 variant
+  media: rkvdec: Add HEVC support for the VDPU383 variant
 
+ .../media/platform/rockchip/rkvdec/Kconfig    |    1 +
+ .../media/platform/rockchip/rkvdec/Makefile   |   13 +-
+ .../platform/rockchip/rkvdec/rkvdec-cabac.c   | 3944 +++++++++++++++++
+ .../rockchip/rkvdec/rkvdec-h264-common.c      |  253 ++
+ .../rockchip/rkvdec/rkvdec-h264-common.h      |   81 +
+ .../platform/rockchip/rkvdec/rkvdec-h264.c    |  891 +---
+ .../rockchip/rkvdec/rkvdec-hevc-common.c      |  331 ++
+ .../rockchip/rkvdec/rkvdec-hevc-common.h      |   99 +
+ .../platform/rockchip/rkvdec/rkvdec-rcb.c     |  175 +
+ .../platform/rockchip/rkvdec/rkvdec-rcb.h     |   29 +
+ .../platform/rockchip/rkvdec/rkvdec-regs.h    |  567 ++-
+ .../rockchip/rkvdec/rkvdec-vdpu381-h264.c     |  469 ++
+ .../rockchip/rkvdec/rkvdec-vdpu381-hevc.c     |  596 +++
+ .../rockchip/rkvdec/rkvdec-vdpu381-regs.h     |  425 ++
+ .../rockchip/rkvdec/rkvdec-vdpu383-h264.c     |  583 +++
+ .../rockchip/rkvdec/rkvdec-vdpu383-hevc.c     |  687 +++
+ .../rockchip/rkvdec/rkvdec-vdpu383-regs.h     |  284 ++
+ .../platform/rockchip/rkvdec/rkvdec-vp9.c     |  230 +-
+ .../media/platform/rockchip/rkvdec/rkvdec.c   |  565 ++-
+ .../media/platform/rockchip/rkvdec/rkvdec.h   |   39 +
+ 20 files changed, 9073 insertions(+), 1189 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-cabac.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-h264.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-regs.h
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-regs.h
 
+-- 
+2.50.0
 
---=20
-Ricardo Ribalda
 
