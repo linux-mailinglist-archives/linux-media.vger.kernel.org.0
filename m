@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-37149-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37153-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858D4AFD5AA
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 19:49:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 410D3AFD5B1
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 19:50:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7B344A7DDD
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:49:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF2A3540438
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:49:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B8962E7636;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92D52E7655;
 	Tue,  8 Jul 2025 17:49:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LyLAEeUT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jw2mv/3H"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C115F2DECA7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB412E5B12;
 	Tue,  8 Jul 2025 17:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751996967; cv=none; b=FirR1bAYx0rqwhssprWxt+jLXhsjowZ9xHdVkzh/dMY3SF88TgQP+M05+Z+a/UNSr9O2yNTtfBZUMYSWB/5qQOZ8ZctTpz7IahhFzZIHeFTnLL+B8OUQTfVakVEK4ayEeHK3JilL+k7CXiK4x0pk1C9wf6fmmT1yjTEi72Beicc=
+	t=1751996968; cv=none; b=MQw/qjAwnWYX1UN2xeluq2zJR5Fr3z1rU7YgvxRoMkaASgGeUsq5AmlyNDGVp0IzxB/VNz8TW05bMajOT+rO5vQ1e+PYjCMOMbxQxio4K9JcFf+XjPbv5esgKQGDo3Q3D99ZUHX066kTouOUlm7rhVTUrkke/1HFqLRaVEOVpY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751996967; c=relaxed/simple;
-	bh=KOO0i0QEqH8lzsL3KyjCaKyTjs3KDgyGJ6SPaqhsOkY=;
+	s=arc-20240116; t=1751996968; c=relaxed/simple;
+	bh=QXAJWjll6ukWoUikG+0QyFUQi4MuOc3jW/3Eue+H0DA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Czo/3GIxN09CCovitZJiHTHqigJDJGobpjZvJUKk5G9kI3BY6hnbgsXwx84K/FoNDA33+TvZ4wtnMyWh//sSRllOCnG0ZTZHP9uDL+hHWCX24kza6doNcEKL2pTeYztGAX9vLfkdiIIZryDjwAZVWQ3c3sIXQBIgnt12iEePrtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LyLAEeUT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 61963C4CEF5;
+	 In-Reply-To:To:Cc; b=lU42YSYcYIZ4YIxJD0/WzUoXvoyIhtdSFqoTM7ata4WtujQ0n/CgXEHA2pRBAHiOKLGbo47FFPXNJoZDuTAmAnKX4oFHh51YKxd6/i+6WU9z7ywT9vAMnaIY5Mm7gIe1mlBSTjtU9rdo8kxIs/130lGQjrmj30wXdYXjjUzNxqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jw2mv/3H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70F20C4CEF0;
 	Tue,  8 Jul 2025 17:49:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1751996967;
-	bh=KOO0i0QEqH8lzsL3KyjCaKyTjs3KDgyGJ6SPaqhsOkY=;
+	bh=QXAJWjll6ukWoUikG+0QyFUQi4MuOc3jW/3Eue+H0DA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=LyLAEeUTanJ5yED9yEQ7EoBNtlXY4LSWOqezilKuWk2bfg7fLK2eoiZ7/8FV/+nN4
-	 uAAoc1nMW6vozCF6vl8a9D3cS68e1LvyenXj0vZtgCJI+iBL/OGaq29iMhjf8Z7K6g
-	 nTV0vhirkfEHBncHKYray2CXCvi3guedLAS4w/nhzhwzZssw3akL0r9btF1XCx4MI3
-	 N3INDNIqEe8S1uMYpayTCO1R5LLqNSs8sXJ3uxwzSpeRWexU5D2VSHux81XVxeNFsq
-	 59KMuPVlDcvV00LalHbWa5i7sGA0qxV8G+CzKw0gvcd6DMJfh847nZTnXQhj97xC1a
-	 froUyx3Q72DRw==
+	b=Jw2mv/3HzW4fRpQThz3w4/qrSAhjKyP5kgeVKIzUnFcgIg7x/Kq0sINB3MsI44EG7
+	 AOpxuRXFP+Pzl6YMYvN/DiM+Xp3ydYG7C+kTEk28i2Qikg47xwU+rB3QYQuqSUVCDH
+	 PEVB+3atDIs3iUzQogGSXpfAVeu4LI4f8CaI5Rz/yqfbXv8jIHQqI2AoPIOA93u4zq
+	 0OmHfuttrhx3W9dbR0/zx764TQmna7W06d6vkVWguhJ06oo6e6AdH5JL7U2ctlIDdY
+	 76XzZZvR/5UCTbka/+4Zl4L9KpPLwHorS/PeVY9v6yK5g4H7spcFSKksZVa6YhlPCL
+	 BBjA6EgoILFBQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 503D3C83F0A;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6149EC83F12;
 	Tue,  8 Jul 2025 17:49:27 +0000 (UTC)
 From: Frank Li via B4 Relay <devnull+Frank.Li.nxp.com@kernel.org>
-Date: Tue, 08 Jul 2025 13:48:42 -0400
-Subject: [PATCH v3 1/4] dt-bindings: media: add i.MX parallel CPI support
+Date: Tue, 08 Jul 2025 13:48:43 -0400
+Subject: [PATCH v3 2/4] media: nxp: add V4L2 subdev driver for camera
+ parallel interface (CPI)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-imx8qxp_pcam-v3-1-c8533e405df1@nxp.com>
+Message-Id: <20250708-imx8qxp_pcam-v3-2-c8533e405df1@nxp.com>
 References: <20250708-imx8qxp_pcam-v3-0-c8533e405df1@nxp.com>
 In-Reply-To: <20250708-imx8qxp_pcam-v3-0-c8533e405df1@nxp.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -69,13 +70,14 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc: linux-media@vger.kernel.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
- Alice Yuan <alice.yuan@nxp.com>
+ Alice Yuan <alice.yuan@nxp.com>, Robert Chiras <robert.chiras@nxp.com>, 
+ Zhipeng Wang <zhipeng.wang_1@nxp.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751996966; l=4908;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751996966; l=29488;
  i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=VaoNfCTAqM0STiEfvAIvgxLKZ7ArKO/NUGvY3U8RaB8=;
- b=H26jURfmYJfioXk7pGcY3bAOG+nEMTW/YrBlyXGI0dCRQ9A2kjSdvfNoTVNFY/pXUS5eAetl+
- 99thZ27unSfBfw/0YB2tjbLI0KzLAJQP9mPr5KWlanqiSC3Mw/f1Ipn
+ bh=PT5CmasCdt7/8cm5icNCPffFevunYzPoz9WN27ZyTKk=;
+ b=aYWwIJo+D9heWz2KQGXj75N1d0KUF2vwL1UNR95Fk0Cvr1zLcT+PHWu3jBOzIDIeciPUhvm7j
+ r0cEHzjHaCFDJqKGNDzmSY8iB8/9/VCtoy+vWFj7pg+UZgoCtWdMsoR
 X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
  pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
 X-Endpoint-Received: by B4 Relay for Frank.Li@nxp.com/20240130 with
@@ -85,171 +87,1002 @@ Reply-To: Frank.Li@nxp.com
 
 From: Alice Yuan <alice.yuan@nxp.com>
 
-Document the binding for parallel CPI controller found in i.MX8QXP, i.MX93
-and i.MX91 SoCs.
+Add a V4L2 sub-device driver for the CPI controller found on i.MX8QXP,
+i.MX8QM, and i.MX93 SoCs. This controller supports parallel camera sensors
+and enables image data capture through a parallel interface.
 
 Signed-off-by: Alice Yuan <alice.yuan@nxp.com>
+Signed-off-by: Robert Chiras <robert.chiras@nxp.com>
+Signed-off-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
-Change in v3:
-- use enum at compatible string
-- add ref to video-interfaces.yaml#
-- use cpi as node name in examples.
-- replace csi (Camera Serial Interface) with CPI (Camera Parallel Interface)
-in commit message.
+change in v3
+- replace csi with cpi
+- use __free(fwnode_handle) to simpilfy code
+- remove imx91 driver data, which is the same as imx93
 
-Change in v2:
-- use pcif surfix as Laurent Pinchart's suggest.
-- put power-domains into required list
+change in v2
+- remove MODULE_ALIAS
+- use devm_pm_runtime_enable() and cleanup remove function
+- change output format to 1x16. controller convert 2x8 to 1x16 format
 ---
- .../devicetree/bindings/media/fsl,imx93-pcif.yaml  | 126 +++++++++++++++++++++
- MAINTAINERS                                        |   1 +
- 2 files changed, 127 insertions(+)
+ MAINTAINERS                                   |   1 +
+ drivers/media/platform/nxp/Kconfig            |  11 +
+ drivers/media/platform/nxp/Makefile           |   1 +
+ drivers/media/platform/nxp/imx-parallel-cpi.c | 920 ++++++++++++++++++++++++++
+ 4 files changed, 933 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml b/Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..f92e9af371c91636cef42e48573198d4ea5e15f5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml
-@@ -0,0 +1,126 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/fsl,imx93-pcif.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: i.MX8/9 Parallel Camera Interface
-+
-+maintainers:
-+  - Frank Li <Frank.Li@nxp.com>
-+
-+description: |
-+  This is device node for the Parallel Camera Interface which enables the
-+  chip to connect directly to external Parallel CMOS image sensors.
-+  Supports up to 80MHz input clock from sensor.
-+  Supports the following input data formats
-+    - 8-bit/10-bit Camera Sensor Interface (CSI)
-+    - 8-bit data port for RGB, YCbCr, and YUV data input
-+    - 8-bit/10-bit data ports for Bayer data input
-+  Parallel Camera Interface is hooked to the Imaging subsystem via the
-+  Pixel Link.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - enum:
-+          - fsl,imx8qxp-pcif
-+          - fsl,imx93-pcif
-+      - items:
-+          - enum:
-+              - fsl,imx91-pcif
-+          - const: fsl,imx93-pcif
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 2
-+
-+  clock-names:
-+    items:
-+      - const: pixel
-+      - const: ipg
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        unevaluatedProperties: false
-+        description: Input port node.
-+
-+        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              bus-type:
-+                const: 5
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        unevaluatedProperties: false
-+        description: Output port node.
-+
-+        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              bus-type:
-+                const: 5
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx93-clock.h>
-+    #include <dt-bindings/power/fsl,imx93-power.h>
-+
-+    cpi@4ac10070 {
-+        compatible = "fsl,imx93-pcif";
-+        reg = <0x4ac10070 0x10>;
-+        clocks = <&clk IMX93_CLK_MIPI_CSI_GATE>,
-+                 <&clk IMX93_CLK_MEDIA_APB>;
-+        clock-names = "pixel", "ipg";
-+        assigned-clocks = <&clk IMX93_CLK_CAM_PIX>;
-+        assigned-clock-parents = <&clk IMX93_CLK_VIDEO_PLL>;
-+        assigned-clock-rates = <140000000>;
-+        power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_CSI>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+
-+                endpoint {
-+                    remote-endpoint = <&mt9m114_ep>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                endpoint {
-+                    remote-endpoint = <&isi_in>;
-+                };
-+            };
-+        };
-+    };
-+...
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 8dc0f6609d1fe2e3eefd50088dbe566d9e107bfa..8ae0667d2bb41fb6a1549bd3b2b33f326cbd1303 100644
+index 8ae0667d2bb41fb6a1549bd3b2b33f326cbd1303..14842a3b860a6f23846f12a684eedcbb9eb69e19 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -15107,6 +15107,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
- F:	Documentation/admin-guide/media/imx7.rst
-+F:	Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml
- F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+@@ -15112,6 +15112,7 @@ F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ F:	drivers/media/platform/nxp/imx-mipi-csis.c
++F:	drivers/media/platform/nxp/imx-parallel-cpi.c
+ F:	drivers/media/platform/nxp/imx7-media-csi.c
+ F:	drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+ 
+diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
+index 40e3436669e213fdc5da70821dc0b420e1821f4f..504ae1c6494f331c16124a224421ac7acd433ba5 100644
+--- a/drivers/media/platform/nxp/Kconfig
++++ b/drivers/media/platform/nxp/Kconfig
+@@ -39,6 +39,17 @@ config VIDEO_IMX_MIPI_CSIS
+ 	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
+ 	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
+ 
++config VIDEO_IMX_PARALLEL_CPI
++	tristate "NXP i.MX9/i.MX8 Parallel CPI Driver"
++	depends on ARCH_MXC || COMPILE_TEST
++	depends on VIDEO_DEV
++	select MEDIA_CONTROLLER
++	select V4L2_FWNODE
++	select VIDEO_V4L2_SUBDEV_API
++	help
++	  Video4Linux2 sub-device driver for PARALLEL CPI receiver found
++	  on some iMX8 and iMX9 SoCs.
++
+ source "drivers/media/platform/nxp/imx8-isi/Kconfig"
+ 
+ # mem2mem drivers
+diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
+index 4d90eb71365259ebdda84ea58483e1c4131d3ac7..5346919d2f1083b51ec99b66981c5d38b3df960c 100644
+--- a/drivers/media/platform/nxp/Makefile
++++ b/drivers/media/platform/nxp/Makefile
+@@ -7,5 +7,6 @@ obj-y += imx8-isi/
+ obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
+ obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
+ obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
++obj-$(CONFIG_VIDEO_IMX_PARALLEL_CPI) += imx-parallel-cpi.o
+ obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
+ obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
+diff --git a/drivers/media/platform/nxp/imx-parallel-cpi.c b/drivers/media/platform/nxp/imx-parallel-cpi.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..718f02bf70c4d0ae74ecf842c1ecb1a1afbcdd45
+--- /dev/null
++++ b/drivers/media/platform/nxp/imx-parallel-cpi.c
+@@ -0,0 +1,920 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * i.MX Parallel CPI receiver driver.
++ *
++ * Copyright 2019-2025 NXP
++ *
++ */
++
++#include <linux/bits.h>
++#include <linux/clk.h>
++#include <linux/debugfs.h>
++#include <linux/delay.h>
++#include <linux/errno.h>
++#include <linux/interrupt.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/mfd/syscon.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/pm_domain.h>
++#include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
++#include <linux/reset.h>
++#include <linux/spinlock.h>
++
++#include <media/v4l2-common.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-fwnode.h>
++#include <media/v4l2-mc.h>
++#include <media/v4l2-subdev.h>
++
++#define IMX_CPI_DEF_MBUS_CODE			MEDIA_BUS_FMT_UYVY8_2X8
++#define IMX_CPI_DEF_PIX_WIDTH			1920
++#define IMX_CPI_DEF_PIX_HEIGHT			1080
++
++#define IMX_CPI_MAX_PIX_WIDTH			0xffff
++#define IMX_CPI_MAX_PIX_HEIGHT			0xffff
++
++#define IMX_CPI_PAD_SINK			0
++#define IMX_CPI_PAD_SOURCE			1
++#define IMX_CPI_PADS_NUM			2
++
++/* CI_PI INTERFACE CONTROL */
++#define IF_CTRL_REG_PL_ENABLE			BIT(0)
++#define IF_CTRL_REG_PL_VALID			BIT(1)
++#define IF_CTRL_REG_DATA_TYPE_SEL		BIT(8)
++#define IF_CTRL_REG_DATA_TYPE(x)		FIELD_PREP(GENMASK(13, 9), (x))
++
++#define DATA_TYPE_OUT_NULL			0x00
++#define DATA_TYPE_OUT_RGB			0x04
++#define DATA_TYPE_OUT_YUV444			0x08
++#define DATA_TYPE_OUT_YYU420_ODD		0x10
++#define DATA_TYPE_OUT_YYU420_EVEN		0x12
++#define DATA_TYPE_OUT_YYY_ODD			0x18
++#define DATA_TYPE_OUT_UYVY_EVEN			0x1a
++#define DATA_TYPE_OUT_RAW			0x1c
++
++#define IF_CTRL_REG_IF_FORCE_HSYNV_OVERRIDE	0x4
++#define IF_CTRL_REG_IF_FORCE_VSYNV_OVERRIDE	0x2
++#define IF_CTRL_REG_IF_FORCE_DATA_ENABLE_OVERRIDE	0x1
++
++/* CPI INTERFACE CONTROL REG */
++#define CPI_CTRL_REG_CPI_EN			BIT(0)
++#define CPI_CTRL_REG_PIXEL_CLK_POL		BIT(1)
++#define CPI_CTRL_REG_HSYNC_POL			BIT(2)
++#define CPI_CTRL_REG_VSYNC_POL			BIT(3)
++#define CPI_CTRL_REG_DE_POL			BIT(4)
++#define CPI_CTRL_REG_PIXEL_DATA_POL		BIT(5)
++#define CPI_CTRL_REG_CCIR_EXT_VSYNC_EN		BIT(6)
++#define CPI_CTRL_REG_CCIR_EN			BIT(7)
++#define CPI_CTRL_REG_CCIR_VIDEO_MODE		BIT(8)
++#define CPI_CTRL_REG_CCIR_NTSC_EN		BIT(9)
++#define CPI_CTRL_REG_CCIR_VSYNC_RESET_EN	BIT(10)
++#define CPI_CTRL_REG_CCIR_ECC_ERR_CORRECT_EN	BIT(11)
++#define CPI_CTRL_REG_HSYNC_FORCE_EN		BIT(12)
++#define CPI_CTRL_REG_VSYNC_FORCE_EN		BIT(13)
++#define CPI_CTRL_REG_GCLK_MODE_EN		BIT(14)
++#define CPI_CTRL_REG_VALID_SEL			BIT(15)
++#define CPI_CTRL_REG_RAW_OUT_SEL		BIT(16)
++#define CPI_CTRL_REG_HSYNC_OUT_SEL		BIT(17)
++#define CPI_CTRL_REG_HSYNC_PULSE(x)		FIELD_PREP(GENMASK(21, 19), (x))
++#define CPI_CTRL_REG_UV_SWAP_EN			BIT(22)
++#define CPI_CTRL_REG_DATA_TYPE_IN(x)		FIELD_PREP(GENMASK(26, 23), (x))
++#define CPI_CTRL_REG_MASK_VSYNC_COUNTER(x)	FIELD_PREP(GENMASK(28, 27), (x))
++#define CPI_CTRL_REG_SOFTRST			BIT(31)
++
++/* CPI INTERFACE STATUS */
++#define CPI_STATUS_FIELD_TOGGLE			BIT(0)
++#define CPI_STATUS_ECC_ERROR			BIT(1)
++
++/* CPI INTERFACE CONTROL REG1 */
++#define CPI_CTRL_REG1_PIXEL_WIDTH(v)		FIELD_PREP(GENMASK(15, 0), (v))
++#define CPI_CTRL_REG1_VSYNC_PULSE(v)		FIELD_PREP(GENMASK(31, 16), (v))
++
++/* Need match field DATA_TYPE_IN definition at CPI CTRL register */
++enum cpi_in_data_type {
++	CPI_IN_DT_UYVY_BT656_8 = 0x0,
++	CPI_IN_DT_UYVY_BT656_10,
++	CPI_IN_DT_RGB_8,
++	CPI_IN_DT_BGR_8,
++	CPI_IN_DT_YVYU_8 = 0x5,
++	CPI_IN_DT_YUV_8,
++	CPI_IN_DT_RAW_8 = 0x9,
++	CPI_IN_DT_RAW_10,
++};
++
++enum {
++	PI_MODE_INIT,
++	PI_GATE_CLOCK_MODE,
++	PI_CCIR_MODE,
++};
++
++enum {
++	PI_V1,
++	PI_V2,
++};
++
++static const char *const imx_cpi_clk_id[] = {
++	"pixel",
++	"ipg",
++};
++
++#define PCPIDEV_NUM_CLKS   ARRAY_SIZE(imx_cpi_clk_id)
++
++struct imx_cpi_plat_data {
++	u32 version;
++	u32 if_ctrl_reg;
++	u32 interface_status;
++	u32 interface_ctrl_reg;
++	u32 interface_ctrl_reg1;
++	u8 def_hsync_pol;
++	u8 def_vsync_pol;
++	u8 def_pixel_clk_pol;
++	u8 def_cpi_in_data_type;
++};
++
++struct cpi_pm_domain {
++	struct device *dev;
++	struct device_link *link;
++};
++
++struct imx_cpi_device {
++	struct device *dev;
++	void __iomem *regs;
++	struct reset_control *mrst;
++	struct regulator *pcpi_phy_regulator;
++	struct clk_bulk_data clks[PCPIDEV_NUM_CLKS];
++
++	struct v4l2_subdev sd;
++	struct media_pad pads[IMX_CPI_PADS_NUM];
++	struct v4l2_async_notifier notifier;
++
++	struct v4l2_mbus_framefmt format;
++	const struct imx_cpi_plat_data *pdata;
++	struct imx_cpi_pix_format const *pcpidev_fmt;
++
++	struct {
++		struct v4l2_subdev *sd;
++		const struct media_pad *pad;
++	} source;
++
++	struct cpi_pm_domain pm_domains[2];
++
++	u8 mode;
++	u8 uv_swap;
++};
++
++struct imx_cpi_pix_format {
++	u32 code;
++	u32 output;
++	u32 data_type;
++	u8 width;
++};
++
++static const struct imx_cpi_pix_format imx_cpi_formats[] = {
++	/* YUV formats. */
++	{
++		.code = MEDIA_BUS_FMT_UYVY8_2X8,
++		.output = MEDIA_BUS_FMT_UYVY8_1X16,
++		.data_type = CPI_IN_DT_YVYU_8,
++		.width = 16,
++	}, {
++		.code = MEDIA_BUS_FMT_YUYV8_2X8,
++		.output = MEDIA_BUS_FMT_YUYV8_1X16,
++		.data_type = CPI_IN_DT_YVYU_8,
++		.width = 16,
++	},
++};
++
++static const struct imx_cpi_plat_data imx8qxp_pdata = {
++	.version = PI_V1,
++	.if_ctrl_reg = 0x0,
++	.interface_status = 0x20,
++	.interface_ctrl_reg = 0x10,
++	.interface_ctrl_reg1 = 0x30,
++	.def_hsync_pol = 1,
++	.def_vsync_pol = 0,
++	.def_pixel_clk_pol = 0,
++	.def_cpi_in_data_type = CPI_IN_DT_UYVY_BT656_8,
++};
++
++static const struct imx_cpi_plat_data imx93_pdata = {
++	.version = PI_V2,
++	.if_ctrl_reg = 0x0,
++	.interface_status = 0x4,
++	.interface_ctrl_reg = 0x8,
++	.interface_ctrl_reg1 = 0xc,
++	.def_hsync_pol = 0,
++	.def_vsync_pol = 1,
++	.def_pixel_clk_pol = 0,
++	.def_cpi_in_data_type = CPI_IN_DT_YVYU_8,
++};
++
++static void imx_cpi_regs_dump(struct imx_cpi_device *pcpidev)
++{
++	struct device *dev = pcpidev->dev;
++	const struct imx_cpi_plat_data *pdata = pcpidev->pdata;
++	u32 i;
++
++	struct {
++		u32 offset;
++		const char *const name;
++	} registers[] = {
++		{ pdata->if_ctrl_reg, "HW_IF_CTRL_REG" },
++		{ pdata->interface_ctrl_reg, "HW_CPI_CTRL_REG" },
++		{ pdata->interface_status, "HW_CPI_STATUS" },
++		{ pdata->interface_ctrl_reg1, "HW_CPI_CTRL_REG1" },
++
++	};
++
++	for (i = 0; i < ARRAY_SIZE(registers); i++) {
++		u32 reg = readl(pcpidev->regs + registers[i].offset);
++
++		dev_dbg(dev, "%20s[0x%.2x]: 0x%.8x\n",
++			registers[i].name, registers[i].offset, reg);
++	}
++}
++
++static const struct imx_cpi_pix_format *find_imx_cpi_format(u32 code)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(imx_cpi_formats); i++)
++		if (code == imx_cpi_formats[i].code)
++			return &imx_cpi_formats[i];
++
++	return NULL;
++}
++
++static void imx_cpi_sw_reset(struct imx_cpi_device *pcpidev)
++{
++	const struct imx_cpi_plat_data *pdata = pcpidev->pdata;
++	u32 val;
++
++	/* Softwaret Reset */
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++	val |= CPI_CTRL_REG_SOFTRST;
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++
++	usleep_range(500, 1000);
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++	val &= ~CPI_CTRL_REG_SOFTRST;
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++}
++
++static void imx_cpi_hw_config(struct imx_cpi_device *pcpidev)
++{
++	const struct imx_cpi_plat_data *pdata = pcpidev->pdata;
++	u32 val;
++
++	/* Software Reset */
++	imx_cpi_sw_reset(pcpidev);
++
++	/* Config PL Data Type */
++	val = readl(pcpidev->regs + pdata->if_ctrl_reg);
++	val |= IF_CTRL_REG_DATA_TYPE(DATA_TYPE_OUT_YUV444);
++	writel(val, pcpidev->regs + pdata->if_ctrl_reg);
++
++	/* Enable sync Force */
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++	val |= (CPI_CTRL_REG_HSYNC_FORCE_EN | CPI_CTRL_REG_VSYNC_FORCE_EN);
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++
++	/* Enable Pixel Link */
++	val = readl(pcpidev->regs + pdata->if_ctrl_reg);
++	val |= IF_CTRL_REG_PL_ENABLE;
++	writel(val, pcpidev->regs + pdata->if_ctrl_reg);
++
++	/* Enable Pixel Link */
++	val = readl(pcpidev->regs + pdata->if_ctrl_reg);
++	val |= IF_CTRL_REG_PL_VALID;
++	writel(val, pcpidev->regs + pdata->if_ctrl_reg);
++
++	/* Config CTRL REG */
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++
++	val |= (CPI_CTRL_REG_DATA_TYPE_IN(pdata->def_cpi_in_data_type) |
++		FIELD_PREP(CPI_CTRL_REG_HSYNC_POL, pdata->def_hsync_pol) |
++		FIELD_PREP(CPI_CTRL_REG_VSYNC_POL, pdata->def_vsync_pol) |
++		FIELD_PREP(CPI_CTRL_REG_PIXEL_CLK_POL, pdata->def_pixel_clk_pol) |
++		CPI_CTRL_REG_MASK_VSYNC_COUNTER(3) |
++		CPI_CTRL_REG_HSYNC_PULSE(2));
++
++	if (pcpidev->uv_swap)
++		val |= CPI_CTRL_REG_UV_SWAP_EN;
++
++	if (pcpidev->mode & PI_GATE_CLOCK_MODE) {
++		val |= CPI_CTRL_REG_GCLK_MODE_EN;
++	} else if (pcpidev->mode & PI_CCIR_MODE) {
++		val |= (CPI_CTRL_REG_CCIR_EN |
++			CPI_CTRL_REG_CCIR_VSYNC_RESET_EN |
++			CPI_CTRL_REG_CCIR_EXT_VSYNC_EN |
++			CPI_CTRL_REG_CCIR_ECC_ERR_CORRECT_EN);
++	}
++
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++}
++
++static int get_interface_ctrl_reg1_param(struct imx_cpi_device *pcpidev,
++					 u32 *pixel_width, u32 *vsync_pulse,
++					 const struct v4l2_mbus_framefmt *format)
++{
++	u32 version = pcpidev->pdata->version;
++
++	switch (version) {
++	case PI_V1:
++		*pixel_width = format->width - 1;
++		*vsync_pulse = format->width << 1;
++		break;
++	case PI_V2:
++		*pixel_width = format->width << 3;
++		*vsync_pulse = format->width - 1;
++		break;
++	default:
++		dev_err(pcpidev->dev, "Not support PI version %d\n", version);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void imx_cpi_config_ctrl_reg1(struct imx_cpi_device *pcpidev,
++				     const struct v4l2_mbus_framefmt *format)
++{
++	const struct imx_cpi_plat_data *pdata = pcpidev->pdata;
++	struct device *dev = pcpidev->dev;
++	u32 pixel_width;
++	u32 vsync_pulse;
++	u32 val;
++	int ret;
++
++	dev_dbg(dev, "%s %dx%d, fmt->code:0x%0x\n", __func__,
++		format->width, format->height, format->code);
++
++	if (format->width <= 0 || format->height <= 0) {
++		dev_err(dev, "%s width/height invalid\n", __func__);
++		return;
++	}
++
++	ret = get_interface_ctrl_reg1_param(pcpidev, &pixel_width,
++					    &vsync_pulse, format);
++	if (ret < 0)
++		return;
++
++	val = (CPI_CTRL_REG1_PIXEL_WIDTH(pixel_width) |
++	       CPI_CTRL_REG1_VSYNC_PULSE(vsync_pulse));
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg1);
++}
++
++static void imx_cpi_enable(struct imx_cpi_device *pcpidev)
++{
++	const struct imx_cpi_plat_data *pdata = pcpidev->pdata;
++	u32 val;
++
++	/* Enable CPI */
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++	val |= CPI_CTRL_REG_CPI_EN;
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++
++	/* Disable SYNC Force */
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++	val &= ~(CPI_CTRL_REG_HSYNC_FORCE_EN | CPI_CTRL_REG_VSYNC_FORCE_EN);
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++}
++
++static void imx_cpi_disable(struct imx_cpi_device *pcpidev)
++{
++	const struct imx_cpi_plat_data *pdata = pcpidev->pdata;
++	u32 val;
++
++	/* Enable Sync Force */
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++	val |= (CPI_CTRL_REG_HSYNC_FORCE_EN | CPI_CTRL_REG_VSYNC_FORCE_EN);
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++
++	/* Disable CPI */
++	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
++	val &= ~CPI_CTRL_REG_CPI_EN;
++	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
++
++	/* Disable Pixel Link */
++	val = readl(pcpidev->regs + pdata->if_ctrl_reg);
++	val &= ~(IF_CTRL_REG_PL_VALID | IF_CTRL_REG_PL_ENABLE);
++	writel(val, pcpidev->regs + pdata->if_ctrl_reg);
++}
++
++static void imx_cpi_start_stream(struct imx_cpi_device *pcpidev,
++				 const struct v4l2_mbus_framefmt *format,
++				 const struct imx_cpi_pix_format *pcpidev_fmt)
++{
++	if (pcpidev_fmt->code == MEDIA_BUS_FMT_YUYV8_2X8 ||
++	    pcpidev_fmt->code == MEDIA_BUS_FMT_UYVY8_2X8)
++		pcpidev->uv_swap = 1;
++
++	imx_cpi_hw_config(pcpidev);
++	imx_cpi_config_ctrl_reg1(pcpidev, format);
++	imx_cpi_enable(pcpidev);
++	imx_cpi_regs_dump(pcpidev);
++}
++
++static void imx_cpi_stop_stream(struct imx_cpi_device *pcpidev)
++{
++	imx_cpi_regs_dump(pcpidev);
++	imx_cpi_disable(pcpidev);
++}
++
++/* -----------------------------------------------------------------------------
++ * Async subdev notifier
++ */
++
++static struct imx_cpi_device *
++notifier_to_imx_cpi_device(struct v4l2_async_notifier *n)
++{
++	return container_of(n, struct imx_cpi_device, notifier);
++}
++
++static struct imx_cpi_device *
++sd_to_imx_cpi_device(struct v4l2_subdev *sdev)
++{
++	return container_of(sdev, struct imx_cpi_device, sd);
++}
++
++static int imx_cpi_notify_bound(struct v4l2_async_notifier *notifier,
++				struct v4l2_subdev *sd,
++				struct v4l2_async_connection *asd)
++{
++	struct imx_cpi_device *pcpidev = notifier_to_imx_cpi_device(notifier);
++	struct media_pad *sink = &pcpidev->sd.entity.pads[IMX_CPI_PAD_SINK];
++
++	return v4l2_create_fwnode_links_to_pad(sd, sink, 0);
++}
++
++static const struct v4l2_async_notifier_operations imx_cpi_notify_ops = {
++	.bound = imx_cpi_notify_bound,
++};
++
++static int imx_cpi_async_register(struct imx_cpi_device *pcpidev)
++{
++	struct v4l2_fwnode_endpoint vep = {
++		.bus_type = V4L2_MBUS_PARALLEL,
++	};
++	struct v4l2_async_connection *asd;
++	struct fwnode_handle *ep __free(fwnode_handle) = NULL;
++	int ret;
++
++	v4l2_async_subdev_nf_init(&pcpidev->notifier, &pcpidev->sd);
++
++	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(pcpidev->dev), 0, 0,
++					     FWNODE_GRAPH_ENDPOINT_NEXT);
++	if (!ep)
++		return -ENOTCONN;
++
++	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
++	if (ret)
++		return ret;
++
++	asd = v4l2_async_nf_add_fwnode_remote(&pcpidev->notifier, ep,
++					      struct v4l2_async_connection);
++	if (IS_ERR(asd))
++		return PTR_ERR(asd);
++
++	pcpidev->notifier.ops = &imx_cpi_notify_ops;
++	ret = v4l2_async_nf_register(&pcpidev->notifier);
++	if (ret)
++		return ret;
++
++	return v4l2_async_register_subdev(&pcpidev->sd);
++}
++
++/* -----------------------------------------------------------------------------
++ * Media entity operations
++ */
++
++static int imx_cpi_link_setup(struct media_entity *entity,
++			      const struct media_pad *local_pad,
++			      const struct media_pad *remote_pad,
++			      u32 flags)
++{
++	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
++	struct imx_cpi_device *pcpidev = sd_to_imx_cpi_device(sd);
++	struct v4l2_subdev *remote_sd;
++
++	dev_dbg(pcpidev->dev, "link setup %s -> %s", remote_pad->entity->name,
++		local_pad->entity->name);
++
++	/* We only care about the link to the source. */
++	if (!(local_pad->flags & MEDIA_PAD_FL_SINK))
++		return 0;
++
++	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
++	if (flags & MEDIA_LNK_FL_ENABLED) {
++		if (pcpidev->source.sd)
++			return -EBUSY;
++
++		pcpidev->source.sd = remote_sd;
++		pcpidev->source.pad = remote_pad;
++	} else {
++		pcpidev->source.sd = NULL;
++		pcpidev->source.pad = NULL;
++	}
++
++	return 0;
++}
++
++static const struct media_entity_operations imx_cpi_entity_ops = {
++	.link_setup = imx_cpi_link_setup,
++	.link_validate = v4l2_subdev_link_validate,
++	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
++};
++
++static int imx_cpi_set_fmt(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *sd_state,
++			   struct v4l2_subdev_format *sdformat)
++{
++	struct imx_cpi_pix_format const *pcpidev_fmt;
++	struct imx_cpi_device *pcpidev = sd_to_imx_cpi_device(sd);
++	struct device *dev = pcpidev->dev;
++	struct v4l2_mbus_framefmt *fmt;
++	unsigned int align;
++
++	/*
++	 * The Parallel cpi can't transcode in any way, the source format
++	 * can't be modified.
++	 */
++	if (sdformat->pad == IMX_CPI_PAD_SOURCE)
++		return v4l2_subdev_get_fmt(sd, sd_state, sdformat);
++
++	/*
++	 * Validate the media bus code and clamp and align the size.
++	 *
++	 * The total number of bits per line must be a multiple of 8. We thus
++	 * need to align the width for formats that are not multiples of 8
++	 * bits.
++	 */
++	pcpidev_fmt = find_imx_cpi_format(sdformat->format.code);
++	if (!pcpidev_fmt)
++		pcpidev_fmt = &imx_cpi_formats[0];
++
++	switch (pcpidev_fmt->width % 8) {
++	case 0:
++		align = 0;
++		break;
++	case 4:
++		align = 1;
++		break;
++	case 2:
++	case 6:
++		align = 2;
++		break;
++	default:
++		/* 1, 3, 5, 7 */
++		align = 3;
++		break;
++	}
++
++	v4l_bound_align_image(&sdformat->format.width, 1,
++			      IMX_CPI_MAX_PIX_WIDTH, align,
++			      &sdformat->format.height, 1,
++			      IMX_CPI_MAX_PIX_HEIGHT, 0, 0);
++
++	fmt = v4l2_subdev_state_get_format(sd_state, sdformat->pad);
++	if (!fmt)
++		return -EINVAL;
++
++	fmt->code = pcpidev_fmt->code;
++	fmt->width = sdformat->format.width;
++	fmt->height = sdformat->format.height;
++	fmt->field = V4L2_FIELD_NONE;
++	fmt->colorspace = sdformat->format.colorspace;
++	fmt->quantization = sdformat->format.quantization;
++	fmt->xfer_func = sdformat->format.xfer_func;
++	fmt->ycbcr_enc = sdformat->format.ycbcr_enc;
++
++	sdformat->format = *fmt;
++
++	/* Propagate the format from sink to source. */
++	fmt = v4l2_subdev_state_get_format(sd_state, IMX_CPI_PAD_SOURCE);
++	*fmt = sdformat->format;
++
++	/* The format on the source pad might change due to unpacking. */
++	fmt->code = pcpidev_fmt->output;
++
++	dev_dbg(dev, "%s: fmt_code:0x%0x, %dx%d\n", __func__,
++		fmt->code, fmt->width, fmt->height);
++	return 0;
++}
++
++static const struct v4l2_mbus_framefmt imx_cpi_default_fmt = {
++	.code = IMX_CPI_DEF_MBUS_CODE,
++	.width = IMX_CPI_DEF_PIX_WIDTH,
++	.height = IMX_CPI_DEF_PIX_HEIGHT,
++	.field = V4L2_FIELD_NONE,
++	.colorspace = V4L2_COLORSPACE_SMPTE170M,
++	.xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SMPTE170M),
++	.ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SMPTE170M),
++	.quantization = V4L2_QUANTIZATION_LIM_RANGE,
++};
++
++static int imx_cpi_init_state(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *sd_state)
++{
++	struct v4l2_subdev_format fmt = {
++		.pad = IMX_CPI_PAD_SINK,
++	};
++
++	fmt.format.code = imx_cpi_formats[0].code;
++	fmt.format.width = IMX_CPI_DEF_PIX_WIDTH;
++	fmt.format.height = IMX_CPI_DEF_PIX_HEIGHT;
++
++	fmt.format.colorspace = V4L2_COLORSPACE_SMPTE170M;
++	fmt.format.xfer_func =
++	    V4L2_MAP_XFER_FUNC_DEFAULT(fmt.format.colorspace);
++	fmt.format.ycbcr_enc =
++	    V4L2_MAP_YCBCR_ENC_DEFAULT(fmt.format.colorspace);
++	fmt.format.quantization =
++	    V4L2_MAP_QUANTIZATION_DEFAULT(false,
++					  fmt.format.colorspace,
++					  fmt.format.ycbcr_enc);
++
++	return imx_cpi_set_fmt(sd, sd_state, &fmt);
++}
++
++static int imx_cpi_s_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct imx_cpi_device *pcpidev = sd_to_imx_cpi_device(sd);
++	const struct v4l2_mbus_framefmt *format;
++	const struct imx_cpi_pix_format *pcpidev_fmt;
++	struct v4l2_subdev_state *state;
++	int ret;
++
++	if (!enable) {
++		v4l2_subdev_disable_streams(pcpidev->source.sd,
++					    pcpidev->source.pad->index, BIT(0));
++
++		imx_cpi_stop_stream(pcpidev);
++
++		pm_runtime_put(pcpidev->dev);
++
++		return 0;
++	}
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	format = v4l2_subdev_state_get_format(state, IMX_CPI_PAD_SINK);
++	pcpidev_fmt = find_imx_cpi_format(format->code);
++
++	ret = pm_runtime_resume_and_get(pcpidev->dev);
++	if (ret < 0)
++		goto err_unlock;
++
++	imx_cpi_start_stream(pcpidev, format, pcpidev_fmt);
++
++	ret = v4l2_subdev_enable_streams(pcpidev->source.sd,
++					 pcpidev->source.pad->index, BIT(0));
++	if (ret < 0)
++		goto err_stop;
++
++	v4l2_subdev_unlock_state(state);
++
++	return 0;
++
++err_stop:
++	imx_cpi_stop_stream(pcpidev);
++	pm_runtime_put(pcpidev->dev);
++err_unlock:
++	v4l2_subdev_unlock_state(state);
++	return ret;
++}
++
++static int imx_cpi_enum_mbus_code(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *sd_state,
++				  struct v4l2_subdev_mbus_code_enum *code)
++{
++	/*
++	 * The PARALLEL CPI can't transcode in any way, the source format
++	 * is identical to the sink format.
++	 */
++	if (code->pad == IMX_CPI_PAD_SOURCE) {
++		struct v4l2_mbus_framefmt *fmt;
++
++		if (code->index > 0)
++			return -EINVAL;
++
++		fmt = v4l2_subdev_state_get_format(sd_state, code->pad);
++		code->code = fmt->code;
++		return 0;
++	}
++
++	if (code->pad != IMX_CPI_PAD_SINK)
++		return -EINVAL;
++
++	if (code->index >= ARRAY_SIZE(imx_cpi_formats))
++		return -EINVAL;
++
++	code->code = imx_cpi_formats[code->index].code;
++
++	return 0;
++}
++
++static int imx_cpi_get_frame_desc(struct v4l2_subdev *sd,
++				  unsigned int pad,
++				  struct v4l2_mbus_frame_desc *fd)
++{
++	struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[0];
++	const struct imx_cpi_pix_format *pcpidev_fmt;
++	const struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
++
++	if (pad != IMX_CPI_PAD_SOURCE)
++		return -EINVAL;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	fmt = v4l2_subdev_state_get_format(state, IMX_CPI_PAD_SOURCE);
++	pcpidev_fmt = find_imx_cpi_format(fmt->code);
++	v4l2_subdev_unlock_state(state);
++
++	if (!pcpidev_fmt)
++		return -EPIPE;
++
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL;
++	fd->num_entries = 1;
++
++	entry->flags = 0;
++	entry->pixelcode = pcpidev_fmt->code;
++
++	return 0;
++}
++
++static const struct v4l2_subdev_video_ops imx_cpi_video_ops = {
++	.s_stream = imx_cpi_s_stream,
++};
++
++static const struct v4l2_subdev_pad_ops imx_cpi_pad_ops = {
++	.enum_mbus_code = imx_cpi_enum_mbus_code,
++	.get_fmt = v4l2_subdev_get_fmt,
++	.set_fmt = imx_cpi_set_fmt,
++	.get_frame_desc = imx_cpi_get_frame_desc,
++};
++
++static const struct v4l2_subdev_ops imx_cpi_subdev_ops = {
++	.pad = &imx_cpi_pad_ops,
++	.video = &imx_cpi_video_ops,
++};
++
++static const struct v4l2_subdev_internal_ops imx_cpi_internal_ops = {
++	.init_state = imx_cpi_init_state,
++};
++
++static int imx_cpi_clk_get(struct imx_cpi_device *pcpidev)
++{
++	unsigned int i;
++	int ret = 0;
++
++	for (i = 0; i < PCPIDEV_NUM_CLKS; i++)
++		pcpidev->clks[i].id = imx_cpi_clk_id[i];
++
++	ret = devm_clk_bulk_get(pcpidev->dev, PCPIDEV_NUM_CLKS, pcpidev->clks);
++
++	return ret;
++}
++
++/* ----------------------------------------------------------------------
++ * Suspend/resume
++ */
++static int __maybe_unused imx_cpi_runtime_suspend(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct imx_cpi_device *pcpidev = sd_to_imx_cpi_device(sd);
++
++	clk_bulk_disable_unprepare(PCPIDEV_NUM_CLKS, pcpidev->clks);
++
++	return 0;
++}
++
++static int __maybe_unused imx_cpi_runtime_resume(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct imx_cpi_device *pcpidev = sd_to_imx_cpi_device(sd);
++
++	return clk_bulk_prepare_enable(PCPIDEV_NUM_CLKS, pcpidev->clks);
++}
++
++static const struct dev_pm_ops imx_cpi_pm_ops = {
++	RUNTIME_PM_OPS(imx_cpi_runtime_suspend, imx_cpi_runtime_resume, NULL)
++};
++
++static int imx_cpi_subdev_init(struct imx_cpi_device *pcpidev)
++{
++	struct v4l2_subdev *sd = &pcpidev->sd;
++	int ret;
++
++	v4l2_subdev_init(sd, &imx_cpi_subdev_ops);
++
++	sd->internal_ops = &imx_cpi_internal_ops;
++	sd->owner = THIS_MODULE;
++	snprintf(sd->name, sizeof(sd->name), "parallel-%s",
++		 dev_name(pcpidev->dev));
++
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	sd->ctrl_handler = NULL;
++
++	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
++	sd->entity.ops = &imx_cpi_entity_ops;
++
++	sd->dev = pcpidev->dev;
++
++	pcpidev->pads[IMX_CPI_PAD_SINK].flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
++	pcpidev->pads[IMX_CPI_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE |
++						       MEDIA_PAD_FL_MUST_CONNECT;
++
++	ret = media_entity_pads_init(&sd->entity, IMX_CPI_PADS_NUM, pcpidev->pads);
++	if (ret)
++		return ret;
++
++	ret = v4l2_subdev_init_finalize(sd);
++	if (ret)
++		media_entity_cleanup(&sd->entity);
++
++	return ret;
++}
++
++static void imx_cpi_cleanup(void *data)
++{
++	struct imx_cpi_device *pcpidev = data;
++
++	v4l2_subdev_cleanup(&pcpidev->sd);
++	media_entity_cleanup(&pcpidev->sd.entity);
++	v4l2_async_nf_unregister(&pcpidev->notifier);
++	v4l2_async_nf_cleanup(&pcpidev->notifier);
++	v4l2_async_unregister_subdev(&pcpidev->sd);
++}
++
++static int imx_cpi_probe(struct platform_device *pdev)
++{
++	struct imx_cpi_device *pcpidev;
++	struct device *dev = &pdev->dev;
++	int ret = 0;
++
++	pcpidev = devm_kzalloc(dev, sizeof(*pcpidev), GFP_KERNEL);
++	if (!pcpidev)
++		return -ENOMEM;
++
++	pcpidev->dev = dev;
++	platform_set_drvdata(pdev, pcpidev);
++
++	pcpidev->pdata = of_device_get_match_data(dev);
++
++	pcpidev->regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(pcpidev->regs))
++		return dev_err_probe(dev, PTR_ERR(pcpidev->regs),
++				     "Failed to get regs\n");
++
++	ret = imx_cpi_clk_get(pcpidev);
++	if (ret < 0)
++		return ret;
++
++	ret = imx_cpi_subdev_init(pcpidev);
++	if (ret < 0)
++		return ret;
++
++	ret = devm_add_action_or_reset(dev, imx_cpi_cleanup, pcpidev);
++	if (ret)
++		return ret;
++
++	pcpidev->mode = PI_GATE_CLOCK_MODE;
++
++	platform_set_drvdata(pdev, &pcpidev->sd);
++
++	ret = imx_cpi_async_register(pcpidev);
++	if (ret < 0)
++		return ret;
++
++	devm_pm_runtime_enable(dev);
++
++	return 0;
++}
++
++static const struct of_device_id imx_cpi_of_match[] = {
++	{.compatible = "fsl,imx8qxp-pcif", .data = &imx8qxp_pdata },
++	{.compatible = "fsl,imx93-pcif", .data = &imx93_pdata },
++	{ },
++};
++
++MODULE_DEVICE_TABLE(of, imx_cpi_of_match);
++
++static struct platform_driver _driver = {
++	.probe = imx_cpi_probe,
++	.driver = {
++		.of_match_table = imx_cpi_of_match,
++		.name = "imx-parallel-cpi",
++		.pm = pm_ptr(&imx_cpi_pm_ops),
++	},
++};
++
++module_platform_driver(_driver);
++
++MODULE_DESCRIPTION("i.MX9 Parallel CPI receiver driver");
++MODULE_LICENSE("GPL");
 
 -- 
 2.34.1
