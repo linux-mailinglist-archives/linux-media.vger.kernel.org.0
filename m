@@ -1,161 +1,117 @@
-Return-Path: <linux-media+bounces-37103-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37104-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C893BAFCA07
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 14:02:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4E1AFCA0B
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 14:04:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 699653B60B3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 12:02:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 280F518918BD
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 12:04:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5725A2D3237;
-	Tue,  8 Jul 2025 12:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 870852D97A0;
+	Tue,  8 Jul 2025 12:04:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XnkpkKyj"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="LVVDpAkz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2B928A1D5
-	for <linux-media@vger.kernel.org>; Tue,  8 Jul 2025 12:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCFC19E97B;
+	Tue,  8 Jul 2025 12:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751976156; cv=none; b=NT9qwhzpTV6rcIgT6VNcdLYPOuszexcPksGQ3sFtU0KVfrDzVYCrQSRStGUlB0xZBgJCvUldsFcZDF6PsX61zql8nedZ4hfTisWtVaMV3qqaN8S1pK1MRwOn9U2HmoAUrD9zgiv2WZybQxMVt7fU5FAaH3pctecHzSxHmg0FWaM=
+	t=1751976269; cv=none; b=Kuuzt6QZNgNYXmcsby5AVAtxNglNBPCKYst4fGA3ZxIsJD9rYaUOyuMk01Iz5uGCIX9yHzT/iBRehzjMegI43AZgHt3vEac4pGIUUnHlGpvrfCschCm2cHE9ID/G9L7W5TW4c4jim9LupnBP0YPP2pBM1Mc+++5Kf87VhAVGRf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751976156; c=relaxed/simple;
-	bh=QiRc2nqgmbMrNQLVu7fP9afNuy9KzhMQringsd+D0a4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMmeP0Is84ocxGNJfVp2lHfRLDswc5IZgIhAPnvZg+Q9I53PwAhSgGMumprEBKYiDvoC8ZA771MqA5/Vp41BwJf9in1qJVAbNJtZucHohxn8th5Xg+hhxlKa+HyMyiRHVGj0J6tyNgX4gaGKmihXKU079M5vIK62jQYX9ulZjsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XnkpkKyj; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751976155; x=1783512155;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QiRc2nqgmbMrNQLVu7fP9afNuy9KzhMQringsd+D0a4=;
-  b=XnkpkKyjTUVUIffndzH6l6lZQRoIeYIoZRqXyaq8jERZX71DHLHA9XII
-   PloHAzKorK8CgTShtm6CDGHDvvc0jEqahHmWc5DEEP0uvXOLklmLwJDKd
-   P1tdpopQddXoGyFoMsC//cus6XYMMDllZVaTRLv9FncPXWVhMOQG3GKV9
-   ggZ1DTF2kDJ9zS9j9DpC/+2xJrVjIUBKfYJggTsVzn502pO7e0VzxvkWb
-   HkrMRXLE1pBJKerBEn2LLvh80+SFZqGSxp45bfCtBGyJ/n6ZfPxPfNePF
-   vDPWdFfQrDrfiW9cdxNBmFDra9pqpOkGbGIoK+4bfU02PIMrtzgBa9E3K
-   g==;
-X-CSE-ConnectionGUID: VFhgbrVfTe6/rjut7vxPqA==
-X-CSE-MsgGUID: DrsKlTfTSIOQ4xw57j2QKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="58012097"
-X-IronPort-AV: E=Sophos;i="6.16,297,1744095600"; 
-   d="scan'208";a="58012097"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 05:02:34 -0700
-X-CSE-ConnectionGUID: 1Z3BaiC6Qwiv7arLMxVL0w==
-X-CSE-MsgGUID: iNCV1JSGTlycMPKwocJZYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,297,1744095600"; 
-   d="scan'208";a="156068607"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.230])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 05:02:32 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BD6FA11F980;
-	Tue,  8 Jul 2025 15:02:29 +0300 (EEST)
-Date: Tue, 8 Jul 2025 12:02:29 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 05/13] media: v4l: Make media_entity_to_video_device()
- NULL-safe
-Message-ID: <aG0I1eoY0gwgE85O@kekkonen.localdomain>
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-6-sakari.ailus@linux.intel.com>
- <20250619152033.GG32166@pendragon.ideasonboard.com>
- <aFQ3c-fI29YZ7dEe@kekkonen.localdomain>
- <20250708115616.GE1821@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1751976269; c=relaxed/simple;
+	bh=KUkUkcbhSeIM/oEythP1t5/8OWC0g7sFV1wanOeltYI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a6LrghxmlTftz7pGJNgl1ct5Hv4gQ/YjsjW54BieNeOqYj2L9ab9C2i9/URuU2z8bJ09C/5sFSvEopBBjhI6wgN8lX63ImochPTk3RDuxryEDLqDRUeu89x5zDeoRA37QfgkRuTqqdoKYS5GUqqF7rsoNC2TMGrv9DvXFcCsEVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=LVVDpAkz; arc=none smtp.client-ip=91.232.154.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=333UjN4eHKc0RjjTsjqzayuh98B9JZxJ0covjA32MJ4=; b=LVVDpAkz/KbiFXS6tXhta7ZwYn
+	nw4od5X5ZYtmrxw/bokv4w1p11SL4+Gc7cvaHYw64PkIDSKN5N7DuOA/8GTk+UP9IhmsNdzm6Qv4X
+	c4/CaHnJfN1/a6O6mRiOBi7Sb3vn7AbViN/rIB1jmks1eU4RKCsWfvFUpGPHhsyFV6Dm0YbHBT6z1
+	yEqx68ZE53PsyFGFsF9mUyTL/KVKB5cOHEp4ARBD65DIjbfpJNJanWRzsDW9XYqgPBbn6pUxMOK/Z
+	3hZpCaGRuPH+J46lWlOjF+QQJWZjaMYwOK01KFAHJ6hz52MnLYQUJyJmCJLRxa+E7kUZGtaqfi5JQ
+	hcH0ENhA==;
+Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f] (helo=senjougahara.localdomain)
+	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <cyndis@kapsi.fi>)
+	id 1uZ73d-008RZp-33;
+	Tue, 08 Jul 2025 15:04:22 +0300
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Date: Tue, 08 Jul 2025 21:03:49 +0900
+Subject: [PATCH] dma_buf/sync_file: Enable signaling for fences when
+ querying status
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250708115616.GE1821@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250708-syncfile-enable-signaling-v1-1-9f6e6cd9fcda@nvidia.com>
+X-B4-Tracking: v=1; b=H4sIACQJbWgC/x2MSQqAMAwAvyI5W6iK61fEQ6xpDUiUBkQR/27xN
+ Mxh5gGlyKQwZA9EOll5lyRFnoFbUQIZXpJDacvatrYzeovzvJEhwTlBOQhuLMFg31fovC+6xkL
+ qj0ier/89Tu/7Aft3EkZrAAAA
+X-Change-ID: 20250708-syncfile-enable-signaling-a993acff1860
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Gustavo Padovan <gustavo@padovan.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Mikko Perttunen <mperttunen@nvidia.com>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 
-Hi Laurent,
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-On Tue, Jul 08, 2025 at 02:56:16PM +0300, Laurent Pinchart wrote:
-> On Thu, Jun 19, 2025 at 04:14:43PM +0000, Sakari Ailus wrote:
-> > On Thu, Jun 19, 2025 at 06:20:33PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jun 19, 2025 at 11:15:38AM +0300, Sakari Ailus wrote:
-> > > > Make media_entity_to_video_device(NULL) return NULL, instead of an invalid
-> > > > pointer value.
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  include/media/v4l2-dev.h | 14 ++++++++++----
-> > > >  1 file changed, 10 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-> > > > index 1b6222fab24e..069c2f14b473 100644
-> > > > --- a/include/media/v4l2-dev.h
-> > > > +++ b/include/media/v4l2-dev.h
-> > > > @@ -313,10 +313,16 @@ struct video_device {
-> > > >   * media_entity_to_video_device - Returns a &struct video_device from
-> > > >   *	the &struct media_entity embedded on it.
-> > > >   *
-> > > > - * @__entity: pointer to &struct media_entity
-> > > > - */
-> > > > -#define media_entity_to_video_device(__entity) \
-> > > > -	container_of(__entity, struct video_device, entity)
-> > > > + * @__entity: pointer to &struct media_entity, may be NULL
-> > > > + */
-> > > > +#define media_entity_to_video_device(__entity)				\
-> > > > +	({								\
-> > > > +		typeof (__entity) __me_to_vdev_ent = __entity;		\
-> > > > +									\
-> > > > +		__me_to_vdev_ent ? container_of(__me_to_vdev_ent,	\
-> > > > +						struct video_device, entity) : \
-> > > > +			NULL;						\
-> > > > +	})
-> > > 
-> > > This makes the macro safer, it's a good idea. Wouldn't it be better
-> > > implemented as a container_of_null() (name to be bikeshedded) though ? I
-> > > don't think media_entity_to_video_device() is the only macro that could
-> > > benefit from this. It could even be integrated in container_of(), but I
-> > > fear that could introduce issues.
-> > 
-> > That sounds like a good idea. I'll first see how this would look like with
-> > container_of_const()...
-> 
-> Thinking some more about this, I think we can move forward without
-> waiting for container_of_null().
-> 
-> Should we however add a check to ensure the entity is a video device (by
-> checking that the function is MEDIA_ENT_F_IO_V4L), and return NULL if
-> it's not ? It would make the macro even safer to use. There would be a
-> small additional runtime cost for call sites that guarantee the entity
-> is a video device.
-> 
-> I checked the current users of the macro, and the vast majority of them
-> are in the .link_validate() operation, where they know that the entity
-> is a video device. There are just a handful of locations where a check
-> precedes the media_entity_to_video_device() call. So maybe it's not
-> worth it ?
-> 
-> I also found no caller that checks for entity != NULL before calling the
-> macro. Is this change actually needed ?
+dma_fence_get_status is not guaranteed to return valid information
+on if the fence has been signaled or not if SW signaling has not
+been enabled for the fence. To ensure valid information is reported,
+enable SW signaling for fences before getting their status.
 
-We have a similar check in media_entity_to_v4l2_subdev() macro. In the
-patches for streaming control there's a need for an explicit check without
-this patch. That's of course fine as well if we decide so.
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+---
+ drivers/dma-buf/sync_file.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
--- 
-Regards,
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index 747e377fb95417ddd506b528618a4288bea9d459..a6fd1d14dde155561b9fd2c07e6aa20dc9863a8d 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -271,6 +271,8 @@ static int sync_fill_fence_info(struct dma_fence *fence,
+ 	const char __rcu *timeline;
+ 	const char __rcu *driver;
+ 
++	dma_fence_enable_sw_signaling(fence);
++
+ 	rcu_read_lock();
+ 
+ 	driver = dma_fence_driver_name(fence);
+@@ -320,6 +322,7 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
+ 	 * info->num_fences.
+ 	 */
+ 	if (!info.num_fences) {
++		dma_fence_enable_sw_signaling(sync_file->fence);
+ 		info.status = dma_fence_get_status(sync_file->fence);
+ 		goto no_fences;
+ 	} else {
 
-Sakari Ailus
+---
+base-commit: 58ba80c4740212c29a1cf9b48f588e60a7612209
+change-id: 20250708-syncfile-enable-signaling-a993acff1860
+
 
