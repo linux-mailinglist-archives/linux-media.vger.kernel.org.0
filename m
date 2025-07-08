@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-37122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDA7AFCEF4
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:20:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC114AFCF00
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:21:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85C70564059
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 15:20:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC8061BC329C
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 15:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DFDD2E2656;
-	Tue,  8 Jul 2025 15:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98E692E4264;
+	Tue,  8 Jul 2025 15:20:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RifK2/lO"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dT7Cz7oO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEF32BE042;
-	Tue,  8 Jul 2025 15:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694062E172E;
+	Tue,  8 Jul 2025 15:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751988007; cv=none; b=IA+n5q5l0s47uk6d+RfH3HPqfsFX6Ci+jod+ZTlJEpdz5OcrHGUJyr8dWEKPQt6sx+JgVp/8p01RQWI5uq81GhcMUaDy5cH4/7vfsb3Wkr7O9OXtP7/1Zt4cjxWWu9gKFjBOpI1I7FHrJMtnTQsn/sjIgCZeVICrCsqbYXQy5/A=
+	t=1751988010; cv=none; b=rxXxfrZ/1eDGgL4x2xqWZHC6Dv4VvVhkyxQRVnXV9u+iM5Sa7J5wOplj5TGB1nU65FkJitEiovEUWEo0UEiBZ6tTrbZ+rezCvC15SHf3lCvvdlZqlB/lpWnrkyDcLhL+Oouf0MODz47KiSZcvB6304da0PJLxuKo0/2Fn4Q+4RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751988007; c=relaxed/simple;
-	bh=pj7UvjNRRhgkdpo5L5JvolTBqV6yQvQyMoCj0KbxygY=;
+	s=arc-20240116; t=1751988010; c=relaxed/simple;
+	bh=RS1jRevdSU0XE6+qJOVHPN87cHKcjdwE1PiroRVpzqg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nUEjg89UzSwZc1nudMN5LmN/Pp4CsA7bFr3gtscknn0BV6zRKDM47cxNTsN8ods+HCHB4FtyoZp7J49kUWmvgA02Hfj6zTe4SOuzkBLKZ4pnMF/5ESKm0bahv/io7zjZFjYTwEBVWg1XdE1XPZ4Er3ljB967j8D03vkBft0c0FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RifK2/lO; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version:Content-Type; b=U6ufUfSj5c2F3gbCM1xSpCyLa17fyHXNECEqG+XeZysb9WRk6xnJb0XRLObqbWUgwl5nsFxeCnvvWKSfYDbbetRJN1gqrHxQI4VfxGkr2MSnaA1VDkTBOX4z0/4rVmdyG1rD8ulO26naVgr4aHlH9ZmhSuMN9SMGtEULqsSlO1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dT7Cz7oO; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1751987996;
-	bh=pj7UvjNRRhgkdpo5L5JvolTBqV6yQvQyMoCj0KbxygY=;
+	s=mail; t=1751987998;
+	bh=RS1jRevdSU0XE6+qJOVHPN87cHKcjdwE1PiroRVpzqg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RifK2/lOw8JOoQ0VsbU9zsJYaG2QVjaIIWI00CCeKxeasVdYsJ+KRZrLJdFc+Mssi
-	 A2ioP6ZZfJ36arLHZCd1PHLrsCBE+BCA9WtpwDLmGe30Xs5sEElYz9TB3vj2Xjvp1J
-	 qYFQqOtFR9L3xmcyplejIXwFoA3UlZv+JEUNp0BHC4s2TccogwpnHxb55vrXl0Uy4w
-	 4u2EyqROJ822MX0MZ7sgNY4VmPEK3OHAB7jWUJYCHOSUwfby2jVKU44BX0QpF6WKh5
-	 ous6ELPEvEmUBM24gBHyRQn7DTnDNDdW0UHWy8FI19BQtfCGMMmHUbv4WT2GDK43GP
-	 uFqSYZ09fEL+w==
+	b=dT7Cz7oOwEeTd5Y8FzMH8v7q9seeIZVvYEs9qwpkLgz78ivpUuCrr/bhVhd+L/Gsf
+	 ZvKh+QOtzVJxL/5Ky6GziNbKvnOGPlouVHEWyVTgyjihBL6xmPunO3B7MuO8ZDCAH+
+	 SoI+S+DjVybfqUPQsQftDslXpop419R7Jo35TjyYrbnhMWMGrVloHDlQX7oj8YiTj7
+	 k9DuNPLBnmH+0hE/8HUVHI0NebMb5htc/IoDpxqGPeCHO5r6Tb310x0xW6dRqcXeFx
+	 iKk7M/2FVeLOn3o2Pwv/v6mm0p+3HIYUN6CQr+OHh6mWFpmsB5Xxc4NQZxOPTx5qBj
+	 N0S6l1H5B/zGQ==
 Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3D75917E0523;
-	Tue,  8 Jul 2025 17:19:55 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 20AF117E053B;
+	Tue,  8 Jul 2025 17:19:57 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Detlev Casanova <detlev.casanova@collabora.com>,
@@ -59,9 +59,9 @@ Cc: Detlev Casanova <detlev.casanova@collabora.com>,
 	kernel@collabora.com,
 	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
 	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH 01/12] media: rkvdec: Switch to using structs instead of writel
-Date: Tue,  8 Jul 2025 11:19:34 -0400
-Message-ID: <20250708151946.374349-2-detlev.casanova@collabora.com>
+Subject: [PATCH 02/12] media: rkvdec: Move cabac table to its own source file
+Date: Tue,  8 Jul 2025 11:19:35 -0400
+Message-ID: <20250708151946.374349-3-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250708151946.374349-1-detlev.casanova@collabora.com>
 References: <20250708151946.374349-1-detlev.casanova@collabora.com>
@@ -71,1300 +71,1068 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In an effort to merge the rkvdec2 driver [1] with this one, switch from
-writel() calls to using structs to represent the register mappings.
-
-This is done in order to have all supported decoders use the same format
-in the future and ease reading of the code.
-
-Using structs also improves stability as the hardware is tested and
-validated downstream using a similar method.
-It was noticed, on decoders, that:
- - Some registers require to be writen in increasing order [2]
- - Some registers, even if unrelated, need to be written to their reset
-   values (it was the case here for axi_ddr_[rw]data).
-
-Using structs can also help improving performance later when, e.g.
-multicore support is added on RK3588.
-
-Performance seems to be slightly improved, but at least, not made worse.
-Running fluster's JVT-AVC_V1 test suite with GStreamer on the Radxa ROCK
-PI 4 SE gives the following times:
-
-Before this patch:
-
-- --jobs 1: Ran 129/135 tests successfully               in 77.167 secs
-- --jobs 6: Ran 129/135 tests successfully               in 23.046 secs
-
-With this patch:
-- --jobs 1: Ran 129/135 tests successfully               in 70.698 secs
-- --jobs 6: Ran 129/135 tests successfully               in 22.917 secs
-
-This also shows that the fluster score hasn't changed.
-
-[1]: https://lore.kernel.org/all/20250325213303.826925-1-detlev.casanova@collabora.com/
-[2]: https://lore.kernel.org/all/20200127143009.15677-5-andrzej.p@collabora.com/
+This is in preparation to add support for new variants that will use the
+same table.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- .../platform/rockchip/rkvdec/rkvdec-h264.c    | 165 +++--
- .../platform/rockchip/rkvdec/rkvdec-regs.h    | 567 ++++++++++++------
- .../platform/rockchip/rkvdec/rkvdec-vp9.c     | 230 +++----
- .../media/platform/rockchip/rkvdec/rkvdec.c   |  10 +-
- .../media/platform/rockchip/rkvdec/rkvdec.h   |   1 +
- 5 files changed, 558 insertions(+), 415 deletions(-)
+ .../media/platform/rockchip/rkvdec/Makefile   |   6 +-
+ .../platform/rockchip/rkvdec/rkvdec-cabac.c   | 510 ++++++++++++++++++
+ .../platform/rockchip/rkvdec/rkvdec-h264.c    | 501 +----------------
+ 3 files changed, 517 insertions(+), 500 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-cabac.c
 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c
-index d14b4d173448d..c17428eb2cb43 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c
-@@ -115,6 +115,7 @@ struct rkvdec_h264_run {
- struct rkvdec_h264_ctx {
- 	struct rkvdec_aux_buf priv_tbl;
- 	struct rkvdec_h264_reflists reflists;
-+	struct rkvdec_regs regs;
- };
+diff --git a/drivers/media/platform/rockchip/rkvdec/Makefile b/drivers/media/platform/rockchip/rkvdec/Makefile
+index cb86b429cfaac..164ea06c26c2a 100644
+--- a/drivers/media/platform/rockchip/rkvdec/Makefile
++++ b/drivers/media/platform/rockchip/rkvdec/Makefile
+@@ -1,3 +1,7 @@
+ obj-$(CONFIG_VIDEO_ROCKCHIP_VDEC) += rockchip-vdec.o
  
- #define CABAC_ENTRY(ctxidx, idc0_m, idc0_n, idc1_m, idc1_n,		\
-@@ -841,45 +842,41 @@ static void assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
- }
- 
- /*
-- * dpb poc related registers table
-+ * Set the ref POC in the correct register.
+-rockchip-vdec-y += rkvdec.o rkvdec-h264.o rkvdec-vp9.o
++rockchip-vdec-y += \
++		   rkvdec.o \
++		   rkvdec-cabac.o \
++		   rkvdec-h264.o \
++		   rkvdec-vp9.o
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-cabac.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-cabac.c
+new file mode 100644
+index 0000000000000..745f4705aebf7
+--- /dev/null
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-cabac.c
+@@ -0,0 +1,510 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Rockchip Video Decoder CABAC tables
 + *
-+ * The 32 registers are spread across 3 regions, each alternating top and bottom ref POCs:
-+ *  - 1: ref 0 to 14 contain top 0 to 7 and bottoms 0 to 6
-+ *  - 2: ref 15 to 29 contain top 8 to 14 and bottoms 7 to 14
-+ *  - 3: ref 30 and 31 which correspond to top 15 and bottom 15 respectively.
-  */
--static const u32 poc_reg_tbl_top_field[16] = {
--	RKVDEC_REG_H264_POC_REFER0(0),
--	RKVDEC_REG_H264_POC_REFER0(2),
--	RKVDEC_REG_H264_POC_REFER0(4),
--	RKVDEC_REG_H264_POC_REFER0(6),
--	RKVDEC_REG_H264_POC_REFER0(8),
--	RKVDEC_REG_H264_POC_REFER0(10),
--	RKVDEC_REG_H264_POC_REFER0(12),
--	RKVDEC_REG_H264_POC_REFER0(14),
--	RKVDEC_REG_H264_POC_REFER1(1),
--	RKVDEC_REG_H264_POC_REFER1(3),
--	RKVDEC_REG_H264_POC_REFER1(5),
--	RKVDEC_REG_H264_POC_REFER1(7),
--	RKVDEC_REG_H264_POC_REFER1(9),
--	RKVDEC_REG_H264_POC_REFER1(11),
--	RKVDEC_REG_H264_POC_REFER1(13),
--	RKVDEC_REG_H264_POC_REFER2(0)
--};
--
--static const u32 poc_reg_tbl_bottom_field[16] = {
--	RKVDEC_REG_H264_POC_REFER0(1),
--	RKVDEC_REG_H264_POC_REFER0(3),
--	RKVDEC_REG_H264_POC_REFER0(5),
--	RKVDEC_REG_H264_POC_REFER0(7),
--	RKVDEC_REG_H264_POC_REFER0(9),
--	RKVDEC_REG_H264_POC_REFER0(11),
--	RKVDEC_REG_H264_POC_REFER0(13),
--	RKVDEC_REG_H264_POC_REFER1(0),
--	RKVDEC_REG_H264_POC_REFER1(2),
--	RKVDEC_REG_H264_POC_REFER1(4),
--	RKVDEC_REG_H264_POC_REFER1(6),
--	RKVDEC_REG_H264_POC_REFER1(8),
--	RKVDEC_REG_H264_POC_REFER1(10),
--	RKVDEC_REG_H264_POC_REFER1(12),
--	RKVDEC_REG_H264_POC_REFER1(14),
--	RKVDEC_REG_H264_POC_REFER2(1)
--};
-+static void set_poc_reg(struct rkvdec_regs *regs, uint32_t poc, int id, bool bottom)
-+{
-+	if (!bottom) {
-+		switch (id) {
-+		case 0 ... 7:
-+			regs->h264.ref0_14_poc[id * 2] = poc;
-+			break;
-+		case 8 ... 14:
-+			regs->h264.ref15_29_poc[(id - 8) * 2 + 1] = poc;
-+			break;
-+		case 15:
-+			regs->h264.ref30_poc = poc;
-+			break;
-+		}
-+	} else {
-+		switch (id) {
-+		case 0 ... 6:
-+			regs->h264.ref0_14_poc[id * 2 + 1] = poc;
-+			break;
-+		case 7 ... 14:
-+			regs->h264.ref15_29_poc[(id - 7) * 2] = poc;
-+			break;
-+		case 15:
-+			regs->h264.ref31_poc = poc;
-+			break;
-+		}
-+	}
-+}
- 
- static void config_registers(struct rkvdec_ctx *ctx,
- 			     struct rkvdec_h264_run *run)
-@@ -894,6 +891,7 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 	struct vb2_v4l2_buffer *src_buf = run->base.bufs.src;
- 	struct vb2_v4l2_buffer *dst_buf = run->base.bufs.dst;
- 	const struct v4l2_format *f;
-+	struct rkvdec_regs *regs = &h264_ctx->regs;
- 	dma_addr_t rlc_addr;
- 	dma_addr_t refer_addr;
- 	u32 rlc_len;
-@@ -903,10 +901,11 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 	u32 yuv_virstride = 0;
- 	u32 offset;
- 	dma_addr_t dst_addr;
--	u32 reg, i;
-+	u32 i;
- 
--	reg = RKVDEC_MODE(RKVDEC_MODE_H264);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_SYSCTRL);
-+	memset(regs, 0, sizeof(*regs));
++ * Copyright (C) 2019 Collabora, Ltd.
++ *	Boris Brezillon <boris.brezillon@collabora.com>
++ */
 +
-+	regs->common.reg02.dec_mode = RKVDEC_MODE_H264;
- 
- 	f = &ctx->decoded_fmt;
- 	dst_fmt = &f->fmt.pix_mp;
-@@ -921,39 +920,35 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 	else if (sps->chroma_format_idc == 2)
- 		yuv_virstride = 2 * y_virstride;
- 
--	reg = RKVDEC_Y_HOR_VIRSTRIDE(hor_virstride / 16) |
--	      RKVDEC_UV_HOR_VIRSTRIDE(hor_virstride / 16) |
--	      RKVDEC_SLICE_NUM_HIGHBIT |
--	      RKVDEC_SLICE_NUM_LOWBITS(0x7ff);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_PICPAR);
-+	regs->common.reg03.uv_hor_virstride = hor_virstride / 16;
-+	regs->common.reg03.y_hor_virstride = hor_virstride / 16;
-+	regs->common.reg03.slice_num_highbit = 1;
-+	regs->common.reg03.slice_num_lowbits = 0x7ff;
- 
- 	/* config rlc base address */
- 	rlc_addr = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
--	writel_relaxed(rlc_addr, rkvdec->regs + RKVDEC_REG_STRM_RLC_BASE);
--	writel_relaxed(rlc_addr, rkvdec->regs + RKVDEC_REG_RLCWRITE_BASE);
-+	regs->common.strm_rlc_base = rlc_addr;
-+	regs->h264.rlcwrite_base = rlc_addr;
- 
- 	rlc_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
--	reg = RKVDEC_STRM_LEN(rlc_len);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_STRM_LEN);
-+	regs->common.stream_len = rlc_len;
- 
- 	/* config cabac table */
- 	offset = offsetof(struct rkvdec_h264_priv_tbl, cabac_table);
--	writel_relaxed(priv_start_addr + offset,
--		       rkvdec->regs + RKVDEC_REG_CABACTBL_PROB_BASE);
-+	regs->common.cabactbl_base = priv_start_addr + offset;
- 
- 	/* config output base address */
- 	dst_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
--	writel_relaxed(dst_addr, rkvdec->regs + RKVDEC_REG_DECOUT_BASE);
-+	regs->common.decout_base = dst_addr;
- 
--	reg = RKVDEC_Y_VIRSTRIDE(y_virstride / 16);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_Y_VIRSTRIDE);
-+	regs->common.reg08.y_virstride = y_virstride / 16;
- 
--	reg = RKVDEC_YUV_VIRSTRIDE(yuv_virstride / 16);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_YUV_VIRSTRIDE);
-+	regs->common.reg09.yuv_virstride = yuv_virstride / 16;
- 
- 	/* config ref pic address & poc */
- 	for (i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
- 		struct vb2_buffer *vb_buf = run->ref_buf[i];
-+		struct ref_base *base;
- 
- 		/*
- 		 * If a DPB entry is unused or invalid, address of current destination
-@@ -963,54 +958,36 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 			vb_buf = &dst_buf->vb2_buf;
- 		refer_addr = vb2_dma_contig_plane_dma_addr(vb_buf, 0);
- 
--		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
--			refer_addr |= RKVDEC_COLMV_USED_FLAG_REF;
--		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD)
--			refer_addr |= RKVDEC_FIELD_REF;
--
--		if (dpb[i].fields & V4L2_H264_TOP_FIELD_REF)
--			refer_addr |= RKVDEC_TOPFIELD_USED_REF;
--		if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
--			refer_addr |= RKVDEC_BOTFIELD_USED_REF;
--
--		writel_relaxed(dpb[i].top_field_order_cnt,
--			       rkvdec->regs +  poc_reg_tbl_top_field[i]);
--		writel_relaxed(dpb[i].bottom_field_order_cnt,
--			       rkvdec->regs + poc_reg_tbl_bottom_field[i]);
--
- 		if (i < V4L2_H264_NUM_DPB_ENTRIES - 1)
--			writel_relaxed(refer_addr,
--				       rkvdec->regs + RKVDEC_REG_H264_BASE_REFER(i));
-+			base = &regs->h264.ref0_14_base[i];
- 		else
--			writel_relaxed(refer_addr,
--				       rkvdec->regs + RKVDEC_REG_H264_BASE_REFER15);
--	}
-+			base = &regs->h264.ref15_base;
- 
--	reg = RKVDEC_CUR_POC(dec_params->top_field_order_cnt);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_CUR_POC0);
-+		base->field_ref = !!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD);
-+		base->colmv_used_flag_ref = !!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE);
-+		base->topfield_used_ref = !!(dpb[i].fields & V4L2_H264_TOP_FIELD_REF);
-+		base->botfield_used_ref = !!(dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF);
-+		base->base_addr = refer_addr >> 4;
- 
--	reg = RKVDEC_CUR_POC(dec_params->bottom_field_order_cnt);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_CUR_POC1);
-+		set_poc_reg(regs, dpb[i].top_field_order_cnt, i, false);
-+		set_poc_reg(regs, dpb[i].bottom_field_order_cnt, i, true);
-+	}
-+
-+	regs->h264.cur_poc = dec_params->top_field_order_cnt;
-+	regs->h264.cur_poc1 = dec_params->bottom_field_order_cnt;
- 
- 	/* config hw pps address */
- 	offset = offsetof(struct rkvdec_h264_priv_tbl, param_set);
--	writel_relaxed(priv_start_addr + offset,
--		       rkvdec->regs + RKVDEC_REG_PPS_BASE);
-+	regs->h264.pps_base = priv_start_addr + offset;
- 
- 	/* config hw rps address */
- 	offset = offsetof(struct rkvdec_h264_priv_tbl, rps);
--	writel_relaxed(priv_start_addr + offset,
--		       rkvdec->regs + RKVDEC_REG_RPS_BASE);
--
--	reg = RKVDEC_AXI_DDR_RDATA(0);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_AXI_DDR_RDATA);
--
--	reg = RKVDEC_AXI_DDR_WDATA(0);
--	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_AXI_DDR_WDATA);
-+	regs->h264.rps_base = priv_start_addr + offset;
- 
- 	offset = offsetof(struct rkvdec_h264_priv_tbl, err_info);
--	writel_relaxed(priv_start_addr + offset,
--		       rkvdec->regs + RKVDEC_REG_H264_ERRINFO_BASE);
-+	regs->h264.errorinfo_base = priv_start_addr + offset;
-+
-+	rkvdec_memcpy_toio(rkvdec->regs, regs, sizeof(*regs));
- }
- 
- #define RKVDEC_H264_MAX_DEPTH_IN_BYTES		2
-@@ -1181,8 +1158,6 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
- 
- 	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
- 
--	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
--	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
- 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
- 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
- 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-regs.h b/drivers/media/platform/rockchip/rkvdec/rkvdec-regs.h
-index 15b9bee92016c..541c5cb6f4bb1 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-regs.h
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-regs.h
-@@ -3,7 +3,12 @@
- #ifndef RKVDEC_REGS_H_
- #define RKVDEC_REGS_H_
- 
--/* rkvcodec registers */
 +#include <linux/types.h>
 +
-+/*
-+ * REG_INTERRUPT is accessed via writel to enable the decoder after
-+ * configuring it and clear interrupt strmd_error_status
-+ */
- #define RKVDEC_REG_INTERRUPT				0x004
- #define RKVDEC_INTERRUPT_DEC_E				BIT(0)
- #define RKVDEC_CONFIG_DEC_CLK_GATE_E			BIT(1)
-@@ -29,195 +34,381 @@
- #define RKVDEC_FORCE_SOFTRESET_VALID			BIT(21)
- #define RKVDEC_SOFTRESET_RDY				BIT(22)
- 
--#define RKVDEC_REG_SYSCTRL				0x008
--#define RKVDEC_IN_ENDIAN				BIT(0)
--#define RKVDEC_IN_SWAP32_E				BIT(1)
--#define RKVDEC_IN_SWAP64_E				BIT(2)
--#define RKVDEC_STR_ENDIAN				BIT(3)
--#define RKVDEC_STR_SWAP32_E				BIT(4)
--#define RKVDEC_STR_SWAP64_E				BIT(5)
--#define RKVDEC_OUT_ENDIAN				BIT(6)
--#define RKVDEC_OUT_SWAP32_E				BIT(7)
--#define RKVDEC_OUT_CBCR_SWAP				BIT(8)
--#define RKVDEC_RLC_MODE_DIRECT_WRITE			BIT(10)
--#define RKVDEC_RLC_MODE					BIT(11)
--#define RKVDEC_STRM_START_BIT(x)			(((x) & 0x7f) << 12)
--#define RKVDEC_MODE(x)					(((x) & 0x03) << 20)
-+/*
-+ * Cache configuration is not covered in the rang of the register struct
-+ */
-+#define RKVDEC_REG_PREF_LUMA_CACHE_COMMAND		0x410
-+#define RKVDEC_REG_PREF_CHR_CACHE_COMMAND		0x450
++#define CABAC_ENTRY(ctxidx, idc0_m, idc0_n, idc1_m, idc1_n,		\
++	    idc2_m, idc2_n, intra_m, intra_n)			\
++	[0][(ctxidx)] = {idc0_m, idc0_n},			\
++	[1][(ctxidx)] = {idc1_m, idc1_n},			\
++	[2][(ctxidx)] = {idc2_m, idc2_n},			\
++	[3][(ctxidx)] = {intra_m, intra_n}
 +
 +/*
-+ * Define the mode values
++ * Constant CABAC table.
++ * Built from the tables described in section '9.3.1.1 Initialisation process
++ * for context variables' of the H264 spec.
 + */
- #define RKVDEC_MODE_H264				1
- #define RKVDEC_MODE_VP9					2
--#define RKVDEC_RPS_MODE					BIT(24)
--#define RKVDEC_STRM_MODE				BIT(25)
--#define RKVDEC_H264_STRM_LASTPKT			BIT(26)
--#define RKVDEC_H264_FIRSTSLICE_FLAG			BIT(27)
--#define RKVDEC_H264_FRAME_ORSLICE			BIT(28)
--#define RKVDEC_BUSPR_SLOT_DIS				BIT(29)
--
--#define RKVDEC_REG_PICPAR				0x00C
--#define RKVDEC_Y_HOR_VIRSTRIDE(x)			((x) & 0x1ff)
--#define RKVDEC_SLICE_NUM_HIGHBIT			BIT(11)
--#define RKVDEC_UV_HOR_VIRSTRIDE(x)			(((x) & 0x1ff) << 12)
--#define RKVDEC_SLICE_NUM_LOWBITS(x)			(((x) & 0x7ff) << 21)
--
--#define RKVDEC_REG_STRM_RLC_BASE			0x010
--
--#define RKVDEC_REG_STRM_LEN				0x014
--#define RKVDEC_STRM_LEN(x)				((x) & 0x7ffffff)
--
--#define RKVDEC_REG_CABACTBL_PROB_BASE			0x018
--#define RKVDEC_REG_DECOUT_BASE				0x01C
--
--#define RKVDEC_REG_Y_VIRSTRIDE				0x020
--#define RKVDEC_Y_VIRSTRIDE(x)				((x) & 0xfffff)
--
--#define RKVDEC_REG_YUV_VIRSTRIDE			0x024
--#define RKVDEC_YUV_VIRSTRIDE(x)				((x) & 0x1fffff)
--#define RKVDEC_REG_H264_BASE_REFER(i)			(((i) * 0x04) + 0x028)
--
--#define RKVDEC_REG_H264_BASE_REFER15			0x0C0
--#define RKVDEC_FIELD_REF				BIT(0)
--#define RKVDEC_TOPFIELD_USED_REF			BIT(1)
--#define RKVDEC_BOTFIELD_USED_REF			BIT(2)
--#define RKVDEC_COLMV_USED_FLAG_REF			BIT(3)
--
--#define RKVDEC_REG_VP9_LAST_FRAME_BASE			0x02c
--#define RKVDEC_REG_VP9_GOLDEN_FRAME_BASE		0x030
--#define RKVDEC_REG_VP9_ALTREF_FRAME_BASE		0x034
--
--#define RKVDEC_REG_VP9_CPRHEADER_OFFSET			0x028
--#define RKVDEC_VP9_CPRHEADER_OFFSET(x)			((x) & 0xffff)
--
--#define RKVDEC_REG_VP9_REFERLAST_BASE			0x02C
--#define RKVDEC_REG_VP9_REFERGOLDEN_BASE			0x030
--#define RKVDEC_REG_VP9_REFERALFTER_BASE			0x034
--
--#define RKVDEC_REG_VP9COUNT_BASE			0x038
--#define RKVDEC_VP9COUNT_UPDATE_EN			BIT(0)
--
--#define RKVDEC_REG_VP9_SEGIDLAST_BASE			0x03C
--#define RKVDEC_REG_VP9_SEGIDCUR_BASE			0x040
--#define RKVDEC_REG_VP9_FRAME_SIZE(i)			((i) * 0x04 + 0x044)
--#define RKVDEC_VP9_FRAMEWIDTH(x)			(((x) & 0xffff) << 0)
--#define RKVDEC_VP9_FRAMEHEIGHT(x)			(((x) & 0xffff) << 16)
--
--#define RKVDEC_VP9_SEGID_GRP(i)				((i) * 0x04 + 0x050)
--#define RKVDEC_SEGID_ABS_DELTA(x)			((x) & 0x1)
--#define RKVDEC_SEGID_FRAME_QP_DELTA_EN(x)		(((x) & 0x1) << 1)
--#define RKVDEC_SEGID_FRAME_QP_DELTA(x)			(((x) & 0x1ff) << 2)
--#define RKVDEC_SEGID_FRAME_LOOPFILTER_VALUE_EN(x)	(((x) & 0x1) << 11)
--#define RKVDEC_SEGID_FRAME_LOOPFILTER_VALUE(x)		(((x) & 0x7f) << 12)
--#define RKVDEC_SEGID_REFERINFO_EN(x)			(((x) & 0x1) << 19)
--#define RKVDEC_SEGID_REFERINFO(x)			(((x) & 0x03) << 20)
--#define RKVDEC_SEGID_FRAME_SKIP_EN(x)			(((x) & 0x1) << 22)
--
--#define RKVDEC_VP9_CPRHEADER_CONFIG			0x070
--#define RKVDEC_VP9_TX_MODE(x)				((x) & 0x07)
--#define RKVDEC_VP9_FRAME_REF_MODE(x)			(((x) & 0x03) << 3)
--
--#define RKVDEC_VP9_REF_SCALE(i)				((i) * 0x04 + 0x074)
--#define RKVDEC_VP9_REF_HOR_SCALE(x)			((x) & 0xffff)
--#define RKVDEC_VP9_REF_VER_SCALE(x)			(((x) & 0xffff) << 16)
--
--#define RKVDEC_VP9_REF_DELTAS_LASTFRAME			0x080
--#define RKVDEC_REF_DELTAS_LASTFRAME(pos, val)		(((val) & 0x7f) << ((pos) * 7))
--
--#define RKVDEC_VP9_INFO_LASTFRAME			0x084
--#define RKVDEC_MODE_DELTAS_LASTFRAME(pos, val)		(((val) & 0x7f) << ((pos) * 7))
--#define RKVDEC_SEG_EN_LASTFRAME				BIT(16)
--#define RKVDEC_LAST_SHOW_FRAME				BIT(17)
--#define RKVDEC_LAST_INTRA_ONLY				BIT(18)
--#define RKVDEC_LAST_WIDHHEIGHT_EQCUR			BIT(19)
--#define RKVDEC_COLOR_SPACE_LASTKEYFRAME(x)		(((x) & 0x07) << 20)
--
--#define RKVDEC_VP9_INTERCMD_BASE			0x088
--
--#define RKVDEC_VP9_INTERCMD_NUM				0x08C
--#define RKVDEC_INTERCMD_NUM(x)				((x) & 0xffffff)
--
--#define RKVDEC_VP9_LASTTILE_SIZE			0x090
--#define RKVDEC_LASTTILE_SIZE(x)				((x) & 0xffffff)
--
--#define RKVDEC_VP9_HOR_VIRSTRIDE(i)			((i) * 0x04 + 0x094)
--#define RKVDEC_HOR_Y_VIRSTRIDE(x)			((x) & 0x1ff)
--#define RKVDEC_HOR_UV_VIRSTRIDE(x)			(((x) & 0x1ff) << 16)
--
--#define RKVDEC_REG_H264_POC_REFER0(i)			(((i) * 0x04) + 0x064)
--#define RKVDEC_REG_H264_POC_REFER1(i)			(((i) * 0x04) + 0x0C4)
--#define RKVDEC_REG_H264_POC_REFER2(i)			(((i) * 0x04) + 0x120)
--#define RKVDEC_POC_REFER(x)				((x) & 0xffffffff)
--
--#define RKVDEC_REG_CUR_POC0				0x0A0
--#define RKVDEC_REG_CUR_POC1				0x128
--#define RKVDEC_CUR_POC(x)				((x) & 0xffffffff)
--
--#define RKVDEC_REG_RLCWRITE_BASE			0x0A4
--#define RKVDEC_REG_PPS_BASE				0x0A8
--#define RKVDEC_REG_RPS_BASE				0x0AC
--
--#define RKVDEC_REG_STRMD_ERR_EN				0x0B0
--#define RKVDEC_STRMD_ERR_EN(x)				((x) & 0xffffffff)
--
--#define RKVDEC_REG_STRMD_ERR_STA			0x0B4
--#define RKVDEC_STRMD_ERR_STA(x)				((x) & 0xfffffff)
--#define RKVDEC_COLMV_ERR_REF_PICIDX(x)			(((x) & 0x0f) << 28)
--
--#define RKVDEC_REG_STRMD_ERR_CTU			0x0B8
--#define RKVDEC_STRMD_ERR_CTU(x)				((x) & 0xff)
--#define RKVDEC_STRMD_ERR_CTU_YOFFSET(x)			(((x) & 0xff) << 8)
--#define RKVDEC_STRMFIFO_SPACE2FULL(x)			(((x) & 0x7f) << 16)
--#define RKVDEC_VP9_ERR_EN_CTU0				BIT(24)
--
--#define RKVDEC_REG_SAO_CTU_POS				0x0BC
--#define RKVDEC_SAOWR_XOFFSET(x)				((x) & 0x1ff)
--#define RKVDEC_SAOWR_YOFFSET(x)				(((x) & 0x3ff) << 16)
--
--#define RKVDEC_VP9_LAST_FRAME_YSTRIDE			0x0C0
--#define RKVDEC_VP9_GOLDEN_FRAME_YSTRIDE			0x0C4
--#define RKVDEC_VP9_ALTREF_FRAME_YSTRIDE			0x0C8
--#define RKVDEC_VP9_REF_YSTRIDE(x)			(((x) & 0xfffff) << 0)
--
--#define RKVDEC_VP9_LAST_FRAME_YUVSTRIDE			0x0CC
--#define RKVDEC_VP9_REF_YUVSTRIDE(x)			(((x) & 0x1fffff) << 0)
--
--#define RKVDEC_VP9_REF_COLMV_BASE			0x0D0
--
--#define RKVDEC_REG_PERFORMANCE_CYCLE			0x100
--#define RKVDEC_PERFORMANCE_CYCLE(x)			((x) & 0xffffffff)
--
--#define RKVDEC_REG_AXI_DDR_RDATA			0x104
--#define RKVDEC_AXI_DDR_RDATA(x)				((x) & 0xffffffff)
--
--#define RKVDEC_REG_AXI_DDR_WDATA			0x108
--#define RKVDEC_AXI_DDR_WDATA(x)				((x) & 0xffffffff)
--
--#define RKVDEC_REG_FPGADEBUG_RESET			0x10C
--#define RKVDEC_BUSIFD_RESETN				BIT(0)
--#define RKVDEC_CABAC_RESETN				BIT(1)
--#define RKVDEC_DEC_CTRL_RESETN				BIT(2)
--#define RKVDEC_TRANSD_RESETN				BIT(3)
--#define RKVDEC_INTRA_RESETN				BIT(4)
--#define RKVDEC_INTER_RESETN				BIT(5)
--#define RKVDEC_RECON_RESETN				BIT(6)
--#define RKVDEC_FILER_RESETN				BIT(7)
- 
--#define RKVDEC_REG_PERFORMANCE_SEL			0x110
--#define RKVDEC_PERF_SEL_CNT0(x)				((x) & 0x3f)
--#define RKVDEC_PERF_SEL_CNT1(x)				(((x) & 0x3f) << 8)
--#define RKVDEC_PERF_SEL_CNT2(x)				(((x) & 0x3f) << 16)
--
--#define RKVDEC_REG_PERFORMANCE_CNT(i)			((i) * 0x04 + 0x114)
--#define RKVDEC_PERF_CNT(x)				((x) & 0xffffffff)
--
--#define RKVDEC_REG_H264_ERRINFO_BASE			0x12C
--
--#define RKVDEC_REG_H264_ERRINFO_NUM			0x130
--#define RKVDEC_SLICEDEC_NUM(x)				((x) & 0x3fff)
--#define RKVDEC_STRMD_DECT_ERR_FLAG			BIT(15)
--#define RKVDEC_ERR_PKT_NUM(x)				(((x) & 0x3fff) << 16)
--
--#define RKVDEC_REG_H264_ERR_E				0x134
--#define RKVDEC_H264_ERR_EN_HIGHBITS(x)			((x) & 0x3fffffff)
--
--#define RKVDEC_REG_PREF_LUMA_CACHE_COMMAND		0x410
--#define RKVDEC_REG_PREF_CHR_CACHE_COMMAND		0x450
-+/* rkvcodec registers */
-+struct rkvdec_common_regs {
-+	struct rkvdec_id {
-+		u32 minor_ver	: 8;
-+		u32 level	: 1;
-+		u32 dec_support	: 3;
-+		u32 profile	: 1;
-+		u32 reserved0	: 1;
-+		u32 codec_flag	: 1;
-+		u32 reserved1	: 1;
-+		u32 prod_num	: 16;
-+	} reg00;
++const s8 rkvdec_h264_cabac_table[4][464][2] = {
++	/* Table 9-12 – Values of variables m and n for ctxIdx from 0 to 10 */
++	CABAC_ENTRY(0, 20, -15, 20, -15, 20, -15, 20, -15),
++	CABAC_ENTRY(1, 2, 54, 2, 54, 2, 54, 2, 54),
++	CABAC_ENTRY(2, 3, 74, 3, 74, 3, 74, 3, 74),
++	CABAC_ENTRY(3, 20, -15, 20, -15, 20, -15, 20, -15),
++	CABAC_ENTRY(4, 2, 54, 2, 54, 2, 54, 2, 54),
++	CABAC_ENTRY(5, 3, 74, 3, 74, 3, 74, 3, 74),
++	CABAC_ENTRY(6, -28, 127, -28, 127, -28, 127, -28, 127),
++	CABAC_ENTRY(7, -23, 104, -23, 104, -23, 104, -23, 104),
++	CABAC_ENTRY(8, -6, 53, -6, 53, -6, 53, -6, 53),
++	CABAC_ENTRY(9, -1, 54, -1, 54, -1, 54, -1, 54),
++	CABAC_ENTRY(10, 7, 51, 7, 51, 7, 51, 7, 51),
 +
-+	struct rkvdec_int {
-+		u32 dec_e			: 1;
-+		u32 dec_clkgate_e		: 1;
-+		u32 reserved0			: 1;
-+		u32 timeout_mode		: 1;
-+		u32 dec_irq_dis			: 1;
-+		u32 dec_timeout_e		: 1;
-+		u32 buf_empty_en		: 1;
-+		u32 stmerror_waitdecfifo_empty	: 1;
-+		u32 dec_irq			: 1;
-+		u32 dec_irq_raw			: 1;
-+		u32 reserved2			: 2;
-+		u32 dec_rdy_sta			: 1;
-+		u32 dec_bus_sta			: 1;
-+		u32 dec_error_sta		: 1;
-+		u32 dec_timeout_sta		: 1;
-+		u32 dec_empty_sta		: 1;
-+		u32 colmv_ref_error_sta		: 1;
-+		u32 cabu_end_sta		: 1;
-+		u32 h264orvp9_error_mode	: 1;
-+		u32 softrst_en_p		: 1;
-+		u32 force_softreset_valid	: 1;
-+		u32 softreset_rdy		: 1;
-+		u32 reserved1			: 9;
-+	} reg01;
++	/* Table 9-13 – Values of variables m and n for ctxIdx from 11 to 23 */
++	CABAC_ENTRY(11, 23, 33, 22, 25, 29, 16, 0, 0),
++	CABAC_ENTRY(12, 23, 2, 34, 0, 25, 0, 0, 0),
++	CABAC_ENTRY(13, 21, 0, 16, 0, 14, 0, 0, 0),
++	CABAC_ENTRY(14, 1, 9, -2, 9, -10, 51, 0, 0),
++	CABAC_ENTRY(15, 0, 49, 4, 41, -3, 62, 0, 0),
++	CABAC_ENTRY(16, -37, 118, -29, 118, -27, 99, 0, 0),
++	CABAC_ENTRY(17, 5, 57, 2, 65, 26, 16, 0, 0),
++	CABAC_ENTRY(18, -13, 78, -6, 71, -4, 85, 0, 0),
++	CABAC_ENTRY(19, -11, 65, -13, 79, -24, 102, 0, 0),
++	CABAC_ENTRY(20, 1, 62, 5, 52, 5, 57, 0, 0),
++	CABAC_ENTRY(21, 12, 49, 9, 50, 6, 57, 0, 0),
++	CABAC_ENTRY(22, -4, 73, -3, 70, -17, 73, 0, 0),
++	CABAC_ENTRY(23, 17, 50, 10, 54, 14, 57, 0, 0),
 +
-+	struct rkvdec_sysctrl {
-+		u32 in_endian			: 1;
-+		u32 in_swap32_e			: 1;
-+		u32 in_swap64_e			: 1;
-+		u32 str_endian			: 1;
-+		u32 str_swap32_e		: 1;
-+		u32 str_swap64_e		: 1;
-+		u32 out_endian			: 1;
-+		u32 out_swap32_e		: 1;
-+		u32 out_cbcr_swap		: 1;
-+		u32 reserved0			: 1;
-+		u32 rlc_mode_direct_write	: 1;
-+		u32 rlc_mode			: 1;
-+		u32 strm_start_bit		: 7;
-+		u32 reserved1			: 1;
-+		u32 dec_mode			: 2;
-+		u32 reserved2			: 2;
-+		u32 rps_mode			: 1;
-+		u32 stream_mode			: 1;
-+		u32 stream_lastpacket		: 1;
-+		u32 firstslice_flag		: 1;
-+		u32 frame_orslice		: 1;
-+		u32 buspr_slot_disable		: 1;
-+		u32 reserved3			: 2;
-+	} reg02;
++	/* Table 9-14 – Values of variables m and n for ctxIdx from 24 to 39 */
++	CABAC_ENTRY(24, 18, 64, 26, 34, 20, 40, 0, 0),
++	CABAC_ENTRY(25, 9, 43, 19, 22, 20, 10, 0, 0),
++	CABAC_ENTRY(26, 29, 0, 40, 0, 29, 0, 0, 0),
++	CABAC_ENTRY(27, 26, 67, 57, 2, 54, 0, 0, 0),
++	CABAC_ENTRY(28, 16, 90, 41, 36, 37, 42, 0, 0),
++	CABAC_ENTRY(29, 9, 104, 26, 69, 12, 97, 0, 0),
++	CABAC_ENTRY(30, -46, 127, -45, 127, -32, 127, 0, 0),
++	CABAC_ENTRY(31, -20, 104, -15, 101, -22, 117, 0, 0),
++	CABAC_ENTRY(32, 1, 67, -4, 76, -2, 74, 0, 0),
++	CABAC_ENTRY(33, -13, 78, -6, 71, -4, 85, 0, 0),
++	CABAC_ENTRY(34, -11, 65, -13, 79, -24, 102, 0, 0),
++	CABAC_ENTRY(35, 1, 62, 5, 52, 5, 57, 0, 0),
++	CABAC_ENTRY(36, -6, 86, 6, 69, -6, 93, 0, 0),
++	CABAC_ENTRY(37, -17, 95, -13, 90, -14, 88, 0, 0),
++	CABAC_ENTRY(38, -6, 61, 0, 52, -6, 44, 0, 0),
++	CABAC_ENTRY(39, 9, 45, 8, 43, 4, 55, 0, 0),
 +
-+	struct rkvdec_picpar {
-+		u32 y_hor_virstride	: 9;
-+		u32 reserved		: 2;
-+		u32 slice_num_highbit	: 1;
-+		u32 uv_hor_virstride	: 9;
-+		u32 slice_num_lowbits	: 11;
-+	} reg03;
++	/* Table 9-15 – Values of variables m and n for ctxIdx from 40 to 53 */
++	CABAC_ENTRY(40, -3, 69, -2, 69, -11, 89, 0, 0),
++	CABAC_ENTRY(41, -6, 81, -5, 82, -15, 103, 0, 0),
++	CABAC_ENTRY(42, -11, 96, -10, 96, -21, 116, 0, 0),
++	CABAC_ENTRY(43, 6, 55, 2, 59, 19, 57, 0, 0),
++	CABAC_ENTRY(44, 7, 67, 2, 75, 20, 58, 0, 0),
++	CABAC_ENTRY(45, -5, 86, -3, 87, 4, 84, 0, 0),
++	CABAC_ENTRY(46, 2, 88, -3, 100, 6, 96, 0, 0),
++	CABAC_ENTRY(47, 0, 58, 1, 56, 1, 63, 0, 0),
++	CABAC_ENTRY(48, -3, 76, -3, 74, -5, 85, 0, 0),
++	CABAC_ENTRY(49, -10, 94, -6, 85, -13, 106, 0, 0),
++	CABAC_ENTRY(50, 5, 54, 0, 59, 5, 63, 0, 0),
++	CABAC_ENTRY(51, 4, 69, -3, 81, 6, 75, 0, 0),
++	CABAC_ENTRY(52, -3, 81, -7, 86, -3, 90, 0, 0),
++	CABAC_ENTRY(53, 0, 88, -5, 95, -1, 101, 0, 0),
 +
-+	u32 strm_rlc_base;
-+	u32 stream_len;
-+	u32 cabactbl_base;
-+	u32 decout_base;
++	/* Table 9-16 – Values of variables m and n for ctxIdx from 54 to 59 */
++	CABAC_ENTRY(54, -7, 67, -1, 66, 3, 55, 0, 0),
++	CABAC_ENTRY(55, -5, 74, -1, 77, -4, 79, 0, 0),
++	CABAC_ENTRY(56, -4, 74, 1, 70, -2, 75, 0, 0),
++	CABAC_ENTRY(57, -5, 80, -2, 86, -12, 97, 0, 0),
++	CABAC_ENTRY(58, -7, 72, -5, 72, -7, 50, 0, 0),
++	CABAC_ENTRY(59, 1, 58, 0, 61, 1, 60, 0, 0),
 +
-+	struct rkvdec_y_virstride {
-+		u32 y_virstride	: 20;
-+		u32 reserved0	: 12;
-+	} reg08;
++	/* Table 9-17 – Values of variables m and n for ctxIdx from 60 to 69 */
++	CABAC_ENTRY(60, 0, 41, 0, 41, 0, 41, 0, 41),
++	CABAC_ENTRY(61, 0, 63, 0, 63, 0, 63, 0, 63),
++	CABAC_ENTRY(62, 0, 63, 0, 63, 0, 63, 0, 63),
++	CABAC_ENTRY(63, 0, 63, 0, 63, 0, 63, 0, 63),
++	CABAC_ENTRY(64, -9, 83, -9, 83, -9, 83, -9, 83),
++	CABAC_ENTRY(65, 4, 86, 4, 86, 4, 86, 4, 86),
++	CABAC_ENTRY(66, 0, 97, 0, 97, 0, 97, 0, 97),
++	CABAC_ENTRY(67, -7, 72, -7, 72, -7, 72, -7, 72),
++	CABAC_ENTRY(68, 13, 41, 13, 41, 13, 41, 13, 41),
++	CABAC_ENTRY(69, 3, 62, 3, 62, 3, 62, 3, 62),
 +
-+	struct rkvdec_yuv_virstride {
-+		u32 yuv_virstride	: 21;
-+		u32 reserved0		: 11;
-+	} reg09;
-+} __packed;
++	/* Table 9-18 – Values of variables m and n for ctxIdx from 70 to 104 */
++	CABAC_ENTRY(70, 0, 45, 13, 15, 7, 34, 0, 11),
++	CABAC_ENTRY(71, -4, 78, 7, 51, -9, 88, 1, 55),
++	CABAC_ENTRY(72, -3, 96, 2, 80, -20, 127, 0, 69),
++	CABAC_ENTRY(73, -27, 126, -39, 127, -36, 127, -17, 127),
++	CABAC_ENTRY(74, -28, 98, -18, 91, -17, 91, -13, 102),
++	CABAC_ENTRY(75, -25, 101, -17, 96, -14, 95, 0, 82),
++	CABAC_ENTRY(76, -23, 67, -26, 81, -25, 84, -7, 74),
++	CABAC_ENTRY(77, -28, 82, -35, 98, -25, 86, -21, 107),
++	CABAC_ENTRY(78, -20, 94, -24, 102, -12, 89, -27, 127),
++	CABAC_ENTRY(79, -16, 83, -23, 97, -17, 91, -31, 127),
++	CABAC_ENTRY(80, -22, 110, -27, 119, -31, 127, -24, 127),
++	CABAC_ENTRY(81, -21, 91, -24, 99, -14, 76, -18, 95),
++	CABAC_ENTRY(82, -18, 102, -21, 110, -18, 103, -27, 127),
++	CABAC_ENTRY(83, -13, 93, -18, 102, -13, 90, -21, 114),
++	CABAC_ENTRY(84, -29, 127, -36, 127, -37, 127, -30, 127),
++	CABAC_ENTRY(85, -7, 92, 0, 80, 11, 80, -17, 123),
++	CABAC_ENTRY(86, -5, 89, -5, 89, 5, 76, -12, 115),
++	CABAC_ENTRY(87, -7, 96, -7, 94, 2, 84, -16, 122),
++	CABAC_ENTRY(88, -13, 108, -4, 92, 5, 78, -11, 115),
++	CABAC_ENTRY(89, -3, 46, 0, 39, -6, 55, -12, 63),
++	CABAC_ENTRY(90, -1, 65, 0, 65, 4, 61, -2, 68),
++	CABAC_ENTRY(91, -1, 57, -15, 84, -14, 83, -15, 84),
++	CABAC_ENTRY(92, -9, 93, -35, 127, -37, 127, -13, 104),
++	CABAC_ENTRY(93, -3, 74, -2, 73, -5, 79, -3, 70),
++	CABAC_ENTRY(94, -9, 92, -12, 104, -11, 104, -8, 93),
++	CABAC_ENTRY(95, -8, 87, -9, 91, -11, 91, -10, 90),
++	CABAC_ENTRY(96, -23, 126, -31, 127, -30, 127, -30, 127),
++	CABAC_ENTRY(97, 5, 54, 3, 55, 0, 65, -1, 74),
++	CABAC_ENTRY(98, 6, 60, 7, 56, -2, 79, -6, 97),
++	CABAC_ENTRY(99, 6, 59, 7, 55, 0, 72, -7, 91),
++	CABAC_ENTRY(100, 6, 69, 8, 61, -4, 92, -20, 127),
++	CABAC_ENTRY(101, -1, 48, -3, 53, -6, 56, -4, 56),
++	CABAC_ENTRY(102, 0, 68, 0, 68, 3, 68, -5, 82),
++	CABAC_ENTRY(103, -4, 69, -7, 74, -8, 71, -7, 76),
++	CABAC_ENTRY(104, -8, 88, -9, 88, -13, 98, -22, 125),
 +
-+struct ref_base {
-+	u32 field_ref		: 1;
-+	u32 topfield_used_ref	: 1;
-+	u32 botfield_used_ref	: 1;
-+	u32 colmv_used_flag_ref	: 1;
-+	u32 base_addr		: 28;
++	/* Table 9-19 – Values of variables m and n for ctxIdx from 105 to 165 */
++	CABAC_ENTRY(105, -2, 85, -13, 103, -4, 86, -7, 93),
++	CABAC_ENTRY(106, -6, 78, -13, 91, -12, 88, -11, 87),
++	CABAC_ENTRY(107, -1, 75, -9, 89, -5, 82, -3, 77),
++	CABAC_ENTRY(108, -7, 77, -14, 92, -3, 72, -5, 71),
++	CABAC_ENTRY(109, 2, 54, -8, 76, -4, 67, -4, 63),
++	CABAC_ENTRY(110, 5, 50, -12, 87, -8, 72, -4, 68),
++	CABAC_ENTRY(111, -3, 68, -23, 110, -16, 89, -12, 84),
++	CABAC_ENTRY(112, 1, 50, -24, 105, -9, 69, -7, 62),
++	CABAC_ENTRY(113, 6, 42, -10, 78, -1, 59, -7, 65),
++	CABAC_ENTRY(114, -4, 81, -20, 112, 5, 66, 8, 61),
++	CABAC_ENTRY(115, 1, 63, -17, 99, 4, 57, 5, 56),
++	CABAC_ENTRY(116, -4, 70, -78, 127, -4, 71, -2, 66),
++	CABAC_ENTRY(117, 0, 67, -70, 127, -2, 71, 1, 64),
++	CABAC_ENTRY(118, 2, 57, -50, 127, 2, 58, 0, 61),
++	CABAC_ENTRY(119, -2, 76, -46, 127, -1, 74, -2, 78),
++	CABAC_ENTRY(120, 11, 35, -4, 66, -4, 44, 1, 50),
++	CABAC_ENTRY(121, 4, 64, -5, 78, -1, 69, 7, 52),
++	CABAC_ENTRY(122, 1, 61, -4, 71, 0, 62, 10, 35),
++	CABAC_ENTRY(123, 11, 35, -8, 72, -7, 51, 0, 44),
++	CABAC_ENTRY(124, 18, 25, 2, 59, -4, 47, 11, 38),
++	CABAC_ENTRY(125, 12, 24, -1, 55, -6, 42, 1, 45),
++	CABAC_ENTRY(126, 13, 29, -7, 70, -3, 41, 0, 46),
++	CABAC_ENTRY(127, 13, 36, -6, 75, -6, 53, 5, 44),
++	CABAC_ENTRY(128, -10, 93, -8, 89, 8, 76, 31, 17),
++	CABAC_ENTRY(129, -7, 73, -34, 119, -9, 78, 1, 51),
++	CABAC_ENTRY(130, -2, 73, -3, 75, -11, 83, 7, 50),
++	CABAC_ENTRY(131, 13, 46, 32, 20, 9, 52, 28, 19),
++	CABAC_ENTRY(132, 9, 49, 30, 22, 0, 67, 16, 33),
++	CABAC_ENTRY(133, -7, 100, -44, 127, -5, 90, 14, 62),
++	CABAC_ENTRY(134, 9, 53, 0, 54, 1, 67, -13, 108),
++	CABAC_ENTRY(135, 2, 53, -5, 61, -15, 72, -15, 100),
++	CABAC_ENTRY(136, 5, 53, 0, 58, -5, 75, -13, 101),
++	CABAC_ENTRY(137, -2, 61, -1, 60, -8, 80, -13, 91),
++	CABAC_ENTRY(138, 0, 56, -3, 61, -21, 83, -12, 94),
++	CABAC_ENTRY(139, 0, 56, -8, 67, -21, 64, -10, 88),
++	CABAC_ENTRY(140, -13, 63, -25, 84, -13, 31, -16, 84),
++	CABAC_ENTRY(141, -5, 60, -14, 74, -25, 64, -10, 86),
++	CABAC_ENTRY(142, -1, 62, -5, 65, -29, 94, -7, 83),
++	CABAC_ENTRY(143, 4, 57, 5, 52, 9, 75, -13, 87),
++	CABAC_ENTRY(144, -6, 69, 2, 57, 17, 63, -19, 94),
++	CABAC_ENTRY(145, 4, 57, 0, 61, -8, 74, 1, 70),
++	CABAC_ENTRY(146, 14, 39, -9, 69, -5, 35, 0, 72),
++	CABAC_ENTRY(147, 4, 51, -11, 70, -2, 27, -5, 74),
++	CABAC_ENTRY(148, 13, 68, 18, 55, 13, 91, 18, 59),
++	CABAC_ENTRY(149, 3, 64, -4, 71, 3, 65, -8, 102),
++	CABAC_ENTRY(150, 1, 61, 0, 58, -7, 69, -15, 100),
++	CABAC_ENTRY(151, 9, 63, 7, 61, 8, 77, 0, 95),
++	CABAC_ENTRY(152, 7, 50, 9, 41, -10, 66, -4, 75),
++	CABAC_ENTRY(153, 16, 39, 18, 25, 3, 62, 2, 72),
++	CABAC_ENTRY(154, 5, 44, 9, 32, -3, 68, -11, 75),
++	CABAC_ENTRY(155, 4, 52, 5, 43, -20, 81, -3, 71),
++	CABAC_ENTRY(156, 11, 48, 9, 47, 0, 30, 15, 46),
++	CABAC_ENTRY(157, -5, 60, 0, 44, 1, 7, -13, 69),
++	CABAC_ENTRY(158, -1, 59, 0, 51, -3, 23, 0, 62),
++	CABAC_ENTRY(159, 0, 59, 2, 46, -21, 74, 0, 65),
++	CABAC_ENTRY(160, 22, 33, 19, 38, 16, 66, 21, 37),
++	CABAC_ENTRY(161, 5, 44, -4, 66, -23, 124, -15, 72),
++	CABAC_ENTRY(162, 14, 43, 15, 38, 17, 37, 9, 57),
++	CABAC_ENTRY(163, -1, 78, 12, 42, 44, -18, 16, 54),
++	CABAC_ENTRY(164, 0, 60, 9, 34, 50, -34, 0, 62),
++	CABAC_ENTRY(165, 9, 69, 0, 89, -22, 127, 12, 72),
++
++	/* Table 9-20 – Values of variables m and n for ctxIdx from 166 to 226 */
++	CABAC_ENTRY(166, 11, 28, 4, 45, 4, 39, 24, 0),
++	CABAC_ENTRY(167, 2, 40, 10, 28, 0, 42, 15, 9),
++	CABAC_ENTRY(168, 3, 44, 10, 31, 7, 34, 8, 25),
++	CABAC_ENTRY(169, 0, 49, 33, -11, 11, 29, 13, 18),
++	CABAC_ENTRY(170, 0, 46, 52, -43, 8, 31, 15, 9),
++	CABAC_ENTRY(171, 2, 44, 18, 15, 6, 37, 13, 19),
++	CABAC_ENTRY(172, 2, 51, 28, 0, 7, 42, 10, 37),
++	CABAC_ENTRY(173, 0, 47, 35, -22, 3, 40, 12, 18),
++	CABAC_ENTRY(174, 4, 39, 38, -25, 8, 33, 6, 29),
++	CABAC_ENTRY(175, 2, 62, 34, 0, 13, 43, 20, 33),
++	CABAC_ENTRY(176, 6, 46, 39, -18, 13, 36, 15, 30),
++	CABAC_ENTRY(177, 0, 54, 32, -12, 4, 47, 4, 45),
++	CABAC_ENTRY(178, 3, 54, 102, -94, 3, 55, 1, 58),
++	CABAC_ENTRY(179, 2, 58, 0, 0, 2, 58, 0, 62),
++	CABAC_ENTRY(180, 4, 63, 56, -15, 6, 60, 7, 61),
++	CABAC_ENTRY(181, 6, 51, 33, -4, 8, 44, 12, 38),
++	CABAC_ENTRY(182, 6, 57, 29, 10, 11, 44, 11, 45),
++	CABAC_ENTRY(183, 7, 53, 37, -5, 14, 42, 15, 39),
++	CABAC_ENTRY(184, 6, 52, 51, -29, 7, 48, 11, 42),
++	CABAC_ENTRY(185, 6, 55, 39, -9, 4, 56, 13, 44),
++	CABAC_ENTRY(186, 11, 45, 52, -34, 4, 52, 16, 45),
++	CABAC_ENTRY(187, 14, 36, 69, -58, 13, 37, 12, 41),
++	CABAC_ENTRY(188, 8, 53, 67, -63, 9, 49, 10, 49),
++	CABAC_ENTRY(189, -1, 82, 44, -5, 19, 58, 30, 34),
++	CABAC_ENTRY(190, 7, 55, 32, 7, 10, 48, 18, 42),
++	CABAC_ENTRY(191, -3, 78, 55, -29, 12, 45, 10, 55),
++	CABAC_ENTRY(192, 15, 46, 32, 1, 0, 69, 17, 51),
++	CABAC_ENTRY(193, 22, 31, 0, 0, 20, 33, 17, 46),
++	CABAC_ENTRY(194, -1, 84, 27, 36, 8, 63, 0, 89),
++	CABAC_ENTRY(195, 25, 7, 33, -25, 35, -18, 26, -19),
++	CABAC_ENTRY(196, 30, -7, 34, -30, 33, -25, 22, -17),
++	CABAC_ENTRY(197, 28, 3, 36, -28, 28, -3, 26, -17),
++	CABAC_ENTRY(198, 28, 4, 38, -28, 24, 10, 30, -25),
++	CABAC_ENTRY(199, 32, 0, 38, -27, 27, 0, 28, -20),
++	CABAC_ENTRY(200, 34, -1, 34, -18, 34, -14, 33, -23),
++	CABAC_ENTRY(201, 30, 6, 35, -16, 52, -44, 37, -27),
++	CABAC_ENTRY(202, 30, 6, 34, -14, 39, -24, 33, -23),
++	CABAC_ENTRY(203, 32, 9, 32, -8, 19, 17, 40, -28),
++	CABAC_ENTRY(204, 31, 19, 37, -6, 31, 25, 38, -17),
++	CABAC_ENTRY(205, 26, 27, 35, 0, 36, 29, 33, -11),
++	CABAC_ENTRY(206, 26, 30, 30, 10, 24, 33, 40, -15),
++	CABAC_ENTRY(207, 37, 20, 28, 18, 34, 15, 41, -6),
++	CABAC_ENTRY(208, 28, 34, 26, 25, 30, 20, 38, 1),
++	CABAC_ENTRY(209, 17, 70, 29, 41, 22, 73, 41, 17),
++	CABAC_ENTRY(210, 1, 67, 0, 75, 20, 34, 30, -6),
++	CABAC_ENTRY(211, 5, 59, 2, 72, 19, 31, 27, 3),
++	CABAC_ENTRY(212, 9, 67, 8, 77, 27, 44, 26, 22),
++	CABAC_ENTRY(213, 16, 30, 14, 35, 19, 16, 37, -16),
++	CABAC_ENTRY(214, 18, 32, 18, 31, 15, 36, 35, -4),
++	CABAC_ENTRY(215, 18, 35, 17, 35, 15, 36, 38, -8),
++	CABAC_ENTRY(216, 22, 29, 21, 30, 21, 28, 38, -3),
++	CABAC_ENTRY(217, 24, 31, 17, 45, 25, 21, 37, 3),
++	CABAC_ENTRY(218, 23, 38, 20, 42, 30, 20, 38, 5),
++	CABAC_ENTRY(219, 18, 43, 18, 45, 31, 12, 42, 0),
++	CABAC_ENTRY(220, 20, 41, 27, 26, 27, 16, 35, 16),
++	CABAC_ENTRY(221, 11, 63, 16, 54, 24, 42, 39, 22),
++	CABAC_ENTRY(222, 9, 59, 7, 66, 0, 93, 14, 48),
++	CABAC_ENTRY(223, 9, 64, 16, 56, 14, 56, 27, 37),
++	CABAC_ENTRY(224, -1, 94, 11, 73, 15, 57, 21, 60),
++	CABAC_ENTRY(225, -2, 89, 10, 67, 26, 38, 12, 68),
++	CABAC_ENTRY(226, -9, 108, -10, 116, -24, 127, 2, 97),
++
++	/* Table 9-21 – Values of variables m and n for ctxIdx from 227 to 275 */
++	CABAC_ENTRY(227, -6, 76, -23, 112, -24, 115, -3, 71),
++	CABAC_ENTRY(228, -2, 44, -15, 71, -22, 82, -6, 42),
++	CABAC_ENTRY(229, 0, 45, -7, 61, -9, 62, -5, 50),
++	CABAC_ENTRY(230, 0, 52, 0, 53, 0, 53, -3, 54),
++	CABAC_ENTRY(231, -3, 64, -5, 66, 0, 59, -2, 62),
++	CABAC_ENTRY(232, -2, 59, -11, 77, -14, 85, 0, 58),
++	CABAC_ENTRY(233, -4, 70, -9, 80, -13, 89, 1, 63),
++	CABAC_ENTRY(234, -4, 75, -9, 84, -13, 94, -2, 72),
++	CABAC_ENTRY(235, -8, 82, -10, 87, -11, 92, -1, 74),
++	CABAC_ENTRY(236, -17, 102, -34, 127, -29, 127, -9, 91),
++	CABAC_ENTRY(237, -9, 77, -21, 101, -21, 100, -5, 67),
++	CABAC_ENTRY(238, 3, 24, -3, 39, -14, 57, -5, 27),
++	CABAC_ENTRY(239, 0, 42, -5, 53, -12, 67, -3, 39),
++	CABAC_ENTRY(240, 0, 48, -7, 61, -11, 71, -2, 44),
++	CABAC_ENTRY(241, 0, 55, -11, 75, -10, 77, 0, 46),
++	CABAC_ENTRY(242, -6, 59, -15, 77, -21, 85, -16, 64),
++	CABAC_ENTRY(243, -7, 71, -17, 91, -16, 88, -8, 68),
++	CABAC_ENTRY(244, -12, 83, -25, 107, -23, 104, -10, 78),
++	CABAC_ENTRY(245, -11, 87, -25, 111, -15, 98, -6, 77),
++	CABAC_ENTRY(246, -30, 119, -28, 122, -37, 127, -10, 86),
++	CABAC_ENTRY(247, 1, 58, -11, 76, -10, 82, -12, 92),
++	CABAC_ENTRY(248, -3, 29, -10, 44, -8, 48, -15, 55),
++	CABAC_ENTRY(249, -1, 36, -10, 52, -8, 61, -10, 60),
++	CABAC_ENTRY(250, 1, 38, -10, 57, -8, 66, -6, 62),
++	CABAC_ENTRY(251, 2, 43, -9, 58, -7, 70, -4, 65),
++	CABAC_ENTRY(252, -6, 55, -16, 72, -14, 75, -12, 73),
++	CABAC_ENTRY(253, 0, 58, -7, 69, -10, 79, -8, 76),
++	CABAC_ENTRY(254, 0, 64, -4, 69, -9, 83, -7, 80),
++	CABAC_ENTRY(255, -3, 74, -5, 74, -12, 92, -9, 88),
++	CABAC_ENTRY(256, -10, 90, -9, 86, -18, 108, -17, 110),
++	CABAC_ENTRY(257, 0, 70, 2, 66, -4, 79, -11, 97),
++	CABAC_ENTRY(258, -4, 29, -9, 34, -22, 69, -20, 84),
++	CABAC_ENTRY(259, 5, 31, 1, 32, -16, 75, -11, 79),
++	CABAC_ENTRY(260, 7, 42, 11, 31, -2, 58, -6, 73),
++	CABAC_ENTRY(261, 1, 59, 5, 52, 1, 58, -4, 74),
++	CABAC_ENTRY(262, -2, 58, -2, 55, -13, 78, -13, 86),
++	CABAC_ENTRY(263, -3, 72, -2, 67, -9, 83, -13, 96),
++	CABAC_ENTRY(264, -3, 81, 0, 73, -4, 81, -11, 97),
++	CABAC_ENTRY(265, -11, 97, -8, 89, -13, 99, -19, 117),
++	CABAC_ENTRY(266, 0, 58, 3, 52, -13, 81, -8, 78),
++	CABAC_ENTRY(267, 8, 5, 7, 4, -6, 38, -5, 33),
++	CABAC_ENTRY(268, 10, 14, 10, 8, -13, 62, -4, 48),
++	CABAC_ENTRY(269, 14, 18, 17, 8, -6, 58, -2, 53),
++	CABAC_ENTRY(270, 13, 27, 16, 19, -2, 59, -3, 62),
++	CABAC_ENTRY(271, 2, 40, 3, 37, -16, 73, -13, 71),
++	CABAC_ENTRY(272, 0, 58, -1, 61, -10, 76, -10, 79),
++	CABAC_ENTRY(273, -3, 70, -5, 73, -13, 86, -12, 86),
++	CABAC_ENTRY(274, -6, 79, -1, 70, -9, 83, -13, 90),
++	CABAC_ENTRY(275, -8, 85, -4, 78, -10, 87, -14, 97),
++
++	/* Table 9-22 – Values of variables m and n for ctxIdx from 277 to 337 */
++	CABAC_ENTRY(277, -13, 106, -21, 126, -22, 127, -6, 93),
++	CABAC_ENTRY(278, -16, 106, -23, 124, -25, 127, -6, 84),
++	CABAC_ENTRY(279, -10, 87, -20, 110, -25, 120, -8, 79),
++	CABAC_ENTRY(280, -21, 114, -26, 126, -27, 127, 0, 66),
++	CABAC_ENTRY(281, -18, 110, -25, 124, -19, 114, -1, 71),
++	CABAC_ENTRY(282, -14, 98, -17, 105, -23, 117, 0, 62),
++	CABAC_ENTRY(283, -22, 110, -27, 121, -25, 118, -2, 60),
++	CABAC_ENTRY(284, -21, 106, -27, 117, -26, 117, -2, 59),
++	CABAC_ENTRY(285, -18, 103, -17, 102, -24, 113, -5, 75),
++	CABAC_ENTRY(286, -21, 107, -26, 117, -28, 118, -3, 62),
++	CABAC_ENTRY(287, -23, 108, -27, 116, -31, 120, -4, 58),
++	CABAC_ENTRY(288, -26, 112, -33, 122, -37, 124, -9, 66),
++	CABAC_ENTRY(289, -10, 96, -10, 95, -10, 94, -1, 79),
++	CABAC_ENTRY(290, -12, 95, -14, 100, -15, 102, 0, 71),
++	CABAC_ENTRY(291, -5, 91, -8, 95, -10, 99, 3, 68),
++	CABAC_ENTRY(292, -9, 93, -17, 111, -13, 106, 10, 44),
++	CABAC_ENTRY(293, -22, 94, -28, 114, -50, 127, -7, 62),
++	CABAC_ENTRY(294, -5, 86, -6, 89, -5, 92, 15, 36),
++	CABAC_ENTRY(295, 9, 67, -2, 80, 17, 57, 14, 40),
++	CABAC_ENTRY(296, -4, 80, -4, 82, -5, 86, 16, 27),
++	CABAC_ENTRY(297, -10, 85, -9, 85, -13, 94, 12, 29),
++	CABAC_ENTRY(298, -1, 70, -8, 81, -12, 91, 1, 44),
++	CABAC_ENTRY(299, 7, 60, -1, 72, -2, 77, 20, 36),
++	CABAC_ENTRY(300, 9, 58, 5, 64, 0, 71, 18, 32),
++	CABAC_ENTRY(301, 5, 61, 1, 67, -1, 73, 5, 42),
++	CABAC_ENTRY(302, 12, 50, 9, 56, 4, 64, 1, 48),
++	CABAC_ENTRY(303, 15, 50, 0, 69, -7, 81, 10, 62),
++	CABAC_ENTRY(304, 18, 49, 1, 69, 5, 64, 17, 46),
++	CABAC_ENTRY(305, 17, 54, 7, 69, 15, 57, 9, 64),
++	CABAC_ENTRY(306, 10, 41, -7, 69, 1, 67, -12, 104),
++	CABAC_ENTRY(307, 7, 46, -6, 67, 0, 68, -11, 97),
++	CABAC_ENTRY(308, -1, 51, -16, 77, -10, 67, -16, 96),
++	CABAC_ENTRY(309, 7, 49, -2, 64, 1, 68, -7, 88),
++	CABAC_ENTRY(310, 8, 52, 2, 61, 0, 77, -8, 85),
++	CABAC_ENTRY(311, 9, 41, -6, 67, 2, 64, -7, 85),
++	CABAC_ENTRY(312, 6, 47, -3, 64, 0, 68, -9, 85),
++	CABAC_ENTRY(313, 2, 55, 2, 57, -5, 78, -13, 88),
++	CABAC_ENTRY(314, 13, 41, -3, 65, 7, 55, 4, 66),
++	CABAC_ENTRY(315, 10, 44, -3, 66, 5, 59, -3, 77),
++	CABAC_ENTRY(316, 6, 50, 0, 62, 2, 65, -3, 76),
++	CABAC_ENTRY(317, 5, 53, 9, 51, 14, 54, -6, 76),
++	CABAC_ENTRY(318, 13, 49, -1, 66, 15, 44, 10, 58),
++	CABAC_ENTRY(319, 4, 63, -2, 71, 5, 60, -1, 76),
++	CABAC_ENTRY(320, 6, 64, -2, 75, 2, 70, -1, 83),
++	CABAC_ENTRY(321, -2, 69, -1, 70, -2, 76, -7, 99),
++	CABAC_ENTRY(322, -2, 59, -9, 72, -18, 86, -14, 95),
++	CABAC_ENTRY(323, 6, 70, 14, 60, 12, 70, 2, 95),
++	CABAC_ENTRY(324, 10, 44, 16, 37, 5, 64, 0, 76),
++	CABAC_ENTRY(325, 9, 31, 0, 47, -12, 70, -5, 74),
++	CABAC_ENTRY(326, 12, 43, 18, 35, 11, 55, 0, 70),
++	CABAC_ENTRY(327, 3, 53, 11, 37, 5, 56, -11, 75),
++	CABAC_ENTRY(328, 14, 34, 12, 41, 0, 69, 1, 68),
++	CABAC_ENTRY(329, 10, 38, 10, 41, 2, 65, 0, 65),
++	CABAC_ENTRY(330, -3, 52, 2, 48, -6, 74, -14, 73),
++	CABAC_ENTRY(331, 13, 40, 12, 41, 5, 54, 3, 62),
++	CABAC_ENTRY(332, 17, 32, 13, 41, 7, 54, 4, 62),
++	CABAC_ENTRY(333, 7, 44, 0, 59, -6, 76, -1, 68),
++	CABAC_ENTRY(334, 7, 38, 3, 50, -11, 82, -13, 75),
++	CABAC_ENTRY(335, 13, 50, 19, 40, -2, 77, 11, 55),
++	CABAC_ENTRY(336, 10, 57, 3, 66, -2, 77, 5, 64),
++	CABAC_ENTRY(337, 26, 43, 18, 50, 25, 42, 12, 70),
++
++	/* Table 9-23 – Values of variables m and n for ctxIdx from 338 to 398 */
++	CABAC_ENTRY(338, 14, 11, 19, -6, 17, -13, 15, 6),
++	CABAC_ENTRY(339, 11, 14, 18, -6, 16, -9, 6, 19),
++	CABAC_ENTRY(340, 9, 11, 14, 0, 17, -12, 7, 16),
++	CABAC_ENTRY(341, 18, 11, 26, -12, 27, -21, 12, 14),
++	CABAC_ENTRY(342, 21, 9, 31, -16, 37, -30, 18, 13),
++	CABAC_ENTRY(343, 23, -2, 33, -25, 41, -40, 13, 11),
++	CABAC_ENTRY(344, 32, -15, 33, -22, 42, -41, 13, 15),
++	CABAC_ENTRY(345, 32, -15, 37, -28, 48, -47, 15, 16),
++	CABAC_ENTRY(346, 34, -21, 39, -30, 39, -32, 12, 23),
++	CABAC_ENTRY(347, 39, -23, 42, -30, 46, -40, 13, 23),
++	CABAC_ENTRY(348, 42, -33, 47, -42, 52, -51, 15, 20),
++	CABAC_ENTRY(349, 41, -31, 45, -36, 46, -41, 14, 26),
++	CABAC_ENTRY(350, 46, -28, 49, -34, 52, -39, 14, 44),
++	CABAC_ENTRY(351, 38, -12, 41, -17, 43, -19, 17, 40),
++	CABAC_ENTRY(352, 21, 29, 32, 9, 32, 11, 17, 47),
++	CABAC_ENTRY(353, 45, -24, 69, -71, 61, -55, 24, 17),
++	CABAC_ENTRY(354, 53, -45, 63, -63, 56, -46, 21, 21),
++	CABAC_ENTRY(355, 48, -26, 66, -64, 62, -50, 25, 22),
++	CABAC_ENTRY(356, 65, -43, 77, -74, 81, -67, 31, 27),
++	CABAC_ENTRY(357, 43, -19, 54, -39, 45, -20, 22, 29),
++	CABAC_ENTRY(358, 39, -10, 52, -35, 35, -2, 19, 35),
++	CABAC_ENTRY(359, 30, 9, 41, -10, 28, 15, 14, 50),
++	CABAC_ENTRY(360, 18, 26, 36, 0, 34, 1, 10, 57),
++	CABAC_ENTRY(361, 20, 27, 40, -1, 39, 1, 7, 63),
++	CABAC_ENTRY(362, 0, 57, 30, 14, 30, 17, -2, 77),
++	CABAC_ENTRY(363, -14, 82, 28, 26, 20, 38, -4, 82),
++	CABAC_ENTRY(364, -5, 75, 23, 37, 18, 45, -3, 94),
++	CABAC_ENTRY(365, -19, 97, 12, 55, 15, 54, 9, 69),
++	CABAC_ENTRY(366, -35, 125, 11, 65, 0, 79, -12, 109),
++	CABAC_ENTRY(367, 27, 0, 37, -33, 36, -16, 36, -35),
++	CABAC_ENTRY(368, 28, 0, 39, -36, 37, -14, 36, -34),
++	CABAC_ENTRY(369, 31, -4, 40, -37, 37, -17, 32, -26),
++	CABAC_ENTRY(370, 27, 6, 38, -30, 32, 1, 37, -30),
++	CABAC_ENTRY(371, 34, 8, 46, -33, 34, 15, 44, -32),
++	CABAC_ENTRY(372, 30, 10, 42, -30, 29, 15, 34, -18),
++	CABAC_ENTRY(373, 24, 22, 40, -24, 24, 25, 34, -15),
++	CABAC_ENTRY(374, 33, 19, 49, -29, 34, 22, 40, -15),
++	CABAC_ENTRY(375, 22, 32, 38, -12, 31, 16, 33, -7),
++	CABAC_ENTRY(376, 26, 31, 40, -10, 35, 18, 35, -5),
++	CABAC_ENTRY(377, 21, 41, 38, -3, 31, 28, 33, 0),
++	CABAC_ENTRY(378, 26, 44, 46, -5, 33, 41, 38, 2),
++	CABAC_ENTRY(379, 23, 47, 31, 20, 36, 28, 33, 13),
++	CABAC_ENTRY(380, 16, 65, 29, 30, 27, 47, 23, 35),
++	CABAC_ENTRY(381, 14, 71, 25, 44, 21, 62, 13, 58),
++	CABAC_ENTRY(382, 8, 60, 12, 48, 18, 31, 29, -3),
++	CABAC_ENTRY(383, 6, 63, 11, 49, 19, 26, 26, 0),
++	CABAC_ENTRY(384, 17, 65, 26, 45, 36, 24, 22, 30),
++	CABAC_ENTRY(385, 21, 24, 22, 22, 24, 23, 31, -7),
++	CABAC_ENTRY(386, 23, 20, 23, 22, 27, 16, 35, -15),
++	CABAC_ENTRY(387, 26, 23, 27, 21, 24, 30, 34, -3),
++	CABAC_ENTRY(388, 27, 32, 33, 20, 31, 29, 34, 3),
++	CABAC_ENTRY(389, 28, 23, 26, 28, 22, 41, 36, -1),
++	CABAC_ENTRY(390, 28, 24, 30, 24, 22, 42, 34, 5),
++	CABAC_ENTRY(391, 23, 40, 27, 34, 16, 60, 32, 11),
++	CABAC_ENTRY(392, 24, 32, 18, 42, 15, 52, 35, 5),
++	CABAC_ENTRY(393, 28, 29, 25, 39, 14, 60, 34, 12),
++	CABAC_ENTRY(394, 23, 42, 18, 50, 3, 78, 39, 11),
++	CABAC_ENTRY(395, 19, 57, 12, 70, -16, 123, 30, 29),
++	CABAC_ENTRY(396, 22, 53, 21, 54, 21, 53, 34, 26),
++	CABAC_ENTRY(397, 22, 61, 14, 71, 22, 56, 29, 39),
++	CABAC_ENTRY(398, 11, 86, 11, 83, 25, 61, 19, 66),
++
++	/* Values of variables m and n for ctxIdx from 399 to 463 (not documented) */
++	CABAC_ENTRY(399, 12, 40, 25, 32, 21, 33, 31, 21),
++	CABAC_ENTRY(400, 11, 51, 21, 49, 19, 50, 31, 31),
++	CABAC_ENTRY(401, 14, 59, 21, 54, 17, 61, 25, 50),
++	CABAC_ENTRY(402, -4, 79, -5, 85, -3, 78, -17, 120),
++	CABAC_ENTRY(403, -7, 71, -6, 81, -8, 74, -20, 112),
++	CABAC_ENTRY(404, -5, 69, -10, 77, -9, 72, -18, 114),
++	CABAC_ENTRY(405, -9, 70, -7, 81, -10, 72, -11, 85),
++	CABAC_ENTRY(406, -8, 66, -17, 80, -18, 75, -15, 92),
++	CABAC_ENTRY(407, -10, 68, -18, 73, -12, 71, -14, 89),
++	CABAC_ENTRY(408, -19, 73, -4, 74, -11, 63, -26, 71),
++	CABAC_ENTRY(409, -12, 69, -10, 83, -5, 70, -15, 81),
++	CABAC_ENTRY(410, -16, 70, -9, 71, -17, 75, -14, 80),
++	CABAC_ENTRY(411, -15, 67, -9, 67, -14, 72, 0, 68),
++	CABAC_ENTRY(412, -20, 62, -1, 61, -16, 67, -14, 70),
++	CABAC_ENTRY(413, -19, 70, -8, 66, -8, 53, -24, 56),
++	CABAC_ENTRY(414, -16, 66, -14, 66, -14, 59, -23, 68),
++	CABAC_ENTRY(415, -22, 65, 0, 59, -9, 52, -24, 50),
++	CABAC_ENTRY(416, -20, 63, 2, 59, -11, 68, -11, 74),
++	CABAC_ENTRY(417, 9, -2, 17, -10, 9, -2, 23, -13),
++	CABAC_ENTRY(418, 26, -9, 32, -13, 30, -10, 26, -13),
++	CABAC_ENTRY(419, 33, -9, 42, -9, 31, -4, 40, -15),
++	CABAC_ENTRY(420, 39, -7, 49, -5, 33, -1, 49, -14),
++	CABAC_ENTRY(421, 41, -2, 53, 0, 33, 7, 44, 3),
++	CABAC_ENTRY(422, 45, 3, 64, 3, 31, 12, 45, 6),
++	CABAC_ENTRY(423, 49, 9, 68, 10, 37, 23, 44, 34),
++	CABAC_ENTRY(424, 45, 27, 66, 27, 31, 38, 33, 54),
++	CABAC_ENTRY(425, 36, 59, 47, 57, 20, 64, 19, 82),
++	CABAC_ENTRY(426, -6, 66, -5, 71, -9, 71, -3, 75),
++	CABAC_ENTRY(427, -7, 35, 0, 24, -7, 37, -1, 23),
++	CABAC_ENTRY(428, -7, 42, -1, 36, -8, 44, 1, 34),
++	CABAC_ENTRY(429, -8, 45, -2, 42, -11, 49, 1, 43),
++	CABAC_ENTRY(430, -5, 48, -2, 52, -10, 56, 0, 54),
++	CABAC_ENTRY(431, -12, 56, -9, 57, -12, 59, -2, 55),
++	CABAC_ENTRY(432, -6, 60, -6, 63, -8, 63, 0, 61),
++	CABAC_ENTRY(433, -5, 62, -4, 65, -9, 67, 1, 64),
++	CABAC_ENTRY(434, -8, 66, -4, 67, -6, 68, 0, 68),
++	CABAC_ENTRY(435, -8, 76, -7, 82, -10, 79, -9, 92),
++	CABAC_ENTRY(436, -5, 85, -3, 81, -3, 78, -14, 106),
++	CABAC_ENTRY(437, -6, 81, -3, 76, -8, 74, -13, 97),
++	CABAC_ENTRY(438, -10, 77, -7, 72, -9, 72, -15, 90),
++	CABAC_ENTRY(439, -7, 81, -6, 78, -10, 72, -12, 90),
++	CABAC_ENTRY(440, -17, 80, -12, 72, -18, 75, -18, 88),
++	CABAC_ENTRY(441, -18, 73, -14, 68, -12, 71, -10, 73),
++	CABAC_ENTRY(442, -4, 74, -3, 70, -11, 63, -9, 79),
++	CABAC_ENTRY(443, -10, 83, -6, 76, -5, 70, -14, 86),
++	CABAC_ENTRY(444, -9, 71, -5, 66, -17, 75, -10, 73),
++	CABAC_ENTRY(445, -9, 67, -5, 62, -14, 72, -10, 70),
++	CABAC_ENTRY(446, -1, 61, 0, 57, -16, 67, -10, 69),
++	CABAC_ENTRY(447, -8, 66, -4, 61, -8, 53, -5, 66),
++	CABAC_ENTRY(448, -14, 66, -9, 60, -14, 59, -9, 64),
++	CABAC_ENTRY(449, 0, 59, 1, 54, -9, 52, -5, 58),
++	CABAC_ENTRY(450, 2, 59, 2, 58, -11, 68, 2, 59),
++	CABAC_ENTRY(451, 21, -13, 17, -10, 9, -2, 21, -10),
++	CABAC_ENTRY(452, 33, -14, 32, -13, 30, -10, 24, -11),
++	CABAC_ENTRY(453, 39, -7, 42, -9, 31, -4, 28, -8),
++	CABAC_ENTRY(454, 46, -2, 49, -5, 33, -1, 28, -1),
++	CABAC_ENTRY(455, 51, 2, 53, 0, 33, 7, 29, 3),
++	CABAC_ENTRY(456, 60, 6, 64, 3, 31, 12, 29, 9),
++	CABAC_ENTRY(457, 61, 17, 68, 10, 37, 23, 35, 20),
++	CABAC_ENTRY(458, 55, 34, 66, 27, 31, 38, 29, 36),
++	CABAC_ENTRY(459, 42, 62, 47, 57, 20, 64, 14, 67),
 +};
 +
-+struct rkvdec_h264_regs {
-+	struct ref_base ref0_14_base[15];
-+	u32 ref0_14_poc[15];
 +
-+	u32 cur_poc;
-+	u32 rlcwrite_base;
-+	u32 pps_base;
-+	u32 rps_base;
-+
-+	u32 strmd_error_e;
-+
-+	struct {
-+		u32 strmd_error_status		: 28;
-+		u32 colmv_error_ref_picidx	: 4;
-+	} reg45;
-+
-+	struct {
-+		u32 strmd_error_ctu_xoffset	: 8;
-+		u32 strmd_error_ctu_yoffset	: 8;
-+		u32 streamfifo_space2full	: 7;
-+		u32 reserved0			: 1;
-+		u32 vp9_error_ctu0_en		: 1;
-+		u32 reserved1			: 7;
-+	} reg46;
-+
-+	struct {
-+		u32 saowr_xoffet	: 9;
-+		u32 reserved0		: 7;
-+		u32 saowr_yoffset	: 10;
-+		u32 reserved1		: 6;
-+	} reg47;
-+
-+	struct ref_base ref15_base;
-+
-+	u32 ref15_29_poc[15];
-+
-+	u32 performance_cycle;
-+	u32 axi_ddr_rdata;
-+	u32 axi_ddr_wdata;
-+
-+	struct {
-+		u32 busifd_resetn	: 1;
-+		u32 cabac_resetn	: 1;
-+		u32 dec_ctrl_resetn	: 1;
-+		u32 transd_resetn	: 1;
-+		u32 intra_resetn	: 1;
-+		u32 inter_resetn	: 1;
-+		u32 recon_resetn	: 1;
-+		u32 filer_resetn	: 1;
-+		u32 reserved0		: 24;
-+	} reg67;
-+
-+	struct {
-+		u32 perf_cnt0_sel	: 6;
-+		u32 reserved0		: 2;
-+		u32 perf_cnt1_sel	: 6;
-+		u32 reserved1		: 2;
-+		u32 perf_cnt2_sel	: 6;
-+		u32 reserved2		: 10;
-+	} reg68;
-+
-+	u32 perf_cnt0;
-+	u32 perf_cnt1;
-+	u32 perf_cnt2;
-+	u32 ref30_poc;
-+	u32 ref31_poc;
-+	u32 cur_poc1;
-+	u32 errorinfo_base;
-+
-+	struct {
-+		u32 slicedec_num		: 14;
-+		u32 reserved0			: 1;
-+		u32 strmd_detect_error_flag	: 1;
-+		u32 error_packet_num		: 14;
-+		u32 reserved1			: 2;
-+	} reg76;
-+
-+	struct {
-+		u32 error_en_highbits	: 30;
-+		u32 reserved		: 2;
-+	} reg77;
-+} __packed;
-+
-+struct rkvdec_vp9_regs {
-+	struct cprheader_offset {
-+		u32 cprheader_offset	: 16;
-+		u32 reserved		: 16;
-+	} reg10;
-+
-+	u32 refer_bases[3];
-+	u32 count_base;
-+	u32 segidlast_base;
-+	u32 segidcur_base;
-+
-+	struct frame_sizes {
-+		u32 framewidth		: 16;
-+		u32 frameheight		: 16;
-+	} reg17_19[3];
-+
-+	struct segid_grp {
-+		u32 segid_abs_delta			: 1;
-+		u32 segid_frame_qp_delta_en		: 1;
-+		u32 segid_frame_qp_delta		: 9;
-+		u32 segid_frame_loopfilter_value_en	: 1;
-+		u32 segid_frame_loopfilter_value	: 7;
-+		u32 segid_referinfo_en			: 1;
-+		u32 segid_referinfo			: 2;
-+		u32 segid_frame_skip_en			: 1;
-+		u32 reserved				: 9;
-+	} reg20_27[8];
-+
-+	struct cprheader_config {
-+		u32 tx_mode			: 3;
-+		u32 frame_reference_mode	: 2;
-+		u32 reserved			: 27;
-+	} reg28;
-+
-+	struct ref_scale {
-+		u32 ref_hor_scale		: 16;
-+		u32 ref_ver_scale		: 16;
-+	} reg29_31[3];
-+
-+	struct ref_deltas_lastframe {
-+		u32 ref_deltas_lastframe0	: 7;
-+		u32 ref_deltas_lastframe1	: 7;
-+		u32 ref_deltas_lastframe2	: 7;
-+		u32 ref_deltas_lastframe3	: 7;
-+		u32 reserved			: 4;
-+	} reg32;
-+
-+	struct info_lastframe {
-+		u32 mode_deltas_lastframe0		: 7;
-+		u32 mode_deltas_lastframe1		: 7;
-+		u32 reserved0				: 2;
-+		u32 segmentation_enable_lstframe	: 1;
-+		u32 last_show_frame			: 1;
-+		u32 last_intra_only			: 1;
-+		u32 last_widthheight_eqcur		: 1;
-+		u32 color_space_lastkeyframe		: 3;
-+		u32 reserved1				: 9;
-+	} reg33;
-+
-+	u32 intercmd_base;
-+
-+	struct intercmd_num {
-+		u32 intercmd_num	: 24;
-+		u32 reserved		: 8;
-+	} reg35;
-+
-+	struct lasttile_size {
-+		u32 lasttile_size	: 24;
-+		u32 reserved		: 8;
-+	} reg36;
-+
-+	struct hor_virstride {
-+		u32 y_hor_virstride	: 9;
-+		u32 reserved0		: 7;
-+		u32 uv_hor_virstride	: 9;
-+		u32 reserved1		: 7;
-+	} reg37_39[3];
-+
-+	u32 cur_poc;
-+
-+	struct rlcwrite_base {
-+		u32 reserved		: 3;
-+		u32 rlcwrite_base	: 29;
-+	} reg41;
-+
-+	struct pps_base {
-+		u32 reserved	: 4;
-+		u32 pps_base	: 28;
-+	} reg42;
-+
-+	struct rps_base {
-+		u32 reserved	: 4;
-+		u32 rps_base	: 28;
-+	} reg43;
-+
-+	struct strmd_error_en {
-+		u32 strmd_error_e	: 28;
-+		u32 reserved		: 4;
-+	} reg44;
-+
-+	u32 vp9_error_info0;
-+
-+	struct strmd_error_ctu {
-+		u32 strmd_error_ctu_xoffset	: 8;
-+		u32 strmd_error_ctu_yoffset	: 8;
-+		u32 streamfifo_space2full	: 7;
-+		u32 reserved0			: 1;
-+		u32 error_ctu0_en		: 1;
-+		u32 reserved1			: 7;
-+	} reg46;
-+
-+	struct sao_ctu_position {
-+		u32 saowr_xoffet	: 9;
-+		u32 reserved0		: 7;
-+		u32 saowr_yoffset	: 10;
-+		u32 reserved1		: 6;
-+	} reg47;
-+
-+	struct ystride {
-+		u32 virstride	: 20;
-+		u32 reserved	: 12;
-+	} reg48_50[3];
-+
-+	struct lastref_yuvstride {
-+		u32 lastref_yuv_virstride	: 21;
-+		u32 reserved			: 11;
-+	} reg51;
-+
-+	u32 refcolmv_base;
-+
-+	u32 reserved0[11];
-+
-+	u32 performance_cycle;
-+	u32 axi_ddr_rdata;
-+	u32 axi_ddr_wdata;
-+
-+	struct fpgadebug_reset {
-+		u32 busifd_resetn	: 1;
-+		u32 cabac_resetn	: 1;
-+		u32 dec_ctrl_resetn	: 1;
-+		u32 transd_resetn	: 1;
-+		u32 intra_resetn	: 1;
-+		u32 inter_resetn	: 1;
-+		u32 recon_resetn	: 1;
-+		u32 filer_resetn	: 1;
-+		u32 reserved		: 24;
-+	} reg67;
-+
-+	struct performance_sel {
-+		u32 perf_cnt0_sel	: 6;
-+		u32 reserved0		: 2;
-+		u32 perf_cnt1_sel	: 6;
-+		u32 reserved1		: 2;
-+		u32 perf_cnt2_sel	: 6;
-+		u32 reserved		: 10;
-+	} reg68;
-+
-+	u32 perf_cnt0;
-+	u32 perf_cnt1;
-+	u32 perf_cnt2;
-+
-+	u32 reserved1[3];
-+
-+	u32 vp9_error_info1;
-+
-+	struct error_ctu1 {
-+		u32 vp9_error_ctu1_x	: 6;
-+		u32 reserved0		: 2;
-+		u32 vp9_error_ctu1_y	: 6;
-+		u32 reserved1		: 1;
-+		u32 vp9_error_ctu1_en	: 1;
-+		u32 reserved2		: 16;
-+	} reg76;
-+
-+	u32 reserved2;
-+} __packed;
-+
-+struct rkvdec_regs {
-+	struct rkvdec_common_regs common;
-+	union {
-+		struct rkvdec_h264_regs h264;
-+		struct rkvdec_vp9_regs  vp9;
-+	};
-+} __packed;
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c
+index c17428eb2cb43..cfe849cc93cb3 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c
+@@ -15,6 +15,8 @@
+ #include "rkvdec.h"
+ #include "rkvdec-regs.h"
  
- #endif /* RKVDEC_REGS_H_ */
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
-index 0e7e16f20eeb0..6f81ddab229e9 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
-@@ -163,6 +163,7 @@ struct rkvdec_vp9_ctx {
- 	struct v4l2_vp9_frame_context frame_context[4];
- 	struct rkvdec_vp9_frame_info cur;
- 	struct rkvdec_vp9_frame_info last;
-+	struct rkvdec_regs regs;
++extern const s8 rkvdec_h264_cabac_table[4][464][2];
++
+ /* Size with u32 units. */
+ #define RKV_CABAC_INIT_BUFFER_SIZE	(3680 + 128)
+ #define RKV_RPS_SIZE			((128 + 128) / 4)
+@@ -118,505 +120,6 @@ struct rkvdec_h264_ctx {
+ 	struct rkvdec_regs regs;
  };
  
- static void write_coeff_plane(const u8 coef[6][6][3], u8 *coeff_plane)
-@@ -347,38 +348,6 @@ static void init_probs(struct rkvdec_ctx *ctx,
- 		init_inter_probs(ctx, run);
- }
- 
--struct rkvdec_vp9_ref_reg {
--	u32 reg_frm_size;
--	u32 reg_hor_stride;
--	u32 reg_y_stride;
--	u32 reg_yuv_stride;
--	u32 reg_ref_base;
+-#define CABAC_ENTRY(ctxidx, idc0_m, idc0_n, idc1_m, idc1_n,		\
+-	    idc2_m, idc2_n, intra_m, intra_n)			\
+-	[0][(ctxidx)] = {idc0_m, idc0_n},			\
+-	[1][(ctxidx)] = {idc1_m, idc1_n},			\
+-	[2][(ctxidx)] = {idc2_m, idc2_n},			\
+-	[3][(ctxidx)] = {intra_m, intra_n}
+-
+-/*
+- * Constant CABAC table.
+- * Built from the tables described in section '9.3.1.1 Initialisation process
+- * for context variables' of the H264 spec.
+- */
+-static const s8 rkvdec_h264_cabac_table[4][464][2] = {
+-	/* Table 9-12 – Values of variables m and n for ctxIdx from 0 to 10 */
+-	CABAC_ENTRY(0, 20, -15, 20, -15, 20, -15, 20, -15),
+-	CABAC_ENTRY(1, 2, 54, 2, 54, 2, 54, 2, 54),
+-	CABAC_ENTRY(2, 3, 74, 3, 74, 3, 74, 3, 74),
+-	CABAC_ENTRY(3, 20, -15, 20, -15, 20, -15, 20, -15),
+-	CABAC_ENTRY(4, 2, 54, 2, 54, 2, 54, 2, 54),
+-	CABAC_ENTRY(5, 3, 74, 3, 74, 3, 74, 3, 74),
+-	CABAC_ENTRY(6, -28, 127, -28, 127, -28, 127, -28, 127),
+-	CABAC_ENTRY(7, -23, 104, -23, 104, -23, 104, -23, 104),
+-	CABAC_ENTRY(8, -6, 53, -6, 53, -6, 53, -6, 53),
+-	CABAC_ENTRY(9, -1, 54, -1, 54, -1, 54, -1, 54),
+-	CABAC_ENTRY(10, 7, 51, 7, 51, 7, 51, 7, 51),
+-
+-	/* Table 9-13 – Values of variables m and n for ctxIdx from 11 to 23 */
+-	CABAC_ENTRY(11, 23, 33, 22, 25, 29, 16, 0, 0),
+-	CABAC_ENTRY(12, 23, 2, 34, 0, 25, 0, 0, 0),
+-	CABAC_ENTRY(13, 21, 0, 16, 0, 14, 0, 0, 0),
+-	CABAC_ENTRY(14, 1, 9, -2, 9, -10, 51, 0, 0),
+-	CABAC_ENTRY(15, 0, 49, 4, 41, -3, 62, 0, 0),
+-	CABAC_ENTRY(16, -37, 118, -29, 118, -27, 99, 0, 0),
+-	CABAC_ENTRY(17, 5, 57, 2, 65, 26, 16, 0, 0),
+-	CABAC_ENTRY(18, -13, 78, -6, 71, -4, 85, 0, 0),
+-	CABAC_ENTRY(19, -11, 65, -13, 79, -24, 102, 0, 0),
+-	CABAC_ENTRY(20, 1, 62, 5, 52, 5, 57, 0, 0),
+-	CABAC_ENTRY(21, 12, 49, 9, 50, 6, 57, 0, 0),
+-	CABAC_ENTRY(22, -4, 73, -3, 70, -17, 73, 0, 0),
+-	CABAC_ENTRY(23, 17, 50, 10, 54, 14, 57, 0, 0),
+-
+-	/* Table 9-14 – Values of variables m and n for ctxIdx from 24 to 39 */
+-	CABAC_ENTRY(24, 18, 64, 26, 34, 20, 40, 0, 0),
+-	CABAC_ENTRY(25, 9, 43, 19, 22, 20, 10, 0, 0),
+-	CABAC_ENTRY(26, 29, 0, 40, 0, 29, 0, 0, 0),
+-	CABAC_ENTRY(27, 26, 67, 57, 2, 54, 0, 0, 0),
+-	CABAC_ENTRY(28, 16, 90, 41, 36, 37, 42, 0, 0),
+-	CABAC_ENTRY(29, 9, 104, 26, 69, 12, 97, 0, 0),
+-	CABAC_ENTRY(30, -46, 127, -45, 127, -32, 127, 0, 0),
+-	CABAC_ENTRY(31, -20, 104, -15, 101, -22, 117, 0, 0),
+-	CABAC_ENTRY(32, 1, 67, -4, 76, -2, 74, 0, 0),
+-	CABAC_ENTRY(33, -13, 78, -6, 71, -4, 85, 0, 0),
+-	CABAC_ENTRY(34, -11, 65, -13, 79, -24, 102, 0, 0),
+-	CABAC_ENTRY(35, 1, 62, 5, 52, 5, 57, 0, 0),
+-	CABAC_ENTRY(36, -6, 86, 6, 69, -6, 93, 0, 0),
+-	CABAC_ENTRY(37, -17, 95, -13, 90, -14, 88, 0, 0),
+-	CABAC_ENTRY(38, -6, 61, 0, 52, -6, 44, 0, 0),
+-	CABAC_ENTRY(39, 9, 45, 8, 43, 4, 55, 0, 0),
+-
+-	/* Table 9-15 – Values of variables m and n for ctxIdx from 40 to 53 */
+-	CABAC_ENTRY(40, -3, 69, -2, 69, -11, 89, 0, 0),
+-	CABAC_ENTRY(41, -6, 81, -5, 82, -15, 103, 0, 0),
+-	CABAC_ENTRY(42, -11, 96, -10, 96, -21, 116, 0, 0),
+-	CABAC_ENTRY(43, 6, 55, 2, 59, 19, 57, 0, 0),
+-	CABAC_ENTRY(44, 7, 67, 2, 75, 20, 58, 0, 0),
+-	CABAC_ENTRY(45, -5, 86, -3, 87, 4, 84, 0, 0),
+-	CABAC_ENTRY(46, 2, 88, -3, 100, 6, 96, 0, 0),
+-	CABAC_ENTRY(47, 0, 58, 1, 56, 1, 63, 0, 0),
+-	CABAC_ENTRY(48, -3, 76, -3, 74, -5, 85, 0, 0),
+-	CABAC_ENTRY(49, -10, 94, -6, 85, -13, 106, 0, 0),
+-	CABAC_ENTRY(50, 5, 54, 0, 59, 5, 63, 0, 0),
+-	CABAC_ENTRY(51, 4, 69, -3, 81, 6, 75, 0, 0),
+-	CABAC_ENTRY(52, -3, 81, -7, 86, -3, 90, 0, 0),
+-	CABAC_ENTRY(53, 0, 88, -5, 95, -1, 101, 0, 0),
+-
+-	/* Table 9-16 – Values of variables m and n for ctxIdx from 54 to 59 */
+-	CABAC_ENTRY(54, -7, 67, -1, 66, 3, 55, 0, 0),
+-	CABAC_ENTRY(55, -5, 74, -1, 77, -4, 79, 0, 0),
+-	CABAC_ENTRY(56, -4, 74, 1, 70, -2, 75, 0, 0),
+-	CABAC_ENTRY(57, -5, 80, -2, 86, -12, 97, 0, 0),
+-	CABAC_ENTRY(58, -7, 72, -5, 72, -7, 50, 0, 0),
+-	CABAC_ENTRY(59, 1, 58, 0, 61, 1, 60, 0, 0),
+-
+-	/* Table 9-17 – Values of variables m and n for ctxIdx from 60 to 69 */
+-	CABAC_ENTRY(60, 0, 41, 0, 41, 0, 41, 0, 41),
+-	CABAC_ENTRY(61, 0, 63, 0, 63, 0, 63, 0, 63),
+-	CABAC_ENTRY(62, 0, 63, 0, 63, 0, 63, 0, 63),
+-	CABAC_ENTRY(63, 0, 63, 0, 63, 0, 63, 0, 63),
+-	CABAC_ENTRY(64, -9, 83, -9, 83, -9, 83, -9, 83),
+-	CABAC_ENTRY(65, 4, 86, 4, 86, 4, 86, 4, 86),
+-	CABAC_ENTRY(66, 0, 97, 0, 97, 0, 97, 0, 97),
+-	CABAC_ENTRY(67, -7, 72, -7, 72, -7, 72, -7, 72),
+-	CABAC_ENTRY(68, 13, 41, 13, 41, 13, 41, 13, 41),
+-	CABAC_ENTRY(69, 3, 62, 3, 62, 3, 62, 3, 62),
+-
+-	/* Table 9-18 – Values of variables m and n for ctxIdx from 70 to 104 */
+-	CABAC_ENTRY(70, 0, 45, 13, 15, 7, 34, 0, 11),
+-	CABAC_ENTRY(71, -4, 78, 7, 51, -9, 88, 1, 55),
+-	CABAC_ENTRY(72, -3, 96, 2, 80, -20, 127, 0, 69),
+-	CABAC_ENTRY(73, -27, 126, -39, 127, -36, 127, -17, 127),
+-	CABAC_ENTRY(74, -28, 98, -18, 91, -17, 91, -13, 102),
+-	CABAC_ENTRY(75, -25, 101, -17, 96, -14, 95, 0, 82),
+-	CABAC_ENTRY(76, -23, 67, -26, 81, -25, 84, -7, 74),
+-	CABAC_ENTRY(77, -28, 82, -35, 98, -25, 86, -21, 107),
+-	CABAC_ENTRY(78, -20, 94, -24, 102, -12, 89, -27, 127),
+-	CABAC_ENTRY(79, -16, 83, -23, 97, -17, 91, -31, 127),
+-	CABAC_ENTRY(80, -22, 110, -27, 119, -31, 127, -24, 127),
+-	CABAC_ENTRY(81, -21, 91, -24, 99, -14, 76, -18, 95),
+-	CABAC_ENTRY(82, -18, 102, -21, 110, -18, 103, -27, 127),
+-	CABAC_ENTRY(83, -13, 93, -18, 102, -13, 90, -21, 114),
+-	CABAC_ENTRY(84, -29, 127, -36, 127, -37, 127, -30, 127),
+-	CABAC_ENTRY(85, -7, 92, 0, 80, 11, 80, -17, 123),
+-	CABAC_ENTRY(86, -5, 89, -5, 89, 5, 76, -12, 115),
+-	CABAC_ENTRY(87, -7, 96, -7, 94, 2, 84, -16, 122),
+-	CABAC_ENTRY(88, -13, 108, -4, 92, 5, 78, -11, 115),
+-	CABAC_ENTRY(89, -3, 46, 0, 39, -6, 55, -12, 63),
+-	CABAC_ENTRY(90, -1, 65, 0, 65, 4, 61, -2, 68),
+-	CABAC_ENTRY(91, -1, 57, -15, 84, -14, 83, -15, 84),
+-	CABAC_ENTRY(92, -9, 93, -35, 127, -37, 127, -13, 104),
+-	CABAC_ENTRY(93, -3, 74, -2, 73, -5, 79, -3, 70),
+-	CABAC_ENTRY(94, -9, 92, -12, 104, -11, 104, -8, 93),
+-	CABAC_ENTRY(95, -8, 87, -9, 91, -11, 91, -10, 90),
+-	CABAC_ENTRY(96, -23, 126, -31, 127, -30, 127, -30, 127),
+-	CABAC_ENTRY(97, 5, 54, 3, 55, 0, 65, -1, 74),
+-	CABAC_ENTRY(98, 6, 60, 7, 56, -2, 79, -6, 97),
+-	CABAC_ENTRY(99, 6, 59, 7, 55, 0, 72, -7, 91),
+-	CABAC_ENTRY(100, 6, 69, 8, 61, -4, 92, -20, 127),
+-	CABAC_ENTRY(101, -1, 48, -3, 53, -6, 56, -4, 56),
+-	CABAC_ENTRY(102, 0, 68, 0, 68, 3, 68, -5, 82),
+-	CABAC_ENTRY(103, -4, 69, -7, 74, -8, 71, -7, 76),
+-	CABAC_ENTRY(104, -8, 88, -9, 88, -13, 98, -22, 125),
+-
+-	/* Table 9-19 – Values of variables m and n for ctxIdx from 105 to 165 */
+-	CABAC_ENTRY(105, -2, 85, -13, 103, -4, 86, -7, 93),
+-	CABAC_ENTRY(106, -6, 78, -13, 91, -12, 88, -11, 87),
+-	CABAC_ENTRY(107, -1, 75, -9, 89, -5, 82, -3, 77),
+-	CABAC_ENTRY(108, -7, 77, -14, 92, -3, 72, -5, 71),
+-	CABAC_ENTRY(109, 2, 54, -8, 76, -4, 67, -4, 63),
+-	CABAC_ENTRY(110, 5, 50, -12, 87, -8, 72, -4, 68),
+-	CABAC_ENTRY(111, -3, 68, -23, 110, -16, 89, -12, 84),
+-	CABAC_ENTRY(112, 1, 50, -24, 105, -9, 69, -7, 62),
+-	CABAC_ENTRY(113, 6, 42, -10, 78, -1, 59, -7, 65),
+-	CABAC_ENTRY(114, -4, 81, -20, 112, 5, 66, 8, 61),
+-	CABAC_ENTRY(115, 1, 63, -17, 99, 4, 57, 5, 56),
+-	CABAC_ENTRY(116, -4, 70, -78, 127, -4, 71, -2, 66),
+-	CABAC_ENTRY(117, 0, 67, -70, 127, -2, 71, 1, 64),
+-	CABAC_ENTRY(118, 2, 57, -50, 127, 2, 58, 0, 61),
+-	CABAC_ENTRY(119, -2, 76, -46, 127, -1, 74, -2, 78),
+-	CABAC_ENTRY(120, 11, 35, -4, 66, -4, 44, 1, 50),
+-	CABAC_ENTRY(121, 4, 64, -5, 78, -1, 69, 7, 52),
+-	CABAC_ENTRY(122, 1, 61, -4, 71, 0, 62, 10, 35),
+-	CABAC_ENTRY(123, 11, 35, -8, 72, -7, 51, 0, 44),
+-	CABAC_ENTRY(124, 18, 25, 2, 59, -4, 47, 11, 38),
+-	CABAC_ENTRY(125, 12, 24, -1, 55, -6, 42, 1, 45),
+-	CABAC_ENTRY(126, 13, 29, -7, 70, -3, 41, 0, 46),
+-	CABAC_ENTRY(127, 13, 36, -6, 75, -6, 53, 5, 44),
+-	CABAC_ENTRY(128, -10, 93, -8, 89, 8, 76, 31, 17),
+-	CABAC_ENTRY(129, -7, 73, -34, 119, -9, 78, 1, 51),
+-	CABAC_ENTRY(130, -2, 73, -3, 75, -11, 83, 7, 50),
+-	CABAC_ENTRY(131, 13, 46, 32, 20, 9, 52, 28, 19),
+-	CABAC_ENTRY(132, 9, 49, 30, 22, 0, 67, 16, 33),
+-	CABAC_ENTRY(133, -7, 100, -44, 127, -5, 90, 14, 62),
+-	CABAC_ENTRY(134, 9, 53, 0, 54, 1, 67, -13, 108),
+-	CABAC_ENTRY(135, 2, 53, -5, 61, -15, 72, -15, 100),
+-	CABAC_ENTRY(136, 5, 53, 0, 58, -5, 75, -13, 101),
+-	CABAC_ENTRY(137, -2, 61, -1, 60, -8, 80, -13, 91),
+-	CABAC_ENTRY(138, 0, 56, -3, 61, -21, 83, -12, 94),
+-	CABAC_ENTRY(139, 0, 56, -8, 67, -21, 64, -10, 88),
+-	CABAC_ENTRY(140, -13, 63, -25, 84, -13, 31, -16, 84),
+-	CABAC_ENTRY(141, -5, 60, -14, 74, -25, 64, -10, 86),
+-	CABAC_ENTRY(142, -1, 62, -5, 65, -29, 94, -7, 83),
+-	CABAC_ENTRY(143, 4, 57, 5, 52, 9, 75, -13, 87),
+-	CABAC_ENTRY(144, -6, 69, 2, 57, 17, 63, -19, 94),
+-	CABAC_ENTRY(145, 4, 57, 0, 61, -8, 74, 1, 70),
+-	CABAC_ENTRY(146, 14, 39, -9, 69, -5, 35, 0, 72),
+-	CABAC_ENTRY(147, 4, 51, -11, 70, -2, 27, -5, 74),
+-	CABAC_ENTRY(148, 13, 68, 18, 55, 13, 91, 18, 59),
+-	CABAC_ENTRY(149, 3, 64, -4, 71, 3, 65, -8, 102),
+-	CABAC_ENTRY(150, 1, 61, 0, 58, -7, 69, -15, 100),
+-	CABAC_ENTRY(151, 9, 63, 7, 61, 8, 77, 0, 95),
+-	CABAC_ENTRY(152, 7, 50, 9, 41, -10, 66, -4, 75),
+-	CABAC_ENTRY(153, 16, 39, 18, 25, 3, 62, 2, 72),
+-	CABAC_ENTRY(154, 5, 44, 9, 32, -3, 68, -11, 75),
+-	CABAC_ENTRY(155, 4, 52, 5, 43, -20, 81, -3, 71),
+-	CABAC_ENTRY(156, 11, 48, 9, 47, 0, 30, 15, 46),
+-	CABAC_ENTRY(157, -5, 60, 0, 44, 1, 7, -13, 69),
+-	CABAC_ENTRY(158, -1, 59, 0, 51, -3, 23, 0, 62),
+-	CABAC_ENTRY(159, 0, 59, 2, 46, -21, 74, 0, 65),
+-	CABAC_ENTRY(160, 22, 33, 19, 38, 16, 66, 21, 37),
+-	CABAC_ENTRY(161, 5, 44, -4, 66, -23, 124, -15, 72),
+-	CABAC_ENTRY(162, 14, 43, 15, 38, 17, 37, 9, 57),
+-	CABAC_ENTRY(163, -1, 78, 12, 42, 44, -18, 16, 54),
+-	CABAC_ENTRY(164, 0, 60, 9, 34, 50, -34, 0, 62),
+-	CABAC_ENTRY(165, 9, 69, 0, 89, -22, 127, 12, 72),
+-
+-	/* Table 9-20 – Values of variables m and n for ctxIdx from 166 to 226 */
+-	CABAC_ENTRY(166, 11, 28, 4, 45, 4, 39, 24, 0),
+-	CABAC_ENTRY(167, 2, 40, 10, 28, 0, 42, 15, 9),
+-	CABAC_ENTRY(168, 3, 44, 10, 31, 7, 34, 8, 25),
+-	CABAC_ENTRY(169, 0, 49, 33, -11, 11, 29, 13, 18),
+-	CABAC_ENTRY(170, 0, 46, 52, -43, 8, 31, 15, 9),
+-	CABAC_ENTRY(171, 2, 44, 18, 15, 6, 37, 13, 19),
+-	CABAC_ENTRY(172, 2, 51, 28, 0, 7, 42, 10, 37),
+-	CABAC_ENTRY(173, 0, 47, 35, -22, 3, 40, 12, 18),
+-	CABAC_ENTRY(174, 4, 39, 38, -25, 8, 33, 6, 29),
+-	CABAC_ENTRY(175, 2, 62, 34, 0, 13, 43, 20, 33),
+-	CABAC_ENTRY(176, 6, 46, 39, -18, 13, 36, 15, 30),
+-	CABAC_ENTRY(177, 0, 54, 32, -12, 4, 47, 4, 45),
+-	CABAC_ENTRY(178, 3, 54, 102, -94, 3, 55, 1, 58),
+-	CABAC_ENTRY(179, 2, 58, 0, 0, 2, 58, 0, 62),
+-	CABAC_ENTRY(180, 4, 63, 56, -15, 6, 60, 7, 61),
+-	CABAC_ENTRY(181, 6, 51, 33, -4, 8, 44, 12, 38),
+-	CABAC_ENTRY(182, 6, 57, 29, 10, 11, 44, 11, 45),
+-	CABAC_ENTRY(183, 7, 53, 37, -5, 14, 42, 15, 39),
+-	CABAC_ENTRY(184, 6, 52, 51, -29, 7, 48, 11, 42),
+-	CABAC_ENTRY(185, 6, 55, 39, -9, 4, 56, 13, 44),
+-	CABAC_ENTRY(186, 11, 45, 52, -34, 4, 52, 16, 45),
+-	CABAC_ENTRY(187, 14, 36, 69, -58, 13, 37, 12, 41),
+-	CABAC_ENTRY(188, 8, 53, 67, -63, 9, 49, 10, 49),
+-	CABAC_ENTRY(189, -1, 82, 44, -5, 19, 58, 30, 34),
+-	CABAC_ENTRY(190, 7, 55, 32, 7, 10, 48, 18, 42),
+-	CABAC_ENTRY(191, -3, 78, 55, -29, 12, 45, 10, 55),
+-	CABAC_ENTRY(192, 15, 46, 32, 1, 0, 69, 17, 51),
+-	CABAC_ENTRY(193, 22, 31, 0, 0, 20, 33, 17, 46),
+-	CABAC_ENTRY(194, -1, 84, 27, 36, 8, 63, 0, 89),
+-	CABAC_ENTRY(195, 25, 7, 33, -25, 35, -18, 26, -19),
+-	CABAC_ENTRY(196, 30, -7, 34, -30, 33, -25, 22, -17),
+-	CABAC_ENTRY(197, 28, 3, 36, -28, 28, -3, 26, -17),
+-	CABAC_ENTRY(198, 28, 4, 38, -28, 24, 10, 30, -25),
+-	CABAC_ENTRY(199, 32, 0, 38, -27, 27, 0, 28, -20),
+-	CABAC_ENTRY(200, 34, -1, 34, -18, 34, -14, 33, -23),
+-	CABAC_ENTRY(201, 30, 6, 35, -16, 52, -44, 37, -27),
+-	CABAC_ENTRY(202, 30, 6, 34, -14, 39, -24, 33, -23),
+-	CABAC_ENTRY(203, 32, 9, 32, -8, 19, 17, 40, -28),
+-	CABAC_ENTRY(204, 31, 19, 37, -6, 31, 25, 38, -17),
+-	CABAC_ENTRY(205, 26, 27, 35, 0, 36, 29, 33, -11),
+-	CABAC_ENTRY(206, 26, 30, 30, 10, 24, 33, 40, -15),
+-	CABAC_ENTRY(207, 37, 20, 28, 18, 34, 15, 41, -6),
+-	CABAC_ENTRY(208, 28, 34, 26, 25, 30, 20, 38, 1),
+-	CABAC_ENTRY(209, 17, 70, 29, 41, 22, 73, 41, 17),
+-	CABAC_ENTRY(210, 1, 67, 0, 75, 20, 34, 30, -6),
+-	CABAC_ENTRY(211, 5, 59, 2, 72, 19, 31, 27, 3),
+-	CABAC_ENTRY(212, 9, 67, 8, 77, 27, 44, 26, 22),
+-	CABAC_ENTRY(213, 16, 30, 14, 35, 19, 16, 37, -16),
+-	CABAC_ENTRY(214, 18, 32, 18, 31, 15, 36, 35, -4),
+-	CABAC_ENTRY(215, 18, 35, 17, 35, 15, 36, 38, -8),
+-	CABAC_ENTRY(216, 22, 29, 21, 30, 21, 28, 38, -3),
+-	CABAC_ENTRY(217, 24, 31, 17, 45, 25, 21, 37, 3),
+-	CABAC_ENTRY(218, 23, 38, 20, 42, 30, 20, 38, 5),
+-	CABAC_ENTRY(219, 18, 43, 18, 45, 31, 12, 42, 0),
+-	CABAC_ENTRY(220, 20, 41, 27, 26, 27, 16, 35, 16),
+-	CABAC_ENTRY(221, 11, 63, 16, 54, 24, 42, 39, 22),
+-	CABAC_ENTRY(222, 9, 59, 7, 66, 0, 93, 14, 48),
+-	CABAC_ENTRY(223, 9, 64, 16, 56, 14, 56, 27, 37),
+-	CABAC_ENTRY(224, -1, 94, 11, 73, 15, 57, 21, 60),
+-	CABAC_ENTRY(225, -2, 89, 10, 67, 26, 38, 12, 68),
+-	CABAC_ENTRY(226, -9, 108, -10, 116, -24, 127, 2, 97),
+-
+-	/* Table 9-21 – Values of variables m and n for ctxIdx from 227 to 275 */
+-	CABAC_ENTRY(227, -6, 76, -23, 112, -24, 115, -3, 71),
+-	CABAC_ENTRY(228, -2, 44, -15, 71, -22, 82, -6, 42),
+-	CABAC_ENTRY(229, 0, 45, -7, 61, -9, 62, -5, 50),
+-	CABAC_ENTRY(230, 0, 52, 0, 53, 0, 53, -3, 54),
+-	CABAC_ENTRY(231, -3, 64, -5, 66, 0, 59, -2, 62),
+-	CABAC_ENTRY(232, -2, 59, -11, 77, -14, 85, 0, 58),
+-	CABAC_ENTRY(233, -4, 70, -9, 80, -13, 89, 1, 63),
+-	CABAC_ENTRY(234, -4, 75, -9, 84, -13, 94, -2, 72),
+-	CABAC_ENTRY(235, -8, 82, -10, 87, -11, 92, -1, 74),
+-	CABAC_ENTRY(236, -17, 102, -34, 127, -29, 127, -9, 91),
+-	CABAC_ENTRY(237, -9, 77, -21, 101, -21, 100, -5, 67),
+-	CABAC_ENTRY(238, 3, 24, -3, 39, -14, 57, -5, 27),
+-	CABAC_ENTRY(239, 0, 42, -5, 53, -12, 67, -3, 39),
+-	CABAC_ENTRY(240, 0, 48, -7, 61, -11, 71, -2, 44),
+-	CABAC_ENTRY(241, 0, 55, -11, 75, -10, 77, 0, 46),
+-	CABAC_ENTRY(242, -6, 59, -15, 77, -21, 85, -16, 64),
+-	CABAC_ENTRY(243, -7, 71, -17, 91, -16, 88, -8, 68),
+-	CABAC_ENTRY(244, -12, 83, -25, 107, -23, 104, -10, 78),
+-	CABAC_ENTRY(245, -11, 87, -25, 111, -15, 98, -6, 77),
+-	CABAC_ENTRY(246, -30, 119, -28, 122, -37, 127, -10, 86),
+-	CABAC_ENTRY(247, 1, 58, -11, 76, -10, 82, -12, 92),
+-	CABAC_ENTRY(248, -3, 29, -10, 44, -8, 48, -15, 55),
+-	CABAC_ENTRY(249, -1, 36, -10, 52, -8, 61, -10, 60),
+-	CABAC_ENTRY(250, 1, 38, -10, 57, -8, 66, -6, 62),
+-	CABAC_ENTRY(251, 2, 43, -9, 58, -7, 70, -4, 65),
+-	CABAC_ENTRY(252, -6, 55, -16, 72, -14, 75, -12, 73),
+-	CABAC_ENTRY(253, 0, 58, -7, 69, -10, 79, -8, 76),
+-	CABAC_ENTRY(254, 0, 64, -4, 69, -9, 83, -7, 80),
+-	CABAC_ENTRY(255, -3, 74, -5, 74, -12, 92, -9, 88),
+-	CABAC_ENTRY(256, -10, 90, -9, 86, -18, 108, -17, 110),
+-	CABAC_ENTRY(257, 0, 70, 2, 66, -4, 79, -11, 97),
+-	CABAC_ENTRY(258, -4, 29, -9, 34, -22, 69, -20, 84),
+-	CABAC_ENTRY(259, 5, 31, 1, 32, -16, 75, -11, 79),
+-	CABAC_ENTRY(260, 7, 42, 11, 31, -2, 58, -6, 73),
+-	CABAC_ENTRY(261, 1, 59, 5, 52, 1, 58, -4, 74),
+-	CABAC_ENTRY(262, -2, 58, -2, 55, -13, 78, -13, 86),
+-	CABAC_ENTRY(263, -3, 72, -2, 67, -9, 83, -13, 96),
+-	CABAC_ENTRY(264, -3, 81, 0, 73, -4, 81, -11, 97),
+-	CABAC_ENTRY(265, -11, 97, -8, 89, -13, 99, -19, 117),
+-	CABAC_ENTRY(266, 0, 58, 3, 52, -13, 81, -8, 78),
+-	CABAC_ENTRY(267, 8, 5, 7, 4, -6, 38, -5, 33),
+-	CABAC_ENTRY(268, 10, 14, 10, 8, -13, 62, -4, 48),
+-	CABAC_ENTRY(269, 14, 18, 17, 8, -6, 58, -2, 53),
+-	CABAC_ENTRY(270, 13, 27, 16, 19, -2, 59, -3, 62),
+-	CABAC_ENTRY(271, 2, 40, 3, 37, -16, 73, -13, 71),
+-	CABAC_ENTRY(272, 0, 58, -1, 61, -10, 76, -10, 79),
+-	CABAC_ENTRY(273, -3, 70, -5, 73, -13, 86, -12, 86),
+-	CABAC_ENTRY(274, -6, 79, -1, 70, -9, 83, -13, 90),
+-	CABAC_ENTRY(275, -8, 85, -4, 78, -10, 87, -14, 97),
+-
+-	/* Table 9-22 – Values of variables m and n for ctxIdx from 277 to 337 */
+-	CABAC_ENTRY(277, -13, 106, -21, 126, -22, 127, -6, 93),
+-	CABAC_ENTRY(278, -16, 106, -23, 124, -25, 127, -6, 84),
+-	CABAC_ENTRY(279, -10, 87, -20, 110, -25, 120, -8, 79),
+-	CABAC_ENTRY(280, -21, 114, -26, 126, -27, 127, 0, 66),
+-	CABAC_ENTRY(281, -18, 110, -25, 124, -19, 114, -1, 71),
+-	CABAC_ENTRY(282, -14, 98, -17, 105, -23, 117, 0, 62),
+-	CABAC_ENTRY(283, -22, 110, -27, 121, -25, 118, -2, 60),
+-	CABAC_ENTRY(284, -21, 106, -27, 117, -26, 117, -2, 59),
+-	CABAC_ENTRY(285, -18, 103, -17, 102, -24, 113, -5, 75),
+-	CABAC_ENTRY(286, -21, 107, -26, 117, -28, 118, -3, 62),
+-	CABAC_ENTRY(287, -23, 108, -27, 116, -31, 120, -4, 58),
+-	CABAC_ENTRY(288, -26, 112, -33, 122, -37, 124, -9, 66),
+-	CABAC_ENTRY(289, -10, 96, -10, 95, -10, 94, -1, 79),
+-	CABAC_ENTRY(290, -12, 95, -14, 100, -15, 102, 0, 71),
+-	CABAC_ENTRY(291, -5, 91, -8, 95, -10, 99, 3, 68),
+-	CABAC_ENTRY(292, -9, 93, -17, 111, -13, 106, 10, 44),
+-	CABAC_ENTRY(293, -22, 94, -28, 114, -50, 127, -7, 62),
+-	CABAC_ENTRY(294, -5, 86, -6, 89, -5, 92, 15, 36),
+-	CABAC_ENTRY(295, 9, 67, -2, 80, 17, 57, 14, 40),
+-	CABAC_ENTRY(296, -4, 80, -4, 82, -5, 86, 16, 27),
+-	CABAC_ENTRY(297, -10, 85, -9, 85, -13, 94, 12, 29),
+-	CABAC_ENTRY(298, -1, 70, -8, 81, -12, 91, 1, 44),
+-	CABAC_ENTRY(299, 7, 60, -1, 72, -2, 77, 20, 36),
+-	CABAC_ENTRY(300, 9, 58, 5, 64, 0, 71, 18, 32),
+-	CABAC_ENTRY(301, 5, 61, 1, 67, -1, 73, 5, 42),
+-	CABAC_ENTRY(302, 12, 50, 9, 56, 4, 64, 1, 48),
+-	CABAC_ENTRY(303, 15, 50, 0, 69, -7, 81, 10, 62),
+-	CABAC_ENTRY(304, 18, 49, 1, 69, 5, 64, 17, 46),
+-	CABAC_ENTRY(305, 17, 54, 7, 69, 15, 57, 9, 64),
+-	CABAC_ENTRY(306, 10, 41, -7, 69, 1, 67, -12, 104),
+-	CABAC_ENTRY(307, 7, 46, -6, 67, 0, 68, -11, 97),
+-	CABAC_ENTRY(308, -1, 51, -16, 77, -10, 67, -16, 96),
+-	CABAC_ENTRY(309, 7, 49, -2, 64, 1, 68, -7, 88),
+-	CABAC_ENTRY(310, 8, 52, 2, 61, 0, 77, -8, 85),
+-	CABAC_ENTRY(311, 9, 41, -6, 67, 2, 64, -7, 85),
+-	CABAC_ENTRY(312, 6, 47, -3, 64, 0, 68, -9, 85),
+-	CABAC_ENTRY(313, 2, 55, 2, 57, -5, 78, -13, 88),
+-	CABAC_ENTRY(314, 13, 41, -3, 65, 7, 55, 4, 66),
+-	CABAC_ENTRY(315, 10, 44, -3, 66, 5, 59, -3, 77),
+-	CABAC_ENTRY(316, 6, 50, 0, 62, 2, 65, -3, 76),
+-	CABAC_ENTRY(317, 5, 53, 9, 51, 14, 54, -6, 76),
+-	CABAC_ENTRY(318, 13, 49, -1, 66, 15, 44, 10, 58),
+-	CABAC_ENTRY(319, 4, 63, -2, 71, 5, 60, -1, 76),
+-	CABAC_ENTRY(320, 6, 64, -2, 75, 2, 70, -1, 83),
+-	CABAC_ENTRY(321, -2, 69, -1, 70, -2, 76, -7, 99),
+-	CABAC_ENTRY(322, -2, 59, -9, 72, -18, 86, -14, 95),
+-	CABAC_ENTRY(323, 6, 70, 14, 60, 12, 70, 2, 95),
+-	CABAC_ENTRY(324, 10, 44, 16, 37, 5, 64, 0, 76),
+-	CABAC_ENTRY(325, 9, 31, 0, 47, -12, 70, -5, 74),
+-	CABAC_ENTRY(326, 12, 43, 18, 35, 11, 55, 0, 70),
+-	CABAC_ENTRY(327, 3, 53, 11, 37, 5, 56, -11, 75),
+-	CABAC_ENTRY(328, 14, 34, 12, 41, 0, 69, 1, 68),
+-	CABAC_ENTRY(329, 10, 38, 10, 41, 2, 65, 0, 65),
+-	CABAC_ENTRY(330, -3, 52, 2, 48, -6, 74, -14, 73),
+-	CABAC_ENTRY(331, 13, 40, 12, 41, 5, 54, 3, 62),
+-	CABAC_ENTRY(332, 17, 32, 13, 41, 7, 54, 4, 62),
+-	CABAC_ENTRY(333, 7, 44, 0, 59, -6, 76, -1, 68),
+-	CABAC_ENTRY(334, 7, 38, 3, 50, -11, 82, -13, 75),
+-	CABAC_ENTRY(335, 13, 50, 19, 40, -2, 77, 11, 55),
+-	CABAC_ENTRY(336, 10, 57, 3, 66, -2, 77, 5, 64),
+-	CABAC_ENTRY(337, 26, 43, 18, 50, 25, 42, 12, 70),
+-
+-	/* Table 9-23 – Values of variables m and n for ctxIdx from 338 to 398 */
+-	CABAC_ENTRY(338, 14, 11, 19, -6, 17, -13, 15, 6),
+-	CABAC_ENTRY(339, 11, 14, 18, -6, 16, -9, 6, 19),
+-	CABAC_ENTRY(340, 9, 11, 14, 0, 17, -12, 7, 16),
+-	CABAC_ENTRY(341, 18, 11, 26, -12, 27, -21, 12, 14),
+-	CABAC_ENTRY(342, 21, 9, 31, -16, 37, -30, 18, 13),
+-	CABAC_ENTRY(343, 23, -2, 33, -25, 41, -40, 13, 11),
+-	CABAC_ENTRY(344, 32, -15, 33, -22, 42, -41, 13, 15),
+-	CABAC_ENTRY(345, 32, -15, 37, -28, 48, -47, 15, 16),
+-	CABAC_ENTRY(346, 34, -21, 39, -30, 39, -32, 12, 23),
+-	CABAC_ENTRY(347, 39, -23, 42, -30, 46, -40, 13, 23),
+-	CABAC_ENTRY(348, 42, -33, 47, -42, 52, -51, 15, 20),
+-	CABAC_ENTRY(349, 41, -31, 45, -36, 46, -41, 14, 26),
+-	CABAC_ENTRY(350, 46, -28, 49, -34, 52, -39, 14, 44),
+-	CABAC_ENTRY(351, 38, -12, 41, -17, 43, -19, 17, 40),
+-	CABAC_ENTRY(352, 21, 29, 32, 9, 32, 11, 17, 47),
+-	CABAC_ENTRY(353, 45, -24, 69, -71, 61, -55, 24, 17),
+-	CABAC_ENTRY(354, 53, -45, 63, -63, 56, -46, 21, 21),
+-	CABAC_ENTRY(355, 48, -26, 66, -64, 62, -50, 25, 22),
+-	CABAC_ENTRY(356, 65, -43, 77, -74, 81, -67, 31, 27),
+-	CABAC_ENTRY(357, 43, -19, 54, -39, 45, -20, 22, 29),
+-	CABAC_ENTRY(358, 39, -10, 52, -35, 35, -2, 19, 35),
+-	CABAC_ENTRY(359, 30, 9, 41, -10, 28, 15, 14, 50),
+-	CABAC_ENTRY(360, 18, 26, 36, 0, 34, 1, 10, 57),
+-	CABAC_ENTRY(361, 20, 27, 40, -1, 39, 1, 7, 63),
+-	CABAC_ENTRY(362, 0, 57, 30, 14, 30, 17, -2, 77),
+-	CABAC_ENTRY(363, -14, 82, 28, 26, 20, 38, -4, 82),
+-	CABAC_ENTRY(364, -5, 75, 23, 37, 18, 45, -3, 94),
+-	CABAC_ENTRY(365, -19, 97, 12, 55, 15, 54, 9, 69),
+-	CABAC_ENTRY(366, -35, 125, 11, 65, 0, 79, -12, 109),
+-	CABAC_ENTRY(367, 27, 0, 37, -33, 36, -16, 36, -35),
+-	CABAC_ENTRY(368, 28, 0, 39, -36, 37, -14, 36, -34),
+-	CABAC_ENTRY(369, 31, -4, 40, -37, 37, -17, 32, -26),
+-	CABAC_ENTRY(370, 27, 6, 38, -30, 32, 1, 37, -30),
+-	CABAC_ENTRY(371, 34, 8, 46, -33, 34, 15, 44, -32),
+-	CABAC_ENTRY(372, 30, 10, 42, -30, 29, 15, 34, -18),
+-	CABAC_ENTRY(373, 24, 22, 40, -24, 24, 25, 34, -15),
+-	CABAC_ENTRY(374, 33, 19, 49, -29, 34, 22, 40, -15),
+-	CABAC_ENTRY(375, 22, 32, 38, -12, 31, 16, 33, -7),
+-	CABAC_ENTRY(376, 26, 31, 40, -10, 35, 18, 35, -5),
+-	CABAC_ENTRY(377, 21, 41, 38, -3, 31, 28, 33, 0),
+-	CABAC_ENTRY(378, 26, 44, 46, -5, 33, 41, 38, 2),
+-	CABAC_ENTRY(379, 23, 47, 31, 20, 36, 28, 33, 13),
+-	CABAC_ENTRY(380, 16, 65, 29, 30, 27, 47, 23, 35),
+-	CABAC_ENTRY(381, 14, 71, 25, 44, 21, 62, 13, 58),
+-	CABAC_ENTRY(382, 8, 60, 12, 48, 18, 31, 29, -3),
+-	CABAC_ENTRY(383, 6, 63, 11, 49, 19, 26, 26, 0),
+-	CABAC_ENTRY(384, 17, 65, 26, 45, 36, 24, 22, 30),
+-	CABAC_ENTRY(385, 21, 24, 22, 22, 24, 23, 31, -7),
+-	CABAC_ENTRY(386, 23, 20, 23, 22, 27, 16, 35, -15),
+-	CABAC_ENTRY(387, 26, 23, 27, 21, 24, 30, 34, -3),
+-	CABAC_ENTRY(388, 27, 32, 33, 20, 31, 29, 34, 3),
+-	CABAC_ENTRY(389, 28, 23, 26, 28, 22, 41, 36, -1),
+-	CABAC_ENTRY(390, 28, 24, 30, 24, 22, 42, 34, 5),
+-	CABAC_ENTRY(391, 23, 40, 27, 34, 16, 60, 32, 11),
+-	CABAC_ENTRY(392, 24, 32, 18, 42, 15, 52, 35, 5),
+-	CABAC_ENTRY(393, 28, 29, 25, 39, 14, 60, 34, 12),
+-	CABAC_ENTRY(394, 23, 42, 18, 50, 3, 78, 39, 11),
+-	CABAC_ENTRY(395, 19, 57, 12, 70, -16, 123, 30, 29),
+-	CABAC_ENTRY(396, 22, 53, 21, 54, 21, 53, 34, 26),
+-	CABAC_ENTRY(397, 22, 61, 14, 71, 22, 56, 29, 39),
+-	CABAC_ENTRY(398, 11, 86, 11, 83, 25, 61, 19, 66),
+-
+-	/* Values of variables m and n for ctxIdx from 399 to 463 (not documented) */
+-	CABAC_ENTRY(399, 12, 40, 25, 32, 21, 33, 31, 21),
+-	CABAC_ENTRY(400, 11, 51, 21, 49, 19, 50, 31, 31),
+-	CABAC_ENTRY(401, 14, 59, 21, 54, 17, 61, 25, 50),
+-	CABAC_ENTRY(402, -4, 79, -5, 85, -3, 78, -17, 120),
+-	CABAC_ENTRY(403, -7, 71, -6, 81, -8, 74, -20, 112),
+-	CABAC_ENTRY(404, -5, 69, -10, 77, -9, 72, -18, 114),
+-	CABAC_ENTRY(405, -9, 70, -7, 81, -10, 72, -11, 85),
+-	CABAC_ENTRY(406, -8, 66, -17, 80, -18, 75, -15, 92),
+-	CABAC_ENTRY(407, -10, 68, -18, 73, -12, 71, -14, 89),
+-	CABAC_ENTRY(408, -19, 73, -4, 74, -11, 63, -26, 71),
+-	CABAC_ENTRY(409, -12, 69, -10, 83, -5, 70, -15, 81),
+-	CABAC_ENTRY(410, -16, 70, -9, 71, -17, 75, -14, 80),
+-	CABAC_ENTRY(411, -15, 67, -9, 67, -14, 72, 0, 68),
+-	CABAC_ENTRY(412, -20, 62, -1, 61, -16, 67, -14, 70),
+-	CABAC_ENTRY(413, -19, 70, -8, 66, -8, 53, -24, 56),
+-	CABAC_ENTRY(414, -16, 66, -14, 66, -14, 59, -23, 68),
+-	CABAC_ENTRY(415, -22, 65, 0, 59, -9, 52, -24, 50),
+-	CABAC_ENTRY(416, -20, 63, 2, 59, -11, 68, -11, 74),
+-	CABAC_ENTRY(417, 9, -2, 17, -10, 9, -2, 23, -13),
+-	CABAC_ENTRY(418, 26, -9, 32, -13, 30, -10, 26, -13),
+-	CABAC_ENTRY(419, 33, -9, 42, -9, 31, -4, 40, -15),
+-	CABAC_ENTRY(420, 39, -7, 49, -5, 33, -1, 49, -14),
+-	CABAC_ENTRY(421, 41, -2, 53, 0, 33, 7, 44, 3),
+-	CABAC_ENTRY(422, 45, 3, 64, 3, 31, 12, 45, 6),
+-	CABAC_ENTRY(423, 49, 9, 68, 10, 37, 23, 44, 34),
+-	CABAC_ENTRY(424, 45, 27, 66, 27, 31, 38, 33, 54),
+-	CABAC_ENTRY(425, 36, 59, 47, 57, 20, 64, 19, 82),
+-	CABAC_ENTRY(426, -6, 66, -5, 71, -9, 71, -3, 75),
+-	CABAC_ENTRY(427, -7, 35, 0, 24, -7, 37, -1, 23),
+-	CABAC_ENTRY(428, -7, 42, -1, 36, -8, 44, 1, 34),
+-	CABAC_ENTRY(429, -8, 45, -2, 42, -11, 49, 1, 43),
+-	CABAC_ENTRY(430, -5, 48, -2, 52, -10, 56, 0, 54),
+-	CABAC_ENTRY(431, -12, 56, -9, 57, -12, 59, -2, 55),
+-	CABAC_ENTRY(432, -6, 60, -6, 63, -8, 63, 0, 61),
+-	CABAC_ENTRY(433, -5, 62, -4, 65, -9, 67, 1, 64),
+-	CABAC_ENTRY(434, -8, 66, -4, 67, -6, 68, 0, 68),
+-	CABAC_ENTRY(435, -8, 76, -7, 82, -10, 79, -9, 92),
+-	CABAC_ENTRY(436, -5, 85, -3, 81, -3, 78, -14, 106),
+-	CABAC_ENTRY(437, -6, 81, -3, 76, -8, 74, -13, 97),
+-	CABAC_ENTRY(438, -10, 77, -7, 72, -9, 72, -15, 90),
+-	CABAC_ENTRY(439, -7, 81, -6, 78, -10, 72, -12, 90),
+-	CABAC_ENTRY(440, -17, 80, -12, 72, -18, 75, -18, 88),
+-	CABAC_ENTRY(441, -18, 73, -14, 68, -12, 71, -10, 73),
+-	CABAC_ENTRY(442, -4, 74, -3, 70, -11, 63, -9, 79),
+-	CABAC_ENTRY(443, -10, 83, -6, 76, -5, 70, -14, 86),
+-	CABAC_ENTRY(444, -9, 71, -5, 66, -17, 75, -10, 73),
+-	CABAC_ENTRY(445, -9, 67, -5, 62, -14, 72, -10, 70),
+-	CABAC_ENTRY(446, -1, 61, 0, 57, -16, 67, -10, 69),
+-	CABAC_ENTRY(447, -8, 66, -4, 61, -8, 53, -5, 66),
+-	CABAC_ENTRY(448, -14, 66, -9, 60, -14, 59, -9, 64),
+-	CABAC_ENTRY(449, 0, 59, 1, 54, -9, 52, -5, 58),
+-	CABAC_ENTRY(450, 2, 59, 2, 58, -11, 68, 2, 59),
+-	CABAC_ENTRY(451, 21, -13, 17, -10, 9, -2, 21, -10),
+-	CABAC_ENTRY(452, 33, -14, 32, -13, 30, -10, 24, -11),
+-	CABAC_ENTRY(453, 39, -7, 42, -9, 31, -4, 28, -8),
+-	CABAC_ENTRY(454, 46, -2, 49, -5, 33, -1, 28, -1),
+-	CABAC_ENTRY(455, 51, 2, 53, 0, 33, 7, 29, 3),
+-	CABAC_ENTRY(456, 60, 6, 64, 3, 31, 12, 29, 9),
+-	CABAC_ENTRY(457, 61, 17, 68, 10, 37, 23, 35, 20),
+-	CABAC_ENTRY(458, 55, 34, 66, 27, 31, 38, 29, 36),
+-	CABAC_ENTRY(459, 42, 62, 47, 57, 20, 64, 14, 67),
 -};
 -
--static struct rkvdec_vp9_ref_reg ref_regs[] = {
--	{
--		.reg_frm_size = RKVDEC_REG_VP9_FRAME_SIZE(0),
--		.reg_hor_stride = RKVDEC_VP9_HOR_VIRSTRIDE(0),
--		.reg_y_stride = RKVDEC_VP9_LAST_FRAME_YSTRIDE,
--		.reg_yuv_stride = RKVDEC_VP9_LAST_FRAME_YUVSTRIDE,
--		.reg_ref_base = RKVDEC_REG_VP9_LAST_FRAME_BASE,
--	},
--	{
--		.reg_frm_size = RKVDEC_REG_VP9_FRAME_SIZE(1),
--		.reg_hor_stride = RKVDEC_VP9_HOR_VIRSTRIDE(1),
--		.reg_y_stride = RKVDEC_VP9_GOLDEN_FRAME_YSTRIDE,
--		.reg_yuv_stride = 0,
--		.reg_ref_base = RKVDEC_REG_VP9_GOLDEN_FRAME_BASE,
--	},
--	{
--		.reg_frm_size = RKVDEC_REG_VP9_FRAME_SIZE(2),
--		.reg_hor_stride = RKVDEC_VP9_HOR_VIRSTRIDE(2),
--		.reg_y_stride = RKVDEC_VP9_ALTREF_FRAME_YSTRIDE,
--		.reg_yuv_stride = 0,
--		.reg_ref_base = RKVDEC_REG_VP9_ALTREF_FRAME_BASE,
--	}
--};
--
- static struct rkvdec_decoded_buffer *
- get_ref_buf(struct rkvdec_ctx *ctx, struct vb2_v4l2_buffer *dst, u64 timestamp)
+ static void set_ps_field(u32 *buf, struct rkvdec_ps_field field, u32 value)
  {
-@@ -412,18 +381,17 @@ static dma_addr_t get_mv_base_addr(struct rkvdec_decoded_buffer *buf)
- static void config_ref_registers(struct rkvdec_ctx *ctx,
- 				 const struct rkvdec_vp9_run *run,
- 				 struct rkvdec_decoded_buffer *ref_buf,
--				 struct rkvdec_vp9_ref_reg *ref_reg)
-+				 int i)
- {
- 	unsigned int aligned_pitch, aligned_height, y_len, yuv_len;
--	struct rkvdec_dev *rkvdec = ctx->dev;
-+	struct rkvdec_vp9_ctx *vp9_ctx = ctx->priv;
-+	struct rkvdec_regs *regs = &vp9_ctx->regs;
- 
- 	aligned_height = round_up(ref_buf->vp9.height, 64);
--	writel_relaxed(RKVDEC_VP9_FRAMEWIDTH(ref_buf->vp9.width) |
--		       RKVDEC_VP9_FRAMEHEIGHT(ref_buf->vp9.height),
--		       rkvdec->regs + ref_reg->reg_frm_size);
-+	regs->vp9.reg17_19[i].frameheight = ref_buf->vp9.height;
-+	regs->vp9.reg17_19[i].framewidth = ref_buf->vp9.width;
- 
--	writel_relaxed(vb2_dma_contig_plane_dma_addr(&ref_buf->base.vb.vb2_buf, 0),
--		       rkvdec->regs + ref_reg->reg_ref_base);
-+	regs->vp9.refer_bases[i] = vb2_dma_contig_plane_dma_addr(&ref_buf->base.vb.vb2_buf, 0);
- 
- 	if (&ref_buf->base.vb == run->base.bufs.dst)
- 		return;
-@@ -432,59 +400,50 @@ static void config_ref_registers(struct rkvdec_ctx *ctx,
- 	y_len = aligned_height * aligned_pitch;
- 	yuv_len = (y_len * 3) / 2;
- 
--	writel_relaxed(RKVDEC_HOR_Y_VIRSTRIDE(aligned_pitch / 16) |
--		       RKVDEC_HOR_UV_VIRSTRIDE(aligned_pitch / 16),
--		       rkvdec->regs + ref_reg->reg_hor_stride);
--	writel_relaxed(RKVDEC_VP9_REF_YSTRIDE(y_len / 16),
--		       rkvdec->regs + ref_reg->reg_y_stride);
--
--	if (!ref_reg->reg_yuv_stride)
--		return;
-+	regs->vp9.reg37_39[i].y_hor_virstride = aligned_pitch / 16;
-+	regs->vp9.reg37_39[i].uv_hor_virstride = aligned_pitch / 16;
-+	regs->vp9.reg48_50[i].virstride = y_len / 16;
- 
--	writel_relaxed(RKVDEC_VP9_REF_YUVSTRIDE(yuv_len / 16),
--		       rkvdec->regs + ref_reg->reg_yuv_stride);
-+	if (!i)
-+		regs->vp9.reg51.lastref_yuv_virstride = yuv_len / 16;
- }
- 
- static void config_seg_registers(struct rkvdec_ctx *ctx, unsigned int segid)
- {
- 	struct rkvdec_vp9_ctx *vp9_ctx = ctx->priv;
-+	struct rkvdec_regs *regs = &vp9_ctx->regs;
- 	const struct v4l2_vp9_segmentation *seg;
--	struct rkvdec_dev *rkvdec = ctx->dev;
- 	s16 feature_val;
- 	int feature_id;
--	u32 val = 0;
- 
- 	seg = vp9_ctx->last.valid ? &vp9_ctx->last.seg : &vp9_ctx->cur.seg;
- 	feature_id = V4L2_VP9_SEG_LVL_ALT_Q;
- 	if (v4l2_vp9_seg_feat_enabled(seg->feature_enabled, feature_id, segid)) {
- 		feature_val = seg->feature_data[segid][feature_id];
--		val |= RKVDEC_SEGID_FRAME_QP_DELTA_EN(1) |
--		       RKVDEC_SEGID_FRAME_QP_DELTA(feature_val);
-+		regs->vp9.reg20_27[segid].segid_frame_qp_delta_en = 1;
-+		regs->vp9.reg20_27[segid].segid_frame_qp_delta = feature_val;
- 	}
- 
- 	feature_id = V4L2_VP9_SEG_LVL_ALT_L;
- 	if (v4l2_vp9_seg_feat_enabled(seg->feature_enabled, feature_id, segid)) {
- 		feature_val = seg->feature_data[segid][feature_id];
--		val |= RKVDEC_SEGID_FRAME_LOOPFILTER_VALUE_EN(1) |
--		       RKVDEC_SEGID_FRAME_LOOPFILTER_VALUE(feature_val);
-+		regs->vp9.reg20_27[segid].segid_frame_loopfilter_value_en = 1;
-+		regs->vp9.reg20_27[segid].segid_frame_loopfilter_value = feature_val;
- 	}
- 
- 	feature_id = V4L2_VP9_SEG_LVL_REF_FRAME;
- 	if (v4l2_vp9_seg_feat_enabled(seg->feature_enabled, feature_id, segid)) {
- 		feature_val = seg->feature_data[segid][feature_id];
--		val |= RKVDEC_SEGID_REFERINFO_EN(1) |
--		       RKVDEC_SEGID_REFERINFO(feature_val);
-+		regs->vp9.reg20_27[segid].segid_referinfo_en = 1;
-+		regs->vp9.reg20_27[segid].segid_referinfo = feature_val;
- 	}
- 
- 	feature_id = V4L2_VP9_SEG_LVL_SKIP;
--	if (v4l2_vp9_seg_feat_enabled(seg->feature_enabled, feature_id, segid))
--		val |= RKVDEC_SEGID_FRAME_SKIP_EN(1);
--
--	if (!segid &&
--	    (seg->flags & V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE))
--		val |= RKVDEC_SEGID_ABS_DELTA(1);
-+	regs->vp9.reg20_27[segid].segid_frame_skip_en =
-+		v4l2_vp9_seg_feat_enabled(seg->feature_enabled, feature_id, segid);
- 
--	writel_relaxed(val, rkvdec->regs + RKVDEC_VP9_SEGID_GRP(segid));
-+	regs->vp9.reg20_27[segid].segid_abs_delta = !segid &&
-+		(seg->flags & V4L2_VP9_SEGMENTATION_FLAG_ABS_OR_DELTA_UPDATE);
- }
- 
- static void update_dec_buf_info(struct rkvdec_decoded_buffer *buf,
-@@ -521,7 +480,8 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 	struct rkvdec_decoded_buffer *ref_bufs[3];
- 	struct rkvdec_decoded_buffer *dst, *last, *mv_ref;
- 	struct rkvdec_vp9_ctx *vp9_ctx = ctx->priv;
--	u32 val, last_frame_info = 0;
-+	struct rkvdec_regs *regs = &vp9_ctx->regs;
-+	u32 val;
- 	const struct v4l2_vp9_segmentation *seg;
- 	struct rkvdec_dev *rkvdec = ctx->dev;
- 	dma_addr_t addr;
-@@ -547,8 +507,7 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 			(V4L2_VP9_FRAME_FLAG_KEY_FRAME |
- 			 V4L2_VP9_FRAME_FLAG_INTRA_ONLY));
- 
--	writel_relaxed(RKVDEC_MODE(RKVDEC_MODE_VP9),
--		       rkvdec->regs + RKVDEC_REG_SYSCTRL);
-+	regs->common.reg02.dec_mode = RKVDEC_MODE_VP9;
- 
- 	bit_depth = dec_params->bit_depth;
- 	aligned_height = round_up(ctx->decoded_fmt.fmt.pix_mp.height, 64);
-@@ -560,17 +519,14 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 	uv_len = y_len / 2;
- 	yuv_len = y_len + uv_len;
- 
--	writel_relaxed(RKVDEC_Y_HOR_VIRSTRIDE(aligned_pitch / 16) |
--		       RKVDEC_UV_HOR_VIRSTRIDE(aligned_pitch / 16),
--		       rkvdec->regs + RKVDEC_REG_PICPAR);
--	writel_relaxed(RKVDEC_Y_VIRSTRIDE(y_len / 16),
--		       rkvdec->regs + RKVDEC_REG_Y_VIRSTRIDE);
--	writel_relaxed(RKVDEC_YUV_VIRSTRIDE(yuv_len / 16),
--		       rkvdec->regs + RKVDEC_REG_YUV_VIRSTRIDE);
-+	regs->common.reg03.y_hor_virstride = aligned_pitch / 16;
-+	regs->common.reg03.uv_hor_virstride = aligned_pitch / 16;
-+	regs->common.reg08.y_virstride = y_len / 16;
-+	regs->common.reg09.yuv_virstride = yuv_len / 16;
- 
- 	stream_len = vb2_get_plane_payload(&run->base.bufs.src->vb2_buf, 0);
--	writel_relaxed(RKVDEC_STRM_LEN(stream_len),
--		       rkvdec->regs + RKVDEC_REG_STRM_LEN);
-+
-+	regs->common.stream_len = stream_len;
- 
- 	/*
- 	 * Reset count buffer, because decoder only output intra related syntax
-@@ -588,14 +544,13 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 		vp9_ctx->cur.segmapid++;
- 
- 	for (i = 0; i < ARRAY_SIZE(ref_bufs); i++)
--		config_ref_registers(ctx, run, ref_bufs[i], &ref_regs[i]);
-+		config_ref_registers(ctx, run, ref_bufs[i], i);
- 
- 	for (i = 0; i < 8; i++)
- 		config_seg_registers(ctx, i);
- 
--	writel_relaxed(RKVDEC_VP9_TX_MODE(vp9_ctx->cur.tx_mode) |
--		       RKVDEC_VP9_FRAME_REF_MODE(dec_params->reference_mode),
--		       rkvdec->regs + RKVDEC_VP9_CPRHEADER_CONFIG);
-+	regs->vp9.reg28.tx_mode = vp9_ctx->cur.tx_mode;
-+	regs->vp9.reg28.frame_reference_mode = dec_params->reference_mode;
- 
- 	if (!intra_only) {
- 		const struct v4l2_vp9_loop_filter *lf;
-@@ -609,43 +564,56 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 		val = 0;
- 		for (i = 0; i < ARRAY_SIZE(lf->ref_deltas); i++) {
- 			delta = lf->ref_deltas[i];
--			val |= RKVDEC_REF_DELTAS_LASTFRAME(i, delta);
-+			switch (i) {
-+			case 0:
-+				regs->vp9.reg32.ref_deltas_lastframe0 = delta;
-+				break;
-+			case 1:
-+				regs->vp9.reg32.ref_deltas_lastframe1 = delta;
-+				break;
-+			case 2:
-+				regs->vp9.reg32.ref_deltas_lastframe2 = delta;
-+				break;
-+			case 3:
-+				regs->vp9.reg32.ref_deltas_lastframe3 = delta;
-+				break;
-+			}
- 		}
- 
--		writel_relaxed(val,
--			       rkvdec->regs + RKVDEC_VP9_REF_DELTAS_LASTFRAME);
--
- 		for (i = 0; i < ARRAY_SIZE(lf->mode_deltas); i++) {
- 			delta = lf->mode_deltas[i];
--			last_frame_info |= RKVDEC_MODE_DELTAS_LASTFRAME(i,
--									delta);
-+			switch (i) {
-+			case 0:
-+				regs->vp9.reg33.mode_deltas_lastframe0 = delta;
-+				break;
-+			case 1:
-+				regs->vp9.reg33.mode_deltas_lastframe1 = delta;
-+				break;
-+			}
- 		}
- 	}
- 
--	if (vp9_ctx->last.valid && !intra_only &&
--	    vp9_ctx->last.seg.flags & V4L2_VP9_SEGMENTATION_FLAG_ENABLED)
--		last_frame_info |= RKVDEC_SEG_EN_LASTFRAME;
-+	regs->vp9.reg33.segmentation_enable_lstframe =
-+		vp9_ctx->last.valid && !intra_only &&
-+		vp9_ctx->last.seg.flags & V4L2_VP9_SEGMENTATION_FLAG_ENABLED;
- 
--	if (vp9_ctx->last.valid &&
--	    vp9_ctx->last.flags & V4L2_VP9_FRAME_FLAG_SHOW_FRAME)
--		last_frame_info |= RKVDEC_LAST_SHOW_FRAME;
-+	regs->vp9.reg33.last_show_frame =
-+		vp9_ctx->last.valid &&
-+		vp9_ctx->last.flags & V4L2_VP9_FRAME_FLAG_SHOW_FRAME;
- 
--	if (vp9_ctx->last.valid &&
--	    vp9_ctx->last.flags &
--	    (V4L2_VP9_FRAME_FLAG_KEY_FRAME | V4L2_VP9_FRAME_FLAG_INTRA_ONLY))
--		last_frame_info |= RKVDEC_LAST_INTRA_ONLY;
-+	regs->vp9.reg33.last_intra_only =
-+		vp9_ctx->last.valid &&
-+		vp9_ctx->last.flags &
-+		(V4L2_VP9_FRAME_FLAG_KEY_FRAME | V4L2_VP9_FRAME_FLAG_INTRA_ONLY);
- 
--	if (vp9_ctx->last.valid &&
--	    last->vp9.width == dst->vp9.width &&
--	    last->vp9.height == dst->vp9.height)
--		last_frame_info |= RKVDEC_LAST_WIDHHEIGHT_EQCUR;
-+	regs->vp9.reg33.last_widthheight_eqcur =
-+		vp9_ctx->last.valid &&
-+		last->vp9.width == dst->vp9.width &&
-+		last->vp9.height == dst->vp9.height;
- 
--	writel_relaxed(last_frame_info,
--		       rkvdec->regs + RKVDEC_VP9_INFO_LASTFRAME);
--
--	writel_relaxed(stream_len - dec_params->compressed_header_size -
--		       dec_params->uncompressed_header_size,
--		       rkvdec->regs + RKVDEC_VP9_LASTTILE_SIZE);
-+	regs->vp9.reg36.lasttile_size =
-+		stream_len - dec_params->compressed_header_size -
-+		dec_params->uncompressed_header_size;
- 
- 	for (i = 0; !intra_only && i < ARRAY_SIZE(ref_bufs); i++) {
- 		unsigned int refw = ref_bufs[i]->vp9.width;
-@@ -654,29 +622,28 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 
- 		hscale = (refw << 14) /	dst->vp9.width;
- 		vscale = (refh << 14) / dst->vp9.height;
--		writel_relaxed(RKVDEC_VP9_REF_HOR_SCALE(hscale) |
--			       RKVDEC_VP9_REF_VER_SCALE(vscale),
--			       rkvdec->regs + RKVDEC_VP9_REF_SCALE(i));
-+
-+		regs->vp9.reg29_31[i].ref_hor_scale = hscale;
-+		regs->vp9.reg29_31[i].ref_ver_scale = vscale;
- 	}
- 
- 	addr = vb2_dma_contig_plane_dma_addr(&dst->base.vb.vb2_buf, 0);
--	writel_relaxed(addr, rkvdec->regs + RKVDEC_REG_DECOUT_BASE);
-+	regs->common.decout_base = addr;
- 	addr = vb2_dma_contig_plane_dma_addr(&run->base.bufs.src->vb2_buf, 0);
--	writel_relaxed(addr, rkvdec->regs + RKVDEC_REG_STRM_RLC_BASE);
--	writel_relaxed(vp9_ctx->priv_tbl.dma +
--		       offsetof(struct rkvdec_vp9_priv_tbl, probs),
--		       rkvdec->regs + RKVDEC_REG_CABACTBL_PROB_BASE);
--	writel_relaxed(vp9_ctx->count_tbl.dma,
--		       rkvdec->regs + RKVDEC_REG_VP9COUNT_BASE);
--
--	writel_relaxed(vp9_ctx->priv_tbl.dma +
--		       offsetof(struct rkvdec_vp9_priv_tbl, segmap) +
--		       (RKVDEC_VP9_MAX_SEGMAP_SIZE * vp9_ctx->cur.segmapid),
--		       rkvdec->regs + RKVDEC_REG_VP9_SEGIDCUR_BASE);
--	writel_relaxed(vp9_ctx->priv_tbl.dma +
--		       offsetof(struct rkvdec_vp9_priv_tbl, segmap) +
--		       (RKVDEC_VP9_MAX_SEGMAP_SIZE * (!vp9_ctx->cur.segmapid)),
--		       rkvdec->regs + RKVDEC_REG_VP9_SEGIDLAST_BASE);
-+	regs->common.strm_rlc_base = addr;
-+
-+	regs->common.cabactbl_base = vp9_ctx->priv_tbl.dma +
-+		offsetof(struct rkvdec_vp9_priv_tbl, probs);
-+
-+	regs->vp9.count_base = vp9_ctx->count_tbl.dma;
-+
-+	regs->vp9.segidlast_base = vp9_ctx->priv_tbl.dma +
-+		offsetof(struct rkvdec_vp9_priv_tbl, segmap) +
-+		(RKVDEC_VP9_MAX_SEGMAP_SIZE * (!vp9_ctx->cur.segmapid));
-+
-+	regs->vp9.segidcur_base = vp9_ctx->priv_tbl.dma +
-+		offsetof(struct rkvdec_vp9_priv_tbl, segmap) +
-+		(RKVDEC_VP9_MAX_SEGMAP_SIZE * vp9_ctx->cur.segmapid);
- 
- 	if (!intra_only &&
- 	    !(dec_params->flags & V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT) &&
-@@ -685,12 +652,14 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 	else
- 		mv_ref = dst;
- 
--	writel_relaxed(get_mv_base_addr(mv_ref),
--		       rkvdec->regs + RKVDEC_VP9_REF_COLMV_BASE);
-+	regs->vp9.refcolmv_base = get_mv_base_addr(mv_ref);
-+
-+	regs->vp9.performance_cycle = ctx->decoded_fmt.fmt.pix_mp.width |
-+		       (ctx->decoded_fmt.fmt.pix_mp.height << 16);
-+
-+	regs->vp9.reg44.strmd_error_e = 0xe;
- 
--	writel_relaxed(ctx->decoded_fmt.fmt.pix_mp.width |
--		       (ctx->decoded_fmt.fmt.pix_mp.height << 16),
--		       rkvdec->regs + RKVDEC_REG_PERFORMANCE_CYCLE);
-+	rkvdec_memcpy_toio(rkvdec->regs, regs, sizeof(*regs));
- }
- 
- static int validate_dec_params(struct rkvdec_ctx *ctx,
-@@ -823,7 +792,6 @@ static int rkvdec_vp9_run(struct rkvdec_ctx *ctx)
- 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
- 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
- 
--	writel(0xe, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
- 	/* Start decoding! */
- 	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
- 	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index d707088ec0dc1..c3f35a02d7fdb 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -795,6 +795,15 @@ void rkvdec_run_postamble(struct rkvdec_ctx *ctx, struct rkvdec_run *run)
- 		v4l2_ctrl_request_complete(src_req, &ctx->ctrl_hdl);
- }
- 
-+void rkvdec_memcpy_toio(void __iomem *dst, void *src, size_t len)
-+{
-+#ifdef CONFIG_ARM64
-+	__iowrite32_copy(dst, src, len/4);
-+#else
-+	memcpy_toio(dst, src, len);
-+#endif
-+}
-+
- static void rkvdec_device_run(void *priv)
- {
- 	struct rkvdec_ctx *ctx = priv;
-@@ -1106,7 +1115,6 @@ static void rkvdec_watchdog_func(struct work_struct *work)
- 	if (ctx) {
- 		dev_err(rkvdec->dev, "Frame processing timed out!\n");
- 		writel(RKVDEC_IRQ_DIS, rkvdec->regs + RKVDEC_REG_INTERRUPT);
--		writel(0, rkvdec->regs + RKVDEC_REG_SYSCTRL);
- 		rkvdec_job_finish(ctx, VB2_BUF_STATE_ERROR);
- 	}
- }
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-index f6e8bf38add3a..3451c4bf7cb75 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-@@ -137,6 +137,7 @@ struct rkvdec_aux_buf {
- 
- void rkvdec_run_preamble(struct rkvdec_ctx *ctx, struct rkvdec_run *run);
- void rkvdec_run_postamble(struct rkvdec_ctx *ctx, struct rkvdec_run *run);
-+void rkvdec_memcpy_toio(void __iomem *dst, void *src, size_t len);
- 
- extern const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops;
- extern const struct rkvdec_coded_fmt_ops rkvdec_vp9_fmt_ops;
+ 	u8 bit = field.offset % 32, word = field.offset / 32;
 -- 
 2.50.0
 
