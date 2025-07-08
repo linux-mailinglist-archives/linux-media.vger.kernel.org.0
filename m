@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-37091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37096-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F07AFC8B2
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 12:44:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201BCAFC8BF
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 12:46:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D5F97A674B
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 10:42:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B03041898FA6
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 10:46:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B148E2DC35F;
-	Tue,  8 Jul 2025 10:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5D2F2D8DAA;
+	Tue,  8 Jul 2025 10:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UxAv8CDP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjTc/oVx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049722DC33C;
-	Tue,  8 Jul 2025 10:41:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350212D8782;
+	Tue,  8 Jul 2025 10:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751971284; cv=none; b=q0ITOEbSrV93D+sj92F8A2ka2TI/AtgQIyz1fpa1IasXJPfTq+RE1JceMoQDeo+qUrN0tuk67c9Bpq/4ar5+fqSrYPMpzweJla4q8+yboxy66iMqs4hyTWXiFfG68/jspqd7yed4WtOozP2PywDBMtdyP7jIUbVfSntAr6GPlYQ=
+	t=1751971384; cv=none; b=rv0KuQA1y0QtuMex9gb/wZ7Qcu9x6lURd3uT/ccO/IBG2lN+x7xJC0mj7YPjPOBNlaDCZk0iHlVraM8GtCH/Q5viJ32zrPDk+mD/TC1l8MW3Aps/eR6ZIkf+IFnvpVkGMcL/7A4E9ynV7A6TlkSLUyfqVzIrkn5Mv4jzBGQLKKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751971284; c=relaxed/simple;
-	bh=eZU+AZhdUYeCaHDxLd45rs9VfT/7fD0MOYilIdkwwPY=;
+	s=arc-20240116; t=1751971384; c=relaxed/simple;
+	bh=oN+fy0ubU+8kdVeO6DwfR0VBM2qjezli7gMfiG8nvPM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CtJyQGmfyDkic+vofIfPdnEu8EZR3dZ3B32/qOGpNUzfeQMoEz+2BTiWZqG2VasPmkFhRlwoyWBdoBcd6O6H0EgXVzzzH5jVKSL6N3OGDQOvc+lLDzHJk/HTVjnkcqek3zSunDztw/DFmcV0lhq7iOd5HEiSFrXhvAKBz2Qcy4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UxAv8CDP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C34B2C4CEED;
-	Tue,  8 Jul 2025 10:41:17 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Thodq4cntPGafEMkgX4ulDVMEqhEGkkWPcZVxTPHIRFB+jGc8loD3WNKzaacpUpzTeMiLMwYiIS5jMP23aZocq3AZyvPsahrZO6m+Z9yhayqJciiS+fikQfk+6tZyrcDElhsWOHA0NdtN/1bZGmKmeLtEbazMKQ0iB1jwFIc5TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjTc/oVx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 814E1C4CEED;
+	Tue,  8 Jul 2025 10:42:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751971283;
-	bh=eZU+AZhdUYeCaHDxLd45rs9VfT/7fD0MOYilIdkwwPY=;
+	s=k20201202; t=1751971383;
+	bh=oN+fy0ubU+8kdVeO6DwfR0VBM2qjezli7gMfiG8nvPM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UxAv8CDPoWuOunEDoeu3ZgIjXh41tQpiQttpxRfCcuVg+d7kXgsJejdyLacTX+Yn/
-	 WgeVuiHs/sY4v0H+QCNG7pz2MzVKPKQsX/XFUnmjpBUC1O6ur4i7vvuyiwIMWUfHqM
-	 uM9gRAGK0OOaB5Cw/INmWK6jACMpt4Qd9DYpOirZsJpDSjROJa3sxIJcx6LPNuYNtf
-	 9PpOXH/ROKK5aiiNLXz9nCpzHsZ3AHbiHWJg84rUGKCFniVgfueFyFdX/uf+bv1euH
-	 ePVsEN+o0hnO2fbqrP0jLgqgfR9BTUk2tTmhWW1zJ5Jmhu9k8AxoHKNOGrGaONdJhe
-	 XA4HAwdZZV4DQ==
-Message-ID: <ae032226-8e0d-4355-828e-4a5e0b0473b8@kernel.org>
-Date: Tue, 8 Jul 2025 12:41:15 +0200
+	b=LjTc/oVx5zozVj3nwKzFATO7WZOQ4dceXoBaG0YJAUNesywHoGWFOf3tka/pWH3GQ
+	 J+qDbX52QiSIaLRQF0mrFFF6iGelCtF/BsQbQ4a0L3y+7Xw6zW3Oz1bK1P+KjUW1CX
+	 c0AvvaqnzIiGlkJQBOCksqkjbWeKTeqSu3YwvSgDhhwgfN3Q/sWZrjNg6NaZzAmCHv
+	 cSipAUdpgZbjC28XfnCqrxvKTAwQGnyHzaacSteoAhJ2Z6ZIUWFgi9VrTqyLFuR00s
+	 repjd0m3GL1wQL/tdb2rT4643HYUdGK89XlOqPbYpN5t4rW2lQPN5wVJG0/aJTCQD1
+	 hTWIYw/VWsexQ==
+Message-ID: <ca6d8433-6ce7-46a9-8c16-11845f87402b@kernel.org>
+Date: Tue, 8 Jul 2025 12:42:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,26 +50,25 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add ov2735 sensor
+Subject: Re: [PATCH v2 2/2] media: i2c: add ov2735 image sensor driver
 To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
  sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com,
  krzk+dt@kernel.org
 Cc: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Ricardo Ribalda <ribalda@chromium.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
- <git@apitzsch.eu>, Hans de Goede <hansg@kernel.org>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Jingjing Xiong <jingjing.xiong@intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Dongcheng Yan <dongcheng.yan@intel.com>,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Hans de Goede <hansg@kernel.org>, Ricardo Ribalda <ribalda@chromium.org>,
  Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- Matthias Fend <matthias.fend@emfend.at>, Arnd Bergmann <arnd@arndb.de>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- You-Sheng Yang <vicamo.yang@canonical.com>, linux-media@vger.kernel.org,
+ Matthias Fend <matthias.fend@emfend.at>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Jingjing Xiong <jingjing.xiong@intel.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Dongcheng Yan <dongcheng.yan@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250708102604.29261-1-hardevsinh.palaniya@siliconsignals.io>
- <20250708102604.29261-2-hardevsinh.palaniya@siliconsignals.io>
+ <20250708102604.29261-3-hardevsinh.palaniya@siliconsignals.io>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -115,70 +114,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250708102604.29261-2-hardevsinh.palaniya@siliconsignals.io>
+In-Reply-To: <20250708102604.29261-3-hardevsinh.palaniya@siliconsignals.io>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 08/07/2025 12:25, Hardevsinh Palaniya wrote:
 > +
-> +  clocks:
-> +    items:
-> +      - description: XVCLK clock
+> +static const struct v4l2_subdev_ops ov2735_subdev_ops = {
+> +	.video = &ov2735_video_ops,
+> +	.pad = &ov2735_pad_ops,
+> +};
 > +
-> +  clock-names:
-> +    items:
-> +      - const: xvclk
+> +static const struct v4l2_subdev_internal_ops ov2735_internal_ops = {
+> +	.init_state = ov2735_init_state,
+> +};
 > +
-> +  AVDD-supply:
+> +static int ov2735_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov2735 *ov2735 = to_ov2735(sd);
+> +	unsigned long delay_us;
+> +	int ret;
+> +
+> +	gpiod_set_value_cansleep(ov2735->pwdn_gpio, 0);
 
-Use lowercase everywhere.
+So you power up here...
 
-> +    description: Analog Domain Power Supply
+> +	fsleep(3000);
 > +
-> +  DOVDD-supply:
-> +    description: I/O Domain Power Supply
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ov2735_supply_name),
+> +				    ov2735->supplies);
+> +	if (ret) {
+> +		dev_err(ov2735->dev, "failed to enable regulators\n");
+> +		return ret;
+> +	}
 > +
-> +  DVDD-supply:
-> +    description: Digital Domain Power Supply
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Reset Pin GPIO Control (active low)
-> +
-> +  pwdn-gpios:
+> +	gpiod_set_value_cansleep(ov2735->pwdn_gpio, 1);
 
-Use instead recommended name from the gpio-consumer-common.yaml.
-
-> +    maxItems: 1
-> +    description: Powerdown Pin GPIO Control (active low)
-> +
-> +  port:
-> +    description: MIPI CSI-2 transmitter port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            items:
-> +              - const: 1
-> +              - const: 2
-> +
-> +        required:
-> +          - data-lanes
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - port
-
-
-Supplies should be required. Devices rarely work without power.
+And here you power down your device. This makes no sense... unless this
+is not a power down GPIO.
 
 
 Best regards,
