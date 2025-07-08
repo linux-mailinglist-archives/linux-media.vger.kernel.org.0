@@ -1,182 +1,206 @@
-Return-Path: <linux-media+bounces-37082-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37083-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33357AFC80D
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 12:15:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095BFAFC84F
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 12:26:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBFFB1BC405C
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 10:15:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21CC13A8708
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 10:26:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D89926A1CC;
-	Tue,  8 Jul 2025 10:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="phhqAlQb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81902269CF0;
+	Tue,  8 Jul 2025 10:26:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020129.outbound.protection.outlook.com [52.101.225.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF77B26A1AF;
-	Tue,  8 Jul 2025 10:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.135
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751969715; cv=none; b=Kvbw6GP3ipFiLI838qllqxyDP6plkXX2JhUgJxpyLESO4BdN6cAeziRGEbfK0wvyFyFWYc3ktwM4nmivzmzPam+RafFUiRomoX2yVPQRbylCnabiupDnH1jnEltJIVDJIVQSPNV8/AW8TsmESLDyzDmByPJLh60Pgf1IOXsO3EQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751969715; c=relaxed/simple;
-	bh=pVC7GxX7t70O6nV2vsIuzXnuZ90xj4rHSPK+8DUoSsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGIoqrAw1SoMzdmWpQbOIKgO4f1OEkFTRucrkp656fX99Hajt14wscgmqCZNdRZujZCYkBmmimUKRgA6J3wqtVWy+vZozm1U8Kq/hYqI/onwxgPIhsdGj2yRJH9cwsDoES8S5k31oq2gm4oM3YXOLCT5y7cUY1t2e52VoOUDCgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=phhqAlQb; arc=none smtp.client-ip=212.227.126.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
-	s=s1-ionos; t=1751969683; x=1752574483; i=christian@heusel.eu;
-	bh=pVC7GxX7t70O6nV2vsIuzXnuZ90xj4rHSPK+8DUoSsM=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=phhqAlQbPd9dDE+4Z/IvYh7fgfGT9H4/ezDogouElhqVfWe1B0dEaUSIgRs8uQwo
-	 eDYLPo0JRouEgAuUi7atEVyGHgP1h0v0bKZE2KUrVGaEXvhLX1GoRe7B8625q6MHC
-	 N+TAWTjAMf9GScJ9QI/ihVHtFeM+4N0qT6qAxz/8WDRuHzNVOv66auQexUpciwSRk
-	 ItyKo5kMnR9hhM2MLnim39MGXm3+NxHUXPb/UPjt4c2gL5vF/tJAcDZtjmdB+Z5//
-	 YpGwDOF2+X6rAn1cMY3+OlomEcLek34/9AO8qlRatN/W7Nyuct+jH6tYQ0ux1kYV+
-	 y2MXsz4Yeqo6OmqWow==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from localhost ([94.31.75.247]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MyK9U-1ura8N2VIK-0117h4; Tue, 08 Jul 2025 12:14:43 +0200
-Date: Tue, 8 Jul 2025 12:14:41 +0200
-From: Christian Heusel <christian@heusel.eu>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: tzimmermann@suse.de, asrivats@redhat.com, 
-	Christian =?utf-8?B?S8O2bmln?= <Christian.Koenig@amd.com>, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	sumit.semwal@linaro.org, linux-media@vger.kernel.org, 
-	dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, 
-	amd-gfx list <amd-gfx@lists.freedesktop.org>, Linux regressions mailing list <regressions@lists.linux.dev>, 
-	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
-Subject: Re: 6.16-rc5/regression/bisected - WARNING in
- drm_gem_object_handle_put_unlocked after commit 5307dce878d4
-Message-ID: <a028ff08-8478-4cab-8bf6-3c9ea4b21ccc@heusel.eu>
-References: <CABXGCsNxhEu+win6h1Zwi-0e4NeURzOt2KA=BXakRz08moG4uA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE3021767A;
+	Tue,  8 Jul 2025 10:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.129
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751970401; cv=fail; b=T0ghOohybi7eODcsEKKtqRTUtWPcPkwI+1C9e5PLBwSa/DstoKMFsGxErS55HAq5K6WcQ3bfBhQ8RvpfmPQEb6l3ExdmkZU/Xu/3fRspAnN+eU7jf51lFw7PONjMLuNhpbaLi8Dyt+zt17nI1QwRuUlgpeS3uHripX2vH4LE81Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751970401; c=relaxed/simple;
+	bh=o7v88BklTWNb2GFVrXyl62OXpJtFMy7YifgJxM2z2n0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=XOJVU4OXF7F0xNZRnkuBAkknx85QGKOk+Tokp05cPIr2itFjwtcd63oSUTNnmHrh9oxsliDnEuNl+vXyhsV19ETiEbUOjusl4kADeZq/p88Bh6gGNPK3PXbs94zt0vXg1Z+xx5pa8sOXMAKLbYmioOovb3yE86yw8oYCsaYRBek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DD/pPNjQY4mFJSI+BeOvslm+fCwXMA4kqaeYGO0mZdwBU0AscKtzD6YMRsmpO0mblx3By2HrEhyCH+IiICRJgRqaXD3lbywjVLsNhoKvse0kMNQVXP/+otaEqQgcIa6G1vGoSvxxkq9/u/Rnayhdt9uKIDy98Nhdx131z//yo/lSDTKjzmCU6pN09sUb4jb4He4Gsj7HosoSmvWpmZ4keHL9fyqyVKV4D+16tLto4fzZayEfuRALpxbxc76DtUJvAFsNkXo6KmlAsKWBcXsgirl1W6RXrIebnC4HmArXg03u0yrQ7tIGlhGvacajzAhuHt49Pw6O8y3IotYkeuqmsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C+shTCWlG24OjLv6R6PxTZm5o0fMIO4MrUtP200/YPo=;
+ b=qgEafU6K4otrSwFtqtVWWiU7OKWc794ID1uKEPbEjMpvLdJBNVG3yutONd4ZtMveN8G4U03NBtylptPLw3eupNWYW1CsIak4YpUnInFBzKZRAGufwftR6y/Id56zjeS58QEW/lY8IlPbXHO+LXVifgP+oOlExjA3KK8HIDbeJiOT8HKtwpEbzds/kUW9qF+LoY2CIaaRGsLczJPP/fir/9QS+x3m2JsGCXZw2pMo129VsTHCRdOTLH7WoRPfeNRnOzfcFVywFI1YhSLMi1Swex2TyHRM+bMmHzyBeqkae/N3CLOgWed91EOoYu4sPoCa2R+6njbnYIi6SAfG57NBnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:229::21)
+ by MAYP287MB3738.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:14d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
+ 2025 10:26:33 +0000
+Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
+ ([fe80::5c9a:906e:318b:c418]) by PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
+ ([fe80::5c9a:906e:318b:c418%6]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
+ 10:26:33 +0000
+From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+To: sakari.ailus@linux.intel.com,
+	andriy.shevchenko@linux.intel.com,
+	krzk+dt@kernel.org
+Cc: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Tarang Raval <tarang.raval@siliconsignals.io>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] media: i2c: Add ov2735 camera sensor driver
+Date: Tue,  8 Jul 2025 15:55:54 +0530
+Message-Id: <20250708102604.29261-1-hardevsinh.palaniya@siliconsignals.io>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BM1P287CA0023.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::28) To PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:229::21)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fya22ekfcjwoyp6c"
-Content-Disposition: inline
-In-Reply-To: <CABXGCsNxhEu+win6h1Zwi-0e4NeURzOt2KA=BXakRz08moG4uA@mail.gmail.com>
-X-Provags-ID: V03:K1:kP9F2Oeo9EM+WR1is69hCSu10i0wMrSM8tP03uSWtSAgZa+h4UW
- /G52w2AJzg55Fj+GRg/neWqrxYh9CW8AS8/zNoToIatTcTUCofxizj0i+EuI644J3i14PRS
- nPVy8+aQCMw8Qi157G29tt0Eo+sS3nF9qzWOoYWASCyjrEXjvh1hP7sbDNG4kKbf8g7+hfr
- vPPPR8g3XexELk3WeaDjg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Il5a69wpHRQ=;tXMGCjBoUFpNgIw+/QVJAYQyWdy
- NEmoP3T61ygnivtqIUnRtLSM8P95LRfltSoY4EcAuVKb6ZhJsiTvCMBwU5v0DnuujMt80ImiF
- ShmKJz8t8JawVw53/YHfo3bsCobz2BGzG43m4tfvRR8l8NTs5ArXgJWl+5z/7C77QZ+WOQ0AT
- kRAIocgkcrnrbLiGJoLFxjYqqGLmMmpvC7/lhln+L5vT4l8iGVtcUkoXgoz6E8DDut2pBDnoh
- MxBRzssivhDe6cUpR4aPqFe4WyvezSsfX3lEj5IOyOFjRrhihr8fFuJTYdh3ShjJu3RlKtbo5
- evrLXH4dU1nSeRfI82yCxjUG2UHBZVICovu2IJAk9N2qa9IIoCmzJs/HQA32+F1JYW1BTCjpS
- 11Rhjk28rTKQF2kl2lUwEDjWbAWFjNJjRpB9FPpFP/YGYoqgIb54lWtyY7eS73GKWXXIAegoK
- mRQpZIDsXc3IJIzS5iS+hNW4YZaFQzEyp3vlBl8OY3+RH7S405lPTtddgG5J8jVgZ4EwpV99E
- 4tCMrFKEbV1+21KNFVghB94CqO3cyud4LeZc0P/6EJPvsD6QkaRcZ1U64ogvXDeCxDrV/PD/S
- INDdeAfh2tcPICXNMr2HgrdIlEOeHpdhSPVhS82Y1xPgpjxW5AbmWijEeNadzv8MR29twkLtZ
- fQA/B3cmUts9y9aBXOM5oBrrsAoCHxTtivi1iY6Yu77LHZs+PwCTHoD27U46nhNyLX1hl13Hf
- YuFy9FN/c7/TnXNin4c/gPDhWw8Emagt8c8EVJkkQnBgMyJCjuZlDrI9bm3bfIDkssJA0zHMs
- 3Lo0RkMYqHRuDuNp3eZhwVEv2EkjBq7vUqILpGSVr3yx/0bb2KiXacfvcZp85DtadRMTvDshl
- Di7JyU8cyomWrWP9FZRc3liocGKmF+Z43/yw/mRHePkb41HOE7ztA8OinIUvYW7uWhLpPuGrk
- wJsxPF8OgSWBrLeywbybKSEqDqwdY0otYMV5RF+dUm5QryJUqS6MT6EisMaYnjEiVMDJDmm9y
- nCeuruUOKJdRaFPHT+K7EgdArSQXQ6khFYDQZmxGgcbaltHeW5Y8u6vm05LzL7XOiuu0BMf4U
- Oz9v+d821PhdBOw0Wtz0VyAsT2DeQwrbi/dUYvaGymzGZ554fzykSUP6eRyzo7+LP9Am1gG34
- PzEezJqMw1Lf2tZOIOWtz5bbYeGBjuLhZDx7NH0GilYftKv3nwiIemEBCgrPXlzvMOJbY+oCs
- K9eO5tQt8+wGDrSgj95XyFgNrPwHwYy8MeK4f/XAhn+i59SHu7JzEOEr7hAHGlFH3Mx+hPEyY
- Y9ywk/bZsL5Lql6yAjlHthWLPUpuQKou4yXQTNmF2krFY4w5o749dfZv+yXmqWU4WPApaTeLu
- QterSEC31/YaxbJccQKl2Kand4EE11YR1P14QhTu8HILSd84JtHhGCBMDUS5nY+bfbX10YQMS
- 7mMi+h+e9Z8MEwFPhGhNd8pZOcmzCK4PPsDb4Dd1QUo5O3nIo9mN2KiGxCTmNA8sUbd5hwMg8
- WcsUFiXIsY1FHThI0tPa6UVAOqms/3r9tIdfaMVtLZKA1KtgKtQPMcdizFnAqCXD77XgwxMUG
- w4MjoUy5p/9BgYrMDEQuIIcBnkhkwThy7JUwZ72qHtRWyGredv4gI4EcAQFCb9/AEy+a8NOe9
- c=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3P287MB3519:EE_|MAYP287MB3738:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40b43521-4aed-4e99-28bc-08ddbe09e90a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?rFMXZoG42/YrZoMb6TILnf8Aq1LCjQ+Eyv0mdupmUtRx6XzldCWKry+a+Mj/?=
+ =?us-ascii?Q?gwswLZ5hndaU0g3dZ2mSE4SzdhiEaRRk3OSoDlervlDzcbI6GvEDiXjPLv/w?=
+ =?us-ascii?Q?NwtdZJNle7viHhRalZGKRD4ntw6BTzAAa2bvL80Av9vmxfFDDHVw/31g3Mmn?=
+ =?us-ascii?Q?c9iPZM3jQ9RDeO7Neex/hwFI822tOG6sRTulepfTDocMhUnyC+1XdYihuh4x?=
+ =?us-ascii?Q?1ZArTyJbudJxo2l7/MFgkc0h6yZXvM5SrDITWcqMDC+QoPAhR1Uc2tr2dp4h?=
+ =?us-ascii?Q?iSeNK0GVe6stTHKSj7kmdhUCHy5OT+GB04ht8zV2VBxtVVLQm8rcWmt7KW/V?=
+ =?us-ascii?Q?f4m+w8MHKQgt519TUPqY3ygharuphEAqM5fsAfkzRjSWmFjiQYTuqtGMzMlb?=
+ =?us-ascii?Q?gcXsdW47oMdawhHExGDynr87xiECIg/cgJD6NVuathJhylS9CnwUmh5SMCm7?=
+ =?us-ascii?Q?dBXM4GDfaQfaD5IPPjT5dLSzSVH21wLzdJ6PI0crvq+tNWxcAjPtf+qUXm97?=
+ =?us-ascii?Q?elJYFFmMf6NEUfTExt1KCBRzOW3XvUmWpLy19eJtUvBfy8TCdv1c+05VH8vW?=
+ =?us-ascii?Q?wPLXjj34Nl7qwm90iQquUCoYjenr0TDv7goFnFvWnXig8d1KlF869WiJHG15?=
+ =?us-ascii?Q?cLDx8mAdQNZvTtpFqI+JYkEL6Smeb2ym/VG2sKe1Sqyc/YgrwZ76RSoVpG9S?=
+ =?us-ascii?Q?3v6jlvfKJ+XX1blAiag/OxyCRQhss1xIPGWZHXSdMM5L6EPKYybXkXc7EfWV?=
+ =?us-ascii?Q?BLQ2r3NoadcBky7Lol5GvVpsl6KZr+lNZ0yvHLKWE72Y3i6t3XxEHwa8QuKj?=
+ =?us-ascii?Q?IkkTk93sTP6JkPjG7TCpTmvrkJdfXnFZbBivlfWabuOv4OZ1Pqdz0+z5uo3H?=
+ =?us-ascii?Q?3ciYQnRkaXg7HGj1m8Ceaz6E/GeWW38Ysets2uD7BUbPM2Puls+0Fhud7oZc?=
+ =?us-ascii?Q?QFC5ZrIvCnegAU2kN24k4cN42x9BVtVCalJln+y8pKuXGN1qwCvg5h3mZT0t?=
+ =?us-ascii?Q?G9s9S66elgX7mJoAovYpiPR91b7ThAK1FRf/UqNjCsmyBMa+FPaIt7ZIvBSn?=
+ =?us-ascii?Q?oXrD5x5lIhWyr2ozD75pK22wXlFjZLCe61Jr6NZ6yq/1fVhj425s5a1Uia00?=
+ =?us-ascii?Q?yhLi8SuJWxcbc9E4WAHfSiu3AzaXGCcZJOxP2c5KE6WO1N2HmeVaM4y/eOwD?=
+ =?us-ascii?Q?TDBzdVmbQvq9vymaIiRE13uuN402PJIMQrRMEOFjiv/QahVHBkLFJS1QU9zI?=
+ =?us-ascii?Q?MmaAA2k1zww/VBncojaNoDa6SZ/8Oai+UViEfUcZy7rc3nL/cjQMXaSiOL0k?=
+ =?us-ascii?Q?jaHNwexCA/gPSDKXmByAN5C+m4buzD4mBM3MWrF1EyWzh2JGgNkLN1WYxYKe?=
+ =?us-ascii?Q?HtxpQH+yMCygsFzzGyL2W6ipjmB585fg3+DMfSM9Lka5a/YGuF6ufbCmnwea?=
+ =?us-ascii?Q?W6Sj6gUHMmCgXcxPKydoDP1XpPiDku2oIx5+TfJdlTyKlhzBWRBP8A=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3519.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?V2cb/YIy0mgn2Gn9RgfGJVxwvOHbjw1RQnTK6jmO6lAf/t/IgaCBdncftLG8?=
+ =?us-ascii?Q?DfSu+l1kRprmqT0fV53PZCdD1UZsnHzgu31j9nSlHAEINM/0AS8DDzfTH43U?=
+ =?us-ascii?Q?ifDXcA5L6yfc1Jy7sO/U1+fRHSf7p8vi+9W89GbCG5hsqZyPisiiHKK/PVyY?=
+ =?us-ascii?Q?YwE0qZojzxR2+ug1pIioE+mxXcqC4aoI6toH4ShKxTFxre6g8QqIlVZCqxYt?=
+ =?us-ascii?Q?gGDQ9iBwrnSri+fD/Ge0dk83OvNDFFGdcfFJYSbtoKqaLp2BNLj3RNieUdsd?=
+ =?us-ascii?Q?sEJ138ilnhwNmXxi/1GtlqdVyRV55LOpwqmQux27EcX3Zzz14Vy7g4zQSSmX?=
+ =?us-ascii?Q?2bjiUdbJaM4KhS5dosMKK/zcWuOCqQ4F/RfGQDC/38fk3fehyaHbZD6VihCi?=
+ =?us-ascii?Q?W5AhHDTuUp8o+XairWE6w5UFvutZq38nI9JATQoZRVMQOKmcMgoKrNA9TMkS?=
+ =?us-ascii?Q?KoWZyTw3jiyG4p0hFLahg8r+yUGHqqVxHg4fcFqxZvBAqzXkl965wIwnFxgF?=
+ =?us-ascii?Q?y9MGzaumBxuGqTYMuLn7c4koNK21jQ9Mxu5VQCtHeQrneOIoW28IhdVALVAc?=
+ =?us-ascii?Q?Lhu2QcPNgULj7wnZg1bJxjGhlaEnWF9zjMiYHx5h1CUWZ/iebS3HH15N2ajA?=
+ =?us-ascii?Q?Hy05KVGNKK/2SX5IPg99wU6AVwYe9ttdvt5fKjLeQSp0EhGyT5M2UVNz8b52?=
+ =?us-ascii?Q?5YV4VZZm3dYOxO6oCliJJfob4BfYBfGg+kbJ4E2wHFwQmdmyPfmhGzIv9R+D?=
+ =?us-ascii?Q?OFd88hHVlX24O9U2AXPK1O0lGo6gbXeLKZSFl8MHkuXTUHDIjuMpmx+s8Gxd?=
+ =?us-ascii?Q?Svt74GyYuLsKGYeOA9+eX7C1diTiIOzioyM8IygUiGYPeqLw+08Aa4aBGY8y?=
+ =?us-ascii?Q?tLsY/EKt/v+1hzjRLauhnPOTUuttuRHcT2G9/IRhytBwnroqmU31TmB9ex9h?=
+ =?us-ascii?Q?xulJbN4lGvanLBlJzP+glDVJHU0JIOqI1FXnmW4emODlo7C5YTXsvdTQ0qen?=
+ =?us-ascii?Q?lhR7VqspH3u/Xdnx38W//xPbD/G/SKmKFHmL9frebyrVZ+vi2qQtVkNHLWqu?=
+ =?us-ascii?Q?L2ZjDCvi8aoelDCTpUb0qCyFytSrzH2O3RcHwDgydgw80YnO4TryIBuHhuPL?=
+ =?us-ascii?Q?mkf0OcczunQKLB4HIB240LUUc1YsQTQXBtsJMi/mL/onAFEzcNgZKhJdtDOO?=
+ =?us-ascii?Q?CgOnTUM9UEIXjnT3OK2Mvy7caEpLqmOzqBmUQ74EAERyjpfeR49s5ock7l7M?=
+ =?us-ascii?Q?+exTvzcO4re6n0OqZF32Ldd/IgNqbGC72uQL3Qgq798aZ8JqPLJ5mkEVkUFo?=
+ =?us-ascii?Q?EDqBV8XPv+FztK0JIvOTv1GEONRjPtgvlj9s4w1Rfjaz5TdYqwTkUHrUS3iZ?=
+ =?us-ascii?Q?b42Wbt77G2tjXE7lTETA/9aNvP8b3rhKWzysZB4EnfQ/V11OBE/kFI/BdBMj?=
+ =?us-ascii?Q?ZwKSm2vZQm70Brg34zCTQQyysSNwMhDL6K3w9Z2HmYCGhzJhm/rwI8V8lMyP?=
+ =?us-ascii?Q?UXgbAR9vrYCcYCYtmwypDU+iyW3+UCPLLEXNK5DjJtL6MDaZU8mSOrph6C9i?=
+ =?us-ascii?Q?3hL3MAnzWHMV9SGLJra3rtksfSq9lO71ObI5dRQpVujKzRE5W466e+JKLKCR?=
+ =?us-ascii?Q?Z7N4ccQi2abaeGgb2LEW8Ps=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40b43521-4aed-4e99-28bc-08ddbe09e90a
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 10:26:33.4470
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qaiN4h84jN2OqkpvJtzs6hJzjyR2BA33lCjsWuTeEA0FFin+qrqgxCMbaxTJPzp72T9ViEjG7SGTUKjlAqKjrktMvZkRHejc1vjk6Rbzx+htbEvOcbfE4Lbfi9bfQjOS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAYP287MB3738
 
+Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.
 
---fya22ekfcjwoyp6c
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: 6.16-rc5/regression/bisected - WARNING in
- drm_gem_object_handle_put_unlocked after commit 5307dce878d4
-MIME-Version: 1.0
+The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an
+active array size of 1920 x 1080.
 
-On 25/07/08 02:26PM, Mikhail Gavrilov wrote:
-> Hi Thomas,
+The following features are supported:
+- Manual exposure an gain control support
+- vblank/hblank control support
+- Test pattern support control
+- Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)
 
-Hey Mike,
+The driver is tested on mainline branch v6.14-rc6 on IMX8MP Debix Model a.
 
-> After commit 5307dce878d4 ("drm/gem: Acquire references on GEM handles
-> for framebuffers"), my kernel log becomes flooded with the following
-> warning:
-> WARNING: CPU: 5 PID: 1812 at drivers/gpu/drm/drm_gem.c:286
-> drm_gem_object_handle_put_unlocked+0x207/0x330
->=20
-> This occurs during normal GNOME Shell usage, and the trace appears
-> repeatedly. A full stack trace is included below.
->=20
-> I bisected the issue to this commit:
-> 5307dce878d4 drm/gem: Acquire references on GEM handles for framebuffers
+v1 -> v2
 
-I think this is the same issue as the already fixed
-https://gitlab.freedesktop.org/drm/amd/-/issues/4393
+- Added necessary header files
+- Corrected indentation
+- Used the ret parameter in cci_write and cci_read functions
 
-Also this is the fix linked in the issue:
-https://lore.kernel.org/dri-devel/663110e1-3aa0-4f6f-8727-3a240bc96075@kern=
-el.org/T/#me2a0f3254a57cdd157ba79344ab8d51476ba18e5
+Hardevsinh Palaniya (1):
+  media: i2c: add ov2735 image sensor driver
 
-> Reverting this commit on top of current mainline kernel (6.16-rc5)
-> fixes the issue =E2=80=94 the warnings disappear completely.
->=20
-> My hardware config: https://linux-hardware.org/?probe=3Dce4c44c524
->=20
-> Kernel config, full bisect logs, and kernel logs from each bisect step
-> are attached.
-> Please take a look as soon as possible =E2=80=94 this regression could af=
-fect
-> any user relying on fbdev or shadow planes, and the commit is already
-> CC'ed to stable@vger.kernel.org.
-> It would be unfortunate if this made it into a stable release without
-> being addressed.
->=20
-> Thanks in advance!
->=20
-> --
-> Best Regards,
-> Mike Gavrilov.
+Himanshu Bhavani (1):
+  dt-bindings: media: i2c: Add ov2735 sensor
 
-Cheers,
-Chris
+ .../bindings/media/i2c/ovti,ov2735.yaml       | 104 ++
+ MAINTAINERS                                   |   9 +
+ drivers/media/i2c/Kconfig                     |  10 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/ov2735.c                    | 908 ++++++++++++++++++
+ 5 files changed, 1032 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
+ create mode 100644 drivers/media/i2c/ov2735.c
 
---fya22ekfcjwoyp6c
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmhs75EACgkQwEfU8yi1
-JYXsLg/+ObOtHgsihU/489f7Y2qWKv5s/4scLsWukSapGhIEIxW0sWySxqzC1Zg9
-JKzfWpnsBe3LbXbTo2/CxhdMaQ8kZWODBig7q0mHJJ72Ag3sBMfhcPkqHaGi2LDV
-AJTcfdb2hnRwbeDAfIFeHBZUws9fVNaNBQw4/n4HuZNSBjI+VC4uAIKk2USnzmPT
-2SEZTXsZw7zKx1lYs/pmOqMguNpbyYstcgqXjH1nxJxLC0X7p5pQTNlqYaKx4lZX
-yj7Eusoff/Va4x4nVv+5FlErKVbAXyRgCH16X99hzdSeda28JbZUqoI1HLZ8D+TY
-PdAlknCqzmKMd7T3DTdMzc0r8K2t1BCpcvJTa8Tl/imo9OV6sdzFLHW9Zrd3ek7x
-e/aV45/7HCDpLpIVDA6t2OUDf9ydeKlIs7koSGBO8nmKBRjmj+XZDIQY4WK1uAw/
-JOSJL/sWF2lqh3GXTPLgy8EXi6GpHuuUnqVjjX1DA+9Pq9Wyl9gNbqmnt7yL7Ry2
-Z6ZkTnlmeKRkOeLmIC3gtnAn37cFm+QNqkRuTFwZPMTVdoxSJMoO/7QNyEWuz5ei
-tLsVAYCHuPKaRzD+IJn9mORKEeY0XLqV0sVrTQLVEf/jx6FB2IvM1BmanMc9Oh4b
-UCqFH2z6b/SyLnqPsTujbWRKpP7gNNfxGkySHlkPcYRiA2EUbR0=
-=iEvw
------END PGP SIGNATURE-----
-
---fya22ekfcjwoyp6c--
 
