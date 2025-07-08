@@ -1,231 +1,462 @@
-Return-Path: <linux-media+bounces-37099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37100-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01C3AFC991
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 13:28:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DBDAFC9C5
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 13:40:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D1A41BC3FB0
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 11:29:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E00C73B94F9
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 11:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDD7B2D97AA;
-	Tue,  8 Jul 2025 11:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8725B2D9EE6;
+	Tue,  8 Jul 2025 11:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C/WhP6MI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021106.outbound.protection.outlook.com [40.107.51.106])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D490F1C6FEC;
-	Tue,  8 Jul 2025 11:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.51.106
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751974121; cv=fail; b=E799lA8qHxyI7dWqvgPOqlMKDuoCLMTaqhcd3rMjXiWCo/tRs+RiG4h9GNgb4J5rhuJQrc6k5ZnDfNjurnLXX5ex6ONWIsJEQpdGgq2+yo/jdjUMgZoJ5wCxEhQm8RC3oCKg07pIqY5OkkV0IFDyQfN46KlhfPXYQjz9tEF9LEY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751974121; c=relaxed/simple;
-	bh=O4zHele0GtLAOpM26qBwcrTLEWiB8wZbN6Xpb3bnhJo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=bC7VedzrZaauoRjAqTPH6H0Je0Ab3hAKstdErustioSMkL50wllh6inyFXHJkCqgePcfdBOjJtvyqiUq7/F00fcshHZpznt07lS3jN2YR8tirPxsR4F5LYoVp4P/sq/Dpx+V5LhFa2l7wMy4nkkwaY2yYt9CBArFMl9rfROjDlI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.51.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eKcWH35yAn7H0VR2IT44txS543/1/ZWbMNgys8QSsS7RwZecrNI63CaSPIaAyRIeSt+KHovLxaUNgmV3HLK7E3I+k/6APHQY3GvQRRtu+mL0fhiR51ls5oh0WLqSc3sAUFBVZKi+ZEo/2e4ri6qV5g5oERZl2DsKSd/48B+vxM8FM3ctZGko9cus7vsOBYfAExQ4Nwf6GpGRvLpF066+9NlMycMmPdmWtlZnh9CpYKiHO851m66McSEy7Jd4nrCyGUWSSqHuktu99lfKQD4dEFIlTmDQQXhWtC25MRrTSLXv3nEkUv7H1Fjoh7YbHbEYnJkE83mWUIsvkpI3Qf2+Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=377/OBExlDNyMqtXLLDlor0+YmG8K/dsHsox2K/wKeE=;
- b=qwS7C1cPmkTH1qasukO1ndjdbBiM3fTPOIUkJaPGa7ObxUV97lcQ7QcVtGZYYmTXJFLrzC7rNQGK53YfnHu+gqPv7DY7kjo+ywMgkmZEXoeAnTo3iQtv1mbkAVO9TpflBPf51JFy9iYH9J8znVN9yPcreuTcL1bDbfUPVNvwTPTh/b4YmYYr6dAWNB46KYlhiPfHxylzdFJ+Ycj3tKr7z1+QjLpgQbHe0murt+SvkMXEOGfl/A6LrPx76PnTo9X7qmZfqc+aVvRAuCPp/LwarGA/AwRLPUimE4UGd8qd25MGrPWsqCZOHlyqVjdfpoICcTGNfGUJT15PIyLSV1tfug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:229::21)
- by PN2P287MB1681.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1a9::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
- 2025 11:28:31 +0000
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418]) by PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418%6]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
- 11:28:30 +0000
-From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "sakari.ailus@linux.intel.com"
-	<sakari.ailus@linux.intel.com>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>
-CC: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
-	=?iso-8859-1?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>, Hans de Goede
-	<hansg@kernel.org>, Ricardo Ribalda <ribalda@chromium.org>, Heimir Thor
- Sverrisson <heimir.sverrisson@gmail.com>, Matthias Fend
-	<matthias.fend@emfend.at>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>, Sylvain Petinot
-	<sylvain.petinot@foss.st.com>, Dongcheng Yan <dongcheng.yan@intel.com>, Arnd
- Bergmann <arnd@arndb.de>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] media: i2c: add ov2735 image sensor driver
-Thread-Topic: [PATCH v2 2/2] media: i2c: add ov2735 image sensor driver
-Thread-Index: AQHb7/Lbhm2ANFrrHkeTdayzLntl/7QoCjqAgAAMQ0A=
-Date: Tue, 8 Jul 2025 11:28:30 +0000
-Message-ID:
- <PN3P287MB35199F4D8EA9F384660A337DFF4EA@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
-References: <20250708102604.29261-1-hardevsinh.palaniya@siliconsignals.io>
- <20250708102604.29261-3-hardevsinh.palaniya@siliconsignals.io>
- <ca6d8433-6ce7-46a9-8c16-11845f87402b@kernel.org>
-In-Reply-To: <ca6d8433-6ce7-46a9-8c16-11845f87402b@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB3519:EE_|PN2P287MB1681:EE_
-x-ms-office365-filtering-correlation-id: 424123ac-7e86-48cb-2278-08ddbe129101
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?dskH8UkLebs41xG1VjglRBOx9yuK37LqUuIPcklP85Mu/3ytdFo9erlNXl?=
- =?iso-8859-1?Q?0Q8wNwuFRf2+hlnW3Gr6CTIaoSdTnBV4ANc4+s2sYiYgcHxrefqSevZakW?=
- =?iso-8859-1?Q?hjVhGtGMlU7uIzgZa95pi4XnZTHvjig4osdfEKCEvuT/nb1gZwYhp+SDUC?=
- =?iso-8859-1?Q?5PFF+WXMMRYCUg1gJht7Fmjm7fuED9x9QyvtPQGmE8MXkCZAtJh3Men6nh?=
- =?iso-8859-1?Q?3c4dkNsMHqpWDsv6kzuG16K4iFYRME3uhH5sKTN0cBSTIk3CfIns+FWqEh?=
- =?iso-8859-1?Q?mnQQjwvPjmHDM7LZzKtncX3I5sGXv95CJjJ9rX8wmwebv7J6mQN4G2vHQ3?=
- =?iso-8859-1?Q?8t++d5hCZd720O+I749yAMHbWBtsNNK1HSc8BMxnr5RWNI9PgMhXbqN96R?=
- =?iso-8859-1?Q?oBSiGWTlOXe0ePPdq+jWMFPgT4BBy1YFWBJSOaK6QnGXMkEENGQmaGIuhS?=
- =?iso-8859-1?Q?SrMTxdr/UOX5eSnuxanmspvDwmzcuhdwQXMnDPZ1x+GahmkdmFcg7NeQI3?=
- =?iso-8859-1?Q?Z4bBNsapLxhkeiCesX7eyVvaSqYqGZIi1DKuRwrPCM5U+witosjrPdIDxV?=
- =?iso-8859-1?Q?d0tyDA2Je1bzupP5vXRgan3mUwbl0N9rqSUVxnsaMsRmRIjl7AW4j/quzs?=
- =?iso-8859-1?Q?GN9K5ctXF0TH9WOzqc6+RWSLuUw66qL20z9VYpJz/sKczZ+UGQmkFF1tEf?=
- =?iso-8859-1?Q?Sh0k9vacLDb4UQEPQ/tg4xCKF5id27SdN9qh6YTI4fnYbozCDzLeIf0C0m?=
- =?iso-8859-1?Q?FNWr2duK1/PA8OuAbVdFsi4bei7sVbTvfkEBGTn+I88P5FryStoX0C2GIa?=
- =?iso-8859-1?Q?0fHJRY1+yaZK4XCHwrKcl5Sh9Ofjk75ybCX1vfqGUeAytKSetlBCP2fgav?=
- =?iso-8859-1?Q?jTcN3CzriLnKIzgIgsF5dgbOIR2XaPNGLRm62XPw9lVKfOnHxFAzuB4wah?=
- =?iso-8859-1?Q?rSqbzcByUKVYSiIQfy5GbBPTYDMiSdCpuhJ8D4sq6jQr+QRLWuD8FpKyU2?=
- =?iso-8859-1?Q?k56Sa6L1WKm8Rl9yk8mtspPTNSIpMxtrXMb5rIrKrCaUY8P/CtdTwCcG93?=
- =?iso-8859-1?Q?UECnz8TF+0CvYHZXLTv3eGnC7p6BfjCPpD8/sYVQTrBtCH72UnPgpiKAh/?=
- =?iso-8859-1?Q?vUTxshPNdwOoJFtNZJEIXOBwz4Vbcdm0TBrOoreOvQoW3aslkOSonWDyq3?=
- =?iso-8859-1?Q?1YtSDevx7njyIHcWBkxI9tjRE9AKGpQG/Q0urg28lCYmmx/XIMOCYZzEla?=
- =?iso-8859-1?Q?OfMVzAdPcWXVZ7aHUB2v/WQYAOTVfhiYTMQ10EzWl1UJCa0pdB7TnIzN66?=
- =?iso-8859-1?Q?u24hUdNYbRXmjcJJRMulvMDX4dwVxr3Nl2nLoS7QVaJLN6F1cJcUvV8cNZ?=
- =?iso-8859-1?Q?YBSJ4gNpg16aqA4XmdODjPXRnhyx6g106QKMREuMh5IKrdNZC02BnvbbeW?=
- =?iso-8859-1?Q?WyINcexfCy44NvKbfCBElz1tDuZVyP/MHd1FwLGKz63rDSwzF4zHgAQZZa?=
- =?iso-8859-1?Q?9Kk1NFTtbztJAg9c/kk2usGhRjhvptRFSCnowXGnWNPg=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3519.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?boL3O5aT/TWK9ATjJb8h7Y5LBiwLw11oWr+nCV+DfChLWCQGTx5fc67v0e?=
- =?iso-8859-1?Q?V8T+rb/xX/uX1hu9grejNeN6f9zzj/leWZX1Ae3MWGH1ctNGGk+XF1iA5p?=
- =?iso-8859-1?Q?u7VPpGqxolAzf0u3J/YC3ADy5w/IOYQjBBrdprEroySrMoMfPLrI8oaC8C?=
- =?iso-8859-1?Q?/lHSexp9+n9iklI5+igK0p+PK0Idx7oESXe6zFRd+NmnfmWZ1jT/BD1Olk?=
- =?iso-8859-1?Q?18DMowjnfuGKXoUU0f+V6FlLbzzqZoYRtAbStPqeFFoK4IOs0EQ/+2+QI2?=
- =?iso-8859-1?Q?GSqoFGk6+K7Bf7ODahywtyMlCptxEzuteTgSDFoZ2ceP6L1D+CmCzyV9+Y?=
- =?iso-8859-1?Q?yX09NRYUCkuD8Tl0Niq2eU8DjZGgq66hWaYX2n46sL6NF7clbT8M5ihJDX?=
- =?iso-8859-1?Q?c8jlyKPxIU5tcu3D9vRJZypUnL9o+7KLy5rHBHEL+DwH7LV7VwwE+lOqYy?=
- =?iso-8859-1?Q?G9pNzFavdgOvrYFIRBAEnqA73rrguDzFNtlvbkZMh7BznjxuzwCSkYbE0q?=
- =?iso-8859-1?Q?iGmTASpK/MdhXIx2KnvPZVGt6hpmd2LDRi6OVuz81531QoHmY9OKG3qcN9?=
- =?iso-8859-1?Q?Wr3fvPcDlDcrpEEsrik8NoW99YdW3Sb0IX2n3e37dl9w+hzruTs1IjhFSr?=
- =?iso-8859-1?Q?3v78T59fWzX75dkPRB+bVa2isfxeANW2VD4/2TeBmw2i/z4eaKVYjXNALw?=
- =?iso-8859-1?Q?aKH2BXKd0f0QiXOPL789NWkbdwniZmD4Lkuq9Am873hCKmb+InX41vxJtf?=
- =?iso-8859-1?Q?IqCpaud6qe5CpIRo3WrqALdQ32oKqnoZ+9yObfqirjXRvUd+Y0YJUK4iDc?=
- =?iso-8859-1?Q?jGqt92TNefKoMDxgL/PCA80H+dpCg8yqdVqxbEW/N+6rwgpbCP3QgblrO+?=
- =?iso-8859-1?Q?VIzVOgqK5XGWu23HM1RaEGAYvukghMUdJLZNntqMv8mXUmj/btOVqcG6uD?=
- =?iso-8859-1?Q?B25vl+paLEOh+DpLmXrjk4+nd4cVEABSgzw2l+pziU2EJp52EZCyFOfLLG?=
- =?iso-8859-1?Q?YJYzZ8iP/pcks9Pm4rUsJerwWgjWxM2xvVreRKfI2yM2ITGst88NtLrWZf?=
- =?iso-8859-1?Q?2FQds2ajrLmSm71fSd2q+szVrMOJjV2eTKhBnDM/BENMc3ichvXXcJxShY?=
- =?iso-8859-1?Q?qlFCVIwud3Z2VfcTS6AC5Auk6LjWBOQL+1OwhxpuYzWRKX9PQRqkJO+bIv?=
- =?iso-8859-1?Q?pa1AXrvwKt+B+ATbv3hGqLdhaV7yKgTpTTopMSx5HcHoGWLgl886h2jm8Q?=
- =?iso-8859-1?Q?2xhzr4Q3WGKfgw0vUN4aZkcZWhAoPJ1RnqM+5OPxjUXm+yP5wyp0GTK0L/?=
- =?iso-8859-1?Q?VNX3mJfy5pQZC51TDL1MAVYIlDrs7c2ARU4ANakOIfgGUG7VP4HkOA5Jh7?=
- =?iso-8859-1?Q?JvRMj3gzuG9NBIL5XpSos5irE8BulDxpWi9gGzkY15JdAMTHIohh8kMKfw?=
- =?iso-8859-1?Q?OTLGrcThE6F8pmAquHMn7k4BEv5L3f2AK3OAahH1hX0TC7c4TQwsSB6hU7?=
- =?iso-8859-1?Q?X84pSe6ge7GHH+FC07af+hY132bMEXy6MbLoVY7KFeDyr6LHM5LFkSnzPh?=
- =?iso-8859-1?Q?Ygvn0+21nQ1gkgtETluIz0oC5Zcs5sryASFL2Terup3h0+6ikqeBBXnhB7?=
- =?iso-8859-1?Q?sBJuR09zUsMw9CtZioRE/EHhFUfxotOdp/yo4ZxeFR3d/AMrpJPhjXzg?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0212D8768;
+	Tue,  8 Jul 2025 11:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751974838; cv=none; b=fzp5dKcoiaQVBRldJuUiDu0O1LFYdl7pSYqJeB8Mo6smbUTkK9TcHPBGnYf/cn7vD+UmHE9cSvO+cfc4ULMwzV9QM4rrpS6LYQOH7U6JXe5Z2Av4yDsRaRRpLLi4YDDnuZzm4Lm4gnt40o5+d+FbkdwXIyPLPcYuBvNXqoBnFXM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751974838; c=relaxed/simple;
+	bh=tukBZ65KVOyXmlK6AlSS7evfF8kjR+zfqw4Q3dS1AtM=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=apKVaqVwmCim2fo/aqNxmWWAvL8aes2RlWSSpHx5pKvhM4Nvp57lWPrFCYUDSACRg6dpJHeAquH8D6wtFgG2wvOSpCqxSraLa1OvIgREQFi9rHBfQj8DMe8vDQaXn873hXTM7Ui0KrN1g9zwFeesl++qTBvyeZdWzB+ml5XoK/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C/WhP6MI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E29B7E4;
+	Tue,  8 Jul 2025 13:40:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1751974807;
+	bh=tukBZ65KVOyXmlK6AlSS7evfF8kjR+zfqw4Q3dS1AtM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=C/WhP6MIs4P4DpKS3Ol7//vsRW7i8WSSb/dv+PBAELXVx6IHyqmNaFIMcu7rqNPy4
+	 XCZQTL7JZdM3NFUTLWkMpV1D6Ky3i33xy5h7Hxz428OpIWOx1nm3WLSMpUFvqhMsT7
+	 QVo0cLVF8PsMmQC0HbeuU9V1hDvHhTKWQzCEahQE=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 424123ac-7e86-48cb-2278-08ddbe129101
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2025 11:28:30.7679
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: olX53JboqqqT/JIBY0VlJTmzJUX6+bu1x1KDixlJJtL6I31SeeiDVFfM8X+F4FyofQIp0F4tDIXokkf2i7xp0kFcqpvn7140CXOdP2ja1Zisx4gLQzj8l+L1FiONpbAY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB1681
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250708102604.29261-3-hardevsinh.palaniya@siliconsignals.io>
+References: <20250708102604.29261-1-hardevsinh.palaniya@siliconsignals.io> <20250708102604.29261-3-hardevsinh.palaniya@siliconsignals.io>
+Subject: Re: [PATCH v2 2/2] media: i2c: add ov2735 image sensor driver
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Hans de Goede <hansg@kernel.org>, Ricardo Ribalda <ribalda@chromium.org>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Matthias Fend <matthias.fend@emfend.at>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Jingjing Xiong <jingjing.xiong@intel.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Dongcheng Yan <dongcheng.yan@intel.com>, Arnd Bergmann <arnd@arndb.de>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, andriy.shevchenko@linux.intel.com, krzk+dt@kernel.org, sakari.ailus@linux.intel.com, Pratap Nirujogi <pratap.nirujogi@amd.com>
+Date: Tue, 08 Jul 2025 12:40:31 +0100
+Message-ID: <175197483143.2538045.6355729937419390964@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-> On 08/07/2025 12:25, Hardevsinh Palaniya wrote:=0A=
-> > +=0A=
-> > +static const struct v4l2_subdev_ops ov2735_subdev_ops =3D {=0A=
-> > +     .video =3D &ov2735_video_ops,=0A=
-> > +     .pad =3D &ov2735_pad_ops,=0A=
-> > +};=0A=
-> > +=0A=
-> > +static const struct v4l2_subdev_internal_ops ov2735_internal_ops =3D {=
-=0A=
-> > +     .init_state =3D ov2735_init_state,=0A=
-> > +};=0A=
-> > +=0A=
-> > +static int ov2735_power_on(struct device *dev)=0A=
-> > +{=0A=
-> > +     struct v4l2_subdev *sd =3D dev_get_drvdata(dev);=0A=
-> > +     struct ov2735 *ov2735 =3D to_ov2735(sd);=0A=
-> > +     unsigned long delay_us;=0A=
-> > +     int ret;=0A=
-> > +=0A=
-> > +     gpiod_set_value_cansleep(ov2735->pwdn_gpio, 0);=0A=
-> =0A=
-> So you power up here...=0A=
-> =0A=
-> > +     fsleep(3000);=0A=
-> > +=0A=
-> > +     ret =3D regulator_bulk_enable(ARRAY_SIZE(ov2735_supply_name),=0A=
-> > +                                 ov2735->supplies);=0A=
-> > +     if (ret) {=0A=
-> > +             dev_err(ov2735->dev, "failed to enable regulators\n");=0A=
-> > +             return ret;=0A=
-> > +     }=0A=
-> > +=0A=
-> > +     gpiod_set_value_cansleep(ov2735->pwdn_gpio, 1);=0A=
-> =0A=
-> And here you power down your device. This makes no sense... unless this=
-=0A=
-> is not a power down GPIO.=0A=
- =0A=
-In Datasheet =0A=
-Power-up sequence:=0A=
-=0A=
-	  |--------------------------------------=0A=
-avdd  ----|=0A=
-	   <-t1->=0A=
-		|--------------------------------=0A=
-dovdd  ---------|=0A=
-		  <-T2->=0A=
-			|--------------------------=0A=
-dvdd  ------------------|=0A=
-			 <-T3->=0A=
-          |---------------------|=0A=
-pwdn -----|			|-------------------=0A=
-				  <-T4->=0A=
-					|-------------=0A=
-rst ------------------------------------| =0A=
-=0A=
-Best Regards,=0A=
-Hardev=
+Hi all,
+
+It looks like we have a second potential user for some CCI Page helpers:
+
+Hardevsinh,
+
+Could you take a look at the work being done by Pratap please?
+
+ - https://lore.kernel.org/all/4402c585-5cc2-428c-be3f-5f08eb53e97a@amd.com/
+
+Quoting Hardevsinh Palaniya (2025-07-08 11:25:56)
+> Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.
+>=20
+> The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an
+> active array size of 1920 x 1080.
+>=20
+> The following features are supported:
+> - Manual exposure an gain control support
+> - vblank/hblank control support
+> - Test pattern support control
+> - Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)
+>=20
+> Co-developed-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+> Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+> ---
+
+<snip>
+> +
+> +#define OV2735_XCLK_FREQ                       (24 * HZ_PER_MHZ)
+> +
+> +#define OV2735_REG_PAGE_SELECT                 CCI_REG8(0xfd)
+> +
+> +/* Page 0 */
+> +#define OV2735_REG_CHIPID                      CCI_REG16(0x02)
+> +#define OV2735_CHIPID                          0x2735
+> +
+> +#define OV2735_REG_SOFT_REST                   CCI_REG8(0x20)
+> +
+> +/* Clock Settings */
+> +#define OV2735_REG_PLL_CTRL                    CCI_REG8(0x2f)
+> +#define OV2735_REG_PLL_OUTDIV                  CCI_REG8(0x34)
+> +#define OV2735_REG_CLK_MODE                    CCI_REG8(0x30)
+> +#define OV2735_REG_CLOCK_REG1                  CCI_REG8(0x33)
+> +#define OV2735_REG_CLOCK_REG2                  CCI_REG8(0x35)
+> +
+> +/* Page 1 */
+> +#define OV2735_REG_STREAM_CTRL                 CCI_REG8(0xa0)
+> +#define OV2735_STREAM_ON                       0x01
+> +#define OV2735_STREAM_OFF                      0x00
+> +
+> +#define OV2735_REG_UPDOWN_MIRROR               CCI_REG8(0x3f)
+> +#define OV2735_REG_BINNING_DAC_CODE_MODE       CCI_REG8(0x30)
+> +#define OV2735_REG_FRAME_LENGTH                        CCI_REG16(0x0e)
+> +#define OV2735_VTS_MAX                         0x0fff
+> +#define OV2735_REG_FRAME_EXP_SEPERATE_EN       CCI_REG8(0x0d)
+> +#define OV2735_FRAME_EXP_SEPERATE_EN           0x10
+> +#define OV2735_REG_FRAME_SYNC                  CCI_REG8(0x01)
+> +
+> +#define OV2735_REG_HBLANK                      CCI_REG16(0x09)
+> +
+> +#define OV2735_REG_HS_MIPI                     CCI_REG8(0xb1)
+> +#define OV2735_REG_MIPI_CTRL1                  CCI_REG8(0x92)
+> +#define OV2735_REG_MIPI_CTRL2                  CCI_REG8(0x94)
+> +#define OV2735_REG_MIPI_CTRL3                  CCI_REG8(0xa1)
+> +#define OV2735_REG_MIPI_CTRL4                  CCI_REG8(0xb2)
+> +#define OV2735_REG_MIPI_CTRL5                  CCI_REG8(0xb3)
+> +#define OV2735_REG_MIPI_CTRL6                  CCI_REG8(0xb4)
+> +#define OV2735_REG_MIPI_CTRL7                  CCI_REG8(0xb5)
+> +#define OV2735_REG_PREPARE                     CCI_REG8(0x95)
+> +#define OV2735_REG_R_HS_ZERO                   CCI_REG8(0x96)
+> +#define OV2735_REG_TRAIL                       CCI_REG8(0x98)
+> +#define OV2735_REG_R_CLK_ZERO                  CCI_REG8(0x9c)
+> +#define OV2735_REG_MIPI_V_SIZE                 CCI_REG16(0x8e)
+> +#define OV2735_REG_MIPI_H_SIZE                 CCI_REG16(0x90)
+> +
+> +#define OV2735_REG_ANALOG_CTRL3                        CCI_REG8(0x25)
+> +#define OV2735_REG_VNCP                                CCI_REG8(0x20)
+> +
+> +/* BLC registers */
+> +#define OV2735_REG_BLC_GAIN_BLUE               CCI_REG8(0x86)
+> +#define OV2735_REG_BLC_GAIN_RED                        CCI_REG8(0x87)
+> +#define OV2735_REG_BLC_GAIN_GR                 CCI_REG8(0x88)
+> +#define OV2735_REG_BLC_GAIN_GB                 CCI_REG8(0x89)
+> +#define OV2735_REG_GB_SUBOFFSET                        CCI_REG8(0xf0)
+> +#define OV2735_REG_BLUE_SUBOFFSET              CCI_REG8(0xf1)
+> +#define OV2735_REG_RED_SUBOFFSET               CCI_REG8(0xf2)
+> +#define OV2735_REG_GR_SUBOFFSET                        CCI_REG8(0xf3)
+> +#define OV2735_REG_BLC_BPC_TH_P                        CCI_REG8(0xfc)
+> +#define OV2735_REG_BLC_BPC_TH_N                        CCI_REG8(0xfe)
+> +
+> +#define OV2735_REG_TEST_PATTERN                        CCI_REG8(0xb2)
+> +#define OV2735_TEST_PATTERN_ENABLE             0x01
+> +#define OV2735_TEST_PATTERN_DISABLE            0xfe
+> +
+> +#define OV2735_REG_LONG_EXPOSURE               CCI_REG16(0x03)
+> +#define        OV2735_EXPOSURE_MIN                     4
+> +#define        OV2735_EXPOSURE_STEP                    1
+> +
+> +#define OV2735_REG_ANALOG_GAIN                  CCI_REG8(0x24)
+> +#define        OV2735_ANALOG_GAIN_MIN                  0x10
+> +#define        OV2735_ANALOG_GAIN_MAX                  0xff
+> +#define        OV2735_ANALOG_GAIN_STEP                 1
+> +#define        OV2735_ANALOG_GAIN_DEFAULT              0x10
+> +
+> +/* Page 2 */
+> +#define OV2735_REG_V_START                     CCI_REG16(0xa0)
+> +#define OV2735_REG_V_SIZE                      CCI_REG16(0xa2)
+> +#define OV2735_REG_H_START                     CCI_REG16(0xa4)
+> +#define OV2735_REG_H_SIZE                      CCI_REG16(0xa6)
+> +
+> +#define OV2735_LINK_FREQ_420MHZ                        (420 * HZ_PER_MHZ)
+> +#define OV2735_PIXEL_RATE                      (168 * HZ_PER_MHZ)
+> +
+
+<snip>
+
+> +static struct cci_reg_sequence ov2735_1920_1080_30fps[] =3D {
+> +       { OV2735_REG_PAGE_SELECT,               0x00 },
+> +       { OV2735_REG_PLL_CTRL,                  0x10 },
+> +       { OV2735_REG_PLL_OUTDIV,                0x00 },
+> +       { OV2735_REG_CLK_MODE,                  0x15 },
+> +       { OV2735_REG_CLOCK_REG1,                0x01 },
+> +       { OV2735_REG_CLOCK_REG2,                0x20 },
+> +       { OV2735_REG_PAGE_SELECT,               0x01 },
+> +       { OV2735_REG_BINNING_DAC_CODE_MODE,     0x00 },
+> +       { CCI_REG8(0xfb),                       0x73 },
+> +       { OV2735_REG_FRAME_SYNC,                0x01 },
+> +       { OV2735_REG_PAGE_SELECT,               0x01 },
+> +
+> +       /* Timing ctrl */
+> +       { CCI_REG8(0x1a), 0x6b },
+> +       { CCI_REG8(0x1c), 0xea },
+> +       { CCI_REG8(0x16), 0x0c },
+> +       { CCI_REG8(0x21), 0x00 },
+> +       { CCI_REG8(0x11), 0x63 },
+> +       { CCI_REG8(0x19), 0xc3 },
+> +
+> +       /* Analog ctrl */
+> +       { CCI_REG8(0x26), 0x5a },
+> +       { CCI_REG8(0x29), 0x01 },
+> +       { CCI_REG8(0x33), 0x6f },
+> +       { CCI_REG8(0x2a), 0xd2 },
+> +       { CCI_REG8(0x2c), 0x40 },
+> +       { CCI_REG8(0xd0), 0x02 },
+> +       { CCI_REG8(0xd1), 0x01 },
+> +       { CCI_REG8(0xd2), 0x20 },
+> +       { CCI_REG8(0xd3), 0x04 },
+> +       { CCI_REG8(0xd4), 0x2a },
+> +       { CCI_REG8(0x50), 0x00 },
+> +       { CCI_REG8(0x51), 0x2c },
+> +       { CCI_REG8(0x52), 0x29 },
+> +       { CCI_REG8(0x53), 0x00 },
+> +       { CCI_REG8(0x55), 0x44 },
+> +       { CCI_REG8(0x58), 0x29 },
+> +       { CCI_REG8(0x5a), 0x00 },
+> +       { CCI_REG8(0x5b), 0x00 },
+> +       { CCI_REG8(0x5d), 0x00 },
+> +       { CCI_REG8(0x64), 0x2f },
+> +       { CCI_REG8(0x66), 0x62 },
+> +       { CCI_REG8(0x68), 0x5b },
+> +       { CCI_REG8(0x75), 0x46 },
+> +       { CCI_REG8(0x76), 0x36 },
+> +       { CCI_REG8(0x77), 0x4f },
+> +       { CCI_REG8(0x78), 0xef },
+> +       { CCI_REG8(0x72), 0xcf },
+> +       { CCI_REG8(0x73), 0x36 },
+> +       { CCI_REG8(0x7d), 0x0d },
+> +       { CCI_REG8(0x7e), 0x0d },
+> +       { CCI_REG8(0x8a), 0x77 },
+> +       { CCI_REG8(0x8b), 0x77 },
+> +
+> +       { OV2735_REG_PAGE_SELECT,       0x01 },
+> +       { OV2735_REG_HS_MIPI,           0x83 },
+> +       { OV2735_REG_MIPI_CTRL5,        0x0b },
+> +       { OV2735_REG_MIPI_CTRL6,        0x14 },
+> +       { CCI_REG8(0x9d),               0x40 },
+> +       { OV2735_REG_MIPI_CTRL3,        0x05 },
+> +       { OV2735_REG_MIPI_CTRL2,        0x44 },
+> +       { OV2735_REG_PREPARE,           0x33 },
+> +       { OV2735_REG_R_HS_ZERO, 0x1f },
+> +       { OV2735_REG_TRAIL,             0x45 },
+> +       { OV2735_REG_R_CLK_ZERO,        0x10 },
+> +       { OV2735_REG_MIPI_CTRL7,        0x70 },
+> +       { OV2735_REG_ANALOG_CTRL3,      0xe0 },
+> +       { OV2735_REG_VNCP,              0x7b },
+> +
+> +       /* BLC */
+> +       { OV2735_REG_PAGE_SELECT,       0x01 },
+> +       { OV2735_REG_BLC_GAIN_BLUE,     0x77 },
+> +       { OV2735_REG_BLC_GAIN_GB,       0x77 },
+> +       { OV2735_REG_BLC_GAIN_RED,      0x74 },
+> +       { OV2735_REG_BLC_GAIN_GR,       0x74 },
+> +       { OV2735_REG_BLC_BPC_TH_P,      0xe0 },
+> +       { OV2735_REG_BLC_BPC_TH_N,      0xe0 },
+> +       { OV2735_REG_GB_SUBOFFSET,      0x40 },
+> +       { OV2735_REG_BLUE_SUBOFFSET,    0x40 },
+> +       { OV2735_REG_RED_SUBOFFSET,     0x40 },
+> +       { OV2735_REG_GR_SUBOFFSET,      0x40 },
+> +
+> +       /* 1920x1080 */
+> +       { OV2735_REG_PAGE_SELECT,       0x02 },
+> +       { OV2735_REG_V_START,           0x0008 },
+> +       { OV2735_REG_V_SIZE,            0x0438 },
+> +       { OV2735_REG_H_START,           0x0008 },
+> +       { OV2735_REG_H_SIZE,            0x03c0 },
+> +       { OV2735_REG_PAGE_SELECT,       0x01 },
+> +       { OV2735_REG_MIPI_V_SIZE,       0x0780 },
+> +       { OV2735_REG_MIPI_H_SIZE,       0x0438 },
+> +};
+> +
+
+<snip>
+
+> +static int ov2735_enable_test_pattern(struct ov2735 *ov2735, u32 pattern)
+> +{
+> +       int ret =3D 0;
+> +       u64 val;
+> +
+> +       cci_read(ov2735->cci, OV2735_REG_TEST_PATTERN, &val, &ret);
+> +       if (ret)
+> +               return ret;
+> +
+> +       switch (pattern) {
+> +       case 0:
+> +               val &=3D ~OV2735_TEST_PATTERN_ENABLE;
+> +               break;
+> +       case 1:
+> +               val |=3D OV2735_TEST_PATTERN_ENABLE;
+> +               break;
+> +       }
+> +
+> +       return cci_write(ov2735->cci, OV2735_REG_TEST_PATTERN, val, NULL);
+> +}
+> +
+> +static int ov2735_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +       struct ov2735 *ov2735 =3D container_of(ctrl->handler, struct ov27=
+35,
+> +                                            handler);
+> +       const struct ov2735_mode *mode;
+> +       struct v4l2_mbus_framefmt *fmt;
+> +       struct v4l2_subdev_state *state;
+> +       u64 vts;
+> +       int ret =3D 0;
+> +
+> +       state =3D v4l2_subdev_get_locked_active_state(&ov2735->sd);
+> +       fmt =3D v4l2_subdev_state_get_format(state, 0);
+> +
+> +       mode =3D v4l2_find_nearest_size(supported_modes,
+> +                                     ARRAY_SIZE(supported_modes),
+> +                                     width, height,
+> +                                     fmt->width, fmt->height);
+> +
+> +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> +               /* Honour the VBLANK limits when setting exposure. */
+> +               s64 max =3D mode->height + ctrl->val - 4;
+> +
+> +               ret =3D __v4l2_ctrl_modify_range(ov2735->exposure,
+> +                                              ov2735->exposure->minimum,=
+ max,
+> +                                        ov2735->exposure->step,
+> +                                        ov2735->exposure->default_value);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       /*
+> +        * Applying V4L2 control value only happens
+> +        * when power is up for streaming.
+> +        */
+> +       if (pm_runtime_get_if_in_use(ov2735->dev) =3D=3D 0)
+> +               return 0;
+> +
+> +       cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x01, &ret);
+> +
+
+And this is a clear location (and the others though) that should use
+helpers so that the writes below are contained correctly to the correct
+page, and the page is only updated when it's changed.
+
+
+> +       switch (ctrl->id) {
+> +       case V4L2_CID_EXPOSURE:
+> +               cci_write(ov2735->cci, OV2735_REG_LONG_EXPOSURE, ctrl->va=
+l, &ret);
+> +               break;
+> +       case V4L2_CID_ANALOGUE_GAIN:
+> +               cci_write(ov2735->cci, OV2735_REG_ANALOG_GAIN, ctrl->val,=
+ &ret);
+> +               break;
+> +       case V4L2_CID_HBLANK:
+> +               cci_write(ov2735->cci, OV2735_REG_HBLANK, ctrl->val, &ret=
+);
+> +               break;
+> +       case V4L2_CID_VBLANK:
+> +               vts =3D ctrl->val + mode->height;
+> +               cci_write(ov2735->cci, OV2735_REG_FRAME_EXP_SEPERATE_EN,
+> +                                      OV2735_FRAME_EXP_SEPERATE_EN, &ret=
+);
+> +               cci_write(ov2735->cci, OV2735_REG_FRAME_LENGTH, vts, &ret=
+);
+> +               break;
+> +       case V4L2_CID_TEST_PATTERN:
+> +               ret =3D ov2735_enable_test_pattern(ov2735, ctrl->val);
+> +               break;
+> +       default:
+> +               dev_err(ov2735->dev, "ctrl(id:0x%x, val:0x%x) is not hand=
+led\n",
+> +                       ctrl->id, ctrl->val);
+> +               break;
+> +       }
+> +       cci_write(ov2735->cci, OV2735_REG_FRAME_SYNC, 0x01, &ret);
+> +
+> +       pm_runtime_put(ov2735->dev);
+> +
+> +       return ret;
+> +}
+
+<snip>
+
+> +
+> +static int ov2735_enable_streams(struct v4l2_subdev *sd,
+> +                                struct v4l2_subdev_state *state, u32 pad,
+> +                                u64 streams_mask)
+> +{
+> +       struct ov2735 *ov2735 =3D to_ov2735(sd);
+> +       const struct ov2735_mode *mode;
+> +       const struct ov2735_reglist *reg_list;
+> +       const struct v4l2_mbus_framefmt *fmt;
+> +       int ret;
+> +
+> +       fmt =3D v4l2_subdev_state_get_format(state, 0);
+> +       mode =3D v4l2_find_nearest_size(supported_modes,
+> +                                     ARRAY_SIZE(supported_modes),
+> +                                     width, height,
+> +                                     fmt->width, fmt->height);
+> +
+> +       ret =3D pm_runtime_resume_and_get(ov2735->dev);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       reg_list =3D &mode->reg_list;
+> +       cci_multi_reg_write(ov2735->cci, reg_list->regvals, reg_list->num=
+_regs, &ret);
+> +       if (ret) {
+> +               dev_err(ov2735->dev, "%s failed to send mfg header\n", __=
+func__);
+> +               goto err_rpm_put;
+> +       }
+> +
+> +       /* Apply customized values from user */
+> +       ret =3D  __v4l2_ctrl_handler_setup(ov2735->sd.ctrl_handler);
+> +       if (ret)
+> +               goto err_rpm_put;
+> +
+> +       /* set stream on register */
+> +       cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x01, &ret);
+> +       cci_write(ov2735->cci, OV2735_REG_STREAM_CTRL, OV2735_STREAM_ON, =
+&ret);
+
+More page handling could be combined.
+
+> +       if (ret)
+> +               goto err_rpm_put;
+> +
+> +       return 0;
+> +
+> +err_rpm_put:
+> +       pm_runtime_put(ov2735->dev);
+> +       return ret;
+> +}
+> +
+
+<snip>
+
+> +static int ov2735_identify_module(struct ov2735 *ov2735)
+> +{
+> +       u64 chip_id;
+> +       int ret =3D 0;
+> +
+> +       cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, 0x00, &ret);
+> +       cci_read(ov2735->cci, OV2735_REG_CHIPID, &chip_id, &ret);
+> +       if (ret)
+> +               return dev_err_probe(ov2735->dev, ret, "failed to read ch=
+ip id %x\n",
+> +                                    OV2735_CHIPID);
+> +
+> +       if (chip_id !=3D OV2735_CHIPID)
+> +               return dev_err_probe(ov2735->dev, -EIO, "chip id mismatch=
+: %x!=3D%llx\n",
+> +                                    OV2735_CHIPID, chip_id);
+> +
+> +       return 0;
+> +}
+
+<snipped>
+
+--
+Kieran
 
