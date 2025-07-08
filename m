@@ -1,1926 +1,234 @@
-Return-Path: <linux-media+bounces-37131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37133-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAA1AFCF08
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:23:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7CDAFCF4B
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 17:33:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1560F16EB06
-	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 15:22:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D5E43A451E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Jul 2025 15:31:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAF6D2E6123;
-	Tue,  8 Jul 2025 15:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CC6269CE1;
+	Tue,  8 Jul 2025 15:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="R1ijFnEI"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QUFhFI8Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2063.outbound.protection.outlook.com [40.107.236.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08A72E5B28;
-	Tue,  8 Jul 2025 15:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751988022; cv=none; b=M5tGDcORvUcdy9ZGrW97MfNd0eBUeL0p0NM0sHFyDaVgT9YxTyFK10ZAjd3RxFemFTKhn6VE5jHGpVmtNVNBx78P4DQZJgunJEKcEF1XVynjAZnlgWVSPbvaUdV2mG7FDxNVh1md1tEo43vIObpzrGCVmHr0elAZpie2BNc/ivU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751988022; c=relaxed/simple;
-	bh=4wu34vMBF9ubamU7DlbuF41jQ7q9Ko4ttaIZ1iMw/II=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NPI5DMDY2oYVc+Dc4ZuOe3SCTQ70FGYWp55wsBc0jkVvVD6GVcJMv6yEjsdUtSPrvREeYaFQHxkMsKfQ6A5Lq/xyJwdk9ELnMmVztoRCeRO2xTp1SrYhMn4VXJmBJnbc/4hAfTFefDp1aYlcHqcj10NFZ2yB41qXY7pzQjxRr4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=R1ijFnEI; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1751988016;
-	bh=4wu34vMBF9ubamU7DlbuF41jQ7q9Ko4ttaIZ1iMw/II=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R1ijFnEImalbhOpG0DLdvAh1GDz4kAl1OcOPWFX5SkTNybt3QDAJ4oA7KQGGQfJHV
-	 Y0psizu9KwAQZPto++MLapO4gcwPa632ulLCSkUIyiHf76RWg6NHuLoKFvNwHtxlAU
-	 0G5J47jALkOcL93HTGK1PK5XFHDsmTZ659SQP7vSFSr0Kc/FTH3Yg12SjDpv5zsW6d
-	 SyUMm4MRB+5F71TPvtvyC+b/LZPoosWdvncb75LRkB8pkK6ZbjCNJPBYhMJv4b7uv3
-	 BQtEvd1y1PaNMYZU7zCCfIL8T6a5RFeLefnBDa0Vf/QD+4DIs21VLKWawf0XJCnGRw
-	 VeyUneHhE7Abg==
-Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B425B17E053B;
-	Tue,  8 Jul 2025 17:20:14 +0200 (CEST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Detlev Casanova <detlev.casanova@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	kernel@collabora.com,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH 12/12] media: rkvdec: Add HEVC support for the VDPU383 variant
-Date: Tue,  8 Jul 2025 11:19:45 -0400
-Message-ID: <20250708151946.374349-13-detlev.casanova@collabora.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250708151946.374349-1-detlev.casanova@collabora.com>
-References: <20250708151946.374349-1-detlev.casanova@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7417021B908;
+	Tue,  8 Jul 2025 15:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751988701; cv=fail; b=c1nRSoUHxvL2ZZLzEgYdaL8zyvcgugAL7XDc+hiBKe7ic3k4Ae0bAz2klf20W+IIX7JdU7kx+m11aKDfUrKPI5mOWp7kS9CWTaYiaxjPleoPiHRoqX6vuOq2gd5Zebc/Tboo1QLHlCk72M0PpBeuC7SpWU3PRQy4JhHK2xAWdpM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751988701; c=relaxed/simple;
+	bh=/31gWu2ZMI9fJJrIyf6TwYK088gYetRu/yV8O9mKNS4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Fa7C8R2JjkWzmdOjcCiLUg+uVvtGWJAZZymhfVh8egNUaThjnpcjOY+Dmy52iEVsBMHxjzyNijflpQKo3iieWPBvn/Apc5qHU1UGIXV97MeCRr8uXmpePGFbnrGkqhQbrDJBBfgs0h+1rC7BAdBBX5xOHbKkkj48jhTpUJ1qKSo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QUFhFI8Q; arc=fail smtp.client-ip=40.107.236.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QjSr8C4h+3Zdv1L8u7SAQMz3M1hjIrwUIFVMnVCPEiGlpn99/IBDdBJYEuz7YdGvtTkA4XH4VFQpU8eJjQQbJilWR4svCqwbci9Q4gOJ+Ugu95Ox5WEBPAhZZcFheDrdmMJRT9caAWy0SBK8BlucrBe1V3DXOge0WJwo5VngK1e1e8ITWv/T5DQDWQOuOy1sMY1cekQXOV225wuEKsGoYkQWd0NrolHW6ZH3Of6XNIzwy2f+8YuyWp5RMQ2vnbB5LH4SajaEWzppd12it0WNPKp8ECFz2iU5kFZP8LizR4hgatbUahg5TdG0oUQ794wab4YLo1Y5g/esXzKONhLXhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vBVNirctPxRihHynhU4do1VtiphSIO2eNneqMGmvzQE=;
+ b=u9tRPQby0DiNmL5z3m7ofAhBUvjex6DKuBmOMec0ekV8fAuQgRp6Ax0Cjeahjy+bBae1YtHlykd5K7WgvLrLt7YHUoHE1/p34ge/9ouzbSbW1/Vtymjg0iGOeJInnzpNSrlPiTrELqhZXowB9H7D6CaS2m94GyRdSY96Ge395UK2Ndj/NqADyzMtH0HZXPKF39xwUvor8RA4neSsZwlANYGY7v5x5AN7vDxeie1vwOJNxKBBSv7JcosvTQBzVa9URcDVmq/98zY62s+DqVwI0OhUlB5bOd7Di/tFzTXMIeViXA+tI5MdB0hy8a6REr/XDXXcroo0P2edkaBIEcvwtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vBVNirctPxRihHynhU4do1VtiphSIO2eNneqMGmvzQE=;
+ b=QUFhFI8QNAmZEP5ZfwcPy0vtZJS0tT+yk8AJiWR/eyyPmrlcvjKM7peMZsfIGG1DrLN6jIGdAWlFTRnXJwHCQs3roUC3WFQ7UqFrI7pd4D0MkZWVkzbMOo7LwmZEzbXdqqRmB2OaGMN1mgMaXZlPxRO8xtVIWjsLAPk3DW8RnyI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY5PR12MB6429.namprd12.prod.outlook.com (2603:10b6:930:3b::16)
+ by IA1PR12MB7592.namprd12.prod.outlook.com (2603:10b6:208:428::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Tue, 8 Jul
+ 2025 15:31:36 +0000
+Received: from CY5PR12MB6429.namprd12.prod.outlook.com
+ ([fe80::1b40:2f7f:a826:3fa0]) by CY5PR12MB6429.namprd12.prod.outlook.com
+ ([fe80::1b40:2f7f:a826:3fa0%6]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
+ 15:31:36 +0000
+Message-ID: <402179e6-2195-4750-a731-d620c86818fd@amd.com>
+Date: Tue, 8 Jul 2025 11:31:33 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 RESEND] media: i2c: Add OV05C10 camera sensor driver
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hao Yao <hao.yao@intel.com>, Pratap Nirujogi <pratap.nirujogi@amd.com>,
+ mchehab@kernel.org, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org,
+ krzk@kernel.org, dave.stevenson@raspberrypi.com, hdegoede@redhat.com,
+ jai.luthra@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
+ dantony@amd.com, vengutta@amd.com, dongcheng.yan@intel.com,
+ jason.z.chen@intel.com, jimmy.su@intel.com
+References: <20250609194321.1611419-1-pratap.nirujogi@amd.com>
+ <6a49eb11-d434-4315-8ee9-0f8aa7347de2@intel.com>
+ <aEygCdk-zEqRwfoF@kekkonen.localdomain>
+ <20250614225257.GO10542@pendragon.ideasonboard.com>
+ <f6d1d8f7-d953-4f86-a196-f713726bd5f8@amd.com>
+ <ec790d0e-4bdb-49b9-80ad-f44e1b700a5e@linux.intel.com>
+ <702594a4-ebc3-471e-8551-d94f0dee2982@amd.com>
+ <0d45fca3-5b6f-42e5-acec-bca2dda25f15@linux.intel.com>
+ <aGTN5PbfyHTw529O@svinhufvud> <91985c5e-fc69-4d12-b5b0-3dff0ba1b078@amd.com>
+ <aGo9sDWSiZGvOhR4@kekkonen.localdomain>
+Content-Language: en-GB
+From: "Nirujogi, Pratap" <pnirujog@amd.com>
+In-Reply-To: <aGo9sDWSiZGvOhR4@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0484.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10c::7) To CY5PR12MB6429.namprd12.prod.outlook.com
+ (2603:10b6:930:3b::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6429:EE_|IA1PR12MB7592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53fbc0f4-3ad6-4141-fac3-08ddbe348678
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZlZKWEtQUm42WVBPWVpyQzVuQ0FZYWEzS2hXZEZ0eUl4QzE3bTIrbVAyemVy?=
+ =?utf-8?B?MWNQR09EZngwOUE0OUEwQmZVUEU1N3NNWFg3YkRRL1JKcXorM0RNZ3RoU3VJ?=
+ =?utf-8?B?SEs1aTdDMWRac1c0QVUwSXdCdFZESld0NmpwNVhaSk15VnYxQTVXcm4yUWcy?=
+ =?utf-8?B?R01zWTJaMDZCUTRZWmpmbXhWaHpsNW04S29lelp3bzJWRFdtMXF6MGt0Z0dF?=
+ =?utf-8?B?Nm9qd2g3VHVuMmZWVTY1Q3NRWjNKc2t3RlUxSUE3ZFp6OGJHNGs4S3c4bDZS?=
+ =?utf-8?B?Y0Z2MUNNRExaV3RPbzJmRW8yQVZUZGpVcnEvQzJBMEJpNjZQYVVFaUpLQUFh?=
+ =?utf-8?B?d3UxVGQ4SDJuVFVPczV5bGFicC96QkNLMXhmZW9iWkliUlQyTndlaklnb1pw?=
+ =?utf-8?B?RHhQOStVZS9ZMkVVZTJOZFMvVTdMd3A0SVVtV2E3dGpBdlBsSU52MHNsYkZI?=
+ =?utf-8?B?NjZTNnBNTm9tQ3c2cUZHZEFHSFJyOHBJSmc1OXA4K0xUZUZNN0hhM1hna1hx?=
+ =?utf-8?B?NTRMdVYxZmlXdS9USDZkVmhpUWkxeFFEQzY2NlJOOGQveGlrNzlES3F2NkhZ?=
+ =?utf-8?B?L0RaT0NFNEhIUDlQdmFJRjJsUFZHeEFyWmF0RXY5bmxVaGhxMjJOV2VUUzdz?=
+ =?utf-8?B?WEh5ZEtmdnpvZUtNYkRSL0ZRekFiUHJiTGkxQURRMERrOWJwc0tVK0M0VTI5?=
+ =?utf-8?B?Umd0ZXpFaHI3SnJvcFpjVkIzYmZIalZGZGRKS0hRdW1COWxwVnVWZ1JDaG9L?=
+ =?utf-8?B?VGEzdTBPMEllVm5aV0VwK0lUcEtLa0dJTW5lTXd2Nk8rZ1dyQnlrdmxRSzF0?=
+ =?utf-8?B?N05UWEszd2tHdFFlUG51d2ZJNTcrSnUrWis1ZlBOM0g3YXVQZDhqNkswMnFH?=
+ =?utf-8?B?eSs2d25ySzg3UUE0ZnVJMkpKblVURWxKUXNzMmlKUEVtaFhtMG9vaFQxMmZo?=
+ =?utf-8?B?aEpnRkdZR2FpV1kvNHo4aU5yMmFxM24zVmZQQ3hiek1tOFlhSldwS0VoZmY4?=
+ =?utf-8?B?bzhROW12L3FneHlEN2E4a2RNSEE4RFpHY0ZmYXYzS1p6UlN0RzVNa1dnK3hQ?=
+ =?utf-8?B?WHE2bnlRbkNWeG01MnljOXRRZUhZRmJuUWlNZGR1ZmgzUjdBVVIzMkpoZTNU?=
+ =?utf-8?B?SmxmSEYzZW5sSzdYa0Z1ZzNuelJMa1VvSCt0MUZWaDZGbjNURkU2NWF3OEpD?=
+ =?utf-8?B?NnI2QmhKbm9BTy81a0NDbnBWekExWDdiUC9ab0xnOVpiTlJOeGlCQUlFMnBu?=
+ =?utf-8?B?bGU5ZDJJQXpLYzh4Nk1PRWE5ZnY0UFR5cWJ3WFB3SC9UMXplWURRV0gyMFZF?=
+ =?utf-8?B?WVpqdW85SURDTDIyUXNjUlBzNlA0MFRGRDVOWDRwclhRK0VOajZRdFAzU2lo?=
+ =?utf-8?B?VXVNRy9LQ0t4eUQxTnQ1SDB4cnYvR1FaeDB1eldoajc0Q3EvMHMwKzFCeFlV?=
+ =?utf-8?B?WTFkMUltcGF0OU1UR0dwd2F0STIyMjNkd2JBRmdYdXNnbVBmVzlJclVzWmlv?=
+ =?utf-8?B?NWFpeVFhb0xsRUFiZDJHWFhaVkFSUCtoWGQwKzVGTWlDaUZxa1VMRENLODM2?=
+ =?utf-8?B?bkU3eWkxbVlJejU0V1l4bzlzdkJkdzZsaWVKWW01MGNqTnJ2UFo2cEpjZG82?=
+ =?utf-8?B?Y1pTTDdsMi9nN3owNU5BUUxIZXVlenlTL0NOQ3ZvM1JwZ0VqeHVuVEFrUldT?=
+ =?utf-8?B?UGFNcWJOZW1mT3VSd1g4dWozemlpdUZyUjdWUUxSU1UzY3VaSGlENGFRbUdJ?=
+ =?utf-8?B?WWh6WFVMcHZrZVM3eWhpaUlXb2daWHRGWVZnNlJIbWxXc2llOXFyd2Z6YnpQ?=
+ =?utf-8?B?TWVsRFd5b3ptSTA4MmZxRDJqc3JPdCtDZzNxeGpCRk1BUUtlWGJIYTRGczBX?=
+ =?utf-8?B?TFRadUYxSXdyUmFGbWt6ZjBHRzcyRWcrZTZySi9lSjhyK0c3Q1hOMStRZ09N?=
+ =?utf-8?Q?auH7vqa0DZw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6429.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SXVMN2pSSDV2RC9pVmJmRXpRa3VJd1E0LzBkaGpEMDdaaU5BNVQvdGttbUdD?=
+ =?utf-8?B?aVp3aHFncWR1Zlllb3M3SExWRlBOckk1R1JaYk4wbmZMKzNwTTlFbzlyeUlN?=
+ =?utf-8?B?b1A4MGUvK1ZEZ1FsdWpMY1I0VCtFM0R3VTd0WHVhVFVjNFozZ1hBUnV5TVJG?=
+ =?utf-8?B?YjdPQS95NnpacmZMaUhLejU1eWhPdXk5RU41b2g1eXB5UGQzREVFWVdzbkZw?=
+ =?utf-8?B?MnpEaU1sdG5CRm5QbEpLQjRoQXMwMFZaQUt4RlVjWGJodFBmK3oyQ0lYd1Ew?=
+ =?utf-8?B?cTkvSmNGdUFpdThIWDVSRGErZzhLcEtoQk9lWGhRTlZ1Z2lNcGdGUHgzSURQ?=
+ =?utf-8?B?ZjU0VlJTTVY4TXdPUllyOGlBNFFJa2VXdUlic3gvWWt0VjNXczlSNTFzWG96?=
+ =?utf-8?B?OG51NUY1RGpYMTk0VzRBZ05aMkN4RGkwcW9KUUd2Y0pZM0hQdTJWRFpIaUU1?=
+ =?utf-8?B?MW4yYmFLUEU1U1NCU3Rqa0x1Rnp4M094YkdPRkRMVHdKcWgwMHAzc0tUMC9a?=
+ =?utf-8?B?ZEJMSUJYN0ZRTnZnZDNjUThRQ1Q2enhraXlRQWhGTnhERnRNMFdwaEVUSUlO?=
+ =?utf-8?B?U3oramp5VGQ4VUtjRDN2TjFVZjJFZk9vVFlKRlpEM1NFak9hNklva3FaaVRI?=
+ =?utf-8?B?VHZHcnVSRjR3UGhkSUVPcW4rS3hNaXAzTWRITVNiK1plZkNLcnZERWZqZllt?=
+ =?utf-8?B?SXhQMTBZSTBhdnIxL1NsOVcvMlZWK0F0WU95N0dZLzE0YldkLzlNV2JxU1Yz?=
+ =?utf-8?B?eS9WQlVUaVcwQVlLU3pqUHFhcmhSV2U1OXIxdFZ5dWVTV0l2WDg0RFhrZzJL?=
+ =?utf-8?B?ak9HaGdjYWhyNmxCYUlPZzlmci80Nko4L2gwU2pKV2hwMHdRWWNITFI0SHVn?=
+ =?utf-8?B?d0ZNUnQ0OXBqVXg5SEVTWk9LSHJkdGY4d1lPb2dKNk56TDg4Rmt0aGYzUFF6?=
+ =?utf-8?B?RzdJY0xjRVpJcFJyU3pJR0VraFQ0VmZkL2VIbER0TVc4Y2tFU2hBR3Rua2xK?=
+ =?utf-8?B?RWhXR0p4WFRJWXpPNkQxWjRDdWwxZ3o4WThJWHFlYjZKU0FhMzc3ZW5yOTl6?=
+ =?utf-8?B?THpIaDAyNVpwbW9aVWhiRUpkUWdBNHMvL0RyUk5IRnF6cG5kdysxdnMzY0lQ?=
+ =?utf-8?B?QVdJSFdOTllDK2hFR0ZkaldMSVdJMlFaVHR1WDBQdzMvYldqdTZsdUhCSUk4?=
+ =?utf-8?B?dnV0UVdXMlVmNXZlZ01vd1ROc2tyWWhaY3hzOUZ1U3llYlF2T2NBVFFGY3Ji?=
+ =?utf-8?B?bkdjdERIcHM1cE1DWThPK2RuaHBYWU9HUGhNeVhCSVpBVTc2M2pWOTBtdWYv?=
+ =?utf-8?B?YXRBdW0xVkJ2RklHSVZBTzNJRkxwVzBpNWNQWnYvRFNOaHZRZ1I5bjhIVVly?=
+ =?utf-8?B?U3ZRaVkwcG1NZm1acUVkZkZDYjBtdmVoSlNIWHlLMndzeWhibDd3ZTB1Mi9P?=
+ =?utf-8?B?SFRDeXhyUlBTN2ZuQ3JmYTRqUlR1Q0dYVHBVMENDdUhGRjlBVnh4VjhmZzZ4?=
+ =?utf-8?B?Q3oxYUlFdU5pc2x5UjI0M1NNRGlFNTlPNUE3ZUk3bkdCTFZPRVJQTWZleFVF?=
+ =?utf-8?B?WEQ2VzUwTkt6ZFU0Vm5YNmtEbEdHTWo2QmRXL3IwVGVKNXZCcGpHZ2hqQ2kw?=
+ =?utf-8?B?YzNCaS9BQlYrbTBiaXZiSjlRcFFNR0w5bVcwSnlZamlaMUF5Qkdyb0NoajNX?=
+ =?utf-8?B?aFFpQStzdkpoNjJ0c0V2SlJObXZaU3F4cDRDZW4vemJLdVluKy85RTJrWDU4?=
+ =?utf-8?B?RXNvSG85RTdNMGdwYkVIS0J0V3JDZEdWZ3hyTlR6LzlLV0ZGQjRSS0g1RUIv?=
+ =?utf-8?B?TUNwMWdVNU1pbmRibmgvKzJCWFkzTlVMaWpYZzBOUEFNQ0oxbTI3eWFnbTdy?=
+ =?utf-8?B?SWJUQ0RTNlJYRmRwcGdZSW10MTU2QmwxeVpmNGh5R1JpeUJvNUVxeFFYZTZ3?=
+ =?utf-8?B?OEhmb0xRYlppSHRBektFRG1zc2dJd2NDbWdiY0ZOdkZaa3oxRk1MMS9zS3Ra?=
+ =?utf-8?B?T00rQVpSSjZEYUd5R1BUZitLcDlkYmM3S09pMU9WTzJSZmVDY0k5VzV6Vmt3?=
+ =?utf-8?B?L1BCRU9XWEQ2ZTNWWHVYTGpDclRPMjJiQnhPbFcxaHFIMlJZM3Z1c3d4Qys5?=
+ =?utf-8?Q?bV9bPCxFyWkeKMaY++tSYe2Ei?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53fbc0f4-3ad6-4141-fac3-08ddbe348678
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6429.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 15:31:36.2247
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JRutSaf2PI+c3C4/S35FG7hCgzRaFOvj7DcQwM+swK4gqsnDBehpBzKTlHgBVyHqJD8TnwOrij64KhQkI9XpuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7592
 
-The VDPU383 decoder is used on the RK3576 SoC and has support for HEVC.
+Hi Sakari,
 
-This patch also moves some functions to a common rkvdec-hevc-common.c
-file and adds a specific scaling matrix flatten function.
+On 7/6/2025 5:11 AM, Sakari Ailus wrote:
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+> 
+> 
+> Hi Pratap,
+> 
+> On Wed, Jul 02, 2025 at 12:47:40PM -0400, Nirujogi, Pratap wrote:
+>>>> If you have a spec of OV05C10 (I assume you do, as the developer of this
+>>>> driver), it is not a issue.
+>>>> Take P0:0x14 as an example, it's named as DPLL_NC_SEL in spec and set to
+>>>> 0x78 in your reglist ov05c10_2888x1808_regs. If define all named
+>>>> registers rather than the confusing magic hardcode, the driver code will
+>>>> be more readable and easy to review.
+>>>> I think this is what Sakari thought.
+>>>
+>>> Yes. And even if it happens that a register write slips to a wrong list,
+>>> we can fix it later.
+>>>
+>> I agree with the suggestion on proper naming of register offsets, but
+>> unfortunately we lack access to the spec. We are completely relying on the
+>> sensor vendor for these sequences, which they are not willing to share the
+>> details.
+> 
+> I find it difficult to believe a company such as AMD would use a camera
+> sensor without having documentation on it. It is essentially required for
+> hardware design, too.
+> 
+> Have you asked around?
+> 
+Yes, I checked internally too and sorry to say that we don't have 
+register programming guide (aka the register list definition). All 
+programming sequence are a result of FAE engineer from OV providing to 
+AMD based on the usecase requirements.
 
-The fluster score for JCT-VC-HEVC_V1 is 146/147.
+Thanks,
+Pratap
 
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
----
- .../media/platform/rockchip/rkvdec/Makefile   |   2 +
- .../rockchip/rkvdec/rkvdec-hevc-common.c      | 331 +++++++++
- .../rockchip/rkvdec/rkvdec-hevc-common.h      |  99 +++
- .../rockchip/rkvdec/rkvdec-vdpu381-hevc.c     | 452 +-----------
- .../rockchip/rkvdec/rkvdec-vdpu383-hevc.c     | 687 ++++++++++++++++++
- .../media/platform/rockchip/rkvdec/rkvdec.c   |  91 +++
- .../media/platform/rockchip/rkvdec/rkvdec.h   |   2 +
- 7 files changed, 1222 insertions(+), 442 deletions(-)
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
-
-diff --git a/drivers/media/platform/rockchip/rkvdec/Makefile b/drivers/media/platform/rockchip/rkvdec/Makefile
-index 895d345c88a8a..3e072099894ea 100644
---- a/drivers/media/platform/rockchip/rkvdec/Makefile
-+++ b/drivers/media/platform/rockchip/rkvdec/Makefile
-@@ -5,8 +5,10 @@ rockchip-vdec-y += \
- 		   rkvdec-cabac.o \
- 		   rkvdec-h264.o \
- 		   rkvdec-h264-common.o \
-+		   rkvdec-hevc-common.o \
- 		   rkvdec-rcb.o \
- 		   rkvdec-vdpu381-h264.o \
- 		   rkvdec-vdpu381-hevc.o \
- 		   rkvdec-vdpu383-h264.o \
-+		   rkvdec-vdpu383-hevc.o \
- 		   rkvdec-vp9.o
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
-new file mode 100644
-index 0000000000000..0cefec53fc974
---- /dev/null
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
-@@ -0,0 +1,331 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Rockchip video decoder hevc common functions
-+ *
-+ * Copyright (C) 2025 Collabora, Ltd.
-+ *  Detlev Casanova <detlev.casanova@collabora.com>
-+ */
-+
-+#include "rkvdec-hevc-common.h"
-+#include "rkvdec.h"
-+
-+#define RKVDEC_HEVC_MAX_DEPTH_IN_BYTES		2
-+
-+enum rkvdec_image_fmt rkvdec_hevc_get_image_fmt(struct rkvdec_ctx *ctx,
-+						struct v4l2_ctrl *ctrl)
-+{
-+	const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-+
-+	if (ctrl->id != V4L2_CID_STATELESS_HEVC_SPS)
-+		return RKVDEC_IMG_FMT_ANY;
-+
-+	if (sps->bit_depth_luma_minus8 == 0) {
-+		if (sps->chroma_format_idc == 2)
-+			return RKVDEC_IMG_FMT_422_8BIT;
-+		else
-+			return RKVDEC_IMG_FMT_420_8BIT;
-+	}
-+
-+	return RKVDEC_IMG_FMT_ANY;
-+}
-+
-+void compute_tiles_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			   u16 width, u16 height, s32 pic_in_cts_width,
-+			   s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
-+{
-+	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
-+	int i;
-+
-+	for (i = 0; i < pps->num_tile_columns_minus1 + 1; i++)
-+		column_width[i] = ((i + 1) * pic_in_cts_width) /
-+				  (pps->num_tile_columns_minus1 + 1) -
-+				  (i * pic_in_cts_width) /
-+				  (pps->num_tile_columns_minus1 + 1);
-+
-+	for (i = 0; i < pps->num_tile_rows_minus1 + 1; i++)
-+		row_height[i] = ((i + 1) * pic_in_cts_height) /
-+				(pps->num_tile_rows_minus1 + 1) -
-+				(i * pic_in_cts_height) /
-+				(pps->num_tile_rows_minus1 + 1);
-+}
-+
-+void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			       u16 width, u16 height, s32 pic_in_cts_width,
-+			       s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
-+{
-+	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
-+	s32 sum = 0;
-+	int i;
-+
-+	for (i = 0; i < pps->num_tile_columns_minus1; i++) {
-+		column_width[i] = pps->column_width_minus1[i] + 1;
-+		sum += column_width[i];
-+	}
-+	column_width[i] = pic_in_cts_width - sum;
-+
-+	sum = 0;
-+	for (i = 0; i < pps->num_tile_rows_minus1; i++) {
-+		row_height[i] = pps->row_height_minus1[i] + 1;
-+		sum += row_height[i];
-+	}
-+	row_height[i] = pic_in_cts_height - sum;
-+}
-+
-+static void set_ref_poc(struct rkvdec_rps_short_term_ref_set *set, int poc, int value, int flag)
-+{
-+	switch (poc) {
-+	case 0:
-+		set->delta_poc0 = value;
-+		set->used_flag0 = flag;
-+		break;
-+	case 1:
-+		set->delta_poc1 = value;
-+		set->used_flag1 = flag;
-+		break;
-+	case 2:
-+		set->delta_poc2 = value;
-+		set->used_flag2 = flag;
-+		break;
-+	case 3:
-+		set->delta_poc3 = value;
-+		set->used_flag3 = flag;
-+		break;
-+	case 4:
-+		set->delta_poc4 = value;
-+		set->used_flag4 = flag;
-+		break;
-+	case 5:
-+		set->delta_poc5 = value;
-+		set->used_flag5 = flag;
-+		break;
-+	case 6:
-+		set->delta_poc6 = value;
-+		set->used_flag6 = flag;
-+		break;
-+	case 7:
-+		set->delta_poc7 = value;
-+		set->used_flag7 = flag;
-+		break;
-+	case 8:
-+		set->delta_poc8 = value;
-+		set->used_flag8 = flag;
-+		break;
-+	case 9:
-+		set->delta_poc9 = value;
-+		set->used_flag9 = flag;
-+		break;
-+	case 10:
-+		set->delta_poc10 = value;
-+		set->used_flag10 = flag;
-+		break;
-+	case 11:
-+		set->delta_poc11 = value;
-+		set->used_flag11 = flag;
-+		break;
-+	case 12:
-+		set->delta_poc12 = value;
-+		set->used_flag12 = flag;
-+		break;
-+	case 13:
-+		set->delta_poc13 = value;
-+		set->used_flag13 = flag;
-+		break;
-+	case 14:
-+		set->delta_poc14 = value;
-+		set->used_flag14 = flag;
-+		break;
-+	}
-+}
-+
-+static void assemble_scalingfactor0(struct rkvdec_dev *rkvdec,
-+				    u8 *output,
-+				    const struct v4l2_ctrl_hevc_scaling_matrix *input)
-+{
-+	struct rkvdec_config *cfg = rkvdec->config;
-+	int offset = 0;
-+
-+	cfg->flatten_matrices(output, (const u8 *)input->scaling_list_4x4, 6, 4);
-+	offset = 6 * 16 * sizeof(u8);
-+	cfg->flatten_matrices(output + offset, (const u8 *)input->scaling_list_8x8, 6, 8);
-+	offset += 6 * 64 * sizeof(u8);
-+	cfg->flatten_matrices(output + offset, (const u8 *)input->scaling_list_16x16, 6, 8);
-+	offset += 6 * 64 * sizeof(u8);
-+
-+	/* Add a 128 byte padding with 0s between the two 32x32 matrices */
-+	cfg->flatten_matrices(output + offset, (const u8 *)input->scaling_list_32x32, 1, 8);
-+	offset += 64 * sizeof(u8);
-+	memset(output + offset, 0, 128);
-+	offset += 128 * sizeof(u8);
-+	cfg->flatten_matrices(output + offset,
-+			      (const u8 *)input->scaling_list_32x32 + (64 * sizeof(u8)), 1, 8);
-+	offset += 64 * sizeof(u8);
-+	memset(output + offset, 0, 128);
-+}
-+
-+/*
-+ * Required layout:
-+ * A = scaling_list_dc_coef_16x16
-+ * B = scaling_list_dc_coef_32x32
-+ * 0 = Padding
-+ *
-+ * A, A, A, A, A, A, B, 0, 0, B, 0, 0
-+ */
-+static void assemble_scalingdc(u8 *output, const struct v4l2_ctrl_hevc_scaling_matrix *input)
-+{
-+	u8 list_32x32[6] = {0};
-+
-+	memcpy(output, input->scaling_list_dc_coef_16x16, 6 * sizeof(u8));
-+	list_32x32[0] = input->scaling_list_dc_coef_32x32[0];
-+	list_32x32[3] = input->scaling_list_dc_coef_32x32[1];
-+	memcpy(output + 6 * sizeof(u8), list_32x32, 6 * sizeof(u8));
-+}
-+
-+static void translate_scaling_list(struct rkvdec_dev *rkvdec, struct scaling_factor *output,
-+				   const struct v4l2_ctrl_hevc_scaling_matrix *input)
-+{
-+	assemble_scalingfactor0(rkvdec, output->scalingfactor0, input);
-+	memcpy(output->scalingfactor1, (const u8 *)input->scaling_list_4x4, 96);
-+	assemble_scalingdc(output->scalingdc, input);
-+	memset(output->reserved, 0, 4 * sizeof(u8));
-+}
-+
-+void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_dev *rkvdec,
-+					  struct rkvdec_hevc_run *run,
-+					  struct scaling_factor *scaling_list,
-+					  struct v4l2_ctrl_hevc_scaling_matrix *cache)
-+{
-+	const struct v4l2_ctrl_hevc_scaling_matrix *scaling = run->scaling_matrix;
-+
-+	if (!memcmp(cache, scaling,
-+		    sizeof(struct v4l2_ctrl_hevc_scaling_matrix)))
-+		return;
-+
-+	translate_scaling_list(rkvdec, scaling_list, scaling);
-+
-+	memcpy(cache, scaling,
-+	       sizeof(struct v4l2_ctrl_hevc_scaling_matrix));
-+}
-+
-+void rkvdec_hevc_assemble_hw_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps)
-+{
-+	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
-+
-+	memset(rps, 0, sizeof(*rps));
-+
-+	if (!run->sps_rps_extended)
-+		return;
-+
-+	for (int i = 0; i < sps->num_long_term_ref_pics_sps; i++) {
-+		rps->refs[i].lt_ref_pic_poc_lsb =
-+			run->sps_rps_extended[i].lt_ref_pic_poc_lsb_sps;
-+		rps->refs[i].used_by_curr_pic_lt_flag =
-+			!!(run->sps_rps_extended[i].flags & V4L2_HEVC_EXT_SPS_RPS_FLAG_USED_LT);
-+	}
-+
-+	for (int i = 0; i < sps->num_short_term_ref_pic_sets; i++) {
-+		int poc = 0;
-+		int j = 0;
-+		const struct v4l2_ctrl_hevc_ext_sps_rps *set =
-+			&run->sps_rps_extended[i];
-+
-+		rps->short_term_ref_sets[i].num_negative = set->num_negative_pics;
-+		rps->short_term_ref_sets[i].num_positive = set->num_positive_pics;
-+
-+		for (; j < set->num_negative_pics; j++) {
-+			set_ref_poc(&rps->short_term_ref_sets[i], j,
-+				    set->delta_poc_s0[j], set->used_by_curr_pic_s0[j]);
-+		}
-+		poc = j;
-+
-+		for (j = 0; j < set->num_positive_pics; j++) {
-+			set_ref_poc(&rps->short_term_ref_sets[i], poc + j,
-+				    set->delta_poc_s1[j], set->used_by_curr_pic_s1[j]);
-+		}
-+	}
-+}
-+
-+struct vb2_buffer *get_ref_buf(struct rkvdec_ctx *ctx,
-+			       struct rkvdec_hevc_run *run,
-+			       unsigned int dpb_idx)
-+{
-+	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-+	const struct v4l2_ctrl_hevc_decode_params *decode_params = run->decode_params;
-+	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
-+	struct vb2_queue *cap_q = &m2m_ctx->cap_q_ctx.q;
-+	struct vb2_buffer *buf = NULL;
-+
-+	if (dpb_idx < decode_params->num_active_dpb_entries)
-+		buf = vb2_find_buffer(cap_q, dpb[dpb_idx].timestamp);
-+
-+	/*
-+	 * If a DPB entry is unused or invalid, the address of current destination
-+	 * buffer is returned.
-+	 */
-+	if (!buf)
-+		return &run->base.bufs.dst->vb2_buf;
-+
-+	return buf;
-+}
-+
-+int rkvdec_hevc_adjust_fmt(struct rkvdec_ctx *ctx,
-+			   struct v4l2_format *f)
-+{
-+	struct v4l2_pix_format_mplane *fmt = &f->fmt.pix_mp;
-+
-+	fmt->num_planes = 1;
-+	if (!fmt->plane_fmt[0].sizeimage)
-+		fmt->plane_fmt[0].sizeimage = fmt->width * fmt->height *
-+					      RKVDEC_HEVC_MAX_DEPTH_IN_BYTES;
-+	return 0;
-+}
-+
-+int rkvdec_hevc_validate_sps(struct rkvdec_ctx *ctx,
-+			     const struct v4l2_ctrl_hevc_sps *sps)
-+{
-+	/* Only 4:2:0 is supported */
-+	if (sps->chroma_format_idc != 1)
-+		return -EINVAL;
-+
-+	/* Luma and chroma bit depth mismatch */
-+	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-+		return -EINVAL;
-+
-+	/* Only 8-bit and 10-bit are supported */
-+	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
-+		return -EINVAL;
-+
-+	if (sps->pic_width_in_luma_samples > ctx->coded_fmt.fmt.pix_mp.width ||
-+	    sps->pic_height_in_luma_samples > ctx->coded_fmt.fmt.pix_mp.height)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+void rkvdec_hevc_run_preamble(struct rkvdec_ctx *ctx,
-+			      struct rkvdec_hevc_run *run)
-+{
-+	struct v4l2_ctrl *ctrl;
-+
-+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+			      V4L2_CID_STATELESS_HEVC_DECODE_PARAMS);
-+	run->decode_params = ctrl ? ctrl->p_cur.p : NULL;
-+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+			      V4L2_CID_STATELESS_HEVC_SLICE_PARAMS);
-+	run->slice_params = ctrl ? ctrl->p_cur.p : NULL;
-+	run->num_slices = ctrl ? ctrl->new_elems : 0;
-+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+			      V4L2_CID_STATELESS_HEVC_SPS);
-+	run->sps = ctrl ? ctrl->p_cur.p : NULL;
-+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+			      V4L2_CID_STATELESS_HEVC_PPS);
-+	run->pps = ctrl ? ctrl->p_cur.p : NULL;
-+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+			      V4L2_CID_STATELESS_HEVC_SCALING_MATRIX);
-+	run->scaling_matrix = ctrl ? ctrl->p_cur.p : NULL;
-+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+			      V4L2_CID_STATELESS_HEVC_EXT_SPS_RPS);
-+	run->sps_rps_extended = ctrl ? ctrl->p_cur.p : NULL;
-+
-+	rkvdec_run_preamble(ctx, &run->base);
-+}
-+
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
-new file mode 100644
-index 0000000000000..94c98da4236a5
---- /dev/null
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
-@@ -0,0 +1,99 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Rockchip video decoder hevc common functions
-+ *
-+ * Copyright (C) 2025 Collabora, Ltd.
-+ *  Detlev Casanova <detlev.casanova@collabora.com>
-+ */
-+
-+#include <linux/types.h>
-+
-+#include "rkvdec.h"
-+
-+struct rkvdec_rps_refs {
-+	u16 lt_ref_pic_poc_lsb;
-+	u16 used_by_curr_pic_lt_flag	: 1;
-+	u16 reserved			: 15;
-+} __packed;
-+
-+struct rkvdec_rps_short_term_ref_set {
-+	u32 num_negative	: 4;
-+	u32 num_positive	: 4;
-+	u32 delta_poc0		: 16;
-+	u32 used_flag0		: 1;
-+	u32 delta_poc1		: 16;
-+	u32 used_flag1		: 1;
-+	u32 delta_poc2		: 16;
-+	u32 used_flag2		: 1;
-+	u32 delta_poc3		: 16;
-+	u32 used_flag3		: 1;
-+	u32 delta_poc4		: 16;
-+	u32 used_flag4		: 1;
-+	u32 delta_poc5		: 16;
-+	u32 used_flag5		: 1;
-+	u32 delta_poc6		: 16;
-+	u32 used_flag6		: 1;
-+	u32 delta_poc7		: 16;
-+	u32 used_flag7		: 1;
-+	u32 delta_poc8		: 16;
-+	u32 used_flag8		: 1;
-+	u32 delta_poc9		: 16;
-+	u32 used_flag9		: 1;
-+	u32 delta_poc10		: 16;
-+	u32 used_flag10		: 1;
-+	u32 delta_poc11		: 16;
-+	u32 used_flag11		: 1;
-+	u32 delta_poc12		: 16;
-+	u32 used_flag12		: 1;
-+	u32 delta_poc13		: 16;
-+	u32 used_flag13		: 1;
-+	u32 delta_poc14		: 16;
-+	u32 used_flag14		: 1;
-+	u32 reserved_bits	: 25;
-+	u32 reserved[3];
-+} __packed;
-+
-+struct rkvdec_rps {
-+	struct rkvdec_rps_refs refs[32];
-+	struct rkvdec_rps_short_term_ref_set short_term_ref_sets[64];
-+} __packed;
-+
-+struct rkvdec_hevc_run {
-+	struct rkvdec_run				base;
-+	const struct v4l2_ctrl_hevc_decode_params	*decode_params;
-+	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
-+	const struct v4l2_ctrl_hevc_sps			*sps;
-+	const struct v4l2_ctrl_hevc_pps			*pps;
-+	const struct v4l2_ctrl_hevc_scaling_matrix	*scaling_matrix;
-+	const struct v4l2_ctrl_hevc_ext_sps_rps		*sps_rps_extended;
-+	int						num_slices;
-+};
-+
-+struct scaling_factor {
-+	u8 scalingfactor0[1248];
-+	u8 scalingfactor1[96];		/*4X4 TU Rotate, total 16X4*/
-+	u8 scalingdc[12];		/*N1005 Vienna Meeting*/
-+	u8 reserved[4];			/*16Bytes align*/
-+} __packed;
-+
-+extern const u8 rkvdec_hevc_cabac_table[27456];
-+
-+enum rkvdec_image_fmt rkvdec_hevc_get_image_fmt(struct rkvdec_ctx *ctx,
-+						struct v4l2_ctrl *ctrl);
-+void compute_tiles_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			   u16 width, u16 height, s32 pic_in_cts_width,
-+			   s32 pic_in_cts_height, u16 *column_width, u16 *row_height);
-+void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			       u16 width, u16 height, s32 pic_in_cts_width,
-+			       s32 pic_in_cts_height, u16 *column_width, u16 *row_height);
-+void rkvdec_hevc_assemble_hw_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps);
-+void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_dev *rkvdec,
-+					  struct rkvdec_hevc_run *run,
-+					  struct scaling_factor *scaling_factor,
-+					  struct v4l2_ctrl_hevc_scaling_matrix *cache);
-+struct vb2_buffer *get_ref_buf(struct rkvdec_ctx *ctx,
-+			       struct rkvdec_hevc_run *run,
-+			       unsigned int dpb_idx);
-+int rkvdec_hevc_adjust_fmt(struct rkvdec_ctx *ctx, struct v4l2_format *f);
-+int rkvdec_hevc_validate_sps(struct rkvdec_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
-+void rkvdec_hevc_run_preamble(struct rkvdec_ctx *ctx, struct rkvdec_hevc_run *run);
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
-index ff00e47eefbc8..c39a99133e74d 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
-@@ -10,10 +10,9 @@
- 
- #include "rkvdec.h"
- #include "rkvdec-rcb.h"
-+#include "rkvdec-hevc-common.h"
- #include "rkvdec-vdpu381-regs.h"
- 
--extern const u8 rkvdec_hevc_cabac_table[27456];
--
- // SPS
- struct rkvdec_hevc_sps {
- 	u16 video_parameters_set_id			: 4;
-@@ -107,159 +106,19 @@ struct rkvdec_sps_pps_packet {
- 	u32 padding;
- } __packed;
- 
--struct rkvdec_rps_refs {
--	u16 lt_ref_pic_poc_lsb;
--	u16 used_by_curr_pic_lt_flag	: 1;
--	u16 reserved			: 15;
--} __packed;
--
--struct rkvdec_rps_short_term_ref_set {
--	u32 num_negative	: 4;
--	u32 num_positive	: 4;
--	u32 delta_poc0		: 16;
--	u32 used_flag0		: 1;
--	u32 delta_poc1		: 16;
--	u32 used_flag1		: 1;
--	u32 delta_poc2		: 16;
--	u32 used_flag2		: 1;
--	u32 delta_poc3		: 16;
--	u32 used_flag3		: 1;
--	u32 delta_poc4		: 16;
--	u32 used_flag4		: 1;
--	u32 delta_poc5		: 16;
--	u32 used_flag5		: 1;
--	u32 delta_poc6		: 16;
--	u32 used_flag6		: 1;
--	u32 delta_poc7		: 16;
--	u32 used_flag7		: 1;
--	u32 delta_poc8		: 16;
--	u32 used_flag8		: 1;
--	u32 delta_poc9		: 16;
--	u32 used_flag9		: 1;
--	u32 delta_poc10		: 16;
--	u32 used_flag10		: 1;
--	u32 delta_poc11		: 16;
--	u32 used_flag11		: 1;
--	u32 delta_poc12		: 16;
--	u32 used_flag12		: 1;
--	u32 delta_poc13		: 16;
--	u32 used_flag13		: 1;
--	u32 delta_poc14		: 16;
--	u32 used_flag14		: 1;
--	u32 reserved_bits	: 25;
--	u32 reserved[3];
--} __packed;
--
--struct rkvdec_rps {
--	struct rkvdec_rps_refs refs[32];
--	struct rkvdec_rps_short_term_ref_set short_term_ref_sets[64];
--} __packed;
--
--struct rkvdec_hevc_scaling_list {
--	u8 scaling_list_4x4[6][16];
--	u8 scaling_list_8x8[6][64];
--	u8 padding[128];
--};
--
--#define RKV_SCALING_LIST_SIZE		1360
--
- struct rkvdec_hevc_priv_tbl {
- 	struct rkvdec_sps_pps_packet param_set[64];
- 	struct rkvdec_rps rps;
--	u8 scaling_list[RKV_SCALING_LIST_SIZE];
-+	struct scaling_factor scaling_list;
- 	u8 cabac_table[27456];
- };
- 
--struct rkvdec_hevc_run {
--	struct rkvdec_run				base;
--	const struct v4l2_ctrl_hevc_decode_params	*decode_params;
--	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
--	const struct v4l2_ctrl_hevc_sps			*sps;
--	const struct v4l2_ctrl_hevc_pps			*pps;
--	const struct v4l2_ctrl_hevc_scaling_matrix	*scaling_matrix;
--	const struct v4l2_ctrl_hevc_ext_sps_rps		*sps_rps_extended;
--	int						num_slices;
--};
--
- struct rkvdec_hevc_ctx {
- 	struct rkvdec_aux_buf			priv_tbl;
- 	struct v4l2_ctrl_hevc_scaling_matrix	scaling_matrix_cache;
- 	struct rkvdec_vdpu381_regs_hevc		regs;
- };
- 
--struct scaling_factor {
--	u8 scalingfactor0[1248];
--	u8 scalingfactor1[96];		/*4X4 TU Rotate, total 16X4*/
--	u8 scalingdc[12];		/*N1005 Vienna Meeting*/
--	u8 reserved[4];			/*16Bytes align*/
--};
--
--static enum rkvdec_image_fmt rkvdec_hevc_get_image_fmt(struct rkvdec_ctx *ctx,
--							 struct v4l2_ctrl *ctrl)
--{
--	const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
--
--	if (ctrl->id != V4L2_CID_STATELESS_HEVC_SPS)
--		return RKVDEC_IMG_FMT_ANY;
--
--	if (sps->bit_depth_luma_minus8 == 0) {
--		if (sps->chroma_format_idc == 2)
--			return RKVDEC_IMG_FMT_422_8BIT;
--		else
--			return RKVDEC_IMG_FMT_420_8BIT;
--	} else if (sps->bit_depth_luma_minus8 == 2) {
--		if (sps->chroma_format_idc == 2)
--			return RKVDEC_IMG_FMT_422_10BIT;
--		else
--			return RKVDEC_IMG_FMT_420_10BIT;
--	}
--
--	return RKVDEC_IMG_FMT_ANY;
--}
--
--static void compute_tiles_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
--				      u16 width, u16 height, s32 pic_in_cts_width,
--				      s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
--{
--	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
--	int i;
--
--	for (i = 0; i < pps->num_tile_columns_minus1 + 1; i++)
--		column_width[i] = ((i + 1) * pic_in_cts_width) /
--				  (pps->num_tile_columns_minus1 + 1) -
--				  (i * pic_in_cts_width) /
--				  (pps->num_tile_columns_minus1 + 1);
--
--	for (i = 0; i < pps->num_tile_rows_minus1 + 1; i++)
--		row_height[i] = ((i + 1) * pic_in_cts_height) /
--				(pps->num_tile_rows_minus1 + 1) -
--				(i * pic_in_cts_height) /
--				(pps->num_tile_rows_minus1 + 1);
--
--}
--
--static void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
--				      u16 width, u16 height, s32 pic_in_cts_width,
--				      s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
--{
--	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
--	s32 sum = 0;
--	int i;
--
--	for (i = 0; i < pps->num_tile_columns_minus1; i++) {
--		column_width[i] = pps->column_width_minus1[i] + 1;
--		sum += column_width[i];
--	}
--	column_width[i] = pic_in_cts_width - sum;
--
--	sum = 0;
--	for (i = 0; i < pps->num_tile_rows_minus1; i++) {
--		row_height[i] = pps->row_height_minus1[i] + 1;
--		sum += row_height[i];
--	}
--	row_height[i] = pic_in_cts_height - sum;
--}
--
- static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 			    struct rkvdec_hevc_run *run)
- {
-@@ -442,72 +301,6 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 	hw_ps->padding_bits = 0x3;
- }
- 
--static void set_ref_poc(struct rkvdec_rps_short_term_ref_set *set, int poc, int value, int flag)
--{
--	switch (poc) {
--	case 0:
--		set->delta_poc0 = value;
--		set->used_flag0 = flag;
--		break;
--	case 1:
--		set->delta_poc1 = value;
--		set->used_flag1 = flag;
--		break;
--	case 2:
--		set->delta_poc2 = value;
--		set->used_flag2 = flag;
--		break;
--	case 3:
--		set->delta_poc3 = value;
--		set->used_flag3 = flag;
--		break;
--	case 4:
--		set->delta_poc4 = value;
--		set->used_flag4 = flag;
--		break;
--	case 5:
--		set->delta_poc5 = value;
--		set->used_flag5 = flag;
--		break;
--	case 6:
--		set->delta_poc6 = value;
--		set->used_flag6 = flag;
--		break;
--	case 7:
--		set->delta_poc7 = value;
--		set->used_flag7 = flag;
--		break;
--	case 8:
--		set->delta_poc8 = value;
--		set->used_flag8 = flag;
--		break;
--	case 9:
--		set->delta_poc9 = value;
--		set->used_flag9 = flag;
--		break;
--	case 10:
--		set->delta_poc10 = value;
--		set->used_flag10 = flag;
--		break;
--	case 11:
--		set->delta_poc11 = value;
--		set->used_flag11 = flag;
--		break;
--	case 12:
--		set->delta_poc12 = value;
--		set->used_flag12 = flag;
--		break;
--	case 13:
--		set->delta_poc13 = value;
--		set->used_flag13 = flag;
--		break;
--	case 14:
--		set->delta_poc14 = value;
--		set->used_flag14 = flag;
--		break;
--	}
--}
--
- static void set_ref_valid(struct rkvdec_vdpu381_regs_hevc *regs, int id, u32 valid)
- {
- 	switch (id) {
-@@ -559,150 +352,6 @@ static void set_ref_valid(struct rkvdec_vdpu381_regs_hevc *regs, int id, u32 val
- 	}
- }
- 
--static void assemble_hw_rps(struct rkvdec_ctx *ctx,
--			    struct rkvdec_hevc_run *run)
--{
--	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
--	struct rkvdec_hevc_priv_tbl *priv_tbl = hevc_ctx->priv_tbl.cpu;
--	struct rkvdec_rps *rps = &priv_tbl->rps;
--	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
--
--	memset(rps, 0, sizeof(*rps));
--
--	if (!run->sps_rps_extended)
--		return;
--
--	for (int i = 0; i < sps->num_long_term_ref_pics_sps; i++) {
--		rps->refs[i].lt_ref_pic_poc_lsb =
--			run->sps_rps_extended[i].lt_ref_pic_poc_lsb_sps;
--		rps->refs[i].used_by_curr_pic_lt_flag =
--			!!(run->sps_rps_extended[i].flags & V4L2_HEVC_EXT_SPS_RPS_FLAG_USED_LT);
--	}
--
--	for (int i = 0; i < sps->num_short_term_ref_pic_sets; i++) {
--		int poc = 0;
--		int j = 0;
--		const struct v4l2_ctrl_hevc_ext_sps_rps *set =
--			&run->sps_rps_extended[i];
--
--		rps->short_term_ref_sets[i].num_negative = set->num_negative_pics;
--		rps->short_term_ref_sets[i].num_positive = set->num_positive_pics;
--
--		for (; j < set->num_negative_pics; j++) {
--			set_ref_poc(&rps->short_term_ref_sets[i], j,
--				    set->delta_poc_s0[j], set->used_by_curr_pic_s0[j]);
--		}
--		poc = j;
--
--		for (j = 0; j < set->num_positive_pics; j++) {
--			set_ref_poc(&rps->short_term_ref_sets[i], poc + j,
--				    set->delta_poc_s1[j], set->used_by_curr_pic_s1[j]);
--		}
--	}
--}
--
--/*
-- * Flip one or more matrices along their main diagonal and flatten them
-- * before writing it to the memory.
-- * Convert:
-- * ABCD         AEIM
-- * EFGH     =>  BFJN     =>     AEIMBFJNCGKODHLP
-- * IJKL         CGKO
-- * MNOP         DHLP
-- */
--static void transpose_and_flatten_matrices(u8 *output, const u8 *input,
--					   int matrices, int row_length)
--{
--	int i, j, row, x_offset, matrix_offset, rot_index, y_offset, matrix_size, new_value;
--
--	matrix_size = row_length * row_length;
--	for (i = 0; i < matrices; i++) {
--		row = 0;
--		x_offset = 0;
--		matrix_offset = i * matrix_size;
--		for (j = 0; j < matrix_size; j++) {
--			y_offset = j - (row * row_length);
--			rot_index = y_offset * row_length + x_offset;
--			new_value = *(input + i * matrix_size + j);
--			output[matrix_offset + rot_index] = new_value;
--			if ((j + 1) % row_length == 0) {
--				row += 1;
--				x_offset += 1;
--			}
--		}
--	}
--}
--
--static void assemble_scalingfactor0(u8 *output, const struct v4l2_ctrl_hevc_scaling_matrix *input)
--{
--	int offset = 0;
--
--	transpose_and_flatten_matrices(output, (const u8 *)input->scaling_list_4x4, 6, 4);
--	offset = 6 * 16 * sizeof(u8);
--	transpose_and_flatten_matrices(output + offset, (const u8 *)input->scaling_list_8x8, 6, 8);
--	offset += 6 * 64 * sizeof(u8);
--	transpose_and_flatten_matrices(output + offset,
--				       (const u8 *)input->scaling_list_16x16, 6, 8);
--	offset += 6 * 64 * sizeof(u8);
--	/* Add a 128 byte padding with 0s between the two 32x32 matrices */
--	transpose_and_flatten_matrices(output + offset,
--				       (const u8 *)input->scaling_list_32x32, 1, 8);
--	offset += 64 * sizeof(u8);
--	memset(output + offset, 0, 128);
--	offset += 128 * sizeof(u8);
--	transpose_and_flatten_matrices(output + offset,
--				       (const u8 *)input->scaling_list_32x32 + (64 * sizeof(u8)),
--				       1, 8);
--	offset += 64 * sizeof(u8);
--	memset(output + offset, 0, 128);
--}
--
--/*
-- * Required layout:
-- * A = scaling_list_dc_coef_16x16
-- * B = scaling_list_dc_coef_32x32
-- * 0 = Padding
-- *
-- * A, A, A, A, A, A, B, 0, 0, B, 0, 0
-- */
--static void assemble_scalingdc(u8 *output, const struct v4l2_ctrl_hevc_scaling_matrix *input)
--{
--	u8 list_32x32[6] = {0};
--
--	memcpy(output, input->scaling_list_dc_coef_16x16, 6 * sizeof(u8));
--	list_32x32[0] = input->scaling_list_dc_coef_32x32[0];
--	list_32x32[3] = input->scaling_list_dc_coef_32x32[1];
--	memcpy(output + 6 * sizeof(u8), list_32x32, 6 * sizeof(u8));
--}
--
--static void translate_scaling_list(struct scaling_factor *output,
--				   const struct v4l2_ctrl_hevc_scaling_matrix *input)
--{
--	assemble_scalingfactor0(output->scalingfactor0, input);
--	memcpy(output->scalingfactor1, (const u8 *)input->scaling_list_4x4, 96);
--	assemble_scalingdc(output->scalingdc, input);
--	memset(output->reserved, 0, 4 * sizeof(u8));
--}
--
--static void assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
--				     struct rkvdec_hevc_run *run)
--{
--	const struct v4l2_ctrl_hevc_scaling_matrix *scaling = run->scaling_matrix;
--	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
--	struct rkvdec_hevc_priv_tbl *tbl = hevc_ctx->priv_tbl.cpu;
--	u8 *dst;
--
--	if (!memcmp((void *)&hevc_ctx->scaling_matrix_cache, scaling,
--		    sizeof(struct v4l2_ctrl_hevc_scaling_matrix)))
--		return;
--
--	dst = tbl->scaling_list;
--	translate_scaling_list((struct scaling_factor *)dst, scaling);
--
--	memcpy((void *)&hevc_ctx->scaling_matrix_cache, scaling,
--	       sizeof(struct v4l2_ctrl_hevc_scaling_matrix));
--}
--
- static void rkvdec_write_regs(struct rkvdec_ctx *ctx)
- {
- 	struct rkvdec_dev *rkvdec = ctx->dev;
-@@ -725,29 +374,6 @@ static void rkvdec_write_regs(struct rkvdec_ctx *ctx)
- 			    sizeof(hevc_ctx->regs.hevc_highpoc));
- }
- 
--static struct vb2_buffer *
--get_ref_buf(struct rkvdec_ctx *ctx, struct rkvdec_hevc_run *run,
--	    unsigned int dpb_idx)
--{
--	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
--	const struct v4l2_ctrl_hevc_decode_params *decode_params = run->decode_params;
--	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
--	struct vb2_queue *cap_q = &m2m_ctx->cap_q_ctx.q;
--	struct vb2_buffer *buf = NULL;
--
--	if (dpb_idx < decode_params->num_active_dpb_entries)
--		buf = vb2_find_buffer(cap_q, dpb[dpb_idx].timestamp);
--
--	/*
--	 * If a DPB entry is unused or invalid, the address of current destination
--	 * buffer is returned.
--	 */
--	if (!buf)
--		return &run->base.bufs.dst->vb2_buf;
--
--	return buf;
--}
--
- static void config_registers(struct rkvdec_ctx *ctx,
- 			     struct rkvdec_hevc_run *run)
- {
-@@ -872,42 +498,6 @@ static void config_registers(struct rkvdec_ctx *ctx,
- 	rkvdec_write_regs(ctx);
- }
- 
--#define RKVDEC_HEVC_MAX_DEPTH_IN_BYTES		2
--
--static int rkvdec_hevc_adjust_fmt(struct rkvdec_ctx *ctx,
--				  struct v4l2_format *f)
--{
--	struct v4l2_pix_format_mplane *fmt = &f->fmt.pix_mp;
--
--	fmt->num_planes = 1;
--	if (!fmt->plane_fmt[0].sizeimage)
--		fmt->plane_fmt[0].sizeimage = fmt->width * fmt->height *
--					      RKVDEC_HEVC_MAX_DEPTH_IN_BYTES;
--	return 0;
--}
--
--static int rkvdec_hevc_validate_sps(struct rkvdec_ctx *ctx,
--				    const struct v4l2_ctrl_hevc_sps *sps)
--{
--	/* Only 4:2:0 is supported */
--	if (sps->chroma_format_idc != 1)
--		return -EINVAL;
--
--	/* Luma and chroma bit depth mismatch */
--	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
--		return -EINVAL;
--
--	/* Only 8-bit and 10-bit are supported */
--	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
--		return -EINVAL;
--
--	if (sps->pic_width_in_luma_samples > ctx->coded_fmt.fmt.pix_mp.width ||
--	    sps->pic_height_in_luma_samples > ctx->coded_fmt.fmt.pix_mp.height)
--		return -EINVAL;
--
--	return 0;
--}
--
- static int rkvdec_hevc_start(struct rkvdec_ctx *ctx)
- {
- 	struct rkvdec_dev *rkvdec = ctx->dev;
-@@ -959,44 +549,22 @@ static void rkvdec_hevc_stop(struct rkvdec_ctx *ctx)
- 	kfree(hevc_ctx);
- }
- 
--static void rkvdec_hevc_run_preamble(struct rkvdec_ctx *ctx,
--				     struct rkvdec_hevc_run *run)
--{
--	struct v4l2_ctrl *ctrl;
--
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_STATELESS_HEVC_DECODE_PARAMS);
--	run->decode_params = ctrl ? ctrl->p_cur.p : NULL;
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_STATELESS_HEVC_SLICE_PARAMS);
--	run->slice_params = ctrl ? ctrl->p_cur.p : NULL;
--	run->num_slices = ctrl ? ctrl->new_elems : 0;
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_STATELESS_HEVC_SPS);
--	run->sps = ctrl ? ctrl->p_cur.p : NULL;
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_STATELESS_HEVC_PPS);
--	run->pps = ctrl ? ctrl->p_cur.p : NULL;
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_STATELESS_HEVC_SCALING_MATRIX);
--	run->scaling_matrix = ctrl ? ctrl->p_cur.p : NULL;
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_STATELESS_HEVC_EXT_SPS_RPS);
--	run->sps_rps_extended = ctrl ? ctrl->p_cur.p : NULL;
--
--	rkvdec_run_preamble(ctx, &run->base);
--}
--
- static int rkvdec_hevc_run(struct rkvdec_ctx *ctx)
- {
- 	struct rkvdec_dev *rkvdec = ctx->dev;
- 	struct rkvdec_hevc_run run;
-+	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
-+	struct rkvdec_hevc_priv_tbl *tbl = hevc_ctx->priv_tbl.cpu;
- 
- 	rkvdec_hevc_run_preamble(ctx, &run);
- 
--	assemble_hw_scaling_list(ctx, &run);
-+	rkvdec_hevc_assemble_hw_scaling_list(
-+			rkvdec,
-+			&run,
-+			&tbl->scaling_list,
-+			&hevc_ctx->scaling_matrix_cache);
- 	assemble_hw_pps(ctx, &run);
--	assemble_hw_rps(ctx, &run);
-+	rkvdec_hevc_assemble_hw_rps(&run, &tbl->rps);
- 
- 	config_registers(ctx, &run);
- 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
-new file mode 100644
-index 0000000000000..fa33a10f158f8
---- /dev/null
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
-@@ -0,0 +1,687 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Rockchip VDPU383 HEVC backend
-+ *
-+ * Copyright (C) 2025 Collabora, Ltd.
-+ *  Detlev Casanova <detlev.casanova@collabora.com>
-+ */
-+
-+#include <media/v4l2-mem2mem.h>
-+
-+#include "rkvdec.h"
-+#include "rkvdec-rcb.h"
-+#include "rkvdec-hevc-common.h"
-+#include "rkvdec-vdpu383-regs.h"
-+
-+struct rkvdec_hevc_sps_pps {
-+	// SPS
-+	u16 video_parameters_set_id			: 4;
-+	u16 seq_parameters_set_id_sps			: 4;
-+	u16 chroma_format_idc				: 2;
-+	u16 width					: 16;
-+	u16 height					: 16;
-+	u16 bit_depth_luma				: 3;
-+	u16 bit_depth_chroma				: 3;
-+	u16 max_pic_order_count_lsb			: 5;
-+	u16 diff_max_min_luma_coding_block_size		: 2;
-+	u16 min_luma_coding_block_size			: 3;
-+	u16 min_transform_block_size			: 3;
-+	u16 diff_max_min_transform_block_size		: 2;
-+	u16 max_transform_hierarchy_depth_inter		: 3;
-+	u16 max_transform_hierarchy_depth_intra		: 3;
-+	u16 scaling_list_enabled_flag			: 1;
-+	u16 amp_enabled_flag				: 1;
-+	u16 sample_adaptive_offset_enabled_flag		: 1;
-+	u16 pcm_enabled_flag				: 1;
-+	u16 pcm_sample_bit_depth_luma			: 4;
-+	u16 pcm_sample_bit_depth_chroma			: 4;
-+	u16 pcm_loop_filter_disabled_flag		: 1;
-+	u16 diff_max_min_pcm_luma_coding_block_size	: 3;
-+	u16 min_pcm_luma_coding_block_size		: 3;
-+	u16 num_short_term_ref_pic_sets			: 7;
-+	u16 long_term_ref_pics_present_flag		: 1;
-+	u16 num_long_term_ref_pics_sps			: 6;
-+	u16 sps_temporal_mvp_enabled_flag		: 1;
-+	u16 strong_intra_smoothing_enabled_flag		: 1;
-+	u16 reserved0					: 7;
-+	u16 sps_max_dec_pic_buffering_minus1		: 4;
-+	u16 separate_colour_plane_flag			: 1;
-+	u16 high_precision_offsets_enabled_flag		: 1;
-+	u16 persistent_rice_adaptation_enabled_flag	: 1;
-+
-+	// PPS
-+	u16 picture_parameters_set_id			: 6;
-+	u16 seq_parameters_set_id_pps			: 4;
-+	u16 dependent_slice_segments_enabled_flag	: 1;
-+	u16 output_flag_present_flag			: 1;
-+	u16 num_extra_slice_header_bits			: 13;
-+	u16 sign_data_hiding_enabled_flag		: 1;
-+	u16 cabac_init_present_flag			: 1;
-+	u16 num_ref_idx_l0_default_active		: 4;
-+	u16 num_ref_idx_l1_default_active		: 4;
-+	u16 init_qp_minus26				: 7;
-+	u16 constrained_intra_pred_flag			: 1;
-+	u16 transform_skip_enabled_flag			: 1;
-+	u16 cu_qp_delta_enabled_flag			: 1;
-+	u16 log2_min_cb_size				: 3;
-+	u16 pps_cb_qp_offset				: 5;
-+	u16 pps_cr_qp_offset				: 5;
-+	u16 pps_slice_chroma_qp_offsets_present_flag	: 1;
-+	u16 weighted_pred_flag				: 1;
-+	u16 weighted_bipred_flag			: 1;
-+	u16 transquant_bypass_enabled_flag		: 1;
-+	u16 tiles_enabled_flag				: 1;
-+	u16 entropy_coding_sync_enabled_flag		: 1;
-+	u16 pps_loop_filter_across_slices_enabled_flag	: 1;
-+	u16 loop_filter_across_tiles_enabled_flag	: 1;
-+	u16 deblocking_filter_override_enabled_flag	: 1;
-+	u16 pps_deblocking_filter_disabled_flag		: 1;
-+	u16 pps_beta_offset_div2			: 4;
-+	u16 pps_tc_offset_div2				: 4;
-+	u16 lists_modification_present_flag		: 1;
-+	u16 log2_parallel_merge_level			: 3;
-+	u16 slice_segment_header_extension_present_flag	: 1;
-+	u16 reserved1					: 3;
-+
-+	// pps extensions
-+	u16 log2_max_transform_skip_block_size		: 2;
-+	u16 cross_component_prediction_enabled_flag	: 1;
-+	u16 chroma_qp_offset_list_enabled_flag		: 1;
-+	u16 log2_min_cu_chroma_qp_delta_size		: 3;
-+	u16 cb_qp_offset_list0				: 5;
-+	u16 cb_qp_offset_list1				: 5;
-+	u16 cb_qp_offset_list2				: 5;
-+	u16 cb_qp_offset_list3				: 5;
-+	u16 cb_qp_offset_list4				: 5;
-+	u16 cb_qp_offset_list5				: 5;
-+	u16 cb_cr_offset_list0				: 5;
-+	u16 cb_cr_offset_list1				: 5;
-+	u16 cb_cr_offset_list2				: 5;
-+	u16 cb_cr_offset_list3				: 5;
-+	u16 cb_cr_offset_list4				: 5;
-+	u16 cb_cr_offset_list5				: 5;
-+	u16 chroma_qp_offset_list_len_minus1		: 3;
-+
-+	/* mvc0 && mvc1 */
-+	u16 mvc_ff					: 16;
-+	u16 mvc_00					: 9;
-+
-+	/* poc info */
-+	u16 reserved2					: 3;
-+	u32 current_poc					: 32;
-+	u32 ref_pic_poc0				: 32;
-+	u32 ref_pic_poc1				: 32;
-+	u32 ref_pic_poc2				: 32;
-+	u32 ref_pic_poc3				: 32;
-+	u32 ref_pic_poc4				: 32;
-+	u32 ref_pic_poc5				: 32;
-+	u32 ref_pic_poc6				: 32;
-+	u32 ref_pic_poc7				: 32;
-+	u32 ref_pic_poc8				: 32;
-+	u32 ref_pic_poc9				: 32;
-+	u32 ref_pic_poc10				: 32;
-+	u32 ref_pic_poc11				: 32;
-+	u32 ref_pic_poc12				: 32;
-+	u32 ref_pic_poc13				: 32;
-+	u32 ref_pic_poc14				: 32;
-+	u32 reserved3					: 32;
-+	u32 ref_is_valid				: 15;
-+	u32 reserved4					: 1;
-+
-+	/* tile info*/
-+	u16 num_tile_columns				: 5;
-+	u16 num_tile_rows				: 5;
-+	u32 column_width0				: 24;
-+	u32 column_width1				: 24;
-+	u32 column_width2				: 24;
-+	u32 column_width3				: 24;
-+	u32 column_width4				: 24;
-+	u32 column_width5				: 24;
-+	u32 column_width6				: 24;
-+	u32 column_width7				: 24;
-+	u32 column_width8				: 24;
-+	u32 column_width9				: 24;
-+	u32 row_height0					: 24;
-+	u32 row_height1					: 24;
-+	u32 row_height2					: 24;
-+	u32 row_height3					: 24;
-+	u32 row_height4					: 24;
-+	u32 row_height5					: 24;
-+	u32 row_height6					: 24;
-+	u32 row_height7					: 24;
-+	u32 row_height8					: 24;
-+	u32 row_height9					: 24;
-+	u32 row_height10				: 24;
-+	u32 reserved5					: 2;
-+	u32 padding;
-+} __packed;
-+
-+struct rkvdec_hevc_priv_tbl {
-+	struct rkvdec_hevc_sps_pps param_set;
-+	struct rkvdec_rps rps;
-+	struct scaling_factor scaling_list;
-+	u8 cabac_table[27456];
-+}  __packed;
-+
-+struct rkvdec_hevc_ctx {
-+	struct rkvdec_aux_buf			priv_tbl;
-+	struct v4l2_ctrl_hevc_scaling_matrix	scaling_matrix_cache;
-+	struct vdpu383_regs_h26x		regs;
-+};
-+
-+static void set_column_row(struct rkvdec_hevc_sps_pps *hw_ps, u16 column, u16 row, int i)
-+{
-+	int shift = (i & 1) ? 12 : 0;
-+
-+	switch (i/2) {
-+	case 0:
-+		hw_ps->column_width0 |= column << shift;
-+		hw_ps->row_height0 |= row << shift;
-+		break;
-+	case 1:
-+		hw_ps->column_width1 |= column << shift;
-+		hw_ps->row_height1 |= row << shift;
-+		break;
-+	case 2:
-+		hw_ps->column_width2 |= column << shift;
-+		hw_ps->row_height2 |= row << shift;
-+		break;
-+	case 3:
-+		hw_ps->column_width3 |= column << shift;
-+		hw_ps->row_height3 |= row << shift;
-+		break;
-+	case 4:
-+		hw_ps->column_width4 |= column << shift;
-+		hw_ps->row_height4 |= row << shift;
-+		break;
-+	case 5:
-+		hw_ps->column_width5 |= column << shift;
-+		hw_ps->row_height5 |= row << shift;
-+		break;
-+	case 6:
-+		hw_ps->column_width6 |= column << shift;
-+		hw_ps->row_height6 |= row << shift;
-+		break;
-+	case 7:
-+		hw_ps->column_width7 |= column << shift;
-+		hw_ps->row_height7 |= row << shift;
-+		break;
-+	case 8:
-+		hw_ps->column_width8 |= column << shift;
-+		hw_ps->row_height8 |= row << shift;
-+		break;
-+	case 9:
-+		hw_ps->column_width9 |= column << shift;
-+		hw_ps->row_height9 |= row << shift;
-+		break;
-+	case 10:
-+		hw_ps->row_height10 |= row << shift;
-+		break;
-+	}
-+}
-+
-+static void set_pps_ref_pic_poc(struct rkvdec_hevc_sps_pps *hw_ps, u32 poc, int i)
-+{
-+	switch (i) {
-+	case 0:
-+		hw_ps->ref_pic_poc0 = poc;
-+		break;
-+	case 1:
-+		hw_ps->ref_pic_poc1 = poc;
-+		break;
-+	case 2:
-+		hw_ps->ref_pic_poc2 = poc;
-+		break;
-+	case 3:
-+		hw_ps->ref_pic_poc3 = poc;
-+		break;
-+	case 4:
-+		hw_ps->ref_pic_poc4 = poc;
-+		break;
-+	case 5:
-+		hw_ps->ref_pic_poc5 = poc;
-+		break;
-+	case 6:
-+		hw_ps->ref_pic_poc6 = poc;
-+		break;
-+	case 7:
-+		hw_ps->ref_pic_poc7 = poc;
-+		break;
-+	case 8:
-+		hw_ps->ref_pic_poc8 = poc;
-+		break;
-+	case 9:
-+		hw_ps->ref_pic_poc9 = poc;
-+		break;
-+	case 10:
-+		hw_ps->ref_pic_poc10 = poc;
-+		break;
-+	case 11:
-+		hw_ps->ref_pic_poc11 = poc;
-+		break;
-+	case 12:
-+		hw_ps->ref_pic_poc12 = poc;
-+		break;
-+	case 13:
-+		hw_ps->ref_pic_poc13 = poc;
-+		break;
-+	case 14:
-+		hw_ps->ref_pic_poc14 = poc;
-+		break;
-+	}
-+}
-+
-+static void assemble_hw_pps(struct rkvdec_ctx *ctx,
-+			    struct rkvdec_hevc_run *run)
-+{
-+	struct rkvdec_hevc_ctx *h264_ctx = ctx->priv;
-+	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
-+	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
-+	const struct v4l2_ctrl_hevc_decode_params *dec_params = run->decode_params;
-+	struct rkvdec_hevc_priv_tbl *priv_tbl = h264_ctx->priv_tbl.cpu;
-+	struct rkvdec_hevc_sps_pps *hw_ps;
-+	bool tiles_enabled;
-+	s32 max_cu_width;
-+	s32 pic_in_cts_width;
-+	s32 pic_in_cts_height;
-+	u16 log2_min_cb_size, width, height;
-+	u16 column_width[22];
-+	u16 row_height[22];
-+	u8 pcm_enabled;
-+	u32 i;
-+
-+	/*
-+	 * HW read the SPS/PPS information from PPS packet index by PPS id.
-+	 * offset from the base can be calculated by PPS_id * 32 (size per PPS
-+	 * packet unit). so the driver copy SPS/PPS information to the exact PPS
-+	 * packet unit for HW accessing.
-+	 */
-+	hw_ps = &priv_tbl->param_set;
-+	memset(hw_ps, 0, sizeof(*hw_ps));
-+
-+	/* write sps */
-+	hw_ps->video_parameters_set_id = sps->video_parameter_set_id;
-+	hw_ps->seq_parameters_set_id_sps = sps->seq_parameter_set_id;
-+	hw_ps->chroma_format_idc = sps->chroma_format_idc;
-+
-+	log2_min_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
-+	width = sps->pic_width_in_luma_samples;
-+	height = sps->pic_height_in_luma_samples;
-+	hw_ps->width = width;
-+	hw_ps->height = height;
-+	hw_ps->bit_depth_luma = sps->bit_depth_luma_minus8 + 8;
-+	hw_ps->bit_depth_chroma = sps->bit_depth_chroma_minus8 + 8;
-+	hw_ps->max_pic_order_count_lsb = sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
-+	hw_ps->diff_max_min_luma_coding_block_size = sps->log2_diff_max_min_luma_coding_block_size;
-+	hw_ps->min_luma_coding_block_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
-+	hw_ps->min_transform_block_size = sps->log2_min_luma_transform_block_size_minus2 + 2;
-+	hw_ps->diff_max_min_transform_block_size =
-+		sps->log2_diff_max_min_luma_transform_block_size;
-+	hw_ps->max_transform_hierarchy_depth_inter = sps->max_transform_hierarchy_depth_inter;
-+	hw_ps->max_transform_hierarchy_depth_intra = sps->max_transform_hierarchy_depth_intra;
-+	hw_ps->scaling_list_enabled_flag =
-+		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
-+	hw_ps->amp_enabled_flag = !!(sps->flags & V4L2_HEVC_SPS_FLAG_AMP_ENABLED);
-+	hw_ps->sample_adaptive_offset_enabled_flag =
-+		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET);
-+
-+	pcm_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_ENABLED);
-+	hw_ps->pcm_enabled_flag = pcm_enabled;
-+	hw_ps->pcm_sample_bit_depth_luma =
-+		pcm_enabled ? sps->pcm_sample_bit_depth_luma_minus1 + 1 : 0;
-+	hw_ps->pcm_sample_bit_depth_chroma =
-+		pcm_enabled ? sps->pcm_sample_bit_depth_chroma_minus1 + 1 : 0;
-+	hw_ps->pcm_loop_filter_disabled_flag =
-+		!!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED);
-+	hw_ps->diff_max_min_pcm_luma_coding_block_size =
-+		sps->log2_diff_max_min_pcm_luma_coding_block_size;
-+	hw_ps->min_pcm_luma_coding_block_size =
-+		pcm_enabled ? sps->log2_min_pcm_luma_coding_block_size_minus3 + 3 : 0;
-+	hw_ps->num_short_term_ref_pic_sets = sps->num_short_term_ref_pic_sets;
-+	hw_ps->long_term_ref_pics_present_flag =
-+		!!(sps->flags & V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT);
-+	hw_ps->num_long_term_ref_pics_sps = sps->num_long_term_ref_pics_sps;
-+	hw_ps->sps_temporal_mvp_enabled_flag =
-+		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED);
-+	hw_ps->strong_intra_smoothing_enabled_flag =
-+		!!(sps->flags & V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED);
-+	hw_ps->sps_max_dec_pic_buffering_minus1 = sps->sps_max_dec_pic_buffering_minus1;
-+
-+	/* write pps */
-+	hw_ps->picture_parameters_set_id = pps->pic_parameter_set_id;
-+	hw_ps->seq_parameters_set_id_pps = sps->seq_parameter_set_id;
-+	hw_ps->dependent_slice_segments_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED);
-+	hw_ps->output_flag_present_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT);
-+	hw_ps->num_extra_slice_header_bits = pps->num_extra_slice_header_bits;
-+	hw_ps->sign_data_hiding_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED);
-+	hw_ps->cabac_init_present_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT);
-+	hw_ps->num_ref_idx_l0_default_active = pps->num_ref_idx_l0_default_active_minus1 + 1;
-+	hw_ps->num_ref_idx_l1_default_active = pps->num_ref_idx_l1_default_active_minus1 + 1;
-+	hw_ps->init_qp_minus26 = pps->init_qp_minus26;
-+	hw_ps->constrained_intra_pred_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED);
-+	hw_ps->transform_skip_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED);
-+	hw_ps->cu_qp_delta_enabled_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED);
-+	hw_ps->log2_min_cb_size = log2_min_cb_size +
-+				  sps->log2_diff_max_min_luma_coding_block_size -
-+				  pps->diff_cu_qp_delta_depth;
-+	hw_ps->pps_cb_qp_offset = pps->pps_cb_qp_offset;
-+	hw_ps->pps_cr_qp_offset = pps->pps_cr_qp_offset;
-+	hw_ps->pps_slice_chroma_qp_offsets_present_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT);
-+	hw_ps->weighted_pred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED);
-+	hw_ps->weighted_bipred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED);
-+	hw_ps->transquant_bypass_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED);
-+	tiles_enabled = !!(pps->flags & V4L2_HEVC_PPS_FLAG_TILES_ENABLED);
-+	hw_ps->tiles_enabled_flag = tiles_enabled;
-+	hw_ps->entropy_coding_sync_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED);
-+	hw_ps->pps_loop_filter_across_slices_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED);
-+	hw_ps->loop_filter_across_tiles_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED);
-+	hw_ps->deblocking_filter_override_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED);
-+	hw_ps->pps_deblocking_filter_disabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER);
-+	hw_ps->pps_beta_offset_div2 = pps->pps_beta_offset_div2;
-+	hw_ps->pps_tc_offset_div2 = pps->pps_tc_offset_div2;
-+	hw_ps->lists_modification_present_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT);
-+	hw_ps->log2_parallel_merge_level = pps->log2_parallel_merge_level_minus2 + 2;
-+	hw_ps->slice_segment_header_extension_present_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT);
-+	hw_ps->num_tile_columns = tiles_enabled ? pps->num_tile_columns_minus1 + 1 : 1;
-+	hw_ps->num_tile_rows = tiles_enabled ? pps->num_tile_rows_minus1 + 1 : 1;
-+	hw_ps->mvc_ff = 0xffff;
-+
-+	// Setup tiles information
-+	memset(column_width, 0, sizeof(column_width));
-+	memset(row_height, 0, sizeof(row_height));
-+
-+	max_cu_width = 1 << (sps->log2_diff_max_min_luma_coding_block_size + log2_min_cb_size);
-+	pic_in_cts_width = (width + max_cu_width - 1) / max_cu_width;
-+	pic_in_cts_height = (height + max_cu_width - 1) / max_cu_width;
-+
-+	if (tiles_enabled) {
-+		if (pps->flags & V4L2_HEVC_PPS_FLAG_UNIFORM_SPACING) {
-+			compute_tiles_uniform(run, log2_min_cb_size, width, height,
-+					      pic_in_cts_width, pic_in_cts_height,
-+					      column_width, row_height);
-+		} else {
-+			compute_tiles_non_uniform(run, log2_min_cb_size, width, height,
-+						  pic_in_cts_width, pic_in_cts_height,
-+						  column_width, row_height);
-+		}
-+	} else {
-+		column_width[0] = (width + max_cu_width - 1) / max_cu_width;
-+		row_height[0] = (height + max_cu_width - 1) / max_cu_width;
-+	}
-+
-+	for (i = 0; i < 22; i++)
-+		set_column_row(hw_ps, column_width[i], row_height[i], i);
-+
-+	// Setup POC information
-+	hw_ps->current_poc = dec_params->pic_order_cnt_val;
-+
-+	for (i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
-+		u32 valid = !!(dec_params->num_active_dpb_entries > i);
-+
-+		set_pps_ref_pic_poc(hw_ps, dec_params->dpb[i].pic_order_cnt_val, i);
-+		hw_ps->ref_is_valid |= valid << i;
-+	}
-+}
-+
-+static void rkvdec_write_regs(struct rkvdec_ctx *ctx)
-+{
-+	struct rkvdec_dev *rkvdec = ctx->dev;
-+	struct rkvdec_hevc_ctx *h265_ctx = ctx->priv;
-+
-+	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_COMMON_REGS,
-+			    &h265_ctx->regs.common,
-+			    sizeof(h265_ctx->regs.common));
-+	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_COMMON_ADDR_REGS,
-+			    &h265_ctx->regs.common_addr,
-+			    sizeof(h265_ctx->regs.common_addr));
-+	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_CODEC_PARAMS_REGS,
-+			    &h265_ctx->regs.h26x_params,
-+			    sizeof(h265_ctx->regs.h26x_params));
-+	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_CODEC_ADDR_REGS,
-+			    &h265_ctx->regs.h26x_addr,
-+			    sizeof(h265_ctx->regs.h26x_addr));
-+}
-+
-+static void config_registers(struct rkvdec_ctx *ctx,
-+			     struct rkvdec_hevc_run *run)
-+{
-+	const struct v4l2_ctrl_hevc_decode_params *dec_params = run->decode_params;
-+	struct rkvdec_hevc_ctx *h265_ctx = ctx->priv;
-+	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
-+	dma_addr_t priv_start_addr = h265_ctx->priv_tbl.dma;
-+	const struct v4l2_pix_format_mplane *dst_fmt;
-+	struct vb2_v4l2_buffer *src_buf = run->base.bufs.src;
-+	struct vb2_v4l2_buffer *dst_buf = run->base.bufs.dst;
-+	struct vdpu383_regs_h26x *regs = &h265_ctx->regs;
-+	const struct v4l2_format *f;
-+	dma_addr_t rlc_addr;
-+	dma_addr_t dst_addr;
-+	u32 hor_virstride;
-+	u32 ver_virstride;
-+	u32 y_virstride;
-+	u32 offset;
-+	u32 pixels;
-+	u32 i;
-+
-+	memset(regs, 0, sizeof(*regs));
-+
-+	/* Set H264 mode */
-+	regs->common.reg008_dec_mode = VDPU383_MODE_HEVC;
-+
-+	/* Set input stream length */
-+	regs->h26x_params.reg066_stream_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
-+
-+	/* Set strides */
-+	f = &ctx->decoded_fmt;
-+	dst_fmt = &f->fmt.pix_mp;
-+	hor_virstride = dst_fmt->plane_fmt[0].bytesperline;
-+	ver_virstride = dst_fmt->height;
-+	y_virstride = hor_virstride * ver_virstride;
-+
-+	pixels = dst_fmt->height * dst_fmt->width;
-+
-+	regs->h26x_params.reg068_hor_virstride = hor_virstride / 16;
-+	regs->h26x_params.reg069_raster_uv_hor_virstride = hor_virstride / 16;
-+	regs->h26x_params.reg070_y_virstride = y_virstride / 16;
-+
-+	/* Activate block gating */
-+	regs->common.reg010.strmd_auto_gating_e      = 1;
-+	regs->common.reg010.inter_auto_gating_e      = 1;
-+	regs->common.reg010.intra_auto_gating_e      = 1;
-+	regs->common.reg010.transd_auto_gating_e     = 1;
-+	regs->common.reg010.recon_auto_gating_e      = 1;
-+	regs->common.reg010.filterd_auto_gating_e    = 1;
-+	regs->common.reg010.bus_auto_gating_e	     = 1;
-+	regs->common.reg010.ctrl_auto_gating_e       = 1;
-+	regs->common.reg010.rcb_auto_gating_e	     = 1;
-+	regs->common.reg010.err_prc_auto_gating_e    = 1;
-+
-+	/* Set timeout threshold */
-+	if (pixels < VDPU383_1080P_PIXELS)
-+		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_1080p;
-+	else if (pixels < VDPU383_4K_PIXELS)
-+		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_4K;
-+	else if (pixels < VDPU383_8K_PIXELS)
-+		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_8K;
-+	else
-+		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_MAX;
-+
-+	regs->common.reg016.error_proc_disable = 1;
-+
-+	/* Set ref pic address & poc */
-+	for (i = 0; i < ARRAY_SIZE(dec_params->dpb) - 1; i++) {
-+		struct vb2_buffer *vb_buf = get_ref_buf(ctx, run, i);
-+		dma_addr_t buf_dma;
-+
-+		buf_dma = vb2_dma_contig_plane_dma_addr(vb_buf, 0);
-+
-+		/* Set reference addresses */
-+		regs->h26x_addr.reg170_185_ref_base[i] = buf_dma;
-+		regs->h26x_addr.reg195_210_payload_st_ref_base[i] = buf_dma;
-+
-+		/* Set COLMV addresses */
-+		regs->h26x_addr.reg217_232_colmv_ref_base[i] = buf_dma + ctx->colmv_offset;
-+	}
-+
-+	/* Set rlc base address (input stream) */
-+	rlc_addr = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
-+	regs->common_addr.reg128_strm_base = rlc_addr;
-+
-+	/* Set output base address */
-+	dst_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-+	regs->h26x_addr.reg168_decout_base = dst_addr;
-+	regs->h26x_addr.reg169_error_ref_base = dst_addr;
-+	regs->h26x_addr.reg192_payload_st_cur_base = dst_addr;
-+
-+	/* Set colmv address */
-+	regs->h26x_addr.reg216_colmv_cur_base = dst_addr + ctx->colmv_offset;
-+
-+	/* Set RCB addresses */
-+	for (i = 0; i < rkvdec_rcb_buf_count(ctx); i++) {
-+		regs->common_addr.reg140_162_rcb_info[i].offset = rkvdec_rcb_buf_dma_addr(ctx, i);
-+		regs->common_addr.reg140_162_rcb_info[i].size = rkvdec_rcb_buf_size(ctx, i);
-+	}
-+
-+	if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED) {
-+		/* Set scaling matrix */
-+		offset = offsetof(struct rkvdec_hevc_priv_tbl, scaling_list);
-+		regs->common_addr.reg132_scanlist_addr = priv_start_addr + offset;
-+	}
-+
-+	/* Set hw pps address */
-+	offset = offsetof(struct rkvdec_hevc_priv_tbl, param_set);
-+	regs->common_addr.reg131_gbl_base = priv_start_addr + offset;
-+	regs->h26x_params.reg067_global_len = sizeof(struct rkvdec_hevc_sps_pps) / 16;
-+
-+	/* Set hw rps address */
-+	offset = offsetof(struct rkvdec_hevc_priv_tbl, rps);
-+	regs->common_addr.reg129_rps_base = priv_start_addr + offset;
-+
-+	/* Set cabac table */
-+	offset = offsetof(struct rkvdec_hevc_priv_tbl, cabac_table);
-+	regs->common_addr.reg130_cabactbl_base = priv_start_addr + offset;
-+
-+	rkvdec_write_regs(ctx);
-+}
-+
-+static int rkvdec_hevc_start(struct rkvdec_ctx *ctx)
-+{
-+	struct rkvdec_dev *rkvdec = ctx->dev;
-+	struct rkvdec_hevc_priv_tbl *priv_tbl;
-+	struct rkvdec_hevc_ctx *hevc_ctx;
-+	struct v4l2_ctrl *ctrl;
-+	int ret;
-+
-+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+			      V4L2_CID_STATELESS_HEVC_SPS);
-+	if (!ctrl)
-+		return -EINVAL;
-+
-+	ret = rkvdec_hevc_validate_sps(ctx, ctrl->p_new.p_hevc_sps);
-+	if (ret)
-+		return ret;
-+
-+	hevc_ctx = kzalloc(sizeof(*hevc_ctx), GFP_KERNEL);
-+	if (!hevc_ctx)
-+		return -ENOMEM;
-+
-+	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
-+				      &hevc_ctx->priv_tbl.dma, GFP_KERNEL);
-+	if (!priv_tbl) {
-+		ret = -ENOMEM;
-+		goto err_free_ctx;
-+	}
-+
-+	hevc_ctx->priv_tbl.size = sizeof(*priv_tbl);
-+	hevc_ctx->priv_tbl.cpu = priv_tbl;
-+	memcpy(priv_tbl->cabac_table, rkvdec_hevc_cabac_table,
-+	       sizeof(rkvdec_hevc_cabac_table));
-+
-+	ctx->priv = hevc_ctx;
-+	return 0;
-+
-+err_free_ctx:
-+	kfree(hevc_ctx);
-+	return ret;
-+}
-+
-+static void rkvdec_hevc_stop(struct rkvdec_ctx *ctx)
-+{
-+	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
-+	struct rkvdec_dev *rkvdec = ctx->dev;
-+
-+	dma_free_coherent(rkvdec->dev, hevc_ctx->priv_tbl.size,
-+			  hevc_ctx->priv_tbl.cpu, hevc_ctx->priv_tbl.dma);
-+	kfree(hevc_ctx);
-+}
-+
-+static int rkvdec_hevc_run(struct rkvdec_ctx *ctx)
-+{
-+	struct rkvdec_dev *rkvdec = ctx->dev;
-+	struct rkvdec_hevc_run run;
-+	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
-+	struct rkvdec_hevc_priv_tbl *tbl = hevc_ctx->priv_tbl.cpu;
-+	uint32_t watchdog_time;
-+	u64 timeout_threshold;
-+	unsigned long axi_rate;
-+
-+	rkvdec_hevc_run_preamble(ctx, &run);
-+
-+	rkvdec_hevc_assemble_hw_scaling_list(rkvdec, &run,
-+			&tbl->scaling_list,
-+			&hevc_ctx->scaling_matrix_cache);
-+	assemble_hw_pps(ctx, &run);
-+	rkvdec_hevc_assemble_hw_rps(&run, &tbl->rps);
-+
-+	config_registers(ctx, &run);
-+
-+	rkvdec_run_postamble(ctx, &run.base);
-+
-+	/* Set watchdog at 2 times the hardware timeout threshold */
-+	timeout_threshold = hevc_ctx->regs.common.reg013_core_timeout_threshold;
-+	axi_rate = clk_get_rate(rkvdec->axi_clk);
-+
-+	if (axi_rate)
-+		watchdog_time = 2 * (1000 * timeout_threshold) / axi_rate;
-+	else
-+		watchdog_time = 2000;
-+	schedule_delayed_work(&rkvdec->watchdog_work,
-+			      msecs_to_jiffies(watchdog_time));
-+
-+	/* Start decoding! */
-+	writel(timeout_threshold, rkvdec->link + VDPU383_LINK_TIMEOUT_THRESHOLD);
-+	writel(VDPU383_IP_CRU_MODE, rkvdec->link + VDPU383_LINK_IP_ENABLE);
-+	writel(VDPU383_DEC_E_BIT, rkvdec->link + VDPU383_LINK_DEC_ENABLE);
-+
-+	return 0;
-+}
-+
-+static int rkvdec_hevc_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
-+{
-+	if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS)
-+		return rkvdec_hevc_validate_sps(ctx, ctrl->p_new.p_hevc_sps);
-+
-+	return 0;
-+}
-+
-+const struct rkvdec_coded_fmt_ops rkvdec_vdpu383_hevc_fmt_ops = {
-+	.adjust_fmt = rkvdec_hevc_adjust_fmt,
-+	.start = rkvdec_hevc_start,
-+	.stop = rkvdec_hevc_stop,
-+	.run = rkvdec_hevc_run,
-+	.try_ctrl = rkvdec_hevc_try_ctrl,
-+	.get_image_fmt = rkvdec_hevc_get_image_fmt,
-+};
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index 761e044975a7d..5d86fb7cdd6fd 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -450,6 +450,22 @@ static const struct rkvdec_coded_fmt_desc vdpu383_coded_fmts[] = {
- 		.decoded_fmts = rkvdec_h264_decoded_fmts,
- 		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
- 	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
-+		.frmsize = {
-+			.min_width = 16,
-+			.max_width = 65472,
-+			.step_width = 16,
-+			.min_height = 16,
-+			.max_height = 65472,
-+			.step_height = 16,
-+		},
-+		.ctrls = &rkvdec_hevc_ctrls,
-+		.ops = &rkvdec_vdpu383_hevc_fmt_ops,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_hevc_decoded_fmts),
-+		.decoded_fmts = rkvdec_hevc_decoded_fmts,
-+		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
-+	},
- };
- 
- static const struct rkvdec_coded_fmt_desc *
-@@ -1357,6 +1373,78 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
- 	return cfg->irq_handler(ctx);
- }
- 
-+/*
-+ * Flip one or more matrices along their main diagonal and flatten them
-+ * before writing it to the memory.
-+ * Convert:
-+ * ABCD         AEIM
-+ * EFGH     =>  BFJN     =>     AEIMBFJNCGKODHLP
-+ * IJKL         CGKO
-+ * MNOP         DHLP
-+ */
-+static void transpose_and_flatten_matrices(u8 *output, const u8 *input,
-+					   int matrices, int row_length)
-+{
-+	int i, j, row, x_offset, matrix_offset, rot_index, y_offset, matrix_size, new_value;
-+
-+	matrix_size = row_length * row_length;
-+	for (i = 0; i < matrices; i++) {
-+		row = 0;
-+		x_offset = 0;
-+		matrix_offset = i * matrix_size;
-+		for (j = 0; j < matrix_size; j++) {
-+			y_offset = j - (row * row_length);
-+			rot_index = y_offset * row_length + x_offset;
-+			new_value = *(input + i * matrix_size + j);
-+			output[matrix_offset + rot_index] = new_value;
-+			if ((j + 1) % row_length == 0) {
-+				row += 1;
-+				x_offset += 1;
-+			}
-+		}
-+	}
-+}
-+
-+/*
-+ * VDPU383 needs a specific order:
-+ * The 8x8 flatten matrix is based on 4x4 blocks.
-+ * Each 4x4 block is written separately in order.
-+ *
-+ * Base data    =>  Transposed    VDPU383 transposed
-+ *
-+ * ABCDEFGH         AIQYaiqy      AIQYBJRZ
-+ * IJKLMNOP         BJRZbjrz      CKS0DLT1
-+ * QRSTUVWX         CKS0cks6      aiqybjrz
-+ * YZ012345     =>  DLT1dlt7      cks6dlt7
-+ * abcdefgh         EMU2emu8      EMU2FNV3
-+ * ijklmnop         FNV3fnv9      GOW4HPX5
-+ * qrstuvwx         GOW4gow#      emu8fnv9
-+ * yz6789#$         HPX5hpx$      gow#hpx$
-+ *
-+ * As the function reads block of 4x4 it can be used for both 4x4 and 8x8 matrices.
-+ *
-+ */
-+static void vdpu383_flatten_matrices(u8 *output, const u8 *input, int matrices, int row_length)
-+{
-+	u8 block;
-+	int i, j, matrix_offset, matrix_size, new_value, input_idx, line_offset, block_offset;
-+
-+	matrix_size = row_length * row_length;
-+	for (i = 0; i < matrices; i++) {
-+		matrix_offset = i * matrix_size;
-+		for (j = 0; j < matrix_size; j++) {
-+			block = j / 16;
-+			line_offset = (j % 16) / 4;
-+			block_offset = (block & 1) * 32 + (block & 2) * 2;
-+			input_idx = ((j % 4) * row_length) + line_offset + block_offset;
-+
-+			new_value = *(input + i * matrix_size + input_idx);
-+
-+			output[matrix_offset + j] = new_value;
-+		}
-+	}
-+}
-+
- static void rkvdec_watchdog_func(struct work_struct *work)
- {
- 	struct rkvdec_dev *rkvdec;
-@@ -1420,6 +1508,7 @@ const struct rkvdec_config config_rkvdec = {
- 	.coded_fmts_num = ARRAY_SIZE(rkvdec_coded_fmts),
- 	.irq_handler = rk3399_irq_handler,
- 	.fill_pixfmt_mp = v4l2_fill_pixfmt_mp,
-+	.flatten_matrices = transpose_and_flatten_matrices,
- 	.colmv_size = rkvdec_colmv_size,
- };
- 
-@@ -1444,6 +1533,7 @@ const struct rkvdec_config config_vdpu381 = {
- 	.irq_handler = vdpu381_irq_handler,
- 	.fill_pixfmt_mp = vdpu38x_fill_pixfmt_mp,
- 	.colmv_size = rkvdec_colmv_size,
-+	.flatten_matrices = transpose_and_flatten_matrices,
- 	.named_regs = true,
- };
- 
-@@ -1469,6 +1559,7 @@ const struct rkvdec_config config_vdpu383 = {
- 	.fill_pixfmt_mp = vdpu38x_fill_pixfmt_mp,
- 	.colmv_size = rkvdec_vdpu383_colmv_size,
- 	.fill_pixfmt_mp = vdpu38x_fill_pixfmt_mp,
-+	.flatten_matrices = vdpu383_flatten_matrices,
- 	.named_regs = true,
- };
- 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-index df56bc0516ac9..2434f928040e0 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-@@ -111,6 +111,7 @@ struct rkvdec_config {
- 	int (*fill_pixfmt_mp)(struct v4l2_pix_format_mplane *pix_mp, u32 pixelformat,
- 			      u32 width, u32 height);
- 	u32 (*colmv_size)(u16 width, u16 height);
-+	void (*flatten_matrices)(u8 *output, const u8 *input, int matrices, int row_length);
- 	bool named_regs;
- };
- 
-@@ -177,5 +178,6 @@ extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu381_hevc_fmt_ops;
- 
- /* VDPU383 ops */
- extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu383_h264_fmt_ops;
-+extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu383_hevc_fmt_ops;
- 
- #endif /* RKVDEC_H_ */
--- 
-2.50.0
+> --
+> Kind regards,
+> 
+> Sakari Ailus
 
 
