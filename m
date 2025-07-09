@@ -1,56 +1,52 @@
-Return-Path: <linux-media+bounces-37169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068D1AFDCEA
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 03:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B918AFDE5E
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 05:41:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C10FC189174D
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 01:29:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2652B189C5F9
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 03:42:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8429617A586;
-	Wed,  9 Jul 2025 01:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 707102192EF;
+	Wed,  9 Jul 2025 03:40:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="rEhNdc7s"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DiIQG9IN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DBF35959;
-	Wed,  9 Jul 2025 01:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.232.154.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0E620468C;
+	Wed,  9 Jul 2025 03:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752024547; cv=none; b=eI8XWXG6f26quFRm+UAhIH0rmeIkXMdX8OSTIar4oSf4/XdQjFkn1nL8/4DmxbJyWEs4gjUI3DY8p/55WHlt2bVY8PDnmIEVstLW2mKswx67fzeDvbt6Mo00VdVZqaD+CHmyv4xpsBaiCexbpZ2Gw6R6E8Z0VD42AAWHjyWV4OE=
+	t=1752032412; cv=none; b=a6yD0TuBl6jVWCl9RfIDfu93bqVGo5+BD0KWhSRv8WWvpn+/rDG2wpCyunCuCfks/x2d4v3k2Rq8dm7zdeB5PNHET2WXA6v8OIF3EcnTBYik8gU0RokAMkJVTbouKN0QgHZzQEF3Ah830QNVBcjADf5ejMNm0glzaos5oVnp34E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752024547; c=relaxed/simple;
-	bh=Zb9VEiAEI7OdRMeYg3SCbbNor7GuUp/cVLEZv3eETNU=;
+	s=arc-20240116; t=1752032412; c=relaxed/simple;
+	bh=3SeS1jSZ1uKWb2RnmlmFn9EOFA/8pLBPt/77POmDd88=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gql0/OLJzneUAUzGXtJxdhyN7WSCXWl7t15p8ksRhRnE5S1LSuiaTqq3Ss+XG1o5Ey/1p4WC0UAcf7kEsvvnMmX/cQiPxwV7p+8BEE2mz+k+tTiFKn+Ft5ka0oF84Cwcz4Yspv7qYjfVn9EVy21OZm1GDaUs+JMdCmE0v9zKXxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi; spf=pass smtp.mailfrom=kapsi.fi; dkim=pass (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b=rEhNdc7s; arc=none smtp.client-ip=91.232.154.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kapsi.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kapsi.fi
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=H30So9AdIyWkMEDjX7oZ8/lNt3wPb9URPVhtN/UoCoY=; b=rEhNdc7sYP5QbjLhEpRTTFVnp0
-	ClbZhjfAN7rxmvfHdU7gK/TyLwxr0S4kyalUfl6O5lQVbmwXXj0GAm4y+D6eHK19w6rd00nl0NBD4
-	fhsuc8+x4XfWBA6rw4mEUfEnTtaQdM97t9U+z2s5w8yIQjP/8QMnayxU0WH9CyApz47kIFv/YFPA2
-	SO/Dvu2ZgUt6lOpKpAsS7uK0CjRMTS4bZ8lI7F0Y4ll1dm0R2X718scvBUGcN28ufbPYTYfZwSDrT
-	wnrScpmzaMiDupKZt2STDmWCcWNUU3sEIBfENoqZ3F+wu3VOc5Zw3TE4pj2qn5RhnrS79LcW+7FUo
-	4SwvH3bQ==;
-Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f]
-	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <cyndis@kapsi.fi>)
-	id 1uZJcD-00Amxc-2j;
-	Wed, 09 Jul 2025 04:28:54 +0300
-Message-ID: <17629989-891c-4026-b9d6-3e1403adba6c@kapsi.fi>
-Date: Wed, 9 Jul 2025 10:28:46 +0900
+	 In-Reply-To:Content-Type; b=oQbjSv8dVBTrgvN4PVHlGvwbExGEU3bonyLZgVjUOHXmrWk0WAx0io/V4CiuGMVr1mOZueboBJXveHBlvLMMy5G5G8M0/t4T9HE3aKq8D/tYKMyyvOHTB6LSBcQrzA9ZDiwt+B1Z1FRyZ3nv+NnScX+N0dbJImeOIE6VRqYpjpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DiIQG9IN; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=l0Gq002lEzoDPmtVcJJpz54mmuMH6UsxtCTp8dFyrXg=; b=DiIQG9INQ7CtYAmMKi/xLNPP9n
+	F5LN75zy7oXey2ZZeG0Fibq2NRXqWDbPPIdMt041mH6fS3oHTtk2mErT6ZWUX5xZBN6+4w3thR4jy
+	ccfFObBRKSEAu3NlbR5BSaOBoAs6CIO9GkhKaGwGVPb0jzd+QFXKw0n7d++UQo97RQJDCLqWn4ZC1
+	CkCV+hmOjKTRlZ9OPp5j7iELhhBIbDEBRTmTPMai4i9WSNHSMBXKqwtg2qqLHIskxJWKFhIet6BqE
+	mWQ3Rr0e0TkvPBegNEOXBf1in1WMTWROUgEc8QFBup62l67fWJ7+9DTy72u/FyiSYzu5IfUaPbEsV
+	q28CpoOQ==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uZLfE-00000002Hyu-0FaC;
+	Wed, 09 Jul 2025 03:40:08 +0000
+Message-ID: <e5f0a46d-401e-476b-a388-db3cce4b135d@infradead.org>
+Date: Tue, 8 Jul 2025 20:40:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,89 +54,49 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma_buf/sync_file: Enable signaling for fences when
- querying status
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Mikko Perttunen <mperttunen@nvidia.com>
-References: <20250708-syncfile-enable-signaling-v1-1-9f6e6cd9fcda@nvidia.com>
- <1ebba600-31d2-48ed-b08b-46d667d38054@amd.com>
+Subject: Re: linux-next: Tree for Jul 8 (drivers/staging/media/ipu7/ipu7.c)
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-media@vger.kernel.org, akari Ailus <sakari.ailus@linux.intel.com>
+References: <20250708201124.25e87f2a@canb.auug.org.au>
 Content-Language: en-US
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <1ebba600-31d2-48ed-b08b-46d667d38054@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250708201124.25e87f2a@canb.auug.org.au>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 7/8/25 11:20 PM, Christian König wrote:
-> On 08.07.25 14:03, Mikko Perttunen wrote:
->> From: Mikko Perttunen <mperttunen@nvidia.com>
->>
->> dma_fence_get_status is not guaranteed to return valid information
->> on if the fence has been signaled or not if SW signaling has not
->> been enabled for the fence. To ensure valid information is reported,
->> enable SW signaling for fences before getting their status.
-> 
-> I don't know how often I had to rejected that patch now, we really need to improve the documentation :(
 
-Sorry :(
 
-Improved documentation certainly would be good. I've thought of SW 
-signaling as a kernel-side 'optimization' and not something that would 
-be visible to the user space. Perhaps documentation could also mention 
-situations where calling this without enabling signaling is useful. 
-Anyway, I'll fix our issue in userspace by adding the zero-timeout poll 
-instead.
+On 7/8/25 3:11 AM, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since 20250704:
+> 
 
-Thanks!
-Mikko
+on x86_64:
 
-> 
-> The fence info query exists to query the status *without* enabling signaling, that is the whole purpose of the function!
-> 
-> If you want to enable signaling *and* query the status then just poll on the sync file file descriptor with a zero timeout.
-> 
-> If the signaling timestamp or error code is needed then that can be retrieved after signaling through the info IOCTL.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->>   drivers/dma-buf/sync_file.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
->> index 747e377fb95417ddd506b528618a4288bea9d459..a6fd1d14dde155561b9fd2c07e6aa20dc9863a8d 100644
->> --- a/drivers/dma-buf/sync_file.c
->> +++ b/drivers/dma-buf/sync_file.c
->> @@ -271,6 +271,8 @@ static int sync_fill_fence_info(struct dma_fence *fence,
->>   	const char __rcu *timeline;
->>   	const char __rcu *driver;
->>   
->> +	dma_fence_enable_sw_signaling(fence);
->> +
->>   	rcu_read_lock();
->>   
->>   	driver = dma_fence_driver_name(fence);
->> @@ -320,6 +322,7 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
->>   	 * info->num_fences.
->>   	 */
->>   	if (!info.num_fences) {
->> +		dma_fence_enable_sw_signaling(sync_file->fence);
->>   		info.status = dma_fence_get_status(sync_file->fence);
->>   		goto no_fences;
->>   	} else {
->>
->> ---
->> base-commit: 58ba80c4740212c29a1cf9b48f588e60a7612209
->> change-id: 20250708-syncfile-enable-signaling-a993acff1860
->>
-> 
+# CONFIG_ACPI is not set
+# CONFIG_PCI is not set
+# CONFIG_MODULES is not set
+CONFIG_COMPILE_TEST=y
+
+
+drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_pci_config_setup':
+drivers/staging/media/ipu7/ipu7.c:2260:15: error: implicit declaration of function 'pci_enable_msi'; did you mean 'pci_enable_sriov'? [-Wimplicit-function-declaration]
+ 2260 |         ret = pci_enable_msi(dev);
+      |               ^~~~~~~~~~~~~~
+      |               pci_enable_sriov
+/drivers/staging/media/ipu7/ipu7.c: At top level:
+drivers/staging/media/ipu7/ipu7.c:2775:1: warning: data definition has no type or storage class
+ 2775 | module_pci_driver(ipu7_pci_driver);
+      | ^~~~~~~~~~~~~~~~~
+drivers/staging/media/ipu7/ipu7.c:2775:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
+drivers/staging/media/ipu7/ipu7.c:2775:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+drivers/staging/media/ipu7/ipu7.c:2764:26: warning: 'ipu7_pci_driver' defined but not used [-Wunused-variable]
+ 2764 | static struct pci_driver ipu7_pci_driver = {
+      |                          ^~~~~~~~~~~~~~~
+@-- 
+~Randy
 
 
