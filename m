@@ -1,123 +1,134 @@
-Return-Path: <linux-media+bounces-37228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37229-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7C8AFF330
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 22:39:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09501AFF337
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 22:43:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 672FD3B840C
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 20:39:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC0931896E4A
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 20:43:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B0FA2459F8;
-	Wed,  9 Jul 2025 20:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEEDE244692;
+	Wed,  9 Jul 2025 20:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mWZUrtYW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGmZPTos"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E080241671
-	for <linux-media@vger.kernel.org>; Wed,  9 Jul 2025 20:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30B21CAA85;
+	Wed,  9 Jul 2025 20:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752093554; cv=none; b=ET0bz4mJywNAdlgI412dCxzibyhe+yQ7jmswFo+BFCg+b/H+dnI5rooeIRMk7itSZPI4yihUH8BG1YZUexxfnnBUMSW0ciEtlkIBPx+gV9A1YevT3ziaNcGWjK5/UfJDuPuN2821lrTpeEvdqf9Fx1M1tvTwrYtWE96M75Km8f8=
+	t=1752093793; cv=none; b=aEVQ6kyvnl9o1ITkj8Bt9RcWciyubIEjz6B3v9wpvHu16DCVixcI+p6w+iskiB/1aUhWY+9I46ESgNZ9sE7xfdQPgWNVJq4Q2TRQz3zHxJyOFeAyFnJZiKKN4S5ONNmG4XsjWNzFtJd6mU5AwOuZzt5jXsbjdPcNqEAR2T+i1R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752093554; c=relaxed/simple;
-	bh=ieh8FfCn2GLUay668odXCukN4iQ6hhjtQ5ubnfXYvcY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TnW0847YSISWMIXvW7oU9VJLiB/WFCEaLp9x54ShYRe5i6gz5SaUxhN81E6TSrv/93WyXe22HQiVGpEozMlKJxuzuMfo1qrIrNg2r65FgRVDnshHvn7f5gNrPWFhkNAneRK18sHPTDSNB3zuqUNE1DWpheJ5g5OKaBQfWJS/+9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mWZUrtYW; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1752093793; c=relaxed/simple;
+	bh=vXZxtv0D4jlgPPRePM4PDpSU26LaCzorbsB/7xNQuB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xa8qAZmpx105BI/N4m8C7+pi22v2zDnWykLmHVEpUVcXaljAGEj0efCN3XVY7S+eTrTO/J60BRFT7SyDsux1X4camkwQKDW/YU3oCfZstyqRXfjn3usCLI7y8JLe9R8MTXXIbMU0SsoksoFtPFDQJKDhMZct6CuiQ7aEJC3DM9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PGmZPTos; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752093552; x=1783629552;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ieh8FfCn2GLUay668odXCukN4iQ6hhjtQ5ubnfXYvcY=;
-  b=mWZUrtYWEwAawmbVL6FF104mwP2NojHh2YKAWI8jAJXcU21OjK2Z3EB5
-   1zjPJsZbA9IrCKRWLa3kWsEXjglclVERnfeWB0tKfmJY8+nPF+YVcmGKm
-   nT7ldvJ5HrOvTgkbZU5JPUr9trv8T7VY5c+DR+WPCaVpNSPCsvQnjrXql
-   wn7F8IRr2PAm+rwDVbBXSCZpcYLL1bcgabIuJRl66ycEIb4gsjKCGwV1E
-   v7hFxt1JxS80GY/Fo55rh6YdHAdwAAAGBPMWAxRXcIIQhZPknkfHrrQS2
-   4tYe6Ls+Pdg8GGnpC58K0OAMRQ3UWa5Lmrv/3Q036SxMlJgIDYNXC+xXM
-   g==;
-X-CSE-ConnectionGUID: boGDDZLjTTmfBf2h0Beyqw==
-X-CSE-MsgGUID: 1zNbBjkSSFaZamKwj/60ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54511303"
+  t=1752093792; x=1783629792;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vXZxtv0D4jlgPPRePM4PDpSU26LaCzorbsB/7xNQuB8=;
+  b=PGmZPTosjKNO+g2c9a0FdKVVY4Qjezh+IC2YLVhX9fYbymlKWSLMGWfh
+   YjpdIDLkZKO2gTFu5OiFJPrWcWXIxV+9qM8OxONHVeVP0aMIq+1rggEIO
+   h6TlJhHHyaNkQN44KWWKaeALUDqQ42AKB6VEI5WQSBEG2IF91T0PE88Ic
+   d41goCv7d1Myx/annqHlomd+2hCfv5cvkO2yitqTUgL7XmMq4RbcYAdqC
+   MApr1/IAVm55n3qKIk+W/U4zU9iGQCdrHUY3t7SYNiB8pnj0RyDfyCM0L
+   HjVsPAuuLQUB0AH5uWS7kyqkBDi/9NESBR4SG8Ley2qn/m1xkqBq736R7
+   w==;
+X-CSE-ConnectionGUID: td9E98hPQHqEsEt1BdDgaw==
+X-CSE-MsgGUID: 4l8fyhPnT0CL7dk8mWyzQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="53475870"
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="54511303"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 13:39:12 -0700
-X-CSE-ConnectionGUID: zPiGiJ3QRmudghMZn6QZyg==
-X-CSE-MsgGUID: xdDUEy4cQaW8UYUzh8fTNA==
+   d="scan'208";a="53475870"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 13:43:11 -0700
+X-CSE-ConnectionGUID: fvbPLDfOQi+/JnPn7Fm0YQ==
+X-CSE-MsgGUID: NZKqYa5dTE6j/CNZyjq2FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="159900780"
+   d="scan'208";a="156432117"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.15])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 13:39:11 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 7652711F89A;
-	Wed,  9 Jul 2025 23:39:08 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uZbZM-0045ZO-1A;
-	Wed, 09 Jul 2025 23:39:08 +0300
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 13:43:08 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 35B3D11FBEE;
+	Wed,  9 Jul 2025 23:43:06 +0300 (EEST)
+Date: Wed, 9 Jul 2025 20:43:06 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: bingbu.cao@linux.intel.com,
-	tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com
-Subject: [PATCH v2 1/1] media: v4l: Make media_entity_to_video_device() NULL-safe
-Date: Wed,  9 Jul 2025 23:39:08 +0300
-Message-Id: <20250709203908.974714-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+	hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
+	mchehab@kernel.org, hdegoede@redhat.com, arnd@arndb.de,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] media: i2c: Kconfig: Ensure a dependency on
+ COMMON_CLK for VIDEO_CAMERA_SENSOR
+Message-ID: <aG7UWg8kYMNX32MS@kekkonen.localdomain>
+References: <20250709101114.22185-1-mehdi.djait@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250709101114.22185-1-mehdi.djait@linux.intel.com>
 
-Make media_entity_to_video_device(NULL) return NULL, instead of an invalid
-pointer value.
+Hi Mehdi,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- include/media/v4l2-dev.h | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+Thanks for the update.
 
-diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-index 1b6222fab24e..e0461c697377 100644
---- a/include/media/v4l2-dev.h
-+++ b/include/media/v4l2-dev.h
-@@ -313,10 +313,17 @@ struct video_device {
-  * media_entity_to_video_device - Returns a &struct video_device from
-  *	the &struct media_entity embedded on it.
-  *
-- * @__entity: pointer to &struct media_entity
-- */
--#define media_entity_to_video_device(__entity) \
--	container_of(__entity, struct video_device, entity)
-+ * @__entity: pointer to &struct media_entity, may be NULL
-+ */
-+#define media_entity_to_video_device(__entity)				\
-+	({								\
-+		typeof (__entity) __me_vdev_ent = __entity;		\
-+									\
-+		__me_vdev_ent ?						\
-+			container_of(__me_vdev_ent,			\
-+				     struct video_device, entity) :	\
-+			NULL;						\
-+	})
- 
- /**
-  * to_video_device - Returns a &struct video_device from the
+On Wed, Jul 09, 2025 at 12:11:14PM +0200, Mehdi Djait wrote:
+> Both ACPI and DT-based systems are required to obtain the external
+> camera sensor clock using the new devm_v4l2_sensor_clk_get() helper
+> function.
+> 
+> Ensure a dependency on COMMON_CLK when config VIDEO_CAMERA_SENSOR is
+> enabled.
+> 
+> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> ---
+> v1 -> v2:
+> Suggested by Arnd Bergmann:
+> 	- removed the select statement and replaced it by "depends on
+> 	  COMMON_CLK"
+> 
+> Link v1: https://lore.kernel.org/linux-media/20250708161637.227111-1-mehdi.djait@linux.intel.com
+> 
+>  drivers/media/i2c/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index e68202954a8f..98750fa5a7b6 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -27,7 +27,7 @@ config VIDEO_IR_I2C
+>  
+>  menuconfig VIDEO_CAMERA_SENSOR
+>  	bool "Camera sensor devices"
+> -	depends on MEDIA_CAMERA_SUPPORT && I2C
+> +	depends on MEDIA_CAMERA_SUPPORT && I2C && COMMON_CLK
+
+As of now, this patch makes COMMON_CLK a requirement to use camera sensors.
+I think you should depend on COMMON_CLK only on ACPI-based platforms as
+non-CCF clock implementations are still in use and these platforms do not
+use ACPI.
+
+>  	select MEDIA_CONTROLLER
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+
 -- 
-2.39.5
+Regards,
 
+Sakari Ailus
 
