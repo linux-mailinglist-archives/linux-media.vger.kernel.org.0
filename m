@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-37202-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37203-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61987AFE940
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 14:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C714AFE943
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 14:45:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB9241897DF5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 12:45:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2A421BC0BD2
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 12:45:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3C12DAFAB;
-	Wed,  9 Jul 2025 12:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 534F12DEA68;
+	Wed,  9 Jul 2025 12:45:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SU8qJ591"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sL1zhxns"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF5D28DF42;
-	Wed,  9 Jul 2025 12:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4802DC32D;
+	Wed,  9 Jul 2025 12:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752065104; cv=none; b=LjSHeIZ+ADZYovqubxVujM6KN6MGBWWmiXDoBU7x119dsxnJT9IhEfaGOGk+xcPK8P9wen7CT2ZtEsp4lqtleA12cOdMT87xyK/OUZ2mKrvRIMIIChiMb9FABWRvxoc+BDk6AYjsmWe3/nI6jluWAuoGUfVZ/582W0rB5Y0325M=
+	t=1752065107; cv=none; b=T36fQU4abiHgg+7uxdqwOsUihIKGYZjzdft+fT1bEGPU1aSAa52DEvKq58T9Ffm33W6eSvBBWReyuxkKQ+/jlK6DEKv6LrUvyA4u2bkingKt7SZX3C2qZOXG6iLgAU+ND+9bQXo1nMAgIl108z9sBuR89mWKxRePXG9oxuSuGs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752065104; c=relaxed/simple;
-	bh=5ig93j1gHmVqigZVEEovbc0sfYjFNVqIz+vVSrVJ/jo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YWxe1f4UpFQEXqrCnuBzPxILYsQejjRk+ha5DrkLaOr5+r1ZbYQj7vgTwn9G7XDTIkp5GW1rcw0Wc+HFX2s8VMLJCRut5Q8TNTquH8E+LkFEo/guW3EGk+I4OoNQwxsSnkvc9qtE2MimRUEO0Ryjknh4AMem3v9W6dWMo4TJy7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SU8qJ591; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE565C4CEEF;
-	Wed,  9 Jul 2025 12:45:03 +0000 (UTC)
+	s=arc-20240116; t=1752065107; c=relaxed/simple;
+	bh=j+rGaVFrKh/wTsIEN6Y/GVKJC3e6Fd+LYTBCSBZnuHw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VpihggiKU/4HfBdKee6kNpt3mSo5L4meLRulxsyCqYwnI7HWs0oMjAf2CryUpxdkFZ2HBXJxn8SUTYLLGyCKOIL9MQPIDv3FD5RubDrTCXTGluNnKhP5nMh9u+tJSaK1K6XoiTbxYT9Ujc+hp2OJEgnIQsQRyNv7Fo6j/36za8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sL1zhxns; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D9AC4CEF5;
+	Wed,  9 Jul 2025 12:45:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752065104;
-	bh=5ig93j1gHmVqigZVEEovbc0sfYjFNVqIz+vVSrVJ/jo=;
-	h=From:Subject:Date:To:Cc:From;
-	b=SU8qJ591v3ZuHKWkIDNsGPC/TsUVy5S48YTk8I+wA/R98cRRp92a8dBLwXVe4UUQX
-	 h62V/N4GwCQnBqvMRN/dhOkcZT7Ssfa5mggfF34/0QPOqfEmWo15hH3XTHDCU3wiCv
-	 Y6nFOpZXhmwRDr5eeybDpTrDAlJ1IaiOkbNfKDKzdx+VyQnto48W5ciawaeUsIhJpU
-	 yDA6aEdBir32pT6DCYAmKoojkdWjZ811ES/KwYqd6iRccGhxFvUMJsmphaTBKEF8KY
-	 lEtAOdiJRJQu++19on2WBnLmlaE8lMvX0qRuyl7dlwb3WeSSmgMKEoXeNZiQeAFgpn
-	 y6+6c80EJRdVg==
+	s=k20201202; t=1752065107;
+	bh=j+rGaVFrKh/wTsIEN6Y/GVKJC3e6Fd+LYTBCSBZnuHw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=sL1zhxnslztVR22EPFjnTP6BdUV5LwKMHzA3KxXOgOvl/b6YkoPfXPm8aysatlzru
+	 NrY5V62cE/KFyEZBYQnKluajc/VbrV6xEfVN50Rr+THqg0a1rk+P3M+yiEMnrLJnXt
+	 egMjis+tIKukv4U4z/7sDF9mQUteQGv2JvkLC66LiP8ggXOMMy3pY8vbkItOviitPC
+	 Ge4SbRIx0xV886Gqcl7Dr0DshooNtOPMQij6rs1pWCWQkLISbJ9SDWpL23XRXsJufg
+	 ie0FdGcuWkV6/JoCrlU1bo6BLlaG2KHTBSmEj2KaDLzCPV3y+Z3SxB0OcTEMqjrPnn
+	 KQ8Gc/GBZgatQ==
 From: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v6 0/2] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-Date: Wed, 09 Jul 2025 14:44:50 +0200
-Message-Id: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
+Date: Wed, 09 Jul 2025 14:44:51 +0200
+Subject: [PATCH v6 1/2] dma/contiguous: Add helper to test reserved memory
+ type
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,13 +53,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEJkbmgC/33RyU7DMBAG4FeJfMaRx1uaCqG+B+LgZdKYkqbYa
- QSq+u44KaigRBzHkr9Z/gtJGAMmsi0uJOIYUuiPudAPBXGtOe6RBp9rwhmXTIGivjPUnhuKztE
- WzYnyjREAnrtaIsnfThGb8DGTzy+5bkMa+vg5dxhhev0HG4EyqqSz1jNZK4DdAeMR38o+7smkj
- fxHUEwyWBF4FpgUjWdMGzDNQhC/hWpFEFmoK+e90EY1vF4I8i4ozlYESYFazxEasFZytxDUXdC
- wNoOatjDWO7XRwsi/W1xvZ474fs6BDbdbkw5TMnNg2+Lxm2YggAsooeJS8yqP9XrIqZq0i+hbM
- 5Su756m1KxJSHPRhWFbjLoETaNTudX1C/BYCfAjAgAA
-X-Change-ID: 20240515-dma-buf-ecc-heap-28a311d2c94e
+Message-Id: <20250709-dma-buf-ecc-heap-v6-1-dac9bf80f35d@kernel.org>
+References: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
+In-Reply-To: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
 To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
  Sumit Semwal <sumit.semwal@linaro.org>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
@@ -76,116 +72,82 @@ Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
  iommu@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4178; i=mripard@kernel.org;
- h=from:subject:message-id; bh=5ig93j1gHmVqigZVEEovbc0sfYjFNVqIz+vVSrVJ/jo=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBl5KT5Hp6VN1J1s9/a/8haBzfaebxOsuz9PEsiwblQvt
- vuxue5vx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhIrCtjfeD3N8X7VM9EHM05
- Jl/BWOmovOeVced54b2zy+tUznS/jS9Jq17zR7H35r4cp4uS0/9mMzYsKAxinxtWNtO6+rW+/f/
- mhETDhTI+Eidjj/zu2bnbeRrH02e/PVaunM4VG3bQ2s5odSwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2383; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=j+rGaVFrKh/wTsIEN6Y/GVKJC3e6Fd+LYTBCSBZnuHw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBl5KT4HohnkJMt+6Nb9K714wOrC4+ebL4qcKzJMCZN74
+ LfVMXVCx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZiI1zTGhgNi7EItlyQL2mL0
+ 7Lf8smE4lOX7Zur/3KVHN06+vqJ8Qez8gnvzXlqo1a9apzT/1Ju4uYz1wUmqAZsvSvFpcXVNVL+
+ 3wov5hs/EfbmNuwVuVjJ9+q4575hJFs+NYz9Wls1wcjwdknIQAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Hi,
+A given reserved-memory region can be of multiple types.
 
-Here's another attempt at supporting user-space allocations from a
-specific carved-out reserved memory region.
+We have currently four types defined in the tree: contiguous, backed by
+CMA, coherent and swiotlb, backed by their respective allocators, and a
+platform-specific one for tegra.
 
-The initial problem we were discussing was that I'm currently working on
-a platform which has a memory layout with ECC enabled. However, enabling
-the ECC has a number of drawbacks on that platform: lower performance,
-increased memory usage, etc. So for things like framebuffers, the
-trade-off isn't great and thus there's a memory region with ECC disabled
-to allocate from for such use cases.
+However, some users, like dma-buf heaps, might be interested in the
+exact type of a reserved memory region they are getting. It would thus
+be useful to have helpers to test if a given region is of a given type.
 
-After a suggestion from John, I chose to first start using heap
-allocations flags to allow for userspace to ask for a particular ECC
-setup. This is then backed by a new heap type that runs from reserved
-memory chunks flagged as such, and the existing DT properties to specify
-the ECC properties.
-
-After further discussion, it was considered that flags were not the
-right solution, and relying on the names of the heaps would be enough to
-let userspace know the kind of buffer it deals with.
-
-Thus, even though the uAPI part of it had been dropped in this second
-version, we still needed a driver to create heaps out of carved-out memory
-regions. In addition to the original usecase, a similar driver can be
-found in BSPs from most vendors, so I believe it would be a useful
-addition to the kernel.
-
-Some extra discussion with Rob Herring [1] came to the conclusion that
-some specific compatible for this is not great either, and as such an
-new driver probably isn't called for either.
-
-Some other discussions we had with John [2] also dropped some hints that
-multiple CMA heaps might be a good idea, and some vendors seem to do
-that too.
-
-So here's another attempt that doesn't affect the device tree at all and
-will just create a heap for every CMA reserved memory region.
-
-It also falls nicely into the current plan we have to support cgroups in
-DRM/KMS and v4l2, which is an additional benefit.
-
-Let me know what you think,
-Maxime
-
-1: https://lore.kernel.org/all/20250707-cobalt-dingo-of-serenity-dbf92c@houat/
-2: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com/
-
-Let me know what you think,
-Maxime
+Since we only care about CMA for now though, let's create one for CMA
+only.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Changes in v6:
-- Drop the new driver and allocate a CMA heap for each region now
-- Dropped the binding
-- Rebased on 6.16-rc5
-- Link to v5: https://lore.kernel.org/r/20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org
+ include/linux/dma-map-ops.h | 13 +++++++++++++
+ kernel/dma/contiguous.c     |  7 +++++++
+ 2 files changed, 20 insertions(+)
 
-Changes in v5:
-- Rebased on 6.16-rc2
-- Switch from property to dedicated binding
-- Link to v4: https://lore.kernel.org/r/20250520-dma-buf-ecc-heap-v4-1-bd2e1f1bb42c@kernel.org
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index f48e5fb88bd5dd346094bbf2ce1b79e5f5bfe1a6..ea646acb6367bd062619b337013db221749f85ab 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -153,10 +153,23 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
+ {
+ 	__free_pages(page, get_order(size));
+ }
+ #endif /* CONFIG_DMA_CMA*/
+ 
++#if defined(CONFIG_DMA_CMA) && defined(CONFIG_OF_RESERVED_MEM)
++struct reserved_mem;
++
++bool of_reserved_mem_is_contiguous(const struct reserved_mem *rmem);
++#else
++struct reserved_mem;
++
++static inline bool of_reserved_mem_is_contiguous(const struct reserved_mem *rmem)
++{
++	return false;
++}
++#endif
++
+ #ifdef CONFIG_DMA_DECLARE_COHERENT
+ int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_addr,
+ 		dma_addr_t device_addr, size_t size);
+ void dma_release_coherent_memory(struct device *dev);
+ int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
+diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+index 8df0dfaaca18eeb0a20145512ba64425d2e7601e..ace4982e928e404315cf38551e1596f7ed445156 100644
+--- a/kernel/dma/contiguous.c
++++ b/kernel/dma/contiguous.c
+@@ -493,6 +493,13 @@ static int __init rmem_cma_setup(struct reserved_mem *rmem)
+ 		&rmem->base, (unsigned long)rmem->size / SZ_1M);
+ 
+ 	return 0;
+ }
+ RESERVEDMEM_OF_DECLARE(cma, "shared-dma-pool", rmem_cma_setup);
++
++bool of_reserved_mem_is_contiguous(const struct reserved_mem *rmem)
++{
++	return rmem->ops == &rmem_cma_ops;
++}
++EXPORT_SYMBOL_GPL(of_reserved_mem_is_contiguous);
++
+ #endif
 
-Changes in v4:
-- Rebased on 6.15-rc7
-- Map buffers only when map is actually called, not at allocation time
-- Deal with restricted-dma-pool and shared-dma-pool
-- Reword Kconfig options
-- Properly report dma_map_sgtable failures
-- Link to v3: https://lore.kernel.org/r/20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org
-
-Changes in v3:
-- Reworked global variable patch
-- Link to v2: https://lore.kernel.org/r/20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org
-
-Changes in v2:
-- Add vmap/vunmap operations
-- Drop ECC flags uapi
-- Rebase on top of 6.14
-- Link to v1: https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org
-
----
-Maxime Ripard (2):
-      dma/contiguous: Add helper to test reserved memory type
-      dma-buf: heaps: cma: Create CMA heap for each CMA reserved region
-
- drivers/dma-buf/heaps/cma_heap.c | 52 +++++++++++++++++++++++++++++++++++++++-
- include/linux/dma-map-ops.h      | 13 ++++++++++
- kernel/dma/contiguous.c          |  7 ++++++
- 3 files changed, 71 insertions(+), 1 deletion(-)
----
-base-commit: 47633099a672fc7bfe604ef454e4f116e2c954b1
-change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
-prerequisite-message-id: <20250610131231.1724627-1-jkangas@redhat.com>
-prerequisite-patch-id: bc44be5968feb187f2bc1b8074af7209462b18e7
-prerequisite-patch-id: f02a91b723e5ec01fbfedf3c3905218b43d432da
-prerequisite-patch-id: e944d0a3e22f2cdf4d3b3906e5603af934696deb
-
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.50.0
 
 
