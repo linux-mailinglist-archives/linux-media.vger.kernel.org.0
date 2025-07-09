@@ -1,33 +1,34 @@
-Return-Path: <linux-media+bounces-37219-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37220-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C2EAFF1A9
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 21:17:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B54F9AFF19F
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 21:16:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 238617B71A4
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 19:15:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A939F3A15ED
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 19:16:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97EC823CEE5;
-	Wed,  9 Jul 2025 19:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0998E23FC41;
+	Wed,  9 Jul 2025 19:16:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399D421FF3C;
-	Wed,  9 Jul 2025 19:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A430621FF3C;
+	Wed,  9 Jul 2025 19:16:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752088582; cv=none; b=PNMb1HIruBrwgHeA7AiJcC4askq2DnZ9psCrbFB4vdbSgL/R1wnIUuld9fT5T87i1tQEoQmjzYX6bZQGMI9Mz+ft/JFMM+iIXGvDNuN2MWq+8ubYx00HybjXZGuFZkiM6rChaD+mT1cYe0aS4DN8ykbtiJ1rMZ+5DUBXRXR1OpA=
+	t=1752088584; cv=none; b=e78g0EtqZDKwE7kCzOwmnQkHeyGCTiHK4/tW34/P7jJ2fmVdm02AyuFCwNbdRBe5kmKDVkK4q6s98fosc7rlppLPdmPjWjGTVyCFNpU0abt1pqgN/WhS8F2Q+MO/W1bOorfYF1g68cVIWtkj4rZ3QEDP2WYHSmP2G47WOKDtdxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752088582; c=relaxed/simple;
-	bh=KpI95TjEwinAuJ1zJVwza0gTD/QCdQKQS+LJlspGcHs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D6upCMH8gM9il9+uuiM58BDg80jAGfO/Lzd2g+vBXMzmLo055+3oooZrVv0DXkK9hpeykVakOzy49XzH4qMlA36QMOy80TknvfiaVg+aAZXigIu188G86njZlWMfmQuICLqNVoM2NLSrVrlVIj3AtvkyPpLrT3P7KMFVLhVS+eE=
+	s=arc-20240116; t=1752088584; c=relaxed/simple;
+	bh=xprPjO6fSDQrn5IflhrAvPtrAlZpHjzgFei+/4LvAyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lKjsDxOtTBuiFQM0m1T3xL800FmwPZXQURLBifspHJWF0PkIxOYfblbO8LtfkRpoULm+ueqqocl1y8Mp7WzrzwTERGvho8z+booh8osFJextaNZD7DU7QPFPwWtJf7IJzQTIaF9+0ohf1cfk6ASMUIhI2TDV5P6zXYYfXg2tyLM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B1FCC4CEF0;
-	Wed,  9 Jul 2025 19:16:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18DBFC4CEEF;
+	Wed,  9 Jul 2025 19:16:21 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -38,10 +39,12 @@ To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 Cc: linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/5] media: renesas: Convert to modern *_PM_OPS()
-Date: Wed,  9 Jul 2025 21:16:06 +0200
-Message-ID: <cover.1752088108.git.geert+renesas@glider.be>
+Subject: [PATCH 1/5] media: renesas: rcar_drif: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Wed,  9 Jul 2025 21:16:07 +0200
+Message-ID: <ad032c66fc32dddf3a5590a5939792c1139a554c.1752088108.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1752088108.git.geert+renesas@glider.be>
+References: <cover.1752088108.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,43 +53,54 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+Convert the Renesas Digital Radio Interface driver from
+SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().
+This lets us drop the __maybe_unused annotations from its suspend and
+resume callbacks, and reduces kernel size in case CONFIG_PM or
+CONFIG_PM_SLEEP is disabled.
 
-This patch series converts the Renesas media drivers from the old
-SIMPLE_DEV_PM_OPS(), SET_SYSTEM_SLEEP_PM_OPS(), and SET_RUNTIME_PM_OPS()
-helpers to the modern DEFINE_SIMPLE_DEV_PM_OPS(), SYSTEM_SLEEP_PM_OPS(),
-RUNTIME_PM_OPS(), pm_ptr(), and pm_sleep_ptr() helpers.  This lets us
-drop the __maybe_unused annotations from power management callbacks, and
-reduces kernel size in case power management or sleep support is not
-enabled.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/media/platform/renesas/rcar_drif.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks for your comments!
-
-Geert Uytterhoeven (5):
-  media: renesas: rcar_drif: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-  media: renesas: rcar-vin: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-  media: renesas: fdp1: Convert to RUNTIME_PM_OPS()
-  media: renesas: ceu: Convert to RUNTIME_PM_OPS()
-  media: renesas: vsp1: Convert to SYSTEM_SLEEP/RUNTIME_PM_OPS()
-
- .../media/platform/renesas/rcar-vin/rcar-core.c    |  8 ++++----
- drivers/media/platform/renesas/rcar_drif.c         | 10 +++++-----
- drivers/media/platform/renesas/rcar_fdp1.c         | 10 ++++------
- drivers/media/platform/renesas/renesas-ceu.c       | 10 ++++------
- drivers/media/platform/renesas/vsp1/vsp1_drv.c     | 14 +++++++-------
- 5 files changed, 24 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+index fc8b6bbef793c64e..0f0c5844e22ea86c 100644
+--- a/drivers/media/platform/renesas/rcar_drif.c
++++ b/drivers/media/platform/renesas/rcar_drif.c
+@@ -1446,18 +1446,18 @@ static void rcar_drif_remove(struct platform_device *pdev)
+ }
+ 
+ /* FIXME: Implement suspend/resume support */
+-static int __maybe_unused rcar_drif_suspend(struct device *dev)
++static int rcar_drif_suspend(struct device *dev)
+ {
+ 	return 0;
+ }
+ 
+-static int __maybe_unused rcar_drif_resume(struct device *dev)
++static int rcar_drif_resume(struct device *dev)
+ {
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(rcar_drif_pm_ops, rcar_drif_suspend,
+-			 rcar_drif_resume);
++static DEFINE_SIMPLE_DEV_PM_OPS(rcar_drif_pm_ops, rcar_drif_suspend,
++				rcar_drif_resume);
+ 
+ static const struct of_device_id rcar_drif_of_table[] = {
+ 	{ .compatible = "renesas,rcar-gen3-drif" },
+@@ -1470,7 +1470,7 @@ static struct platform_driver rcar_drif_driver = {
+ 	.driver = {
+ 		.name = RCAR_DRIF_DRV_NAME,
+ 		.of_match_table = rcar_drif_of_table,
+-		.pm = &rcar_drif_pm_ops,
++		.pm = pm_sleep_ptr(&rcar_drif_pm_ops),
+ 		},
+ 	.probe = rcar_drif_probe,
+ 	.remove = rcar_drif_remove,
 -- 
 2.43.0
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
