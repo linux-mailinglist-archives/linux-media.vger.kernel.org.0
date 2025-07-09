@@ -1,134 +1,177 @@
-Return-Path: <linux-media+bounces-37229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37230-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09501AFF337
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 22:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1F9AFF342
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 22:55:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC0931896E4A
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 20:43:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C8531C46E13
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 20:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEEDE244692;
-	Wed,  9 Jul 2025 20:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32B223BCFD;
+	Wed,  9 Jul 2025 20:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGmZPTos"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZKzROtTe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30B21CAA85;
-	Wed,  9 Jul 2025 20:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336A123814D
+	for <linux-media@vger.kernel.org>; Wed,  9 Jul 2025 20:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752093793; cv=none; b=aEVQ6kyvnl9o1ITkj8Bt9RcWciyubIEjz6B3v9wpvHu16DCVixcI+p6w+iskiB/1aUhWY+9I46ESgNZ9sE7xfdQPgWNVJq4Q2TRQz3zHxJyOFeAyFnJZiKKN4S5ONNmG4XsjWNzFtJd6mU5AwOuZzt5jXsbjdPcNqEAR2T+i1R0=
+	t=1752094523; cv=none; b=q7C9u03Ehusn/nwoEpISiqvnGEkHUgc6iiMuvSsUP5sckgzypaj4U7vZGD8wP2r4NQVo34TZqxPp2k+sboPNCIewTbAxeeD16lRtApAaHPJ3YjcVN+cFPstp1U4mVIYOuEaF17hdkvelSX7RWwGA7TA6OtPoJGlSnTFdiwv7gBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752093793; c=relaxed/simple;
-	bh=vXZxtv0D4jlgPPRePM4PDpSU26LaCzorbsB/7xNQuB8=;
+	s=arc-20240116; t=1752094523; c=relaxed/simple;
+	bh=+bkZdhZGUZn/WJzAJFQp8Ws5/51VRSq3KTfoMmBAs24=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xa8qAZmpx105BI/N4m8C7+pi22v2zDnWykLmHVEpUVcXaljAGEj0efCN3XVY7S+eTrTO/J60BRFT7SyDsux1X4camkwQKDW/YU3oCfZstyqRXfjn3usCLI7y8JLe9R8MTXXIbMU0SsoksoFtPFDQJKDhMZct6CuiQ7aEJC3DM9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PGmZPTos; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752093792; x=1783629792;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vXZxtv0D4jlgPPRePM4PDpSU26LaCzorbsB/7xNQuB8=;
-  b=PGmZPTosjKNO+g2c9a0FdKVVY4Qjezh+IC2YLVhX9fYbymlKWSLMGWfh
-   YjpdIDLkZKO2gTFu5OiFJPrWcWXIxV+9qM8OxONHVeVP0aMIq+1rggEIO
-   h6TlJhHHyaNkQN44KWWKaeALUDqQ42AKB6VEI5WQSBEG2IF91T0PE88Ic
-   d41goCv7d1Myx/annqHlomd+2hCfv5cvkO2yitqTUgL7XmMq4RbcYAdqC
-   MApr1/IAVm55n3qKIk+W/U4zU9iGQCdrHUY3t7SYNiB8pnj0RyDfyCM0L
-   HjVsPAuuLQUB0AH5uWS7kyqkBDi/9NESBR4SG8Ley2qn/m1xkqBq736R7
-   w==;
-X-CSE-ConnectionGUID: td9E98hPQHqEsEt1BdDgaw==
-X-CSE-MsgGUID: 4l8fyhPnT0CL7dk8mWyzQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="53475870"
-X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="53475870"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 13:43:11 -0700
-X-CSE-ConnectionGUID: fvbPLDfOQi+/JnPn7Fm0YQ==
-X-CSE-MsgGUID: NZKqYa5dTE6j/CNZyjq2FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="156432117"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.15])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 13:43:08 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 35B3D11FBEE;
-	Wed,  9 Jul 2025 23:43:06 +0300 (EEST)
-Date: Wed, 9 Jul 2025 20:43:06 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-	hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
-	mchehab@kernel.org, hdegoede@redhat.com, arnd@arndb.de,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] media: i2c: Kconfig: Ensure a dependency on
- COMMON_CLK for VIDEO_CAMERA_SENSOR
-Message-ID: <aG7UWg8kYMNX32MS@kekkonen.localdomain>
-References: <20250709101114.22185-1-mehdi.djait@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=U0xGYlysNlfNWELirwr51a3RHB9X26W7obQ5mp1AX4fiXt3UFMleCVMbmrkHw6jqmmGia/bpTG4v5MF7dkxDMOc36dhy399JcoDzepC/SapfLywKqnxCrtOVoZfSWW1R4TMgpe+XlUhrMJ1wRZQZXjMI4NBCtAqoPiEainV3EPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZKzROtTe; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9250250A;
+	Wed,  9 Jul 2025 22:54:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752094490;
+	bh=+bkZdhZGUZn/WJzAJFQp8Ws5/51VRSq3KTfoMmBAs24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZKzROtTe7z6Lugun2d6Bgdd9sNv/AUhtVHnblijTA35d/8u16XkMVwIgBV3yHTyRf
+	 H5mNqTIOxkU9WC3jOBsvQeEtJS26diOPz4LAB1p/hSznPwVCtySmlm/9OFIMGihIOY
+	 V6NJOl4apM0PewwStryFSZwvEI4rL9Ihd/0uJ/8c=
+Date: Wed, 9 Jul 2025 23:54:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
+	tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH 05/13] media: v4l: Make media_entity_to_video_device()
+ NULL-safe
+Message-ID: <20250709205449.GA22436@pendragon.ideasonboard.com>
+References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
+ <20250619081546.1582969-6-sakari.ailus@linux.intel.com>
+ <20250619152033.GG32166@pendragon.ideasonboard.com>
+ <aFQ3c-fI29YZ7dEe@kekkonen.localdomain>
+ <20250708115616.GE1821@pendragon.ideasonboard.com>
+ <aG0I1eoY0gwgE85O@kekkonen.localdomain>
+ <20250708161747.GA23181@pendragon.ideasonboard.com>
+ <aG7K-xBVC8cmg3z6@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250709101114.22185-1-mehdi.djait@linux.intel.com>
+In-Reply-To: <aG7K-xBVC8cmg3z6@kekkonen.localdomain>
 
-Hi Mehdi,
+On Wed, Jul 09, 2025 at 08:03:07PM +0000, Sakari Ailus wrote:
+> Hi Laurent,
+> 
+> On Tue, Jul 08, 2025 at 07:17:47PM +0300, Laurent Pinchart wrote:
+> > On Tue, Jul 08, 2025 at 12:02:29PM +0000, Sakari Ailus wrote:
+> > > On Tue, Jul 08, 2025 at 02:56:16PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, Jun 19, 2025 at 04:14:43PM +0000, Sakari Ailus wrote:
+> > > > > On Thu, Jun 19, 2025 at 06:20:33PM +0300, Laurent Pinchart wrote:
+> > > > > > On Thu, Jun 19, 2025 at 11:15:38AM +0300, Sakari Ailus wrote:
+> > > > > > > Make media_entity_to_video_device(NULL) return NULL, instead of an invalid
+> > > > > > > pointer value.
+> > > > > > > 
+> > > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > > ---
+> > > > > > >  include/media/v4l2-dev.h | 14 ++++++++++----
+> > > > > > >  1 file changed, 10 insertions(+), 4 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> > > > > > > index 1b6222fab24e..069c2f14b473 100644
+> > > > > > > --- a/include/media/v4l2-dev.h
+> > > > > > > +++ b/include/media/v4l2-dev.h
+> > > > > > > @@ -313,10 +313,16 @@ struct video_device {
+> > > > > > >   * media_entity_to_video_device - Returns a &struct video_device from
+> > > > > > >   *	the &struct media_entity embedded on it.
+> > > > > > >   *
+> > > > > > > - * @__entity: pointer to &struct media_entity
+> > > > > > > - */
+> > > > > > > -#define media_entity_to_video_device(__entity) \
+> > > > > > > -	container_of(__entity, struct video_device, entity)
+> > > > > > > + * @__entity: pointer to &struct media_entity, may be NULL
+> > > > > > > + */
+> > > > > > > +#define media_entity_to_video_device(__entity)				\
+> > > > > > > +	({								\
+> > > > > > > +		typeof (__entity) __me_to_vdev_ent = __entity;		\
+> > 
+> > This should be __me_vdev_ent to align the naming with
+> > media_entity_to_v4l2_subdev().
+> > 
+> > > > > > > +									\
+> > > > > > > +		__me_to_vdev_ent ? container_of(__me_to_vdev_ent,	\
+> > > > > > > +						struct video_device, entity) : \
+> > 
+> > And here you should write
+> > 
+> > 	__me_to_vdev_ent ?						   \
+> > 		container_of(__me_vdev_ent, struct video_device, entity) : \
+> > 		NULL;							   \
+> 
+> I'm fine wrap after '?' as well, but another wrap is needed due to
+> indentation in any case.
 
-Thanks for the update.
+I didn't make it clear, my comment was about replicating the style of
+media_entity_to_v4l2_subdev().
 
-On Wed, Jul 09, 2025 at 12:11:14PM +0200, Mehdi Djait wrote:
-> Both ACPI and DT-based systems are required to obtain the external
-> camera sensor clock using the new devm_v4l2_sensor_clk_get() helper
-> function.
+> > > > > > > +			NULL;						\
+> > > > > > > +	})
+> > > > > > 
+> > > > > > This makes the macro safer, it's a good idea. Wouldn't it be better
+> > > > > > implemented as a container_of_null() (name to be bikeshedded) though ? I
+> > > > > > don't think media_entity_to_video_device() is the only macro that could
+> > > > > > benefit from this. It could even be integrated in container_of(), but I
+> > > > > > fear that could introduce issues.
+> > > > > 
+> > > > > That sounds like a good idea. I'll first see how this would look like with
+> > > > > container_of_const()...
+> > > > 
+> > > > Thinking some more about this, I think we can move forward without
+> > > > waiting for container_of_null().
+> > > > 
+> > > > Should we however add a check to ensure the entity is a video device (by
+> > > > checking that the function is MEDIA_ENT_F_IO_V4L), and return NULL if
+> > > > it's not ? It would make the macro even safer to use. There would be a
+> > > > small additional runtime cost for call sites that guarantee the entity
+> > > > is a video device.
+> > > > 
+> > > > I checked the current users of the macro, and the vast majority of them
+> > > > are in the .link_validate() operation, where they know that the entity
+> > > > is a video device. There are just a handful of locations where a check
+> > > > precedes the media_entity_to_video_device() call. So maybe it's not
+> > > > worth it ?
+> > > > 
+> > > > I also found no caller that checks for entity != NULL before calling the
+> > > > macro. Is this change actually needed ?
+> > > 
+> > > We have a similar check in media_entity_to_v4l2_subdev() macro.
+> > 
+> > That's a good point. Different behaviours for the two macros would be
+> > confusing I suppose, so
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Ensure a dependency on COMMON_CLK when config VIDEO_CAMERA_SENSOR is
-> enabled.
+> Thank you.
 > 
-> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> ---
-> v1 -> v2:
-> Suggested by Arnd Bergmann:
-> 	- removed the select statement and replaced it by "depends on
-> 	  COMMON_CLK"
+> > I'm tempted to convert the macro to an inline function, but that would
+> > make it more difficult to switch to container_of_const().
 > 
-> Link v1: https://lore.kernel.org/linux-media/20250708161637.227111-1-mehdi.djait@linux.intel.com
+> Let's not do that. Eventually container_of() should become what
+> container_of_const() is at the moment.
 > 
->  drivers/media/i2c/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index e68202954a8f..98750fa5a7b6 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -27,7 +27,7 @@ config VIDEO_IR_I2C
->  
->  menuconfig VIDEO_CAMERA_SENSOR
->  	bool "Camera sensor devices"
-> -	depends on MEDIA_CAMERA_SUPPORT && I2C
-> +	depends on MEDIA_CAMERA_SUPPORT && I2C && COMMON_CLK
-
-As of now, this patch makes COMMON_CLK a requirement to use camera sensors.
-I think you should depend on COMMON_CLK only on ACPI-based platforms as
-non-CCF clock implementations are still in use and these platforms do not
-use ACPI.
-
->  	select MEDIA_CONTROLLER
->  	select V4L2_FWNODE
->  	select VIDEO_V4L2_SUBDEV_API
+> But once this is in, I can introduce container_of_null() which we could
+> later use. I wonder how it will look like.
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
