@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-37222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C506AFF1A2
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 21:16:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2781BAFF1A8
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 21:17:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 222391891602
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 19:16:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 622727B6F00
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 19:15:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B0B72405E1;
-	Wed,  9 Jul 2025 19:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66BFF23717C;
+	Wed,  9 Jul 2025 19:16:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF8521D00D;
-	Wed,  9 Jul 2025 19:16:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDC221D00D;
+	Wed,  9 Jul 2025 19:16:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752088590; cv=none; b=ZcILXyR8WjOOJS2emvHyNMh/HG8ri1Mo3OwuWxweA0erfnkESGrefx1HQQVhWf6JnxHsJizfDi9L0cZkbmm2MDPY4RqPtSRVE54kfo7/GHnBNGLRXohu+H4IPoVDpqeYgw+SjnTj4heM2YJgEYGjeqx3zPTI3USVJwesVYfSKus=
+	t=1752088594; cv=none; b=XDmdjuK4Qi0TbGLtbPjIZDWHeGwUS1CHA9zvTRl2xtD5hxA/6R4C4tO2mYPztNr8DNT+wDXNx9AGS5T5+MOgWzFDWZx8pnp4LWRskkVHU14Cum8MuIfKT0O7h+wcKRRYiRoe+zvI75bJhJ+PXOVEKedzuukQXQP1cNpnL0ZJSQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752088590; c=relaxed/simple;
-	bh=mA5oJ/FB0ZKzy0GCw++UPAiPNIN53oAvgBcQCtqaws0=;
+	s=arc-20240116; t=1752088594; c=relaxed/simple;
+	bh=upq33m7ERdQ6y0Wc2g5fE/p5Ify29NtqzL2UQuJre8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kWYwKlBKkgyYP+uXsmH6p7l9MhKOBK87p4/cshKAvptNKq4yfgM3LPw15PuuiBDWhl4fTibpVnSJhNwQh7j6NPmhMJxgwvMn6BEdx95X+nSDlpu2/HdPu677OfUunitg2k1c5IYPCzyj2DFcAJVqjOFVwnISPMUswLCUsAx+aHc=
+	 MIME-Version; b=pWtKjaLbwtRsiOUJx9FcFV/kqfXH4Ja+L3H9SsngO+PG3NGii7CUArkMqjlUwZCtm9piWI6JlqwmC8eMtYjhdLTOFrDZQvUL0myf+sc2Tcuu2vMuNYSvvX7T8fQlSzHMompiXilZvjMIFBO9mjTzc2X5HM8jHBrJ5+v2ah2IKvg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E05C4CEF4;
-	Wed,  9 Jul 2025 19:16:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DD4EC4CEF0;
+	Wed,  9 Jul 2025 19:16:30 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -39,9 +39,9 @@ To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 Cc: linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/5] media: renesas: fdp1: Convert to RUNTIME_PM_OPS()
-Date: Wed,  9 Jul 2025 21:16:09 +0200
-Message-ID: <4402553df11f87a53cd70c95e35966963a4132df.1752088108.git.geert+renesas@glider.be>
+Subject: [PATCH 4/5] media: renesas: ceu: Convert to RUNTIME_PM_OPS()
+Date: Wed,  9 Jul 2025 21:16:10 +0200
+Message-ID: <7073c5a5a4c89b9244a2e39829cfff585380d1c6.1752088108.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752088108.git.geert+renesas@glider.be>
 References: <cover.1752088108.git.geert+renesas@glider.be>
@@ -53,58 +53,56 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Renesas Fine Display Processor driver from
-SET_RUNTIME_PM_OPS() to RUNTIME_PM_OPS() and pm_ptr().  This lets us
-drop the __maybe_unused annotations from its runtime suspend and resume
-callbacks, and reduces kernel size in case CONFIG_PM is disabled.
+Convert the Renesas Capture Engine Unit driver from SET_RUNTIME_PM_OPS()
+to RUNTIME_PM_OPS() and pm_ptr().  This lets us drop the __maybe_unused
+annotations from its runtime suspend and resume callbacks, and reduces
+kernel size in case CONFIG_PM is disabled.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/media/platform/renesas/rcar_fdp1.c | 10 ++++------
+ drivers/media/platform/renesas/renesas-ceu.c | 10 ++++------
  1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
-index 5d453a7a89889fa3..a40e48a7078f11b6 100644
---- a/drivers/media/platform/renesas/rcar_fdp1.c
-+++ b/drivers/media/platform/renesas/rcar_fdp1.c
-@@ -2409,7 +2409,7 @@ static void fdp1_remove(struct platform_device *pdev)
- 	rcar_fcp_put(fdp1->fcp);
- }
- 
--static int __maybe_unused fdp1_pm_runtime_suspend(struct device *dev)
-+static int fdp1_pm_runtime_suspend(struct device *dev)
+diff --git a/drivers/media/platform/renesas/renesas-ceu.c b/drivers/media/platform/renesas/renesas-ceu.c
+index 8cceafe491b1bec6..deed49d0fb10e0d7 100644
+--- a/drivers/media/platform/renesas/renesas-ceu.c
++++ b/drivers/media/platform/renesas/renesas-ceu.c
+@@ -1048,7 +1048,7 @@ static int ceu_init_mbus_fmt(struct ceu_device *ceudev)
+ /*
+  * ceu_runtime_resume() - soft-reset the interface and turn sensor power on.
+  */
+-static int __maybe_unused ceu_runtime_resume(struct device *dev)
++static int ceu_runtime_resume(struct device *dev)
  {
- 	struct fdp1_dev *fdp1 = dev_get_drvdata(dev);
- 
-@@ -2418,7 +2418,7 @@ static int __maybe_unused fdp1_pm_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused fdp1_pm_runtime_resume(struct device *dev)
-+static int fdp1_pm_runtime_resume(struct device *dev)
+ 	struct ceu_device *ceudev = dev_get_drvdata(dev);
+ 	struct v4l2_subdev *v4l2_sd = ceudev->sd->v4l2_sd;
+@@ -1064,7 +1064,7 @@ static int __maybe_unused ceu_runtime_resume(struct device *dev)
+  * ceu_runtime_suspend() - disable capture and interrupts and soft-reset.
+  *			   Turn sensor power off.
+  */
+-static int __maybe_unused ceu_runtime_suspend(struct device *dev)
++static int ceu_runtime_suspend(struct device *dev)
  {
- 	struct fdp1_dev *fdp1 = dev_get_drvdata(dev);
- 
-@@ -2429,9 +2429,7 @@ static int __maybe_unused fdp1_pm_runtime_resume(struct device *dev)
+ 	struct ceu_device *ceudev = dev_get_drvdata(dev);
+ 	struct v4l2_subdev *v4l2_sd = ceudev->sd->v4l2_sd;
+@@ -1709,15 +1709,13 @@ static void ceu_remove(struct platform_device *pdev)
  }
  
- static const struct dev_pm_ops fdp1_pm_ops = {
--	SET_RUNTIME_PM_OPS(fdp1_pm_runtime_suspend,
--			   fdp1_pm_runtime_resume,
+ static const struct dev_pm_ops ceu_pm_ops = {
+-	SET_RUNTIME_PM_OPS(ceu_runtime_suspend,
+-			   ceu_runtime_resume,
 -			   NULL)
-+	RUNTIME_PM_OPS(fdp1_pm_runtime_suspend, fdp1_pm_runtime_resume, NULL)
++	RUNTIME_PM_OPS(ceu_runtime_suspend, ceu_runtime_resume, NULL)
  };
  
- static const struct of_device_id fdp1_dt_ids[] = {
-@@ -2446,7 +2444,7 @@ static struct platform_driver fdp1_pdrv = {
+ static struct platform_driver ceu_driver = {
  	.driver		= {
  		.name	= DRIVER_NAME,
- 		.of_match_table = fdp1_dt_ids,
--		.pm	= &fdp1_pm_ops,
-+		.pm	= pm_ptr(&fdp1_pm_ops),
+-		.pm	= &ceu_pm_ops,
++		.pm	= pm_ptr(&ceu_pm_ops),
+ 		.of_match_table = of_match_ptr(ceu_of_match),
  	},
- };
- 
+ 	.probe		= ceu_probe,
 -- 
 2.43.0
 
