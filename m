@@ -1,154 +1,123 @@
-Return-Path: <linux-media+bounces-37171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3A4AFDF34
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 07:25:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C684AFDFBE
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 08:00:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 004DE1BC672B
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 05:25:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A486A4E797A
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 05:59:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D96F26A1BB;
-	Wed,  9 Jul 2025 05:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368E526B2C8;
+	Wed,  9 Jul 2025 05:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PMYaiw+w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W2L8ieow"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC94220010C
-	for <linux-media@vger.kernel.org>; Wed,  9 Jul 2025 05:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5A71B6D08;
+	Wed,  9 Jul 2025 05:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752038716; cv=none; b=rnK4loEgGxDWAXyZPc8kL2Pcc/iDMyWYXbc85zLWjWP9Aau1u4prD9kwAnnFwO9uWCNOcGbsCVnjIwKtIhB4Ef76zWuCFRzPbwwDia3N1zuWPAdeqNgT9jdNNiNoOQ4rbX3rOuDq6ec9fe5CinKH2rP2I/fOZOXrd46Wxz+8ZFI=
+	t=1752040796; cv=none; b=i4AgIrM4/s/Cu5Np+pF0VxzzMtTBotLNT3vb1o/+GRN2jP5EE4pyjbs0npehGl/lQ5cfTWzwGIteUY1NPAF5nMCRoKilS3gh+yNzBPQvqFimVjdcXmebxxolEkwlXtXIoCqChgE4tT4ZrHSgCwYlMtO+vLGKnt/MSBojjkZNkD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752038716; c=relaxed/simple;
-	bh=WodqCRbyHCoG9/rv9DcIweeSuS1a0gF6AJU577W+mNs=;
+	s=arc-20240116; t=1752040796; c=relaxed/simple;
+	bh=LzYB6pw/2+1lvLXdkdXCIJm1qBGvJhF76UZJym27mtI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kSpMMrvhdcuH9qLRO0A8J2TzEsV4HWQFCJfMXLyEtcm0TbNLDT/XCYmRtBGBeV552G7uFtKfQWTAH+IJHIInBpDmxHpByLvF69VDPxuoP9tGXz+Ccztw0C/zQulYphiNrcfCfAhPhY5fZzFWaxK6FlQ+KE4XnksU+7ZH16lKb+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PMYaiw+w; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Wed, 9 Jul 2025 07:24:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1752038701;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MB0wSYD4aTt2qOL0P3f18klNqmKxL2CUFBvEfl1NWEk=;
-	b=PMYaiw+w5Bes5alPFwEHYd73K9GD2Jxn1XW2naBEn8TSXfJAqzLfflPYPhCVaoGsL/+l5u
-	Sl0r6jbjRJBW4iS4yLK9lth8fY/mBEWyFHQ0IZmm8gpOqIP5T/Und0suqskUO+IIqHYWb4
-	mFgreO9m4+7PdNIufFF5u62uxfUsqc8=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v5 00/10] Add strobe/flash duration v4l2 ctrl & use it
- for ov9282
-Message-ID: <h43ffbhrelzbc5bgl3utp6o7lyxozhm756vyx2lqsuphjtllqo@epsedvjhbsqc>
-References: <20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev>
+	 Content-Type:Content-Disposition:In-Reply-To; b=aSiOAF8DXK2fPw6SAaM9CQS3qh/Mlovee/3R7TuUCZItPo8GJUs87M+QcQDXC2X6XTYTElQI1GNRMzHuTE9m51RdvYI15EhTYc9cE4qLDPnjqtIDdisZw1lAulxiZJ2x81z4rZNFcVeVA+UXxuefAhyFWKGkQctDaw62lWGm9/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W2L8ieow; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752040794; x=1783576794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LzYB6pw/2+1lvLXdkdXCIJm1qBGvJhF76UZJym27mtI=;
+  b=W2L8ieowE66nAGiudrY1KzZNbz5+EKIfkXbRRjilRDRP9YKFDfGfse8z
+   0IDapfgfVIEfUpA04CQMunCAwkgR2ERFW3qz31PTkQQsJjlbd5Z1ltnGL
+   Qi7PRdGmSWshlioGE8e0gR/duWZjf6Yn9fd+8HlrFvQ6CY13IphRXDWna
+   n/LCYsdIDsgTbDiBd5hACSbkkyTuwOGAcGt2K+k6hjt/gMIA5gREjxVKW
+   TSBg5VQPAbJN1th3hJwVt72ggEIltbEQh498ki23Cn6krKvQu+1M+6afN
+   +ncX7Tkq/FexLX+aTEBNxDph7xYVDqBGEYi/IU0cp2mAgXsvJ/UjfA12K
+   g==;
+X-CSE-ConnectionGUID: hXuzE9aFSbm43FeQHlOoxA==
+X-CSE-MsgGUID: ZFo3x4fFQSS3kdNuBH2wGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54009937"
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="54009937"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 22:59:50 -0700
+X-CSE-ConnectionGUID: A6UhJEe2QCS4oMRU34mFqw==
+X-CSE-MsgGUID: L/VUNKizQfG5E89QG7KNzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="156414304"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 08 Jul 2025 22:59:47 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uZNqL-00039P-06;
+	Wed, 09 Jul 2025 05:59:45 +0000
+Date: Wed, 9 Jul 2025 13:59:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Keke Li <keke.li@amlogic.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 1/8] media: uapi: Introduce V4L2 extensible params
+Message-ID: <202507091305.hPkKkWZJ-lkp@intel.com>
+References: <20250708-extensible-parameters-validation-v1-1-9fc27c9c728c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20250708-extensible-parameters-validation-v1-1-9fc27c9c728c@ideasonboard.com>
 
-Hi,
+Hi Jacopo,
 
-just a friendly ping on this series.
+kernel test robot noticed the following build errors:
 
-Any feedback/reviews/ack or suggestions for improvement are greatly appreciated.
+[auto build test ERROR on a8598c7de1bcd94461ca54c972efa9b4ea501fb9]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-uapi-Introduce-V4L2-extensible-params/20250708-184651
+base:   a8598c7de1bcd94461ca54c972efa9b4ea501fb9
+patch link:    https://lore.kernel.org/r/20250708-extensible-parameters-validation-v1-1-9fc27c9c728c%40ideasonboard.com
+patch subject: [PATCH 1/8] media: uapi: Introduce V4L2 extensible params
+config: i386-buildonly-randconfig-003-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091305.hPkKkWZJ-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091305.hPkKkWZJ-lkp@intel.com/reproduce)
 
-regards;rl
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091305.hPkKkWZJ-lkp@intel.com/
 
-On Tue, Jun 17, 2025 at 09:31:34AM +0200, Richard Leitner wrote:
-> This series adds a new v4l2 controls named "strobe duration" with id
-> V4L2_CID_FLASH_DURATION. This control enables setting a desired
-> flash/strobe length/duration in µs.
-> 
-> As a first user of this new control add basic flash/strobe support for
-> ov9282 sensors using their "hardware strobe output". The duration
-> calculation is only interpolated from various measurements, as no
-> documentation was found.
-> 
-> Further flash/strobe-related controls as well as a migration to v4l2-cci
-> helpers for ov9282 will likely be implemented in future series.
-> 
-> All register addresses/values are based on the OV9281 datasheet v1.53
-> (january 2019). This series was tested using an ov9281 VisionComponents
-> camera module.
-> 
-> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> ---
-> Changes in v5:
-> - Improve try_ctrl for flash_duration by using DIV_ROUND_UP() and abs() (thanks Sakari)
-> - Drop "leds: flash: Add support for flash/strobe duration" as this was applied upstream
-> - Add "media: i2c: ov9282: dynamic flash_duration maximum" (thanks Sakari)
-> - Link to v4: https://lore.kernel.org/r/20250507-ov9282-flash-strobe-v4-0-72b299c1b7c9@linux.dev
-> 
-> Changes in v4:
-> - Fix FLASH_DURATION implementation in v4l2-flash-led-class.c by adding a
->   missing brace and enum entry (thanks Sakari)
-> - Fix format of multiline comment in ov9282.c (thanks Sakari)
-> - Add missing NULL check in ov9282.c (thanks Sakari)
-> - Adapt nr_of_controls_hint for v4l2 handler in ov9282.c (thanks Sakari)
-> - Add patch for implementing try_ctrl for strobe_duration (thanks Sakari)
-> - Link to v3: https://lore.kernel.org/r/20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev
-> 
-> Changes in v3:
-> - create separate patch for leds driver changes (thanks Lee)
-> - Link to v2: https://lore.kernel.org/r/20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev
-> 
-> Changes in v2:
-> - remove not needed controls in struct ov9282 (thanks Dave)
-> - Fix commit message of 3/3 regarding framerate get/set (thanks Dave)
-> - Add V4L2_CID_FLASH_STROBE_SOURCE impementation to ov9282
-> - Add new V4L2_CID_FLASH_DURATION control (as suggested by Laurent)
-> - Use FLASH_DURATION instead of FLASH_TIMEOUT for ov9282
-> - Link to v1: https://lore.kernel.org/r/20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev
-> 
-> ---
-> Richard Leitner (10):
->       media: v4l: ctrls: add a control for flash/strobe duration
->       media: v4l2-flash: add support for flash/strobe duration
->       media: v4l2-flash: fix flash_timeout comment
->       Documentation: uAPI: media: add V4L2_CID_FLASH_DURATION
->       media: i2c: ov9282: add output enable register definitions
->       media: i2c: ov9282: add led_mode v4l2 control
->       media: i2c: ov9282: add strobe_duration v4l2 control
->       media: i2c: ov9282: add strobe_source v4l2 control
->       media: i2c: ov9282: implement try_ctrl for strobe_duration
->       media: i2c: ov9282: dynamic flash_duration maximum
-> 
->  .../userspace-api/media/v4l/ext-ctrls-flash.rst    |   5 +
->  drivers/media/i2c/ov9282.c                         | 172 ++++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |   1 +
->  drivers/media/v4l2-core/v4l2-flash-led-class.c     |  25 +++
->  include/linux/led-class-flash.h                    |   2 +-
->  include/uapi/linux/v4l2-controls.h                 |   1 +
->  6 files changed, 199 insertions(+), 7 deletions(-)
-> ---
-> base-commit: d9946fe286439c2aeaa7953b8c316efe5b83d515
-> change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
-> 
-> Best regards,
-> -- 
-> Richard Leitner <richard.leitner@linux.dev>
-> 
-> 
+All errors (new ones prefixed by >>):
+
+   In file included from <built-in>:1:
+>> ./usr/include/linux/media/v4l2-extensible-params.h:23:2: error: "This file should not be included directly by applications"
+      23 | #error "This file should not be included directly by applications"
+         |  ^
+   1 error generated.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
