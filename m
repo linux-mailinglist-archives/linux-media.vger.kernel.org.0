@@ -1,252 +1,292 @@
-Return-Path: <linux-media+bounces-37188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37190-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16596AFE6DE
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 13:05:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC12AFE7FA
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 13:42:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86C83189CBD5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 11:05:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2872718917D9
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 11:43:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE24028DF33;
-	Wed,  9 Jul 2025 11:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FBA02D662A;
+	Wed,  9 Jul 2025 11:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="X1gWigZU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZJzfy1N3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013004.outbound.protection.outlook.com [40.107.159.4])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E9428DB7A;
-	Wed,  9 Jul 2025 11:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752059072; cv=fail; b=EHYAr4dou4Yrrj/duJB6waMmpTuDDsGvc4AIgC8AfHCtkBsdPqv6e/rCCsnpib14yuzYlGp7mXkqN7B//ccGgTSvOENqhXuEG1AEW++SDL1AfJQgV6w5h/lXomhfkchCz1jF+NOlNLXZ7HcoJzXxpT2yJTDXrEzO+EF/YYi0AsE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752059072; c=relaxed/simple;
-	bh=mYXGCdr+Nn6RnikqqT+sQYeDMqho+zjx7hdGataXWJo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Q2rmt5wVRKqCqsdhtVCSJja377i3Pl0MS31IjZxqW7xc/eimukWGpy1bj0wdouo1wKxssSZm7OMudjInMo9BumdxAD5D9eo0VjfPo+Cq/msFT0DatUxWhTCGizJTE4D28jU6zBJLqMtb2K/V+HDCEWB7vCEY7NCUWFmouWIr/o8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=X1gWigZU; arc=fail smtp.client-ip=40.107.159.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xZ9vmHilF7zt3jOOryvBlJqs+1C103NFU35c21bZ/5A+VAxcA+vmlaUeq1Jms9IGSVLpYxqCdonPXWQOSDzJTMZk1B6lF8m/gI+C4ueCDHmXxaePceqImpFJMY7hXSjoH6AQ8UzMfunnUBND6KO87+E7BfeoqUP362vR4gvHHSk03sDmNhvCJ/VxcO2CYBUhH4aMSTdyg7rmN3RgiPuGAHdJUCZHjaAUQ6LTXmAdHO18NilJvC7wewEhqfKSPZKjqDCTj9TlMNWhWWbhNYXzSCe7q3PvIc9+f1Cldm6qT1MG7S07w9cxedv6vq3tQIjGLVz6XfoN7s315Vp6j56prA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GtPWgBlnKAI5HVwrntSA3JiGz5CajyLOMSsPEIve6Bs=;
- b=H7fGeZXU0SN8I31662QP038/2n/ThrdgGw5IstowzEUHRMSTeQBzfRwdOtWkgd9EbsboNOdM2d1BgoLElWRVyx7EmlBBJNSo4N58n5mV/IzXmw4y7jdGJIm9csD1Nekf35ifmdr42+j9nlZuuTf5VzSSuGcj7FT2ggAJUlARLBkYQIPDkb7UJeMLXVF1N6rOs49FwLSsw0bPOHHdhoocqj5eLKPdat3ONPZnPBUtT6GtGM9gtFF1OUEoM3pxHb8ebcFKMNSSwsVD4u8Kt/Gl4FlR1iIRL06DqnZyES8aUvv/Dqtm/lEsjMnN1/BsbVFa16san+1yTaAmUGPZDff5Fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GtPWgBlnKAI5HVwrntSA3JiGz5CajyLOMSsPEIve6Bs=;
- b=X1gWigZUq1e2h3PuxEAS1NVyTL/MT+koBchWNP9wDAx/Ykv/A7ewWQqrjKLRPQQ+EkdQcNBORkKNnF51pgS4yYaTTqMPZQMgjwDGam8qPwIvZbvdXBKiHMZBVIq/ePnELZ09tWHdbnEe7aBA0pMfKj5XHWtN/osVyR6ALZNn4QwpgNxbOB1jeKjnyQjbTeTRKb5OIQZkZu92xMAKgXdSViyEHjqClIBYsPrru3lrySpJcHo3C/GtDWy/XLnSFRu55pzQtqyg3qz9vTpguFXlrNA5HpjwSG3/XgL2Wzr9PhMb5CqE0jFqYw8TMq7+3h3sP44jBg4+QHNwaVhKSBEn6Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
- by DU0PR04MB9466.eurprd04.prod.outlook.com (2603:10a6:10:35a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Wed, 9 Jul
- 2025 11:04:25 +0000
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1%5]) with mapi id 15.20.8901.024; Wed, 9 Jul 2025
- 11:04:23 +0000
-Message-ID: <50c84bb1-5761-47c4-8e32-dc873456cd5c@nxp.com>
-Date: Wed, 9 Jul 2025 14:07:03 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH v4 2/4] media: ox05b1s: Add omnivision OX05B1S
- raw sensor driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, robh@kernel.org,
- krzk+dt@kernel.org, bryan.odonoghue@linaro.org, laurentiu.palcu@nxp.com,
- robert.chiras@nxp.com, jai.luthra@ideasonboard.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, LnxRevLi@nxp.com,
- kieran.bingham@ideasonboard.com, hdegoede@redhat.com,
- dave.stevenson@raspberrypi.com, mike.rudenko@gmail.com,
- alain.volmat@foss.st.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- alexander.stein@ew.tq-group.com, umang.jain@ideasonboard.com,
- zhi.mao@mediatek.com, festevam@denx.de, julien.vuillaumier@nxp.com
-References: <20250305094359.299895-1-mirela.rabulea@nxp.com>
- <20250305094359.299895-3-mirela.rabulea@nxp.com>
- <7c4379dd-e004-4e0d-85db-139c3f671edc@linux.intel.com>
- <3df6d174-ce7d-40ff-a7e0-fb9e8a9ab435@nxp.com>
- <aG2tECZaT3IsOV0z@kekkonen.localdomain>
-Content-Language: en-US
-From: Mirela Rabulea <mirela.rabulea@nxp.com>
-In-Reply-To: <aG2tECZaT3IsOV0z@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0431.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d1::19) To AS4PR04MB9244.eurprd04.prod.outlook.com
- (2603:10a6:20b:4e3::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DE2202C5C;
+	Wed,  9 Jul 2025 11:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752061357; cv=none; b=BMIyci1SoCKBRroBq8V8CSgWF8nJF8JTVK4QLzy/glPBvY6puEhNj1tnIfWWfH/3cwmrCsuZ977KTiTCuYm5PKOo6iA9g2O9Q9ml26t1mpJ4kIVsF3dXC7JpAiVHaxE2bj3v1+haPGKLq9lrzfnoQtP8/OVQPbWnr0keDhTM+3M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752061357; c=relaxed/simple;
+	bh=4CTaLsR8YV2yEQfwN6D2XPkFm5HczJTSutCL69t+3wI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l+vBfQAEXnNaMX33FQDKehoF4SVhogJEYP/pLK31dk34lNgqMKs/tKYrvHUuD10pFtNbck4B3sbC9rMJJA9DQCeolH3qcV5iVfbh7SXqQokslV0oS2I98/cpQpyTJzk/ZLnrXXC0awVQCYGWOf6cUzAyGG5YGV2UxxvfuRFjIMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZJzfy1N3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A6F7669;
+	Wed,  9 Jul 2025 13:32:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752060773;
+	bh=4CTaLsR8YV2yEQfwN6D2XPkFm5HczJTSutCL69t+3wI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZJzfy1N3ynUaMcXRgYRv1SaGEp9n3diop+9Bju3fdiCxK34zVFboSYxl3XHmPqQUv
+	 mTEbLSRI/UujaX3ZLtazI6zh7SW9UX8Vaqey+EcSs3xhFRNo5a0I6R7tCC5ivnC/HX
+	 HSRZRJHH5Ttqd9k0YR5xaEpV7xI2z5cOJqnxqDjU=
+Message-ID: <9b12b035-a80d-4d12-a039-daa94d13280e@ideasonboard.com>
+Date: Wed, 9 Jul 2025 12:33:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|DU0PR04MB9466:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62dc6239-eeda-4f34-15fe-08ddbed85cae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|52116014|7416014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eHZpcWkrM3I1Smc2RzdKcCtiUm90MHJjcGo5RlhkaHpBM2F0cmEwaDZUNkdW?=
- =?utf-8?B?L252aDhXWmZuZnRjaGZCVmVCUXc5T0F1TWZBTFc4Vzl6NjlURjJ5QkQrb0hw?=
- =?utf-8?B?U3JneWwrZ3kzR2t0emV2MjlQS3ZDaFpkNExoamVCMDIzcG1vTi9BakVOS2lW?=
- =?utf-8?B?U0M4Q09WUjdTVmxsZjFtdENhWFhFa0h0U2liNmF1VGtlekFFM1NpUWZQT3pt?=
- =?utf-8?B?d0RnKzkyKzFvQ0VJU2UzSlNITCtsM3A1dUh5MFA0M2hxS1dyMGU0OVZGeklm?=
- =?utf-8?B?cDlWMDNZQ3BLRGZTeHYzUDhUZmdnTkN3S0tFeDZkd3Y0L25sWGtmZGVoSmhm?=
- =?utf-8?B?ZUxSUzZFL1VrYkluWEZHb2V5R01iUGpoeUUzMkE5NEFKUWhnTW5XZWNhVXgz?=
- =?utf-8?B?VHE2bGtOR0kwSlp4MVRBTVFXRVc5c3l3bEI3WmFwcE94NUloM0FhQnRzQTFU?=
- =?utf-8?B?Tmh1ZmJOM3hqallzODZ5bFd0WG4reTFXS1ZzZ0FySENZa0pmUm5QV2xnYklH?=
- =?utf-8?B?cWI5V3RBK3VDaGdUSTFaQ2FJWjRKZXh1ci9nSkQ1OU0xVm1qTGhDeVI2VGt6?=
- =?utf-8?B?Ky9yTkFscTRZMDlzNnF2NFBLckYrMENJR1ROT0NXcWFWOHVTNGxnTG5XUTNl?=
- =?utf-8?B?OVlnL2xOUHJZbERxSjZSdjM3M0c2RjM4OWxLUDVYOWpjem1qSDJndnlWMkF6?=
- =?utf-8?B?Qmsxc0NscEdMb205bkZmRWdjYTRTQmxjQ3BienJZOXcweHlmelU0eUVzV0pM?=
- =?utf-8?B?TmpkODNBWUFsODlyTExvckplY3haZmJBNHJDUmR1MTduU2k3ekt4NTR6enNE?=
- =?utf-8?B?clFwbm10S3puZHdFK2tjTFVHa241VXRDYmZtODZvMC9JcGRybU5kZkV0bVZ6?=
- =?utf-8?B?bWpRaDdJNHhKd1dqVVJhSGFyWDdlZEF2MzI5RmNvbXZieVRlTWl1ZXdkZ3E3?=
- =?utf-8?B?RENHZVB0ZmhkYWthamNUbE8wQ1VPSG9hYmxQNm5PVFRZNE5KSUpSMUREdHh2?=
- =?utf-8?B?UndOUDExN0ppcTcxSmlUV1UyMGRBRTNrVm5pQ3c4anlUMmh2M1VLaEFXZE5n?=
- =?utf-8?B?czdKc1liUmhBaU1ZVWFPVUxtTnRWeHgyaXZiWTNLUGo4NWs2MjJUREU0MmU2?=
- =?utf-8?B?SWhudVhoSno2cnJtdklJT0RaSzdtQmVLRlB6QTZ4Um9nelJBblZ5MkgwRW9j?=
- =?utf-8?B?SEZtQW5wOUZvcUR0YjgwNFU1elZCazFBQWQ2Q2pERlBkTm5EYnE3U0VHTTJr?=
- =?utf-8?B?V0FpM1h2ZSs1S2pvSUF6WUlWZ2N1VlQ3S2NNKzloWkhUc21iQnJTMGJLQkhZ?=
- =?utf-8?B?amREdVBxQmsrREhhMTM0SkptWFNMMEdkakdCd21KVGFmYVU0ZXBHU0Q2UHRw?=
- =?utf-8?B?Rm5ka1JXUEZMSjVZS2lkZVQ4VDJlZEE0bW5nMnJyRCtaMTZOWkIzUEFKM0dX?=
- =?utf-8?B?bVlkeWNITWRwUzdsdnQwbWtRQ0NSZXNZT2pVT2F5aDhPNExNVGNIcTFFdFk0?=
- =?utf-8?B?VVhNTzkydU9MOWVIV1M4QmU3V2k0NGFvK254TFVYdElaR3MxVG1seWgxQkZ0?=
- =?utf-8?B?eUd6aXVLS3c2NG1FSDBlb2E5VlFzNHhWVnFaT2NXRWZqb2xvcUlEVkVsanZS?=
- =?utf-8?B?TmZranVRV2dXM0hWR3YwZG4rOWtRSW9CYXFZc2dlc2FObXhwR29PaEttRG9i?=
- =?utf-8?B?VWZVa2o1RU1lbFFQb1o2cmZMVmRnL1ZzV090cDZLWFZ1VENpanNYVHhTSXlH?=
- =?utf-8?B?TlR1M1llckZTU1UzenFhclVxZXZJc05VVGZDc0Rjc05VQnpuL0NXTmx1KzJO?=
- =?utf-8?B?dmROTVNLTE5oaHVLaG1ZWWZBVGdKVFRyWS9sYXRyV2t3SXJaMVZhalE4cEFL?=
- =?utf-8?B?YXRpSUUrQWwwWElpNEJTOEU2amNCTFNOUFhmS3ZldEc1NlNYUURoWFN1TWRa?=
- =?utf-8?B?UlMzMm9oMWNqdkxnZmJLOU9FbTl4QjBqYnhNZjJDZEp6Y2lnNVlMWjhiSXdX?=
- =?utf-8?B?ckZscUVkYWtBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(52116014)(7416014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ckxCRGlqY29Pak1iS1Q1MDNlT0pzSmZGUGxPY2FyR0RjRzBnUit5RXFyMzBh?=
- =?utf-8?B?cnpTcFQ0NjVKbXhQNkE5L3FDVGpnMW5GT3JMWWhhWGxpSnZkUXlDRDQ5SE1J?=
- =?utf-8?B?U1ZrUlNEREZWVnNMWmRpVFVESnlKMXIzWEdmZDJ0cXlTTSswSnpFei9HUVJr?=
- =?utf-8?B?aWpLR0VjMnpjWWR4S1ppekdtNWlJbEFYekdKQW05elB5aFZPM0Y3czdvM1VR?=
- =?utf-8?B?K1VzSGluNWhNYUgrbE1sRGJCRjl6aFBMT1VDSHVpTk0zYjlER2pjTXcwNXNh?=
- =?utf-8?B?Q1pTRS9kOWViUWx5Y3IvT242SjBOL2tMSTRmQ0NVZXhnTTdwelNXNnNMUmZ6?=
- =?utf-8?B?K3ZYZHR3VkpqVnZSTk81NE5hdXdKNTdvS3FQcjZPems5aUNWM0xwVkVWNWNp?=
- =?utf-8?B?Rnk0azBkWXpVRmhEV3VGVlhOVzc4N2R5NkNGYk5BZkpjcnExdkd5Zk5ON1Zy?=
- =?utf-8?B?U29qNlRZVVNQZ3phOU9JdFBrWW9wOXVWQVNqeVE5V2xqSGtYMktRTzBBellL?=
- =?utf-8?B?YXpUQ3B6N3BZYzVNOG1nSEw1NVRFUUR3V1dVTHA2b0M0Q0FDbzlVMURLMmlE?=
- =?utf-8?B?TUZCWjZvd2VjQzZSY0JIZmdlRmRwK1lvZ1dtMW50anJ5d0o5QkN1allLdlhp?=
- =?utf-8?B?MC9Yc2VVdlNvTUNCaFd3ZXpDdTZ6d0U5ODIxQzcySGFPR0M1djUvU1JwVTZE?=
- =?utf-8?B?b3BnNlZ5emV2YjNtVjByT2lLT1NIdEptMngwczhoRXdBS0xldnhUN25hT2pS?=
- =?utf-8?B?cUFpQ0JkY0Fob0E3YWJ6cnNFNHZFWGdhN1pINEZWalRiRUtDeUxkRS8zOVpD?=
- =?utf-8?B?R0d3Uklocm9KaWsyOForNUx5clpzd3g3aUh4MFFObFZkZVpLUzVUM1dVcVUy?=
- =?utf-8?B?Z1dMRVNwWFNQbzN6TTcreVhkVnVpMlZOdGxGanRwdS9uVm9zbXBCdS9qeGxL?=
- =?utf-8?B?Qys1ZFVVWkpRNS8wczlOR3RyT0ZYTjBkNExva25FZzZkcHB3RDlFTVkyR25V?=
- =?utf-8?B?TCs2UmlweDhiT3JNTnFFT3dDMjZEOGFZMEhNYVNvT3JPZUtwMnB0MVg1L21J?=
- =?utf-8?B?NnFkSW1LK2Z4NmoxY2RJWWxmb0xMRWpPZnZMb0FmTHBxeU5nUDBSc21QWHd0?=
- =?utf-8?B?VzJEYWQ4cHd6ZmU0cTNWNlRCSkphTlhTeGNsc3ljdUtHUEg0T1NFUTZjMmhh?=
- =?utf-8?B?bk4xMUc5dFlzQVhIa1JuektnSmtjQXVJWFVFdTRXNjBVYmc4akZxYWt0OEJs?=
- =?utf-8?B?TTBncFRLMzRjY08vT1pMZkhuYnpERXpTMzFiY2xjcEtCUVhsRjNMTjM3NlQv?=
- =?utf-8?B?YzVzL2lDRURJRUVMTE8rRHFqeVM3cU1CY0l5L1lkWFFtQndIN21KaTI3SWph?=
- =?utf-8?B?bXl6L1RpZFJ5NlNDc1ZrQ3RaZ0JOMlhFT2JLVWlBUVg5NVF0R2JNaDdEMXR2?=
- =?utf-8?B?YnRCdUNtTnZ4Y3paYlNTd3JZdXl1U2s2eXoyMWJzMGRtcGNzKy9mblJMczhO?=
- =?utf-8?B?VzRYc3Y4VTdNVUJDUmswQmFNaVc1V0ppMzhyU3VBazljMXJOb29oZ1pKM3c1?=
- =?utf-8?B?VUdPc1UyelJ6SHMwNGt2TnYvMzBKemE4bEFVcVBZS2VoWElEZEgxd1FZV0hz?=
- =?utf-8?B?bWtZM2orRmpDRkNrV2UxaW0vcklZWCttUkxJVDJOWXVheXFwNS9vSGtOR3R4?=
- =?utf-8?B?aUFGMmNBQjAvdlhxVXYzR3BxdnRGWTBXOEc1OXljNW8wRldMYUpkM2RHd1dY?=
- =?utf-8?B?ZS9DTEFuZVdGTFhFSWdqdkhoRjl5NHFScms1NElQQlNZcUloNGh3d1pmb3p6?=
- =?utf-8?B?cVNob1oxZUVuK1drOXE0MjBYWXJyRTZjZ2lKQmREZXVGK3g1MjhzeW5uM1Iz?=
- =?utf-8?B?eG9WdHZlOWZRdDhQdEY5dVcreU5tZEVsVUNLT0J1eVVWbE5iV1JVc3VqbTdP?=
- =?utf-8?B?Nk5SRTMydEhBMFZaT2V6N2x0czZkSGp0MDJ6UXZTV3F2OG9DNTVTY1NGOSta?=
- =?utf-8?B?NzZiSHd3ODRMekxaakxxSkllcTdZZzkveVQrR3J2VEs1TWZxRnNHcjZvOUtr?=
- =?utf-8?B?UCszRFgraWdza2o5YUR6VUNBRjNwQiszK1FUTDhTRUYrcUg5N2tqRTZPRXBZ?=
- =?utf-8?Q?g04vvRRUWLR6VXJ/KGb7/Z7F+?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62dc6239-eeda-4f34-15fe-08ddbed85cae
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 11:04:23.7619
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GzX5lw47wJgEZra+glOo+ycR45K8QEWOxZlHWINt7c3dOeWAf/G/DmrN4Z1hQks8dRLZfjx1XkE02Fdj8LEr6Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9466
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] media: uapi: Introduce V4L2 extensible params
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <20250708-extensible-parameters-validation-v1-0-9fc27c9c728c@ideasonboard.com>
+ <20250708-extensible-parameters-validation-v1-1-9fc27c9c728c@ideasonboard.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250708-extensible-parameters-validation-v1-1-9fc27c9c728c@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+Hi Jacopo - thanks for the patches
 
-On 7/9/25 02:43, Sakari Ailus wrote:
-> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
+On 08/07/2025 11:40, Jacopo Mondi wrote:
+> Introduce v4l2-extensible-params.h in the Linux kernel uAPI.
 >
+> The header defines two types that all drivers that use the extensible
+> parameters format for ISP configuration shall use to build their own
+> parameters format.
 >
-> Hi Mirela,
+> The newly introduce type v4l2_params_block represent the
+> header to be prepend to each ISP configuration block and the
+> v4l2_params_buffer type represent the base type for the configuration
+> parameters buffer.
 >
-> On Tue, Jul 08, 2025 at 08:09:25PM +0300, Mirela Rabulea wrote:
->> Hi Sakari & all,
->>
->> On 6/29/25 11:30, Sakari Ailus wrote:
->>> Caution: This is an external email. Please take care when clicking links
->>> or opening attachments. When in doubt, report the message using the
->>> 'Report this email' button
->>>
->>>
->>> Hi Mirela,
->>>
->>> On 3/5/25 11:43, Mirela Rabulea wrote:
->>>> +struct ox05b1s_reg {
->>>> +     u32 addr;
->>>> +     u32 data;
->>>> +};
->>> Could you use struct reg_sequence instead, please?
->> Yes, sure, thanks for the hint.
->>
->> Any other suggestions, anyone, before I send the next version?
-> Do you intend to align this with the common raw sensor model? It may still
-> take a while until we get those patches merged though, but the upside would
-> be there's on concern of backwards compatibility. We should discuss how to
-> implement HDR with that actually (Laurent is cc'd).
-
-Yes, I will align with the common raw sensor model. By that I mean I 
-will use generic Y formats and the CFA pattern control (already switched 
-to Y formats in this  v4, did not experiment yet the new control) and I 
-can add streams and routes as soon as internal pads are merged, we 
-already experimented with that both for os08a20 HDR and for ox05b1s 
-context switching, both using multiple captures on 2 virtual channels. 
-I'm also planning to send an RFC for standard controls as arrays for 
-exposure and gains, as discussed during the media summit, that's 
-currently under internal review.
-
-I'm open for discussions.
-
-For this driver, up until this version, the HDR support is minimal, it 
-is just enabled/disabled and tied to the existing control 
-V4L2_CID_HDR_SENSOR_MODE, and still only 1 VC is exposed. When we will 
-have internal pads and streams and routes, we can toggle the HDR control 
-depending on what routes are enabled, already experimented with that 
-(the HDR control can in this case be optional).
-
-I saw you sent v10 for generic line based metadata and internal pads, I 
-started looking into it, large patch-set ;)
-
-Regards,
-
-Mirela
-
+> The newly introduced header is not meant to be used directly by
+> applications which should instead use the platform-specific ones.
 >
-> --
-> Regards,
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>   MAINTAINERS                                       |   6 ++
+>   include/uapi/linux/media/v4l2-extensible-params.h | 106 ++++++++++++++++++++++
+>   2 files changed, 112 insertions(+)
 >
-> Sakari Ailus
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 658543062bba3b7e600699d7271ffc89250ba7e5..49a9329e5fe8874bdbaca13946ea28bd80134cb3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -25968,6 +25968,12 @@ F:	drivers/media/i2c/vd55g1.c
+>   F:	drivers/media/i2c/vd56g3.c
+>   F:	drivers/media/i2c/vgxy61.c
+>   
+> +V4L2 EXTENSIBLE PARAMETERS FORMAT
+> +M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	include/uapi/linux/media/v4l2-extensible-params.h
+> +
+>   VF610 NAND DRIVER
+>   M:	Stefan Agner <stefan@agner.ch>
+>   L:	linux-mtd@lists.infradead.org
+> diff --git a/include/uapi/linux/media/v4l2-extensible-params.h b/include/uapi/linux/media/v4l2-extensible-params.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ed37da433c6b1a34523b6a9befde5c0dee601cfb
+> --- /dev/null
+> +++ b/include/uapi/linux/media/v4l2-extensible-params.h
+> @@ -0,0 +1,106 @@
+> +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR MIT) */
+> +/*
+> + * Video4Linux2 extensible configuration parameters base types
+> + *
+> + * Copyright (C) 2025 Ideas On Board Oy
+> + * Author: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> + */
+> +
+> +#ifndef _UAPI_V4L2_PARAMS_H_
+> +#define _UAPI_V4L2_PARAMS_H_
+> +
+> +#ifndef _UAPI_V4L2_EXTENSIBLE_PARAMS_GUARD_
+> +/*
+> + * Note: each ISP driver exposes a different uAPI, where the types layout
+> + * match (more or less strictly) the hardware registers layout.
+> + *
+> + * This file defines the base types on which each ISP driver can implement its
+> + * own types that define its uAPI.
+> + *
+> + * This file is not meant to be included directly by applications which shall
+> + * instead only include the ISP-specific implementation.
+> + */
+> +#error "This file should not be included directly by applications"
+> +#endif
+> +
+> +#include <linux/types.h>
+> +
+> +/**
+> + * struct v4l2_params_block - V4L2 extensible parameters block header
+
+struct v4l2_params_block_header would be nicer I think
+
+> + *
+> + * This structure represents the common part of all the ISP configuration
+> + * blocks. Each parameters block shall embed an instance of this structure type
+> + * as its first member, followed by the block-specific configuration data. The
+> + * driver inspects this common header to discern the block type and its size and
+> + * properly handle the block content by casting it to the correct block-specific
+> + * type.
+> + *
+> + * The @type field is one of the values enumerated by each platform-specific ISP
+> + * block types which specifies how the data should be interpreted by the driver.
+> + * The @size field specifies the size of the parameters block and is used by the
+> + * driver for validation purposes.
+> + *
+> + * The @flags field is a bitmask of platform-specific control flags.
+Since we're including flags in this base struct rather than a platform specific subclass I think 
+perhaps we should centralise some flags (which I think is supported by the fact that all three 
+implementations share the same flags so far). Perhaps we could reserve the bottom 8 bits for common 
+flags (like ENABLE / DISABLE) and validate them centrally, and leave the top 8 for platform specific 
+flags. I think we could then drop the platform specific validation for rkisp1 and c3 and just pass 
+null to the helpers, since they do the same thing.
+> + *
+> + * Userspace shall never use this type directly but use the platform specific
+> + * one with the associated data types.
+
+Why wouldn't userspace just use these directly? I could see why it might be difficult for the C3 and 
+Rkisp1 which are merged, but for a new implementation couldn't they just use these objects without 
+bothering to define their own?
+
+
+If we end up using these objects directly I think it would be nice to have the example code block 
+from the platform specific headers documentation here too.
+
+> + *
+> + * - Rockchip RkISP1: :c:type:`rkisp1_ext_params_block_type`
+> + * - Amlogic C3: :c:type:`c3_isp_params_block_type`
+> + *
+> + * @type: The parameters block type (platform-specific)
+> + * @flags: A bitmask of block flags (platform-specific)
+> + * @size: Size (in bytes) of the parameters block, including this header
+> + */
+> +struct v4l2_params_block {
+> +	__u16 type;
+> +	__u16 flags;
+> +	__u32 size;
+> +} __attribute__((aligned(8)));
+> +
+> +/**
+> + * struct v4l2_params_buffer - V4L2 extensible parameters configuration
+> + *
+> + * This struct contains the configuration parameters of the ISP algorithms,
+> + * serialized by userspace into a data buffer. Each configuration parameter
+> + * block is represented by a block-specific structure which contains a
+> + * :c:type:`v4l2_params_block` entry as first member. Userspace populates
+> + * the @data buffer with configuration parameters for the blocks that it intends
+> + * to configure. As a consequence, the data buffer effective size changes
+> + * according to the number of ISP blocks that userspace intends to configure and
+> + * is set by userspace in the @data_size field.
+> + *
+> + * The parameters buffer is versioned by the @version field to allow modifying
+> + * and extending its definition. Userspace shall populate the @version field to
+> + * inform the driver about the version it intends to use. The driver will parse
+> + * and handle the @data buffer according to the data layout specific to the
+> + * indicated version and return an error if the desired version is not
+> + * supported.
+> + *
+> + * For each ISP block that userspace wants to configure, a block-specific
+> + * structure is appended to the @data buffer, one after the other without gaps
+> + * in between nor overlaps. Userspace shall populate the @data_size field with
+> + * the effective size, in bytes, of the @data buffer.
+> + *
+> + * Each ISP driver using the extensible parameters format shall define a
+> + * type which is type-convertible to this one, with the difference that the
+> + * @data member shall actually a memory buffer of platform-specific size and
+> + * not a pointer.
+
+Why not just use this object directly? We could provide a helper in v4l2-extensible-params.h that 
+calculates the size of the buffer with a given data array size for the driver's convenience
+
+
+Thanks
+
+Dan
+
+> + *
+> + * Userspace shall never use this type directly but use the platform specific
+> + * one with the associated data types.
+> + *
+> + * - Rockchip RkISP1: :c:type:`rkisp1_ext_params_cfg`
+> + * - Amlogic C3: :c:type:`c3_isp_params_cfg`
+> + *
+> + * @version: The parameters buffer version (platform-specific)
+> + * @data_size: The configuration data effective size, excluding this header
+> + * @data: The configuration data
+> + */
+> +struct v4l2_params_buffer {
+> +	__u32 version;
+> +	__u32 data_size;
+> +	__u8 data[];
+> +};
+> +
+> +#endif /* _UAPI_V4L2_PARAMS_H_ */
+>
 
