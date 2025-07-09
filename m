@@ -1,177 +1,108 @@
-Return-Path: <linux-media+bounces-37230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37231-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1F9AFF342
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 22:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23230AFF3B6
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 23:13:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C8531C46E13
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 20:55:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19FB51C83589
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 21:13:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32B223BCFD;
-	Wed,  9 Jul 2025 20:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA6D23BCFD;
+	Wed,  9 Jul 2025 21:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZKzROtTe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ry7uaS/k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336A123814D
-	for <linux-media@vger.kernel.org>; Wed,  9 Jul 2025 20:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2D313B797;
+	Wed,  9 Jul 2025 21:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752094523; cv=none; b=q7C9u03Ehusn/nwoEpISiqvnGEkHUgc6iiMuvSsUP5sckgzypaj4U7vZGD8wP2r4NQVo34TZqxPp2k+sboPNCIewTbAxeeD16lRtApAaHPJ3YjcVN+cFPstp1U4mVIYOuEaF17hdkvelSX7RWwGA7TA6OtPoJGlSnTFdiwv7gBE=
+	t=1752095585; cv=none; b=ga8mCkMqIznjPyvO7Jym2IlIugn/cISzdi2Elw9Uh25FtJu0y2nnzPA8EsM5IoJ/A03AXUrvJsoIOAvn9yRQcsvz+nI2zF1WLC5gDuzBvbifM+Ct6KZ0bSa8dtFfY7+LnujWKu5sZ+GH0wbJ8J+vocxJiNx0HCmSJIYlPKUhzc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752094523; c=relaxed/simple;
-	bh=+bkZdhZGUZn/WJzAJFQp8Ws5/51VRSq3KTfoMmBAs24=;
+	s=arc-20240116; t=1752095585; c=relaxed/simple;
+	bh=euOd07cHnX9O5CkW5J+sbo8I4BBSaxORTjOxCBxyPUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U0xGYlysNlfNWELirwr51a3RHB9X26W7obQ5mp1AX4fiXt3UFMleCVMbmrkHw6jqmmGia/bpTG4v5MF7dkxDMOc36dhy399JcoDzepC/SapfLywKqnxCrtOVoZfSWW1R4TMgpe+XlUhrMJ1wRZQZXjMI4NBCtAqoPiEainV3EPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZKzROtTe; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9250250A;
-	Wed,  9 Jul 2025 22:54:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752094490;
-	bh=+bkZdhZGUZn/WJzAJFQp8Ws5/51VRSq3KTfoMmBAs24=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZKzROtTe7z6Lugun2d6Bgdd9sNv/AUhtVHnblijTA35d/8u16XkMVwIgBV3yHTyRf
-	 H5mNqTIOxkU9WC3jOBsvQeEtJS26diOPz4LAB1p/hSznPwVCtySmlm/9OFIMGihIOY
-	 V6NJOl4apM0PewwStryFSZwvEI4rL9Ihd/0uJ/8c=
-Date: Wed, 9 Jul 2025 23:54:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 05/13] media: v4l: Make media_entity_to_video_device()
- NULL-safe
-Message-ID: <20250709205449.GA22436@pendragon.ideasonboard.com>
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-6-sakari.ailus@linux.intel.com>
- <20250619152033.GG32166@pendragon.ideasonboard.com>
- <aFQ3c-fI29YZ7dEe@kekkonen.localdomain>
- <20250708115616.GE1821@pendragon.ideasonboard.com>
- <aG0I1eoY0gwgE85O@kekkonen.localdomain>
- <20250708161747.GA23181@pendragon.ideasonboard.com>
- <aG7K-xBVC8cmg3z6@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmLwBgF2tOA5z9CdwzjjHgMX782m9VS46Di/GtbvjlYLHe50yZD3w+LPauCHHd9oqh5P+f2wAi9/1NuDPPVPfdEkfiOukU92mxwEPZBAe1FxxHo7yfD85ko3zzTgeWtFgB3KvRyWfAIE3dcY1j0YtNMXcbo5r4ynSqK/FCQRkMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ry7uaS/k; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752095584; x=1783631584;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=euOd07cHnX9O5CkW5J+sbo8I4BBSaxORTjOxCBxyPUg=;
+  b=Ry7uaS/kGrv8Cl7xGx7Z3/zvVUKJWYlBDo4l2AqLo3k4mVxffaY7Sdk+
+   B9mWJBqZ7wKlrVL6rSe7k/fT6MS9Oh3gYCoKJMTYPeBfh9wY6Cmx4XU7z
+   azuzf+WuLIGB7L2J7/bwfDTve2UqA4bik4RQ66jSPllcGCDbxRpCVH5L7
+   AOUhasJBEWRYPXV9oSBpuuNWn2t1doM0dQD6cMOX00kFcOTIbapPmSRno
+   cthxJzqh9hrySqd4tOqpGk7hkpD324Vzu4O5z6rkUoJ00jEhjsOeG/XOc
+   y9XH+xPAvE4h2vCCiF74FczyL1z+crm9gb2Ho5TeKJ+6qJspOXZha979D
+   g==;
+X-CSE-ConnectionGUID: cbwKT87RRPSvVFwpJqVd6Q==
+X-CSE-MsgGUID: HZLQBJi7QGalrSmLdlzx0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="53582958"
+X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
+   d="scan'208";a="53582958"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 14:13:03 -0700
+X-CSE-ConnectionGUID: tk7aBOlVSIm4iog4lyeLCA==
+X-CSE-MsgGUID: qwK92l/rQo6T0zx2/mhiCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
+   d="scan'208";a="155297528"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.15])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 14:13:00 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B41F711F89A;
+	Thu, 10 Jul 2025 00:12:57 +0300 (EEST)
+Date: Wed, 9 Jul 2025 21:12:57 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v5 06/10] media: i2c: ov9282: add led_mode v4l2 control
+Message-ID: <aG7bWXpz5sxYcLKI@kekkonen.localdomain>
+References: <20250617-ov9282-flash-strobe-v5-0-9762da74d065@linux.dev>
+ <20250617-ov9282-flash-strobe-v5-6-9762da74d065@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aG7K-xBVC8cmg3z6@kekkonen.localdomain>
+In-Reply-To: <20250617-ov9282-flash-strobe-v5-6-9762da74d065@linux.dev>
 
-On Wed, Jul 09, 2025 at 08:03:07PM +0000, Sakari Ailus wrote:
-> Hi Laurent,
-> 
-> On Tue, Jul 08, 2025 at 07:17:47PM +0300, Laurent Pinchart wrote:
-> > On Tue, Jul 08, 2025 at 12:02:29PM +0000, Sakari Ailus wrote:
-> > > On Tue, Jul 08, 2025 at 02:56:16PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, Jun 19, 2025 at 04:14:43PM +0000, Sakari Ailus wrote:
-> > > > > On Thu, Jun 19, 2025 at 06:20:33PM +0300, Laurent Pinchart wrote:
-> > > > > > On Thu, Jun 19, 2025 at 11:15:38AM +0300, Sakari Ailus wrote:
-> > > > > > > Make media_entity_to_video_device(NULL) return NULL, instead of an invalid
-> > > > > > > pointer value.
-> > > > > > > 
-> > > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > > ---
-> > > > > > >  include/media/v4l2-dev.h | 14 ++++++++++----
-> > > > > > >  1 file changed, 10 insertions(+), 4 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-> > > > > > > index 1b6222fab24e..069c2f14b473 100644
-> > > > > > > --- a/include/media/v4l2-dev.h
-> > > > > > > +++ b/include/media/v4l2-dev.h
-> > > > > > > @@ -313,10 +313,16 @@ struct video_device {
-> > > > > > >   * media_entity_to_video_device - Returns a &struct video_device from
-> > > > > > >   *	the &struct media_entity embedded on it.
-> > > > > > >   *
-> > > > > > > - * @__entity: pointer to &struct media_entity
-> > > > > > > - */
-> > > > > > > -#define media_entity_to_video_device(__entity) \
-> > > > > > > -	container_of(__entity, struct video_device, entity)
-> > > > > > > + * @__entity: pointer to &struct media_entity, may be NULL
-> > > > > > > + */
-> > > > > > > +#define media_entity_to_video_device(__entity)				\
-> > > > > > > +	({								\
-> > > > > > > +		typeof (__entity) __me_to_vdev_ent = __entity;		\
-> > 
-> > This should be __me_vdev_ent to align the naming with
-> > media_entity_to_v4l2_subdev().
-> > 
-> > > > > > > +									\
-> > > > > > > +		__me_to_vdev_ent ? container_of(__me_to_vdev_ent,	\
-> > > > > > > +						struct video_device, entity) : \
-> > 
-> > And here you should write
-> > 
-> > 	__me_to_vdev_ent ?						   \
-> > 		container_of(__me_vdev_ent, struct video_device, entity) : \
-> > 		NULL;							   \
-> 
-> I'm fine wrap after '?' as well, but another wrap is needed due to
-> indentation in any case.
+Hi Richard,
 
-I didn't make it clear, my comment was about replicating the style of
-media_entity_to_v4l2_subdev().
+Thanks for the update.
 
-> > > > > > > +			NULL;						\
-> > > > > > > +	})
-> > > > > > 
-> > > > > > This makes the macro safer, it's a good idea. Wouldn't it be better
-> > > > > > implemented as a container_of_null() (name to be bikeshedded) though ? I
-> > > > > > don't think media_entity_to_video_device() is the only macro that could
-> > > > > > benefit from this. It could even be integrated in container_of(), but I
-> > > > > > fear that could introduce issues.
-> > > > > 
-> > > > > That sounds like a good idea. I'll first see how this would look like with
-> > > > > container_of_const()...
-> > > > 
-> > > > Thinking some more about this, I think we can move forward without
-> > > > waiting for container_of_null().
-> > > > 
-> > > > Should we however add a check to ensure the entity is a video device (by
-> > > > checking that the function is MEDIA_ENT_F_IO_V4L), and return NULL if
-> > > > it's not ? It would make the macro even safer to use. There would be a
-> > > > small additional runtime cost for call sites that guarantee the entity
-> > > > is a video device.
-> > > > 
-> > > > I checked the current users of the macro, and the vast majority of them
-> > > > are in the .link_validate() operation, where they know that the entity
-> > > > is a video device. There are just a handful of locations where a check
-> > > > precedes the media_entity_to_video_device() call. So maybe it's not
-> > > > worth it ?
-> > > > 
-> > > > I also found no caller that checks for entity != NULL before calling the
-> > > > macro. Is this change actually needed ?
-> > > 
-> > > We have a similar check in media_entity_to_v4l2_subdev() macro.
-> > 
-> > That's a good point. Different behaviours for the two macros would be
-> > confusing I suppose, so
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Tue, Jun 17, 2025 at 09:31:40AM +0200, Richard Leitner wrote:
+> Add V4L2_CID_FLASH_LED_MODE support using the "strobe output enable"
+> feature of the sensor. This implements following modes:
 > 
-> Thank you.
-> 
-> > I'm tempted to convert the macro to an inline function, but that would
-> > make it more difficult to switch to container_of_const().
-> 
-> Let's not do that. Eventually container_of() should become what
-> container_of_const() is at the moment.
-> 
-> But once this is in, I can introduce container_of_null() which we could
-> later use. I wonder how it will look like.
+>  - V4L2_FLASH_LED_MODE_NONE, which disables the strobe output
+>  - V4L2_FLASH_LED_MODE_FLASH, which enables the strobe output
+
+I really think you should use a different control for this. The sensor can
+strobe the flash but it won't control its mode.
+
+How about calling it V4L2_FLASH_STROBE_ENABLE?
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
