@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-37193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8CEAFE859
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 13:54:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 952F0AFE85C
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 13:54:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27FC85836BE
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 11:54:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28F041C42093
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 11:54:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB6032DA74C;
-	Wed,  9 Jul 2025 11:53:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F91F2DC321;
+	Wed,  9 Jul 2025 11:53:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vapcjewp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WN5+m8hC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462EE2D8796;
-	Wed,  9 Jul 2025 11:53:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89632D94BE;
+	Wed,  9 Jul 2025 11:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752062012; cv=none; b=MZGtZf25nZigKZ85bIH6f3GD0PeIjPK8T1yUAl1RwoOccUzwpYxOxS/wB3hq5eIesYY5lnsISiDFIEbja4cyikvYQjjbw9cToyALyKJm/8hssQXkoHfyq/m03NlJIrHF0uLSc/oBhq17XYc47DRBvBko7gn3Dz7QVM+qfwz2B5w=
+	t=1752062018; cv=none; b=hOEKFF6lKw/8hj/LE0UpFXNLVvmSyo9VVe3ZsytJX/f9TxZFITbjvQmW/zXV3R/j2+/e0uLfblPa7dZiINfMwtki4+Gh8wDMjL5svtR0iMP0n7Y4P+7EhqkCNWkYEd00XJEdu3eYupr/M9sMJ33u14aam72X7BXhykwhVOjWPk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752062012; c=relaxed/simple;
-	bh=aFTWuG5wx8zk/YVPbJb3PdCE2lsw+uaJDNCeO3dVdgc=;
+	s=arc-20240116; t=1752062018; c=relaxed/simple;
+	bh=i/0vpVLwuNfJONVWKkjXsF93uf5k77Dhi7/RFzvBlmA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nuf3XiGTyOWFkwP2eaNQ69cGyACRPlcxIVZqUjyYbhYY2XamiSdgII6YzI0I6hukUxGxNUpsH2nO7/yvQyHISJGclr+LPFvttqE5qtl/OcV40gh6+vrYsm24fgHk9sv+T8i4aqffuz3qW4zLxcH4p6tLCThzKFNkQu4ZFXVSwT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vapcjewp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B5DC4CEEF;
-	Wed,  9 Jul 2025 11:53:26 +0000 (UTC)
+	 MIME-Version; b=Z1mIYZ4gfiIlHSP9FtAARlwceT10CVVfOAlhwnOma0dMDDizrSUXU5zG/52whadQBe3bjQOtSVp9+VYxoZh08DUJDHI5inFBZLwqQBRsBMUmYkkL60xhYWS8Mz8ytbvltoR93MQFdHXHKDbSXie7Rzx2TUNB1dlvJPPkVf84NJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WN5+m8hC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF27C4CEF5;
+	Wed,  9 Jul 2025 11:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752062012;
-	bh=aFTWuG5wx8zk/YVPbJb3PdCE2lsw+uaJDNCeO3dVdgc=;
+	s=k20201202; t=1752062016;
+	bh=i/0vpVLwuNfJONVWKkjXsF93uf5k77Dhi7/RFzvBlmA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VapcjewpgClYpmgzEGlGbSHD6EZglAchhsa23Oq+PShnqE3FzwD13g0CQmLmWMY1J
-	 X6wFCxvZqtxDjqY7ou8VMvkAld/2DoZaiwg4m3PJDRVgdYAN4XwCUf+zAgaOtcc9IV
-	 BgOYnZ0X6nHtIJXaUg+gU+aY7Wccyj0AhJqOOUl3iVGDe3CY/t9LipZVoRI3ceQtJe
-	 efymy4Xs0p1c/U0M48T48+lWKsNi1+EeCygpwlwwp7tc/NEMBdG5wNHK5T6FlBjFul
-	 UmnJunm4SkGrQIDNQNYJptnKqemrK9b5VC2xhu5ij51Bah6ng1mSgHbHiPN18hAxj2
-	 /KSNOSyWpeMXQ==
+	b=WN5+m8hCqTg6Nv00z0Zk93h/yacz9gONUma6hONCfMdRKhKi+W6KTOXSdrRmjm8SN
+	 p0JEUtmE+HeU9we0Ul97k1iGyOGbGKxk1ErR1aDMOyMOfUiDdwfZ3X1yzUVjMGVCWa
+	 3j0sIU6jAntivlH3IASY9zcGOTU9NjpBAH5KWGr1KiKgETcQyYaivAEyNZZrimzuAM
+	 ynBl358QbenNY8RCSqZaPJ5gdaVuHGPyXeCmU6tQSzDZk7uJFbCCOg3NJubZazB+dK
+	 Gi6qq4gczF0ClIxVh6nfNZ1j+TpojCPHepVlZkgXonBLUWw0zYM60C0OCOARSfQB+Z
+	 NV+c89v21vvdw==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -59,9 +59,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	nouveau@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v3 2/7] drm/sched/tests: Implement cancel_job() callback
-Date: Wed,  9 Jul 2025 13:52:52 +0200
-Message-ID: <20250709115257.106370-4-phasta@kernel.org>
+Subject: [PATCH v3 3/7] drm/sched/tests: Add unit test for cancel_job()
+Date: Wed,  9 Jul 2025 13:52:53 +0200
+Message-ID: <20250709115257.106370-5-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250709115257.106370-2-phasta@kernel.org>
 References: <20250709115257.106370-2-phasta@kernel.org>
@@ -73,142 +73,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The GPU Scheduler now supports a new callback, cancel_job(), which lets
-the scheduler cancel all jobs which might not yet be freed when
-drm_sched_fini() runs. Using this callback allows for significantly
-simplifying the mock scheduler teardown code.
+The scheduler unit tests now provide a new callback, cancel_job(). This
+callback gets used by drm_sched_fini() for all still pending jobs to
+cancel them.
 
-Implement the cancel_job() callback and adjust the code where necessary.
+Implement a new unit test to test this.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- .../gpu/drm/scheduler/tests/mock_scheduler.c  | 68 +++++++------------
- drivers/gpu/drm/scheduler/tests/sched_tests.h |  1 -
- 2 files changed, 25 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/scheduler/tests/tests_basic.c | 42 +++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-index 49d067fecd67..0d1d57213e05 100644
---- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-+++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-@@ -63,7 +63,7 @@ static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
- 	lockdep_assert_held(&sched->lock);
- 
- 	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
--	list_move_tail(&job->link, &sched->done_list);
-+	list_del(&job->link);
- 	dma_fence_signal_locked(&job->hw_fence);
- 	complete(&job->done);
- }
-@@ -236,26 +236,41 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
- 
- static void mock_sched_free_job(struct drm_sched_job *sched_job)
- {
--	struct drm_mock_scheduler *sched =
--			drm_sched_to_mock_sched(sched_job->sched);
- 	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
--	unsigned long flags;
- 
--	/* Remove from the scheduler done list. */
--	spin_lock_irqsave(&sched->lock, flags);
--	list_del(&job->link);
--	spin_unlock_irqrestore(&sched->lock, flags);
- 	dma_fence_put(&job->hw_fence);
--
- 	drm_sched_job_cleanup(sched_job);
- 
- 	/* Mock job itself is freed by the kunit framework. */
- }
- 
-+static void mock_sched_cancel_job(struct drm_sched_job *sched_job)
-+{
-+	struct drm_mock_scheduler *sched = drm_sched_to_mock_sched(sched_job->sched);
-+	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
-+	unsigned long flags;
-+
-+	hrtimer_cancel(&job->timer);
-+
-+	spin_lock_irqsave(&sched->lock, flags);
-+	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
-+		list_del(&job->link);
-+		dma_fence_set_error(&job->hw_fence, -ECANCELED);
-+		dma_fence_signal_locked(&job->hw_fence);
-+	}
-+	spin_unlock_irqrestore(&sched->lock, flags);
-+
-+	/*
-+	 * The GPU Scheduler will call drm_sched_backend_ops.free_job(), still.
-+	 * Mock job itself is freed by the kunit framework.
-+	 */
-+}
-+
- static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
- 	.run_job = mock_sched_run_job,
- 	.timedout_job = mock_sched_timedout_job,
--	.free_job = mock_sched_free_job
-+	.free_job = mock_sched_free_job,
-+	.cancel_job = mock_sched_cancel_job,
+diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+index 7230057e0594..b1ae10c6bb37 100644
+--- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
++++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+@@ -204,6 +204,47 @@ static struct kunit_suite drm_sched_basic = {
+ 	.test_cases = drm_sched_basic_tests,
  };
  
- /**
-@@ -289,7 +304,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
- 	sched->hw_timeline.context = dma_fence_context_alloc(1);
- 	atomic_set(&sched->hw_timeline.next_seqno, 0);
- 	INIT_LIST_HEAD(&sched->job_list);
--	INIT_LIST_HEAD(&sched->done_list);
- 	spin_lock_init(&sched->lock);
- 
- 	return sched;
-@@ -304,38 +318,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
-  */
- void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
++static void drm_sched_basic_cancel(struct kunit *test)
++{
++	struct drm_mock_sched_entity *entity;
++	struct drm_mock_scheduler *sched;
++	struct drm_mock_sched_job *job;
++	bool done;
++
++	/*
++	 * Check that drm_sched_fini() uses the cancel_job() callback to cancel
++	 * jobs that are still pending.
++	 */
++
++	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
++	entity = drm_mock_sched_entity_new(test, DRM_SCHED_PRIORITY_NORMAL,
++					   sched);
++
++	job = drm_mock_sched_job_new(test, entity);
++
++	drm_mock_sched_job_submit(job);
++
++	done = drm_mock_sched_job_wait_scheduled(job, HZ);
++	KUNIT_ASSERT_TRUE(test, done);
++
++	drm_mock_sched_entity_free(entity);
++	drm_mock_sched_fini(sched);
++
++	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
++}
++
++static struct kunit_case drm_sched_cancel_tests[] = {
++	KUNIT_CASE(drm_sched_basic_cancel),
++	{}
++};
++
++static struct kunit_suite drm_sched_cancel = {
++	.name = "drm_sched_basic_cancel_tests",
++	.init = drm_sched_basic_init,
++	.exit = drm_sched_basic_exit,
++	.test_cases = drm_sched_cancel_tests,
++};
++
+ static void drm_sched_basic_timeout(struct kunit *test)
  {
--	struct drm_mock_sched_job *job, *next;
--	unsigned long flags;
--	LIST_HEAD(list);
--
--	drm_sched_wqueue_stop(&sched->base);
--
--	/* Force complete all unfinished jobs. */
--	spin_lock_irqsave(&sched->lock, flags);
--	list_for_each_entry_safe(job, next, &sched->job_list, link)
--		list_move_tail(&job->link, &list);
--	spin_unlock_irqrestore(&sched->lock, flags);
--
--	list_for_each_entry(job, &list, link)
--		hrtimer_cancel(&job->timer);
--
--	spin_lock_irqsave(&sched->lock, flags);
--	list_for_each_entry_safe(job, next, &list, link)
--		drm_mock_sched_job_complete(job);
--	spin_unlock_irqrestore(&sched->lock, flags);
--
--	/*
--	 * Free completed jobs and jobs not yet processed by the DRM scheduler
--	 * free worker.
--	 */
--	spin_lock_irqsave(&sched->lock, flags);
--	list_for_each_entry_safe(job, next, &sched->done_list, link)
--		list_move_tail(&job->link, &list);
--	spin_unlock_irqrestore(&sched->lock, flags);
--
--	list_for_each_entry_safe(job, next, &list, link)
--		mock_sched_free_job(&job->base);
--
- 	drm_sched_fini(&sched->base);
- }
+ 	struct drm_mock_scheduler *sched = test->priv;
+@@ -471,6 +512,7 @@ static struct kunit_suite drm_sched_credits = {
  
-diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-index fbba38137f0c..0eddfb8d89e6 100644
---- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-+++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-@@ -49,7 +49,6 @@ struct drm_mock_scheduler {
- 
- 	spinlock_t		lock;
- 	struct list_head	job_list;
--	struct list_head	done_list;
- 
- 	struct {
- 		u64		context;
+ kunit_test_suites(&drm_sched_basic,
+ 		  &drm_sched_timeout,
++		  &drm_sched_cancel,
+ 		  &drm_sched_priority,
+ 		  &drm_sched_modify_sched,
+ 		  &drm_sched_credits);
 -- 
 2.49.0
 
