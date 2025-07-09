@@ -1,277 +1,373 @@
-Return-Path: <linux-media+bounces-37205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37206-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF02AFE9B3
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 15:10:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4BDAFE9E6
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 15:18:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDA901C81153
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 13:10:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56585169A8D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 13:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B407E2DCF74;
-	Wed,  9 Jul 2025 13:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04FBB28D8EF;
+	Wed,  9 Jul 2025 13:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="QjCTdqMa"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pT18jA1L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D1735962
-	for <linux-media@vger.kernel.org>; Wed,  9 Jul 2025 13:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379511FF1A1;
+	Wed,  9 Jul 2025 13:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752066608; cv=none; b=nPG799K4PfnSPgX6UXW5mSs7/dzLl6xEsZAzYK5azZZFXW4LqQQiHWaCarapDgv3DkSSsYPUipu52bd6D4KoBVFz3XA1fbwWMnkMqq6LZVGPVA8jO3lDxHg/H2JY5bLH2dJNuEJqnxzLMjA9LBkPFy2//VrZHYu3YBOm6vZaMuE=
+	t=1752067095; cv=none; b=g0+IxeziFojXNRx3GjeF2vHMJDDJZw/OThtbEqyBf9NXaWygwAJgdIOUAh528iuoGIpQPO2UN+n79fwsb4mA1gEIxe7FzJrsA63TnwOi7RKTIUzlWGrvOYF9DBWn6wGMwwVqn2xL26+E6VHnsct1uWRQ3KyPDtIvsS6jXI4ZLGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752066608; c=relaxed/simple;
-	bh=ZAGKhcIUqrN7+rHf/oU7IFgaAgelruhHD2QUrT9iidM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AC5LMOncrmaX11cfqlufJqMUk3zaB2UxbFbNQM1espGxDEEdatjXpxavXpl4FsOmHhbax540ZE+HZbGkXY6DfglwK0bxuwNGTlnReB7Vp2NTOfsmeHE+ivXbiGH/rae6eV3jIyrhjRm1eAqFV6H5dvGb3Lc+d9Hpu5xOyNe9cjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=QjCTdqMa; arc=none smtp.client-ip=209.85.219.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-702cbfe860cso52118086d6.1
-        for <linux-media@vger.kernel.org>; Wed, 09 Jul 2025 06:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1752066605; x=1752671405; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZAGKhcIUqrN7+rHf/oU7IFgaAgelruhHD2QUrT9iidM=;
-        b=QjCTdqMaAW+k2sow+cE92ZGUOI/+ZBDK3lcrtabSJReEm/VK6Xb+yzeJErcRZUVMm4
-         lmdL5GipQI8UD7f65EZdyF3fvJtQpx34phiYKtIEzdOZaz7Sw4RCeaeEI1TsAx+9bhg/
-         gDJHCDkgM6R0mkLwrOzrE97l/9urOcwKXgIOKiEGHXxo9JFk327hm6o1tKL93U83lAoP
-         Rtfza/LVyW8FIhCRkymzhkzuDO33PTsNsrnctFfDF9e4rQvya9R9D910ySWM0Xwx3XJz
-         iE6qwG1uRDpUkpranYO9DBTeZJ+DiIO+e05lyoSECOcl/f1hmyXsZ7PNNNx2ZL5wAIBI
-         ZI0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752066605; x=1752671405;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZAGKhcIUqrN7+rHf/oU7IFgaAgelruhHD2QUrT9iidM=;
-        b=qHaGi79v+Ree6RI/0XIzKXcN+2AkGg5+EPxnxxkt2rgHylpU/xIIwRJqQtZ/XP5Njv
-         b8xoKz8Y9mRQkC4+W+PnQ+1B4T+VAkW5rtdjohZp4NyPh1UEDvh1/5+YmTjteEzKzwS4
-         4BX5TBFVUjKTFbTi0RH5dlFoJcM4G2zE+4H0Yk8RWvLpsY5mkvC0bsERRND3GDVXKWxM
-         cwUDWcBSQL+v6X3YL5B8ESnzo93HPJFqRbzH4m/tPvGpH31QTYUZjOyInkEkueThinRP
-         VYN0lSCs9AER8Ft7D0DcHsw46AUQOBFrS7a3e2F6RsI9acVL60IQuKyVYxcTkbCFn3sm
-         WsRA==
-X-Forwarded-Encrypted: i=1; AJvYcCVESq1BAJMU4Sa7ZFDEdfvJf2Bqhz8uzp4S33gSIpsdtrhUXnOTQn+/PlnANOTJVRAwI65+bSec/rCqxw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAfJryxJ5Gnb/5yQANDWePLDNdP7k4fK0KHVwMYbuNHm2LeuxO
-	ka6Jvn10+CYvY8xI47Qpday+AkpMO9dGdAFbmjD6mL0bWauuemD+QMZNCiNfP4C8i6c=
-X-Gm-Gg: ASbGncvHu8J/bOF1HgXlHJHiAi/tP1aGrICetrzC1Ot4sRCTvRlKM2Cx2qNv30NKUyT
-	zoXfwIB2fWLJeQ10YPU8X4AJelAWeOpRENw5HHdCQ4dmnM7PQws2s4YTbM1QmcWmnY6AKbMQ5ml
-	cuxSFEytTi7VpauT5ZT+YZYw4J4fdVNg8rhxMZEnPxqycaHAqjy5o63SBmVINkjU8jZYamZF7cC
-	CoWwztp7lnoN+i4vaszXcjDdpJ2bcyOglUZMs/r+veE+VM3f/oXj70nR5GRBwkV5x0C9adQ7ND9
-	ObJ5ZtMm2N5BAFvpbBB2YYu+nZf9Twjd4R6JStc9n7VxX2DWM2mKAGOP8aH+8qorRX0=
-X-Google-Smtp-Source: AGHT+IGIuCHqZKNodo56olakSu8x5uw0f2xLhJJZfSNQfbpUkgQ6IrbD1NkWCR45DMziT4jJFNtuYg==
-X-Received: by 2002:a05:6214:590a:b0:702:d9d7:b6e2 with SMTP id 6a1803df08f44-7048b9b4b63mr37884916d6.34.1752066604935;
-        Wed, 09 Jul 2025 06:10:04 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:b699::5ac? ([2606:6d00:17:b699::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-702c4ccd601sm91309236d6.27.2025.07.09.06.10.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 06:10:04 -0700 (PDT)
-Message-ID: <49e3fa834aadb37452112bb704a1a1593c1fd0b8.camel@ndufresne.ca>
-Subject: Re: [PATCH v6 0/2] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard	
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Marek
- Szyprowski <m.szyprowski@samsung.com>, Robin Murphy	 <robin.murphy@arm.com>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, Mattijs
- Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 	linaro-mm-sig@lists.linaro.org,
- iommu@lists.linux.dev
-Date: Wed, 09 Jul 2025 09:10:02 -0400
-In-Reply-To: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
-References: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
- oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
- oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
- AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
- 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
- TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
- cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-FlPJGplGJlZTiMNIPwxV"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1752067095; c=relaxed/simple;
+	bh=Vm0ZX5g2g8BiViNGV9jB8LvmbIyvMlbDjjqe3kbhKlo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B4Rn0NxhMrNd2sT/zHL9KacSq2j/1pUrc168XXeg+Gkq0xqEM/Jt3hW9IFD1XfsC0bP4hfqbKm0NjevQFMer/Uaovfkvyi0NEg9zDl9BbkmrpaULi7v5IVxg2DLELd6T2+fViovFXuhv6aBlLWrJmhrSeArsKqjqCs1XlXVF3v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pT18jA1L; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5A19351;
+	Wed,  9 Jul 2025 15:17:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752067063;
+	bh=Vm0ZX5g2g8BiViNGV9jB8LvmbIyvMlbDjjqe3kbhKlo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pT18jA1LCMOcoYLi+mBZ/KWgq8MMsqd8VXaPnIh1IQkleZLtDu+8IE+N+RNi6GeJu
+	 UqdK3i+XQymXyxa7kTi0KxlXIEOjV1tfy/qt9+N6vbObYpSsw19dEUyETtq2n+YRP8
+	 OEjkyuJEpizsLdOCJOv0/RhQIEp9jL7HZUcAtHPY=
+Message-ID: <78006c71-592b-4f54-93ed-5f4b21b5bc33@ideasonboard.com>
+Date: Wed, 9 Jul 2025 14:18:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] media: uapi: Introduce V4L2 extensible params
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250708-extensible-parameters-validation-v1-0-9fc27c9c728c@ideasonboard.com>
+ <20250708-extensible-parameters-validation-v1-1-9fc27c9c728c@ideasonboard.com>
+ <9b12b035-a80d-4d12-a039-daa94d13280e@ideasonboard.com>
+ <yydzeg53koeawjc3vtzwfnq5x6avmv4ep53bcxff6kvzzu36jl@qp37ojw2drug>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <yydzeg53koeawjc3vtzwfnq5x6avmv4ep53bcxff6kvzzu36jl@qp37ojw2drug>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi Jacopo
+
+On 09/07/2025 12:53, Jacopo Mondi wrote:
+> Hi Dan,
+>     thanks for the comments
+>
+> On Wed, Jul 09, 2025 at 12:33:17PM +0100, Dan Scally wrote:
+>> Hi Jacopo - thanks for the patches
+>>
+>> On 08/07/2025 11:40, Jacopo Mondi wrote:
+>>> Introduce v4l2-extensible-params.h in the Linux kernel uAPI.
+>>>
+>>> The header defines two types that all drivers that use the extensible
+>>> parameters format for ISP configuration shall use to build their own
+>>> parameters format.
+>>>
+>>> The newly introduce type v4l2_params_block represent the
+>>> header to be prepend to each ISP configuration block and the
+>>> v4l2_params_buffer type represent the base type for the configuration
+>>> parameters buffer.
+>>>
+>>> The newly introduced header is not meant to be used directly by
+>>> applications which should instead use the platform-specific ones.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> ---
+>>>    MAINTAINERS                                       |   6 ++
+>>>    include/uapi/linux/media/v4l2-extensible-params.h | 106 ++++++++++++++++++++++
+>>>    2 files changed, 112 insertions(+)
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 658543062bba3b7e600699d7271ffc89250ba7e5..49a9329e5fe8874bdbaca13946ea28bd80134cb3 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -25968,6 +25968,12 @@ F:	drivers/media/i2c/vd55g1.c
+>>>    F:	drivers/media/i2c/vd56g3.c
+>>>    F:	drivers/media/i2c/vgxy61.c
+>>> +V4L2 EXTENSIBLE PARAMETERS FORMAT
+>>> +M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> +L:	linux-media@vger.kernel.org
+>>> +S:	Maintained
+>>> +F:	include/uapi/linux/media/v4l2-extensible-params.h
+>>> +
+>>>    VF610 NAND DRIVER
+>>>    M:	Stefan Agner <stefan@agner.ch>
+>>>    L:	linux-mtd@lists.infradead.org
+>>> diff --git a/include/uapi/linux/media/v4l2-extensible-params.h b/include/uapi/linux/media/v4l2-extensible-params.h
+>>> new file mode 100644
+>>> index 0000000000000000000000000000000000000000..ed37da433c6b1a34523b6a9befde5c0dee601cfb
+>>> --- /dev/null
+>>> +++ b/include/uapi/linux/media/v4l2-extensible-params.h
+>>> @@ -0,0 +1,106 @@
+>>> +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR MIT) */
+>>> +/*
+>>> + * Video4Linux2 extensible configuration parameters base types
+>>> + *
+>>> + * Copyright (C) 2025 Ideas On Board Oy
+>>> + * Author: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> + */
+>>> +
+>>> +#ifndef _UAPI_V4L2_PARAMS_H_
+>>> +#define _UAPI_V4L2_PARAMS_H_
+>>> +
+>>> +#ifndef _UAPI_V4L2_EXTENSIBLE_PARAMS_GUARD_
+>>> +/*
+>>> + * Note: each ISP driver exposes a different uAPI, where the types layout
+>>> + * match (more or less strictly) the hardware registers layout.
+>>> + *
+>>> + * This file defines the base types on which each ISP driver can implement its
+>>> + * own types that define its uAPI.
+>>> + *
+>>> + * This file is not meant to be included directly by applications which shall
+>>> + * instead only include the ISP-specific implementation.
+>>> + */
+>>> +#error "This file should not be included directly by applications"
+>>> +#endif
+>>> +
+>>> +#include <linux/types.h>
+>>> +
+>>> +/**
+>>> + * struct v4l2_params_block - V4L2 extensible parameters block header
+>> struct v4l2_params_block_header would be nicer I think
+>>
+> That's what I had started with :)
+>
+> I'm debated between a longer but more explicative name, or a shorter
+> one.
 
 
---=-FlPJGplGJlZTiMNIPwxV
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I vote for longer here but only because I think the phrase "block" applies more properly to the 
+likes of struct rkisp1_ext_params_bls_config for example.
 
-Hi Maxime,
+>
+>>> + *
+>>> + * This structure represents the common part of all the ISP configuration
+>>> + * blocks. Each parameters block shall embed an instance of this structure type
+>>> + * as its first member, followed by the block-specific configuration data. The
+>>> + * driver inspects this common header to discern the block type and its size and
+>>> + * properly handle the block content by casting it to the correct block-specific
+>>> + * type.
+>>> + *
+>>> + * The @type field is one of the values enumerated by each platform-specific ISP
+>>> + * block types which specifies how the data should be interpreted by the driver.
+>>> + * The @size field specifies the size of the parameters block and is used by the
+>>> + * driver for validation purposes.
+>>> + *
+>>> + * The @flags field is a bitmask of platform-specific control flags.
+>> Since we're including flags in this base struct rather than a platform
+>> specific subclass I think perhaps we should centralise some flags (which I
+>> think is supported by the fact that all three implementations share the same
+>> flags so far). Perhaps we could reserve the bottom 8 bits for common flags
+>> (like ENABLE / DISABLE) and validate them centrally, and leave the top 8 for
+>> platform specific flags. I think we could then drop the platform specific
+>> validation for rkisp1 and c3 and just pass null to the helpers, since they
+>> do the same thing.
+> Yes, that's one of the things I was not sure about... if we should
+> centralize flags definition as well or not...
 
-Le mercredi 09 juillet 2025 =C3=A0 14:44 +0200, Maxime Ripard a =C3=A9crit=
-=C2=A0:
-> Hi,
->=20
-> Here's another attempt at supporting user-space allocations from a
-> specific carved-out reserved memory region.
->=20
-> The initial problem we were discussing was that I'm currently working on
-> a platform which has a memory layout with ECC enabled. However, enabling
-> the ECC has a number of drawbacks on that platform: lower performance,
-> increased memory usage, etc. So for things like framebuffers, the
-> trade-off isn't great and thus there's a memory region with ECC disabled
-> to allocate from for such use cases.
->=20
-> After a suggestion from John, I chose to first start using heap
-> allocations flags to allow for userspace to ask for a particular ECC
-> setup. This is then backed by a new heap type that runs from reserved
-> memory chunks flagged as such, and the existing DT properties to specify
-> the ECC properties.
->=20
-> After further discussion, it was considered that flags were not the
-> right solution, and relying on the names of the heaps would be enough to
-> let userspace know the kind of buffer it deals with.
->=20
-> Thus, even though the uAPI part of it had been dropped in this second
-> version, we still needed a driver to create heaps out of carved-out memor=
-y
-> regions. In addition to the original usecase, a similar driver can be
-> found in BSPs from most vendors, so I believe it would be a useful
-> addition to the kernel.
->=20
-> Some extra discussion with Rob Herring [1] came to the conclusion that
-> some specific compatible for this is not great either, and as such an
-> new driver probably isn't called for either.
->=20
-> Some other discussions we had with John [2] also dropped some hints that
-> multiple CMA heaps might be a good idea, and some vendors seem to do
-> that too.
->=20
-> So here's another attempt that doesn't affect the device tree at all and
-> will just create a heap for every CMA reserved memory region.
 
-Does that means that if we carve-out memory for a co-processor operating sy=
-stem,
-that memory region is now available to userspace to allocate from ? Or is t=
-here
-a nuance to that ?
+I think probably the ability to have both centralised and platform specific ones would be worthwhile
 
-For other carveout, such as RK3588 HDMI receiver, that is clearly a win, gi=
-ving
-user the ability to allocate using externally supplied constraints rather t=
-hen
-having to convince the v4l2 driver to match these. While keeping the safety=
- that
-this carveout will yield valid addresses for the IP.
+>
+> Knowing that Mali will use the same flags that the two existing
+> implementations already have is a good indication that we can probably
+> centralize at least the ENABLE/DISABLE ones
 
-Will there be a generic way to find out which driver/device this carveout
-belongs to ? In V4L2, only complex cameras have userspace drivers, everythi=
-ng
-else is generic code.
 
-Nicolas
+Yeah
 
->=20
-> It also falls nicely into the current plan we have to support cgroups in
-> DRM/KMS and v4l2, which is an additional benefit.
->=20
-> Let me know what you think,
-> Maxime
->=20
-> 1: https://lore.kernel.org/all/20250707-cobalt-dingo-of-serenity-dbf92c@h=
-ouat/
-> 2:
-> https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=3Dc71kzFFaWK-fF5rCdnr9P5h1s=
-gPOWSGSw@mail.gmail.com/
->=20
-> Let me know what you think,
-> Maxime
->=20
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> Changes in v6:
-> - Drop the new driver and allocate a CMA heap for each region now
-> - Dropped the binding
-> - Rebased on 6.16-rc5
-> - Link to v5:
-> https://lore.kernel.org/r/20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@ker=
-nel.org
->=20
-> Changes in v5:
-> - Rebased on 6.16-rc2
-> - Switch from property to dedicated binding
-> - Link to v4:
-> https://lore.kernel.org/r/20250520-dma-buf-ecc-heap-v4-1-bd2e1f1bb42c@ker=
-nel.org
->=20
-> Changes in v4:
-> - Rebased on 6.15-rc7
-> - Map buffers only when map is actually called, not at allocation time
-> - Deal with restricted-dma-pool and shared-dma-pool
-> - Reword Kconfig options
-> - Properly report dma_map_sgtable failures
-> - Link to v3:
-> https://lore.kernel.org/r/20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@ker=
-nel.org
->=20
-> Changes in v3:
-> - Reworked global variable patch
-> - Link to v2:
-> https://lore.kernel.org/r/20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@ker=
-nel.org
->=20
-> Changes in v2:
-> - Add vmap/vunmap operations
-> - Drop ECC flags uapi
-> - Rebase on top of 6.14
-> - Link to v1:
-> https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@ker=
-nel.org
->=20
-> ---
-> Maxime Ripard (2):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma/contiguous: Add helper to test reserve=
-d memory type
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma-buf: heaps: cma: Create CMA heap for e=
-ach CMA reserved region
->=20
-> =C2=A0drivers/dma-buf/heaps/cma_heap.c | 52
-> +++++++++++++++++++++++++++++++++++++++-
-> =C2=A0include/linux/dma-map-ops.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 13 ++++=
-++++++
-> =C2=A0kernel/dma/contiguous.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 7 ++++++
-> =C2=A03 files changed, 71 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 47633099a672fc7bfe604ef454e4f116e2c954b1
-> change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
-> prerequisite-message-id: <20250610131231.1724627-1-jkangas@redhat.com>
-> prerequisite-patch-id: bc44be5968feb187f2bc1b8074af7209462b18e7
-> prerequisite-patch-id: f02a91b723e5ec01fbfedf3c3905218b43d432da
-> prerequisite-patch-id: e944d0a3e22f2cdf4d3b3906e5603af934696deb
->=20
-> Best regards,
+>
+>>> + *
+>>> + * Userspace shall never use this type directly but use the platform specific
+>>> + * one with the associated data types.
+>> Why wouldn't userspace just use these directly? I could see why it might be
+>> difficult for the C3 and Rkisp1 which are merged, but for a new
+>> implementation couldn't they just use these objects without bothering to
+>> define their own?
+>>
+> mmm, my thinking was that each driver implementation shall define
+> their own types because I would expect that they will have to define
+> their own meta image format... For v4l2_params_buffer see below, for
+> the blocks it might be totally possible to use these type most
+> probably..
+>
+>> If we end up using these objects directly I think it would be nice to have
+>> the example code block from the platform specific headers documentation here
+>> too.
+>>
+>>> + *
+>>> + * - Rockchip RkISP1: :c:type:`rkisp1_ext_params_block_type`
+>>> + * - Amlogic C3: :c:type:`c3_isp_params_block_type`
+>>> + *
+>>> + * @type: The parameters block type (platform-specific)
+>>> + * @flags: A bitmask of block flags (platform-specific)
+>>> + * @size: Size (in bytes) of the parameters block, including this header
+>>> + */
+>>> +struct v4l2_params_block {
+>>> +	__u16 type;
+>>> +	__u16 flags;
+>>> +	__u32 size;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct v4l2_params_buffer - V4L2 extensible parameters configuration
+>>> + *
+>>> + * This struct contains the configuration parameters of the ISP algorithms,
+>>> + * serialized by userspace into a data buffer. Each configuration parameter
+>>> + * block is represented by a block-specific structure which contains a
+>>> + * :c:type:`v4l2_params_block` entry as first member. Userspace populates
+>>> + * the @data buffer with configuration parameters for the blocks that it intends
+>>> + * to configure. As a consequence, the data buffer effective size changes
+>>> + * according to the number of ISP blocks that userspace intends to configure and
+>>> + * is set by userspace in the @data_size field.
+>>> + *
+>>> + * The parameters buffer is versioned by the @version field to allow modifying
+>>> + * and extending its definition. Userspace shall populate the @version field to
+>>> + * inform the driver about the version it intends to use. The driver will parse
+>>> + * and handle the @data buffer according to the data layout specific to the
+>>> + * indicated version and return an error if the desired version is not
+>>> + * supported.
+>>> + *
+>>> + * For each ISP block that userspace wants to configure, a block-specific
+>>> + * structure is appended to the @data buffer, one after the other without gaps
+>>> + * in between nor overlaps. Userspace shall populate the @data_size field with
+>>> + * the effective size, in bytes, of the @data buffer.
+>>> + *
+>>> + * Each ISP driver using the extensible parameters format shall define a
+>>> + * type which is type-convertible to this one, with the difference that the
+>>> + * @data member shall actually a memory buffer of platform-specific size and
+>>> + * not a pointer.
+>> Why not just use this object directly? We could provide a helper in
+>> v4l2-extensible-params.h that calculates the size of the buffer with a given
+>> data array size for the driver's convenience
+> The main reason I thought v4l2_params_buffer cannot be used is because
+> of the flexible-array at the end of the type
+>
+> struct v4l2_params_buffer {
+> 	__u32 version;
+> 	__u32 data_size;
+> 	__u8 data[];
+> };
+>
+> vs
+>
+> struct rkisp1_ext_params_cfg {
+> 	__u32 version;
+> 	__u32 data_size;
+> 	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+> };
+>
+> I might have missed what you're suggesting here with the helper in
+> v4l2-extensible-params.h :)
 
---=-FlPJGplGJlZTiMNIPwxV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+So I think a known size is needed to accomodate operations like "memcpy(dst, src, 
+sizeof(rkisp1_ext_params_cfg))", but with something like...
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaG5qKgAKCRDZQZRRKWBy
-9I45AQCBj0TCMQPihz2UiP5Ogn12VhminFtzBanzF6NqFNH8KAEA5amWJFCjCvXh
-CZHsD/GwiUBvhWKPUZTCeUOA8R12UAY=
-=ljqG
------END PGP SIGNATURE-----
+#define v4l2_params_buffer_size(max_params_size) \
 
---=-FlPJGplGJlZTiMNIPwxV--
+         (offsetof(struct v4l2_params_buffer, data) + max_params_size)
+
+
+then the above operation can be memcpy(dst, 
+src, v4l2_params_buffer_size(RKISP1_EXT_PARAMS_MAX_SIZE)) instead
+
+
+Unless I'm missing something that should be enough to drop the driver specific struct...it seems to 
+work ok anyway
+
+
+Dan
+
+>
+>
+>>
+>> Thanks
+>>
+>> Dan
+>>
+>>> + *
+>>> + * Userspace shall never use this type directly but use the platform specific
+>>> + * one with the associated data types.
+>>> + *
+>>> + * - Rockchip RkISP1: :c:type:`rkisp1_ext_params_cfg`
+>>> + * - Amlogic C3: :c:type:`c3_isp_params_cfg`
+>>> + *
+>>> + * @version: The parameters buffer version (platform-specific)
+>>> + * @data_size: The configuration data effective size, excluding this header
+>>> + * @data: The configuration data
+>>> + */
+>>> +struct v4l2_params_buffer {
+>>> +	__u32 version;
+>>> +	__u32 data_size;
+>>> +	__u8 data[];
+>>> +};
+>>> +
+>>> +#endif /* _UAPI_V4L2_PARAMS_H_ */
+>>>
 
