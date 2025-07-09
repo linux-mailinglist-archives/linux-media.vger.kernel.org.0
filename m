@@ -1,223 +1,191 @@
-Return-Path: <linux-media+bounces-37201-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37202-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FFFEAFE8E5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 14:26:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61987AFE940
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 14:45:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 988FD3AA9E5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 12:26:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB9241897DF5
+	for <lists+linux-media@lfdr.de>; Wed,  9 Jul 2025 12:45:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E31A02E1C7C;
-	Wed,  9 Jul 2025 12:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C3C12DAFAB;
+	Wed,  9 Jul 2025 12:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="DfrWIe9n"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SU8qJ591"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DAC2D97BF;
-	Wed,  9 Jul 2025 12:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF5D28DF42;
+	Wed,  9 Jul 2025 12:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752063908; cv=none; b=aujiS74+uh0C1ol8/H0k2i+BvL4D2oVgGE4kRdFPOAsal2Tw/7WBMkEq+WWXs3XzRIpCMln9qcx1K52VfybeFN3LFSLIFV/ASmigr9maRLSGFKeI8h2ONQe4hrKlFk4Wr1UMEakAWSr80JVC8JQb5Xi8yfF3xIlYE4tvPqLcRoU=
+	t=1752065104; cv=none; b=LjSHeIZ+ADZYovqubxVujM6KN6MGBWWmiXDoBU7x119dsxnJT9IhEfaGOGk+xcPK8P9wen7CT2ZtEsp4lqtleA12cOdMT87xyK/OUZ2mKrvRIMIIChiMb9FABWRvxoc+BDk6AYjsmWe3/nI6jluWAuoGUfVZ/582W0rB5Y0325M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752063908; c=relaxed/simple;
-	bh=swyUD6YjRtc3akmcS4kem9q9q3Rjs7f7GrF5ASpJRxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GUSy3Ba9Ay7y+qx2R66nReLirroGyBbOPJZBK1vg9vVtdUjE4db80FIxjeGmRBJwm9nvNpGB10BLw1WZkbhpC4Pqs6kv4L+LdHSMhlDfk0HlpfvgH2v0axVkRo2fn9zURmSMoLLX1g1QOeAFRLl4DSVYV2ljhh4jFW2wAdX6uOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=DfrWIe9n; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=aziAfoRoxY3luROYRtoGhYdxXHuve5qIWRnJXHedYlw=; b=DfrWIe9ngiQpIQ4+3qmIRXszPb
-	vHJPWlqXJgtB/pyUHY+rOgqdzG9g0jEjiH2j7taFTuBFH1XAVeEIZYIVgkCEuSTBLy7XXm82xivla
-	sxpLHduNAg/ogOM+BoFQcwTqSz/XP7gyFqU2mdgpyFEeCO3i6JWHmIoz11Ez1I4IOaAmk+cr20SPV
-	/8Kjxezdf17/yLU+SE1s9YbBgXqLuddw4cF6XJ6ahJBQ7M59OMyspJtiKUwNi3FmbmIrkOVxaOoLX
-	427kaie9tmMCxjOJVhr0e3xH3oBXSvK/BacMpWOGccec0pWVxXsSKBumcqFQmiKCxpuSxbBz9JzPM
-	8pLep/DA==;
-Received: from [84.65.48.237] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1uZTqr-00ESX8-Fr; Wed, 09 Jul 2025 14:24:41 +0200
-Message-ID: <fbab4905-9a85-48f3-93c0-9828fbf3bc9d@igalia.com>
-Date: Wed, 9 Jul 2025 13:24:40 +0100
+	s=arc-20240116; t=1752065104; c=relaxed/simple;
+	bh=5ig93j1gHmVqigZVEEovbc0sfYjFNVqIz+vVSrVJ/jo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YWxe1f4UpFQEXqrCnuBzPxILYsQejjRk+ha5DrkLaOr5+r1ZbYQj7vgTwn9G7XDTIkp5GW1rcw0Wc+HFX2s8VMLJCRut5Q8TNTquH8E+LkFEo/guW3EGk+I4OoNQwxsSnkvc9qtE2MimRUEO0Ryjknh4AMem3v9W6dWMo4TJy7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SU8qJ591; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE565C4CEEF;
+	Wed,  9 Jul 2025 12:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752065104;
+	bh=5ig93j1gHmVqigZVEEovbc0sfYjFNVqIz+vVSrVJ/jo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=SU8qJ591v3ZuHKWkIDNsGPC/TsUVy5S48YTk8I+wA/R98cRRp92a8dBLwXVe4UUQX
+	 h62V/N4GwCQnBqvMRN/dhOkcZT7Ssfa5mggfF34/0QPOqfEmWo15hH3XTHDCU3wiCv
+	 Y6nFOpZXhmwRDr5eeybDpTrDAlJ1IaiOkbNfKDKzdx+VyQnto48W5ciawaeUsIhJpU
+	 yDA6aEdBir32pT6DCYAmKoojkdWjZ811ES/KwYqd6iRccGhxFvUMJsmphaTBKEF8KY
+	 lEtAOdiJRJQu++19on2WBnLmlaE8lMvX0qRuyl7dlwb3WeSSmgMKEoXeNZiQeAFgpn
+	 y6+6c80EJRdVg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v6 0/2] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+Date: Wed, 09 Jul 2025 14:44:50 +0200
+Message-Id: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/7] drm/sched/tests: Implement cancel_job() callback
-To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250709115257.106370-2-phasta@kernel.org>
- <20250709115257.106370-4-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250709115257.106370-4-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEJkbmgC/33RyU7DMBAG4FeJfMaRx1uaCqG+B+LgZdKYkqbYa
+ QSq+u44KaigRBzHkr9Z/gtJGAMmsi0uJOIYUuiPudAPBXGtOe6RBp9rwhmXTIGivjPUnhuKztE
+ WzYnyjREAnrtaIsnfThGb8DGTzy+5bkMa+vg5dxhhev0HG4EyqqSz1jNZK4DdAeMR38o+7smkj
+ fxHUEwyWBF4FpgUjWdMGzDNQhC/hWpFEFmoK+e90EY1vF4I8i4ozlYESYFazxEasFZytxDUXdC
+ wNoOatjDWO7XRwsi/W1xvZ474fs6BDbdbkw5TMnNg2+Lxm2YggAsooeJS8yqP9XrIqZq0i+hbM
+ 5Su756m1KxJSHPRhWFbjLoETaNTudX1C/BYCfAjAgAA
+X-Change-ID: 20240515-dma-buf-ecc-heap-28a311d2c94e
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>
+Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ iommu@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4178; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=5ig93j1gHmVqigZVEEovbc0sfYjFNVqIz+vVSrVJ/jo=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBl5KT5Hp6VN1J1s9/a/8haBzfaebxOsuz9PEsiwblQvt
+ vuxue5vx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhIrCtjfeD3N8X7VM9EHM05
+ Jl/BWOmovOeVced54b2zy+tUznS/jS9Jq17zR7H35r4cp4uS0/9mMzYsKAxinxtWNtO6+rW+/f/
+ mhETDhTI+Eidjj/zu2bnbeRrH02e/PVaunM4VG3bQ2s5odSwA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
+Hi,
 
-On 09/07/2025 12:52, Philipp Stanner wrote:
-> The GPU Scheduler now supports a new callback, cancel_job(), which lets
-> the scheduler cancel all jobs which might not yet be freed when
-> drm_sched_fini() runs. Using this callback allows for significantly
-> simplifying the mock scheduler teardown code.
-> 
-> Implement the cancel_job() callback and adjust the code where necessary.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->   .../gpu/drm/scheduler/tests/mock_scheduler.c  | 68 +++++++------------
->   drivers/gpu/drm/scheduler/tests/sched_tests.h |  1 -
->   2 files changed, 25 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> index 49d067fecd67..0d1d57213e05 100644
-> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> @@ -63,7 +63,7 @@ static void drm_mock_sched_job_complete(struct drm_mock_sched_job *job)
->   	lockdep_assert_held(&sched->lock);
->   
->   	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
-> -	list_move_tail(&job->link, &sched->done_list);
-> +	list_del(&job->link);
->   	dma_fence_signal_locked(&job->hw_fence);
->   	complete(&job->done);
->   }
-> @@ -236,26 +236,41 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
->   
->   static void mock_sched_free_job(struct drm_sched_job *sched_job)
->   {
-> -	struct drm_mock_scheduler *sched =
-> -			drm_sched_to_mock_sched(sched_job->sched);
->   	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
-> -	unsigned long flags;
->   
-> -	/* Remove from the scheduler done list. */
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_del(&job->link);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
->   	dma_fence_put(&job->hw_fence);
-> -
->   	drm_sched_job_cleanup(sched_job);
->   
->   	/* Mock job itself is freed by the kunit framework. */
->   }
->   
-> +static void mock_sched_cancel_job(struct drm_sched_job *sched_job)
-> +{
-> +	struct drm_mock_scheduler *sched = drm_sched_to_mock_sched(sched_job->sched);
-> +	struct drm_mock_sched_job *job = drm_sched_job_to_mock_job(sched_job);
-> +	unsigned long flags;
-> +
-> +	hrtimer_cancel(&job->timer);
-> +
-> +	spin_lock_irqsave(&sched->lock, flags);
-> +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
-> +		list_del(&job->link);
-> +		dma_fence_set_error(&job->hw_fence, -ECANCELED);
-> +		dma_fence_signal_locked(&job->hw_fence);
-> +	}
-> +	spin_unlock_irqrestore(&sched->lock, flags);
-> +
-> +	/*
-> +	 * The GPU Scheduler will call drm_sched_backend_ops.free_job(), still.
-> +	 * Mock job itself is freed by the kunit framework.
-> +	 */
-> +}
-> +
->   static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
->   	.run_job = mock_sched_run_job,
->   	.timedout_job = mock_sched_timedout_job,
-> -	.free_job = mock_sched_free_job
-> +	.free_job = mock_sched_free_job,
-> +	.cancel_job = mock_sched_cancel_job,
->   };
->   
->   /**
-> @@ -289,7 +304,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
->   	sched->hw_timeline.context = dma_fence_context_alloc(1);
->   	atomic_set(&sched->hw_timeline.next_seqno, 0);
->   	INIT_LIST_HEAD(&sched->job_list);
-> -	INIT_LIST_HEAD(&sched->done_list);
->   	spin_lock_init(&sched->lock);
->   
->   	return sched;
-> @@ -304,38 +318,6 @@ struct drm_mock_scheduler *drm_mock_sched_new(struct kunit *test, long timeout)
->    */
->   void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
->   {
-> -	struct drm_mock_sched_job *job, *next;
-> -	unsigned long flags;
-> -	LIST_HEAD(list);
-> -
-> -	drm_sched_wqueue_stop(&sched->base);
-> -
-> -	/* Force complete all unfinished jobs. */
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_for_each_entry_safe(job, next, &sched->job_list, link)
-> -		list_move_tail(&job->link, &list);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
-> -
-> -	list_for_each_entry(job, &list, link)
-> -		hrtimer_cancel(&job->timer);
-> -
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_for_each_entry_safe(job, next, &list, link)
-> -		drm_mock_sched_job_complete(job);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
-> -
-> -	/*
-> -	 * Free completed jobs and jobs not yet processed by the DRM scheduler
-> -	 * free worker.
-> -	 */
-> -	spin_lock_irqsave(&sched->lock, flags);
-> -	list_for_each_entry_safe(job, next, &sched->done_list, link)
-> -		list_move_tail(&job->link, &list);
-> -	spin_unlock_irqrestore(&sched->lock, flags);
-> -
-> -	list_for_each_entry_safe(job, next, &list, link)
-> -		mock_sched_free_job(&job->base);
-> -
->   	drm_sched_fini(&sched->base);
->   }
->   
-> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> index fbba38137f0c..0eddfb8d89e6 100644
-> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> @@ -49,7 +49,6 @@ struct drm_mock_scheduler {
->   
->   	spinlock_t		lock;
->   	struct list_head	job_list;
-> -	struct list_head	done_list;
->   
->   	struct {
->   		u64		context;
+Here's another attempt at supporting user-space allocations from a
+specific carved-out reserved memory region.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+The initial problem we were discussing was that I'm currently working on
+a platform which has a memory layout with ECC enabled. However, enabling
+the ECC has a number of drawbacks on that platform: lower performance,
+increased memory usage, etc. So for things like framebuffers, the
+trade-off isn't great and thus there's a memory region with ECC disabled
+to allocate from for such use cases.
 
-Regards,
+After a suggestion from John, I chose to first start using heap
+allocations flags to allow for userspace to ask for a particular ECC
+setup. This is then backed by a new heap type that runs from reserved
+memory chunks flagged as such, and the existing DT properties to specify
+the ECC properties.
 
-Tvrtko
+After further discussion, it was considered that flags were not the
+right solution, and relying on the names of the heaps would be enough to
+let userspace know the kind of buffer it deals with.
+
+Thus, even though the uAPI part of it had been dropped in this second
+version, we still needed a driver to create heaps out of carved-out memory
+regions. In addition to the original usecase, a similar driver can be
+found in BSPs from most vendors, so I believe it would be a useful
+addition to the kernel.
+
+Some extra discussion with Rob Herring [1] came to the conclusion that
+some specific compatible for this is not great either, and as such an
+new driver probably isn't called for either.
+
+Some other discussions we had with John [2] also dropped some hints that
+multiple CMA heaps might be a good idea, and some vendors seem to do
+that too.
+
+So here's another attempt that doesn't affect the device tree at all and
+will just create a heap for every CMA reserved memory region.
+
+It also falls nicely into the current plan we have to support cgroups in
+DRM/KMS and v4l2, which is an additional benefit.
+
+Let me know what you think,
+Maxime
+
+1: https://lore.kernel.org/all/20250707-cobalt-dingo-of-serenity-dbf92c@houat/
+2: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com/
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v6:
+- Drop the new driver and allocate a CMA heap for each region now
+- Dropped the binding
+- Rebased on 6.16-rc5
+- Link to v5: https://lore.kernel.org/r/20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org
+
+Changes in v5:
+- Rebased on 6.16-rc2
+- Switch from property to dedicated binding
+- Link to v4: https://lore.kernel.org/r/20250520-dma-buf-ecc-heap-v4-1-bd2e1f1bb42c@kernel.org
+
+Changes in v4:
+- Rebased on 6.15-rc7
+- Map buffers only when map is actually called, not at allocation time
+- Deal with restricted-dma-pool and shared-dma-pool
+- Reword Kconfig options
+- Properly report dma_map_sgtable failures
+- Link to v3: https://lore.kernel.org/r/20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org
+
+Changes in v3:
+- Reworked global variable patch
+- Link to v2: https://lore.kernel.org/r/20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org
+
+Changes in v2:
+- Add vmap/vunmap operations
+- Drop ECC flags uapi
+- Rebase on top of 6.14
+- Link to v1: https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org
+
+---
+Maxime Ripard (2):
+      dma/contiguous: Add helper to test reserved memory type
+      dma-buf: heaps: cma: Create CMA heap for each CMA reserved region
+
+ drivers/dma-buf/heaps/cma_heap.c | 52 +++++++++++++++++++++++++++++++++++++++-
+ include/linux/dma-map-ops.h      | 13 ++++++++++
+ kernel/dma/contiguous.c          |  7 ++++++
+ 3 files changed, 71 insertions(+), 1 deletion(-)
+---
+base-commit: 47633099a672fc7bfe604ef454e4f116e2c954b1
+change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
+prerequisite-message-id: <20250610131231.1724627-1-jkangas@redhat.com>
+prerequisite-patch-id: bc44be5968feb187f2bc1b8074af7209462b18e7
+prerequisite-patch-id: f02a91b723e5ec01fbfedf3c3905218b43d432da
+prerequisite-patch-id: e944d0a3e22f2cdf4d3b3906e5603af934696deb
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
 
