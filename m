@@ -1,153 +1,173 @@
-Return-Path: <linux-media+bounces-37415-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37416-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6D1B00AD6
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:54:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5824B00B37
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 20:19:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8121F7BE536
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:51:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6EAF178C69
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 18:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB21A2F50B6;
-	Thu, 10 Jul 2025 17:50:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A69F526A0F4;
+	Thu, 10 Jul 2025 18:18:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D3JC8kUD"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pkh1zhwK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B1C2F50AC
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8122F0C54;
+	Thu, 10 Jul 2025 18:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752169838; cv=none; b=jDfLIYzY1MLS5fNmkzCayEXQzLnNtuIk+aCVvPdhZ31vU6ugCBIi6LEGnhIQTInCvkvgn7O1qEYH62IcZdLOe6q6yi/fRMLJ1qT/VaA9Q0FJMOHLxdbuwzW5S1aXs/tWZBKCD31cFKsLwMqmqm95BjldXBTQasUcY7zItyJh8YY=
+	t=1752171537; cv=none; b=ornqjdIeADG9TFtV8pasd8/b+zZf/6j492mVpf4Tk9hkoqQTXJncU7vTkvO3pPN7n2dHCezyA2epqGykA2hB+oywFXKb9cJlb251UabCfVzbQDGCV8mL0NNJnbDXap9swhSTt10jMZckAfhrUzhX9jtPe1IKWoihMcZTRYPPjhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752169838; c=relaxed/simple;
-	bh=b+DruLZae+ULFooHqWHAv9a27DgIN2BmnRSKqMHJylE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j6vg8GbB2rFN49Xjf4l6wzhCgxqXgc5F2/u/l0VoymxOnjOKrzLHCF4U8eUCQZRZydPj0Qvb1HdFdMJ54PXkz/dt1+uqGwtWNW89+PO/lTQOpdMdlAj6u9iEPMb/foVh71MCSjMWJpFEC7lwSlkFlJa5MP1DDa1MxDTBZTY2fTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D3JC8kUD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7DDC5111D;
-	Thu, 10 Jul 2025 19:50:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752169806;
-	bh=b+DruLZae+ULFooHqWHAv9a27DgIN2BmnRSKqMHJylE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D3JC8kUDDwqmYxnwmw101mr9nlRvJ9jTy/cPayT8kTHN2fv2AdiGynRODbkqWMuUk
-	 M8ZUyWOl/4TkG2qtdV16ft3DYoOThzTZNtMirmuaxld5siM7XtTo24IlvkEWcd5fAJ
-	 8blz7ZurtoX01PFGAWP7hr/vB0pvqjng2WKWKDO4=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 72/72] media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper
-Date: Thu, 10 Jul 2025 20:48:08 +0300
-Message-ID: <20250710174808.5361-73-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
-References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1752171537; c=relaxed/simple;
+	bh=/PoKgN7L/oEDs9WP4ITeQXy+0FOs46ud96/JHlIiRUk=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=QiB5lXzz6Yw8luhCzTqEMC/G8Qvy4glGNhVTiwRbBsyKE8aIk9K6+SD4NkgMVRCFuXKeS4ZAVkrNAJJZASRl+Mzf5ulGL3A44qKI22vqPkZ9vGx92J1tkvqyj2PP20D9Uv/FVMDiXK6LCbO3WSTFucH48xu/zNSM9+JaOXGPokM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pkh1zhwK; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56AIEWmt012568;
+	Thu, 10 Jul 2025 18:18:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	78QUllCMI4AMJSRsHmpiPNn8A+Q9bzfePHc6Gm7/eWI=; b=pkh1zhwKF+IDL40F
+	lA81yL2RGtQ2DmCOBWUZverVSYPROhZIGLghUIZ4B/QZFj7L+mEPxIA8uSVL+IFu
+	1syj7+KgfG6ZVhDBpFKBYqW6suPaBMaPslTFpu0iCjYS1VdAsbJAzdsZF+hZT3FN
+	3KWlzi9+NuWVXjtSEPE+94yDxGPzRg5jfC+a7YELvGfeRF9sW8GT4d0tKzKZtKEj
+	jCqVqpUAjQPwvP/Uy6iJWjN1KXTaxi8UE2jDLgvpMVUsadJpAJUB2tqHUW3mM7JH
+	G6+JhlpKc/hI/3QxMnKlQd+Y4jKE54y7rmJbQuUALTdEAcJn118W85L5fCQp7Yka
+	pWcmxQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pucn9f5u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 10 Jul 2025 18:18:42 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56AIIfHs017308
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 10 Jul 2025 18:18:41 GMT
+Received: from [10.216.56.238] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 10 Jul
+ 2025 11:18:36 -0700
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Krzysztof Kozlowski
+	<krzk@kernel.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        "Dikshita
+ Agarwal" <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<abhinav.kumar@linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <f5ebf0d6-2f0b-45cc-b99a-b786e5df9edc@linaro.org>
+ <5qsgbqml367yq6g5vb4lotrzulojqhi5zlwwribze373a63qrn@rxi4kwyt66m2>
+ <4f38058d-a2f1-4ac5-b234-228cfb2e85ff@kernel.org>
+ <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
+ <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org>
+ <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
+ <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
+ <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
+ <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org>
+ <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
+ <6c6f6bc9-7c34-4961-8b5e-e6d02c4b2f6d@linaro.org>
+From: Prakash Gupta <quic_guptap@quicinc.com>
+Message-ID: <25c64712-960a-50b4-e7fa-398e4bf809ef@quicinc.com>
+Date: Thu, 10 Jul 2025 23:48:30 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <6c6f6bc9-7c34-4961-8b5e-e6d02c4b2f6d@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=GdQXnRXL c=1 sm=1 tr=0 ts=68700402 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=17tGKeYD8DI9GCXtSyEA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: emuYZrLTj78SJd_U-lw-XG0ibRMxMzKh
+X-Proofpoint-ORIG-GUID: emuYZrLTj78SJd_U-lw-XG0ibRMxMzKh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEwMDE1NSBTYWx0ZWRfX4TnoPNuzq2UP
+ dZw0fQWu4yx5CZPTSWz1HUiAcQgAXyFBSyI4ct87BbURNfpmNhwp9nW9aeBJXeF01zRkeYb4A0K
+ zrnat24h1X24f7PU9Z3vwWxUcJjZn1x3GLVzaaq/1Os7e4t0urmgWMXxumiADYjdpLkuuC3xYBq
+ /Aat+QkLM/+zrGSMVa4Po2TPe0oJ6zU8iRPVlmB1TENFP3Zc3xN2s3Fb8Pqtq5m8IeZACKL2esz
+ BaEDCSZ6pLnwKg5vpA2y6ZS139GWVQzp8yj4t85yrHXQPUYKu4Zeysn2IgbJmxJADfLAlWyZD0H
+ 7OLZKQqrsvz58DAVaZvtcnQIIdDe69Oxys5FLrreh4RWjDtRxY7GUmdcw2vKFs4ptDKkjI2O+xa
+ FkeXQraACQ1qV9Bn9PsMyCmuMwQE7v82V6+ZKq2tdszRHR4n2Y5aJaCEzW5Py9h0iG4RAHkf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-10_04,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 clxscore=1011
+ spamscore=0 suspectscore=0 mlxlogscore=875 priorityscore=1501 impostorscore=0
+ malwarescore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507100155
 
-Several camera sensor drivers access the "clock-frequency" property
-directly to retrieve the external clock rate, or modify the clock rate
-of the external clock programmatically. Both behaviours are valid on a
-subset of ACPI platforms, but are considered deprecated on OF platforms,
-and do not support ACPI platforms that implement MIPI DisCo for Imaging.
-Implementing them manually in drivers is deprecated, as that can
-encourage copying deprecated behaviour for OF platforms in new drivers,
-and lead to differences in behaviour between drivers. Instead, drivers
-that need to preserve the deprecated OF behaviour should use the
-devm_v4l2_sensor_clk_get_legacy() helper.
 
-This driver supports OF platforms only. The "clocks" property has always
-been specified as mandatory in the DT bindings and the "clock-frequency"
-property has initially been optional. Both properties were initially set
-in the upstream DT sources. The driver retrieves the clock, retrieves
-the clock rate from the "clock-frequency" property if available or uses
-a fixed default otherwise, and sets the clock rate. This is deprecated
-behaviour for OF.
 
-Switch to using the devm_v4l2_sensor_clk_get_legacy() helper. This
-preserves setting the clock rate on OF platforms. Should support for OF
-platforms that set the clock rate through clock-frequency be considered
-unneeded in the future, the driver will only need to switch to
-devm_v4l2_sensor_clk_get() without any other change.
+On 7/5/2025 4:14 AM, Bryan O'Donoghue wrote:
+> On 04/07/2025 17:45, Dmitry Baryshkov wrote:
+>> What about instead:
+>>
+>> - keep IOMMU entries as is
+> ack
+> 
+>> - Add iommu-maps, mapping the non-pixel SID
+>> - In future expand iommu-maps, describing the secure contexts?
+> 
+> Interesting, we are _adding_ so that's not an ABI break and if I'm
+> reading the documentation right, there's no hard rule on what iommu-map
+> defines i.e. nothing to preclude us from encoding the information we
+> want here.
+> 
+> This might work.
+> 
+> drivers/pci/controller/dwc/pcie-qcom.c::qcom_pcie_config_sid_1_9_0()
+> 
+> You can register your platform device to the SID map you parse.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/i2c/s5k6a3.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+I see few limitations with using iommu-map here, some of these are
+listed in [1]
 
-diff --git a/drivers/media/i2c/s5k6a3.c b/drivers/media/i2c/s5k6a3.c
-index 4bf5f122b113..ba6477e88da3 100644
---- a/drivers/media/i2c/s5k6a3.c
-+++ b/drivers/media/i2c/s5k6a3.c
-@@ -51,7 +51,6 @@ enum {
-  * @lock: mutex protecting the structure's members below
-  * @format: media bus format at the sensor's source pad
-  * @clock: pointer to &struct clk.
-- * @clock_frequency: clock frequency
-  * @power_count: stores state if device is powered
-  */
- struct s5k6a3 {
-@@ -63,7 +62,6 @@ struct s5k6a3 {
- 	struct mutex lock;
- 	struct v4l2_mbus_framefmt format;
- 	struct clk *clock;
--	u32 clock_frequency;
- 	int power_count;
- };
- 
-@@ -192,10 +190,6 @@ static int __s5k6a3_power_on(struct s5k6a3 *sensor)
- 	int i = S5K6A3_SUPP_VDDA;
- 	int ret;
- 
--	ret = clk_set_rate(sensor->clock, sensor->clock_frequency);
--	if (ret < 0)
--		return ret;
--
- 	ret = pm_runtime_get(sensor->dev);
- 	if (ret < 0)
- 		goto error_rpm_put;
-@@ -292,7 +286,9 @@ static int s5k6a3_probe(struct i2c_client *client)
- 	mutex_init(&sensor->lock);
- 	sensor->dev = dev;
- 
--	sensor->clock = devm_v4l2_sensor_clk_get(sensor->dev, S5K6A3_CLK_NAME);
-+	sensor->clock = devm_v4l2_sensor_clk_get_legacy(sensor->dev,
-+							S5K6A3_CLK_NAME, false,
-+							S5K6A3_DEFAULT_CLK_FREQ);
- 	if (IS_ERR(sensor->clock))
- 		return dev_err_probe(sensor->dev, PTR_ERR(sensor->clock),
- 				     "failed to get extclk\n");
-@@ -302,13 +298,6 @@ static int s5k6a3_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
- 
--	if (of_property_read_u32(dev->of_node, "clock-frequency",
--				 &sensor->clock_frequency)) {
--		sensor->clock_frequency = S5K6A3_DEFAULT_CLK_FREQ;
--		dev_info(dev, "using default %u Hz clock frequency\n",
--					sensor->clock_frequency);
--	}
--
- 	for (i = 0; i < S5K6A3_NUM_SUPPLIES; i++)
- 		sensor->supplies[i].supply = s5k6a3_supply_names[i];
- 
--- 
-Regards,
+1. We can't specify SMR mask with iommu-map.
+2. We can't specify different iommu-addresses range for specific contexts.
+3. The secure CB support [2] would require vmid information associated
+with per context. I think this can't be provided with iommu-map.
 
-Laurent Pinchart
+[1]
+https://lore.kernel.org/all/85137a8e-45be-3bb2-d094-79754fa2a8be@quicinc.com/
+[2]
+https://lore.kernel.org/all/20231101071144.16309-2-quic_gkohli@quicinc.com/
 
+Thanks,
+Prakash
 
