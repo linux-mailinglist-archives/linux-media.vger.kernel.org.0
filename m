@@ -1,138 +1,182 @@
-Return-Path: <linux-media+bounces-37295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49017B002B3
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 14:58:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 334BCB002D3
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 15:02:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5A861C40EA2
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 12:58:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75B3716F2E5
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 13:02:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E22FD26A0E0;
-	Thu, 10 Jul 2025 12:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A039826B096;
+	Thu, 10 Jul 2025 13:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="q3GiOvBz"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XilTcTD3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dHyQd+5r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5B21E8333;
-	Thu, 10 Jul 2025 12:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D366223DF1;
+	Thu, 10 Jul 2025 13:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752152303; cv=none; b=hJTZbL1c+O1WcustZCuxpT8JcpVRRtfBKClaDiXulysWkkLVKpIGmw33xW94GIpUiFuKZeIagFdEaXP+ZJT0178j9lD6rMfBeh+QMROXYdKz9avuWZEeIcUpqA15I2Lx49UadsRN+XMQtFRljTtjjdu3SsmRnb3UvEkleJOtgCY=
+	t=1752152568; cv=none; b=q1saf42JEN1DCKB5lR7KPNTpTxkalmwYLmNXgKBjwDTFvRGP1k0ySY+m5yKbY0f7NYdRiHi71O9qd345YHXjE5cnFMtF/n0MOKxNqsMXbmt/BeNRc0ZDvizZON6f5jgHJZYF20RfJZO0Iga6NBGujS/ImVt0IGfI8DpB6mBSUiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752152303; c=relaxed/simple;
-	bh=QJ5+1lSHVPyBwnNaUmAFeueiaKEBeuJfDLfTIhMwJ5w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=doGJD1ZlWNfG82dKuteSP0xOkrt4+p8BAFgYtj65PqaJy1e8ksUGbx3c8wRjLt0abnPY8LLbpN7BqVhRMF0cG+2JFd8H4ActTKHyOYqtcYZpwpjzm5t/WpoerdLl7qEuydA1S+c4XilAF6rYRmeN2Y7IKaC24YCDIbMKyYJPpvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=q3GiOvBz; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bdFJM2n5Sz9sx4;
-	Thu, 10 Jul 2025 14:58:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1752152291; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XUdTgSu/zHvFvHHBAYxFI7WNZhlx1N0C5aZ+BZgA/hg=;
-	b=q3GiOvBzyHujBbSJyAfbiklhFM/WL6aD01vbIbLLVfn3xsMoDfFurOVoZidipbO6tdQSCm
-	+jp+NwxFcqSX0dn491UeCiC85OkRiX6DRkUGbRyykenUQnIOAm0ZXo3fOR+ll//rzXmAbh
-	7uZMY6GrfjZxxJ+E8dEhNHds3xsFBvNz1okgpTa9fVoO0TbEpLL6miqPva47X12iZiQ2d2
-	iH8wNIwu8RjH9obhhxlvnS8hZNHfJTweC3qsF01o52IugnS9sKwBK0Z7iTYc92c3dCHQ8/
-	t4IE0FtScpgYTbTcHgYBuJ8Pj9tAxDWccbazxeLl/GDe3PrX1hOpy5z8gQINEA==
-Message-ID: <bec98a82435d7f448dff219a2238b15b6b3eb754.camel@mailbox.org>
-Subject: Re: [PATCH v4 1/8] drm/panfrost: Fix scheduler workqueue bug
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
-  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew
- Brost <matthew.brost@intel.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>,  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	stable@vger.kernel.org
-Date: Thu, 10 Jul 2025 14:58:05 +0200
-In-Reply-To: <20250710125412.128476-3-phasta@kernel.org>
-References: <20250710125412.128476-2-phasta@kernel.org>
-	 <20250710125412.128476-3-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1752152568; c=relaxed/simple;
+	bh=otW4eD02Ff2uw6Y0Ma+nPka12y/IKMTdo67VnHlOwAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQN/RzB/EOdR7SrKx/FstM7OLql8zU+BfCId2PqxThZMmcREIdZ/75wDcMoF1WN7Ft9zYV2qJs5gNp2jW58RsXBR2BPi4Vz/NHgto2a319MlPbCDMsE/6XH4pBirfD2+x05zsJ5qlyAdiNhs0mBzd46B52DP0prv9gXgQQDd8dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XilTcTD3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dHyQd+5r; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 91D321400149;
+	Thu, 10 Jul 2025 09:02:46 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 10 Jul 2025 09:02:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1752152566;
+	 x=1752238966; bh=uEDFnG10IwOmsA3sMnJhNyN+J/4e0yh71HbEMyAJMpI=; b=
+	XilTcTD3av0k4HbZkwN94lGT21cEU1xtFNcbOvTCL9O+2N5m7nWUpnGGbP6ZX8Gh
+	6fjqv6jC2rwIr1hO8XG/xAiL/QdN0POWca7DZTvPDL25MkF177LDqlw/j4CyNVdZ
+	G1mu4D4OFzFZ13lDDFa5KjVqQUp8/Mr5gQonXhLA3EEksrakeD8Ak2MiRkJebbXw
+	aMOwEuenx873VTiTf0YEKXLfSGNXJXK2hRTUTlUdKx3ktojhvEmuIqxeNsaJX6F9
+	dCWjbGI9alrfX41nvVX7E2KMsufszk+3GSDi2+MPGRrHsj97rxEM6fX335Uva0ei
+	cSqNqFGNctCyEfNJPJBQVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1752152566; x=
+	1752238966; bh=uEDFnG10IwOmsA3sMnJhNyN+J/4e0yh71HbEMyAJMpI=; b=d
+	HyQd+5rnpSm0ZjqndsxBtqMalgYRqUjpNFHP0/igLhg1BrYutqkj354Hm28yr83L
+	kLY95j23Z2jklahQ/ziiMyiGrav7Xu5rhsk1zynt6CwtLln93zbFsR98toiSLPRw
+	B2hbbsWm1K3g4hFGZ/TjWpbPMIb+KGFQD1HrbJUHulmc51O14mwWw3ZrCOAMrDv2
+	Mg3X394zNWq+10Bey8IjYI54JzXpYLe553d41Be5Jn6dFLBj/4ZnQXbIbn0mOg5n
+	MVE3GpVTPx4nY/QgwCh19pRtPyLgap41emIlXfdd/I6egzxZpcLCHjO5nWSzJ3II
+	YwtW7utRHMi/DuCrQHH/Q==
+X-ME-Sender: <xms:9blvaE2yQ3alJhRjFrBtuxW0XQqNvR7hLkn_lvf-pX42kc6byntwTw>
+    <xme:9blvaLEWuDIy1flGqAvnYHwbzkeQOADhLpqJBadaHL9p_L1nJsTIscHc2bbcBBi7R
+    1wC5Uk8lJnwjfYynQo>
+X-ME-Received: <xmr:9blvaPH_s-iEH4yROJp9UEfWSW8VhDjwdlPsVh7BiTELKCKi0UCZI5H1aubX8U4IQ-rmQkcPgkBiSXFpcy5_b8I5I8dS_0BwJg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdegtdehudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhlrghs
+    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrth
+    gvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedtvddvhfdtkeeghfeffeehteeh
+    keekgeefjeduieduueelgedtheekkeetnecuvehluhhsthgvrhfuihiivgepudenucfrrg
+    hrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgr
+    thgvtghhrdhsvgdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgtphhtthho
+    pehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehfrggsrhhiiihioh
+    drtggrshhtrhhordhjiiesrhgvnhgvshgrshdrtghomhdprhgtphhtthhopehkihgvrhgr
+    nhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpd
+    hrtghpthhtohepjhgrtghophhosehjmhhonhguihdrohhrghdprhgtphhtthhopehlrghu
+    rhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpth
+    htoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hg
+X-ME-Proxy: <xmx:9blvaO5fdu8kKK7KZAZdsNeP5yvqZJtSy6RKhna6hc7Ccl6CDRCAgw>
+    <xmx:9blvaEyBHKo-uM_-RmO_PwUzt0YI8SEH2t_dWM0axUTG5piGGj8rhg>
+    <xmx:9blvaNMK6jEKs6AJ5sTyI26dR5Wnh6AwTf7YPrGStJsQup02OjG_Vg>
+    <xmx:9blvaKldZPyhaIybX3EIOoAPYW9A1binv8EmcTOwJeFFsH3nNc2xXw>
+    <xmx:9rlvaLbmfTOpjgjqFW2-BVRA0nr2ocTwIuF9PQwePdXGqBFM8JGOgJSO>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Jul 2025 09:02:45 -0400 (EDT)
+Date: Thu, 10 Jul 2025 15:02:44 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/5] media: renesas: rcar-vin: Convert to
+ DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <20250710130244.GE2234326@ragnatech.se>
+References: <cover.1752088108.git.geert+renesas@glider.be>
+ <21c38e1fc0c8383d8d723b61f00f37d4003e0de9.1752088108.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 836fbb2b50af0e52d75
-X-MBO-RS-META: q7ni9ki5c4orx1jns8zppxa9ufa6zses
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <21c38e1fc0c8383d8d723b61f00f37d4003e0de9.1752088108.git.geert+renesas@glider.be>
 
-On Thu, 2025-07-10 at 14:54 +0200, Philipp Stanner wrote:
-> When the GPU scheduler was ported to using a struct for its
-> initialization parameters, it was overlooked that panfrost creates a
-> distinct workqueue for timeout handling.
->=20
-> The pointer to this new workqueue is not initialized to the struct,
-> resulting in NULL being passed to the scheduler, which then uses the
-> system_wq for timeout handling.
->=20
-> Set the correct workqueue to the init args struct.
->=20
-> Cc: stable@vger.kernel.org=C2=A0# 6.15+
-> Fixes: 796a9f55a8d1 ("drm/sched: Use struct for drm_sched_init()
-> params")
-> Reported-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Closes:
-> https://lore.kernel.org/dri-devel/b5d0921c-7cbf-4d55-aa47-c35cd7861c02@ig=
-alia.com/
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Hi Geert,
+
+Thanks for your work.
+
+On 2025-07-09 21:16:08 +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car Video Input driver from SIMPLE_DEV_PM_OPS() to
+> DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().  This lets us drop the
+> __maybe_unused annotations from its suspend and resume callbacks, and
+> reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-core.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> index f73729f59671be20..100105b620e31e58 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -849,7 +849,7 @@ static int rvin_isp_init(struct rvin_dev *vin)
+>   * Suspend / Resume
+>   */
+>  
+> -static int __maybe_unused rvin_suspend(struct device *dev)
+> +static int rvin_suspend(struct device *dev)
+>  {
+>  	struct rvin_dev *vin = dev_get_drvdata(dev);
+>  
+> @@ -861,7 +861,7 @@ static int __maybe_unused rvin_suspend(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int __maybe_unused rvin_resume(struct device *dev)
+> +static int rvin_resume(struct device *dev)
+>  {
+>  	struct rvin_dev *vin = dev_get_drvdata(dev);
+>  
+> @@ -1276,13 +1276,13 @@ static void rcar_vin_remove(struct platform_device *pdev)
+>  	rvin_dma_unregister(vin);
+>  }
+>  
+> -static SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
+> +static DEFINE_SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
+>  
+>  static struct platform_driver rcar_vin_driver = {
+>  	.driver = {
+>  		.name = "rcar-vin",
+>  		.suppress_bind_attrs = true,
+> -		.pm = &rvin_pm_ops,
+> +		.pm = pm_sleep_ptr(&rvin_pm_ops),
+>  		.of_match_table = rvin_of_id_table,
+>  	},
+>  	.probe = rcar_vin_probe,
+> -- 
+> 2.43.0
+> 
 
-aaaarrrgh, how did that one get here!
-
-Ignore that. Will not be merged through this series.
-
-
-P.
-
-> =C2=A0drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c
-> b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 5657106c2f7d..15e2d505550f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -841,7 +841,6 @@ int panfrost_job_init(struct panfrost_device
-> *pfdev)
-> =C2=A0		.num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
-> =C2=A0		.credit_limit =3D 2,
-> =C2=A0		.timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
-> -		.timeout_wq =3D pfdev->reset.wq,
-> =C2=A0		.name =3D "pan_js",
-> =C2=A0		.dev =3D pfdev->dev,
-> =C2=A0	};
-> @@ -879,6 +878,7 @@ int panfrost_job_init(struct panfrost_device
-> *pfdev)
-> =C2=A0	pfdev->reset.wq =3D alloc_ordered_workqueue("panfrost-reset",
-> 0);
-> =C2=A0	if (!pfdev->reset.wq)
-> =C2=A0		return -ENOMEM;
-> +	args.timeout_wq =3D pfdev->reset.wq;
-> =C2=A0
-> =C2=A0	for (j =3D 0; j < NUM_JOB_SLOTS; j++) {
-> =C2=A0		js->queue[j].fence_context =3D
-> dma_fence_context_alloc(1);
-
+-- 
+Kind Regards,
+Niklas Söderlund
 
