@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-37258-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352CDAFFAEB
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 09:32:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3589EAFFAE8
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 09:32:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DA104A1F94
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 07:32:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1803C3B9178
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 07:31:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9799289835;
-	Thu, 10 Jul 2025 07:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2750289371;
+	Thu, 10 Jul 2025 07:32:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvB2sGAn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9XhtiON"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFFB28936C
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 07:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31861203710
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 07:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752132731; cv=none; b=XDhsTejWq9d7qciIpirLCTKP9gbUQV2Nc0lH4xDHB9rv8/rPnkOlNgE1oxbyiyfw03C5oFgNWXjSVUo+lzsnNhxi36Joha3f+rCNClDGdIuekEpib1crmPilamMmnpnYCR2HZD4IHr+1TvTpv0c1Fo3lCdosTlblVewrJXgM18E=
+	t=1752132729; cv=none; b=fl78OwjF76tPMd2a34OLh6q+6FV/OkTTQEpGBdoNzME5nQ8I3fMG4NwgqAiO4iHK8RHO2vSnvSqYyc339hhHggjRsjOQfXTsZLDCpPxJMUc3Aql+kGr/rb7IJ1ZF1MUXW7UWMUIGO0gfeiASg9w0pNWPtv+l7p9ZGqOVjYgjVp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752132731; c=relaxed/simple;
-	bh=AXu+ji42ewPha3tNO5rA2uOzovFDxFmoGajlctFYbLI=;
+	s=arc-20240116; t=1752132729; c=relaxed/simple;
+	bh=CqCWsjoR+3QFL1zj9gnUPF7TjRLGpJwc96S3l85SP9U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QRD0+NgBEQDHoxPgqfG9SdGXj84Ki0czvHL6NMcoNrwoGFcrAQruq/0v4wzWSCBG5uxA1s1bJspMAr7t1IChrXc2rxIuX27e8JiyhGfD5+MZTReCpIJE2cUSVtucjwdHhc892nvrbBRhYnBFMhUnF/rWXixIJARBdVA7ZRyM4+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvB2sGAn; arc=none smtp.client-ip=198.175.65.19
+	 MIME-Version; b=ErWc2+a46nBRq8Wf3WfxljmPo2k8tgKS8oQRQ55LmvwUjVxKrPl+Jv9cRRq5mTllXR6iE4q02WVq8eiTImu4pGNPYhOtgP8hFJgv4XYM7F5M3yyb6dhzC7MCxrpWiypKxFL+T/OzwJ6p2Zik6Al9jetAxR18yYDHD27DRmxI4N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9XhtiON; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752132730; x=1783668730;
+  t=1752132727; x=1783668727;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=AXu+ji42ewPha3tNO5rA2uOzovFDxFmoGajlctFYbLI=;
-  b=GvB2sGAnNATp2hOVwekwmAow7zsxdogVehFB3vsSb8q/FfTibx6UZpn+
-   nuGqrJChFxU1qflGv4Tx7gpErHTMgByNiwcZ3vyh5QeN42/POyN5FOLxS
-   oMZV0yfjCjsxmPiZx0DbOA7QmH4pqoH9rS7uTJYMsgeqhK3zf7OOJwFlE
-   5K6ccyiTEVbmN1B1UWd8u2wGlJZO8QkZWVUhu6m9xnZV4t2IvI1CcTKlf
-   kOn/0SffS+y2A7oQ04MwBe79CX5z9istqPDsLvTycbJGI2yO1Afl/Iryc
-   7G5BgkRDeVRD4iT701O6lgjfl88oWILak9ximXqyhylQF2pbSw1S4lEs7
-   Q==;
-X-CSE-ConnectionGUID: zT5lOU9nQMGm9ibVYCuucg==
-X-CSE-MsgGUID: j113kFarTrOvjBJltobLHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54258397"
+  bh=CqCWsjoR+3QFL1zj9gnUPF7TjRLGpJwc96S3l85SP9U=;
+  b=M9XhtiONYN2/enD/uKsAzUOO9ogIvJt7g4K8/9VgJfKWtiVABPypKgUy
+   m4suCPISmBysdAHsd3wxLsNweQna268wioXqWGphfPAqD0KDVmvDvn1J1
+   JtH9vGK154YACPWUGan6wg8L7uIvCCve1uMnJy+LlVB3NaOyQ5VGKEKPe
+   gOaiVtRP3zr5sbRB0jH+Y6mycIGqEoq13ckWh9aydyaCKbbA6hkTynRa1
+   CnrLY18OGilkFITCCypWwcRyAwU6uWmmH63X45omE/Yh5tOLf6L1ZwbqJ
+   V+iCh9K4m1zHfkA4k1zbsE+9CuH9eZzeVB6KKaGu6ymnxaAexDLsm3KFM
+   g==;
+X-CSE-ConnectionGUID: v7l/f7deTAu8a4e+5wAbhg==
+X-CSE-MsgGUID: Ar2zrTVjRKOK6OtImbtW7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54258394"
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="54258397"
+   d="scan'208";a="54258394"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 00:32:06 -0700
-X-CSE-ConnectionGUID: PjEAqFprRzico7++RB9Cag==
-X-CSE-MsgGUID: V+Skx1dkQ/+Bwt0G4Gc51A==
+X-CSE-ConnectionGUID: sOK2Aj8BTZmkeermJ8f34g==
+X-CSE-MsgGUID: W5AB3fMnS6qmTL8u4CdaBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="186998391"
+   d="scan'208";a="186998387"
 Received: from opintica-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.244.54])
   by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 00:32:05 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 89FD512090D;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8A37F120B20;
 	Thu, 10 Jul 2025 10:32:01 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uZllB-0045v9-2V;
+	id 1uZllB-0045vD-2c;
 	Thu, 10 Jul 2025 10:32:01 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -72,9 +72,9 @@ Cc: laurent.pinchart@ideasonboard.com,
 	bingbu.cao@linux.intel.com,
 	tian.shu.qiu@intel.com,
 	tomi.valkeinen@ideasonboard.com
-Subject: [PATCH v2 1/2] media: v4l2-subdev: Print early in v4l2_subdev_{enable,disable}_streams()
-Date: Thu, 10 Jul 2025 10:32:00 +0300
-Message-Id: <20250710073201.976056-2-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 2/2] media: v4l2-subdev: Add debug prints to v4l2_subdev_collect_streams()
+Date: Thu, 10 Jul 2025 10:32:01 +0300
+Message-Id: <20250710073201.976056-3-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250710073201.976056-1-sakari.ailus@linux.intel.com>
 References: <20250710073201.976056-1-sakari.ailus@linux.intel.com>
@@ -86,62 +86,41 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Print debug messages early in v4l2_subdev_enable_streams() and
-v4l2_subdev_disable_streams(), before sanity checks take place. This can
-help figuring out why something goes wrong, in driver development or
-otherwise.
-
-Also print the name of the sub-device where streaming is to be enabled or
-disabled.
+Print streams found by v4l2_subdev_collect_streams() at debug level. This
+could be useful in debugging drivers, userspace programs or the framework
+itself.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index c69d1aff701f..7b1a67a52efa 100644
+index 7b1a67a52efa..4fd25fea3b58 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -2285,6 +2285,9 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
- 	bool use_s_stream;
- 	int ret;
- 
-+	dev_dbg(dev, "enable streams \"%s\":%u/%#llx\n", sd->entity.name, pad,
-+		streams_mask);
-+
- 	/* A few basic sanity checks first. */
- 	if (pad >= sd->entity.num_pads)
- 		return -EINVAL;
-@@ -2332,8 +2335,6 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
- 		goto done;
+@@ -2233,6 +2233,9 @@ static void v4l2_subdev_collect_streams(struct v4l2_subdev *sd,
+ 		*found_streams = BIT_ULL(0);
+ 		*enabled_streams =
+ 			(sd->enabled_pads & BIT_ULL(pad)) ? BIT_ULL(0) : 0;
++		dev_dbg(sd->dev,
++			"collect_streams: sub-device \"%s\" does not support streams\n",
++			sd->entity.name);
+ 		return;
  	}
  
--	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
--
- 	already_streaming = v4l2_subdev_is_streaming(sd);
- 
- 	if (!use_s_stream) {
-@@ -2385,6 +2386,9 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
- 	bool use_s_stream;
- 	int ret;
- 
-+	dev_dbg(dev, "disable streams \"%s\":%u/%#llx\n", sd->entity.name, pad,
-+		streams_mask);
-+
- 	/* A few basic sanity checks first. */
- 	if (pad >= sd->entity.num_pads)
- 		return -EINVAL;
-@@ -2432,8 +2436,6 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
- 		goto done;
+@@ -2250,6 +2253,10 @@ static void v4l2_subdev_collect_streams(struct v4l2_subdev *sd,
+ 		if (cfg->enabled)
+ 			*enabled_streams |= BIT_ULL(cfg->stream);
  	}
++
++	dev_dbg(sd->dev,
++		"collect_streams: \"%s\":%u: found %#llx enabled %#llx\n",
++		sd->entity.name, pad, *found_streams, *enabled_streams);
+ }
  
--	dev_dbg(dev, "disable streams %u:%#llx\n", pad, streams_mask);
--
- 	if (!use_s_stream) {
- 		/* Call the .disable_streams() operation. */
- 		ret = v4l2_subdev_call(sd, pad, disable_streams, state, pad,
+ static void v4l2_subdev_set_streams_enabled(struct v4l2_subdev *sd,
 -- 
 2.39.5
 
