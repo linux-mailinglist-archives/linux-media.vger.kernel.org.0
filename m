@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-37321-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37322-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA75B00556
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 16:34:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5315B00590
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 16:47:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E96894E0920
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 14:34:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 368874E2D99
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 14:47:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE3F2741B9;
-	Thu, 10 Jul 2025 14:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A5EC2741D3;
+	Thu, 10 Jul 2025 14:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ebuZC6cz"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="pt0eVK7j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53C9273D91;
-	Thu, 10 Jul 2025 14:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEA32741A4;
+	Thu, 10 Jul 2025 14:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752158072; cv=none; b=Uwup7ZmUp6M8k8hJnOPluzAcHKJF5H9bp7zs1Y5cFNo3sDU0PIzIYbt8N06hyJ0zS0AeDloDz0jQfKpM4otO/kKmpqx/vQnPR6cC4R3VJkxuL4bLPEB96sUtT8zoUaRm0hh2DwAUb9xtYFM9ccTBQ9EXxZJSmdQiYnAIvtHawhg=
+	t=1752158840; cv=none; b=bM1DOVLX482CvT9fIfumQPZDWg7q8MvADiqVRkQGOZ4qXKaKMAlGVTf+zLC7pbgkJdC/bNpOcCVGcdabO8kfpvqb7RXDc/eYJ9Cbnc7U3zceAzvZHmVdsxQmUf9mCPd10YcauTyR0er566DJEA6503BOi7cFlFhlumZrSEJFNqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752158072; c=relaxed/simple;
-	bh=d/+7zNb++O8aoQO5Kj0aoXzkWoI4vw+2fKMv2PQtNGY=;
+	s=arc-20240116; t=1752158840; c=relaxed/simple;
+	bh=+NET5jq87laiRAOdk2v/YwNceTh/l0Yy9qlZAWfZAKE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=a7k9JijiQN6v7gOaVq9dLfAEj/ooVZGBlfJLDtEorIHpNH8vzTynu6n5ps/Ms+HL6hlUCxGO+ze97B9gaVQfKE2hJdTgjRgRsd75WocOOHIHfGnPbhJfBwGsyY2zolqkpuRBcvoSe/pb55ac7UrcgsHCIH8tbupjdRseEMzF2to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ebuZC6cz; arc=none smtp.client-ip=198.47.19.246
+	 In-Reply-To:Content-Type; b=kzo6w23e/Vj9XhU+IO1aQW8+30VIDpeZu71gpQingdPcrl7IPzPRT9FPC4kzweNB8qUBlSibhHvgEcVxlRuh0dC7ejKu3blKmKowboXC2knMoGdIp6nIZMz0OZxWTkj3xMRM8zE+iBUj7Z6h0pdqoEc+c+iy4HyCphlP3eAe4KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=pt0eVK7j; arc=none smtp.client-ip=198.47.23.235
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56AEYD8O1757269;
-	Thu, 10 Jul 2025 09:34:13 -0500
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56AEkxnm1801024;
+	Thu, 10 Jul 2025 09:46:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752158053;
-	bh=BVL6wME1yGZ7fV9BQGxihbfGblWI8yXM9/Z8B5NCWK8=;
+	s=ti-com-17Q1; t=1752158819;
+	bh=HI9GscUSSD2fE2PIITCexfukxvNp3vwU713gPPdAZCI=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=ebuZC6cziSuduAq4B/3p4+AftJaE8Zh00qI5y8wbuEXgRqHOVvZfzM2CJUyezlSe3
-	 kFdst2ABoAzSeksNw01pBBVZ8erPNpsGGxthlGf9A1riGvEBfAIrkXsZR21AapJuF6
-	 N1nt4BfD33xxYYYMUAypl3hcyeCnrzwk8bXxMiOc=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56AEYDip253174
+	b=pt0eVK7jLT+Yr6G90U0s0FMHe4FRhPJGTpeVOb+/scwsPmOw1UvwS9aSrNhSBMF0G
+	 FuyyETEKkaRasY+YAzfdoU40kOdfWipu8im+QBeFuxd7ylusBOw4Mx+0CIJzE+wvG7
+	 qlTrvYIo9nrfn2q2k7UkXwunELGPwjjHbr80Iw60=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56AEkwaI3599200
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 10 Jul 2025 09:34:13 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 10 Jul 2025 09:46:58 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 10
- Jul 2025 09:34:13 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Jul 2025 09:46:57 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 10 Jul 2025 09:34:13 -0500
+ Frontend Transport; Thu, 10 Jul 2025 09:46:57 -0500
 Received: from [10.250.35.60] ([10.250.35.60])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56AEYCen1513328;
-	Thu, 10 Jul 2025 09:34:12 -0500
-Message-ID: <aba6defc-817f-477c-8569-c5e01ca734b6@ti.com>
-Date: Thu, 10 Jul 2025 09:34:12 -0500
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56AEku9q1528476;
+	Thu, 10 Jul 2025 09:46:57 -0500
+Message-ID: <547da8d7-1967-4c56-8bc1-da22a5283b77@ti.com>
+Date: Thu, 10 Jul 2025 09:46:56 -0500
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,122 +65,125 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add naming guidelines
+Subject: Re: [PATCH v6 2/2] dma-buf: heaps: cma: Create CMA heap for each CMA
+ reserved region
 To: Maxime Ripard <mripard@kernel.org>
-CC: Sumit Semwal <sumit.semwal@linaro.org>,
+CC: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
         Benjamin Gaignard
 	<benjamin.gaignard@collabora.com>,
         Brian Starkey <Brian.Starkey@arm.com>,
         John Stultz <jstultz@google.com>,
         "T.J. Mercier" <tjmercier@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jared Kangas
-	<jkangas@redhat.com>,
-        Mattijs Korpershoek <mkorpershoek@kernel.org>,
-        Bagas
- Sanjaya <bagasdotme@gmail.com>
-References: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
- <9182c5cd-b3de-470b-bf84-3ebef309def6@ti.com>
- <20250710-knowing-premium-goldfish-0bfe6e@houat>
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Marek
+ Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jared Kangas <jkangas@redhat.com>,
+        Mattijs Korpershoek
+	<mkorpershoek@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <iommu@lists.linux.dev>
+References: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
+ <20250709-dma-buf-ecc-heap-v6-2-dac9bf80f35d@kernel.org>
+ <6045bcfb-35ef-410b-bd7c-0ca7c5c589c4@ti.com>
+ <20250710-daft-secret-squid-fb3eee@houat>
 Content-Language: en-US
 From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250710-knowing-premium-goldfish-0bfe6e@houat>
+In-Reply-To: <20250710-daft-secret-squid-fb3eee@houat>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 7/10/25 2:06 AM, Maxime Ripard wrote:
-> On Wed, Jul 09, 2025 at 12:39:15PM -0500, Andrew Davis wrote:
->> On 6/16/25 10:21 AM, Maxime Ripard wrote:
->>> We've discussed a number of times of how some heap names are bad, but
->>> not really what makes a good heap name.
+
+
+On 7/10/25 2:44 AM, Maxime Ripard wrote:
+> On Wed, Jul 09, 2025 at 11:14:37AM -0500, Andrew Davis wrote:
+>> On 7/9/25 7:44 AM, Maxime Ripard wrote:
+>>> Aside from the main CMA region, it can be useful to allow userspace to
+>>> allocate from the other CMA reserved regions.
 >>>
->>> Let's document what we expect the heap names to look like.
+>>> Indeed, those regions can have specific properties that can be useful to
+>>> a specific us-case.
 >>>
->>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>> For example, one of them platform I've been with has ECC enabled on the
+>>> entire memory but for a specific region. Using that region to allocate
+>>> framebuffers can be particular beneficial because enabling the ECC has a
+>>> performance and memory footprint cost.
+>>>
+>>> Thus, exposing these regions as heaps user-space can allocate from and
+>>> import wherever needed allows to cover that use-case.
+>>>
+>>> For now, only shared-dma-pools regions with the reusable property (ie,
+>>> backed by CMA) are supported, but eventually we'll want to support other
+>>> DMA pools types.
+>>>
 >>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 >>> ---
->>> Changes in v2:
->>> - Added justifications for each requirement / suggestions
->>> - Added a mention and example of buffer attributes
->>> - Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
->>> ---
->>>    Documentation/userspace-api/dma-buf-heaps.rst | 38 +++++++++++++++++++++++++++
->>>    1 file changed, 38 insertions(+)
+>>>    drivers/dma-buf/heaps/cma_heap.c | 52 +++++++++++++++++++++++++++++++++++++++-
+>>>    1 file changed, 51 insertions(+), 1 deletion(-)
 >>>
->>> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
->>> index 535f49047ce6450796bf4380c989e109355efc05..835ad1c3a65bc07b6f41d387d85c57162909e859 100644
->>> --- a/Documentation/userspace-api/dma-buf-heaps.rst
->>> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
->>> @@ -21,5 +21,43 @@ following heaps:
->>>       usually created either through the kernel commandline through the
->>>       `cma` parameter, a memory region Device-Tree node with the
->>>       `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
->>>       `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
->>>       might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+>>> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+>>> index 0df007111975447d555714d61ead9699287fd65a..31a18683ee25788a800f3f878fd958718a930ff7 100644
+>>> --- a/drivers/dma-buf/heaps/cma_heap.c
+>>> +++ b/drivers/dma-buf/heaps/cma_heap.c
+>>> @@ -19,10 +19,12 @@
+>>>    #include <linux/err.h>
+>>>    #include <linux/highmem.h>
+>>>    #include <linux/io.h>
+>>>    #include <linux/mm.h>
+>>>    #include <linux/module.h>
+>>> +#include <linux/of.h>
+>>> +#include <linux/of_reserved_mem.h>
+>>>    #include <linux/scatterlist.h>
+>>>    #include <linux/slab.h>
+>>>    #include <linux/vmalloc.h>
+>>>    #define DEFAULT_CMA_NAME "default_cma_region"
+>>> @@ -421,7 +423,55 @@ static int __init add_default_cma_heap(void)
+>>>    				ERR_PTR(ret));
+>>>    	}
+>>>    	return 0;
+>>>    }
+>>> -module_init(add_default_cma_heap);
 >>> +
->>> +Naming Convention
->>> +=================
+>>> +static int __init add_cma_heaps(void)
+>>> +{
+>>> +	struct device_node *rmem_node;
+>>> +	struct device_node *node;
+>>> +	int ret;
 >>> +
->>> +``dma-buf`` heaps name should meet a number of constraints:
->>> +
->>> +- That name must be stable, and must not change from one version to the
->>> +  other. Userspace identifies heaps by their name, so if the names ever
->>> +  changes, we would be likely to introduce regressions.
->>> +
->>> +- That name must describe the memory region the heap will allocate from,
->>> +  and must uniquely identify it in a given platform. Since userspace
->>> +  applications use the heap name as the discriminant, it must be able to
->>> +  tell which heap it wants to use reliably if there's multiple heaps.
->>> +
->>> +- That name must not mention implementation details, such as the
->>> +  allocator. The heap driver will change over time, and implementation
->>> +  details when it was introduced might not be relevant in the future.
->>> +
->>> +- The name should describe properties of the buffers that would be
->>> +  allocated. Doing so will make heap identification easier for
->>> +  userspace. Such properties are:
->>> +
->>> +  - ``cacheable`` / ``uncacheable`` for buffers with CPU caches enabled
->>> +    or disabled;
->>> +
+>>> +	ret = add_default_cma_heap();
 >>
->> We should avoid exposing cacheability to userspace. What users care about
->> is if writes are readable by the other side (and vice versa) without SYNC
->> operations in-between. This property is "coherency". Being non-cached
->> is just one way to achieve coherency on some systems. For many systems
->> even cached buffers are still coherent and manually specifying "non-cached"
->> causes unneeded performance issues.
+>> Will this double add the default CMA region if it was declared
+>> using DT (reserved-memory) when all those nodes are again scanned
+>> through below? Might need a check in that loop for linux,cma-default.
 > 
-> I disagree. If you want to do any kind of software rendering, the
-> buffers being cached is absolutely critical to having decent
-> performance.
+> Yeah, but we probably should anyway. Otherwise, if linux,cma-default
+> ever change on a platform, we would get heaps appearing/disappearing as
+> we reboot, which doesn't sound great from a regression perspective.
+> 
+> Both would allocate from the same pool though, so we don't risk stepping
+> into each others toes. Or am I missing something?
 > 
 
-I think we are saying the same thing, the default should be cached.
-If the user doesn't have an option for specifying "non-cached" then
-they will always get the better performing cached buffers.
-
->> DMA-BUFs are default assumed to be non-coherent and sync operations should
->> be always be performed (if the buffer is actually coherent these operations
->> are turned into NOPs and no harm done). If sync operations cannot be done
->> (for instance small multi-writer ring-buffers), then the property can
->> be simply:
->>
->> - ``coherent`` for buffers which do not require sync operations
-> 
-> That would be a change in the uAPI which, so far, requires sync
-> operations to be performed. I'm not necessarily agaisnt it, but handling
-> coherency in general is not what this patch is about.
-
-Agree, so then let's just drop the line about cacheable/coherent from
-this doc, we can deal with those properties and document them when/if
-they are ever needed.
+You are not missing anything, having both wouldn't cause anything to break,
+but would cause heaps to appear/disappear based on how the CMA region was
+defined (DT vs kernel cmd line) which we should avoid.
 
 Andrew
 
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	rmem_node = of_find_node_by_path("/reserved-memory");
+>>> +	if (!rmem_node)
+>>> +		goto out;
+>>
+>> Can just return here, "out" path doesn't need to put a NULL node.
 > 
+> Oh, right. Thanks!
 > Maxime
 
