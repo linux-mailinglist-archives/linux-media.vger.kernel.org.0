@@ -1,80 +1,83 @@
-Return-Path: <linux-media+bounces-37334-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37335-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE250B0085D
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C92CB0085C
 	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 18:17:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9FB943BF05B
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 16:16:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EECD256238C
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 16:17:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A110D2EFD8B;
-	Thu, 10 Jul 2025 16:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBDC62EFDB6;
+	Thu, 10 Jul 2025 16:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w/w7aghk"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e8JK/p+I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036852EF9C7
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 16:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AE82EF9DE
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 16:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752164214; cv=none; b=ZSLoPZ6FvHsq+mWnCCDgpZrxouxIcE85m5Squ3CL/M+DcHXUjzbcsvTrR+YEeMUmWKo3InVsDHOE1dskj/CjfAbG8KbF5ZSpPwnRDxjZN/A7LXOpaWz/kUS+4kakNxTjCwgw4AYWd/e/e5A7Ggj801CZw0r2i0a26zv/1dSq4gI=
+	t=1752164215; cv=none; b=RRduBU0HnEFh1HQ6k5P/CWGehdh7NzDFFOQUUG8HeXZQY7KTCpyNdedzC9Y/OYEUEX6+DouagrmFf0ga04OVSajKO8wDWBX72HRSV8tXTjT5TvoigPQRzdjXO3l0dpFVHx67RIivjuvir0a5/93lZkFyMT7JcgR6Ti3vhnN+bL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752164214; c=relaxed/simple;
-	bh=09k8nauOQI+SPJuQ2FMg+lvL3iW+Ogwh/RRpwWFIjkc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TzRITsUffLR71XN3y/9IsvlVmxN7o/uO1U/a+2aJOPn9mThMot1stYy58Yn730EJghYJQ9fAb4QlDJeMeXxxDSVwRpfvcddArm4U8MxZldGQcD9MdX/Jwhe8t1uKMxYizLz9g37cos1hqY2uL1cvUu3zJ/vEGLYfgxYnKAWZBKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w/w7aghk; arc=none smtp.client-ip=209.85.221.67
+	s=arc-20240116; t=1752164215; c=relaxed/simple;
+	bh=HOT48a7/uT4n+IMuvJCTkT0/9nEsUgWiQfrXy/kbu4o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Kvsb7Jhw7YxNr++xiUi8n1EwNUv3BEwKrUPzYribgx5JBoHcGlf1Y9+hzm0tnGVMtg3N8xLi/AeVTTsUby9LtNaCA6FYiq9C/QBVgaPC0oPL3Q2KnfyzzqNoBIOQYRHwuG/wvvzFO+oVy+KPBnDGBWyNb9I/MDb+RnMzsh4uxIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e8JK/p+I; arc=none smtp.client-ip=209.85.221.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-3a5257748e1so950954f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 09:16:51 -0700 (PDT)
+Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-3a6e2d85705so817064f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 09:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752164210; x=1752769010; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vh2A4NxX3SzhrObk7arX5jA4Dh37ZpCGm1SS0zq8Pao=;
-        b=w/w7aghkBHCLpOH1BHLgUUAHSPRzP7QjMswi/6vcDZhcnNZc4ldoAgwdTh09LKUuid
-         /LwJF2WNmP4VHYgInJedyb+XAnosAlOUVwrILp2aGFxBSW7cG9ByH+ZctcGx6GLcFYxR
-         NBEZ9Nl8VUDTIjLNM48Cs3j1Ucw8tk+MgHkKq9FhckVqgGvEOEtRuVH/EiX0a2qVq22F
-         MMdhDCLfXUR/znm1CTjRef1QQyD7Uo6QqmaTZ57ufVEC0GG+yGRqMGOrLEGdFMwg5MCO
-         6lJtbbIxNJME3h7SjZ9YAf+QbgRSZiQd0WvO0nULQWzAe4z8nC0temcH7HI4TFC3U9fl
-         XHpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752164210; x=1752769010;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1752164211; x=1752769011; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vh2A4NxX3SzhrObk7arX5jA4Dh37ZpCGm1SS0zq8Pao=;
-        b=Ezwv6wzkDeG9QdJYlwz/iI5K31Svh0O98J1O8rheyN0zz47rq2Cjn6zjVVJ8peOPf1
-         z3/lI3riOphBkc3EK3so1DJI13DUwT0Y5WCjszUVXbCytcc52XNWRozULk0d4nmtbAdN
-         3xRpxNEaC8ByLhTK2+Gb2n6BZH0c9yDcKBw1bBOs9DFdp68dE1IvfZk9tu6vO48lpERt
-         Mc9H3P9YVg8CJ7iCJUKCQWkLXaVUmEPSaV+3kfR4FN2nO7/N6ClU+dunQCa9VPw/2QN4
-         8Eru+pg792LcfCojLqliuZHZCAmIC6kjdlrfiGoXwN7C2b5iFcKWl4S6QFMRcR37gpvQ
-         Mwag==
-X-Forwarded-Encrypted: i=1; AJvYcCWZesd4y0EGbpp5od9TY2LXMIwgFhMwcV4HPyl/KhSp5Vsnlxz5V9s9labizmMGpYWBgcGACwD25akP4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy17+QvfA69728N9sSDX7QIYmT6KMbPj8jejuyR/sfHwXc1Xo2x
-	JoTFVeibcqb9Pbgh1hw3TojCdPg+uFSObaCGlcDmck5BnPNPdo1CnA06KEdsAteSM3c=
-X-Gm-Gg: ASbGncs5mSxVCKSawoJyl1MrsRFVvP7mH8iuq5IbEJcpehJ10oAKj7ET/FPviJZkX7j
-	YeRhOD4uzPneH2nVXu6P3WSfPxxkcmIMUL6M7om4C/xVxn8J9RdJ4GDCaMAs8Rg8qrEXwCLSjzk
-	IuDEs4w/Rl66B4eh63wfmtoLpl5SBuac6oNtYQhDkBsRdgl3iQ5hqIxwolG4cJF8l6BadEpdFJB
-	gteSZot4QSqyJwAyJNDvyEpxwh1bGsDAdXNNJIofnktUwDGQwolnJNHxuALYmyN20BY5gOyVu1T
-	kTUQ9Bynm6pRKqlbAhKQTLPJAoRXbFCSZg2adrL+g7s05wFkLZVsMtwEC5cICKMuhVwwFPviSk/
-	LfjnalclJZxI5UgBXsRY07jtcytMODCXY5yNx4Dc=
-X-Google-Smtp-Source: AGHT+IERdBO0d8lPpetUFVBGxZDmPMxF4u7RG24UaG947RWVv9nQ3kmWBfXeC2Ax/LUwUkeRu0REmw==
-X-Received: by 2002:a05:6000:4402:b0:3a4:ddd6:427f with SMTP id ffacd0b85a97d-3b5f18d3d1bmr90390f8f.35.1752164210220;
-        Thu, 10 Jul 2025 09:16:50 -0700 (PDT)
+        bh=W98cduZ8q95/8eo1XZtn+h0kJ2XPBTmKn3mkeitD7qM=;
+        b=e8JK/p+IwPMPDIBHtRWAQ9tgJkmopCNl/OhiSxSNQVnDVjCmY8To1GMjBnHe7ZKM7C
+         tY/pXUEQd+Hta10PpRIp0ya/G88UjeWExiFcGVaOSHByRLIbqUo9lPTPP2OFXpXbDhOf
+         hj5TxwDfTR9lrdJjjlCrkHVCT3Zb14r6AoajCYpMkyiI/7ra/9h2Q4fXx69+FLVfE1dT
+         O/pTAEx6Lue0ecKEEGuIv7Itiaa/9OI8lJRl9RrfPP68YhWSR07sZEoigPDxwDFkuzLx
+         v/nooOC+thUXNVdWHo+aGk+DPMmVkyzGSXhjjcvsQ7+cJg6sifxo4H3Lt2Dg/sgAALwm
+         my0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752164211; x=1752769011;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W98cduZ8q95/8eo1XZtn+h0kJ2XPBTmKn3mkeitD7qM=;
+        b=F1yUdeRud9MBwAfohzPooBWB+OCmxV33Cs2r1AGYHM5ZnioEd0ZpHgPWzkjVEvGrO9
+         2BF9KY4qq5iylOzBVDkte4/b+7lsltoPENTEtri2BRlDSy7js+7ou0wpIwQvrlqzbIol
+         wWC826+7aD1fboq3KcbjbNxUD/BPY2jNoGgqtOjux3+i9gAq85nESVV4XRdbvhTa0VhX
+         bfKKYkSekXL/PWkw8t81IuJdPeWC9SPtwPXnUFrNUKlD2CjxkSeYZs9F/+V8AjaJZIlV
+         Tcu2pCZ7PboPlV0ykxXUCszrWin6uWcYpt/2JeVBQbU3M/YenLrfMv5upJNE5pdeME79
+         1gSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMZv0JR9QmJHQpfZLXNtb0V2cJk2a6LNr/mMwnvJ7NgFGxXbi586n7GXlPeUuxo73YSKMIXKFCmFz76A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3WvIr8xLvKdfSuwwgIq9GuLWhx8HydCe6/kYSAO1KO/L9r/3K
+	J2qU951onO49VadqKxK0uR1ax9aUOhkqYOFEsyxTtzGD1r6nluELF6iJbeSPwzzgaYoxfSN6xvH
+	g6RGw6w0rEj8I
+X-Gm-Gg: ASbGncuoqeP0elJie0m/nQm8Atn5Qua6lcwD/wc46G2oK1/wTy8ZLjauM8mnO6Uv9W8
+	IwpI20/HxBdnIPFYWrR79otszNDwbDKfwgJXkL6MIM3BmSNBlQXtLNqQpgiDKNNgvQyWcyVZhDR
+	MvGM6XD+YWLAjjbOr6tTaKhlcjO4bFrXTeUR9plT0YezWkHmxbFPnIKsqAONQIXxFc6B5Pd4wYQ
+	Lu2yx1BwYj1jiiWxGdTrLchH6JaDvWAl8wWdiKz1OTaLAkx7vphbGjPp/TUEGxuiAK33E+lyNFm
+	godrYE1XQF7yOpVZYaegEzpt7tIZsnpu4KF/NZSwqXuAvRWikWgv3P8D4L8caKuYGHtiIbTYIrQ
+	tJQFcyx+epmMuk2eNiVs6OXtuoOVY
+X-Google-Smtp-Source: AGHT+IFnrwx5VtuT8iHuPsHxEkalQ5fZHKLoiBAE1Q6F/5Gk3QOaI1+P86OhIKYr1hegftM8ANRKpA==
+X-Received: by 2002:a05:6000:2a82:b0:3a0:7d27:f076 with SMTP id ffacd0b85a97d-3b5f18568damr121464f8f.2.1752164211409;
+        Thu, 10 Jul 2025 09:16:51 -0700 (PDT)
 Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc22a8sm2314207f8f.34.2025.07.10.09.16.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc22a8sm2314207f8f.34.2025.07.10.09.16.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 09:16:49 -0700 (PDT)
+        Thu, 10 Jul 2025 09:16:50 -0700 (PDT)
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 0/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-Date: Thu, 10 Jul 2025 17:16:46 +0100
-Message-Id: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+Date: Thu, 10 Jul 2025 17:16:47 +0100
+Subject: [PATCH 1/2] dt-bindings: phy: qcom: Add MIPI CSI2 C-PHY/DPHY Combo
+ schema
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,10 +86,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAG7nb2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDc0MD3QrDVN3k4kwj3YKMSt00MxNjkyQzU8MU40QloJaCotS0zAqwcdG
- xtbUASxDxul4AAAA=
-X-Change-ID: 20250710-x1e-csi2-phy-f6434b651d3a
+Message-Id: <20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org>
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+In-Reply-To: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
 To: Vinod Koul <vkoul@kernel.org>, 
  Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -97,106 +99,153 @@ Cc: Bryan O'Donoghue <bod@kernel.org>,
  linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3679;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3812;
  i=bryan.odonoghue@linaro.org; h=from:subject:message-id;
- bh=09k8nauOQI+SPJuQ2FMg+lvL3iW+Ogwh/RRpwWFIjkc=;
- b=owEBbQKS/ZANAwAIASJxO7Ohjcg6AcsmYgBob+dwghGiTiZwUODkbb3BqmCZMxbX8rhID17lv
- e3N3Z1CtjWJAjMEAAEIAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCaG/ncAAKCRAicTuzoY3I
- OrOqD/9kP6o7zHrhn9IppVvEfzzjSS6CG4hFOsGvB8sLItvuICt3F8CJOqCLRHRaLmEwdzLzw5I
- BCbuYebi4e4TcpD+ihirP3CUYJ1vMgBq4HVHK1E3LJ3DuityYMCJRuHBVsbPb4HYNDKSa0ocMAe
- eyghoWqK8PW/fRxgrLfY2c3JO3yVsBwRRXn40UCHZ8we5CgfDQ8GKTQhWJturXeE/QfW14JY9H5
- JXAwTkzVAw/NNb0AUL4QsHDMslHv5FcOsXTdqzVuzrTcYwyVfoNkmY4BuZzFZjvwGefBbrlLHvF
- qX4g0luzZx4LOqtxVGwEp/wylhtYzQDKx9H7PJ5nWn+W74nySj8FAqRsQpOTfECqw4Vtg0HxYpV
- BewQjhfIakBxPs56w7R6mWWa/h+Tj4eNJbzpxU3Yqd54eQskzgO0OqD98MOl4hA1nLzRElgCSYG
- H4xcJKKJyUAEjPjwtovKJy2myujH8JfvuQKuo2cLeWR5eq6RftXaNOKsWVbquEPoFDjqx/1+j53
- U565Yj5lhLsb7swxkY87Pkf5y16frcbZ701jrEciGAEwuQOygNb2tapF4eo0zEha6trJn9aKUUc
- LAzWu1/aWAuUVOhNr2GokB0HpobvfDDNKrwnmKm8gjxPQcVvHlPlxXpabrFARdniYpgpVigzZr7
- 8tJJDqzgJ90Nj5g==
+ bh=HOT48a7/uT4n+IMuvJCTkT0/9nEsUgWiQfrXy/kbu4o=;
+ b=owEBbQKS/ZANAwAIASJxO7Ohjcg6AcsmYgBob+dwMUP9jabCc+Hi4S+OrOIOQLiXUzUSZKiPt
+ zGXVYjadDiJAjMEAAEIAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCaG/ncAAKCRAicTuzoY3I
+ OrUQD/9BpeLDdZEriwxjmYz9Y69EsGqSwv6ViA3pz213jfQqX/OvrbV2Cu8Jz4l3mSlmFNVzK5k
+ OQAuJG/3tsApwgszwugretk4N0MX/P3vgRlojTEmzMUFmcHDCqEbKZA4+vRL+wEfLq41QaiKoGw
+ 1lO7C/717Clf8UyqsH742tWuJzXXF2ZMM19VhqqgKQf711BTBn07M44AJfWLAbltNMvVRCSn4eC
+ rApYw1J2y16+WndJLZxpG4H59gmzdk0YpopBUxCJhgyBrIm67y0jaDhCVc8bksovdYvP7qkgOnu
+ bksak61CQBtgDltQOZEpMWXxYgPfxbPducI8o9uBS++tV7+p8LAmBk2HgwYx5QRQIXgW9EZl8NJ
+ 6/0er6fiut+qV58YB1Sc9prNR+v2ATYOEqkTskXAafNWB/DwZYGUW3dJqlPkMSZkMbYJ17atylX
+ IInN5EnBhjbvB6CnreslENpjt2OBDi9rfA6nixmsHpZZ262bL+SDVHGxk7YUJysov+7JHeBT/n/
+ jkDhwQtlnF8LCNP6Z6NVWvwrNJpnd/qnKCQRZN1oWPRdLzq47mCKdK+Vabaon1AA8N4nZzaRqgL
+ GtCp3lvtye8welxgqQLl725rOtlrGettsQ1PTOBgXmiqAjOBOmO2l5eJj9Q6JosGLOIMemjRyvL
+ s1xK9DcyW7YduvA==
 X-Developer-Key: i=bryan.odonoghue@linaro.org; a=openpgp;
  fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
 
-This short series adds a CSI2 MIPI PHY driver, initially supporting D-PHY
-mode. The core logic and init sequences come directly from CAMSS and are
-working on at least five separate x1e devices.
+Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+PHY devices.
 
-The rationale to instantiate CSI2 PHYs as standalone devices instead of as
-sub-nodes of CAMSS is as follows.
+The hardware can support both C-PHY and D-PHY modes. The CSIPHY devices
+have their own pinouts on the SoC as well as their own individual voltage
+rails.
 
-1. Precedence
-   CAMSS has a dedicated I2C bus called CCI Camera Control Interface.
-   We model this controller as its own separate device in devicetree.
-   This makes sense and CCI/I2C is a well defined bus type already modelled
-   in Linux.
+The need to model voltage rails on a per-PHY basis leads us to define
+CSIPHY devices as individual nodes.
 
-   MIPI CSI2 PHY devices similarly fit into a well defined separate
-   bus/device structure.
+Two nice outcomes in terms of schema and DT arise from this change.
 
-   Contrast to another CAMSS component such as VFE, CSID or TPG these
-   components only interact with other CAMSS inputs/outputs unlike CSIPHY
-   which interacts with non-SoC components.
+1. The ability to define on a per-PHY basis voltage rails.
+2. The ability to require those voltage.
 
-2. Hardware pinouts and rails
-   The CSI2 PHY has its own data/clock lanes out from the SoC and indeed
-   has its own incoming power-rails.
+We have had a complete bodge upstream for this where a single set of
+voltage rail for all CSIPHYs has been buried inside of CAMSS.
 
-3. Other devicetree schemas
-   There are several examples throughout the kernel of CSI PHYs modeled as
-   standalone devices which one assumes follows the same reasoning as given
-   above.
-
-I've been working on this on-and-off since the end of April:
-Link: https://lore.kernel.org/linux-media/c5cf0155-f839-4db9-b865-d39b56bb1e0a@linaro.org
-
-There is another proposal to have the PHYs be subdevices of CAMSS but, I
-believe we should go with a "full fat" PHY to match best practices in
-drivers/phy/qualcomm/*.
-
-Using the standard PHY API and the parameter passing that goes with it
-allows us to move away from custom interfaces in CAMSS and to conform more
-clearly to established PHY paradigms such as the QMP combo PHY.
-
-Looking at existing compat strings I settled on
-"qcom,x1e80100-mipi-csi2-combo-phy" deliberately omitting reference to the
-fact the PHY is built on a four nano-meter process node, which seems to
-match recent submissions to QMP PHY.
-
-My first pass at this driver included support for the old two phase
-devices:
-
-Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commit/a504c28d109296c93470340cfe7281231f573bcb#b6e59ed7db94c9da22e492bb03fcda6a4300983c
-
-I realised that the device tree schema changes required to support a
-comprehensive conversion of all CAMSS to this driver would be an
-almost certainly be unacceptable ABI break or at the very least an enormous
-amount of work and verification so I instead aimed to support just one new
-SoC in the submission.
-
-I've retained the callback indirections give us scope to add in another type of
-future PHY including potentially adding in the 2PH later on.
-
-This driver is tested and working on x1e/Hamoa and has been tested as not
-breaking sc8280xp/Makena and sm8250/Kona.
+Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+CAMSS parlance, the CSIPHY devices should be individually modelled.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
-Bryan O'Donoghue (2):
-      dt-bindings: phy: qcom: Add MIPI CSI2 C-PHY/DPHY Combo schema
-      phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+ .../phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml     | 95 ++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
- .../phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml     |  95 ++++
- MAINTAINERS                                        |  11 +
- drivers/phy/qualcomm/Kconfig                       |  11 +
- drivers/phy/qualcomm/Makefile                      |   6 +
- drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c | 491 +++++++++++++++++++++
- drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c     | 281 ++++++++++++
- drivers/phy/qualcomm/phy-qcom-mipi-csi2.h          | 101 +++++
- 7 files changed, 996 insertions(+)
----
-base-commit: 2b0b621d5db55cf01bb200e6e6976b4ff4810544
-change-id: 20250710-x1e-csi2-phy-f6434b651d3a
+diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..e0976f012516452ae3632ff4732620b5c5402d3b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm MIPI CSI2 Combo PHY
++
++maintainers:
++  - Bryan O'Donoghue <bod@kernel.org>
++
++description:
++  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
++  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
++  modes.
++
++properties:
++  compatible:
++    const: qcom,x1e80100-mipi-csi2-combo-phy
++
++  reg:
++    maxItems: 1
++
++  "#phy-cells":
++    const: 0
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: camnoc_axi
++      - const: cpas_ahb
++      - const: csiphy
++      - const: csiphy_timer
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  vdda-0p8-supply:
++    description: Phandle to a 0.8V regulator supply to a PHY.
++
++  vdda-1p2-supply:
++    description: Phandle to 1.2V regulator supply to a PHY.
++
++  phy-type:
++    description: D-PHY or C-PHY mode
++    enum: [ 10, 11 ]
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++required:
++  - compatible
++  - reg
++  - "#phy-cells"
++  - clocks
++  - clock-names
++  - vdda-0p8-supply
++  - vdda-1p2-supply
++  - phy-type
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
++    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
++    #include <dt-bindings/phy/phy.h>
++
++    csiphy0: csiphy@ace4000 {
++        compatible = "qcom,x1e80100-mipi-csi2-combo-phy";
++        reg = <0x0ace4000 0x2000>;
++        #phy-cells = <0>;
++
++        clocks = <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
++                 <&camcc CAM_CC_CPAS_AHB_CLK>,
++                 <&camcc CAM_CC_CSIPHY0_CLK>,
++                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>;
++        clock-names = "camnoc_axi",
++                      "cpas_ahb",
++                      "csiphy",
++                      "csiphy_timer";
++
++        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
++
++        power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
++
++        vdda-0p8-supply = <&vreg_l2c_0p8>;
++        vdda-1p2-supply = <&vreg_l1c_1p2>;
++
++        phy-type = <PHY_TYPE_DPHY>;
++    };
 
-Best regards,
 -- 
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+2.49.0
 
 
