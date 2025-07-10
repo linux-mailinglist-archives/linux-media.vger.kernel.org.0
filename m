@@ -1,138 +1,458 @@
-Return-Path: <linux-media+bounces-37304-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37305-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C33B003FB
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 15:45:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30411B00444
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 15:53:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D12E916FE91
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 13:44:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9251C3A70AC
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 13:51:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A988E267F5C;
-	Thu, 10 Jul 2025 13:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A819F271471;
+	Thu, 10 Jul 2025 13:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EzweQGPM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnTbEQhB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A8F1E7C32;
-	Thu, 10 Jul 2025 13:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E62270EA9;
+	Thu, 10 Jul 2025 13:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752155085; cv=none; b=CZa1B61fbejsp8GsSw12KRd7x8AECY30ZOBSrW3RXyDCnd/slfdYkhajwB23b7A2JEmMCKQ+oDrZf0oU+SD0s0M3an+DTVZhURK/knO/zhzYYZgvWchjjshnS/IoaogyJ5K6Upp9gf9nlCxBxKSlt1xz0AOzg46+S5Xt6UOS6/Q=
+	t=1752155202; cv=none; b=vEOzYeoNK18kGAXm8Gh1tD1zWDrWDda1S5tIwVAiCqQ32vT0sBaY50fPNc6yT2wf2mGcycWj475Dw1qMTQW6o+eChUCJSqON/VKkMVKLXjA5zs/v5Fg59ASQfuJTbpAkpouUDZC4AzTv7GdYKsM14Y/rn1AgIBLKBJ9KBkDRSXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752155085; c=relaxed/simple;
-	bh=axItH2vBexI9WYp+hgNirm/qy/Qm2h6LocHN2HrnuC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U6yS+mwV6rmx59sNXkXEvhBwHJl8MQg+5bcEsQJ7mGhSAX1/ZdjkTaacJsIbZaHnF363TTTu6+uQBS+ix+gka3pQS6Qh0sA2QzePc1IhPiAFmgnaGLyeifahUNkB54/Etu/Ac/pQ6uukXNHnkICNNdnsxHRqWtScwyXRXiN/dGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EzweQGPM; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5551a770828so875487e87.1;
-        Thu, 10 Jul 2025 06:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752155081; x=1752759881; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XZcBxk6Ub7G3BSN8mWlE2MxlVN1ULSz2H9YriMM7YwY=;
-        b=EzweQGPMbwf2zQ/WWYcuisjxtIN1gH5oj98b1Bsare42HR8h2Umov3UwrQTmiVloAE
-         vI8WZ2Ql6jq2eekvxBy16s4ZC4QcIwHD5wY9z5Gs/7Fzf7KOrZqeo2SdzG++AN3tRyKo
-         vxSbtYXcCT1HNAUCQ7sFYnBnWLbv9Ny+iqSZRnNUNdPs6UZuWJJ9BPCHtYOHDE/zxW5n
-         PCab9/QfsINRPE1n9veYujAGqOFQ5gY3L3JwlJ0+yMqBANJGKikNSQz9JD21clVS5En5
-         PtgRIQm4kdpaUZslCl9+JMeVE2HpIzluwsXVSKMg85Z4OHD7ETwYevozbn7Y/JJtSrAa
-         4CaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752155081; x=1752759881;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XZcBxk6Ub7G3BSN8mWlE2MxlVN1ULSz2H9YriMM7YwY=;
-        b=aW1cRUweuzY1SBr5n2lo7fnYYDOk9G/lg9He1tyy7MYx7Q6FiKtCcnEAGVcqJrr/gY
-         FauvNPDzSwFNMgQPgHZGi7mnJ+D2Oj41B1z1zr8uCTnAFIadvbc45U+iqh0tF55n90lJ
-         OCYxtBvS9hhsLds0yeSQLx6YXDG4xtaax5SCuian9/0QqksCoeMvp8wXw2GN24d7fjnJ
-         ik9RZUZgJL8piC/Fv1EJVAMFATQYjVvH2eTpMPBrMQKDGve4n7TBCUn3itR4AbPs+L0B
-         qE5whFCzGnrL+HmUwP9tVRr1fNwW7Z8nkWqOXbk47js4CWoGENpGfMnaJW3auN4ljpW6
-         XHwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJF82XZUNBnylNhyWiAwtu5c5yDoHQIj/Hghi576JuaEyHLCqHg5owzHGcDXNkO+FqUiDUqJdw+XMjuMU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLMF0jGLYj3ixFhNwIjn5/9MssSQB9zAMX9bL8c31W1wsd6/SS
-	IeDD7gIh22IVA3KNcgCeOOgNVD2OBpqE246GtSIAP4o8vXTmNXKjav4eV+FdYUA4
-X-Gm-Gg: ASbGncuYngIJEtciw0CmxsyClUAsw1nx6oiBlqa1FyLzG0MItxKWPQ9CvvAUP8GbgJe
-	iB4JD4XMmwpLS3G2v8MVYOKLPAiy6829t5XqffdWhHP7PyKTOFMoZ9SW7OT0BlGWOZnqfOlVo1j
-	iqGxL1Rw7moOk2cHdRcFaPnXoYULVWTrMBsRkerPzs5M+FFTY8i8bvBpjPLIpL5aP0TNkD/Kz4O
-	Nle9EmOzQLmPKt9gY7beGbWN7Nmb70HmOGSK6mIkDFLfuOXa7K/X6JzeBlYEOqR9wd+GU8PPbz5
-	CFqkJYpbpXrpkIq9srqcNcBIcy+peJFmeAW/z0swzyq+BoyNCp+WK9nUaZuP199Z+mx6I97sCoP
-	rWSdWf9O+WUC6O7rXsYD/n9U7gV+Pfa4fqIEumYZb0/sBV4GcqAMagcY+6nyo9raVse99D4H+j/
-	LLSMjazSiiALZjJCUm0tX1iOno
-X-Google-Smtp-Source: AGHT+IF3xzLbFd6eb1uuvSPRe25LEU48vxGpoZoR54hsmwmCzDQWYAU+9W5sMZtYCz1b98KqiGXgsg==
-X-Received: by 2002:a05:6512:3508:b0:554:f9c5:6b3e with SMTP id 2adb3069b0e04-558fa90c6f4mr2987115e87.41.1752155081143;
-        Thu, 10 Jul 2025 06:44:41 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:6e:3100:f766:61ba:c3c7:fc97? (2001-14ba-6e-3100-f766-61ba-c3c7-fc97.rev.dnainternet.fi. [2001:14ba:6e:3100:f766:61ba:c3c7:fc97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b736d5sm369615e87.213.2025.07.10.06.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jul 2025 06:44:39 -0700 (PDT)
-Message-ID: <221b6c0b-ac23-4b27-804a-aab9e563453d@gmail.com>
-Date: Thu, 10 Jul 2025 16:44:39 +0300
+	s=arc-20240116; t=1752155202; c=relaxed/simple;
+	bh=OVtgMPc0CQoRlk43yzhtRg7aNj1rLH3NKRXpvLy18Yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QhRR+/rWW5lOdx+fCtkAvm7EoPr5Fi027KSGW/xrX6Ja1TDHCc7izkB1tpRLOrxjlyg5fFVILDMPm5Ri+v321GSZE+b8qNAUA6KJ1vVNNF20FTho0qTR1lBPKoRgysKYuI0fz3G2+e6EyLpvU7sTKpg8mdWP8eVE3ZnMyC3BdmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnTbEQhB; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752155200; x=1783691200;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OVtgMPc0CQoRlk43yzhtRg7aNj1rLH3NKRXpvLy18Yc=;
+  b=SnTbEQhBaDs2xUOlkRPJGTuIakKmqVVgtN88kTk3JYuvrFXjnEjYLFgz
+   AeQZuC+dP4uehqgjGSCXxXWvi4jXTByrhXzQDI8sFAAQpWlKqfa9+JvX6
+   UnEqQ4Y4miqnJXH/2VVjsaXQCw0neSpUb85G4QMNM1uHvkXRULNN5Jmkj
+   raqXMxV9FIhtveuLV1EG065MJqKnaZMbGHqJL4kmfvCCp4twFPGaayrry
+   hDt/l27urXgdOHNAGK0I9GUDIjICn+y2IWwF1JODakhqQXVEYnheXAJB7
+   mJl4HzVpfU3I4Y1Is+MF/dApbGZjV5C6unQ3b7J8A6eyKmDKGfOJcl6n5
+   w==;
+X-CSE-ConnectionGUID: mU2c4KDwQoeKC257gJHmbg==
+X-CSE-MsgGUID: 7yqrDgCnSMmHrGJQTuWTsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54367994"
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
+   d="scan'208";a="54367994"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 06:46:39 -0700
+X-CSE-ConnectionGUID: BrLGrabfRO2Po3XitXTxBQ==
+X-CSE-MsgGUID: mFK0NA3SRIOCqjzXAonquw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
+   d="scan'208";a="160415307"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 06:46:33 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uZrbY-0000000EDS5-06P6;
+	Thu, 10 Jul 2025 16:46:28 +0300
+Date: Thu, 10 Jul 2025 16:46:27 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: sakari.ailus@linux.intel.com, krzk+dt@kernel.org,
+	kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+	pratap.nirujogi@amd.com, laurent.pinchart@ideasonboard.com,
+	tarang.raval@siliconsignals.io,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Hans de Goede <hansg@kernel.org>, Hao Yao <hao.yao@intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] media: i2c: add ov2735 image sensor driver
+Message-ID: <aG_EM2SaL1dkueKW@smile.fi.intel.com>
+References: <20250710131107.69017-1-hardevsinh.palaniya@siliconsignals.io>
+ <20250710131107.69017-3-hardevsinh.palaniya@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: Documentation: Improve grammar in DVB API
-To: David Hunter <david.hunter.linux@gmail.com>, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-References: <20250708155206.91281-1-hannelotta@gmail.com>
- <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250710131107.69017-3-hardevsinh.palaniya@siliconsignals.io>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hello,
-
-On 7/10/25 7:22 AM, David Hunter wrote:
-> On 7/8/25 11:52, Hanne-Lotta Mäenpää wrote:
->> Fix typos and punctuation and improve grammar in documentation.
->>
->> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+On Thu, Jul 10, 2025 at 06:40:59PM +0530, Hardevsinh Palaniya wrote:
+> Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.
 > 
-> Overall, good work. Here is a suggestion for future patch series:
-
-Thank you very much!
-
-> Subsequent versions of patch series should be posted as replies in the same thread. Currently, each version is its own independent thread, which makes it hard to track changes. This link has the documentation for the proper way to handle subsequent patches:
+> The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an
+> active array size of 1920 x 1080.
 > 
-> https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html
-> 
-> The relevant part starts at "To that end, send them as replies to either..."
+> The following features are supported:
+> - Manual exposure an gain control support
+> - vblank/hblank control support
+> - Test pattern support control
+> - Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)
 
-I wonder which way is preferred. I have been reading the kernel 
-documentation at 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#explicit-in-reply-to-headers
+...
 
-Quoting the instructions:
+> +static int ov2735_cci_access(struct ov2735 *ov2735,
+> +			     u32 reg, void *val, int *err, bool is_read)
+> +{
+> +	u8 page = (reg >> CCI_REG_PRIVATE_SHIFT) & 0xff;
+> +	u32 addr = reg & ~CCI_REG_PRIVATE_MASK;
+> +	int ret = 0;
+> +
+> +	if (err && *err)
+> +		return *err;
+> +
+> +	mutex_lock(&ov2735->page_lock);
+> +
+> +	/* Perform page access before read/write */
+> +	if (ov2735->current_page != page) {
+> +		ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, page, &ret);
+> +		if (ret)
+> +			goto err_mutex_unlock;
+> +		ov2735->current_page = page;
+> +	}
+> +
+> +	if (is_read)
+> +		cci_read(ov2735->cci, addr, (u64 *)val, &ret);
+> +	else
+> +		cci_write(ov2735->cci, addr, *(u64 *)val, &ret);
+> +
+> +	if (!ret && err)
 
-"However, for a multi-patch series, it is generally best to avoid using 
-In-Reply-To: to link to older versions of the series."
+ret here is never non-0. I believe the check is unneeded and this should be
+inside the below label. Otherwise, what's the point?
 
-> Another good practice is to have the previous versions' links from "lore.kernel.org" directly in the change log.
+> +		*err = ret;
+> +
+> +err_mutex_unlock:
+> +	mutex_unlock(&ov2735->page_lock);
+> +	return ret;
+> +}
 
-Good point, thank you. I will start to include the links to previous 
-versions.
+Have you researched on how hard is to implement a page access framework as
+being suggested in previous review?
 
-> Thanks,
-> David Hunter
+...
 
-How come there are two sets of documentation?
+> +static int ov2735_enable_test_pattern(struct ov2735 *ov2735, u32 pattern)
+> +{
+> +	int ret = 0;
+> +	u64 val;
+> +
+> +	ov2735_cci_read(ov2735, OV2735_REG_TEST_PATTERN, &val, &ret);
 
-Best regards,
+In this case is better to have the NULL form with no assignment done.
+Use a common sense.
 
-Hanne-Lotta Mäenpää
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (pattern) {
+> +	case 0:
+> +		val &= ~OV2735_TEST_PATTERN_ENABLE;
+> +		break;
+> +	case 1:
+> +		val |= OV2735_TEST_PATTERN_ENABLE;
+> +		break;
+> +	}
+> +
+> +	return ov2735_cci_write(ov2735, OV2735_REG_TEST_PATTERN, val, NULL);
+> +}
+
+...
+
+> +static int ov2735_enable_streams(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *state, u32 pad,
+> +				 u64 streams_mask)
+> +{
+> +	struct ov2735 *ov2735 = to_ov2735(sd);
+> +	const struct ov2735_mode *mode;
+> +	const struct ov2735_reglist *reg_list;
+> +	const struct v4l2_mbus_framefmt *fmt;
+> +	int ret;
+> +
+> +	fmt = v4l2_subdev_state_get_format(state, 0);
+> +	mode = v4l2_find_nearest_size(supported_modes,
+> +				      ARRAY_SIZE(supported_modes),
+> +				      width, height,
+> +				      fmt->width, fmt->height);
+> +
+> +	ret = pm_runtime_resume_and_get(ov2735->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	reg_list = &mode->reg_list;
+
+> +	ov2735_cci_multi_reg_write(ov2735, reg_list->regvals, reg_list->num_regs, &ret);
+
+NULL-variant is better here. Revisit all these again, please.
+
+> +	if (ret) {
+> +		dev_err(ov2735->dev, "%s failed to send mfg header\n", __func__);
+> +		goto err_rpm_put;
+> +	}
+> +
+> +	/* Apply customized values from user */
+> +	ret = __v4l2_ctrl_handler_setup(ov2735->sd.ctrl_handler);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	/* set stream on register */
+> +	ov2735_cci_write(ov2735, OV2735_REG_STREAM_CTRL, OV2735_STREAM_ON, &ret);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	return 0;
+> +
+> +err_rpm_put:
+> +	pm_runtime_put(ov2735->dev);
+> +	return ret;
+> +}
+
+...
+
+> +static int ov2735_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov2735 *ov2735 = to_ov2735(sd);
+> +	unsigned long delay_us;
+> +	int ret;
+> +
+> +	gpiod_set_value_cansleep(ov2735->enable_gpio, 0);
+> +	fsleep(3000);
+
+Can you add a comment with a datasheet reference to explain the value used
+here?
+
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ov2735_supply_name),
+> +				    ov2735->supplies);
+> +	if (ret) {
+> +		dev_err(ov2735->dev, "failed to enable regulators\n");
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(ov2735->enable_gpio, 1);
+> +	fsleep(3000);
+
+Ditto.
+
+> +	gpiod_set_value_cansleep(ov2735->reset_gpio, 0);
+> +	fsleep(3000);
+
+Ditto.
+
+> +	ret = clk_prepare_enable(ov2735->xclk);
+> +	if (ret) {
+> +		dev_err(ov2735->dev, "failed to enable clock\n");
+> +		goto err_regulator_off;
+> +	}
+> +
+> +	/* 8192 cycles prior to first SCCB transaction */
+> +	delay_us = DIV_ROUND_UP(8192, OV2735_XCLK_FREQ / 1000 / 1000);
+
+Shouldn't these / 1000 / 1000 be simply / HZ_PER_MHZ?
+Or if you want to keep it precise to the physics, use MEGA from units.h.
+
+> +	fsleep(delay_us);
+> +
+> +	return 0;
+> +
+> +err_regulator_off:
+> +	regulator_bulk_disable(ARRAY_SIZE(ov2735_supply_name), ov2735->supplies);
+> +	return ret;
+> +}
+
+...
+
+> +static int ov2735_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov2735 *ov2735 = to_ov2735(sd);
+> +
+> +	gpiod_set_value_cansleep(ov2735->enable_gpio, 1);
+
+Power off enables the chip?! Perhaps you missed polarity in DT?
+
+> +	clk_disable_unprepare(ov2735->xclk);
+> +	gpiod_set_value_cansleep(ov2735->reset_gpio, 0);
+
+In the similar way.
+
+> +	regulator_bulk_disable(ARRAY_SIZE(ov2735_supply_name), ov2735->supplies);
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int ov2735_parse_endpoint(struct ov2735 *ov2735)
+> +{
+> +	struct fwnode_handle *fwnode;
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> +	};
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	fwnode = dev_fwnode(ov2735->dev);
+> +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> +	if (!ep) {
+
+> +		dev_err(ov2735->dev, "Failed to get next endpoint\n");
+> +		return -ENXIO;
+
+Please, be consistent, use dev_err_probe().
+
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2) {
+> +		dev_err_probe(ov2735->dev, -EINVAL, "only 2 data lanes are supported\n");
+
+		ret = dev_err_probe(...);
+
+Otherwise it's 0.
+
+> +		goto error_out;
+> +	}
+> +
+> +	return 0;
+> +
+> +error_out:
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +
+> +	return ret;
+> +};
+
+...
+
+> +	ov2735->cci = devm_cci_regmap_init_i2c(client, 8);
+> +	if (IS_ERR(ov2735->cci)) {
+> +		ret = PTR_ERR(ov2735->cci);
+> +		return dev_err_probe(ov2735->dev, ret, "failed to initialize CCI\n");
+
+Why not in a single expression?
+
+> +	}
+
+...
+
+> +	/* Set Current page to 0 */
+> +	ov2735->current_page = 0;
+> +	mutex_init(&ov2735->page_lock);
+
+	ret = devm_mutex_init(...);
+
+i.o.w. do not mix devm chain with non-devm allocations.
+
+...
+
+> +	ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
+> +	if (IS_ERR(ov2735->xclk)) {
+> +		return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->xclk),
+> +				     "failed to get xclk\n");
+> +	}
+
+You can drop {}.
+
+> +	xclk_freq = clk_get_rate(ov2735->xclk);
+> +	if (xclk_freq != OV2735_XCLK_FREQ)
+> +		return dev_err_probe(ov2735->dev, -EINVAL,
+> +				     "xclk frequency not supported: %d Hz\n",
+> +				     xclk_freq);
+
+You see, the code is full of inconsistencies, please take your time (no need to
+hurry with a new version, you have at least two months for this series to be
+reviewed and applied if okay).
+
+...
+
+> +	ret = ov2735_get_regulators(ov2735);
+> +	if (ret)
+> +		return dev_err_probe(ov2735->dev, ret, "failed to get regulators\n");
+> +
+> +	ret = ov2735_parse_endpoint(ov2735);
+> +	if (ret) {
+> +		dev_err(ov2735->dev, "failed to parse endpoint configuration\n");
+> +		return ret;
+
+		return dev_error_probe(...);
+
+> +	}
+
+Again, read above.
+
+...
+
+> +	ret = v4l2_async_register_subdev_sensor(&ov2735->sd);
+> +	if (ret < 0) {
+
+Why ' < 0'? What is the meaning of the positive return?
+Same Q to all these inconsistencies (note, in some cases it's needed
+but I doubt here and in many other places it's the case).
+
+> +		dev_err_probe(ov2735->dev, ret,
+> +			      "failed to register ov2735 sub-device\n");
+> +		goto error_subdev_cleanup;
+> +	}
+
+...
+
+> +static void ov2735_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov2735 *ov2735 = to_ov2735(sd);
+> +
+> +	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(&ov2735->sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_ctrl_handler_free(ov2735->sd.ctrl_handler);
+
+> +	pm_runtime_disable(ov2735->dev);
+
+Why not devm variant being used in probe?
+
+> +	if (!pm_runtime_status_suspended(ov2735->dev))
+> +		ov2735_power_off(ov2735->dev);
+> +	pm_runtime_set_suspended(ov2735->dev);
+
+So, you probably want SMART_SUSPEND or something like that when enabling
+runtime PM in probe. These lines looks like duplication of what PM runtime may
+do for you.
+
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
