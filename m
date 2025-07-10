@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-37406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37407-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B68B00AB6
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:52:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD7BB00AC8
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:53:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 909014E1E43
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:52:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02FB47BE9BB
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:51:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75B3F2F4A09;
-	Thu, 10 Jul 2025 17:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1FEE2F4A0D;
+	Thu, 10 Jul 2025 17:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YuzUxsDX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nuPSb4tt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278512F19A6
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:50:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EDB2F19AB
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752169823; cv=none; b=upHNQ26duwpSeGe/pAhVNu8m37lla8TxVFTDkSFbId+xOlzTMghWh5NyWGgy4yin5KEsAeWsK3BrI1pxknGlr9HuTytZvrZ6q1CZMz8XKOTWQeFYKkQYwii0tE7/Gd+V+q85OcY58VbXTq6kcDSnGgZED6s6tmkik0VRsK5BG48=
+	t=1752169825; cv=none; b=bIZOhJ/k2cATkC6BJykYKWh/WsNORArkmL374mHbBerxgghbxfW3VcCCe29/7Xkl8VBiKOKdqtqqiepV/0QKyVR40VapwC1jlkK1cMayfjxm9g94yKEWMAcrnz10C+Cebhjdts8RFA/rtVYdj4ZZjDyXSmMx/wEA4d6CX/4xf9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752169823; c=relaxed/simple;
-	bh=qIleCqttfmZBreURbxJSiG3yTPq44kv3Zx0787ktmsI=;
+	s=arc-20240116; t=1752169825; c=relaxed/simple;
+	bh=sUWsE38o6jCcqKjFdXWNeUOI6T5hN6CwId7pazYIAl0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DDt7jkbUtJQr3T2hKVVUUeJVLKwrbnTBR6aiu+knNJo7NODbxTCmSV+Jx+Gmiwliw9VPGIkpF2J2pnjE6tlSBntV4ElRC/8HZVj8M6mjSK6kpzs5ylE/bn7ISwLNIGRPyTjk9GWZ33ovI71IxnB7QetVQ3s+BI5uIQnmRuDTiVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YuzUxsDX; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=nOSLqUtGYj11u+jz9OkhTXE99gSdYPmNxAwg9fPx8P9ABCPoWnxTWDmqNchnJ4KLXSu8pOTDCvrQY2RaTmK3/3YpbIDFwg4WeSpiLlYjgBRBagxsZj+iC59Jv7mdnehdQBCom8J/6g0sS25tqKgD/R/wc2uIzv6ax1BXDbNRjTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nuPSb4tt; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DBFB8C0B;
-	Thu, 10 Jul 2025 19:49:51 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5E18F111D;
+	Thu, 10 Jul 2025 19:49:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752169792;
-	bh=qIleCqttfmZBreURbxJSiG3yTPq44kv3Zx0787ktmsI=;
+	s=mail; t=1752169793;
+	bh=sUWsE38o6jCcqKjFdXWNeUOI6T5hN6CwId7pazYIAl0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YuzUxsDXEcHPC+KdXYfjfMSFjB+Ox3K1DokPRPmHlMSPvfb7jLzndH5lMeFXiBXyx
-	 ThDynLnQpkhI5HEZPeYLDS+7vz5e+GlCSwkGWjNjMZBsibmWqe0PhpFvCvxauO0EbA
-	 cXmnmPv0EYt9G9fcb2d/lhkA2o5wv04RTde2thU0=
+	b=nuPSb4ttKyELP8gnGQVgFSgoujH/p6Pai2/yAKQDFa+qWVIPDe+w4Adx1gyOvL8MG
+	 lY/jfkolCRYIjrrZ6Zywh68K6l/rO9QNPFMXlKZs5ocaqLtCIq89bf6lxQZ5bTsWOr
+	 /XwPcPrvZu1+an+OJjp8akHRx9dDLeBh+EnF1RnE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 63/72] media: i2c: ov02a10: Replace client->dev usage
-Date: Thu, 10 Jul 2025 20:47:59 +0300
-Message-ID: <20250710174808.5361-64-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 64/72] media: i2c: ov02a10: Use V4L2 legacy sensor clock helper
+Date: Thu, 10 Jul 2025 20:48:00 +0300
+Message-ID: <20250710174808.5361-65-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
 References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
@@ -59,148 +59,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver needs to access the struct device in many places, and
-retrieves it from the i2c_client itself retrieved with
-v4l2_get_subdevdata(). Store it as a pointer in struct ov02a10 and
-access it from there instead, to simplify the driver.
+Several camera sensor drivers access the "clock-frequency" property
+directly to retrieve the external clock rate, or modify the clock rate
+of the external clock programmatically. Both behaviours are valid on a
+subset of ACPI platforms, but are considered deprecated on OF platforms,
+and do not support ACPI platforms that implement MIPI DisCo for Imaging.
+Implementing them manually in drivers is deprecated, as that can
+encourage copying deprecated behaviour for OF platforms in new drivers,
+and lead to differences in behaviour between drivers. Instead, drivers
+that need to preserve the deprecated OF behaviour should use the
+devm_v4l2_sensor_clk_get_legacy() helper.
+
+This driver supports OF platforms only. The "clocks" and
+"clock-frequency" properties were initially mandatory in the DT
+bindings. The driver retrieves the clock, retrieves the clock rate from
+the "clock-frequency" property, and sets the clock rate to the retrieved
+rate. If the rate does not match one of the expected rates, the driver
+fails probing. This is deprecated behaviour for OF.
+
+Switch to using the devm_v4l2_sensor_clk_get_legacy() helper. This
+preserves setting the clock rate on OF platforms. Should support for OF
+platforms that set the clock rate through clock-frequency be considered
+unneeded in the future, the driver will only need to switch to
+devm_v4l2_sensor_clk_get() without any other change.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov02a10.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/media/i2c/ov02a10.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
 diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
-index 74fc0687c849..6217164a7492 100644
+index 6217164a7492..70d9d7c43f18 100644
 --- a/drivers/media/i2c/ov02a10.c
 +++ b/drivers/media/i2c/ov02a10.c
-@@ -100,6 +100,8 @@ struct ov02a10_mode {
- };
- 
+@@ -102,7 +102,6 @@ struct ov02a10_mode {
  struct ov02a10 {
-+	struct device *dev;
-+
- 	u32 eclk_freq;
+ 	struct device *dev;
+ 
+-	u32 eclk_freq;
  	/* Indication of MIPI transmission speed select */
  	u32 mipi_clock_voltage;
-@@ -392,7 +394,7 @@ static int ov02a10_check_sensor_id(struct ov02a10 *ov02a10)
- 	chip_id = le16_to_cpu((__force __le16)ret);
  
- 	if ((chip_id & OV02A10_ID_MASK) != OV02A10_ID) {
--		dev_err(&client->dev, "unexpected sensor id(0x%04x)\n", chip_id);
-+		dev_err(ov02a10->dev, "unexpected sensor id(0x%04x)\n", chip_id);
- 		return -EINVAL;
+@@ -886,22 +885,11 @@ static int ov02a10_probe(struct i2c_client *client)
+ 		ov02a10->fmt.code = MEDIA_BUS_FMT_SRGGB10_1X10;
  	}
  
-@@ -481,7 +483,7 @@ static int __ov02a10_start_stream(struct ov02a10 *ov02a10)
- 		ret = i2c_smbus_write_byte_data(client, REG_MIRROR_FLIP_CONTROL,
- 						REG_MIRROR_FLIP_ENABLE);
- 		if (ret < 0) {
--			dev_err(&client->dev, "failed to set orientation\n");
-+			dev_err(ov02a10->dev, "failed to set orientation\n");
- 			return ret;
- 		}
- 		ret = i2c_smbus_write_byte_data(client, REG_GLOBAL_EFFECTIVE,
-@@ -530,7 +532,6 @@ static int ov02a10_init_state(struct v4l2_subdev *sd,
- static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
- {
- 	struct ov02a10 *ov02a10 = to_ov02a10(sd);
--	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
- 	int ret;
+-	ov02a10->eclk = devm_v4l2_sensor_clk_get(dev, "eclk");
++	ov02a10->eclk = devm_v4l2_sensor_clk_get_legacy(dev, "eclk", false, 0);
+ 	if (IS_ERR(ov02a10->eclk))
+ 		return dev_err_probe(dev, PTR_ERR(ov02a10->eclk),
+ 				     "failed to get eclk\n");
  
- 	mutex_lock(&ov02a10->mutex);
-@@ -541,7 +542,7 @@ static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
- 	}
- 
- 	if (on) {
--		ret = pm_runtime_resume_and_get(&client->dev);
-+		ret = pm_runtime_resume_and_get(ov02a10->dev);
- 		if (ret < 0)
- 			goto unlock_and_return;
- 
-@@ -553,7 +554,7 @@ static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
- 		}
- 	} else {
- 		__ov02a10_stop_stream(ov02a10);
--		pm_runtime_put(&client->dev);
-+		pm_runtime_put(ov02a10->dev);
- 	}
- 
- 	ov02a10->streaming = on;
-@@ -562,7 +563,7 @@ static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
- 	return 0;
- 
- err_rpm_put:
--	pm_runtime_put(&client->dev);
-+	pm_runtime_put(ov02a10->dev);
- unlock_and_return:
- 	mutex_unlock(&ov02a10->mutex);
- 
-@@ -662,7 +663,6 @@ static int ov02a10_set_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct ov02a10 *ov02a10 = container_of(ctrl->handler,
- 					       struct ov02a10, ctrl_handler);
--	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
- 	s64 max_expo;
- 	int ret;
- 
-@@ -678,7 +678,7 @@ static int ov02a10_set_ctrl(struct v4l2_ctrl *ctrl)
- 	}
- 
- 	/* V4L2 controls values will be applied only when power is already up */
--	if (!pm_runtime_get_if_in_use(&client->dev))
-+	if (!pm_runtime_get_if_in_use(ov02a10->dev))
- 		return 0;
- 
- 	switch (ctrl->id) {
-@@ -699,7 +699,7 @@ static int ov02a10_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
--	pm_runtime_put(&client->dev);
-+	pm_runtime_put(ov02a10->dev);
- 
- 	return ret;
- }
-@@ -734,7 +734,6 @@ static const struct v4l2_ctrl_ops ov02a10_ctrl_ops = {
- 
- static int ov02a10_initialize_controls(struct ov02a10 *ov02a10)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
- 	const struct ov02a10_mode *mode;
- 	struct v4l2_ctrl_handler *handler;
- 	struct v4l2_ctrl *ctrl;
-@@ -790,7 +789,7 @@ static int ov02a10_initialize_controls(struct ov02a10 *ov02a10)
- 
- 	if (handler->error) {
- 		ret = handler->error;
--		dev_err(&client->dev, "failed to init controls(%d)\n", ret);
-+		dev_err(ov02a10->dev, "failed to init controls(%d)\n", ret);
- 		goto err_free_handler;
- 	}
- 
-@@ -866,6 +865,8 @@ static int ov02a10_probe(struct i2c_client *client)
- 	if (!ov02a10)
- 		return -ENOMEM;
- 
-+	ov02a10->dev = dev;
-+
- 	ret = ov02a10_check_hwcfg(dev, ov02a10);
- 	if (ret)
- 		return dev_err_probe(dev, ret,
-@@ -985,10 +986,10 @@ static void ov02a10_remove(struct i2c_client *client)
- 	v4l2_async_unregister_subdev(sd);
- 	media_entity_cleanup(&sd->entity);
- 	v4l2_ctrl_handler_free(sd->ctrl_handler);
--	pm_runtime_disable(&client->dev);
--	if (!pm_runtime_status_suspended(&client->dev))
--		ov02a10_power_off(&client->dev);
--	pm_runtime_set_suspended(&client->dev);
-+	pm_runtime_disable(ov02a10->dev);
-+	if (!pm_runtime_status_suspended(ov02a10->dev))
-+		ov02a10_power_off(ov02a10->dev);
-+	pm_runtime_set_suspended(ov02a10->dev);
- 	mutex_destroy(&ov02a10->mutex);
- }
+-	ret = device_property_read_u32(dev, "clock-frequency",
+-				       &ov02a10->eclk_freq);
+-	if (ret < 0)
+-		return dev_err_probe(dev, ret,
+-				     "failed to get eclk frequency\n");
+-
+-	ret = clk_set_rate(ov02a10->eclk, ov02a10->eclk_freq);
+-	if (ret < 0)
+-		return dev_err_probe(dev, ret,
+-				     "failed to set eclk frequency (24MHz)\n");
+-
+ 	if (clk_get_rate(ov02a10->eclk) != OV02A10_ECLK_FREQ)
+ 		dev_warn(dev, "eclk mismatched, mode is based on 24MHz\n");
  
 -- 
 Regards,
