@@ -1,182 +1,221 @@
-Return-Path: <linux-media+bounces-37433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37434-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30767B00EC9
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 00:39:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02100B00F42
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 01:09:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 586CC3AB786
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 22:39:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E2FB7B1676
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 23:07:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B80F22BE7A6;
-	Thu, 10 Jul 2025 22:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA51D2BEFF3;
+	Thu, 10 Jul 2025 23:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HXstDAwS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H8Yh71qM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711E629AB0F;
-	Thu, 10 Jul 2025 22:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0690429E10D;
+	Thu, 10 Jul 2025 23:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752187172; cv=none; b=L/O+oCVoCqC+8vd4C4kT2Nay55UiF4Uke32OzBWPgeYEmh8dETaaa8Rx3BNRGeCBmAR5zb0DLzwC5CQbapq417lWEEW7HI0u01Tttg0YB5WbWQTYGGXoxZyuD/jPVK4Xe9mhXw27gDp7W4qUXMt8p/h+LHoY95NdRvndRJ26qDE=
+	t=1752188928; cv=none; b=RhUsyDBqplRxHyJw54OhjvrYXwdwSxwolTQbTTMmHDOSt29p8WhQgrSKoxmH9nFGN4dcIKEs9rXDLZLRGhuqr8FPsflBFkbzaZG7o5rZ+DLhmp4Gfx3y40T1RC5Qhw+A/XjaQlvosXgVq1uTADgkY2MMXkgPZWmXUn9WdREd6bA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752187172; c=relaxed/simple;
-	bh=d1KMgSh13M1PiKkI9COA8dfnIkgdhWXR0M2Youowik4=;
+	s=arc-20240116; t=1752188928; c=relaxed/simple;
+	bh=v5cEblJiF+k/jXiSINmQRV8w5aE0inYcqN0Zq9PgItk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jvPSwg2B71Z8YyD6z2g3CeJlOBAiO3aavGYH5lUS4ARGxZ59MZqRXW+lEWeKuBlYD7/UjGTSM7WwHaJnHDfgjc7OzyBWksGQGZiE0mGLHtgVBSh69+GiDYrT/rFVxUo3eDLs9cIZHZJ7TDgA30kqUZXZCYNoEIWulew9Ozd2cis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HXstDAwS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 60A57A57;
-	Fri, 11 Jul 2025 00:38:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752187139;
-	bh=d1KMgSh13M1PiKkI9COA8dfnIkgdhWXR0M2Youowik4=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=XV0cwahx9fI7T2KjQmuuP5EsV51RGwHacmYgjpb5TD2wrDWkLSKjZCIvlGElMP5im00hIte2pOJXy0d6lCFkhBkaUzYYlaHM8XCiQkQqqri019ODMZKb8ompUahu8Rr5LEEHwxHZK9TDCLKKtqvQUpHURnoDAeFOreb95z4Ego4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H8Yh71qM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E65FC4CEE3;
+	Thu, 10 Jul 2025 23:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752188927;
+	bh=v5cEblJiF+k/jXiSINmQRV8w5aE0inYcqN0Zq9PgItk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HXstDAwS8lbwoZh0RoUmmeg/wACyCDiQEK7qd2J/HS/rVVaID2RdWdhp94LKrsKF4
-	 R00IAEGSlkCf9JYkBLnwNqqgkt0r5eqPHRY27xVD/3og8uems5Y6e8BeU2ZLu7n6A3
-	 FxGpPbekT7bCzOWo+YandnCGw/mtsrM7xzLcITkU=
-Date: Fri, 11 Jul 2025 01:38:58 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mathis Foerst <mathis.foerst@mt.com>
-Cc: linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, manuel.traut@mt.com,
-	mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v7 1/2] media: mt9m114: Allow set_selection while
- streaming
-Message-ID: <20250710223858.GB16271@pendragon.ideasonboard.com>
-References: <20250710151340.496218-1-mathis.foerst@mt.com>
- <20250710151340.496218-2-mathis.foerst@mt.com>
+	b=H8Yh71qMkAt17Nzl11tn+JVsq12nLOiVrKKoHXmP0+l8qxkG0vLvYLcV1FHAe8fCD
+	 1n1DxSSleOBA4NiD0ecfGQjyAqHSGBImgqoiwGnAiW3Qwi7HDEUKU5nXo4g8moXRAI
+	 eM8sbqD8NClIg+KmphRf3NVCMQjxpaIjG6HRKLC4ftHmTXQ1yVC8uTjozUd38CcOCo
+	 3ycPlS0vBEeqs9XntyFI2PDHjqQbvxP+cG09R8n4NeEfGzGRPsRl7y0Rmhg6s9IEUC
+	 DHh8zCEOUHChoY20Xg/4N7+f6fg7+1A/hwTqFXSLhv64/Xh/OYewn1fuuh2zcVBXQI
+	 lvkAmuzx3A6iA==
+Date: Thu, 10 Jul 2025 18:08:46 -0500
+From: Rob Herring <robh@kernel.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: phy: qcom: Add MIPI CSI2 C-PHY/DPHY
+ Combo schema
+Message-ID: <20250710230846.GA44483-robh@kernel.org>
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250710151340.496218-2-mathis.foerst@mt.com>
+In-Reply-To: <20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org>
 
-Hi Mathis,
-
-Thank you for the patch.
-
-On Thu, Jul 10, 2025 at 05:13:39PM +0200, Mathis Foerst wrote:
-> The current implementation does not apply changes to the crop-
-> configuration of the sensor immediately if the sensor is in
-> streaming state. The user has to stop and restart the stream for
-> the changes to be applied.
-
-Nitpicking, you need a blank line between two different paragraphs.
-
-> This can be undesirable e.g. in a calibration usecase where the user
-> wants to see the impact of his changes in a live video stream.
-> Under the condition that the width & height of the cropped image area
-> does not change, the changed cropping configuration can be applied to
-> the pixel-array immediately without disturbing the IFP.
+On Thu, Jul 10, 2025 at 05:16:47PM +0100, Bryan O'Donoghue wrote:
+> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+> PHY devices.
 > 
-> Call mt9m114_configure_pa() in mt9m114_pa_set_selection() if the sensor is
-> in streaming state and the size of the cropping rectangle didn't change,
-> issue a CONFIG_CHANGE to apply the changes immediately.
+> The hardware can support both C-PHY and D-PHY modes. The CSIPHY devices
+> have their own pinouts on the SoC as well as their own individual voltage
+> rails.
 > 
-> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
+> The need to model voltage rails on a per-PHY basis leads us to define
+> CSIPHY devices as individual nodes.
+> 
+> Two nice outcomes in terms of schema and DT arise from this change.
+> 
+> 1. The ability to define on a per-PHY basis voltage rails.
+> 2. The ability to require those voltage.
+> 
+> We have had a complete bodge upstream for this where a single set of
+> voltage rail for all CSIPHYs has been buried inside of CAMSS.
+> 
+> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+> CAMSS parlance, the CSIPHY devices should be individually modelled.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  drivers/media/i2c/mt9m114.c | 42 +++++++++++++++++++++++++------------
->  1 file changed, 29 insertions(+), 13 deletions(-)
+>  .../phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml     | 95 ++++++++++++++++++++++
+>  1 file changed, 95 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> index 3f540ca40f3c..5f4474d36653 100644
-> --- a/drivers/media/i2c/mt9m114.c
-> +++ b/drivers/media/i2c/mt9m114.c
-> @@ -1287,6 +1287,7 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
->  	struct mt9m114 *sensor = pa_to_mt9m114(sd);
->  	struct v4l2_mbus_framefmt *format;
->  	struct v4l2_rect *crop;
-> +	int ret = 0;
->  
->  	if (sel->target != V4L2_SEL_TGT_CROP)
->  		return -EINVAL;
-> @@ -1302,25 +1303,40 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
->  	 * binning, but binning is configured after setting the selection, so
->  	 * we can't know tell here if it will be used.
->  	 */
-> -	crop->left = ALIGN(sel->r.left, 4);
-> -	crop->top = ALIGN(sel->r.top, 2);
-> -	crop->width = clamp_t(unsigned int, ALIGN(sel->r.width, 4),
-> -			      MT9M114_PIXEL_ARRAY_MIN_OUTPUT_WIDTH,
-> -			      MT9M114_PIXEL_ARRAY_WIDTH - crop->left);
-> -	crop->height = clamp_t(unsigned int, ALIGN(sel->r.height, 2),
-> -			       MT9M114_PIXEL_ARRAY_MIN_OUTPUT_HEIGHT,
-> -			       MT9M114_PIXEL_ARRAY_HEIGHT - crop->top);
-> -
-> -	sel->r = *crop;
-> +	sel->r.left = ALIGN(sel->r.left, 4);
-> +	sel->r.top = ALIGN(sel->r.top, 2);
-> +	sel->r.width = clamp_t(unsigned int, ALIGN(sel->r.width, 4),
-> +			       MT9M114_PIXEL_ARRAY_MIN_OUTPUT_WIDTH,
-> +			       MT9M114_PIXEL_ARRAY_WIDTH - sel->r.left);
-> +	sel->r.height = clamp_t(unsigned int, ALIGN(sel->r.height, 2),
-> +				MT9M114_PIXEL_ARRAY_MIN_OUTPUT_HEIGHT,
-> +				MT9M114_PIXEL_ARRAY_HEIGHT - sel->r.top);
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e0976f012516452ae3632ff4732620b5c5402d3b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	/* Changing the selection size is not allowed in streaming state */
-> +	if (sensor->streaming &&
-> +	    (sel->r.height != crop->height || sel->r.width != crop->width))
-> +		return -EBUSY;
+> +title: Qualcomm MIPI CSI2 Combo PHY
 > +
-> +	*crop = sel->r;
->  
->  	/* Reset the format. */
->  	format->width = crop->width;
->  	format->height = crop->height;
->  
-> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> -		mt9m114_pa_ctrl_update_blanking(sensor, format);
-> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> +		return ret;
->  
-> -	return 0;
-> +	mt9m114_pa_ctrl_update_blanking(sensor, format);
+> +maintainers:
+> +  - Bryan O'Donoghue <bod@kernel.org>
 > +
-> +	/* Apply values immediately if streaming */
+> +description:
+> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
+> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
+> +  modes.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,x1e80100-mipi-csi2-combo-phy
 
-s/streaming/streaming./
+Kind of long. CSI2 implies MIPI and is there a non-combo phy for the 
+SoC? Could drop either or both mipi and combo...
 
-> +	if (sensor->streaming)
-> +		ret = mt9m114_configure_pa(sensor, state);
-> +		if (ret)
-> +			return ret;
-> +		/* Changing the cropping config requires a CONFIG_CHANGE */
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#phy-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_axi
+> +      - const: cpas_ahb
 
-s/CONFIG_CHANGE/CONFIG_CHANGE./
+These look like the source is included in the name. Is there more than 1 
+AXI and AHB bus for this device?
 
-> +		ret = mt9m114_set_state(sensor,
-> +					MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
+> +      - const: csiphy
+> +      - const: csiphy_timer
 
-Misleading indentation, this call is done unconditionally, even when not
-streaming. You're forgotten the curly braces.
+Module clocks should probably come first.
 
-If any of those calls fail, the rectangle in the "crop" variable will
-have been updated but not applied to the hardware. We could restore the
-value, or delay storing it in "crop" until the end of the function. It's
-probably not really worth it though, so with the above issues addressed,
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  vdda-0p8-supply:
+> +    description: Phandle to a 0.8V regulator supply to a PHY.
+> +
+> +  vdda-1p2-supply:
+> +    description: Phandle to 1.2V regulator supply to a PHY.
+> +
+> +  phy-type:
+> +    description: D-PHY or C-PHY mode
+> +    enum: [ 10, 11 ]
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Perhaps putting this in phy cells would be better because the consumer 
+decides on the mode.
 
-> +	return ret;
->  }
->  
->  static const struct v4l2_subdev_pad_ops mt9m114_pa_pad_ops = {
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#phy-cells"
+> +  - clocks
+> +  - clock-names
+> +  - vdda-0p8-supply
+> +  - vdda-1p2-supply
+> +  - phy-type
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +
+> +    csiphy0: csiphy@ace4000 {
 
--- 
-Regards,
+Drop unused labels.
 
-Laurent Pinchart
+> +        compatible = "qcom,x1e80100-mipi-csi2-combo-phy";
+> +        reg = <0x0ace4000 0x2000>;
+> +        #phy-cells = <0>;
+> +
+> +        clocks = <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+> +                 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +                 <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>;
+> +        clock-names = "camnoc_axi",
+> +                      "cpas_ahb",
+> +                      "csiphy",
+> +                      "csiphy_timer";
+> +
+> +        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +        vdda-0p8-supply = <&vreg_l2c_0p8>;
+> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
+> +
+> +        phy-type = <PHY_TYPE_DPHY>;
+> +    };
+> 
+> -- 
+> 2.49.0
+> 
 
