@@ -1,197 +1,154 @@
-Return-Path: <linux-media+bounces-37324-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37325-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809EBB00626
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:13:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E48B00624
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:13:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A6331CA20B5
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 15:12:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2ED935C360D
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 15:12:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBBC7274646;
-	Thu, 10 Jul 2025 15:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 338DC27466D;
+	Thu, 10 Jul 2025 15:12:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BfeoHFCU"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="seWBBlm9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329FB2741CF;
-	Thu, 10 Jul 2025 15:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EE214A60F;
+	Thu, 10 Jul 2025 15:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752160292; cv=none; b=db2oUVQUqAD1TFY8nnw0RaOwKqd+/NvtXBKHkF3CoyPBphQfxi8Mi4CmxAAvP1dX3wNIei7JbbXhgrKjeLf/wekZZ0xGq2gB/WHHUFaUw+HLDjyFI7OHRjqoNy1ORGKcLhqls6IWqiBPZJvLZV4wsV6Km7HJ2XQ6x3SsPHubDv0=
+	t=1752160330; cv=none; b=nUMKPV+3yf8yehtFbpuX5g8QAGYnwSiN4NXwOwD6Zu4wSrVeYI6lTZ8NGc0iUgcjkgHkpd+7ErwQN3FTdZTov7xhJjNQD6GYSoB6vGJXVNyaMSzysktnWFviDGjK9cT0mGaNUiH8yVBgPuMtcehv2IBtTsxlI1DF5oKvdvc24DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752160292; c=relaxed/simple;
-	bh=sL/UzyBbLUVDCBAiHyrAL323W9iMQvgimGs92CFHnHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uQ4y6cnn9PWt8yVbsLJ7WkV4imxk426vzg8Un/uzQ8Dupjv3CgLHAn8Z1KWcgDzschTuXTFeKuSxmJwRAF/fsr0X/+kMntbqvDB42U6CerX3Y2WDOfpPFiCmzNdKyIlKcDVNGe4t8kKMKICzSdHRO2tcmRoMtzggM3Kf6kHCh00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BfeoHFCU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68EFEC4CEE3;
-	Thu, 10 Jul 2025 15:11:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752160291;
-	bh=sL/UzyBbLUVDCBAiHyrAL323W9iMQvgimGs92CFHnHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BfeoHFCUb3f/ToOEkKhwZuxJC+nQzJJd8VzbaeBYulOn94m1OcVbz01kH0AX12Sxf
-	 lRxNDwEO3tGMdT1XcZiZpoYH+RGyz0gwm7qkLaGBw5JEhvveamhNdoCVuH4+ydJHgy
-	 iFlP3CWynzxxCP4OuiQhJpr5gs0xzLYMaNYjuUYW/8rtsczKKXUmtBLGDQKl0ZaGgp
-	 /+GzuerlVVcmgxlA0MtURNyV4fY/tAU6pgq6LyCzI+KBNi2CLKcZ5AF3Z8yRHhyhNO
-	 uA33EGx9FAoko7yB9yBcKukcR8LkqgLGr0AovuUalSLPeuUknZC+89b7DU5IqfRN0j
-	 xElEA/QoReW4g==
-Date: Thu, 10 Jul 2025 17:11:29 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Andrew Davis <afd@ti.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev
-Subject: Re: [PATCH v6 2/2] dma-buf: heaps: cma: Create CMA heap for each CMA
- reserved region
-Message-ID: <20250710-tremendous-fantastic-jerboa-ff3efe@houat>
-References: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
- <20250709-dma-buf-ecc-heap-v6-2-dac9bf80f35d@kernel.org>
- <6045bcfb-35ef-410b-bd7c-0ca7c5c589c4@ti.com>
- <20250710-daft-secret-squid-fb3eee@houat>
- <547da8d7-1967-4c56-8bc1-da22a5283b77@ti.com>
+	s=arc-20240116; t=1752160330; c=relaxed/simple;
+	bh=8a6CBOKhPIyH24xt7AaX6qplNBfoOrI4hf0FBujJDRw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lb3Msna42/k9qPvSk6XjQSKC5mKLZ7AUWQtsIZAUGxtfPOqxntA3oyRa5SmHxsC6UW9AMVTBV0s6VtBxK63ug5EGUfJ5WOYCOL28UFrEOVwIr03SNbjvtqZU/GT9dnOJ6OJCY8PCfcxSv4WCWB+OEhXgiQEmks1PxUEtCOK82PI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=seWBBlm9; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bdJGr6fcCz9t3p;
+	Thu, 10 Jul 2025 17:12:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1752160325; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8a6CBOKhPIyH24xt7AaX6qplNBfoOrI4hf0FBujJDRw=;
+	b=seWBBlm9HM/1XHghbgmmDne+xfaEPW/l2j5x0R8cfMi8T57g7nxCyH4cqJhlEa/+Zlvcul
+	eCobsslJoDrTn200xlNSccbSrkB83lZFfh8IVc4Nckq5Sr4bErNGC3HA4887PPZTzWZYSe
+	SHlpLKwOneUezNU7NHmTv9qfBp45OBZclmfJ6/GpnSJ8c8YK4otGSGjJZRBK/Fcr5QiJN1
+	V4GIPXF16cq4n0d3l2EWqNv8QIawIRtc0j6av5hZAqwSw/15uW9Oe2atuKnFkDFakXfH4Z
+	Jjzpy+iikc0986YoinAoUMndgaQdG+6TbLtqWcFAgpYi1l0sh5pHB0SXpXoaiA==
+Message-ID: <18f514ef3a61c877bc80f403db67a2106f4bdd44.camel@mailbox.org>
+Subject: Re: [PATCH v4 0/8] drm/sched: Fix memory leaks with cancel_job()
+ callback
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew
+ Brost <matthew.brost@intel.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>,  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date: Thu, 10 Jul 2025 17:11:58 +0200
+In-Reply-To: <20250710125412.128476-2-phasta@kernel.org>
+References: <20250710125412.128476-2-phasta@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="5llptdqqxzku46gv"
-Content-Disposition: inline
-In-Reply-To: <547da8d7-1967-4c56-8bc1-da22a5283b77@ti.com>
+X-MBO-RS-ID: 5c40c1a7c2a9a3dbc09
+X-MBO-RS-META: 1nps9qp9r8sikmsso7bmcbxeyzd9bro1
 
-
---5llptdqqxzku46gv
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 2/2] dma-buf: heaps: cma: Create CMA heap for each CMA
- reserved region
-MIME-Version: 1.0
-
-On Thu, Jul 10, 2025 at 09:46:56AM -0500, Andrew Davis wrote:
+On Thu, 2025-07-10 at 14:54 +0200, Philipp Stanner wrote:
+> Changes in v4:
+> =C2=A0 - Change dev_err() to dev_warn() in pending_list emptyness check.
+>=20
+> Changes in v3:
+> =C2=A0 - Remove forgotten copy-past artifacts. (Tvrtko)
+> =C2=A0 - Remove forgotten done_list struct member. (Tvrtko)
+> =C2=A0 - Slightly adjust commit message of patch 7.
+> =C2=A0 - Add RBs. (Maira, Danilo, Tvrtko)
+>=20
+> Changes in v2:
+> =C2=A0 - Add new unit test to test cancel_job()'s behavior. (Tvrtko)
+> =C2=A0 - Add RB from Ma=C3=ADra
+>=20
+> Changes since the RFC:
+> =C2=A0 - Rename helper function for drm_sched_fini(). (Tvrtko)
+> =C2=A0 - Add Link to Tvrtko's RFC patch to patch 1.
 >=20
 >=20
-> On 7/10/25 2:44 AM, Maxime Ripard wrote:
-> > On Wed, Jul 09, 2025 at 11:14:37AM -0500, Andrew Davis wrote:
-> > > On 7/9/25 7:44 AM, Maxime Ripard wrote:
-> > > > Aside from the main CMA region, it can be useful to allow userspace=
- to
-> > > > allocate from the other CMA reserved regions.
-> > > >=20
-> > > > Indeed, those regions can have specific properties that can be usef=
-ul to
-> > > > a specific us-case.
-> > > >=20
-> > > > For example, one of them platform I've been with has ECC enabled on=
- the
-> > > > entire memory but for a specific region. Using that region to alloc=
-ate
-> > > > framebuffers can be particular beneficial because enabling the ECC =
-has a
-> > > > performance and memory footprint cost.
-> > > >=20
-> > > > Thus, exposing these regions as heaps user-space can allocate from =
-and
-> > > > import wherever needed allows to cover that use-case.
-> > > >=20
-> > > > For now, only shared-dma-pools regions with the reusable property (=
-ie,
-> > > > backed by CMA) are supported, but eventually we'll want to support =
-other
-> > > > DMA pools types.
-> > > >=20
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >    drivers/dma-buf/heaps/cma_heap.c | 52 ++++++++++++++++++++++++++=
-+++++++++++++-
-> > > >    1 file changed, 51 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/hea=
-ps/cma_heap.c
-> > > > index 0df007111975447d555714d61ead9699287fd65a..31a18683ee25788a800=
-f3f878fd958718a930ff7 100644
-> > > > --- a/drivers/dma-buf/heaps/cma_heap.c
-> > > > +++ b/drivers/dma-buf/heaps/cma_heap.c
-> > > > @@ -19,10 +19,12 @@
-> > > >    #include <linux/err.h>
-> > > >    #include <linux/highmem.h>
-> > > >    #include <linux/io.h>
-> > > >    #include <linux/mm.h>
-> > > >    #include <linux/module.h>
-> > > > +#include <linux/of.h>
-> > > > +#include <linux/of_reserved_mem.h>
-> > > >    #include <linux/scatterlist.h>
-> > > >    #include <linux/slab.h>
-> > > >    #include <linux/vmalloc.h>
-> > > >    #define DEFAULT_CMA_NAME "default_cma_region"
-> > > > @@ -421,7 +423,55 @@ static int __init add_default_cma_heap(void)
-> > > >    				ERR_PTR(ret));
-> > > >    	}
-> > > >    	return 0;
-> > > >    }
-> > > > -module_init(add_default_cma_heap);
-> > > > +
-> > > > +static int __init add_cma_heaps(void)
-> > > > +{
-> > > > +	struct device_node *rmem_node;
-> > > > +	struct device_node *node;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret =3D add_default_cma_heap();
-> > >=20
-> > > Will this double add the default CMA region if it was declared
-> > > using DT (reserved-memory) when all those nodes are again scanned
-> > > through below? Might need a check in that loop for linux,cma-default.
-> >=20
-> > Yeah, but we probably should anyway. Otherwise, if linux,cma-default
-> > ever change on a platform, we would get heaps appearing/disappearing as
-> > we reboot, which doesn't sound great from a regression perspective.
-> >=20
-> > Both would allocate from the same pool though, so we don't risk stepping
-> > into each others toes. Or am I missing something?
->
-> You are not missing anything, having both wouldn't cause anything to brea=
-k,
-> but would cause heaps to appear/disappear based on how the CMA region was
-> defined (DT vs kernel cmd line) which we should avoid.
+> Since a long time, drm_sched_fini() can leak jobs that are still in
+> drm_sched.pending_list.
+>=20
+> This series solves the leaks in a backwards-compatible manner by
+> adding
+> a new, optional callback. If that callback is implemented, the
+> scheduler
+> uses it to cancel all jobs from pending_list and then frees them.
+>=20
+> Philipp Stanner (8):
+> =C2=A0 drm/panfrost: Fix scheduler workqueue bug
+> =C2=A0 drm/sched: Avoid memory leaks with cancel_job() callback
+> =C2=A0 drm/sched/tests: Implement cancel_job() callback
+> =C2=A0 drm/sched/tests: Add unit test for cancel_job()
+> =C2=A0 drm/sched: Warn if pending_list is not empty
+> =C2=A0 drm/nouveau: Make fence container helper usable driver-wide
+> =C2=A0 drm/nouveau: Add new callback for scheduler teardown
+> =C2=A0 drm/nouveau: Remove waitque for sched teardown
+>=20
+> =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 35 ++++++----
+> =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 7 ++
+> =C2=A0drivers/gpu/drm/nouveau/nouveau_sched.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 35 ++++++----
+> =C2=A0drivers/gpu/drm/nouveau/nouveau_sched.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 9 +--
+> =C2=A0drivers/gpu/drm/nouveau/nouveau_uvmm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 8 +--
+> =C2=A0drivers/gpu/drm/panfrost/panfrost_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 37 ++++++----
+> =C2=A0.../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 68 +++++++----=
+------
+> --
+> =C2=A0drivers/gpu/drm/scheduler/tests/sched_tests.h |=C2=A0 1 -
+> =C2=A0drivers/gpu/drm/scheduler/tests/tests_basic.c | 42 ++++++++++++
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 =
++++++
+> =C2=A011 files changed, 167 insertions(+), 95 deletions(-)
+>=20
 
-I'm sorry I guess I don't follow you then. It looked like you were
-arguing for avoiding double registration (under the CMA default name,
-and the region specific name).
 
-I'm arguing that we should always double register to avoid
-linux,cma-default having any effect on the userspace.
+Pushed to drm-misc-next, with an RB from Tvrtko I had forgot, and
+without the misplaced panfrost patch.
 
-In the latter, even if linux,cma-default isn't set at all, then the
-default CMA heap would still be registered from the command line CMA
-region.
+Thanks guys. Good to see that we finally solved this issue. Had been
+around for quite some time. We celebrate that with a beer or sth at XDC
+:)
 
-Maxime
 
---5llptdqqxzku46gv
-Content-Type: application/pgp-signature; name="signature.asc"
+P.
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaG/YHAAKCRAnX84Zoj2+
-dkOzAX0YmjQMGbdv6PCjknHFmYz76OztfvCzCDkZaKgqj22bbf6FqDSYrwynKxvf
-UqY8YsQBgNoAQvbnMblVR9Kaqt05A6hO/69vvLMGftbBRIaceuz5rx59oro8woK2
-px7kmMQqUg==
-=t2l2
------END PGP SIGNATURE-----
-
---5llptdqqxzku46gv--
 
