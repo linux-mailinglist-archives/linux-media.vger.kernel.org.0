@@ -1,173 +1,224 @@
-Return-Path: <linux-media+bounces-37416-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37417-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5824B00B37
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 20:19:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FA9B00B75
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 20:34:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6EAF178C69
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 18:19:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B554716CEDE
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 18:34:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A69F526A0F4;
-	Thu, 10 Jul 2025 18:18:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB0CE2FCE3F;
+	Thu, 10 Jul 2025 18:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pkh1zhwK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLL5WEkl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8122F0C54;
-	Thu, 10 Jul 2025 18:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB681D7E54;
+	Thu, 10 Jul 2025 18:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752171537; cv=none; b=ornqjdIeADG9TFtV8pasd8/b+zZf/6j492mVpf4Tk9hkoqQTXJncU7vTkvO3pPN7n2dHCezyA2epqGykA2hB+oywFXKb9cJlb251UabCfVzbQDGCV8mL0NNJnbDXap9swhSTt10jMZckAfhrUzhX9jtPe1IKWoihMcZTRYPPjhc=
+	t=1752172440; cv=none; b=C6sdgodYq6kXJvL8VfSpCYk0wZMRFQphQxqGUKyVRmtJAQGRJU3kbjrd7f17hJIjo+txChmSxomNBRIsMgnpSeAsZUno39V2j2PyHitMCp1ZuxG/Tkuj1O+KuloipqStTZySPnlH4d6kUTVg5FqjYfzrSnPbjyZcSEAi+Co0b08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752171537; c=relaxed/simple;
-	bh=/PoKgN7L/oEDs9WP4ITeQXy+0FOs46ud96/JHlIiRUk=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=QiB5lXzz6Yw8luhCzTqEMC/G8Qvy4glGNhVTiwRbBsyKE8aIk9K6+SD4NkgMVRCFuXKeS4ZAVkrNAJJZASRl+Mzf5ulGL3A44qKI22vqPkZ9vGx92J1tkvqyj2PP20D9Uv/FVMDiXK6LCbO3WSTFucH48xu/zNSM9+JaOXGPokM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pkh1zhwK; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56AIEWmt012568;
-	Thu, 10 Jul 2025 18:18:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	78QUllCMI4AMJSRsHmpiPNn8A+Q9bzfePHc6Gm7/eWI=; b=pkh1zhwKF+IDL40F
-	lA81yL2RGtQ2DmCOBWUZverVSYPROhZIGLghUIZ4B/QZFj7L+mEPxIA8uSVL+IFu
-	1syj7+KgfG6ZVhDBpFKBYqW6suPaBMaPslTFpu0iCjYS1VdAsbJAzdsZF+hZT3FN
-	3KWlzi9+NuWVXjtSEPE+94yDxGPzRg5jfC+a7YELvGfeRF9sW8GT4d0tKzKZtKEj
-	jCqVqpUAjQPwvP/Uy6iJWjN1KXTaxi8UE2jDLgvpMVUsadJpAJUB2tqHUW3mM7JH
-	G6+JhlpKc/hI/3QxMnKlQd+Y4jKE54y7rmJbQuUALTdEAcJn118W85L5fCQp7Yka
-	pWcmxQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pucn9f5u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Jul 2025 18:18:42 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56AIIfHs017308
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Jul 2025 18:18:41 GMT
-Received: from [10.216.56.238] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 10 Jul
- 2025 11:18:36 -0700
-Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
- node
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        "Dikshita
- Agarwal" <quic_dikshita@quicinc.com>,
-        Abhinav Kumar
-	<abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
- <f5ebf0d6-2f0b-45cc-b99a-b786e5df9edc@linaro.org>
- <5qsgbqml367yq6g5vb4lotrzulojqhi5zlwwribze373a63qrn@rxi4kwyt66m2>
- <4f38058d-a2f1-4ac5-b234-228cfb2e85ff@kernel.org>
- <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
- <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org>
- <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
- <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
- <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
- <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org>
- <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
- <6c6f6bc9-7c34-4961-8b5e-e6d02c4b2f6d@linaro.org>
-From: Prakash Gupta <quic_guptap@quicinc.com>
-Message-ID: <25c64712-960a-50b4-e7fa-398e4bf809ef@quicinc.com>
-Date: Thu, 10 Jul 2025 23:48:30 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+	s=arc-20240116; t=1752172440; c=relaxed/simple;
+	bh=Vs70MeZf1mYaXGnKJLdsSgmTm2iQdUulBxeRcsD98/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L73wqrudZT/2qVaaho3Bl3jFXnBM8Eh28U2ctjVvSQGqOMH1VTQjGUURctvgRBl3Rebk4Tiv+g4C2DJ0pRLKEcv0DBjija2mN0QOu64hC77A8uqOJHeGMzJWkQ73qg8NKjKG0K742V33JD/e/T0ydbaAKw00Qt0Y7XRSXbjjqJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLL5WEkl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54AD0C4CEE3;
+	Thu, 10 Jul 2025 18:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752172439;
+	bh=Vs70MeZf1mYaXGnKJLdsSgmTm2iQdUulBxeRcsD98/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QLL5WEkl9iGpzg+UXniN8zcwc/kvgVq9XmsTyTWBzXNIbNgRyUqB2nCT09Vfsdalm
+	 0bUTot71/LUmO2cqqlCNekoDAwcA1TWAWxbPRH6RHYMvCghZYaeM14yKPcHvfziQLS
+	 +NNapYYO5PteG6Yz9FDFrohN9k649YHr6TnGgtIu8SfCAlz6t0AtNHqxFdJZp7zPsE
+	 gfKV0fRP3Fe3CgjPy7rr75VtQIkFzblwRqwMLSROlQGjL6Ca2zLISrGEDAJCY/bnk4
+	 VFJZXryAEkyIYsU5F9APD7VQYZf049o+okma2hn0ZL9DYc0KHfKoYqhFY/Et9QBgo1
+	 DoqhsSN6ReSww==
+Date: Thu, 10 Jul 2025 13:33:56 -0500
+From: Rob Herring <robh@kernel.org>
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: sakari.ailus@linux.intel.com, krzk+dt@kernel.org,
+	kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+	pratap.nirujogi@amd.com, laurent.pinchart@ideasonboard.com,
+	tarang.raval@siliconsignals.io,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: i2c: Add ov2735 sensor
+Message-ID: <20250710183356.GA3026892-robh@kernel.org>
+References: <20250710131107.69017-1-hardevsinh.palaniya@siliconsignals.io>
+ <20250710131107.69017-2-hardevsinh.palaniya@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <6c6f6bc9-7c34-4961-8b5e-e6d02c4b2f6d@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=GdQXnRXL c=1 sm=1 tr=0 ts=68700402 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=17tGKeYD8DI9GCXtSyEA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: emuYZrLTj78SJd_U-lw-XG0ibRMxMzKh
-X-Proofpoint-ORIG-GUID: emuYZrLTj78SJd_U-lw-XG0ibRMxMzKh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEwMDE1NSBTYWx0ZWRfX4TnoPNuzq2UP
- dZw0fQWu4yx5CZPTSWz1HUiAcQgAXyFBSyI4ct87BbURNfpmNhwp9nW9aeBJXeF01zRkeYb4A0K
- zrnat24h1X24f7PU9Z3vwWxUcJjZn1x3GLVzaaq/1Os7e4t0urmgWMXxumiADYjdpLkuuC3xYBq
- /Aat+QkLM/+zrGSMVa4Po2TPe0oJ6zU8iRPVlmB1TENFP3Zc3xN2s3Fb8Pqtq5m8IeZACKL2esz
- BaEDCSZ6pLnwKg5vpA2y6ZS139GWVQzp8yj4t85yrHXQPUYKu4Zeysn2IgbJmxJADfLAlWyZD0H
- 7OLZKQqrsvz58DAVaZvtcnQIIdDe69Oxys5FLrreh4RWjDtRxY7GUmdcw2vKFs4ptDKkjI2O+xa
- FkeXQraACQ1qV9Bn9PsMyCmuMwQE7v82V6+ZKq2tdszRHR4n2Y5aJaCEzW5Py9h0iG4RAHkf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-10_04,2025-07-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 clxscore=1011
- spamscore=0 suspectscore=0 mlxlogscore=875 priorityscore=1501 impostorscore=0
- malwarescore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507100155
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250710131107.69017-2-hardevsinh.palaniya@siliconsignals.io>
 
-
-
-On 7/5/2025 4:14 AM, Bryan O'Donoghue wrote:
-> On 04/07/2025 17:45, Dmitry Baryshkov wrote:
->> What about instead:
->>
->> - keep IOMMU entries as is
-> ack
+On Thu, Jul 10, 2025 at 06:40:58PM +0530, Hardevsinh Palaniya wrote:
+> From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
 > 
->> - Add iommu-maps, mapping the non-pixel SID
->> - In future expand iommu-maps, describing the secure contexts?
+> Add bindings for Omnivision OV2735 sensor.
 > 
-> Interesting, we are _adding_ so that's not an ABI break and if I'm
-> reading the documentation right, there's no hard rule on what iommu-map
-> defines i.e. nothing to preclude us from encoding the information we
-> want here.
+> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+> Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+> ---
+>  .../bindings/media/i2c/ovti,ov2735.yaml       | 115 ++++++++++++++++++
+>  1 file changed, 115 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
 > 
-> This might work.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
+> new file mode 100644
+> index 000000000000..d9d01db88844
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
+> @@ -0,0 +1,115 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov2735.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: OmniVision OV2735 Image Sensor
+> +
+> +maintainers:
+> +  - Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+> +
+> +description: |
+
+Don't need '|' if no formatting to preserve.
+
+> +  The OmniVision OV2735 is a 2MP (1920x1080) color CMOS image sensor controlled
+> +  through an I2C-compatible SCCB bus. it outputs RAW10 format and uses a 1/2.7"
+> +  optical format.
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov2735
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: XVCLK clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: xvclk
+> +
+> +  avdd-supply:
+> +    description: Analog Domain Power Supply
+> +
+> +  dovdd-supply:
+> +    description: I/O Domain Power Supply
+> +
+> +  dvdd-supply:
+> +    description: Digital Domain Power Supply
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Reset Pin GPIO Control (active low)
+> +
+> +  enable-gpios:
+> +    maxItems: 1
+> +    description: |
+
+Same here.
+
+> +      Active-low enable pin. Labeled as 'PWDN' in the datasheet, but acts as
+> +      an enable signal. During power rail ramp-up, the device remains powered
+> +      down. Once power rails are stable, pulling this pin low powers on the
+> +      device.
+> +
+> +  port:
+> +    description: MIPI CSI-2 transmitter port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            items:
+> +              - const: 1
+> +              - const: 2
+> +
+> +        required:
+> +          - data-lanes
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - avdd-supply
+> +  - dovdd-supply
+> +  - dvdd-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rk3399-cru.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera-sensor@3c {
+> +            compatible = "ovti,ov2735";
+> +            reg = <0x3c>;
+> +            clocks = <&ov2735_clk>;
+> +
+> +            assigned-clocks = <&ov2735_clk>;
+> +            assigned-clock-parents = <&ov2735_clk_parent>;
+> +            assigned-clock-rates = <24000000>;
+> +
+> +            avdd-supply = <&ov2735_avdd>;
+> +            dovdd-supply = <&ov2735_dovdd>;
+> +            dvdd-supply = <&ov2735_dvdd>;
+> +
+> +            reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+> +            enable-gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
+> +
+> +            port {
+> +                cam_out: endpoint {
+> +                    remote-endpoint = <&mipi_in_cam>;
+> +                    data-lanes = <1 2>;
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.34.1
 > 
-> drivers/pci/controller/dwc/pcie-qcom.c::qcom_pcie_config_sid_1_9_0()
-> 
-> You can register your platform device to the SID map you parse.
-
-I see few limitations with using iommu-map here, some of these are
-listed in [1]
-
-1. We can't specify SMR mask with iommu-map.
-2. We can't specify different iommu-addresses range for specific contexts.
-3. The secure CB support [2] would require vmid information associated
-with per context. I think this can't be provided with iommu-map.
-
-[1]
-https://lore.kernel.org/all/85137a8e-45be-3bb2-d094-79754fa2a8be@quicinc.com/
-[2]
-https://lore.kernel.org/all/20231101071144.16309-2-quic_gkohli@quicinc.com/
-
-Thanks,
-Prakash
 
