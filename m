@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-37302-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37303-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B75B00365
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 15:33:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD44DB003CC
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 15:39:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DCD41C4700D
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 13:34:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93AC05A813D
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 13:37:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2EE225B2FA;
-	Thu, 10 Jul 2025 13:33:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 443FC25C6E7;
+	Thu, 10 Jul 2025 13:36:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUJzm+YK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nt+Z+pcL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414D482899;
-	Thu, 10 Jul 2025 13:33:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AB225A35A;
+	Thu, 10 Jul 2025 13:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752154410; cv=none; b=gXncGpGTLeSpC4pkHNq4E3mZXZclfHwibuHY5u9eVmo0/ChihNLenTelCd32NPmhSriFXGV8VNY5XBJ8GRuIDyCBfOryriYSMcLvVLv6W0g5snHJ0rUGYgo41hSg4w+sEdr5yio9avr3BXL7O0IFL044uvPYxFbN3WIrRctfPp4=
+	t=1752154560; cv=none; b=jpYL0s4Lq+Q9V9rsUDYPWL2hFdFY/9smu1gsI7muI8ADSn0VurByiMpq+MkRip1kc1IrpcxJ37fsBm3LUiRR3TV9uDD3SM/T3Z1zHR3YP6FKWloyekeUO4vObn/ZYrR4SfmLFAZfU9jwWSw0MDh5KV33yqYC3eVpTYYrU3YZt2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752154410; c=relaxed/simple;
-	bh=Q2kO4Y/oycTTePk3TM8auo1jZ3hHY5DEkbW5MUZk+PE=;
+	s=arc-20240116; t=1752154560; c=relaxed/simple;
+	bh=+AU3DxQgY2nRlVbz8KuRJNuN6I9N6zihEdEp8cRzFz8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FJ1270e7TRwuI4e0w4VYN7a9TAkf+fjUzoAAIzUzqtUdkkvMIwksrNRaAWF9+p+QjiwMvrgIwchHc4p9YVZ6FhbkUJz/vp4+lgHeObbg0EPNZIxUauRN6Na1p6/JwJSTI4vU9fCwtJKe+JGQPEI3JJ0MegvAVJHolXEqKiOxQ+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUJzm+YK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06E65C4CEE3;
-	Thu, 10 Jul 2025 13:33:14 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=aPnEpTwRb1ejU2dOtJR3Xwa6AHq/8xEj55FWZiTCYZ3eyBbadSv6PiyUu8UrCi2JInhodaUzPPN8Wqrhd8Ifup2eSYHKbKb/2qy0KO88SFFlDwENzkA6SpXFNZkkKBjS02zzBbc3biO7EqKUwoNi+Par/uPKYObhWrMod6o9cCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nt+Z+pcL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAB17C4CEE3;
+	Thu, 10 Jul 2025 13:35:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752154409;
-	bh=Q2kO4Y/oycTTePk3TM8auo1jZ3hHY5DEkbW5MUZk+PE=;
+	s=k20201202; t=1752154560;
+	bh=+AU3DxQgY2nRlVbz8KuRJNuN6I9N6zihEdEp8cRzFz8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jUJzm+YK4pt3e9elf4IPjgblfVRSj06kM9RizsWmebVfvV5XHQAZiahP6Prxk6OJn
-	 OFScmXKJHArvfzTIdCKy2/8+eNXhcd3IRNA4OFC0M6t/h+kwsnPY9si3GAAIyNIylm
-	 d+VpP9uVdUOKntn2XDnubPOi3yuvqRPOKRCPqxwuubGheFTELssUQ1Utth5xQWZQrV
-	 73XIh6fUBw3JlnlT0IW1Ffa6kz1huwxFVEHruFPPcKHZJhHTFp/mm1+AcnZkInXf2M
-	 wN7adrX9JxQJv9WI7YR+58HQRvxa4CRowv0HWxIqqMaLKXDDSje43HUDrhXp96f2ED
-	 CvcpDpgNlfxOA==
-Message-ID: <d870b11c-39e2-4b7a-a368-13b1c4b5a7c8@kernel.org>
-Date: Thu, 10 Jul 2025 15:33:10 +0200
+	b=Nt+Z+pcLaUbN5oDFGl0O/48DR3CK1AogfcvHMn/FPWnjEbS6TrQBslOe2Xgvuvfsh
+	 4oFh/VNzRlzC/GScMjqQNHjm5XUooVFzcF1PLHcFVPCydS89o1tLWuT+4S7iaYajuc
+	 P0cBogKWvOBLNC+Nlwoffyfc7edKgS1OWhUERQeKTdkdyNR6ZXUts+lw4u77P8pFqG
+	 Es0Zp044K40dnQ4EputGF0tIKHyR/nZYJ59iZmVaqXtgNqvDyRzvtPEOuQnZfTQ/ue
+	 RD/TQ0ag1iq/vF16TFUxtBrZLvuwTW70IbHQRFrs3RTSyoh8J4LzULloOAtd0CO6IC
+	 jzkdAEmdgjXTg==
+Message-ID: <43023f6f-2a02-4c5c-8f45-66ff7df1e8ad@kernel.org>
+Date: Thu, 10 Jul 2025 15:35:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -124,42 +124,20 @@ Content-Transfer-Encoding: 7bit
 
 On 10/07/2025 15:10, Hardevsinh Palaniya wrote:
 > +
-> +  clocks:
-> +    items:
-> +      - description: XVCLK clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: xvclk
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - avdd-supply
+> +  - dovdd-supply
+> +  - dvdd-supply
+> +  - port
 
-You don't use clock names here and example, so just drop the property.
+Now  I looked at your driver and the code clearly says that GPIOs are
+not optional.
 
-With this fixed:
-
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
----
-
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
-of patchset, under or above your Signed-off-by tag, unless patch changed
-significantly (e.g. new properties added to the DT bindings). Tag is
-"received", when provided in a message replied to you on the mailing
-list. Tools like b4 can help here. However, there's no need to repost
-patches *only* to add the tags. The upstream maintainer will do that for
-tags received on the version they apply.
-
-Full context and explanation:
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-</form letter>
-
+You really need to sync the binding in the driver. They cannot define
+completely different ABI.
 
 Best regards,
 Krzysztof
