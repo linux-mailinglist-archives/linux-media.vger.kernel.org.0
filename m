@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-37363-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37364-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60777B00A87
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:50:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49108B00AA5
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:51:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC2115C1761
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:50:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED2FD7BCAFD
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:48:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9F22F2C5F;
-	Thu, 10 Jul 2025 17:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C7D82F2C66;
+	Thu, 10 Jul 2025 17:49:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KYrsfLnH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vBmAjj6h"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D206279DB6
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5B62F2C59
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752169755; cv=none; b=MIK9mF7AFedyLPzLSTZKCMLK2SUZZ98uq/ACGzIvcO7EY7SNDDyOmDyQKpBqpvoVGcHBWDVoOiKt4F1lXLYztuj7G5hRm2ng1vNz4IhVe26h+rDNCJcfnnr/Cm6JYvkMa0XlAuW01sNJhI4hK3ZmrMFB5WKenl88lC8nLUm6lbo=
+	t=1752169757; cv=none; b=lWTOS24iR+nXaWHT+e5/MCtOGbQ78r9z+L7U/4JKL9Z4HXsuic5hiA+VoHF3rMpizklDxs3stPYHb92Tw75QzgbJ7Wt3R+rAaSNySzL0PvEyjBaaQO4rNxXYzU8LjyW4y6SO+oM7jXO2B8DckpBAj2R3qyRa7HX6vUtxkiVkHGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752169755; c=relaxed/simple;
-	bh=jyZ1tQHnWkNkVUp6c2PDxnFUTN50sQdaMi3rWoS/bY8=;
+	s=arc-20240116; t=1752169757; c=relaxed/simple;
+	bh=DXZKysPKz8UHJBxHgr9cu1FvKrEEU0YkCaP4NKfdpE4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sjicvwhmmQlkxDeBPI0AlrgJac4tQBtN3wHpMv7067u5q4sC0OvbQXjEamqYRA0b6pVpBybfk1KB5a8v9Dh2Blu2IfMz2c2KTAlq9KtuHvalOV2E8xUxKpnC6BTk418dos/4PsUEnDy75LzBFeiTnHP44Sqjm1stfS27cwt3lig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KYrsfLnH; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Ha527SwnL2WDx3LUVEqvSUanJp+OtL1nwWeuVMGImnmLhvjB4P4TDoyZq30V9cEZcQQFRBuRBibVvGXwphWnYDClnukFW4jiv3lVRDLyybuIcf6xNAu6xvn6xybtCUR2Nn3dSLxr7tWzQnLEYMXVD0uxrEr/9y1/JySbJiJQAu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vBmAjj6h; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3F1071AD5;
-	Thu, 10 Jul 2025 19:48:42 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BC9D0B2B;
+	Thu, 10 Jul 2025 19:48:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752169722;
-	bh=jyZ1tQHnWkNkVUp6c2PDxnFUTN50sQdaMi3rWoS/bY8=;
+	s=mail; t=1752169723;
+	bh=DXZKysPKz8UHJBxHgr9cu1FvKrEEU0YkCaP4NKfdpE4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KYrsfLnHIx6A8XWzz83CHq02Pp3nsRk4HYhBHcVpW2tXnumVyn4Yayji9lnEq+atX
-	 B8I53RMSULRXve565po9gNmDidFreyw20PZLJh7KRU0VApWfdXXzsHnyKp2sCLcUNw
-	 zC6DVmisFkw4GjglLFQoJ6WleHwnD/4axYXt2ndk=
+	b=vBmAjj6hY1fPbGWm2ifuF/ABjhNA2SHcpoMsvhyQstPJM4vZXPBR6DzUy+B2BYDAf
+	 LoEvs3h0gMxnFLbGNd9CJ8zOzqpo2vyHexdE+EBLvleSdJ++EObnFwHiPZW3q6vBaQ
+	 GTeVDC20jCxxs1VRZiwVUEAFFDPOpxdBoxU6iT9I=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 20/72] media: i2c: hi556: Replace client->dev usage
-Date: Thu, 10 Jul 2025 20:47:16 +0300
-Message-ID: <20250710174808.5361-21-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 21/72] media: i2c: hi556: Use V4L2 sensor clock helper
+Date: Thu, 10 Jul 2025 20:47:17 +0300
+Message-ID: <20250710174808.5361-22-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
 References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
@@ -59,289 +59,92 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver needs to access the struct device in many places, and
-retrieves it from the i2c_client itself retrieved with
-v4l2_get_subdevdata(). Store it as a pointer in struct hi556 and access
-it from there instead, to simplify the driver.
+Several camera sensor drivers access the "clock-frequency" property
+directly to retrieve the external clock rate, or modify the clock rate
+of the external clock programmatically. Both behaviours are valid on
+a subset of ACPI platforms, but are considered deprecated on OF
+platforms, and do not support ACPI platforms that implement MIPI DisCo
+for Imaging. Implementing them manually in drivers is deprecated, as
+that can encourage cargo-cult and lead to differences in behaviour
+between drivers. Instead, drivers should use the
+devm_v4l2_sensor_clk_get() helper.
 
-While at it, fix a mistake in the sort order of include statements.
+This driver supports ACPI platforms only. It retrieves the clock if
+present, and retrieves the clock rate from the "clock-frequency"
+property. If the rate does not match the expected rate, the driver fails
+probing. This is correct behaviour for ACPI.
+
+Switch to using the devm_v4l2_sensor_clk_get() helper. This does not
+change the behaviour on ACPI platforms that specify a clock-frequency
+property and don't provide a clock. On ACPI platforms that provide a
+clock, the clock rate will be set to the value of the clock-frequency
+property. This should not change the behaviour either as this driver
+expects the clock to be set to that rate, and wouldn't operate correctly
+otherwise.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/hi556.c | 72 +++++++++++++++++++--------------------
- 1 file changed, 35 insertions(+), 37 deletions(-)
+ drivers/media/i2c/hi556.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index 076c19fcf99c..cd7c3e4fd39c 100644
+index cd7c3e4fd39c..de573cee4451 100644
 --- a/drivers/media/i2c/hi556.c
 +++ b/drivers/media/i2c/hi556.c
-@@ -1,7 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (c) 2019 Intel Corporation.
- 
--#include <linux/unaligned.h>
- #include <linux/acpi.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
-@@ -10,6 +9,8 @@
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/unaligned.h>
-+
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -631,6 +632,8 @@ static const char * const hi556_supply_names[] = {
- };
- 
- struct hi556 {
-+	struct device *dev;
-+
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
- 	struct v4l2_ctrl_handler ctrl_handler;
-@@ -715,7 +718,6 @@ static int hi556_write_reg(struct hi556 *hi556, u16 reg, u16 len, u32 val)
- static int hi556_write_reg_list(struct hi556 *hi556,
- 				const struct hi556_reg_list *r_list)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
- 	unsigned int i;
- 	int ret;
- 
-@@ -724,7 +726,7 @@ static int hi556_write_reg_list(struct hi556 *hi556,
- 				      HI556_REG_VALUE_16BIT,
- 				      r_list->regs[i].val);
- 		if (ret) {
--			dev_err_ratelimited(&client->dev,
-+			dev_err_ratelimited(hi556->dev,
- 					    "failed to write reg 0x%4.4x. error = %d\n",
- 					    r_list->regs[i].address, ret);
- 			return ret;
-@@ -785,7 +787,6 @@ static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct hi556 *hi556 = container_of(ctrl->handler,
- 					     struct hi556, ctrl_handler);
--	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
- 	s64 exposure_max;
+@@ -1213,7 +1213,6 @@ static int hi556_check_hwcfg(struct device *dev)
+ 	struct v4l2_fwnode_endpoint bus_cfg = {
+ 		.bus_type = V4L2_MBUS_CSI2_DPHY
+ 	};
+-	u32 mclk;
  	int ret = 0;
+ 	unsigned int i, j;
  
-@@ -801,7 +802,7 @@ static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
- 	}
+@@ -1231,18 +1230,6 @@ static int hi556_check_hwcfg(struct device *dev)
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "parsing endpoint failed\n");
  
- 	/* V4L2 controls values will be applied only when power is already up */
--	if (!pm_runtime_get_if_in_use(&client->dev))
-+	if (!pm_runtime_get_if_in_use(hi556->dev))
- 		return 0;
- 
- 	switch (ctrl->id) {
-@@ -835,7 +836,7 @@ static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
--	pm_runtime_put(&client->dev);
-+	pm_runtime_put(hi556->dev);
- 
- 	return ret;
- }
-@@ -921,7 +922,6 @@ static void hi556_assign_pad_format(const struct hi556_mode *mode,
- 
- static int hi556_identify_module(struct hi556 *hi556)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
- 	int ret;
- 	u32 val;
- 
-@@ -934,7 +934,7 @@ static int hi556_identify_module(struct hi556 *hi556)
- 		return ret;
- 
- 	if (val != HI556_CHIP_ID) {
--		dev_err(&client->dev, "chip id mismatch: %x!=%x\n",
-+		dev_err(hi556->dev, "chip id mismatch: %x!=%x\n",
- 			HI556_CHIP_ID, val);
- 		return -ENXIO;
- 	}
-@@ -998,7 +998,6 @@ static int hi556_get_selection(struct v4l2_subdev *sd,
- 
- static int hi556_start_streaming(struct hi556 *hi556)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
- 	const struct hi556_reg_list *reg_list;
- 	int link_freq_index, ret;
- 
-@@ -1010,14 +1009,14 @@ static int hi556_start_streaming(struct hi556 *hi556)
- 	reg_list = &link_freq_configs[link_freq_index].reg_list;
- 	ret = hi556_write_reg_list(hi556, reg_list);
- 	if (ret) {
--		dev_err(&client->dev, "failed to set plls\n");
-+		dev_err(hi556->dev, "failed to set plls\n");
- 		return ret;
- 	}
- 
- 	reg_list = &hi556->cur_mode->reg_list;
- 	ret = hi556_write_reg_list(hi556, reg_list);
- 	if (ret) {
--		dev_err(&client->dev, "failed to set mode\n");
-+		dev_err(hi556->dev, "failed to set mode\n");
- 		return ret;
- 	}
- 
-@@ -1029,7 +1028,7 @@ static int hi556_start_streaming(struct hi556 *hi556)
- 			      HI556_REG_VALUE_16BIT, HI556_MODE_STREAMING);
- 
- 	if (ret) {
--		dev_err(&client->dev, "failed to set stream\n");
-+		dev_err(hi556->dev, "failed to set stream\n");
- 		return ret;
- 	}
- 
-@@ -1038,22 +1037,19 @@ static int hi556_start_streaming(struct hi556 *hi556)
- 
- static void hi556_stop_streaming(struct hi556 *hi556)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
+-	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+-	if (ret) {
+-		dev_err(dev, "can't get clock frequency\n");
+-		goto check_hwcfg_error;
+-	}
 -
- 	if (hi556_write_reg(hi556, HI556_REG_MODE_SELECT,
- 			    HI556_REG_VALUE_16BIT, HI556_MODE_STANDBY))
--		dev_err(&client->dev, "failed to set stream\n");
-+		dev_err(hi556->dev, "failed to set stream\n");
- }
- 
- static int hi556_set_stream(struct v4l2_subdev *sd, int enable)
+-	if (mclk != HI556_MCLK) {
+-		dev_err(dev, "external clock %d is not supported\n", mclk);
+-		ret = -EINVAL;
+-		goto check_hwcfg_error;
+-	}
+-
+ 	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2) {
+ 		dev_err(dev, "number of CSI2 data lanes %d is not supported\n",
+ 			bus_cfg.bus.mipi_csi2.num_data_lanes);
+@@ -1332,6 +1319,7 @@ static int hi556_resume(struct device *dev)
+ static int hi556_probe(struct i2c_client *client)
  {
- 	struct hi556 *hi556 = to_hi556(sd);
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret = 0;
+ 	struct hi556 *hi556;
++	unsigned long freq;
+ 	bool full_power;
+ 	int i, ret;
  
- 	mutex_lock(&hi556->mutex);
- 	if (enable) {
--		ret = pm_runtime_resume_and_get(&client->dev);
-+		ret = pm_runtime_resume_and_get(hi556->dev);
- 		if (ret < 0) {
- 			mutex_unlock(&hi556->mutex);
- 			return ret;
-@@ -1062,11 +1058,11 @@ static int hi556_set_stream(struct v4l2_subdev *sd, int enable)
- 		ret = hi556_start_streaming(hi556);
- 		if (ret) {
- 			hi556_stop_streaming(hi556);
--			pm_runtime_put(&client->dev);
-+			pm_runtime_put(hi556->dev);
- 		}
- 	} else {
- 		hi556_stop_streaming(hi556);
--		pm_runtime_put(&client->dev);
-+		pm_runtime_put(hi556->dev);
- 	}
- 
- 	mutex_unlock(&hi556->mutex);
-@@ -1289,7 +1285,7 @@ static void hi556_remove(struct i2c_client *client)
- 	v4l2_async_unregister_subdev(sd);
- 	media_entity_cleanup(&sd->entity);
- 	v4l2_ctrl_handler_free(sd->ctrl_handler);
--	pm_runtime_disable(&client->dev);
-+	pm_runtime_disable(hi556->dev);
- 	mutex_destroy(&hi556->mutex);
- }
- 
-@@ -1347,40 +1343,42 @@ static int hi556_probe(struct i2c_client *client)
- 	if (!hi556)
- 		return -ENOMEM;
- 
-+	hi556->dev = &client->dev;
-+
- 	v4l2_i2c_subdev_init(&hi556->sd, client, &hi556_subdev_ops);
- 
--	hi556->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
-+	hi556->reset_gpio = devm_gpiod_get_optional(hi556->dev, "reset",
- 						    GPIOD_OUT_HIGH);
- 	if (IS_ERR(hi556->reset_gpio))
--		return dev_err_probe(&client->dev, PTR_ERR(hi556->reset_gpio),
-+		return dev_err_probe(hi556->dev, PTR_ERR(hi556->reset_gpio),
+@@ -1353,11 +1341,17 @@ static int hi556_probe(struct i2c_client *client)
+ 		return dev_err_probe(hi556->dev, PTR_ERR(hi556->reset_gpio),
  				     "failed to get reset GPIO\n");
  
--	hi556->clk = devm_clk_get_optional(&client->dev, "clk");
-+	hi556->clk = devm_clk_get_optional(hi556->dev, "clk");
+-	hi556->clk = devm_clk_get_optional(hi556->dev, "clk");
++	hi556->clk = devm_v4l2_sensor_clk_get(hi556->dev, "clk");
  	if (IS_ERR(hi556->clk))
--		return dev_err_probe(&client->dev, PTR_ERR(hi556->clk),
-+		return dev_err_probe(hi556->dev, PTR_ERR(hi556->clk),
+ 		return dev_err_probe(hi556->dev, PTR_ERR(hi556->clk),
  				     "failed to get clock\n");
  
++	freq = clk_get_rate(hi556->clk);
++	if (freq != HI556_MCLK)
++		return dev_err_probe(hi556->dev, -EINVAL,
++				     "external clock %lu is not supported\n",
++				     freq);
++
  	for (i = 0; i < ARRAY_SIZE(hi556_supply_names); i++)
  		hi556->supplies[i].supply = hi556_supply_names[i];
  
--	ret = devm_regulator_bulk_get(&client->dev,
-+	ret = devm_regulator_bulk_get(hi556->dev,
- 				      ARRAY_SIZE(hi556_supply_names),
- 				      hi556->supplies);
- 	if (ret)
--		return dev_err_probe(&client->dev, ret,
-+		return dev_err_probe(hi556->dev, ret,
- 				     "failed to get regulators\n");
- 
--	full_power = acpi_dev_state_d0(&client->dev);
-+	full_power = acpi_dev_state_d0(hi556->dev);
- 	if (full_power) {
- 		/* Ensure non ACPI managed resources are enabled */
--		ret = hi556_resume(&client->dev);
-+		ret = hi556_resume(hi556->dev);
- 		if (ret)
--			return dev_err_probe(&client->dev, ret,
-+			return dev_err_probe(hi556->dev, ret,
- 					     "failed to power on sensor\n");
- 
- 		ret = hi556_identify_module(hi556);
- 		if (ret) {
--			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
-+			dev_err(hi556->dev, "failed to find sensor: %d\n", ret);
- 			goto probe_error_power_off;
- 		}
- 	}
-@@ -1389,7 +1387,7 @@ static int hi556_probe(struct i2c_client *client)
- 	hi556->cur_mode = &supported_modes[0];
- 	ret = hi556_init_controls(hi556);
- 	if (ret) {
--		dev_err(&client->dev, "failed to init controls: %d\n", ret);
-+		dev_err(hi556->dev, "failed to init controls: %d\n", ret);
- 		goto probe_error_v4l2_ctrl_handler_free;
- 	}
- 
-@@ -1400,22 +1398,22 @@ static int hi556_probe(struct i2c_client *client)
- 	hi556->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	ret = media_entity_pads_init(&hi556->sd.entity, 1, &hi556->pad);
- 	if (ret) {
--		dev_err(&client->dev, "failed to init entity pads: %d\n", ret);
-+		dev_err(hi556->dev, "failed to init entity pads: %d\n", ret);
- 		goto probe_error_v4l2_ctrl_handler_free;
- 	}
- 
- 	ret = v4l2_async_register_subdev_sensor(&hi556->sd);
- 	if (ret < 0) {
--		dev_err(&client->dev, "failed to register V4L2 subdev: %d\n",
-+		dev_err(hi556->dev, "failed to register V4L2 subdev: %d\n",
- 			ret);
- 		goto probe_error_media_entity_cleanup;
- 	}
- 
- 	/* Set the device's state to active if it's in D0 state. */
- 	if (full_power)
--		pm_runtime_set_active(&client->dev);
--	pm_runtime_enable(&client->dev);
--	pm_runtime_idle(&client->dev);
-+		pm_runtime_set_active(hi556->dev);
-+	pm_runtime_enable(hi556->dev);
-+	pm_runtime_idle(hi556->dev);
- 
- 	return 0;
- 
-@@ -1428,7 +1426,7 @@ static int hi556_probe(struct i2c_client *client)
- 
- probe_error_power_off:
- 	if (full_power)
--		hi556_suspend(&client->dev);
-+		hi556_suspend(hi556->dev);
- 
- 	return ret;
- }
 -- 
 Regards,
 
