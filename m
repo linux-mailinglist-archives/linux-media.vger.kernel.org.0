@@ -1,185 +1,177 @@
-Return-Path: <linux-media+bounces-37259-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37260-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CB8AFFB06
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 09:36:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A780AFFB0D
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 09:37:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE1B24E095A
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 07:35:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A26656796B
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 07:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C39B028983E;
-	Thu, 10 Jul 2025 07:36:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D27828936E;
+	Thu, 10 Jul 2025 07:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YeAF51fE"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="oW+FMJI0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E34D28751F;
-	Thu, 10 Jul 2025 07:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752132967; cv=none; b=PqIDdBJ8hBZ5HvXxWpWF85et9FRJ6FPDRaTrw7U61L1rL78SNDKYTa4AS5Asaa89zdwPAR7NNDHymjCStiXrB50805Ek5FCmxB82ce0om+UF9o0EpKDTRv0ZNtLpsdNzk6P6UGD1cknvOAHz//yd/O3F3k3sM1q+nIuPecKRS98=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752132967; c=relaxed/simple;
-	bh=mue2JFn58Xcox+gqmOTPe7zIvbnkjtHDu9euATkcNVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZzqLAAh2F+y/kWYrxv+tDylR7wbuuSDujKQpttW01F3vVZi3NpJ70huozbXapISlNFQauizlEZdOG7E2hB5foRs9zU/So74nYiwRltQbLxnAL4qiKspdAO8eHQs0kl5vcjiIKsUP4A0gK7OpSMIRr6+FJ8MDgBuf02/jcKhXHNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YeAF51fE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F563C4CEE3;
-	Thu, 10 Jul 2025 07:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752132966;
-	bh=mue2JFn58Xcox+gqmOTPe7zIvbnkjtHDu9euATkcNVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YeAF51fEBgve2cj8TTkkBVcVZftaDtNa2vKCye50KkTYB6V58VR69pEHVtJFWKj0C
-	 bYonbs/rFRWGwmUC4vqDFMRwsS4lJW0ckF329I6pYiXOsPhMDGmODpbh0qvrc2oFr+
-	 CmILLBoWy74hzGqAnBxA+sLvUVWzPod8yRi0qb04joZK0ryc+0F6YMgbNCfOWAvTPw
-	 k5w63jllp35HDD5FKBAQZdQ4BC4dE1U3G4S0hVxRZR7wwAjE8T+1viF5Ka8ud4Z60m
-	 3ssDLrhC3wMJHrxuRxMb73thEXfsgfjrH/e2S5H0eQ9cvdfKFgBrySXQRPxPoZS84Q
-	 434MPGU0K/HhQ==
-Date: Thu, 10 Jul 2025 09:36:03 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Andrew Davis <afd@ti.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev
-Subject: Re: [PATCH v6 1/2] dma/contiguous: Add helper to test reserved
- memory type
-Message-ID: <20250710-sincere-dainty-marmot-1cad58@houat>
-References: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
- <20250709-dma-buf-ecc-heap-v6-1-dac9bf80f35d@kernel.org>
- <8b36f958-3406-421d-ab94-5e49f911f92e@ti.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0684219E7D1
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 07:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752133054; cv=pass; b=nhh37dCQks9Jo92XtEdg++8nPg4eXEUoL3IhBaG74FBAjDEkIryOPKPJ4tJc4JqAPbctKrKmaFKd3Q2wqCVbXDHEhZvy8RL9CQ19peVi31EIqMfEsmacPdvclYr04lSpxmgebmzPXHeX92dRDMsWOoM21GMRFqHK5/5N2YuSRxA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752133054; c=relaxed/simple;
+	bh=19iBEFQs+MCXDVWpl5Ad7JuL4v4o4H97fGdfGTxIAjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NVjkHnaoanxIuZ3ZzO5DMSQP3IWYTIjMLqg+J1MywSKyec/QOmeJc7bLEOaDohcQbNeYdu5lFMyQ+gEimLFDJakeofmxinupJP1UTc2BXQwXlW5akD2xowfdYxxNur5btCKQmVlQiml2qgM+mBqbpGenG68yurZZW5JBp4mYsuQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=oW+FMJI0; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4bd6BK4074zyQ8;
+	Thu, 10 Jul 2025 10:37:29 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1752133049;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Rhgu94+0cEQ7CzX3EjJbhbPeHGN60qYyrH6AJHpVlf0=;
+	b=oW+FMJI0xGWWuskDqk449EoEfkA397P+ylgP3RLz2zr61P46+HRdGR95nxmCqvKIRhuQZd
+	4IgvXsprkUwUxh1u0lkfqUfSpI/rkWFow+Vxjn1YMUlHR+9oEn/eQ4nXBbG7U1oGA71Smt
+	If8f6rnZHPyJzSL4Yu9LKM1+1rqkfto=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1752133049;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Rhgu94+0cEQ7CzX3EjJbhbPeHGN60qYyrH6AJHpVlf0=;
+	b=PyeGBz+TcNoGNZL+ui5ByWvpBZ9gYD/HOd/rfzPKS/obb3ueHox/B3s9KDgvtiYpUAsVK4
+	LFzsVfLN1oe5h1BwjGqD4keIoQsquumibk33SqV5PaMQ8ABiM/D6WxLVGFYQM9/iHS1hJQ
+	zWPD92SWRdeMoDSfj02W4zxrlEFTq+Q=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1752133049; a=rsa-sha256; cv=none;
+	b=Cc5YrDqWf3T/y4zG1oKvJgSD1Lw3q/mp0pasjHV/CnozbizvWX/nSU2bH9zf1pqxZpic2s
+	1y/8/O8W9f1FnUIBLW7WDrvCVzTImM95cN8Hu2ny3mnb8gRLMDzOyLL1ycCqqPmfgdbWpa
+	tHIw3fMm7e1MYpTgPyPu9KHVYksOU1Q=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5CDBF634C93;
+	Thu, 10 Jul 2025 10:37:28 +0300 (EEST)
+Date: Thu, 10 Jul 2025 07:37:28 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl
+Subject: [GIT PULL FOR 6.17] IPU[67], sub-device framework improvements,
+ camera sensor driver fixes
+Message-ID: <aG9tuMFOnvwXkcE-@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="b2q4t2bjxzo6g2kd"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <8b36f958-3406-421d-ab94-5e49f911f92e@ti.com>
+Content-Transfer-Encoding: 8bit
+
+Hi Hans, Mauro,
+
+Here's a small set of fixes for various drivers, including compile fixes
+for the IPU7 staging driver from Arnd. Otherwise it's small improvements
+here and there, mostly hi556, imx290 and ov2659 sensor and j721e-csi2rx
+drivers.
+
+Please pull.
 
 
---b2q4t2bjxzo6g2kd
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 1/2] dma/contiguous: Add helper to test reserved
- memory type
-MIME-Version: 1.0
+The following changes since commit 3e43442d4994c9e1e202c98129a87e330f7faaed:
 
-Hi Andrew,
+  media: vivid: fix wrong pixel_array control size (2025-07-08 09:02:38 +0200)
 
-On Wed, Jul 09, 2025 at 10:55:40AM -0500, Andrew Davis wrote:
-> On 7/9/25 7:44 AM, Maxime Ripard wrote:
-> > A given reserved-memory region can be of multiple types.
-> >=20
-> > We have currently four types defined in the tree: contiguous, backed by
-> > CMA, coherent and swiotlb, backed by their respective allocators, and a
-> > platform-specific one for tegra.
-> >=20
-> > However, some users, like dma-buf heaps, might be interested in the
-> > exact type of a reserved memory region they are getting. It would thus
-> > be useful to have helpers to test if a given region is of a given type.
-> >=20
-> > Since we only care about CMA for now though, let's create one for CMA
-> > only.
-> >=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >   include/linux/dma-map-ops.h | 13 +++++++++++++
-> >   kernel/dma/contiguous.c     |  7 +++++++
-> >   2 files changed, 20 insertions(+)
-> >=20
-> > diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-> > index f48e5fb88bd5dd346094bbf2ce1b79e5f5bfe1a6..ea646acb6367bd062619b33=
-7013db221749f85ab 100644
-> > --- a/include/linux/dma-map-ops.h
-> > +++ b/include/linux/dma-map-ops.h
-> > @@ -153,10 +153,23 @@ static inline void dma_free_contiguous(struct dev=
-ice *dev, struct page *page,
-> >   {
-> >   	__free_pages(page, get_order(size));
-> >   }
-> >   #endif /* CONFIG_DMA_CMA*/
-> > +#if defined(CONFIG_DMA_CMA) && defined(CONFIG_OF_RESERVED_MEM)
-> > +struct reserved_mem;
-> > +
-> > +bool of_reserved_mem_is_contiguous(const struct reserved_mem *rmem);
-> > +#else
-> > +struct reserved_mem;
-> > +
-> > +static inline bool of_reserved_mem_is_contiguous(const struct reserved=
-_mem *rmem)
-> > +{
-> > +	return false;
-> > +}
-> > +#endif
-> > +
->=20
-> Should this all go in linux/of_reserved_mem.h?
->=20
-> >   #ifdef CONFIG_DMA_DECLARE_COHERENT
-> >   int dma_declare_coherent_memory(struct device *dev, phys_addr_t phys_=
-addr,
-> >   		dma_addr_t device_addr, size_t size);
-> >   void dma_release_coherent_memory(struct device *dev);
-> >   int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
-> > diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> > index 8df0dfaaca18eeb0a20145512ba64425d2e7601e..ace4982e928e404315cf385=
-51e1596f7ed445156 100644
-> > --- a/kernel/dma/contiguous.c
-> > +++ b/kernel/dma/contiguous.c
-> > @@ -493,6 +493,13 @@ static int __init rmem_cma_setup(struct reserved_m=
-em *rmem)
-> >   		&rmem->base, (unsigned long)rmem->size / SZ_1M);
-> >   	return 0;
-> >   }
-> >   RESERVEDMEM_OF_DECLARE(cma, "shared-dma-pool", rmem_cma_setup);
-> > +
-> > +bool of_reserved_mem_is_contiguous(const struct reserved_mem *rmem)
->=20
-> Needing to check where the reserved mem comes from seems wrong, it hints
-> that the reserved mem region drivers, like this one, are not in full cont=
-rol
-> of their regions. Instead of looping over all the regions in DT in the ne=
-xt
-> patch and searching for the owner, how about the owner (this driver) call
-> into __add_cma_heap() if it chooses to expose the region in that way.
->=20
-> (I know RESERVEDMEM_OF_DECLARE callbacks are done very early and the CMA-=
-Heap
-> driver might not be able to deal with adding heaps at this point, so maybe
-> keeping a table the heaps driver can later iterate over would also work).
+are available in the Git repository at:
 
-It's something I considered but wasn't too sure about, so I went the
-less intrusive way.
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.17-2-signed
 
-I'll work on that for the next version, thanks!
-Maxime
+for you to fetch changes up to 2ad401b4493081d64975f2e00ef1850aa67434fa:
 
---b2q4t2bjxzo6g2kd
-Content-Type: application/pgp-signature; name="signature.asc"
+  media: ivsc: Add MAINTAINERS entry (2025-07-10 10:21:42 +0300)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+V4L2 fixes for 6.17
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaG9tYwAKCRAnX84Zoj2+
-dirHAX9y8X3F+DfFYUDveJIb9DstTlSvimj5QRvPEuzVfmbJoGCEVCl3SFChG0nH
-Dl2sh0sBgJIDvY1QFYOlOAUR1G4Ec2V12xDBUeAYbip+I9SmiZyQ5mpDfHQUD4pH
-kPC3oAIFNg==
-=8N7z
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Arnd Bergmann (2):
+      media: staging/ipu7: avoid division by 64-bit value
+      media: staging/ipu7: add CONFIG_PCI dependency
 
---b2q4t2bjxzo6g2kd--
+Bingbu Cao (1):
+      media: hi556: correct the test pattern configuration
+
+Devarsh Thakkar (1):
+      media: ti: j721e-csi2rx: Allow passing cache hints from user-space
+
+Hans de Goede (3):
+      media: hi556: Fix reset GPIO timings
+      media: hi556: Support full range of power rails
+      media: i2c: Automatically select common options for lens drivers
+
+Julien Massot (1):
+      media: ti: j721e-csi2rx: fix list_del corruption
+
+Mehdi Djait (2):
+      media: uapi: videodev2: Fix comment for 12-bit packed Bayer formats
+      media: v4l2-common: Add the missing Raw Bayer pixel formats
+
+Niklas Söderlund (1):
+      media: i2c: imx290: Remove unneeded assignment of subdev device pointer
+
+Sakari Ailus (6):
+      media: ipu6: isys: Use correct pads for xlate_streams()
+      media: ipu6: isys: Set minimum height to 1
+      media: v4l: Make media_entity_to_video_device() NULL-safe
+      media: v4l2-subdev: Print early in v4l2_subdev_{enable,disable}_streams()
+      media: v4l2-subdev: Add debug prints to v4l2_subdev_collect_streams()
+      media: ivsc: Add MAINTAINERS entry
+
+Yemike Abhilash Chandra (2):
+      dt-bindings: media: cdns,csi2rx.yaml: Add optional interrupts for cdns-csi2rx
+      media: cadence: csi2rx: Enable csi2rx_err_irq interrupt and add support for VIDIOC_LOG_STATUS
+
+Zhang Shurong (1):
+      media: ov2659: Fix memory leaks in ov2659_probe()
+
+ .../devicetree/bindings/media/cdns,csi2rx.yaml     |   8 ++
+ MAINTAINERS                                        |  10 ++
+ drivers/media/i2c/Kconfig                          |  38 ++----
+ drivers/media/i2c/hi556.c                          |  73 +++++++-----
+ drivers/media/i2c/imx290.c                         |   1 -
+ drivers/media/i2c/ov2659.c                         |   3 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      |  12 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys.h           |   2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c       | 131 +++++++++++++++++++++
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  |   2 +
+ drivers/media/v4l2-core/v4l2-common.c              |  20 ++++
+ drivers/media/v4l2-core/v4l2-subdev.c              |  17 ++-
+ drivers/staging/media/ipu7/Kconfig                 |   1 +
+ drivers/staging/media/ipu7/ipu7-isys-csi-phy.c     |   8 +-
+ include/media/v4l2-dev.h                           |  14 ++-
+ include/uapi/linux/videodev2.h                     |   2 +-
+ 16 files changed, 263 insertions(+), 79 deletions(-)
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
