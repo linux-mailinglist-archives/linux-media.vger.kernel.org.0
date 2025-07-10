@@ -1,200 +1,138 @@
-Return-Path: <linux-media+bounces-37294-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37295-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B898B002A6
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 14:56:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49017B002B3
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 14:58:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DBE51C41484
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 12:56:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5A861C40EA2
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 12:58:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 545872E8DF3;
-	Thu, 10 Jul 2025 12:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E22FD26A0E0;
+	Thu, 10 Jul 2025 12:58:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oBA2Wetp"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="q3GiOvBz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B123A2D0C93;
-	Thu, 10 Jul 2025 12:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5B21E8333;
+	Thu, 10 Jul 2025 12:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752152103; cv=none; b=FNivY7LS65pIPUvNJ2Yep2QlBoU7g0DyLLi/kz0O9dRLzRNQk6RbZo8ohGeVcNaoBMVw0uhwTuDlPOySdy1Hp3d6iVG+MlN6nSOV6TL8UFzaUQw49DfBMTRlkMJKdResiFMnFq0x76+cnUiOtbjgKToXIgSkNa7ffYOcQU+CRJU=
+	t=1752152303; cv=none; b=hJTZbL1c+O1WcustZCuxpT8JcpVRRtfBKClaDiXulysWkkLVKpIGmw33xW94GIpUiFuKZeIagFdEaXP+ZJT0178j9lD6rMfBeh+QMROXYdKz9avuWZEeIcUpqA15I2Lx49UadsRN+XMQtFRljTtjjdu3SsmRnb3UvEkleJOtgCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752152103; c=relaxed/simple;
-	bh=jwQeQF43fuuFdeU+odOP0p6i6/kacIOeRK9joESZCeg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=foc3FuN9gcNFGMV8UV10MFTXD6ZX+luxSLArP7Q3i+/Gox430oIc2IZM7ZMSznWHbyg8pTtVoaQSvEa2asjW2GZetiTFOJgoYK7rnMJVqMVTCcQyzbuO3Ln2pYQqHF3O7nVwj/0nC8e/BswJzqvZ/KeTD5d9sf/jXGq10ECfIDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oBA2Wetp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57207C4CEF5;
-	Thu, 10 Jul 2025 12:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752152103;
-	bh=jwQeQF43fuuFdeU+odOP0p6i6/kacIOeRK9joESZCeg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oBA2Wetpr16+LDKFoLQXJiVDzLOAX/z0FAw5a/wuBXi8RuvUdkfII8EyQ0mwGc6Us
-	 APtUUBTrM+CX0DxLjMUP1ZTcgXWc6ToHsHPHTf8LMwbwJ5Rzpbc5JyhvTn96i+i91H
-	 Dknn19XfFYBlOr4z2GSXBQ6WcmjBZD61RMVXF8QH7YjkWOYFB4xdL7w4IAip5vQWjL
-	 X5vfpOMvuF9lBdJVZoAOdr5ejeLhg9DmYK9wbxhWYgLW1iGE2iC7dofq3JYNy4+5Xh
-	 2iqqOwsxWsBKJ4/cw34xpIQ6K84wiAxHx5r/nlSuj/IIEf3zA7WuoB7N2luy3ebnUl
-	 9vIpwoQHvKSYQ==
-From: Philipp Stanner <phasta@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v4 8/8] drm/nouveau: Remove waitque for sched teardown
-Date: Thu, 10 Jul 2025 14:54:12 +0200
-Message-ID: <20250710125412.128476-10-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250710125412.128476-2-phasta@kernel.org>
+	s=arc-20240116; t=1752152303; c=relaxed/simple;
+	bh=QJ5+1lSHVPyBwnNaUmAFeueiaKEBeuJfDLfTIhMwJ5w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=doGJD1ZlWNfG82dKuteSP0xOkrt4+p8BAFgYtj65PqaJy1e8ksUGbx3c8wRjLt0abnPY8LLbpN7BqVhRMF0cG+2JFd8H4ActTKHyOYqtcYZpwpjzm5t/WpoerdLl7qEuydA1S+c4XilAF6rYRmeN2Y7IKaC24YCDIbMKyYJPpvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=q3GiOvBz; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bdFJM2n5Sz9sx4;
+	Thu, 10 Jul 2025 14:58:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1752152291; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XUdTgSu/zHvFvHHBAYxFI7WNZhlx1N0C5aZ+BZgA/hg=;
+	b=q3GiOvBzyHujBbSJyAfbiklhFM/WL6aD01vbIbLLVfn3xsMoDfFurOVoZidipbO6tdQSCm
+	+jp+NwxFcqSX0dn491UeCiC85OkRiX6DRkUGbRyykenUQnIOAm0ZXo3fOR+ll//rzXmAbh
+	7uZMY6GrfjZxxJ+E8dEhNHds3xsFBvNz1okgpTa9fVoO0TbEpLL6miqPva47X12iZiQ2d2
+	iH8wNIwu8RjH9obhhxlvnS8hZNHfJTweC3qsF01o52IugnS9sKwBK0Z7iTYc92c3dCHQ8/
+	t4IE0FtScpgYTbTcHgYBuJ8Pj9tAxDWccbazxeLl/GDe3PrX1hOpy5z8gQINEA==
+Message-ID: <bec98a82435d7f448dff219a2238b15b6b3eb754.camel@mailbox.org>
+Subject: Re: [PATCH v4 1/8] drm/panfrost: Fix scheduler workqueue bug
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew
+ Brost <matthew.brost@intel.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>,  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Thu, 10 Jul 2025 14:58:05 +0200
+In-Reply-To: <20250710125412.128476-3-phasta@kernel.org>
 References: <20250710125412.128476-2-phasta@kernel.org>
+	 <20250710125412.128476-3-phasta@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 836fbb2b50af0e52d75
+X-MBO-RS-META: q7ni9ki5c4orx1jns8zppxa9ufa6zses
 
-struct nouveau_sched contains a waitque needed to prevent
-drm_sched_fini() from being called while there are still jobs pending.
-Doing so so far would have caused memory leaks.
+On Thu, 2025-07-10 at 14:54 +0200, Philipp Stanner wrote:
+> When the GPU scheduler was ported to using a struct for its
+> initialization parameters, it was overlooked that panfrost creates a
+> distinct workqueue for timeout handling.
+>=20
+> The pointer to this new workqueue is not initialized to the struct,
+> resulting in NULL being passed to the scheduler, which then uses the
+> system_wq for timeout handling.
+>=20
+> Set the correct workqueue to the init args struct.
+>=20
+> Cc: stable@vger.kernel.org=C2=A0# 6.15+
+> Fixes: 796a9f55a8d1 ("drm/sched: Use struct for drm_sched_init()
+> params")
+> Reported-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Closes:
+> https://lore.kernel.org/dri-devel/b5d0921c-7cbf-4d55-aa47-c35cd7861c02@ig=
+alia.com/
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
 
-With the new memleak-free mode of operation switched on in
-drm_sched_fini() by providing the callback nouveau_sched_cancel_job()
-the waitque is not necessary anymore.
+aaaarrrgh, how did that one get here!
 
-Remove the waitque.
+Ignore that. Will not be merged through this series.
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
-Acked-by: Danilo Krummrich <dakr@kernel.org>
----
- drivers/gpu/drm/nouveau/nouveau_sched.c | 20 +++++++-------------
- drivers/gpu/drm/nouveau/nouveau_sched.h |  9 +++------
- drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 ++++----
- 3 files changed, 14 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-index 2ec62059c351..7d9c3418e76b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-@@ -122,11 +122,9 @@ nouveau_job_done(struct nouveau_job *job)
- {
- 	struct nouveau_sched *sched = job->sched;
- 
--	spin_lock(&sched->job.list.lock);
-+	spin_lock(&sched->job_list.lock);
- 	list_del(&job->entry);
--	spin_unlock(&sched->job.list.lock);
--
--	wake_up(&sched->job.wq);
-+	spin_unlock(&sched->job_list.lock);
- }
- 
- void
-@@ -307,9 +305,9 @@ nouveau_job_submit(struct nouveau_job *job)
- 	}
- 
- 	/* Submit was successful; add the job to the schedulers job list. */
--	spin_lock(&sched->job.list.lock);
--	list_add(&job->entry, &sched->job.list.head);
--	spin_unlock(&sched->job.list.lock);
-+	spin_lock(&sched->job_list.lock);
-+	list_add(&job->entry, &sched->job_list.head);
-+	spin_unlock(&sched->job_list.lock);
- 
- 	drm_sched_job_arm(&job->base);
- 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
-@@ -460,9 +458,8 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
- 		goto fail_sched;
- 
- 	mutex_init(&sched->mutex);
--	spin_lock_init(&sched->job.list.lock);
--	INIT_LIST_HEAD(&sched->job.list.head);
--	init_waitqueue_head(&sched->job.wq);
-+	spin_lock_init(&sched->job_list.lock);
-+	INIT_LIST_HEAD(&sched->job_list.head);
- 
- 	return 0;
- 
-@@ -502,9 +499,6 @@ nouveau_sched_fini(struct nouveau_sched *sched)
- 	struct drm_gpu_scheduler *drm_sched = &sched->base;
- 	struct drm_sched_entity *entity = &sched->entity;
- 
--	rmb(); /* for list_empty to work without lock */
--	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
--
- 	drm_sched_entity_fini(entity);
- 	drm_sched_fini(drm_sched);
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
-index 20cd1da8db73..b98c3f0bef30 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
-@@ -103,12 +103,9 @@ struct nouveau_sched {
- 	struct mutex mutex;
- 
- 	struct {
--		struct {
--			struct list_head head;
--			spinlock_t lock;
--		} list;
--		struct wait_queue_head wq;
--	} job;
-+		struct list_head head;
-+		spinlock_t lock;
-+	} job_list;
- };
- 
- int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 48f105239f42..ddfc46bc1b3e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 	u64 end = addr + range;
- 
- again:
--	spin_lock(&sched->job.list.lock);
--	list_for_each_entry(__job, &sched->job.list.head, entry) {
-+	spin_lock(&sched->job_list.lock);
-+	list_for_each_entry(__job, &sched->job_list.head, entry) {
- 		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
- 
- 		list_for_each_op(op, &bind_job->ops) {
-@@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 
- 				if (!(end <= op_addr || addr >= op_end)) {
- 					nouveau_uvmm_bind_job_get(bind_job);
--					spin_unlock(&sched->job.list.lock);
-+					spin_unlock(&sched->job_list.lock);
- 					wait_for_completion(&bind_job->complete);
- 					nouveau_uvmm_bind_job_put(bind_job);
- 					goto again;
-@@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
- 			}
- 		}
- 	}
--	spin_unlock(&sched->job.list.lock);
-+	spin_unlock(&sched->job_list.lock);
- }
- 
- static int
--- 
-2.49.0
+P.
+
+> =C2=A0drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c
+> b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 5657106c2f7d..15e2d505550f 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -841,7 +841,6 @@ int panfrost_job_init(struct panfrost_device
+> *pfdev)
+> =C2=A0		.num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+> =C2=A0		.credit_limit =3D 2,
+> =C2=A0		.timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> -		.timeout_wq =3D pfdev->reset.wq,
+> =C2=A0		.name =3D "pan_js",
+> =C2=A0		.dev =3D pfdev->dev,
+> =C2=A0	};
+> @@ -879,6 +878,7 @@ int panfrost_job_init(struct panfrost_device
+> *pfdev)
+> =C2=A0	pfdev->reset.wq =3D alloc_ordered_workqueue("panfrost-reset",
+> 0);
+> =C2=A0	if (!pfdev->reset.wq)
+> =C2=A0		return -ENOMEM;
+> +	args.timeout_wq =3D pfdev->reset.wq;
+> =C2=A0
+> =C2=A0	for (j =3D 0; j < NUM_JOB_SLOTS; j++) {
+> =C2=A0		js->queue[j].fence_context =3D
+> dma_fence_context_alloc(1);
 
 
