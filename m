@@ -1,125 +1,127 @@
-Return-Path: <linux-media+bounces-37267-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37271-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFFBAFFC1A
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 10:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB238AFFD7C
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 11:05:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93FA93A1CD7
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 08:24:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A96B23BCC79
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 09:02:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D92E28C5CC;
-	Thu, 10 Jul 2025 08:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="K0RiQHIW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DEDA291C2E;
+	Thu, 10 Jul 2025 08:59:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59129286D55;
-	Thu, 10 Jul 2025 08:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA055291C16
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 08:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752135871; cv=none; b=Ua2iOuKLzQY3OTLFZtBG1Xw9Eq9xoDD1Xd2TuqUZNtaLDAOp5bm4bHwJ2MYIjIpO1VcJ/leykypiYgVa+B7kdtr9lDqhe5C58FiwYGqcj+XPAqUPxeCCrqkr2DxyaMUCjyoqlMSP+tSPWtwn/tPy//UnNjr/yxi0p+YrHb8nA88=
+	t=1752137995; cv=none; b=UB3tbATNCBVKfZ0GPHDm/P5MvPQaBZ+xZAxHTDgWfywakTJrQ5orKWUFtgR59CJFU+cUlHBFsYMJS7VHkMAdMgmEaM5/xyK0iaMU/sfyDUCzw/VipkgrNKrAntEoptXd+pBWyTNCc5tfmxN6RdHh/nQV9ONNwwhVR8h3CPs1M14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752135871; c=relaxed/simple;
-	bh=HaTdolnUZbkwC5qeDXCjTRC1Si57s5ggTljhTLmb+mE=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n0gehJueAQdlHfx7esz2uRujFg873lW8yZHGJLaDv+LVcFFeUlJd0V8CLdiU9BBiD+3AbfafEPB3NJapu32ETSQqOfPWuuSeB0QJCRZegF+fk4Hkubg8QTMmdkrmP9X2tzrqAGE/FswuNp0HjyEK5UXUg08H47L8eVNPtROSRio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=K0RiQHIW; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 167861C00A4; Thu, 10 Jul 2025 10:24:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1752135865;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=pDDwx/8Xa9qxt/kIJD4o4HRI/VK/dHZbF4B5VrNxjo0=;
-	b=K0RiQHIWBElKO73p34htQt7Pb7ZxY3ubIf0tapH7e59Cr7bzz+sphMPbWuMEIACfLhBezv
-	erCQD4k2aJdKVkSu/sAeqar6JD9UYx8/gAgiamoD1G7l4lIFKaLobMcoU9oVlbFn1mGPKZ
-	gK73YxOMaDlRlDONVISXqFKjqJkMLvs=
-Date: Thu, 10 Jul 2025 10:24:24 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: kraxel@redhat.com, vivek.kasireddy@intel.com,
-	dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	jstultz@google.com, tjmercier@google.com,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	kernel list <linux-kernel@vger.kernel.org>,
-	laurent.pinchart@ideasonboard.com, l.stach@pengutronix.de,
-	linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
-	etnaviv@lists.freedesktop.org, phone-devel@vger.kernel.org
-Subject: DMA-BUFs always uncached on arm64, causing poor camera performance
- on Librem 5
-Message-ID: <aG94uNDrL1MdHJPM@duo.ucw.cz>
+	s=arc-20240116; t=1752137995; c=relaxed/simple;
+	bh=RI9FrspsJfJyqvXCTvGoeP+w/5mr3In3wIh1jeD0bJg=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=V7cdHAobW7J8UJJhH18LwCdMu2jIfkyPCbmQbMByUt9iYFEZA+1U4JDSy2wMOdSknJTBjycRIVS9IVm/DEurTTWsRpMdwynpkFTIRWDwyDdnPmEkZBZIpqQbFEO2tYNJeX8XCJPeQH5Z6+HgXztds7ioCu0G/bpqFmcul0roxm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <l.stach@pengutronix.de>)
+	id 1uZmqy-0007le-Dq; Thu, 10 Jul 2025 10:42:04 +0200
+Message-ID: <aecd03f464f25d50f379be405a8596261f247897.camel@pengutronix.de>
+Subject: Re: DMA-BUFs always uncached on arm64, causing poor camera
+ performance on Librem 5
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Pavel Machek <pavel@ucw.cz>, kraxel@redhat.com,
+ vivek.kasireddy@intel.com,  dri-devel@lists.freedesktop.org,
+ sumit.semwal@linaro.org,  benjamin.gaignard@collabora.com,
+ Brian.Starkey@arm.com, jstultz@google.com,  tjmercier@google.com,
+ linux-media@vger.kernel.org,  linaro-mm-sig@lists.linaro.org, kernel list
+ <linux-kernel@vger.kernel.org>,  laurent.pinchart@ideasonboard.com,
+ linux+etnaviv@armlinux.org.uk,  christian.gmeiner@gmail.com,
+ etnaviv@lists.freedesktop.org,  phone-devel@vger.kernel.org
+Date: Thu, 10 Jul 2025 10:42:02 +0200
+In-Reply-To: <aG94uNDrL1MdHJPM@duo.ucw.cz>
+References: <aG94uNDrL1MdHJPM@duo.ucw.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Hy5IfTgkPzmMQMNi"
-Content-Disposition: inline
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
+Hi Pavel,
 
---Hy5IfTgkPzmMQMNi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am Donnerstag, dem 10.07.2025 um 10:24 +0200 schrieb Pavel Machek:
+> Hi!
+>=20
+> It seems that DMA-BUFs are always uncached on arm64... which is a
+> problem.
+>=20
+> I'm trying to get useful camera support on Librem 5, and that includes
+> recording vidos (and taking photos).
+>=20
+> memcpy() from normal memory is about 2msec/1MB. Unfortunately, for
+> DMA-BUFs it is 20msec/1MB, and that basically means I can't easily do
+> 760p video recording. Plus, copying full-resolution photo buffer takes
+> more than 200msec!
+>=20
+> There's possibility to do some processing on GPU, and its implemented her=
+e:
+>=20
+> https://gitlab.com/tui/tui/-/tree/master/icam?ref_type=3Dheads
+>=20
+> but that hits the same problem in the end -- data is in DMA-BUF,
+> uncached, and takes way too long to copy out.
+>=20
+> And that's ... wrong. DMA ended seconds ago, complete cache flush
+> would be way cheaper than copying single frame out, and I still have
+> to deal with uncached frames.
+>=20
+> So I have two questions:
+>=20
+> 1) Is my analysis correct that, no matter how I get frame from v4l and
+> process it on GPU, I'll have to copy it from uncached memory in the
+> end?
 
-Hi!
+If you need to touch the buffers using the CPU then you are either
+stuck with uncached memory or you need to implement bracketed access to
+do the necessary cache maintenance. Be aware that completely flushing
+the cache is not really an option, as that would impact other
+workloads, so you have to flush the cache by walking the virtual
+address space of the buffer, which may take a significant amount of CPU
+time.
 
-It seems that DMA-BUFs are always uncached on arm64... which is a
-problem.
+However, if you are only going to use the buffer with the GPU I see no
+reason to touch it from the CPU side. Why would you even need to copy
+the content? After all dma-bufs are meant to enable zero-copy between
+DMA capable accelerators. You can simply import the V4L2 buffer into a
+GL texture using EGL_EXT_image_dma_buf_import. Using this path you
+don't need to bother with the cache at all, as the GPU will directly
+read the video buffers from RAM.
 
-I'm trying to get useful camera support on Librem 5, and that includes
-recording vidos (and taking photos).
+Regards,
+Lucas
 
-memcpy() from normal memory is about 2msec/1MB. Unfortunately, for
-DMA-BUFs it is 20msec/1MB, and that basically means I can't easily do
-760p video recording. Plus, copying full-resolution photo buffer takes
-more than 200msec!
+>=20
+> 2) Does anyone have patches / ideas / roadmap how to solve that? It
+> makes GPU unusable for computing, and camera basically unusable for
+> video.
+>=20
+> Best regards,
+> 								Pavel
 
-There's possibility to do some processing on GPU, and its implemented here:
-
-https://gitlab.com/tui/tui/-/tree/master/icam?ref_type=3Dheads
-
-but that hits the same problem in the end -- data is in DMA-BUF,
-uncached, and takes way too long to copy out.
-
-And that's ... wrong. DMA ended seconds ago, complete cache flush
-would be way cheaper than copying single frame out, and I still have
-to deal with uncached frames.
-
-So I have two questions:
-
-1) Is my analysis correct that, no matter how I get frame from v4l and
-process it on GPU, I'll have to copy it from uncached memory in the
-end?
-
-2) Does anyone have patches / ideas / roadmap how to solve that? It
-makes GPU unusable for computing, and camera basically unusable for
-video.
-
-Best regards,
-								Pavel
---=20
-I don't work for Nazis and criminals, and neither should you.
-Boycott Putin, Trump, and Musk!
-
---Hy5IfTgkPzmMQMNi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaG94uAAKCRAw5/Bqldv6
-8pgQAKCIzyOsWHWgCDHHRvv8N/YvGO3c0QCdFeWLgWJbGw7+2Zf5gSBmRo2Gf5U=
-=v0KO
------END PGP SIGNATURE-----
-
---Hy5IfTgkPzmMQMNi--
 
