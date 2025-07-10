@@ -1,65 +1,75 @@
-Return-Path: <linux-media+bounces-37424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB39B00D34
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 22:35:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2921FB00D7B
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 23:06:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D4B81894A57
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 20:35:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A126587726
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 21:06:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE9B28C016;
-	Thu, 10 Jul 2025 20:34:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92942FD893;
+	Thu, 10 Jul 2025 21:06:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L81CRFpj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vDzI8Zl/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB5123BD13;
-	Thu, 10 Jul 2025 20:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E94C2192EF;
+	Thu, 10 Jul 2025 21:06:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752179694; cv=none; b=hETpjzslk1CSaD94NQAmVvvJOBFxdbhZntybArAYEstjqgDanLbVvf4h0IlUStVU7jl6b6Qt5T4HbBLNY52p5a9m2wv8B1fNpKspz96gXVKTPiGFn50478+jp8QGe70bonz7S0lIiqtAQBBImqhET8In21idPwYipAV9RLUxHzY=
+	t=1752181577; cv=none; b=ZDJUWKSyCayH5MTDXPhlgF/SX4SSq+mFHCiJ8yrvBlbPefFpmNcTqE8qEHn0h4JWRY53K0KjkYr4+Ols/GMl90il5JQH0s/n89qC1THlT8LqwQsyf2MoQCCLttNcGKtUIfAZ8ykHxgAgHzQ5EMhCNvwhpZIy29PKRunytu89x9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752179694; c=relaxed/simple;
-	bh=gwm/BETqS9ZCGKtb3EIYk1BW28Lo76No90DkH2szew8=;
+	s=arc-20240116; t=1752181577; c=relaxed/simple;
+	bh=CfcPRmoFAMjFRyAkPPFdasZ3nhHhA1KXUkeG5VnTHkg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cwnZsa12o0yT9x03g/64loqtoJjXOT8Al3OVjh1K4j6TaO/URyLeLQp48dMGbkAMr+BENYcco7Dtjbp4QVTghOmn6ytdA9ap32kZqCcG2Kde0TzFhtFSA36tuvK+37opUEFceThYWHRtvHd10EDCuPAOXr/iIsgQUO7iBinCfCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L81CRFpj; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=fwx7cptloOBH5UN6J9TQe8J5giDlxYl9nMCGaCQuOPVYqS1uFceZOu0/tL/P0W8zhVxOjpWTCfuK0jE8U4dvpCICg0SYrJwFVKGNw9LfaS3gzV/45um+DZ/jozZ8oQPWPjrHlFzVJRr9R63y0KOHMJJjoOPNypgUNP1UaXqqxRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vDzI8Zl/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4F13D1A9A;
-	Thu, 10 Jul 2025 22:34:22 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9BBC5EFE;
+	Thu, 10 Jul 2025 23:05:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752179662;
-	bh=gwm/BETqS9ZCGKtb3EIYk1BW28Lo76No90DkH2szew8=;
+	s=mail; t=1752181533;
+	bh=CfcPRmoFAMjFRyAkPPFdasZ3nhHhA1KXUkeG5VnTHkg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L81CRFpj5oL8/FjSvjjDbUsSOOXdnHVu8kack2zW22u7nofbm1lEVF5x0eiTUFDjt
-	 WLg3cH2TO2Qa4TdTTkClKVP7yRjU6EDKQhTngYG+aG+Thfc/ajYbTVncCSbxiFsk0v
-	 3SMEKP2/pfKNiWYlE89bTpRajJdUBDbe2BL9fW/s=
-Date: Thu, 10 Jul 2025 23:34:21 +0300
+	b=vDzI8Zl/qmYpg2UEjRQwjX2NARAzSgUOmMN9VxhM0JoRx4A7GQ5o7LpvVgeJWVeez
+	 2zDr0aSD3iNv437mwGuPdjxM891t5084u82fi0hHoxO1o7ata0A7XSGvZqWGIlEPX2
+	 hfiOVvBPfnCOacv3xnDAdtXxZ/f1doPRmeGWKwt8=
+Date: Fri, 11 Jul 2025 00:05:32 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 06/72] ARM: dts: nxp: imx6qdl-wandboard: Replace
- clock-frequency in camera sensor node
-Message-ID: <20250710203421.GC22436@pendragon.ideasonboard.com>
-References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
- <20250710174808.5361-7-laurent.pinchart@ideasonboard.com>
- <aHAgHygUe6rWB/TA@lizhi-Precision-Tower-5810>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	sakari.ailus@linux.intel.com, krzk+dt@kernel.org,
+	kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+	pratap.nirujogi@amd.com, tarang.raval@siliconsignals.io,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: i2c: Add ov2735 sensor
+Message-ID: <20250710210532.GE22436@pendragon.ideasonboard.com>
+References: <20250710131107.69017-1-hardevsinh.palaniya@siliconsignals.io>
+ <20250710131107.69017-2-hardevsinh.palaniya@siliconsignals.io>
+ <43023f6f-2a02-4c5c-8f45-66ff7df1e8ad@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,44 +78,32 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aHAgHygUe6rWB/TA@lizhi-Precision-Tower-5810>
+In-Reply-To: <43023f6f-2a02-4c5c-8f45-66ff7df1e8ad@kernel.org>
 
-Hi Frank,
-
-On Thu, Jul 10, 2025 at 04:18:39PM -0400, Frank Li wrote:
-> On Thu, Jul 10, 2025 at 08:47:02PM +0300, Laurent Pinchart wrote:
-> > The clock-frequency for camera sensors has been deprecated in favour of
-> > the assigned-clocks and assigned-clock-rates properties. Replace it in
-> > the device tree.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi b/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
-> > index 26489eccd5fb..e5ac78ffb31c 100644
-> > --- a/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
-> > +++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
-> > @@ -136,8 +136,11 @@ camera@3c {
-> >  		pinctrl-names = "default";
-> >  		pinctrl-0 = <&pinctrl_ov5645>;
-> >  		reg = <0x3c>;
+On Thu, Jul 10, 2025 at 03:35:51PM +0200, Krzysztof Kozlowski wrote:
+> On 10/07/2025 15:10, Hardevsinh Palaniya wrote:
 > > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - avdd-supply
+> > +  - dovdd-supply
+> > +  - dvdd-supply
+> > +  - port
 > 
-> unnecessary empty line here
+> Now  I looked at your driver and the code clearly says that GPIOs are
+> not optional.
+> 
+> You really need to sync the binding in the driver. They cannot define
+> completely different ABI.
 
-There's often a blank line after the reg property. I don't mind dropping
-it here if that's preferred. Same for the other patch you reviewed.
+I couldn't have said it in a clearer way.
 
-> >  		clocks = <&clks IMX6QDL_CLK_CKO2>;
-> > -		clock-frequency = <24000000>;
-> > +		assigned-clocks = <&clks IMX6QDL_CLK_CKO2>;
-> > +		assigned-clock-rates = <24000000>;
-> > +
-> >  		vdddo-supply = <&reg_1p8v>;
-> >  		vdda-supply = <&reg_2p8v>;
-> >  		vddd-supply = <&reg_1p5v>;
+For the GPIOs, I recommend making them optional in the driver, as GPIOs
+are not always connected in all designs (unless of course we're dealing
+with a GPIO whose control from the SoC is absolutely mandatory to make
+the device work at all, but that doesn't seem to be the case here).
 
 -- 
 Regards,
