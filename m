@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-37364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37365-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49108B00AA5
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DDBB00A9B
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:51:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED2FD7BCAFD
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:48:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 137037BBA62
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:48:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C7D82F2C66;
-	Thu, 10 Jul 2025 17:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 891262F19AE;
+	Thu, 10 Jul 2025 17:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vBmAjj6h"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JalUB1n+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5B62F2C59
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD22279DB6
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752169757; cv=none; b=lWTOS24iR+nXaWHT+e5/MCtOGbQ78r9z+L7U/4JKL9Z4HXsuic5hiA+VoHF3rMpizklDxs3stPYHb92Tw75QzgbJ7Wt3R+rAaSNySzL0PvEyjBaaQO4rNxXYzU8LjyW4y6SO+oM7jXO2B8DckpBAj2R3qyRa7HX6vUtxkiVkHGA=
+	t=1752169759; cv=none; b=lwoYXAsLHpm8khSjtQRO/cFO3NM7fRi8H7TcAPGa5eqDuyCwgJT3oi9KSwsBf2qJR2bhQs78GH6yaSnG4VaZhoeuHa+zVAARmPZpCIDBUxnJB6Ir4q50+y5m1vdHCxrVOgrPpYHRGVfeFWS+GaRArLdiDuinjGkKthD4gx4NXzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752169757; c=relaxed/simple;
-	bh=DXZKysPKz8UHJBxHgr9cu1FvKrEEU0YkCaP4NKfdpE4=;
+	s=arc-20240116; t=1752169759; c=relaxed/simple;
+	bh=66cFsv3hBK++fvpcEzTCy/0J+ci01KdA08iGKZW6rCA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ha527SwnL2WDx3LUVEqvSUanJp+OtL1nwWeuVMGImnmLhvjB4P4TDoyZq30V9cEZcQQFRBuRBibVvGXwphWnYDClnukFW4jiv3lVRDLyybuIcf6xNAu6xvn6xybtCUR2Nn3dSLxr7tWzQnLEYMXVD0uxrEr/9y1/JySbJiJQAu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vBmAjj6h; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=BzZnDL/TSXIiKgPWjzfuVvcBGN/PGN5eiMf2JsJ9A8IXW4HQE4kWuNmZFIIdOuE4yxmJpVR+43Xwa0NM4C44s1j7tb2d/W7qjAeUaFWJFueJK6gZhYpKYiBnO6djyQLW0iRAG3ztDRTe6OcvcS/qVbcv5he4vCm26b6D45NgOtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JalUB1n+; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BC9D0B2B;
-	Thu, 10 Jul 2025 19:48:43 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 452AB1A9A;
+	Thu, 10 Jul 2025 19:48:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752169723;
-	bh=DXZKysPKz8UHJBxHgr9cu1FvKrEEU0YkCaP4NKfdpE4=;
+	s=mail; t=1752169725;
+	bh=66cFsv3hBK++fvpcEzTCy/0J+ci01KdA08iGKZW6rCA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vBmAjj6hY1fPbGWm2ifuF/ABjhNA2SHcpoMsvhyQstPJM4vZXPBR6DzUy+B2BYDAf
-	 LoEvs3h0gMxnFLbGNd9CJ8zOzqpo2vyHexdE+EBLvleSdJ++EObnFwHiPZW3q6vBaQ
-	 GTeVDC20jCxxs1VRZiwVUEAFFDPOpxdBoxU6iT9I=
+	b=JalUB1n+PxwxUz8Z+HyHwpymXFsyAgN0rtpEpp9uiiMWhkzh+uEPjjdGvEBOJlcSG
+	 xyCVGi0Ca6FWLsD3EorlkwkLK+fBdKnE5I4XgCBLYEqOOkR6SeYJi6Dm2FWNcw42CK
+	 2AFY0B4J5y4ZMtHZ/QSNr8q44T15veWFBw/9u4Tc=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 21/72] media: i2c: hi556: Use V4L2 sensor clock helper
-Date: Thu, 10 Jul 2025 20:47:17 +0300
-Message-ID: <20250710174808.5361-22-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 22/72] media: i2c: hi847: Replace client->dev usage
+Date: Thu, 10 Jul 2025 20:47:18 +0300
+Message-ID: <20250710174808.5361-23-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
 References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
@@ -59,91 +59,252 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several camera sensor drivers access the "clock-frequency" property
-directly to retrieve the external clock rate, or modify the clock rate
-of the external clock programmatically. Both behaviours are valid on
-a subset of ACPI platforms, but are considered deprecated on OF
-platforms, and do not support ACPI platforms that implement MIPI DisCo
-for Imaging. Implementing them manually in drivers is deprecated, as
-that can encourage cargo-cult and lead to differences in behaviour
-between drivers. Instead, drivers should use the
-devm_v4l2_sensor_clk_get() helper.
+The driver needs to access the struct device in many places, and
+retrieves it from the i2c_client itself retrieved with
+v4l2_get_subdevdata(). Store it as a pointer in struct hi847 and access
+it from there instead, to simplify the driver.
 
-This driver supports ACPI platforms only. It retrieves the clock if
-present, and retrieves the clock rate from the "clock-frequency"
-property. If the rate does not match the expected rate, the driver fails
-probing. This is correct behaviour for ACPI.
-
-Switch to using the devm_v4l2_sensor_clk_get() helper. This does not
-change the behaviour on ACPI platforms that specify a clock-frequency
-property and don't provide a clock. On ACPI platforms that provide a
-clock, the clock rate will be set to the value of the clock-frequency
-property. This should not change the behaviour either as this driver
-expects the clock to be set to that rate, and wouldn't operate correctly
-otherwise.
+While at it, fix a mistake in the sort order of include statements.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/hi556.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ drivers/media/i2c/hi847.c | 58 +++++++++++++++++++--------------------
+ 1 file changed, 28 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index cd7c3e4fd39c..de573cee4451 100644
---- a/drivers/media/i2c/hi556.c
-+++ b/drivers/media/i2c/hi556.c
-@@ -1213,7 +1213,6 @@ static int hi556_check_hwcfg(struct device *dev)
- 	struct v4l2_fwnode_endpoint bus_cfg = {
- 		.bus_type = V4L2_MBUS_CSI2_DPHY
- 	};
--	u32 mclk;
- 	int ret = 0;
- 	unsigned int i, j;
+diff --git a/drivers/media/i2c/hi847.c b/drivers/media/i2c/hi847.c
+index 546833f5b5f5..384ccfc171c2 100644
+--- a/drivers/media/i2c/hi847.c
++++ b/drivers/media/i2c/hi847.c
+@@ -1,12 +1,13 @@
+ // SPDX-License-Identifier: GPL-2.0
+ // Copyright (c) 2022 Intel Corporation.
  
-@@ -1231,18 +1230,6 @@ static int hi556_check_hwcfg(struct device *dev)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "parsing endpoint failed\n");
- 
--	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
--	if (ret) {
--		dev_err(dev, "can't get clock frequency\n");
--		goto check_hwcfg_error;
--	}
--
--	if (mclk != HI556_MCLK) {
--		dev_err(dev, "external clock %d is not supported\n", mclk);
--		ret = -EINVAL;
--		goto check_hwcfg_error;
--	}
--
- 	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2) {
- 		dev_err(dev, "number of CSI2 data lanes %d is not supported\n",
- 			bus_cfg.bus.mipi_csi2.num_data_lanes);
-@@ -1332,6 +1319,7 @@ static int hi556_resume(struct device *dev)
- static int hi556_probe(struct i2c_client *client)
- {
- 	struct hi556 *hi556;
-+	unsigned long freq;
- 	bool full_power;
- 	int i, ret;
- 
-@@ -1353,11 +1341,17 @@ static int hi556_probe(struct i2c_client *client)
- 		return dev_err_probe(hi556->dev, PTR_ERR(hi556->reset_gpio),
- 				     "failed to get reset GPIO\n");
- 
--	hi556->clk = devm_clk_get_optional(hi556->dev, "clk");
-+	hi556->clk = devm_v4l2_sensor_clk_get(hi556->dev, "clk");
- 	if (IS_ERR(hi556->clk))
- 		return dev_err_probe(hi556->dev, PTR_ERR(hi556->clk),
- 				     "failed to get clock\n");
- 
-+	freq = clk_get_rate(hi556->clk);
-+	if (freq != HI556_MCLK)
-+		return dev_err_probe(hi556->dev, -EINVAL,
-+				     "external clock %lu is not supported\n",
-+				     freq);
+-#include <linux/unaligned.h>
+ #include <linux/acpi.h>
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/unaligned.h>
 +
- 	for (i = 0; i < ARRAY_SIZE(hi556_supply_names); i++)
- 		hi556->supplies[i].supply = hi556_supply_names[i];
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
+@@ -2166,6 +2167,8 @@ static const struct hi847_mode supported_modes[] = {
+ };
+ 
+ struct hi847 {
++	struct device *dev;
++
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+@@ -2244,7 +2247,6 @@ static int hi847_write_reg(struct hi847 *hi847, u16 reg, u16 len, u32 val)
+ static int hi847_write_reg_list(struct hi847 *hi847,
+ 				const struct hi847_reg_list *r_list)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi847->sd);
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -2253,7 +2255,7 @@ static int hi847_write_reg_list(struct hi847 *hi847,
+ 				      HI847_REG_VALUE_16BIT,
+ 				      r_list->regs[i].val);
+ 		if (ret) {
+-			dev_err_ratelimited(&client->dev,
++			dev_err_ratelimited(hi847->dev,
+ 					    "failed to write reg 0x%4.4x. error = %d",
+ 					    r_list->regs[i].address, ret);
+ 			return ret;
+@@ -2408,7 +2410,6 @@ static int hi847_set_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct hi847 *hi847 = container_of(ctrl->handler,
+ 					     struct hi847, ctrl_handler);
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi847->sd);
+ 	s64 exposure_max;
+ 	int ret = 0;
+ 
+@@ -2424,7 +2425,7 @@ static int hi847_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	/* V4L2 controls values will be applied only when power is already up */
+-	if (!pm_runtime_get_if_in_use(&client->dev))
++	if (!pm_runtime_get_if_in_use(hi847->dev))
+ 		return 0;
+ 
+ 	switch (ctrl->id) {
+@@ -2466,7 +2467,7 @@ static int hi847_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		break;
+ 	}
+ 
+-	pm_runtime_put(&client->dev);
++	pm_runtime_put(hi847->dev);
+ 
+ 	return ret;
+ }
+@@ -2557,7 +2558,6 @@ static void hi847_assign_pad_format(const struct hi847_mode *mode,
+ 
+ static int hi847_start_streaming(struct hi847 *hi847)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi847->sd);
+ 	const struct hi847_reg_list *reg_list;
+ 	int link_freq_index, ret;
+ 
+@@ -2565,14 +2565,14 @@ static int hi847_start_streaming(struct hi847 *hi847)
+ 	reg_list = &link_freq_configs[link_freq_index].reg_list;
+ 	ret = hi847_write_reg_list(hi847, reg_list);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to set plls");
++		dev_err(hi847->dev, "failed to set plls");
+ 		return ret;
+ 	}
+ 
+ 	reg_list = &hi847->cur_mode->reg_list;
+ 	ret = hi847_write_reg_list(hi847, reg_list);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to set mode");
++		dev_err(hi847->dev, "failed to set mode");
+ 		return ret;
+ 	}
+ 
+@@ -2587,7 +2587,7 @@ static int hi847_start_streaming(struct hi847 *hi847)
+ 			      HI847_REG_VALUE_16BIT, HI847_MODE_STREAMING);
+ 
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to set stream");
++		dev_err(hi847->dev, "failed to set stream");
+ 		return ret;
+ 	}
+ 
+@@ -2596,28 +2596,25 @@ static int hi847_start_streaming(struct hi847 *hi847)
+ 
+ static void hi847_stop_streaming(struct hi847 *hi847)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi847->sd);
+-
+ 	if (hi847_write_reg(hi847, HI847_REG_MODE_TG,
+ 			    HI847_REG_VALUE_16BIT, HI847_REG_MODE_TG_DISABLE))
+-		dev_err(&client->dev, "failed to set stream 0x%x",
++		dev_err(hi847->dev, "failed to set stream 0x%x",
+ 			HI847_REG_MODE_TG);
+ 
+ 	if (hi847_write_reg(hi847, HI847_REG_MODE_SELECT,
+ 			    HI847_REG_VALUE_16BIT, HI847_MODE_STANDBY))
+-		dev_err(&client->dev, "failed to set stream 0x%x",
++		dev_err(hi847->dev, "failed to set stream 0x%x",
+ 		HI847_REG_MODE_SELECT);
+ }
+ 
+ static int hi847_set_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct hi847 *hi847 = to_hi847(sd);
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret = 0;
+ 
+ 	mutex_lock(&hi847->mutex);
+ 	if (enable) {
+-		ret = pm_runtime_resume_and_get(&client->dev);
++		ret = pm_runtime_resume_and_get(hi847->dev);
+ 		if (ret) {
+ 			mutex_unlock(&hi847->mutex);
+ 			return ret;
+@@ -2627,11 +2624,11 @@ static int hi847_set_stream(struct v4l2_subdev *sd, int enable)
+ 		if (ret) {
+ 			enable = 0;
+ 			hi847_stop_streaming(hi847);
+-			pm_runtime_put(&client->dev);
++			pm_runtime_put(hi847->dev);
+ 		}
+ 	} else {
+ 		hi847_stop_streaming(hi847);
+-		pm_runtime_put(&client->dev);
++		pm_runtime_put(hi847->dev);
+ 	}
+ 
+ 	mutex_unlock(&hi847->mutex);
+@@ -2768,7 +2765,6 @@ static const struct v4l2_subdev_internal_ops hi847_internal_ops = {
+ 
+ static int hi847_identify_module(struct hi847 *hi847)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi847->sd);
+ 	int ret;
+ 	u32 val;
+ 
+@@ -2778,7 +2774,7 @@ static int hi847_identify_module(struct hi847 *hi847)
+ 		return ret;
+ 
+ 	if (val != HI847_CHIP_ID) {
+-		dev_err(&client->dev, "chip id mismatch: %x!=%x",
++		dev_err(hi847->dev, "chip id mismatch: %x!=%x",
+ 			HI847_CHIP_ID, val);
+ 		return -ENXIO;
+ 	}
+@@ -2862,7 +2858,7 @@ static void hi847_remove(struct i2c_client *client)
+ 	v4l2_async_unregister_subdev(sd);
+ 	media_entity_cleanup(&sd->entity);
+ 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+-	pm_runtime_disable(&client->dev);
++	pm_runtime_disable(hi847->dev);
+ 	mutex_destroy(&hi847->mutex);
+ }
+ 
+@@ -2875,9 +2871,11 @@ static int hi847_probe(struct i2c_client *client)
+ 	if (!hi847)
+ 		return -ENOMEM;
+ 
+-	ret = hi847_check_hwcfg(&client->dev);
++	hi847->dev = &client->dev;
++
++	ret = hi847_check_hwcfg(hi847->dev);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to get HW configuration: %d",
++		dev_err(hi847->dev, "failed to get HW configuration: %d",
+ 			ret);
+ 		return ret;
+ 	}
+@@ -2885,7 +2883,7 @@ static int hi847_probe(struct i2c_client *client)
+ 	v4l2_i2c_subdev_init(&hi847->sd, client, &hi847_subdev_ops);
+ 	ret = hi847_identify_module(hi847);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to find sensor: %d", ret);
++		dev_err(hi847->dev, "failed to find sensor: %d", ret);
+ 		return ret;
+ 	}
+ 
+@@ -2893,7 +2891,7 @@ static int hi847_probe(struct i2c_client *client)
+ 	hi847->cur_mode = &supported_modes[0];
+ 	ret = hi847_init_controls(hi847);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to init controls: %d", ret);
++		dev_err(hi847->dev, "failed to init controls: %d", ret);
+ 		goto probe_error_v4l2_ctrl_handler_free;
+ 	}
+ 
+@@ -2904,20 +2902,20 @@ static int hi847_probe(struct i2c_client *client)
+ 	hi847->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ret = media_entity_pads_init(&hi847->sd.entity, 1, &hi847->pad);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to init entity pads: %d", ret);
++		dev_err(hi847->dev, "failed to init entity pads: %d", ret);
+ 		goto probe_error_v4l2_ctrl_handler_free;
+ 	}
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&hi847->sd);
+ 	if (ret < 0) {
+-		dev_err(&client->dev, "failed to register V4L2 subdev: %d",
++		dev_err(hi847->dev, "failed to register V4L2 subdev: %d",
+ 			ret);
+ 		goto probe_error_media_entity_cleanup;
+ 	}
+ 
+-	pm_runtime_set_active(&client->dev);
+-	pm_runtime_enable(&client->dev);
+-	pm_runtime_idle(&client->dev);
++	pm_runtime_set_active(hi847->dev);
++	pm_runtime_enable(hi847->dev);
++	pm_runtime_idle(hi847->dev);
+ 
+ 	return 0;
  
 -- 
 Regards,
