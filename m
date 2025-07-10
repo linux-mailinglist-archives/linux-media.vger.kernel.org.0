@@ -1,53 +1,55 @@
-Return-Path: <linux-media+bounces-37374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37375-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7230B00A8E
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BC1B00A8F
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:50:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00C8D5C2874
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:50:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C1AF5C1815
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 17:50:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B1F62F3656;
-	Thu, 10 Jul 2025 17:49:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD5942F365D;
+	Thu, 10 Jul 2025 17:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p8k2R3Hx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mdWO5Eyb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0B82F0C72
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DD82F365A
+	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 17:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752169772; cv=none; b=WXCwSOHprFAZi3E+SL/3OqedJvY5+Rp7U0Ko+Ovx7ipMzKA3L4IMnHoTG2IODjU15g+aMatxVMMxO4sA4I7E77XUGpDlox2Gx/mnp7Q8WPGrfOUeJL8BsQmHtUhUpTRww4XH79dmQoaiGSQKDbh3IYvwdj+KTNFUK5cdRE1HXRM=
+	t=1752169774; cv=none; b=UxrEg3LcnBRe3oIFkYedVZREzVb+0XDdqjGAzaj6Ln0lFsD+e1j7pnTcdVlY+Fv16nw8psnAl81wHFJ1xwQwIZEKskdHvpFiNLU6crEuniHF9mxPLuHNTKQzvOLjtEsNm0Io7Vkod/MynNIw7fUf7s3M7qVnp23NzqtrVJjuh7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752169772; c=relaxed/simple;
-	bh=yZdhLAP4Y/uEsouC+1zSE9uhM96XS0URj5+GonKUBi4=;
+	s=arc-20240116; t=1752169774; c=relaxed/simple;
+	bh=p14WWzQBIuegYLxkZNVYhABdPQ3IMJ9rP/+RWpCxudA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KQzNql5l3VFyFNNLl5cgXVGA4NRO3OyPC6wd5w6sCR5CoeZKnw/aUTfy1pKvCi/a9PveMUYZNO1FG7nx8z4aMjsWjwuTCCSHAovDM9Pb2pgWnkZQwEgAwvbYQojvZZuvgEblFFArGtEksWWRgGoGav8sVuNcmYri7Nb6YTqCHws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p8k2R3Hx; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=AGNOvA9cdJIyaAvKiCbK0VRiHppFmDSkqFSXWQD/sWg2xr+eE/f+3AVSsq5W/Km6wEM3rUjebG/Tee/IRp9LVdYU0CtLjI9NEeu8475GTkwC4MiPw+hdBdCWg051IecA0OQidyUVi1zFHtAKRnh06xxIxrm6aj1tdtTPsQxjoow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mdWO5Eyb; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 22C8A5278;
-	Thu, 10 Jul 2025 19:49:00 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9F0ECB2B;
+	Thu, 10 Jul 2025 19:49:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752169740;
-	bh=yZdhLAP4Y/uEsouC+1zSE9uhM96XS0URj5+GonKUBi4=;
+	s=mail; t=1752169741;
+	bh=p14WWzQBIuegYLxkZNVYhABdPQ3IMJ9rP/+RWpCxudA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p8k2R3HxiGJcXPSWlsmNpFPlOK7PymnS80clTy0+HMrnFeGx+GRItZ0rGBo24tIfF
-	 HGiKe6YqYlqL60Tw+lbRthRn7VkCU6GK5wul7nsvKD4JB6K9PaiCjB5Sm+Ji5T4hl6
-	 wyP5db3NcR9fpbmsbt5hw4kCGZsePoSvvRjn85/8=
+	b=mdWO5EybO2sTcWe+SZGtpCFc0HzLAPpOeAkO7V2y9HqFABJ8LKUlF5I+wtEOzVFfh
+	 R2W3myoyh4uZQ+z2TCQLrUy6Yh7wrl4O/iaBrCB3aEUS24TnTS971WmNl61O3Sx+Zy
+	 /AcBE0/TdX6v4JtF0iO8LNfI68SA56u/6C/KACqs=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 31/72] media: i2c: og01a1b: Use V4L2 sensor clock helper
-Date: Thu, 10 Jul 2025 20:47:27 +0300
-Message-ID: <20250710174808.5361-32-laurent.pinchart@ideasonboard.com>
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	"Bryan O'Donoghue" <bod@kernel.org>
+Subject: [PATCH 32/72] media: i2c: ov02c10: Replace client->dev usage
+Date: Thu, 10 Jul 2025 20:47:28 +0300
+Message-ID: <20250710174808.5361-33-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
 References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
@@ -59,105 +61,274 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several camera sensor drivers access the "clock-frequency" property
-directly to retrieve the external clock rate, or modify the clock rate
-of the external clock programmatically. Both behaviours are valid on
-a subset of ACPI platforms, but are considered deprecated on OF
-platforms, and do not support ACPI platforms that implement MIPI DisCo
-for Imaging. Implementing them manually in drivers is deprecated, as
-that can encourage cargo-cult and lead to differences in behaviour
-between drivers. Instead, drivers should use the
-devm_v4l2_sensor_clk_get() helper.
-
-This driver supports ACPI and OF platforms. The "clocks" property is
-specified as mandatory in the DT bindings and the "clock-frequency"
-property is not allowed. The driver retrieves the clock if present,
-retrieves the clock rate from the "clock-frequency" property and falls
-back to retrieving it from the clock. If the rate does not match the
-expected rate, the driver fails probing. This is correct behaviour for
-ACPI, and for OF platforms that comply with the documented DT bindings.
-
-Switch to using the devm_v4l2_sensor_clk_get() helper. This does not
-change the behaviour on ACPI platforms that specify a clock-frequency
-property and don't provide a clock. On ACPI platforms that provide a
-clock, the clock rate will be set to the value of the clock-frequency
-property. This should not change the behaviour either as this driver
-expects the clock to be set to that rate, and wouldn't operate correctly
-otherwise.
-
-The behaviour is also unchanged on OF platforms that comply with the DT
-bindings. Non-compliant platforms are not expected, but any regression
-could easily be handled by switching to the
-devm_v4l2_sensor_clk_get_legacy() helper designed to preserve
-non-compliant behaviour.
+The driver needs to access the struct device in many places, and
+retrieves it from the i2c_client itself retrieved with
+v4l2_get_subdevdata(). Store it as a pointer in struct ov02c10 and
+access it from there instead, to simplify the driver.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/og01a1b.c | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
+ drivers/media/i2c/ov02c10.c | 69 +++++++++++++++++++------------------
+ 1 file changed, 35 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index 59688bad7c98..fe96ca9bb108 100644
---- a/drivers/media/i2c/og01a1b.c
-+++ b/drivers/media/i2c/og01a1b.c
-@@ -910,28 +910,12 @@ static int og01a1b_check_hwcfg(struct og01a1b *og01a1b)
+diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
+index 089a4fd9627c..88ddfaaa1dea 100644
+--- a/drivers/media/i2c/ov02c10.c
++++ b/drivers/media/i2c/ov02c10.c
+@@ -373,6 +373,8 @@ static const char * const ov02c10_supply_names[] = {
+ };
+ 
+ struct ov02c10 {
++	struct device *dev;
++
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+@@ -418,7 +420,6 @@ static int ov02c10_set_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct ov02c10 *ov02c10 = container_of(ctrl->handler,
+ 					     struct ov02c10, ctrl_handler);
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
+ 	const u32 height = supported_modes[0].height;
+ 	s64 exposure_max;
+ 	int ret = 0;
+@@ -434,7 +435,7 @@ static int ov02c10_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	/* V4L2 controls values will be applied only when power is already up */
+-	if (!pm_runtime_get_if_in_use(&client->dev))
++	if (!pm_runtime_get_if_in_use(ov02c10->dev))
+ 		return 0;
+ 
+ 	switch (ctrl->id) {
+@@ -467,7 +468,7 @@ static int ov02c10_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		break;
+ 	}
+ 
+-	pm_runtime_put(&client->dev);
++	pm_runtime_put(ov02c10->dev);
+ 
+ 	return ret;
+ }
+@@ -478,7 +479,6 @@ static const struct v4l2_ctrl_ops ov02c10_ctrl_ops = {
+ 
+ static int ov02c10_init_controls(struct ov02c10 *ov02c10)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
+ 	struct v4l2_ctrl_handler *ctrl_hdlr = &ov02c10->ctrl_handler;
+ 	const struct ov02c10_mode *mode = &supported_modes[0];
+ 	u32 vblank_min, vblank_max, vblank_default, vts_def;
+@@ -542,7 +542,7 @@ static int ov02c10_init_controls(struct ov02c10 *ov02c10)
+ 				     ARRAY_SIZE(ov02c10_test_pattern_menu) - 1,
+ 				     0, 0, ov02c10_test_pattern_menu);
+ 
+-	ret = v4l2_fwnode_device_parse(&client->dev, &props);
++	ret = v4l2_fwnode_device_parse(ov02c10->dev, &props);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -570,12 +570,11 @@ static int ov02c10_enable_streams(struct v4l2_subdev *sd,
+ 				  u32 pad, u64 streams_mask)
+ {
+ 	const struct ov02c10_mode *mode = &supported_modes[0];
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+ 	const struct reg_sequence *reg_sequence;
+ 	int ret, sequence_length;
+ 
+-	ret = pm_runtime_resume_and_get(&client->dev);
++	ret = pm_runtime_resume_and_get(ov02c10->dev);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -584,7 +583,7 @@ static int ov02c10_enable_streams(struct v4l2_subdev *sd,
+ 	ret = regmap_multi_reg_write(ov02c10->regmap,
+ 				     reg_sequence, sequence_length);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to set mode\n");
++		dev_err(ov02c10->dev, "failed to set mode\n");
+ 		goto out;
+ 	}
+ 
+@@ -593,7 +592,7 @@ static int ov02c10_enable_streams(struct v4l2_subdev *sd,
+ 	ret = regmap_multi_reg_write(ov02c10->regmap,
+ 				     reg_sequence, sequence_length);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to write lane settings\n");
++		dev_err(ov02c10->dev, "failed to write lane settings\n");
+ 		goto out;
+ 	}
+ 
+@@ -604,7 +603,7 @@ static int ov02c10_enable_streams(struct v4l2_subdev *sd,
+ 	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 1, NULL);
+ out:
+ 	if (ret)
+-		pm_runtime_put(&client->dev);
++		pm_runtime_put(ov02c10->dev);
+ 
+ 	return ret;
+ }
+@@ -613,11 +612,10 @@ static int ov02c10_disable_streams(struct v4l2_subdev *sd,
+ 				   struct v4l2_subdev_state *state,
+ 				   u32 pad, u64 streams_mask)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+ 
+ 	cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 0, NULL);
+-	pm_runtime_put(&client->dev);
++	pm_runtime_put(ov02c10->dev);
+ 
+ 	return 0;
+ }
+@@ -778,7 +776,6 @@ static const struct v4l2_subdev_internal_ops ov02c10_internal_ops = {
+ 
+ static int ov02c10_identify_module(struct ov02c10 *ov02c10)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
+ 	u64 chip_id;
+ 	int ret;
+ 
+@@ -787,7 +784,7 @@ static int ov02c10_identify_module(struct ov02c10 *ov02c10)
+ 		return ret;
+ 
+ 	if (chip_id != OV02C10_CHIP_ID) {
+-		dev_err(&client->dev, "chip id mismatch: %x!=%llx",
++		dev_err(ov02c10->dev, "chip id mismatch: %x!=%llx",
+ 			OV02C10_CHIP_ID, chip_id);
+ 		return -ENXIO;
+ 	}
+@@ -795,11 +792,12 @@ static int ov02c10_identify_module(struct ov02c10 *ov02c10)
+ 	return 0;
+ }
+ 
+-static int ov02c10_check_hwcfg(struct device *dev, struct ov02c10 *ov02c10)
++static int ov02c10_check_hwcfg(struct ov02c10 *ov02c10)
+ {
  	struct v4l2_fwnode_endpoint bus_cfg = {
  		.bus_type = V4L2_MBUS_CSI2_DPHY
  	};
--	u32 mclk;
- 	int ret;
- 	unsigned int i, j;
- 
- 	if (!fwnode)
- 		return -ENXIO;
- 
--	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
--	if (ret) {
--		if (!og01a1b->xvclk) {
--			dev_err(dev, "can't get clock frequency");
--			return ret;
--		}
--
--		mclk = clk_get_rate(og01a1b->xvclk);
--	}
--
--	if (mclk != OG01A1B_MCLK) {
--		dev_err(dev, "external clock %d is not supported", mclk);
--		return -EINVAL;
--	}
--
- 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
- 	if (!ep)
- 		return -ENXIO;
-@@ -1067,6 +1051,7 @@ static void og01a1b_remove(struct i2c_client *client)
- static int og01a1b_probe(struct i2c_client *client)
++	struct device *dev = ov02c10->dev;
+ 	struct fwnode_handle *ep, *fwnode = dev_fwnode(dev);
+ 	unsigned long link_freq_bitmap;
+ 	u32 mclk;
+@@ -873,15 +871,16 @@ static int ov02c10_check_hwcfg(struct device *dev, struct ov02c10 *ov02c10)
+ static void ov02c10_remove(struct i2c_client *client)
  {
- 	struct og01a1b *og01a1b;
-+	unsigned long freq;
- 	int ret;
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ov02c10 *ov02c10 = to_ov02c10(sd);
  
- 	og01a1b = devm_kzalloc(&client->dev, sizeof(*og01a1b), GFP_KERNEL);
-@@ -1077,13 +1062,19 @@ static int og01a1b_probe(struct i2c_client *client)
+ 	v4l2_async_unregister_subdev(sd);
+ 	v4l2_subdev_cleanup(sd);
+ 	media_entity_cleanup(&sd->entity);
+ 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+-	pm_runtime_disable(&client->dev);
+-	if (!pm_runtime_status_suspended(&client->dev)) {
+-		ov02c10_power_off(&client->dev);
+-		pm_runtime_set_suspended(&client->dev);
++	pm_runtime_disable(ov02c10->dev);
++	if (!pm_runtime_status_suspended(ov02c10->dev)) {
++		ov02c10_power_off(ov02c10->dev);
++		pm_runtime_set_suspended(ov02c10->dev);
+ 	}
+ }
  
- 	v4l2_i2c_subdev_init(&og01a1b->sd, client, &og01a1b_subdev_ops);
+@@ -894,14 +893,16 @@ static int ov02c10_probe(struct i2c_client *client)
+ 	if (!ov02c10)
+ 		return -ENOMEM;
  
--	og01a1b->xvclk = devm_clk_get_optional(og01a1b->dev, NULL);
-+	og01a1b->xvclk = devm_v4l2_sensor_clk_get(og01a1b->dev, NULL);
- 	if (IS_ERR(og01a1b->xvclk)) {
- 		ret = PTR_ERR(og01a1b->xvclk);
- 		dev_err(og01a1b->dev, "failed to get xvclk clock: %d\n", ret);
++	ov02c10->dev = &client->dev;
++
+ 	v4l2_i2c_subdev_init(&ov02c10->sd, client, &ov02c10_subdev_ops);
+ 
+ 	/* Check HW config */
+-	ret = ov02c10_check_hwcfg(&client->dev, ov02c10);
++	ret = ov02c10_check_hwcfg(ov02c10);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = ov02c10_get_pm_resources(&client->dev);
++	ret = ov02c10_get_pm_resources(ov02c10->dev);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -909,21 +910,21 @@ static int ov02c10_probe(struct i2c_client *client)
+ 	if (IS_ERR(ov02c10->regmap))
+ 		return PTR_ERR(ov02c10->regmap);
+ 
+-	ret = ov02c10_power_on(&client->dev);
++	ret = ov02c10_power_on(ov02c10->dev);
+ 	if (ret) {
+-		dev_err_probe(&client->dev, ret, "failed to power on\n");
++		dev_err_probe(ov02c10->dev, ret, "failed to power on\n");
  		return ret;
  	}
  
-+	freq = clk_get_rate(og01a1b->xvclk);
-+	if (freq != OG01A1B_MCLK)
-+		return dev_err_probe(og01a1b->dev, -EINVAL,
-+				     "external clock %lu is not supported",
-+				     freq);
-+
- 	ret = og01a1b_check_hwcfg(og01a1b);
+ 	ret = ov02c10_identify_module(ov02c10);
  	if (ret) {
- 		dev_err(og01a1b->dev, "failed to check HW configuration: %d",
+-		dev_err(&client->dev, "failed to find sensor: %d", ret);
++		dev_err(ov02c10->dev, "failed to find sensor: %d", ret);
+ 		goto probe_error_power_off;
+ 	}
+ 
+ 	ret = ov02c10_init_controls(ov02c10);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to init controls: %d", ret);
++		dev_err(ov02c10->dev, "failed to init controls: %d", ret);
+ 		goto probe_error_v4l2_ctrl_handler_free;
+ 	}
+ 
+@@ -934,33 +935,33 @@ static int ov02c10_probe(struct i2c_client *client)
+ 	ov02c10->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ret = media_entity_pads_init(&ov02c10->sd.entity, 1, &ov02c10->pad);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to init entity pads: %d", ret);
++		dev_err(ov02c10->dev, "failed to init entity pads: %d", ret);
+ 		goto probe_error_v4l2_ctrl_handler_free;
+ 	}
+ 
+ 	ov02c10->sd.state_lock = ov02c10->ctrl_handler.lock;
+ 	ret = v4l2_subdev_init_finalize(&ov02c10->sd);
+ 	if (ret < 0) {
+-		dev_err(&client->dev, "failed to init subdev: %d", ret);
++		dev_err(ov02c10->dev, "failed to init subdev: %d", ret);
+ 		goto probe_error_media_entity_cleanup;
+ 	}
+ 
+-	pm_runtime_set_active(&client->dev);
+-	pm_runtime_enable(&client->dev);
++	pm_runtime_set_active(ov02c10->dev);
++	pm_runtime_enable(ov02c10->dev);
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&ov02c10->sd);
+ 	if (ret < 0) {
+-		dev_err(&client->dev, "failed to register V4L2 subdev: %d",
++		dev_err(ov02c10->dev, "failed to register V4L2 subdev: %d",
+ 			ret);
+ 		goto probe_error_v4l2_subdev_cleanup;
+ 	}
+ 
+-	pm_runtime_idle(&client->dev);
++	pm_runtime_idle(ov02c10->dev);
+ 	return 0;
+ 
+ probe_error_v4l2_subdev_cleanup:
+-	pm_runtime_disable(&client->dev);
+-	pm_runtime_set_suspended(&client->dev);
++	pm_runtime_disable(ov02c10->dev);
++	pm_runtime_set_suspended(ov02c10->dev);
+ 	v4l2_subdev_cleanup(&ov02c10->sd);
+ 
+ probe_error_media_entity_cleanup:
+@@ -970,7 +971,7 @@ static int ov02c10_probe(struct i2c_client *client)
+ 	v4l2_ctrl_handler_free(ov02c10->sd.ctrl_handler);
+ 
+ probe_error_power_off:
+-	ov02c10_power_off(&client->dev);
++	ov02c10_power_off(ov02c10->dev);
+ 
+ 	return ret;
+ }
 -- 
 Regards,
 
