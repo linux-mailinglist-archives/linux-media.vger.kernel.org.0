@@ -1,115 +1,119 @@
-Return-Path: <linux-media+bounces-37277-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37278-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616C2AFFFA7
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 12:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7606CB0000A
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 13:03:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F1651C42F28
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 10:50:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76FD71C87532
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 11:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBFD2DECB4;
-	Thu, 10 Jul 2025 10:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 472B02E7F08;
+	Thu, 10 Jul 2025 11:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bikh/J71"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="TNey+Q/H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0152D8385
-	for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 10:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1972E62D5;
+	Thu, 10 Jul 2025 11:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752144616; cv=none; b=Od72qJGowAQ22LVksKn2P1dAi7ORMQEIpNqmtT1GRnUhwVYrhiTgSPcxS1gIbxjwuHXdW3pobdKiC8CmRSkz1wQlwHnVNyG2pH7eP0lPvFbYr/dbU+LujeoIgLSTKhy+sfNMr3Wah8XcVE3bN8MNjsur5Pmpeaiodj7CN3nLBMc=
+	t=1752145309; cv=none; b=leXzHR8oXvjLsfoTfumDPSdaRACXVlDNT4bMfncsZByDDFglxZj2Gf988c8iTrmbvcu7cGxvirjt10fz42zA3VLx/hVzdzw6vY8gCsOwOTL1Sg0UStJdgCCsyyF5fbNKRMGTM0trW/b6N7Vwbtg5RxOH1de2wOpKN9vM44M2pcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752144616; c=relaxed/simple;
-	bh=0ERYadl4idWZ6bP47UPPD8JzYK00w75uLtXXgxW78Zw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=qy+HAnfnQwdD1EBWZy34/WJcXki87128CjqB4NO/AohN32bZMhcWIPNMo3Ezf9sZK7UyAIUTvxcgPVJtfPvukjmYsot4zsu4DuP3BWuA+aw8KgmfDoxBa74iTBNbzE/uTVoWL7FDsZDjfhGyIfWyuLfCim8T3RfhDd6YCac6wWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bikh/J71; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4a4312b4849so10017051cf.1
-        for <linux-media@vger.kernel.org>; Thu, 10 Jul 2025 03:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752144614; x=1752749414; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ERYadl4idWZ6bP47UPPD8JzYK00w75uLtXXgxW78Zw=;
-        b=bikh/J71j6eMsW2APwhDohhPpOuscG8qYUDYnmS7sDKv5wwPrWvYoGtpFbXrl8cE8c
-         9pAos3Ec6TNTD5zZEl5U5qvV2ENIL+hIhOcCH4Ux3Zzz6oLuyP2qFZzunmZdKcFp5W+W
-         SVzcRaz36ZgSSpE2GmIH8qWlXKhr20gdn8E26LM44egRxlGLZK2QrXLYC4BEDR2bQVAq
-         fNAvHhVI14hJN9JLc+rj/N7K4psXOQi+tjU3ZIxguiR5WWnM6VFFuuF3TCOroxRpWg1u
-         1lUE7tZNO9MsbLvFjAZ669ZRNc5Wm7RaNcC3lXlXKsr0xxUjKBlR05qLT4JugTQ2gqJV
-         QPcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752144614; x=1752749414;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0ERYadl4idWZ6bP47UPPD8JzYK00w75uLtXXgxW78Zw=;
-        b=eR6NhR11o3vTPTK0P9H/nMUEqmEjQ46KqnkrIIL9j4DuEaz2BziUA0vPor1I4KpKD+
-         qhYV323CyV/M1tlB9K+lfW88zWm8dFMInH3arJYK80vyDt4cunA//ImmXq00gGhP3NSm
-         d74p+b5HycUHsA8clOaCcwRibm0HRrd0jpA6XkjUW+YX1mTxm8rlguRwx9IQEQRNm5jg
-         vl5DNWuIiWwRv/ZdtoBCx1TwZB8oGhf+iT1Bi23vCf+Nt4sbruaiuSdOF7DCzgCM9zqp
-         hIxwQjYJ4N3ilxfXHACY1mzDWCkMxwo+xhPb+yjrgtYswMU2yF0zn/h6b47yoOsNw7pw
-         SXZA==
-X-Gm-Message-State: AOJu0YwODT9l+ix3ddTUbIl81Ny6FPXT3o6n2Zq0QPdk94+ebfogHZze
-	sOhydpM9M1zCQ9n+8i8pCWDxFCP6aCL6DtrDfwM2nZGaSBCvKdkwnDCEW8oGhdR0z36mYML3Rsv
-	No7tJk508R8j1EM/jS4Rc68LKyM5kBbCTW+Fil40=
-X-Gm-Gg: ASbGncvhV0qmSRh7t+AdinK0tZ6qMSKEUVv48txMTMEzKxp+NlPfBucXu3qPvixAhCY
-	DE6TQUa5ZxhEC10QkpCXCMcrIu4CBad3DkXG8YWw5yvMWCRlS4p5/62jN1U6+mWwt7Puk1ET/yC
-	fltpM2R6CzYCKNj/BsvArBtIbfuwR/z20EgZg5ChLUR10zQycAXDuI7y8=
-X-Google-Smtp-Source: AGHT+IGN8RWVfe+GXdUPLcI405BEk9fjpql4NDTHCo3rL4Z9Q5xeRXN/eXZNAoWPFOQVfYrW//TXQS7kaQ9ZKY1KTy4=
-X-Received: by 2002:a05:622a:1303:b0:4a6:f492:674f with SMTP id
- d75a77b69052e-4a9ded10402mr88486571cf.41.1752144613463; Thu, 10 Jul 2025
- 03:50:13 -0700 (PDT)
+	s=arc-20240116; t=1752145309; c=relaxed/simple;
+	bh=cG86iaom6ZydMcf7R7W27dUK5Wunw5WdkRno4zP99ts=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HB4MApaCUyHcwa0cSxHAALsQY+rLbQx5i6awCVfdVZ/rLXrnAeuA2ew0UJ76F9pasbp5W3uA2Ud1AGhxT57VT18GzXFfJxTCBRvE0hT1kIVqv+NuRUkBCg7ReKRESNb0bCokLGndgWhauI4VLV4jW3H/0yt34HwnPoL1GsQhstM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=TNey+Q/H; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=yh1oZYi5He8u6c75FxBqUjF/P8dsSkx+mSq7uRQnfpY=; b=TNey+Q/H+gvNrd/vklpz2lSgcz
+	zYsU2CFvIdj8g0DjwUaA9LkCsNFvVRJAd0yqfZsM5wwI/hXk58oI2EBTvnu533uvT5XiaqNyRxfrF
+	g83m2YF/9AGV5+B05cpsTVrC4kgvpJPHvuDlWPPOH8r+btbDaIDQuVrUgX2UGLWav3NRbxmlT0uW7
+	dQTQBNEFCi3yhvQVLAodPh3ku8WmTcVjyZVQq8vMgKY7R7O/nTCBGvRqMZ4ZCZoAakU5Y8Bm8O6+/
+	rNnEWIi775SRRakTqEIcqol6mmmSWcUfoQQ10JeuFbj8NQV9Fi6J3p8a0VMLORPwwhZd6uy89wvqJ
+	4f+rKPdA==;
+Received: from [194.95.143.137] (helo=phil.dip.tu-dresden.de)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uZp20-0004He-Nb; Thu, 10 Jul 2025 13:01:36 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Olivier Benjamin <olivier.benjamin@bootlin.com>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	imx@lists.linux.dev,
+	~diederik/pine64-discuss@lists.sr.ht,
+	Dragan Simic <dsimic@manjaro.org>,
+	Ondrej Jirman <megi@xff.cz>
+Subject: Re: (subset) [PATCH v4 0/4] Describe the cameras in the PinePhone Pro dts
+Date: Thu, 10 Jul 2025 13:01:33 +0200
+Message-ID: <175214509884.1901332.11258386296497025238.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250620-camera-v4-0-0201a8ed5fae@bootlin.com>
+References: <20250620-camera-v4-0-0201a8ed5fae@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Samiksha Palav <samiksha.palav27@gmail.com>
-Date: Thu, 10 Jul 2025 16:19:59 +0530
-X-Gm-Features: Ac12FXyShdPmJnI-bcvx10YNFbw0G0ue1caG-Ky-u_FUVfl5TtXr04IF6REsyek
-Message-ID: <CALq_ZGFW2O4Ueo5bAkFsuw4U3t7uqeBqsizFqHDjLaTDEGXLFg@mail.gmail.com>
-Subject: Introduction
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi everyone,
 
-I=E2=80=99m Samiksha (a.k.a. Shdwcodr), an undergrad BCA student from India
-with a relentless drive to get deep into the Linux kernel. I've
-recently begun my journey contributing to the kernel, focusing on
-staging drivers, learning the kernel development workflow, and
-understanding the culture of patch submission and review.
+On Fri, 20 Jun 2025 17:21:31 +0200, Olivier Benjamin wrote:
+> This series adds support for the Pine64 PinePhone Pro's rear and front
+> cameras in Device Tree.
+> This is based on some of Ondrej Jirman's patches hosted in his tree at
+> https://codeberg.org/megi/linux, but I have also fully reviewed and
+> re-written the code from the RK3399 datasheet, the PinePhone Pro
+> schematic, and the IMX258-0AQH5 software reference manual.
+> 
+> [...]
 
-Over the past few days, I=E2=80=99ve:
-- Set up a local kernel build and testing workflow.
-- Sent out my first real patch (not a dummy), with more lined up.
-- Subscribed to key mailing lists and joined IRC channels to stay in the lo=
-op.
-- Started tracking patch feedback and diving into
-`scripts/checkpatch.pl`, git send-email, and the entire mailing
-list-based workflow.
+Applied, thanks!
 
-My short-term goal is to get multiple patches accepted into staging by
-early 2025, and long-term I=E2=80=99m aiming for the **LFX Kernel Mentorshi=
-p
-Program in 2026**.
+[3/4] arm64: dts: rockchip: describe I2c Bus 1 and IMX258 world camera on PinePhone Pro
+      commit: b610dc822f38010508b54c8f556a3de28556d273
+[4/4] arm64: dts: rockchip: describe the OV8858 user camera on PinePhone Pro
+      commit: 9259c81a185663c2a7cd6a5301df4b9645980528
 
-I=E2=80=99ll be lurking, learning, and asking questions when stuck. Thanks =
-in
-advance to everyone who shares knowledge and guidance =E2=80=94 it means a =
-lot
-to newcomers like me.
+So I found the binding-patched from the media-tree in linux-next now,
+so picked up the dts patches.
 
-Looking forward to learning from you all and giving back as I grow.
+I fixed up some issues, please double check:
+- the pinctrl-handle in patch3 did not match the created one
+  (which patch 4 fixed) but I adapted patch 3 instead
+- sorting of the avdd regulator (alphabetical by node-name please)
+- sorting of properties, broadly speaking, alphabetical too
+  (caveats apply, see dt documentation)
 
-Cheers,
-Samiksha (Shdwcodr)
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
 
