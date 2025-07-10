@@ -1,224 +1,108 @@
-Return-Path: <linux-media+bounces-37417-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37418-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FA9B00B75
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 20:34:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1ACB00C34
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 21:37:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B554716CEDE
-	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 18:34:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91BDC4E475B
+	for <lists+linux-media@lfdr.de>; Thu, 10 Jul 2025 19:36:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB0CE2FCE3F;
-	Thu, 10 Jul 2025 18:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54CE92FD59F;
+	Thu, 10 Jul 2025 19:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLL5WEkl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IQsyrrIZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB681D7E54;
-	Thu, 10 Jul 2025 18:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE50021A43D;
+	Thu, 10 Jul 2025 19:37:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752172440; cv=none; b=C6sdgodYq6kXJvL8VfSpCYk0wZMRFQphQxqGUKyVRmtJAQGRJU3kbjrd7f17hJIjo+txChmSxomNBRIsMgnpSeAsZUno39V2j2PyHitMCp1ZuxG/Tkuj1O+KuloipqStTZySPnlH4d6kUTVg5FqjYfzrSnPbjyZcSEAi+Co0b08=
+	t=1752176239; cv=none; b=NKWuK1RiUHq4NtdfvoebKu66i2yDttcpCNBvBh3KLuuwWPLFxfOB3XJB7+X0SlKB8xtxui5xS1+NynUofGfsmhDmMSAXYzyV/fueQU3ChfxnBMnwxvCsm2Xmw8iomF90P1twLhMu+kDV672nsZ3PalRgCXGaIHDuBQMbKxkIjBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752172440; c=relaxed/simple;
-	bh=Vs70MeZf1mYaXGnKJLdsSgmTm2iQdUulBxeRcsD98/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L73wqrudZT/2qVaaho3Bl3jFXnBM8Eh28U2ctjVvSQGqOMH1VTQjGUURctvgRBl3Rebk4Tiv+g4C2DJ0pRLKEcv0DBjija2mN0QOu64hC77A8uqOJHeGMzJWkQ73qg8NKjKG0K742V33JD/e/T0ydbaAKw00Qt0Y7XRSXbjjqJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLL5WEkl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54AD0C4CEE3;
-	Thu, 10 Jul 2025 18:33:59 +0000 (UTC)
+	s=arc-20240116; t=1752176239; c=relaxed/simple;
+	bh=wBRWdKVUiTOi2ue55+EVrE7xGyuSv1oYeqjAhNF9NC0=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=D0PxQzSNS+FvifPSaHSMhKCe0AYoZhWRcembeLJCujlmmo8DjzVB+/iGmISZvKo91o69kMoCR+Xvccl+rK7z0r7jqdZ/A3awLN4kh+pz5chSMVovZyOXYpKx/qdo7+QtKisBqR/q1T+1g9QvhNAs8+VkGayyk6FbVSYqh9CY3NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IQsyrrIZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E078DC4CEE3;
+	Thu, 10 Jul 2025 19:37:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752172439;
-	bh=Vs70MeZf1mYaXGnKJLdsSgmTm2iQdUulBxeRcsD98/w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QLL5WEkl9iGpzg+UXniN8zcwc/kvgVq9XmsTyTWBzXNIbNgRyUqB2nCT09Vfsdalm
-	 0bUTot71/LUmO2cqqlCNekoDAwcA1TWAWxbPRH6RHYMvCghZYaeM14yKPcHvfziQLS
-	 +NNapYYO5PteG6Yz9FDFrohN9k649YHr6TnGgtIu8SfCAlz6t0AtNHqxFdJZp7zPsE
-	 gfKV0fRP3Fe3CgjPy7rr75VtQIkFzblwRqwMLSROlQGjL6Ca2zLISrGEDAJCY/bnk4
-	 VFJZXryAEkyIYsU5F9APD7VQYZf049o+okma2hn0ZL9DYc0KHfKoYqhFY/Et9QBgo1
-	 DoqhsSN6ReSww==
-Date: Thu, 10 Jul 2025 13:33:56 -0500
-From: Rob Herring <robh@kernel.org>
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: sakari.ailus@linux.intel.com, krzk+dt@kernel.org,
-	kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-	pratap.nirujogi@amd.com, laurent.pinchart@ideasonboard.com,
-	tarang.raval@siliconsignals.io,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: i2c: Add ov2735 sensor
-Message-ID: <20250710183356.GA3026892-robh@kernel.org>
-References: <20250710131107.69017-1-hardevsinh.palaniya@siliconsignals.io>
- <20250710131107.69017-2-hardevsinh.palaniya@siliconsignals.io>
+	s=k20201202; t=1752176236;
+	bh=wBRWdKVUiTOi2ue55+EVrE7xGyuSv1oYeqjAhNF9NC0=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=IQsyrrIZ1eESquyPZg7NfrQgoAtO/YqE4wet+RvinF22jf2KEPZvLwylm5LnAjm4B
+	 dZ+O7PbtcLXaRFpXzGWD/ixvqdZlpMKtTxe4Bs2xDdasYdnHZ7hGnOyLXI996ILhkL
+	 02kU7oaO6f6nFtEmOKTYZJgpXLZhg9BbWGgEqTwk39i2pPmzajX4ABPov8Z9MLwo33
+	 FHblCWXxnqAn6YD52brkg8Zq5rDx4Iy/w8svgLV1oMZNg6UVVc+XMlOlqbvRCQHF/F
+	 m6tGE1bnuWfsYTTxGgV2SxPT2Ndw7yPJmZhT+92a2oonBCqgM19H2bCwsmuzdkYUYY
+	 BolVvvYEvmOIQ==
+Date: Thu, 10 Jul 2025 14:37:15 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250710131107.69017-2-hardevsinh.palaniya@siliconsignals.io>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ linux-media@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Mehdi Djait <mehdi.djait@linux.intel.com>, devicetree@vger.kernel.org, 
+ Leon Luo <leonl@leopardimaging.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20250710174808.5361-5-laurent.pinchart@ideasonboard.com>
+References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
+ <20250710174808.5361-5-laurent.pinchart@ideasonboard.com>
+Message-Id: <175217623503.3371435.1552463179944377502.robh@kernel.org>
+Subject: Re: [PATCH 04/72] dt-bindings: media: imx274: Make clocks property
+ required
 
-On Thu, Jul 10, 2025 at 06:40:58PM +0530, Hardevsinh Palaniya wrote:
-> From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+
+On Thu, 10 Jul 2025 20:47:00 +0300, Laurent Pinchart wrote:
+> The sensor requires an external clock, and drivers need to access the
+> clock to retrieve its frequency in order to configure the sensor. This
+> makes usage of the clocks property mandatory for a system to work
+> properly. Mark the clocks and clock-names properties as required, and
+> update the example accordingly.
 > 
-> Add bindings for Omnivision OV2735 sensor.
-> 
-> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  .../bindings/media/i2c/ovti,ov2735.yaml       | 115 ++++++++++++++++++
->  1 file changed, 115 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
+>  Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
-> new file mode 100644
-> index 000000000000..d9d01db88844
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
-> @@ -0,0 +1,115 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov2735.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: OmniVision OV2735 Image Sensor
-> +
-> +maintainers:
-> +  - Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> +
-> +description: |
 
-Don't need '|' if no formatting to preserve.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> +  The OmniVision OV2735 is a 2MP (1920x1080) color CMOS image sensor controlled
-> +  through an I2C-compatible SCCB bus. it outputs RAW10 format and uses a 1/2.7"
-> +  optical format.
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov2735
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: XVCLK clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: xvclk
-> +
-> +  avdd-supply:
-> +    description: Analog Domain Power Supply
-> +
-> +  dovdd-supply:
-> +    description: I/O Domain Power Supply
-> +
-> +  dvdd-supply:
-> +    description: Digital Domain Power Supply
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Reset Pin GPIO Control (active low)
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +    description: |
+yamllint warnings/errors:
 
-Same here.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.example.dtb: sensor@1a (sony,imx274): 'clocks' is a required property
+	from schema $id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.example.dtb: sensor@1a (sony,imx274): 'clock-names' is a required property
+	from schema $id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
 
-> +      Active-low enable pin. Labeled as 'PWDN' in the datasheet, but acts as
-> +      an enable signal. During power rail ramp-up, the device remains powered
-> +      down. Once power rails are stable, pulling this pin low powers on the
-> +      device.
-> +
-> +  port:
-> +    description: MIPI CSI-2 transmitter port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            items:
-> +              - const: 1
-> +              - const: 2
-> +
-> +        required:
-> +          - data-lanes
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - avdd-supply
-> +  - dovdd-supply
-> +  - dvdd-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rk3399-cru.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera-sensor@3c {
-> +            compatible = "ovti,ov2735";
-> +            reg = <0x3c>;
-> +            clocks = <&ov2735_clk>;
-> +
-> +            assigned-clocks = <&ov2735_clk>;
-> +            assigned-clock-parents = <&ov2735_clk_parent>;
-> +            assigned-clock-rates = <24000000>;
-> +
-> +            avdd-supply = <&ov2735_avdd>;
-> +            dovdd-supply = <&ov2735_dovdd>;
-> +            dvdd-supply = <&ov2735_dvdd>;
-> +
-> +            reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
-> +            enable-gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
-> +
-> +            port {
-> +                cam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_cam>;
-> +                    data-lanes = <1 2>;
-> +                };
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.34.1
-> 
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250710174808.5361-5-laurent.pinchart@ideasonboard.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
