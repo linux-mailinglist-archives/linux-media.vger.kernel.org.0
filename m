@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-37477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37478-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C27DB01B3D
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:55:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D3DB01B3E
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:55:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 319703A682B
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 11:55:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C17B3A6321
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 11:55:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8008C2BD589;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C0CA2BD5AA;
 	Fri, 11 Jul 2025 11:54:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eDYxA67M"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5DOq1ND"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6403E28C035;
-	Fri, 11 Jul 2025 11:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF94299949;
+	Fri, 11 Jul 2025 11:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752234888; cv=none; b=GRL/JPXG4OWFIyehDpZlA9vnTN+JAGiYJx99K9LYrj8jR9AJ2ZCRQi2c0CTPSx0mOQz7iuPvAYxKrWLXwZ/P+BG4SDCyo6wrcCt7LzVpce0O2cdWdam0wyvzGuimTEBIEj6JrmIy0lwX6K4Fsi5zCUdZ5pfrGpT2aidJqOg6JB8=
+	t=1752234889; cv=none; b=dGSEWt6QEKPCXv2FlnoJd14lrgyBbrOThlfIIKXYmovrJpdpGTx17v/bzkUvYn9UJvm6oAYAb1Mxtc4jQLSmyaIcY3bwOMVSGGW53psa6MSX04/TqFnPfVMpR0JmrUbFpoLpDm2Jy89zxnFlnfSrPIaoDRYLU9GNLrpU/jui73c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752234888; c=relaxed/simple;
-	bh=AZX6kVF1g/cRe8XsgNWI9KMwm9xW3d2j4FgbxqLevNU=;
+	s=arc-20240116; t=1752234889; c=relaxed/simple;
+	bh=AqnW7/c9nG03ZAzoPbA3nRf1z9VOfMnwRCXHwCluQ3M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZEekQnCCyT6W0PX0nxgqFSDR7F+G3cMe1UJx+TC2ibRg2qFEsNGU9qGM+lgge3a7oBHMxpcvMwYhwAnrHJvN6wHJTgxIFSIRbPEvHCOYrtd+prVMKm6Pd/XE6iNKJvs5Ss0f+JyJ+E7HBLDmiVRggI+cBdAf+pf/efGUvJXiEVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eDYxA67M; arc=none smtp.client-ip=209.85.214.170
+	 In-Reply-To:To:Cc; b=WyGulL5mw2574UkT7mlypOKcUEOrz9T5wFzlaJBINbWRzJ9wo1kbspWqKJoOXoYB4AIwIXhrtMiiXX9UmYRgd0f0wQw/zpvOzlvSUZuHnD+ElNbRWksl5VCXa7/Lp7Tw9st447Tf5OlbL56DgEACDCgaD4yC4uDliPIBCLBfe8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5DOq1ND; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-236377f00a1so18938345ad.3;
-        Fri, 11 Jul 2025 04:54:45 -0700 (PDT)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2366e5e4dbaso25176605ad.1;
+        Fri, 11 Jul 2025 04:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752234885; x=1752839685; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1752234887; x=1752839687; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SJw5YhlCva5K9gfTlJfdEIZ6FPIj4yxrNOWwGxsH+uU=;
-        b=eDYxA67M8eSryeEZQRXcr5WLrPEAFPzqjBMb14OhUir8+Cd9nIQOcORmNtKCd5g7uK
-         ywUtlniNKmS+Up4jb0BTWUn1Xvv6NMt91feI6DF9U4oN+Q+/RPEWZtFhAPzQewe626z1
-         Gpp9bUIyqQdyFY5Dtuk5lRq5dHoEqpBougllMdpbd56GdxSrWNa4I/4cyiNfuh+lH1YP
-         2m3apcP2HK25K8V6BOCveIr4GKEAIVKCice3JYpcPWg2dBVB95bgaECU3ZqVsAm2cCKT
-         MzNHLPw63yBrnE464FWwQfWo873C8t2JKkqZsKGIMbF9QDtDelLH2e6XZzco1Lpcs1Wy
-         T38Q==
+        bh=DFtn4/ZNNp1Bo82KZbs6Ml2JzOPxRd2Eu3X06xLlUB0=;
+        b=b5DOq1NDiIAtuwnrI9CuEh3hD+HKQO7rAHdvq66siVHzyS+q6VqwtC36zOoGvyT+4f
+         lB6M7C4ioU1LHGApHWV+SwdY2VW400IJhw+3arLs2GOebMdeyVAcikrZaaWX0n/6i+dq
+         IpzbZ+dWqSMGj86ZwEPP752DqZDNVNrNFWwMp2wJ4hF9q5GIwTAqlJ4gQulzYUK6A/ZR
+         d/y1gpArZ8i7sivcU7Ol3WRhEUT81e+1lUdBwgdce0j3hdXmeIIBvqdPhX0swBWLfHZ/
+         taKMOjR/yanSlisGEqT1XwIOkHl7TttAnma9Et16hWzogWtcO2kN2ws3dIUTKRY/odM6
+         dY1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752234885; x=1752839685;
+        d=1e100.net; s=20230601; t=1752234887; x=1752839687;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SJw5YhlCva5K9gfTlJfdEIZ6FPIj4yxrNOWwGxsH+uU=;
-        b=XI3zZV7V2NI4efhiB77tfdIiC48pAgPGKXt6Xeb3SyTi2f8uI1mzubaN/QpdKVFHjS
-         2AioKC10PgSHz3kGjavcgMorFmt1grA+y4NY1ANvTHdCjCusyEkkn3q7MxArdGGhi6GG
-         BGudkjm6kqKqQYr++4s0lgi6nGEu+zwP3OrZ9pVSUrvPcd7CcfjVYBBLbMoxaRMTnbh7
-         vE4dbGtNA22DVXTqkQzYYjSP596tx1XtEHFcyorE3SPxLpJXxl2duMC9FWWiOrKpl95c
-         fqneC+FVpHTC+fkrjYkR0D5uBXOLrPBAun5bBYh8XE5Buxty7GcR5K3T/aOjMxkLahhi
-         /viQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUotvrzdjb2/HATKx+Suw3hu13Mu2CxfCitUTrhkxju6o3ymLr9Ce9fW80s03M7OiPKhYRXNEqBD5M8dgQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzX9lSP0+qXL0r9/R12Id8y0t1QfIMnoXHRckSrE79PVOQpID8
-	FVMYOgOBj7nt4BKWEVLr2s9ihiOApXIqmVI+zLUNWIh3xFIxEgqw6umFNjdU6zwE
-X-Gm-Gg: ASbGnctQ+55/Yw2gH8ALAM6ax4Wifx3qVqQkfiqh3RpgdOtxQ6K6kKKmV/VZA31cDE5
-	BWR03NR7pSX0gOZqLqEHJCc35G7wdfbsuWaOnpESJtFvJMSZ/OamsXsavY11/fmQP/pLzrnW6db
-	rFwM7WB2TMtzNoIUldEJhb0umDWeUOBmzMP5M/k4dQHPtEbEM4jGW3c7SV8qjdYQyLRAinhM1D/
-	G5FNoNKuf3QzExfXpNkukPUe76IlqsOwIhdAMiYJYnVK45HuKKLmhWecahUZNeDSkoZjc9BaxKE
-	jT1KZimqV2OTePxLIECh2MaG3w/trIQa2X41o85o8pMQEXZB9ytZixt9kzZek09tI40ymzU0ZkP
-	ibRoSbWACeIhgvUjpvCX44ibpzRLQ8cqlOVWv7E5ROKqsFhLnuw4RxJq+vwbfW3J8NPUWWKM45t
-	Q1XpdKEXItRg==
-X-Google-Smtp-Source: AGHT+IE/GNQHsDOkg4hebFNChU6e40ICf26SOfPwoJ/7Kba0PNQnjHtm2s4+itACNqTLwFmps56A0A==
-X-Received: by 2002:a17:902:f603:b0:234:d292:be7f with SMTP id d9443c01a7336-23dede7d45dmr37114665ad.31.1752234884488;
-        Fri, 11 Jul 2025 04:54:44 -0700 (PDT)
+        bh=DFtn4/ZNNp1Bo82KZbs6Ml2JzOPxRd2Eu3X06xLlUB0=;
+        b=aKFOjeKLU40kkrm61tBDPWWlZoeyVXvk1XtNNjiLQYbaXyGBMTkxuTaaKAKQ8MFFg/
+         oKvyWzmOa1LpXk1cBPm/6+ebysp/HOJ+qyxW7Nyqoj/fWy5NWlQgT7P4X7jkFetpJQ2n
+         qxHYOLdjk7fCEQI+l3fm/oshEQtHy+TxKUMlGTNQJJW6hMJprXVx3ZzjUw/3BPgNSbnm
+         lSYS/lNuiJJntSxz6+00IhGRVF9jBfKu9KHJAjraLbNcVZZZnjAgoHh8ysB90GqGq9Nc
+         XMucob8edsK6Wy71tQgwv+cGxfb42opnXdn0zC2YR02VEd+BYb8Kjs6KpGzU5hvaqjYP
+         1qeg==
+X-Forwarded-Encrypted: i=1; AJvYcCUPyIyB+pxAHAhzAVLxXdXzXMJE+YsY0ibieE5t49EUGLZwtOfc2PwXU1vFiWgJZbYcg3FXO8DFFIznUFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxatI1SWz6dwMm1JPAOMAuIzJq0DUvCbJBcIleyPbnznlVX3Rei
+	vcrk7xkyRXKsAVGh48bUM5W6zZyJGWWgpKAzNITKwTXwz94pvkSiKf5rHhTvMJ0E
+X-Gm-Gg: ASbGncs34rcf527fWLMf/UNpHVWPIo9qp8w80GnYfKaTANTR7y7s9hbepn27QodTabI
+	+gAsB6z4y+lIhlR3H4l7pEE4qkdndbkwQP8MpCCO0Nzry+mB37Z9iTIHGSr/cM9EL2hdVTHqB4f
+	WWg0ZC8TOANOWGGsIa1q6dVWXYphSEIO/UV05qF50VxN9vAMai/L5eQ3z9xfZT1iyKJGpMJho1T
+	Ua0QDh7MlxZS8NSp+Tm15Kqe6tD3jfuqgqLGWKvYkrcyWsRHvy4rxzn0Q/rH2KXFMIZpB5PSqaC
+	jNtkvjqxIguzyQewHSxcFttm00qnQvVvtK4WNHO2s1cWlq+/2sleyXtfz1OCwZQyHkUcPZDBLef
+	0B2vtxGRrVoer2MOeyOzL/lPKTRgY2Fg5hB7nN+tFYSL/lJm0P4g7kCA/XajP/I/TzULe+J2c2g
+	cV/gtNy5xUkg==
+X-Google-Smtp-Source: AGHT+IEk3wlzIO6RTnSOOWPjjVxW4BIHUDcW69FxA6Pav8/0J2N9+2Fr/Tpp38Fh6+83Gp6nU/1yvA==
+X-Received: by 2002:a17:902:e951:b0:237:f757:9ad8 with SMTP id d9443c01a7336-23de2f3d787mr119083155ad.1.1752234886745;
+        Fri, 11 Jul 2025 04:54:46 -0700 (PDT)
 Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de436e8e6sm46042135ad.255.2025.07.11.04.54.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de436e8e6sm46042135ad.255.2025.07.11.04.54.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jul 2025 04:54:44 -0700 (PDT)
+        Fri, 11 Jul 2025 04:54:46 -0700 (PDT)
 From: LiangCheng Wang <zaq14760@gmail.com>
-Date: Fri, 11 Jul 2025 19:54:37 +0800
-Subject: [PATCH v9 2/3] staging: media: atomisp: fix indentation in anr
+Date: Fri, 11 Jul 2025 19:54:38 +0800
+Subject: [PATCH v9 3/3] staging: media: atomisp: fix indentation in bh
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,7 +85,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250711-new_atomisp-v9-2-a9dd62425ef6@gmail.com>
+Message-Id: <20250711-new_atomisp-v9-3-a9dd62425ef6@gmail.com>
 References: <20250711-new_atomisp-v9-0-a9dd62425ef6@gmail.com>
 In-Reply-To: <20250711-new_atomisp-v9-0-a9dd62425ef6@gmail.com>
 To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
@@ -95,167 +95,86 @@ To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752234878; l=5863;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752234878; l=2874;
  i=zaq14760@gmail.com; h=from:subject:message-id;
- bh=AZX6kVF1g/cRe8XsgNWI9KMwm9xW3d2j4FgbxqLevNU=;
- b=rmyCv0VDLYJVaFTd2HhQBMdEAJsgDwWu/HBjUPhHYGPHLPe7K+86ROdVrHA+qHw4fqcXV+g7K
- TnV6MawUe2QB5tk9Gp/598KkW4AXI+9aiyMnNXB30OaFt33XqQFL98c
+ bh=AqnW7/c9nG03ZAzoPbA3nRf1z9VOfMnwRCXHwCluQ3M=;
+ b=N/M9KDmeKL/PVf0VtYy6+31rlg6csjPjfMikXL5zCjcyaiFAiiA7l+sqWvaClFLP88uYyNEc3
+ 0bAdZjbfLgBDtypt55CKlXMfYwUt4m0K6L2OD4+plyDYs+SDYYkQkxK
 X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
  pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
 
-This patch fixes tab/space indentation issues in anr
+This patch fixes tab/space indentation issues in bh
 following kernel coding style guidelines.
 
 No functional logic changes were made.
 
 Suggested-by: Andy Shevchenko <andy@kernel.org>
-Link: https://lore.kernel.org/all/CAHp75Vdd8aOhQ73opych5WohuM2CXq2dPgdgHW0ZdYHRU=u5WQ@mail.gmail.com/
+Link: https://lore.kernel.org/all/CAHp75Ve7y3pmZ5g8YXLNHyZgmZpiZNAuDdNfmhxYTOATrDBz5Q@mail.gmail.com/
 Suggested-by: Hans de Goede <hansg@kernel.org>
 Link: https://lore.kernel.org/all/e201c4b0-4fcc-4d98-9d76-0e9c41dc4d9f@kernel.org/
-Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+Signed-off-by: LiangCheng Wang<zaq14760@gmail.com>
 ---
- .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c  | 22 ++++++++--------------
- .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h  | 20 +++++++-------------
- .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c   | 14 +++++---------
- .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h   | 13 +++++--------
- 4 files changed, 25 insertions(+), 44 deletions(-)
+ .../media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c | 14 +++++---------
+ .../media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h | 14 +++++---------
+ 2 files changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
-index 899d566234b9d3a35401666dcf0c7b1b80fd5b31..ed582d38b27fbf6839a71a4037c310f320de3466 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
-@@ -18,23 +18,19 @@ const struct ia_css_anr_config default_anr_config = {
- 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
- 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
- 	},
--	{10, 20, 30}
-+	{ 10, 20, 30 },
- };
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
+index 69c87e53f3c22fade6c4c7914d1550f68dd8f5c2..b87eb1a21b216dc6132331d2a48d7cb56ddaea24 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
+@@ -12,10 +12,8 @@
+ 
+ #include "ia_css_bh.host.h"
  
 -void
--ia_css_anr_encode(
--    struct sh_css_isp_anr_params *to,
--    const struct ia_css_anr_config *from,
--    unsigned int size)
-+void ia_css_anr_encode(struct sh_css_isp_anr_params *to,
-+		       const struct ia_css_anr_config *from,
-+		       unsigned int size)
+-ia_css_bh_hmem_decode(
+-    struct ia_css_3a_rgby_output *out_ptr,
+-    const struct ia_css_bh_table *hmem_buf)
++void ia_css_bh_hmem_decode(struct ia_css_3a_rgby_output *out_ptr,
++			   const struct ia_css_bh_table *hmem_buf)
  {
- 	(void)size;
- 	to->threshold = from->threshold;
- }
+ 	int i;
  
--void
--ia_css_anr_dump(
--    const struct sh_css_isp_anr_params *anr,
--    unsigned int level)
-+void ia_css_anr_dump(const struct sh_css_isp_anr_params *anr,
-+		     unsigned int level)
- {
- 	if (!anr) return;
- 	ia_css_debug_dtrace(level, "Advance Noise Reduction:\n");
-@@ -42,10 +38,8 @@ ia_css_anr_dump(
- 			    "anr_threshold", anr->threshold);
- }
- 
--void
--ia_css_anr_debug_dtrace(
--    const struct ia_css_anr_config *config,
--    unsigned int level)
-+void ia_css_anr_debug_dtrace(const struct ia_css_anr_config *config,
-+			     unsigned int level)
- {
- 	ia_css_debug_dtrace(level,
- 			    "config.threshold=%d\n",
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h
-index 4f77900871c8b9d43bdc00308aa914eda3af7fa7..2f17d62b92087afd26aff2a49dadf4ee2fb7fcf5 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h
-@@ -12,20 +12,14 @@
- 
- extern const struct ia_css_anr_config default_anr_config;
- 
--void
--ia_css_anr_encode(
--    struct sh_css_isp_anr_params *to,
--    const struct ia_css_anr_config *from,
--    unsigned int size);
-+void ia_css_anr_encode(struct sh_css_isp_anr_params *to,
-+		       const struct ia_css_anr_config *from,
-+		       unsigned int size);
- 
--void
--ia_css_anr_dump(
--    const struct sh_css_isp_anr_params *anr,
--    unsigned int level);
-+void ia_css_anr_dump(const struct sh_css_isp_anr_params *anr,
-+		     unsigned int level);
- 
--void
--ia_css_anr_debug_dtrace(
--    const struct ia_css_anr_config *config, unsigned int level)
--;
-+void ia_css_anr_debug_dtrace(const struct ia_css_anr_config *config,
-+			     unsigned int level);
- 
- #endif /* __IA_CSS_ANR_HOST_H */
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-index 09599884bdaefe32f891f437274b96110888a675..3c6d99139cda6f12eb6ef6fe8f996f7ff11551c2 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-@@ -10,11 +10,9 @@
- 
- #include "ia_css_anr2.host.h"
- 
--void
--ia_css_anr2_vmem_encode(
--    struct ia_css_isp_anr2_params *to,
--    const struct ia_css_anr_thres *from,
--    size_t size)
-+void ia_css_anr2_vmem_encode(struct ia_css_isp_anr2_params *to,
-+			     const struct ia_css_anr_thres *from,
-+			     size_t size)
- {
- 	unsigned int i;
- 
-@@ -28,10 +26,8 @@ ia_css_anr2_vmem_encode(
+@@ -37,11 +35,9 @@ ia_css_bh_hmem_decode(
  	}
  }
  
 -void
--ia_css_anr2_debug_dtrace(
--    const struct ia_css_anr_thres *config,
--    unsigned int level)
-+void ia_css_anr2_debug_dtrace(const struct ia_css_anr_thres *config,
-+			      unsigned int level)
+-ia_css_bh_encode(
+-    struct sh_css_isp_bh_params *to,
+-    const struct ia_css_3a_config *from,
+-    unsigned int size)
++void ia_css_bh_encode(struct sh_css_isp_bh_params *to,
++		      const struct ia_css_3a_config *from,
++		      unsigned int size)
  {
- 	(void)config;
- 	(void)level;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h
-index 2b1105f21c1e2b37144083b6bb8f9dd465a2f43b..36fb6c25969991ffcdd4424a695dacc5b5c2a9db 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h
-@@ -13,15 +13,12 @@
- #include "ia_css_anr2_param.h"
- #include "ia_css_anr2_table.host.h"
+ 	(void)size;
+ 	/* coefficients to calculate Y */
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h
+index 36b360cfe62e65037522e0037cf51fca0fabdfba..964d658ceec31b0b22fc3bc6d19b40b07b2fc06c 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h
+@@ -10,15 +10,11 @@
+ #include "ia_css_bh_param.h"
+ #include "s3a/s3a_1.0/ia_css_s3a_types.h"
  
 -void
--ia_css_anr2_vmem_encode(
--    struct ia_css_isp_anr2_params *to,
--    const struct ia_css_anr_thres *from,
--    size_t size);
-+void ia_css_anr2_vmem_encode(struct ia_css_isp_anr2_params *to,
-+			     const struct ia_css_anr_thres *from,
-+			     size_t size);
+-ia_css_bh_hmem_decode(
+-    struct ia_css_3a_rgby_output *out_ptr,
+-    const struct ia_css_bh_table *hmem_buf);
++void ia_css_bh_hmem_decode(struct ia_css_3a_rgby_output *out_ptr,
++			   const struct ia_css_bh_table *hmem_buf);
  
 -void
--ia_css_anr2_debug_dtrace(
--    const struct ia_css_anr_thres *config, unsigned int level)
-+void ia_css_anr2_debug_dtrace(const struct ia_css_anr_thres *config,
-+			      unsigned int level)
- ;
+-ia_css_bh_encode(
+-    struct sh_css_isp_bh_params *to,
+-    const struct ia_css_3a_config *from,
+-    unsigned int size);
++void ia_css_bh_encode(struct sh_css_isp_bh_params *to,
++		      const struct ia_css_3a_config *from,
++		      unsigned int size);
  
- #endif /* __IA_CSS_ANR2_HOST_H */
+ #endif /* __IA_CSS_BH_HOST_H */
 
 -- 
 2.43.0
