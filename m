@@ -1,215 +1,510 @@
-Return-Path: <linux-media+bounces-37454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37455-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6530B0141F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 09:13:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A02B01470
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 09:24:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E2F43BFE73
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 07:12:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C643583660
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 07:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DAF51E47A8;
-	Fri, 11 Jul 2025 07:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D72821EC018;
+	Fri, 11 Jul 2025 07:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jn8wIjJ1"
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="mjv51jlx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8280619AD89
-	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 07:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B47C1E51FA;
+	Fri, 11 Jul 2025 07:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752217978; cv=none; b=Nykeye1sdfBeNfE1o6wWeSi3lDcpWhzdEMTgvIik9YO0MV5+2afCzZf6V9nflamE/ERBzHDTCcMzOkBkz9+BCrWCdnPgFWKszfT7hUnsU0OX+PRBjln9J6MNZEtJxVyN0y/c+Kf8sSLqiSpRX5d7AqFKwM9ka6ECLw57qXZ83dE=
+	t=1752218631; cv=none; b=Pkgnr/dnx98T9I8ttK5UUZnwFLbfnIriJbBp8J2EuXXs+cRzxt0ICwEmmurIVHCibrRqfyO4j8QQW4eELXqO7t1bTtCEj2cgwSqxJROLhnViWxtkyOSWN4bwzd2YCXo0R+pNF8VwsPlg/kfxrog9KvErpcPhJdV7OlEWlNXlIbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752217978; c=relaxed/simple;
-	bh=t9fO/UXfsGwT4ZQYr+CnvGgED+J0yNAgQOIcAaPvrQc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tiu/XkhVGB984Xw1fwbawND93ttdhOspjsa6f+XJ/NVJG+PnseTiv9pEyF8nrvPXtsMGiF3PwNvSA0tXh4POkpxZX90bJlfe7XIPh4bO7W5VnmIH2FZBCYNDdMvb5787e5ZIxKo95kuiu7S9OQV/7gFFiKx9yEGKBUCMFaTWIrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jn8wIjJ1; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752217976; x=1783753976;
-  h=date:from:to:cc:subject:message-id;
-  bh=t9fO/UXfsGwT4ZQYr+CnvGgED+J0yNAgQOIcAaPvrQc=;
-  b=Jn8wIjJ1J9+QioACG9Rg1QQ9F6tXlNq6GGUxTbzr3DO86TAZujplM9/C
-   P/Evg8LXp/BsKRa7niFdkoIee7hwOvQsnkOuNjd9BH4R/AUjWcmLBcrNA
-   ihccAm753nGF+cUEs6aJ4DLwTyI8ohwTOy4osyRxiUCe5MpdsAwIa4e0D
-   1AEaOy5lijkWnJ0KVPTzfqIUos3VL/F0tOfmh9Ba6lEkLxVQxi+Ct2Jnf
-   XlJ/8Mo1u/SPs3s6SDWPzWNAQxEPIeKtiAJJmq9ixx/G+sekEEUBXkKuO
-   eDqyKxnMuxCZ+4xwYiJIlAECDJe9QTkOGBqjst1PC8ujCHF5jLFM91R+a
-   w==;
-X-CSE-ConnectionGUID: AH7xOMZHTk2DwVvhO58Fkg==
-X-CSE-MsgGUID: 4SSuE40CRR2xQo1g0/t3AA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54447625"
-X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="54447625"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 00:12:56 -0700
-X-CSE-ConnectionGUID: 7CscyIeYQKaRvDKSqdvh8w==
-X-CSE-MsgGUID: 7EtIeUNMQ8Waqs3uvE6aVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="155706530"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Jul 2025 00:12:54 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ua7wC-00063X-0P;
-	Fri, 11 Jul 2025 07:12:52 +0000
-Date: Fri, 11 Jul 2025 15:12:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:fixes] BUILD SUCCESS
- 2ad401b4493081d64975f2e00ef1850aa67434fa
-Message-ID: <202507111516.jFrZSMBN-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1752218631; c=relaxed/simple;
+	bh=5ol1LPqtCBOszz/GfJBu215f9rGzqkkEGN5CKaUWMb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iSlcp4rrpu455rDRc9eAiIoON001EPQ3mIhC82IGx1ucxB2Ay9F9QGZYfnsGHTkBMNOGJd0lS1t5qPE27LcZwbvPLlsrHFWhJZFryPSJRJcCkaeoNCWULV9lHMFRnHKEuc/SLG97xdeWWsgdWFk10j8+1k4P+leqepP+wsfhK+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=mjv51jlx; arc=none smtp.client-ip=1.95.21.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=ux8RF6jBz+oiGIeBSrKBouidakEu6Zj4Kdu3nVnxFyE=;
+	b=mjv51jlxby9H7xE3DPiMuHrwE08bvpkJnb5IaLWClCZkVzBZG0m9Xi8LQr8GRD
+	9GQFu+nlUC/YQpqGKx8Ap6R1WAOzdHwRPJy4ra5HBuFtkD5BID77gHr3DWXb+7dS
+	BtkGdo1lASn6dkSJQ66Olhuy92dzc/RC3A/dIKjsTnS3E=
+Received: from dragon (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id Ms8vCgBnfwPCu3BouIxSAA--.52587S3;
+	Fri, 11 Jul 2025 15:22:44 +0800 (CST)
+Date: Fri, 11 Jul 2025 15:22:42 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Robert Chiras <robert.chiras@nxp.com>,
+	"Guoniu.zhou" <guoniu.zhou@nxp.com>
+Subject: Re: [PATCH v5 13/13] arm64: dts: imx8q: add camera ov5640 support
+ for imx8qm-mek and imx8qxp-mek
+Message-ID: <aHC7wm98PlShUqWk@dragon>
+References: <20250522-8qxp_camera-v5-0-d4be869fdb7e@nxp.com>
+ <20250522-8qxp_camera-v5-13-d4be869fdb7e@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250522-8qxp_camera-v5-13-d4be869fdb7e@nxp.com>
+X-CM-TRANSID:Ms8vCgBnfwPCu3BouIxSAA--.52587S3
+X-Coremail-Antispam: 1Uf129KBjvAXoW3tF1fur48GrW7tFy3CrW3KFg_yoW8Jr4UAo
+	W2kFs2vrW8Wry7CFnxZrZFkw43XFn5WFsxtFWUtF13GF40kFWayw1qvw4qqFZ8G34kAFyk
+	Z347ta45Aay2vas5n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUrZ2-UUUUU
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiEhOHZWhwe3TveQAAsi
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git fixes
-branch HEAD: 2ad401b4493081d64975f2e00ef1850aa67434fa  media: ivsc: Add MAINTAINERS entry
+On Thu, May 22, 2025 at 01:56:51PM -0400, Frank Li wrote:
+> Add ov5640 overlay file for imx8qm-mek and imx8qxp-mek board. Camera can
+> connect different CSI port. So use dts overlay file to handle these
+> difference connect options.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> change from v4 to v5
+> - use fullpath for csi endpoint
+> 
+> change from v3 to v4
+> - add board level xtal24m
+> - remove reduntant ports information at dtso because chip leave already add
+> it.
+> 
+> change from v2 to v3
+> - remove phy nodes
+> 
+> change from v1 to v2
+> - none
+> ---
+>  arch/arm64/boot/dts/freescale/Makefile             | 11 ++++
+>  .../boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtso | 64 ++++++++++++++++++++++
+>  .../boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtso | 64 ++++++++++++++++++++++
+>  arch/arm64/boot/dts/freescale/imx8qm-mek.dts       | 58 ++++++++++++++++++++
+>  .../boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtso | 63 +++++++++++++++++++++
+>  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts      | 36 ++++++++++++
+>  6 files changed, 296 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
+> index 0b473a23d1200..d376b4233fe8a 100644
+> --- a/arch/arm64/boot/dts/freescale/Makefile
+> +++ b/arch/arm64/boot/dts/freescale/Makefile
+> @@ -301,6 +301,14 @@ dtb-$(CONFIG_ARCH_MXC) += imx8qm-apalis-v1.1-eval-v1.2.dtb
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qm-apalis-v1.1-ixora-v1.1.dtb
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qm-apalis-v1.1-ixora-v1.2.dtb
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qm-mek.dtb
+> +
+> +imx8qm-mek-ov5640-csi0-dtbs := imx8qm-mek.dtb imx8qm-mek-ov5640-csi0.dtbo
+> +dtb-${CONFIG_ARCH_MXC} += imx8qm-mek-ov5640-csi0.dtb
+> +imx8qm-mek-ov5640-csi1-dtbs := imx8qm-mek.dtb imx8qm-mek-ov5640-csi1.dtbo
+> +dtb-${CONFIG_ARCH_MXC} += imx8qm-mek-ov5640-csi1.dtb
+> +imx8qm-mek-ov5640-dual-dtbs := imx8qm-mek.dtb imx8qm-mek-ov5640-csi0.dtbo imx8qm-mek-ov5640-csi1.dtbo
+> +dtb-${CONFIG_ARCH_MXC} += imx8qm-mek-ov5640-dual.dtb
+> +
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qxp-ai_ml.dtb
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qxp-colibri-aster.dtb
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qxp-colibri-eval-v3.dtb
+> @@ -311,6 +319,9 @@ dtb-$(CONFIG_ARCH_MXC) += imx8qxp-mek.dtb
+>  imx8qxp-mek-pcie-ep-dtbs += imx8qxp-mek.dtb imx-pcie0-ep.dtbo
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qxp-mek-pcie-ep.dtb
+>  
+> +imx8qxp-mek-ov5640-csi-dtbs := imx8qxp-mek.dtb imx8qxp-mek-ov5640-csi.dtbo
+> +dtb-${CONFIG_ARCH_MXC} += imx8qxp-mek-ov5640-csi.dtb
+> +
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qxp-tqma8xqp-mba8xx.dtb
+>  dtb-$(CONFIG_ARCH_MXC) += imx8qxp-tqma8xqps-mb-smarc-2.dtb
+>  dtb-$(CONFIG_ARCH_MXC) += imx8ulp-evk.dtb
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtso b/arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtso
+> new file mode 100644
+> index 0000000000000..7510556323b1c
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi0.dtso
+> @@ -0,0 +1,64 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright 2025 NXP
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+> +&i2c_mipi_csi0 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +	clock-frequency = <100000>;
+> +	pinctrl-0 = <&pinctrl_i2c_mipi_csi0>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +
+> +	ov5640_mipi_0: camera@3c {
+> +		compatible = "ovti,ov5640";
+> +		reg = <0x3c>;
+> +		clocks = <&xtal24m>;
+> +		clock-names = "xclk";
+> +		pinctrl-0 = <&pinctrl_mipi_csi0>;
+> +		pinctrl-names = "default";
+> +		powerdown-gpios = <&lsio_gpio1 28 GPIO_ACTIVE_HIGH>;
+> +		reset-gpios = <&lsio_gpio1 27 GPIO_ACTIVE_LOW>;
+> +		AVDD-supply = <&reg_2v8>;
+> +		DVDD-supply = <&reg_1v5>;
+> +		DOVDD-supply = <&reg_1v8>;
+> +		status = "okay";
 
-elapsed time: 1212m
+Unnecessary "okay" status?
 
-configs tested: 122
-configs skipped: 5
+Shawn
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> +
+> +		port {
+> +			ov5640_mipi_0_ep: endpoint {
+> +				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+> +				data-lanes = <1 2>;
+> +				remote-endpoint = <&mipi_csi0_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&irqsteer_csi0 {
+> +	status = "okay";
+> +};
+> +
+> +&isi {
+> +	status = "okay";
+> +};
+> +
+> +&mipi_csi_0 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		port@0 {
+> +			mipi_csi0_in: endpoint {
+> +				data-lanes = <1 2>;
+> +				remote-endpoint = <&ov5640_mipi_0_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtso b/arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtso
+> new file mode 100644
+> index 0000000000000..080e31cdd7d3e
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/freescale/imx8qm-mek-ov5640-csi1.dtso
+> @@ -0,0 +1,64 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright 2025 NXP
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+> +&i2c_mipi_csi1 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +	clock-frequency = <100000>;
+> +	pinctrl-0 = <&pinctrl_i2c_mipi_csi1>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +
+> +	ov5640_mipi_1: camera@3c {
+> +		compatible = "ovti,ov5640";
+> +		reg = <0x3c>;
+> +		clocks = <&xtal24m>;
+> +		clock-names = "xclk";
+> +		pinctrl-0 = <&pinctrl_mipi_csi1>;
+> +		pinctrl-names = "default";
+> +		powerdown-gpios = <&lsio_gpio1 31 GPIO_ACTIVE_HIGH>;
+> +		reset-gpios = <&lsio_gpio1 30 GPIO_ACTIVE_LOW>;
+> +		AVDD-supply = <&reg_2v8>;
+> +		DVDD-supply = <&reg_1v5>;
+> +		DOVDD-supply = <&reg_1v8>;
+> +		status = "okay";
+> +
+> +		port {
+> +			ov5640_mipi_1_ep: endpoint {
+> +				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+> +				data-lanes = <1 2>;
+> +				remote-endpoint = <&mipi_csi1_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&irqsteer_csi1 {
+> +	status = "okay";
+> +};
+> +
+> +&isi {
+> +	status = "okay";
+> +};
+> +
+> +&mipi_csi_1 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		port@0 {
+> +			mipi_csi1_in: endpoint {
+> +				data-lanes = <1 2>;
+> +				remote-endpoint = <&ov5640_mipi_1_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qm-mek.dts b/arch/arm64/boot/dts/freescale/imx8qm-mek.dts
+> index 68442c8575f3f..503e0acd7963d 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8qm-mek.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8qm-mek.dts
+> @@ -32,6 +32,13 @@ memory@80000000 {
+>  		reg = <0x00000000 0x80000000 0 0x40000000>;
+>  	};
+>  
+> +	xtal24m: clock-xtal24m {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <24000000>;
+> +		clock-output-names = "xtal_24MHz";
+> +	};
+> +
+>  	reserved-memory {
+>  		#address-cells = <2>;
+>  		#size-cells = <2>;
+> @@ -155,6 +162,27 @@ usb3_data_ss: endpoint {
+>  		};
+>  	};
+>  
+> +	reg_1v5: regulator-1v5 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "1v5";
+> +		regulator-min-microvolt = <1500000>;
+> +		regulator-max-microvolt = <1500000>;
+> +	};
+> +
+> +	reg_1v8: regulator-1v8 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "1v8";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +	};
+> +
+> +	reg_2v8: regulator-2v8 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "2v8";
+> +		regulator-min-microvolt = <2800000>;
+> +		regulator-max-microvolt = <2800000>;
+> +	};
+> +
+>  	reg_usdhc2_vmmc: usdhc2-vmmc {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "SD1_SPWR";
+> @@ -824,6 +852,20 @@ IMX8QM_QSPI1A_DATA1_LSIO_GPIO4_IO25			0x0600004c
+>  		>;
+>  	};
+>  
+> +	pinctrl_i2c_mipi_csi0: i2c-mipi-csi0grp {
+> +		fsl,pins = <
+> +			IMX8QM_MIPI_CSI0_I2C0_SCL_MIPI_CSI0_I2C0_SCL		0xc2000020
+> +			IMX8QM_MIPI_CSI0_I2C0_SDA_MIPI_CSI0_I2C0_SDA		0xc2000020
+> +		>;
+> +	};
+> +
+> +	pinctrl_i2c_mipi_csi1: i2c-mipi-csi1grp {
+> +		fsl,pins = <
+> +			IMX8QM_MIPI_CSI1_I2C0_SCL_MIPI_CSI1_I2C0_SCL		0xc2000020
+> +			IMX8QM_MIPI_CSI1_I2C0_SDA_MIPI_CSI1_I2C0_SDA		0xc2000020
+> +		>;
+> +	};
+> +
+>  	pinctrl_i2c0: i2c0grp {
+>  		fsl,pins = <
+>  			IMX8QM_HDMI_TX0_TS_SCL_DMA_I2C0_SCL			0x06000021
+> @@ -1017,6 +1059,22 @@ IMX8QM_LVDS1_I2C1_SDA_LVDS1_I2C1_SDA	0xc600004c
+>  		>;
+>  	};
+>  
+> +	pinctrl_mipi_csi0: mipi-csi0grp {
+> +		fsl,pins = <
+> +			IMX8QM_MIPI_CSI0_GPIO0_00_LSIO_GPIO1_IO27		0xC0000041
+> +			IMX8QM_MIPI_CSI0_GPIO0_01_LSIO_GPIO1_IO28		0xC0000041
+> +			IMX8QM_MIPI_CSI0_MCLK_OUT_MIPI_CSI0_ACM_MCLK_OUT	0xC0000041
+> +		>;
+> +	};
+> +
+> +	pinctrl_mipi_csi1: mipi-csi1grp {
+> +		fsl,pins = <
+> +			IMX8QM_MIPI_CSI1_GPIO0_00_LSIO_GPIO1_IO30		0xC0000041
+> +			IMX8QM_MIPI_CSI1_GPIO0_01_LSIO_GPIO1_IO31		0xC0000041
+> +			IMX8QM_MIPI_CSI1_MCLK_OUT_MIPI_CSI1_ACM_MCLK_OUT	0xC0000041
+> +		>;
+> +	};
+> +
+>  	pinctrl_pciea: pcieagrp {
+>  		fsl,pins = <
+>  			IMX8QM_PCIE_CTRL0_WAKE_B_LSIO_GPIO4_IO28		0x04000021
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtso b/arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtso
+> new file mode 100644
+> index 0000000000000..153fca99af299
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek-ov5640-csi.dtso
+> @@ -0,0 +1,63 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * Copyright 2024 NXP
+> + */
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+> +&i2c_mipi_csi0 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +	clock-frequency = <100000>;
+> +	pinctrl-0 = <&pinctrl_i2c_mipi_csi0>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +
+> +	ov5640_mipi: camera@3c {
+> +		compatible = "ovti,ov5640";
+> +		reg = <0x3c>;
+> +		clocks = <&xtal24m>;
+> +		clock-names = "xclk";
+> +		pinctrl-0 = <&pinctrl_mipi_csi0>;
+> +		pinctrl-names = "default";
+> +		powerdown-gpios = <&lsio_gpio3 7 GPIO_ACTIVE_HIGH>;
+> +		reset-gpios = <&lsio_gpio3 8 GPIO_ACTIVE_LOW>;
+> +		AVDD-supply = <&reg_2v8>;
+> +		DVDD-supply = <&reg_1v5>;
+> +		DOVDD-supply = <&reg_1v8>;
+> +		status = "okay";
+> +
+> +		port {
+> +			ov5640_mipi_ep: endpoint {
+> +				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+> +				data-lanes = <1 2>;
+> +				remote-endpoint = <&mipi_csi0_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&irqsteer_csi0 {
+> +	status = "okay";
+> +};
+> +
+> +&isi {
+> +	status = "okay";
+> +};
+> +
+> +&mipi_csi_0 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		port@0 {
+> +			mipi_csi0_in: endpoint {
+> +				data-lanes = <1 2>;
+> +				remote-endpoint = <&ov5640_mipi_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+> index 44bda183492cb..c95cb8acc360a 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
+> @@ -64,6 +64,27 @@ usb3_data_ss: endpoint {
+>  		};
+>  	};
+>  
+> +	reg_1v5: regulator-1v5 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "1v5";
+> +		regulator-min-microvolt = <1500000>;
+> +		regulator-max-microvolt = <1500000>;
+> +	};
+> +
+> +	reg_1v8: regulator-1v8 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "1v8";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +	};
+> +
+> +	reg_2v8: regulator-2v8 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "2v8";
+> +		regulator-min-microvolt = <2800000>;
+> +		regulator-max-microvolt = <2800000>;
+> +	};
+> +
+>  	reg_pcieb: regulator-pcie {
+>  		compatible = "regulator-fixed";
+>  		regulator-max-microvolt = <3300000>;
+> @@ -789,6 +810,13 @@ IMX8QXP_FLEXCAN1_RX_ADMA_FLEXCAN1_RX			0x21
+>  		>;
+>  	};
+>  
+> +	pinctrl_i2c_mipi_csi0: i2c-mipi-csi0grp {
+> +		fsl,pins = <
+> +			IMX8QXP_MIPI_CSI0_I2C0_SCL_MIPI_CSI0_I2C0_SCL		0xc2000020
+> +			IMX8QXP_MIPI_CSI0_I2C0_SDA_MIPI_CSI0_I2C0_SDA		0xc2000020
+> +		>;
+> +	};
+> +
+>  	pinctrl_ioexp_rst: ioexprstgrp {
+>  		fsl,pins = <
+>  			IMX8QXP_SPI2_SDO_LSIO_GPIO1_IO01			0x06000021
+> @@ -829,6 +857,14 @@ IMX8QXP_FLEXCAN2_RX_ADMA_UART3_RX       0x06000020
+>  		>;
+>  	};
+>  
+> +	pinctrl_mipi_csi0: mipi-csi0grp {
+> +		fsl,pins = <
+> +			IMX8QXP_MIPI_CSI0_GPIO0_01_LSIO_GPIO3_IO07		0xC0000041
+> +			IMX8QXP_MIPI_CSI0_GPIO0_00_LSIO_GPIO3_IO08		0xC0000041
+> +			IMX8QXP_MIPI_CSI0_MCLK_OUT_MIPI_CSI0_ACM_MCLK_OUT	0xC0000041
+> +		>;
+> +	};
+> +
+>  	pinctrl_pcieb: pcieagrp {
+>  		fsl,pins = <
+>  			IMX8QXP_PCIE_CTRL0_PERST_B_LSIO_GPIO4_IO00		0x06000021
+> 
+> -- 
+> 2.34.1
+> 
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                            hsdk_defconfig    gcc-15.1.0
-arc                   randconfig-001-20250710    gcc-15.1.0
-arc                   randconfig-002-20250710    gcc-12.4.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                   randconfig-001-20250710    gcc-8.5.0
-arm                   randconfig-002-20250710    clang-21
-arm                   randconfig-003-20250710    clang-21
-arm                   randconfig-004-20250710    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250710    clang-21
-arm64                 randconfig-002-20250710    clang-21
-arm64                 randconfig-003-20250710    gcc-8.5.0
-arm64                 randconfig-004-20250710    clang-21
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250710    gcc-15.1.0
-csky                  randconfig-002-20250710    gcc-15.1.0
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250710    clang-21
-hexagon               randconfig-002-20250710    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250710    gcc-12
-i386        buildonly-randconfig-002-20250710    gcc-12
-i386        buildonly-randconfig-003-20250710    clang-20
-i386        buildonly-randconfig-004-20250710    gcc-11
-i386        buildonly-randconfig-005-20250710    clang-20
-i386        buildonly-randconfig-006-20250710    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-21
-loongarch             randconfig-001-20250710    gcc-14.3.0
-loongarch             randconfig-002-20250710    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-nios2                 randconfig-001-20250710    gcc-9.3.0
-nios2                 randconfig-002-20250710    gcc-12.4.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-openrisc                       virt_defconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250710    gcc-8.5.0
-parisc                randconfig-002-20250710    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc                     kmeter1_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250710    gcc-12.4.0
-powerpc               randconfig-002-20250710    gcc-9.3.0
-powerpc               randconfig-003-20250710    gcc-8.5.0
-powerpc                    socrates_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250710    gcc-11.5.0
-powerpc64             randconfig-002-20250710    clang-17
-powerpc64             randconfig-003-20250710    gcc-14.3.0
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250710    gcc-15.1.0
-riscv                 randconfig-002-20250710    gcc-10.5.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                  randconfig-001-20250710    gcc-14.3.0
-s390                  randconfig-002-20250710    clang-17
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250710    gcc-15.1.0
-sh                    randconfig-002-20250710    gcc-13.4.0
-sh                   rts7751r2dplus_defconfig    gcc-15.1.0
-sh                           se7206_defconfig    gcc-15.1.0
-sh                            titan_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250710    gcc-13.4.0
-sparc                 randconfig-002-20250710    gcc-14.3.0
-sparc64               randconfig-001-20250710    gcc-8.5.0
-sparc64               randconfig-002-20250710    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250710    gcc-11
-um                    randconfig-002-20250710    clang-16
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250710    gcc-12
-x86_64      buildonly-randconfig-002-20250710    gcc-12
-x86_64      buildonly-randconfig-003-20250710    gcc-12
-x86_64      buildonly-randconfig-004-20250710    clang-20
-x86_64      buildonly-randconfig-005-20250710    clang-20
-x86_64      buildonly-randconfig-006-20250710    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250710    gcc-12.4.0
-xtensa                randconfig-002-20250710    gcc-14.3.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
