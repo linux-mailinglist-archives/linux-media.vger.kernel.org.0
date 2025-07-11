@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-37510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37511-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B307BB01D56
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 15:24:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D079B01DD0
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 15:38:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0AFBA7B94AA
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:23:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA1F91CC091A
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:38:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCD72D3EC6;
-	Fri, 11 Jul 2025 13:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB3C2D8DAF;
+	Fri, 11 Jul 2025 13:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iZnJ5k4v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6kt7N6D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4078E70810;
-	Fri, 11 Jul 2025 13:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682C02D3729;
+	Fri, 11 Jul 2025 13:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752240269; cv=none; b=JLardhykZmptXldq5h33PLcZw2QriP4CirJ36xexAkZCDF26FRlVfbQlMp2y9tcXrRHxU07Lmj26+X/7/j9IAXUKMFm9U+D/Mb4DyVNNwrhuHyNO3JZcSo8jX16R627feLl1qed1zLUnYZfFIgEwB+UNdagPrkrayHJqLB+3BoU=
+	t=1752240941; cv=none; b=Qm2fRDzZ/5rS3wJOO4GFdkTtiTV+hJAhxw65jROEZWUNzp8AiQJ/jWC75IAayOdjg5gKWTFGVXdb3RuX6Sq+dv4qWv6b7kHMtOiMA2V/aoFT+HlR0swoRuCaSVhepcea1UGMpfD/gd5Xpw5/X+8Rh8dX/KIbuxVeZaCCSYI4fz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752240269; c=relaxed/simple;
-	bh=lncloMQnD0Tz5BxIxQBgcfUzLX0M1dqa/KJkBgY/1Uk=;
+	s=arc-20240116; t=1752240941; c=relaxed/simple;
+	bh=toq/INt3cRfbCunvma7W/7KSnSn2Yrt9K2+A1K6bBnk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Riiqtcu47DnzVEL5xJHRCJmkG3c9WTu77e9lX47T1LVKaLe/W+b35oScps8an6iETSef3qj29dDIECo1DW0rTUkKH1lH+oKIeLZrxRSBJ4ZI9ALSrvln1OZNTzFI+tTP1tuBmOIoAHKZofDpjRzC8lUvooMfqZODJiuqW+sROTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iZnJ5k4v; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E3F1C75;
-	Fri, 11 Jul 2025 15:23:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752240235;
-	bh=lncloMQnD0Tz5BxIxQBgcfUzLX0M1dqa/KJkBgY/1Uk=;
+	 In-Reply-To:Content-Type; b=q2ZIA8TTw0l6hagulK10t5vsF2OMD6FmYAE/ziy3ufatpTbUyLfWTG5L6wmaQS6ILoINQdN91KxMhBgIhl0zNf3Wabgk73IijgHo64bIbTQ/bBkaiGqxBDgYJeFvAQzLCDdXU6bByYlGEmed5jAag5RGhVhFuvqPs1fsAR1jDVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6kt7N6D; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89806C4CEED;
+	Fri, 11 Jul 2025 13:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752240940;
+	bh=toq/INt3cRfbCunvma7W/7KSnSn2Yrt9K2+A1K6bBnk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iZnJ5k4vw14CqKdVkS6IVsc7niwyMrQJdPAGEUM6dEubtz2ShjiuVOg+W+CTiCM9A
-	 ckN+pBzG8Nz+0ieZRHXwgHEmf6tWwz4GIkTDJ5zy7HTNOtJATBanA+V2MXK5iVYxpc
-	 FUmvBQAug75QhU/CkvZGjqCNMiVoICx1dGy9HhJA=
-Message-ID: <98c75495-dfa2-4d73-967d-0a940e4c2cbc@ideasonboard.com>
-Date: Fri, 11 Jul 2025 14:24:22 +0100
+	b=J6kt7N6DnlpmKuDrQBv65iE/cdMpZtCm+6MIt0D0aF3MQbhbrvq81mg5nnZQaXrop
+	 P9Gf42DZTInbWOYkxD5OxbppuIaA4vmcZ1J5t9Gij1CXqZwlwcSiEXRswrz0OYSPCN
+	 KJavmS0YoxtaROUkDn2bW8mJri+Dl4ogoKwFlg+SXZLyf5XxmHk5hHNQfIYnKKZOoG
+	 seWs9c3rc5mt/UQglerRD+O1m6/pDF+F1D17qmp4n7gtydBfaz3qnWBqg1ZQ5o5JE8
+	 frpit3KzYy5iVUao+1BVXAD916DnVyZOVFT14LNBLTCTCzbtxfgOXpph2WV1Igsb1i
+	 5ecpOdBQkNCAg==
+Message-ID: <ae8d2356-8445-4c05-a023-0f08560dd356@kernel.org>
+Date: Fri, 11 Jul 2025 15:35:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,244 +50,78 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] media: mc: entity: Add pipeline_started/stopped
- ops
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- biju.das.jz@bp.renesas.com
-References: <20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com>
- <20250704-ivc-v3-1-5c45d936ef2e@ideasonboard.com>
- <3wprfbxjxteat5vxncys2u2zjkhwquxd4wldk2qka4ooz2synk@5n3zn2sqalml>
+Subject: Re: [PATCH v2 2/7] arm64: dts: qcom: qcs8300: Add support for camss
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250711131134.215382-1-quic_vikramsa@quicinc.com>
+ <20250711131134.215382-3-quic_vikramsa@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <3wprfbxjxteat5vxncys2u2zjkhwquxd4wldk2qka4ooz2synk@5n3zn2sqalml>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250711131134.215382-3-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Jacopo
+On 11/07/2025 15:11, Vikram Sharma wrote:
+> Add changes to support the camera subsystem on the QCS8300.
+> 
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 171 ++++++++++++++++++++++++++
 
-On 08/07/2025 14:29, Jacopo Mondi wrote:
-> Hi Dan
->
-> On Fri, Jul 04, 2025 at 12:20:18PM +0100, Daniel Scally wrote:
->> Add two new members to struct media_entity_operations, along with new
->> functions in media-entity.c to traverse a media pipeline and call the
->> new operations. The new functions are intended to be used to signal
->> to a media pipeline that it has fully started, with the entity ops
->> allowing drivers to define some action to be taken when those
->> conditions are met.
->>
->> The combination of the new functions and operations allows drivers
->> which are part of a multi-driver pipeline to delay actually starting
->> streaming until all of the conditions for streaming succcessfully are
->> met across all drivers.
->>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->> ---
->> Changes in v4:
->>
->> 	- Reverted to having the iter variable
->>
->> Changes in v3:
->>
->> 	- Dropped the iter variable now that the pipeline entity
->> 	  iterator functions don't need it.
->> 	- Updated documentation to specify Optional and return
->> 	  values
->>
->> Changes in v2:
->>
->> 	- Refactored media_pipeline_started() such that the cleanup
->> 	  function for media_pipeline_entity_iter is unconditionally
->> 	  called
->> 	- Avoided using media_entity_call() helper for operation that
->> 	  has return type void to avoid compiler warnings
->> ---
->>   drivers/media/mc/mc-entity.c | 46 ++++++++++++++++++++++++++++++++++++++++++++
->>   include/media/media-entity.h | 29 ++++++++++++++++++++++++++++
->>   2 files changed, 75 insertions(+)
->>
->> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
->> index 045590905582054c46656e20463271b1f93fa6b4..d3443537d4304e12cb015630101efba22375c011 100644
->> --- a/drivers/media/mc/mc-entity.c
->> +++ b/drivers/media/mc/mc-entity.c
->> @@ -1053,6 +1053,52 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
->>   }
->>   EXPORT_SYMBOL_GPL(__media_pipeline_entity_iter_next);
->>
->> +int media_pipeline_started(struct media_pipeline *pipe)
->> +{
->> +	struct media_pipeline_entity_iter iter;
->> +	struct media_entity *entity;
->> +	int ret;
->> +
->> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
->> +	if (ret)
->> +		return ret;
->> +
->> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
->> +		ret = media_entity_call(entity, pipeline_started);
->> +		if (ret && ret != -ENOIOCTLCMD)
->> +			break;
->> +	}
->> +
->> +	media_pipeline_entity_iter_cleanup(&iter);
->> +
->> +	ret = ret == -ENOIOCTLCMD ? 0 : ret;
->> +	if (ret)
->> +		media_pipeline_stopped(pipe);
-> If you take my suggestion to limit the return value of
-> video_device_pipeline_started() to three possible error codes, you
-> could return -EINVAL here
->
->> +
->> +	return ret;
-> and 0 here
->
->> +}
->> +EXPORT_SYMBOL_GPL(media_pipeline_started);
->> +
->> +int media_pipeline_stopped(struct media_pipeline *pipe)
->> +{
->> +	struct media_pipeline_entity_iter iter;
->> +	struct media_entity *entity;
->> +	int ret;
->> +
->> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
->> +	if (ret)
->> +		return ret;
->> +
->> +	media_pipeline_for_each_entity(pipe, &iter, entity)
->> +		if (entity->ops && entity->ops->pipeline_stopped)
->> +			entity->ops->pipeline_stopped(entity);
->> +
->> +	media_pipeline_entity_iter_cleanup(&iter);
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(media_pipeline_stopped);
->> +
->>   /* -----------------------------------------------------------------------------
->>    * Links management
->>    */
->> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
->> index 64cf590b11343f68a456c5870ca2f32917c122f9..ad658f42357ec505c84d9479bbbf18494da7f939 100644
->> --- a/include/media/media-entity.h
->> +++ b/include/media/media-entity.h
->> @@ -269,6 +269,10 @@ struct media_pad {
->>    *			media_entity_has_pad_interdep().
->>    *			Optional: If the operation isn't implemented all pads
->>    *			will be considered as interdependent.
->> + * @pipeline_started:	Notify this entity that the pipeline it is a part of has
->> + *			been started
->> + * @pipeline_stopped:	Notify this entity that the pipeline it is a part of has
->> + *			been stopped
-> The documentation of the other functions end with a full stop.
-> If the operation is optional, I would specify it here like it's done
-> for other operations
->
->>    *
->>    * .. note::
->>    *
->> @@ -284,6 +288,8 @@ struct media_entity_operations {
->>   	int (*link_validate)(struct media_link *link);
->>   	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int pad0,
->>   				 unsigned int pad1);
->> +	int (*pipeline_started)(struct media_entity *entity);
->> +	void (*pipeline_stopped)(struct media_entity *entity);
->>   };
->>
->>   /**
->> @@ -1261,6 +1267,29 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
->>   	     entity != NULL;							\
->>   	     entity = __media_pipeline_entity_iter_next((pipe), iter, entity))
->>
->> +/**
->> + * media_pipeline_started - Inform entities in a pipeline that it has started
->> + * @pipe:	The pipeline
->> + *
->> + * Iterate on all entities in a media pipeline and call their pipeline_started
->> + * member of media_entity_operations. Optional.
-> I would move "Optional" to the documentation of the media entity
+Don't place your DTS changes in the middle of the patchset. I don't get
+why did you decide to move it to this patchset, but since you did, place
+it AS ALWAYS at the end. See soc maintainer profile and your internal
+guideline
 
-I don't know what I was thinking putting it here...
-
-
-Thanks!
-
-Dan
-
->
->> + *
->> + * Return: zero on success, or a negative error code passed through from an
->> + * entity's .pipeline_started() operation.
->> + */
->> +int media_pipeline_started(struct media_pipeline *pipe);
->> +
->> +/**
->> + * media_pipeline_stopped - Inform entities in a pipeline that it has stopped
->> + * @pipe:	The pipeline
->> + *
->> + * Iterate on all entities in a media pipeline and call their pipeline_stopped
->> + * member of media_entity_operations. Optional.
->> + *
->> + * Return: zero on success, or -ENOMEM if the iterator initialisation failed.
->> + */
->> +int media_pipeline_stopped(struct media_pipeline *pipe);
->> +
->>   /**
->>    * media_pipeline_alloc_start - Mark a pipeline as streaming
->>    * @pad: Starting pad
->>
->> --
->> 2.34.1
->>
->>
+Best regards,
+Krzysztof
 
