@@ -1,196 +1,144 @@
-Return-Path: <linux-media+bounces-37525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66CBB02223
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 18:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF9DB0224C
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 19:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1F485A250D
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 16:46:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98C305A8498
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 17:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107582EF65F;
-	Fri, 11 Jul 2025 16:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1742EF9B4;
+	Fri, 11 Jul 2025 17:06:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="e/mk2M0G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMwT/msm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EA6944E
-	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 16:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CDB2E7165;
+	Fri, 11 Jul 2025 17:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752252362; cv=none; b=kZGoiln+ZWhSx4iQPAPXVmP8NBXhovF0dq3MfS7QlkJcXYuu89duRQpmEEmhs2NNTQWZuTtVej8/9kEN6OfEu11E5vHUOslii0GQN/ZNqZsZjIgEmp+f0JU3hRwFOQkQ/A3DMmOzNBDhfqSH/Oziyt7+toDdu99SE5UDTNNLuF4=
+	t=1752253572; cv=none; b=OefphHDFNsZgr3Ycd5Uj7/UIHACi3dJwYb45DN3Mg2JhEnorZ/l/xl8M8KUti2BmAA6a1zcTvNUIAXf39pc4Eq6iMT54BGT7f0XvIsbYXzx8LYbmN/yT4H1uUt47W3g8Xj/vPnJ84Z2iOotTbffyhjaUQJDrGM+VSYDmZypA9U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752252362; c=relaxed/simple;
-	bh=/lyNWm+N+92DlLe9EWHRgcUgtDsWEk9hDtMlng2SaeE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f9BEznw1N2+J3SjkRuMjIRbK9mzMvgt837znXE53Q51NXMJ1ULryUDXA4UyIpq/5WdxVItzB+GgXfMjq8dDoDB9W+cg2cZhkqrOd8WHSz2lJ9Br3tf9tKKC+T0y66MpclvsoqjW9aM2eLfxBJJp5c3Ag8Sz8m8H8c38NagSUArQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=tomeuvizoso.net; dkim=pass (2048-bit key) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b=e/mk2M0G; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-713fba639f3so21770967b3.1
-        for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 09:46:00 -0700 (PDT)
+	s=arc-20240116; t=1752253572; c=relaxed/simple;
+	bh=WrvB8GsIeIreYnuKoMq5URVLOHQy+PAHYcyx6LKjwSU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LUMkMDSuvJv2U5q/rzhMIQDh/g4PZ0LX0Gw0R6PHuC6747FwPwjUDeAqMbYP9X84PQxoX7gbCeo+KUEkmu00Xl/MuhDOeXBsMhUF8foWtDPkebav2kNeNApMeEebZeMuESJHRAxr6J3bT8piHOCHE7AbMCTBK4FX/X+d3VBwkHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMwT/msm; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-553e5df44f8so2118269e87.3;
+        Fri, 11 Jul 2025 10:06:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1752252360; x=1752857160; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KVqtR2y37+fGKASYTrCFwyYcRTeea2/g0YbtiZzMR3k=;
-        b=e/mk2M0Gnw6N5eTQA9mVBaXVXaZOlOXeX7Y55QGHvH8Fe/wKasuVUY9xDbcxtrNosR
-         2URQc8f1MQhHua90PvS6R7ACUnBzXG1Pa5xW3IttSz8WeDjKx09s4b8mPU3VvfWePB1J
-         K+wRp7D0qr34Tw/o2bfXx/5G3Ym2VhE82ZQEeSvwlrf20qyMxFsem2Z+tUK4yK+jsSnh
-         hie9HzaiVz5HD8Ev0mLO4DbaUFsDaHt/NR/rPHBcu/Jznm4kY/wF+OBEyQxnUP4Oinha
-         Ydj6uERz5bMR/kKOZ021x2kcWOE3eOJgqcN/5aKqI9sHwMbab//dFrrT9l9sCbk2MV6q
-         JGfQ==
+        d=gmail.com; s=20230601; t=1752253569; x=1752858369; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PNAWGrPiwj3E1EhTq5Tl1CO6rinMEagBkU9r1o4zi7U=;
+        b=QMwT/msmcMnpJRSHW17BZSqZokjvgeGiBzk5PTL3oL5ybb9yCAioDXFvqvTmg8p7Fl
+         BBgAEOdf7xKCWsmlqfbTHyLeOhLOuo79usKoMmQqIVhqTgAHxxk3m8vJCd0N4pOfcHI2
+         YG1PbtavdKAMeBsI/1VwOe0VQAwTSO0pM7vHS1XLhjeo1p3c9Q1ncp2ClEr795PO32HP
+         SKim3YfezNQ2swazLGt1Vp8zt2hxrsc6P1ehle250GpOEIUdBJdHS/GL85jIpsZyQDKh
+         fXDdkeRTZUQCT1x6GUNwyPerlXfT8Lfb/6+i7DApR4/h8viuRLfpQVQdeteGNVn6ovhp
+         lZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752252360; x=1752857160;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KVqtR2y37+fGKASYTrCFwyYcRTeea2/g0YbtiZzMR3k=;
-        b=erV8gCWhvjVDNAYnzTwUX9gPYoJltCvpGD9ywx1KNmmQAlRGowKGBNA0978BJCmTxQ
-         AouUnE6fr/8ngOVoZts/dGhrRN/p6UdEYMlhILZFAI2TlWvtG0AhmPfk+Ler3YZZr61B
-         hnOmzVBvwml409nMqovcA+aGlRUJ06LgYK3k/d97HFFaZ1yPAanziwHaz5qHIYGOqmOj
-         LKNNX7RFG2dwcbSI9W2ILvIpP/XHfaaH107/da8sD9jtDE+An9Wrw29U7Ki0l+79Piz5
-         BZNDGDejWrtjeCLT4JNO/24FnA4wpSfZXJI9ZpOjg0xpM7og0DIA9utmy747LB3q6pkF
-         EefQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXodDeUwqWfc3+WIQsIlPgZTN8b+AIJEddxeOBe8+7jZBA9MEIyfYCdXw6CECCHTOLKr87QSF8J1iCuxA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywbn148LCKuxssntRSbdMAk/xNLFNLqflz94xH4gVrZfsbeMly7
-	VPsXFsdvOd+2gA0CDFYkjB5CrclrnRWYfyiK2+6OwVT0m/Lh2+QQm8LprNaRts6fx9u5ewyUBZk
-	0ozjxi1ihOA==
-X-Gm-Gg: ASbGncsJkxaQQ7/hR3qUyOUL8rKDr+EvP5Yk+kyQv81UMU9TN/V550rMoEmE4HRHtR8
-	xx74dgHJHqi7eP7dVGRAOYf2FXM2dPkgdK7pHAyZ+Jbig8kpj0JwQkkJ1Z9xZqdbQ/fQCbHv74u
-	eqsZXwlLhXwxVn7bs2sIW9dmQtkQoNt1DtLQGo4+4iA+tvl7WkOz/dKonfTjQyPG1jMm1Hw+BUL
-	2uDwg0U/TxUmElfi5KAJJV29WUhScSMiKLh5HEy3oJp5PjH8rGvjx7t5qwSXDweDDVPdB7elNgG
-	YoMy2FaMUutgVOA1INkOiJlBXj+237wDgWoP8P2k3XHJ4WIrkumLws9CuiSx3W9y3X490ajZjEm
-	qNraM2NpuX3JLC2HI74bgUuu2PRPfG4zcPW+rYx5QxjZhI3O15OOFfTnnFxpYW7UuSw==
-X-Google-Smtp-Source: AGHT+IFq8mDE8PudB+If0p/yz9r5BMm3b0sAMcM401GT4XSFuAGCatql+fXY5z//W9+Ngzp3GWU/hg==
-X-Received: by 2002:a05:690c:45c2:b0:70e:7503:1181 with SMTP id 00721157ae682-717d5e944a0mr69820747b3.18.1752252359978;
-        Fri, 11 Jul 2025 09:45:59 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e8b7ae26c85sm1216180276.7.2025.07.11.09.45.59
+        d=1e100.net; s=20230601; t=1752253569; x=1752858369;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PNAWGrPiwj3E1EhTq5Tl1CO6rinMEagBkU9r1o4zi7U=;
+        b=xC0Go30WuBHI8U9f7ZoCWe7+MtSZePAmkUZtwu5K9yCXLyT2IKztdNJ1G7qSpGPSfc
+         wwI2bXr6SZLPhzSWm75h2rfVPh7gjZY4LAS9b6QS3ZSB5QUqPqYg9wUaMztOsycgjd1A
+         C50q4nzOnnLDIuUSP6yRXagQip5C3tshYTAmASNydEsE7Q63J7HmeQUKxDONGIlvFmE9
+         fO1SR5B9Fc9if2hIAEF1hRAly5VXdac7Bl/KgU8KrmYPk+qQvFB/rYG9LtWUBDjWRXnh
+         76raLGDVN0wMdAFkvK6SRd+Lc56nMnhrVfw2gVH9TDle1KD+TwPeXbD8UjGMPSvvjHq7
+         +MqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXH0RkrosdEK8HmFCCMtC+HBrbWoMu5ychszG7qqznSWtUnnajPOuFh1Sar4Jxa2y/J36yrmeDJZPiW3HI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyxFEvSMUvHQBKlfeX4IQxHkHcGIRFnO/93sKiuC29g7t3TtXE
+	Hjo8U3IYvqkodhA5ydA7SrhUPyEHGSRfFd3U0AmiteSHdQiJBoiDW5Gk
+X-Gm-Gg: ASbGnctPeiQQ3hUTujE8Dqw3jqGTvsycKlg0dv+g6SKAusFutBvRizb38uTTvkf4Rzj
+	aVx5yX0yOr1sKdy6ZjtX+i+jfbPJ3CL0/I0tdqHoHjb0ao0PD8xz2WVIYEMgXWxn+DQUaJ4ezeX
+	mPihTnHd2m3TVJyOwQTT60tQAezkfyGKv4fMoLmhc+d4EJmsHXH5S+EdB48ODgixZ2xRbEWcdB6
+	wiQGdIJ7B9yEgkGciSSzX+XZfDt801viSyrrNjuJ1bnoUnr32nKuwlJMRw2MgLZVaoGBXDQfmHG
+	mV7XkD5cOnoC2xZAN4sP4uPZyurcmpIWedikoTpaQqj8vbyQW8HUJvj/kDn88NBuf4gYZdhYwk0
+	v/gCsnrt7Ld/VAeVi6nEePidF5DUEQSVNNZWPd2fvIa9r1HIGqbyy12HhM99FXlJ3vIszZKBNVW
+	NVeGe6oGinDm9Cl4IrIZ+RHjghwl6ltAOCzCfGNL5oM5tpfC8aSdb02YqIZBzb3Q==
+X-Google-Smtp-Source: AGHT+IGXo0leNEZOdpcDo5mboEAsYRR7bsRSf0EC+JdFXlc+xOggVj+ftQvTd/RTlrxgZhW5tHX3RQ==
+X-Received: by 2002:a05:6512:ea1:b0:553:2c58:f973 with SMTP id 2adb3069b0e04-55a046733b8mr1503974e87.52.1752253568879;
+        Fri, 11 Jul 2025 10:06:08 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:6e:3100:ed74:9560:782d:a190? (2001-14ba-6e-3100-ed74-9560-782d-a190.rev.dnainternet.fi. [2001:14ba:6e:3100:ed74:9560:782d:a190])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c9d0f2asm1009210e87.131.2025.07.11.10.05.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Jul 2025 09:45:59 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e81f311a86fso2092861276.3;
-        Fri, 11 Jul 2025 09:45:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUOR5hTHgAwiY5xeogRVxrriILkAAQY3hgd7EO0OCBaD93pSwQIsLRh98I+HKPM34Xn395md2m8mbpXsqM=@vger.kernel.org, AJvYcCXiMcZov/rhk4piecetDTfgSQx9HtN/TnV3iTn7Sf8mew6kB8U0iUNow48MiyoWcufNBn7Pukpdp3qy@vger.kernel.org, AJvYcCXslclD+Zm1wiY9+vBWQSe9u5GfkcE3t5LrtMJuGfhZkmKDjwfI6470H2dkiLDqSahweXrfDQvdMA4zbER3@vger.kernel.org, AJvYcCXtCSrLKC1bu8u13cJo2KD2wAIDNbWzDsxTpaWVTiALo/xH7ioNyVjtFgJwIO+0+kWh+fDuT3pLp7/C@vger.kernel.org
-X-Received: by 2002:a05:690c:fc9:b0:711:406f:7735 with SMTP id
- 00721157ae682-717d5d7b900mr75779167b3.13.1752252358549; Fri, 11 Jul 2025
- 09:45:58 -0700 (PDT)
+        Fri, 11 Jul 2025 10:05:55 -0700 (PDT)
+Message-ID: <6b872eb0-22ca-408e-9c4e-8f094c3580ae@gmail.com>
+Date: Fri, 11 Jul 2025 20:05:51 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net> <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
- <CAAObsKBiSX0HcxJJjTNGgE4FD4eAYW5wvY=bROtdkZ1mqf_0VQ@mail.gmail.com> <a1a93c41-4c21-4b7a-a8b8-5d4e83d73931@arm.com>
-In-Reply-To: <a1a93c41-4c21-4b7a-a8b8-5d4e83d73931@arm.com>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 11 Jul 2025 18:45:46 +0200
-X-Gmail-Original-Message-ID: <CAAObsKAgmDANvWop-GRAqE6eFRHeQiVHkF1nSwEqyWWY=mdRfg@mail.gmail.com>
-X-Gm-Features: Ac12FXx7z145GnPjkDCiCeIztHHyJGSgIFJExInPlpkFTI1qLEtbnsvv5usQDuA
-Message-ID: <CAAObsKAgmDANvWop-GRAqE6eFRHeQiVHkF1nSwEqyWWY=mdRfg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Kever Yang <kever.yang@rock-chips.com>, 
-	Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] media: Documentation: Improve grammar in DVB API
+To: Brigham Campbell <me@brighamcampbell.com>,
+ David Hunter <david.hunter.linux@gmail.com>, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+References: <20250708155206.91281-1-hannelotta@gmail.com>
+ <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
+ <DB8S4WLTG1SS.NVODTL6KNFXF@brighamcampbell.com>
+Content-Language: en-US
+From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
+In-Reply-To: <DB8S4WLTG1SS.NVODTL6KNFXF@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 11, 2025 at 6:40=E2=80=AFPM Robin Murphy <robin.murphy@arm.com>=
- wrote:
->
-> On 11/07/2025 5:00 pm, Tomeu Vizoso wrote:
-> > On Tue, Jun 24, 2025 at 3:50=E2=80=AFPM Robin Murphy <robin.murphy@arm.=
-com> wrote:
-> >>
-> >> On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
-> >> [...]
-> >>> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/roc=
-ket/rocket_device.h
-> >>> index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f82=
-6c5002a6c0ecbf9aed4 100644
-> >>> --- a/drivers/accel/rocket/rocket_device.h
-> >>> +++ b/drivers/accel/rocket/rocket_device.h
-> >>> @@ -13,6 +13,8 @@
-> >>>    struct rocket_device {
-> >>>        struct drm_device ddev;
-> >>>
-> >>> +     struct mutex sched_lock;
-> >>> +
-> >>>        struct mutex iommu_lock;
-> >>
-> >> Just realised I missed this in the last patch, but iommu_lock appears =
-to
-> >> be completely unnecessary now.
-> >>
-> >>>        struct rocket_core *cores;
-> >> [...]
-> >>> +static void rocket_job_hw_submit(struct rocket_core *core, struct ro=
-cket_job *job)
-> >>> +{
-> >>> +     struct rocket_task *task;
-> >>> +     bool task_pp_en =3D 1;
-> >>> +     bool task_count =3D 1;
-> >>> +
-> >>> +     /* GO ! */
-> >>> +
-> >>> +     /* Don't queue the job if a reset is in progress */
-> >>> +     if (atomic_read(&core->reset.pending))
-> >>> +             return;
-> >>> +
-> >>> +     task =3D &job->tasks[job->next_task_idx];
-> >>> +     job->next_task_idx++;
-> >>> +
-> >>> +     rocket_pc_writel(core, BASE_ADDRESS, 0x1);
-> >>> +
-> >>> +     rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->ind=
-ex);
-> >>> +     rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->in=
-dex);
-> >>
-> >> Those really look like bitfield operations rather than actual arithmet=
-ic
-> >> to me.
-> >>
-> >>> +
-> >>> +     rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
-> >>
-> >> I don't see how regcmd is created (I guess that's in userspace?), but
-> >> given that it's explicitly u64 all the way through - and especially
-> >> since you claim to support 40-bit DMA addresses - it definitely seems
-> >> suspicious that the upper 32 bits never seem to be consumed anywhere :=
-/
-> >
-> > Yeah, but there's no other register for BASE_ADDRESS address in the TRM=
-.
->
-> That only reaffirms the question then - if this value is only ever
-> written verbatim to a 32-bit register, why is it 64-bit?
+Hello,
 
-Ah, sure, it will be 32-bit in v8.
+On 7/11/25 2:55 AM, Brigham Campbell wrote:
+> On Wed Jul 9, 2025 at 10:22 PM MDT, David Hunter wrote:
+>> On 7/8/25 11:52, Hanne-Lotta Mäenpää wrote:
+>>> Fix typos and punctuation and improve grammar in documentation.
+>>>
+>>> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
+>>
+>> Overall, good work. Here is a suggestion for future patch series:
+>>
+>> Subsequent versions of patch series should be posted as replies in the same thread. Currently, each version is its own independent thread, which makes it hard to track changes. This link has the documentation for the proper way to handle subsequent patches:
+>>
+>> https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html
+>>
+>> The relevant part starts at "To that end, send them as replies to either..."
+> 
+> This documentation you've linked is specific to git, not the linux
+> kernel.
+> 
+> The kernel documentation argues against doing what you suggest [1]: "for
+> a multi-patch series, it is generally best to avoid using In-Reply-To:
+> to link to older versions of the series. This way multiple versions of
+> the patch don’t become an unmanageable forest of references in email
+> clients."
+> 
+> [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> 
 
-Thanks,
+Right, that clears it up. On a closer look, the URL indicates which 
+documentation is for git development.
 
-Tomeu
+> 
+> Nice work, as usual, Hanne-Lotta.
+> 
+> Brigham
+> 
 
-> Thanks,
-> Robin.
+I really appreciate this comment. Thank you for your encouragement!
+
+Best regards,
+
+Hanne-Lotta Mäenpää
+
 
