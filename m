@@ -1,215 +1,236 @@
-Return-Path: <linux-media+bounces-37535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37536-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182ACB025A1
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 22:13:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 120F3B025CD
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 22:33:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BD404A7B28
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 20:13:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46BD316E386
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 20:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199131F417E;
-	Fri, 11 Jul 2025 20:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 869A71F8690;
+	Fri, 11 Jul 2025 20:33:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sJHoMgKG"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gJE+2zMm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88CE1E1A3F;
-	Fri, 11 Jul 2025 20:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC17B1E1A3F
+	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 20:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752264822; cv=none; b=oY5yu1kMtkza4lgS6Gvtyqs8gxvbcx1gfrxjci8h3/pIUWb9ItJBnbq1PsTbfPUtjd61480UyNHvae2LvzGVC1cIu442Sur9Ef1NNsUFiB9PDRgYCkUW83aTTyM9axO0i7kici8PLYhSLAkwoNNCrg9EtpAKSMU82uy7aqos1iA=
+	t=1752265994; cv=none; b=USI9fWOmfBGprsYmz+lPTyReHtnS0WwMZYda4dHhii465h8n+ngx6a8xlwWwK0RyXMFx46dLg/2gZOQC4WJyWmW7ALKlSmacUWbDTjCQNAY1zhjo8tZBzXvarHUXfgFWMgDUMH6xsXxGka1jdmebrKBxfUD9yECA3lhRW6tk5zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752264822; c=relaxed/simple;
-	bh=seOlSvJ8t89QLSmj7LWfQmjvKRKgQZ3sTqJ35v60bos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xq2W8Lcd2rETQaaQYPFWiUkRlwzl+hO2kb2gEJttD/i/GaQdtz6/2rc8dAQcrtmc93nnNsoCv5h0znQK6i107hPlino3ZPHxwXhGYZMG5gWzLgoocxeX7mgOdK2awcgkikZAdBbF+K+5+sapsODiFJkGfu66HBJDuoiOA3B91OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sJHoMgKG; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 620A6C75;
-	Fri, 11 Jul 2025 22:13:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752264789;
-	bh=seOlSvJ8t89QLSmj7LWfQmjvKRKgQZ3sTqJ35v60bos=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sJHoMgKGxxETglWZJMEICJIM0R5aDie/MKSTFYYML1v4XT5Rp34d4shH1e/G0iZGW
-	 Uu6p5bVDEy/i8qQ04bqVyvNDlCI6ihUmqDhY4VtsEln5y3LBG+4QkIa7cmgrQd9ceE
-	 npGZYyzMdSo7vcyRwmlidvBOfLcxKferJPjpKuMM=
-Date: Fri, 11 Jul 2025 23:13:08 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v8 4/5] media: uvcvideo: Introduce
- V4L2_META_FMT_UVC_MSXU_1_5
-Message-ID: <20250711201308.GI27674@pendragon.ideasonboard.com>
-References: <20250707-uvc-meta-v8-0-ed17f8b1218b@chromium.org>
- <20250707-uvc-meta-v8-4-ed17f8b1218b@chromium.org>
+	s=arc-20240116; t=1752265994; c=relaxed/simple;
+	bh=OdiElYks1GHNQePEqSHVYrcj3Tlmfx0QzlkNCJuCu3s=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=Tgpi+HV5HYYcRnMOuLcPOvkydpYHpfK73bQAskadNEC6KHjByjTj1Nw/BLskT8Jc0z2f5TEsn+cSE5gqLLKmU8aPtQ7QjQARuccwC4+UUL+W8znAgeITCvNEfhwkLJ6bCtt60ok48X7sWg1gZEdqBFLf4AaMAHPG8aUuJx5LbNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gJE+2zMm; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1752265983;
+	bh=OdiElYks1GHNQePEqSHVYrcj3Tlmfx0QzlkNCJuCu3s=;
+	h=Subject:From:To:Date:From;
+	b=gJE+2zMmKvvMglChfcqumydQ9m4p3t3Ncesc/rddUf47VlGyvqYhvmxlpNdkBeQkL
+	 zUC2EDgYFQ31dgc2pvdOiW0MIHTP8i1ag17uJ9blcgiL1WcSEV2xhXT6ofx6mqzXIY
+	 YLWJE+9GH+PSYoYl7yzzvq8vZg84gdtnxjpj/n5ZQ+HEMlpvM8sH6tOe/+7JWy9Haz
+	 dbEVxEQe3aYljS4RO2FdUDWz9ES1PwZzalfrn01IXtBh6mKuTBOySABb4yTHR7GByh
+	 DuzjE2lvAfTYDa+SsGPS29aM0rrcKAAkZS0ZUWleAPFirOE0LauYS8KrvIHaCtXOXo
+	 vZ/4Q9wZfDnjw==
+Received: from [IPv6:2606:6d00:17:b699::5ac] (unknown [IPv6:2606:6d00:17:b699::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F2C2417E0FB8
+	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 22:33:02 +0200 (CEST)
+Message-ID: <ba69c23a599194caa0cc4fd682f21a21eb42c5f0.camel@collabora.com>
+Subject: [GIT PULL FOR 6.16]  Media Codec Changes 2025-06-19
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: linux-media@vger.kernel.org
+Date: Fri, 11 Jul 2025 16:33:00 -0400
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+	boundary="=-NMiDiATBRIHkfhhIct/9"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250707-uvc-meta-v8-4-ed17f8b1218b@chromium.org>
 
-On Mon, Jul 07, 2025 at 06:34:04PM +0000, Ricardo Ribalda wrote:
-> The UVC driver provides two metadata types V4L2_META_FMT_UVC, and
-> V4L2_META_FMT_D4XX. The only difference between the two of them is that
-> V4L2_META_FMT_UVC only copies PTS, SCR, size and flags, and
-> V4L2_META_FMT_D4XX copies the whole metadata section.
-> 
-> Now we only enable V4L2_META_FMT_D4XX for the Intel D4xx family of
-> devices, but it is useful to have the whole metadata payload for any
-> device where vendors include other metadata, such as the one described by
-> Microsoft:
-> https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
-> 
-> This patch introduces a new format V4L2_META_FMT_UVC_MSXU_1_5, that is
-> identical to V4L2_META_FMT_D4XX.
-> 
-> Let the user enable this format with a quirk for now. This way they can
-> test if their devices provide useful metadata without rebuilding the
-> kernel. They can later contribute patches to auto-quirk their devices.
-> We will also work in methods to auto-detect devices compatible with this
-> new metadata format.
-> 
-> Suggested-by: Hans de Goede <hdegoede@redhat.com>
-> Reviewed-by: Hans de Goede <hansg@kernel.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  .../userspace-api/media/v4l/meta-formats.rst       |  1 +
->  .../media/v4l/metafmt-uvc-msxu-1-5.rst             | 23 ++++++++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  drivers/media/usb/uvc/uvc_metadata.c               |  4 ++++
->  drivers/media/usb/uvc/uvcvideo.h                   |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
->  include/uapi/linux/videodev2.h                     |  1 +
->  7 files changed, 32 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> index bb6876cfc271e1a0543eee4209d6251e1a6a73cc..0de80328c36bf148051a19abe9e5241234ddfe5c 100644
-> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> @@ -20,6 +20,7 @@ These formats are used for the :ref:`metadata` interface only.
->      metafmt-pisp-fe
->      metafmt-rkisp1
->      metafmt-uvc
-> +    metafmt-uvc-msxu-1-5
->      metafmt-vivid
->      metafmt-vsp1-hgo
->      metafmt-vsp1-hgt
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..dd1c3076df243d770a13e7f6d07c3296a269e16a
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
-> @@ -0,0 +1,23 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _v4l2-meta-fmt-uvc-msxu-1-5:
-> +
-> +***********************************
-> +V4L2_META_FMT_UVC_MSXU_1_5 ('UVCM')
-> +***********************************
-> +
-> +Microsoft(R)'s UVC Payload Metadata.
-> +
-> +
-> +Description
-> +===========
-> +
-> +V4L2_META_FMT_UVC_MSXU_1_5 buffers follow the metadata buffer layout of
-> +V4L2_META_FMT_UVC with the only difference that it includes all the UVC
-> +metadata in the `buffer[]` field, not just the first 2-12 bytes.
-> +
-> +The metadata format follows the specification from Microsoft(R) [1].
-> +
-> +.. _1:
-> +
-> +[1] https://docs.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 658543062bba3b7e600699d7271ffc89250ba7e5..fdde1d37ed2ef9058e3ea3417bec25afe454dfc0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -25827,6 +25827,7 @@ S:	Maintained
->  W:	http://www.ideasonboard.org/uvc/
->  T:	git git://linuxtv.org/media.git
->  F:	Documentation/userspace-api/media/drivers/uvcvideo.rst
-> +F:	Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
->  F:	Documentation/userspace-api/media/v4l/metafmt-uvc.rst
->  F:	drivers/media/common/uvc.c
->  F:	drivers/media/usb/uvc/
-> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-> index 4bcbc22f47e67c52baf6e133f240131ff3d32a03..77e03273d3cf6b00cac6ebb9b29b941f1cbfd9f7 100644
-> --- a/drivers/media/usb/uvc/uvc_metadata.c
-> +++ b/drivers/media/usb/uvc/uvc_metadata.c
-> @@ -195,6 +195,10 @@ void uvc_meta_init(struct uvc_device *dev)
->  	    !WARN_ON(dev->info->meta_format == V4L2_META_FMT_UVC))
->  		dev->meta_formats[i++] = dev->info->meta_format;
->  
-> +	if (dev->quirks & UVC_QUIRK_MSXU_META &&
-> +	    !WARN_ON(dev->info->meta_format == V4L2_META_FMT_UVC_MSXU_1_5))
-> +		dev->meta_formats[i++] = V4L2_META_FMT_UVC_MSXU_1_5;
 
-Just to clarify, does this mean that your goal is to set
-dev->info->meta_format to V4L2_META_FMT_UVC_MSXU_1_5 as devices are
-reported to support the format ?
+--=-NMiDiATBRIHkfhhIct/9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +
->  	 /* IMPORTANT: for new meta-formats update UVC_MAX_META_DATA_FORMATS. */
->  	dev->meta_formats[i++] = 0;
->  }
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index b3c094c6591e7a71fc00e1096bcf493a83f330ad..616adc417c62a58686beccbc440a5dfac0a2d588 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -77,6 +77,7 @@
->  #define UVC_QUIRK_DISABLE_AUTOSUSPEND	0x00008000
->  #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
->  #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
-> +#define UVC_QUIRK_MSXU_META		0x00040000
->  
->  /* Format flags */
->  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index be94a79b976e3de4eb957f5d2584ec6d4230469e..993b36417b4655456ce545cb42a41b55b98e4d6c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1463,6 +1463,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_META_FMT_VSP1_HGO:	descr = "R-Car VSP1 1-D Histogram"; break;
->  	case V4L2_META_FMT_VSP1_HGT:	descr = "R-Car VSP1 2-D Histogram"; break;
->  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
-> +	case V4L2_META_FMT_UVC_MSXU_1_5:	descr = "UVC MSXU Metadata"; break;
->  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
->  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
->  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 6f7bd38dd5aa4b1b2084685512512a380d76a5e4..863bc5b7dec32303e852d7e9c3891011ce5a3d71 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -867,6 +867,7 @@ struct v4l2_pix_format {
->  #define V4L2_META_FMT_VSP1_HGT    v4l2_fourcc('V', 'S', 'P', 'T') /* R-Car VSP1 2-D Histogram */
->  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
->  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
-> +#define V4L2_META_FMT_UVC_MSXU_1_5  v4l2_fourcc('U', 'V', 'C', 'M') /* UVC MSXU metadata */
->  #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
->  
->  /* Vendor specific - used for RK_ISP1 camera sub-system */
+Hey Hans & Mauro,
 
--- 
-Regards,
+In this request, I've fixes for which I didn't find any issues, or my revie=
+w
+comment have been resolved. A little bigger, I've picked RKVDEC de-staging,
+which I had promised to take care of, but Detlev took care for me. I've als=
+o
+picked the reviewed DT bindings for the next generation of RKVDEC. This is =
+a
+little early to pick, but I've tested all the upcoming related patches alre=
+ady
+plus the DT maintainers are happy with it. There is nothing controversial t=
+here
+anyway.
 
-Laurent Pinchart
+My queue is a bit big atm, most of it will have changes requested, its code
+review time that is the bottleneck atm (for everyone I believe). From here,=
+ it
+will sits for the next two weeks, which I indent to spend in the woods, awa=
+y
+from computers.
+
+best regards,
+Nicolas
+
+---
+
+The following changes since commit cee06ca7a6748f7d5d7ea40876dcbc0af26bf34e=
+:
+
+  media: imx8mq-mipi-csi2: Fix error code in imx8mq_mipi_csi_parse_dt() (20=
+25-07-10 13:44:58 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6=
+.17-media-codecs-2025-07-11
+
+for you to fetch changes up to 8a79dedf43ea990ed35aef44592ed4a435936564:
+
+  media: rkvdec: Unstage the driver (2025-07-11 16:12:08 -0400)
+
+----------------------------------------------------------------
+RKVDEC unstaged, new bindings and minor fixes
+
+----------------------------------------------------------------
+Detlev Casanova (4):
+      media: dt-bindings: rockchip: Document RK3588 Video Decoder bindings
+      media: dt-bindings: rockchip: Add RK3576 Video Decoder bindings
+      media: rkvdec: Remove TODO file
+      media: rkvdec: Unstage the driver
+
+Hugues Fruchet (1):
+      media: verisilicon: postproc: 4K support
+
+Marek Szyprowski (1):
+      media: v4l2: Add support for NV12M tiled variants to v4l2_format_info=
+()
+
+Ming Qian (1):
+      media: amphion: Support dmabuf and v4l2 buffer without binding
+
+ Documentation/devicetree/bindings/media/rockchip,vdec.yaml              | =
+ 80 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ MAINTAINERS                                                             | =
+  8 +++++++
+ drivers/media/platform/amphion/vdec.c                                   | =
+235 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++++---------------------------------------
+ drivers/media/platform/amphion/vpu.h                                    | =
+  7 +++++--
+ drivers/media/platform/amphion/vpu_dbg.c                                | =
+ 15 ++++++++++++-
+ drivers/media/platform/amphion/vpu_v4l2.c                               | =
+ 11 ++++++++++
+ drivers/media/platform/rockchip/Kconfig                                 | =
+  1 +
+ drivers/media/platform/rockchip/Makefile                                | =
+  1 +
+ drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Kconfig       =
+|   0
+ drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Makefile      =
+|   0
+ drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-h264.c =
+|   0
+ drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-regs.h =
+|   0
+ drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-vp9.c  =
+|   0
+ drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.c      =
+|   0
+ drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.h      =
+|   0
+ drivers/media/platform/verisilicon/hantro.h                             | =
+  2 ++
+ drivers/media/platform/verisilicon/hantro_g1_regs.h                     | =
+  2 +-
+ drivers/media/platform/verisilicon/hantro_postproc.c                    | =
+  6 +++++-
+ drivers/media/v4l2-core/v4l2-common.c                                   | =
+  6 ++++++
+ drivers/staging/media/Kconfig                                           | =
+  2 --
+ drivers/staging/media/Makefile                                          | =
+  1 -
+ drivers/staging/media/rkvdec/TODO                                       | =
+ 11 ----------
+ 22 files changed, 321 insertions(+), 67 deletions(-)
+ rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Kconfig=
+ (100%)
+ rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Makefil=
+e (100%)
+ rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-=
+h264.c (100%)
+ rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-=
+regs.h (100%)
+ rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-=
+vp9.c (100%)
+ rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.=
+c (100%)
+ rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.=
+h (100%)
+ delete mode 100644 drivers/staging/media/rkvdec/TODO
+
+--=20
+Nicolas Dufresne
+Principal Engineer at Collabora
+
+--=-NMiDiATBRIHkfhhIct/9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaHF0/AAKCRBxUwItrAao
+HAuNAJ0cqZCl+O3+olwcG4uRoHpHb3iMawCeMoGz+tBd719JXlH+VmIKzsrpk58=
+=60mi
+-----END PGP SIGNATURE-----
+
+--=-NMiDiATBRIHkfhhIct/9--
 
