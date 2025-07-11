@@ -1,236 +1,244 @@
-Return-Path: <linux-media+bounces-37536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120F3B025CD
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 22:33:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E68B02768
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 01:08:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46BD316E386
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 20:33:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 532B8A41262
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 23:08:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 869A71F8690;
-	Fri, 11 Jul 2025 20:33:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A50222594;
+	Fri, 11 Jul 2025 23:08:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gJE+2zMm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hB0wsj2C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC17B1E1A3F
-	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 20:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752265994; cv=none; b=USI9fWOmfBGprsYmz+lPTyReHtnS0WwMZYda4dHhii465h8n+ngx6a8xlwWwK0RyXMFx46dLg/2gZOQC4WJyWmW7ALKlSmacUWbDTjCQNAY1zhjo8tZBzXvarHUXfgFWMgDUMH6xsXxGka1jdmebrKBxfUD9yECA3lhRW6tk5zc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752265994; c=relaxed/simple;
-	bh=OdiElYks1GHNQePEqSHVYrcj3Tlmfx0QzlkNCJuCu3s=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=Tgpi+HV5HYYcRnMOuLcPOvkydpYHpfK73bQAskadNEC6KHjByjTj1Nw/BLskT8Jc0z2f5TEsn+cSE5gqLLKmU8aPtQ7QjQARuccwC4+UUL+W8znAgeITCvNEfhwkLJ6bCtt60ok48X7sWg1gZEdqBFLf4AaMAHPG8aUuJx5LbNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gJE+2zMm; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1752265983;
-	bh=OdiElYks1GHNQePEqSHVYrcj3Tlmfx0QzlkNCJuCu3s=;
-	h=Subject:From:To:Date:From;
-	b=gJE+2zMmKvvMglChfcqumydQ9m4p3t3Ncesc/rddUf47VlGyvqYhvmxlpNdkBeQkL
-	 zUC2EDgYFQ31dgc2pvdOiW0MIHTP8i1ag17uJ9blcgiL1WcSEV2xhXT6ofx6mqzXIY
-	 YLWJE+9GH+PSYoYl7yzzvq8vZg84gdtnxjpj/n5ZQ+HEMlpvM8sH6tOe/+7JWy9Haz
-	 dbEVxEQe3aYljS4RO2FdUDWz9ES1PwZzalfrn01IXtBh6mKuTBOySABb4yTHR7GByh
-	 DuzjE2lvAfTYDa+SsGPS29aM0rrcKAAkZS0ZUWleAPFirOE0LauYS8KrvIHaCtXOXo
-	 vZ/4Q9wZfDnjw==
-Received: from [IPv6:2606:6d00:17:b699::5ac] (unknown [IPv6:2606:6d00:17:b699::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id F2C2417E0FB8
-	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 22:33:02 +0200 (CEST)
-Message-ID: <ba69c23a599194caa0cc4fd682f21a21eb42c5f0.camel@collabora.com>
-Subject: [GIT PULL FOR 6.16]  Media Codec Changes 2025-06-19
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: linux-media@vger.kernel.org
-Date: Fri, 11 Jul 2025 16:33:00 -0400
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-NMiDiATBRIHkfhhIct/9"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0B2EEBD;
+	Fri, 11 Jul 2025 23:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752275304; cv=fail; b=eMqO3ZfLpYnKRhWJDTepFDHcwM3kUpibVAfLRjpGUmltPWM2F3g4zr+rdWCTijPqig1NySetsZJT54+2RQx+oZhe3U9/4TzLWHuRylorieC04Mj6I3M3gaizY28v4Z+VCUrWh6iqEaWa6BpsCmdGI4RXKv+xJ85n0b/PDjLHatg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752275304; c=relaxed/simple;
+	bh=LnSRQnpil1yc8KCkxyLNYhvRM8f7v6tBix0eYifuE4I=;
+	h=From:Date:To:CC:Message-ID:In-Reply-To:References:Subject:
+	 Content-Type:MIME-Version; b=Tsq4KIHHii2rfUcRPtMD1ZbnuBNSV8Vtt6rWhqGwB7vtbn6ubLbKY3v8FBM6XBuvqa7pJis3Jpq01Ab5LDUMb3ls6dLA2bBQRIrp0AUwUngfdNQH7VhBfTGiYk9Anj4/xQe3LncnsIpangsfzo8i8MZILU8hIZlSEYJ6Tv/lREI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hB0wsj2C; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752275303; x=1783811303;
+  h=from:date:to:cc:message-id:in-reply-to:references:
+   subject:content-transfer-encoding:mime-version;
+  bh=LnSRQnpil1yc8KCkxyLNYhvRM8f7v6tBix0eYifuE4I=;
+  b=hB0wsj2CGVPC/VwxpHAQ3jjAYLGZv9X19aC+kKqk4JoUhVlXi7J7tI7d
+   oY1lRJqNfvPmhsdnfygcFHiqWPwLtgF/JEAEmXkkO06OJ0SY2bEMBm1VJ
+   LYinHX6+wWGRaBNtOOxIhpbT62kZq8jA6HWoIsZDyFwBQ0KUFjcvVFYns
+   Vhjf+WoaXWU3E7f/1JBxjrxx1SNRgO2JN4Wmml+YM4CRrakj3CUTBlxWQ
+   958JezOUGI01lk/0KiQz6kDCRCmHY0EvQDjeCXSR8/em7ciyjtpnJoZaF
+   NwohGncTJ7i/u+g8B7Z1y6WEK5FLjK9QkO/gL0pCm0XhoS+b/CeJY8ros
+   Q==;
+X-CSE-ConnectionGUID: /WX408PZT2qIgyep016qTg==
+X-CSE-MsgGUID: 0TwVFh4hREK/dmoqBSZh7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65275668"
+X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
+   d="scan'208";a="65275668"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 16:08:22 -0700
+X-CSE-ConnectionGUID: 2rgacI5ZT2+wQnOuuPXk2Q==
+X-CSE-MsgGUID: TNmgnFlbRW6zSkt1y43p+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; 
+   d="scan'208";a="156263239"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 16:08:22 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 11 Jul 2025 16:08:21 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Fri, 11 Jul 2025 16:08:21 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.79)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 11 Jul 2025 16:08:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Eg6OobsLRdDr6Fkm/Rp3VllKN/KwQIy1NIgK02ZWGRHe2dMaPWkNMKEys0K5awIJOZn7WAStfn3w5IMv6v486xVXMeYE3Pr4QlF0GOAEGlknkS9N/SjxswS7bsOG3wDknMGVg8EtoH7A58WorgCgPxqYx3aHjGPzA1/JFyPOEjcp0WERnrdIKcwdxJlTGddPe86jvWRp0bKsUcS3EinvSQZ5k1mgRHIs6GBVJzO+msov50uB2USwFDQ+/146cj+29dve3h6m8oySCJSFiO39uWyGdOs5tkGAhRnur4FXYMhnq+yy7xLSOLstjqLmeBjvc1muF8B/5YsTgQnyfBuxvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DwPpueauNlYaO+H0tgRZRF8QlJzQLEaWn2gU/cQ1nH8=;
+ b=YXNqNzGc+N7VcaLOcJLSJNxDLJlGn6v++oHs0MAtc8u6mxNz44qe5nKpw0mzGul+gUYYnjPIn84Mu2AFfpGFfBoW4kSdJiMV4CNMi4KldxgsPbJhYMr9JmIxGIM+QXaU5W35MYdDNW2tP+yFatlpWcPhsFRRw92eobLT3Yfb4bBrDs6tM5IugVdhWoxZVCOL/ELm4y8ajRgfArNuWm4nRJXjsDYEmbzBI+JdmYVPvNrCjnCMwKIXfHF6O1uDP1n4OF2iDbAHdSFX3mj4Gs3GCrjs2e7CqS3RrPwPYPIa7X2XFmyJURIV9iK1e6k+mho3ljH+KycOYcrBierrK5UqEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by SJ5PPF0F15BC42D.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::80e) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.27; Fri, 11 Jul
+ 2025 23:08:19 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%6]) with mapi id 15.20.8901.024; Fri, 11 Jul 2025
+ 23:08:19 +0000
+From: <dan.j.williams@intel.com>
+Date: Fri, 11 Jul 2025 16:08:16 -0700
+To: Xu Yilun <yilun.xu@linux.intel.com>, Alexey Kardashevskiy <aik@amd.com>
+CC: <kvm@vger.kernel.org>, <sumit.semwal@linaro.org>,
+	<christian.koenig@amd.com>, <pbonzini@redhat.com>, <seanjc@google.com>,
+	<alex.williamson@redhat.com>, <jgg@nvidia.com>, <dan.j.williams@intel.com>,
+	<linux-coco@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+	<vivek.kasireddy@intel.com>, <yilun.xu@intel.com>,
+	<linux-kernel@vger.kernel.org>, <lukas@wunner.de>, <yan.y.zhao@intel.com>,
+	<daniel.vetter@ffwll.ch>, <leon@kernel.org>, <baolu.lu@linux.intel.com>,
+	<zhenzhong.duan@intel.com>, <tao1.su@intel.com>, <linux-pci@vger.kernel.org>,
+	<zhiw@nvidia.com>, <simona.vetter@ffwll.ch>,
+	<shameerali.kolothum.thodi@huawei.com>, <aneesh.kumar@kernel.org>,
+	<iommu@lists.linux.dev>, <kevin.tian@intel.com>
+Message-ID: <68719960cc414_1d3d10056@dwillia2-xfh.jf.intel.com.notmuch>
+In-Reply-To: <aFvTL6MUkVZrPoBS@yilunxu-OptiPlex-7050>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
+ <f5958bda-838a-4ed6-84c6-fef62cd0b28f@amd.com>
+ <aFvTL6MUkVZrPoBS@yilunxu-OptiPlex-7050>
+Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
+ using TSM
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0067.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::12) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|SJ5PPF0F15BC42D:EE_
+X-MS-Office365-Filtering-Correlation-Id: 464d6e67-db3a-4ff6-3ed6-08ddc0cfd31b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R3pQY1V6REJRR2trRitTNmpvenZPWFlXSllIcE5yamIzSXRzT210YWJtcVFK?=
+ =?utf-8?B?YUZQUllRcFdGaXoyTE5UNFhuYlh2c21iUE1HbmRNY2xROTYrZVZ5S3V1MzAv?=
+ =?utf-8?B?b1MzbmV3dXBxL0kxNEdhU3h6QTVPTXFRSFh0UDgrUmFLcWpmMVllSnJUZnd6?=
+ =?utf-8?B?TWMzbHlGWGRzemVRait3QitKV1V5cmpuRzg0VzFPZEIxbi9TU2J4ZUZvN2pE?=
+ =?utf-8?B?Y1d3MlovRGx0RmhaREpUVndDK2tFTmV6elB4blFhMEtoMWhGNVlPMEprZXlL?=
+ =?utf-8?B?UmJWbndZUUFSTXlTSmpNRXprNXhkK1gyUzZKYkNyQmQzb2FRdjlIRGhtV282?=
+ =?utf-8?B?VTlkTGJTbDRtUitYR3ZvZzZCelozZ05QNEdWWjMvVGFrMitHSzhqQTUzOW1z?=
+ =?utf-8?B?aXNRNVhNazVDVURXcGdOVGRvdDVGVE1PM0tGNXFWRVl0cUpUQXd5T0RyQVVz?=
+ =?utf-8?B?a1B2dmJlUjRQdWRySUtsbGJBVWtSNk8wQm42NjhlRFNEUVVTdU5nUWppbFJu?=
+ =?utf-8?B?bE1MMkFkMElvQXVRK1ZOQ0ErTGEzb0Q3VkxBZTlxYkVuUEU1ZVNIckxLVUhx?=
+ =?utf-8?B?SW1vc1NtODJLNDNhcFVZTVk5bWh3YWZPd3hxcXdqb3hGYTZYSlpUTzQ5UEo5?=
+ =?utf-8?B?b2NVMXh5ZGpnWWdWV25YSEV1QzlvRzMvb2ZzRG5sU01Mcy9uYkRYR1lucVpQ?=
+ =?utf-8?B?RVk1U0JkS3FnK0xMN01mRnlGQm1Ka3dPN2lkS05IMWpvcWw1K2RLazRUZVJQ?=
+ =?utf-8?B?b3oxKzczZzZHdU9KKzhKZ1J3K0REcmt0OW1ud1JSUGV2YzFxQmwxWi9ZOGE3?=
+ =?utf-8?B?T291bzhubVpJQk80MlVHc0d6SFRBclNoZ0Jod0QwZU1Oc0JoOGplN016NVBJ?=
+ =?utf-8?B?NVV6WERVWHgvWEZreG1RYVFtazZpQW1xMDNXM0FhVWp5TXgwRloxSmw0Vi9W?=
+ =?utf-8?B?ZkdrTytrWGpPaXB6OFlqWURnU2FXdDJzV0NYcitUb3ZLVFlqbC9lemJrbWkx?=
+ =?utf-8?B?N3g1UUE0dWRvVENEeHgra0FhcW9kNXd6KzBPdi9ORS9henNlcWVPNlhURDdL?=
+ =?utf-8?B?NlVMV3lRbFFWNmZuNWdzRlVXTGJhY052QzBUbStja3JIa1prYmxDZGh3a1ZI?=
+ =?utf-8?B?R0x6YndmRWJsbWwybWNEVUVCWTNVbTJSOXRacTBIOUxPSGdPM3VXS3lmSWhw?=
+ =?utf-8?B?ZDBpbS9lL09QaWE3R29GaHAvTzRGVWFJeU54b2MxczRvQTkrTVJsSVBVM2F4?=
+ =?utf-8?B?TG42emRQMnFsSUZ2UE8xOGlzNEQ3cWJDVWFGWTZuRS82eEFWemFVN0FhWVlZ?=
+ =?utf-8?B?cG9ZbmNoVGFJKzdRaE56THhRS2tQTGV6TkQydXhDZlJtZjJkVVBJSDRvcUUv?=
+ =?utf-8?B?R1AyUWluckxkZEcyT3pYUUdzS0VNa0VWQnVRa2J6MHp0TVBvTmpzT0FiUG9M?=
+ =?utf-8?B?a2txMnJtQ05vWjdWa25jMXIweHg5dXN1QlRrdnBpTG1hSGxWbUZqWDF6RFJZ?=
+ =?utf-8?B?Y3ZLalIwQnZNMVVXalBvdkVUSXk2VmZRNGE4MkYzMDFXdmsxVnpEL3FiTWlV?=
+ =?utf-8?B?a2FzU1FGSWFubE9NOWhaNkpmeTFQY1FTTDJsRzBYRzJiZjlMeS9MWHd6RU0y?=
+ =?utf-8?B?WEg1aldCcnE4ZnNWb0RyeVBzaXQ1MGF3UVlyMnl4SmswUWtJcUVoWnpGcUZ2?=
+ =?utf-8?B?L1JGWlI4ZUttNnBVRHZDQTRmcFBxSzdOL3pCMTYyYjdkQy9tQVdrUm9McWR4?=
+ =?utf-8?B?VEIvWnMvNG9JVDFhSjkwRWczYkF0YjJyb3FOV2Y2cVJjUVU1UFV3L2NOTkRQ?=
+ =?utf-8?B?SlRuWnNCK1JwUng0VzBYcThwRGsyZEtKMXgyR1JQd2I1NFhPVE9LUHVESVZ4?=
+ =?utf-8?B?UVVSU0pYbHVsOGFjOCtFc0pKait0T3Q2UlAweHo2enFUdU8yTVk1UlhkZkpP?=
+ =?utf-8?Q?mEAf+P6oEDfaEoNyP145+44+k11uIY3+?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TFU3ekxKdHNxQk9RYjhod0QwZ05MTUoyUE43MkhoNGxSb2NMVE8wQms1Ukda?=
+ =?utf-8?B?N01CbGJsSFhSU2UwaHJHanJ6NzZWUTlCUVg4a1pLQ1U1UXJEYTZocHRMcnRh?=
+ =?utf-8?B?UklQVW85TStod1NUREZaYU05YkJSYS8vNTNYK1g4YXlGOUNOVjRsOXhFOXJx?=
+ =?utf-8?B?V3VaYUowM1NZVFk0eW9JVmtXV0hqeXlxK0pZazBIZTJoQUdKNThNWlBiU0JO?=
+ =?utf-8?B?cG5CY3N5NWNXNERramZWSHJNV2dZRXBlTGZNK3kxcjRQNWxoZ0poTDM1c0sy?=
+ =?utf-8?B?dkI4c2Q1elJRSGlBVE52cmt4V011eVJmSEhlb2pNbFAwQldzTXExZkFiZkE2?=
+ =?utf-8?B?bmR4UTU5MkM0anFpZmdHNXV4cFNzQWpyK3hXWW9OVWRxczcwaUtMMDZlMTBo?=
+ =?utf-8?B?NUdVMzdOOHJXZUMwL0RrbjR6WGxIRWNuRlptMnM4SHZBWVNvNWxQc2ZnUlZD?=
+ =?utf-8?B?b01SZzMveU12MnBRS2MrZVE2THZhaEQ0dVo4RTVMQWJKNjBUUHVaL2tjWWdB?=
+ =?utf-8?B?T2N4L0lNT00wZ3pIMzlBN3JDMU5BaGlZV243K1p6bHQvTy9BU3RWWDNoZ3No?=
+ =?utf-8?B?bHZpTG1MRzBab0RkN3NvZjV5ZjRmZjhBS0tHeEJJRU9CWVlXbVJQbC90QU5S?=
+ =?utf-8?B?cWpXUW1KNytKVUxLVUtpcTF0NzhZQkI2T3hvRGpmS3JGeU9JT1l6TmhwRUVC?=
+ =?utf-8?B?bExjQmdvbkd3VU5YZ1ZtZWt0TlVMbE1ZaHVEZXFOVVFjRkZSaGdkK0FwMkpT?=
+ =?utf-8?B?ZzFXNGwzNjNDbnFZbS9aVHRzcUh3ZHRHMXRIQ3FTeUVVVzF1NFd3VTZTNFVY?=
+ =?utf-8?B?NkthQWV4VlNJMTUvUFdadkdVZVBYNkgyNlI3QVFIWmNOTGdmRVBmdHFGQXkw?=
+ =?utf-8?B?ZlRYbXBSVXRTTUk3RTdMMVI2Z09Xb05kaWgzakZZaDNkZ3RQc3BCV2t2UFRx?=
+ =?utf-8?B?dVQyQTNibVNVQi93UGQxSUNJdE1wWlpzcERmeXowYUVCNTRzbW5ZVzFsdU5h?=
+ =?utf-8?B?VGlTMDNvSGdQL1hjNHR6Z2xKWWQrWjBOQlJ5TmJ4a1VrRVVERzY5RlRNby9F?=
+ =?utf-8?B?V2tnaXJ1enZ4RXF1Ujd0eDA1V3h5QzRwaDFVbks4RUhmWnJ0NHUvZ3IxOElu?=
+ =?utf-8?B?L1F1WXFqWWt1Qm1hTFVCMGZuczEwYlZUWFhleDIvZDRBcDBoM3BWdTlTb2FX?=
+ =?utf-8?B?WGo4QjVpMWNNdTNNWE1OY3FGampXWkZ0QTJqc3RicUhmSTY1UDQyRWJEME9H?=
+ =?utf-8?B?WkJITDlONVJBa250a25DVTFObDdpcUgrdEpqa3BHK1JKWWVPTVA5OUZpV3Iv?=
+ =?utf-8?B?b0c5eGdpb1FuN1RmYkdrMS9WZDY3TzhUem9Hb1FSRit0N0NDMkVWTTVmMXRZ?=
+ =?utf-8?B?Z08yc0ZHd1FKNlZzNm9SRGtqcWVBczRiMTk5bHZuM2dOVER0cTE5c2VlVG15?=
+ =?utf-8?B?TWU1c3hnM2g3SUNwSmF3MEE1ekZPcGhEUUdac251VkpOYWNjZWpNN0VVYXdz?=
+ =?utf-8?B?OVF3bklFSktXQjlqajJBWWZmcDFUUDdSRWFoMUF5eFdGSFBiVFFQVlUxeDM2?=
+ =?utf-8?B?OFduVTlaU3JPZ2xlSXlWMzd4S1VoRWxRUHRlSTJJb1hsWDF0R2M2L1RYOWpT?=
+ =?utf-8?B?MWk4UWt1OENQYkxrNkdKMTFkRVFNNzBVSTZJNFpVbXNKZlFzS2MvMGtFZUM3?=
+ =?utf-8?B?enl0NUQvQVhyY1dzNnhyWVRCTGdWcjlnRU9OeHA4cS9YSTVCd1NGSnhqMEdk?=
+ =?utf-8?B?WGVhdnkyOHdWaS90Q2NWSmVXYlpsWDFyU1cvY0g5c2FabFIvN01CMGplUUd5?=
+ =?utf-8?B?ZlZ2TFNXZFZQY3R2d0FsTjhTcU1EV0RaT2VSN254ZmJtZ01sc09PL1FsUUlr?=
+ =?utf-8?B?a3ZRVjVvZ0YvRVNkc2xvbWJlQVRjSEh1YzlCM0lnMU9YY05PMmxQQVl1c3Bk?=
+ =?utf-8?B?ZE1NN05IT3cxT0xaMVFnZ3dDck5RZzlBYTNxQUdGamdnbnNSUWlnd0FCNVV0?=
+ =?utf-8?B?cUVvOHdZRUNVeHczemVJSWM5c0ZBRkI3eUt6NWp6ZklqMTlsd1ovVEZCbzIw?=
+ =?utf-8?B?VHprS1Q2N3FuQVlVd2JUSklRQWw0aWJSY2djdDZDRTlmUS9heVJIOU5GcXdu?=
+ =?utf-8?B?YWVSZzhqVTdkZnp2OExBc0taUEMxY3QzNi91U2lzbDhsK2diTk1LM0pJM0F6?=
+ =?utf-8?B?cGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 464d6e67-db3a-4ff6-3ed6-08ddc0cfd31b
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 23:08:19.0642
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Su4zYD34HSNhgFZbjV0crGWqOUMeX/4BOji5x5SrWbcQOFpSbiBKPhDV6hF3yqO8qhm+K9Nyqw+P5BwRz+FnveBSVdm8DVTCK/+mtQmC/UQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF0F15BC42D
+X-OriginatorOrg: intel.com
 
+Xu Yilun wrote:
+> On Sat, Jun 21, 2025 at 11:07:24AM +1000, Alexey Kardashevskiy wrote:
+> > 
+> > 
+> > On 11/6/25 11:55, Alexey Kardashevskiy wrote:
+> > > Hi,
+> > > 
+> > > Is there a QEMU tree using this somewhere?
+> > 
+> > Ping? Thanks,
+> 
+> Sorry for late. I've finally got a public tree.
+> 
+> https://github.com/yiliu1765/qemu/tree/zhenzhong/devsec_tsm
+> 
+> Again, I think the changes are far from good, just work for enabling.
 
---=-NMiDiATBRIHkfhhIct/9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+At some point I want to stage a merge tree QEMU bits here:
 
-Hey Hans & Mauro,
+https://git.kernel.org/pub/scm/linux/kernel/git/devsec/qemu.git/ (not
+created yet)
 
-In this request, I've fixes for which I didn't find any issues, or my revie=
-w
-comment have been resolved. A little bigger, I've picked RKVDEC de-staging,
-which I had promised to take care of, but Detlev took care for me. I've als=
-o
-picked the reviewed DT bindings for the next generation of RKVDEC. This is =
-a
-little early to pick, but I've tested all the upcoming related patches alre=
-ady
-plus the DT maintainers are happy with it. There is nothing controversial t=
-here
-anyway.
-
-My queue is a bit big atm, most of it will have changes requested, its code
-review time that is the bottleneck atm (for everyone I believe). From here,=
- it
-will sits for the next two weeks, which I indent to spend in the woods, awa=
-y
-from computers.
-
-best regards,
-Nicolas
-
----
-
-The following changes since commit cee06ca7a6748f7d5d7ea40876dcbc0af26bf34e=
-:
-
-  media: imx8mq-mipi-csi2: Fix error code in imx8mq_mipi_csi_parse_dt() (20=
-25-07-10 13:44:58 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6=
-.17-media-codecs-2025-07-11
-
-for you to fetch changes up to 8a79dedf43ea990ed35aef44592ed4a435936564:
-
-  media: rkvdec: Unstage the driver (2025-07-11 16:12:08 -0400)
-
-----------------------------------------------------------------
-RKVDEC unstaged, new bindings and minor fixes
-
-----------------------------------------------------------------
-Detlev Casanova (4):
-      media: dt-bindings: rockchip: Document RK3588 Video Decoder bindings
-      media: dt-bindings: rockchip: Add RK3576 Video Decoder bindings
-      media: rkvdec: Remove TODO file
-      media: rkvdec: Unstage the driver
-
-Hugues Fruchet (1):
-      media: verisilicon: postproc: 4K support
-
-Marek Szyprowski (1):
-      media: v4l2: Add support for NV12M tiled variants to v4l2_format_info=
-()
-
-Ming Qian (1):
-      media: amphion: Support dmabuf and v4l2 buffer without binding
-
- Documentation/devicetree/bindings/media/rockchip,vdec.yaml              | =
- 80 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
- MAINTAINERS                                                             | =
-  8 +++++++
- drivers/media/platform/amphion/vdec.c                                   | =
-235 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++++++++++---------------------------------------
- drivers/media/platform/amphion/vpu.h                                    | =
-  7 +++++--
- drivers/media/platform/amphion/vpu_dbg.c                                | =
- 15 ++++++++++++-
- drivers/media/platform/amphion/vpu_v4l2.c                               | =
- 11 ++++++++++
- drivers/media/platform/rockchip/Kconfig                                 | =
-  1 +
- drivers/media/platform/rockchip/Makefile                                | =
-  1 +
- drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Kconfig       =
-|   0
- drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Makefile      =
-|   0
- drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-h264.c =
-|   0
- drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-regs.h =
-|   0
- drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-vp9.c  =
-|   0
- drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.c      =
-|   0
- drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.h      =
-|   0
- drivers/media/platform/verisilicon/hantro.h                             | =
-  2 ++
- drivers/media/platform/verisilicon/hantro_g1_regs.h                     | =
-  2 +-
- drivers/media/platform/verisilicon/hantro_postproc.c                    | =
-  6 +++++-
- drivers/media/v4l2-core/v4l2-common.c                                   | =
-  6 ++++++
- drivers/staging/media/Kconfig                                           | =
-  2 --
- drivers/staging/media/Makefile                                          | =
-  1 -
- drivers/staging/media/rkvdec/TODO                                       | =
- 11 ----------
- 22 files changed, 321 insertions(+), 67 deletions(-)
- rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Kconfig=
- (100%)
- rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/Makefil=
-e (100%)
- rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-=
-h264.c (100%)
- rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-=
-regs.h (100%)
- rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec-=
-vp9.c (100%)
- rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.=
-c (100%)
- rename drivers/{staging/media =3D> media/platform/rockchip}/rkvdec/rkvdec.=
-h (100%)
- delete mode 100644 drivers/staging/media/rkvdec/TODO
-
---=20
-Nicolas Dufresne
-Principal Engineer at Collabora
-
---=-NMiDiATBRIHkfhhIct/9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaHF0/AAKCRBxUwItrAao
-HAuNAJ0cqZCl+O3+olwcG4uRoHpHb3iMawCeMoGz+tBd719JXlH+VmIKzsrpk58=
-=60mi
------END PGP SIGNATURE-----
-
---=-NMiDiATBRIHkfhhIct/9--
+...unless Paolo or others in QEMU community are open to running a
+staging branch in qemu.git. At some point we need to collide all the
+QEMU POC branches, and I expect that needs to happen and show some
+success before the upstream projects start ingesting all these changes.
 
