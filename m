@@ -1,382 +1,360 @@
-Return-Path: <linux-media+bounces-37473-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E76B01A9B
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:33:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4781EB01B31
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:53:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A7B1560D88
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 11:33:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37388188CA6D
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 11:52:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B232528C033;
-	Fri, 11 Jul 2025 11:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5353428B4EB;
+	Fri, 11 Jul 2025 11:52:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CvIz7+4g"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="go/Q/7v7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64263283141
-	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 11:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC73175D47;
+	Fri, 11 Jul 2025 11:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752233614; cv=none; b=AlFNcz8DCdhwr4WodJFyUmecKNAfR/eo56oudmOuo0kx/1qg+TmFrrwN3QF4+CbV9TjR4tW3FOnwO/sNVuGYqRL/hVxPJIXR4zutb1uJykHfrIAj5YVMI6sVpNg/QLquX1AW1xpDw++ya7J3MEKSnwFk0VhLFTj489bLj+2Drk8=
+	t=1752234727; cv=none; b=cF+ZfcjLVqJqpUe4jNYwaYoYmnY19fIHZevXz22HNjJ2283yous2RYlwQ/gdvgraBSnJBvo/IdNP3sWoF6ktWQEN+49S5Oa8wJU6RP5c3oe1DrVZjCvd4AwlfysnUukoYm8cM03qVViTvLM/1Wa4nbPnPiDGPeWi2Zg0VJkiBbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752233614; c=relaxed/simple;
-	bh=EwQjI8MnTvPTBqU//ZqZnKU+OSO9+/lyAirDRR/spS8=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AezSyZRFMju9m0RoJnY9XQZRvCDNrCBHcLiDI7DBDY4D7AelFu/XoYr8nWIZ5OtP+qQIYT39LDGrbqNRPFs8AMZV+rFJ7TDSv+uvPWcV0LmGfAh3+B8cg3imUTfs12y3Oat99GnlDYceZxrZoPYmDur2ak2/RIzPbaVq9d4DcJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CvIz7+4g; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56BB7xnW012030
-	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 11:33:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=KHI0tjV5CMC6f/xhGzS9zzi6
-	aRBkHdOUCa58RJ34Wr4=; b=CvIz7+4g7q7RXlT+VKFB4NFk4sS0OlPLHeRV7Jc2
-	f5AcuuT1EyM+fjE4xGrdoQAIZBCtq+jXWeJXuWF/JG1NZTwF5oZymO4ZqmSvq5PK
-	/UhoeP3GIz8OrPxmqFnOHc2s+56g9hpyE4t79Bf4eSlyR95wQkfloTxSeu1OmD7s
-	RYEE0fXoSjijf+kJfiPJFQPJo3FMbAQ7jVOgr5pSC6W6rU+VuMV41iUym78Xf8J3
-	aAbbJ72/rtYID7CRax03fbE0zG0epvGTeS9Mc63OQwZEhYUj7guu6huJ8ZY5lgPp
-	NsH7xZasVdipipzzn+aVwqdLyXoANMGJ/i7LCACHYKPGhQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47sm9e0ct1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 11:33:31 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7dfd0a5d8a8so72624385a.1
-        for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 04:33:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752233610; x=1752838410;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KHI0tjV5CMC6f/xhGzS9zzi6aRBkHdOUCa58RJ34Wr4=;
-        b=cpAMU/mf9ABjswU+z59mGjqvkdmkoQnBc3Fh7o0IfEd2aWf8UhG6eQtxStY9o5Yqbv
-         p04aWPSFGIEIiMSt37CYaQQgmA3liiNQjcGc5bn/erDUKNnbiUyTkQORqB48C0qv0yPs
-         OSPuCCuxXXvoBTD2/j+CMHq51NMqaumzVFpbszmea/FeiO6VkAyLL9dga5EkwiDz+QPd
-         IwC1qqxlmGPFHmf3ZkngqPiT1MOcZ6z4PTHpt+5NhbNVxlmNwBqO/r1XBE8ax//Pcsob
-         CEEeo4l4NdVfnoccmj6ctdNi/25zn4+rkWY+hFlqpgoBqTWbAUrNzMJC3Ff36LzgwKLi
-         Vdvw==
-X-Forwarded-Encrypted: i=1; AJvYcCXvR3VSwzMynnE8kConbxam3kOtiwMz3eD3/XcY2kuRJlTqC5Skba4RQSnNi7ILm1f7+Mix3ORAv1q8Yg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7AH/i0XvkkIl3b8ylnDjAy4RdLsmJtRkUioP5zXqRxlt9EfMq
-	AN4DhWJXlJW4RbS9CHNUHIsCpH8wC4J6MZSV+aHyY1IFrS7+Ey5t2FyRYXwevGr3DQxXxR0dFb9
-	b1Zmjzr7iCfDBl4orLVodSmJjihBWKtk1OuxKcfdWrVprO83WjaHEExB6jZ5VeJFo6A==
-X-Gm-Gg: ASbGnctfK0CO4jANpKuub40ZDRkaWzZasEwhcWohJpkYDke8zmFygOC7iwqdxPR6WfZ
-	vAJVNXGS9YH2Eq55He3uKITZ9S7Fk9OVswpl6h8yISB1zi0ctXXuDS0mmpLfZmB9S1k1Of7uoqr
-	4n5M4/8uSYeYL8Zhl7VhlsMt2yEAbqIBZqjWHchmYkSBlzCsiIFZgegGmDNaDH5VC5JkxXBrjRK
-	06N5YX0SXy+s+6KgUjtYvhoL+8zoSwgYvB8lSFhM0PgTkBRjexetMCkSxxxpnO6ef/gLL1RKvhR
-	WTzkAU0MMH81ZGYnMrwBMfiEpca8ZCSf/r3kIN148qwG3Gt10wANAw0bBleUE2i4L0kblGDbgw8
-	=
-X-Received: by 2002:a05:620a:172c:b0:7d5:e3c8:b580 with SMTP id af79cd13be357-7de04fafb47mr403205385a.17.1752233610065;
-        Fri, 11 Jul 2025 04:33:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGXybY2FXJvGwe5+kvYDZa8EWlXkVD4DxRLu7XCO2hhPf93QL4th9Vo5HhzzGCy8uGCX3yu5Q==
-X-Received: by 2002:a05:620a:172c:b0:7d5:e3c8:b580 with SMTP id af79cd13be357-7de04fafb47mr403199785a.17.1752233609418;
-        Fri, 11 Jul 2025 04:33:29 -0700 (PDT)
-Received: from trex (153.red-79-144-197.dynamicip.rima-tde.net. [79.144.197.153])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d5062119sm85985365e9.18.2025.07.11.04.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jul 2025 04:33:28 -0700 (PDT)
-From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
-Date: Fri, 11 Jul 2025 13:33:27 +0200
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>, krzk+dt@kernel.org,
-        bryan.odonoghue@linaro.org, quic_vgarodia@quicinc.com,
-        mchehab@kernel.org, robh@kernel.org, conor+dt@kernel.org,
-        konradybcio@kernel.org, andersson@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] media: venus: vdec: AR50_LITE video core support
-Message-ID: <aHD2h9/LqSZ4ru6K@trex>
-References: <20250626135931.700937-1-jorge.ramirez@oss.qualcomm.com>
- <20250626135931.700937-3-jorge.ramirez@oss.qualcomm.com>
- <c0e8460d-1c94-d398-38a0-f63395256f27@quicinc.com>
- <aF62Msej5LvY51D6@trex>
- <8c7232a3-8c49-d77e-e8e4-6d86a33e2b42@quicinc.com>
- <aG1uINWPwvl505zG@trex>
- <55125121-5349-3b8b-2e81-29eec95d8337@quicinc.com>
+	s=arc-20240116; t=1752234727; c=relaxed/simple;
+	bh=3Xbx+c3duPba1/5xewcKktGY7JrUuYLEgqX71hJcZEk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ImmrKSLn0dCpAKIT4Dwn8bMojvBRmQcympK4tM5JFzaTYAj0NgCDXgjO9oPx4bKYml+CET2MJMdP4XRH2ppqOA2KxxLhrfjXKAX8ctibzqjyDJ4GKdloh3xGcP6PmSqbxumgJR7gaAH7xnegxPX+4qxSH3vy3WXb8Z6LEZOQC7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=go/Q/7v7; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91CB7C75;
+	Fri, 11 Jul 2025 13:51:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752234688;
+	bh=3Xbx+c3duPba1/5xewcKktGY7JrUuYLEgqX71hJcZEk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=go/Q/7v7UIHs+45Y4rXGhoDNGzaYUZsyk/5SITiixN4gjnTn/mGEhRxPNUnLi+7W2
+	 2N2tE7JNGP5KKcTPU3yeGyuR+QyvcT4jwsyzuhd6IxdHcve2HDQbtu4jRyqoo/F7Um
+	 BfWTKvLygHF3/UkxvPC/IwFUFSusl10h3iXrAOfI=
+Message-ID: <436bbb33-0740-4ef8-8297-a06aa8243cfd@ideasonboard.com>
+Date: Fri, 11 Jul 2025 12:51:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <55125121-5349-3b8b-2e81-29eec95d8337@quicinc.com>
-X-Proofpoint-GUID: 7Snd4JAlh8Ewj19C95qkyAQMkoBfu-BW
-X-Authority-Analysis: v=2.4 cv=W7k4VQWk c=1 sm=1 tr=0 ts=6870f68b cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=Ki5fnJvzvo7yLsyA0quaxQ==:17
- a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=yvcqnb2xCap4B2vlBTUA:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: 7Snd4JAlh8Ewj19C95qkyAQMkoBfu-BW
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzExMDA4MSBTYWx0ZWRfX2g0oTDS9YCQC
- 456FVqt+yidilQ/I7011GLV4+cUHmybdOn3TpNHYFe3kYEAbDzWcazYxGExhlepYumi3mBuyE/v
- hareOYaoqUplbyGzNPIXmv8aLgBqsmKiLHs6ajQB6j9NKX54q93Nae1FhHP7e8NNS/R0sP62617
- PunspwcUJRqvQC8ofGAnRpIjWq7/m8plputt8lnUXxpAsifZT8XsspzSG7ICLOHFkEdpLK71dF7
- BoJx4cIQrcoWsaNLg28Cs4mpcrI7fONsEcfrPmJEmM1itsVUU6WrYLimZW8LukDyOL57x1lSxqe
- PRb6tgwPDRZw1Rd6tl284DUcUdZuVhvr2L5DI4Cj9Wvp75H+rRDfYs7aHc7/EvKMNeefR36Qnkx
- L5KhELE2eIRGNxCH1kTLYtZBqCeWHfjOz4UFAVkFfxiclLC3Az8kQH2n0+5vwPGP0DURvpfs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-11_03,2025-07-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 phishscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 malwarescore=0 mlxscore=0
- adultscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507110081
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/5] media: v4l2-dev: Add helpers to run
+ media_pipeline_[started|stopped]()
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ biju.das.jz@bp.renesas.com
+References: <20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com>
+ <20250704-ivc-v3-2-5c45d936ef2e@ideasonboard.com>
+ <v3gonywym2km6u4qpsm2bkpn5n7vmvm4rdt3nfiws6mri3b7y4@gh4q5f4cmavc>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <v3gonywym2km6u4qpsm2bkpn5n7vmvm4rdt3nfiws6mri3b7y4@gh4q5f4cmavc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 10/07/25 14:25:33, Dikshita Agarwal wrote:
-> 
-> 
-> On 7/9/2025 12:44 AM, Jorge Ramirez wrote:
-> > On 30/06/25 12:17:32, Dikshita Agarwal wrote:
-> >>
-> >>
-> >> On 6/27/2025 8:48 PM, Jorge Ramirez wrote:
-> >>> On 27/06/25 18:17:27, Dikshita Agarwal wrote:
-> >>>>
-> >>>>
-> >>>> On 6/26/2025 7:29 PM, Jorge Ramirez-Ortiz wrote:
-> >>>>> The AR50_LITE is a streamlined variant of the AR50 video core, designed
-> >>>>> for power and cost-efficient platforms.
-> >>>>>
-> >>>>> It supports hardware-accelerated decoding of H.264, HEVC, and VP9
-> >>>>> formats.
-> >>>>>
-> >>>>> Co-developed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> >>>>> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> >>>>> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> >>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> >>>>> ---
-> >>>>>  drivers/media/platform/qcom/venus/core.c      | 11 ++-
-> >>>>>  drivers/media/platform/qcom/venus/core.h      | 11 ++-
-> >>>>>  drivers/media/platform/qcom/venus/firmware.c  |  8 +-
-> >>>>>  drivers/media/platform/qcom/venus/helpers.c   | 80 +++++++++++++++++++
-> >>>>>  drivers/media/platform/qcom/venus/helpers.h   |  2 +
-> >>>>>  .../media/platform/qcom/venus/hfi_helper.h    | 10 ++-
-> >>>>>  drivers/media/platform/qcom/venus/hfi_venus.c | 14 ++--
-> >>>>>  .../media/platform/qcom/venus/pm_helpers.c    |  1 +
-> >>>>>  drivers/media/platform/qcom/venus/vdec.c      | 15 ++--
-> >>>>>  9 files changed, 128 insertions(+), 24 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> >>>>> index d305d74bb152..736ef53d988d 100644
-> >>>>> --- a/drivers/media/platform/qcom/venus/core.c
-> >>>>> +++ b/drivers/media/platform/qcom/venus/core.c
-> >>>>> @@ -254,14 +254,19 @@ static int venus_enumerate_codecs(struct venus_core *core, u32 type)
-> >>>>>  
-> >>>>>  static void venus_assign_register_offsets(struct venus_core *core)
-> >>>>>  {
-> >>>>> -	if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
-> >>>>> -		core->vbif_base = core->base + VBIF_BASE;
-> >>>>> +	if (IS_IRIS2(core) || IS_IRIS2_1(core) || IS_AR50_LITE(core)) {
-> >>>>>  		core->cpu_base = core->base + CPU_BASE_V6;
-> >>>>>  		core->cpu_cs_base = core->base + CPU_CS_BASE_V6;
-> >>>>>  		core->cpu_ic_base = core->base + CPU_IC_BASE_V6;
-> >>>>>  		core->wrapper_base = core->base + WRAPPER_BASE_V6;
-> >>>>>  		core->wrapper_tz_base = core->base + WRAPPER_TZ_BASE_V6;
-> >>>>> -		core->aon_base = core->base + AON_BASE_V6;
-> >>>>> +		if (IS_AR50_LITE(core)) {
-> >>>>> +			core->vbif_base = NULL;
-> >>>>> +			core->aon_base = NULL;
-> >>>>> +		} else {
-> >>>>> +			core->vbif_base = core->base + VBIF_BASE;
-> >>>>> +			core->aon_base = core->base + AON_BASE_V6;
-> >>>>> +		}
-> >>>>>  	} else {
-> >>>>>  		core->vbif_base = core->base + VBIF_BASE;
-> >>>>>  		core->cpu_base = core->base + CPU_BASE;
-> >>>>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> >>>>> index b412e0c5515a..e755a28e919b 100644
-> >>>>> --- a/drivers/media/platform/qcom/venus/core.h
-> >>>>> +++ b/drivers/media/platform/qcom/venus/core.h
-> >>>>> @@ -382,6 +382,7 @@ enum venus_inst_modes {
-> >>>>>   * @lock:	instance lock
-> >>>>>   * @core:	a reference to the core struct
-> >>>>>   * @clk_data:	clock data per core ID
-> >>>>> + * @eosbufs:	a lit of EOS buffers
-> >>>>>   * @dpbbufs:	a list of decoded picture buffers
-> >>>>>   * @internalbufs:	a list of internal bufferes
-> >>>>>   * @registeredbufs:	a list of registered capture bufferes
-> >>>>> @@ -450,6 +451,7 @@ struct venus_inst {
-> >>>>>  	struct mutex lock;
-> >>>>>  	struct venus_core *core;
-> >>>>>  	struct clock_data clk_data;
-> >>>>> +	struct list_head eosbufs;
-> >>>>>  	struct list_head dpbbufs;
-> >>>>>  	struct list_head internalbufs;
-> >>>>>  	struct list_head registeredbufs;
-> >>>>> @@ -520,7 +522,14 @@ struct venus_inst {
-> >>>>>  #define IS_V1(core)	((core)->res->hfi_version == HFI_VERSION_1XX)
-> >>>>>  #define IS_V3(core)	((core)->res->hfi_version == HFI_VERSION_3XX)
-> >>>>>  #define IS_V4(core)	((core)->res->hfi_version == HFI_VERSION_4XX)
-> >>>>> -#define IS_V6(core)	((core)->res->hfi_version == HFI_VERSION_6XX)
-> >>>>> +static inline bool IS_V6(struct venus_core *core)
-> >>>>> +{
-> >>>>> +	if (WARN_ON_ONCE(!core))
-> >>>>> +		return false;
-> >>>>> +
-> >>>>> +	return core->res->hfi_version == HFI_VERSION_6XX ||
-> >>>>> +	       core->res->hfi_version == HFI_VERSION_6XX_LITE;
-> >>>>> +}
-> >>>> It should be HFI_VERSION_4XX_LITE for AR50_LITE. 4XX represents SC7280 and
-> >>>> SDM845 which are AR50.
-> >>>
-> >>> ah good information - where is this documented? I never found this
-> >>> information... I'd appreciate if you could confirm with some document
-> >>> for future reference.
-> >>>
-> >>>>>  
-> >>>>>  #define IS_AR50(core)		((core)->res->vpu_version == VPU_VERSION_AR50)
-> >>>>>  #define IS_AR50_LITE(core)	((core)->res->vpu_version == VPU_VERSION_AR50_LITE)
-> >>>>> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-> >>>>> index 66a18830e66d..f8dcef0426ac 100644
-> >>>>> --- a/drivers/media/platform/qcom/venus/firmware.c
-> >>>>> +++ b/drivers/media/platform/qcom/venus/firmware.c
-> >>>>> @@ -30,7 +30,7 @@ static void venus_reset_cpu(struct venus_core *core)
-> >>>>>  	u32 fw_size = core->fw.mapped_mem_size;
-> >>>>>  	void __iomem *wrapper_base;
-> >>>>>  
-> >>>>> -	if (IS_IRIS2_1(core))
-> >>>>> +	if (IS_IRIS2_1(core) || IS_AR50_LITE(core))
-> >>>>>  		wrapper_base = core->wrapper_tz_base;
-> >>>>>  	else
-> >>>>>  		wrapper_base = core->wrapper_base;
-> >>>>> @@ -42,7 +42,7 @@ static void venus_reset_cpu(struct venus_core *core)
-> >>>>>  	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
-> >>>>>  	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
-> >>>>>  
-> >>>>> -	if (IS_IRIS2_1(core)) {
-> >>>>> +	if (IS_IRIS2_1(core) || IS_AR50_LITE(core)) {
-> >>>>>  		/* Bring XTSS out of reset */
-> >>>>>  		writel(0, wrapper_base + WRAPPER_TZ_XTSS_SW_RESET);
-> >>>>>  	} else {
-> >>>>> @@ -68,7 +68,7 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
-> >>>>>  	if (resume) {
-> >>>>>  		venus_reset_cpu(core);
-> >>>>>  	} else {
-> >>>>> -		if (IS_IRIS2_1(core))
-> >>>>> +		if (IS_IRIS2_1(core) || IS_AR50_LITE(core))
-> >>>>>  			writel(WRAPPER_XTSS_SW_RESET_BIT,
-> >>>>>  			       core->wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
-> >>>>>  		else
-> >>>>> @@ -181,7 +181,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
-> >>>>>  	void __iomem *wrapper_base = core->wrapper_base;
-> >>>>>  	void __iomem *wrapper_tz_base = core->wrapper_tz_base;
-> >>>>>  
-> >>>>> -	if (IS_IRIS2_1(core)) {
-> >>>>> +	if (IS_IRIS2_1(core) || IS_AR50_LITE(core)) {
-> >>>>>  		/* Assert the reset to XTSS */
-> >>>>>  		reg = readl(wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
-> >>>> No need to handle no-tz case. Pls drop.
-> >>>
-> >>> ok
-> >>>
-> >>>>>  		reg |= WRAPPER_XTSS_SW_RESET_BIT;
-> >>>>> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> >>>>> index 8295542e1a7c..812bec9a05be 100644
-> >>>>> --- a/drivers/media/platform/qcom/venus/helpers.c
-> >>>>> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> >>>>> @@ -230,6 +230,79 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
-> >>>>>  }
-> >>>>>  EXPORT_SYMBOL_GPL(venus_helper_alloc_dpb_bufs);
-> >>>>>  
-> >>>>> +static void free_eos_buf(struct venus_inst *inst, struct intbuf *buf)
-> >>>>> +{
-> >>>>> +	list_del_init(&buf->list);
-> >>>>> +	dma_free_attrs(inst->core->dev, buf->size, buf->va, buf->da,
-> >>>>> +		       buf->attrs);
-> >>>>> +	kfree(buf);
-> >>>>> +}
-> >>>>> +
-> >>>>> +int venus_helper_free_eos_bufs(struct venus_inst *inst)
-> >>>>> +{
-> >>>>> +	struct intbuf *buf, *n;
-> >>>>> +
-> >>>>> +	list_for_each_entry_safe(buf, n, &inst->eosbufs, list) {
-> >>>>> +		free_eos_buf(inst, buf);
-> >>>>> +	}
-> >>>>> +
-> >>>>> +	if (list_empty(&inst->eosbufs))
-> >>>>> +		INIT_LIST_HEAD(&inst->eosbufs);
-> >>>>> +
-> >>>>> +	return 0;
-> >>>>> +}
-> >>>>> +EXPORT_SYMBOL_GPL(venus_helper_free_eos_bufs);
-> >>>>> +
-> >>>>> +int venus_helper_alloc_eos_buf(struct venus_inst *inst,
-> >>>>> +			       struct hfi_frame_data *data)
-> >>>>> +{
-> >>>>> +	struct venus_core *core = inst->core;
-> >>>>> +	struct device *dev = core->dev;
-> >>>>> +	struct intbuf *buf;
-> >>>>> +	int ret = 0;
-> >>>>> +
-> >>>>> +	memset(data, 0, sizeof(*data));
-> >>>>> +
-> >>>>> +	data->buffer_type = HFI_BUFFER_INPUT;
-> >>>>> +	data->flags = HFI_BUFFERFLAG_EOS;
-> >>>>> +
-> >>>>> +	if (IS_AR50_LITE(inst->core)) {
-> >>>>> +		/* We must send valid sizes and addresses */
-> >>>>> +		buf = kzalloc(sizeof(*buf), GFP_KERNEL);
-> >>>>> +		if (!buf) {
-> >>>>> +			ret = -ENOMEM;
-> >>>>> +			goto fail;
-> >>>>> +		}
-> >>>>> +
-> >>>>> +		buf->type = HFI_BUFFER_INPUT;
-> >>>>> +		buf->size = SZ_4K;
-> >>>>> +		buf->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
-> >>>>> +		buf->va = dma_alloc_attrs(dev, buf->size, &buf->da, GFP_KERNEL,
-> >>>>> +					  buf->attrs);
-> >>>>> +		if (!buf->va) {
-> >>>>> +			ret = -ENOMEM;
-> >>>>> +			goto fail;
-> >>>>> +		}
-> >>>>> +
-> >>>>> +		list_add_tail(&buf->list, &inst->eosbufs);
-> >>>>> +
-> >>>>> +		data->alloc_len = buf->size;
-> >>>>> +		data->device_addr = buf->da;
-> >>>>> +
-> >>>> why this special handling for eos buffer is needed for AR50_LITE?
-> >>>
-> >>> this _fix_ was develope through testing: without it there is no EOS and
-> >>> errors are reporting upon killing the player
-> >>>
-> >> Would be better to see why there is no EOS from firmware,
-> >> there shouldn't be the need to have a dma allocation for this dummy
-> >> buffers, as there is no useful info in the buffer. Having the device
-> >> address as 0 or 0xdeadb000 should be enough.
-> >>
-> > 
-> > hi dikshita,
-> > 
-> > I am still keeping this on v6 as per our internal discussions and
-> > because v6 is quite different from v5 so wanted to provide early access
-> > to users.
-> > 
-> > if the firwmare is fixed to address this issue on time, I might revert
-> > the EOS page buffer. 
-> > 
-> I'd prefer to resolve this via correct EOS handling or gain clarity on why
-> AR50_LITE requires special treatment, instead of proceeding with new patch
-> sets built around this design.
+Hi Jacopo - thanks for the comments
+
+On 08/07/2025 14:10, Jacopo Mondi wrote:
+> Hi Dan
 >
-Fully agree.
+> On Fri, Jul 04, 2025 at 12:20:19PM +0100, Daniel Scally wrote:
+>> Add helpers to run the new media_pipeline_started() and
+>> media_pipeline_stopped() functions. The helpers iterate over the
+>> entities in the pipeline and count the number of video devices and
+>> compare that to the pipeline's start_count() before acting. This
+>> allows us to only run the media pipeline callbacks in the event that
+>> the pipeline has had video_pipeline_start() called for each video
+>> device.
+>>
+>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>>
+>> ---
+>>
+>> We could take this further perhaps and include the equivalent routine
+>> in video_device_pipeline[_alloc]_start()...if none of the entities
+>> involved have .pipeline_started() or .pipeline_stopped() operations it
+>> should be harmless, but I'm a bit reluctant to force the choice to run
+>> those operations on users.
+> I know I've kind of suggested that, but after all I don't think it's a
+> very good idea, having this in two steps is probably better. And I
+> like the fact the v4l2-dev layer operates on the video device counting
+> and only relies on the mc layer for the callbacks notification.
 
-However this patch is the actual proper implementation - it follows the
-HFI spec - while the current code upstream is not.
 
-We should revert over time the current implementation to avoid hitting
-issues when the firmware stops checking for things like 0xdeadb000.
+Yeah me too. Let's stick to this
 
+>
+>> Changes in v2:
+>>
+>> 	- Adapted now media_pipeline_for_each_entity() takes an iter
+>> 	  variable
+>> 	- Fixed the Return: section of the kerneldoc comments
+>> ---
+>>   drivers/media/v4l2-core/v4l2-dev.c | 57 ++++++++++++++++++++++++++++++++++++++
+>>   include/media/v4l2-dev.h           | 36 ++++++++++++++++++++++++
+>>   2 files changed, 93 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index c369235113d98ae26c30a1aa386e7d60d541a66e..f3309f8349664f7296a95216a40dd9d9baae8d9e 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -1200,6 +1200,63 @@ struct media_pipeline *video_device_pipeline(struct video_device *vdev)
+>>   }
+>>   EXPORT_SYMBOL_GPL(video_device_pipeline);
+>>
+>> +static int __video_device_pipeline_started(struct media_pipeline *pipe)
+> __function_name() is usually reserved for the non-locking version of
+> function_name().
+>
+> This seems to be an helper only used internally by
+> video_device_pipeline_started() so I would use a different name
+> something like video_device_has_pipeline_started() ?
+
+
+What it does is count the number of _unstarted_ video 
+devices..."video_device_pipeline_unstarted_vdevs()"?
+
+>
+>
+>> +{
+>> +	struct media_pipeline_entity_iter iter;
+>> +	unsigned int n_video_devices = 0;
+>> +	struct media_entity *entity;
+>> +	int ret;
+>> +
+>> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
+>> +		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
+>> +			n_video_devices++;
+>> +	}
+>> +
+>> +	media_pipeline_entity_iter_cleanup(&iter);
+>> +
+>> +	return n_video_devices - pipe->start_count;
+>> +}
+>> +
+>> +int video_device_pipeline_started(struct video_device *vdev)
+>> +{
+>> +	struct media_pipeline *pipe;
+>> +	int ret;
+>> +
+>> +	pipe = video_device_pipeline(vdev);
+>> +	if (!pipe)
+>> +		return -ENODEV;
+>> +
+>> +	ret = __video_device_pipeline_started(pipe);
+>> +	if (ret)
+>> +		return ret;
+> I would not return ret, as it might take random values betwen
+> n_video_devices and 1. See below on the return value documentation
+
+But we need to be able to signal to the driver three states:
+
+
+1. No errors, but there are still unstarted video devices
+
+2. No errors and there are no unstarted video devices
+
+3. An error
+
+
+So I expect a driver to do a two stage check:
+
+
+ret = video_device_pipeline_started(vdev);
+
+if (ret < 0)
+
+         goto err_out;
+
+if (ret == 0)
+
+         // something appropriate here like run the media jobs scheduler
+
+
+>
+>> +
+>> +	return media_pipeline_started(pipe);
+>> +}
+>> +EXPORT_SYMBOL_GPL(video_device_pipeline_started);
+>> +
+>> +int video_device_pipeline_stopped(struct video_device *vdev)
+>> +{
+>> +	struct media_pipeline *pipe;
+>> +	int ret;
+>> +
+>> +	pipe = video_device_pipeline(vdev);
+>> +	if (!pipe)
+>> +		return -ENODEV;
+>> +
+>> +	ret = __video_device_pipeline_started(pipe);
+>> +	if (ret)
+>> +		return ret;
+> ditto
+>
+>> +
+>> +	media_pipeline_stopped(pipe);
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(video_device_pipeline_stopped);
+>> +
+>>   #endif /* CONFIG_MEDIA_CONTROLLER */
+>>
+>>   /*
+>> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+>> index 1b6222fab24eda96cbe459b435431c01f7259366..26b4a491024701ef47320aec6a1a680149ba4fc3 100644
+>> --- a/include/media/v4l2-dev.h
+>> +++ b/include/media/v4l2-dev.h
+>> @@ -654,6 +654,42 @@ __must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
+>>    */
+>>   struct media_pipeline *video_device_pipeline(struct video_device *vdev);
+>>
+>> +/**
+>> + * video_device_pipeline_started - Run the pipeline_started() entity operation
+>> + *				   for a fully-started media pipeline
+>> + * @vdev: A video device that's part of the pipeline
+>> + *
+>> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
+>> + * connected to a given video device through enabled links have been marked as
+> I would use the same text as the one from video_device_pipeline_start()
+>
+> " connected to a given video device through enabled links, either
+> directly or indirectly,"
+
+
+Ack
+
+>
+>> + * streaming through the use of video_device_pipeline_start() or one of its
+>> + * equivalent functions. If so, media_pipeline_started() is called to inform
+>> + * entities in the pipeline of that fact. The intention is to provide drivers
+>> + * with a shortcut for checking whether their pipeline is fully ready to start
+>> + * processing data.
+> Not really a shortcut, I would use "mechanism" instead.
+>
+> I would also specify that:
+>
+>   * entities in the pipeline of that fact. The intention is to provide drivers
+>   * with a mechanism for checking whether their pipeline is fully ready to start
+>   * processing data and call the .pipeline_started() media entity operation
+>   * on all the entities in the pipeline.
+Ack!
+>
+>> + *
+>> + * Return: The number of video devices in the pipeline remaining to be started,
+>> + * or a negative error number on failure.
+> 0 for success as well
+>
+> I would anyway return 0 for success and a specific error code for the
+> three failure cases:
+> -ENOMEM if allocating the iterator fails
+> -ENODEV if not all video devices have started
+> -EINVAL if media_pipeline_started() fails
+>
+> You can document them as (copying from iommu.h)
+>
+> * Return:
+> * * 0            - success
+> * * EINVAL       - call to pipeline_started() failed
+> * * ENOMEM       - failed to allocate pipe iterator
+> * * ENODEV       - pipeline not yet fully started
+>
+>> + */
+>> +int video_device_pipeline_started(struct video_device *vdev);
+>> +
+>> +/**
+>> + * video_device_pipeline_stopped - Run the pipeline_stopped() entity operation
+>> + *				   for a fully-started media pipeline
+>> + * @vdev: A video device that's part of the pipeline
+>> + *
+>> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
+>> + * connected to a given video device through enabled links have been marked as
+>> + * streaming through the use of video_device_pipeline_start() or one of its
+> What is the intended semantic here ? The first video device to receive
+> a streamoff() will trigger media_pipeline_stopped() or should the last
+> one do that ?
+The first one should do it, so the first device caling stop should trigger actual stop in all 
+involved hardware.
+>
+>> + * equivalent functions. If so, media_pipeline_stopped() is called for each
+>> + * entity in the pipeline. The intention is to provide drivers with a shortcut
+>> + * for checking whether this video device is the first device in the pipeline
+>> + * to be stopped.
+>> + *
+>> + * Return: The number of video devices in the pipeline remaining to be started, or a
+>> + * negative error number on failure.
+>> + */
+>> +int video_device_pipeline_stopped(struct video_device *vdev);
+>> +
+>>   #endif /* CONFIG_MEDIA_CONTROLLER */
+>>
+>>   #endif /* _V4L2_DEV_H */
+>>
+>> --
+>> 2.34.1
+>>
+>>
 
