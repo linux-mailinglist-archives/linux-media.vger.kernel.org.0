@@ -1,373 +1,114 @@
-Return-Path: <linux-media+bounces-37483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75565B01C41
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 14:43:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D32DB01C58
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 14:46:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 324C26482D7
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 12:43:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58A5F3A4D33
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 12:46:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2792A2C031D;
-	Fri, 11 Jul 2025 12:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D4172C0323;
+	Fri, 11 Jul 2025 12:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ck5EmZQY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n5KOLYYp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F1A2BE7B6;
-	Fri, 11 Jul 2025 12:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B31D5258;
+	Fri, 11 Jul 2025 12:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752237803; cv=none; b=cwiVwpasRUTYV2+obNk0EnVsyP7dTeyMYtA4FFrmmxpRZynhUEAw5c+gDseDeBhb9/1UC83o8xDEZGUUzOYjFu3s85vCXfwZsNG4+cyNzr0/PSMI9uB/yDqg1Ho+AJfwOCYf5Fzo+LyUviGwlVYT/kgT1nJb1keNXJ29CaF5Dcc=
+	t=1752237987; cv=none; b=A3SKAhC9RG/MN8XHe5aqEGtF7yY9ekt1qDw8Klac9kf1tkXrtvAmGBZHIE8RIaDY7qc/wzLKR8KaPDuG/AU2vXkXgm8feFP2jQWNqj3wEKsvxJ6DPIa8i9bGvcF6MhAt2ZBUCa8O4MajDP+VHq5ynqwyQBjs2VNOOpxU4ebVHio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752237803; c=relaxed/simple;
-	bh=OoIfSALKTXIWk25vrjGo2WX3DLeNQAcikeUVtebg4SA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=K+4gIlHwvZ7Csl9VK9rS4qw8gLkhfZkwUkAylYzqUWLKrPWWvY5M4XWXtJ233qpcXG47PjrCyNDBfP7LmeR5H/TZpmep8d+cOIa/QTPnvedA+djkFqlogo2CV5cUIxwz8SU7hBCGFCqm5IA/DizuRzjJMjb3nt/oGQ7kwKK8890=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ck5EmZQY; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1752237987; c=relaxed/simple;
+	bh=jLpXDghepsTlK5wzLEoUadXKueNi53GY9yrnjfOnwKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=orneov+SJmBf28nXc/jY+LKbIUr/ROCVpcrnlqnv3ALzrkqxq94KtukSFdm13TaF4cWY7mJjIRe8dVHTcDrfPRnlkKibjAoYWLnOJLTA9cw5QJls5C/3z8DRhoE4rY+e8sHmNiw2cSpksYRi7YUjJZrndVv8GObtbZ0kuqoaaAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n5KOLYYp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8106BD77;
-	Fri, 11 Jul 2025 14:42:49 +0200 (CEST)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5AF06D77;
+	Fri, 11 Jul 2025 14:45:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752237769;
-	bh=OoIfSALKTXIWk25vrjGo2WX3DLeNQAcikeUVtebg4SA=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=Ck5EmZQYSuCFLx1X95yuHCtKALF2rT8rh4WRjdlrXizxnUZRhoD6HGPtGCbxOr7Wb
-	 8gSpR5xD6/JLN2Uw8gVJh92fZcFLOFGZzjUHkysxrjB0TqvV07tJvbfbWDbnu3jFCq
-	 wKXlAAYqwjEpItC9htHrzDVZ1Mk5NKITsbZXhB28=
-Message-ID: <54c94bcf-9b68-4fe7-a84d-fed665b362a3@ideasonboard.com>
-Date: Fri, 11 Jul 2025 13:43:16 +0100
+	s=mail; t=1752237954;
+	bh=jLpXDghepsTlK5wzLEoUadXKueNi53GY9yrnjfOnwKg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n5KOLYYpkBVwivq56jSYrxvVFTgyRCyVL6yNKtvY5p90zFcMp9WTWzx/Cw2nKs333
+	 8nOtzJ2ODQBYfuTZEfFTpEbAdEA4HMRcOJ2g4bnW+MlOR0pk49ura4oDdspT7m1hJC
+	 GCo0GhcBRjomeOsWeYycVKGWgZPkXGbcGLktvb8Y=
+Date: Fri, 11 Jul 2025 15:45:53 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 12/72] arm64: dts: qcom:
+ sdm845-db845c-navigation-mezzanine: Replace clock-frequency in camera sensor
+ node
+Message-ID: <20250711124553.GG27674@pendragon.ideasonboard.com>
+References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
+ <20250710174808.5361-13-laurent.pinchart@ideasonboard.com>
+ <214c3d98-d0ee-4806-8c0e-81c1766dd1f0@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/5] media: v4l2-dev: Add helpers to run
- media_pipeline_[started|stopped]()
-From: Dan Scally <dan.scally@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- biju.das.jz@bp.renesas.com
-References: <20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com>
- <20250704-ivc-v3-2-5c45d936ef2e@ideasonboard.com>
- <v3gonywym2km6u4qpsm2bkpn5n7vmvm4rdt3nfiws6mri3b7y4@gh4q5f4cmavc>
- <436bbb33-0740-4ef8-8297-a06aa8243cfd@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <436bbb33-0740-4ef8-8297-a06aa8243cfd@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <214c3d98-d0ee-4806-8c0e-81c1766dd1f0@oss.qualcomm.com>
 
+Hi Konrad,
 
-On 11/07/2025 12:51, Dan Scally wrote:
-> Hi Jacopo - thanks for the comments
->
-> On 08/07/2025 14:10, Jacopo Mondi wrote:
->> Hi Dan
->>
->> On Fri, Jul 04, 2025 at 12:20:19PM +0100, Daniel Scally wrote:
->>> Add helpers to run the new media_pipeline_started() and
->>> media_pipeline_stopped() functions. The helpers iterate over the
->>> entities in the pipeline and count the number of video devices and
->>> compare that to the pipeline's start_count() before acting. This
->>> allows us to only run the media pipeline callbacks in the event that
->>> the pipeline has had video_pipeline_start() called for each video
->>> device.
->>>
->>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->>>
->>> ---
->>>
->>> We could take this further perhaps and include the equivalent routine
->>> in video_device_pipeline[_alloc]_start()...if none of the entities
->>> involved have .pipeline_started() or .pipeline_stopped() operations it
->>> should be harmless, but I'm a bit reluctant to force the choice to run
->>> those operations on users.
->> I know I've kind of suggested that, but after all I don't think it's a
->> very good idea, having this in two steps is probably better. And I
->> like the fact the v4l2-dev layer operates on the video device counting
->> and only relies on the mc layer for the callbacks notification.
->
->
-> Yeah me too. Let's stick to this
->
->>
->>> Changes in v2:
->>>
->>>     - Adapted now media_pipeline_for_each_entity() takes an iter
->>>       variable
->>>     - Fixed the Return: section of the kerneldoc comments
->>> ---
->>>   drivers/media/v4l2-core/v4l2-dev.c | 57 ++++++++++++++++++++++++++++++++++++++
->>>   include/media/v4l2-dev.h           | 36 ++++++++++++++++++++++++
->>>   2 files changed, 93 insertions(+)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->>> index c369235113d98ae26c30a1aa386e7d60d541a66e..f3309f8349664f7296a95216a40dd9d9baae8d9e 100644
->>> --- a/drivers/media/v4l2-core/v4l2-dev.c
->>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->>> @@ -1200,6 +1200,63 @@ struct media_pipeline *video_device_pipeline(struct video_device *vdev)
->>>   }
->>>   EXPORT_SYMBOL_GPL(video_device_pipeline);
->>>
->>> +static int __video_device_pipeline_started(struct media_pipeline *pipe)
->> __function_name() is usually reserved for the non-locking version of
->> function_name().
->>
->> This seems to be an helper only used internally by
->> video_device_pipeline_started() so I would use a different name
->> something like video_device_has_pipeline_started() ?
->
->
-> What it does is count the number of _unstarted_ video 
-> devices..."video_device_pipeline_unstarted_vdevs()"?
->
->>
->>
->>> +{
->>> +    struct media_pipeline_entity_iter iter;
->>> +    unsigned int n_video_devices = 0;
->>> +    struct media_entity *entity;
->>> +    int ret;
->>> +
->>> +    ret = media_pipeline_entity_iter_init(pipe, &iter);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    media_pipeline_for_each_entity(pipe, &iter, entity) {
->>> +        if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
->>> +            n_video_devices++;
->>> +    }
->>> +
->>> +    media_pipeline_entity_iter_cleanup(&iter);
->>> +
->>> +    return n_video_devices - pipe->start_count;
->>> +}
->>> +
->>> +int video_device_pipeline_started(struct video_device *vdev)
->>> +{
->>> +    struct media_pipeline *pipe;
->>> +    int ret;
->>> +
->>> +    pipe = video_device_pipeline(vdev);
->>> +    if (!pipe)
->>> +        return -ENODEV;
->>> +
->>> +    ret = __video_device_pipeline_started(pipe);
->>> +    if (ret)
->>> +        return ret;
->> I would not return ret, as it might take random values betwen
->> n_video_devices and 1. See below on the return value documentation
->
-> But we need to be able to signal to the driver three states:
->
->
-> 1. No errors, but there are still unstarted video devices
->
-> 2. No errors and there are no unstarted video devices
->
-> 3. An error
->
->
-> So I expect a driver to do a two stage check:
->
->
-> ret = video_device_pipeline_started(vdev);
->
-> if (ret < 0)
->
->         goto err_out;
->
-> if (ret == 0)
->
->         // something appropriate here like run the media jobs scheduler
->
-Sorry: I had a reading comprehension failure. You were suggesting to use -ENODEV to signal that 
-there are unstarted video devices remaining. I understand now, but I'm still not sure about it, 
-because then instead of the "if (ret == 0) check here we'd have "if (ret == -ENODEV)", which I don't 
-especially like...or am I missing some way to avoid having that check here?
+On Fri, Jul 11, 2025 at 02:25:14PM +0200, Konrad Dybcio wrote:
+> On 7/10/25 7:47 PM, Laurent Pinchart wrote:
+> > The clock-frequency for camera sensors has been deprecated in favour of
+> > the assigned-clocks and assigned-clock-rates properties. Replace it in
+> > the device tree.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtso      | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtso b/arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtso
+> > index 51f1a4883ab8..dbe1911d8e47 100644
+> > --- a/arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtso
+> > +++ b/arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtso
+> > @@ -44,7 +44,8 @@ camera@10 {
+> >  
+> >  		clocks = <&clock_camcc CAM_CC_MCLK0_CLK>;
+> >  		clock-names = "xvclk";
+> > -		clock-frequency = <19200000>;
+> > +		assigned-clocks = <&clock_camcc CAM_CC_MCLK0_CLK>;
+> > +		assigned-clock-rates = <19200000>;
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> (although your patches still seem to leave clk_set_rate in
+> ov8856.c anyway?)
 
+The call gets removed in patch 69/72 ([1]). It gets replaced by
+devm_v4l2_sensor_clk_get_legacy(), which internally calls
+clk_set_rate(), so the behaviour is preserved to avoid breaking backward
+compatibility with old DTs.
 
-Thanks
+[1] https://lore.kernel.org/linux-media/20250710174808.5361-70-laurent.pinchart@ideasonboard.com
 
-Dan
+-- 
+Regards,
 
->
->>
->>> +
->>> +    return media_pipeline_started(pipe);
->>> +}
->>> +EXPORT_SYMBOL_GPL(video_device_pipeline_started);
->>> +
->>> +int video_device_pipeline_stopped(struct video_device *vdev)
->>> +{
->>> +    struct media_pipeline *pipe;
->>> +    int ret;
->>> +
->>> +    pipe = video_device_pipeline(vdev);
->>> +    if (!pipe)
->>> +        return -ENODEV;
->>> +
->>> +    ret = __video_device_pipeline_started(pipe);
->>> +    if (ret)
->>> +        return ret;
->> ditto
->>
->>> +
->>> +    media_pipeline_stopped(pipe);
->>> +
->>> +    return 0;
->>> +}
->>> +EXPORT_SYMBOL_GPL(video_device_pipeline_stopped);
->>> +
->>>   #endif /* CONFIG_MEDIA_CONTROLLER */
->>>
->>>   /*
->>> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
->>> index 1b6222fab24eda96cbe459b435431c01f7259366..26b4a491024701ef47320aec6a1a680149ba4fc3 100644
->>> --- a/include/media/v4l2-dev.h
->>> +++ b/include/media/v4l2-dev.h
->>> @@ -654,6 +654,42 @@ __must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
->>>    */
->>>   struct media_pipeline *video_device_pipeline(struct video_device *vdev);
->>>
->>> +/**
->>> + * video_device_pipeline_started - Run the pipeline_started() entity operation
->>> + *                   for a fully-started media pipeline
->>> + * @vdev: A video device that's part of the pipeline
->>> + *
->>> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
->>> + * connected to a given video device through enabled links have been marked as
->> I would use the same text as the one from video_device_pipeline_start()
->>
->> " connected to a given video device through enabled links, either
->> directly or indirectly,"
->
->
-> Ack
->
->>
->>> + * streaming through the use of video_device_pipeline_start() or one of its
->>> + * equivalent functions. If so, media_pipeline_started() is called to inform
->>> + * entities in the pipeline of that fact. The intention is to provide drivers
->>> + * with a shortcut for checking whether their pipeline is fully ready to start
->>> + * processing data.
->> Not really a shortcut, I would use "mechanism" instead.
->>
->> I would also specify that:
->>
->>   * entities in the pipeline of that fact. The intention is to provide drivers
->>   * with a mechanism for checking whether their pipeline is fully ready to start
->>   * processing data and call the .pipeline_started() media entity operation
->>   * on all the entities in the pipeline.
-> Ack!
->>
->>> + *
->>> + * Return: The number of video devices in the pipeline remaining to be started,
->>> + * or a negative error number on failure.
->> 0 for success as well
->>
->> I would anyway return 0 for success and a specific error code for the
->> three failure cases:
->> -ENOMEM if allocating the iterator fails
->> -ENODEV if not all video devices have started
->> -EINVAL if media_pipeline_started() fails
->>
->> You can document them as (copying from iommu.h)
->>
->> * Return:
->> * * 0            - success
->> * * EINVAL       - call to pipeline_started() failed
->> * * ENOMEM       - failed to allocate pipe iterator
->> * * ENODEV       - pipeline not yet fully started
->>
->>> + */
->>> +int video_device_pipeline_started(struct video_device *vdev);
->>> +
->>> +/**
->>> + * video_device_pipeline_stopped - Run the pipeline_stopped() entity operation
->>> + *                   for a fully-started media pipeline
->>> + * @vdev: A video device that's part of the pipeline
->>> + *
->>> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
->>> + * connected to a given video device through enabled links have been marked as
->>> + * streaming through the use of video_device_pipeline_start() or one of its
->> What is the intended semantic here ? The first video device to receive
->> a streamoff() will trigger media_pipeline_stopped() or should the last
->> one do that ?
-> The first one should do it, so the first device caling stop should trigger actual stop in all 
-> involved hardware.
->>
->>> + * equivalent functions. If so, media_pipeline_stopped() is called for each
->>> + * entity in the pipeline. The intention is to provide drivers with a shortcut
->>> + * for checking whether this video device is the first device in the pipeline
->>> + * to be stopped.
->>> + *
->>> + * Return: The number of video devices in the pipeline remaining to be started, or a
->>> + * negative error number on failure.
->>> + */
->>> +int video_device_pipeline_stopped(struct video_device *vdev);
->>> +
->>>   #endif /* CONFIG_MEDIA_CONTROLLER */
->>>
->>>   #endif /* _V4L2_DEV_H */
->>>
->>> -- 
->>> 2.34.1
->>>
->>>
+Laurent Pinchart
 
