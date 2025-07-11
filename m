@@ -1,144 +1,167 @@
-Return-Path: <linux-media+bounces-37526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37527-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF9DB0224C
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 19:06:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C40B0226A
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 19:15:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98C305A8498
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 17:06:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB61EA41E56
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 17:15:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1742EF9B4;
-	Fri, 11 Jul 2025 17:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B1041AF0AF;
+	Fri, 11 Jul 2025 17:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMwT/msm"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SmmsD68t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CDB2E7165;
-	Fri, 11 Jul 2025 17:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C267522A
+	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 17:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752253572; cv=none; b=OefphHDFNsZgr3Ycd5Uj7/UIHACi3dJwYb45DN3Mg2JhEnorZ/l/xl8M8KUti2BmAA6a1zcTvNUIAXf39pc4Eq6iMT54BGT7f0XvIsbYXzx8LYbmN/yT4H1uUt47W3g8Xj/vPnJ84Z2iOotTbffyhjaUQJDrGM+VSYDmZypA9U4=
+	t=1752254146; cv=none; b=jndKkbIsRVPHukScRaMCyD0zFCfyjzFYjeQ7ceu9bfekCvJnjwCVpfhGSBgC2neefWlptghlkOWQgezgGfxxEGji0aPve2B4xdGf6FWzkuHkKQs4tH8RQb0KqLLHjNklVt9xgKoSkeBQZcTymxEctT08dypzd4dqNzb7PnjKYmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752253572; c=relaxed/simple;
-	bh=WrvB8GsIeIreYnuKoMq5URVLOHQy+PAHYcyx6LKjwSU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LUMkMDSuvJv2U5q/rzhMIQDh/g4PZ0LX0Gw0R6PHuC6747FwPwjUDeAqMbYP9X84PQxoX7gbCeo+KUEkmu00Xl/MuhDOeXBsMhUF8foWtDPkebav2kNeNApMeEebZeMuESJHRAxr6J3bT8piHOCHE7AbMCTBK4FX/X+d3VBwkHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMwT/msm; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-553e5df44f8so2118269e87.3;
-        Fri, 11 Jul 2025 10:06:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752253569; x=1752858369; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PNAWGrPiwj3E1EhTq5Tl1CO6rinMEagBkU9r1o4zi7U=;
-        b=QMwT/msmcMnpJRSHW17BZSqZokjvgeGiBzk5PTL3oL5ybb9yCAioDXFvqvTmg8p7Fl
-         BBgAEOdf7xKCWsmlqfbTHyLeOhLOuo79usKoMmQqIVhqTgAHxxk3m8vJCd0N4pOfcHI2
-         YG1PbtavdKAMeBsI/1VwOe0VQAwTSO0pM7vHS1XLhjeo1p3c9Q1ncp2ClEr795PO32HP
-         SKim3YfezNQ2swazLGt1Vp8zt2hxrsc6P1ehle250GpOEIUdBJdHS/GL85jIpsZyQDKh
-         fXDdkeRTZUQCT1x6GUNwyPerlXfT8Lfb/6+i7DApR4/h8viuRLfpQVQdeteGNVn6ovhp
-         lZhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752253569; x=1752858369;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PNAWGrPiwj3E1EhTq5Tl1CO6rinMEagBkU9r1o4zi7U=;
-        b=xC0Go30WuBHI8U9f7ZoCWe7+MtSZePAmkUZtwu5K9yCXLyT2IKztdNJ1G7qSpGPSfc
-         wwI2bXr6SZLPhzSWm75h2rfVPh7gjZY4LAS9b6QS3ZSB5QUqPqYg9wUaMztOsycgjd1A
-         C50q4nzOnnLDIuUSP6yRXagQip5C3tshYTAmASNydEsE7Q63J7HmeQUKxDONGIlvFmE9
-         fO1SR5B9Fc9if2hIAEF1hRAly5VXdac7Bl/KgU8KrmYPk+qQvFB/rYG9LtWUBDjWRXnh
-         76raLGDVN0wMdAFkvK6SRd+Lc56nMnhrVfw2gVH9TDle1KD+TwPeXbD8UjGMPSvvjHq7
-         +MqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXH0RkrosdEK8HmFCCMtC+HBrbWoMu5ychszG7qqznSWtUnnajPOuFh1Sar4Jxa2y/J36yrmeDJZPiW3HI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyxFEvSMUvHQBKlfeX4IQxHkHcGIRFnO/93sKiuC29g7t3TtXE
-	Hjo8U3IYvqkodhA5ydA7SrhUPyEHGSRfFd3U0AmiteSHdQiJBoiDW5Gk
-X-Gm-Gg: ASbGnctPeiQQ3hUTujE8Dqw3jqGTvsycKlg0dv+g6SKAusFutBvRizb38uTTvkf4Rzj
-	aVx5yX0yOr1sKdy6ZjtX+i+jfbPJ3CL0/I0tdqHoHjb0ao0PD8xz2WVIYEMgXWxn+DQUaJ4ezeX
-	mPihTnHd2m3TVJyOwQTT60tQAezkfyGKv4fMoLmhc+d4EJmsHXH5S+EdB48ODgixZ2xRbEWcdB6
-	wiQGdIJ7B9yEgkGciSSzX+XZfDt801viSyrrNjuJ1bnoUnr32nKuwlJMRw2MgLZVaoGBXDQfmHG
-	mV7XkD5cOnoC2xZAN4sP4uPZyurcmpIWedikoTpaQqj8vbyQW8HUJvj/kDn88NBuf4gYZdhYwk0
-	v/gCsnrt7Ld/VAeVi6nEePidF5DUEQSVNNZWPd2fvIa9r1HIGqbyy12HhM99FXlJ3vIszZKBNVW
-	NVeGe6oGinDm9Cl4IrIZ+RHjghwl6ltAOCzCfGNL5oM5tpfC8aSdb02YqIZBzb3Q==
-X-Google-Smtp-Source: AGHT+IGXo0leNEZOdpcDo5mboEAsYRR7bsRSf0EC+JdFXlc+xOggVj+ftQvTd/RTlrxgZhW5tHX3RQ==
-X-Received: by 2002:a05:6512:ea1:b0:553:2c58:f973 with SMTP id 2adb3069b0e04-55a046733b8mr1503974e87.52.1752253568879;
-        Fri, 11 Jul 2025 10:06:08 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:6e:3100:ed74:9560:782d:a190? (2001-14ba-6e-3100-ed74-9560-782d-a190.rev.dnainternet.fi. [2001:14ba:6e:3100:ed74:9560:782d:a190])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c9d0f2asm1009210e87.131.2025.07.11.10.05.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Jul 2025 10:05:55 -0700 (PDT)
-Message-ID: <6b872eb0-22ca-408e-9c4e-8f094c3580ae@gmail.com>
-Date: Fri, 11 Jul 2025 20:05:51 +0300
+	s=arc-20240116; t=1752254146; c=relaxed/simple;
+	bh=wll3T0fvtO1K0zQLBnxUJxZd2u5L/KsAaMU0cAzv83Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SWEVrn7QHGSKsN2jdytG1R7ec2j2jkOlJRwduj54dXUbc+DLms5oq2mA1Uau2w0/vkkjmQUBgb3el2SE1YN/TsKeKt9666QHlHpuVVcA4gld1jf3fUym+fia2wcHyjw0DXWlSQ/g2G2KClnmAfcdKxUHnGkBq5DftNQHER3lT4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SmmsD68t; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B1431D77;
+	Fri, 11 Jul 2025 19:15:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752254112;
+	bh=wll3T0fvtO1K0zQLBnxUJxZd2u5L/KsAaMU0cAzv83Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SmmsD68tVkzqlYOY0zdvl9BzX81MUeSjH8UUNJM72xI4zVJOqTiBLX2NPH15pz+eo
+	 8/QPbrOZJ5Sl2TCAyz9QcJudO9QvbR2JyjK1RLWCt58OiAHYDfYNfygYIrD/zim9IN
+	 iVT1RD5iXMfVrQEusE2+B6gmqjrgzd38a471q2pk=
+Date: Fri, 11 Jul 2025 20:15:11 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Use a count variable for meta_formats
+ instead of 0 terminating
+Message-ID: <20250711171511.GB28533@pendragon.ideasonboard.com>
+References: <20250708104622.73237-1-hansg@kernel.org>
+ <20250708104622.73237-2-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: Documentation: Improve grammar in DVB API
-To: Brigham Campbell <me@brighamcampbell.com>,
- David Hunter <david.hunter.linux@gmail.com>, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-References: <20250708155206.91281-1-hannelotta@gmail.com>
- <680b91c0-0fae-4230-9fa1-da988cb82e65@gmail.com>
- <DB8S4WLTG1SS.NVODTL6KNFXF@brighamcampbell.com>
-Content-Language: en-US
-From: =?UTF-8?B?SGFubmUtTG90dGEgTcOkZW5ww6TDpA==?= <hannelotta@gmail.com>
-In-Reply-To: <DB8S4WLTG1SS.NVODTL6KNFXF@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250708104622.73237-2-hansg@kernel.org>
 
-Hello,
+Hi Hans,
 
-On 7/11/25 2:55 AM, Brigham Campbell wrote:
-> On Wed Jul 9, 2025 at 10:22 PM MDT, David Hunter wrote:
->> On 7/8/25 11:52, Hanne-Lotta Mäenpää wrote:
->>> Fix typos and punctuation and improve grammar in documentation.
->>>
->>> Signed-off-by: Hanne-Lotta Mäenpää <hannelotta@gmail.com>
->>
->> Overall, good work. Here is a suggestion for future patch series:
->>
->> Subsequent versions of patch series should be posted as replies in the same thread. Currently, each version is its own independent thread, which makes it hard to track changes. This link has the documentation for the proper way to handle subsequent patches:
->>
->> https://www.kernel.org/pub/software/scm/git/docs/SubmittingPatches.html
->>
->> The relevant part starts at "To that end, send them as replies to either..."
+A few comments here. I see you've included this in your pull request
+today, so I'll send patch on top. No need for any action on your side
+(except perhaps reviewing the patches :-)).
+
+On Tue, Jul 08, 2025 at 12:46:22PM +0200, Hans de Goede wrote:
+> The code dealing with the 0 terminated meta_formats array is a bit klunky
+> especially for the uvc_meta_v4l2_enum_formats() case.
 > 
-> This documentation you've linked is specific to git, not the linux
-> kernel.
+> Instead of 0 terminating add an unsigned int nmeta_formats member to struct
+> uvc_device and use that. This leads to slightly cleaner code.
 > 
-> The kernel documentation argues against doing what you suggest [1]: "for
-> a multi-patch series, it is generally best to avoid using In-Reply-To:
-> to link to older versions of the series. This way multiple versions of
-> the patch don’t become an unmanageable forest of references in email
-> clients."
+> Signed-off-by: Hans de Goede <hansg@kernel.org>
+> ---
+>  drivers/media/usb/uvc/uvc_metadata.c | 21 +++++++++------------
+>  drivers/media/usb/uvc/uvcvideo.h     |  4 ++--
+>  2 files changed, 11 insertions(+), 14 deletions(-)
 > 
-> [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-> 
+> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+> index 12972527ab8d..229e08ff323e 100644
+> --- a/drivers/media/usb/uvc/uvc_metadata.c
+> +++ b/drivers/media/usb/uvc/uvc_metadata.c
+> @@ -64,17 +64,16 @@ static int uvc_meta_v4l2_try_format(struct file *file, void *fh,
+>  	struct uvc_streaming *stream = video_get_drvdata(vfh->vdev);
+>  	struct uvc_device *dev = stream->dev;
+>  	struct v4l2_meta_format *fmt = &format->fmt.meta;
+> -	u32 fmeta = fmt->dataformat;
+> -	u32 i;
+> +	u32 fmeta = V4L2_META_FMT_UVC;
+>  
+>  	if (format->type != vfh->vdev->queue->type)
+>  		return -EINVAL;
+>  
+> -	for (i = 0; (fmeta != dev->meta_formats[i]) && dev->meta_formats[i];
+> -	     i++)
+> -		;
+> -	if (!dev->meta_formats[i])
+> -		fmeta = V4L2_META_FMT_UVC;
+> +	for (unsigned int i = 0; i < dev->nmeta_formats; i++)
+> +		if (dev->meta_formats[i] == fmt->dataformat) {
+> +			fmeta = fmt->dataformat;
+> +			break;
+> +		}
 
-Right, that clears it up. On a closer look, the URL indicates which 
-documentation is for git development.
+Missing curcly braces for the for loop.
 
-> 
-> Nice work, as usual, Hanne-Lotta.
-> 
-> Brigham
-> 
+>  
+>  	memset(fmt, 0, sizeof(*fmt));
 
-I really appreciate this comment. Thank you for your encouragement!
+We can actually drop the memset, as the V4L2 ioctl core already zeroes
+fmt->fmt.
 
-Best regards,
+>  
+> @@ -119,14 +118,12 @@ static int uvc_meta_v4l2_enum_formats(struct file *file, void *fh,
+>  	struct v4l2_fh *vfh = file->private_data;
+>  	struct uvc_streaming *stream = video_get_drvdata(vfh->vdev);
+>  	struct uvc_device *dev = stream->dev;
+> -	u32 i;
+> +	u32 i = fdesc->index;
+>  
+>  	if (fdesc->type != vfh->vdev->queue->type)
+>  		return -EINVAL;
+>  
+> -	for (i = 0; (i < fdesc->index) && dev->meta_formats[i]; i++)
+> -		;
+> -	if (!dev->meta_formats[i])
+> +	if (i >= dev->nmeta_formats)
+>  		return -EINVAL;
+>  
+>  	memset(fdesc, 0, sizeof(*fdesc));
 
-Hanne-Lotta Mäenpää
+Same here, we can drop the memset, which will lead to simplifications in
+the function.
 
+> @@ -265,7 +262,7 @@ int uvc_meta_init(struct uvc_device *dev)
+>  		dev->meta_formats[i++] = V4L2_META_FMT_UVC_MSXU_1_5;
+>  
+>  	 /* IMPORTANT: for new meta-formats update UVC_MAX_META_DATA_FORMATS. */
+> -	dev->meta_formats[i++] = 0;
+> +	dev->nmeta_formats = i;
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index b34c1914ff39..757254fc4fe9 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -588,8 +588,8 @@ struct uvc_device {
+>  
+>  	const struct uvc_device_info *info;
+>  
+> -	/* Zero-ended list of meta formats */
+> -	u32 meta_formats[UVC_MAX_META_DATA_FORMATS + 1];
+> +	u32 meta_formats[UVC_MAX_META_DATA_FORMATS];
+> +	unsigned int nmeta_formats;
+>  
+>  	atomic_t nmappings;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
