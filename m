@@ -1,244 +1,541 @@
-Return-Path: <linux-media+bounces-37537-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37538-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E68B02768
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 01:08:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2ECB0280F
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 02:00:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 532B8A41262
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 23:08:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C2135C4C3E
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 23:59:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A50222594;
-	Fri, 11 Jul 2025 23:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1FBB24BBEE;
+	Fri, 11 Jul 2025 23:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hB0wsj2C"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qgTbk49I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0B2EEBD;
-	Fri, 11 Jul 2025 23:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752275304; cv=fail; b=eMqO3ZfLpYnKRhWJDTepFDHcwM3kUpibVAfLRjpGUmltPWM2F3g4zr+rdWCTijPqig1NySetsZJT54+2RQx+oZhe3U9/4TzLWHuRylorieC04Mj6I3M3gaizY28v4Z+VCUrWh6iqEaWa6BpsCmdGI4RXKv+xJ85n0b/PDjLHatg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752275304; c=relaxed/simple;
-	bh=LnSRQnpil1yc8KCkxyLNYhvRM8f7v6tBix0eYifuE4I=;
-	h=From:Date:To:CC:Message-ID:In-Reply-To:References:Subject:
-	 Content-Type:MIME-Version; b=Tsq4KIHHii2rfUcRPtMD1ZbnuBNSV8Vtt6rWhqGwB7vtbn6ubLbKY3v8FBM6XBuvqa7pJis3Jpq01Ab5LDUMb3ls6dLA2bBQRIrp0AUwUngfdNQH7VhBfTGiYk9Anj4/xQe3LncnsIpangsfzo8i8MZILU8hIZlSEYJ6Tv/lREI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hB0wsj2C; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752275303; x=1783811303;
-  h=from:date:to:cc:message-id:in-reply-to:references:
-   subject:content-transfer-encoding:mime-version;
-  bh=LnSRQnpil1yc8KCkxyLNYhvRM8f7v6tBix0eYifuE4I=;
-  b=hB0wsj2CGVPC/VwxpHAQ3jjAYLGZv9X19aC+kKqk4JoUhVlXi7J7tI7d
-   oY1lRJqNfvPmhsdnfygcFHiqWPwLtgF/JEAEmXkkO06OJ0SY2bEMBm1VJ
-   LYinHX6+wWGRaBNtOOxIhpbT62kZq8jA6HWoIsZDyFwBQ0KUFjcvVFYns
-   Vhjf+WoaXWU3E7f/1JBxjrxx1SNRgO2JN4Wmml+YM4CRrakj3CUTBlxWQ
-   958JezOUGI01lk/0KiQz6kDCRCmHY0EvQDjeCXSR8/em7ciyjtpnJoZaF
-   NwohGncTJ7i/u+g8B7Z1y6WEK5FLjK9QkO/gL0pCm0XhoS+b/CeJY8ros
-   Q==;
-X-CSE-ConnectionGUID: /WX408PZT2qIgyep016qTg==
-X-CSE-MsgGUID: 0TwVFh4hREK/dmoqBSZh7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65275668"
-X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="65275668"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 16:08:22 -0700
-X-CSE-ConnectionGUID: 2rgacI5ZT2+wQnOuuPXk2Q==
-X-CSE-MsgGUID: TNmgnFlbRW6zSkt1y43p+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; 
-   d="scan'208";a="156263239"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 16:08:22 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Fri, 11 Jul 2025 16:08:21 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Fri, 11 Jul 2025 16:08:21 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.79)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Fri, 11 Jul 2025 16:08:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Eg6OobsLRdDr6Fkm/Rp3VllKN/KwQIy1NIgK02ZWGRHe2dMaPWkNMKEys0K5awIJOZn7WAStfn3w5IMv6v486xVXMeYE3Pr4QlF0GOAEGlknkS9N/SjxswS7bsOG3wDknMGVg8EtoH7A58WorgCgPxqYx3aHjGPzA1/JFyPOEjcp0WERnrdIKcwdxJlTGddPe86jvWRp0bKsUcS3EinvSQZ5k1mgRHIs6GBVJzO+msov50uB2USwFDQ+/146cj+29dve3h6m8oySCJSFiO39uWyGdOs5tkGAhRnur4FXYMhnq+yy7xLSOLstjqLmeBjvc1muF8B/5YsTgQnyfBuxvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DwPpueauNlYaO+H0tgRZRF8QlJzQLEaWn2gU/cQ1nH8=;
- b=YXNqNzGc+N7VcaLOcJLSJNxDLJlGn6v++oHs0MAtc8u6mxNz44qe5nKpw0mzGul+gUYYnjPIn84Mu2AFfpGFfBoW4kSdJiMV4CNMi4KldxgsPbJhYMr9JmIxGIM+QXaU5W35MYdDNW2tP+yFatlpWcPhsFRRw92eobLT3Yfb4bBrDs6tM5IugVdhWoxZVCOL/ELm4y8ajRgfArNuWm4nRJXjsDYEmbzBI+JdmYVPvNrCjnCMwKIXfHF6O1uDP1n4OF2iDbAHdSFX3mj4Gs3GCrjs2e7CqS3RrPwPYPIa7X2XFmyJURIV9iK1e6k+mho3ljH+KycOYcrBierrK5UqEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by SJ5PPF0F15BC42D.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::80e) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.27; Fri, 11 Jul
- 2025 23:08:19 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%6]) with mapi id 15.20.8901.024; Fri, 11 Jul 2025
- 23:08:19 +0000
-From: <dan.j.williams@intel.com>
-Date: Fri, 11 Jul 2025 16:08:16 -0700
-To: Xu Yilun <yilun.xu@linux.intel.com>, Alexey Kardashevskiy <aik@amd.com>
-CC: <kvm@vger.kernel.org>, <sumit.semwal@linaro.org>,
-	<christian.koenig@amd.com>, <pbonzini@redhat.com>, <seanjc@google.com>,
-	<alex.williamson@redhat.com>, <jgg@nvidia.com>, <dan.j.williams@intel.com>,
-	<linux-coco@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-	<vivek.kasireddy@intel.com>, <yilun.xu@intel.com>,
-	<linux-kernel@vger.kernel.org>, <lukas@wunner.de>, <yan.y.zhao@intel.com>,
-	<daniel.vetter@ffwll.ch>, <leon@kernel.org>, <baolu.lu@linux.intel.com>,
-	<zhenzhong.duan@intel.com>, <tao1.su@intel.com>, <linux-pci@vger.kernel.org>,
-	<zhiw@nvidia.com>, <simona.vetter@ffwll.ch>,
-	<shameerali.kolothum.thodi@huawei.com>, <aneesh.kumar@kernel.org>,
-	<iommu@lists.linux.dev>, <kevin.tian@intel.com>
-Message-ID: <68719960cc414_1d3d10056@dwillia2-xfh.jf.intel.com.notmuch>
-In-Reply-To: <aFvTL6MUkVZrPoBS@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
- <f5958bda-838a-4ed6-84c6-fef62cd0b28f@amd.com>
- <aFvTL6MUkVZrPoBS@yilunxu-OptiPlex-7050>
-Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
- using TSM
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4A724728E
+	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 23:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752278058; cv=none; b=gY7n5Pld9uTe7EvB/2T2CF9e6SgtVX/VOPSp+1JsN6+4o91LTGkDys1j8xcA0iJSvoFhwKRVbrwF7jEW7/fy5kjYL6cEZC0CoMJWPzKHy3UGUcpDrkbX+6F67AG3+2pYzJhpqTdCJQXpM+0dmFFb2f8QcQowm4FIvEmBHMwf/tE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752278058; c=relaxed/simple;
+	bh=IGcZPXYS51VERNLEgsZw07aX9DDsWPWqVyodZ0kJJ+Y=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=elsRrQUYqScJvqbMyR40uDe5Kkf4plLILdsrTr5grk8pnm/fLpqueqep8IO22aZY4k+SoFh2orUID+VVjakhdEAQvv3edsabZILgjgzpRCKi1oMsQNUHh7FjuG7d+akQbQPG7gvguMvAf8KFIvAWpwS6/SmyI6Dc7E+aGUnUTws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qgTbk49I; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2601:602:8100:c320::3926])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CA58982;
+	Sat, 12 Jul 2025 01:53:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752278023;
+	bh=IGcZPXYS51VERNLEgsZw07aX9DDsWPWqVyodZ0kJJ+Y=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=qgTbk49IPzLR4/psp29h7QL7mnCVKkUZd1lCVsizLb448fQZzaE/uiVea27TtO8LB
+	 5IkIe8buldXh+B+ZWvZgB8kLO3U3giLt/H60ywdPGSllzx7sIsOj0Vv8EJn56KeInv
+	 FXDegg9+v+UCDaVIw0Uhr0vhXUKldQkYSyrIlfbo=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0067.namprd05.prod.outlook.com
- (2603:10b6:a03:332::12) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|SJ5PPF0F15BC42D:EE_
-X-MS-Office365-Filtering-Correlation-Id: 464d6e67-db3a-4ff6-3ed6-08ddc0cfd31b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R3pQY1V6REJRR2trRitTNmpvenZPWFlXSllIcE5yamIzSXRzT210YWJtcVFK?=
- =?utf-8?B?YUZQUllRcFdGaXoyTE5UNFhuYlh2c21iUE1HbmRNY2xROTYrZVZ5S3V1MzAv?=
- =?utf-8?B?b1MzbmV3dXBxL0kxNEdhU3h6QTVPTXFRSFh0UDgrUmFLcWpmMVllSnJUZnd6?=
- =?utf-8?B?TWMzbHlGWGRzemVRait3QitKV1V5cmpuRzg0VzFPZEIxbi9TU2J4ZUZvN2pE?=
- =?utf-8?B?Y1d3MlovRGx0RmhaREpUVndDK2tFTmV6elB4blFhMEtoMWhGNVlPMEprZXlL?=
- =?utf-8?B?UmJWbndZUUFSTXlTSmpNRXprNXhkK1gyUzZKYkNyQmQzb2FRdjlIRGhtV282?=
- =?utf-8?B?VTlkTGJTbDRtUitYR3ZvZzZCelozZ05QNEdWWjMvVGFrMitHSzhqQTUzOW1z?=
- =?utf-8?B?aXNRNVhNazVDVURXcGdOVGRvdDVGVE1PM0tGNXFWRVl0cUpUQXd5T0RyQVVz?=
- =?utf-8?B?a1B2dmJlUjRQdWRySUtsbGJBVWtSNk8wQm42NjhlRFNEUVVTdU5nUWppbFJu?=
- =?utf-8?B?bE1MMkFkMElvQXVRK1ZOQ0ErTGEzb0Q3VkxBZTlxYkVuUEU1ZVNIckxLVUhx?=
- =?utf-8?B?SW1vc1NtODJLNDNhcFVZTVk5bWh3YWZPd3hxcXdqb3hGYTZYSlpUTzQ5UEo5?=
- =?utf-8?B?b2NVMXh5ZGpnWWdWV25YSEV1QzlvRzMvb2ZzRG5sU01Mcy9uYkRYR1lucVpQ?=
- =?utf-8?B?RVk1U0JkS3FnK0xMN01mRnlGQm1Ka3dPN2lkS05IMWpvcWw1K2RLazRUZVJQ?=
- =?utf-8?B?b3oxKzczZzZHdU9KKzhKZ1J3K0REcmt0OW1ud1JSUGV2YzFxQmwxWi9ZOGE3?=
- =?utf-8?B?T291bzhubVpJQk80MlVHc0d6SFRBclNoZ0Jod0QwZU1Oc0JoOGplN016NVBJ?=
- =?utf-8?B?NVV6WERVWHgvWEZreG1RYVFtazZpQW1xMDNXM0FhVWp5TXgwRloxSmw0Vi9W?=
- =?utf-8?B?ZkdrTytrWGpPaXB6OFlqWURnU2FXdDJzV0NYcitUb3ZLVFlqbC9lemJrbWkx?=
- =?utf-8?B?N3g1UUE0dWRvVENEeHgra0FhcW9kNXd6KzBPdi9ORS9henNlcWVPNlhURDdL?=
- =?utf-8?B?NlVMV3lRbFFWNmZuNWdzRlVXTGJhY052QzBUbStja3JIa1prYmxDZGh3a1ZI?=
- =?utf-8?B?R0x6YndmRWJsbWwybWNEVUVCWTNVbTJSOXRacTBIOUxPSGdPM3VXS3lmSWhw?=
- =?utf-8?B?ZDBpbS9lL09QaWE3R29GaHAvTzRGVWFJeU54b2MxczRvQTkrTVJsSVBVM2F4?=
- =?utf-8?B?TG42emRQMnFsSUZ2UE8xOGlzNEQ3cWJDVWFGWTZuRS82eEFWemFVN0FhWVlZ?=
- =?utf-8?B?cG9ZbmNoVGFJKzdRaE56THhRS2tQTGV6TkQydXhDZlJtZjJkVVBJSDRvcUUv?=
- =?utf-8?B?R1AyUWluckxkZEcyT3pYUUdzS0VNa0VWQnVRa2J6MHp0TVBvTmpzT0FiUG9M?=
- =?utf-8?B?a2txMnJtQ05vWjdWa25jMXIweHg5dXN1QlRrdnBpTG1hSGxWbUZqWDF6RFJZ?=
- =?utf-8?B?Y3ZLalIwQnZNMVVXalBvdkVUSXk2VmZRNGE4MkYzMDFXdmsxVnpEL3FiTWlV?=
- =?utf-8?B?a2FzU1FGSWFubE9NOWhaNkpmeTFQY1FTTDJsRzBYRzJiZjlMeS9MWHd6RU0y?=
- =?utf-8?B?WEg1aldCcnE4ZnNWb0RyeVBzaXQ1MGF3UVlyMnl4SmswUWtJcUVoWnpGcUZ2?=
- =?utf-8?B?L1JGWlI4ZUttNnBVRHZDQTRmcFBxSzdOL3pCMTYyYjdkQy9tQVdrUm9McWR4?=
- =?utf-8?B?VEIvWnMvNG9JVDFhSjkwRWczYkF0YjJyb3FOV2Y2cVJjUVU1UFV3L2NOTkRQ?=
- =?utf-8?B?SlRuWnNCK1JwUng0VzBYcThwRGsyZEtKMXgyR1JQd2I1NFhPVE9LUHVESVZ4?=
- =?utf-8?B?UVVSU0pYbHVsOGFjOCtFc0pKait0T3Q2UlAweHo2enFUdU8yTVk1UlhkZkpP?=
- =?utf-8?Q?mEAf+P6oEDfaEoNyP145+44+k11uIY3+?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TFU3ekxKdHNxQk9RYjhod0QwZ05MTUoyUE43MkhoNGxSb2NMVE8wQms1Ukda?=
- =?utf-8?B?N01CbGJsSFhSU2UwaHJHanJ6NzZWUTlCUVg4a1pLQ1U1UXJEYTZocHRMcnRh?=
- =?utf-8?B?UklQVW85TStod1NUREZaYU05YkJSYS8vNTNYK1g4YXlGOUNOVjRsOXhFOXJx?=
- =?utf-8?B?V3VaYUowM1NZVFk0eW9JVmtXV0hqeXlxK0pZazBIZTJoQUdKNThNWlBiU0JO?=
- =?utf-8?B?cG5CY3N5NWNXNERramZWSHJNV2dZRXBlTGZNK3kxcjRQNWxoZ0poTDM1c0sy?=
- =?utf-8?B?dkI4c2Q1elJRSGlBVE52cmt4V011eVJmSEhlb2pNbFAwQldzTXExZkFiZkE2?=
- =?utf-8?B?bmR4UTU5MkM0anFpZmdHNXV4cFNzQWpyK3hXWW9OVWRxczcwaUtMMDZlMTBo?=
- =?utf-8?B?NUdVMzdOOHJXZUMwL0RrbjR6WGxIRWNuRlptMnM4SHZBWVNvNWxQc2ZnUlZD?=
- =?utf-8?B?b01SZzMveU12MnBRS2MrZVE2THZhaEQ0dVo4RTVMQWJKNjBUUHVaL2tjWWdB?=
- =?utf-8?B?T2N4L0lNT00wZ3pIMzlBN3JDMU5BaGlZV243K1p6bHQvTy9BU3RWWDNoZ3No?=
- =?utf-8?B?bHZpTG1MRzBab0RkN3NvZjV5ZjRmZjhBS0tHeEJJRU9CWVlXbVJQbC90QU5S?=
- =?utf-8?B?cWpXUW1KNytKVUxLVUtpcTF0NzhZQkI2T3hvRGpmS3JGeU9JT1l6TmhwRUVC?=
- =?utf-8?B?bExjQmdvbkd3VU5YZ1ZtZWt0TlVMbE1ZaHVEZXFOVVFjRkZSaGdkK0FwMkpT?=
- =?utf-8?B?ZzFXNGwzNjNDbnFZbS9aVHRzcUh3ZHRHMXRIQ3FTeUVVVzF1NFd3VTZTNFVY?=
- =?utf-8?B?NkthQWV4VlNJMTUvUFdadkdVZVBYNkgyNlI3QVFIWmNOTGdmRVBmdHFGQXkw?=
- =?utf-8?B?ZlRYbXBSVXRTTUk3RTdMMVI2Z09Xb05kaWgzakZZaDNkZ3RQc3BCV2t2UFRx?=
- =?utf-8?B?dVQyQTNibVNVQi93UGQxSUNJdE1wWlpzcERmeXowYUVCNTRzbW5ZVzFsdU5h?=
- =?utf-8?B?VGlTMDNvSGdQL1hjNHR6Z2xKWWQrWjBOQlJ5TmJ4a1VrRVVERzY5RlRNby9F?=
- =?utf-8?B?V2tnaXJ1enZ4RXF1Ujd0eDA1V3h5QzRwaDFVbks4RUhmWnJ0NHUvZ3IxOElu?=
- =?utf-8?B?L1F1WXFqWWt1Qm1hTFVCMGZuczEwYlZUWFhleDIvZDRBcDBoM3BWdTlTb2FX?=
- =?utf-8?B?WGo4QjVpMWNNdTNNWE1OY3FGampXWkZ0QTJqc3RicUhmSTY1UDQyRWJEME9H?=
- =?utf-8?B?WkJITDlONVJBa250a25DVTFObDdpcUgrdEpqa3BHK1JKWWVPTVA5OUZpV3Iv?=
- =?utf-8?B?b0c5eGdpb1FuN1RmYkdrMS9WZDY3TzhUem9Hb1FSRit0N0NDMkVWTTVmMXRZ?=
- =?utf-8?B?Z08yc0ZHd1FKNlZzNm9SRGtqcWVBczRiMTk5bHZuM2dOVER0cTE5c2VlVG15?=
- =?utf-8?B?TWU1c3hnM2g3SUNwSmF3MEE1ekZPcGhEUUdac251VkpOYWNjZWpNN0VVYXdz?=
- =?utf-8?B?OVF3bklFSktXQjlqajJBWWZmcDFUUDdSRWFoMUF5eFdGSFBiVFFQVlUxeDM2?=
- =?utf-8?B?OFduVTlaU3JPZ2xlSXlWMzd4S1VoRWxRUHRlSTJJb1hsWDF0R2M2L1RYOWpT?=
- =?utf-8?B?MWk4UWt1OENQYkxrNkdKMTFkRVFNNzBVSTZJNFpVbXNKZlFzS2MvMGtFZUM3?=
- =?utf-8?B?enl0NUQvQVhyY1dzNnhyWVRCTGdWcjlnRU9OeHA4cS9YSTVCd1NGSnhqMEdk?=
- =?utf-8?B?WGVhdnkyOHdWaS90Q2NWSmVXYlpsWDFyU1cvY0g5c2FabFIvN01CMGplUUd5?=
- =?utf-8?B?ZlZ2TFNXZFZQY3R2d0FsTjhTcU1EV0RaT2VSN254ZmJtZ01sc09PL1FsUUlr?=
- =?utf-8?B?a3ZRVjVvZ0YvRVNkc2xvbWJlQVRjSEh1YzlCM0lnMU9YY05PMmxQQVl1c3Bk?=
- =?utf-8?B?ZE1NN05IT3cxT0xaMVFnZ3dDck5RZzlBYTNxQUdGamdnbnNSUWlnd0FCNVV0?=
- =?utf-8?B?cUVvOHdZRUNVeHczemVJSWM5c0ZBRkI3eUt6NWp6ZklqMTlsd1ovVEZCbzIw?=
- =?utf-8?B?VHprS1Q2N3FuQVlVd2JUSklRQWw0aWJSY2djdDZDRTlmUS9heVJIOU5GcXdu?=
- =?utf-8?B?YWVSZzhqVTdkZnp2OExBc0taUEMxY3QzNi91U2lzbDhsK2diTk1LM0pJM0F6?=
- =?utf-8?B?cGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 464d6e67-db3a-4ff6-3ed6-08ddc0cfd31b
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 23:08:19.0642
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Su4zYD34HSNhgFZbjV0crGWqOUMeX/4BOji5x5SrWbcQOFpSbiBKPhDV6hF3yqO8qhm+K9Nyqw+P5BwRz+FnveBSVdm8DVTCK/+mtQmC/UQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF0F15BC42D
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <3yifjhhqjrryg2fnfep6yqpxlvc3y5drh54smwajptfzy75tuu@dfsl6g5ktxbw>
+References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com> <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com> <3yifjhhqjrryg2fnfep6yqpxlvc3y5drh54smwajptfzy75tuu@dfsl6g5ktxbw>
+Subject: Re: [PATCH RFC 1/3] media: v4l2-core: Add support for video device state
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Heiko Stuebner <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Dafna Hirschfeld <dafna@fastmail.com>, linux-media@vger.kernel.org
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Date: Fri, 11 Jul 2025 16:54:08 -0700
+Message-ID: <175227804873.3930831.3557651361410884449@freya>
+User-Agent: alot/0.12.dev28+gd2c823fe
 
-Xu Yilun wrote:
-> On Sat, Jun 21, 2025 at 11:07:24AM +1000, Alexey Kardashevskiy wrote:
-> > 
-> > 
-> > On 11/6/25 11:55, Alexey Kardashevskiy wrote:
-> > > Hi,
-> > > 
-> > > Is there a QEMU tree using this somewhere?
-> > 
-> > Ping? Thanks,
-> 
-> Sorry for late. I've finally got a public tree.
-> 
-> https://github.com/yiliu1765/qemu/tree/zhenzhong/devsec_tsm
-> 
-> Again, I think the changes are far from good, just work for enabling.
+Hi Jacopo,
 
-At some point I want to stage a merge tree QEMU bits here:
+Thanks for the review.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/devsec/qemu.git/ (not
-created yet)
+Quoting Jacopo Mondi (2025-07-08 09:26:29)
+> Hi Jai
+>=20
+> On Thu, Jul 03, 2025 at 06:02:08PM -0700, Jai Luthra wrote:
+> > Simplify video capture device drivers by maintaining active and try
+> > states to track the v4l2 formats (for video and metadata capture) of the
+> > device.
+> >
+> > A lot of boilerplate in the drivers can be reduced by combining the
+> > implementation of s_fmt and try_fmt hooks, and using a framework helper
+> > for the g_fmt hook.
+> >
+> > To achieve this, we pass the newly introduced state structure to the
+> > hooks through the already existing private void pointer. For S_FMT, we
+> > pass the pointer to the active state and enforce that the vb2 queue is
+> > not busy before calling the driver hook. For TRY_FMT, we pass the
+> > pointer to the temporary state stored in the file handle. Finally, we
+> > introduce a framework helper for the g_fmt hook that the drivers can
+> > use.
+> >
+> > The private void pointer argument already had some rare uses, so we
+> > switch away from using it in the v4l_*ctrl functions to access
+> > file->private_data, instead doing that access directly. Some drivers'
+> > hooks might still expect it to point to file->private_data, so we
+> > replace it with the state pointer only if a driver selects the
+> > V4L2_FL_USES_STATE flag while registering the device.
+> >
+> > State support may be extended in the future to other device types, such
+> > as video/metadata output or M2M devices.
+> >
+> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-dev.c   | 32 ++++++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-fh.c    |  1 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c | 44 ++++++++++++++++++++++++----=
+--
+> >  include/media/v4l2-dev.h             | 52 ++++++++++++++++++++++++++++=
+++++++++
+> >  include/media/v4l2-fh.h              |  5 +++-
+> >  5 files changed, 125 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-co=
+re/v4l2-dev.c
+> > index c369235113d98ae26c30a1aa386e7d60d541a66e..b8227d5508dc5bd77570626=
+4739e5db2d577f7fd 100644
+> > --- a/drivers/media/v4l2-core/v4l2-dev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> > @@ -27,6 +27,7 @@
+> >  #include <linux/uaccess.h>
+> >
+> >  #include <media/v4l2-common.h>
+> > +#include <media/v4l2-dev.h>
+>=20
+> v4l2-common includes this already
+>=20
 
-...unless Paolo or others in QEMU community are open to running a
-staging branch in qemu.git. At some point we need to collide all the
-QEMU POC branches, and I expect that needs to happen and show some
-success before the upstream projects start ingesting all these changes.
+Ah okay, somehow clangd wasn't happy with it, will drop this in next revisi=
+on.
+
+>=20
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-ioctl.h>
+> >  #include <media/v4l2-event.h>
+> > @@ -163,6 +164,34 @@ void video_device_release_empty(struct video_devic=
+e *vdev)
+> >  }
+> >  EXPORT_SYMBOL(video_device_release_empty);
+> >
+> > +int video_device_g_fmt_vid(struct file *file, void *priv,
+>=20
+> The function prototype (and documentation) names the second parameter
+> state.
+>=20
+
+Will fix.
+
+> > +                        struct v4l2_format *fmt)
+> > +{
+> > +     struct video_device_state *state =3D priv;
+> > +
+> > +     if (WARN_ON_ONCE(!state))
+> > +             return -EINVAL;
+> > +
+> > +     *fmt =3D state->vid_fmt;
+> > +
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL(video_device_g_fmt_vid);
+> > +
+> > +int video_device_g_fmt_meta(struct file *file, void *priv,
+> > +                         struct v4l2_format *fmt)
+> > +{
+> > +     struct video_device_state *state =3D priv;
+> > +
+> > +     if (WARN_ON_ONCE(!state))
+> > +             return -EINVAL;
+> > +
+> > +     *fmt =3D state->meta_fmt;
+> > +
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL(video_device_g_fmt_meta);
+> > +
+>=20
+> These two helpers, and the presence of two struct v4l2_format
+> 'vid_fmt' and 'meta_fmt' are a bit puzzling to me.
+>=20
+> A video device will handle one buffer type and struct v4l2_format
+> accomodates all type of buffers in the 'fmt' union member.
+>=20
+> Why do you store two of them in the video device state ?
+>=20
+
+I stored both as I was also looking at RPi CFE video nodes, which supports
+both video and metadata capture in a single video device.
+
+These may explode even more in future for some M2M device with video +
+metdata. We will have to store and provide helpers for 4 combinations then,
+of capture & output formats for both video & metadata usecases.
+
+> >  static inline void video_get(struct video_device *vdev)
+> >  {
+> >       get_device(&vdev->dev);
+> > @@ -927,6 +956,9 @@ int __video_register_device(struct video_device *vd=
+ev,
+> >       spin_lock_init(&vdev->fh_lock);
+> >       INIT_LIST_HEAD(&vdev->fh_list);
+> >
+> > +     /* video_device_state support */
+> > +     vdev->state.which =3D VIDEO_DEVICE_FORMAT_ACTIVE;
+> > +
+> >       /* Part 1: check device type */
+> >       switch (type) {
+> >       case VFL_TYPE_VIDEO:
+> > diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-cor=
+e/v4l2-fh.c
+> > index 90eec79ee995a2d214590beeacc91b9f8f33236d..d246e05f8ef1244e212412c=
+aa5c9c6788a5c948a 100644
+> > --- a/drivers/media/v4l2-core/v4l2-fh.c
+> > +++ b/drivers/media/v4l2-core/v4l2-fh.c
+> > @@ -37,6 +37,7 @@ void v4l2_fh_init(struct v4l2_fh *fh, struct video_de=
+vice *vdev)
+> >       INIT_LIST_HEAD(&fh->available);
+> >       INIT_LIST_HEAD(&fh->subscribed);
+> >       fh->sequence =3D -1;
+> > +     fh->state.which =3D VIDEO_DEVICE_FORMAT_TRY;
+> >       mutex_init(&fh->subscribe_lock);
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_fh_init);
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-=
+core/v4l2-ioctl.c
+> > index 650dc1956f73d2f1943b56c42140c7b8d757259f..78a0db364725ec6641be37d=
+0c4804edb222a9154 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -21,6 +21,7 @@
+> >
+> >  #include <media/media-device.h> /* for media_set_bus_info() */
+> >  #include <media/v4l2-common.h>
+> > +#include <media/v4l2-dev.h>
+> >  #include <media/v4l2-ioctl.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-fh.h>
+> > @@ -1745,6 +1746,15 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops=
+ *ops,
+> >       if (ret)
+> >               return ret;
+> >
+> > +     /*
+> > +      * Make sure queue isn't busy for devices that use state, as they=
+ have a
+> > +      * single implementation for .s_fmt and .try_fmt, and rely on us =
+to make
+> > +      * sure the queue is not busy when calling for the .s_fmt case
+> > +      */
+> > +     if (test_bit(V4L2_FL_USES_STATE, &vfd->flags) && vfd->queue &&
+> > +         vb2_is_busy(vfd->queue))
+> > +             return -EBUSY;
+> > +
+> >       ret =3D v4l_enable_media_source(vfd);
+> >       if (ret)
+> >               return ret;
+> > @@ -2293,7 +2303,7 @@ static int v4l_queryctrl(const struct v4l2_ioctl_=
+ops *ops,
+> >       struct v4l2_query_ext_ctrl qec =3D {};
+> >       struct v4l2_queryctrl *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >       int ret;
+> >
+> >       if (vfh && vfh->ctrl_handler)
+> > @@ -2318,7 +2328,7 @@ static int v4l_query_ext_ctrl(const struct v4l2_i=
+octl_ops *ops,
+> >       struct video_device *vfd =3D video_devdata(file);
+> >       struct v4l2_query_ext_ctrl *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >
+> >       if (vfh && vfh->ctrl_handler)
+> >               return v4l2_query_ext_ctrl(vfh->ctrl_handler, p);
+> > @@ -2335,7 +2345,7 @@ static int v4l_querymenu(const struct v4l2_ioctl_=
+ops *ops,
+> >       struct video_device *vfd =3D video_devdata(file);
+> >       struct v4l2_querymenu *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >
+> >       if (vfh && vfh->ctrl_handler)
+> >               return v4l2_querymenu(vfh->ctrl_handler, p);
+> > @@ -2352,7 +2362,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops=
+ *ops,
+> >       struct video_device *vfd =3D video_devdata(file);
+> >       struct v4l2_control *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >       struct v4l2_ext_controls ctrls;
+> >       struct v4l2_ext_control ctrl;
+> >
+> > @@ -2384,7 +2394,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops=
+ *ops,
+> >       struct video_device *vfd =3D video_devdata(file);
+> >       struct v4l2_control *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >       struct v4l2_ext_controls ctrls;
+> >       struct v4l2_ext_control ctrl;
+> >       int ret;
+> > @@ -2414,7 +2424,7 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioct=
+l_ops *ops,
+> >       struct video_device *vfd =3D video_devdata(file);
+> >       struct v4l2_ext_controls *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >
+> >       p->error_idx =3D p->count;
+> >       if (vfh && vfh->ctrl_handler)
+> > @@ -2435,7 +2445,7 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioct=
+l_ops *ops,
+> >       struct video_device *vfd =3D video_devdata(file);
+> >       struct v4l2_ext_controls *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >
+> >       p->error_idx =3D p->count;
+> >       if (vfh && vfh->ctrl_handler)
+> > @@ -2456,7 +2466,7 @@ static int v4l_try_ext_ctrls(const struct v4l2_io=
+ctl_ops *ops,
+> >       struct video_device *vfd =3D video_devdata(file);
+> >       struct v4l2_ext_controls *p =3D arg;
+> >       struct v4l2_fh *vfh =3D
+> > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->priva=
+te_data : NULL;
+> >
+> >       p->error_idx =3D p->count;
+> >       if (vfh && vfh->ctrl_handler)
+> > @@ -3057,6 +3067,21 @@ void v4l_printk_ioctl(const char *prefix, unsign=
+ed int cmd)
+> >  }
+> >  EXPORT_SYMBOL(v4l_printk_ioctl);
+> >
+> > +static struct video_device_state *
+> > +video_device_get_state(struct video_device *vfd, struct v4l2_fh *vfh,
+> > +                    unsigned int cmd, void *arg)
+> > +{
+> > +     switch (cmd) {
+> > +     default:
+> > +             return NULL;
+> > +     case VIDIOC_G_FMT:
+> > +     case VIDIOC_S_FMT:
+> > +             return &vfd->state;
+> > +     case VIDIOC_TRY_FMT:
+> > +             return &vfh->state;
+> > +     }
+> > +}
+> > +
+> >  static long __video_do_ioctl(struct file *file,
+> >               unsigned int cmd, void *arg)
+> >  {
+> > @@ -3081,6 +3106,9 @@ static long __video_do_ioctl(struct file *file,
+> >       if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
+> >               vfh =3D file->private_data;
+> >
+> > +     if (vfh && test_bit(V4L2_FL_USES_STATE, &vfd->flags))
+> > +             fh =3D video_device_get_state(vfd, vfh, cmd, arg);
+> > +
+> >       /*
+> >        * We need to serialize streamon/off with queueing new requests.
+> >        * These ioctls may trigger the cancellation of a streaming
+> > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> > index 1b6222fab24eda96cbe459b435431c01f7259366..8e6e7799212cd07ae4ad3df=
+c85912c21a9bcab2d 100644
+> > --- a/include/media/v4l2-dev.h
+> > +++ b/include/media/v4l2-dev.h
+> > @@ -89,12 +89,18 @@ struct dentry;
+> >   *   set by the core when the sub-devices device nodes are registered =
+with
+> >   *   v4l2_device_register_ro_subdev_nodes() and used by the sub-device=
+ ioctl
+> >   *   handler to restrict access to some ioctl calls.
+> > + * @V4L2_FL_USES_STATE:
+> > + *   indicates that the &struct video_device has state support.
+> > + *   The active video and metadata formats are stored in video_device.=
+state,
+> > + *   and the try video and metadata formats are stored in v4l2_fh.stat=
+e.
+> > + *   All new drivers should use it.
+> >   */
+> >  enum v4l2_video_device_flags {
+> >       V4L2_FL_REGISTERED              =3D 0,
+> >       V4L2_FL_USES_V4L2_FH            =3D 1,
+> >       V4L2_FL_QUIRK_INVERTED_CROP     =3D 2,
+> >       V4L2_FL_SUBDEV_RO_DEVNODE       =3D 3,
+> > +     V4L2_FL_USES_STATE              =3D 4,
+> >  };
+> >
+> >  /* Priority helper functions */
+> > @@ -214,6 +220,30 @@ struct v4l2_file_operations {
+> >       int (*release) (struct file *);
+> >  };
+> >
+> > +/**
+> > + * enum video_device_format_whence - Video device format type
+> > + *
+> > + * @V4L2_DEVICE_FORMAT_TRY: from VIDIOC_TRY_FMT, for negotiation only
+> > + * @V4L2_DEVICE_FORMAT_ACTIVE: from VIDIOC_S_FMT, applied to the device
+> > + */
+> > +enum video_device_format_whence {
+> > +     VIDEO_DEVICE_FORMAT_TRY =3D 0,
+> > +     VIDEO_DEVICE_FORMAT_ACTIVE =3D 1,
+> > +};
+>=20
+> I'm not sure we need these. More on this on the drivers
+> implementation in the next patches.
+>=20
+> > +
+> > +/**
+> > + * struct video_device_state - Used for storing video device state inf=
+ormation.
+> > + *
+> > + * @vid_fmt: Format of the video capture stream
+> > + * @meta_fmt: Format of the metadata capture stream
+> > + * @which: is this a TRY or ACTIVE format?
+> > + */
+> > +struct video_device_state {
+> > +     struct v4l2_format vid_fmt;
+> > +     struct v4l2_format meta_fmt;
+> > +     enum video_device_format_whence which;
+> > +};
+> > +
+> >  /*
+> >   * Newer version of video_device, handled by videodev2.c
+> >   *   This version moves redundant code from video device code to
+> > @@ -238,6 +268,7 @@ struct v4l2_file_operations {
+> >   * @queue: &struct vb2_queue associated with this device node. May be =
+NULL.
+> >   * @prio: pointer to &struct v4l2_prio_state with device's Priority st=
+ate.
+> >   *    If NULL, then v4l2_dev->prio will be used.
+> > + * @state: &struct video_device_state, holds the active state for the =
+device.
+> >   * @name: video device name
+> >   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
+> >   * @vfl_dir: V4L receiver, transmitter or m2m
+> > @@ -283,6 +314,7 @@ struct video_device {
+> >       struct vb2_queue *queue;
+> >
+> >       struct v4l2_prio_state *prio;
+> > +     struct video_device_state state;
+>=20
+> One of the key design requirement it's the ability for drivers to
+> sub-class video_device_state. One possibile way to obtain this is to
+> dynamically allocate the state either by deferring to the driver's the
+> allocation (so that they can allocate a bigger structure) or by
+> passing to the framework the size it has to allocate.
+>=20
+> In any case, I'm afraid the state should be allocated dynamically,
+> either in the drivers' init_state() (or similar) callback or by the
+> framework with a size hint from the driver.
+>=20
+> What do you think ?
+>=20
+
+Ah okay, I missed that. Should be possible to make this dynamically
+allocatable by the driver. It will also tie into Sakari's suggestion of
+creating a helper for initializing the state.
+
+> >
+> >       /* device info */
+> >       char name[64];
+> > @@ -540,6 +572,26 @@ static inline int video_is_registered(struct video=
+_device *vdev)
+> >       return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
+> >  }
+> >
+> > +/**
+> > + * video_device_g_fmt_vid() - fill video v4l2_format from the state.
+> > + *
+> > + * @file: pointer to struct file
+> > + * @state: pointer to video device state
+> > + * @format: pointer to &struct v4l2_format
+> > + */
+> > +int video_device_g_fmt_vid(struct file *file, void *state,
+> > +                        struct v4l2_format *format);
+> > +
+> > +/**
+> > + * video_device_g_fmt_meta() - fill metadata v4l2_format from the stat=
+e.
+> > + *
+> > + * @file: pointer to struct file
+> > + * @state: pointer to video device state
+> > + * @format: pointer to &struct v4l2_format
+> > + */
+> > +int video_device_g_fmt_meta(struct file *file, void *state,
+> > +                         struct v4l2_format *format);
+> > +
+> >  /**
+> >   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debu=
+gfs dir
+> >   *
+> > diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+> > index b5b3e00c8e6a0b082d9cd8a0c972a5094adcb6f2..02579f87ba99d0c849a0865=
+f8cc4295446c39f94 100644
+> > --- a/include/media/v4l2-fh.h
+> > +++ b/include/media/v4l2-fh.h
+> > @@ -18,7 +18,8 @@
+> >  #include <linux/list.h>
+> >  #include <linux/videodev2.h>
+> >
+> > -struct video_device;
+> > +#include <media/v4l2-dev.h>
+> > +
+> >  struct v4l2_ctrl_handler;
+> >
+> >  /**
+> > @@ -28,6 +29,7 @@ struct v4l2_ctrl_handler;
+> >   * @vdev: pointer to &struct video_device
+> >   * @ctrl_handler: pointer to &struct v4l2_ctrl_handler
+> >   * @prio: priority of the file handler, as defined by &enum v4l2_prior=
+ity
+> > + * @state: try state used for format negotiation on the video device
+> >   *
+> >   * @wait: event' s wait queue
+> >   * @subscribe_lock: serialise changes to the subscribed list; guarante=
+e that
+> > @@ -44,6 +46,7 @@ struct v4l2_fh {
+> >       struct video_device     *vdev;
+> >       struct v4l2_ctrl_handler *ctrl_handler;
+> >       enum v4l2_priority      prio;
+> > +     struct video_device_state state;
+> >
+> >       /* Events */
+> >       wait_queue_head_t       wait;
+> >
+> > --
+> > 2.49.0
+> >
+> >
+
+Thanks,
+Jai
 
