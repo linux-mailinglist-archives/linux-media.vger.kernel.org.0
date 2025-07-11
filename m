@@ -1,360 +1,201 @@
-Return-Path: <linux-media+bounces-37474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4781EB01B31
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:53:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4295FB01B37
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:54:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37388188CA6D
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 11:52:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F386D6443A3
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 11:54:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5353428B4EB;
-	Fri, 11 Jul 2025 11:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F56D28DF04;
+	Fri, 11 Jul 2025 11:54:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="go/Q/7v7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YMRV6LPL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC73175D47;
-	Fri, 11 Jul 2025 11:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAFF28B7E6;
+	Fri, 11 Jul 2025 11:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752234727; cv=none; b=cF+ZfcjLVqJqpUe4jNYwaYoYmnY19fIHZevXz22HNjJ2283yous2RYlwQ/gdvgraBSnJBvo/IdNP3sWoF6ktWQEN+49S5Oa8wJU6RP5c3oe1DrVZjCvd4AwlfysnUukoYm8cM03qVViTvLM/1Wa4nbPnPiDGPeWi2Zg0VJkiBbU=
+	t=1752234882; cv=none; b=F/HNdd4FV0a6Fg1s0EkD0DOxLAZ/0N3dQYK9tSyFqMa0Bxc69kOTQJfW5usNllSe6Iu9t04MfDbGlqkbi7PyPoWjFVt9tr3Zc+8cPBdhI6ornTORX4V0XiE4elgDyK7w2LMrBm99jLIvZLO6cx7jWoNYERzrnu01DaIwisWmX6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752234727; c=relaxed/simple;
-	bh=3Xbx+c3duPba1/5xewcKktGY7JrUuYLEgqX71hJcZEk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ImmrKSLn0dCpAKIT4Dwn8bMojvBRmQcympK4tM5JFzaTYAj0NgCDXgjO9oPx4bKYml+CET2MJMdP4XRH2ppqOA2KxxLhrfjXKAX8ctibzqjyDJ4GKdloh3xGcP6PmSqbxumgJR7gaAH7xnegxPX+4qxSH3vy3WXb8Z6LEZOQC7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=go/Q/7v7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91CB7C75;
-	Fri, 11 Jul 2025 13:51:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752234688;
-	bh=3Xbx+c3duPba1/5xewcKktGY7JrUuYLEgqX71hJcZEk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=go/Q/7v7UIHs+45Y4rXGhoDNGzaYUZsyk/5SITiixN4gjnTn/mGEhRxPNUnLi+7W2
-	 2N2tE7JNGP5KKcTPU3yeGyuR+QyvcT4jwsyzuhd6IxdHcve2HDQbtu4jRyqoo/F7Um
-	 BfWTKvLygHF3/UkxvPC/IwFUFSusl10h3iXrAOfI=
-Message-ID: <436bbb33-0740-4ef8-8297-a06aa8243cfd@ideasonboard.com>
-Date: Fri, 11 Jul 2025 12:51:54 +0100
+	s=arc-20240116; t=1752234882; c=relaxed/simple;
+	bh=feDvRDCDVySQgtBahHCSu9Ypy9OTk4jWyzpidVLMB4Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HmdpGzLZx4QxuPp3OsnxYwUulsxBu1jGCeyZv647xkmlrw+oWn+l8ffHAKgAB7fe+1+fdbpch0MAIbirRMq/RLKtBudCjoF5cYzCGo9drAg8VRJ170hO8DNIZhzTX8mkWA3Ha4VMO7c9bhVkZ9khYtB8srqB+z5VyqxpW3ZuVgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YMRV6LPL; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2352400344aso18574365ad.2;
+        Fri, 11 Jul 2025 04:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752234880; x=1752839680; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t1mZQmrKVDAmOIPWfgUlqa9qFOkm2aS9rFMDa8dlAXQ=;
+        b=YMRV6LPLHJRaNFWinBsLn2JdnhrvFQ4ATb4KQjhlo4fe1ZeLdnC2j5eVASmK+X+iIv
+         yfcXds8ZR3WALqt4bSnE4QIYwXJL3LLKSurBAnHFnqdH0twUAK9Jlll0wPqq8/WZzW9N
+         u2qKp+yHJDlS/lBZLFne0vHGYyhzi2TLuGIeF8eVPmbaxmirx4R6tSQlkUXVP0VgQ5ZI
+         N9jSJCQunz24qYkdO0P0Cc1Pl3JyWh7VjqImDTlDENXT6Fwh4y7T2gTeMdJ8KGWnIe5H
+         1Wge0sKWgVJ3Gt4aBvUklkzQayb4on/ijoEc8fiQDV1CeakeTzHEaGwo2zNEsUx7lbQS
+         Dzkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752234880; x=1752839680;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t1mZQmrKVDAmOIPWfgUlqa9qFOkm2aS9rFMDa8dlAXQ=;
+        b=Q2AGWEaz4dnguxs/aJOdGLCRof67xcDWarylh/gZt2I2wEHGRfI7ojsxpCPrlL6c+4
+         g/J1HrOcVlf8Xyr9tn9KuktMoep9Vm6DBMBU9DumgcadRIy1WCHMWNEqHs/pCSC5GU2n
+         2fR/wGyoOxGnaTmQO7JZGVFx0JDiw9CTUkPVccapeQq5kvmccOSK45Beko4JxZ5JwHrw
+         z0yR0bgS/uvCH6r/wnL2RLeWjDfpsybitcRPXwb/J2nfBhqpANl4qq0QGSgTVc2ZQXgt
+         e+bfuTLDxRrrZTD+F1fl83aanw2b7LtMODsul1kcJPYc4xyfvhDc44TJvlXzO3HyC6QZ
+         iVWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNdWMr5GjoWdbAum5+qNRBxlLeSQoXAZ826oRELwPKQM34T35gjiAjJQFSi2GgpHji2SGNC6B/OkR5KP8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBh3cDvHozfVy8+cfrSGsv2faDEXmro+Rc6zKkuGo22Q8YnRKI
+	Xb18E59JDxlUS233S9wq7AopJBFN4R8T9BALP+YTtrttykW30pNif+Ja
+X-Gm-Gg: ASbGncsYRzwy9IFTrdMck3ifCHFH7wSlGqyA6tNduzkn7t3WpdvJnoHDbhVBGywyvJR
+	HHze9fXE8yID25/ewGt4uNlWz+mO+AEWt5Ulyq0FuMrS/7+UHiGk/VFK8Xw4hamkZ3z1GAonV4P
+	vgetgxAkfC72Yd2zS7lixqpT+su+yE6aEATagGN2WhIhZMYOzZbR8UNvOeRtJiEL+c1WsK1+0wX
+	CZDwCsX7Gkf0YMEBTm55gO5O/trKyStn0heK1sH2A6baXzEJsBCINozcqlUj6RfulscLTdcgdFA
+	0a/Bh1K7AYJ/3SJepBZjgUT9jjm8i+2tCPfg6SeC4y/WLKPoHKQ6YXH/GyvFJ0KZMV3YHfslEzj
+	7ddSvqL+tDUUuwZuJRlmTYPLXUc6fdHUmbA4IFhvvW7lAxkOft8YmtYD4F1/rjnB81/3QyRCxBb
+	4secg401vQXA==
+X-Google-Smtp-Source: AGHT+IETaLh9p3L+JTXZhSMf4BMBfeFZFaQ/8cg9uXxVbYQWOO4pT3BnG/VGG7t+vPls4gHhdUFsGQ==
+X-Received: by 2002:a17:903:190:b0:235:f45f:ed53 with SMTP id d9443c01a7336-23df08e5a60mr31978055ad.33.1752234879931;
+        Fri, 11 Jul 2025 04:54:39 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de436e8e6sm46042135ad.255.2025.07.11.04.54.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 04:54:39 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Subject: [PATCH v9 0/3] staging: media: atomisp: indentation cleanup per
+ directory
+Date: Fri, 11 Jul 2025 19:54:35 +0800
+Message-Id: <20250711-new_atomisp-v9-0-a9dd62425ef6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/5] media: v4l2-dev: Add helpers to run
- media_pipeline_[started|stopped]()
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- biju.das.jz@bp.renesas.com
-References: <20250704-ivc-v3-0-5c45d936ef2e@ideasonboard.com>
- <20250704-ivc-v3-2-5c45d936ef2e@ideasonboard.com>
- <v3gonywym2km6u4qpsm2bkpn5n7vmvm4rdt3nfiws6mri3b7y4@gh4q5f4cmavc>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- xsFNBGLydlEBEADa5O2s0AbUguprfvXOQun/0a8y2Vk6BqkQALgeD6KnXSWwaoCULp18etYW
- B31bfgrdphXQ5kUQibB0ADK8DERB4wrzrUb5CMxLBFE7mQty+v5NsP0OFNK9XTaAOcmD+Ove
- eIjYvqurAaro91jrRVrS1gBRxIFqyPgNvwwL+alMZhn3/2jU2uvBmuRrgnc/e9cHKiuT3Dtq
- MHGPKL2m+plk+7tjMoQFfexoQ1JKugHAjxAhJfrkXh6uS6rc01bYCyo7ybzg53m1HLFJdNGX
- sUKR+dQpBs3SY4s66tc1sREJqdYyTsSZf80HjIeJjU/hRunRo4NjRIJwhvnK1GyjOvvuCKVU
- RWpY8dNjNu5OeAfdrlvFJOxIE9M8JuYCQTMULqd1NuzbpFMjc9524U3Cngs589T7qUMPb1H1
- NTA81LmtJ6Y+IV5/kiTUANflpzBwhu18Ok7kGyCq2a2jsOcVmk8gZNs04gyjuj8JziYwwLbf
- vzABwpFVcS8aR+nHIZV1HtOzyw8CsL8OySc3K9y+Y0NRpziMRvutrppzgyMb9V+N31mK9Mxl
- 1YkgaTl4ciNWpdfUe0yxH03OCuHi3922qhPLF4XX5LN+NaVw5Xz2o3eeWklXdouxwV7QlN33
- u4+u2FWzKxDqO6WLQGjxPE0mVB4Gh5Pa1Vb0ct9Ctg0qElvtGQARAQABzShEYW4gU2NhbGx5
- IDxkYW4uc2NhbGx5QGlkZWFzb25ib2FyZC5jb20+wsGNBBMBCAA3FiEEsdtt8OWP7+8SNfQe
- kiQuh/L+GMQFAmLydlIFCQWjmoACGwMECwkIBwUVCAkKCwUWAgMBAAAKCRCSJC6H8v4YxDI2
- EAC2Gz0iyaXJkPInyshrREEWbo0CA6v5KKf3I/HlMPqkZ48bmGoYm4mEQGFWZJAT3K4ir8bg
- cEfs9V54gpbrZvdwS4abXbUK4WjKwEs8HK3XJv1WXUN2bsz5oEJWZUImh9gD3naiLLI9QMMm
- w/aZkT+NbN5/2KvChRWhdcha7+2Te4foOY66nIM+pw2FZM6zIkInLLUik2zXOhaZtqdeJZQi
- HSPU9xu7TRYN4cvdZAnSpG7gQqmLm5/uGZN1/sB3kHTustQtSXKMaIcD/DMNI3JN/t+RJVS7
- c0Jh/ThzTmhHyhxx3DRnDIy7kwMI4CFvmhkVC2uNs9kWsj1DuX5kt8513mvfw2OcX9UnNKmZ
- nhNCuF6DxVrL8wjOPuIpiEj3V+K7DFF1Cxw1/yrLs8dYdYh8T8vCY2CHBMsqpESROnTazboh
- AiQ2xMN1cyXtX11Qwqm5U3sykpLbx2BcmUUUEAKNsM//Zn81QXKG8vOx0ZdMfnzsCaCzt8f6
- 9dcDBBI3tJ0BI9ByiocqUoL6759LM8qm18x3FYlxvuOs4wSGPfRVaA4yh0pgI+ModVC2Pu3y
- ejE/IxeatGqJHh6Y+iJzskdi27uFkRixl7YJZvPJAbEn7kzSi98u/5ReEA8Qhc8KO/B7wprj
- xjNMZNYd0Eth8+WkixHYj752NT5qshKJXcyUU87BTQRi8nZSARAAx0BJayh1Fhwbf4zoY56x
- xHEpT6DwdTAYAetd3yiKClLVJadYxOpuqyWa1bdfQWPb+h4MeXbWw/53PBgn7gI2EA7ebIRC
- PJJhAIkeym7hHZoxqDQTGDJjxFEL11qF+U3rhWiL2Zt0Pl+zFq0eWYYVNiXjsIS4FI2+4m16
- tPbDWZFJnSZ828VGtRDQdhXfx3zyVX21lVx1bX4/OZvIET7sVUufkE4hrbqrrufre7wsjD1t
- 8MQKSapVrr1RltpzPpScdoxknOSBRwOvpp57pJJe5A0L7+WxJ+vQoQXj0j+5tmIWOAV1qBQp
- hyoyUk9JpPfntk2EKnZHWaApFp5TcL6c5LhUvV7F6XwOjGPuGlZQCWXee9dr7zym8iR3irWT
- +49bIh5PMlqSLXJDYbuyFQHFxoiNdVvvf7etvGfqFYVMPVjipqfEQ38ST2nkzx+KBICz7uwj
- JwLBdTXzGFKHQNckGMl7F5QdO/35An/QcxBnHVMXqaSd12tkJmoRVWduwuuoFfkTY5mUV3uX
- xGj3iVCK4V+ezOYA7c2YolfRCNMTza6vcK/P4tDjjsyBBZrCCzhBvd4VVsnnlZhVaIxoky4K
- aL+AP+zcQrUZmXmgZjXOLryGnsaeoVrIFyrU6ly90s1y3KLoPsDaTBMtnOdwxPmo1xisH8oL
- a/VRgpFBfojLPxMAEQEAAcLBfAQYAQgAJhYhBLHbbfDlj+/vEjX0HpIkLofy/hjEBQJi8nZT
- BQkFo5qAAhsMAAoJEJIkLofy/hjEXPcQAMIPNqiWiz/HKu9W4QIf1OMUpKn3YkVIj3p3gvfM
- Res4fGX94Ji599uLNrPoxKyaytC4R6BTxVriTJjWK8mbo9jZIRM4vkwkZZ2bu98EweSucxbp
- vjESsvMXGgxniqV/RQ/3T7LABYRoIUutARYq58p5HwSP0frF0fdFHYdTa2g7MYZl1ur2JzOC
- FHRpGadlNzKDE3fEdoMobxHB3Lm6FDml5GyBAA8+dQYVI0oDwJ3gpZPZ0J5Vx9RbqXe8RDuR
- du90hvCJkq7/tzSQ0GeD3BwXb9/R/A4dVXhaDd91Q1qQXidI+2jwhx8iqiYxbT+DoAUkQRQy
- xBtoCM1CxH7u45URUgD//fxYr3D4B1SlonA6vdaEdHZOGwECnDpTxecENMbz/Bx7qfrmd901
- D+N9SjIwrbVhhSyUXYnSUb8F+9g2RDY42Sk7GcYxIeON4VzKqWM7hpkXZ47pkK0YodO+dRKM
- yMcoUWrTK0Uz6UzUGKoJVbxmSW/EJLEGoI5p3NWxWtScEVv8mO49gqQdrRIOheZycDmHnItt
- 9Qjv00uFhEwv2YfiyGk6iGF2W40s2pH2t6oeuGgmiZ7g6d0MEK8Ql/4zPItvr1c1rpwpXUC1
- u1kQWgtnNjFHX3KiYdqjcZeRBiry1X0zY+4Y24wUU0KsEewJwjhmCKAsju1RpdlPg2kC
-In-Reply-To: <v3gonywym2km6u4qpsm2bkpn5n7vmvm4rdt3nfiws6mri3b7y4@gh4q5f4cmavc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHv7cGgC/23MQQ6DIBCF4auYWZeGohZ01Xs0pkEcdZIKBgxtY
+ 7h7qesu/5e8b4eAnjBAW+zgMVIgZ3M0pwLMrO2EjIbcILioueQVs/h66M0tFFaGshwreRlLLhX
+ kx+pxpPeh3bvcM4XN+c+BR/Vb/ztRMc6EVvWVm35oerxNi6bn2bgFupTSF879s0OmAAAA
+X-Change-ID: 20250704-new_atomisp-e73f471f3078
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752234878; l=4117;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=feDvRDCDVySQgtBahHCSu9Ypy9OTk4jWyzpidVLMB4Y=;
+ b=1twEDt6k0zTGsYcR2NUvogGurdoeSs2Qh2drw+VpJsYrA+GZwORJr7fCq8tg3mmN/NyZojplQ
+ OrWMeWaV+a9DiJQeUlysqbo9FxILmsiXiphGH7/b0UdlLmWBrHWMpEY
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
 
-Hi Jacopo - thanks for the comments
+This patch series focuses on cleaning up indentation (spaces, tabs) in the
+AtomISP driver under drivers/staging/media/atomisp/pci/isp/kernels/.
 
-On 08/07/2025 14:10, Jacopo Mondi wrote:
-> Hi Dan
->
-> On Fri, Jul 04, 2025 at 12:20:19PM +0100, Daniel Scally wrote:
->> Add helpers to run the new media_pipeline_started() and
->> media_pipeline_stopped() functions. The helpers iterate over the
->> entities in the pipeline and count the number of video devices and
->> compare that to the pipeline's start_count() before acting. This
->> allows us to only run the media pipeline callbacks in the event that
->> the pipeline has had video_pipeline_start() called for each video
->> device.
->>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->>
->> ---
->>
->> We could take this further perhaps and include the equivalent routine
->> in video_device_pipeline[_alloc]_start()...if none of the entities
->> involved have .pipeline_started() or .pipeline_stopped() operations it
->> should be harmless, but I'm a bit reluctant to force the choice to run
->> those operations on users.
-> I know I've kind of suggested that, but after all I don't think it's a
-> very good idea, having this in two steps is probably better. And I
-> like the fact the v4l2-dev layer operates on the video device counting
-> and only relies on the mc layer for the callbacks notification.
+This version continues to address only indentation-related issues,
+with patches split by subdirectory for clarity and easier review.
 
+There is no functional logic change.
 
-Yeah me too. Let's stick to this
+---
+Changes in v9:
+- Reformatted struct comments to follow kernel-doc format
+- Reverted macro definition changes that removed alignment
+- Reverted multi-line array initializations to use brace-on-own-line style
+- Added trailing comma in small array initializations
+- Adjusted function declarations to follow kernel-style indentation
+- Removed unnecessary churn in cases where code was already style-compliant
+- Link to v8: https://lore.kernel.org/r/20250704-new_atomisp-v8-0-2a8560cbd9be@gmail.com
 
->
->> Changes in v2:
->>
->> 	- Adapted now media_pipeline_for_each_entity() takes an iter
->> 	  variable
->> 	- Fixed the Return: section of the kerneldoc comments
->> ---
->>   drivers/media/v4l2-core/v4l2-dev.c | 57 ++++++++++++++++++++++++++++++++++++++
->>   include/media/v4l2-dev.h           | 36 ++++++++++++++++++++++++
->>   2 files changed, 93 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->> index c369235113d98ae26c30a1aa386e7d60d541a66e..f3309f8349664f7296a95216a40dd9d9baae8d9e 100644
->> --- a/drivers/media/v4l2-core/v4l2-dev.c
->> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->> @@ -1200,6 +1200,63 @@ struct media_pipeline *video_device_pipeline(struct video_device *vdev)
->>   }
->>   EXPORT_SYMBOL_GPL(video_device_pipeline);
->>
->> +static int __video_device_pipeline_started(struct media_pipeline *pipe)
-> __function_name() is usually reserved for the non-locking version of
-> function_name().
->
-> This seems to be an helper only used internally by
-> video_device_pipeline_started() so I would use a different name
-> something like video_device_has_pipeline_started() ?
+Changes in v8:
+- Reorganized cleanup by subdirectory (one commit per directory)
+- Focused only on indentation fixes (spaces, tabs)
+- Removed all clang-format involvement
+- No functional changes
+- Link to v7: https://lore.kernel.org/all/20250629113050.58138-1-zaq14760@gmail.com/
 
+Changes in v7:
+- Split previous monolithic patch into multiple smaller patches
+- Applied clang-format to entire driver excluding i2c directory
+- Fixed checkpatch.pl-reported ERRORs (parentheses in macros, unnecessary return parentheses, zero-initialized globals, spaces after unary minus)
+- Left WARNINGS untouched for future cleanup
+- No functional logic changes
+- Link to v6: https://lore.kernel.org/r/20250627-bar-v6-1-b22b5ea3ced0@gmail.com
 
-What it does is count the number of _unstarted_ video 
-devices..."video_device_pipeline_unstarted_vdevs()"?
+Changes in v6:
+- Applied clang-format across the entire AtomISP driver
+- Fixed all checkpatch.pl-reported ERRORs
+- Added explanation of tooling and scope
+- No functional logic modified
+- Moved 'Suggested-by' and 'Link' tags above Signed-off-by
+- Link to v5: https://lore.kernel.org/r/20250625-bar-v5-1-db960608b607@gmail.com
 
->
->
->> +{
->> +	struct media_pipeline_entity_iter iter;
->> +	unsigned int n_video_devices = 0;
->> +	struct media_entity *entity;
->> +	int ret;
->> +
->> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
->> +	if (ret)
->> +		return ret;
->> +
->> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
->> +		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
->> +			n_video_devices++;
->> +	}
->> +
->> +	media_pipeline_entity_iter_cleanup(&iter);
->> +
->> +	return n_video_devices - pipe->start_count;
->> +}
->> +
->> +int video_device_pipeline_started(struct video_device *vdev)
->> +{
->> +	struct media_pipeline *pipe;
->> +	int ret;
->> +
->> +	pipe = video_device_pipeline(vdev);
->> +	if (!pipe)
->> +		return -ENODEV;
->> +
->> +	ret = __video_device_pipeline_started(pipe);
->> +	if (ret)
->> +		return ret;
-> I would not return ret, as it might take random values betwen
-> n_video_devices and 1. See below on the return value documentation
+Changes in v5:
+- Replaced space-based indentation with tabs in output_1.0 directory
+- Used checkpatch.pl and grep to identify formatting issues
+- No functional changes made
+- This patch is now focused solely on tab/space issues
+- Link to v4: https://lore.kernel.org/r/20250624-bar-v4-1-9f9f9ae9f868@gmail.com
 
-But we need to be able to signal to the driver three states:
+Changes in v4:
+- Moved assignment operator '=' to the same line for static struct definitions
+- Remove unnecessary line breaks in function definitions
+- Update commit message to reflect all the coding style fixes
+- Link to v3: https://lore.kernel.org/r/20250622-bar-v3-1-4cc91ef01c3a@gmail.com
 
+Changes in v3:
+- Removed extra spaces between type and asterisk (e.g., `*to`) in function
+  declarations, as pointed out by Andy Shevchenko
+- Update commit message to reflect all the coding style fixes
+- Link to v2: https://lore.kernel.org/r/20250621-bar-v2-1-4e6cfc779614@gmail.com
 
-1. No errors, but there are still unstarted video devices
+Changes in v2:
+- Fix patch subject prefix to "staging: media: atomisp:" to comply with media CI style.
+- No other functional changes.
+- Link to v1: https://lore.kernel.org/r/20250621-bar-v1-1-5a3e7004462c@gmail.com
 
-2. No errors and there are no unstarted video devices
+Thanks for your previous feedback.
 
-3. An error
+Best regards,  
+LiangCheng Wang <zaq14760@gmail.com>
 
+Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
 
-So I expect a driver to do a two stage check:
+---
+LiangCheng Wang (3):
+      staging: media: atomisp: fix indentation in aa
+      staging: media: atomisp: fix indentation in anr
+      staging: media: atomisp: fix indentation in bh
 
+ .../pci/isp/kernels/aa/aa_2/ia_css_aa2_types.h     |  8 +++++---
+ .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c  | 22 ++++++++--------------
+ .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h  | 20 +++++++-------------
+ .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c   | 14 +++++---------
+ .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h   | 13 +++++--------
+ .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.c       | 14 +++++---------
+ .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.h       | 14 +++++---------
+ 7 files changed, 40 insertions(+), 65 deletions(-)
+---
+base-commit: 8c2e52ebbe885c7eeaabd3b7ddcdc1246fc400d2
+change-id: 20250704-new_atomisp-e73f471f3078
 
-ret = video_device_pipeline_started(vdev);
+Best regards,
+-- 
+LiangCheng Wang <zaq14760@gmail.com>
 
-if (ret < 0)
-
-         goto err_out;
-
-if (ret == 0)
-
-         // something appropriate here like run the media jobs scheduler
-
-
->
->> +
->> +	return media_pipeline_started(pipe);
->> +}
->> +EXPORT_SYMBOL_GPL(video_device_pipeline_started);
->> +
->> +int video_device_pipeline_stopped(struct video_device *vdev)
->> +{
->> +	struct media_pipeline *pipe;
->> +	int ret;
->> +
->> +	pipe = video_device_pipeline(vdev);
->> +	if (!pipe)
->> +		return -ENODEV;
->> +
->> +	ret = __video_device_pipeline_started(pipe);
->> +	if (ret)
->> +		return ret;
-> ditto
->
->> +
->> +	media_pipeline_stopped(pipe);
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(video_device_pipeline_stopped);
->> +
->>   #endif /* CONFIG_MEDIA_CONTROLLER */
->>
->>   /*
->> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
->> index 1b6222fab24eda96cbe459b435431c01f7259366..26b4a491024701ef47320aec6a1a680149ba4fc3 100644
->> --- a/include/media/v4l2-dev.h
->> +++ b/include/media/v4l2-dev.h
->> @@ -654,6 +654,42 @@ __must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
->>    */
->>   struct media_pipeline *video_device_pipeline(struct video_device *vdev);
->>
->> +/**
->> + * video_device_pipeline_started - Run the pipeline_started() entity operation
->> + *				   for a fully-started media pipeline
->> + * @vdev: A video device that's part of the pipeline
->> + *
->> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
->> + * connected to a given video device through enabled links have been marked as
-> I would use the same text as the one from video_device_pipeline_start()
->
-> " connected to a given video device through enabled links, either
-> directly or indirectly,"
-
-
-Ack
-
->
->> + * streaming through the use of video_device_pipeline_start() or one of its
->> + * equivalent functions. If so, media_pipeline_started() is called to inform
->> + * entities in the pipeline of that fact. The intention is to provide drivers
->> + * with a shortcut for checking whether their pipeline is fully ready to start
->> + * processing data.
-> Not really a shortcut, I would use "mechanism" instead.
->
-> I would also specify that:
->
->   * entities in the pipeline of that fact. The intention is to provide drivers
->   * with a mechanism for checking whether their pipeline is fully ready to start
->   * processing data and call the .pipeline_started() media entity operation
->   * on all the entities in the pipeline.
-Ack!
->
->> + *
->> + * Return: The number of video devices in the pipeline remaining to be started,
->> + * or a negative error number on failure.
-> 0 for success as well
->
-> I would anyway return 0 for success and a specific error code for the
-> three failure cases:
-> -ENOMEM if allocating the iterator fails
-> -ENODEV if not all video devices have started
-> -EINVAL if media_pipeline_started() fails
->
-> You can document them as (copying from iommu.h)
->
-> * Return:
-> * * 0            - success
-> * * EINVAL       - call to pipeline_started() failed
-> * * ENOMEM       - failed to allocate pipe iterator
-> * * ENODEV       - pipeline not yet fully started
->
->> + */
->> +int video_device_pipeline_started(struct video_device *vdev);
->> +
->> +/**
->> + * video_device_pipeline_stopped - Run the pipeline_stopped() entity operation
->> + *				   for a fully-started media pipeline
->> + * @vdev: A video device that's part of the pipeline
->> + *
->> + * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
->> + * connected to a given video device through enabled links have been marked as
->> + * streaming through the use of video_device_pipeline_start() or one of its
-> What is the intended semantic here ? The first video device to receive
-> a streamoff() will trigger media_pipeline_stopped() or should the last
-> one do that ?
-The first one should do it, so the first device caling stop should trigger actual stop in all 
-involved hardware.
->
->> + * equivalent functions. If so, media_pipeline_stopped() is called for each
->> + * entity in the pipeline. The intention is to provide drivers with a shortcut
->> + * for checking whether this video device is the first device in the pipeline
->> + * to be stopped.
->> + *
->> + * Return: The number of video devices in the pipeline remaining to be started, or a
->> + * negative error number on failure.
->> + */
->> +int video_device_pipeline_stopped(struct video_device *vdev);
->> +
->>   #endif /* CONFIG_MEDIA_CONTROLLER */
->>
->>   #endif /* _V4L2_DEV_H */
->>
->> --
->> 2.34.1
->>
->>
 
