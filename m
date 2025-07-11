@@ -1,165 +1,220 @@
-Return-Path: <linux-media+bounces-37529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49EFFB022D2
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 19:41:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 410D9B02333
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 19:56:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96ADE5A760A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 17:41:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C91B23B1436
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 17:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E301D2F1984;
-	Fri, 11 Jul 2025 17:41:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332AD2F19B1;
+	Fri, 11 Jul 2025 17:56:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="MfxRnRrK"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="i0XHEMih"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7256C2F1991;
-	Fri, 11 Jul 2025 17:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B941219E82A
+	for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 17:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752255676; cv=none; b=CnoR/2SbiHJ8hB/lKhYKay+sR/pIFD4RA3qu39y8nPiVqG+k5OEuo4RE2alEDcS+IpSFI8m3cfO8jUuIrS3UUNgJylH2pUNiNKJCGjP5OFkOu9+MbUn2sbzvuhAhX/alx5FjmF6eZYLeXaddwgVnYJbC1j2pS8JuBRTGrN5B8qY=
+	t=1752256605; cv=none; b=kNlloyLSmbGPuvTpAbvi2+k/jguZMlLbDS4Gmg1/4S+loipfrLZKME5V/G/wPKNyCn9BI70TIV1P2ZMmtUczovVk2JWn4o0hcsg8+s0GWJpBLglwQl9z20y/YTN7Ymtw51wQGRqvcsQ1JzNi8+dcO5AtkltJ7knjH5j78Re68F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752255676; c=relaxed/simple;
-	bh=A+IZMmbCmHFz7LA5U90SHkR83aX68N0xOOmAhTQfdps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lgMAVqy913t/8HMojoP8HR427pl38aGBjbIT0QmCvu4wHANJEInGQbGY1PJ7CmAn2Yi9lN2da1RFD5aZFaZIsehdtTcUTsGbR1+Sj1JuqpcQRIvdupELZCqEo+aIJRrj9tc3a0MJ/khpB+tDC7AI5a6IMhlZ4Zh4vFS76uUptTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=MfxRnRrK; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56BHemug1861107;
-	Fri, 11 Jul 2025 12:40:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752255648;
-	bh=avkCSBI/cy3dHICmDxAzJXYe1H+unqcSXKS5zVohgaE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=MfxRnRrKgfCUgO2J9UsENDPiXwTOrv7M+KRQK4+WubWagVc1t8P07KW7Eqp+XtZUK
-	 kEbQVJRSEM/E4NEI1bAIugDacmCrpCTnuo/gdgQp7j9MAA3mc4VLjM+KuTu0R+rRO6
-	 ZiN1UFF5JJS6uX5fPKjBaY5Yzkevs1GL6yNSaKfk=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56BHem8U533293
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 11 Jul 2025 12:40:48 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 11
- Jul 2025 12:40:47 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 11 Jul 2025 12:40:47 -0500
-Received: from [10.250.35.60] ([10.250.35.60])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56BHekf83588411;
-	Fri, 11 Jul 2025 12:40:46 -0500
-Message-ID: <7178abc9-8f92-4bba-9b50-ffdf5f8d1279@ti.com>
-Date: Fri, 11 Jul 2025 12:40:46 -0500
+	s=arc-20240116; t=1752256605; c=relaxed/simple;
+	bh=Var2MoGEoGsaPZwdqo+NeN4j0z4u+0AKDQa+R3DsI9I=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uLPNs80IWYRhtQxI6vsjlifCMABfTO0wVNH1/bWpfs1gkeS7c5odk5G25YC2koqymIeKw4nKNXWxtQSzgRDk7N03+BZeDG9tFHQuhF4mDlnlwkhStp2+Yod4FN6wlYQuPxj5mDB7UmyZlevEjZXB0WY8kyEOIgpgKFGT0LReL9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=i0XHEMih; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4a77ea7ed49so40902211cf.0
+        for <linux-media@vger.kernel.org>; Fri, 11 Jul 2025 10:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1752256602; x=1752861402; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=6QjHPqMWTb7903th4wiGiWkJJQfH8F6Ga2gKADxKWkg=;
+        b=i0XHEMih24UnmQUPVjm4SXyYU3YpyJUk15KUllKblFfDpESpQ+dUklvbGisjh0sMCa
+         BVwt8VJpOZQlZpvBLupMy2EZ05qMuNEJS6u3r6fByKL6TAs/qfYRAT2h3b0B/NSvrcWi
+         LqkXCa3JcpIHlAHfDv12o91wlYkOkrxEEhIu6brwhf/7WeH+HlNM/y7mLpGEyChsTNY3
+         ezJ22/rVyBz5eCN5Ck7VlACPESjwad8XB5MRb+6T6i4uLfp3nw/+RbHxAguPRWCiorPV
+         OGKtn5xXIFtuplWU1dmBw4plbtaFZq9KtbmPLQJ+IMf6laVBRhJuRUW/bqhyXsIg4WvR
+         Pa1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752256602; x=1752861402;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6QjHPqMWTb7903th4wiGiWkJJQfH8F6Ga2gKADxKWkg=;
+        b=PCKSKylJTCJGu1LMS+zOVJurM5RNUhnawsgADYPiKYesvmhwj5C+nA1oxloiuHTKhr
+         uZdCZabrqyW+5J2Xcr1mQjAUWP+zW0fX44wMqvOdLCKN7ALbVd3+o6EbpcJ33oaoEsjq
+         nKN5M8dUqQLS1d5yi01sOPxfCknd1pvMRc1jWbR/tVI9RpK9rT+LhTURp/yWS9AhvP/X
+         IOkBnxOjLOEw9hFsyTc7iSJPVUPrjdbUD7MQ48NTVmi/rE3sbpKloejf9K6+XTB0GeOH
+         w+W3RIrx4NxQV5Lx5TUwcNZvNjK09me4gupYmga6KTnHe8S9McDPv/dI7J57OB9TNPHP
+         PAxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWH7491AWYxb72thmShOO9dfBsOkuHR6mXmGh0zFyeqgRfnP1Jr3JCe8r8t/uoUKPLQILElhZ5MsttNbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsfGbtprcIL12YQB8L2JBnpBVQATFuueXBPK+fud6eq6eLfw/J
+	v1X8TN5ppKieazacP8l/N7Yvm1PyBMgmNmtAgABmSwGGVUSoPkjDm1bZwEqMmTldiUyC66MnJb1
+	3IIi4oVM=
+X-Gm-Gg: ASbGncsaFz53zWqxcadupZYNfDG+isrVUKDkfjFkM//5Oh/weAmrAU6LMmaHUGEXN1K
+	yCid0PFgCPQKAMjO0sBi9tgVE72RLHftp2BTS+jvNGH7RkGK8k7x1o2ZZKOQJfwJz6r6HanpYl0
+	U/Y76Ka1feGwT//oRl+i9EZTxN9SDfK2tgvLZotFY0O5pJW5eIT7T/3h71xYox6XuyQ906HE/js
+	qVL+WVm/OP7y0w0luzEEriFoY4Oap0KhL9DFlJjlknFpacnCHmzIyIJAzeBe78RYtpMA4LqzlX7
+	2TWyrQPAGyWp/nG6i2gsj9DO8kPaYbvrOKYyGmqlg9sGM8hZZmeHfR8lh/+USzTBeX6sFHC+rw+
+	7vl5oAc8AmFVbJFUDz0znoQ2mA7Y=
+X-Google-Smtp-Source: AGHT+IGjDVBWUZ5Xr4D7/1EcgkcFLXc2a5mvHJS/IiZgJV5+JIl8p3+xYRoMTMb3ObaBZ9j7dxYGQA==
+X-Received: by 2002:a05:622a:1c0e:b0:4a9:783e:9dd1 with SMTP id d75a77b69052e-4a9e9d05ffcmr155538091cf.21.1752256602271;
+        Fri, 11 Jul 2025 10:56:42 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:b699::5ac? ([2606:6d00:17:b699::5ac])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ab40a349c5sm2420061cf.60.2025.07.11.10.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 10:56:41 -0700 (PDT)
+Message-ID: <f6989f5bf28b37c9e5069ea38e29f3aa828815f0.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: v4l2: Add support for NV12M tiled variants to
+ v4l2_format_info()
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Marek Szyprowski <m.szyprowski@samsung.com>, linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+	 <hverkuil@kernel.org>, linux-fsd@tesla.com, Smitha T Murthy
+	 <smithatmurthy@gmail.com>, Aakarsh Jain <aakarsh.jain@samsung.com>
+Date: Fri, 11 Jul 2025 13:56:38 -0400
+In-Reply-To: <c5f51055-5771-4eb0-9bc7-d86d3bb1c196@samsung.com>
+References: 
+	<CGME20250710075144eucas1p2eebcb5acd8d06bd6fbe75378c6d6374f@eucas1p2.samsung.com>
+		<20250710075130.3940569-1-m.szyprowski@samsung.com>
+		<2547684f36a71cef644e2a13ad5a05bffab89c50.camel@ndufresne.ca>
+	 <c5f51055-5771-4eb0-9bc7-d86d3bb1c196@samsung.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
+ oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
+ oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
+ AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
+ 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
+ TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
+ cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-qayQMEszOeMO9sbboM8/"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/10] accel/rocket: Add IOCTL for BO creation
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sebastian
- Reichel <sebastian.reichel@collabora.com>,
-        Nicolas Frattaroli
-	<nicolas.frattaroli@collabora.com>,
-        Kever Yang <kever.yang@rock-chips.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Daniel Stone <daniel@fooishbar.org>, Da
- Xue <da@libre.computer>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250606-6-10-rocket-v7-3-dc16cfe6fe4e@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 6/6/25 1:28 AM, Tomeu Vizoso wrote:
-> This uses the SHMEM DRM helpers and we map right away to the CPU and NPU
-> sides, as all buffers are expected to be accessed from both.
-> 
-> v2:
-> - Sync the IOMMUs for the other cores when mapping and unmapping.
-> 
-> v3:
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> 
-> v6:
-> - Use mutexes guard (Markus Elfring)
-> 
-> v7:
-> - Assign its own IOMMU domain to each client, for isolation (Daniel
->    Stone and Robin Murphy)
-> 
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->   drivers/accel/rocket/Makefile        |   3 +-
->   drivers/accel/rocket/rocket_device.c |   4 ++
->   drivers/accel/rocket/rocket_device.h |   2 +
->   drivers/accel/rocket/rocket_drv.c    |   7 ++-
->   drivers/accel/rocket/rocket_gem.c    | 115 +++++++++++++++++++++++++++++++++++
->   drivers/accel/rocket/rocket_gem.h    |  27 ++++++++
->   include/uapi/drm/rocket_accel.h      |  44 ++++++++++++++
->   7 files changed, 200 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/accel/rocket/Makefile b/drivers/accel/rocket/Makefile
-> index abdd75f2492eaecf8bf5e78a2ac150ea19ac3e96..4deef267f9e1238c4d8bd108dcc8afd9dc8b2b8f 100644
-> --- a/drivers/accel/rocket/Makefile
-> +++ b/drivers/accel/rocket/Makefile
-> @@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_ROCKET) := rocket.o
->   rocket-y := \
->   	rocket_core.o \
->   	rocket_device.o \
-> -	rocket_drv.o
-> +	rocket_drv.o \
-> +	rocket_gem.o
-> diff --git a/drivers/accel/rocket/rocket_device.c b/drivers/accel/rocket/rocket_device.c
-> index a05c103e117e3eaa6439884b7acb6e3483296edb..5e559104741af22c528914c96e44558323ab6c89 100644
-> --- a/drivers/accel/rocket/rocket_device.c
-> +++ b/drivers/accel/rocket/rocket_device.c
-> @@ -4,6 +4,7 @@
->   #include <linux/array_size.h>
->   #include <linux/clk.h>
->   #include <linux/dev_printk.h>
-> +#include <linux/mutex.h>
->   
->   #include "rocket_device.h"
->   
-> @@ -16,10 +17,13 @@ int rocket_device_init(struct rocket_device *rdev)
->   	if (err)
->   		return err;
->   
-> +	mutex_init(&rdev->iommu_lock);
 
-devm_mutex_init() again keeps you from needing rocket_device_fini().
-Same in the next patch even if you don't end up needing the iommu_lock.
+--=-qayQMEszOeMO9sbboM8/
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Andrew
+Le vendredi 11 juillet 2025 =C3=A0 11:11 +0200, Marek Szyprowski a =C3=A9cr=
+it=C2=A0:
+> On 10.07.2025 17:37, Nicolas Dufresne wrote:
+> > Le jeudi 10 juillet 2025 =C3=A0 09:51 +0200, Marek Szyprowski a =C3=A9c=
+rit=C2=A0:
+> > > Commit 6f1466123d73 ("media: s5p-mfc: Add YV12 and I420 multiplanar
+> > > format support") added support for the new formats to s5p-mfc driver,
+> > > what in turn required some internal calls to the v4l2_format_info()
+> > > function while setting up formats. This in turn broke support for the
+> > > "old" tiled NV12MT* formats, which are not recognized by this functio=
+n.
+> > > Fix this by adding those variants of NV12M pixel format to
+> > > v4l2_format_info() function database.
+> > Since you mention something broke, should this come with a Fixes: tag ?
+>=20
+> I wasn't sure that such change in generic v4l2 code deserves a tag=20
+> pointing to the commit in the niche driver.
+
+I don't have enough context to know how many Samsung chips are affected, th=
+at being said, whatever we do, stable AI bot will likely come to the conclu=
+sion it should be backported.
+
+>=20
+> > > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > > ---
+> > > =C2=A0=C2=A0drivers/media/v4l2-core/v4l2-common.c | 4 ++++
+> > > =C2=A0=C2=A01 file changed, 4 insertions(+)
+> > >=20
+> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4=
+l2-core/v4l2-common.c
+> > > index df40756ac8f6..0829d7028ef7 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > @@ -323,6 +323,10 @@ const struct v4l2_format_info *v4l2_format_info(=
+u32 format)
+> > > =C2=A0=C2=A0		{ .format =3D V4L2_PIX_FMT_NV61M,=C2=A0=C2=A0 .pixel_en=
+c =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D {=
+ 1, 2, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+> > > =C2=A0=C2=A0		{ .format =3D V4L2_PIX_FMT_P012M,=C2=A0=C2=A0 .pixel_en=
+c =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D {=
+ 2, 4, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> > > =C2=A0=20
+> > > +		/* Tiled YUV formats, non contiguous variant */
+> > Since these are tiled, it should not leave the block_w/block_h to 0. NV=
+12_4L4/P010_4L4
+> > are the broken example, we missed, and the drivers using them actually =
+uses bigger
+> > alignment. And that makes me notice MT2110T/R are not in the tiled grou=
+p :-(
+>=20
+> I assume that these formats would require separate cleanup.
+
+Correct, this is just me being overly verbose, I will take care a little la=
+ter,
+there is no urgency there.
+
+>=20
+> > > +		{ .format =3D V4L2_PIX_FMT_NV12MT,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 2, .comp_pl=
+anes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+> > So this one is special, 32x32 tiles, but they come in pair row wise, so=
+ the data
+> > must be aligned 64x32.
+> >=20
+> > 		=C2=A0 .block_w =3D { 64, 32, 0, 0 }, .block_h =3D { 32, 16, 0, 0 }},
+> >=20
+> > > +		{ .format =3D V4L2_PIX_FMT_NV12MT_16X16,=C2=A0 .pixel_enc =3D V4L2=
+_PIXEL_ENC_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, =
+0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> > 		=C2=A0 .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 16, 8, 0, 0 }},
+> >=20
+> > Please double check, the block is in pixels, so on interleave plane, 1 =
+pixels
+> > contains 2 bytes. The stride (bytesperline) should endup the same for b=
+oth
+> > planes.
+>=20
+> Right, I missed those block_w/h restrictions, thanks for pointing them.=
+=20
+> I assumed that most parameters will be the same as for the generic=20
+> V4L2_PIX_FMT_NV12 case as those formats only differs by macroblock pixel=
+=20
+> layout.
+
+Correct, these formats are relatively simple tiling and the inner format is
+identical to NV12. So the delta is going to be mem_planes being 2, and a
+block_w/h.
+
+>=20
+> Best regards
+
+--=-qayQMEszOeMO9sbboM8/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaHFQVwAKCRDZQZRRKWBy
+9OMDAP9nww/pBeYHN/dtBrbR1SQnd49QsMgyFjLaC81qxOhjJQEAojDpiiZZmpuC
+OtfFElN+4EtnTc50oJvErQJo/91ynQE=
+=ueA6
+-----END PGP SIGNATURE-----
+
+--=-qayQMEszOeMO9sbboM8/--
 
