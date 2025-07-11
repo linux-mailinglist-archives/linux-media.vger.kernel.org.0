@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-37511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D079B01DD0
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 15:38:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2435EB01DD9
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 15:38:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA1F91CC091A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:38:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD9C4A4066F
+	for <lists+linux-media@lfdr.de>; Fri, 11 Jul 2025 13:38:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB3C2D8DAF;
-	Fri, 11 Jul 2025 13:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7DA62DE6F6;
+	Fri, 11 Jul 2025 13:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6kt7N6D"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avGQdPVv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682C02D3729;
-	Fri, 11 Jul 2025 13:35:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DE5288C06;
+	Fri, 11 Jul 2025 13:36:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752240941; cv=none; b=Qm2fRDzZ/5rS3wJOO4GFdkTtiTV+hJAhxw65jROEZWUNzp8AiQJ/jWC75IAayOdjg5gKWTFGVXdb3RuX6Sq+dv4qWv6b7kHMtOiMA2V/aoFT+HlR0swoRuCaSVhepcea1UGMpfD/gd5Xpw5/X+8Rh8dX/KIbuxVeZaCCSYI4fz4=
+	t=1752240989; cv=none; b=YdtLqaH2i/Uo/KEunZmLeJuAkv3A8g1Zp+1ABIhG9WeeH448PySiUZz6VfrdwjpLr2LhAP3lJ+hc0seZ9S+H/tvcW3rtfrcF80PzXU+TShYM5KpjexiS6+oW7kaSVfJoH7iNEPhcqbVzIFqX44rTM41li4dhIASWKSgpGQlI9Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752240941; c=relaxed/simple;
-	bh=toq/INt3cRfbCunvma7W/7KSnSn2Yrt9K2+A1K6bBnk=;
+	s=arc-20240116; t=1752240989; c=relaxed/simple;
+	bh=caWJhIzkcW7OlS8O19MijF2TuoNFr2DX83akVD5Fh9c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q2ZIA8TTw0l6hagulK10t5vsF2OMD6FmYAE/ziy3ufatpTbUyLfWTG5L6wmaQS6ILoINQdN91KxMhBgIhl0zNf3Wabgk73IijgHo64bIbTQ/bBkaiGqxBDgYJeFvAQzLCDdXU6bByYlGEmed5jAag5RGhVhFuvqPs1fsAR1jDVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6kt7N6D; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89806C4CEED;
-	Fri, 11 Jul 2025 13:35:36 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=BwHE7gTZrOsCkmrwNPhKnEKBKyQ+t9KR6RY/nxg5ZSFTbzURkegQ5N1L67fyey9NKdMI+AH7AZMGT9950uF83iKG4iFbAQNYk0SKz+7sE4kvm/SqoPpHHWmRHQXGmjToBI4SqWqguexOKdGkUAR6wuyk9iXQ1iR4Ca6cJJ0WAhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avGQdPVv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717E1C4CEED;
+	Fri, 11 Jul 2025 13:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752240940;
-	bh=toq/INt3cRfbCunvma7W/7KSnSn2Yrt9K2+A1K6bBnk=;
+	s=k20201202; t=1752240988;
+	bh=caWJhIzkcW7OlS8O19MijF2TuoNFr2DX83akVD5Fh9c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J6kt7N6DnlpmKuDrQBv65iE/cdMpZtCm+6MIt0D0aF3MQbhbrvq81mg5nnZQaXrop
-	 P9Gf42DZTInbWOYkxD5OxbppuIaA4vmcZ1J5t9Gij1CXqZwlwcSiEXRswrz0OYSPCN
-	 KJavmS0YoxtaROUkDn2bW8mJri+Dl4ogoKwFlg+SXZLyf5XxmHk5hHNQfIYnKKZOoG
-	 seWs9c3rc5mt/UQglerRD+O1m6/pDF+F1D17qmp4n7gtydBfaz3qnWBqg1ZQ5o5JE8
-	 frpit3KzYy5iVUao+1BVXAD916DnVyZOVFT14LNBLTCTCzbtxfgOXpph2WV1Igsb1i
-	 5ecpOdBQkNCAg==
-Message-ID: <ae8d2356-8445-4c05-a023-0f08560dd356@kernel.org>
-Date: Fri, 11 Jul 2025 15:35:34 +0200
+	b=avGQdPVvZYk21z9J30CEexmM+Yk0UY4Pho8VVJ9K5l4rVCdPy/9CMHqgTpo2udfhQ
+	 PtzW1uet8XQGHZEKobcpAg0yIpbb40ptm+kUrIQtQCNS1UOJJJDsw0rTk/OZcHimST
+	 wGTgO+QbHi+cdFa71ne5THGuke5SMPNvVEL8pF0/otRmQQmeTogKsNYboRD7xNM0Hh
+	 rLjzNIcEyynhL7C7poRcXrvC2zWfksSrBWd1Qy5/Kd4v8QZXgsiVO6HHhQ6HcbieRm
+	 sUS84KfBx1Hs81iUzXZx7qJnB/wJHqeYxLljOmOxou10wDHTh1A8hBtJJSX8kRc66b
+	 zfIWgf77Ij4SQ==
+Message-ID: <19b79155-9d8d-42fc-bef6-3a9b8d223d84@kernel.org>
+Date: Fri, 11 Jul 2025 15:36:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] arm64: dts: qcom: qcs8300: Add support for camss
+Subject: Re: [PATCH v2 1/7] media: dt-bindings: Add qcom,qcs8300-camss
+ compatible
 To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -60,7 +61,7 @@ Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250711131134.215382-1-quic_vikramsa@quicinc.com>
- <20250711131134.215382-3-quic_vikramsa@quicinc.com>
+ <20250711131134.215382-2-quic_vikramsa@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,21 +107,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250711131134.215382-3-quic_vikramsa@quicinc.com>
+In-Reply-To: <20250711131134.215382-2-quic_vikramsa@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/07/2025 15:11, Vikram Sharma wrote:
-> Add changes to support the camera subsystem on the QCS8300.
+> Add the compatible string "qcom,qcs8300-camss" to support the
+> Camera Subsystem (CAMSS) on the Qualcomm QCS8300 platform.
+> 
+> The QCS8300 platform provides:
+> - 2 x VFE (version 690), each with 3 RDI
+> - 5 x VFE Lite (version 690), each with 6 RDI
+> - 2 x CSID (version 690)
+> - 5 x CSID Lite (version 690)
+> - 3 x CSIPHY (version 690)
+> - 3 x TPG
 > 
 > Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 > ---
->  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 171 ++++++++++++++++++++++++++
+>  .../bindings/media/qcom,qcs8300-camss.yaml    | 336 ++++++++++++++++++
+>  1 file changed, 336 insertions(+)
 
-Don't place your DTS changes in the middle of the patchset. I don't get
-why did you decide to move it to this patchset, but since you did, place
-it AS ALWAYS at the end. See soc maintainer profile and your internal
-guideline
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
