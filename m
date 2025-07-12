@@ -1,161 +1,212 @@
-Return-Path: <linux-media+bounces-37540-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37541-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B79EB0292A
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 05:41:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD74B029D7
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 09:57:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E3421BC2623
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 03:41:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB2C04A7899
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 07:57:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5541A1EF38E;
-	Sat, 12 Jul 2025 03:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF901221FD4;
+	Sat, 12 Jul 2025 07:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Q27WHixS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FNIxYWlg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892EE1B95B
-	for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 03:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26ECD51C5A
+	for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 07:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752291657; cv=none; b=bQnVPmByOYBYxF7SzheJDw6+6qI1uu1VL8KNa0dWgIp0dHMImqDB7w4+f/EuFRAs/kUQtxBZu+qOzfUdwNmQt/zPcqc1Me9WeXQKJLUVy/Mo7+Wk1u8vVl2dUeI9ziZc6KzEbX8/4PnRLTqVjED5lQep6pula98SKFS//CRKzp0=
+	t=1752307037; cv=none; b=sVU7Ff8F74QVGNZThbNkW3ahbAHA5p3kO3PiLQOVjrUhZx8hdLshZ+3rR5u5MpIbIy/ixujyF0bB6TDsRR9asQ5AUZc/CGWkJ1erX63imQ1GyPlmfcKaFmGFfc+THcYjS6KCWazyQlQOm28Z0Wu1poERzD4FcwndW2Kc/T/OxBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752291657; c=relaxed/simple;
-	bh=D0qAQ55bYi7rTrCHjcV5HRgRoMjPoXFxvJdiPguyScY=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=RjddARPxTeH5tE2Zo+9U9f6RiejOClMXOlZuR2tH6wNt4eRJ/bdoL0D2Z0pOSybsZ0ui2hdXocVEK/VHDkE7NXvqdnc1p2/sAsQFQFC0ZEH9WMMFiCp2+/2oyfXN4cY8ItzOpoDDoPzFBArz2Qa3DrMgVZ+KOuQK8/tJFToG05k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Q27WHixS; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250712034052epoutp028f93d668c47039b6f2c76ca71b7874f5~RY-lCyWJ32108321083epoutp02a
-	for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 03:40:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250712034052epoutp028f93d668c47039b6f2c76ca71b7874f5~RY-lCyWJ32108321083epoutp02a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1752291652;
-	bh=N/c5hghha+9UIfheH73lEwvF3nKdgG2uy6qz8YjGSl0=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=Q27WHixSi3jO301qMTqEXat3S7O1lBsk3TU2Cvfhl/siu7Ho3qukDytgFOlI1qRDd
-	 LbE+G3Y+qFkK1BYWO7EM7kcNUKGNiwM3147GVvjkpldtDfgwaacB0z5Gc30XXSDhHg
-	 loGPnGT+o+YpHbtJrlWlSDzx21itvQlOZ5NNPhW8=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20250712034051epcas5p19b1ae481e18dab36a306ca3a3996a034~RY-kgQq3o0081500815epcas5p1w;
-	Sat, 12 Jul 2025 03:40:51 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4bfDrK5jpwz2SSKY; Sat, 12 Jul
-	2025 03:40:49 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250711110258epcas5p31b63da99019958cdbf9ed03818d7f573~RLYTpwGFr0548005480epcas5p3W;
-	Fri, 11 Jul 2025 11:02:58 +0000 (GMT)
-Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20250711110257epsmtip2465d0b0f74561d47cb193d7c71f639f2~RLYSfQ7mE0137501375epsmtip2D;
-	Fri, 11 Jul 2025 11:02:57 +0000 (GMT)
-From: "Aakarsh Jain/Aakarsh Jain" <aakarsh.jain@samsung.com>
-To: "'Marek Szyprowski'" <m.szyprowski@samsung.com>,
-	<linux-media@vger.kernel.org>
-Cc: "'Mauro Carvalho Chehab'" <mchehab@kernel.org>, "'Hans Verkuil'"
-	<hverkuil@kernel.org>, <linux-fsd@tesla.com>, "'Smitha T Murthy'"
-	<smithatmurthy@gmail.com>, "'Nicolas Dufresne'" <nicolas@ndufresne.ca>
-In-Reply-To: <20250711094159.144293-1-m.szyprowski@samsung.com>
-Subject: RE: [PATCH v2] media: v4l2: Add support for NV12M tiled variants to
- v4l2_format_info()
-Date: Fri, 11 Jul 2025 16:32:56 +0530
-Message-ID: <000001dbf253$5c9270f0$15b752d0$@samsung.com>
+	s=arc-20240116; t=1752307037; c=relaxed/simple;
+	bh=XiBsSmIonINFe+gj6UzcACccBftWZXXBRVhW3ykIS0U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OLaDrqjA2KQznq220pdk6Ke9sDvs36ov9M55YkJiWz33E7IcK0M0JC0yffUw1CY5w114ogoxKdyBeML3V8lasF19WhZyVDIfjnp0h25Q9iVJ4vOBG23kBkIgLy6pHDqYBTqFR0ZpiNbC5Shptp6JuJCaHyaUE1PyYya/vyI0MvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FNIxYWlg; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752307035; x=1783843035;
+  h=date:from:to:cc:subject:message-id;
+  bh=XiBsSmIonINFe+gj6UzcACccBftWZXXBRVhW3ykIS0U=;
+  b=FNIxYWlgrz/oIlbByi2K2rIfOZtY1RBnuENT2bVVfQNB92yhYiprdRYx
+   9DEO5hRJJ2FAKcsEKdm/bjg/YYJQng7q/3IC1/HK5EjuAcoEEfOui+kel
+   TL3a1scOqAgPrsQiNbCRUZYY6DOr4JWn+KlGzeBzpCnZE7Pm4DEOqt7Nj
+   ZXb2UvxbMvsBiFNZ2R/screOcG4yD2F8SvBmq4GylbD9l7wL+18TToppA
+   ejiyRAsYzbQgIM4lpBEKvrARvxM4rN70scW8L5eyQUwzPjQt5zEZjEV0+
+   aeT08e4Ee1pmyGhc6jcidofD8IzxcHdt30f6izk1colHYvcm9N5AKDEPE
+   Q==;
+X-CSE-ConnectionGUID: lp4pTTKZS0+d6h3IniFlQg==
+X-CSE-MsgGUID: VTsSC2n+RniVvqgMl6DW1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66036434"
+X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
+   d="scan'208";a="66036434"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 00:57:15 -0700
+X-CSE-ConnectionGUID: A4M5UMQBRuCuNBo4kYYMVQ==
+X-CSE-MsgGUID: cLGxYnuYSoe+SF6TCO/ldw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
+   d="scan'208";a="155950849"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 12 Jul 2025 00:57:13 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uaV6d-0007AB-0F;
+	Sat, 12 Jul 2025 07:57:11 +0000
+Date: Sat, 12 Jul 2025 15:56:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:eusb2] BUILD SUCCESS
+ 8f96afdc53ed484beda25ecb9faf04c4c992504f
+Message-ID: <202507121500.OY9mtFGd-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQECo7QjHBA6XIZXQP1wxF9dAC82SAHVR2SGtdC023A=
-Content-Language: en-in
-X-CMS-MailID: 20250711110258epcas5p31b63da99019958cdbf9ed03818d7f573
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-541,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250711094214eucas1p2223ae658fe0d43cc6a9925f68ce71785
-References: <CGME20250711094214eucas1p2223ae658fe0d43cc6a9925f68ce71785@eucas1p2.samsung.com>
-	<20250711094159.144293-1-m.szyprowski@samsung.com>
 
+tree/branch: git://linuxtv.org/sailus/media_tree.git eusb2
+branch HEAD: 8f96afdc53ed484beda25ecb9faf04c4c992504f  media: uvcvideo: eUSB2 double isochronous bandwidth support
 
+elapsed time: 1295m
 
------Original Message-----
-From: Marek Szyprowski <m.szyprowski=40samsung.com>=20
-Sent: 11 July 2025 15:12
-To: linux-media=40vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski=40samsung.com>; Mauro Carvalho Chehab <m=
-chehab=40kernel.org>; Hans Verkuil <hverkuil=40kernel.org>; linux-fsd=40tes=
-la.com; Smitha T Murthy <smithatmurthy=40gmail.com>; Aakarsh Jain <aakarsh.=
-jain=40samsung.com>; Nicolas Dufresne <nicolas=40ndufresne.ca>
-Subject: =5BPATCH v2=5D media: v4l2: Add support for NV12M tiled variants t=
-o v4l2_format_info()
+configs tested: 119
+configs skipped: 3
 
-Commit 6f1466123d73 (=22media: s5p-mfc: Add YV12 and I420 multiplanar forma=
-t support=22) added support for the new formats to s5p-mfc driver, what in =
-turn required some internal calls to the v4l2_format_info() function while =
-setting up formats. This in turn broke support for the =22old=22 tiled NV12=
-MT* formats, which are not recognized by this function.
-Fix this by adding those variants of NV12M pixel format to
-v4l2_format_info() function database.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Fixes: 6f1466123d73 (=22media: s5p-mfc: Add YV12 and I420 multiplanar forma=
-t support=22)
-Signed-off-by: Marek Szyprowski <m.szyprowski=40samsung.com>
-Reviewed-by: Aakarsh Jain <aakarsh.jain=40samsung.com>
----
-v2:
-- added Fixes tag and block_w/h restrictions as suggested by Nicolas
----
- drivers/media/v4l2-core/v4l2-common.c =7C 6 ++++++
- 1 file changed, 6 insertions(+)
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250711    gcc-8.5.0
+arc                   randconfig-002-20250711    gcc-8.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-15.1.0
+arm                   randconfig-001-20250711    clang-19
+arm                   randconfig-002-20250711    clang-21
+arm                   randconfig-003-20250711    gcc-15.1.0
+arm                   randconfig-004-20250711    clang-20
+arm                        spear6xx_defconfig    clang-21
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250711    clang-18
+arm64                 randconfig-002-20250711    clang-21
+arm64                 randconfig-003-20250711    gcc-12.3.0
+arm64                 randconfig-004-20250711    clang-21
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250711    gcc-14.3.0
+csky                  randconfig-002-20250711    gcc-15.1.0
+hexagon                          alldefconfig    clang-21
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250711    clang-19
+hexagon               randconfig-002-20250711    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250711    gcc-12
+i386        buildonly-randconfig-002-20250711    gcc-12
+i386        buildonly-randconfig-003-20250711    clang-20
+i386        buildonly-randconfig-004-20250711    clang-20
+i386        buildonly-randconfig-005-20250711    gcc-11
+i386        buildonly-randconfig-006-20250711    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-21
+loongarch             randconfig-001-20250711    clang-21
+loongarch             randconfig-002-20250711    clang-21
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                               defconfig    gcc-14.2.0
+nios2                 randconfig-001-20250711    gcc-10.5.0
+nios2                 randconfig-002-20250711    gcc-14.2.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250711    gcc-12.4.0
+parisc                randconfig-002-20250711    gcc-14.3.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-21
+powerpc                          g5_defconfig    gcc-15.1.0
+powerpc                   motionpro_defconfig    clang-21
+powerpc               randconfig-001-20250711    clang-18
+powerpc               randconfig-002-20250711    clang-21
+powerpc               randconfig-003-20250711    clang-21
+powerpc                     sequoia_defconfig    clang-17
+powerpc                     skiroot_defconfig    clang-21
+powerpc64             randconfig-001-20250711    clang-21
+powerpc64             randconfig-002-20250711    clang-21
+powerpc64             randconfig-003-20250711    gcc-13.4.0
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250711    gcc-8.5.0
+riscv                 randconfig-002-20250711    gcc-12.4.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250711    clang-21
+s390                  randconfig-002-20250711    gcc-10.5.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                    randconfig-001-20250711    gcc-12.4.0
+sh                    randconfig-002-20250711    gcc-15.1.0
+sh                              ul2_defconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250711    gcc-10.3.0
+sparc                 randconfig-002-20250711    gcc-12.4.0
+sparc64               randconfig-001-20250711    gcc-8.5.0
+sparc64               randconfig-002-20250711    gcc-8.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250711    clang-20
+um                    randconfig-002-20250711    clang-19
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250711    clang-20
+x86_64      buildonly-randconfig-002-20250711    clang-20
+x86_64      buildonly-randconfig-003-20250711    clang-20
+x86_64      buildonly-randconfig-004-20250711    gcc-12
+x86_64      buildonly-randconfig-005-20250711    clang-20
+x86_64      buildonly-randconfig-006-20250711    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250711    gcc-9.3.0
+xtensa                randconfig-002-20250711    gcc-14.3.0
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-cor=
-e/v4l2-common.c
-index df40756ac8f6..c8bd8e5697d4 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-=40=40 -323,6 +323,12 =40=40 const struct v4l2_format_info *v4l2_format_inf=
-o(u32 format)
- 		=7B .format =3D V4L2_PIX_FMT_NV61M,   .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D =7B 1, 2, 0, 0 =7D, .bpp_d=
-iv =3D =7B 1, 1, 1, 1 =7D, .hdiv =3D 2, .vdiv =3D 1 =7D,
- 		=7B .format =3D V4L2_PIX_FMT_P012M,   .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D =7B 2, 4, 0, 0 =7D, .bpp_d=
-iv =3D =7B 1, 1, 1, 1 =7D, .hdiv =3D 2, .vdiv =3D 2 =7D,
-=20
-+		/* Tiled YUV formats, non contiguous variant */
-+		=7B .format =3D V4L2_PIX_FMT_NV12MT,        .pixel_enc =3D V4L2_PIXEL_EN=
-C_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D =7B 1, 2, 0, 0 =7D, =
-.bpp_div =3D =7B 1, 1, 1, 1 =7D, .hdiv =3D 2, .vdiv =3D 2,
-+		  .block_w =3D =7B 64, 32, 0, 0 =7D,	.block_h =3D =7B 32, 16, 0, 0 =7D=
-=7D,
-+		=7B .format =3D V4L2_PIX_FMT_NV12MT_16X16,  .pixel_enc =3D V4L2_PIXEL_EN=
-C_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D =7B 1, 2, 0, 0 =7D, =
-.bpp_div =3D =7B 1, 1, 1, 1 =7D, .hdiv =3D 2, .vdiv =3D 2,
-+		  .block_w =3D =7B 16,  8, 0, 0 =7D,	.block_h =3D =7B 16,  8, 0, 0 =7D=
-=7D,
-+
- 		/* Bayer RGB formats */
- 		=7B .format =3D V4L2_PIX_FMT_SBGGR8,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER=
-, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D =7B 1, 0, 0, 0 =7D, .bpp_=
-div =3D =7B 1, 1, 1, 1 =7D, .hdiv =3D 1, .vdiv =3D 1 =7D,
- 		=7B .format =3D V4L2_PIX_FMT_SGBRG8,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER=
-, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D =7B 1, 0, 0, 0 =7D, .bpp_=
-div =3D =7B 1, 1, 1, 1 =7D, .hdiv =3D 1, .vdiv =3D 1 =7D,
 --
-2.34.1
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
