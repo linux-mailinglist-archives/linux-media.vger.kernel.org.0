@@ -1,341 +1,301 @@
-Return-Path: <linux-media+bounces-37543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BC4B02A45
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 11:33:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA29B02C1E
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 19:22:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C2011BC139B
-	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 09:33:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42D5F7A6C1D
+	for <lists+linux-media@lfdr.de>; Sat, 12 Jul 2025 17:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA6A2274B36;
-	Sat, 12 Jul 2025 09:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020AE288CB5;
+	Sat, 12 Jul 2025 17:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OEEpMXPk"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="LLqHLwmU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011049.outbound.protection.outlook.com [52.101.70.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF84BA59
-	for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 09:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752312802; cv=none; b=BJ7JoRBfgkLDqjN/ytJkILoR3KOBvAxDASpreOQcdoY24q6T3+6h7N8s+LDegGvZf9huXpVqGGpnUZPWTnvTYjVOG8GLH+HrcCe8jZsPECpGi7wYdQye3wYOMEriU/oyHLo1OYV+uK/RKQMbx2e5+aURVxuhOSVfmoYBNE9B2Mg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752312802; c=relaxed/simple;
-	bh=5UdXn8k+oY3qC22jobCZHJUHpLut88yQEeaHyPm54ns=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iNC5sgNYE6+jzzKF0wyHkqe4yP6C/SgPxV6mCRwhp1beloS0juMc/MwsfKQLH8ER0cgjQ58eSpGyEgkMhraDgoaLDy5EdlZ5nKJGvWTSb+hxSviFmkBXpKakbroNQ9oD3YdT2s4ngYccpdB/qAQXTutpRWvPC1f+iwnxLO+71ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OEEpMXPk; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56C4lxJl032280
-	for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 09:33:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=9eJIKAYvQhbBKdExfKxSSqD3
-	SqghwuUjx6hXINkrmmU=; b=OEEpMXPkgsWc7EusiVf2vKXwyDVxPbkgfBHddHPd
-	YSrXBj+eHiHKDwhLCtRBj8zw8opmeiOa+HmL5ab3jd8YZcJqasJe+qdbceCwZTL9
-	h0dHqveieblqsOVAOGfGc4ycNJVxGZsZEChr6vqDqniGfmSaIaSosSRfyBMic1Ox
-	p9CjRTgaxIuL8mMqja5CE4NOjq6xeu5HI6wEGsj/WZoJSLjGfbH8Uw4IjqSj57oi
-	Y/E0Q/GHbnkCMVr4gyuScizo7/l0izbv4TR2lgCvgmQlKYITlBk7nND0EEG0KCUI
-	DQN/qdaY/5QSw83vGaVWuaBH2CGfz/P+TH/ceBvjKp0ZTw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufxardns-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 09:33:13 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4a42d650185so35291901cf.0
-        for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 02:33:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752312792; x=1752917592;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9eJIKAYvQhbBKdExfKxSSqD3SqghwuUjx6hXINkrmmU=;
-        b=d5cKh02FI7zFiHN2ZfM4w8sjg/m01as1mmTKZMxXKF/xaDUHad43Y/TepCMBxAf4fC
-         oXOBybjrV9KehJV5FBD1eE/T0Nyr1/XchoK8V7K+tVYpmEmNHZPb7cjlPLvYNJd7eZs3
-         vdam/q/eUXp3HsszCk6MeIIsBWXPnVaidZ4CoHHwZzIWMYwLvJy+nCAs91du3vfLJI5G
-         O29suex3iLq23f+VTC2CvmW1Vzr9fxHETpvbxow3H8fX6C0FVoUfFxfabTRakal1vCwM
-         hk4F/V216aSV6Se0TO51F+R26QhgDzI9N002ZdDTBw1lZLGSmlpEn7uc9JwbsZt8Qm3S
-         8IhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXc0/ZSqvftF2fon6tvcxs40DBFpGhYIatkVMmFEYTEvdAjeFh3qzVb+aMDPVJ9meI1bMmEOgXyPqT7MQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHLfw9YXAi60/SSFuWYQkYuRPSWm+aEuskdfSnx0JxdvSCfq6q
-	l84DdmRZg276Objli0DEkXLigW2pvhzleK+BsVqTsV/LcN2yqEgVBPBMIZvoOiif9rDnFAhAORU
-	LtjYdo5SmH48WTYv2AGx3bRVnPHI1x9a8O+J/ugkAWv4xKWgfA9fYgR8iOqn9e4JQHg==
-X-Gm-Gg: ASbGncvm/My7w1T8+/+33Zancoo3wzFm8h2vmjYgI0sJ4vmkxuXviTHq3SSoO+lqC1V
-	fVdE1325i45lsG2RBHOQDIe9bIo+H+BFjoBHA2/U3k1We3pZ7bN84xWZ9vDwW5skg5qmw+WHsIm
-	LMm/yrZjZSFj+140kvxVf7lAyXawWcuW59fN6IUCDoYSzlui68aWEsVjVLAmJItAIAU46HXCQFP
-	Nc9yRbeUoWS5IXp5/E0kImFiTS8sw+F59eeuNwU3ksyzCDq6Be86ORqxRV/dFM2q3abxjhiYTx4
-	8acS0eOqlXoYlfxWODy96GjffCpjshcLByrOLiZmmlLv+6lvESoq2c/MZ44LEZCQTxALLkC2cWY
-	=
-X-Received: by 2002:a05:620a:472c:b0:7d3:c67f:7532 with SMTP id af79cd13be357-7de0709c6dbmr1023862285a.40.1752312792312;
-        Sat, 12 Jul 2025 02:33:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFPMIYlDxJXmo/JxnHC46PqfmGQlInNLhjU3or7FBq0Bji8zzXiaTA2X7k32WJ7OoyNKLpBxA==
-X-Received: by 2002:a05:620a:472c:b0:7d3:c67f:7532 with SMTP id af79cd13be357-7de0709c6dbmr1023859185a.40.1752312791822;
-        Sat, 12 Jul 2025 02:33:11 -0700 (PDT)
-Received: from trex (153.red-79-144-197.dynamicip.rima-tde.net. [79.144.197.153])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4560db56529sm5995025e9.26.2025.07.12.02.33.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jul 2025 02:33:11 -0700 (PDT)
-From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
-Date: Sat, 12 Jul 2025 11:33:09 +0200
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
-        bryan.odonoghue@linaro.org, quic_vgarodia@quicinc.com,
-        krzk+dt@kernel.org, konradybcio@kernel.org, mchehab@kernel.org,
-        robh@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
-        amit.kucheria@oss.qualcomm.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 4/7] media: venus: hfi_plat_v4: Add capabilities for
- the 4XX lite core
-Message-ID: <aHIr1fPSTv0nGSQc@trex>
-References: <20250708180530.1384330-1-jorge.ramirez@oss.qualcomm.com>
- <20250708180530.1384330-5-jorge.ramirez@oss.qualcomm.com>
- <7d50318e-1189-15aa-8c26-9c522c3194c4@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0503527C145
+	for <linux-media@vger.kernel.org>; Sat, 12 Jul 2025 17:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752340915; cv=fail; b=Y35mej2bWEE826tkiz/uF0l78YalRJTva3nnK2hCzegPFeJrj50a9Lm1LgRxbNiXxq7ZC+l3mZFNp1MhP5ZaHUXvooDVVV43wRtec/CduGZxGchxavDkiy2KIL/hKi50a+mWaOIQvm8QKPVUUpyWWlhCxt8L3YltWsw0xUuIDDM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752340915; c=relaxed/simple;
+	bh=a7/fb9yY2kS09xaVWYyyGMZAu303/pbhzZQRIQGI1Nk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DWxfwQnEi9X0I+vaCHwozcFOeSCsGRvjOpnwFxnVqQOY2Nh4dIdCl9V9I3XxX0+DUxiPxJYTgTDqBlp+4x8gSDVpoBbEVJj9BgqHHtD4/yn1MTliF3vB3oJ1+fhLnfK/I1EJJLlcL1FvjjS7o4EizAmC/jPOPj61zcA3RlPIoFI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=LLqHLwmU; arc=fail smtp.client-ip=52.101.70.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jTKBfi+MAgdkieaXaICKVt4c07ZyrZ+fntcNKAIZnauGTLWmIs1FoQmKwz8+xtkVC32cj2QaU8zPX1vTkoHKSgRHm+07K8SmAPQSuk4PG0Bqjzqu42qet+LDZH/Ui8sVuHKeEHs2rhg34fkjVtPheWYtt9JmwV8zzmruWdfuyRgcnhsCosPKkS0KBbGlcHkC03mN0NfwjAKF3gOmztE2eDwLC56eKOPKlTIBaiJN8/N42X2j7iLzTF/lx+XNbm/+n3sy1GQaoMebmRt5C1wcfEsYs/jrmaAS6Nd7/5otY9u/2VhzEG4jB7vkDucQvkjW2yYgrwK5Y/6DBbRyxEaIiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HK2sPU9P5lhPjouKHsteLSJsD2fSn21QGO/gnTmhsyo=;
+ b=t+Tf8WJl5i4f1PZVYmBK2hUJiu2gnjFZIpouMPrB5EfS2DhOro7dI+SENADoXv6yHB0nuJUBw+J2hLHqCdyeRVAJMElM9rxOkjOdbejtusvTppFchZx1eEKv+1FwJMR54MIW775LqlzZ1WC6IkXt/wAhgayPD76Fi0OfD8+Dpgey5t08Mrfv7H40TIum2OqCGkd8pgjrFjtfzXTa7gChT49asqFvct15y2ArWn5rohV64m75WR7IJLIdxQD37C6wTkC1VHBeIWhqF9p3yRlQoWGjH7YnwbVpSjTzF1k0pNGTIVQlS9RacIm0W7BBK/hLn8/sqGcuj8Z91bnYXAjvCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HK2sPU9P5lhPjouKHsteLSJsD2fSn21QGO/gnTmhsyo=;
+ b=LLqHLwmUlFwmnIzLOX3Ze+9OvdiqpeU5fREGJmI2Hv2omwxBYJGK8cG7cCPPdrqZzsbOdY8oj5Pw3fseK0lt8I0IhwT03YEu+Bcv8M8HovtxCRG21PcW8G9+/krL8LkNtiIG+POJ39q0OAF39ABhXq3qEyaPYXewlwTmmdl2yb4xhsbhAGP7z27l+x7XDXOx9HJSIFhVzsQDFfQxTqV77P2Pqnw8PeswNPdNd9pFGUu7GSMNY3Xq9z02UoIeGRQUhL+xSV2aOXS0CnKOL8y5CfqMKsJWJX7HDd4G1UHYmyLZC8Im6syRUXqjbHwhw//FGYjNOfrnvx/avZtNpX5uig==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
+ by DBAPR04MB7304.eurprd04.prod.outlook.com (2603:10a6:10:1ab::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.25; Sat, 12 Jul
+ 2025 17:21:49 +0000
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::7303:2cc8:d109:d7c1%5]) with mapi id 15.20.8901.024; Sat, 12 Jul 2025
+ 17:21:49 +0000
+Message-ID: <349615b0-2823-4360-bf61-14f5f00f9d7d@nxp.com>
+Date: Sat, 12 Jul 2025 20:21:45 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: Re: [PATCH v10 12/64] media: uapi: v4l: subdev: Enable streams
+ API
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+ laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>,
+ Kate Hsuan <hpa@redhat.com>, Alexander Shiyan
+ <eagle.alexander923@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Julien Massot <julien.massot@collabora.com>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ "Yan, Dongcheng" <dongcheng.yan@intel.com>,
+ "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu"
+ <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>,
+ Stefan Klug <stefan.klug@ideasonboard.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Ricardo Ribalda Delgado <ribalda@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-13-sakari.ailus@linux.intel.com>
+ <5q2j6zf4o4xyt3k3xpi4n4mbyckxkexmfho2hfmpvtpfwb35tx@hwjlkjm7krm5>
+Content-Language: en-US
+From: Mirela Rabulea <mirela.rabulea@nxp.com>
+In-Reply-To: <5q2j6zf4o4xyt3k3xpi4n4mbyckxkexmfho2hfmpvtpfwb35tx@hwjlkjm7krm5>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1P190CA0038.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:800:1bb::9) To AS4PR04MB9244.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4e3::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d50318e-1189-15aa-8c26-9c522c3194c4@quicinc.com>
-X-Proofpoint-GUID: zuj2c9XWTm3vz8bsbwsR1N5WlJ9mklj3
-X-Proofpoint-ORIG-GUID: zuj2c9XWTm3vz8bsbwsR1N5WlJ9mklj3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEyMDA3NCBTYWx0ZWRfX7YdKLqg9eu09
- P/PaIvK9gXxEyZ0XN/XCBIyKy8QQfk776VhA1A9PfrTQ/thKYdQNZ9jxZHRLhvJQEZPW51U8nVG
- LDfGdHkR6VsGac0i/zZEcXSGB6hOEuP2aE+JxFhc96ariPbgLO4Cm9XsL/OumB8HY0flx4g5CcY
- GUlyZheUVqccCxUWgAqVAoJxu3G4jyUyQbh7hNboIws1OdaRkfj+4y9B4XX4/n9naoMaulEgQt5
- xOsWqU8+wZh5EmG3m799JtTLknV4eaaVgkeAWarwKibEE1QUQrWj9NyJD/b+Af1DZw4yyYsQbGR
- eLw3yh1vtb40wQOn32NZ2mCzYC3fo4GqighFy38zmMjCYIsvkNFXtejwEHvKQ2d43wG/eB2E3cq
- ybQnWXvR0FByPKaahiVb7dXC7pzDIOlfn19K96DWPTWrCQtAm1QkdtBUCu4zWTFFk76BBKfM
-X-Authority-Analysis: v=2.4 cv=Xc2JzJ55 c=1 sm=1 tr=0 ts=68722bd9 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=Ki5fnJvzvo7yLsyA0quaxQ==:17
- a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=RK2QijgDkECOggW0PlwA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-12_01,2025-07-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
- phishscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
- clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507120074
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|DBAPR04MB7304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2355f9f8-026d-4eb1-aa3d-08ddc16895b6
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|7416014|19092799006|52116014|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?cDdWK1ZibTE5KzFHb0RNNlByR2pIMEE5Uklzc3hBZDBweWt0WXRzQlIySGEx?=
+ =?utf-8?B?TWJHK09IbHZGdGNlQXp6ai9sSVQzWkZmUy84bjRDS0NEZXpOZ2RMMWdvOC9M?=
+ =?utf-8?B?ZHgyYlB0alZxVFAwYWRvNmFsckNaL2VMQlpGMDFIVVN2TWlvaWkyN0JwRzRp?=
+ =?utf-8?B?elNpYkJtQm5ycTFkeHNsRGMzS1hSMkFqTVhjc3hJN0E3OXB5aTFnZkpPS1Ba?=
+ =?utf-8?B?VHJGZEQ5R05QMW4rSW82YWJQVjc5Ylg1b09pZFBYekZqRWdINUttdjRHcTRE?=
+ =?utf-8?B?NUF4OGNtOHJtRHQ0TzZ6b3dWZ1lobW1xb2VmWGlGcitITW9QeGFNQ3pmTEVt?=
+ =?utf-8?B?bVBzVFlKOUZyL04xZTBIenQ3K0c2S1VFQkpOek9FWmZ3NmZlV1hUTnNINm5y?=
+ =?utf-8?B?YWdnb2NPZ3VTZ3pDUXBNRTFNZCt2UFA3TzNBN3pKU1VKSGxwc2JHbFVrYUJo?=
+ =?utf-8?B?eDlaaElsUjFUYm1DZmRDakJWZXJoUEtaZFI5YWFFUGpJV1NJdjFPbDdzV25D?=
+ =?utf-8?B?VFNHSFBBY3B0dnI3T202MWZtNi9ZUm1VQlRzSnEvK0dOc0dxZzB0U0VPY2xW?=
+ =?utf-8?B?enN2YkdmY1pGcU1tMDdoSnliUEswNStRaW9IbGRRbHVyYTMrMXpaL1g2V1Uz?=
+ =?utf-8?B?djZQU1NPZldUSUs2em02d1ltRE1ZVlhGK2ZyKzlEZnVSMjRYcytRaHRUQlRX?=
+ =?utf-8?B?d29jK1JicmVDclIxTWFKVCtjSXZseFJUckZCUWJEbXZBUlBBTkVhWkh6Qldh?=
+ =?utf-8?B?cFU0VEtTVWQ5eGh4Ni8yUkNuYnBLWEcxWUlBZ1FtUlU2UmZWVTBVeTNEM0lJ?=
+ =?utf-8?B?RW1wSmh1Z2xhWW5jaFhNdU8yWXhaR0IrY2orUy84SUtEOHVDcTFSVTAwTmpG?=
+ =?utf-8?B?clpkM3ZjU3BPNWZLYnNNVFBBeDN6aDZpUWlFU1dTTmFseGZMK0luVjRsSWY1?=
+ =?utf-8?B?MmxSUHNWTVpxT2N1MlJTQUtnVEhjZEZBS2x0RGVrOUFjeXdBcnAvbWJVcTZF?=
+ =?utf-8?B?QWx6T2xMT0tmQUJXdlRML3FVSFUrSnc2WlpwN3RyMFJjc202RlNUb3lKRzZZ?=
+ =?utf-8?B?N3Fxa0x2OC9FR0pMTmp0c3l4MHNUQU40Z1FiRXZMbUNiM2syVGJKWkQyTTlK?=
+ =?utf-8?B?Qk5qRC8rU3dLOFpiNWwwQlYvRUZndit3UnM1OUFPclFxUWRZOEVQR1Yxd2pW?=
+ =?utf-8?B?dGpKZ3NhTUhkSEdTTDNDaEVlVmNzb0pmajE1bGhEQ2dvaFFsL1kzbUNmbExq?=
+ =?utf-8?B?bTFmTWdQK0tWS2RuR1hiL1RvamN6TDJkVmNTMGlhTW5zQ081bklCOEZuSFI4?=
+ =?utf-8?B?cGtuZG56NXNWWmhiQjBPc1Y5WUxYZzFIbWRxQW5Pd0lQRlk1RytidXdtbkE1?=
+ =?utf-8?B?dGFpMHg2OHJEL2gvL25NcWRxS3BCamhnNEhPTVUrdEVxa2d4aUMzdVJkaS9k?=
+ =?utf-8?B?cGhzRDZGUXlNS2dzaFBZK09vVVZRc3l2dlFHeTFrY3diZHVpNVJoVXdjelF5?=
+ =?utf-8?B?djY1T2lISlVkWEtQaWsrNDdzWWoyNGhhSndZd2x3MmR1cFVhdjNhd1dISzdX?=
+ =?utf-8?B?c0tLQnczT0NhQTlSUjdXU1BqU0hVd2RSaXY4Vjg1a2FGc0ttanBSUW5DeWIv?=
+ =?utf-8?B?QXZWL09EVVZzczYwU2RybDJTVFhrM2JBWk1sdHAvUVluZDIwd2YwVnBjODgz?=
+ =?utf-8?B?UG03T0wrZWlCRVpFZlhieHhjSGJpL2k4cmtHOTN0UUJib210M3BUVC9zMExJ?=
+ =?utf-8?B?b3JwMzV3MzZaejEvOWcrd2ZpaHh5Q21na24yRm1OajlFK00rVThkOVNSUm9y?=
+ =?utf-8?B?UEVSVXp6SVZnUGlrUHBNaG01T2ozUytiNTc1cFdRSWptOFlHc0JRdjJDRU9l?=
+ =?utf-8?B?NEZDOFF3TjEzM3RxcGJ3QnMxVEVvdDZzM0xGNHk1L2JROEwxYUhpbFkzYWk3?=
+ =?utf-8?B?MGNMaTZOQ29hakM2TnFYZWMzV2pUYUE0aEh0cTcxbG5jNU9kOUVrKzRtR2hU?=
+ =?utf-8?Q?hRqXBQHH+gm1+FPDJvq8Nb6Dc4rldU=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(19092799006)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?Nk03Z3dSUVh5VTZMNSs4eWZaMWU1UHB0YmlzNUg5Rm5sWFhORjJKNWZQMjd3?=
+ =?utf-8?B?STY0WFVScE9tMTFzR2xaYXp5ZUdjNzIwMzRmSUZmSld1d0YzOVFzTTl2b3RW?=
+ =?utf-8?B?WDBBNWcrREpGeVVqYmpQRThseS9MUjk0MW1QSDhpRTExemxBU2RaVWlpU1Nj?=
+ =?utf-8?B?eFFYWkZiU3R6dzZsS1lsQS9uaFB2TFVVWlFvMEt4Y2wxUjlSTzU0TjJtcDZw?=
+ =?utf-8?B?RVliaFJYUll6V1cxR2FuaXpXNlJkcHpWQlRBTWM1YXptb2ZaU2xjNCtGN1ZO?=
+ =?utf-8?B?aWdqT2tGUkoxZVJ6Z2w0ekJ4aS9wQU0vQnpBL24vNDhRVzgwcThlWS9GL1hr?=
+ =?utf-8?B?a2FpWitqWVo1Yk1wck1LS2tWUTN5ZHNnSnZ0WUw4bDM1dHpieU5wZEVIakNx?=
+ =?utf-8?B?bE9wVVZNcmFobzkyRTJHOFg3eENGdDd0bWtNWXJLSGRjd1BKWldjSE5DdWpR?=
+ =?utf-8?B?YzBtMmJUckJHVVh1Y2F4N3Mza1ZHblVDd2dSUnRnR2phc3VoMGVRaWk0ZVdq?=
+ =?utf-8?B?Y0M1MzBCK00rQkxWNzVMd0o0MUJLZUFPdms3V3pTRFNqU3pQWDlydXltOVRa?=
+ =?utf-8?B?QjNOOThKS2lQUHV4bDJKdWlnNzI5UzJYUE5xVTBxK1VVRXBzN2hld1YyeXZm?=
+ =?utf-8?B?Q0dLVEtodEV5RVhlR0p6WGxVUjNLallzNE15WE5rRUpmYlp2cWpQZDVvNXpR?=
+ =?utf-8?B?M29DS1U3cHFQRU1RS0ZIa2hpZnl5NjRTczBpeDNkMHZQSFlEcmRFSnRxb0RM?=
+ =?utf-8?B?cVFGSmhOQ1QwN2hwMDZac3AzVGdGQTBxZUdvYVgrM1J2UG5iZ3hPdG9Xc3Er?=
+ =?utf-8?B?Y0RnQy84aGlkbytUcERhQVMycVFrWHFSdCtHVzlDRGRlaUhWRjU5MUlvV3k2?=
+ =?utf-8?B?MisrTHA2cFFPa2xQeWU4elBCN0VWNFIrRWhpMTlBS1p5QmNTQ2hJeFJYOGND?=
+ =?utf-8?B?V0hPQUxqYWI2czlYL0tRTGxJWTlLMExPV0srUWZRNG8xd3RMNjBiK1BSOHZG?=
+ =?utf-8?B?UkdncXR5Wk51Y2ZOd0ZYTUJuV0laUkJ3akh0aDNHbTVmU2JlY0ZoRkdDcVha?=
+ =?utf-8?B?Ykg5cG9HOG5Oa3lmNzZvTnhqSlFxekh5TmVac0pheVRaN1lmUnM0TzJtNVBC?=
+ =?utf-8?B?WGl1RzZzUFhRMkhnOWh6QmJtRDN0NHZ2YktaYytqVUE0T216N1VCRE1kN0kz?=
+ =?utf-8?B?cEttc0Z4S0xxOVFlM0MyNnozM3FkR1RsK1h1bU0wWm5mSlNIcTQvOFBtUDlT?=
+ =?utf-8?B?ZEYyZCs1NUZFL1BJRklTMFQya1Z2dVdJNWZ6TXZGc1RScWxHR3RHV2JjRm1E?=
+ =?utf-8?B?RU41R2pFWSttVXcrZlFjT1JHcUxqMGtNcDRXTzRLTWlXenBHNzJJKzVOaVFa?=
+ =?utf-8?B?WE50b2pZRGtVQ0N4aisrV0VXWWRNemdNWXFQZG1UdmZUZmkyVkhiTndLU0tl?=
+ =?utf-8?B?TlM4NGpuclA5dVZCQzNibWVkcStvaTM0TFpIR1ZyUVJpeDJUcjF0WXNyRUMy?=
+ =?utf-8?B?UEtLODd0bDhuZkt2bVpWZjRCNkMxQzBBck9qUWF5TG1LcEJtVTRCdHgwMXEr?=
+ =?utf-8?B?MzM0b0RLUy9Ld1pkUTl3S01sYzREb2JzRnlpL2tHL1hMeHU1V01relBmcm9I?=
+ =?utf-8?B?ZHFPc0lqNEFaWjkyNGFFdWxGVkpxRW1rTCt0bWNZTlRpVWh6djhTeW9QSUg1?=
+ =?utf-8?B?YTltbzR5bkFXS1BoZlptTTdCNnBFblAxSHRZRlhwNEZSTW4xWGc2MUNJYVkv?=
+ =?utf-8?B?SWFWdmhXZEQxSXh0NnBQSStzUk5tSXJRaVgzZWNyOUkvL0Jqamc0RnJFcVFr?=
+ =?utf-8?B?clV1aDNWcUdqZG0zaTllRW9uWWUyQmN2RmlESnY0YjVBUHJldS9EUko2STBu?=
+ =?utf-8?B?bElwY0I2d25ETnNKdy9rWGlMcjFDZTdVMmZiTTdPc3hCT1pvYmxrNGVzSGZ6?=
+ =?utf-8?B?LzZiMk9jZWR0UkViWkx5M05yeTRub011elpvdnpaKzU1emFUTEZadzBqU2Y4?=
+ =?utf-8?B?d0JtSFhaRWJEWmQ0SXdjRnR5QnE0OEJONXNycGZRcmw2ajArbFJKNVdwQy9u?=
+ =?utf-8?B?anlKcVprNTRVK3MvSGd6NUVldkM5ZTdYVG1SSTNtaWU4WkJCcEhYY0pMK2xh?=
+ =?utf-8?Q?gSAaGq/SzsJqfOIAZ1hp7DVlw?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2355f9f8-026d-4eb1-aa3d-08ddc16895b6
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2025 17:21:49.1131
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +wLv7wr+TpxRQA6sr5c5wIrhPz02yn9XxoIiWjZ+EKAolfA+mznFJNpyjvprfnsIj1nTbkWTV8Zr2+sDYvYUug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7304
 
-On 10/07/25 14:51:08, Dikshita Agarwal wrote:
-> 
-> 
-> On 7/8/2025 11:35 PM, Jorge Ramirez-Ortiz wrote:
-> > Populate the HFI v4 lite capability set used by the AR50_LITE video
-> > core.
-> > 
-> > These capabilities define the supported codec formats and operational
-> > limits specific to this streamlined VPU variant.
-> > 
-> > Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> > ---
-> >  .../platform/qcom/venus/hfi_platform_v4.c     | 165 +++++++++++++++---
-> >  1 file changed, 145 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v4.c b/drivers/media/platform/qcom/venus/hfi_platform_v4.c
-> > index c8e0f8040649..4b7271468ec4 100644
-> > --- a/drivers/media/platform/qcom/venus/hfi_platform_v4.c
-> > +++ b/drivers/media/platform/qcom/venus/hfi_platform_v4.c
-> > @@ -245,25 +245,149 @@ static const struct hfi_plat_caps caps[] = {
-> >  	.num_fmts = 4,
-> >  } };
-> >  
-> > +static const struct hfi_plat_caps caps_lite[] = {
-> > +{
-> > +	.codec = HFI_VIDEO_CODEC_H264,
-> > +	.domain = VIDC_SESSION_TYPE_DEC,
-> > +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> > +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> > +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> > +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> > +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> > +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> > +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> > +	.num_caps = 7,
-> > +	.pl[0] = { HFI_H264_PROFILE_BASELINE, HFI_H264_LEVEL_5},
-> > +	.pl[1] = {HFI_H264_PROFILE_MAIN, HFI_H264_LEVEL_5},
-> > +	.pl[2] = {HFI_H264_PROFILE_HIGH, HFI_H264_LEVEL_5},
-> > +	.pl[3] = {HFI_H264_PROFILE_CONSTRAINED_BASE, HFI_H264_LEVEL_5},
-> > +	.pl[4] = {HFI_H264_PROFILE_CONSTRAINED_HIGH, HFI_H264_LEVEL_5},
-> > +	.num_pl = 5,
-> > +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> > +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> > +	.num_fmts = 4,
-> > +}, {
-> > +	.codec = HFI_VIDEO_CODEC_HEVC,
-> > +	.domain = VIDC_SESSION_TYPE_DEC,
-> > +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> > +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> > +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> > +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> > +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> > +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> > +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> > +	.num_caps = 7,
-> > +	.pl[0] = {HFI_HEVC_PROFILE_MAIN, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0 << 28 },
-> > +	.pl[1] = {HFI_HEVC_PROFILE_MAIN10, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0 << 28 },
-> > +	.num_pl = 2,
-> > +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> > +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> > +	.num_fmts = 4,
-> > +}, {
-> > +	.codec = HFI_VIDEO_CODEC_VP9,
-> > +	.domain = VIDC_SESSION_TYPE_DEC,
-> > +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> > +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> > +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> > +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> > +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> > +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> > +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> > +	.num_caps = 7,
-> > +	.pl[0] = {HFI_VP9_PROFILE_P0, 200},
-> > +	.pl[1] = {HFI_VP9_PROFILE_P2_10B, 200},
-> > +	.num_pl = 2,
-> > +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> > +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> > +	.num_fmts = 4,
-> > +}, {
-> > +	.codec = HFI_VIDEO_CODEC_H264,
-> > +	.domain = VIDC_SESSION_TYPE_ENC,
-> > +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> > +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> > +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> > +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> > +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> > +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> > +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> > +	.caps[7] = {HFI_CAPABILITY_HIER_P_NUM_ENH_LAYERS, 0, 6, 1},
-> > +	.caps[8] = {HFI_CAPABILITY_ENC_LTR_COUNT, 0, 4, 1},
-> > +	.caps[9] = {HFI_CAPABILITY_MBS_PER_SECOND_POWERSAVE, 0, 244800, 1},
-> > +	.caps[10] = {HFI_CAPABILITY_I_FRAME_QP, 0, 51, 1},
-> > +	.caps[11] = {HFI_CAPABILITY_P_FRAME_QP, 0, 51, 1},
-> > +	.caps[12] = {HFI_CAPABILITY_B_FRAME_QP, 0, 51, 1},
-> > +	.caps[13] = {HFI_CAPABILITY_SLICE_BYTE, 1, 10, 1},
-> > +	.caps[14] = {HFI_CAPABILITY_SLICE_MB, 1, 10, 1},
-> > +	.num_caps = 15,
-> > +	.pl[0] = {HFI_H264_PROFILE_BASELINE, HFI_H264_LEVEL_5},
-> > +	.pl[1] = {HFI_H264_PROFILE_MAIN, HFI_H264_LEVEL_5},
-> > +	.pl[2] = {HFI_H264_PROFILE_HIGH, HFI_H264_LEVEL_5},
-> > +	.pl[3] = {HFI_H264_PROFILE_CONSTRAINED_BASE, HFI_H264_LEVEL_5},
-> > +	.pl[4] = {HFI_H264_PROFILE_CONSTRAINED_HIGH, HFI_H264_LEVEL_5},
-> > +	.num_pl = 5,
-> > +	.fmts[0] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12},
-> > +	.fmts[1] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[2] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_YUV420_TP10_UBWC},
-> > +	.fmts[3] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_P010},
-> 10 bit encoder is not supported on AR50 LITE.
-> > +	.num_fmts = 4,
-> > +}, {
-> > +	.codec = HFI_VIDEO_CODEC_HEVC,
-> > +	.domain = VIDC_SESSION_TYPE_ENC,
-> > +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> > +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> > +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> > +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> > +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> > +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> > +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> > +	.caps[7] = {HFI_CAPABILITY_HIER_P_NUM_ENH_LAYERS, 0, 6, 1},
-> > +	.caps[8] = {HFI_CAPABILITY_ENC_LTR_COUNT, 0, 4, 1},
-> > +	.caps[9] = {HFI_CAPABILITY_MBS_PER_SECOND_POWERSAVE, 0, 244800, 1},
-> > +	.caps[10] = {HFI_CAPABILITY_I_FRAME_QP, 0, 51, 1},
-> > +	.caps[11] = {HFI_CAPABILITY_P_FRAME_QP, 0, 51, 1},
-> > +	.caps[12] = {HFI_CAPABILITY_B_FRAME_QP, 0, 51, 1},
-> > +	.caps[13] = {HFI_CAPABILITY_SLICE_BYTE, 1, 10, 1},
-> > +	.caps[14] = {HFI_CAPABILITY_SLICE_MB, 1, 10, 1},
-> > +	.num_caps = 15,
-> > +	.pl[0] = {HFI_HEVC_PROFILE_MAIN, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0},
-> > +	.pl[1] = {HFI_HEVC_PROFILE_MAIN10, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0},
-> > +	.num_pl = 2,
-> > +	.fmts[0] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12},
-> > +	.fmts[1] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> > +	.fmts[2] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_YUV420_TP10_UBWC},
-> > +	.fmts[3] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_P010},
-> 10 bit encoder is not supported on AR50 LITE.
-> 
-> Thanks,
-> Dikshita
-> > +	.num_fmts = 4,
-> > +} };
-> > +
-> >  static const struct hfi_plat_caps *get_capabilities(unsigned int *entries,
-> >  						    bool lite)
-> >  {
-> > -	WARN_ON(lite);
-> > +	*entries = lite ? ARRAY_SIZE(caps_lite) : ARRAY_SIZE(caps);
-> >  
-> > -	*entries = ARRAY_SIZE(caps);
-> > -	return caps;
-> > +	return lite ? caps_lite : caps;
-> >  }
-> >  
-> >  static void get_codecs(u32 *enc_codecs, u32 *dec_codecs, u32 *count, bool lite)
-> >  {
-> > -	WARN_ON(lite);
-> > -
-> > -	*enc_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> > -		      HFI_VIDEO_CODEC_VP8;
-> > -	*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> > -		      HFI_VIDEO_CODEC_VP8 | HFI_VIDEO_CODEC_VP9 |
-> > -		      HFI_VIDEO_CODEC_MPEG2;
-> > -	*count = 8;
-> > +	if (lite) {
-> > +		*enc_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC;
-> > +		*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> > +			      HFI_VIDEO_CODEC_VP9;
-> > +		*count = 5;
-> > +	} else {
-> > +		*enc_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> > +			      HFI_VIDEO_CODEC_VP8;
-> > +		*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> > +			      HFI_VIDEO_CODEC_VP8 | HFI_VIDEO_CODEC_VP9 |
-> > +			      HFI_VIDEO_CODEC_MPEG2;
-> > +		*count = 8;
-> > +	}
-> >  }
-> >  
-> >  static const struct hfi_platform_codec_freq_data codec_freq_data[] =  {
-> > @@ -277,14 +401,21 @@ static const struct hfi_platform_codec_freq_data codec_freq_data[] =  {
-> >  	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 10, 200 },
-> >  };
-> >  
-> > +static const struct hfi_platform_codec_freq_data codec_freq_data_lite[] = {
-> > +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> > +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> > +	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> > +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 0, 675 },
-> > +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 0, 675 },
-> > +};
-> > +
-> >  static const struct hfi_platform_codec_freq_data *
-> >  get_codec_freq_data(u32 session_type, u32 pixfmt, bool lite)
-> >  {
-> >  	unsigned int i, data_size = ARRAY_SIZE(codec_freq_data);
-> >  	const struct hfi_platform_codec_freq_data *found = NULL;
-> > -	const struct hfi_platform_codec_freq_data *data = codec_freq_data;
-> > -
-> > -	WARN_ON(lite);
-> > +	const struct hfi_platform_codec_freq_data *data = lite ?
-> > +					codec_freq_data_lite : codec_freq_data;
+Hi,
 
-fixing data_size here (different array length)
+On 6/20/25 14:10, Jacopo Mondi wrote:
+> 
+> Happy to see this one!
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Same here, using it for a while now...
+Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+
+Regards,
+Mirela
+
+> 
+> On Thu, Jun 19, 2025 at 02:57:44PM +0300, Sakari Ailus wrote:
+>> Remove v4l2_subdev_enable_streams_api variable that was used to easily
+>> enable streams API for development, and conditions that use the variable.
+>>
+>> This patch enables the streams API for V4L2 sub-device interface which
+>> allows transporting multiple streams on a single MC link.
+>>
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 30 ---------------------------
+>>   1 file changed, 30 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index 13d6e96daf3a..30549aca9dd0 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -26,15 +26,6 @@
+>>   #include <media/v4l2-fh.h>
+>>   #include <media/v4l2-ioctl.h>
+>>
+>> -#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+>> -/*
+>> - * The Streams API is an experimental feature. To use the Streams API, set
+>> - * 'v4l2_subdev_enable_streams_api' to 1 below.
+>> - */
+>> -
+>> -static bool v4l2_subdev_enable_streams_api;
+>> -#endif
+>> -
+>>   /*
+>>    * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
+>>    * of streams.
+>> @@ -620,13 +611,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>                                       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>>        int rval;
+>>
+>> -     /*
+>> -      * If the streams API is not enabled, remove V4L2_SUBDEV_CAP_STREAMS.
+>> -      * Remove this when the API is no longer experimental.
+>> -      */
+>> -     if (!v4l2_subdev_enable_streams_api)
+>> -             streams_subdev = false;
+>> -
+>>        switch (cmd) {
+>>        case VIDIOC_SUBDEV_QUERYCAP: {
+>>                struct v4l2_subdev_capability *cap = arg;
+>> @@ -980,9 +964,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>                struct v4l2_subdev_routing *routing = arg;
+>>                struct v4l2_subdev_krouting *krouting;
+>>
+>> -             if (!v4l2_subdev_enable_streams_api)
+>> -                     return -ENOIOCTLCMD;
+>> -
+>>                if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>>                        return -ENOIOCTLCMD;
+>>
+>> @@ -1006,9 +987,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>                struct v4l2_subdev_krouting krouting = {};
+>>                unsigned int i;
+>>
+>> -             if (!v4l2_subdev_enable_streams_api)
+>> -                     return -ENOIOCTLCMD;
+>> -
+>>                if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>>                        return -ENOIOCTLCMD;
+>>
+>> @@ -1086,14 +1064,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>        case VIDIOC_SUBDEV_S_CLIENT_CAP: {
+>>                struct v4l2_subdev_client_capability *client_cap = arg;
+>>
+>> -             /*
+>> -              * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
+>> -              * enabled. Remove this when streams API is no longer
+>> -              * experimental.
+>> -              */
+>> -             if (!v4l2_subdev_enable_streams_api)
+>> -                     client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>> -
+>>                /* Filter out unsupported capabilities */
+>>                client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
+>>                                             V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
+>> --
+>> 2.39.5
+>>
+>>
+
 
