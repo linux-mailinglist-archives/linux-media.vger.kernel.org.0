@@ -1,110 +1,160 @@
-Return-Path: <linux-media+bounces-37576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37577-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1801B03259
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 19:33:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AB2B032AC
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 20:49:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29DF43BB0F5
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 17:32:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C9A618940E0
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 18:49:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CDFC2857EF;
-	Sun, 13 Jul 2025 17:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="e31CTjy1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E89E289345;
+	Sun, 13 Jul 2025 18:49:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0E82B9CD;
-	Sun, 13 Jul 2025 17:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55456149C51;
+	Sun, 13 Jul 2025 18:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752427990; cv=none; b=Vu9pfXjW4XRA49BnIvlLTHZVqFGv9KtsIuNSzgOf5374j/85z+O0issKyk+LSPTZPiKJnetagDYY+FDbCEGsIYCm/Pr9OGfzVsq21B3FAbHxdhY2WgMCNQoJezeIHOXTOdfUqD/Z2ob0Av61f5fKEZkwxZfB6oxtnj5Y0rTjJ1c=
+	t=1752432569; cv=none; b=hq9ovHcFZQvVnhwkEdGD0zW4vxqYnEejHmHtZQxyzMBAmPc4vcwDPmY8+ugsFVPDwEY1rtN6A97eLGy1rz91PfpTMUznLyvAZFx/ZorQl5eq2RInM1C8N/ZcUZc/yAUH4SsVfGg/a5RBDBiyJ0Clr+Hk+BRAQ/YljVtl4jLsZRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752427990; c=relaxed/simple;
-	bh=ruw8MsWdjdaHoC4Ni49xb4Ca5QkM/9HpQEr2TzWhxs8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iGACnk/+9AD+mzLnXtG03heTXVcFOvnDyVCQzfCShbsAdS4+QNmMSBQqn9tv0gE36mwdF88PR5L48QNGsgqUKzxriQotbluePbVfsScCSkw2oUKKIsDiw7gYCHNuF4ctORokQkbw6ErLIAPnNISIItaKM/0KWXee8iUkThmAzKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=e31CTjy1; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=KhHj/5VYrCrDjXwAFx8MG3eFf+YqsuNGtQA1PpGFXwM=; b=e31CTjy1FSq5tSKi
-	8XO3Yn9PcjmjDwWOWW/WS9t2B++sirF+oFqpinIrqv7e3bi6EIBvjCtHFMU935gY49lwUgMtJRV6n
-	vuTvFp+zqL4dwaLrkHA9yPKXBK2S+HiyeQy5lwQJfl2AGCRi7jsZJXdTcKIgnMhY6jEOhdj27jMbE
-	pDV7F2+lNIaxFIwyxEsS2KZIfKuc3+nt00iGatPus4a7eg2HhMd2G1GynWOxV/n30GBOUJhvkA0MR
-	aKHjx6r1QhhiyHiJDVP2QyE/TTi11NPcyF/leonQltOL9i9TgS7bq5wWe1WkXH96irR6wGD6iZDn3
-	HDzYXTsup0dGJbuCdA==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1ub0ZS-00Fo6P-1u;
-	Sun, 13 Jul 2025 17:33:02 +0000
-From: linux@treblig.org
-To: clabbe@baylibre.com,
-	mchehab@kernel.org
-Cc: mjpeg-users@lists.sourceforge.net,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] media: pci: zoran: Remove unused debug parameter
-Date: Sun, 13 Jul 2025 18:33:01 +0100
-Message-ID: <20250713173301.246043-1-linux@treblig.org>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1752432569; c=relaxed/simple;
+	bh=i3XsHWfEcdnNfIIdpBdjTzITZ4nvF2sPD8/gNhy9d4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4wNDoj59CgMiYCiEuijP6Sjc+TLN9INaIJJlmNzPVEfLOzE8Tgod1K4esvhTr4cUG+fUGY6CEOrLgUhvOHi9JEpFpiEg8yU6RlUXkoZiHSl23RpHMWF0/kic60UbXgYzoh24mCwda7Re8xW6Z8rSVjvMG2R8HvaBpvSiDSgBB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 6D59D1F00047;
+	Sun, 13 Jul 2025 18:49:10 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id CD076B00472; Sun, 13 Jul 2025 18:49:07 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (armstrong.paulk.fr [82.65.240.19])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 97E55B000E1;
+	Sun, 13 Jul 2025 18:49:04 +0000 (UTC)
+Date: Sun, 13 Jul 2025 20:49:01 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v8 1/9] dt-bindings: media: sun6i-a31-csi: Add optional
+ interconnect properties
+Message-ID: <aHP_nR2y5iMsCtFH@shepard>
+References: <20250704154628.3468793-1-paulk@sys-base.io>
+ <20250704154628.3468793-2-paulk@sys-base.io>
+ <20250709-misty-coot-of-fantasy-cfadfa@houat>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="X9zBqThFU9k8sBj9"
+Content-Disposition: inline
+In-Reply-To: <20250709-misty-coot-of-fantasy-cfadfa@houat>
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Nothing has checked the zr36067_debug variable since 2021 after
-commit efdd0d42e276 ("media: staging: media: zoran: remove
-detect_guest_activity")
+--X9zBqThFU9k8sBj9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It's set as a module parameter, remove it.
+Hi Maxime,
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- drivers/media/pci/zoran/zoran_card.c | 4 ----
- drivers/media/pci/zoran/zoran_card.h | 2 --
- 2 files changed, 6 deletions(-)
+On Wed 09 Jul 25, 09:26, Maxime Ripard wrote:
+> On Fri, Jul 04, 2025 at 05:46:18PM +0200, Paul Kocialkowski wrote:
+> > An interconnect can be attached to the sun6i-a31-csi device, which is
+> > useful to attach the dma memory offset. Add related properties.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> > ---
+> >  .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml  | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
+i.yaml
+> > index 1aa5775ba2bc..978ef2dc0ae7 100644
+> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
+aml
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
+aml
+> > @@ -40,6 +40,12 @@ properties:
+> >    resets:
+> >      maxItems: 1
+> > =20
+> > +  interconnects:
+> > +    maxItems: 1
+> > +
+> > +  interconnect-names:
+> > +    const: dma-mem
+> > +
+>=20
+> Is it really optional? My experience (despite being a bit outdated by
+> now) was that it was required for some SoCs, and missing for others.
 
-diff --git a/drivers/media/pci/zoran/zoran_card.c b/drivers/media/pci/zoran/zoran_card.c
-index e31f9f19a48a..d81facf735d9 100644
---- a/drivers/media/pci/zoran/zoran_card.c
-+++ b/drivers/media/pci/zoran/zoran_card.c
-@@ -67,10 +67,6 @@ module_param(pass_through, int, 0644);
- MODULE_PARM_DESC(pass_through,
- 		 "Pass TV signal through to TV-out when idling");
- 
--int zr36067_debug = 1;
--module_param_named(debug, zr36067_debug, int, 0644);
--MODULE_PARM_DESC(debug, "Debug level (0-5)");
--
- #define ZORAN_VERSION "0.10.1"
- 
- MODULE_DESCRIPTION("Zoran-36057/36067 JPEG codec driver");
-diff --git a/drivers/media/pci/zoran/zoran_card.h b/drivers/media/pci/zoran/zoran_card.h
-index 518cb426b446..c4f81777e6ce 100644
---- a/drivers/media/pci/zoran/zoran_card.h
-+++ b/drivers/media/pci/zoran/zoran_card.h
-@@ -12,8 +12,6 @@
- #ifndef __ZORAN_CARD_H__
- #define __ZORAN_CARD_H__
- 
--extern int zr36067_debug;
--
- /* Anybody who uses more than four? */
- #define BUZ_MAX 4
- 
--- 
-2.50.1
+My understanding of the current stituation is that devices with the
+interconnects property will get the dma offset from it while others
+will have it set via sunxi_mbus' notifier. So in practice the
+interconnects property is not required.
 
+Currently the A83T and V3s/V3/S3 have sun6i-a31-csi devices declared in
+their device-trees without the property. So I'm not sure if this still
+allows us to add a mandatory property that may not always be present.
+
+It should definitely be added (along with a mbus node) to existing users
+though.
+
+So all in all I think it makes more sense to not mark it as mandatory.
+
+All the best,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--X9zBqThFU9k8sBj9
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhz/50ACgkQhP3B6o/u
+lQzxTw//ROiN0Htb48Bzab2XLYugHHGICn0T1zNUDY1N+dbp1F7DBt7zbFSKmJrQ
+KoEAcG81QXASWnIaf0NTPaBhSetnasv1VP7AGA7Bzp6J0ddaRESL3Y12C9k7VBDs
+x62h5WT9Pyu9RchfXGaRbEwQBxcFu7+a3QUkqsXhs/2kFxFrfFrFJKnfNorgKf2P
+TzKXxMPG67cmkl3+nek5hyyxftfZOpZatmFbnGV/K4SOd1F4o0hlblhAlaUfm7Nw
+oulvKgn7ObSPXB/rhxzmlvAe92WDjta6xAaK3uhC05+wphwJxuCjzo4nImERZ6at
+zqKV7r4GwQLjm4ttJ2LXs6qIrwYNGmvcnCIwm2N4i5vN+Si6GoOGMD6rsmHWKYQB
+USnaF5WKD5eiBAQL4R9szCA3XBxWa3SHlxbdJfS1sJe81PtHxaT8TsINn7zNcf16
+f7rAxcX1xd1nA6couHmXA/wungzTP65cfc01oq27XtrbKBuxvGImhSHMVMVdqHyU
+pQeOAlrbHxy1w03g3pGFNrfLdTG1ntHCaqp77+eXzxqS1kZKkDxcTft8YpZMXa60
+QeKx44JurlO4HeFJHE6uxpo5V5YHdzBqRv3gQ9eis8n5Ek4ZU9fHJwUkDd8GWGHY
+vyT7FJ0Fw6DmKxqHlN6r8bt7KpcwJzIOqZStRrvQNJX6D+peS5E=
+=u6Ul
+-----END PGP SIGNATURE-----
+
+--X9zBqThFU9k8sBj9--
 
