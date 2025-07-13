@@ -1,67 +1,68 @@
-Return-Path: <linux-media+bounces-37563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF30B03027
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 10:41:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3742BB03021
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 10:41:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4B6E1A61AEA
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 08:40:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6ABA84A0A09
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 08:41:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8F6F2192F8;
-	Sun, 13 Jul 2025 08:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 745A92222B4;
+	Sun, 13 Jul 2025 08:39:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941B020FAB4;
-	Sun, 13 Jul 2025 08:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F24221FF50;
+	Sun, 13 Jul 2025 08:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752395956; cv=none; b=MnOo9c12baE2qCAjwZ1iyEBZgS2puBCb0WNwxSe/OAhSRtVs5umzdIjTzCcUwjPLUOGIVX3nZoGcWhbETxhLdz+n8FE9COOeVoWH7RMNvLQd/Aiaax3ciPtakuygu9YQQq5i6+9CoY/johDp3zyp/GAGWMPe3mn8jc+/JPPZDYE=
+	t=1752395960; cv=none; b=JNZ5DVjcayDQdxrq2LlHQcpovsJpaBG6rpWvNwuQlEWk+wdUXqigJQp39ffD+ma9oEdsekz1du/DwypqqrYR/eNtTiT2rEM3poH80u/RiFYfS5zQ2nl/cxPW+dWJ6vylTVQ4xF/EOAsLPktGhyUqmiGTrCzUAowTW7csFUbPwEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752395956; c=relaxed/simple;
-	bh=w6hnmUaPhiE+4dM8mRU8UM9oSOauuUw29qfONcEGBlA=;
+	s=arc-20240116; t=1752395960; c=relaxed/simple;
+	bh=i/fHQRnfQ4PnrfRpaOchlf1nbeZp2wZMv7uAO/2P9OQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OGpIQSIT7X38h7V3EFYitkCsHZMLgNJZ5CjLqmElt/9p3RCfknc/UMZ3eeoMgBtXeipKS+u5UwRtNdD6dzvHim1W9dO4UwEU5mPat8J7AcQ/ap9JNAGr4DM9NOUvzhkt9aNZa4fVlnLkONL7Y6J72CYwHCUFX1/LbBhWn3AXx0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.46
+	 In-Reply-To:To:Cc; b=JDUeuNYwjOVpUjpJ6+nAoCvG2xfnhbHXMTmJUIjl8lokzwe/I7zkwnkoYvHuNQlN0zoKkjHZMHwrW1U/fqwzq3Ayu6HgxH/5FOdtmSlXnXzNZpAFbPaUrMKmMtdg8ikZkM3oo01spj/bb5eL/7h6nt8Wz3GrQCXo3nVd4PMTREY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6070293103cso5339201a12.0;
-        Sun, 13 Jul 2025 01:39:14 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ae04d3d63e6so662099366b.2;
+        Sun, 13 Jul 2025 01:39:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752395953; x=1753000753;
+        d=1e100.net; s=20230601; t=1752395956; x=1753000756;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HOHpT8kGZSJVLxTQMVWR2M9VRzfmT5p8z/9ngbND8fo=;
-        b=VGO0uaTzyNXbG4zypB/gwo1poriXd+PGk6VbvydkETuiiCsdm6yOaK0giGdjVuC2Hj
-         b/NsFJ62CMc7BLorbflSWi24W7023Z9HT8d4/Lzgp9klJj/co+d468DXkhY7aaEEtKyj
-         uUXvLW4sKgO6QWYoI4eUbEfI2i7hKpWUVBbo5eQhOGD6Eq5yChLR5JnuG7PQt+HRTYts
-         kdSsjgJAHc11AoFdGP0Sr1ecYwaWxgepmQUXBuapTqOLCgYgtyGWp5xVtPWudjWWv8TR
-         pXjekuB5V5b9XqaYWKoGEG15oGihRSxlvlhoBUCcrQjsMTZS8s72O3kuZQ6ieM/FNPOX
-         WydA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfu2KJnOgIbO4qxx5CHBVO8mnp0rgHCrL0+1j0xL6CSbXqroEREouDC32JzmZjUIeNK0FjJb4gwSRNsq07@vger.kernel.org, AJvYcCXoCqnf6e6rch+GfhmZQBGeOJ1iIkYNQsS2UiEMGtTU8YzGfSxBJPBG/dUyCFLFC0UBEaPT/aDaFls=@vger.kernel.org, AJvYcCXwqBCl9OcxZoyG3F7fYedxURtWnnl3oV1fNk0xMrUcIPmRLTGGtmTKdKeLU0JL57kBQh5clIXfwmNCkFc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdJuHG9+lbKqw8ICI9oS/v34Zw1Xt6g29LmFIxRwUO5xH34Zgq
-	bG0KYggghfDq1n+SZWvJF2QoVS2z25thoXy2OVruPCKIH0cED4hR8n+A
-X-Gm-Gg: ASbGncuV1aH3I+Qumk1u35YB3ryFlq8YpRXit+haP7gzYhMxbTUWLTtgRT1C7BsQuDV
-	aGnDKBjx9ekY9UP0+prsKxMpw/u1BoAyYAdYiPAddvP4bo2QsemiexHnqE1ibBiK+MBQ4aTvNcQ
-	bkVW5dMMvWZc//UiDW8htZlqoZig/3zjCiArmRPrUmT3zIF71HcXvpKe+Oj3sIR5Vqu3bYWqUzi
-	ebYgSALJqOXnLaZZCLvsumDvIIzBtyrvmcWcDVduEluQrMyPpIl8Oguwc9jfdjA4ejZcZiYuNsG
-	HxwfFLxU9LD1fQdT/zGLIaDjTcbjhpeVBHl8mKPpn/FI7I+MOOzAiPpPX1r251uOXZwP/yUz04p
-	LzSUI7vgu26+yTX4GdRWR+dLlwugukyflAOgauTSnbKHc8xGkgwLSfBhm
-X-Google-Smtp-Source: AGHT+IHl3nw9qjo4aS5LVukEuyLIVG/s6+0jGJrU9nM4JX0orxt25nmWT7xes/c92JOudJh9cADHRw==
-X-Received: by 2002:a17:907:1b08:b0:ad8:a41a:3cd2 with SMTP id a640c23a62f3a-ae6fbe71f29mr1117728466b.16.1752395952721;
-        Sun, 13 Jul 2025 01:39:12 -0700 (PDT)
+        bh=petoWFIc1yVrUA7vb5hl0SJbICvldq7drqIuMNaVr3w=;
+        b=ftth9cHJmh2sG1ct8lUweSbjzYcgUGJHpnY2hYlwMuCGrl36mbh1PnA5xBBR0B8nfb
+         EN4Fzl22ZeWmbFg91lArTeBGkaKJgOgkWOnqV23VhmlUyV2wdvy5YaIVv2I/L0v51NxS
+         EbSnS7dbz2jrrQWfyV0YtXqc2DUnlp0F9/w2Y8EVVe0VWQJ/Mrob98I74UjZloVy4fKH
+         ffpsRaf+O04zYrgSsUNSHkVtaXKD1XuIGt3SRT4ivnYkcVkaFA11UQXSbV40mJEEc7yn
+         kmL2o41YJ7qUIcSwCVTPDnLTyUWjiy2Zqiqd9IXyxPbOwj1w8zX2GlpW19DH0oj2jsmP
+         YN+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVEhsP+o808c9dP/Kamz8NamPeMI7YDucZLJVsqaoXlDqDZa+ZfTrNGZRkTpLcRK4RJmNKL5A5zr3kOyiY=@vger.kernel.org, AJvYcCWI6Dqr6rFbhT5p4gBwFK2D6WRpUHhQU6uCQrEnZlS9TwPVJjW3VLfcz3dXdB5reoK+R8E2J3pOQV5CM+fO@vger.kernel.org, AJvYcCX7ZuYF770SToFqzbw01EAKES20R3K4kbTlJGd/J+pDJ9sss55AD7AFGjJHwfwiD9/c59Dk/hafyr8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxsv0iGvU+eBpz0ZvSzjj7TN0FhFECL4X4NqYxpw21Nh2YvjQgx
+	Gh5dr+uLSbg4O73sl90R1GwkHOV3n/IpDrl2E8tUzxdHj/2HMt+8OeVX
+X-Gm-Gg: ASbGncvW7C9jOcE1uCE0hlk8iqqe6FRQs5kLQupWa/gB+G51lZSOUE8SxXsE5XlzhbX
+	ZHdxx19bh4/ZTAr+n2ZjlIg+Ck+IvCQHNs8MiRCJjNqSQJpVitr47zgLWR3RFBLT+4swpEmswbB
+	t6LBExRMuhCg2Iy1Js+GJe2d8DQSj/83XyKhLOrej6fnowZTo6Z8S9rPlsstbQAaKq3oS2HNEKZ
+	Iufb1+66yKkEgxZyTYxzvwrjVcDAwbIsjxDgfFFHXjUXGjLBsa3Grh1/v+WMlMw0T3OEzP6rzDQ
+	lDbamJw8AQOVw9/lF7dZviSihdtGEmN6V5QMiuSkaWhwQnvYJy0LLhv7fhuUgd8UR44baz9sQD2
+	ZZsVkWO+Bh4Aeo1rQqnbyZJBxTf5llpXkApdIkjcInvviViE+sOBqwK4v
+X-Google-Smtp-Source: AGHT+IEOh5WdKdbW0T6J6UmEk9cmBDAiAC1DtupfJxwpMjim3iRySIz9Y05XcPSJrFS/GFvgalD80Q==
+X-Received: by 2002:a17:906:9fc9:b0:adb:229f:6b71 with SMTP id a640c23a62f3a-ae6fbc13b33mr938047266b.5.1752395955356;
+        Sun, 13 Jul 2025 01:39:15 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.10
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jul 2025 01:39:12 -0700 (PDT)
+        Sun, 13 Jul 2025 01:39:14 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sun, 13 Jul 2025 10:38:56 +0200
-Subject: [PATCH v8 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Date: Sun, 13 Jul 2025 10:38:57 +0200
+Subject: [PATCH v8 07/10] arm64: dts: rockchip: add pd_npu label for RK3588
+ power domains
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,8 +70,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250713-6-10-rocket-v8-6-64fa3115e910@tomeuvizoso.net>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250713-6-10-rocket-v8-7-64fa3115e910@tomeuvizoso.net>
 References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
 In-Reply-To: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -91,172 +92,37 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
 X-Mailer: b4 0.14.2
 
-Add the bindings for the Neural Processing Unit IP from Rockchip.
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-v2:
-- Adapt to new node structure (one node per core, each with its own
-  IOMMU)
-- Several misc. fixes from Sebastian Reichel
+The NPU of the RK3588 has an external supply. This supply also affects
+the power domain of the NPU, not just the NPU device nodes themselves.
+Since correctly modelled boards will want the power domain to be aware
+of the regulator so that it doesn't always have to be on, add a label to
+the NPU power domain node so board files can reference it.
 
-v3:
-- Split register block in its constituent subblocks, and only require
-  the ones that the kernel would ever use (Nicolas Frattaroli)
-- Group supplies (Rob Herring)
-- Explain the way in which the top core is special (Rob Herring)
-
-v4:
-- Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
-- Remove unneeded items: (Krzysztof Kozlowski)
-- Fix use of minItems/maxItems (Krzysztof Kozlowski)
-- Add reg-names to list of required properties (Krzysztof Kozlowski)
-- Fix example (Krzysztof Kozlowski)
-
-v5:
-- Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
-- Streamline compatible property (Krzysztof Kozlowski)
-
-v6:
-- Remove mention to NVDLA, as the hardware is only incidentally related
-  (Kever Yang)
-- Mark pclk and npu clocks as required by all clocks (Rob Herring)
-
-v7:
-- Remove allOf section, not needed now that all nodes require 4 clocks
-  (Heiko Stübner)
-
-v8:
-- Remove notion of top core (Robin Murphy)
-
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Tested-by: Heiko Stuebner <heiko@sntech.de>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 112 +++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..a1bdd831a8e665a7c73b73f15a9cde8deb474095
---- /dev/null
-+++ b/Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
-@@ -0,0 +1,112 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/npu/rockchip,rk3588-rknn-core.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Neural Processing Unit IP from Rockchip
-+
-+maintainers:
-+  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-+
-+description:
-+  Rockchip IP for accelerating inference of neural networks.
-+
-+  There is to be a node per each NPU core in the SoC, and each core should reference all the
-+  resources that it needs to function, such as clocks, power domains, and resets.
-+
-+properties:
-+  $nodename:
-+    pattern: '^npu@[a-f0-9]+$'
-+
-+  compatible:
-+    enum:
-+      - rockchip,rk3588-rknn-core
-+
-+  reg:
-+    maxItems: 3
-+
-+  reg-names:
-+    items:
-+      - const: pc # Program Control-related registers
-+      - const: cna # Convolution Neural Network Accelerator registers
-+      - const: core # Main NPU core processing unit registers
-+
-+  clocks:
-+    maxItems: 4
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: hclk
-+      - const: npu
-+      - const: pclk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  iommus:
-+    maxItems: 1
-+
-+  npu-supply: true
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 2
-+
-+  reset-names:
-+    items:
-+      - const: srst_a
-+      - const: srst_h
-+
-+  sram-supply: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - iommus
-+  - power-domains
-+  - resets
-+  - reset-names
-+  - npu-supply
-+  - sram-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/rk3588-power.h>
-+    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-+
-+    bus {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+
-+      npu@fdab0000 {
-+        compatible = "rockchip,rk3588-rknn-core";
-+        reg = <0x0 0xfdab0000 0x0 0x1000>,
-+              <0x0 0xfdab1000 0x0 0x1000>,
-+              <0x0 0xfdab3000 0x0 0x1000>;
-+        reg-names = "pc", "cna", "core";
-+        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-+                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-+        clock-names = "aclk", "hclk", "npu", "pclk";
-+        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-+        iommus = <&rknn_mmu_top>;
-+        npu-supply = <&vdd_npu_s0>;
-+        power-domains = <&power RK3588_PD_NPUTOP>;
-+        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-+        reset-names = "srst_a", "srst_h";
-+        sram-supply = <&vdd_npu_mem_s0>;
-+      };
-+    };
-+...
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+index 70f03e68ba550d6b9142131dcca86e8ded36e2f1..1eddc69fd9c9ed95cdc810ba48d9683e3f82489a 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -841,7 +841,7 @@ power: power-controller {
+ 			status = "okay";
+ 
+ 			/* These power domains are grouped by VD_NPU */
+-			power-domain@RK3588_PD_NPU {
++			pd_npu: power-domain@RK3588_PD_NPU {
+ 				reg = <RK3588_PD_NPU>;
+ 				#power-domain-cells = <0>;
+ 				#address-cells = <1>;
 
 -- 
 2.50.0
