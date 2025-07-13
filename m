@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-37555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C28B02FE0
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 10:28:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C7FB02FED
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 10:31:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D39A1896EE7
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 08:29:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 238ED17FD54
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 08:31:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0D4E1EB5DA;
-	Sun, 13 Jul 2025 08:28:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C5E31F12FB;
+	Sun, 13 Jul 2025 08:31:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hu8fjFli"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pt99lK3h"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4330B2AD0C;
-	Sun, 13 Jul 2025 08:28:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E521E1DF0;
+	Sun, 13 Jul 2025 08:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752395318; cv=none; b=kyy5d85JPzztVrp2BDQ85cMr3sKx/Gzy8C4BCuVVe5Ux6MpjJHfExWy3MJvgnaUzUvQ9SxkZYqcSiuK/iy8XRE7sLUnLse0kKaD8xr1yFtdbd5ADV6bAo1Y00wnjRtntCGy2ecKzr8a1Ut9qLPg4Upx59o97lJHywt8SLz2nhJ8=
+	t=1752395492; cv=none; b=T5VuADKmh5eFyAvnpFbXB7yjjKX4AxkyywAj5UXpZU6aSF0Fyu8nsOVXtN0qNhxA7U+qw166oQqgx+kpAMsPsvrMOT09ZoKFTIzXEKQEthuKhO5Oxau7ehaPpGOcDTT/qhrSDA5PjJH/QxIfGoOOz8U0scx0e/BKtrw3ycK/JqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752395318; c=relaxed/simple;
-	bh=A+jKGOlpFGTNqAh7iV7WM9WIapwQ5o1gWjBCNzjOv+s=;
+	s=arc-20240116; t=1752395492; c=relaxed/simple;
+	bh=6Zf/t+1GVnyk+GotW7/Ks3e1/HCM0lAbM4b8kI6lusA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LJF2i7TFyTjgXdysXWkT3lP/jIRvYET6AKMpqSo3SZyg7wafq/Z4oL6StIXZ41zNCjCW9SVc0MJgoPF61wuQLH+2ZD0lvhVu2abbJKuH++GMJAHvPj4t88KLeqU4qvugeQDz+Rt9Z+55rDcswPmcFko1kzboGNGkNBrmVtQuUm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hu8fjFli; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96724C4CEF5;
-	Sun, 13 Jul 2025 08:28:31 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=TrY3n0SW7hyLyMy355ol/e3P2NEn1UoI7OMVCboWYWRae0l2Sm7NZxaudbu5Su2QjZt4Q06v/KpMnouEcBajZiaNgspl92e9chJi21vjUz2g6p6RDYqiF2QgizB4aXFoME1EmCejYGh5+CBvUiImNs6I9WRE05wxv/aQPWP8fH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pt99lK3h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BE9C4CEE3;
+	Sun, 13 Jul 2025 08:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752395315;
-	bh=A+jKGOlpFGTNqAh7iV7WM9WIapwQ5o1gWjBCNzjOv+s=;
+	s=k20201202; t=1752395491;
+	bh=6Zf/t+1GVnyk+GotW7/Ks3e1/HCM0lAbM4b8kI6lusA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hu8fjFliPapYVHyDVMZQrFnAljWUCOHRGbYakVg3+ezxhYSQigPJd9FTRvK8Fqio5
-	 2awe/DU+c8n/rcTo1ASRrpdsjdZFOqsm305dezIcA1i8z0B9f5CCRZhz0YtF/cTSMP
-	 lmzHGu4K3J8j/F2i+ysWmQ8Rwa4qMkN5JNxrQh+SUx3rGY8sM4fgLGG82e/B/LSMl0
-	 6Qklm4ktYpmnZ5wrLt2YWlqwEXM15T5XizerJeaFqiD8YryP06ctrwlGzwNWAT7OXJ
-	 /wAreL2/c9JC7AOxEAmWK6ork38sMFdS2Vt9tPhzCANINeCuJK/miDKH3E2GiE9szz
-	 aeNQFp476aPIg==
-Message-ID: <ddea072c-c495-4414-a497-a2851211934e@kernel.org>
-Date: Sun, 13 Jul 2025 10:28:29 +0200
+	b=pt99lK3hrHeG1pTCQ8g9j7GudCH8J+RKZHazmGAge+fTKGFn0jBzigfTcYK9/7jof
+	 yag9abuXwe9CrkrOpPOK1I0suKG+IG92TdzIe9Yi9VT5leqzrRbgvzxdFy8+k2Rppv
+	 Bogm8NrkLwnUPrr0GngAKE2V3VANB3UYWSxN6rMLlhtdNBZaF1cKquV354wnypIE2B
+	 zF0mq4T+dNMZeSVO7FIJHhGQ3Vqy/BOtUenzCktO2TEw1WNMQRgb86nUBltJjxvVVH
+	 fmy4roCUoLqkTKMafpjYQwrYTH7JnMfdSc5AfGStNxEFIeK4I3uiAtWXMsuZ6I+EEp
+	 BwXAxN3FPrNIg==
+Message-ID: <eba89d81-1dbb-4eed-8ad9-b49761aab49b@kernel.org>
+Date: Sun, 13 Jul 2025 10:31:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,6 +67,7 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  linux-media@vger.kernel.org
 References: <20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-0bc5da82f526@linaro.org>
  <20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-8-0bc5da82f526@linaro.org>
+ <ddea072c-c495-4414-a497-a2851211934e@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -112,52 +113,38 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-8-0bc5da82f526@linaro.org>
+In-Reply-To: <ddea072c-c495-4414-a497-a2851211934e@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/07/2025 14:58, Bryan O'Donoghue wrote:
-> Add csiphy nodes for
+On 13/07/2025 10:28, Krzysztof Kozlowski wrote:
+>> diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
+>> index 41245e8592f78edf141141f2f5b7c5b841318f46..e385d6f329616360e089ba352be450c9eca6aab6 100644
+>> --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
+>> @@ -5244,6 +5244,94 @@ cci1_i2c1: i2c-bus@1 {
+>>  			};
+>>  		};
+>>  
+>> +		csiphy0: csiphy@ace4000 {
 > 
-> - csiphy0
-> - csiphy1
-> - csiphy2
-> - csiphy4
+> phy@
 > 
-> The irregular naming of the PHYs comes directly from the hardware which for
-> whatever reason skipped csiphy3.
-> 
-> Separating the nodes from CAMSS as we have done with the sensor I2C bus aka
-> the CCI interface is justified since the CSIPHYs have their own pinouts and
-> voltage rails.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/x1e80100.dtsi | 88 ++++++++++++++++++++++++++++++++++
->  1 file changed, 88 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> index 41245e8592f78edf141141f2f5b7c5b841318f46..e385d6f329616360e089ba352be450c9eca6aab6 100644
-> --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-> @@ -5244,6 +5244,94 @@ cci1_i2c1: i2c-bus@1 {
->  			};
->  		};
->  
-> +		csiphy0: csiphy@ace4000 {
+> git grep csi.*phy@
+> git grep phy@
 
-phy@
+... although we do have ethernet-phy@ and usb-phy@ accepted, so it could
+also be csi-phy@. Up to you.
 
-git grep csi.*phy@
-git grep phy@
+> 
+>> +			compatible = "qcom,x1e80100-mipi-csi2-combo-phy";
+> 
+> You should clearly express where the bindings are. I see only short
+> remark about some driver in v7 changelog, but you have here a weak
+> dependency, because this should not be accepted before the bindings
+> reach their maintainer and qcom maintainers need to be able to check on
+> that.
 
-> +			compatible = "qcom,x1e80100-mipi-csi2-combo-phy";
-
-You should clearly express where the bindings are. I see only short
-remark about some driver in v7 changelog, but you have here a weak
-dependency, because this should not be accepted before the bindings
-reach their maintainer and qcom maintainers need to be able to check on
-that.
 
 
 Best regards,
