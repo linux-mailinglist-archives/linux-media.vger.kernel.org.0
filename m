@@ -1,199 +1,155 @@
-Return-Path: <linux-media+bounces-37567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37568-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80576B03032
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 10:42:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F99B03063
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 11:13:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 75CD33B009F
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 08:41:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 398513AC377
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 09:12:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4948F22F389;
-	Sun, 13 Jul 2025 08:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E07A188734;
+	Sun, 13 Jul 2025 09:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hRg1H883"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA3226D00;
-	Sun, 13 Jul 2025 08:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1616A23A6
+	for <linux-media@vger.kernel.org>; Sun, 13 Jul 2025 09:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752395966; cv=none; b=ewQsJcd81JOoBKP7W43sIaNp2ctpqdBRT2/Ss5ySG19XtAsE0InAhFsDS+fYvNmqQ5LOJ7B9bbBe2E9s9BbMY3IIWbH4QtWW1A7BCDnp7uBQluhfKrWB78mpsiLuWY+2D78oHK3hpFL7ElwxyZiAOQQsIzPlOoGVRhI09THr3Kk=
+	t=1752397970; cv=none; b=UX4E9wukBDYGF0wG2i+vjlPvk8KBVaW2mQ1OOE3xZ5gmOY2EaZX7xdBAGUlp+W7T6QKEKhrMAjABVP1SK1YMiP+UtJ0ew6zp2iUIMztwh/9YOuEVLueyjHrFxP1441rb/xh9SYNyJY6zgyhXoNCYUVcujwOitzUIXpVmtriJaf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752395966; c=relaxed/simple;
-	bh=IDU5g2bdtAMUN0f0RXOKiJM3pIAbXry4sN/fjHfr62o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tnLx+ERARd92e3WFa0jtge34dVC+WmkRYORHRt/PEe2uc5ILDCRGXS/lpxk/EFfPAnmZjzYmTdZ5hdeQymk7kScfbegsdN3D2PXT254dJrjBQ8PnAv3MAV4FMaOpTpFlxiDoh/QpduUM2LK5jkkDsZmcK8FX8JONU64PDw74onU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ae360b6249fso582962066b.1;
-        Sun, 13 Jul 2025 01:39:24 -0700 (PDT)
+	s=arc-20240116; t=1752397970; c=relaxed/simple;
+	bh=ttP2+H/bej+IM7hX8rbyBToQUHpPpcZy6rtLIIOb6c0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i8+nZk9e8TM/zrf3Jr6QqC+GVHz0xa2GEmSrdiLcov+L8CYjf5Ecq3N8jVU/zTiYGnHj0pP2KhJ8HTy2cCXDqSyFZ0TV+LvB300fo8LuYmrBjeR8ItzVmhjDNzC3GkxGe/h3fY8jU9bKTbwSKAtEgqX8YU0okXZEYmWGwncPg74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hRg1H883; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-455b00283a5so10909805e9.0
+        for <linux-media@vger.kernel.org>; Sun, 13 Jul 2025 02:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752397967; x=1753002767; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2bZfg9DF5nDVKhJoydkljHjxo8IZW88WiR/LfC60k7Y=;
+        b=hRg1H883qwLMSTjeEigBOEFhVD6QoGYt4zn8ehVVliF72zunVAlKF6WNNtBtgsOkjo
+         yeWypeD88AfwA0risdqQDYOTXkWQtUEI9wgSRcPWRTTeC1BDJzzxqhGjuU9Z6nnO12Th
+         JO0qvtjoh9undSE6DPYmGfRWpxzu1IdfljeRwn2if4+TgwT1cD8tPGYIGCSebmwD5r/d
+         3+oEqg0jYBrlmBwBR5I2hK4Pqr1ynD5FfMPE7/ElU5olYtwPe7GE2og0ReNSy//+d5/N
+         p9Hum00PCC1Sso5SS0NksWNep0lqBFuCcdpvC4NT8J51UWaugcDVmKOIBPdj/VdWsR50
+         CdlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752395963; x=1753000763;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FeyMo4Jt7UfkzhL/r2KfmA979+uFc7fR7QoglkpcpSU=;
-        b=csBTriSSSvQmOrCnny/Lph4pxRSSYsWY+Gnh/DxYxwIE+YkFMs5+aGclF/jB22KM9b
-         RRLzByGy5pz7n62AgFo+wtxSwktrO75cbTJyw902mtwKQnX/WTx3IpeoxOzwMymnAOHD
-         N/rLlmXUjzD4uK8IgTl5idcMoJkuVB0XMJoye1duDbDdN0aMgVlPXPMAKQqOpouOs1MB
-         KKA45WCuSPsUedAF7Ciht+Hp5uMLNb871jnpWxbSW05Ovi/LxNNU0ahDagYGXkS0ttB5
-         YuaNSv7+kD+MvQLx7qfHpEQ1PmCJp+8TeTjulxd+URWT4HEZ1XySx/Dvyyamxixw/U8T
-         n4UA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaBSs95ck7Jl00cT50eB+NfIjJS29n+v8ZyRZDbq1kPMhUUIQgn248nBEQqQfBILocOITwbzJemTrR5RI=@vger.kernel.org, AJvYcCWeQxn+pNcu+MBqHlq4qVBxkhAjckBh9nHFmQ+JJP+a8M4nosDjWYcbSuglYc1/CvuM3qeDQRGqhxBruIKv@vger.kernel.org, AJvYcCXrw8EARcn6g/BaiiIfnS2UoJFlHSJ8oeLc96W0bEvz8C4glEmrAxWOLyzpZzUH2Nmfpw44Dp2eL8o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9jtuw4U+8/yXwV7IG3q1Cn0k1bufQFEffntv+0F4AvaxrZTAE
-	7OgXOaPiyQMpz+IuyTHYN5hMvtLNFzvD54uBn/fNma16Frqr8Ivq4YNXgXNy3g4o
-X-Gm-Gg: ASbGnct/CJQ7NJlvQpUyGqseCydVCE/LOdo2qfSv/lZme/GGMwlyk6J5H/sqWieXjx3
-	Bt5u4i5bVmH3V0sdLZawtZ13uJT53TCcQJr1QBogneIF7Z6gC9JegNJ8m8Pkv/UympjWwEMCXNq
-	i0avKTwcw8BTWTN/fd1WfcS+5eiE/rj5qyOK1KlLt2Tdrruq7xZP6RsQ4DRT9Wi2VNSn5x60Ap9
-	iXbVU9aPat4BW0b4pev58unjvqQNkaKQFOpl3mNfL1Vzk9mHOyOFlqSVZ+bqDV3Rp7x34VOHmJX
-	iw7U80RNr5M2q1h7UxlXsQR0rWD7AWd24PpjWgzGSQcK21s/bs07enHVljeS1xtJD1DzQGTFgRC
-	n504AOq83Fn0hahOivBwSwr1dmsF+PXdXzUh/qOigZHvKchWasx7ywCCV
-X-Google-Smtp-Source: AGHT+IHxIHGjEkE5SiJCVQleLSfE7Ew8CiAdy3INMXoGnJecgmb8mpelQgFGDmsS+2hlzLznSM+Hlw==
-X-Received: by 2002:a17:907:803:b0:add:ede0:b9c4 with SMTP id a640c23a62f3a-ae6fc0c3696mr934268766b.42.1752395963198;
-        Sun, 13 Jul 2025 01:39:23 -0700 (PDT)
-Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jul 2025 01:39:22 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sun, 13 Jul 2025 10:39:00 +0200
-Subject: [PATCH v8 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+        d=1e100.net; s=20230601; t=1752397967; x=1753002767;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2bZfg9DF5nDVKhJoydkljHjxo8IZW88WiR/LfC60k7Y=;
+        b=v8WA43PT1/uDNfH1XdVq80DsbYH0ra/FJMZ7NHwKC4YbaAQzYXwke8XYbI11OOISwa
+         2l2syZotQxIpT18ZSdyCtFW50Q68Fsm5uUHQPWGmYtFD1qlRJfcUglk4Mq67XmUB9O5U
+         4iZY+FKguTUv0/BWWrgPsu0R7cQiltDush3ST8rpyqAxHxeIEjmemNI6wy8IXzLJAWWR
+         HLADfUlLFJTQ8gvpAqmqOsufWs14k1oYOCBNiK4LUX/+GUu/ym521G3Sn60ryxwaX2tk
+         WwB0Iqfd5TJ1vb2TEDo2WDbGRGE4/DvBiT26HNRtzyJsc8FeQ3XsDcAJhhVV++QfjS0S
+         4Rxg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUxCvHviGnwz8YeE+oJhLKh1qGA6613VeCsxNR7dJkVfWoqRaSuKntOTHPGAzAxVUaHem+yb4URACabQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+af+mijT0w1OelBNQF8AdstYYqdL0Gpx2TVDe8ZKTqYDaVz0v
+	l8dPYR5e9E+kLfkap8KrDriqPGCBugX0/NxW2uHP3dpbiyRYGXV3WPVnM8COMXjJRSw=
+X-Gm-Gg: ASbGncug+Tmw+xkTzHHj5ctdVnCHGomMhZW5RP8iXsq2xmo6DKX5FA/X0nWxWC3+mRr
+	bJvn7AzQ2UaKpY+4COQOjdFA1PyGny8MD610WBUNLJcz0mJVFVIHccVZC7bqtFyXJqQM8ULNq2V
+	aC3Ga0ks/xRmTAdej1xfdb5jMu4ZVFvC7buWAgM75Qk4IyqqLRnDaDx/XWEPLgBplVvKWBV7UmV
+	Lop5Q5goTToIBwLmx9413A9LdNC7Rn28L/NL3yr4W/uGWaqNdtBO5/+WUMEwiWqy3yZ3bh0aubf
+	0RB7hs63kwUKNPAxbmH+jnKOu0Drg3jh2TUkrips0k37nnSI9D+UTjtGiLzY0tbBOJ8UiwgokGA
+	sWygDWVVo7zTVaff3HWq8o8o4hVpYDAE5VYhdVoecpcRS81auX3dMvZdE6mAEGP4=
+X-Google-Smtp-Source: AGHT+IFYMtWgYdOmndlZ3GtfdgwsQKMDhvhnsOVqQJrHIBGY5YzlakXukB0kQt0B+MV4iFsnSxY0lA==
+X-Received: by 2002:a05:600c:1f8d:b0:442:e9eb:1b48 with SMTP id 5b1f17b1804b1-454f42692d9mr74678445e9.24.1752397967443;
+        Sun, 13 Jul 2025 02:12:47 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc9268sm9235312f8f.41.2025.07.13.02.12.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Jul 2025 02:12:46 -0700 (PDT)
+Message-ID: <6ca1b24b-5f9d-48e7-9afd-7dac47b486b1@linaro.org>
+Date: Sun, 13 Jul 2025 10:12:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 01/15] dt-bindings: media: qcom,x1e80100-camss: Assign
+ correct main register bank to first address
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-0bc5da82f526@linaro.org>
+ <20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-1-0bc5da82f526@linaro.org>
+ <f4fd544b-bd5e-49eb-83d9-290f77e503ef@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <f4fd544b-bd5e-49eb-83d9-290f77e503ef@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250713-6-10-rocket-v8-10-64fa3115e910@tomeuvizoso.net>
-References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
-In-Reply-To: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>, 
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-X-Mailer: b4 0.14.2
 
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+On 13/07/2025 09:15, Krzysztof Kozlowski wrote:
+> On 11/07/2025 14:57, Bryan O'Donoghue wrote:
+>> The first register bank should be the 'main' register bank, in this case
+>> the CSID wrapper register is responsible for muxing PHY/TPG inputs directly
+>> to CSID or to other blocks such as the Sensor Front End.
+>>
+>> commit f4792eeaa971 ("dt-bindings: media: qcom,x1e80100-camss: Fix isp unit address")
+> 
+> I have next from few days ago and I don't have this commit.
 
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
+https://gitlab.freedesktop.org/linux-media/media-committers/-/commit/1da245b6b73436be0d9936bb472f8a55900193cb
 
-v8:
-- Remove notion of top core (Robin Murphy)
+>> assigned the address to the first register bank "csid0" whereas what we
+>> should have done is retained the unit address and moved csid_wrapper to be
+>> the first listed bank.
+> 
+> This is confusing. Did that commit change entries in the binding?
+Fixed the unit address.
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+What we _should_ have done is put csid_wrapper as the first entry.
+
+
+> 
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>   .../devicetree/bindings/media/qcom,x1e80100-camss.yaml       | 12 ++++++------
+>>   1 file changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+>> index b075341caafc1612e4faa3b7c1d0766e16646f7b..2438e08b894f4a3dc577cee4ab85184a3d7232b0 100644
+>> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+>> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+>> @@ -21,12 +21,12 @@ properties:
+>>   
+>>     reg-names:
+>>       items:
+>> +      - const: csid_wrapper
+> 
+> Anyway, this is ABI break, so needs some sort of explanation in the
+> commit msg. We don't break ABI for cleanup reasons, unless it wasn't
+> released yet etc.
+So I since we haven't added the node to a dts yet which to my 
+understanding means no ABI break.
+
 ---
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi | 57 ++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-index 6052787d2560978d2bae6cfbeea5fc1d419d583a..06f73f16901026485c02cecf9176d0d7dc7a021a 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-@@ -309,6 +309,29 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-enable-ramp-delay = <500>;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		 };
-+	};
-+};
-+
- &i2c6 {
- 	status = "okay";
- 
-@@ -433,6 +456,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -487,6 +514,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_0 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_top {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
-
--- 
-2.50.0
-
+bod
 
