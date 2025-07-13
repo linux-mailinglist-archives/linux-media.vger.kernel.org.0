@@ -1,160 +1,156 @@
-Return-Path: <linux-media+bounces-37577-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37578-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05AB2B032AC
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 20:49:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E02B032CB
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 22:00:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C9A618940E0
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 18:49:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71AA4177AC5
+	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 20:00:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E89E289345;
-	Sun, 13 Jul 2025 18:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC3982877DF;
+	Sun, 13 Jul 2025 20:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZYlOmJi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55456149C51;
-	Sun, 13 Jul 2025 18:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C84313B7A3;
+	Sun, 13 Jul 2025 20:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752432569; cv=none; b=hq9ovHcFZQvVnhwkEdGD0zW4vxqYnEejHmHtZQxyzMBAmPc4vcwDPmY8+ugsFVPDwEY1rtN6A97eLGy1rz91PfpTMUznLyvAZFx/ZorQl5eq2RInM1C8N/ZcUZc/yAUH4SsVfGg/a5RBDBiyJ0Clr+Hk+BRAQ/YljVtl4jLsZRY=
+	t=1752436809; cv=none; b=bVO4hie8bys+mmPCHxcZ9CmqpdU24toRC7rwocEFfLXsNjetJQrGo+wCy+SbmUlCtrCUbSjansHogG0Ld5UV4F2QrgVrGzv3i8jPI9Z9GyB5y2XIlHoLXn0z3SOuPnJT4y68Egk7OwLhr3uXMecV9eXZVY4EqHFgeCUq/Qz9LKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752432569; c=relaxed/simple;
-	bh=i3XsHWfEcdnNfIIdpBdjTzITZ4nvF2sPD8/gNhy9d4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b4wNDoj59CgMiYCiEuijP6Sjc+TLN9INaIJJlmNzPVEfLOzE8Tgod1K4esvhTr4cUG+fUGY6CEOrLgUhvOHi9JEpFpiEg8yU6RlUXkoZiHSl23RpHMWF0/kic60UbXgYzoh24mCwda7Re8xW6Z8rSVjvMG2R8HvaBpvSiDSgBB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 6D59D1F00047;
-	Sun, 13 Jul 2025 18:49:10 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id CD076B00472; Sun, 13 Jul 2025 18:49:07 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (armstrong.paulk.fr [82.65.240.19])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 97E55B000E1;
-	Sun, 13 Jul 2025 18:49:04 +0000 (UTC)
-Date: Sun, 13 Jul 2025 20:49:01 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v8 1/9] dt-bindings: media: sun6i-a31-csi: Add optional
- interconnect properties
-Message-ID: <aHP_nR2y5iMsCtFH@shepard>
-References: <20250704154628.3468793-1-paulk@sys-base.io>
- <20250704154628.3468793-2-paulk@sys-base.io>
- <20250709-misty-coot-of-fantasy-cfadfa@houat>
+	s=arc-20240116; t=1752436809; c=relaxed/simple;
+	bh=3tZEHSMIe2JuKkcs+CjA58WHtgn0PycC8PnAWd1rh4k=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=rxRfxVoSOuPoxyXjiKBGjQl/FK1RxdTgq5buDVzUadI3lPKl//fyR9dXrSN92XfYu5YrFXjGhlWWb5Qy5G3iW26iaBQXMDzAKgL29ITMYXCL9yExJkh7kedu8W69lMTrmw3yOrADzHK64NXw/B7a1VnLNu2gUiLtmnoHPunA4Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZYlOmJi; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553be4d2fbfso4140630e87.0;
+        Sun, 13 Jul 2025 13:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752436805; x=1753041605; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Zgas8aX6pTElhKIx/IRpo2TOQqTHn8xnxc+EnP268I=;
+        b=bZYlOmJi69V2IE5XQeb418Ywi8XzFmGopXow4rpHcPjFQrZt89VlV8Cw3aLULn8uXP
+         DKSlciqYuZj/4qCU9nvdoTKE+MdtrX8xnXkjP9zFk5o39l9IBvc+lbzA4n90pJHZV9Vt
+         GhBk0Pr4D7g8+Ta5LrSBOFjlC+f4/MWyyolOR74qL/8zMGxxgms8OfngVssX95oUATJ9
+         lPDTIsRXOoAdRxtnO+I1Pcqf1LelFjnOdGEXC1CeRgTnqrkKQmLZKD1q7bdU7smZ03pq
+         41X1e5AxNtDhcyaALUGKPBqT0egagxxpcP0NYzIxuC2jqWUN8IC+jcDLDjL9mr3dR4YB
+         CWVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752436805; x=1753041605;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Zgas8aX6pTElhKIx/IRpo2TOQqTHn8xnxc+EnP268I=;
+        b=tzi5Bve/q0p8KGlhwxo/k1eFe6IhwEKpZZ6SV4Kmep9ssYdtjOwKiKFOOFOIHwlvRv
+         Ykx6tR2KwpwkHfmHzEo1FGadpReb/sfD+MOjvPh0Y/0lV6Z+9Y3067Bj3PVtP9ZG7x8K
+         e8D7RKNfsJQ0W5UTy++CVXADPwdju4FVDpNJYvT93aUScYkpEZ0Uol8qMnHLKoDHX2/8
+         fYJJP2kzOFQKvvHdElgat3QCKLpkBuoDs+EQXYX1gj4NLKM0zdp6nfLDupyzk+8BCvEF
+         gp6YCqtKNoInXO5qHFz1787YCbAdOEG28Io0lKQ0h4eptCp0TE08zHsz3nSBU7WZRic6
+         fm2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUN4DCR//gECCV+Z2YdccG5Tsm5SYVC/ylsiFZ/1C3pLHRkjvwl7MlyyNwSwqsnh3/945WtMB7/dDrgsAM=@vger.kernel.org, AJvYcCUjRD/nq7peEhdYy4et7jwXVFE7eXNXxqev7O883f5g6hVpyGFVw+aDu7+ZdwA6Ro01rtnZKBQnJHj2bz8=@vger.kernel.org, AJvYcCUyggjf6i+JBPDNz54vygU5cRnusGusCoPuQnsZV5dMeV1fdhkByiRAqogFGCi4Kfixhs0ppZG4wslnhVw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzL45CQk7GLduX06QVYFTOKl2/9teC8GA1oT7DatCFvuEznX3gf
+	NQdOsmBov8VcsLCrh8ZMJ7faUBQLTSYYAIP710j8LFYrfCeLkNiRxPtL4X7OhsUqjqU=
+X-Gm-Gg: ASbGncvJQyAPHAKOJc+/Y0dz7XQkyQmz3nyWbpz9s0Nf7jzPCB8m7ct5ydoPVoFY3Dr
+	4BAUTU9SsX0JiSbc6QuUgk2FPiVKWgkQ2LTmYrbBIgoCujiOHCQ/mpFY46076/69WoTs0KbuQbe
+	RpiFRuS1lB0/vGEaEdS6DGKg0MytdvflbuNzN2c4O8Vx1gSTAPIHBVNwzurz428FVZHveyTQtiF
+	2WxSgsMMBqEBvWDGFG6xLXLI+V1vq7JwcX8H3Hqohp6AshmBW5wOuhMeOldrdqU55th6n0SVaxS
+	tFpF8GyGqcStqHPDa60NHNBNZQChr0bWcb5NUymEtcOPrO69DjyAyBCgb4HFE8ScLq7JHSGwXgL
+	mLRkXV9+Syqmk4eICh20=
+X-Google-Smtp-Source: AGHT+IFxABxaGZ89qBgwZDV7CxOPxSBDB3o9rA665o+Vy3jYVVk1Wdz6wBebAWa65+qQwprfYTupWA==
+X-Received: by 2002:a05:6512:3b9e:b0:553:510d:f46b with SMTP id 2adb3069b0e04-55a046095e7mr2800438e87.32.1752436804901;
+        Sun, 13 Jul 2025 13:00:04 -0700 (PDT)
+Received: from razdolb ([185.69.124.235])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b60827sm1689220e87.158.2025.07.13.13.00.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Jul 2025 13:00:03 -0700 (PDT)
+References: <aG94uNDrL1MdHJPM@duo.ucw.cz>
+User-agent: mu4e 1.10.9; emacs 30.1
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Pavel Machek <pavel@ucw.cz>
+Cc: kraxel@redhat.com, vivek.kasireddy@intel.com,
+ dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
+ benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+ jstultz@google.com, tjmercier@google.com, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, kernel list
+ <linux-kernel@vger.kernel.org>, laurent.pinchart@ideasonboard.com,
+ l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, etnaviv@lists.freedesktop.org,
+ phone-devel@vger.kernel.org
+Subject: Re: DMA-BUFs always uncached on arm64, causing poor camera
+ performance on Librem 5
+Date: Sun, 13 Jul 2025 22:54:14 +0300
+In-reply-to: <aG94uNDrL1MdHJPM@duo.ucw.cz>
+Message-ID: <87tt3fdfpg.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="X9zBqThFU9k8sBj9"
-Content-Disposition: inline
-In-Reply-To: <20250709-misty-coot-of-fantasy-cfadfa@houat>
+Content-Type: text/plain
 
 
---X9zBqThFU9k8sBj9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi, Pavel,
 
-Hi Maxime,
+On 2025-07-10 at 10:24 +02, Pavel Machek <pavel@ucw.cz> wrote:
 
-On Wed 09 Jul 25, 09:26, Maxime Ripard wrote:
-> On Fri, Jul 04, 2025 at 05:46:18PM +0200, Paul Kocialkowski wrote:
-> > An interconnect can be attached to the sun6i-a31-csi device, which is
-> > useful to attach the dma memory offset. Add related properties.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> > ---
-> >  .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml  | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
-i.yaml
-> > index 1aa5775ba2bc..978ef2dc0ae7 100644
-> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > @@ -40,6 +40,12 @@ properties:
-> >    resets:
-> >      maxItems: 1
-> > =20
-> > +  interconnects:
-> > +    maxItems: 1
-> > +
-> > +  interconnect-names:
-> > +    const: dma-mem
-> > +
->=20
-> Is it really optional? My experience (despite being a bit outdated by
-> now) was that it was required for some SoCs, and missing for others.
+> [[PGP Signed Part:Undecided]]
+> Hi!
+>
+> It seems that DMA-BUFs are always uncached on arm64... which is a
+> problem.
+>
+> I'm trying to get useful camera support on Librem 5, and that includes
+> recording vidos (and taking photos).
 
-My understanding of the current stituation is that devices with the
-interconnects property will get the dma offset from it while others
-will have it set via sunxi_mbus' notifier. So in practice the
-interconnects property is not required.
+Earlier this year i tried to solve a similar issue on rkisp1 (Rockchip
+3399), and done some measurements, showing that non-coherent buffers +
+cache flushing for buffers is a viable approach [1]. Unfortunately, that
+effort stalled, but maybe patch "[PATCH v4 1/2] media: videobuf2: Fix
+dmabuf cache sync/flush in dma-contig" will be useful to you.
 
-Currently the A83T and V3s/V3/S3 have sun6i-a31-csi devices declared in
-their device-trees without the property. So I'm not sure if this still
-allows us to add a mandatory property that may not always be present.
+[1] https://lore.kernel.org/all/20250303-b4-rkisp-noncoherent-v4-0-e32e843fb6ef@gmail.com/
 
-It should definitely be added (along with a mbus node) to existing users
-though.
+> memcpy() from normal memory is about 2msec/1MB. Unfortunately, for
+> DMA-BUFs it is 20msec/1MB, and that basically means I can't easily do
+> 760p video recording. Plus, copying full-resolution photo buffer takes
+> more than 200msec!
+>
+> There's possibility to do some processing on GPU, and its implemented here:
+>
+> https://gitlab.com/tui/tui/-/tree/master/icam?ref_type=heads
+>
+> but that hits the same problem in the end -- data is in DMA-BUF,
+> uncached, and takes way too long to copy out.
+>
+> And that's ... wrong. DMA ended seconds ago, complete cache flush
+> would be way cheaper than copying single frame out, and I still have
+> to deal with uncached frames.
+>
+> So I have two questions:
+>
+> 1) Is my analysis correct that, no matter how I get frame from v4l and
+> process it on GPU, I'll have to copy it from uncached memory in the
+> end?
+>
+> 2) Does anyone have patches / ideas / roadmap how to solve that? It
+> makes GPU unusable for computing, and camera basically unusable for
+> video.
+>
+> Best regards,
+> 								Pavel
 
-So all in all I think it makes more sense to not mark it as mandatory.
 
-All the best,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---X9zBqThFU9k8sBj9
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhz/50ACgkQhP3B6o/u
-lQzxTw//ROiN0Htb48Bzab2XLYugHHGICn0T1zNUDY1N+dbp1F7DBt7zbFSKmJrQ
-KoEAcG81QXASWnIaf0NTPaBhSetnasv1VP7AGA7Bzp6J0ddaRESL3Y12C9k7VBDs
-x62h5WT9Pyu9RchfXGaRbEwQBxcFu7+a3QUkqsXhs/2kFxFrfFrFJKnfNorgKf2P
-TzKXxMPG67cmkl3+nek5hyyxftfZOpZatmFbnGV/K4SOd1F4o0hlblhAlaUfm7Nw
-oulvKgn7ObSPXB/rhxzmlvAe92WDjta6xAaK3uhC05+wphwJxuCjzo4nImERZ6at
-zqKV7r4GwQLjm4ttJ2LXs6qIrwYNGmvcnCIwm2N4i5vN+Si6GoOGMD6rsmHWKYQB
-USnaF5WKD5eiBAQL4R9szCA3XBxWa3SHlxbdJfS1sJe81PtHxaT8TsINn7zNcf16
-f7rAxcX1xd1nA6couHmXA/wungzTP65cfc01oq27XtrbKBuxvGImhSHMVMVdqHyU
-pQeOAlrbHxy1w03g3pGFNrfLdTG1ntHCaqp77+eXzxqS1kZKkDxcTft8YpZMXa60
-QeKx44JurlO4HeFJHE6uxpo5V5YHdzBqRv3gQ9eis8n5Ek4ZU9fHJwUkDd8GWGHY
-vyT7FJ0Fw6DmKxqHlN6r8bt7KpcwJzIOqZStRrvQNJX6D+peS5E=
-=u6Ul
------END PGP SIGNATURE-----
-
---X9zBqThFU9k8sBj9--
+--
+Best regards,
+Mikhail Rudenko
 
