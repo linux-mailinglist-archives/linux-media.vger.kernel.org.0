@@ -1,106 +1,165 @@
-Return-Path: <linux-media+bounces-37580-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37581-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7D9B0336C
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 01:23:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E89EB033FD
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 02:53:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 908E8189963F
-	for <lists+linux-media@lfdr.de>; Sun, 13 Jul 2025 23:24:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5F7E7AB419
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 00:52:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C5B7204098;
-	Sun, 13 Jul 2025 23:23:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A63B81C54AF;
+	Mon, 14 Jul 2025 00:51:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="N5jw3Ay9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbwcSwyV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2181C700D;
-	Sun, 13 Jul 2025 23:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6111A15B971;
+	Mon, 14 Jul 2025 00:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752449030; cv=none; b=ZfaktqqzXnzZrRQros+OF07xF91cm6kf+9Yhos5rNG1P3TMXITYVQyXAglXViZbC7swTjRze+1680MhlhtloIlVXrYADUOUZ3O4l89YyPvgnMwP60MYO10iX+FmaGBPiv799ncWvepB17VbMzq1cmdIueA8IMep/wTrIlDfy8Cs=
+	t=1752454306; cv=none; b=FDFKYP3cXR7t7xq3IqrmT2YbKNLTueQmDiMAomE5uvJzbB8SfkyzRoSVlKAXX0Sm46uvXuGKjr4cPI9fC9xdaSjRxIa5Ow/3YXBUagBLPqppI/KhJnsWYequI++NQMzNNY38bG/4w5UdKQKDKgQK2Rflbm1I4HmTXltgQNCgHQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752449030; c=relaxed/simple;
-	bh=cA4rX9hVcLuHkLO5DVQujs/MelYb6jKWeM75GDINJto=;
+	s=arc-20240116; t=1752454306; c=relaxed/simple;
+	bh=1+sguk31ZPM7mDIsRtSsK9FeFCvoq25OnpwLLIVybKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JWdiJK4I55mdUsEGPuRm7OFRCyRqdw4zIj7FqNemOLReAh0ufSw5+ht0PGLxqVZ58GbMX6GJm7t6wixUES4aSmp+fHEkvPpuS2ZnwgkM0arYEkG+Ykx8dg7UUoLQQrddSbZhGIHfeZkEoqIvM7vfCANze/73uiD5RgnzDtAF0SA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=N5jw3Ay9; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=ER8UgKQIqa0IsgF5LUsvKXvjQplxiyNLwUilByJWgfI=; b=N5jw3Ay9e485oPmz
-	eh0Gc+Fe668DHaYrWZG6CHgT5QTOhGs84OkXGcsME7psbQBPF8CJwTNus47DjTSjHE5rVlu8k7jW/
-	8F2xhoRQqk5Xy8o4H0KzPqNJzTr/7Twx/lpAiPd9D+slqr7xKa9De0r7paKVKA1gmd7YN3ardaChJ
-	z4E4gS54Kv6MAkxK07Qo2mKCRGs2oAY4cSWdDXNdFOzZzC7XQs0KWQVuXEtWE6gcXI4WHsdZ8MCwi
-	qDTYMSTXEOVBSiRiXZpk1lV5yrQLDHAIPGue2f/14fBMIhP9JuAPYMDgh5++p0cDGYeysy753yWnR
-	XZ9kgWssC9GaduwkNw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ub62j-00Fp80-1X;
-	Sun, 13 Jul 2025 23:23:37 +0000
-Date: Sun, 13 Jul 2025 23:23:37 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: mchehab@kernel.org, michal.simek@amd.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: of xvip_enum_frame_size and xvip_get_format_by_code
-Message-ID: <aHQ_-TCl02_mcHHz@gallifrey>
-References: <aHPj_C6iGCEFDW98@gallifrey>
- <20250713230109.GA10401@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=T6pK7j+NFq2x/x2CK7iX+QHZo3X7RqyBF7ZHDJjIS/crxuM8N7LSeHf7xppXrkYFj82syLK+AhBs0rlzGrk0V+7PasYSeqBSP48i56xwAJXbQAVlb1/fcI8SVtW3JwBN4nMRvdLooKLoM8BRU9/NWDY/IAWjZiwtbh4R/rtRuFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbwcSwyV; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752454304; x=1783990304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1+sguk31ZPM7mDIsRtSsK9FeFCvoq25OnpwLLIVybKQ=;
+  b=FbwcSwyVT1n8xUjSXiF2Q8Ylhug5aIPo+qVqwDcXk4ZsP/frjugQYSsW
+   bjOvkEEIcasw6FAe0Ie09eU+GuzRtDtD/uPO8t1e9QLO3fXAniBdenULp
+   LmpbJ8PAyJbIVC/7ht3SViRD5fVDza4+RGUIGSKqjzsFaSFXuMElE0cGx
+   nMAOhqMvDykZ1VLP5bGK+/XoAc98hq7nQ/1I4pSr5EViXjv64jQ+aMIzA
+   XXEIEhHtZjhwYzQbrRSS8ojcPYpYbdgbeJZm78UNLxLW4KCfVYXmcnjj0
+   xd2i7AEkQ7AlGAWImJ/eXpRtMgJXMREOyZ8fU2h9OTI49b4k0jvM/WtYF
+   Q==;
+X-CSE-ConnectionGUID: KdRFj6oKQ3qqR3tdXXLjcQ==
+X-CSE-MsgGUID: zYLvB1RXThS7E39IJL+llg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54613457"
+X-IronPort-AV: E=Sophos;i="6.16,309,1744095600"; 
+   d="scan'208";a="54613457"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2025 17:51:43 -0700
+X-CSE-ConnectionGUID: kHd5RuKCQqqr/yZIGSbVwQ==
+X-CSE-MsgGUID: /QOqQbl1RUGtNzq4G0dlNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,309,1744095600"; 
+   d="scan'208";a="187802370"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2025 17:51:40 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ub7Pu-0008O7-0p;
+	Mon, 14 Jul 2025 00:51:38 +0000
+Date: Mon, 14 Jul 2025 08:51:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Keke Li <keke.li@amlogic.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v2 5/8] media: v4l2-common: Introduce v4l2-params.c
+Message-ID: <202507140820.LDrwmHML-lkp@intel.com>
+References: <20250710-extensible-parameters-validation-v2-5-7ec8918ec443@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250713230109.GA10401@pendragon.ideasonboard.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 23:23:18 up 77 days,  7:36,  1 user,  load average: 0.05, 0.01, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <20250710-extensible-parameters-validation-v2-5-7ec8918ec443@ideasonboard.com>
 
-* Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> On Sun, Jul 13, 2025 at 04:51:08PM +0000, Dr. David Alan Gilbert wrote:
-> > Hi,
-> >   I noticed in xilinx-cip.c there's xvip_enum_frame_size()
-> > which was added back in 2013 but seems unused in tree, however
-> > I had a dig and I found
-> >   https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841638/Xilinx+V4L2+TPG+driver
-> > has a commit:
-> >   https://github.com/Xilinx/linux-xlnx/commit/1c113b4aef14004152fefc0e8b8dbbcc2314566f#diff-bb594682a92148570df8826933cf8629
-> >   from 2014 that uses it - but it looks like that commit never went
-> > anywhere.
-> > 
-> > So is xvip_enum_frame_size() or not?
-> > I also see xvip_get_format_by_code() looks unused, but I don't
-> > see any uses of it, even digging in that wiki.
-> 
-> Those functions seem to have never been used in the mainline kernel.
-> They were likely added to support drivers that have not been upstreamed.
+Hi Jacopo,
 
-Ah, shame.
+kernel test robot noticed the following build errors:
 
-> Both functions are used in the Xilinx BSP kernel.
+[auto build test ERROR on a8598c7de1bcd94461ca54c972efa9b4ea501fb9]
 
-OK, I'll stay clear.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-uapi-Introduce-V4L2-extensible-params/20250710-215847
+base:   a8598c7de1bcd94461ca54c972efa9b4ea501fb9
+patch link:    https://lore.kernel.org/r/20250710-extensible-parameters-validation-v2-5-7ec8918ec443%40ideasonboard.com
+patch subject: [PATCH v2 5/8] media: v4l2-common: Introduce v4l2-params.c
+config: x86_64-randconfig-008-20250713 (https://download.01.org/0day-ci/archive/20250714/202507140820.LDrwmHML-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507140820.LDrwmHML-lkp@intel.com/reproduce)
 
-Dave
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507140820.LDrwmHML-lkp@intel.com/
 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+All errors (new ones prefixed by >>):
+
+   ld: drivers/media/v4l2-core/v4l2-params.o: in function `v4l2_params_buffer_validate':
+>> drivers/media/v4l2-core/v4l2-params.c:16: undefined reference to `vb2_plane_vaddr'
+
+
+vim +16 drivers/media/v4l2-core/v4l2-params.c
+
+    10	
+    11	int v4l2_params_buffer_validate(struct device *dev, struct vb2_buffer *vb,
+    12					size_t max_size,
+    13					v4l2_params_validate_buffer buffer_validate)
+    14	{
+    15		size_t header_size = offsetof(struct v4l2_params_buffer, data);
+  > 16		struct v4l2_params_buffer *buffer = vb2_plane_vaddr(vb, 0);
+    17		size_t payload_size = vb2_get_plane_payload(vb, 0);
+    18		size_t buffer_size;
+    19		int ret;
+    20	
+    21		/* Payload size can't be greater than the destination buffer size */
+    22		if (payload_size > max_size) {
+    23			dev_dbg(dev, "Payload size is too large: %zu\n", payload_size);
+    24			return -EINVAL;
+    25		}
+    26	
+    27		/* Payload size can't be smaller than the header size */
+    28		if (payload_size < header_size) {
+    29			dev_dbg(dev, "Payload size is too small: %zu\n", payload_size);
+    30			return -EINVAL;
+    31		}
+    32	
+    33		/* Validate the size reported in the parameter buffer header */
+    34		buffer_size = header_size + buffer->data_size;
+    35		if (buffer_size != payload_size) {
+    36			dev_dbg(dev, "Data size %zu and payload size %zu are different\n",
+    37				buffer_size, payload_size);
+    38			return -EINVAL;
+    39		}
+    40	
+    41		/* Driver-specific buffer validation. */
+    42		if (buffer_validate) {
+    43			ret = buffer_validate(dev, buffer);
+    44			if (ret)
+    45				return ret;
+    46		}
+    47	
+    48		return 0;
+    49	}
+    50	EXPORT_SYMBOL_GPL(v4l2_params_buffer_validate);
+    51	
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
