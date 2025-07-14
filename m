@@ -1,115 +1,113 @@
-Return-Path: <linux-media+bounces-37708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA3DB047FA
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 21:39:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6DFB04849
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 22:11:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6C753BCD61
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 19:38:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EFE616D46E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 20:11:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30C6422AE5D;
-	Mon, 14 Jul 2025 19:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45A9B261574;
+	Mon, 14 Jul 2025 20:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b="glr1dM6n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UyP5oEgE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from taubenbroetchen.weidenauer.cc (taubenbroetchen.weidenauer.cc [37.252.242.197])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62412E370F;
-	Mon, 14 Jul 2025 19:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.252.242.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0E222D4DC;
+	Mon, 14 Jul 2025 20:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752521945; cv=none; b=h6fnUugQnKpmdxCOj33Q6mgu8/4nxt4/u0EAL4QMKAyDMHzMWzrYxZ1/OeEuP4eCpR7xH5+xlqtsID6Vmto1RaELSRhQ0HulbYM2Qs7NvrPt89ZxaUrEveY2Abo5rTSnBGsrbsKLXfwBeNEfrNo+/KvFlwYdo6nP+68fPjmxBtA=
+	t=1752523876; cv=none; b=B3gsBjnd1lED6ofsM8wkzb04Y+ukA71/aeMHL2DfqW6jJybzeqbiwtA0DmDG3+p27bMbe3Cxnz1wpb7E1O0LyYzcxtCn1as9tn2MJGPNHfoAgHbYpFfJyiWA+A/jLYwi3K/y+5gS79OEAwDBqVgwxUH2TVYj0EzGvkxmyRt1M9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752521945; c=relaxed/simple;
-	bh=Mz5M/kJtIAT6vDMG1qYV1GLqe+Z3k6kVFXTM4uQXpWo=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=N6G1Hq7oCCJuv/eopvUYNc34bMLV0ixenlOfWJINoL7Cd2XV3SJa1XP7k9tdXMJjtyPdaJE9STEw2jiP33iOO0tnN1tUdAlUOfL4sV4Sr59e/KqKcCcUMb2dhB1gZLR2iEPooTbXCzYQn7GBeIkBljrmm682Qt1J0Ym8ETKdh5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc; spf=pass smtp.mailfrom=weidenauer.cc; dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b=glr1dM6n; arc=none smtp.client-ip=37.252.242.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weidenauer.cc
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weidenauer.cc;
-	s=taubenbroetchen; t=1752521941;
-	bh=Mz5M/kJtIAT6vDMG1qYV1GLqe+Z3k6kVFXTM4uQXpWo=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=glr1dM6nEdgu7wmbeaW1KoWuV3jcbijwxKsrJHcswMISzJiiMeFipQRxWBK1RMp0F
-	 0e71zG6JZ6WbkgxnQ2UVMCmjVKi/zji6JZocsBWw6ld8cEohJ3Lg0pvKtsz6vpG+WK
-	 Leb9qcmQBWR5oYx986k5GeLsejcd6bj3zBXeRXDIRPqPXveJpmoP5K4jZfMfgxs0aZ
-	 cdkmBsUyS6ogFT3Bli5DC8WXlBOo4pxMH0dbFFtQjD+pCfFuCyMx85t9yvDaoS6jW3
-	 sRdbeJrs311NyElztHjoJjeCB53pzWbkbXWJVkVIlkZ5/ZA3IEBRQnJF0aOTOFUI+g
-	 bhN39eFV8q8uQ==
-Received: from [127.0.0.1] (212095005104.public.telering.at [212.95.5.104])
-	by taubenbroetchen.weidenauer.cc (Postfix) with ESMTPSA id AA22C605D5;
-	Mon, 14 Jul 2025 21:39:00 +0200 (CEST)
-Date: Mon, 14 Jul 2025 21:38:58 +0200
-From: Martin Weidenauer <martin@weidenauer.cc>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Woohee Yang <woohee9527@gmail.com>, Jongmin Kim <jmkim@debian.org>
-CC: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
- andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- ~lkcamp/patches@lists.sr.ht, koike@igalia.com
-Subject: Re: [PATCH] staging: atomisp: isp: fix open brace on new line
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAHp75VdUNe=bn-Emv6oyHtejTMyhKaiqQfGic0Ha94Z_FAPs2A@mail.gmail.com>
-References: <20250714153409.46085-1-martin@weidenauer.cc> <CAHp75VdUNe=bn-Emv6oyHtejTMyhKaiqQfGic0Ha94Z_FAPs2A@mail.gmail.com>
-Message-ID: <4289C286-62A1-4C22-9A03-E6CD3731F3D7@weidenauer.cc>
+	s=arc-20240116; t=1752523876; c=relaxed/simple;
+	bh=o116LaKgiE9093dMEoxX9/33WuiYNbhzU2RyjJOB82w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=btJl0y4SWqYE9TI4o6GJEoyzF4gCM2lfn1Huaj6+kK10x+9eRW/3U66pNpbhvHTSKCyO1wMpvDfNQHXjWj/bFnGNruXp9OZxBcUONSPiqMWKQ4S5tBmK+6QvcfDt3LW1bEX4EJ/pBq8EAzwtmDzp8eCvkSDdtO9yQNXA7v6gCwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UyP5oEgE; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e821a5354cdso606803276.1;
+        Mon, 14 Jul 2025 13:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752523874; x=1753128674; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o116LaKgiE9093dMEoxX9/33WuiYNbhzU2RyjJOB82w=;
+        b=UyP5oEgEk3CqGtCEAHdQJt1SXRULxW+g0DrywICa7MfglNfJ1tGvKRbj2KXxUHcV6m
+         bvsqg72zGzAdQItuN+rn/fK/rLJr9fDUlIlQSks0luLt30I6SWouU1HqvUTXIlfg9pJG
+         20sVsE7Z8aYR+4J34aIj86tGKUDTzZXL/RbpC3PMf9/ALy470kGM675Duun+5vvBIXlS
+         XFaxDhWRiqf1lNtT6FdEI7Kr1wBD/L3UnXG7mcvRVUi7d3JioBJkansF6W/plqBsCvvb
+         /bHSQAbwcpJMhLdJa4WfHkOiZYJOMcAMbQ8w2FbownNLXOoP9dIFoXDFdWIP9bSIuGX+
+         4PJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752523874; x=1753128674;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o116LaKgiE9093dMEoxX9/33WuiYNbhzU2RyjJOB82w=;
+        b=T+79pryfw6W2M0JPtw9ZUWz2Acix23U2iE/8fm5Pd7oPJNS861OB7lnFGW7sckU4IO
+         ZILANMh5feZwLUYry0ehBg8LrD6IW52zl2wa5AZi4cOH+axKe2zhJ5ONpKtx96AUersM
+         tLr+3iz686kcucRJxGb6I3Q8ws+HmIWXXlALYhXIYkvrYTmQOeq3QUtF+xtezalVMmll
+         nxyRtIpJ/e5Up8VGV1vPwly7xcNNd7DuQBe8WzUguGzxnUFHy6Pv2BTUYVi1Y60FfjsW
+         e76ec/4Bm5Y1sMmXTux4aK215mTLZEgvk3rFnEMLesq1FI1drKYTvJa8J70KMwtVTR2B
+         2Ujw==
+X-Forwarded-Encrypted: i=1; AJvYcCXCQaoa2FIjnn1FCal4OX8MD1YyEmliTd68vQbIy0BUHXeb/DrfP0vZCUCqHVy7Y4WYj1GnpIsmGNQbqUo=@vger.kernel.org, AJvYcCXIXd/+kGVtqwHSq97luCdB68afqv78EzNctSkljLZxSYJE4bOjQUE0QDU+DopjqGTemztekL4md/g4AvI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyvs8n6MVNYNeykKXltJCULk+oQWRBetsRAw4mG26o5duIiPjJR
+	gw0kF6S9bmP5G7i96zuvO+mTbock5+6tajCCEcc8cL8cezWmlURVEnL7AV7eFm4aCs6PX0UnNRq
+	oURlTJ9ND1gVb5fkER8xSTyYy96KzCbM=
+X-Gm-Gg: ASbGncuM8MnbK++begAlOj/w2lCRvRd8yn35MZGDisa/z0N6edaYM8ec8Qf7NNaQXVh
+	CS9vtYUXFgDcFVcKQxAdAVMwQ7/FWLOG4drzwbfjx833Fqx/bqEaW7H34ltesFcmjBPG9x2ET0F
+	oZh9PY5CVAs+J+90clxRqkKpAwE9veFFdszs8hnLPbHgbx4wcVavThi5+jRWqEpLcmoXNnUHyJc
+	hAXtBs=
+X-Google-Smtp-Source: AGHT+IGoo7GzS3HLrAW/xIlHtnfmsPdRduB748ZUUggtMZR0LEKaEK3EdiT40iM/XPCwFZzKs3a+IWXQUp7hfj5Hohg=
+X-Received: by 2002:a05:690c:8:b0:711:457a:401f with SMTP id
+ 00721157ae682-717d5edff8emr83001767b3.4.1752523873831; Mon, 14 Jul 2025
+ 13:11:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20250707140923.58935-1-abdelrahmanfekry375@gmail.com>
+ <20250707140923.58935-2-abdelrahmanfekry375@gmail.com> <00673c30-8233-417a-9f8b-2ab91381fa4d@kernel.org>
+ <CAGn2d8PjT+gE2EH0+YT_-ivfcXBuBM1OxTLEAvy+sFctpc66Aw@mail.gmail.com> <8372cba0-61da-468d-97b2-85deb8bd4129@suswa.mountain>
+In-Reply-To: <8372cba0-61da-468d-97b2-85deb8bd4129@suswa.mountain>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Mon, 14 Jul 2025 23:11:02 +0300
+X-Gm-Features: Ac12FXyIkEobG-8R07HIBrMYPv4NjZ2K5m2DDIlRYHeClMiStHBZzlat32RUJ5s
+Message-ID: <CAGn2d8MmZjJk=Zr+qrOTP+wnOe5qB8T=kXEdunzWNxW2p1nwxA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: media: atomisp: return early on
+ hmm_bo_device_init() failure
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Hans de Goede <hansg@kernel.org>, mchehab@kernel.org, sakari.ailus@linux.intel.org, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Server: mw-taubenbroetchen01
-X-Rspamd-Queue-Id: AA22C605D5
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.40 / 8.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,debian.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[]
 
-On 14 July 2025 19:47:41 CEST, Andy Shevchenko <andy=2Eshevchenko@gmail=2Ec=
-om> wrote:
->Guys, please, coordinate and issue only one (or a few) patch(es) per
->an issue=2E No need to send zillions patches for the same problem
->file-by-file=2E
+Hi Dan,
+On Mon, Jul 14, 2025 at 10:13=E2=80=AFPM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
 >
->On Mon, Jul 14, 2025 at 6:34=E2=80=AFPM Martin Weidenauer <martin@weidena=
-uer=2Ecc> wrote:
->>
->> Fix checkpatch error "ERROR: that open brace { should be on the previou=
-s line"
->> in ia_css_dvs=2Ehost=2Ec:277=2E
+> Smatch has a check for this.
 >
+> ~/smatch/smatch_scripts/kchecker drivers/staging/media/atomisp/pci/hmm/hm=
+m.c
 >
->--
->With Best Regards,
->Andy Shevchenko
-
-I deeply apologize, however this was the instruction of our workshop in De=
-bConf by Helen Koike <koike@igalia=2Ecom>
-
-Here is the link to the exact workshop:
-<https://debconf25=2Edebconf=2Eorg/talks/55-submit-your-first-contribution=
--to-the-linux-kernel/>
-
-In grave apologies,
-Martin
+I have sent a new patch series that this was fixed in and added other patch=
+es
+here is the link :
+https://lore.kernel.org/all/20250712191325.132666-1-abdelrahmanfekry375@gma=
+il.com/
+> regards,
+> dan carpenter
+>
 
