@@ -1,121 +1,181 @@
-Return-Path: <linux-media+bounces-37642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC41B041AD
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:30:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33674B0419E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:29:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E82F7A6657
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:26:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 781ED1885855
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:29:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E3E255F5F;
-	Mon, 14 Jul 2025 14:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34462571C6;
+	Mon, 14 Jul 2025 14:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6JAvwOd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjPOQ6sF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA9522129F;
-	Mon, 14 Jul 2025 14:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACE222129F;
+	Mon, 14 Jul 2025 14:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752503270; cv=none; b=KXW1V6akyZBtRIx10U/BYNoi6NLRFpmsDtVzGCAhok3SFi5XWvJuX3nwSekbxS4D5aptskPS1lbkgfn+vtw/OTWpk+eqHZq0DERcrmRvxYfxrkUofSkS/Mafh04Oj1Sru3YrrjhRBGpzRCvSarzVh4rCSSkCPiCeHdvdvPKnDwc=
+	t=1752503330; cv=none; b=low50mDb8yMXY6acczdz6UWBqHQsAsZ9L62xMC79K5skXQEMAjAL9BfTSPe8Xqx4e1ZCXC3+HcIM/bcS1Y0O7XaOKkRAkdyXnTTsn7GtfzQ+T8W8rbHAOzhnLPnmH/Za2sIICri3ypSGCxmCRf2Gn56cHoaD3YrVRbQ2ROOEvKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752503270; c=relaxed/simple;
-	bh=eROD8KsMAjiCsZj+peKBcTcIjpOrv+DsbDLjV910f5A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E3yQv9ZMauyGZLURvQn+Thd0IEm4kVbhLiI83Cm9s+exWcrWnmjd6lPkwrz8ePHAtt6jUYHyftE6DPvSzpTx6TCqfNtuq2NeuoFVSRkc3CplldMDhQbJ0FiRqW8LkjHBsJBPZWvaK4pgaNQyuQcmQaCkuglS1k+0XtORrkRhcIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6JAvwOd; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e75668006b9so4326520276.3;
-        Mon, 14 Jul 2025 07:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752503267; x=1753108067; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZ4i2QhyUjJCdRWaTj6VHcTAkDZaF8Fq1MoG4qKDJRc=;
-        b=V6JAvwOdim/puPtmPPcyjoN1VSDEaSSSp/GL2Z8WYf5siL88WMH+XHplisYQJr46rX
-         IefOQK9D/kAYxBr0calrpYTrktmCGoN5qIGwo6E9EVFApbntTkE+9S4cLeDB8OZbbyYz
-         hrXRAyMqW6AzVDh31GeiILVoIluAyOqpdPAXdaOGTGOInFolLz6XtoYOU5oCV21T7IEY
-         5GCAE2abBr5UbmViK8gddKdPWxXya5ud6xgw5PqHCFXom5m9mGR1Nidslql1uLf6QnGk
-         tFXQRaLIu0lLZnxBLWNqWNsALtThRoaEBtxx3b/6apNiGzoi9FP5jcLGp7rYEuYlSw0a
-         IHVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752503267; x=1753108067;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NZ4i2QhyUjJCdRWaTj6VHcTAkDZaF8Fq1MoG4qKDJRc=;
-        b=IV/b2h6djNVUsvmPR0AIcmN1iXrFck5+Qh3jcwyRM6EMHs0m/nZOPhNu+dxc3+GZC4
-         DBRIL/ZiCxvUmSNmLnUuOlhq/9DP7g0VvKnFLtRx0iA1AYPDUu1aQSYPBopVIMixIrvl
-         8j4SSTP4glVlZ+FA8fWZ4lpadFNB3V3WE6Htm0oNgE0Mn/Ppv5FNFsPw/skoO4fgA2ea
-         XdYUaKzhop9HL1ArJxTbwcz0HKu25AW/KHtavYn2G/jPLvgmlD3r3zj5BOFJjStMekCK
-         PwPAppC5Nyt1uSlaA6E3lAev9PWwWYK/+9EkFk6N0xgiAndW6lwyfP/nQGoj0s65jWqc
-         dtjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPmXSE+Kc6923HoXP71sHbs32lbWg9I3QShWbfJmFtXsBoBTQzGCsZGnAnPA2QSIFXNQp3cJNA3hwh7JU=@vger.kernel.org, AJvYcCUfMCM6ghaK/BRjBTa0CCw7zdM7u1wbRvajFYTngrv2x5YJ5QGyuxwJoWjQ2n+uG74rm5cSZN/eYWvD2Ws=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzURkUXY6suDzfKkrjlcq94CSYKtAPkL9IaMzmV8rj4uOEfDK8n
-	jbSUcpEpcTfBtVrdD66x7Bcts1yXbF56zMn1m97XxdvqOjziBAXR4cQN
-X-Gm-Gg: ASbGncvvormvPJGSzpDDOrHh6tSdv63nE5Rgf0SEpYJ4O18VIMd67yKIjODE7f2oKwT
-	TNADfddoYir3sJVe/oPBRCS0/lm9JfQ9MLuoJtqVl5yDjOb2ffZQeajhfvZY2kIr/xClzf3P+bn
-	kQQ95Hsk8PpSpzG5CLdq0/7aprDs2RANtHwjdxPhfIP+uQ78lJE3aQFOLWjuITsz/UMlJbawHpt
-	ytlG9WKjCzXkIRyMey/izbDpwtzxpedUuNtr731MCRfjKmap1lzdjbyhrrN+fZDm1+kDqeIcC4Q
-	srm+AmykGThUvf5w3A218rMdOV2tVRjG2ut5i0FFKeMrkCt77QrwBTEnPs5kQdHlj6ObQ9YW2o9
-	R2dyXmmupjQbJG2Kef2ShUA3WtIPwKU5Rt7L+9Y/Ne5kVGA==
-X-Google-Smtp-Source: AGHT+IFk0Te0RtNbe5N1idQ48Qj3Nr77oph+AIUdsQ4GoiZojewVBZI+1fIRjgW1gcYPi/qlrRAffw==
-X-Received: by 2002:a05:690c:2505:b0:710:f55f:7922 with SMTP id 00721157ae682-717d7a65c42mr212019617b3.34.1752503267247;
-        Mon, 14 Jul 2025 07:27:47 -0700 (PDT)
-Received: from sshe480.ammonoidea.ammonit.de ([2a00:5881:3041:2700:c83f:4374:166:4a71])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-717c61b64e3sm19669277b3.56.2025.07.14.07.27.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 07:27:46 -0700 (PDT)
-From: sina hosseinizad <sina.hz@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	sina hosseinizad <sina.hz@gmail.com>
-Subject: [PATCH] media: staging: atomisp: stylefix
-Date: Mon, 14 Jul 2025 16:26:45 +0200
-Message-Id: <20250714142645.88038-1-sina.hz@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1752503330; c=relaxed/simple;
+	bh=/P5aV1LHkhzKUZr0ZcTRFRiNCSIXBZhwy8QEEM9Ppms=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S+tbBTsapncUL4Neo1WiE9ey3OayHtxs+ZFIKSOEEZ2SXXGFD3VtnCtZoxjtnqq8UV+2+DXkEP+uIB3SfYXt5p5A8BFYtvZmlhKHyCMsEy33kmzpoF6LQw0VPBoO4EBsht74PWnKNP1E9jmgPx8fYJ2bpYbXj+TGbx7xwijXJdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjPOQ6sF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4FBC4CEED;
+	Mon, 14 Jul 2025 14:28:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752503329;
+	bh=/P5aV1LHkhzKUZr0ZcTRFRiNCSIXBZhwy8QEEM9Ppms=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YjPOQ6sFAV7RywsgYZQy98VtWBWzwu49z5lGcVdDNfsGeDwWhtlgDuXyUK5DV9kkk
+	 N/9f9az7L/auquAPKX+3HvjrFSkHra4lgNuaqIBvcJBTmTU0bCu/drKMDId0nhnB2n
+	 HVPYJnVr+3feqChmDrt72v+bckxvFhcsxtM9rezu6jaPKZJHHlyDc56IEhqsEJgwQ9
+	 i4Uf4b2YDyEbNICCtIZ8JVP5Kh8mJYQbz3M6EwDvr/NEkH0NY80x/Oue/H4E2pip3B
+	 wbFdp2ZwiPinw58pLRZrMzt0+NHwqmaW9Tqp9VlEns32xuPTLZJeoluUJ0/PThsMGz
+	 fN27fntIQiNzQ==
+Message-ID: <7c9306c4-1897-41be-b2c1-cb98166ba51a@kernel.org>
+Date: Mon, 14 Jul 2025 16:28:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/12] media: uvcvideo: Add get_* functions to
+ uvc_entity
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
+ <20250605-uvc-orientation-v2-10-5710f9d030aa@chromium.org>
+ <20250629181246.GE6260@pendragon.ideasonboard.com>
+ <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-change the spaces at the beginning of the line to tabs
+Hi Ricardo, Laurent,
 
-Signed-off-by: sina hosseinizad <sina.hz@gmail.com>
----
-My first contribution to the linux kernel, so starting out with a stylefix
----
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 1-Jul-25 13:13, Ricardo Ribalda wrote:
+> Hi Laurent
+> 
+> On Sun, 29 Jun 2025 at 20:13, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+>>
+>> Hi Ricardo,
+>>
+>> Thank you for the patch.
+>>
+>> On Thu, Jun 05, 2025 at 05:53:03PM +0000, Ricardo Ribalda wrote:
+>>> Virtual entities need to provide more values than get_cur and get_cur
+>>
+>> I think you meant "get_info and get_cur".
+>>
+>>> for their controls. Add support for get_def, get_min, get_max and
+>>> get_res.
+>>
+>> Do they ? The UVC specification defines controls that don't list
+>> GET_DEF, GET_MIN, GET_MAX and GET_RES as mandatory requests. Can't we do
+>> the same for the software controls ? This patch is meant to support the
+>> UVC_SWENTITY_ORIENTATION and UVC_SWENTITY_ROTATION control in the next
+>> patch, and those are read-only controls. Aren't GET_INFO and GET_CUR
+>> enough ?
+> 
+> V4L2_CID_CAMERA_ROTATION has the type UVC_CTRL_DATA_TYPE_UNSIGNED,
+> that time requires get_min and get_max.
+> We can create a new type UVC_CTRL_DATA_TYPE_UNSIGNED_READ_ONLY that
+> fakes min, max and res, but I think that it is cleaner this approach.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index bc97fa2c374c..bd3a017490ef 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2347,7 +2347,7 @@ int atomisp_css_video_configure_output(struct atomisp_sub_device *asd,
- }
- 
- int atomisp_css_video_configure_viewfinder(
--    struct atomisp_sub_device *asd,
-+	struct atomisp_sub_device *asd,
-     unsigned int width, unsigned int height,
-     unsigned int min_width,
-     enum ia_css_frame_format format)
--- 
-2.39.5
+If I read this right, then we could at least drop adding get_def and
+get_res callbacks from this patch, right?
+
+Can you do that for the next version please?
+
+Regards,
+
+Hans
+
+
+
+
+>>> This is a preparation patch.
+>>>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> ---
+>>>  drivers/media/usb/uvc/uvc_ctrl.c | 12 ++++++++++++
+>>>  drivers/media/usb/uvc/uvcvideo.h |  8 ++++++++
+>>>  2 files changed, 20 insertions(+)
+>>>
+>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+>>> index 21ec7b978bc7aca21db7cb8fd5d135d876f3330c..59be62ae24a4219fa9d7aacf2ae7382c95362178 100644
+>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+>>> @@ -596,6 +596,18 @@ static int uvc_ctrl_query_entity(struct uvc_device *dev,
+>>>       if (query == UVC_GET_CUR && ctrl->entity->get_cur)
+>>>               return ctrl->entity->get_cur(dev, ctrl->entity,
+>>>                                            ctrl->info.selector, data, len);
+>>> +     if (query == UVC_GET_DEF && ctrl->entity->get_def)
+>>> +             return ctrl->entity->get_def(dev, ctrl->entity,
+>>> +                                          ctrl->info.selector, data, len);
+>>> +     if (query == UVC_GET_MIN && ctrl->entity->get_min)
+>>> +             return ctrl->entity->get_min(dev, ctrl->entity,
+>>> +                                          ctrl->info.selector, data, len);
+>>> +     if (query == UVC_GET_MAX && ctrl->entity->get_max)
+>>> +             return ctrl->entity->get_max(dev, ctrl->entity,
+>>> +                                          ctrl->info.selector, data, len);
+>>> +     if (query == UVC_GET_RES && ctrl->entity->get_res)
+>>> +             return ctrl->entity->get_res(dev, ctrl->entity,
+>>> +                                          ctrl->info.selector, data, len);
+>>>       if (query == UVC_GET_INFO && ctrl->entity->get_info)
+>>>               return ctrl->entity->get_info(dev, ctrl->entity,
+>>>                                             ctrl->info.selector, data);
+>>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+>>> index a931750bdea25b9062dcc7644bf5f2ed89c1cb4c..d6da8ed3ad4cf3377df49923e051fe04d83d2e38 100644
+>>> --- a/drivers/media/usb/uvc/uvcvideo.h
+>>> +++ b/drivers/media/usb/uvc/uvcvideo.h
+>>> @@ -261,6 +261,14 @@ struct uvc_entity {
+>>>                       u8 cs, u8 *caps);
+>>>       int (*get_cur)(struct uvc_device *dev, struct uvc_entity *entity,
+>>>                      u8 cs, void *data, u16 size);
+>>> +     int (*get_def)(struct uvc_device *dev, struct uvc_entity *entity,
+>>> +                    u8 cs, void *data, u16 size);
+>>> +     int (*get_min)(struct uvc_device *dev, struct uvc_entity *entity,
+>>> +                    u8 cs, void *data, u16 size);
+>>> +     int (*get_max)(struct uvc_device *dev, struct uvc_entity *entity,
+>>> +                    u8 cs, void *data, u16 size);
+>>> +     int (*get_res)(struct uvc_device *dev, struct uvc_entity *entity,
+>>> +                    u8 cs, void *data, u16 size);
+>>>
+>>>       unsigned int ncontrols;
+>>>       struct uvc_control *controls;
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
+> 
+> 
+> 
 
 
