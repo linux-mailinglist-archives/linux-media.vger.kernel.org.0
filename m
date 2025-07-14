@@ -1,141 +1,224 @@
-Return-Path: <linux-media+bounces-37632-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37633-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099BDB040FA
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:07:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C0FB04116
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:10:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5C931892753
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:07:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E1E13AEC81
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:10:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64ECB25525F;
-	Mon, 14 Jul 2025 14:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C54B2550AD;
+	Mon, 14 Jul 2025 14:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6woiXXR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XSJgQt/9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E29F25394C;
-	Mon, 14 Jul 2025 14:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1F8253F2A
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752502023; cv=none; b=p/EzU3OtAal1H4cGxmFoLZna+PoXdSLZzDKLu8Fi+LybL/PmD2xd9S3myNtoeU2BDH0HGf8RbFRS/1Odz0j7hhmCUlIHWLZ9OnWKBBDsPSkja9daaQ3yJ+DKPzGvAtCJ3SCfwZIcDIGKyMzDweKkfdP+EU5ntaWd7wlE/ciISF0=
+	t=1752502224; cv=none; b=driOPv2MfOg3E8FumVHRugYcFtQFU1IXe1HbKWkR/FCgpulPGCuzW8HVT/pkYCc5okBo+jGEmznPM7qUZbJsXKH6ge27plK+EJ845fSHRqdNiLnqfhJj81QoU38Y/DXRrB5PdRuvTHe6vsoVzq6+MYxbjBrcEivtITKOPTde3q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752502023; c=relaxed/simple;
-	bh=+04pRfrMC5bnxVH1z1JDJ55WhOxbPv/wMsPDtKE/wug=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kPbCVbvcX7IOJuuUsCSRdrvuwyN9LeyLHLjRia356Y/+JlGygaGSPHxWLX5klgETnYqrBovv9lg8k034ISiTSP2OKmyiaxPJ4BeVta34AfC9HbhSbizpxG0Fvy7nicj+SZfMEoPOAFBWuSjHBhVEb1yYtI808qaR5GdmurUt7J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z6woiXXR; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ab554fd8fbso18763721cf.1;
-        Mon, 14 Jul 2025 07:07:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752502021; x=1753106821; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A11jZ3IWs915tX3jAt6nejExoHwEI3hR6vxjjTJTwmY=;
-        b=Z6woiXXROcxMTu0OCh715y0mKYkyuMa5vDDW6gSURLB2teIUiFXCzqMqmoSPWiIj6G
-         mwz19fFcD7uIeIYC3fqeRk3TApIpUhrrK7Ezm4C/Yx/tG/GGoqO1De23VGXp16gZh2O9
-         Wc/Y53mi16GB97V6brw4rfhHsSb3YC6OFWWP1JW48AWWSdhh76Thlpjj2u5lpwX7qYnF
-         UJ+S/psiR+gAdWTJ0QXs4Y9Af5OYDa5dKYBy32Sep7AcgLo1YSKWdIsNF/R45gLcSQlx
-         Y97h6rk+B2nEBP5qk63dIYr7n7yDGZAHC2bEpz7ojdE0W+GN+i4JQLsR5Gqj1FubcsGJ
-         Bcfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752502021; x=1753106821;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A11jZ3IWs915tX3jAt6nejExoHwEI3hR6vxjjTJTwmY=;
-        b=sqeTsxspdlCAVcmlkTEJ80EIu6oESfzxtXcCK5+wwwHs7I+AFygSkgUmmUWk+T93Tk
-         QLWgLktYSeKiBFYXm+sOP4APSVNBCr7la3xM2IZcRD81obhLBqHePunXYhHHJJo7gASy
-         XE2r7YK4ngtznXBoSL1WdU9RPyVcdsxL0BXnVtHmomZO+vXf3p/2Mda4uTluvklTSZ4i
-         wFaroOjYl/vTcGBKXsaaBLrpFY/mHpYKGqJ6dOzQdWtGU2sDcRIzW2Kj0RfocfECcAHH
-         lMqkskgCvPgkppMqf5/uOv2oQLJSJY0KRErRLYHKHOZscvnjS6reLqqw3hFBCYya4lY8
-         Bzqw==
-X-Forwarded-Encrypted: i=1; AJvYcCU//aebNWYCA8S2xF63IoBmeacbTO1wulivHpERnrPKBafzHu39AsPSPIFVgeRwkTpqa/2JMMECMuFDDG8=@vger.kernel.org, AJvYcCWjilyyVxgFQGvZMnGn4vS4IJemDy6OKnewfNclWAgn052zmVKw9dtlc4Fnek5yvs268Fq13ol55dlwFPI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwB4qfhv7TQnVSHhxxz9fdu9G6+6LXrov39ts7DiM7/pXRYVLIb
-	1PXHoWpXArIJqWKaAVapAc3cuDnt5GiE+huKjpoLt+B+blHtmKZXrY8x
-X-Gm-Gg: ASbGncuTUCryAuzneG7vLFwseD/saUsiXe8FqXU1I2HtdbYHJ65uuXfay7ACu46U4vi
-	AZJVJthRPRGzT40inYtPADQyTerpNVNh8/pkmEZyXEmUTAMUHkkMxBKxilAh0RWLgt6uaCdynim
-	6co7qkZaWkzEu+YBFQET7DxUhroLXoAece3xgXizrcVAazdrR88YXDM7Nl0byljT0n4DVn0CEfU
-	gIEr1R1sPOlNlfujKbU3w2oZuaaoI2oN6nphZFVB40sebT+xuJz9ls2PUUCMgcEGNsOpjIPby9W
-	PZpClIsUsAd4r2Q+MViSILl0gPEKonP+Vb7U0ksmYxPzAhlqMNeDLaMgdLfYEUwN8w8a8qQKX6b
-	SYbcnh2IEuLoN0nY3zMeDJhs5TFSf0naprLWFbWCX
-X-Google-Smtp-Source: AGHT+IEv313TLhURVuJV2ZjFg7WZOUSA5K8QH3+VOSOLnS1GhFcpirLmcVMiUuQvO1TRBLf2PHw96g==
-X-Received: by 2002:a05:622a:5c05:b0:49a:4fc0:56ff with SMTP id d75a77b69052e-4a9e9ca5040mr311134641cf.12.1752502021073;
-        Mon, 14 Jul 2025 07:07:01 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:5881:3041:2700:bc8c:6e13:ff9d:5355])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e8b7ae2a91bsm2940614276.1.2025.07.14.07.06.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 07:07:00 -0700 (PDT)
-From: Woohee Yang <woohee9527@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	s=arc-20240116; t=1752502224; c=relaxed/simple;
+	bh=cqkWXI/TVI37kqLHNe0y1a2QaCXn55xsIGy3ygUkTGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c/23YX2Olw7M2E7khTbQ4G4gJazy6ljlgS91O1vmIV6kVv1cK9dhUrJPeZ4IVboHp6uCkOh+NDZsjG5WB035iiTEInrtCQCQh5sbXqss0/l4V7xzECo2SAt0JC2LU6uw1byXhnnwQ/w7M9HQIu2wRTD5VODK/L7UL4txl4Ghjr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XSJgQt/9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8C305166D;
+	Mon, 14 Jul 2025 16:09:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752502188;
+	bh=cqkWXI/TVI37kqLHNe0y1a2QaCXn55xsIGy3ygUkTGo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XSJgQt/9fbG0UI/FvJEt3gATfSowUaqkG1P3gzZY/SbJfg4uApjn0zwYZnAYStK/S
+	 t+4Fyz7lq0TFU+wXJYrXGnlqXFpqZk4xYQ3RsoWyotPvSAXwqi9TYLF7DmePr9PxmL
+	 c1JLI86527f0CqN2RzuHE4IOYzNqvcIWeSJyWU3M=
+Date: Mon, 14 Jul 2025 17:09:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: linux-media@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com,
-	Woohee Yang <woohee9527@gmail.com>
-Subject: [PATCH v2] stating: media: atomisp: fix open brace placement
-Date: Mon, 14 Jul 2025 16:06:47 +0200
-Message-ID: <20250714140651.213850-1-woohee9527@gmail.com>
-X-Mailer: git-send-email 2.47.2
+	Hans Verkuil <hverkuil@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Matthew Majewski <mattwmajewski@gmail.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH 55/72] media: v4l2-common: Add legacy camera sensor clock
+ helper
+Message-ID: <20250714140947.GG8243@pendragon.ideasonboard.com>
+References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
+ <20250710174808.5361-56-laurent.pinchart@ideasonboard.com>
+ <uidbgwyn7b47zathqq7qdl3iygppvjwzfsytbjmud62csuy2ht@lxa6tgz4w3pc>
+ <3rs65tdti5p7qdrj4f5fx5rkdfk5xz5xcjbr6aupdhd6zpu5xe@fm5qpcvy3ab7>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3rs65tdti5p7qdrj4f5fx5rkdfk5xz5xcjbr6aupdhd6zpu5xe@fm5qpcvy3ab7>
 
-Fix checkpatch error "ERROR: that open brace { should be on the previous
-line" in isp_param.c
+Hi Mehdi,
 
-Signed-off-by: Woohee Yang <woohee9527@gmail.com>
+On Mon, Jul 14, 2025 at 03:12:28PM +0200, Mehdi Djait wrote:
+> On Mon, Jul 14, 2025 at 02:55:02PM +0200, Mehdi Djait wrote:
+> > On Thu, Jul 10, 2025 at 08:47:51PM +0300, Laurent Pinchart wrote:
+> > > The recently introduced devm_v4l2_sensor_clk_get() helper aims at
+> > > simplifying sensor drivers by centralizing clock handling code, as well
+> > > as reducing cargo-cult and deprecated behaviour.
+> > > 
+> > > A set of drivers implement external clock handling in a non-standard
+> > > way. This can't be changed as there is a high risk of breaking existing
+> > > platforms, but keeping the code as-is creates a risk of new drivers
+> > > copying deprecated behaviour.
+> > > 
+> > > To fix this, introduce a new devm_v4l2_sensor_clk_get_legacy() helper
+> > > and use it in those driver. Compared to devm_v4l2_sensor_clk_get(), the
+> > > new helper takes the "clock-frequency" property into account and sets
+> > > the external clock rate on OF platforms, and adds the ability to specify
+> > > a fixed default or fallback clock rate in case the "clock-frequency"
+> > > property is not present.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-common.c | 39 +++++++++++++++++++------
+> > >  include/media/v4l2-common.h           | 41 ++++++++++++++++++++++++++-
+> > >  2 files changed, 70 insertions(+), 10 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > index cfc78ea6276c..6f140a78e683 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > @@ -703,24 +703,40 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
+> > >  
+> > > -struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> > > +struct clk *__devm_v4l2_sensor_clk_get(struct device *dev, const char *id,
+> > > +				       bool legacy, bool fixed_rate,
+> > > +				       unsigned long clk_rate)
+> > >  {
+> > > +	bool of_node = is_of_node(dev_fwnode(dev));
+> > >  	const char *clk_id __free(kfree) = NULL;
+> > >  	struct clk_hw *clk_hw;
+> > >  	struct clk *clk;
+> > > -	bool of_node;
+> > > -	u32 rate;
+> > > -	int ret;
+> > > +	u32 rate = clk_rate;
+> > 
+> > [..]
+> > 
+> > > +	int ret = 0;
+> > >  
+> > >  	clk = devm_clk_get_optional(dev, id);
+> > >  	if (IS_ERR(clk))
+> > >  		return clk;
+> > >  
+> > > -	ret = device_property_read_u32(dev, "clock-frequency", &rate);
+> > > -	of_node = is_of_node(dev_fwnode(dev));
+> > > +	/*
+> > > +	 * If the caller didn't request a fixed rate, retrieve it from the
+> > > +	 * clock-frequency property. -EINVAL indicates the property is absent,
+> > > +	 * and is not a failure. Other errors, or success with a clock-frequency
+> > > +	 * value of 0, are hard failures.
+> > > +	 */
+> > > +	if (!fixed_rate || !clk_rate) {
+> > > +		ret = device_property_read_u32(dev, "clock-frequency", &rate);
+> > > +		if (ret != -EINVAL || !rate)
+> 
+> so according to the above comment, I think it should be:
+> 		if (ret != -EINVAL || (!rate && !ret))
 
----
+You're right, there's an issue here.
 
-Hey, this is my first patch, I appreciate any feedback, thank you!
+We need to return an error iif
 
-Changelog:
-v2: modified commit message
-v1: https://lore.kernel.org/linux-media/20250714135014.212067-1-woohee9527@gmail.com/
----
- .../media/atomisp/pci/runtime/isp_param/src/isp_param.c     | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+- clock-frequency can't be read for a reason different than the property
+  being absent (to support ACPI platforms where the property could be
+  created dynamically at a later time) ; or
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
-index 251dd75a7613..b4aac76c2ed5 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
-@@ -102,8 +102,7 @@ ia_css_isp_param_allocate_isp_parameters(
- 	unsigned int mem, pclass;
- 
- 	pclass = IA_CSS_PARAM_CLASS_PARAM;
--	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++)
--	{
-+	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++) {
- 		for (pclass = 0; pclass < IA_CSS_NUM_PARAM_CLASSES; pclass++) {
- 			u32 size = 0;
- 
-@@ -178,8 +177,7 @@ ia_css_isp_param_copy_isp_mem_if_to_ddr(
-     enum ia_css_param_class pclass) {
- 	unsigned int mem;
- 
--	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++)
--	{
-+	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++) {
- 		size_t       size	  = host->params[pclass][mem].size;
- 		ia_css_ptr ddr_mem_ptr  = ddr->params[pclass][mem].address;
- 		char	    *host_mem_ptr = host->params[pclass][mem].address;
+- clock-frequency can be read, and returns a 0 rate
+
+That translates to
+
+		if ((ret && ret != -EINVAL) || (!ret && !rate))
+
+Omitting the initial ret test would return -EINVAL when clock-frequency
+can be read correctly, which is not right. Do you agree with that ?
+
+> > 
+> > [..]
+> > 
+> > Let's take the case of camera sensor on a DT-system:
+> > 
+> > it will call the following:
+> > devm_v4l2_sensor_clk_get(dev, NULL);
+> > -> __devm_v4l2_sensor_clk_get(dev, id, false, false, 0);
+> > --> with fixed_rate = 0 and clk_rate = 0 which will be assigned to
+> > u32 rate
+> > 
+> > so it will go into the if statement and try to read the
+> > "clock-frequency" property, which does not exist.
+> > 
+> > ret from device_property_read_u32() is -EINVAL and that is handled but
+> > rate will still be 0 so we will return ERR_PTR(-EINVAL)
+> > 
+> > > +			return ERR_PTR(-EINVAL);
+> > > +	}
+> > >  
+> > >  	if (clk) {
+> > > -		if (!ret && !of_node) {
+> > > +		/*
+> > > +		 * On non-OF platforms, or when legacy behaviour is requested,
+> > > +		 * set the clock rate if a rate has been specified by the caller
+> > > +		 * of by the clock-frequency property.
+> > 		   |
+> > nit:		   +-> or ? 
+
+Oops. I'll fix the typo.
+
+> > > +		 */
+> > > +		if (rate && (!of_node || legacy)) {
+> > >  			ret = clk_set_rate(clk, rate);
+> > >  			if (ret) {
+> > >  				dev_err(dev, "Failed to set clock rate: %u\n",
+> > > @@ -731,9 +747,14 @@ struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> > >  		return clk;
+> > >  	}
+> > >  
+> > > -	if (!IS_ENABLED(CONFIG_COMMON_CLK) || of_node)
+> > > +	/*
+> > > +	 * Register a dummy fixed clock on non-OF platforms or when legacy
+> > > +	 * behaviour is requested. This required the common clock framework.
+> > > +	 */
+> > > +	if (!IS_ENABLED(CONFIG_COMMON_CLK) || (of_node && !legacy))
+> > >  		return ERR_PTR(-ENOENT);
+> > >  
+> > > +	/* We need a rate to create a clock. */
+> > >  	if (ret)
+> > >  		return ERR_PTR(ret == -EINVAL ? -EPROBE_DEFER : ret);
+> > >  
+> > > @@ -750,4 +771,4 @@ struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> > >  
+> > >  	return clk_hw->clk;
+> > >  }
+> > > -EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
+> > > +EXPORT_SYMBOL_GPL(__devm_v4l2_sensor_clk_get);
+
 -- 
-2.47.2
+Regards,
 
+Laurent Pinchart
 
