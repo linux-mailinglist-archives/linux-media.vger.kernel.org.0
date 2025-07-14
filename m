@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-37587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF98B035D0
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 07:35:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C3CB035DF
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 07:36:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 993FD3ABF8A
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 05:35:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7746318960C1
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 05:36:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99A27205ABA;
-	Mon, 14 Jul 2025 05:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CC79207DE2;
+	Mon, 14 Jul 2025 05:35:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CP/9Im8o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AzED9ED/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28E62E371B;
-	Mon, 14 Jul 2025 05:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C141FDA82;
+	Mon, 14 Jul 2025 05:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752471321; cv=none; b=dXyuVu2MN1v+asNAqDjRvwirH2fXILDvvPPe7W+jui45RE2+VlgpR+btmw2uhkDqX/BMrVv1sOpw5XcQ2MwerP/iXJyVAhQRYW/FbOsyjUostAG1jPX4obInbhJN7nA++SZSf5MvDvrWbxY/dB4+rhnhdYm9eHv7J0bps9GM51c=
+	t=1752471351; cv=none; b=ZOi1hv4oCLd0l+eb2l6u2bqYxbIDd5X2Knj6duECIp5a/znQnlYfZH6oNeTW2Y4s6FbVJ2YVt/dwYUG0B5MGDILTdKxpf9pmzrgCMgEWYpz6AemlpIqxKJz0FofnIa1BNcY0VqRapev+gijIl8JDoSicDAi6TRi/AxfB5AWDJtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752471321; c=relaxed/simple;
-	bh=pBCIRAJi0foXxJRoXZ3zYn02pRbQBBQBVlaAHcDr2JU=;
+	s=arc-20240116; t=1752471351; c=relaxed/simple;
+	bh=9+08Hc9UF8N52xk3lCvwIIkOnYxSZRn+lE4UAJftaJc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PZE2yWNxUMFE7jdyShHqd67MroacaQqOEt0YSdpaVpXZBo/uq3dW7pPxL9aJGnREvZUR774+jojhA4go5Njx91aO0CtqZwrk0hseO9yoYshIJGiwkJyQBDqDh7g7geEs/HvX1KLgLYYAcZ4C8AknNMmyvsHeLNYy9YuKYQAoXcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CP/9Im8o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E63AC4CEF7;
-	Mon, 14 Jul 2025 05:35:14 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=iE3a5zcxTk59Kiu59zXB7l7MpKNVyfCOM+myFU+fZ5ITPujAxBf5u660wNGjafWYPV/PDUP9WmJrQcbKpKQ25Xg+AP8VLZlLT34pE+LcNB6ofcBIj1yx1I30EP1IehoiZxcZMdVtQZ/mNwFdZliqJgVRa4goWNZDWSrSE1RUUMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AzED9ED/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73092C4CEED;
+	Mon, 14 Jul 2025 05:35:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752471318;
-	bh=pBCIRAJi0foXxJRoXZ3zYn02pRbQBBQBVlaAHcDr2JU=;
+	s=k20201202; t=1752471350;
+	bh=9+08Hc9UF8N52xk3lCvwIIkOnYxSZRn+lE4UAJftaJc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CP/9Im8olLCuDP41Dxr6lvO5fHVQ2U8QdvNcUq1nn3GQmlMHb+AUJ7ICjW/9+mylh
-	 Kta9XJWKfjtbD9CHx3NuAb5Gi4rcuLU1j60j2O1V7GRi5zfGy0z2NuOPRYGdOK9vZf
-	 Yv8+Dw0beR3RQ+7Q2aWTgmLcPQGhAAO0fDaRB+EgPPCjBzA5fKKs7voMbfdqo4xcgJ
-	 /mTsELhrWA4wW9lPmhhzwlIZkjWsacYy+XuI3Gl1ct90rnJse9LJb/O+8lOoZbN7QY
-	 CbYuRYDeswhGW9XGb0POcg/kEWvw+4NmW0hFss1AayBMMLIRA/moj+2+qf+OriT7No
-	 XVdof3/fjV7Jw==
-Message-ID: <ed14c7ba-12e6-49f4-ba3f-1bbe57f507fd@kernel.org>
-Date: Mon, 14 Jul 2025 07:35:13 +0200
+	b=AzED9ED/brZHpr6n3jFjD4wWC7PycIp9Hp+4HXSPN7ZmzFIvqd2DLfZ0O0GWfe6sB
+	 6rLl1eTaTRJkQLuuDfcGFLeqbELIAnWhuBsrhw9yzI3ka+j3xXn/JQNkqpIfGqieY8
+	 0xio7bOjQTJiRqq9MdhX4xhdm/zfyQ6YsFAqcrvgI2Y5JHfMmV+OS3VRfIXXrRrWf3
+	 x1qx7OOCtYuufCJXlAeJxHX71JiKEjtWyhNE3SFppwNLVXQY2jRqswnuBTLVAJAot2
+	 G47HBDQ0Gl4Q2+/DYAV8J51aYfSVns8lR9FcpYwPUHbr3NVeeewI9eo2slV/DXWVpf
+	 KxueoalNFCXog==
+Message-ID: <ab35bb65-6652-4e58-9898-ea34adaf2de8@kernel.org>
+Date: Mon, 14 Jul 2025 07:35:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add Mayqueen name
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: Add Mayqueen Pixpaper e-ink
+ panel
 To: LiangCheng Wang <zaq14760@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Maarten Lankhorst
@@ -63,7 +64,7 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
 References: <20250714-drm-v2-0-5d1a2e12796c@gmail.com>
- <20250714-drm-v2-1-5d1a2e12796c@gmail.com>
+ <20250714-drm-v2-2-5d1a2e12796c@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,18 +110,16 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250714-drm-v2-1-5d1a2e12796c@gmail.com>
+In-Reply-To: <20250714-drm-v2-2-5d1a2e12796c@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/07/2025 04:59, LiangCheng Wang wrote:
-> From: Wig Cheng <onlywig@gmail.com>
+> The binding is for the Mayqueen Pixpaper e-ink display panel,
+> controlled via an SPI interface.
 > 
-> Mayqueen is a Taiwan-based company primarily focused on the development
-> of arm64 development boards and e-paper displays.
-> 
-> Signed-off-by: Wig Cheng <onlywig@gmail.com>
-> ---
+> Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+
 <form letter>
 This is a friendly reminder during the review process.
 
@@ -140,9 +139,6 @@ https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitti
 
 If a tag was not added on purpose, please state why and what changed.
 </form letter>
-
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
