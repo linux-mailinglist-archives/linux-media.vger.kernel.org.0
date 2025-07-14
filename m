@@ -1,120 +1,119 @@
-Return-Path: <linux-media+bounces-37623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37624-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5B7B04034
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D701EB04043
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:40:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E90C0166936
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 13:36:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9148F1618C9
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 13:38:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E862248866;
-	Mon, 14 Jul 2025 13:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5494523AB8E;
+	Mon, 14 Jul 2025 13:37:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="cF7SlMQI"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="rGxkMDSZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D486F236A70;
-	Mon, 14 Jul 2025 13:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752500187; cv=pass; b=Dy1p+mRfgzN9rdRoEAPTfR3D/zujZ7pqgODYoBTeq3tHjpkTrPCoOAlGJ7xMRmLlJKfWyelzxoTbxtPmwV3V9dMbrRcH2huSbrCQxHgf97rNp63ytwY3VOVn8wQhSd3XkPsk9oU3+hneLXVjL9VH44oS52YDnAae2o++zbhKwLs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752500187; c=relaxed/simple;
-	bh=3PX1K71yszUYNO0T/AEtvp1Oa/aw4df/3ahyuw1mn4I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DtvNb85gFOM/ljmW3B5GxdoWH8fgUC95A37aFDR5fGlWZPWNwuyFTtnYYg7QjXOoAiL49AIIBgeGaLXERaNjf3e7TSEJ6I7q5n2ERUX3MPL5q+tbOZJOd/G2OvHIxqGHxbaSogzFiBjR5BNleq884qvVAUXbMn1CXykKg2TqHpE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=cF7SlMQI; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1752500130; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=LLwf90veDCfX/vug+RY51XJsew+TIOZx7ZDM1Z2CSQQciK1qiq4NgD6QzC3oXvHLraPMuS9r4r08v3rRKvkam1IsL54XA/7L3kWF73CpjhwlXnBM0t877peicmCqjD9fI0I51SfS5dqZHB2BA67UOaoku1ckdm6kmCRsxMSzgwE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1752500130; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=UizOBT89f5MRX6YGiBh9LFBmNsdbZc9aL8t32eOk9Ls=; 
-	b=DG1MXaTm0GH7Zzhu75mIeDgkj0NacaYQEAJk7lYWjDOfg5HqLc/uxecDifFzLmrvYKxSD/mLlrDSNnWrDi/LWRXmcQJeSEw08v1WLlNyPlLVj7mlGFKqWDEFTvHhBzwxugL0xZZTZeJ/KcEbr9IZ9D4uP1o/jmIgRTO4Vw1Nv/w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752500130;
-	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=UizOBT89f5MRX6YGiBh9LFBmNsdbZc9aL8t32eOk9Ls=;
-	b=cF7SlMQIVCLi+7LyiNNzpE0msj22oD9LyCxoRHQVUNRlv+qOxfVUPSMBNdvJbscZ
-	OLdlAaeWMmXFLxxuYh4gLPwm8eNgwqt4xWl52WtxDLR0xqiUT8hub7S39Q2edenUd1J
-	SnxY+eKDm6GfP/fT6GS7lJF8E+rhvBO2yMuZRqPE=
-Received: by mx.zohomail.com with SMTPS id 1752500120862937.2041501644019;
-	Mon, 14 Jul 2025 06:35:20 -0700 (PDT)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Jianfeng Liu <liujianfeng1994@gmail.com>
-Cc: heiko@sntech.de, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- mchehab@kernel.org, nicolas.dufresne@collabora.com,
- nicolas.frattaroli@collabora.com
-Subject: Re: [PATCH 00/12] media: rkvdec: Add support for VDPU381 and VDPU383
-Date: Mon, 14 Jul 2025 09:35:19 -0400
-Message-ID: <2229133.irdbgypaU6@trenzalore>
-In-Reply-To: <20250713142514.56742-1-liujianfeng1994@gmail.com>
-References:
- <20250708151946.374349-1-detlev.casanova@collabora.com>
- <20250713142514.56742-1-liujianfeng1994@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED5A24DCE6;
+	Mon, 14 Jul 2025 13:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752500268; cv=none; b=pTsZ2dzRojSLfo23NxorYsyhN1GHarAX8zCGd0diBxDvNxEu3b6KFMBte8BrdmlS2XZ2QDZ150t2O3PrqeD79eftf+Nl2gn70F3ePYhhPAESuQB+vD7K+/iwNvQFyYC0Yf9+4LC0HclyayjxwZb9p0vVuuGrshY28UH/kYpm9hs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752500268; c=relaxed/simple;
+	bh=im1OWWqqZJvBhYnsqL8P/JQkZigBzP64on+in2dttDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Qq6sHcGjSp7GV2hRVaMfGoHy4EAA3pTrXD+UqND1wJPOx65L+Y8BIZc5siQfLt6s8+uy1Y2iOcj5zZm3U86dfIGjtp9TK3b/lCsfOPLNA4/W6JiOOicwVHh3cP3PR69xF1OkTvYSw2C48D88mZAkZvzw6HeticOxo1U7mguL3RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=rGxkMDSZ; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:Content-Type
+	:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=5EZAgaYPdDTMlb0PvkTynO2V/C06jB0FE0TqBsli4nY=; b=rGxkMDSZG4rSGxUkUKdeu70S62
+	RBnpWEioXzzfesunnzA0mwDQoEXuf6tJxZNLFKGHVNRCJcK1ijsD/glFK5uswkN14IbREnHMhTjHl
+	+u3+Rq1wTdEj7Vd/EB+55O65WJUY61rQD6MbpjAd9IdFeZUMn4mlIfo1czf8vAQmfUWp7UZYGn+Xl
+	1Cjg3++yFzvzjavKe8iNmvgdDjsQPktyA7Js7KCqN4bgQHa7rlti0vqv77/pCz1x3kB1sVTbTMoMS
+	b9bwvTFnOFwTL76b4zAmJ/Gp7UqTxu7JwfS/kMvBgQAPWB0c+T09irOHRpwjoE2hmsFNTr4Z00jIr
+	KBpEeHWg==;
+Received: from authenticated user
+	by stravinsky.debian.org with utf8esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <roehling@debian.org>)
+	id 1ubJNA-00169y-L7; Mon, 14 Jul 2025 13:37:36 +0000
+From: =?UTF-8?q?Timo=20R=C3=B6hling?= <roehling@debian.org>
+To: linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: ~lkcamp/patches@lists.sr.ht,
+	koike@igalia.com,
+	=?UTF-8?q?Timo=20R=C3=B6hling?= <roehling@debian.org>
+Subject: [PATCH] media: atomisp: style fix for trailing statements
+Date: Mon, 14 Jul 2025 15:36:54 +0200
+Message-ID: <20250714133701.48174-1-roehling@debian.org>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Debian-User: roehling
 
-Hi Jianfeng,
+Fix checkpatch errors "ERROR: trailing statements should be on next line"
+in drivers/staging/media/atomisp/pci/sh_css_params.c
 
-On Sunday, 13 July 2025 10:25:14 EDT Jianfeng Liu wrote:
-> Hi,
-> 
-> On Tue,  8 Jul 2025 11:19:33 -0400, Detlev Casanova wrote:
-> >As there is a considerable part of the code that can be shared with the
-> >already supported rkvdec decoder driver, the support for these variants
-> >is added here rather than writing a new driver.
-> 
-> I have tested the new series on rk3588 and rk3399 with chromium. Since the
-> HEVC decoder need EXT_SPS_RPS related patches, I ony test the H264 decoder.
-> There are two issues:
-> 
-> 1, The decoder max size is detected 1920x1088, which should be the fallback
-> size when queryig VIDIOC_ENUM_FRAMESIZES[1].
+Signed-off-by: Timo Röhling <roehling@debian.org>
+---
+ drivers/staging/media/atomisp/pci/sh_css_params.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-From the linked code, the max size is hard coded to 1920x1088.
-The driver sets the frame size type to V4L2_FRMSIZE_TYPE_CONTINUOUS, so the 
-snippet you pointed to doesn't update the values for max/min. See [2] for the 
-discussion about using V4L2_FRMSIZE_TYPE_CONTINUOUS.
-
-> 2, Playing H264 videos ends up with green screen.
-
-Can you elaborate a bit ? What videos ?
-Is that on both SoCs ?
-Is there any logs in dmesg ?
-
-> These above issues don't happen with the old rkvdec2 series.
-> 
-> [1]
-> https://github.com/chromium/chromium/blob/138.0.7204.92/media/gpu/v4l2/v4l2
-> _utils.cc#L520-L533
-
-[2] https://lore.kernel.org/all/c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com/
-
-Regards,
-Detlev
-
-
-
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 0d4a936ad80f..2eeb75653392 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -875,7 +875,8 @@ ia_css_process_kernel(struct ia_css_stream *stream,
+ 
+ 		/* update the other buffers to the pipe specific copies */
+ 		for (stage = pipeline->stages; stage; stage = stage->next) {
+-			if (!stage || !stage->binary) continue;
++			if (!stage || !stage->binary)
++				continue;
+ 			process(pipeline->pipe_id, stage, params);
+ 		}
+ 	}
+@@ -3045,7 +3046,8 @@ process_kernel_parameters(unsigned int pipe_id,
+ 	/* Call parameter process functions for all kernels */
+ 	/* Skip SC, since that is called on a temp sc table */
+ 	for (param_id = 0; param_id < IA_CSS_NUM_PARAMETER_IDS; param_id++) {
+-		if (param_id == IA_CSS_SC_ID) continue;
++		if (param_id == IA_CSS_SC_ID)
++			continue;
+ 		if (params->config_changed[param_id])
+ 			ia_css_kernel_process_param[param_id](pipe_id, stage, params);
+ 	}
+@@ -3600,7 +3602,8 @@ sh_css_params_write_to_ddr_internal(
+ 						    IA_CSS_PARAM_CLASS_PARAM, mem);
+ 		size_t size = isp_data->size;
+ 
+-		if (!size) continue;
++		if (!size)
++			continue;
+ 		buff_realloced = reallocate_buffer(&ddr_map->isp_mem_param[stage_num][mem],
+ 						&ddr_map_size->isp_mem_param[stage_num][mem],
+ 						size,
+-- 
+2.50.0
 
 
