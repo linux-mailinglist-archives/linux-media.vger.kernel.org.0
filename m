@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-37586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37587-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4858EB035C9
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 07:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF98B035D0
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 07:35:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 17D953ADCE1
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 05:34:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 993FD3ABF8A
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 05:35:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6941FF61E;
-	Mon, 14 Jul 2025 05:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99A27205ABA;
+	Mon, 14 Jul 2025 05:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AUvq3Ktg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CP/9Im8o"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39462E371B;
-	Mon, 14 Jul 2025 05:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28E62E371B;
+	Mon, 14 Jul 2025 05:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752471312; cv=none; b=a4i40gMSPfiHgVFxKM4OqCSwinOVutHY4WJ2xqBWRVbQ9HxA+jh+yA37wlwpqK+bEROReg+Lqunz7DTgXTtbguBS74k7Mpq9i7eXXv5ZXEFRqTYZ35esVdCIxhcb60xCmOhqOweiQ5uGeU6gsHm9dvXYJtJKqdawxZxpLZCKmOA=
+	t=1752471321; cv=none; b=dXyuVu2MN1v+asNAqDjRvwirH2fXILDvvPPe7W+jui45RE2+VlgpR+btmw2uhkDqX/BMrVv1sOpw5XcQ2MwerP/iXJyVAhQRYW/FbOsyjUostAG1jPX4obInbhJN7nA++SZSf5MvDvrWbxY/dB4+rhnhdYm9eHv7J0bps9GM51c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752471312; c=relaxed/simple;
-	bh=j+izsfBJF9w4Gy9CrV8R4+uyMFxSr043Yk/954YoIbE=;
+	s=arc-20240116; t=1752471321; c=relaxed/simple;
+	bh=pBCIRAJi0foXxJRoXZ3zYn02pRbQBBQBVlaAHcDr2JU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dzp8cxeWGKPknIiL1HbMp4MTrJGtKIv2EdZex7CZhgar7Q2rS1K+J1s2dD9kz76ap/J+WTldYzuVT80co4Do8LHS5YfS5TxcDwHhwU06AtlMzgI7esT00Wi2onq2W1H4l90SUjto2UC7C/Ot1l/gRZMVzNwN6h5mrwYIm6LjARw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AUvq3Ktg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B142C4CEF0;
-	Mon, 14 Jul 2025 05:35:08 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=PZE2yWNxUMFE7jdyShHqd67MroacaQqOEt0YSdpaVpXZBo/uq3dW7pPxL9aJGnREvZUR774+jojhA4go5Njx91aO0CtqZwrk0hseO9yoYshIJGiwkJyQBDqDh7g7geEs/HvX1KLgLYYAcZ4C8AknNMmyvsHeLNYy9YuKYQAoXcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CP/9Im8o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E63AC4CEF7;
+	Mon, 14 Jul 2025 05:35:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752471312;
-	bh=j+izsfBJF9w4Gy9CrV8R4+uyMFxSr043Yk/954YoIbE=;
+	s=k20201202; t=1752471318;
+	bh=pBCIRAJi0foXxJRoXZ3zYn02pRbQBBQBVlaAHcDr2JU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AUvq3KtguDuNeEIx6t/A+ZNC+RkcsTnyo0dVPMOJXWRCVbks4rK5ywva2yhv7hNGB
-	 c/buLyDyLebAQASR5gKUgURQ/wulHQ8Imqpxx/FHOjB3FEYn+OTcY7h4R3ht+6PO2g
-	 QMuwaHn/iCOxg8tq9lBwNp/7AtNj77G20DQxi4/Abe7uH2AUJU0PAsJwAwzr5BJvOt
-	 UIe8r1LIT5yoaRYRC1OHyVVj/AxFi/74NvGBzY63pcK2ScVBhLDEJt+DgSU7EtnlZM
-	 /f9mErY+tGMnen+18JUCPAp6Jx2il/vQRVDrGdVqr6eH4z46nybvocUTkkmo+S7BF5
-	 JsHcrXr+EGWJw==
-Message-ID: <1e7cc022-d69f-477f-91e3-7fe1d63bf933@kernel.org>
-Date: Mon, 14 Jul 2025 07:35:06 +0200
+	b=CP/9Im8olLCuDP41Dxr6lvO5fHVQ2U8QdvNcUq1nn3GQmlMHb+AUJ7ICjW/9+mylh
+	 Kta9XJWKfjtbD9CHx3NuAb5Gi4rcuLU1j60j2O1V7GRi5zfGy0z2NuOPRYGdOK9vZf
+	 Yv8+Dw0beR3RQ+7Q2aWTgmLcPQGhAAO0fDaRB+EgPPCjBzA5fKKs7voMbfdqo4xcgJ
+	 /mTsELhrWA4wW9lPmhhzwlIZkjWsacYy+XuI3Gl1ct90rnJse9LJb/O+8lOoZbN7QY
+	 CbYuRYDeswhGW9XGb0POcg/kEWvw+4NmW0hFss1AayBMMLIRA/moj+2+qf+OriT7No
+	 XVdof3/fjV7Jw==
+Message-ID: <ed14c7ba-12e6-49f4-ba3f-1bbe57f507fd@kernel.org>
+Date: Mon, 14 Jul 2025 07:35:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Add support for Mayqueen Pixpaper e-ink panel
+Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add Mayqueen name
 To: LiangCheng Wang <zaq14760@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Maarten Lankhorst
@@ -63,6 +63,7 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
 References: <20250714-drm-v2-0-5d1a2e12796c@gmail.com>
+ <20250714-drm-v2-1-5d1a2e12796c@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,23 +109,40 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250714-drm-v2-0-5d1a2e12796c@gmail.com>
+In-Reply-To: <20250714-drm-v2-1-5d1a2e12796c@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/07/2025 04:59, LiangCheng Wang wrote:
+> From: Wig Cheng <onlywig@gmail.com>
+> 
+> Mayqueen is a Taiwan-based company primarily focused on the development
+> of arm64 development boards and e-paper displays.
+> 
+> Signed-off-by: Wig Cheng <onlywig@gmail.com>
 > ---
-> Changes in v2:
-> - Reordered patches so that DT bindings come before the driver (suggested by Rob Herring)
-> - Fixed sparse warning: removed duplicate `.reset` initializer in `pixpaper_plane_funcs`
-> - Fixed checkpatch issues reported by Media CI:
->   - Removed unnecessary blank line before closing brace
->   - Moved opening parentheses up to function call lines (e.g., `DRM_WARN(...)`)
->   - Fixed alignment of conditionals
->   - Fixed `dev_warn(` and `drm_universal_plane_init(` formatting
-> - Thanks to Rob Herring for ack on vendor-prefix patch
+<form letter>
+This is a friendly reminder during the review process.
 
-And what did you do about it?
+It looks like you received a tag and forgot to add it.
+
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
+of patchset, under or above your Signed-off-by tag, unless patch changed
+significantly (e.g. new properties added to the DT bindings). Tag is
+"received", when provided in a message replied to you on the mailing
+list. Tools like b4 can help here. However, there's no need to repost
+patches *only* to add the tags. The upstream maintainer will do that for
+tags received on the version they apply.
+
+Please read:
+https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
+
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
