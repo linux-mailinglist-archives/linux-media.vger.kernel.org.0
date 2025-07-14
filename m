@@ -1,252 +1,160 @@
-Return-Path: <linux-media+bounces-37672-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37674-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FB3B0431B
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:14:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D99B0435D
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:19:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C9917B592F
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:07:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 869D04A0EBF
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:16:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DCF0260565;
-	Mon, 14 Jul 2025 15:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 188D425D53B;
+	Mon, 14 Jul 2025 15:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OYtCOTTj"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p0G2je50"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A7625A640;
-	Mon, 14 Jul 2025 15:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E68F25C80D
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 15:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752505645; cv=none; b=eDhsL6fkEby9m5fxTtSL0yX5zNk/2rv5ZVlfPpRy1hheObyo4QphZWcFD60zGglBvE/VFY/wOFjkfmo6nsRlhp9SyZfFZV65bTFRXEi3pQdyRjc85bEtsxZPWhFs76Lzdm9W2RPsrS4T53qTdeRGQ5TX7i025EpgVaVzabWxySM=
+	t=1752506181; cv=none; b=PuVGqTTkGaO+b0rraY+iCoPI6q659wiVIHWqvFlMs+97ilJWKI/GKbGuGf4D8j+OKJApPTBdjMwSGN5uj32VuXVh2yhP/a6TUExCpeuM5mqUn6nP4fAn6DKsX4Q4EwRxSI+4rLeRvchxunOSwa+bq6P4GVw1H6XeLhOANs9nX8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752505645; c=relaxed/simple;
-	bh=gnnIsYI0vNT48MJLYko6Y7wwtbQ725ILEob/XY0pCCg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Unn0JUsQR8ez+qW6PUDvmL4n5sjfYxP3vkBX5z0iHnNlzjzVdSQF20Tk7/CEfozu6pladRu4dGZrn33bXMChbg+sjuLFF96PPhfO7byHLh9+ARiesnkvrWodQyAdp3GJCjdRFF2O8S+0gIkXJBxh0gM1ZPHM7G7F3LRZcIPZZDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OYtCOTTj; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87BD15553;
-	Mon, 14 Jul 2025 17:06:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752505586;
-	bh=gnnIsYI0vNT48MJLYko6Y7wwtbQ725ILEob/XY0pCCg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=OYtCOTTjneQTHfqtBoY0E8+dkrleW6a7ZWjFN0WzR6hHOvuQk3v810q3PNl6UCen5
-	 eP0qqApzbIpuwLAiRGk/rhQfrSiHN5nQMsRC+Jqnl/v8m2OaVuLuLiUREDXOTREr3d
-	 kSjAMQfEE+E0JhK4KEC08znVbPcXsvUfJKJH9gt8=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-Date: Mon, 14 Jul 2025 16:06:45 +0100
-Subject: [PATCH v11 19/19] Documentation: mali-c55: Document the mali-c55
- parameter setting
+	s=arc-20240116; t=1752506181; c=relaxed/simple;
+	bh=5SEmN81j++cDBIFvkv9n2aotAYscERc+zZaDKLuEifk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HBCcbrrRG6VETL8R3DWvNA6K4dTJf6SSq17mgksRkIPl3TA0e/8c1Wpz2VEb9j8/JDozXbwlXeCIliG47d9PkAtzlEXuXPv87fwsnOco1R6Qux9lVytpHrmuWkuHMzWOQcDeHlofxGPlVfSJB0QO/FzRkHpKlMzZktYKyo89XKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p0G2je50; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a4e57d018cso644788f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 08:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752506178; x=1753110978; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k7sCtPxfaMjoFSfs4MFDmQ8NiKqG4DUPOXp+rPZHPqE=;
+        b=p0G2je50+cYBQD0Pkj3Omw7zDOKtrMxY+oUSCdma8ej/fpywNMvN34RvQlbwJcRpy5
+         REXJS4MM9pSRRHMKQowQcDjJexhYvMB2qq2b7U5uRZJzQXg8H7Ih02D+OEPjEYINbuD3
+         gwlUKLyOEWZkl2n38RbZw7cxjs/RmY5rwys8cdMfziBI9In/kju5YFSrG0CrR4CdoWw1
+         78QLLQ1fL0J4IS0GevGBxBqLxFXMC2dAwn0NDSqL6F8RXC6wOc8UlTVxX7GNPko6TJ8J
+         5uK0CEP3up5CuYuXYJEmOaHwpYw73BJlT61g9/+aXpIztgeMFlk3eJ5nkp2HPKTo3GdT
+         q0bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752506178; x=1753110978;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k7sCtPxfaMjoFSfs4MFDmQ8NiKqG4DUPOXp+rPZHPqE=;
+        b=FjkQOHf6aA0iQqt2V8CVm6QVbK2PzVchQUPbnS/DbH+5G0dmolTIx1Qf8Kg1TPkZXx
+         gS+Ma8eAEu5T8JtAbs9PeXMDN50GtVxLJXPb6uEDoCwurJCMIxw6Ka6537rdFEu99K1A
+         2K4HzICPZnEliMGgvEMcHWR0OAufWjMhjl8lJp6tiiVMsq5+YFCg1bQgovQ7LudE+qIs
+         Vnx4WEIUF6JWpAZsQ/1MGLY7awqAAHBNkhL9ZhDzopIEukOlwp2pGjOldV96rj6uGw/1
+         mKRlO9Hg17JDa2wo3nnpSWw6qkLNXTcEZ8rzAmiPu1Y4KB2gDqznqOyJuqaImx7IpT64
+         iznQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGU2y3/4AjYDtocN7EaUtqV8ZO192KsDnSlcMneBrW6BG83r60ha2ne86OwBQTtEf3WLDpLXoc+FhxRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzbf1aQFoWpyGfWQj4PTtxMWMEg56T/mV6Bc7TxI6Ii9IO5tDGR
+	0bDXJEFiWEN52matH9j5TjFesOz8Y1/i/riJe6TiibNBYnl+vT2GoTARWmdDyu/mf3Q=
+X-Gm-Gg: ASbGncuMBO0Mdes9z6aXtGrH2tt+8R4ouba0hOYhlzhKntqcTW+hwhIodBA08KdQ+CC
+	U/xKPCGZ95sJ5yhb3FLIArjCaAuqT25e7PhOKhS6y4d3cfbBCup7BYZeIARli9MUiUZeYdn/1g4
+	Lu5g/w2XO7t0TenuB5hYZfGYFuGGLPni/iF9qDRibZB4kpPOt7m+pnUTSkJ/AuQs3jni5YZYtPS
+	xAfB/bLN6zoZH+XaB56dWTVidy9VptRU5x8PubjQHwSJFFMh4ZcN5pnjniLcvQNFcquABqdm7rS
+	udhyvs7ioI6URz0rq/bj9329hxA78cyTYFvQZ5BMKpXAkC4i5V55elrTrB/S43waciTgMAiDtB2
+	7q6N/J46wckZyfv9SDxXVng5AjJZjnzBOA3g=
+X-Google-Smtp-Source: AGHT+IHpL4WiPXA7lF0M3FZSr+pRwaq/mQ+o86j3tdbjJ+F9gQ68S3X3x2/bhMtUi+hXfsOAWMSEsg==
+X-Received: by 2002:a05:6000:410b:b0:3a5:7875:576 with SMTP id ffacd0b85a97d-3b5f1890dc7mr3123868f8f.1.1752506177716;
+        Mon, 14 Jul 2025 08:16:17 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.222.89])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc2464sm12970388f8f.38.2025.07.14.08.16.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 08:16:17 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: bryan.odonoghue@linaro.org,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media: iris: MAINTAINERS: Document actual maintainership by Bryan O'Donoghue
+Date: Mon, 14 Jul 2025 17:16:10 +0200
+Message-ID: <20250714151609.354267-2-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250714-c55-v11-19-bc20e460e42a@ideasonboard.com>
-References: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
-In-Reply-To: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com, 
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com, 
- laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6137;
- i=dan.scally@ideasonboard.com; h=from:subject:message-id;
- bh=gnnIsYI0vNT48MJLYko6Y7wwtbQ725ILEob/XY0pCCg=;
- b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBodR0DEqDwC9LpataxJm9CPT3z2A6qU2OG8ZUO8
- +OvoHBECKKJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaHUdAwAKCRDISVd6bEV1
- Moo1D/4qboYi8h8jx1Gn6wHvlMw/QYIeeTfsaeHubj96dICr+M2VaXh9+/6qwLyv0xda35s2wFk
- Q6CQCjW4W45KCyjt6/MGlWLcbR89OGJ0A0N5NPjPyHL6n35hflP/a9pRRahCzgpeK1+HJY18mWx
- 6jwBEkSYUWGXueDZDYOLQTuz5JTL5O0yu9KnYQCcTX2i7NQbfCT4KUkaGe3YlTOFu+3hWKXg0IZ
- M8luGFhn15Qe1gfr8PXRBGIbGsHrqGIJCM2jzNJYjePOReeVYYasPahkJN9s/nFcsiysERpqpUs
- nTY0aofB7CWAuzL1g4LnnCfthlW3TsypxKlVM3ANw3NVh/A1nPVIEvuuY2gx6O+u+YJ5+g/owmP
- FqQ/01Vk5S9lgxO8QJ0nEVyUALtFj1dvUJqRqdDrhdoffM2ZD5eMRcitJdgM/IrYv96oj+/kl9z
- 6SRv3n3u8k59qu4Ag39roDXZelIOwBlpyuOpzLnrifg42QsU10tuWqKpt43ezYxjqgugayqHQZB
- zQGRYBt/f/rlk7K+L2lHOBQ+xlPPXaJH3xN38WdKekkT4ez5lKbXl6tBoPcW90cpbGf+YhEi5ba
- cV7oBUnc/0hHbXkKV6tRnNvKdu2jh3NB4MDw2AALWpIdMc4N5Qc3JHngFeo6SV4sOrXp+DxFkpd
- g5ZjjncYsiVShcw==
-X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
- fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1945; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=5SEmN81j++cDBIFvkv9n2aotAYscERc+zZaDKLuEifk=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBodR85KovBs9Byw5IM3Ko1TPG7MkwoC4nasQNwZ
+ S91rcu8eeGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaHUfOQAKCRDBN2bmhouD
+ 175eD/0QEl43ZipiEU/g+okr5EbElD01rJ7qQvSMis8Mzn0HeZVPm/S+WFVVLhiUE0OTyMSH1TR
+ JvNkX8tLNPBQI+kuh9q5vDEEtIfhbZYF7DG7n1EWPoykST725tMcdVKdTO4ayNbGO9uD4ZOggMT
+ r5567tq+S+D5it9prHYoCMVd5O7W6ScHnrpRUsUk9lEtIvdZYaG5ZOq2/iG3acmPVrifkmmeB4e
+ 4eMtljOXC5fFo4H6xRSGDfXvTpVpfk3gzgwoSkmvXKGaMTC82HsEYXH//6Odwhm0tnB6vRNXnZ2
+ cqs3xT7bwdOPyDho38csJuTju8d8CvM7uqQoP/T8KT+KrXdyi0DFpb3/dNgBdp09HT3Pk+QHLIq
+ SCtHzRejs5v2DOm6k7ZR8WjT6Cxd0B5yIQ8/zCVYKe/SyUy2h8cuY0UQKuDfpLkUmdW6fMX7dmZ
+ CRyfueVtw1CkZ4aHRgpwv3OOdDE9ZsvyRz93acmJX3rQaHB6+ecPGNlLX/Zz/oi6y12aWlJsnWK
+ lbhKQaOHI4gSOEsYHlUuyXVl4w4HoALVKqeQcEJcpfSH0fN2I/+eRcTbc6w6AaxjcDwHaxmo0X6
+ Aij1ssTPItb/AEQ1Xr0EiYwlWanzHEsZB3Pj+q/uHqMZbP7vVUkGkbCbbkDdCy9CBDyBy2LstEG +8Ee1VYHQcguHNA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-Document the mali-c55 parameter setting by expanding the relevant
-pages in both admin-guide/ and userspace-api/.
+Bryan O'Donoghue reviews and applies patches for both Iris and Venus
+Qualcomm SoC video codecs (visible in git log as his Signed-off-by and
+in pull requests like [1]), so he is de facto the maintainer responsible
+for the code.  Reflect this actual state my changing his entry from
+reviewer to maintainer and moving the entry to alphabetical position by
+first name.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+[1] https://lore.kernel.org/linux-media/20250630121704.260831-1-bod@kernel.org/T/#u
+
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Changes in v11:
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-	- Updated the documentation to account for the use of the
-	  V4L2 extensible params
-
-Changes in v10:
-
-	- None
-
-Changes in v9:
-
-	- None
-
-Changes in v8:
-
-	- None
-
-Changes in v7:
-
-	- None
-
-Changes in v7:
-
-	- None
-
-Changes in v6:
-
-	- Minor rewording
-
-Changes in v5:
-
-	- New patch
----
- Documentation/admin-guide/media/mali-c55.rst       | 19 ++++++-
- .../media/v4l/metafmt-arm-mali-c55.rst             | 66 +++++++++++++++++++++-
- 2 files changed, 80 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation/admin-guide/media/mali-c55.rst
-index 7eaeac63ddf713730fac266d81866539310cc7e2..dbed5179d5f84fb69465beee9281ac9fb572a37f 100644
---- a/Documentation/admin-guide/media/mali-c55.rst
-+++ b/Documentation/admin-guide/media/mali-c55.rst
-@@ -387,9 +387,24 @@ the processing flow the statistics can be drawn from::
-                        +-------------+   |    +-------------+
-                                          +-->  AWB-1
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 40831ae42296..f56e40d9b3c7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20678,10 +20678,10 @@ F:	Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
+ F:	drivers/regulator/vqmmc-ipq4019-regulator.c
  
--At present all statistics are drawn from the 0th tap point for each algorithm;
-+By default all statistics are drawn from the 0th tap point for each algorithm;
- I.E. AEXP statistics from AEXP-0 (A), AWB statistics from AWB-0 and AF
--statistics from AF-0. In the future this will be configurable.
-+statistics from AF-0. This is configurable for AEXP and AWB statsistics through
-+programming the ISP's parameters.
-+
-+.. _mali-c55-3a-params:
-+
-+Programming ISP Parameters
-+==========================
-+
-+The ISP can be programmed with various parameters from userspace to apply to the
-+hardware before and during video stream. This allows userspace to dynamically
-+change values such as black level, white balance and lens shading gains and so
-+on.
-+
-+The buffer format and how to populate it are described by the
-+:ref:`V4L2_META_FMT_MALI_C55_PARAMS <v4l2-meta-fmt-mali-c55-params>` format,
-+which should be set as the data format for the `mali-c55 3a params` video node.
+ QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
++M:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ M:	Vikash Garodia <quic_vgarodia@quicinc.com>
+ M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
+ R:	Abhinav Kumar <abhinav.kumar@linux.dev>
+-R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ L:	linux-media@vger.kernel.org
+ L:	linux-arm-msm@vger.kernel.org
+ S:	Maintained
+@@ -20750,9 +20750,9 @@ F:	Documentation/devicetree/bindings/usb/qcom,pmic-*.yaml
+ F:	drivers/usb/typec/tcpm/qcom/
  
- References
- ==========
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-index 186e0deb9ece70ab1d2b22bb5ccb69196264a793..f21f4f8cff49874821cea7d9ad8d6a41e57d6ff8 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-@@ -1,10 +1,11 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _v4l2-meta-fmt-mali-c55-params:
- .. _v4l2-meta-fmt-mali-c55-3a-stats:
- 
--*************************************
--V4L2_META_FMT_MALI_C55_STATS ('C55S')
--*************************************
-+*****************************************************************************
-+V4L2_META_FMT_MALI_C55_STATS ('C55S'), V4L2_META_FMT_MALI_C55_PARAMS ('C55P')
-+*****************************************************************************
- 
- 3A Statistics
- =============
-@@ -23,6 +24,65 @@ of the C structure :c:type:`mali_c55_stats_buffer` defined in
- 
- For details of the statistics see :c:type:`mali_c55_stats_buffer`.
- 
-+Configuration Parameters
-+========================
-+
-+The configuration parameters are passed to the
-+:ref:`mali-c55 3a params <mali-c55-3a-params>` metadata output video node, using
-+the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-+sub-structs for each configurable area of the ISP, parameters for the Mali-C55
-+use the V4L2 extensible parameters system, through which groups of parameters
-+are defined as distinct structs or "blocks" which may be added to the data
-+member of :c:type:`v4l2_params_buffer`. Userspace is responsible for populating
-+the data member with the blocks that need to be configured by the driver, but
-+need not populate it with **all** the blocks, or indeed with any at all if there
-+are no configuration changes to make. Populated blocks **must** be consecutive
-+in the buffer. To assist both userspace and the driver in identifying the
-+blocks each block-specific struct embeds :c:type:`v4l2_params_block_header` as
-+its first member and userspace must populate the type member with a value from
-+:c:type:`mali_c55_param_block_type`. Once the blocks have been populated
-+into the data buffer, the combined size of all populated blocks shall be set in
-+the data_size member of :c:type:`v4l2_params_buffer`. For example:
-+
-+.. code-block:: c
-+
-+	struct v4l2_params_buffer *params =
-+		(struct v4l2_params_buffer *)buffer;
-+
-+	params->version = MALI_C55_PARAM_BUFFER_V1;
-+	params->data_size = 0;
-+
-+	void *data = (void *)params->data;
-+
-+	struct mali_c55_params_awb_gains *gains =
-+		(struct mali_c55_params_awb_gains *)data;
-+
-+	gains->header.type = MALI_C55_PARAM_BLOCK_AWB_GAINS;
-+	gains->header.flags |= V4L2_PARAMS_FL_BLOCK_ENABLE;
-+	gains->header.size = sizeof(struct mali_c55_params_awb_gains);
-+
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+
-+	data += sizeof(struct mali_c55_params_awb_gains);
-+	params->data_size += sizeof(struct mali_c55_params_awb_gains);
-+
-+	struct mali_c55_params_sensor_off_preshading *blc =
-+		(struct mali_c55_params_sensor_off_preshading *)data;
-+
-+	blc->header.type = MALI_C55_PARAM_BLOCK_SENSOR_OFFS;
-+	blc->header.flags |= V4L2_PARAMS_FL_BLOCK_ENABLE;
-+	blc->header.size = sizeof(struct mali_c55_params_sensor_off_preshading);
-+
-+	blc->chan00 = 51200;
-+	blc->chan01 = 51200;
-+	blc->chan10 = 51200;
-+	blc->chan11 = 51200;
-+
-+	params->total_size += sizeof(struct mali_c55_params_sensor_off_preshading);
-+
- Arm Mali-C55 uAPI data types
- ============================
- 
-
+ QUALCOMM VENUS VIDEO ACCELERATOR DRIVER
++M:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ M:	Vikash Garodia <quic_vgarodia@quicinc.com>
+ M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
+-R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ L:	linux-media@vger.kernel.org
+ L:	linux-arm-msm@vger.kernel.org
+ S:	Maintained
 -- 
-2.34.1
+2.43.0
 
 
