@@ -1,63 +1,88 @@
-Return-Path: <linux-media+bounces-37604-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37605-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42201B03AAC
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 11:21:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49619B03AE7
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 11:36:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7998B189C712
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 09:21:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8294717C6A2
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 09:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 494F3241682;
-	Mon, 14 Jul 2025 09:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93A79242D6D;
+	Mon, 14 Jul 2025 09:35:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="jRJpb3zk"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZyXJPU1S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A9D20966B;
-	Mon, 14 Jul 2025 09:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978C3241668
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 09:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752484856; cv=none; b=VBMMUyRoEqF0xqaAfHGCbjHocqK582+osUxpzTFrVqkc0GWrohOzMV6HWq1JYWdyK0Y1VfulqIOHun0yTZE58h+Z1rn1dLyHs1ow+n+wtWzqk/nKTfV/vj6hN2qPmkSQGR+YXkzYaugq2b7DDLgcsFx/GKHQRYua5qP0QZySqLA=
+	t=1752485755; cv=none; b=f7MFU7zhToO2LCTVYDn2HUWoffVfr2FGBh0YOaS1WJshG3qg7AXdfaUEkvMM2UOXPpUO9Sy7ABBoJDd/k69jFDEQMA2aeKH3H798seRpZRI0f7Ccugv65S3rZ5dniCdgb0wdnskAF+Be7dPu+5zKNyPuhwaqR7xBGGEH80V8cQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752484856; c=relaxed/simple;
-	bh=nsJCzN1RuvWH0xipKFOTbj1OfP0Tz1nFWOA2QY/vEq4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Jk4LWla5/71LNzFmMmTaCEcSbmt1vbc8wxT9Q3vXTlnRsyMTqy0jl5CJNrwKBFk5hRD/I96cFAMSyrMBWKFYEm4ZC4VOrJDYRyT2mJDfGN0DP/ecsGevD1TnlJhMMiHZ/QX1sNKXi1efHwbvuIQcJT6Cuog2g7uzbKpgtv02/98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=jRJpb3zk; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56E9KCVD2579656;
-	Mon, 14 Jul 2025 04:20:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752484812;
-	bh=VpRIsrh/SskIsYvaFioLSeLx3UZ4lfhfIHEZTyHFdm4=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=jRJpb3zkCM2TPcl/pnOSPoKvoGNKE2RRL8R3vySw8ty8MIGmfwjLeyF/u2TXmutp1
-	 3kg/8FTnKIMknYEV9gFX7feo6LK+SBynXsCac5zuUWnOD1argqveNGhHjY4N5Ds1IG
-	 V6LF4DGptIMEQl/nT4H3TZDsByJhpPtZ57s301+M=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56E9KCRv3165019
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 14 Jul 2025 04:20:12 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 14
- Jul 2025 04:20:11 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 14 Jul 2025 04:20:11 -0500
-Received: from [172.24.26.195] (lt9560gk3.dhcp.ti.com [172.24.26.195])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56E9K55c269797;
-	Mon, 14 Jul 2025 04:20:06 -0500
-Message-ID: <268f6849-efc6-4663-af20-f6726bd4b78d@ti.com>
-Date: Mon, 14 Jul 2025 14:50:05 +0530
+	s=arc-20240116; t=1752485755; c=relaxed/simple;
+	bh=ru+jpxSTrNborX2bFBxdcyMpqdQrMupwkrZFcVDWZfQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jN0kaW6iNBs9iktlE8eSbfJh5+ZTZzFN6KCwvBC3aYV4bl9Tv6i/mnG9UwLDE2fkCGm3LD75d1Ug/D+rvvJwamGFT15P2zG0NT2FQb2M2kuT8MweqAFRTbGmTmDBzLVtA6kCYlSf6MO/+q8WhHTma3J/ekNww5aECkEuh7cN3N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZyXJPU1S; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56DLCWWV028873
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 09:35:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	e7zrisRWASLUd76UBSE8vFhiT+0G+v9sbTXyn1lJGAw=; b=ZyXJPU1SfZ/vrK2D
+	SQlPwcnf+ETIFiVlrlCYhEPEph1lDrp55tR/MWPYKFySMiZglBnknHigufYreI5P
+	86j8+DQKlXM+sLnBmjC/tGbvbjOaOw3irtcSodCZVaJLtF97IfBZMaEAcJoSgWzQ
+	stVU8Mkxq7jJkoS8KO/ymb1cxJmCw1Z8yTRFgvLuxgbuz9dMpAODie684ugnbcyg
+	uSc2f5kqEa33wUcdUBSRurmSjqUTS0uNL67XOFLYpSmA17e0qLtz/zzpWQdEURxs
+	0f4tiXhe6EmuZDZV+ZFbaLJ1TQLQETZcEpnjD1WoRdrDPGahdHbFxsGB7Wx7Vrpl
+	A7GRxw==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ugvmv242-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 09:35:52 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6fb030f541bso15565156d6.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 02:35:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752485751; x=1753090551;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e7zrisRWASLUd76UBSE8vFhiT+0G+v9sbTXyn1lJGAw=;
+        b=NlE6onNwvm94F2sq0GyawLNVmcQAkhx6hHgScggD8CfQhtRC7BaK3Lt4vemLuXnyJd
+         ALFciFVKmCpVNn3xrXgf2ui2EYjkrcrLST42xVm5spLQjNl6RCck5v6EFNy7ZREW8oUu
+         qCiQs/JyiWqujPhzScQ+Dy4xYrBo9nQV+Ktu42Nhu0E8AxNJuNfn6LBNYTrMRiREmwBR
+         6CHY7Ufk3qeUhiEyP0G24UBZJB2VH9OpHavUQ+co2HxPEzlsaxT7MEmi8XSVBaLY/Slo
+         WjBDhQbDjGiv4rZGAee16EK+N12yFHcHDHYX2xPTEcVAtAl8Lk9VekQJY+H4RrlLpwfG
+         de3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUOpcC42W/94cr22IQAQgx3/lwAdaKEee9cBHszXPmjkO67G9Setni42ove7OfI8d8ueBdeQSUYI9K97Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlI24UI/xHED0iEaQkTx+PBsvA0RMEkkrYLWwsda0m8qLZ8Ncw
+	2cx3F4j0rxloUKg0T6MylJIGLQ3PvtGy5twrxk/Zt0wbwNxWrNSYedJ9joshVHIP3WwrqBuBuUp
+	J5iTO48CBUPRQeOS7ERkgJxzYZvQ1+HbyTAVVOOvyQA5eMIJt/EcenZ5mb4mlPgZbNQ==
+X-Gm-Gg: ASbGncu1XW69NDpQGTSGXbGuOKhKJ6Rxl+BMp7LiOWqQnSW7Q8BWnsvmfV8oj95oVTi
+	ZJidEG82+y8adUYJ5KcH6Veysgtz7x0tm4XuDeb6on8D7N3xXqUYNzUF+O8Xz9exmLCJpfpx+6N
+	kvuOzKXPOpYIJfsuJWplJsjntQyGL6esmwEsnABShA2AFipX0WXRo0xhUHjjeetu8V4fMzB5jss
+	trp2LTpulF/0P7WLIGwT0KH9iRX3mpBNm6ZAP+lvLM7iFJhO+sZ2loFqregfhM/cquHESm5Z0gZ
+	Wady/b5BXI8balpW6RuNC7DJ2GXX9CwgacvT+Eq3spah3TJUrcztP+YuRhnKfGphN2k3b5D5yj/
+	LTs7jj1/GuuUEsd1ETGL0
+X-Received: by 2002:a05:620a:29c7:b0:7d3:c688:a590 with SMTP id af79cd13be357-7dde9f3ffdbmr577279685a.4.1752485751120;
+        Mon, 14 Jul 2025 02:35:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEPBgHK2WKHaRZG5vMxzXtbPdkk1Lmydmr3moeXavVZ20BhmDNvzkpBN20H9euW8Kvu2AQovg==
+X-Received: by 2002:a05:620a:29c7:b0:7d3:c688:a590 with SMTP id af79cd13be357-7dde9f3ffdbmr577277485a.4.1752485750600;
+        Mon, 14 Jul 2025 02:35:50 -0700 (PDT)
+Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7e90afesm796156466b.32.2025.07.14.02.35.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 02:35:50 -0700 (PDT)
+Message-ID: <7e65f9be-275b-4760-82d7-679ba3d7ee83@oss.qualcomm.com>
+Date: Mon, 14 Jul 2025 11:35:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,108 +90,109 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC net-next 0/5] net: ethernet: ti: am65-cpsw: add AF_XDP
- zero copy support
-To: Roger Quadros <rogerq@kernel.org>,
-        Siddharth Vadapalli
-	<s-vadapalli@ti.com>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov
-	<ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard
- Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Sumit
- Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>
-CC: <srk@ti.com>, <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
+Subject: Re: [PATCH v2 4/7] media: qcom: camss: enable csid 690 for qcs8300
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+        todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+        robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+        cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
+        will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250711131134.215382-1-quic_vikramsa@quicinc.com>
+ <20250711131134.215382-5-quic_vikramsa@quicinc.com>
 Content-Language: en-US
-From: "Malladi, Meghana" <m-malladi@ti.com>
-In-Reply-To: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250711131134.215382-5-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Proofpoint-GUID: MPO1sx1Vt_oWg8-gCerOU-0rC8sGY64e
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDA1NiBTYWx0ZWRfX47al1+7TaDnt
+ MiKeXe89qGe4UkKmZGxHQeS6A+6/9am03m5WR8d2QjN9d2RV1xWYqXcb5/GwRiMNfLy2oEFhAKT
+ kjtnbKXG2wtucQoYGgFvGYqh6nOKpZUgURPBBWqsPLFRrNlaMD3rqUJjbdmAmNve0cebaSqbrfU
+ izz+EpJyyDFdeqqhd7BYYebDRCGP5JoMqjmLEh45NyUJSYDJnFThN5/WMQ82uxTkmSX5HPjHOtD
+ uMhCFCCaaguDP4sXesdsh6TX6LA1/Pikyct62Yiu6Htw+8+tPU798W8HTJ9dOjLfki4yeTX97FF
+ fuXCw9wU2S4uoTVQSjR7f96dPfaYNsiDsEr0mGfck9EjFGYheZtDVpG76ZwqKAwmzRW1cVydnj8
+ JNX4K5SpROTNFsLiAS15aOOwTMjUwTFXvoseJEQeyq/6fJsJynQvWlnDQsjv6Y9DmsCbmLgH
+X-Proofpoint-ORIG-GUID: MPO1sx1Vt_oWg8-gCerOU-0rC8sGY64e
+X-Authority-Analysis: v=2.4 cv=C4fpyRP+ c=1 sm=1 tr=0 ts=6874cf78 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=_OLkaYxBag4VyamGeQYA:9
+ a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_01,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507140056
 
-Hi Roger,
-
-On 5/20/2025 3:53 PM, Roger Quadros wrote:
-> This series adds AF_XDP zero coppy support to am65-cpsw driver.
+On 7/11/25 3:11 PM, Vikram Sharma wrote:
+> The CSID in qcs8300 is version 690, it is same as csid used in
+> sa8775p. csid gen3 have support for csid 690.
 > 
-> Tests were performed on AM62x-sk with xdpsock application [1].
-> 
-> A clear improvement is seen in 64 byte packets on Transmit (txonly)
-> and receive (rxdrop).
-> 1500 byte test seems to be limited by line rate (1G link) so no
-> improvement seen there in packet rate. A test on higher speed link
-> (or PHY-less setup) might be worthwile.
-> 
-> There is some issue during l2fwd with 64 byte packets and benchmark
-> results show 0. I'm still investigating this issue.
-> 
-> AF_XDP performance using 64 byte packets in Kpps.
-> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
-> rxdrop		317		504		824
-> txonly		400		405		757
-> l2fwd 		207		264		0
-> 
-> AF_XDP performance using 1500 byte packets in Kpps.
-> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
-> rxdrop		82		82		82
-> txonly		82		82		82
-> l2fwd 		82		82		82
-> 
-> [1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
-> 
-> To:
-> 
-> Signed-off-by: Roger Quadros <rogerq@kernel.org>
-
-This series crashes Linux on am64xx-hsevm, when I tried nfs boot using 
-AM65-CPSW-NUSS driver:
-logs: 
-https://gist.github.com/MeghanaMalladiTI/d655a1c8ca88113ee7f5f57d6ab0ec4c
-
-Seems like you have reverted the fix for the same bug which was reported 
-by Siddharth and fixed by Julien: 
-https://lore.kernel.org/all/7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com/
-
-reverted lines:
-		if (!common->ports[port].ndev)
-		/* FIXME should we BUG here? */
-			continue;
-
-Can you please take a look at it.
-
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 > ---
-> Roger Quadros (5):
->        net: ethernet: ti: am65-cpsw: fix BPF Program change on multi-port CPSW
->        net: ethernet: ti: am65-cpsw: add XSK pool helpers
->        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for RX
->        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for TX
->        net: ethernet: ti: am65-cpsw: enable zero copy in XDP features
+>  .../platform/qcom/camss/camss-csid-gen3.c     |   5 +-
+>  drivers/media/platform/qcom/camss/camss.c     | 136 ++++++++++++++++++
+>  2 files changed, 139 insertions(+), 2 deletions(-)
 > 
->   drivers/net/ethernet/ti/Makefile         |   2 +-
->   drivers/net/ethernet/ti/am65-cpsw-nuss.c | 526 +++++++++++++++++++++++++++----
->   drivers/net/ethernet/ti/am65-cpsw-nuss.h |  37 ++-
->   drivers/net/ethernet/ti/am65-cpsw-xdp.c  | 155 +++++++++
->   4 files changed, 656 insertions(+), 64 deletions(-)
-> ---
-> base-commit: 9f607dc39b6658ba8ea647bd99725e68c66071b7
-> change-id: 20250225-am65-cpsw-xdp-zc-2af9e4be1356
-> 
-> Best regards,
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> index f62084fb8287..581399b6a767 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> @@ -47,8 +47,9 @@
+>  #define CSID_CSI2_RX_IRQ_CLEAR		0xA4
+>  #define CSID_CSI2_RX_IRQ_SET		0xA8
+>  
+> -#define IS_CSID_690(csid)	(csid->camss->res->version ==\
+> -					CAMSS_8775P ? true : false)
+> +#define IS_CSID_690(csid)	((csid->camss->res->version == CAMSS_8775P) ||\
+> +				(csid->camss->res->version == CAMSS_8300) ?\
+> +				true : false)
 
--- 
-Thanks,
-Meghana Malladi
+== tends to return either true or false without the use of the
+ternary operator too
 
+>  #define CSID_BUF_DONE_IRQ_STATUS	0x8C
+>  #define BUF_DONE_IRQ_STATUS_RDI_OFFSET  (csid_is_lite(csid) ?\
+>  						1 : (IS_CSID_690(csid) ?\
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 5211367b535d..b0fd5fd307a1 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -2269,6 +2269,10 @@ static const struct camss_subdev_resources csiphy_res_8550[] = {
+>  	}
+>  };
+>  
+> +static const struct resources_wrapper csid_wrapper_res_qcs8300 = {
+> +	.reg = "csid_wrapper",
+> +};
+> +
+>  static const struct resources_wrapper csid_wrapper_res_sa8775p = {
+>  	.reg = "csid_wrapper",
+>  };
+
+There is no reason to duplicate this, simply point to the existing
+variable
+
+> @@ -2487,6 +2491,138 @@ static const struct resources_icc icc_res_sm8550[] = {
+>  	},
+>  };
+>  
+> +static const struct camss_subdev_resources csid_res_8300[] = {
+> +	/* CSID0 */
+> +	{
+> +		.regulators = {},
+> +		.clock = { "csid", "csiphy_rx"},
+> +		.clock_rate = {
+> +			{ 400000000, 400000000},
+> +			{ 400000000, 400000000}
+
+Please add a space before } across the board
+
+Konrad
 
