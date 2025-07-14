@@ -1,108 +1,141 @@
-Return-Path: <linux-media+bounces-37631-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37632-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A364B04090
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:51:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099BDB040FA
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:07:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 504683B4639
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 13:51:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5C931892753
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:07:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289981FDA94;
-	Mon, 14 Jul 2025 13:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64ECB25525F;
+	Mon, 14 Jul 2025 14:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b="S86kwcLG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6woiXXR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from taubenbroetchen.weidenauer.cc (taubenbroetchen.weidenauer.cc [37.252.242.197])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCFF2517B9;
-	Mon, 14 Jul 2025 13:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.252.242.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E29F25394C;
+	Mon, 14 Jul 2025 14:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752501084; cv=none; b=TRUV1hdMcnPFDInun4ZmCeFfUhhBhG1PcUbTzlg+ENRtQ9ucIrGuDPdeB+XibnUnkdC41uBGeOwIkkKTI3+SVmj4dsOFHrqaywIOCkGnFFUvPqmYKtzP1kuwhufM5KiVwVMZqVk8XmkT+kKJQEkfUWDVK1WK4w/WmVO0YPG10KA=
+	t=1752502023; cv=none; b=p/EzU3OtAal1H4cGxmFoLZna+PoXdSLZzDKLu8Fi+LybL/PmD2xd9S3myNtoeU2BDH0HGf8RbFRS/1Odz0j7hhmCUlIHWLZ9OnWKBBDsPSkja9daaQ3yJ+DKPzGvAtCJ3SCfwZIcDIGKyMzDweKkfdP+EU5ntaWd7wlE/ciISF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752501084; c=relaxed/simple;
-	bh=Y/WjS9Hpfaq+L5YVT987Aiul12A09O2mxfF/fOIhq9A=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=svN4nRzSVA9cKc36Rc6mDwAXWjMNn7Zq8tVdhRo0p9qDJvagQLxkM05n+gauV9gbSt1uTJ2BePy3/gahdCpLXu/Jtxfx8aGsrtrAm3P+nk5jxNaCdcfiIAXyuWYCpC2eb9wlb+OrOHWELR7FKY/+I1Fl5RQwLS3PQL2E+SXuRpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc; spf=pass smtp.mailfrom=weidenauer.cc; dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b=S86kwcLG; arc=none smtp.client-ip=37.252.242.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weidenauer.cc
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weidenauer.cc;
-	s=taubenbroetchen; t=1752501081;
-	bh=Y/WjS9Hpfaq+L5YVT987Aiul12A09O2mxfF/fOIhq9A=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=S86kwcLGvjKQcJ5X05ytLQU/w58iyT+nZpHC1/THaeWkMnKS0BN6CG1xwH1S7lsCD
-	 LQUDn2ltYgLDAG0D3Yq8xo85sEjLNZlfdAu37/9sUQ1oe1x2/DTrAgDDV0QTkFrmwJ
-	 GqfWWz9anchnmpNFXWuXxUf0KXVNYr86P4dEyWvJl0canDQagiTLbQCvzOJCxkXd50
-	 wajUBcAewzxyC+SZ3xPZTzZ0Qbv42PHi4UyinxC8CBvnnjoOL1/XVQgexuRT/UUaLK
-	 AdekMacLWa21bDUL3qy/5/nqBXKtreBr7Vo9KoEH2Amt3Y773NTjxDj5DGLI9EolYE
-	 +PkhsWspAVDow==
-Received: from [127.0.0.1] (212095005104.public.telering.at [212.95.5.104])
-	by taubenbroetchen.weidenauer.cc (Postfix) with ESMTPSA id A4B0264470;
-	Mon, 14 Jul 2025 15:51:20 +0200 (CEST)
-Date: Mon, 14 Jul 2025 15:51:19 +0200
-From: Martin Weidenauer <martin@weidenauer.cc>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
- andy@kernel.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, ~lkcamp/patches@lists.sr.ht, koike@igalia.com
-Subject: Re: [PATCH] staging: atomisp: isp: fix open brace on new line
-User-Agent: K-9 Mail for Android
-In-Reply-To: <2025071444-overeater-washday-405c@gregkh>
-References: <20250714131953.45947-1-martin@weidenauer.cc> <2025071444-overeater-washday-405c@gregkh>
-Message-ID: <9F1430C9-1AC7-4955-8785-1E321BCD6E88@weidenauer.cc>
+	s=arc-20240116; t=1752502023; c=relaxed/simple;
+	bh=+04pRfrMC5bnxVH1z1JDJ55WhOxbPv/wMsPDtKE/wug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kPbCVbvcX7IOJuuUsCSRdrvuwyN9LeyLHLjRia356Y/+JlGygaGSPHxWLX5klgETnYqrBovv9lg8k034ISiTSP2OKmyiaxPJ4BeVta34AfC9HbhSbizpxG0Fvy7nicj+SZfMEoPOAFBWuSjHBhVEb1yYtI808qaR5GdmurUt7J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z6woiXXR; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ab554fd8fbso18763721cf.1;
+        Mon, 14 Jul 2025 07:07:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752502021; x=1753106821; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A11jZ3IWs915tX3jAt6nejExoHwEI3hR6vxjjTJTwmY=;
+        b=Z6woiXXROcxMTu0OCh715y0mKYkyuMa5vDDW6gSURLB2teIUiFXCzqMqmoSPWiIj6G
+         mwz19fFcD7uIeIYC3fqeRk3TApIpUhrrK7Ezm4C/Yx/tG/GGoqO1De23VGXp16gZh2O9
+         Wc/Y53mi16GB97V6brw4rfhHsSb3YC6OFWWP1JW48AWWSdhh76Thlpjj2u5lpwX7qYnF
+         UJ+S/psiR+gAdWTJ0QXs4Y9Af5OYDa5dKYBy32Sep7AcgLo1YSKWdIsNF/R45gLcSQlx
+         Y97h6rk+B2nEBP5qk63dIYr7n7yDGZAHC2bEpz7ojdE0W+GN+i4JQLsR5Gqj1FubcsGJ
+         Bcfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752502021; x=1753106821;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A11jZ3IWs915tX3jAt6nejExoHwEI3hR6vxjjTJTwmY=;
+        b=sqeTsxspdlCAVcmlkTEJ80EIu6oESfzxtXcCK5+wwwHs7I+AFygSkgUmmUWk+T93Tk
+         QLWgLktYSeKiBFYXm+sOP4APSVNBCr7la3xM2IZcRD81obhLBqHePunXYhHHJJo7gASy
+         XE2r7YK4ngtznXBoSL1WdU9RPyVcdsxL0BXnVtHmomZO+vXf3p/2Mda4uTluvklTSZ4i
+         wFaroOjYl/vTcGBKXsaaBLrpFY/mHpYKGqJ6dOzQdWtGU2sDcRIzW2Kj0RfocfECcAHH
+         lMqkskgCvPgkppMqf5/uOv2oQLJSJY0KRErRLYHKHOZscvnjS6reLqqw3hFBCYya4lY8
+         Bzqw==
+X-Forwarded-Encrypted: i=1; AJvYcCU//aebNWYCA8S2xF63IoBmeacbTO1wulivHpERnrPKBafzHu39AsPSPIFVgeRwkTpqa/2JMMECMuFDDG8=@vger.kernel.org, AJvYcCWjilyyVxgFQGvZMnGn4vS4IJemDy6OKnewfNclWAgn052zmVKw9dtlc4Fnek5yvs268Fq13ol55dlwFPI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB4qfhv7TQnVSHhxxz9fdu9G6+6LXrov39ts7DiM7/pXRYVLIb
+	1PXHoWpXArIJqWKaAVapAc3cuDnt5GiE+huKjpoLt+B+blHtmKZXrY8x
+X-Gm-Gg: ASbGncuTUCryAuzneG7vLFwseD/saUsiXe8FqXU1I2HtdbYHJ65uuXfay7ACu46U4vi
+	AZJVJthRPRGzT40inYtPADQyTerpNVNh8/pkmEZyXEmUTAMUHkkMxBKxilAh0RWLgt6uaCdynim
+	6co7qkZaWkzEu+YBFQET7DxUhroLXoAece3xgXizrcVAazdrR88YXDM7Nl0byljT0n4DVn0CEfU
+	gIEr1R1sPOlNlfujKbU3w2oZuaaoI2oN6nphZFVB40sebT+xuJz9ls2PUUCMgcEGNsOpjIPby9W
+	PZpClIsUsAd4r2Q+MViSILl0gPEKonP+Vb7U0ksmYxPzAhlqMNeDLaMgdLfYEUwN8w8a8qQKX6b
+	SYbcnh2IEuLoN0nY3zMeDJhs5TFSf0naprLWFbWCX
+X-Google-Smtp-Source: AGHT+IEv313TLhURVuJV2ZjFg7WZOUSA5K8QH3+VOSOLnS1GhFcpirLmcVMiUuQvO1TRBLf2PHw96g==
+X-Received: by 2002:a05:622a:5c05:b0:49a:4fc0:56ff with SMTP id d75a77b69052e-4a9e9ca5040mr311134641cf.12.1752502021073;
+        Mon, 14 Jul 2025 07:07:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:5881:3041:2700:bc8c:6e13:ff9d:5355])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e8b7ae2a91bsm2940614276.1.2025.07.14.07.06.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 07:07:00 -0700 (PDT)
+From: Woohee Yang <woohee9527@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: ~lkcamp/patches@lists.sr.ht,
+	koike@igalia.com,
+	Woohee Yang <woohee9527@gmail.com>
+Subject: [PATCH v2] stating: media: atomisp: fix open brace placement
+Date: Mon, 14 Jul 2025 16:06:47 +0200
+Message-ID: <20250714140651.213850-1-woohee9527@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Server: mw-taubenbroetchen01
-X-Rspamd-Queue-Id: A4B0264470
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.10 / 8.00];
-	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[]
+Content-Transfer-Encoding: 8bit
 
-If you mean the indentation in the file, I think it's unfortunately just a =
-messy driver in general=2E
-I mean I could fix it in another commit in general if you want=2E
+Fix checkpatch error "ERROR: that open brace { should be on the previous
+line" in isp_param.c
 
-Be well,
-Martin
+Signed-off-by: Woohee Yang <woohee9527@gmail.com>
 
-On 14 July 2025 15:24:57 CEST, Greg KH <gregkh@linuxfoundation=2Eorg> wrot=
-e:
->On Mon, Jul 14, 2025 at 03:19:53PM +0200, Martin Weidenauer wrote:
->> 	Fix checkpatch error "ERROR: that open brace { should be on the previo=
-us line"
->> 	in ia_css_dvs=2Ehost=2Ec:277=2E
->>=20
->> 	Signed-off-by: Martin Weidenauer <martin@weidenauer=2Ecc>
->>=20
->> 	---
->>=20
->> 	Hey, this is my first patch, I appreciate any feedback=2E Greetings fr=
-om DebConf25!
->
->Odd indentation, how did that happen?
->
->thanks,
->
->greg k-h
+---
+
+Hey, this is my first patch, I appreciate any feedback, thank you!
+
+Changelog:
+v2: modified commit message
+v1: https://lore.kernel.org/linux-media/20250714135014.212067-1-woohee9527@gmail.com/
+---
+ .../media/atomisp/pci/runtime/isp_param/src/isp_param.c     | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+index 251dd75a7613..b4aac76c2ed5 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+@@ -102,8 +102,7 @@ ia_css_isp_param_allocate_isp_parameters(
+ 	unsigned int mem, pclass;
+ 
+ 	pclass = IA_CSS_PARAM_CLASS_PARAM;
+-	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++)
+-	{
++	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++) {
+ 		for (pclass = 0; pclass < IA_CSS_NUM_PARAM_CLASSES; pclass++) {
+ 			u32 size = 0;
+ 
+@@ -178,8 +177,7 @@ ia_css_isp_param_copy_isp_mem_if_to_ddr(
+     enum ia_css_param_class pclass) {
+ 	unsigned int mem;
+ 
+-	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++)
+-	{
++	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++) {
+ 		size_t       size	  = host->params[pclass][mem].size;
+ 		ia_css_ptr ddr_mem_ptr  = ddr->params[pclass][mem].address;
+ 		char	    *host_mem_ptr = host->params[pclass][mem].address;
+-- 
+2.47.2
+
 
