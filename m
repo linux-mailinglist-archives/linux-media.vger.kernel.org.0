@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-37584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37585-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06519B034B9
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 05:00:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F86EB034BE
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 05:01:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51DAC176C07
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 03:00:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B24453B9A00
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 03:00:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5AE71F4176;
-	Mon, 14 Jul 2025 03:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E121F541E;
+	Mon, 14 Jul 2025 03:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fgJOKz9K"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OxOJDNwv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4691F03F3;
-	Mon, 14 Jul 2025 03:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798DB1F463C;
+	Mon, 14 Jul 2025 03:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752462012; cv=none; b=T5hEmT6X910cYrgrhGdnBz9USAdWvuwZmuVEV4G0O+gUuWK6LCQ7QdyAWipguCkJFfi5+etez4v/dophPCC9y/XRTfsAt2YBXwBKJxmcav2vBnE8lopgtZbzPkx6GWECAEs6/cfhlHt1BPBrFKYcTyI45T0dl6q4xgtqO99h/Ig=
+	t=1752462016; cv=none; b=lpGyOLEw4QK2WjOCm522HIMqqYUCD1EQUSS9JsSFNdg659l0qx/sO91IHZqLw8/FMSGTtbNoS59l3S+YLVzbTgp9PquaFVXToEiLv8QwNI7fKKq0el+/W1MghYLwhtxHSCNtGAVY89Hddc0CuHzJi5ae9sfb4Jhx/+oRjT3q0IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752462012; c=relaxed/simple;
-	bh=e/Pd6vA+VmaF2zukYk9DBDpw0E2bjx0yWVQX/BqXoL4=;
+	s=arc-20240116; t=1752462016; c=relaxed/simple;
+	bh=78zpA5vz/kLWO0AxSPoCf4atgUB2xfg3lEKTL2VKLNk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=I1gEmyPVhuNOoj3lNZgyLEAfx8kGb9U2yZXzCNLoXhqljlPLMnwV7PWkdIuDvj73a5WpfXF50Zkd91Qa3oi9ATsgAYtk5DoyqtmXjeNdHh7PuwelSwYumlRr+L0fV8vHdQETK1O1X2UrgmZP6OpqqiuhW+qGQmv9JOb+3Uvl2tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fgJOKz9K; arc=none smtp.client-ip=209.85.210.175
+	 In-Reply-To:To:Cc; b=gWVhEZoDsyIkRu90P4VZ68GvFqWGVBA0Mw/tzFMFljog/YA213KEaSOGuZGnRgzLcOhiwAkgu0xtGYqarvLRq56QhTKl07zlPtmsqaSZCtIuD9nCXJK9zgkBTOJEhRw1mQbMZaw50ZCQsSgaQyvcX29K+LFRzyRqVUwSeQLe944=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OxOJDNwv; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-74264d1832eso4881557b3a.0;
-        Sun, 13 Jul 2025 20:00:10 -0700 (PDT)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74b56b1d301so2178847b3a.1;
+        Sun, 13 Jul 2025 20:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752462010; x=1753066810; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1752462014; x=1753066814; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fVDZwMbI3MaZsqcDOMuRideVCsmXg1PFZTHplOr/W9w=;
-        b=fgJOKz9KsmNP6RZhN0SfFDgvc94uggJipZ1Phzr5QOwxBC6VUdwOtNALh7Zb7N3stB
-         PLBhFAmElaVdsPmsby8maQjJ4QYrxKXqU39v0jy1jPmG+rJcreryiAzUOyEedZ9VW8fS
-         i/KHw+64GVR1K4JY4FGP9GfoA5zU4EamPJhtce0OYVcMYxvv8eaT6wzQ/3OySJAjz1le
-         0VOzSuJT3qB1P1N3bEGmyEXbS8qqmv2kl+ueuWJFw/RjzYohBA6xUeoOgAbtdHDiYptz
-         5UsOvc7Pt3oFDJBbYp7Qw5Iob4kYwgkKl9Ss1pleTnDDsIuyb8fL5t4rZtxzb+WgnFdQ
-         SLYQ==
+        bh=YyCHBe++X4L4SmNhVx/ZRBWg7qxnsGv2ZlU11x8P1Mw=;
+        b=OxOJDNwvbkSkhh+SL/m+MXux0OlNEZQOPXZGnLKSGbFc2luCt19ktwMx+siY2LcSbc
+         zFu8ve+dQAC+7R5v5vnIGW3Px75eoPnYG46ngjE4uvPtjNsGESYqZnAD+XgmGoXy2fDw
+         2lHWxaAYAsMZybbUR5FTGVTZMzJK8OG0WJ64QKgivar3TyIWLoShUwAleM11ROhMfldr
+         zYEkyL9RaijZsMZrUKl1WsNxn/txCU+HXj4pnbHwhC+8oSUBhQPHelJjL8YAn5Oaw2kJ
+         hZYFGhmEh+3JkyyD9i6+cnDEE7N2EDas1EksVLkgtdm3wtkezHCYBuA06MapTc+BZFuC
+         D1yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752462010; x=1753066810;
+        d=1e100.net; s=20230601; t=1752462014; x=1753066814;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fVDZwMbI3MaZsqcDOMuRideVCsmXg1PFZTHplOr/W9w=;
-        b=IDkNhC/saEPqrLZaUox6b5TldPbn6glhXcUnxujhKlTegiKfHHcowqE83OEHdOBoaT
-         gALKg1HrykUajQwOn0aX5m5SKNUNWPQ+4utqUtdeXq9Hx9Rw6DbE0BPmELAQo9vdGFU+
-         P3FbYroCJWye/VLKuZym3El9NWyeBvQh6dS6HlimtOXb1svWBHGk1LHLSskoC2IQDQT1
-         TOZFToUbOGvROzd0HuVFEX0cgG3qF7+Q4uKHkG460tM916G/d90UNPDZcMlU8LdCPnzn
-         LCMTuc5bAccRMqz9WPsgDibkI0NfXE2kGRjVp0+XjXlZS5BsaU3T2W89Qs5/C5SW3u6z
-         thHA==
-X-Forwarded-Encrypted: i=1; AJvYcCV09d6MJOQIO7WaOw17re0yHD1NHvokSotJvwSOWZRpg8FRTbrQ6V64lll0y4MS9MtkAaeXlXbdYmdzLaI=@vger.kernel.org, AJvYcCVrKj8CEAPfCmADzgFb8/zDm8qKtfBq864qCQ6Ya34RdUfRokkNOKShwSC9sYIm/0L2qv3Ge/3Mu/pMyZY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3f2irYxdES2wYMzmNxJSHUuqJeTWQcgxtrDJUd72Isf53lDlJ
-	I9Mw7RpbxMMHwWJmrBdvAAymUxDOfbl0eLhtFPRcsSvQKdCBrv026Zdp
-X-Gm-Gg: ASbGncvnhZxMAFhnMkF1n7kSBGp2vfcS8Ya0bVHAEHmuSJu4Qg6GsRzGs/SgSjq8aJa
-	cfkPblLjz2LHWpu0zWC90Ks2l88zvfzjMXUjwFI5229rR4WtTbRQlzs8l2uE0f4Mjc1/4eyw8at
-	peMW56Y4E9P1tERJbFF6I0N9H4IVqcXAYyUd/inwaGeSshwqULLjXXbnnUXNfFKb9hgWOUKG9eG
-	Bw+6gBDRsNr4O22V4q0VP/6asGXSa8cj+480TjcDV88tfrPOZyh11/dTwU+81reDbHKofu7KPLF
-	lGExNyN+NrjzZ0x5BY1V0ZDCusn4XnkTkQhj1uCU5r7tMowyGTBES8OX0uq7RMxgY3stw5ZJ7B/
-	yRRnO66CN6LdMpdufyGAKvRthmsFgzZwe+GxtFm7YbCb6PLKjwqg=
-X-Google-Smtp-Source: AGHT+IEDWy/nL9ZFpPp/YZcABCz9sEOblud/9MGZab8eFY7pNur4XOUyYl3wfL5rwPVWTbt8UwN85w==
-X-Received: by 2002:a05:6a20:d50a:b0:220:1af3:d98f with SMTP id adf61e73a8af0-23137e8e31emr17008690637.26.1752462009819;
-        Sun, 13 Jul 2025 20:00:09 -0700 (PDT)
+        bh=YyCHBe++X4L4SmNhVx/ZRBWg7qxnsGv2ZlU11x8P1Mw=;
+        b=r6VfoWjHPVF2gaaecCf/Aqwo6y3cfVeGMv7InpD9StJaO8qcxm+qbxjd2zeNj9Gonp
+         rLg1zY9NfrIcA0IgI5/wZizeVpXxDv/SAcfqMQVkOb74YUp2tSK1yZ78WZOY5SZgRBnh
+         JYQlG78hbkDf2j56vRsYeb1Fq+Y90vOgcKpunV5JpgrsTyEYm5Upy6Fu2dbCYzUhxWMl
+         Tv8Bh4e2is+0PDdVlxYh9gE0vJBTMb4llI1dC2gKIAv/GassI+15Ntz6oaRNRYRMpoSM
+         sVrDVCpVgArxRyMJMfY0/TJh8j2IbcR1RMvGXXCjJQA/L4y9OvyNo/TfHC/UVi2c4HvO
+         wY8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWolRz8OqFBcY10uERF01krrmuyfQCOGiYk6LCYIKK34Rob5mCnFW7kiFsMv9yT+Zt7Qt5DgYOK6V0h5u8=@vger.kernel.org, AJvYcCXfUNUU1Kv9S7qdvmTrC7bCyXuli1biNm32pnEzfc7WGz4jh/6Ed0gVIwRyTOITFnpU8UFJtttyYMdnznw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsAtMSqwdf9dVeVPum4nLmoJxvspdhipw4jek6QxgMQibxGxXx
+	Wwo8+gHVlciCxnj+ha5lFHgRCjmHznXBBJPD1tCJQma1GskYS4YbGkpgU4JTbbO+
+X-Gm-Gg: ASbGncvOHolCJCFitHJuYRyYH+6pr2eOpCY63CVd9Vn1OlRHNtxMfsB6m/3WNL1Qylt
+	JoPl3grwitPHmJkJdVOSK5KWAxZaKSXEPKhBkVFBmyIG5wcms/V5akUeFDesflvHhcrr6ByQf1H
+	FIv0JZhXYkapUVIXBTiIXZ9Si7IAvGoBkwYeT3EXfNveg7qi+YAOo7yuf9fOkY9QyWKR1fO0Bdp
+	UjBHfItdoIr2MVRnYW4ZGZ6X60si+EaDZBWsoq+APGKaDi7gEQPllkj6omGdREmQY3kmhrzVRwt
+	Q9xFNBWqbC0v0Vbwdbc6Vz2jSbDlrJZxOhPYRKgQ7xtFPMeGA1fo8vCW7pgtwgNn8xmZBrADeCI
+	sSwKqHdlcCnad5E1wBuzR96qhRAq7OcsppJqLfo5AAl01JkKHP1o=
+X-Google-Smtp-Source: AGHT+IHFYiGyPhAAAzApRLbrAhQ7GwCFgEMkJOsUbE5LAtDeB3zCkeQ/ldrdK85gv9Pkj91gKZJKxw==
+X-Received: by 2002:a05:6a00:1413:b0:74c:5a8e:dd37 with SMTP id d2e1a72fcca58-74ee2b56632mr15613582b3a.16.1752462013171;
+        Sun, 13 Jul 2025 20:00:13 -0700 (PDT)
 Received: from [127.0.1.1] (211-23-39-77.hinet-ip.hinet.net. [211.23.39.77])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f4af33sm9034577b3a.122.2025.07.13.20.00.06
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f4af33sm9034577b3a.122.2025.07.13.20.00.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jul 2025 20:00:09 -0700 (PDT)
+        Sun, 13 Jul 2025 20:00:12 -0700 (PDT)
 From: LiangCheng Wang <zaq14760@gmail.com>
-Date: Mon, 14 Jul 2025 10:59:40 +0800
-Subject: [PATCH v2 2/3] dt-bindings: display: Add Mayqueen Pixpaper e-ink
+Date: Mon, 14 Jul 2025 10:59:41 +0800
+Subject: [PATCH v2 3/3] drm: tiny: Add support for Mayqueen Pixpaper e-ink
  panel
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -85,7 +85,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250714-drm-v2-2-5d1a2e12796c@gmail.com>
+Message-Id: <20250714-drm-v2-3-5d1a2e12796c@gmail.com>
 References: <20250714-drm-v2-0-5d1a2e12796c@gmail.com>
 In-Reply-To: <20250714-drm-v2-0-5d1a2e12796c@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -100,91 +100,865 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
  linaro-mm-sig@lists.linaro.org, LiangCheng Wang <zaq14760@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752462000; l=2111;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752462000; l=26433;
  i=zaq14760@gmail.com; h=from:subject:message-id;
- bh=e/Pd6vA+VmaF2zukYk9DBDpw0E2bjx0yWVQX/BqXoL4=;
- b=vl6UO4L2OtbB4leUxXYIMhNLmHTUQnSI6TBUze0Iux6My824R550/+iRDMA69xb3GaVPw+W5A
- U8Un+Cor5MAAkiif7mr0JLL1q6XsrJ4Uo96C7kXzHMPx2M/AhShHwau
+ bh=78zpA5vz/kLWO0AxSPoCf4atgUB2xfg3lEKTL2VKLNk=;
+ b=Hb6QRy4uNyDtYOFlyFIkhcxKEQ48VLpFGIEMut3fZN31+svLuxCQn2UH/IEFO8Wj62zl4Om7t
+ /OqcWD5QzfgBrwLcoCLfUu2pHJCn9ncMbhSTsfPmCjvyRLtyKjN4w7y
 X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
  pk=5IaLhzvMqasgGPT47dsa8HEpfb0/Dv2BZC0TzSLj6E0=
 
-The binding is for the Mayqueen Pixpaper e-ink display panel,
-controlled via an SPI interface.
+Introduce a DRM driver for the Mayqueen Pixpaper e-ink display panel,
+which is controlled via SPI. The driver supports a 122x250 resolution
+display with XRGB8888 format.
+
+Also, add a MAINTAINERS entry for the Pixpaper driver.
 
 Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
 ---
- .../bindings/display/mayqueen,pixpaper.yaml        | 63 ++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ MAINTAINERS                     |   6 +
+ drivers/gpu/drm/tiny/Kconfig    |  15 +
+ drivers/gpu/drm/tiny/Makefile   |   1 +
+ drivers/gpu/drm/tiny/pixpaper.c | 777 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 799 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml b/Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fad6cb025a1918beec113b576cf28b76151745ef..0613f32ef8a702e508c9a2e51853f8fe6a38ba42 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7756,6 +7756,12 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/repaper.txt
+ F:	drivers/gpu/drm/tiny/repaper.c
+ 
++DRM DRIVER FOR PIXPAPER E-INK PANEL
++M:	LiangCheng Wang <zaq14760@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml
++F:	drivers/gpu/drm/tiny/pixpaper.c
++
+ DRM DRIVER FOR QEMU'S CIRRUS DEVICE
+ M:	Dave Airlie <airlied@redhat.com>
+ M:	Gerd Hoffmann <kraxel@redhat.com>
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 06e54694a7f2fe1649e1886f039926b24f698e0d..f9b814e87348cad1946dd5e2ff54d304100ef264 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -164,6 +164,21 @@ config TINYDRM_MI0283QT
+ 	  DRM driver for the Multi-Inno MI0283QT display panel
+ 	  If M is selected the module will be called mi0283qt.
+ 
++config TINYDRM_PIXPAPER
++	tristate "DRM support for PIXPAPER display panels"
++	depends on DRM && SPI
++	select DRM_CLIENT_SELECTION
++	select DRM_KMS_HELPER
++	select DRM_GEM_DMA_HELPER
++	help
++	  DRM driver for the Mayqueen Pixpaper e-ink display panel.
++
++	  This driver supports small e-paper displays connected over SPI,
++	  with a resolution of 122x250 and XRGB8888 framebuffer format.
++	  It is intended for low-power embedded applications.
++
++	  If M is selected, the module will be built as pixpaper.ko.
++
+ config TINYDRM_REPAPER
+ 	tristate "DRM support for Pervasive Displays RePaper panels (V231)"
+ 	depends on DRM && SPI
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index 4a9ff61ec25420e2c0a648c04eaab7ca25dd5407..40d613b57f5ee990dbf170d69939a39546be21b7 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -12,5 +12,6 @@ obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+ obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
+ obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
+ obj-$(CONFIG_TINYDRM_MI0283QT)		+= mi0283qt.o
++obj-$(CONFIG_TINYDRM_PIXPAPER)		+= pixpaper.o
+ obj-$(CONFIG_TINYDRM_REPAPER)		+= repaper.o
+ obj-$(CONFIG_TINYDRM_SHARP_MEMORY)	+= sharp-memory.o
+diff --git a/drivers/gpu/drm/tiny/pixpaper.c b/drivers/gpu/drm/tiny/pixpaper.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..cd27f8ba5ae1d94660818525b5fa71db98c8acb7
+index 0000000000000000000000000000000000000000..f134cacbb3d2b2792b94fc37cddb0b264348f192
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mayqueen,pixpaper.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/tiny/pixpaper.c
+@@ -0,0 +1,777 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * DRM driver for PIXPAPER e-ink panel
++ *
++ * Author: LiangCheng Wang <zaq14760@gmail.com>,
++ */
++#include <drm/clients/drm_client_setup.h>
 +
-+title: Mayqueen Pixpaper e-ink display panel
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fbdev_dma.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_probe_helper.h>
 +
-+maintainers:
-+  - LiangCheng Wang <zaq14760@gmail.com>
++#include <linux/delay.h>
++#include <linux/module.h>
++#include <linux/spi/spi.h>
 +
-+description:
-+  The Pixpaper is an e-ink display panel controlled via an SPI interface.
-+  The panel has a resolution of 122x250 pixels and requires GPIO pins for
-+  reset, busy, and data/command control.
++MODULE_IMPORT_NS("DMA_BUF");
 +
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++#define PIXPAPER_WIDTH 122
++#define PIXPAPER_HEIGHT 250
 +
-+properties:
-+  compatible:
-+    const: mayqueen,pixpaper
++#define PANEL_BUFFER_WIDTH 128
++#define PANEL_BUFFER_TWO_BYTES_PER_ROW (PANEL_BUFFER_WIDTH / 4)
 +
-+  reg:
-+    maxItems: 1
++#define PIXPAPER_SPI_SPEED_DEFAULT 1000000
 +
-+  spi-max-frequency:
-+    maximum: 1000000
-+    default: 1000000
++#define PIXPAPER_CMD_PANEL_SETTING 0x00
++#define PIXPAPER_CMD_POWER_SETTING 0x01
++#define PIXPAPER_CMD_POWER_OFF 0x02
++#define PIXPAPER_CMD_POWER_OFF_SEQUENCE 0x03
++#define PIXPAPER_CMD_POWER_ON 0x04
++#define PIXPAPER_CMD_BOOSTER_SOFT_START 0x06
++#define PIXPAPER_CMD_DEEP_SLEEP 0x07
++#define PIXPAPER_CMD_DATA_START_TRANSMISSION 0x10
++#define PIXPAPER_CMD_DISPLAY_REFRESH 0x12
++#define PIXPAPER_CMD_PLL_CONTROL 0x30
++#define PIXPAPER_CMD_TEMP_SENSOR_CALIB 0x41
++#define PIXPAPER_CMD_UNKNOWN_4D 0x4D
++#define PIXPAPER_CMD_VCOM_INTERVAL 0x50
++#define PIXPAPER_CMD_TCON_SETTING 0x60
++#define PIXPAPER_CMD_RESOLUTION_SETTING 0x61
++#define PIXPAPER_CMD_GATE_SOURCE_START 0x65
++#define PIXPAPER_CMD_UNKNOWN_B4 0xB4
++#define PIXPAPER_CMD_UNKNOWN_B5 0xB5
++#define PIXPAPER_CMD_CASCADE_SETTING 0xE0
++#define PIXPAPER_CMD_POWER_SAVING 0xE3
++#define PIXPAPER_CMD_AUTO_MEASURE_VCOM 0xE7
++#define PIXPAPER_CMD_UNKNOWN_E9 0xE9
 +
-+  reset-gpios:
-+    maxItems: 1
++static int pixpaper_crtc_helper_atomic_check(struct drm_crtc *crtc,
++					     struct drm_atomic_state *state);
++static int pixpaper_plane_helper_atomic_check(struct drm_plane *plane,
++					      struct drm_atomic_state *state);
++static void pixpaper_crtc_atomic_enable(struct drm_crtc *crtc,
++					struct drm_atomic_state *state);
++static void pixpaper_crtc_atomic_disable(struct drm_crtc *crtc,
++					 struct drm_atomic_state *state);
++static void pixpaper_plane_atomic_update(struct drm_plane *plane,
++					 struct drm_atomic_state *state);
++static int pixpaper_connector_get_modes(struct drm_connector *connector);
 +
-+  busy-gpios:
-+    maxItems: 1
++struct pixpaper_panel {
++	struct drm_device drm;
++	struct drm_plane plane;
++	struct drm_crtc crtc;
++	struct drm_encoder encoder;
++	struct drm_connector connector;
 +
-+  dc-gpios:
-+    maxItems: 1
++	struct spi_device *spi;
++	struct gpio_desc *reset;
++	struct gpio_desc *busy;
++	struct gpio_desc *dc;
++};
 +
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+  - busy-gpios
-+  - dc-gpios
++static const struct drm_plane_funcs pixpaper_plane_funcs = {
++	.update_plane = drm_atomic_helper_update_plane,
++	.disable_plane = drm_atomic_helper_disable_plane,
++	.destroy = drm_plane_cleanup,
++	DRM_GEM_SHADOW_PLANE_FUNCS,
++};
 +
-+unevaluatedProperties: false
++static const struct drm_plane_helper_funcs pixpaper_plane_helper_funcs = {
++	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
++	.atomic_check = pixpaper_plane_helper_atomic_check,
++	.atomic_update = pixpaper_plane_atomic_update,
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        display@0 {
-+            compatible = "mayqueen,pixpaper";
-+            reg = <0>;
-+            spi-max-frequency = <1000000>;
-+            reset-gpios = <&gpio1 17 GPIO_ACTIVE_HIGH>;
-+            busy-gpios = <&gpio1 18 GPIO_ACTIVE_HIGH>;
-+            dc-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+        };
-+    };
++static const struct drm_crtc_funcs pixpaper_crtc_funcs = {
++	.set_config = drm_atomic_helper_set_config,
++	.page_flip = drm_atomic_helper_page_flip,
++	.reset = drm_atomic_helper_crtc_reset,
++	.destroy = drm_crtc_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++};
++
++static const struct drm_crtc_helper_funcs pixpaper_crtc_helper_funcs = {
++	.atomic_check = pixpaper_crtc_helper_atomic_check,
++	.atomic_enable = pixpaper_crtc_atomic_enable,
++	.atomic_disable = pixpaper_crtc_atomic_disable,
++};
++
++static const struct drm_encoder_funcs pixpaper_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
++static const struct drm_connector_funcs pixpaper_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static const struct drm_connector_helper_funcs pixpaper_connector_helper_funcs = {
++	.get_modes = pixpaper_connector_get_modes,
++};
++
++static int pixpaper_plane_helper_atomic_check(struct drm_plane *plane,
++					      struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc *new_crtc = new_plane_state->crtc;
++	struct drm_crtc_state *new_crtc_state = NULL;
++	int ret;
++
++	if (new_crtc)
++		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
++
++	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
++						  DRM_PLANE_NO_SCALING,
++						  DRM_PLANE_NO_SCALING,
++						  false, false);
++	if (ret)
++		return ret;
++	else if (!new_plane_state->visible)
++		return 0;
++
++	return 0;
++}
++
++static int pixpaper_crtc_helper_atomic_check(struct drm_crtc *crtc,
++					     struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++
++	if (!crtc_state->enable)
++		return 0;
++
++	return drm_atomic_helper_check_crtc_primary_plane(crtc_state);
++}
++
++static void pixpaper_wait_busy(struct pixpaper_panel *panel)
++{
++	unsigned int delay_us = 1000;
++
++	usleep_range(delay_us, delay_us + 500);
++	while (true)
++		if (gpiod_get_value_cansleep(panel->busy) == 1)
++			break;
++}
++
++static int pixpaper_spi_sync(struct spi_device *spi, struct spi_message *msg)
++{
++	int ret;
++
++	ret = spi_sync(spi, msg);
++	if (ret < 0)
++		dev_err(&spi->dev, "SPI sync failed: %d\n", ret);
++
++	return ret;
++}
++
++static int pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd)
++{
++	struct spi_transfer xfer = {
++		.tx_buf = &cmd,
++		.len = 1,
++	};
++	struct spi_message msg;
++	int ret;
++
++	spi_message_init(&msg);
++	spi_message_add_tail(&xfer, &msg);
++
++	gpiod_set_value_cansleep(panel->dc, 0);
++	usleep_range(1, 5);
++	ret = pixpaper_spi_sync(panel->spi, &msg);
++
++	return ret;
++}
++
++static int pixpaper_send_data(struct pixpaper_panel *panel, u8 data)
++{
++	struct spi_transfer xfer = {
++		.tx_buf = &data,
++		.len = 1,
++	};
++	struct spi_message msg;
++	int ret;
++
++	spi_message_init(&msg);
++	spi_message_add_tail(&xfer, &msg);
++
++	gpiod_set_value_cansleep(panel->dc, 1);
++	usleep_range(1, 5);
++	ret = pixpaper_spi_sync(panel->spi, &msg);
++
++	return ret;
++}
++
++static int pixpaper_panel_hw_init(struct pixpaper_panel *panel)
++{
++	struct device *dev = &panel->spi->dev;
++	int ret = 0;
++
++	dev_info(dev, "%s: Starting hardware initialization\n", __func__);
++
++	gpiod_set_value_cansleep(panel->reset, 0);
++	msleep(50);
++	gpiod_set_value_cansleep(panel->reset, 1);
++	msleep(50);
++
++	pixpaper_wait_busy(panel);
++	dev_info(dev, "Hardware reset complete, panel idle.\n");
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_4D);
++	ret |= pixpaper_send_data(panel, 0x78);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_PANEL_SETTING);
++	ret |= pixpaper_send_data(panel, 0x0F);
++	ret |= pixpaper_send_data(panel, 0x09);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_SETTING);
++	ret |= pixpaper_send_data(panel, 0x07);
++	ret |= pixpaper_send_data(panel, 0x00);
++	ret |= pixpaper_send_data(panel, 0x22);
++	ret |= pixpaper_send_data(panel, 0x78);
++	ret |= pixpaper_send_data(panel, 0x0A);
++	ret |= pixpaper_send_data(panel, 0x22);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_OFF_SEQUENCE);
++	ret |= pixpaper_send_data(panel, 0x10);
++	ret |= pixpaper_send_data(panel, 0x54);
++	ret |= pixpaper_send_data(panel, 0x44);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_BOOSTER_SOFT_START);
++	ret |= pixpaper_send_data(panel, 0x0F);
++	ret |= pixpaper_send_data(panel, 0x0A);
++	ret |= pixpaper_send_data(panel, 0x2F);
++	ret |= pixpaper_send_data(panel, 0x25);
++	ret |= pixpaper_send_data(panel, 0x22);
++	ret |= pixpaper_send_data(panel, 0x2E);
++	ret |= pixpaper_send_data(panel, 0x21);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_PLL_CONTROL);
++	ret |= pixpaper_send_data(panel, 0x02);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_TEMP_SENSOR_CALIB);
++	ret |= pixpaper_send_data(panel, 0x00);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_VCOM_INTERVAL);
++	ret |= pixpaper_send_data(panel, 0x37);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_TCON_SETTING);
++	ret |= pixpaper_send_data(panel, 0x02);
++	ret |= pixpaper_send_data(panel, 0x02);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_RESOLUTION_SETTING);
++	ret |= pixpaper_send_data(panel, 0x00);
++	ret |= pixpaper_send_data(panel, 0x80);
++	ret |= pixpaper_send_data(panel, 0x00);
++	ret |= pixpaper_send_data(panel, 0xFA);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_GATE_SOURCE_START);
++	ret |= pixpaper_send_data(panel, 0x00);
++	ret |= pixpaper_send_data(panel, 0x00);
++	ret |= pixpaper_send_data(panel, 0x00);
++	ret |= pixpaper_send_data(panel, 0x00);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_AUTO_MEASURE_VCOM);
++	ret |= pixpaper_send_data(panel, 0x1C);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_SAVING);
++	ret |= pixpaper_send_data(panel, 0x22);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_CASCADE_SETTING);
++	ret |= pixpaper_send_data(panel, 0x00);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_B4);
++	ret |= pixpaper_send_data(panel, 0xD0);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_B5);
++	ret |= pixpaper_send_data(panel, 0x03);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	ret |= pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_E9);
++	ret |= pixpaper_send_data(panel, 0x01);
++	if (ret)
++		goto init_fail;
++	pixpaper_wait_busy(panel);
++
++	dev_info(dev, "%s: Hardware initialization successful\n", __func__);
++	return 0;
++
++init_fail:
++	dev_err(dev, "%s: Hardware initialization failed (err=%d)\n", __func__,
++		ret);
++	return ret;
++}
++
++static void pixpaper_crtc_atomic_enable(struct drm_crtc *crtc,
++					struct drm_atomic_state *state)
++{
++	struct pixpaper_panel *panel =
++		container_of(crtc, struct pixpaper_panel, crtc);
++	struct drm_device *drm = &panel->drm;
++	int ret;
++
++	dev_info(drm->dev, "%s: Enabling pipe\n", __func__);
++
++	ret = pixpaper_panel_hw_init(panel);
++	if (ret) {
++		dev_err(drm->dev, "Panel HW Init failed during enable: %d\n",
++			ret);
++		return;
++	}
++
++	dev_info(drm->dev, "Sending Power ON (PON)\n");
++	ret = pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_ON);
++	if (ret) {
++		dev_err(drm->dev, "Failed to send PON command: %d\n", ret);
++		return;
++	}
++
++	usleep_range(10000, 11000);
++
++	pixpaper_wait_busy(panel);
++
++	dev_info(drm->dev, "Panel enabled and powered on\n");
++}
++
++static void pixpaper_crtc_atomic_disable(struct drm_crtc *crtc,
++					 struct drm_atomic_state *state)
++{
++	struct pixpaper_panel *panel =
++		container_of(crtc, struct pixpaper_panel, crtc);
++	struct drm_device *drm = &panel->drm;
++	int ret;
++
++	dev_dbg(drm->dev, "%s: Disabling pipe\n", __func__);
++
++	ret = pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_OFF);
++	if (!ret) {
++		usleep_range(10000, 11000);
++		pixpaper_wait_busy(panel);
++	} else {
++		dev_warn(drm->dev, "Failed to send POF command: %d\n", ret);
++	}
++	dev_info(drm->dev, "Panel disabled\n");
++}
++
++static u8 pack_pixels_to_byte(u32 *src_pixels, int i, int j,
++			      struct drm_framebuffer *fb)
++{
++	u8 packed_byte = 0;
++	int k;
++
++	for (k = 0; k < 4; k++) {
++		int current_pixel_x = j * 4 + k;
++		u8 two_bit_val;
++
++		if (current_pixel_x < PIXPAPER_WIDTH) {
++			u32 pixel_offset =
++				(i * (fb->pitches[0] / 4)) + current_pixel_x;
++			u32 pixel = src_pixels[pixel_offset];
++			u32 r = (pixel >> 16) & 0xFF;
++			u32 g = (pixel >> 8) & 0xFF;
++			u32 b = pixel & 0xFF;
++			u32 gray_val =
++				(r * 299 + g * 587 + b * 114 + 500) / 1000;
++
++			if (gray_val < 64)
++				two_bit_val = 0b00;
++			else if (gray_val < 128)
++				two_bit_val = 0b01;
++			else if (gray_val < 192)
++				two_bit_val = 0b10;
++			else
++				two_bit_val = 0b11;
++		} else {
++			two_bit_val = 0b11;
++		}
++
++		packed_byte |= two_bit_val << ((3 - k) * 2);
++	}
++
++	return packed_byte;
++}
++
++static void pixpaper_plane_atomic_update(struct drm_plane *plane,
++					 struct drm_atomic_state *state)
++{
++	struct drm_plane_state *plane_state =
++		drm_atomic_get_new_plane_state(state, plane);
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
++	struct drm_crtc *crtc = plane_state->crtc;
++	struct pixpaper_panel *panel =
++		container_of(crtc, struct pixpaper_panel, crtc);
++
++	struct drm_device *drm = &panel->drm;
++	struct drm_framebuffer *fb = plane_state->fb;
++	struct iosys_map map = shadow_plane_state->data[0];
++	void *vaddr = map.vaddr;
++	int i, j, ret = 0;
++	u32 *src_pixels = NULL;
++
++	dev_info(drm->dev, "Starting frame update (phys=%dx%d, buf_w=%d)\n",
++		 PIXPAPER_WIDTH, PIXPAPER_HEIGHT, PANEL_BUFFER_WIDTH);
++
++	if (!fb || !plane_state->visible) {
++		dev_err(drm->dev,
++			"No framebuffer or plane not visible, skipping update\n");
++		return;
++	}
++
++	if (ret) {
++		dev_err(drm->dev, "Failed to vmap dma_buf\n");
++		return;
++	}
++
++	src_pixels = (u32 *)vaddr;
++
++	dev_info(drm->dev, "Sending DTM command\n");
++	ret = pixpaper_send_cmd(panel, PIXPAPER_CMD_DATA_START_TRANSMISSION);
++	if (ret)
++		goto update_cleanup;
++
++	usleep_range(10000, 11000);
++	pixpaper_wait_busy(panel);
++
++	dev_info(drm->dev,
++		 "Panel idle after DTM command, starting data batch send.\n");
++
++	for (i = 0; i < PIXPAPER_HEIGHT; i++) {
++		for (j = 0; j < PANEL_BUFFER_TWO_BYTES_PER_ROW; j++) {
++			u8 packed_byte =
++				pack_pixels_to_byte(src_pixels, i, j, fb);
++
++			pixpaper_wait_busy(panel);
++			pixpaper_send_data(panel, packed_byte);
++		}
++	}
++	pixpaper_wait_busy(panel);
++
++	dev_info(drm->dev, "Sending PON + 0x00 before DRF\n");
++	ret = pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_ON);
++	if (ret)
++		goto update_cleanup;
++	ret = pixpaper_send_data(panel, 0x00);
++	if (ret) {
++		dev_err(drm->dev,
++			"Failed sending data after PON-before-DRF: %d\n", ret);
++		goto update_cleanup;
++	}
++	usleep_range(10000, 11000);
++	pixpaper_wait_busy(panel);
++
++	dev_info(drm->dev, "Triggering display refresh (DRF)\n");
++	ret = pixpaper_send_cmd(panel, PIXPAPER_CMD_DISPLAY_REFRESH);
++	if (ret)
++		goto update_cleanup;
++	ret = pixpaper_send_data(panel, 0x00);
++	if (ret) {
++		dev_err(drm->dev, "Failed sending data after DRF: %d\n", ret);
++		goto update_cleanup;
++	}
++	usleep_range(10000, 11000);
++	pixpaper_wait_busy(panel);
++
++	dev_info(drm->dev, "Frame update completed and refresh triggered\n");
++
++update_cleanup:
++	if (ret && ret != -ETIMEDOUT)
++		dev_err(drm->dev,
++			"Frame update function failed with error %d\n", ret);
++}
++
++static int pixpaper_connector_get_modes(struct drm_connector *connector)
++{
++	struct drm_display_mode *mode;
++
++	dev_info(connector->dev->dev, "%s: CALLED for connector %s (id: %d)\n",
++		 __func__, connector->name, connector->base.id);
++
++	mode = drm_mode_create(connector->dev);
++	if (!mode) {
++		DRM_ERROR("Failed to create mode for connector %s\n",
++			  connector->name);
++		return 0;
++	}
++
++	mode->hdisplay = PIXPAPER_WIDTH;
++	mode->vdisplay = PIXPAPER_HEIGHT;
++
++	mode->htotal = mode->hdisplay + 80;
++	mode->hsync_start = mode->hdisplay + 8;
++	mode->hsync_end = mode->hdisplay + 8 + 32;
++	mode->vtotal = mode->vdisplay + 10;
++	mode->vsync_start = mode->vdisplay + 2;
++	mode->vsync_end = mode->vdisplay + 2 + 2;
++
++	mode->clock = 6000;
++
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	drm_mode_set_name(mode);
++
++	if (drm_mode_validate_size(mode, connector->dev->mode_config.max_width,
++				   connector->dev->mode_config.max_height) !=
++	    MODE_OK) {
++		DRM_WARN("%s: Mode %s (%dx%d) failed size validation against max %dx%d\n",
++			 __func__, mode->name, mode->hdisplay, mode->vdisplay,
++			 connector->dev->mode_config.max_width,
++			 connector->dev->mode_config.max_height);
++		drm_mode_destroy(connector->dev, mode);
++		return 0;
++	}
++
++	drm_mode_probed_add(connector, mode);
++	dev_info(connector->dev->dev,
++		 "%s: Added mode '%s' (%dx%d@%d) to connector %s\n", __func__,
++		 mode->name, mode->hdisplay, mode->vdisplay,
++		 drm_mode_vrefresh(mode), connector->name);
++
++	connector->display_info.width_mm = 30;
++	connector->display_info.height_mm = 47;
++
++	return 1;
++}
++
++DEFINE_DRM_GEM_DMA_FOPS(pixpaper_fops);
++
++static struct drm_driver pixpaper_drm_driver = {
++	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
++	.fops = &pixpaper_fops,
++	.name = "pixpaper",
++	.desc = "DRM driver for PIXPAPER e-ink",
++	.major = 1,
++	.minor = 0,
++	DRM_GEM_DMA_DRIVER_OPS_VMAP,
++	DRM_FBDEV_DMA_DRIVER_OPS,
++};
++
++static int pixpaper_mode_valid(struct drm_device *dev,
++			       const struct drm_display_mode *mode)
++{
++	if (mode->hdisplay == PIXPAPER_WIDTH &&
++	    mode->vdisplay == PIXPAPER_HEIGHT) {
++		return MODE_OK;
++	}
++	dev_dbg(dev->dev, "Rejecting mode %dx%d (supports only %dx%d)\n",
++		mode->hdisplay, mode->vdisplay, PIXPAPER_WIDTH,
++		PIXPAPER_HEIGHT);
++	return MODE_BAD;
++}
++
++static const struct drm_mode_config_funcs pixpaper_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create_with_dirty,
++	.mode_valid = pixpaper_mode_valid,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++};
++
++static int pixpaper_probe(struct spi_device *spi)
++{
++	struct device *dev = &spi->dev;
++	struct pixpaper_panel *panel;
++	struct drm_device *drm;
++	int ret;
++
++	dev_info(dev, "Probing PIXPAPER panel driver\n");
++
++	panel = devm_drm_dev_alloc(dev, &pixpaper_drm_driver,
++				   struct pixpaper_panel, drm);
++	if (IS_ERR(panel)) {
++		ret = PTR_ERR(panel);
++		dev_err(dev, "Failed to allocate DRM device: %d\n", ret);
++		return ret;
++	}
++	drm = &panel->drm;
++	panel->spi = spi;
++	spi_set_drvdata(spi, panel);
++
++	spi->mode = SPI_MODE_0;
++	spi->bits_per_word = 8;
++
++	if (!spi->max_speed_hz) {
++		dev_warn(dev, "spi-max-frequency not specified in DT, using default %u Hz\n",
++			 PIXPAPER_SPI_SPEED_DEFAULT);
++		spi->max_speed_hz = PIXPAPER_SPI_SPEED_DEFAULT;
++	} else {
++		dev_info(dev, "Using spi-max-frequency from DT: %u Hz\n",
++			 spi->max_speed_hz);
++	}
++
++	ret = spi_setup(spi);
++	if (ret < 0) {
++		dev_err(dev, "SPI setup failed: %d\n", ret);
++		return ret;
++	}
++	dev_info(dev, "SPI setup OK (mode=%d, speed=%u Hz, bpw=%d)\n",
++		 spi->mode, spi->max_speed_hz, spi->bits_per_word);
++
++	if (!dev->dma_mask)
++		dev->dma_mask = &dev->coherent_dma_mask;
++	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
++	if (ret) {
++		dev_err(dev, "Failed to set DMA mask: %d\n", ret);
++		return ret;
++	}
++	dev_dbg(dev, "DMA mask set\n");
++
++	panel->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(panel->reset))
++		return dev_err_probe(dev, PTR_ERR(panel->reset),
++				     "Failed to get 'reset' GPIO\n");
++	panel->busy = devm_gpiod_get(dev, "busy", GPIOD_IN);
++	if (IS_ERR(panel->busy))
++		return dev_err_probe(dev, PTR_ERR(panel->busy),
++				     "Failed to get 'busy' GPIO\n");
++	panel->dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_HIGH);
++	if (IS_ERR(panel->dc))
++		return dev_err_probe(dev, PTR_ERR(panel->dc),
++				     "Failed to get 'dc' GPIO\n");
++	dev_info(dev, "All required GPIOs obtained successfully.\n");
++
++	ret = drmm_mode_config_init(drm);
++	if (ret)
++		return ret;
++	drm->mode_config.funcs = &pixpaper_mode_config_funcs;
++	drm->mode_config.min_width = PIXPAPER_WIDTH;
++	drm->mode_config.max_width = PIXPAPER_WIDTH;
++	drm->mode_config.min_height = PIXPAPER_HEIGHT;
++	drm->mode_config.max_height = PIXPAPER_HEIGHT;
++
++	ret = drm_universal_plane_init(drm, &panel->plane, 1, &pixpaper_plane_funcs,
++		(const uint32_t[]){ DRM_FORMAT_XRGB8888 }, 1, NULL,
++		DRM_PLANE_TYPE_PRIMARY, NULL);
++	drm_plane_enable_fb_damage_clips(&panel->plane);
++	if (ret)
++		return ret;
++	drm_plane_helper_add(&panel->plane, &pixpaper_plane_helper_funcs);
++
++	ret = drm_crtc_init_with_planes(drm, &panel->crtc, &panel->plane, NULL,
++					&pixpaper_crtc_funcs, NULL);
++	if (ret)
++		return ret;
++	drm_crtc_helper_add(&panel->crtc, &pixpaper_crtc_helper_funcs);
++
++	ret = drm_encoder_init(drm, &panel->encoder, &pixpaper_encoder_funcs,
++			       DRM_MODE_ENCODER_DAC, NULL);
++	if (ret)
++		return ret;
++	panel->encoder.possible_crtcs = drm_crtc_mask(&panel->crtc);
++
++	ret = drm_connector_init(drm, &panel->connector,
++				 &pixpaper_connector_funcs,
++				 DRM_MODE_CONNECTOR_SPI);
++	if (ret)
++		return ret;
++
++	drm_connector_helper_add(&panel->connector,
++				 &pixpaper_connector_helper_funcs);
++	drm_connector_attach_encoder(&panel->connector, &panel->encoder);
++
++	drm_mode_config_reset(drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret)
++		return ret;
++
++	drm_client_setup(drm, NULL);
++
++	dev_info(dev, "Initialized PIXPAPER panel driver successfully\n");
++	return 0;
++}
++
++static void pixpaper_remove(struct spi_device *spi)
++{
++	struct pixpaper_panel *panel = spi_get_drvdata(spi);
++
++	if (!panel)
++		return;
++
++	dev_info(&spi->dev, "Removing PIXPAPER panel driver\n");
++
++	drm_dev_unplug(&panel->drm);
++	drm_atomic_helper_shutdown(&panel->drm);
++}
++
++static const struct spi_device_id pixpaper_ids[] = { { "pixpaper", 0 }, {} };
++MODULE_DEVICE_TABLE(spi, pixpaper_ids);
++
++static const struct of_device_id pixpaper_dt_ids[] = {
++	{ .compatible = "mayqueen,pixpaper" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, pixpaper_dt_ids);
++
++static struct spi_driver pixpaper_spi_driver = {
++	.driver = {
++		.name = "pixpaper",
++		.of_match_table = pixpaper_dt_ids,
++	},
++	.id_table = pixpaper_ids,
++	.probe = pixpaper_probe,
++	.remove = pixpaper_remove,
++};
++
++module_spi_driver(pixpaper_spi_driver);
++
++MODULE_AUTHOR("LiangCheng Wang");
++MODULE_DESCRIPTION("DRM SPI driver for PIXPAPER e-ink panel");
++MODULE_LICENSE("GPL");
 
 -- 
 2.34.1
