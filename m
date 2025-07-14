@@ -1,224 +1,239 @@
-Return-Path: <linux-media+bounces-37633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37634-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C0FB04116
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:10:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99035B04121
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:14:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E1E13AEC81
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:10:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8C94178CC3
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C54B2550AD;
-	Mon, 14 Jul 2025 14:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5739255F56;
+	Mon, 14 Jul 2025 14:13:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XSJgQt/9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U4TgVQW4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1F8253F2A
-	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A89248191
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752502224; cv=none; b=driOPv2MfOg3E8FumVHRugYcFtQFU1IXe1HbKWkR/FCgpulPGCuzW8HVT/pkYCc5okBo+jGEmznPM7qUZbJsXKH6ge27plK+EJ845fSHRqdNiLnqfhJj81QoU38Y/DXRrB5PdRuvTHe6vsoVzq6+MYxbjBrcEivtITKOPTde3q8=
+	t=1752502439; cv=none; b=Ven4wESPK+hbfB4vxXvOQPuNZLOIEShXucD4RrM6MGyfyHKn5CU2Ssr3vn/7fqJCTXKR9Yjj5iMG4TINHr/jKwDGNhUHT/sjJXPXgXSRCdNjp4/iwEsmUE48fjx7rK4nquR0a+oUTUmMABpnf8iYwPPXWY3GIiyhZfNdmlqwqd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752502224; c=relaxed/simple;
-	bh=cqkWXI/TVI37kqLHNe0y1a2QaCXn55xsIGy3ygUkTGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c/23YX2Olw7M2E7khTbQ4G4gJazy6ljlgS91O1vmIV6kVv1cK9dhUrJPeZ4IVboHp6uCkOh+NDZsjG5WB035iiTEInrtCQCQh5sbXqss0/l4V7xzECo2SAt0JC2LU6uw1byXhnnwQ/w7M9HQIu2wRTD5VODK/L7UL4txl4Ghjr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XSJgQt/9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8C305166D;
-	Mon, 14 Jul 2025 16:09:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752502188;
-	bh=cqkWXI/TVI37kqLHNe0y1a2QaCXn55xsIGy3ygUkTGo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XSJgQt/9fbG0UI/FvJEt3gATfSowUaqkG1P3gzZY/SbJfg4uApjn0zwYZnAYStK/S
-	 t+4Fyz7lq0TFU+wXJYrXGnlqXFpqZk4xYQ3RsoWyotPvSAXwqi9TYLF7DmePr9PxmL
-	 c1JLI86527f0CqN2RzuHE4IOYzNqvcIWeSJyWU3M=
-Date: Mon, 14 Jul 2025 17:09:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Matthew Majewski <mattwmajewski@gmail.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH 55/72] media: v4l2-common: Add legacy camera sensor clock
- helper
-Message-ID: <20250714140947.GG8243@pendragon.ideasonboard.com>
-References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
- <20250710174808.5361-56-laurent.pinchart@ideasonboard.com>
- <uidbgwyn7b47zathqq7qdl3iygppvjwzfsytbjmud62csuy2ht@lxa6tgz4w3pc>
- <3rs65tdti5p7qdrj4f5fx5rkdfk5xz5xcjbr6aupdhd6zpu5xe@fm5qpcvy3ab7>
+	s=arc-20240116; t=1752502439; c=relaxed/simple;
+	bh=wCIdKtNSrC0FHDfQjLImfojsGLriWqqzsA7IN5oCePM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qmcsAX2+O/huvP1gkfnqzlXIsUUiRiuvYVKxDty1TrmShnQgXioZgPsnM6MEcw6PLR8bhDX7fEbjItTP/w+G5wXiYd7iyQpT7uufI9MtCAGZRHW/ndtRmfp0ZT4ApkfeHO2Dzt3kG50hmLaz9OaW/qU6AGCZaJ258e+Q4u00z6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U4TgVQW4; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32b4a0915b1so6914421fa.0
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 07:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752502435; x=1753107235; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OiyN54HqkGhaI3X2oE54WY0+m9go1W47ITpgZXXs7J0=;
+        b=U4TgVQW4o4706aj+htZpqRSmaNX2SHB+0VSeQkNVAWvrmY8FXCHT2rtlbBOrXzSOiS
+         WfcxnOIjuCjAJ/yubGqQHIwHRFQDXxdbvibYbIXJKCzyN8DOLIaYzGjboJxupGEnLxHb
+         tvz2Stl9Yxh5XprlP019NdEgnsLiNHOiI/TqfSXLRQsHoAcwdG1xwR/STBIBZTzfEX4n
+         rR9YtkKibR4Ll7Ev6dbHW+NL8r6GJsLYbwLhehx3qiyvKLEejOHBp3cg5pthx4W76rNe
+         FQj4Zj68II0XnadD2u0fbjdDCJE4SecWqp14e+NjnXuY0nhCgxB3BdZrvCZvbbiFyrzH
+         VobQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752502435; x=1753107235;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OiyN54HqkGhaI3X2oE54WY0+m9go1W47ITpgZXXs7J0=;
+        b=P8a7kblP5jGcXaz0xxy3vYKnBuj5IW4Dalnzn1t5L8HqKHZNyI8Ihp07tL791DO8qQ
+         uTB/2UiLLx1K1AnsQRsBv7w35Tazk4hggFOtOmSYCJYr9Oi0hNX/8C0BPnaayHeD55lw
+         WpEFOxrqJgYzPkSG+3lGIkFA1Tm2WzXHWbqxh3kg92UcdXX9QH/QeQTEd1vhagr7QG76
+         2KoT/ub5JtXs63gzc8f3YGEzF96h2DwkFg8GM4vKY9X0YrQj91yIM4Fn9Gg+hfKbWOlo
+         q3ymZx0iM7ANBaE7N/wrxGHb8ype2Mb1+5yhSC6hme4YGXJutVC7xTUCHG0+6v9ygRf7
+         gh/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVv6VZWULxkbFjuVzl0vWXvz00Mi6BmbemmUwuR0jrXipkLaOxHfceIsCviMvKklpI0rNiqoCesOIDFng==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1B5OxCjhaX+iVis0NyVxRR56YZB+eihWGV7k9IT96IdoFsXSQ
+	3BN9ZhtUW/EoJHBU8T/oDcJTSzAp74GukOzkq1VwR7SxCcQHYuBnoO9UHGWhVCgllFA=
+X-Gm-Gg: ASbGnctoE9ERuDYGvKeotZ82DxRWrJdRCAy6G0DlLzubqp7xRiz/vhx4pihKdmmkQ0V
+	/49UsO+zJfY7/Hs9jC+luZhSuta7/Jm3KR3lw+HWCiR8D+gLqZjYME1UcsZdA4GIiQjvX72Vpr5
+	Kz58y/S/Q45jf4XfaJnr1xHuhXNLJnXtF1gcJCbOIgVAhJ8W5JO533wnq7aCbW/WZHl4VAaLldb
+	/q51MQcOHEr9EY++xmNciQMkTX7XwCbqb/A/SVtA/dX1SdCCa+ORARY+eajjCzQWvVxmeBzqY5y
+	nerTk5YdCU2JkvwSNFbqnuZuuAxSSdd99jEfWyvxZ6eJ5Il8iXhSADJCGuXTEAh+EurXZx/x/yI
+	vlKrZAMzH1kcp7Iu4vT748jcrJbjPDj+qlVM4wOD90jqpNRuJKGlfrNR31GZWHjtFXx6n5dTVPa
+	8J
+X-Google-Smtp-Source: AGHT+IGC8Q7q44pTIG5Hqdyx76e0tz+NV3O/Al80pmn7k0s9+o2E96eS2uXy7hjZVJc9Tqvik/DEmQ==
+X-Received: by 2002:a05:651c:b21:b0:32b:3b00:406b with SMTP id 38308e7fff4ca-3306ce94988mr4877941fa.4.1752502435259;
+        Mon, 14 Jul 2025 07:13:55 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32fab8ed35bsm15350211fa.84.2025.07.14.07.13.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 07:13:54 -0700 (PDT)
+Message-ID: <8ed5eeee-78a2-4b26-989f-03676a9e5da7@linaro.org>
+Date: Mon, 14 Jul 2025 17:13:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3rs65tdti5p7qdrj4f5fx5rkdfk5xz5xcjbr6aupdhd6zpu5xe@fm5qpcvy3ab7>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: phy: qcom: Add MIPI CSI2 C-PHY/DPHY
+ Combo schema
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mehdi,
-
-On Mon, Jul 14, 2025 at 03:12:28PM +0200, Mehdi Djait wrote:
-> On Mon, Jul 14, 2025 at 02:55:02PM +0200, Mehdi Djait wrote:
-> > On Thu, Jul 10, 2025 at 08:47:51PM +0300, Laurent Pinchart wrote:
-> > > The recently introduced devm_v4l2_sensor_clk_get() helper aims at
-> > > simplifying sensor drivers by centralizing clock handling code, as well
-> > > as reducing cargo-cult and deprecated behaviour.
-> > > 
-> > > A set of drivers implement external clock handling in a non-standard
-> > > way. This can't be changed as there is a high risk of breaking existing
-> > > platforms, but keeping the code as-is creates a risk of new drivers
-> > > copying deprecated behaviour.
-> > > 
-> > > To fix this, introduce a new devm_v4l2_sensor_clk_get_legacy() helper
-> > > and use it in those driver. Compared to devm_v4l2_sensor_clk_get(), the
-> > > new helper takes the "clock-frequency" property into account and sets
-> > > the external clock rate on OF platforms, and adds the ability to specify
-> > > a fixed default or fallback clock rate in case the "clock-frequency"
-> > > property is not present.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-common.c | 39 +++++++++++++++++++------
-> > >  include/media/v4l2-common.h           | 41 ++++++++++++++++++++++++++-
-> > >  2 files changed, 70 insertions(+), 10 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > > index cfc78ea6276c..6f140a78e683 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -703,24 +703,40 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
-> > >  
-> > > -struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> > > +struct clk *__devm_v4l2_sensor_clk_get(struct device *dev, const char *id,
-> > > +				       bool legacy, bool fixed_rate,
-> > > +				       unsigned long clk_rate)
-> > >  {
-> > > +	bool of_node = is_of_node(dev_fwnode(dev));
-> > >  	const char *clk_id __free(kfree) = NULL;
-> > >  	struct clk_hw *clk_hw;
-> > >  	struct clk *clk;
-> > > -	bool of_node;
-> > > -	u32 rate;
-> > > -	int ret;
-> > > +	u32 rate = clk_rate;
-> > 
-> > [..]
-> > 
-> > > +	int ret = 0;
-> > >  
-> > >  	clk = devm_clk_get_optional(dev, id);
-> > >  	if (IS_ERR(clk))
-> > >  		return clk;
-> > >  
-> > > -	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> > > -	of_node = is_of_node(dev_fwnode(dev));
-> > > +	/*
-> > > +	 * If the caller didn't request a fixed rate, retrieve it from the
-> > > +	 * clock-frequency property. -EINVAL indicates the property is absent,
-> > > +	 * and is not a failure. Other errors, or success with a clock-frequency
-> > > +	 * value of 0, are hard failures.
-> > > +	 */
-> > > +	if (!fixed_rate || !clk_rate) {
-> > > +		ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> > > +		if (ret != -EINVAL || !rate)
+On 7/10/25 19:16, Bryan O'Donoghue wrote:
+> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+> PHY devices.
 > 
-> so according to the above comment, I think it should be:
-> 		if (ret != -EINVAL || (!rate && !ret))
+> The hardware can support both C-PHY and D-PHY modes. The CSIPHY devices
+> have their own pinouts on the SoC as well as their own individual voltage
+> rails.
+> 
+> The need to model voltage rails on a per-PHY basis leads us to define
+> CSIPHY devices as individual nodes.
+> 
+> Two nice outcomes in terms of schema and DT arise from this change.
+> 
+> 1. The ability to define on a per-PHY basis voltage rails.
+> 2. The ability to require those voltage.
+> 
+> We have had a complete bodge upstream for this where a single set of
+> voltage rail for all CSIPHYs has been buried inside of CAMSS.
+> 
+> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+> CAMSS parlance, the CSIPHY devices should be individually modelled.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   .../phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml     | 95 ++++++++++++++++++++++
+>   1 file changed, 95 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e0976f012516452ae3632ff4732620b5c5402d3b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm MIPI CSI2 Combo PHY
+> +
+> +maintainers:
+> +  - Bryan O'Donoghue <bod@kernel.org>
+> +
+> +description:
+> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
+> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
+> +  modes.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,x1e80100-mipi-csi2-combo-phy
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#phy-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_axi
+> +      - const: cpas_ahb
+> +      - const: csiphy
+> +      - const: csiphy_timer
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  vdda-0p8-supply:
+> +    description: Phandle to a 0.8V regulator supply to a PHY.
+> +
+> +  vdda-1p2-supply:
+> +    description: Phandle to 1.2V regulator supply to a PHY.
+> +
+> +  phy-type:
+> +    description: D-PHY or C-PHY mode
+> +    enum: [ 10, 11 ]
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#phy-cells"
+> +  - clocks
+> +  - clock-names
+> +  - vdda-0p8-supply
+> +  - vdda-1p2-supply
+> +  - phy-type
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +
+> +    csiphy0: csiphy@ace4000 {
+> +        compatible = "qcom,x1e80100-mipi-csi2-combo-phy";
+> +        reg = <0x0ace4000 0x2000>;
+> +        #phy-cells = <0>;
+> +
+> +        clocks = <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+> +                 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +                 <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>;
+> +        clock-names = "camnoc_axi",
+> +                      "cpas_ahb",
+> +                      "csiphy",
+> +                      "csiphy_timer";
+> +
+> +        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +        vdda-0p8-supply = <&vreg_l2c_0p8>;
+> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
+> +
+> +        phy-type = <PHY_TYPE_DPHY>;
+> +    };
+> 
 
-You're right, there's an issue here.
+There is no ports at all, which makes the device tree node unusable,
+since you can not provide a way to connect any sensors to the phy.
 
-We need to return an error iif
-
-- clock-frequency can't be read for a reason different than the property
-  being absent (to support ACPI platforms where the property could be
-  created dynamically at a later time) ; or
-
-- clock-frequency can be read, and returns a 0 rate
-
-That translates to
-
-		if ((ret && ret != -EINVAL) || (!ret && !rate))
-
-Omitting the initial ret test would return -EINVAL when clock-frequency
-can be read correctly, which is not right. Do you agree with that ?
-
-> > 
-> > [..]
-> > 
-> > Let's take the case of camera sensor on a DT-system:
-> > 
-> > it will call the following:
-> > devm_v4l2_sensor_clk_get(dev, NULL);
-> > -> __devm_v4l2_sensor_clk_get(dev, id, false, false, 0);
-> > --> with fixed_rate = 0 and clk_rate = 0 which will be assigned to
-> > u32 rate
-> > 
-> > so it will go into the if statement and try to read the
-> > "clock-frequency" property, which does not exist.
-> > 
-> > ret from device_property_read_u32() is -EINVAL and that is handled but
-> > rate will still be 0 so we will return ERR_PTR(-EINVAL)
-> > 
-> > > +			return ERR_PTR(-EINVAL);
-> > > +	}
-> > >  
-> > >  	if (clk) {
-> > > -		if (!ret && !of_node) {
-> > > +		/*
-> > > +		 * On non-OF platforms, or when legacy behaviour is requested,
-> > > +		 * set the clock rate if a rate has been specified by the caller
-> > > +		 * of by the clock-frequency property.
-> > 		   |
-> > nit:		   +-> or ? 
-
-Oops. I'll fix the typo.
-
-> > > +		 */
-> > > +		if (rate && (!of_node || legacy)) {
-> > >  			ret = clk_set_rate(clk, rate);
-> > >  			if (ret) {
-> > >  				dev_err(dev, "Failed to set clock rate: %u\n",
-> > > @@ -731,9 +747,14 @@ struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> > >  		return clk;
-> > >  	}
-> > >  
-> > > -	if (!IS_ENABLED(CONFIG_COMMON_CLK) || of_node)
-> > > +	/*
-> > > +	 * Register a dummy fixed clock on non-OF platforms or when legacy
-> > > +	 * behaviour is requested. This required the common clock framework.
-> > > +	 */
-> > > +	if (!IS_ENABLED(CONFIG_COMMON_CLK) || (of_node && !legacy))
-> > >  		return ERR_PTR(-ENOENT);
-> > >  
-> > > +	/* We need a rate to create a clock. */
-> > >  	if (ret)
-> > >  		return ERR_PTR(ret == -EINVAL ? -EPROBE_DEFER : ret);
-> > >  
-> > > @@ -750,4 +771,4 @@ struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> > >  
-> > >  	return clk_hw->clk;
-> > >  }
-> > > -EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
-> > > +EXPORT_SYMBOL_GPL(__devm_v4l2_sensor_clk_get);
-
--- 
-Regards,
-
-Laurent Pinchart
+--
+Best wishes,
+Vladimir
 
