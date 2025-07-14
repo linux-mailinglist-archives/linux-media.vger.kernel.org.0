@@ -1,312 +1,331 @@
-Return-Path: <linux-media+bounces-37599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDA6B0392F
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 10:21:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 368C7B03951
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 10:23:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 408C13AB2EE
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 08:20:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 516053BDC36
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 08:22:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A7C23ED5A;
-	Mon, 14 Jul 2025 08:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1977E24113C;
+	Mon, 14 Jul 2025 08:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="oQuHmVO2"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GonXFGq4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010054.outbound.protection.outlook.com [52.101.69.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A7A23E350;
-	Mon, 14 Jul 2025 08:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752481210; cv=fail; b=iJ7h99wL1VQYKRZQFNsgX1xxFjb0Rgw00DXB+jtdCAYd7Q0dXjZ7ME6jMEQcfLbLxiLglqnQAYp84E9Fiu0kD6wb4rIhiaiNKqHYT9t4K2HjrUa1PhMWhGc7Y+X/c4nOBa6I7gbJw/CGGCjgEJkHcjmfkWVJBmtSk6Co5v5f0hk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752481210; c=relaxed/simple;
-	bh=9Ywz10QaZTBmxPUsazFIaz/wHA8bBZY23QrIuKNUkGQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mxw7Oueuz/DpHrsHNMYiTW51iEv94sL8MBnmMnk0O9ofkXObAllmkitjHD0PTOnWLSAHlAcEVI7TGUTjv1qBh2E03d5S8r6auqFVITfdTWT/ic9fk/32z2AH+TN+gr5PELbfMQ4FPwxU9+p9MWMlbY9kvX4sxi8EQ5c8/ZVLvEc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mt.com; spf=fail smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=oQuHmVO2; arc=fail smtp.client-ip=52.101.69.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mYkyQ5jCasAz4hQZhxeihNDgLGteRMx5bVniynAf1wYn9gMO+kWag47zmOos4CPsXNRKANOg3DEpNTxALShDQtRbFa0lArDkEmqZBgaDnZ2NQA0NFJ/kwa2XTscDRQvxMJAvcT52Fnei1VkXc5v9/Iir2EbgjmDw2iWqeN1ioBZFIOtjKKdojvlZNloJQQwgOsZKdYnpiO2Q6OslXO2UqKOQl2H+X8E0u/xMhGOxKBAYd3X3ZqdXCCygpp+JNQqpzdQlbsNAasmnK2XG0dJINdCp94NtkyS+x+2xYJNnMyymlqpwDDZg2RJj2Ndhf4xDTVXY+cjwVEK6ioNBA31bfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ntwXyvWcB5pN2RSp8hHJjUsty1gNUb6WcjV1nT8AgjE=;
- b=POn4fpUdPwI6gQg43goqGAcKsCEiqlmycJWWJGReA/oNg0iff75WLDQfUzjjDpz4JJn4LdgVNWShdKpCcbdvwH5oTYas1JGu3SlaZB5zRymqjrdS8/loy9+3ylM3R+0sFWpmcnsV3cizb/whyZ7K/AnrZyJJ09HoRsMtPcs5xLak49wBQZLj6j0I5TWSbnOQGcGHEfXxH+USvdkMaoJo98YcFj0LnTLhxd733hk1/PwLxdAXI4NXI74ccbKZLbFKPFySmnv4cFLph9p+TjW2mXn5/OZGPqycxDm/mAqYNpgtzAlpSbuxJr2Mzac938tCiIggruRwAqZ94rmI2QKJHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ntwXyvWcB5pN2RSp8hHJjUsty1gNUb6WcjV1nT8AgjE=;
- b=oQuHmVO2PzGA0pByY784LQM6achKHgdinOtBa6J9yJIR/rF6ZwrTejTRv/HsBq9L1UU2JT0TmVD2syuNu6fFVdWL9sDc47TeSkkmkD1/IqCec3MACTMkQPHnMoUADnuC3k893VfRSqlhAdWZelbpBwyQXCAWIAnnj74cfYYvm4UURtMSI3ECgGXgHQXhDZ5zLSgu+WusUBsw1CRlEx5nY2bckE/U4uOQseh6EwralrEG7xDO4vu+QvrdqrLBvwBLafbvP+rovhmeXBnu0ikCq8W7ft59aV6AsqDwEzj+AH3dgf6dDdMHIRUibt4FujKY8AdnsO3th0rbxZpUIl5HGg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DB9PR03MB7755.eurprd03.prod.outlook.com (2603:10a6:10:2cc::22)
- by DB8PR03MB6250.eurprd03.prod.outlook.com (2603:10a6:10:136::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Mon, 14 Jul
- 2025 08:20:05 +0000
-Received: from DB9PR03MB7755.eurprd03.prod.outlook.com
- ([fe80::2ef6:ec79:4089:ce54]) by DB9PR03MB7755.eurprd03.prod.outlook.com
- ([fe80::2ef6:ec79:4089:ce54%3]) with mapi id 15.20.8922.023; Mon, 14 Jul 2025
- 08:20:04 +0000
-From: Mathis Foerst <mathis.foerst@mt.com>
-To: linux-kernel@vger.kernel.org
-Cc: Mathis Foerst <mathis.foerst@mt.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	manuel.traut@mt.com,
-	mathis.foerst@zuehlke.com
-Subject: [PATCH v5 RESEND 1/1] media: imx: csi: Parse link configuration from fw_node
-Date: Mon, 14 Jul 2025 10:19:13 +0200
-Message-Id: <20250714081913.516481-2-mathis.foerst@mt.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250714081913.516481-1-mathis.foerst@mt.com>
-References: <20250714081913.516481-1-mathis.foerst@mt.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZR0P278CA0200.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:6a::11) To DB9PR03MB7755.eurprd03.prod.outlook.com
- (2603:10a6:10:2cc::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2381923E23C
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 08:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752481301; cv=none; b=ds+4VgQYUmKwrg2NDDvaHd8UJVTBYdig7ALJ7DEStbeVoeEISYUhWpeBAs1I445jz97jfu49osFRmY7LDHbDfcouh/E19JYbRoRAVTeB47P4z3rHvWc4Llv2qBzy2QlfqQ7Oc/PuX9/H84M7hR0XJKQUwsfFsV4e+pxniICSVGs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752481301; c=relaxed/simple;
+	bh=arVcmvMi7wv9dMtrbTzsYunSGTpRra0ZVUpLvZuaUuE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=biR2ytcOX0ETwBuxT+1cLEyRXJl0/pFICZCOgtyeEsqOFEucSF1zPDE9RFFhAEmhLNPGlhT3cmwRj5lNVBo1gJK77ffAzv15/4h4kpyEI10L9vAYYYZIzjGyLHooNlUSj5CWtZP7otXYhD2z+01W8yCtJY7EzBVwRj2m798exgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GonXFGq4; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54b10594812so3969006e87.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 01:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1752481297; x=1753086097; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3QXzSslzxPfJBBocBjcOMU9pFCY2a4+fYCQYUTldnc8=;
+        b=GonXFGq4QPafl67e4pLty42kcEYn1K/OBXuWK9EIO0LYjQKlFQCaD2+x3JjeoFQFwA
+         ASMO6Sz8JGSv78VXRSgOzaYae0xdg97NQvp27e0rFQaSVYBjdX1eVn8Aqvm0uXotkC6Q
+         wGzvAFBM6H6YRq22wtPr7+HjKX7q1fEPY97EQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752481297; x=1753086097;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3QXzSslzxPfJBBocBjcOMU9pFCY2a4+fYCQYUTldnc8=;
+        b=OFa0XqkQky/G15SMunAdZpMfN/mHBcLSSMc7S8OAtEBNCancPOCbYo5dbwQH1PclCf
+         vd7zc73CSNzrH6vI1P1FxKvi8LbW80Pyq5Yz5lBU8loMpg8ts8RVvsaO5EBsfxwoLw1s
+         zY3rphQZz6Nbq5nQEg/vqvfZymWDl0rVoQcarZ7wSfdWwG0wp5oNrDaps2j3n959e/GE
+         ZAG6aHzElA2nvy9caburtuOF6RpT4VHHT4Irc7zKMncq1cD3XHhTZC/2N1OZLVGBFk70
+         cqsGS16GxMq6m6Y9iKbxdfHn6NUmhEgc4v9IkOlOdBwXlftLxXg6oXqpjaO+Bl8LQz9t
+         jg4w==
+X-Forwarded-Encrypted: i=1; AJvYcCV/9Su3EcjbWxKuIrV57ud4o5q7u/g8nYUhr7iyCEwpOAY8IGznrqHBEuTnbiD2bzBvBEyrKVlkgV6/Yg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztfIWGR2oYNnI5TYGXulrAwUcmoVqBeZ4fR0n0taIeAtm3H/gs
+	RmqdanunhyOluX0P/pJBk0Q+KEYj+FE2ZyOgqkA+mUET6lDCITOvECkfuFrC3tv7+e4S9256F6g
+	+7fc=
+X-Gm-Gg: ASbGncv9bKmTwz5rIMlAF8p1TfhZcpRjBGI08Wt7CwJu+2YJn3ziZCXkDKVseJTczVz
+	KPyjHBat0BpTmwJE7ramHMZdAlkOk4EINq6PcMrIaUx2FY/mkB4qqTRIbB53RC8v2h6ug7U4TeU
+	MQxBIX+PuN9QIJT/inmOgE3b66+PZv7tJYCSgQY2k1bwpidOjpX6lOrS6NNRkV1/weDGpkVjOVJ
+	2naboP9vt0MoIGxcnRj5vFxNMjcgp11ve84F+pkD0K0/asDIZbnaS55mv20ktvW6hkcjp3rZrfw
+	4rQIP1cWB4WuQn/AENjiUjUQ/MERhAZN+fRDh1osbSl4r2Xm8jA6vcNQw2tYSsksI2LW/TixQaT
+	skUatfxCS3uZVU4F2DPxJ+FjH6vDsfiRul5cVJMenFfS8Ayp7CQ1OUNt/PG9E
+X-Google-Smtp-Source: AGHT+IEQ5wbtt/9UY7S/PwBIxRYcCqHmoiPA3VnT77rXwxAwF8A8enibaWWqcYK4suQfoVWx66LeHQ==
+X-Received: by 2002:a05:6512:131e:b0:553:2698:99c5 with SMTP id 2adb3069b0e04-55a0461f686mr3267707e87.39.1752481297063;
+        Mon, 14 Jul 2025 01:21:37 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b6bb54sm1870688e87.179.2025.07.14.01.21.35
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 01:21:35 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54b10594812so3968953e87.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 01:21:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU/ul1bmZ/0bpEWZkR+4JzwZUiTE4nvo6tFUSCyzAkO4dKftBsrkoYlmAvL/jtLme6p7aoW/Ywq9KiDhA==@vger.kernel.org
+X-Received: by 2002:a05:6512:3096:b0:553:3892:5ead with SMTP id
+ 2adb3069b0e04-55a044adb03mr3022181e87.2.1752481294990; Mon, 14 Jul 2025
+ 01:21:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB7755:EE_|DB8PR03MB6250:EE_
-X-MS-Office365-Filtering-Correlation-Id: 282c310c-2992-483d-5e73-08ddc2af3c81
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|52116014|19092799006|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CI19HGdbv8Gl4OjHBRPHx/kkzFBKh6of9Qsq0Obk+mDohf/Zop6rMk4XriGu?=
- =?us-ascii?Q?qCN1II0ftELwN1ESWCs9M2g48mfTggzjimjGBG4CNRV8xOz+AZl67RxKOXUX?=
- =?us-ascii?Q?3DhGGaDgA10+kdbE3QkyUv0cjU/VcGi27yvUE2Ugho1qw6gE7H/0qFYAwzTe?=
- =?us-ascii?Q?u6EqmA2pJGaFh+lJPDH8kl6UuEMo9CzP4pq9JNRy3vQh0sjNzOHGveuYFuAy?=
- =?us-ascii?Q?5iuoa2gHwcqIDNFnksgB/F6UNtiRdkH5qg4Pxn0z3nEeC8hytRsR7I4unM0B?=
- =?us-ascii?Q?ioRbY2MorvBEUQD8rR97L26CBswIze/oVUr6zYkI7gQ7B826mUWtdGZtMcfz?=
- =?us-ascii?Q?RFSFscqwJb2QlhElg/v8kZu8FbIwGSbc/RJlEINRrfDMO15tk2PKWMnA2c1O?=
- =?us-ascii?Q?BzQLH0WlgyCSoXxeNXofMVZtU1jGfPKm3lGKLJpMgMOClQP7sNSYWUiwbZah?=
- =?us-ascii?Q?DlzWfjNDwPmyX+uuNoMJVpANbNxTBFRsZKRliYXl6leOt9ygjEOzr274u8Y3?=
- =?us-ascii?Q?dUzJlIQW9Cjzwt7IzUUKmgYfYhYYGbBxjZgYU+86Pji1dVTDIgPCmk5aTA9a?=
- =?us-ascii?Q?NUmTBUmsse7ActuiUFaDNiAexVxLI2u7omktAzzjEU08GYSDmk0gO0Rk+jAK?=
- =?us-ascii?Q?jhzir7FfU0jmop0z5Trq8vlGQvA2x1q1E0IXrD9QDBXA8NfPuOdsHYaVaGzk?=
- =?us-ascii?Q?74Z3ETov++vx8K+Td+Gxq7xJ9nT893IYUX2laCvqVycEb4/7gzII7mXr6Ip7?=
- =?us-ascii?Q?XX3Zl5qsl1N8k9sRqFE/XX2Ccs/Vyt1vs81mGSLb8a4E6otVQvqxe/N2n5Bb?=
- =?us-ascii?Q?bm4ezbsu+o3KZoDbKxYVTp3DIfpAvxLp9BO8q96KoULMbfvoStaGaSF+k8kL?=
- =?us-ascii?Q?UiN0dIHRIYLuw0goZSzR0d5+XsTKv07sYgqdJ5ErTQQrIAOeGJpDX/0NkplY?=
- =?us-ascii?Q?HRDmqaNZm4fFaXeYwL44HXWumfEByj+osOLxkm4GRY85brYLVXwaCcocJcbP?=
- =?us-ascii?Q?dE3oNGEYwagIg1c5oDt8aqeuItx7jZFZ987IT01KulHyBUSkgE1QlJE3S6f/?=
- =?us-ascii?Q?cCDCBUFxUeN2BS+9omTA/FeCjF2MNaROkNeN4GiTf477VcBCgkUCJlX+cCrR?=
- =?us-ascii?Q?1Yz0PGDl0k56Va6LDMwVUr1GjIAzXWfamciy1ueFRg1EI5INYWDmSG3mxX1m?=
- =?us-ascii?Q?kfFrh6/Ujx7RMgj9hVFhvpbWEALBPWzNZ6NWruSbYGmkES2gPXSH645m3PSO?=
- =?us-ascii?Q?R377njTmO1XYNezzcenjNhijtLY1Q39hhu42jEFMC+vU/eCRD1JSm8yXgPRg?=
- =?us-ascii?Q?IqzCel5p1GuCno3x+TwrHfApcsX+R3JAEkw9KN1qJjbwrFC7RUQJsYdtcVbc?=
- =?us-ascii?Q?5OSDzBWtOWEsG139nHYW8iMSXTSsT5FDzSAOs6PzNMIksGmuQNKiKUBegczh?=
- =?us-ascii?Q?9fxEaduoJCJhDiIo655VyUiy/DtYt6gnvsFlaEqP+D2awctMFZBGHA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7755.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(19092799006)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VMlnyz2Guj+nk09lbYSEOD2CNJONqd5gU0Is/wWYDkKnM6FKG49u/Ck8RUNa?=
- =?us-ascii?Q?wZN7jBODJX9m4khDoo5FhRl5R9vERXo+htQj1R+PGxTMzX8mxjwByMqncKnz?=
- =?us-ascii?Q?8JVKUfx0y/gHulBEcuxDZUw6K0g8YrbYIQhXAhwn5SowhgUZ5baAvHx8UR7R?=
- =?us-ascii?Q?7vYPXusvSNYyZ1F9508ZCjvhi/gZI+UQYbo/BSysd0nVW0UggLhZnv7C/Zj1?=
- =?us-ascii?Q?e0KNCK8SRjg115I/l5TKpt5NdsM7Nc8jYp5aYtdZxGZ2DutEb9vwUy1JUVad?=
- =?us-ascii?Q?IX3FNT7iz9gAp5iLV8CNxJaF03DgO1p5G1ejf1kzCFV6i52WZ5LVz+QeQdeP?=
- =?us-ascii?Q?pUYyePtM1omOplqcYQ5KQgdD9ITsFkivoqVvjOIrQK3/Xw6W9hToeP34QXOT?=
- =?us-ascii?Q?J/pEZXM9/sax9TjVWkUDyp/ceO08NFZmGj+4AAGYW2o5SZMDmnuXgpg/w7RE?=
- =?us-ascii?Q?1kNh12kiV3+7ftr7nKSeS/w0Y7XW3/4D7sZRMUV3ZeLJGkkbnkdxwohmqR8h?=
- =?us-ascii?Q?p4NFITPnn7mmOG+UM+y/c7KRJ8nWAItnGDuA2m/v8W09GZRxHAqmBVOosW6S?=
- =?us-ascii?Q?KXANWSZJlhxKV4FATCp1ZPa56MUM7nkKyHOIQ0nrUhT1/55dYInpzAKZgA3u?=
- =?us-ascii?Q?oT6IGfNrVANqWlWPJt3dNNwrjqTOnjGzqWieFAI/nwkTvVr5ZQcnzCi35lqH?=
- =?us-ascii?Q?k/ceBKK/NsPPH99oV4Erw9i7//zY40Z4EjUc9EMJRoctUnmxRCfhlgxuhALe?=
- =?us-ascii?Q?yuEF7mfrI35hTytJRufyhrGkzd/pvJQwqm06fRt0X942sfNYa4VoDACttElc?=
- =?us-ascii?Q?7l2Lv5CX9XzKih4qHPVRaCCvtcj2I5Wk/SoH2eJYwYBSxezg32LILW14m781?=
- =?us-ascii?Q?ePqi0/RLLWErdqawk76yDZ7CZTeB0FIgceNUGWPxGGfAWp5Io++nq2CjKr1Q?=
- =?us-ascii?Q?F1+teYAZXNa8FRCeOmo1u3DL5S9VJpBL4tErfshDA4yfWZuiTEAYMR2x8VhK?=
- =?us-ascii?Q?APsRom0IQAj3324PdCjzM9pV/9iRZpWAkXGqdeOZVN8lHLhvdoBUhKE27Hn4?=
- =?us-ascii?Q?BU4f1Dk9pg3ObeWzEM9Z/JJOz0jksta31bTVga4YHG3tQpef7fZrj+0ZaJ8r?=
- =?us-ascii?Q?UlVb/okcP3ASWcz7CI1conw5O2kHwaGZG+3BWbTm1OXpkvJGh8cwO2hdHsJM?=
- =?us-ascii?Q?k8Nn3Oizk8Gk9C5GjLRnsf2KF1Xs1BoXO2/hSvNfHX9W0df6u8QlPudAerlA?=
- =?us-ascii?Q?W/95p1IBjHhcv/6KCwXCjaxkkjfXtI8DcYxmoLnQJZQmLqDQDJfZ2tQ+T1Cj?=
- =?us-ascii?Q?moA5mlYuBJvglkV0NRHRwSQ+xeBvZrHREYscra5mMdPHIsIeXGvyfd/so9rV?=
- =?us-ascii?Q?GBMXie3hkpTySw2WAtopgVtQYy8B0Sorqp0W9Vn72HoIpA1Jl3qipX3Hv9Yq?=
- =?us-ascii?Q?xZeJnimHnwoGO5r87erH1vrTyw0KG2kFoPxAzIIZ8YsnlEP49MsFxJ6wWvkX?=
- =?us-ascii?Q?71cJK/Zff6IcTtMsCpEZneWy0sjiyzU3lb4hIfyv2JQ8BSII2ysX7usgRgdN?=
- =?us-ascii?Q?K6ZGcUFtScsoA8GFMvIfLzoki7kpkI1IUgjWrUQj?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 282c310c-2992-483d-5e73-08ddc2af3c81
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7755.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 08:20:04.7757
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P0QhnlkMcpN2yeLqh7lxHyJHHCJTLlvNweJO3Xk9T09dUGXZ34Ho2ShenZvslpe5dYOeHFxpFxGLc+M7sC1HDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR03MB6250
+References: <20250707-uvc-meta-v8-0-ed17f8b1218b@chromium.org>
+ <20250707-uvc-meta-v8-5-ed17f8b1218b@chromium.org> <20250711195815.GH27674@pendragon.ideasonboard.com>
+ <CANiDSCsWE-5smL-H7CD_mi6AhJL2LAwf07bFpxJyN+0CnsLPfQ@mail.gmail.com> <20250714080608.GB10401@pendragon.ideasonboard.com>
+In-Reply-To: <20250714080608.GB10401@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 14 Jul 2025 10:21:20 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvkTQeTsFwRiJF=9s8jHsRtWjb46=JcwLWPPK0VLqkbEA@mail.gmail.com>
+X-Gm-Features: Ac12FXxusuV_-IRh_oeOSKzUpooIdoCQ91c10vGt0gZ29pEOz092uostatKw6ck
+Message-ID: <CANiDSCvkTQeTsFwRiJF=9s8jHsRtWjb46=JcwLWPPK0VLqkbEA@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] media: uvcvideo: Auto-set UVC_QUIRK_MSXU_META
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hansg@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The imx-media-csi driver requires upstream camera drivers to implement
-the subdev-pad-op "get_mbus_config" [0]. Camera drivers that don't
-implement this function are not usable on the i.MX6.
+On Mon, 14 Jul 2025 at 10:06, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Jul 14, 2025 at 09:46:45AM +0200, Ricardo Ribalda wrote:
+> > On Fri, 11 Jul 2025 at 21:58, Laurent Pinchart wrote:
+> > > On Mon, Jul 07, 2025 at 06:34:05PM +0000, Ricardo Ribalda wrote:
+> > > > If the camera supports the MSXU_CONTROL_METADATA control, auto set the
+> > > > MSXU_META quirk.
+> > > >
+> > > > Reviewed-by: Hans de Goede <hansg@kernel.org>
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_driver.c   |  7 +++-
+> > > >  drivers/media/usb/uvc/uvc_metadata.c | 75 +++++++++++++++++++++++++++++++++++-
+> > > >  drivers/media/usb/uvc/uvcvideo.h     |  2 +-
+> > > >  include/linux/usb/uvc.h              |  3 ++
+> > > >  4 files changed, 84 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > > index 56ea20eeb7b9d5d92f3d837c15bdf11d536e9f2d..9de5abb43e19d9e876cddc5d7124592953db89ac 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > > @@ -2315,7 +2315,12 @@ static int uvc_probe(struct usb_interface *intf,
+> > > >               goto error;
+> > > >       }
+> > > >
+> > > > -     uvc_meta_init(dev);
+> > > > +     ret = uvc_meta_init(dev);
+> > > > +     if (ret < 0) {
+> > > > +             dev_err(&dev->udev->dev,
+> > > > +                     "Error initializing the metadata formats (%d)\n", ret);
+> > > > +             goto error;
+> > > > +     }
+> > > >
+> > > >       if (dev->quirks & UVC_QUIRK_NO_RESET_RESUME)
+> > > >               udev->quirks &= ~USB_QUIRK_RESET_RESUME;
+> > > > diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+> > > > index 77e03273d3cf6b00cac6ebb9b29b941f1cbfd9f7..59bb133baf9a73ef6a30fa8ead85aa90653d60f4 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_metadata.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_metadata.c
+> > > > @@ -10,6 +10,7 @@
+> > > >  #include <linux/list.h>
+> > > >  #include <linux/module.h>
+> > > >  #include <linux/usb.h>
+> > > > +#include <linux/usb/uvc.h>
+> > > >  #include <linux/videodev2.h>
+> > > >
+> > > >  #include <media/v4l2-ioctl.h>
+> > > > @@ -166,6 +167,71 @@ static const struct v4l2_file_operations uvc_meta_fops = {
+> > > >       .mmap = vb2_fop_mmap,
+> > > >  };
+> > > >
+> > > > +static struct uvc_entity *uvc_meta_find_msxu(struct uvc_device *dev)
+> > > > +{
+> > > > +     static const u8 uvc_msxu_guid[16] = UVC_GUID_MSXU_1_5;
+> > > > +     struct uvc_entity *entity;
+> > > > +
+> > > > +     list_for_each_entry(entity, &dev->entities, list) {
+> > > > +             if (!memcmp(entity->guid, uvc_msxu_guid, sizeof(entity->guid)))
+> > > > +                     return entity;
+> > > > +     }
+> > > > +
+> > > > +     return NULL;
+> > > > +}
+> > > > +
+> > > > +#define MSXU_CONTROL_METADATA 0x9
+> > > > +static int uvc_meta_detect_msxu(struct uvc_device *dev)
+> > > > +{
+> > > > +     u32 *data __free(kfree) = NULL;
+> > > > +     struct uvc_entity *entity;
+> > > > +     int ret;
+> > > > +
+> > > > +     entity = uvc_meta_find_msxu(dev);
+> > > > +     if (!entity)
+> > > > +             return 0;
+> > > > +
+> > > > +     /*
+> > > > +      * USB requires buffers aligned in a special way, simplest way is to
+> > > > +      * make sure that query_ctrl will work is to kmalloc() them.
+> > > > +      */
+> > > > +     data = kmalloc(sizeof(*data), GFP_KERNEL);
+> > > > +     if (!data)
+> > > > +             return -ENOMEM;
+> > > > +
+> > > > +     /* Check if the metadata is already enabled. */
+> > > > +     ret = uvc_query_ctrl(dev, UVC_GET_CUR, entity->id, dev->intfnum,
+> > > > +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
+> > > > +     if (ret)
+> > > > +             return 0;
+> > > > +
+> > > > +     if (*data) {
+> > > > +             dev->quirks |= UVC_QUIRK_MSXU_META;
+> > > > +             return 0;
+> > > > +     }
+> > > > +
+> > > > +     /*
+> > > > +      * We have seen devices that require 1 to enable the metadata, others
+> > > > +      * requiring a value != 1 and others requiring a value >1. Luckily for
+> > >
+> > > I'm confused here. If those are three different behaviours, then value
+> > > != 1 would be value == 0 (as the third behaviour is value > 1). You test
+> > > for !*data below, so 0 is not accepted as a valid value for this
+> > > purpose. What am I missing ?
+> >
+> > There is a typo in the comment.
+> >
+> > Some devices require 1, some devices any value !=0, and other value=MAX.
+> > I will fix it in a follow-up patch.
+>
+> The documentation of the control states that MSXU_CONTROL_METADATA
+> reports the maximum size of the MS metadata generated by the device in
+> kB, and the control should be set to the value reported by GET_MAX to
+> enable metadata generation. That's what you're doing in this patch, so
+> you can update the comment to document there.
 
-The docs for get_mbus_config [1] say:
-@get_mbus_config: get the media bus configuration of a remote sub-device.
-            The media bus configuration is usually retrieved from the
-            firmware interface at sub-device probe time, immediately
-            applied to the hardware and eventually adjusted by the
-            driver.
+Some vendors assumed the kB was a typo in MS spec and used bytes instead :)
+In this favor I must say that kB here sounds like a mistake, I haven't
+seen more than 300 bytes of metadata.
 
-Currently, the imx-media-csi driver is not incorporating the information
-from the firmware interface and therefore relies on the implementation of
-get_mbus_config by the camera driver.
+Will send a patch with the updated documentation.
 
-To be compatible with camera drivers not implementing get_mbus_config
-(which is the usual case), use the bus information from the fw interface:
 
-The camera does not necessarily has a direct media bus link to the CSI as
-the video-mux and/or the MIPI CSI-2 receiver of the i.MX6 might be in
-between them on the media pipeline.
-The CSI driver already implements the functionality to find the connected
-camera sub-device to call get_mbus_config on it.
+>
+> Some devices also don't support SET_CUR, in which case they should
+> report GET_MIN == GET_DEF == GET_MAX. I assume GET_CUR should then also
+> report the same value. Please also update the previous comment to
+> explain this, the GET_CUR value check above is more about handling
+> devices that always produce metadata than devices for which a driver has
+> enabled metadata production.
+>
+> This leads to another question: should we enable metadata generation
+> only when the metadata capture device is streaming ?
 
-At this point the driver is modified as follows:
-In the case that get_mbus_config is not implemented by the upstream
-camera, try to get its endpoint configuration from the firmware interface
-usign v4l2_fwnode_endpoint_parse.
-For the supported mbus_types (V4L2_MBUS_PARALLEL, V4L2_MBUS_BT656 and
-V4L2_MBUS_CSI2_DPHY), extract the mbus_config from the endpoint
-configuration.
-For all other mbus_types, return an error.
+This will lead to a lot of issues with very little benefit.
 
-Note that parsing the mbus_config from the fw interface is not done during
-probing because the camera that's connected to the CSI can change based on
-the selected input of the video-mux at runtime.
+We have no control over the order that the user will enable streamon
+in the metadata and "normal" video devices. And the device will not
+like that MSXU_CONTROL_METADATA changes during streamon.
 
-[0] drivers/staging/media/imx/imx-media-csi.c - line 211..216
-[1] include/media/v4l2-subdev.h - line 814
+I have not seen any performance penalty by the 300 new bytes
+transferred when the metadata is on.
 
-Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
----
- drivers/staging/media/imx/imx-media-csi.c | 62 +++++++++++++++++++++--
- 1 file changed, 58 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index a7cd3ef95fc3..5c2f197ae961 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -158,6 +158,50 @@ static inline bool requires_passthrough(struct v4l2_mbus_config *mbus_cfg,
- 		 infmt->code != MEDIA_BUS_FMT_YUYV8_2X8);
- }
- 
-+static int csi_parse_upstream_fw_link_config(struct csi_priv *priv,
-+					     struct v4l2_subdev *remote_sd,
-+					     struct v4l2_mbus_config *mbus_cfg)
-+{
-+	struct fwnode_handle *ep_node;
-+	struct v4l2_fwnode_endpoint ep = { .bus_type = mbus_cfg->type };
-+	int ret;
-+
-+	ep_node = fwnode_graph_get_endpoint_by_id(dev_fwnode(remote_sd->dev),
-+						  0, 0,
-+						  FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!ep_node)
-+		return -ENOTCONN;
-+
-+	ret = v4l2_fwnode_endpoint_parse(ep_node, &ep);
-+	/*
-+	 * Retry with V4L2_MBUS_BT656 if parsing fails with V4L2_MBUS_PARALLEL
-+	 * as the parallel interface supports both MBUS types.
-+	 */
-+	if (ret == -ENXIO && mbus_cfg->type == V4L2_MBUS_PARALLEL) {
-+		ep.bus_type = V4L2_MBUS_BT656;
-+		ret = v4l2_fwnode_endpoint_parse(ep_node, &ep);
-+	}
-+	fwnode_handle_put(ep_node);
-+	if (ret)
-+		return ret;
-+
-+	switch (ep.bus_type) {
-+	case V4L2_MBUS_PARALLEL:
-+	case V4L2_MBUS_BT656:
-+		mbus_cfg->bus.parallel = ep.bus.parallel;
-+		break;
-+	case V4L2_MBUS_CSI2_DPHY:
-+		mbus_cfg->bus.mipi_csi2 = ep.bus.mipi_csi2;
-+		break;
-+	default:
-+		v4l2_err(&priv->sd, "Unsupported mbus_type: %i\n",
-+			 ep.bus_type);
-+		return -EINVAL;
-+	}
-+	mbus_cfg->type = ep.bus_type;
-+	return 0;
-+}
-+
- /*
-  * Queries the media bus config of the upstream entity that provides data to
-  * the CSI. This will either be the entity directly upstream from the CSI-2
-@@ -175,6 +219,7 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
- 		return -EPIPE;
- 
- 	sd = priv->src_sd;
-+	mbus_cfg->type = V4L2_MBUS_CSI2_DPHY;
- 
- 	switch (sd->grp_id) {
- 	case IMX_MEDIA_GRP_ID_CSI_MUX:
-@@ -186,8 +231,14 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
- 		sd = imx_media_pipeline_subdev(&sd->entity,
- 					       IMX_MEDIA_GRP_ID_CSI2,
- 					       true);
--		if (IS_ERR(sd))
-+		if (IS_ERR(sd)) {
- 			sd = priv->src_sd;
-+			/*
-+			 * If the CSI-2 receiver is not on the path, the
-+			 * parallel port is in use.
-+			 */
-+			mbus_cfg->type = V4L2_MBUS_PARALLEL;
-+		}
- 		break;
- 	case IMX_MEDIA_GRP_ID_CSI2:
- 		break;
-@@ -211,9 +262,12 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
- 	ret = v4l2_subdev_call(remote_sd, pad, get_mbus_config,
- 			       remote_pad->index, mbus_cfg);
- 	if (ret == -ENOIOCTLCMD)
--		v4l2_err(&priv->sd,
--			 "entity %s does not implement get_mbus_config()\n",
--			 remote_pad->entity->name);
-+		/*
-+		 * If the upstream sd does not implement get_mbus_config,
-+		 * try to parse the link configuration from its fw_node
-+		 */
-+		ret = csi_parse_upstream_fw_link_config(priv, remote_sd,
-+							mbus_cfg);
- 
- 	return ret;
- }
+>
+> > > > +      * us, the value from GET_MAX seems to work all the time.
+> > > > +      */
+> > > > +     ret = uvc_query_ctrl(dev, UVC_GET_MAX, entity->id, dev->intfnum,
+> > > > +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
+> > > > +     if (ret || !*data)
+> > > > +             return 0;
+> > > > +
+> > > > +     /*
+> > > > +      * If we can set MSXU_CONTROL_METADATA, the device will report
+> > > > +      * metadata.
+> > > > +      */
+> > > > +     ret = uvc_query_ctrl(dev, UVC_SET_CUR, entity->id, dev->intfnum,
+> > > > +                          MSXU_CONTROL_METADATA, data, sizeof(*data));
+> > > > +     if (!ret)
+> > > > +             dev->quirks |= UVC_QUIRK_MSXU_META;
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > >  int uvc_meta_register(struct uvc_streaming *stream)
+> > > >  {
+> > > >       struct uvc_device *dev = stream->dev;
+> > > > @@ -185,9 +251,14 @@ int uvc_meta_register(struct uvc_streaming *stream)
+> > > >                                        &uvc_meta_fops, &uvc_meta_ioctl_ops);
+> > > >  }
+> > > >
+> > > > -void uvc_meta_init(struct uvc_device *dev)
+> > > > +int uvc_meta_init(struct uvc_device *dev)
+> > > >  {
+> > > >       unsigned int i = 0;
+> > > > +     int ret;
+> > > > +
+> > > > +     ret = uvc_meta_detect_msxu(dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > >
+> > > >       dev->meta_formats[i++] = V4L2_META_FMT_UVC;
+> > > >
+> > > > @@ -201,4 +272,6 @@ void uvc_meta_init(struct uvc_device *dev)
+> > > >
+> > > >        /* IMPORTANT: for new meta-formats update UVC_MAX_META_DATA_FORMATS. */
+> > > >       dev->meta_formats[i++] = 0;
+> > > > +
+> > > > +     return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > > index 616adc417c62a58686beccbc440a5dfac0a2d588..a4c064c5e046f2a4adba742c8777a10619569606 100644
+> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > > @@ -757,7 +757,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> > > >  void uvc_video_clock_update(struct uvc_streaming *stream,
+> > > >                           struct vb2_v4l2_buffer *vbuf,
+> > > >                           struct uvc_buffer *buf);
+> > > > -void uvc_meta_init(struct uvc_device *dev);
+> > > > +int uvc_meta_init(struct uvc_device *dev);
+> > > >  int uvc_meta_register(struct uvc_streaming *stream);
+> > > >
+> > > >  int uvc_register_video_device(struct uvc_device *dev,
+> > > > diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> > > > index bce95153e5a65613a710d7316fc17cf5462b5bce..ee19e9f915b8370c333c426dc1ee4202c7b75c5b 100644
+> > > > --- a/include/linux/usb/uvc.h
+> > > > +++ b/include/linux/usb/uvc.h
+> > > > @@ -29,6 +29,9 @@
+> > > >  #define UVC_GUID_EXT_GPIO_CONTROLLER \
+> > > >       {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> > > >        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
+> > > > +#define UVC_GUID_MSXU_1_5 \
+> > > > +     {0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
+> > > > +      0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
+> > > >
+> > > >  #define UVC_GUID_FORMAT_MJPEG \
+> > > >       { 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+> > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
 -- 
-2.34.1
-
+Ricardo Ribalda
 
