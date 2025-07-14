@@ -1,339 +1,111 @@
-Return-Path: <linux-media+bounces-37656-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37652-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996BFB042B6
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:09:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49385B042AB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:08:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A2274A4A4D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:07:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F290F16BEAB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:06:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA4925CC69;
-	Mon, 14 Jul 2025 15:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E9F825A323;
+	Mon, 14 Jul 2025 15:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hlia/DMN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="asnmaG/H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAA425A2D1;
-	Mon, 14 Jul 2025 15:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82A42E630;
+	Mon, 14 Jul 2025 15:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752505615; cv=none; b=vAqBahUK4zcxV20EVKG6068k8LT+1fgphKD6dKfJVT7lVZ207ahQDMmhJxKptrhz6V5vxPMHDuUTY9hDa6gdv10sx8K4Z2cAS+v48D3pWxBilOs3+v743vsmi4ctTIZmSJ52Ho6pxr5Y0YcjSfcTPtw8ieAW2C2mgQEGMfQSepA=
+	t=1752505592; cv=none; b=otUY4cm5CHcfz5dq39ZldrYWOsy8K0Kcq0dhMMxmkTk8PzYCvq3fYcvkRMnuZ5H01wpQ880OFUNHeQgmO3JO4XSPEfeNSvAB3h3SQXP6IqrIiJFkzNTyp56Puu4I74DyHOTS1XmmXTugZuPyQM1iH+cM9Z1sN7L2FxeSACGHZJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752505615; c=relaxed/simple;
-	bh=qfMoN70CVxfoRzskiRmPzGcwtf4lxcBnDokgX74Xreo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A+6rkcV+gKx4dq7o8Mc6ArUoL8x8JriCeWBT/z2MXQt0V3oiUcM37nU4q4TookZT86e1nn79NJvhp3tn+H3XTfvR58LnC76TGgoybpooPGxoxR2kPSjM/ElyShPlIULvJaw/LZHgzCmmKwastGvIpEWL7OfbLrJhasrRGHK6TkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hlia/DMN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAE49546F;
-	Mon, 14 Jul 2025 17:06:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752505575;
-	bh=qfMoN70CVxfoRzskiRmPzGcwtf4lxcBnDokgX74Xreo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=hlia/DMNyuF5omVvWlH8bD0rgqp1DYQNeybZ9h9kqmZNKPWPuEjKERxN3N8v6kmd+
-	 y/IOhdryXB45VnOfmWo2R+r8m3gHOppTQKKbzVVF0cPgavUX3IMPJyim3Sh21kht02
-	 66tJd6zk+ybpXihBZZRxPLv1vr1ZngXzTF+LxFCA=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-Date: Mon, 14 Jul 2025 16:06:29 +0100
-Subject: [PATCH v11 03/19] media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60
- format code
+	s=arc-20240116; t=1752505592; c=relaxed/simple;
+	bh=rZEwBG5xcYTfwrowVFDeZfsNzGHUEzr6KDrtWIj8qU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aLvgCKAZ0ofE5L2LdPtk9lG+VtOG6jecxt7WD6p6ln5UXQ1NZ9XeLSO0t0U4oFmdCSzuwsz66t94yx9gzGyy42STwIS3zwt8ili49LXkGry2e/cuSkDl/uawmLPZFuSzHJvsauLW286qrRZqIRLu/b54cFmXhSl6P5c8kyUmGi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=asnmaG/H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A92E4C4CEED;
+	Mon, 14 Jul 2025 15:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752505592;
+	bh=rZEwBG5xcYTfwrowVFDeZfsNzGHUEzr6KDrtWIj8qU4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=asnmaG/H6O1mKZurcswdFwsaHP/ZtxcpcKa1S/7hM4yz/H9VAF9G3XKmFUk5ExXXB
+	 sB3nClYrxCawRcgzLPj+0UdHKzXXZnMULYu/24R14s52W4ApkV++qeZY374VzYAkA9
+	 BlIFlWrn9ol+kogWbB2F3lWmJ+uRuF1fiLSfwgj/Gq13LtNvqnpBAumFfJnhFCntWR
+	 T675lR9RoQxUuyq/rZlxUwl6JFCA0dNxL4WSXOMypmL2rvXowGJC25uBtlaz0F29Cq
+	 7jnQZjBpgL1ohHEALsUymmQfK0mablSFKM/0eLLV1ozBk0RiJXFPiNIrF6pTeUa9AW
+	 oyfBXFs+ISAQg==
+Date: Mon, 14 Jul 2025 08:06:29 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Malladi, Meghana" <m-malladi@ti.com>
+Cc: Roger Quadros <rogerq@kernel.org>, Siddharth Vadapalli
+ <s-vadapalli@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, <srk@ti.com>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH RFC net-next 0/5] net: ethernet: ti: am65-cpsw: add
+ AF_XDP zero copy support
+Message-ID: <20250714080629.29aa7a2d@kernel.org>
+In-Reply-To: <268f6849-efc6-4663-af20-f6726bd4b78d@ti.com>
+References: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
+	<268f6849-efc6-4663-af20-f6726bd4b78d@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250714-c55-v11-3-bc20e460e42a@ideasonboard.com>
-References: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
-In-Reply-To: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com, 
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com, 
- laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5749;
- i=dan.scally@ideasonboard.com; h=from:subject:message-id;
- bh=qfMoN70CVxfoRzskiRmPzGcwtf4lxcBnDokgX74Xreo=;
- b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBodRz/HN1IkjN1BaE9X9dagFjcos6rVE6TM0pyG
- gZP3y/wIzaJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaHUc/wAKCRDISVd6bEV1
- MidpEAC3Po4Twq7OTWOWCS02PQgeGRTJ9Blm+nmOb4tKibnouUGs/8s+AhENwdPsScRjOZXV5iX
- YnezrP2WH3yWIvCFJ1l3A2zEu/7wAQ3kaSWNdOMqsWg8QVbjv56THfjPIqZu3icODoVyXG0F70i
- Ry28MVwnGE/02kJJ2/H+5GYMtV8MO2oKFVO3xJvrzJzhf4VJGUTmvFTxta1+5txmkzHrJ5+Pyin
- aIlX7nQ+2MDWbbDwYPCF7MsqeA9YCIluFLDVrmHbnjUamKIKoX8/wq6RM59fIk7B3N1q/t56Cin
- yGBklBCCx8e8GLfk2lVu22x/9w7JO65OUGTsog5EjNDiHokqiLUWzqPZWRr82IgYt1x8ze6VOk1
- WrXbWzzNf8g+Iq+sBbsontqrOyPEs9/R+k4WHRI7y2r9eIFXNedF+nDbb2foWFY6nNrNhHjswzI
- U3UnhRcMKTGkcYHBGDNY2/uCwH2OaOoCJ9r57L0Mk64hn7XCOfGhiU5+xVJ1ixYvZFBu+7OdNDo
- 65Ve+n8bJ/sLC6pkuuL8oOgRlQXhjU6ezNJ6/Tng1g1GjObB2fAW1acvaZ57akQ78eZZS/0j7GS
- X3ePh5K1ItK1DEzxLbKAvLZOTOFqBtpbDR+kk7ZRnVV1XysMdGS65wuQrhOuVdfr/E5N7z/xkQV
- I2mo43PZDa4PiJg==
-X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
- fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
 
-The Mali-C55 ISP by ARM requires 20-bits per colour channel input on
-the bus. Add a new media bus format code to represent it.
+On Mon, 14 Jul 2025 14:50:05 +0530 Malladi, Meghana wrote:
+> > AF_XDP performance using 64 byte packets in Kpps.
+> > Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+> > rxdrop		317		504		824
+> > txonly		400		405		757
+> > l2fwd 		207		264		0
+> > 
+> > AF_XDP performance using 1500 byte packets in Kpps.
+> > Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+> > rxdrop		82		82		82
+> > txonly		82		82		82
+> > l2fwd 		82		82		82
+> > 
+> > [1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
+> > 
+> > To:
+> > 
+> > Signed-off-by: Roger Quadros <rogerq@kernel.org>  
+> 
+> This series crashes Linux on am64xx-hsevm, when I tried nfs boot using 
+> AM65-CPSW-NUSS driver:
+> logs: 
+> https://gist.github.com/MeghanaMalladiTI/d655a1c8ca88113ee7f5f57d6ab0ec4c
+> 
+> Seems like you have reverted the fix for the same bug which was reported 
+> by Siddharth and fixed by Julien: 
+> https://lore.kernel.org/all/7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com/
+> 
+> reverted lines:
+> 		if (!common->ports[port].ndev)
+> 		/* FIXME should we BUG here? */
+> 			continue;
+> 
+> Can you please take a look at it.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
----
-Changes in v10:
-
-	- None
-
-Changes in v9:
-
-	- None
-
-Changes in v8:
-
-	- None
-
-Changes in v7:
-
-	- None
-
-Changes in v6:
-
-	- Fixed the table formatting
-
-Changes in v5:
-
-	- none
-
-Changes in v4:
-
-	- None
-
-Changes in v3:
-
-	- None
-
-Changes in v2:
-
-	- none
----
- .../userspace-api/media/v4l/subdev-formats.rst     | 168 +++++++++++++++++++++
- include/uapi/linux/media-bus-format.h              |   3 +-
- 2 files changed, 170 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index 2a94371448dc07e5c7097421bd82f42dcd7e21aa..57194180fe42f31f88aa0aeb4a4650bf4fb32bcc 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -2224,6 +2224,174 @@ The following table list existing packed 48bit wide RGB formats.
- 
-     \endgroup
- 
-+The following table list existing packed 60bit wide RGB formats.
-+
-+.. tabularcolumns:: |p{4.0cm}|p{0.7cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
-+
-+.. _v4l2-mbus-pixelcode-rgb-60:
-+
-+.. raw:: latex
-+
-+    \begingroup
-+    \tiny
-+    \setlength{\tabcolsep}{2pt}
-+
-+.. flat-table:: 60bit RGB formats
-+    :header-rows:  3
-+    :stub-columns: 0
-+    :widths: 36 7 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-+
-+    * - Identifier
-+      - Code
-+      -
-+      - :cspan:`31` Data organization
-+    * -
-+      -
-+      - Bit
-+      -
-+      -
-+      -
-+      -
-+      - 59
-+      - 58
-+      - 57
-+      - 56
-+      - 55
-+      - 54
-+      - 53
-+      - 52
-+      - 51
-+      - 50
-+      - 49
-+      - 48
-+      - 47
-+      - 46
-+      - 45
-+      - 44
-+      - 43
-+      - 42
-+      - 41
-+      - 40
-+      - 39
-+      - 38
-+      - 37
-+      - 36
-+      - 35
-+      - 34
-+      - 33
-+      - 32
-+    * -
-+      -
-+      -
-+      - 31
-+      - 30
-+      - 29
-+      - 28
-+      - 27
-+      - 26
-+      - 25
-+      - 24
-+      - 23
-+      - 22
-+      - 21
-+      - 20
-+      - 19
-+      - 18
-+      - 17
-+      - 16
-+      - 15
-+      - 14
-+      - 13
-+      - 12
-+      - 11
-+      - 10
-+      - 9
-+      - 8
-+      - 7
-+      - 6
-+      - 5
-+      - 4
-+      - 3
-+      - 2
-+      - 1
-+      - 0
-+    * .. _MEDIA-BUS-FMT-RGB202020-1X60:
-+
-+      - MEDIA_BUS_FMT_RGB202020_1X60
-+      - 0x1026
-+      -
-+      -
-+      -
-+      -
-+      -
-+      - r\ :sub:`19`
-+      - r\ :sub:`18`
-+      - r\ :sub:`17`
-+      - r\ :sub:`16`
-+      - r\ :sub:`15`
-+      - r\ :sub:`14`
-+      - r\ :sub:`13`
-+      - r\ :sub:`12`
-+      - r\ :sub:`11`
-+      - r\ :sub:`10`
-+      - r\ :sub:`9`
-+      - r\ :sub:`8`
-+      - r\ :sub:`7`
-+      - r\ :sub:`6`
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+      - g\ :sub:`19`
-+      - g\ :sub:`18`
-+      - g\ :sub:`17`
-+      - g\ :sub:`16`
-+      - g\ :sub:`15`
-+      - g\ :sub:`14`
-+      - g\ :sub:`13`
-+      - g\ :sub:`12`
-+    * -
-+      -
-+      -
-+      - g\ :sub:`11`
-+      - g\ :sub:`10`
-+      - g\ :sub:`9`
-+      - g\ :sub:`8`
-+      - g\ :sub:`7`
-+      - g\ :sub:`6`
-+      - g\ :sub:`5`
-+      - g\ :sub:`4`
-+      - g\ :sub:`3`
-+      - g\ :sub:`2`
-+      - g\ :sub:`1`
-+      - g\ :sub:`0`
-+      - b\ :sub:`19`
-+      - b\ :sub:`18`
-+      - b\ :sub:`17`
-+      - b\ :sub:`16`
-+      - b\ :sub:`15`
-+      - b\ :sub:`14`
-+      - b\ :sub:`13`
-+      - b\ :sub:`12`
-+      - b\ :sub:`11`
-+      - b\ :sub:`10`
-+      - b\ :sub:`9`
-+      - b\ :sub:`8`
-+      - b\ :sub:`7`
-+      - b\ :sub:`6`
-+      - b\ :sub:`5`
-+      - b\ :sub:`4`
-+      - b\ :sub:`3`
-+      - b\ :sub:`2`
-+      - b\ :sub:`1`
-+      - b\ :sub:`0`
-+
-+.. raw:: latex
-+
-+    \endgroup
-+
- On LVDS buses, usually each sample is transferred serialized in seven
- time slots per pixel clock, on three (18-bit) or four (24-bit) or five (30-bit)
- differential data pairs at the same time. The remaining bits are used
-diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-index ff62056feed5b6588bfcfdff178f5b68eecd3a26..62ad82fd285a8ce24bd16c207c51c0e75ea95070 100644
---- a/include/uapi/linux/media-bus-format.h
-+++ b/include/uapi/linux/media-bus-format.h
-@@ -34,7 +34,7 @@
- 
- #define MEDIA_BUS_FMT_FIXED			0x0001
- 
--/* RGB - next is	0x1028 */
-+/* RGB - next is	0x1029 */
- #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-@@ -74,6 +74,7 @@
- #define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
- #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
- #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
-+#define MEDIA_BUS_FMT_RGB202020_1X60		0x1028
- 
- /* YUV (including grey) - next is	0x202f */
- #define MEDIA_BUS_FMT_Y8_1X8			0x2001
-
--- 
-2.34.1
-
+Just to be clear -- you're reporting this problem to Roger so that its
+fixed before the series is reposted? I don't see this in the tree, I
+wanted to make sure it's not something I need to track as a regression.
 
