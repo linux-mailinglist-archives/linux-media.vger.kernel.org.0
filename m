@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-37598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D26B0393C
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 10:22:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDA6B0392F
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 10:21:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9138A189F853
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 08:21:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 408C13AB2EE
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 08:20:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785F523BF9F;
-	Mon, 14 Jul 2025 08:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A7C23ED5A;
+	Mon, 14 Jul 2025 08:20:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="wtyK4GGG"
+	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="oQuHmVO2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010031.outbound.protection.outlook.com [52.101.84.31])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010054.outbound.protection.outlook.com [52.101.69.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160A823B613;
-	Mon, 14 Jul 2025 08:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A7A23E350;
+	Mon, 14 Jul 2025 08:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752481204; cv=fail; b=mCiR1SUcWhU5C4Ix+a+tVEDL/Az0jp68wxMjmjPVpe8TkcnXGwFvxF/9hWDO2NuVPick2z8OuhV6X1NjLATz1l4EoMtUdJnyE1k0ad3U8UHfhS3IaxztUflufCtAeHnZJytDQsnxzFoThNe5puZKBb6YvOwH6dPHVW2GCite/Ms=
+	t=1752481210; cv=fail; b=iJ7h99wL1VQYKRZQFNsgX1xxFjb0Rgw00DXB+jtdCAYd7Q0dXjZ7ME6jMEQcfLbLxiLglqnQAYp84E9Fiu0kD6wb4rIhiaiNKqHYT9t4K2HjrUa1PhMWhGc7Y+X/c4nOBa6I7gbJw/CGGCjgEJkHcjmfkWVJBmtSk6Co5v5f0hk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752481204; c=relaxed/simple;
-	bh=wPoIkd+hOeRwY+SmjUg+qV5+VE/n76/WQjJuy+uLtNc=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=scnPic3CZ+G0EnD8nLbh3eqO10PpTRCBFLOtMpAZgVSHOUU5QspqvZ0Gjdl2tOQZ+ryn35fPQjpev4X1IMhkJvKw0bWoHxOIAA3ooOicgE8bL5PU46bNuUu/I9qunY0hkfgsh3JYqkMhxgmDSd2MMYWq7/fkkk8x3lX0KRpWTqM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mt.com; spf=fail smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=wtyK4GGG; arc=fail smtp.client-ip=52.101.84.31
+	s=arc-20240116; t=1752481210; c=relaxed/simple;
+	bh=9Ywz10QaZTBmxPUsazFIaz/wHA8bBZY23QrIuKNUkGQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mxw7Oueuz/DpHrsHNMYiTW51iEv94sL8MBnmMnk0O9ofkXObAllmkitjHD0PTOnWLSAHlAcEVI7TGUTjv1qBh2E03d5S8r6auqFVITfdTWT/ic9fk/32z2AH+TN+gr5PELbfMQ4FPwxU9+p9MWMlbY9kvX4sxi8EQ5c8/ZVLvEc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mt.com; spf=fail smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=oQuHmVO2; arc=fail smtp.client-ip=52.101.69.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mt.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mt.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VP0VVkfDiVQb8I9UVLZxAz+rrYD3a3BuIkUM6Dxfn+oCdAwws5aTMk3OhG3kmrkbc8z+rIY+d605hH7xRX/PHLXRoYbwwlcTg48OUBVtQX9fYxT6YTwzqoN91sx/5hpDzK2O11WSKtaIwvNJr/QHBAjOViQYJ3NSwiCpR05a0EHrXennV6iPjWrkKwJlFeVms1mCUI7xiWv779AssKksGROPCL0XUcF92tsQd3WOv2dxm06JCQIQ6lYsrF7fRBtdxDwDNsy0claOvipHA6+mn8p8kQEMaFqnTUsI41mCLA7DKCygdP9MJDP5BQhbd7WnzqfJEMI/KnUqTqKyI6Zx5A==
+ b=mYkyQ5jCasAz4hQZhxeihNDgLGteRMx5bVniynAf1wYn9gMO+kWag47zmOos4CPsXNRKANOg3DEpNTxALShDQtRbFa0lArDkEmqZBgaDnZ2NQA0NFJ/kwa2XTscDRQvxMJAvcT52Fnei1VkXc5v9/Iir2EbgjmDw2iWqeN1ioBZFIOtjKKdojvlZNloJQQwgOsZKdYnpiO2Q6OslXO2UqKOQl2H+X8E0u/xMhGOxKBAYd3X3ZqdXCCygpp+JNQqpzdQlbsNAasmnK2XG0dJINdCp94NtkyS+x+2xYJNnMyymlqpwDDZg2RJj2Ndhf4xDTVXY+cjwVEK6ioNBA31bfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4pS3oJCl+ysthpiwoxmB4fqi6bC8wJg7i5qOPIUWPd0=;
- b=lJU61/AG6UjgS9c2kw4StKKK47bH5FC9RcdjVTW6p5qA9vXf/pO5D08dpgik0UQYDv61ARqmtf7k6biwrMfIsW/P9Wb7c4wTRpPTUHhAYRXZ1D/6gXTHBW2BS7UFem+GM9tOOvOeLFy6Bc8/D652K0k7GttlmJpjUX4AjX/GUKU1exjH4cvas/PZBQG2HuqOKZrAcXKWitRF0wuM2L5z5vt/BRSr+Ynd06M12/GjrE/X6/4vHYDSYoJUAvIpyYCbPatl5Vgpk3vfNnIv5/IClonkCDIXDP3y+doRbzfytOAixyz//gX3UuQ8apXYuOWBA8II/VA3pWbVYB9RJR+NvQ==
+ bh=ntwXyvWcB5pN2RSp8hHJjUsty1gNUb6WcjV1nT8AgjE=;
+ b=POn4fpUdPwI6gQg43goqGAcKsCEiqlmycJWWJGReA/oNg0iff75WLDQfUzjjDpz4JJn4LdgVNWShdKpCcbdvwH5oTYas1JGu3SlaZB5zRymqjrdS8/loy9+3ylM3R+0sFWpmcnsV3cizb/whyZ7K/AnrZyJJ09HoRsMtPcs5xLak49wBQZLj6j0I5TWSbnOQGcGHEfXxH+USvdkMaoJo98YcFj0LnTLhxd733hk1/PwLxdAXI4NXI74ccbKZLbFKPFySmnv4cFLph9p+TjW2mXn5/OZGPqycxDm/mAqYNpgtzAlpSbuxJr2Mzac938tCiIggruRwAqZ94rmI2QKJHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
  header.d=mt.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4pS3oJCl+ysthpiwoxmB4fqi6bC8wJg7i5qOPIUWPd0=;
- b=wtyK4GGG09hvtt9E56dpwbJl5Jf6c6bzLupp9IXZ/XfGJha86WMp80PPKpLeCSO+pHFzmpVvROw4LhfJvVc/cvc+eEGgCv+VkUxMbTY/t+tlT/YvWHBhZCulwhvJSZPVIzQYqOKHKR3WBX5+v5uX/dcJgx2U4u9/jDbHIxydhVq+QOt6uZO4bD0vD7b8qmRdDOVv7ddy6fNLwnV8I0dI8kifXgfodiMhLwi+TFclmxuT5eiz5JHLEhYywYOJTsFmWvbfEImjltH/5CfwDZUULZMuQcmCu0VSs6hNmTy0Kiu6vXe0JaKvkoBOWM7zxuWTvlyTUr20OI1vNdSWLnVu/g==
+ bh=ntwXyvWcB5pN2RSp8hHJjUsty1gNUb6WcjV1nT8AgjE=;
+ b=oQuHmVO2PzGA0pByY784LQM6achKHgdinOtBa6J9yJIR/rF6ZwrTejTRv/HsBq9L1UU2JT0TmVD2syuNu6fFVdWL9sDc47TeSkkmkD1/IqCec3MACTMkQPHnMoUADnuC3k893VfRSqlhAdWZelbpBwyQXCAWIAnnj74cfYYvm4UURtMSI3ECgGXgHQXhDZ5zLSgu+WusUBsw1CRlEx5nY2bckE/U4uOQseh6EwralrEG7xDO4vu+QvrdqrLBvwBLafbvP+rovhmeXBnu0ikCq8W7ft59aV6AsqDwEzj+AH3dgf6dDdMHIRUibt4FujKY8AdnsO3th0rbxZpUIl5HGg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=mt.com;
 Received: from DB9PR03MB7755.eurprd03.prod.outlook.com (2603:10a6:10:2cc::22)
  by DB8PR03MB6250.eurprd03.prod.outlook.com (2603:10a6:10:136::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Mon, 14 Jul
- 2025 08:19:59 +0000
+ 2025 08:20:05 +0000
 Received: from DB9PR03MB7755.eurprd03.prod.outlook.com
  ([fe80::2ef6:ec79:4089:ce54]) by DB9PR03MB7755.eurprd03.prod.outlook.com
  ([fe80::2ef6:ec79:4089:ce54%3]) with mapi id 15.20.8922.023; Mon, 14 Jul 2025
- 08:19:59 +0000
+ 08:20:04 +0000
 From: Mathis Foerst <mathis.foerst@mt.com>
 To: linux-kernel@vger.kernel.org
 Cc: Mathis Foerst <mathis.foerst@mt.com>,
@@ -72,14 +73,16 @@ Cc: Mathis Foerst <mathis.foerst@mt.com>,
 	linux-arm-kernel@lists.infradead.org,
 	manuel.traut@mt.com,
 	mathis.foerst@zuehlke.com
-Subject: [PATCH v5 RESEND 0/1] media: imx: csi: Parse link configuration from fw_node
-Date: Mon, 14 Jul 2025 10:19:12 +0200
-Message-Id: <20250714081913.516481-1-mathis.foerst@mt.com>
+Subject: [PATCH v5 RESEND 1/1] media: imx: csi: Parse link configuration from fw_node
+Date: Mon, 14 Jul 2025 10:19:13 +0200
+Message-Id: <20250714081913.516481-2-mathis.foerst@mt.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250714081913.516481-1-mathis.foerst@mt.com>
+References: <20250714081913.516481-1-mathis.foerst@mt.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: ZR0P278CA0009.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:16::19) To DB9PR03MB7755.eurprd03.prod.outlook.com
+X-ClientProxiedBy: ZR0P278CA0200.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:6a::11) To DB9PR03MB7755.eurprd03.prod.outlook.com
  (2603:10a6:10:2cc::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -89,120 +92,220 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB9PR03MB7755:EE_|DB8PR03MB6250:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68364f6e-f309-4d97-28db-08ddc2af3911
+X-MS-Office365-Filtering-Correlation-Id: 282c310c-2992-483d-5e73-08ddc2af3c81
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|376014|7416014|52116014|19092799006|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?pWp/NViEQAodDIZjZ18txDkLjm0zMqlP9YoPmU4eAhXLoYEci+RBQt+ttgHx?=
- =?us-ascii?Q?TKaODhGCswA301oXo+MPH9v68FQeckKFd48WCd1Rbzm1RPv19mFuigGCJD8Y?=
- =?us-ascii?Q?vS5vMx3FKlYQauAIN3iDcbCRfiSk+rzlrAuMdoMxxwTP4OCEd4VlSGZK0Xlh?=
- =?us-ascii?Q?v0z5LufdC/Uw8pkeavb79fnEtJTIdwerRVTT0LMR4aQFV/3JuxhHeXWn/X+B?=
- =?us-ascii?Q?MjXXYl3lJL5/j9jwPlGnxCl1ytDkCt9p+eMyCfeiXO++wxSknZM8FHdTPLik?=
- =?us-ascii?Q?3CJhuZ3MwZ95lfo78TWLa7lq3H1ko4Bm7DO6t8GBfNaFbzIjIbEGV/tNQ8Ka?=
- =?us-ascii?Q?Iy1Ig2+hPKUpmYv19QLqeu6x23QSjORaYwbD9DvQb/XZ7MTZ+YZ7/ngJAgso?=
- =?us-ascii?Q?CJnGuuIXZYEuM0mlByX0ZkYFcLBEMJ2LUusdxMdj3X0o9qmr4ZKg23b3AIqt?=
- =?us-ascii?Q?rhC6+V+7JZK+mocGxsKxvgHdYtaB2GTZl/FscDjRBiD+1vQJcd+SUItbehDG?=
- =?us-ascii?Q?HKrbfE1L36gEky5r9ttNknruNTm/PdUWnrOyKLC8y4QH3xjxBLxxwIBeBL1N?=
- =?us-ascii?Q?M0n44LhRyhql0rIqd+XlXZbipw0p/yfQ7av/LQ4xqTTUyw1lKDgyItja43xx?=
- =?us-ascii?Q?4h73FsvlAH61zvp1IglqcV2mSWeLUh7q3HW7GJrryXmwz5tyw8ZfN0Fgw9Pg?=
- =?us-ascii?Q?MGqYyAcVrnu+RFjPIYXbkN5K65nJGUXn9XFtzFMZTsAohBoLTXxi0mXj/bte?=
- =?us-ascii?Q?3HPDNyCo0ixrXa7433ajgE8EIxrgMwx1QL4vuDBq96fbReNjqkWkde0gflOg?=
- =?us-ascii?Q?wQyM59apK6vb2jILgw1dtfvxtNsTZkvHHwZyY4tBVp270cmrY/v+ptp9xSSP?=
- =?us-ascii?Q?/2D2hcHLZY3/t6moElOuettd/e3TTHg9AuLxDnHmUX/NAG9mb0q1AvsGp0iB?=
- =?us-ascii?Q?SwJmxYQND6d4CzKqQ6FzxU3cOYDZS4gk1K0PYZU8LStHwv9TJgxA33NxfmZ+?=
- =?us-ascii?Q?pR6C0uugHGcHgjvzJ5NBOHcRMxzXjiIeM4x+V5OHH7JuU4Eujx9Kjwxzrh0s?=
- =?us-ascii?Q?lE9aoDmMu4u3q8TIFbhYdR2mnn0+/95/QNHgThBp6SW0/t84YSq6nyu6Tuvk?=
- =?us-ascii?Q?LvEDKIunjq/Rf4GCwFuijdHAzbU56PtnZP5FCfnLdKJIKTBioIPR4ZJOJhcO?=
- =?us-ascii?Q?oIZP9HqTiDBivyqqIro61rr7STLea++50btd3DuQWmXv6s9rBsW8P4c0evJq?=
- =?us-ascii?Q?af5fcgVSfIbZ3sU8aop1bQK/KQoGT2rx/ertH0PANK+ksL6AOER7/DK2aFga?=
- =?us-ascii?Q?iUwZCPb5FbzXpevagWtcjMSxL8RVT2W7f7ldO4rpMYwWk3tr4JeyROiu/6KG?=
- =?us-ascii?Q?FAI2Jxlz189qVOfwj8n7B5KPlgamJRtdC5jW03iD3Yha/p1ukTH4+oyjYAqQ?=
- =?us-ascii?Q?ZCiX+OCdHj2KjLrJLNgiWBOLNX2ufszGS+SaeP+AbTUaHvmo4GQZBg=3D=3D?=
+	=?us-ascii?Q?CI19HGdbv8Gl4OjHBRPHx/kkzFBKh6of9Qsq0Obk+mDohf/Zop6rMk4XriGu?=
+ =?us-ascii?Q?qCN1II0ftELwN1ESWCs9M2g48mfTggzjimjGBG4CNRV8xOz+AZl67RxKOXUX?=
+ =?us-ascii?Q?3DhGGaDgA10+kdbE3QkyUv0cjU/VcGi27yvUE2Ugho1qw6gE7H/0qFYAwzTe?=
+ =?us-ascii?Q?u6EqmA2pJGaFh+lJPDH8kl6UuEMo9CzP4pq9JNRy3vQh0sjNzOHGveuYFuAy?=
+ =?us-ascii?Q?5iuoa2gHwcqIDNFnksgB/F6UNtiRdkH5qg4Pxn0z3nEeC8hytRsR7I4unM0B?=
+ =?us-ascii?Q?ioRbY2MorvBEUQD8rR97L26CBswIze/oVUr6zYkI7gQ7B826mUWtdGZtMcfz?=
+ =?us-ascii?Q?RFSFscqwJb2QlhElg/v8kZu8FbIwGSbc/RJlEINRrfDMO15tk2PKWMnA2c1O?=
+ =?us-ascii?Q?BzQLH0WlgyCSoXxeNXofMVZtU1jGfPKm3lGKLJpMgMOClQP7sNSYWUiwbZah?=
+ =?us-ascii?Q?DlzWfjNDwPmyX+uuNoMJVpANbNxTBFRsZKRliYXl6leOt9ygjEOzr274u8Y3?=
+ =?us-ascii?Q?dUzJlIQW9Cjzwt7IzUUKmgYfYhYYGbBxjZgYU+86Pji1dVTDIgPCmk5aTA9a?=
+ =?us-ascii?Q?NUmTBUmsse7ActuiUFaDNiAexVxLI2u7omktAzzjEU08GYSDmk0gO0Rk+jAK?=
+ =?us-ascii?Q?jhzir7FfU0jmop0z5Trq8vlGQvA2x1q1E0IXrD9QDBXA8NfPuOdsHYaVaGzk?=
+ =?us-ascii?Q?74Z3ETov++vx8K+Td+Gxq7xJ9nT893IYUX2laCvqVycEb4/7gzII7mXr6Ip7?=
+ =?us-ascii?Q?XX3Zl5qsl1N8k9sRqFE/XX2Ccs/Vyt1vs81mGSLb8a4E6otVQvqxe/N2n5Bb?=
+ =?us-ascii?Q?bm4ezbsu+o3KZoDbKxYVTp3DIfpAvxLp9BO8q96KoULMbfvoStaGaSF+k8kL?=
+ =?us-ascii?Q?UiN0dIHRIYLuw0goZSzR0d5+XsTKv07sYgqdJ5ErTQQrIAOeGJpDX/0NkplY?=
+ =?us-ascii?Q?HRDmqaNZm4fFaXeYwL44HXWumfEByj+osOLxkm4GRY85brYLVXwaCcocJcbP?=
+ =?us-ascii?Q?dE3oNGEYwagIg1c5oDt8aqeuItx7jZFZ987IT01KulHyBUSkgE1QlJE3S6f/?=
+ =?us-ascii?Q?cCDCBUFxUeN2BS+9omTA/FeCjF2MNaROkNeN4GiTf477VcBCgkUCJlX+cCrR?=
+ =?us-ascii?Q?1Yz0PGDl0k56Va6LDMwVUr1GjIAzXWfamciy1ueFRg1EI5INYWDmSG3mxX1m?=
+ =?us-ascii?Q?kfFrh6/Ujx7RMgj9hVFhvpbWEALBPWzNZ6NWruSbYGmkES2gPXSH645m3PSO?=
+ =?us-ascii?Q?R377njTmO1XYNezzcenjNhijtLY1Q39hhu42jEFMC+vU/eCRD1JSm8yXgPRg?=
+ =?us-ascii?Q?IqzCel5p1GuCno3x+TwrHfApcsX+R3JAEkw9KN1qJjbwrFC7RUQJsYdtcVbc?=
+ =?us-ascii?Q?5OSDzBWtOWEsG139nHYW8iMSXTSsT5FDzSAOs6PzNMIksGmuQNKiKUBegczh?=
+ =?us-ascii?Q?9fxEaduoJCJhDiIo655VyUiy/DtYt6gnvsFlaEqP+D2awctMFZBGHA=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7755.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(19092799006)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6t31iorciMZUOo5jUmrx+z7X52V5rAfcQdzlPebgiZpn44I60FCaI16XGknP?=
- =?us-ascii?Q?PyCGeXbyHVgEE+gj8SLA9983md7W76BB1n1/kf3MWSyliACGgu8lOSkjuqRt?=
- =?us-ascii?Q?apkhzCpRXK/LDt45xtTKszQWPYq7mOJlbuU3eNoyF+A8ohHGvsA+r3nTXqmD?=
- =?us-ascii?Q?1lht1uqVk/q0le9bhvQZK1IwCuN1hxtS4hPx2GBkNRwiBBSTOiYOTgweAURI?=
- =?us-ascii?Q?2KvRpHG55dR4gR+cVnGuCcdxUSAr7BUFn5U40eetq3u3ysAl6edrJj7ZM0cP?=
- =?us-ascii?Q?8KtsLB1sVi2qEggRcDR77CFoBKfOiNLFPoCVcPdfkPkW0YTq772CaXXMXTRP?=
- =?us-ascii?Q?t2TiAOFvfwFAxmD96YqGr0qRQUIY5s1Iyjl8NMaIYTU4UsTfyutxMw448Mtg?=
- =?us-ascii?Q?+dndAECbcr7vx6Hi5dVUPm52bp1qMXKGNZRH4JUq/u21QRCyD/rznj8y3hTP?=
- =?us-ascii?Q?hXg/ZRxVaWYsFzL7l9F/SB+b0VQEC4NSs6X+CJBxYxZ/nQ4zmVMgfufG9Iq7?=
- =?us-ascii?Q?eHLNGnwzAtowj7XLbfdQ7MEJaRULVOY642Y/DrIb8APsGocu3lisexMW+yKX?=
- =?us-ascii?Q?UTYnq3t9UL5VZ5vmNH6kLYw07NOS9koh5kLZphc19zGGjiea721siqMMGCs6?=
- =?us-ascii?Q?s8V0N2aNRljf/XNu2M8iOHM14MXNAenQLm6u+QeS+VDig7nC5wr69DViwJuB?=
- =?us-ascii?Q?lO0asqNEAnSL2sCnR51WrtxVSgak8YlPIHxh1pznn5xUcF3puzqtB9QRzAsI?=
- =?us-ascii?Q?Ap1oDQMrg1v5eTic7NNtve99E58nkfI9SkiyBDIhWMBCXzgSpay/Ei9PWV3T?=
- =?us-ascii?Q?xKPGfigKWhYfJChcSaAmbk7113SI8Y0oirsWzfSTXhK7cdv/zy1wVEcnKn+w?=
- =?us-ascii?Q?gYGmSUnSDSXVQCyorrx1CimcXRGKOsCB98jzfR4NCMjTFy/XwwIzZsgpMrgV?=
- =?us-ascii?Q?IaWrqb8/lBsdkeOm19pypqKNaxIgXR+HKDuOFZS1MqcZ7xgjw6TK+SVQwzIl?=
- =?us-ascii?Q?0JtmhbehoulERLEOZNahRESnA439Hd7kJyg5aqg+iE7QnDt19L+gm13qlvPt?=
- =?us-ascii?Q?hJZhI8dbytZf94hhQ0wSXG8SKfzcaGgRgW8h/yM8bDlbmFiQwGF7dfh69Tsg?=
- =?us-ascii?Q?9uHlftnJwepKJ4Osh2k3QsaaKLfM2b9XEKh3ThFAY4i5XJKr+J0aOhT+DUct?=
- =?us-ascii?Q?AlUE0Ast/uAEQfp7lauGNwnt/MyqKqrZZs8otaIJcFan7F44TKXiekp/+MsK?=
- =?us-ascii?Q?FRAmRf4w7UQJQVlRfvHCgAv0pJFg9HayNGZmm3/tD/76lQFBc+PMMc5qk2Dh?=
- =?us-ascii?Q?KGON5PuYds38RjEkaal4HbimYGxutAZgvxhTwwDY8RVITzFKA25Ex+AiDRJ+?=
- =?us-ascii?Q?YaCE6frkEmrzJDpo2DP0bno9xcj0FE/ibIMfr5nyXipGm+oh6l/+V+4Da2cN?=
- =?us-ascii?Q?ojx9lkrjv9dA/V1ZAYSuVU68TlwkDbMCAKLsKnEcIvE2Z8srZHR5Xs9q4aET?=
- =?us-ascii?Q?n4iwHnDdEASPbdGCzDTfZcSV0nkAi+fqzyavQJD1sIB2QX3k4P8kiWP7fold?=
- =?us-ascii?Q?ak53VJZVGU5DYEVRG6CGXgtwxCcg+ua/WSYd/W4H?=
+	=?us-ascii?Q?VMlnyz2Guj+nk09lbYSEOD2CNJONqd5gU0Is/wWYDkKnM6FKG49u/Ck8RUNa?=
+ =?us-ascii?Q?wZN7jBODJX9m4khDoo5FhRl5R9vERXo+htQj1R+PGxTMzX8mxjwByMqncKnz?=
+ =?us-ascii?Q?8JVKUfx0y/gHulBEcuxDZUw6K0g8YrbYIQhXAhwn5SowhgUZ5baAvHx8UR7R?=
+ =?us-ascii?Q?7vYPXusvSNYyZ1F9508ZCjvhi/gZI+UQYbo/BSysd0nVW0UggLhZnv7C/Zj1?=
+ =?us-ascii?Q?e0KNCK8SRjg115I/l5TKpt5NdsM7Nc8jYp5aYtdZxGZ2DutEb9vwUy1JUVad?=
+ =?us-ascii?Q?IX3FNT7iz9gAp5iLV8CNxJaF03DgO1p5G1ejf1kzCFV6i52WZ5LVz+QeQdeP?=
+ =?us-ascii?Q?pUYyePtM1omOplqcYQ5KQgdD9ITsFkivoqVvjOIrQK3/Xw6W9hToeP34QXOT?=
+ =?us-ascii?Q?J/pEZXM9/sax9TjVWkUDyp/ceO08NFZmGj+4AAGYW2o5SZMDmnuXgpg/w7RE?=
+ =?us-ascii?Q?1kNh12kiV3+7ftr7nKSeS/w0Y7XW3/4D7sZRMUV3ZeLJGkkbnkdxwohmqR8h?=
+ =?us-ascii?Q?p4NFITPnn7mmOG+UM+y/c7KRJ8nWAItnGDuA2m/v8W09GZRxHAqmBVOosW6S?=
+ =?us-ascii?Q?KXANWSZJlhxKV4FATCp1ZPa56MUM7nkKyHOIQ0nrUhT1/55dYInpzAKZgA3u?=
+ =?us-ascii?Q?oT6IGfNrVANqWlWPJt3dNNwrjqTOnjGzqWieFAI/nwkTvVr5ZQcnzCi35lqH?=
+ =?us-ascii?Q?k/ceBKK/NsPPH99oV4Erw9i7//zY40Z4EjUc9EMJRoctUnmxRCfhlgxuhALe?=
+ =?us-ascii?Q?yuEF7mfrI35hTytJRufyhrGkzd/pvJQwqm06fRt0X942sfNYa4VoDACttElc?=
+ =?us-ascii?Q?7l2Lv5CX9XzKih4qHPVRaCCvtcj2I5Wk/SoH2eJYwYBSxezg32LILW14m781?=
+ =?us-ascii?Q?ePqi0/RLLWErdqawk76yDZ7CZTeB0FIgceNUGWPxGGfAWp5Io++nq2CjKr1Q?=
+ =?us-ascii?Q?F1+teYAZXNa8FRCeOmo1u3DL5S9VJpBL4tErfshDA4yfWZuiTEAYMR2x8VhK?=
+ =?us-ascii?Q?APsRom0IQAj3324PdCjzM9pV/9iRZpWAkXGqdeOZVN8lHLhvdoBUhKE27Hn4?=
+ =?us-ascii?Q?BU4f1Dk9pg3ObeWzEM9Z/JJOz0jksta31bTVga4YHG3tQpef7fZrj+0ZaJ8r?=
+ =?us-ascii?Q?UlVb/okcP3ASWcz7CI1conw5O2kHwaGZG+3BWbTm1OXpkvJGh8cwO2hdHsJM?=
+ =?us-ascii?Q?k8Nn3Oizk8Gk9C5GjLRnsf2KF1Xs1BoXO2/hSvNfHX9W0df6u8QlPudAerlA?=
+ =?us-ascii?Q?W/95p1IBjHhcv/6KCwXCjaxkkjfXtI8DcYxmoLnQJZQmLqDQDJfZ2tQ+T1Cj?=
+ =?us-ascii?Q?moA5mlYuBJvglkV0NRHRwSQ+xeBvZrHREYscra5mMdPHIsIeXGvyfd/so9rV?=
+ =?us-ascii?Q?GBMXie3hkpTySw2WAtopgVtQYy8B0Sorqp0W9Vn72HoIpA1Jl3qipX3Hv9Yq?=
+ =?us-ascii?Q?xZeJnimHnwoGO5r87erH1vrTyw0KG2kFoPxAzIIZ8YsnlEP49MsFxJ6wWvkX?=
+ =?us-ascii?Q?71cJK/Zff6IcTtMsCpEZneWy0sjiyzU3lb4hIfyv2JQ8BSII2ysX7usgRgdN?=
+ =?us-ascii?Q?K6ZGcUFtScsoA8GFMvIfLzoki7kpkI1IUgjWrUQj?=
 X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68364f6e-f309-4d97-28db-08ddc2af3911
+X-MS-Exchange-CrossTenant-Network-Message-Id: 282c310c-2992-483d-5e73-08ddc2af3c81
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7755.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 08:19:59.0814
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 08:20:04.7757
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Kqc3/nwRQLjeOstByccY3oTSAymU/ugmpZiYIfej0T3BlIhgvVRWn/nGBKiKJeAFD1P3A2CCDvtu96o/nptcRg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: P0QhnlkMcpN2yeLqh7lxHyJHHCJTLlvNweJO3Xk9T09dUGXZ34Ho2ShenZvslpe5dYOeHFxpFxGLc+M7sC1HDw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR03MB6250
 
-Hi,
+The imx-media-csi driver requires upstream camera drivers to implement
+the subdev-pad-op "get_mbus_config" [0]. Camera drivers that don't
+implement this function are not usable on the i.MX6.
 
-this patch fixes the imx-media-csi driver to work with camera drivers that
-do not implement the subdev-pad-operation "get_mbus_format".
+The docs for get_mbus_config [1] say:
+@get_mbus_config: get the media bus configuration of a remote sub-device.
+            The media bus configuration is usually retrieved from the
+            firmware interface at sub-device probe time, immediately
+            applied to the hardware and eventually adjusted by the
+            driver.
 
-It's the follow up of this discussion:
-https://lore.kernel.org/linux-media/Z8AoA6WjbXQufqR6@kekkonen.localdomain/
+Currently, the imx-media-csi driver is not incorporating the information
+from the firmware interface and therefore relies on the implementation of
+get_mbus_config by the camera driver.
 
-Changelog:
-v3 -> v4:
-- Determine the expected mbus_type based on the link topology. If the
-  parallel port is used, try to parse the endpoint as V4L2_MBUS_PARALLEL
-  and as V4L2_MBUS_BT656.
+To be compatible with camera drivers not implementing get_mbus_config
+(which is the usual case), use the bus information from the fw interface:
 
-v2 -> v3:
-- Factor out the function "csi_parse_upstream_fw_link_config" for better
-  readability.
+The camera does not necessarily has a direct media bus link to the CSI as
+the video-mux and/or the MIPI CSI-2 receiver of the i.MX6 might be in
+between them on the media pipeline.
+The CSI driver already implements the functionality to find the connected
+camera sub-device to call get_mbus_config on it.
 
-v1 -> v2:
-- No changes (I submitted the wrong patch. I'm sorry for that)
+At this point the driver is modified as follows:
+In the case that get_mbus_config is not implemented by the upstream
+camera, try to get its endpoint configuration from the firmware interface
+usign v4l2_fwnode_endpoint_parse.
+For the supported mbus_types (V4L2_MBUS_PARALLEL, V4L2_MBUS_BT656 and
+V4L2_MBUS_CSI2_DPHY), extract the mbus_config from the endpoint
+configuration.
+For all other mbus_types, return an error.
 
-Link to v1 discussion:
-https://lore.kernel.org/linux-media/20250305113802.897087-1-mathis.foerst@mt.com/
+Note that parsing the mbus_config from the fw interface is not done during
+probing because the camera that's connected to the CSI can change based on
+the selected input of the video-mux at runtime.
 
-I tested the changes successfully on an i.MX6DL with an MT9M114 and an
-MT9V032 camera. They both use the parallel camera interface.
-Sadly, I don't have the hardware to test with a MIPI CSI-2 camera.
+[0] drivers/staging/media/imx/imx-media-csi.c - line 211..216
+[1] include/media/v4l2-subdev.h - line 814
 
-Best regards,
-Mathis Foerst
-
-
-Mathis Foerst (1):
-  media: imx: csi: Parse link configuration from fw_node
-
+Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
+---
  drivers/staging/media/imx/imx-media-csi.c | 62 +++++++++++++++++++++--
  1 file changed, 58 insertions(+), 4 deletions(-)
 
-
-base-commit: a8598c7de1bcd94461ca54c972efa9b4ea501fb9
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index a7cd3ef95fc3..5c2f197ae961 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -158,6 +158,50 @@ static inline bool requires_passthrough(struct v4l2_mbus_config *mbus_cfg,
+ 		 infmt->code != MEDIA_BUS_FMT_YUYV8_2X8);
+ }
+ 
++static int csi_parse_upstream_fw_link_config(struct csi_priv *priv,
++					     struct v4l2_subdev *remote_sd,
++					     struct v4l2_mbus_config *mbus_cfg)
++{
++	struct fwnode_handle *ep_node;
++	struct v4l2_fwnode_endpoint ep = { .bus_type = mbus_cfg->type };
++	int ret;
++
++	ep_node = fwnode_graph_get_endpoint_by_id(dev_fwnode(remote_sd->dev),
++						  0, 0,
++						  FWNODE_GRAPH_ENDPOINT_NEXT);
++	if (!ep_node)
++		return -ENOTCONN;
++
++	ret = v4l2_fwnode_endpoint_parse(ep_node, &ep);
++	/*
++	 * Retry with V4L2_MBUS_BT656 if parsing fails with V4L2_MBUS_PARALLEL
++	 * as the parallel interface supports both MBUS types.
++	 */
++	if (ret == -ENXIO && mbus_cfg->type == V4L2_MBUS_PARALLEL) {
++		ep.bus_type = V4L2_MBUS_BT656;
++		ret = v4l2_fwnode_endpoint_parse(ep_node, &ep);
++	}
++	fwnode_handle_put(ep_node);
++	if (ret)
++		return ret;
++
++	switch (ep.bus_type) {
++	case V4L2_MBUS_PARALLEL:
++	case V4L2_MBUS_BT656:
++		mbus_cfg->bus.parallel = ep.bus.parallel;
++		break;
++	case V4L2_MBUS_CSI2_DPHY:
++		mbus_cfg->bus.mipi_csi2 = ep.bus.mipi_csi2;
++		break;
++	default:
++		v4l2_err(&priv->sd, "Unsupported mbus_type: %i\n",
++			 ep.bus_type);
++		return -EINVAL;
++	}
++	mbus_cfg->type = ep.bus_type;
++	return 0;
++}
++
+ /*
+  * Queries the media bus config of the upstream entity that provides data to
+  * the CSI. This will either be the entity directly upstream from the CSI-2
+@@ -175,6 +219,7 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
+ 		return -EPIPE;
+ 
+ 	sd = priv->src_sd;
++	mbus_cfg->type = V4L2_MBUS_CSI2_DPHY;
+ 
+ 	switch (sd->grp_id) {
+ 	case IMX_MEDIA_GRP_ID_CSI_MUX:
+@@ -186,8 +231,14 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
+ 		sd = imx_media_pipeline_subdev(&sd->entity,
+ 					       IMX_MEDIA_GRP_ID_CSI2,
+ 					       true);
+-		if (IS_ERR(sd))
++		if (IS_ERR(sd)) {
+ 			sd = priv->src_sd;
++			/*
++			 * If the CSI-2 receiver is not on the path, the
++			 * parallel port is in use.
++			 */
++			mbus_cfg->type = V4L2_MBUS_PARALLEL;
++		}
+ 		break;
+ 	case IMX_MEDIA_GRP_ID_CSI2:
+ 		break;
+@@ -211,9 +262,12 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
+ 	ret = v4l2_subdev_call(remote_sd, pad, get_mbus_config,
+ 			       remote_pad->index, mbus_cfg);
+ 	if (ret == -ENOIOCTLCMD)
+-		v4l2_err(&priv->sd,
+-			 "entity %s does not implement get_mbus_config()\n",
+-			 remote_pad->entity->name);
++		/*
++		 * If the upstream sd does not implement get_mbus_config,
++		 * try to parse the link configuration from its fw_node
++		 */
++		ret = csi_parse_upstream_fw_link_config(priv, remote_sd,
++							mbus_cfg);
+ 
+ 	return ret;
+ }
 -- 
 2.34.1
 
