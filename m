@@ -1,127 +1,130 @@
-Return-Path: <linux-media+bounces-37681-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37682-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35068B04456
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:42:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64733B0444A
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:41:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BDFB27BA38D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:34:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90A8F189C9B0
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:38:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8CBB273D98;
-	Mon, 14 Jul 2025 15:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467A526B2A1;
+	Mon, 14 Jul 2025 15:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcAIaAPL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OpV+l75w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE23272816;
-	Mon, 14 Jul 2025 15:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068C325D53B
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 15:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752506908; cv=none; b=CjW0XGve5eePTzbJK2rZ8GHCcacao/9y2dyvdgVpXYWjMAzkPxNnOZPIHdNFbf143ndeIUc46L+NZPAMGHuMNrR7P0220Rs//kZ1OXPz/l3HOhM79dMW86SWksmjVS/jHMej6Ommi3u2dCsSF/ASToyMWSk1N1az5gWAiNjs0XY=
+	t=1752507056; cv=none; b=bfJwdRXSYIvMXScKO7Z+hZGnn+u7h6d8JsJ0dkBvu/hYOKfGorgT+4NTWhDipWahZ2qEhkVo3jjAE4h0XJNOHJBodWb7cWNtisP2zAIXvdNjRVCapRbx5jEKmpRLA8fhENsZY5Gv0dSTlbDMH4+GX25SWuum+D9yFXKSfVM8ukg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752506908; c=relaxed/simple;
-	bh=GpNVpLtiuXVvXcRnJj4M7X2+HMOzdAyNBGdu0XkOiMY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YDSRqpIpgx1jn9IiE2b+yXfn22X1RcX3mH/b5XgIQdMSQGcKUXg1ACYNsUL/ANkA6YtaB9HQwgePDwS/AbhI49mI9XyiRdcGoojWXqP19sDFeCYC1OcBdvqbzai4Y1fgUOAffzZuMq/8w978ALTctNzWKdbzzmdBr36S8Qjq4jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PcAIaAPL; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad56cbc7b07so772121966b.0;
-        Mon, 14 Jul 2025 08:28:25 -0700 (PDT)
+	s=arc-20240116; t=1752507056; c=relaxed/simple;
+	bh=fA43pWYFrATPW6o5X367Dz4sZp9Qsee5YWb/rsDVtHI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N+SxnRdMyY4PXgki9KhyatR+8rd2mb5r//pDCOrluoh9KzTgxQZ22VfmqyuI4Ur8+C2AQ7UVutJChO7OqHC+/NqmO+DIvRt1M5HagCXrrH7xj5MLf5E5H87ogxiizlpb1d/hllgXaTIPegCp2Ijisxyo73Uro1tkBa7c91DP7AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OpV+l75w; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-553d27801b4so259576e87.3
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 08:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752506904; x=1753111704; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=abx0kJw5IyovETeaZowTfsHvd3TwzzvCoQExojDzwyQ=;
-        b=PcAIaAPLTXmPaP915mcM7zAXYQnJGZQdEDB25B45KKaUm9lra8ldid9BHQwv55anLU
-         4H5ZztKzeplSh5HhUteVrRUsGVTaPMhbOg7F9lUD4rtuDclJBuXDXguWpsMUyHFz1UcK
-         gaAHWTdOaveN6H2miBtmMw6ZRRuu4DbrZK8WsbK5aS7LxxUYY8sIVtWAvaiUx6B6o+0F
-         MA6+K1LJp9wLUenIt+36Ba4T17CR4XGkQP1XhllOEIlxrIeHGq9TuDqZvXPoPb/E80D9
-         GS0ttdycQuphTFsz2dRyOjKwIwOQ+j+C3o2yc9kdXiOih+x8yZgbknylWajE5emeyAJl
-         p4pA==
+        d=linaro.org; s=google; t=1752507052; x=1753111852; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GhPM3WYx0FxLSMjDVhXzRCwSNY+8UAUHTyFHv1jdzFE=;
+        b=OpV+l75wSKtdSC6QHwVfpc5V8y+cLJrZLCHK7El9n9SBmWloBzGrX8Bb2tP6eUN2Ea
+         ovzkOiIwEaAyQX7IrxEW4UUbjkFndypRsVZtWMmWwIzinwBE6sQ666BaD1mmyuZVs4GM
+         7inWAj08Bq6P0NvC6M260Hub3oHnOiorTRyTH0vWrPhj+oTgtx6IpWm5jVdhX4WsblIG
+         EPjPx81ClEuesSAO51IbGn2SqaqA/4p2lZ8/ZFo83QFfu0XG/ZzIl+F0wf+vlr+pLVzf
+         XWaX8PQhiMhqhu7YTVoopo18W8ONQUu8khEfBxu1QRtISeGH8cUEhFu4bIteK/uKVWI0
+         /dXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752506904; x=1753111704;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=abx0kJw5IyovETeaZowTfsHvd3TwzzvCoQExojDzwyQ=;
-        b=LXgSqrAjFv1KFgwRTCKCq+Rw5m6oJwKVKsSwUr4ym3wHaXFBcju415ZNxj5XYoQHxV
-         eRMg3T/8v6Pp9xJ6EiLEE14tAoV1J+ceEEQQcRUF4EcAbPdu5CRwDGyklK14Sclbl57/
-         BsEOzOBykKqgYMawMtXIvChI1MGca0UDquj/bX1ipZMUDLvzFT3yL54x/VJPV87xC9HE
-         KJ0rWP9mF1ij1u/HZPsjeZ13nPoVPT0NV4aToSwQouibx8Q/di6Zysr6zBJ1ZCaIa64w
-         pwGKDkOsuEvQUSUEmXTEbALLzLE83KGNWC9xuKEihhBDD19kOMgpMcQOd0sKCcjAVUWV
-         /HtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdhf5OZIVgycioSvCRiatstlHXiDiktBgmUpZEyHYnlUMhxwLpRIYL/42LRdI4FpTiiqkHT238sQgF0Mw=@vger.kernel.org, AJvYcCV14F5SfOhlyHvPpEHNd1coDEubroZY3RNE6/8HH6hTQRoi72ddMyb0h1j7VupuWCNviCkxUCgHj2VFauE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwR0IjvKpWnoVjCCTYd34CmpxQ9BbE/iLDej8ivSig4PsZIke38
-	HnSvCW+litVfWAIBlfbvnmR+YQVzLGPiXGOcKa+s+aEyjzTTw45GHt1jPPHIfCvAcMUsgIfVxSm
-	98Af36h1bXc1gx+GejUR4FUIa3FW3j3U=
-X-Gm-Gg: ASbGncvi26K8ktOEw4RMXFKrlXTeTi7KY9diQ2hpsVyH3a6iFNth1WHVSAsUYmD5fdc
-	g4lUiFsW5FeyeZPT2clHonnxxxwrr6xi2O6A6YbEP18jIlHA7ABLbJvwNoUanQqk6idzpyAU1bl
-	7UZDss3cNScfAILHrQLiJAmEI6yLd96KXgs1ZrGTABPkmrdpnSyFgd0vJ6HNyu/nQgZ/36WQ+Gy
-	Dff6/mNIw==
-X-Google-Smtp-Source: AGHT+IECYIlD/hEK8u8iOntSYtGp4dfP/Z8nc8UEPsUAazBM2NO5fHNtHTM4nfllR7C44GwIpgQyDmPSBvkjEQL7hUQ=
-X-Received: by 2002:a17:906:6a26:b0:ae0:67b4:991d with SMTP id
- a640c23a62f3a-ae6fca6e1ffmr1200009066b.35.1752506904102; Mon, 14 Jul 2025
- 08:28:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752507052; x=1753111852;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GhPM3WYx0FxLSMjDVhXzRCwSNY+8UAUHTyFHv1jdzFE=;
+        b=prx6P65flcMzfblHM3JDPg+bVtU1wn9H/HQBV7ko27Yt0qVqELCj8ve1pqhDGC+2sY
+         +j8iJtjRqW/WOOCeSW81sXZHEe2B0l8im+MfqcRW3+beSs7A5xx+qSrRONiV8LdGLCw0
+         mGIBxllt4/pFgyrFRp3IW/dXImK2yuw1CJ42ZF3dVk1dweG/Y5uk2m47mfK44uSX4Od2
+         UkD8L9oVa55tkxZWNtFMh2TdjFtdTgf58RZZjPEV/M8KvbE69L2QfoLQaIY2bRamR0kR
+         mNiu95UO+C3mPYz2NzNAY+wXH+T9nLEcCK79YWhOY0fccmlpxFEao2OaJfBh3AXeUvCf
+         1/7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVC7uJt9ntBDDYm3F0t7NMx8R2Vvh2xnw94yDO/DaVzDqil0j9qYtd2JSfw8pU+1nncPYz6Bf6cO1+nAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygGMVG1oQENPapVvy+9eMVJkjruFfGUVlvyGs2mRBUJ7AFrz7U
+	CvyobrTH/A5WDb0hJNw8NdgpJi/l2t5kT4/NUvjhPDyhxOZCYLIwti45uHo77PbbsUE=
+X-Gm-Gg: ASbGncuzCoTQepexVwuQ64YhnPg8LyNnKQci2NBewmlTIbYazXVpqrfwB5P/GGQei67
+	zvqn+fGUfrxuiSq37MEKGroXEOwPB1rJFnAImU26MKwxSt9vKe82m+ioaz6FRpq4dv3qiioo0qg
+	voCqyj9GhBIHL/e9vSP1ZDiDR1Dvte0OfQ09DeYHX0/MJ6ggELYZLskdJjTpyMizJ1ips1bbZB/
+	tigIgODgXcxpUJCGGRVfztW9CWsoid0we2rows+bz+XHz/bhl4QBQCwhPIGx/TqnX8EbdlrR/rv
+	DOUMPGQdgLLMuUHkktojgnsYQxPmJviBF0M8lT+2YkCxh8O+F8ggzZL9h4GWMzdRuco+793HVh2
+	sT3YcsYeUzeDwaQyF1xnDAhIqkKZN+eARnQhN8KbMKKB+87pYl7mIwYAbAo07rMC8RlkynLth7u
+	Sd
+X-Google-Smtp-Source: AGHT+IHfIWtfLwmI4o3tG95if0xJBRcWewfBclWlcePGlLyhwHi1HTCoA+WOs0ItuEmU884D+uo5xw==
+X-Received: by 2002:a05:6512:2388:b0:554:f76a:bab8 with SMTP id 2adb3069b0e04-55a049b4b48mr1393417e87.15.1752507051897;
+        Mon, 14 Jul 2025 08:30:51 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c9d0f35sm1985120e87.108.2025.07.14.08.30.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 08:30:51 -0700 (PDT)
+Message-ID: <eac3a877-a4aa-4789-9013-ab8b6c91e0f3@linaro.org>
+Date: Mon, 14 Jul 2025 18:30:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250714131953.45947-1-martin@weidenauer.cc> <2025071444-overeater-washday-405c@gregkh>
- <9F1430C9-1AC7-4955-8785-1E321BCD6E88@weidenauer.cc>
-In-Reply-To: <9F1430C9-1AC7-4955-8785-1E321BCD6E88@weidenauer.cc>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 14 Jul 2025 18:27:47 +0300
-X-Gm-Features: Ac12FXyabYhg6XG1ixZFFe3ti4iXaFFwwp6KPG4udmHxQ0DqNuJw9Blxzg_AXGo
-Message-ID: <CAHp75Ves2jc7gPoH6zxNGuoo4ubRe0dBqSR5Y70NtJ8fMxfaRw@mail.gmail.com>
-Subject: Re: [PATCH] staging: atomisp: isp: fix open brace on new line
-To: Martin Weidenauer <martin@weidenauer.cc>
-Cc: Greg KH <gregkh@linuxfoundation.org>, hansg@kernel.org, mchehab@kernel.org, 
-	sakari.ailus@linux.intel.com, andy@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	~lkcamp/patches@lists.sr.ht, koike@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+ <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
+ <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
+ <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
+ <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 14, 2025 at 4:51=E2=80=AFPM Martin Weidenauer <martin@weidenaue=
-r.cc> wrote:
->
-> If you mean the indentation in the file, I think it's unfortunately just =
-a messy driver in general.
-> I mean I could fix it in another commit in general if you want.
+On 7/14/25 18:17, Bryan O'Donoghue wrote:
+> On 14/07/2025 15:58, Vladimir Zapolskiy wrote:
+>>
+>> This proposed device node scheme does not solve the known and already
+>> discussed technical issue expectedly, namely there is no given way
+>> to describe a combo mode hardware configuration, when two independant
+>> sensors are wired to the same CSIPHY. This is an unsolvable problem
+>> with this design.
+> 
+> I think that is genuinely something we should handle in camss-csid.c
+> maybe with some meta-data inside of the ports/endpoints..
+> 
 
-Do not top-post!
+This is a CSIPHY property, a CSIPHY hardware configuration and a wiring
+of sensors to a CSIPHY. Where is the relation to CSID here? There is no.
 
-The question was about the patch that may not be applied due to wrong
-indentation.
+Please share at least a device tree node description, which supports
+a connection of two sensors to a single CSIPHY, like it shall be done
+expectedly.
 
-> On 14 July 2025 15:24:57 CEST, Greg KH <gregkh@linuxfoundation.org> wrote=
-:
-> >On Mon, Jul 14, 2025 at 03:19:53PM +0200, Martin Weidenauer wrote:
-> >>      Fix checkpatch error "ERROR: that open brace { should be on the p=
-revious line"
-> >>      in ia_css_dvs.host.c:277.
-> >>
-> >>      Signed-off-by: Martin Weidenauer <martin@weidenauer.cc>
-> >>
-> >>      ---
-> >>
-> >>      Hey, this is my first patch, I appreciate any feedback. Greetings=
- from DebConf25!
-> >
-> >Odd indentation, how did that happen?
-
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+Best wishes,
+Vladimir
 
