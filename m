@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-37655-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37656-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00ECEB042B4
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:09:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 996BFB042B6
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:09:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B1C34A59B9
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:07:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A2274A4A4D
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:07:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3236E25C82E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA4925CC69;
 	Mon, 14 Jul 2025 15:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KzA2d58a"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hlia/DMN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040C825A65A;
-	Mon, 14 Jul 2025 15:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAA425A2D1;
+	Mon, 14 Jul 2025 15:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752505614; cv=none; b=dcMlwmI3bKeaOuM2+uCrrz4oNYizRHDBVj55qKTqHc6b91ZXmpnHy13M9MxKX/3Gt7Sgtl80f0bI+tYXk5E7tcPBD3X+7nICD6uI4d1t++Gdmo6dPOEN1TFbmvtX8wCRAvQ9GverQ7w19ukFX34pBNBOv/owR7b/DRU6Z2OuW0s=
+	t=1752505615; cv=none; b=vAqBahUK4zcxV20EVKG6068k8LT+1fgphKD6dKfJVT7lVZ207ahQDMmhJxKptrhz6V5vxPMHDuUTY9hDa6gdv10sx8K4Z2cAS+v48D3pWxBilOs3+v743vsmi4ctTIZmSJ52Ho6pxr5Y0YcjSfcTPtw8ieAW2C2mgQEGMfQSepA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752505614; c=relaxed/simple;
-	bh=WPi3EKcjkFStaX7Xo+7uNWCSChPJ0hwr4NqzokzSouI=;
+	s=arc-20240116; t=1752505615; c=relaxed/simple;
+	bh=qfMoN70CVxfoRzskiRmPzGcwtf4lxcBnDokgX74Xreo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VDBZcZpylaMugmhUdMOzXMG4v+646UCyQoW0ATFJVZQteKJpVv5DrQBl/aZOESul+x0EXGAvwpQm59u/gGfApThBJtijnbW2lRweybmWofK9ptxD0Hz6LAEZ95xWSRhCIPBJoTuW+CWKDICSEBO9FT5TwIgSr3HnP1AjWtB/PJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KzA2d58a; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=A+6rkcV+gKx4dq7o8Mc6ArUoL8x8JriCeWBT/z2MXQt0V3oiUcM37nU4q4TookZT86e1nn79NJvhp3tn+H3XTfvR58LnC76TGgoybpooPGxoxR2kPSjM/ElyShPlIULvJaw/LZHgzCmmKwastGvIpEWL7OfbLrJhasrRGHK6TkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hlia/DMN; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1515F5405;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAE49546F;
 	Mon, 14 Jul 2025 17:06:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752505574;
-	bh=WPi3EKcjkFStaX7Xo+7uNWCSChPJ0hwr4NqzokzSouI=;
+	s=mail; t=1752505575;
+	bh=qfMoN70CVxfoRzskiRmPzGcwtf4lxcBnDokgX74Xreo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KzA2d58a4E7TG40tfy0+3/cGLF3FHOs9RuiF9/AKkXJwaxMcOejHv2Evw8vwNNRAt
-	 dbX0ggSZn1vUqBLTPAZPTzqzh9OyM/IcvKixkrv+UlOpQiL2xLFU1Jh03DDU8MMSRv
-	 3eyNlVkyh3Mm+bGvl9Qr6nsoMY9T0tAiqMVbG1cs=
+	b=hlia/DMNyuF5omVvWlH8bD0rgqp1DYQNeybZ9h9kqmZNKPWPuEjKERxN3N8v6kmd+
+	 y/IOhdryXB45VnOfmWo2R+r8m3gHOppTQKKbzVVF0cPgavUX3IMPJyim3Sh21kht02
+	 66tJd6zk+ybpXihBZZRxPLv1vr1ZngXzTF+LxFCA=
 From: Daniel Scally <dan.scally@ideasonboard.com>
-Date: Mon, 14 Jul 2025 16:06:28 +0100
-Subject: [PATCH v11 02/19] media: v4l2-dev: Add helpers to run
- media_pipeline_[started|stopped]()
+Date: Mon, 14 Jul 2025 16:06:29 +0100
+Subject: [PATCH v11 03/19] media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60
+ format code
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250714-c55-v11-2-bc20e460e42a@ideasonboard.com>
+Message-Id: <20250714-c55-v11-3-bc20e460e42a@ideasonboard.com>
 References: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
 In-Reply-To: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
 To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
@@ -65,182 +65,273 @@ Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com,
  laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, 
  Sakari Ailus <sakari.ailus@linux.intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5913;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5749;
  i=dan.scally@ideasonboard.com; h=from:subject:message-id;
- bh=WPi3EKcjkFStaX7Xo+7uNWCSChPJ0hwr4NqzokzSouI=;
- b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBodRz/2/xgdWQcQcA2A9TCRcbn+3ZQBsGuU1nLb
- BERlNdVwnGJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaHUc/wAKCRDISVd6bEV1
- MunpEAC7Xc7TA9fJlW5+DgKZemVYOq/vE5czMmmpEVB37POQM0l5x4MeGSbejujoDKajzrFvtPR
- zVC1n5i12EsFmpD1KVbu13t7HiuN4T1cMw9qkJTBAJcLv3JqnQFB7Vql9PEL5G/TakbSqRx16+J
- PSEAImH7Bxgvq4w9U5UZKxS2yl0yX2DDhRoqXo2CuAIONaO9HxXLPAVcqeTCfO62EihaEB0tmVW
- k2HytTMsSLFTuITAnOXALqdwuSLbUgjAdJca9XXHlrT6htEEqH6UJswEpeeNaGQq7dqG6bT/jwY
- mAJzU9gAqpdc4hqDmppONxfZyduj6A2XK0u7nqe4L6UGRoabSIvCqkLqby9d7KpIEKIxpA5MSlg
- QtjTY30sP+5KbNdgL+hEp2NkAvncno0RczuPN0suGTyQMsGS21a8SQVWV48TB1Z/RuiSODU4ZRh
- b3ebt5bc724Oxv5UWhmWnq06MextTQKzPR8eDEsFwzJLT336LEV0GCme7tw8GhSPeMLNNUfPZqi
- Ci48MvflpXkcXOPBgR+9eF8n7/3if0GAvtgTC8Fpe84uxJsBT3/2nKySQGlZps9KXb6v7v04nH+
- 8BxVghelMyDZKYTQFruWSROesALeFtG6zzBeyo2MxM0c0L+AZihLng9D4N1/OM/aErekPVYv8Zr
- wZB9eYgYE+Fbu3w==
+ bh=qfMoN70CVxfoRzskiRmPzGcwtf4lxcBnDokgX74Xreo=;
+ b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBodRz/HN1IkjN1BaE9X9dagFjcos6rVE6TM0pyG
+ gZP3y/wIzaJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaHUc/wAKCRDISVd6bEV1
+ MidpEAC3Po4Twq7OTWOWCS02PQgeGRTJ9Blm+nmOb4tKibnouUGs/8s+AhENwdPsScRjOZXV5iX
+ YnezrP2WH3yWIvCFJ1l3A2zEu/7wAQ3kaSWNdOMqsWg8QVbjv56THfjPIqZu3icODoVyXG0F70i
+ Ry28MVwnGE/02kJJ2/H+5GYMtV8MO2oKFVO3xJvrzJzhf4VJGUTmvFTxta1+5txmkzHrJ5+Pyin
+ aIlX7nQ+2MDWbbDwYPCF7MsqeA9YCIluFLDVrmHbnjUamKIKoX8/wq6RM59fIk7B3N1q/t56Cin
+ yGBklBCCx8e8GLfk2lVu22x/9w7JO65OUGTsog5EjNDiHokqiLUWzqPZWRr82IgYt1x8ze6VOk1
+ WrXbWzzNf8g+Iq+sBbsontqrOyPEs9/R+k4WHRI7y2r9eIFXNedF+nDbb2foWFY6nNrNhHjswzI
+ U3UnhRcMKTGkcYHBGDNY2/uCwH2OaOoCJ9r57L0Mk64hn7XCOfGhiU5+xVJ1ixYvZFBu+7OdNDo
+ 65Ve+n8bJ/sLC6pkuuL8oOgRlQXhjU6ezNJ6/Tng1g1GjObB2fAW1acvaZ57akQ78eZZS/0j7GS
+ X3ePh5K1ItK1DEzxLbKAvLZOTOFqBtpbDR+kk7ZRnVV1XysMdGS65wuQrhOuVdfr/E5N7z/xkQV
+ I2mo43PZDa4PiJg==
 X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
  fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
 
-Add helpers to run the new media_pipeline_started() and
-media_pipeline_stopped() functions. The helpers iterate over the
-entities in the pipeline and count the number of video devices and
-compare that to the pipeline's start_count() before acting. This
-allows us to only run the media pipeline callbacks in the event that
-the pipeline has had video_pipeline_start() called for each video
-device.
+The Mali-C55 ISP by ARM requires 20-bits per colour channel input on
+the bus. Add a new media bus format code to represent it.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-
 ---
+Changes in v10:
+
+	- None
+
+Changes in v9:
+
+	- None
+
+Changes in v8:
+
+	- None
+
+Changes in v7:
+
+	- None
+
+Changes in v6:
+
+	- Fixed the table formatting
+
+Changes in v5:
+
+	- none
+
+Changes in v4:
+
+	- None
+
 Changes in v3:
-	- Revised the documentation a bit, detailing the specific error
-	  codes and rewording the descriptions
-	- Renamed __video_device_pipeline_started()
-	- List the possible return values explicitly
+
+	- None
 
 Changes in v2:
 
-	- Adapted now media_pipeline_for_each_entity() takes an iter
-	  variable
-	- Fixed the Return: section of the kerneldoc comments
+	- none
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 57 ++++++++++++++++++++++++++++++++++++++
- include/media/v4l2-dev.h           | 52 ++++++++++++++++++++++++++++++++++
- 2 files changed, 109 insertions(+)
+ .../userspace-api/media/v4l/subdev-formats.rst     | 168 +++++++++++++++++++++
+ include/uapi/linux/media-bus-format.h              |   3 +-
+ 2 files changed, 170 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index c369235113d98ae26c30a1aa386e7d60d541a66e..a25038f3c9cc9213b840e2b96d1ef49d17d22fb8 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -1200,6 +1200,63 @@ struct media_pipeline *video_device_pipeline(struct video_device *vdev)
- }
- EXPORT_SYMBOL_GPL(video_device_pipeline);
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index 2a94371448dc07e5c7097421bd82f42dcd7e21aa..57194180fe42f31f88aa0aeb4a4650bf4fb32bcc 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -2224,6 +2224,174 @@ The following table list existing packed 48bit wide RGB formats.
  
-+static int video_device_pipeline_unstarted_vdevs(struct media_pipeline *pipe)
-+{
-+	struct media_pipeline_entity_iter iter;
-+	unsigned int n_video_devices = 0;
-+	struct media_entity *entity;
-+	int ret;
-+
-+	ret = media_pipeline_entity_iter_init(pipe, &iter);
-+	if (ret)
-+		return ret;
-+
-+	media_pipeline_for_each_entity(pipe, &iter, entity) {
-+		if (entity->obj_type == MEDIA_ENTITY_TYPE_VIDEO_DEVICE)
-+			n_video_devices++;
-+	}
-+
-+	media_pipeline_entity_iter_cleanup(&iter);
-+
-+	return n_video_devices - pipe->start_count;
-+}
-+
-+int video_device_pipeline_started(struct video_device *vdev)
-+{
-+	struct media_pipeline *pipe;
-+	int ret;
-+
-+	pipe = video_device_pipeline(vdev);
-+	if (!pipe)
-+		return -ENODEV;
-+
-+	ret = video_device_pipeline_unstarted_vdevs(pipe);
-+	if (ret)
-+		return ret;
-+
-+	return media_pipeline_started(pipe);
-+}
-+EXPORT_SYMBOL_GPL(video_device_pipeline_started);
-+
-+int video_device_pipeline_stopped(struct video_device *vdev)
-+{
-+	struct media_pipeline *pipe;
-+	int ret;
-+
-+	pipe = video_device_pipeline(vdev);
-+	if (!pipe)
-+		return -ENODEV;
-+
-+	ret = video_device_pipeline_unstarted_vdevs(pipe);
-+	if (ret)
-+		return ret;
-+
-+	media_pipeline_stopped(pipe);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(video_device_pipeline_stopped);
-+
- #endif /* CONFIG_MEDIA_CONTROLLER */
+     \endgroup
  
- /*
-diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-index 1b6222fab24eda96cbe459b435431c01f7259366..45a87a5a76e8782c79da9d4890b063b8f0cbb3d8 100644
---- a/include/media/v4l2-dev.h
-+++ b/include/media/v4l2-dev.h
-@@ -654,6 +654,58 @@ __must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
-  */
- struct media_pipeline *video_device_pipeline(struct video_device *vdev);
- 
-+/**
-+ * video_device_pipeline_started - Run the pipeline_started() entity operation
-+ *				   for a fully-started media pipeline
-+ * @vdev: A video device that's part of the pipeline
-+ *
-+ * This function checks whether all MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
-+ * connected to a given video device through enabled links, either directly or
-+ * indirectly, have been marked as streaming through the use of
-+ * video_device_pipeline_start() or one of its equivalent functions. If so,
-+ * media_pipeline_started() is called to inform entities in the pipeline of that
-+ * fact. The intention is to provide drivers with a mechanism for checking
-+ * whether their pipeline is fully ready to start processing data and call the
-+ * .pipeline_started() media entity operation on all the entities in the
-+ * pipeline if so.
-+ *
-+ * Return: The number of video devices in the pipeline remaining to be started,
-+ * or a negative error number on failure:
-+ *
-+ * * 0			- Success
-+ * * n > 0		- n video devices in the pipeline remain unstarted
-+ * * -ENODEV		- The video device has no pipeline
-+ * * -ENOMEM		- failed to allocate pipeline iterator
-+ * * n < 0		- Error passed through from a media entity's
-+ *			  .pipeline_started() operation
-+ */
-+int video_device_pipeline_started(struct video_device *vdev);
++The following table list existing packed 60bit wide RGB formats.
 +
-+/**
-+ * video_device_pipeline_stopped - Run the pipeline_stopped() entity operation
-+ *				   for a fully-started media pipeline
-+ * @vdev: A video device that's part of the pipeline
-+ *
-+ * This function checks whether the MEDIA_ENTITY_TYPE_VIDEO_DEVICE entities
-+ * connected to a given video device through enabled links, either directly or
-+ * indirectly, have been marked as not streaming through the use of
-+ * video_device_pipeline_stop() or one of its equivalent functions. If none of
-+ * the video devices in the pipeline have been stopped, then the function
-+ * media_pipeline_stopped() is called. The intention is to provide drivers with
-+ * a mechanism for checking whether this video device is the first device in the
-+ * pipeline to be stopped and call the .pipeline_stopped() media entity
-+ * operation on all the entities in the pipeline if so.
-+ *
-+ * Return: The number of video devices in the pipeline remaining to be started,
-+ * or a negative error number on failure:
-+ *
-+ * * 0			- Success
-+ * * n > 0		- n video devices in the pipeline already stopped
-+ * * -ENODEV		- The video device has no pipeline
-+ * * -ENOMEM		- failed to allocate pipeline iterator
-+ */
-+int video_device_pipeline_stopped(struct video_device *vdev);
++.. tabularcolumns:: |p{4.0cm}|p{0.7cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
 +
- #endif /* CONFIG_MEDIA_CONTROLLER */
++.. _v4l2-mbus-pixelcode-rgb-60:
++
++.. raw:: latex
++
++    \begingroup
++    \tiny
++    \setlength{\tabcolsep}{2pt}
++
++.. flat-table:: 60bit RGB formats
++    :header-rows:  3
++    :stub-columns: 0
++    :widths: 36 7 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
++
++    * - Identifier
++      - Code
++      -
++      - :cspan:`31` Data organization
++    * -
++      -
++      - Bit
++      -
++      -
++      -
++      -
++      - 59
++      - 58
++      - 57
++      - 56
++      - 55
++      - 54
++      - 53
++      - 52
++      - 51
++      - 50
++      - 49
++      - 48
++      - 47
++      - 46
++      - 45
++      - 44
++      - 43
++      - 42
++      - 41
++      - 40
++      - 39
++      - 38
++      - 37
++      - 36
++      - 35
++      - 34
++      - 33
++      - 32
++    * -
++      -
++      -
++      - 31
++      - 30
++      - 29
++      - 28
++      - 27
++      - 26
++      - 25
++      - 24
++      - 23
++      - 22
++      - 21
++      - 20
++      - 19
++      - 18
++      - 17
++      - 16
++      - 15
++      - 14
++      - 13
++      - 12
++      - 11
++      - 10
++      - 9
++      - 8
++      - 7
++      - 6
++      - 5
++      - 4
++      - 3
++      - 2
++      - 1
++      - 0
++    * .. _MEDIA-BUS-FMT-RGB202020-1X60:
++
++      - MEDIA_BUS_FMT_RGB202020_1X60
++      - 0x1026
++      -
++      -
++      -
++      -
++      -
++      - r\ :sub:`19`
++      - r\ :sub:`18`
++      - r\ :sub:`17`
++      - r\ :sub:`16`
++      - r\ :sub:`15`
++      - r\ :sub:`14`
++      - r\ :sub:`13`
++      - r\ :sub:`12`
++      - r\ :sub:`11`
++      - r\ :sub:`10`
++      - r\ :sub:`9`
++      - r\ :sub:`8`
++      - r\ :sub:`7`
++      - r\ :sub:`6`
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - g\ :sub:`19`
++      - g\ :sub:`18`
++      - g\ :sub:`17`
++      - g\ :sub:`16`
++      - g\ :sub:`15`
++      - g\ :sub:`14`
++      - g\ :sub:`13`
++      - g\ :sub:`12`
++    * -
++      -
++      -
++      - g\ :sub:`11`
++      - g\ :sub:`10`
++      - g\ :sub:`9`
++      - g\ :sub:`8`
++      - g\ :sub:`7`
++      - g\ :sub:`6`
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - b\ :sub:`19`
++      - b\ :sub:`18`
++      - b\ :sub:`17`
++      - b\ :sub:`16`
++      - b\ :sub:`15`
++      - b\ :sub:`14`
++      - b\ :sub:`13`
++      - b\ :sub:`12`
++      - b\ :sub:`11`
++      - b\ :sub:`10`
++      - b\ :sub:`9`
++      - b\ :sub:`8`
++      - b\ :sub:`7`
++      - b\ :sub:`6`
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++
++.. raw:: latex
++
++    \endgroup
++
+ On LVDS buses, usually each sample is transferred serialized in seven
+ time slots per pixel clock, on three (18-bit) or four (24-bit) or five (30-bit)
+ differential data pairs at the same time. The remaining bits are used
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index ff62056feed5b6588bfcfdff178f5b68eecd3a26..62ad82fd285a8ce24bd16c207c51c0e75ea95070 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -34,7 +34,7 @@
  
- #endif /* _V4L2_DEV_H */
+ #define MEDIA_BUS_FMT_FIXED			0x0001
+ 
+-/* RGB - next is	0x1028 */
++/* RGB - next is	0x1029 */
+ #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+@@ -74,6 +74,7 @@
+ #define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
+ #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
+ #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
++#define MEDIA_BUS_FMT_RGB202020_1X60		0x1028
+ 
+ /* YUV (including grey) - next is	0x202f */
+ #define MEDIA_BUS_FMT_Y8_1X8			0x2001
 
 -- 
 2.34.1
