@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-37648-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37649-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912EFB04206
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:42:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 848C6B0420E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:43:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B86E77ABD05
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:41:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58D731A645CA
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:44:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7936D2571C2;
-	Mon, 14 Jul 2025 14:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B6E259CB6;
+	Mon, 14 Jul 2025 14:43:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q40qDfwz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tYsinFTu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3E923ABB7
-	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A498A2586CA
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752504144; cv=none; b=PNMBx4qyxzUu44Kg1KQ/Q8OWOsTq5GJ8d09CHRPuxMplxrg5v7wlPTW+GPYm1vmIJ9t/UeP1cWoEMqThC0A13QNGV3oCzvIoRXlAoLz60vUQ8Uec/2a41sbdxD3KmWUg8wMS7l9Np8c347JvL6F1a59MzviWYMqKj6ANqaS52fs=
+	t=1752504213; cv=none; b=NSesTtlzIQcyQbx5EI+74ni8MQuat1UqXr0ruKXf1U5Z515vBt5ARhbXl+C8FIChcV1Q0R7Et4NDupyn60S5A8qq0MHq2yFDApoAyBqfL1VhnycqyQUiJHnpdHx25KDug8iC+TsF9765pwnN7T+uHHilji46dEMTajbvK2MHCq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752504144; c=relaxed/simple;
-	bh=I7Pxnln1BUjfe7HcY5t1QvJulXfLwXmFHrmFWRkwVbs=;
+	s=arc-20240116; t=1752504213; c=relaxed/simple;
+	bh=+NdErqoSXalIYrtUeTTaieZr8gJQiDPFDzFk2W/aqPI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pXh9aJEDDvZVIDeAAdSk7CnPvCDVMbZIQ6+qVSxiB68z87f37QKD8jAuN7hEKB1gmTAPiCQ+50CrDUQM0cA6zsy+Unu41qmSpUqXOrUApzhnzEUXja7/HUtawj7ilVwUP1z+Uyuo+W6ioascpiTNEf6dTHf/noy+KTRtUxLno8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q40qDfwz; arc=none smtp.client-ip=209.85.221.68
+	 In-Reply-To:Content-Type; b=HAvSIOI1JHI2qGUXRpsEVFfesqLfcyaQ7ZNEpb3oXbaQLWiA0S14D4WRQRF//ZNDh4ObKH7QJ/eRqGSmoXLyPJ3R6qWdDmge6hrKUpEOkfaFGMcnqR8PiFPM5VRrug1OmpO05+KQjjM2bRRW71kTW6aKylnvo7SEDsExy92UJMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tYsinFTu; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-3a4f72cba73so3528234f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 07:42:23 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-451d54214adso30143645e9.3
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 07:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752504142; x=1753108942; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1752504210; x=1753109010; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YgT/ZO8DO6Wf1bRdrDifcHYIjUyKTX9Eo/tSV9XIcEY=;
-        b=q40qDfwzSIA14x1r/J2rEkv6K1gxFsLR9g71YzjpsE6p6yyKnDL03XaUeaipq9qbtE
-         sPSscV7zXPXPszZUWxrwFO2bmGXSxRHADAfkUMipJq5vD+gKVUVDzVPI9fX/tAosqAyW
-         9e5VLaDKcTtGFlDJLH8CG+W2sj1fsnVEj5yJP9PqvcMk7KH+2MaeMRSgKRJTsyh0zky+
-         UQSSKm0HPvwQ5EQnxzpi449raR24hCiotmch5uSmR6aZCoU72L4RvO+Y88A/q9YeQpQp
-         eFi3WaqKBvxd/WWVjVI8UX/00lhKz8RDu8qhZo1MfAoQrPkssUCcWq3FDos4k6BkosUC
-         bk0Q==
+        bh=Tkk2ePHatcopmrnLKR6jR3UX6aWlk9GOwUaArm5vOU8=;
+        b=tYsinFTusDPSHTHilP5txIO4lvaxYHJfjN716cxYVJWRH3CwBCjd5ydxPxKwpFURoz
+         DOnwaWkbjaImpLAFrEHcegwJgeVN7NUCAl0mnpkwJOVFFUlopnyhDFawnyLKq0C4e19Y
+         AGTe+KMx31RfXzXmZUBsOxTSygheh08XpUwe11MbZrweRZYS/3bU6MlgXl5uvcZRiG17
+         ac9eeVgabDZQjEzJa/kqLaRskFPRMwM0NDzjR+hz8xQTRVlv9n3iaXestxq6PVe6H0mD
+         bSRYY5BlEanyr2J+X/oXVvdFC/Jd07Yl1jhKbtAhkyIoZ1mHynNGnBSNE0MuysM1kCxB
+         +ydw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752504142; x=1753108942;
+        d=1e100.net; s=20230601; t=1752504210; x=1753109010;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YgT/ZO8DO6Wf1bRdrDifcHYIjUyKTX9Eo/tSV9XIcEY=;
-        b=YyY054q6ds1JSztixfUifcBUdYsuuNVqqRAAtBFJjdkiyG44JONStTPbMk9E/Ac3XT
-         1TGyTAh+8Ff1R47olghggeKkbj8QU+B/4oaC0qidk/B/TytmWL+27+YPD5kBsu3KJbpj
-         3heSpCIw076VbWLU937T/kpYO058VVpl/KzrVgNNnbnIzLI7n0fYObfJDqCU20FBmsZv
-         feobRaRl001v1om1xfgwBxTTGGmShBf43IK9tXBz/U4C1ux4bztdKoT6kO68B3HH0xKG
-         pxMO8kLGZO70QfVjGdM6eCxZp7Q3k4qTYFLTAGuwnRvStZvO0RriosO4bbArUXh0moBT
-         BBTg==
-X-Forwarded-Encrypted: i=1; AJvYcCX6iYh4VeBimW923DJVnmt250vyChIeuUmrVEoeQmPuyG8ge1C5uY3J9k1aR6g4FmapwI4otINijmUOpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZwF/YjnUSDFGU+/YEX9Wb6H5OTlQp6d/pxOa7pA5dQMAdIOT/
-	Y4OvheYrgAJx/TUFwfe14/+MlzXoLemJ0oe5llWPWiQvZqEaE7Yet/F3SAUgOABdE/A=
-X-Gm-Gg: ASbGncsayIc+a/AsamoCaceojvFF03gQdZBbXaDAqIGsL15zmbkA5NxnFuTpjjUYg8r
-	yJ3IUkXGtqvyOvPTg1/pGc8+XoVha40bGhB1fyvLMAO9it13XI1yZOLAtabY0L2Ik5itHiI5S7y
-	zP7D1YUL7HDeLFoEU/cNvf3GAIfJX2Us6DVjRUS5gWNRKZwQ5vFcEvUTu50xT5fb830DhwZYGKZ
-	W1bhO3v6rv9zmdJgUbP5qGE2Pw9UcI9ydms7ObeYic5y7PoN4c99Ts4aEcZQYPwCbaTYtuu0v90
-	X9xVHtHj5pTeuJdQenkvfDRVs4DRxiSZTTE+dir27XcY+cuooN5gZMXe9tHm5akuQVVfbGEE5eG
-	ORuyACc36EG+I3o/fS4o8IkCAMmnyM57UpW4arpOwM6BSIs4IDM4t70LXZInN0Ok=
-X-Google-Smtp-Source: AGHT+IEi60GCx6StklZNLN6fInXr5r58gDpnVQSjnfRk5TaJycuEkJOCyklDv2cd+DxYgwPBiYqnHQ==
-X-Received: by 2002:a05:6000:240d:b0:3a5:6860:f47f with SMTP id ffacd0b85a97d-3b5f1c67c67mr12717295f8f.6.1752504141614;
-        Mon, 14 Jul 2025 07:42:21 -0700 (PDT)
+        bh=Tkk2ePHatcopmrnLKR6jR3UX6aWlk9GOwUaArm5vOU8=;
+        b=rpM6KOGVEdaX1bGax7wIyrl+36R/MPx2bZQymHVklhIZ8GKfPQ00/2n+JcpQ9OlowG
+         Dw9YL3EQOl9z2th59G2CUMPYGspFmtb7vgqR1HCuWjsNx1lu7q7qgS1IqvmBq7qGNbZe
+         ENpd0z3Jt4m4TjqkCoVXx7KNfOIHk6aVZ5eU6JkStBpiBo/m4TgSfW5MVLZCjeylPQI+
+         VNGfZO/kanNBrzXzGMmWpkR4a0jA1HNUpJEHSc86JIJzNX12RKQvkF58PKjkiZdfqUNN
+         Af53RNRPPJBs2wPC42IaOk8ZVsTGIzyeXigRA2M0HNGPlNZY6m4Oxdsev+ihxlrotJSi
+         5aGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVuhmaJYdl/7Hw2aRvPeNcyd4F528QI1TE8K6p5yKETAogyuskPr+ML3MnY/j8fzd0UbbtjDOhgDqm1yQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yycy78aOh3IWgFCe13VPf7M3W1+k3qP2Q/vVCilIXfSf3KY6Hjc
+	UV8V5jzTZuVierl5FHHzDZBPo3aSbnUIjRnxW8NOS0weTiWVEcoQw2jjSM3vW2OQl80=
+X-Gm-Gg: ASbGncsK8ahw27MS/mtufk9FEwzYDCQjKrImwSnhkjJ1dfyCoR98WRSBsuIX4XBDsRo
+	W6uOriIKTVBYd1jSLFQNakPhpNWo46uUUaA6jH/0u5Q+VCcgXhHKXpwUMWXRH96YTs6BCSxjIeo
+	RHNbI1huM92lzBF5ut1CdhFmK2IP69sN5qGqWCMRHd6rSHghXDv56Udh1CCZYFuqMnprtR9DcWi
+	jUYa0SwS+8d3V1OyhskCoKj5nLB7/03tUttldbvIO+9/ec0TAQDZyoJDECxaRnoNz5Bf1TjU22V
+	TckDPj0dddHcD/a+G8tiHP3HJl68Pvi7RwiEsaVD0SIU3305bVMqap1QQLouSH/KmDJqpoA4qPg
+	D33C86J7zVxZOpoFkEEZhgMrpA+ffQg+2HzDSsJSdAbG1fRhrL9KDPsEcZRqx+mc=
+X-Google-Smtp-Source: AGHT+IEtm3tvKJdmPSDwmiLwsHPDpBMJTkK2dAnaXapIl0i2sB2r0hRgPP5EDIr3l5jWUsMP16oQfg==
+X-Received: by 2002:a05:600c:3e0e:b0:456:2379:c238 with SMTP id 5b1f17b1804b1-4562379c49fmr14225815e9.17.1752504210032;
+        Mon, 14 Jul 2025 07:43:30 -0700 (PDT)
 Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e26ee3sm12845397f8f.96.2025.07.14.07.42.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d5103c2asm171484605e9.33.2025.07.14.07.43.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jul 2025 07:42:21 -0700 (PDT)
-Message-ID: <01080f5f-f3e6-4989-ac84-766c030dda35@linaro.org>
-Date: Mon, 14 Jul 2025 15:42:19 +0100
+        Mon, 14 Jul 2025 07:43:29 -0700 (PDT)
+Message-ID: <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
+Date: Mon, 14 Jul 2025 15:43:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,8 +82,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: phy: qcom: Add MIPI CSI2 C-PHY/DPHY
- Combo schema
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
 To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -92,27 +91,28 @@ Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
- <20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org>
- <8ed5eeee-78a2-4b26-989f-03676a9e5da7@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+ <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <8ed5eeee-78a2-4b26-989f-03676a9e5da7@linaro.org>
+In-Reply-To: <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 14/07/2025 15:13, Vladimir Zapolskiy wrote:
+On 14/07/2025 15:16, Vladimir Zapolskiy wrote:
+>> +#define DEBUG
 > 
-> There is no ports at all, which makes the device tree node unusable,
-> since you can not provide a way to connect any sensors to the phy.
+> Still under debugging?..
 
-data-ports should go from sensor to the consumer of the data camss/csid 
-not to the PHY.
+oops thanks.
 
-Documentation/devicetree/bindings/phy/rockchip-inno-csi-dphy.yaml
-Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
-
-https://lore.kernel.org/linux-media/20240220-rk3568-vicap-v9-12-ace1e5cc4a82@collabora.com/
+> Well, the phy should be a multimedia device, and this driver is not
+> the one, thus you can not use it to connect sensors and put the IP
+> into a media pipeline.
+Ah no, I don't agree.
+Please see my previous email.
 
 ---
 bod
+
 
