@@ -1,113 +1,120 @@
-Return-Path: <linux-media+bounces-37622-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37623-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40909B04025
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:37:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5B7B04034
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:39:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E253B172F63
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 13:34:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E90C0166936
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 13:36:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0313024DD0A;
-	Mon, 14 Jul 2025 13:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E862248866;
+	Mon, 14 Jul 2025 13:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="cF7SlMQI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0682F22;
-	Mon, 14 Jul 2025 13:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752500002; cv=none; b=M4vZLNPUCY1p6VwxwbXabH/2i5ctLwFxloZPaKXw9fktvogqzWuNK9rDU1BUQElWqKM2zZwJ4I5AlXchewIOhzsMGhM78zjFzoiY8kFWOfgRxJZ2CTXR11ZNKwthwSCCq369dy978b4T054K5GZ1Z4Al4I5P+Zv+uCuwQRTyNHE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752500002; c=relaxed/simple;
-	bh=syaNzE2k+TfdB4nZ7gRKkacAe0BHDNNRDfRCSOQeNDM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A7raoqneAda8PPfSo+NZoB36Neskrus6RErvVNaUTrCCiZtVMmbgG5QLCnHBmt8IF6wGLxQhjF/Twyb2eT43Ww/4y7QEibRoxDF7KE0h+yHJ8klXY6m4RAwM32GRi2yJlyKenZf4Y7C3wVFAxZm4+UQ25iNg8HwFK7SyFSCX8Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-711751e2d9fso3023687b3.0;
-        Mon, 14 Jul 2025 06:33:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752499999; x=1753104799;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KU07zJlErne5IHOWTf+eZ1lD+FhkeNOKbb2XYlEZz/w=;
-        b=ofcGrRi3Z8A2zkEn3K08Dn+4yZPRx/GhvecQRKgOK6g3R3uT8hOnhUfszH3nCrCxv2
-         kvI8plV911aIDa8288TADtkP6wU2+5KtiFbV5xbWj/sznqJPCjjhYFV2EfYh0HAmzFbH
-         JCErCl4ypgPa86+JbaO7s2LRUUX+ssYkYHiwc8KrHN0rIErB03PHGvFdxonjQ88BF7Ve
-         8OQ4X8bYYMn8AlWdWf6p8LhGqIsDOUEVz3YTtxSHVjJi8218vKgHsx8F9JX62HWe/N4R
-         FUbHTnBONtEJy1rQj8sal6IeijmRe3RZjx83FM9FohIu4/f4nvJQVBoR3iVrKDF5+5Mq
-         Uoow==
-X-Forwarded-Encrypted: i=1; AJvYcCWXTa6D+LCmoLsP70pRSGdkMjyPXpZe3QGp+9q35sX8PHqsDLvZqPcx/UKD2DGsSTInj42mkOyTa9VXpFc=@vger.kernel.org, AJvYcCX9TxYRTR7jvjtyS+QC5C/wBXs4Uu5ZanqktkKYEHV7GBVo7il7+Tii1qLuf8g3fsiHuwoBSFQ1rD8bwHI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiYKMMfj5JPfc0ghKDDTEYS04/yZEw6GEGjBZRKMRnYY0VST/w
-	870YIQOdwllpMKh1QFeWv+KzyJC/tbs4LsLwjnP4AMcOPOrQaWv4kqox
-X-Gm-Gg: ASbGncsKQlDwO2SN3UW1T1tdCR+WScnShRDq4QW+ChpYBVs6hmCRq5WBCeRtEWGkGNB
-	yd9Gb75g04M970aaiWzgK9mPUpRkl4K0bQYdzYpdnf5cEULpsZ6MunAv6/MJTfeXJ67nDMxyerk
-	ZNK0vLIlO6aXlyGYYI8ZxvU9rrPOMXOQZLfWtpG3DvpWUqAioj3MZasuP2cQRo7+VY84BNP+/Z7
-	BU5Ij2G12aYvPw85C5HW0RMIEzrRWAjXidjH/Csj+7fnPWHwcUGwl6gsrOdw4sull+iOAMGOWqG
-	dlkWsV0ESVw7FIeKxvypaeOJXnBhGSlazmjBTtbwy2KGbixa9rlwct1GOpqO440kzRgoO1NifX6
-	jwh7sMvhxFvziTt4+VJGrzHpZf7WFLTer
-X-Google-Smtp-Source: AGHT+IG23Nw3mmpVgL1TES4A9um44rpcXVNTNOQ0aY++9Ni/xRYuKk5oJo9hBrVq4DmmiovM+DoIRg==
-X-Received: by 2002:a05:690c:4906:b0:716:585e:46a8 with SMTP id 00721157ae682-717d8e9fa83mr80250387b3.1.1752499998820;
-        Mon, 14 Jul 2025 06:33:18 -0700 (PDT)
-Received: from ysk.ysk ([89.234.162.240])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-718056e564bsm5712677b3.19.2025.07.14.06.33.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 06:33:18 -0700 (PDT)
-From: Yunseong Kim <ysk@kzalloc.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Matthew Majewski <mattwmajewski@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Helen Koike <helen.fornazier@gmail.com>,
-	42.4.sejin@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yunseong Kim <ysk@kzalloc.com>
-Subject: [PATCH] media: vim2m: remove unused CLIP macro
-Date: Mon, 14 Jul 2025 22:33:11 +0900
-Message-Id: <20250714133311.95698-1-ysk@kzalloc.com>
-X-Mailer: git-send-email 2.39.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D486F236A70;
+	Mon, 14 Jul 2025 13:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752500187; cv=pass; b=Dy1p+mRfgzN9rdRoEAPTfR3D/zujZ7pqgODYoBTeq3tHjpkTrPCoOAlGJ7xMRmLlJKfWyelzxoTbxtPmwV3V9dMbrRcH2huSbrCQxHgf97rNp63ytwY3VOVn8wQhSd3XkPsk9oU3+hneLXVjL9VH44oS52YDnAae2o++zbhKwLs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752500187; c=relaxed/simple;
+	bh=3PX1K71yszUYNO0T/AEtvp1Oa/aw4df/3ahyuw1mn4I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DtvNb85gFOM/ljmW3B5GxdoWH8fgUC95A37aFDR5fGlWZPWNwuyFTtnYYg7QjXOoAiL49AIIBgeGaLXERaNjf3e7TSEJ6I7q5n2ERUX3MPL5q+tbOZJOd/G2OvHIxqGHxbaSogzFiBjR5BNleq884qvVAUXbMn1CXykKg2TqHpE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=cF7SlMQI; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1752500130; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=LLwf90veDCfX/vug+RY51XJsew+TIOZx7ZDM1Z2CSQQciK1qiq4NgD6QzC3oXvHLraPMuS9r4r08v3rRKvkam1IsL54XA/7L3kWF73CpjhwlXnBM0t877peicmCqjD9fI0I51SfS5dqZHB2BA67UOaoku1ckdm6kmCRsxMSzgwE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1752500130; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=UizOBT89f5MRX6YGiBh9LFBmNsdbZc9aL8t32eOk9Ls=; 
+	b=DG1MXaTm0GH7Zzhu75mIeDgkj0NacaYQEAJk7lYWjDOfg5HqLc/uxecDifFzLmrvYKxSD/mLlrDSNnWrDi/LWRXmcQJeSEw08v1WLlNyPlLVj7mlGFKqWDEFTvHhBzwxugL0xZZTZeJ/KcEbr9IZ9D4uP1o/jmIgRTO4Vw1Nv/w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752500130;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=UizOBT89f5MRX6YGiBh9LFBmNsdbZc9aL8t32eOk9Ls=;
+	b=cF7SlMQIVCLi+7LyiNNzpE0msj22oD9LyCxoRHQVUNRlv+qOxfVUPSMBNdvJbscZ
+	OLdlAaeWMmXFLxxuYh4gLPwm8eNgwqt4xWl52WtxDLR0xqiUT8hub7S39Q2edenUd1J
+	SnxY+eKDm6GfP/fT6GS7lJF8E+rhvBO2yMuZRqPE=
+Received: by mx.zohomail.com with SMTPS id 1752500120862937.2041501644019;
+	Mon, 14 Jul 2025 06:35:20 -0700 (PDT)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>
+Cc: heiko@sntech.de, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ mchehab@kernel.org, nicolas.dufresne@collabora.com,
+ nicolas.frattaroli@collabora.com
+Subject: Re: [PATCH 00/12] media: rkvdec: Add support for VDPU381 and VDPU383
+Date: Mon, 14 Jul 2025 09:35:19 -0400
+Message-ID: <2229133.irdbgypaU6@trenzalore>
+In-Reply-To: <20250713142514.56742-1-liujianfeng1994@gmail.com>
+References:
+ <20250708151946.374349-1-detlev.casanova@collabora.com>
+ <20250713142514.56742-1-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 
-The CLIP macro, which was used to clamp color component values to the
-[0, 255] range, is no longer used anywhere in the vim2m driver. Remove it
-to clean up the code and avoid confusion.
+Hi Jianfeng,
 
-The following issues were reported by checkpatch:
-ERROR: Macros with complex values should be enclosed in parentheses
+On Sunday, 13 July 2025 10:25:14 EDT Jianfeng Liu wrote:
+> Hi,
+> 
+> On Tue,  8 Jul 2025 11:19:33 -0400, Detlev Casanova wrote:
+> >As there is a considerable part of the code that can be shared with the
+> >already supported rkvdec decoder driver, the support for these variants
+> >is added here rather than writing a new driver.
+> 
+> I have tested the new series on rk3588 and rk3399 with chromium. Since the
+> HEVC decoder need EXT_SPS_RPS related patches, I ony test the H264 decoder.
+> There are two issues:
+> 
+> 1, The decoder max size is detected 1920x1088, which should be the fallback
+> size when queryig VIDIOC_ENUM_FRAMESIZES[1].
 
-Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
----
- drivers/media/test-drivers/vim2m.c | 3 ---
- 1 file changed, 3 deletions(-)
+From the linked code, the max size is hard coded to 1920x1088.
+The driver sets the frame size type to V4L2_FRMSIZE_TYPE_CONTINUOUS, so the 
+snippet you pointed to doesn't update the values for max/min. See [2] for the 
+discussion about using V4L2_FRMSIZE_TYPE_CONTINUOUS.
 
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 1d1a9e768505..97cab9c558e7 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -268,9 +268,6 @@ static const char *type_name(enum v4l2_buf_type type)
- 	}
- }
- 
--#define CLIP(__color) \
--	(u8)(((__color) > 0xff) ? 0xff : (((__color) < 0) ? 0 : (__color)))
--
- static void copy_line(struct vim2m_q_data *q_data_out,
- 		      u8 *src, u8 *dst, bool reverse)
- {
--- 
-2.39.5
+> 2, Playing H264 videos ends up with green screen.
+
+Can you elaborate a bit ? What videos ?
+Is that on both SoCs ?
+Is there any logs in dmesg ?
+
+> These above issues don't happen with the old rkvdec2 series.
+> 
+> [1]
+> https://github.com/chromium/chromium/blob/138.0.7204.92/media/gpu/v4l2/v4l2
+> _utils.cc#L520-L533
+
+[2] https://lore.kernel.org/all/c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com/
+
+Regards,
+Detlev
+
+
+
 
 
