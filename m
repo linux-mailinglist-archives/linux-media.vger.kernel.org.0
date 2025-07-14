@@ -1,63 +1,61 @@
-Return-Path: <linux-media+bounces-37695-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37696-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CB6B0461E
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 19:08:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16ED8B04647
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 19:17:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6742B189B57A
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:08:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 549944A66B9
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:16:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8FE261591;
-	Mon, 14 Jul 2025 17:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 257A42620EE;
+	Mon, 14 Jul 2025 17:17:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pD4CIn60"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OojTjqWx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1373FD4;
-	Mon, 14 Jul 2025 17:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4925D1F0E26
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 17:17:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752512895; cv=none; b=fenAcJ9h3+SXzQOkFTIdTE5ZylFTak+yayD3r9zvFOIx1rbZxAollodOma5aPO2ZThXpg7CAb9egtc17EmaxU7yPvwOWNuQ1Cxo8aQAAKdHIzjZ7yleapZTxnda9rKTemSxVnLEq9i/4fqqxytrA1e0IduMr5TZnbkBVx5It7X4=
+	t=1752513428; cv=none; b=pEjaSTdvUq19+8gygqBGytOFyCEZIasgO1RFSsaouZdopMzIQZlzPmUVyHKJLP4Cz8XjLLQi7Wji1E17QU8kHepe+ozaJZHs7Z3BG00k9EZPvApkt2Fc2YDCdSLH+7lTghj2I9FkaDOIqwuYqV355NmqMc7wUUncReiLml1A3bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752512895; c=relaxed/simple;
-	bh=9k/+fL/6ozQpVW7PA+MTn0NMNv3pLc8FRDELsEyuLrI=;
+	s=arc-20240116; t=1752513428; c=relaxed/simple;
+	bh=S4fdXrKvEFaXrU/QzHyW1jwPpP2YL/ry76Jg7Hb4FSA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GRMxDoNRwdOSGaJvD5OX0AybXzSnRpR8c4O4hEMbqriwLLrHY8M+tjHjZDcDjGs4gusmUbRSIKhBBuStVJqy9Tv7K922VZoNf+/iKq0T4LigQEyRGGzqu5x1I4qUt1C4GAcaYQEQNo1rZR8uRZWAGCYjqhjLugqywVS/d7W+riw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pD4CIn60; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=AjCJky3iozCNbShq4x572bcJcxil0pjME/srS+/TunTYIqrVQNV6JxyaK4SoTCgFixYbhCq0PWqKeh9VuufsedW+N7jLgXagntXWDjNgNaWU2+VnjNc9C+tMP/WA0hMkQu3Y/HTeWWiQJjxiIjL8e9Cx8le7/hyD51qCKCvh0GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OojTjqWx; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 42E3C289;
-	Mon, 14 Jul 2025 19:07:40 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 55C273DC;
+	Mon, 14 Jul 2025 19:16:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752512860;
-	bh=9k/+fL/6ozQpVW7PA+MTn0NMNv3pLc8FRDELsEyuLrI=;
+	s=mail; t=1752513392;
+	bh=S4fdXrKvEFaXrU/QzHyW1jwPpP2YL/ry76Jg7Hb4FSA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pD4CIn60PU1001RvQbsBRLkBWUWuzoOe8xfHYS6RZfZWn0tEAIAZO7v+k/8xg8aIi
-	 Kj2x4SNpuMCERKdJszF2x6HUPnZHj4y1Me2txLkFgY0YXDAaAhWnQ8ZstNj5GqUfzf
-	 yfkfmf/xiiJt835BW2PJ1SrLmCJtB09zrnLHDGek=
-Date: Mon, 14 Jul 2025 20:07:40 +0300
+	b=OojTjqWxOqbzgccMuMqRNPRq2ayXyo7Pg9q8zjnjfKC2OSgq9BRTSqyzvxx/DzUsi
+	 8RRN3GVAM6fu0/4kgGQDc8vBR7zBF3/eI1sd/ZV41cpiMO5nZyu2LUSbXJ1uQfo9I2
+	 Yg4RAHJnC4i9A4ZX6yY8mdgKLOF9/ULYpJ9NZjd0=
+Date: Mon, 14 Jul 2025 20:16:32 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v8 4/5] media: uvcvideo: Introduce
- V4L2_META_FMT_UVC_MSXU_1_5
-Message-ID: <20250714170740.GC20231@pendragon.ideasonboard.com>
-References: <20250707-uvc-meta-v8-0-ed17f8b1218b@chromium.org>
- <20250707-uvc-meta-v8-4-ed17f8b1218b@chromium.org>
- <20250714145935.GL8243@pendragon.ideasonboard.com>
- <CANiDSCt=cS9_BsEvo8fEpRDfud9nob2nzgDR6CvmcFczZurG2w@mail.gmail.com>
- <20250714162700.GA20231@pendragon.ideasonboard.com>
- <CANiDSCstp18Ee6JXtuOEgyZyg9=NsMPvbrkHHrN0KydLXqAO3A@mail.gmail.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dafna Hirschfeld <dafna@fastmail.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC 1/3] media: v4l2-core: Add support for video device
+ state
+Message-ID: <20250714171632.GA13846@pendragon.ideasonboard.com>
+References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
+ <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com>
+ <3yifjhhqjrryg2fnfep6yqpxlvc3y5drh54smwajptfzy75tuu@dfsl6g5ktxbw>
+ <175227804873.3930831.3557651361410884449@freya>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,191 +64,510 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCstp18Ee6JXtuOEgyZyg9=NsMPvbrkHHrN0KydLXqAO3A@mail.gmail.com>
+In-Reply-To: <175227804873.3930831.3557651361410884449@freya>
 
-On Mon, Jul 14, 2025 at 06:42:14PM +0200, Ricardo Ribalda wrote:
-> On Mon, 14 Jul 2025 at 18:27, Laurent Pinchart wrote:
-> > On Mon, Jul 14, 2025 at 06:21:05PM +0200, Ricardo Ribalda wrote:
-> > > On Mon, 14 Jul 2025 at 17:00, Laurent Pinchart wrote:
-> > > >
-> > > > Hi Ricardo,
-> > > >
-> > > > A bit of a stupid question, or rather a question that I wonder why I
-> > > > didn't think of before.
+On Fri, Jul 11, 2025 at 04:54:08PM -0700, Jai Luthra wrote:
+> Quoting Jacopo Mondi (2025-07-08 09:26:29)
+> > On Thu, Jul 03, 2025 at 06:02:08PM -0700, Jai Luthra wrote:
+> > > Simplify video capture device drivers by maintaining active and try
+> > > states to track the v4l2 formats (for video and metadata capture) of the
+> > > device.
+
+I think you should split this patch in two, one introducing the active
+state, and another one introducing the try state.
+
 > > >
-> > > I believe we discussed this in the very beginning, when I just enabled
-> > > V4L2_META_FMT_D4XX for all the devices.
-> >
-> > Sorry if that was the case, it was a while ago.
-> >
-> > > We thought that it could break applications. Imagine an APP that can
-> > > work with D4XX but not with other formats: if it tries to parse MSXU
-> > > format it might crash.
-> >
-> > How so, if V4L2_META_FMT_D4XX and V4L2_META_FMT_UVC_MSXU_1_5 identify
-> > the same format ?
+> > > A lot of boilerplate in the drivers can be reduced by combining the
+> > > implementation of s_fmt and try_fmt hooks, and using a framework helper
+> > > for the g_fmt hook.
+> > >
+> > > To achieve this, we pass the newly introduced state structure to the
+> > > hooks through the already existing private void pointer. For S_FMT, we
+> > > pass the pointer to the active state and enforce that the vb2 queue is
+> > > not busy before calling the driver hook.
+
+Is that the right thing to do ? The framework doesn't enforce that
+constraint at the moment and lets drivers implement it. If there's no
+good reason to do so, then the constraint should be enforced by the core
+unconditionally, for all drivers (and that should be split to a patch of
+its own). Otherwise, if there are use cases where a driver could
+meaningfully handle VIDIOC_S_FMT while streaming, we should let drivers
+enforce the constraint.
+
+> > > For TRY_FMT, we pass the
+> > > pointer to the temporary state stored in the file handle. Finally, we
+> > > introduce a framework helper for the g_fmt hook that the drivers can
+> > > use.
+> > >
+> > > The private void pointer argument already had some rare uses, so we
+> > > switch away from using it in the v4l_*ctrl functions to access
+> > > file->private_data, instead doing that access directly. Some drivers'
+> > > hooks might still expect it to point to file->private_data, so we
+> > > replace it with the state pointer only if a driver selects the
+> > > V4L2_FL_USES_STATE flag while registering the device.
+> > >
+> > > State support may be extended in the future to other device types, such
+> > > as video/metadata output or M2M devices.
+> > >
+> > > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-dev.c   | 32 ++++++++++++++++++++++
+> > >  drivers/media/v4l2-core/v4l2-fh.c    |  1 +
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c | 44 ++++++++++++++++++++++++------
+> > >  include/media/v4l2-dev.h             | 52 ++++++++++++++++++++++++++++++++++++
+> > >  include/media/v4l2-fh.h              |  5 +++-
+> > >  5 files changed, 125 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> > > index c369235113d98ae26c30a1aa386e7d60d541a66e..b8227d5508dc5bd775706264739e5db2d577f7fd 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-dev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> > > @@ -27,6 +27,7 @@
+> > >  #include <linux/uaccess.h>
+> > >
+> > >  #include <media/v4l2-common.h>
+> > > +#include <media/v4l2-dev.h>
+> > 
+> > v4l2-common includes this already
 > 
-> D4XX uses vendor IDs from MSXU (0x80000000-2) [1]. There is no
-> guarantee that other vendors will collide with that ID.
+> Ah okay, somehow clangd wasn't happy with it, will drop this in next revision.
+> 
+> > 
+> > >  #include <media/v4l2-device.h>
+> > >  #include <media/v4l2-ioctl.h>
+> > >  #include <media/v4l2-event.h>
+> > > @@ -163,6 +164,34 @@ void video_device_release_empty(struct video_device *vdev)
+> > >  }
+> > >  EXPORT_SYMBOL(video_device_release_empty);
+> > >
+> > > +int video_device_g_fmt_vid(struct file *file, void *priv,
+> > 
+> > The function prototype (and documentation) names the second parameter
+> > state.
+> > 
+> 
+> Will fix.
+> 
+> > > +                        struct v4l2_format *fmt)
+> > > +{
+> > > +     struct video_device_state *state = priv;
+> > > +
+> > > +     if (WARN_ON_ONCE(!state))
+> > > +             return -EINVAL;
+> > > +
+> > > +     *fmt = state->vid_fmt;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(video_device_g_fmt_vid);
+> > > +
+> > > +int video_device_g_fmt_meta(struct file *file, void *priv,
+> > > +                         struct v4l2_format *fmt)
+> > > +{
+> > > +     struct video_device_state *state = priv;
+> > > +
+> > > +     if (WARN_ON_ONCE(!state))
+> > > +             return -EINVAL;
+> > > +
+> > > +     *fmt = state->meta_fmt;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(video_device_g_fmt_meta);
+> > > +
+> > 
+> > These two helpers, and the presence of two struct v4l2_format
+> > 'vid_fmt' and 'meta_fmt' are a bit puzzling to me.
+> > 
+> > A video device will handle one buffer type and struct v4l2_format
+> > accomodates all type of buffers in the 'fmt' union member.
+> > 
+> > Why do you store two of them in the video device state ?
+> 
+> I stored both as I was also looking at RPi CFE video nodes, which supports
+> both video and metadata capture in a single video device.
 
-I assume you mean "will not collide" ? There's also no guarantee that
-different vendors implementing the MSXU won't use vendor-specific
-metadata with colliding IDs, is there ?
+That's correct, but not at the same time. The driver should be
+refactored to use a single v4l2_format, and we should have a single
+video_device_g_fmt() helper.
 
-> Also, we do not know how apps will behave with IDs that they do not
-> know or with sizes that they have not been tested with.
+> These may explode even more in future for some M2M device with video +
+> metdata. We will have to store and provide helpers for 4 combinations then,
+> of capture & output formats for both video & metadata usecases.
 
-The change won't cause any regression for those apps when using Intel
-D4xx devices.
+Note the rp1-cfe driver already supports both metadata capture and
+metadata output.
 
-> [1] https://www.kernel.org/doc/html/v5.8/userspace-api/media/v4l/pixfmt-meta-d4xx.html#id8
->
-> > > > On Mon, Jul 07, 2025 at 06:34:04PM +0000, Ricardo Ribalda wrote:
-> > > > > The UVC driver provides two metadata types V4L2_META_FMT_UVC, and
-> > > > > V4L2_META_FMT_D4XX. The only difference between the two of them is that
-> > > > > V4L2_META_FMT_UVC only copies PTS, SCR, size and flags, and
-> > > > > V4L2_META_FMT_D4XX copies the whole metadata section.
-> > > > >
-> > > > > Now we only enable V4L2_META_FMT_D4XX for the Intel D4xx family of
-> > > > > devices, but it is useful to have the whole metadata payload for any
-> > > > > device where vendors include other metadata, such as the one described by
-> > > > > Microsoft:
-> > > > > https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
-> > > > >
-> > > > > This patch introduces a new format V4L2_META_FMT_UVC_MSXU_1_5, that is
-> > > > > identical to V4L2_META_FMT_D4XX.
-> > > >
-> > > > Wouldn't it be simpler for everybody to just
-> > > >
-> > > > #define V4L2_META_FMT_UVC_MSXU_1_5  v4l2_fourcc('D', '4', 'X', 'X') /* UVC MSXU metadata */
-> > > > #define V4L2_META_FMT_D4XX      V4L2_META_FMT_UVC_MSXU_1_5 /* For backward compatibility */
-> > > >
-> > > > ? I'm a bit uncomfortable with committing to a UABI with two different
-> > > > 4CCs for the exact same format.
-> > > >
-> > > > > Let the user enable this format with a quirk for now. This way they can
-> > > > > test if their devices provide useful metadata without rebuilding the
-> > > > > kernel. They can later contribute patches to auto-quirk their devices.
-> > > > > We will also work in methods to auto-detect devices compatible with this
-> > > > > new metadata format.
-> > > > >
-> > > > > Suggested-by: Hans de Goede <hdegoede@redhat.com>
-> > > > > Reviewed-by: Hans de Goede <hansg@kernel.org>
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > >  .../userspace-api/media/v4l/meta-formats.rst       |  1 +
-> > > > >  .../media/v4l/metafmt-uvc-msxu-1-5.rst             | 23 ++++++++++++++++++++++
-> > > > >  MAINTAINERS                                        |  1 +
-> > > > >  drivers/media/usb/uvc/uvc_metadata.c               |  4 ++++
-> > > > >  drivers/media/usb/uvc/uvcvideo.h                   |  1 +
-> > > > >  drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
-> > > > >  include/uapi/linux/videodev2.h                     |  1 +
-> > > > >  7 files changed, 32 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > > index bb6876cfc271e1a0543eee4209d6251e1a6a73cc..0de80328c36bf148051a19abe9e5241234ddfe5c 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > > @@ -20,6 +20,7 @@ These formats are used for the :ref:`metadata` interface only.
-> > > > >      metafmt-pisp-fe
-> > > > >      metafmt-rkisp1
-> > > > >      metafmt-uvc
-> > > > > +    metafmt-uvc-msxu-1-5
-> > > > >      metafmt-vivid
-> > > > >      metafmt-vsp1-hgo
-> > > > >      metafmt-vsp1-hgt
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
-> > > > > new file mode 100644
-> > > > > index 0000000000000000000000000000000000000000..dd1c3076df243d770a13e7f6d07c3296a269e16a
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
-> > > > > @@ -0,0 +1,23 @@
-> > > > > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> > > > > +
-> > > > > +.. _v4l2-meta-fmt-uvc-msxu-1-5:
-> > > > > +
-> > > > > +***********************************
-> > > > > +V4L2_META_FMT_UVC_MSXU_1_5 ('UVCM')
-> > > > > +***********************************
-> > > > > +
-> > > > > +Microsoft(R)'s UVC Payload Metadata.
-> > > > > +
-> > > > > +
-> > > > > +Description
-> > > > > +===========
-> > > > > +
-> > > > > +V4L2_META_FMT_UVC_MSXU_1_5 buffers follow the metadata buffer layout of
-> > > > > +V4L2_META_FMT_UVC with the only difference that it includes all the UVC
-> > > > > +metadata in the `buffer[]` field, not just the first 2-12 bytes.
-> > > > > +
-> > > > > +The metadata format follows the specification from Microsoft(R) [1].
-> > > > > +
-> > > > > +.. _1:
-> > > > > +
-> > > > > +[1] https://docs.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5
-> > > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > > index 658543062bba3b7e600699d7271ffc89250ba7e5..fdde1d37ed2ef9058e3ea3417bec25afe454dfc0 100644
-> > > > > --- a/MAINTAINERS
-> > > > > +++ b/MAINTAINERS
-> > > > > @@ -25827,6 +25827,7 @@ S:    Maintained
-> > > > >  W:   http://www.ideasonboard.org/uvc/
-> > > > >  T:   git git://linuxtv.org/media.git
-> > > > >  F:   Documentation/userspace-api/media/drivers/uvcvideo.rst
-> > > > > +F:   Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
-> > > > >  F:   Documentation/userspace-api/media/v4l/metafmt-uvc.rst
-> > > > >  F:   drivers/media/common/uvc.c
-> > > > >  F:   drivers/media/usb/uvc/
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > index 4bcbc22f47e67c52baf6e133f240131ff3d32a03..77e03273d3cf6b00cac6ebb9b29b941f1cbfd9f7 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > @@ -195,6 +195,10 @@ void uvc_meta_init(struct uvc_device *dev)
-> > > > >           !WARN_ON(dev->info->meta_format == V4L2_META_FMT_UVC))
-> > > > >               dev->meta_formats[i++] = dev->info->meta_format;
-> > > > >
-> > > > > +     if (dev->quirks & UVC_QUIRK_MSXU_META &&
-> > > > > +         !WARN_ON(dev->info->meta_format == V4L2_META_FMT_UVC_MSXU_1_5))
-> > > > > +             dev->meta_formats[i++] = V4L2_META_FMT_UVC_MSXU_1_5;
-> > > > > +
-> > > > >        /* IMPORTANT: for new meta-formats update UVC_MAX_META_DATA_FORMATS. */
-> > > > >       dev->meta_formats[i++] = 0;
-> > > > >  }
-> > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > index b3c094c6591e7a71fc00e1096bcf493a83f330ad..616adc417c62a58686beccbc440a5dfac0a2d588 100644
-> > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > @@ -77,6 +77,7 @@
-> > > > >  #define UVC_QUIRK_DISABLE_AUTOSUSPEND        0x00008000
-> > > > >  #define UVC_QUIRK_INVALID_DEVICE_SOF 0x00010000
-> > > > >  #define UVC_QUIRK_MJPEG_NO_EOF               0x00020000
-> > > > > +#define UVC_QUIRK_MSXU_META          0x00040000
-> > > > >
-> > > > >  /* Format flags */
-> > > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > index be94a79b976e3de4eb957f5d2584ec6d4230469e..993b36417b4655456ce545cb42a41b55b98e4d6c 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > @@ -1463,6 +1463,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> > > > >       case V4L2_META_FMT_VSP1_HGO:    descr = "R-Car VSP1 1-D Histogram"; break;
-> > > > >       case V4L2_META_FMT_VSP1_HGT:    descr = "R-Car VSP1 2-D Histogram"; break;
-> > > > >       case V4L2_META_FMT_UVC:         descr = "UVC Payload Header Metadata"; break;
-> > > > > +     case V4L2_META_FMT_UVC_MSXU_1_5:        descr = "UVC MSXU Metadata"; break;
-> > > > >       case V4L2_META_FMT_D4XX:        descr = "Intel D4xx UVC Metadata"; break;
-> > > > >       case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
-> > > > >       case V4L2_META_FMT_RK_ISP1_PARAMS:      descr = "Rockchip ISP1 3A Parameters"; break;
-> > > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > > > > index 6f7bd38dd5aa4b1b2084685512512a380d76a5e4..863bc5b7dec32303e852d7e9c3891011ce5a3d71 100644
-> > > > > --- a/include/uapi/linux/videodev2.h
-> > > > > +++ b/include/uapi/linux/videodev2.h
-> > > > > @@ -867,6 +867,7 @@ struct v4l2_pix_format {
-> > > > >  #define V4L2_META_FMT_VSP1_HGT    v4l2_fourcc('V', 'S', 'P', 'T') /* R-Car VSP1 2-D Histogram */
-> > > > >  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
-> > > > >  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
-> > > > > +#define V4L2_META_FMT_UVC_MSXU_1_5  v4l2_fourcc('U', 'V', 'C', 'M') /* UVC MSXU metadata */
-> > > > >  #define V4L2_META_FMT_VIVID    v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
-> > > > >
-> > > > >  /* Vendor specific - used for RK_ISP1 camera sub-system */
+> > >  static inline void video_get(struct video_device *vdev)
+> > >  {
+> > >       get_device(&vdev->dev);
+> > > @@ -927,6 +956,9 @@ int __video_register_device(struct video_device *vdev,
+> > >       spin_lock_init(&vdev->fh_lock);
+> > >       INIT_LIST_HEAD(&vdev->fh_list);
+> > >
+> > > +     /* video_device_state support */
+> > > +     vdev->state.which = VIDEO_DEVICE_FORMAT_ACTIVE;
+> > > +
+> > >       /* Part 1: check device type */
+> > >       switch (type) {
+> > >       case VFL_TYPE_VIDEO:
+> > > diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
+> > > index 90eec79ee995a2d214590beeacc91b9f8f33236d..d246e05f8ef1244e212412caa5c9c6788a5c948a 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-fh.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-fh.c
+> > > @@ -37,6 +37,7 @@ void v4l2_fh_init(struct v4l2_fh *fh, struct video_device *vdev)
+> > >       INIT_LIST_HEAD(&fh->available);
+> > >       INIT_LIST_HEAD(&fh->subscribed);
+> > >       fh->sequence = -1;
+> > > +     fh->state.which = VIDEO_DEVICE_FORMAT_TRY;
+> > >       mutex_init(&fh->subscribe_lock);
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(v4l2_fh_init);
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > index 650dc1956f73d2f1943b56c42140c7b8d757259f..78a0db364725ec6641be37d0c4804edb222a9154 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > @@ -21,6 +21,7 @@
+> > >
+> > >  #include <media/media-device.h> /* for media_set_bus_info() */
+> > >  #include <media/v4l2-common.h>
+> > > +#include <media/v4l2-dev.h>
+> > >  #include <media/v4l2-ioctl.h>
+> > >  #include <media/v4l2-ctrls.h>
+> > >  #include <media/v4l2-fh.h>
+> > > @@ -1745,6 +1746,15 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+> > >       if (ret)
+> > >               return ret;
+> > >
+> > > +     /*
+> > > +      * Make sure queue isn't busy for devices that use state, as they have a
+> > > +      * single implementation for .s_fmt and .try_fmt, and rely on us to make
+> > > +      * sure the queue is not busy when calling for the .s_fmt case
+> > > +      */
+> > > +     if (test_bit(V4L2_FL_USES_STATE, &vfd->flags) && vfd->queue &&
+> > > +         vb2_is_busy(vfd->queue))
+> > > +             return -EBUSY;
+> > > +
+> > >       ret = v4l_enable_media_source(vfd);
+> > >       if (ret)
+> > >               return ret;
+> > > @@ -2293,7 +2303,7 @@ static int v4l_queryctrl(const struct v4l2_ioctl_ops *ops,
+> > >       struct v4l2_query_ext_ctrl qec = {};
+> > >       struct v4l2_queryctrl *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+
+This should be split to a separate patch with a clear commit message.
+
+> > >       int ret;
+> > >
+> > >       if (vfh && vfh->ctrl_handler)
+> > > @@ -2318,7 +2328,7 @@ static int v4l_query_ext_ctrl(const struct v4l2_ioctl_ops *ops,
+> > >       struct video_device *vfd = video_devdata(file);
+> > >       struct v4l2_query_ext_ctrl *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+> > >
+> > >       if (vfh && vfh->ctrl_handler)
+> > >               return v4l2_query_ext_ctrl(vfh->ctrl_handler, p);
+> > > @@ -2335,7 +2345,7 @@ static int v4l_querymenu(const struct v4l2_ioctl_ops *ops,
+> > >       struct video_device *vfd = video_devdata(file);
+> > >       struct v4l2_querymenu *p = arg;
+u> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+> > >
+> > >       if (vfh && vfh->ctrl_handler)
+> > >               return v4l2_querymenu(vfh->ctrl_handler, p);
+> > > @@ -2352,7 +2362,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops *ops,
+> > >       struct video_device *vfd = video_devdata(file);
+> > >       struct v4l2_control *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+> > >       struct v4l2_ext_controls ctrls;
+> > >       struct v4l2_ext_control ctrl;
+> > >
+> > > @@ -2384,7 +2394,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
+> > >       struct video_device *vfd = video_devdata(file);
+> > >       struct v4l2_control *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+> > >       struct v4l2_ext_controls ctrls;
+> > >       struct v4l2_ext_control ctrl;
+> > >       int ret;
+> > > @@ -2414,7 +2424,7 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+> > >       struct video_device *vfd = video_devdata(file);
+> > >       struct v4l2_ext_controls *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+> > >
+> > >       p->error_idx = p->count;
+> > >       if (vfh && vfh->ctrl_handler)
+> > > @@ -2435,7 +2445,7 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+> > >       struct video_device *vfd = video_devdata(file);
+> > >       struct v4l2_ext_controls *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+> > >
+> > >       p->error_idx = p->count;
+> > >       if (vfh && vfh->ctrl_handler)
+> > > @@ -2456,7 +2466,7 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+> > >       struct video_device *vfd = video_devdata(file);
+> > >       struct v4l2_ext_controls *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > > -             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +             test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? file->private_data : NULL;
+> > >
+> > >       p->error_idx = p->count;
+> > >       if (vfh && vfh->ctrl_handler)
+> > > @@ -3057,6 +3067,21 @@ void v4l_printk_ioctl(const char *prefix, unsigned int cmd)
+> > >  }
+> > >  EXPORT_SYMBOL(v4l_printk_ioctl);
+> > >
+> > > +static struct video_device_state *
+> > > +video_device_get_state(struct video_device *vfd, struct v4l2_fh *vfh,
+> > > +                    unsigned int cmd, void *arg)
+> > > +{
+> > > +     switch (cmd) {
+> > > +     default:
+> > > +             return NULL;
+> > > +     case VIDIOC_G_FMT:
+> > > +     case VIDIOC_S_FMT:
+> > > +             return &vfd->state;
+> > > +     case VIDIOC_TRY_FMT:
+> > > +             return &vfh->state;
+> > > +     }
+> > > +}
+> > > +
+> > >  static long __video_do_ioctl(struct file *file,
+> > >               unsigned int cmd, void *arg)
+> > >  {
+> > > @@ -3081,6 +3106,9 @@ static long __video_do_ioctl(struct file *file,
+> > >       if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
+> > >               vfh = file->private_data;
+> > >
+> > > +     if (vfh && test_bit(V4L2_FL_USES_STATE, &vfd->flags))
+> > > +             fh = video_device_get_state(vfd, vfh, cmd, arg);
+> > > +
+
+That's very dangerous, using the same void pointer for two different
+purposes depending on the USES_STATE flag. I think you should start with
+some refactoring to move away from using a void pointer.
+
+The first step is to remove direct setting of file->private_data in
+drivers. Quite a few do so because they need to allocate the structure
+containing the v4l2_fh. They therefore can't call v4l2_fh_open(), which
+sets file->private_data, but call v4l2_fh_init(), set the private_data
+field, and then call v4l2_fh_add(). In many cases it seems
+v4l2_fh_init() could set file->private_data. You will need to check all
+drivers that set the field directly, see if any of them set
+file->private_data to a value different than the v4l2_fh pointer, and if
+that could be fixed.
+
+(Note that some drivers set the private_data field of a debugfs file, or
+an ALSA device. Don't mistakenly consider those as direct usage of
+private_data conflicting with V4L2_FL_USES_V4L2_FH.)
+
+If we're lucky, we'll be able to remove manual usage of private_data in
+drivers. In that case, we could then either
+
+- Patch ioctl handlers in drivers to use file->private_data to access
+  the v4l2_fh and stop using the void *fh argument, and then replace the
+  void *fh argument with a video_device_state *state.
+
+- Add a video_device_state *state argument to the ioctl handlers, if we
+  decide to keep the fh pointer. In that case we should replace void *fh
+  with v4l2_fh *fh.
+
+If there are drivers left that can't easily stop setting private_data
+manually, let's discuss them.
+
+> > >       /*
+> > >        * We need to serialize streamon/off with queueing new requests.
+> > >        * These ioctls may trigger the cancellation of a streaming
+> > > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> > > index 1b6222fab24eda96cbe459b435431c01f7259366..8e6e7799212cd07ae4ad3dfc85912c21a9bcab2d 100644
+> > > --- a/include/media/v4l2-dev.h
+> > > +++ b/include/media/v4l2-dev.h
+> > > @@ -89,12 +89,18 @@ struct dentry;
+> > >   *   set by the core when the sub-devices device nodes are registered with
+> > >   *   v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
+> > >   *   handler to restrict access to some ioctl calls.
+> > > + * @V4L2_FL_USES_STATE:
+> > > + *   indicates that the &struct video_device has state support.
+> > > + *   The active video and metadata formats are stored in video_device.state,
+> > > + *   and the try video and metadata formats are stored in v4l2_fh.state.
+> > > + *   All new drivers should use it.
+> > >   */
+> > >  enum v4l2_video_device_flags {
+> > >       V4L2_FL_REGISTERED              = 0,
+> > >       V4L2_FL_USES_V4L2_FH            = 1,
+> > >       V4L2_FL_QUIRK_INVERTED_CROP     = 2,
+> > >       V4L2_FL_SUBDEV_RO_DEVNODE       = 3,
+> > > +     V4L2_FL_USES_STATE              = 4,
+> > >  };
+> > >
+> > >  /* Priority helper functions */
+> > > @@ -214,6 +220,30 @@ struct v4l2_file_operations {
+> > >       int (*release) (struct file *);
+> > >  };
+> > >
+> > > +/**
+> > > + * enum video_device_format_whence - Video device format type
+> > > + *
+> > > + * @V4L2_DEVICE_FORMAT_TRY: from VIDIOC_TRY_FMT, for negotiation only
+> > > + * @V4L2_DEVICE_FORMAT_ACTIVE: from VIDIOC_S_FMT, applied to the device
+> > > + */
+> > > +enum video_device_format_whence {
+> > > +     VIDEO_DEVICE_FORMAT_TRY = 0,
+> > > +     VIDEO_DEVICE_FORMAT_ACTIVE = 1,
+> > > +};
+> > 
+> > I'm not sure we need these. More on this on the drivers
+> > implementation in the next patches.
+
+I agree, this should not be needed at this point. The whole point of
+states is that drivers should not care whether they're operating on a
+TRY or ACTIVE state. There are exceptions with subdevs for historical
+reasons, but we shouldn't repeat that here.
+
+It may make sense to later add TRY/ACTIVE identifiers for the UAPI, but
+within drivers they should not be used. How about repurposing the
+.try_fmt() and .s_fmt() ioctl handlers for drivers support states, by
+using .try_fmt() first to adjust the format and store it in the state
+(ACTIVE or TRY, that shouldn't matter to drivers), and then using
+.s_fmt() to apply the state to the device ? The V4L2 core should call
+.try_fmt() first followed by .s_fmt() when V4L2_FL_USES_STATE is set.
+The vast majority of state-aware drivers will configure the device when
+starting streaming, so they won't need to implement .s_fmt().
+
+Now that I wrote this, the plan may conflict with my comment above
+regarding leaving the busy check in drivers. Let's figure that one
+first, and see if we need to let drivers known on what state they're
+operating. I think repurposing .try_fmt() and .s_fmt() should be done
+regardless.
+
+> > > +
+> > > +/**
+> > > + * struct video_device_state - Used for storing video device state information.
+> > > + *
+> > > + * @vid_fmt: Format of the video capture stream
+> > > + * @meta_fmt: Format of the metadata capture stream
+> > > + * @which: is this a TRY or ACTIVE format?
+> > > + */
+> > > +struct video_device_state {
+> > > +     struct v4l2_format vid_fmt;
+> > > +     struct v4l2_format meta_fmt;
+> > > +     enum video_device_format_whence which;
+> > > +};
+> > > +
+> > >  /*
+> > >   * Newer version of video_device, handled by videodev2.c
+> > >   *   This version moves redundant code from video device code to
+> > > @@ -238,6 +268,7 @@ struct v4l2_file_operations {
+> > >   * @queue: &struct vb2_queue associated with this device node. May be NULL.
+> > >   * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
+> > >   *    If NULL, then v4l2_dev->prio will be used.
+> > > + * @state: &struct video_device_state, holds the active state for the device.
+> > >   * @name: video device name
+> > >   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
+> > >   * @vfl_dir: V4L receiver, transmitter or m2m
+> > > @@ -283,6 +314,7 @@ struct video_device {
+> > >       struct vb2_queue *queue;
+> > >
+> > >       struct v4l2_prio_state *prio;
+> > > +     struct video_device_state state;
+> > 
+> > One of the key design requirement it's the ability for drivers to
+> > sub-class video_device_state. One possibile way to obtain this is to
+> > dynamically allocate the state either by deferring to the driver's the
+> > allocation (so that they can allocate a bigger structure) or by
+> > passing to the framework the size it has to allocate.
+> > 
+> > In any case, I'm afraid the state should be allocated dynamically,
+> > either in the drivers' init_state() (or similar) callback or by the
+> > framework with a size hint from the driver.
+> > 
+> > What do you think ?
+> 
+> Ah okay, I missed that. Should be possible to make this dynamically
+> allocatable by the driver. It will also tie into Sakari's suggestion of
+> creating a helper for initializing the state.
+
+Yes, I agree with Jacopo and Sakari here. The state should be
+dynamically allocated, and you should add an operation to initialize it.
+
+> > >
+> > >       /* device info */
+> > >       char name[64];
+> > > @@ -540,6 +572,26 @@ static inline int video_is_registered(struct video_device *vdev)
+> > >       return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
+> > >  }
+> > >
+> > > +/**
+> > > + * video_device_g_fmt_vid() - fill video v4l2_format from the state.
+> > > + *
+> > > + * @file: pointer to struct file
+> > > + * @state: pointer to video device state
+> > > + * @format: pointer to &struct v4l2_format
+> > > + */
+> > > +int video_device_g_fmt_vid(struct file *file, void *state,
+> > > +                        struct v4l2_format *format);
+> > > +
+> > > +/**
+> > > + * video_device_g_fmt_meta() - fill metadata v4l2_format from the state.
+> > > + *
+> > > + * @file: pointer to struct file
+> > > + * @state: pointer to video device state
+> > > + * @format: pointer to &struct v4l2_format
+> > > + */
+> > > +int video_device_g_fmt_meta(struct file *file, void *state,
+> > > +                         struct v4l2_format *format);
+> > > +
+> > >  /**
+> > >   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
+> > >   *
+> > > diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+> > > index b5b3e00c8e6a0b082d9cd8a0c972a5094adcb6f2..02579f87ba99d0c849a0865f8cc4295446c39f94 100644
+> > > --- a/include/media/v4l2-fh.h
+> > > +++ b/include/media/v4l2-fh.h
+> > > @@ -18,7 +18,8 @@
+> > >  #include <linux/list.h>
+> > >  #include <linux/videodev2.h>
+> > >
+> > > -struct video_device;
+> > > +#include <media/v4l2-dev.h>
+> > > +
+
+You will be able to go back to forward declarations once you replace the
+state field below with a pointer.
+
+> > >  struct v4l2_ctrl_handler;
+> > >
+> > >  /**
+> > > @@ -28,6 +29,7 @@ struct v4l2_ctrl_handler;
+> > >   * @vdev: pointer to &struct video_device
+> > >   * @ctrl_handler: pointer to &struct v4l2_ctrl_handler
+> > >   * @prio: priority of the file handler, as defined by &enum v4l2_priority
+> > > + * @state: try state used for format negotiation on the video device
+> > >   *
+> > >   * @wait: event' s wait queue
+> > >   * @subscribe_lock: serialise changes to the subscribed list; guarantee that
+> > > @@ -44,6 +46,7 @@ struct v4l2_fh {
+> > >       struct video_device     *vdev;
+> > >       struct v4l2_ctrl_handler *ctrl_handler;
+> > >       enum v4l2_priority      prio;
+> > > +     struct video_device_state state;
+> > >
+> > >       /* Events */
+> > >       wait_queue_head_t       wait;
+> > >
 
 -- 
 Regards,
