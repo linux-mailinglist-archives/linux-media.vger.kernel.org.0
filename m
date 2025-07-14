@@ -1,213 +1,171 @@
-Return-Path: <linux-media+bounces-37684-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37685-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11177B044AC
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:50:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E52DEB044A6
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:50:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 278FC3A6ED3
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:46:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 61E517AC746
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:47:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3CAC246BC5;
-	Mon, 14 Jul 2025 15:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D388025C713;
+	Mon, 14 Jul 2025 15:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TO3Iq7Qe"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="EySpEpw1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7734A259CA0
-	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 15:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445112E36F0;
+	Mon, 14 Jul 2025 15:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752508020; cv=none; b=DZosanFsGUO9/XHhHXI+ZnjU8T7Wsj9ZRB/ySwx+PtklIhj9vj8IDbGSOSV2hqy17LkK1ZHJktRmj744rYWCfgBhpNhBPWWHTguUC9K/t2vG0tOEhh3gPrl6dVaXgpVc8BJU8ZT3FTK5OdgJa4apE9kMfGMMS1THvdE1m3HUoiY=
+	t=1752508148; cv=none; b=AoiiijyqUcSaSZ/hOsH/qDMEdu/Hq8ZL66mNrjmT4J3NvnuKN1Fi0Nq7o1obGxSRxOmUmjXZY8GP///7EeEbHm2c8v3/7eC5e45XvTY7CnagPuvf7ome+R3ulgdg2UYoUUNfnMlH2xiyWMuJ5rwJdDY4CMb8s2Z994MJZB+JGnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752508020; c=relaxed/simple;
-	bh=5LlMEN4J3o3aD6YDXjwZ5zCkBWXWLqScnxci+wtPW0U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YUN0tb2760e+3I6PUaTSCQpJQr4NMpXns+vhkAa5gQ//jYBW9LRErjXu35U9sJfIpCjQXO1aVfwjST7owGDF+qdl8X1wXUikvecbSkFrww18KwUcGIhgNTINi9JXmIaVckQLlS5K1Q/ACs7fJRNCQVAWmi5t4FfEx/pRQyM1qqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TO3Iq7Qe; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55502821bd2so4608743e87.2
-        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 08:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752508016; x=1753112816; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9h6RiMEbdSPWHXVsj9OLxwFBmTJFmqoquTZg92Kpnmk=;
-        b=TO3Iq7QeVk002ueq3Qx/vgiIdEEyI7LQfxkhURcouoXe4MOrNKo+tGUbHirZ++TWyf
-         Phcwg3ctQpb9YeTAzrIjYk3WOhf1KeiN0NaOkkg24Jkqq/MLe1ni1bxlRj8OJzwb2ESX
-         SMoThRskLQ3+cO1SdpObAgNnPg+xxrCUx5zhI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752508016; x=1753112816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9h6RiMEbdSPWHXVsj9OLxwFBmTJFmqoquTZg92Kpnmk=;
-        b=AQSb9I1OKnfjpId4eAjH0FWbvsJyoCzsOVnvrYa5lvMF4ScVyIvm2G91AU9YdqKgrM
-         b7ya/lZlqqkc6CnAb3P8x7EmgbRso9Yk9EvUOkWiRVv8XvZt/FsuzAagJZpo09G4EJeo
-         QeeZoDTuAoq4gpPVZgv+H5iglYx//e3sOW+ks75ASCv7klxc6geJN4iUKtYouWAwEZrh
-         cd4PpHhdFQVKKOq6/ydqZt5RAqWv9AOQOKfV8IuUbCyymTKH7gWE5Q0NpKCs2Xu9V3+e
-         yVWlEVZ1E8G7HnollVT7TepbRUsH1YtdRkNdCP1dHA2vG3LjyWl9QX5pcENlN08jCurU
-         tfkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZN/h/b5vPuMT3gfiJ8Gxg253Rhzlgqvxn5C6M1DEXlnN+cxj/DPfX7DXnLFGaTQYaLPmjmbyS9mQOIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5fQJjcZLLFDn4x6oBmqt2irUfnaRj5/bcje1LfVbOlKrJnYLE
-	wG3ixkVmAqaCi5zM94bbeaIlIa+tP+HwgWi7Da7Yt3DSNNFVgdkBl50vMCJ+pREwsW+c+k1LEZG
-	vQS18dg==
-X-Gm-Gg: ASbGncvxE5P3/DnFmkJXkFIhe3B6xtgCDTv0RDbdKYkJEJbKmHJLxAaoxepiNKZ93jb
-	XHr6icvGZvRlM9hjwBLUJcgO+MYHSxg8WtrXinoSNd8X/nsI09/9LH5pEHMtjfYzKI95BZy82YT
-	2eYNRRGUOxXzzfIfVl6pDa3CCmTRAe9VBmH5mBWg85v1H/zbaPXtd2Uj8JoRR5PULpXozC2tnft
-	/Wq9EhkHPZZ3mu2mYWcKkC5ziL5YSI7mBTA8vw91LGrYpveyqyII5lQz/EcCIWNqnJLs6j43VTX
-	e1y1MXqJfgswUyjcCxanNlOjNxA5JsmxeUpndea4ymPeXqHoWPFxL79QYqEsYIK/jmuAU0K4tq0
-	MnBKA5W8dio0tvdnsgBTiEtmxECFKGFhSul0oOT+XwB1VHHq02fCSCbvyGkIX
-X-Google-Smtp-Source: AGHT+IF3QKsE/juxos/Oj325qTxLYxn/S4UdP+7mTwV4O+p823JdA+RvbEcA5FYeNjrHR6Og4UB8Rw==
-X-Received: by 2002:a05:6512:1284:b0:553:2480:2309 with SMTP id 2adb3069b0e04-55a0448b3f3mr3908532e87.3.1752508016534;
-        Mon, 14 Jul 2025 08:46:56 -0700 (PDT)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32fa2932313sm16444931fa.35.2025.07.14.08.46.53
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jul 2025 08:46:53 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-55511c3e203so4218199e87.3
-        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 08:46:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVf7C2xX9PTjOIh8GsQFieBJRP8aQDKKmdyxQHPis0r/Z9rDZ0wCaWTzMaXAfp0z8au8pNoLKAdUUp8VA==@vger.kernel.org
-X-Received: by 2002:a05:6512:b10:b0:553:3492:b708 with SMTP id
- 2adb3069b0e04-55a046250abmr3344250e87.49.1752508013248; Mon, 14 Jul 2025
- 08:46:53 -0700 (PDT)
+	s=arc-20240116; t=1752508148; c=relaxed/simple;
+	bh=gynR6U1af0ByDlmuzNPvrt9QOm6xRxe9HmvQRMgpo6E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=u80+sVQzM+LK+Xb8KMutMgqCnKmBhuJnHXIu10wS4GLi0eaFH9byvHNH6v89VSBzTlFOYWMpfqNpMd5YaBfB3sMtu8vM8BaKMZGidapSmEA1I0xPfEQh3eQ11SMUxr1sxqW90wgvwCrFCmXSyurqBo4QbOH6p0qhiL7Redt154s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=EySpEpw1; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56EFmZeR2683833;
+	Mon, 14 Jul 2025 10:48:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1752508115;
+	bh=nRDeHKQbWfbtGevuT6SkWvzndahOFJlTNEgxm+DCyBo=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=EySpEpw1IJFNOmD1QRnL/tWLJ/q2t+AT/TjHLhXJ1/4R6EQfo1oSxW8+9t8tiLW14
+	 NDZ3t65tyxh7XiRY6mx2N2/hPdC+dENajLP7Ucs/19AZLFLRda5AESXsYZGqPUiT/c
+	 8glO+OCjDDxbZEXNHfrtqCsrMkNhc/cn8Vd296zI=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56EFmZfn3504193
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 14 Jul 2025 10:48:35 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 14
+ Jul 2025 10:48:34 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 14 Jul 2025 10:48:34 -0500
+Received: from [10.249.131.66] ([10.249.131.66])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56EFmShm1272637;
+	Mon, 14 Jul 2025 10:48:29 -0500
+Message-ID: <ea631e0e-9cf7-4fae-820a-43013adcd1ec@ti.com>
+Date: Mon, 14 Jul 2025 21:18:27 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-10-5710f9d030aa@chromium.org>
- <20250629181246.GE6260@pendragon.ideasonboard.com> <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
- <20250714142926.GI8243@pendragon.ideasonboard.com>
-In-Reply-To: <20250714142926.GI8243@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 14 Jul 2025 17:46:40 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvFe23xmrJ0-qbWWa6+vKGb+QdDFV8VSLkmWdAnfsFtzw@mail.gmail.com>
-X-Gm-Features: Ac12FXzUtyaVLj7tKhzc2QjlgMNdUTCkm86hTg8iZ2lfMiulh_fOCFYDlXtaIQQ
-Message-ID: <CANiDSCvFe23xmrJ0-qbWWa6+vKGb+QdDFV8VSLkmWdAnfsFtzw@mail.gmail.com>
-Subject: Re: [PATCH v2 10/12] media: uvcvideo: Add get_* functions to uvc_entity
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH RFC net-next 0/5] net: ethernet: ti:
+ am65-cpsw: add AF_XDP zero copy support
+To: Jakub Kicinski <kuba@kernel.org>
+CC: Roger Quadros <rogerq@kernel.org>,
+        Siddharth Vadapalli
+	<s-vadapalli@ti.com>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann
+	<daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John
+ Fastabend <john.fastabend@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        <srk@ti.com>, <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
+References: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
+ <268f6849-efc6-4663-af20-f6726bd4b78d@ti.com>
+ <20250714080629.29aa7a2d@kernel.org>
+Content-Language: en-US
+From: "Malladi, Meghana" <m-malladi@ti.com>
+In-Reply-To: <20250714080629.29aa7a2d@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Laurent
+Hi Jakub,
 
-On Mon, 14 Jul 2025 at 16:30, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Tue, Jul 01, 2025 at 01:13:10PM +0200, Ricardo Ribalda wrote:
-> > On Sun, 29 Jun 2025 at 20:13, Laurent Pinchart wrote:
-> > > On Thu, Jun 05, 2025 at 05:53:03PM +0000, Ricardo Ribalda wrote:
-> > > > Virtual entities need to provide more values than get_cur and get_cur
-> > >
-> > > I think you meant "get_info and get_cur".
-> > >
-> > > > for their controls. Add support for get_def, get_min, get_max and
-> > > > get_res.
-> > >
-> > > Do they ? The UVC specification defines controls that don't list
-> > > GET_DEF, GET_MIN, GET_MAX and GET_RES as mandatory requests. Can't we do
-> > > the same for the software controls ? This patch is meant to support the
-> > > UVC_SWENTITY_ORIENTATION and UVC_SWENTITY_ROTATION control in the next
-> > > patch, and those are read-only controls. Aren't GET_INFO and GET_CUR
-> > > enough ?
-> >
-> > V4L2_CID_CAMERA_ROTATION has the type UVC_CTRL_DATA_TYPE_UNSIGNED,
-> > that time requires get_min and get_max.
->
-> Where does that requirement come from ? Is it because how the
-> corresponding V4L2 type (V4L2_CTRL_TYPE_INTEGER) is handled in
-> uvc_ctrl_clamp() ? uvc_ctrl_clamp() is only called when setting a
-> control, from uvc_ctrl_set(), and V4L2_CID_CAMERA_ROTATION should be
-> read-only.
+Sorry for the duplicate mail.
 
-It its for VIDIOC_QUERY_EXT_CTRL
+On 7/14/2025 8:36 PM, Jakub Kicinski wrote:
+> On Mon, 14 Jul 2025 14: 50: 05 +0530 Malladi, Meghana wrote: > > AF_XDP 
+> performance using 64 byte packets in Kpps. > > Benchmark: XDP-SKB XDP- 
+> Native XDP-Native(ZeroCopy) > > rxdrop 317 504 824 > > txonly 400 405 757 >
+> ZjQcmQRYFpfptBannerStart
+> This message was sent from outside of Texas Instruments.
+> Do not click links or open attachments unless you recognize the source 
+> of this email and know the content is safe.
+> Report Suspicious
+> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK! 
+> uDdqXRfP1m37CoZlPNNDnQgOintsvKy- 
+> cENuCwB1b5Qxa66rT1SFJDmyny6jsjalW7Wur6ukCSGrdQ$>
+> ZjQcmQRYFpfptBannerEnd
+> 
+> On Mon, 14 Jul 2025 14:50:05 +0530 Malladi, Meghana wrote:
+>> > AF_XDP performance using 64 byte packets in Kpps.
+>> > Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+>> > rxdrop		317		504		824
+>> > txonly		400		405		757
+>> > l2fwd 		207		264		0
+>> > 
+>> > AF_XDP performance using 1500 byte packets in Kpps.
+>> > Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+>> > rxdrop		82		82		82
+>> > txonly		82		82		82
+>> > l2fwd 		82		82		82
+>> > 
+>> > [1]: https://urldefense.com/v3/__https://github.com/xdp-project/bpf-examples/ 
+> tree/master/AF_XDP-example__;!!G3vK!Sv1p-bFPBDlzD-YMO2sjo- 
+> X2gv3CW5uHD_O771StRVzMR8Vr75k7tTGQJ27MRy_fz3d9m40aZg$ <https://urldefense.com/v3/__https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example__;!!G3vK!Sv1p-bFPBDlzD-YMO2sjo-X2gv3CW5uHD_O771StRVzMR8Vr75k7tTGQJ27MRy_fz3d9m40aZg$>
+>> > 
+>> > To:
+>> > 
+>> > Signed-off-by: Roger Quadros <rogerq@kernel.org>  
+>> 
+>> This series crashes Linux on am64xx-hsevm, when I tried nfs boot using 
+>> AM65-CPSW-NUSS driver:
+>> logs: 
+>> https://urldefense.com/v3/__https://gist.github.com/MeghanaMalladiTI/ 
+> d655a1c8ca88113ee7f5f57d6ab0ec4c__;!!G3vK!Sv1p-bFPBDlzD-YMO2sjo- 
+> X2gv3CW5uHD_O771StRVzMR8Vr75k7tTGQJ27MRy_fz3ecuWN_dw$ <https://urldefense.com/v3/__https://gist.github.com/MeghanaMalladiTI/d655a1c8ca88113ee7f5f57d6ab0ec4c__;!!G3vK!Sv1p-bFPBDlzD-YMO2sjo-X2gv3CW5uHD_O771StRVzMR8Vr75k7tTGQJ27MRy_fz3ecuWN_dw$>
+>> 
+>> Seems like you have reverted the fix for the same bug which was reported 
+>> by Siddharth and fixed by Julien: 
+>> https://urldefense.com/v3/__https://lore.kernel.org/ 
+> all/7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com/__;!!G3vK!Sv1p- 
+> bFPBDlzD-YMO2sjo-X2gv3CW5uHD_O771StRVzMR8Vr75k7tTGQJ27MRy_fz3exh7VnCw$ <https://urldefense.com/v3/__https://lore.kernel.org/all/7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com/__;!!G3vK!Sv1p-bFPBDlzD-YMO2sjo-X2gv3CW5uHD_O771StRVzMR8Vr75k7tTGQJ27MRy_fz3exh7VnCw$>
+>> 
+>> reverted lines:
+>> 		if (!common->ports[port].ndev)
+>> 		/* FIXME should we BUG here? */
+>> 			continue;
+>> 
+>> Can you please take a look at it.
+> 
+> Just to be clear -- you're reporting this problem to Roger so that its
+> fixed before the series is reposted? I don't see this in the tree, I
+> wanted to make sure it's not something I need to track as a regression.
+> 
 
-uvc_query_v4l2_ctrl -> __uvc_query_v4l2_ctrl -> __uvc_queryctrl_boundaries
+Yes you are right. This isn't a regression, I reported this as part of 
+my testing for this RFC patch series.
 
-We need to list the min, max, def and step for every control. They are
-fetched with uvc_ctrl_populate_cache()
+-- 
+Thanks,
+Meghana Malladi
 
-
-
->
-> > We can create a new type UVC_CTRL_DATA_TYPE_UNSIGNED_READ_ONLY that
-> > fakes min, max and res, but I think that it is cleaner this approach.
-> >
-> > > > This is a preparation patch.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > >  drivers/media/usb/uvc/uvc_ctrl.c | 12 ++++++++++++
-> > > >  drivers/media/usb/uvc/uvcvideo.h |  8 ++++++++
-> > > >  2 files changed, 20 insertions(+)
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > index 21ec7b978bc7aca21db7cb8fd5d135d876f3330c..59be62ae24a4219fa9d7aacf2ae7382c95362178 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > @@ -596,6 +596,18 @@ static int uvc_ctrl_query_entity(struct uvc_device *dev,
-> > > >       if (query == UVC_GET_CUR && ctrl->entity->get_cur)
-> > > >               return ctrl->entity->get_cur(dev, ctrl->entity,
-> > > >                                            ctrl->info.selector, data, len);
-> > > > +     if (query == UVC_GET_DEF && ctrl->entity->get_def)
-> > > > +             return ctrl->entity->get_def(dev, ctrl->entity,
-> > > > +                                          ctrl->info.selector, data, len);
-> > > > +     if (query == UVC_GET_MIN && ctrl->entity->get_min)
-> > > > +             return ctrl->entity->get_min(dev, ctrl->entity,
-> > > > +                                          ctrl->info.selector, data, len);
-> > > > +     if (query == UVC_GET_MAX && ctrl->entity->get_max)
-> > > > +             return ctrl->entity->get_max(dev, ctrl->entity,
-> > > > +                                          ctrl->info.selector, data, len);
-> > > > +     if (query == UVC_GET_RES && ctrl->entity->get_res)
-> > > > +             return ctrl->entity->get_res(dev, ctrl->entity,
-> > > > +                                          ctrl->info.selector, data, len);
-> > > >       if (query == UVC_GET_INFO && ctrl->entity->get_info)
-> > > >               return ctrl->entity->get_info(dev, ctrl->entity,
-> > > >                                             ctrl->info.selector, data);
-> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > index a931750bdea25b9062dcc7644bf5f2ed89c1cb4c..d6da8ed3ad4cf3377df49923e051fe04d83d2e38 100644
-> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > @@ -261,6 +261,14 @@ struct uvc_entity {
-> > > >                       u8 cs, u8 *caps);
-> > > >       int (*get_cur)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > >                      u8 cs, void *data, u16 size);
-> > > > +     int (*get_def)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > +                    u8 cs, void *data, u16 size);
-> > > > +     int (*get_min)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > +                    u8 cs, void *data, u16 size);
-> > > > +     int (*get_max)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > +                    u8 cs, void *data, u16 size);
-> > > > +     int (*get_res)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > +                    u8 cs, void *data, u16 size);
-> > > >
-> > > >       unsigned int ncontrols;
-> > > >       struct uvc_control *controls;
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
---
-Ricardo Ribalda
 
