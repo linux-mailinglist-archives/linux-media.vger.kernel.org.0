@@ -1,205 +1,132 @@
-Return-Path: <linux-media+bounces-37688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37689-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1D1B04501
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 18:06:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F18B3B04522
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 18:12:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A03464A0F93
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:05:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 417F01A623DC
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:08:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4E2125F994;
-	Mon, 14 Jul 2025 16:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCBD425EF81;
+	Mon, 14 Jul 2025 16:08:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WH6gFbaJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kuc7TpGB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7348625EF81
-	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 16:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4159525CC73;
+	Mon, 14 Jul 2025 16:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752509109; cv=none; b=HSddo/vDURR87tUcy6XUmCZA+LbRsTBasckfXwhTXGrnpTgwWB+AW81Itcyk9x10D5/Jy7fZa2+EvxALetZriVCEVNuYVtkOQOOuNfqyEsiopCuItnrcgq6zlwCSWMjFE/WHMVoJ+Ivkx3gGITCYDOZzmULgSdP40N/9DVh4lxg=
+	t=1752509283; cv=none; b=jWPUyqWxqmjf/Nyk63lIx/h9g0XiXqQl8N+kuSps2HYHKSt++E8WXZcV9DpMoWcWhAjcaoUyLgpYoBzt52fV0ML5CH/hY/bRJwk/nQCnKo5eY5Fmu5MDDo1Xi0W+aJWB50O/WXYOqgZPFD8rlwPgVMjLIWLXd7dV1s53LUzcVSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752509109; c=relaxed/simple;
-	bh=JxBVcWXOzrC+pQuiz7DoBffwFHlGca0wC939BUa4mlM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UXwt2jOiJyWImcc5dAsiccWXVHS/8gU697IRB6z6Q7BCAdiyo6jHDfYgwEe8Jc3XGf6OCZpZvyK39QFkXZhgoo6JKRgunkGtObN7ctMxu618XNp753OVWRBBxy0MJdXWH3ce2D9nMP6H7Rc0yNfH+0+wluxDFa6RpkmAm+okolE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WH6gFbaJ; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553d2eb03a0so6031249e87.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 09:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752509105; x=1753113905; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CDahj8/rNyyq5vqGI+SiuXe8oo3E19xokCP/r0ki8Vk=;
-        b=WH6gFbaJvIoQTtthRH12ic6ENiZAFohuQZJaV3HJoQ9wh4nR0HxYS7bTzCTZDPiKn0
-         REjMwghjboXL4QSmyJc3VgeARbwc81NtelJMkxIkHNQ/hNXEYc3al61oyqCC1uaHLBT/
-         Pro5kbJPdS4Ql7S7xWhZs/RlC5Pg3geymgKEU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752509105; x=1753113905;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CDahj8/rNyyq5vqGI+SiuXe8oo3E19xokCP/r0ki8Vk=;
-        b=UEgVzm+HNJWPlk12VqEHqXYY1Xjt2cP86JekirvICCBEtcoU/8GXc80+0MtUJfEzcM
-         rU49GjZK/GWjPc0kn2DW99hs9ksjOO8VDUPlYDzcbunAD02lEsgAmYSeThsAFhWWPdEq
-         oOM/UM/dhGZpfbaaMuW+5Lc9IeHgVopIqYu9rLvB76ykk78xuLRfqx/5Q8TKLqMbM5In
-         lnJNKrxmGtlw+1ZJhlB/aE5aszMjbpNNjf+oIhag+ZOw7dZFmRKm+L5MFymTyp8f7E7P
-         VeICaGvizR0VzdDHh53aszLzTJSFTVOTpCkAEYqPoWxxeryguVprGCawMF4eIAmvKfSE
-         73Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCWB4pJDJGvDmyjrPFRoBjI07wsL8N9QRofs+Uub6uaxM7XK+kX/MG/uYvQaRnM7S8w/4o3/3vbRxz9HVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwCzLc4nf2SEAc9BNSuoj8/i/2rl0oz2SGgKsjRjT1+dGHMpph
-	iezq01umPmoxb0mI/c1PyvWOWf5UlO03SUPQwVbwnwTDeiSTJOIAzAlnrMCpbMbxhd5ly+5HkKd
-	85m6GLg==
-X-Gm-Gg: ASbGnctC9ujfKVMqJSyteWQEfgllfKnFsMTrJn12o+TDpgKqTJJXrYhwMLX3i8R8dfB
-	QAktAIdPLLcNx5HHq9L/TkQV3aXA4UYOPEKY7k+iHcSwe6QcJOzKX3TYhC3C/yu392/G0fuzkzr
-	MhunL+ANPAZwxBYcwiw42LLOJILo7YE5BSGHn4TRDYm1aDLJGu3smmNdemt3BFdqbCsmJQNo2D0
-	Tr6j7VKjgItdYpg8gbJezYJyUfvceGzHh5eAg6TCbdGatEGwjNiV6Eqb2G7muagcilgOg8MGaQw
-	fndlxPhpCly2m8fHWPk6JLvucrO34KfdHjPrcM3DQFh3/5DdIGAzR9iCHo/M8USkfiOTrJaqT7U
-	NnHquavTv6KjaBAzxVDy+mpNZ41xtKNxk6HymEvZwxzdcyISoUQsHa1rHMp8C
-X-Google-Smtp-Source: AGHT+IE5tclw77FOg+6Cz0yb+FFglOFG6XE7CvnVkdTw872im8zH7hSUuzh2STbhMahPQTO6dWZKgw==
-X-Received: by 2002:a05:6512:1301:b0:552:21db:8f5b with SMTP id 2adb3069b0e04-55a1c47e9e9mr62758e87.27.1752509105322;
-        Mon, 14 Jul 2025 09:05:05 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b6f497sm1960862e87.188.2025.07.14.09.05.03
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jul 2025 09:05:04 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-553d2eb03a0so6031197e87.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 09:05:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWo0wDNMJrbsanQTJIqqVsGhzhdQhIuqgFmpB0LQHFZwURiBein61wpKcF6pQ1feqX3St8yMhBrmZKsQQ==@vger.kernel.org
-X-Received: by 2002:a05:6512:3b9e:b0:553:2884:5fb3 with SMTP id
- 2adb3069b0e04-55a1c467663mr45477e87.12.1752509103021; Mon, 14 Jul 2025
- 09:05:03 -0700 (PDT)
+	s=arc-20240116; t=1752509283; c=relaxed/simple;
+	bh=ap58nXWNAdEwT7xtiVBYklrm2Xymv/58a6/k+jxl0T8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kCGPY7xlzeMNu+iwpwl+zci8K1pqWp62NmwiofYje5QIobbV42bA88upMOt9lJIOuvRhkd5cKFrlkBssysEoZNjJCCHAHOfWGHXORIOFMWHntghyCUEAj3KYsVWtlSc7f7zxOc29bp/ZRvzIIjfuOp8ZkqykwWhjgvmCzqr1z8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kuc7TpGB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D64C4CEED;
+	Mon, 14 Jul 2025 16:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752509282;
+	bh=ap58nXWNAdEwT7xtiVBYklrm2Xymv/58a6/k+jxl0T8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kuc7TpGBaYXDP9seI34jVcWWVu9hhjgsNc0oB+jYUAbVNX0EllaBV8mCA6aquFK5p
+	 T5fuk1fHO9qlpFoM1UIxPLfbNF6FGIT1VMgDB5cFlQF/WHwzSgxPTjSHS6FNejwk0y
+	 UWEkLT3j9UqGQ5cOCpi92Irnqipl9ougFPZnSDoZlv3/VFouKmaRn0GZ3tXmv/dQBW
+	 kUkMSXytNKQems9q1j6XiAb79NDkY41iJ6nH/E93b2PPbmJdPdI6qnUba7d3COaezh
+	 6UHzoPq1WMsG5vjFgpvP3IEo9+g8DCsL+lbZTuA8c2Cq2i94M7uLawyzy5i0XGSTB7
+	 XlQxxYLs7BAHQ==
+Message-ID: <a782c6ec-e34e-4d58-93cd-17bd88bf1b29@kernel.org>
+Date: Mon, 14 Jul 2025 18:07:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-12-5710f9d030aa@chromium.org>
- <20250629180534.GN24912@pendragon.ideasonboard.com> <CANiDSCvcQ9MA+WBMQTpUzSxDLNiKpvaHsb-pDHTuiUQekgXvQA@mail.gmail.com>
- <CANiDSCtq0cr1LgFCgvdBtWcE3z1MWZEjc0e1wTH_BYPETC+s4Q@mail.gmail.com> <20250714143617.GK8243@pendragon.ideasonboard.com>
-In-Reply-To: <20250714143617.GK8243@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 14 Jul 2025 18:04:50 +0200
-X-Gmail-Original-Message-ID: <CANiDSCud66tcaODuVA1TreEQ3k8u4k-6ghzRQedTPFcT3j+9VQ@mail.gmail.com>
-X-Gm-Features: Ac12FXxJPvBJAM528bNZN02Nhk1iZCMcKXmyshIGKqYKQPEJihw9v-tpgzFvPcg
-Message-ID: <CANiDSCud66tcaODuVA1TreEQ3k8u4k-6ghzRQedTPFcT3j+9VQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] media: uvcvideo: Do not create MC entities for
- virtual entities
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] MAINTAINERS: Add entry for rzv2h-ivc driver
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com,
+ laurent.pinchart@ideasonboard.com
+References: <20250714-ivc-v4-0-534ea488c738@ideasonboard.com>
+ <20250714-ivc-v4-3-534ea488c738@ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250714-ivc-v4-3-534ea488c738@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 14 Jul 2025 at 16:36, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Tue, Jul 08, 2025 at 08:28:21AM +0200, Ricardo Ribalda wrote:
-> > On Tue, 1 Jul 2025 at 13:20, Ricardo Ribalda wrote:
-> > > On Sun, 29 Jun 2025 at 20:06, Laurent Pinchart wrote:
-> > > > Hi Ricardo,
-> > > >
-> > > > Thank you for the patch.
-> > > >
-> > > > I would use "software entities" and not "virtual entities" in the
-> > > > subject line and everywhere else, as those entities are not virtual.
-> > > >
-> > > > On Thu, Jun 05, 2025 at 05:53:05PM +0000, Ricardo Ribalda wrote:
-> > > > > Neither the GPIO nor the SWENTITY entities form part of the device
-> > > > > pipeline. We just create them to hold emulated uvc controls.
-> > > > >
-> > > > > When the device initializes, a warning is thrown by the v4l2 core:
-> > > > > uvcvideo 1-1:1.0: Entity type for entity SWENTITY was not initialized!
-> > > > >
-> > > > > There are no entity function that matches what we are doing here, and
-> > > > > it does not make to much sense to create a function for entities that
-> > > > > do not really exist.
-> > > >
-> > > > I don't agree with this. The purpose of reporting entities to userspace
-> > > > through the MC API is to let application enumerate what entities a
-> > > > device contains. Being able to enumerate software entities seems as
-> > > > useful as being able to enumerate hardware entities.
-> > >
-> > > What function shall we use in this case? Nothing here seems to match a
-> > > software entity
-> > > https://www.kernel.org/doc/html/latest/userspace-api/media/mediactl/media-types.html
-> > >
-> > > Any suggestion for name?
-> > > Shall we just live with the warning in dmesg?
-> >
-> >  I just realised that if/when we move to the control framework, the
-> > software entity will be gone.... So to avoid introducing a uAPI change
-> > that will be reverted later I think that we should keep this patch.
->
-> You know my opinion about moving to the control framework, so that's not
-> a very compelling argument :-)
+On 14/07/2025 17:19, Daniel Scally wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3a53565aa34897e5df13f0420908598add5b28fb..4f5bf6d0db54976360b2019119fc55f78cae6a96 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21190,6 +21190,13 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/net/renesas,r9a09g057-gbeth.yaml
+>  F:	drivers/net/ethernet/stmicro/stmmac/dwmac-renesas-gbeth.c
+>  
+> +RENESAS RZ/V2H(P) INPUT VIDEO CONTROL BLOCK DRIVER
+> +M:	Daniel Scally <dan.scally@ideasonboard.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/renesas,rzv2h-ivc.yaml
 
-Correct me if I am wrong, your opinion is that it will take too much
-work, not that it can't be done or that it is a bad idea.
+This path looks like does not match anymore.
 
-Will send a patch using MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER, but
-when/if we use the control framework, please let me drop the swentity.
-
-Thanks!
-
-
->
-> We could use MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER, as that's the
-> function already used by XUs, and the SWENTITY fulfills the same role as
-> XUs in some devices.
->
-> > > > > Do not create MC entities for them and pretend nothing happened here.
-> > > > >
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > >  drivers/media/usb/uvc/uvc_entity.c | 10 ++++++++++
-> > > > >  1 file changed, 10 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-> > > > > index d1a652ef35ec34801bd39a5124b834edf838a79e..2dbeb4ab0c4c8cc763ff2dcd2d836a50f3c6a040 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_entity.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_entity.c
-> > > > > @@ -72,6 +72,16 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
-> > > > >  {
-> > > > >       int ret;
-> > > > >
-> > > > > +     /*
-> > > > > +      * Do not initialize virtual entities, they do not really exist
-> > > > > +      * and are not connected to any other entities.
-> > > > > +      */
-> > > > > +     switch (UVC_ENTITY_TYPE(entity)) {
-> > > > > +     case UVC_EXT_GPIO_UNIT:
-> > > > > +     case UVC_SWENTITY_UNIT:
-> > > > > +             return 0;
-> > > > > +     }
-> > > > > +
-> > > > >       if (UVC_ENTITY_TYPE(entity) != UVC_TT_STREAMING) {
-> > > > >               u32 function;
-> > > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
+Best regards,
+Krzysztof
 
