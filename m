@@ -1,48 +1,81 @@
-Return-Path: <linux-media+bounces-37636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37637-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F100B04133
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:16:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7E8B04147
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:18:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 847A67A73E2
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:14:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DEF53ADB29
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:17:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A3D2256C60;
-	Mon, 14 Jul 2025 14:15:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A952253F2D;
+	Mon, 14 Jul 2025 14:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dW+HpAme"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EpD1CUUy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A075A24503F;
-	Mon, 14 Jul 2025 14:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A70258CC1
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752502527; cv=none; b=PhFzd2bom/Phl/TkJx/XA0ai/J0pQmCb+NfEK6cDiMECr4zJ3VCIfFF70tR0TOtSYnbOUu8R+Wcbk9os0HaRskXSZUmFPPyKPJjeymnG+nEb4vcGm+Kz6+D3jHlozhBTdBsg7KhtkiQMUTCkfSNiPgbzBS4ZLH/ZR0crwTYj3EU=
+	t=1752502612; cv=none; b=qNjmwiajjPmWq+wxF28pEpUfxu+TX/iv7/hlVaavZ7HR5/gIAtKoPhbfBT/ErUhHBZD7q+p3p1SHYrZysKmRb4WS6zOFmpOX3ekg3FrwlMejD+WBeAVK36CFJCmKZpeQGuUsEm9X9rMkCYcHS37Dys3peDuqYLY5d3+ToM5OHwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752502527; c=relaxed/simple;
-	bh=hdBT6wcClGASgr9S5WDZpzBYJlY8wRDYmXXqMqHUQKM=;
+	s=arc-20240116; t=1752502612; c=relaxed/simple;
+	bh=Lq4V4cI9f+RGqhTnj9OGNLQCB5/+4U22BJ53BLS03q4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=APjVhh4z27UpLa6HCxkr/A0Z7YWCQ0jvAk0DqmCnNaqKYZXHoStX9WuJEdwQHXa63/mFdQVbhYhGm/wqfA2sgNx+gsol0zJ6qUq5DetdQOJc6l47rzyzJDud8QcOdsZB1QaW5Zk0FOM99/gfcOK+IFDO2XeS6Pey/vP6wuNNet4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dW+HpAme; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D8EC4CEF4;
-	Mon, 14 Jul 2025 14:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752502527;
-	bh=hdBT6wcClGASgr9S5WDZpzBYJlY8wRDYmXXqMqHUQKM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dW+HpAmebIfczQXEOYon3+xzlbSRv3MXkgX3+M7djhmG23zZoA7ErgJSG63avjY35
-	 +A4EiUj+B1ZTGCJQqgpm9XHl1bvpaIm2dOwhMJssOIGbpkjVJUeYySKVm7o0ltyxg8
-	 PZVMPeD0EDfZGsXI3j1SUfsqHHaGfbx4XnFmfIS2tzFo9pEZhSLQyuHRmwXwuYHRBy
-	 i3z1iHu2CWnygSAXUf/hNCILdUVPrFcU/uaEEzS7db7vvA+0L1Y82QDFF+EVr7+p2w
-	 ZgwrKQmMeWzT+tNmEqOan51+kC827pSHIUvGd7tpoE0SJUKvQOT8Q8lhNVkXUFePiQ
-	 rGLrgX7prC6ZA==
-Message-ID: <4b906275-227e-4e72-9104-a0547fdc2c02@kernel.org>
-Date: Mon, 14 Jul 2025 16:15:19 +0200
+	 In-Reply-To:Content-Type; b=OOhEzvSKlMtnr/KrNqNmzBxphiFGlvs4/tk9pYjJ1HoBrE/o8Nc/LuH5MQjOsgeFZQkftiE3m+ShWEYuaAs9ifGhSDY+e8R/wdAPvtBU5VrIGlkAOy5WLF5II6ezkXM99/vFJ9pjWousfD47C++v/fd6w130uqaxgQ5FrRBr4r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EpD1CUUy; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-553b7a3af9aso273251e87.2
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 07:16:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752502609; x=1753107409; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cI2qt4NB/mo+O9FErgJgDmsE0AmvcZBo4EL9xQ0SmF0=;
+        b=EpD1CUUyhZcbiDg21XQm6OUmXg9nVFV7t0dcqQht5lnyyyL58ut77Pwj8dVUG+Q3x/
+         kaIKK6WP3copDX8eyMGkX5eTXdZJMiPPZD7/z8iV/NW0/rzMpqeRM+lCDPoIu+ZTnF0w
+         JOVKOSBFFpK9uQ1JMUzlGKOI2VezXDI7gNP6sfaYAEpeJJpFO1szhh6rgNltAZzJL7RO
+         LfN6Qm5EdEHYNZE0cLIAE+emD327dc1tK/GP4LSPM/oxMDtYt7k0I/Mbfo3vybEW4Gda
+         DiDsdj9FDnqfK0HQPOB/fJGj304NiQBcD4pz6HljL+RxZIp+2YFBGODGLlFVuuTW3H04
+         okcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752502609; x=1753107409;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cI2qt4NB/mo+O9FErgJgDmsE0AmvcZBo4EL9xQ0SmF0=;
+        b=O4AWckmWo9YNTp74nePwRixMNlDOKXLiKtqmNE5kFyIQPujuvEmDyNyW/klStYK4EH
+         E2s7LclQc0ub/NgKhhe/ry+fHwZMH1bvlXiQqkp4ZZA7ZdL84wCIp7qfBSyJXVEqYKcE
+         F4Je2qxbpx/0D5bhdECwEZPzUbVzBTRd2WxLBZqC5Q80PdKviMVtB7k18nLugFVkz3wp
+         OVtK4s3x4AYRR3fM1yhB+nZYvNpkIsbtypRJzVkWlnx7sqT+9uisoqTKVr/NCJrPYKX5
+         NuQqoxqnhPDt9H+U22rB4/tQhpb4SlCSSlnGlLGHvqVd7BxAarbiCgLFiaTuq0tC9FfC
+         h0nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVuUqUqGDnspP92R3TKw2wjSmtBPiEL6qVLlRLCl+OsBOLs5yNVVrwNe81zNQ1k6xfd+3+C69iDkDhVpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJQKR6z9oM/DGkEbT1V8hUQFwjJaBZjBCcoSx6Ijt7r0BqngPK
+	Dlbi1SqmjgBdulv3qZfTdSdQUx9VoikzKYrA9EppP3DCgHTDupxptOzQqQN9DAUMdOk=
+X-Gm-Gg: ASbGncuHxj4tveIUN7bJC8mQt9MNS8PAP39+dPoUlmTRBZjJXggIwHLOG8WAmyByfrg
+	L60bkZYw598MDJ0w5UN1XPyukDAwjQ2hqIMGhZYin+pWu25Shxymt1wTpJQ0uvgcwfbJNMpDCmS
+	5iWI8PXtE3lwJxvcWEP/FmyqEbQTDoyvwf8ltnyyNCeIORNo6Z52kBN1c/bBGnhHZn3/ZKD2l9l
+	yh52kXL3Ftbsl7N5qic5YUKdYkXM1UAZZPmm0fW8TFD4//UeosZ2NWJaaA4PU0Lzlncz1/Rwutl
+	pdqkY1nYC7qEgZWj39yGu1cb8aPM/YHxEwLM8BIoZOg4cx2qqRLHnpRgpU/5FR+WOyqyvsA5nNw
+	Sy406W8Rf48t3N3pfYRJb6Tt0pm0yJ71M41gjunkmTDr/JjuIZ7M/NXq/QSVe/31JKshtvucZyh
+	5i
+X-Google-Smtp-Source: AGHT+IGTRrIlX7t9ZryRjbDW/jQgLD10lUwwmpwKvz9xBujx9a/Ky++DAJpYUrrJvDtsrPqoHdxBsQ==
+X-Received: by 2002:a05:6512:1293:b0:558:f60d:d4a1 with SMTP id 2adb3069b0e04-55a048faf48mr1262310e87.5.1752502608759;
+        Mon, 14 Jul 2025 07:16:48 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b60737sm1957066e87.156.2025.07.14.07.16.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 07:16:48 -0700 (PDT)
+Message-ID: <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
+Date: Mon, 14 Jul 2025 17:16:46 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,361 +83,146 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/12] media: uvcvideo: Add support for
- V4L2_CID_CAMERA_ORIENTATION
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-8-5710f9d030aa@chromium.org>
- <20250629175045.GC6260@pendragon.ideasonboard.com>
- <CANiDSCuUFUtwenuefqf__=bpyNr0jxFML0hq5spktA+w441Jjw@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <CANiDSCuUFUtwenuefqf__=bpyNr0jxFML0hq5spktA+w441Jjw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 1-Jul-25 11:22, Ricardo Ribalda wrote:
-> On Sun, 29 Jun 2025 at 19:51, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->>
->> Hi Ricardo,
->>
->> On Thu, Jun 05, 2025 at 05:53:01PM +0000, Ricardo Ribalda wrote:
->>> Fetch the orientation from the fwnode and map it into a control.
->>>
->>> The uvc driver does not use the media controller, so we need to create a
->>> virtual entity, like we previously did with the external gpio.
->>>
->>> We do not re-purpose the external gpio entity because its is planned to
->>> remove it.
->>
->> Comparing the GUIDs for the EXT_GPIO_CONTROLLER and SWENTITY, we have
->>
->> #define UVC_GUID_EXT_GPIO_CONTROLLER \
->>         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->>          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
->> #define UVC_GUID_SWENTITY \
->>         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->>          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04}
->>
->> The GUIDs don't carry any special meaning in their values. I agree with
->> the plan to drop the existing features of the GPIO entity, but wouldn't
->> it be easier to rename UVC_GUID_EXT_GPIO_CONTROLLER to UVC_GUID_SWENTITY
->> and UVC_EXT_GPIO_UNIT* to UVC_SWENTITY_UNIT* (the macros are not exposed
->> to userspace), and later drop the existing GPIO controls from the entity
+On 7/10/25 19:16, Bryan O'Donoghue wrote:
+> Add a new MIPI CSI2 driver in D-PHY mode initially. The entire set of
+> existing CAMSS CSI PHY init sequences are imported in order to save time
+> and effort in later patches.
 > 
-> It would make my life easier if we keep the naming as is, the final
-> result will be identical.
-
-I've no strong preference either way.
-
-> Maybe you want to take a look into
-> https://patchwork.linuxtv.org/project/linux-media/list/?series=14066 ?
-
-I can take a look at this next week, I thought this was a bit lower prio
-now that we have the granular power-saving stuff, but I agree it would be
-good to get this moving forward now that most of the backlog is cleared.
-
-> Will it help if I rebase it to the current media-committers/next. It
-> has been hanging around since november.
-
-Yes a new rebased version would help, then I'll try to review that
-next week.
-
-Regards,
-
-Hans
-
-
-
->>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>> ---
->>>  drivers/media/usb/uvc/Makefile       |  3 +-
->>>  drivers/media/usb/uvc/uvc_ctrl.c     | 21 +++++++++++
->>>  drivers/media/usb/uvc/uvc_driver.c   | 14 +++++--
->>>  drivers/media/usb/uvc/uvc_entity.c   |  1 +
->>>  drivers/media/usb/uvc/uvc_swentity.c | 73 ++++++++++++++++++++++++++++++++++++
->>>  drivers/media/usb/uvc/uvcvideo.h     | 14 +++++++
->>>  include/linux/usb/uvc.h              |  3 ++
->>>  7 files changed, 125 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/media/usb/uvc/Makefile b/drivers/media/usb/uvc/Makefile
->>> index 4f9eee4f81ab6436a8b90324a688a149b2c3bcd1..b4398177c4bb0a9bd49dfd4ca7f2e933b4a1d7df 100644
->>> --- a/drivers/media/usb/uvc/Makefile
->>> +++ b/drivers/media/usb/uvc/Makefile
->>> @@ -1,6 +1,7 @@
->>>  # SPDX-License-Identifier: GPL-2.0
->>>  uvcvideo-objs  := uvc_driver.o uvc_queue.o uvc_v4l2.o uvc_video.o uvc_ctrl.o \
->>> -               uvc_status.o uvc_isight.o uvc_debugfs.o uvc_metadata.o
->>> +               uvc_status.o uvc_isight.o uvc_debugfs.o uvc_metadata.o \
->>> +               uvc_swentity.o
->>>  ifeq ($(CONFIG_MEDIA_CONTROLLER),y)
->>>  uvcvideo-objs  += uvc_entity.o
->>>  endif
->>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
->>> index 47e8ccc39234d1769384b55539a21df07f3d57c7..b2768080c08aafa85acb9b7f318672c043d84e55 100644
->>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
->>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
->>> @@ -376,6 +376,13 @@ static const struct uvc_control_info uvc_ctrls[] = {
->>>                               | UVC_CTRL_FLAG_GET_DEF
->>>                               | UVC_CTRL_FLAG_AUTO_UPDATE,
->>>       },
->>> +     {
->>> +             .entity         = UVC_GUID_SWENTITY,
->>> +             .selector       = 0,
->>> +             .index          = 0,
->>> +             .size           = 1,
->>> +             .flags          = UVC_CTRL_FLAG_GET_CUR,
->>> +     },
->>>  };
->>>
->>>  static const u32 uvc_control_classes[] = {
->>> @@ -975,6 +982,17 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->>>               .data_type      = UVC_CTRL_DATA_TYPE_BITMASK,
->>>               .name           = "Region of Interest Auto Ctrls",
->>>       },
->>> +     {
->>> +             .id             = V4L2_CID_CAMERA_ORIENTATION,
->>> +             .entity         = UVC_GUID_SWENTITY,
->>> +             .selector       = 0,
->>> +             .size           = 8,
->>> +             .offset         = 0,
->>> +             .v4l2_type      = V4L2_CTRL_TYPE_MENU,
->>> +             .data_type      = UVC_CTRL_DATA_TYPE_ENUM,
->>> +             .menu_mask      = GENMASK(V4L2_CAMERA_ORIENTATION_EXTERNAL,
->>> +                                       V4L2_CAMERA_ORIENTATION_FRONT),
->>> +     },
->>>  };
->>>
->>>  /* ------------------------------------------------------------------------
->>> @@ -3210,6 +3228,9 @@ static int uvc_ctrl_init_chain(struct uvc_video_chain *chain)
->>>               } else if (UVC_ENTITY_TYPE(entity) == UVC_EXT_GPIO_UNIT) {
->>>                       bmControls = entity->gpio.bmControls;
->>>                       bControlSize = entity->gpio.bControlSize;
->>> +             } else if (UVC_ENTITY_TYPE(entity) == UVC_SWENTITY_UNIT) {
->>> +                     bmControls = entity->swentity.bmControls;
->>> +                     bControlSize = entity->swentity.bControlSize;
->>>               }
->>>
->>>               /* Remove bogus/blacklisted controls */
->>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
->>> index bcc97f71fa1703aea1119469fb32659c17d9409a..96eeb3aee546487d15f3c30dfe1775189ddf7e47 100644
->>> --- a/drivers/media/usb/uvc/uvc_driver.c
->>> +++ b/drivers/media/usb/uvc/uvc_driver.c
->>> @@ -1869,11 +1869,15 @@ static int uvc_scan_device(struct uvc_device *dev)
->>>               return -1;
->>>       }
->>>
->>> -     /* Add GPIO entity to the first chain. */
->>> -     if (dev->gpio_unit) {
->>> +     /* Add virtual entities to the first chain. */
->>> +     if (dev->gpio_unit || dev->swentity_unit) {
->>>               chain = list_first_entry(&dev->chains,
->>>                                        struct uvc_video_chain, list);
->>> -             list_add_tail(&dev->gpio_unit->chain, &chain->entities);
->>> +             if (dev->gpio_unit)
->>> +                     list_add_tail(&dev->gpio_unit->chain, &chain->entities);
->>> +             if (dev->swentity_unit)
->>> +                     list_add_tail(&dev->swentity_unit->chain,
->>> +                                   &chain->entities);
->>>       }
->>>
->>>       return 0;
->>> @@ -2249,6 +2253,10 @@ static int uvc_probe(struct usb_interface *intf,
->>>       if (ret < 0)
->>>               goto error;
->>>
->>> +     ret = uvc_swentity_init(dev);
->>> +     if (ret < 0)
->>> +             goto error;
->>> +
->>>       dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
->>>                dev->uvc_version >> 8, dev->uvc_version & 0xff,
->>>                udev->product ? udev->product : "<unnamed>",
->>> diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
->>> index cc68dd24eb42dce5b2846ca52a8dfa499c8aed96..d1a652ef35ec34801bd39a5124b834edf838a79e 100644
->>> --- a/drivers/media/usb/uvc/uvc_entity.c
->>> +++ b/drivers/media/usb/uvc/uvc_entity.c
->>> @@ -106,6 +106,7 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
->>>               case UVC_OTT_MEDIA_TRANSPORT_OUTPUT:
->>>               case UVC_EXTERNAL_VENDOR_SPECIFIC:
->>>               case UVC_EXT_GPIO_UNIT:
->>> +             case UVC_SWENTITY_UNIT:
->>>               default:
->>>                       function = MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN;
->>>                       break;
->>> diff --git a/drivers/media/usb/uvc/uvc_swentity.c b/drivers/media/usb/uvc/uvc_swentity.c
->>> new file mode 100644
->>> index 0000000000000000000000000000000000000000..702a2c26e029a0655dade177ed2a9b88d7a4136d
->>> --- /dev/null
->>> +++ b/drivers/media/usb/uvc/uvc_swentity.c
->>> @@ -0,0 +1,73 @@
->>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>> +/*
->>> + *      uvc_swentity.c  --  USB Video Class driver
->>> + *
->>> + *      Copyright 2025 Google LLC
->>> + */
->>> +
->>> +#include <linux/kernel.h>
->>> +#include <linux/usb/uvc.h>
->>> +#include <media/v4l2-fwnode.h>
->>> +#include "uvcvideo.h"
->>
->> Blank lines between header groups would be nice.
-> ack
->>
->>> +
->>> +static int uvc_swentity_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
->>> +                             u8 cs, void *data, u16 size)
->>> +{
->>> +     if (size < 1)
->>> +             return -EINVAL;
->>> +
->>> +     switch (entity->swentity.props.orientation) {
->>> +     case V4L2_FWNODE_ORIENTATION_FRONT:
->>> +             *(u8 *)data = V4L2_CAMERA_ORIENTATION_FRONT;
->>> +             break;
->>> +     case V4L2_FWNODE_ORIENTATION_BACK:
->>> +             *(u8 *)data = V4L2_CAMERA_ORIENTATION_BACK;
->>> +             break;
->>> +     default:
->>> +             *(u8 *)data = V4L2_CAMERA_ORIENTATION_EXTERNAL;
->>> +     }
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +static int uvc_swentity_get_info(struct uvc_device *dev,
->>> +                              struct uvc_entity *entity, u8 cs, u8 *caps)
->>> +{
->>> +     *caps = UVC_CONTROL_CAP_GET;
->>> +     return 0;
->>> +}
->>> +
->>> +int uvc_swentity_init(struct uvc_device *dev)
->>> +{
->>> +     static const u8 uvc_swentity_guid[] = UVC_GUID_SWENTITY;
->>> +     struct v4l2_fwnode_device_properties props;
->>> +     struct uvc_entity *unit;
->>> +     int ret;
->>> +
->>> +     ret = v4l2_fwnode_device_parse(&dev->udev->dev, &props);
->>> +     if (ret)
->>> +             return dev_err_probe(&dev->intf->dev, ret,
->>> +                                  "Can't parse fwnode\n");
->>> +
->>> +     if (props.orientation == V4L2_FWNODE_PROPERTY_UNSET)
->>> +             return 0;
->>> +
->>> +     unit = uvc_alloc_entity(UVC_SWENTITY_UNIT, UVC_SWENTITY_UNIT_ID, 0, 1);
->>> +     if (!unit)
->>> +             return -ENOMEM;
->>> +
->>> +     memcpy(unit->guid, uvc_swentity_guid, sizeof(unit->guid));
->>> +     unit->swentity.props = props;
->>> +     unit->swentity.bControlSize = 1;
->>> +     unit->swentity.bmControls = (u8 *)unit + sizeof(*unit);
->>> +     unit->swentity.bmControls[0] = 1;
->>> +     unit->get_cur = uvc_swentity_get_cur;
->>> +     unit->get_info = uvc_swentity_get_info;
->>> +     strscpy(unit->name, "SWENTITY", sizeof(unit->name));
->>> +
->>> +     list_add_tail(&unit->list, &dev->entities);
->>> +
->>> +     dev->swentity_unit = unit;
->>> +
->>> +     return 0;
->>> +}
->>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
->>> index dc23d8a97340dc4615d4182232d395106e6d9ed5..a931750bdea25b9062dcc7644bf5f2ed89c1cb4c 100644
->>> --- a/drivers/media/usb/uvc/uvcvideo.h
->>> +++ b/drivers/media/usb/uvc/uvcvideo.h
->>> @@ -19,6 +19,7 @@
->>>  #include <media/v4l2-event.h>
->>>  #include <media/v4l2-fh.h>
->>>  #include <media/videobuf2-v4l2.h>
->>> +#include <media/v4l2-fwnode.h>
->>
->> Alphabetical order.
->>
->>>
->>>  /* --------------------------------------------------------------------------
->>>   * UVC constants
->>> @@ -41,6 +42,9 @@
->>>  #define UVC_EXT_GPIO_UNIT            0x7ffe
->>>  #define UVC_EXT_GPIO_UNIT_ID         0x100
->>>
->>> +#define UVC_SWENTITY_UNIT            0x7ffd
->>> +#define UVC_SWENTITY_UNIT_ID         0x101
->>> +
->>>  /* ------------------------------------------------------------------------
->>>   * Driver specific constants.
->>>   */
->>> @@ -242,6 +246,12 @@ struct uvc_entity {
->>>                       int irq;
->>>                       bool initialized;
->>>               } gpio;
->>> +
->>> +             struct {
->>> +                     u8  bControlSize;
->>> +                     u8  *bmControls;
->>> +                     struct v4l2_fwnode_device_properties props;
->>> +             } swentity;
->>>       };
->>>
->>>       u8 bNrInPins;
->>> @@ -617,6 +627,7 @@ struct uvc_device {
->>>       } async_ctrl;
->>>
->>>       struct uvc_entity *gpio_unit;
->>> +     struct uvc_entity *swentity_unit;
->>>  };
->>>
->>>  enum uvc_handle_state {
->>> @@ -836,4 +847,7 @@ void uvc_debugfs_cleanup_stream(struct uvc_streaming *stream);
->>>  size_t uvc_video_stats_dump(struct uvc_streaming *stream, char *buf,
->>>                           size_t size);
->>>
->>> +/* swentity */
->>> +int uvc_swentity_init(struct uvc_device *dev);
->>> +
->>>  #endif
->>> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
->>> index bce95153e5a65613a710d7316fc17cf5462b5bce..88a23e8919d1294da4308e0e3ca0eccdc66a318f 100644
->>> --- a/include/linux/usb/uvc.h
->>> +++ b/include/linux/usb/uvc.h
->>> @@ -29,6 +29,9 @@
->>>  #define UVC_GUID_EXT_GPIO_CONTROLLER \
->>>       {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->>>        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
->>> +#define UVC_GUID_SWENTITY \
->>> +     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->>> +      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04}
->>>
->>>  #define UVC_GUID_FORMAT_MJPEG \
->>>       { 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
+> In-line with other PHY drivers the process node name is omitted from the
+> compat string while the soc name is included.
 > 
+> At the moment we follow the assignment of lane positions - the bitmap of
+> physical input lanes to logical lane numbers as a linear list per the
+> existing DPHY @lanes data-member.
 > 
+> This is fine for us in upstream since we also map the lanes contiguously
+> but, our hardware can support different lane mappings so we should in the
+> future extend out the DPHY structure to capture the mapping.
 > 
+> The Qualcomm 3PH class of PHYs can do both D-PHY and C-PHY mode. For now only
+> D-PHY is supported.
+> 
+> In porting some of the logic over from camss-csiphy*.c to here its also
+> possible to rationalise some of the code.
+> 
+> In particular use of regulator_bulk and clk_bulk as well as dropping the
+> seemingly useless and unused interrupt handler.
+> 
+> The PHY sequences and a lot of the logic that goes with them are well proven
+> in CAMSS and mature so the main thing to watch out for here is how to get
+> the right sequencing of regulators, clocks and register-writes.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   MAINTAINERS                                        |  11 +
+>   drivers/phy/qualcomm/Kconfig                       |  11 +
+>   drivers/phy/qualcomm/Makefile                      |   6 +
+>   drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c | 491 +++++++++++++++++++++
+>   drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c     | 281 ++++++++++++
+>   drivers/phy/qualcomm/phy-qcom-mipi-csi2.h          | 101 +++++
+>   6 files changed, 901 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1ef99240a57ed1ad0d4501998970c7c3b85d3b81..69519e2d6dfb65771a3245735283645bb50a249a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20536,6 +20536,17 @@ S:	Maintained
+>   F:	Documentation/devicetree/bindings/media/qcom,*-iris.yaml
+>   F:	drivers/media/platform/qcom/iris/
+>   
+> +QUALCOMM MIPI CSI2 PHY DRIVER
+> +M:	Bryan O'Donoghue <bod@kernel.org>
+> +L:	linux-phy@lists.infradead.org
+> +L:	linux-media@vger.kernel.org
+> +L:	linux-arm-msm@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/phy/qcom,x1e80100-mipi-csi2-combo-phy.yaml
+> +F:	drivers/phy/qualcomm/phy-qcom-mipi-csi2*.c
+> +F:	drivers/phy/qualcomm/phy-qcom-mipi-csi2*.h
+> +F:	include/dt-bindings/phy/phy-qcom-mipi-csi2*
+> +
+>   QUALCOMM NAND CONTROLLER DRIVER
+>   M:	Manivannan Sadhasivam <mani@kernel.org>
+>   L:	linux-mtd@lists.infradead.org
+> diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
+> index ef14f4e33973cff4103d8ea3b07cfd62d344e450..d0ab70827519c2b046d0fb03c14bb4d8ae2ec9a1 100644
+> --- a/drivers/phy/qualcomm/Kconfig
+> +++ b/drivers/phy/qualcomm/Kconfig
+> @@ -28,6 +28,17 @@ config PHY_QCOM_EDP
+>   	  Enable this driver to support the Qualcomm eDP PHY found in various
+>   	  Qualcomm chipsets.
+>   
+> +config PHY_QCOM_MIPI_CSI2
+> +	tristate "Qualcomm MIPI CSI2 PHY driver"
+> +	depends on ARCH_QCOM || COMPILE_TEST
+> +	depends on OF
+> +	depends on COMMON_CLK
+> +	select GENERIC_PHY
+> +	select GENERIC_PHY_MIPI_DPHY
+> +	help
+> +	  Enable this to support the MIPI CSI2 PHY driver found in various
+> +	  Qualcomm chipsets.
+> +
+>   config PHY_QCOM_IPQ4019_USB
+>   	tristate "Qualcomm IPQ4019 USB PHY driver"
+>   	depends on OF && (ARCH_QCOM || COMPILE_TEST)
+> diff --git a/drivers/phy/qualcomm/Makefile b/drivers/phy/qualcomm/Makefile
+> index 3851e28a212d4a677a5b41805868f38b9ab49841..67013d27cb0387b9d65dcbe030ea6e5eaaabbe91 100644
+> --- a/drivers/phy/qualcomm/Makefile
+> +++ b/drivers/phy/qualcomm/Makefile
+> @@ -5,6 +5,12 @@ obj-$(CONFIG_PHY_QCOM_EDP)		+= phy-qcom-edp.o
+>   obj-$(CONFIG_PHY_QCOM_IPQ4019_USB)	+= phy-qcom-ipq4019-usb.o
+>   obj-$(CONFIG_PHY_QCOM_IPQ806X_SATA)	+= phy-qcom-ipq806x-sata.o
+>   obj-$(CONFIG_PHY_QCOM_M31_USB)		+= phy-qcom-m31.o
+> +
+> +phy-qcom-mipi-csi2-objs			+= phy-qcom-mipi-csi2-core.o \
+> +					   phy-qcom-mipi-csi2-3ph-dphy.o
+> +
+> +obj-$(CONFIG_PHY_QCOM_MIPI_CSI2)	+= phy-qcom-mipi-csi2.o
+> +
+>   obj-$(CONFIG_PHY_QCOM_PCIE2)		+= phy-qcom-pcie2.o
+>   
+>   obj-$(CONFIG_PHY_QCOM_QMP_COMBO)	+= phy-qcom-qmp-combo.o phy-qcom-qmp-usbc.o
+> diff --git a/drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c b/drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..1a99efee88cc94ec0d29a335cd29f88af8a00c02
+> --- /dev/null
+> +++ b/drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c
+> @@ -0,0 +1,491 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * camss-phy_qcom_mipi_csi2-3ph-1-0.c
+> + *
+> + * Qualcomm MSM Camera Subsystem - CSIPHY Module 3phase v1.0
+> + *
+> + * Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
+> + * Copyright (C) 2016-2025 Linaro Ltd.
+> + */
+> +#define DEBUG
 
+Still under debugging?..
+
+Well, the phy should be a multimedia device, and this driver is not
+the one, thus you can not use it to connect sensors and put the IP
+into a media pipeline.
+
+-- 
+Best wishes,
+Vladimir
 
