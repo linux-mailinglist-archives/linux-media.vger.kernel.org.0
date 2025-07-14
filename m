@@ -1,85 +1,80 @@
-Return-Path: <linux-media+bounces-37646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37648-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8945BB041DC
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:37:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 912EFB04206
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:42:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 799561A62930
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:37:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B86E77ABD05
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:41:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9F525A2C0;
-	Mon, 14 Jul 2025 14:36:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7936D2571C2;
+	Mon, 14 Jul 2025 14:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K39ZGBs3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q40qDfwz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF942248883
-	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3E923ABB7
+	for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 14:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752503809; cv=none; b=AwvMP9M6cxE1qJjWSRZaDLAPMgBOD5aa/UGaa0+YrxAOcc1qAINarI+XIaF+IPAltQluYU6cY5xUhvm4zeFg01jSb73yJa7FOu7L+yN1XW2Rh1tmxWEtaX/XxmkznJafpYkSHMtsbu9BqPwlxNi73DwWdj6QsqjgR6I/o0pkKMc=
+	t=1752504144; cv=none; b=PNMBx4qyxzUu44Kg1KQ/Q8OWOsTq5GJ8d09CHRPuxMplxrg5v7wlPTW+GPYm1vmIJ9t/UeP1cWoEMqThC0A13QNGV3oCzvIoRXlAoLz60vUQ8Uec/2a41sbdxD3KmWUg8wMS7l9Np8c347JvL6F1a59MzviWYMqKj6ANqaS52fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752503809; c=relaxed/simple;
-	bh=VuqqMa72HKsGgw63UuN5cHyjaBeUWVPHJvFJII6coOY=;
+	s=arc-20240116; t=1752504144; c=relaxed/simple;
+	bh=I7Pxnln1BUjfe7HcY5t1QvJulXfLwXmFHrmFWRkwVbs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ck38kHvu/nsWdBIbh5RdAuWdoI/PvWngIqyKSIdFUu3rEwAht5XdhlvYCktqogUC/Uv2QAHdz1PpwmUGBXRxN8BMDIUvLnpRpclPbIxXlgu5gXEWPZcggdwXjgfF7gz5augOFRqeizYW63uOoJn7L4C+6C5RIThcKGDtetpCoac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K39ZGBs3; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752503806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=stVCHu6LKp83uxTYBPZjVntnTY6VyQOczeCpnXoPZFg=;
-	b=K39ZGBs3DW7er8HSJWu7e6MYjVBVE5qEDjqf0QXV/BeO2f4w/aay76F2hvF2V6u2AYOfo/
-	UDjTOD1Vt8uKewCudDKb6S7AXu1IN5Ss924mVTSTNkxPM3jkOy670TKYWwBq0ka9/7jd+j
-	vjnhfoR4s6weHdGSJ92/2IQ/D4JiaII=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-610-TMe-aWtVPlay172LzSLDaQ-1; Mon, 14 Jul 2025 10:36:45 -0400
-X-MC-Unique: TMe-aWtVPlay172LzSLDaQ-1
-X-Mimecast-MFC-AGG-ID: TMe-aWtVPlay172LzSLDaQ_1752503804
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-607434dbc78so4165093a12.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 07:36:45 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=pXh9aJEDDvZVIDeAAdSk7CnPvCDVMbZIQ6+qVSxiB68z87f37QKD8jAuN7hEKB1gmTAPiCQ+50CrDUQM0cA6zsy+Unu41qmSpUqXOrUApzhnzEUXja7/HUtawj7ilVwUP1z+Uyuo+W6ioascpiTNEf6dTHf/noy+KTRtUxLno8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q40qDfwz; arc=none smtp.client-ip=209.85.221.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-3a4f72cba73so3528234f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 07:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752504142; x=1753108942; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YgT/ZO8DO6Wf1bRdrDifcHYIjUyKTX9Eo/tSV9XIcEY=;
+        b=q40qDfwzSIA14x1r/J2rEkv6K1gxFsLR9g71YzjpsE6p6yyKnDL03XaUeaipq9qbtE
+         sPSscV7zXPXPszZUWxrwFO2bmGXSxRHADAfkUMipJq5vD+gKVUVDzVPI9fX/tAosqAyW
+         9e5VLaDKcTtGFlDJLH8CG+W2sj1fsnVEj5yJP9PqvcMk7KH+2MaeMRSgKRJTsyh0zky+
+         UQSSKm0HPvwQ5EQnxzpi449raR24hCiotmch5uSmR6aZCoU72L4RvO+Y88A/q9YeQpQp
+         eFi3WaqKBvxd/WWVjVI8UX/00lhKz8RDu8qhZo1MfAoQrPkssUCcWq3FDos4k6BkosUC
+         bk0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752503804; x=1753108604;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=1e100.net; s=20230601; t=1752504142; x=1753108942;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=stVCHu6LKp83uxTYBPZjVntnTY6VyQOczeCpnXoPZFg=;
-        b=Bo5OY2cH6e98evZ1j4o4Fn91bUQX/JH1vyNAZ6bPZmYyP85e6XjdEEnzewXN491E3e
-         +vCdyrB8VuAj5LoEpeHILeeMy66OqTPvq/C5A7mR/DZRVvTwgK5wLBgtKqq+6m4cXJRO
-         8NlfqJxaU6EUKom0AiiYelrKVhwT1JPvGAoQdQuvF73hZzPc01ygTCoikYF7eiA2Rwud
-         hVJ+rt9/IEYoLs9UIy8C+Tc07oFElbRwVMfapDWq/DuLRdr2sWMBlsBEIPyEgfIqCC96
-         DZ9TeywLcnId9cC2cPu/+pj+aimluegGioc97OjrB1BVAT6LMFksz/jcM5vOBuyPnGlC
-         74rA==
-X-Gm-Message-State: AOJu0Yw+FVylDYL/qmEUVtiXkKS+5J2mB0wsQVS5LD/HwKvluCL6h4B2
-	LBN7CHFR6d/X4wpWxVFNvXAzz6tfqW3ymg/rzm4BFtgPN8zJKZJ7P2vQpHUuUwEhWMT5xKjD3pC
-	NxUymMGRlLCi3W1jCaT6r+ygWjK5fv6ntv6N98lM+TFtHmju3ehAWsWYjPLGzcIKY
-X-Gm-Gg: ASbGnctsm2qijVtdoXJ5k9U81NbufMI+ujPKUy6hnZ7BxFT76HfCd+qkqN3DOVVnBxW
-	HNAq+sDmM9QE+xwfJB81cTHRWFou2g0P3YfsmLdVDEpXumFFko33TVDniN4FhVO6WifrJT01Rp8
-	DHXwrZRJNnw7UtuYvlcl+AN7H/3QEmXWnmyEgzXXNQ1klJi1LfV0kZlpIepYnRABd2Lu7o0AUMA
-	3cZRg0V9zkyXrsDGhcFgcXpxBDUDhaYiKq7yTD1P9ZpA2KXAU1TZstnQPvaFBivgMZpWHbtFznX
-	TFuF1CSyr0qt4q1fEl5pgQRdktvTXZVJYTo8vPopMiHL
-X-Received: by 2002:a17:907:8689:b0:ae4:85d:76fc with SMTP id a640c23a62f3a-ae6fcbc35bfmr1263812866b.30.1752503804296;
-        Mon, 14 Jul 2025 07:36:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEf9LW2oVjZhF5sLUcvf0WPEAbAeIZPxgH40L/19uJOl41oKRe5Iyk5Y7lPc7HLnpXjTK6irQ==
-X-Received: by 2002:a17:907:8689:b0:ae4:85d:76fc with SMTP id a640c23a62f3a-ae6fcbc35bfmr1263810666b.30.1752503803914;
-        Mon, 14 Jul 2025 07:36:43 -0700 (PDT)
-Received: from [10.40.98.122] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7ee47a2sm842823166b.58.2025.07.14.07.36.43
+        bh=YgT/ZO8DO6Wf1bRdrDifcHYIjUyKTX9Eo/tSV9XIcEY=;
+        b=YyY054q6ds1JSztixfUifcBUdYsuuNVqqRAAtBFJjdkiyG44JONStTPbMk9E/Ac3XT
+         1TGyTAh+8Ff1R47olghggeKkbj8QU+B/4oaC0qidk/B/TytmWL+27+YPD5kBsu3KJbpj
+         3heSpCIw076VbWLU937T/kpYO058VVpl/KzrVgNNnbnIzLI7n0fYObfJDqCU20FBmsZv
+         feobRaRl001v1om1xfgwBxTTGGmShBf43IK9tXBz/U4C1ux4bztdKoT6kO68B3HH0xKG
+         pxMO8kLGZO70QfVjGdM6eCxZp7Q3k4qTYFLTAGuwnRvStZvO0RriosO4bbArUXh0moBT
+         BBTg==
+X-Forwarded-Encrypted: i=1; AJvYcCX6iYh4VeBimW923DJVnmt250vyChIeuUmrVEoeQmPuyG8ge1C5uY3J9k1aR6g4FmapwI4otINijmUOpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZwF/YjnUSDFGU+/YEX9Wb6H5OTlQp6d/pxOa7pA5dQMAdIOT/
+	Y4OvheYrgAJx/TUFwfe14/+MlzXoLemJ0oe5llWPWiQvZqEaE7Yet/F3SAUgOABdE/A=
+X-Gm-Gg: ASbGncsayIc+a/AsamoCaceojvFF03gQdZBbXaDAqIGsL15zmbkA5NxnFuTpjjUYg8r
+	yJ3IUkXGtqvyOvPTg1/pGc8+XoVha40bGhB1fyvLMAO9it13XI1yZOLAtabY0L2Ik5itHiI5S7y
+	zP7D1YUL7HDeLFoEU/cNvf3GAIfJX2Us6DVjRUS5gWNRKZwQ5vFcEvUTu50xT5fb830DhwZYGKZ
+	W1bhO3v6rv9zmdJgUbP5qGE2Pw9UcI9ydms7ObeYic5y7PoN4c99Ts4aEcZQYPwCbaTYtuu0v90
+	X9xVHtHj5pTeuJdQenkvfDRVs4DRxiSZTTE+dir27XcY+cuooN5gZMXe9tHm5akuQVVfbGEE5eG
+	ORuyACc36EG+I3o/fS4o8IkCAMmnyM57UpW4arpOwM6BSIs4IDM4t70LXZInN0Ok=
+X-Google-Smtp-Source: AGHT+IEi60GCx6StklZNLN6fInXr5r58gDpnVQSjnfRk5TaJycuEkJOCyklDv2cd+DxYgwPBiYqnHQ==
+X-Received: by 2002:a05:6000:240d:b0:3a5:6860:f47f with SMTP id ffacd0b85a97d-3b5f1c67c67mr12717295f8f.6.1752504141614;
+        Mon, 14 Jul 2025 07:42:21 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e26ee3sm12845397f8f.96.2025.07.14.07.42.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jul 2025 07:36:43 -0700 (PDT)
-Message-ID: <71d9aa58-e166-419b-9d32-839f5c4ad62c@redhat.com>
-Date: Mon, 14 Jul 2025 16:36:42 +0200
+        Mon, 14 Jul 2025 07:42:21 -0700 (PDT)
+Message-ID: <01080f5f-f3e6-4989-ac84-766c030dda35@linaro.org>
+Date: Mon, 14 Jul 2025 15:42:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,84 +82,37 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/12] media: uvcvideo: Add support for
- V4L2_CID_CAMERA_ORIENTATION
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Subject: Re: [PATCH 1/2] dt-bindings: phy: qcom: Add MIPI CSI2 C-PHY/DPHY
+ Combo schema
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-8-5710f9d030aa@chromium.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250605-uvc-orientation-v2-8-5710f9d030aa@chromium.org>
-Content-Type: text/plain; charset=UTF-8
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org>
+ <8ed5eeee-78a2-4b26-989f-03676a9e5da7@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <8ed5eeee-78a2-4b26-989f-03676a9e5da7@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 5-Jun-25 19:53, Ricardo Ribalda wrote:
-> Fetch the orientation from the fwnode and map it into a control.
+On 14/07/2025 15:13, Vladimir Zapolskiy wrote:
 > 
-> The uvc driver does not use the media controller, so we need to create a
-> virtual entity, like we previously did with the external gpio.
-> 
-> We do not re-purpose the external gpio entity because its is planned to
-> remove it.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> There is no ports at all, which makes the device tree node unusable,
+> since you can not provide a way to connect any sensors to the phy.
 
-...
+data-ports should go from sensor to the consumer of the data camss/csid 
+not to the PHY.
 
-Taking a second look at this I noticed the following:
+Documentation/devicetree/bindings/phy/rockchip-inno-csi-dphy.yaml
+Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
 
-> @@ -1869,11 +1869,15 @@ static int uvc_scan_device(struct uvc_device *dev)
->  		return -1;
->  	}
->  
-> -	/* Add GPIO entity to the first chain. */
-> -	if (dev->gpio_unit) {
-> +	/* Add virtual entities to the first chain. */
-> +	if (dev->gpio_unit || dev->swentity_unit) {
->  		chain = list_first_entry(&dev->chains,
->  					 struct uvc_video_chain, list);
-> -		list_add_tail(&dev->gpio_unit->chain, &chain->entities);
-> +		if (dev->gpio_unit)
-> +			list_add_tail(&dev->gpio_unit->chain, &chain->entities);
-> +		if (dev->swentity_unit)
-> +			list_add_tail(&dev->swentity_unit->chain,
-> +				      &chain->entities);
->  	}
->  
->  	return 0;
+https://lore.kernel.org/linux-media/20240220-rk3568-vicap-v9-12-ace1e5cc4a82@collabora.com/
 
-The double checking of if (dev->gpio_unit) / if (dev->swentity_unit) looks
-unnecessary here list_first_entry() is pretty cheap and this only runs
-once at probe() time. So maybe:
-
-	/* Add virtual entities to the first chain. */
-	chain = list_first_entry(&dev->chains, struct uvc_video_chain, list);
-
-	if (dev->gpio_unit)
-		list_add_tail(&dev->gpio_unit->chain, &chain->entities);
-
-	if (dev->swentity_unit)
-		list_add_tail(&dev->swentity_unit->chain, &chain->entities);
-
-?
-
-...
-
-Regards,
-
-Hans
-
+---
+bod
 
