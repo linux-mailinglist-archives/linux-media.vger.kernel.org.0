@@ -1,133 +1,115 @@
-Return-Path: <linux-media+bounces-37650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37673-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13733B0421A
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 16:46:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EB8B042B2
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 17:09:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC1CF3A342F
-	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 14:46:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00C18188E0C4
+	for <lists+linux-media@lfdr.de>; Mon, 14 Jul 2025 15:09:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0090255F5F;
-	Mon, 14 Jul 2025 14:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E561825BEE6;
+	Mon, 14 Jul 2025 15:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X+SyRP3u"
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="bspY621b";
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="bspY621b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mleia.com (mleia.com [178.79.152.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB8AEAD7;
-	Mon, 14 Jul 2025 14:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84311259CA0;
+	Mon, 14 Jul 2025 15:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752504391; cv=none; b=DVTpC5uviSZBNmUkWNok8K7HS/vLzTvl4y1jfQhGi4noX3VWmQiDrX5TFiQudLt7iTGjGBiGhxCab4T5TI3lOYrmdThYU4LqfOQBlprnOQGVcHT4RXSw+6oUKyApZEISNMHw84/FqSbqDqowJmDN+D8qsj/PxpiGvBOIVzejDz0=
+	t=1752505702; cv=none; b=RcUqXfyuO3UIpYSflj14xkixPkRzVcSdOtY8HOSXeVUZGwdT0GqJK9ywUh/8ucZGN1tKuntv+4YTOTEgAGm4xTyCQkwG1pWiMSMVFfTBNH8eBIze6zCZ0KXlUxStSRfyLwGOd6uGOuEImoPtfwxqDjQAvdtFhA13aYZr0YsWdTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752504391; c=relaxed/simple;
-	bh=fJ0aP8vTqAVg27VFBX5sncMoB+p2dxw32cIm9YOnPSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PvEsliGrb30vZ35iSlR17Ckz5BUsV6pNLW1AZ9+c56lRNxDEgCWYLdF+nUrCwdIYBfF4WTc+NlJTpRSSqtPF3EzoZaXT+I9bYf2ZcyTkOGqn7F3B/RjHCjp6IBJ58YrMDml0xdXW9VvPBWz/OtJhyxA0y1BMxrZ5csizMll1cQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X+SyRP3u; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-234b122f2feso3759935ad.0;
-        Mon, 14 Jul 2025 07:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752504389; x=1753109189; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vTrYnqjKlV8yeDLpYJrmzKSqJHoAjMWHbL04xCtle7c=;
-        b=X+SyRP3uc+72Sz16BhaSnBpM8qyW6wcb5h+7V/IRP1zwb1xp+EMN87J9vygY98uIDi
-         2Fpo6xSBjRXdN8E+VrQOnhIHvapngO2Kt/37hFeNpQnvG29JwhyjJxhE+NqQ27leNjk8
-         2qcRVbwT6aezxV5DKhayFm51GAV5njwvNZZC4hiakhc5OdpX1ZZwaqs6CUfavvteQz07
-         w9VjUJ9pSKn2ukby5pAo7qN2sB5NnuxdIBag7sCGdzegI1U66/Y48VwCWAVpyhsk0y9E
-         eEVqyPvqkhgk9YLTCD+M2CnQ5kt8IDH3chuh13jq2q3OUz+P6ilT7ResZN514T96WgeC
-         syAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752504389; x=1753109189;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vTrYnqjKlV8yeDLpYJrmzKSqJHoAjMWHbL04xCtle7c=;
-        b=cIheL9K7fuxwo27RDa7paYXKXsvOrJJ+SlsPurzg6h011SfsyHzEk08gOonhLctdgg
-         faKq0soquSvZvTVipUHDSo1EeMZXfqmmh6UizXpDjKPHnpS0Ko3UrwkKHF+OfAtxgG5Y
-         1vwLVWdKvMB+I+vRoNBCK8fPocatJsucw9kj+vcXEZnzD6Nw2bjYBaqg6ChhbIVoPpZq
-         ftFG2ikYvfrkOzKJRtLHtVYnRvRqWbLLebBvUOVp82xn1dNohWTrn5MKxmyZjI6V9NEB
-         Hqf6vA11uHkTSEZhxYyOEHoQB+EMiZPgX5Ctbx6TiId2MRfXCfcvPVrbmQZfqZXOU0YQ
-         LjHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVppGVzpLieCqPBaiL9FzPZYCgNRAhnWYvtBb9z+lSAeHR8C2dwrMhgdJ8RHh79McfMpX1R6Lg/fd5Rgag=@vger.kernel.org, AJvYcCWS4zb0kb2mR8r2EvLXaAEM1SmI+NJS+RHBacTg523H1ibpfWs7siUadXwSpXF3r1e65xEUp3Br+TzQd70=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8vRTForNtxHuGlR/dCrcTqW5+PfHFEpIk4Fp9oPspwaxaWhqy
-	9qExr/HIahpoH50LdiQn/2Elcknw29wQbhR6hAfNC4olPPgufr7BGamw
-X-Gm-Gg: ASbGncubzudIDIVis90zYKDyHDYwJfJFgQbsgBVWP3qn3S+0+qL56VW6qduV+skxzMv
-	mrulZMBl61fA6ohSq1rzBifH59jRr9vMMBwsDeUeIAagvwbXE2UA4RUBrojo2rjR3zyrJUwmGRI
-	s6gsBX8H7VBLazJKstlnm/I+d0cQinsWkY9HyKWIAnYjJnVnaBTptMywt+4yvho/f+Dp65X3yTb
-	gUljrpcJFMYTSY7Iv9WxVjLNdYg6dFp9QlbdPOVlaFkLiYoRxSqUXNTdSHipRcrKzjWWF7SV1Hs
-	//Ob1vQuHpHuaSPu0QJHc9/tCijKxuxlrcz9iKNr/jvVgiFs8YxlHa9iaD0VlP59OaeSRK2kLH5
-	lcgbtttlz1Jw7q7bhu1oxubU=
-X-Google-Smtp-Source: AGHT+IFAGosVVXQkVk2nnqj6/hurytlHP1Idv7N5hzLwKlkWrcvqLlzgh+DOk6qF95MalA4WEStwVQ==
-X-Received: by 2002:a17:903:18d:b0:234:a66d:ccd7 with SMTP id d9443c01a7336-23dede388c2mr76047905ad.7.1752504388871;
-        Mon, 14 Jul 2025 07:46:28 -0700 (PDT)
-Received: from rock-5b.. ([45.32.55.39])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4345e6bsm92622375ad.192.2025.07.14.07.46.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 07:46:28 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: detlev.casanova@collabora.com
-Cc: heiko@sntech.de,
-	kernel@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	liujianfeng1994@gmail.com,
-	mchehab@kernel.org,
-	nicolas.dufresne@collabora.com,
-	nicolas.frattaroli@collabora.com
-Subject: Re: [PATCH 00/12] media: rkvdec: Add support for VDPU381 and VDPU383
-Date: Mon, 14 Jul 2025 22:46:10 +0800
-Message-ID: <20250714144610.258372-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2229133.irdbgypaU6@trenzalore>
-References: <2229133.irdbgypaU6@trenzalore>
+	s=arc-20240116; t=1752505702; c=relaxed/simple;
+	bh=pm1kFbFPyW13GRr3apbRou0GauefSTkU75vCZ5hpLZY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nl+77kKShCA8xkEZvEHCHkaMCxEyBzHyORZIYMbllvJ0I1irUH0CmT2/oC99th/o7rUymeMd3URI8k220jtxdfLhiQijrorb5gJgrX2ldz7JfMHdSP3Yg9XF912ojvzkQMZcecHtJ0iZmL6/aHRDexMJK+ld0WWR+43WuoxoKcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=bspY621b; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=bspY621b; arc=none smtp.client-ip=178.79.152.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1752505139; bh=pm1kFbFPyW13GRr3apbRou0GauefSTkU75vCZ5hpLZY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bspY621batrJ0gWabtq4zBNa3xRXyHyzG6r6K/OXMQs8yYuOC2vRlBgcUOy9sM8Jb
+	 E0uMow+5XJlRUFF2mJr9FMaNrBEq6c3jU0gq2ml2jUxgSkjbNTa/EvfAs7dRb9IhIg
+	 uE33OqWst1GKKzCnbKnDNC9T71Q36A+wKq8tQLnPoX1n01E3OQcxue8ntDQU3EOS9o
+	 rgCDTbTpioeIcwW1th7xfnFzRBWtf3zNW8lYNw2qZC3FlXM10GksX23hQt4rlyzSkb
+	 TYuQjVR/eNPSFchLYJxmzVId2/CbWOrDWL1B+8suZEG8IRmdhPVfr/9kUObfFrT93S
+	 W+DjEU5I+NV+Q==
+Received: from mail.mleia.com (localhost [127.0.0.1])
+	by mail.mleia.com (Postfix) with ESMTP id 1F5523C8846;
+	Mon, 14 Jul 2025 14:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1752505139; bh=pm1kFbFPyW13GRr3apbRou0GauefSTkU75vCZ5hpLZY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bspY621batrJ0gWabtq4zBNa3xRXyHyzG6r6K/OXMQs8yYuOC2vRlBgcUOy9sM8Jb
+	 E0uMow+5XJlRUFF2mJr9FMaNrBEq6c3jU0gq2ml2jUxgSkjbNTa/EvfAs7dRb9IhIg
+	 uE33OqWst1GKKzCnbKnDNC9T71Q36A+wKq8tQLnPoX1n01E3OQcxue8ntDQU3EOS9o
+	 rgCDTbTpioeIcwW1th7xfnFzRBWtf3zNW8lYNw2qZC3FlXM10GksX23hQt4rlyzSkb
+	 TYuQjVR/eNPSFchLYJxmzVId2/CbWOrDWL1B+8suZEG8IRmdhPVfr/9kUObfFrT93S
+	 W+DjEU5I+NV+Q==
+Message-ID: <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
+Date: Mon, 14 Jul 2025 17:58:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+ <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
+ <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
+From: Vladimir Zapolskiy <vz@mleia.com>
+In-Reply-To: <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20250714_145859_151169_935C6CCA 
+X-CRM114-Status: UNSURE (   9.41  )
+X-CRM114-Notice: Please train this message. 
 
-Hi Detlev,
+On 7/14/25 17:43, Bryan O'Donoghue wrote:
+> On 14/07/2025 15:16, Vladimir Zapolskiy wrote:
+>>> +#define DEBUG
+>>
+>> Still under debugging?..
+> 
+> oops thanks.
+> 
+>> Well, the phy should be a multimedia device, and this driver is not
+>> the one, thus you can not use it to connect sensors and put the IP
+>> into a media pipeline.
+> Ah no, I don't agree.
+> Please see my previous email.
+> 
 
-On Mon, 14 Jul 2025 09:35:19, Detlev Casanova wrote:
->From the linked code, the max size is hard coded to 1920x1088.
->The driver sets the frame size type to V4L2_FRMSIZE_TYPE_CONTINUOUS, so the 
->snippet you pointed to doesn't update the values for max/min. See [2] for the 
->discussion about using V4L2_FRMSIZE_TYPE_CONTINUOUS.
+I believe there is very little room to disagree...
 
-You are right, the code of chromium should be fixed for frame size type
-V4L2_FRMSIZE_TYPE_CONTINUOUS.
+This proposed device node scheme does not solve the known and already
+discussed technical issue expectedly, namely there is no given way
+to describe a combo mode hardware configuration, when two independant
+sensors are wired to the same CSIPHY. This is an unsolvable problem
+with this design.
 
->> 2, Playing H264 videos ends up with green screen.
->
->Can you elaborate a bit ? What videos ?
->Is that on both SoCs ?
->Is there any logs in dmesg ?
+Sensors are conneced to CSIPHY IP blocks, CSIPHY is connected to CSID.
 
-I am playing a 1080p h264 BBB video[1]. There is no error logs from both
-chromium and dmesg, but there is only frames refreshing at the top left
-corner while the other part of place is green. This happens on both rk3399
-and rk3588.
-
-I have checked that this issue is not introduced by your series. After
-reverting this commit[2] which adds Support High 10 and 4:2:2 profiles,
-chromium can play video well on rk3399. I will investigate further.
-
-[1] https://mirrors.tuna.tsinghua.edu.cn/blender/demo/movies/BBB/bbb_sunflower_1080p_60fps_normal.mp4.zip
-[2] https://github.com/torvalds/linux/commit/5e1ff2314797bf53636468a97719a8222deca9ae
-
-Best regards
-Jianfeng
+--
+Best wishes,
+Vladimir
 
