@@ -1,204 +1,168 @@
-Return-Path: <linux-media+bounces-37761-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37762-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F111CB055ED
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 11:10:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A11B05627
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 11:20:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29B271AA643E
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 09:11:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C9ED4E40DF
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 09:19:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99EE02D543A;
-	Tue, 15 Jul 2025 09:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 567582D63EB;
+	Tue, 15 Jul 2025 09:20:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="urwCEAzC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fgoy+s79"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172E723C8C7;
-	Tue, 15 Jul 2025 09:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E701F2D5C6B
+	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 09:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752570639; cv=none; b=ngqWJ6X9YK566+tcokUhSQogdViqM0BhrVLzqnB2o8URvHWI7vgWq5sKg5FgZPBRRq23crctEaP08aoMETIWZFWRselDGzLc4XBu6oacYVPXXxLd4mueRUaV4UbBo9XT8GP1BSWY2zkV9/KrasL/3PUQfF53A+bnIkQuixsZ3no=
+	t=1752571206; cv=none; b=PS0rfZYiefkeEB8VBxTt9pMEIt7zJpv27B36l7TyxR/Pkaa7oVtc9+bv6nEKvw2cSEUazNRJU8VY5yb8oaKWNGMkT5FDhku6UStLJ6eo+ygMsPRbluI5XeSVLcTcQoLmXLMKzMS3SRWvtTksnSRewLfbmhvHp39rgbaG5Qeir4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752570639; c=relaxed/simple;
-	bh=f7f2tSKk5eToGykBO3UTRjcamqQUtQK6x4PmUhRKRMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g8u4wmuX04kvlcg/U2TkTU5dVXbqxAD3bWV7CKhN+7oV+KJwtpn+HgAA89uKSNWqgrPhDum3LV4t3vAAJfwRJFvj1BoOkZlP6cYX/Yxc1fsroWDDw3qx5fzrLCYqFTGYaMu4XLCznUw7Er1nIo4VhAIQPilnR2qMlaLVqPAPySE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=urwCEAzC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2AA8A82A;
-	Tue, 15 Jul 2025 11:10:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752570601;
-	bh=f7f2tSKk5eToGykBO3UTRjcamqQUtQK6x4PmUhRKRMw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=urwCEAzCdPEN3KD51CmnldW641OB4aQ7JNdAeq9sAB166d6xaP4lGg6Xu55F8vM54
-	 YsN1jjvy/shmJBjXgpEPqvp5twvQmZLuymr20h/qr1+3XCcQcgYGd8ngkifiKGAy9n
-	 0p/aqkuLlgstzopiCkBCPMc/M5LwYMujfQi3q2Is=
-Date: Tue, 15 Jul 2025 12:10:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	gregkh@linuxfoundation.org, hdegoede@redhat.com,
-	Thinh.Nguyen@synopsys.com, Amardeep Rai <amardeep.rai@intel.com>,
-	Kannappan R <r.kannappan@intel.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v2 4/4] media: uvcvideo: eUSB2 double isochronous
- bandwidth support
-Message-ID: <20250715091032.GF20231@pendragon.ideasonboard.com>
-References: <20250711083413.1552423-1-sakari.ailus@linux.intel.com>
- <20250711083413.1552423-5-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1752571206; c=relaxed/simple;
+	bh=WJ0yyfeuefaQ3urFYkT/IqHAzlcYqFbbdEzN9k3/XAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZFJorvVR6q73uTqpnBHo/pVzhnZnylEfzqC//xID0N+U7Nap9uCYSAYiSwb26w9isQ52R9aWBER3xNt+LtFp2t0L7VZ5nAFV7+rC8I/0Pl6BPz4V/aZyDJ/upkgxKZ2NBeK7fsDNz6DCPapwhfLVBMuozFI1SHGFklcKJ11XjDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fgoy+s79; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5550bb2787dso304580e87.1
+        for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 02:20:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752571203; x=1753176003; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7HNruVe4qBBDUZL0Lbc5vbGw4m9jJzAK3Orw+77L13s=;
+        b=fgoy+s79h3rlWgIIY40XSBpLTYu/D+042IdparMa7BxPt1oZjqvcuLPoeuk68FRyH8
+         oEUFxiHeinWZTWMKBXv0ls50+UitReQw9t+KQyQckvFTZZxqwOmnKgEKpVNRlcU4A/hO
+         cp+1DM6rFrISUhwTo3szQWTZDMKbINkiovoaUeVdF39FAK9wSfIhbCossVlIzZLRM/62
+         fqFICLiObWg+7+/qr8bMZ6x/pIXDPxabk9qDJXstehF1m4NwCZADOlR+/OpYOeLYthK6
+         sWdBvf7w8sHHL/JAkMReVFPYwoVI0YwiaGTC4rEd3qk1u9DYgZ9TS7hYm1H8Tky7f5t0
+         XmhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752571203; x=1753176003;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7HNruVe4qBBDUZL0Lbc5vbGw4m9jJzAK3Orw+77L13s=;
+        b=JgMlrPUeUuZFTmvy5U2oXAY2Sl0o0UtKMbgnmdeG5t1AZUrc77FNmFSASqHF7vXIj3
+         UoTMYyj0J+JmUTXzT314fMDhxg3eKO6kAUZ0t5PeJD6Sdf4DbNY/6+GsBS78ZU74x7T3
+         a8+lCCQtcqygk6vwHCMS7aRf7I5UCs5xOGQmPQKJ89jUgvLSuCAqbRprvCC3oeDmTVd3
+         xYVjPnwdCLDs+jH9dW5+inR9lZzxPpm4TYV0eqiwJdHZqs8XZkdQ/nUpIMh3IASfaXIn
+         B+g4GmJv/dCRsNVPBcv+5bpHnQGNaCsZsagSnSg3+S+TSNKrYRm8awLxHf+cjM57EReZ
+         //Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHhu0ypdqVmcvnK1tlQk/G8CsgwJNR9FLmdrTr7/JSOccGJrHhQJ2XWoUmpimSPGY+1iSeQo0GgHTfcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzu6CIwENmydpfwfqAKHWuBhnKs+qMyL3dNPy+dluojjPtbW46P
+	1Q20dlYvm6zSZ98p03aenl9OHg5vS/yOmLKFEhiCpYYjugAod9p42FF4YD0+uQObFfk=
+X-Gm-Gg: ASbGncvBnu/QRi8au+Mhj+fp2dtf+kIn6UTLCLtbVroIWswklP0K9RPtkQkMO2tPWse
+	CGluOiuHdVNJ+9IOgCc19/4ENrXe1fHCiOxvLpUaOj0tQShAicV8iG9XFmFjIBqseUQ47VUYkt2
+	PqVYwFn8ZjHxF4zlBt+Y9H+0gtBBuZbM0NJguN8b0TQgAanv3RbeHVSdA9gGpJIizCNDn8NW4iP
+	dX2OkBaGy6j1ksTjKMzaZI1Ax3mUjqDeydc3Q/rvTbh9TpxeT231J8UoEO4cOakQpOwyBIE1dF7
+	LytepsijvyA8VfFixRyqxFVqCqgRty6XqQWN+JFPpn1HrbcndHOQ5d6k708rxSQFRlyo060yhSc
+	/65WCgXx2SYSoo6BMCs35h6jeRoxM8MKNWwPuyLseb6742Wp92pDar9ZiZzWS+fvsy43nV0cWpJ
+	s5xNtCsFl3hCc=
+X-Google-Smtp-Source: AGHT+IEtlBg+zNyCSrOBvHI33+JpaeCaJB/UDUCJntM9+i8ejxLCPtnoDTFHXY1bC6tD2cE1QVQIRA==
+X-Received: by 2002:a05:6512:3b1f:b0:553:2421:f5e5 with SMTP id 2adb3069b0e04-55a1fdd2b75mr99165e87.9.1752571202789;
+        Tue, 15 Jul 2025 02:20:02 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b6f497sm2192227e87.188.2025.07.15.02.20.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Jul 2025 02:20:02 -0700 (PDT)
+Message-ID: <94b75177-9401-4e0c-966b-5847a29cb6f7@linaro.org>
+Date: Tue, 15 Jul 2025 12:20:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+Content-Language: ru-RU
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+ <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
+ <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
+ <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
+ <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
+ <eac3a877-a4aa-4789-9013-ab8b6c91e0f3@linaro.org>
+ <0a12879f-dc4a-47fb-87a0-ac4b8bcd4d75@linaro.org>
+ <53a19b1d-5665-4937-a07c-5dd1fcde06c5@linaro.org>
+ <3b760685-97db-46e3-80a3-7fad69ad31cd@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <3b760685-97db-46e3-80a3-7fad69ad31cd@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250711083413.1552423-5-sakari.ailus@linux.intel.com>
 
-Hi Sakari, Tao,
-
-Thank you for the patch.
-
-On Fri, Jul 11, 2025 at 11:34:13AM +0300, Sakari Ailus wrote:
-> From: Tao Q Tao <tao.q.tao@intel.com>
+On 7/15/25 12:01, Konrad Dybcio wrote:
+> On 7/15/25 8:35 AM, Vladimir Zapolskiy wrote:
+>> On 7/15/25 03:13, Bryan O'Donoghue wrote:
+>>> On 14/07/2025 16:30, Vladimir Zapolskiy wrote:
+>>>>>
+>>>>> I think that is genuinely something we should handle in camss-csid.c
+>>>>> maybe with some meta-data inside of the ports/endpoints..
+>>>>>
+>>>>
+>>>> This is a CSIPHY property, a CSIPHY hardware configuration and a wiring
+>>>> of sensors to a CSIPHY. Where is the relation to CSID here? There is no.
+>>>
+>>> All the PHY really needs to know is the # of lanes in aggregate, which
+>>> physical lanes to map to which logical lanes and the pixel clock.
+>>>
+>>> We should add additional support to the Kernel's D-PHY API parameters
+>>> mechanism to support that physical-to-logical mapping but, that's not
+>>> required for this series or for any currently know upstream user of CAMSS.
+>>>
+>>>> Please share at least a device tree node description, which supports
+>>>> a connection of two sensors to a single CSIPHY, like it shall be done
+>>>> expectedly.
+>>> &camss {
+>>>        port@0 {
+>>>            csiphy0_lanes01_ep: endpoint0 {
+>>>                data-lanes = <0 1>;
+>>>                remote-endpoint = <&sensor0_ep>;
+>>>            };
+>>>
+>>>            csiphy0_lanes23_ep: endpoint0 {
+>>>                data-lanes = <2 3>;
+>>>                remote-endpoint = <&sensor1_ep>;
+>>>            };
+>>>         };
+>>> };
+>>
+>> Don't you understand that this is broken?.. That's no good.
+>>
+>> Please listen and reread the messages given to you above, your proposed
+>> "solution" does not support by design a valid hardware setup of two
+>> sensors connected to the same CSIPHY.
+>>
+>> I would propose to stop force pushing an uncorrectable dt scheme, it
+>> makes no sense.
 > 
-> Use usb_endpoint_max_isoc_bpi() from the USB framework to find the maximum
-> bytes per interval for the endpoint. Consequently this adds eUSB2
-> isochronous mode and SuperSpeedPlus Isochronous Endpoint Compaion support
-> where larger bpi values are possible.
+> If all you're asking for is an ability to grab an of_graph reference
+> from the camss (v4l2) driver, you can simply do something along the
+> lines of of_graph_get_remote_port(phy->dev->of_node)
 > 
-> Co-developed-by: Amardeep Rai <amardeep.rai@intel.com>
-> Signed-off-by: Amardeep Rai <amardeep.rai@intel.com>
-> Signed-off-by: Tao Q Tao <tao.q.tao@intel.com>
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-Assuming usb_endpoint_max_isoc_bpi() works correctly :-),
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I won't queue this patch for the time being as it depends on the rest of
-the series. Please let me know if I should queue it at a later point, or
-if you would like to merge it through the linux-usb tree. We would need
-to make sure there's no conflict with other scheduled patches for that
-kernel development cycle.
-
-> ---
->  drivers/media/usb/uvc/uvc_driver.c |  4 ++--
->  drivers/media/usb/uvc/uvc_video.c  | 24 +++---------------------
->  drivers/media/usb/uvc/uvcvideo.h   |  4 +---
->  3 files changed, 6 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index da24a655ab68..fde0bc95622c 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -536,7 +536,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
->  	unsigned int nformats = 0, nframes = 0, nintervals = 0;
->  	unsigned int size, i, n, p;
->  	u32 *interval;
-> -	u16 psize;
-> +	u32 psize;
->  	int ret = -EINVAL;
->  
->  	if (intf->cur_altsetting->desc.bInterfaceSubClass
-> @@ -772,7 +772,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
->  				streaming->header.bEndpointAddress);
->  		if (ep == NULL)
->  			continue;
-> -		psize = uvc_endpoint_max_bpi(dev->udev, ep);
-> +		psize = usb_endpoint_max_isoc_bpi(dev->udev, ep);
->  		if (psize > streaming->maxpsize)
->  			streaming->maxpsize = psize;
->  	}
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index e3567aeb0007..9f65cdbc1a1c 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -1895,24 +1895,6 @@ static void uvc_video_stop_transfer(struct uvc_streaming *stream,
->  		uvc_free_urb_buffers(stream);
->  }
->  
-> -/*
-> - * Compute the maximum number of bytes per interval for an endpoint.
-> - */
-> -u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep)
-> -{
-> -	u16 psize;
-> -
-> -	switch (dev->speed) {
-> -	case USB_SPEED_SUPER:
-> -	case USB_SPEED_SUPER_PLUS:
-> -		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
-> -	default:
-> -		psize = usb_endpoint_maxp(&ep->desc);
-> -		psize *= usb_endpoint_maxp_mult(&ep->desc);
-> -		return psize;
-> -	}
-> -}
-> -
->  /*
->   * Initialize isochronous URBs and allocate transfer buffers. The packet size
->   * is given by the endpoint.
-> @@ -1923,10 +1905,10 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
->  	struct urb *urb;
->  	struct uvc_urb *uvc_urb;
->  	unsigned int npackets, i;
-> -	u16 psize;
-> +	u32 psize;
->  	u32 size;
->  
-> -	psize = uvc_endpoint_max_bpi(stream->dev->udev, ep);
-> +	psize = usb_endpoint_max_isoc_bpi(stream->dev->udev, ep);
->  	size = stream->ctrl.dwMaxVideoFrameSize;
->  
->  	npackets = uvc_alloc_urb_buffers(stream, size, psize, gfp_flags);
-> @@ -2067,7 +2049,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
->  				continue;
->  
->  			/* Check if the bandwidth is high enough. */
-> -			psize = uvc_endpoint_max_bpi(stream->dev->udev, ep);
-> +			psize = usb_endpoint_max_isoc_bpi(stream->dev->udev, ep);
->  			if (psize >= bandwidth && psize < best_psize) {
->  				altsetting = alts->desc.bAlternateSetting;
->  				best_psize = psize;
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index b9f8eb62ba1d..a77ba76e033a 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -450,7 +450,7 @@ struct uvc_streaming {
->  
->  	struct usb_interface *intf;
->  	int intfnum;
-> -	u16 maxpsize;
-> +	u32 maxpsize;
->  
->  	struct uvc_streaming_header header;
->  	enum v4l2_buf_type type;
-> @@ -818,8 +818,6 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
->  /* Utility functions */
->  struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
->  					    u8 epaddr);
-> -u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep);
-> -
->  /* Quirks support */
->  void uvc_video_decode_isight(struct uvc_urb *uvc_urb,
->  			     struct uvc_buffer *buf,
+It's not about the driver specifics, my comment is about a proper
+hardware description in dts notation, please see the device tree node
+names.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Best wishes,
+Vladimir
 
