@@ -1,177 +1,154 @@
-Return-Path: <linux-media+bounces-37726-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37727-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C522B05141
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 07:51:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42188B051BB
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:28:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 546BF3A71A3
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 05:51:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EB7E56004F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 06:28:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92D5E2D3233;
-	Tue, 15 Jul 2025 05:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C76772D46AB;
+	Tue, 15 Jul 2025 06:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ccV91U/t"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r+6rkhTL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C45258CC0;
-	Tue, 15 Jul 2025 05:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ED02D3737;
+	Tue, 15 Jul 2025 06:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752558693; cv=none; b=GnB/KBRGfwDzfHbsdq3Qbozbu3xc1fhZEvTMuJpg+uLQri5jVDK2T7YjwZaX8MR9+lhlARegaj9djerpsTz1F85mTYDB6GDGHmkk2VmZUn4QpVgDKbLqdAAwoyw+pYAbwir/0UzSv994j0CzgBXEtMoYgON4fB8QYxlWb9BNFSo=
+	t=1752560908; cv=none; b=FTACTPAHFOAEEn/1C0bi1W8Bfgg03zaUT2lKx1YIuCVzAnjd3SR/H70CmRLsrSTyUA0PH0a8jspqz9eNOooCQp6EmATfxu49DKh8Om+ShIgkpBWCDDwzdlROFid+gIaOMHL8TYmxdQ57BfG7UbrVUEIeAK3sZ0/G/TRzmUVTxnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752558693; c=relaxed/simple;
-	bh=falSRLpQDOdXIqG02LhaWdV61GCK0GNBBgPwHuhvl5Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=stWWWiKHPbbyDArrJT1FYhuG7IaMCXq0LRRV61w0Sm8vcEP2DD4qoLZA2nfMG8EbC4uqdex2EsRhnU/wNlsj+M+sYXYJDeLon8Dq6rbW0OLhJXbCsU9uxr146tJ8aXSB0tIh+YFKHs5hLQ1VEq06qDF4XABu3ymW2tdcBBN137U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ccV91U/t; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EGRVZs029629;
-	Tue, 15 Jul 2025 05:51:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pVo2RzYOhDV0Nd7ABqgSd4/bOQDNhyAs3b8HeUxPvgY=; b=ccV91U/tCBpgdj4z
-	XIf6rgVg4FlqqZSdXonANBuKR8ZmKPNPxfy0iWchCm9wABK1xQ/Vjikph+kxfzKw
-	aYTVxejDf1bO/H+oi9HtVjffuozIAzqKDJFSWcaJgA0jwia3JkO7SwRrH1WukjG5
-	PiASot6lgGiwyCgujsXav8IWOXi7tQmKu8ylVs9aW1ZLP2hi9n8dVLz3EnA6G5ow
-	kfYJjgfbAdoyWTR+W1D+iQqASUsmQJdYwVKX3LU8F5ke/zmmWWw9w3rWUvXfAgNP
-	TSRT6IVTnxzXOVFCJyUARf5N+ovFSgdpLdHMzwlBQSDpbPGFf79FAYgKC7JfuMYn
-	md1aQQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dq1r57-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Jul 2025 05:51:24 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56F5pNnN032580
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Jul 2025 05:51:23 GMT
-Received: from [10.50.25.16] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Mon, 14 Jul
- 2025 22:51:20 -0700
-Message-ID: <8772c48f-348b-8a68-2099-562a29b9dd8d@quicinc.com>
-Date: Tue, 15 Jul 2025 11:21:17 +0530
+	s=arc-20240116; t=1752560908; c=relaxed/simple;
+	bh=n+rDdxrnNKZP3ISeb8w5BTKBOnkyxN9mbll+uF0WFJw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OFiwUr+YD87sBcJNy/rjOUpATm3h1cdZaXKzLXP0AbXFcGdcf6cZs+ugRc5iT8K66NGMx8FknVkBlgAo6hyAGjT1RZAemcbltutQf27ZiQzA7sPJUY9UjJuhTZQCsZmhDqkaZ53c9qvu7GdoxitM5EPTHHb+BHhi5MSZHcmOdTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=r+6rkhTL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C34DB6A8;
+	Tue, 15 Jul 2025 08:27:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1752560865;
+	bh=n+rDdxrnNKZP3ISeb8w5BTKBOnkyxN9mbll+uF0WFJw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r+6rkhTLjPBwGTV99+Pu3YdDpLts38rmT25g/bnTZuqQ/2T5ZeUJu6i7hEXsT3GoT
+	 X7bVxpqAdau2njwFGDZgi7B3fkMf0VnhfPM9KtjwUNRHUaIqShSLU138HK305VrgVl
+	 Aj4KqEfegiPmzMJA5FGmIbwqhJGEooXWctrKkWNk=
+Message-ID: <f81e4f88-3fb5-4ae6-a861-08ec7f44c990@ideasonboard.com>
+Date: Tue, 15 Jul 2025 07:28:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] media: iris: MAINTAINERS: Document actual maintainership
- by Bryan O'Donoghue
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 07/19] dt-bindings: media: Add bindings for ARM
+ mali-c55
+To: Rob Herring <robh@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+ jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
+ <20250714-c55-v11-7-bc20e460e42a@ideasonboard.com>
+ <20250714212510.GA3193902-robh@kernel.org>
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <bryan.odonoghue@linaro.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
-References: <20250714151609.354267-2-krzysztof.kozlowski@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250714151609.354267-2-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250714212510.GA3193902-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDA1MCBTYWx0ZWRfX9kyFWD8pDKW8
- fHyWAGt0ZC5xrC3OrBlyig9uDWRR+hvV+hYiAMcmKuwUMqTXAR4okwNladRZ06apLdn8dxc+hSR
- /M0o4MkmAmBuDKa83RxEk15asZW5dCcd9Pf5Wk51TFxD3FibmefuXhdnauYOvYMrXZzjUbzA7Hl
- 12yAXkwwrCQT1qgN0p/x3qg8TV2DRDLIen5KmA5WqqViYTo9zV1zno0GWTq4NCOm1iVF+FpoD3v
- TeWXu/DHNaOCl954esoqRQRWeAtf73gP1dzGdD27rZ7/qfJIbU/oZwFJJLhXUQUAYUqS+v46nfr
- vcCiaaN4OV7aUBxWuKCtUi1zmsgwXDD5d0aG83FT0uQ0lO3UynsIK5Jgmrd3T20QB9S8uFM4bA+
- eZf0AADiYxW3h5Vmelit1pJHVGcQqvz3r+XFUdYa0mT93llg2kuBZegzWd8JuOMyhQ+oOB8V
-X-Proofpoint-ORIG-GUID: GJRRmbE1kjMOSi07iOVDJJBUINty5vyQ
-X-Proofpoint-GUID: GJRRmbE1kjMOSi07iOVDJJBUINty5vyQ
-X-Authority-Analysis: v=2.4 cv=MpZS63ae c=1 sm=1 tr=0 ts=6875ec5c cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8
- a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=xOd6jRPJAAAA:8 a=I5YsldFMB7HoMmESBRgA:9
- a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-14_03,2025-07-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- impostorscore=0 mlxscore=0 clxscore=1015 adultscore=0 bulkscore=0
- lowpriorityscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507150050
 
 
-On 7/14/2025 8:46 PM, Krzysztof Kozlowski wrote:
-> Bryan O'Donoghue reviews and applies patches for both Iris and Venus
-> Qualcomm SoC video codecs (visible in git log as his Signed-off-by and
-> in pull requests like [1]), so he is de facto the maintainer responsible
-> for the code.  Reflect this actual state my changing his entry from
-> reviewer to maintainer and moving the entry to alphabetical position by
-> first name.
+On 14/07/2025 22:25, Rob Herring wrote:
+> On Mon, Jul 14, 2025 at 04:06:33PM +0100, Daniel Scally wrote:
+>> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>> ---
+>> Changes in v11:
+>>
+>> 	- Dropped in arm,inline_mode property. This is now identical to the
+>> 	  reviewed version 8, so I have kept the tags on there.
+> [...]
+>
+>> +  arm,inline_mode:
+>> +    description:
+>> +      The ISP can be either electrically connected to sensor and CSI-2 receiver
+>> +      or driven through a DMA input device. This property declares the ISP as
+>> +      being electrically connected to the source of image data.
+>> +    type: boolean
+> Except you didn't drop it.
 
-NAK.
 
-The roles and responsibilities are well agreed by media maintainer(Hans), with
-Bryan part of that discussion, w.r.t code contributions to iris and sending
-patches to media tree. The only reason Bryan post the patches is that Hans wants
-single PR for patches across Qualcomm media drivers (Camss/Videoss)
+Argh, how did I miss that. Sorry (and sorry Krzysztof too!). Thanks for the heads up...I'll re-send 
+this patch.
 
-Hi Hans,
 
-Incase you would like to split sending PRs, as the contributions for Venus/Iris
-would be significantly higher, let us know, we can pick that up separately.
+Thanks
 
-Regards,
-Vikash
-> 
-> [1] https://lore.kernel.org/linux-media/20250630121704.260831-1-bod@kernel.org/T/#u
-> 
-> Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Cc: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 40831ae42296..f56e40d9b3c7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20678,10 +20678,10 @@ F:	Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
->  F:	drivers/regulator/vqmmc-ipq4019-regulator.c
->  
->  QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
-> +M:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->  M:	Vikash Garodia <quic_vgarodia@quicinc.com>
->  M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
->  R:	Abhinav Kumar <abhinav.kumar@linux.dev>
-> -R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->  L:	linux-media@vger.kernel.org
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Maintained
-> @@ -20750,9 +20750,9 @@ F:	Documentation/devicetree/bindings/usb/qcom,pmic-*.yaml
->  F:	drivers/usb/typec/tcpm/qcom/
->  
->  QUALCOMM VENUS VIDEO ACCELERATOR DRIVER
-> +M:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->  M:	Vikash Garodia <quic_vgarodia@quicinc.com>
->  M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
-> -R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->  L:	linux-media@vger.kernel.org
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Maintained
+Dan
+
+>
+> Rob
+>
 
