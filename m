@@ -1,155 +1,126 @@
-Return-Path: <linux-media+bounces-37809-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37810-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F9FB067B4
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 22:28:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAEEEB067C2
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 22:31:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19B8F1C20A32
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 20:28:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67EA0504860
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 20:30:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8DE1277CBD;
-	Tue, 15 Jul 2025 20:28:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7D4C2BE657;
+	Tue, 15 Jul 2025 20:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T78iCHOb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o80VFCWa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9421517BA1
-	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 20:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF5D72615
+	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 20:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752611306; cv=none; b=uPv5jWF9QCHlj9CqkLa0A6/4cmKl/hveSDdMUAVus0XGI1S6Icv04QqXY/j1jKm5nW/uhFe63bcL8DgIX2E5l6OQU1SIqeCpvZPcF6QB2co89lrYI+tiVK5j8+T++4+xN0buNaZH/KkO1QzXcrQS7zGirqqFVfuKVJqA+EIN/Nw=
+	t=1752611443; cv=none; b=gH/57APzfQDJ85Scp8gwfvNeXJ+FkIHzYp/KNCuqmxKNsQtFXGhBhcJJsfgrCDfLpcgGIpTnW4t82IYHFdd084NgrWzowP2trfZ9PpFy/8kXC8EcCGGBAISSfocJzGayok4oAzJdpMFyWIf9XES0amAfqixLbvtRK9ft0WD2y+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752611306; c=relaxed/simple;
-	bh=f18xUSNYlIgcF+irC+t3oUU0HbN58hfSUqHKahrCqX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mDql9xn8370wa587f9vGkhu0fpMhLgzglfBAcVgR3X3F6rnqJKRORT+Cj47Z2UBi4gO0f/vN2wAiN+MRSqUArNmDTi7+JIxDCdRLyL9RXVCCpy1kv816s6Tyqep9Xiygkz9ru1cPC9Tn6itNm6nFYrDiKw1EWPMuijt1FemaqpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T78iCHOb; arc=none smtp.client-ip=209.85.167.171
+	s=arc-20240116; t=1752611443; c=relaxed/simple;
+	bh=1yQoQkvqX9mmnClp25QvfEznRInvWZaMgXS1yJYfpKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=psS2ih/nPK1MPnylEBM9uI/1PnclcyVpqC3zbzYEmWA74J7YKDmSxcCxRabEA6gq2x5CJywZYuy3SNEC3Mgg+U8Jc37aIj3MZWStxaFxwaFGofUz1RI+dxJXh4loGyEo9CQhMuMtZPgzZd+t79nHGflNfvCaBbyTC7xzenrMheo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o80VFCWa; arc=none smtp.client-ip=209.85.160.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-41b1ca1f28cso1160148b6e.1
-        for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 13:28:24 -0700 (PDT)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2ef493de975so3293792fac.1
+        for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 13:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752611303; x=1753216103; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I0ZfHGVA/rm3ONyiwkO2hMc1ZMvcrO1JkM9rtniwgBg=;
-        b=T78iCHObyhFGmtOXQHF3abR6e8s2B3S0BZvNinvzxTlKnxtViqtdh9msV4tr1XhcAX
-         RofpwMmQxhjwwkYXHgmQOgp2YaZvBJ7XkkfG3o0kayr9WhmQCHvm/HRM0jfiSkZCPcFv
-         aSOrhbNwZ/MuWd3cC7sborg+B3Cm8Yo0MaAUJneSsnZhapMKh8WBCi1l2ccF1WybJDkf
-         gbAvDjXKGDgyP4z9xskQVg5w6W8GLV5YFq2a2DQDzrc60MZ4SJePHDVM+oyxMG9BSQs3
-         8GZOzsfpKiSSTBy4vDZLiWgWfd8zL5l2dBTsB/NPIOTkgMeoNqdwKWlQAJyt6uKL7XB4
-         gjWQ==
+        d=linaro.org; s=google; t=1752611441; x=1753216241; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=0qnU3e/UbtN7g5RYL6+3ED+hDCWkfgVIl5O8F9TCC94=;
+        b=o80VFCWabZ/3WVXTGYfeKQDdL8dvQcOHeyuQFiGAosWJsOuj/xMWNqLSAPb5IYrUNh
+         EgkahYwN9Sv3euL904+AHmdBfs9EeyAs08cHhab30exeYinRr1E2Q0cgmO1XBtlUSHlV
+         hrSSA3RSPiweRUUoSwUvQVoUzyQA0H1YCqz4nt14H9/rOW7/VUwZIt2dlvHJzu+eWyG6
+         TyjOgkkxibChGCTMzCSzkKRL0evEF++g2F3r68o84YwpOEHjzADyvdgdKPkopQw7feb6
+         M13O3nADsaxPBAOasrfnWcXbvDLLba1vWW8QB1mTOKpOzs1lPw9mWp+zjVYrxh/vRqlE
+         m8pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752611303; x=1753216103;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1752611441; x=1753216241;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I0ZfHGVA/rm3ONyiwkO2hMc1ZMvcrO1JkM9rtniwgBg=;
-        b=dteWi1OdSBYL6eM9U4D2xZZQreK+B5BO1bwaC+pmCW+4TwLqfIvPiMsCo1NMRtfc6+
-         A+Ne7Fx+RVl8zJbEF3LppvhiVOOpB1b6NBjc9mEoBYzOm1AIttuYAhGVB96JKWPXXQJV
-         HFycwCNiM0GWx2NWxC5n12vSo2J0UlDVdcrYqBQIkkmEQlD7YzHhUg9Y16RG9JZeZax0
-         fyHr1XGxqKNRV+rf0sd2ZbQbRU/20b6voH9rGHajwczm0I0ayEGcUj0qX/M37DnoXnLA
-         oeSQNdC+pT9NZoFFcOzeh2MS6yuab0M5NYh+OEoRJsBaFzTYV6qHk9DaDOGuI9dpbJAv
-         nQTA==
-X-Gm-Message-State: AOJu0Yws2cCdgiqsvB43f+BSX6zzFWcfSDwU9daZcVhl5NZF1eU4EYEy
-	vWOJeyO24DMDdqfwKDaTPl3/A5dg6hUEiyQPqmMgXPaCGWAQ2IrwzCPMYvh/oK513DGEeeWgpsh
-	lJ5WI
-X-Gm-Gg: ASbGnctK0nRk44ygBXiKdboVi4szcLnjmGlf88GO8f83UJOaw9NFkYR58/eY28iu7nZ
-	uKHklwBSoPVZeCjbsmD5tlX/SyPIh3ZCBQAWdV69/4+3DSQlbGOTDm3yftChyoejzAPzXLy0cw5
-	klSDA94+7qx1GtV8VNooX6hCi8RzI3MG87ITx8u2BNOJYXG6PMxZGkZC1eu/XLDdL31iecvKVyk
-	XN/KcfxfLl88jGX5gDK/ap9mLLVHX6CDDXKfD2Qtt0YaN1zJEggzbKIbRVJFUsmhnZ7JUc2pF7y
-	eTQvT7ma/p1H8zIUyfNZI9BoAwjdug60Rk3waH3NaAzakvx+vq7At9d/1kpyDI2FwLYkny3Jt7E
-	LSozDLHTg7uZuPCtPZfQ3k4jDexa7
-X-Google-Smtp-Source: AGHT+IG4VA/3K7wBqJHGHAXakCfDjLQqrhd/V7nBLNlCVsFdNiBAZkrjO3Jzmyhv7E9j2YiZjwCxmg==
-X-Received: by 2002:a05:6808:80b1:b0:41c:31f:fdd1 with SMTP id 5614622812f47-41d0555e2a9mr107309b6e.29.1752611303539;
-        Tue, 15 Jul 2025 13:28:23 -0700 (PDT)
+        bh=0qnU3e/UbtN7g5RYL6+3ED+hDCWkfgVIl5O8F9TCC94=;
+        b=RehN6oB+rBrEFopjuscCCtsOyIllhZT9C5wd8RMyPZDBbh+ZIXSQ7bUmdDefxyVhkL
+         0wfposo84GXQWGZGdpBnGjtHJeaohd9HFeSOhrvOfEmKKZgJH3JK4TLBMchOV7Zm5Dil
+         Z/h+/gWfoUMJ2208077TC2ZtOs4TLamFldK9Z5ASP8FwJR1aczvyy1J2ue8yuhPfVBt7
+         sf6mQ8yy3k0k1pH/ujCDpK7b3soCwAkhRATD+P5fak8zYI4BC/VaEKfBP3dzMeJkb9DS
+         bts9hgDpPEPcZO6BPdI+bzLhamVjXd3P6vb1SfK4CbiU0ZJbiML/zkSllo5HbTSEDE8U
+         Ufpw==
+X-Forwarded-Encrypted: i=1; AJvYcCX5YQNbcqaY/YrEiKEN3oVsnwNVGY32kKwjPIhkvwg8caXhgXEnQ2CY+rYyUfLxjxylDJ+nGA8Pf2/78Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJswkLSI+beWsipRIw6F7F3ls6gc7Ck8jhBhrzRLgguJ1LCboj
+	sL/fwOsLQ9UBpZpiZhufKvv+3GCc4XlLxjNoi3ks6+DhNgfkxSJjEnC/TQX9v2XxTH8=
+X-Gm-Gg: ASbGncu18cbBp396uunoTRgEPHh9wG/5FDTRE2+HTmDO1VDEMwoTYZwQrsznPNz2Btg
+	OUmbPm2vD98Xu7kOlWlZ2+oZR6vBARA4w2TEESrYnalEe30WvmD0ZUonOrfQ3HwPErEFy5Lwu+e
+	Z+rcLZ1nIu8PwbWdOPvLCHDovt/DUtT/pDnfEc9UnVoBQ9qI6f960pFPH1hOY4lefa0R3rtQ+2x
+	SICmb84CGftNqw6lwEPpG6m+BX4Dzouq4obJXhnhq9dfI8djbkxZVu/cnpAEZY2ifS/MdLBRXE/
+	xaVhwqpHw3xElAWfvQfkBGXNtubTpGUr0517fN5WzEJbcK/kL4i4YNcZ8kJ9uLWKWmUapPmlyl9
+	hL2VAegpRyBCkczlLk4U2cCxHOuwd
+X-Google-Smtp-Source: AGHT+IG2+pwfhzJLrz8IScyfJm6Y2ziaIzZQnZsetieX7P83RKFLQioSOUBeRHkfbvI6bsQBYcAosQ==
+X-Received: by 2002:a05:6871:780f:b0:2ff:8956:fd45 with SMTP id 586e51a60fabf-2ffb1eafe32mr237804fac.0.1752611440637;
+        Tue, 15 Jul 2025 13:30:40 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:9b4e:9dd8:875d:d59])
-        by smtp.gmail.com with UTF8SMTPSA id 5614622812f47-41c8f9b481asm331390b6e.43.2025.07.15.13.28.22
+        by smtp.gmail.com with UTF8SMTPSA id 586e51a60fabf-2ff11235201sm2896491fac.12.2025.07.15.13.30.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 13:28:23 -0700 (PDT)
-Date: Tue, 15 Jul 2025 15:28:21 -0500
+        Tue, 15 Jul 2025 13:30:39 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:30:38 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Yu Liao <liaoyu15@huawei.com>
-Cc: linux-media@vger.kernel.org
-Subject: [bug report] media: use struct_size() helper
-Message-ID: <72cfeef1-589d-4946-ace3-c5796fad767a@sabinyo.mountain>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
+Message-ID: <e4d9553b-34b2-4c2e-8d56-f86f3d51fcfe@sabinyo.mountain>
+References: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
+ <6ac8b8db02190da7d2edc9ce4abe5e7a7cab70d6.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6ac8b8db02190da7d2edc9ce4abe5e7a7cab70d6.camel@collabora.com>
 
-Hello Yu Liao,
+On Wed, Jun 25, 2025 at 12:13:20PM -0400, Nicolas Dufresne wrote:
+> Hi,
+> 
+> Le mercredi 25 juin 2025 à 10:23 -0500, Dan Carpenter a écrit :
+> > The iommu_paging_domain_alloc() function doesn't return NULL on error it
+> > returns error pointers.  Update the check and then set ->empty_domain to
+> > NULL because the rest of the driver assumes it can be NULL.
+> >
+> > Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+> 
+> Oh, sorry about that, I'll will test your patch this week, but otherwise
+> looks good to me, fixing yet one more error path. I'll take the time
+> to test dropping the iommu node from the DT while at it, as I simply
+> don't remember if that was re-tested after that change.
+> 
+> regards,
+> Nicolas
+> 
 
-Commit ba85aea885a1 ("media: use struct_size() helper") from Aug 16,
-2023 (linux-next), leads to the following Smatch static checker
-warning:
-
-	drivers/media/common/videobuf2/frame_vector.c:162 frame_vector_create()
-	warn: saving 'size_add' to type 'int'
-
-drivers/media/common/videobuf2/frame_vector.c
-    152 /**
-    153  * frame_vector_create() - allocate & initialize structure for pinned pfns
-    154  * @nr_frames:        number of pfns slots we should reserve
-    155  *
-    156  * Allocate and initialize struct pinned_pfns to be able to hold @nr_pfns
-    157  * pfns.
-    158  */
-    159 struct frame_vector *frame_vector_create(unsigned int nr_frames)
-    160 {
-    161         struct frame_vector *vec;
---> 162         int size = struct_size(vec, ptrs, nr_frames);
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Using struct_size() and then saving the result as an int, doesn't add
-any safety.  It needs to be saved to size_t.
-
-    163 
-    164         if (WARN_ON_ONCE(nr_frames == 0))
-    165                 return NULL;
-    166         /*
-    167          * This is absurdly high. It's here just to avoid strange effects when
-    168          * arithmetics overflows.
-    169          */
-    170         if (WARN_ON_ONCE(nr_frames > INT_MAX / sizeof(void *) / 2))
-
-There are some integer overflow checks here which are unnecessary if we're
-going to use struct_size().
-
-The reason why this uses INT_MAX is that you're not allowed to allocate
-more than 2GB of data with kvmalloc().  If you want to allocate
-ridiculous amounts of memory then you need to use vmalloc().  This is a
-security thing because after 2GB then integers start to wrap.
-
-It would be easier to write:
-
-	if (size > INT_MAX)
-		return NULL;
-
-    171                 return NULL;
-    172         /*
-    173          * Avoid higher order allocations, use vmalloc instead. It should
-    174          * be rare anyway.
-    175          */
-
-This say use vmalloc() but the code uses kvmalloc().  I don't know what
-this comment means.
-
-    176         vec = kvmalloc(size, GFP_KERNEL);
-    177         if (!vec)
-    178                 return NULL;
-    179         vec->nr_allocated = nr_frames;
-    180         vec->nr_frames = 0;
-    181         return vec;
-    182 }
+Ping?
 
 regards,
 dan carpenter
+
 
