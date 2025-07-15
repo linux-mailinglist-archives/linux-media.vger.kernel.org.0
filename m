@@ -1,186 +1,155 @@
-Return-Path: <linux-media+bounces-37808-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37809-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E662B066FE
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 21:35:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F9FB067B4
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 22:28:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B2F91AA401D
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 19:35:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19B8F1C20A32
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 20:28:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6552BEC5E;
-	Tue, 15 Jul 2025 19:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8DE1277CBD;
+	Tue, 15 Jul 2025 20:28:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SKxes7U7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T78iCHOb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05ACB1F0E24;
-	Tue, 15 Jul 2025 19:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9421517BA1
+	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 20:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752608112; cv=none; b=UNWcL9bOzG0HzKIHQPvfBsjjSANWHub2j4GGydRM5SVP0OF3UOWnkb4hquW2DwdwptW5J/IojEoZWF1394VCwFWscfIRJbRz6m/96kORAMdBkWSYulCgw0EMxlYC41BuaCFDB24aoS0UTgISPbPU3Bh6sdY3hq92fyL72DK1b6k=
+	t=1752611306; cv=none; b=uPv5jWF9QCHlj9CqkLa0A6/4cmKl/hveSDdMUAVus0XGI1S6Icv04QqXY/j1jKm5nW/uhFe63bcL8DgIX2E5l6OQU1SIqeCpvZPcF6QB2co89lrYI+tiVK5j8+T++4+xN0buNaZH/KkO1QzXcrQS7zGirqqFVfuKVJqA+EIN/Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752608112; c=relaxed/simple;
-	bh=syjYAypKJMAfH+Su+2T3GSj4ruMImpHxERZO6eZ48rw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvgewc6SNuCsEGZRW8Q/EdZfcrAWVpx2kObv8+cBdOPsXVQBb9TvPZCnGZds6CAENmhu/+WhfsCt7TzgF6p/Ljx9uH63GSV2rYWUaCHhERzt0pKm81qqQPQu4jYqrusF18k2gBMvPpeI5VxV/s+akIp+ZrpVSCAkekabICidAi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SKxes7U7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0A77A250;
-	Tue, 15 Jul 2025 21:34:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752608075;
-	bh=syjYAypKJMAfH+Su+2T3GSj4ruMImpHxERZO6eZ48rw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SKxes7U71igt0rK5FIMwl5osjx/RiELHQ6/EeINvEbvKuI3myMX5XyD1toBJm0UGU
-	 Hyex0GNKQC2KPdIwoEte9III59EP4pzLH7zD9FsriquCShb9+lXs+TXbBmsLW2sf1X
-	 jnN8sdH5/5jtGYEDCmD2kBGnsFBrCAYfUTCXivt8=
-Date: Tue, 15 Jul 2025 22:35:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 10/12] media: uvcvideo: Add get_* functions to
- uvc_entity
-Message-ID: <20250715193505.GB19299@pendragon.ideasonboard.com>
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-10-5710f9d030aa@chromium.org>
- <20250629181246.GE6260@pendragon.ideasonboard.com>
- <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
- <20250714142926.GI8243@pendragon.ideasonboard.com>
- <CANiDSCvFe23xmrJ0-qbWWa6+vKGb+QdDFV8VSLkmWdAnfsFtzw@mail.gmail.com>
+	s=arc-20240116; t=1752611306; c=relaxed/simple;
+	bh=f18xUSNYlIgcF+irC+t3oUU0HbN58hfSUqHKahrCqX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mDql9xn8370wa587f9vGkhu0fpMhLgzglfBAcVgR3X3F6rnqJKRORT+Cj47Z2UBi4gO0f/vN2wAiN+MRSqUArNmDTi7+JIxDCdRLyL9RXVCCpy1kv816s6Tyqep9Xiygkz9ru1cPC9Tn6itNm6nFYrDiKw1EWPMuijt1FemaqpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T78iCHOb; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-41b1ca1f28cso1160148b6e.1
+        for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 13:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752611303; x=1753216103; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I0ZfHGVA/rm3ONyiwkO2hMc1ZMvcrO1JkM9rtniwgBg=;
+        b=T78iCHObyhFGmtOXQHF3abR6e8s2B3S0BZvNinvzxTlKnxtViqtdh9msV4tr1XhcAX
+         RofpwMmQxhjwwkYXHgmQOgp2YaZvBJ7XkkfG3o0kayr9WhmQCHvm/HRM0jfiSkZCPcFv
+         aSOrhbNwZ/MuWd3cC7sborg+B3Cm8Yo0MaAUJneSsnZhapMKh8WBCi1l2ccF1WybJDkf
+         gbAvDjXKGDgyP4z9xskQVg5w6W8GLV5YFq2a2DQDzrc60MZ4SJePHDVM+oyxMG9BSQs3
+         8GZOzsfpKiSSTBy4vDZLiWgWfd8zL5l2dBTsB/NPIOTkgMeoNqdwKWlQAJyt6uKL7XB4
+         gjWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752611303; x=1753216103;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I0ZfHGVA/rm3ONyiwkO2hMc1ZMvcrO1JkM9rtniwgBg=;
+        b=dteWi1OdSBYL6eM9U4D2xZZQreK+B5BO1bwaC+pmCW+4TwLqfIvPiMsCo1NMRtfc6+
+         A+Ne7Fx+RVl8zJbEF3LppvhiVOOpB1b6NBjc9mEoBYzOm1AIttuYAhGVB96JKWPXXQJV
+         HFycwCNiM0GWx2NWxC5n12vSo2J0UlDVdcrYqBQIkkmEQlD7YzHhUg9Y16RG9JZeZax0
+         fyHr1XGxqKNRV+rf0sd2ZbQbRU/20b6voH9rGHajwczm0I0ayEGcUj0qX/M37DnoXnLA
+         oeSQNdC+pT9NZoFFcOzeh2MS6yuab0M5NYh+OEoRJsBaFzTYV6qHk9DaDOGuI9dpbJAv
+         nQTA==
+X-Gm-Message-State: AOJu0Yws2cCdgiqsvB43f+BSX6zzFWcfSDwU9daZcVhl5NZF1eU4EYEy
+	vWOJeyO24DMDdqfwKDaTPl3/A5dg6hUEiyQPqmMgXPaCGWAQ2IrwzCPMYvh/oK513DGEeeWgpsh
+	lJ5WI
+X-Gm-Gg: ASbGnctK0nRk44ygBXiKdboVi4szcLnjmGlf88GO8f83UJOaw9NFkYR58/eY28iu7nZ
+	uKHklwBSoPVZeCjbsmD5tlX/SyPIh3ZCBQAWdV69/4+3DSQlbGOTDm3yftChyoejzAPzXLy0cw5
+	klSDA94+7qx1GtV8VNooX6hCi8RzI3MG87ITx8u2BNOJYXG6PMxZGkZC1eu/XLDdL31iecvKVyk
+	XN/KcfxfLl88jGX5gDK/ap9mLLVHX6CDDXKfD2Qtt0YaN1zJEggzbKIbRVJFUsmhnZ7JUc2pF7y
+	eTQvT7ma/p1H8zIUyfNZI9BoAwjdug60Rk3waH3NaAzakvx+vq7At9d/1kpyDI2FwLYkny3Jt7E
+	LSozDLHTg7uZuPCtPZfQ3k4jDexa7
+X-Google-Smtp-Source: AGHT+IG4VA/3K7wBqJHGHAXakCfDjLQqrhd/V7nBLNlCVsFdNiBAZkrjO3Jzmyhv7E9j2YiZjwCxmg==
+X-Received: by 2002:a05:6808:80b1:b0:41c:31f:fdd1 with SMTP id 5614622812f47-41d0555e2a9mr107309b6e.29.1752611303539;
+        Tue, 15 Jul 2025 13:28:23 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:9b4e:9dd8:875d:d59])
+        by smtp.gmail.com with UTF8SMTPSA id 5614622812f47-41c8f9b481asm331390b6e.43.2025.07.15.13.28.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 13:28:23 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:28:21 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Yu Liao <liaoyu15@huawei.com>
+Cc: linux-media@vger.kernel.org
+Subject: [bug report] media: use struct_size() helper
+Message-ID: <72cfeef1-589d-4946-ace3-c5796fad767a@sabinyo.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiDSCvFe23xmrJ0-qbWWa6+vKGb+QdDFV8VSLkmWdAnfsFtzw@mail.gmail.com>
 
-On Mon, Jul 14, 2025 at 05:46:40PM +0200, Ricardo Ribalda wrote:
-> On Mon, 14 Jul 2025 at 16:30, Laurent Pinchart wrote:
-> > On Tue, Jul 01, 2025 at 01:13:10PM +0200, Ricardo Ribalda wrote:
-> > > On Sun, 29 Jun 2025 at 20:13, Laurent Pinchart wrote:
-> > > > On Thu, Jun 05, 2025 at 05:53:03PM +0000, Ricardo Ribalda wrote:
-> > > > > Virtual entities need to provide more values than get_cur and get_cur
-> > > >
-> > > > I think you meant "get_info and get_cur".
-> > > >
-> > > > > for their controls. Add support for get_def, get_min, get_max and
-> > > > > get_res.
-> > > >
-> > > > Do they ? The UVC specification defines controls that don't list
-> > > > GET_DEF, GET_MIN, GET_MAX and GET_RES as mandatory requests. Can't we do
-> > > > the same for the software controls ? This patch is meant to support the
-> > > > UVC_SWENTITY_ORIENTATION and UVC_SWENTITY_ROTATION control in the next
-> > > > patch, and those are read-only controls. Aren't GET_INFO and GET_CUR
-> > > > enough ?
-> > >
-> > > V4L2_CID_CAMERA_ROTATION has the type UVC_CTRL_DATA_TYPE_UNSIGNED,
-> > > that time requires get_min and get_max.
-> >
-> > Where does that requirement come from ? Is it because how the
-> > corresponding V4L2 type (V4L2_CTRL_TYPE_INTEGER) is handled in
-> > uvc_ctrl_clamp() ? uvc_ctrl_clamp() is only called when setting a
-> > control, from uvc_ctrl_set(), and V4L2_CID_CAMERA_ROTATION should be
-> > read-only.
-> 
-> It its for VIDIOC_QUERY_EXT_CTRL
-> 
-> uvc_query_v4l2_ctrl -> __uvc_query_v4l2_ctrl -> __uvc_queryctrl_boundaries
-> 
-> We need to list the min, max, def and step for every control. They are
-> fetched with uvc_ctrl_populate_cache()
+Hello Yu Liao,
 
-Ah, I see, thanks.
+Commit ba85aea885a1 ("media: use struct_size() helper") from Aug 16,
+2023 (linux-next), leads to the following Smatch static checker
+warning:
 
-For GET_RES, I think we can leave it unimplemented.
-__uvc_queryctrl_boundaries() will set v4l2_ctrl->step = 0 which seems to
-be the right behaviour for a read-only control whose value never
-changes.
+	drivers/media/common/videobuf2/frame_vector.c:162 frame_vector_create()
+	warn: saving 'size_add' to type 'int'
 
-As for the minimum and maximum, they are currently set to 0 if the
-corresponding operations are not supported. I wonder if we should set
-them to the current value instead for read-only controls (as in controls
-whose flags report support for GET_CUR only)..
+drivers/media/common/videobuf2/frame_vector.c
+    152 /**
+    153  * frame_vector_create() - allocate & initialize structure for pinned pfns
+    154  * @nr_frames:        number of pfns slots we should reserve
+    155  *
+    156  * Allocate and initialize struct pinned_pfns to be able to hold @nr_pfns
+    157  * pfns.
+    158  */
+    159 struct frame_vector *frame_vector_create(unsigned int nr_frames)
+    160 {
+    161         struct frame_vector *vec;
+--> 162         int size = struct_size(vec, ptrs, nr_frames);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Using struct_size() and then saving the result as an int, doesn't add
+any safety.  It needs to be saved to size_t.
 
-> > > We can create a new type UVC_CTRL_DATA_TYPE_UNSIGNED_READ_ONLY that
-> > > fakes min, max and res, but I think that it is cleaner this approach.
-> > >
-> > > > > This is a preparation patch.
-> > > > >
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 12 ++++++++++++
-> > > > >  drivers/media/usb/uvc/uvcvideo.h |  8 ++++++++
-> > > > >  2 files changed, 20 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > index 21ec7b978bc7aca21db7cb8fd5d135d876f3330c..59be62ae24a4219fa9d7aacf2ae7382c95362178 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > @@ -596,6 +596,18 @@ static int uvc_ctrl_query_entity(struct uvc_device *dev,
-> > > > >       if (query == UVC_GET_CUR && ctrl->entity->get_cur)
-> > > > >               return ctrl->entity->get_cur(dev, ctrl->entity,
-> > > > >                                            ctrl->info.selector, data, len);
-> > > > > +     if (query == UVC_GET_DEF && ctrl->entity->get_def)
-> > > > > +             return ctrl->entity->get_def(dev, ctrl->entity,
-> > > > > +                                          ctrl->info.selector, data, len);
-> > > > > +     if (query == UVC_GET_MIN && ctrl->entity->get_min)
-> > > > > +             return ctrl->entity->get_min(dev, ctrl->entity,
-> > > > > +                                          ctrl->info.selector, data, len);
-> > > > > +     if (query == UVC_GET_MAX && ctrl->entity->get_max)
-> > > > > +             return ctrl->entity->get_max(dev, ctrl->entity,
-> > > > > +                                          ctrl->info.selector, data, len);
-> > > > > +     if (query == UVC_GET_RES && ctrl->entity->get_res)
-> > > > > +             return ctrl->entity->get_res(dev, ctrl->entity,
-> > > > > +                                          ctrl->info.selector, data, len);
-> > > > >       if (query == UVC_GET_INFO && ctrl->entity->get_info)
-> > > > >               return ctrl->entity->get_info(dev, ctrl->entity,
-> > > > >                                             ctrl->info.selector, data);
-> > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > index a931750bdea25b9062dcc7644bf5f2ed89c1cb4c..d6da8ed3ad4cf3377df49923e051fe04d83d2e38 100644
-> > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > @@ -261,6 +261,14 @@ struct uvc_entity {
-> > > > >                       u8 cs, u8 *caps);
-> > > > >       int (*get_cur)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > >                      u8 cs, void *data, u16 size);
-> > > > > +     int (*get_def)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > +                    u8 cs, void *data, u16 size);
-> > > > > +     int (*get_min)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > +                    u8 cs, void *data, u16 size);
-> > > > > +     int (*get_max)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > +                    u8 cs, void *data, u16 size);
-> > > > > +     int (*get_res)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > +                    u8 cs, void *data, u16 size);
-> > > > >
-> > > > >       unsigned int ncontrols;
-> > > > >       struct uvc_control *controls;
+    163 
+    164         if (WARN_ON_ONCE(nr_frames == 0))
+    165                 return NULL;
+    166         /*
+    167          * This is absurdly high. It's here just to avoid strange effects when
+    168          * arithmetics overflows.
+    169          */
+    170         if (WARN_ON_ONCE(nr_frames > INT_MAX / sizeof(void *) / 2))
 
--- 
-Regards,
+There are some integer overflow checks here which are unnecessary if we're
+going to use struct_size().
 
-Laurent Pinchart
+The reason why this uses INT_MAX is that you're not allowed to allocate
+more than 2GB of data with kvmalloc().  If you want to allocate
+ridiculous amounts of memory then you need to use vmalloc().  This is a
+security thing because after 2GB then integers start to wrap.
+
+It would be easier to write:
+
+	if (size > INT_MAX)
+		return NULL;
+
+    171                 return NULL;
+    172         /*
+    173          * Avoid higher order allocations, use vmalloc instead. It should
+    174          * be rare anyway.
+    175          */
+
+This say use vmalloc() but the code uses kvmalloc().  I don't know what
+this comment means.
+
+    176         vec = kvmalloc(size, GFP_KERNEL);
+    177         if (!vec)
+    178                 return NULL;
+    179         vec->nr_allocated = nr_frames;
+    180         vec->nr_frames = 0;
+    181         return vec;
+    182 }
+
+regards,
+dan carpenter
 
