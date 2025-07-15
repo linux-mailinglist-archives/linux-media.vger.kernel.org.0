@@ -1,83 +1,72 @@
-Return-Path: <linux-media+bounces-37775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37776-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC833B058E0
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:32:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D4BB0590E
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:45:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B7351891291
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 11:32:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 96D5B189DC76
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 11:45:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC8F27464A;
-	Tue, 15 Jul 2025 11:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 397172D94A9;
+	Tue, 15 Jul 2025 11:44:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKhtKCjL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxY306Af"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF688462
-	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 11:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD2F34545
+	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 11:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752579142; cv=none; b=N6V+9WQSZZqaMVAmcXhDg+NNyo+zrO0HWk18yRLm3aFGzxHjFJ0syPG6hy+Fp1kYFTBJcAAsMQa3821jvouPEyEGcnlo7UwitOfy8N7p4/O3kA13+EmYyBLN3yeiT0kuc9PjOkAyyvD2ldzf5Rdoyv0zWMVuS8oLKT5Aspb2aBc=
+	t=1752579897; cv=none; b=PdhJANraF6hIGrLONKt7+hDlwbRadlL6fSDHyDC7rrPEFXEIBY7JXc1IBhQYuV02MDAKoxC+OI5nNHgv1AU8WSZN+TmElbZOLCQUbVNug40Ds5NY3uZRpxTMZfRcr35gdFd+Z6J/Bop91LEulVUiw2aDC7ea16cFpCM0A1uAQj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752579142; c=relaxed/simple;
-	bh=RsvgqTOa+0U/iDGF++YXgywCmvEv7pUyGy7VjfbJirY=;
+	s=arc-20240116; t=1752579897; c=relaxed/simple;
+	bh=Po8OKh4VFPQjfKpp8TMyfrBDx/vmM7yDG59SZAvKtKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S5GtrjAlni1uMnyTLhhWMOyC8XDqZWFCBX22UwxIufA8FNHUnSokbU/hO/YMju2zxycSi1sxRdjRCd2xZA9KF5Ie0wSPQjZTSdGHtfRe0VVNW0a4uIG6c77YrAthWLR2WVpuvBXsUk8l0C5j2mIHUAS37TTS/IVgI6MCcmKgK8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKhtKCjL; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=nbo7FUEXK0uydp4FAGBHvp4Ok+5QrxY921YsDsI3OpPJGiyi8+8OCxPhn8YZ20fSWMgyqM05jqqh0A6dqwKT1RtSZcs0S4dWk3WEsv/bE0XNTTowrJAGM8Uvx2j6sZKBgVt3y+jRzw2d4dL+Y4uT6cdyeJoa1B4eX2e5Dw5FMeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxY306Af; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752579140; x=1784115140;
+  t=1752579896; x=1784115896;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RsvgqTOa+0U/iDGF++YXgywCmvEv7pUyGy7VjfbJirY=;
-  b=GKhtKCjLZrPUrfxRcbupIa28BDMIx1sa59GkSvHH6P5nfefNJnBqg8YS
-   Tp9vDEt+ooSTW4KDTsNjKwqCK0wVnDwEx5yjKoCDB+NDFua1BYmLPj5SQ
-   UHtA0JSepmAA9ytc+CbrpKqvm45oMVVrwZFYTrLR1PrRi+5nKukrrTUbR
-   vkSPPxZ8ZOVbubWQ7MXCjzkldvJGCIwXPSadt6NrxFZbmVkJwMApD5kOX
-   hAB5e8EF8csulWvla3vgrP6KOZh4mB/6KuTubxgM359ywrABA4sv2v9Z6
-   gJbN/YhykOy9lpqoBbBu5/hF2n9r4QYlaWZ+lZW/4pv6WwT9BX4SYTo2y
-   A==;
-X-CSE-ConnectionGUID: rCOgg8yKQDuuA+lKCGPURA==
-X-CSE-MsgGUID: hk9QxFuARs6KLQQiLQxWUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="57404121"
+  bh=Po8OKh4VFPQjfKpp8TMyfrBDx/vmM7yDG59SZAvKtKo=;
+  b=UxY306Af+USIjkZFxvnf/CCcwNZKattLpiJcNc4kT7kQhPKompBXk8He
+   KZlTp8a9qyB5jqKSQbDYO3y4n5XtQMvftYTrUxqEM6lMHMQYPA3vmCDQL
+   zbgUzcM2wJ+tGFSvUh7RUDrSowUwO6pGFCLM6vDXxYIsWJnUc6g7Ffbv+
+   zPfHOziUmoXeUn4VG+wCIZXeom3RNOA9IrqVQsAYa5uKJdqhf3gdf4Qwc
+   qAHoKciizvtcH365z6BBw5BShaSW4lmJkENx1WYl/C5fF1hCb7esYOHNE
+   bUj6r2+fSxvdLvr0rslY3jkY/1WpUNwBsnE/ekXnRkp0/q+SK/0lBZAxP
+   g==;
+X-CSE-ConnectionGUID: MzVKZgT3QimrzPnO/XR3uw==
+X-CSE-MsgGUID: TQMKbwcwQE2cnxWfzW3N/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="58603793"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="57404121"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:32:19 -0700
-X-CSE-ConnectionGUID: 8zf7B/tgRCmfbNvArRktqw==
-X-CSE-MsgGUID: zgDh5baNSjm9yf00M6Gaow==
+   d="scan'208";a="58603793"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:44:55 -0700
+X-CSE-ConnectionGUID: wKGoZWxySxeWRB9lcJUmSw==
+X-CSE-MsgGUID: xNSYWtc5TseaB6RDkBsFIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="161514241"
-Received: from ettammin-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.145])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:32:17 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A292A11F8D4;
-	Tue, 15 Jul 2025 14:32:14 +0300 (EEST)
-Date: Tue, 15 Jul 2025 11:32:14 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+   d="scan'208";a="157555294"
+Received: from ettammin-desk.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.19])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:44:54 -0700
+Date: Tue, 15 Jul 2025 13:44:47 +0200
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH 12/13] media: v4l2-mc: Introduce
- v4l2_mc_pipeline_enabled()
-Message-ID: <aHY8PgcfOMRVPsBQ@kekkonen.localdomain>
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-13-sakari.ailus@linux.intel.com>
- <zubhgen5vcjeadujrufagjd3h6rp5va7d7n27fqisc23kr35sn@sg4mwenwnbmc>
- <aHYyPMcwt3WBzJur@kekkonen.localdomain>
- <20250715112520.GH20231@pendragon.ideasonboard.com>
+Cc: linux-media@vger.kernel.org, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH 31/72] media: i2c: og01a1b: Use V4L2 sensor clock helper
+Message-ID: <u22wgu2f3cgtcglkew5puby74u4v5lcljp5up4odas6dq7fvdd@yb3esynjm5kh>
+References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
+ <20250710174808.5361-32-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,65 +75,42 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715112520.GH20231@pendragon.ideasonboard.com>
+In-Reply-To: <20250710174808.5361-32-laurent.pinchart@ideasonboard.com>
 
 Hi Laurent,
 
-On Tue, Jul 15, 2025 at 02:25:20PM +0300, Laurent Pinchart wrote:
-> On Tue, Jul 15, 2025 at 10:49:32AM +0000, Sakari Ailus wrote:
-> > On Fri, Jun 20, 2025 at 10:53:13AM +0200, Jacopo Mondi wrote:
-> > > On Thu, Jun 19, 2025 at 11:15:45AM +0300, Sakari Ailus wrote:
-> > > > v4l2_mc_pipeline_enabled() helps solving a problem known for long but
-> > > > lacked any sort of general solution: with multiple streams, when streaming
-> > > > is started on video nodes one by one, when should streaming be started in
-> > > > the source?
-> > > 
-> > > I tried quite some time to understand this, but if I'm not mistaken,
-> > > a stream-aware subdev, which links to vdev, will always "demux"
-> > > streams to different pads and will connect to the vdev from there
-> > > 
-> > > 
-> > >      Source
-> > >      subdev
-> > >  +-----------------+
-> > >  |                (1/0) ------> vdev0
-> > >  |                 |
-> > > (0)[1,2,3]        (2/0  ------> vdev1
-> > >  |                 |
-> > >  |                (3/0) ------> vdev2
-> > >  +-----------------+
-> > > 
-> > > With
-> > > 
-> > > (0) multiplexed sink pad with 3 streams
-> > > (1) (2) and (3) source pad with a single stream
-> > > 
-> > > Can't we relay on the media-link state between the source pads and the
-> > > video devices with something like what Dan has proposed here ?
-> > > https://patchwork.linuxtv.org/project/linux-media/patch/20250519140403.443915-2-dan.scally@ideasonboard.com/
-> > 
-> > This isn't entirely the same thing: pipeline is specific to the pad but not
-> > streams, ad here we're interested in streams. Two streams may start at
-> > different points of time even if both are part of the same pipeline.
-> > 
-> > We definitely should have just one way to figure this out.
-> 
-> But can we ? Isn't it dependent on use cases ? I can imagine an
-> application wanting to capture two image streams where one of them is
-> enabled all the time and the other one is regularly turned on and off,
-> in which case you would need to start the pipeline when the first stream
-> starts. A different application may instead want to capture the same two
-> streams and make sure it gets all frames on both, which possibly
-> requires delaying the start of capture until both video capture devices
-> are started.
+Thank you for the patch!
 
-Exactly. It's indeed dependent on the use case but the driver is the same
-in both cases. This is why the generic solution needs more information from
-the user space but I think we can work out how to support this after
-merging the metadata series.
+On Thu, Jul 10, 2025 at 08:47:27PM +0300, Laurent Pinchart wrote:
 
--- 
-Regards,
+[..]
 
-Sakari Ailus
+> -	og01a1b->xvclk = devm_clk_get_optional(og01a1b->dev, NULL);
+> +	og01a1b->xvclk = devm_v4l2_sensor_clk_get(og01a1b->dev, NULL);
+>  	if (IS_ERR(og01a1b->xvclk)) {
+>  		ret = PTR_ERR(og01a1b->xvclk);
+>  		dev_err(og01a1b->dev, "failed to get xvclk clock: %d\n", ret);
+>  		return ret;
+>  	}
+
+while at it, you can change this driver to
+  	return dev_err_probe(og01a1b->dev, PTR_ERR(og01a1b->xvclk),
+			     "failed to get xvclk clock\n");
+
+the only driver that remains weird when handling an err in this series is:
+drivers/media/i2c/s5k5baf.c
+
+Feel free to change it or leave it as is.
+
+>  
+> +	freq = clk_get_rate(og01a1b->xvclk);
+> +	if (freq != OG01A1B_MCLK)
+> +		return dev_err_probe(og01a1b->dev, -EINVAL,
+> +				     "external clock %lu is not supported",
+> +				     freq);
+> +
+
+--
+Kind Regards
+Mehdi Djait
 
