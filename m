@@ -1,131 +1,182 @@
-Return-Path: <linux-media+bounces-37740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37741-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F157B052C5
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 09:23:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E31B05355
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 09:34:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A22507B571E
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 07:21:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B647D7B8C20
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 07:29:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19594275B12;
-	Tue, 15 Jul 2025 07:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9FF0273D9C;
+	Tue, 15 Jul 2025 07:27:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IL2rJNoA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g6SXQkQL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A66271456
-	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 07:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582AE271A9D;
+	Tue, 15 Jul 2025 07:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752563960; cv=none; b=sGWEacLjowE79X/susIdVoKIQCU+FzEU0FkkkpqJTPGc7pwiLM9MnAqdsU2SHH/yVk1AhL5dReYp4pvxHV7OOJ+rs1H7lKDjkDlK6Nim9jcXayVJCJuGfCV9sibXn0Ck9NQc3cS/4c/XoC2cUSWC+21I77nIqVT1WzH6gGwqQ7w=
+	t=1752564437; cv=none; b=jPi7Cm0LT1pf4ve5xJnpHDqLIXeYhlD8DrWrznZed0P4z6IA8EXEZbLZXRDOoafqZt+GZmA0jIxwzell34c3ffYck1nWuBU7Uj1jKOi0DubTWJ5qiJmrTldIusW989oxuaIFAlC7c8YfKSUD1QPO4JpaEbJOAw1zun67xICtOHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752563960; c=relaxed/simple;
-	bh=dOb9Epf/TTGBkZ5gyzcRhX8nkY6+Xl8serOtV4krvFA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ug5xFgEjBSPSZXvSCEb63MrDjzv1gx1yO8ZSiwYPH9ZuiGn0zIbKYQKi23As8Qu6RAMNq58LOsWsGgtxR4km6ozsXEiJpQDHoeSPRCjkbfyC9nELCLd3MB7jYc9028kqCrM2cEweO+rnUPaphoQU5lw9ztVdo99oCwBZF+LvFF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IL2rJNoA; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-553aba2f99eso701803e87.3
-        for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 00:19:18 -0700 (PDT)
+	s=arc-20240116; t=1752564437; c=relaxed/simple;
+	bh=HtC4D7tG4lYE9B3IP2Snb8X8xOANK8sSyRwAaDf5PO0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Eb85A35l1WXKK+FXy9pexC4HWk1pD7Muf7E+bY+MV2LtmAqjBJXgURwfVSkgBKvKxcpAfD5J6s0HIljyPeQHAANjVdVveSwVq0+69vMjuUcKNbiOQLhPwSRWiqIs2sdpE/xD8mtgs8sNW+c8r4aE/BswRC9p+5jYDF+jUA5r6Jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g6SXQkQL; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ad572ba1347so718907366b.1;
+        Tue, 15 Jul 2025 00:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752563956; x=1753168756; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1752564434; x=1753169234; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/RSJvNlWoWjahN3C/yzd7QKoGlsR79XtnIfFExv1q1o=;
-        b=IL2rJNoAuObhJpOEXDT3LhkNDxmMhFUZ7SNrXTUXbt4B9rRH9lFxisWwpr8rdpCiNa
-         8Csr/zifh477uqmedPTsrXXIXE7ccOJGq8zKr64UaI+rD7LfXsBKoNTuTq9MWRz8slBa
-         wZEWkyetyjLKsMawGfOMjY6mLKtr9Os3f9mbs06g36XiJL5NBiKPwLLkDAD5Xlb2QUyA
-         zf0CCiahELywgUIWfzdZ90jX1k8NUAg0SwspWRijGPQomLIxsqwn3wLm8opWpJTkXSIf
-         FPi9IKN4yxMCrG/9lCgq1IX4AOkvYr/lRflj4s75DZWgg8JMzctiitEBQDdWX4q19rJ4
-         reqw==
+        bh=7B11Fv+/P3Vntrk0Xgb5TyfuwXVxV0wxwjtvQx2djwQ=;
+        b=g6SXQkQL6yZaA62zzq6J66ZIjRsEoxwy+5uEKPqichL+FQlLMjniHfRW19qa4K5EQD
+         DLB48s+C1dnVLhpzpNEvHu/d3p34qQSeAUhWWCbqcbmN6JHVnyyC3eP4Qxc+yl8Q+i5D
+         vLsS1V/FGJg72BlzKl/bV2FXFf5duDR82elJRrsXizQ8JIatW+FpESrrqT4AhqhPK+Nj
+         PuPzphFasQ7rjogE75fYAv05ylqvL+x5Eeqh/hCz/+fHRgutmRoUb/9ynIerHnCZeyAb
+         YBUpJv1UfZdMYVC4Nk/+4BnzjYrUwoVdAq66n9IcPHax5xqo3UiUQ7TiiPaeY+Z9H/p8
+         tlBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752563956; x=1753168756;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/RSJvNlWoWjahN3C/yzd7QKoGlsR79XtnIfFExv1q1o=;
-        b=JN5uhrre4RLCyKTz4XqkoZzThAiCPBtWgKR3yOjsmqpjFydzv/2HW5hSg59NYS8Kkt
-         ZH3waSEuo+B2PuUXbjTcy4AoPx7axhCqJ6jBoyq/vKNF1H6toOCRaHjaxbG5KSwa+pX7
-         WcSsuf3GafSmO81Ug2DcMCRQ5WE71BINNV57EAwT8DDpcr2ektOoVF5DwCARjICH9C8f
-         QmSw58D7LmZb45mt74QjaH3RIxET+f+FgBxDFV4P+fqAFU7Xcpv/wn+BwWmkABY+4Hc5
-         euQBNdirkCDsd5hO6y+YeZvvTA5rrkT9fSXehi3U/U5lhZnGdXfstjANvcD7iYOxyPx2
-         p22w==
-X-Forwarded-Encrypted: i=1; AJvYcCXNHWSNRF0OK+SMo/sUZDFowXQLY30F+z5D21+MfWtmwdYy0Bil46VxldyeKnrMVJjUjsSOCr3JYPnEFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrziyazsH1YS88IiFPWwWGRqoOluQPU7uW0frRngLTwdD1MFfB
-	uy0KLc1htE2iPQPs/Z/t7QbFtl3W3I7p8s6d0i+EoZUiqdK+Ry/PkVpt1Fh3yCdJ6lE=
-X-Gm-Gg: ASbGnctWIlCOS9WUz7Ny6RBLJwB/sGho3KrmsXE8f4YuQSRy/EP/5nkVTM4y2hfBRIp
-	P3wkSltFyIayCkXJdm3yyyc04p54bezivEHob6Xi87jP0w1MAVk4YT3omlOaURu9Z0JT3Ggvm24
-	+azO2tA/tBxeAsRR3zVisAf0n+wnn+nCx14wk4zkjDs+VWFbm+Nx+BryfX/Qu4tIp5MvjYEQKvi
-	o1CXwZ5mA6zRgU7/oI/MsrpzUMHbJSFC808u1U8bF+sWm4cmh+688qqyBU0EZefCEcKlGZx6Yx9
-	ZQuC/i9OD13/fKIRzuY/AMjQ9JdgE5VAivHOqqpWZzwMGEVNmmzAU7BCg5jmhUC0rG04hI8VL1A
-	X+9MflYK+iHmfRWaZ064FWfARF47lYYM4Z37i9TXfnN2boZQPx2BKgX7DiDdr8f0lT19QSAjLFj
-	bz
-X-Google-Smtp-Source: AGHT+IFIHphgOuWL4hHbYQo8BUYKQWMRs2PJ8O0o5nTLr+EyV7m9/xz8o904WRm6rWfLBy+6fENRug==
-X-Received: by 2002:a05:6512:4027:b0:556:2764:d207 with SMTP id 2adb3069b0e04-55a1fdce413mr78512e87.11.1752563956166;
-        Tue, 15 Jul 2025 00:19:16 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55a05daa619sm1688569e87.41.2025.07.15.00.19.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jul 2025 00:19:15 -0700 (PDT)
-Message-ID: <bd7cab62-f0ba-440d-8dc2-3304afe884df@linaro.org>
-Date: Tue, 15 Jul 2025 10:19:14 +0300
+        d=1e100.net; s=20230601; t=1752564434; x=1753169234;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7B11Fv+/P3Vntrk0Xgb5TyfuwXVxV0wxwjtvQx2djwQ=;
+        b=KvF9tL3HrtzLznAqcj5SDLqyGwRQ5e8I09/XdSE5KCzEQwk1hwQhCXAErZ0h79Gu5F
+         /ZweOChJWU1x0v405w4nz9fpU7dZHNHJKAeGXS8tEn4kfhXyyERks7RwcRjRSkSOie3c
+         LMHK7krD17sQ+xDyE4mVPpyYTybCluF3BmPKNO7+MSncQLiEgFoQv+bXLOHznJxgPx9j
+         btT9sBkxdQV+djPYueW8fDJhgwh0nEIWHTkqqfpkbZ0VIirWCYOfDwZc7FVo92UQcd5i
+         hOlJ2r5DrfeM08c0g7DVPe9LnTuHxHKpMCARRHBCHQkWkB03v0lvLBC1yMD4X8YXdaMS
+         dyhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUNKNiEMu6wS9z/1h7qF3qWhGFvFRhvMujIZk7qAjwCIBgzm3Kf4fMpbfYM9rIharFO2AI1bwqs95mZx7I=@vger.kernel.org, AJvYcCVFFo0EgEJz0FUFxNEtjIdV/wp5kRQS650N0a2461vbW60SNMJQAgEeLxixrQA7FtlUPnio2iO6hQGtyVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR4RiHwO2beJCGuazNwvwssZ7ujN+7yhmVq7RHY7JLTHXZi2ip
+	+hhe5buvvyL4cMsuZmJdCTP+2kcNR9XGz2RVgceAECR95dW+Bm4KqumQTkHIYRtcR7NQTrQxVF6
+	DWDlN3wGFDk3Wn5sYBvYsVQQFb+99PVs=
+X-Gm-Gg: ASbGnctlzgKTVEPrF+G1AdxKYWby4bLoPPHci++LFpz1WoIoPX21y0vsmxVhkFth/E/
+	EyeTHq+QbtpPDplDdF7Coen1XktE76LGCzSFHvu8vERewbTITfR1nC17pG9UyIegdDfZEvV3BIX
+	FgMbhKwICWDVFSEIZ3UGmi0JIlOebrC7F7DSWXPKFNcHwED5wGmWv4m3ra2qpkIR4oidZDmUtEe
+	t34Hg5xbw==
+X-Google-Smtp-Source: AGHT+IEc62LOFeD7pGkpvhpMjAwjKjNczYiC4ILDPjuHqWZVZg/7cqp2v5qHEQ0GWDq7Lr9pHCbo89FE3T81Uk1eWwo=
+X-Received: by 2002:a17:907:97cc:b0:ae3:8c9b:bd6a with SMTP id
+ a640c23a62f3a-ae6fcac624bmr1739057566b.40.1752564433429; Tue, 15 Jul 2025
+ 00:27:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 00/15] Add dt-bindings and dtsi changes for CAMSS on
- x1e80100 silicon
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-0bc5da82f526@linaro.org>
- <9361e954-e2c9-41c6-be4c-12b0e4f367f5@linaro.org>
- <5f3b2bda-92f9-479a-9af7-5d08e420121d@kernel.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <5f3b2bda-92f9-479a-9af7-5d08e420121d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250714153409.46085-1-martin@weidenauer.cc> <CAHp75VdUNe=bn-Emv6oyHtejTMyhKaiqQfGic0Ha94Z_FAPs2A@mail.gmail.com>
+ <4289C286-62A1-4C22-9A03-E6CD3731F3D7@weidenauer.cc> <CAHp75VcvOaSPbrpurRAjrvwW992qiP-ffZcroQ-feg=_PAoquQ@mail.gmail.com>
+ <1D5485BE-E03F-4364-A48D-051AAECFBA9A@weidenauer.cc> <CAHp75Veovvxbr_6EuubDa7x8P5j12WjER=ar7E69A4r=sGONsw@mail.gmail.com>
+ <2025071510-skeleton-squealer-f9bc@gregkh>
+In-Reply-To: <2025071510-skeleton-squealer-f9bc@gregkh>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 15 Jul 2025 10:26:36 +0300
+X-Gm-Features: Ac12FXyukFhvmA5YCNgVbhBFeadAZfG3STdKDZJGa1rWbijyqXDBvzvvFyfES5U
+Message-ID: <CAHp75Vd9hHgjuavkjnWEi3y6YoY+WggGZtupeno7O322crykcA@mail.gmail.com>
+Subject: Re: [PATCH] staging: atomisp: isp: fix open brace on new line
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Martin Weidenauer <martin@weidenauer.cc>, Woohee Yang <woohee9527@gmail.com>, 
+	Jongmin Kim <jmkim@debian.org>, hansg@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	~lkcamp/patches@lists.sr.ht, koike@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/15/25 10:01, Krzysztof Kozlowski wrote:
-> On 15/07/2025 08:53, Vladimir Zapolskiy wrote:
->>
->> 2. The whole new changes for legacy/new CSIPHY support is not present
->> in v1-v6 of this changeset, it just appears out of nowhere in the v7,
->> and since it is broken it should be removed from v8 expectedly.
-> 
-> 
-> Why? If it is broken, should be fixed in v8, not dropped from v8.
+On Tue, Jul 15, 2025 at 10:04=E2=80=AFAM Greg KH <gregkh@linuxfoundation.or=
+g> wrote:
+> On Tue, Jul 15, 2025 at 09:57:19AM +0300, Andy Shevchenko wrote:
+> > On Tue, Jul 15, 2025 at 12:54=E2=80=AFAM Martin Weidenauer <martin@weid=
+enauer.cc> wrote:
+> > > On 14 July 2025 23:38:47 CEST, Andy Shevchenko <andy.shevchenko@gmail=
+.com> wrote:
+> > > >On Mon, Jul 14, 2025 at 10:39=E2=80=AFPM Martin Weidenauer <martin@w=
+eidenauer.cc> wrote:
+> > > >> On 14 July 2025 19:47:41 CEST, Andy Shevchenko <andy.shevchenko@gm=
+ail.com> wrote:
+> > > >
+> > > >> >Guys, please, coordinate and issue only one (or a few) patch(es) =
+per
+> > > >> >an issue. No need to send zillions patches for the same problem
+> > > >> >file-by-file.
+> > > >
+> > > >> >On Mon, Jul 14, 2025 at 6:34=E2=80=AFPM Martin Weidenauer <martin=
+@weidenauer.cc> wrote:
+> > > >> >>
+> > > >> >> Fix checkpatch error "ERROR: that open brace { should be on the=
+ previous line"
+> > > >> >> in ia_css_dvs.host.c:277.
+> > > >
+> > > >> I deeply apologize, however this was the instruction of our worksh=
+op in DebConf by Helen Koike <koike@igalia.com>
+> > > >
+> > > >This may be okay for the driver that consists of let's say less than
+> > > >10 files, AtomISP consists of dozens of files in several (nested)
+> > > >folders. It's not a good example for such an approach.
+> > > >
+> > > >> Here is the link to the exact workshop:
+> > > >> <https://debconf25.debconf.org/talks/55-submit-your-first-contribu=
+tion-to-the-linux-kernel/>
+> > > >
+> > > >Hmm... this really needs an update to explain how to work with the
+> > > >drivers that contain many files and literally tens of thousands line=
+s
+> > > >of code.
+> > > >
+> > > >In any case the problem with your contribution is not the code, the
+> > > >absence of coordination and possibility to clash with somebody else.
+> > > >Also it looks like a DDoS attack against maintainers capacity. The
+> > > >smaller patches are and the more of them --- the less the usefulness
+> > > >of all this activity as at some point that floods the maintainer's
+> > > >mailbox.
+> > > >
+> > > >TL:DR; (always) Use common sense!
+> > >
+> > > To be honest, such a contribution also seemed to me a bit useless but=
+ I thought all of this had been discussed with you maintainers beforehand.
+> > >
+> > > As it seems this was not the case, although the workshop has shown us=
+ how easy it is to make contributions and for my part I will use the knowle=
+dge to make meaningful changes.
+> > > So you can scrap this commit and I'll make a few commits in the next =
+days which make more sense.
+> >
+> > The problem is not the code, the contribution is okay and appreciated.
+> > The problem is that for _the same_ issue there are tons of patches
+> > from _different_ people. Just discuss who does what and send "one
+> > contributer =3D=3D one issue" (under one issue, I mean class of the iss=
+ues
+> > checkpatch or other tools report, for instance, the "if (foo)
+> > return;"-like which are on one line and needs to be two or more lines,
+> > do _all_ of them by _a single_ contributor.
+>
+> No, that's not necessary at all, really.  Just take them in the order
+> they come in and review/apply them as normal.  Don't expect people to
+> coordinate together, especially for staging stuff, that's crazy.
 
-There is a conflict between these new v7 changes and another old and
-still unreviewed/uncommented changeset, which provides quite a similar
-functionality, but it has slightly different CSIPHY device tree node
-descriptions and their connections to CAMSS.
+It might become hard to review, when there are many patches with the
+(almost the) same subject and same comment and the only difference is
+the file that is fixed. But fine, we can survive for now.
 
-This technical conflict should be resolved before making a bet which
-one of two CHIPHY series is better and should be fixed in the next
-version.
+> This is just part of staging, it's the maintainers job to help guide new
+> contributors like this.  If you don't want to do this, that's fine, just
+> delete these media drivers out of staging then.  And don't blame the
+> submitters, it's not their fault at all.
 
--- 
-Best wishes,
-Vladimir
+It's not blaming, it's advice on how to make a flow easier to follow.
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
