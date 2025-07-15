@@ -1,156 +1,154 @@
-Return-Path: <linux-media+bounces-37728-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37729-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54343B051CD
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:31:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E77B051DD
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:35:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65F474E2062
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 06:31:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3D674E2057
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 06:35:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E21D2265623;
-	Tue, 15 Jul 2025 06:31:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A169226D4E1;
+	Tue, 15 Jul 2025 06:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TRZYgjev"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hiUAmNQJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC017B672
-	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 06:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8EB26A0ED
+	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 06:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752561108; cv=none; b=K3CBoTTdd51vwljGUJwIVDQto5yT75bP89EiYqUZkteElfggz0PjLgsQb60WxVQ6cXU8QXU95IrpIHb0jTcQwm9BUf25QU90zTVu3PBo5Cgi5D6O2ciIY8CSBJdjLDcJC9/EdBebTeveQ7nEOgrbQlaW7C+w+wpfA8mBlQXn5IY=
+	t=1752561323; cv=none; b=mFpO66LWf0cVGpxwSf6csggLLVZ3dduLIPEIZMILRBwcr3x2Cyp+ukibnLOnSDuqU0y+zf/AoK9qawmcWiksasbhCliJ/TFdufWBRvOgKrv2a9st2vfH5+DntinIFiLi/5J918JHbUjAdP59efgnifjBT1mnJHciVxFGr7KnIy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752561108; c=relaxed/simple;
-	bh=XxaeZ3neYhiWIw0v7Yb/IZodIsNiCdwRVdFvM06g4Bg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=scLedUhB1iUooCH3KmT96mUnB3uzlkSbV3P4x3glWHGxELxnniVVgdr5giwoPbG5H8tjzXrJVT01wDRW2GSXhM4inHpElPnYeYW1rBj/U6NxbbK2pAYctE7ef0ZFC1lun0AZfobeztBMlFfHmupB8NToKwugQ74YuK8mv2gCiVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TRZYgjev; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752561104;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=njsXx1MQHjG0pYvx/jMfwxyJj9N+8fHFUPSJkTCfXcA=;
-	b=TRZYgjevgcctzC+EDMY7AX4suRYuslqYRv/A6DDPSG+2kp8wvRn6oJifJPOODzvjNu78dI
-	Lp4zaXytj5UUTfGxALMXk3RYhCvyrClzHTLQv6+eVUn2eWrAiJteeHkYAjyW3mNMHr31lz
-	CvTuhJgu1033g+8qcm417w7g9RTMBic=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-240-tajkVtGwP9qwR418JixmTw-1; Tue, 15 Jul 2025 02:31:43 -0400
-X-MC-Unique: tajkVtGwP9qwR418JixmTw-1
-X-Mimecast-MFC-AGG-ID: tajkVtGwP9qwR418JixmTw_1752561102
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ae6d4c5f798so333899466b.0
-        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 23:31:43 -0700 (PDT)
+	s=arc-20240116; t=1752561323; c=relaxed/simple;
+	bh=p3LPkjq+uZRwh2andFI5/6qsRT2nuhoh6ljdJGtYBr0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qpuolgx4NKv+QqHjWNPiSqDYNml9X2503E+rk3e3S/YXdmfKQyh2X2R4GPN3+Z0kGoZ5GKhO9HPotX2kjvIjIAQnojbh/k9ITAbXZDQue6aK/a2Yoq/Rdv5RWczoLnmtMlJ9emRMe2fXAbPXP3eNVFmAEzjUg2ATfOVdy5p3rgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hiUAmNQJ; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32f474ded39so4664801fa.3
+        for <linux-media@vger.kernel.org>; Mon, 14 Jul 2025 23:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752561317; x=1753166117; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QWk+3HwoE658WoVjEcyuNKZKmpUhfuUyOmAf2RcohLk=;
+        b=hiUAmNQJCN0jsnmgo54T2V+NhPaaXi8OmgkDeQ7a4XDPVeOz3Ub6H7Y5yFk5R9on1n
+         bMjrGigb9PBQFesc26UZZkh3tYWIAW1Zi9/NfKNr2icpwFRnCP1E6voKVwCzW4HeLzfD
+         +abHHoTyZbXz81G1WIRxktNTArxCJJQLmI3SVRS5zHMICk8rJT4xxjRvo//fTaD3A2QO
+         IbDaH2/w9J13owz6pKWGg7Zreg6OZlkFwk2itPfNxkGh7F6+E0rbJINDU+wc7edY5Tj5
+         lS8YI5gaDoE7QEJPcpKt4fguwwtrI3m2jIogC0IQmE5+Ph//4wdlftQLsRmdNBZoyn1x
+         kpqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752561102; x=1753165902;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=njsXx1MQHjG0pYvx/jMfwxyJj9N+8fHFUPSJkTCfXcA=;
-        b=GPliGe/Uqo/wjK1bYpyclJKlVyEF6j5Sx6YDcDixIEBGosiGmAjAWNOhApoKfhC0en
-         5vURt2wO7gDxe/sAxqRiWqu8R0Vxw7KaqlGjKaTPv50sQPHkjF/TuWDqca9zEoeZS3it
-         aMPfHi17AdhuBNjdcPyeQoZ4LUOiE9+5+QCgqFZju2LUumiRVRJCXC9b1Xha6lK/VVEJ
-         RkfjXgmyZBl2+lJe7AFrHo3ld+MFMijTPRtts16xD7mgkW6QGQt3XPcTEBl+NnqHmz+9
-         MYfvkt+/toJSdE65365CcMMKFY3Dmq2WnxgA/upMLK94DdzQ9KJkHz2RuDWNtfQ/ok3O
-         NVsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXHwAY7Pr0uaFiV71HlRPae/FErrBwyvFV35ZUyF0hgFwjRMiIirqL0ObCEIkmWLfYvitfgEx3qT9xdUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKDglPfUphYGxDde6te7Rq/7OBkd1PidZkEL9G87O5gDTmg8PY
-	s4s1uQzZfKZwSBVo2LhszsMnohRl+zfC+aYa67ACASYC2PLF6b14z9iPonOF8fA3geGwhdkwmPq
-	v5q11CNhByx6iXeOR6DXaOFq4deoWtT9tdbek5ekKrITVegwUtXfTMLPBMa+3J/cr
-X-Gm-Gg: ASbGncuPQuKoAoH9IAxSfebyNmUYxIq5UgKYWvIe90OdUfN6UbwVO9S6mqGJhqvliRR
-	hN4di8FqeCNZrbPQE6RjBO+G9H0gVI+kALOUXB484Nex1XJDHsGWbqCGiJYNX7QKDQwTa14awBn
-	ExXfsZWdMaHYepo523e7gVktlT4Vsf+dTNUQ0mY0R5iyC0sCMqYMGzMaYZ62+GFHoLtQJmG0Tz4
-	zV1yY6v3+MuIDsr4OrOwc+LZfw9bIQlwTWKv72ulSZ/CS196BcewTL8DVnzJKfi2XgHUa6oWCvp
-	nDhXQsIZudQzRgTUjWSVovfZ4NhQ0tLx5yua4Vwn60923Dt6e5Czxy3mOKINHfJnBnP7hzD+9ts
-	x0pd6nKPapg==
-X-Received: by 2002:a17:907:3e14:b0:ae9:876a:4f14 with SMTP id a640c23a62f3a-ae9b96bb26cmr146894666b.59.1752561101841;
-        Mon, 14 Jul 2025 23:31:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbahyJQ8uPvvKj2Eu2Bjb83oyH09cB9oPzy2+yyYmKgrlH0TrWtXbUYxonD5LHJNMzFi0wSw==
-X-Received: by 2002:a17:907:3e14:b0:ae9:876a:4f14 with SMTP id a640c23a62f3a-ae9b96bb26cmr146892566b.59.1752561101291;
-        Mon, 14 Jul 2025 23:31:41 -0700 (PDT)
-Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb ([2a02:810d:7e01:ef00:b52:2ad9:f357:f709])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e82df56esm945349166b.156.2025.07.14.23.31.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 23:31:40 -0700 (PDT)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] MAINTAINERS: merge sections for ROCKCHIP VIDEO DECODER DRIVER
-Date: Tue, 15 Jul 2025 08:31:34 +0200
-Message-ID: <20250715063134.100733-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.50.0
+        d=1e100.net; s=20230601; t=1752561317; x=1753166117;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QWk+3HwoE658WoVjEcyuNKZKmpUhfuUyOmAf2RcohLk=;
+        b=WS5Wt9ykWzxS7OLpiO2WkP2qBphqt+LMKN7GjCAMffSUPDLw/T+xo5QY5HaplJGBoS
+         NsNTfoeiznNnlXLSt1J0DigA0dyCu5i1F0A6IcmkU3AqTx6dswA7MQ0QFXQAffpIYC9G
+         1qy6Ir/xD6cB2VqdMwBxWYGLbk+Mp/JHhkE2FGmw1qsTY/+lurwlGhfIw94TtkZJ1oFx
+         NXFddw5NJV9Ocj4bL/dkchkGPSlhbwy5q5GWFTXEFdrTW6RloWVUbw0ic6m+oYN4rNpv
+         bpPrKJXyarQZI0upufZ/wODTVap8Jt5/UYggzIsJWI/YOWi7orh8u3v1VeQOeHgLxE5Y
+         UaqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6y7NuM06Kjl+WdelLbc2dlxMrsxHsdLF1ODT2D1T007nI5vwrUtumn4+OeCPrTUzQGZk8cZx6icrdRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS7IDxE8WUYvnrvCpcFJO/BKvfWGrx7rWGdos0AUraRgLvCjGr
+	ihdbnoF5+lYON2Qhqbf9PXnt8BHZCOn7u2D63yl9y9yNsKl/lD22xSurmSC/lqL+pEM=
+X-Gm-Gg: ASbGncvOEQjjXLYmggTWtDoKn2kGcrYvv9/dmkxMAEdW4nVGGQod1rXMfBS9KWsqOOX
+	3zUTVeRwI8SKViqx/EK9ryvD3xDbkAXxWYO2jS/akByEWw7kSuD+/73SFZmX1J2qSNoR3rhuB7E
+	qsbSkXDqAG2znT3rVPe1BNYzUkBqMdoCYmVTmuI1JDmSRUlZaqh4jXnBR0NQuPvDaj0kE+AyKqK
+	YqK6flSktlm7yugQCgdRn16sRYnAIzDT4zy9cd1upa96D5OLa43I/16FcDGaa/WH+mttIp9Q8VZ
+	iX+YcK5lYY47EveMptPHJh2FL0N54/BTK6R30HgyT00Zc+uuxrMF2rvk0rA7SteBDYxvCJIy+4A
+	oHfbYLGSEzb3WqRusCgxDp4PFYP/NoyzWefW+coJUOUHxXyxPJ74ukzb6W75/ujUuUDTR0OK08s
+	LO
+X-Google-Smtp-Source: AGHT+IG21/AaIAze5CnrFzbotIk5+WCyNnr4M3ziM12QE2WUONELVSCj8ppEhywifIeaLqF5Jft+XA==
+X-Received: by 2002:a05:6512:3b24:b0:558:f60d:d4a1 with SMTP id 2adb3069b0e04-55a1fd758c0mr46377e87.5.1752561316877;
+        Mon, 14 Jul 2025 23:35:16 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55943b736d5sm2167082e87.213.2025.07.14.23.35.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 23:35:16 -0700 (PDT)
+Message-ID: <53a19b1d-5665-4937-a07c-5dd1fcde06c5@linaro.org>
+Date: Tue, 15 Jul 2025 09:35:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+ <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
+ <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
+ <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
+ <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
+ <eac3a877-a4aa-4789-9013-ab8b6c91e0f3@linaro.org>
+ <0a12879f-dc4a-47fb-87a0-ac4b8bcd4d75@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <0a12879f-dc4a-47fb-87a0-ac4b8bcd4d75@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+On 7/15/25 03:13, Bryan O'Donoghue wrote:
+> On 14/07/2025 16:30, Vladimir Zapolskiy wrote:
+>>>
+>>> I think that is genuinely something we should handle in camss-csid.c
+>>> maybe with some meta-data inside of the ports/endpoints..
+>>>
+>>
+>> This is a CSIPHY property, a CSIPHY hardware configuration and a wiring
+>> of sensors to a CSIPHY. Where is the relation to CSID here? There is no.
+> 
+> All the PHY really needs to know is the # of lanes in aggregate, which
+> physical lanes to map to which logical lanes and the pixel clock.
+> 
+> We should add additional support to the Kernel's D-PHY API parameters
+> mechanism to support that physical-to-logical mapping but, that's not
+> required for this series or for any currently know upstream user of CAMSS.
+> 
+>> Please share at least a device tree node description, which supports
+>> a connection of two sensors to a single CSIPHY, like it shall be done
+>> expectedly.
+> &camss {
+>       port@0 {
+>           csiphy0_lanes01_ep: endpoint0 {
+>               data-lanes = <0 1>;
+>               remote-endpoint = <&sensor0_ep>;
+>           };
+> 
+>           csiphy0_lanes23_ep: endpoint0 {
+>               data-lanes = <2 3>;
+>               remote-endpoint = <&sensor1_ep>;
+>           };
+>        };
+> };
 
-Commit d968e50b5c26 ("media: rkvdec: Unstage the driver") moves the driver
-from staging/media/ to media/platform/rockchip/ and adds a new section
-ROCKCHIP RKVDEC VIDEO DECODER DRIVER in MAINTAINERS. It seems that it was
-overlooked that the section ROCKCHIP VIDEO DECODER DRIVER in MAINTAINERS
-already existed, referring to the same files before the driver was moved
-as the new section refers to after the driver was moved.
+Don't you understand that this is broken?.. That's no good.
 
-So, merge the information from the two sections for ROCKCHIP (RKVDEC) VIDEO
-DECODER DRIVER into one. This essentially results in adding the maintainer
-of the previously existing section in the new section and then removing
-that previously existing section.
+Please listen and reread the messages given to you above, your proposed
+"solution" does not support by design a valid hardware setup of two
+sensors connected to the same CSIPHY.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- MAINTAINERS | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+I would propose to stop force pushing an uncorrectable dt scheme, it
+makes no sense.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5efcdb5537f5..d044e4f71ae5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21673,6 +21673,7 @@ F:	drivers/media/platform/rockchip/rga/
- 
- ROCKCHIP RKVDEC VIDEO DECODER DRIVER
- M:	Detlev Casanova <detlev.casanova@collabora.com>
-+M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
- L:	linux-media@vger.kernel.org
- L:	linux-rockchip@lists.infradead.org
- S:	Maintained
-@@ -21693,14 +21694,6 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/sound/rockchip,rk3576-sai.yaml
- F:	sound/soc/rockchip/rockchip_sai.*
- 
--ROCKCHIP VIDEO DECODER DRIVER
--M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
--L:	linux-media@vger.kernel.org
--L:	linux-rockchip@lists.infradead.org
--S:	Maintained
--F:	Documentation/devicetree/bindings/media/rockchip,vdec.yaml
--F:	drivers/staging/media/rkvdec/
--
- ROCKER DRIVER
- M:	Jiri Pirko <jiri@resnulli.us>
- L:	netdev@vger.kernel.org
 -- 
-2.50.0
-
+Best wishes,
+Vladimir
 
