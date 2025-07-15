@@ -1,161 +1,167 @@
-Return-Path: <linux-media+bounces-37733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31A4B05247
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:58:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA4BB0524F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 09:01:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0365A7AB1AB
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 06:56:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8E10188E3E1
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 07:01:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EBDD26D4D7;
-	Tue, 15 Jul 2025 06:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E23B426CE31;
+	Tue, 15 Jul 2025 07:01:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cTIeNHJR"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Cld+089k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E855E25B1FC;
-	Tue, 15 Jul 2025 06:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959044A21;
+	Tue, 15 Jul 2025 07:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752562679; cv=none; b=Sty28zCLBeh8jzIJaACF0KBIqmrKCCfYH/PcZiqjzwdTRPm+sohVLl1miceEDvvaqAgncyV8pjxjk7cn4zrGWIbqeFnIlD4Y5Rz8cQN3VCXv2B/48YG04dmUwLZW6nlG2cZFDtHTSXR5RdVapX/0OdwPyvLCX7I5oS0UsizW8C4=
+	t=1752562882; cv=none; b=REZod/J5LfmrfcRAAWPxFYbI8LZv9WEsJuWAx6bFpLTx4P+fSqzU3ckGBOM+t2tG7MA9DH9XhUmybACbyTyT3FsIDe1K6VAyag2bJjCGpnPPQyi6RopWkGW/r9SDVYu/+i4m/glSGl9mM1IS2brThCYPWkbPSH5E+IzWeJpOO/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752562679; c=relaxed/simple;
-	bh=hi3b18kCJ2PN/uE94e7W0oedaOkuFFQ0dFZ0p41G3yg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HfmfSaYCMjg+CrU69oXi5gWcIVbcFHpvxhw0ZGUl9QD3p5js121aIThT/d4FORU68visqBLwfenrVneQRU5Qf4+U1yn+9YSbrBO9rbZsrZb+TUYYdYlmBqZiX7lS6tb1ewLc4PaqbEYTnF6LNbMHl+dlIWYObqQIpMMtc0h4ILk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTIeNHJR; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-60c3aafae23so12666648a12.1;
-        Mon, 14 Jul 2025 23:57:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752562676; x=1753167476; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hi3b18kCJ2PN/uE94e7W0oedaOkuFFQ0dFZ0p41G3yg=;
-        b=cTIeNHJRaUUw8VnwxaCdZuHYynlEr1dzXZjrdJ4ljqwh+FVvF0PsXVAIUzWtkBVVw/
-         Ugxg3lyjWF4jkHgSwJod4/ZE2ostJrqPHdV8mJRhIFxAEUTr7BGlIl52vZDrEkTIDtBE
-         OeDFs1WXMRRCatKDfMEIFnmLAUhQ8VTKtQ1DVOEwqA1I6EfrPkF88IlcPMBqZ7OFLZZx
-         lT5qERJrKHFLsucjryRQI0kUcKqh/xsjUYNjB23NysP6d9msjXqThFqOuPr/iiH10YPx
-         EeqTTN4DUPlRjQL+MTz324WRDuoG4YDgQCg+1tuHtudU7szTGFZ/h30S7RlD7QWijRFw
-         MMbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752562676; x=1753167476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hi3b18kCJ2PN/uE94e7W0oedaOkuFFQ0dFZ0p41G3yg=;
-        b=sEggjcS7xlDCzKIGpGN3DfSVTxmP1wRgJjrdfp07PuwSKZhXXzwTzJ0w3TDgwqZs1T
-         spbgYXeee6yN4ZIEavzAx0htg0+afrEe6ViVSqoAcc2YTPMEf2VmDPVq33Hc1QM85sGi
-         VHXyfT+wO2cCsMzFtoy+FozJEyuQKCTSPCkV/JdiYPqVtLcvsM/yuwoZ0k6EFxAyn+1B
-         ngyoQxuJM8FxFoihtsPUHj14/T9dJLni6SRetU4hpzAF+qF00vm9kf92IyTT2HUnOQbv
-         h6K/r5Tzpac//y2+2OoCFUk6Bu4ocoa5/3KO+b71ly7A+la/5xromTtTQT5+38nhiw0/
-         svyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIPK3lUJlZ2K2Sq2J8n7hEKJb3lkN992Z8QCS8Ak8jXYNq7fPD1rcUG3nmfEdIcGChcNWNqqM3jCHCXJ4=@vger.kernel.org, AJvYcCXPn0zxWBXgsce6Tflc9afwvQ3ilIB/kUC+gywBIdV7IpKx4nWYmDxo24JbeJju974DWle6ziAzCZAGMHI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzshv+AsRATZOQW2l26msPHjV6Bw1jSgB3J1HRDlhgFJdClEFNc
-	aO5uuAIHSROdxOTi6eE5iWR+MvULIUuGFd50ButJgDCvzjlOk693O+XaA9aD2P5MTZ3G2awVXn9
-	Yu4NBuK/+tsIjt6cDxZiKhN69sfstkqs=
-X-Gm-Gg: ASbGnctjscZTQ299ySJhfEu7WFKIWefjLsonhun32suI+epG2x3E2WK5pIG7QIUTRVX
-	8Vp2hbwpPpLAdXc6XYETBRFIbIsqTvlxqHc5KTyr6d5/6FrBSY3e6TxZm24q6YXRixlX5EVy4n+
-	Cdl5H0q+/VsmDWU9lk5xyOhHA/AYDwdIZPFnQrZkHF4dGlNixtnv6SyouzbvZEwOo/XHaeXD1i8
-	wytYqx3U+vX8YmUaST8
-X-Google-Smtp-Source: AGHT+IG0UYcy/IX+HCgW4D/Eb7WFEQbTW2Fprb7+3GKJ779x4KY8mPx/djHYIJol9OlevhyUSkGo9wlgh5i3URkxtE4=
-X-Received: by 2002:a17:907:f810:b0:ae0:a465:1c20 with SMTP id
- a640c23a62f3a-ae9b5c2bf92mr234673866b.14.1752562675871; Mon, 14 Jul 2025
- 23:57:55 -0700 (PDT)
+	s=arc-20240116; t=1752562882; c=relaxed/simple;
+	bh=qLh+fIjVyQgDPe3qchMRLMJnXHYyjtEjYq0Vo+X6Am4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=lvMs3c7K/MJdjrsxXKHIn433IDgUMqHAFuEmbqBCX5lgEEPmWyCsZNLjizhcFS9+iaWPbE5lz9Fsf5JHMAMXjHkCWTyPXqUNIPPoZXdEZL1GocyZB1FrIxV+zvBBd+qL5dp11Xn5cPIFnBDr9jjRshIwa3COOxyALXlV6q2a1MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Cld+089k; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56F5iBT5028585;
+	Tue, 15 Jul 2025 07:01:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	d96BkCV37oB7zOPVJxZtr+I85trwgiGcWUIkXFdajsA=; b=Cld+089kAZC+19SW
+	sV66y6RnEot267KglEGnfXSATjvapjJ+vE2qGPzgqhEX5muy/LeonHtnLT/4KZN1
+	zRZnZrxS4MizSycSoi77ZaFstz9tssFNVWDOQm+NlINaYfjtrWdgcQuGdFpEQFXK
+	TCg6oqHP135IYT+ary81RkGuREscDQn4XFYpQBL0HbUKXaSFgaCpBjQzekXCE/mW
+	MjVQcQH6qvnYkWsYyDKfgFx4dPltWIQdKKjaiFa5zsK5Oiw1lZJoZw/ymVi9GWr/
+	ByPLSvCm9+S06dNQl3TZXmDd2g+JFNrgeqMbDPkPItgwJiuwkbg09JlWrqDuUSwA
+	Q7VQ2A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dq1x53-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Jul 2025 07:01:08 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56F717ND014887
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Jul 2025 07:01:08 GMT
+Received: from [10.50.25.16] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 15 Jul
+ 2025 00:00:34 -0700
+Message-ID: <a4dfc82b-79df-3e3c-0964-a99db222c6e6@quicinc.com>
+Date: Tue, 15 Jul 2025 12:30:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250714153409.46085-1-martin@weidenauer.cc> <CAHp75VdUNe=bn-Emv6oyHtejTMyhKaiqQfGic0Ha94Z_FAPs2A@mail.gmail.com>
- <4289C286-62A1-4C22-9A03-E6CD3731F3D7@weidenauer.cc> <CAHp75VcvOaSPbrpurRAjrvwW992qiP-ffZcroQ-feg=_PAoquQ@mail.gmail.com>
- <1D5485BE-E03F-4364-A48D-051AAECFBA9A@weidenauer.cc>
-In-Reply-To: <1D5485BE-E03F-4364-A48D-051AAECFBA9A@weidenauer.cc>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 15 Jul 2025 09:57:19 +0300
-X-Gm-Features: Ac12FXz-ngLNhXyig1mNzAZmiCXxYtUqkaoJxPmRSqbAxbX9Ie3FUAhsw-uMXeY
-Message-ID: <CAHp75Veovvxbr_6EuubDa7x8P5j12WjER=ar7E69A4r=sGONsw@mail.gmail.com>
-Subject: Re: [PATCH] staging: atomisp: isp: fix open brace on new line
-To: Martin Weidenauer <martin@weidenauer.cc>
-Cc: Woohee Yang <woohee9527@gmail.com>, Jongmin Kim <jmkim@debian.org>, hansg@kernel.org, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com, andy@kernel.org, 
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	~lkcamp/patches@lists.sr.ht, koike@igalia.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] media: iris: MAINTAINERS: Document actual maintainership
+ by Bryan O'Donoghue
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
+References: <20250714151609.354267-2-krzysztof.kozlowski@linaro.org>
+ <8772c48f-348b-8a68-2099-562a29b9dd8d@quicinc.com>
+ <b83cc20b-44d2-4635-a540-7a9c0d36cdb5@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <b83cc20b-44d2-4635-a540-7a9c0d36cdb5@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 15, 2025 at 12:54=E2=80=AFAM Martin Weidenauer <martin@weidenau=
-er.cc> wrote:
-> On 14 July 2025 23:38:47 CEST, Andy Shevchenko <andy.shevchenko@gmail.com=
-> wrote:
-> >On Mon, Jul 14, 2025 at 10:39=E2=80=AFPM Martin Weidenauer <martin@weide=
-nauer.cc> wrote:
-> >> On 14 July 2025 19:47:41 CEST, Andy Shevchenko <andy.shevchenko@gmail.=
-com> wrote:
-> >
-> >> >Guys, please, coordinate and issue only one (or a few) patch(es) per
-> >> >an issue. No need to send zillions patches for the same problem
-> >> >file-by-file.
-> >
-> >> >On Mon, Jul 14, 2025 at 6:34=E2=80=AFPM Martin Weidenauer <martin@wei=
-denauer.cc> wrote:
-> >> >>
-> >> >> Fix checkpatch error "ERROR: that open brace { should be on the pre=
-vious line"
-> >> >> in ia_css_dvs.host.c:277.
-> >
-> >> I deeply apologize, however this was the instruction of our workshop i=
-n DebConf by Helen Koike <koike@igalia.com>
-> >
-> >This may be okay for the driver that consists of let's say less than
-> >10 files, AtomISP consists of dozens of files in several (nested)
-> >folders. It's not a good example for such an approach.
-> >
-> >> Here is the link to the exact workshop:
-> >> <https://debconf25.debconf.org/talks/55-submit-your-first-contribution=
--to-the-linux-kernel/>
-> >
-> >Hmm... this really needs an update to explain how to work with the
-> >drivers that contain many files and literally tens of thousands lines
-> >of code.
-> >
-> >In any case the problem with your contribution is not the code, the
-> >absence of coordination and possibility to clash with somebody else.
-> >Also it looks like a DDoS attack against maintainers capacity. The
-> >smaller patches are and the more of them --- the less the usefulness
-> >of all this activity as at some point that floods the maintainer's
-> >mailbox.
-> >
-> >TL:DR; (always) Use common sense!
->
-> To be honest, such a contribution also seemed to me a bit useless but I t=
-hought all of this had been discussed with you maintainers beforehand.
->
-> As it seems this was not the case, although the workshop has shown us how=
- easy it is to make contributions and for my part I will use the knowledge =
-to make meaningful changes.
-> So you can scrap this commit and I'll make a few commits in the next days=
- which make more sense.
-
-The problem is not the code, the contribution is okay and appreciated.
-The problem is that for _the same_ issue there are tons of patches
-from _different_ people. Just discuss who does what and send "one
-contributer =3D=3D one issue" (under one issue, I mean class of the issues
-checkpatch or other tools report, for instance, the "if (foo)
-return;"-like which are on one line and needs to be two or more lines,
-do _all_ of them by _a single_ contributor.
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDA2MiBTYWx0ZWRfX83bedKQzrJqG
+ nHFsHVY8ttS1G4luGPAdEUEK92iSkHLk3qUg7lh30vpxQk6aPhsY0vJADm4K7vA6CeKm6QRT8tL
+ Kcr5cQlWiy/X6RULNboQ5N0Z+0x9T70Um76Y8ajeTFb/RgiRdlKvsct5GeaR9Wq3ZNiHgbLeaP8
+ yHkpoNSr6ZLx4fyQf1ZWSlZ8UAGOmFjo+kWNeHjTmPV5/OqwPfcIuElLJkGEcZOSEzmxjwzrpIl
+ qMLdRUjvflf5+PtFbES0Vi2koqPdjn9cmvMqNUEIaklhKnHmTt/wZOxWJQZww9jYk+BBAyIdYOe
+ XQL+tX/uRa/P3DQ9GTRxhv8sN9QOan4jxmr8pdjKkAFDGRq1p3AdCNQCXu//KhI7yTz5nu8Oy+t
+ D2jhq/R/RDbKwqr2yv8ulrKfgpRC8bsPuunkUot1AHLiJw7jwD5sUwXQBHKmKvmZFtIcScg0
+X-Proofpoint-ORIG-GUID: Plr7BXmD-qzREmb5UT4fk4VdxqKr3XlF
+X-Proofpoint-GUID: Plr7BXmD-qzREmb5UT4fk4VdxqKr3XlF
+X-Authority-Analysis: v=2.4 cv=MpZS63ae c=1 sm=1 tr=0 ts=6875fcb4 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=BU9ZYT7LreSM890-jg0A:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_03,2025-07-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 priorityscore=1501 malwarescore=0 spamscore=0
+ impostorscore=0 mlxscore=0 clxscore=1011 adultscore=0 bulkscore=0
+ lowpriorityscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507150062
 
 
---=20
-With Best Regards,
-Andy Shevchenko
+On 7/15/2025 12:14 PM, Krzysztof Kozlowski wrote:
+> On 15/07/2025 07:51, Vikash Garodia wrote:
+>>
+>> On 7/14/2025 8:46 PM, Krzysztof Kozlowski wrote:
+>>> Bryan O'Donoghue reviews and applies patches for both Iris and Venus
+>>> Qualcomm SoC video codecs (visible in git log as his Signed-off-by and
+>>> in pull requests like [1]), so he is de facto the maintainer responsible
+>>> for the code.  Reflect this actual state my changing his entry from
+>>> reviewer to maintainer and moving the entry to alphabetical position by
+>>> first name.
+>>
+>> NAK.
+>>
+>> The roles and responsibilities are well agreed by media maintainer(Hans), with
+>> Bryan part of that discussion, w.r.t code contributions to iris and sending
+>> patches to media tree. The only reason Bryan post the patches is that Hans wants
+>> single PR for patches across Qualcomm media drivers (Camss/Videoss)
+> 
+> That's the maintainer role, so Bryan is the maintainer. I am documenting
+> actual status and your NAK is naking what? That Bryan cannot handle patches?
+I would say, you are reading too much into it, i updated what we have discussed
+and agreed upon the different roles for managing venus and iris drivers.
+> 
+> Sorry, this is already happening.
+> 
+> Your push back here is odd, impolite and really disappointing. You
+> actually should be happy that person outside wants to care about this
+> driver...
+> 
+>> Hi Hans,
+>>
+>> Incase you would like to split sending PRs, as the contributions for Venus/Iris
+>> would be significantly higher, let us know, we can pick that up separately.
+> 
+> Considering quality of the code you sent as Iris upstreaming, you are
+> not there yet.
+If you see the scope to improve the quality, you are always welcome to add
+patches to improve it.
+
+Regards,
+Vikash
+> 
+> https://lore.kernel.org/all/1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com/
+> 
+> Please learn, read how the process works, what is the responsibility of
+> maintainers first.
+> 
+> 
+> Best regards,
+> Krzysztof
 
