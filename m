@@ -1,56 +1,59 @@
-Return-Path: <linux-media+bounces-37822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C68B069C6
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 01:15:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DD4B06A33
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 02:00:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D41A84E5EBD
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 23:15:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 14B221C2075A
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 00:00:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D36BB2D0C7C;
-	Tue, 15 Jul 2025 23:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7CC2D77F3;
+	Tue, 15 Jul 2025 23:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OkSWY44U"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZgLJ+JSQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C14929CE1;
-	Tue, 15 Jul 2025 23:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEC517BA1;
+	Tue, 15 Jul 2025 23:59:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752621338; cv=none; b=ax0xdRUKiE4dcCw/EJqcaB+I0cnRgDAi0hbLxkRrDRAp+HNjo9O2cC46ZHo8T3yEIoVWCBYWiod26fysxqm9FOnpfxlRnl5tc8wtRyBMBeWZl39b97+Tp+ASrYY+cEGOTSDkTyrWT0E9kHMEDdxHjtZHA0eDUVZECi8m9LAFnY4=
+	t=1752623998; cv=none; b=lzeO1MFlkrD7fHA93n4FM/0tAK896f/pBdhGRZvlOeiU6/1RIfjkWUAfQbCc1m0RCz8Cy2e7PoOHAH6QAgXi8H6h2WuL0zBt+o57KWB5RaZx6MrpuLKXA9sux5ljHibGDHssoFypFezcK5i3MaHZ2K75qVMbwAsqPBt+ft/h1pU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752621338; c=relaxed/simple;
-	bh=THq+VAUqqtf/9iHap/uJpT8Wkgc5Ws/A7kV1CmO4kS8=;
+	s=arc-20240116; t=1752623998; c=relaxed/simple;
+	bh=lS9Mn0uNmZExPrZtjzEDREcx1nMnM7/BTRTzgXo5qXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ricH+O8Qx2Haf6pFTrW8Y2bM52mhJ3TJK0XWnH6D/cygimsvLATriZCIioIlOp1riyIiVY9yUPQ1a3ClWPSS/Gl+ulkXDSiM4T6hFicfxMtzXYhG6B+z80RRW3dsiBJhiSg3vGROAleyoN57wjBTKY8N7mekX5vt6bl8AmkNc+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OkSWY44U; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=usxZGe9Sm1pDXftD7FeIw/7k7vUAtzKfLyOi87YYZoYgzJS8MpFYMdaDDCF1o5JX9EAgb/uJm3/3bx/Xda5zVv/gi5n1ubKBpAs2pn1rYkIMdVe9XMi+Qao2smpOJpdCm7/nPMixXa8WtkxhTnmLf06vnCB+K+hUG7Bg303qVO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZgLJ+JSQ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5D4FA351;
-	Wed, 16 Jul 2025 01:15:01 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B705E6A6;
+	Wed, 16 Jul 2025 01:59:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752621301;
-	bh=THq+VAUqqtf/9iHap/uJpT8Wkgc5Ws/A7kV1CmO4kS8=;
+	s=mail; t=1752623961;
+	bh=lS9Mn0uNmZExPrZtjzEDREcx1nMnM7/BTRTzgXo5qXQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OkSWY44UqfrTL7A6Zxlvw8OLmzHevF6j6lJIdzc9wg4DudDhnjMLZm6+/KX+w6Ogl
-	 WxXRUoZeHnyk2iyzyaN1ynArU7GgX4Tk0Bdth+XuIS1iuWFLovJVnHj5JqyoQiZ1ME
-	 0K2u0ssssQFKH+OhWg6Ur9hf4AvH8PZ4UwtF/SIY=
-Date: Wed, 16 Jul 2025 02:15:32 +0300
+	b=ZgLJ+JSQ99yKPmKkFQpIeJ+0jQiVvt+h9TtbRDuuzckHVEcjVMoX7eOiL4wWfMzWs
+	 PqXoKJ+8SPgtkti5jY4/7aVFXSzDjTKBe1+iWI4H5vtUDY4jncfvpqXNGkO9u8Ph3w
+	 QmIBI+0X3EGDLsaiaEv+wV1Bk8n56vs363W1XzIk=
+Date: Wed, 16 Jul 2025 02:59:52 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Fix comments in uvc_meta_detect_msxu
-Message-ID: <20250715231532.GA13915@pendragon.ideasonboard.com>
-References: <20250714-uvc-meta-followup-v1-1-67bd2dc05ef2@chromium.org>
+To: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	hverkuil-cisco@xs4all.nl, ribalda@chromium.org,
+	jai.luthra@ideasonboard.com, laurentiu.palcu@nxp.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	LnxRevLi@nxp.com, julien.vuillaumier@nxp.com,
+	celine.laurencin@nxp.com
+Subject: Re: [RFC 0/2] Add standard exposure and gain controls for multiple
+ captures
+Message-ID: <20250715235952.GE19299@pendragon.ideasonboard.com>
+References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,69 +62,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250714-uvc-meta-followup-v1-1-67bd2dc05ef2@chromium.org>
+In-Reply-To: <20250710220544.89066-1-mirela.rabulea@nxp.com>
 
-Hi Ricardo,
+Hi Mirela,
 
-On Mon, Jul 14, 2025 at 04:45:43PM +0000, Ricardo Ribalda wrote:
-> The comments can be more precise. Let's fix them.
+On Fri, Jul 11, 2025 at 01:05:42AM +0300, Mirela Rabulea wrote:
+> Add new standard controls as U32 arrays, for sensors with multiple
+> captures: V4L2_CID_EXPOSURE_MULTI, V4L2_CID_AGAIN_MULTI and
+> V4L2_CID_DGAIN_MULTI. These will be particularly useful for sensors
+> that have multiple captures, but the HDR merge is done inside the sensor,
+> in the end exposing a single stream, but still requiring AEC control
+> for all captures.
+
+It's also useful for sensors supporting DOL or DCG with HDR merge being
+performed outside of the sensor.
+
+> All controls are in the same class, so they could all be set
+> atomically via VIDIOC_S_EXT_CTRLS, this could turn out to be
+> useful in case of sensors with context switching.
+
+Agreed, we should be able to set them all. Are we still unable to set
+controls from multiple classes atomatically ? I thought that limitation
+has been lifted.
+
+> Each element of the array will hold an u32 value (exposure or gain)
+> for one capture. The size of the array is up to the sensor driver which
+> will implement the controls and initialize them via v4l2_ctrl_new_custom().
+> With this approach, the user-space will have to set valid values
+> for all the captures represented in the array.
+
+I'll comment on the controls themselves in patch 2/2.
+
+> The v4l2-core only supports one scalar min/max/step value for the
+> entire array, and each element is validated and adjusted to be within
+> these bounds in v4l2_ctrl_type_op_validate(). The significance for the
+> maximum value for the exposure control could be "the max value for the
+> long exposure" or "the max value for the sum of all exposures". If none
+> of these is ok, the sensor driver can adjust the values as supported and
+> the user space can use the TRY operation to query the sensor for the
+> minimum or maximum values.
+
+Hmmmm... I wonder if we would need the ability to report different
+limits for different array elements. There may be over-engineering
+though, my experience with libcamera is that userspace really needs
+detailed information about those controls, and attempting to convey the
+precise information through the kernel-userspace API is bound to fail.
+That's why we implement a sensor database in libcamera, with information
+about how to convert control values to real gain and exposure time.
+Exposing (close to) raw register values and letting userspace handle the
+rest may be better.
+
+> Mirela Rabulea (2):
+>   LF-15161-6: media: Add exposure and gain controls for multiple
+>     captures
+>   LF-15161-7: Documentation: media: Describe exposure and gain controls
+>     for multiple captures
+
+Did you forget to remove the LF-* identifiers ? :-)
+
 > 
-> Fixes: 6cb786f040ad ("media: uvcvideo: Auto-set UVC_QUIRK_MSXU_META")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> This series fixes the uvc metadata series landed in:
-> https://patchwork.linuxtv.org/project/linux-media/patch/998c5fb0-8d32-496c-a1e2-cc9c1a73ede0@kernel.org/
-> 
-> There is no need to Cc: stable, because the series have not landed in
-> any stable kernel.
-> ---
->  drivers/media/usb/uvc/uvc_metadata.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-> index 229e08ff323eed9129d835b24ea2e8085bb713b8..2905e46514d74cee09215d86e8eb7ad6e787ece1 100644
-> --- a/drivers/media/usb/uvc/uvc_metadata.c
-> +++ b/drivers/media/usb/uvc/uvc_metadata.c
-> @@ -196,7 +196,10 @@ static int uvc_meta_detect_msxu(struct uvc_device *dev)
->  	if (!data)
->  		return -ENOMEM;
->  
-> -	/* Check if the metadata is already enabled. */
-> +	/*
-> +	 * Check if the metadata is already enabled, or if the device always
-> +	 * returns metadata.
-> +	 */
->  	ret = uvc_query_ctrl(dev, UVC_GET_CUR, entity->id, dev->intfnum,
->  			     MSXU_CONTROL_METADATA, data, sizeof(*data));
->  	if (ret)
-> @@ -208,9 +211,9 @@ static int uvc_meta_detect_msxu(struct uvc_device *dev)
->  	}
->  
->  	/*
-> -	 * We have seen devices that require 1 to enable the metadata, others
-> -	 * requiring a value != 1 and others requiring a value >1. Luckily for
-> -	 * us, the value from GET_MAX seems to work all the time.
-> +	 * Set the value of MSXU_CONTROL_METADATA to the value from GET_MAX to
-> +	 * enable the production of MSXU metadata.
-
-Let's expand this to tell why we return early when GET_MAX returns 0.
-
-	 * Set the value of MSXU_CONTROL_METADATA to the value reported by
-	 * GET_MAX to enable production of MSXU metadata. The GET_MAX request
-	 * reports the maximum size of the metadata, if its value is 0 then MSXU
-	 * metadata is not supported. For more information, see
-	 * https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5#2229-metadata-control
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	 * https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5#2229-metadata-control
->  	 */
->  	ret = uvc_query_ctrl(dev, UVC_GET_MAX, entity->id, dev->intfnum,
->  			     MSXU_CONTROL_METADATA, data, sizeof(*data));
-> 
-> ---
-> base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
-> change-id: 20250714-uvc-meta-followup-1ccb6e8efc2b
+>  .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c            |  8 ++++++++
+>  include/uapi/linux/v4l2-controls.h                   |  3 +++
+>  3 files changed, 23 insertions(+)
 
 -- 
 Regards,
