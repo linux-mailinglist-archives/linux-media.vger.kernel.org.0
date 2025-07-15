@@ -1,57 +1,73 @@
-Return-Path: <linux-media+bounces-37807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFCBB06657
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 20:56:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E662B066FE
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 21:35:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC0E717EBFD
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 18:56:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B2F91AA401D
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 19:35:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1263C2BE7AC;
-	Tue, 15 Jul 2025 18:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6552BEC5E;
+	Tue, 15 Jul 2025 19:35:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bTNaMOOS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SKxes7U7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEEA17BA1;
-	Tue, 15 Jul 2025 18:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05ACB1F0E24;
+	Tue, 15 Jul 2025 19:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752605755; cv=none; b=AapKDiO6x499RHqexS/omnLQWeuO4VifbAM25yMubxRYRaCMMBePvSy61DqIuTkp0fGDnMKSk5/534E9wFIEqvL/VD8q/PonVdmc8w27ikFWBl+OiL9IO0JugccO9x8Pizxcl1gkVbPV0wdFkTSyb/zW54evir+pDY8Gl01dtRM=
+	t=1752608112; cv=none; b=UNWcL9bOzG0HzKIHQPvfBsjjSANWHub2j4GGydRM5SVP0OF3UOWnkb4hquW2DwdwptW5J/IojEoZWF1394VCwFWscfIRJbRz6m/96kORAMdBkWSYulCgw0EMxlYC41BuaCFDB24aoS0UTgISPbPU3Bh6sdY3hq92fyL72DK1b6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752605755; c=relaxed/simple;
-	bh=Q2MmTxPttrYwSbqFlJJnGw1CxKSnIIiq5Yk0wLXIyqw=;
+	s=arc-20240116; t=1752608112; c=relaxed/simple;
+	bh=syjYAypKJMAfH+Su+2T3GSj4ruMImpHxERZO6eZ48rw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HcATgc6RYrD6fW+8fvdO1GwHgPD7UQ6YIxeZyY+PSWthtcrnpsCx9n6zvTPzbPtUMZ5vY0ty9ApcwKcttez61ZkbXJ6+A+4VcnOQvYL9uLBUU8TsR+Zmns8jDld41LbsJ4lRA4lvOS32XXJ7BZ0VzzveBBRQkD5PZrOW4L0p5Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bTNaMOOS; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=pvgewc6SNuCsEGZRW8Q/EdZfcrAWVpx2kObv8+cBdOPsXVQBb9TvPZCnGZds6CAENmhu/+WhfsCt7TzgF6p/Ljx9uH63GSV2rYWUaCHhERzt0pKm81qqQPQu4jYqrusF18k2gBMvPpeI5VxV/s+akIp+ZrpVSCAkekabICidAi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SKxes7U7; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9541E78E;
-	Tue, 15 Jul 2025 20:55:19 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0A77A250;
+	Tue, 15 Jul 2025 21:34:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752605719;
-	bh=Q2MmTxPttrYwSbqFlJJnGw1CxKSnIIiq5Yk0wLXIyqw=;
+	s=mail; t=1752608075;
+	bh=syjYAypKJMAfH+Su+2T3GSj4ruMImpHxERZO6eZ48rw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bTNaMOOS1fVf864B9+ylYBpm4vJzrDckfHRTaF/vyat/jImb5zqBQjYO5bEXLeBKc
-	 Tp1H8BAwPk7gx1Nz3aGDHlxiF6C++jePYvlQt1rGs6ckaGlK2QD7NsSFaCr2eX6ynw
-	 u6ZVxtMAZliVROdASG7BrQSfPTsX3ekWrw5WNZlU=
-Date: Tue, 15 Jul 2025 21:55:50 +0300
+	b=SKxes7U71igt0rK5FIMwl5osjx/RiELHQ6/EeINvEbvKuI3myMX5XyD1toBJm0UGU
+	 Hyex0GNKQC2KPdIwoEte9III59EP4pzLH7zD9FsriquCShb9+lXs+TXbBmsLW2sf1X
+	 jnN8sdH5/5jtGYEDCmD2kBGnsFBrCAYfUTCXivt8=
+Date: Tue, 15 Jul 2025 22:35:05 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mathis Foerst <mathis.foerst@mt.com>
-Cc: linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, manuel.traut@mt.com,
-	mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v8 0/2] MT9M114 driver bugfix and improvements
-Message-ID: <20250715185550.GA19299@pendragon.ideasonboard.com>
-References: <20250714075927.511610-1-mathis.foerst@mt.com>
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 10/12] media: uvcvideo: Add get_* functions to
+ uvc_entity
+Message-ID: <20250715193505.GB19299@pendragon.ideasonboard.com>
+References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
+ <20250605-uvc-orientation-v2-10-5710f9d030aa@chromium.org>
+ <20250629181246.GE6260@pendragon.ideasonboard.com>
+ <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
+ <20250714142926.GI8243@pendragon.ideasonboard.com>
+ <CANiDSCvFe23xmrJ0-qbWWa6+vKGb+QdDFV8VSLkmWdAnfsFtzw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,96 +76,108 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250714075927.511610-1-mathis.foerst@mt.com>
+In-Reply-To: <CANiDSCvFe23xmrJ0-qbWWa6+vKGb+QdDFV8VSLkmWdAnfsFtzw@mail.gmail.com>
 
-Hi Mathis,
+On Mon, Jul 14, 2025 at 05:46:40PM +0200, Ricardo Ribalda wrote:
+> On Mon, 14 Jul 2025 at 16:30, Laurent Pinchart wrote:
+> > On Tue, Jul 01, 2025 at 01:13:10PM +0200, Ricardo Ribalda wrote:
+> > > On Sun, 29 Jun 2025 at 20:13, Laurent Pinchart wrote:
+> > > > On Thu, Jun 05, 2025 at 05:53:03PM +0000, Ricardo Ribalda wrote:
+> > > > > Virtual entities need to provide more values than get_cur and get_cur
+> > > >
+> > > > I think you meant "get_info and get_cur".
+> > > >
+> > > > > for their controls. Add support for get_def, get_min, get_max and
+> > > > > get_res.
+> > > >
+> > > > Do they ? The UVC specification defines controls that don't list
+> > > > GET_DEF, GET_MIN, GET_MAX and GET_RES as mandatory requests. Can't we do
+> > > > the same for the software controls ? This patch is meant to support the
+> > > > UVC_SWENTITY_ORIENTATION and UVC_SWENTITY_ROTATION control in the next
+> > > > patch, and those are read-only controls. Aren't GET_INFO and GET_CUR
+> > > > enough ?
+> > >
+> > > V4L2_CID_CAMERA_ROTATION has the type UVC_CTRL_DATA_TYPE_UNSIGNED,
+> > > that time requires get_min and get_max.
+> >
+> > Where does that requirement come from ? Is it because how the
+> > corresponding V4L2 type (V4L2_CTRL_TYPE_INTEGER) is handled in
+> > uvc_ctrl_clamp() ? uvc_ctrl_clamp() is only called when setting a
+> > control, from uvc_ctrl_set(), and V4L2_CID_CAMERA_ROTATION should be
+> > read-only.
+> 
+> It its for VIDIOC_QUERY_EXT_CTRL
+> 
+> uvc_query_v4l2_ctrl -> __uvc_query_v4l2_ctrl -> __uvc_queryctrl_boundaries
+> 
+> We need to list the min, max, def and step for every control. They are
+> fetched with uvc_ctrl_populate_cache()
 
-Thank you for the patches.
+Ah, I see, thanks.
 
-The series is fully reviewed. It's unfortuantely a bit too late for
-v6.17, I expect Sakari will pick it up for v6.18.
+For GET_RES, I think we can leave it unimplemented.
+__uvc_queryctrl_boundaries() will set v4l2_ctrl->step = 0 which seems to
+be the right behaviour for a read-only control whose value never
+changes.
 
-On Mon, Jul 14, 2025 at 09:59:25AM +0200, Mathis Foerst wrote:
-> Hi,
-> 
-> this patch series contains the following bugfix and improvements
-> for the MT9M114 camera driver:
-> 
-> Changelog:
-> 
-> v7 -> v8:
-> - Add missing braces in 1.
-> - Fix formatting issues as suggested in review.
-> 
-> v6 -> v7:
-> - Remove already picked patches 1, 2, 3 and 6.
-> - Remove patch 4 as suggested in review.
-> - Fix formatting issues
-> - Return -EBUSY from mt9m114_pa_set_selection if the cropping size changes
->   while in streaming state.
-> 
-> v5 -> v6:
-> - Add 'Reviewed-By:' tags. Sorry for forgetting this in the previous versions
-> 
-> v4 -> v5:
-> - Apply reformatings and small refactorings as suggested in review comments
-> - Split PATCH 4 into two parts: One for applying HFLIP / VFLIP while 
->   streaming, one for applying set_selection while streaming.
-> - Add condition to apply set_selection immediately only if the size of the
->   cropping rectangle does not change in PATCH 5
-> - Use device_property_read_u32 instead of of_property_read_u32 in PATCH 7
-> 
-> v3 -> v4:
-> - Rename DT binding from "onnn,slew-rate" to "slew-rate" in PATCH 1 and 6 as
->   requested in the review comment.
-> 
-> v2 -> v3:
-> - Dropped PATCH 2 ("media: mt9m114: Add get_mbus_config").
->   Based on the comments, this issure won't be fixed in the MT9M114
->   driver but in "imx-media-csi.c" in a separate patch.
-> - Renumbered patches accordingly.
-> - Fix the incomplete renaming of the DT property from 'pad-slew-rate'
->   to 'onnn,slew-rate' in PATCH 1 and 6.
-> - Fix checkpatch formatting suggestions in PATCH 2 and 6.
-> 
-> v1 -> v2:
-> - Fix the subjects of the patches
-> - Dropped PATCH 1 ("Add bypass-pll DT-binding") as it can be automatically
->   detected if the PLL should be bypassed.
-> - Renumbered patches accordingly
-> - Switch to uint32, add default value and clarify documentation in PATCH 1
-> - Add 'Fixes' and 'Cc' tags as suggested in PATCH 6
-> 
-> Link to v1 discussion:
-> https://lore.kernel.org/linux-media/20250226153929.274562-1-mathis.foerst@mt.com/
-> Link to v2 discussion:
-> https://lore.kernel.org/linux-media/20250304103647.34235-1-mathis.foerst@mt.com/
-> Link to v3 discussion:
-> https://lore.kernel.org/linux-media/20250305101453.708270-1-mathis.foerst@mt.com/
-> Link to v4 discussion:
-> https://lore.kernel.org/linux-media/20250307093140.370061-1-mathis.foerst@mt.com/
-> 
-> Bugfixes:
-> - Fix a deadlock when using the V4L2 pad-ops get/set_frame_interval
-> 
-> New Features:
-> - Bypass the internal PLL if EXTCLK matches the configured link_frequency
-> - Make the slew-rate of the output pads configurable via DT
-> - Allow to change the cropping configuration while the sensor is in streaming 
->   state
-> 
-> Thanks,
-> Mathis
-> 
-> Mathis Foerst (2):
->   media: mt9m114: Allow set_selection while streaming
->   media: mt9m114: Set pad-slew-rate
-> 
->  drivers/media/i2c/mt9m114.c | 69 ++++++++++++++++++++++++++++---------
->  1 file changed, 53 insertions(+), 16 deletions(-)
-> 
-> 
-> base-commit: a8598c7de1bcd94461ca54c972efa9b4ea501fb9
+As for the minimum and maximum, they are currently set to 0 if the
+corresponding operations are not supported. I wonder if we should set
+them to the current value instead for read-only controls (as in controls
+whose flags report support for GET_CUR only)..
+
+> > > We can create a new type UVC_CTRL_DATA_TYPE_UNSIGNED_READ_ONLY that
+> > > fakes min, max and res, but I think that it is cleaner this approach.
+> > >
+> > > > > This is a preparation patch.
+> > > > >
+> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > ---
+> > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 12 ++++++++++++
+> > > > >  drivers/media/usb/uvc/uvcvideo.h |  8 ++++++++
+> > > > >  2 files changed, 20 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > index 21ec7b978bc7aca21db7cb8fd5d135d876f3330c..59be62ae24a4219fa9d7aacf2ae7382c95362178 100644
+> > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > @@ -596,6 +596,18 @@ static int uvc_ctrl_query_entity(struct uvc_device *dev,
+> > > > >       if (query == UVC_GET_CUR && ctrl->entity->get_cur)
+> > > > >               return ctrl->entity->get_cur(dev, ctrl->entity,
+> > > > >                                            ctrl->info.selector, data, len);
+> > > > > +     if (query == UVC_GET_DEF && ctrl->entity->get_def)
+> > > > > +             return ctrl->entity->get_def(dev, ctrl->entity,
+> > > > > +                                          ctrl->info.selector, data, len);
+> > > > > +     if (query == UVC_GET_MIN && ctrl->entity->get_min)
+> > > > > +             return ctrl->entity->get_min(dev, ctrl->entity,
+> > > > > +                                          ctrl->info.selector, data, len);
+> > > > > +     if (query == UVC_GET_MAX && ctrl->entity->get_max)
+> > > > > +             return ctrl->entity->get_max(dev, ctrl->entity,
+> > > > > +                                          ctrl->info.selector, data, len);
+> > > > > +     if (query == UVC_GET_RES && ctrl->entity->get_res)
+> > > > > +             return ctrl->entity->get_res(dev, ctrl->entity,
+> > > > > +                                          ctrl->info.selector, data, len);
+> > > > >       if (query == UVC_GET_INFO && ctrl->entity->get_info)
+> > > > >               return ctrl->entity->get_info(dev, ctrl->entity,
+> > > > >                                             ctrl->info.selector, data);
+> > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > > > index a931750bdea25b9062dcc7644bf5f2ed89c1cb4c..d6da8ed3ad4cf3377df49923e051fe04d83d2e38 100644
+> > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > > > @@ -261,6 +261,14 @@ struct uvc_entity {
+> > > > >                       u8 cs, u8 *caps);
+> > > > >       int (*get_cur)(struct uvc_device *dev, struct uvc_entity *entity,
+> > > > >                      u8 cs, void *data, u16 size);
+> > > > > +     int (*get_def)(struct uvc_device *dev, struct uvc_entity *entity,
+> > > > > +                    u8 cs, void *data, u16 size);
+> > > > > +     int (*get_min)(struct uvc_device *dev, struct uvc_entity *entity,
+> > > > > +                    u8 cs, void *data, u16 size);
+> > > > > +     int (*get_max)(struct uvc_device *dev, struct uvc_entity *entity,
+> > > > > +                    u8 cs, void *data, u16 size);
+> > > > > +     int (*get_res)(struct uvc_device *dev, struct uvc_entity *entity,
+> > > > > +                    u8 cs, void *data, u16 size);
+> > > > >
+> > > > >       unsigned int ncontrols;
+> > > > >       struct uvc_control *controls;
 
 -- 
 Regards,
