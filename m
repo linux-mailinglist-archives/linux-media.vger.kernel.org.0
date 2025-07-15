@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-37786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37790-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9FDB05C1A
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 15:28:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8496B05E96
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 15:55:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF8461C21A71
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:28:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBC2A5642F7
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:50:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46EE32E4998;
-	Tue, 15 Jul 2025 13:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA312E6D0F;
+	Tue, 15 Jul 2025 13:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hEAEwkvY"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WM4etS/x"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACA82E3382;
-	Tue, 15 Jul 2025 13:24:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E0326D4F2;
+	Tue, 15 Jul 2025 13:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752585896; cv=none; b=EKRvLLATM0+33kd2aLkmRBlearUQioiqOntO+zgYq1f59kQXzcUKxUFwM9memy0q4ZzPO5ntzr4l5WJjiL8KXfvW76aGJ2+p70J6O5A4LzdpzfaWkb9uEcLyhsYuCm/uSPUMygzPHp2fRkmX1BEw9qAu84EPDwZJmHXEO1iJuhY=
+	t=1752586992; cv=none; b=LUEDxCXIveJM/8jRbrtjPc1UxDBX5sMPMi03x7wbbGc+njaQ9gbLDxy3o25U6iGwqEROP9/eRSZYyfyoj25Zg/76XXVljfkt0TQ0RWMkjF4QitKnEsMHdOEFFEeJF9kt20aExe6WO1Xhhf2UTPFqzdufeBW2B6jEm9RuiLZDd9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752585896; c=relaxed/simple;
-	bh=JJduVbsTrD4UwIdCLXwCmMALGCtioinwKQGoVV9+j3s=;
+	s=arc-20240116; t=1752586992; c=relaxed/simple;
+	bh=7YerTNqOXzIZgs1HpEXiEzXdESWh8PU4yrLhBIfwM38=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EuoR4vxO8c6DdG8HeSgtzxge89YQffYbrHrJ6ab6qzefZgOdrmpHXPVtiKeWGkkIRPDmCCX85Rb2hrBLaYGdHBpo2ItUUxZ24j1QELiKz835qLx5NSjCkwVanJ5ZZESaN9DZI6vhIqBf2Dv+1IOzgWjS1Y6R803GnjMnwqF2Qk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hEAEwkvY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08BA0C4CEE3;
-	Tue, 15 Jul 2025 13:24:56 +0000 (UTC)
+	 MIME-Version:Content-Type; b=ewS1PFQapk0xq3mmgoTShoNx8JDCBCOJUKLZYnKaQeiDBSns8/B0fo8m2R5wsSJw/QiDcPqagEWGfjvlfT1ixin5P2WmG3d9C/empVO8vHaV/qzvjHLmqgJN+MI3pSP3+2O5FQQ4dDTKJCW/RI+9te8SYMGOeTN7QsUbS47tQ8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WM4etS/x; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B527C4CEE3;
+	Tue, 15 Jul 2025 13:43:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752585896;
-	bh=JJduVbsTrD4UwIdCLXwCmMALGCtioinwKQGoVV9+j3s=;
+	s=korg; t=1752586991;
+	bh=7YerTNqOXzIZgs1HpEXiEzXdESWh8PU4yrLhBIfwM38=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hEAEwkvYOQAtr1LDcsQW0FA9TI8DpYZhn8SB9IdvXVp26vsimyR7rHqNgjgd2M9mF
-	 qoEMCAkp6zRXIRDui4y6EYQ4NzaGxVpdlwGT8wGxwjbHVmLnK0PVAxlb2WUXiRU2Us
-	 r7HfPKhRwpR3Bf6hwflWZmEbybS7d1GW8sv2wCtc=
+	b=WM4etS/xGjrWpt4kTS6lYTj8XkFP+VgNminUnmZ5ss37sN3BRKSOEPSrStMMvmSM7
+	 ZkoReTfUGllM4yk88hRx0C6iIebMroXFtinF1ds05IJNwrW8rlJ79uTGilslsm8WQl
+	 Sa2u0NhhZ99OE4b4tq1LJLjXT71T3uBXw+3gj9UA=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,12 +54,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 6.6 049/109] drm/framebuffer: Acquire internal references on GEM handles
-Date: Tue, 15 Jul 2025 15:13:05 +0200
-Message-ID: <20250715130800.838187407@linuxfoundation.org>
+Subject: [PATCH 6.15 094/192] drm/framebuffer: Acquire internal references on GEM handles
+Date: Tue, 15 Jul 2025 15:13:09 +0200
+Message-ID: <20250715130818.676257162@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715130758.864940641@linuxfoundation.org>
-References: <20250715130758.864940641@linuxfoundation.org>
+In-Reply-To: <20250715130814.854109770@linuxfoundation.org>
+References: <20250715130814.854109770@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -72,7 +72,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -134,7 +134,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_framebuffer.c
 +++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -844,11 +844,23 @@ void drm_framebuffer_free(struct kref *k
+@@ -862,11 +862,23 @@ EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebu
  int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
  			 const struct drm_framebuffer_funcs *funcs)
  {
@@ -158,7 +158,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	INIT_LIST_HEAD(&fb->filp_head);
  
  	fb->funcs = funcs;
-@@ -857,7 +869,7 @@ int drm_framebuffer_init(struct drm_devi
+@@ -875,7 +887,7 @@ int drm_framebuffer_init(struct drm_devi
  	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
  				    false, drm_framebuffer_free);
  	if (ret)
@@ -167,7 +167,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	mutex_lock(&dev->mode_config.fb_lock);
  	dev->mode_config.num_fb++;
-@@ -865,7 +877,16 @@ int drm_framebuffer_init(struct drm_devi
+@@ -883,7 +895,16 @@ int drm_framebuffer_init(struct drm_devi
  	mutex_unlock(&dev->mode_config.fb_lock);
  
  	drm_mode_object_register(dev, &fb->base);
@@ -185,7 +185,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	return ret;
  }
  EXPORT_SYMBOL(drm_framebuffer_init);
-@@ -942,6 +963,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister
+@@ -960,6 +981,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister
  void drm_framebuffer_cleanup(struct drm_framebuffer *fb)
  {
  	struct drm_device *dev = fb->dev;
@@ -200,7 +200,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	list_del(&fb->head);
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -197,23 +197,34 @@ static void drm_gem_object_handle_get(st
+@@ -223,23 +223,34 @@ static void drm_gem_object_handle_get(st
  }
  
  /**
@@ -242,7 +242,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  /**
   * drm_gem_object_handle_free - release resources bound to userspace handles
-@@ -246,7 +257,7 @@ static void drm_gem_object_exported_dma_
+@@ -272,7 +283,7 @@ static void drm_gem_object_exported_dma_
  }
  
  /**
@@ -251,7 +251,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
   * @obj: GEM object
   *
   * Releases a reference on the GEM buffer object's handle. Possibly releases
-@@ -257,14 +268,14 @@ void drm_gem_object_handle_put_unlocked(
+@@ -283,14 +294,14 @@ void drm_gem_object_handle_put_unlocked(
  	struct drm_device *dev = obj->dev;
  	bool final = false;
  
@@ -271,7 +271,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	mutex_lock(&dev->object_name_lock);
  	if (--obj->handle_count == 0) {
-@@ -277,7 +288,6 @@ void drm_gem_object_handle_put_unlocked(
+@@ -303,7 +314,6 @@ void drm_gem_object_handle_put_unlocked(
  	if (final)
  		drm_gem_object_put(obj);
  }
@@ -332,7 +332,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -155,7 +155,7 @@ void drm_sysfs_lease_event(struct drm_de
+@@ -161,7 +161,7 @@ void drm_sysfs_lease_event(struct drm_de
  
  /* drm_gem.c */
  int drm_gem_init(struct drm_device *dev);
@@ -368,9 +368,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +	 */
 +	unsigned int internal_flags;
 +	/**
- 	 * @hot_x: X coordinate of the cursor hotspot. Used by the legacy cursor
- 	 * IOCTL when the driver supports cursor through a DRM_PLANE_TYPE_CURSOR
- 	 * universal plane.
+ 	 * @filp_head: Placed on &drm_file.fbs, protected by &drm_file.fbs_lock.
+ 	 */
+ 	struct list_head filp_head;
 
 
 
