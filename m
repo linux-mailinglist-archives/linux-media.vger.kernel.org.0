@@ -1,459 +1,188 @@
-Return-Path: <linux-media+bounces-37768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37769-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63D6B05825
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 12:49:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E24F4B0584F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:03:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22DCF4A7F4D
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 10:49:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47D767A6AB0
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 11:01:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D93542D46C9;
-	Tue, 15 Jul 2025 10:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8424F2D8762;
+	Tue, 15 Jul 2025 11:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jeo/Wj3t"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ikpqn+2i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7794B204F73
-	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 10:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207B6238C1D
+	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 11:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752576580; cv=none; b=jCuR6VygAWvRWK76jSnyCgJ02XuPQC9ZXZXHMxYymPGEMNZyH/V6mcMNBvoVhPcSMQjDpZ4CcHZFZ0Q6qBpasIP/MId97zWwNBaIeb+DgbvYiBANQNLQJqZtsR2pYQSma9kH28R1Reasi6nonYOEISrKv1XY/9AzNC1MuU6o3FU=
+	t=1752577387; cv=none; b=pSDVn4IA9jEnFp/CrUOZ4UR4aU7qYhOeLG1U4wrk1Ik8VXlgfs46080sOzuhwxG9v938NvfiWDAbCw8L2plSE0uyKWCz5F6jO/n0i7RGghGTNLrkwuoEfnUxp9f2teGGXY7MK+K+Wcvc3MhicoNozt22DXiO//GHA6HZuJT6lTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752576580; c=relaxed/simple;
-	bh=5+/1f5pMH0Ja/F1wbYzVe+fsdj6uXFhhaUcB6DWL72I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bQmo0R58xHgcL3u6fGurBgD7Jm/EUSBnPOjdyPDVuVfNZFcYnq043Rz7p4sk8MpAanQAQAtnNKPVo8cp5GJeljLDOzg/o70HY8jwdh+ccQSutWVda0ZVMPRwhSl3ZovIAZlXgywc0f2SeIZ/futgJm2s86ymm7MHCVDMC7qSWHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jeo/Wj3t; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752576578; x=1784112578;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5+/1f5pMH0Ja/F1wbYzVe+fsdj6uXFhhaUcB6DWL72I=;
-  b=Jeo/Wj3tGbwggh4Rucc1uzDqJuvrM1VtfiHrvP2wxWTSuLSYzVumLmjB
-   aRI4XMi4a4wIrNdlmKmGTsVVVsXsvfTE0tUq2VGJK/DNM+SLsQJeFdYtt
-   jSgzqybFIbmkD+FKJ3MNZgwZ43rit/oZMgaJh87GlMSqBCoTKzHItWGQH
-   yYHox5NwnYdzUSK8+jMMctaSKG0ad0oIe0APThgf9q4F5WvCDdr8gawRx
-   6d/4hYjpl9hPmWqIAXwxUUgzwm+6TkTfgcsf7vjSn69P8i2GUX4nbC41X
-   EcStJ4T0a+GD1KMG9RafKuzp29WJN1w8ZWjHvBJZiBxss2GIwkQcTdOyG
-   w==;
-X-CSE-ConnectionGUID: 0Ii2AzlOQiuurOip7/qGnA==
-X-CSE-MsgGUID: 2INJt1cgQw+eJtI6q/8viA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54913569"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="54913569"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 03:49:37 -0700
-X-CSE-ConnectionGUID: ulB03PzmSKi+eYu7BDjRIw==
-X-CSE-MsgGUID: WbJ+dUVvT2GU2oIWPG9PFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="157547788"
-Received: from ettammin-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.145])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 03:49:35 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 61E8A11F8D4;
-	Tue, 15 Jul 2025 13:49:32 +0300 (EEST)
-Date: Tue, 15 Jul 2025 10:49:32 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
-	tomi.valkeinen@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH 12/13] media: v4l2-mc: Introduce
- v4l2_mc_pipeline_enabled()
-Message-ID: <aHYyPMcwt3WBzJur@kekkonen.localdomain>
-References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
- <20250619081546.1582969-13-sakari.ailus@linux.intel.com>
- <zubhgen5vcjeadujrufagjd3h6rp5va7d7n27fqisc23kr35sn@sg4mwenwnbmc>
+	s=arc-20240116; t=1752577387; c=relaxed/simple;
+	bh=JeULfLoO61COXgY9TRNEBynJYaRj3dtYVdnwXi9Urio=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LFCkt/Rta1msRZ1Djf1F2OeFXtWf4qhkxJKEQ7C5tLmP9U/eHvmTIQ5LMahFtawCnXKqPdhoQ2SaU4kqv8WweRSX13Nq+rHDyr5SgqRWxlt9sXg/Z1g2aBzvxcT7KIDApVYqLKf4Vq9hihN+glmD2wetMuo4aUUCa1hDd6+y2TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ikpqn+2i; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4561607166aso17035355e9.2
+        for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 04:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752577383; x=1753182183; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BKUkKIualjoy9v95vK8+BtLhU3lx0OJMWJq7rT63AXY=;
+        b=ikpqn+2ib7w+K48082h24IVK3H6n0IIDYGVoUM5G313XtQn1LoLCvVE472qVwH2ZaD
+         5WgTvN0WElGFJa0hPup0Bc9iXrnTSM9cuWsF5ncRVPi50jTBhFy/qrH9EpfjFY4Jxky/
+         as2EVYDnYYRpIG5LAZyGH1NNQhCkxQxDmYhzadDX7hqSGxJ3tU1Mk43xNdEfuvryYI/b
+         KYvinPusrbWrdYjwK5gqNH7yu2301Z/wx35DVgIhKvJG1relVlBxIfoimmB5XRWZ7SkJ
+         5wZ/a+NtkuemwR+wQFsg4oFTTlU8wuuBm8F/7DHgML4k6K3m0sPX8cOj298gYxuf8WHd
+         eV1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752577383; x=1753182183;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BKUkKIualjoy9v95vK8+BtLhU3lx0OJMWJq7rT63AXY=;
+        b=sejJyZ6Xb8eK9wghhu+WX58cUIzd+1cJ4meR85tuHeNHN3YyxzwjZlAjOCEAgieQjp
+         FvDmMEIZ5p9QFau00uv885ed+0LFqAakzkUZhLhlkCyMybdlgBquY7lTWcVIlhC1YqAy
+         Oy1tQK1gIMkLSCWcHUeBC7FN3WZ4UgPkZslKUp+e4w/eT8ipNXdusQegu0OdF+gYFtb+
+         ptyF304axxSQmqk3ULw5SQTzg6pxcUNin8Oz4uYVDsiZn2dTd+91hHjRUZFXgZF0LF5H
+         /TAvBmunZDxsneb2Z0XcYbHsQf/eU+w88ZVHArUsve7t+Aic7i4E7DVnBX8CbkuuN+xq
+         Bhcg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcz51k2M9WLOa3tmIiaS5yQQm127vBx9FhZkSI4g50XUjrklgyjeEgyMfKm8ssUye17GItHabvuJQ8Fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHdb32fQObhIxrMYwL0fY+FKv02vS2jNBlYZW5pbpjvgPWW2gH
+	ET2lHuoKhLM5fAfJ/pUKBSCkcKg2dqu4SEsbXW/REQ+AjEfX/l6yWI+qV/c5A0SCIlE=
+X-Gm-Gg: ASbGncuGsQmqincjK4gskcmWpKmaenCyVNzThAXqe3gz6/SopePTunQQs9q1X4XV3ZY
+	ZmJqt36sQp5s+BVcu9jqeg2NpbGZFWniFuJhp6J+JGMhL4MmYxRa6dHCzCGBkGuAKAF7VxSo8Sy
+	hbhYvssdhwSgfTINO7CPZ9gbBQ5UHLasUI6OjC1RwUUYB4snJb3UgckZ71YxrIxAYP8vQ4g64OG
+	GHm1WThEXA7wIGRsZvhhUrKyfM09zTdO+gGWX8tyZlc1G1YduTLkv6DZBebWj85sz4ok1Dx5GYW
+	deYpuEh5y0YTIsD5rDxqafV8w6PzGTdhnXYbNNYjIio7dOuDOnhcB0w7L1pF0UIJQG7unGznTu1
+	OHVGBq2641qk9QxIRW3n7UHEhqAuMuk4KuHsdSmjUt31RLPGvq1yHB4MGwr1NnBc=
+X-Google-Smtp-Source: AGHT+IH0nRGAW3eKLJ/DUVNlwgthSfHL2WGPa6jyeTIprfdCexkNpPIzlaJ5b41PyW8SbA84yckY8Q==
+X-Received: by 2002:a05:600c:8b70:b0:456:fc1:c286 with SMTP id 5b1f17b1804b1-4560fc1c49amr79262565e9.1.1752577383065;
+        Tue, 15 Jul 2025 04:03:03 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45617f18d99sm66247625e9.8.2025.07.15.04.03.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Jul 2025 04:03:02 -0700 (PDT)
+Message-ID: <2b5ececb-fbf7-4901-8efb-03744f740836@linaro.org>
+Date: Tue, 15 Jul 2025 12:03:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zubhgen5vcjeadujrufagjd3h6rp5va7d7n27fqisc23kr35sn@sg4mwenwnbmc>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: iris: MAINTAINERS: Document actual maintainership
+ by Bryan O'Donoghue
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+References: <20250714151609.354267-2-krzysztof.kozlowski@linaro.org>
+ <8772c48f-348b-8a68-2099-562a29b9dd8d@quicinc.com>
+ <b83cc20b-44d2-4635-a540-7a9c0d36cdb5@linaro.org>
+ <a4dfc82b-79df-3e3c-0964-a99db222c6e6@quicinc.com>
+ <4f79424f-0005-4978-8c6d-6b726ee7e4ab@linaro.org>
+ <c70fd6c6-1a65-41ee-b0e1-f6c792867009@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <c70fd6c6-1a65-41ee-b0e1-f6c792867009@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jacopo,
+On 15/07/2025 10:20, Krzysztof Kozlowski wrote:
+> On 15/07/2025 09:06, Krzysztof Kozlowski wrote:
+>> On 15/07/2025 09:00, Vikash Garodia wrote:
+>>>
+>>> On 7/15/2025 12:14 PM, Krzysztof Kozlowski wrote:
+>>>> On 15/07/2025 07:51, Vikash Garodia wrote:
+>>>>>
+>>>>> On 7/14/2025 8:46 PM, Krzysztof Kozlowski wrote:
+>>>>>> Bryan O'Donoghue reviews and applies patches for both Iris and Venus
+>>>>>> Qualcomm SoC video codecs (visible in git log as his Signed-off-by and
+>>>>>> in pull requests like [1]), so he is de facto the maintainer responsible
+>>>>>> for the code.  Reflect this actual state my changing his entry from
+>>>>>> reviewer to maintainer and moving the entry to alphabetical position by
+>>>>>> first name.
+>>>>>
+>>>>> NAK.
+>>>>>
+>>>>> The roles and responsibilities are well agreed by media maintainer(Hans), with
+>>>>> Bryan part of that discussion, w.r.t code contributions to iris and sending
+>>>>> patches to media tree. The only reason Bryan post the patches is that Hans wants
+>>>>> single PR for patches across Qualcomm media drivers (Camss/Videoss)
+>>>>
+>>>> That's the maintainer role, so Bryan is the maintainer. I am documenting
+>>>> actual status and your NAK is naking what? That Bryan cannot handle patches?
+>>> I would say, you are reading too much into it, i updated what we have discussed
+>>> and agreed upon the different roles for managing venus and iris drivers.
+>>
+>> Reading too much? Bryan HANDLES THE PATCHES.
+>>
+>> That's it.
+>>
+>> There is nothing "too much here".
+>>
+>> Person handling the patches IS the maintainer. Full stop.
+> 
+> Based on email you forwarded to me and some more feedback I got, I think
+> I understood what would be the solution to satisfy your point of not
+> changing existing entry and solve my problem of maintainer handling
+> patches not being listed anywhere as maintainer. I will solve it v2.
+> 
+> Best regards,
+> Krzysztof
 
-On Fri, Jun 20, 2025 at 10:53:13AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Thu, Jun 19, 2025 at 11:15:45AM +0300, Sakari Ailus wrote:
-> > v4l2_mc_pipeline_enabled() helps solving a problem known for long but
-> > lacked any sort of general solution: with multiple streams, when streaming
-> > is started on video nodes one by one, when should streaming be started in
-> > the source?
-> 
-> I tried quite some time to understand this, but if I'm not mistaken,
-> a stream-aware subdev, which links to vdev, will always "demux"
-> streams to different pads and will connect to the vdev from there
-> 
-> 
->      Source
->      subdev
->  +-----------------+
->  |                (1/0) ------> vdev0
->  |                 |
-> (0)[1,2,3]        (2/0  ------> vdev1
->  |                 |
->  |                (3/0) ------> vdev2
->  +-----------------+
-> 
-> With
-> 
-> (0) multiplexed sink pad with 3 streams
-> (1) (2) and (3) source pad with a single stream
-> 
-> Can't we relay on the media-link state between the source pads and the
-> video devices with something like what Dan has proposed here ?
-> https://patchwork.linuxtv.org/project/linux-media/patch/20250519140403.443915-2-dan.scally@ideasonboard.com/
+Doh, this is definitely my bad, I should have made a _new_ entry in 
+MAINTAIENRS similar to this.
 
-This isn't entirely the same thing: pipeline is specific to the pad but not
-streams, ad here we're interested in streams. Two streams may start at
-different points of time even if both are part of the same pipeline.
+AIROHA PCIE PHY DRIVER
+M:      Lorenzo Bianconi <lorenzo@kernel.org>
+L:      linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+S:      Maintained
+F:      Documentation/devicetree/bindings/phy/airoha,en7581-pcie-phy.yaml
+F:      drivers/phy/phy-airoha-pcie-regs.h
+F:      drivers/phy/phy-airoha-pcie.c
 
-We definitely should have just one way to figure this out.
+GENERIC PHY FRAMEWORK
+M:      Vinod Koul <vkoul@kernel.org>
+M:      Kishon Vijay Abraham I <kishon@kernel.org>
+L:      linux-phy@lists.infradead.org
+S:      Supported
+Q:      https://patchwork.kernel.org/project/linux-phy/list/
+T:      git git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git
+F:      Documentation/devicetree/bindings/phy/
+F:      drivers/phy/
+F:      include/dt-bindings/phy/
+F:      include/linux/phy/
 
-I'll send v2 with comments and before that also see if (or how) we could
-get rid of the callback.
+scripts/get_maintainer.pl drivers/phy/phy-airoha-pcie.c
+Lorenzo Bianconi <lorenzo@kernel.org> (maintainer:AIROHA PCIE PHY DRIVER)
+Vinod Koul <vkoul@kernel.org> (maintainer:GENERIC PHY FRAMEWORK)
+Kishon Vijay Abraham I <kishon@kernel.org> (maintainer:GENERIC PHY 
+FRAMEWORK)
+linux-arm-kernel@lists.infradead.org (moderated list:AIROHA PCIE PHY DRIVER)
+linux-phy@lists.infradead.org (open list:GENERIC PHY FRAMEWORK)
+linux-kernel@vger.kernel.org (open list)
+GENERIC PHY FRAMEWORK status: Supported
 
-Cc Dan.
+Its 1:1 what we have for drivers/media/platform/qcom
 
-> 
-> What am I missing ?
-> 
-> >
-> > v4l2_mc_pipeline_enabled() traverses the pipeline towards the source,
-> > queries the streams generated by the source and traces them back to the
-> > video nodes.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-mc.c | 243 ++++++++++++++++++++++++++++++
-> >  include/media/v4l2-mc.h           |  44 ++++++
-> >  2 files changed, 287 insertions(+)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
-> > index 937d358697e1..1731088ad436 100644
-> > --- a/drivers/media/v4l2-core/v4l2-mc.c
-> > +++ b/drivers/media/v4l2-core/v4l2-mc.c
-> > @@ -612,3 +612,246 @@ int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
-> >  	return ret;
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_pipeline_link_notify);
-> > +
-> > +static int
-> > +__v4l2_mc_pipeline_enabled(struct v4l2_subdev_state *state,
-> > +			   struct media_pad *src_pad, u64 __src_streams,
-> > +			   struct media_pad **__sink_pad, u64 *__sink_streams)
-> > +{
-> > +	struct v4l2_subdev_route *route;
-> > +	u64 src_streams = 0, sink_streams = 0;
-> > +	bool has_sink_pad = false;
-> > +	unsigned int sink_pad;
-> > +
-> > +	dev_dbg(state->sd->dev, "%s: source enabled, pad/streams %u/%#llx\n",
-> > +		state->sd->entity.name, src_pad->index, __src_streams);
-> > +	for_each_active_route(&state->routing, route) {
-> > +		dev_dbg(state->sd->dev, "%s: %u/%u -> %u/%u, flags %x\n",
-> > +			state->sd->entity.name,
-> > +			route->sink_pad, route->sink_stream, route->source_pad,
-> > +			route->source_stream, route->flags);
-> > +		if (route->source_pad != src_pad->index)
-> > +			continue;
-> > +
-> > +		if (!(BIT_ULL(route->source_stream) & __src_streams))
-> > +			continue;
-> > +
-> > +		if (!has_sink_pad) {
-> > +			has_sink_pad = true;
-> > +			sink_pad = route->sink_pad;
-> > +		}
-> > +
-> > +		if (route->sink_pad != sink_pad) {
-> > +			dev_dbg(state->sd->dev,
-> > +				"sink pads (%u vs. %u) differ\n",
-> > +				route->sink_pad, sink_pad);
-> > +			return -EMLINK;
-> > +		}
-> > +
-> > +		sink_streams |= BIT_ULL(route->sink_stream);
-> > +		src_streams |= BIT_ULL(route->source_stream);
-> > +	}
-> > +
-> > +	*__sink_pad = has_sink_pad ? &state->sd->entity.pads[sink_pad] : NULL;
-> > +	*__sink_streams = sink_streams;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int v4l2_mc_downpath_enabled(struct media_pad *sink_pad,
-> > +				    unsigned int sink_stream,
-> > +				    bool (*func)(struct video_device *vdev),
-> > +				    struct media_pad **__sink_pad,
-> > +				    u64 *__sink_streams)
-> > +{
-> > +	struct v4l2_subdev_state *state;
-> > +	struct v4l2_subdev_route *route;
-> > +	struct v4l2_subdev *sd;
-> > +	struct media_pad *source_pad, *tmp_pad;
-> > +	u32 source_stream;
-> > +
-> > +	if (!is_media_entity_v4l2_subdev(sink_pad->entity))
-> > +		return -ENXIO;
-> > +
-> > +	sd = media_entity_to_v4l2_subdev(sink_pad->entity);
-> > +	dev_dbg(sd->dev, "path_enabled: found sub-device %s\n",
-> > +		sd->entity.name);
-> > +
-> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> > +	route = v4l2_subdev_find_route(&state->routing, sink_pad->index,
-> > +				       sink_stream, true, 0);
-> > +	if (IS_ERR(route)) {
-> > +		v4l2_subdev_unlock_state(state);
-> > +		dev_dbg(sd->dev,
-> > +			"path_enabled: can't find opposite route for %s:%u/%u",
-> > +			sd->entity.name, sink_pad->index, sink_stream);
-> > +		return 2;
-> > +	}
-> > +
-> > +	source_pad = &sd->entity.pads[route->source_pad];
-> > +	v4l2_subdev_unlock_state(state);
-> > +
-> > +	tmp_pad = sink_pad;
-> > +	sink_pad = media_pad_remote_pad_unique(source_pad);
-> > +	if (IS_ERR(sink_pad)) {
-> > +		dev_dbg(sd->dev,
-> > +			"path_enabled: can't find remote source for %s:%u\n",
-> > +			source_pad->entity->name, source_pad->index);
-> > +		return PTR_ERR(sink_pad);
-> > +	}
-> > +
-> > +	if (is_media_entity_v4l2_video_device(sink_pad->entity)) {
-> > +		struct video_device *vdev;
-> > +
-> > +		vdev = media_entity_to_video_device(sink_pad->entity);
-> > +		if (!vdev)
-> > +			return -ENXIO;
-> > +
-> > +		dev_dbg(vdev->dev_parent,
-> > +			"path_enabled: found video device %s\n",
-> > +			vdev->name);
-> > +
-> > +		if (!*__sink_pad) {
-> > +			*__sink_pad = tmp_pad;
-> > +			dev_dbg(sd->dev, "path_enabled: sink %u/%u\n",
-> > +				tmp_pad->index, sink_stream);
-> > +		} else if (tmp_pad != *__sink_pad) {
-> > +			dev_dbg(sd->dev,
-> > +				"path_enabled: pads %s/%u and %s/%u differ\n",
-> > +				tmp_pad->entity->name, tmp_pad->index,
-> > +				(*__sink_pad)->entity->name,
-> > +				(*__sink_pad)->index);
-> > +			return -EXDEV;
-> > +		}
-> > +
-> > +		*__sink_streams |= BIT_ULL(sink_stream);
-> > +
-> > +		return func(vdev);
-> > +	}
-> > +
-> > +	return v4l2_mc_downpath_enabled(sink_pad, source_stream, func,
-> > +					__sink_pad, __sink_streams);
-> > +}
-> > +
-> > +static int v4l2_mc_source_get_streams(struct v4l2_subdev *sd, unsigned int pad,
-> > +				      u64 *__streams)
-> > +{
-> > +	struct v4l2_mbus_frame_desc desc;
-> > +	u64 streams = 0;
-> > +	int ret;
-> > +
-> > +	if (!__streams)
-> > +		return -EINVAL;
-> > +
-> > +	ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, &desc);
-> > +	if (ret == -ENOIOCTLCMD) {
-> > +		*__streams = 1ULL;
-> > +		return 0;
-> > +	}
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	for (unsigned int i = 0; i < desc.num_entries; i++) {
-> > +		if (streams & BIT_ULL(desc.entry[i].stream))
-> > +			return -EINVAL;
-> > +
-> > +		streams |= BIT_ULL(desc.entry[i].stream);
-> > +	}
-> > +
-> > +	dev_dbg(sd->dev, "found streams %#llx based on streams %#llx\n",
-> > +		*__streams, streams);
-> > +	if (*__streams & ~streams)
-> > +		return -EINVAL;
-> > +
-> > +	*__streams = streams;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +int v4l2_mc_pipeline_enabled(struct video_device *vdev,
-> > +			     bool (*func)(struct video_device *vdev),
-> > +			     struct media_pad **__sink_pad, u64 *__sink_streams)
-> > +{
-> > +	u64 sink_streams = 1U;
-> > +	struct media_pad *src_pad;
-> > +	u64 src_streams;
-> > +	struct v4l2_subdev_state *state;
-> > +	struct media_pad *sink_pad = vdev->entity.pads;
-> > +	struct v4l2_subdev *sd = NULL;
-> > +	bool streaming = true;
-> > +	struct media_pad *tmp_pad;
-> > +	u64 tmp_streams;
-> > +	int ret;
-> > +
-> > +	if (!__sink_pad)
-> > +		__sink_pad = &tmp_pad;
-> > +	if (!__sink_streams)
-> > +		__sink_streams = &tmp_streams;
-> > +	*__sink_pad = NULL;
-> > +	*__sink_streams = 0;
-> > +
-> > +	do {
-> > +		src_pad = media_pad_remote_pad_unique(sink_pad);
-> > +		if (IS_ERR(src_pad)) {
-> > +			dev_dbg(sd ? sd->dev : vdev->dev_parent,
-> > +				"no unique remote pad found from %s:%u\n",
-> > +				sink_pad->entity->name, sink_pad->index);
-> > +			return PTR_ERR(src_pad);
-> > +		}
-> > +
-> > +		sd = media_entity_to_v4l2_subdev(src_pad->entity);
-> > +		if (!sd) {
-> > +			dev_dbg(sd->dev,
-> > +				"media entity %s is not a V4L2 sub-device\n",
-> > +				src_pad->entity->name);
-> > +			return -ENXIO;
-> > +		}
-> > +
-> > +		/* Source streams match sink. */
-> > +		src_streams = sink_streams;
-> > +
-> > +		state = v4l2_subdev_lock_and_get_active_state(sd);
-> > +		ret = __v4l2_mc_pipeline_enabled(state, src_pad,
-> > +						 src_streams, &sink_pad,
-> > +						 &sink_streams);
-> > +		v4l2_subdev_unlock_state(state);
-> > +		if (ret)
-> > +			return ret;
-> > +	} while (sink_pad);
-> > +
-> > +	ret = v4l2_mc_source_get_streams(sd, src_pad->index, &src_streams);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	sd = media_entity_to_v4l2_subdev(src_pad->entity);
-> > +
-> > +	dev_dbg(sd->dev, "following %s:%u/%#llx\n", sd->entity.name,
-> > +		src_pad->index, src_streams);
-> > +
-> > +	for (unsigned int i = __ffs(src_streams); src_streams;
-> > +	     src_streams &= ~BIT_ULL(i), i = __ffs(src_streams)) {
-> > +		sink_pad = media_pad_remote_pad_unique(src_pad);
-> > +		if (IS_ERR(src_pad)) {
-> > +			dev_dbg(sd->dev,
-> > +				"no unique remote pad found from %s:%u\n",
-> > +				sink_pad->entity->name, sink_pad->index);
-> > +			return PTR_ERR(src_pad);
-> > +		}
-> > +
-> > +		ret = v4l2_mc_downpath_enabled(sink_pad, i, func, __sink_pad,
-> > +					       __sink_streams);
-> > +		if (ret == 2)
-> > +			continue;
-> > +		if (ret < 0)
-> > +			return ret;
-> > +		if (!ret)
-> > +			streaming = false;
-> > +	}
-> > +
-> > +	dev_dbg(media_entity_to_v4l2_subdev((*__sink_pad)->entity)->dev,
-> > +		"sink pad %s:%u/%#llx\n", (*__sink_pad)->entity->name,
-> > +		(*__sink_pad)->index, *__sink_streams);
-> > +
-> > +	return streaming;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_mc_pipeline_enabled);
-> > diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
-> > index 1837c9fd78cf..e72c0f62fa34 100644
-> > --- a/include/media/v4l2-mc.h
-> > +++ b/include/media/v4l2-mc.h
-> > @@ -193,6 +193,50 @@ void v4l2_pipeline_pm_put(struct media_entity *entity);
-> >  int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
-> >  			      unsigned int notification);
-> >
-> > +/**
-> > + * v4l2_mc_pipeline_enabled - Tell when to start streaming
-> > + * @vdev: The video device
-> > + * @func: Caller-provided function to tell a video device's streaming state
-> > + * @__sink_pad: sink pad at the root of the local pipeline
-> > + * @__sink_streams: streams to start
-> > + *
-> > + * Use to tell whether streaming should start on a video node. @func returns
-> > + * true if streaming has been started on a given video node. @__sink_pad and
-> > + * @__sink_streams are filled with pad and streams on the sub-device closest to
-> > + * the video nodes, to be used for calling v4l2_subdev_enable_streams() and
-> > + * v4l2_subdev_disable_streams().
-> > + *
-> > + * Using v4l2_mc_pipeline_enabled() has a few limitations currently (consider it
-> > + * a to-do list):
-> > + * * only unbranched streams can be supported albeit adding support for
-> > + *   downstream branches would be fairly trivial,
-> > + * * streams within a single source sub-device are considered to start at the
-> > + *   same time, more control could be added in two ways: 1) for sources to
-> > + *   determine stream starting, a control could be added to UAPI and 2) sources
-> > + *   could tell which streams start at the same time using a sub-device
-> > + *   operation,
-> > + * * CSI-2 VC framing is ignored currently, but VC-based stream starting could
-> > + *   be implemented by letting the caller to provide a function to determine
-> > + *   which streams are of interest and
-> > + * * routes leading to nowhere are ignored, on some hardware this is a problem,
-> > + *   but this can also be rather trivially addressed.
-> > + *
-> > + * Return:
-> > + * * 0: Success, but don't start streaming yet
-> > + * * 1: Success, now it's time to start streaming
-> > + * * -ENXIO: Route traversal encountered a non-video device/sub-device entity
-> > + * * -ENOTUNIQ: No unique remote pad
-> > + * * -ENOLINK: No remote pad found
-> > + * * -ENOENT: Enabled upstream route not found
-> > + * * -EMLINK: No unique downstream route found
-> > + * * -EINVAL: Stream could not be followed to source or was not produced by
-> > + *            the source
-> > + */
-> > +int v4l2_mc_pipeline_enabled(struct video_device *vdev,
-> > +			     bool (*func)(struct video_device *vdev),
-> > +			     struct media_pad **__sink_pad,
-> > +			     u64 *__sink_streams);
-> > +
-> >  #else /* CONFIG_MEDIA_CONTROLLER */
-> >
-> >  static inline int v4l2_mc_create_media_graph(struct media_device *mdev)
+I'll add that entry and leave the Iris/Venus entries as-is.
 
--- 
-Kind regards,
-
-Sakari Ailus
+---
+bod
 
