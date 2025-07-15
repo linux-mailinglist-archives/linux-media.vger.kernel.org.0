@@ -1,168 +1,138 @@
-Return-Path: <linux-media+bounces-37748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37750-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117BAB05441
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 10:13:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F84EB0547C
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 10:16:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DBC74E656B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:13:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0CEF53A63D1
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:15:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98534274658;
-	Tue, 15 Jul 2025 08:13:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D14A2652B6;
+	Tue, 15 Jul 2025 08:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mp06NIga"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="qIYYY14g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D984223DCF;
-	Tue, 15 Jul 2025 08:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BEF79F2;
+	Tue, 15 Jul 2025 08:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752567213; cv=none; b=uipDl7CY8+zmrNZR1Sb7bbL/l0Lwr6tIsgec4k1l4sUcC6YEEnKWZZbBM7M0rtk7K0m+EqUf0hcpLQr0jR9vNNDIpXrw91tXWfjZ6u9QIL1coKCYCWW2WOYGYR+yiexda14GhD3hZ5Sm+eI6dMsevqwjDaYWJLfvc+DZbToUnOk=
+	t=1752567358; cv=none; b=h7qjROQ0pLBP2IA3Bocr72d1Rm3tueEboBbkhF3s90mdILGvnQvFw+wc/WHyQLuGXuSPQ8MPPtKw5Gltz8/19tZzvTWAaA4SvlAFoMPIIUMrh7LPFz4UdoSzGheuosrjdap20yZ9q+5zTpnW4CwLXgRCkFEW7cQQmmnRTCsPLcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752567213; c=relaxed/simple;
-	bh=xHYP4ip+OpiKa4tdEU+AmTaiP0HRUYCPz8yov5wL8W0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dd1eHJ4/Odgx+9pisq+wcNFt+T92LI+X6EpNfiSREQhHW96rBP016jMD9lRBz/r1x9aC+3CG2hqpO3O7h7cyJif8A0qF79FFETF/4W2qNPQ96tZePE8yhU0QotheYUtsRRJiwsCqRIYfetCKOVsriiKNTqWV08aHX4oMprp9DSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mp06NIga; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752567211; x=1784103211;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xHYP4ip+OpiKa4tdEU+AmTaiP0HRUYCPz8yov5wL8W0=;
-  b=mp06NIga0zxUphYreSeFLQm2FZd81X1Ka7MIXPmUu/duyuGYJEToR0WG
-   hC4oblFE+9iY+IDh8y79IZz+fzTxr/t0S8cjfWXLVJFwT2s9aSbcwNH8d
-   bLCXoovceS5Z+eBeMczUY+Dev/ieKCKBGlYDLC8B7XetYtb85U5sX4aiO
-   brfh1ksQGMzDl8edDJ4E1d7l9nzzKNrQ4mxOXcFbNbA65IJqkdjPvR6Ld
-   QnSnPURbT+x6jFjufMhtPmmQutquAm1jjdEnSfng9pwATy6oAHaNI9c2U
-   Rd+Y57wBP3lwk1QaPh7zga6A74xrPurYSQv9EvJFsDWgauZFDd4Aus3nG
-   Q==;
-X-CSE-ConnectionGUID: YWSawCErSpWYBf/Uf8KPbQ==
-X-CSE-MsgGUID: yVFSw19dQJG/0BHx3Vk/1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="57387738"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="57387738"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:13:31 -0700
-X-CSE-ConnectionGUID: OtAlGBf2Sg6rpGv2Dh0tfw==
-X-CSE-MsgGUID: HrwmXV6STq2o8pqfkqMlrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="156811430"
-Received: from ettammin-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.145])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:13:28 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BD6F011F870;
-	Tue, 15 Jul 2025 11:13:25 +0300 (EEST)
-Date: Tue, 15 Jul 2025 08:13:25 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com, Thinh.Nguyen@synopsys.com,
-	Amardeep Rai <amardeep.rai@intel.com>,
-	Kannappan R <r.kannappan@intel.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v2 3/4] USB: Add a function to obtain USB version
- independent maximum bpi value
-Message-ID: <aHYNpTKsnzBwhl3w@kekkonen.localdomain>
-References: <20250711083413.1552423-1-sakari.ailus@linux.intel.com>
- <20250711083413.1552423-4-sakari.ailus@linux.intel.com>
- <4ae4a0cf-8b63-4999-941d-011f00cdb5fb@kernel.org>
+	s=arc-20240116; t=1752567358; c=relaxed/simple;
+	bh=AHdAHKmp0MkoZe6lK1B2DFAcyDQYDaNMcjlcJTIdhLU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z3xNYlg5kS6fuLJP+7w7z15Zb3oe8uVOyiWS6+L8LE/xaQCGHIb6iATjcWXcrtIwe8eI+7ALDT3gNWeWY9JwJR13NSVjSxMgrk+nBlCJ45MVV5Pr+EQSuoUHkyKWBIc7IKX24SIzL8UTiM8NXZ4UHcpkpn41MrHCDc9nXOGBBY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=qIYYY14g; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: ebd97df2615311f0b1510d84776b8c0b-20250715
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Ex6rZ9aRnEjIjKkUay6G77jbmFwgan0iuINyfGJdTk4=;
+	b=qIYYY14gvVuTzdQHXcS4XgNFURJALqK5Tfs7LBvsp5eVZzP7MFLisryZ6L8X1o/08nKw86irrBT6GL0kNDQ6KNRI/8IdILSQSMbrg4RIkqwYpQKt2xu/IO1XK+ktWZqvit/5+tDAHv7LgMAvgYmHD1e2h2TudIqsO60SNzbyzRA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.2,REQID:76dfb572-83ed-4a6c-bf2c-9945b8a8c7ce,IP:0,UR
+	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-25
+X-CID-META: VersionHash:9eb4ff7,CLOUDID:8fe7f0bc-a91d-4696-b3f4-d8815e4c200b,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: ebd97df2615311f0b1510d84776b8c0b-20250715
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
+	(envelope-from <irui.wang@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 358563972; Tue, 15 Jul 2025 16:15:51 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Tue, 15 Jul 2025 16:15:48 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Tue, 15 Jul 2025 16:15:48 +0800
+From: Irui Wang <irui.wang@mediatek.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <nicolas.dufresne@collabora.com>
+CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	Yunfei Dong <yunfei.dong@mediatek.com>, Longfei Wang
+	<longfei.wang@mediatek.com>, Irui Wang <irui.wang@mediatek.com>
+Subject: [PATCH] media: mediatek: encoder: memset encoder structure data
+Date: Tue, 15 Jul 2025 16:15:47 +0800
+Message-ID: <20250715081547.18076-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4ae4a0cf-8b63-4999-941d-011f00cdb5fb@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Hi Hans,
+Utilized memset to set all bytes of encoder structure to zero,
+this prevents any undefined behavior due to uninitialized use.
 
-Thank you for the review.
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+---
+ .../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c  | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-On Fri, Jul 11, 2025 at 03:44:21PM +0200, Hans de Goede wrote:
-> Hi Sarari,
-> 
-> On 11-Jul-25 10:34 AM, Sakari Ailus wrote:
-> > From: "Rai, Amardeep" <amardeep.rai@intel.com>
-> > 
-> > Add usb_endpoint_max_isoc_bpi() to obtain maximum bytes per interval for
-> > isochronous endpoints in a USB version independent way.
-> 
-> Nice, thank you for adding a generic helper for this.
-> 
-> > Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
-> > Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> > Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  include/linux/usb.h | 22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> > 
-> > diff --git a/include/linux/usb.h b/include/linux/usb.h
-> > index 68166718ab30..bd70bd5ca82d 100644
-> > --- a/include/linux/usb.h
-> > +++ b/include/linux/usb.h
-> > @@ -2038,6 +2038,28 @@ static inline int usb_translate_errors(int error_code)
-> >  	}
-> >  }
-> >  
-> > +static inline u32 usb_endpoint_max_isoc_bpi(struct usb_device *dev,
-> > +					    const struct usb_host_endpoint *ep)
-> > +{
-> > +	if (usb_endpoint_type(&ep->desc) != USB_ENDPOINT_XFER_ISOC)
-> > +		return 0;
-> > +
-> > +	switch (dev->speed) {
-> > +	case USB_SPEED_SUPER_PLUS:
-> > +		if (USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes))
-> > +			return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
-> > +		fallthrough;
-> > +	case USB_SPEED_SUPER:
-> > +		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
-> > +	case USB_SPEED_HIGH:
-> > +		if (!usb_endpoint_maxp(&ep->desc) && le16_to_cpu(dev->descriptor.bcdUSB) == 0x220)
-> > +			return le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval);
-> 
-> Shouldn't there be a check here that ep->eusb2_isoc_ep_comp is filled?
-> 
-> Like how the USB_SPEED_SUPER_PLU code above checks
-> USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes)?
-> 
-> I know you check the bcdUSB, but in my experience that field sometimes
-> contains made up numbers, so I was wondering if there is an extra check
-> we can do here ?
-
-In the case of eUSB2, there's no such flag as for the SuperSpeedPlus
-Isochronous Endpoint Companion. The eUSB2 Isochronous Endpoint Companion
-Descriptor is simply expected to be present on eUSB2 (bcdUSB check)
-isochronous IN endpoints that support more than 3KB per microframe.
-
-Also what the USB_SS_SSP_ISOC_COMP() macro returns actually dependens on
-the device telling there's such a descriptor but it's still different from
-the device actually providing one. But what would you do if the device
-indicates it provides no SSP_ISOC_COMP descriptor but still does provide
-one?
-
-How about adding a flag (or maybe a bit field?) to tell which endpoint
-descriptors have been actually filled in struct usb_host_endpoint? I might
-do that as a separate patch on top...
-
-I wonder what Mathias thinks, too.
-
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+index a01dc25a7699..ecac1aec7215 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+@@ -886,6 +886,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
+ 			return 0;
+ 	}
+ 
++	memset(&param, 0, sizeof(param));
+ 	mtk_venc_set_param(ctx, &param);
+ 	ret = venc_if_set_param(ctx, VENC_SET_PARAM_ENC, &param);
+ 	if (ret) {
+@@ -1021,12 +1022,14 @@ static int mtk_venc_encode_header(void *priv)
+ 	struct mtk_vcodec_mem bs_buf;
+ 	struct venc_done_result enc_result;
+ 
++	memset(&enc_result, 0, sizeof(enc_result));
+ 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
+ 	if (!dst_buf) {
+ 		mtk_v4l2_venc_dbg(1, ctx, "No dst buffer");
+ 		return -EINVAL;
+ 	}
+ 
++	memset(&bs_buf, 0, sizeof(bs_buf));
+ 	bs_buf.va = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
+ 	bs_buf.dma_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+ 	bs_buf.size = (size_t)dst_buf->vb2_buf.planes[0].length;
+@@ -1143,6 +1146,7 @@ static void mtk_venc_worker(struct work_struct *work)
+ 	struct venc_done_result enc_result;
+ 	int ret, i;
+ 
++	memset(&enc_result, 0, sizeof(enc_result));
+ 	/* check dst_buf, dst_buf may be removed in device_run
+ 	 * to stored encdoe header so we need check dst_buf and
+ 	 * call job_finish here to prevent recursion
+@@ -1175,6 +1179,7 @@ static void mtk_venc_worker(struct work_struct *work)
+ 		frm_buf.fb_addr[i].size =
+ 				(size_t)src_buf->vb2_buf.planes[i].length;
+ 	}
++	memset(&bs_buf, 0, sizeof(bs_buf));
+ 	bs_buf.va = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
+ 	bs_buf.dma_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+ 	bs_buf.size = (size_t)dst_buf->vb2_buf.planes[0].length;
 -- 
-Kind regards,
+2.46.0
 
-Sakari Ailus
 
