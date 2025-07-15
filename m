@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-37787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77371B05C4D
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 15:29:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25609B05E64
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 15:53:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 925C17BD2B1
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:27:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 44F79175293
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:49:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 862BC192D8A;
-	Tue, 15 Jul 2025 13:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4082E54CF;
+	Tue, 15 Jul 2025 13:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QqGzHLlC"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZzvMvOuO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D4F2E612F;
-	Tue, 15 Jul 2025 13:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C845A1A5B9D;
+	Tue, 15 Jul 2025 13:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752585965; cv=none; b=BPuhI24AeV+0hCn+oJiNYd3SsvbeeR5srlLPgOdN97xSaxeEV03ApueesOqu51CjivKKa5vWghXV1SiDFOFHt12U3bErdxqIFlS+L2lWlnI+H0j1v5n9lYdAL0s7hwABD/YT0Bo5Sdj3/BMw/gipWvnlSkkMSNGYV4KXhGscdPk=
+	t=1752586888; cv=none; b=uvU+evMJ13/PJNwnQnPyMytgCpDAvGgHufHrCz5HmcS1qUxfmvy2CSxXn1bY4i/gnpt0i302IGvd+OvWYzwOX/o53Z1WCssHFdHGDENofnVVyKpYoBMBNidcjICUUx9s7TesxtKa5P1aEm5k4+sDnDsojL3dTclovK+rfq8Pea4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752585965; c=relaxed/simple;
-	bh=jvKop24sFrKkwzLsEaMNehHH5CtJHJJ4dw1F+3jOxnA=;
+	s=arc-20240116; t=1752586888; c=relaxed/simple;
+	bh=6SVTdv2PHH1o4vCL0tIukxTMNTheFe5amjAULzo2Up8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Aw74f/i3jBjg2XG2tJm11PY+BJs+AnDqYIL0GW53r9TysbLobj2RMEs9ENTycuMHG3LJOMm/gKoyUMb9AFrgXFzZYr0gy/fivkDfODpX2tggyECSy7RFwQaJE5eKYOPECBATkNNm+xS95yhIxP/ijm81gX/mQT27lg+qmnLZEho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QqGzHLlC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BFF7C4CEF1;
-	Tue, 15 Jul 2025 13:26:04 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Ab+qlz332OGrkSqVyvX/2wE8zSgnZRWnxBxAdXYf0iZ2+jFKCl0ue2Mc2PUe9A++tLdDQwqu0HYkENjUErBe4uOkDJDisYQGygIG7M611ZYMhU7c+mUg6cbZXuOjvZ2eUBnxaidsncT5Nms6vpgrrx3OdQqQFiOFZnMKzMtcWVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZzvMvOuO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D711C4CEE3;
+	Tue, 15 Jul 2025 13:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752585964;
-	bh=jvKop24sFrKkwzLsEaMNehHH5CtJHJJ4dw1F+3jOxnA=;
+	s=korg; t=1752586888;
+	bh=6SVTdv2PHH1o4vCL0tIukxTMNTheFe5amjAULzo2Up8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QqGzHLlCp2QyZ6iLVSFL+zl8y8I9Fwh0KeZmUaWigIV8XjXErYWYGSiNzLpc64lWL
-	 wmh0/8AnHuI+/6VuCxJL7asH27hwe0TllENtX650xEpsPv6FUxWYWhDs1KtIWqM2sb
-	 aZxJxJ/JPOo5sSxnDDjqf/M+H2hg6g0kXkInlMdk=
+	b=ZzvMvOuO2M+c/h1mDl57XcVHRXhKQP4nfHVLiU8Py0fneS9OdOv+WH0wddYlqyz+q
+	 0Itl3JKjGEJPB+wF4K6NXr2Xp/B9Aa4Pv80y8D2cscpo4XUGpzQ650o71sLApiwuZ6
+	 ZhZbJz91jKmhYb2rwi5ZeLT275oUbDhJUTcMtgVM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -51,12 +51,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 6.6 043/109] drm/gem: Acquire references on GEM handles for framebuffers
-Date: Tue, 15 Jul 2025 15:12:59 +0200
-Message-ID: <20250715130800.605137510@linuxfoundation.org>
+Subject: [PATCH 6.15 085/192] drm/gem: Acquire references on GEM handles for framebuffers
+Date: Tue, 15 Jul 2025 15:13:00 +0200
+Message-ID: <20250715130818.327986464@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715130758.864940641@linuxfoundation.org>
-References: <20250715130758.864940641@linuxfoundation.org>
+In-Reply-To: <20250715130814.854109770@linuxfoundation.org>
+References: <20250715130814.854109770@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -69,7 +69,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -158,7 +158,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -186,6 +186,35 @@ void drm_gem_private_object_fini(struct
+@@ -212,6 +212,35 @@ void drm_gem_private_object_fini(struct
  }
  EXPORT_SYMBOL(drm_gem_private_object_fini);
  
@@ -194,7 +194,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  /**
   * drm_gem_object_handle_free - release resources bound to userspace handles
   * @obj: GEM object to clean up.
-@@ -216,8 +245,14 @@ static void drm_gem_object_exported_dma_
+@@ -242,8 +271,14 @@ static void drm_gem_object_exported_dma_
  	}
  }
  
@@ -211,7 +211,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  {
  	struct drm_device *dev = obj->dev;
  	bool final = false;
-@@ -242,6 +277,7 @@ drm_gem_object_handle_put_unlocked(struc
+@@ -268,6 +303,7 @@ drm_gem_object_handle_put_unlocked(struc
  	if (final)
  		drm_gem_object_put(obj);
  }
@@ -219,7 +219,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  /*
   * Called at device or object close to release the file's
-@@ -363,8 +399,8 @@ drm_gem_handle_create_tail(struct drm_fi
+@@ -389,8 +425,8 @@ drm_gem_handle_create_tail(struct drm_fi
  	int ret;
  
  	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
@@ -283,7 +283,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -155,6 +155,8 @@ void drm_sysfs_lease_event(struct drm_de
+@@ -161,6 +161,8 @@ void drm_sysfs_lease_event(struct drm_de
  
  /* drm_gem.c */
  int drm_gem_init(struct drm_device *dev);
