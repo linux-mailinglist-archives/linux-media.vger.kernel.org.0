@@ -1,138 +1,84 @@
-Return-Path: <linux-media+bounces-37750-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37751-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F84EB0547C
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 10:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF201B054D3
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 10:26:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0CEF53A63D1
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:15:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 271E93BC97B
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 08:25:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D14A2652B6;
-	Tue, 15 Jul 2025 08:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A41C5275B1C;
+	Tue, 15 Jul 2025 08:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="qIYYY14g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFsEITw8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BEF79F2;
-	Tue, 15 Jul 2025 08:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABBB226CF3;
+	Tue, 15 Jul 2025 08:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752567358; cv=none; b=h7qjROQ0pLBP2IA3Bocr72d1Rm3tueEboBbkhF3s90mdILGvnQvFw+wc/WHyQLuGXuSPQ8MPPtKw5Gltz8/19tZzvTWAaA4SvlAFoMPIIUMrh7LPFz4UdoSzGheuosrjdap20yZ9q+5zTpnW4CwLXgRCkFEW7cQQmmnRTCsPLcY=
+	t=1752567945; cv=none; b=hGsC4t8rU02IkIZ0zm/OKyhNOuaSYVVoeE3e8d8toXBGCLYW3OWF6EJK/x5yMIWqoFh1k60wgeWuvH2qU8clyW+lrZeaNO6x4DsWV/R32iQ0NS0+c1Hb3pKFowGp3GzBd3oUXYfkq9gvXCij3GeU9KHkCnVC8YZyH6cGq0yTpgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752567358; c=relaxed/simple;
-	bh=AHdAHKmp0MkoZe6lK1B2DFAcyDQYDaNMcjlcJTIdhLU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z3xNYlg5kS6fuLJP+7w7z15Zb3oe8uVOyiWS6+L8LE/xaQCGHIb6iATjcWXcrtIwe8eI+7ALDT3gNWeWY9JwJR13NSVjSxMgrk+nBlCJ45MVV5Pr+EQSuoUHkyKWBIc7IKX24SIzL8UTiM8NXZ4UHcpkpn41MrHCDc9nXOGBBY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=qIYYY14g; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: ebd97df2615311f0b1510d84776b8c0b-20250715
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Ex6rZ9aRnEjIjKkUay6G77jbmFwgan0iuINyfGJdTk4=;
-	b=qIYYY14gvVuTzdQHXcS4XgNFURJALqK5Tfs7LBvsp5eVZzP7MFLisryZ6L8X1o/08nKw86irrBT6GL0kNDQ6KNRI/8IdILSQSMbrg4RIkqwYpQKt2xu/IO1XK+ktWZqvit/5+tDAHv7LgMAvgYmHD1e2h2TudIqsO60SNzbyzRA=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.2,REQID:76dfb572-83ed-4a6c-bf2c-9945b8a8c7ce,IP:0,UR
-	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-25
-X-CID-META: VersionHash:9eb4ff7,CLOUDID:8fe7f0bc-a91d-4696-b3f4-d8815e4c200b,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
-	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ebd97df2615311f0b1510d84776b8c0b-20250715
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
-	(envelope-from <irui.wang@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 358563972; Tue, 15 Jul 2025 16:15:51 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Tue, 15 Jul 2025 16:15:48 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Tue, 15 Jul 2025 16:15:48 +0800
-From: Irui Wang <irui.wang@mediatek.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	<angelogioacchino.delregno@collabora.com>, <nicolas.dufresne@collabora.com>
-CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	Yunfei Dong <yunfei.dong@mediatek.com>, Longfei Wang
-	<longfei.wang@mediatek.com>, Irui Wang <irui.wang@mediatek.com>
-Subject: [PATCH] media: mediatek: encoder: memset encoder structure data
-Date: Tue, 15 Jul 2025 16:15:47 +0800
-Message-ID: <20250715081547.18076-1-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1752567945; c=relaxed/simple;
+	bh=CT/ySEHmoi7t5ttFqMkPrQJrOpjCy+zqLCrrkqiKek4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9CoD231qPTP+KtOypZTObbaKFPVWA45jynW2kNWLZMARnAnuLcPjF85VfcTWwF8CniQGgi0jDaNKLwf9+0yHFxwip4IyO9k8ws02XZzCeq97Ny5Buhm4mGYe7E0OOMfQXvhRX3bziB4zzjDwoJDAzaNzB8YX4Llr4p30Y71Pxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LFsEITw8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1F3C4CEF5;
+	Tue, 15 Jul 2025 08:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752567944;
+	bh=CT/ySEHmoi7t5ttFqMkPrQJrOpjCy+zqLCrrkqiKek4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LFsEITw8fzmoDsqqRTqB58xZBl4jCq34CiNcEY5vW8wJ6IDfxEF37EzrNzZ5++4Ke
+	 T6ChFXZ4u9n/vfNWVfRY+YRYHYWmUlVDXN05N7mrnPEJCImkaE7kNLVzEYxFDt6F2D
+	 2BbDSldlgYEb2b/tTd1kvGJs66HIGSJKhakks5YfqRLPovJYDy0RSHefd41WJ3xMIs
+	 PNw5z1LsIeHZKttaj2vyCOlIC1ABMICqEjJJcz8L+i0S6otpxeUhLJXD5FaSnAFwJA
+	 lUSZyDKrk4QhD5JbX6UssQeHIMr9ZRLYGshm/TN55NB9vaF/jQJ0iKyrsLWbAPZz1u
+	 Nr0CqX72zTR1w==
+Date: Tue, 15 Jul 2025 10:25:42 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, Robert Mader <robert.mader@collabora.com>
+Subject: Re: [PATCH v2 0/4] media: i2c: IMX355 for the Pixel 3a
+Message-ID: <20250715-fine-adamant-myna-bf6e6e@krzk-bin>
+References: <20250714210227.714841-6-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250714210227.714841-6-mailingradian@gmail.com>
 
-Utilized memset to set all bytes of encoder structure to zero,
-this prevents any undefined behavior due to uninitialized use.
+On Mon, Jul 14, 2025 at 05:02:28PM -0400, Richard Acayan wrote:
+> This adds support for the IMX355 in devicetree and adds support for the
+> Pixel 3a front camera.
+> 
+> This depends on https://lore.kernel.org/r/20250630224158.249726-2-mailingradian@gmail.com
+> because the GPIOs would go right next to the charging, if sorted
+> alphabetically.
+> 
+> Changes since v1 (20250630225944.320755-7-mailingradian@gmail.com):
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
- .../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c  | 5 +++++
- 1 file changed, 5 insertions(+)
+If doing this, please use lore links. It's one click for me. Above is
+not, needs multiple steps to recover the discussion.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-index a01dc25a7699..ecac1aec7215 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-@@ -886,6 +886,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
- 			return 0;
- 	}
- 
-+	memset(&param, 0, sizeof(param));
- 	mtk_venc_set_param(ctx, &param);
- 	ret = venc_if_set_param(ctx, VENC_SET_PARAM_ENC, &param);
- 	if (ret) {
-@@ -1021,12 +1022,14 @@ static int mtk_venc_encode_header(void *priv)
- 	struct mtk_vcodec_mem bs_buf;
- 	struct venc_done_result enc_result;
- 
-+	memset(&enc_result, 0, sizeof(enc_result));
- 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
- 	if (!dst_buf) {
- 		mtk_v4l2_venc_dbg(1, ctx, "No dst buffer");
- 		return -EINVAL;
- 	}
- 
-+	memset(&bs_buf, 0, sizeof(bs_buf));
- 	bs_buf.va = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
- 	bs_buf.dma_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
- 	bs_buf.size = (size_t)dst_buf->vb2_buf.planes[0].length;
-@@ -1143,6 +1146,7 @@ static void mtk_venc_worker(struct work_struct *work)
- 	struct venc_done_result enc_result;
- 	int ret, i;
- 
-+	memset(&enc_result, 0, sizeof(enc_result));
- 	/* check dst_buf, dst_buf may be removed in device_run
- 	 * to stored encdoe header so we need check dst_buf and
- 	 * call job_finish here to prevent recursion
-@@ -1175,6 +1179,7 @@ static void mtk_venc_worker(struct work_struct *work)
- 		frm_buf.fb_addr[i].size =
- 				(size_t)src_buf->vb2_buf.planes[i].length;
- 	}
-+	memset(&bs_buf, 0, sizeof(bs_buf));
- 	bs_buf.va = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
- 	bs_buf.dma_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
- 	bs_buf.size = (size_t)dst_buf->vb2_buf.planes[0].length;
--- 
-2.46.0
+Or just use b4...
+
+Best regards,
+Krzysztof
 
 
