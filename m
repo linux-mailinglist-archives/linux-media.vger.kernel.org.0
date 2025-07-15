@@ -1,128 +1,150 @@
-Return-Path: <linux-media+bounces-37774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE9AB058D7
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:31:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC833B058E0
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 13:32:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2148A4A1DC8
-	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 11:31:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B7351891291
+	for <lists+linux-media@lfdr.de>; Tue, 15 Jul 2025 11:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7516D2D949D;
-	Tue, 15 Jul 2025 11:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC8F27464A;
+	Tue, 15 Jul 2025 11:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JnW3X1/A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKhtKCjL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6EA8462;
-	Tue, 15 Jul 2025 11:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF688462
+	for <linux-media@vger.kernel.org>; Tue, 15 Jul 2025 11:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752579068; cv=none; b=PpHUWYMOVSadl5yKz6g50ywEX4kssQ3AWErVAlsbzmSIH64YflBL2Atw8/b+Oo17BVJ5LshxisfhKCWF8hBSPG8PKFBAbTwGqsyzkamfKvdomOOThry480X8sjaef0wH0Fe0nL3lV/fbPjxD6wJZBh0pKOx7AzdVwLqv8Qyj3sg=
+	t=1752579142; cv=none; b=N6V+9WQSZZqaMVAmcXhDg+NNyo+zrO0HWk18yRLm3aFGzxHjFJ0syPG6hy+Fp1kYFTBJcAAsMQa3821jvouPEyEGcnlo7UwitOfy8N7p4/O3kA13+EmYyBLN3yeiT0kuc9PjOkAyyvD2ldzf5Rdoyv0zWMVuS8oLKT5Aspb2aBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752579068; c=relaxed/simple;
-	bh=moyOARuy8RSKpwVuPpYdyJGAqnZcsYNekcY6gapip6I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pCnipNvqggXsjEDTipn6ytk6OBzgpPUu0F6BNrFaRhylntjUjWSRx6jo0HGvB8T86lhigIgitQixK+2X+XLdfFcAujPmTiBjV/UFt5NblmROW4zElhYRPu/bTntxXZt+6VXVxLZUDJwWwm793J48T11/YuDBpK8cfUlb0/TxBdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JnW3X1/A; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-23dc5bcf49eso65126335ad.2;
-        Tue, 15 Jul 2025 04:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752579067; x=1753183867; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MB3mRNaYQABufvdOOekFqRmL/bjqRmQ6jJVEm64MslE=;
-        b=JnW3X1/AyBV/80qLD4BNiK1EELTy6fd12/3fw4rIt0lqFlzKojPT5kZIz6xCGHZ06a
-         FC3WTbiKbnCa6c2yg3qis+HFHbb6l0AVZDv40BiLuZ6bt0scTpgoBOKJ6MA8x+th28gI
-         x2rKasoN3C7oA9rQ0UJ/oPUJ6Z/Pfjjh0xMZHmF8fbcTXcpsi/91pQUg9IXFKYERN1rb
-         lPiOjVn++VN1kG67K18ozrNv4fb3G4MGFQW+raDAgBK0i4sLCOyMyRIX+/z/vRKydnJD
-         PRsQOMneUSP65WarGESn2YjyE+DA7qlyzP83puVpwWH1y5Inq4FnM8UAO8jus53uMrsM
-         iCHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752579067; x=1753183867;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MB3mRNaYQABufvdOOekFqRmL/bjqRmQ6jJVEm64MslE=;
-        b=a8SZzvosYWezfs5PObWPeqfFoaZhfTROp5pbT/YZKXVKeKX6RPSEzgOMmZkZ53lBQi
-         nwon+ZR8e+JgIWuvYDuttyKxu9oWcZD1Kc/RjpGc63fRB4vw5XGqifOMTo1FdAkXEXvc
-         KWI0E3cF1Tc45FfZkUpKvUXJKJAtod5gizoPbTOeL6pqTPGQp25Wz0RgP8bbi2LGeN+z
-         OK/VXMpz5MKDKSjWkS/5kll2rrMqBzSIV3bn2GBkPhSgiDdvjc6al0Kk/JXHSUojDpDL
-         rjy3FgUlk38CJSWILX4NZyHZwrqYzDisJHZwMRlRJFPSsXd/SL4dYldPlv//dGjrIz04
-         6bLg==
-X-Forwarded-Encrypted: i=1; AJvYcCUooSMr5wZw/kGxbT02mcsc3JVyq2fIpzQkr1V1O2kW202DfwPVy8vdHp4ZxXRBPQN/mgYZqFjbgfo44KA=@vger.kernel.org, AJvYcCWQWWm8D/VcdYS3xuFkFpX1kajEhZGkbFPXC7Oh454xWsHlUjoMdqnY9LfOSwsLghNi7uEiCnII/vhxdvw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz54tyO2oTkLwDMKJj006H1TXCq1XAzBYV5eHIraqJ33Q6e3BBV
-	ovB4PKqxsyNPA9c4rlP/W9tVXG5vzDUx4gMQIQoIF741BJ2+WL8hOlEe0mLP8QNz
-X-Gm-Gg: ASbGnctbcjl3MglrN33ObA5GjGFJCM3wam6seewnjRXJ4oo+vlBdfRRQN32PmyVxMG/
-	rVCh4rXtfBmQyhCL8lJYIuxEy5mX5FZ8zTP6c0Uf59q1m3YCSygbCYB1rBmtk26GC8rAf0b86od
-	s20xC/u3j64Z1MeOg+2xCWch4ZWZlumCpJW0YC3PbXNAy0UOpzutM48myNAE36zvLu2gh/rhOpb
-	LhqVqngZYFohi4fss8JU+N0XUOFHjmSGsTgu41Q+mx5+P1AvTGfpQzjYeigRNv7RBl4iA5BNXbF
-	xPkEdgLYTljbZF8Y/MzIGSWjtaAraIaf3YTVZWu2+BZ4Pa5RRyiVLTP4SI49P7d7IoT+kpiqTsN
-	cucioMvE2res4h8Cal1UjwB/JIotpc6MOoXovFFbcTcPl9TvPs59ZOnNj6DjtwyOiAjUfwHP0Ly
-	k=
-X-Google-Smtp-Source: AGHT+IGmHOZ9OMS1zAMyxgpr/bncWsGTANPbrsoKFtlV1jH0mzf7bvoTC8FLSJtindJQXpmb+iJTPQ==
-X-Received: by 2002:a17:902:cf52:b0:23e:90c:8213 with SMTP id d9443c01a7336-23e090c838amr88695615ad.8.1752579066402;
-        Tue, 15 Jul 2025 04:31:06 -0700 (PDT)
-Received: from SIQOL-WIN-0002-DARSHAN.localdomain ([27.57.176.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de42ae74esm107719875ad.74.2025.07.15.04.31.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 04:31:05 -0700 (PDT)
-From: Darshan Rathod <darshanrathod475@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Darshan Rathod <darshanrathod475@gmail.com>
-Subject: [PATCH] media: uvcvideo: Fix assignment in if condition
-Date: Tue, 15 Jul 2025 11:30:56 +0000
-Message-ID: <20250715113056.2519-1-darshanrathod475@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1752579142; c=relaxed/simple;
+	bh=RsvgqTOa+0U/iDGF++YXgywCmvEv7pUyGy7VjfbJirY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S5GtrjAlni1uMnyTLhhWMOyC8XDqZWFCBX22UwxIufA8FNHUnSokbU/hO/YMju2zxycSi1sxRdjRCd2xZA9KF5Ie0wSPQjZTSdGHtfRe0VVNW0a4uIG6c77YrAthWLR2WVpuvBXsUk8l0C5j2mIHUAS37TTS/IVgI6MCcmKgK8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKhtKCjL; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752579140; x=1784115140;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RsvgqTOa+0U/iDGF++YXgywCmvEv7pUyGy7VjfbJirY=;
+  b=GKhtKCjLZrPUrfxRcbupIa28BDMIx1sa59GkSvHH6P5nfefNJnBqg8YS
+   Tp9vDEt+ooSTW4KDTsNjKwqCK0wVnDwEx5yjKoCDB+NDFua1BYmLPj5SQ
+   UHtA0JSepmAA9ytc+CbrpKqvm45oMVVrwZFYTrLR1PrRi+5nKukrrTUbR
+   vkSPPxZ8ZOVbubWQ7MXCjzkldvJGCIwXPSadt6NrxFZbmVkJwMApD5kOX
+   hAB5e8EF8csulWvla3vgrP6KOZh4mB/6KuTubxgM359ywrABA4sv2v9Z6
+   gJbN/YhykOy9lpqoBbBu5/hF2n9r4QYlaWZ+lZW/4pv6WwT9BX4SYTo2y
+   A==;
+X-CSE-ConnectionGUID: rCOgg8yKQDuuA+lKCGPURA==
+X-CSE-MsgGUID: hk9QxFuARs6KLQQiLQxWUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="57404121"
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="57404121"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:32:19 -0700
+X-CSE-ConnectionGUID: 8zf7B/tgRCmfbNvArRktqw==
+X-CSE-MsgGUID: zgDh5baNSjm9yf00M6Gaow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="161514241"
+Received: from ettammin-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.145])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:32:17 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A292A11F8D4;
+	Tue, 15 Jul 2025 14:32:14 +0300 (EEST)
+Date: Tue, 15 Jul 2025 11:32:14 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, tian.shu.qiu@intel.com,
+	tomi.valkeinen@ideasonboard.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH 12/13] media: v4l2-mc: Introduce
+ v4l2_mc_pipeline_enabled()
+Message-ID: <aHY8PgcfOMRVPsBQ@kekkonen.localdomain>
+References: <20250619081546.1582969-1-sakari.ailus@linux.intel.com>
+ <20250619081546.1582969-13-sakari.ailus@linux.intel.com>
+ <zubhgen5vcjeadujrufagjd3h6rp5va7d7n27fqisc23kr35sn@sg4mwenwnbmc>
+ <aHYyPMcwt3WBzJur@kekkonen.localdomain>
+ <20250715112520.GH20231@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715112520.GH20231@pendragon.ideasonboard.com>
 
-The function uvc_input_init() used an assignment of the return value
-of input_register_device() within the condition of an if statement.
+Hi Laurent,
 
-This coding style is discouraged by the Linux kernel coding style guide
-as it can be confused with a comparison and hide potential bugs.
-The checkpatch.pl script flags this as an error:
-"ERROR: do not use assignment in if condition"
+On Tue, Jul 15, 2025 at 02:25:20PM +0300, Laurent Pinchart wrote:
+> On Tue, Jul 15, 2025 at 10:49:32AM +0000, Sakari Ailus wrote:
+> > On Fri, Jun 20, 2025 at 10:53:13AM +0200, Jacopo Mondi wrote:
+> > > On Thu, Jun 19, 2025 at 11:15:45AM +0300, Sakari Ailus wrote:
+> > > > v4l2_mc_pipeline_enabled() helps solving a problem known for long but
+> > > > lacked any sort of general solution: with multiple streams, when streaming
+> > > > is started on video nodes one by one, when should streaming be started in
+> > > > the source?
+> > > 
+> > > I tried quite some time to understand this, but if I'm not mistaken,
+> > > a stream-aware subdev, which links to vdev, will always "demux"
+> > > streams to different pads and will connect to the vdev from there
+> > > 
+> > > 
+> > >      Source
+> > >      subdev
+> > >  +-----------------+
+> > >  |                (1/0) ------> vdev0
+> > >  |                 |
+> > > (0)[1,2,3]        (2/0  ------> vdev1
+> > >  |                 |
+> > >  |                (3/0) ------> vdev2
+> > >  +-----------------+
+> > > 
+> > > With
+> > > 
+> > > (0) multiplexed sink pad with 3 streams
+> > > (1) (2) and (3) source pad with a single stream
+> > > 
+> > > Can't we relay on the media-link state between the source pads and the
+> > > video devices with something like what Dan has proposed here ?
+> > > https://patchwork.linuxtv.org/project/linux-media/patch/20250519140403.443915-2-dan.scally@ideasonboard.com/
+> > 
+> > This isn't entirely the same thing: pipeline is specific to the pad but not
+> > streams, ad here we're interested in streams. Two streams may start at
+> > different points of time even if both are part of the same pipeline.
+> > 
+> > We definitely should have just one way to figure this out.
+> 
+> But can we ? Isn't it dependent on use cases ? I can imagine an
+> application wanting to capture two image streams where one of them is
+> enabled all the time and the other one is regularly turned on and off,
+> in which case you would need to start the pipeline when the first stream
+> starts. A different application may instead want to capture the same two
+> streams and make sure it gets all frames on both, which possibly
+> requires delaying the start of capture until both video capture devices
+> are started.
 
-Separate the assignment into its own statement before the conditional
-check to improve code readability and adhere to the kernel's
-coding standards.
+Exactly. It's indeed dependent on the use case but the driver is the same
+in both cases. This is why the generic solution needs more information from
+the user space but I think we can work out how to support this after
+merging the metadata series.
 
-Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
----
- drivers/media/usb/uvc/uvc_status.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-index ee01dce4b783..3c29c0bb3f7c 100644
---- a/drivers/media/usb/uvc/uvc_status.c
-+++ b/drivers/media/usb/uvc/uvc_status.c
-@@ -62,7 +62,8 @@ static int uvc_input_init(struct uvc_device *dev)
- 	__set_bit(EV_KEY, input->evbit);
- 	__set_bit(KEY_CAMERA, input->keybit);
- 
--	if ((ret = input_register_device(input)) < 0)
-+	ret = input_register_device(input);
-+	if (ret < 0)
- 		goto error;
- 
- 	dev->input = input;
 -- 
-2.43.0
+Regards,
 
+Sakari Ailus
 
