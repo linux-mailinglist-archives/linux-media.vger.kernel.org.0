@@ -1,325 +1,396 @@
-Return-Path: <linux-media+bounces-37877-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37878-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46141B0777B
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 15:59:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F529B07793
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 16:05:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A49458094B
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 13:59:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2395D1AA6262
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 14:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60B471E572F;
-	Wed, 16 Jul 2025 13:58:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B5F521C19A;
+	Wed, 16 Jul 2025 14:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8HQvqt7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021074.outbound.protection.outlook.com [40.107.57.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D06C38F80;
-	Wed, 16 Jul 2025 13:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752674338; cv=fail; b=a1fAbhPc8Zc8YYhPfOj0VffRfj305Yux6fg8u7XNsMXOmhxPHT2T7EX/DVp5rhbsKPTjK3xAejrhONQ+cDfcFvWFdMQZyDDkmeNT1GnsIAWpO0fyjSH3aJcQIhc+0hqoSqx9l6KnmWcsGAhF/nMWhHPeL6B+9jTaoY8bksLGakg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752674338; c=relaxed/simple;
-	bh=M8A4DUbQAA6EL9C1VwBkC8C8KFnSzjgV2NgK2OAZQrA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZUo5yK0yVD6QNUqzrFQB8i7Q6TG1GHIW+K1aDL8HWhqsH88eIeC8DcKh0HZIUHwoPrWoZIz4ddW6mAwkVha9ZL/yruf40OxXwEhAZEyckH/h3cOw7D3batTxlffJ3Eze+3BwZENNVd9K1xw0TUyNp1qUQFpm6ZOqLE448EaF0Y8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k5c7UccFI54nU822IDhkcYOGHUu+SRIktoHaSgkgOhubArDx3ldq1EXPdi9KAHjQM1SD1+jPpNT+H4t2NfItX4OfXjOaZ6P22Av3zJmy5cduXB7yvXmGmwJ+OnlV6Vz/3oxrNrSJrOL5gaiMfM9Ij9jviEcITgyOjI7bdTxfcsxy/ZWmlEtCzs8NQclq930W9RUrw0ABhGMiVDRb2JkMkJoNbtpGI2blXWmN3Z/N15nDhYstGJGjTEWTtei/SE4dMKSFDmaRaSPmYg60ISb2y2g9P1TuUdMjF799vF/NI5PQDojgraw96NWJa6jXhH8NlbNQ7n1amFPMEVBBudOzNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M8A4DUbQAA6EL9C1VwBkC8C8KFnSzjgV2NgK2OAZQrA=;
- b=y08De9rLAiC1Q0241y/jkrjyA83HJ2spfGo1ZrTTGGEYUf1J229OmSDqirxzeZjK+6+FNHy1Rh3PFgtqrmh3M/U5b3P8rnUxvaYyvCeGOhDIna3uyzgyGyjjhciaLfbcMktcKO2l9uNvMjb2b3Lj2U6VIG3vqpe4bqPKFDdINHBD9fI5eLe7c2czrFBqIKFqmv20CIUixnw0XEFvP1sx0TK1XOVRiwTNXo/0hDKB4+ylxcdfCL5db3xESjdFC0RbqtKGpe31WZGz2JRp1reGwGXfr9J2DJddSSfcmvqgHP3zm70lECNgmdxsGSvK1B5R+/g0Tr/lMeKkkUXPFKvT0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:229::21)
- by PN3P287MB1349.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:193::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Wed, 16 Jul
- 2025 13:58:52 +0000
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418]) by PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418%6]) with mapi id 15.20.8922.028; Wed, 16 Jul 2025
- 13:58:52 +0000
-From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-To: "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>
-CC: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>, =?iso-8859-1?Q?Andr=E9_Apitzsch?=
-	<git@apitzsch.eu>, Ricardo Ribalda <ribalda@chromium.org>, Heimir Thor
- Sverrisson <heimir.sverrisson@gmail.com>, Matthias Fend
-	<matthias.fend@emfend.at>, Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>, Benjamin Mugnier
-	<benjamin.mugnier@foss.st.com>, Dongcheng Yan <dongcheng.yan@intel.com>, Arnd
- Bergmann <arnd@arndb.de>, Hans de Goede <hansg@kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add ov2735 sensor
-Thread-Topic: [PATCH v4 1/2] dt-bindings: media: i2c: Add ov2735 sensor
-Thread-Index: AQHb9lfYoS/wf6j50k6uH/8lXesHXbQ0xBnF
-Date: Wed, 16 Jul 2025 13:58:52 +0000
-Message-ID:
- <PN3P287MB35196D806DD3183F5C3AA623FF56A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
-References: <20250716134426.8348-1-hardevsinh.palaniya@siliconsignals.io>
- <20250716134426.8348-2-hardevsinh.palaniya@siliconsignals.io>
-In-Reply-To: <20250716134426.8348-2-hardevsinh.palaniya@siliconsignals.io>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB3519:EE_|PN3P287MB1349:EE_
-x-ms-office365-filtering-correlation-id: 04468415-104d-4018-e10e-08ddc470e56f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?C+8cXxaB/yNpLL7400mDiQAnw1XVnsrS6E5KALkZj4OIRGHPvkRp0IsTYl?=
- =?iso-8859-1?Q?2venS943uTocbcO1cw5yl/37tTMZKTC4O/cTcwVLfyrcfonodU5kdIrK4i?=
- =?iso-8859-1?Q?df6BaaIGT2TOqTLskyUIy/zelhIPb2tcUwJ9pgoKsn11bOrHNvddzoTT0+?=
- =?iso-8859-1?Q?aG2y5LWDj24mzQk20uMacF/MO5aNpqcM5AbvC3DirN7sn+KjuTcXg+jRJF?=
- =?iso-8859-1?Q?NLQdnNQwWP9B1Xs3Oovo1dO1rXBUk5H3pfu3DX64oc68qT9daMHcCK26kP?=
- =?iso-8859-1?Q?ikl3+qrLdhAMTGqLThl4kKuXd5FsciO+0AMfH/U9gpUW4HUGRVD7v8CTMG?=
- =?iso-8859-1?Q?DsnoZ+pzVPxkxQXuoAHgirXEjeh8OUrFMZ0apZVSO7tc3Q0CxvOTDt9SYq?=
- =?iso-8859-1?Q?2ns/7kOFBLvs2Hq873NjAxEF6VTjbqdHNyoSSuLGPVTaeBJztzzoFssX/z?=
- =?iso-8859-1?Q?XxUKZwY/xasv8omSGMy/Gii+04dHPv+ddNu6C1yHhlZi4XkWLGfCZ8/mXc?=
- =?iso-8859-1?Q?6+5S6I7m4ifYQCJJLbICZQR6i0bSoBzKfZF+38A44Y2WEosL6pN7kTQFcE?=
- =?iso-8859-1?Q?ACjO70zQUJkjJdP6vQKSKulbNOpnjF4D/aE0hWWnzTBh0EYkAQH7+yKjJ9?=
- =?iso-8859-1?Q?9AaA1I7Jo9UaMnTjmoqSPQEGeIgDiJSuTYhm0xDVwl+s0h+IIi7G2Wm/Tc?=
- =?iso-8859-1?Q?aLfsNpH+l7kJZghn8wQsaSXIWH3vrYOIvkw12/kTAQsqYVcKH/GrXvZ82K?=
- =?iso-8859-1?Q?7nqeQEFGcup18XK+v3bpRtjWMqSySd0VU0Y1zpCAFhR1iYRaEpgT9cQQVw?=
- =?iso-8859-1?Q?6MVtXUSL5awipqOZqa1VMQP3WOb+uignyfIONp5/sYSOVV3P8WMufb0yRC?=
- =?iso-8859-1?Q?rhHs7MkqCNas8MQyRqGmvCOdcEeMRH8v6u0XmT3eMVS5KlhyRajip0FDeH?=
- =?iso-8859-1?Q?nDBWmKc3r3dLrR7LrPB/PhWmux6oWAPORqCcmIyiEp710kBKKwD2NmrdKm?=
- =?iso-8859-1?Q?pbeQGR3me7beOeBYQ/r6Raiq6/Ln1rQ+atef0v454mK9CjEGsPwoZI2g42?=
- =?iso-8859-1?Q?Au+gxAll8Qc0SBNP6UeBMcXSWEXeboLrjfdhBGd46e8n7Gijuk5zGFHdZL?=
- =?iso-8859-1?Q?IMjb9/ewJjOrhk3Svo7yJQokp1aedyAHd+G3pIVQ4FuAV56ETnxukHLuv/?=
- =?iso-8859-1?Q?EWBNVZtPExSMxy9v91AcYltTG9fmWIMdyTSob5M/UcQP95/flYksIEFenB?=
- =?iso-8859-1?Q?wbs0z9WXsk52xfs/YKWTktc+i4LQCrrFNkniS+gvAdmoQ6TarTbCy9s0Ro?=
- =?iso-8859-1?Q?dKo3NdWxBIQECJ8W5wVux1UjWBbjGnOK3ARlkBW9XPUUSBUwkSAmc6L+pf?=
- =?iso-8859-1?Q?/0x0O6Ao5YeA5Jgpx4DM9ayiRDMk8Cher3vT5qSW1YIx8xvs/wfFFLu0WP?=
- =?iso-8859-1?Q?vDFuvVFSB+12ah2K66VAhomz5Zlc5+42GTdOQozbBYoE3AYaDa4bhVUnC9?=
- =?iso-8859-1?Q?k=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3519.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?2shNWAQ7S7ISKm6cPWgqZectsfP9P4qgjwQl9EOPjYBM7JTwauh8b2WpBe?=
- =?iso-8859-1?Q?otWYQX+cFkWlk/bGb4/i8lDMwab2CisVydlFOEE5DTRLYvi5vFhi5QQBO/?=
- =?iso-8859-1?Q?QuCUGeuiyqhN6Sou5BglW775DC4YQELfCUba95mB7DXQc9si1ariGop6qP?=
- =?iso-8859-1?Q?Bu2M8lXXZHvB6tmbFyFHY15ITk32tF+8/IUajLwfC3moPUjid3QGTFCCQg?=
- =?iso-8859-1?Q?p4K4q9O8jwI/3Fhudlywl+02YicrhFdVRZ/EnLOc7ewu7uhmPyiOP8PCnS?=
- =?iso-8859-1?Q?qvJCsB1DvLIkGTZXpWsrUqmHSkoSE78dMGN6HJ0cOwvyiGA6pQEY1hO0MW?=
- =?iso-8859-1?Q?CWlrmZa4d1er/HrUpHiWe8eWAhLWXIo/NF+JtyeDU80McZXWjMFzSYuE1F?=
- =?iso-8859-1?Q?llVKZdGZGSjV3wlj7sX2zSWxeam9cZNQ06WNPUsC1R+4exmRhmI1TLgZ0Z?=
- =?iso-8859-1?Q?dTSPbRgE3zZGf05XkqjgLnilY6TKn5BV/4OHnEYrJM9ztYiWMtkcisMDzr?=
- =?iso-8859-1?Q?dsUFOq4iXpKb1m8hgdacqNyDttpdr5A9/Ih12Y6W3kxoepCd11XylaUymI?=
- =?iso-8859-1?Q?KEyif2fT8/+qrloBdge6kbk/TqzQfU/fudTDXc8J8nTwcnLEacPR3+S/IK?=
- =?iso-8859-1?Q?2HdG0UiE3qF+Ogy3g1sRMrmB08nQTa47dYUlo9t7iYvDaM2gZLGhzxzuqZ?=
- =?iso-8859-1?Q?Wf4kTxZB1brCVt+DvnjQbel1tXQjZL9W5X72pRLHKQ77ytHUPOkqp46s2n?=
- =?iso-8859-1?Q?vXATvzBXTHc/DegkYvHtHcHVXZD38kGEEgwwTauKvZ2D+FBIiCCHAmiift?=
- =?iso-8859-1?Q?QGJvC1IkIqM81mVnYay8P+26rSjUDqGOIqumDTNgno4DIQ/ekV9N7fH6Tj?=
- =?iso-8859-1?Q?b2IMvZtuYMrYFJqbhvtaPy3nyQAXOvMABOmqVMLqaeZiR/WdrGL3bFEyqV?=
- =?iso-8859-1?Q?F8W4z6pXXSU+/TG/Vdr4g+eVzekVDCDJFGssZ7VRSTt4WQueUU4HNgv0kL?=
- =?iso-8859-1?Q?lScFfzTaP8D+RL1vJ2NLXp51C42hEeh8QkPpul5cCZJgo0/1LLmO+AD8o5?=
- =?iso-8859-1?Q?gplEQJZoavYGC+Z2S3Ffahf9hSZqfvM7ZsxiwJ5Eixiua04x2HWzKZqOCk?=
- =?iso-8859-1?Q?J9EmoYMGm9NIBLANi55z1YAJ/epYqlb5Y939ZXNko/Al0QeJ8yFzVIO5vQ?=
- =?iso-8859-1?Q?Wc5vcJJpojQd/sMK5r8+ayu8e/MB6AIWqvtqu4jx7nMK216h+OsYq1FaQp?=
- =?iso-8859-1?Q?Q6v1an9L40O7mg2lrvrQEFpoEja17t9eQ21uPo6L7C+3L7UBVmWiLrN1ey?=
- =?iso-8859-1?Q?iq4uZ3jMFnIormpnRPTZXCIPMkspOSyUNSD8FXMkloymRodoav4WCfz1b/?=
- =?iso-8859-1?Q?wY2NCOykquY7H1xRN5GmfWXS3DEgkSl+rpi1cwIX8Hwd/lut8QQ3T0ryBH?=
- =?iso-8859-1?Q?clZhrcsOl6wizBvH1lSFPo9Ize3RDjLbEChqj/43rFodEZpemk2WjO9fFe?=
- =?iso-8859-1?Q?2tWzcv6POJX5QfXAm05h3IotXIES7z0XQU4We1Orjp6sICeoieQMlgZeCh?=
- =?iso-8859-1?Q?H2Dr3oTHJYeXvlPxHYqd1SQMDY8cw7H18+et8d6hX1T/LfQjwF8rctN64M?=
- =?iso-8859-1?Q?NrIBX4pkeEIUzUOYvfwgLONci50ONeKa9W/lRYzMjPptlVMjZWK5ByCQ?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20CD1C2335;
+	Wed, 16 Jul 2025 14:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752674725; cv=none; b=Xfd9tiQdLtKtKgJ0z9zouAHvkNfUZK3CrLpadIFNFWEIMPSqNW9xTIhB5tzCYDw6WglmAgIfIYjSW1s7KqGa5A1NSUKuvykXCbS/EnmOxHUly0c6t8cV9zHgF+St7ZLWFjvj1YshCuLKLpamjrBDhOMUSdjZ7CrMEDGf+/JPFnI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752674725; c=relaxed/simple;
+	bh=Kw5fbr0AUuPCrIitZzWwqC7O9jix80yk2fcOuypmmb8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RxwRatBOEHIgIh48QLeHk8lUhCTP3+3y3q7O7sVMHNmvyLjGcaNc6PAm8KH8X9NbkaOYIoCyTyKxbnyH1D6nlqMxt3k/mJu0epeKpYNd8LD8IS6Nd+1wXmEj9kcDwVKmogtF+nR/yL1LhPGGYPmqgbbFGrwo0/FmCNi0rr4Cj/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8HQvqt7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50661C4CEE7;
+	Wed, 16 Jul 2025 14:05:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752674725;
+	bh=Kw5fbr0AUuPCrIitZzWwqC7O9jix80yk2fcOuypmmb8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=T8HQvqt7azcz5K0DJHOnoghoojUGQUORNqMdv81wLCtVNeNun7d87UXUPg2lYD71X
+	 3//FtYHHfTvYyDvRg2ppbJMAY8ANgt0ZsAV8kxdHuWB7ynDzkhuC8pN1vzm9fCcVdA
+	 SAX9ceslE+M3ugRknHFBmoCIXKBbhFkLDcE9ldo/N2QlZwh+/YhhxvgR59Qmd18bAI
+	 x54EwnPCQJQlW8+jfS5f3pYrZy/z7fVQXT4eyllxHATeHs3XuAr1meraBr4TrRkyM/
+	 zjTBg4NRb/C4MA2eBBV/ZGLDgBVYr8Htu2dEpNqjat/3Jky/OMXh9bi7K719QDmaOi
+	 8BuYWg0C2N0fQ==
+Message-ID: <a585e539-9847-4252-bfb0-860b5c372d01@kernel.org>
+Date: Wed, 16 Jul 2025 16:05:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04468415-104d-4018-e10e-08ddc470e56f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2025 13:58:52.0714
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HxGWwnprg5KrM+iyNVHfXaMfxZF29HcehibxG9R5eIciKP0TqQOe194GDmzINLuDU8oukvJYDYNB9x0Rq2264Zh0MwtGdO7JRwLMEFkVz9pZsWGzwARaSSe2ut5TpVbp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB1349
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 3/4] dt-bindings: media: ti: vpe: Add bindings for
+ Video Input Port
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux@armlinux.org.uk, ardb@kernel.org, ebiggers@kernel.org,
+ geert+renesas@glider.be, claudiu.beznea@tuxon.dev, bparrot@ti.com,
+ andre.draszik@linaro.org, kuninori.morimoto.gx@renesas.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, heikki.krogerus@linux.intel.com,
+ kory.maincent@bootlin.com, florian.fainelli@broadcom.com, lumag@kernel.org,
+ dale@farnsworth.org, sbellary@baylibre.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dagriego@biglakesoftware.com,
+ u-kumar1@ti.com
+References: <20250716111912.235157-1-y-abhilashchandra@ti.com>
+ <20250716111912.235157-4-y-abhilashchandra@ti.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250716111912.235157-4-y-abhilashchandra@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof=0A=
-=0A=
-> From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>=0A=
->=A0=0A=
-> Add bindings for Omnivision OV2735 sensor.=0A=
->=A0=0A=
-> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>=0A=
-> Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io=
->=0A=
-=0A=
-I haven't added your Reviewed-by tag yet, as I made some modifications to t=
-he DT bindings.=0A=
-=0A=
-Could you please review the updated changes?=0A=
-=0A=
-Best Regards,=0A=
-Hardev=0A=
-=0A=
-> ---=0A=
-> =A0.../bindings/media/i2c/ovti,ov2735.yaml=A0=A0=A0=A0=A0=A0 | 109 ++++++=
-++++++++++++=0A=
-> =A01 file changed, 109 insertions(+)=0A=
-> =A0create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov=
-2735.yaml=0A=
->=A0=0A=
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml=
- b/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml=0A=
-> new file mode 100644=0A=
-> index 000000000000..9236829cc00d=0A=
-> --- /dev/null=0A=
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml=0A=
-> @@ -0,0 +1,109 @@=0A=
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)=0A=
-> +%YAML 1.2=0A=
-> +---=0A=
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov2735.yaml#=0A=
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#=0A=
-> +=0A=
-> +title: OmniVision OV2735 Image Sensor=0A=
-> +=0A=
-> +maintainers:=0A=
-> +=A0 - Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>=0A=
-> +=0A=
-> +description:=0A=
-> +=A0 The OmniVision OV2735 is a 2MP (1920x1080) color CMOS image sensor c=
-ontrolled=0A=
-> +=A0 through an I2C-compatible SCCB bus. it outputs RAW10 format and uses=
- a 1/2.7"=0A=
-> +=A0 optical format.=0A=
-> +=0A=
-> +properties:=0A=
-> +=A0 compatible:=0A=
-> +=A0=A0=A0 const: ovti,ov2735=0A=
-> +=0A=
-> +=A0 reg:=0A=
-> +=A0=A0=A0 maxItems: 1=0A=
-> +=0A=
-> +=A0 clocks:=0A=
-> +=A0=A0=A0 items:=0A=
-> +=A0=A0=A0=A0=A0 - description: XVCLK clock=0A=
-> +=0A=
-> +=A0 avdd-supply:=0A=
-> +=A0=A0=A0 description: Analog Domain Power Supply=0A=
-> +=0A=
-> +=A0 dovdd-supply:=0A=
-> +=A0=A0=A0 description: I/O Domain Power Supply=0A=
-> +=0A=
-> +=A0 dvdd-supply:=0A=
-> +=A0=A0=A0 description: Digital Domain Power Supply=0A=
-> +=0A=
-> +=A0 reset-gpios:=0A=
-> +=A0=A0=A0 maxItems: 1=0A=
-> +=A0=A0=A0 description: Reset Pin GPIO Control (active low)=0A=
-> +=0A=
-> +=A0 enable-gpios:=0A=
-> +=A0=A0=A0 maxItems: 1=0A=
-> +=A0=A0=A0 description:=0A=
-> +=A0=A0=A0=A0=A0 Active-low enable pin. Labeled as 'PWDN' in the datashee=
-t, but acts as=0A=
-> +=A0=A0=A0=A0=A0 an enable signal. During power rail ramp-up, the device =
-remains powered=0A=
-> +=A0=A0=A0=A0=A0 down. Once power rails are stable, pulling this pin low =
-powers on the=0A=
-> +=A0=A0=A0=A0=A0 device.=0A=
-> +=0A=
-> +=A0 port:=0A=
-> +=A0=A0=A0 description: MIPI CSI-2 transmitter port=0A=
-> +=A0=A0=A0 $ref: /schemas/graph.yaml#/$defs/port-base=0A=
-> +=A0=A0=A0 additionalProperties: false=0A=
-> +=0A=
-> +=A0=A0=A0 properties:=0A=
-> +=A0=A0=A0=A0=A0 endpoint:=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 $ref: /schemas/media/video-interfaces.yaml#=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 unevaluatedProperties: false=0A=
-> +=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 properties:=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0 data-lanes:=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 items:=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: 1=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: 2=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0 link-frequencies: true=0A=
-> +=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 required:=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - data-lanes=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - link-frequencies=0A=
-> +=0A=
-> +required:=0A=
-> +=A0 - compatible=0A=
-> +=A0 - reg=0A=
-> +=A0 - clocks=0A=
-> +=A0 - avdd-supply=0A=
-> +=A0 - dovdd-supply=0A=
-> +=A0 - dvdd-supply=0A=
-> +=A0 - port=0A=
-> +=0A=
-> +additionalProperties: false=0A=
-> +=0A=
-> +examples:=0A=
-> +=A0 - |=0A=
-> +=A0=A0=A0 #include <dt-bindings/gpio/gpio.h>=0A=
-> +=0A=
-> +=A0=A0=A0 i2c {=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 #address-cells =3D <1>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 #size-cells =3D <0>;=0A=
-> +=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 camera-sensor@3c {=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 compatible =3D "ovti,ov2735";=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 reg =3D <0x3c>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 clocks =3D <&ov2735_clk>;=0A=
-> +=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 avdd-supply =3D <&ov2735_avdd>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dovdd-supply =3D <&ov2735_dovdd>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dvdd-supply =3D <&ov2735_dvdd>;=0A=
-> +=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 reset-gpios =3D <&gpio1 6 GPIO_ACTIVE_=
-LOW>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 enable-gpios =3D <&gpio2 11 GPIO_ACTIV=
-E_LOW>;=0A=
-> +=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 port {=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 cam_out: endpoint {=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 remote-endpoin=
-t =3D <&mipi_in_cam>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 data-lanes =3D=
- <1 2>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 link-frequenci=
-es =3D /bits/ 64 <420000000>;=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 };=0A=
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 };=0A=
-> +=A0=A0=A0=A0=A0=A0=A0 };=0A=
-> +=A0=A0=A0 };=0A=
-> --=0A=
-> 2.34.1=
+On 16/07/2025 13:19, Yemike Abhilash Chandra wrote:
+> From: Dale Farnsworth <dale@farnsworth.org>
+> 
+> Add device tree bindings for the Video Input Port. Video Input Port (VIP)
+> can be found on devices such as DRA7xx and provides a parallel interface
+> to a video source such as a sensor or TV decoder.
+> 
+> Signed-off-by: Dale Farnsworth <dale@farnsworth.org>
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Sukrut Bellary <sbellary@baylibre.com>
+> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> ---
+> Changelog:
+> Changes in v2:
+> - Remove array and just use hsync: true in bindings
+> - Remove array and use enum for bus width in bindings
+> - Use pattern properties since properties across ports are same
+> - Update copyright year
+> 
+
+This fails testing so limited review follows.
+
+>  .../devicetree/bindings/media/ti,vip.yaml     | 211 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 212 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/ti,vip.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/ti,vip.yaml b/Documentation/devicetree/bindings/media/ti,vip.yaml
+> new file mode 100644
+> index 000000000000..44091c15a537
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/ti,vip.yaml
+> @@ -0,0 +1,211 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2025 Texas Instruments Incorporated -  http://www.ti.com/
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/ti,vip.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments DRA7x VIDEO INPUT PORT (VIP).
+> +
+> +maintainers:
+> +  - Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> +
+> +description: |-
+> +  The Video Input Port (VIP) is a key component for image capture
+> +  applications. The capture module provides the system interface and the
+> +  processing capability to connect parallel image-sensor as well as
+> +  BT.656/1120 capable encoder chip to DRA7x device.
+> +
+> +  Each VIP instance supports 2 independently configurable external video
+> +  input capture slices (Slice 0 and Slice 1) each providing up to two video
+> +  input ports (Port A and Port B) where Port A can be configured as
+> +  24/16/8-bit port and Port B is fixed as 8-bit port.
+> +  Here these ports a represented as follows
+> +    port@0 -> Slice 0 Port A
+> +    port@1 -> Slice 0 Port B
+> +    port@2 -> Slice 1 Port A
+> +    port@3 -> Slice 1 Port B
+> +
+> +  Each camera port nodes should contain a 'port' child node with child
+> +  'endpoint' node. Please refer to the bindings defined in
+> +  Documentation/devicetree/bindings/media/video-interfaces.yaml.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,dra7-vip
+> +
+> +  label:
+> +    description: Instance name
+
+Why do you need it? How many instances are there per SoC?
+
+> +
+> +  reg:
+> +    items:
+> +      - description: The VIP main register region
+> +      - description: Video Data Parser (PARSER) register region for Slice0
+> +      - description: Color Space Conversion (CSC) register region for Slice0
+> +      - description: Scaler (SC) register region for Slice0
+> +      - description: Video Data Parser (PARSER) register region for Slice1
+> +      - description: Color Space Conversion (CSC) register region for Slice1
+> +      - description: Scaler (SC) register region for Slice1
+> +      - description: Video Port Direct Memory Access (VPDMA) register region
+> +
+> +  reg-names:
+> +    items:
+> +      - const: vip
+> +      - const: parser0
+> +      - const: csc0
+> +      - const: sc0
+> +      - const: parser1
+> +      - const: csc1
+> +      - const: sc1
+> +      - const: vpdma
+> +
+> +  interrupts:
+> +    minItems: 2
+
+Which makes 10 interrupts valid :/
+
+> +    description:
+> +      IRQ index 0 is used for Slice0 interrupts
+> +      IRQ index 1 is used for Slice1 interrupts
+
+No, list the items with description, just like most bindings.
+
+> +
+> +  ti,vip-clk-polarity:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description:
+> +      phandle to the device control module. The 1st argument should
+
+Polarity is not a phandle... The name is confusing, especially that
+nothing in description matches it. Explain what is the purpose of this
+in THIS device. For what this device needs it?
+
+> +      contain the register offset to the CTRL_CORE_SMA_SW_1 register.
+> +      2nd argument contains the bit field to slice 0 port A,
+> +      3rd argument contains the bit field to slice 0 port B,
+> +      4th argument contains the bit field to slice 1 port A,
+> +      5th argument contains the bit field to slice 1 port B.
+
+Don't open code schema in any case. Look at other examples how such this
+is encoded.
+
+> +
+> +patternProperties:
+> +  '^port@[0-3]$':
+> +    type: object
+> +    additionalProperties: false
+
+Missing ref. From which binding did you take port without ref?
+
+What are these ports? Look below:
+
+
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +      reg:
+> +        description: The port number
+
+You add redundant, obvious descriptions, but you do not add description
+what each port is.
+
+> +        maxItems: 1
+
+
+Order this according to DTS coding style. See other bindings.
+
+> +
+> +      label:
+> +        description: Port name. Usually the pin group name
+
+Why do you have labels everywhere?
+
+> +
+> +      endpoint:
+> +        $ref: /schemas/graph.yaml#/properties/endpoint
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          hsync-active: true
+> +          vsync-active: true
+> +          pclk-sample: true
+
+Where are definitions of above?
+
+> +          bus-width:
+> +            enum: [8, 24]
+> +            default: 8
+> +
+> +          remote-endpoint: true
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +      - reg
+> +      - label
+
+So port@0 is next to label, yes? Let's go to your example
+
+> +
+> +required:
+> +  - compatible
+> +  - label
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - ti,vip-clk-polarity
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    vip1: vip@48970000 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +        compatible = "ti,dra7-vip1";
+> +        label = "vip1";
+> +        reg = <0x48970000 0x114>,
+> +              <0x48975500 0xD8>,
+> +              <0x48975700 0x18>,
+> +              <0x48975800 0x80>,
+> +              <0x48975a00 0xD8>,
+> +              <0x48975c00 0x18>,
+> +              <0x48975d00 0x80>,
+> +              <0x4897d000 0x400>;
+> +        reg-names = "vip",
+> +                    "parser0",
+> +                    "csc0",
+> +                    "sc0",
+> +                    "parser1",
+> +                    "csc1",
+> +                    "sc1",
+> +                    "vpdma";
+> +        interrupts = <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 392 IRQ_TYPE_LEVEL_HIGH>;
+> +        ti,vip-clk-polarity = <&scm_conf 0x534 0x1 0x4 0x2 0x8>;
+> +
+> +        ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+
+Where is the label? It is supposed to be required just like port@0 is.
+
+
+> +              vin1a: port@0 {
+
+
+> +                    reg = <0>;
+> +                    label = "vin1a";
+> +
+> +                    vin1a_ep: endpoint {
+> +                           remote-endpoint = <&camera1>;
+> +                           hsync-active = <1>;
+> +                           vsync-active = <1>;
+> +                           pclk-sample = <0>;
+> +                           bus-width = <8>;
+> +                    };
+> +              };
+> +              vin1b: port@1 {
+> +                    reg = <1>;
+> +                    label = "vin1b";
+> +              };
+> +              vin2a: port@2 {
+> +                    reg = <2>;
+> +                    label = "vin2a";
+> +              };
+> +              vin2b: port@3 {
+> +                    reg = <3>;
+> +                    label = "vin2b";
+> +              };
+> +         };
+> +    };
+> +
+> +    i2c {
+
+Drop entire node, not relevant.
+
+
+Best regards,
+Krzysztof
 
