@@ -1,152 +1,157 @@
-Return-Path: <linux-media+bounces-37871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37872-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C35EB076B7
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 15:17:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02EFEB076E5
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 15:28:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D363F5841F1
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 13:17:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 44A7C584C83
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 13:28:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 179E51A5B96;
-	Wed, 16 Jul 2025 13:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D9AA1A9B58;
+	Wed, 16 Jul 2025 13:27:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxsw.ie header.i=@nxsw.ie header.b="L4+LjlpZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dDTLfxoN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4207354673;
-	Wed, 16 Jul 2025 13:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E275F1A3167;
+	Wed, 16 Jul 2025 13:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752671850; cv=none; b=eWal1pruZD+8LfXqC2OwhXLc9OFmlidROG8s3JGGQx/L2F0G2wnhXOvK46aOpN23+ZQMA5We/15gwP4+7yRPBVqzjXMBLY/IQBh5UsRjphfhkZnVNb+RNvY4JGnHUFZgDMYjXSc0/oQe973BjkAvjAYMQ8PnmgwObLE7Z7ody8s=
+	t=1752672461; cv=none; b=b14rJp6NVPzwy1R5Spx6a0pbGT5YCWlvLuMIFrmACLWaUEws2ExISV9b4Sjywx+4PUZ+W170d3VVpRZGZIRVjVhLEt70W3G+v3daZFf/RplRn5Aphctx0gSUQ+8ot/JlxWEHgqO7wbtQaVAe3PRa67iEjYLOKVjNhaSwHS1YJuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752671850; c=relaxed/simple;
-	bh=+y29NeVOBvS8lwVbW73/GO/PmKB5z+3LYWdiFAbRspY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y7gaGOuJpctQWfUVtfPnNE6SyBHhq2Fc23NNscX1XrL8Fkz+YbOS+iZieG13tyb9z4NOxRyP7U9cEYv3pXEzvS+b3LxOl2ItXQoFkIU3QLC4X4WjoTW0Nh1C7qXvkgkV606BXMCYSsEZcfiKa3+ApO7cmZI8IZe/UdQtNXQ0UeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nxsw.ie; spf=pass smtp.mailfrom=nxsw.ie; dkim=pass (2048-bit key) header.d=nxsw.ie header.i=@nxsw.ie header.b=L4+LjlpZ; arc=none smtp.client-ip=185.70.43.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nxsw.ie
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxsw.ie
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxsw.ie;
-	s=protonmail2; t=1752671843; x=1752931043;
-	bh=+y29NeVOBvS8lwVbW73/GO/PmKB5z+3LYWdiFAbRspY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=L4+LjlpZujmtpqZwspxzMCOoLWoiSL9jIjlO1y8A7cJxhkCg2goRu//2VPwFuFgIX
-	 82giJ+DkBEA4QBobBDppoNIz9a0IiV4MswZNSnlhzM+gQ1bZ1KSCUYhoONr15zGPEa
-	 EK+v/mUGQWfOZBAZTT173UnzL+XOxQuoJf5lT4B+xdZEM/CdAppdJLA9uhitzPfoC+
-	 E0/o6KVZoSrNmRlvWckl2rn/isfAp7kYUvfenDml31+sn2S3E4vSvxh9ao2rp2neAj
-	 l7o4uNz2CwmwiicMnEWHqOeP/1779xGbZD9DgXBxs8w1diDlCcyGnf5GpVOKFfrAKl
-	 l5ZiGWELIwaCQ==
-Date: Wed, 16 Jul 2025 13:17:15 +0000
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-From: Bryan O'Donoghue <bod.linux@nxsw.ie>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v7 00/15] Add dt-bindings and dtsi changes for CAMSS on x1e80100 silicon
-Message-ID: <493ebe8d-6f5c-44b3-8a34-fb2690981598@nxsw.ie>
-In-Reply-To: <a58f2e68-41fa-4bed-9282-deb5e5435f4f@linaro.org>
-References: <20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-0bc5da82f526@linaro.org> <9361e954-e2c9-41c6-be4c-12b0e4f367f5@linaro.org> <ae0a309f-7e52-4d3c-8f26-989f22da5b07@linaro.org> <GbVC82h7wSXQsAJh8XybKorKYy9wupjQLndjf_uYNXOZnk1UqS_tT4Yg9gzf8X3Kn55Mt5bXfcFrHtyMoFZ4-A==@protonmail.internalid> <a4ebdf5c-8d4f-4994-afd9-22c8d889fe97@linaro.org> <4281887a-e7c0-43bc-9e72-96f0e432c58f@nxsw.ie> <f753f088-474b-41bb-82d3-6684bea2f87e@linaro.org> <85c1a702-1a3a-4145-8f2b-240d61d6e72a@linaro.org> <a58f2e68-41fa-4bed-9282-deb5e5435f4f@linaro.org>
-Feedback-ID: 136405006:user:proton
-X-Pm-Message-ID: 3f084ee1dd1eec5dff5c34164eade933bd69dae4
+	s=arc-20240116; t=1752672461; c=relaxed/simple;
+	bh=mJHH9mrRvoAVJd72qHUHZ+hZUugpZdl/Y3jya6teKPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TAPytlfzGwUJk9i8AZJ/d3QSy9N6pxgtdIwXBYGEYwyodXYisB193lVD6DBRKKMtxQVqyXiSEBV/1nVR4qy0ExKFyz6DSYqNI8K6IzQfLiFfacDhnOAV1Nole3Fk/doxrYMolTT1wJGQ1WA10RHgtxblHiYfOJl0vICtKOSn6Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dDTLfxoN; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-455d297be1bso1596165e9.3;
+        Wed, 16 Jul 2025 06:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752672457; x=1753277257; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zGpk1bg/YdLB314AgUTlsNsGVFPtB24F83/5sKWjiec=;
+        b=dDTLfxoNymW2eXTiv3U8bl+h3L8gyrkBxk6WYZQpo9UkaRdMB+KZGoRVxKR4FrbFnl
+         dCzhBbkAZUVtyWq982P3mpxu1gkQmPZKtSZgZ85zh9yjX34qVnG3skLzcWoNiWQ3tZ2f
+         42qNASHeXDHDjaeenDvMeQSNcYJKlTAYOaJR+i6UxqSunOoHhSFqCXA58lwELOfoL0o1
+         htVgeELGJgevgtFX55hVICIFEeeDqt62oz28IyAwPpATLIVDZKyGdlwnB+9GBicPHHFJ
+         +pbBRacBWachxuHD9Npkln+RRq2CwfxDquv/hrLP4jMmiRhylUHJIe6jL8HzMo/KFpuG
+         a6jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752672457; x=1753277257;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zGpk1bg/YdLB314AgUTlsNsGVFPtB24F83/5sKWjiec=;
+        b=HHsC4XCo/Rdss2Gv2q1RRPeZZy0z49c/ycS2z9+RKKabTNz6LIb3cAPDQbyX0Ch+9M
+         QK9MtUz/v3/jXyPj/mB/DTGFNFK0mGfnFVGo9mZldKQ5AEzlvzUAoqi53OuIDEgJDRfx
+         yuco0O86CIGoOfk1YEp3UxEsDP4aayl7j4vwJcs1H9WVlMpZGO/WZiVJWtVRg1O008RK
+         ptNPQIhE/DznFLuhI1GlaZQaSe/4FRXB51apl6pn7oZ8rTGRTfY+dJxYcm4aGgqf9u6i
+         C3JT/PBLDqjq1bWEJ2KByrc0z+xV/UfyS6IjXhh0aXiAZgwa8EddqD8TVSNbc3GO3r9O
+         rc0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUl0VG5gIY8PEq0SSBqCPfdwBSiRD3AOzrR13X9K7VvzK9Ud+QP7Z4z4Ihv9Y0WOAoYQhNFqPt/ww35bVg=@vger.kernel.org, AJvYcCWjBLbW3qLcEtPhn8GduIsAGWG1LWmoO6/2jTeBiynLncYWq0df1EM+VnKSyZHyOkDztSxGF3Jh4mnTDgk=@vger.kernel.org, AJvYcCX83H6T1sEiMwcQOUtzgbUr9VZ4F4BogL872KHDiiRp3Geg1MFtkkrpqVImL9NaJFYQt0tM50oy@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzMGuhjbSHRt5FRdSjoEi+bTHFDd3dUsYDc6q/3UUHrhsuAXRI
+	hRUClFqQZZHmb5esrXYE9c2PN9UtodMmoF8W0Mc9Ylom2ukMcaTXH/x5
+X-Gm-Gg: ASbGncvI/Q/alEA33anxOjcRDJcTf4csyFsw9WcB/Ow+iYlaw0IxCJ8eY/d5BEjkl7/
+	F7xSSPPwDtYXSzOSFEWM7sgV0ixudfiRAKs+xGT1x6nD+01AieqaJyQia4j7hGZ0ef2OWeTk081
+	EqLyPOllibLFUazj8GjPrbp1CCUc+8vaXbC+3fidbLqblfC3B005dnAMu9EgRdNcnx0piMpWBiA
+	6XLwAflrMxKkdFaWid82pVyhm3tCjmXbwxvX4M/GKpgqPHHDYvaWIObvLPc8UJq9oZm+9/OkeKJ
+	kJCJjxOtvI7S+kKBs2lZdhF/KI+AVqltQHflz3Mhp/Q4W8qodec2AK+CpybwSeladwmhHH7k+bT
+	V/le2edULB4U0roVSkaz5uVcOV5qEUrMxBOd2G2Yyno/yKSp/bTA=
+X-Google-Smtp-Source: AGHT+IF9t65SNW+85rJdxahcYlGLTJQenTaWNUtv7/7R8pqD2DlxzFF3ETQWrt/M5EbxZZV+z4Q6Hg==
+X-Received: by 2002:a05:600c:620b:b0:456:12a9:e92 with SMTP id 5b1f17b1804b1-4562e2797e4mr11755725e9.5.1752672456786;
+        Wed, 16 Jul 2025 06:27:36 -0700 (PDT)
+Received: from thomas-precision3591.imag.fr ([2001:660:5301:24:1dbb:ef25:3e5c:8636])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4562e819e04sm21483625e9.18.2025.07.16.06.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 06:27:36 -0700 (PDT)
+From: Thomas Fourier <fourier.thomas@gmail.com>
+To: 
+Cc: Thomas Fourier <fourier.thomas@gmail.com>,
+	stable@vger.kernel.org,
+	Andy Walls <awalls@md.metrocast.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	John P Harvey <john.p.harvey@btinternet.com>,
+	Kevin Thayer <nufan_wfk@yahoo.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ian Armstrong <ian@iarmst.demon.co.uk>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: pci: ivtv: Add missing check after DMA map
+Date: Wed, 16 Jul 2025 15:26:30 +0200
+Message-ID: <20250716132631.75780-2-fourier.thomas@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 15/07/2025 16:25, Vladimir Zapolskiy wrote:
-> On 7/15/25 16:22, Bryan O'Donoghue wrote:
->> On 15/07/2025 14:08, Vladimir Zapolskiy wrote:
->>>>> It's quite easy, sensors are not connected to CSIDs. Moreover data fl=
-ows
->>>>> from any sensor can be processed on any CSID, there is no static
->>>>> hardware
->>>>> links, which are attempted to be introduced.
->>>>
->>>> This statement is not correct.
->>>
->>> Please elaborate, what statement above is not correct?
->>
->> "static hardware links, which are attempted to be introduced"
->>
->> No such static hardware link is being attempted to be introduced, that
->> statement is incorrect or a misunderstanding of the intention.
->>
->>>
->>>> The port@ in CAMSS pertains to the camss-csiphy device not to the
->>>> camss-csid device, so there is no hard link to any specific CSID in th=
-e
->>>> dts scheme here.
->>>
->>> And here it's just a confirmation that my statement above is correct,
->>> so please be consistent, and especially in any kind of accusations like
->>> you've just given above.
->>
->> Sorry Vlad I don't see much basis litigating this further.
->>
->> I've been very clear, I think we should have standalone CSIPHYs, there's
->> no reason to bury them inside of the CAMSS block - see CCI.
->=20
-> I've never insisted on embedded CSIPHY device tree nodes under CAMSS
-> device tree node, and I don't argue with it, it's kind of a red herring.
+The DMA map functions can fail and should be tested for errors.
+If the mapping fails, free blanking_ptr and set it to 0.  As 0 is a
+valid DMA address, use blanking_ptr to test if the DMA address
+is set.
 
-The point is moving the endpoint data from sensor to consumer, its=20
-entirely up to us in the driver if camss-csiphy.c acts on that data,=20
-camss-csid.c acts on that data or as we have at the moment camss.c acts=20
-on the data.
-
-> Can you please write this comment on the relevant series discussion?
->=20
-> https://lore.kernel.org/all/bed8c29c-1365-4005-aac7-1635a28295bf@linaro.o=
-rg/
-
-This series is the response.
->> There's a clear way to do endpoints established from sensor to consumer,
->> there's no reason to give that data to the above CSIPHY driver, it has
->> no "use case" for it.
->=20
-> Please don't ignore a different opinion shared by Konrad or me:
->=20
-> https://lore.kernel.org/linux-media/427548c0-b0e3-4462-a15e-bd7843f00c7f@=
-oss.qualcomm.com/
->=20
-> It's unclear why this particular device tree properties are going to be
-> added into some different device tree node. Since somebody made an effort
-> to spot and discuss it, please share your brought effort as well.
->=20
-> Unfortunately your series does not look technically correct due to the
-> given reason, there should be a mitigation, and the defence in form of
-> "it's been done always this (presumably wrong) way and shall be continued
-> to be done this (presumably wrong) way" is barely acceptable.
-
-I still don't really get what your technical objection is.
-
-- Separate CSIPHY nodes
-- Data consumer for the endpoint of the sensor
-
-is pretty common practice, I've provided the citations.
-
-There is no user of the endpoints in the CSIPHY hardware, nothing to do=20
-with it, adding code in there to facilitate it is meaningless churn.
-
-The amount of dancing required in CAMSS to support PHYs as subdevices of=20
-the main block is needless, there's a more sustainable less "weird" way=20
-to do this as evidenced by multiple upstream sources.
-
-Rather than repeating the legacy code in hdmi/dsi we should take current=20
-best practices re: the very nice collabra thread I pointed to for Rockchip.
-
-Anyway we can discuss this some more in v8.
-
+Fixes: 1a0adaf37c30 ("V4L/DVB (5345): ivtv driver for Conexant cx23416/cx23415 MPEG encoder/decoder")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Fourier <fourier.thomas@gmail.com>
 ---
-bod
+v1 -> v2:
+  - Fix Fixes: line
+  - Add Cc: stable
+
+ drivers/media/pci/ivtv/ivtv-irq.c | 2 +-
+ drivers/media/pci/ivtv/ivtv-yuv.c | 8 +++++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/pci/ivtv/ivtv-irq.c b/drivers/media/pci/ivtv/ivtv-irq.c
+index 748c14e87963..4d63daa01eed 100644
+--- a/drivers/media/pci/ivtv/ivtv-irq.c
++++ b/drivers/media/pci/ivtv/ivtv-irq.c
+@@ -351,7 +351,7 @@ void ivtv_dma_stream_dec_prepare(struct ivtv_stream *s, u32 offset, int lock)
+ 
+ 	/* Insert buffer block for YUV if needed */
+ 	if (s->type == IVTV_DEC_STREAM_TYPE_YUV && f->offset_y) {
+-		if (yi->blanking_dmaptr) {
++		if (yi->blanking_ptr) {
+ 			s->sg_pending[idx].src = yi->blanking_dmaptr;
+ 			s->sg_pending[idx].dst = offset;
+ 			s->sg_pending[idx].size = 720 * 16;
+diff --git a/drivers/media/pci/ivtv/ivtv-yuv.c b/drivers/media/pci/ivtv/ivtv-yuv.c
+index 2d9274537725..71f040106647 100644
+--- a/drivers/media/pci/ivtv/ivtv-yuv.c
++++ b/drivers/media/pci/ivtv/ivtv-yuv.c
+@@ -125,7 +125,7 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struct ivtv_user_dma *dma,
+ 	ivtv_udma_fill_sg_array(dma, y_buffer_offset, uv_buffer_offset, y_size);
+ 
+ 	/* If we've offset the y plane, ensure top area is blanked */
+-	if (f->offset_y && yi->blanking_dmaptr) {
++	if (f->offset_y && yi->blanking_ptr) {
+ 		dma->SGarray[dma->SG_length].size = cpu_to_le32(720*16);
+ 		dma->SGarray[dma->SG_length].src = cpu_to_le32(yi->blanking_dmaptr);
+ 		dma->SGarray[dma->SG_length].dst = cpu_to_le32(IVTV_DECODER_OFFSET + yuv_offset[frame]);
+@@ -929,6 +929,12 @@ static void ivtv_yuv_init(struct ivtv *itv)
+ 		yi->blanking_dmaptr = dma_map_single(&itv->pdev->dev,
+ 						     yi->blanking_ptr,
+ 						     720 * 16, DMA_TO_DEVICE);
++		if (dma_mapping_error(&itv->pdev->dev, yi->blanking_dmaptr)) {
++			kfree(yi->blanking_ptr);
++			yi->blanking_ptr = NULL;
++			yi->blanking_dmaptr = 0;
++			IVTV_DEBUG_WARN("Failed to dma_map yuv blanking buffer\n");
++		}
+ 	} else {
+ 		yi->blanking_dmaptr = 0;
+ 		IVTV_DEBUG_WARN("Failed to allocate yuv blanking buffer\n");
+-- 
+2.43.0
 
 
