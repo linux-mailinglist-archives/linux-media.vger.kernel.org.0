@@ -1,141 +1,139 @@
-Return-Path: <linux-media+bounces-37825-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37826-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170BCB06A54
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 02:12:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7409B06B3D
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 03:42:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B2054E4595
-	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 00:11:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 201F94A8635
+	for <lists+linux-media@lfdr.de>; Wed, 16 Jul 2025 01:42:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463744A3E;
-	Wed, 16 Jul 2025 00:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33FE4267F58;
+	Wed, 16 Jul 2025 01:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Bgku7uGO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqOcxEiZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BDD20EB;
-	Wed, 16 Jul 2025 00:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14C828682;
+	Wed, 16 Jul 2025 01:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752624731; cv=none; b=BIAfJ5ZIkgk2eVS/sTaBNLDrO3NIC/+93B4tcaAqn1lqVp1CKbsG1RUQKGNsR2vrr5jXcuZ76kxKnUI0C6wBtmBVZ0GzzZZ4ohcMUv8+UgsWmXTV8rEC6osonQfyvaS+zsTKMlWY9UrnVy+10KdMHDdz/iQb8Uf/UeBOB0wSYSY=
+	t=1752630168; cv=none; b=nH3to0r78KcF05HmGdMUo5yWKqGrxbs6NwHmAmU6rVdE1OJ4k1WABuhmVPFbSzwaY+BNBBqn7z9prxdZWdO6M5ukXLccnSTlQNrEiUE8gaaxnZwjnxwPVfn1So7Pu0N3NfuXPXb0OuNGZQ51L0AGwA/5JTwU1EqFwjV/Z2NwpsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752624731; c=relaxed/simple;
-	bh=+u/jGslySO5xdEMu6aS2DWSW2tM57c6IFs/o/Dq1cTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zap7YutDzEr6JlTfJnLx0A1UuWfylhUD5ZWF7qeRDbIEdCBZvwjMJNsFq2oVmaU0BlYN6+WkJ2K9fKgdvM03jhJI9fXDdTOpukQzZPpZEcyQDpjeBCu/Bp6jppo4Hi59BZVhgkJZDsw+YqlfQSQTVvhfnLwi+r2WorC2+Wpbvew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Bgku7uGO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 09DC07E1;
-	Wed, 16 Jul 2025 02:11:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752624695;
-	bh=+u/jGslySO5xdEMu6aS2DWSW2tM57c6IFs/o/Dq1cTA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bgku7uGOMTCaysTpNMft5AZXqXl0YiW1UrpfPX5noFDwzB5JBnBTyjBsPwqc+tpX4
-	 ahxSUVI6sC3YdCI5nlztvabrX3Yd/82X6CY00VQsLB1d6uqI5eSA9t1T7YNKDrUb1K
-	 DGkxup6Gv6HQ3Szlaz+6a4vttnwYaFJXMM1NJZxM=
-Date: Wed, 16 Jul 2025 03:12:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mirela Rabulea <mirela.rabulea@nxp.com>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	hverkuil-cisco@xs4all.nl, ribalda@chromium.org,
-	jai.luthra@ideasonboard.com, laurentiu.palcu@nxp.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	LnxRevLi@nxp.com, julien.vuillaumier@nxp.com,
-	celine.laurencin@nxp.com
-Subject: Re: [RFC 0/2] Add standard exposure and gain controls for multiple
- captures
-Message-ID: <20250716001205.GG19299@pendragon.ideasonboard.com>
-References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
- <20250715235952.GE19299@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1752630168; c=relaxed/simple;
+	bh=xPTaJ/vt4lk2a72T8bc6Fse4Xs2FqJLAdSx3tQyf6gE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A5vchCp15kPa+gBoi2n9tFu8BWzQyBr4DVQD6VCnKCvCTnJDXUakNCwRao4PCf+zeR0xzD6AXn3Go7MFjdbgMbgXDqsbJ5u9j8cgANJFMxr4UCMmUWXzzIu9tsSR8ANg2MWtZHxuko/aVTKbvIXZJGAlfrcod3wK8uqteh5JgQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqOcxEiZ; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a4e62619afso619240f8f.1;
+        Tue, 15 Jul 2025 18:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752630165; x=1753234965; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GLeyLYXEFMibFLWvaUdvqmO2gpxZqhTUQ7OQNA+GmDk=;
+        b=AqOcxEiZZIQTEDlQm9Mwvj6tXEwacI1VAClk24jiHU47t6I/2tgN2RAqL8MaZrvYAv
+         zpNkV4p9bU88YJdv/ghULcl9T4ADmmjxICT7E+avvMm9UmaKrfciXJcy9+wYdB8kqreY
+         7h9lbdMCUBhCzkBBWDZmvCnShTLJzHvAahl+h2Ot/pnipP6/tNcF2daBsWf7wKjVe6/8
+         k5LhOHCpi2NLmzejf8epK23ul+Ilwd79bPyQToLrIsZprPfR9JSF1PIYMfjhFhfEyLO2
+         6zcvRUwElax466M7iH6PnZ9Qq0dhwSzGKBLeQfwguophS5zeIqvtacGjElIzLjXzk7Jk
+         RNEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752630165; x=1753234965;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GLeyLYXEFMibFLWvaUdvqmO2gpxZqhTUQ7OQNA+GmDk=;
+        b=dvGx23+yiLId3RQWHXjMRvBaWCTPg5jZ3iWWJ6s8S0v/tZy1f9q3zkY6cHuEIV2jY2
+         +env4pkqlrBrJrBIpyXZ0FmrJkUdsNtUWNqbLfrWsVN4CpbiaxxPD2ZF+QhgbPoQ9rZq
+         AozmZDemRXPtM1towm6NnKRLNzbItzq0b+7q3ZGUICtDgX1zw5Pj5XDxQzA9qu0WeKp8
+         T93tfBgqQw4sCgIO7AuaLPBd8UOry+auR18zXMQwQAcKv6j4J/fZN2Hb1LyOsSqa7kmr
+         aVFDzD8DscJiwSmIaGeDPKib4MoYsR9G5cDyyylMbG8DVOyeAJ+WchnwiPQMFbnL59KO
+         j8Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCX0BbEzYwh89+p+6OnGzb8uvL19bK1Zrsz9CWQNyByIwqk1t/mTQRe83viqn1O9+6RK65MvONY+8WD30E0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTgOdj1/SkhDXk29Lu4ziV/oXzpnujyELlF31QMfoMb8rGHMwm
+	dXM8/g9eiWB7jHTHZQdKgKd3JosxLhtuzgBp3eeIjMY20I6mwAZI9+/C
+X-Gm-Gg: ASbGncthMH9scq56+90AOWgVpnIhauH7xKIuHCKPjFc/HNB5NEJFOEU0lgppzTmy5nT
+	pKIZew5lTtVJn5s6N2/5ijLGsPPvMcxwwuSXPfnoxHqmXSi5RA0hoj1IKN6/QFYoVqd2/xmEW4/
+	14a4gg5/i+2BznWho0YYq3hGV1a9hk/2gJvy6vdtCXGmWNSxpm43a0orNvxBNM5btObsRPOXrSq
+	71vjdPnv8wnSLzB38PmBBtA/BYnZIIPHMiCJwuZtbt6o7uIdRTh+atOTeZS6fWGlh/h+T3wEmuQ
+	H6hAxUkHGtsuUv+drVD0WPl0DKdJ1mLhWzpBg8YhZqK1c5ScuEQu9uhf4uNP9dLOct/+q9vUNdl
+	fqu9m3CFygHTpF/DUw2QadAW1mjz6ebtfYdVhm6FMAYUDX0Ra+bX836VcnFr1
+X-Google-Smtp-Source: AGHT+IENO4+qmqIviSlPAbVS9ZtjYXYAhHGWqJPgF2KWiIPDRbXn2F7WUNRL/NiNhLjZHit3fOEBMw==
+X-Received: by 2002:a05:6000:471c:b0:3a5:8b43:2c19 with SMTP id ffacd0b85a97d-3b60dd52f15mr298310f8f.4.1752630164926;
+        Tue, 15 Jul 2025 18:42:44 -0700 (PDT)
+Received: from localhost.localdomain ([156.208.220.148])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e0d76fsm16785637f8f.64.2025.07.15.18.42.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 18:42:44 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
+Date: Wed, 16 Jul 2025 04:42:25 +0300
+Message-Id: <20250716014225.15279-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250715235952.GE19299@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 16, 2025 at 02:59:54AM +0300, Laurent Pinchart wrote:
-> On Fri, Jul 11, 2025 at 01:05:42AM +0300, Mirela Rabulea wrote:
-> > Add new standard controls as U32 arrays, for sensors with multiple
-> > captures: V4L2_CID_EXPOSURE_MULTI, V4L2_CID_AGAIN_MULTI and
-> > V4L2_CID_DGAIN_MULTI. These will be particularly useful for sensors
-> > that have multiple captures, but the HDR merge is done inside the sensor,
-> > in the end exposing a single stream, but still requiring AEC control
-> > for all captures.
-> 
-> It's also useful for sensors supporting DOL or DCG with HDR merge being
-> performed outside of the sensor.
+The function atomisp_set_fmt() modifies shared device state and expects
+callers to hold the isp->mutex for synchronization. While most internal
+callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+V4L2 ioctl handler atomisp_s_fmt_cap() does not.
 
-Regarless of where HDR merge is implemented, we will also need controls
-to select the HDR mode. We have V4L2_CID_HDR_SENSOR_MODE, which doesn't
-standardize the values, and that's not good enough. At least for DOL and
-DCG with HDR merge implemented outside of the sensor, we need to
-standardize the modes.
+This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+(e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+pipe->frame_info may be modified concurrently without proper protection.
 
-Can you tell which sensor(s) you're working with ?
+- Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
 
-> > All controls are in the same class, so they could all be set
-> > atomically via VIDIOC_S_EXT_CTRLS, this could turn out to be
-> > useful in case of sensors with context switching.
-> 
-> Agreed, we should be able to set them all. Are we still unable to set
-> controls from multiple classes atomatically ? I thought that limitation
-> has been lifted.
-> 
-> > Each element of the array will hold an u32 value (exposure or gain)
-> > for one capture. The size of the array is up to the sensor driver which
-> > will implement the controls and initialize them via v4l2_ctrl_new_custom().
-> > With this approach, the user-space will have to set valid values
-> > for all the captures represented in the array.
-> 
-> I'll comment on the controls themselves in patch 2/2.
-> 
-> > The v4l2-core only supports one scalar min/max/step value for the
-> > entire array, and each element is validated and adjusted to be within
-> > these bounds in v4l2_ctrl_type_op_validate(). The significance for the
-> > maximum value for the exposure control could be "the max value for the
-> > long exposure" or "the max value for the sum of all exposures". If none
-> > of these is ok, the sensor driver can adjust the values as supported and
-> > the user space can use the TRY operation to query the sensor for the
-> > minimum or maximum values.
-> 
-> Hmmmm... I wonder if we would need the ability to report different
-> limits for different array elements. There may be over-engineering
-> though, my experience with libcamera is that userspace really needs
-> detailed information about those controls, and attempting to convey the
-> precise information through the kernel-userspace API is bound to fail.
-> That's why we implement a sensor database in libcamera, with information
-> about how to convert control values to real gain and exposure time.
-> Exposing (close to) raw register values and letting userspace handle the
-> rest may be better.
-> 
-> > Mirela Rabulea (2):
-> >   LF-15161-6: media: Add exposure and gain controls for multiple
-> >     captures
-> >   LF-15161-7: Documentation: media: Describe exposure and gain controls
-> >     for multiple captures
-> 
-> Did you forget to remove the LF-* identifiers ? :-)
-> 
-> > 
-> >  .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c            |  8 ++++++++
-> >  include/uapi/linux/v4l2-controls.h                   |  3 +++
-> >  3 files changed, 23 insertions(+)
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index bb8b2f2213b0..9bf0be00657c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -416,8 +416,15 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
+ 			     struct v4l2_format *f)
+ {
+ 	struct video_device *vdev = video_devdata(file);
++	struct atomisp_device *isp = video_get_drvdata(vdev);
++
++	int ret;
+ 
+-	return atomisp_set_fmt(vdev, f);
++	mutex_lock(&isp->mutex);
++	ret = atomisp_set_fmt(vdev, f);
++	mutex_unlock(&isp->mutex);
++
++	return ret;
+ }
+ 
+ /*
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
 
