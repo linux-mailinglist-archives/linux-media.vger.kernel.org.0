@@ -1,95 +1,89 @@
-Return-Path: <linux-media+bounces-38038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38039-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912FCB0968B
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 23:51:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F287B0968E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 23:52:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFD17172B8B
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 21:51:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A08F51AA0379
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 21:53:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1922236A8B;
-	Thu, 17 Jul 2025 21:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46FFC238140;
+	Thu, 17 Jul 2025 21:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVNkdfxM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cuiYKGwC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5AF2AEF5;
-	Thu, 17 Jul 2025 21:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B6F2264D2;
+	Thu, 17 Jul 2025 21:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752789074; cv=none; b=QvkhPtjGFX4f2akF3ZJTehppDxCUvJ3R0/X5RJbRqtqBMbtk+m/ejfJfxFZ2PgeKYGI7DK6abzDalTmOOECZHATFZgEm5okr1/q3Q89lfVYzvTL7Z3BkzlUsjmMUeq8HHLIwerOfMK85itA6SejzjPBabognjuW4hRIqnS5Kq6U=
+	t=1752789162; cv=none; b=PWMRBiTFLlnkB+9z9r0XaMIOkJTn1MPtsMfyYdz1Jy+mMPO6QdLgY1axiUunHAccPTNd7DTZFzpeZy9IHGdWj5yodpnaiK1ACY+zNbQ8ibRKmNmCKZmjUCt2r4njf63QJMEeJzt4ZgpHZs5oFFc5/FaYXSUFA+IU1tsh5y9FdMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752789074; c=relaxed/simple;
-	bh=oOWr4ukU5PJD++6oIlebvobAFIIflmjDpDbAzZI/eRQ=;
+	s=arc-20240116; t=1752789162; c=relaxed/simple;
+	bh=5CBicrbhXtL9L2WtqL7HdX/deKcqvUNeJR9TBkHR9N0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cWXFQymzJAXcAM4uN4dvdjlGJlcvaPfHQA+dQc8BPfn+6xm+GRyWc8U/L7t4/dVVpApSdtN1J+dpxYzKyN4ab7axlY3hAhsb+Zbty0F/fMwzryPlMDYMEl9YYSkMJc9/1oDVzHifCM84jb1f7HAJiiZOX9dkXiPwEfPnQum3X4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVNkdfxM; arc=none smtp.client-ip=209.85.166.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3df2ccbb895so12016795ab.3;
-        Thu, 17 Jul 2025 14:51:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752789072; x=1753393872; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JwEr190bn3CteNx9maLuZ9baHoXlN9SDnSLVnDufmWU=;
-        b=eVNkdfxMeEOSlxK3MNMuZdmY0pHQC+hLvnTDNe4zo0gpR3QngRR+Ej3UOSk76+Pn63
-         42zehzcjJCZ6w+BYC5vyk7rYVBurCVVdVB3UIAzZQzfQ/hIDPBdkJ8DWgmqEBnWh179s
-         rrrr8Batdyt0/oi11Um0RPJpMSsqjqsUIlB0JXJ9OFeRFvs/mhO2A6Si/iJQo6W9dpqO
-         XALfNu8cMXFMb3W1b7MWZhRQSu+hVDM1m9SEav1eDulj0NGmJhnU+JEhB0KWQdu/NlKV
-         CjELvrQMkOAWDLJsKm51Xz+7C7S7cWxDSXRCYxvWHTE85d0gz9EuckC3qY0D/RTvEhd9
-         JFaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752789072; x=1753393872;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JwEr190bn3CteNx9maLuZ9baHoXlN9SDnSLVnDufmWU=;
-        b=m+ZpvMmCQc7/HPvZa0Gk9jE5kftPEyxsmGLo22IqNIiEzxK34hiRECxBcZdzP8RuWF
-         6AQW2O4uzhPmx/1jIfSTV1UMElaOyCDjgx/rURQt9IchLeZ6NgMNXFoxBECNwsNFW0RB
-         4Hz7KbTiDIdIQvgKkETQjXAfSSdfTXfLJJbPkgjgnuCmoWKivDzyCgnW/J41MfbMWl7Z
-         lEAlwLSLOfZrjEXBDY6naoi7SlY3lp71LNCYXULUaczgcsH7pMzXwDzmygk9sFXTIW4T
-         YU4ZNFsR07PH7zQYMb7XZsxpJSQK2aVmtkgfAr9pF0Y2nnD0m+Wbejze7xcOhzTD1qvc
-         YvYw==
-X-Forwarded-Encrypted: i=1; AJvYcCUunpzdTTkNbIiWXigmWI9oVUK1c++6S3wLS/U/uMOdU4HREZQkgCjVPZNTnukR6EH1evtteTLmIWp/2LZE6w==@vger.kernel.org, AJvYcCV4qY6z0eGbwAtSywCpNxNP3eiunjdt5MBJTO+/uvQslUF40Eun6D/ioEpS8SPbewmKi7hBDVxkuMyEaEY=@vger.kernel.org, AJvYcCWss6F+zbgy6NAOObFmQFrHkM04ekS6+oB86rMg8hHBhigDqtu7VQWy/fQB0SLbuvPtAr873z+EoM9K@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9svZbf0ofgIUlpLuZrhpZt47T6hSv2eglv8nZFqlL0XJmadu4
-	Xq2RB606l3g3Ynrx4h1I9L5wwnbVuViknO188xtiIKXj22DeImeR0QUp
-X-Gm-Gg: ASbGncsyDPFJF00vzpFYVH2lgUvmDr7zq//6pNyDxVdopoNAezxD9WXlDzG49Jbr9PQ
-	m23tsm1FDxeT+Z3A2xtIswF1tTcx1cfb6P7qIdaq3D1PXTiSF2DuUOA+xbD4SsFl2txyp4VmsVL
-	EZ3mcmVnZNPiIRDcROdFZbjxecZXgNPy0x8bDYDyUuiCWe3xvP/mEajnN3bwxRN/Jz9uWAMpb8g
-	+NIgnPWGDavV/U5YhAV1SB8m0wreDlBGh2Q5dS+/TySmH8wW+MyqyJWSKefNKZNqQLcy6Lstcuo
-	vIhJWKA3CSgh2fh2SVyCydUyMKwWtkC6nNLz4HI+RdgW0lqZDa/cnh1Hg+m9vU+oLHc96apbWrQ
-	+NPgHPkyWHQ==
-X-Google-Smtp-Source: AGHT+IHLz8eSQTN5I2mnc0iUe1p7CE0wpjlhUhji3VSAfmVRV82d8nh3iz+yOuT2ujX4uVN0NnaPfw==
-X-Received: by 2002:a05:6e02:3981:b0:3df:399d:39c9 with SMTP id e9e14a558f8ab-3e282d62656mr96197705ab.2.1752789071654;
-        Thu, 17 Jul 2025 14:51:11 -0700 (PDT)
-Received: from localhost ([2607:fea8:3140:6800::9bde])
-        by smtp.gmail.com with UTF8SMTPSA id 8926c6da1cb9f-50556b0f297sm3719291173.122.2025.07.17.14.51.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 14:51:11 -0700 (PDT)
-Date: Thu, 17 Jul 2025 17:51:08 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=VnsvzPsQQ4+RcpMaxv6ZwmMA6Hjm4WMvgir+sHn+uTcV9R2/sJl4hUVVzM6Cm7uOTw7YTsbR9fdE+afPEzVUFzmJHYII8K7paOha7DR/Jblq24rl4HdnRPSgkh6Not1Tihf49WPoonPSXY/q7WaY6HELGER5eDvB4tyHbg5st+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cuiYKGwC; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752789161; x=1784325161;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5CBicrbhXtL9L2WtqL7HdX/deKcqvUNeJR9TBkHR9N0=;
+  b=cuiYKGwC0oD3ue70EZz03j/dLCR2ehSWUB7Xps4S3EI3Ap6S1NOUk3fg
+   qLaIV3BeeR4jGz2ORU4Pd+NEBNS2rvIxabpHmE/xRZLNyZcqX30CuBBd2
+   mxf871C0al7YmuStxqgishSQsqoRuHfuLu+vEQDukoIkfyebvwo48gxs/
+   hLkjd5uGgz/7A80XQOz/7UQr2VU+B1JNbKra31/fVyhvRRhgQ/zGnJSCm
+   ppXb+Z8TrgH6XIkT3L89ZXMVxQ+zz75Jo+JzuflcabVXisVZBq8lhKkre
+   dvBjsSdjmF0+/00YqoBmtwUJDsyYF2N+QQ5U52n40Q41IBS8p8sCdKRR/
+   A==;
+X-CSE-ConnectionGUID: wt3FbwkmS6auDI1U5eofXg==
+X-CSE-MsgGUID: Ssos9h8VRsCvfR8E1A9UvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55021231"
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="55021231"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 14:52:40 -0700
+X-CSE-ConnectionGUID: wMDSmwFfQvWxkbaZSiXyJg==
+X-CSE-MsgGUID: iTiStihjT2KaBwyiCRyjzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="157980363"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 17 Jul 2025 14:52:36 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucWWn-000E2p-1y;
+	Thu, 17 Jul 2025 21:52:33 +0000
+Date: Fri, 18 Jul 2025 05:52:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Robert Mader <robert.mader@collabora.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: i2c: Add Sony IMX355
-Message-ID: <aHlwTEdPGq43PGqo@radian>
-References: <20250714210227.714841-6-mailingradian@gmail.com>
- <20250714210227.714841-7-mailingradian@gmail.com>
- <20250715-quick-misty-rottweiler-9ae7f7@krzk-bin>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v6 18/24] media: i2c: maxim-serdes: add MAX96717 driver
+Message-ID: <202507180543.aUfFOLJo-lkp@intel.com>
+References: <20250716193111.942217-19-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -98,22 +92,49 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715-quick-misty-rottweiler-9ae7f7@krzk-bin>
+In-Reply-To: <20250716193111.942217-19-demonsingur@gmail.com>
 
-On Tue, Jul 15, 2025 at 10:27:54AM +0200, Krzysztof Kozlowski wrote:
-> On Mon, Jul 14, 2025 at 05:02:29PM -0400, Richard Acayan wrote:
-(snip)
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> 
-> Still missing supplies. Hardware cannot operate without power. Please
-> check your datasheet which will describe which supplies are optional.
+Hi Cosmin,
 
-Maybe I shouldn't have pretended to have docs when changing the
-supply names, but I don't know which ones are optional.
+kernel test robot noticed the following build warnings:
 
-I'd assume at least dovdd/VIO is required.
+[auto build test WARNING on next-20250716]
+[also build test WARNING on v6.16-rc6]
+[cannot apply to robh/for-next staging/staging-testing staging/staging-next staging/staging-linus arm64/for-next/core linus/master v6.16-rc6 v6.16-rc5 v6.16-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/media-mc-Add-INTERNAL-pad-flag/20250717-033901
+base:   next-20250716
+patch link:    https://lore.kernel.org/r/20250716193111.942217-19-demonsingur%40gmail.com
+patch subject: [PATCH v6 18/24] media: i2c: maxim-serdes: add MAX96717 driver
+config: nios2-kismet-CONFIG_GENERIC_PINCTRL_GROUPS-CONFIG_VIDEO_MAX96717-0-0 (https://download.01.org/0day-ci/archive/20250718/202507180543.aUfFOLJo-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250718/202507180543.aUfFOLJo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507180543.aUfFOLJo-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PINCTRL_GROUPS when selected by VIDEO_MAX96717
+   WARNING: unmet direct dependencies detected for GENERIC_PINCONF
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - VIDEO_MAX96717 [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PINMUX_FUNCTIONS
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - VIDEO_MAX96717 [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PINCTRL_GROUPS
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - VIDEO_MAX96717 [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
