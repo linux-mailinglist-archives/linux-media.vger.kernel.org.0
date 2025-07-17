@@ -1,195 +1,136 @@
-Return-Path: <linux-media+bounces-38019-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38020-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F5AB08DC4
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 15:01:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 847B5B08DD4
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 15:04:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DDBE27B32EC
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 13:00:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9ABC91881F73
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 13:04:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CA1F2D949E;
-	Thu, 17 Jul 2025 13:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sPHQTEIa"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366192D4B47;
+	Thu, 17 Jul 2025 13:04:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6A22D8DC5;
-	Thu, 17 Jul 2025 13:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2281E98E3;
+	Thu, 17 Jul 2025 13:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752757259; cv=none; b=AV47CichiXsSrI9vfuVse7JABWTseZHK5JaCnv5+qIUaV6gV8AJeDPivtNnoNfPPMbM7uP7xiXuwACzd+IY2wz30KXZWbOCh1o+4BSOqXGi57THTW7yTFaoRX5iKWYqKwOblF+dt24JuaAu9QdC0HczO0ZhS8rtWx7KlPqmb0Es=
+	t=1752757440; cv=none; b=tv03HGMyUu9OLfhN4UkCELcsBeGDwNS23AUipQWsac+VHKjxrFXKbD1jvPuwetaFxWVpv6TH4r/QOOQK7vNv32kd/Ks5Iw8rdFqo6s4DObwpKGZPgABpx5a4ueC5k4W2EfWdo2rHij0WG5BftPUgo5w0rCWSySmnRdIh0+1ZyTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752757259; c=relaxed/simple;
-	bh=WsrnxRFgk4YdAIg8GBjZrRJX6IRI0hJv13ASmf9n3nQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SQbGWQgyD8Ufk1dLN9T67oikAtpx0i9LyrbvbDT6P1IMF04QnaGgeh5lkjXKSb5ceH+VZce5KEKLdhQszHoL1vndCFxvOk2Aux6zR02M18atUPM1RiRW82fjQEEkfwKQGBoltCLqqGfTDcHAKdYeCghev9CseSFQXaC8M2FN+Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sPHQTEIa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146F8C4CEED;
-	Thu, 17 Jul 2025 13:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752757259;
-	bh=WsrnxRFgk4YdAIg8GBjZrRJX6IRI0hJv13ASmf9n3nQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sPHQTEIaLOqHjAd+a6VGO4LFhX0K5x0qNlj2wV/3jCbBEZWb04BOgr8Ah9zfISCbB
-	 LwHFPlzh7wbWeUoIKQdGpuRhH+QrbDtVPrrfZdp7ppmOze2G7eB38KTM6HvHf9PBVH
-	 +N18EFxrryJskRxta+gEzXWi6WaKVb99prOmozOJkK0fZx9xURDbq/H5lW1W/ZrQyY
-	 tnI82vXmG2BWgxFS/Pzcg8FAYhFz/jRxcmBLuEzpB4/xF1ryR1S6yh2SD6WQGntxwC
-	 NuDIdlrEZ+ysaQt3344+lWmGvmRxq2iFo2HW6qx5XdaRCE6UdaS24SmEzsx2sduxFk
-	 0lAuQjD7zHsvg==
-Message-ID: <8cdea7c7-739a-4101-9e2f-1bb36632ff5a@kernel.org>
-Date: Thu, 17 Jul 2025 15:00:52 +0200
+	s=arc-20240116; t=1752757440; c=relaxed/simple;
+	bh=69+jr+td0r9nPobh9wlhyGLwT8vVC8h4h5QfHXkRgcg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lS8oVyFI8gUUMYDj4cAT1+5cBr99AqvR5R7s+7xjafDW6Vlt/CTsvqSIaBAx8cVU5U1w5jesis44tFLBBABFkoa0uPknfjpaO3Rq6HGkz7QnqBDeqnaxPFMtCdHeivOAHeu5h0A1Gpqi47PUh5wneBFgviErnpE+BqfngrOcuh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id B1AF0C3E4DEE;
+	Thu, 17 Jul 2025 15:03:54 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl B1AF0C3E4DEE
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Dafna Hirschfeld <dafna@fastmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,  Heiko Stuebner
+ <heiko@sntech.de>,  Paul Elder <paul.elder@ideasonboard.com>,  Jacopo
+ Mondi <jacopo.mondi@ideasonboard.com>,  Ondrej Jirman <megi@xff.cz>,
+  linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption
+In-Reply-To: <m3h5zbxkc6.fsf@t19.piap.pl> ("Krzysztof =?utf-8?Q?Ha=C5=82as?=
+ =?utf-8?Q?a=22's?= message of
+	"Thu, 17 Jul 2025 11:00:57 +0200")
+References: <m3h5zbxkc6.fsf@t19.piap.pl>
+Sender: khalasa@piap.pl
+Date: Thu, 17 Jul 2025 15:03:54 +0200
+Message-ID: <m38qknx939.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add ov2735 sensor
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- Matthias Fend <matthias.fend@emfend.at>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Jingjing Xiong <jingjing.xiong@intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Dongcheng Yan <dongcheng.yan@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Hans de Goede <hansg@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250716134426.8348-1-hardevsinh.palaniya@siliconsignals.io>
- <20250716134426.8348-2-hardevsinh.palaniya@siliconsignals.io>
- <20250717-hulking-earthworm-of-atheism-68a02c@kuoka>
- <PN3P287MB3519C2A2B8DC207AC0AF2C50FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
- <25eb573c-a37e-4f8c-8fd6-5ca62e1a29b9@kernel.org>
- <PN3P287MB3519907E3C113D6CD9D564E3FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <PN3P287MB3519907E3C113D6CD9D564E3FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 17/07/2025 13:55, Hardevsinh Palaniya wrote:
->> On 17/07/2025 09:28, Hardevsinh Palaniya wrote:
->>>  Hi Krzysztof,
->>>
->>>> On Wed, Jul 16, 2025 at 07:14:16PM +0530, Hardevsinh Palaniya wrote:
->>>>> +        properties:
->>>>> +          data-lanes:
->>>>> +            items:
->>>>> +              - const: 1
->>>>> +              - const: 2
->>>>> +          link-frequencies: true
->>>>
->>>> Drop
->>>>
->>>> I don't understand why this appeared. I don't think anyone asked for it?
->>>
->>> Laurent suggested validating the link frequency in the Device Tree.
->>>
->>> Link[1]: https://lore.kernel.org/linux-media/20250710212131.GG22436@pendragon.ideasonboard.com/
->>
->> ... and I do not see here validation "that the link frequencies
->> specified in DT match".
->>
->> How do you validate that 1111 Hz is not / is a valid link frequency? How
->> did you exactly resolve the comment about validating?
-> 
-> In the ov2735_parse_endpoint() function, the driver validates the link frequency
-> from DT using `v4l2_link_freq_to_bitmap()`. If an unsupported value like 1111 Hz is
-> provided, it returns an error: 
+> The "reference" (NXP) VVCam driver simply does the operations twice
+> (i.e., reads twice with the first result discarded, and writes twice).
+> This fixes the problem on most accesses, but the problems still persist.
+
+It appears the corruptions are quite frequent, though.
+Using "ldp qXX, qYY, [x0]" (2 * 128-bit load pair) I get results like
+this (each data row is a result of a single ldp):
+
+addr:  32E21400 32E21404 32E21408 32E2140C 32E21410 32E21414 32E21418 32E21=
+41C
+---------------------------------------------------------------------------=
+-----
+values 3D000007       20 3C300000   1FA400        0        0        0 3C380=
+000 count 99993097
+values        0       20 3C300000   1FA400        0        0        0 3C380=
+000 count 5930
+values    7E900       20 3C300000   1FA400        0        0        0 3C380=
+000 count 338
+values    FD200       20 3C300000   1FA400        0        0        0 3C380=
+000 count 223
+values 3C380000       20 3C300000   1FA400        0        0        0 3C380=
+000 count 220
+values       40       20 3C300000   1FA400        0        0        0 3C380=
+000 count 192
+
+The valid value (in 0x32E21400 register) is 3D000007 only, the rest are
+corruptions: ca. 6 errors per 100k reads. With other registers, 15 errors
+per 100k reads etc.
+
+I also got this:
+addr:  32E213F0 32E213F4 32E213F8 32E213FC 32E21400 32E21404 32E21408 32E21=
+40C
+---------------------------------------------------------------------------=
+-----
+values        0        0        0        0 3D000007       20 3C300000   1FA=
+400 count 98638773
+values        0        0        0        0        0       20 3C300000   1FA=
+400 count 1330227
+values        0        0        0        0       40       20 3C300000   1FA=
+400 count 3721
+values        0        0        0        0 3C380000       20 3C300000   1FA=
+400 count 314
+values        0        0        0        0    7E900       20 3C300000   1FA=
+400 count 572
+values        0        0        0        0    FD200       20 3C300000   1FA=
+400 count 428
+values        0        0        0        0    4C010       20 3C300000   1FA=
+400 count 25965
+
+which is ca. 14 errors per 1k reads, though maybe it's special -
+non-MI/MI boundary (at 0x32E21400), reserved addresses (0x32E213Fx) etc.
+
+> The problems show themselves maybe in 5% or 10% of boots.
+
+Well, now it appears more like 20%: e.g. in 41 system runs (soft reboots
+only, no power-downs), I got problems 8 times.
+
+Obviously I can post the tester source if anyone is interested.
 
 
-But that's driver. You said that you added this property based on
-feedback on validation. There is no validation here, thus the reason of
-this property is not fulfilled and that's why I was asking. I know now
-the answer...
+Generally ISP MI register read accesses which can be corrupted are:
+- first 32 bits read in a given transfer, and additionally
+- every 32 bits on a 32-byte boundary (addresses 0x....00, ...20 etc.).
 
+This means, in practice, on i.MX8MP only, RKISP1_CIF_MI_CTRL and
+RKISP1_CIF_MI_MP_CB_SIZE_INIT (with the workaround).
 
+What is this 32-byte boundary?
 
-> 
-> ret = v4l2_link_freq_to_bitmap(ov2735->dev, bus_cfg.link_frequencies,
->                                bus_cfg.nr_of_link_frequencies,
->                                link_freq_menu_items,
->                                ARRAY_SIZE(link_freq_menu_items),
->                                &link_freq_bitmap);
-> if (ret) {
->         ret = dev_err_probe(ov2735->dev,
->                             -EINVAL, "only 420MHz frequency is available\n");
->         goto error_out;
-> }
-> 
-> So, validation is already done in the driver.
-> 
-> I understand that `link-frequencies: true` in the schema only declares the property
-> without restricting values. Would you prefer the schema to explicitly allow only
-> 420MHz like this?
+Writing is a bigger problem, though.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
 
-
-You missed the last paragraph of my last email. I don't want to have
-here what the driver is doing, but what the hardware is/needs/requires.
-It can also be missing completely, because we don't enforce such rules
-on other bindings.
-
-
-Best regards,
-Krzysztof
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
