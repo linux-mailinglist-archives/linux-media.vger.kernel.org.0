@@ -1,120 +1,249 @@
-Return-Path: <linux-media+bounces-38025-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38026-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092E9B08F77
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 16:32:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3007AB0900F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 17:01:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 207A05A2B07
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 14:31:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50F07A61589
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 15:00:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D30AC2F8C20;
-	Thu, 17 Jul 2025 14:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45FDD10A1E;
+	Thu, 17 Jul 2025 15:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jRM11vQU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z0fK3Ubm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A540E2F7D08
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 14:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C671DE894
+	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 15:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752762613; cv=none; b=nusNlNl/Jq09MYjJZ9tjeWviemPNmnotMUvA+8sHWL1Pr4W8bL/QG6BBr5N32jpP/DTgNGrIPvjj/aNerLfPyn/xlgrRwpjK2nr4Xg7kRy1cFTVJRAyfzP1b7Rz7R5yfIPyHHoHGG20bLxlcWPr3zpfDd53UnPkZsoBK1tnRH/k=
+	t=1752764423; cv=none; b=B2LfAlodoyo8wRR8V/AvGLoJlPQ1bphUdAtG9aVxKoVvCtXxVn/kupcMRBW9qQjuVY+xVBvQWOAAqWZDJMkiuxP6ZG02KYH1C6Qq8A07Q32PQB/fqaRy3Y6a5+9N43Txww6GdZ9Ea7b3CktsB5QdLLQQVHoJEoLpQSqnnd5S2rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752762613; c=relaxed/simple;
-	bh=i4AOCu/t+teVCBfAnuyDW57wdR/g54HBsrTynSNwcfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fWeyPW/DtQeXfXRSToSgg2s9C0Oxohv5vsCuL4TKFowlpqTcjMot/j3qcV1YtUzmIoHvQp6Lz92rKKEASnn9ONfhcv5tn3he6Y1PGKqdy5Z8IRv+SmDqq3IN3qtQlub/VRVHP3e5zie6K0O2RpMYhOKicc5F0fEOQ21AhqLXFVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jRM11vQU; arc=none smtp.client-ip=209.85.210.46
+	s=arc-20240116; t=1752764423; c=relaxed/simple;
+	bh=u9hMCKjqb+vMWN5eo5Hba5khIQ2ZxRZbXmL0X2W+oRo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QK1um2xL+xFFQ0/9sOoXst0puRocRYf4Qef3VUpPgYXs3UoCNz8WB3AzERQSYB95IKX/9lxtjj6qCjnXWmFnxtxSi4cveh3i3fOq4+QPYnPaWysM2tESPFtFdCVLPcobxCYuN8RfT0kJkg/vdRGFus0xAgisNsVlrIFco1cyCLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z0fK3Ubm; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-72c27166ab3so786885a34.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 07:30:11 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32b4a0915b1so1242571fa.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 08:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752762610; x=1753367410; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c9WyUNURTxDjhSFlDNytarMEzB5jWv8rhBlf3egCP8I=;
-        b=jRM11vQUEsrBZG7MyN6+ymUBB1Hp27NIRwSuxVPYAG4+YVRWR0o3qkbu2z/tIyrLRU
-         P8GKEsB86pXgxrwbBL5qMtVZ5N7A/tfsZYUO70gX55kTdT0wZeK5xD0Destsrwiqtk1t
-         ogh0CVKIgvovANGQtJFmDtSsA0GuLKfbfYp2+asS1mtJdY0o18PhYt7ES6ulReJ8Tpmc
-         yyz3pbTa8OqX6K1Un3Tl7fP6YI2Oy5S9FGqW2ZF5fdNv8w15J336W53cz6IBxK9vISjJ
-         oL10UURPPNJxFzBJG7uR50BSBxE+vD9XJaKpK3hhSolxIkh0va0fxQ1JT4YZnwKOZnZf
-         R0bA==
+        d=linaro.org; s=google; t=1752764420; x=1753369220; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z0eZUodVGHiUDbk0ap3If0CkAGDwyBjBUc4f8mVMlx8=;
+        b=Z0fK3UbmEQVyGp9+/3129UHoPfSdFl33mge64LrMRfn9za8wFbomrT7HOqcyjsuEW1
+         hXE14Y2lZEw2+FrWks0SgrkmjI53z4AOqAyn79x3iJ25dioY7cqpMG2cnu0q3oheJqj2
+         OZ2aCpeDyCdmGZJkCmvVyWW/tWdeWqWQQue5xPyulqhBEMjj606QMbBVYDlacnet3wch
+         F/zyFo5YODjRNx+yX+k7cQc/6Mv/APGxkUPOyk5f/LHoIxccCGuysiTMdg0YfYxhJL/b
+         2dIZ6VEBevU0ZlEfVhukGvxt/FM+jz8BmwHcx2pCGjJ6fLuL5+BZrraHes2rcRoHJ5lT
+         taPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752762610; x=1753367410;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c9WyUNURTxDjhSFlDNytarMEzB5jWv8rhBlf3egCP8I=;
-        b=JVvehFFxa4N+vweQ0qxl6IcsWcBrx1VMI3BbkJD8eTcKFHlK1PZ/ioIOImogUxMutD
-         cs0JLodbSKCyZn5kxi/DqvaiXTWVJVfJwMiMDzXg8mybS0M69EV2bB7fj7V+pOAVoF9k
-         kbI3BQ07by/+a72n/FamZ/W2cIlc+U0eezT2Pb3mLX2+mcAQzOO5XDdOjTazofEjBXQL
-         S2W14E1LQT7Q9sb4GonJ2SRjP6fzHVuviWAInfEaHo1S98wyphH3gw6WOEzM8bEpSEPK
-         E/qCcOBZjvH/jWiuhcfwZf3o39724wmTQadc5nGWj+XRHhj4Uf+CODe+edIHz7GilY0U
-         aHaA==
-X-Forwarded-Encrypted: i=1; AJvYcCU14yF4nQ+w8xJGc1TlmRilATtqIffU4MAHYhJ1eScyvfbxUd0NN8dudMPYvdvdfEI1oqZlrHnaTKReHg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc0M4dZ+6xQg+D87a4IAG446onmRPDUVlhYybAdzKEqFkoEXPA
-	nctA6ChC2iCOeUfCSZH7cnUMSIxWn/p8VtavuPM2mYPIb9GKMoRL466VwBCHjqoVwDg=
-X-Gm-Gg: ASbGncuV91E2W9pHQ95O1rK6fAFqaHIvnhsHjgDYSc4yOWGvMdHky/5oIU14d3hR5gP
-	e8KmbhiQ8/ruOFyIrnKjc8qs9OjJq9oFIo3ln7kA4rig34VJNt18xxWBroY+0I5EmcJkWdcR43H
-	/dD3kIBVJxfnk2B4W7kpOCuSg/jHdhqQ9GpY51cTsHVVlWhp7dcjIO7I1h1mQ1z6ueQZnXLAvUc
-	n5MuZFtfKXEB0Uo6YPHUt6RizlfNiI3vIm9Aj0hHQ3+zlIDptcs0oSV+vOK2c630J/EawBrxLl/
-	NyCUno28HTC0xWiTtVe9Wc5L3NE4lyafwRDQQb8DkeT7t5u/YQB3GkRmNxsJlJBklkljnz8P0Ti
-	Aur0w6veFjoc1YtoNSnCPSLav0+SB
-X-Google-Smtp-Source: AGHT+IHk7/gc9YLubk1Cjji23IU9exbggTb4A51g9DQ8a5fEshA2ox0UCblR1EaUtTw1t+IxEkNNCw==
-X-Received: by 2002:a05:6830:2113:b0:73e:6bd0:ff93 with SMTP id 46e09a7af769-73e6bd14111mr4602096a34.12.1752762610529;
-        Thu, 17 Jul 2025 07:30:10 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:2c38:70d4:43e:b901])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e5d9028c4sm2024909a34.59.2025.07.17.07.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 07:30:09 -0700 (PDT)
-Date: Thu, 17 Jul 2025 17:30:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v3] staging: media: atomisp: add missing mutex lock in
- atomisp_s_fmt_cap
-Message-ID: <3b926b78-b95c-440d-846d-bc9d95aee714@suswa.mountain>
-References: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+        d=1e100.net; s=20230601; t=1752764420; x=1753369220;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z0eZUodVGHiUDbk0ap3If0CkAGDwyBjBUc4f8mVMlx8=;
+        b=PMSWBAHeg3OlR3luWmdUu1QLnumOwCphaC5mtq1wzfPHo8WjivmcaWFTQ4uy+Ap7pd
+         KbH2RCmpBTHZidsr4/EI77dTtzgneT68eSEGRZLg+lCIHtGFE4ovy1Vv8pYoYj8zs55a
+         C8COnh73l4orPLhyTeNQTqO7Hm6v06FbsEnVN5LtS0627ajOXMyoiaqaYLsRK5OpiyCw
+         4Ole64hooh+5wWE79kz0WAFs+KBL/oPhokMFucyy5oqGmAW4Xpw2X6K8kEZ4uBiHTLCD
+         CQIwFchn73StHUjQnor+n6VT6GAki7eFh+X8Hx0F92I7cW8h5IJZlsb0x+1fMX0i63NA
+         7eEA==
+X-Gm-Message-State: AOJu0YxhlsHFiCFpmSzardP1cip1L5GsnjIH5kxxIBX3q7I5dvVw4rv3
+	wH85bnjkroRXGQ4hz/DVAS9IUgAsEGukkduhaaKqmgUKGzzqyFzvcWygvTSK2ykXxvk=
+X-Gm-Gg: ASbGncvlOWINl8YU9kXklbmI8Pa6oExKrV7pzp/NMqxJHdhIK9Zo+mQxTmNpIU+gXtc
+	r608H7c3ARVSK+Kw44m8xe046dyRfsgqeKA99lhksroReHW/1WKEkzJOhimlrZU+4qedFjZGNQQ
+	unjKIme6YFkFG0+SGWSTEtrFPsAFupQJ8MVplF+wOHBH/CIbYAwIroE2ngRNyY19rdqkfPz2omj
+	ZG0iztrej07fVAanIvD3ycNZ5zP1jHZXWw+t2eygCBNUWu5cpyJ4ZB/WYFYDrhDXK9YJDe/N8cG
+	7Xkq95QGWYO0Ff2QgddgQMOC1xTGp9vD0BKSiB9r6hpo8LLUYy8XYLE+wzzlR6JdHMVu9G/bV3w
+	+KCy9OQlpGM+Ftsl/wEW3IeyWO8DfNcq2+npuwj0Bl+wr0x3l2r7SaG+havphYA4iV0a3ixCP69
+	Oj
+X-Google-Smtp-Source: AGHT+IE1S6rPl4/eJIoYeX1kJsIS7EPf0LFtexLXIa2stt/BorLhsmsYwsMnfz5lm5r/3FhN/megFA==
+X-Received: by 2002:a05:651c:a0b:b0:30b:d156:9ea2 with SMTP id 38308e7fff4ca-3308e0e2e08mr8867321fa.0.1752764419581;
+        Thu, 17 Jul 2025 08:00:19 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32fab918971sm24422641fa.108.2025.07.17.08.00.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Jul 2025 08:00:19 -0700 (PDT)
+Message-ID: <7d1ee0d8-0ffc-4aae-8531-852ce8c8b4c0@linaro.org>
+Date: Thu, 17 Jul 2025 18:00:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: i2c: Add OmniVision OV6211 image sensor driver
+Content-Language: ru-RU
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250717124001.108486-1-vladimir.zapolskiy@linaro.org>
+ <20250717124001.108486-3-vladimir.zapolskiy@linaro.org>
+ <175276139540.560048.14744394485094549778@ping.linuxembedded.co.uk>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <175276139540.560048.14744394485094549778@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 17, 2025 at 03:42:34PM +0300, Abdelrahman Fekry wrote:
-> The function atomisp_set_fmt() modifies shared device state and expects
-> callers to hold the isp->mutex for synchronization. While most internal
-> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+Hi Kieran.
+
+On 7/17/25 17:09, Kieran Bingham wrote:
+> Quoting Vladimir Zapolskiy (2025-07-17 13:40:01)
+
+<snip>
+
+>> +       { 0x3808, 0x01 },
+>> +       { 0x3809, 0x90 },
 > 
-> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-> pipe->frame_info may be modified concurrently without proper protection.
+> 0x190 == 400;
 > 
-> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
+>> +       { 0x380a, 0x01 },
+>> +       { 0x380b, 0x90 },
 > 
-> Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle")
-> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-> ---
+> So I bet these are the width and height registers.
+> 
+> Have you got a data sheet for this ? It would be /really/ far more
+> helpful to break out the specific register updates here for the mode
+> configuration at least.
 
-Thanks!
+No, I don't have a datasheet for this sensor.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+What's imporatant the sensor controls are similar (identical?) to an old
+OV6710 sensor (a guess from chip ID also), and there is a public driver
+for that sensor written for the OLPC project, a number of controls may
+be reused from that driver, however since it requires such an extensive
+testing, it can be done later on.
 
-regards,
-dan carpenter
+I kindly ask to review the displayed supported modes/configurations
+at the moment. FWIW your guess of mapping the registers to width/height
+is correct.
 
+<snip>
+
+>> +static int ov6211_write_reg_list(struct ov6211 *ov6211,
+>> +                                const struct ov6211_reg_list *r_list)
+>> +{
+>> +       struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
+>> +       unsigned int i;
+>> +       int ret;
+>> +
+>> +       for (i = 0; i < r_list->num_of_regs; i++) {
+>> +               ret = ov6211_write_reg(ov6211, r_list->regs[i].address, 1,
+>> +                                      r_list->regs[i].val);
+>> +               if (ret) {
+>> +                       dev_err_ratelimited(&client->dev,
+>> +                                           "failed to write reg 0x%4.4x. error = %d\n",
+>> +                                           r_list->regs[i].address, ret);
+>> +                       return ret;
+>> +               }
+>> +       }
+>> +
+>> +       return 0;
+>> +}
+>> +
+> 
+> Please use CCI helpers now.
+> 
+
+It makes sense, thank you.
+
+> 
+>> +static int ov6211_set_ctrl(struct v4l2_ctrl *ctrl)
+>> +{
+>> +       struct ov6211 *ov6211 = container_of(ctrl->handler, struct ov6211,
+>> +                                            ctrl_handler);
+>> +       struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
+>> +       int ret;
+>> +
+>> +       /* V4L2 controls values will be applied only when power is already up */
+>> +       if (!pm_runtime_get_if_in_use(&client->dev))
+>> +               return 0;
+>> +
+>> +       switch (ctrl->id) {
+>> +       case V4L2_CID_ANALOGUE_GAIN:
+>> +               ret = ov6211_write_reg(ov6211, OV6211_REG_ANALOGUE_GAIN,
+>> +                                      OV6211_REG_VALUE_16BIT, ctrl->val);
+>> +               break;
+>> +       case V4L2_CID_EXPOSURE:
+>> +               ret = ov6211_write_reg(ov6211, OV6211_REG_EXPOSURE,
+>> +                                      OV6211_REG_VALUE_24BIT, ctrl->val << 4);
+>> +               break;
+> 
+> What about V4L2_CID_HBLANK and V4L2_CID_VBLANK ?
+> 
+
+I don't have any information how to set/get this setting, the OV6710 driver
+also does not provide any hints, so it should be omitted, I believe.
+
+>> +       default:
+>> +               ret = -EINVAL;
+>> +               break;
+>> +       }
+>> +
+>> +       pm_runtime_put(&client->dev);
+>> +
+>> +       return ret;
+>> +}
+>> +
+>> +static const struct v4l2_ctrl_ops ov6211_ctrl_ops = {
+>> +       .s_ctrl = ov6211_set_ctrl,
+>> +};
+>> +
+>> +static int ov6211_init_controls(struct ov6211 *ov6211)
+>> +{
+>> +       struct v4l2_ctrl_handler *ctrl_hdlr;
+>> +       s64 exposure_max;
+>> +       int ret;
+>> +
+>> +       ctrl_hdlr = &ov6211->ctrl_handler;
+>> +       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 3);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       ctrl_hdlr->lock = &ov6211->mutex;
+>> +
+>> +       ov6211->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov6211_ctrl_ops,
+>> +                                       V4L2_CID_LINK_FREQ,
+>> +                                       ARRAY_SIZE(link_freq_menu_items) - 1,
+>> +                                       0, link_freq_menu_items);
+>> +       if (ov6211->link_freq)
+>> +               ov6211->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>> +
+>> +       v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+>> +                         OV6211_ANALOGUE_GAIN_MIN, OV6211_ANALOGUE_GAIN_MAX,
+>> +                         OV6211_ANALOGUE_GAIN_STEP,
+>> +                         OV6211_ANALOGUE_GAIN_DEFAULT);
+>> +
+>> +       exposure_max = (ov6211->cur_mode->vts - OV6211_EXPOSURE_MAX_MARGIN);
+>> +       ov6211->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops,
+>> +                                            V4L2_CID_EXPOSURE,
+>> +                                            OV6211_EXPOSURE_MIN, exposure_max,
+>> +                                            OV6211_EXPOSURE_STEP,
+>> +                                            OV6211_EXPOSURE_DEFAULT);
+>> +
+> 
+> As well as the blanking - I think this driver is missing reporting the
+> crop selection implementation to report the sensor crops.
+> 
+
+To the best of my knowledge there is no crops, so I believe this is irrelevant.
+
+This particular sensor is extremely simple.
+
+-- 
+Best wishes,
+Vladimir
 
