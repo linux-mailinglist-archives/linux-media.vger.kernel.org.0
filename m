@@ -1,79 +1,48 @@
-Return-Path: <linux-media+bounces-37963-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37964-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85929B0899E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 11:46:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6FFB089B6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 11:49:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DA15A41612
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 09:45:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3CF097A223F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 09:47:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D639828A727;
-	Thu, 17 Jul 2025 09:45:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10A0291C3A;
+	Thu, 17 Jul 2025 09:49:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bJJ64sE7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tS7I45G4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB4124293F
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 09:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C83B2918F1;
+	Thu, 17 Jul 2025 09:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752745559; cv=none; b=Y2rgSa6gAD2HBgeA10f5TpkRe6W9AXJztollxK0Vzb4ooMfQe6SsjX0t+T1UhWXmwC6H4XvmPt/e82HEqfuHGZhnLTYJ0EZBPuaAjhTSCd1S80AYnzaYeT0Aj06/2jBg1LOVJKKA80VNh3BJUriymQHOFlZaIboxb0sB3dvYlic=
+	t=1752745749; cv=none; b=na8wb6AXkLgQDA+Q8UVFmhC+uPSyPZzp1zakZkOv4814bmrtlVUNA03ERIjZWDibbAm1TZF4/uwjOxGgOfUhCj7zOR5K2KDlwJmnBSr80Xa4EHr21xNRkSda0Qt924WW7o37WbB8jvni8QTzhLPYBEd7YiE9qX51KEX44UKOVTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752745559; c=relaxed/simple;
-	bh=icvA0K1RPNBcWvfLGCmVKRBjbcIiYHmiy0ARHjx5WsA=;
+	s=arc-20240116; t=1752745749; c=relaxed/simple;
+	bh=qlFznmhHlLcURYDxJX9/wLz72q1W5dv5Ng/EmtWi4eY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eNl+gknp+zpg0hbx5PKB0AmnnVyf1gcD9NafXUaoX1u3CChbIiPBkUnlSjKL3O44MXjyjOaaCqYewmjRxT6DmyCk70sZXXiod5LXf4eLkuP8w+9wwVtdbPtv2e/zZzeGT2++QfcjKKkaCGJBmAzzKdoJE1htt5yYuZZvuOwz8Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bJJ64sE7; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b5e6bfb427so407313f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 02:45:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752745554; x=1753350354; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4UUb+eCCVRH9h09fVkojxVw36lrz4Ml2/6BK0w+a3Nk=;
-        b=bJJ64sE7ElzZf0LGDF+KQU5J3rGT2qjQAZdFWW9zG8CoP4+aKDavgcMdVyKYlV56eR
-         Zco96hfKijdjLHY4z65V0XgOZbN2/1NQ1hn9ajJchvY27cMY8Kr2gTRRUUc10dquiwWH
-         EIy529hfKMPAeAy9L9i7GLmU2R7MSAqkMV0pmRm/SV43lL14jxoYBb4O2IMgHDciSya7
-         +75L3aQS9nuyVIdF9rz/LHQ3+E631Lg4QloQfF0BHD+djy2Yrm4ATaP44c5jFb4rDMLY
-         wYMxHDpCZCOpInAJVrzfMN5ru10QWz/H9mGaPUiyouvTiTgF3B8QHIDW161yH7mARoQZ
-         XxEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752745554; x=1753350354;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4UUb+eCCVRH9h09fVkojxVw36lrz4Ml2/6BK0w+a3Nk=;
-        b=iYh8CT16/gTfgl2lM08oEQhKovjw245ms5DII5y6rbN6XDdmGmw0cJpq+ASUkdATRz
-         Fd/2XqKWFkMX0+Cq7Vq4q8fw9OCVoCGulKuPd/K7S/ayBnH5r2Jm2eTbg3RFzcMa4is5
-         y3T/n1H6wEU1KZMTVyqWkU4wFY4kxzo6JhIljEKW2UZOoZE7J1eK+2ZLlAkdfXLYKJl8
-         ml6NGzJVju2CR/J6nWMuewsxrSx/1g1r5AjLCl3edc0CUdAxmHlhikYb19TOGeCF4MWY
-         oBsg+EQMNbWTwUkbJ/Zu0xzVq0zbgtgbWA2T+rpj+9Lkh3klfxqeyD33ObyMhyAAJ8MO
-         pTEA==
-X-Gm-Message-State: AOJu0Yw7U4JI86Dlt1W2oHO50T9he43TH0ejLDlz0b6s18agrZknfC2M
-	WmGDohpOJ2Op0U//KLahEAT6g7/u5zd7nC/VHuGMHx95n7he89MXdioOAXf0KfrlHZc=
-X-Gm-Gg: ASbGncuQic93rvHKsfMHz2YSYl2r54zDo2wKN204vByU50xiHs1YZUQxVBxoewxFBaY
-	IrtQfNxAOFvXQ/YOU81uKbcCzn4Qs9IeJ99uXObxiSn4JaeXxQohjLH2LRXbQ0a9u6LXf4iAmTT
-	VksugoJwiP8cpkWNRrwKpHPqIW2mdhFsX3qlv/mOpRyZv7JF6CLbUXnVsge5JD04CkPAClefBj3
-	YegdFLDZ9sv4SyOwWv+ZkqvuIsZ/b9jvHFTrjAhXsR91VUkJThTfwu2DDSFgZ51/RXLz4X2if6s
-	g2tBBNGJgdTfg4YczKjWEU3ZB9Y3vqlOc2BCw+WnqD0XHKF7xQ8KNG7IoLgfHH4xg10BSOhbY7P
-	erzQtJXIXqeIbBDJJKNPbDIEO6ZgbRBpD4Skx27BtrqmuyGbO4rLryjwfe123lXk=
-X-Google-Smtp-Source: AGHT+IHP2SvnCCzI3J6cTXMGXPD2s7F8PxV92aFEphVYbHWG+syxiVGQMy54GQ/w+kIwvVDzdKb1dw==
-X-Received: by 2002:a05:6000:4a06:b0:3a4:dc32:6cbc with SMTP id ffacd0b85a97d-3b60dd53fe5mr5975700f8f.20.1752745553877;
-        Thu, 17 Jul 2025 02:45:53 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc1de0sm20112044f8f.24.2025.07.17.02.45.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 02:45:53 -0700 (PDT)
-Message-ID: <00be65fd-2a25-4b6d-8fb8-7a40f8ca846c@linaro.org>
-Date: Thu, 17 Jul 2025 10:45:52 +0100
+	 In-Reply-To:Content-Type; b=mpVBmXgxRHmIMMphQ+pW0tvq71O/NKhU1zOmFMqLl09VjS0MvQMscCyvHAzqdIkKzRvKHtrjZdO3ksJXibO5g2wsAC85Kj4ZaoWdd17PnnR4TTELmyOi0tq9i9+eKhHZWWumaL0HQSXED9+YO0S2MNZbRV7o/l8SnSVC1kcEGss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tS7I45G4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C0AC4CEE3;
+	Thu, 17 Jul 2025 09:49:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752745748;
+	bh=qlFznmhHlLcURYDxJX9/wLz72q1W5dv5Ng/EmtWi4eY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tS7I45G4fl1Gn49bB9Q/GRJoqWVn1SDjMPxjq2roVMd3crY2uyb8VSbY/a0Rl+8SN
+	 nKlCacteuRvYyYQD5vsWnMH6qWv3xuU7jUE+yzQEJQtEjlse17YrivvpLu40p3YLV8
+	 C/L8OioMVV4C1KBie7h0hRr7igMIKRnoxPsE4WhVCb5F7/zG8S9PMbpM/2gznhPMjO
+	 xgOUne4tIwNb4AGW/XdgpHOEz4xbu78E+v2wlpR5HwMDQ0RPp0I6tNkHUyBzC+cTu3
+	 WkkCTkgWog53RsUdOQ2PfbTmXkqtkl2LZr/zyq5nVP8Yd+Jhplo7GsXiXBATgqcVPf
+	 fCGjKbh1xEhqA==
+Message-ID: <f06353e5-fec6-4287-9766-00b8eed89bec@kernel.org>
+Date: Thu, 17 Jul 2025 11:49:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,63 +50,85 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 7/7] arm64: dts: qcom: qrb2210-rb1: Enable Venus
-To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
- quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com, krzk+dt@kernel.org,
- konradybcio@kernel.org, mchehab@kernel.org, andersson@kernel.org,
- conor+dt@kernel.org, amit.kucheria@oss.qualcomm.com
+Subject: Re: [PATCH 3/3] media: iris: Add support for SM8750 (VPU v3.5)
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250715204749.2189875-1-jorge.ramirez@oss.qualcomm.com>
- <20250715204749.2189875-8-jorge.ramirez@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+References: <20250714-sm8750-iris-v1-0-3006293a5bc7@linaro.org>
+ <20250714-sm8750-iris-v1-3-3006293a5bc7@linaro.org>
+ <7b0a984f-b62a-ac4d-74bf-a6e839c59272@quicinc.com>
+ <d4c39f2c-9f95-4e65-87a3-78173b39adf1@linaro.org>
+ <1c5df071-7000-ab45-dbc6-4384d883ba24@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20250715204749.2189875-8-jorge.ramirez@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <1c5df071-7000-ab45-dbc6-4384d883ba24@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 15/07/2025 21:47, Jorge Ramirez-Ortiz wrote:
-> Enable Venus on the QRB2210 RB1 development board.
+On 17/07/2025 09:37, Dikshita Agarwal wrote:
 > 
-> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> ---
->   arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 4 ++++
->   1 file changed, 4 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-> index b2e0fc5501c1..8ccc217d2a80 100644
-> --- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-> +++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-> @@ -711,3 +711,7 @@ &wifi {
->   &xo_board {
->   	clock-frequency = <38400000>;
->   };
-> +
-> +&venus {
-> +	status = "okay";
-> +};
+>> mostly based on downstream sources. I think the hardware just did not
+>> boot up without it.
+> 
+> 
+> That shouldn’t be the case. The downstream design is different, which is
+> why the driver requires the above code to move the GDSC to software control
+> before enabling the clock. With HW_CTRL_TRIGGER, this step isn’t needed, so
+> the above code is unnecessary.
 
+Ack.
 
-goes here
-
-&venus {
-	status = "okay";
-};
-
-&wifi {
-         vdd-0.8-cx-mx-supply = <&pm4125_l7>;
-         vdd-1.8-xo-supply = <&pm4125_l13>;
-         vdd-1.3-rfa-supply = <&pm4125_l10>;
-         vdd-3.3-ch0-supply = <&pm4125_l22>;
-         qcom,calibration-variant = "Thundercomm_RB1";
-         firmware-name = "qcm2290";
-         status = "okay";
-};
-
-&xo_board {
-         clock-frequency = <38400000>;
-};
-
----
-bod
+Best regards,
+Krzysztof
 
