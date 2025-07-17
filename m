@@ -1,154 +1,118 @@
-Return-Path: <linux-media+bounces-37955-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37956-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E96EB087A7
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:10:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBAFB0887E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:54:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 843CA1AA3343
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 08:11:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DFA31769B9
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 08:54:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE093279DAC;
-	Thu, 17 Jul 2025 08:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD7B287517;
+	Thu, 17 Jul 2025 08:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCd8B6UO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qhwsfa/V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCF71FBEB0;
-	Thu, 17 Jul 2025 08:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0750286D7F;
+	Thu, 17 Jul 2025 08:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752739838; cv=none; b=XCHlD4c/mjn9y4yfiYUm5O0q/wP1O/LIjpLNS1i+hPeMv/HX9spx6qiRxj1FyRZH8eJ7ZITDYHDaCM0QfXwwtpE/tLZoK2LnSj5/k+phBxsFzcVoTib25TBhK6lPLkxFmmDtI9cfvdv1fbDRE+HaFPPYf/BUWp4ix164GeSoDiU=
+	t=1752742444; cv=none; b=fhY6OkpZsKnlLmq2F46Faqj3/GJuEdu7/PuzPFsMMyYTCqqishZuzpRX/PApQsOyI5iwS/IE71I+E/bmhLTiSZk956PiAcs95ISE6AqmWgn0E1AtEkpQqQ5VR7T/FNvqWUr7qEWct7xHYfircHs3CH9VhgbBkCD+F3Frww+U6Mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752739838; c=relaxed/simple;
-	bh=8pASZhtZ3qwCBE2BfGrchW2HH5fvQFVtEKNbivlGeOc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BNLDi9eAmO4myflkIVI2rQlGsSZndJshlvB8tNWnnqqFcg94uFf71A757QHuLekB3QMQQKlXYuqNyAEjkBh0BJiIt5HVnFwAv4mKJdMIspe6R3l+aLFA8HLv/apKcUaYIDJeq/1gz3D7l2IZBUXMATczzlZs/Q5OWrbeFfjYL3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LCd8B6UO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328D8C4CEE3;
-	Thu, 17 Jul 2025 08:10:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752739837;
-	bh=8pASZhtZ3qwCBE2BfGrchW2HH5fvQFVtEKNbivlGeOc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=LCd8B6UOWhRnn9sqomulKaLC7A2aduun/R6o725gOLIY6r2Yww+39J8wFs//msTo1
-	 eijWfhK3VO6tiHMKL7t0bi2v0OffNr0w7W9gp1ONougjpY4JCR4qS/dxeoLep0r5Up
-	 +1E+OWe8ifHpexsKZ3m1Sjh2aOULqYuUaK8nc3KfoSjWyenYPWrPO2Et6SdYpf7LEB
-	 cEusR8DDl62Zx12qnz9MUZU3h5eVs7N7BUpi/El2cv0CzJ9xnt4epYAwsChvuTRcfM
-	 wmhqq57ajrr+S1L2hxL2Q8VGoRWz8RLP2QFI6BygrUgxQvnI9z73PlKGXlChUmc7og
-	 rigHAgjsIzTaQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 17 Jul 2025 10:10:14 +0200
-Subject: [PATCH v3] Documentation: dma-buf: heaps: Add naming guidelines
+	s=arc-20240116; t=1752742444; c=relaxed/simple;
+	bh=ikS7eZGcyckpPcCBZR25oVV9mLaq7LJ2mNH1ZNn1IYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hufDc3kW0qJFbbl8PWERm2bJDdMhSFO4vLZREsn314rEfnh0OAvCJVD7sounOvGI9no0w9JQmItlfr1pLrmeAjTHD8Sgq4QDjJGTIDEzZDK0taSr/DTpLedY4mjIuqyRpfSWILnjU2RiLKf5B6mfMQ/sI23j8dEOJDzAu4QCr00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qhwsfa/V; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752742441; x=1784278441;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ikS7eZGcyckpPcCBZR25oVV9mLaq7LJ2mNH1ZNn1IYI=;
+  b=Qhwsfa/VdxcZ4dEn9B52CSZBb+GJQmjQ2PY1HqtaWv82O3XjkHi/oPQ4
+   WdlJicb0443bhC9IW3Oy+12Ckl5I4o6dqDRMyPlbgstNNhxWB2lvqAFfm
+   2VwuSsJQDh8qzEVlQQ/uvVx5vieN60rl1GmixCP0qeWkHnut8r5PXtYS0
+   L4EG3EV+A+sM0CUnOQapakwdlbyevVINLJmRa7xS9eVhr9AV7bEp/QM3i
+   3t1rgncEdJp88Or+3vLBnggaFUEYGMDuB8TYs7xivr7AWnJ90ddCpBtS2
+   stUS/E6ZrdeGSJJFr3uaDq2DWG+Hcoc4RrU8TkqoQ4MqeZiyn03eU3PXk
+   Q==;
+X-CSE-ConnectionGUID: 3+bxPew5SJi+KrMDEiufmQ==
+X-CSE-MsgGUID: P5yhT7VDT/GKKexWUoLTtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="77545620"
+X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
+   d="scan'208";a="77545620"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 01:54:01 -0700
+X-CSE-ConnectionGUID: d1C2phvQR4ieMhMwvadKsg==
+X-CSE-MsgGUID: kyaY/dfGQBaFgpqj3zXccA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
+   d="scan'208";a="158438320"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jul 2025 01:53:58 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucKNH-000DPb-32;
+	Thu, 17 Jul 2025 08:53:55 +0000
+Date: Thu, 17 Jul 2025 16:53:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	Richard Leitner <richard.leitner@linux.dev>
+Subject: Re: [PATCH v6 10/11] media: i2c: ov9282: implement try_ctrl for
+ strobe_duration
+Message-ID: <202507171651.LXHLvA4w-lkp@intel.com>
+References: <20250716-ov9282-flash-strobe-v6-10-934f12aeff33@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250717-dma-buf-heap-names-doc-v3-1-d2dbb4b95ef6@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOWveGgC/4XNyw7CIBCF4VdpWDuGS2+68j2MCwpDS7TQgBJN0
- 3eXdmNcGJf/SeabmUQMFiM5FjMJmGy03uUQu4KoQboewerchFNe0YpT0KOE7mFgQDmBkyNG0F6
- BYLxmUlJlsCb5eApo7HODz5fcg413H17bn8TW9S+ZGDCQnWCmKVt6QDxdMTi87X3oyWom/nFqV
- v90eHZaiaVgTal0Z76cZVnemc5LnQUBAAA=
-X-Change-ID: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
- Mattijs Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bagas Sanjaya <bagasdotme@gmail.com>, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3304; i=mripard@kernel.org;
- h=from:subject:message-id; bh=8pASZhtZ3qwCBE2BfGrchW2HH5fvQFVtEKNbivlGeOc=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkV6389ePzkyB+HKI9ilhcBig9Zmg7Z+vx/o3DhsIXXY
- q93Dt8fdUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJsE1jrC/bd2jy+TOuljxT
- 3Tl3us39kifBf/1L/32vmklsvPczA0+p3faZ/tQgeF6SzYazf1zlpRnrdH4wn+3raJ7jx/fLaxb
- b9qpljDqRZr8bJJ46KHI93TBPueGc35fuxrBve1gdkhq753UAAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250716-ov9282-flash-strobe-v6-10-934f12aeff33@linux.dev>
 
-We've discussed a number of times of how some heap names are bad, but
-not really what makes a good heap name.
+Hi Richard,
 
-Let's document what we expect the heap names to look like.
+kernel test robot noticed the following build errors:
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-Changes in v3:
-- Grammar, spelling fixes
-- Remove the cacheable / uncacheable name suggestion
-- Link to v2: https://lore.kernel.org/r/20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org
+[auto build test ERROR on d9946fe286439c2aeaa7953b8c316efe5b83d515]
 
-Changes in v2:
-- Added justifications for each requirement / suggestions
-- Added a mention and example of buffer attributes
-- Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
----
- Documentation/userspace-api/dma-buf-heaps.rst | 35 +++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Leitner/media-v4l-ctrls-add-a-control-for-flash-strobe-duration/20250716-171003
+base:   d9946fe286439c2aeaa7953b8c316efe5b83d515
+patch link:    https://lore.kernel.org/r/20250716-ov9282-flash-strobe-v6-10-934f12aeff33%40linux.dev
+patch subject: [PATCH v6 10/11] media: i2c: ov9282: implement try_ctrl for strobe_duration
+config: i386-randconfig-014-20250717 (https://download.01.org/0day-ci/archive/20250717/202507171651.LXHLvA4w-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171651.LXHLvA4w-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-index 535f49047ce6450796bf4380c989e109355efc05..3ee4e7961fe390ba356a2125d53b060546c3e4a6 100644
---- a/Documentation/userspace-api/dma-buf-heaps.rst
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -21,5 +21,40 @@ following heaps:
-    usually created either through the kernel commandline through the
-    `cma` parameter, a memory region Device-Tree node with the
-    `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
-    `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-    might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-+
-+Naming Convention
-+=================
-+
-+``dma-buf`` heaps name should meet a number of constraints:
-+
-+- The name must be stable, and must not change from one version to the other.
-+  Userspace identifies heaps by their name, so if the names ever change, we
-+  would be likely to introduce regressions.
-+
-+- The name must describe the memory region the heap will allocate from, and
-+  must uniquely identify it in a given platform. Since userspace applications
-+  use the heap name as the discriminant, it must be able to tell which heap it
-+  wants to use reliably if there's multiple heaps.
-+
-+- The name must not mention implementation details, such as the allocator. The
-+  heap driver will change over time, and implementation details when it was
-+  introduced might not be relevant in the future.
-+
-+- The name should describe properties of the buffers that would be allocated.
-+  Doing so will make heap identification easier for userspace. Such properties
-+  are:
-+
-+  - ``contiguous`` for physically contiguous buffers;
-+
-+  - ``protected`` for encrypted buffers not accessible the OS;
-+
-+- The name may describe intended usage. Doing so will make heap identification
-+  easier for userspace applications and users.
-+
-+For example, assuming a platform with a reserved memory region located at the
-+RAM address 0x42000000, intended to allocate video framebuffers, physically
-+contiguous, and backed by the CMA kernel allocator, good names would be
-+``memory@42000000-cacheable-contiguous`` or ``video@42000000``, but
-+``cma-video`` wouldn't.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507171651.LXHLvA4w-lkp@intel.com/
 
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Best regards,
+ERROR: modpost: "__udivdi3" [drivers/media/i2c/ov9282.ko] undefined!
+>> ERROR: modpost: "__divdi3" [drivers/media/i2c/ov9282.ko] undefined!
+
 -- 
-Maxime Ripard <mripard@kernel.org>
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
