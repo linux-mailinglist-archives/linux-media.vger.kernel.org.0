@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-37973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37975-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAF7B08B0F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:48:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27314B08B3C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:54:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E18D1623A7
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:48:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C594B7B7F9A
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:47:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92DAB2BD03C;
-	Thu, 17 Jul 2025 10:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A78432BDC23;
+	Thu, 17 Jul 2025 10:46:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ja8iQTKh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YYiuPOep"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8ED2BCF4D;
-	Thu, 17 Jul 2025 10:45:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9800F2BD5B3;
+	Thu, 17 Jul 2025 10:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752749160; cv=none; b=WZFBy7NBKn2B8tNRaA/467TQ6cJP2ud7+h5oGD/YCombm3kK9qs/rm7GuoJ7ay0eMi4EFzbB8UUaiPE1tbCzhZotAdHxbC5G7xZp4uQ0+0TffIQeYfYljohVmNrZmuwKp5W/2fITVAwVJQRr7Vmb+ebODsZrgQL+87HJmB4QyP0=
+	t=1752749163; cv=none; b=ZGTI5Vsay7LY40t5X+05xIrQd75219MM+YwjogZzVayceLa0F01dP2grqsjgl90M+7G8Gf2JMlpoTx+Q49npzuGH6EAHIUZc+jL7glmXxUAlSVLKR6xLc6YmvUPR/Fm3IjgPkfGTGRHrxj/92XC5EmdHuJvL313SVLtMQEi03P4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752749160; c=relaxed/simple;
-	bh=197W8u1gSO7XU4oga3u7Ge9U/VY49m37BOEZ2Y4hDcg=;
+	s=arc-20240116; t=1752749163; c=relaxed/simple;
+	bh=mLUIKlRtGcg7V5Vy0wqmsYRGL64MqtvU55q1oBc3ZZs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E6qHaVaUsz0ESgijSQctox83TeJEnCEs3TmoWcELl2F9oNEVI9qoQfI18vg9onR6aAq6cOBlcb+THAJT05QDCLDq3ZIl7+g59jb/oA4RohsNcV4ugzL22ND2u1oNjinNjs5YDa98VKWJ8ICIVHh20TZ2rPlnhl5l5Zlkz7g59W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ja8iQTKh; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=bzxz8pLQFUQ0HhVZfH+EdgjDWTkuzqYDO2Rw8yHlvxEHyKn7IgkyK98g/LULBgFnW/MrHUgmzaEdbpeIYNwcOBrgW1FfrnAhJ9h9KGjv74Anz8HuT4cZVg44FxSJRnEAzvlPGgN7J8YjrM2aS3Hwsun7AYl9aAUU4UxaBY0ba0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YYiuPOep; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-140-254.net.vodafone.it [5.90.140.254])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8609C21F2;
-	Thu, 17 Jul 2025 12:45:18 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E872245A;
+	Thu, 17 Jul 2025 12:45:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752749119;
-	bh=197W8u1gSO7XU4oga3u7Ge9U/VY49m37BOEZ2Y4hDcg=;
+	s=mail; t=1752749121;
+	bh=mLUIKlRtGcg7V5Vy0wqmsYRGL64MqtvU55q1oBc3ZZs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ja8iQTKheZrLtCb1fEdWhqHs4ashqfpbS6Qc77UCXxliQQ1HArA2OrSDb6YapkbMO
-	 estn3R9optM/LLPZjT0X4kvpP7mKvO/HJCyQPNn5bHRm0429McUbs0cRPx1JX/A6x3
-	 A4nUgW+bNdItefXcwOzffLuMqkgTZN38VR2tBQt4=
+	b=YYiuPOeprmFLaNJmzOXHBcYHGT8fBlsFW4+sj1s+N64Tw+55Rw/PTCnB94yCebWYN
+	 VEZOlOSWEcgJJ2pJG5nm3fPkBnUUYETbkiemAh9Qkj9CAOwlk8dwwbsLCuqBjo/484
+	 R9u+juYMLuvIoUHww25r+AOojgmci9b8bpoHw2+k=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Thu, 17 Jul 2025 12:45:35 +0200
-Subject: [PATCH 09/26] media: v4l2-dev: Add
- video_device_context_from_file()
+Date: Thu, 17 Jul 2025 12:45:36 +0200
+Subject: [PATCH 10/26] media: v4l2-dev: Add
+ video_device_context_from_queue()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250717-multicontext-mainline-2025-v1-9-81ac18979c03@ideasonboard.com>
+Message-Id: <20250717-multicontext-mainline-2025-v1-10-81ac18979c03@ideasonboard.com>
 References: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 In-Reply-To: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -72,103 +72,87 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3667;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3081;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=197W8u1gSO7XU4oga3u7Ge9U/VY49m37BOEZ2Y4hDcg=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRPaIxen4Bw+KjcuuI/aC5KhOiFFpyZ9JkIi
- eu2RNObyE2JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTwAKCRByNAaPFqFW
- PMX6D/4380V0vWPd3gLiLX2RuDp2c2NJYxbw0KLgTkZAmggpTnVeZHIBeZ1lgcUOQM34GAhqQBl
- Skv2pazfVaQZio+jfqnSTW5526fyb56tq3618wm4Wanq2R1MKN7lsBkqNtmgMWR6Uod2lsHKHhd
- bnmhhyvNFUKkpKAcEmMcWctv+9cRZaBhpRjtkaFFI7jGL8i/Cj8q99Qp0VFx85u9wBnbsxHeV91
- qcUEZV2t7IfqOacFeoNhCMg95wB31iyQHVDMir8Mnc0lqd/VSc6j4MN0glKjaz+EWGFeLYeUD9i
- 1v/wJdyZiC+6ECKFTgL5yn2bu2vuqhqAKcckj9/I0gIB0EfToDlNdHfK2bqQ43+Dre5l2J5VVNb
- +1b+qZ9rt7VNuOdfVNLDoC6PWGYFOR31U2syyfW2KsJhc+SjfK+njqVBuZ+QggRHyRJsP9/Z7K/
- QKmdk2lExSHvmlVR4ZiuzJxf22lxDPYfnHl3ZfwBqfqlP+o0UWY4MeHZOijMezr/dOOZc3QRyAd
- aLrOHG1tYEPHoynqFzqmlzLkBnJzNJa7IMFkkJUiq9eMGkmD9f1YQKhtYH8P/vR/ozlki/XLZht
- DPANRuh9Z9U+kckKjZ6tuWZHZabo/whsWs8+VQIlS0lvM5mJdiS1ITOf025nkHF1UmRanm36ikM
- cdpq3tAQIE/ogQQ==
+ bh=mLUIKlRtGcg7V5Vy0wqmsYRGL64MqtvU55q1oBc3ZZs=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRPd2EOVo7NzC+9Tgxe4bjIIOEosUfZWrH3d
+ jZq5MccBbCJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTwAKCRByNAaPFqFW
+ PPLwD/9GLnCoGIVQv4Jy8/8f0VN/n8yLhbkFFqZOcYTdZThOGrK5bXosdH7Ef9dwIY9kNLXxth8
+ 3/OR92mYXXtLciXPDGfd4GfPBWFO0XT1Af6bbIbT8fJCnntcJiiaPZhDPa6MKa4nCRi37F7579D
+ IXJCAWZABJ9eeUdkaXtOTRcNt4s4qfB1erA/O/fveLJhp4P2NAVkFG9RE2Bc3Q/H35w7lM70H2f
+ ckFJlH3LsiclEi+alz9FcT+wjCoXuIDB+fewxdTCD7HXun9nQExxapYiSmz7ZqZVVb/lZ8FP9L9
+ PY1gagHJfGbGFv7iF/huAHRF7UMC8TSWUQAjOno6ZZOswchTKH0Z4OASVrQkMW0DJgWTVx7V+rx
+ Yw42g2rTfYzPRLkq/Os0aZl8dss1ma6j2lhh0gC9l7Ths/nsgblQhylZfHOcapKiQXCeiFsDZYr
+ Ds+9dFlLoxrG5+rFS9EIqr5lE7gTAX8irvmUhB43r8I5ayc7kr7RGZ/CpwPg/bWxh4aECyLNwqQ
+ kdFR8PLFg6+nrIamxPHqKhR2If85q6GvPDyjoV7Dy14HLGQVmtmCUrTGIXfFcmY98rw8j751K+G
+ TmpjgzkS/f8oP6STb+jqmhRfuQ8MNU39QkPDqC+Nqa+/KzhqoqfrAu0uM1VfFjHT7ElY9MoA7Ms
+ Tr2NADj0jvjubow==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Introduce an helper function to get a video_device_context from file.
-If no context has been bound to the file, return the video device
-default context.
+Introduce an helper function to get a video_device_context from
+a videobuf2 queue.
 
-As a video device context lifetime is bound to the one of the file
-handle it is associated with, and the intended user of this helper are
-the v4l2_ioctl_ops handlers that operates on an open file handle, the
-context returned by this function is guaranteed to be valid for the
-whole function scope of the caller.
+Device drivers that support multi-context operations will receive in
+their vb2_ops callbacks implementation a vb2_queue argument that is
+embedded in a video device context, either a context created by binding
+the video device to a media device context or the video device default
+context. This helper allows those drivers to retrieve the context
+the vb2_queue is embedded with.
+
+As the intended callers of this helpers are vb2_ops callbacks
+implementation, called by the videobuf2 core in response to an operation
+on a file handle, the returned context is guaranteed to be valid for
+the whole duration of the callback.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 15 +++++++++++++++
- include/media/v4l2-dev.h           | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ include/media/v4l2-dev.h | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index 2d78096931efd88215bc847b105e198a54035546..96696959314abfb1864ea5d96742e579b5a41f6f 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -1180,6 +1180,21 @@ struct dentry *v4l2_debugfs_root(void)
- EXPORT_SYMBOL_GPL(v4l2_debugfs_root);
- #endif
- 
-+struct video_device_context *
-+video_device_context_from_file(struct file *filp, struct video_device *vfd)
-+{
-+	struct v4l2_fh *vfh =
-+		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? filp->private_data
-+							    : NULL;
-+
-+	/* If the file handle has been bound to a context return it. */
-+	if (vfh && vfh->context)
-+		return vfh->context;
-+
-+	return vfd->default_context;
-+}
-+EXPORT_SYMBOL_GPL(video_device_context_from_file);
-+
- #if defined(CONFIG_MEDIA_CONTROLLER)
- 
- __must_check int video_device_pipeline_start(struct video_device *vdev,
 diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-index 9e1cf58623acc4ab5f503a9663fd999b38130226..a41afb81663bc9cb3bfc06dcf9b11ceeaf7c3415 100644
+index a41afb81663bc9cb3bfc06dcf9b11ceeaf7c3415..bab4b13b109362bec84d8d16440b6ea895206b60 100644
 --- a/include/media/v4l2-dev.h
 +++ b/include/media/v4l2-dev.h
-@@ -789,6 +789,36 @@ int video_device_init_context(struct video_device *vdev,
-  */
- void video_device_cleanup_context(struct video_device_context *ctx);
+@@ -819,6 +819,42 @@ void video_device_cleanup_context(struct video_device_context *ctx);
+ struct video_device_context *
+ video_device_context_from_file(struct file *filp, struct video_device *vdev);
  
 +/**
-+ * video_device_context_from_file - Get the video device context associated with
-+ *				    an open file handle
-+ * @filp: The file handle
-+ * @vdev: The video device
++ * video_device_context_from_queue - Get a video device context associated with
++ *				     a vb2 queue
 + *
-+ * If a video device context has been bound to an open file handle by a call
-+ * to the VIDIOC_BIND_CONTEXT ioctl this function returns it, otherwise returns
-+ * the default video device context.
++ * @q: the videobuf2 queue
 + *
-+ * The intended callers of this helper are the driver-specific v4l2_ioctl_ops
-+ * handlers, which receive as first argument a file pointer. By using this
-+ * helper drivers can get the context associated with such file, if any.
-+ * Otherwise, if the video device  has not been bound to any media device
-+ * context, the default video device context is returned.
++ * Return the video device context this videobuf2 queue belongs to.
 + *
-+ * As video device contexts are reference counted and their lifetime is
-+ * guaranteed to be at least the one of the file handle they are associated
-+ * with, callers of this function are guaranteed to always receive a valid
-+ * context reference by this function. The reference will remain valid for the
-+ * whole function scope of the caller that has received the open file handle as
-+ * argument. Likewise, accessing the media context from the video device context
-+ * returned by this function is always safe within the same function scope.
++ * Device drivers that support multi-context operations will always be provided
++ * with a device context to work with, either a context created by userspace
++ * by binding the video device to a media device context or the video device
++ * default context. The videobuf2 queue that context-aware drivers operates will
++ * always be contained in either one of those contexts.
++ *
++ * This function should be used by driver-specific callbacks implementation of
++ * the vb2_ops which receive a videobuf2 as argument. Being the vb2_ops callback
++ * called by the videobuf2 core in response to a userspace operation on an open
++ * file handle, callers of this function are guaranteed to always receive a
++ * valid context reference by this function. The reference will remain valid for
++ * the whole function scope of the vb2_ops callback that has received the
++ * videobuf2 queue as argument. Likewise, accessing the media device context
++ * from the video device context returned by this function is always safe within
++ * the same function scope.
++ *
++ * Drivers that do not support multi-context operations shall never use
++ * this function.
 + *
 + * This function does not increase the reference count of the returned video
 + * device context.
 + */
-+struct video_device_context *
-+video_device_context_from_file(struct file *filp, struct video_device *vdev);
++static inline struct video_device_context *
++video_device_context_from_queue(struct vb2_queue *q)
++{
++	return container_of(q, struct video_device_context, queue);
++}
 +
  #endif /* CONFIG_MEDIA_CONTROLLER */
  
