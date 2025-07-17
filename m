@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-37962-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37963-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E22BB08990
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 11:44:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85929B0899E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 11:46:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 089691AA597C
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 09:44:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DA15A41612
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 09:45:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 016EA28B41E;
-	Thu, 17 Jul 2025 09:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D639828A727;
+	Thu, 17 Jul 2025 09:45:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uAf0gpVz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bJJ64sE7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AA2289E1F
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 09:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB4124293F
+	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 09:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752745434; cv=none; b=g1Q09trZxFbuc9CxJC0m/xwJeMsIY5v9fp6MKZ370B4GqZEVlc7faqE7cyXNfEc4zmz2CeItC/d8CmUdemp8gNiViD4+ropxfzvbJAy/r38wm6GeGRZahzBAq9amv4c2nOrbziiZSobMBMwC5ymGBZ6UBjV0zvd205/tYFGw++k=
+	t=1752745559; cv=none; b=Y2rgSa6gAD2HBgeA10f5TpkRe6W9AXJztollxK0Vzb4ooMfQe6SsjX0t+T1UhWXmwC6H4XvmPt/e82HEqfuHGZhnLTYJ0EZBPuaAjhTSCd1S80AYnzaYeT0Aj06/2jBg1LOVJKKA80VNh3BJUriymQHOFlZaIboxb0sB3dvYlic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752745434; c=relaxed/simple;
-	bh=eRJZpSbYvKgupe+T1SU+IZZyns2Revzb8XX/zXaFhlM=;
+	s=arc-20240116; t=1752745559; c=relaxed/simple;
+	bh=icvA0K1RPNBcWvfLGCmVKRBjbcIiYHmiy0ARHjx5WsA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p560AvoTuyrWo8WzZ1Cp/LfvKk6xzeukwl0Ohpwg9PKy0id/rldYswnhhRu0IeJkS59UgI5s5Lpk+8JItVNcirXB5CrTEkEKZd8bJ/anU6gmcpRinHON1czHyPISdeB6zs1NJJRhz2mzGVkOVGZ/0v+W+H3aNSbMU+9PWiFSH8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uAf0gpVz; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:Content-Type; b=eNl+gknp+zpg0hbx5PKB0AmnnVyf1gcD9NafXUaoX1u3CChbIiPBkUnlSjKL3O44MXjyjOaaCqYewmjRxT6DmyCk70sZXXiod5LXf4eLkuP8w+9wwVtdbPtv2e/zZzeGT2++QfcjKKkaCGJBmAzzKdoJE1htt5yYuZZvuOwz8Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bJJ64sE7; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45629703011so5405565e9.0
-        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 02:43:51 -0700 (PDT)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b5e6bfb427so407313f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 02:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752745430; x=1753350230; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1752745554; x=1753350354; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=5NGgb3DcA15w098paJT2GnEVS25q5aKdVuuE1uihlhU=;
-        b=uAf0gpVzBpZap4Y9G+UWnOqDpyzIkHOjJiV1u1rRs39oxi2Mv2CiPqVKFp2quh1Ivy
-         DPZsCxUbx6fGTBs8+n0IV5hpXON1LFPSP+9YXsg9qwGvlby5J8QXucIJwp/YiomL5ku+
-         0N5hPH1AW+QT1MgREvB5myw36RK2jNoKW80lSO3QHSdUI8XIg85KrayfB+4xGowzPe/o
-         8hIxcb7QXCQEUzNcxE92EVS+SjL7pkHi0PYtCcNm39bKEdeno7Prn/SBSmB2yhhZ7T5C
-         4/TjAR2pMvvfVqo7CAh9UDS2sMOmdeDNTEfvn5dJFs0XSbEI95xffhUUznV9ZFu5+i/A
-         dSAw==
+        bh=4UUb+eCCVRH9h09fVkojxVw36lrz4Ml2/6BK0w+a3Nk=;
+        b=bJJ64sE7ElzZf0LGDF+KQU5J3rGT2qjQAZdFWW9zG8CoP4+aKDavgcMdVyKYlV56eR
+         Zco96hfKijdjLHY4z65V0XgOZbN2/1NQ1hn9ajJchvY27cMY8Kr2gTRRUUc10dquiwWH
+         EIy529hfKMPAeAy9L9i7GLmU2R7MSAqkMV0pmRm/SV43lL14jxoYBb4O2IMgHDciSya7
+         +75L3aQS9nuyVIdF9rz/LHQ3+E631Lg4QloQfF0BHD+djy2Yrm4ATaP44c5jFb4rDMLY
+         wYMxHDpCZCOpInAJVrzfMN5ru10QWz/H9mGaPUiyouvTiTgF3B8QHIDW161yH7mARoQZ
+         XxEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752745430; x=1753350230;
+        d=1e100.net; s=20230601; t=1752745554; x=1753350354;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5NGgb3DcA15w098paJT2GnEVS25q5aKdVuuE1uihlhU=;
-        b=il2OmVcdVxDTWXE0eEXToKO28OcAK2uFCU8SYcCy27HMAhcEbN56cLbb5JIXeWpPoZ
-         +lzmu1jpUBngae54p5AilNy9a4fKf8fMAE+RiDBFt539srhQJwhkVxq6PqXepY0axxYL
-         vKvK7u7ZB7wWW10vF0wGRJlqv1iqxddHs/pusxQBf/bLpED+1FGevcMc1rj/2FrB3znl
-         gMhe09R4HdGtRO0KaixONHVFfOYowOqDilSIjYSY5DcPiJaoryO3+qOOOz8Gk1yaUMWF
-         r8MZGmALrqS9Gpp9+E++fHfW7sar7+chZwkCz+/UU37sKIGIf9pg6/k1eRh8La52y8Dv
-         QSXg==
-X-Gm-Message-State: AOJu0YyS3iJyXLIbfPjzDrQTxqSe+S1j7Kuhne2hN53G8KrMEvfMRe9H
-	pt4yaCNajlWWE2+3Y0+q/YWzTdeh9vFuMLxDgglO0b41JGwL9zn3ve0cOIyNh5w3l/s=
-X-Gm-Gg: ASbGnctJPOs0MXD9uhIUg05aoGmwRVUoK44bDVzU3oogEynnL4DyH9vncKaUloqaEf9
-	VS8f2dEaZEq7iuM4hXqrrq5AWp5JAwhes7ZURQABMiWg8Mwg3k0/epoXZsZxgdlxQQwiBI0oZe8
-	ls+7sbnG1Kt+Lz+5LOj4Pf+A0Z0iTG7QE534ySmKnBk4DZkHRcD+Jnv0ZTSXVw9N++Bqk/Mo2Qb
-	5YECo/UBl7aLMh8mnQRA0LcO7d/qjO6tDDHQfbG16fhwTw0dCKNMq0j1c3P8T9R14GrXpMDI+ER
-	hgoI5NzHnh/9DmlAYEP+BXzDqOLq5jlB2qyLqzoWmLdwQ0nlR1ewkaCq8xle3Cpo7RbqhKx7Jiq
-	000xxH1wcld0Oj3jrjCXxxH5qS4BAUCDS8YcOBMD69G9M8tJel42yISCJME7/4iU=
-X-Google-Smtp-Source: AGHT+IGoO3nrN5aiR8KKGhctKRP1P15C3fJWOm2uSdmC5FXGBrIhMKTBv1htTrvHdpEgWyxlqT2x4A==
-X-Received: by 2002:a05:600c:1c82:b0:456:2ac6:ccc3 with SMTP id 5b1f17b1804b1-4562e28367emr47165115e9.25.1752745429897;
-        Thu, 17 Jul 2025 02:43:49 -0700 (PDT)
+        bh=4UUb+eCCVRH9h09fVkojxVw36lrz4Ml2/6BK0w+a3Nk=;
+        b=iYh8CT16/gTfgl2lM08oEQhKovjw245ms5DII5y6rbN6XDdmGmw0cJpq+ASUkdATRz
+         Fd/2XqKWFkMX0+Cq7Vq4q8fw9OCVoCGulKuPd/K7S/ayBnH5r2Jm2eTbg3RFzcMa4is5
+         y3T/n1H6wEU1KZMTVyqWkU4wFY4kxzo6JhIljEKW2UZOoZE7J1eK+2ZLlAkdfXLYKJl8
+         ml6NGzJVju2CR/J6nWMuewsxrSx/1g1r5AjLCl3edc0CUdAxmHlhikYb19TOGeCF4MWY
+         oBsg+EQMNbWTwUkbJ/Zu0xzVq0zbgtgbWA2T+rpj+9Lkh3klfxqeyD33ObyMhyAAJ8MO
+         pTEA==
+X-Gm-Message-State: AOJu0Yw7U4JI86Dlt1W2oHO50T9he43TH0ejLDlz0b6s18agrZknfC2M
+	WmGDohpOJ2Op0U//KLahEAT6g7/u5zd7nC/VHuGMHx95n7he89MXdioOAXf0KfrlHZc=
+X-Gm-Gg: ASbGncuQic93rvHKsfMHz2YSYl2r54zDo2wKN204vByU50xiHs1YZUQxVBxoewxFBaY
+	IrtQfNxAOFvXQ/YOU81uKbcCzn4Qs9IeJ99uXObxiSn4JaeXxQohjLH2LRXbQ0a9u6LXf4iAmTT
+	VksugoJwiP8cpkWNRrwKpHPqIW2mdhFsX3qlv/mOpRyZv7JF6CLbUXnVsge5JD04CkPAClefBj3
+	YegdFLDZ9sv4SyOwWv+ZkqvuIsZ/b9jvHFTrjAhXsR91VUkJThTfwu2DDSFgZ51/RXLz4X2if6s
+	g2tBBNGJgdTfg4YczKjWEU3ZB9Y3vqlOc2BCw+WnqD0XHKF7xQ8KNG7IoLgfHH4xg10BSOhbY7P
+	erzQtJXIXqeIbBDJJKNPbDIEO6ZgbRBpD4Skx27BtrqmuyGbO4rLryjwfe123lXk=
+X-Google-Smtp-Source: AGHT+IHP2SvnCCzI3J6cTXMGXPD2s7F8PxV92aFEphVYbHWG+syxiVGQMy54GQ/w+kIwvVDzdKb1dw==
+X-Received: by 2002:a05:6000:4a06:b0:3a4:dc32:6cbc with SMTP id ffacd0b85a97d-3b60dd53fe5mr5975700f8f.20.1752745553877;
+        Thu, 17 Jul 2025 02:45:53 -0700 (PDT)
 Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e8860cdsm46325905e9.20.2025.07.17.02.43.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc1de0sm20112044f8f.24.2025.07.17.02.45.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 02:43:49 -0700 (PDT)
-Message-ID: <b8b80bfd-0927-4c4f-96fd-6ad1e94d3666@linaro.org>
-Date: Thu, 17 Jul 2025 10:43:48 +0100
+        Thu, 17 Jul 2025 02:45:53 -0700 (PDT)
+Message-ID: <00be65fd-2a25-4b6d-8fb8-7a40f8ca846c@linaro.org>
+Date: Thu, 17 Jul 2025 10:45:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,8 +81,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/7] media: venus: hfi_plat_v4: Add capabilities for
- the 4XX lite core
+Subject: Re: [PATCH v7 7/7] arm64: dts: qcom: qrb2210-rb1: Enable Venus
 To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
  quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com, krzk+dt@kernel.org,
  konradybcio@kernel.org, mchehab@kernel.org, andersson@kernel.org,
@@ -90,269 +89,54 @@ To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250715204749.2189875-1-jorge.ramirez@oss.qualcomm.com>
- <20250715204749.2189875-5-jorge.ramirez@oss.qualcomm.com>
+ <20250715204749.2189875-8-jorge.ramirez@oss.qualcomm.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20250715204749.2189875-5-jorge.ramirez@oss.qualcomm.com>
+In-Reply-To: <20250715204749.2189875-8-jorge.ramirez@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 15/07/2025 21:47, Jorge Ramirez-Ortiz wrote:
-> Populate the HFI v4 lite capability set used by the AR50_LITE video
-> core.
-> 
-> These capabilities define the supported codec formats and operational
-> limits specific to this streamlined VPU variant.
+> Enable Venus on the QRB2210 RB1 development board.
 > 
 > Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
 > ---
->   .../platform/qcom/venus/hfi_platform_v4.c     | 164 +++++++++++++++---
->   1 file changed, 143 insertions(+), 21 deletions(-)
+>   arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_platform_v4.c b/drivers/media/platform/qcom/venus/hfi_platform_v4.c
-> index 4ae7ed476c48..23ed5e689f5a 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_platform_v4.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_platform_v4.c
-> @@ -245,25 +245,145 @@ static const struct hfi_plat_caps caps[] = {
->   	.num_fmts = 4,
->   } };
->   
-> +static const struct hfi_plat_caps caps_lite[] = {
-> +{
-> +	.codec = HFI_VIDEO_CODEC_H264,
-> +	.domain = VIDC_SESSION_TYPE_DEC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.num_caps = 7,
-> +	.pl[0] = { HFI_H264_PROFILE_BASELINE, HFI_H264_LEVEL_5},
-> +	.pl[1] = {HFI_H264_PROFILE_MAIN, HFI_H264_LEVEL_5},
-> +	.pl[2] = {HFI_H264_PROFILE_HIGH, HFI_H264_LEVEL_5},
-> +	.pl[3] = {HFI_H264_PROFILE_CONSTRAINED_BASE, HFI_H264_LEVEL_5},
-> +	.pl[4] = {HFI_H264_PROFILE_CONSTRAINED_HIGH, HFI_H264_LEVEL_5},
-> +	.num_pl = 5,
-> +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> +	.num_fmts = 4,
-> +}, {
-> +	.codec = HFI_VIDEO_CODEC_HEVC,
-> +	.domain = VIDC_SESSION_TYPE_DEC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.num_caps = 7,
-> +	.pl[0] = {HFI_HEVC_PROFILE_MAIN, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0 << 28 },
-> +	.pl[1] = {HFI_HEVC_PROFILE_MAIN10, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0 << 28 },
-> +	.num_pl = 2,
-> +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> +	.num_fmts = 4,
-> +}, {
-> +	.codec = HFI_VIDEO_CODEC_VP9,
-> +	.domain = VIDC_SESSION_TYPE_DEC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.num_caps = 7,
-> +	.pl[0] = {HFI_VP9_PROFILE_P0, 200},
-> +	.pl[1] = {HFI_VP9_PROFILE_P2_10B, 200},
-> +	.num_pl = 2,
-> +	.fmts[0] = {HFI_BUFFER_OUTPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[1] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.fmts[2] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[3] = {HFI_BUFFER_OUTPUT2, HFI_COLOR_FORMAT_NV21},
-> +	.num_fmts = 4,
-> +}, {
-> +	.codec = HFI_VIDEO_CODEC_H264,
-> +	.domain = VIDC_SESSION_TYPE_ENC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.caps[7] = {HFI_CAPABILITY_HIER_P_NUM_ENH_LAYERS, 0, 6, 1},
-> +	.caps[8] = {HFI_CAPABILITY_ENC_LTR_COUNT, 0, 4, 1},
-> +	.caps[9] = {HFI_CAPABILITY_MBS_PER_SECOND_POWERSAVE, 0, 244800, 1},
-> +	.caps[10] = {HFI_CAPABILITY_I_FRAME_QP, 0, 51, 1},
-> +	.caps[11] = {HFI_CAPABILITY_P_FRAME_QP, 0, 51, 1},
-> +	.caps[12] = {HFI_CAPABILITY_B_FRAME_QP, 0, 51, 1},
-> +	.caps[13] = {HFI_CAPABILITY_SLICE_BYTE, 1, 10, 1},
-> +	.caps[14] = {HFI_CAPABILITY_SLICE_MB, 1, 10, 1},
-> +	.num_caps = 15,
-> +	.pl[0] = {HFI_H264_PROFILE_BASELINE, HFI_H264_LEVEL_5},
-> +	.pl[1] = {HFI_H264_PROFILE_MAIN, HFI_H264_LEVEL_5},
-> +	.pl[2] = {HFI_H264_PROFILE_HIGH, HFI_H264_LEVEL_5},
-> +	.pl[3] = {HFI_H264_PROFILE_CONSTRAINED_BASE, HFI_H264_LEVEL_5},
-> +	.pl[4] = {HFI_H264_PROFILE_CONSTRAINED_HIGH, HFI_H264_LEVEL_5},
-> +	.num_pl = 5,
-> +	.fmts[0] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[1] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.num_fmts = 2,
-> +}, {
-> +	.codec = HFI_VIDEO_CODEC_HEVC,
-> +	.domain = VIDC_SESSION_TYPE_ENC,
-> +	.caps[0] = {HFI_CAPABILITY_FRAME_WIDTH, 128, 1920, 1},
-> +	.caps[1] = {HFI_CAPABILITY_FRAME_HEIGHT, 128, 1920, 1},
-> +	.caps[2] = {HFI_CAPABILITY_MBS_PER_FRAME, 64, 8160, 1},
-> +	.caps[3] = {HFI_CAPABILITY_BITRATE, 1, 60000000, 1 },
-> +	.caps[4] = {HFI_CAPABILITY_MBS_PER_SECOND, 64, 244800, 1},
-> +	.caps[5] = {HFI_CAPABILITY_FRAMERATE, 1, 120, 1},
-> +	.caps[6] = {HFI_CAPABILITY_MAX_VIDEOCORES, 0, 1, 1},
-> +	.caps[7] = {HFI_CAPABILITY_HIER_P_NUM_ENH_LAYERS, 0, 6, 1},
-> +	.caps[8] = {HFI_CAPABILITY_ENC_LTR_COUNT, 0, 4, 1},
-> +	.caps[9] = {HFI_CAPABILITY_MBS_PER_SECOND_POWERSAVE, 0, 244800, 1},
-> +	.caps[10] = {HFI_CAPABILITY_I_FRAME_QP, 0, 51, 1},
-> +	.caps[11] = {HFI_CAPABILITY_P_FRAME_QP, 0, 51, 1},
-> +	.caps[12] = {HFI_CAPABILITY_B_FRAME_QP, 0, 51, 1},
-> +	.caps[13] = {HFI_CAPABILITY_SLICE_BYTE, 1, 10, 1},
-> +	.caps[14] = {HFI_CAPABILITY_SLICE_MB, 1, 10, 1},
-> +	.num_caps = 15,
-> +	.pl[0] = {HFI_HEVC_PROFILE_MAIN, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0},
-> +	.pl[1] = {HFI_HEVC_PROFILE_MAIN10, HFI_HEVC_LEVEL_5 | HFI_HEVC_TIER_HIGH0},
-> +	.num_pl = 2,
-> +	.fmts[0] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12},
-> +	.fmts[1] = {HFI_BUFFER_INPUT, HFI_COLOR_FORMAT_NV12_UBWC},
-> +	.num_fmts = 2,
-> +} };
-> +
->   static const struct hfi_plat_caps *get_capabilities(unsigned int *entries,
->   						    bool lite)
->   {
-> -	WARN_ON(lite);
-> +	*entries = lite ? ARRAY_SIZE(caps_lite) : ARRAY_SIZE(caps);
->   
-> -	*entries = ARRAY_SIZE(caps);
-> -	return caps;
-> +	return lite ? caps_lite : caps;
->   }
->   
->   static void get_codecs(u32 *enc_codecs, u32 *dec_codecs, u32 *count, bool lite)
->   {
-> -	WARN_ON(lite);
-> -
-> -	*enc_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> -		      HFI_VIDEO_CODEC_VP8;
-> -	*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> -		      HFI_VIDEO_CODEC_VP8 | HFI_VIDEO_CODEC_VP9 |
-> -		      HFI_VIDEO_CODEC_MPEG2;
-> -	*count = 8;
-> +	if (lite) {
-
-Ok, now the WARN_ON() makes more sense, its a progressive.
-
-> +		*enc_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC;
-> +		*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> +			      HFI_VIDEO_CODEC_VP9;
-> +		*count = 5;
-> +	} else {
-> +		*enc_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> +			      HFI_VIDEO_CODEC_VP8;
-> +		*dec_codecs = HFI_VIDEO_CODEC_H264 | HFI_VIDEO_CODEC_HEVC |
-> +			      HFI_VIDEO_CODEC_VP8 | HFI_VIDEO_CODEC_VP9 |
-> +			      HFI_VIDEO_CODEC_MPEG2;
-> +		*count = 8;
-> +	}
-
-I don't much like setting hard-coded values in functions.
-
-It must be possible to pass these as parameters. We have all of these 
-enumeration structures - it seems a shame to move some specific 
-enumerations to hard-coding.
-
-Please consider if there is a way to bury this into one of the 
-enumeration params.
-
->   }
->   
->   static const struct hfi_platform_codec_freq_data codec_freq_data[] =  {
-> @@ -277,15 +397,23 @@ static const struct hfi_platform_codec_freq_data codec_freq_data[] =  {
->   	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 10, 200 },
+> diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
+> index b2e0fc5501c1..8ccc217d2a80 100644
+> --- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
+> +++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
+> @@ -711,3 +711,7 @@ &wifi {
+>   &xo_board {
+>   	clock-frequency = <38400000>;
 >   };
->   
-> +static const struct hfi_platform_codec_freq_data codec_freq_data_lite[] = {
-> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> +	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 440, 0, 440 },
-> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 0, 675 },
-> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 0, 675 },
-> +};
 > +
->   static const struct hfi_platform_codec_freq_data *
->   get_codec_freq_data(u32 session_type, u32 pixfmt, bool lite)
->   {
-> -	const struct hfi_platform_codec_freq_data *data = codec_freq_data;
-> -	unsigned int i, data_size = ARRAY_SIZE(codec_freq_data);
-> +	const struct hfi_platform_codec_freq_data *data = lite ?
-> +					codec_freq_data_lite : codec_freq_data;
-> +	unsigned int i, data_size = lite ? ARRAY_SIZE(codec_freq_data_lite) :
-> +				    ARRAY_SIZE(codec_freq_data);
+> +&venus {
+> +	status = "okay";
+> +};
 
-I'm not a big fan anymore of ternary nor of declaring multiple things on 
-one line.
 
-And I'll preempt Konrad, reverse Christmas tree in the declaration where 
-possible for preference.
+goes here
 
->   	const struct hfi_platform_codec_freq_data *found = NULL;
->   
-> -	WARN_ON(lite);
-> -
->   	for (i = 0; i < data_size; i++) {
->   		if (data[i].pixfmt == pixfmt && data[i].session_type == session_type) {
->   			found = &data[i];
-> @@ -300,8 +428,6 @@ static unsigned long codec_vpp_freq(u32 session_type, u32 codec, bool lite)
->   {
->   	const struct hfi_platform_codec_freq_data *data;
->   
-> -	WARN_ON(lite);
-> -
->   	data = get_codec_freq_data(session_type, codec, lite);
->   	if (data)
->   		return data->vpp_freq;
-> @@ -313,8 +439,6 @@ static unsigned long codec_vsp_freq(u32 session_type, u32 codec, bool lite)
->   {
->   	const struct hfi_platform_codec_freq_data *data;
->   
-> -	WARN_ON(lite);
-> -
->   	data = get_codec_freq_data(session_type, codec, lite);
->   	if (data)
->   		return data->vsp_freq;
-> @@ -326,8 +450,6 @@ static unsigned long codec_lp_freq(u32 session_type, u32 codec, bool lite)
->   {
->   	const struct hfi_platform_codec_freq_data *data;
->   
-> -	WARN_ON(lite);
-> -
->   	data = get_codec_freq_data(session_type, codec, lite);
->   	if (data)
->   		return data->low_power_freq;
+&venus {
+	status = "okay";
+};
 
-I suppose the hard-coded *val = 5 || *val = 8; isn't important but it 
-would be _nice_ to not hard-code, up to you how much you want to 
-implement for the next version.
+&wifi {
+         vdd-0.8-cx-mx-supply = <&pm4125_l7>;
+         vdd-1.8-xo-supply = <&pm4125_l13>;
+         vdd-1.3-rfa-supply = <&pm4125_l10>;
+         vdd-3.3-ch0-supply = <&pm4125_l22>;
+         qcom,calibration-variant = "Thundercomm_RB1";
+         firmware-name = "qcm2290";
+         status = "okay";
+};
 
-This code all looks reasonably correct/consistent with antecedents.
-
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+&xo_board {
+         clock-frequency = <38400000>;
+};
 
 ---
 bod
