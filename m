@@ -1,89 +1,80 @@
-Return-Path: <linux-media+bounces-38016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94837B08D9A
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 14:55:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05814B08DA8
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 14:57:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A6B797BA93B
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:54:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3E9C4E1E5B
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 239142D77E9;
-	Thu, 17 Jul 2025 12:54:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08AAA2D77F3;
+	Thu, 17 Jul 2025 12:56:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hrMlycHp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KEn8ySAC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E98C2D4B47
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D801F92A
+	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752756864; cv=none; b=JYUenYeRg19EQr9zompFOtn7TSJv9Jur4rXkRR3a9rSGk2l9fBrDqxyKSB82qxX+mSjM/kEOi6ojy1eRRZHiawyxzqVl+EY/bJYO1uuFicSRRUZkQ/1NX+aYzf7Twra4volP1ZU9iWxALbgrqOEZjaNexCi2R8WwbzGb1TdZN4Y=
+	t=1752757013; cv=none; b=iUEESK1tzdck2gJrxRHW1bOROtHJwSTaajNfNfj0rHlQ/t3vjFGkaOeuhuSr/F3CdSVxgQjwAzVAPd5DWKlbuTsGllCJkEYDvQKaC9n52T2JODWaM8Iu5Zc26f7Di474DheX2qCmAxB1a1EWssNPYcXd9MZb0XnVU9VY8mg4rA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752756864; c=relaxed/simple;
-	bh=z+X8A9P+G8blqjkqdD7ikKkiAkXVI7kyhvLjlBrrHu4=;
+	s=arc-20240116; t=1752757013; c=relaxed/simple;
+	bh=+vfZ4qEJmhJ0CuZgJ5MckVbDrjcXFYLiFJD4FgeIvdM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CgMYSITUAWGMB9YoWxFMS1Jzp37s2smk1AFrCpSRS+kpwePo1RbfW16HDrY2lnyvR9lqwetwFsMB3RkLp9vLWT9+cz0WVhPzqyVH/JzqZV36BYE4DV8ZWGLL+dOWNbBAs8rt79pZcq2XcmWJ4G+WIC7TVpRes5LZmX9zt48o74s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hrMlycHp; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HBGX6U022439
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:54:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vY8+U+AdtRViJLGrgNvdoFy3geTUrpbdX4fYqj2cMJg=; b=hrMlycHpVroEaQWv
-	kvr7GMs0/d5F2a2bWEpuQjEeAcymkwr8AR7f+kkqFutISuf8c5VOhdsnRDiij3MU
-	xv8/AXzwFDEz5wgcKNOcRdr7io0UYfSSN66IhgRHw5aqREFiV4/eTgYhOa+IBuwE
-	tHWBE0qnQaZKQYbyuOkiBsaCk97Zx21Mx/6TCTrTmH0kzGFgCbZc1Eq4UlFwXnjx
-	RVDECAhnZ7ndwfDBS8a/87WusyGFWL1AFqGT56KzR3lifZ0k1AtBAknaHJ/mQO5H
-	sLoEPrFCkGytbPijhTLD3NnnSu7k1YKo9x2Q83p72Evc/4AkyuGuZzq/eM5AZyGC
-	R2SApg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wqsy7kuf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:54:22 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6fb030f541bso3673196d6.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 05:54:22 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=F5Z0yS5MkclhjvPjKSLvQNBb1q2K1/CNy3MZ9cMM0hlBMsmdOaSusagXEfpKIPESohZ+hf664y4JSwpFUPl2jmJC7xpKE/AVn1svDctYSZlUnk7g+QDl2E7V2W3wCl2GRRqnMq51GVCc2TqpHrDhrg6dFOVboQi+Jw8z9xqkyqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KEn8ySAC; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-451d54214adso6591035e9.3
+        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 05:56:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752757009; x=1753361809; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0mNyr/hM5aTyuCJBMUBNmNPc9rqjSE6cNDS+GRjXb5Y=;
+        b=KEn8ySACd0+SRg7HI22ifwJ7BuwhVLJ99sN1U9jDQYnx6Z0yXIQRGOJ7AKFuVlDPy8
+         G7bwj/rcS37NKeNg77rxi5BbJi+Zq5mXKEW46O79D/ygqtWXQzCP0/q3LUXx7vioTfJE
+         MSyvpGSzTLhV3rwhZ0EnWqUncuVPqq2i2UjtOfbztZfscIK9tRWIXorCtYu/X55V3mTE
+         zkqrmDta//eGSKrQzHIdu904bHKWEoV+YlGXyrJ+MnMQvH7PNelbFAL9s6MtwLVEP1Wp
+         D+lVuNU99DhnqPQYG3i6FOM+EMDLuT4qrC81geZC9W8t+OrRTEAAASsC4VOa1D3BImpR
+         V3QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752756861; x=1753361661;
+        d=1e100.net; s=20230601; t=1752757009; x=1753361809;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vY8+U+AdtRViJLGrgNvdoFy3geTUrpbdX4fYqj2cMJg=;
-        b=QTHb8GfznWbOQ7xegpzerFFUKmQevj+gk4wH27MqjTMSaIl00FKKtlM7TWyp98kfvF
-         FlPTCs1HvD6E0aWSEDnCTnIAodSoY3F55V/ucPa0MHOfN0E/WoH9LNDdrpr9Z3UYDDjX
-         CWba+5Fh5rUfhtADMlDgGs7wEoWOvd124io8rVI6k1jkuUyFOy7GLqp1KgXQkiVaRxYR
-         bgCFf65ZQEzdXJaG5k2gyQXY/lvt8ylso2AE8V++jza3djPBAdkfqaLhCEPULphAfDbL
-         KrLOxAY5ue0DZm4adTVU5X/ImqeLZFKbIks4QLnsllpnGNNRTHXztF/+mWx2YPzS7vv9
-         ODGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVcdEhcrMZZXJZvVPIfKMxitywzUSUVF0l/VpMQ1Dfc+oF+XfO37nHQNKCWTq72fSeBde+jzfos2NxeZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGqrKy4RWnBZaWHH7an05mf6CXtaurka+Nc3uED8Ij0Rm99d9X
-	K0UqjfzcLt+lpAJvelndyEBVhAFSF+vm9HTKoBX9eVhZIkGxRwTUpRMKglVbvTGHFqXL3QmDjET
-	Ch3t52Vfj+L1S09Qw9ihNODvAoJhyr2MCGWVhTrTWCFWLdsI3kROy4DZu2FHj6e9L2VL4sTBKMQ
-	==
-X-Gm-Gg: ASbGnctM7GUggePE3u5WKWdKP8s8kpZ2JKZ6ogQcq558sKMGiY1nIkj7xnHP3uZZxPH
-	XGP2AUCLy8HkryHshQJD06YrSSJvpMCIQ61G3WGUXBg+hF2zzDJP86rbmPVaN0OoWq5QzYjwXzR
-	bYabr5wCZlQs6m6bMfVeKwiBBCxyQnwxnbo7RKi9p+fWTnQiETMMwUP7SGfXgNPCmGIjktbvNf+
-	cBJ2RK2/UXoJLBlnw8ayGymKUcwxKS8L0E9xZPLnyHsGXNWRbS12MeMyT4u1PXiUTtxSXHH1+E/
-	OATYTJisOOCkrQbGDn4CIN2ZE9G6f74e/sSUoKq6QqeC/QJ19UVhfCF9+G0YZAcem1BhGTCYAa8
-	iYMqCGP039siu1ZDz/u6I
-X-Received: by 2002:a05:620a:2949:b0:7d5:d01f:602 with SMTP id af79cd13be357-7e342b68dd0mr446381285a.14.1752756860527;
-        Thu, 17 Jul 2025 05:54:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGIHZdErHUxcQSzMlX3jaAJn024q0jCOwgH+lHrqH9oe6WV/+qWTPGrVNeWc8ZrO5OBCGW2Tg==
-X-Received: by 2002:a05:620a:2949:b0:7d5:d01f:602 with SMTP id af79cd13be357-7e342b68dd0mr446379985a.14.1752756860098;
-        Thu, 17 Jul 2025 05:54:20 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e82dedc0sm1354487066b.160.2025.07.17.05.54.18
+        bh=0mNyr/hM5aTyuCJBMUBNmNPc9rqjSE6cNDS+GRjXb5Y=;
+        b=DG4yvCY0jIA8b4NMNLzzOMgapWtTUK16Pg5vxRZw7lq2WOVAjfFAbbBne75XglVFZX
+         Fco2Rnkma7uH68ZoB4QsVryJM2yeogO5JvK3FA62hwfqz9LdRY0J3wwD2StBKMUrM5JS
+         dnqqshaONP/DLialfENLNDHPc4fIh4rx8vOzkOXE0IHLsLG5Kx301MecNNQxTajXKSmS
+         qwWiTN7yqDCYoiJs1b0H0DXv4ej6ESWA13omWALDaHKH0eiAE9DTZbEMrnsT+RmdBAcM
+         vuinkrMBQKdxIoEzepRlS9iBFmtrGUoUNcBTIUFsmETAJjhdP4CNd/7Z5vbve4rHWpAn
+         1ZcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTKMoZM8elvzMzYOWszsdl3Fxc8SzgEejoMXGG88P4qdo7brqJf91+jnT6iN3MuszTfTBk9LwNOzaQcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDBk/WXpwXRZKvVQKrvst+LFkUsuhqo4LHwKyZ8dnGORZdPTKA
+	wZn1nheNf1wQbt4o6uh0AXxyF0lpGZMdtdI4IwRBM0vjhuVWPt2T6d2jiEuTQSMQums=
+X-Gm-Gg: ASbGncvw6naZXLV1EU9JzKL+XWArIkn5MrR9MhccQm/1QcCywEdMUhXUqQ5i43S3T68
+	arB/DRDG1CvgaLtPjLVj8IsnpkQV04nlmwjpGVDM0Z8BnoQ/vVnXbqmoffjPUE1oAMweyjP0S/L
+	LFEXmE+0nqPtDYshQyln9qPqzUJGD5+CSI8wqw/0lWWj4M6O2jBotMSbLxMVE0/+u2vWpMKbgs5
+	6I29qxCh3JPHFm59kCz7Vn7ifyXxLuUvOi1HXe/CxKT6Ga3/Fi5yaBuYVPAUe25zzXo9f/rHHxy
+	Ce7hr+UcnmJF0gd7MN9ZhfC3tbRAhoZS4tUkQWtINYUxF45Eb7iAbURwFn1RH78tEb1ZelXz9vu
+	udB6oWbgoyJbLFl/nJFejZD36XqPFeL2r6ndEqOKPfP4KCs5c2uc4kURfGC5UgSrq
+X-Google-Smtp-Source: AGHT+IFwzlcZ3XyphB6xVJH9plnzq9OlfvUFVxbUtfP76iynvrgFKDaR31Nt3Cogffx1lz6L3MLP9A==
+X-Received: by 2002:a05:600c:314a:b0:455:ed48:144f with SMTP id 5b1f17b1804b1-456352e9d36mr27356435e9.14.1752757008778;
+        Thu, 17 Jul 2025 05:56:48 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b617e8e1c0sm517552f8f.6.2025.07.17.05.56.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 05:54:19 -0700 (PDT)
-Message-ID: <e1335aff-00b4-4505-bcf5-0eb8f2974a75@oss.qualcomm.com>
-Date: Thu, 17 Jul 2025 14:54:17 +0200
+        Thu, 17 Jul 2025 05:56:48 -0700 (PDT)
+Message-ID: <3f838ee3-af25-4cf5-afcb-823ba68f0f43@linaro.org>
+Date: Thu, 17 Jul 2025 13:56:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,139 +82,172 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] media: qcom: camss: tpg: Add TPG support for
- SA8775P
+Subject: Re: [PATCH v2 2/3] media: qcom: camss: Add link support for TPG
+ common
 To: Wenmeng Liu <quic_wenmliu@quicinc.com>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
+ linux-arm-msm@vger.kernel.org
 References: <20250717-lemans_tpg-v2-0-a2538659349c@quicinc.com>
- <20250717-lemans_tpg-v2-3-a2538659349c@quicinc.com>
+ <20250717-lemans_tpg-v2-2-a2538659349c@quicinc.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250717-lemans_tpg-v2-3-a2538659349c@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250717-lemans_tpg-v2-2-a2538659349c@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDExMyBTYWx0ZWRfX0zqKwvIC9Jck
- T2pI40+4KPp/0mhOQzcdkVHF2Jjs4/VZzlex8s+jGn7N0SsyP6Wpc/buO3XIs3siYmgRUGQZG2O
- /dT4bmCb3pwSKeuxisiIxhDZ+l3vTNHUL0wBygo4GbiS1A4XY9CR1giIwBMwsFXw5B180c8eCp7
- u9Q+c3FIz/UttsOIn3Wg2My949WzVStLrrX8DF0QayMikjPDkYXNBIOdQHWKfT/Ut1RwCBYrsEA
- GyqNKnU6moVhzmBnzbWcM6bn7iB5BfTYF2NKzlMZAaz+k/hSIH08EDf2eIPW+sN6gdK6nXTzqSq
- 3Qbh9RuXSa74dU60MGSjeGM8E6VCZBwMAT826ux9OD9gghM/MlYzKUJ4i6SmP0vZXiLEBAk9f3n
- 7FQwGjtjOJPn2TRnGg8SNLs6jPJySw7YsOKvgDHxm5GJ9Ri0/M/FA4hGuO7yRv+qjzY3HJTx
-X-Proofpoint-GUID: ukx29DBVnGmNtB-5ECAOTvffXAkGBMtE
-X-Proofpoint-ORIG-GUID: ukx29DBVnGmNtB-5ECAOTvffXAkGBMtE
-X-Authority-Analysis: v=2.4 cv=McZsu4/f c=1 sm=1 tr=0 ts=6878f27e cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=pSl5WCw3oxHEiR9bIskA:9
- a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-17_01,2025-07-17_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
- spamscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507170113
 
-On 7/17/25 5:20 AM, Wenmeng Liu wrote:
-> Add support for TPG found on SA8775P.
+On 17/07/2025 04:20, Wenmeng Liu wrote:
+> TPG is connected to the csid as an entity, the link
+> needs to be adapted.
 > 
 > Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
 > ---
-
-[...]
-
-> +static int tpg_stream_on(struct tpg_device *tpg)
+>   drivers/media/platform/qcom/camss/camss-csid.c | 44 +++++++++++++++++-----
+>   drivers/media/platform/qcom/camss/camss.c      | 52 ++++++++++++++++++++++++++
+>   2 files changed, 87 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+> index 5284b5857368c37c202cd89dad6ae8042b637537..1ee4c4cc61cb32ce731dd8123522cc729d1ae3bb 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+> @@ -1226,6 +1226,23 @@ void msm_csid_get_csid_id(struct media_entity *entity, u8 *id)
+>   	*id = csid->id;
+>   }
+>   
+> +/*
+> + * csid_get_csiphy_tpg_lane_assign - Calculate lane assign by tpg lane num
+> + * @num - tpg lane num
+> + *
+> + * Return lane assign
+> + */
+> +static u32 csid_get_csiphy_tpg_lane_assign(int num)
 > +{
-> +	struct tpg_testgen_config *tg = &tpg->testgen;
-> +	struct v4l2_mbus_framefmt *input_format;
-> +	const struct tpg_format_info *format;
-> +	u8 lane_cnt = tpg->res->lane_cnt;
-> +	u8 i;
-> +	u8 dt_cnt = 0;
-> +	u32 val;
+> +	u32 lane_assign = 0;
+> +	int i;
 > +
-> +	/* Loop through all enabled VCs and configure stream for each */
-> +	for (i = 0; i < tpg->res->vc_cnt; i++) {
-> +		input_format = &tpg->fmt[MSM_TPG_PAD_SRC + i];
-> +		format = tpg_get_fmt_entry(tpg->res->formats->formats,
-> +					   tpg->res->formats->nformats,
-> +					   input_format->code);
+> +	for (i = (num - 1); i >= 0; i--)
+> +		lane_assign |= i << (i * 4);
 > +
-> +		val = (input_format->height & 0xffff) << TPG_VC_m_DT_n_CFG_0_FRAME_HEIGHT;
-> +		val |= (input_format->width & 0xffff) << TPG_VC_m_DT_n_CFG_0_FRAME_WIDTH;
-> +		writel_relaxed(val, tpg->base + TPG_VC_m_DT_n_CFG_0(i, dt_cnt));
-> +
-> +		val = format->data_type << TPG_VC_m_DT_n_CFG_1_DATA_TYPE;
-> +		writel_relaxed(val, tpg->base + TPG_VC_m_DT_n_CFG_1(i, dt_cnt));
-> +
-> +		val = (tg->mode - 1) << TPG_VC_m_DT_n_CFG_2_PAYLOAD_MODE;
-> +		val |= 0xBE << TPG_VC_m_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
-> +		val |= format->encode_format << TPG_VC_m_DT_n_CFG_2_ENCODE_FORMAT;
-> +		writel_relaxed(val, tpg->base + TPG_VC_m_DT_n_CFG_2(i, dt_cnt));
-> +
-> +		writel_relaxed(0xA00, tpg->base + TPG_VC_n_COLOR_BARS_CFG(i));
-> +
-> +		writel_relaxed(0x4701, tpg->base + TPG_VC_n_HBI_CFG(i));
-> +		writel_relaxed(0x438, tpg->base + TPG_VC_n_VBI_CFG(i));
+> +	return lane_assign;
+> +}
 
-Please provide context for the magic numbers> +
-> +		writel_relaxed(0x12345678, tpg->base + TPG_VC_n_LSFR_SEED(i));
+Are you actually supporting different # of lanes feeding into the CSID ?
+
+If so you need to show how, if not drop dead code.
+
 > +
-> +		/* configure one DT, infinite frames */
-> +		val = i << TPG_VC_n_CFG0_VC_NUM;
-> +		val |= 0 << TPG_VC_n_CFG0_NUM_FRAMES;
-> +		writel_relaxed(val, tpg->base + TPG_VC_n_CFG0(i));
+>   /*
+>    * csid_get_lane_assign - Calculate CSI2 lane assign configuration parameter
+>    * @lane_cfg - CSI2 lane configuration
+> @@ -1266,6 +1283,7 @@ static int csid_link_setup(struct media_entity *entity,
+>   		struct csid_device *csid;
+>   		struct csiphy_device *csiphy;
+>   		struct csiphy_lanes_cfg *lane_cfg;
+> +		struct tpg_device *tpg;
+>   
+>   		sd = media_entity_to_v4l2_subdev(entity);
+>   		csid = v4l2_get_subdevdata(sd);
+> @@ -1277,18 +1295,26 @@ static int csid_link_setup(struct media_entity *entity,
+>   			return -EBUSY;
+>   
+>   		sd = media_entity_to_v4l2_subdev(remote->entity);
+> -		csiphy = v4l2_get_subdevdata(sd);
+> +		if (strnstr(sd->name, MSM_TPG_NAME, strlen(MSM_TPG_NAME))) {
+> +			tpg = v4l2_get_subdevdata(sd);
+
+If you need a flag add an "is_tpg" or otherwise encode a property into 
+the csiphy device.
+
+I can imagine needing to differentiate between CSIPHY and TPG numerous 
+times and we shouldn't be doing string comparisons for that.
+
+>   
+> -		/* If a sensor is not linked to CSIPHY */
+> -		/* do no allow a link from CSIPHY to CSID */
+> -		if (!csiphy->cfg.csi2)
+> -			return -EPERM;
+> +			csid->phy.lane_cnt = tpg->res->lane_cnt;
+
+The lane counts are fixed in the config so surely the assign_lane is 
+redundant - you could literally call the same function in the CSIPHY.
+
+So bigger question since alot of this code is copy/paste from CSIPHY - 
+why are we not reusing the code in camss-csiphy.c - either by extending 
+that file - i.e. adding TPG inside of that file or by exporting 
+functions from that file into camss-tpg.c ?
+
+Either way I'd like to reduce code duplication.
+
+> +			csid->phy.csiphy_id = tpg->id;
+> +			csid->phy.lane_assign = csid_get_csiphy_tpg_lane_assign(csid->phy.lane_cnt);
+> +		} else {
+> +			csiphy = v4l2_get_subdevdata(sd);
+> +
+> +			/* If a sensor is not linked to CSIPHY */
+> +			/* do no allow a link from CSIPHY to CSID */
+> +			if (!csiphy->cfg.csi2)
+> +				return -EPERM;
+>   
+> -		csid->phy.csiphy_id = csiphy->id;
+> +			csid->phy.csiphy_id = csiphy->id;
+>   
+> -		lane_cfg = &csiphy->cfg.csi2->lane_cfg;
+> -		csid->phy.lane_cnt = lane_cfg->num_data;
+> -		csid->phy.lane_assign = csid_get_lane_assign(lane_cfg);
+> +			lane_cfg = &csiphy->cfg.csi2->lane_cfg;
+> +			csid->phy.lane_cnt = lane_cfg->num_data;
+> +			csid->phy.lane_assign = csid_get_lane_assign(lane_cfg);
+> +		}
+>   	}
+>   	/* Decide which virtual channels to enable based on which source pads are enabled */
+>   	if (local->flags & MEDIA_PAD_FL_SOURCE) {
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index af5c9326736f9c8576816c91b73ad3e1d3a49dbf..34f71039038e881ced9c9f06bd70915b5c5f610f 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -3913,6 +3913,19 @@ static int camss_init_subdevices(struct camss *camss)
+>   		}
+>   	}
+>   
+> +	if (camss->tpg) {
+> +		for (i = 0; i < camss->res->tpg_num; i++) {
+> +			ret = msm_tpg_subdev_init(camss, &camss->tpg[i],
+> +						  &res->tpg_res[i], i);
+> +			if (ret < 0) {
+> +				dev_err(camss->dev,
+> +					"Failed to init tpg%d sub-device: %d\n",
+> +					i, ret);
+> +				return ret;
+> +			}
+> +		}
 > +	}
-> +
-> +	writel_relaxed(1, tpg->base + TPG_TOP_IRQ_MASK);
-> +
-> +	val = 1 << TPG_CTRL_TEST_EN;
-> +	val |= 0 << TPG_CTRL_PHY_SEL;
-> +	val |= (lane_cnt - 1) << TPG_CTRL_NUM_ACTIVE_LANES;
-> +	val |= 0 << TPG_CTRL_VC_DT_PATTERN_ID;
-> +	val |= (tpg->res->vc_cnt - 1) << TPG_CTRL_NUM_ACTIVE_VC;
-> +	writel_relaxed(val, tpg->base + TPG_CTRL);
 
-You want the last writel here (and in _off()) to *not* be relaxed,
-so that all the prior accesses would have been sent off to the hw
+OK so what I'd like is the thinking on why TPG is its own camss-tpg.c 
+and its own device, instead of a property of the CSIPHY.
 
-[...]
+I can lay out some of the arguments for/against that spring to mind.
 
-> +static u32 tpg_hw_version(struct tpg_device *tpg)
-> +{
-> +	u32 hw_version;
-> +	u32 hw_gen;
-> +	u32 hw_rev;
-> +	u32 hw_step;
-> +
-> +	hw_version = readl_relaxed(tpg->base + TPG_HW_VERSION);
-> +	hw_gen = (hw_version >> HW_VERSION_GENERATION) & 0xF;
-> +	hw_rev = (hw_version >> HW_VERSION_REVISION) & 0xFFF;
-> +	hw_step = (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+Separate for:
+     Cleaner code ?
+     Less logical change ?
+     Fewer clocks/ISR stuff to handle ?
 
-FIELD_GET()
+Separate against:
+     Code duplication
+     Data structure duplication
 
-> +	dev_dbg(tpg->camss->dev, "tpg HW Version = %u.%u.%u\n",
-> +		hw_gen, hw_rev, hw_step);
+I'd like you to explain your reasoning for the design choice, either in 
+the cover letter or inline as a response.
 
-dev_dbg_once()
+BTW its not criticism, I'm trying to get clear in my head your thinking 
+and also to prompt you to think about doing it the other way and to 
+justify the design choice to yourself and others or to change to a 
+different design choice, if that makes sense.
 
-[...]
+Part of me says "yes TPG should be its own device" another part of me 
+says "but it is so similar to CSIPHY" - either way I'd like to reduce 
+code duplication to something approaching nil.
 
-> +static int tpg_reset(struct tpg_device *tpg)
-> +{
-> +	writel_relaxed(0, tpg->base + TPG_CTRL);
-> +	writel_relaxed(0, tpg->base + TPG_TOP_IRQ_MASK);
-> +	writel_relaxed(1, tpg->base + TPG_TOP_IRQ_CLEAR);
-> +	writel_relaxed(1, tpg->base + TPG_IRQ_CMD);
-> +	writel_relaxed(1, tpg->base + TPG_CLEAR);
-
-similar comment as before
-
-Konrad
+---
+bod
 
