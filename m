@@ -1,136 +1,135 @@
-Return-Path: <linux-media+bounces-37936-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37937-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F001B0844C
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 07:36:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C934B0846F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 07:58:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2CBA1A650B2
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 05:36:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 192A9A41A6B
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 05:58:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B120A202962;
-	Thu, 17 Jul 2025 05:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A9A0202C45;
+	Thu, 17 Jul 2025 05:58:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dE3bGRf8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cyn8J0hM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAFB4689;
-	Thu, 17 Jul 2025 05:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FC17263B;
+	Thu, 17 Jul 2025 05:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752730575; cv=none; b=IigXpn5V7tBG3zKndD56pk6gUPnfYgukdw9JsWj/QNtIRXxyelXzEoF2E/slUA5d6AuujRqI0xF6GRCYU8DgxXju0eM7rWXAkSmb2o/5a5Dc+ICIoO06y0r3TifMj3i14DTexzI6tLBl1FpDd01ChR6vrVJxhQZkgfrb6VnatD0=
+	t=1752731905; cv=none; b=blNN5cvFZD8iVRhCy6cOZRp4u290J/1wwjsOMHNpxYsF38udoFc3zkkaizWvGuk+zswq81zVuToaUaTf3ZSM/0w9VXfKMtFxypsV07cTYVNlWJSLKrm7ouliklSnOYRW844WmlgPmmRGQ+Y51iheR3qjV0R3IZ1KRX4BvayVQx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752730575; c=relaxed/simple;
-	bh=FEmlEcSayOIHsQNQPyzw+jI8YB/J7gFPYA1NgXXjKwM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=IbAHel5iun8BehjDiPoEmXDtDLEt+Z3ZWKe02IJEBq/+xdEmV9RCm+FYVWceJKn90GqceqBojjXyx5G1/kqVAmD3jbzHD3SsIzLDYdbGF7Z6qIgYgmpFuYqKvCNROnGSDuHsd4sZnX5xtGF2AZwuF9zxgALHe3LOYuMQAQIwYtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dE3bGRf8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56H4Xolt021709;
-	Thu, 17 Jul 2025 05:36:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pJZ+0E9soK2DsOvwW41J5kJoGn76x716XyaTvcDEhqw=; b=dE3bGRf8sGA2L0fS
-	ovXARM2mGg1368Q++AYCK95sjn8tSLBqOtyv3DWKvNw87FniF+CQMm7QfYCXOIZL
-	96HEDS/Z7vq/7TwQ5WMI7tVKxtN7AXCY12xN8RdgoAQPbbHmUVcCBU4x3kXlZhhW
-	1UYy6MH6hhtmjhLAWKs6vYpry7TsuhILic+w5vq3w8uEgMjFmujLjzXuoG44K+Go
-	7b8740KeuGskzwQ+RCMWkxug+1lmsVF6yQxkO4CR1V1lX9BGJtIG/ED56TM8idtZ
-	W83xvjKfputJHCBgs3rSGLa6td6Y18A4NXDngxZDBwsoKwizOfZwZFiMmSlEIdmI
-	9AK+dA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufu8e7rm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Jul 2025 05:36:01 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56H5a0wD012740
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Jul 2025 05:36:00 GMT
-Received: from [10.216.39.173] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 16 Jul
- 2025 22:35:57 -0700
-Message-ID: <841a9087-f3cb-870f-5d33-77ad1b0eef28@quicinc.com>
-Date: Thu, 17 Jul 2025 11:05:54 +0530
+	s=arc-20240116; t=1752731905; c=relaxed/simple;
+	bh=GzaeNvGgBNjYJOHg+v353vPVI0VbmmbGU8uUuOb+dVI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c//FFG02JCGNEq5ua6yjVr2v97zf3cRPNBPehA55ah9a5nqip79R3FHWdogZWjpKO4eS3AaT82ybAi7bOtMNqMxbmPxyZxGIdYzWY4bpKjvkhzlGFTRcgMn9xN49S7apD7bD81WXx3P5EPQEXlF/6Za5pz8XRococp8EgAK3ArQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cyn8J0hM; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad572ba1347so88590766b.1;
+        Wed, 16 Jul 2025 22:58:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752731902; x=1753336702; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FIRTijv9i7tleNjJH5h95nFpr27ijpYUBRAXq3DNagE=;
+        b=Cyn8J0hMxBuKHO/Ccaj8FKA/jvxZYDBNMyN5baGk9rS/U/l6L3VrZec5syPiX05ipS
+         aQuL8iJd4NjwCxutgpl4V2a//dTbZdpHhcbIQztDjInldA650NUn2IUzbJ9NfDVXBqCG
+         /862pra89Mf+Shkzxuj0z4or9RQcPAUvaPyjcxReltGs/cRyK+Yg+EpEFskf4CAI6M4F
+         34nFmLsaUUu7F+uKKC7mRWXE5vfiEtpg6jn2vC0Uwwx5UWJnuqCAYjYi45Tg/gVIVLdP
+         saVoR14J5qTIvi5YYQt/7DOIz1BWdyksjzFeyZVkW+eFgDvjQa9eyKxuEGMrT60FX1D9
+         AT0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752731902; x=1753336702;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FIRTijv9i7tleNjJH5h95nFpr27ijpYUBRAXq3DNagE=;
+        b=weNFIh7SWCyP1yxOc4VKW4OxNCY9qMLQnD8VA8F2yyFqmgG0pFjUNneicfrLj005yV
+         yuR6AWcxW/e7d2i8ZdhAGhW1OKkzMnzyOBlzbDK9+Tbr1euUjB4WFMluirw7IhfzwrN6
+         abj9XImkRqQzkTyiY6BWU9YNQgZhfxYP0WXaIK5axnrniaMJo+ZKWARaQrBfX2qN2kDu
+         xo+Ma5NurksMTViF0xUPJ3rSeTCw9mgAOSA3nyLhMwHdncsaHZoNE8ngi+Q00ZJRZiZL
+         4KABVlIgjqK2SHxAnU52LBoOn3uXyzPrm4P1mBMGeysPWAb13arr+sz9Y7SXPi5t2CK7
+         v+Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+Qz8GP/yFvnlVTfQvWLefQ/vzRq2MeJ5m4N6uELF3XEbt8LW0/7Esqexzx4n05xlU+C6BM7riqOeF/V0=@vger.kernel.org, AJvYcCUDoD5scvh0awg88NGdtBLwtK7q98l4CUHKz8v/flaXImk8pB8XDvtPNdONADxdnqBC7s/vBURDZ1UpKa4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjDXJynj0QpvbHweLNWQBrRUxiZaiorvV3RZkVrr3G3AGPXzCY
+	epvvzGYlbpUBPWAjdnt4MIBBmkrayVCb0aAHHhivjgKd3t2ibPAP+dlaZwWpgqHrUFb6zmGnqQP
+	qr9lbcNuEAIXmjD10oDqhbGc0ZE/qXyo=
+X-Gm-Gg: ASbGncs6z0EbhyUaml5racYYc9u1clvpld0LWPpbyuVrC9/R7UGzT35IUcpfrOYi/cX
+	Y+DB+kpudyCsmawLYcMsS1yed7bwJ+cXbR0UcuRnjKXJM3xsv0Yya2Uy6L9B7F5D1rLpiEaNsF0
+	ezBIFBcxObg25dDfrJmXjkbG87KxPUv7KxHhRYQBgBCeSE4Ua5HECj5dOtP6xuD51Rg7mRbqNeb
+	ytPm+0b9A==
+X-Google-Smtp-Source: AGHT+IHI5thB/F2IFWJUiFlPA/6j+NF8ktS0u61JpA9SIcP0uSP4e1OxKm+GBgDu5WWhK82Gm1N5+7hJlRvgmyvD9u8=
+X-Received: by 2002:a17:907:1c10:b0:ae3:7c8c:351d with SMTP id
+ a640c23a62f3a-ae9ce1acb18mr557820566b.56.1752731902079; Wed, 16 Jul 2025
+ 22:58:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 00/25] Enable H.264/H.265 encoder support and fixes in
- common code
-Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar
-	<abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil
-	<hverkuil@xs4all.nl>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        "Vedang
- Nagar" <quic_vnagar@quicinc.com>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250704-iris-video-encoder-v1-0-b6ce24e273cf@quicinc.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250704-iris-video-encoder-v1-0-b6ce24e273cf@quicinc.com>
+References: <20250717013003.20936-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250717013003.20936-1-abdelrahmanfekry375@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 17 Jul 2025 08:57:45 +0300
+X-Gm-Features: Ac12FXxVS-slXnx8UX3hAelqaVMWQU1Khdwpoqjuk9lr1S5_RIlvpaD-SvuVP9A
+Message-ID: <CAHp75VdpkswJiuA9ems_7o8i9W8HWN4BredO7qsaR6HjO5TxdQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	dan.carpenter@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDA0NyBTYWx0ZWRfX3BM5acTuXAvV
- tiFLYrEYtfpCmXteEVMhMKPMsp64Z2FpgehlLQiJBu921R45QLRdbW94xnaFb/FENrizQK2DEej
- fuChMAmh6xoIxH3ILbpP8F1VAHX9Jj300LlWDeXnQ4xTruYvvCDZXlASpkifJxqznaCaKiQtAW3
- Osn+Z6Awd3xaRQH2heqJb2lu+l2KntXV/VAGmoICYALUIeh44Hd1pC74PZ5wgMm4zJ/p17UBhoj
- 5WCMv/ZPlqQWC5mdFQQA6e9TWzLRyEGB5O6LmOJ5WN6Z3AK7FZRlMIz+ou0Uq3Sihv134Nwk3jh
- TB5BXDf36LjRcX1I31m36xIygdnjOYRXBl/Urhg90VVS9wOgyOKmSkaub7qZmuoYY8QgYDY/FI/
- niWk/qndsukFHskXMG/jx5dpk/X+4CYmq6DRK3kL70PfZNM9KmSOS9xvppBn0TJF5WHi/lXx
-X-Proofpoint-ORIG-GUID: 6lpaXJ_rJyZ6BKl_DTnzk40Ex9EPc3Xx
-X-Proofpoint-GUID: 6lpaXJ_rJyZ6BKl_DTnzk40Ex9EPc3Xx
-X-Authority-Analysis: v=2.4 cv=f59IBPyM c=1 sm=1 tr=0 ts=68788bc1 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
- a=fSTb7FvrLMLh5MOGqSAA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-17_01,2025-07-16_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0 mlxscore=0
- bulkscore=0 suspectscore=0 impostorscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=533 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507170047
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jul 17, 2025 at 4:30=E2=80=AFAM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+>
+> The function atomisp_set_fmt() modifies shared device state and expects
+> callers to hold the isp->mutex for synchronization. While most internal
+> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+>
+> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+> pipe->frame_info may be modified concurrently without proper protection.
+>
+> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
 
-On 7/4/2025 1:23 PM, Dikshita Agarwal wrote:
-> Hi All,
-> 
-> This patch series adds support for H.264 and H.265 encoder in iris 
-> driver and includes a few fixes and cleanup in the common code that were 
-> identified during encoder bring-up process.
-> 
-> The changes include:
-> - Enabling support for H.264 and H.265 encoding.
-> - Fixes and improvements in shared componenets used by both encoder and 
-> decoder paths.
-> - Ensuring compatibility and stability with the existing decoder flow.
-> 
-> All patches have been tested with v4l2-compliance, v4l2-ctl and 
-> Gstreamer on SM8250 and SM8550 for encoder, at the same time ensured 
-> that the existing decoder functionality remains uneffected.
-> 
+...
 
-Tested-by: Vikash Garodia <quic_vgarodia@quicinc.com> # X1E80100
+>  #include <linux/delay.h>
+>  #include <linux/pci.h>
+> +#include <linux/cleanup.h>
+
+Keep it ordered.
+
+...
+
+> +       int ret;
+>
+> -       return atomisp_set_fmt(vdev, f);
+> +       scoped_guard(mutex, &isp->mutex)
+> +       {
+> +               ret =3D atomisp_set_fmt(vdev, f);
+> +       }
+> +       return ret;
+
+As Dan said, this should just add a (one line) guard()() and no other
+lines being touched.
+
+>  }
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
