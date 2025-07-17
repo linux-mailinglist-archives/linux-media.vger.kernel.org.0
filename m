@@ -1,153 +1,127 @@
-Return-Path: <linux-media+bounces-37924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37925-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72380B0826E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 03:33:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A29B08277
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 03:36:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D43B5A41C55
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 01:33:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 775C94A169C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 01:36:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41DB92116E9;
-	Thu, 17 Jul 2025 01:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E91A81E98E3;
+	Thu, 17 Jul 2025 01:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxhDSEf/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m6lieXeh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033951D7995;
-	Thu, 17 Jul 2025 01:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E936A1A288;
+	Thu, 17 Jul 2025 01:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752715847; cv=none; b=JXSSRqNmtfiJ4UzmFDMMF4nl9AUi2hrKcbpw9YiBcCyDWgXWwUoC9hMhSbWq8MQVP70n0dp9qWP8IHBeBfKobgD9GWiezTOhIkv0PRWoQnIqZAbe0U9h01mRhl7m6daApn97dggVeg4HSIxf3a/r1Y/RTUXIpc7QZLsKVSKTs6E=
+	t=1752716162; cv=none; b=l6NINaVSLZC9qHSfERNhJNT5PwisnueQN3vPfK0L1hpsH3CgxKQw1d0VruMBiPnTQYzFwWPHvz877DEX5+CdpPgBeg5CNRUw7gGEjdnjqDNB4rEr0Oy/V6RYQx/YvcJkHnvT4fz/LJUaZEKnEITZTSvSAWQCz5t9Xwzz1hhf4qY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752715847; c=relaxed/simple;
-	bh=t51vLpvwGCji3WfHfop/1c3FGfyG9mabn/HIMUh4ovQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dIDG3eB3F+7m6h5yIspOSWG01pS9wKoifQEbK1fvPaa4q9ZAj9cRqZ9SjM4mFT+VJDOksfpAaHQBuI72scX5ndhQO5Wm9XL1FjFYHYvvMHrRwlTp/cavt9ntKz2MUc1UdJh9NQxYf9MOXxLYhya0teR0a/Kz/l9K7jcA7DQND1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxhDSEf/; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1752716162; c=relaxed/simple;
+	bh=o1Fwf6j0ISsue9f3wIBUFF15vSnmrMxAjknVIWB6IA0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N71mzP0Y7toY83HWkZEW501nd5a/C7+WFmiFK//2qYRzinqoCiyfUofInf1ukp/KHLetA9hWUgY1RgR9IU3lpVBQ8Rikx6qRaKOtJ7U2J3cj/Zzstilre8G+AoAiEFeIVygoD8Jidgq4DI1FGYHIWGN4SDVM7S6AqwNWUz0f04Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6lieXeh; arc=none smtp.client-ip=209.85.219.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4eed70f24so67719f8f.0;
-        Wed, 16 Jul 2025 18:30:45 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e8bd443c9c9so62205276.1;
+        Wed, 16 Jul 2025 18:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752715844; x=1753320644; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H+kklIjjiVUrQ0AXButuBYND4S6p/85t9mFfj0+LcY4=;
-        b=WxhDSEf/8QtWC+VTFqiGykBn/XwlKQszYzFcx8spZob4uw2fHLlOYhhikT8OzqwYS2
-         QZNANG9hZUJCJZMS4X7VXD1n1jbe8aivkjn93LYDJvIV1Oq/CY43Xm+kvS58ytFz7hR5
-         kqvD2/b3g0tq1LXIUR1reC/TLCSGCzGrSUSfIK3pfXBuZZIdrwHbt0SqxAcxrUPyoZWN
-         U+IB1xzMLGAREyz0eEFFLRUHX8ZceGsgqd1YDbQfDE8tq/i5imyteYfr4Navg8Qf6YqR
-         us9JEhCCpHkk367IhlBpPCOX+nhkrUZ+c4cTBZCKh13bI4LwwNTRMJFfJpG6Lxt+LNlK
-         zQCw==
+        d=gmail.com; s=20230601; t=1752716160; x=1753320960; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o1Fwf6j0ISsue9f3wIBUFF15vSnmrMxAjknVIWB6IA0=;
+        b=m6lieXehDUGMplaTEpyZAXeteGc1bDOItf8qOKaTJ86jwyPP1sM4a+A9yo870KtBx/
+         pnlGyq8rYPdHU4CuaPa/e8lFecTMg3hy5B/kxHxt+Qyw7DkRI4Xccd3tIzTyfgoJI8+K
+         M9JjAzp7y52A4MpOBcu+c+GQUkgGu2ULX03loRPHBWntpP37qkd0+pI4NCRhmcv34q+f
+         H2GNh312z+GjDPjZ5EO4JsbxYR87TCul2VJA8mS4J+Hz5GTzqgOI7XJ6+gqX856MIWJU
+         aPuJqu2YGhdlkJvYJ3wKyR9x8gtA6+WYKuUWHV2O3Ge8WNGrdd3uyZKpQ/Rfo0CZCoym
+         aPTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752715844; x=1753320644;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H+kklIjjiVUrQ0AXButuBYND4S6p/85t9mFfj0+LcY4=;
-        b=N1XL5irKXgYpn2PZ4p8DdEjPmHU4SP5GQCmJQNLMgojYfweKuLkjP62mxnJV6Zt5SZ
-         roP3f8FIRFAoeTbURsWaRf0+JrOF7AH1BwHvgBMr83sz1m82ihRqgl3VtFShA6kkJXn4
-         R191JO5Tekqj/+nOyoG7KtweFFxTrKFc6PLnX9OPfKA8kbGMqPBpymaL9L+cXjm0Kse8
-         bm/60004sskO2xfR5lfl/l9VqRk1MR+CyYLdDm6iblOMyNp/aYO6VxW8Ba6wJIaydNaX
-         59Q5DY+Prt0hEZljEeZRdb0C0nFSahJZx/YtUssj/7+FkYXsPtjmzjAg9d/v6RXGEgMP
-         cfVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUV6CgUVeSbAxx7kX4odexZ04+ghGdMy8Mdq4pkYYWufehh5kPy/tO7J+Ga8OPLXgFMch5qm4vLxla2Ug=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRGiUkAOZleuSoim7tyB/SxYiM38EYlIbHlQq/pusylspqGSR5
-	CNWtt6cl+LW5+oaRtp3XoGCumYmCkjF4AzdjEz/oe1VBMMDSiSQuhVQr
-X-Gm-Gg: ASbGncsPepXUeNrLtLYMzVEV6D+l7mGlDPn+NH7uYv1QYqrZL2Lf/AHhczd0YKEV3sP
-	hX63kJo33I3Gr8FA67tDsDs+tJ9IBKNR/iuMw8wZ3ILjdUZjI2NtoYGJ25ZonL2drQeUhG1EFCc
-	w0ENqMc+uxmrvqpoU7rkw1yF3+fyVfNgDJ8+NwYh86IWjaan+CRMRMUKFNyJu+UGlT+r1YaSkS3
-	DxrUOjivp+goaf7cmLMUWFGC4fRCB3Xz+2kY7gLEf6ZwyU4MtAsZL5ElzaU0nwTlVmjp0oTnUjE
-	fPo+z6EpeNZ8967QDDB7Vh3DdtulUGwWeHzynvmtyhTgLckXGj6eBCqWxsUaqwW3pFV8jTXY72c
-	xHbYmiNSJC+7rYSyOGnPEJwRjVtLZ7H1q4v5t560qUXI7D6ODX2+fv3ESDVzL
-X-Google-Smtp-Source: AGHT+IGuAQHAVt+Ejfc6IMxLjZrv3iHwTroSL4krgJeFWI/p8To0LpPVCPV4Mn1dJ4YTjmmAm1Gn9A==
-X-Received: by 2002:a05:600c:530f:b0:456:2137:5662 with SMTP id 5b1f17b1804b1-456338a25f4mr8234185e9.7.1752715844013;
-        Wed, 16 Jul 2025 18:30:44 -0700 (PDT)
-Received: from localhost.localdomain ([154.182.204.213])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45634f6bc51sm7204555e9.17.2025.07.16.18.30.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 18:30:43 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v2] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
-Date: Thu, 17 Jul 2025 04:30:03 +0300
-Message-Id: <20250717013003.20936-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1752716160; x=1753320960;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o1Fwf6j0ISsue9f3wIBUFF15vSnmrMxAjknVIWB6IA0=;
+        b=kuJXuUVkeqYrKle77uIkZqRLI0ZyFJmoEIPMt9z6qkhqPkbCPEs6PGevrd/fRvvePr
+         wqvxvATlylOj7mEGOqz5qJixa4L2/55hjk1n7Y4NHitpfIBFHEKwJZOVrxA/xdCFMv1m
+         vQVL2vilpP3IVpIcJ0pIxo3jbahvRsRKW7kLb8w6/gjb/+fwJapOCVM+hbNQheTvckRc
+         SxlL0IicRmYP9IM7zWIRXGTgY6RejFNYbR+cqeWvfuyrBtWeKQWqPQi7pUGvF7O+U4X8
+         MV/WDVc7zSepq8ILBmN6CzhTxx1+h4FNBkqMOu37bMMQvON3/DVVtaoc0V3oR012CgsO
+         Ti8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWNJkK9UVRZMoXs4IflxOvskd/RdbryULSNf36ENywFqE+YM9PPRBVEOtG83a5DDD4+U3Gsb0eNsRl5tlw=@vger.kernel.org, AJvYcCXnXhxr5WYuoO1OtW9HCh70Yh8c5XmJnI0tCbnG18+qyHThUKAd/mEfbnzbUNq8mrqXKLuMklf8xG9iJAA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZetgKtAfAlaML8ejr0c/XQw5n+6BvbuIIyan2xt0vZQjJAGp5
+	oFZoR4UVsG8CEo/qfejkq6OQNvjf3otVgW/iHZJ0wSWU1DmU2Ac4t9R1jgBP3hPU7POrvs4n8OP
+	WLYAmVu3QlKoDI7Rdvp0bMqqRSr5jVlI=
+X-Gm-Gg: ASbGncs4PosdrCjNlKo/Kc1VhJdqx4EnsvEW8UvrRXc6LipXLuuNVvQ8KlsWJSk2KXe
+	1gOW8v6IBMt6I1TaWannGCYobgvXT418AJHfXg2x3Joz6UbyWhTdYjkqA3BQoUoOctXk3MmKnhv
+	aNBoyX0r32fQUk6GgOLkLdd9UqSrdtyfuQofU44TORmxWM6X1PWef8Ii/4S5Ch5cKW81PNVjh0J
+	/eIGmCC8g==
+X-Google-Smtp-Source: AGHT+IH/lQdFasnZ/62xy2rm8W8eVyEAu66p8hWMQS2ruZDTPQ4cnqhJNz+LLsT9MNxR7g7j30hd5GKkZuTm9PifFRU=
+X-Received: by 2002:a05:6902:490d:b0:e8b:ca74:622e with SMTP id
+ 3f1490d57ef6-e8bca7464f5mr2429870276.1.1752716159856; Wed, 16 Jul 2025
+ 18:35:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com> <eb7fd8f3-1d6e-421f-b5d9-f9e2d2992da5@suswa.mountain>
+In-Reply-To: <eb7fd8f3-1d6e-421f-b5d9-f9e2d2992da5@suswa.mountain>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Thu, 17 Jul 2025 04:35:47 +0300
+X-Gm-Features: Ac12FXxNSZIFdZuBHmzo8FplFaJtPqK8r6zWUmZ798tWJAaeeE-AzyDD9PmzLmE
+Message-ID: <CAGn2d8Mkfdmd3Td3aKQwaa539nMfL0rmJ5d6tLr9A12HSkCUzg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] staging: media: atomisp: More Cleanup on driver AtomIsp
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The function atomisp_set_fmt() modifies shared device state and expects
-callers to hold the isp->mutex for synchronization. While most internal
-callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+Hi Dan,
+Thanks for your feedback
 
-This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-(e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-pipe->frame_info may be modified concurrently without proper protection.
+On Wed, Jul 16, 2025 at 9:21=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> On Sat, Jul 12, 2025 at 10:13:22PM +0300, Abdelrahman Fekry wrote:
+> > Continuing the cleanup work that is being done on the AtomIsp driver,
+> > This series:
+> >
+> > - Process the error inside hmm_init().
+> > - Unifies the HMM init tracking method.
+> > - move hmm related function to hmm.c.
+> >
+> > Previously, These patches were sent individualy but they build on
+> > each other so i resent them as one patch series
+> >
+> > Suggested-by: Hans de Goede <hansg@kernel.org>
+> > Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+>
+> These seem reasonable enough to me.
+>
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+>
+> But it would be better if someone could test them as well.
+I tested this by building the driver and i really don't think further
+testing is needed
+since this series doesn't introduce any behavioral or functional change.
+>
+> regards,
+> dan carpenter
 
-- Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
-
-Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle")
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
-v2:
-- Add Fixes tag
-- use cleanup.h micros instead of explicitly calling mutex_lock/unlock
-
-v1: https://lore.kernel.org/all/20250716014225.15279-1-abdelrahmanfekry375@gmail.com/
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index bb8b2f2213b0..d3b8e480065e 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/delay.h>
- #include <linux/pci.h>
-+#include <linux/cleanup.h>
- 
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-event.h>
-@@ -416,8 +417,15 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
- 			     struct v4l2_format *f)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	struct atomisp_device *isp = video_get_drvdata(vdev);
-+
-+	int ret;
- 
--	return atomisp_set_fmt(vdev, f);
-+	scoped_guard(mutex, &isp->mutex)
-+	{
-+		ret = atomisp_set_fmt(vdev, f);
-+	}
-+	return ret;
- }
- 
- /*
--- 
-2.25.1
-
+Best Regards,
+Abdelrahman Fekry
 
