@@ -1,127 +1,115 @@
-Return-Path: <linux-media+bounces-37925-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A29B08277
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 03:36:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB76B0830C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 04:42:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 775C94A169C
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 01:36:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D5BF1C240A4
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 02:42:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E91A81E98E3;
-	Thu, 17 Jul 2025 01:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m6lieXeh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58EFF1E32CF;
+	Thu, 17 Jul 2025 02:42:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E936A1A288;
-	Thu, 17 Jul 2025 01:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA881D5AB7;
+	Thu, 17 Jul 2025 02:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752716162; cv=none; b=l6NINaVSLZC9qHSfERNhJNT5PwisnueQN3vPfK0L1hpsH3CgxKQw1d0VruMBiPnTQYzFwWPHvz877DEX5+CdpPgBeg5CNRUw7gGEjdnjqDNB4rEr0Oy/V6RYQx/YvcJkHnvT4fz/LJUaZEKnEITZTSvSAWQCz5t9Xwzz1hhf4qY=
+	t=1752720135; cv=none; b=teKEXOBOsCwVJI2G9d7QPA1Q/wGC4lFnuu+5fKu4uu3qv9SYitwJvuE7UmSZFe9Sz9yFBoYNUK9CK/+RdelEaaTzvmc3wmwe2wdxCPhGqNS53O3Zo7SLnx4OrDWZfm9GcSY8U3K6oEB2ObVpwi2qNlIeNOjx+UqJ0kU1Ky04DUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752716162; c=relaxed/simple;
-	bh=o1Fwf6j0ISsue9f3wIBUFF15vSnmrMxAjknVIWB6IA0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N71mzP0Y7toY83HWkZEW501nd5a/C7+WFmiFK//2qYRzinqoCiyfUofInf1ukp/KHLetA9hWUgY1RgR9IU3lpVBQ8Rikx6qRaKOtJ7U2J3cj/Zzstilre8G+AoAiEFeIVygoD8Jidgq4DI1FGYHIWGN4SDVM7S6AqwNWUz0f04Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6lieXeh; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e8bd443c9c9so62205276.1;
-        Wed, 16 Jul 2025 18:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752716160; x=1753320960; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o1Fwf6j0ISsue9f3wIBUFF15vSnmrMxAjknVIWB6IA0=;
-        b=m6lieXehDUGMplaTEpyZAXeteGc1bDOItf8qOKaTJ86jwyPP1sM4a+A9yo870KtBx/
-         pnlGyq8rYPdHU4CuaPa/e8lFecTMg3hy5B/kxHxt+Qyw7DkRI4Xccd3tIzTyfgoJI8+K
-         M9JjAzp7y52A4MpOBcu+c+GQUkgGu2ULX03loRPHBWntpP37qkd0+pI4NCRhmcv34q+f
-         H2GNh312z+GjDPjZ5EO4JsbxYR87TCul2VJA8mS4J+Hz5GTzqgOI7XJ6+gqX856MIWJU
-         aPuJqu2YGhdlkJvYJ3wKyR9x8gtA6+WYKuUWHV2O3Ge8WNGrdd3uyZKpQ/Rfo0CZCoym
-         aPTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752716160; x=1753320960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o1Fwf6j0ISsue9f3wIBUFF15vSnmrMxAjknVIWB6IA0=;
-        b=kuJXuUVkeqYrKle77uIkZqRLI0ZyFJmoEIPMt9z6qkhqPkbCPEs6PGevrd/fRvvePr
-         wqvxvATlylOj7mEGOqz5qJixa4L2/55hjk1n7Y4NHitpfIBFHEKwJZOVrxA/xdCFMv1m
-         vQVL2vilpP3IVpIcJ0pIxo3jbahvRsRKW7kLb8w6/gjb/+fwJapOCVM+hbNQheTvckRc
-         SxlL0IicRmYP9IM7zWIRXGTgY6RejFNYbR+cqeWvfuyrBtWeKQWqPQi7pUGvF7O+U4X8
-         MV/WDVc7zSepq8ILBmN6CzhTxx1+h4FNBkqMOu37bMMQvON3/DVVtaoc0V3oR012CgsO
-         Ti8A==
-X-Forwarded-Encrypted: i=1; AJvYcCWNJkK9UVRZMoXs4IflxOvskd/RdbryULSNf36ENywFqE+YM9PPRBVEOtG83a5DDD4+U3Gsb0eNsRl5tlw=@vger.kernel.org, AJvYcCXnXhxr5WYuoO1OtW9HCh70Yh8c5XmJnI0tCbnG18+qyHThUKAd/mEfbnzbUNq8mrqXKLuMklf8xG9iJAA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZetgKtAfAlaML8ejr0c/XQw5n+6BvbuIIyan2xt0vZQjJAGp5
-	oFZoR4UVsG8CEo/qfejkq6OQNvjf3otVgW/iHZJ0wSWU1DmU2Ac4t9R1jgBP3hPU7POrvs4n8OP
-	WLYAmVu3QlKoDI7Rdvp0bMqqRSr5jVlI=
-X-Gm-Gg: ASbGncs4PosdrCjNlKo/Kc1VhJdqx4EnsvEW8UvrRXc6LipXLuuNVvQ8KlsWJSk2KXe
-	1gOW8v6IBMt6I1TaWannGCYobgvXT418AJHfXg2x3Joz6UbyWhTdYjkqA3BQoUoOctXk3MmKnhv
-	aNBoyX0r32fQUk6GgOLkLdd9UqSrdtyfuQofU44TORmxWM6X1PWef8Ii/4S5Ch5cKW81PNVjh0J
-	/eIGmCC8g==
-X-Google-Smtp-Source: AGHT+IH/lQdFasnZ/62xy2rm8W8eVyEAu66p8hWMQS2ruZDTPQ4cnqhJNz+LLsT9MNxR7g7j30hd5GKkZuTm9PifFRU=
-X-Received: by 2002:a05:6902:490d:b0:e8b:ca74:622e with SMTP id
- 3f1490d57ef6-e8bca7464f5mr2429870276.1.1752716159856; Wed, 16 Jul 2025
- 18:35:59 -0700 (PDT)
+	s=arc-20240116; t=1752720135; c=relaxed/simple;
+	bh=s+t/uu9h2gvGqffSfaH4EUk1H5BqMIGobLIMcwtt6Oo=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=pFNQtUXxyExQq+kn741rnKp1qd310bPyp8de1WJuxHKDND0D/BzGGvgk3JNGr8v6hQbTi+hQlkW5oS0Q2Ax0RYhCbaGcWfRU3gMQC0qfeGrs6UyxZX9PHTpt/W96mPO7SJfjwBNPsQaDQ7THgeX3THJ0UY5+4jCjqgIEDf5Vi+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bjHJJ75ljz6Fy5m;
+	Thu, 17 Jul 2025 10:42:08 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 56H2fwwc004125;
+	Thu, 17 Jul 2025 10:41:58 +0800 (+08)
+	(envelope-from jiang.peng9@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid31;
+	Thu, 17 Jul 2025 10:41:59 +0800 (CST)
+Date: Thu, 17 Jul 2025 10:41:59 +0800 (CST)
+X-Zmail-TransId: 2af9687862f7ffffffffa49-5bc46
+X-Mailer: Zmail v1.0
+Message-ID: <202507171041593886W7pGra5n2hPMaT1j17NV@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com> <eb7fd8f3-1d6e-421f-b5d9-f9e2d2992da5@suswa.mountain>
-In-Reply-To: <eb7fd8f3-1d6e-421f-b5d9-f9e2d2992da5@suswa.mountain>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Thu, 17 Jul 2025 04:35:47 +0300
-X-Gm-Features: Ac12FXxNSZIFdZuBHmzo8FplFaJtPqK8r6zWUmZ798tWJAaeeE-AzyDD9PmzLmE
-Message-ID: <CAGn2d8Mkfdmd3Td3aKQwaa539nMfL0rmJ5d6tLr9A12HSkCUzg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] staging: media: atomisp: More Cleanup on driver AtomIsp
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
-	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <jiang.peng9@zte.com.cn>
+To: <mst@redhat.com>
+Cc: <jasowang@redhat.com>, <xuanzhuo@linux.alibaba.com>, <eperezma@redhat.com>,
+        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
+        <virtualization@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIHYzXSB2aXJ0aW86IFVwZGF0ZSBrZXJuZWxkb2MgaW4gZHJpdmVycy92aXJ0aW8vdmlydGlvX2RtYV9idWYuYw==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 56H2fwwc004125
+X-TLS: YES
+X-SPF-DOMAIN: zte.com.cn
+X-ENVELOPE-SENDER: jiang.peng9@zte.com.cn
+X-SPF: None
+X-SOURCE-IP: 10.5.228.132 unknown Thu, 17 Jul 2025 10:42:09 +0800
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 68786300.000/4bjHJJ75ljz6Fy5m
 
-Hi Dan,
-Thanks for your feedback
+From: Peng Jiang <jiang.peng9@zte.com.cn>
 
-On Wed, Jul 16, 2025 at 9:21=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> On Sat, Jul 12, 2025 at 10:13:22PM +0300, Abdelrahman Fekry wrote:
-> > Continuing the cleanup work that is being done on the AtomIsp driver,
-> > This series:
-> >
-> > - Process the error inside hmm_init().
-> > - Unifies the HMM init tracking method.
-> > - move hmm related function to hmm.c.
-> >
-> > Previously, These patches were sent individualy but they build on
-> > each other so i resent them as one patch series
-> >
-> > Suggested-by: Hans de Goede <hansg@kernel.org>
-> > Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
->
-> These seem reasonable enough to me.
->
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
->
-> But it would be better if someone could test them as well.
-I tested this by building the driver and i really don't think further
-testing is needed
-since this series doesn't introduce any behavioral or functional change.
->
-> regards,
-> dan carpenter
+Fix kernel-doc descriptions in virtio_dma_buf.c to fix W=1 warnings:
 
-Best Regards,
-Abdelrahman Fekry
+drivers/virtio/virtio_dma_buf.c:41 function parameter 'dma_buf' not described in 'virtio_dma_buf_attach'
+drivers/virtio/virtio_dma_buf.c:41 function parameter 'attach' not described in 'virtio_dma_buf_attach'
+
+Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
+---
+ drivers/virtio/virtio_dma_buf.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
+index 3fe1d03b0645..986cc73c503f 100644
+--- a/drivers/virtio/virtio_dma_buf.c
++++ b/drivers/virtio/virtio_dma_buf.c
+@@ -16,6 +16,8 @@
+  * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
+  * for an virtio exported object that can be queried by other virtio drivers
+  * for the object's UUID.
++ *
++ * Returns: dma-buf pointer on success, ERR_PTR on failure.
+  */
+ struct dma_buf *virtio_dma_buf_export
+        (const struct dma_buf_export_info *exp_info)
+@@ -36,6 +38,14 @@ EXPORT_SYMBOL(virtio_dma_buf_export);
+
+ /**
+  * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
++ * @dma_buf: DMA buffer being attached to a device
++ * @attach: Attachment metadata for the device-dma_buf association
++ *
++ * Allows virtio devices to perform device-specific setup when a DMA buffer
++ * is attached to a device. This is part of the DMA-BUF sharing mechanism
++ * that enables virtio devices to interoperate with other subsystems.
++ *
++ * Returns: 0 on success, negative on failure.
+  */
+ int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+                          struct dma_buf_attachment *attach)
+-- 
+2.25.1
 
