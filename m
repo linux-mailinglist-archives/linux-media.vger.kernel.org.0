@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-37966-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37965-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B63B08AFF
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:45:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A940B08AFE
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:45:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBBEC5614CA
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:45:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52E11560A2F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:45:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6445D29A9CD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 486E429A30E;
 	Thu, 17 Jul 2025 10:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H3A6A7Jx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e6/zFHNN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FCD7262E;
-	Thu, 17 Jul 2025 10:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C704127EFEF;
+	Thu, 17 Jul 2025 10:45:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752749146; cv=none; b=Dj8+V3W6TYg5NFVqSUYrlV/LccnbaLO51H9CInrrjuHlGP408Petp1it/pTU8VoD01iFepzWzcV1fJp0YPC0JDSJCxOM9W7sAYILqgeT5G05mOPEn2XkTQEv32gWwCv2Ou6pFASPFIAGb5jNO4NR2WDkzzwvyB755pcHW4HS+G4=
+	t=1752749146; cv=none; b=QFG+S3rJ6OMPXc1BZcJCQl09VYHMnTcUER3tNgS78NXrCbycuJXKCy9DZ+thJXBm0JhYK7vaTX/auYQOevU0+tmd1LvpkaEwknccQj1YVtyldehFTEg6V10hM7fofzZ/cTv0EWIyViamujgEtEKVOPJ00CgFZI9KWbXbWlIDjxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752749146; c=relaxed/simple;
-	bh=cjoxIF1FShQ3MqmokiwQg5mBWJtk/4HRO0233RI0GIM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eLsDn45fz8pLFRS6NqdfFrHJ84NqQfyRib8gxjkpicxJHmhAdS4yQ/um6jeqEK65vecp0gblrrmtjn1oDVI9ups88CoubeEvZBe3M3lzYyPThWsdhq9v4PoI9kLwG4aK3bLyLi1hcXvHbg4WGErPjD+WYWjH1gCdPFz1ltnaBGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H3A6A7Jx; arc=none smtp.client-ip=213.167.242.64
+	bh=kncEHGUHBsOPEbj18mUjhjLaFdDTloHadGxnvcBRhXM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qN9PCXjzSk+Ei8FUzzNNAxBWBnqyvfKrI4M3sUWKlgBPVe8xsUgXCANzrM5cBIl+W6KO+Py49GfDCcGbvtzFoTMxQOfvZYySrp+yXiE1A73kp5ezVoO3eoOUnrzdvRxaV8DQV3BHGM1KvZBRU6SC74W8eh4huyndVEldDOSnlm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e6/zFHNN; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-140-254.net.vodafone.it [5.90.140.254])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B70F61E74;
-	Thu, 17 Jul 2025 12:45:04 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3928A1FA4;
+	Thu, 17 Jul 2025 12:45:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752749106;
-	bh=cjoxIF1FShQ3MqmokiwQg5mBWJtk/4HRO0233RI0GIM=;
-	h=From:Subject:Date:To:Cc:From;
-	b=H3A6A7JxdxA0S9lbFiTrwPi/PtveKTmJ0vmkhK73K+SOg7q8CIa1SsEAYiguJhYKl
-	 x27Ov70NYTQ0De0InXRWwZyhvrUlfZzRtAOOr/MrQGcSVDU2ns5BmlIufjnHzxYw2Y
-	 w/cp3r1WnO8fBdqGiDOU7pJMfFkf6+XokYOKhF10=
+	s=mail; t=1752749107;
+	bh=kncEHGUHBsOPEbj18mUjhjLaFdDTloHadGxnvcBRhXM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=e6/zFHNNGGMuH9U9zuz8Y32+ZXvmPUdFLcgoaUGTzzI7yudysa2ihXzwZ0ROlRTlg
+	 VtzvEKB/c3xWVUziYbinIGVaZztT69TdZmXTe6Hpb6GzwdOerHBlL+sZJJK0Tmibs/
+	 uzKT1zKYrc61H11U42cD4rnoSEyJIsULmvDVrhf8=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: [PATCH 00/26] media: Add support for multi-context operations
-Date: Thu, 17 Jul 2025 12:45:26 +0200
-Message-Id: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
+Date: Thu, 17 Jul 2025 12:45:27 +0200
+Subject: [PATCH 01/26] media: mc: Add per-file-handle data support
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,10 +52,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEbUeGgC/x3MQQqDMBBA0avIrDugqTboVYqLdDragWSUJC2Ce
- PdGl48Pf4fEUTjBUO0Q+SdJFi1obhXQx+nMKO9iMLXpats8MHx9Flo085YxOFEvynhmvLe2J0u
- mfVkHZbBGnmS75s/xOP721rA/bAAAAA==
-X-Change-ID: 20250716-multicontext-mainline-2025-3479c7c24b7a
+Message-Id: <20250717-multicontext-mainline-2025-v1-1-81ac18979c03@ideasonboard.com>
+References: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
+In-Reply-To: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
@@ -74,241 +73,244 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
  Hans Verkuil <hverkuil@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11032;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7105;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=cjoxIF1FShQ3MqmokiwQg5mBWJtk/4HRO0233RI0GIM=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNROb0GemA/i0r9h4c/KRtAhDmkjpyXAiOaJS
- tNPwD+ewZiJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTgAKCRByNAaPFqFW
- PF2cD/46wzbAN+xWBi2DKuxKgysNCfY5YuMnTXlh5iKSQV/41fFfHlE5H9qiq4ghLA0GXzr2n1T
- USQILYg8nhnPfmFdcZ8Z+ngh90ojC3YFkj2BdtNP1mT0kmhxFtzrDoFK59HOXWX4z/QFqK81wmZ
- uyKT1u71KWQC4WvJ2w9+SpoYcNDY4lif59/J8k2OlTlyjXUXRjFAjoqhew4A3PkQI2eVNpoxoMB
- sdvBgB5AbrqR2zRndyKGbNcJthZxTqDtNLq10xCX2IibCdaKRMrQ7WP0mCY81+Px/dUYw62iMyD
- MZgRT25R0503TvqSqnwEd82aow2O3JFJTB0J/MKTC+dEU57+4ZLI5L7U7Xw3zv8u6Jwkfd6FzCe
- FeJTBWBAsBGF3C7BO9D9MdOpajwBZmidc5IajRvk1p22d9RZ3TXChss3SW5lU2yoC9v7CjqGZVf
- CNmngAj5TJkP8c1vGXVtXGAdKEe+W7E5acqBMI5ARXniINQwe0dccMIWl1GdwJD2o8dC5rwdTv8
- 5mabi/vOL5k8GgUjm5faCFljihRU8MTEevBpyHIM0BjJCcA4guiwFnguwh0JSfp+ILzOI/D4jJw
- Pn4xd0uqW208yll0k7opevLMO8g03/5mpOfr2ALspFPrdvBMsXv4t3EOtcfhzhPNz34u8OnAEND
- Q+usWoHGvKighRA==
+ bh=iZLPf77dc0oKef/FoIrNYxuY8wrefkX+9mbiaN7w1+U=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRObO3WXVK5YuwGNfryMHoO0eT2HGz8KOkkO
+ MoxoOP2EUWJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTgAKCRByNAaPFqFW
+ PB3qD/sHu7AvE8eTIOkPKtlkTHw4fCK4Ra3kALeaaL6nydbMc5ghfVmAgfX8uSjA1Sii5UBXIr1
+ WW12rKwYIpjl4VM1OSCQ/aA2pKCksaJReYzHumMCR5E47ocMHEsH1S/07zXiMpy85pCMUn/JnBP
+ vsjzArG/VzsGi+hgcG0KHxFpYKx0dncGf9ZR+skWqO+OctpySVJwPfzMkzGXhixn45qal+xzLBX
+ dI56Mr67KoUr1Grw6UH8S11LZ5KcvfZZ1qydxPeVV72dY6IkcbaSto6w72pKW7m2n3h0r+q6UMb
+ jnLV0RUimUfEkaMOEPsmpgKIDvCazpP4VahoLZ0Vd/e+1WkygfkSbS7Jdja6szY3UNfLxFNRjpy
+ qt6B6FdUjyUnanVZ4LWJJDzfIChBHLoojJXO50eEHTuCXcH3ybNOxxFpvqu1u6AAwpb2b+iuUc3
+ w4P+ZZRcZ8N2VlcuwtbyumX7x1yIlTEQqks+H5F3pTL3jXLgXO6WEH1Y5xmrldia70zceJOBNAW
+ XFGPcTraBODKmoCO3aH7IKamJ5Q8wJhvhVFur5pE+3eINwSTILE90fdLdw510CtbpdYkslq1d2h
+ ekSePo711T/X5zejFK9dzGnjBBmMItdhIKirYJrb3TR1la23SkplncwTJ6B+FJFI3/OOVy6V6Jc
+ uh1xtgaem0c0Oyw==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Modern ISPs are designed to handle multiple "streams" of data, not necessarily
-related to the same image or video stream.
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-The hardware resources are generally time-multiplexed between different
-execution contexts at the hardware or firmware level and in order to operate the
-ISP with multiple video sources it is necessary for drivers to keep track of
-per-context data and resources.
+The media devnode core associates devnodes with files by storing the
+devnode pointer in the file structure private_data field. In order to
+allow tracking of per-file-handle data introduce a new media devnode
+file handle structure that stores the devnode pointer, and store a
+pointer to that structure in the file private_data field.
 
-In V4L2 the M2M framework supports multiple contexts through multiple opens of
-the same video device. This doesn't however support drivers exposing multiple
-video devices and sub-devices. Several out-of-tree drivers implement
-multi-context support by registering multiple 'logical' instances of the same
-media graph, one for each context. This effectively multiplies the number of
-video device nodes and subdevice nodes. Userspace applications open one media
-graph instance and operate on the corresponding video devices, under the
-impression of dealing with a dedicated instance of the sole underlying hardware
-resource.
+Users of the media devnode code (the only existing user being
+media_device) are responsible for managing their own subclass of the
+media_devnode_fh structure.
 
-This solution is however a short term hack, it doesn't scale well when the
-number of contexts grow. ISPs such as the Mali C55 have been designed to process
-8 cameras concurrently, and other ISPs may do more.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-For this reason, a solution to expose and manage multiple execution contexts
-without duplicating the number of media, video and sub-devices registered to
-userspace is needed to improve support for multi-context devices in V4L2.
+Prepare struct media_device_fh to be used for maintaining file handle list
+to avoid shuffling things here and there right after.
 
-The series enables userspace to multiplex the usage of a media device and of
-video devices without duplicating the number of devnodes in userspace, by
-introducing the following concept in the framework:
-
-- Media Device Context: a context created at media-device open time and stored
-  in the media-fh file handle. To a media device context is associated a list
-  of media entity contexts which are 'bound' to it.
-
-- Video Device Context: represents an isolated execution context of a
-  video device. By storing the data and the configuration of a video
-  device userspace is allowed to effectively multiplex the usage of a
-  device node.
-
-- Video Subdevice Context: represents an isolated execution context of
-  v4l2 subdevice. It stores that subdev state which is now available in
-  three locations:
-  - in the file handle: for TRY formats
-  - in the subdevice: for ACTIVE formats to support operations of subdevices
-    drivers that do not implement context support
-  - in the subdevice default context: for ACTIVE formats to support
-    operations of subdevice drivers that implement context support and
-    are operated by non-context-aware userspace
-  - in the subdevice file-handle context: for ACTIVE formats to support
-    operations of subdevices drivers that implement context support and
-    are  bound to a media device context
-
-  Both the Video Device Context and the V4L2 Subdevice
-  Context extend the Media Entity Context base type so that the MC and
-  V4L2 layers are kept independent one from each other.
-
-- A Video Device Context is created by a new ioctl VIDIOC_BIND_CONTEXT and is
-  stored in the v4l2-fh file handle.
-
-- A V4L2 Subdevice context is created by a new ioctl
-  VIDIOC_SUBDEV_BIND_CONTEXT and is stored in the v4l2_subdev_fh file
-  handle.
-
-  The VIDIOC_BIND_CONTEXT and VIDIOC_SUBDEV_BIND_CONTEXT ioctls associates a
-  Video/Subdevice Context to a Media Device Context. By binding a set of video
-  devices and subdevices to a media device context userspace can create several
-  isolated 'execution contexts' which can be operated independently one from
-  each other.
-
-- A V4L2 Video Device and V4L2 Subdevice default context is made
-  created to allow drivers that implement multi-context support but are
-  operated by userspace that is not context aware (IOW doesn't call
-  VIDIOC_BIND_CONTEXT).
-
-The first 20 patches implement the above described changes in the
-framework:
-
-  media: v4l2-subdev: Validate media links with context
-  media: mc-entity: Add link_validate_context
-  media: media-entity: Support context in pipeline_start
-  media: v4l2-subdev: Get state from context
-  media: v4l2-subdev: Add subdev state accessor helpers
-  media: v4l2_subdev: Introduce default context
-  media: Documentation: Add VIDIOC_SUBDEV_BIND_CONTEXT
-  media: v4l2-subdv: Introduce VIDIOC_SUBDEV_BIND_CONTEXT
-  media: v4l2-subdev: Introduce v4l2 subdev context
-  media: videobuf2-v4l2: Support vb2_queue embedded in a context
-  media: v4l2-dev: Add video_device_context_from_queue()
-  media: v4l2-dev: Add video_device_context_from_file()
-  media: Introduce default contexts
-  media: v4l2-dev: Documentation: Add VIDIOC_BIND_CONTEXT
-  media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
-  media: v4l2-dev: Introduce video device context
-  media: media-device: Introduce media device context
-  media: media-entity: Introduce media_entity_context
-  media: mc: Maintain a list of open file handles in a media device
-  media: mc: Add per-file-handle data support
-
-For testing the implementation I used a Raspberry Pi5, implementing
-support for multiple contexts in the ISP driver. The PiSP BE driver
-however only implements video devices, as the single ISP subdev is not
-exposed to userspace and doesn't require any configuration. To test the
-V4L2 subdev context operations I had to first expose the ISP subdev to
-userspace and implement link validation and pipeline allocation for it.
-This is implemented in the following 6 patches NOT FOR INCLUSION in
-mainline but just here for reference
-
- [DNI] media: pisp_be: Register devnode to userspace
- [DNI] media: pisp_be: Implement link validation
- [DNI] media: pisp_be: Implement set/get_pad_fmt
- [DNI] media: pisp_be: Add support for subdev state
- [DNI] media: pisp_be: Start and stop the media pipeline
-
-Finally, the last patch (again NOT FOR INCLUSION) ports the ISP driver
-to support multi-context operations and provides a reference for the
-multi-context API usage by drivers:
-
- [DNI] media: pisp_be: Add support for multi-context
-
-The multi-context support has been tested with a version of libcamera
-that binds all video devices and the ISP subdevice in an execution
-context and allows to stream two cameras at the same time using the same
-media graph.
-
-In order to validate the fact that introducing context support in
-drivers doesn't break existing userspace which is not context-aware,
-capturing from a single camera with [mainline libcamera + ISP subdev
-configuration] has been tested as well.
-
-CI pipeline:
-- https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1472617
-- checkpatch errors are due to "DNI" prefix in last patches
-- static check errors seems unrelated to this set of patches but to
-  existing code
-- checkpatch error are due to the usage of "Generic" which checkpatch
-  doesn't like
-
-Branch for testing:
-- kernel patches:
-  https://gitlab.freedesktop.org/linux-media/users/jmondi/-/commits/multicontext/mainline/2025
-- libcamera multi-context:
-  https://git.libcamera.org/libcamera/jmondi/libcamera.git/log/?h=multicontext/rpi/mc
-- libcamera single context:
-  https://git.libcamera.org/libcamera/jmondi/libcamera.git/log/?h=multicontext/rpi/subdev-no-multi-context
-
-rfc->v1 Compared to the RFC version sent in September 2024:
-  - Implement support for V4L2 Subdevice context
-  - Implement context-aware pipeline start and link validation
-  - Break out from Sakari's media lifetime series the only 2 required
-    patches that introduce media_device_fh
-  - Test the BE ISP subdevice by implementing support for the ISP
-    subdevice in the BE driver
-
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
-Jacopo Mondi (24):
-      media: media-entity: Introduce media_entity_context
-      media: media-device: Introduce media device context
-      media: v4l2-dev: Introduce video device context
-      media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
-      media: Documentation: Add VIDIOC_BIND_CONTEXT
-      media: v4l2-dev: Introduce default contexts
-      media: v4l2-dev: Add video_device_context_from_file()
-      media: v4l2-dev: Add video_device_context_from_queue()
-      media: videobuf2-v4l2: Support vb2_queue embedded in a context
-      media: v4l2-subdev: Introduce v4l2 subdev context
-      media: v4l2-subdev: Introduce VIDIOC_SUBDEV_BIND_CONTEXT
-      media: Documentation: Add VIDIOC_SUBDEV_BIND_CONTEXT
-      media: v4l2_subdev: Introduce default context
-      media: v4l2-subdev: Add subdev state accessor helpers
-      media: v4l2-subdev: Get state from context
-      media: media-entity: Support context in pipeline_start
-      media: mc-entity: Add link_validate_context
-      media: v4l2-subdev: Validate media links with context
-      [DNI] media: pisp_be: Start and stop the media pipeline
-      [DNI] media: pisp_be: Add support for subdev state
-      [DNI] media: pisp_be: Implement set/get_pad_fmt
-      [DNI] media: pisp_be: Implement link validation
-      [DNI] media: pisp_be: Register devnode to userspace
-      [DNI] media: pisp_be: Add support for multi-context
+ drivers/media/mc/mc-device.c  | 14 +++++++++++++-
+ drivers/media/mc/mc-devnode.c | 20 +++++++++-----------
+ include/media/media-device.h  |  7 +++++++
+ include/media/media-devnode.h | 18 +++++++++++++++++-
+ include/media/media-fh.h      | 32 ++++++++++++++++++++++++++++++++
+ 5 files changed, 78 insertions(+), 13 deletions(-)
 
-Laurent Pinchart (1):
-      media: mc: Add per-file-handle data support
+diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+index c0dd4ae5722725f1744bc6fd6282d5c765438059..f298f8f67b8a84194d66126461e84228c0b20394 100644
+--- a/drivers/media/mc/mc-device.c
++++ b/drivers/media/mc/mc-device.c
+@@ -22,6 +22,7 @@
+ #include <media/media-device.h>
+ #include <media/media-devnode.h>
+ #include <media/media-entity.h>
++#include <media/media-fh.h>
+ #include <media/media-request.h>
+ 
+ #ifdef CONFIG_MEDIA_CONTROLLER
+@@ -35,7 +36,6 @@
+ #define MEDIA_ENT_SUBTYPE_MASK			0x0000ffff
+ #define MEDIA_ENT_T_DEVNODE_UNKNOWN		(MEDIA_ENT_F_OLD_BASE | \
+ 						 MEDIA_ENT_SUBTYPE_MASK)
+-
+ /* -----------------------------------------------------------------------------
+  * Userspace API
+  */
+@@ -47,11 +47,23 @@ static inline void __user *media_get_uptr(__u64 arg)
+ 
+ static int media_device_open(struct file *filp)
+ {
++	struct media_device_fh *fh;
++
++	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
++	if (!fh)
++		return -ENOMEM;
++
++	filp->private_data = &fh->fh;
++
+ 	return 0;
+ }
+ 
+ static int media_device_close(struct file *filp)
+ {
++	struct media_device_fh *fh = media_device_fh(filp);
++
++	kfree(fh);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
+index 56444edaf13651874331e7c04e86b0a585067d38..312eb48ffc2f2a0c013e4744204995df0ff5b12c 100644
+--- a/drivers/media/mc/mc-devnode.c
++++ b/drivers/media/mc/mc-devnode.c
+@@ -142,6 +142,7 @@ static long media_compat_ioctl(struct file *filp, unsigned int cmd,
+ static int media_open(struct inode *inode, struct file *filp)
+ {
+ 	struct media_devnode *devnode;
++	struct media_devnode_fh *fh;
+ 	int ret;
+ 
+ 	/* Check if the media device is available. This needs to be done with
+@@ -162,17 +163,15 @@ static int media_open(struct inode *inode, struct file *filp)
+ 	get_device(&devnode->dev);
+ 	mutex_unlock(&media_devnode_lock);
+ 
+-	filp->private_data = devnode;
+-
+-	if (devnode->fops->open) {
+-		ret = devnode->fops->open(filp);
+-		if (ret) {
+-			put_device(&devnode->dev);
+-			filp->private_data = NULL;
+-			return ret;
+-		}
++	ret = devnode->fops->open(filp);
++	if (ret) {
++		put_device(&devnode->dev);
++		return ret;
+ 	}
+ 
++	fh = filp->private_data;
++	fh->devnode = devnode;
++
+ 	return 0;
+ }
+ 
+@@ -181,8 +180,7 @@ static int media_release(struct inode *inode, struct file *filp)
+ {
+ 	struct media_devnode *devnode = media_devnode_data(filp);
+ 
+-	if (devnode->fops->release)
+-		devnode->fops->release(filp);
++	devnode->fops->release(filp);
+ 
+ 	filp->private_data = NULL;
+ 
+diff --git a/include/media/media-device.h b/include/media/media-device.h
+index 53d2a16a70b0d9d6e5cc28fe1fc5d5ef384410d5..2fc750efef7c43814f019f12078e9c96c1bd6bf9 100644
+--- a/include/media/media-device.h
++++ b/include/media/media-device.h
+@@ -108,6 +108,10 @@ struct media_device_ops {
+  *		     other operations that stop or start streaming.
+  * @request_id: Used to generate unique request IDs
+  *
++ * @fh_list:	List of file handles in the media device
++ *		(struct media_device_fh.mdev_list).
++ * @fh_list_lock: Serialise access to fh_list list.
++ *
+  * This structure represents an abstract high-level media device. It allows easy
+  * access to entities and provides basic media device-level support. The
+  * structure can be allocated directly or embedded in a larger structure.
+@@ -180,6 +184,9 @@ struct media_device {
+ 
+ 	struct mutex req_queue_mutex;
+ 	atomic_t request_id;
++
++	struct list_head fh_list;
++	spinlock_t fh_list_lock;
+ };
+ 
+ /* We don't need to include usb.h here */
+diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
+index d27c1c646c2805171be3997d72210dd4d1a38e32..6c2e253dde498779dffd103dc5d00e50e14a0249 100644
+--- a/include/media/media-devnode.h
++++ b/include/media/media-devnode.h
+@@ -55,6 +55,20 @@ struct media_file_operations {
+ 	int (*release) (struct file *);
+ };
+ 
++/**
++ * struct media_devnode_fh - Media device node file handle
++ * @devnode:	pointer to the media device node
++ *
++ * This structure serves as a base for per-file-handle data storage. Media
++ * device node users embed media_devnode_fh in their custom file handle data
++ * structures and store the media_devnode_fh in the file private_data in order
++ * to let the media device node core locate the media_devnode corresponding to a
++ * file handle.
++ */
++struct media_devnode_fh {
++	struct media_devnode *devnode;
++};
++
+ /**
+  * struct media_devnode - Media device node
+  * @media_dev:	pointer to struct &media_device
+@@ -146,7 +160,9 @@ void media_devnode_unregister(struct media_devnode *devnode);
+  */
+ static inline struct media_devnode *media_devnode_data(struct file *filp)
+ {
+-	return filp->private_data;
++	struct media_devnode_fh *fh = filp->private_data;
++
++	return fh->devnode;
+ }
+ 
+ /**
+diff --git a/include/media/media-fh.h b/include/media/media-fh.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..6f00744b81d6000a4b0c503fe6968dd7adcbb1c3
+--- /dev/null
++++ b/include/media/media-fh.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Media device file handle
++ *
++ * Copyright (C) 2019--2023 Intel Corporation
++ */
++
++#ifndef MEDIA_FH_H
++#define MEDIA_FH_H
++
++#include <linux/list.h>
++#include <linux/file.h>
++
++#include <media/media-devnode.h>
++
++/**
++ * struct media_device_fh - File handle specific information on MC
++ *
++ * @fh: The media device file handle
++ * @mdev_list: This file handle in media device's list of file handles
++ */
++struct media_device_fh {
++	struct media_devnode_fh fh;
++	struct list_head mdev_list;
++};
++
++static inline struct media_device_fh *media_device_fh(struct file *filp)
++{
++	return container_of(filp->private_data, struct media_device_fh, fh);
++}
++
++#endif /* MEDIA_FH_H */
 
-Sakari Ailus (1):
-      media: mc: Maintain a list of open file handles in a media device
-
- .../userspace-api/media/v4l/user-func.rst          |   2 +
- .../media/v4l/vidioc-bind-context.rst              |  80 +++
- .../media/v4l/vidioc-subdev-bind-context.rst       |  81 +++
- drivers/media/common/videobuf2/videobuf2-v4l2.c    | 135 ++--
- drivers/media/mc/mc-device.c                       | 212 +++++-
- drivers/media/mc/mc-devnode.c                      |  20 +-
- drivers/media/mc/mc-entity.c                       | 220 +++++-
- .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 773 ++++++++++++++++-----
- drivers/media/v4l2-core/v4l2-dev.c                 | 158 ++++-
- drivers/media/v4l2-core/v4l2-device.c              |  11 +-
- drivers/media/v4l2-core/v4l2-fh.c                  |   1 +
- drivers/media/v4l2-core/v4l2-ioctl.c               |  64 ++
- drivers/media/v4l2-core/v4l2-subdev.c              | 414 ++++++++++-
- include/media/media-device.h                       | 223 ++++++
- include/media/media-devnode.h                      |  21 +-
- include/media/media-entity.h                       | 163 ++++-
- include/media/media-fh.h                           |  37 +
- include/media/v4l2-dev.h                           | 252 +++++++
- include/media/v4l2-fh.h                            |   3 +
- include/media/v4l2-ioctl.h                         |   7 +
- include/media/v4l2-subdev.h                        | 293 ++++++--
- include/uapi/linux/v4l2-subdev.h                   |  11 +
- include/uapi/linux/videodev2.h                     |  11 +
- 23 files changed, 2845 insertions(+), 347 deletions(-)
----
-base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
-change-id: 20250716-multicontext-mainline-2025-3479c7c24b7a
-
-Best regards,
 -- 
-Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+2.49.0
 
 
