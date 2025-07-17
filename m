@@ -1,50 +1,49 @@
-Return-Path: <linux-media+bounces-37967-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37968-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD64CB08B03
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:46:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6707DB08B05
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:46:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B30C5A48734
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:45:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27EEAA48763
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:46:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8048E29B761;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A331129B777;
 	Thu, 17 Jul 2025 10:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N3JWhyUJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UmMTSjqp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571B429ACC0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C5C29ACC8;
 	Thu, 17 Jul 2025 10:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752749149; cv=none; b=qnNpvs9Xw5pTPavLZTne3E6oU+Qs3y+CshvGWiNVge4MQnPKzeRxMyYvuHALQxQ5DWxrhcG1aRqEQr7teCDh2xy969VGX8ZXHdYd7sXwiaipaBiMSgARGQXB6OaCb7Mvxw994HPbL/P945lgDZiJMaz2wEQUkiExC7sF8RMRYK8=
+	t=1752749150; cv=none; b=ezvzy+jx/VLopkaeqdIkQ52ZQnCZeixiFpSpXS0rgNsm8KaK8yAFE85rJDTNpBK2pTZC/hmaw/1BUoCHYT4Pc6rrQf2zdpPyJIFAlwx88HAR/ZY6epzFnNwnh0asGF9CUHS8nCNf38AtXBSsetsVjTn065mnK68fYkdUI+hjwUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752749149; c=relaxed/simple;
-	bh=zDLiKpcarRebLqHSrXV+LHH8PWDYb0+SfoPVzO8Rjbg=;
+	s=arc-20240116; t=1752749150; c=relaxed/simple;
+	bh=MQRwA7fqy++hrn9wDtM90iaXfefqzRiYRYRIsmH0eBo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CIOjCXfgi103HBNMtYG+9phKyDeGm6elncwLTMZrlGVRHoWQxFbtrsHMivTbbSGAG9rO8ZwiIKIirXLeilX8t3yJAOLNRcMRi76vbAog1lZ4wa6RL2Jb7Om782NuLhzGxNztTmVNAHVxQ/9bFTE2RswE4j4hn5QnZlO6tysdgnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N3JWhyUJ; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=aiK7AIRMfBeF8vx6181uc+9PTBfPTbWxCfgdlkUefYKXrllrJO80C08fLXjxAPGgeYhOL4Rlzt0JqbyuvCyWJxMf7dT623rcPNCmtfnu/zpKFVyBMzg0f2WBYcsXwqj5BPJzJ8vGQfp2Q1kcNJqYHt2FPXuz/C4QR8wpggngvsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UmMTSjqp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-140-254.net.vodafone.it [5.90.140.254])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A729221F2;
-	Thu, 17 Jul 2025 12:45:07 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2334920EE;
+	Thu, 17 Jul 2025 12:45:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752749108;
-	bh=zDLiKpcarRebLqHSrXV+LHH8PWDYb0+SfoPVzO8Rjbg=;
+	s=mail; t=1752749110;
+	bh=MQRwA7fqy++hrn9wDtM90iaXfefqzRiYRYRIsmH0eBo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=N3JWhyUJPHkJFR6fywQTP3lfTnJe2j3ASCC7Qf+2GRr7QmUmuLjDgFQH4HRtmXf8r
-	 zdoRQ4BwUz/8YodGiayWyswz35rIdCagMvd2YsXqJadFd1BelvJULilRvLywc3CJ5j
-	 V0LQzqEdi7FmnDbAmDQaSOOW1dncTZ+an6/BS7w8=
+	b=UmMTSjqpvuVK3Q9KhJ/6vo6FB2X7TmnS9CtKSLhWRQWZkt9vsA1wVHbZOThrW7dhz
+	 IhhdheGJKW8JWVr1A2GaERsmxTUZv78WloBiw4NxFgKEclyMQYv5i+sdFiRtexJAZH
+	 lziStg4Yo7dms0xsYVljmvVKFq0eT2rBh4QE/c9U=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Thu, 17 Jul 2025 12:45:28 +0200
-Subject: [PATCH 02/26] media: mc: Maintain a list of open file handles in a
- media device
+Date: Thu, 17 Jul 2025 12:45:29 +0200
+Subject: [PATCH 03/26] media: media-entity: Introduce media_entity_context
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250717-multicontext-mainline-2025-v1-2-81ac18979c03@ideasonboard.com>
+Message-Id: <20250717-multicontext-mainline-2025-v1-3-81ac18979c03@ideasonboard.com>
 References: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 In-Reply-To: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -72,135 +71,229 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3849;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7515;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=/rqN2PeYLVGrC1gEE4q9OmKFqZ01RUXwuvcLLsZvWlg=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRODvjJd3XMj2tWRmbA5TTdq+0kdqmzKby+D
- FpwmIcXgoeJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTgAKCRByNAaPFqFW
- PN9kEADHAaupDlJBw4zoO05gDJC4g+2dUdVBtaKJ2IjklJUtSyewhQLVvyCIeIZ06l6FiAGmRxt
- vNWuVUDBpzFcvC3mM0AnlCf0CLyuOM7VOS5Vor0if88GN/Hj0TGxfHplOsFx7itbYITAsFliNJD
- U/dOb/2y1+Kgq8cn+zVIoI6uExDm66LOtEkCSotlBV/M0VKuLYIDMaA0Gqt/dd/odef91JtAHkN
- M5SFhvCGByUDqyf23dVkVHhI8nz0S9fvPuwhMcJlY6C9qrSRJFBSynISdRtf34mhdHk1Xh/CoYt
- nCISqlU6WAIwf+EXs7LQeTJe8pNaRw2dwsGNxgtdI6r/DmqcvBm0xczMQpXmAZ9uHe8ryOym+Fh
- yRHhdlywq//+IwXTUwTD/IcMe9k6qnKn+uIb1ofjkz1czqKWD57zAR2mSLkVb0zhdXYO/L75zmI
- ol8VsoiVKdA3FfvanFGSsLhCOmkpA8ikYbOgJk9TB625InFA9nL7JmFW+p0eYXFt+bop2odETIQ
- jOXFxDBowgbL3mpI+Ro3NNUSQXV2oeScvhEzN2UksG2NU4EY4aZ17bAfWg1gVayRt1QEBUjOaCR
- rvr6PcZbAAMQc0/82aZTUZEtQ/S8E7b+nhkzJyVnjCJuK+fmF120eet7jkQSqhLeTdwJfeTKvNN
- 8rQjm6Voijtk1Fw==
+ bh=MQRwA7fqy++hrn9wDtM90iaXfefqzRiYRYRIsmH0eBo=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRP61XYyB838338Dlg46RgQigjlhUEOJLdzh
+ pII+hfKMCSJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTwAKCRByNAaPFqFW
+ PI2dEACya3+bVHv1j5Q2ClKKwUIQDW7LYn3klEs1T+ShPGyyx4nq8E5dcUCsVwIxWxozjM7CUoD
+ smQnWh4p2o9Spj5d0CBlpbwE3Lbwb3MgCdy714aRGAVEBiZ21gdBPX0oGsqZsj0ypzH3Zv/ShA0
+ aEhfY+C2MYh3DELVyD7jTOqXH5qxv+tJ1FgWzHeow2PfbBwgDKA7XmWptovTY7Z9snAg3bEIb8Z
+ m76uybcPBLDfk/wT0oawiBV8sqP1Ime9lccZPSZ5tcZ+XXnlahPesOCAvTrd2ynoMcZd8wFSJwj
+ SxBQGy0y1O90+ZlZF3KHS6q7ACip6TWG+9JWbAseveDK6ErmPrvLZtKZK9uBnsu5F+vMDMDZIq8
+ U8iuwMrfglLTNOl+3REOkp0VWAULKQB12uhf6LBjOs1ytGK/l0V7+7V2pvAauXsjB2BVEKsgYDm
+ OtizhgDp40rxeDL1Kx2Q343YbH5JjvwakLgC3Z5BplfsBvQvlNc0ysRz42heI+5ZIhwEgP1CBJ1
+ GOr0O9+qEljK1wqSCi6uVGWD5P5vtlwPqxAoKPcRzzGIciWb9yXayQryVB4AM7UCtHh0Mly+oY0
+ SW1PMxXxt8rL4Kdf5wbgwRgpamluIh1JMZ6DfMMrR5nCHHNkiWJh/AuRRcjyRce5129+T81TZWS
+ UHFcHlZr5cbHwWQ==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+Introduce the 'struct media_entity_context' type, which serves for
+reference counting and introduce two new media entity operations to
+allow drivers to allocate and free a media entity context.
 
-The list of file handles is needed to deliver media events as well as for
-other purposes in the future.
+The newly introduced type will be used as a base type for the
+device context types (video_device_context and v4l2_subdevice_context)
+that will be introduced in the next patches.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-[Access media_device with devnode->media_dev]
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/mc/mc-device.c  | 19 ++++++++++++++++++-
- drivers/media/mc/mc-devnode.c |  2 +-
- include/media/media-devnode.h |  3 ++-
- 3 files changed, 21 insertions(+), 3 deletions(-)
+ drivers/media/mc/mc-entity.c |  46 ++++++++++++++++++++
+ include/media/media-entity.h | 101 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 147 insertions(+)
 
-diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index f298f8f67b8a84194d66126461e84228c0b20394..e0cad87087d3863bf14207049a54e5e4dea1cdd4 100644
---- a/drivers/media/mc/mc-device.c
-+++ b/drivers/media/mc/mc-device.c
-@@ -45,8 +45,9 @@ static inline void __user *media_get_uptr(__u64 arg)
- 	return (void __user *)(uintptr_t)arg;
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 045590905582054c46656e20463271b1f93fa6b4..b4a9f0a0aa7353d7a3333f20903980956b3df4a7 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -1673,3 +1673,49 @@ struct media_link *__media_entity_next_link(struct media_entity *entity,
+ 	return NULL;
  }
- 
--static int media_device_open(struct file *filp)
-+static int media_device_open(struct media_devnode *devnode, struct file *filp)
- {
-+	struct media_device *mdev = devnode->media_dev;
- 	struct media_device_fh *fh;
- 
- 	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
-@@ -55,13 +56,23 @@ static int media_device_open(struct file *filp)
- 
- 	filp->private_data = &fh->fh;
- 
-+	spin_lock_irq(&mdev->fh_list_lock);
-+	list_add(&fh->mdev_list, &mdev->fh_list);
-+	spin_unlock_irq(&mdev->fh_list_lock);
+ EXPORT_SYMBOL_GPL(__media_entity_next_link);
 +
- 	return 0;
- }
- 
- static int media_device_close(struct file *filp)
- {
-+	struct media_devnode *devnode = media_devnode_data(filp);
-+	struct media_device *mdev = devnode->media_dev;
- 	struct media_device_fh *fh = media_device_fh(filp);
- 
-+	spin_lock_irq(&mdev->fh_list_lock);
-+	list_del(&fh->mdev_list);
-+	spin_unlock_irq(&mdev->fh_list_lock);
++static void media_entity_release_context(struct kref *refcount)
++{
++	struct media_entity_context *ctx =
++		container_of(refcount, struct media_entity_context, refcount);
 +
- 	kfree(fh);
- 
- 	return 0;
-@@ -698,10 +709,12 @@ void media_device_init(struct media_device *mdev)
- 	INIT_LIST_HEAD(&mdev->pads);
- 	INIT_LIST_HEAD(&mdev->links);
- 	INIT_LIST_HEAD(&mdev->entity_notify);
-+	INIT_LIST_HEAD(&mdev->fh_list);
- 
- 	mutex_init(&mdev->req_queue_mutex);
- 	mutex_init(&mdev->graph_mutex);
- 	ida_init(&mdev->entity_internal_idx);
-+	spin_lock_init(&mdev->fh_list_lock);
- 
- 	atomic_set(&mdev->request_id, 0);
- 
-@@ -809,6 +822,10 @@ void media_device_unregister(struct media_device *mdev)
- 		return;
- 	}
- 
-+	spin_lock_irq(&mdev->fh_list_lock);
-+	list_del_init(&mdev->fh_list);
-+	spin_unlock_irq(&mdev->fh_list_lock);
++	ctx->entity->ops->destroy_context(ctx);
++}
 +
- 	/* Clear the devnode register bit to avoid races with media dev open */
- 	media_devnode_unregister_prepare(mdev->devnode);
- 
-diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-index 312eb48ffc2f2a0c013e4744204995df0ff5b12c..50435f102aa7cd6a7cde759eeef73a99b9b80239 100644
---- a/drivers/media/mc/mc-devnode.c
-+++ b/drivers/media/mc/mc-devnode.c
-@@ -163,7 +163,7 @@ static int media_open(struct inode *inode, struct file *filp)
- 	get_device(&devnode->dev);
- 	mutex_unlock(&media_devnode_lock);
- 
--	ret = devnode->fops->open(filp);
-+	ret = devnode->fops->open(devnode, filp);
- 	if (ret) {
- 		put_device(&devnode->dev);
- 		return ret;
-diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
-index 6c2e253dde498779dffd103dc5d00e50e14a0249..26b19373c6646bfd11cfded220c9e61c81130580 100644
---- a/include/media/media-devnode.h
-+++ b/include/media/media-devnode.h
-@@ -22,6 +22,7 @@
- #include <linux/cdev.h>
- 
- struct media_device;
-+struct media_devnode;
- 
- /*
-  * Flag to mark the media_devnode struct as registered. Drivers must not touch
-@@ -51,7 +52,7 @@ struct media_file_operations {
- 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
- 	long (*ioctl) (struct file *, unsigned int, unsigned long);
- 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
--	int (*open) (struct file *);
-+	int (*open) (struct media_devnode *, struct file *);
- 	int (*release) (struct file *);
++struct media_entity_context *
++media_entity_context_get(struct media_entity_context *ctx)
++{
++	if (!ctx)
++		return ERR_PTR(-EINVAL);
++
++	kref_get(&ctx->refcount);
++
++	return ctx;
++}
++EXPORT_SYMBOL_GPL(media_entity_context_get);
++
++void media_entity_context_put(struct media_entity_context *ctx)
++{
++	if (!ctx)
++		return;
++
++	kref_put(&ctx->refcount, media_entity_release_context);
++}
++EXPORT_SYMBOL_GPL(media_entity_context_put);
++
++void media_entity_init_context(struct media_entity *entity,
++			       struct media_entity_context *ctx)
++{
++	if (!ctx)
++		return;
++
++	ctx->entity = entity;
++	kref_init(&ctx->refcount);
++	INIT_LIST_HEAD(&ctx->list);
++}
++EXPORT_SYMBOL_GPL(media_entity_init_context);
++
++void media_entity_cleanup_context(struct media_entity_context *ctx)
++{
++}
++EXPORT_SYMBOL_GPL(media_entity_cleanup_context);
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 64cf590b11343f68a456c5870ca2f32917c122f9..32298fe8a18c6ee3c1dbcff9ef869548904417a7 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -15,6 +15,7 @@
+ #include <linux/bug.h>
+ #include <linux/container_of.h>
+ #include <linux/fwnode.h>
++#include <linux/kref.h>
+ #include <linux/list.h>
+ #include <linux/media.h>
+ #include <linux/minmax.h>
+@@ -248,6 +249,37 @@ struct media_pad {
+ 	struct media_pipeline *pipe;
  };
  
++/**
++ * struct media_entity_context - A media entity execution context
++ * @mdev_context: The media device context this media entity is bound to.
++ *		  The field is initialized when the entity is bound to a media
++ *		  device context.
++ * @entity: The media entity this context belongs to
++ * @refcount: The kref reference counter
++ * list: The list entry to link the entity context in the media device context
++ *
++ * This type represent the 'base class' used to implement execution context for
++ * video device contexts and subdevice contexts. Those types embedds an instance
++ * of 'struct media_entity_context' as their first member, allowing the MC core
++ * to implement type polymorphism and handle video device and subdevice contexts
++ * transparently.
++ *
++ * The main function of this type is to provide reference counting for the
++ * 'dervived' device context types. The video device and subdevice core
++ * populates the 'context_release' function pointer that implement specific
++ * clean-up operations, similar to what a 'virtual destructor' would do in C++.
++ *
++ * Drivers are not expected to use this type directly, but only the MC core
++ * will.
++ */
++struct media_device_context;
++struct media_entity_context {
++	struct media_device_context *mdev_context;
++	struct media_entity *entity;
++	struct kref refcount;
++	struct list_head list;
++};
++
+ /**
+  * struct media_entity_operations - Media entity operations
+  * @get_fwnode_pad:	Return the pad number based on a fwnode endpoint or
+@@ -269,6 +301,15 @@ struct media_pad {
+  *			media_entity_has_pad_interdep().
+  *			Optional: If the operation isn't implemented all pads
+  *			will be considered as interdependent.
++ * @alloc_context:	Allocate a media entity context. Drivers are allowed to
++ *			sub-class the entity context type by defining a driver
++ *			specific type that embeds an instance of either a
++ *			video_device_context or subdevice_context as first
++ *			member, and allocate the size of a driver-specific type
++ *			in the implementation of this operation. Returns 0 for
++ *			success, or an error code < 0 otherwise.
++ * @destroy_context:	Release a media entity context previously allocated by
++ *			the driver.
+  *
+  * .. note::
+  *
+@@ -284,6 +325,9 @@ struct media_entity_operations {
+ 	int (*link_validate)(struct media_link *link);
+ 	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int pad0,
+ 				 unsigned int pad1);
++	int (*alloc_context)(struct media_entity *entity,
++			     struct media_entity_context **context);
++	void (*destroy_context)(struct media_entity_context *context);
+ };
+ 
+ /**
+@@ -1448,3 +1492,60 @@ struct media_link *__media_entity_next_link(struct media_entity *entity,
+ 					     MEDIA_LNK_FL_DATA_LINK))
+ 
+ #endif
++
++/**
++ * media_entity_context_get - Increase the media entity context reference count
++ *			      and return a reference to it
++ *
++ * @ctx: the media entity context
++ *
++ * Increase the media entity context reference count. The reference count
++ * is increased by the V4L2 core when:
++ *
++ * * a new context is allocated when bounding a media entity to a media device
++ *   context (by kref_init())
++ * * the media pipeline the context is part of starts streaming
++ *
++ * The entity context gets automatically decreased by the V4L2 core when:
++ *
++ * * a context is unbound
++ * * the pipeline stops streaming
++ */
++struct media_entity_context *
++media_entity_context_get(struct media_entity_context *ctx);
++
++/**
++ * media_entity_context_put - Decrease the media entity context reference count
++ *
++ * @ctx: the media entity context
++ *
++ * Decrease the media entity context reference count. The reference count
++ * is decreased by the V4L2 core when:
++ *
++ * * the file handle the context is associated with is closed
++ * * the media pipeline the context is part of is stopped
++ */
++void media_entity_context_put(struct media_entity_context *ctx);
++
++/**
++ * media_entity_init_context - Initialize the media entity context
++ *
++ * @entity: the media entity this context belongs to
++ * @ctx: the media entity context
++ *
++ * Initialize the media entity context by initializing the kref reference
++ * counter. The intended caller of this function are the video device context
++ * and subdevic context initialize functions.
++ */
++void media_entity_init_context(struct media_entity *entity,
++			       struct media_entity_context *ctx);
++
++/**
++ * media_entity_cleanup_context - Cleanup the media entity context
++ *
++ * @ctx: the media entity context
++ *
++ * Cleanup the media entity context. The intended caller of this function are
++ * the video device and subdevice context cleanup functions.
++ */
++void media_entity_cleanup_context(struct media_entity_context *ctx);
 
 -- 
 2.49.0
