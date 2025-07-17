@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-37974-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37973-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBF5B08B11
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAF7B08B0F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:48:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E54A169E6B
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:48:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E18D1623A7
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:48:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D021F2BD587;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92DAB2BD03C;
 	Thu, 17 Jul 2025 10:46:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qhwKVawd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ja8iQTKh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827F92BCF51;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8ED2BCF4D;
 	Thu, 17 Jul 2025 10:45:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752749160; cv=none; b=roWeFLzOVVWsd/bFFzQwIn8ftOr71JHiFlRjqBbx94M3g8aMvINhVXjo/2pB4oo+WT/2Ga5r36XlWOC3/JMSL2UjxHUAyV/mBTgkUWDRdUSQwoVAkF+mCM2p0kAMCOxQ9nqpTje2oNyQuRRNtj0iDnLv60yS1CXeCSJG/lQ33LY=
+	t=1752749160; cv=none; b=WZFBy7NBKn2B8tNRaA/467TQ6cJP2ud7+h5oGD/YCombm3kK9qs/rm7GuoJ7ay0eMi4EFzbB8UUaiPE1tbCzhZotAdHxbC5G7xZp4uQ0+0TffIQeYfYljohVmNrZmuwKp5W/2fITVAwVJQRr7Vmb+ebODsZrgQL+87HJmB4QyP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752749160; c=relaxed/simple;
-	bh=EonmGcn1CUXqn+CIokljWT6wYvOQxvsBhcP+HctWnYE=;
+	bh=197W8u1gSO7XU4oga3u7Ge9U/VY49m37BOEZ2Y4hDcg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dRUVfcjs4QbyHsM7SlCCzvvW6qgwn8fN8T/ShyXou6lOf0f5CkcvfV2AVp4NsxN0vDyvQjQ0vt9TFzA6rg1oIg7KAE4JKIcpG/lOQq3bBTA8ryRQqmCZrNeOJPuE9m5+GiJl/UKTS+HcNTLjLr5bHKk5PLLizDQhQ4oNLMiEx1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qhwKVawd; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=E6qHaVaUsz0ESgijSQctox83TeJEnCEs3TmoWcELl2F9oNEVI9qoQfI18vg9onR6aAq6cOBlcb+THAJT05QDCLDq3ZIl7+g59jb/oA4RohsNcV4ugzL22ND2u1oNjinNjs5YDa98VKWJ8ICIVHh20TZ2rPlnhl5l5Zlkz7g59W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ja8iQTKh; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-140-254.net.vodafone.it [5.90.140.254])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBBE61FA4;
-	Thu, 17 Jul 2025 12:45:16 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8609C21F2;
+	Thu, 17 Jul 2025 12:45:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752749118;
-	bh=EonmGcn1CUXqn+CIokljWT6wYvOQxvsBhcP+HctWnYE=;
+	s=mail; t=1752749119;
+	bh=197W8u1gSO7XU4oga3u7Ge9U/VY49m37BOEZ2Y4hDcg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qhwKVawdjRs89dZMeIMZ9874dTZKV8VYv2Qpkd4StVdxc5TCzqnfEXETURqSSTk78
-	 K3pyKkexxunKZAvdRvgGuT2S2M4giLXyotrm+IuAAO2wMv9lcEKw7cm6inc2Te2a5X
-	 aCFSo42/fcppnGDoFM7ip9skMFZnzbRYEZEuBCVk=
+	b=ja8iQTKheZrLtCb1fEdWhqHs4ashqfpbS6Qc77UCXxliQQ1HArA2OrSDb6YapkbMO
+	 estn3R9optM/LLPZjT0X4kvpP7mKvO/HJCyQPNn5bHRm0429McUbs0cRPx1JX/A6x3
+	 A4nUgW+bNdItefXcwOzffLuMqkgTZN38VR2tBQt4=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Thu, 17 Jul 2025 12:45:34 +0200
-Subject: [PATCH 08/26] media: v4l2-dev: Introduce default contexts
+Date: Thu, 17 Jul 2025 12:45:35 +0200
+Subject: [PATCH 09/26] media: v4l2-dev: Add
+ video_device_context_from_file()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250717-multicontext-mainline-2025-v1-8-81ac18979c03@ideasonboard.com>
+Message-Id: <20250717-multicontext-mainline-2025-v1-9-81ac18979c03@ideasonboard.com>
 References: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 In-Reply-To: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -71,195 +72,107 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6550;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3667;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=EonmGcn1CUXqn+CIokljWT6wYvOQxvsBhcP+HctWnYE=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRPhWQgMR/YWcKAffqyCaN5tFPhmYw9o3CJD
- wRQLkVuNd2JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTwAKCRByNAaPFqFW
- PEycD/47kDMLqGLWmoTXR4z/+6Xe7Kf4IxN8CNBGoao1QvXSk4UlQ0ZXq9RKqX/WT7l9jecuICL
- 0Y/IEf8y0ekf7HMdgs4ewv1znQ/6xFMWoA4oyqF80bZ9dNtO9k0p5JqMLcyRAJeHkXWogWZD6lD
- pbHbbtRLWpZX+V8Ku7jdp3ByLSl2syCmRC9j0r0dAFo0As59ZLQwER8fpwBH3qk2NWwPR/E8x/j
- JlDD4VI6S9UtZSuIq0qfV2yhtI8TQ+Dz8LL81Kq5EYPxprzI6IkvajE4qBrdSDg3Qr6AAydfVJi
- jgKFK/sK+HJJBC8MmBFiX5STEdxEu0McOkru3CQSUasKYWmNgbsL5kdgOLMtH0Ldcfbi1XiQPYS
- UR72PL19sZEVQ+ni6EDcRHqOXfpwAXjQQoGZoA31u1SxXRjsZQCnFQD1GPCPKB6n5yPvjoUlENW
- 1xQjVeS8pDjqn3oBf55pQs1frrF9+6/tVKrPgeLF7tw2brib/+iZz1f4COgxiogRwb+JwDZXsWo
- AvdaO7xCrQL1JVCx/Q6WOhS4cjpa3/wF3w+JoCmBTWOgOwW1KFOyOTjNXm+k7quV5ECH/VUv4bb
- Z2hXNXqXn9ZnA+CC7I0ehsIGQTzNL62YmVRbODzCFACKZVmDYZosUugxzKYbCeRM9hS2MjFdkFw
- ue4Nr8q5pDFRj8w==
+ bh=197W8u1gSO7XU4oga3u7Ge9U/VY49m37BOEZ2Y4hDcg=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRPaIxen4Bw+KjcuuI/aC5KhOiFFpyZ9JkIi
+ eu2RNObyE2JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUTwAKCRByNAaPFqFW
+ PMX6D/4380V0vWPd3gLiLX2RuDp2c2NJYxbw0KLgTkZAmggpTnVeZHIBeZ1lgcUOQM34GAhqQBl
+ Skv2pazfVaQZio+jfqnSTW5526fyb56tq3618wm4Wanq2R1MKN7lsBkqNtmgMWR6Uod2lsHKHhd
+ bnmhhyvNFUKkpKAcEmMcWctv+9cRZaBhpRjtkaFFI7jGL8i/Cj8q99Qp0VFx85u9wBnbsxHeV91
+ qcUEZV2t7IfqOacFeoNhCMg95wB31iyQHVDMir8Mnc0lqd/VSc6j4MN0glKjaz+EWGFeLYeUD9i
+ 1v/wJdyZiC+6ECKFTgL5yn2bu2vuqhqAKcckj9/I0gIB0EfToDlNdHfK2bqQ43+Dre5l2J5VVNb
+ +1b+qZ9rt7VNuOdfVNLDoC6PWGYFOR31U2syyfW2KsJhc+SjfK+njqVBuZ+QggRHyRJsP9/Z7K/
+ QKmdk2lExSHvmlVR4ZiuzJxf22lxDPYfnHl3ZfwBqfqlP+o0UWY4MeHZOijMezr/dOOZc3QRyAd
+ aLrOHG1tYEPHoynqFzqmlzLkBnJzNJa7IMFkkJUiq9eMGkmD9f1YQKhtYH8P/vR/ozlki/XLZht
+ DPANRuh9Z9U+kckKjZ6tuWZHZabo/whsWs8+VQIlS0lvM5mJdiS1ITOf025nkHF1UmRanm36ikM
+ cdpq3tAQIE/ogQQ==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Introduce the media device and video device default contexts.
+Introduce an helper function to get a video_device_context from file.
+If no context has been bound to the file, return the video device
+default context.
 
-Drivers ported to use multi-context support that used to work with a
-non-context aware userspace (which doesn't call VIDIOC_BIND_CONTEXT)
-shall continue to work even if they are context aware.
-
-Provide a default context in the media device and in the video device
-structures and let drivers allocate and release them with the newly
-introduced operations.
-
-Bind the video device default context to the default context of the
-media device associated with the v4l2_dev.
+As a video device context lifetime is bound to the one of the file
+handle it is associated with, and the intended user of this helper are
+the v4l2_ioctl_ops handlers that operates on an open file handle, the
+context returned by this function is guaranteed to be valid for the
+whole function scope of the caller.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/mc/mc-device.c       | 11 +++++++++
- drivers/media/v4l2-core/v4l2-dev.c | 46 +++++++++++++++++++++++++++++++++++---
- include/media/media-device.h       |  5 +++++
- include/media/v4l2-dev.h           |  3 +++
- 4 files changed, 62 insertions(+), 3 deletions(-)
+ drivers/media/v4l2-core/v4l2-dev.c | 15 +++++++++++++++
+ include/media/v4l2-dev.h           | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
 
-diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index d8f12db933d22ae7466051698d853f4bdc599400..e1f34f884fee2e8c3750f9c1e85142ff2f6b7bf0 100644
---- a/drivers/media/mc/mc-device.c
-+++ b/drivers/media/mc/mc-device.c
-@@ -746,12 +746,23 @@ void media_device_init(struct media_device *mdev)
- 		media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info),
- 				   mdev->dev);
- 
-+	mdev->default_context = NULL;
-+	if (mdev->ops &&
-+	    mdev->ops->alloc_context && mdev->ops->destroy_context) {
-+		if (mdev->ops->alloc_context(mdev, &mdev->default_context)) {
-+			dev_err(mdev->dev,
-+				"Failed to initialize media device default context\n");
-+			return;
-+		}
-+	}
-+
- 	dev_dbg(mdev->dev, "Media device initialized\n");
- }
- EXPORT_SYMBOL_GPL(media_device_init);
- 
- void media_device_cleanup(struct media_device *mdev)
- {
-+	media_device_context_put(mdev->default_context);
- 	ida_destroy(&mdev->entity_internal_idx);
- 	mdev->entity_internal_idx_max = 0;
- 	media_graph_walk_cleanup(&mdev->pm_count_walk);
 diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index bc6502b4ce21cc0ad53136e1637d1c926e31dd89..2d78096931efd88215bc847b105e198a54035546 100644
+index 2d78096931efd88215bc847b105e198a54035546..96696959314abfb1864ea5d96742e579b5a41f6f 100644
 --- a/drivers/media/v4l2-core/v4l2-dev.c
 +++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -31,6 +31,8 @@
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-event.h>
+@@ -1180,6 +1180,21 @@ struct dentry *v4l2_debugfs_root(void)
+ EXPORT_SYMBOL_GPL(v4l2_debugfs_root);
+ #endif
  
-+#include <media/media-device.h>
++struct video_device_context *
++video_device_context_from_file(struct file *filp, struct video_device *vfd)
++{
++	struct v4l2_fh *vfh =
++		test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? filp->private_data
++							    : NULL;
 +
- #define VIDEO_NUM_DEVICES	256
- #define VIDEO_NAME              "video4linux"
- 
-@@ -220,8 +222,13 @@ static void v4l2_device_release(struct device *cd)
- 	if (v4l2_dev->release == NULL)
- 		v4l2_dev = NULL;
- 
--	/* Release video_device and perform other
--	   cleanups as needed. */
-+	/* Release default context. */
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	video_device_context_put(vdev->default_context);
-+#endif
-+	vdev->default_context = NULL;
++	/* If the file handle has been bound to a context return it. */
++	if (vfh && vfh->context)
++		return vfh->context;
 +
-+	/* Release video_device and perform other cleanups as needed. */
- 	vdev->release(vdev);
- 
- 	/* Decrease v4l2_device refcount */
-@@ -1086,7 +1093,36 @@ int __video_register_device(struct video_device *vdev,
- 	/* Part 5: Register the entity. */
- 	ret = video_register_media_controller(vdev);
- 
--	/* Part 6: Activate this minor. The char device can now be used. */
-+	/*
-+	 * Part 6: Complete the video device registration by initializing the
-+	 * default context. The defaul context serves for context-aware driver
-+	 * to operate with a non-context-aware userspace that never creates
-+	 * new contexts. If the video device driver is not context aware, it
-+	 * will never implement 'context_ops' and will never use the default
-+	 * context.
-+	 */
-+	vdev->default_context = NULL;
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	if (vdev->entity.ops && vdev->entity.ops->alloc_context &&
-+	    vdev->entity.ops->destroy_context) {
-+		ret = vdev->entity.ops->alloc_context(&vdev->entity,
-+					(struct media_entity_context **)
-+					&vdev->default_context);
-+		if (ret) {
-+			pr_err("%s: default context alloc failed\n", __func__);
-+			goto cleanup;
-+		}
++	return vfd->default_context;
++}
++EXPORT_SYMBOL_GPL(video_device_context_from_file);
 +
-+		ret = media_device_bind_context(vdev->v4l2_dev->mdev->default_context,
-+						&vdev->default_context->base);
-+		if (ret) {
-+			pr_err("%s: default context bind failed\n", __func__);
-+			goto cleanup;
-+		}
-+	}
-+#endif
-+
-+	/* Part 7: Activate this minor. The char device can now be used. */
- 	set_bit(V4L2_FL_REGISTERED, &vdev->flags);
- 	mutex_unlock(&videodev_lock);
+ #if defined(CONFIG_MEDIA_CONTROLLER)
  
-@@ -1094,6 +1130,10 @@ int __video_register_device(struct video_device *vdev,
- 
- cleanup:
- 	mutex_lock(&videodev_lock);
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	video_device_context_put(vdev->default_context);
-+#endif
-+	vdev->default_context = NULL;
- 	if (vdev->cdev)
- 		cdev_del(vdev->cdev);
- 	video_devices[vdev->minor] = NULL;
-diff --git a/include/media/media-device.h b/include/media/media-device.h
-index 2ea8fce9ba75700286961f1622584372a954cb8a..b3cc6793a8b5eff4c26e57b01e1a62ab71e8195b 100644
---- a/include/media/media-device.h
-+++ b/include/media/media-device.h
-@@ -184,6 +184,9 @@ struct media_device_ops {
-  * @fh_list:	List of file handles in the media device
-  *		(struct media_device_fh.mdev_list).
-  * @fh_list_lock: Serialise access to fh_list list.
-+ * @default_context: The default video device context. Used by drivers that
-+ *		     support multi-context operation when operated by a
-+ *		     non-context aware userspace.
-  *
-  * This structure represents an abstract high-level media device. It allows easy
-  * access to entities and provides basic media device-level support. The
-@@ -260,6 +263,8 @@ struct media_device {
- 
- 	struct list_head fh_list;
- 	spinlock_t fh_list_lock;
-+
-+	struct media_device_context *default_context;
- };
- 
- /* We don't need to include usb.h here */
+ __must_check int video_device_pipeline_start(struct video_device *vdev,
 diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-index 9276e095fb17414a9eb7845db0aa81572c42ca45..9e1cf58623acc4ab5f503a9663fd999b38130226 100644
+index 9e1cf58623acc4ab5f503a9663fd999b38130226..a41afb81663bc9cb3bfc06dcf9b11ceeaf7c3415 100644
 --- a/include/media/v4l2-dev.h
 +++ b/include/media/v4l2-dev.h
-@@ -237,6 +237,8 @@ struct v4l2_file_operations {
-  * @ctrl_handler: Control handler associated with this device node.
-  *	 May be NULL.
-  * @queue: &struct vb2_queue associated with this device node. May be NULL.
-+ * @default_context: &struct video_device_context associated with this device
-+ *		     node
-  * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
-  *	 If NULL, then v4l2_dev->prio will be used.
-  * @name: video device name
-@@ -283,6 +285,7 @@ struct video_device {
+@@ -789,6 +789,36 @@ int video_device_init_context(struct video_device *vdev,
+  */
+ void video_device_cleanup_context(struct video_device_context *ctx);
  
- 	struct vb2_queue *queue;
++/**
++ * video_device_context_from_file - Get the video device context associated with
++ *				    an open file handle
++ * @filp: The file handle
++ * @vdev: The video device
++ *
++ * If a video device context has been bound to an open file handle by a call
++ * to the VIDIOC_BIND_CONTEXT ioctl this function returns it, otherwise returns
++ * the default video device context.
++ *
++ * The intended callers of this helper are the driver-specific v4l2_ioctl_ops
++ * handlers, which receive as first argument a file pointer. By using this
++ * helper drivers can get the context associated with such file, if any.
++ * Otherwise, if the video device  has not been bound to any media device
++ * context, the default video device context is returned.
++ *
++ * As video device contexts are reference counted and their lifetime is
++ * guaranteed to be at least the one of the file handle they are associated
++ * with, callers of this function are guaranteed to always receive a valid
++ * context reference by this function. The reference will remain valid for the
++ * whole function scope of the caller that has received the open file handle as
++ * argument. Likewise, accessing the media context from the video device context
++ * returned by this function is always safe within the same function scope.
++ *
++ * This function does not increase the reference count of the returned video
++ * device context.
++ */
++struct video_device_context *
++video_device_context_from_file(struct file *filp, struct video_device *vdev);
++
+ #endif /* CONFIG_MEDIA_CONTROLLER */
  
-+	struct video_device_context *default_context;
- 	struct v4l2_prio_state *prio;
- 
- 	/* device info */
+ #endif /* _V4L2_DEV_H */
 
 -- 
 2.49.0
