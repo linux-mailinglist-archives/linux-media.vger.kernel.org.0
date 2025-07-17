@@ -1,172 +1,114 @@
-Return-Path: <linux-media+bounces-38014-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38015-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C832EB08D88
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 14:52:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0079EB08D95
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 14:54:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 302DB7AFCFD
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:51:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C192A3B6543
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:54:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8326C2D77E3;
-	Thu, 17 Jul 2025 12:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BB3D2D878E;
+	Thu, 17 Jul 2025 12:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mi2dJABB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OrRxBStl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8272B292B58
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB5B2D46AD;
+	Thu, 17 Jul 2025 12:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752756747; cv=none; b=MAiMaV7EItUT+jIjpSbxbvr/iT8wDLxx85h4gKIzbAPrXx3/j6NeqQchNcr75SrrYD0LAzihvY0vGzu4qe060nVOPUkORa72c/Tc+ppai2bWMjEi0Ju25TDTEuQb07XCblPveKJBBMgEh3qitXicbCcJ5xwr40AG1JgDHXod5Go=
+	t=1752756849; cv=none; b=L5abjRIm029NANUNtqdRmgUYl4tcYrPFwoxiAMJAoRF7r1fJBKC3HVNOy/gWDqbTQcLQNYP+bllgVWTA02DXRJZDz9Ny3lTVSdEAbWQfROdTH6hNTTc0TTIadPzo3FLP6S+7AROf+kJ0kGQEa9dsetggvubEvFBf5IWRdTLr/V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752756747; c=relaxed/simple;
-	bh=a67q9vRiltRTZHMR3Ms76FxNaY5qSMRH7L5XmrAljeY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BgYNf4+tPRxn5SMYHlDodfhmwsaOrIIsnyx0EwyQKTPpYsp0qyMeqVlJAB/7erpAUW+aipj3jiyI7ajuyX7d8tEORWl1SxQuaa6brXMwBT1BgPurSqXqgKoTDSXV643CNk6xEzLHCbPmh6I0CSnL4n6X4TabKL4iQNV7sNWzEaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mi2dJABB; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HCpkSw007301
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:52:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5vBbIFMsukX9HGUnJnPR68gUMxT8rTJ0JNXNOwtyoPM=; b=mi2dJABBWnLK3AWI
-	pxak5GCGoxNf2lp3htEsWycGZdDFYNlOMDHzJOE+V3JNWMcA0Bj6nnSRrnFBRl17
-	4wPVmAdQXyzYpFu7xrxZzCLUcP69xntuF3Rd6eJ09QEuSwxW7oSy4z9TB2wrp1Rx
-	+z5NtcS66gvu1+KucS7WaHehIaL3bqP7zwqceYejylvJ8V8OgGpA0l/yPTbPW9l7
-	gTTKfPFyd2cIfEGgSh9MJSj5P7wJbG0orDqNF9HolwyjPyF+/thBTb8QYywN/vk8
-	JHena3Rs7ZaVP+eU5Zu4kCaDI1nxDiCNaGQAaXvXVAD3l6AvhKXaBuA8RswDCmB8
-	ztSrww==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wfca8vay-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:52:24 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ab7406bfa1so1925501cf.3
-        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 05:52:24 -0700 (PDT)
+	s=arc-20240116; t=1752756849; c=relaxed/simple;
+	bh=6TqfmLAeBvpkFMFttqys3Zi3RrrHoD67gu5Uh3aTgmU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TOy3Uu47nwIvHbE0yZvZ+IPZ7wdy3mUmfCwWima6+TKYo9Ae7rMubzimkKp+Q2SKfxtNIJC+/p7RtGRlQT4Nd0V9WQpPUbl1boKiBcvEg58tdtSIrIEuIaIEa7D2ynRO9R6U4WzQ+BUTb2vT+59hUqbfvUe7vD5KpCU+76rMpUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OrRxBStl; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ae0a0cd709bso366549166b.0;
+        Thu, 17 Jul 2025 05:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752756846; x=1753361646; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6TqfmLAeBvpkFMFttqys3Zi3RrrHoD67gu5Uh3aTgmU=;
+        b=OrRxBStlj3bZYFGwn/SrPad57cYkaImlmktRRPR2bAGr9IdfPuwNmEIFO8lvaLX/bg
+         38F3v7FmKWZq6MQRs7XUw62Xx0O+vZ3U+JwS4/W2iEGZ7uaJOZr0onegB54oeOujHd8n
+         eMrxtmqcT/qJfJ81G4Fs65/YKxC4V0vEWd607IALGXQ+Pc22nwXfN3kx05vlgLaZwug1
+         fxlnlEZF3Wy1z0hmzmnaOBm02mWgoq0ZPXSh6+jPgVPFxrdnsEcSt5Zl8tnf2XyfiJVX
+         IdbRgIKPdhzPkMaM9yeuNS4HuC5i3Mghy5H8IR47mpWddjocUH2oMMPeKOulifU7YiVO
+         KctA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752756744; x=1753361544;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5vBbIFMsukX9HGUnJnPR68gUMxT8rTJ0JNXNOwtyoPM=;
-        b=oCFk2zIecSMlLBsSQbyD4Ivcpv0FY2y1QZeq4M/zKqIBCkfxmlIO2Q6M4c/zWlWZFG
-         m+LwAP6DTwsaY6otVFtdB7HTRTfvkjCWviH8Mri/6x2NLFkzXZk+n1VTqcPpDlMd3I3d
-         90l1e+jb4swZeho2iOEWLe3UPBvBbxKnNp0CoeCvjt0Z7zkNG8cBBgRZhlGtXzUkVgZd
-         hO70KRhyVsQ+CTfdJ02nU48fHr0EF9UMTcC+EYYnX1kYDgsQer7+uWDpKhxSOgrVPN0m
-         4XYTyHeIonnvixawc9Id+pPtKiF6zz8roOhiyTmez25U40qj6sMW+gQuxQGg9+hXoBW3
-         jDnw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxuE+p2r2oZjJ5twRJDOnqa0kI5kwCiUnhQiS1xLgb09nsCSClOlzdS0rR4w+Lsl/9zxp1hUBf9YbxGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy28Bg2IlNkS3E426ItkslSWAo3Z34u8Br/6dhNvjb8TjqMPcur
-	zJEcaZpAD4fvJlD2YWbItqJQh0rbYfPXFFUdN8SKQ51WSOQDWMcfti82cpxwY7cvg0L/gvcde/7
-	nWlliES3RSeh+jXieSyMS+oa1O9V53WxQYvMoWCUldVaLTpF+Yq03qWUKQJvOVaUzzA==
-X-Gm-Gg: ASbGncuyRCFyxUm88micqq1GXea/bju/7vmAvGif3w2US6G+oTA3hPCe9iG/VVzDs4S
-	IGvXZ/EHSsmA7qfGECzAJmBhENOmzw/iZfXqQgoTLox+60vkvbN/HZx8HX+BI7PU6kQV/k9YRqf
-	0OvYYOPnNwc/P1zVsJgqa56enecCxFn7arM8tbpbJIjdeXionDG4IgdDea2xrEGPFTufCmiNIVz
-	H3tzMptI27ACeH1lIuKLWvOkLLoVsJCZe/7DNfkRFPFyJB9+pXT4bkdzwD/9tMAzP7cTk1OKg8G
-	rWl83okOc21E/kQnV8AH+7d5HrdmA27oqn1aHb2LndciX0mKPvI3KoLIZsCXOvRAqp/Huod4757
-	mjTlG0A+9DyjnuI/M7WHO
-X-Received: by 2002:a05:622a:164b:b0:4a9:a2d2:5cd5 with SMTP id d75a77b69052e-4ab90a5b7c7mr43642461cf.6.1752756743593;
-        Thu, 17 Jul 2025 05:52:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF1GDc8kUpCOa+DP/D8Ogh1qBcyaDm+IZkeR2eLPatJQacP1EZjywXx5Ij/ieSAvtDStqwKug==
-X-Received: by 2002:a05:622a:164b:b0:4a9:a2d2:5cd5 with SMTP id d75a77b69052e-4ab90a5b7c7mr43642321cf.6.1752756743170;
-        Thu, 17 Jul 2025 05:52:23 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-611c976d9f7sm10021774a12.54.2025.07.17.05.52.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Jul 2025 05:52:22 -0700 (PDT)
-Message-ID: <b16a5efd-21d8-4a59-b425-425800003c95@oss.qualcomm.com>
-Date: Thu, 17 Jul 2025 14:52:20 +0200
+        d=1e100.net; s=20230601; t=1752756846; x=1753361646;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6TqfmLAeBvpkFMFttqys3Zi3RrrHoD67gu5Uh3aTgmU=;
+        b=lYHPpO2eMyGe70lPektG4a12W57YsyS60wJqPV9j4k1qcPDbRmVL1UWp+4+AOwFX2U
+         rlZYR+6qKGJPqlVBcvzqSievLDnU2wF03sWT2GKfdwnFjvX1HsdW2mR0nGNQgSMgbo4M
+         th0Ho0+Elcn5bZ1lmPNU33RXbIJROLjSZH+zvyAprycbYq74eRODTqg4kDTQ+Hhwl4et
+         29hRjFqlUijo9LDnAATM/n15Y/7riP1HGd3W1mTBcCTyfgBwIIDRDC4w1k2m7APGJios
+         Cj2ygaVsmjISYro/AzsPZWK7GJCG4MnXpCVnPTQ2jmSzQOK9Tt7o+qGlwbVbONoaHjeW
+         40Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCVh2diaO3rFYnPX9q0s84Jmg20H/Az2c4CFKt/UheVXKi3dNq5ZyGXWUyCUm0AUlfVEJv3nCd75r/PDLY0=@vger.kernel.org, AJvYcCWH891vw1g0eVUaglAKC74aTiWem7xxtTPk3qQFZ/qi292fQOzgY/KFDiGLNMQeVG0nzJDvBGoYD+GjZk0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySlfwhvRQwZcoYUqhjIKQtBI/6y73zMcBjajVOkXRTNsLiS7BO
+	/pjhmmiem/physZpE8yVV45H6gNX9s9+sz+aQI7RCSyJTewTeDW4BWu+HlcbQcx+WOBubOP1x+v
+	EOLSj9fzPBHJ/LmGvN3hbmH8gQ20HANo=
+X-Gm-Gg: ASbGncuPNFmhGt8vLI+kRFmdvgNauZn71wgFbIGe+yI36PDnVpTuvJjF4sNT73UH4CX
+	19FETeYOhZHiYqGmXPvADz+c6b8z9WqGh/lUvIRs9064gUVFXxeVvMrKbVoG05V6ZIOuBshc/ac
+	V0idz8DgkSe7JcNAYHoAWX3XhdPHO/hF4w6WmklINTBfr+0q7Selie1tjYGxbwRqHU2fUaTSRJf
+	UiQg6sgRQ==
+X-Google-Smtp-Source: AGHT+IGwgcvfuosm5N+DZ25mI8Ik05xk7HliuiBmFYrl28GiWWkRW4WUjkaBwNjkPRhTpYEMuODvsj0bfLReIdUzIcI=
+X-Received: by 2002:a17:907:2d86:b0:ae9:cd0a:5827 with SMTP id
+ a640c23a62f3a-aec4deaf092mr281081666b.20.1752756845076; Thu, 17 Jul 2025
+ 05:54:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] media: qcom: camss: Add link support for TPG
- common
-To: Wenmeng Liu <quic_wenmliu@quicinc.com>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20250717-lemans_tpg-v2-0-a2538659349c@quicinc.com>
- <20250717-lemans_tpg-v2-2-a2538659349c@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250717-lemans_tpg-v2-2-a2538659349c@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDExMyBTYWx0ZWRfXwRDP2/Smsbd7
- C3moiQ2Y2zaX9OIACPO0xrmYD4TMEqjdYMty/Z6efDefwvN20DaqepmMk0a2aHZC2ZBewlbn8vw
- 7MWR2eYM2C+yY4r8WMSBTh5CdcX8BtdraRCZECRw5t5gPUZkse9SVC4X92KNBljPIBNZT6G+t93
- xX0tz0WKnAsv7lnkHFVn/mWfM/O8GHK1Tz4mOsaqRH2mre4uA36IIQDjPAm6czCJ/816Y7afsdj
- WMiymq5ITOEo8P99dlKFtmGPlVBxga2sz93QJgPVTwcuZ6hdU+M9yiugOLMD0a36IBSPY7M8jHg
- jtkEWFmiMlxJ2C4Yp1HqQs54tTJXIPVGScnyrZzEZv9K5sqlKAuQe2zSvHc0AuoTaDgVQC0i7zg
- 42nNYv+NaBhqhzFxuQ3nUVfKOj8iuttLH1eN2uS6yu+kLDYrn2ZSY4Rzot9Iijv84mgqV7Is
-X-Proofpoint-GUID: ZpHeDjBssqXQv0bLiK8Zv_2tmBs1HoRH
-X-Authority-Analysis: v=2.4 cv=SeX3duRu c=1 sm=1 tr=0 ts=6878f208 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=ea1JrDabYO8hHO9gwP8A:9
- a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: ZpHeDjBssqXQv0bLiK8Zv_2tmBs1HoRH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-17_01,2025-07-17_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
- suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507170113
+References: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 17 Jul 2025 15:53:27 +0300
+X-Gm-Features: Ac12FXwwqnptpnT5aQ5qlp88PaC6-4KM13ZfLkpBCRIfiqwB3k8OHjQ8YI8f-Yo
+Message-ID: <CAHp75Vei5e3TMxTTWXBZVWsGqFbYwn6QQoOKz-MYmFd4xaTraw@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/17/25 5:20 AM, Wenmeng Liu wrote:
-> TPG is connected to the csid as an entity, the link
-> needs to be adapted.
-> 
-> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-> ---
->  drivers/media/platform/qcom/camss/camss-csid.c | 44 +++++++++++++++++-----
->  drivers/media/platform/qcom/camss/camss.c      | 52 ++++++++++++++++++++++++++
->  2 files changed, 87 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index 5284b5857368c37c202cd89dad6ae8042b637537..1ee4c4cc61cb32ce731dd8123522cc729d1ae3bb 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -1226,6 +1226,23 @@ void msm_csid_get_csid_id(struct media_entity *entity, u8 *id)
->  	*id = csid->id;
->  }
->  
-> +/*
-> + * csid_get_csiphy_tpg_lane_assign - Calculate lane assign by tpg lane num
-> + * @num - tpg lane num
-> + *
-> + * Return lane assign
-> + */
-> +static u32 csid_get_csiphy_tpg_lane_assign(int num)
-> +{
-> +	u32 lane_assign = 0;
-> +	int i;
-> +
-> +	for (i = (num - 1); i >= 0; i--)
-> +		lane_assign |= i << (i * 4);
+On Thu, Jul 17, 2025 at 3:43=E2=80=AFPM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+>
+> The function atomisp_set_fmt() modifies shared device state and expects
+> callers to hold the isp->mutex for synchronization. While most internal
+> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+>
+> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+> pipe->frame_info may be modified concurrently without proper protection.
+>
+> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
 
-for (lane_idx = 0; lane_idx < lane_num: i++)
-	u32_encode_bits(idx, 4 * idx)
+Now LGTM, FWIW,
+Reviewed-by: Andy Shevchneko <andy@kernel.org>
 
-should be equivalent and a little more comprehensible
-
-although it would be nice to know where the 4 comes from (some register
-bitwidth perhaps?)
-
-Konrad
+--=20
+With Best Regards,
+Andy Shevchenko
 
