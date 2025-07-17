@@ -1,327 +1,305 @@
-Return-Path: <linux-media+bounces-37952-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37953-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710DFB0870F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 09:39:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E3BB0875C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 09:56:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2EFA4A6919
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 07:38:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6BB5B3A8143
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 07:56:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2905525B1DC;
-	Thu, 17 Jul 2025 07:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6518E2676C2;
+	Thu, 17 Jul 2025 07:56:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="k2r7Gph6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JUcH0Xdw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A045E2505AA;
-	Thu, 17 Jul 2025 07:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3D01EF0B9
+	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 07:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752737861; cv=none; b=P+NodO5tpOnf/gZwB4BMhFWRyUogs/oogMCwtJpq6k1Whry1m/CKYv+UQezoaxx4HuKL6ayGysvxDomAz4VHVF5JBSv6o8vWWRvp9esaqa8d1t4Bw635Xfev2ztvCYCJ4mSxy7UU3K3jYn3hchz0fSFEPGt9boSyQSSVPYGKRK0=
+	t=1752739010; cv=none; b=FG6ZqhbpaADT1JAtnhiXe/GqbAp32vBgOv34g+tRT/Q9boFNdmOHs0kpEWemjHxPTTtlDVJEIcgZh2YDXgDB/5zO7qgE1kMOgIlZW5P8SCwpgiy4SAmiGAQWhMcugURPwXgpgOebJA/caeiahbosniuK0BR+oU5MsRD7LM4qZh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752737861; c=relaxed/simple;
-	bh=FIxnFxV/4JzUNjI50s1owU32R2TB0ovuNBfa9GHltww=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=AfBIzen5n0xZ6JriH83g/CTv7s4AymBuorpZ72HlPzYipb0U0Fj9f4S1MHCLk4lVzJ2QUwaop/U3qhWqm8bYHTPKRIINwGnTIZ1zAZfLdjvFgLPLTFW+25N4h18CZfpaGQqjyc/yKdoGyWmupwBFAnz/AqZn2Gq4uqbOUDL8kaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=k2r7Gph6; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56H4Xo8J021709;
-	Thu, 17 Jul 2025 07:37:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3xU7SfH1f9xaMo6eYaTrPlYIKzLbU+yOb+Kv0YiFCr0=; b=k2r7Gph6U0l4axX5
-	ChUo+8PakGfKsjX5gmvuhf82w/phWPT/eu692C7q57JDNnWfxEvTS2kbrWcUxKf9
-	bdQ/Le3WMx7me4SFo3DVAA0jR+m2p/Zv+etpkja2nJMcpNe7m003mX2yDlkiPJKB
-	vSncn+LXpQgUkwaVDAIwGyokF0EVbl6U6bVQFK4F/Kg6itvcx1FRTEQ78FHYQrLP
-	EpiFrChK+N32Yy8VvJasoiCFsmPgNTTLe9RmCzpLQn0t6D7zNTmMKO/H42u+4L7S
-	uQDaKwBuTApG20x2rgQIGJ4qJz6WLzl1CiZQJ+uUV2h8UWvjZ9GGjZMcSjlYo9vu
-	PTtLuw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufu8ekqv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Jul 2025 07:37:27 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56H7bQ6X011930
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Jul 2025 07:37:26 GMT
-Received: from [10.50.48.71] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 17 Jul
- 2025 00:37:22 -0700
-Message-ID: <1c5df071-7000-ab45-dbc6-4384d883ba24@quicinc.com>
-Date: Thu, 17 Jul 2025 13:07:14 +0530
+	s=arc-20240116; t=1752739010; c=relaxed/simple;
+	bh=ivftYy165sS8mvKEBHuADgPv+nDQA+lt7mqET/+JXhE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OjhEJBXxNsSjL8JAkSyCZ43tmYdgC2LDD1OAgewFZLzQjc9h2IXeU+6KQedfnogGCh7euHwUKxGtW7NuRAPuAzqECjzg0ape7Hw5lGMBxVG/L0L7oNXDIDCiCE0mivkOxwc7n0N4Rax1T5KJRb5siY1yu4iQ7Yeg0dgpaFNDwtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JUcH0Xdw; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32b435ef653so5188781fa.2
+        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 00:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1752739007; x=1753343807; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TPNshWzmBQZhfeU9vekXY/PZSb0CpR11Ox+v95g7FJI=;
+        b=JUcH0XdwyQlS0QoypOAQuPedy39cfqBLgOljsVdo6nooTWfgBoLmJKgzSIti12uBuD
+         3wTY29xN85UD3whrVKFoxnGRb5aViL4pYAxtZC5T5tPEWxZ3WTu9reAlDKbm4VR95dCX
+         tju2DdPYWdfiCGG9o0DTLcqR5/JFBG4pdPmrY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752739007; x=1753343807;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TPNshWzmBQZhfeU9vekXY/PZSb0CpR11Ox+v95g7FJI=;
+        b=pF3PpRhCyjNo5TkSyb6+UG9DEGOcY1M2gp7BIcGjI72KYLRxCNtFhb41cTY8vWFZfS
+         cO6s/Bi/rLhIyibbiz5bV/WJTA+bEKcV+WvQXQW41QL0gR6tufqtxEu+xzcqcK4w9xbw
+         y375ANfm79M2eES/rvX1TeKd2NeS0mb0FWdO9S4iMz96gfYOchEw/myL+BRVcrgA9Vqw
+         NEQoIfXU0S3v6tJ4GpJYagyPGikoNT9iq/2pshuyhLdK/ygzVFR2YuepDl+vUXvBo9Zs
+         dyJBmvh0gi8RcI6diqQDNDRDsbNMUWZwGsRxsgyg/kuPeZu27+0GoLeCR7C/mWGPd32t
+         vUQA==
+X-Gm-Message-State: AOJu0Yx7OzDKe6bttWMd8NJiIqiFI1VPqX5XWjS43NlssIomTSUmlPB/
+	YzBAYkkGd7jNM4hzLRV0VQPc4NqEvKrmVeMJvRhvEd7pNJPUr46aRYFfrAVDc4rPqw==
+X-Gm-Gg: ASbGncsxknF6pl33Aa89ePrfz+q2pmj2tTYAXAEI2JMWBQnRpR9OaDW41lf4HwNH5YR
+	YnD4ClddT4+hosP9m+VurJQVF/EMqHwjtdilU/2eNdmQd4dDSgnAkgKfvU0pd0PzQ6qnQDRnTXk
+	K3tA6dJChxl25jQumTpImbjRHtYvWbSzNJNVP5diVy5bfCW2P285tT6z0cnygmfSah8RFFS2nn+
+	0+0Cptm++kLU82hP9yAfAl1NZV3MBUiJVPLX/uPn0ejbsTLmWG87WDE3Qu9ATPwRg9fZeIdNNnb
+	r2qjmPi15mU/TIMJpZ4Mrkb5VEGIAYshLQyS4RzTfA5tgCNZUPRsF5HAOfcwGpd0gPvvi7loHlJ
+	04nugEOaHTDv91qNAo/m1+Pon3LpkuhVsvuA0o9wGFW48X7c3Yg3zG6Z+VwjoNt3n9jjMmcISRt
+	lpyw==
+X-Google-Smtp-Source: AGHT+IG06381e/XP3pvYOmH/KQ/Oit/WV10yQDnuk2mTQyO3rjInyzCk9SnbTz/7ZYm0a3ZsMWLAiw==
+X-Received: by 2002:a05:6512:3f25:b0:553:2dce:3aad with SMTP id 2adb3069b0e04-55a2958fc26mr503739e87.7.1752739006659;
+        Thu, 17 Jul 2025 00:56:46 -0700 (PDT)
+Received: from ribalda.c.googlers.com (166.141.88.34.bc.googleusercontent.com. [34.88.141.166])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c7bbb21sm2946272e87.31.2025.07.17.00.56.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 00:56:46 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 17 Jul 2025 07:56:45 +0000
+Subject: [PATCH] media: uvcvideo: Drop stream->mutex
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/3] media: iris: Add support for SM8750 (VPU v3.5)
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250714-sm8750-iris-v1-0-3006293a5bc7@linaro.org>
- <20250714-sm8750-iris-v1-3-3006293a5bc7@linaro.org>
- <7b0a984f-b62a-ac4d-74bf-a6e839c59272@quicinc.com>
- <d4c39f2c-9f95-4e65-87a3-78173b39adf1@linaro.org>
-Content-Language: en-US
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <d4c39f2c-9f95-4e65-87a3-78173b39adf1@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDA2NiBTYWx0ZWRfX/9v9rN03FwsX
- PtmqBGqbWn5BlOzyblmMlSkRjo9F9hwBdd9b0RhzxMizlkAVCBsKXlK5YX4ebrgrGr/3+2L6ZBe
- vKiZgiGMwWaLdXgI6h19/LoSogerMyrnoDs52CZrAc9PIVdKUG3mb+30Mcc11AOdUzrWRCHHe1d
- FS4xiGLkKZd6tY8mPTQmJgDGzf0wID1aABcFeuVL4CVDZwYDPgAioRA2kep2i1BII3wA9F8IKum
- TqUgOR5NY2rRY/LPDLLgTJEVd7zA3sCthNXeHVxQ+vdJxfS422yaUBOD9rSQrmFAVLg9jnhvjkM
- lHiq0tpaxCESxPqX9PfipR3VZ/UlvZB9aRPa9F9V8Q83FWkblMA6JikOK0BelpuZRwPj7iw/QxZ
- q/2OFCowrMz/VhZVl/xjhNEVVL0xbZKzisr3qoFMn6wC7LHmj9xyU7lFbSHhMp+pWlOyMvsr
-X-Proofpoint-ORIG-GUID: wBSmapMbFYVvbVxXlMMGbdjn7vAWfgIv
-X-Proofpoint-GUID: wBSmapMbFYVvbVxXlMMGbdjn7vAWfgIv
-X-Authority-Analysis: v=2.4 cv=f59IBPyM c=1 sm=1 tr=0 ts=6878a837 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=naxSXyrHOhEljO64-y4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-17_01,2025-07-16_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0 mlxscore=0
- bulkscore=0 suspectscore=0 impostorscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=999 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507170066
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250717-uvc-onelocksless-v1-1-91a1b834186a@chromium.org>
+X-B4-Tracking: v=1; b=H4sIALyseGgC/x3MTQqAIBBA4avIrBM00H6uEi3KphoSDYckiO6et
+ PwW7z3AmAgZevFAwkxMMRToSoDbp7ChpKUYalUb1Wgrr+xkDOijO9gjs5yttaZFpde2g5KdCVe
+ 6/+Uwvu8HbzXi5mIAAAA=
+X-Change-ID: 20250716-uvc-onelocksless-b66658e01f89
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
 
+Since commit c93d73c9c2cf ("media: uvcvideo: Use vb2 ioctl and fop
+helpers"), the IOCTLs are serialized. Due to this there is no more need
+to protect ctrl, cur_format or cur_frame from concurrent access.
 
+Drop stream->mutex after thanking it for years of good service.
 
-On 7/16/2025 2:58 PM, Krzysztof Kozlowski wrote:
-> On 16/07/2025 11:10, Dikshita Agarwal wrote:
->>
->>
->> On 7/14/2025 7:11 PM, Krzysztof Kozlowski wrote:
->>> Add support for SM8750 Iris codec with major differences against
->>> previous generation SM8650:
->>>
->>> 1. New clocks and new resets, thus new power up and power down
->>>    sequences,
->>>
->>> 2. New WRAPPER_IRIS_VCODEC_VPU_WRAPPER_SPARE_0 register programmed
->>>    during boot-up
->>>
-> 
-> 
-> 
-> Please kindly trim the replies from unnecessary context. It makes it
-> much easier to find new content.
-> 
-> 
->>> +struct iris_platform_data sm8750_data = {
->>> +	.get_instance = iris_hfi_gen2_get_instance,
->>> +	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
->>> +	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
->>> +	.vpu_ops = &iris_vpu35_ops,
->>> +	.set_preset_registers = iris_set_sm8550_preset_registers,
->>> +	.icc_tbl = sm8550_icc_table,
->>> +	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
->>> +	.clk_rst_tbl = sm8750_clk_reset_table,
->>> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8750_clk_reset_table),
->>> +	.bw_tbl_dec = sm8550_bw_table_dec,
->>> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
->>> +	.pmdomain_tbl = sm8550_pmdomain_table,
->>> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
->>> +	.opp_pd_tbl = sm8550_opp_pd_table,
->>> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
->>> +	.clk_tbl = sm8750_clk_table,
->>> +	.clk_tbl_size = ARRAY_SIZE(sm8750_clk_table),
->>> +	/* Upper bound of DMA address range */
->>> +	.dma_mask = 0xe0000000 - 1,
->>> +	.fwname = "qcom/vpu/vpu35_4v.mbn",
->> Could you clarify where this firmware has been merged? Also, it appears
->> that the naming convention hasn't been followed.
-> 
-> 
-> I mentioned in the DTS patchset but not here, so I will add it in the
-> cover letter - firmware is not released. About the name I cannot
-> comment, that's the name I got from qcom. Happy to use whatever name you
-> prefer.
-> 
+Use this opportunity to do fix some CodeStyle.
 
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/usb/uvc/uvc_driver.c   |  4 ----
+ drivers/media/usb/uvc/uvc_metadata.c |  8 ++------
+ drivers/media/usb/uvc/uvc_v4l2.c     | 39 ++++++++----------------------------
+ drivers/media/usb/uvc/uvcvideo.h     |  6 ------
+ 4 files changed, 10 insertions(+), 47 deletions(-)
 
-You can name it vpu35_p4.mbn to maintain consistency with the current
-naming convention.
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 775bede0d93d9b3e5391914aa395326d3de6a3b1..3039e6a533b82dd917050d416c9ced8756d69170 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -183,8 +183,6 @@ static void uvc_stream_delete(struct uvc_streaming *stream)
+ 	if (stream->async_wq)
+ 		destroy_workqueue(stream->async_wq);
+ 
+-	mutex_destroy(&stream->mutex);
+-
+ 	usb_put_intf(stream->intf);
+ 
+ 	kfree(stream->formats);
+@@ -201,8 +199,6 @@ static struct uvc_streaming *uvc_stream_new(struct uvc_device *dev,
+ 	if (stream == NULL)
+ 		return NULL;
+ 
+-	mutex_init(&stream->mutex);
+-
+ 	stream->dev = dev;
+ 	stream->intf = usb_get_intf(intf);
+ 	stream->intfnum = intf->cur_altsetting->desc.bInterfaceNumber;
+diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+index 229e08ff323eed9129d835b24ea2e8085bb713b8..d1d4fade634bd3f8b12bbaa75388db42aecc25ea 100644
+--- a/drivers/media/usb/uvc/uvc_metadata.c
++++ b/drivers/media/usb/uvc/uvc_metadata.c
+@@ -100,14 +100,10 @@ static int uvc_meta_v4l2_set_format(struct file *file, void *fh,
+ 	 * Metadata buffers would still be perfectly parseable, but it's more
+ 	 * consistent and cleaner to disallow that.
+ 	 */
+-	mutex_lock(&stream->mutex);
+-
+ 	if (vb2_is_busy(&stream->meta.queue.queue))
+-		ret = -EBUSY;
+-	else
+-		stream->meta.format = fmt->dataformat;
++		return -EBUSY;
+ 
+-	mutex_unlock(&stream->mutex);
++	stream->meta.format = fmt->dataformat;
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 160f9cf6e6dbdbf39e3eff56a5d5ea1d977fbe22..d7be4d59f0c73b983aa01321f4acc8f8bf6e83ef 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -329,14 +329,12 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+ 	 * developers test their webcams with the Linux driver as well as with
+ 	 * the Windows driver).
+ 	 */
+-	mutex_lock(&stream->mutex);
+ 	if (stream->dev->quirks & UVC_QUIRK_PROBE_EXTRAFIELDS)
+ 		probe->dwMaxVideoFrameSize =
+ 			stream->ctrl.dwMaxVideoFrameSize;
+ 
+ 	/* Probe the device. */
+ 	ret = uvc_probe_video(stream, probe);
+-	mutex_unlock(&stream->mutex);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -395,19 +393,15 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
+ 	struct uvc_streaming *stream = handle->stream;
+ 	const struct uvc_format *format;
+ 	const struct uvc_frame *frame;
+-	int ret = 0;
+ 
+ 	if (fmt->type != stream->type)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&stream->mutex);
+ 	format = stream->cur_format;
+ 	frame = stream->cur_frame;
+ 
+-	if (format == NULL || frame == NULL) {
+-		ret = -EINVAL;
+-		goto done;
+-	}
++	if (!format || !frame)
++		return -EINVAL;
+ 
+ 	fmt->fmt.pix.pixelformat = format->fcc;
+ 	fmt->fmt.pix.width = frame->wWidth;
+@@ -419,9 +413,7 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
+ 	fmt->fmt.pix.xfer_func = format->xfer_func;
+ 	fmt->fmt.pix.ycbcr_enc = format->ycbcr_enc;
+ 
+-done:
+-	mutex_unlock(&stream->mutex);
+-	return ret;
++	return 0;
+ }
+ 
+ static int uvc_ioctl_s_fmt(struct file *file, void *fh,
+@@ -441,19 +433,14 @@ static int uvc_ioctl_s_fmt(struct file *file, void *fh,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	mutex_lock(&stream->mutex);
+-	if (vb2_is_busy(&stream->queue.queue)) {
+-		ret = -EBUSY;
+-		goto done;
+-	}
++	if (vb2_is_busy(&stream->queue.queue))
++		return -EBUSY;
+ 
+ 	stream->ctrl = probe;
+ 	stream->cur_format = format;
+ 	stream->cur_frame = frame;
+ 
+-done:
+-	mutex_unlock(&stream->mutex);
+-	return ret;
++	return 0;
+ }
+ 
+ static int uvc_ioctl_g_parm(struct file *file, void *fh,
+@@ -466,9 +453,7 @@ static int uvc_ioctl_g_parm(struct file *file, void *fh,
+ 	if (parm->type != stream->type)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&stream->mutex);
+ 	numerator = stream->ctrl.dwFrameInterval;
+-	mutex_unlock(&stream->mutex);
+ 
+ 	denominator = 10000000;
+ 	v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
+@@ -519,12 +504,9 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
+ 	uvc_dbg(stream->dev, FORMAT, "Setting frame interval to %u/%u (%u)\n",
+ 		timeperframe.numerator, timeperframe.denominator, interval);
+ 
+-	mutex_lock(&stream->mutex);
+ 
+-	if (uvc_queue_streaming(&stream->queue)) {
+-		mutex_unlock(&stream->mutex);
++	if (uvc_queue_streaming(&stream->queue))
+ 		return -EBUSY;
+-	}
+ 
+ 	format = stream->cur_format;
+ 	frame = stream->cur_frame;
+@@ -556,14 +538,11 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
+ 
+ 	/* Probe the device with the new settings. */
+ 	ret = uvc_probe_video(stream, &probe);
+-	if (ret < 0) {
+-		mutex_unlock(&stream->mutex);
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+ 	stream->ctrl = probe;
+ 	stream->cur_frame = frame;
+-	mutex_unlock(&stream->mutex);
+ 
+ 	/* Return the actual frame period. */
+ 	timeperframe.numerator = probe.dwFrameInterval;
+@@ -941,10 +920,8 @@ static int uvc_ioctl_g_selection(struct file *file, void *fh,
+ 
+ 	sel->r.left = 0;
+ 	sel->r.top = 0;
+-	mutex_lock(&stream->mutex);
+ 	sel->r.width = stream->cur_frame->wWidth;
+ 	sel->r.height = stream->cur_frame->wHeight;
+-	mutex_unlock(&stream->mutex);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 757254fc4fe930ae61c9d0425f04d4cd074a617e..86765b9d7935f0888476249c3fb826cd7f36b35c 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -469,12 +469,6 @@ struct uvc_streaming {
+ 	const struct uvc_format *cur_format;
+ 	const struct uvc_frame *cur_frame;
+ 
+-	/*
+-	 * Protect access to ctrl, cur_format, cur_frame and hardware video
+-	 * probe control.
+-	 */
+-	struct mutex mutex;
+-
+ 	/* Buffers queue. */
+ 	unsigned int frozen : 1;
+ 	struct uvc_video_queue queue;
 
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20250716-uvc-onelocksless-b66658e01f89
 
-> 
-> 
->>> +static int iris_vpu35_power_on_hw(struct iris_core *core)
->>> +{
->>> +	int ret;
->>> +	u32 val;
->>> +
->>> +	ret = iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_HW_POWER_DOMAIN]);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	/* Switch GDSC to SW control */
->>> +	writel(0x0, core->reg_base + WRAPPER_CORE_POWER_CONTROL);
->> GDSCs have been transitioned from HW_CTRL to HW_CTRL_TRIGGER, placing them
->> under software control by default, what is the need of doing this?
->>> +	ret = readl_poll_timeout(core->reg_base + WRAPPER_CORE_POWER_STATUS,
->>> +				 val, val & BIT(1), 200, 2000);
-> 
-> 
-> The need comes from differences between this and previous generation,
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
-
-which previous generation you’re referring to?
-HW_CTRL_TRIGGER is supported on SM8550 and all later SOCs, and if you look
-at videocc changes, same applies to SM8750 as well.
-
-
-
-> mostly based on downstream sources. I think the hardware just did not
-> boot up without it.
-
-
-That shouldn’t be the case. The downstream design is different, which is
-why the driver requires the above code to move the GDSC to software control
-before enabling the clock. With HW_CTRL_TRIGGER, this step isn’t needed, so
-the above code is unnecessary.
-
-
-> 
-> You need to fix your email client to add line breaks around your
-> replies, because it is very difficult to spot them. It's close to
-> impossible...
-> 
-> 
->>> +	if (ret)
->>> +		goto err_disable_power;
->>> +
->>> +	ret = iris_prepare_enable_clock(core, IRIS_AXI_CLK);
->>> +	if (ret)
->>> +		goto err_gdsc;
->>> +
->>> +	ret = iris_prepare_enable_clock(core, IRIS_HW_FREERUN_CLK);
->>> +	if (ret)
->>> +		goto err_disable_axi_clk;
->>> +
->>> +	ret = iris_prepare_enable_clock(core, IRIS_HW_CLK);
->>> +	if (ret)
->>> +		goto err_disable_hw_free_clk;
->>> +
->>> +	ret = dev_pm_genpd_set_hwmode(core->pmdomain_tbl->pd_devs[IRIS_HW_POWER_DOMAIN], true);
->>> +	if (ret)
->>> +		goto err_disable_hw_clk;
->>> +
->>> +	return 0;
->>> +
->>> +err_disable_hw_clk:
->>> +	iris_disable_unprepare_clock(core, IRIS_HW_CLK);
->>> +err_disable_hw_free_clk:
->>> +	iris_disable_unprepare_clock(core, IRIS_HW_FREERUN_CLK);
->>> +err_disable_axi_clk:
->>> +	iris_disable_unprepare_clock(core, IRIS_AXI_CLK);
->>> +err_gdsc:
->>> +	writel(BIT(0), core->reg_base + WRAPPER_CORE_POWER_CONTROL);
->>> +err_disable_power:
->>> +	iris_disable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_HW_POWER_DOMAIN]);
->>> +
->>> +	return ret;
->>> +}
->>> +
->>> +static void iris_vpu35_power_off_hw(struct iris_core *core)
->>> +{
->>> +	u32 val = 0, value, i;
->>> +	int ret;
->>> +
->>> +	if (iris_vpu3x_hw_power_collapsed(core))
->>> +		goto disable_power;
->>> +
->>> +	value = readl(core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
->>> +	if (value)
->>> +		writel(CORE_CLK_RUN, core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
->>> +
->>> +	for (i = 0; i < core->iris_platform_data->num_vpp_pipe; i++) {
->>> +		ret = readl_poll_timeout(core->reg_base + VCODEC_SS_IDLE_STATUSN + 4 * i,
->>> +					 val, val & 0x400000, 2000, 20000);
->>> +		if (ret)
->>> +			goto disable_power;
->>> +	}
->>> +
->>> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
->>> +				 val, val & BIT(0), 200, 2000);
->> what are you polling here for?
-> 
-> 
-> This is not different than existing code. I don't understand why you are
-> commenting on something which is already there.
-
-Which code are you referring to?
-
-You are not setting AON_WRAPPER_MVP_NOC_LPI_CONTROL and polling for its status.
-
-The current code is incomplete and missing several steps.
-Please review and provide a corrected version.
-
-
-> 
->>> +	if (ret)
->>> +		goto disable_power;
->>> +
->>> +	/* set MNoC to low power, set PD_NOC_QREQ (bit 0) */
->> Could you share the reference for this sqeunece, this looks half-cooked.
->> Would recommend following Hardware programmin guide(HPG) for this.
-> 
-> 
-> Why? Look at existing code. It's the same.
-
-
-Which existing code? Please be specific.
-I don't think you referred to downstream code for this, because I see a lot
-of missing pieces here.
-
-
-> 
-> I think I responded to all your comments - it barely possible to spot
-> them in the quote.
-> 
-
-
-No, you have missed some of the later comments. Since the code is snipped,
-I can’t point out those comments here.
-
-
-Thanks,
-Dikshita
-
-> Best regards,
-> Krzysztof
 
