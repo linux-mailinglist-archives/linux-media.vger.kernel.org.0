@@ -1,190 +1,235 @@
-Return-Path: <linux-media+bounces-37999-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38000-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CADB08CC3
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 14:23:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E24B08CF7
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 14:33:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5179C3B753E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:22:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5FC21C25B3C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:33:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B16CE2BD02A;
-	Thu, 17 Jul 2025 12:23:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A54C62C1588;
+	Thu, 17 Jul 2025 12:33:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DmmnQv3b"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XuuTTMCs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F5329B778;
-	Thu, 17 Jul 2025 12:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964E827281F
+	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:33:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752754980; cv=none; b=P8SDClT7m/CEXlgjP8Up3yvZBxYxQ7ncEYLW1xe19EybUI9Z45z5h0vGEVWzGM6Jdufwd1v9nwiW0EnndrtthWNARM+HzOHZaQdtIXQXvb8j57m0PLc1d4Dx65e2Jdiu9H/MiVR1H3jqqytKTZAXwol8/x4L0HB8G2LM629o2zQ=
+	t=1752755591; cv=none; b=LL1WCoM8YHBqbMiaP8PY3xUMN+4wSzrXivjDtOGXY8IO5Ek/8cE1i42Y3ljL9UZke2tE7otqui+E0wOQH0HGkJxa05LalqMRmlA3qptrcnCV5vQBJr68dSfpJjFJhuZK7D+0YJ91u6oS9j/HwkP4PN5gg2DjwlSzkNlqwc7sSns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752754980; c=relaxed/simple;
-	bh=B7ww9Gdmq8coyPUzi4n0g49oPshAe9aGb1zwGU6ES1c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fhmmI4cy4A0Wh4J3v7psaw77RR1xyL+QSQuPPSPX9HdRxhZJLIk5O6d8EnXTeQyeFRoDfjGVI9vy5s9FpjJr5prmxx6DuaIslvAS+CFMQNVRBH7+XjrNSfCMObtRTGBnOc00+lwWjt2MyKlyIULRHJ7V3zOjosUjDop9B/Sa8gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DmmnQv3b; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HC3Nmb028129;
-	Thu, 17 Jul 2025 12:22:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nViHrpPLRpL8oAy8TwuGCXwpivbIXxn3VdU5LaOzh1E=; b=DmmnQv3bN+YPhPEU
-	C4smPdaAa6yVuQSb8Li2OwE4LepnQI5qKyaP6dqsa+jbkdSNP7rdrD37IAJzKd/6
-	GoaU1vChW04dzsQJDFmxTzwV8hS1VdOccsqh93nbQgYtSRJXaiSWlNlbpioa4/Lg
-	CS+aWVcQ5Mv+UkX8DPrm3zYkLl9iCuZHXBzxCf8CzvU1Ndq02T8FVbNFC25VvnOL
-	cyzzTEM7wzuJ4i7Wgrgi0nRosMSM9RSZth/v1oKjPYlbQRge04ghiTkYvCc9xEvb
-	6nwunj8o23vaDixnUUejCyFBqSngkQyL8byccC4q8GLaK+EVRO1yxAQ0RPLdjk5v
-	bfTZEg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wnh5yu29-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Jul 2025 12:22:47 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56HCMk5k019352
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Jul 2025 12:22:46 GMT
-Received: from [10.50.48.71] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 17 Jul
- 2025 05:22:41 -0700
-Message-ID: <fedee429-fad8-ab4c-7e8a-91ac13232501@quicinc.com>
-Date: Thu, 17 Jul 2025 17:52:29 +0530
+	s=arc-20240116; t=1752755591; c=relaxed/simple;
+	bh=9aNoDhtWXXT/OFJv10vt3bZs0Gso06rmEsgWtftDDYY=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9lSpaPL/Jx6y3SrneNZKq380UHGx9JfAA0/5uweh+QGkHr/S0bvtNi9KDkC2Do00HTlbsLwo2s9SSAY5GLOwaL9Z6inOHCagvDWnExrgCIZSIdHCiW1mpO9qZVTycagNefNsqpgZzf6HEJECduNttLQryLmQ021WyvNjdcAWQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XuuTTMCs; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HCTgkE022222
+	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:33:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=GIVsyeStEGhaDBPkM6OOtZkb
+	Tex+ECjJnep7/hnb8qs=; b=XuuTTMCssnwfC8qfjdUclhu4y3iIJdbxsjMLqotu
+	BDCVWvny9tIDIjNuCf4auesoOnWMxqRwP5hXkDjBowWgBt15KmTu4CWVdubkPGk/
+	F7nCv6KaoQ81DUSSv5la3A3kmFkp48ao9ZpC9u5WlrHkXR33aUy+xHRQooneAERc
+	I2lZg/r8mdI+35pae9qa1AF4/bbf2oBcu8kJhYKMxJ6heOYfyoCRmy4nB2yV9njI
+	8SRsw4JzFqip42INVgfW9BA8VLtErIIiDK3op9fz1A8jTeUEKJq664H6mm23sw0c
+	W04NnnfMlqRhfll/+0YOW6bx7JkPoi9Izv+xBeMmWgOYnQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wqsy7hn3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 12:33:08 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ab76d734acso32441531cf.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Jul 2025 05:33:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752755587; x=1753360387;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GIVsyeStEGhaDBPkM6OOtZkbTex+ECjJnep7/hnb8qs=;
+        b=eQE80QcOQDFr9hMBrAEckaunsEhF+i8TdpxbhsnCAzOtZmF8jvUbvW1N5MJNzl1Kvc
+         OEbxOavWBCKS0m+EmMcKDBaVDGPWFn1fOdm8omkh1vTkeahQJ1zAALFx8cjsIHyx8uF1
+         /am0xlNl5hRoUL6EFoDBVuDsQXGb2kgfmKYBajkyn3J3+koIpD8yBn5LL8b09TUQHhNL
+         aOwWD3qf8hhtbrSnXmnBr5Jbg6EjCzHO+o9Jt+cNF744AnqlasdjkghTEBI5xlqXy3fQ
+         EPhdWp9uEJSiDIUHZHIhmfgqcHNdcXNlzP1JTaSNZNu6TaPCs+z+i3q23oCJGTmR5koX
+         Y0Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCULdvgUv+RAJ8OfaHSRzqKJqdBvbVIOC+Z894qFHPnN1j83Z0iksS0sz+fMm2lGxfUe7C6Ne5B6tzn+rA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5FgCKIgDdB7aN5bIvgqARnewJfiIAV4XovBLWhA/m6v0ChUn5
+	f+/3nwl3UjywIR1UnxY/DXejw5VIrj39i8d0ov/nH3znD1Loh5wqN2/DmbLT4lsg79vaIbxR6U1
+	USTdzOhvvxYMsRRuJC8ddV6OK8ILAJ/Gmc5sjgNTc5x/07dVUxXO0bsIDwIcqmd9Tag==
+X-Gm-Gg: ASbGncuTOkudsMFRUts+Pa8WXO9DH9igARcpii5z50QUY7jOACR0MgH4ChYOR5hvpwP
+	QkalpbWvSXliFgkUBtxKqap0YXPYklDeist+GX7mgxX3I9rIrh380eDtV5SYUvJKEDz2PzdXmWT
+	stL86p1Cna4Qj3y/25in++O3B7b/eRrICZzmSXV3gZ2lMVqW3wjV9gdo4JyiwIgixTzZoGru+Le
+	ld8IC/NtpKPiZ+TdqKPo+kYGzClFg7ZDGMtBE2kIHtMaUdD2dUvQ5I97gW1bijjW8m95x2oDY5K
+	NQL2CVWAK1V90K/oqzYN4JbITmJ4r5z9vSHmUQbz/PxFfP87P2Hv1hgcewC9JBTxED38E84s4Pg
+	=
+X-Received: by 2002:a05:622a:5a14:b0:4ab:7a27:ec59 with SMTP id d75a77b69052e-4aba21cbddcmr52769831cf.19.1752755587192;
+        Thu, 17 Jul 2025 05:33:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH13R+H0nJcCxdj6hXz6KQmbV5pAVw+a+dWl5Nx+JoOZKLJKJi6Tv2w/rMQVHUiySpA5Ct0BQ==
+X-Received: by 2002:a05:622a:5a14:b0:4ab:7a27:ec59 with SMTP id d75a77b69052e-4aba21cbddcmr52769151cf.19.1752755586619;
+        Thu, 17 Jul 2025 05:33:06 -0700 (PDT)
+Received: from trex (153.red-79-144-197.dynamicip.rima-tde.net. [79.144.197.153])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e7f4289sm50118185e9.7.2025.07.17.05.33.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 05:33:06 -0700 (PDT)
+From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
+Date: Thu, 17 Jul 2025 14:33:04 +0200
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>, quic_vgarodia@quicinc.com,
+        quic_dikshita@quicinc.com, krzk+dt@kernel.org, konradybcio@kernel.org,
+        mchehab@kernel.org, andersson@kernel.org, conor+dt@kernel.org,
+        amit.kucheria@oss.qualcomm.com, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 3/7] media: venus: Add support for AR50_LITE video core
+Message-ID: <aHjtgHT2Nxmm5nEf@trex>
+References: <20250715204749.2189875-1-jorge.ramirez@oss.qualcomm.com>
+ <20250715204749.2189875-4-jorge.ramirez@oss.qualcomm.com>
+ <4734edd5-8224-4caa-8844-c38dabc6b6c0@linaro.org>
+ <aHij+NHG5xbM1paO@trex>
+ <8ac6f365-205a-4140-98b1-847f54ce08af@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/3] media: iris: Add support for SM8750 (VPU v3.5)
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250714-sm8750-iris-v1-0-3006293a5bc7@linaro.org>
- <20250714-sm8750-iris-v1-3-3006293a5bc7@linaro.org>
- <7b0a984f-b62a-ac4d-74bf-a6e839c59272@quicinc.com>
- <d4c39f2c-9f95-4e65-87a3-78173b39adf1@linaro.org>
- <1c5df071-7000-ab45-dbc6-4384d883ba24@quicinc.com>
- <a6dbca7e-4d49-49a6-987c-8cd587501c98@linaro.org>
- <3a87c37b-b392-598a-736f-bb01e4c311e1@quicinc.com>
- <f6f86227-8d26-400b-9ad6-605cee966b56@linaro.org>
-Content-Language: en-US
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <f6f86227-8d26-400b-9ad6-605cee966b56@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=dKimmPZb c=1 sm=1 tr=0 ts=6878eb17 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
- a=3OfcLH3czNDrsoscvLkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 899-AmlEeGYHcB7lsa50SeeMgUYAPLax
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDEwOCBTYWx0ZWRfX3a6GI0r7Ya/C
- jSO/kbwUGoCwmfscXaY+a3FKa0g7j1/B1ZO9djtAy/GTWkweeXndx2bVWkcF02WAo55T4NuQ1R0
- SIP2IUPhrUD25saH1aMj6H0bM3rlqYkeh6Id6hK0w1Eb3zJxozrxTbGDMHMB/FjDQKdPaM8VBtO
- zjb1JQ+yolU37FwRyGjyb9XlKM2t6l49fIreq+GBk+Y5LhhhfNupgJyWYej5QDC1W+dglHfCVWg
- b2L7NeQKj73INOCv6bCB27Uq0QY9yILE3KJHmmASsRtINxoleCKGi0KVyBs7ZFiTi6W9sxeXA8b
- bDT/Uj9bDN1Rm+5DOEr1v99n9V5F56yrl5PFF7uMNQUuv6dfhE3pHPHFY/ybnIIgVLNxslryJZh
- bvUH56EWS1mrk8hkAzkm44qY7Fsxg917DjJfPBI+9sHcNbBFS32bkKTbIO0EpcZRGaw9RYaD
-X-Proofpoint-ORIG-GUID: 899-AmlEeGYHcB7lsa50SeeMgUYAPLax
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8ac6f365-205a-4140-98b1-847f54ce08af@linaro.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDEwOSBTYWx0ZWRfXywtk8tybN1F3
+ 5rKDbpNi0zz+33rl5KGfL289ff8LWWac8HFwPvyjXylQ3MdRZekEzQWjYB/qNEbDE7wSs2FY9So
+ KdqpGokT4Pby2YKWhjgsK8PG5OGG6S0yOHIr2GM8HxazO1ZM4zRUwjISax0HP+CpjtbUHgxq2MJ
+ l/KsgVQXeH5h2bxj0KPWSHDi8wMbdKPAbhHg1qbmDBCWj/BMtxS7R06jzRC+Qt0QDFrlMvtbGHN
+ Iyv/PMc8+L5pyPif4ZXNlUMIP6KrmPXEqcFx15f/VZkrGW7Pg2utPZh7Xo9hVJ1Uo5AAICNcP2L
+ p2hEsMdr98Tkd6bq8RZCLoaCNMX4MsiuqS7PCgIWukf+MWO1ehE3NliZnGMQD+jJXkfJsQ7dQjy
+ sQGpr3bcUez//3tOu10el/1oLJJ0bgVghctEACNkLjtFSs0r00YQUFLlnC7eKI/P7q0EVRTM
+X-Proofpoint-GUID: tXMHrc9cXXoNsZMLZ-grnYWKdUuQdM70
+X-Proofpoint-ORIG-GUID: tXMHrc9cXXoNsZMLZ-grnYWKdUuQdM70
+X-Authority-Analysis: v=2.4 cv=McZsu4/f c=1 sm=1 tr=0 ts=6878ed84 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=Ki5fnJvzvo7yLsyA0quaxQ==:17
+ a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=YkcGIdIuY8UmMje9j0IA:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-17_01,2025-07-17_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 mlxlogscore=901 mlxscore=0 spamscore=0
- adultscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
- phishscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507170108
+ malwarescore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ spamscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507170109
 
-
-
-On 7/17/2025 4:24 PM, Krzysztof Kozlowski wrote:
-> On 17/07/2025 12:50, Dikshita Agarwal wrote:
->>>>>>> +	for (i = 0; i < core->iris_platform_data->num_vpp_pipe; i++) {
->>>>>>> +		ret = readl_poll_timeout(core->reg_base + VCODEC_SS_IDLE_STATUSN + 4 * i,
->>>>>>> +					 val, val & 0x400000, 2000, 20000);
->>>>>>> +		if (ret)
->>>>>>> +			goto disable_power;
->>>>>>> +	}
->>>>>>> +
->>>>>>> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
->>>>>>> +				 val, val & BIT(0), 200, 2000);
->>>>>> what are you polling here for?
->>>>>
->>>>>
->>>>> This is not different than existing code. I don't understand why you are
->>>>> commenting on something which is already there.
->>>>
->>>> Which code are you referring to?
->>>
->>> To the existing vpu33 which had Reviewed-by: Vikash Garodia
->>> <quic_vgarodia@quicinc.com>
->>>
->>> You understand that everything here is the same, everything is a copy
->>> while adding just few more things?
->>>
->>> My patch is not doing in this respect anything different that what you
->>> reviewed.
->>>
->>
->> It seems to have been missed in vpu33 power off sequence as well and should
->> be fixed.
->>
->> Still, as mentioned earlier as well, your reference should be
->> HPG/downstream driver of SM8750 not the previous generation (SM8650).
+On 17/07/25 10:29:44, Bryan O'Donoghue wrote:
+> On 17/07/2025 08:19, Jorge Ramirez wrote:
+> > > > --- a/drivers/media/platform/qcom/venus/helpers.c
+> > > > +++ b/drivers/media/platform/qcom/venus/helpers.c
+> > > > @@ -230,6 +230,24 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
+> > > >    }
+> > > >    EXPORT_SYMBOL_GPL(venus_helper_alloc_dpb_bufs);
+> > > > +void venus_helper_prepare_eos_data(struct venus_inst *inst,
+> > > > +				   struct hfi_frame_data *data)
+> > > > +{
+> > > > +	struct venus_core *core = inst->core;
+> > > > +
+> > > > +	data->buffer_type = HFI_BUFFER_INPUT;
+> > > > +	data->flags = HFI_BUFFERFLAG_EOS;
+> > > > +
+> > > > +	if (IS_V6(core) && is_fw_rev_or_older(core, 1, 0, 87))
+> > > > +		return;
+> > > > +
+> > > > +	if (IS_V4(core) && is_lite(core) && is_fw_rev_or_older(core, 6, 0, 53))
+> > > > +		data->alloc_len = 1;
+> > > > +
+> > > > +	data->device_addr = 0xdeadb000;
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(venus_helper_prepare_eos_data);
+> > > This function doesn't appear to have alot to do with AR50_LITE as it
+> > > pertains to IS_V6() and IS_V4().
+> > > 
+> > > This I think should be a separate patch with its own commit log to describe
+> > > the quite complex logic of version numbers going on here.
+> > Let me give it some background:
+> > 
+> > According to the HFI specification, EOS (End-of-Stream) buffers must
+> > have 'valid' addresses. While the firmware currently appears to make no
+> > use of the EOS buffer contents, allocating and mapping them would have
+> > been a better driver choice IMO. Hoever this one has better performance
+> > which is probably the reason why it has stayed.
+> > 
+> > The firmware then does perform operations involving the buffer's size
+> > and length fields, and enforces boundary checks accordingly. On the
+> > AR50_LITE platform, an earlier firmware version lacked a check on
+> > alloc_len, leading to a division-by-zero scenario.
+> > 
+> > This has been addressed, and we plan to release firmware version 6.0.54,
+> > which includes the necessary boundary check for alloc_len.
+> > 
+> > I should probaly replace IS_V4(core) && is_lite(core) with
+> > IS_AR50_LITE() instead of trying to give it the appearence of a design
+> > feature.
+> > 
+> > seems the sensible thing to do, right?
 > 
-> Yes and partially no, because we write upstream code matching or
-> extending existing upstream driver. As you said earlier, downstream is
-> not the truth always:
+> I'll stipulate to all of that.
+> 
+> I know I'm being pedantic but, the title and subject of this patch is
+> "AR50_LITE" does stuff.
+> 
+> As traveler from a mirror-universe - I would read the commit log here, look
+> at this function and be none the wiser what was going on.
 
-You're writing the power sequence for a new generation, so referencing the
-previous generation is totally wrong. Power sequences can vary between
-generations — that's precisely why HPG exists.
+right this is because I think you saw through my inconsistency.
 
-I've already pointed this out multiple times, but let me reiterate one last
-time:
-The current power sequence code is incomplete.
-Copying the SM8650 code to SM8750 is not appropriate — it's the wrong
-reference.
+The truth is I should have written the function as below; and I think
+now there is a case for it being in this patch since it is addressing a
+firmware issue on the firmware release supporting this core which the
+patch is adding the functionality for.
 
-Regards,
-Dikshita
+void venus_helper_prepare_eos_data(struct venus_inst *inst,
+				   struct hfi_frame_data *data)
+{
+	struct venus_core *core = inst->core;
+
+	data->buffer_type = HFI_BUFFER_INPUT;
+	data->flags = HFI_BUFFERFLAG_EOS;
+
+	if (IS_V6(core) && is_fw_rev_or_older(core, 1, 0, 87))
+		return;
+
+	if (IS_AR50_LITE(core) && is_fw_rev_or_older(core, 6, 0, 53))
+		data->alloc_len = 1;
+
+	data->device_addr = 0xdeadb000;
+}
+EXPORT_SYMBOL_GPL(venus_helper_prepare_eos_data);
+
+what do you think? this is really just adding a the AR50_LITE line to
+the existing implementation.
 
 > 
-> "That shouldn’t be the case. The downstream design is different, which
-> is why the driver requires the above code to move the GDSC"
+> The EOS check is a fundamental HFI capability which is why I again reiterate
+> it deserves its own commit log with the above explanation - word-for-word
+> would be fine from my POV, to explain what is going on.
+>
+
+umm not sure yet but if the above does not make you change your mind
+I'll do it.
+
+> Long live the Empire!
+
+:)
+
 > 
-> so here I built on top of SM8650 and re-iterate whatever mistakes are
-> there. The best if someone fixes VPU33 and then I rebase on top,
-> re-using fixed code as my base.
-> > Best regards,
-> Krzysztof
+> ---
+> bod
 
