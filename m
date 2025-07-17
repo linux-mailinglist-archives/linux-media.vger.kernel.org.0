@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-37987-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-37988-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A25B08B29
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:52:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D69DCB08B2C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 12:52:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 775CA1C249C0
-	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:52:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C09958583E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Jul 2025 10:52:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4436F2D94BF;
-	Thu, 17 Jul 2025 10:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25EE72D97BB;
+	Thu, 17 Jul 2025 10:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lMH6BjkN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uiwxmilU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4F22D8391;
-	Thu, 17 Jul 2025 10:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC422D8DA4;
+	Thu, 17 Jul 2025 10:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752749183; cv=none; b=lCkgQ1xYftcWN74yyNlt3xoYpTftFz2PW/ee3si1nHCBsIjeIubsbjMTsVCYWqM/MjpXl9wU9hT4iW3RBRADTLXdY3Mwv0KzfxBc7l5SWDX9LzLVinBCkWrN1FUP/60ksu7sT1oXXROHK2FwWPJoJ03B8q3Vu3GBByxHXMv3JjE=
+	t=1752749184; cv=none; b=KCPBi9Yys/i4JqQ38n35/b6ZSTooaxZBy2CqAfOJqPUSp/QTme7dcxkHuKM3GNL30oR1y4I3qWIqLMmno8GyWtQtG9tkz+Kgb56FebS+hABW2uyCgqHBaxR8OYMXAtmwmjxt82OIPg1Th7QifeHH8/iF+vzHh1WEVWX8HEKWyCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752749183; c=relaxed/simple;
-	bh=9aZhUEi8nzk0nQ1lg/OYG7ZJZJnqA3OQHgxh4Ti+sSs=;
+	s=arc-20240116; t=1752749184; c=relaxed/simple;
+	bh=YyXmr6Wtr5A4ih2ag5qo99kLDMbBWLONqHu1vyrmcVI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qWZzp+k+2Wlh8TDzV5JkVT4l49xbMXfVB5dVl/K/iEblUPm/7fV3SImTnD/0FWFAizJl5pjz63Oj2rPUxd67Bswt3MK4H8PqDPE71UkJEApMvsLViy9WDFM3vscOuVw1iLsQ6/mLvLu1MTVTaYBikuxt38748LIPwg50xWkNSZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lMH6BjkN; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=a2cetHZ6nxEsT2Ku4Vd609c/V07AeowFxo8BunSJlYrcn4QW0+SjwaRoAk378r8+XmKnXr1G3t9GhF+I86VclkEO32iQTHYor6qcUism5Ubfaxpi0+mnzVXLwBz/gLjrE0qphW/LlJR+dTXwxOQJblv5TIJ4+qrgmxQe3yOKh9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uiwxmilU; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-140-254.net.vodafone.it [5.90.140.254])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7AF2C1E74;
-	Thu, 17 Jul 2025 12:45:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7D201AE2;
+	Thu, 17 Jul 2025 12:45:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1752749142;
-	bh=9aZhUEi8nzk0nQ1lg/OYG7ZJZJnqA3OQHgxh4Ti+sSs=;
+	s=mail; t=1752749144;
+	bh=YyXmr6Wtr5A4ih2ag5qo99kLDMbBWLONqHu1vyrmcVI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lMH6BjkNJfBOxwgNQfFoFlDmJyVde8+lHri01kln6JgFe7kf4uq6RWQWnNq+MIDBT
-	 PM9kBe0e1b16Ej8L8uqmqRPz5jHnVJNKV5gmxP6y2HBOYj1/jHj5z5A1RtNcDnvDx0
-	 JBLbUklElR/VldW0dozOFWdWxUXYldqIumwveGaQ=
+	b=uiwxmilUyeUwUbhXT+Z3DOUylJFzWaOUMiyPqvYTUp4+ecDcr2ZRpyrJJ/pClK7EP
+	 HC9VLTioj6+n9rvkpV7bdvKWoF7FHTjE4wDOpktqUwrNqJmS2Etgzw5wAfkf9kTtL7
+	 2rYDY8h6AG3srtfYxn3SaqJT9Ma2qMdDM8ZZUPDA=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Thu, 17 Jul 2025 12:45:48 +0200
-Subject: [PATCH DNI 22/26] media: pisp_be: Add support for subdev state
+Date: Thu, 17 Jul 2025 12:45:49 +0200
+Subject: [PATCH DNI 23/26] media: pisp_be: Implement set/get_pad_fmt
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250717-multicontext-mainline-2025-v1-22-81ac18979c03@ideasonboard.com>
+Message-Id: <20250717-multicontext-mainline-2025-v1-23-81ac18979c03@ideasonboard.com>
 References: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 In-Reply-To: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -71,98 +71,76 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2271;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1831;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=9aZhUEi8nzk0nQ1lg/OYG7ZJZJnqA3OQHgxh4Ti+sSs=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRRVJywCBAo7BIzYjV82f8QM3uGxHTpYi2Rt
- C39bakUCimJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUUQAKCRByNAaPFqFW
- PIFBD/4uLBHQuvpaSyM6QrS1Mwp9UC008FWTYRM5RQrbx+5/10SzLLpWWEjsismkOyWFAe+ld5N
- 97fTwHqiVHEIne/j+39cXN3J2Dyb+4DYRTfeaG8poBPhLsBQexXvsHlehsMKTN2cUrjqqdC3P+L
- Go8W3IqAV3hirQDAGN0Y78z/DWu7XbAFwZtdDd1Y2GosdLfw9x1WI2Cv6Lu0ZvS1jB5MTBdzpvk
- y/WpbOmSDvxMRHzdYWiLxcE3wrYBEK6LNk939H5Zbu3Tx6GGHGnn4KwwcQIuuw3CfB00l4Vamv5
- ebbkBRD3gBn7QWJ21KQySTiv2i9c9gq3dWDTevk9I8dfzzlU1ggpotKjZG5butVooPSFuB9Vefi
- bF81TLpLk+gvQY+X34EyxD6bkrfmeVGcz0gl2bn1oN8ndw9/IC9hMaWCwmSHtsJBoo1L+kqacaO
- KSp1M/qgLLkOgTBfzKG84OI3W9NlEqqMDUrikaOUCAhzb1qOFiAIjqBXPoDn7epL6bo6wBkOqs3
- RzCqVC4qf1wOLsDjs6j63CuprP29p+KbnkcYPAlGgbw4P3VGS19TVWsCmFcvA9bwhYpaw3jsP0c
- +0bCV7MiA/zb8Kk8g2+eytbe4vvjLzmsFVgT33leutuwIASJKTvuXLTewSX40hJ0/Gazhyw+qPu
- KzBIVTUKJJYVbNA==
+ bh=YyXmr6Wtr5A4ih2ag5qo99kLDMbBWLONqHu1vyrmcVI=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoeNRR446grg45jSOazWmLg7XRPDLLG/B80g+S+
+ 8a4h6emRMuJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaHjUUQAKCRByNAaPFqFW
+ PHIcD/4nIDePGNOBSTZXua3WG5IPv5k4ZIU7nI1QDA4K1hbYrxMBgTT4OSo+Cme46A2XAe1vzgU
+ nweba/418w7v34UBvBbQuVKa4HnWC1apjPZYAQ9QNkYkVXBSDeMoApB83UvIBgYzqpSzB4msTy+
+ HrvY4dzEVVNe7RrFUbtJJf313vzRfKcaEUtLz5JXE+CtdXLhv+iRLl3hovKuWv0Tpl9xw9cw0ca
+ JyrLlnLiQ6/wfQaDdOe7obChvMgeErN9tv/8OEV4T56RCcGABsDlRJQAlRx1649PkLmuoxOD3ln
+ cqeeVKdT9xjK0oFihEJtCvGJISxv11x2QfV6xjQpDg/EDMZ73SJC1zMtGcF0FEPGEOg2PCb8dAd
+ jvx55GGnAfoc3PBl1+/Vu+q0H9GutBmNVhhMq4gdStnXr5GnfWu/D0TmdiJQtdG92/yBg10EClw
+ 3uq0nvKh6JaITdRdIyDCzLI0ibnmH7nzVkvDC/KrhS3rhgw8GxxIfUWjk25Z6Db2q1bqRwx48DP
+ HzCx0YF8z1KT0j54/+RxGp1w6pg3X/I7MvFtjFG+np8fRhvqXTBy2ZDYJhUd8LW2056qo0P+uf8
+ ZS1Bgt5F2kzwSWJL9GLjF3uz95lO1uyk9wihRscneEATpBN2VPzjLBgwFJkanvsR8NjRC/1aGDp
+ i6TdcGazjri2pQA==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Add support for subdev state in the ISP subdevice by providing an
-init_state() callback and by calling init_finalize() before registering
-the subdev.
+Implement operation handlers for the set and get pad_fmt subdev
+pad operations.
+
+Format is only modifiable on the image nodes (of both output and capture
+types). Only sizes can be modified.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 41 ++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 29 ++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-index 423cb21298309c2ba51214b129fbf6e875370c98..5aec4f8979053500c870e71ce7171bbd1cac9606 100644
+index 5aec4f8979053500c870e71ce7171bbd1cac9606..22e440f387b5e5560b2cc80a8b3bf6064dc12d7c 100644
 --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
 +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-@@ -1496,12 +1496,49 @@ static const struct v4l2_subdev_ops pispbe_sd_ops = {
- 	.pad = &pispbe_pad_ops,
- };
+@@ -1488,7 +1488,36 @@ static int pispbe_init_node(struct pispbe_dev *pispbe, unsigned int id)
+ 	return ret;
+ }
  
-+static int pispbe_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state)
++static int pispbe_subdev_set_pad_fmt(struct v4l2_subdev *sd,
++				     struct v4l2_subdev_state *state,
++				     struct v4l2_subdev_format *format)
 +{
-+	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_mbus_framefmt *fmt = &format->format;
 +
-+	for (unsigned int i = 0; i < PISPBE_NUM_NODES; i++) {
-+		fmt = v4l2_subdev_state_get_format(state, i);
++	/* Only allow setting sizes on the image input and output pads. */
 +
-+		switch (i) {
-+		case MAIN_INPUT_NODE:
-+			fallthrough;
-+		case OUTPUT0_NODE:
-+			fallthrough;
-+		case OUTPUT1_NODE:
-+			fmt->width = 1920;
-+			fmt->height = 1080;
-+			fmt->code = MEDIA_BUS_FMT_FIXED;
-+			break;
-+		case CONFIG_NODE:
-+			fmt->width =  sizeof(struct pisp_be_tiles_config);
-+			fmt->height = 1;
-+			fmt->code = MEDIA_BUS_FMT_METADATA_FIXED;
-+			break;
-+		default:
-+			/* No need to configure other nodes. */
-+			continue;
-+		}
++	switch (format->pad) {
++	case TDN_INPUT_NODE:
++	case STITCH_INPUT_NODE:
++	case TDN_OUTPUT_NODE:
++	case STITCH_OUTPUT_NODE:
++		return -EINVAL;
 +	}
++
++	fmt->width = clamp(fmt->width, PISP_BACK_END_MIN_TILE_WIDTH,
++			   PISP_BACK_END_MAX_TILE_WIDTH);
++	fmt->height = clamp(fmt->height, PISP_BACK_END_MIN_TILE_HEIGHT,
++			    PISP_BACK_END_MAX_TILE_HEIGHT);
++	fmt->code = MEDIA_BUS_FMT_FIXED;
++
++	*v4l2_subdev_state_get_format(state, format->pad) = *fmt;
 +
 +	return 0;
 +}
 +
-+static const struct v4l2_subdev_internal_ops pispbe_subdev_internal_ops = {
-+	.init_state = pispbe_init_state,
-+};
-+
- static int pispbe_init_subdev(struct pispbe_dev *pispbe)
- {
- 	struct v4l2_subdev *sd = &pispbe->sd;
- 	int ret;
+ static const struct v4l2_subdev_pad_ops pispbe_pad_ops = {
++	.set_fmt = pispbe_subdev_set_pad_fmt,
++	.get_fmt = v4l2_subdev_get_fmt,
+ 	.link_validate = v4l2_subdev_link_validate_default,
+ };
  
- 	v4l2_subdev_init(sd, &pispbe_sd_ops);
-+	sd->internal_ops = &pispbe_subdev_internal_ops;
- 	sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
- 	sd->owner = THIS_MODULE;
- 	sd->dev = pispbe->dev;
-@@ -1517,6 +1554,10 @@ static int pispbe_init_subdev(struct pispbe_dev *pispbe)
- 	if (ret)
- 		goto error;
- 
-+	ret = v4l2_subdev_init_finalize(sd);
-+	if (ret)
-+		goto error;
-+
- 	ret = v4l2_device_register_subdev(&pispbe->v4l2_dev, sd);
- 	if (ret)
- 		goto error;
 
 -- 
 2.49.0
