@@ -1,179 +1,161 @@
-Return-Path: <linux-media+bounces-38065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38066-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AB1B0A669
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 16:34:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFEBB0A68E
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 16:48:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69A30189CB6F
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 14:35:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89F3D7B2EE6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 14:46:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CFA42DCBF8;
-	Fri, 18 Jul 2025 14:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 934D81EF1D;
+	Fri, 18 Jul 2025 14:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a3XCVo89"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HJ61Pe28"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D452DAFD4;
-	Fri, 18 Jul 2025 14:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D8918024
+	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 14:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752849271; cv=none; b=TkZch/onPjDM/VOZXISE4yNedO4yG4fJYBgSjf+CeXRCNb+KJRw6eS0hrEROJEfAk09/ITLdMqROO7pi4hoABwF+vG8Koo30j1tdLwvYkcMtl1LsGHXSUJ5sRzmiM1YPZvOP7ia3p0LXwE1Cl9PhYT7UlQ/th9jr/xJHbah1lmg=
+	t=1752850075; cv=none; b=TU3KfC6X3CUbYiwT3LM+iEX48OjvAiRPcD5kUxO1x9Gp8x/8lZIAIiVUPfPxmpGIsV/FYUxKrSBYOllfEzXlP6STv331gajL+lay8bNjpsUEkfpUjALZYPaV/NLaRpakakoz+pjRf2h3pUUpGi9VlWrH+wE3oKnGtnmbbwpsO0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752849271; c=relaxed/simple;
-	bh=13JiryTUqvHobefpOGHqTVk5FnzqxAodhM9uj0YvSPA=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=XCruJGpSQv2v9dS9irFILpQ0/OluNWjcpRzpc1h5Xvk24+5OKkOrvgsRqcfi1A8L65tm5oCNrBjRZ5jHmdHO7EfxOmuRAspQfYiFuJ8OGRRILeCYuTOdk3KpBJz/bMCZjEwajzJ/4SfKDAraS4w8LmMzN8Kvp0Ie0H/wZBEN+gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a3XCVo89; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7490cb9a892so1504930b3a.0;
-        Fri, 18 Jul 2025 07:34:30 -0700 (PDT)
+	s=arc-20240116; t=1752850075; c=relaxed/simple;
+	bh=SGS7vNJMXiIIoIjQRQtUQaHpMKEFAP3awdktnoVE/vs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZHOkqBrGuSb7TCgJ2j7F2x1gEHnacckE9yrau7u7fNoknBmcbndBjnZOuVz9BkA1BPbyd/1KpTjNeWXx4D82OmawPtEb4JAkJX1w7YxWEq7lud+eU31lAeCVRCRKkq+Mkcnbvb1FlolZBmRMK0ZurICtmExbx/L6kcW5qgXYfcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HJ61Pe28; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-553affea534so333761e87.2
+        for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 07:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752849270; x=1753454070; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dc4RmbubOACKDopQNCQandB/1PMGeDeSvCmTVZVuJ74=;
-        b=a3XCVo89ANIFqG8owJXYGAakgOmTIJMZQx59FZ/SHwLfXez6V8iujZanPdWC+PMdty
-         Pjsaj0D3uj14JecGOkYfY+54M/50qG+3UyFW7Hp2TunioVHggsJsCe+MsunibK2nXH/V
-         dtuiLnql+uDBCjzP+wUV5dBdpYlEvI1Jmh0giO6D/5fmttXnRmv7LrZG0uqb3FRb6RTe
-         aWvfHFZFDg+FAN2b1WfzubdwqPqs4lt9C+7DuSNHI5xul5IVHnZ1k5YEvbZxURy/nb8H
-         iCwLaX04OI8d8lNNIkftnyOsSlfEvAPdJISPPDMCl2u1fdFQCf/GXgsIFL4tcsnKmH9f
-         3JBA==
+        d=linaro.org; s=google; t=1752850071; x=1753454871; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0wrXIKhwaKHW7DC3rbsM0aYXtZFOnbkt4Tlcd+Ix0O8=;
+        b=HJ61Pe28AEMIOtWxq55M0ef6lJOp8UJyWXXOC/0xPstfHwzkVUdtHbUYqwmGUvMT+G
+         cLUxvQwIqKVu2syD5cSDzNKshgamO7PD3qlhV2MUiQG7XCz6Fq+2cKt5JvDoGZL+ATE0
+         LcfTKo1i7ESkpTqtndiMGbX6z77QzfxekF+FWDYunxHcq7YThEfpsayk1+4gdT3tOGeV
+         aSH1jVZml0dllw8cs+lCbaU3eM5cv69/CpP4f4LDp8GrfCfwWhuZh046oR6+OBOGqon0
+         dNoFERT2+nAniXfm6nlJ2DdjrAV8qqfwye16lP8mi7jxstgZS2HB+r0aGrsCKPVToB4J
+         7etQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752849270; x=1753454070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dc4RmbubOACKDopQNCQandB/1PMGeDeSvCmTVZVuJ74=;
-        b=TqutTx6brIcJpYRZLQGVmzn1yeL/GkdJqXC9dKj6BOhK9LYon+R/xMVNYH1Is5j99+
-         Yk+/bIPD6yuHKxQtSS6zPAYTfClItGN9WCefFqjkd7n1k4hJ1+m8kFuVI8jomws5GovH
-         J1o1pLO67yvjLype6Q4d4Ngk5ckgOCZhk9FuitkFcm/97lX31q+u2KYLdP3bBGPCyA2P
-         9m0l5K2qhQm/Ro/tUVJN6EOJz8uNYZpE1mmW1TX/dylJ4A6iwsR3YUgect7yUZCUR1ra
-         d5dNg+9nGVIaTyEHSxbFvJRHyFfpemJjWdRtUmZz3HrAScB1FaEO9elNlZT4YPCHfhnu
-         y04g==
-X-Forwarded-Encrypted: i=1; AJvYcCWHKLF2xamvIM1IEEY8o+csdohSgXJxDB0ObIEKmmRu1qzs6uc2p+TbjjmjutjasX+QEsDwAKU0LEqZy54=@vger.kernel.org, AJvYcCWkvK8DC7aEzJ39L9EZjrBiM2d0PmKNFbbvZVRJT52vqeiJ2UaZSL3lvb663aIrVgMrj8h1ym3ryh2xBFc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2Yr2XB61i+8rTa1ywvB0mjCE2OL4+M2TegfdJAkOuuPydJT7u
-	QnWF4OF2g0MTlkqKD4fb6Gp9RpltMUxvqYKzFy/D1chbl1R92qKMHbuW
-X-Gm-Gg: ASbGncvPo5UdNqhlC+rms59nYXCV++J5dtNEMwPYut5zrmfrbTn56DvhK3LBt4Bo2A6
-	qR3a3xRacI9tZSIRsn0Z6E/dL0V9WOTJcpEdsLmdNPtyIMx4lPV5ii9Bk+DuJsRnpG9iUqxPzy/
-	dtPY0Gl/OOBF0c29x8CyJWH72YKdcPtplHxSF/W3DM8nlvf9ZsPbFC0jv3hsH+isKp9RFd1tvSM
-	k8aXQ7VS+Yy7dAUV1j8v2MC8MfgIb4XrEnqKr7CBBtz2pUABIyl7p3zix/9w1Yq5S8BCEkXJzyu
-	0/+A+M16EQC40sVkpi54g5bow+EQ/CpjGBlwJJ1ngtxCe0OMX34hBgp2euLV5b/xs7D2BbpxR5g
-	qBTskvav9IenhgT8CeyX9IiwiyPk9GF5krZe60b29q6Zd7IhQ2OCUZ/tEmNmklmoRikdQYGvL1c
-	U=
-X-Google-Smtp-Source: AGHT+IHIjbZRs8M6aJo8lmvlsW5wDpBjayivkW7Y0yOv0ghLZuE4hUj3gKo2FHaxEbQIZzzQ4ZKD+w==
-X-Received: by 2002:a05:6a21:329d:b0:234:28d7:b8fa with SMTP id adf61e73a8af0-2391ca91791mr5369708637.40.1752849269470;
-        Fri, 18 Jul 2025 07:34:29 -0700 (PDT)
-Received: from SIQOL-WIN-0002-DARSHAN.localdomain ([27.57.176.233])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb152227sm1351774b3a.79.2025.07.18.07.34.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 07:34:29 -0700 (PDT)
-From: Darshan Rathod <darshanrathod475@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Darshan Rathod <darshanrathod475@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] media: b2c2: flexcop: Fix coding style issues
-Date: Fri, 18 Jul 2025 14:34:20 +0000
-Message-ID: <20250718143423.2798-1-darshanrathod475@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1752850071; x=1753454871;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0wrXIKhwaKHW7DC3rbsM0aYXtZFOnbkt4Tlcd+Ix0O8=;
+        b=utQMISKdM4hMFGVwjEWbAgnSC4L3xtnhQw+gvTNxrzDpwJ6/I8ikVULfeaPMNNkR+t
+         7rE/ZTmJbc1rVKqnAiw9SYgeWvZcb/cFeDLl5aWFThFY0UK3PWuKkVeZ0FPlRxrfufLm
+         6oxgTZShxVxiMXxAylMcOrpDRQRHSfJPbH5muPV0Dv4TUweeAa4yaS0Im0yolguehlRq
+         DQrNw0ulVhZRWoohXVrbpXL3jr99tULZpEilshk1hTb2j43bl/kInHMu+IFhr9oiHtz1
+         M/VsKq9EU20FHRJlR5oqhFDBOBFaEl6FmEfHi8Kszi5qAj7kfVeIvE0ghYsUsyfWPh+r
+         OKSA==
+X-Gm-Message-State: AOJu0YxBnyqezm5ZzWyv+FHz1yqJZ/nbuvH5C/zyjMEhNCUUiQMdVrKc
+	aJBFiuhJjeTib14d2W0UkIeC/yNF88vIM4W/1sw1yr0dOwef/zkAYjefT3d9izd+aw0=
+X-Gm-Gg: ASbGncuic0ZVNCaK5NprytMQPUFtG+bWGnUhuplqwbaEngDUrONijiXdcttyik+cVRt
+	F97LR9+0jamRA+E3WY2OMh/AZaAHM+2SEdB20dhhIDoLMDMrACfxCGqH+HII45QVLZtK6fIiyta
+	zPI43yuJEfgZC9HZGa9Ff6PTyRxQotikvFbiexCKhdsnq86yteClz39yvRTBGDWITxJ79FeVXk8
+	JIl0NiYgm5at+zFozVpoRuqaDLrt1RzrKh7YgN81LcRTHD4Q4hnW6qfMgn9fu4Va3RzYlLtiUn4
+	1OXrNTUh0uyZrBZr3S52ebmoKTaHq66suS6Sp1A4WeR9VGRjQDE2HXkQarYixtymNP225m9AFxv
+	Jm2p81iG7A2pgyzebduD9yZkfbuLOAuxGh0cc+kMazr1ltI8rWOZBtgjpnYplKxSLhdaVEXPHwg
+	lZ
+X-Google-Smtp-Source: AGHT+IHmeCCgliflJieJcxYaVeEiJeaG5eaZXTCq0nZO0tyPaHN+CmG0r7M7PG8TjgEvup/ql7ymUA==
+X-Received: by 2002:a05:6512:618:10b0:54f:c2ab:c6be with SMTP id 2adb3069b0e04-55a2333f9e1mr813845e87.7.1752850071221;
+        Fri, 18 Jul 2025 07:47:51 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55a31da69f2sm278610e87.198.2025.07.18.07.47.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Jul 2025 07:47:50 -0700 (PDT)
+Message-ID: <c4a2b0b9-4e91-4ad1-b27a-7f948de86825@linaro.org>
+Date: Fri, 18 Jul 2025 17:47:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: i2c: Add OmniVision OV6211 image sensor driver
+Content-Language: ru-RU
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250717124001.108486-1-vladimir.zapolskiy@linaro.org>
+ <20250717124001.108486-3-vladimir.zapolskiy@linaro.org>
+ <fa9a1084-9e90-497a-bf28-579a20a293bc@kernel.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <fa9a1084-9e90-497a-bf28-579a20a293bc@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The code in flexcop.c has several instances where spaces are missing
-after commas in function call arguments. This violates the Linux
-kernel coding style guidelines.
+On 7/18/25 10:07, Krzysztof Kozlowski wrote:
+> On 17/07/2025 14:40, Vladimir Zapolskiy wrote:
+>> +
+>> +static int ov6211_power_on(struct device *dev)
+>> +{
+>> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>> +	struct ov6211 *ov6211 = to_ov6211(sd);
+>> +	int ret;
+>> +
+>> +	if (ov6211->avdd) {
+>> +		ret = regulator_enable(ov6211->avdd);
+> 
+> You should just use bulk API and simplify all the regulator handling code.
 
-This patch cleans up these minor style issues by adding the required
-spaces. This is a purely stylistic change with no functional impact
-and improves overall code readability and consistency.
+There is no bulk API for optional regulators.
 
-Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
----
- drivers/media/common/b2c2/flexcop.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+<snip>
 
-diff --git a/drivers/media/common/b2c2/flexcop.c b/drivers/media/common/b2c2/flexcop.c
-index e7a88a2d248c..8506de48ba45 100644
---- a/drivers/media/common/b2c2/flexcop.c
-+++ b/drivers/media/common/b2c2/flexcop.c
-@@ -170,7 +170,7 @@ static void flexcop_reset(struct flexcop_device *fc)
- 	flexcop_ibi_value v210, v204;
- 
- 	/* reset the flexcop itself */
--	fc->write_ibi_reg(fc,ctrl_208,ibi_zero);
-+	fc->write_ibi_reg(fc, ctrl_208, ibi_zero);
- 
- 	v210.raw = 0;
- 	v210.sw_reset_210.reset_block_000 = 1;
-@@ -183,17 +183,17 @@ static void flexcop_reset(struct flexcop_device *fc)
- 	v210.sw_reset_210.reset_block_700 = 1;
- 	v210.sw_reset_210.Block_reset_enable = 0xb2;
- 	v210.sw_reset_210.Special_controls = 0xc259;
--	fc->write_ibi_reg(fc,sw_reset_210,v210);
-+	fc->write_ibi_reg(fc, sw_reset_210, v210);
- 	msleep(1);
- 
- 	/* reset the periphical devices */
- 
--	v204 = fc->read_ibi_reg(fc,misc_204);
-+	v204 = fc->read_ibi_reg(fc, misc_204);
- 	v204.misc_204.Per_reset_sig = 0;
--	fc->write_ibi_reg(fc,misc_204,v204);
-+	fc->write_ibi_reg(fc, misc_204, v204);
- 	msleep(1);
- 	v204.misc_204.Per_reset_sig = 1;
--	fc->write_ibi_reg(fc,misc_204,v204);
-+	fc->write_ibi_reg(fc, misc_204, v204);
- }
- 
- void flexcop_reset_block_300(struct flexcop_device *fc)
-@@ -202,13 +202,13 @@ void flexcop_reset_block_300(struct flexcop_device *fc)
- 			  v210 = fc->read_ibi_reg(fc, sw_reset_210);
- 
- 	deb_rdump("208: %08x, 210: %08x\n", v208_save.raw, v210.raw);
--	fc->write_ibi_reg(fc,ctrl_208,ibi_zero);
-+	fc->write_ibi_reg(fc, ctrl_208, ibi_zero);
- 
- 	v210.sw_reset_210.reset_block_300 = 1;
- 	v210.sw_reset_210.Block_reset_enable = 0xb2;
- 
--	fc->write_ibi_reg(fc,sw_reset_210,v210);
--	fc->write_ibi_reg(fc,ctrl_208,v208_save);
-+	fc->write_ibi_reg(fc, sw_reset_210, v210);
-+	fc->write_ibi_reg(fc, ctrl_208, v208_save);
- }
- 
- struct flexcop_device *flexcop_device_kmalloc(size_t bus_specific_len)
-@@ -266,8 +266,8 @@ int flexcop_device_initialize(struct flexcop_device *fc)
- 	if (fc->get_mac_addr(fc, 0) == 0) {
- 		u8 *b = fc->dvb_adapter.proposed_mac;
- 		info("MAC address = %pM", b);
--		flexcop_set_mac_filter(fc,b);
--		flexcop_mac_filter_ctrl(fc,1);
-+		flexcop_set_mac_filter(fc, b);
-+		flexcop_mac_filter_ctrl(fc, 1);
- 	} else
- 		warn("reading of MAC address failed.\n");
- 
-@@ -275,7 +275,7 @@ int flexcop_device_initialize(struct flexcop_device *fc)
- 	if (ret)
- 		goto error;
- 
--	flexcop_device_name(fc,"initialization of","complete");
-+	flexcop_device_name(fc, "initialization of", "complete");
- 	return 0;
- 
- error:
+>> +	ov6211->xvclk = devm_clk_get_optional(&client->dev, NULL);
+>> +	if (IS_ERR(ov6211->xvclk)) {
+>> +		ret = PTR_ERR(ov6211->xvclk);
+>> +		dev_err(&client->dev, "failed to get XVCLK clock: %d\n", ret);
+>> +		return ret;
+> 
+> syntax is always: return dev_err_probe
+> 
+
+Ack.
+
+>> +	}
+>> +
+>> +	freq = clk_get_rate(ov6211->xvclk);
+>> +	if (freq && freq != OV6211_MCLK_FREQ_24MHZ)
+>> +		return dev_err_probe(&client->dev, -EINVAL,
+>> +				"XVCLK clock frequency %lu is not supported\n",
+>> +				freq);
+>> +
+>> +	ret = ov6211_check_hwcfg(ov6211);
+>> +	if (ret) {
+>> +		dev_err(&client->dev, "failed to check HW configuration: %d",
+>> +			ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	ov6211->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+>> +						     GPIOD_OUT_HIGH);
+>> +	if (IS_ERR(ov6211->reset_gpio)) {
+>> +		dev_err(&client->dev, "cannot get reset GPIO\n");
+>> +		return PTR_ERR(ov6211->reset_gpio);
+> 
+> syntax is always: return dev_err_probe
+> 
+
+Ack.
+
+Thanks for the review.
+
 -- 
-2.43.0
-
+Best wishes,
+Vladimir
 
