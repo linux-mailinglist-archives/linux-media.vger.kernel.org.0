@@ -1,431 +1,489 @@
-Return-Path: <linux-media+bounces-38068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38069-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F59B0A6C6
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 17:02:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 353E5B0A710
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 17:25:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77C2A1C42977
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 15:02:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 627115A7F95
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 15:25:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2F962DCF60;
-	Fri, 18 Jul 2025 15:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4FA12DE1E5;
+	Fri, 18 Jul 2025 15:25:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B0y/L7uV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WAC6oTYp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574D022339;
-	Fri, 18 Jul 2025 15:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79DA1D6AA;
+	Fri, 18 Jul 2025 15:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752850949; cv=none; b=rO8bH2jct3i3NHHZLWlyrqRA6+LJvN7n3NMneXcEdWDElD9r5oPpzQ4zGDODjVeXWwbBog2bP9ABztVEre3s2YviLTocILDQxdQtWUCrmGG/aHIEuIGyQXqb1g1ZtaqZ8NCoXVonqHzfFsp5c4Ulu2cCQEzY941gdlv2qE0sVpA=
+	t=1752852316; cv=none; b=cf5NJ77EWEKLMGbOGvom5jcaHT4JDyAdI+oymDiW9hy/pItKPdhueYkdxeup+eApIfQPPxSy8mZq0JW8oW03e+kcnmZfsT7YgvqdYUFphH7ohZLfpZO6Ov62sChaCMPxHCoFjj08rPo4fSr83vmAaWqorUrANrZ2YjVkyzTfGZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752850949; c=relaxed/simple;
-	bh=+e1iMGRpKp9G4bBHxeR7ZAWHo4gzQHuUdz02p5ovehI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CD9pwSPeEblN1i45JTWmwG+Ib6TM8Oz6iD95B0lY2WrcD+s7eBVKRXBCKyaQk0uNFMn5strm59coEiUqMgWVEE+zQbWgPPuId07IudX6kdcJ6hRn/DKFEqKR3UOjLgzQpBaO63yb2r/uqUlpH9WKJllHHX731WQAubAWRDXFtoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B0y/L7uV; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1752852316; c=relaxed/simple;
+	bh=+TwBw5BfYN5cLnNFRb/DjUeLko7Ti3P8PM866XiT9Q8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nrlvGO7fM7fa3r5ipZehYsSJatwTD544vaIv3HaPP3wsdyoVDIPs+e3tbzdzxOXFVoNcesGgcM/dL2LxZqHPAjBZ0iawuUF1aGsE0CGhWEOa8BENU1eVUKIzTXGcNA46/3yQoFXgRawR3xNjbLCM53BXCMcghDXDx/ckN7JOCSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WAC6oTYp; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-748f5a4a423so1545145b3a.1;
-        Fri, 18 Jul 2025 08:02:27 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a588da60dfso1378770f8f.1;
+        Fri, 18 Jul 2025 08:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752850946; x=1753455746; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rS1Hb9jkF9G9opMttID/56RDiABU17nuzI2X985+cNg=;
-        b=B0y/L7uVbjfGmHSiXjtBL8G62FTnWHXEGn/jBZeWXWeXhdHbRWTJwsJQO6u1NrVUy7
-         5kD29kvXol4DSsBQ+lMM/eN3kYHQbpWCVaHWd1CqZ2xuITWjMhrW6GT+YWM+K/O0Gt0U
-         WYGBK2AGdQGUBNhFeT9acZlqhpRqoIlgbczjqCO8va57FSDx1UPFIz9ICpfZsgOncK7w
-         wdcSBe7iHa6wrE7g8oTHT9p9caG9LZlWX7S5dJWa6BuE91icxTkKLYcwHouGF3LJNRZN
-         K51CUbTIT7LpLJsvRVbhAzVHGRHnf+a51S7TZ5BNR9GPD13Zu4e+mL9Q7wQyIX2pH20I
-         0vRQ==
+        d=gmail.com; s=20230601; t=1752852312; x=1753457112; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BJxMlHb0ytPOGAga5OsWNiDGKWG4gakuVpcbrGV5E/8=;
+        b=WAC6oTYpKNgJL8qO51+zGHAciM1dcFBQRbeFgrCIpgSkJJUR4Tj9thAfRMG7OibZB1
+         2tMcQ27PZV4tYFGNaLkzVICNKnICgGnrR2/3SJbjmmWlHFbdNOYEPU+WcUkckJgHcgRW
+         Eag0omipOFctJWKn2fBLmOu/+XGegfn8Q4IvtXsHPPRtcscGh0dPKos09mYx/Yffrskk
+         N/VDf4qdOjxZSBaWpFFnrmW6XzQoaqDE0EN1U1ICj+5MD2eLRid854FVYw8Phv2y4hL7
+         GaYFDRHqsyFBscRNfTe2eNeZWK3AFXxhlRjGLYuTrmlPdlaKJevDVPE7X3e59EQlClaG
+         zJiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752850946; x=1753455746;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1752852312; x=1753457112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rS1Hb9jkF9G9opMttID/56RDiABU17nuzI2X985+cNg=;
-        b=Qhcu5XdPVqTBKlakxdfoKg7AccqyE4KkzTUuiSCWCahJLbVBaYWQ8TJRXyVvQ9wPXF
-         JjtammlutNQVnczCUjGwJfn8bA6UdLuSQDJKqbbvsGincqDSu9nYi5PGYeXJdX6XvXgQ
-         fsBm3i+tUvC6eoCnn+pCue+VD5um9iXVHUJ46w0/lliSKyEPRnuT9IKZ0Sl9deVu8MJq
-         YI/BqiixgFK4P7VojGs2gpdWgEeKjzf6pvs+mq/ExZNyeU0rinkxv1VKFc2VFsmbKeA7
-         oxCpeogxlmF51ybBnp+c5wu+oPC4RtrTToCEotvzaAnitCJyBYJHwQXgrnReaKrA2V75
-         dOfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXeT8FWDW1neT0/nRXaHaYwt6f/YYbh1jtIvaGeZM2p+GgVm2B/wdNe34smjKuu1buCEquBqcYGni3iCY0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFzg/dFXhf7ccD8H8SSJXoVJ7SBiZzCfqYpw5BNg+FIuDLxjji
-	E4umLJD1V4jwDXA16/7/AV2MkKH/oWRGYzbDNkHvU65+NaI0U1lUkAK2
-X-Gm-Gg: ASbGncu8nnAUDspMn426cjq4UHZRgTBDSbgfCNO0WdiQTyRkOYfTKKM214/9vx9DcqY
-	5aFPW+CLMMdCCQEsrcfLkeXP5Gd6vuA9Fbalb8vXheGrNr0WtBZmQiGehtH5hwoAsx8ZRhZhoiu
-	4xcgEeSNDxZa6+EfOyq71doS79v9BVZNI9UtoO6RSFhDT6j/rGprJeTvcr/EGuciCfOdL1XcW2u
-	CoHOsyMoayNG+eL1HNxcwpn8ti/hIOegGn3QfnO0FLw79sdxgZWEr7kxGW7nIuDSRRSmj3qijSe
-	aSOoOy8IH6keoU6dsiGN+s3HFjaaeQSWAlRrUt+iCYAqHVUSBHdSHm6V0d3WvDAo+6+cisLmUhP
-	9gHBxbI+JCjt8zbMQ0PlUxvEYF7OAaFm9iAZao2zYD5O7VZm7NaTyLaeKcauL3JlGMdMbTJ4E4r
-	wHJqWVqyIltO0Pn2gR41il
-X-Google-Smtp-Source: AGHT+IH7PMcccun3vaGdeD/RJhARuzeNyiL2lgqrv4BXVHpklhW5GTvP9s8/rnb6DrIRpDhNiwqhHw==
-X-Received: by 2002:a05:6a20:4311:b0:22b:3da9:fb33 with SMTP id adf61e73a8af0-2381244decdmr15629829637.12.1752850946374;
-        Fri, 18 Jul 2025 08:02:26 -0700 (PDT)
-Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f2fe653a7sm1384051a12.2.2025.07.18.08.02.23
+        bh=BJxMlHb0ytPOGAga5OsWNiDGKWG4gakuVpcbrGV5E/8=;
+        b=Ss/bABP1xgRADZpcszgar/9IUBQ8jR+CnL285dKoFyzVbXCPGF+3n7sSMvym1/vdID
+         I1hi4o78xh8nwfEPYLgGiwo93qQZFDJhniuoRQ3GCQxwAYkU7q2QYrx/6mjYsMl9TRaI
+         hiRr1KPOZxUTHm+xDBMQRO9xec+T9wckpWoYD3kobVIcsHGWErqluF3NduljZII4947Q
+         0/tEwOoyuWDQzvk7NcK0uVl/+g96SjX1pf+rgVWmZz6wCB7uEVw/NGWSYL+ynxs3YM5x
+         apXBVuNbRAXkLd3k/V0QlpX1TeJiqN/74w6m81cW1RkDvNxulM/2mdW09qcAIdONfysL
+         DJ5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUgQpsOYfPeTUk15Tq4T4ByE06ltBc3m+G79nVFUJ06hEBkB0Vhg0DzmOsmOvoGWGpdiSkxBnC//SDIAnyU@vger.kernel.org, AJvYcCUwZJ5bZjlUsQL3K7Y++5S6bAY21wYbxxAEWm+Hv7vG7OyfQrWNQ1/t4T5IAzNyma7MKovywh0u0MYzPA==@vger.kernel.org, AJvYcCXf1JlQsfJKpOZdTNhHWTGthUNI/b+fVmtBP+y72aLk5xsPseT+F2YLKLW4aSAG31mehjzaDkYCQgu4@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+j7GCkxBhWQ6SmdQtldgiz1+8rOKvoMkDz4JWtHOIFTvZXCYt
+	96eG9fykd/Znw7NR+pcA0qixAewzfHKZsed7os1OG5PdkyaL4Lxx3Qa7
+X-Gm-Gg: ASbGncsjKA+KFyXy8cnsP1Gjw3EeEMDy738G7ytscRhmePD3FZ4ScGI98TeYDS8QuQa
+	+sS3qaH5/4FTP6As0OmQAtTdEMHEeaPI2b194Cc+dt+aqwJNbkb7PCXFC95BY6otCZd3yYxHhDH
+	GubzpthFpX3CKWTOL2Sl6kH4GzP46gnEh2JGwEpwnLl29zsel3gRe4jW1qHBeKtVa80btaO8VEF
+	i9D4JoufbRTwPgoVY0iGUANdVDyJSNCTk4QFY/P15Qi7EI1ERXRee9MAQXHhlifujo7HAO1oU2J
+	CPPsbFzh1ss9qEnrtGtOt3ZrTv6ksnX1vsn4ZnLN4SCTdxxb2AZ+UuKYYffwH42xhntN7bSsrll
+	NFI20yrKwWvj1ykunR1xv+TbpQW7EjTxlSbexKIajdMMaUg==
+X-Google-Smtp-Source: AGHT+IGzW9SjebHQzHtYme5508QORx0+TbbV8n3ohEzv5FmUaGnyJ/J2WwWQI0A5ABkz/Z+peGp/kA==
+X-Received: by 2002:adf:e193:0:b0:3a3:7987:945f with SMTP id ffacd0b85a97d-3b60e5242a1mr10156741f8f.57.1752852311782;
+        Fri, 18 Jul 2025 08:25:11 -0700 (PDT)
+Received: from demon-pc.localdomain ([86.121.79.159])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca4893fsm2195780f8f.52.2025.07.18.08.25.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 08:02:25 -0700 (PDT)
-From: LiangCheng Wang <zaq14760@gmail.com>
-Date: Fri, 18 Jul 2025 23:02:14 +0800
-Subject: [PATCH v10] staging: media: atomisp: fix indentation in aa, anr,
- and bh modules
+        Fri, 18 Jul 2025 08:25:11 -0700 (PDT)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH v7 00/24] media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+Date: Fri, 18 Jul 2025 18:24:36 +0300
+Message-ID: <20250718152500.2656391-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250718-new_atomisp-v10-1-54bdff660058@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAPVhemgC/23M3QqDIBjG8VsJj+cw+1B3tPsYY1i+1gsrQ8NtR
- Pc+66jBDp8Hfv+FBPAIgVyyhXiIGNCNaeTslJG212MHFE06CGe8YoKVdITXQ89uwDBREIUtRW4
- LJiRJYvJg8b3nbve0ewyz85+9HuX2/u9ESRnlWlY1axujGrh2g8bnuXUD2TpRHWye/1qVrFbG1
- LzkFdj6aNd1/QIKp71/4wAAAA==
-X-Change-ID: 20250704-new_atomisp-e73f471f3078
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, llvm@lists.linux.dev, 
- LiangCheng Wang <zaq14760@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752850943; l=12648;
- i=zaq14760@gmail.com; h=from:subject:message-id;
- bh=+e1iMGRpKp9G4bBHxeR7ZAWHo4gzQHuUdz02p5ovehI=;
- b=RRMB2Qo5128Ga5uyePBpVrOIOM/21Cn+QmVtt64YoavRO4Q+CuU4Fbt3j7+HJ7B3Q2/fW7gyv
- 4nSTC2Qp9g7D/YcJqp8dNaQrTonsNwN6+fSR1QkkIPUa/lEVQfaY3KB
-X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
- pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Fix tab/space indentation and move a standalone kernel-doc
-comment of the 'strength' field of the struct ia_css_aa_config
-to the whole-structure one.
-Align with kernel coding style guidelines.
+This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+replacing the few GMSL2 drivers already in upstream, and introducing a
+common framework that can be used to implement such GMSL chips, which
+avoids code duplication while also adding support for previously
+unsupported features.
 
-No functional logic changes were made.
+While the normally acceptable and polite way would be to extend the
+current mainline drivers, the choice was made here to add a totally new
+set of drivers. The current drivers support only a small subset of the
+possible features, and only a few devices, so the end result after
+extending them would in any case be essentially fully rewritten, new
+drivers.
 
-Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
----
-This patch focuses on cleaning up indentation (spaces, tabs) in the
-AtomISP driver under drivers/staging/media/atomisp/pci/isp/kernels/.
+This series depends on support for internal pads, for which a patch has
+been added.
 
-There is no functional logic change.
----
-Changes in v10:
-- Squashed previous aa/anr/bh patches into a single patch
-- Rewrote commit message to reflect actual changes
-- Removed unnecessary Suggested-by and Link tags as advised
-- Added trailing comma to array initialization as suggested
-- Link to v9: https://lore.kernel.org/r/20250711-new_atomisp-v9-0-a9dd62425ef6@gmail.com
+The previous version is at:
+https://lore.kernel.org/lkml/20250716193111.942217-1-demonsingur@gmail.com
 
-Changes in v9:
-- Reformatted struct comments to follow kernel-doc format
-- Reverted macro definition changes that removed alignment
-- Reverted multi-line array initializations to use brace-on-own-line style
-- Added trailing comma in small array initializations
-- Adjusted function declarations to follow kernel-style indentation
-- Removed unnecessary churn in cases where code was already style-compliant
-- Link to v8: https://lore.kernel.org/r/20250704-new_atomisp-v8-0-2a8560cbd9be@gmail.com
+The following deserializers are supported:
+ * MAX96712 (already exists in staging)
+ * MAX96714 (already exists)
+ * MAX96714F (already exists)
+ * MAX96714R (GMSL2)
+ * MAX96716 (GMSL2)
+ * MAX96724 (already exists as part of existing MAX96712 driver)
+ * MAX96724F (GMSL2)
+ * MAX96724R (GMSL2)
+ * MAX9296A (GMSL2)
+ * MAX96792A (GMSL3)
 
-Changes in v8:
-- Reorganized cleanup by subdirectory (one commit per directory)
-- Focused only on indentation fixes (spaces, tabs)
-- Removed all clang-format involvement
-- No functional changes
-- Link to v7: https://lore.kernel.org/all/20250629113050.58138-1-zaq14760@gmail.com/
+The following serializers are supported:
+ * MAX96717 (already exists)
+ * MAX9295A (GMSL2)
+ * MAX96793 (GMSL3)
 
-Changes in v7:
-- Split previous monolithic patch into multiple smaller patches
-- Applied clang-format to entire driver excluding i2c directory
-- Fixed checkpatch.pl-reported ERRORs (parentheses in macros, unnecessary return parentheses, zero-initialized globals, spaces after unary minus)
-- Left WARNINGS untouched for future cleanup
-- No functional logic changes
-- Link to v6: https://lore.kernel.org/r/20250627-bar-v6-1-b22b5ea3ced0@gmail.com
+The following list enumerates new features that are supported by the
+common framework and their respective chip-specific drivers:
+ * Full Streams API support. Most deserializers have support for more
+   than one link, and more than one PHY. Streams support allows
+   configuration of routing between these links and PHYs.
 
-Changes in v6:
-- Applied clang-format across the entire AtomISP driver
-- Fixed all checkpatch.pl-reported ERRORs
-- Added explanation of tooling and scope
-- No functional logic modified
-- Moved 'Suggested-by' and 'Link' tags above Signed-off-by
-- Link to v5: https://lore.kernel.org/r/20250625-bar-v5-1-db960608b607@gmail.com
+ * .get_frame_desc() support. Both the serializers and deserializers
+   implement this to query and provide frame descriptor data. This is
+   used in features explained in-depth below.
 
-Changes in v5:
-- Replaced space-based indentation with tabs in output_1.0 directory
-- Used checkpatch.pl and grep to identify formatting issues
-- No functional changes made
-- This patch is now focused solely on tab/space issues
-- Link to v4: https://lore.kernel.org/r/20250624-bar-v4-1-9f9f9ae9f868@gmail.com
+ * .get_mbus_config() support. The deserializers implement this to allow
+   upstream devices to query the link frequency of its pads.
 
-Changes in v4:
-- Moved assignment operator '=' to the same line for static struct definitions
-- Remove unnecessary line breaks in function definitions
-- Update commit message to reflect all the coding style fixes
-- Link to v3: https://lore.kernel.org/r/20250622-bar-v3-1-4cc91ef01c3a@gmail.com
+ * Address translation with I2C ATR for the serializers.
 
-Changes in v3:
-- Removed extra spaces between type and asterisk (e.g., `*to`) in function
-  declarations, as pointed out by Andy Shevchenko
-- Update commit message to reflect all the coding style fixes
-- Link to v2: https://lore.kernel.org/r/20250621-bar-v2-1-4e6cfc779614@gmail.com
+ * I2C ATR translation - some deserializers cannot do muxing since I2C
+   communication channel masking is not available per-link, and the only
+   other way to select links is to turn them off, causing link resets.
+   For such cases, I2C ATR is used to change the address of the
+   serializers at probe time.
 
-Changes in v2:
-- Fix patch subject prefix to "staging: media: atomisp:" to comply with media CI style.
-- No other functional changes.
-- Link to v1: https://lore.kernel.org/r/20250621-bar-v1-1-5a3e7004462c@gmail.com
+ * Automatic GMSL link version negotiation between GMSL3, GMSL2 6Gbps, GMSL2
+   3Gbps.
 
-Thanks for your previous feedback.
+ * Automatic stream id selection for deserializers which need serializers to
+   stream on unique stream ids.
 
-Best regards,  
-LiangCheng Wang <zaq14760@gmail.com>
+ * Automatic VC remapping on the deserializers. VCs are picked so that
+   if they were unique on the sink pad, they will end up as unique on
+   the source pad they are routed to too, prioritizing using the same
+   VC ID as the sink pad, to facilitate the possibility of using tunnel
+   mode.
 
-Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
----
- .../pci/isp/kernels/aa/aa_2/ia_css_aa2_types.h     |  8 +++++---
- .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c  | 24 ++++++++--------------
- .../pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h  | 20 +++++++-----------
- .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c   | 14 +++++--------
- .../pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h   | 13 +++++-------
- .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.c       | 14 +++++--------
- .../pci/isp/kernels/bh/bh_2/ia_css_bh.host.h       | 14 +++++--------
- 7 files changed, 41 insertions(+), 66 deletions(-)
+ * Automatic pixel mode / tunnel mode selection. Tunnel mode is used
+   when VC IDs do not need to be changed and all hardware supports
+   tunnel mode, otherwise, pixel mode is used. The serializers are
+   automatically switched between the two by using a private API.
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/aa/aa_2/ia_css_aa2_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/aa/aa_2/ia_css_aa2_types.h
-index 2f568a7062da726397f55b1e73dadd27fcd1f2f8..f825f537a5366f6b97170dd44827436fd800d105 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/aa/aa_2/ia_css_aa2_types.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/aa/aa_2/ia_css_aa2_types.h
-@@ -28,11 +28,13 @@
-  *     ISP block: BAA2
-  *     ISP1: BAA2 is used.
-  *     ISP2: BAA2 is used.
-+ *
-+ * @strength: Strength of the filter, in u0.13 fixed-point format.
-+ *            Valid range: [0, 8191]. A value of 0 means the filter is
-+ *            ineffective (default).
-  */
- struct ia_css_aa_config {
--	u16 strength;	/** Strength of the filter.
--					u0.13, [0,8191],
--					default/ineffective 0 */
-+	u16 strength;
- };
- 
- #endif /* __IA_CSS_AA2_TYPES_H */
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
-index 899d566234b9d3a35401666dcf0c7b1b80fd5b31..488807a161b9a6ba9ebc4a557221cd21bd1df108 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
-@@ -16,25 +16,21 @@ const struct ia_css_anr_config default_anr_config = {
- 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
- 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
- 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
--		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
-+		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
- 	},
--	{10, 20, 30}
-+	{ 10, 20, 30 },
- };
- 
--void
--ia_css_anr_encode(
--    struct sh_css_isp_anr_params *to,
--    const struct ia_css_anr_config *from,
--    unsigned int size)
-+void ia_css_anr_encode(struct sh_css_isp_anr_params *to,
-+		       const struct ia_css_anr_config *from,
-+		       unsigned int size)
- {
- 	(void)size;
- 	to->threshold = from->threshold;
- }
- 
--void
--ia_css_anr_dump(
--    const struct sh_css_isp_anr_params *anr,
--    unsigned int level)
-+void ia_css_anr_dump(const struct sh_css_isp_anr_params *anr,
-+		     unsigned int level)
- {
- 	if (!anr) return;
- 	ia_css_debug_dtrace(level, "Advance Noise Reduction:\n");
-@@ -42,10 +38,8 @@ ia_css_anr_dump(
- 			    "anr_threshold", anr->threshold);
- }
- 
--void
--ia_css_anr_debug_dtrace(
--    const struct ia_css_anr_config *config,
--    unsigned int level)
-+void ia_css_anr_debug_dtrace(const struct ia_css_anr_config *config,
-+			     unsigned int level)
- {
- 	ia_css_debug_dtrace(level,
- 			    "config.threshold=%d\n",
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h
-index 4f77900871c8b9d43bdc00308aa914eda3af7fa7..2f17d62b92087afd26aff2a49dadf4ee2fb7fcf5 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.h
-@@ -12,20 +12,14 @@
- 
- extern const struct ia_css_anr_config default_anr_config;
- 
--void
--ia_css_anr_encode(
--    struct sh_css_isp_anr_params *to,
--    const struct ia_css_anr_config *from,
--    unsigned int size);
-+void ia_css_anr_encode(struct sh_css_isp_anr_params *to,
-+		       const struct ia_css_anr_config *from,
-+		       unsigned int size);
- 
--void
--ia_css_anr_dump(
--    const struct sh_css_isp_anr_params *anr,
--    unsigned int level);
-+void ia_css_anr_dump(const struct sh_css_isp_anr_params *anr,
-+		     unsigned int level);
- 
--void
--ia_css_anr_debug_dtrace(
--    const struct ia_css_anr_config *config, unsigned int level)
--;
-+void ia_css_anr_debug_dtrace(const struct ia_css_anr_config *config,
-+			     unsigned int level);
- 
- #endif /* __IA_CSS_ANR_HOST_H */
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-index 09599884bdaefe32f891f437274b96110888a675..3c6d99139cda6f12eb6ef6fe8f996f7ff11551c2 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-@@ -10,11 +10,9 @@
- 
- #include "ia_css_anr2.host.h"
- 
--void
--ia_css_anr2_vmem_encode(
--    struct ia_css_isp_anr2_params *to,
--    const struct ia_css_anr_thres *from,
--    size_t size)
-+void ia_css_anr2_vmem_encode(struct ia_css_isp_anr2_params *to,
-+			     const struct ia_css_anr_thres *from,
-+			     size_t size)
- {
- 	unsigned int i;
- 
-@@ -28,10 +26,8 @@ ia_css_anr2_vmem_encode(
- 	}
- }
- 
--void
--ia_css_anr2_debug_dtrace(
--    const struct ia_css_anr_thres *config,
--    unsigned int level)
-+void ia_css_anr2_debug_dtrace(const struct ia_css_anr_thres *config,
-+			      unsigned int level)
- {
- 	(void)config;
- 	(void)level;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h
-index 2b1105f21c1e2b37144083b6bb8f9dd465a2f43b..36fb6c25969991ffcdd4424a695dacc5b5c2a9db 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.h
-@@ -13,15 +13,12 @@
- #include "ia_css_anr2_param.h"
- #include "ia_css_anr2_table.host.h"
- 
--void
--ia_css_anr2_vmem_encode(
--    struct ia_css_isp_anr2_params *to,
--    const struct ia_css_anr_thres *from,
--    size_t size);
-+void ia_css_anr2_vmem_encode(struct ia_css_isp_anr2_params *to,
-+			     const struct ia_css_anr_thres *from,
-+			     size_t size);
- 
--void
--ia_css_anr2_debug_dtrace(
--    const struct ia_css_anr_thres *config, unsigned int level)
-+void ia_css_anr2_debug_dtrace(const struct ia_css_anr_thres *config,
-+			      unsigned int level)
- ;
- 
- #endif /* __IA_CSS_ANR2_HOST_H */
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
-index 69c87e53f3c22fade6c4c7914d1550f68dd8f5c2..b87eb1a21b216dc6132331d2a48d7cb56ddaea24 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
-@@ -12,10 +12,8 @@
- 
- #include "ia_css_bh.host.h"
- 
--void
--ia_css_bh_hmem_decode(
--    struct ia_css_3a_rgby_output *out_ptr,
--    const struct ia_css_bh_table *hmem_buf)
-+void ia_css_bh_hmem_decode(struct ia_css_3a_rgby_output *out_ptr,
-+			   const struct ia_css_bh_table *hmem_buf)
- {
- 	int i;
- 
-@@ -37,11 +35,9 @@ ia_css_bh_hmem_decode(
- 	}
- }
- 
--void
--ia_css_bh_encode(
--    struct sh_css_isp_bh_params *to,
--    const struct ia_css_3a_config *from,
--    unsigned int size)
-+void ia_css_bh_encode(struct sh_css_isp_bh_params *to,
-+		      const struct ia_css_3a_config *from,
-+		      unsigned int size)
- {
- 	(void)size;
- 	/* coefficients to calculate Y */
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h
-index 36b360cfe62e65037522e0037cf51fca0fabdfba..964d658ceec31b0b22fc3bc6d19b40b07b2fc06c 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.h
-@@ -10,15 +10,11 @@
- #include "ia_css_bh_param.h"
- #include "s3a/s3a_1.0/ia_css_s3a_types.h"
- 
--void
--ia_css_bh_hmem_decode(
--    struct ia_css_3a_rgby_output *out_ptr,
--    const struct ia_css_bh_table *hmem_buf);
-+void ia_css_bh_hmem_decode(struct ia_css_3a_rgby_output *out_ptr,
-+			   const struct ia_css_bh_table *hmem_buf);
- 
--void
--ia_css_bh_encode(
--    struct sh_css_isp_bh_params *to,
--    const struct ia_css_3a_config *from,
--    unsigned int size);
-+void ia_css_bh_encode(struct sh_css_isp_bh_params *to,
-+		      const struct ia_css_3a_config *from,
-+		      unsigned int size);
- 
- #endif /* __IA_CSS_BH_HOST_H */
+ * Automatic double mode selection. In pixel mode, double mode can be
+   used to pack two pixels into a single data unit, optimizing bandwidth
+   usage. The serializers are automatically set up to support the double
+   modes determined by the deserializers using a private API.
 
----
-base-commit: 8c2e52ebbe885c7eeaabd3b7ddcdc1246fc400d2
-change-id: 20250704-new_atomisp-e73f471f3078
+ * Automatic data padding. In pixel mode, if the data being transferred
+   uses two different BPPs, data needs to be padded. The serializers
+   automatically set this up depending on the configured double mode
+   settings and incoming data types.
 
-Best regards,
+ * Logging. Both the deserializers and serializers implement the V4L2
+   .log_status() ops to allow debugging of the internal state and
+   important chip status registers.
+
+ * PHY modes. Deserializer chips commonly have more than a single PHY.
+   The firmware ports are parsed to determine the modes in which to
+   configure the PHYs (2x4, 4x2, 1x4+2x2, 2x2+1x4, and variations using
+   fewer lanes).
+
+ * Serializer pinctrl. Serializers implement pinctrl to allow setting
+   configs which would otherwise be inaccessible through GPIO: TX/RX via
+   GMSL link, pull-up & pull-down (with strength), open-drain &
+   push-pull, slew rate, RCLK pin selection.
+
+ * TPG with selectable formats, resolutions and framerates for both
+   serializers and deserializers.
+
+The drivers have been tested on the following hardware combinations, but
+further testing is welcome to ensure no / minimal breakage:
+ * Raspberry Pi 5 + MAX9296A + 2xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96714 + 1xMAX96717 + 1xIMX219
+ * Raspberry Pi 5 + MAX96716A + 2xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96712 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96724 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96792A + 1xMAX96793 + 1xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96792A + 2xMAX96717 + 2xIMX219
+ * Renesas V4H + MAX96712 + 2xMAX96717 + 2xIMX219
+
+Analog Devices is taking responsibility for the maintenance of these
+drivers and common framework, and plans to add support for new
+broad-market chips on top of them.
+
+Special thanks go to Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+for testing the drivers, helping debug and coming up with ideas /
+implementations for various features.
+
+V7:
+ * dt-bindings: max9296a: use full max96717 compatible
+ * max9296a: make max96714_rlms_reg_sequence static
+ * explicitly include linux/bitfield.h
+ * explicitly depend on I2C and PINCTRL
+ * sort media_entity_operations
+ * add has_pad_interdep to media_entity_operations
+
+V6:
+ * max9296a: put rlms sequence in max9296a_chip_info
+ * max_des: reflow stream id a comment
+ * max_ser: remove exported symbols not used in other modules
+ * max_ser: init mode to a supported value
+ * add default routing
+ * MAX_SERDES_GMSL_3 -> MAX_SERDES_GMSL_3_12GBPS
+ * guard reg_read/write with CONFIG_VIDEO_ADV_DEBUG
+ * put exported symbols in MAXIM_SERDES namespace
+
+V5:
+ * dt-bindings: max96717: restrict RCLKOUT to pins 2 & 4
+ * dt-bindings: max96717: remove confusing rclksel pinconf property
+ * dt-bindings: max96717: remove maxim,gmsl-tx/rx pinconf property
+ * dt-bindings: max96717: remove gmsl prefix from maxim,gmsl-tx-id/rx-id
+ * dt-bindings: max96717: remove minimum: 0
+ * dt-bindings: max96717: better document slew-rate
+ * dt-bindings: max96717: better document maxim,jitter-compensation
+ * dt-bindings: max96717: better document maxim,tx-id/rx-id
+
+ * max_serdes: add default TPG values
+ * max_serdes: remove MAX_MIPI_FMT macro
+ * max_serdes: EXPORT_SYMBOL -> EXPORT_SYMBOL_GPL
+ * max_serdes: remove EXPORT_SYMBOL_GPL from symbols not used in other
+   modules
+ * max_serdes: rename symbols/macros/types to have max_serdes prefix
+ * max_serdes: slim down TPG functions
+
+ * max_des: fix may be used uninitialized errors
+ * max_des: fix misplaced TPG validation
+ * max_des: fix setting pipe PHY in tunnel mode for chips that support
+   both set_pipe_phy() and set_pipe_tunnel_phy()
+ * max_des: move doubled_bpp/sink_bpps variables to usage place
+ * max_des: do not dynamically control PHY enable, letting lanes be in
+   LP-11 when not streaming
+ * max_des: refactor get/set_pipe_stream_id() logic
+ * max_des: remove explicit ret = 0
+
+ * max_ser: make VC remaps not pipe-specific, allocate dynamically
+
+ * max9296a: add missing 1080p30 TPG entry
+ * max9296a: move BIT() left shift into macro
+ * max9296a: move BIT() ternary into macro
+ * max9296a: reuse max_des_ops for chip-specific ops\
+ * max9296a: document and compress RLMS register writes
+
+ * max96717: restrict RCLKOUT to pins 2 & 4 because of hardware
+   capabilities
+ * max96717: add support for XTAL/1, XTAL/2, XTAL/4 clocks
+ * max96717: set RX_EN/TX_EN automatically
+ * max96717: reorder custom pinconf flags
+ * max96717: drop OF dependency
+
+ * drop of_match_ptr
+ * re-do some indentation
+ * implement TPG pattern control
+ * remove pr_info() usage
+ * inline lane polarity val = 0
+ * inline returns
+ * rewrite some Kconfig docs
+ * split up patches for easier review
+
+V4:
+ * max_des: fix infinite version loop
+ * max_des: fix pipe link id when there are more pipes than links
+ * max_des: implement setting pipe link
+ * max_des: do not pass routing to phy update
+ * max_des: move GMSL version strings to max_serdes
+ * max_des: split finding existing VC remap from adding a new one
+ * max_des: add tracking for in-use pipes
+ * max_des: skip unused pipes when finding / setting pixel/tunnel mode
+ * max_des: simplify remap code
+ * max_des: split set_pipe_phy() into set_pipe_tunnel_phy()
+
+ * max_ser: clean up i2c_xlates printing
+ * max_ser: fix changing serializer address
+ * max_ser: move non-continuous mode check into max96717 driver
+
+ * max96724: use regmap_set_bits for STREAM_SEL_ALL
+ * max96724: match surrounding indent for MAX96724_PHY1_ALT_CLOCK
+ * max96724: fix setting invalid PHY to 1 when PHY 0 is in 4-lane mode
+ * max96724: remove support for setting pipe phy from max96712
+ * max96724: fix setting double mode on pipes 4-7
+ * max96724: drop powerdown gpios
+
+ * max96717: use gpio_chip's set_rv
+
+ * max9296a: switch versions to unsigned int
+ * max9296a: remove parantheses from MAX9296A_MIPI_PHY18/20
+ * max9296a: fix printing of PHY packet counts
+ * max9296a: fix phy_hw_ids size
+
+ * remove usage of cammel case in defines
+ * move field_get/prep to max_serdes.h
+ * rework stream id setup
+ * rework tunnel/pixel mode finding
+ * rework bpps retrieval
+ * pass whole subdev state around
+ * add helper for retrieving a route's hw components / frame desc
+ * update pipe enable based on active routes
+ * add support for tunnel-only chips and VC remaps in tunnel mode
+ * simplify max_get_streams_masks()
+ * add support for TPG
+
+V3:
+ * dt-bindings: drop reflow text patches
+
+ * dt-bindings: max96717: move pinctrl configuration into main file
+ * dt-bindings: max96717: allow a single level of pins configuration
+ * dt-bindings: max96717: use regex for matching pins nodes
+ * dt-bindings: max96717: drop extra allOf in pinctrl configuration
+ * dt-bindings: max96717: fix i2c-atr channel name regex
+ * dt-bindings: max96717: limit pinctrl functions to gpio / rclkout
+ * dt-bindings: max96717: limit pins for gpio / rclkout
+ * dt-bindings: max96717: add description for bias-pull-up/down
+ * dt-bindings: max96717: require pins and function properties
+ * dt-bindings: max96717: turn single compatible strings into an enum
+
+ * dt-bindings: max9296a: include indices in port descriptions
+ * dt-bindings: max9296a: remove property-less schema from input ports
+ * dt-bindings: max9296a: use ATR for MAX96716A too, removing MUX entirely
+
+ * dt-bindings: max96712: include indices in port descriptions
+ * dt-bindings: max96712: deprecate enable-gpios in favor of powerdown-gpios
+ * dt-bindings: max96712: switch from MUX to ATR
+
+ * dt-bindings: max96714: add support for MAX96714R
+
+ * max_des: fix POC NULL check
+ * max_des: remove index var in POC enable
+ * max_des: fix writing empty remaps
+ * max_des: skip mode setting in tunnel mode
+ * max_des: remove a duplicate source->sd NULL check
+ * max_des: set pipe tunnel mode even for disabled links
+
+ * max_ser: apply TX ID changes irrespective of serializer ID
+
+ * max9296a: fix typo in BACKTOP22
+ * max9296a: make register macros more consistent
+ * max9296a: switch MAX96716 from MUX to ATR
+ * max9296a: deduplicate max9296a_phy_id() logic
+ * max9296a: use proper PHY id in remaps
+ * max9296a: fix DPLL reset clear
+ * max9296a: limit MAX96714F to GMSL2 3Gbps
+ * max9296a: add support for MAX96714R
+ * max9296a: do not write GMSL3 link select registers in GMSL2 devices
+ * max9296a: use field_prep when setting RX_RATE
+ * max9296a: simplify setting SEL_STREAM for MAX96714
+ * max9296a: max96716_set_pipe_phy -> max96716a_set_pipe_phy
+ * max9296a: fix off-by-one in lane polarity when using
+   polarity_on_physical_lanes
+
+ * max96724: fix typo in BACKTOP22
+ * max96724: switch from MUX to ATR
+ * max96724: add support for powerdown GPIO
+ * max96724: remove support for tunneling from MAX96712
+ * max96724: only set tunnel-related bits when in tunnel mode
+ * max96724: add support for MAX96724F/R
+ * max96724: oneshot reset links after link selection
+
+ * remove GMSL2 version defaults, set all supported versions explicitly
+ * reorder GMSL versions to start from 0
+ * add support for GMSL2 3Gbps
+ * support GMSL version finding for devices using MUX / GATE
+ * add support for deserializers which don't have individual control
+   of each link's GMSL version
+ * add support for deserializers that need unique stream ids across all
+   serializers
+ * select_link_version -> set_link_version
+ * select_resets_link -> use_atr
+
+V2:
+ * add missing compatible for MAX96717F
+ * fix embarrassing dt-bindings mistakes
+ * move MAX9296A/MAX96716/MAX96792A to a separate file as they have two
+   links / PHYs, and adding those conditionally seems impossible
+
+Cosmin Tanislav (23):
+  dt-bindings: media: i2c: max96717: add myself as maintainer
+  dt-bindings: media: i2c: max96717: add support for I2C ATR
+  dt-bindings: media: i2c: max96717: add support for pinctrl/pinconf
+  dt-bindings: media: i2c: max96717: add support for MAX9295A
+  dt-bindings: media: i2c: max96717: add support for MAX96793
+  dt-bindings: media: i2c: max96712: add myself as maintainer
+  dt-bindings: media: i2c: max96712: use pattern properties for ports
+  dt-bindings: media: i2c: max96712: add support for I2C ATR
+  dt-bindings: media: i2c: max96712: add support for POC supplies
+  dt-bindings: media: i2c: max96712: add support for MAX96724F/R
+  dt-bindings: media: i2c: max96714: add myself as maintainer
+  dt-bindings: media: i2c: max96714: add support for MAX96714R
+  dt-bindings: media: i2c: add MAX9296A, MAX96716A, MAX96792A
+  media: i2c: add Maxim GMSL2/3 serializer and deserializer framework
+  media: i2c: add Maxim GMSL2/3 serializer framework
+  media: i2c: add Maxim GMSL2/3 deserializer framework
+  media: i2c: maxim-serdes: add MAX96717 driver
+  media: i2c: maxim-serdes: add MAX96724 driver
+  media: i2c: maxim-serdes: add MAX9296A driver
+  arm64: defconfig: disable deprecated MAX96712 driver
+  staging: media: remove MAX96712 driver
+  media: i2c: remove MAX96717 driver
+  media: i2c: remove MAX96714 driver
+
+Sakari Ailus (1):
+  media: mc: Add INTERNAL pad flag
+
+ .../bindings/media/i2c/maxim,max9296a.yaml    |  242 ++
+ .../bindings/media/i2c/maxim,max96712.yaml    |   70 +-
+ .../bindings/media/i2c/maxim,max96714.yaml    |    6 +-
+ .../bindings/media/i2c/maxim,max96717.yaml    |  155 +-
+ .../media/mediactl/media-types.rst            |    8 +
+ MAINTAINERS                                   |   13 +-
+ arch/arm64/configs/defconfig                  |    1 -
+ drivers/media/i2c/Kconfig                     |   34 +-
+ drivers/media/i2c/Makefile                    |    3 +-
+ drivers/media/i2c/max96714.c                  | 1017 ------
+ drivers/media/i2c/max96717.c                  | 1102 ------
+ drivers/media/i2c/maxim-serdes/Kconfig        |   60 +
+ drivers/media/i2c/maxim-serdes/Makefile       |    6 +
+ drivers/media/i2c/maxim-serdes/max9296a.c     | 1345 +++++++
+ drivers/media/i2c/maxim-serdes/max96717.c     | 1689 +++++++++
+ drivers/media/i2c/maxim-serdes/max96724.c     | 1184 ++++++
+ drivers/media/i2c/maxim-serdes/max_des.c      | 3181 +++++++++++++++++
+ drivers/media/i2c/maxim-serdes/max_des.h      |  153 +
+ drivers/media/i2c/maxim-serdes/max_ser.c      | 2131 +++++++++++
+ drivers/media/i2c/maxim-serdes/max_ser.h      |  147 +
+ drivers/media/i2c/maxim-serdes/max_serdes.c   |  413 +++
+ drivers/media/i2c/maxim-serdes/max_serdes.h   |  183 +
+ drivers/media/mc/mc-entity.c                  |   10 +-
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/max96712/Kconfig        |   14 -
+ drivers/staging/media/max96712/Makefile       |    2 -
+ drivers/staging/media/max96712/max96712.c     |  487 ---
+ include/uapi/linux/media.h                    |    1 +
+ 29 files changed, 10973 insertions(+), 2687 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
+ delete mode 100644 drivers/media/i2c/max96714.c
+ delete mode 100644 drivers/media/i2c/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/Kconfig
+ create mode 100644 drivers/media/i2c/maxim-serdes/Makefile
+ create mode 100644 drivers/media/i2c/maxim-serdes/max9296a.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96724.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.h
+ delete mode 100644 drivers/staging/media/max96712/Kconfig
+ delete mode 100644 drivers/staging/media/max96712/Makefile
+ delete mode 100644 drivers/staging/media/max96712/max96712.c
+
 -- 
-LiangCheng Wang <zaq14760@gmail.com>
+2.50.1
 
 
