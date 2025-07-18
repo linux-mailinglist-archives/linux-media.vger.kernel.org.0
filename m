@@ -1,88 +1,88 @@
-Return-Path: <linux-media+bounces-38104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38105-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BC5B0A93A
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 19:15:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D0FB0A973
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 19:27:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A03B97BC0BB
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 17:13:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7FD03A5B85
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 17:26:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 109FF1F1315;
-	Fri, 18 Jul 2025 17:14:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DC552E7BBE;
+	Fri, 18 Jul 2025 17:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="G9HONGQ2"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WkhBU3LM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285121EB5B
-	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 17:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794442E716C
+	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 17:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752858889; cv=none; b=B4LbqkuGQcg3w+deyre/Gzt0gCQ91V6poNEtFM8nqqgR6enQiA6R755XBjZfnh3jkWD8lomJakqtNUoAF/oNd5/AiMVUeakO4/mmyTwunvB8iwMbE3ev5Pok9x1We8bI0jvlkViOuG+g+rjqcfGnpnGAUU9HnnBk/XNzHlW05NU=
+	t=1752859613; cv=none; b=PgkctXZKk9by8LsqvsWH8kxtn2fVYcizVnf9mZijQp9PiMDVHpIKFfpPl5gK61IGChUnGhEdkC3XwvL1GulnYG0zQOa+7QddH/dYXgPeoTLX6mLWeFCiM0vCarilthTdJKDThsSDJ6RT1NNuANIxiA6hBpIL2BkCp9j+Y8ZGZgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752858889; c=relaxed/simple;
-	bh=tmfDngngXq6fj8ZEFrgrno4R29+ACZBn3BYWv0UP28A=;
+	s=arc-20240116; t=1752859613; c=relaxed/simple;
+	bh=ZQApwEQ02/d8oHeWrr7hvbCAGhlqib0c03SG7L+E0gM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CHfqN+shd2WZBe+rRLE5JGWf9soS32uiRwWj35wyWjOx+GT29toyoXr2oKHAx2eD6adS8R4RqLSBlZ5COvbpUX08iH0gFUZgPkzia17/DP1wZ45GsH6HynO8QXW+hMNHZu1lDPr0p3ApfO6uV+qQOX+MUdPeNzc3Bg67mCDpKek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=G9HONGQ2; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=LO7xkLz7+XwjwCQNk8QBo9pdYzrHNRpBhQSRZvZpclESp+08NBTGbZBUrxIHWe9NxKABTNTRvU3dvuqjvPKO5iRhRtjthCL18Kf47I+Ubu47lva9fvrAm0kmivObbFl+VM6aih6lWECOTncQemIbxql9sEPlZ0aeZ3W4Zb+tel8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WkhBU3LM; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IGL10H015613
-	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 17:14:47 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IFSQMR015664
+	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 17:26:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hvQRsE2lG7WyIIQnwV/DeD9T4vuk4piXmEgdbjYc460=; b=G9HONGQ2Qa2uUbLZ
-	VJY4Lqvyrv1n/8Lykdjk8ImdB8+wf9SYMMzho7gbPSwHGSDoxrUBE0CiNNwxX9tU
-	eiuk2i03SYOOUMR/fzdvSMV4XqbJNDyDuvShdivyYxYc+NZo6O9pnZkJG20id4xH
-	+GQ6CivijZWO/Yf86g+q8FR696sTRXmGqNM957Ntrk/wR/1dcjZG442XRPYcu9Dl
-	2t6TTIi6n2flM1t9PB5QfE+BihzXzRoIFag/A/QdGofEojZLvcAH6xsAgHzN8Kev
-	m3Vck5j3SQIkQddI4fbh5TebcaUGQBnIOFC3p8FE571tDb26sN/rlJWab2c9WjXO
-	d5BCRQ==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dyyb1n-1
+	fv+mEh4f0MhcLN21Yyg9tehverC4r+K2gbgLijocXdM=; b=WkhBU3LMpFoMdlPM
+	vAqhiFUJdo1Zy9EYgRDMvp+udPTuHcKx9lPDzeI2ZXq/5cm7elI1QDI9LLxeG7gS
+	hM6o9dZC2AWKDDE9ER2UAtPb/2eWJ6s7I3lTT8VDrIQ8Lz+8/oZgNsOnR6tkiv3M
+	94c+I8oV1nqbS5IF9e9qGIAskI1hdNYx8UqAIqikMGRgjMivqEVAGMXOOwgcHFDw
+	86IzJ625OAki5wWOvc3cxljvy5wf4/Gn9QN7kvCjiE5iYaW7iZNCxeJgbNqMtIKR
+	jnNnOF8dKB9rBjiPu7wk4qG9V5hUF7oHJKiK64hHUIbeNs/4uKN/X6SZ8025kYzP
+	0hTlwg==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dyyc2m-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 17:14:47 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-31220ecc586so2179349a91.2
-        for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 10:14:47 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 17:26:50 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-74913385dd8so3211635b3a.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 10:26:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752858886; x=1753463686;
+        d=1e100.net; s=20230601; t=1752859610; x=1753464410;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hvQRsE2lG7WyIIQnwV/DeD9T4vuk4piXmEgdbjYc460=;
-        b=Yr3f7jQ6OPnG+ygUzSRfXiGqIVs1HT0cwkuOUS8iDOcOPyxJEbChuRNYUWUfO3lvCp
-         XteOpUQCSVUta7xqSE7qYxUzcG2BG1GAC4Qh4+pcKxx8OS11owXtK/TbC64KRUY++VxB
-         d7iY6Bidokz8PGJrBQEGoDC00mhb83dPIY+4HyTmVtYhvAuLR0J+qNxVLf1p7gtxTl+9
-         vgC5Y9QEy9EREei+kO7WLndXzUgAeN7UslQC9nWbMtEibYGAnrlFEW6ZUj0P5ZLTKdEv
-         pioilogtrfMDiBaYZ4+568IPMugclxU6iOngqzxS4W9gDeT3srDKES/avZvqKb3Bl120
-         M80w==
-X-Forwarded-Encrypted: i=1; AJvYcCUE6ZguWRQd5vZ49nNSj/kki0jfybt8u2neQhCgEMd+/ah5bedg30Y7eNXcJ5dghLuJh48fHxjrI1M/9g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywg19v3wn8WNvOpLVxN8gjdTTFOZ7hHV+6Lr6HXtnoMu2LpMvH7
-	J/xiKp4oFlsUSASTWjc4xcTIj9DY9mTukJpBIrOb/dUJvM0F9OaQiZH21jqZDF0X6R72WtN8Rq8
-	n0IlJ9NBR/OBpXDOAEiyVFk7dxdA7wSpkfct0o0C32K1mZ2e3O86SWjpbo1UMl/u7Bg==
-X-Gm-Gg: ASbGncvn3MGDNbQdlnA1PLML60CLEWmG8I7TC5yaF3buGkA+7nt6/3BihTB4uSj5KGI
-	f688h2RTLAlLEsdiWpoVO7eoYg1zibvwDTzM7NAG2LWw7Ik14nxZjcP2SImCw3C6GShgU2r7tHI
-	j9/aTvdmwUD7QgS8CqkKRhLjA4KvtxG+nkHbbWhkxN4eb+9r7Kid64aohQlXBkZm5xztXEpRSma
-	K2F0ugW89GEcYsasUeQOidh5nBduPcvJUEGlpJDhTZMR92yfDlZLNDRARGyn+6G5aBtD+aTWF0R
-	IB5Y2fhtKUT7MS00/fRvzTGp0Vz5BBv6FDex1a74K8KhCf1r8bXKTCfqQzQzaaCw8KRkCmIBd26
-	ZtN8/NjwLanQbkQ==
-X-Received: by 2002:a17:90b:48c8:b0:315:b07a:ac12 with SMTP id 98e67ed59e1d1-31c9e6f71b8mr18347569a91.14.1752858886373;
-        Fri, 18 Jul 2025 10:14:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAZ4uYoT0jpgwok+1LqJLQaSu3L2fEp1diUxE597ewVDpbjd87lEWbuWkSUsEweCpZR2VK2w==
-X-Received: by 2002:a17:90b:48c8:b0:315:b07a:ac12 with SMTP id 98e67ed59e1d1-31c9e6f71b8mr18347517a91.14.1752858885895;
-        Fri, 18 Jul 2025 10:14:45 -0700 (PDT)
+        bh=fv+mEh4f0MhcLN21Yyg9tehverC4r+K2gbgLijocXdM=;
+        b=R4A1aG4UFUh3mzBtCaUlY50MkdQx4bUD422ul10RJzRHiG2TWs/t57mbyJ6NPGe0Zm
+         qFpTMh2moBkb+h3gi9TXTUW0M052VegtdVjjk636dHJ3U0mnhC9vNVhDyn0DBYeBwn81
+         pdl5BhOMQZHAAdqkm6vm3QqyQ13HU3Wywo4YOXR7JpANEmPLcLdEsOJSunBye09p5ZsF
+         H8WDnZgzd8JYJBXXdfWe7DdJBakgIUlaClEM0GNx4ShhrkkdLDRjVmiXHG7dTU/tbgzj
+         Tf3vsfdY3/XdYxrAwp/KqU2z6g/qiaOv6saysXUe8GT9K8dndJjch5EpDZpo/sBXr2A5
+         f7WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHNlA+O3pdjWcSelAc8H6AJJt+cpfM+d2yiO5FPjb8JgZb49/plFEc0IN9ytmn7YlzVffmaKmb4zX5SA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiOOx82098buKijVPdYXZKOdkMznhzPxnHiN6F/JuNZjX125SA
+	puEQvdsniQ8lMtv5tdE/sfGjXnQqzCYfPTp3+LMtTZcowPIbzqb5IuxQY8bu/JQco3y4/rThsMl
+	y3bUNEkUAIpesLMaAyF77eYzRqWXzt2gK2Ytoe8N9zuxszsHrAYk/DtfIUN6QzS8fsQ==
+X-Gm-Gg: ASbGncsqvJrdlXaBeQwIfwrsdRfVahs24fNR93lBZPuIU+jAWfUyG4/fAeakwaueiJV
+	WbdyxECvigH9ED/opNUXozdsquOEBeyAY1EsbT+mRocofXhIW6b2tg5zBpS9d1qdIrGLFA66ydx
+	7lp1NosQUNJBGnVDOmCjVXQs0B2AjF2RSTjgiwSlhEOSnSjL1NJGWrtenOm5DcjVmULXJ/ewX/U
+	roggCKPxBFohcSmxhJ3yNlpg57R2pxUotnRHyRCFSfbrsbMuuK5oJY3LAzHjmkL11zTO1Iacw8a
+	X3b7LkfIpOInIefM3Lc3UwyU32fOBR4qf7D8+FKzYXU2n7YrMb119KzwGKBhMOED+m8dnN4rm29
+	qw6XKlMBb2EReFQ==
+X-Received: by 2002:a05:6a00:3392:b0:740:9e87:9625 with SMTP id d2e1a72fcca58-7572267d1f8mr16458200b3a.4.1752859609722;
+        Fri, 18 Jul 2025 10:26:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHqQ9S63kSJn6y6OyUDc3uTWz9C+4cH8naBY6AZisiTbM1Dmrh1Aqbj7AEM/eK1YFdABEhA9g==
+X-Received: by 2002:a05:6a00:3392:b0:740:9e87:9625 with SMTP id d2e1a72fcca58-7572267d1f8mr16458162b3a.4.1752859609159;
+        Fri, 18 Jul 2025 10:26:49 -0700 (PDT)
 Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31cc3e5b56fsm1593934a91.16.2025.07.18.10.14.43
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbd67ed2sm1530796b3a.135.2025.07.18.10.26.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jul 2025 10:14:45 -0700 (PDT)
-Message-ID: <7753e1e8-5e2d-4d8b-8a46-a6fbc58a144d@oss.qualcomm.com>
-Date: Fri, 18 Jul 2025 11:14:42 -0600
+        Fri, 18 Jul 2025 10:26:48 -0700 (PDT)
+Message-ID: <cd36e463-2499-4e3f-8a02-60ea43de83dd@oss.qualcomm.com>
+Date: Fri, 18 Jul 2025 11:26:45 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,8 +90,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 02/10] accel/rocket: Add a new driver for Rockchip's
- NPU
+Subject: Re: [PATCH v8 04/10] accel/rocket: Add job submission IOCTL
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor Dooley
@@ -112,29 +111,28 @@ To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Robert Foss <rfoss@kernel.org>
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
- <20250713-6-10-rocket-v8-2-64fa3115e910@tomeuvizoso.net>
+ <20250713-6-10-rocket-v8-4-64fa3115e910@tomeuvizoso.net>
 Content-Language: en-US
 From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250713-6-10-rocket-v8-2-64fa3115e910@tomeuvizoso.net>
+In-Reply-To: <20250713-6-10-rocket-v8-4-64fa3115e910@tomeuvizoso.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: G9FDaMXeooCdCWBInIBlDqB40oh8wJKa
-X-Authority-Analysis: v=2.4 cv=RtXFLDmK c=1 sm=1 tr=0 ts=687a8107 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=DISFzqtZAAAA:8
- a=EUspDBNiAAAA:8 a=V6djkQ_TFPnTOxwyQKcA:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22 a=aug85vrO5LANNmmtkfAW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzNiBTYWx0ZWRfX71RWE2rKCRdz
- +kuzDuj1C0iS//aD/LOgORjFoKhyRLXuMNXhYRJAJpYB7VkCR0TnykXUGKQwRsePgrXiJv/WGfH
- rgc8Q+2n0+TEIJQ1QNxAOyCAv29uYt0kKBqVMD8QXMlOVKB9ql5/Wis1XfHfuod66ySZSLPsJ0R
- spE86SqXThfhiLTSQ2DHG8eSRo0Q19lk3mNeZbkEdBIEWTk3csManSMHcW0X9J78V8pj7IsvMjN
- VQ/Hsq1zCy6cAj5Nf+vpQppKpD1PzwAJAnYYGUTUPCrMeOBOXMrG/VJLfnc6G4aNwsZUisa1bSP
- cCkeS+nr0PEPOQxOfwuJjHUSCynLmGI4Ql0HDYgUpPYzrulQY6ibcmHP7BkY1yqos9CEppPkxTm
- WGe3EB3g5aCCz/Klni1FQbchfMYNPP1G5FkSmEjr2Xw74HU8v1EIWqgW2qRdiirsz4iIV0Ur
-X-Proofpoint-GUID: G9FDaMXeooCdCWBInIBlDqB40oh8wJKa
+X-Proofpoint-ORIG-GUID: cJMONNOm1uqNjXhovKgrt7Erm65b8ggY
+X-Authority-Analysis: v=2.4 cv=RtXFLDmK c=1 sm=1 tr=0 ts=687a83da cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=DISFzqtZAAAA:8 a=EUspDBNiAAAA:8
+ a=OV0_J1LtQ3fB1FIpcGAA:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+ a=aug85vrO5LANNmmtkfAW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzOCBTYWx0ZWRfX6ztHCt06FQ9G
+ QE/0ZnA5ULNmjiERkxYIQ+BEOs915BD9K5TTAqTX0qxS3hhH4DxgEeVbzb8PtZABzJEpU2W7Q22
+ 9qPE6DvE10IihVw26A+AI3Qvsl6eCRD0KlRhJ4NSW7RUR0YuHHqJCAQrp1S8AXPQlf9LpXonz3Z
+ ugsCtqRHKPyTvGFAVlkmW1HWyuurCcW+WiZAe4PxX6wExfvz6yPl23FRfsmUZwSNu0xg4BHLxZO
+ BLYOBLCga5rKMOIdlkoOZfbIVT1pnzs5wUUuKf4nEFHtCzsXRZ89URPeCS3xV0EWxMKzxrtoWUt
+ 1XmHAWQ/a9Qmc/I4ZAux+LgIR/cMqQoZ6zZ6NUbMGlyFF6hewN4jfuC4Up7n7IJzphkWxcmfIOL
+ XWRW2wRp2DkLgoCXJAgNd2Dglhu55zThcxJF/piNqMvlt+oaBQ7JmC863/KZ/H9bRkBUwjWl
+X-Proofpoint-GUID: cJMONNOm1uqNjXhovKgrt7Erm65b8ggY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-18_04,2025-07-17_02,2025-03-28_01
@@ -143,62 +141,76 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  impostorscore=0 malwarescore=0 clxscore=1015 mlxlogscore=999
  priorityscore=1501 phishscore=0 spamscore=0 classifier=spam authscore=0
  authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507180136
+ engine=8.19.0-2505280000 definitions=main-2507180138
 
 On 7/13/2025 2:38 AM, Tomeu Vizoso wrote:
-> This initial version supports the NPU as shipped in the RK3588 SoC and
-> described in the first part of its TRM, in Chapter 36.
+> Using the DRM GPU scheduler infrastructure, with a scheduler for each
+> core.
 > 
-> This NPU contains 3 independent cores that the driver can submit jobs
-> to.
+> Userspace can decide for a series of tasks to be executed sequentially
+> in the same core, so SRAM locality can be taken advantage of.
 > 
-> This commit adds just hardware initialization and power management.
+> The job submission code was initially based on Panfrost.
 > 
 > v2:
-> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
-> - Add some documentation (Jeffrey Hugo)
-> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
-> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
-> - Repack structs (Jeffrey Hugo)
-> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
-> - Use devm_drm_dev_alloc (Jeffrey Hugo)
-> - Use probe log helper (Jeffrey Hugo)
-> - Introduce UABI header in a later patch (Jeffrey Hugo)
+> - Remove hardcoded number of cores
+> - Misc. style fixes (Jeffrey Hugo)
+> - Repack IOCTL struct (Jeffrey Hugo)
 > 
 > v3:
 > - Adapt to a split of the register block in the DT bindings (Nicolas
 >    Frattaroli)
-> - Move registers header to its own commit (Thomas Zimmermann)
-> - Misc. cleanups (Thomas Zimmermann and Jeff Hugo)
 > - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> - PM improvements (Nicolas Frattaroli)
-> 
-> v4:
-> - Use bulk clk API (Krzysztof Kozlowski)
+> - Use drm_* logging functions (Thomas Zimmermann)
+> - Rename reg i/o macros (Thomas Zimmermann)
+> - Add padding to ioctls and check for zero (Jeff Hugo)
+> - Improve error handling (Nicolas Frattaroli)
 > 
 > v6:
-> - Remove mention to NVDLA, as the hardware is only incidentally related
->    (Kever Yang)
-> - Use calloc instead of GFP_ZERO (Jeff Hugo)
-> - Explicitly include linux/container_of.h (Jeff Hugo)
-> - pclk and npu clocks are now needed by all cores (Rob Herring)
+> - Use mutexes guard (Markus Elfring)
+> - Use u64_to_user_ptr (Jeff Hugo)
+> - Drop rocket_fence (Rob Herring)
 > 
 > v7:
 > - Assign its own IOMMU domain to each client, for isolation (Daniel
 >    Stone and Robin Murphy)
 > 
 > v8:
-> - Kconfig: fix depends to be more explicit about Rockchip, and remove
->    superfluous selects (Robin Murphy)
 > - Use reset lines to reset the cores (Robin Murphy)
-> - Reference count the module
-> - Set dma_set_max_seg_size
+> - Use the macros to compute the values for the bitfields (Robin Murphy)
+> - More descriptive name for the IRQ (Robin Murphy)
+> - Simplify job interrupt handing (Robin Murphy)
 > - Correctly acquire a reference to the IOMMU (Robin Murphy)
-> - Remove notion of top core (Robin Murphy)
+> - Specify the size of the embedded structs in the IOCTLs for future
+>    extensibility (Rob Herring)
+> - Expose only 32 bits for the address of the regcmd BO (Robin Murphy)
 > 
-> Reviewed-by: Robert Foss <rfoss@kernel.org>
 > Tested-by: Heiko Stuebner <heiko@sntech.de>
 > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
 Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+
+One optional nit below -
+
+> +/**
+> + * struct drm_rocket_submit - ioctl argument for submitting commands to the NPU.
+> + *
+> + * The kernel will schedule the execution of these jobs in dependency order.
+> + */
+> +struct drm_rocket_submit {
+> +	/** Input: Pointer to an array of struct drm_rocket_job. */
+> +	__u64 jobs;
+> +
+> +	/** Input: Number of jobs passed in. */
+> +	__u32 job_count;
+> +
+> +	/** Input: Size in bytes of the structs in the @jobs field. */
+> +	__u32 job_struct_size;
+> +
+> +	/** Reserved, must be zero. */
+> +	__u64 reserved;
+
+It does not appear that this field is needed for padding, and I don't 
+see the rest of the series using this. This could be dropped, although 
+maybe you have a use for it in the near future?
 
