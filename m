@@ -1,216 +1,181 @@
-Return-Path: <linux-media+bounces-38098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28DC4B0A790
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 17:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F4FB0A81C
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 18:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F44C18909FC
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 15:35:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FDE61C4810E
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 16:06:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53762E1722;
-	Fri, 18 Jul 2025 15:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C20922E5B3A;
+	Fri, 18 Jul 2025 16:06:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dQEKioxu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xKGxqeDc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667552E0404
-	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 15:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF7B2E5B18
+	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 16:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752852559; cv=none; b=gTuTwOjPapvGRN0qSb+BIKm4cO/WbvTiM19aC/pNdd1RaIq3DBpqq3f0Ecbpli0jhRXBSVEnsRodu4mPff/u/79S0nBAXsORwLMvB9D/m8mN1aHcQDyF5Mo6nUaS4vwKwy+3v9IY98FOr9O3MaW9MQdn1/dWdw1NKZ3usCB700o=
+	t=1752854776; cv=none; b=XOuA190kH5bL0b3LkOWrQXzfEtGmeAQ4d8g3E7DhYkbFKJ1QiKnz2LKFmyra2J7c9YhaOn0cfx66XBrY6bzhwH68S42w7WizMti0ebEttBevtyJ0Km2ARRQ4GzZKpj5zNi4OxZKjE6IMfZIOGN094jrwA9DxLue60gt9CFYYaco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752852559; c=relaxed/simple;
-	bh=SILD7FqXDKzPN+v5mJfgmM2lCLPnFDjcKYYpG/ct3s0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e2nLEK+pp1uXNCVsDGB+WALUJ65Vf+BHTo2CAH75qKaGy0SjHAhmaQO+qBDzjmFPadrK0SCDR25JClxasLidDlFVj+QZc/3LIBwAuf/bDUtYuLmvG57WZ66A0ULkb3eKPfjXk4B05WaTtXtBIqIXvvsHjqd85vg1zTXUl5Pqao8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dQEKioxu; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-32b5931037eso17027821fa.2
-        for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 08:29:17 -0700 (PDT)
+	s=arc-20240116; t=1752854776; c=relaxed/simple;
+	bh=ST8lcJ+2yDbKpXgUqoVEvCsnKZ/+vATfwEWuT1/oEC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VHZn5OUSVaVS8EZia0GYB3OiIx1EdrDIyErDOty+7pwYjRMRcYjtbJY6htIKPbojjjrb/HHMQtw/EKXV1zVsW65WoXrX5ZTWq5rsePTxXoqsSWpJ5UnueAt+p9T44W1s1PVB/Ko+4YyfkVvYcWmklco+F/auEV7/J2sX2ALQSAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xKGxqeDc; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2ea34731c5dso1578950fac.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 09:06:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752852555; x=1753457355; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VW6jrFQzXbLcjEcOPYhLhert2s0KBo9YRnvAtQmafP0=;
-        b=dQEKioxuMUhEVjxMKVd1pE1pf6VdIUG+LptdSUJX2R9XvqQgtRoAk43/8eYaUsrzU/
-         0wYiBYvDQDPo0pI9Qy7xkEtH8Sthbqe3mUDcda040WmzjrSQ0jJ4jweJXJ6xJAQ8lzrP
-         qo4yYrfeBvnD82w5MK1xQQtqcR5vbPYe68Hj8=
+        d=linaro.org; s=google; t=1752854773; x=1753459573; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i/Q1Nu3K5LZZ1ceVlLq9+6xcxFVBX4qH4aUvmo3kZ28=;
+        b=xKGxqeDcnBAvtDtPmvid5WykC5mC1K8JTlADGnqnGVwcEIGpmNVrqwwEWWBFekq6Or
+         wJO28NV1uyBoXQeg/VUemHI0hfjdGrxo7YORl6iRBBT8dORydOfrZ11zSPmSCJS7m7US
+         D21GmL3IZB+naYS7FrEbDWIUmh7gvr6+yvp7EkgYkh91jOZZxko1Gbbpx6I1Jz3Jz6vq
+         tPv86GFzUu4ivijpMRo6ANsQC3FaVgm7mlnjMFtcXOXZGFmq+/01+rJI4lBhVgwP/Wej
+         I3UJ4L97q45pTSj7WpbxinRkL+0jZ1cGJ2ilAEet9fJW/y2yF0+4zRVcc+1DU4KbWcn1
+         ODVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752852555; x=1753457355;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VW6jrFQzXbLcjEcOPYhLhert2s0KBo9YRnvAtQmafP0=;
-        b=m5pLbiQRJhlY5DDXsRCrvuZSwZmmCTgKvGJwoymfzVJOZdgGqiKCliqc407W30o/SS
-         A4+AbsMRPifPd0GrLGJaaX5psf+s5rt6/EC7ubawlKaywDfY+rjACclkk+whEqTCZKAL
-         yHwS1k+iHwp5P/pPXS5k/cGP0t61vrEmlsZmYdruJFubUqrzydTg9mB/y72ozGmtMxj2
-         6UPDLB1XKZLPZ7WFzx84mcfrvSpYXSX1SC55NX1jCqxqkLaD80osZBt1KW90xF9k1tia
-         ZEgw104JwKaan0jTbAxVWl8ZZEfTNWv4Lj0cGXrebQKBZacNCBwYa32qnWy+M7FnIwAF
-         2JhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCjR0NJUlL0litSiaBctnn+SRC1vtsK9a7HYgCHfnvP3+08yfj7gTUq+d6Wn1Y3q/tNDmPFmQvgZmPzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/kBubljXLJqEkK6PIYpCAjwlyX6zvWn3BuRkeyGV5KWdWmaaZ
-	sK0nee9FBUIhla7cXej8KJf6ODqcw0fN3h1aotJr5G8V+sol/p5b0JZQIQY7ncWwBQ==
-X-Gm-Gg: ASbGncvB55diIgNGzKU/MRuz9Jbzmm0VLk1tb4PzlmkcrlrJySsWgYmremDA0D0s57Y
-	GvMWq/g12FxgToA3trQdJpGHoxQQghP82oGpkFloH6qjpqy67LyW6hvWlVbEiPIcYQl7xnHWRAR
-	zqeOSdo4sMtFlBGnirps2ddt4+SziKI+QKI607MD/c7M0flZn93o4WZi0fPdYcffWauSc8NeLYW
-	YdLZRQHVmohIMBNEgKxBqNb6TryMm5evNa48ndufuu8x4J/yuRuq0q3Un3GihaX+AO3gDY4rzQO
-	gLZfabk8vBBC1zy1WgKBUxXLH05XNaj7LMUAmB5YFWJC8sCu2tg6ulW11VmBcWYv/c1komijr3Q
-	MaDqdh/VyHUVWoOkOc+vKpz6dEymbU1KjmEAE5IkLZoNKc4pfiXNA+5TupTZPPJxDhNJupqW04G
-	k7Lg==
-X-Google-Smtp-Source: AGHT+IFzEZudqyc1gvkTsADJ1J0J6zl9peQTdQgm9si/Z20OV6QzPGlTr3dUVncj75ikKEgrskz53A==
-X-Received: by 2002:a05:651c:2149:b0:32b:2fba:8b90 with SMTP id 38308e7fff4ca-3308e37166fmr22654361fa.14.1752852555208;
-        Fri, 18 Jul 2025 08:29:15 -0700 (PDT)
-Received: from ribalda.c.googlers.com (166.141.88.34.bc.googleusercontent.com. [34.88.141.166])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-330a91d9d6dsm2268601fa.83.2025.07.18.08.29.14
+        d=1e100.net; s=20230601; t=1752854773; x=1753459573;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i/Q1Nu3K5LZZ1ceVlLq9+6xcxFVBX4qH4aUvmo3kZ28=;
+        b=VBSoJ5BlXWJblT3xaSrRqG80sSzoq1U/sTKKiYjO+yLb00aVoz2XkQeVFgFy9/eWcU
+         jVjKQc8Chmm+KS9RLpAoSX64mBhe7JKX7bDV6H6kHBpR4SKHHUvvTNxestyjEI4F+Vpm
+         AkEFXwUOpLnmUg9Pf+PfD7XjcVv5kVLI8aMUXDA1R7gxZQ4O0b8f1YvNFScaaeXXr2+6
+         oRvGbME1de/Lew9ucQDldIkeQh5QT32Xbphpr7sT7Ww89BT2u6Y6v3IwPKwB7xo9ycUK
+         FPB0x2Qvsc3tolbn4HndpyF4UhQOfwePdNYaw70umbq/bHGtlYCFO1QNTEppnYRIdjfG
+         TaaA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYJXA79tt5VpYbYLyZgwvxmlJc8JLTL1ulDbo3oPSi9SZRQPFa2QAv8SwlCtTEhsraSdzTj4ttb+wt5Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyxoNDizxpZmIQybgBuHhE5ZtrLRKTxWq7Y0XRR0iTSSCDFIa/
+	1WbrACS+HETE9bs8nOqN8Vu0mOF8ZyxMp6xE23ynA9lOu/G6fTG8ww/PnL97MEn1wAY=
+X-Gm-Gg: ASbGnctUwtv72BAO/hcQFIl0KWLnUVracglBgen5i45Gs56vOec38XUS7Xrx0O4+2Za
+	DVznV8mNVxxzJGkZhwveAbgkdSgVUJIXUZ//ItMDXLklnEqERXw4oGZBhJc4uaU+mPDpTao2ZWu
+	LBO23NixAPipfqrE2DQt041AWSUx2RFWppOwpQrYGhSbu9VU1fdqUaEp4w1oTP7ib4lhnoNsoDw
+	tXrTuVgQNIWu3V4521t8prS3BzOUjcH4nT9/aLTedLTVxCjHs0MEj7xOixzjw9hT/4BtIuHDv3p
+	Gz6SS+JqEFsj0uILWvVSsUhX11TeFF65lPHUfAQuSEQdwyHomKM11SAiPhrRjY9p3UQZbZU8sYG
+	SH2kgwkoy8PJZ4Cg5ke1ny+n4wJnhRw==
+X-Google-Smtp-Source: AGHT+IGeuPdqUEt/1o9qCSn3JuCLxLBD7G98jAwQVyZLgiGe8We//F5qCqqXh6NWoKStNnOYX7sQDw==
+X-Received: by 2002:a05:6870:f603:b0:2ff:94d7:b006 with SMTP id 586e51a60fabf-2ffb2251036mr8483664fac.13.1752854773078;
+        Fri, 18 Jul 2025 09:06:13 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:e5d3:a824:1a57:fcaf])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-301b01d2df8sm228752fac.31.2025.07.18.09.06.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 08:29:14 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 18 Jul 2025 15:29:14 +0000
-Subject: [PATCH v5 5/5] media: uvcvideo: Remove UVC_EXT_GPIO entity
+        Fri, 18 Jul 2025 09:06:12 -0700 (PDT)
+Date: Fri, 18 Jul 2025 19:06:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: LiangCheng Wang <zaq14760@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v10] staging: media: atomisp: fix indentation in aa, anr,
+ and bh modules
+Message-ID: <8f7db034-6b38-44c3-b841-ef4bc1db3973@suswa.mountain>
+References: <20250718-new_atomisp-v10-1-54bdff660058@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250718-uvc-subdev-v5-5-a5869b071b0d@chromium.org>
-References: <20250718-uvc-subdev-v5-0-a5869b071b0d@chromium.org>
-In-Reply-To: <20250718-uvc-subdev-v5-0-a5869b071b0d@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans de Goede <hansg@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- Yunke Cao <yunkec@chromium.org>, linux-gpio@vger.kernel.org, 
- linux-usb@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>, 
- Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250718-new_atomisp-v10-1-54bdff660058@gmail.com>
 
-The only implementation of this entity was the external privacy gpio,
-which now does not require to emulate an entity.
-Remove all the dead code.
+On Fri, Jul 18, 2025 at 11:02:14PM +0800, LiangCheng Wang wrote:
+> Fix tab/space indentation and move a standalone kernel-doc
+> comment of the 'strength' field of the struct ia_css_aa_config
+> to the whole-structure one.
+> Align with kernel coding style guidelines.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_driver.c |  4 ----
- drivers/media/usb/uvc/uvc_entity.c |  1 -
- drivers/media/usb/uvc/uvcvideo.h   | 20 +++++++-------------
- include/linux/usb/uvc.h            |  3 ---
- 4 files changed, 7 insertions(+), 21 deletions(-)
+There are too many changes all at once and some of the changes are not
+described in the commit message.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index b79d276732bc80ef175ffdbaa73b6395585ff07b..d19b5a200971654161267dc755aec2a06b5fdc9e 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -789,7 +789,6 @@ static int uvc_parse_streaming(struct uvc_device *dev,
- }
+> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> index 899d566234b9d3a35401666dcf0c7b1b80fd5b31..488807a161b9a6ba9ebc4a557221cd21bd1df108 100644
+> --- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> @@ -16,25 +16,21 @@ const struct ia_css_anr_config default_anr_config = {
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> -		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
+> +		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+
+No need to add a comma to this line.  The comma at the end of the line
+is useful when we might add another element to an array.  But here the
+length is fixed.
+
+If someone were to add a comma here and it was new code, then that's
+fine.  But I don't want to have to review a separate patch which only
+adds a unnecessary comma.
+
+>  	},
+> -	{10, 20, 30}
+> +	{ 10, 20, 30 },
+
+Same here.  This comma serves no purpose.  We can't actually add
+anything to this struct.  What would be actually helpful would be to
+use designated initializers.
+
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+index 899d566234b9..3de7ebea3d6e 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+@@ -11,14 +11,14 @@
+ #include "ia_css_anr.host.h"
  
- static const u8 uvc_camera_guid[16] = UVC_GUID_UVC_CAMERA;
--static const u8 uvc_gpio_guid[16] = UVC_GUID_EXT_GPIO_CONTROLLER;
- static const u8 uvc_media_transport_input_guid[16] =
- 	UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
- static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
-@@ -821,9 +820,6 @@ struct uvc_entity *uvc_alloc_entity(u16 type, u16 id, unsigned int num_pads,
- 	 * is initialized by the caller.
- 	 */
- 	switch (type) {
--	case UVC_EXT_GPIO_UNIT:
--		memcpy(entity->guid, uvc_gpio_guid, 16);
--		break;
- 	case UVC_ITT_CAMERA:
- 		memcpy(entity->guid, uvc_camera_guid, 16);
- 		break;
-diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-index cc68dd24eb42dce5b2846ca52a8dfa499c8aed96..94e0119746e4689a45960955a35be93a25bc16c4 100644
---- a/drivers/media/usb/uvc/uvc_entity.c
-+++ b/drivers/media/usb/uvc/uvc_entity.c
-@@ -105,7 +105,6 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
- 		case UVC_OTT_DISPLAY:
- 		case UVC_OTT_MEDIA_TRANSPORT_OUTPUT:
- 		case UVC_EXTERNAL_VENDOR_SPECIFIC:
--		case UVC_EXT_GPIO_UNIT:
- 		default:
- 			function = MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN;
- 			break;
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index c098f30b07797281576d7ff533cde25309be8b61..b4eaca187d61b2e9f8a4af6ac6ac071145b48df2 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -39,9 +39,6 @@
- 	(UVC_ENTITY_IS_TERM(entity) && \
- 	((entity)->type & 0x8000) == UVC_TERM_OUTPUT)
- 
--#define UVC_EXT_GPIO_UNIT		0x7ffe
--#define UVC_EXT_GPIO_UNIT_ID		0x100
--
- /* ------------------------------------------------------------------------
-  * Driver specific constants.
-  */
-@@ -189,8 +186,7 @@ struct uvc_entity {
- 
- 	/*
- 	 * Entities exposed by the UVC device use IDs 0-255, extra entities
--	 * implemented by the driver (such as the GPIO entity) use IDs 256 and
--	 * up.
-+	 * implemented by the driver use IDs 256 and up.
- 	 */
- 	u16 id;
- 	u16 type;
-@@ -239,13 +235,6 @@ struct uvc_entity {
- 			u8  *bmControls;
- 			u8  *bmControlsType;
- 		} extension;
--
--		struct uvc_gpio {
--			int irq;
--			bool initialized;
--			bool gpio_ready;
--			struct gpio_desc *gpio_privacy;
--		} gpio;
- 	};
- 
- 	u8 bNrInPins;
-@@ -628,7 +617,12 @@ struct uvc_device {
- 		const void *data;
- 	} async_ctrl;
- 
--	struct uvc_gpio gpio_unit;
-+	struct uvc_gpio {
-+		int irq;
-+		bool initialized;
-+		bool gpio_ready;
-+		struct gpio_desc *gpio_privacy;
-+	} gpio_unit;
+ const struct ia_css_anr_config default_anr_config = {
+-	10,
+-	{
++	.threshold = 10,
++	.thresholds = {
+ 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+ 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+ 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+ 		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
+ 	},
+-	{10, 20, 30}
++	.factors = {10, 20, 30},
  };
  
- struct uvc_fh {
-diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-index ee19e9f915b8370c333c426dc1ee4202c7b75c5b..6858675ce70dc0a872edd47531682bc415f83bd9 100644
---- a/include/linux/usb/uvc.h
-+++ b/include/linux/usb/uvc.h
-@@ -26,9 +26,6 @@
- #define UVC_GUID_UVC_SELECTOR \
- 	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
- 	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
--#define UVC_GUID_EXT_GPIO_CONTROLLER \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
- #define UVC_GUID_MSXU_1_5 \
- 	{0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
- 	 0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
+ void
 
--- 
-2.50.0.727.gbf7dc18ff4-goog
+I added a comma to the end of .factors because there is a 1% change we
+will add a new member to the struct and it's the right thing to do.  I
+was already changing that line, so I'm allowed to make tiny white space
+changes like this.
 
+But notice how I left off the comma after the numbers.  That array is a
+fixed size and nothing can be added.  Leaving off the comma communicates
+that.  Also there was no need to change that line.  It's unrelated to
+using desgnated initializers.  If you added a comma, you would need to
+send a separate patch for that with a commit message to describe and
+justify it.  As a reviewer, I would need to go through the line
+carefully and verify that none of the other numbers had been changed.
+
+The commit message for the above patch would say, "Use a designated
+initializer for default_anr_config.  It helps readability."  There would
+be no need to mention that "I added a comma" to the end of the .factors
+line because it's a minor thing that we're not really stressed about.
+
+regards,
+dan carpenter
 
