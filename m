@@ -1,152 +1,155 @@
-Return-Path: <linux-media+bounces-38049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38715B09FE0
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 11:35:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4517B09FF1
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 11:38:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE85C1885AE4
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 09:35:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9FC013B096F
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 09:37:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1AB729898C;
-	Fri, 18 Jul 2025 09:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02F1D298CA3;
+	Fri, 18 Jul 2025 09:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DE2Rp8tW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJkJlA5j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD60214A9E;
-	Fri, 18 Jul 2025 09:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C05E1E98E3;
+	Fri, 18 Jul 2025 09:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752831293; cv=none; b=Ea57wFnkYnkKWTLoQpwIJerWBhY+krO4Cyj++DNgX/RntM6oJ1THSGLSw4yYJlcVjAzUCnU9hR+0Qg5todWPgOCYTX4BGohTQng5YF5BfXpin4LMXR2XpLObCWBMYIBrpbXkMHK1yqNf6Ry7d7EMzc6QUeahaIN4GDBd4dwLATQ=
+	t=1752831477; cv=none; b=VT3ceDutxgXYGmEBbkcv0ln5ScqfqaCXvUfWxtvMsE9/PHPFf76xhqHgxbmfOkFupNePAb+s881bwW0GpVpr7EZqpP9wJZMabPRjQ/N8zOw4OIEtABXTztdAzp543UEt+r9F387dcNKM7p+RgZGKiF5+s5t5hadX//ZepRPZNTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752831293; c=relaxed/simple;
-	bh=IRZ6eW/IHF7BaJPyLxlRyPGJhIBXJU4DVyfIU35NfdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUZGPItcMC1GjsQtkYWyrTjzfmgDiZ/GeMvQ+nrMsxyVlu/QGJvpMn8cNWGFIzpsJ8oQJGUHS1KYOsBoCtFLavUbtJna1Ci4+2syrbLvfQ/XscaUwjwlZfY5Rt8asrkXNRMvlAoSc80Qivugyq0ImLZK5qPk07T5RplOgFje86w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DE2Rp8tW; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752831291; x=1784367291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IRZ6eW/IHF7BaJPyLxlRyPGJhIBXJU4DVyfIU35NfdA=;
-  b=DE2Rp8tW5fQyi7w/6CIzDvxlBoFN60Csfa2OaXzCT2rOobWGKS1IkWmV
-   lmKAiRUJ9FH8gTwpWUiH0q1z+GfBKv+UEAUIj9lrbUxq+elBIbb/SV1wG
-   nTW9uK6CpgdAw9Sv2w7hR2clY9tSzYncTLiqkPlSh9Qtwb10DBssbN2Gq
-   h4szxrqbZu4+mhGB81LI6+UbCETrYwcXOV88LLVjDLDu8YNgxs109/v0e
-   M0Xfwf3hkeQ3wqOUU0geX5RlUgOKUI9hp5fPQVEFmDenEzERvoK3nm/6T
-   FxAqfBQKp1AJhGUs5MK7no1xTnaXhpBAGXRmYYVVWMelmQpypVrA4Ldql
-   g==;
-X-CSE-ConnectionGUID: 8DmUpQ45Qh+WTuOoDDdtvA==
-X-CSE-MsgGUID: OW0c0FndQP+9sS82xEP6RQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="42745801"
-X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="42745801"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 02:34:51 -0700
-X-CSE-ConnectionGUID: 0Fen4lgZRp6H3IhGQ8OvOQ==
-X-CSE-MsgGUID: SFl6ENtfTHm7C6s1bpaAaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="158096101"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Jul 2025 02:34:46 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uchUJ-000EVf-34;
-	Fri, 18 Jul 2025 09:34:43 +0000
-Date: Fri, 18 Jul 2025 17:33:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
+	s=arc-20240116; t=1752831477; c=relaxed/simple;
+	bh=ReHjsVXp7ohLyv/lf76DeoY5tQfhSF7bMuX6/3JjT1U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=q+1PihhJTRR51ljxiHmG5Cw6hOWOuqiSIFKOxQCKlJxTanjR6Zlt+zPvqHG0OIODJX4dM4hEap8Xi2zmBdpreUm3tmcDcQdreVoEM5YVa6l/xOQhfyR2Ex6zPWwHp3ZNdIV39FhFZr9ZWw2ZTYnzPH6ugjjm+rpdBq5rlAzjWoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJkJlA5j; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b26fabda6d9so322818a12.1;
+        Fri, 18 Jul 2025 02:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752831475; x=1753436275; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4EBd4deoSlWWu5r7TOgG4vdhxOZPcQceO0h84RqTHMo=;
+        b=hJkJlA5jripXa7Qe74/kPCF0G8vYUx+rQTVdYOkBKMaRSI1nESqCKEgYKcjJQNKVl8
+         68FwD2TCO4sQiHdSpSJ3nYdNgflMLs+8bS6IG8qFDrjvYbnOhMkiAn/7rtOROlDuYvTz
+         04/GeTjMIeJ9klZdWAgjM0xY0m4gd2/iFUBv6KNBETLCtHq1ACU9zfuS24+qaFHBUd2H
+         YZdGE9Fyq8uod3oPyYP1lhPCaHwJU7BK9NRhbLKbr+9lAUssJGzOIreewXWyCKcPbINx
+         VriX/Uo7g6h+yVbnQn3PtWzXEbV0ybSZojFZZnWENjaaiit3YN40Px0+WYpVaGd326xh
+         Czgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752831475; x=1753436275;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4EBd4deoSlWWu5r7TOgG4vdhxOZPcQceO0h84RqTHMo=;
+        b=NZHKDqZYA0SEF7tmANC0jJKg9IS5RQXpKwKObznQww5OPX+29bjfL+R8c2w7NTvmXM
+         95wx6wBtfko8tsAG8t/5nbKwp8E3aeSWJW0txWA0kSXn7o5rBtDHPOfMi02SHVnGzUN+
+         OL5vWiJHLRzl//IGqoK/sbvi3AdhVETE7tfDMJcrxaL14mmPZk3TLuOUiCoHFBQTVOdR
+         pmqHXsy0ZhmJVy97SCUYcMnx5kIn4whipjOU91TcJxPk7dCa3jgCU9mlWEjHYy2Xj8mW
+         9wSbsgy/NbKc4AQ8QudPdWH6RQqj4kansQcYijSEhFmNYLj256XGQJs6tX8V76oSztkL
+         grRg==
+X-Forwarded-Encrypted: i=1; AJvYcCUddGmutQnKm6K5lneTSXYBskCVS21qFs1RQ2HMLP9FdYzJht8nFdRWW8iyTS589MBPyOixBSgSmpVjvvc=@vger.kernel.org, AJvYcCVAbpTy74OQLCxxP0m2IB7fEe+q+oZze72smmarVT7FYqGZdyGvAHzn1Opkb4Lcqp4SPNhs0Lic5Kild+s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4P6aRt6iY8D6bJ1AvUOengoQh8gpqfiI1SENOiSA1fuku+Ard
+	QhxMRiydEqqLhWvFM+fcFGavBbaUkEv+KeD7+++RRryRn3Eafvp1c4rX7hilQYaU
+X-Gm-Gg: ASbGncvh7Cw+yC4IKtrdPCeif0ztObFIf41IkE9tbRH5SXEtEOi0uecf2L433JK5KXR
+	Y0K+gR0Qaw+jFKODEVo3qtrXLRahBzwxkzsVnvxpYCsIj3/13gDorkWS4nNYhPMHaXNbJYUCUL3
+	Q2ucoo3ELpLGWSiipr56g9c120ddTqTsdg5TK1MBOrfX01Qq9AIcmigGmraZgldF+OLLY6SIDAz
+	ivDX9/fmNJmvKDAN+fTQxRNt6x33SHYEPadSV7xKN6dn1z/QlQ0/drtKxxl3m5o4oAyPGR7w/Ah
+	FWJl25+UHJe2q7yllftYzfhHRLP3tMu1J7dS6IEiRGgO4c9CcEsRJRErxCUF6HGfUmIS2RmQImU
+	PyRWN8gAdAkwON9qju3Jw07DFdXiX9w==
+X-Google-Smtp-Source: AGHT+IGCUC6qtOTPLVD5EFj2fkX/fbe7ZYZSvuYuyD99VU2oBiOtt+o9kheMsFPNhNInYamunyzPbA==
+X-Received: by 2002:a05:6a00:300b:b0:736:6ecd:8e39 with SMTP id d2e1a72fcca58-756e80a30abmr6780556b3a.2.1752831475105;
+        Fri, 18 Jul 2025 02:37:55 -0700 (PDT)
+Received: from rock-5b.. ([111.172.109.143])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbc68ba1sm908771b3a.146.2025.07.18.02.37.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 02:37:54 -0700 (PDT)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: liujianfeng1994@gmail.com
+Cc: detlev.casanova@collabora.com,
+	heiko@sntech.de,
+	kernel@collabora.com,
 	linux-arm-kernel@lists.infradead.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 09/26] media: v4l2-dev: Add
- video_device_context_from_file()
-Message-ID: <202507181702.W5iinHRF-lkp@intel.com>
-References: <20250717-multicontext-mainline-2025-v1-9-81ac18979c03@ideasonboard.com>
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	mchehab@kernel.org,
+	nicolas.dufresne@collabora.com,
+	nicolas.frattaroli@collabora.com,
+	jonas@kwiboo.se,
+	benjamin.gaignard@collabora.com
+Subject: Re: [PATCH 00/12] media: rkvdec: Add support for VDPU381 and VDPU383
+Date: Fri, 18 Jul 2025 17:37:46 +0800
+Message-ID: <20250718093746.631072-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250714144610.258372-1-liujianfeng1994@gmail.com>
+References: <20250714144610.258372-1-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250717-multicontext-mainline-2025-v1-9-81ac18979c03@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On Mon, 14 Jul 2025 22:46:10 +0800, Jianfeng Liu wrote:
+>You are right, the code of chromium should be fixed for frame size type
+>V4L2_FRMSIZE_TYPE_CONTINUOUS.
 
-[auto build test WARNING on d968e50b5c26642754492dea23cbd3592bde62d8]
+I have just sent a cr at chromium[1] to fix this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-mc-Add-per-file-handle-data-support/20250717-190546
-base:   d968e50b5c26642754492dea23cbd3592bde62d8
-patch link:    https://lore.kernel.org/r/20250717-multicontext-mainline-2025-v1-9-81ac18979c03%40ideasonboard.com
-patch subject: [PATCH 09/26] media: v4l2-dev: Add video_device_context_from_file()
-config: x86_64-buildonly-randconfig-004-20250718 (https://download.01.org/0day-ci/archive/20250718/202507181702.W5iinHRF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181702.W5iinHRF-lkp@intel.com/reproduce)
+>I have checked that this issue is not introduced by your series. After
+>reverting this commit[2] which adds Support High 10 and 4:2:2 profiles,
+>chromium can play video well on rk3399. I will investigate further.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507181702.W5iinHRF-lkp@intel.com/
+I found that this issue is caused by this code block[2]. Before adding
+.get_image_fmt, rkvdec_s_ctrl will just return 0. But now when detecting
+image format change(usually from RKVDEC_IMG_FMT_ANY to real video format
+like RKVDEC_IMG_FMT_420_8BIT), it will return -EBUSY, then I get green
+frame at chromium.
 
-All warnings (new ones prefixed by >>):
+After taking a look at hantro's code, I find that it is not necessary to
+let .s_ctrl return -EBUSY when format changes, here is a commit[3]
+disabling this check in hantro_set_fmt_cap. I have written a patch that
+can fix my issue with chromium, you can see it at the bottom of my mail.
 
->> drivers/media/v4l2-core/v4l2-dev.c:1184:1: warning: no previous prototype for function 'video_device_context_from_file' [-Wmissing-prototypes]
-    1184 | video_device_context_from_file(struct file *filp, struct video_device *vfd)
-         | ^
-   drivers/media/v4l2-core/v4l2-dev.c:1183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1183 | struct video_device_context *
-         | ^
-         | static 
-   1 warning generated.
+[1] https://chromium-review.googlesource.com/c/chromium/src/+/6767118
+[2] https://github.com/torvalds/linux/blob/v6.16-rc6/drivers/staging/media/rkvdec/rkvdec.c#L143-L146
+[3] https://github.com/torvalds/linux/commit/bbd267daf4fc831f58bf4a2530a8b64881779e6a
 
-
-vim +/video_device_context_from_file +1184 drivers/media/v4l2-core/v4l2-dev.c
-
-  1182	
-  1183	struct video_device_context *
-> 1184	video_device_context_from_file(struct file *filp, struct video_device *vfd)
-  1185	{
-  1186		struct v4l2_fh *vfh =
-  1187			test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? filp->private_data
-  1188								    : NULL;
-  1189	
-  1190		/* If the file handle has been bound to a context return it. */
-  1191		if (vfh && vfh->context)
-  1192			return vfh->context;
-  1193	
-  1194		return vfd->default_context;
-  1195	}
-  1196	EXPORT_SYMBOL_GPL(video_device_context_from_file);
-  1197	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index 5d86fb7cdd6..7800d159fad 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -185,7 +185,6 @@ static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+ 	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+ 	enum rkvdec_image_fmt image_fmt;
+-	struct vb2_queue *vq;
+ 
+ 	/* Check if this change requires a capture format reset */
+ 	if (!desc->ops->get_image_fmt)
+@@ -193,11 +192,6 @@ static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+ 	if (rkvdec_image_fmt_changed(ctx, image_fmt)) {
+-		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+-				     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+-		if (vb2_is_busy(vq))
+-			return -EBUSY;
+-
+ 		ctx->image_fmt = image_fmt;
+ 		rkvdec_reset_decoded_fmt(ctx);
+ 	}
 
