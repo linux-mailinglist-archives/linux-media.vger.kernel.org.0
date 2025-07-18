@@ -1,360 +1,170 @@
-Return-Path: <linux-media+bounces-38094-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38095-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA88EB0A7A4
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 17:38:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A81DB0A78C
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 17:35:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 839945A692A
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 15:34:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F59C1C835E2
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 15:35:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C9EC2DEA6E;
-	Fri, 18 Jul 2025 15:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABF552E0901;
+	Fri, 18 Jul 2025 15:29:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m6TVGvzd"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eTPUcOZ3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7E52DE6F4
-	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 15:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C132C2DE6E8
+	for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 15:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752852480; cv=none; b=txnnlGo7dpUXcuwpuWV7xcpp1WV+f3cfL0MisIiENWR3RFCsVRVWq30MmOuyrudI7bC4FGCQKjaIfjALqGW24Ej4XAuN64gPLshS28yJTf9Dblkg4ScMERSzG1DW+FD7FfvCXZpdOFP683scE/xx5b7wECnMh8RP9Ddi1kJlhMg=
+	t=1752852556; cv=none; b=Cw5wHniXaZ6iJ03cHNukWty7S9xXbO5uB3af/T10svr2Tks94wjqwgfKRI2cxgIYc7XRr6YZafID7OIpFWh5zSIRiMPqAHtrOXeNyO1J60pLA1i+L61cS2HAGOjtjrkNM2breQepbtniK30qyiKMGlhcnau5Sxira2AQMwvUvnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752852480; c=relaxed/simple;
-	bh=lBXJL8FtmF+83xK5G/Bus52DCzmyInlKAMlb1w2HL6Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JDNaOpsoIm7pRl3s5Gawd+c4EqExjjSjwpk++9HJPklC+fOtLHhrLi54YTUvR6TfRUn4jzCqVcOmd5ir6NsziJY3jEvmn4MAvVpkytDendQxFKBjz4UM76H6UZQ+g6pb2/2DKP+HxAHfIYQjf8kPrdyxNOBsSVt+kMwnHU9AtNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m6TVGvzd; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-553cbe3e77dso428235e87.1
-        for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 08:27:58 -0700 (PDT)
+	s=arc-20240116; t=1752852556; c=relaxed/simple;
+	bh=uxVn8z5vNh8b0EqiZQiCnQQE1xnoXDxMYQl0MrMLYTg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=usfbTHe03HozXxdg+V+WyOqDlBCtyVLgsXPuWz7t4/tYniAx6IfHGe+a0iAR6sJYW3Ol7/XBlCCdIRViMfvbUD1VPg2h89xEiEDLluqQGzt11LCfJvAexivTXp6ntclNHfWLERV+y/NiRG4fOsNckxaaV6YmGOS1VFXZvI+CxuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eTPUcOZ3; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-32b43846e8cso16361931fa.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Jul 2025 08:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752852476; x=1753457276; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YIj6luTi8nFEawlKnQTcVUB/ZIyVieWLKbKu6ysNOLw=;
-        b=m6TVGvzdgvsLR4HJRjqob9yf5UaSS3qq86lEL9E/p+KNOZP2GHkZ2fqaneReB5vhEv
-         v2GPl6VuX4NhPWK40Do6DANxnI5dXTZEK4shMWlEOVUgQcyTmS/ykjM20cLpqz+zLYj2
-         oC2Hl5M8x0W8SlDcyzcgaI4FYpdnyJ5u7CKwWC6CbsWsM+6dJAOIxC7h/PlkayBZY/Jc
-         2JQO4sOFomBhlkcR6ZvJ9tQxFDPit9QYaCeKb39SlcwfvGkRQjicszTEI8OAdBagEQj4
-         oz+RieEfj9VI39FVXas7nlhNd97pP4tJ6C115DO5eMisM9Mqupo/GsYS0rGiPUGqWqFl
-         jAag==
+        d=chromium.org; s=google; t=1752852553; x=1753457353; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rpDHWMEfaZbT1j+vHvp6fYznBSkyjPMp+OhgKVI7GZI=;
+        b=eTPUcOZ3ciPt0mrZ413bHiuaJmr3ydTd+HzDitI1AKvXznxqPY06Lc0os1FlBofQzm
+         VqJrsipXemmiSDsKQP3xIZMlwIm7Q+p6kbKRFZ5+dNlCxAOX2Pi7AKT6IHhhSO13uAkL
+         Hl5aTUvzRQqwl7ib04IjVMZ1fWTbyS27RCO9w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752852476; x=1753457276;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YIj6luTi8nFEawlKnQTcVUB/ZIyVieWLKbKu6ysNOLw=;
-        b=LU4kVXNIF59Q3JehYA14Y/LvThV/yaavAqnmzfsiJhbegMRUS3BPDc0j/01wKPC/h9
-         NndaIxGomCkRY1fQmftzA/MYRn7mxO51nTGLMVn1ljAUCDIi+bRbMFCPZZ4d6nt10QtT
-         /WpkUz6llhqezMeUulwCa8VhjSQxVQxGdQHMv7Z+gtaIRO22/LWv5p0HgWUjHDWSJQhE
-         aLFPB8RD7w5DmQhTFDp4u2C82EywxoOE/Xsjcl72th7uZMUHtP/VcXZCk/v2cR3cusqE
-         ad3qADmyHgexgYK022uhxki4zbULWGAjmhXmOk4WDoSGHB+1U9VvtJBUn8LblT8beGdI
-         mtdg==
-X-Forwarded-Encrypted: i=1; AJvYcCW26uaVZj5YOcgE6fWbFTHVTDaU2Pb/Av8BRPcvQH/Mdh6kJdGB4O7HWgnju3BLcT/plKrPdLOioKZAgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyobqd6ourjN65We6MscS0vtMa/SwUnlw12HX+ass3fRc3KM4iP
-	j9jaFBPQmm6uhBhuczirDrC8Rhv4xn2C/NptyZ/Vcxt+/BYsNm2Ww+OuhdMC0z0PCog=
-X-Gm-Gg: ASbGncvpK4mxOcrXbhmCOq+hMhsUliXPSI3KlrBblz74Ni653DFTgAJTIT0RppJu8Kk
-	Anj4N1zoeSap2YMj3esn1ybM/yNAvTcRDSx3y+0tDG3cqEZ5nI9o2GYMs0bX8kkztjq0QgYJwsO
-	Y3iBplA6qRWbow2AKEgkiQznQUjp+Fh/Sqiq6lstELx0AeYsqXuTcq5eZjMBMlgYrPJDPiyPV8R
-	L4eVz3BFoH+aIogNwI/5GwNd/aSsSYy5SL95JkgOiAQvoOuFOVIQDSqXjVvF8JBP6U+0DhFu8+C
-	x7gj85zmn9UTUm5PMDt7yMhBV+yf6PYbLaxbBG3dfx3DAh/L88VSMRdez92rWEcFSlpT1wEwowp
-	IgrbiWVDIRhUZgsHcVvkOjb8e/8aK3k5YYlZPXTveutr0jBjosxiweQDk5SNp3QoWguu2MMpLAF
-	ys
-X-Google-Smtp-Source: AGHT+IEUSKGYJ6wJ3N02bmIWBUz89ZEswG5MuDdszZXJA7SMeZMFqt8hYT8TS49730bvJ1T7SqbApw==
-X-Received: by 2002:a05:651c:510:b0:32c:bc69:e931 with SMTP id 38308e7fff4ca-3308e52c4a7mr14381071fa.9.1752852476394;
-        Fri, 18 Jul 2025 08:27:56 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-330a91d994csm2473431fa.84.2025.07.18.08.27.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jul 2025 08:27:55 -0700 (PDT)
-Message-ID: <7bb16a20-166a-477d-a103-a00fe83ecb66@linaro.org>
-Date: Fri, 18 Jul 2025 18:27:54 +0300
+        d=1e100.net; s=20230601; t=1752852553; x=1753457353;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rpDHWMEfaZbT1j+vHvp6fYznBSkyjPMp+OhgKVI7GZI=;
+        b=rB8FgBYozsuhTBjM8DPDSFgh2CB52/a+CTup3G9WjzEZOY33f463YEe8f5Qbn6NXOT
+         zg4vl+xLlnCSS+BOApDqGtTFPwIkCD8QW9jqlIHg2e6ivvuGnd+nNn4NxSNSkV6SmwaJ
+         RocCqvgolJESXIKSFbpUHwej8RTZ69BqiuObSfS+MUbcbvXbnc0BzHKHc+JgO7txuaF7
+         uPxdbMd4TSVqEj3FxYwjUjfre7h9/xyFBpzjHKSyKmAvK63WCq+PIUIWL0+ioMrtCOp2
+         8pHX2xizoHxz/Oq1C8ZIViHEsZBAxpDEMDwbP8Z2nKUAZ6a9Y3+B/7r255AoaFJRo9qh
+         uO5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXSkc70XACxu92dukWkDGaSecShhr8H9y/FUWXBCYIqVnJQz2o6lo92x/IOQmBVVvLNhqoLCahg4tUkNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwE9bJ71BB/2Iamu4Z9wEtSQid8y71KXPC+9Rcae08D8flonB4o
+	+RGTVZPWnwbWmgdO6KnM8LeOYwxSW4dEfKJQcLVZAIIi5RqAhokzKqlo6AH/wgGyjw==
+X-Gm-Gg: ASbGncvMfFfcqtsx6jYO2dWorDgA5m1wezx27s12BuEgpX2NnTdDsqL0bnfYmqvJOAN
+	a9bHjNEXurPni4/79rWhR/TSUrJ4hreNKSARjWXF5LcQT2kLN9CG68t7GlVLN9Lxo8NEG9DfnPi
+	+O+7dhvjtFZYyf0cF8CNisx4MvnOchwDjArPHi1I02PSegwmGUn1g9eXIh8ZRX0pW8oGnFuUKud
+	XMc4dwiwFH/6sBy1+ebv//Oj+vcUU7DVScps5B17ODSPe6mhTT80R0TwQZE5MGHVOoY/hJoNAU7
+	AFVLuLTFksoxk2KgUqfLB5PYyAwsex8mRyg/K1VCOyWKRExER4cooMMvxsxw6MC5M1nOsKBa6Ct
+	IvkUaWBD2HsoiTVZfLql2Yq6hXrUnxVM/h/vbVDo5w6FRLiXQJca4V10rU4krLRBz+RVUYyexQk
+	LtQQ==
+X-Google-Smtp-Source: AGHT+IHCWWFRndQq5TQ10sqZoNxAVRRJdBRC8Iz2chXxrbesJiaBnj6t6V30lxJSk7p201wqjG9aTA==
+X-Received: by 2002:a2e:be12:0:b0:32a:c14b:7db9 with SMTP id 38308e7fff4ca-330a7ae47d7mr9316611fa.7.1752852552744;
+        Fri, 18 Jul 2025 08:29:12 -0700 (PDT)
+Received: from ribalda.c.googlers.com (166.141.88.34.bc.googleusercontent.com. [34.88.141.166])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-330a91d9d6dsm2268601fa.83.2025.07.18.08.29.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 08:29:12 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v5 0/5] media: uvcvideo: Implement the Privacy GPIO as a
+ evdev
+Date: Fri, 18 Jul 2025 15:29:09 +0000
+Message-Id: <20250718-uvc-subdev-v5-0-a5869b071b0d@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: i2c: Add OmniVision OV6211 image sensor driver
-Content-Language: ru-RU
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250717124001.108486-1-vladimir.zapolskiy@linaro.org>
- <20250717124001.108486-3-vladimir.zapolskiy@linaro.org>
- <175276139540.560048.14744394485094549778@ping.linuxembedded.co.uk>
- <CAPY8ntCiKFFdfepqW0ms_0dhCtJJCwJoT=bxmJ5i0K254i6fkA@mail.gmail.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <CAPY8ntCiKFFdfepqW0ms_0dhCtJJCwJoT=bxmJ5i0K254i6fkA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEVoemgC/23MSw6CMBSF4a2Yjq25tw8ojtyHcVDpRTpQTCuNx
+ rB3C4kRDMNzku9/s0jBU2T7zZsFSj767paH3m5Y3drbhbh3eTMBQiFI4H2qeezPjhI3VaNUUVq
+ As2YZ3AM1/jnFjqe8Wx8fXXhN7YTj+83gPJOQA7eFkRJrcq4Uh7oN3dX3110XLmwsJfHTCGahR
+ dZGO2NBo5VOrmg50ygWWmYNZHUpnUKLZkWrmRZ6oVXWGgkU6Kpq0P7pYRg+AhwQAmEBAAA=
+X-Change-ID: 20241030-uvc-subdev-89f4467a00b5
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Hans de Goede <hansg@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ Yunke Cao <yunkec@chromium.org>, linux-gpio@vger.kernel.org, 
+ linux-usb@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>, 
+ Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>
+X-Mailer: b4 0.14.2
 
-Hello Dave.
+Some notebooks have a button to disable the camera (not to be mistaken
+with the mechanical cover). This is a standard GPIO linked to the
+camera via the ACPI table.
 
-On 7/17/25 18:07, Dave Stevenson wrote:
-> Hi Vladimir and Kieran
-> 
-> On Thu, 17 Jul 2025 at 15:10, Kieran Bingham
-> <kieran.bingham@ideasonboard.com> wrote:
->>
->> Quoting Vladimir Zapolskiy (2025-07-17 13:40:01)
->>> OmniVision OV6211 is a monochrome image sensor, which produces frames in
->>> 8/10-bit raw output format and supports 400x400, 200x200 and 100x100
->>> output image resolution modes.
->>>
->>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>> ---
+4 years ago we added support for this button in UVC via the Privacy control.
+This has three issues:
+- If the camera has its own privacy control, it will be masked.
+- We need to power-up the camera to read the privacy control gpio.
+- Other drivers have not followed this approach and have used evdev.
 
-<snip>
+We fixed the power-up isses with "granular power saving", but the other
+issues are still open.
 
->>> +       { 0x3800, 0x00 },
->>> +       { 0x3801, 0x04 },
->>> +       { 0x3802, 0x00 },
->>> +       { 0x3803, 0x04 },
->>> +       { 0x3804, 0x01 },
->>> +       { 0x3805, 0x9b },
->>> +       { 0x3806, 0x01 },
->>> +       { 0x3807, 0x9b },
->>> +       { 0x3808, 0x01 },
->>> +       { 0x3809, 0x90 },
->>
->> 0x190 == 400;
->>
->>> +       { 0x380a, 0x01 },
->>> +       { 0x380b, 0x90 },
->>
->> So I bet these are the width and height registers.
-> 
-> Almost certainly as that also matches OV7251 and OV9281.
-> 0x3800/1 is X_ADDR_START
-> 0x3802/3 is Y_ADDR_START
-> 0x3804/5 is X_ADDR_END
-> 0x3806/7 is Y_ADDR_END
-> 0x3808/9 is X_OUTPUT_SIZE
-> 0x380a/b is Y_OUTPUT_SIZE.
-> Those almost all fit here, although it does imply that it's reading
-> (0x019b - 0x0004 + 1 = ) 408 x408 from the array, but only outputting
-> 400x400.
-> 
->> Have you got a data sheet for this ? It would be /really/ far more
->> helpful to break out the specific register updates here for the mode
->> configuration at least.
->>
->>> +       { 0x380c, 0x05 },
->>> +       { 0x380d, 0xf2 },
->>> +       { 0x380e, 0x01 },
->>> +       { 0x380f, 0xb6 },
+This patchset implements the Privacy GPIO as a evdev.
 
-<snip>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v5:
+- Drop UVC_GUID_EXT_GPIO_CONTROLLER
+- Remove merged patches and patches that will conflict with uvc-rotation
+- Rebase
+- Link to v4: https://lore.kernel.org/r/20241125-uvc-subdev-v4-0-51e040599f1a@chromium.org
 
->>> +};
->>> +
->>> +static const struct ov6211_mode supported_modes[] = {
->>> +       {
->>> +               .width = 400,
->>> +               .height = 400,
->>> +               .hts = 1522,
->>> +               .vts = 438,
-> 
-> This implies we do have the blanking values, but don't expose them.
-> The values don't appear to be used for anything though.
-> 
+Changes in v4:
+- Remove gpio entity, it is not needed.
+- Use unit->gpio.irq in free_irq to make smatch happy.
+- Link to v3: https://lore.kernel.org/r/20241112-uvc-subdev-v3-0-0ea573d41a18@chromium.org
 
-0x380c and 0x380e registers are to set hts/vts, for reference I've
-added a human readable representation over here, however the values
-are formally unused anywhere in the driver, they could be removed,
-or left as is.
+Changes in v3:
+- CodeStyle (Thanks Sakari)
+- Re-implement as input device
+- Make the code depend on UVC_INPUT_EVDEV
+- Link to v2: https://lore.kernel.org/r/20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org
 
->>> +               .reg_list = {
->>> +                       .regs = mode_400x400_regs,
->>> +                       .num_of_regs = ARRAY_SIZE(mode_400x400_regs),
->>> +               },
->>> +       },
->>> +};
+Changes in v2:
+- Rebase on top of https://patchwork.linuxtv.org/project/linux-media/patch/20241106-uvc-crashrmmod-v6-1-fbf9781c6e83@chromium.org/
+- Create uvc_gpio_cleanup and uvc_gpio_deinit
+- Refactor quirk: do not disable irq
+- Change define number for MEDIA_ENT_F_GPIO
+- Link to v1: https://lore.kernel.org/r/20241031-uvc-subdev-v1-0-a68331cedd72@chromium.org
 
-<snip>
+---
+Ricardo Ribalda (5):
+      media: uvcvideo: Factor out gpio functions to its own file
+      media: uvcvideo: Re-implement privacy GPIO as an input device
+      media: uvcvideo: Introduce UVC_QUIRK_PRIVACY_DURING_STREAM
+      media: uvcvideo: Make gpio_unit entity-less
+      media: uvcvideo: Remove UVC_EXT_GPIO entity
 
->>> +static int ov6211_set_ctrl(struct v4l2_ctrl *ctrl)
->>> +{
->>> +       struct ov6211 *ov6211 = container_of(ctrl->handler, struct ov6211,
->>> +                                            ctrl_handler);
->>> +       struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
->>> +       int ret;
->>> +
->>> +       /* V4L2 controls values will be applied only when power is already up */
->>> +       if (!pm_runtime_get_if_in_use(&client->dev))
->>> +               return 0;
->>> +
->>> +       switch (ctrl->id) {
->>> +       case V4L2_CID_ANALOGUE_GAIN:
->>> +               ret = ov6211_write_reg(ov6211, OV6211_REG_ANALOGUE_GAIN,
->>> +                                      OV6211_REG_VALUE_16BIT, ctrl->val);
->>> +               break;
->>> +       case V4L2_CID_EXPOSURE:
->>> +               ret = ov6211_write_reg(ov6211, OV6211_REG_EXPOSURE,
->>> +                                      OV6211_REG_VALUE_24BIT, ctrl->val << 4);
->>> +               break;
->>
->> What about V4L2_CID_HBLANK and V4L2_CID_VBLANK ?
-> 
-> It's also missing V4L2_CID_PIXEL_RATE, so even with the blanking
-> values you can't control frame rate.
-> 
+ drivers/media/usb/uvc/Kconfig      |   2 +-
+ drivers/media/usb/uvc/Makefile     |   3 +
+ drivers/media/usb/uvc/uvc_ctrl.c   |  20 ------
+ drivers/media/usb/uvc/uvc_driver.c | 135 ++---------------------------------
+ drivers/media/usb/uvc/uvc_entity.c |   1 -
+ drivers/media/usb/uvc/uvc_gpio.c   | 139 +++++++++++++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvc_status.c |  13 +++-
+ drivers/media/usb/uvc/uvc_video.c  |   4 ++
+ drivers/media/usb/uvc/uvcvideo.h   |  38 ++++++----
+ include/linux/usb/uvc.h            |   3 -
+ 10 files changed, 185 insertions(+), 173 deletions(-)
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20241030-uvc-subdev-89f4467a00b5
 
-The single given sensor configuration setting above sets 120fps.
-
-I may add it with a V4L2_CTRL_FLAG_READ_ONLY control though.
-
->>> +       default:
->>> +               ret = -EINVAL;
->>> +               break;
->>> +       }
->>> +
->>> +       pm_runtime_put(&client->dev);
->>> +
->>> +       return ret;
->>> +}
->>> +
->>> +static const struct v4l2_ctrl_ops ov6211_ctrl_ops = {
->>> +       .s_ctrl = ov6211_set_ctrl,
->>> +};
->>> +
->>> +static int ov6211_init_controls(struct ov6211 *ov6211)
->>> +{
->>> +       struct v4l2_ctrl_handler *ctrl_hdlr;
->>> +       s64 exposure_max;
->>> +       int ret;
->>> +
->>> +       ctrl_hdlr = &ov6211->ctrl_handler;
->>> +       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 3);
->>> +       if (ret)
->>> +               return ret;
->>> +
->>> +       ctrl_hdlr->lock = &ov6211->mutex;
->>> +
->>> +       ov6211->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov6211_ctrl_ops,
->>> +                                       V4L2_CID_LINK_FREQ,
->>> +                                       ARRAY_SIZE(link_freq_menu_items) - 1,
->>> +                                       0, link_freq_menu_items);
->>> +       if (ov6211->link_freq)
->>> +               ov6211->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>> +
->>> +       v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
->>> +                         OV6211_ANALOGUE_GAIN_MIN, OV6211_ANALOGUE_GAIN_MAX,
->>> +                         OV6211_ANALOGUE_GAIN_STEP,
->>> +                         OV6211_ANALOGUE_GAIN_DEFAULT);
->>> +
->>> +       exposure_max = (ov6211->cur_mode->vts - OV6211_EXPOSURE_MAX_MARGIN);
->>> +       ov6211->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops,
->>> +                                            V4L2_CID_EXPOSURE,
->>> +                                            OV6211_EXPOSURE_MIN, exposure_max,
->>> +                                            OV6211_EXPOSURE_STEP,
->>> +                                            OV6211_EXPOSURE_DEFAULT);
->>> +
->>
->> As well as the blanking - I think this driver is missing reporting the
->> crop selection implementation to report the sensor crops.
-> 
-> A call to v4l2_fwnode_device_parse and v4l2_ctrl_new_fwnode_properties
-> wouldn't go amiss to provide the standard orientation and rotation
-> properties wouldn't go amiss either.
-> 
-
-To my knowledge the sensor does not support orientation or rotation
-configuration.
-
->>> +}
->>> +
->>> +static int ov6211_check_hwcfg(struct ov6211 *ov6211)
->>> +{
->>> +       struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
->>> +       struct device *dev = &client->dev;
->>> +       struct fwnode_handle *fwnode = dev_fwnode(dev), *ep;
->>> +       struct v4l2_fwnode_endpoint bus_cfg = {
->>> +               .bus_type = V4L2_MBUS_CSI2_DPHY
->>> +       };
->>> +       int ret;
->>> +
->>> +       if (!fwnode)
->>> +               return -ENXIO;
->>> +
->>> +       ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
->>> +       if (!ep)
->>> +               return -ENXIO;
->>> +
->>> +       ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
->>> +       fwnode_handle_put(ep);
->>> +       if (ret)
->>> +               return ret;
->>> +
->>> +       if (bus_cfg.bus.mipi_csi2.num_data_lanes &&
-> 
-> Is it permitted to omit the data-lanes configuration?
-> 
-
-That's a question to linux-media maintainers.
-
-This sensor does not have configurable data-lanes, it's a single lane
-sensor, so adding a constant 'data-lanes' property does not help in any
-way to describe a hardware wiring, the property becomes a redundant one.
-
-There are some MIPI CSI2 sensors, which does not have 'data-lanes'
-property, for instance ovti,ov2680.
-
-<snip>
-
->>> +
->>> +       ov6211->xvclk = devm_clk_get_optional(&client->dev, NULL);
->>> +       if (IS_ERR(ov6211->xvclk)) {
->>> +               ret = PTR_ERR(ov6211->xvclk);
->>> +               dev_err(&client->dev, "failed to get XVCLK clock: %d\n", ret);
->>> +               return ret;
->>> +       }
->>> +
->>> +       freq = clk_get_rate(ov6211->xvclk);
->>> +       if (freq && freq != OV6211_MCLK_FREQ_24MHZ)
->>> +               return dev_err_probe(&client->dev, -EINVAL,
->>> +                               "XVCLK clock frequency %lu is not supported\n",
->>> +                               freq);
-> 
-> This would be nicer to make use of the cleanups that have just been
-> implemented in
-> https://lore.kernel.org/linux-media/cover.1750942967.git.mehdi.djait@linux.intel.com/
-> and
-> https://lore.kernel.org/linux-media/20250710174808.5361-1-laurent.pinchart@ideasonboard.com/T/
-> 
-
-Actually I've already checked it before publishing the code, as a summary:
-
-1. to my understanding the introduced API is still under review, I didn't
-find it in media/master or linux-next,
-
-2. the only needed change to get support of the new helper is to replace
-the single line of devm_clk_get_optional() with devm_v4l2_sensor_clk_get(),
-no more than that,
-
-3. the internal complexity of devm_v4l2_sensor_clk_get() seems excessive
-right over here, what's worse I can not test devm_v4l2_sensor_clk_get()
-in this driver on any ACPI platform...
-
-To sum up and to minimize the overall complexity, I'd rather prefer to
-stick to devm_clk_get_optional() at the moment, the switch to the new
-proposed API can be done, when it's ready.
-
+Best regards,
 -- 
-Best wishes,
-Vladimir
+Ricardo Ribalda <ribalda@chromium.org>
+
 
