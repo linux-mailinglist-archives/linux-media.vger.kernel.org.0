@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-38061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770CAB0A4D1
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 15:08:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D7BB0A532
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 15:29:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A4C916E6F4
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 13:08:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A28C1C43051
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 13:30:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492232DBF76;
-	Fri, 18 Jul 2025 13:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 500AB2DCBE6;
+	Fri, 18 Jul 2025 13:29:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QV/PvT7f"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CyM2x3eh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6C5218EA8;
-	Fri, 18 Jul 2025 13:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FB323507F;
+	Fri, 18 Jul 2025 13:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752844095; cv=none; b=TdA2vtM/M/IDlt/2yRMqbkQ9/Ul91yo+TVU3n5LrRbVHtLT7M0k0ZAkMX/JTHyWzvtE+9TzfocvN8AvKpy9JuBtbIuyQaHhFmyesdSpOi5vKWImBjVaDWSSYqh0uJ75RW9YRgXVcAGTcr2SgY1yqdwFZO4OW7+yCc5a1JEygR4s=
+	t=1752845378; cv=none; b=Pii9stWuuRz7+u+FrS3iOXrQG91D4RBVQjamVIZIZE+JpUnwvhXpx7wzU5wIFa9WUQOcR4MBaVq0liiL+a3R4UswepKKkcs+b4yyy27stMA2Ia2NgZhDnAcxf6oxG9qy528At2X1VlqVqEHdxvXE1ppQZ9JUJu9i0wW+EX6eXBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752844095; c=relaxed/simple;
-	bh=BGoXAIPMUMwVyrTqd9zgZfK7KQasBow3XqKhoUBGF58=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=aI3JH+6QcG2fYDY2sr4UTHy+nDWhcTvhduV8DzxGww6GYjdrXftSWLgSjV7fNDEX3DRpvDpNo/etP0WCpO4va04ygEvxrvJCVoztXi69lYFbP8ICfzXZc9n3SGwg4CKTNJkEr1sV3UqgDJLRaBg4wJp7ysBKEA3jYPiM+uFSqKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QV/PvT7f; arc=none smtp.client-ip=209.85.215.178
+	s=arc-20240116; t=1752845378; c=relaxed/simple;
+	bh=9zAdNuMujNK7rK5zDyvK0DONlnXOhbHGzRZV3zSBitc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=ODoO+NdG8umUd8snR9wd3ikJe+DE3kqT3jn9nVkojM4H8ZUmayLNCNqaTTZ4hAAyv47bil1cs0c86P58Es9dMlVr1AAlF3+sg+79n+k/pckLs3u2g2UxLoJbJeW85E+HCtPZd4T8hQC4WD6hfMQEEB9IsEBWgAVnj74rkWoqhR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CyM2x3eh; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-879d2e419b9so1353347a12.2;
-        Fri, 18 Jul 2025 06:08:14 -0700 (PDT)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2350b1b9129so14052365ad.0;
+        Fri, 18 Jul 2025 06:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752844093; x=1753448893; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1752845376; x=1753450176; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pKd3GvcYF3gQCFm0OcSr9YY+9zf3UHvOPRoBWIJzi6M=;
-        b=QV/PvT7fvbS8XVCXH1xJkxCqmN1N7zX/4RVkMo/MXaO0q2BgiSbeYe+SfAyPivxAu6
-         GM2l6MXDKcdbu9ONnHVMuiJB5788YX7ODbE+Nsmq2vsUaiMcDolIgAzw2W0m/CHnpi/w
-         QP3QKBriJSpkmOkNgTCFk3/+0xCCVp2Jbzdis5QzgX+nYn5TdBHMxOVzq4F74Zz5SeO/
-         /sXnTwnDGhH1y7Zmdzm0QPV+/05KvNA7W0WtAxxnYXqY2hRNEXBiqU7ozrfPz3Aqz/N7
-         PkL8LTG/tVdqjVEhvZ+GXI+FYacMdqH8jkAHjnpRncW+2NphZ6mG1qDF3bhkutUedhiN
-         vugw==
+        bh=43GOBP/H9DxdSQ7s07hm8GW5mk8Errz/UJkcXIpPVPg=;
+        b=CyM2x3ehHRbEKZmKIJOPUeiPr3OYsbChiXqTbZR/DPpI7QWreGfGF5GOjopKm8e3+n
+         /OJZ8OVbQTDBNWuQwI5QYcnFC4sdVJta+qobxKr/0vVpQ5lyy/d27hHkmOYBBwDWS6vs
+         tXJ1/PE2phOX7b39SKkYwvIoeMWyipdMei6W7iiJqaIjIXgN7CXqBH+QtyzXFkuMZ5l8
+         eg12lVwj4hLJ2cCiPsXc0eJutejjzd0IfakuT5vNMFcrHk7himItCOhGCT20k3DCSJUT
+         qiMURjuwczsRzwMWC29ThN4XLADfh1ar1eSnbnsAdnF0Zuh46jmPjIGR2v+RSzcuIjis
+         +uIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752844093; x=1753448893;
+        d=1e100.net; s=20230601; t=1752845376; x=1753450176;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pKd3GvcYF3gQCFm0OcSr9YY+9zf3UHvOPRoBWIJzi6M=;
-        b=CAJX5O9pYYgMNG8i16iUrtdgkQdL0AERsvS90EujjbDX8JxsJFn+9atIWJk+0oxixU
-         kmWrt/rlaq7LzrND7fmreHRj5Rlqjqoguc4HNUBU6RavR2xPR51Y28Y9wmeTi7sz0u1V
-         98tViBn2c+5XUbiC5Dx4EPDgcs68H2aYYf0TjDqF0LCYQCwURPDL1de28nXZNBW1WN7X
-         2jefeGAN6eeHgjrRnBgtiigGIfqiyao+/M5pQezcuiq0G854T06TfiWTJ0Saf8Jq8NxM
-         mnFh81HtU0/33VP1AvEZPd/vNX0sNWbDo/noqraCiRjTm3YeZHIEpz9wlj/QNmg3OIAD
-         1Q9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVf9ONzh59D6meNoEek/r1xHNB4oSBiTBFM0XmoYbbL4g9OnWMaAXpgsG2FXm5Nxfa9W9sstY+u+PJxiA0=@vger.kernel.org, AJvYcCWWWTv8mzdTcmmU2eWMfJNrI48EqeZ5Ap4eYK5jsHmwdA1jLpjGc48ltlyZ6YqAxae57d7HUNJXQFH55lo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHgrj2c6XVUn/ZsByabeNbXO0zU3Ei773tb69vme3NkMHQnL8x
-	hQZZZLR3pXF2JmMRruACtXGUWqJtqMaPT2bvI6NAGVKG8Qss3Z7Zd7MHjkb0En7OtmFbpA==
-X-Gm-Gg: ASbGncvYdQVs42MBqBlqEnK4OHtM81miTS7LVKsVBNaZU0G/T3McyLxOsnshOQKrXvD
-	548IW/KNAy57CmUlY9bMtTjmIGIvaoQ4Ff3BCADTMyTa+5QDelqqn+Ol1JSLNC7AA5rS2qMnj9j
-	NCBytpFPCe0sV8h6pveAlK60ctUEo5fPwWVytTri/4L4dbc1d2PyEdW6YcbF3TClnSrFfX6gHKj
-	q7i5X4TaIn5+hTe0czCDFNgiLB6lncLotGzatvhLz1D+GqokRBAXzUYzB+BDtvwOf0+v5KI72HV
-	46JZD7GZoiDltJGvBhumDJPjtCPkOfTG7a+5vn2Hr2cnrpcCsfRYeovkt5Jc/+k7ngrfbm5DvT+
-	N5Wn5IsEWOMCFlO4atGHQTs94y9qdmIqWXk3gbB2BNrWkCa6KGhdMedBl4jwrMmWUCIlqJog3JA
+        bh=43GOBP/H9DxdSQ7s07hm8GW5mk8Errz/UJkcXIpPVPg=;
+        b=beiZ+nRdqSf/8Ih/lEJp/DtcR/hNyPTSzE9zl1B6hSuGtgFCEVFurRxiimyGkSN87V
+         xqGMLLxs4+5U3EHvJsZeHDLV3gk6wajKV58iAdxJhtmVBadAuRb1Z0YKYk6FvxLDrfey
+         xcJlH/aC9a+rL4YYsMkjBXa3RaPqqi7+3jIrXbwZceBqVdN4C/7cO0V1KhhwuWNEnSkA
+         DEtAGm+xsnYvFfgSdiUXOrtAN6pUO+bM4+VE2Noib1n0ImpSxLOFF05CtG0f68mzRpsq
+         fXjUndvuaRMPzYVP4tS0rpqB8TTkupoDIqjilmA8DVfZRoOfa1NOoFZjlsG/mP49yor6
+         BZqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVEIJZmnpef++u2RgdqT5umz/Es2Sm0FIi7qYEDBFWWYiP+Sko381yIBlDWqXRYl/JbUupemLlKew22VAU=@vger.kernel.org, AJvYcCW2GBBArdH7RhLqet7pwhetLuLTU1QghDzJDSLQT7xPurOmDT/uWypZTSQHYSU4kDnS2wHNn6bHuInRW4I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywce0A1M1W1YPos04+Q0Nq/NwmPDQXgYjO5ruw0EmIljp6W/h83
+	uko+ihK5IgI/ShYqAL6gWaVN82nSqlY38h792oldUm2O38KriIDVxgJ8
+X-Gm-Gg: ASbGnctp7XgEaHbJNnNvIQT0qPZ7dIaa8xle/I+98CblauEryoqTxN0+cuwSizO2081
+	56uxQJwRyxiSdgeanBa9KUFQMtsV+Hnjp2e/Pvjuf+v1NLAy7+983zGZTAuFDV44fi8ei4XAyUL
+	qJQIp66jK5o120mtgaHBv0LUyPtiBdn4YaZtsSiz2FyyJHCRq8B0q7MJpG+EbN9DUmMaKe7zCF9
+	Yxq8jMyQ8Zu4OTFgT9yZ1eaj6KOOAX+BXRxzIrLNePAu7Fj908OQ1FI3NdinyyyEIbjv2bdtR5a
+	VMHhAuRw5pgeSs6DtJ/zynbi6qyPFvR65Yuuj6rdF2yviFE1WbkPu55t//IHTyGwcI16ZhSqwjI
+	DaB5Jgx/q56J1+dxOmwYCKc+KqbkNo3IGgg5MCMsiVN+RE3p784Bn4UmZKvkunVEqCpmqibTeOA
 	==
-X-Google-Smtp-Source: AGHT+IGsbO5kdgwYLDnOzUgEZqdvPKwh1sS8bHjGVzzPRV8MeKQtn3K5FzvMAFLMrUJDAdUvFor96A==
-X-Received: by 2002:a17:90b:5244:b0:312:db8:dbd2 with SMTP id 98e67ed59e1d1-31c9e75b9bcmr15887851a91.19.1752844093398;
-        Fri, 18 Jul 2025 06:08:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEXxtqwJ7/WCKe6hpmTwVqXwJmKGTfQMnbab1AEa2sLxKhDjYCk92WfWge749OlkwUzAGQ3ow==
+X-Received: by 2002:a17:902:ce81:b0:23c:7b9e:163e with SMTP id d9443c01a7336-23e25685233mr131078065ad.11.1752845376410;
+        Fri, 18 Jul 2025 06:29:36 -0700 (PDT)
 Received: from SIQOL-WIN-0002-DARSHAN.localdomain ([49.36.68.205])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31cc3e4566fsm1302031a91.1.2025.07.18.06.08.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6d239dsm13265945ad.155.2025.07.18.06.29.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 06:08:13 -0700 (PDT)
+        Fri, 18 Jul 2025 06:29:36 -0700 (PDT)
 From: Darshan Rathod <darshanrathod475@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Darshan Rathod <darshanrathod475@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dvb-core: dvb_ringbuffer: Fix various coding style issues
-Date: Fri, 18 Jul 2025 13:08:01 +0000
-Message-ID: <20250718130807.87691-1-darshanrathod475@gmail.com>
+Subject: [PATCH] media: dvb-core: dvb_demux: Fix assignments in if conditions
+Date: Fri, 18 Jul 2025 13:29:27 +0000
+Message-ID: <20250718132929.95115-1-darshanrathod475@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -88,131 +88,97 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The file dvb_ringbuffer.c has several minor coding style violations.
-This patch resolves these issues to improve code readability and align
-the code with the Linux kernel coding style.
+The code in dvb_demux.c has multiple instances where a variable is
+assigned a value inside the conditional part of an 'if' statement.
+This practice is prohibited by the Linux kernel coding style to avoid
+potential bugs arising from accidental assignments (e.g., '=' instead
+of '==').
 
-The cleanups include:
-- Adding spaces around assignment and comparison operators.
-- Adding spaces after commas in function arguments.
-- Placing statements on a new line for single-line 'if' blocks.
-- Correcting minor indentation.
+This patch refactors these instances by moving the assignment out of
+the 'if' statement and onto the preceding line. This makes the code
+clearer, safer, and compliant with checkpatch.pl.
 
-This is a purely stylistic change with no functional impact.
+Additionally, a minor whitespace issue in a function signature is also
+corrected. This is a purely stylistic change with no functional impact.
 
 Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
 ---
- drivers/media/dvb-core/dvb_ringbuffer.c | 35 ++++++++++++++-----------
- 1 file changed, 20 insertions(+), 15 deletions(-)
+ drivers/media/dvb-core/dvb_demux.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c b/drivers/media/dvb-core/dvb_ringbuffer.c
-index 7d4558de8e83..ecb6f11abc24 100644
---- a/drivers/media/dvb-core/dvb_ringbuffer.c
-+++ b/drivers/media/dvb-core/dvb_ringbuffer.c
-@@ -37,10 +37,10 @@
- 
- void dvb_ringbuffer_init(struct dvb_ringbuffer *rbuf, void *data, size_t len)
- {
--	rbuf->pread=rbuf->pwrite=0;
--	rbuf->data=data;
--	rbuf->size=len;
--	rbuf->error=0;
-+	rbuf->pread = rbuf->pwrite = 0;
-+	rbuf->data = data;
-+	rbuf->size = len;
-+	rbuf->error = 0;
- 
- 	init_waitqueue_head(&rbuf->queue);
- 
-@@ -235,7 +235,7 @@ ssize_t dvb_ringbuffer_write_user(struct dvb_ringbuffer *rbuf,
- 	return len;
- }
- 
--ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8* buf, size_t len)
-+ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8 *buf, size_t len)
- {
- 	int status;
- 	ssize_t oldpwrite = rbuf->pwrite;
-@@ -245,7 +245,8 @@ ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8* buf, size_t le
- 	DVB_RINGBUFFER_WRITE_BYTE(rbuf, PKT_READY);
- 	status = dvb_ringbuffer_write(rbuf, buf, len);
- 
--	if (status < 0) rbuf->pwrite = oldpwrite;
-+	if (status < 0)
-+		rbuf->pwrite = oldpwrite;
- 	return status;
- }
- 
-@@ -258,8 +259,10 @@ ssize_t dvb_ringbuffer_pkt_read_user(struct dvb_ringbuffer *rbuf, size_t idx,
- 
- 	pktlen = rbuf->data[idx] << 8;
- 	pktlen |= rbuf->data[(idx + 1) % rbuf->size];
--	if (offset > pktlen) return -EINVAL;
--	if ((offset + len) > pktlen) len = pktlen - offset;
-+	if (offset > pktlen)
-+		return -EINVAL;
-+	if ((offset + len) > pktlen)
-+		len = pktlen - offset;
- 
- 	idx = (idx + DVB_RINGBUFFER_PKTHDRSIZE + offset) % rbuf->size;
- 	todo = len;
-@@ -278,7 +281,7 @@ ssize_t dvb_ringbuffer_pkt_read_user(struct dvb_ringbuffer *rbuf, size_t idx,
- }
- 
- ssize_t dvb_ringbuffer_pkt_read(struct dvb_ringbuffer *rbuf, size_t idx,
--				int offset, u8* buf, size_t len)
-+				int offset, u8 *buf, size_t len)
- {
- 	size_t todo;
- 	size_t split;
-@@ -286,8 +289,10 @@ ssize_t dvb_ringbuffer_pkt_read(struct dvb_ringbuffer *rbuf, size_t idx,
- 
- 	pktlen = rbuf->data[idx] << 8;
- 	pktlen |= rbuf->data[(idx + 1) % rbuf->size];
--	if (offset > pktlen) return -EINVAL;
--	if ((offset + len) > pktlen) len = pktlen - offset;
-+	if (offset > pktlen)
-+		return -EINVAL;
-+	if ((offset + len) > pktlen)
-+		len = pktlen - offset;
- 
- 	idx = (idx + DVB_RINGBUFFER_PKTHDRSIZE + offset) % rbuf->size;
- 	todo = len;
-@@ -309,7 +314,7 @@ void dvb_ringbuffer_pkt_dispose(struct dvb_ringbuffer *rbuf, size_t idx)
- 	rbuf->data[(idx + 2) % rbuf->size] = PKT_DISPOSED;
- 
- 	// clean up disposed packets
--	while(dvb_ringbuffer_avail(rbuf) > DVB_RINGBUFFER_PKTHDRSIZE) {
-+	while (dvb_ringbuffer_avail(rbuf) > DVB_RINGBUFFER_PKTHDRSIZE) {
- 		if (DVB_RINGBUFFER_PEEK(rbuf, 2) == PKT_DISPOSED) {
- 			pktlen = DVB_RINGBUFFER_PEEK(rbuf, 0) << 8;
- 			pktlen |= DVB_RINGBUFFER_PEEK(rbuf, 1);
-@@ -321,14 +326,14 @@ void dvb_ringbuffer_pkt_dispose(struct dvb_ringbuffer *rbuf, size_t idx)
+diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
+index 7c4d86bfdd6c..c93a3110a05d 100644
+--- a/drivers/media/dvb-core/dvb_demux.c
++++ b/drivers/media/dvb-core/dvb_demux.c
+@@ -744,7 +744,8 @@ static int dmx_ts_feed_start_filtering(struct dmx_ts_feed *ts_feed)
+ 		return -ENODEV;
  	}
+ 
+-	if ((ret = demux->start_feed(feed)) < 0) {
++	ret = demux->start_feed(feed);
++	if (ret < 0) {
+ 		mutex_unlock(&demux->mutex);
+ 		return ret;
+ 	}
+@@ -797,7 +798,8 @@ static int dvbdmx_allocate_ts_feed(struct dmx_demux *dmx,
+ 	if (mutex_lock_interruptible(&demux->mutex))
+ 		return -ERESTARTSYS;
+ 
+-	if (!(feed = dvb_dmx_feed_alloc(demux))) {
++	feed = dvb_dmx_feed_alloc(demux);
++	if (!feed) {
+ 		mutex_unlock(&demux->mutex);
+ 		return -EBUSY;
+ 	}
+@@ -817,7 +819,8 @@ static int dvbdmx_allocate_ts_feed(struct dmx_demux *dmx,
+ 	(*ts_feed)->stop_filtering = dmx_ts_feed_stop_filtering;
+ 	(*ts_feed)->set = dmx_ts_feed_set;
+ 
+-	if (!(feed->filter = dvb_dmx_filter_alloc(demux))) {
++	feed->filter = dvb_dmx_filter_alloc(demux);
++	if (!feed->filter) {
+ 		feed->state = DMX_STATE_FREE;
+ 		mutex_unlock(&demux->mutex);
+ 		return -EBUSY;
+@@ -923,7 +926,8 @@ static void prepare_secfilters(struct dvb_demux_feed *dvbdmxfeed)
+ 	struct dmx_section_filter *sf;
+ 	u8 mask, mode, doneq;
+ 
+-	if (!(f = dvbdmxfeed->filter))
++	f =  dvbdmxfeed->filter;
++	if (!f)
+ 		return;
+ 	do {
+ 		sf = &f->filter;
+@@ -970,7 +974,8 @@ static int dmx_section_feed_start_filtering(struct dmx_section_feed *feed)
+ 
+ 	prepare_secfilters(dvbdmxfeed);
+ 
+-	if ((ret = dvbdmx->start_feed(dvbdmxfeed)) < 0) {
++	ret = dvbdmx->start_feed(dvbdmxfeed);
++	if (ret < 0) {
+ 		mutex_unlock(&dvbdmx->mutex);
+ 		return ret;
+ 	}
+@@ -1057,7 +1062,8 @@ static int dvbdmx_allocate_section_feed(struct dmx_demux *demux,
+ 	if (mutex_lock_interruptible(&dvbdmx->mutex))
+ 		return -ERESTARTSYS;
+ 
+-	if (!(dvbdmxfeed = dvb_dmx_feed_alloc(dvbdmx))) {
++	dvbdmxfeed = dvb_dmx_feed_alloc(dvbdmx);
++	if (!dvbdmxfeed) {
+ 		mutex_unlock(&dvbdmx->mutex);
+ 		return -EBUSY;
+ 	}
+@@ -1223,7 +1229,7 @@ static int dvbdmx_disconnect_frontend(struct dmx_demux *demux)
+ 	return 0;
  }
  
--ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t* pktlen)
-+ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t *pktlen)
+-static int dvbdmx_get_pes_pids(struct dmx_demux *demux, u16 * pids)
++static int dvbdmx_get_pes_pids(struct dmx_demux *demux, u16 *pids)
  {
- 	int consumed;
- 	int curpktlen;
- 	int curpktstatus;
+ 	struct dvb_demux *dvbdemux = (struct dvb_demux *)demux;
  
- 	if (idx == -1) {
--	       idx = rbuf->pread;
-+		idx = rbuf->pread;
- 	} else {
- 		curpktlen = rbuf->data[idx] << 8;
- 		curpktlen |= rbuf->data[(idx + 1) % rbuf->size];
-@@ -339,7 +344,7 @@ ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t*
- 	if (consumed < 0)
- 		consumed += rbuf->size;
- 
--	while((dvb_ringbuffer_avail(rbuf) - consumed) > DVB_RINGBUFFER_PKTHDRSIZE) {
-+	while ((dvb_ringbuffer_avail(rbuf) - consumed) > DVB_RINGBUFFER_PKTHDRSIZE) {
- 
- 		curpktlen = rbuf->data[idx] << 8;
- 		curpktlen |= rbuf->data[(idx + 1) % rbuf->size];
 -- 
 2.43.0
 
