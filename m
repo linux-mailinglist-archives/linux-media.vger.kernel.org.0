@@ -1,145 +1,137 @@
-Return-Path: <linux-media+bounces-38044-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38045-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B02DB09AED
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 07:24:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 336EEB09B4C
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 08:25:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3569B7BA04C
-	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 05:22:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB43E1C221FE
+	for <lists+linux-media@lfdr.de>; Fri, 18 Jul 2025 06:25:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 804771EF092;
-	Fri, 18 Jul 2025 05:23:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8BD51F584C;
+	Fri, 18 Jul 2025 06:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dQ5qYben"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmS/Pgw3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615791DF73C;
-	Fri, 18 Jul 2025 05:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFE819E97C;
+	Fri, 18 Jul 2025 06:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752816213; cv=none; b=ZdO4lnUH+ZMdTON34TZ2+SwCVE7rH+PrbgcUqmhBZ17qt74xB+irZvkqRsT6wLCuA4DrvgCtEr8S/vt0nwzPQjCZVckFkQZrJgDFFmJYAmaYFbWc0yobn0uQnmgvrsydM6ttewX4lKvyKJW+ZKywHEv1PKj8rGreTZvJL4ivBH4=
+	t=1752819896; cv=none; b=YTdXyVYGyqREfnswSIjeg+zfJUyWeesPrud+YzR5CSae6BnwG/pzPlJnz2aJ2ArwgPl4EvcFInnPoZy3DwtN7Tf5enw3T7+SDiIv5xZuUhp/piOAFMHBvjplJKnPJPuqNUvTraWIBfljAU71QY9EKQH64LiNqePWy52MfSxhEqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752816213; c=relaxed/simple;
-	bh=BQJ7u5QzwImJwqXT1jKBzsgWbTNy67I2QOWlDIjq+GQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e9o1byP8mn+zQngjACqZF7t+bcTGQiv+Xx6x/d4OnFnebKD20k1an6hVYm5A8icpBizNvBUAPW6KWgY1lj54FVwREn3YmICEK5leQeFU0Y0AGfXiTi9EWgtuSRZWvsX4k/RIA+1Sa+NgHrSqrODCOC4+TekTvTWHIa2jek1001Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dQ5qYben; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752816212; x=1784352212;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BQJ7u5QzwImJwqXT1jKBzsgWbTNy67I2QOWlDIjq+GQ=;
-  b=dQ5qYbenGiB81zq0u6H0EG2JQ2eTXVyZLykZUSjvcmv5G/xTiHJeOx6+
-   raByJuc3upHniQDAe+FGUdtcO7pSp4aP6y0ADlNXX9M7rrSHOX4TwZjoG
-   d8id4sN8lysDVFBZWaD4Aps2lB8/bXE6lSXv5uDtLOzS4hVnWqq2Cy6SD
-   KU+9RbhDC7ws854DFwivmrrCorniF3NdmzrnSG4TINxUxSU7siPu9lnF6
-   btthKKAh3Qm8QZRyaxOg5QGW+QXumGvQ7K0COsOpD+PwRkY/N7PhQNPio
-   CDq2L9nkRh6RVGQ+bGWtdaqhPXd6Uyx8pqjfUD+Idgz8vl7VNQuf4sGJL
-   g==;
-X-CSE-ConnectionGUID: FtRlry1VTz2qMDNmRx5WLA==
-X-CSE-MsgGUID: vxs/7M43QJqyZv6Z6rD86w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="66553136"
-X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="66553136"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 22:23:29 -0700
-X-CSE-ConnectionGUID: 9YZ4ahgLSm6fv/JuvQz3FA==
-X-CSE-MsgGUID: 1ennyicLQFSBDdJbAUwcQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="158087118"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Jul 2025 22:23:23 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ucdZ2-000EKN-0K;
-	Fri, 18 Jul 2025 05:23:20 +0000
-Date: Fri, 18 Jul 2025 13:23:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cosmin Tanislav <demonsingur@gmail.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Julien Massot <julien.massot@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v6 20/24] media: i2c: maxim-serdes: add MAX9296A driver
-Message-ID: <202507181514.fwoTNxka-lkp@intel.com>
-References: <20250716193111.942217-21-demonsingur@gmail.com>
+	s=arc-20240116; t=1752819896; c=relaxed/simple;
+	bh=/6SI6szoF3CsGljSC+x/Od/jrVrb9u3jgQriXy1GQ4Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K0XuKcOrlmLj3zIZafckZa8AeooMbsuFIw+Ax+0TpMK7WcZbsH/RhEjwBwSbU0Ry0PfMo/cT0DUtI2qV0pRmZTQ/NOwe8KvnPPGCLoV/0uYoGIqQHgOcLQ92mnNCHkWfcQ9JQWkB8YinMAKT/XWucWqzTb8LA8rHE6PxskqCPVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmS/Pgw3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADB36C4CEED;
+	Fri, 18 Jul 2025 06:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752819894;
+	bh=/6SI6szoF3CsGljSC+x/Od/jrVrb9u3jgQriXy1GQ4Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cmS/Pgw3Cncuu/dXYOR0f4Br7nLz5HpxqvaBHkztfP0SLRSLbzjhjbd7RWbWroqXk
+	 Hw8eh91BGDBoDdh7T1g5zC1U1p9mZCdPc//x/45lDExqgBzr4WUXYOocdPRWKOSC9g
+	 fVIWrvBIzXJydXPP/CrQ2mq6xt46eASv5itkzvF0Bcg9GoRwHLYHJSebRIrmP7ZjxS
+	 svb57+L2jcHfgmc/f2UG52odPCWT3FcSSskwbor1U1n7adN9YU2UWv7BQumOTbZylE
+	 COFYSzZDpNV3lr4t/IWIWucKwcQ9qlo/b7JwDHRpY2RWjJRmjNChk6utWR0o/0yBvw
+	 LBnaWd9JJX6kw==
+Message-ID: <c1bfe8cf-580b-4fd6-a4b9-c457fada5821@kernel.org>
+Date: Fri, 18 Jul 2025 08:24:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250716193111.942217-21-demonsingur@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: i2c: Add Sony IMX355
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Robert Mader <robert.mader@collabora.com>
+References: <20250714210227.714841-6-mailingradian@gmail.com>
+ <20250714210227.714841-7-mailingradian@gmail.com>
+ <20250715-quick-misty-rottweiler-9ae7f7@krzk-bin> <aHlwTEdPGq43PGqo@radian>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aHlwTEdPGq43PGqo@radian>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Cosmin,
+On 17/07/2025 23:51, Richard Acayan wrote:
+> On Tue, Jul 15, 2025 at 10:27:54AM +0200, Krzysztof Kozlowski wrote:
+>> On Mon, Jul 14, 2025 at 05:02:29PM -0400, Richard Acayan wrote:
+> (snip)
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - clocks
+>>
+>> Still missing supplies. Hardware cannot operate without power. Please
+>> check your datasheet which will describe which supplies are optional.
+> 
+> Maybe I shouldn't have pretended to have docs when changing the
+> supply names, but I don't know which ones are optional.
+> 
+> I'd assume at least dovdd/VIO is required.
 
-kernel test robot noticed the following build warnings:
+Then all of them are usually required.
 
-[auto build test WARNING on next-20250716]
-[also build test WARNING on v6.16-rc6]
-[cannot apply to robh/for-next staging/staging-testing staging/staging-next staging/staging-linus arm64/for-next/core linus/master v6.16-rc6 v6.16-rc5 v6.16-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/media-mc-Add-INTERNAL-pad-flag/20250717-033901
-base:   next-20250716
-patch link:    https://lore.kernel.org/r/20250716193111.942217-21-demonsingur%40gmail.com
-patch subject: [PATCH v6 20/24] media: i2c: maxim-serdes: add MAX9296A driver
-config: i386-randconfig-063-20250718 (https://download.01.org/0day-ci/archive/20250718/202507181514.fwoTNxka-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181514.fwoTNxka-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507181514.fwoTNxka-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/maxim-serdes/max9296a.c:1205:27: sparse: sparse: symbol 'max96714_rlms_reg_sequence' was not declared. Should it be static?
-
-vim +/max96714_rlms_reg_sequence +1205 drivers/media/i2c/maxim-serdes/max9296a.c
-
-  1199	
-  1200	/*
-  1201	 * These register writes are described as required in MAX96714 datasheet
-  1202	 * Page 53, Section Register Map, to optimize link performance in 6Gbps
-  1203	 * and 3Gbps links for all cable lengths.
-  1204	 */
-> 1205	const struct reg_sequence max96714_rlms_reg_sequence[] = {
-  1206		{ MAX9296A_RLMS3E(0), 0xfd },
-  1207		{ MAX9296A_RLMS3F(0), 0x3d },
-  1208		{ MAX9296A_RLMS49(0), 0xf5 },
-  1209		{ MAX9296A_RLMS7E(0), 0xa8 },
-  1210		{ MAX9296A_RLMS7F(0), 0x68 },
-  1211		{ MAX9296A_RLMSA3(0), 0x30 },
-  1212		{ MAX9296A_RLMSA5(0), 0x70 },
-  1213		{ MAX9296A_RLMSD8(0), 0x07 },
-  1214	};
-  1215	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
 
