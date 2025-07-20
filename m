@@ -1,48 +1,55 @@
-Return-Path: <linux-media+bounces-38115-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38116-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C63CB0B490
-	for <lists+linux-media@lfdr.de>; Sun, 20 Jul 2025 11:22:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDEBB0B4FE
+	for <lists+linux-media@lfdr.de>; Sun, 20 Jul 2025 12:48:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9E1617B3DD
-	for <lists+linux-media@lfdr.de>; Sun, 20 Jul 2025 09:22:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83C013A9055
+	for <lists+linux-media@lfdr.de>; Sun, 20 Jul 2025 10:48:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D4071DE8A4;
-	Sun, 20 Jul 2025 09:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AB9A1F3FEC;
+	Sun, 20 Jul 2025 10:48:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0223asZ"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="HFkg5/qW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE491C3C11
-	for <linux-media@vger.kernel.org>; Sun, 20 Jul 2025 09:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB112A930;
+	Sun, 20 Jul 2025 10:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753003340; cv=none; b=elxl/eICu7DMdgZETfneva4/h4omGTGpQp+SCMwYiquBZojazaaeX5bV+LQwgeSTkKpV516cDvXD3mr6UD4vK+19VVvkolAozVmTCMTXmufsdhgODc1nlScf3l6f0R1RmM2TwqHKP1712SbkDN5ctQh87ltRrLB2SAyItE6sxis=
+	t=1753008528; cv=none; b=Uie7xdpPHBkwqxJ81y8HXT1EGYie4MmJIGaS2Nj5Uur4/UwUoWI93Axt6Wz2Kdq/Qnt1qpC6IOhr+jwCn6SkAQnF/7RNh61gju909Wpoe4HJ64FtuWn4nlp5eFLdk0hysXO4I738TRFDfgLPzmayPIbOfwXM2wckQnzkU9dtnQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753003340; c=relaxed/simple;
-	bh=Ysjx91NUoJWU5Etl0T0LPFyPCfb3I6G/fUP5bKwkCyU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=UktFSaMX+eevI5lpGgWxlOtVAeo5d9sMC5LARQ+o8pXprNOLRrQcGwIzaJ4+6m36zLpMyxq8d38USzNt++5lEF11lH3fOUQUZTlIYpU0xLVN6+so1vEoe0l3Mu3OMhP53R9jo+Gy2bROsJnSTmNdvqf9kxw+25XZxDYNmrFTJhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0223asZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA0D0C4CEE7;
-	Sun, 20 Jul 2025 09:22:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753003338;
-	bh=Ysjx91NUoJWU5Etl0T0LPFyPCfb3I6G/fUP5bKwkCyU=;
-	h=Date:From:Subject:To:References:In-Reply-To:From;
-	b=U0223asZzhIFp9+zqpJoNRiFHVTBbRKlzNUFHiPU+u0sKWZ3cllcYsjssZjRDU0xj
-	 9of2V60Mkz6mFPNQCrrvo5udXVm+//d508BVbWtyockfIQlUJ///1m4NWRno2wdjly
-	 Ql08JpfFNtPD4LX3Njaquh2IpKeT/Nn38PYCALE944pPX4oqdhPE4K5Fi4Rkwnfsz/
-	 WVNfC10w7nzuYa7Stl/oz8ZquQSuhKdIqxH0CuG4EiMNcIfMSvbUPU1Q1m9HqSJK/k
-	 i+0Z81VXivTIUq7LSJkSVFzm3eldDvoOw39t3IIIkLsGaW6eSt/sxJRwCdYtaJ5g2g
-	 E0BR3ZEFohhjg==
-Message-ID: <64c36427-0c1f-49c9-85e2-8c803e804d70@kernel.org>
-Date: Sun, 20 Jul 2025 11:22:15 +0200
+	s=arc-20240116; t=1753008528; c=relaxed/simple;
+	bh=3vf6kLA2FGDKCKK64SJlqLN+i7DHzQVm4J7Oh8QNNJA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=XzueTCqW/zKdBNimwVQ30iJ5+xUYWk8MOyANZQYSCGHgfDJi4DnmeW5PTGKZ+eyFhmS0RLS3CE1TIK0M3Q/9VTjVXbDaaXA0EvXqabD/ZV4KaxOsZWHQeoBLMvueggXVFoqwqlfQBS2kQ4h0iE+IwFhcZFmNZid5qWjDvxXciUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=HFkg5/qW; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1753008517; x=1753613317; i=markus.elfring@web.de;
+	bh=aA5timwUCm5Xwh0XYd8SGw5OVrVpvS3KNBI5CZ1yDtM=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=HFkg5/qW/3xtT8oWfn+S7fUf3uaC4ntTUkZOzQxp61ldNyRdMsT2Ms8AUYhlOr99
+	 TW0qf0ak9YL1o6Gi/+9DD0oOWVYNEiFeyscutXryAp94O41sOcSMhLvNmcJFAO4bp
+	 WsVNIjtQ18NGa9CMG7qTj4RqRe52tjYAjKIaI9cE56zmnRWtxSM/1UtczJyeBrnbP
+	 arERe3MaRWy8b8FNIHF+kIwQ6xdmcqXgwJJJ8wgM+ZNqHbaUYQEvMP0d8H7brU3/v
+	 rtwplJa8MpvxR3qwjM0oDttLaBYxJr4MQQhB816LD/R0H7XETt4zYAaQdKglj4N9W
+	 WrX6v/W3OndID03New==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.216]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MV2OY-1uCT5v29UE-00NTYy; Sun, 20
+ Jul 2025 12:48:37 +0200
+Message-ID: <54d3ec28-0e6c-4e9b-bd93-966efe649054@web.de>
+Date: Sun, 20 Jul 2025 12:48:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,134 +57,126 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: media: cec: extron-da-hd-4k-plus: drop external-module make
- commands
-To: Randy Dunlap <rdunlap@infradead.org>, linux-media@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede <hansg@kernel.org>
-References: <20250719005942.2769713-1-rdunlap@infradead.org>
- <687afeed.050a0220.3aa8f2.1836@mx.google.com>
- <f31f468a-7708-4359-bfa2-31b16c159429@infradead.org>
-Content-Language: en-US, nl
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-In-Reply-To: <f31f468a-7708-4359-bfa2-31b16c159429@infradead.org>
+To: Darshan Rathod <darshanrathod475@gmail.com>, linux-media@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20250718145149.3180-1-darshanrathod475@gmail.com>
+Subject: Re: [PATCH v2] media: b2c2: flexcop-eeprom: Fix assignment and
+ missing return in MAC check
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250718145149.3180-1-darshanrathod475@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:gtcbqYfaaWCTDJOv9Px9qJjvqAV6mJsPDNBKe6xrSL5ayp4NaKd
+ S+Q2Z5Om4nPweguDx7kzATV6lboPC7s4Mwei/bnOEsuQfjivh9VM9hpoj4/Xud1iX4Rm/g2
+ Jm+uOXZacXyDH81FJqS1OpRKTLYcbpYhIaeFlGh8YvxyYXgxfB9YrSjOW6jjfN+0GxC0HyQ
+ MM0tfyxYjr5IjB9Sw/oOA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ir+6XlBGFXk=;sbcn3KS1fbl9c20Fvph9Eil/dLN
+ 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
+ PmEN8=
 
-On 19/07/2025 22:38, Randy Dunlap wrote:
-> Hi,
-> 
-> On 7/18/25 7:11 PM, Patchwork Integration wrote:
->> Dear Randy Dunlap:
->>
->> Thanks for your patches! Unfortunately the Media CI robot detected some
->> issues:
->>
->> # Test media-patchstyle:./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch media style
->> ERROR: Commit 056f2821b631df2b94d3b017fd1e1eef918ed98d found in the stable tree, but stable@vger.kernel.org not in Cc:
-> 
-> OK, will add that.
-> 
->> ERROR: ./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch: Don't Cc hverkuil (Cc: Hans Verkuil <hverkuil@kernel.org>
->> Cc: Hans Verkuil <hverkuil@xs4all.nl>)
->> ERROR: ./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch: Don't Cc mchehab (Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>)
->> ERROR: ./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch: Don't Cc linux-media (Cc: linux-media@vger.kernel.org)
-> 
-> Why these complaints? In Docmentation/driver-api/media/maintainer-entry-profile.html
-> I see:
-> 
->   Patches for the media subsystem must be sent to the media mailing list
->   at linux-media@vger.kernel.org as plain text only e-mail. Emails with
->   HTML will be automatically rejected by the mail server. It could be wise
->   to also copy the sub-maintainer(s).
-> 
-> OK, so according to this, I can Cc: (or should that be To: ?)
-> hverkuil@kernel.org and drop the copy to hverkuil@xs4all.nl.
-> Is that correct? Should I send a copy to Hans or not?
-> It's unclear (conflicting advice).
-> 
-> And I can drop Mauro's email address since the delegated sub-maintainer
-> can take care of it.
+> Fixes a coding style violation and build error in
+> `flexcop_eeprom_check_mac_addr()`.
 
-You can CC us in the mail header, but adding Cc: tags for the mailinglist and the media maintainers
-is overkill. Calling it an ERROR is probably over the top as well, it's more a warning. We're
-still fine-tuning those automatic messages.
+Will it be more desirable to separate some adjustments?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.16-rc6#n81
 
-In any case, thank you for the patch, I think it accidentally ended up in the Makefile because
-for quite some time this driver was carried out-of-tree and I forgot to delete it when I
-mainlined it.
+
+
+>                                    The function contained
+> an invalid assignment in an if-condition and was missing
+> a return at the end of a non-void function.
+
+I find this information inappropriate.
+
+
+=E2=80=A6
+> ---
+>  drivers/media/common/b2c2/flexcop-eeprom.c | 15 +++++++++------
+=E2=80=A6
+
+How do you think about to improve your version management?
+https://lore.kernel.org/all/?q=3D%22This+looks+like+a+new+version+of+a+pre=
+viously+submitted+patch%22
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.16-rc6#n784
+
+
+=E2=80=A6
+> @@ -135,12 +135,15 @@ int flexcop_eeprom_check_mac_addr(struct flexcop_d=
+evice *fc, int extended)
+>  	u8 buf[8];
+>  	int ret =3D 0;
+> =20
+> -	if ((ret =3D flexcop_eeprom_lrc_read(fc,0x3f8,buf,8,4)) =3D=3D 0) {
+> +	ret =3D flexcop_eeprom_lrc_read(fc, 0x3f8, buf, 8, 4);
+> +
+> +	if (ret =3D=3D 0) {
+
+Would you like to use the following code variant?
+
+	int ret =3D flexcop_eeprom_lrc_read(fc, 0x3f8, buf, 8, 4);
+
+
+=E2=80=A6
+> +			ret =3D ret =3D -EINVAL;
+=E2=80=A6
+
+Why do you present a duplicate assignment for this variable?
 
 Regards,
-
-	Hans
-
-> 
-> Thanks for guidance.
-> 
->>
->>
->>
->> Please fix your series, and upload a new version. If you have a patchwork
->> account, do not forget to mark the current series as Superseded.
->>
->> For more details, check the full report at:
->> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/80828975/artifacts/report.htm .
->>
->>
->>
->> Best regards, and Happy Hacking!
->> Media CI robot on behalf of the linux-media community.
->>
->> ---
->> Check the latest rules for contributing your patches at:
->> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
->>
->> If you believe that the CI is wrong, kindly open an issue at
->> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
->> to this message.
->>
-> 
-
+Markus
 
