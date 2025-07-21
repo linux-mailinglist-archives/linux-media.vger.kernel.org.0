@@ -1,115 +1,128 @@
-Return-Path: <linux-media+bounces-38186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38179-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82850B0C840
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 17:56:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0189AB0C792
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 17:28:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 602931C2178B
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 15:56:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53B664E5E1C
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 15:28:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 191212DEA79;
-	Mon, 21 Jul 2025 15:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 012082DECCD;
+	Mon, 21 Jul 2025 15:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="N7F21LPI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfF8+kyK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397221F463A;
-	Mon, 21 Jul 2025 15:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658562DEA6E
+	for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 15:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753113311; cv=none; b=KgkPPTdxv/QPjJrcB/t6fbIYFo6kcNbiROfC8963D9m+Gq6Cu2xRrRwKiDr1Rdh712/FAs86sfYY5062mGijb/2+rHR6sXk395BAveYtNX7DBkqBlxf3eSKdsC6EdY/ht0DevQJ6gEZwFdF6FkCQxD2mx4DxIxhqxOJ4e2zIMxM=
+	t=1753111704; cv=none; b=NyctiChZFVs+dsztmQ/l9lVINgbGN1HOQKfcROn5Hga7ezTa74JMQbW6qNw0eNwRTqKdJYOKUwpGXR3ioGe4wliLLbehXiaEgjtJ4HbGFSj2VpVks3MronOOnxW0n6FUxlKAu1j2RZCwtiPkKd13qEvbAC6e8IxADjIMfJorhNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753113311; c=relaxed/simple;
-	bh=N1dy7xoxRKl1sQ1tb4Ipkebpw3UhPsQ6Fu34IdYEgOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MR4RwdQ1g7KPdqbNqQSmE1CdwyJY3XMe6qeUXOYQz3Qf54u+O3uG6JjDTn9CLGNphLb1akLJa+AEKSosW9x8ToXa2qs/CEwqY0XtObbNJvhK1BY19PhtSwkBwhB1we3bQWyzVEDFqbJVytslxAzXlyZ1TuQ37SmEGZmxasLJSyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=N7F21LPI; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=N1dy7xoxRKl1sQ1tb4Ipkebpw3UhPsQ6Fu34IdYEgOA=; b=N7F21LPIdchD8+2O9CRvE6O6lI
-	gX1sGnojJnysvzXKgRZSVl3qksY/yK/9djn9/YWNxOIWo7kFQbymnEjUusxPGd1xxRZxoe4sKglj0
-	h5Dh1ridpadW6MvtjkAbPCgYeYBiRCxw1Sg96MnfuX+/9+opxxxztm6oYj0PzZmb1sgUJ4KI2NSYg
-	3BVv4bX1JAQbphTSLHK+Me/8AOwc2onF5MjEXKI8VCbzpWtbhsMOvO5HiV0lI01ilo91r6z1ubpOv
-	+Zu5Ulx51fV7sPn3ctWr48CQG/p3JV46sJ2rUHDQ9QNCIY9gs1FwB6HfVy+QTbCfCw1igvlrNNkf5
-	K4zSFjWA==;
-Received: from i53875b2e.versanet.de ([83.135.91.46] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1udsND-00047Z-91; Mon, 21 Jul 2025 17:24:15 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v9 00/10] New DRM accel driver for Rockchip's RKNN NPU
-Date: Mon, 21 Jul 2025 17:24:13 +0200
-Message-ID: <4109088.mvXUDI8C0e@diego>
-In-Reply-To: <b48c6694-2bd1-44d0-9dd1-1b7a67e22d87@oss.qualcomm.com>
-References:
- <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
- <b48c6694-2bd1-44d0-9dd1-1b7a67e22d87@oss.qualcomm.com>
+	s=arc-20240116; t=1753111704; c=relaxed/simple;
+	bh=5pdlCYbTRFB5GZowN9Ue6gpiMloaBIIy88I1q6ncfXE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LdpecpevGHJ5c5bvVZAuafewAlvHh5qHsNnQZzWFtdaL9mUyZ/z/jlP9b9jHkdgGHHqbko6HuvKrQq9ifCqWg+HoQV9gXwieFoPGHFXVMW6kQmVQhlSDakfjdXmcEsO5r/RL3QhrICEgWa+2YdNdlVoyuyKPlA+2fUsjtmUOwxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfF8+kyK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4246CC4CEED;
+	Mon, 21 Jul 2025 15:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753111703;
+	bh=5pdlCYbTRFB5GZowN9Ue6gpiMloaBIIy88I1q6ncfXE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IfF8+kyKQBTX/Dgc5G0GkXQA5F1f1sB87fYCB97QXF/qjsNN8L010/rBy8RhnSteD
+	 O+IaRoIR1ZeqC8c8JQS2exNfwCFq1V9N5yqls+Eh1Aqm2df6ySl2tuf7uZi6ywgc79
+	 xWQn6lz3QkiQ9oFKcVOXDf7RHWqwbiiotfnOJGsdR+M6EMvRJ751FuqO5OnRCoZ+HO
+	 MkLB/6clZEtzvkLFPwt1zS8NEo7DsYCTcnmF6N/0FsykSEROulbg+7wwcCdyVKKH27
+	 Fe1d3OJWdgsqqniu3ZbNoy/z5AL0bJzCn62w86v1c5dBYCXB/15uQrq/enzQNujhkm
+	 foNvHaIpy9exw==
+Message-ID: <2032a1a5-c162-4e3f-acbf-58e57fbd772f@kernel.org>
+Date: Mon, 21 Jul 2025 17:28:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: uvcvideo: Drop unneeded memset() in meta
+ device ioctl handlers
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Ricardo Ribalda <ribalda@chromium.org>
+References: <20250715185254.6592-1-laurent.pinchart@ideasonboard.com>
+ <20250715185254.6592-2-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250715185254.6592-2-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jeff,
+Hi,
 
-Am Montag, 21. Juli 2025, 16:55:01 Mitteleurop=C3=A4ische Sommerzeit schrie=
-b Jeff Hugo:
-> On 7/21/2025 3:17 AM, Tomeu Vizoso wrote:
-> > This series adds a new driver for the NPU that Rockchip includes in its
-> > newer SoCs, developed by them on the NVDLA base.
-> >=20
-> > In its current form, it supports the specific NPU in the RK3588 SoC.
-> >=20
-> > The userspace driver is part of Mesa and an initial draft can be found =
-at:
-> >=20
-> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
-> >=20
-> > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
->=20
-> This (and the userspace component) appear ready for merge from what I=20
-> can tell. Tomeu is still working on his drm-misc access so I've offered=20
-> to merge on his behalf. Planning on waiting until Friday for any final=20
-> feedback to come in before doing so.
+On 15-Jul-25 8:52 PM, Laurent Pinchart wrote:
+> The .vidioc_g_fmt_meta_cap() and .vidioc_enum_fmt_meta_cap() ioctl
+> handlers for meta capture devices memset the ioctl argument structure to
+> zero. This is unnecessary as the memory is already zeroed by the V4L2
+> ioctl core. Drop the memset(), which, in uvc_meta_v4l2_enum_formats(),
+> also allows further simplification as structure fields don't need to be
+> saved and restored.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-sounds great.
+Thanks, patch looks good to me:
 
-Just to make sure, you're planning to merge patches 1-6 (driver + binding)
-into drm-misc and I'll pick up the "arm64: dts: " patches 7-10 afterwards?
+Reviewed-by: Hans de Goede <hansg@kernel.org>
 
-Heiko
+Regards,
 
+Hans
+
+
+
+> ---
+>  drivers/media/usb/uvc/uvc_metadata.c | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+> index 229e08ff323e..b68bfb2d47df 100644
+> --- a/drivers/media/usb/uvc/uvc_metadata.c
+> +++ b/drivers/media/usb/uvc/uvc_metadata.c
+> @@ -49,8 +49,6 @@ static int uvc_meta_v4l2_get_format(struct file *file, void *fh,
+>  	if (format->type != vfh->vdev->queue->type)
+>  		return -EINVAL;
+>  
+> -	memset(fmt, 0, sizeof(*fmt));
+> -
+>  	fmt->dataformat = stream->meta.format;
+>  	fmt->buffersize = UVC_METADATA_BUF_SIZE;
+>  
+> @@ -118,19 +116,14 @@ static int uvc_meta_v4l2_enum_formats(struct file *file, void *fh,
+>  	struct v4l2_fh *vfh = file->private_data;
+>  	struct uvc_streaming *stream = video_get_drvdata(vfh->vdev);
+>  	struct uvc_device *dev = stream->dev;
+> -	u32 i = fdesc->index;
+>  
+>  	if (fdesc->type != vfh->vdev->queue->type)
+>  		return -EINVAL;
+>  
+> -	if (i >= dev->nmeta_formats)
+> +	if (fdesc->index >= dev->nmeta_formats)
+>  		return -EINVAL;
+>  
+> -	memset(fdesc, 0, sizeof(*fdesc));
+> -
+> -	fdesc->type = vfh->vdev->queue->type;
+> -	fdesc->index = i;
+> -	fdesc->pixelformat = dev->meta_formats[i];
+> +	fdesc->pixelformat = dev->meta_formats[fdesc->index];
+>  
+>  	return 0;
+>  }
 
 
