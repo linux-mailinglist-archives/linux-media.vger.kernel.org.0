@@ -1,199 +1,150 @@
-Return-Path: <linux-media+bounces-38141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38142-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC7DB0C00E
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 11:21:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DACCEB0C14F
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 12:38:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E37AB189FB89
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 09:21:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F8B41759D2
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 10:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B2F028C02F;
-	Mon, 21 Jul 2025 09:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6995228FA9B;
+	Mon, 21 Jul 2025 10:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7PabAcf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA09128C02D;
-	Mon, 21 Jul 2025 09:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2DC2877F5;
+	Mon, 21 Jul 2025 10:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753089510; cv=none; b=PZ24XKUrEA1Qwk2qDla4avvCJY9JUYpNpM4lArdJBB4+tW0Hi68ZOS+lrg3epHjnjU7dl/dpevSWqf2k8K8Jf2XU9eE8sb/xCMXW+gmT0R/NUgUkUd1HASfFSuf7ZG+MA+Pwec1VFwlQxfWO4on2CT51R3aY1GimaGWpQIb1vqA=
+	t=1753094321; cv=none; b=b3N24wy1xLSOGAcCBWpyEj5jAXVF7q/ZSWDcENS4kM0qwzyxySi+EtKBBeUSr9RumpABSe4B6V1aUAMz/BSbM9GTpvSlKsZBfsUPGBg+0pi21qLHhX9XfsuKp83Q+t9zuVljwzFZlK6YmsxUzajOs1JOadH/feeHg+5OHHaL78Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753089510; c=relaxed/simple;
-	bh=GFLEVoDpcqZUGLcskIFxQzytGcE90/7W/RhdRbv84B8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=d+N4WghR+0X4jPggwk9vNhCKNVAu8EhtoCyYApWjIiOq5QHqtdEQiUtIDUpd43vMP2AhwPu6aUwglq8l9NXahxOcw0X9nYLfkdRaaGV4hhcO4VpXRrNmtM3CwVqdNxtOpTF2ISL6sKPwL4pnH6AxckX7FrKIi/6PLtH66t43Btk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-60702d77c60so8060423a12.3;
-        Mon, 21 Jul 2025 02:18:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753089507; x=1753694307;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gyYROlBQpaQA9CwEtQJyumLb2Se+Dm1/eLYmwuEMq1o=;
-        b=Jp20Vtw7zunYNtva0XFoQqSMSfThQ7hDfGZ4l8l8nPRFO2gRDrTX+XBhmy/xZGubyB
-         s+sd0BBpFLeqqY4u0C724uyfO+OXyZFB8yV1avbSI7y6M1T1hgs5Cvb+1D1Hbm38+5Ig
-         NCOAca8rNqU4sL1+RHv0DOENUzEDSlLrA+vdlS5F3FQ7xIpV7aYFVWhbcd5VF7m/y+y2
-         iAkvKjdBjV/Zd+sFRwrqX1+RRcx/Nhftrc/hDQyiVz4QooviqfRN3x8qg7n2JZmXE158
-         yN4EuvIJejmRCu2w1pdlFnXaXUE09cM2k7YL/J8KAl5hBj+qMe/Xn8kC0X1XU6URhq+u
-         HtsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVYmp5uU8tl1O5vfLgPckjZep1e6Bkc/TzsXaZfQKUc6wgnOvvBfQ0pxzQfwI7I6y6GaUIjSH7n1gz3axGL@vger.kernel.org, AJvYcCW3Grieh6350wOhFPZPDZFeUPsDm7Uyf/LDVVXyT0D0Uk0oRb/jioV5PfrEr8jFg60uhxLOYQ1Pnaw=@vger.kernel.org, AJvYcCXzsjAZUQPOwr2JC54jwO8Y2hmcxU+q60Zmgz9iczcDavBh7N8tLBDlEN5Rmqh8l9yyMAykZ+4bE6fokG4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+PW7f1M49SXgDeyOxO/o6/LC7fYxYFJy6tgHmn+hOccfFTYm3
-	MdjN9nBJ6dQJhV8JACekGk0TcS3Gb3r34lcPmAp26D+WKfKV2RDQGw0R
-X-Gm-Gg: ASbGncv9yb3yLghgO9Q9VIDyxxbi4VCrRHtb7aqr5PgVrNoc82f7edfPOpUeYfpEz3x
-	lm5dry+TGYyjPxqRm4N4WPPplMLTiC27pea3D0XTZBpJohA4ePiolGvE6ThF/iR5aXsgJrwh8Zx
-	6bkLbiacbcCJT9IK2E/csASNtLuMG/g9S55brio4yUpN49D34zZCZ2mFqksWQvHOTO2MCal/Yoa
-	XRgLUvr7HBitKpho+Ydwkz8pq8wmhkkZ1BW0b4UVrId5iZqki2f4IN/ToOSod/Rc0gWTdi5UY/0
-	gXxDE97LgUXF2g1SMDDocfA0rYqYsJgEg4jqv/hgAzN0eyd/70Pb2FNkEXsLorw3AOelIVbycwf
-	cRbjQ8e91oqk8NB8WlfSSyaJ+LNk59MpkMqSgPWEgytgSMptfUoFerBxT
-X-Google-Smtp-Source: AGHT+IGLjyUKAxgg6t7I154f+BsmQXn5G2xI2hCpG0zZ9fD3Tr+3hSJlZ3Fv9sf5iHBEa2ta4Q/EoQ==
-X-Received: by 2002:a17:907:1b93:b0:ae3:6d27:5246 with SMTP id a640c23a62f3a-ae9c9b72f65mr1263912966b.48.1753089506882;
-        Mon, 21 Jul 2025 02:18:26 -0700 (PDT)
-Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca2efc1sm643125266b.83.2025.07.21.02.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jul 2025 02:18:26 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Mon, 21 Jul 2025 11:17:37 +0200
-Subject: [PATCH v9 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+	s=arc-20240116; t=1753094321; c=relaxed/simple;
+	bh=b3BUzd5cXJbCKdreEUnq8PGiM1/tFuKiB7Qk0nwPZGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=focohPP1kxX7Z5NeqRa9Rbv5+r/Cg4ZIPJSVZcl8LHKbDuCyQ/lgoK92hI90LG0/qdZvLuhWoNfpn8vpFHMMIONlYteyF7oZ6zdGJ+SqcnRo+a0wc0f1RArbPsmC3G08MatDdGt7/j//VTb8mRZbQYLCs4M3dYzhM5Yysy8pMTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7PabAcf; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753094320; x=1784630320;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b3BUzd5cXJbCKdreEUnq8PGiM1/tFuKiB7Qk0nwPZGk=;
+  b=H7PabAcfEPo9astY8BkLaCYGntZoEl1UgwElR5BMBRZ7mYrbpk0vUqSt
+   80GxVg02KBxZkrjrz96YVrPlf99ZdyJ1rwxbZ3BzCdvVRa40r+SGlQvMK
+   zcdqjkHdgvl6KM4zqAX/GbWy8Ums3x/UEIX1Ss0xYxbjShP6sGxy/WdDr
+   g03ognpzF8LxhstPDafyv8ARzQ0WEY2DgHzxnPGd7KdGzCY8ro7icaC0X
+   MOl1Q4tdRwywH1BYWJ6RX2GpA4TM1s1wH37zUZ652wLY/uqfC2Cs18VFk
+   yA3SWhsStaZNK+PERXNvNO0sHU/uNv0izt/s0o2C1sxDX4jkdRK6PodGt
+   w==;
+X-CSE-ConnectionGUID: Kl5oEtLrQLCblDVEWsOuPg==
+X-CSE-MsgGUID: t813He2pTnWwvbdQ33RpHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="59117259"
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="59117259"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 03:38:39 -0700
+X-CSE-ConnectionGUID: 19iTBh0xQ0OdWgVOkZaL7A==
+X-CSE-MsgGUID: Cr9SPju9Sv++0pQMRMCzSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="162839888"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.62])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 03:38:37 -0700
+Date: Mon, 21 Jul 2025 12:38:28 +0200
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: i2c: Add OmniVision OV6211 image sensor driver
+Message-ID: <6w5vwjdhs2mbidaadzkkwx32rr6fkfqgrjlvbu7kvcre34rmn2@qifmnxaertxo>
+References: <20250717124001.108486-1-vladimir.zapolskiy@linaro.org>
+ <20250717124001.108486-3-vladimir.zapolskiy@linaro.org>
+ <175276139540.560048.14744394485094549778@ping.linuxembedded.co.uk>
+ <CAPY8ntCiKFFdfepqW0ms_0dhCtJJCwJoT=bxmJ5i0K254i6fkA@mail.gmail.com>
+ <7bb16a20-166a-477d-a103-a00fe83ecb66@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250721-6-10-rocket-v9-10-77ebd484941e@tomeuvizoso.net>
-References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
-In-Reply-To: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>, 
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7bb16a20-166a-477d-a103-a00fe83ecb66@linaro.org>
 
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Hi Vladimir,
 
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
+Thank you for the patch,
 
-v8:
-- Remove notion of top core (Robin Murphy)
+On Fri, Jul 18, 2025 at 06:27:54PM +0300, Vladimir Zapolskiy wrote:
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
----
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi | 57 ++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+[..]
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-index 6052787d2560978d2bae6cfbeea5fc1d419d583a..a1f3571b177fe00b1c169f62b7dd1d27024a663f 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
-@@ -309,6 +309,29 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-enable-ramp-delay = <500>;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		 };
-+	};
-+};
-+
- &i2c6 {
- 	status = "okay";
- 
-@@ -433,6 +456,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -487,6 +514,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_0 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_0 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
+> > > > +
+> > > > +       ov6211->xvclk = devm_clk_get_optional(&client->dev, NULL);
+> > > > +       if (IS_ERR(ov6211->xvclk)) {
+> > > > +               ret = PTR_ERR(ov6211->xvclk);
+> > > > +               dev_err(&client->dev, "failed to get XVCLK clock: %d\n", ret);
+> > > > +               return ret;
+> > > > +       }
+> > > > +
+> > > > +       freq = clk_get_rate(ov6211->xvclk);
+> > > > +       if (freq && freq != OV6211_MCLK_FREQ_24MHZ)
+> > > > +               return dev_err_probe(&client->dev, -EINVAL,
+> > > > +                               "XVCLK clock frequency %lu is not supported\n",
+> > > > +                               freq);
+> > 
+> > This would be nicer to make use of the cleanups that have just been
+> > implemented in
+> > https://lore.kernel.org/linux-media/cover.1750942967.git.mehdi.djait@linux.intel.com/
+> > and
+> > https://lore.kernel.org/linux-media/20250710174808.5361-1-laurent.pinchart@ideasonboard.com/T/
+> > 
+> 
+> Actually I've already checked it before publishing the code, as a summary:
+> 
+> 1. to my understanding the introduced API is still under review, I didn't
+> find it in media/master or linux-next,
+> 
 
--- 
-2.50.0
+It has already been reviewed but yes still not in the media tree.
+Too late for 6.17 but it will be in the media tree soon.
 
+> 2. the only needed change to get support of the new helper is to replace
+> the single line of devm_clk_get_optional() with devm_v4l2_sensor_clk_get(),
+> no more than that,
+> 
+
+Correct.
+
+> 3. the internal complexity of devm_v4l2_sensor_clk_get() seems excessive
+> right over here, what's worse I can not test devm_v4l2_sensor_clk_get()
+> in this driver on any ACPI platform...
+> 
+
+You don't need to test it on a ACPI-based platform to use the helper, if
+it works for your DT-based platform that's enough.
+
+> To sum up and to minimize the overall complexity, I'd rather prefer to
+> stick to devm_clk_get_optional() at the moment, the switch to the new
+> proposed API can be done, when it's ready.
+> 
+> -- 
+> Best wishes,
+> Vladimir
+
+--
+Kind Regards
+Mehdi Djait
 
