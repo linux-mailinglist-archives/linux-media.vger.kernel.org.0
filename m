@@ -1,137 +1,151 @@
-Return-Path: <linux-media+bounces-38160-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38161-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD3EB0C1F2
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 12:58:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E65F8B0C223
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 13:05:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7271D17D540
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 10:58:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0F13188D455
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 11:06:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35DCF29E0EB;
-	Mon, 21 Jul 2025 10:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5302E28C5BC;
+	Mon, 21 Jul 2025 11:05:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="rTHZnCbO"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="LMk7oKDt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750192980B4;
-	Mon, 21 Jul 2025 10:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B842288CB6;
+	Mon, 21 Jul 2025 11:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753095343; cv=none; b=Sv/wWTxDhpWxWIeig8zrEpNYPx2e/Wv0BUOBQNacGfVjYE1C79yZ7mUJcH4480MAt7BzHLQC/Jv6VOhpGB6fGDZXztlvvEudjmUN5lgeRDS8WB19TUC6CkQnLXX10BfvTy8uhwzzArIyLvQhmnnH+F4QvkskW19n9gwbTNzCcOw=
+	t=1753095934; cv=none; b=S/rrGmgK4Q0XDaMQDvMxINKXmYJulVyAvdoaYGrONEIPF1aszeQ/h86Vq+7P8FYEp+UVEoCzAhET5DX7g73HetTWFddL7wL31neXZmG/UaqmdSl9hKPwwOxuQSZkO8rET0sT2OBJOWLfXcgxPF75VZpPycper8MuPOfqyshNzrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753095343; c=relaxed/simple;
-	bh=VkvH6Buso6lrWIYra616eiCuQkUS05CN7ivD1UTUDL4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iKCZ3NiseD+LWsnRuM5b8tbXnQSv9TWCbNdc8B8pGSW6r8Cj4EqFPCOHwsCMIQNkgsA/N3BqhQUE33UKbogxmBNhnSJBaDKD36XDE3thyoKQClMz2SfcfKSWGFdQB3UWqsUi0UWMgvp8vSfe6c40pgB7l7birgKn4pOD+Ce5iFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=rTHZnCbO; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 3b926ff8662111f0b33aeb1e7f16c2b6-20250721
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=cn3htOReln+vOcAcfeE1LgSCT/Ev3OONSHgeMyS579U=;
-	b=rTHZnCbO3LRMEWoF4mkqQoCgQzdPgNIcdV9+Q/8o6UVvbYqXc9Ot6/xlGQW5HRFYJ4zdetGNOMjQfEHtzuUjz0XJr0EspozVDcicLYkhi0l2xTpiDSG2/JmjpTn8BcKDcghQN/CCyJ7WwvxsYNtPVRwla3eEjXKJ0yb/qlmFKlg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.2,REQID:ebaf45b6-b84e-40fe-8844-aeba54cd03f6,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:9eb4ff7,CLOUDID:7fa0ab84-a7ec-4748-8ac1-dca5703e241f,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 3b926ff8662111f0b33aeb1e7f16c2b6-20250721
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
-	(envelope-from <kyrie.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1978442139; Mon, 21 Jul 2025 18:55:36 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Mon, 21 Jul 2025 18:55:35 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Mon, 21 Jul 2025 18:55:34 +0800
-From: Kyrie Wu <kyrie.wu@mediatek.com>
-To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
-	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>, Sebastian Fricke
-	<sebastian.fricke@collabora.com>, Nathan Hebert <nhebert@chromium.org>, Arnd
- Bergmann <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>, George Sun
-	<george.sun@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-CC: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
-	<andrzejtp2010@gmail.com>
-Subject: [PATCH v1 8/8] media: mediatek: encoder: Add MT8189 encoder compatible data
-Date: Mon, 21 Jul 2025 18:55:20 +0800
-Message-ID: <20250721105520.5625-9-kyrie.wu@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250721105520.5625-1-kyrie.wu@mediatek.com>
-References: <20250721105520.5625-1-kyrie.wu@mediatek.com>
+	s=arc-20240116; t=1753095934; c=relaxed/simple;
+	bh=kTRI/yqmm71mXfiSTpGxqtNKRcvPBxJGJ+0b4x8ktRU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ZTMVbpKWTbqe1QenEfBQcziAOADvz2VuITxt8/Mo0Ya4bzrAkpJ+5ZTYC5nG28omjrdUQ/4Ca47eIbDLzS3ganWrPWUf3SZB3LsN2s80MD0LhK4Xeq51CZVr/X16iVYbqxgk3OIJQCKFzLr+gloOqwKQD6fssFeS63eDRgWuPYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=LMk7oKDt; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56L96UNg017909;
+	Mon, 21 Jul 2025 13:05:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	LIg2e/VmqAxQ/FGVv0We6RD1yBe+H5fiRUCOJklQ0ns=; b=LMk7oKDtAJzW3X36
+	Rk+ViVPRNPs1Ub/m2A37P0rrQkRnimACkHi4YGDcXzeCSFtYxw7GEFP6WOj7No9C
+	XMsNAykyvpp8wJj4v1YLptjR7+R3Sk+DYsVGzT7EGMVaNHPE7J/gfvLECNhvFE0G
+	75nyqzZ9oWijH3IMD9j9WIBr7VvmpNlzF03dE6qv3lJXp/u4pFW3obFHuvSTFmex
+	MrAUs2At4DH2IsbjPs9+2oC4iog1SF1Vu78ckEc4V8J1oRBKjSWUdf1o0LtBssLH
+	0PoS9NXe3kUAqzKlchbv2HpdZgSfe0TWRezl/UTaYyIJBKdLetMZKM8gu+sYRO2y
+	C1vi0w==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 480mx4dhsy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Jul 2025 13:05:11 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 11BA0400A7;
+	Mon, 21 Jul 2025 13:04:17 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6B1047A321B;
+	Mon, 21 Jul 2025 13:03:53 +0200 (CEST)
+Received: from [10.130.78.67] (10.130.78.67) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Jul
+ 2025 13:03:53 +0200
+Message-ID: <19cd3fd4-2d17-49f7-aa3a-9d443b24cf28@foss.st.com>
+Date: Mon, 21 Jul 2025 13:03:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: i2c: vgxy61: Report stream using frame descriptors
+To: Julien Massot <julien.massot@collabora.com>, <kernel@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250704-vgxy61-frame-desc-v1-1-0e62b9c4e260@collabora.com>
+Content-Language: en-US
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20250704-vgxy61-frame-desc-v1-1-0e62b9c4e260@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_03,2025-07-21_01,2025-03-28_01
 
-add compatible data to support MT8189 encoding.
+Hi Julien,
 
-Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
----
- .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c   | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Thank you for your patch.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-index c869c4245ebc..4f5c2d8d2855 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-@@ -468,6 +468,19 @@ static const struct mtk_vcodec_enc_pdata mt8196_pdata = {
- 	.set_dma_bit_mask = true,
- };
- 
-+static const struct mtk_vcodec_enc_pdata mt8189_pdata = {
-+	.venc_model_num = 8189,
-+	.capture_formats = mtk_video_formats_capture_h264,
-+	.num_capture_formats = ARRAY_SIZE(mtk_video_formats_capture_h264),
-+	.output_formats = mtk_video_formats_output,
-+	.num_output_formats = ARRAY_SIZE(mtk_video_formats_output),
-+	.min_bitrate = 64,
-+	.max_bitrate = 100000000,
-+	.core_id = VENC_SYS,
-+	.uses_common_fw_iface = true,
-+	.set_dma_bit_mask = true,
-+};
-+
- static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8173-vcodec-enc",
- 			.data = &mt8173_avc_pdata},
-@@ -478,6 +491,7 @@ static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8192-vcodec-enc", .data = &mt8192_pdata},
- 	{.compatible = "mediatek,mt8195-vcodec-enc", .data = &mt8195_pdata},
- 	{.compatible = "mediatek,mt8196-vcodec-enc", .data = &mt8196_pdata},
-+	{.compatible = "mediatek,mt8189-vcodec-enc", .data = &mt8189_pdata},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
+On 7/4/25 11:28, Julien Massot wrote:
+> Add support for .get_frame_desc() to report CSI-2 virtual channel
+> and data type information. This allows CSI-2 receivers to properly
+> interpret the stream without inferring the data type from the pixel
+> format.
+> 
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+
+> ---
+>  drivers/media/i2c/vgxy61.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
+> index 5b0479f3a3c0592be430cefe5a1ab9a76812ba84..44d6c8d8fbf8d6182e42d44e129bc45945ee0da5 100644
+> --- a/drivers/media/i2c/vgxy61.c
+> +++ b/drivers/media/i2c/vgxy61.c
+> @@ -1181,6 +1181,21 @@ static int vgxy61_s_stream(struct v4l2_subdev *sd, int enable)
+>  	return ret;
+>  }
+>  
+> +static int vgxy61_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> +				 struct v4l2_mbus_frame_desc *fd)
+> +{
+> +	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
+> +
+> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> +	fd->num_entries = 1;
+> +	fd->entry[0].pixelcode = sensor->fmt.code;
+> +	fd->entry[0].stream = 0;
+> +	fd->entry[0].bus.csi2.vc = 0;
+> +	fd->entry[0].bus.csi2.dt = get_data_type_by_code(sensor->fmt.code);
+> +
+> +	return 0;
+> +}
+> +
+>  static int vgxy61_set_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *format)
+> @@ -1402,6 +1417,7 @@ static const struct v4l2_subdev_pad_ops vgxy61_pad_ops = {
+>  	.set_fmt = vgxy61_set_fmt,
+>  	.get_selection = vgxy61_get_selection,
+>  	.enum_frame_size = vgxy61_enum_frame_size,
+> +	.get_frame_desc = vgxy61_get_frame_desc,
+>  };
+>  
+>  static const struct v4l2_subdev_ops vgxy61_subdev_ops = {
+> 
+> ---
+> base-commit: 1343433ed38923a21425c602e92120a1f1db5f7a
+> change-id: 20250704-vgxy61-frame-desc-2a6d3c6cab43
+> 
+> Best regards,
+
 -- 
-2.46.0
-
+Regards,
+Benjamin
 
