@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-38187-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38188-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78181B0C87A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 18:17:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0794EB0C88C
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 18:23:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8741F3A9DC0
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 16:16:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A56F21AA7797
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 16:23:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CE3F1F37D3;
-	Mon, 21 Jul 2025 16:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2272E03E0;
+	Mon, 21 Jul 2025 16:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ETIyWcs+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DEmk0UJS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2111DA10B
-	for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 16:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848CD2DFF22
+	for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 16:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753114606; cv=none; b=ReS+VvL7yic2os/H07zU6reJP8qWPUf4DhqN0HK25PRKergF0GSvGYxgyQ0yIyabc8c1KhRQwL8VymyKSoNphMpP9srTR0qqmgsuM4cI1uAZoJkQSDH3jjeJAsAlSMvmmgOkhCNa0eu8cs97Fk9CnJX/fVK2nAQ7zefn0exBZnA=
+	t=1753114980; cv=none; b=R83xNJ4m6FNxcGgan9bxR7Y9xf+MusjT6mGU9xFOMPvabiVZ3ZII7JdrypQSeVHGfMmXH/hQG46l//wYecboSQHLI+n2NR8MnEqYwrXAmWNJWHAdEp0J4LZBOacQZ13KRmt9mzWu3uRvn8bYQhPlyt1FLgs4H5vw2Dnf8pe9BS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753114606; c=relaxed/simple;
-	bh=jQK7hBntJAzCfknBxU+rIfU3PYhCTohn9MDcOS0DpEw=;
+	s=arc-20240116; t=1753114980; c=relaxed/simple;
+	bh=O6I6F+JBtuzhpPwj1u61pe7YVmTjBrSZst347vFK+J4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E7AwVZ12PDrAHL7D5Juzgj9wEya+tgnR77aIVJ6y1TPtm9GBKxuqfqbOL5w2jFm76UDTcupFrLG+KlJwnrrkTRWZWeWqR5HMW0san0siNugo3AOAYrjdKI0u2jAs6PpcwjysPHcO7ZgN0ZlOiNYTOB7jGOzAdBo8JU97Nruy9os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ETIyWcs+; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:Content-Type; b=iINOcXd/cyS3rToBq8TQGcOINqIcGnj/D6a48z50mXKAWDwMvRTpnyWniatGz4tYDI0nEhjPwKw276cY0WkLkzu+odjMm4S+1db8lZUROOGiGmcdvlT1av1Qk6v/FlGcIWbDyeYUXKB6N3d8cgHE1AtBrSVlvFTPkPd8BDLwRi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DEmk0UJS; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so31725105e9.1
-        for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 09:16:44 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a6e8b1fa37so3189089f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 09:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753114603; x=1753719403; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1753114977; x=1753719777; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=talQw3V8OesgOs/IENp8i6XaCvz9bMnhlCG20asaaGA=;
-        b=ETIyWcs+YPo8XDhJDpgLJRRmjk53btcpD+Jv4NgvUIonExIan2AUsbFDUtLwW75YHZ
-         gcXYc9LFldeZAQXjpv0HMR2/osV0pazOVFS+ONegPiBuui+qiaNFggUxhhMQqr1R6MAM
-         F0AKuFT2RJOPxO/3o1vgbtgPWb1iKhOE7GZHDZDiYEaldtbBosNvPf/4fbVVOijXrfne
-         i6ATrMR+U3yLfbQCk5u6yyfuq4XQR0ZM0/9Ilsc6P6v6PQl+Xicz7tx6HpGJ7Un/fYBt
-         CMfzm0gFXH6Ei/jt474QgTopB0tdtsqW0m+YSnzN77R4b9WMLG01tnHwch5czBxl98Sa
-         GRQA==
+        bh=TxA1HkWcihAgiHesUgMnXVmrELXQs8wNZG5+2Hm4nPA=;
+        b=DEmk0UJSsid12IhrpLXiJXtFog3JemvWg/LklbuPAqxKfURTtRzYMrfXWiwRCaet57
+         w7SviqKiLa5mA9T2jwRS0QdX13WVwNYNEx5GXV4Hidj21aG2aCnp75q/ZViVx0raakkK
+         r1Xn3UnHiDUquIALYY3dgtwoZUWuNwNXw1RmBlkbRGLEuFQ2VGkFbX3Z6Jnayg74zsx0
+         ayJIWmQ8J/gIbLPu8ghCz+20bKOidC1c+BNALo1R4y0zGADZZ2pI5SOGkPpC0ze8Yl6i
+         58NzfwMWeD8kdBu+mZMCtjhBCnNoAMH6vhFH9l9gQ7DuGNPHMILWoH7iboQwLjdJiOU/
+         4gRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753114603; x=1753719403;
+        d=1e100.net; s=20230601; t=1753114977; x=1753719777;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=talQw3V8OesgOs/IENp8i6XaCvz9bMnhlCG20asaaGA=;
-        b=A5bp59EESoLlcawZaCD3cXQS32h+eSXj6zGx/hnZY5sVhjHaBxYtOJYfS52ASuvKAe
-         vM2pZILDFfDD8sQSNB4eajP02xsaugQqtymu8dJhZAFzPgZHWDa2Xrbqr7jEiT2cPAgb
-         GiyOLlfDEiPHyAzUcLZxaZzCeRyQaAVZu3ilVGtpfeS7Cj8IW++PJQghDxujsRR320wT
-         UNdzqq9IN2PzaAaxOuWbBqKScuRmIeqvhGWH0udg5UATjqrhVb6Hi2oQuqDqgQMIspuQ
-         /ZIPhsC3XzuwWfxiUuSx5w20ayJGUvm0s/GVCcnZckEg1QIeGK9HfeBwaVDp/Y4qYl0a
-         QTSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/cXIi7wPLjPeqQ5gpFdisiAeIWYBMyI/Sp/k+QhnHoPwLlZkrXKR/LTDTFuLNzg9SwEWHtCUxOjgmDA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQJi5fnbMIO/Lv5QG2GFfi0fnSg1IzREctiKgdtsLEP/3n3xiG
-	PMbxmEKC5XuyqLrxXI+FZV9iCsD7WMow57ldw6a3LSzPLHfUGLiA4PSBQf3cTYiRZpA=
-X-Gm-Gg: ASbGncuKDxaPsnpvq0y4aNX5fBZcOctnIY/sxzxCWCRHg5+tE4Cuat91nXvWEJEMJht
-	sr9+UB9zlw/S030MGDPsqUjh0fK/YYSLwBOHa3OToPHx4Rt96n/Ga6msRKvX6GopTK1PwhRxsa2
-	UWDshbBd33tj/FHt5VrVBh/ofcInChaGZw0Xzx1rfGjziwSN4Qhjzt6Aqus9pEEW0Zzu72jsltd
-	HgsP5ZVs6TtaEs87lYt6UDXMGU7mNWmnbT9+M2kAcad8aA8/vQ3/og0XydKFvLOaNtMrWxPkeBa
-	pRZ794GVREps/1742JY2Ro3FcwrXjmo5bXPcfWjskoDmer2gMtnzwDvq9zwkjAdr29uJPFfqcLF
-	HML+SGsoxP3hW9ym+KJ05bjuyLQnBN3o2lmEpfgObDxoxnKvHOR/36YzFQZ34Wnc=
-X-Google-Smtp-Source: AGHT+IERPoYUdYZmsWjMVuo3Vr62pGzsvinykMvY+4a+6Z+e8/5eRFFxtBVqU6BUs0+8JvGwVbgaTg==
-X-Received: by 2002:a05:600c:1f13:b0:43c:fbba:41ba with SMTP id 5b1f17b1804b1-456327bbf81mr138943345e9.28.1753114603099;
-        Mon, 21 Jul 2025 09:16:43 -0700 (PDT)
+        bh=TxA1HkWcihAgiHesUgMnXVmrELXQs8wNZG5+2Hm4nPA=;
+        b=raAOJWFsWc2hGdxD4dQ/DW+6Fv7CtQIL/w0Ciar36rRmzyytFiTsoUy5NZwJWyQtgD
+         jK/Jg0AHvmc+7KSZ7JsmIgoQo5wHzvUDH/XmaKzP5BM4jr/W7Wd9sArDa7qo5oWsuHkA
+         pEIo1IvBuchVlTGFnk8h6gk/EDNWgs9lFztKkSVM9BcE5vXQL/E7vSR0NfK/rrgCiVTC
+         XVSqEo/aMiEbm5Qy13MgaUWeBzTQAB+rUbDijUh4vQmGH7xUrgQsEWXjRuRgdAYsGeY0
+         +170Fr8ZURCRI/sOB3wmuz4zfDWAFzHzO2J3X5Yv/F6o5xs7MjtgxEq/Eq1EEumoCIqD
+         IoVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXA1LF629xTly7OXF0N1KbXFFbBlfqdTSp6GycBhOPKa297gQp2YOmj7Tyvqa93FziQMp4DqBHgmHZokQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7oGEZOpHolyu/U+5qZLSnYsjv5RQHQucQRZYiS+xRMgJxt2ZR
+	NvDSbJedu5/IpPfDfkatMBaBN6DPXGPxynJ3HBRj+mYkfu1SSAMEvbYah9BPFf3ggJI=
+X-Gm-Gg: ASbGncuzGZT+WRmcEfhuqqZNygC2TDdEUFys//TZdSfSZNnrhWBV3cgomJMvduxx6GN
+	3wmRGsgDfC8vhjiu2MBJfQZjg6mQ9O+20rijdMvQb0OOadG7q+yrQQr7dHe21XvAg3Ck/D+vwrK
+	Yq5nwpqrYAS/zK5v+fbJcY2jT8QPFvN7p438anz7g0fpzlAzIr2ANjWE5TZKA14dQTaX7ZLIXmr
+	oy9kclLhKy5goLuT9+4Rp4haWlgsj8XqpNGGQQELy1tHJF5tE1QGfj0A2UmypF2mIKOQls1y/0o
+	8vACaVWmMX9YjjGl2MrUnTG20760J4NJ3zZZGftAIMEb0WmAMMOyoi4hInCXg06E14F72fSH4qz
+	3Gyx6gbSHODXWcx/oYaOIfa/nQ2vYlT5z62KNdPZJShSCTmdbKbcT/8LE6e6GRYM=
+X-Google-Smtp-Source: AGHT+IHp3F1bGKZQuLQleiP5LQBGh2HZeuuoCI3Px72hTP9M9DOLyNGcLbYw36OIyWjFyB5RpreVGg==
+X-Received: by 2002:a05:6000:658:b0:3b6:13a1:8861 with SMTP id ffacd0b85a97d-3b613a188a1mr12726134f8f.38.1753114976724;
+        Mon, 21 Jul 2025 09:22:56 -0700 (PDT)
 Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e57200csm165190545e9.0.2025.07.21.09.16.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca4d74asm10736869f8f.63.2025.07.21.09.22.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 09:16:42 -0700 (PDT)
-Message-ID: <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
-Date: Mon, 21 Jul 2025 17:16:41 +0100
+        Mon, 21 Jul 2025 09:22:56 -0700 (PDT)
+Message-ID: <90a896f0-7b67-494a-abe4-dceb52067e65@linaro.org>
+Date: Mon, 21 Jul 2025 17:22:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,8 +86,7 @@ Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
@@ -107,98 +106,24 @@ References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
  <427548c0-b0e3-4462-a15e-bd7843f00c7f@oss.qualcomm.com>
  <3UXVZ6ANM9mDjVdMV4SXsiIx_pT3S1lp3RC_Q7mh_o7jF2dpYsni1Sl2TAWv6OCMCRTFmi9aE6BxDquGkOnwEg==@protonmail.internalid>
  <8b908a20-0bf3-447d-82ea-a5ecee1bf54c@linaro.org>
+ <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <8b908a20-0bf3-447d-82ea-a5ecee1bf54c@linaro.org>
+In-Reply-To: <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 21/07/2025 16:46, neil.armstrong@linaro.org wrote:
-> On 15/07/2025 11:33, Konrad Dybcio wrote:
->> On 7/15/25 11:20 AM, Vladimir Zapolskiy wrote:
->>> On 7/15/25 12:01, Konrad Dybcio wrote:
->>>> On 7/15/25 8:35 AM, Vladimir Zapolskiy wrote:
->>>>> On 7/15/25 03:13, Bryan O'Donoghue wrote:
->>>>>> On 14/07/2025 16:30, Vladimir Zapolskiy wrote:
->>>>>>>>
->>>>>>>> I think that is genuinely something we should handle in camss-csid.c
->>>>>>>> maybe with some meta-data inside of the ports/endpoints..
->>>>>>>>
->>>>>>>
->>>>>>> This is a CSIPHY property, a CSIPHY hardware configuration and a wiring
->>>>>>> of sensors to a CSIPHY. Where is the relation to CSID here? There is no.
->>>>>>
->>>>>> All the PHY really needs to know is the # of lanes in aggregate, which
->>>>>> physical lanes to map to which logical lanes and the pixel clock.
->>>>>>
->>>>>> We should add additional support to the Kernel's D-PHY API parameters
->>>>>> mechanism to support that physical-to-logical mapping but, that's not
->>>>>> required for this series or for any currently know upstream user of CAMSS.
->>>>>>
->>>>>>> Please share at least a device tree node description, which supports
->>>>>>> a connection of two sensors to a single CSIPHY, like it shall be done
->>>>>>> expectedly.
->>>>>> &camss {
->>>>>>          port@0 {
->>>>>>              csiphy0_lanes01_ep: endpoint0 {
->>>>>>                  data-lanes = <0 1>;
->>>>>>                  remote-endpoint = <&sensor0_ep>;
->>>>>>              };
->>>>>>
->>>>>>              csiphy0_lanes23_ep: endpoint0 {
->>>>>>                  data-lanes = <2 3>;
->>>>>>                  remote-endpoint = <&sensor1_ep>;
->>>>>>              };
->>>>>>           };
->>>>>> };
->>>>>
->>>>> Don't you understand that this is broken?.. That's no good.
->>>>>
->>>>> Please listen and reread the messages given to you above, your proposed
->>>>> "solution" does not support by design a valid hardware setup of two
->>>>> sensors connected to the same CSIPHY.
->>>>>
->>>>> I would propose to stop force pushing an uncorrectable dt scheme, it
->>>>> makes no sense.
->>>>
->>>> If all you're asking for is an ability to grab an of_graph reference
->>>> from the camss (v4l2) driver, you can simply do something along the
->>>> lines of of_graph_get_remote_port(phy->dev->of_node)
->>>>
->>>
->>> It's not about the driver specifics, my comment is about a proper
->>> hardware description in dts notation, please see the device tree node
->>> names.
->>
->> I'm a little lost on what you're trying to argue for..
->>
->> I could make out:
->>
->> 1. "the phy should be a multimedia device"
->> 2. "There is no ports at all, which makes the device tree node unusable,
->>     since you can not provide a way to connect any sensors to the phy."
->>
->> I don't really understand #1.. maybe that could be the case if the PHY
->> has a multitude of tunables (which I don't know if it does, but wouldn't
->> be exactly surprised if it did) that may be usecase/pipeline-specific
->>
->> As for #2, I do think it makes sense to connect the sensors to the PHY,
->> as that's a representation of electrical signals travelling from the
->> producer to the consumer (plus the data passed in e.g. data-lanes is
->> directly related to the PHY and necessarily consumed by its driver)
-> 
-> The port/endpoint should represent the data flow, and if the signal is the following:
-> 
-> sensor -> csiphy -> csid
+On 21/07/2025 17:16, Bryan O'Donoghue wrote:
+> drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c Documentation/devicetree/ 
+> bindings/parch/arm64/boot/dts/amlogic/meson-khadas-vim3-ts050.dtsoc/ 
+> meson-axg.dtsi
 
-I'll be honest.
+Documentation/devicetree/bindings/phDocumentation/devicetree/bindings/phy/amlogic,axg-mipi-dphy.yaml
 
-I looked at your upstreamed code
+Rockchip, Broadcom, etc.
 
-drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c 
-Documentation/devicetree/bindings/parch/arm64/boot/dts/amlogic/meson-khadas-vim3-ts050.dtsoc/meson-axg.dtsi
-
-And didn't really think CSIPHY needed to be included in the data-graph.
+The allocation of lanes is known by CAMSS and easily communicated to a 
+separate standalone node.
 
 ---
 bod
