@@ -1,138 +1,182 @@
-Return-Path: <linux-media+bounces-38190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145C8B0C8C5
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 18:29:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E27A3B0C997
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 19:22:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23E3C6C5CAA
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 16:29:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C37917484A
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 17:22:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447102E06EA;
-	Mon, 21 Jul 2025 16:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE1A2E0908;
+	Mon, 21 Jul 2025 17:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IBu3kRPr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LRc9+Xpx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC212218AD4
-	for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 16:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641F52DEA81;
+	Mon, 21 Jul 2025 17:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753115381; cv=none; b=CTVxlqJTLedv9b2Dr+ub0ASxoUmB3PogOT9HjHMDqkz6Y70fmDDlanyRC+VZqA/BOT0+FmohEtbsl+oLdFi8yzmUNsVx1DgXTTpykwVxdX1GA5ffF6zAaqMU5wtzllQjp5eeBGh+MwMQJHUDITteVaIghYSIZFi417KYGsIGddA=
+	t=1753118524; cv=none; b=QDGW7yTdDp0ymCTa9ZUZfG2DiqhxPCDVcDQnhiEYNyxRY6B8Nd+eEk1yBGaaSapeOWHxZy6ae3lpEjCOFQ3qnOzZIbRSV7R5l4Hc16W+MWvXKyMVM9yU7tgrv6YpyMtwsGUOb8q3Roj+BuveS+JSn/ooL6eDqQn06ntAG9RMhBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753115381; c=relaxed/simple;
-	bh=nQg4mVGlavPAkrQIuNcIrVz2XSMjt/8NcDVu2xUbWhA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=lUKRXn5ZE6SHXCim7AhIn0MWPDU3lUmSRcD6Y3tZ8XiJNUafPq9vCq28h7y3UdBFRFwprRzVCpTMOKmtwNvRY+NFvboziDh0/1bgr3wv+gxlQpMkETnQqsLiLGXE/16kwjsp3KnwE+IGN9g8j62MXCVQNfV0guqZc4TRCw/ipTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IBu3kRPr; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b45edf2303so4221252f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 09:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753115378; x=1753720178; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mDqcrroJ3qLkh5t4BQvEhf/oMY2x7lp1dD/3eXpKYqI=;
-        b=IBu3kRPrQ398nv2yhgdtrkH/3nWKZq1OHOnk6R5/Urband4ZwRQ34680+5SQj0rLAX
-         A+CXraSefg9nE6jEsz/4Q9ukpXxiHdaw6wwkytUYV9kRUN1yt0fojLBXFxJiuWVQkdtJ
-         BnhqzOgPj+FLY2oDJ7WVxMnma7xLpLHm6H5ySrr0ZtjwappbiOVII/AqUt86lAOAX6O+
-         NuCDMj8qUTv1Zz3HkJiwl3KtcRF+0/76h7Dk/CmiwBWd9iRF+x88f7KdHgjLA47+1kJn
-         nNCCRahN+SmNh6ZFJUO8d20lMuxZhjABbKTJtGjhw+ACfGQUCUxlAkzbcEZ6PFBOrN5Y
-         AzMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753115378; x=1753720178;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mDqcrroJ3qLkh5t4BQvEhf/oMY2x7lp1dD/3eXpKYqI=;
-        b=oN0o53M0jEpsOQjZFRZ5HznAvdbMJnFsWJTYYAqxvXnbyETUuk6ZDAmzTT3cH88++8
-         2VnS/bvHJ0N+aQ1hi+TLCrJbOwRdp1eaHvwzo1yjCmBO/LejRyAoQsIIBfJvTw3+fWbW
-         4sNtBHigaAE60g4q4yat4HX1+AsfQQdGW7T2/iOV1QGYNHjEQmE9eQV603y2uO2SDzKd
-         0us1EYLdONO/Mofeiy39DVSybJGAXJffBhEHBa4C69meShGg6SpY0k1BFX97Se89OWws
-         XX7T2kA0yf/GmOCzaozPModZ/IFZcxitIpLBswb1p/IMXc6mSi0OBnuFOwLL69x0DFQc
-         GGeg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGMQ1BEd2pjeI2rZG5MFBbo2sP73dvv3KyFOI+o1a7WsGcxKcRgf+RH9bzGan20Jsd99xtJbUu9ft17A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrnlxrMqVvRBtMsAbUe993vWJ6VmbqHx4G7mI+kSeWo5z0YUvr
-	G/YVfVhxBzQ0TbICxT94gthhokHBzw1Ss1hrFG9EZ5R2RJfI0FQNBXmVX/GHt4M7fHs=
-X-Gm-Gg: ASbGncvlnLk8EwqeLhG6aGqJXa1CbDfjmlUQgk1juUKjF7aXchkY/IDdJMKh3QUNGVx
-	sNanikbz9f+bGZQK2wzzok0wukK3pxtt8L5l0QzAnNW1RixO/q2Sls7FHYhrXeT/hsMrf6dR5Z6
-	Scwxt2sRix29hNF/SPfxABJssnEENvlNHVIBmWhVqedEG9Ve6+jtSpZwJzvbdbdDRlBvQJV5ks2
-	P8lr8LjOCg/Y9kHb07NReaOqm8megUajAbukMgHZufCQ2ONJv9WTY5VfR63mh45LUJRSdLEMl0E
-	UV8yNwgNTFZoqltFvs3wQ9Uxz/CSnOy9VKCyNHqP8R4SObCrXxZvHK1x7Hbby7AhzhKKhYuk1q4
-	xizrBtimTGw6bn48ByriLWRcT7FkxPjb0A2K7R6KucJuoN+Uh6bmpvZPcAz3cAsA=
-X-Google-Smtp-Source: AGHT+IEyGrnEx/ClY8Jxxfj68ZCw16qbV6UiWvo0mvnQsuihoYuu1pQ1oczOVmJPNRJcxc4Dt5O++w==
-X-Received: by 2002:a05:6000:2482:b0:3a5:243c:6042 with SMTP id ffacd0b85a97d-3b60dd4a88emr17973192f8f.2.1753115378060;
-        Mon, 21 Jul 2025 09:29:38 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca5c8besm10819066f8f.81.2025.07.21.09.29.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 09:29:37 -0700 (PDT)
-Message-ID: <94ca7625-4943-49a7-bc91-5e354d62cfaf@linaro.org>
-Date: Mon, 21 Jul 2025 17:29:36 +0100
+	s=arc-20240116; t=1753118524; c=relaxed/simple;
+	bh=19QnsmtMaBJp/ZLnLTtT9839sTSAbE07uxa6iOYsNMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=seJNKbxmmW3Gg+X45H5kLiegsEGc4EKP53SaReyB7eAoMUqWLsfBVmINXG40nAucYfVrwIjuGQuaJbCFIZ+emkuIWmgEw0wIjRqa5jrB/4JHYcIxe3ZgqQ/paK7pS873JCA5HOc+7MxfCnmG7BuSfWHsLmwllLgWfb+w1GKLKBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LRc9+Xpx; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753118523; x=1784654523;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=19QnsmtMaBJp/ZLnLTtT9839sTSAbE07uxa6iOYsNMQ=;
+  b=LRc9+XpxI2hP+C1C8fgJAU4a/79h2AmugPTeAMT8okxyZtoiZN+mzemX
+   xORNfdutjA/Nr97pZZ+ceDzXfFHbNNSm6nKbPWo1seLYHE5T2RUwl/yh6
+   lYKIysGwf/j+y+Oat0v6ID9E/XkJioRZsczv0EAIF60C1VK3NtP07vSBy
+   c8HvVeA7L+8wZy7j+BN4Yj3ayY5pFfwABBwG0HabircZN66No7zcU/Q8n
+   EobLVm/kTnFT1o87bcQEacVpgGiF4GWMC/DCbeVksDOB6wsR7CaFxT+5x
+   6tgn2WqQhlXHhVJf4w6B2mYm0VsX4h21+8WRqc4XWDrXBOv6I7x8SV/ib
+   A==;
+X-CSE-ConnectionGUID: rCid1t7ORtukg5YQfZ3JhA==
+X-CSE-MsgGUID: 8TYuxRsETnSuTf+D6l4mNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55435195"
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="55435195"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:22:02 -0700
+X-CSE-ConnectionGUID: pU2NcPsoToq9C/4WY93oBg==
+X-CSE-MsgGUID: 5J6kS8FAT4uXfvx9Nyvhiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="163451965"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:21:56 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uduD1-0000000HOPq-47vg;
+	Mon, 21 Jul 2025 20:21:51 +0300
+Date: Mon, 21 Jul 2025 20:21:51 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Hans de Goede <hansg@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 2/2] media: i2c: add ov2735 image sensor driver
+Message-ID: <aH53L948F7m16eHZ@smile.fi.intel.com>
+References: <20250716134426.8348-1-hardevsinh.palaniya@siliconsignals.io>
+ <20250716134426.8348-3-hardevsinh.palaniya@siliconsignals.io>
+ <aHe7NFJz6aCUqZXL@smile.fi.intel.com>
+ <PN3P287MB351951A3DBA4FA85404DA410FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
+ <aHjubei5Aex9n-HI@smile.fi.intel.com>
+ <PN3P287MB35199EB9309448F3EDD43402FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
- <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
- <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
- <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
- <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
- <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
- <eac3a877-a4aa-4789-9013-ab8b6c91e0f3@linaro.org>
- <0a12879f-dc4a-47fb-87a0-ac4b8bcd4d75@linaro.org>
- <53a19b1d-5665-4937-a07c-5dd1fcde06c5@linaro.org>
- <3b760685-97db-46e3-80a3-7fad69ad31cd@oss.qualcomm.com>
- <94b75177-9401-4e0c-966b-5847a29cb6f7@linaro.org>
- <427548c0-b0e3-4462-a15e-bd7843f00c7f@oss.qualcomm.com>
- <3UXVZ6ANM9mDjVdMV4SXsiIx_pT3S1lp3RC_Q7mh_o7jF2dpYsni1Sl2TAWv6OCMCRTFmi9aE6BxDquGkOnwEg==@protonmail.internalid>
- <8b908a20-0bf3-447d-82ea-a5ecee1bf54c@linaro.org>
- <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
- <90a896f0-7b67-494a-abe4-dceb52067e65@linaro.org>
-Content-Language: en-US
-In-Reply-To: <90a896f0-7b67-494a-abe4-dceb52067e65@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3P287MB35199EB9309448F3EDD43402FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 21/07/2025 17:22, Bryan O'Donoghue wrote:
-> On 21/07/2025 17:16, Bryan O'Donoghue wrote:
->> drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c Documentation/ 
->> devicetree/ bindings/parch/arm64/boot/dts/amlogic/meson-khadas-vim3- 
->> ts050.dtsoc/ meson-axg.dtsi
-> 
-> Documentation/devicetree/bindings/phDocumentation/devicetree/bindings/ 
-> phy/amlogic,axg-mipi-dphy.yaml
-> 
-> Rockchip, Broadcom, etc.
-> 
-> The allocation of lanes is known by CAMSS and easily communicated to a 
-> separate standalone node.
-> 
-> ---
-> bod
+On Thu, Jul 17, 2025 at 01:11:53PM +0000, Hardevsinh Palaniya wrote:
+> > On Thu, Jul 17, 2025 at 07:26:49AM +0000, Hardevsinh Palaniya wrote:
+> > > > On Wed, Jul 16, 2025 at 07:14:17PM +0530, Hardevsinh Palaniya wrote:
 
-In fact its part of the dphy params data structure...
+...
 
----
-bod
+> > > > > +static int ov2735_page_access(struct ov2735 *ov2735,
+> > > > > +                           u32 reg, void *val, int *err, bool is_read)
+> > > > > +{
+> > > > > +     u8 page = (reg >> CCI_REG_PRIVATE_SHIFT) & 0xff;
+> > > > > +     u32 addr = reg & ~CCI_REG_PRIVATE_MASK;
+> > > > > +     int ret = 0;
+
+> > > > > +     if (err && *err)
+> > > > > +             return *err;
+
+^^^ (1)
+
+> > > > > +     mutex_lock(&ov2735->page_lock);
+> > > > > +
+> > > > > +     /* Perform page access before read/write */
+> > > > > +     if (ov2735->current_page != page) {
+> > > > > +             ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, page, &ret);
+> > > > > +             if (ret)
+> > > > > +                     goto err_mutex_unlock;
+> > > > > +             ov2735->current_page = page;
+> > > > > +     }
+> > > > > +
+> > > > > +     if (is_read)
+> > > > > +             ret = cci_read(ov2735->cci, addr, (u64 *)val, err);
+> > > > > +     else
+> > > > > +             ret = cci_write(ov2735->cci, addr, *(u64 *)val, err);
+> > > > > +
+> > > > > +err_mutex_unlock:
+> > > >
+> > > > > +     if (ret && err)
+> > > >
+> > > > Why do you need to check for ret != 0?
+> > >
+> > > To prevents overwriting *err with 0 on successful operations, which could
+> > > obscure previous errors.
+> > 
+> > Can you elaborate a bit how the *err is not 0 at this point
+> > (assuming err != NULL)?
+> 
+> A previous operation have already failed and stored a non-
+> zero error code in *err.
+
+Right and this function is no-op already for this case.
+
+> Assuming this function is used in a sequence of write (or read) 
+> operations. If the current operation succeeds (i.e., ret == 0) and we 
+> unconditionally write *err = ret, we would overwrite the 
+> existing error with 0, falsely indicating that all operations 
+> were successful.
+
+I don't see this scenario. I see that we apply *err = 0 when *err == 0 already.
+
+> Therefore, the condition if (ret && err) ensures that we only 
+> update *err when there's a new error, preserving any previously 
+> recorded failures.
+> 
+> Let me know if you have a different suggestion for how this should 
+> be handled.
+
+Have you taken into account 1) above?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
