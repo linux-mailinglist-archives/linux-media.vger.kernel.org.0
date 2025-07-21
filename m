@@ -1,130 +1,146 @@
-Return-Path: <linux-media+bounces-38188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38189-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0794EB0C88C
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 18:23:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B30AB0C8AF
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 18:26:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A56F21AA7797
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 16:23:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E3DB545261
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 16:25:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2272E03E0;
-	Mon, 21 Jul 2025 16:23:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF4632E0924;
+	Mon, 21 Jul 2025 16:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DEmk0UJS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0N8KIng"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848CD2DFF22
-	for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 16:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B3C2E093F;
+	Mon, 21 Jul 2025 16:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753114980; cv=none; b=R83xNJ4m6FNxcGgan9bxR7Y9xf+MusjT6mGU9xFOMPvabiVZ3ZII7JdrypQSeVHGfMmXH/hQG46l//wYecboSQHLI+n2NR8MnEqYwrXAmWNJWHAdEp0J4LZBOacQZ13KRmt9mzWu3uRvn8bYQhPlyt1FLgs4H5vw2Dnf8pe9BS4=
+	t=1753115098; cv=none; b=BJM/Itn6dJ7UxRUa58duj83eeZUdEhEakY7ZRiWmHxjBgbfCYEJ29SLq/5yX3iK6+EfG/2t1fBZ28m9vhpbYJBxsRuoV0K4H3UKgo2kE7lrvm7S/yI1hoSREW4H229H64bXWglHEqXuJ2zWpMHgQZE8aJTipXBT8TJp2tRt8kpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753114980; c=relaxed/simple;
-	bh=O6I6F+JBtuzhpPwj1u61pe7YVmTjBrSZst347vFK+J4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iINOcXd/cyS3rToBq8TQGcOINqIcGnj/D6a48z50mXKAWDwMvRTpnyWniatGz4tYDI0nEhjPwKw276cY0WkLkzu+odjMm4S+1db8lZUROOGiGmcdvlT1av1Qk6v/FlGcIWbDyeYUXKB6N3d8cgHE1AtBrSVlvFTPkPd8BDLwRi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DEmk0UJS; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a6e8b1fa37so3189089f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 09:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753114977; x=1753719777; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TxA1HkWcihAgiHesUgMnXVmrELXQs8wNZG5+2Hm4nPA=;
-        b=DEmk0UJSsid12IhrpLXiJXtFog3JemvWg/LklbuPAqxKfURTtRzYMrfXWiwRCaet57
-         w7SviqKiLa5mA9T2jwRS0QdX13WVwNYNEx5GXV4Hidj21aG2aCnp75q/ZViVx0raakkK
-         r1Xn3UnHiDUquIALYY3dgtwoZUWuNwNXw1RmBlkbRGLEuFQ2VGkFbX3Z6Jnayg74zsx0
-         ayJIWmQ8J/gIbLPu8ghCz+20bKOidC1c+BNALo1R4y0zGADZZ2pI5SOGkPpC0ze8Yl6i
-         58NzfwMWeD8kdBu+mZMCtjhBCnNoAMH6vhFH9l9gQ7DuGNPHMILWoH7iboQwLjdJiOU/
-         4gRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753114977; x=1753719777;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxA1HkWcihAgiHesUgMnXVmrELXQs8wNZG5+2Hm4nPA=;
-        b=raAOJWFsWc2hGdxD4dQ/DW+6Fv7CtQIL/w0Ciar36rRmzyytFiTsoUy5NZwJWyQtgD
-         jK/Jg0AHvmc+7KSZ7JsmIgoQo5wHzvUDH/XmaKzP5BM4jr/W7Wd9sArDa7qo5oWsuHkA
-         pEIo1IvBuchVlTGFnk8h6gk/EDNWgs9lFztKkSVM9BcE5vXQL/E7vSR0NfK/rrgCiVTC
-         XVSqEo/aMiEbm5Qy13MgaUWeBzTQAB+rUbDijUh4vQmGH7xUrgQsEWXjRuRgdAYsGeY0
-         +170Fr8ZURCRI/sOB3wmuz4zfDWAFzHzO2J3X5Yv/F6o5xs7MjtgxEq/Eq1EEumoCIqD
-         IoVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXA1LF629xTly7OXF0N1KbXFFbBlfqdTSp6GycBhOPKa297gQp2YOmj7Tyvqa93FziQMp4DqBHgmHZokQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7oGEZOpHolyu/U+5qZLSnYsjv5RQHQucQRZYiS+xRMgJxt2ZR
-	NvDSbJedu5/IpPfDfkatMBaBN6DPXGPxynJ3HBRj+mYkfu1SSAMEvbYah9BPFf3ggJI=
-X-Gm-Gg: ASbGncuzGZT+WRmcEfhuqqZNygC2TDdEUFys//TZdSfSZNnrhWBV3cgomJMvduxx6GN
-	3wmRGsgDfC8vhjiu2MBJfQZjg6mQ9O+20rijdMvQb0OOadG7q+yrQQr7dHe21XvAg3Ck/D+vwrK
-	Yq5nwpqrYAS/zK5v+fbJcY2jT8QPFvN7p438anz7g0fpzlAzIr2ANjWE5TZKA14dQTaX7ZLIXmr
-	oy9kclLhKy5goLuT9+4Rp4haWlgsj8XqpNGGQQELy1tHJF5tE1QGfj0A2UmypF2mIKOQls1y/0o
-	8vACaVWmMX9YjjGl2MrUnTG20760J4NJ3zZZGftAIMEb0WmAMMOyoi4hInCXg06E14F72fSH4qz
-	3Gyx6gbSHODXWcx/oYaOIfa/nQ2vYlT5z62KNdPZJShSCTmdbKbcT/8LE6e6GRYM=
-X-Google-Smtp-Source: AGHT+IHp3F1bGKZQuLQleiP5LQBGh2HZeuuoCI3Px72hTP9M9DOLyNGcLbYw36OIyWjFyB5RpreVGg==
-X-Received: by 2002:a05:6000:658:b0:3b6:13a1:8861 with SMTP id ffacd0b85a97d-3b613a188a1mr12726134f8f.38.1753114976724;
-        Mon, 21 Jul 2025 09:22:56 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca4d74asm10736869f8f.63.2025.07.21.09.22.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 09:22:56 -0700 (PDT)
-Message-ID: <90a896f0-7b67-494a-abe4-dceb52067e65@linaro.org>
-Date: Mon, 21 Jul 2025 17:22:55 +0100
+	s=arc-20240116; t=1753115098; c=relaxed/simple;
+	bh=Y0c8fyTNCDbBI1ib06Eg9UDIUghtCzMuq8qbf2t/k5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cf3j7S1b9ph2BQHlxi+rOtGRkPvyaeEtbcpY38VR1SgdAgiUjJBXb3Zz0i0BTXuaBMZaK3FrhSVcU2yaGiQbnC14yujM6YapjNKfONcgZCP7+KM7gAqgZn6ja4qSncYj4PcJ1rwbjsnC7H7uikhR7GkHTOzhjtyBgJUrlkcWLaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0N8KIng; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753115097; x=1784651097;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y0c8fyTNCDbBI1ib06Eg9UDIUghtCzMuq8qbf2t/k5w=;
+  b=I0N8KIng0drH2AyEy2zklWBPTdbm//+e0uM5oHYx5Cal8Jw3+cDPZvWY
+   lwrQ7dgUFrmD4mLHANl2fEAk+XZodaqvHVaAm07NnayIW8jQs2asFojd/
+   lYzAnvk++G69LRW8LqHyPyg4NMMV07zBiXFreTtmuX+tpVGnlEECxsvWR
+   TofXtuIvHen3AVThmU9V3XQaDRXTPdqIv19z4yDb+ZfIZa9KHjr+aF1yT
+   wS5c4Jz1OhWxdssH4mzGOFmwdJiuhAjIcxkspe/Hw92ZiX8QnTgRKQ1tI
+   m4HyauRyfDTvE7RDxqWKD4U411pKijmhJwXRTGCykZjUOx9vhFXr5LlKd
+   Q==;
+X-CSE-ConnectionGUID: RaKZtsdBRkWdEuS5bBUoig==
+X-CSE-MsgGUID: MXo5+SD7TjGwhcEfKGBqfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="72791487"
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="72791487"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 09:24:56 -0700
+X-CSE-ConnectionGUID: /80dSFaRRlanM/T6SY8zFw==
+X-CSE-MsgGUID: l0qUhxBCQz+Cpzl2V+Cj2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="158184620"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 21 Jul 2025 09:24:49 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udtJn-000GyP-0h;
+	Mon, 21 Jul 2025 16:24:47 +0000
+Date: Tue, 22 Jul 2025 00:24:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
+	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+	Robert Moore <robert.moore@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
+	osandov@osandov.com, xueshuai@linux.alibaba.com,
+	konrad.wilk@oracle.com, linux-edac@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org,
+	kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+Subject: Re: [PATCH v2] vmcoreinfo: Track and log recoverable hardware errors
+Message-ID: <202507220057.iVSR8aqd-lkp@intel.com>
+References: <20250721-vmcore_hw_error-v2-1-ab65a6b43c5a@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
- <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
- <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
- <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
- <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
- <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
- <eac3a877-a4aa-4789-9013-ab8b6c91e0f3@linaro.org>
- <0a12879f-dc4a-47fb-87a0-ac4b8bcd4d75@linaro.org>
- <53a19b1d-5665-4937-a07c-5dd1fcde06c5@linaro.org>
- <3b760685-97db-46e3-80a3-7fad69ad31cd@oss.qualcomm.com>
- <94b75177-9401-4e0c-966b-5847a29cb6f7@linaro.org>
- <427548c0-b0e3-4462-a15e-bd7843f00c7f@oss.qualcomm.com>
- <3UXVZ6ANM9mDjVdMV4SXsiIx_pT3S1lp3RC_Q7mh_o7jF2dpYsni1Sl2TAWv6OCMCRTFmi9aE6BxDquGkOnwEg==@protonmail.internalid>
- <8b908a20-0bf3-447d-82ea-a5ecee1bf54c@linaro.org>
- <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250721-vmcore_hw_error-v2-1-ab65a6b43c5a@debian.org>
 
-On 21/07/2025 17:16, Bryan O'Donoghue wrote:
-> drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c Documentation/devicetree/ 
-> bindings/parch/arm64/boot/dts/amlogic/meson-khadas-vim3-ts050.dtsoc/ 
-> meson-axg.dtsi
+Hi Breno,
 
-Documentation/devicetree/bindings/phDocumentation/devicetree/bindings/phy/amlogic,axg-mipi-dphy.yaml
+kernel test robot noticed the following build warnings:
 
-Rockchip, Broadcom, etc.
+[auto build test WARNING on 97987520025658f30bb787a99ffbd9bbff9ffc9d]
 
-The allocation of lanes is known by CAMSS and easily communicated to a 
-separate standalone node.
+url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/vmcoreinfo-Track-and-log-recoverable-hardware-errors/20250721-181439
+base:   97987520025658f30bb787a99ffbd9bbff9ffc9d
+patch link:    https://lore.kernel.org/r/20250721-vmcore_hw_error-v2-1-ab65a6b43c5a%40debian.org
+patch subject: [PATCH v2] vmcoreinfo: Track and log recoverable hardware errors
+config: i386-buildonly-randconfig-001-20250721 (https://download.01.org/0day-ci/archive/20250722/202507220057.iVSR8aqd-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220057.iVSR8aqd-lkp@intel.com/reproduce)
 
----
-bod
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507220057.iVSR8aqd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from init/initramfs.c:603:
+   In file included from include/linux/kexec.h:18:
+>> include/linux/vmcore_info.h:91:6: warning: no previous prototype for function 'hwerror_tracking_log' [-Wmissing-prototypes]
+      91 | void hwerror_tracking_log(enum hwerror_tracking_source src) {};
+         |      ^
+   include/linux/vmcore_info.h:91:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      91 | void hwerror_tracking_log(enum hwerror_tracking_source src) {};
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/hwerror_tracking_log +91 include/linux/vmcore_info.h
+
+    87	
+    88	#ifdef CONFIG_VMCORE_INFO
+    89	void hwerror_tracking_log(enum hwerror_tracking_source src);
+    90	#else
+  > 91	void hwerror_tracking_log(enum hwerror_tracking_source src) {};
+    92	#endif
+    93	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
