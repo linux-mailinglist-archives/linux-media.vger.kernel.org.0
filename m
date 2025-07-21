@@ -1,178 +1,183 @@
-Return-Path: <linux-media+bounces-38191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38192-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27A3B0C997
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 19:22:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45487B0C9AC
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 19:29:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C37917484A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 17:22:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0904F1887D58
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 17:29:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE1A2E0908;
-	Mon, 21 Jul 2025 17:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E223D2E0924;
+	Mon, 21 Jul 2025 17:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LRc9+Xpx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6EONrxQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641F52DEA81;
-	Mon, 21 Jul 2025 17:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E880A21421A;
+	Mon, 21 Jul 2025 17:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753118524; cv=none; b=QDGW7yTdDp0ymCTa9ZUZfG2DiqhxPCDVcDQnhiEYNyxRY6B8Nd+eEk1yBGaaSapeOWHxZy6ae3lpEjCOFQ3qnOzZIbRSV7R5l4Hc16W+MWvXKyMVM9yU7tgrv6YpyMtwsGUOb8q3Roj+BuveS+JSn/ooL6eDqQn06ntAG9RMhBk=
+	t=1753118951; cv=none; b=R7E2bkBKvUTgD3XCLAifnItmlQhX8si0v8PJj3oDaEx6yeczHpDmIgoSsj5OP7ZoamI9h8oHMziXdlWukXqVeEgQepT+Ha7U8ijQffsJiV99kFZ9EPqhHTlOKNpNjoqkxeNxsYF7ItraiQhRqBIMUT2+7tp2k5M0PHn0vJ7xr6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753118524; c=relaxed/simple;
-	bh=19QnsmtMaBJp/ZLnLTtT9839sTSAbE07uxa6iOYsNMQ=;
+	s=arc-20240116; t=1753118951; c=relaxed/simple;
+	bh=B8N6WxM+v8XOq0Vq34N67AdT6Tg5qewYqoq0XjzmhMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=seJNKbxmmW3Gg+X45H5kLiegsEGc4EKP53SaReyB7eAoMUqWLsfBVmINXG40nAucYfVrwIjuGQuaJbCFIZ+emkuIWmgEw0wIjRqa5jrB/4JHYcIxe3ZgqQ/paK7pS873JCA5HOc+7MxfCnmG7BuSfWHsLmwllLgWfb+w1GKLKBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LRc9+Xpx; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4sTON5O7FqlXK3Gw6vqLyBfxld8MweKfbEBjcyfpmWKCbOXoqn3Bcp+LCjj9sV/2udCcTOb28IVh040U2bmPNOM+hhHXPwQpB1+rsEtkANpqdwqaRP54IEfTRr8ViJDUy5QcfdgsuurZuQHPVTnk/LIgJ51T6/jcyMIvWuQSW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6EONrxQ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753118523; x=1784654523;
+  t=1753118949; x=1784654949;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=19QnsmtMaBJp/ZLnLTtT9839sTSAbE07uxa6iOYsNMQ=;
-  b=LRc9+XpxI2hP+C1C8fgJAU4a/79h2AmugPTeAMT8okxyZtoiZN+mzemX
-   xORNfdutjA/Nr97pZZ+ceDzXfFHbNNSm6nKbPWo1seLYHE5T2RUwl/yh6
-   lYKIysGwf/j+y+Oat0v6ID9E/XkJioRZsczv0EAIF60C1VK3NtP07vSBy
-   c8HvVeA7L+8wZy7j+BN4Yj3ayY5pFfwABBwG0HabircZN66No7zcU/Q8n
-   EobLVm/kTnFT1o87bcQEacVpgGiF4GWMC/DCbeVksDOB6wsR7CaFxT+5x
-   6tgn2WqQhlXHhVJf4w6B2mYm0VsX4h21+8WRqc4XWDrXBOv6I7x8SV/ib
+   mime-version:in-reply-to;
+  bh=B8N6WxM+v8XOq0Vq34N67AdT6Tg5qewYqoq0XjzmhMY=;
+  b=B6EONrxQnhfsTChYD+4AWzl2HrFhag/By+PYGncL64XrHe0JecZDe620
+   xYZJY4cR0ZjTkCBXInXetM68Q806YBgX8bYtlj5p8Rzq97Fur4ZFeZcyD
+   T2+0oi8im2aH8PENMq5JXvp6Oonnorfhs2b1estBKYyK0zjqnP9gqnXbN
+   duR9G0m6MsuyYdzJleh6Xihg1gr8DBLFTccuVmSfDdUDCAez56NBvCzl4
+   2mCsA3q72caIadA3o1GPXFTXPNz4v1mn7lxFZwKREggc75IHwN+HHSbsO
+   Fh3oDoyzBiB0bFcFaY9fWWINjvJHVkl+dghfJ/zEDIbsn7a6iEe7MN+u4
    A==;
-X-CSE-ConnectionGUID: rCid1t7ORtukg5YQfZ3JhA==
-X-CSE-MsgGUID: 8TYuxRsETnSuTf+D6l4mNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55435195"
+X-CSE-ConnectionGUID: Y6IjqbRKTaGKQ9rPUP3rNQ==
+X-CSE-MsgGUID: SVzJg0oAQsKTnmR4O+w6Ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55286814"
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="55435195"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:22:02 -0700
-X-CSE-ConnectionGUID: pU2NcPsoToq9C/4WY93oBg==
-X-CSE-MsgGUID: 5J6kS8FAT4uXfvx9Nyvhiw==
+   d="scan'208";a="55286814"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:29:08 -0700
+X-CSE-ConnectionGUID: QlR1Fjn/Rf+FBkC9266sQA==
+X-CSE-MsgGUID: jyUa+hUEQEivMclXV/4H8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="163451965"
+   d="scan'208";a="158202195"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:21:56 -0700
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:29:04 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uduD1-0000000HOPq-47vg;
-	Mon, 21 Jul 2025 20:21:51 +0300
-Date: Mon, 21 Jul 2025 20:21:51 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uduJx-0000000HOV6-11Cc;
+	Mon, 21 Jul 2025 20:29:01 +0300
+Date: Mon, 21 Jul 2025 20:29:00 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: LiangCheng Wang <zaq14760@gmail.com>, Andy Shevchenko <andy@kernel.org>,
 	Hans de Goede <hansg@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 2/2] media: i2c: add ov2735 image sensor driver
-Message-ID: <aH53L948F7m16eHZ@smile.fi.intel.com>
-References: <20250716134426.8348-1-hardevsinh.palaniya@siliconsignals.io>
- <20250716134426.8348-3-hardevsinh.palaniya@siliconsignals.io>
- <aHe7NFJz6aCUqZXL@smile.fi.intel.com>
- <PN3P287MB351951A3DBA4FA85404DA410FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
- <aHjubei5Aex9n-HI@smile.fi.intel.com>
- <PN3P287MB35199EB9309448F3EDD43402FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v10] staging: media: atomisp: fix indentation in aa, anr,
+ and bh modules
+Message-ID: <aH543MEsDbnhRzM8@smile.fi.intel.com>
+References: <20250718-new_atomisp-v10-1-54bdff660058@gmail.com>
+ <8f7db034-6b38-44c3-b841-ef4bc1db3973@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB35199EB9309448F3EDD43402FF51A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
+In-Reply-To: <8f7db034-6b38-44c3-b841-ef4bc1db3973@suswa.mountain>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jul 17, 2025 at 01:11:53PM +0000, Hardevsinh Palaniya wrote:
-> > On Thu, Jul 17, 2025 at 07:26:49AM +0000, Hardevsinh Palaniya wrote:
-> > > > On Wed, Jul 16, 2025 at 07:14:17PM +0530, Hardevsinh Palaniya wrote:
+On Fri, Jul 18, 2025 at 07:06:10PM +0300, Dan Carpenter wrote:
+> On Fri, Jul 18, 2025 at 11:02:14PM +0800, LiangCheng Wang wrote:
+> > Fix tab/space indentation and move a standalone kernel-doc
+> > comment of the 'strength' field of the struct ia_css_aa_config
+> > to the whole-structure one.
+> > Align with kernel coding style guidelines.
 
 ...
 
-> > > > > +static int ov2735_page_access(struct ov2735 *ov2735,
-> > > > > +                           u32 reg, void *val, int *err, bool is_read)
-> > > > > +{
-> > > > > +     u8 page = (reg >> CCI_REG_PRIVATE_SHIFT) & 0xff;
-> > > > > +     u32 addr = reg & ~CCI_REG_PRIVATE_MASK;
-> > > > > +     int ret = 0;
-
-> > > > > +     if (err && *err)
-> > > > > +             return *err;
-
-^^^ (1)
-
-> > > > > +     mutex_lock(&ov2735->page_lock);
-> > > > > +
-> > > > > +     /* Perform page access before read/write */
-> > > > > +     if (ov2735->current_page != page) {
-> > > > > +             ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, page, &ret);
-> > > > > +             if (ret)
-> > > > > +                     goto err_mutex_unlock;
-> > > > > +             ov2735->current_page = page;
-> > > > > +     }
-> > > > > +
-> > > > > +     if (is_read)
-> > > > > +             ret = cci_read(ov2735->cci, addr, (u64 *)val, err);
-> > > > > +     else
-> > > > > +             ret = cci_write(ov2735->cci, addr, *(u64 *)val, err);
-> > > > > +
-> > > > > +err_mutex_unlock:
-> > > >
-> > > > > +     if (ret && err)
-> > > >
-> > > > Why do you need to check for ret != 0?
-> > >
-> > > To prevents overwriting *err with 0 on successful operations, which could
-> > > obscure previous errors.
-> > 
-> > Can you elaborate a bit how the *err is not 0 at this point
-> > (assuming err != NULL)?
+> >  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> >  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> >  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> > -		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
+> > +		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
 > 
-> A previous operation have already failed and stored a non-
-> zero error code in *err.
+> No need to add a comma to this line.  The comma at the end of the line
+> is useful when we might add another element to an array.  But here the
+> length is fixed.
 
-Right and this function is no-op already for this case.
+Still, it's good to have it to avoid any additional churn in case it
+might be extended. We can argue if this needs to be a separate commit
+from the main topic of this patch.
 
-> Assuming this function is used in a sequence of write (or read) 
-> operations. If the current operation succeeds (i.e., ret == 0) and we 
-> unconditionally write *err = ret, we would overwrite the 
-> existing error with 0, falsely indicating that all operations 
-> were successful.
-
-I don't see this scenario. I see that we apply *err = 0 when *err == 0 already.
-
-> Therefore, the condition if (ret && err) ensures that we only 
-> update *err when there's a new error, preserving any previously 
-> recorded failures.
+> If someone were to add a comma here and it was new code, then that's
+> fine.  But I don't want to have to review a separate patch which only
+> adds a unnecessary comma.
 > 
-> Let me know if you have a different suggestion for how this should 
-> be handled.
+> >  	},
+> > -	{10, 20, 30}
+> > +	{ 10, 20, 30 },
+> 
+> Same here.  This comma serves no purpose.  We can't actually add
+> anything to this struct.  What would be actually helpful would be to
+> use designated initializers.
 
-Have you taken into account 1) above?
+Here we touched the line, and adding trailing comma just reduces a potential
+churn in the future. I can show you plenty of changes when patch touches
+unrelated line just for the sake of adding a new one after the affected.
+
+...
+
+> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> index 899d566234b9..3de7ebea3d6e 100644
+> --- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> @@ -11,14 +11,14 @@
+>  #include "ia_css_anr.host.h"
+>  
+>  const struct ia_css_anr_config default_anr_config = {
+> -	10,
+> -	{
+> +	.threshold = 10,
+> +	.thresholds = {
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
+
+With the trailing comma it will be better for the consistency in this case.
+Otherwise I like your approach.
+
+>  	},
+> -	{10, 20, 30}
+> +	.factors = {10, 20, 30},
+>  };
+>  
+>  void
+> 
+> I added a comma to the end of .factors because there is a 1% change we
+> will add a new member to the struct and it's the right thing to do.  I
+> was already changing that line, so I'm allowed to make tiny white space
+> changes like this.
+> 
+> But notice how I left off the comma after the numbers.  That array is a
+> fixed size and nothing can be added.  Leaving off the comma communicates
+> that.  Also there was no need to change that line.  It's unrelated to
+> using desgnated initializers.  If you added a comma, you would need to
+> send a separate patch for that with a commit message to describe and
+> justify it.  As a reviewer, I would need to go through the line
+> carefully and verify that none of the other numbers had been changed.
+> 
+> The commit message for the above patch would say, "Use a designated
+> initializer for default_anr_config.  It helps readability."  There would
+> be no need to mention that "I added a comma" to the end of the .factors
+> line because it's a minor thing that we're not really stressed about.
 
 -- 
 With Best Regards,
