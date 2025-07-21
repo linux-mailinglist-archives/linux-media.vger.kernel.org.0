@@ -1,98 +1,128 @@
-Return-Path: <linux-media+bounces-38127-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38128-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2713B0BC00
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 07:20:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B84A2B0BC67
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 08:18:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92B191895CFA
-	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 05:20:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8069C189B0AA
+	for <lists+linux-media@lfdr.de>; Mon, 21 Jul 2025 06:18:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65070219E93;
-	Mon, 21 Jul 2025 05:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430B425A2B4;
+	Mon, 21 Jul 2025 06:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BwGVDoAb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNqJs2Na"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8374A0A;
-	Mon, 21 Jul 2025 05:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53DE253B5C
+	for <linux-media@vger.kernel.org>; Mon, 21 Jul 2025 06:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753075229; cv=none; b=bqS0kWKgPeyQHaDQdTGlrcfb1dxGLYkdz9l7UPz4ynxm2enN5zi4Ne3D0G7jNSmtHONDzw+g+1DlY+dv7PPqZNUugLUY/0TwolNVlfMeQheDbfpp+M/ocmLfjB3qvkV7n0DNjtGRF5Rh3Q4LjtzmnzLxAf6hhVT08lNAO0tmtXw=
+	t=1753078680; cv=none; b=ud8BNQ4COYv2dGkZqXpaZ/6htMWQ4sM9uRid2ckF3dUIc/fdH72r3rHio9UyTtUxcqFgkiMtpDLQhCTxeQEhJbPYBFMkiUNsCcnKtYKJqI9sDKuhTpThQF1GMReo1cwZGImGg1U5OdPgEHtO5yyKWHB5RDum/mvhipEsyGrHlTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753075229; c=relaxed/simple;
-	bh=c+TpxikRGVZUGQJzzbs5bR4dhcxusvGe+ApCVUiCEZI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gsw18N9nDTqNECCHNVJUWnAzVX1FGvD/OmjYwsncXjz93XYc3P0eC4F8uHlGq3Dn79OtcMyoSeWNWCks/k1/iVAT7Okozap2yWwaifz87auZUmy784JErAkO4ThHNy7nOd5c+NPaHtaqjY0J/QLwLRhX7haQ+kvrtgWEsiHAILE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BwGVDoAb; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b39011e5f8eso3218721a12.0;
-        Sun, 20 Jul 2025 22:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753075228; x=1753680028; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c+TpxikRGVZUGQJzzbs5bR4dhcxusvGe+ApCVUiCEZI=;
-        b=BwGVDoAbHdDmCKVX1YNZuz9EL7wspnzseazkY4OpjMRotFEGOqXo3GZoAHZH+fPpb5
-         D3gQQ2TyM/Zfu+n6/jjuJyXVVlXZZyhzPV35iueOgzlDpFBSXw77XnCU7kPw5S7K3dOL
-         BkXjv+FjPHbLF4fv1tmi9igUB06bqgrAax4FvMHs+QX+Pl9fY9juTVcpJbysZJIhKp3U
-         38E2AonfpXd1PZXghESl1TbrSwu2T29C9dr77BGTnSjtrO390FBe/CNVirt6t8LH6clG
-         fg+ZTO+0IWnWmdeF82v3nLYzKpDjmVe8wBQw5sV1SzRhOkdTnCGxUOKSCemNe2uqxiRG
-         ExLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753075228; x=1753680028;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c+TpxikRGVZUGQJzzbs5bR4dhcxusvGe+ApCVUiCEZI=;
-        b=pOjSRwUCQLEIlDbshlhhLvlqO4PPCce1o1W2t0q56s0q2Wy0W582KM+YEDiNppqpAq
-         dqw2wbp8bl8Z/gKVh8vpCp04iif8aX2/neZPD8r8tcJsxpQsFqVkRPXev4liByODsOyP
-         JMiwoZrpQ1RKjCOJgPtcCzdExM1htTCEI4s6A+HzSV3Vtb9RA4UF5oE4Eo5iTAf6fdYQ
-         Uy3USqtEq1aXKhprquhjmoEOPbm0/0XveRrGm6zyvvDKslxaZQIRD5cXH6Mj5IO6Gj2w
-         GfqsQDGqUff4ipApHYPjqoU59gs4RTaX/A1MdLRL4/uo2y9ZUC2NtqOaQorqcxaUHG6+
-         zfvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdxErOKyZIPeFU9ESEj4fTknYETJTpJ3V25nqYaAvguWJjU7aBZChHJNsxl1z0WD1bOVbqKCU06k6D4D8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLLjDszrRNyEjjPVHtpLTmtmA9eceHugcxVy6Ff1VqjXiAcmQK
-	KL/xqag63HEGAR0WQZtom/5d2dxfGZkFK7KeMzCBGmbANzLqVzk0E2qxOzrHj07KHh8z0ao1eik
-	or6JwaUywvWbCaRrwNIdpYmLTNhHLF9I=
-X-Gm-Gg: ASbGncuRj5aUKCs6b3ePX7o6mL1BxIv5jdL1n9Ljxj5DVV2svrgz0EaOaCQBfXY5JQI
-	t6me3mBLlSdpXqrvhamVhLXqr4V7b68EutOoaWnM3Sh38xWt5GNRGJ07BXH9H1ke8FYZaGEHuEK
-	kkEVpbGsIi1HiDrJf6+otbWsF1fNc0m3NbPl51wwal5+G3xRvHfLnOqcsUNgjCjtXp+RZhtmUVN
-	Fff1IfrcuYznobCEcz3hf1RrC8U41nBIjKYkE/lgM9mA9h5Wsxt
-X-Google-Smtp-Source: AGHT+IHxfzyo1XgQnSudJw50XEQsNlwUsL3kqkFTPHV3rMwTS/8poVlebJxMCv3BJUQ7psgRl8CIqtpJUcNgDrl9/Z0=
-X-Received: by 2002:a17:90b:2685:b0:311:df4b:4b7a with SMTP id
- 98e67ed59e1d1-31c9f4b50d3mr29393503a91.29.1753075227663; Sun, 20 Jul 2025
- 22:20:27 -0700 (PDT)
+	s=arc-20240116; t=1753078680; c=relaxed/simple;
+	bh=iMefM2o3LUwyiapBJi7cxYSxajZ9WLbUcC8Flx/olfU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=S8y2h5UYouJzM+1AeKOe2m91Zm9a7/IO7a0JQnfi/iggMG429TyMmh6gEVxvoPxU2ixKuxRoIjJSn2Ant/8UOI4ZaFpCmqbCTmFd8DE1LdXc1FARP4CqLjpDx9z6of2e2KTWYQESFbdNmW67N3BFGvcjCEGyZJwE0jSy0sroSCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNqJs2Na; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D19FC4CEF1;
+	Mon, 21 Jul 2025 06:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753078680;
+	bh=iMefM2o3LUwyiapBJi7cxYSxajZ9WLbUcC8Flx/olfU=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=ZNqJs2NakYm3I9ZCWCPJiE7CIWcsg3b3VhWrW/S2yCsbCkEzDuivCndJnUO8ivZHS
+	 1fYCLtLwbh3abdanzw2reDo3JJ+SlxwsfOPWk3W/EBJYGufy0H4DRfPJUHhssMCsLM
+	 MdJVfRGASyvJqRFt6KGosKj8FfoZRUkYEM4dHxrIyjvEkIrCQgGb9neoMKmyxrKmLT
+	 ojTJyryokOx+o2S/qQXMOhctQ2xkVmCeeEJxE8clXg4JHb4vxRSPlweHWwkhCO2YOV
+	 cIrUrK+d0DGjoTVlbZGnQbbzK+plERqQHovHhm1YhEqy436uDJa4iCOzcdeLPfnrDi
+	 ZSLSEwuOFaMjw==
+Message-ID: <9e863578-23c5-44ef-aeed-560c5c64f7c8@kernel.org>
+Date: Mon, 21 Jul 2025 08:17:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250718145149.3180-1-darshanrathod475@gmail.com> <54d3ec28-0e6c-4e9b-bd93-966efe649054@web.de>
-In-Reply-To: <54d3ec28-0e6c-4e9b-bd93-966efe649054@web.de>
-From: Darshan Rathod <darshanrathod475@gmail.com>
-Date: Mon, 21 Jul 2025 10:50:41 +0530
-X-Gm-Features: Ac12FXzgWCDlJoOMUr6GETLIsZnUW5GgmBnqrphKQDHe5SAeBLRUN8tRo_7ICAI
-Message-ID: <CA+db+r5pf7nYxPx3Z5FV-69ucJqMwoqXJAypaG0JnpiNXC_JFQ@mail.gmail.com>
-Subject: Re: [PATCH v2] media: b2c2: flexcop-eeprom: Fix assignment and
- missing return in MAC check
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: media: cec: extron-da-hd-4k-plus: drop external-module make
+ commands
+To: Randy Dunlap <rdunlap@infradead.org>, linux-media@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede <hansg@kernel.org>
+References: <20250719005942.2769713-1-rdunlap@infradead.org>
+ <687afeed.050a0220.3aa8f2.1836@mx.google.com>
+ <f31f468a-7708-4359-bfa2-31b16c159429@infradead.org>
+ <64c36427-0c1f-49c9-85e2-8c803e804d70@kernel.org>
+ <02525806-ce90-4c98-ab5d-bc414820936b@infradead.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+In-Reply-To: <02525806-ce90-4c98-ab5d-bc414820936b@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 20/07/2025 18:50, Randy Dunlap wrote:
+> 
+> 
+> On 7/20/25 2:22 AM, Hans Verkuil wrote:
+>> On 19/07/2025 22:38, Randy Dunlap wrote:
+>>> Hi,
+>>>
+>>> On 7/18/25 7:11 PM, Patchwork Integration wrote:
+>>>> Dear Randy Dunlap:
+>>>>
+>>>> Thanks for your patches! Unfortunately the Media CI robot detected some
+>>>> issues:
+>>>>
+>>>> # Test media-patchstyle:./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch media style
+>>>> ERROR: Commit 056f2821b631df2b94d3b017fd1e1eef918ed98d found in the stable tree, but stable@vger.kernel.org not in Cc:
+>>>
+>>> OK, will add that.
+>>>
+>>>> ERROR: ./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch: Don't Cc hverkuil (Cc: Hans Verkuil <hverkuil@kernel.org>
+>>>> Cc: Hans Verkuil <hverkuil@xs4all.nl>)
+>>>> ERROR: ./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch: Don't Cc mchehab (Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>)
+>>>> ERROR: ./0001-media-cec-extron-da-hd-4k-plus-drop-external-module-.patch: Don't Cc linux-media (Cc: linux-media@vger.kernel.org)
 
-Please disregard this patch. I would like to formally withdraw this patch
+Ah, this error message isn't clear that it is about the Cc tag, that should be clarified.
 
-Sorry for the noise.
+>>>
+>>> Why these complaints? In Docmentation/driver-api/media/maintainer-entry-profile.html
+>>> I see:
+>>>
+>>>   Patches for the media subsystem must be sent to the media mailing list
+>>>   at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+>>>   HTML will be automatically rejected by the mail server. It could be wise
+>>>   to also copy the sub-maintainer(s).
+>>>
+>>> OK, so according to this, I can Cc: (or should that be To: ?)
+>>> hverkuil@kernel.org and drop the copy to hverkuil@xs4all.nl.
+>>> Is that correct? Should I send a copy to Hans or not?
+>>> It's unclear (conflicting advice).
+>>>
+>>> And I can drop Mauro's email address since the delegated sub-maintainer
+>>> can take care of it.
+>>
+>> You can CC us in the mail header, but adding Cc: tags for the mailinglist and the media maintainers
+>> is overkill. Calling it an ERROR is probably over the top as well, it's more a warning. We're
+>> still fine-tuning those automatic messages.
+> 
+> Ah, so it's the tags that are the issue. Thanks for the explanation.
+> 
+>> In any case, thank you for the patch, I think it accidentally ended up in the Makefile because
+>> for quite some time this driver was carried out-of-tree and I forgot to delete it when I
+>> mainlined it.
+> 
+> Sure :)
+> Do I need to send a v2 of the patch?
 
-Thanks,
-Darshan Rathod
+Yes please.
+
+Regards,
+
+	Hans
 
