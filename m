@@ -1,76 +1,78 @@
-Return-Path: <linux-media+bounces-38218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38219-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FB1B0E508
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 22:36:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C9EB0E612
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 00:06:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15B863BD5B4
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 20:35:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A51671C27CDA
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 22:06:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 711D82853E5;
-	Tue, 22 Jul 2025 20:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C544A28641C;
+	Tue, 22 Jul 2025 22:06:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WjdYQDiB"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="JnN3kkXK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786F027E7DD
-	for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 20:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB07280A5C
+	for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 22:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753216569; cv=none; b=jV+a8maksuTFuQJ84tctY1PIrmyoISF72B2iACBAa+CiUxt/Dl84NrT3CYH/HHPPX92dbkglNKz3CPT1SbHFZ+bC3VhiP3RX4ldHJu70k5hTO0oVT6P7V42eSsgXuVLhtcqAi1N8FNYhA8qqKlSSw3/TdszK/LgrZEan8/WZ+VA=
+	t=1753221964; cv=none; b=rhc7WeHdRWYf2Fm0zCNhNe/4igvZk02YrNwQqA1wNc4Tzi72fIatygJKZO1N+iNNukEE6USJiFw2nDIsk/hWr3Q1CXwzffYi60MrObmKVrV3PNXB1rQZXMET0BMdZc20nPY2hTsDiFQkYNgAKlf/5PHIJu4xLdtMr6WJi2zI+GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753216569; c=relaxed/simple;
-	bh=8bxoz11IclHWwjha5/jlpRbpgbpr8raTeUpA7+6w/j0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ix9DHWg7XZcmVHY6cEhPUj15p6sllGmjSjd+WsfKxSHd6v5llaIBRWWU/KZXFcohA9/UnuWoxt8Bv57WdoB/dUb8Tw2ofYM3rd5UG3zty0T23GGIba8wl1at1R3encRflzqRAAa1i8i+ga/fmOmvk2L71pPU3a5abcsiz20Ve9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WjdYQDiB; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-234d3261631so48761455ad.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 13:36:08 -0700 (PDT)
+	s=arc-20240116; t=1753221964; c=relaxed/simple;
+	bh=lpFJnljj6qw5DPDCllOk3KLfDdS3/fflg4syde/pRRw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qW1In9FQIRV0p09QD9Nnzp9UwOxJDjgr2bjon+3XpoRfcVXZtO7gktzX5Zlop5TS6iLkHgmMPaxQrEoOsziECquMevABYGyFMVGDC/CCty7FDqCKOrzu86qlttUqvdRR+XGadfxdCVfzyzH75X9mEshcUjtloP18AwI0DviJDdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=JnN3kkXK; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-301a83477e5so2915517fac.1
+        for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 15:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753216567; x=1753821367; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1753221961; x=1753826761; darn=vger.kernel.org;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Fwnd8+rlpdsPWzSX90R7aWBxNlk9l7Bj+L/1PupwCc=;
-        b=WjdYQDiB92cR9AruDl2lkyk9gryK8tDF7kOGF93H1KdIQYVkO9HqeOFuegd2fkZSvf
-         8QkHKYW/foizIqssLnEQns+m+ftqa0ecaHdOiivyCzKxcxd69/LKu26apT2BQrT8uaWv
-         NuQR+VHIMkfH27xcemTbEAgjGETDWwDjPjwyI=
+        bh=UHWF2/V5NpEgDswj8L/zqvJZDHIBpGOIkvyGm+1bSdo=;
+        b=JnN3kkXK5wJik/0Dqf2HteE8s9BxXdkY5CI6uRQAotFF4mdwjs9H4EIAX6BI0R4DRl
+         nC6li6sTJbr2O3JhgIMkY9N3Wm/da38/ddbFpy1jDZDcXFsYUdBy+zgr8BH/JeEpaLQv
+         3FUWGQri0SL9dj1HA8dyvcNdQyXEVSAKJ5XJz0od4YD86UVrdViPf3A1UIbOgIB9CEQm
+         buGOr3XZKMJjy8/nIx7vrUk60oZeB3zZu68SSX3FgoggmeRhTOulgW9P9gPE8zHCetPo
+         VuyqeuxFlwpLg5Zo4zDTzsFuo9//sLck6i9Xh1Szzoo9aHKs4u2K94Iy5Lx3sQfj9waz
+         c5+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753216567; x=1753821367;
+        d=1e100.net; s=20230601; t=1753221961; x=1753826761;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7Fwnd8+rlpdsPWzSX90R7aWBxNlk9l7Bj+L/1PupwCc=;
-        b=owOIDX9OPUb3M/Yy6K+W/mGRwnfXGswHxaaCD7RRkRkc/EJMPFnaXs0solllBKQszk
-         1C6EqDrZcalV3hPZCF3jsOcIz5TnofBie5J15kipPCW3dDu9h8oxSMmXa7NxIljI3iEf
-         KhlBJ6PCT/TwNrgrlgri4QZU317Nm7L2akfTNKZCh4MF9oMRTFSk1SIFmurPPaB3RLmK
-         n/T/m52i0BmAlaj6lSdOuIPVQ6VCHmtcrEeyAjKsJ58pnh3M2KGlAdba3spcVhMEQ1Ba
-         B+DGE/PTP3MuawS2qZ430oIm0kcfy1SDZxeOtNpueO5DcHyKMzI/bs0NiASZmtNhROjI
-         1iLA==
-X-Gm-Message-State: AOJu0Yzv+3FiqwVmnbiggkpvYjjzLw5aLgIOi0FxL4q8a077O8CmG65c
-	KPJzvvmRjzNnuXc1Q08goMSg1ErhTltcJW5ZGoANecWhQpfaVvbgWrgq2oYsAi1g4bUIm807Is5
-	S++A=
-X-Gm-Gg: ASbGncuPtqNfzlaAl94non9/SQDCttQimvTyd2C0c6wquJN7uYr4vwyQohMktccEBAx
-	a79UuRCIhIUL0ANDA6ikSpGhMUTvts/E3WLy5GiECXAnTwbBm5y+eeBKMU4zKvE/5eJ75SzZC0v
-	33YmpbErvw5YxwfSqlXLlxfB4vNsC5qk3aWeWZKPKfhDiIi09NBqNcyGgXcux7Lv3l4UynYFvGx
-	FBaLDcjybFyR65tUdWGyuykpawr+ZhubKjliE67m7kgioanMlbi1Dd1UeVpts8bZ0dv3wVPqitV
-	PXLbgmtKI7YqxW1mzV/QtVxWdsO8oRl81oecZfA+bQ0h3u0HQoGCboSHUaZpau39h2MaxrY1eOt
-	L0tB5MO/81Z9XlJmd7GYzFYL1DIEiSC9fgeTd/KZUPu0krpY=
-X-Google-Smtp-Source: AGHT+IFsAM+0JFqi5v2GadpRvqr/FUdYl9fpGwYmPAtyAQxHuYzzs2yAOgbD4ESE29lV23bc2w2r2g==
-X-Received: by 2002:a17:903:faf:b0:236:15b7:62f6 with SMTP id d9443c01a7336-23f982036a4mr4849565ad.34.1753216567319;
-        Tue, 22 Jul 2025 13:36:07 -0700 (PDT)
-Received: from ballway23.roam.corp.google.com ([136.27.48.153])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b5e2cfasm82211765ad.30.2025.07.22.13.36.06
+        bh=UHWF2/V5NpEgDswj8L/zqvJZDHIBpGOIkvyGm+1bSdo=;
+        b=Yg2Lp9nRCG80FmN5l3EdBrviQLfXWx3FtygNmpiC+MAfevgknwAmy/oGus5vaz3dRs
+         g61Jk+FidIpZBdLhQz4HLSv1Rlfaigi8/5W86hz90YZ0Gu23MrW4ag9Is98S4M+Zgb8Q
+         a+uAuAj9dLqV5MUuhiGu33TMKjzBaDGvY2KuqghPgLAOYBbJnK2491Ij+lPYzQcT5xsh
+         fx/FeZ4C3jUeBTUxrMIH2lagcw8pbm/1Qr22eJh3KLBthDx+g+vQ0h1Wp3qW4B0iFgi4
+         jvM9i+GTZ4pfRTSqTS8+bvbWSuZit3qrRQBJ7pPzqqJEB2VudCFz420bJK8me2CbFM03
+         PRVA==
+X-Gm-Message-State: AOJu0YwaQgLZzDpuwqLWl7aM7N58GPg7RSeFPMvQVzlGBE4mTUmiAkOx
+	CoxVbjrPBAHpAxQtpyJ5ahw1nHMjIngSrSwlvw6HoNxl25xjT26KFhLesMHPwswgG58=
+X-Gm-Gg: ASbGncvJhpQsChKPds4FO6KJi/yCOyMx/ZRXOle+f2CmY5mmwqq/i9jM3HpG5NAU6Lt
+	3wi4zDvVi37RL0qbivA1U7PLOQSAQcafLiSM8bXun4yVEKRQ/Z6d9sFYr5U6RFfFqkp4ElCAMTF
+	iUCOAXQ3uAeBuk+7JHPBi3Y7vsn4TsOqvxLwNjFZ4QPAwsVPJ8KkUZ1x1/VmwzJMVagROf17c1t
+	eZD2yApQDalfejd3JeY2fjNtTQaLd24gjTS62jR3yMyiEsn7oM+fsjlyx9dfn5zTXlVFMBB4JqQ
+	45yBsPwIO6sRAWIgqe5dgAjwadEQ3U+9jMUvUlDkaC9Y2mAWgH4/pbDcJM7PUbnNirmm4e3kCs9
+	cR9tBszUGQE1ECWNcsIkwbEiREGMa/Wl4Vx7ciQ==
+X-Google-Smtp-Source: AGHT+IG8AZUaOOthsN+h4ZByvI4M5G8r0CxEn7gVrJrhlLHm1ZIS6+SECI89whk6IPjJs2cOzTYtUg==
+X-Received: by 2002:a05:6870:d24b:b0:2ff:a802:6885 with SMTP id 586e51a60fabf-306c6fb8174mr511708fac.11.1753221960919;
+        Tue, 22 Jul 2025 15:06:00 -0700 (PDT)
+Received: from [127.0.1.1] ([2600:8803:e7e4:1d00:11dd:c0f5:968d:e96])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-615bcda2865sm2191120eaf.26.2025.07.22.15.05.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 13:36:06 -0700 (PDT)
-From: Allen Ballway <ballway@chromium.org>
-Date: Tue, 22 Jul 2025 13:35:43 -0700
-Subject: [PATCH] media: ov8865: move mode_configure out of state_configure
+        Tue, 22 Jul 2025 15:06:00 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+Date: Tue, 22 Jul 2025 17:05:46 -0500
+Subject: [PATCH] media: pci: mg4b: fix uninitialized iio scan data
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,67 +81,61 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250722-mode_configure-v1-1-5ea35052a01f@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAB72f2gC/x3MQQqAIBBA0avIrBPUkKSrRETpaLNIQykC6e5Jy
- 7f4v0LBTFhgZBUy3lQoxQbZMbD7GgNycs2ghNJiUIofyeFiU/QUrozcCCm035zptYMWnRk9Pf9
- wmt/3A0nt4RlgAAAA
-X-Change-ID: 20250722-mode_configure-80105fbd835d
-To: Hans de Goede <hansg@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
+Message-Id: <20250722-media-pci-mg4b-fix-uninitialized-iio-scan-data-v1-1-5b236115264a@baylibre.com>
+X-B4-Tracking: v=1; b=H4sIADkLgGgC/x2NwQrCQAwFf6XkbKAbWor+iniIm1gf2G3ZbUUs/
+ XcXj3OYmZ2KZ3ihS7NT9jcK5lQhnBqKT02jM6wySSt9O4jw5AblJYKnsbvzAx/eEhJW6AtfNwZ
+ mLlETm67KYtFDP3QW/Ew1umSvyn94vR3HDxp/4C2AAAAA
+X-Change-ID: 20250722-media-pci-mg4b-fix-uninitialized-iio-scan-data-2dce1574d1e9
+To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Allen Ballway <ballway@chromium.org>
+ Jonathan Cameron <jic23@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>
 X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1109; i=dlechner@baylibre.com;
+ h=from:subject:message-id; bh=lpFJnljj6qw5DPDCllOk3KLfDdS3/fflg4syde/pRRw=;
+ b=owEBbQGS/pANAwAKAcLMIAH/AY/AAcsmYgBogAtAZJN3Fu2i8eNt5P0L9WthmCBSa/IDvl7pN
+ 7pgwzYaa/aJATMEAAEKAB0WIQTsGNmeYg6D1pzYaJjCzCAB/wGPwAUCaIALQAAKCRDCzCAB/wGP
+ wMNOB/9jWyieuoXD5wmD38r6ar6s1K0cEqX9t/aCwGb+i/jdZqwTzjKHaI9vTuKHG5nXCk2G1DM
+ OL3OIES+c0pNaZ+RdYR47Q9XE4YxaKXJCm1epGD8idJQAZzYSOVJF/znQdUwXaO673j9A88c3R8
+ XhxT+9E5Q88BacHK65JYD+7HsICElpMrWV+g9CHqa0omWlbHg8qQG/GUe9hviScICLqCi5kcUmT
+ 4FVdDK5iX0eVZmuQbrfn68LEe/HOWcR93OyyKMCpUD8j3tPxMz0USutdawDigZEqwC1oBnEt4kJ
+ ENMY6IhLrJOrLpW5c+yqhY9nFNwkq9XEvdNNySK36BjGWjLY
+X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
+ fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
 
-ov8865_mode_configure() only needs to be called on sensor init, but it can
-be called multiple times from ov8865_state_configure(). Move
-ov8865_mode_configure() to ov8865_sensor_init().
+Fix potential leak of uninitialized stack data to userspace by ensuring
+that the `scan` structure is zeroed before use.
 
-Signed-off-by: Allen Ballway <ballway@chromium.org>
+Fixes: 0ab13674a9bd ("media: pci: mgb4: Added Digiteq Automotive MGB4 driver")
+Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/media/i2c/ov8865.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/media/pci/mgb4/mgb4_trigger.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index 95ffe7536aa6aba814f4e5c3d12e7279470b2f07..1d1a1f261bf4ab5c09848402dc057e2f572504e7 100644
---- a/drivers/media/i2c/ov8865.c
-+++ b/drivers/media/i2c/ov8865.c
-@@ -2304,14 +2304,6 @@ static int ov8865_state_configure(struct ov8865_sensor *sensor,
- 	if (sensor->state.streaming)
- 		return -EBUSY;
+diff --git a/drivers/media/pci/mgb4/mgb4_trigger.c b/drivers/media/pci/mgb4/mgb4_trigger.c
+index 923650d53d4c82e87b542f87c3a0fbf6170dadc8..d7dddc5c8728e81c6249b03a4cbf692da15a4ced 100644
+--- a/drivers/media/pci/mgb4/mgb4_trigger.c
++++ b/drivers/media/pci/mgb4/mgb4_trigger.c
+@@ -91,7 +91,7 @@ static irqreturn_t trigger_handler(int irq, void *p)
+ 	struct {
+ 		u32 data;
+ 		s64 ts __aligned(8);
+-	} scan;
++	} scan = { };
  
--	/* State will be configured at first power on otherwise. */
--	if (pm_runtime_enabled(sensor->dev) &&
--	    !pm_runtime_suspended(sensor->dev)) {
--		ret = ov8865_mode_configure(sensor, mode, mbus_code);
--		if (ret)
--			return ret;
--	}
--
- 	ret = ov8865_state_mipi_configure(sensor, mode, mbus_code);
- 	if (ret)
- 		return ret;
-@@ -2384,6 +2376,13 @@ static int ov8865_sensor_init(struct ov8865_sensor *sensor)
- 	}
- 
- 	/* Configure current mode. */
-+	ret = ov8865_mode_configure(sensor, sensor->state.mode,
-+				     sensor->state.mbus_code);
-+	if (ret) {
-+		dev_err(sensor->dev, "failed to configure mode\n");
-+		return ret;
-+	}
-+
- 	ret = ov8865_state_configure(sensor, sensor->state.mode,
- 				     sensor->state.mbus_code);
- 	if (ret) {
+ 	scan.data = mgb4_read_reg(&st->mgbdev->video, 0xA0);
+ 	mgb4_write_reg(&st->mgbdev->video, 0xA0, scan.data);
 
 ---
-base-commit: 6832a9317eee280117cd695fa885b2b7a7a38daf
-change-id: 20250722-mode_configure-80105fbd835d
+base-commit: cd2731444ee4e35db76f4fb587f12d327eec5446
+change-id: 20250722-media-pci-mg4b-fix-uninitialized-iio-scan-data-2dce1574d1e9
 
 Best regards,
 -- 
-Allen Ballway <ballway@chromium.org>
+David Lechner <dlechner@baylibre.com>
 
 
