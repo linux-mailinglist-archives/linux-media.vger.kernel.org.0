@@ -1,66 +1,67 @@
-Return-Path: <linux-media+bounces-38220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44528B0E61E
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 00:11:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F694B0E639
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 00:12:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D06D1CC124A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 22:11:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 38B657B3427
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 22:11:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAD5B2874F2;
-	Tue, 22 Jul 2025 22:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1D412868AC;
+	Tue, 22 Jul 2025 22:12:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FKcfaKkl"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="f0QSaood"
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013053.outbound.protection.outlook.com [52.101.83.53])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011028.outbound.protection.outlook.com [52.101.70.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6B92E371F
-	for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 22:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5DD2E371F
+	for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 22:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.28
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753222285; cv=fail; b=EFA3pii5+B8kYUWYw/rivzperxmC6C7JfMU3kBMWykBEr/EiVhDDQHTABqA1AQt5esSX9UNt2s+gXMZ33BZmMOUMsRCnu1cfCnaFsrRLOid0WRhdfMw0SYiU+HtV6NQ8yV7sseKMPbAfl8p58DU2yYxkFCP05FFwVu+X+/GYlQM=
+	t=1753222367; cv=fail; b=CW+r0mQ9MJH03NaKYfEDxAe5thxUvVcGtXIjOKxqANFlXGm4+7BXV5Q50wN+xR3zPnKEWOYBvqf+tNTy0gnOrLUzLVwA/ZwBP8KqOZFdnPLC3Zxapm+fGDZWHQwCC/HgFlLGFqrH2Vqgr1/Vo+DIR6+MGs9BMfvfIcT27DtnPE4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753222285; c=relaxed/simple;
-	bh=aygNDMyBYMvSZIS4cBKz5STG5agbhDZcvm0FXHIC+FM=;
+	s=arc-20240116; t=1753222367; c=relaxed/simple;
+	bh=TCfLBIAKC3toM9q77SA3YKdH71lPJz47OruPihnasy4=;
 	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Y+TQf6a+XZQiH7ZXtrXic7F7UD6Ltt6dtyQlAIFddGJ8KiS7d+t+uyGq9vNDP1x9/W/dYuLrJLKYZ9ktm/e/h0EfEwM2M1WPyachpU+PvGmGLAiALhbYKYFk4fIKN+fyCw0vyZCil3QVENgIuvvUTmlANhhSP5ZYrVSAbk4gENo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FKcfaKkl; arc=fail smtp.client-ip=52.101.83.53
+	 Content-Type:MIME-Version; b=knudkOIDBX4AFOO7oYDfj301Dys+JMjL/Gkr89oECUvs2iNeTPD6dMXUQMYtezlveovepni5YLTzqMeyViWXzsR4svYjvuo18vF1olydBSAHYzcc3NVG1uUd8FPmpy9HWhPoiMI4ztbLVdnCh752C9tQ7eS5qXpb9OGE9EdKzzc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=f0QSaood; arc=fail smtp.client-ip=52.101.70.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=naXEtVWVhYqsfM6eLYTxi3lsONE2yFzSIAS5yrpw1vyuHSTiwAn/ECV5IwLuQ+DvMMKJoZkJ07aCh05isImiwIF0IHHKY9jcbNEcGUinrMVXzCirWIhHHoXyZ7VzVqMYtNpzjEGVC57apFuJQ0Er6DmsyYAV68bDhDYnTqUtWIf334Cb33p4EXILWPSfQrDC3SoYJdIH+PEAvz4/hAVeeXyqcExnHwlwCRfvuq18jlmaIMNC1Tmd97v73su4sQVPablhj9qCltc5SisAABP8WbWwE/j7F8BPw/xoMmeUvDZQoAg26NFjiOkPmFQZl+LJz+0RAtHrqGqDNF2rQWdeBQ==
+ b=httnfSGZl1StsbJNZkl/SRim6MXiv+w2Ccc2aUOraTdnBeQfirmmI/L8kczT8D0uhhZJqaM1JtwE8CcK9+Bf42dw0o+Z8/ITzlouIof2QMDKzfDStPH5gOhipEAEIuCDOusIK72geG53LtRkVgDxQt51iTTIjsRF8m5gmsSLmYXGqd5sFgs7pkXHCN8d1GgIO5aijIW/J5GDzCPtx/gP1JNxQ56nVB1gAyXAJZGjwEQfZgcrQhijvMPBy/Aa6yfmEXLGsbPdccdyPYD/+v69qVJc0sfv2D380qdt3oYLsHZXtpmxtjkhI4lyo4KdbISxlGuEVZ+Cuv397+HFqKedQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pGAuQqvp9YSG0YDdxIfFpG2aA6Ki1HX/kHOQaCyfCag=;
- b=qJayXly8pH0sr1ecjRO25uMo9UGd2eA52nyweB16FpmCrkvXK0k1G9N1cjcVzbqmFlVlJRxH4tmDRS5vCqyFxTGyYEIQsEUKJU/WynTnRtrquz5/7uOd3wVY7svrr+hIozbc6cOwldA+xcJqdAvJnqAnXCHGsEsZHr1IRVd+ua9+t344WoqzDcEFCOLLGTjKdLV4sBXN+qB6tA+BUzfjV2mPdE3rQOfMOOSi55SGgZV5qXwxeaCQ6bHdNGU7yXYwSvDMyYV9iYcHzVyphSrLoG35C5izOqLDYjmz/Wcbo/wE283t45r7aFwDuqjIAYfbEhZ/SDUgBIyEmd5EY2eVuQ==
+ bh=cbnItrMs3auwNjIy/YEvLbX2jzcu+QveEj2CYJjEYmw=;
+ b=suiuYh9tIGpjWS18H3CiNKzNkWMHhDXQO28KSYTYNzwIMG5F11nbFMIV77+MFB9oXdqpZoU+sYdI5NNGec+PhE4n7J4efSff9L+h8tURqhkSaKg7j7fXJQpxBW2qxZthAmQrr5GYa1wSfCNaKsXhOT8lWUp1QEhwKRuoYNKxLzOzoypLMRaD6teKDS22yuiYbYaeDQWVfrQ4icoOfVMwJf85yYKV1/v+zqYto+vADDBzwcUwSBPNa3V7JkSIzKjqplYAFNzw3YHJ5kglVlcrxQAvLYWSvyKhvebdMdVneRTeTamdcQ9EZ3HUgqU7vLrkcBp2cW3eSqNcQEPOHlXeJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pGAuQqvp9YSG0YDdxIfFpG2aA6Ki1HX/kHOQaCyfCag=;
- b=FKcfaKklMRIjPHkcAexoKC3mjoprBgwHoQkGBB56ZJAone1l65CLpPfSACEKtzyuQtNSvF5/Ay7AlonblAmVD3cVtk+VUChhBrOCWQAZXq+lBupqfhBUwPnwsS1oHy1tX3J7Hlc+lEQe4ye3wJxrNHPk00Bf2IfwSMY35mu4qqLU/Vvo94wH1VuDkH+8j51wMMrYUza9nf9S8KHcoW+2qN3RVd24j6gdN9xX0ORDwSBi0102zzGOdlYniIt25L10qHQMEEZ8HXRxJkygFrzi4o8G2x2NRqeNt9OrAuoCC59OFZJpGihOx+BEDGJk+MVJL0PBvCIXVvGo4f/hkPvhHw==
+ bh=cbnItrMs3auwNjIy/YEvLbX2jzcu+QveEj2CYJjEYmw=;
+ b=f0QSaoodAgLxreWgwvSXgXe03B9ypPuyu0nbx4PRecfacoFGQjxyLpWSLBSJM+jAjeN2adHAk3jJqhgf86f5AVbEVl6s0imycwp4fmhTMoiiZFOZq/4sJ61MzHNTDopW/ReGNzrdL3bGsJkH0O8/AYU5w0gr+5GTF5uICgt6en8ZXYKF7ltYpMP0G66hMu7g58QaJ9yJfHa/BkB96RK4aWDpwFcb+enOUZFJsjPZlo5LbTXZ1euqKl1FiEksWP9k/xbG2D8B60m+t+xj8XhSNEikoBlk+rz0L4+mn5rfoRxQJF+2yNx0SnQYs8Y9DUZrEnsW88tMAMob+zrkNB14uw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
  by AS8PR04MB9046.eurprd04.prod.outlook.com (2603:10a6:20b:441::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Tue, 22 Jul
- 2025 22:11:19 +0000
+ 2025 22:12:40 +0000
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::7303:2cc8:d109:d7c1%5]) with mapi id 15.20.8943.029; Tue, 22 Jul 2025
- 22:11:19 +0000
-Message-ID: <ba1e16e7-d61f-4d3f-9b82-b8014d0f1368@nxp.com>
-Date: Wed, 23 Jul 2025 01:11:10 +0300
+ 22:12:40 +0000
+Message-ID: <789b4ddc-f7f9-4c0d-8bef-cedc4dea5186@nxp.com>
+Date: Wed, 23 Jul 2025 01:12:33 +0300
 User-Agent: Mozilla Thunderbird
 From: Mirela Rabulea <mirela.rabulea@nxp.com>
-Subject: Re: [PATCH v10 13/64] media: mc: Add INTERNAL pad flag
+Subject: Re: [PATCH v10 16/64] media: uapi: Add new media bus codes for
+ generic raw formats
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -86,13 +87,13 @@ Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-14-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-17-sakari.ailus@linux.intel.com>
 Content-Language: en-US
-In-Reply-To: <20250619115836.1946016-14-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250619115836.1946016-17-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR04CA0103.eurprd04.prod.outlook.com
- (2603:10a6:803:64::38) To AS4PR04MB9244.eurprd04.prod.outlook.com
+X-ClientProxiedBy: VI1PR04CA0080.eurprd04.prod.outlook.com
+ (2603:10a6:803:64::15) To AS4PR04MB9244.eurprd04.prod.outlook.com
  (2603:10a6:20b:4e3::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -102,212 +103,207 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|AS8PR04MB9046:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3817a08-54b4-4a1e-ea83-08ddc96caf8d
+X-MS-Office365-Filtering-Correlation-Id: c4c100f3-d833-40b0-2301-08ddc96cdf78
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
  BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|19092799006|38350700014|7053199007;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?Y2E1U293Q2VML2wweUlJRWZCcTc3NWdoYmdzajRONC9OTmk0VkNPRklPNDJP?=
- =?utf-8?B?dzk1VW02RjRDZENDWjBBN0xQcThCMVcrMlhydis0UmswbHJDdlpsUDY3aDI2?=
- =?utf-8?B?bUlDV1VyM2xqY1ljQUJSM0NoUHJmZGI2S2ZoTzV1ankwZi9VQysxV0xWbjJI?=
- =?utf-8?B?akRpQy9ZSXl2SWFkSGEyZE9vTmFCMEtiWjdVRmhOREUwVExmdWRhWC9tRWIz?=
- =?utf-8?B?RDM3SFVpZ1hOajM0Wml2c0hIRHBPdExnQWFRaVdGWmhpa1FLM1RidVhMVGh4?=
- =?utf-8?B?TWhIUTZoU0ZzWEc3ZVdXMkoxcHN0c1g2RXRSTmNZQWdKWDNZMUdBOTVhS0ZC?=
- =?utf-8?B?ZjlYckIvdXZKcnhGU1JxSTFwTDdubWNWZVRSeEhENVZCSkR6eDlIYWV5RUxK?=
- =?utf-8?B?SFBidi8zOHhUN1dhc25pMW16b3hOU1RTRElWRWxJbWRsMkRlZHd5eHBmbHp1?=
- =?utf-8?B?VmNaY0wyeitodHhNNnFCdFNST21jaFhrQW5IaWdQb3phQUlVT2J0NXhBU0tt?=
- =?utf-8?B?VlpZOHBKRFN3bTh3NUw4THo4UHNvVDlJOEdlWXVzY3M4aDNRT0VPS1RkazAr?=
- =?utf-8?B?azFNSFNEaFo3bFlod0wvS1J0THdPUkhvSUNJb0h0NnFGYVVYU01HV2tMbXJy?=
- =?utf-8?B?YUhWVG9EL2ZHOVBIaTdpV2hwS1ZweHB5N1Mrd1UxN1Y2SEZ1amExclpqK2dU?=
- =?utf-8?B?M05HYkJaYjJDdHVCdS9vOTFENWJ1bGoxRFhyTHNEYS9LbWY5dmZsbHh3YzNE?=
- =?utf-8?B?UENjZmtqT3BHbEJIL3B2dWl1Y0J6NmtpK0JuWFpCNXVpS1pDUDIvWXJOUmx2?=
- =?utf-8?B?UWhOVWhYNU51d2JJdWltQmFERHNTQmY3Ym81QmdDcTJmc0hzTG5SY3MzRGhN?=
- =?utf-8?B?TDZ1czJPQWoyZ1FKVGFnclUzVXl6U1g4eVVieVdqeXlJVmNKSFg5cmNKM296?=
- =?utf-8?B?OU9OeDcrU0hKT1lzandSeTFvN2xybDNYY3RSTHA3OTBUZzRPRVBzemd3eTZB?=
- =?utf-8?B?SS91QUVMQk96NzBYelpuOXRxSDNzMHZLZUN1cUVqd1MxSE1teGRMNnlYbC9S?=
- =?utf-8?B?NTJ0VmFvVkttTEl4blhUeTRxWDZOY1crNWpPVHZJcUFBSWpObXR2RXB5aFBp?=
- =?utf-8?B?b3BQR3VBWGc5ZmE0RGdaSVlMOWQxSHN5YTArVElQVHBVT3FXNUhQNnJKK3hI?=
- =?utf-8?B?aThNaVVQS05XbHBWQmF6WHRtQ1U0WUpzNjVFem9rTTBCQjk4eHh3SndmS0xJ?=
- =?utf-8?B?c2NwM3V5eGZxR0IvSnE4UjhMVmtoRWFaL0ZkZ1pHZnhjTWZkZEhUbEg5Mzcx?=
- =?utf-8?B?d21sOHIvTGJqZ3BGWGZXWjNqb2hlT2pTdTVkTktIMFVwRWhSQkNVUGdkMUtM?=
- =?utf-8?B?QldrZ2xiYVIvWFJVL2F5Rjg4ejh3Mm0rSjRLNWpBZG13YkZZR0VYRGNhbVly?=
- =?utf-8?B?UzZLMjQwRDEzU3JBY2ZkeFRxc3VGUEJaT1dzQ2VZTnBOcm9Nb1p3R0VINklE?=
- =?utf-8?B?UnRSc0tDQ3JOaUpQSFJtOHljdWtWQmdPVTFmMUZsZmE4OXhSKzN2aW9NN3RK?=
- =?utf-8?B?Q2lGekgwYXVHemtBU1ZRRzdDTXJnVVEwZmthU3hPWEExZ21KY3FjdmVLVy9O?=
- =?utf-8?B?SlhVaUo4VE5va2tNRk81cUg0UW1yUVBTVFZUVkJJbGliMCtuRnVUKy9IbGcr?=
- =?utf-8?B?RHNYZXlqYW9Xd1p4SFRmZC9TbTBRZnlmSzhZRGdXUzk3UWluZ2lyV1VrSXgr?=
- =?utf-8?B?TVNuUTBGNmt4ZEdlaEFuNVB1UEZCSHp0YXNxOGZZYWl4VFo2ZVJPV2FLSlpJ?=
- =?utf-8?B?c2pGTVdDRVh6ajM3Nm01ME5qaVhDVDdSdytYbnNWNmd2VXB6cEpscE1oeEhY?=
- =?utf-8?B?MU1HeXplaUxRSHdIZ0wxL05PRTRCOG1WRDl5Q0l2UFpaZFQzQUFnYVdMK3Fy?=
- =?utf-8?B?Z3NmaVp4cjNqVjJDVmp2TTlmOGV0MzNmdlFGZitVdE92ZDdSNlpMRWRsT1Bz?=
- =?utf-8?B?eXdxSzZ2ZndBPT0=?=
+ =?utf-8?B?RytsUmdGaFRMNEQ0ZnRLaUtWb2R5dDl5MFBlT3dqeVovMUg5cDRpSDBNSVZl?=
+ =?utf-8?B?bTcvcDZtR2JIckkyaXhzVjc2SXEzUVRNeEEvcjg0cmM4dlgwdEZkZExJUTZ5?=
+ =?utf-8?B?OXZINDVuZGRmOStsZmZ3S0lzRWdYQnFwMXM2NENqL2J0L2pJYU5Sd01DOElm?=
+ =?utf-8?B?dDE4SklCTk9WcldEU0d3dTJRZW04OUpHVnBaQm1RY3RNSFAvWFlKZmhRaExV?=
+ =?utf-8?B?YlhXVjZBTGgxNU1LdENZRHpuRWJlQ2VtazNtNDBZeTFnN25GZDF3dlhlMTV2?=
+ =?utf-8?B?eTlTMnQ2S1l0TU5laEl0Yi9tcXMwU3pLaGF3Q0dDM0pNOG1GT1N0WHZmaGtr?=
+ =?utf-8?B?ZWprUEV5d3hySVpQQWx6RzEyUE9ZYmhsWlZLeS9OSXRFK0pveE0yQUJ1UUxM?=
+ =?utf-8?B?NGNSdlpXK2pRWm9QUFkxTkJDZFhpYkxwMkxlcFFUUFNERmFCdEQwTitGbS9j?=
+ =?utf-8?B?Ni8vZ3EzRmVkRHVzWDlqWTFML2cralkvWDhlbGJtTHQwL2MzUjc1UmIzajNj?=
+ =?utf-8?B?eW40TEZmSk1QOWh5VDkzMjd6cjBPZTQwMDlKTTN5ZDVlamFLeFZuTFhkQzR5?=
+ =?utf-8?B?OG5CeVdFQ3gxVlF1THgvQ3BzZUVkL2pKU0E0WWthT0VUcUNDWTh2a1pEcmZK?=
+ =?utf-8?B?Z3NNWkxJOWV6c1h3MVFtaFdpM2NvRHByWWx5TmlsN3NFZUN6Nk5pSTBuNXhM?=
+ =?utf-8?B?V09pSWtZY2tMZXE3ZjkvY2R2d1RoS3pheDZnWmhwaHNPYW9qT2tkdHlDbnA1?=
+ =?utf-8?B?R2JWWi9BQkpmdU1TUERMWWRaNXZnUzVBeFlGWFhReUNPWngxSHN1VUtsWnNy?=
+ =?utf-8?B?MWRNMmZzejR6SEI5b2ZjOEJEQk5RcE9Ydko2RU9lNjk2emdIS21KZEx2UzFk?=
+ =?utf-8?B?MTJKN3FkVCt2ZXgyZENKMXR0MmMvY2wrUU9sUUphV0ZqS0U2SjZkTUpORFQz?=
+ =?utf-8?B?enRyU2I2K0kxV24vVC8zSFplSEJ4eWlxTzhYamxrVFZtc1E1cXBOdHJPMm8y?=
+ =?utf-8?B?alkwWncxUTBTSVpWRkdXK2NXemlZdFFia2dPL01ieWJLZDgzQlMzMDVEd3F2?=
+ =?utf-8?B?dUlFTFprSi9tRU13OERmdXhBTWJwM1VNank3QzdWbzRLS3F3ZE93TVlWUlBq?=
+ =?utf-8?B?bjgxQkd1UU9iNmZFRWFFWVBwTmdmdnVKZDNRSnlKVXE4SDlNVHZiSXRlVnVj?=
+ =?utf-8?B?MkZ5cS9EbVdETDBGejdrNWFYOFh2dnd3c1RxaFlkK1JabG52WFlxd3V4emJS?=
+ =?utf-8?B?L1h3VEpacnZnNVV1L21OY1hDWUpoOHdrZFlnZldXUEpIYVErUU53cGtoU0Ru?=
+ =?utf-8?B?M2lyVnJoR1kwVlVQRWM2cjBpTU8vcGNtc1cxWjFod3hnMG9wcWVTZ1NpczhN?=
+ =?utf-8?B?TGlycDlsMmVqNHI1TitXQ0VBUEhXa3JJbzJYWWZsV05INlBkditGcjNXYWJj?=
+ =?utf-8?B?dDRqTnhBc1p4UmFJbTkwSWxLUFQ3Qkh0Y05CTzZHUytqSzlNQU5qYURKVmhn?=
+ =?utf-8?B?VVZwOVJLbExFTms1cE1OYnJUbDdsTjF3ajZsZS84NVVmR2JNRVp6K1pQNWNa?=
+ =?utf-8?B?SGdjZTZ0UWc2c08vOUE2b3ZqOE1HTU4vVW55aTVyR3JqZjZtRWlWUHA2RzJ5?=
+ =?utf-8?B?QThQL001dzBHajhwL3BneGR4a1YwcjhyWHRvOTBUdDRUZXR5WGpqZkdsMW5H?=
+ =?utf-8?B?aEVibFR1THFyYXhTWVN5bWdTbzVSNitmYzIyYjR4UkhmclFGeGlyVnB5L3pO?=
+ =?utf-8?B?U08xcHNmaXFPK2NXdFBIZlpWNUtKdzFjRVVuUFZKcmkyaEVnaXA3aUJzYWp0?=
+ =?utf-8?B?Ukhic3JCeVVOMmVqaktGRy9EbnFhVTFHZXZMSHNldWJCblBuVm1USjd6KzE1?=
+ =?utf-8?B?dldpeCtCRGo0ejRKVlJzdS9QcytxbVo5WG1acnVsWWt5bkJ0eEMxQlRJWlhh?=
+ =?utf-8?B?cmtsajNYMHlZZGFEV0w1b3VyWlFDSnRrK001YkRCL1VBQjhNWXdwMnpwSHZV?=
+ =?utf-8?Q?SrH3XA1yT0LjORoarvoxLU2mjnQS1A=3D?=
 X-Forefront-Antispam-Report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(19092799006)(38350700014)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?eDkxWk9sbXBGYit4RFp0dWo2ZjA5bjRkNW1xeWY1MUlPNERDZ3BsQkdYMlY0?=
- =?utf-8?B?K01OcGZiN0NWVDhEN0FLbjB3ZExvRThRUVRlckVWMWtHeStFeXBocWc4MWZ6?=
- =?utf-8?B?amV4K2dmckgwU0Nxa3hCSmNtWjMyVFQ3czIzTVZ2M2t1dkNpeVFVVTZoV3FH?=
- =?utf-8?B?cXZqR2dlenBVSnNWcmJCK0NGajZsVzloU2ZFSVdRMUpsSjM4T29oOXVWOHd1?=
- =?utf-8?B?d2NVTUI2ck1mYVN6WVg1bzhBV21CNURmYXMvOGlMSjkvdHkvbHRkNTZvVmph?=
- =?utf-8?B?Rk9ERkEzM3l0c08vZGIvSzBGUTJiZjBNYU1HQ01QajRqK1Z2ZFRpWkYzSUk3?=
- =?utf-8?B?Mm1GV1JmVVlwdnVTNVR1Q1JUOHAvS2Z3T1ZZZVpJaFB0MnBqV3RpY2Rlc3RO?=
- =?utf-8?B?YStGOHA3aU1UQ3UwNkJoVWNZdTgvdGMxMDA3RzBHQ0FIVUx2c3FaREFrRGM4?=
- =?utf-8?B?WGxsTW5ZZm5tZ2hLL3d5NFJiV0pKMGZ4Q0Q2Zy9TMjh5dXFwc1YySy9jM3lm?=
- =?utf-8?B?UFJQR1p3N3pueXFRaTZaTTR2ME1nQVlEMisrVkJSTnZ5Q29XTVRnZGt4NnNF?=
- =?utf-8?B?Umo4UVhpbXA5bXE4ZXZ1M0NsMzZCbHJndDkvMzJJMGk3RUJHc2UyVEFHdEdT?=
- =?utf-8?B?M285RHBHeHAycGxaTFNOUHRSd0poTC9Pdk9rQStjVmxHT3dwekZTSytwSFZN?=
- =?utf-8?B?ZjI1eFZvYnR2K25MMGZFMEoycEdlRUx6K3pobDIrVXhpazBaVXMweE02a2dm?=
- =?utf-8?B?dTRiSVl4cWFwWmJ0N2tESEk3NTE5T2FjNFNkUUN6STRoNm1ScGRnZDl6WEpq?=
- =?utf-8?B?MnJMdEE0YVhIZm1zZlVuWE5sdFFCUzEwRTcvVkZ6ZzlMbDZqUnNIb2ZEV3Yz?=
- =?utf-8?B?MWpmSGFEd3IxQUdvWEdrZC9KYmlnc1pmVWM1eG5uQ0pXZ2ROY09oRW5Meko5?=
- =?utf-8?B?SDJqMUlYUDU5V2JhY1diKzUxV2pZR0hTWFpIT09wRTdtR0d4TS9zVCt1ZHMv?=
- =?utf-8?B?dno2RjhrNmt0YVZrcTJVeUlsTEhhd3B4MDAwMmFHcWxyNGxxRnZCKzdxT21U?=
- =?utf-8?B?U3pFSEN5MXo0RlVuNGhYcFQ0Ym4yc2lvNlBrQzRvb0FiNVJvcFp0eVd6M2RN?=
- =?utf-8?B?Rlp1T0RNUnVDL2FSTkxxVUlLckR2U3NiUjJ3NGludk9oMnFpOUZsYjRLc3Ni?=
- =?utf-8?B?Y1VlNkVaVnhocWVNRDNmZTdaTW5ldzNxckdURnpsbUxOalExQWhyQm1aZGNV?=
- =?utf-8?B?QTNrcVRHK3ZRbkFWcGtMeGdUUWh2V0R6QmZNeFo1Sno2NEgra3JySlFHblBJ?=
- =?utf-8?B?d3dQdGd5bDBaSGF4aW9QL09TZm0zN3FPZW96OFYxMDZSVUNYYVFQQ1hpSmM0?=
- =?utf-8?B?MkVZUnJhL1ZNN2V5V3N2WlcyVzdGSUdVMWNDTDFqQlkxTVdnNFM5Vk1XOUw3?=
- =?utf-8?B?OEU4dWhUQ01UUG9KSjkrcHZmK2NCVE5jODR4ZVRDYnJ0akYxamFGajJpWCtZ?=
- =?utf-8?B?cjNiYjlCU2JnNTRvVVhQMVNWdW04bkVQTnN3S2JET1RLNHY1cVAxVURzZzFB?=
- =?utf-8?B?c0JTcHZJZUJVYS93WHdkcFplRGJHcjlPNWhrdkI3cUcrbm1MOXRuSXVMVmF2?=
- =?utf-8?B?ZXIvanB4RnlZTHVoeTljSk5RSElYYkVwRDAxQXVHSHRzeWpCREFZTDlhZExh?=
- =?utf-8?B?OTBscTUxWHJMUVJnVzkzSlNzbDRpMVNOT0RxUU96QlBDRlZQR05mb01tTGVX?=
- =?utf-8?B?TDBrdmlRNFAzTFAyREZiV1lNaHA1MStnMG94N2VVWjRIYVZJQjNMSzNYSWp4?=
- =?utf-8?B?MHBmcXlRNFRCc3RqOE8zSDdmRUc3SXBYc2d3emlvVVFiQWN5U0VSMWNEYXZV?=
- =?utf-8?B?dm8rNmZnaDVJSGNERC85N3dZekRSanV5VEd4dlE2cjMyc0xMR3BTTk1SdWpU?=
- =?utf-8?B?MjJjK2R2dlhmOE43TlBMWFVOWWJ2aUcwRDRoK25ycW13UjkwOU5USTRoNHRj?=
- =?utf-8?B?aFQ1eXc5ajhXRjIyTGk1bHU5QTJPRzJ3SzNrenhCcGVhZzFQRC8valJCUlBR?=
- =?utf-8?B?VTFGdUlCMjZGRWZDbWg0WWI0eFhseE11eHFXdzFiY0N6THEwRGwyQ1hWbUov?=
- =?utf-8?Q?52lx6c6PSYhycrzyjhuHa/CLg?=
+ =?utf-8?B?a1dWYVlsS3VxQ1NUTmY4Q1pncFp5MFBFRVhDc1AycDlLYzE4SlkrMGUvTm5K?=
+ =?utf-8?B?eDRscmxVTHF6bkRSbVhaNE9ob2tPQ1RHcWNlSlQ1b3ZiV2psUmFOUVYzQ29n?=
+ =?utf-8?B?cHczZkR2WGZvdG1FY0NBS1k5RkhvSDBJcENVQWlNd1U0Q2pIaVlvTlY2T0Q1?=
+ =?utf-8?B?MTQrVzcwall5c1MrNlBUdXM3QlRCY24rZkQyNmViMkRsK0dDOXlBMWVHVkFo?=
+ =?utf-8?B?VjhHWENVT29sV3FXUkg2dVJJNmFKV2dWNWFseW5wNjNLYVp5cVcxWE9VaWk5?=
+ =?utf-8?B?VmpEQ0haOW1BQW1yY01ObTUzWUJtM3d2OG1wN1dWMHdZeGMyVTdNVllYQmtC?=
+ =?utf-8?B?UTlOc3pocEZmbTBmY3lacUFWTjFjUk16K0pHQm1rMHBhZVBJUnBvN096T0ZC?=
+ =?utf-8?B?VEdxOGJ6MVZzREpXSkNGcFY2TVBlaC9DY1UwMFJKZEcyU05zQXJkekpQZ3BF?=
+ =?utf-8?B?bTZYVTJaU2E1NjJCNzdmV2tqU0FtWDhnLzFlT1BQREMxYmg3cVhWMkdWdnpq?=
+ =?utf-8?B?bG9lTUtBYU5Nb1hCaWdTOHFJUks4cERXOTAvS2JpTys5OTZWUnZMem9IVDc4?=
+ =?utf-8?B?SW9xRmsyUUNmbU9rRzc2RnRWeTlxWWNlQjhDOWRmc2JXZ2c0RFR1dGpxWWpt?=
+ =?utf-8?B?UGxaaHN5Yk1pWGZSaGpTMm5SZXhZa3IvM09PTlZkdElZV00wbUQrV25IRmIw?=
+ =?utf-8?B?RFQ4WjNhRStjYjY2YW5GZE5YUW9pUmdmTDdsRXdCejY2RzZSU2c5WFRmZGtk?=
+ =?utf-8?B?eWJNcitqTDM4aTZNZW5WYVlyWDVuNStQRXVaSzk5TkJjTnFCZmphMTNvd1k2?=
+ =?utf-8?B?T2FiSDdBaVIvTnlINUZNMEExWDdCTExSR0twNkZzdnV1MDJvaVhGTEo3eDBv?=
+ =?utf-8?B?dVRnNm8rZHlnQ0MrL1BXamNkRktPaHh1ekQ5d0o5QlhBV2ljRm9XMmRLdFlV?=
+ =?utf-8?B?c2h3ZmVCcW5jQjZWMldILzluQ3NCUFMvRjAzNU1HMjlXUkNPcERZOEZnVkJS?=
+ =?utf-8?B?Q3ZxNW44TE9RYTRCM1ZpUkJTbkZzMVk4SnUzWnlwT25YYmNoZDJ4M3p6N0hM?=
+ =?utf-8?B?ajVzaG5qU0RLTlFOSnBMeEt2c0VLSGF1Z0FMWnlLOHVwUkwyM0pMV1Ztc01k?=
+ =?utf-8?B?YWJUdlNnWGFScjk0cVBvdkNyNlB6bms4djRYNU51Z09iUm1ZcEtnU2NiVytG?=
+ =?utf-8?B?VjhmZ2lJdHhtbjkveDVpVEY2VWlVaFFWemFNR3dMYXE0Q0hhU0NHYzV6UTBY?=
+ =?utf-8?B?aENybmFsUGlLQlBnMWtVV0dmMTNyMkRNZDZoWHRXRlcvbWxuVE1Pd2hGWlJ6?=
+ =?utf-8?B?NlZBUnBSNFVoa1dEZGRJeGM4SXZJays1cUNLWUxHWUs3bURGWDZGSjY4OS9V?=
+ =?utf-8?B?NGRwbzF1a05Bc3B3YkdwbFptRGRxS0NYSzJPZUZDS2RzMXovNWNNL2UyY1VD?=
+ =?utf-8?B?SUxGd0szSUZnaXF4RS9JSlBrY01EMVo4b3ZhUlU0c0hvajB6ekdVUlZrajQr?=
+ =?utf-8?B?N3hId3lJUXZOZ0JvNWY0MGcvL1U1ZEFIL2pZa3ZsTEs0ajNOOVlvbnF2S3B1?=
+ =?utf-8?B?anMxVWFVbFZXSEM0OFFJZktwOHdBZndwVVoySm4zUkQzUHI1Vy9KYTcrU0Ju?=
+ =?utf-8?B?VFFLQ3ZSVmcvVUxZUG1FZEFpQnpTR0RuajJXVHJPc2FUTUo5OFJGWm9ib0J3?=
+ =?utf-8?B?YW9XWXVLVFRmK2QxMHhXdmxXTUdNUm9TMXdqdlpocFFtdEkvTnNOcmw4WWVY?=
+ =?utf-8?B?eEExd2tNbmhxdDJsUVRjYmpMWVpNS3NTQVk5bDR3dFZoRDhjcWpSQTV5cC9Z?=
+ =?utf-8?B?WnY4OHNURyt4OVBpQnBGb2JuMmJPUzM2cWpJVVBpaWF3a1ZFa3BteE02aExI?=
+ =?utf-8?B?blBrTWZabVRFejcrWEoxUERsN2FhTWY3S21aWEVOYXY3YVFwMGNreUp3YVJv?=
+ =?utf-8?B?UUt4Z1dDM0xPdTJUVDFXVEZRR2U0ZkhDditMUGh1Z1ZkVHpEU1RLVkI4SUNs?=
+ =?utf-8?B?a1FlTmNQQmpxaDcrc0FpaXcrMW9BYnh5SmJBSDVaSTBNS1hvbndMbExuSC8r?=
+ =?utf-8?B?RFZ5R3kyVXVVSDlXY2NlTW1BdHhXNS9CSWNQWmNFNjFKRkI4clROSlZMcURo?=
+ =?utf-8?Q?afjmE9WrX7doc3jZxathzCzV8?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3817a08-54b4-4a1e-ea83-08ddc96caf8d
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4c100f3-d833-40b0-2301-08ddc96cdf78
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 22:11:19.7376
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 22:12:40.0977
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j4Xsve0boibkZ9swBe0R+i4Tj8vtI4NlOyyYyvWdZznSczjW/b9BN1Nu1uaAQ6IlCgoD9ZAE4Q5XbG+0eiNtJA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2U0jErUnI5fNyxv0Wgqx17oCZMlTtLvlB77wkSdMnhjXE1IlyAHQJWER5/SSJmOCtWpLxZ4HC6L0mzKT/gpPLw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9046
 
 Hi Sakari,
 
 On 6/19/25 14:57, Sakari Ailus wrote:
-> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
 > 
 > 
-> Internal sink pads will be used as routing endpoints in V4L2 [GS]_ROUTING
-> IOCTLs, to indicate that the stream begins in the entity. Internal sink
-> pads are pads that have both SINK and INTERNAL flags set.
+> Add new media bus codes for generic raw formats that are not specific to
+> the colour filter array but that simply specify the bit depth. The layout
+> (packing) of the data is interface specific.
 > 
-> Also prevent creating links to pads that have been flagged as internal and
-> initialising SOURCE pads with INTERNAL flag set.
+> The rest of the properties of the format are specified with controls in
+> the image source.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->   .../userspace-api/media/mediactl/media-types.rst  |  9 +++++++++
->   drivers/media/mc/mc-entity.c                      | 15 ++++++++++++---
->   include/uapi/linux/media.h                        |  1 +
->   3 files changed, 22 insertions(+), 3 deletions(-)
+>   .../media/v4l/subdev-formats.rst              | 40 +++++++++++++++++++
+>   include/uapi/linux/media-bus-format.h         | 10 +++++
+>   2 files changed, 50 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-> index 6332e8395263..200c37a1da26 100644
-> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
-> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-> @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
->   .. _MEDIA-PAD-FL-SINK:
->   .. _MEDIA-PAD-FL-SOURCE:
->   .. _MEDIA-PAD-FL-MUST-CONNECT:
-> +.. _MEDIA-PAD-FL-INTERNAL:
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index 9ef1bc22ad9c..c06d8c83e2b8 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -3434,6 +3434,46 @@ organization is given as an example for the first pixel only.
 > 
->   .. flat-table:: Media pad flags
->       :header-rows:  0
-> @@ -381,6 +382,14 @@ Types and flags used to represent the media graph elements
->            enabled links even when this flag isn't set; the absence of the flag
->            doesn't imply there is none.
+>       \endgroup
 > 
-> +    *  -  ``MEDIA_PAD_FL_INTERNAL``
-> +       -  The internal flag indicates an internal pad that has no external
-> +         connections. As they are internal to entities, internal pads shall not
-> +         be connected with links.
+> +Generic raw formats on serial interfaces
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 > +
-> +         The internal flag may currently be present only in a sink pad where it
-> +         indicates that the :ref:``stream <media-glossary-stream>`` originates
+> +Those formats transfer (largely) unprocessed raw pixel data typically from raw
+> +camera sensors using Bayer and other Colour Filter Arrays (CFAs) on serial
+> +interfaces. The packing of the data on the bus is determined by the hardware,
+> +however the bit depth is still specific to the format.
+> +
+> +The colour components and the native pixel order are determined by the
+> +``V4L2_CID_COLOUR_PATTERN`` control. Whether or not flipping controls
+> +(``V4L2_CID_HFLIP`` and ``V4L2_CID_VFLIP``) affect the pattern is conveyed via
+> +the ``V4L2_CID_COLOUR_PATTERN_MODIFY`` control.
 
-The link to stream does not work in the generated documentation.
+I am a bit confused, my understanding was that we will use Y formats, 
+did something change since your last [RFC v5 11/15] media: 
+Documentation: Document luma-only mbus codes and CFA for cameras?
 
-Other than that, hope to see this one merged soon :)
-Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+https://lore.kernel.org/linux-media/20250203085853.1361401-12-sakari.ailus@linux.intel.com/
+
+
+Also, please replace V4L2_CID_COLOUR_PATTERN with V4L2_CID_COLOR_PATTERN.
+
+I don't see any V4L2_CID_COLOUR_PATTERN_MODIFY or 
+V4L2_CID_COLOR_PATTERN_MODIFY control.
+
+
+> +
+> +.. tabularcolumns:: |p{2.0cm}|p{4.0cm}|p{11.3cm}|
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table:: Generic raw formats on serial buses
+> +    :header-rows:  1
+> +    :stub-columns: 0
+> +    :widths:       1 1
+> +
+> +    * - Format name
+> +      - Bit depth
+> +    * - MEDIA_BUS_FMT_RAW_8
+> +      - 8
+> +    * - MEDIA_BUS_FMT_RAW_10
+> +      - 10
+> +    * - MEDIA_BUS_FMT_RAW_12
+> +      - 12
+> +    * - MEDIA_BUS_FMT_RAW_14
+> +      - 14
+> +    * - MEDIA_BUS_FMT_RAW_16
+> +      - 16
+> +    * - MEDIA_BUS_FMT_RAW_20
+> +      - 20
+> +    * - MEDIA_BUS_FMT_RAW_24
+> +      - 24
+> +    * - MEDIA_BUS_FMT_RAW_28
+> +      - 28
+
+This table does not look very useful, bit depth is obvious from format name.
 
 Regards,
 Mirela
 
-> +         from within the entity.
 > 
->   One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
->   must be set for every pad.
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 045590905582..04d69f042a0e 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -209,11 +209,16 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->                  mutex_lock(&mdev->graph_mutex);
+>   Packed YUV Formats
+>   ^^^^^^^^^^^^^^^^^^
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index ff62056feed5..3abae4c77c6d 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -185,4 +185,14 @@
+>   #define MEDIA_BUS_FMT_META_20                  0x8006
+>   #define MEDIA_BUS_FMT_META_24                  0x8007
 > 
->          media_entity_for_each_pad(entity, iter) {
-> +               const u32 pad_flags = iter->flags & (MEDIA_PAD_FL_SINK |
-> +                                                    MEDIA_PAD_FL_SOURCE |
-> +                                                    MEDIA_PAD_FL_INTERNAL);
+> +/* Generic (CFA independent) pixel data formats. Next is 0xa009. */
+> +#define MEDIA_BUS_FMT_RAW_8                    0xa001
+> +#define MEDIA_BUS_FMT_RAW_10                   0xa002
+> +#define MEDIA_BUS_FMT_RAW_12                   0xa003
+> +#define MEDIA_BUS_FMT_RAW_14                   0xa004
+> +#define MEDIA_BUS_FMT_RAW_16                   0xa005
+> +#define MEDIA_BUS_FMT_RAW_20                   0xa006
+> +#define MEDIA_BUS_FMT_RAW_24                   0xa007
+> +#define MEDIA_BUS_FMT_RAW_28                   0xa008
 > +
->                  iter->entity = entity;
->                  iter->index = i++;
-> 
-> -               if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
-> -                                            MEDIA_PAD_FL_SOURCE)) != 1) {
-> +               if (pad_flags != MEDIA_PAD_FL_SINK &&
-> +                   pad_flags != (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL) &&
-> +                   pad_flags != MEDIA_PAD_FL_SOURCE) {
->                          ret = -EINVAL;
->                          break;
->                  }
-> @@ -1118,7 +1123,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
-> 
->          for (i = 0; i < entity->num_pads; i++) {
->                  if ((entity->pads[i].flags &
-> -                    (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
-> +                    (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
-> +                     MEDIA_PAD_FL_INTERNAL)) != pad_type)
->                          continue;
-> 
->                  if (entity->pads[i].sig_type == sig_type)
-> @@ -1148,6 +1154,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
->                  return -EINVAL;
->          if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
->                  return -EINVAL;
-> +       if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
-> +           WARN_ON(sink->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
-> +               return -EINVAL;
-> 
->          link = media_add_link(&source->links);
->          if (link == NULL)
-> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> index 1c80b1d6bbaf..80cfd12a43fc 100644
-> --- a/include/uapi/linux/media.h
-> +++ b/include/uapi/linux/media.h
-> @@ -208,6 +208,7 @@ struct media_entity_desc {
->   #define MEDIA_PAD_FL_SINK                      (1U << 0)
->   #define MEDIA_PAD_FL_SOURCE                    (1U << 1)
->   #define MEDIA_PAD_FL_MUST_CONNECT              (1U << 2)
-> +#define MEDIA_PAD_FL_INTERNAL                  (1U << 3)
-> 
->   struct media_pad_desc {
->          __u32 entity;           /* entity ID */
+>   #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
 > --
 > 2.39.5
 > 
