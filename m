@@ -1,273 +1,149 @@
-Return-Path: <linux-media+bounces-38206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC511B0D4E4
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 10:46:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C396B0D54C
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 11:08:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14C2716EB56
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 08:46:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 272EC18923B9
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 09:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F38028A3E2;
-	Tue, 22 Jul 2025 08:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CC762D59E8;
+	Tue, 22 Jul 2025 09:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hyhFTuSs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OQYWW1tm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010059.outbound.protection.outlook.com [52.101.69.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C7E7482;
-	Tue, 22 Jul 2025 08:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753173985; cv=fail; b=TQF9cMgMkScNTeWFZpbUsw2ecbJV/x60PkLKbbhFIeD/tBIXdSDxwjfnTYgdH9FgmTWrON4thFowJ9atfhZ2PQ8H3PkmaioTSEZEda7Tpliop5KBl/uU+zbTZUFpYG5qhOIKmkPdOhDz1Y3z+pNN6Dn088uRul4AM6Q2JVQI7Dk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753173985; c=relaxed/simple;
-	bh=ypIVSbMfWJ7QXn50SNHoM2MWOpgqMW7ra3XCyWnN9V4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=IG+qU5PVirhxOQF8a19GNxSntt30Gn/AZoI70gTIlrqRGNZTfMtomCSu9Zi6NC+o9gVwdc7eAXUAIB3j5an5shtbzU8HVFAl42MV2oIELOuIrN1agf2+cnNFuzd6qNPC3zmuc2uhe7w4e3+KhTJwM7DTXa6PUj+wXHa38sqAS4Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hyhFTuSs; arc=fail smtp.client-ip=52.101.69.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k+a7EbGbQTPeL0UCelOCfANVMLJm1esJeequOiyngGrJJ7H3QGpDVFdNZrDEAUsub0oUwJwFmVQwQSa90c8F83AwCW2OZlMGd97p7h1IfkNr8sov46TGzLDOop1XRVXwqHK+vQdkhmX2VyQi+sJJuS5zvgKuavraK6jr8Sweev/0JfBqShmw5z2F1mLdDSuXmV1cIa24Zv+8GyQSJFyAo8LbHjAqBIEciI6Rq/saTyJCWQo/amDvuhKSxW8krjPjhAJbU/7YYv8kKauZG14K6cmuVl0rymqrN86AOK9/EFNKcasqRycjFVW1Ey//XwEp7HUXOPFS7D89AfPvvknSrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XWeKGrfhFrJV30e21A+Dh5M2MzUz8z7U4nsik1mx/YY=;
- b=MuUeX85TCgzhh75DuIIaLHx7s6Uatzy7zyUot0Qo8FoN76NRpCAtM0DgyTOdPhC39p6J21Hisf0uQoA4DtYx+Mp08IEctCuyO1YnvZ3gAw8tcusYFkctYZ9teOhrCpLKBuubUGEw7KTHFvx1NVj5RxtCU+/zUuJM2BRc1gG00fIfB1ZPL1gfFtMXb/cVGxU+kpQXOtJ7jpVhJLdn8P0mXHaGAr8hTeG99HGnhQW3nYyYxo4yblCBkRgFVph8TqKRxxZqZT1m39aZGhqxzVMdRtvs8o2zRxqIfxPJIjYIKH3zQO5txPlpZOtYMCXSblyI9CAyBlwa0r5k8tImtMS3TA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XWeKGrfhFrJV30e21A+Dh5M2MzUz8z7U4nsik1mx/YY=;
- b=hyhFTuSsfFM144FNmW2s0WZ0910wu1hwKKrijEMw4JpSd8I29NBnNUm89jH9jWIx7hDk5tM8SZBWELRiVKt+0OWd/Zpwq+HsoZn9yhvE1hJYnNG3YVV6Uz0Gx+GeQNXZQrTGTrQjGgOPUZJ1R6ShhEd0T13KXcgp4O1n3yiJGDKPBXceBX6CsnJkZmAdA0sSbWT4NZfv8wnCgw/KTYUpYZDDMRmltkxQX/Gc8stolWNGh49vpoRtF+yuldChKyHJOcBh1S8Xkhbo71hy1g41bFw9MYcWZ5OvMOBKjSdqoBPzUV8LfKAbBsdWhLJKMpILYRz4Ic5fKJQdAeLKYYCbnQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8147.eurprd04.prod.outlook.com (2603:10a6:20b:3e0::22)
- by GV1PR04MB10989.eurprd04.prod.outlook.com (2603:10a6:150:200::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
- 2025 08:46:19 +0000
-Received: from AM9PR04MB8147.eurprd04.prod.outlook.com
- ([fe80::eace:e980:28a4:ef8a]) by AM9PR04MB8147.eurprd04.prod.outlook.com
- ([fe80::eace:e980:28a4:ef8a%6]) with mapi id 15.20.8964.019; Tue, 22 Jul 2025
- 08:46:19 +0000
-Message-ID: <ebff73fd-292d-459a-9ebe-cbbc6ef2b39b@nxp.com>
-Date: Tue, 22 Jul 2025 10:46:16 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/2] Add standard exposure and gain controls for multiple
- captures
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, ribalda@chromium.org, jai.luthra@ideasonboard.com,
- laurentiu.palcu@nxp.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, LnxRevLi@nxp.com, celine.laurencin@nxp.com
-References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
- <20250715235952.GE19299@pendragon.ideasonboard.com>
- <20250716001205.GG19299@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Julien Vuillaumier <julien.vuillaumier@nxp.com>
-In-Reply-To: <20250716001205.GG19299@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0360.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f4::13) To AM9PR04MB8147.eurprd04.prod.outlook.com
- (2603:10a6:20b:3e0::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415292236E8
+	for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 09:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753175298; cv=none; b=cH/eF9Ai7PvIkUi/9A+JH4PnCvMSODgwK+JWzyMa/5q92m009jcb64Qg4a9kl7ciXQE/hbCv+bpy5D0AOl81QFHbyTe6WAlgh7qzKH/8ivMcXy7hR9zr7ICWNiQsz9/TYpQwnif2pKJImv97WsrBc1e7+ahPICIXcCXLY+pzmC4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753175298; c=relaxed/simple;
+	bh=83y5T3BM2ZAJfHW+ZSwnCHCOGkeZBOQGBR5TAJpsVHA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fU1KjyiNM6ieu1UD4q0Erlw97srqvhDVGC06SDqtDR/W4bZRHrxx+HmbyeWK60Z/wZKRfYPYpcJK4DB/qbZjo7HBI4IXtXHtomyNPPLly14O/pw+ly+ehAYbE4xnE5gTucPy54FVf9q64ApV5ZVVDiJadoTqFZMJf1KYfFZwG4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OQYWW1tm; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-455ecacfc32so23927215e9.3
+        for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 02:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1753175294; x=1753780094; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=On3JvqZOf5viVWmDtf1F5EeuSK6iuUoSgcnf4ZkG6MQ=;
+        b=OQYWW1tmk8QoyecUn/2m5gL34JQVn5XkNTNdVTp5VHbJ8WGisQrKd/zf3DX/fsozq+
+         6+KfiAY4zwzwIpLYtV1iLOnEfqf18fdt4hWGMLCp664D5JNO9IXOxNDT14oUlYy9ERF2
+         XFMGvA5Orv4GbSoHLYRX/oHoJayimuWFBS+02fNtWom0ry5UKObAQu+PissT7eSVf7DW
+         igxOzdjeCHnbv0guO1FcY7bq8ytgZaQO7NUg9BCY8yDZDd03/YHg0C77rgUOt6m/b2Xr
+         OKU3x0jzBwx+FJu7Nk45iXAfxitXOeWRkFS36nvB7F8RdLwIy9gKvvoW4kHyNq2gJqwJ
+         +lUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753175294; x=1753780094;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=On3JvqZOf5viVWmDtf1F5EeuSK6iuUoSgcnf4ZkG6MQ=;
+        b=fgEm9xViGpJ7yfsEjnF4IoCsVifNY3py89qxCY1sM0FlKy3ChTCFqwtwZPgZ/oMMwq
+         bEeywsyzp0OBR63/IRpG/nMT6bGa1IHnPnJwdHnZ4/8iE7iHAlTC2CBEb0k3mu5cSXzn
+         /lzGdsUAt0HDuyLEx95Wc0NJrJWh4Pl68fype6iqGa67VNaOiSYK4O0dZzE3AelfGRXe
+         pwHPnKkJ0EdhWmT4Ci0cMZRRFJWEGZBIRMumZJj4WF9RsAtsmsKtU/D7/P0zkWdZwnnK
+         pZCxsVk1+vE2zyliT66IOegiDkq39stNquo4ax5nP4C31xhZn6p/PPOiYcDb/Zw2IUJ+
+         TJ1w==
+X-Forwarded-Encrypted: i=1; AJvYcCWV58H0OSIl258gTYsK2l3MIyPElpzUsom+OvkMczEjhuHTPP/phO+tfqHJ3sqSWHsEHrupAHJGZksOlw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJ6PqtndWKIODloLUxMPcwCzvEx51DDnEdtmfjogPyVCb8xjOu
+	QNByEwYkJJZu/Etg5ZYe88ynzcmdAwRxwrzLwhguh3RvrxQ9WkaxGW46ZDFUXiwXWDg=
+X-Gm-Gg: ASbGncs+X1OvuyTp0DuNT9eKayoe5sIKfd97btDTklXhVLfRFD6VJa78LSWwv0E9AQI
+	pcP0Dia16KvOlXesQvUN68bZwh0yVDGMFVgJeUTiPKlrCvPlj2OnvrkBxLRZOEMB2acjG/ZGQoR
+	hVqFvaHvS3cozJcgvZwLGRJy+13M1zXyfFl9N9biWZlyWolLbJQG3LyETUpparJ5wIQ6RmPc6Ky
+	8HCQc/KV/rbIHwohjAPeq5gXSmiz/DU15aVqANaS81YOtELQl2rmGrnDInBTJ1geU/teGUH9IgQ
+	uWwRFfA9MlgBZvge6Rr5W1sovQ4uD3arOg7xu+A+VhM44Shj7aQEyNHkOi4be4Eu6imc8prpbcB
+	5oi3BluMkrkyo60pEPg+VhzgR3yiHVcQOnv1cidZPseDvD+EtgRA890mu+d93PbwD6+uCWgCpcg
+	==
+X-Google-Smtp-Source: AGHT+IGIe5v+xkseT1R+b83ynGM35H1dtttBfIBKdXEdhjXXuEssWueZy6PEB6lRJfSUU+5XBI6EAg==
+X-Received: by 2002:a05:600c:8b85:b0:456:2347:3f01 with SMTP id 5b1f17b1804b1-456355c60d3mr166991665e9.20.1753175294468;
+        Tue, 22 Jul 2025 02:08:14 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca253f9sm13035086f8f.6.2025.07.22.02.08.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Jul 2025 02:08:13 -0700 (PDT)
+Message-ID: <4edefe21-27b6-4884-befa-ddb451bb9376@linaro.org>
+Date: Tue, 22 Jul 2025 10:08:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8147:EE_|GV1PR04MB10989:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a4a2170-eade-4056-25c1-08ddc8fc39d5
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|19092799006|376014;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?dWN0V1RZRjNyLzZteWwvRVZwVE52aVZQdDZqK0hYL28wdkJ2TWtRSC9PUlMy?=
- =?utf-8?B?VzVKeG1BOHV2OFI1R2JTVENwV0lpaG9Wc09sMGVsWG8vMEN2MmxQTklERlJV?=
- =?utf-8?B?dnhKcHQxNTlhaTBDTlNEOEowRU9VODE5WlMxWndBQStMdXA0eUJUZ1pGVElZ?=
- =?utf-8?B?Smp6VG0rYzMyOGYxeGNURjYzRHFhc2pPZDIvMStCM2tDQjZSM3ZDenZUM0Fh?=
- =?utf-8?B?K0ZHNnIzcElnSGpRQko1ZlRjYUJXalNnSW80d3phL05YQlZhdDcrK2JQbE5V?=
- =?utf-8?B?blgzcW1pR1BxYlBMaFlrenYwaXN2b3NDQ2ZVc3VOaWgwUHdqQkFuOG90UEsr?=
- =?utf-8?B?TXQ5T00zQWNQYWhiVGJ4bUh0TkZzVjk5TUlyNHc3WGJuOHVrYnUwbW1NS3FV?=
- =?utf-8?B?THZMQjQrbnAzeko3MTRKSWxENHVZU3NINVd6amkzT3VyamdBZ1ZXeHZoSzdv?=
- =?utf-8?B?UWtxMzl5MHc1cklrVTJ3Njk4WmZQWTJPRmdVTW54Y3JLejBud1l0Zm96U1NG?=
- =?utf-8?B?bi9pd01oa2JLbEdoM0lIdmtXTW9GV2dzUkRIYThpWEJrejZGSm0vb3RYTWdq?=
- =?utf-8?B?OEppS1dkakhTZ1ZqZ21VU01jTFgvVWp5dnl2ZndCS21LSlNDV3JMdkkvVGhV?=
- =?utf-8?B?TFBHSjQ0Y2t4dG5rbmZ2V3RId1VBUUR4bUFLajNwRlY4L3ZNcXpSUFZUcU5V?=
- =?utf-8?B?clh4ZzhKdDdRdWIzRjVrVkYwSUF6RHkrZzZqYUNVd0tnSzlUQ3hHU2FEZFhv?=
- =?utf-8?B?ajhVSElONHUvUkcvalpTT29CcG1NQkZjMEtXRjNWN2VYem81ckdtUXBzcXFR?=
- =?utf-8?B?NlZpYS8rckNhQW5EUU5LYUMxcXI5ZlRYd2MzZlNKVjlJaTFIb05hWkx4N01M?=
- =?utf-8?B?Vk9Fa1I4UlNqTEZ6a2NxcFRFRGQ4ZVo3bUhCa3JHSHhRVjEwaWNTTmU3MVlI?=
- =?utf-8?B?bUo1MmQ1KzZ0aXVhNUExZmZKMVVwa0UzK3Z4WWRleVlJU2F3S05MRG9sVHR2?=
- =?utf-8?B?VXFOWDhRMWhxRUNDL1lueVdPTmh5eEVQTFBlYnlnYTJhdnBGa3hxZzZnaW1v?=
- =?utf-8?B?RlJ2eEhJRlBNcjEzWjhCVjB3V0ZXMTUvL0J6NGc4aGZrREVLeWM1Qmtqb3lr?=
- =?utf-8?B?UUxnRXRKRWx5b1Q5WGtKbmJkQlZhVmtGSDVZMVNsSVF6Q3lKWHZvZ1ZWeDBu?=
- =?utf-8?B?aG81cWpNNkQ0eWRudzRiWlJDS2lLUjY2RkxiVHR3TnRuZWJmSFo3UUFGQncr?=
- =?utf-8?B?aDRpTnltWlh6TmRYNCtqeDQrUllEMnc4b0FJc3VZTTVVNjRvaGxZZ3FJSGp5?=
- =?utf-8?B?MURtcmhLTC9WTis4cGMrS3JiRUFQbnMySUh4aU93bjkvQXAyWTVKKzI2enBD?=
- =?utf-8?B?Ujc2MEQyL2w2TGxZOHpwK0h5MUcrTzlTNzNVMysvNkg1Nm9HTHgzV1dPaUpT?=
- =?utf-8?B?YjRlSXhsTTREbFhvYmFwZWFjMzlFWDFWd3NrU2syZldXbTNNZGUybDdMZ1Jo?=
- =?utf-8?B?a3FPQ1pUMFRrOVNTOERxTk5XVy9rcXVNRkpxUmJZQzdzZ1FYT0E3VmYxaVY5?=
- =?utf-8?B?bjhKdXN5OUxwM3hVY3BybjhnUjMzVFdlbVVqQ2R4ZnA2WmhSNElTTG5BQWUy?=
- =?utf-8?B?UG1tTHVjY2h5Nk1UL2N0UWRlTStRUzVvRk5WVTBhWW9tc0M4dE1RdGZuWXNZ?=
- =?utf-8?B?L1poT2tFdEsxWFNYaHF4OU5WYTNtd3ptdzJUdWF4ZHFSaTdWSWJvNm53MXgz?=
- =?utf-8?B?OW1Td0R6WU5YemkxekhNbE1LMncrTndvSjVzczlqUGdUcnljemRIQlk2WDZm?=
- =?utf-8?B?NjQ0OFlWZWk3SGNwdGZab24vcXVzTlc4RFAwSXdubVdIUmVtN0RRMGhMdEI0?=
- =?utf-8?B?SDVpVFY0bGFVc2NiNmRUWkVmSkFxNmc4akRORXg2Vkd2NEdFMUx4UkdNMDNM?=
- =?utf-8?Q?fOVlZ4qWh6E=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8147.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?TlZZS0xGVUFmbmhmYXl0dmpoek9ZK3FSUVhiK1NPSUpUV0ZCR0pFaDNJVUpz?=
- =?utf-8?B?WUoyamdnenpLZmVUOEkzMitoOTc1cGQxLzZKT1h5OTAyUjhvbEROaG90cVR1?=
- =?utf-8?B?elJYVHBTa0Fyd04vRTNTWWlZOGdWamt3SVA4RVJUaE41TFY3Y3JJMDgrY095?=
- =?utf-8?B?a2luYnVGSWMvM3NYd0h1U1lFWjB0MG1IZ0FQaVJ3bEpvcXREK2wwcTB5bkV4?=
- =?utf-8?B?bzFvSU5LREcwSE9ObytjelBibWpVSTFFclFVd0JwTnNnZGIrNDRXQ3NzZnRj?=
- =?utf-8?B?amRPa0R5c1pEQk1mRmtTZS82Mmdkc2RxOFVOZFJhUVFVL0ozRUwyUUhURERV?=
- =?utf-8?B?cjc4Sk1VTFBHQmRqSE10RnN5T1lKNnRERDl4YTFQcmRVNzZXM0tHUTVFVFg0?=
- =?utf-8?B?NWk3RXY4UWxubk9PNFluYllpTnF6KzUxU3pIWVhhdWRvZ3A5MUhMbXBCckQy?=
- =?utf-8?B?QVlaaTBtbFAxYzRtQlZxMSs2V3VYQUVacDVwRzBCdWllL3cxVlRScGRnQnkz?=
- =?utf-8?B?b2gwNWhXQmozeEIyUTIrYVdwRHRkOUFUZGFKaW5yb1lPVlVyOHBvYUhRK2Nj?=
- =?utf-8?B?QWdIS20veWFqUUx0QkQ3MDBVZ1BMZFhJejhPc0hXSWV5NXBBZVRxRjIvYlgy?=
- =?utf-8?B?cHdiVFRxK1NQd1JuMVg2S3pTNHdnNzFYYUMwa09XdlV0MmF4WnpzRzZtb1Nh?=
- =?utf-8?B?UFdtMWI1M1FkMHdHYnNSRk5saFJKSXdrcm4vczEzdUNnTnlaK1FjMzRUWDRj?=
- =?utf-8?B?cVQwejBjRzF1TlRtVTBrWUpNRmd6SkEySDUvbDJnb21XUHQ5V1hGQXlETUxl?=
- =?utf-8?B?WWE4dXUwN1NTZGc1UEI2REcySjRBSlJCQ2g1SkJSbmpmOUkvejZSRlRqbUhn?=
- =?utf-8?B?QXg2dTF5M0tQQU9PL29ZR1FobHBuM2ZtdXpwbWdlTlZRaWZmdkRnSUZweVMy?=
- =?utf-8?B?ZjNZVXBHSXF0cTU2VFR6Q2lLRzJQOGNqNFBmWUltTmFYSmUyeFJST21Sa3Fp?=
- =?utf-8?B?Y0dPVmVSZXhCdHdJY2Y5dW1mN0lQZkZsSTVaR1VhWDYvazlLaDRhR0JuYThz?=
- =?utf-8?B?dVRlaHhHWVFiTWloWDNobnNiS09hUWU5WENvcmFFeE5oaTVQMXpzdWZScVZJ?=
- =?utf-8?B?S2tCS01kU1dnVzhiekpuNGpNaEtPWFVjbUlPMlZtVEx4S2dSUWVaYUdGSHJ6?=
- =?utf-8?B?RVVGcXNTYjMzbFo3dVlodkNHQ2ZJOW1idFdndWxpRkVSTWxjbmtraitGRnFY?=
- =?utf-8?B?UVRaTk1jbVBycHcyVGJmV0JISzhzekhmWVdiZDQ4dHFGZjFzT0Zic0FZSk9D?=
- =?utf-8?B?QmtJT3VJRnIyZ2s4NzZIZVk4eE1hR04yam8xODlhS1RpQldkbm5tL0lDYll1?=
- =?utf-8?B?TGR4dnFuSlVGdXUvQ1BGR3NnRm9Ra2dGSFphNXZFK2FseTZsUG81OWtQVWJ3?=
- =?utf-8?B?MEIzYnpZS1BCTmp5M05JV1gvalJ0Y1BURGtQOXBxMnZoSVF3SXprVlFUWXpi?=
- =?utf-8?B?ODIrV0hLMU4yYmZicDdJanZRTnBNZVJqS25VZmE2WjM3cjJXOGg1UFRkMHly?=
- =?utf-8?B?KzlwM1lvbmI0WGk5RGJ2RFkxQ3A5ZUxGZWVuRVI1WVRtemg5MTdRdUdnb3NV?=
- =?utf-8?B?bmRjMXAwNGc4bkh3SWwzSndyNm1kbVh4UVNLWnR0ZHZJc0VrRFpBbTRkdGVo?=
- =?utf-8?B?NHRKakozZ2p0TlJiZnVwOGoxVHROWDdYc1kzVy9zMjROKzJZN3pPcVhDdlBC?=
- =?utf-8?B?eU5aRkNiWlpscnJQK0FlZlptdHhpZ3pEb3gwN0twZmhRK1k3bVA1OEcxazJY?=
- =?utf-8?B?Mkp1VFlnWWNYUEIwOExoYlNCRWxFYXJHYzBybkQyR2NFT0NHdFIyeTNFbEc5?=
- =?utf-8?B?KytROGxnUlBMdWw4clR1djVpRkc3Rld5cks2RWU5dnp4TEtlUVg2YXY1ZW8x?=
- =?utf-8?B?cUIyN09ZSUJuWWE0UzRJby9lUkJ1K2FTYkV2L1J1NDlhV2VieUttRGtJTjBP?=
- =?utf-8?B?ZlBhM2taazU5S2xBR2VWakgrbzZ6Yk91ai8zNU44dlE5LzRTYXRPL0lESGJV?=
- =?utf-8?B?OEhINm9CK2p3Yk5YTk83TEJENmlTTHY2clhZelA2TUhSRmJGWGdwQjNqcTdk?=
- =?utf-8?B?SDRIWDdrRk1wdUgxUVFZTmV4U08rUWxyOXhDK0d3emlXSU5NMTlUVU9scXVs?=
- =?utf-8?B?TVE9PQ==?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a4a2170-eade-4056-25c1-08ddc8fc39d5
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8147.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 08:46:18.9704
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jqhwHiG1T53Zh3vTpFXGmO8HmZiAbJChzlJ6Qb+vdV02eUJ354vxkWMbkdvuZ3o9An1rgf8pLdznD1DcsP7uarU2HH5ip/iHtZZ34kSIILI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10989
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+ <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
+ <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
+ <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
+ <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
+ <eac3a877-a4aa-4789-9013-ab8b6c91e0f3@linaro.org>
+ <0a12879f-dc4a-47fb-87a0-ac4b8bcd4d75@linaro.org>
+ <53a19b1d-5665-4937-a07c-5dd1fcde06c5@linaro.org>
+ <3b760685-97db-46e3-80a3-7fad69ad31cd@oss.qualcomm.com>
+ <94b75177-9401-4e0c-966b-5847a29cb6f7@linaro.org>
+ <427548c0-b0e3-4462-a15e-bd7843f00c7f@oss.qualcomm.com>
+ <3UXVZ6ANM9mDjVdMV4SXsiIx_pT3S1lp3RC_Q7mh_o7jF2dpYsni1Sl2TAWv6OCMCRTFmi9aE6BxDquGkOnwEg==@protonmail.internalid>
+ <8b908a20-0bf3-447d-82ea-a5ecee1bf54c@linaro.org>
+ <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
+ <33d76d7f-ab14-4e76-8ffb-eb370901a046@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <33d76d7f-ab14-4e76-8ffb-eb370901a046@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-
-On 16/07/2025 02:12, Laurent Pinchart wrote:
-> On Wed, Jul 16, 2025 at 02:59:54AM +0300, Laurent Pinchart wrote:
->> On Fri, Jul 11, 2025 at 01:05:42AM +0300, Mirela Rabulea wrote:
->>> Add new standard controls as U32 arrays, for sensors with multiple
->>> captures: V4L2_CID_EXPOSURE_MULTI, V4L2_CID_AGAIN_MULTI and
->>> V4L2_CID_DGAIN_MULTI. These will be particularly useful for sensors
->>> that have multiple captures, but the HDR merge is done inside the sensor,
->>> in the end exposing a single stream, but still requiring AEC control
->>> for all captures.
->>
->> It's also useful for sensors supporting DOL or DCG with HDR merge being
->> performed outside of the sensor.
+On 22/07/2025 09:32, Neil Armstrong wrote:
+> The whole key point here is the combo mode, as I understood the combo 
+> mode feature
+> makes the PHY lanes available as 2 separate streams, like if you got 2 
+> "controllers"
+> attached to the same PHY. So in fact, the PHY should have a single node, 
+> but 2 PHY
+> interfaces in combo mode.
 > 
-> Regarless of where HDR merge is implemented, we will also need controls
-> to select the HDR mode. We have V4L2_CID_HDR_SENSOR_MODE, which doesn't
-> standardize the values, and that's not good enough. At least for DOL and
-> DCG with HDR merge implemented outside of the sensor, we need to
-> standardize the modes.
+> This makes all this controller/phy model very complex to handle and add 
+> a lot of
+> logic in the camss side. Moving the "csiphy" as an independent media 
+> device that
+> can declare up to 2 endpoints in combo mode makes things much simpler, 
+> and allows
+> us to attach each "csiphy" stream to any "controller" side of camss.
 
-For the HDR-capable sensors with the HDR merge implemented outside, the 
-short capture(s) are likely implemented as separate streams, in order to 
-match the raw camera sensor model.
-In that case, the SDR/HDR mode switch, when supported, can be done by 
-configuring the sensor device internal route for the short capture stream.
+I think there should be a generic extension to PHY/linux-media to 
+support that instead of something Qualcomm specific.
 
-You mentioned the need to be able to select the HDR mode in a standard 
-way. Could you elaborate on the foreseen usage: would it be to select 
-SDR/HDR operation, to select between different HDR sub-modes, to inform 
-user space about HDR capability... ?
+The first task is qcom/CAMSS specific which is separate the CSIPHYs out 
+from the CAMSS block - done in this series and do so in a way that 
+doesn't break the existing ABI - done in the context of adding Hamoa/x1e.
 
-> 
-> Can you tell which sensor(s) you're working with ?
-> 
->>> All controls are in the same class, so they could all be set
->>> atomically via VIDIOC_S_EXT_CTRLS, this could turn out to be
->>> useful in case of sensors with context switching.
->>
->> Agreed, we should be able to set them all. Are we still unable to set
->> controls from multiple classes atomatically ? I thought that limitation
->> has been lifted.
->>
->>> Each element of the array will hold an u32 value (exposure or gain)
->>> for one capture. The size of the array is up to the sensor driver which
->>> will implement the controls and initialize them via v4l2_ctrl_new_custom().
->>> With this approach, the user-space will have to set valid values
->>> for all the captures represented in the array.
->>
->> I'll comment on the controls themselves in patch 2/2.
->>
->>> The v4l2-core only supports one scalar min/max/step value for the
->>> entire array, and each element is validated and adjusted to be within
->>> these bounds in v4l2_ctrl_type_op_validate(). The significance for the
->>> maximum value for the exposure control could be "the max value for the
->>> long exposure" or "the max value for the sum of all exposures". If none
->>> of these is ok, the sensor driver can adjust the values as supported and
->>> the user space can use the TRY operation to query the sensor for the
->>> minimum or maximum values.
->>
->> Hmmmm... I wonder if we would need the ability to report different
->> limits for different array elements. There may be over-engineering
->> though, my experience with libcamera is that userspace really needs
->> detailed information about those controls, and attempting to convey the
->> precise information through the kernel-userspace API is bound to fail.
->> That's why we implement a sensor database in libcamera, with information
->> about how to convert control values to real gain and exposure time.
->> Exposing (close to) raw register values and letting userspace handle the
->> rest may be better.
->>
->>> Mirela Rabulea (2):
->>>    LF-15161-6: media: Add exposure and gain controls for multiple
->>>      captures
->>>    LF-15161-7: Documentation: media: Describe exposure and gain controls
->>>      for multiple captures
->>
->> Did you forget to remove the LF-* identifiers ? :-)
->>
->>>
->>>   .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
->>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c            |  8 ++++++++
->>>   include/uapi/linux/v4l2-controls.h                   |  3 +++
->>>   3 files changed, 23 insertions(+)
-> 
-> --
-> Regards,
-> 
-> Laurent Pinchart
+The second step should be to extend the existing linux-media and PHY API 
+to support multiple sensors on the same CSIPHY in a generic way.
 
-Thanks,
-Julien
+If you want to ship me some hardware, I'll help.
 
+---
+bod
 
