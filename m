@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-38213-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38214-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B83CB0D7E3
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 13:10:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4A5B0D7ED
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 13:11:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CF9916A9A5
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 11:09:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2416BAA50B2
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 11:09:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1773D28C2B2;
-	Tue, 22 Jul 2025 11:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B7282E2EF4;
+	Tue, 22 Jul 2025 11:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssYsamx7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjirIiKc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3891C84DD;
-	Tue, 22 Jul 2025 11:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9592E1C7A;
+	Tue, 22 Jul 2025 11:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753182558; cv=none; b=Lu4V0dj0M8P633dSjzhjTc3OGVGSOIKQDCn+Bla/qdAtK4mOT8DRxlHMeKQPaQEXLaME3foe0Wgla6N8NC2/SCQMy9IOdNVhZOaEUMTqP4RhQMZKDD+O3pM+S4xM5C1SDd8k83QBx3n5sdGfVR9oI2hGwCQGFh8t/GIH6LnruZo=
+	t=1753182594; cv=none; b=pMTXuYx0p4dB7hVI5vEzNKlxU3EJWQbDwRVBI2Q/ztCuIoz/7jnmwee7jyZeWI8fkZplzOsVVHasL5lKm3IDIe8u4B1MazteAzgUFFz+gmH8VXAJ4A0O+Ks475QbspmOVYjNMnynOmFyrPlKodSq/g3VJs4z+o20DP7CCYdjc78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753182558; c=relaxed/simple;
-	bh=beXaQ6bn7VZ4kwXIr7bZnROMX0CLkZfQr4F/O0JFJTk=;
+	s=arc-20240116; t=1753182594; c=relaxed/simple;
+	bh=knCHRYIvYTmiYB6u/STPa5dxiHcIx2CJey7pqvImmZo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M/Eki7g0ekQSHeSbHavSPGoxh32qddVr1KKC1HOh6A/3yzkI8PcOj4VU0jJHGPP+EefbVSWqJDJqVp91An8j9r6QxpHYQ8C/AomykWNlkTBKod73yiWzWWrvNGNegsJ8r50BCloQvDLAab6V54GAwy1dZMbXMnO20F5SdWtZ1fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssYsamx7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29DEFC4CEEB;
-	Tue, 22 Jul 2025 11:09:11 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=AYIj7Noka1CjRP06RbhfLMhA8O6iJGroryH6AgjcEjnyhuK45DiSoLXd4GghgOUMn+p82Y9Ms/8nmNI9HCiz/XOfdDdluCLwSLOcMM/DjxaiiU7zeVXtOFM/lKGx8gsVmnc3XG+qPP4UAMBMzwsYGQyi+n1yQAjU4LamRGIr5HY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjirIiKc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21F23C4CEEB;
+	Tue, 22 Jul 2025 11:09:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753182558;
-	bh=beXaQ6bn7VZ4kwXIr7bZnROMX0CLkZfQr4F/O0JFJTk=;
+	s=k20201202; t=1753182594;
+	bh=knCHRYIvYTmiYB6u/STPa5dxiHcIx2CJey7pqvImmZo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ssYsamx7ZfqFjggJyRK7l+C1u3LcnNCAuoLrcPp6hQWVaqh5lkmnVccDMhaLi0eC8
-	 /k9xi7NS3UC0ElAnmomm+hSWroEXYNVeHOd6kPCvIG7Ut1QQD+HGmln3ilcLgWlZm7
-	 oig8yV30RHJeHg/JUbjOHcRR/27+0M7tV77dJqCgWypNxCuMRR2OTSpGhIxmVX9L59
-	 BZjpoMg85PmwXTsIdURUVZO+Ff5hgaSG8UqtnL4QlG9nANfcxej579H39t/kuYzMrA
-	 N72OULbtS/j0hl6gwOv7vLXFTVbTuxpb8S3gqE5CLjvg03dBlXo83U+TolmCKTNnhn
-	 23MHIc7ks6FdA==
-Message-ID: <31e72f14-bb61-411a-86c8-19c7212d2d31@kernel.org>
-Date: Tue, 22 Jul 2025 13:09:09 +0200
+	b=kjirIiKcte0nSMAytRQyqR0+bJMRxy/akYEtt4sihCHMu+oTxKlD8TDiO6j5Hlo/V
+	 LBM5lb+Kc1LQmyz+/xXzKCn0zZHPEC7Kq0ps7r5rS4Dl+vsKMxx8yDMH/LBIvwZ6Hd
+	 PCq4pT3i0JKOpNskKTNlDTvJoA2kxB3VmN7+Mdi9CjOAGjaT5KhThGv+R2Mrg09rNa
+	 7QIeoGOpdYwMtY9lJIjzWLhqxcmCjWHlqVkiRoIS8kugr9QEkWMlQdgB9KLgqAs/uC
+	 sWXqqa/1GRwenVygyrnCVw+eiu+c+CaMegoc0fzdQXc68FBFzMePe7hU1GW9MDikFB
+	 YjiTiS5H6VLmw==
+Message-ID: <86ee9383-d3dd-40f4-adb8-1f7375018bf5@kernel.org>
+Date: Tue, 22 Jul 2025 13:09:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 7/8] dt-bindings: media: Add MT8189
- mediatek,vcodec-encoder
+Subject: Re: [PATCH v1 1/8] dt-bindings: media: mediatek: decoder: Add MT8189
+ mediatek,vcodec-decoder
 To: =?UTF-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
 Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
@@ -79,9 +79,9 @@ Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>
 References: <20250721105520.5625-1-kyrie.wu@mediatek.com>
- <20250721105520.5625-8-kyrie.wu@mediatek.com>
- <20250722-lovely-mustard-scorpion-e07e92@kuoka>
- <1d51ab1398ea0eec7bcaeaa31f52e4c39d11bd7b.camel@mediatek.com>
+ <20250721105520.5625-2-kyrie.wu@mediatek.com>
+ <20250722-sly-sparkling-kangaroo-6ab9ed@kuoka>
+ <7e148282f683f8e0e00a1ad29ada8319ee9e24f4.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -127,35 +127,38 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <1d51ab1398ea0eec7bcaeaa31f52e4c39d11bd7b.camel@mediatek.com>
+In-Reply-To: <7e148282f683f8e0e00a1ad29ada8319ee9e24f4.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 22/07/2025 10:16, Kyrie Wu (吴晗) wrote:
-> On Tue, 2025-07-22 at 09:26 +0200, Krzysztof Kozlowski wrote:
+On 22/07/2025 10:11, Kyrie Wu (吴晗) wrote:
+> On Tue, 2025-07-22 at 09:25 +0200, Krzysztof Kozlowski wrote:
 >> External email : Please do not click links or open attachments until
 >> you have verified the sender or the content.
 >>
 >>
->> On Mon, Jul 21, 2025 at 06:55:19PM +0800, Kyrie Wu wrote:
->>> Add MT8189 encoder compatible string, which will reference SCP
->>> device.
+>> On Mon, Jul 21, 2025 at 06:55:13PM +0800, Kyrie Wu wrote:
+>>> Add compatible for video decoder on MT8189 platform, which is a
+>>> pure single core architecture.
 >>
->> And the device is not compatible or is different because of what?
->>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Looks compatible with existing ones and nothing in commit msg
+>> explains
+>> why it was not made compatible. Describe the hardware, say something
+>> useful to avoid such questions.
 >>
 >> Best regards,
 >> Krzysztof
 >>
 > Dear Krzysztof,
 > 
-> The reason, adding a new compatible strings for the MT8189 encoder, is
-> same as for decoder, to use different of_device_id data and to
-> distinguish the chip name.
+> There are two reasons for adding a new compatible string to MT8189:
+> On the one hand, MT8189 is a pure single-core hardware chip, so the
+> of_device_id data is different;
 
-You speak about drivers, this is not relevant. Explain the hardware -
-WHY it is not compatible, what is the difference
+Not relevant. Your of_device_id is wrong and based on that you claim the
+hardware is different?
+
+Describe the hardware.
 
 Best regards,
 Krzysztof
