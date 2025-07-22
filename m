@@ -1,251 +1,273 @@
-Return-Path: <linux-media+bounces-38205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38206-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46979B0D4B7
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 10:32:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC511B0D4E4
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 10:46:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CE096C331D
-	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 08:32:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14C2716EB56
+	for <lists+linux-media@lfdr.de>; Tue, 22 Jul 2025 08:46:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB7462C158F;
-	Tue, 22 Jul 2025 08:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F38028A3E2;
+	Tue, 22 Jul 2025 08:46:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xfjmor6s"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hyhFTuSs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010059.outbound.protection.outlook.com [52.101.69.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607DF239E9C
-	for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 08:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753173142; cv=none; b=mu8wdLgMxMkJY0yJpws247EJaWkX1JrDHL0Km3ASReM7HgVsf5ZGt3TD7PclKH5Ngne1HBZaRycHGXTa2uawy8qNzLeUJ1hGKrTxL7x2f7Uvfz25lUH19ybaEqdQevyNCP770wAIiKhhl1xmvwOgveTEc1NsaEz3s/SRbtkj2t0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753173142; c=relaxed/simple;
-	bh=rAgS6t6wG20qiV2by2xORtgcZUviNn8FpaxxBJIUk60=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bxIojQPYbmWfJxIdzv1+gHrd/O8k3c5VHBwDae09fItMCKeNNoZxVSlBS0ootKFeMrwk30s9i/guOUMiw3+WyCmccMz/oOuueecqcO3Xg/nUFo8rupqp3bAWLhLQe8djzC3MGAsYbULhgI9uUhrKPeQGwTAQuMzaFbIT3o9FhO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xfjmor6s; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-454f428038eso44519865e9.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Jul 2025 01:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753173139; x=1753777939; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EmqRihQE4cEXI6g+dRmCaPE8w5nJ7dL9XpOBOkXpgns=;
-        b=xfjmor6svATxlZ8LmTGr1Kz+UJlTuyf42SExZT6xP2k5IRtpvKYnU3zc51KFLKd4LY
-         DhO+a/BU9307Tg1eP9znKspXzKV7qvox0KHNs3UKr2FJ9Z9j0H74kz8W1JiYtDS/rUY0
-         BFpsprylV4JvPDkot+SlkOZd6NKQqDjnNxCIKn6FY6ucsfyd0Sbb7Ydk4VJ3xdEm1ReE
-         bcLaxrGmYCSfGeHoHokKxIJ5LjuIFRGv2pwIHpzzr6gj73A7fPxP+SEtFofU7cp49AFu
-         riVtijoonipwwopdDsXELOX+ygzJAwDGgj6PNZkIxK7xv5Wpqb3kX6+0PLhP8vH4TcPo
-         WiYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753173139; x=1753777939;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=EmqRihQE4cEXI6g+dRmCaPE8w5nJ7dL9XpOBOkXpgns=;
-        b=O1hWgwZc7OCCdltiGBv669u2i4475RjhUCiIVqwjpoGSw5X+5EhpBULSr0vDdqPt/8
-         iuGsS7yWYfaTahCNkb3etX31YNixC06jjVd7pcX/bGJO7GEJZVxqN6PVWLBrzzq6E3Ou
-         lgIJ4GTa2MmEw93LqTIsoJ5/TX8ofb9ph+jrmD7DY7hliYxAsQMEOH21XV2NLrC0RhjN
-         IAV4u4UPZbL+0CUDw8bOtXEDSoY2NwqlzmCrdNZ0HCIIRdsWq6XSuhTLvW27qwM3Y9Az
-         nVXginoKKtm4OxcYwYkb073wIqn72BCxiayxSAedkpTwVtCyyfQrlZXgNxThhX0KfJUJ
-         qfsg==
-X-Forwarded-Encrypted: i=1; AJvYcCWOZearQMB0vz9EIrTMEbpxS7Z4qHfJXXAY/dcA34w6/8Ct/omdz/gzl2BijPCfpgi6DniOASc/S5UEQw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyIIhq+q7gY8nM7cif+5OU3YpQNqBHV+mV+nrCR0wxYGNp/Vbu
-	ohq2xflh1DeeFGYORV6WAS91xwsLjutelJhdprV8nUeClK3rp2HXSOKNNAsU/Bc6Y9m5eLkTYll
-	DV7aJ
-X-Gm-Gg: ASbGncvkauUizd1otiKQnKPM5/79Jw/chNMaBLIS2yE0mOpeQmNjJ9RsdZLm3UNLlpL
-	J8LAPaEBPb1DWp1MBcIXh+0G/uk+W9OAr4+dIY8X0temtkxY7SLee4MWLT1PC1yDOokoeVpqXjv
-	Nj4qvmWSpqOtSiPIFzphTXNTbymsg9u56GHpFVpWKYLXdNzRs9KW5Eo1UQCAKPBdN1U98xmHJcg
-	oBV2WAuKnbimcVt74zNIQ4HwgSsIJvy8gZhMTbnsWmrogXPrP8jzv5HDSDbQadhrgxoxXVCCTDG
-	w/zpUhRwyfcYJ47gYMro0ClFN/LKAKclZ/XPg4MStsukz5re71aqiJ2R4llqmCn1f9PBSPsZMqF
-	rc60Pb3GXmZnsmeCa82mI9/452Fsi9dtzs1P82A4kSDBePmRyI1y8vQqOqT0yqcRg/8IXIDdyIu
-	E=
-X-Google-Smtp-Source: AGHT+IGZH+cXUgzHi50tWmYat0JhKpfjMAywO/xvrjiS+LeEv8IM/8RbRGSLqjTRz/gsQJZp0D0k7Q==
-X-Received: by 2002:a05:600c:1c88:b0:455:fc16:9ed8 with SMTP id 5b1f17b1804b1-4562e3b9144mr229030715e9.30.1753173138546;
-        Tue, 22 Jul 2025 01:32:18 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:bce4:725d:6922:d1ba? ([2a01:e0a:3d9:2080:bce4:725d:6922:d1ba])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4563b5a4055sm126753905e9.5.2025.07.22.01.32.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jul 2025 01:32:18 -0700 (PDT)
-Message-ID: <33d76d7f-ab14-4e76-8ffb-eb370901a046@linaro.org>
-Date: Tue, 22 Jul 2025 10:32:15 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C7E7482;
+	Tue, 22 Jul 2025 08:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753173985; cv=fail; b=TQF9cMgMkScNTeWFZpbUsw2ecbJV/x60PkLKbbhFIeD/tBIXdSDxwjfnTYgdH9FgmTWrON4thFowJ9atfhZ2PQ8H3PkmaioTSEZEda7Tpliop5KBl/uU+zbTZUFpYG5qhOIKmkPdOhDz1Y3z+pNN6Dn088uRul4AM6Q2JVQI7Dk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753173985; c=relaxed/simple;
+	bh=ypIVSbMfWJ7QXn50SNHoM2MWOpgqMW7ra3XCyWnN9V4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=IG+qU5PVirhxOQF8a19GNxSntt30Gn/AZoI70gTIlrqRGNZTfMtomCSu9Zi6NC+o9gVwdc7eAXUAIB3j5an5shtbzU8HVFAl42MV2oIELOuIrN1agf2+cnNFuzd6qNPC3zmuc2uhe7w4e3+KhTJwM7DTXa6PUj+wXHa38sqAS4Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hyhFTuSs; arc=fail smtp.client-ip=52.101.69.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k+a7EbGbQTPeL0UCelOCfANVMLJm1esJeequOiyngGrJJ7H3QGpDVFdNZrDEAUsub0oUwJwFmVQwQSa90c8F83AwCW2OZlMGd97p7h1IfkNr8sov46TGzLDOop1XRVXwqHK+vQdkhmX2VyQi+sJJuS5zvgKuavraK6jr8Sweev/0JfBqShmw5z2F1mLdDSuXmV1cIa24Zv+8GyQSJFyAo8LbHjAqBIEciI6Rq/saTyJCWQo/amDvuhKSxW8krjPjhAJbU/7YYv8kKauZG14K6cmuVl0rymqrN86AOK9/EFNKcasqRycjFVW1Ey//XwEp7HUXOPFS7D89AfPvvknSrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XWeKGrfhFrJV30e21A+Dh5M2MzUz8z7U4nsik1mx/YY=;
+ b=MuUeX85TCgzhh75DuIIaLHx7s6Uatzy7zyUot0Qo8FoN76NRpCAtM0DgyTOdPhC39p6J21Hisf0uQoA4DtYx+Mp08IEctCuyO1YnvZ3gAw8tcusYFkctYZ9teOhrCpLKBuubUGEw7KTHFvx1NVj5RxtCU+/zUuJM2BRc1gG00fIfB1ZPL1gfFtMXb/cVGxU+kpQXOtJ7jpVhJLdn8P0mXHaGAr8hTeG99HGnhQW3nYyYxo4yblCBkRgFVph8TqKRxxZqZT1m39aZGhqxzVMdRtvs8o2zRxqIfxPJIjYIKH3zQO5txPlpZOtYMCXSblyI9CAyBlwa0r5k8tImtMS3TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWeKGrfhFrJV30e21A+Dh5M2MzUz8z7U4nsik1mx/YY=;
+ b=hyhFTuSsfFM144FNmW2s0WZ0910wu1hwKKrijEMw4JpSd8I29NBnNUm89jH9jWIx7hDk5tM8SZBWELRiVKt+0OWd/Zpwq+HsoZn9yhvE1hJYnNG3YVV6Uz0Gx+GeQNXZQrTGTrQjGgOPUZJ1R6ShhEd0T13KXcgp4O1n3yiJGDKPBXceBX6CsnJkZmAdA0sSbWT4NZfv8wnCgw/KTYUpYZDDMRmltkxQX/Gc8stolWNGh49vpoRtF+yuldChKyHJOcBh1S8Xkhbo71hy1g41bFw9MYcWZ5OvMOBKjSdqoBPzUV8LfKAbBsdWhLJKMpILYRz4Ic5fKJQdAeLKYYCbnQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8147.eurprd04.prod.outlook.com (2603:10a6:20b:3e0::22)
+ by GV1PR04MB10989.eurprd04.prod.outlook.com (2603:10a6:150:200::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
+ 2025 08:46:19 +0000
+Received: from AM9PR04MB8147.eurprd04.prod.outlook.com
+ ([fe80::eace:e980:28a4:ef8a]) by AM9PR04MB8147.eurprd04.prod.outlook.com
+ ([fe80::eace:e980:28a4:ef8a%6]) with mapi id 15.20.8964.019; Tue, 22 Jul 2025
+ 08:46:19 +0000
+Message-ID: <ebff73fd-292d-459a-9ebe-cbbc6ef2b39b@nxp.com>
+Date: Tue, 22 Jul 2025 10:46:16 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/2] Add standard exposure and gain controls for multiple
+ captures
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, ribalda@chromium.org, jai.luthra@ideasonboard.com,
+ laurentiu.palcu@nxp.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, LnxRevLi@nxp.com, celine.laurencin@nxp.com
+References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
+ <20250715235952.GE19299@pendragon.ideasonboard.com>
+ <20250716001205.GG19299@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Julien Vuillaumier <julien.vuillaumier@nxp.com>
+In-Reply-To: <20250716001205.GG19299@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0360.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f4::13) To AM9PR04MB8147.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3e0::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
- <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
- <11b573d5-ce4d-476c-b94c-216d427cd838@linaro.org>
- <08261aa4-689b-4d6b-bfd2-221c1976d254@linaro.org>
- <a7f64b31-4767-4281-b452-a2bc5351d745@mleia.com>
- <c93624bb-ee7b-45ac-8b53-b5391f11c9c9@linaro.org>
- <eac3a877-a4aa-4789-9013-ab8b6c91e0f3@linaro.org>
- <0a12879f-dc4a-47fb-87a0-ac4b8bcd4d75@linaro.org>
- <53a19b1d-5665-4937-a07c-5dd1fcde06c5@linaro.org>
- <3b760685-97db-46e3-80a3-7fad69ad31cd@oss.qualcomm.com>
- <94b75177-9401-4e0c-966b-5847a29cb6f7@linaro.org>
- <427548c0-b0e3-4462-a15e-bd7843f00c7f@oss.qualcomm.com>
- <3UXVZ6ANM9mDjVdMV4SXsiIx_pT3S1lp3RC_Q7mh_o7jF2dpYsni1Sl2TAWv6OCMCRTFmi9aE6BxDquGkOnwEg==@protonmail.internalid>
- <8b908a20-0bf3-447d-82ea-a5ecee1bf54c@linaro.org>
- <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <57501e81-7e9c-4cb1-9a37-18307d1e06ca@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8147:EE_|GV1PR04MB10989:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4a4a2170-eade-4056-25c1-08ddc8fc39d5
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|19092799006|376014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?dWN0V1RZRjNyLzZteWwvRVZwVE52aVZQdDZqK0hYL28wdkJ2TWtRSC9PUlMy?=
+ =?utf-8?B?VzVKeG1BOHV2OFI1R2JTVENwV0lpaG9Wc09sMGVsWG8vMEN2MmxQTklERlJV?=
+ =?utf-8?B?dnhKcHQxNTlhaTBDTlNEOEowRU9VODE5WlMxWndBQStMdXA0eUJUZ1pGVElZ?=
+ =?utf-8?B?Smp6VG0rYzMyOGYxeGNURjYzRHFhc2pPZDIvMStCM2tDQjZSM3ZDenZUM0Fh?=
+ =?utf-8?B?K0ZHNnIzcElnSGpRQko1ZlRjYUJXalNnSW80d3phL05YQlZhdDcrK2JQbE5V?=
+ =?utf-8?B?blgzcW1pR1BxYlBMaFlrenYwaXN2b3NDQ2ZVc3VOaWgwUHdqQkFuOG90UEsr?=
+ =?utf-8?B?TXQ5T00zQWNQYWhiVGJ4bUh0TkZzVjk5TUlyNHc3WGJuOHVrYnUwbW1NS3FV?=
+ =?utf-8?B?THZMQjQrbnAzeko3MTRKSWxENHVZU3NINVd6amkzT3VyamdBZ1ZXeHZoSzdv?=
+ =?utf-8?B?UWtxMzl5MHc1cklrVTJ3Njk4WmZQWTJPRmdVTW54Y3JLejBud1l0Zm96U1NG?=
+ =?utf-8?B?bi9pd01oa2JLbEdoM0lIdmtXTW9GV2dzUkRIYThpWEJrejZGSm0vb3RYTWdq?=
+ =?utf-8?B?OEppS1dkakhTZ1ZqZ21VU01jTFgvVWp5dnl2ZndCS21LSlNDV3JMdkkvVGhV?=
+ =?utf-8?B?TFBHSjQ0Y2t4dG5rbmZ2V3RId1VBUUR4bUFLajNwRlY4L3ZNcXpSUFZUcU5V?=
+ =?utf-8?B?clh4ZzhKdDdRdWIzRjVrVkYwSUF6RHkrZzZqYUNVd0tnSzlUQ3hHU2FEZFhv?=
+ =?utf-8?B?ajhVSElONHUvUkcvalpTT29CcG1NQkZjMEtXRjNWN2VYem81ckdtUXBzcXFR?=
+ =?utf-8?B?NlZpYS8rckNhQW5EUU5LYUMxcXI5ZlRYd2MzZlNKVjlJaTFIb05hWkx4N01M?=
+ =?utf-8?B?Vk9Fa1I4UlNqTEZ6a2NxcFRFRGQ4ZVo3bUhCa3JHSHhRVjEwaWNTTmU3MVlI?=
+ =?utf-8?B?bUo1MmQ1KzZ0aXVhNUExZmZKMVVwa0UzK3Z4WWRleVlJU2F3S05MRG9sVHR2?=
+ =?utf-8?B?VXFOWDhRMWhxRUNDL1lueVdPTmh5eEVQTFBlYnlnYTJhdnBGa3hxZzZnaW1v?=
+ =?utf-8?B?RlJ2eEhJRlBNcjEzWjhCVjB3V0ZXMTUvL0J6NGc4aGZrREVLeWM1Qmtqb3lr?=
+ =?utf-8?B?UUxnRXRKRWx5b1Q5WGtKbmJkQlZhVmtGSDVZMVNsSVF6Q3lKWHZvZ1ZWeDBu?=
+ =?utf-8?B?aG81cWpNNkQ0eWRudzRiWlJDS2lLUjY2RkxiVHR3TnRuZWJmSFo3UUFGQncr?=
+ =?utf-8?B?aDRpTnltWlh6TmRYNCtqeDQrUllEMnc4b0FJc3VZTTVVNjRvaGxZZ3FJSGp5?=
+ =?utf-8?B?MURtcmhLTC9WTis4cGMrS3JiRUFQbnMySUh4aU93bjkvQXAyWTVKKzI2enBD?=
+ =?utf-8?B?Ujc2MEQyL2w2TGxZOHpwK0h5MUcrTzlTNzNVMysvNkg1Nm9HTHgzV1dPaUpT?=
+ =?utf-8?B?YjRlSXhsTTREbFhvYmFwZWFjMzlFWDFWd3NrU2syZldXbTNNZGUybDdMZ1Jo?=
+ =?utf-8?B?a3FPQ1pUMFRrOVNTOERxTk5XVy9rcXVNRkpxUmJZQzdzZ1FYT0E3VmYxaVY5?=
+ =?utf-8?B?bjhKdXN5OUxwM3hVY3BybjhnUjMzVFdlbVVqQ2R4ZnA2WmhSNElTTG5BQWUy?=
+ =?utf-8?B?UG1tTHVjY2h5Nk1UL2N0UWRlTStRUzVvRk5WVTBhWW9tc0M4dE1RdGZuWXNZ?=
+ =?utf-8?B?L1poT2tFdEsxWFNYaHF4OU5WYTNtd3ptdzJUdWF4ZHFSaTdWSWJvNm53MXgz?=
+ =?utf-8?B?OW1Td0R6WU5YemkxekhNbE1LMncrTndvSjVzczlqUGdUcnljemRIQlk2WDZm?=
+ =?utf-8?B?NjQ0OFlWZWk3SGNwdGZab24vcXVzTlc4RFAwSXdubVdIUmVtN0RRMGhMdEI0?=
+ =?utf-8?B?SDVpVFY0bGFVc2NiNmRUWkVmSkFxNmc4akRORXg2Vkd2NEdFMUx4UkdNMDNM?=
+ =?utf-8?Q?fOVlZ4qWh6E=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8147.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?TlZZS0xGVUFmbmhmYXl0dmpoek9ZK3FSUVhiK1NPSUpUV0ZCR0pFaDNJVUpz?=
+ =?utf-8?B?WUoyamdnenpLZmVUOEkzMitoOTc1cGQxLzZKT1h5OTAyUjhvbEROaG90cVR1?=
+ =?utf-8?B?elJYVHBTa0Fyd04vRTNTWWlZOGdWamt3SVA4RVJUaE41TFY3Y3JJMDgrY095?=
+ =?utf-8?B?a2luYnVGSWMvM3NYd0h1U1lFWjB0MG1IZ0FQaVJ3bEpvcXREK2wwcTB5bkV4?=
+ =?utf-8?B?bzFvSU5LREcwSE9ObytjelBibWpVSTFFclFVd0JwTnNnZGIrNDRXQ3NzZnRj?=
+ =?utf-8?B?amRPa0R5c1pEQk1mRmtTZS82Mmdkc2RxOFVOZFJhUVFVL0ozRUwyUUhURERV?=
+ =?utf-8?B?cjc4Sk1VTFBHQmRqSE10RnN5T1lKNnRERDl4YTFQcmRVNzZXM0tHUTVFVFg0?=
+ =?utf-8?B?NWk3RXY4UWxubk9PNFluYllpTnF6KzUxU3pIWVhhdWRvZ3A5MUhMbXBCckQy?=
+ =?utf-8?B?QVlaaTBtbFAxYzRtQlZxMSs2V3VYQUVacDVwRzBCdWllL3cxVlRScGRnQnkz?=
+ =?utf-8?B?b2gwNWhXQmozeEIyUTIrYVdwRHRkOUFUZGFKaW5yb1lPVlVyOHBvYUhRK2Nj?=
+ =?utf-8?B?QWdIS20veWFqUUx0QkQ3MDBVZ1BMZFhJejhPc0hXSWV5NXBBZVRxRjIvYlgy?=
+ =?utf-8?B?cHdiVFRxK1NQd1JuMVg2S3pTNHdnNzFYYUMwa09XdlV0MmF4WnpzRzZtb1Nh?=
+ =?utf-8?B?UFdtMWI1M1FkMHdHYnNSRk5saFJKSXdrcm4vczEzdUNnTnlaK1FjMzRUWDRj?=
+ =?utf-8?B?cVQwejBjRzF1TlRtVTBrWUpNRmd6SkEySDUvbDJnb21XUHQ5V1hGQXlETUxl?=
+ =?utf-8?B?WWE4dXUwN1NTZGc1UEI2REcySjRBSlJCQ2g1SkJSbmpmOUkvejZSRlRqbUhn?=
+ =?utf-8?B?QXg2dTF5M0tQQU9PL29ZR1FobHBuM2ZtdXpwbWdlTlZRaWZmdkRnSUZweVMy?=
+ =?utf-8?B?ZjNZVXBHSXF0cTU2VFR6Q2lLRzJQOGNqNFBmWUltTmFYSmUyeFJST21Sa3Fp?=
+ =?utf-8?B?Y0dPVmVSZXhCdHdJY2Y5dW1mN0lQZkZsSTVaR1VhWDYvazlLaDRhR0JuYThz?=
+ =?utf-8?B?dVRlaHhHWVFiTWloWDNobnNiS09hUWU5WENvcmFFeE5oaTVQMXpzdWZScVZJ?=
+ =?utf-8?B?S2tCS01kU1dnVzhiekpuNGpNaEtPWFVjbUlPMlZtVEx4S2dSUWVaYUdGSHJ6?=
+ =?utf-8?B?RVVGcXNTYjMzbFo3dVlodkNHQ2ZJOW1idFdndWxpRkVSTWxjbmtraitGRnFY?=
+ =?utf-8?B?UVRaTk1jbVBycHcyVGJmV0JISzhzekhmWVdiZDQ4dHFGZjFzT0Zic0FZSk9D?=
+ =?utf-8?B?QmtJT3VJRnIyZ2s4NzZIZVk4eE1hR04yam8xODlhS1RpQldkbm5tL0lDYll1?=
+ =?utf-8?B?TGR4dnFuSlVGdXUvQ1BGR3NnRm9Ra2dGSFphNXZFK2FseTZsUG81OWtQVWJ3?=
+ =?utf-8?B?MEIzYnpZS1BCTmp5M05JV1gvalJ0Y1BURGtQOXBxMnZoSVF3SXprVlFUWXpi?=
+ =?utf-8?B?ODIrV0hLMU4yYmZicDdJanZRTnBNZVJqS25VZmE2WjM3cjJXOGg1UFRkMHly?=
+ =?utf-8?B?KzlwM1lvbmI0WGk5RGJ2RFkxQ3A5ZUxGZWVuRVI1WVRtemg5MTdRdUdnb3NV?=
+ =?utf-8?B?bmRjMXAwNGc4bkh3SWwzSndyNm1kbVh4UVNLWnR0ZHZJc0VrRFpBbTRkdGVo?=
+ =?utf-8?B?NHRKakozZ2p0TlJiZnVwOGoxVHROWDdYc1kzVy9zMjROKzJZN3pPcVhDdlBC?=
+ =?utf-8?B?eU5aRkNiWlpscnJQK0FlZlptdHhpZ3pEb3gwN0twZmhRK1k3bVA1OEcxazJY?=
+ =?utf-8?B?Mkp1VFlnWWNYUEIwOExoYlNCRWxFYXJHYzBybkQyR2NFT0NHdFIyeTNFbEc5?=
+ =?utf-8?B?KytROGxnUlBMdWw4clR1djVpRkc3Rld5cks2RWU5dnp4TEtlUVg2YXY1ZW8x?=
+ =?utf-8?B?cUIyN09ZSUJuWWE0UzRJby9lUkJ1K2FTYkV2L1J1NDlhV2VieUttRGtJTjBP?=
+ =?utf-8?B?ZlBhM2taazU5S2xBR2VWakgrbzZ6Yk91ai8zNU44dlE5LzRTYXRPL0lESGJV?=
+ =?utf-8?B?OEhINm9CK2p3Yk5YTk83TEJENmlTTHY2clhZelA2TUhSRmJGWGdwQjNqcTdk?=
+ =?utf-8?B?SDRIWDdrRk1wdUgxUVFZTmV4U08rUWxyOXhDK0d3emlXSU5NMTlUVU9scXVs?=
+ =?utf-8?B?TVE9PQ==?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a4a2170-eade-4056-25c1-08ddc8fc39d5
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8147.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 08:46:18.9704
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jqhwHiG1T53Zh3vTpFXGmO8HmZiAbJChzlJ6Qb+vdV02eUJ354vxkWMbkdvuZ3o9An1rgf8pLdznD1DcsP7uarU2HH5ip/iHtZZ34kSIILI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10989
 
-On 21/07/2025 18:16, Bryan O'Donoghue wrote:
-> On 21/07/2025 16:46, neil.armstrong@linaro.org wrote:
->> On 15/07/2025 11:33, Konrad Dybcio wrote:
->>> On 7/15/25 11:20 AM, Vladimir Zapolskiy wrote:
->>>> On 7/15/25 12:01, Konrad Dybcio wrote:
->>>>> On 7/15/25 8:35 AM, Vladimir Zapolskiy wrote:
->>>>>> On 7/15/25 03:13, Bryan O'Donoghue wrote:
->>>>>>> On 14/07/2025 16:30, Vladimir Zapolskiy wrote:
->>>>>>>>>
->>>>>>>>> I think that is genuinely something we should handle in camss-csid.c
->>>>>>>>> maybe with some meta-data inside of the ports/endpoints..
->>>>>>>>>
->>>>>>>>
->>>>>>>> This is a CSIPHY property, a CSIPHY hardware configuration and a wiring
->>>>>>>> of sensors to a CSIPHY. Where is the relation to CSID here? There is no.
->>>>>>>
->>>>>>> All the PHY really needs to know is the # of lanes in aggregate, which
->>>>>>> physical lanes to map to which logical lanes and the pixel clock.
->>>>>>>
->>>>>>> We should add additional support to the Kernel's D-PHY API parameters
->>>>>>> mechanism to support that physical-to-logical mapping but, that's not
->>>>>>> required for this series or for any currently know upstream user of CAMSS.
->>>>>>>
->>>>>>>> Please share at least a device tree node description, which supports
->>>>>>>> a connection of two sensors to a single CSIPHY, like it shall be done
->>>>>>>> expectedly.
->>>>>>> &camss {
->>>>>>>          port@0 {
->>>>>>>              csiphy0_lanes01_ep: endpoint0 {
->>>>>>>                  data-lanes = <0 1>;
->>>>>>>                  remote-endpoint = <&sensor0_ep>;
->>>>>>>              };
->>>>>>>
->>>>>>>              csiphy0_lanes23_ep: endpoint0 {
->>>>>>>                  data-lanes = <2 3>;
->>>>>>>                  remote-endpoint = <&sensor1_ep>;
->>>>>>>              };
->>>>>>>           };
->>>>>>> };
->>>>>>
->>>>>> Don't you understand that this is broken?.. That's no good.
->>>>>>
->>>>>> Please listen and reread the messages given to you above, your proposed
->>>>>> "solution" does not support by design a valid hardware setup of two
->>>>>> sensors connected to the same CSIPHY.
->>>>>>
->>>>>> I would propose to stop force pushing an uncorrectable dt scheme, it
->>>>>> makes no sense.
->>>>>
->>>>> If all you're asking for is an ability to grab an of_graph reference
->>>>> from the camss (v4l2) driver, you can simply do something along the
->>>>> lines of of_graph_get_remote_port(phy->dev->of_node)
->>>>>
->>>>
->>>> It's not about the driver specifics, my comment is about a proper
->>>> hardware description in dts notation, please see the device tree node
->>>> names.
->>>
->>> I'm a little lost on what you're trying to argue for..
->>>
->>> I could make out:
->>>
->>> 1. "the phy should be a multimedia device"
->>> 2. "There is no ports at all, which makes the device tree node unusable,
->>>     since you can not provide a way to connect any sensors to the phy."
->>>
->>> I don't really understand #1.. maybe that could be the case if the PHY
->>> has a multitude of tunables (which I don't know if it does, but wouldn't
->>> be exactly surprised if it did) that may be usecase/pipeline-specific
->>>
->>> As for #2, I do think it makes sense to connect the sensors to the PHY,
->>> as that's a representation of electrical signals travelling from the
->>> producer to the consumer (plus the data passed in e.g. data-lanes is
->>> directly related to the PHY and necessarily consumed by its driver)
+Hi Laurent,
+
+On 16/07/2025 02:12, Laurent Pinchart wrote:
+> On Wed, Jul 16, 2025 at 02:59:54AM +0300, Laurent Pinchart wrote:
+>> On Fri, Jul 11, 2025 at 01:05:42AM +0300, Mirela Rabulea wrote:
+>>> Add new standard controls as U32 arrays, for sensors with multiple
+>>> captures: V4L2_CID_EXPOSURE_MULTI, V4L2_CID_AGAIN_MULTI and
+>>> V4L2_CID_DGAIN_MULTI. These will be particularly useful for sensors
+>>> that have multiple captures, but the HDR merge is done inside the sensor,
+>>> in the end exposing a single stream, but still requiring AEC control
+>>> for all captures.
 >>
->> The port/endpoint should represent the data flow, and if the signal is the following:
+>> It's also useful for sensors supporting DOL or DCG with HDR merge being
+>> performed outside of the sensor.
+> 
+> Regarless of where HDR merge is implemented, we will also need controls
+> to select the HDR mode. We have V4L2_CID_HDR_SENSOR_MODE, which doesn't
+> standardize the values, and that's not good enough. At least for DOL and
+> DCG with HDR merge implemented outside of the sensor, we need to
+> standardize the modes.
+
+For the HDR-capable sensors with the HDR merge implemented outside, the 
+short capture(s) are likely implemented as separate streams, in order to 
+match the raw camera sensor model.
+In that case, the SDR/HDR mode switch, when supported, can be done by 
+configuring the sensor device internal route for the short capture stream.
+
+You mentioned the need to be able to select the HDR mode in a standard 
+way. Could you elaborate on the foreseen usage: would it be to select 
+SDR/HDR operation, to select between different HDR sub-modes, to inform 
+user space about HDR capability... ?
+
+> 
+> Can you tell which sensor(s) you're working with ?
+> 
+>>> All controls are in the same class, so they could all be set
+>>> atomically via VIDIOC_S_EXT_CTRLS, this could turn out to be
+>>> useful in case of sensors with context switching.
 >>
->> sensor -> csiphy -> csid
+>> Agreed, we should be able to set them all. Are we still unable to set
+>> controls from multiple classes atomatically ? I thought that limitation
+>> has been lifted.
+>>
+>>> Each element of the array will hold an u32 value (exposure or gain)
+>>> for one capture. The size of the array is up to the sensor driver which
+>>> will implement the controls and initialize them via v4l2_ctrl_new_custom().
+>>> With this approach, the user-space will have to set valid values
+>>> for all the captures represented in the array.
+>>
+>> I'll comment on the controls themselves in patch 2/2.
+>>
+>>> The v4l2-core only supports one scalar min/max/step value for the
+>>> entire array, and each element is validated and adjusted to be within
+>>> these bounds in v4l2_ctrl_type_op_validate(). The significance for the
+>>> maximum value for the exposure control could be "the max value for the
+>>> long exposure" or "the max value for the sum of all exposures". If none
+>>> of these is ok, the sensor driver can adjust the values as supported and
+>>> the user space can use the TRY operation to query the sensor for the
+>>> minimum or maximum values.
+>>
+>> Hmmmm... I wonder if we would need the ability to report different
+>> limits for different array elements. There may be over-engineering
+>> though, my experience with libcamera is that userspace really needs
+>> detailed information about those controls, and attempting to convey the
+>> precise information through the kernel-userspace API is bound to fail.
+>> That's why we implement a sensor database in libcamera, with information
+>> about how to convert control values to real gain and exposure time.
+>> Exposing (close to) raw register values and letting userspace handle the
+>> rest may be better.
+>>
+>>> Mirela Rabulea (2):
+>>>    LF-15161-6: media: Add exposure and gain controls for multiple
+>>>      captures
+>>>    LF-15161-7: Documentation: media: Describe exposure and gain controls
+>>>      for multiple captures
+>>
+>> Did you forget to remove the LF-* identifiers ? :-)
+>>
+>>>
+>>>   .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
+>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c            |  8 ++++++++
+>>>   include/uapi/linux/v4l2-controls.h                   |  3 +++
+>>>   3 files changed, 23 insertions(+)
 > 
-> I'll be honest.
+> --
+> Regards,
 > 
-> I looked at your upstreamed code
-> 
-> drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c Documentation/devicetree/bindings/parch/arm64/boot/dts/amlogic/meson-khadas-vim3-ts050.dtsoc/meson-axg.dtsi
-> 
-> And didn't really think CSIPHY needed to be included in the data-graph.
+> Laurent Pinchart
 
-This is DSI, but I understand your point.
-
-The whole key point here is the combo mode, as I understood the combo mode feature
-makes the PHY lanes available as 2 separate streams, like if you got 2 "controllers"
-attached to the same PHY. So in fact, the PHY should have a single node, but 2 PHY
-interfaces in combo mode.
-
-This makes all this controller/phy model very complex to handle and add a lot of
-logic in the camss side. Moving the "csiphy" as an independent media device that
-can declare up to 2 endpoints in combo mode makes things much simpler, and allows
-us to attach each "csiphy" stream to any "controller" side of camss.
-
-Neil
-
-> 
-> ---
-> bod
+Thanks,
+Julien
 
 
