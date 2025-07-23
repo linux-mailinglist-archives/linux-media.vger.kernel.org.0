@@ -1,165 +1,170 @@
-Return-Path: <linux-media+bounces-38257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38260-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24739B0F2AF
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 14:59:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DAEB0F2C9
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 15:02:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BAD0546975
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:59:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB35E1C86C12
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 13:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C68E2E7182;
-	Wed, 23 Jul 2025 12:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06C7E2E7BBE;
+	Wed, 23 Jul 2025 13:01:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RCT63NZA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PyvJ2iUl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221962D29C7
-	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 12:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4110F2E719E;
+	Wed, 23 Jul 2025 13:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753275564; cv=none; b=LnYetkn4iBGAMf5e89vzTYYtL2NtJBPJs8mbw6U37CQlUyD85KMQjAmv5c0MZs/ftAqaCz/gSGH1TrVIUe5nkj/T9a5J8jUONwm/Xc7xZd8JqA4yYOTMCKeG6DU2Us2LqXS5OCn/NlbvzMTSkV9MTCUAIKwxu1fwVdPi8cr8QBA=
+	t=1753275716; cv=none; b=kP6tU4CUhW75n9iO2pFESSoI4QlDWMdyMi79QjLp/hnR3CoK6IeACqX7VWAjJZ6QXH1H5R5LJDqyv7NJIoFiqBPzxVgbAxHeuBep7vSXiTDqG1n1ZLAvn/8GmDivI7Vost4a7L9ViDZSpA83FFEcDFd2URJTtJjwq5EK/pNfEPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753275564; c=relaxed/simple;
-	bh=khCG0KptAP6NaZggBGTic01zIckJoToHWi0OoBlAkH8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PXXcFZCJxUqbScX+YRpGyeB2F8BOtW50r45tW9Q4ZWuuWoKZOkY8OFAsT+4NpUF91JUzXMNfmHeoEDZQM2ch2t4Kpk47zdIG/vWrCM/b45hvXhda3GryXx+5hRg32GzyRU/cRiL35wa17Ka8LzApv8vlijsUTJ26n/zgTTvnLXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RCT63NZA; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451d7b50815so50453065e9.2
-        for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 05:59:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753275561; x=1753880361; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eHqIjMd+P/SJHy5xoLgnpaMPi1Gzrb7ETcwEIkD73xo=;
-        b=RCT63NZAkpqCwvGtuL18zzLwBXsUO5xAsgeYkXH9fHw97FOuYstH+tf/HE/ZjN/tIy
-         fmkNkourDUG4rrrgmc4tikcnEy0eBouV811PSrEhqoAEFNnV09eIUWJi2WyQZne5i/+X
-         Jb4gym5f2Et9l+gxiyI5MzuX5vvlOiK/uAq4vgspYU4yHekyw9yveTbENK9glYSjdoAM
-         4AaFAn4VPGCRzlPlmXVJHr3/r3sIHyaCeEMuPXFtEJepegp0vxPBGTFw8jlp0mN9U/J1
-         90xIgqBuCELtWTKHhqvnfQr1P7WT6Kxg69VUMe3r6wbwdQZ59corkt2TaHFzlY8oRCwt
-         yZAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753275561; x=1753880361;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eHqIjMd+P/SJHy5xoLgnpaMPi1Gzrb7ETcwEIkD73xo=;
-        b=qIKrHhISzM3whaEA8rJQoJA6aoVDQH4oEAw6oRMmfs17rjTY058QXVZYMJNy7Eeig8
-         yOFDvgSKgeWrSVAIroUAid1+hWhBiy6HVl1Nbx+YFY4kcjlzAzNJL2sGS2CoIpyu7Es8
-         wl08H+YCchrO1/Z7jxICtXosceLYyW3FECSmF740C7UPVkeZivgj56gXKTw+0UN6DAdg
-         m2o7or3KQt7XEc5lYdKW6FJZCwOKr8AvSx1hFooeYaYy+QhTI9qVFEmifIjVKFksg/RB
-         0SWpVqQ4NGoPGyhCJw2cLFIFU249XTDAgmiD0efCgTINiCgrkAVPRMuXB4OBhHl0dUVE
-         0Nxg==
-X-Gm-Message-State: AOJu0YyRgMPw1Z0jsLPwvPDpDgBEIZVuSSq4cuGI5z0o81iShDmc9FMx
-	G2rTAGGY/9wfSebp98QUAilTSIcaM+F9gXtj2kxgUKkDkOok2DTJa1QgTBZoMJvlBk0=
-X-Gm-Gg: ASbGncuNZJZ83FPtoQ2J+K0GrFDumcrdOf4AwxeydyTInww7Ph9E53+0UZ8Q49vkrIE
-	0m4GrSWoKdNroqU7F9JRbe7bjEmXtNCBBJDDhIyY931D2XnZfuenu5902MjGQ5PW0tRdtDqTRdb
-	i6WZ0qTnQ4sb9WShw75q9/bpENctBgGDNdIJlx0gPQ0sIty0il8ZNVfpRwaTJ1nkMWrn4qNlBoy
-	hnXVYJ2cu9aIZpAlcRP6+G9k7MBihCMqAnfVcdJ+G9wBB2Im/anyqFvwlzn7pjMrPco4pNHCRRq
-	YOBwNmDMoIG6kWakDbfr4oWDIEj49f/oJX2sT98NNivq55jbOhmKIxhb270J0VUQhqVA5++XdwK
-	UoT+aIDNacDlm58A6H1oEAYm6wMNiwsRwPbyHyZ1TMtURdidlcspFokJ4vlDHtLM=
-X-Google-Smtp-Source: AGHT+IG0j8FcnTm0B0Yg7OBz1ykdRWeZiovtD493OaI4zAFXR6n36is0Svaup39AwGIP9E5+pbc5pQ==
-X-Received: by 2002:a05:600c:870d:b0:456:1a6f:8018 with SMTP id 5b1f17b1804b1-45868c92070mr26199175e9.8.1753275561353;
-        Wed, 23 Jul 2025 05:59:21 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45869198e5dsm23372175e9.9.2025.07.23.05.59.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jul 2025 05:59:20 -0700 (PDT)
-Message-ID: <59658a3e-6a5b-4622-9a3b-782d84d1d17d@linaro.org>
-Date: Wed, 23 Jul 2025 13:59:19 +0100
+	s=arc-20240116; t=1753275716; c=relaxed/simple;
+	bh=VeEaP0I6Ju84rRyRYaicpp+t8ePJyjkfRFyzhb+AudA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kX3AoCjtEHuP0uCVSLdqLSkdwSTGrvc0f6imQZjxnTEge0rk0deFpS+TUGK5E6k/WT3EuV1o/f+sAILN4ijv52fydnkwTXhwaY9eI+FrwAfmQguaS3EUKsDXgQRj/PCtTZIFdd0rUhiGLrEfMElFRxPZmotDDPyGyeONuY80FQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PyvJ2iUl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB36AC4CEE7;
+	Wed, 23 Jul 2025 13:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753275715;
+	bh=VeEaP0I6Ju84rRyRYaicpp+t8ePJyjkfRFyzhb+AudA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PyvJ2iUlLMlbGzX5qzJpPwU19z2ZHVNgRRR6I6pgdUocqIvlwyAEVWlzxFVyH+O5B
+	 rgvRUW0KyWJCaIjAWkNSjYQZTjUA8hXt537lM2z1lqW3QLRM+cccx6Wa7AnC47Kdh5
+	 5vyhtPdVK3eYgRSInD6ot6DkzLAf5sTN26YAlVnpeeskZCszqRTW1E/3s1cIFoXbIv
+	 cwHrWiFoDlhJYh6kh2ZXmBFSyLLP1YH2+JOYj0Akmjoq6YhcbZiRr95b4qm1dHfFnN
+	 OpoAwh1yBhmId5vMmQ85Jwdtkwph/jN1NrrSQ24V5bB3R7cAOPmCfMDkPo1fsYxenn
+	 0kqYO1EMHe0rw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org,
+	iommu@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	kvm@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH 00/10] vfio/pci: Allow MMIO regions to be exported through dma-buf
+Date: Wed, 23 Jul 2025 16:00:01 +0300
+Message-ID: <cover.1753274085.git.leonro@nvidia.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: pm_helpers: add fallback for the opp-table
-To: Renjiang Han <quic_renjiang@quicinc.com>, quic_qiweil@quicinc.com,
- quic_wangaow@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250723-fallback_of_opp_table-v1-1-20a6277fdded@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20250723-fallback_of_opp_table-v1-1-20a6277fdded@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23/07/2025 13:56, Renjiang Han wrote:
-> Since the device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX
-> do not include an opp-table and have not configured opp-pmdomain, they
-> still need to use the frequencies defined in the driver's freq_tbl.
-> 
-> Both core_power_v1 and core_power_v4 functions require core_clks_enable
-> function during POWER_ON. Therefore, in the core_clks_enable function,
-> if calling dev_pm_opp_find_freq_ceil to obtain the frequency fails,
-> it needs to fall back to the freq_tbl to retrieve the frequency.
-> 
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
-> Since device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX do not
-> contain an opp-table and have not configured opp-pmdomain, they still
-> need to use the frequencies defined in the driver's freq_tbl.
-> 
-> Therefore, if calling dev_pm_opp_find_freq_ceil to obtain the frequency
-> fails in the core_clks_enable, it needs to fall back to the freq_tbl to
-> retrieve the frequency.
-> 
-> Validated this series on QCS615 and msm8916.
-> ---
->   drivers/media/platform/qcom/venus/pm_helpers.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 8dd5a9b0d060cddfeafd4da477ade0c7aeb6c390..27b033a3a26e0474c37353a0fe7627586e6416e2 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -40,6 +40,8 @@ static int core_clks_get(struct venus_core *core)
->   
->   static int core_clks_enable(struct venus_core *core)
->   {
-> +	const struct freq_tbl *freq_tbl = core->res->freq_tbl;
-> +	unsigned int freq_tbl_size = core->res->freq_tbl_size;
->   	const struct venus_resources *res = core->res;
->   	struct device *dev = core->dev;
->   	unsigned long freq = 0;
-> @@ -48,7 +50,14 @@ static int core_clks_enable(struct venus_core *core)
->   	int ret;
->   
->   	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
-> -	dev_pm_opp_put(opp);
-> +	if (IS_ERR(opp)) {
-> +		if (!freq_tbl)
-> +			return -EINVAL;
+From: Leon Romanovsky <leonro@nvidia.com>
 
--ENODEV
+---------------------------------------------------------------------------
+Based on blk and DMA patches which will be sent during coming merge window.
+---------------------------------------------------------------------------
 
-> +		freq = freq_tbl[freq_tbl_size - 1].freq;
-> +	} else {
-> +		dev_pm_opp_put(opp);
-> +	}
-> +
->   
->   	for (i = 0; i < res->clks_num; i++) {
->   		if (IS_V6(core)) {
-> 
-> ---
-> base-commit: d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-> change-id: 20250721-fallback_of_opp_table-4ea39376f617
-> 
-> Best regards,
+This series extends the VFIO PCI subsystem to support exporting MMIO regions
+from PCI device BARs as dma-buf objects, enabling safe sharing of non-struct
+page memory with controlled lifetime management. This allows RDMA and other
+subsystems to import dma-buf FDs and build them into memory regions for PCI
+P2P operations.
 
-With that changed.
+The series supports a use case for SPDK where a NVMe device will be owned
+by SPDK through VFIO but interacting with a RDMA device. The RDMA device
+may directly access the NVMe CMB or directly manipulate the NVMe device's
+doorbell using PCI P2P.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+However, as a general mechanism, it can support many other scenarios with
+VFIO. This dmabuf approach can be usable by iommufd as well for generic
+and safe P2P mappings.
+
+In addition to the SPDK use-case mentioned above, the capability added
+in this patch series can also be useful when a buffer (located in device
+memory such as VRAM) needs to be shared between any two dGPU devices or
+instances (assuming one of them is bound to VFIO PCI) as long as they
+are P2P DMA compatible.
+
+The implementation provides a revocable attachment mechanism using dma-buf
+move operations. MMIO regions are normally pinned as BARs don't change
+physical addresses, but access is revoked when the VFIO device is closed
+or a PCI reset is issued. This ensures kernel self-defense against
+potentially hostile userspace.
+
+The series includes significant refactoring of the PCI P2PDMA subsystem
+to separate core P2P functionality from memory allocation features,
+making it more modular and suitable for VFIO use cases that don't need
+struct page support.
+
+-----------------------------------------------------------------------
+This is based on
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+but heavily rewritten to be based on DMA physical API.
+-----------------------------------------------------------------------
+The WIP branch can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio
+
+Thanks
+
+Leon Romanovsky (8):
+  PCI/P2PDMA: Remove redundant bus_offset from map state
+  PCI/P2PDMA: Introduce p2pdma_provider structure for cleaner
+    abstraction
+  PCI/P2PDMA: Simplify bus address mapping API
+  PCI/P2PDMA: Refactor to separate core P2P functionality from memory
+    allocation
+  PCI/P2PDMA: Export pci_p2pdma_map_type() function
+  types: move phys_vec definition to common header
+  vfio/pci: Enable peer-to-peer DMA transactions by default
+  vfio/pci: Add dma-buf export support for MMIO regions
+
+Vivek Kasireddy (2):
+  vfio: Export vfio device get and put registration helpers
+  vfio/pci: Share the core device pointer while invoking feature
+    functions
+
+ block/blk-mq-dma.c                 |   7 +-
+ drivers/iommu/dma-iommu.c          |   4 +-
+ drivers/pci/p2pdma.c               | 144 +++++++++----
+ drivers/vfio/pci/Kconfig           |  20 ++
+ drivers/vfio/pci/Makefile          |   2 +
+ drivers/vfio/pci/vfio_pci_config.c |  22 +-
+ drivers/vfio/pci/vfio_pci_core.c   |  59 ++++--
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 321 +++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h   |  23 +++
+ drivers/vfio/vfio_main.c           |   2 +
+ include/linux/dma-buf.h            |   1 +
+ include/linux/pci-p2pdma.h         | 114 +++++-----
+ include/linux/types.h              |   5 +
+ include/linux/vfio.h               |   2 +
+ include/linux/vfio_pci_core.h      |   4 +
+ include/uapi/linux/vfio.h          |  19 ++
+ kernel/dma/direct.c                |   4 +-
+ mm/hmm.c                           |   2 +-
+ 18 files changed, 631 insertions(+), 124 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+
+-- 
+2.50.1
+
 
