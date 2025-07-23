@@ -1,65 +1,62 @@
-Return-Path: <linux-media+bounces-38252-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38253-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B956B0F1EE
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 14:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26EA1B0F219
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 14:21:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22B5E1AA64A2
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:10:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E089818981BC
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC5C2E54DB;
-	Wed, 23 Jul 2025 12:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B9B2E5B32;
+	Wed, 23 Jul 2025 12:21:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HTMJFGU1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WpgNnSAK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D401D1DE3C8;
-	Wed, 23 Jul 2025 12:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B56325A34F;
+	Wed, 23 Jul 2025 12:21:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753272591; cv=none; b=abBIz10hhEJPNjXgpz1FgIPwZeGwVNMyuYyoLStURZNTvOLKf0wz1p4JS51f2dEl0uslXCmbosNjFkMYHorNdzsgv8mukmeavko/8Kt7BdBlaZWGcbpxZp8yHUAZlddDALLYwPzir17biPlpWQzHdf0fQa/iRhO5eoJwR/nOG6w=
+	t=1753273278; cv=none; b=pYvh7VMCB6HqbYPbiQCHKDG/BBf/qkz2t4OOPAY0H9wArCEYZw9y76veE7NhW6oripMtKVrEdYpPDoNaBSGjSCDW3lVZLyj8lvSNfqANfUMN7uUWBSWRjRKta+0mv1Pvfzcg+6sjZHSDrFOsR157UuJ64rT6LJoaGuNWoPXq0+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753272591; c=relaxed/simple;
-	bh=siE8fG3tOa4csUecyxtY0hUOvcCp6sqnC8Vo2a9kR/4=;
+	s=arc-20240116; t=1753273278; c=relaxed/simple;
+	bh=GgZoqLPeuitrhx5PaJr/8XbVXKsJFtnCfPQOfvbkm0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UoAzUKjeeTUyzpS7Vj21TSvUUDjyuysxi7UAlt2QfGtIwkFj/oBH2unIVFVZb/VnnA/BlEXxjXkFL+cjVN/TqHMU26HAEFc2d1DY55tggec3wrcvFDS/ljWORXoaJ8aL+3ctYiwUa+WEYE9Ge0+epQid64biNBf739GTbBEkdHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HTMJFGU1; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=nUohQPim53d6UH+rdPzSSyUXoWTY6BRb9v+TA+wHBX2oaCL2MycBjtSmXIQzZC6JV6s1CRDdSjIi3gcD0KbG73pONRyk5BhG23vvqEHdhyH0gXOeKjj9HAqpTpy1OodCl5sULBp11UxevaCHdjj3qinYnEjqzzZ2tqheztZdtx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WpgNnSAK; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 06899346;
-	Wed, 23 Jul 2025 14:09:06 +0200 (CEST)
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 202B3E91;
+	Wed, 23 Jul 2025 14:20:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753272547;
-	bh=siE8fG3tOa4csUecyxtY0hUOvcCp6sqnC8Vo2a9kR/4=;
+	s=mail; t=1753273236;
+	bh=GgZoqLPeuitrhx5PaJr/8XbVXKsJFtnCfPQOfvbkm0g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HTMJFGU14p10/IwOa7/UFpK/pDUt/w7K6xknyd7yj0E+Z+etsPiDRFNQUCPmXeCRc
-	 xO2GDyIJ2qefRL/3HeF2X7qhGuXEoxOQsrAqVaaYNzweILJ8gGsfGAktcm8N33fQE+
-	 g2MDZwgP3QWB7R+eaOKCLAr4CD+DrN315ufz7ERM=
-Date: Wed, 23 Jul 2025 15:09:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Ondrej Jirman <megi@xff.cz>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption
-Message-ID: <20250723120942.GB10291@pendragon.ideasonboard.com>
-References: <m3h5zbxkc6.fsf@t19.piap.pl>
- <m38qknx939.fsf@t19.piap.pl>
- <175308758352.3134829.9472501038683860006@localhost>
- <m31pq9y98z.fsf@t19.piap.pl>
- <175326599663.2811177.16620980968274114885@localhost>
- <m3seinw1po.fsf@t19.piap.pl>
+	b=WpgNnSAKga2gUmxG1DcGIqq1qjaOLOJ8hvX1HYRHIddO0MQswZjYvdx7SR3FTnsHE
+	 4616KoOuAlLQsaIxst+EuhceCgzuJcmQ/3Qnqk5tPZIYAKNrumQ77uDNPfnDFgOtFE
+	 U2lczvUHcRfllih0/MzbiDNDc36yrRDRRTFiT7hM=
+Date: Wed, 23 Jul 2025 14:21:10 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Fabian Pfitzner <f.pfitzner@pengutronix.de>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	entwicklung@pengutronix.de
+Subject: Re: [PATCH 0/2] parse horizontal/vertical flip properties
+Message-ID: <ffzxxsplmivvj7pib7n7lkutbyohl5npofdaxdxtoffo43yatw@gqm64zdgb4iy>
+References: <20250718-fpf-media-dt-flip-v1-0-75b3a938b4be@pengutronix.de>
+ <ryuew3kxnocj6uqq4nadp3kyaxg27rxlrgnaieyy2hlpz5jkd3@iyetnsbfanee>
+ <35debf21-bca7-480f-a61e-7b0494f10ca5@pengutronix.de>
+ <mljx67lkcw4kh3cs344iprik244cm7hqfckmg4bj5j5atuyt62@lh2ht4mrtkjq>
+ <3ac271c7-a67a-4f6f-935d-256937516068@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,157 +65,109 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <m3seinw1po.fsf@t19.piap.pl>
+In-Reply-To: <3ac271c7-a67a-4f6f-935d-256937516068@pengutronix.de>
 
-On Wed, Jul 23, 2025 at 02:06:43PM +0200, Krzysztof Hałasa wrote:
-> Stefan Klug writes:
-> 
-> > Just a quick heads up. I ran the tester and so far no unexpected
-> > results. I'll run it from time to time after a reboot to see if I ever
-> > hit that condition.
+Hi Fabian
+
+On Wed, Jul 23, 2025 at 12:09:58PM +0200, Fabian Pfitzner wrote:
+> On 7/23/25 11:44, Jacopo Mondi wrote:
+> > On Wed, Jul 23, 2025 at 11:29:27AM +0200, Fabian Pfitzner wrote:
+> > > On 7/23/25 11:17, Jacopo Mondi wrote:
+> > > > Hi Fabian
+> > > >
+> > > > On Wed, Jul 23, 2025 at 10:58:28AM +0200, Fabian Pfitzner wrote:
+> > > > > There are cameras containing a mirror on their optical path e. g. when
+> > > > > mounted upside down.
+> > > > How is this different from 'rotation = 180' ?
+> > > If you simply want to flip the output (e. g. horizontally), you cannot do
+> > > this with a rotation.
+> > > The camera I'm referring to is not only upside down, but also flipped
+> > > horizontally.
+> > 180 degress rotation = HFLIP + VFLIP
+> I do not want to do both. Only one of them.
 > >
-> > How does your device tree look like? Any chance the ISP is clocked for
-> > overdrive but the device is not or something similar? Although I have a
-> > hard time imagining how that would lead to such effects.
-> 
-> Interesting.
-> I tested it on two different devices (a Compulab UCM-based camera and
-> a Solidrun Hummingboard Mate) and it's the same on both. I think the
-> first one uses 1600 MHz industrial CPU:
-> 
-> (U-boot) CPU: i.MX8MP[8] rev1.1 at 1200 MHz
-> 
-> Not sure about the Hummingboard.
-> 
-> Both cameras apparently are connected to the second MIPI.
-> 
-> Well... maybe if it's only the second ISP, and there is only one camera,
-> then we could reroute the data to the first ISP? The MIPI receiver has
-> a crossbar I think.
+> > Yes, you can't express 'mirror' in DTS, because DTS are about the
+> > physical mounting rotation of the camera. Sensor drivers shall not
+> > apply any flip control automatically, it's userspace that by parsing
+> > the rotation property through the associated v4l2 controls should decide
+> > if it has to apply flips or not to correct the images.
+> >
+> > What is the use case you had in mind ? Tell the driver through a DTS
+> > property it has to apply flips to auto-compensate ? Because I think we
+> > shouldn't and if I'm not mistaken we also document it:
+> > https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camera-sensor.html#rotation-orientation-and-flipping
+> I have a camera that does a horizontal flip in its hardware, so the output
 
-There's a crossbar switch in the ISI, but the connections from CSI-2
-receivers to ISPs are fixed.
+Sorry, I don't want to be annoying, but what does it mean "does a
+horizontal flip in the hardware" ?
 
-Have you tried reporting the issue to NXP ?
+In my understanding either "in hardware" means you can't control it
+from software (and so there's no point in telling drivers what to do)
+or you can control it from software and it's a regular HFLIP.
 
-> And the other way around: for a test, one could reroute MIPI0 to ISP1.
-> Will have a look.
-> 
-> The DT has the usual stuff (for the second MIPI/ISP):
-> 
-> &i2c6 {
-> 	clock-frequency = <400000>;
-> 	pinctrl-names = "default";
-> 	pinctrl-0 = <&pinctrl_i2c6>;
-> 	single-master;
-> 	status = "okay";
-> 
-> 	imx462_camera@1a {
-> 		compatible = "sony,imx462";
-> 		reg = <0x1a>;
-> 		clocks = <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
-> 		clock-names = "xclk";
-> 		clock-frequency = <37125000>;
-> 		reset-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
-> 		status = "okay";
-> 
-> 		port {
-> 			imx462_mipi_ep: endpoint {
-> 				data-lanes = <1 2 3 4>;
-> 				clock-lanes = <0>;
-> 				link-frequencies = /bits/ 64 <222750000 148500000>;
-> 				remote-endpoint = <&mipi_csi_1_in>;
-> 			};
-> 		};
-> 	};
-> 
-> };
-> 
-> &mipi_csi_1 {
->     status = "okay";
-> 
->     ports {
->         port@0 {
->             reg = <0>;
->             mipi_csi_1_in: endpoint {
->                 remote-endpoint = <&imx462_mipi_ep>;
->                 data-lanes = <1 2 3 4>;
->             };
->         };
-> 
->         port@1 {
->             reg = <1>;
->             mipi_csi_1_out: endpoint {
->                 remote-endpoint = <&isp_1_in>;
->             };
->         };
->     };
-> };
-> 
-> &isp_1 {
->     status = "okay";
-> 
->     ports {
->         port@1 {
->             isp_1_in: endpoint {
->                 bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
->                 remote-endpoint = <&mipi_csi_1_out>;
->             };
->         };
->     };
-> };
-> 
-> The CCM registers show basically (p. 229 in i.MX8MP ref manual):
->   8 MEDIA_ISP           mux 7       post 0 SYSTEM_PLL2_DIV2 = 500 MHz
->  20 MEDIA_AXI           mux 1 pre 1 post 0 SYSTEM_PLL2_CLK / 2 = 500 MHz
->  21 MEDIA_APB           mux 2 pre 3 post 0 SYSTEM_PLL1_CLK / 4 = 200 MHz
-> 123 MEDIA_MIPI_PHY1_REF mux 0 pre 0 post 0 24M_REF_CLK = 24 MHz
-> 125 MEDIA_CAM2_PIX      mux 2 pre 0 post 0 SYSTEM_PLL2_DIV4 = 250 MHz
-> 
-> The first 3 are at the max values, MEDIA_MIPI_PHY1_REF max is 125 MHz,
-> MEDIA_CAM2_PIX max is 266 MHz. Maybe I should try changing these clocks,
-> but not sure how do I do that (any change causes rkisp1 driver loading
-> to fail). Will look at it.
-> 
-> BTW the double read and double write in NXP driver (isp-vvcam) were
-> introduced by (in their repo):
-> 
-> Author: hexing <Xing.He@verisilicon.com>  2022-08-05 10:19:49
-> Committer: Robby Cai <robby.cai@nxp.com>  2022-08-08 04:50:48
-> 
-> M865SW-1031: the second isp port jump frames
-> 
-> Reason:mi read or write reg occasionally it does not take effect
-> 
-> WorkAround:read or write twice of mi reg
-> 
-> ---------------------------- vvcam/isp/isp_ioctl.c ----------------------------
-> index 60741bd..e0d3048 100644
-> @@ -118,5 +118,8 @@ void isp_write_reg(struct isp_ic_dev *dev, u32 offset, u32 val)
->  	if (offset >= ISP_REG_SIZE)
->  		return;
-> -	__raw_writel(val, dev->base + offset);
-> +	writel(val, dev->base + offset);
-> +	if ((offset >= REG_ADDR(mi_mp_y_base_ad_init))
-> +		&& (offset <= REG_ADDR(mi_mp_y_pic_size)))
-> +		writel(val, dev->base + offset);
->  //	  isp_info("%s	addr 0x%08x val 0x%08x\n", __func__, offset, val);
->  }
-> @@ -128,5 +131,8 @@ u32 isp_read_reg(struct isp_ic_dev *dev, u32 offset)
->  	if (offset >= ISP_REG_SIZE)
->  		return 0;
-> -	val = __raw_readl(dev->base + offset);
-> +	val = readl(dev->base + offset);
-> +	if ((offset >= REG_ADDR(mi_mp_y_base_ad_init))
-> +		&& (offset <= REG_ADDR(mi_mp_y_pic_size)))
-> +		val = readl(dev->base + offset);
->  //	  isp_info("%s	addr 0x%08x val 0x%08x\n", __func__, offset, val);
->  	return val;
-> 
+> is not what I want. My example above was misleading. The rotation fixes the
+> "upside down" problem, but does not fix the flip.
+>
+> Doing that in userspace might be a solution, but in my opinion it is a bit
+> ugly to write a script that always sets the flip property from userspace
+> when the device was started.
+> A much cleaner way would be to simply set this property in the device tree
+> such that the driver can be initially configured with the proper values.
 
--- 
-Regards,
+Sorry, don't agree here. What if a sensor is mounted 90/270 degrees
+rotated (typical for mobile devices in example) ? You can't compensate
+it completely with flips, would you 270+HFLIP=90 ? would you leave it
+unmodified ? Userspace has to know and act accordingly, doing things
+in driver (will all drivers behave the same ? Will some compensate or
+other won't ?) is a recipe for more complex behaviours to handle.
 
-Laurent Pinchart
+>
+> PS: I have to send this email twice. The first one contained HTML parts that
+> were rejected by some receivers...
+>
+> >
+> > TL;DR drivers shall not flip, userspace should. Mirroring is an effect
+> > of drivers applying an HFLIP, because unless I'm missing something
+> > obvious, 'mirror' is not a physical mounting configuration of the camera
+> > sensor.
+> >
+> > FIY we're talking about something similar in libcamera
+> > https://lists.libcamera.org/pipermail/libcamera-devel/2025-July/051533.html
+> >
+> > > > > Introduce two options to change the device's flip property via device tree.
+> > > > >
+> > > > > As there is already support for the panel-common driver [1], add it for cameras in the same way.
+> > > > >
+> > > > > [1] commit 3c0ecd83eee9 ("dt-bindings: display: panel: Move flip properties to panel-common")
+> > > > >
+> > > > > Signed-off-by: Fabian Pfitzner <f.pfitzner@pengutronix.de>
+> > > > > ---
+> > > > > Fabian Pfitzner (2):
+> > > > >         media: dt-bindings: add flip properties
+> > > > >         media: v4l: fwnode: parse horizontal/vertical flip properties
+> > > > >
+> > > > >    .../devicetree/bindings/media/video-interface-devices.yaml        | 8 ++++++++
+> > > > >    drivers/media/v4l2-core/v4l2-fwnode.c                             | 3 +++
+> > > > >    include/media/v4l2-fwnode.h                                       | 4 ++++
+> > > > >    3 files changed, 15 insertions(+)
+> > > > > ---
+> > > > > base-commit: 6832a9317eee280117cd695fa885b2b7a7a38daf
+> > > > > change-id: 20250718-fpf-media-dt-flip-7fcad30bcfb7
+> > > > >
+> > > > > Best regards,
+> > > > > --
+> > > > > Fabian Pfitzner <f.pfitzner@pengutronix.de>
+> > > > >
+> > > --
+> > > Pengutronix e.K.                           | Fabian Pfitzner             |
+> > > Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+> > > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> > > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+> > >
+> --
+> Pengutronix e.K.                           | Fabian Pfitzner             |
+> Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+>
 
