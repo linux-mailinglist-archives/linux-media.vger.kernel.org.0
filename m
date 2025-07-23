@@ -1,250 +1,211 @@
-Return-Path: <linux-media+bounces-38250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38251-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36400B0F1B4
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 13:55:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA380B0F1E6
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 14:07:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1ADC5643D5
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 11:55:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E152B584218
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:07:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B542E5415;
-	Wed, 23 Jul 2025 11:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="eUuwpQLY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DCEB2E5B0E;
+	Wed, 23 Jul 2025 12:07:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013013.outbound.protection.outlook.com [52.101.83.13])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63C22E4990
-	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 11:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753271710; cv=fail; b=cHjwBv9AtaXTxJGFvj83h4UsavIHRALHCsiVjw7vQ9JgzTMRF4vDBtL2hFFcaSq18X/1sxBWuMmhed656bgzP7cxeG+vaeUSYgdG//SqVT3aOK5QWIB16m81SQiOq6j4YBj8+RyR+Z2rcsBy9v5IWUas/VBIoCuDj6MOy+jdSkQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753271710; c=relaxed/simple;
-	bh=im9HeK9ihwZ2hXPj7bnNDw2j7laZrarmtVifmatrwBA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=I/YZ7aIeSD6+ML/FNWmKOF/WH8NFiGcvnt/OU372WTQAK17y1wke6HJJjXDnjsSnok56hi0d/y1XLg2NUwU0o3joiRCb/wVS77tavqH30fnZBkNCztPUvyQ/Mx2UfUnRa+7n0NPBdFjUdm6O0giUE3vCI418PcEYPkPANnymxu8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=eUuwpQLY; arc=fail smtp.client-ip=52.101.83.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hnfZOUH/UroEp1c/smfDxtpmlMEZpKSIXUlbfmpH6fqZ1J4I7b8qDycKCGQLHEfsOe7aRJELyvPDH2rdRf/MYQrw4Wxjmn1CFOgYoreaTEOHtHBZbcpfgg+06qbVpCbZPCF0/1a4Ye7HFoypxGmibPYvel7Is1lKGUE9jkRG1ynBPdEdBoIPHOyO0Ka+ki/HNVB3a8aS6slzQbaH8ZhtlqQ5eckLfT3MBvUJrGbNBxkykQ+xHaaE3vXMDKeKAl6CCG8iprk5E4ahGXIDWyYrqvRs9f2QeKu0Q7ZJxdiKJqSYi+eDkNtvejRcd40wsG0d+58BYm8u2vyTJ+G8yQBVAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ms72z7jbRgDAbB0/of323dlJKVlTqbaz5NYCy657AEQ=;
- b=pIQ1odsQsbcsv6IF7F1OL+Eosk24hy2cImP6aZeIbfZZRL6IDwtrkXVzSVONvkom6qWMGdXnWpdsnFpXiNXgUJObTT/XzoA6zE5WtShNgRgb8rpIuhRgQ/+tRWUrIjqb3D50GCsw25oT0YUxprYY5OFa9DJH7TJIaLmr/DgYJYk834Hu18RFw8feD0rUwdHrD3zJEynfPIvxBVrnmJNZRfPc11LFuOEPs9KNzRandu2JjkUMEokp8AFVwayhPs18NS2eTF0aYnCK6c7CRNwt4SeQ5cJFWPTVp5aH2ZFxoXXHO7+mwqfxJRHl5WJIHBUe5a9taxjT/NJlFIs0ZnVxhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ms72z7jbRgDAbB0/of323dlJKVlTqbaz5NYCy657AEQ=;
- b=eUuwpQLYjEZ86aaIQ1HoiGT7hUe5hPqiKBWTN614GlJiYZQuFmozbS2aUgKOWrz57LXjRK51l/dmMzTfPqiCc7ZJZQqzL1BhwgtNJWBJf72eTkMoOi4urcVjgGd+lXI1duaAtF391xeVeVvqRnpfcd9l4w9nE075sBJKKEb+MlrEb1cOjBE/Hk4G6UUP8rXiQU4Yjf0U+ByT1xs9rQrRrCzWjr2fpZuOR3KOBV/AZMCCDz2eNnNgDGho9QlfAYm8HCIuMpY+JQA4JaET8v9IobntvFttkUveFJEV6DzGLzSJTvozigCN2DxjKVynW0ZHiNTC1FEnYCaYPSEvc0J8uw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
- by DB9PR04MB9749.eurprd04.prod.outlook.com (2603:10a6:10:4ed::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
- 2025 11:55:05 +0000
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1%5]) with mapi id 15.20.8964.019; Wed, 23 Jul 2025
- 11:55:05 +0000
-Message-ID: <0268741f-379f-4b30-8a71-122d6bd33471@nxp.com>
-Date: Wed, 23 Jul 2025 14:54:56 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 25/64] media: Documentation: Document non-CCS use of
- CCS embedded data layout
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
- Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Julien Massot <julien.massot@collabora.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- "Yan, Dongcheng" <dongcheng.yan@intel.com>,
- "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu"
- <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>,
- Stefan Klug <stefan.klug@ideasonboard.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
- <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Ricardo Ribalda Delgado <ribalda@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-26-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Mirela Rabulea <mirela.rabulea@nxp.com>
-In-Reply-To: <20250619115836.1946016-26-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1P190CA0038.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:800:1bb::9) To AS4PR04MB9244.eurprd04.prod.outlook.com
- (2603:10a6:20b:4e3::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBA62E54CB;
+	Wed, 23 Jul 2025 12:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753272420; cv=none; b=hAGfrc6Pc8vyIAxfFoTlGgYT5bhokOlKyNEX76FnVBQmOiEhg9ohQpbAugMuUoDkAlObsdSdNy3CJsZHYO9ckSzcA/66WOnexbmGMtBhjSf9eIO1iIiLsloQYBWI5+VtXvf+TOhsHi51kI1R7rIyFwbgvNC9Irq3HX7THc+emhs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753272420; c=relaxed/simple;
+	bh=z1VzJkWumDQceH/olOfLQlpzbpgz5CqVIBb3ybbjh5g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Sde+MuwKk45vnKJsHTgf8rYon75RfR37bDD+UT7/7YhskH6uKuKRymNHL/EhlBuCYPZBo850OmaUdB4Sg9HTh3CAxuLMnYQagjPEZyXjevT1MyqWXhie+JUfAH04yaCBm0I5WowV8VIMuuTLvE4TWBy1AculH3TAKla2qy4eHS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id BF790C3E4DE9;
+	Wed, 23 Jul 2025 14:06:43 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl BF790C3E4DE9
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,  Heiko Stuebner <heiko@sntech.de>,
+  Paul Elder <paul.elder@ideasonboard.com>,  Jacopo Mondi
+ <jacopo.mondi@ideasonboard.com>,  Ondrej Jirman <megi@xff.cz>,
+  linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption
+In-Reply-To: <175326599663.2811177.16620980968274114885@localhost> (Stefan
+	Klug's message of "Wed, 23 Jul 2025 12:19:56 +0200")
+References: <m3h5zbxkc6.fsf@t19.piap.pl> <m38qknx939.fsf@t19.piap.pl>
+	<175308758352.3134829.9472501038683860006@localhost>
+	<m31pq9y98z.fsf@t19.piap.pl>
+	<175326599663.2811177.16620980968274114885@localhost>
+Sender: khalasa@piap.pl
+Date: Wed, 23 Jul 2025 14:06:43 +0200
+Message-ID: <m3seinw1po.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|DB9PR04MB9749:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a52ce34-d688-404c-762b-08ddc9dfc337
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|52116014|376014|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?ZG5hNHJwK2RzZVcrZlVGRmpLYTN4d3h6b1pQdkpyNEJ2dzBJVVBEanlrM0Zx?=
- =?utf-8?B?a1o0d3NEc0F6eUlwT0V1Z2RXUzRNcDAwY3lackxSMDJYb0pRbnFlcTBtN1o3?=
- =?utf-8?B?RHVtbjhRUjNTQjUrZGFhS0luSDJDYTBLY0gyMk1Xdm1KS0NkWXJ4ak15ZlVW?=
- =?utf-8?B?K3lWZkhNM2tIMG0yTWVPVnd3RFpFL1FKWnl1QVJlb2QzbXlQNzZyWGo3YXd2?=
- =?utf-8?B?UXlhU2VkSzA3MXRqUXVNRHBVVytyalh4S2xGSTZrb2NKUWZ6Z1l0VE1FOXBK?=
- =?utf-8?B?bzEzTjV2dlc3TWdldmxjTzZVTEM2bjNtUFFzZmFzZnlXVzJrdHNydllObk40?=
- =?utf-8?B?ZzZtT2Uzd1dRc0FyWTduVEFwd3RvL2VCWVFDY1JCYjBnUFNIZnN5YjRnUDB3?=
- =?utf-8?B?Z005alB2WFUyTVJQNzBBQ2FndFlwbEJ1WGc1Zzh5cXJsTFl6TWxGQVBMVWdi?=
- =?utf-8?B?NVdYczJ1ZGNSMGZTWW9CTStLdmxiY3hITnJ5UDNmSkRFTXl5Y1JoTEd1N3dG?=
- =?utf-8?B?NWZBR2V5MW91enEyeTEydmJwTk1QQ2VDbEN3dE82MzAwdGdBeXRmTUN2b2Qx?=
- =?utf-8?B?VW56Z3BaTzB0YUJVRGpHWG5ONjRETFpPTmp4ZGhkV1hJaTUzYXliTEdNTU1G?=
- =?utf-8?B?UFR0dzRzS0QwdHlibWUrcDUxcEs0Rjdoclo4R0ozSFpsSFhwMjJLSkNhSDhq?=
- =?utf-8?B?cGlnNGNTdEJlbmkvaGFjNFlhZUszdlNHQzh6RDgydjFxV280dWRBSGxQWWQx?=
- =?utf-8?B?V3dlZjdCVWdOQTRVaEpCeWZoN2wrOFpSSmxUMEJXalptNkRhRmFpamlBbFl0?=
- =?utf-8?B?VGRsS0NvWEFvMVpiRFdiZzlSbGdBbk82VVZsZjhZZXpvdnJHMS9tNkpvakNa?=
- =?utf-8?B?U1EzTEdBMW5SOXdEakpaV0gxQnZLcjZVeldIS0tSR3FwanR2STJGSFp5NHlq?=
- =?utf-8?B?WkprcWlLUFg0Wmo1Zm1iM0VBSWpGblZ4czRaVUEzSmlmUHVqbm01VXgxUmlh?=
- =?utf-8?B?bkE2ZEdib0w4dUsvTEtvamwvT205dWd5amp4WUJDVzVreHRhS1I1QmFtdmxD?=
- =?utf-8?B?Z0lsT2NwbFlkRWlxd1NhRVZUNVFFcldJdzRCT1AwdnQ1WUlET3hjaDIvTDJW?=
- =?utf-8?B?ZzlPRHAxSmZZRnhLNkF4NG1TeUhtNjZ3Y0NIcEQ4bEE4VjR2Q2RnaUxJYlZN?=
- =?utf-8?B?QXYydTVLMWhuQ1pHeVp0NFZrNmpsMk52RWNJc1Y3c0tGd0d3M0RvT3I4UXAy?=
- =?utf-8?B?MURpNVVZUDJjZ3FkNmgzWWdDMFYvdC9aaFhaeXZKNjJjV1BXMkhFbFRYZlVD?=
- =?utf-8?B?RVBkL01HN3lCQjNZcUxoNkpqL0ZMZ2Y5N2ZnN212VXF1TEZmY1FyeG54MXEw?=
- =?utf-8?B?MlV2Q1hnb3U0c1lIb3M1UU52eVJ4QzZ5dmFSN3JlR1NrbXMyMWh0aDlqTEla?=
- =?utf-8?B?b0xleDErSWVaUFNGZkNHdkJZdkdMbjNDMnRDMDJMSUEyS3JKdVBLZTRRUVYy?=
- =?utf-8?B?QnJWVjkvUjdhYXgvTit3RzlhV2dsTDd2aUF2eE9ubFRNS3piYjdocHZhdWhE?=
- =?utf-8?B?VFY0dXAyZVV1bGc1Wlo5OHFxdnhTUTJFcUxrdWJGbEtxTWFmbkxxd3BsTlpD?=
- =?utf-8?B?NSt0aVFaWlNGcFl1N1h1N3Nza0phRjlucVFvY2V6bzlkaG9Hc2FUdW5oK3JI?=
- =?utf-8?B?cDg5Mk91WGFnVDFIVURORDRpTEdSNDhLS1dnS2pJdHZ3enQyQUVWVmR4U2Qw?=
- =?utf-8?B?TGJzZjNYQk1yVkJCQUd0UjhxUks3ZmZUNU92aTFraGUwVFB1VXhFditRSENW?=
- =?utf-8?B?YlhJNHRTVjNWMU5XdGZVQW5BY1V6Q3pKQStLL0syRVpVeE9FL0hiakUwWG9p?=
- =?utf-8?B?VlA1NFVrTFhVYmpjdGxvWGZDeFZvYmVnaThVcUhkRGxMdm56eDhiYXhFTFpL?=
- =?utf-8?B?Mm15U1VJNGpwbFJENy9EWTBLU2VtdDYzN0VUVEN6aUl3NjFoNlIyeDR6aE5V?=
- =?utf-8?B?VStxYTFucEJ3PT0=?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(52116014)(376014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?emhMS1hpRnNMOFNmNDJ2cENiMjJnaTVQYk9kKzRETHduVWtpamhBSENaZytl?=
- =?utf-8?B?Q0ZOOEs3Slhaekd2MDUvbGVmbUt2ZnUyVVNIdXg2ZytRSm4xZ0lhT0Z1NlBJ?=
- =?utf-8?B?dWt6dTNpTEp3c2VSc25YRXdlTjFCeTdpdytIZVprZTRydnBuTXlBZytyZGcr?=
- =?utf-8?B?V29EdVZ5a1BqWDdNYjEvNDZ0K2VNY0ZTRGRKRmtUS3pUekpBSjNZbVZTelpT?=
- =?utf-8?B?TXMxVVlkMGVrb2NzVWlKalp3TDdqQlRvcjhXekVkQWZmb1B1aFZnZm5TSGpB?=
- =?utf-8?B?eHJEdEZaV1Q1akZKN09JTnE4NFZyRGdZSEtnOGppY0xLVzg0SlNRUVRUcFM3?=
- =?utf-8?B?ejNOVnhsVCtoVHo4dm9tU1VHbkdkUXJLWVFtL0lEWVpQNkdNUWMvcGZwdVlj?=
- =?utf-8?B?eXQ0MUFtcVpZSnNISlc2SkFMNkk0a0NQbjVOU2M0U0F2eS9ucWFOeTVZWHM2?=
- =?utf-8?B?UjBJMVM0eUJITlZncWVOdm9vV1Y1dzR5STdwbWNhYjQ3c0xyL3NrUGZDSW1N?=
- =?utf-8?B?NHNqMGtRWWdyMmZ0eWNreWt1eDMzNmgvRTZWZGpUNWhvN3h2eWpmcEFJMGtJ?=
- =?utf-8?B?UFB3TUJEbUdPWWRIa2dQWjBsQmZDRlZFaFhLR01oTkJ5Zjd4L1lIb0xwMkZ2?=
- =?utf-8?B?b3hsKzdES0hSazB6R0I3SUx0eVA2WTByaUdHZ0hodVd1K3MwcUhNQ3JjYks4?=
- =?utf-8?B?VlkvdXdsblhsNmpsYTIzOUtsS1pacE5KcmtqL1A2eTR6U3JSM1VSMHNUaVFo?=
- =?utf-8?B?dnlOeUVta2dTM0NDNDdKTEZDUUhWN3lFM0FiLzZFYUMyU0ZkdkRVbm8rMEVV?=
- =?utf-8?B?THZXdUQ4cWVOV0VnaFBRMGViQ0RTaFJVQ0hUSFJjZUg0L0tzeEU0VHk4YlE1?=
- =?utf-8?B?Z096bERDWndGYjAwNlJDUndoaGxyM1llTGJRcmZ0V1dCdm8wTzZkRTdQK2xR?=
- =?utf-8?B?cXhkNzNWYXljK2t4TUJvWEY1VGJzNk9HQTBBdnBNa3R3WlJTWUQ5enZEZ0FR?=
- =?utf-8?B?OTgvY3JaUjVOYTJyazkrM2VUc3VSM0ZsK2d6bklHbjJ6am4xTWJIb0kzckRX?=
- =?utf-8?B?SE9RTlV6TnA4M25FNXZYanNvdHFtYzVyZ2I5YlhxeDRnUmhOVlR0eitKNHdu?=
- =?utf-8?B?OVpyYlBDdXlWTzJGRy9IamVkNTJJZ2JyelYxZ0UwaFpWc1VrazlEYWYrSk5T?=
- =?utf-8?B?V1BhcEFpNjBEVnhJSGpHOEYxNzQ1ZXIxa0R5b1l1djBudFJNVmZKZnlhTDE3?=
- =?utf-8?B?V25OQlhlMndPakpZUkE0eThFMDlmMkVrZkgwOVNMSUFzM001eGU5Y0hLcEpu?=
- =?utf-8?B?WnViL1RuWFB2eFdxczI2a1JYcGNLOWR3dVpVZGt6bVgyZmhVWHVqK01MaDNk?=
- =?utf-8?B?YWR4QkVkSU5tYmpaU0J6VnZETlRhL0pwSm1Lb0dxZWFZZG9wZE1OVHhBTEp6?=
- =?utf-8?B?VkVWLzJrRi9iSEdtbGJyK05tRXVoRUR2em5rclRvc1U5b1dIVVdTOXpNb3c4?=
- =?utf-8?B?YzhidXZab3Z6cFRtTTdaYlF2YlBBRkJudEdTalhFb0gyMEZCUTZLWGpBaS9R?=
- =?utf-8?B?SUYzWDB2QWE2SHlVTVdZVkdDcUtkL0cxT1dWUEhrWUJjL3UzZ1MxbGdqaEow?=
- =?utf-8?B?aGtVK0E4cVRvSDlWZzV4MlRISkJvbzZRelArMCtYRWNHNmRuWTBzSng0eUJn?=
- =?utf-8?B?UDN3US9sdjVWeXkwbmZ6dzY1RlpCSG9ZT3F3OWgxNFZKUk8wbGwzNkU2aFJ5?=
- =?utf-8?B?cVZVR1JObUx1N0o1c09USzY2eStUUFcvZU85cnhwMU5qVGlRdnIvM1FOSlBk?=
- =?utf-8?B?d1VIV2p0dC9sWDhLdFdza2JBV2p6Mnp1OFhFWURxdU00Zm50N21WN2tmWktN?=
- =?utf-8?B?RlE2UUVwSFJjWG11N3ZLWU53ZCtLektRNFJ3MmFBRkJlUU4xb3REeHlsWWEy?=
- =?utf-8?B?NWVRV1hsYXpUSGZsVXRsMWUvTzFqWUF0b3FtdjBlY0M1L0I4ZmtDL0c5NzJi?=
- =?utf-8?B?L0w1V0JZWnY0Yk85czFneHhwdWVXMmo4bkFNbnV5RVFud2luYWh6NEhTRm85?=
- =?utf-8?B?ZXBPTzN1ZGVjWncxeHVKYm95U284NHFtQUVhRm5OY3hGc09FSVd5S1Vici9j?=
- =?utf-8?Q?4CVhr9TZKhisAcbCMfLOi6xgO?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a52ce34-d688-404c-762b-08ddc9dfc337
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 11:55:04.9010
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HLV0n7QA/Q5O0v01cIWRquhV7YxeRxAg2krzhqmH2IX/Qu+u1ogVe88MqVu3QlAG9Hq068MULjzitprJFF5gfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9749
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+Hi Stefan,
 
-On 6/19/25 14:57, Sakari Ailus wrote:
-> 
-> 
-> The CCS embedded data layout has multiple aspects (packing, encoding and
-> the rest, including register addresses and semantics). Explicitly allow
-> non-compliant embedded data to use the two former to reduce redundant
-> documentation.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->   .../userspace-api/media/drivers/camera-sensor.rst    | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> index 450e5940c6e7..d9589ad80204 100644
-> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> @@ -136,3 +136,15 @@ In general, changing the embedded data layout from the driver-configured values
->   is not supported. The height of the metadata is device-specific and the width
->   is that (or less of that) of the image width, as configured on the pixel data
->   stream.
-> +
-> +CCS and non-CCS embedded data layout
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Embedded data which is fully compliant with CCS definitions uses ``CCS embedded
-> +data layout <media-metadata-layout-ccs>`` (level 3) for :ref:`the metadata
+Stefan Klug <stefan.klug@ideasonboard.com> writes:
 
-It this was menat to be a link, it is not working in the generated 
-documentation.
+> Just a quick heads up. I ran the tester and so far no unexpected
+> results. I'll run it from time to time after a reboot to see if I ever
+> hit that condition.
+>
+> How does your device tree look like? Any chance the ISP is clocked for
+> overdrive but the device is not or something similar? Although I have a
+> hard time imagining how that would lead to such effects.
 
-Also, there probably should not be any mention anymore to the "CCS 
-embedded data mbus code" below, since I see you switched to generic code 
-+ layout.
+Interesting.
+I tested it on two different devices (a Compulab UCM-based camera and
+a Solidrun Hummingboard Mate) and it's the same on both. I think the
+first one uses 1600 MHz industrial CPU:
 
-Regards,
-Mirela
+(U-boot) CPU: i.MX8MP[8] rev1.1 at 1200 MHz
 
-> +layout control <image_source_control_metadata_layout>`. Device-specific embedded
-> +data compliant with either MIPI CCS embedded data levels 1 or 2 only shall not
-> +use CCS embedded data mbus code, but may refer to CCS embedded data
-> +documentation with the level of conformance specified and omit documenting these
-> +aspects of the layout. The rest of the device-specific embedded data layout is
-> +documented in the context of the data layout itself.
-> --
-> 2.39.5
-> 
+Not sure about the Hummingboard.
 
+Both cameras apparently are connected to the second MIPI.
+
+Well... maybe if it's only the second ISP, and there is only one camera,
+then we could reroute the data to the first ISP? The MIPI receiver has
+a crossbar I think.
+And the other way around: for a test, one could reroute MIPI0 to ISP1.
+Will have a look.
+
+The DT has the usual stuff (for the second MIPI/ISP):
+
+&i2c6 {
+	clock-frequency =3D <400000>;
+	pinctrl-names =3D "default";
+	pinctrl-0 =3D <&pinctrl_i2c6>;
+	single-master;
+	status =3D "okay";
+
+	imx462_camera@1a {
+		compatible =3D "sony,imx462";
+		reg =3D <0x1a>;
+		clocks =3D <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
+		clock-names =3D "xclk";
+		clock-frequency =3D <37125000>;
+		reset-gpios =3D <&gpio2 1 GPIO_ACTIVE_HIGH>;
+		status =3D "okay";
+
+		port {
+			imx462_mipi_ep: endpoint {
+				data-lanes =3D <1 2 3 4>;
+				clock-lanes =3D <0>;
+				link-frequencies =3D /bits/ 64 <222750000 148500000>;
+				remote-endpoint =3D <&mipi_csi_1_in>;
+			};
+		};
+	};
+
+};
+
+&mipi_csi_1 {
+    status =3D "okay";
+
+    ports {
+        port@0 {
+            reg =3D <0>;
+            mipi_csi_1_in: endpoint {
+                remote-endpoint =3D <&imx462_mipi_ep>;
+                data-lanes =3D <1 2 3 4>;
+            };
+        };
+
+        port@1 {
+            reg =3D <1>;
+            mipi_csi_1_out: endpoint {
+                remote-endpoint =3D <&isp_1_in>;
+            };
+        };
+    };
+};
+
+&isp_1 {
+    status =3D "okay";
+
+    ports {
+        port@1 {
+            isp_1_in: endpoint {
+                bus-type =3D <MEDIA_BUS_TYPE_PARALLEL>;
+                remote-endpoint =3D <&mipi_csi_1_out>;
+            };
+        };
+    };
+};
+
+The CCM registers show basically (p. 229 in i.MX8MP ref manual):
+  8 MEDIA_ISP           mux 7       post 0 SYSTEM_PLL2_DIV2 =3D 500 MHz
+ 20 MEDIA_AXI           mux 1 pre 1 post 0 SYSTEM_PLL2_CLK / 2 =3D 500 MHz
+ 21 MEDIA_APB           mux 2 pre 3 post 0 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
+123 MEDIA_MIPI_PHY1_REF mux 0 pre 0 post 0 24M_REF_CLK =3D 24 MHz
+125 MEDIA_CAM2_PIX      mux 2 pre 0 post 0 SYSTEM_PLL2_DIV4 =3D 250 MHz
+
+The first 3 are at the max values, MEDIA_MIPI_PHY1_REF max is 125 MHz,
+MEDIA_CAM2_PIX max is 266 MHz. Maybe I should try changing these clocks,
+but not sure how do I do that (any change causes rkisp1 driver loading
+to fail). Will look at it.
+
+BTW the double read and double write in NXP driver (isp-vvcam) were
+introduced by (in their repo):
+
+Author: hexing <Xing.He@verisilicon.com>  2022-08-05 10:19:49
+Committer: Robby Cai <robby.cai@nxp.com>  2022-08-08 04:50:48
+
+M865SW-1031: the second isp port jump frames
+
+Reason:mi read or write reg occasionally it does not take effect
+
+WorkAround:read or write twice of mi reg
+
+---------------------------- vvcam/isp/isp_ioctl.c ------------------------=
+----
+index 60741bd..e0d3048 100644
+@@ -118,5 +118,8 @@ void isp_write_reg(struct isp_ic_dev *dev, u32 offset, =
+u32 val)
+ 	if (offset >=3D ISP_REG_SIZE)
+ 		return;
+-	__raw_writel(val, dev->base + offset);
++	writel(val, dev->base + offset);
++	if ((offset >=3D REG_ADDR(mi_mp_y_base_ad_init))
++		&& (offset <=3D REG_ADDR(mi_mp_y_pic_size)))
++		writel(val, dev->base + offset);
+ //	  isp_info("%s	addr 0x%08x val 0x%08x\n", __func__, offset, val);
+ }
+@@ -128,5 +131,8 @@ u32 isp_read_reg(struct isp_ic_dev *dev, u32 offset)
+ 	if (offset >=3D ISP_REG_SIZE)
+ 		return 0;
+-	val =3D __raw_readl(dev->base + offset);
++	val =3D readl(dev->base + offset);
++	if ((offset >=3D REG_ADDR(mi_mp_y_base_ad_init))
++		&& (offset <=3D REG_ADDR(mi_mp_y_pic_size)))
++		val =3D readl(dev->base + offset);
+ //	  isp_info("%s	addr 0x%08x val 0x%08x\n", __func__, offset, val);
+ 	return val;
+
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
