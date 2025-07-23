@@ -1,87 +1,40 @@
-Return-Path: <linux-media+bounces-38275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38276-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E75EB0F40C
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 15:33:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 104ECB0F471
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 15:48:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C66E6169024
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 13:33:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4425A1C838B3
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 13:48:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFA062E7196;
-	Wed, 23 Jul 2025 13:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BZZFAwk9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 382892E889D;
+	Wed, 23 Jul 2025 13:48:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC76F2E719B
-	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 13:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE61A23BD1F
+	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 13:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753277572; cv=none; b=IKoC5/KqhB0ufzxqKZTlgqUbmC5FEUVXNtpxIcuIt7vFBkcI7B8It2dwoEptIUurdVsmVPBu7ZxNXTDA+Dw9KWx94HP2abB1mXrS5HYlsyK5DsZs1t/7VPAB4uxu/ufvilyRcZIpy93//M7RHjcYXNmcogzBi9vWvfWlFhDaoz4=
+	t=1753278511; cv=none; b=BQOnuUlittA5eItmpu0koXi/gJoBHfLm3zXntcu5ymcEvzz33SWyMVgTYYLw6ydkZ0GgIhIpTnbK41Y4oBbMd+3KFtnApfFaQMlPjZ7PRQfWKwbISNJHBLxdkIBTmVJOQtnjEiAtI7NABhYU4/5uD7x8j7kUq96/Ie3stsN88NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753277572; c=relaxed/simple;
-	bh=2o+FXdT30xXgM0glTbZ0pQJ0LGMm8P3vxwge4l4APfc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=oDPo2LEVwwnbe/URomtdP7Z7/+tC+WIwph9+iKaYL35w2t6uRogfTXMpBrqfj4Y7JsimeUl3hxCdcYD6wnEtPrVpclxnYyzIRybD/KWrWAPeRu+IlxJoyQ76NFKRVeC0vXSW7Gulq4bw1rM2uqFfJgZJaFcQQ4KQnq6EK/xApTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BZZFAwk9; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56N9Z0Gu024777
-	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 13:32:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	912BbCs1duhO3s+V1a0ndyvsqj38sc4RhanjQ0G1f2o=; b=BZZFAwk9a+7H7qk1
-	xMP0ZOEsX2ncf5QA3GkO+DoheS8p/Xon/reY1Da/eshXSFLWxcUt/OV/lizGLGeo
-	E54qnYe6YTmsoqmyTu5fHAQeFGYATat9arSgBrxEuMQzNj2jmQCEjTuDyVQVtCJt
-	BvsQmtgta2Tt9ZXnR2UDVPD5Cx0sNL/MPeTPNgMqXgF8RYKawsVzgK+WEdPeMVtY
-	HTmy01R00AVhERjCW0mfCcZmvcRmTb7Naxakf7K3wuo7wsiLvun8nmZwHTkIBhOK
-	FcQZMm3V2Vnwr4773TbGHi7R+xN99N1IhQOnpNvK6UHaCERkfgZfdwMxzX64F7vJ
-	9AsqiA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48044dn40x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 13:32:49 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4ab5e4f4600so19754681cf.2
-        for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 06:32:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753277569; x=1753882369;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=912BbCs1duhO3s+V1a0ndyvsqj38sc4RhanjQ0G1f2o=;
-        b=gXd/ZCPEnXPR0a4tUmYtzlvU5+S8Z1dYjIkD8Az69vYtFbAN2aWJwGnU0JZ0bEdb04
-         if19bSHKG6Crac2ENM7L8FatuQC2HjgAXYqgz6bsInAiDEGm7cKGolfXNT9x5apcSFbe
-         Z5ZoMQ4nRpu9RSP+fZhrJy2zxAxzFr4QXQCdlBIQR52VZYD1GXKQPorCd6iLftEjRzH/
-         b8JNxaoVW4EUZEoiWi2ThFVpzOj/nkZ/wQuUGdl5vpazOSRXn0uaZzMJpUeeOf6PCVtU
-         kYupONaRBvv3/Mzic7gLpoUG7gJ/HW+mDn4BUc/jB5uFJ7Jjjbj3FY6suR9hSMvc2fT8
-         An/A==
-X-Gm-Message-State: AOJu0Yy/ik0VfFe6Larr0bva7RrG5lYkYSESkvicJI2OuTWn1vqqCltx
-	K63jc0qKhTxEk8jyaKiBYXdRLcQOhmTN+UGUUWHDIN1ZogHR/9wxLuVtowdbrez0nB+qYhR8to5
-	ow6o6+9HqE0VQ9zJf/ko/MVjsbj9+F6NdAf6YPF4BLeuQ+3l+dFxSWMH6ewFE8WG7Bw==
-X-Gm-Gg: ASbGncvezs91RrEuiRcycg3UVdiXlWDuZG393CzYMzAtpX7lcVcwkx5HwJWsK7h+G6N
-	LbuswjTCHPzrNa5Ubyg3h+iIaZ4bcrhdpdTmpodFTnKIqaBUNYbpYXIVoMVyNs/ldsfojpK2QIs
-	Q7RlWORUo8wWUWIid9qSokP0ctOtj5z7AqaV5Iu/gZXbRKC9EjOC8/mSHTXfobJMrWFsA8uCCvu
-	RrjzV2C7kb4U/5QTaYl+vbZGqpOvNsolghHT8KFRbYbxweT0iSklGRKB63CZiBsKZsxuEnex31m
-	FcpTRI0mst2ZMYPqMF00ii6vhyhsVJ/wf2vsRb0tf/PnTOcv9OOPCBcZ7bY4iWDdAbTxdwS8VBc
-	pr+g3pjiZ/oO2d9sqpg==
-X-Received: by 2002:a05:620a:48e:b0:7e3:3c61:564a with SMTP id af79cd13be357-7e62a1da96amr124516685a.13.1753277568643;
-        Wed, 23 Jul 2025 06:32:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IExUeU5pu5DYMS+wgbInyCg7rQVUxQG2KcGpfh8b1CBhLL7zRzD/MTKzrABkk8bm84AzEwg6A==
-X-Received: by 2002:a05:620a:48e:b0:7e3:3c61:564a with SMTP id af79cd13be357-7e62a1da96amr124513785a.13.1753277567973;
-        Wed, 23 Jul 2025 06:32:47 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6cad64f0sm1048517666b.148.2025.07.23.06.32.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jul 2025 06:32:47 -0700 (PDT)
-Message-ID: <4b8e0bd3-612a-4ef9-a844-08791ed1b8d0@oss.qualcomm.com>
-Date: Wed, 23 Jul 2025 15:32:45 +0200
+	s=arc-20240116; t=1753278511; c=relaxed/simple;
+	bh=/+0+g8aDBMl+cpTpMeTuPc0fakIIDxsbYnyjeKL31FY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o35S3jmtxqrSTvoCFiotQsesStkH59NtiRnCBnaDpfjqpHU6BH2HlWS1Jr9eIUFktfVHN1x+cyHOkorDwSE/plMgm/yVo7q4BVL+UM3tHY6iHxZArX88ISf4MeZD/4wGXUzNCVArQcaGBifxLgjQj/8zKhEyAbVwypeQ0fnsOe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <f.pfitzner@pengutronix.de>)
+	id 1ueZpM-0003zw-SL; Wed, 23 Jul 2025 15:48:12 +0200
+Message-ID: <a89dbe5d-a30b-455d-adaf-31eadf2b3751@pengutronix.de>
+Date: Wed, 23 Jul 2025 15:48:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,78 +42,165 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: pm_helpers: add fallback for the opp-table
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-To: Renjiang Han <quic_renjiang@quicinc.com>, quic_qiweil@quicinc.com,
-        quic_wangaow@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20250723-fallback_of_opp_table-v1-1-20a6277fdded@quicinc.com>
- <ffac121b-ba15-4384-8961-2661f9748d2f@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <ffac121b-ba15-4384-8961-2661f9748d2f@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 0/2] parse horizontal/vertical flip properties
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+ linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ entwicklung@pengutronix.de, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ hansg@kernel.org
+References: <20250718-fpf-media-dt-flip-v1-0-75b3a938b4be@pengutronix.de>
+ <ryuew3kxnocj6uqq4nadp3kyaxg27rxlrgnaieyy2hlpz5jkd3@iyetnsbfanee>
+ <35debf21-bca7-480f-a61e-7b0494f10ca5@pengutronix.de>
+ <mljx67lkcw4kh3cs344iprik244cm7hqfckmg4bj5j5atuyt62@lh2ht4mrtkjq>
+ <3ac271c7-a67a-4f6f-935d-256937516068@pengutronix.de>
+ <ffzxxsplmivvj7pib7n7lkutbyohl5npofdaxdxtoffo43yatw@gqm64zdgb4iy>
+ <CAPY8ntDLPDmgmE8+VQ4jchfNKLLEK5bZ10ftham9bK-x_HL8Xw@mail.gmail.com>
+Content-Language: en-US, de-DE
+From: Fabian Pfitzner <f.pfitzner@pengutronix.de>
+In-Reply-To: <CAPY8ntDLPDmgmE8+VQ4jchfNKLLEK5bZ10ftham9bK-x_HL8Xw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=BJ6zrEQG c=1 sm=1 tr=0 ts=6880e481 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=Gq9SLu5374Em_OP27MgA:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: vMeYeWJE-DMK2erVOktd7mN-7rXCkRsw
-X-Proofpoint-ORIG-GUID: vMeYeWJE-DMK2erVOktd7mN-7rXCkRsw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDExNiBTYWx0ZWRfX25ZlYLxw+cZb
- gWRAZzELVrlX2L0fnuaUox3jj1puvoDBqWFYdwFf7K+bS1d9tbP3DOPKHD44xj8B2ouynllQoxN
- QXaFJ98ZfpbW1fQirm5m8O0kf91msdFmD+tjvHqwLIY5Qqdai3hyTnj/MrRCWRPVKol0m8JYaip
- iQYkPL8zCQPGey9SyjK3Z4/QJNBzx5GA3GdEMRN7W906NzXwMJtFVwmb5V5S0nbqs5f/5AlFEwH
- 4Xe1Uw/TI+UwlVkXtspijjrjX/Lgt9+pY4UdtQ9KiLNFKe5LkIGBW/FLEgGzvvdzYorgMNVUg5y
- auDvrdTbaG9CeosiJq+Dzf6OPiGtjf5TKu0l+kGA/uRmh8OvTKKgYJRa3zKhci6Du7Ynj7DgzLH
- PejnAbsCVZrAooF1FczOa3dfbqCSYc95OJ41kLBJmUCQQ+tQ3g2zeHmoTlQCgneZUJck2cG5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_02,2025-07-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
- mlxlogscore=999 suspectscore=0 impostorscore=0 phishscore=0 adultscore=0
- mlxscore=0 malwarescore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507230116
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: f.pfitzner@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-On 7/23/25 3:30 PM, Konrad Dybcio wrote:
-> On 7/23/25 2:56 PM, Renjiang Han wrote:
->> Since the device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX
->> do not include an opp-table and have not configured opp-pmdomain, they
->> still need to use the frequencies defined in the driver's freq_tbl.
+On 7/23/25 15:00, Dave Stevenson wrote:
+> Hi Jacopo and Fabian
+>
+> On Wed, 23 Jul 2025 at 13:21, Jacopo Mondi
+> <jacopo.mondi@ideasonboard.com> wrote:
+>> Hi Fabian
 >>
->> Both core_power_v1 and core_power_v4 functions require core_clks_enable
->> function during POWER_ON. Therefore, in the core_clks_enable function,
->> if calling dev_pm_opp_find_freq_ceil to obtain the frequency fails,
->> it needs to fall back to the freq_tbl to retrieve the frequency.
+>> On Wed, Jul 23, 2025 at 12:09:58PM +0200, Fabian Pfitzner wrote:
+>>> On 7/23/25 11:44, Jacopo Mondi wrote:
+>>>> On Wed, Jul 23, 2025 at 11:29:27AM +0200, Fabian Pfitzner wrote:
+>>>>> On 7/23/25 11:17, Jacopo Mondi wrote:
+>>>>>> Hi Fabian
+>>>>>>
+>>>>>> On Wed, Jul 23, 2025 at 10:58:28AM +0200, Fabian Pfitzner wrote:
+>>>>>>> There are cameras containing a mirror on their optical path e. g. when
+>>>>>>> mounted upside down.
+>>>>>> How is this different from 'rotation = 180' ?
+>>>>> If you simply want to flip the output (e. g. horizontally), you cannot do
+>>>>> this with a rotation.
+>>>>> The camera I'm referring to is not only upside down, but also flipped
+>>>>> horizontally.
+>>>> 180 degress rotation = HFLIP + VFLIP
+>>> I do not want to do both. Only one of them.
+>>>> Yes, you can't express 'mirror' in DTS, because DTS are about the
+>>>> physical mounting rotation of the camera. Sensor drivers shall not
+>>>> apply any flip control automatically, it's userspace that by parsing
+>>>> the rotation property through the associated v4l2 controls should decide
+>>>> if it has to apply flips or not to correct the images.
+>>>>
+>>>> What is the use case you had in mind ? Tell the driver through a DTS
+>>>> property it has to apply flips to auto-compensate ? Because I think we
+>>>> shouldn't and if I'm not mistaken we also document it:
+>>>> https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camera-sensor.html#rotation-orientation-and-flipping
+>>> I have a camera that does a horizontal flip in its hardware, so the output
+>> Sorry, I don't want to be annoying, but what does it mean "does a
+>> horizontal flip in the hardware" ?
 >>
->> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
->> ---
->> Since device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX do not
->> contain an opp-table and have not configured opp-pmdomain, they still
->> need to use the frequencies defined in the driver's freq_tbl.
+>> In my understanding either "in hardware" means you can't control it
+>> from software (and so there's no point in telling drivers what to do)
+>> or you can control it from software and it's a regular HFLIP.
+> Can you say what this sensor/module is?
+ClairPixel 8320
+>
+> To change flips due to physical sensor orientation is a very unusual
+> one. That would imply some weird mechanics in the sensor to add the
+> mirror and some form of orientation sensor being built in.
+Really? Imagine a door bell where an arbitrary camera is mounted such 
+that it faces upwards (e. g. due to space limitations).
+Then you need a mirror in order to point into the "correct" direction. 
+Fixing the driver for an arbitrary camera driver does not seem to be a 
+good solution.
+>
+> The closest instance I can think of would be ov5647 where the sense of
+> the H & V flip register bits are in opposition, but that doesn't
+> change based on how the sensor is mounted.
+> In that case the driver just needs to account for it when programming
+> those registers [1]. And I now note that I haven't upstreamed the
+> patch adding flip controls - another one for the to-do list. The
+> hardcoded register set in the mainline driver sets HFLIP (0x3821 bit
+> 2) but not VFLIP (0x3820 bit 2) [2].
+>
+>    Dave
+>
+> [1] https://github.com/raspberrypi/linux/commit/9e5d3fd3f47e91806a5c26f96732284f39098a58
+> [2] https://elixir.bootlin.com/linux/v6.15.7/source/drivers/media/i2c/ov5647.c#L153
+>
+>>> is not what I want. My example above was misleading. The rotation fixes the
+>>> "upside down" problem, but does not fix the flip.
+>>>
+>>> Doing that in userspace might be a solution, but in my opinion it is a bit
+>>> ugly to write a script that always sets the flip property from userspace
+>>> when the device was started.
+>>> A much cleaner way would be to simply set this property in the device tree
+>>> such that the driver can be initially configured with the proper values.
+>> Sorry, don't agree here. What if a sensor is mounted 90/270 degrees
+>> rotated (typical for mobile devices in example) ? You can't compensate
+>> it completely with flips, would you 270+HFLIP=90 ? would you leave it
+>> unmodified ? Userspace has to know and act accordingly, doing things
+>> in driver (will all drivers behave the same ? Will some compensate or
+>> other won't ?) is a recipe for more complex behaviours to handle.
 >>
->> Therefore, if calling dev_pm_opp_find_freq_ceil to obtain the frequency
->> fails in the core_clks_enable, it needs to fall back to the freq_tbl to
->> retrieve the frequency.
->>
->> Validated this series on QCS615 and msm8916.
->> ---
-> 
-> This is not a proper fix, the logic you added in core_get_v4() should
-> be moved to a common handler
+>>> PS: I have to send this email twice. The first one contained HTML parts that
+>>> were rejected by some receivers...
+>>>
+>>>> TL;DR drivers shall not flip, userspace should. Mirroring is an effect
+>>>> of drivers applying an HFLIP, because unless I'm missing something
+>>>> obvious, 'mirror' is not a physical mounting configuration of the camera
+>>>> sensor.
+>>>>
+>>>> FIY we're talking about something similar in libcamera
+>>>> https://lists.libcamera.org/pipermail/libcamera-devel/2025-July/051533.html
+>>>>
+>>>>>>> Introduce two options to change the device's flip property via device tree.
+>>>>>>>
+>>>>>>> As there is already support for the panel-common driver [1], add it for cameras in the same way.
+>>>>>>>
+>>>>>>> [1] commit 3c0ecd83eee9 ("dt-bindings: display: panel: Move flip properties to panel-common")
+>>>>>>>
+>>>>>>> Signed-off-by: Fabian Pfitzner <f.pfitzner@pengutronix.de>
+>>>>>>> ---
+>>>>>>> Fabian Pfitzner (2):
+>>>>>>>          media: dt-bindings: add flip properties
+>>>>>>>          media: v4l: fwnode: parse horizontal/vertical flip properties
+>>>>>>>
+>>>>>>>     .../devicetree/bindings/media/video-interface-devices.yaml        | 8 ++++++++
+>>>>>>>     drivers/media/v4l2-core/v4l2-fwnode.c                             | 3 +++
+>>>>>>>     include/media/v4l2-fwnode.h                                       | 4 ++++
+>>>>>>>     3 files changed, 15 insertions(+)
+>>>>>>> ---
+>>>>>>> base-commit: 6832a9317eee280117cd695fa885b2b7a7a38daf
+>>>>>>> change-id: 20250718-fpf-media-dt-flip-7fcad30bcfb7
+>>>>>>>
+>>>>>>> Best regards,
+>>>>>>> --
+>>>>>>> Fabian Pfitzner <f.pfitzner@pengutronix.de>
+>>>>>>>
+>>>>> --
+>>>>> Pengutronix e.K.                           | Fabian Pfitzner             |
+>>>>> Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+>>>>> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+>>>>> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+>>>>>
+>>> --
+>>> Pengutronix e.K.                           | Fabian Pfitzner             |
+>>> Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+>>> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+>>> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+>>>
+>
+-- 
+Pengutronix e.K.                           | Fabian Pfitzner             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
 
-Well, it is a proper fix in the sense that it makes things work, but
-you're expanding the delta between the power handling across generations,
-even though it's almost the same.. I submitted a series to clean it up
-once, but it didn't go anywhere
-
-https://lore.kernel.org/linux-arm-msm/20230911-topic-mars-v3-0-79f23b81c261@linaro.org/
-
-Konrad
 
