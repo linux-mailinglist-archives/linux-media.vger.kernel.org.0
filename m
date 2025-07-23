@@ -1,126 +1,120 @@
-Return-Path: <linux-media+bounces-38283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38284-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C23B0F733
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 17:37:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A7EB0F767
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 17:48:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07F2E5839D7
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 15:37:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 942761C8535F
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 15:48:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 117E52BD59C;
-	Wed, 23 Jul 2025 15:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16C41136658;
+	Wed, 23 Jul 2025 15:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EfQk4w0e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836A720D50B;
-	Wed, 23 Jul 2025 15:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5DB469D;
+	Wed, 23 Jul 2025 15:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753285020; cv=none; b=pFUT0JUamqa1K7fMaQeWXh8L9wpXqE93XtunKn2bmzmOCSfwKevB1jSct1dW1hsEJJDe8VV7lQ8GeUeVM97pNS9iG4yzm+SJzOU940CLtME8F7KVbBdbBmrYXCKGzbpmllekKWkiFPXZI56qSMpbi2JU4q+KpQgCBTuuqicEBvQ=
+	t=1753285679; cv=none; b=fG/VPS/7v7EP79peBFTJqE2m+ZRtG5ctNzZpWYzBnBMj9aNGhEVUyqJV+hTqahlLpsX8LQpBJa1fFUZUlm6CI6FYApDvWU6MKeo3J2oi5wpXPKqkFzk9G9y2MAJAA/aBN9h/hVfR2r2Jm5Y2AciqtZ77vzJkxlG2vV+8CrcvOlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753285020; c=relaxed/simple;
-	bh=+ER8pn1/f3NYVV2anIhl2ZioKi8MBMvlAz4WwMCtweQ=;
+	s=arc-20240116; t=1753285679; c=relaxed/simple;
+	bh=B7uklZkk4HktiVAQXYK/Pza7TOFZKCpExs9amyGOK/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DWMtNVJGNRRJFYW5U66XXhmNimSWJE+WPewaL5v1ZHfndRwBLeEIc/e0Ri8D5+1bzy5NMCyFTrMzwYXzDvvhnChlPBBN/1NCBtzu0lSJa8PHso/aflEEZpkXMMDGdTNh6+ov8ECc4+hsTY7LAhmotE7Uy17meaQ8cTBdfaS1/V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aec46b50f33so1174531766b.3;
-        Wed, 23 Jul 2025 08:36:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753285017; x=1753889817;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hxQ3M1WeHEo+nA3pDBj1z9ZXTmnmq5hk8Qm0uzS3eUY=;
-        b=Ozrnwa1vkp0LKJjKq6pve2eIvGiF5teWbKwL3WmdDGyCQTDj98BgrBmQSn8xs00nx8
-         bbc926ifOFvvW8SRFVDnRrXSeRU3f2iE08zCL+1Iju52rVFA6B2ej3EHatuo0IBUyg32
-         nAr3tcWqXnow5zjLt64IYpEBrC2oQ3TkAOCfNntJdKwEJw7iA+91hVKrC0LKsJvNT+lS
-         1B9q6ZYpjqOCa7A7IXEySmPVr6ad2SHy7jmE/5OIkStRuZ4F3ZjQKFFP4d7uGIgrsvqS
-         mE6FhIXjU5Obqd0xBNic104aPoPaak4e2R0dqR3CZItaAtlNMTPrkGQJQBaT5A5lCNiW
-         IlLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVCfJ+4SS3V/hGkwYGjbJgwz275E49fUIdEJY0hsvoxW+c7Weu3EZhxxtls/L9NIrpFZtH91N7WLyT0zcYf@vger.kernel.org, AJvYcCVRx7Uae9JKCX55HTXHvK64+PatjzOumE+/bO50UrrCLvMM6/kaelhc9+neX1C1VD/qP1NmQUi5GSK/SQ==@vger.kernel.org, AJvYcCVqnojmmdbte0DiIoRn940RmIozt/hbUzJbKkeA88wJDyjkFuzHaybYVnPKXvHY4It6shBtiZ5poFkS@vger.kernel.org, AJvYcCWFLMf41UFnYzMGmxyXfWQZ6/ybQIcFL2MDOQZwVooY1NzxAZRwnuetidnkc9OEKRD9NKKaF1iVVUV8SSM=@vger.kernel.org, AJvYcCXEH5mUFUpmPQDMm1g70PF7C2g/WJtWT0ppDyVT0NA/qfqEc1+XgoisLuXViLBsLvbSb1VSuBXj4/UA@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsBBiAfQfRQtFgTUPWiPyeTkY+CrEXlhUG0tVHWNyTXNUJy9I2
-	UnPLJTAtKNeXNLvQSvEU6XjIX735NnKlWVdUDOmX056hw7QKQkJaKg7gI4pxx9XD
-X-Gm-Gg: ASbGncuqKcZ/HbXI3r2GnKrwzCh1XMW33L1kf8RTHHdIbjS76OoGGXLr2eXHY54El1k
-	GQ3tZPzkDLgYtkUFoqERJTrnx++aH4o3nXoVtEM6JaAPQmQjxjmq+DTYNFBZYXCah3wbbjqjhME
-	9LF/91FJ307v6mCutxApjEhrfyE/04MlKirAxnI2Aqh/PNnzgIi3iUFDE0b4P7BZ1v6CEOB5Wz0
-	yUzGJqvHnImuBEF1+9IAS2b3hzt+D7a050PoXq2Gru5ACnt4NZTwvbHGQeS2vMABYIXeeBI11pm
-	5J7q6LWm9CXzS8DH4BG39gqxiSihEgqvmhZsJnRlrYN7mctBZX5Q1pPaCSysAieqgizUaOz9P4E
-	68J1Zb8JWcwDOag==
-X-Google-Smtp-Source: AGHT+IETRaOgydL5D9alhTF8zO82hzgDecgDyn/Edc5pZ0K0bOUQXLbkxv/O/N+5sE2Ilhir+6nemA==
-X-Received: by 2002:a17:907:74a:b0:ad8:a935:b905 with SMTP id a640c23a62f3a-af2f6c0c6a1mr324567566b.22.1753285016210;
-        Wed, 23 Jul 2025 08:36:56 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:70::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca7bc99sm1068454266b.109.2025.07.23.08.36.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 08:36:55 -0700 (PDT)
-Date: Wed, 23 Jul 2025 08:36:52 -0700
-From: Breno Leitao <leitao@debian.org>
-To: kernel test robot <lkp@intel.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	James Morse <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
-	Robert Moore <robert.moore@intel.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, 
-	Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>, 
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev, osandov@osandov.com, 
-	xueshuai@linux.alibaba.com, konrad.wilk@oracle.com, linux-edac@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
-Message-ID: <cdlrppnrheyq7z3gmwmwsmktpmoiwq7g5hxa67rcx4iem5i6ge@jksa5o5use4w>
-References: <20250722-vmcore_hw_error-v3-1-ff0683fc1f17@debian.org>
- <202507232209.GrgpSr47-lkp@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=k9kbQ2OraIQ8drmDbFuMl54K/cKFZRV+OpNcuUKjlTiBhnPVyqyyoVuW2BjeEzH3R+MphTOQ0PHCArtkBfLLEoew6HG9heMNPQYs8bgBpcosjUoQXf2pFww6Muou5dJwGwyW15ELp0XSGWK3asp8+AyMRIR2QpsnLrgdIw6PmMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EfQk4w0e; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CA35CE92;
+	Wed, 23 Jul 2025 17:47:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753285638;
+	bh=B7uklZkk4HktiVAQXYK/Pza7TOFZKCpExs9amyGOK/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EfQk4w0e2QVSUglYsV4uhnUu3dcnzJD+DbeygIrvYi6YlzbhrjeW2CGHSMgNt0HS1
+	 cUVinhY5iX53l1OTxDvXyjhZtKx9O9l52qUjnRK2OR5d9c5YcJ3q2q1YCBli582gVZ
+	 nbaBvJ0w1JMTl+rqGQqil9uBRW1+wWSGQKVWyPQY=
+Date: Wed, 23 Jul 2025 18:47:53 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Allen Ballway <ballway@chromium.org>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ov8865: move mode_configure out of state_configure
+Message-ID: <20250723154753.GH6719@pendragon.ideasonboard.com>
+References: <20250722-mode_configure-v1-1-5ea35052a01f@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202507232209.GrgpSr47-lkp@intel.com>
+In-Reply-To: <20250722-mode_configure-v1-1-5ea35052a01f@chromium.org>
 
-On Wed, Jul 23, 2025 at 10:28:29PM +0800, kernel test robot wrote:
-> Hi Breno,
+On Tue, Jul 22, 2025 at 01:35:43PM -0700, Allen Ballway wrote:
+> ov8865_mode_configure() only needs to be called on sensor init, but it can
+> be called multiple times from ov8865_state_configure(). Move
+> ov8865_mode_configure() to ov8865_sensor_init().
 > 
-> kernel test robot noticed the following build warnings:
+> Signed-off-by: Allen Ballway <ballway@chromium.org>
+> ---
+>  drivers/media/i2c/ov8865.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
 > 
-> [auto build test WARNING on 97987520025658f30bb787a99ffbd9bbff9ffc9d]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/vmcoreinfo-Track-and-log-recoverable-hardware-errors/20250723-005950
-> base:   97987520025658f30bb787a99ffbd9bbff9ffc9d
-> patch link:    https://lore.kernel.org/r/20250722-vmcore_hw_error-v3-1-ff0683fc1f17%40debian.org
-> patch subject: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
-> config: x86_64-buildonly-randconfig-001-20250723 (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507232209.GrgpSr47-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> vmlinux.o: warning: objtool: do_machine_check+0x5cc: call to hwerr_log_error_type() leaves .noinstr.text section
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index 95ffe7536aa6aba814f4e5c3d12e7279470b2f07..1d1a1f261bf4ab5c09848402dc057e2f572504e7 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -2304,14 +2304,6 @@ static int ov8865_state_configure(struct ov8865_sensor *sensor,
+>  	if (sensor->state.streaming)
+>  		return -EBUSY;
+>  
+> -	/* State will be configured at first power on otherwise. */
+> -	if (pm_runtime_enabled(sensor->dev) &&
+> -	    !pm_runtime_suspended(sensor->dev)) {
+> -		ret = ov8865_mode_configure(sensor, mode, mbus_code);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+>  	ret = ov8865_state_mipi_configure(sensor, mode, mbus_code);
+>  	if (ret)
+>  		return ret;
+> @@ -2384,6 +2376,13 @@ static int ov8865_sensor_init(struct ov8865_sensor *sensor)
+>  	}
+>  
+>  	/* Configure current mode. */
+> +	ret = ov8865_mode_configure(sensor, sensor->state.mode,
+> +				     sensor->state.mbus_code);
 
-Oh, it seems a real issue.
+How about the implication on ov8865_set_fmt() that will not update the
+link freq and pixel rate controls anymore ?
 
-Basically there are two approaches, from what I understand:
+> +	if (ret) {
+> +		dev_err(sensor->dev, "failed to configure mode\n");
+> +		return ret;
+> +	}
+> +
+>  	ret = ov8865_state_configure(sensor, sensor->state.mode,
+>  				     sensor->state.mbus_code);
+>  	if (ret) {
+> 
+> ---
+> base-commit: 6832a9317eee280117cd695fa885b2b7a7a38daf
+> change-id: 20250722-mode_configure-80105fbd835d
 
-	1) mark do_machine_check() as noinstr
+-- 
+Regards,
 
-	2) Move hwerr_log_error_type() earlier inside the
-	instrumentation_begin() area.
-
-Probably option 1 might be more flexible, given that
-hwerr_log_error_type() doesn't seem a function that anyone wants to
-instrument?!
+Laurent Pinchart
 
