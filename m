@@ -1,248 +1,126 @@
-Return-Path: <linux-media+bounces-38282-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677A6B0F6A8
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 17:12:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C23B0F733
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 17:37:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A24E1AA050B
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 15:06:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07F2E5839D7
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 15:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425451DD0C7;
-	Wed, 23 Jul 2025 15:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JZy/MbWN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 117E52BD59C;
+	Wed, 23 Jul 2025 15:37:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B822F50A2;
-	Wed, 23 Jul 2025 15:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836A720D50B;
+	Wed, 23 Jul 2025 15:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753282941; cv=none; b=e/0aWPWZkevTsVN3T0YeF/RrsVJO/1m2j+ctrZj2YMGMlvSZ0m/ng2qXKbP6CMxlXpjB6Numu6be4uwO4UEbpv9KDr78dAO8TuulbM4Xu0b8xh6XnUYaXNmdCsrLJdjZStJoRsei3wdeu4nmWkgLaklCMjQMPq+hC3gHqYOTP/I=
+	t=1753285020; cv=none; b=pFUT0JUamqa1K7fMaQeWXh8L9wpXqE93XtunKn2bmzmOCSfwKevB1jSct1dW1hsEJJDe8VV7lQ8GeUeVM97pNS9iG4yzm+SJzOU940CLtME8F7KVbBdbBmrYXCKGzbpmllekKWkiFPXZI56qSMpbi2JU4q+KpQgCBTuuqicEBvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753282941; c=relaxed/simple;
-	bh=6+pvN2fHtGwOlv/O7bhUlmvmkHdX4pCXwi46X4ByuXM=;
+	s=arc-20240116; t=1753285020; c=relaxed/simple;
+	bh=+ER8pn1/f3NYVV2anIhl2ZioKi8MBMvlAz4WwMCtweQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gKHfhLmLmPs2SHCaiAqyTgEuaXVbKfvyYXJuncI7McdhPD8wrZ2XO1398W5e2iqk4S/SezMqdl3/UnW96HBshvIq24FTpfvsSyvbXwJz2vxloEUGe6VyFBA90MkXz8+HOEZf2/M1CGTowUQP7l+3A1nf/ygkdNlSyjqaQoSkrcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JZy/MbWN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8DB2EEA0;
-	Wed, 23 Jul 2025 17:01:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753282890;
-	bh=6+pvN2fHtGwOlv/O7bhUlmvmkHdX4pCXwi46X4ByuXM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JZy/MbWNQ0qVBBf7D5C66ZxHyKSwZg/XPanz30926mZXNoNB1dV71SKlO/PM91m08
-	 KO8hvRG2HLOHbwo+Ojxu3ocjbXla7utvwM11Mwjxf+nnL5D2Od9p+AUshzygOF3Toa
-	 lWw9cn+tFQgueBbpVICLwQ2NQEySSOAeqDYSg6Q8=
-Date: Wed, 23 Jul 2025 18:02:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Julien Vuillaumier <julien.vuillaumier@nxp.com>
-Cc: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	ribalda@chromium.org, jai.luthra@ideasonboard.com,
-	laurentiu.palcu@nxp.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, LnxRevLi@nxp.com,
-	celine.laurencin@nxp.com
-Subject: Re: [RFC 0/2] Add standard exposure and gain controls for multiple
- captures
-Message-ID: <20250723150206.GE6719@pendragon.ideasonboard.com>
-References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
- <20250715235952.GE19299@pendragon.ideasonboard.com>
- <20250716001205.GG19299@pendragon.ideasonboard.com>
- <38e022d0-cc8f-4df2-8a81-69513c854035@nxp.com>
- <dddcad1a-1f0a-4ecc-8093-8a75ec24d2ec@nxp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DWMtNVJGNRRJFYW5U66XXhmNimSWJE+WPewaL5v1ZHfndRwBLeEIc/e0Ri8D5+1bzy5NMCyFTrMzwYXzDvvhnChlPBBN/1NCBtzu0lSJa8PHso/aflEEZpkXMMDGdTNh6+ov8ECc4+hsTY7LAhmotE7Uy17meaQ8cTBdfaS1/V0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aec46b50f33so1174531766b.3;
+        Wed, 23 Jul 2025 08:36:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753285017; x=1753889817;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hxQ3M1WeHEo+nA3pDBj1z9ZXTmnmq5hk8Qm0uzS3eUY=;
+        b=Ozrnwa1vkp0LKJjKq6pve2eIvGiF5teWbKwL3WmdDGyCQTDj98BgrBmQSn8xs00nx8
+         bbc926ifOFvvW8SRFVDnRrXSeRU3f2iE08zCL+1Iju52rVFA6B2ej3EHatuo0IBUyg32
+         nAr3tcWqXnow5zjLt64IYpEBrC2oQ3TkAOCfNntJdKwEJw7iA+91hVKrC0LKsJvNT+lS
+         1B9q6ZYpjqOCa7A7IXEySmPVr6ad2SHy7jmE/5OIkStRuZ4F3ZjQKFFP4d7uGIgrsvqS
+         mE6FhIXjU5Obqd0xBNic104aPoPaak4e2R0dqR3CZItaAtlNMTPrkGQJQBaT5A5lCNiW
+         IlLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCfJ+4SS3V/hGkwYGjbJgwz275E49fUIdEJY0hsvoxW+c7Weu3EZhxxtls/L9NIrpFZtH91N7WLyT0zcYf@vger.kernel.org, AJvYcCVRx7Uae9JKCX55HTXHvK64+PatjzOumE+/bO50UrrCLvMM6/kaelhc9+neX1C1VD/qP1NmQUi5GSK/SQ==@vger.kernel.org, AJvYcCVqnojmmdbte0DiIoRn940RmIozt/hbUzJbKkeA88wJDyjkFuzHaybYVnPKXvHY4It6shBtiZ5poFkS@vger.kernel.org, AJvYcCWFLMf41UFnYzMGmxyXfWQZ6/ybQIcFL2MDOQZwVooY1NzxAZRwnuetidnkc9OEKRD9NKKaF1iVVUV8SSM=@vger.kernel.org, AJvYcCXEH5mUFUpmPQDMm1g70PF7C2g/WJtWT0ppDyVT0NA/qfqEc1+XgoisLuXViLBsLvbSb1VSuBXj4/UA@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsBBiAfQfRQtFgTUPWiPyeTkY+CrEXlhUG0tVHWNyTXNUJy9I2
+	UnPLJTAtKNeXNLvQSvEU6XjIX735NnKlWVdUDOmX056hw7QKQkJaKg7gI4pxx9XD
+X-Gm-Gg: ASbGncuqKcZ/HbXI3r2GnKrwzCh1XMW33L1kf8RTHHdIbjS76OoGGXLr2eXHY54El1k
+	GQ3tZPzkDLgYtkUFoqERJTrnx++aH4o3nXoVtEM6JaAPQmQjxjmq+DTYNFBZYXCah3wbbjqjhME
+	9LF/91FJ307v6mCutxApjEhrfyE/04MlKirAxnI2Aqh/PNnzgIi3iUFDE0b4P7BZ1v6CEOB5Wz0
+	yUzGJqvHnImuBEF1+9IAS2b3hzt+D7a050PoXq2Gru5ACnt4NZTwvbHGQeS2vMABYIXeeBI11pm
+	5J7q6LWm9CXzS8DH4BG39gqxiSihEgqvmhZsJnRlrYN7mctBZX5Q1pPaCSysAieqgizUaOz9P4E
+	68J1Zb8JWcwDOag==
+X-Google-Smtp-Source: AGHT+IETRaOgydL5D9alhTF8zO82hzgDecgDyn/Edc5pZ0K0bOUQXLbkxv/O/N+5sE2Ilhir+6nemA==
+X-Received: by 2002:a17:907:74a:b0:ad8:a935:b905 with SMTP id a640c23a62f3a-af2f6c0c6a1mr324567566b.22.1753285016210;
+        Wed, 23 Jul 2025 08:36:56 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:70::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca7bc99sm1068454266b.109.2025.07.23.08.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 08:36:55 -0700 (PDT)
+Date: Wed, 23 Jul 2025 08:36:52 -0700
+From: Breno Leitao <leitao@debian.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	James Morse <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+	Robert Moore <robert.moore@intel.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, 
+	Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>, 
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev, osandov@osandov.com, 
+	xueshuai@linux.alibaba.com, konrad.wilk@oracle.com, linux-edac@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
+Message-ID: <cdlrppnrheyq7z3gmwmwsmktpmoiwq7g5hxa67rcx4iem5i6ge@jksa5o5use4w>
+References: <20250722-vmcore_hw_error-v3-1-ff0683fc1f17@debian.org>
+ <202507232209.GrgpSr47-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dddcad1a-1f0a-4ecc-8093-8a75ec24d2ec@nxp.com>
+In-Reply-To: <202507232209.GrgpSr47-lkp@intel.com>
 
-On Tue, Jul 22, 2025 at 11:53:53AM +0200, Julien Vuillaumier wrote:
-> On 20/07/2025 20:56, Mirela Rabulea wrote:
-> > On 7/16/25 03:12, Laurent Pinchart wrote:
-> >> On Wed, Jul 16, 2025 at 02:59:54AM +0300, Laurent Pinchart wrote:
-> >>> On Fri, Jul 11, 2025 at 01:05:42AM +0300, Mirela Rabulea wrote:
-> >>>> Add new standard controls as U32 arrays, for sensors with multiple
-> >>>> captures: V4L2_CID_EXPOSURE_MULTI, V4L2_CID_AGAIN_MULTI and
-> >>>> V4L2_CID_DGAIN_MULTI. These will be particularly useful for sensors
-> >>>> that have multiple captures, but the HDR merge is done inside the 
-> >>>> sensor,
-> >>>> in the end exposing a single stream, but still requiring AEC control
-> >>>> for all captures.
-> >>>
-> >>> It's also useful for sensors supporting DOL or DCG with HDR merge being
-> >>> performed outside of the sensor.
-> >>
-> >> Regarless of where HDR merge is implemented, we will also need controls
-> >> to select the HDR mode. We have V4L2_CID_HDR_SENSOR_MODE, which doesn't
-> >> standardize the values, and that's not good enough. At least for DOL and
-> >> DCG with HDR merge implemented outside of the sensor, we need to
-> >> standardize the modes.
-> >>
-> >> Can you tell which sensor(s) you're working with ?
-> > 
-> > We are working mostly with these 3:
-> > Omnivision's os08a20 (2 exposures staggered hdr, each exposure on a 
-> > separate virtual channel, there are also other hdr modes which we do not 
-> > use)
-> > Omnivision ox05b1s (RGB-Ir with context switching based on group holds, 
-> > 1 context optimized for RGB, the other context optimized for Ir, each 
-> > context on a different virtual channel)
-> > Omnivision ox03c10 (4 exposures, hdr merge in sensor).
-> > 
-> >>>> All controls are in the same class, so they could all be set
-> >>>> atomically via VIDIOC_S_EXT_CTRLS, this could turn out to be
-> >>>> useful in case of sensors with context switching.
-> >>>
-> >>> Agreed, we should be able to set them all. Are we still unable to set
-> >>> controls from multiple classes atomatically ? I thought that limitation
-> >>> has been lifted.
-> > 
-> > Maybe I need some background check on this, but looking at kernel tag 
-> > next-20250718, this comment still lies in the documentation:
-> > "These ioctls allow the caller to get or set multiple controls
-> > atomically. Control IDs are grouped into control classes (see
-> > :ref:`ctrl-class`) and all controls in the control array must belong
-> > to the same control class."
-> > 
-> > Maybe it needs to be updated, or not...since there is also this check in 
-> > check_ext_ctrls():
-> >      /* Check that all controls are from the same control class. */
-> >      for (i = 0; i < c->count; i++) {
-> >          if (V4L2_CTRL_ID2WHICH(c->controls[i].id) != c->which) {
-> >              c->error_idx = ioctl == VIDIOC_TRY_EXT_CTRLS ? i :
-> >                                        c->count;
-> >              return false;
-> >          }
-> >      }
-
-This only when c->which is set to a control class. If you set it to
-V4L2_CTRL_WHICH_CUR_VAL (equal to 0) then you can set (or get) controls
-from multiple classes in one go.
-
-> > There is also another inconvenient, the VIDIOC_S_EXT_CTRLS does not 
-> > reach the v4l2 subdevice driver, what we get in the sensor driver is a 
-> > set of .s_ctrl calls. I don't know about other sensors, but for the 
-> > Omivision sensors which I am familiar with, the group holds feature 
-> > could be used to get multiple registers to be applied atomically in the 
-> > same frame, but the sensor driver would need to know when to start and 
-> > when to end filling the group hold with the desired registers. If there 
-> > is some similar feature in other sensors, I think the VIDIOC_S_EXT_CTRLS 
-> > should have a corresponding v4l2-subdev operation, so that it can be 
-> > implemented in the sensor subdevice driver. This would probably require 
-> > some changes in the v4l2 core, as currently the subdev_do_ioctl() 
-> > function does not let the VIDIOC_S_EXT_CTRLS go to the subdevice.
-> > 
-> > Laurent, Hans, any thoughts on this?
-
-I can think of at least 3 ways to handle this.
-
-The first method would be to group all controls in a cluster. That way
-you will get a single .s_ctrl() call per VIDIOC_S_EXT_CTRLS. You will
-have to iterate over the controls to see which ones have changed, and
-configure the sensor accordingly. This short-circuits the logic in the
-control framework that dispatches individual controls to separate
-.s_ctrl() calls (or rather still goes through that logic, but doesn't
-make use of it), and requires reimplementing it manually in the
-.s_ctrl() handler. It's not ideal.
-
-The second method would be to add new .begin() and .end() (name to be
-bikeshedded) control operations. I experimented with this a while ago to
-expose group hold to userspace, but never upstreamed the patches as I
-didn't really need them in the end. Alternatively, the VIDIOC_S_EXT_CTRL
-could be exposed to drivers, allowing them to implement begin/end
-operations before and after calling the control framework. I don't have
-a strong preference (maybe Hans would).
-
-I increasingly think that the control framework doesn't provide the best
-value for subdevs. It has been developed for video devices, and for
-subdevs in video-centric devices where subdevs are hidden behind a video
-device, but not for MC-centric use cases where subdevs are exposed to
-userspace. The third option would be to implement something better,
-dropping the useless features and adding support for the needs of modern
-devices, but that would be much more work.
-
-> >>>> Each element of the array will hold an u32 value (exposure or gain)
-> >>>> for one capture. The size of the array is up to the sensor driver which
-> >>>> will implement the controls and initialize them via 
-> >>>> v4l2_ctrl_new_custom().
-> >>>> With this approach, the user-space will have to set valid values
-> >>>> for all the captures represented in the array.
-> >>>
-> >>> I'll comment on the controls themselves in patch 2/2.
-> >>>
-> >>>> The v4l2-core only supports one scalar min/max/step value for the
-> >>>> entire array, and each element is validated and adjusted to be within
-> >>>> these bounds in v4l2_ctrl_type_op_validate(). The significance for the
-> >>>> maximum value for the exposure control could be "the max value for the
-> >>>> long exposure" or "the max value for the sum of all exposures". If none
-> >>>> of these is ok, the sensor driver can adjust the values as supported and
-> >>>> the user space can use the TRY operation to query the sensor for the
-> >>>> minimum or maximum values.
-> >>>
-> >>> Hmmmm... I wonder if we would need the ability to report different
-> >>> limits for different array elements. There may be over-engineering
-> >>> though, my experience with libcamera is that userspace really needs
-> >>> detailed information about those controls, and attempting to convey the
-> >>> precise information through the kernel-userspace API is bound to fail.
-> >>> That's why we implement a sensor database in libcamera, with information
-> >>> about how to convert control values to real gain and exposure time.
-> >>> Exposing (close to) raw register values and letting userspace handle the
-> >>> rest may be better.
-> > 
-> > Julien, any thoughts on this?
+On Wed, Jul 23, 2025 at 10:28:29PM +0800, kernel test robot wrote:
+> Hi Breno,
 > 
-> Reporting min/max value per array element could have made sense for some 
-> controls. For instance we have a HDR sensor whose long capture analog 
-> gain range is different from the shorter captures gain. Conversely, it 
-> may not work well for the multi-capture exposure control where the 
-> constraint can be more about the sum of the exposures for each capture 
-> rather than the individual exposure values. In that case, exposing 
-> min/max values per array element does not really help the user space.
+> kernel test robot noticed the following build warnings:
 > 
-> Thus, having the user space to have the necessary insight into each 
-> sensor specifics for its AEC control seems to be the versatile option.
+> [auto build test WARNING on 97987520025658f30bb787a99ffbd9bbff9ffc9d]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/vmcoreinfo-Track-and-log-recoverable-hardware-errors/20250723-005950
+> base:   97987520025658f30bb787a99ffbd9bbff9ffc9d
+> patch link:    https://lore.kernel.org/r/20250722-vmcore_hw_error-v3-1-ff0683fc1f17%40debian.org
+> patch subject: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
+> config: x86_64-buildonly-randconfig-001-20250723 (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507232209.GrgpSr47-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> vmlinux.o: warning: objtool: do_machine_check+0x5cc: call to hwerr_log_error_type() leaves .noinstr.text section
 
-Then I think we should look at a libcamera implementation alongside with
-this patch series, and review them together.
+Oh, it seems a real issue.
 
-> > If we don't need to report different limits for different array 
-> > elements, we are fine, just we need to document better what those limits 
-> > stand for in case of arrays.
-> > 
-> >>>> Mirela Rabulea (2):
-> >>>>    LF-15161-6: media: Add exposure and gain controls for multiple
-> >>>>      captures
-> >>>>    LF-15161-7: Documentation: media: Describe exposure and gain 
-> >>>> controls
-> >>>>      for multiple captures
-> >>>
-> >>> Did you forget to remove the LF-* identifiers ? :-)
-> > 
-> > Yes, at least in the cover-letter, my bad :(
-> > 
-> > Thanks for feedback.
-> > 
-> >>>>
-> >>>>   .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
-> >>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c            |  8 ++++++++
-> >>>>   include/uapi/linux/v4l2-controls.h                   |  3 +++
-> >>>>   3 files changed, 23 insertions(+)
+Basically there are two approaches, from what I understand:
 
--- 
-Regards,
+	1) mark do_machine_check() as noinstr
 
-Laurent Pinchart
+	2) Move hwerr_log_error_type() earlier inside the
+	instrumentation_begin() area.
+
+Probably option 1 might be more flexible, given that
+hwerr_log_error_type() doesn't seem a function that anyone wants to
+instrument?!
 
