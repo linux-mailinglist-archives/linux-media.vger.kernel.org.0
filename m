@@ -1,241 +1,124 @@
-Return-Path: <linux-media+bounces-38245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02504B0EFC5
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:27:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 154E5B0F02D
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:45:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 111A13BEE40
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 10:27:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 396AF7B39B5
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 10:43:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6147128DB5B;
-	Wed, 23 Jul 2025 10:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7BF6253F39;
+	Wed, 23 Jul 2025 10:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JTrE50FO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020123.outbound.protection.outlook.com [52.101.227.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B4F28C2BE;
-	Wed, 23 Jul 2025 10:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.227.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753266405; cv=fail; b=Xto7HjprnW0qeZrdoJYBAbqB2rPphuWSph/CZ93QzBE2lr4w+1jSgr8nAiQvtjyAvXsgwwgfJCNJCu3A8Ud17JUxQDtH2izOSnAssi4PZ5klPdcS4gw4K6dl30o1NSDcYGQGPk+a88UqswhJnhK+Kg6TJA8alsBliC3ZzTD60ug=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753266405; c=relaxed/simple;
-	bh=0XCyCZDZY3oz1MxGB/VIvBTzXTm9VERDEb4nY5aBR2s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FBBOdDXeWQyKqBkXx57X09lAbWYo9wQuaxTpHk9VE6ooaHK8yMT9F1k8MG4jzBhewcbJyiw32GynjUhr2dblfEO4QDFeO1WD1sswyK84YIYZLG3RvcIa1yzIMXFyHxEk3mRsxFvtWXzKmiXRRI4MyPLCtFpW7JX3BDPkZ/nGLQc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.227.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c93oxmQGx9TtUxWH1PK2PB9YL+GTsnyQEVIuGjqPjWBcIpK7PO1WwDC1/X6pcH5LuTbByR3ajMFx5TPLRfjXo8Yu1Z/9xBxQgOWsL5ygIJEYAnN933Gdm+xa/oWk2z/uw3XUo4gLTUbxO8Zd/7zfxvg6podmxbyCXbHsESOkiXlcuerqeymVozw8x9WHH1LOM3q+fedorG5Q7z4EL4y/fQ9xDopBol8iWbzWixWAVVK3Kd5cC/P7/1dScgudFaSr3Xj+oJKL49sJe/jZNZEUmLCrGhD5f8OqpD/AYz8v6B6E4FoNhcofK/rqi5KXKJxAfsuAi88O9BRinkJHbC8lIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JeU/x8ON6+gem/qNqZrMnJ+95syTqeJk2P1tVYy6/f0=;
- b=agOzjEOKc+K45GOLjiNxykrB6S9uK3zzXwKaMPxOaF52VoNAZJ7gc4fGqAetpql1KEN0TPq0LR9tHiN9s6zgMu3bJgMyy61tYCaLxM28wdy97oS7V/W7fMK3QlKRzRWM7R73EWDu3Vdodb0de+jkbRWulD27Z77JDCYpLgE3e6W9JJAG4A5avbHsSHKP2EmGvk5v2VnSpyL1ZTIVaoVTK26Hp0yuCVG5wsYui+Rn24UlrfQgaXopNhdA0ITTeaoY0oHw3LfDQI+9ZdPRtY++zLQqZNIwFiyHXkEH27oN7I+Ii0vlf+0/PfUbWBBCyvxSO9EvOiA/cUpY35tQHws1NA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by MA5P287MB4064.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:165::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
- 2025 10:26:38 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f%5]) with mapi id 15.20.8964.019; Wed, 23 Jul 2025
- 10:26:38 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl
-Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Yunke Cao <yunkec@google.com>,
-	James Cowgill <james.cowgill@blaize.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] media: v4l2-ctrls: Add devm_v4l2_ctrl_handler_init() helper
-Date: Wed, 23 Jul 2025 15:55:08 +0530
-Message-Id: <20250723102515.64585-5-tarang.raval@siliconsignals.io>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E1C2E1722;
+	Wed, 23 Jul 2025 10:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753267489; cv=none; b=PI/Z5mDDF6MdNkPXvcdAkcJlxzblkN06FEb44+Gk+G4vIi/Er13JQY3wN/AC3XTOYQIwZqNPy7c43YzlGeAi7KLL7Nu7AzKG9h1G9ZfTkiRIazf/kXsgVTB0/VIzakzHnGsHOaC/FlRZlh2HwzjWJYCrq0/MtDBHVltW6Y7YZFo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753267489; c=relaxed/simple;
+	bh=gIBhhJv1LlK5dtyRQ/Wyt/2ZBa1gKPL/9WChQ9tr3bw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G9f/k2cPa9NfrC/3dWvZovz/7gg2r7hmBdsDe3KDp6VzYUrB7WUDvF1c5OPFUc7klm3UByFlqpK7IysJ5cYJPTXOL27cCjk+jJHBjAlVWhhOtxTyxCs74staPUIFAXNU9DoQYNmjbj3RldzLr33HtcoRxq1TFlsnWk3Ewq9sOxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JTrE50FO; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45618ddd62fso67242715e9.3;
+        Wed, 23 Jul 2025 03:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753267486; x=1753872286; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LG8fPMKXO+0StW3pl1eTDwEsR+5paGvpJd/mMXE2SAU=;
+        b=JTrE50FOjp7+lQvowphuYUinAKFP2uB9QL2ubsss+En79YymsaHTk2wDA5DBn1lQtJ
+         3lFPWHUv518NkO3534GjVOxYX9P3KV5jKa4pF2yxgkvz8+hT3RabfLlKIlGIvrz+BUcf
+         6XCR2siaNdZWSAhg9TmTWM/BS6l8GmmR+WIuhKIR3asPVqfjholgvQhisj15Xcut1Uur
+         WQ/rrR0/wW3u800JJPKPCEYaorbVIvINsIodFdYOmvLOc1I6yWHqkVCD9rJaFuZO5GNL
+         kz4kx9eYRmqwclPeFVqp8PgsKLAFp7FitVgQ4/j5gaUZ/ZdEENFVDXmGCC+0cwgn2orZ
+         YXdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753267486; x=1753872286;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LG8fPMKXO+0StW3pl1eTDwEsR+5paGvpJd/mMXE2SAU=;
+        b=N0n2eEGu/n5leHjihqsknntbb7mQz8vHzU5kBJfTXHKnoqE7TeVY704gO4lb79rk/p
+         2IJqioDSyKxfsNVDh4DC7uPh0IFcXnzp657bH2/JBKzVcRkTJ9RcFgxKuHabTcd555Qw
+         ndQy4P+UjitL3skyR3UfGkDhXsofNt7rQZ4vOqtP+FJd1wusP9XDijPD2OEakX6WlMJc
+         2wEWaboTt2RosDS//K4ugguk75kEY8oeXW9qsbIUt+c4554pnDg5+XWuyW5MmOkGxB/O
+         FqlLPON53V2Ig35+KauLZFbL6NgTCUBCC9CqWB/E/q6FySXMrMkVSA5kqI8z0E6/yZi9
+         u9rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWd3amUxGKhgLw84NZYHZ6H+arj9KoYnB94DuvXnjr3HIg53A31rSV8bXblt1it9tPCXBwYKsiKSg5Ompo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfJTFDfRSDgCGqA2pV3a1+B7wd5N7AwXe1P2O5fH5dpPxttT41
+	eiYZfVvDnAWeAa1b9OgbQUFtY2TaH5zL4i7GOsVyuAZ21Uvl2CA1AXg2
+X-Gm-Gg: ASbGncvwGtTPvDfPbwgnEnqO/KjUjSS1Hl+tvCuKD0zEKBV+SPXe1psGORS2XTK9ZBH
+	fYND22V5QW1B6qUYJkll/LLQ/2a09KLqkg8Uub/6wHedC46vM2p34ylEUcU3/SuCUiSGCSWtPef
+	rP4YWlx+5/H7PP/DjYYlHkZ8MNQEbJ76/ppnPwUdSmsj+zqWa1iYHVJk3dM1oJw3YSMQ21xthIq
+	UopUxHnX1N5sFgqSxFqNwg8mpRI+wsRUD/750JYFYJ1hsInY61W6PLfspdzcte02CxyAa1Fo7IT
+	KRvuBcBJ38Ya7KpolfRD3FVsguWm2/HTfwsE10dkJ8JJAL3iyHTzzOHxCI6bz5iUWMDC4ZYLhIp
+	QAD2fVURasjdrfVlAokNI88YVu1cyVc4f58/2q/VmoO13i6nPgGy4cWRj8oFjJUENklpefQ==
+X-Google-Smtp-Source: AGHT+IE9dT3EXtnqUFET6mt3+mEFc/QamplFlMRWyOfAxOmoj82F9b7K+Jatv2Q+B2FltpnCUjZAQg==
+X-Received: by 2002:a05:600c:8210:b0:43c:fcbc:9680 with SMTP id 5b1f17b1804b1-45868d6614amr19175965e9.25.1753267485673;
+        Wed, 23 Jul 2025 03:44:45 -0700 (PDT)
+Received: from thinkpad-ThinkPad-E15-Gen-2.router ([154.105.198.199])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61d7fe48fsm14777438f8f.14.2025.07.23.03.44.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 03:44:45 -0700 (PDT)
+From: Imene Jaziri <imenjazirii18@gmail.com>
+X-Google-Original-From: Imene Jaziri <imenjaziri@outlook.com>
+To: laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Imene Jaziri <imenjaziri@outlook.com>
+Subject: [PATCH] Add changes to uvcvideo driver
+Date: Wed, 23 Jul 2025 11:44:17 +0100
+Message-Id: <20250723104417.22654-1-imenjaziri@outlook.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250723102515.64585-1-tarang.raval@siliconsignals.io>
-References: <20250723102515.64585-1-tarang.raval@siliconsignals.io>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BM1PR01CA0152.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:68::22) To PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:199::7)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|MA5P287MB4064:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6bb5d647-7dca-4c7a-676c-08ddc9d367fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Exj+6RmDeKtlIKLBbPscatpfleB4FmrWES3QgnIHyWjS4cZObQwSazZLrALo?=
- =?us-ascii?Q?NmxQRq6NmAnT4Kc7tM3WryPUnnHKwZenCx00wWOWG2ZUKvKxvXQYs+YiyYhJ?=
- =?us-ascii?Q?ZLkfGX7ctoIcbt4j/PCEVJYZt8XxBLTf1K8+iQ33o4X6IkDwBNLYkkdzUxXd?=
- =?us-ascii?Q?Jx5jCuORe6uZ2IOVPNgHxMQbDAGQDHssTvJtGY09BAd01vxNayhJFnsGDV+Y?=
- =?us-ascii?Q?4kdZttjCm22wbrSiiqk9u7l32J3EaFhHPBIyd4QsbTgQZe+Z/TpFCobFDvnX?=
- =?us-ascii?Q?WmEprYskyyEOtbEYs8tHnSvhqGuMsHRm4RKjhl+jfUFxfy2igbVDUKj3lwb8?=
- =?us-ascii?Q?NmRNnQqmmQqT2/zx8TM9+eXLmmQSrx8N9xgVXb+M8W7VIO2kFjdVPZDtp2ge?=
- =?us-ascii?Q?V4QbDE4znKu/pW0ZN1YE2oCqU+LObmZ8coccLvRzzOv8bpmZXZPVZYM0D4rY?=
- =?us-ascii?Q?xGshL5IqHvDXueRe+mFT5s0PwowveZjgKcJ+Be0rMSIsur1KkMAwdRnO55qd?=
- =?us-ascii?Q?ISHzfBf+Q4W/dBjUKs+Ucjrh42iDRa2fM8XVJ8DOiVHz/HTnSO9iGEiKoIAv?=
- =?us-ascii?Q?p27f03QtX6+ae6gZkRHyZ2Kp3S/PVDDtSKL6Wato8l9Yd43/hvZmSn+6hdmq?=
- =?us-ascii?Q?dzBPibk8LhDiaD4jcjDjrGMOWUJV6Xg0uy2FBkXdHwMYWwH/qa8o8z1kvMax?=
- =?us-ascii?Q?NkBn5N3oROx4RZ1P2XgsxQwbKbDWOrfCF254vIkUKjqjnGA4jMjm28MjZTLd?=
- =?us-ascii?Q?e93rx2W3lHIh40ibEnJS5ItaUzpG2ZB7oTjoUkDMYr5bNC/v1yildzKQ8aq1?=
- =?us-ascii?Q?7/iEdEFKuzWKUPq6bjSMgGfxA+8GhpCqM8Ma7uvbh+8KYictSK9gmV6tUUsB?=
- =?us-ascii?Q?c6rPxG59SP+diCnP9E0eBL7BWnIzxsYDzdug47VT0f8pFwqTkd0s0jblNMHR?=
- =?us-ascii?Q?azlddLAN6gIHjjlovRL+nbdrI8kX93Rw6ArfJeE03sN2FAU6Non2C0p5Y8dR?=
- =?us-ascii?Q?K0vUWINyOCF6KzJbAnKsRzFXVWwwhhB9h5JBU8QjUFUuWva0pF/s38FDGAUm?=
- =?us-ascii?Q?Mt0Te5VozbjijETpfmFyPn44cCHUEzyaaS0tsCpaDbEN1sTVoXh/5DLxOago?=
- =?us-ascii?Q?6y7Go+PzYsf/+GLL44+ky8Q24w45MrE8A9XxZ1HzOaB0tU6epIg24Eio5dsp?=
- =?us-ascii?Q?84J71EK4WhbR2ef7YR78FGL6afiXO7ykTTDeLDTTO4GMA+Dpzv9bf4ixZzyi?=
- =?us-ascii?Q?rm69Ej6/MPewqNwMQWBrB3W66Xe8GyKgcvz5nptm6n2ZrfVpRhDrsRaYZP1v?=
- =?us-ascii?Q?Vs0QwCHMAWOFCqfp35BKZe6zjGnvcCRHg9C67+YU25JPB1gDj2zLi2BtqWEZ?=
- =?us-ascii?Q?UWRnNBjWFJxX8ljDwfTwVAScI3k6IZM9s4uMrCLWYYGfmI2BdbMSFCM36+vR?=
- =?us-ascii?Q?ChuuDsVFgTL9tXve9lxibH4WkPuVDbEyrYWXDZXREwuf0d71iP3nkw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pYxhIzIZaPf7MUnjphJEdT8KJSXT5IHNXjT+9GQe9cF+NBqOwohNth94BQ7C?=
- =?us-ascii?Q?PrBTN0LP7zcwIGnwfi06mc3/usGplKNJen3FqQGT0cgXQXBhlkUTjMnwrulE?=
- =?us-ascii?Q?mK09QosSnPGtRrgR/7pTDvZ2/QhsYkPIsaqMtE8oKUSqPA1gjkJ/lKWCoFZB?=
- =?us-ascii?Q?SrUbjTnrjNtLn4Ru18GbG577QlgNBExEVB5UxSvVKdwmkn+RxC9SYPy6H9aZ?=
- =?us-ascii?Q?ucKOVV56E1XnRth5VCFhD1/AhhNq674+K6fTIN6cMb73KNAe75J5WuMOrZFD?=
- =?us-ascii?Q?ORV03iXHdg4NEvbvgeEfOOHlqirWJ/IRC/2KUKk63vP5/XUQ2/oE42FNAleO?=
- =?us-ascii?Q?wiLHzofECW6+Hl4PTzrHdrCr1VuMHQZQU2petn9qtqRsuCiroViDdsiUFUeF?=
- =?us-ascii?Q?VDwjBBfmsdJPLPHjFBLAMZpSvNkU3l8yVkgyR2u6GBpEpdc8HtFX5wofboDu?=
- =?us-ascii?Q?0Boz+9SPHh3B/QT2hNZRaG6lqK3pqJ2fWMIEJ2TACQyPcyaRMy2UNBbrd2a3?=
- =?us-ascii?Q?CJUIod07PmL36WsgilIacRUBKOEYyDprsUSY0dEQr8uLbaYwSRn8MdxtDOTS?=
- =?us-ascii?Q?MGDqwBnXVedNH7Ed4Ij+nD0ZGhZm29eMCBPLeoKOBQHn8M4/HH3c6cimNJtd?=
- =?us-ascii?Q?GSnEcCRO3kM+mUX80kEwQTSpliq5F01cHWh2HTLLTPRxWAYOm+i9cvw3Ckqq?=
- =?us-ascii?Q?ZQDOZbyr8BytA5GKqNF+Ut8yUQWs36DwjUHc+hluOzf5zhvPgHv0CES50ppv?=
- =?us-ascii?Q?0uaCAKqX9Sr0faXzD38nOHq4dgpoUXPgwa7DvSlDtqlwE8GoinyiaOou6mnO?=
- =?us-ascii?Q?ZQC2v/7NowOBpak10L91FQParZQmgCiFmM0wZ9fNnUM9gJ1BFZNW+eENf/wd?=
- =?us-ascii?Q?Pned+6fRVprnfjAA3OYNY+QzD5eKrQmKGVpMOJjdMtx47+9NInKRi7lmIVu+?=
- =?us-ascii?Q?dCNykb/N7B6MHgZ1wHHqv9Ue4bBge/2328F+79U2AMRLHEeERcAalMpF8Vmj?=
- =?us-ascii?Q?nKHr5iTKz6lCgr9c38Sa9UstSIYANZz8n7otv4wOG+kIMCtrXCn6NaFUVhD3?=
- =?us-ascii?Q?0fnei/VRfIP1n6ByjeXwCf6+NmP65rorrZgnfiWd8/bfyMBuit27oUX6iAn+?=
- =?us-ascii?Q?BF+jAylhgwEJbhjMfXnhnZwQxhqlmA79bpDXaYZhnojKxZhc6krhE41ZVv2f?=
- =?us-ascii?Q?eKIBPpto175MTqwLNQJFqp4yRI32EA7XwB1qSr+fEaMlsDBjgkhCAhvDUANi?=
- =?us-ascii?Q?PteAWWprBK6QGCOMhHTNSPxKc/qjfe8M8nr8RWhyzNv4bi8qNjBo6TgbrKE4?=
- =?us-ascii?Q?euWlFBXrGWUieC/m5umxQa6oCzPKfJKBL14LUAv1w5u6vIaD650O++rdOMI4?=
- =?us-ascii?Q?4yQXRKA8il5gEiAIg84isG3Dmxn+Hq5It2riThx6eSVyRbNEaEqj0238WD3s?=
- =?us-ascii?Q?MYli17sNSkooDUIFlwS3VDc01yoeRN7CzaRyiBaVcdAT/1mN6oI9pT/JUwA4?=
- =?us-ascii?Q?zpCBs2e5yvdV1D7CghjhpGvjA6ihasTMOmVN98l44RPvzJmI37aXMCEsh1ya?=
- =?us-ascii?Q?WgSZPgg0N3HDXv3iTD3J+sg4sWZ6JwUfJz2Hc5P7qq3KCL6fJbgkk7aiNg7C?=
- =?us-ascii?Q?eg=3D=3D?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bb5d647-7dca-4c7a-676c-08ddc9d367fd
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 10:26:38.0310
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: //oeyFPKKDcVcsbQqBd14GfTODvd1/9KfXo0b858iJvBY8wymiVT/RnE14YCk/qs72lKE4s9L93zPr98uJV5TsrGa5kHqLXcEpGhMTeTW74=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB4064
+Content-Transfer-Encoding: 8bit
 
-Add a devm-managed version of v4l2_ctrl_handler_init() to simplify control
-handler initialization and cleanup using devres.
+Add a pr_info() in the uvc_probe function to trace when the
+uvcvideo driver is loaded. This is for learning purposes.
 
-Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
+Signed-off-by: Imene Jaziri <imenjaziri@outlook.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 20 ++++++++++++++++++++
- include/media/v4l2-ctrls.h                | 19 +++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ drivers/media/usb/uvc/uvc_driver.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index 98b960775e87..2c8c46bc8d30 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2010-2021  Hans Verkuil <hverkuil-cisco@xs4all.nl>
-  */
- 
-+#include <linux/device/devres.h>
- #include <linux/export.h>
- #include <linux/mm.h>
- #include <linux/slab.h>
-@@ -1671,6 +1672,25 @@ int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
- }
- EXPORT_SYMBOL(v4l2_ctrl_handler_free);
- 
-+static void devm_v4l2_ctrl_handler_free(void *data)
-+{
-+	v4l2_ctrl_handler_free(data);
-+}
-+
-+int devm_v4l2_ctrl_handler_init(struct device *dev,
-+				struct v4l2_ctrl_handler *hdl,
-+				unsigned int nr_of_controls_hint)
-+{
-+	int err;
-+
-+	err = v4l2_ctrl_handler_init(hdl, nr_of_controls_hint);
-+	if (err)
-+		return err;
-+
-+	return devm_add_action_or_reset(dev, devm_v4l2_ctrl_handler_free, hdl);
-+}
-+EXPORT_SYMBOL(devm_v4l2_ctrl_handler_init);
-+
- /* For backwards compatibility: V4L2_CID_PRIVATE_BASE should no longer
-    be used except in G_CTRL, S_CTRL, QUERYCTRL and QUERYMENU when dealing
-    with applications that do not use the NEXT_CTRL flag.
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index c32c46286441..dfb956a5ad9a 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -573,6 +573,25 @@ int v4l2_ctrl_handler_init_class(struct v4l2_ctrl_handler *hdl,
- 	v4l2_ctrl_handler_init_class(hdl, nr_of_controls_hint, NULL, NULL)
- #endif
- 
-+/**
-+ * devm_v4l2_ctrl_handler_init - Managed initialization of V4L2 control handler
-+ *
-+ * @dev:                  Device that manages the lifecycle of the control handler.
-+ * @hdl:                  Pointer to the V4L2 control handler to initialize.
-+ * @nr_of_controls_hint: Estimated number of controls to be added.
-+ *
-+ * This function initializes a V4L2 control handler and registers a managed
-+ * cleanup action to be performed automatically when the device is detached or
-+ * the driver is unloaded.
-+ *
-+ * This is a managed version of v4l2_ctrl_handler_init(), and simplifies resource
-+ * management using devres.
-+ *
-+ * Return: 0 on success or a negative error code on failure.
-+ */
-+int devm_v4l2_ctrl_handler_init(struct device *dev,
-+				struct v4l2_ctrl_handler *hdl,
-+				unsigned int nr_of_controls_hint);
- /**
-  * v4l2_ctrl_handler_free() - Free all controls owned by the handler and free
-  * the control list.
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index da24a655ab68..4e5d1d636640 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2170,7 +2170,6 @@ static int uvc_probe(struct usb_interface *intf,
+ 		(const struct uvc_device_info *)id->driver_info;
+ 	int function;
+ 	int ret;
+-
+ 	/* Allocate memory for the device and initialize it. */
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+ 	if (dev == NULL)
+@@ -2188,7 +2187,7 @@ static int uvc_probe(struct usb_interface *intf,
+ 	dev->info = info ? info : &uvc_quirk_none;
+ 	dev->quirks = uvc_quirks_param == -1
+ 		    ? dev->info->quirks : uvc_quirks_param;
+-
++	pr_info("I changed uvcvideo driver in the Linux Kernel\n");
+ 	if (id->idVendor && id->idProduct)
+ 		uvc_dbg(dev, PROBE, "Probing known UVC device %s (%04x:%04x)\n",
+ 			udev->devpath, id->idVendor, id->idProduct);
 -- 
 2.34.1
 
