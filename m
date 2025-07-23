@@ -1,118 +1,140 @@
-Return-Path: <linux-media+bounces-38230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38231-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EDBB0EB90
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 09:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1351CB0ED55
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 10:34:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBB553B2307
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 07:15:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C16913BB80F
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 08:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0D0272E7C;
-	Wed, 23 Jul 2025 07:15:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A59E8248F4D;
+	Wed, 23 Jul 2025 08:34:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ryz3mPKK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cjreUs4z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3926E25C833;
-	Wed, 23 Jul 2025 07:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736E017BEBF
+	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 08:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753254930; cv=none; b=mVosIi6q0vdqEy75zIuFQIKjFyKkV205OxalL2sYVsj+8pOufjfTTWhGP5QbVOOQqNVNS1UaplMvAb735IkTRAv+X+yp0Lh5+k7NvDOcMLR6c7LRih/2y9L+TKhZ7TRt6s3mvqHIjV9io864KfYzZxES6rr+JyUVhkTBl6v/MO4=
+	t=1753259652; cv=none; b=VtfPZF8eqyEjlQ5j4isEtWifBwxBKnE4VoC1tPxU4Wc62QIr75bpgMaeGRg3DTjE4RB9W9trLYpnIO3IGoDEZ70dY36m30uKVqoc7t7/NnXWXVZSYRjZXUTkeO88NnIssU+jOTRuEY1ovb5WYeMdmKU9+BZzRMceUmWJCkaBkqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753254930; c=relaxed/simple;
-	bh=aoQqriX7CooIPgMf9W7uo25rnfymCO1WAzndg4imAxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F1L7qOpc3qCa3/ll8FLToB+t2etZMtHvpNsstK3C6IG0KyRqbox5AfNsdea6n3DGAMkKtkxZ/5bCeIQR+g8FsAG4S0Ub9tWFumdhL6pLbi0c9w2lY+HpNSLj1UdGJpkFEtHxoqA/YPb6dw0gi55oa8TRRxyxHydIma9CTJAuRqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ryz3mPKK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FEA7C4CEE7;
-	Wed, 23 Jul 2025 07:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753254929;
-	bh=aoQqriX7CooIPgMf9W7uo25rnfymCO1WAzndg4imAxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ryz3mPKKqpMYfFdxtdLwsLUNADzvjjWOQj9xApvRL/oZjV4pGyNB2CcAVql1LM8gG
-	 1OF9dXIptw4qYkMUmgtx+r9Vp/wvKnGmqsj/PV77SOobPPfX7QQQ3jHGzTw3TdaEqp
-	 k9Z9zcaC1+9uZRm3Llky+X0MyyzfgEK2GILXMURVCyZV6vZAUrBZSrsyoTi2S0Supq
-	 1n0X1Y8POOkozkFMTU5KAB9sxAqzQQZRkqNSJpjrGJIA8ME/leaiOBYrfGni7yGH4K
-	 jcZ0K4UK0HtJs8RpnVR3qiQEqUeIoTK9cVtc9oXU7KT5bDUpV4tGlAvAI5jKFzuvm2
-	 crjsI7K7CdRXQ==
-Date: Wed, 23 Jul 2025 12:45:25 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <aICMDROkyjzBZFHo@vaman>
-References: <644oygj43z2um42tmmldp3feemgzrdoirzfw7pu27k4zi76bwg@wfxbtgqqgh4p>
- <dc7358a1-ddc5-402e-9024-283f8e46e3b6@quicinc.com>
- <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
- <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
- <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
- <CAO9ioeXBwFYL8q7x7_fHvx5YO+qyAXk4wpnfPrku4iY9yBsk0Q@mail.gmail.com>
- <cac5e84b-fbdb-47a9-860d-16a7fa4dc773@quicinc.com>
- <4q3vlydi5xgltd3pcez54alxgrehhfn4pppg47ngwp6y5k7n33@d4d4htntj64k>
- <53dd18ec-9a65-4bf7-8490-ca3eb56ce2a5@quicinc.com>
- <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
+	s=arc-20240116; t=1753259652; c=relaxed/simple;
+	bh=fqqTU5Q2Wts1JqfPaHt73vG1jMrBA1lvDzSJGM0bLjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kTU+WB7uTvaG7ycALo4jH5bJhplcoTmnJEOmrgwhQZG8su9iYbYcRiUYywrM+yZYzOGaPAaX/454D45HEtOqzDgC0LyrZ4cInUwfEG1kQGSlCZyFLmWFhTw7WvD9JskxAMaG+MMWF+YCNHJi5mTO0TSW/dfz61/E4mI8vj2ozpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cjreUs4z; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4561a4a8bf2so71506455e9.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 01:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1753259649; x=1753864449; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zKVnFomYy8E8KQwcfNsj6ulD0Xw2fyUDVFD8613P6Yg=;
+        b=cjreUs4z8imaUe4vpRGLubhJENAEX32Kgx6Jv+ZYY19ztwb8fs3dLnNj1aEKU4xS8h
+         GYsvABMAcqp5PXWk12WcXkarwisabnVUPJPh+TAd7Xqfv1iDu0eJyYdObqcNn8a5VmR5
+         jT/so9LD5REEpZvPVfJVzFpdq1pM0p49HB1y7UQ6Pklo6s219CXyahVGtUi+VeTA2JRO
+         lG0/r+2RCY02SPR1MbkjhVhpuqrVpv3VwXlPZPLMguO80FZzYr4GKtPBhJ6ayDZzfSwO
+         mGtOFZ7Btzz2XS3J6NPspBW+w12JVAseGT7uMgHIh1SRUvoA/+NfBBvo36/YqEAGSkqm
+         lI9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753259649; x=1753864449;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zKVnFomYy8E8KQwcfNsj6ulD0Xw2fyUDVFD8613P6Yg=;
+        b=oqf4MzbXlIDNwQg/tSaR5pqeTqAKVWvEAscvq1tp93ozyrzI/5KVxP721bYF1nROOC
+         Hev0wp1hGDVXLZKBYWcnCp83xd1646fTmh8bYEOP9Ba5sqoFcpan6WzDGlHzC6eEgWWK
+         DIsYFJbbcmDV7T1Vrx5+uavzCz0+BthTjdZI/x7n8i3BYPQqvrx4bs2IcYV2WBnWDqY1
+         eorX4S85dI2cwD3C5YLq8kr/8MDihcHDRxeOnht3HkfNQWiQFV9cO3nlfLMu9CoEXJBo
+         f1km2Mcn6G/aMNPWvhbKd18zsKoFnNHBrcFd1WRD6CSXF8BPdeboY0j0Qz2f5jWla36K
+         Fi4A==
+X-Gm-Message-State: AOJu0YzK8ag3KlBLyU7KSqDIvXY+9ze4jo7RYT/xsgfib6B72PBdiAUO
+	v5v4sc5xHKvQjeF3v0tyHffe7ObpsDA24WYoBWzJVWxrbKmPLUgByZfCWglL5fHuvss=
+X-Gm-Gg: ASbGncvjgr7rjOiaIMmV+479Hxhg7iDCNuYidrOQZHhqPRkBo2nAF2kT4HfRLSvWU35
+	ovdJd+g1S74EjT/1frvkZPu8yPPZ8aDLDNrmwsU7zemqGHMPwCRnNvH3YCeNslgFJPqGAchHj0c
+	TVhUnbd0+p1YySNl0OWz2FHQiQfq/B6vwd0s67h1pnllWF/NZhhDmVmXzh31AIjkQf2ja2WmyMX
+	y6CB41I6FtqWGeu55O658Jqnphyp8G2mPkYQUBxbFkMbYkXMnkL1x8j75kPnfa+Njr+vMjs3bNu
+	GdW+aPlJdNfbY6Ks+GWZgm6X/+hC1/4y4CDLsAlvhsffcPUJJTBt0M4hjyU708ZDWTU3lXIarUg
+	JvcDNiLBPfu1IZ557vrzj8uewjuwnqgc+KaaR61LDnBTICx3jBKkyCbK9fKnAX4Y=
+X-Google-Smtp-Source: AGHT+IHh6It645AxDuSmVuSvYrBa/qT8yZ8JYoP6ZpWAS5lzUHw2g8ZbWyzuQU3s670wb4c/O9V4bg==
+X-Received: by 2002:a05:600c:8717:b0:456:26d1:445d with SMTP id 5b1f17b1804b1-45868d4ce4cmr14590345e9.31.1753259648734;
+        Wed, 23 Jul 2025 01:34:08 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca4893fsm15791493f8f.52.2025.07.23.01.34.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jul 2025 01:34:08 -0700 (PDT)
+Message-ID: <cea0acf6-5ffe-4cce-87f4-12be3c8f31f0@linaro.org>
+Date: Wed, 23 Jul 2025 09:34:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/25] Enable H.264/H.265 encoder support and fixes in
+ common code
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Stefan Schmidt <stefan.schmidt@linaro.org>,
+ Vedang Nagar <quic_vnagar@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250704-iris-video-encoder-v1-0-b6ce24e273cf@quicinc.com>
+ <f48ac2fc-2239-7ece-730c-342b495b8986@quicinc.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <f48ac2fc-2239-7ece-730c-342b495b8986@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 22-07-25, 15:46, Dmitry Baryshkov wrote:
-> On Tue, Jul 22, 2025 at 05:50:08PM +0530, Jyothi Kumar Seerapu wrote:
-> > On 7/19/2025 3:27 PM, Dmitry Baryshkov wrote:
-> > > On Mon, Jul 07, 2025 at 09:58:30PM +0530, Jyothi Kumar Seerapu wrote:
-> > > > On 7/4/2025 1:11 AM, Dmitry Baryshkov wrote:
-> > > > > On Thu, 3 Jul 2025 at 15:51, Jyothi Kumar Seerapu
-
-[Folks, would be nice to trim replies]
-
-> > > > Could you please confirm if can go with the similar approach of unmap the
-> > > > processed TREs based on a fixed threshold or constant value, instead of
-> > > > unmapping them all at once?
-> > > 
-> > > I'd still say, that's a bad idea. Please stay within the boundaries of
-> > > the DMA API.
-> > >
-> > I agree with the approach you suggested—it's the GPI's responsibility to
-> > manage the available TREs.
-> > 
-> > However, I'm curious whether can we set a dynamic watermark value perhaps
-> > half the available TREs) to trigger unmapping of processed TREs ? This would
-> > allow the software to prepare the next set of TREs while the hardware
-> > continues processing the remaining ones, enabling better parallelism and
-> > throughput.
+On 23/07/2025 07:40, Dikshita Agarwal wrote:
 > 
-> Let's land the simple implementation first, which can then be improved.
-> However I don't see any way to return 'above the watermark' from the DMA
-> controller. You might need to enhance the API.
+> 
+> On 7/4/2025 1:23 PM, Dikshita Agarwal wrote:
+>> Hi All,
+>>
+>> This patch series adds support for H.264 and H.265 encoder in iris
+>> driver and includes a few fixes and cleanup in the common code that were
+>> identified during encoder bring-up process.
+>>
+>> The changes include:
+>> - Enabling support for H.264 and H.265 encoding.
+>> - Fixes and improvements in shared componenets used by both encoder and
+>> decoder paths.
+>> - Ensuring compatibility and stability with the existing decoder flow.
+>>
+>> All patches have been tested with v4l2-compliance, v4l2-ctl and
+>> Gstreamer on SM8250 and SM8550 for encoder, at the same time ensured
+>> that the existing decoder functionality remains uneffected.
+>>
+> 
+> @bryan/@vikash
+> do you have any further comments on this series, I have few smatch/cocci
+> fixes which I plan to push with v2.
+> If you have any comments, I can address them as well in v2.
+> 
+> Thanks,
+> Dikshita
 
-Traditionally, we set the dma transfers for watermark level and we get a
-interrupt. So you might want to set the callback for watermark level
-and then do mapping/unmapping etc in the callback. This is typical model
-for dmaengines, we should follow that well
+Will review this week.
 
-BR
--- 
-~Vinod
+I have it stacked on a Hamoa tree and it passes v4l2-compliance but, I 
+haven't put it through an actual test of the encoder yet.
+
+Will do ASAP.
+
+---
+bod
 
