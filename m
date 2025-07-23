@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-38247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38248-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D50FB0F1A2
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 13:51:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5530BB0F1A7
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 13:52:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA96B1C276FC
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 11:51:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7CA3D5828B5
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 11:52:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CD9F28B7F9;
-	Wed, 23 Jul 2025 11:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8E212DEA8E;
+	Wed, 23 Jul 2025 11:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="L6c8dSrO"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="YEdhMEEI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013045.outbound.protection.outlook.com [40.107.162.45])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013017.outbound.protection.outlook.com [52.101.83.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427E7245021
-	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 11:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C843289E07
+	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 11:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753271482; cv=fail; b=algTqW7+d/Zn+AX2YrQSXj8GaEYqMwg3O11ypXXqv1EJZI8bjdr9IVELkCiqfS+XKY9zeQLSg7neg8oQCP7YK7V3mAoQasHRvZknsKX3fc0rNT0t9R353+0uV2hEYMOH7DhXPv5BQoIpmwShZ2zYNamQ3b9RDI360dqywmBGt0s=
+	t=1753271556; cv=fail; b=L9v7tTEHeIweYo+4/b3oirAvsbyhByUVtYxLqCNF/uepv1GShg6wEWC86ndSrD44NW1gUfMkT95e5iK4DhoC9zvy0+PTg8LLzamzzYs5FxwlwYLRQXI96d++JUWW5VJGqVDP3bfqQMVqSX+Nn7n4Q+S44GqCeNATDgNfM7rd1W8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753271482; c=relaxed/simple;
-	bh=gIfHfcLffc2dAczQ2n/mfZPLHSCP+3Xhin1SlRbrNxc=;
+	s=arc-20240116; t=1753271556; c=relaxed/simple;
+	bh=Pu2PNV4pmgrhHnvf7tpigT0t2MDBRm6ztmjTprRv5A0=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=L7gv1r3+N+rH2S00eyRH1As3E6aQ37AhlArZdAxbAoH7EZ+N6ZaMOIX3PqoXQDTjo1LbD/GhIC2VOMXPktkZb3ZeDe3yFnQinzpBoZ+qH29PmkONw5XXZ+Vi3k7xfrBILJofILCy/zhmD0sv0HzoLM7rEu2Zj+VpgSbRbSHEjc0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=L6c8dSrO; arc=fail smtp.client-ip=40.107.162.45
+	 Content-Type:MIME-Version; b=L4oyaMtbrCJIEcyYXYZmE91F7ASJ2UHmKLD0YXedodkVm69JviH/6BGKJTKidGWAgwH8CmNBAJwv6TmytFJkdevGGHMO1h1ETvL1IW0bpd0dyihXvxrS5kLpklTjknQPQKWmM3Raaii5CEHOXd2K0AuGG94Dl6d+3hIJBa/kNlQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=YEdhMEEI; arc=fail smtp.client-ip=52.101.83.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LNTTN1EWFmRpII1uhJcQX7A8CUeT1zlKO3CjEIZECvt/q4IgZrB7ex+fezVl591mAWjxAUZm1IPw6TN1wng5UnC8kZOV/POUUM+opsw+68XALjV2x7Av4ZJfpu/9Ln33gp8Js7CegYW1eLnZK3VPE6aoZzDlaLCACtnHi/WryjLONe8KaxK8yi8XbAgqb8TSn3F3/xSJw/dlvvRaYEMjuM0HOZKk+FV40Fh1YhhsuNyyBR84ZGOly8aGlR6hRNi6qaXoVyYvyRhZuTs8alksMR8IEHggXXnDuVHelUvIRwriPJMJgN8il5yE++asKBYSrgkhmyJm043TL3zZGCVR6Q==
+ b=HCyKLxc8CmoqwugPYGEy99ILt52wavNQQC3IVSXkUxrDmBoJCimSLqR+27YhC/aP6KpgbIg0kf7QS4LFQkHHvwlYr2iHYVGmhvCaiiZ7rVz/YdUb+EaB6F/QphQcaMbvTMCDgs8MUuT9FT5lJ5Gjn6a7IvvknBPHuGPcGc8FQnd7CH6OoI2t3/60bLAGu7T8gYgLXv9XfU4GJ0/knNt2HaPoVfVYLlK3ELsm2AszmTXhafYw6lGBUDlNwPr7vejS9lm97KeWpj8ApleJCcE2jC3NU9l7t/xVGqsYdNI8aAEk7rxwEwqeg5ZFER7RE84lamzKIiRsTM3xPtI4CJY+1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8Noqp/vgcBzHkULYJeVo7FX9MCvzWSvLFTZx/RK0nZE=;
- b=JnWHZfM8qQU1M3lCRaCCqbFEtzmib/0nlQJXcqxDkysAkZXpduUqZatrP/SEItcQaxZAaeYoBxax+/C8tKEBlaCCGYofGKbMNIxTzV2WyVgQME+v3cH8HFvTNo87/44aofEsTRtsK4xTiOGNe889brd7OD23YsEVjlzWuv78YAk2TcE8YKJKiFCd7cmpV52cEVaclRtAfN+sdOpGDOSY1agmn4MxQCduWSuy2y8K5O+GdcC/eoyNXUIaTirBpi6i7QUE/GCuOo3TCMJbMsTj/my310DFsjJBeaoLLG3oZdYZyoTen15kP2UdmOurlzZ7vD+gBDZIQJzvouRIScWNrg==
+ bh=YetjJxpcJsmVVpJoY086Zn32yrt8raaZxZXPi7FljYM=;
+ b=BIm6G7FpGY9HR57aSN2M6yzDh5MJeycNagXhY2kH99KaIu1uKe9FCeLnaxYdUoAqwZTyVzo6cCqVlVpapvSAMhLD3zfAmfA0BxjUlwMFReTylEG1duwhK6qnawA3Rhll5LJ3SCdc8Og0gWedaPWY8SbYTh2iNolIUzBlM1Qwut4bEZbp5Y0OgkkOuwN/3ASZq3BlMuLoEogxDHR2eMiWOeBQ7OKPpnVUtuPyQt02Famjk8pA0eNgl0rN1Y9DMo5RMa7bzEPQsNjQ9OVwGI1coMbMM5aZRyi1IaMJdidhb31DVPtSlss52p3kNG8eVN9Y7V4n/ixNHgtnFSo1PF8GlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8Noqp/vgcBzHkULYJeVo7FX9MCvzWSvLFTZx/RK0nZE=;
- b=L6c8dSrOjfEXTDU1ApjqzLssNgfpbuOyoYEkqwjvg7OpTeKbpq4FOfZO5l45VnBfeujJYQLtNPes1r+UCkf1d5LSXyURyTIPE+hrHl11OLiO+3LmgVKF63RkbkMtB0gry/ErkRU5gqKhQQxhchLKAW1nfaj7T/Fhp7nne54Q7/Ov9e5ATql15pZUP5dl28L74o3jH97C+CoB+FrWZA0syoRWWE+MvqVALBVwLtMz2RiJvURZQltS1byU9lNDYAJBaQPG9Frwh4ezUN8I32XtgwJawnOgvdWHf9I7XZZSg6qR3zDrMA/JN4FN/niF1x7yv7gYdxf74q6S6M8YXO74Ig==
+ bh=YetjJxpcJsmVVpJoY086Zn32yrt8raaZxZXPi7FljYM=;
+ b=YEdhMEEIpMwQ1UVgLp8xU5LQiLcjyxY1xrTwDZ5Cdv9xN7vggA8NjmKC8phll7DloIvxPr+OwwJ16XtThciqKChs/GUvoTAMenBJpZFCxujiUghKRNAAAIxDmL7xvdWqjLYCclZQK0IDhmqu1hKPr7kS4tLdzaCAFlAcwenNLWuzMmp5Qb+UJTZyZ3Jq8p5wYxLjFcj4e7/0HCmXl4cWeaW6u2132gfW3zGupnbM/27tcDSgKI4PWJ33JRvh4HF55y2I9oHKBi5thkD0VDdKHtA8RP40YfwYej/Nk4pcAaGQ3idaB68xtRf4hn5RDBsuvQJLFm6QvLT9Z58Erinl8w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
- by DUZPR04MB9981.eurprd04.prod.outlook.com (2603:10a6:10:4d8::20) with
+ by DB9PR04MB9963.eurprd04.prod.outlook.com (2603:10a6:10:4ec::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
- 2025 11:51:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Wed, 23 Jul
+ 2025 11:52:29 +0000
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::7303:2cc8:d109:d7c1%5]) with mapi id 15.20.8964.019; Wed, 23 Jul 2025
- 11:51:15 +0000
-Message-ID: <f24e58ee-c027-49b7-bdd6-99e374177be1@nxp.com>
-Date: Wed, 23 Jul 2025 14:51:04 +0300
+ 11:52:29 +0000
+Message-ID: <6faf46b5-e48f-448f-90a7-19003b76d3f3@nxp.com>
+Date: Wed, 23 Jul 2025 14:52:11 +0300
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 21/64] media: uapi: Add V4L2_CID_METADATA_LAYOUT
- control
+Subject: Re: [PATCH v10 22/64] media: Documentation: v4l: Document internal
+ sink pads
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -86,14 +86,14 @@ Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-22-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-23-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Mirela Rabulea <mirela.rabulea@nxp.com>
-In-Reply-To: <20250619115836.1946016-22-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250619115836.1946016-23-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR02CA0056.eurprd02.prod.outlook.com
- (2603:10a6:802:14::27) To AS4PR04MB9244.eurprd04.prod.outlook.com
+X-ClientProxiedBy: VI1PR02CA0047.eurprd02.prod.outlook.com
+ (2603:10a6:802:14::18) To AS4PR04MB9244.eurprd04.prod.outlook.com
  (2603:10a6:20b:4e3::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -102,165 +102,302 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|DUZPR04MB9981:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28de96b2-8041-4314-93be-08ddc9df3a6e
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|DB9PR04MB9963:EE_
+X-MS-Office365-Filtering-Correlation-Id: b72d3d5f-26b5-4a52-7061-08ddc9df668d
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|19092799006|366016|7416014|52116014|376014|7053199007|38350700014;
+ BCL:0;ARA:13230040|52116014|7416014|376014|366016|19092799006|1800799024|7053199007|38350700014;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?QUsxQW90aTg4OEk5dmtJY1lLTEdjSFhKTStTMUo2VlF3azZ0cHJyOFQ3QXdJ?=
- =?utf-8?B?YjFoTVkxVFNUY0hRU1FnYTVDbC9rZUFLQmxBOWxvcjZXNmFtZ2hmalFNODRm?=
- =?utf-8?B?QUVzZy9DNHNpQTNKSVFDZTFlWWtIY3lndG5PV09LeHhZdDZGYlMrOFdTL084?=
- =?utf-8?B?UzRkRllEakt1dzdxT2paQzdXdTFhMjRWZ1lNUlpSREZqV09PQzl4ZTVoVVdQ?=
- =?utf-8?B?NnBjVm5GRzluOGtkd2picmhIWEx6SGhtV09ScFVhZG5ybTNuaDJ0SWZNU2Jz?=
- =?utf-8?B?c2hhOWRzRkViTUp4VmtSQktZd0NHZnZRbmFQTFFUUGNHZFVTOG5jRmsxWUdU?=
- =?utf-8?B?eDdESzlWWGlJc1NqT1lHVUxnK3VyWWFFdzgzQXdyd3NQYUorVDlOYVkrbURT?=
- =?utf-8?B?dDBvbmduOEczaHpBRkpCSmdSSFJwTk8xc0JVZ1BiNzBCQm9VcXByNVRPQjBi?=
- =?utf-8?B?UldJaWtkeEtoTkN1QVlWcmdKUEgzM1FsSUFKRWNDS0o5TGdicmc0aTJIWEZ6?=
- =?utf-8?B?Z1ZGWHpYL3Z6Y3ZNaDNZbjM1dFdhKytnQUNWclNFRjFaM3VibXA2dUNTNEZv?=
- =?utf-8?B?TjBZdlpFYUNhaW9XM1NyV0M3YzFaeXkvWUFZbmlXdTk4dGt4RHdrOEEzNzhu?=
- =?utf-8?B?VDRVVWV1K1RLUE55NzNxY0F1OFNaQVdpWFUwbUdBdUxlTzNMeGhYWTRLaml5?=
- =?utf-8?B?Z1ZkVkVnYlhUYlFxZ3RybTJnQUFZK2FNZ0pHWUZCNmNhclozalVOWFVSQUd6?=
- =?utf-8?B?NGx1UERWbVIvbENEWWZPUkwwR2JLcHhaQ01FWFpGRExEbnRhWjQ3OGc0OHBw?=
- =?utf-8?B?TWpyc2FuTm5RcE5VOG5jbFI4ZEV1MnFXalBVczlPazlqNlBCVTZvb3RtZHpF?=
- =?utf-8?B?R0YvWVExQitMbzJXVXpRNTZ3WWVtanJIcTcreTJ2N2o2S2svNVRxaVZDRTBC?=
- =?utf-8?B?V0FpZWZuZ3RSOURZWG56Qk9FR3J5T2EyYy9KMmg4ZXM1L0xZTXFhVzcyMjRk?=
- =?utf-8?B?YTRwQ3NIdnlPQU8xcmE3QXZka004SWNpNXVPMm5VRjN0NXJoenBMV0krZmVL?=
- =?utf-8?B?NTV3NUREMlNkK215QzBPQzVUS0VDMnUwcDhFUEEyRytBY3J0ekk0Vm9oc0Fq?=
- =?utf-8?B?TjYwcDlCVlUzb092VU1hTnZpdTgxaFowTVZmc1Y4cjRXeGZ1K21UdkgwUkxj?=
- =?utf-8?B?a1dNWWpXNEdKQ1ZqaEc4RHdzd1BEVGtheVZ1dHNEc3d1U0tZa2oranJZY2hH?=
- =?utf-8?B?ak1Lc2FDNC93SWk5eGE5RnN2aXcrZ0FvUGFYeGF5L2h4NnEyUkQxKzRJcFpr?=
- =?utf-8?B?bjdTQWRZVnFYL2Q0UU1kN2R5NXRpWTRwbTF4MFpOQWs3cW9lNldpWWVWT2dC?=
- =?utf-8?B?amIxT1RjbzRjNHhOV2puS1BDNUZGRlhEbFhnY0VNNjlhd0ZuT25OOHl4OHR0?=
- =?utf-8?B?L0JLVGNhOVg2bXRua1NqTktaUDJndEtna2hXY2VEU3NDMDF0Smc2QzhjTGI3?=
- =?utf-8?B?Q0pmVlkyNjE0bUloRFJyb2FpbjJmbk8vREFjenNRY29GaHdCaCtFbndpNzFz?=
- =?utf-8?B?eU0vS0NuZ25sYTExUk10TVdKb2RUODBTTFcyblZ6enBVZndCRWZGcFRwNy9H?=
- =?utf-8?B?S0hzc2MrcGF0WThYdWtBSEpRc3dVUzJ1ZkRXVFlHcERFQWRXOWdKRHc3LzFj?=
- =?utf-8?B?aXFLb3JySXN3TmFLbkN4bmZ2VDIxTlFGZTYyNmNTTDIyTTlISUY2QTJDeVF0?=
- =?utf-8?B?SU5Pc2s1ZG9aM3B2cFROSlh3bWs3akF5Z2xTOG5QWlZxVloweE43d3phTis0?=
- =?utf-8?B?WTV6enVZdTRFY3NGV3JTZ2xTbUpLZUhiemRra2xzY2J2ZURYVGRBbkt4Wkg4?=
- =?utf-8?B?RDdaMGdPMFlUZ1gyQjJsOUsxNnBic0NOeWVYZVNjYXE5bXBLSHorY1U5NWxP?=
- =?utf-8?B?SHpYakZLaExvbDI4eHZqM3gwRkN3bmIrNXFQOUt2MnZ6MWNXZ2xucjE2K0ls?=
- =?utf-8?B?NG5SS0JRTG1BPT0=?=
+ =?utf-8?B?cVpYTEpka3R5YUQycU0xRlBHY0tSWjFtSCt2aEZPYThOZm5QSDd5RW5XN1hi?=
+ =?utf-8?B?Mk9BOGlkNmlSTmpPVjNnSnpFWHFhWno2R2FMeTF0UVRWVEFuSU9MZG11cVNJ?=
+ =?utf-8?B?M2VEaFE4Ujc3b2dLdm42MDNoUzBkVHI5b2dnRjVMbnZXQ2JVcmJZRTVxK2dm?=
+ =?utf-8?B?eWhUWmlVbE9KeVZON04zalBZaXY2UlFPcTF2aHVpV0xFWWxyRVlmSmpTWHhw?=
+ =?utf-8?B?RjhIeXFPcGlwdkdvT09SVGtKZFZhWE1QeXM5MVhkcFV3YlBaLzcwUnBhNVRi?=
+ =?utf-8?B?WkNKNHRPaEpqdWtSbnNJazlrNGN4Wks1V3ZhL2ZTZXVIcitLUGZ3N2FVT2or?=
+ =?utf-8?B?cVZraFg2NEhveWFCU1h3L1RjZjhta0kwUUkyWHFUdFZRQVpSU05KdG4yMzdq?=
+ =?utf-8?B?OC9sT0tPemxxQzQ1cGhicmh2TGkyOWxDQndtQVMrVkMrZWdQMG5DVFpMNXZL?=
+ =?utf-8?B?bTN3VFRVZUgxTzR0WVNpeXJDbGY0ZU5xL1ZKWGNYOW9hbHludDZJYThVZFdK?=
+ =?utf-8?B?bkRxd2Vhb2NYeElNVXI1VGdkc0ZXQzZZV2thWHhzb0JLbCt5M2JHQkVpYTI3?=
+ =?utf-8?B?d0lIMm1zZzlHb3FsUUwxR0syY3BBUytibDBjeHA1WHhYUThCUDd5UTltYUo1?=
+ =?utf-8?B?ZE5TODdHdHJxdUZOdWJjYzhBVzBSWnppUlJpRUNRODlzZ0pnMXdKTWpXQld5?=
+ =?utf-8?B?RE9TUDFwQ1B1citZK2hEZlZiaWlNRXRYYjJhV2UzdGhwS3loQmNwa0hIS3Rw?=
+ =?utf-8?B?RHZKcFhLandQL1lEbmJaVEozamlXYmxMbFJ0Ykw0YnNsbm52MWZMdDBlbmNa?=
+ =?utf-8?B?R1UwRDVtRW4xaGhRUFY5NTN4bVZnMTQwRDlJVE1BcUo5aUJOU1U1Z2VqZ0g4?=
+ =?utf-8?B?Vkh2bGoyMGNhNFJNUjJmWkQ0TG90V2FYKzRUck5HelZNZmNhWG9YUzB2a0VG?=
+ =?utf-8?B?d0hJa1dqU1BoTnZLMGNLTVpmbjhSTWxIdE1TM2U0MnVOS3hNQnhheWFsTFNI?=
+ =?utf-8?B?d3UwN2E4Uktia1FrM0JPdTQrRjdZWENER1p0ZzYwL3pFazR1VGZYODRSSUo3?=
+ =?utf-8?B?bWFYU0YwNkF0TFRjanh5b05zTElsUHdlTTl3UjlIeEZ0bTJ0UFphbmhSTUU2?=
+ =?utf-8?B?bmdaQS9MRE9xaTloczZHU0o5SmhHVzZOT2drb01YZXhsV0ovbjJuMjdOUTBX?=
+ =?utf-8?B?UWN3TmV2YkFWNTZGNW8yQ1d1MVNSa0k4VlNaZG5KRXh6YU5TcEpKTlEyQUQr?=
+ =?utf-8?B?dDI5VkpDeWRYVDVXUVBRay92THlBKzlNaFo5eGFicGRWdlkySEpINjEvYzlt?=
+ =?utf-8?B?RXl6UEg1d2thZWNBM3BTM2h3ZnkyS0ZqOW93SmpQajFaa3hJS29lVTlNYUox?=
+ =?utf-8?B?ekdFcHVETnBuRlVGemZYaWNkMklTRDJUd0JuTTIrSm1QcmplSVJtblRybHdD?=
+ =?utf-8?B?anErQ3h1OXVJVVpUT1Y4WUwySTNMOFpIdldmVXp4RXJpVUZkVlBCbDdEaS9k?=
+ =?utf-8?B?NFZUOHdKUGlpVUpidSs5b3VJODBWS3V3dTFiVkRDanhHcHJmTEt5NHpHMnQ4?=
+ =?utf-8?B?NDF0elZwc0t1YWhPVitVek5TTytWMjdjbExIb0RTOVBOSkNNK3IwaUtRbVVG?=
+ =?utf-8?B?anNyYnAvNW90WXdLelpoVmYzUlZzRitQbWVSblFlckJjcURsS1RwcjhjWWUz?=
+ =?utf-8?B?bnMxR1NJMHROYmZLZUJ4RXNFbk5McXdZTnpnNk9UUlJ0eURzaHp5VzVlR0pT?=
+ =?utf-8?B?MFJHMUgrTmNYeThRem12V25TWWxmUXFzVmZlMU00Q09HVnY0dW1qeDN6alNz?=
+ =?utf-8?B?MTRJbXdPZ280QXBPMTBBMkVHNHpNNmtTakNZd3FJNnJ3VHpkL1FjT0NKSjQ1?=
+ =?utf-8?B?UU91TVB1dXpGSlhwRVFzU1d4amVwL3QvM1pWdGRqOGlhWmpIZkpuRittWDll?=
+ =?utf-8?B?U3JDTitCVnJsZHdmR3ZkZ3BGQkJGemVCa2ZzQnpSWEp5Y2hYQ3NuRUR2OWho?=
+ =?utf-8?B?Q0RrR3J5QkJnPT0=?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(7416014)(52116014)(376014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(366016)(19092799006)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?OUlnaklnbXFWenhRZVFMSmozOU96UWdnK3pkZ3FSekhNcmxsaVN5Z2dNekp3?=
- =?utf-8?B?NGwra3dpRGUySythV0VHbG9nQlViTll6Z2VOU0NwN1I2MWpHM1pGbTFKa0tp?=
- =?utf-8?B?emlrc2l5bERMdnJKalo3SndRVlZWSWV6SEdQdkhsTWI2aG5hWHM4K1R3cjZp?=
- =?utf-8?B?WlU4aEluR1lram9SWEhwa3VxdUhaMHYrd0d6Q2RhQ2tPYjlhSGxhR29SSmFJ?=
- =?utf-8?B?NTR1UWk1dTNFUUVxWXc2S3pCQWQzN25YQy9iNTR0VUV5MVlvYUFtQkt4aEJ5?=
- =?utf-8?B?am9PUjhSbytQbzdIV1lOYjJZdjFGZDNPN1BhV2ZUekQyTHlQRTk2bk41cDcx?=
- =?utf-8?B?bDlhUUZUTGR2eGJpamR3UkFiRjhxaDBTMEtFTWMvWHFJZXpwTGZ0czRveDVT?=
- =?utf-8?B?OU0rVUZyYVZtYmtETkNPTTdLbmxOeXYrMmZhWGI4aGRQeHR1K3pEUCtLamZR?=
- =?utf-8?B?TnVSbnZyM2tweWdNN1pmZy81U05wL2w0bWM5eDMzZnhTbENJSThKSENDSCtq?=
- =?utf-8?B?OUxOUDVWcWN6cHlYSlZ1Z1F1cElrSSsvdkN1LzRoSFVNV3dwVlJraEQ5d0dQ?=
- =?utf-8?B?NUpUWWlXamlDOXZQUTY1VitybEwrRVpJbEtCSzVXbWgvdFJ0Q0x2M292eCtl?=
- =?utf-8?B?U3c1UUlia0xHWkFBU3g3dGlpbTBZWWlTMmhCa2o4N3lCeGErZUlmZElTbTBY?=
- =?utf-8?B?RmE3dUw2VFM4eTYxRmx3RGQzbm4ySlZ6V2xtS2dLMEtEakVLWHpKZGlQV2Va?=
- =?utf-8?B?Yk81VXhuWlV2aVpzSjd0Sm9vK3F0dmpwejc4ZWMwc1J5YTQzL3E5MVFreWt5?=
- =?utf-8?B?RDVuR2ppZ0VhczFPamN2NXM0SWlJb0wwOEUzMm42Y0Y4Wnk4RURML0U0Q2Ix?=
- =?utf-8?B?bnhBalR5YzBiYmVOR1l0aklQcjhJT0JoNWFyWUJCYk1iUDFFR2NBbnlNSk5M?=
- =?utf-8?B?clJCRGlsSi9IRmRrbkJycEhZbW9uWGpqN3ZBQXczQTdUZ0tRUkNVYVJZNy9K?=
- =?utf-8?B?RHRITXcxTVN2blp6VEJBSXV0a1JvU1RNV2ZXNnd4aU5BdmN3b2Y1QW1uSWcx?=
- =?utf-8?B?VWdKcGltZzN1K0Y5Y0JBSkVJR0c4Q1gzQzBtVmRtbTlZMXdxcEp2c29aZVdP?=
- =?utf-8?B?M21Vd1BUK2lWV2h5S3dwTjZYTTQ4aXE3Rnp0TWlpVTE2QUhaVGdwUzNILzlw?=
- =?utf-8?B?Z0RyeHRrVEtQeTVrVEtLT1NyY3M1NUYrSHRvR05peTl6RVY5QTJqTjJYWkRR?=
- =?utf-8?B?QmtGZ2REWFhuWHo3MUdKcm9Ud1B6aWs4cG1oOEQ3TkdnbnYwVXpxYXpwckRS?=
- =?utf-8?B?VXQyMWYxVlF3cmhuZi9XcllUamM1RElVUkZ1cGlwdUJtUGd1QUF3S2NwV3B4?=
- =?utf-8?B?eTZPZWREbC95b1hkcTcyMG0xNUtXSkxYUVRWR0N6Sjd2ZUlKNEJhc1IvZUVj?=
- =?utf-8?B?MTBkM2ZxTEtEVndQcmFEOWRqOTlGTmt1Y0trTFg4K1g4TFgyNjRQcGlhTVFE?=
- =?utf-8?B?NWpITGwxWnNGZ29HRWduOTNSeEFWYjZ6TTVweGYyT1dzUmVEM1V2dWNMTGo2?=
- =?utf-8?B?REkzTU95QVhnUmRtTzJ0MlZSYnBKdHROaGxKTC8wUEpoWUZURE1COXNSQXIz?=
- =?utf-8?B?MDJIR0E2YWFxa0NVMnlFUVMzVmpLbGRta1REYnNuQnlydXpFVlp1ajllNk5z?=
- =?utf-8?B?QUZvQjVhdmIxVkx5Qk40dHA4QzVXdXQ1MXd4L2Q1Q1R3ZGk2allsUC9VaTRi?=
- =?utf-8?B?TnhXcVJBZGtuUTZndlhTRk5qSzJnenBVb09LM3JRcHhPSkplelVXNUhTOVg4?=
- =?utf-8?B?UGFHMDhaZXgvRzlaOWZmTk9sTEFXYzdtYnBtY3VNZkNTSGYvSmlKNnh3YmJN?=
- =?utf-8?B?VFBiU2s2RFpvODhKVE1nUlZGUmROc0JTcmp2R0V1RXdlVEp1bS9hVWd2aEhG?=
- =?utf-8?B?TVlDVlMvV1ZML2R3enQ2Q1JFWXgxY1RtNXpNZkpTZFF1RnRBUy9FOUV3eTRr?=
- =?utf-8?B?cEREeW9YZlpZQXNUS2k4Z0JHUnV2S2lhM29yUkgwTUNmamdzMzR1NU5GZDlE?=
- =?utf-8?B?ejBsRGlyU3M4a1lNQytuWjhDNWg0OWRjelZWUnh4anU1VlJmWmlvZWovNWN5?=
- =?utf-8?Q?zHv4hf/QhIgZ0iopoKLcs116a?=
+ =?utf-8?B?U0IrM21OY1RNMWl1NUxBWVhVZE0wQ0g5bkw2MVZHSm9Rcnc2QlhvaHQ4N0Q3?=
+ =?utf-8?B?UENlVUR6S2QyQ3Jua1JobTNacEhqUis0SExiTG0yOEFlOHAzcjRudWVEVVFl?=
+ =?utf-8?B?bDQyaVNWNU50V1lvWkVNYmdYZ0FLT29YQ040SitHWGdBaEhWeWJ4dFY5NzJ5?=
+ =?utf-8?B?NFByWWRYYTZQRE4zdTRFNjk2aUkzQ0E1M05kS1l0QlUxdnhWTVBBSWJ2aDJj?=
+ =?utf-8?B?ZTVMZGZ1c29KMCtOdktsdThmcjR0cGRCMzRvVlpUMy9CUmNxbk9oUnA5MXBQ?=
+ =?utf-8?B?WWZweXJvY1VsZEtKd244VDF5UndIM1pnSFNYRFNzSXdpc3hFSWlsN1dPUDhQ?=
+ =?utf-8?B?cCttOGs4QXlTNkRtMmlIQ1pNMFpmMy9tVFBlVnRzSUxMVHdkVWlmanA4SEly?=
+ =?utf-8?B?bThqOXpMK0lyRHplRi85M0VrT0pRaE0zblgzMC9QN2pvYmQ0c3RwT0hNZnl6?=
+ =?utf-8?B?TjBKTjRPRlpUajZTWkxrNFpQcU54Zmx6NVZORTFiRVVPeEhZRlBxTHpxWmxS?=
+ =?utf-8?B?RGxuZ2M3NEpvR0pFSVF3STM2dlRxYlB4UU1sVGl0ZkxkclI3YUUrK21WN1Bi?=
+ =?utf-8?B?dHcvTU5saTZ0c01WZ3VEZGFJRFhSOHA2T1oyNlRLQjFOTWY1YWhxczVnckx6?=
+ =?utf-8?B?REVuSDV3dXZKWjAxQ2UvNk9CT053cEtuMmtTckdVV0RtMWV1bU4vWnZ6dUht?=
+ =?utf-8?B?S2lmOHdPN05ScFp6NXREN2JqTTRCQXE5MFpSMjMyKzVZWlNYM2tzdjRRTWNw?=
+ =?utf-8?B?eDZFQUdlTlVYSER4S2xxQkkrYU9GcGFMUHc5eitnNDRiNXBrQWw5akRLa3Av?=
+ =?utf-8?B?d3ljLytLa2RBNnZKblZrdU1GcHQ5NWhNRm8xdEVkc3ZabEkvOGhmbC9wTkIv?=
+ =?utf-8?B?NW5JTFUvSTNPdzRoWHFLMnh2eFVFY1M5amd5bmFTRXhwL2p6aW9Rc3czVFlQ?=
+ =?utf-8?B?emhDR0JXL1JLbi9IdkFUUzdlc3FYalkvUlZnVS9TaDhuNlJqM0JLYVdHL3BE?=
+ =?utf-8?B?SEFMNENUWmJWakxCSHZUVUJhMGxkNkd5VWc0QmhheFZvcnJETFNNem8yWG9F?=
+ =?utf-8?B?SFB4cVJUalpvMjhBY1NBZCtMN2tyTjYrVmh1bS9qd1NlU3BmN3VMcVJrVVg4?=
+ =?utf-8?B?YW9EM01oTzVPQVhianJKY215SW5UcS93ZGxEM2drS2FjTjZoMVl0SUc2bldz?=
+ =?utf-8?B?Q0t1MXhvOE5Dc0ZwRVlhZkZoUjY5bmNCQm9tdjMxbjRFb2hiSnM0U2VxUXl5?=
+ =?utf-8?B?NWlUejJGUVBwM3ZSRy9UbjdRTnVuMTdqVUthdC9ESUZ3c2xxRHRFZ3RxNGJV?=
+ =?utf-8?B?ejU5OVBDaVVmTk9ONEJMZk94cHJ2eCtIZU1aUkV4NXA5M1h3am5CY3FzVUZC?=
+ =?utf-8?B?Snd0d001OVR6eWhtTHp3UkNTdWNqVlFnR01SeGMwQ0pzUlRuaHB6MUpLNlUw?=
+ =?utf-8?B?U2V0RU5aUkkzdnBCT0xiMHg5ZUFEOTk3VnMvcVJPWmlXTHFPNkRTWXFGYW83?=
+ =?utf-8?B?Y1gvV1hXYmpZalBpeXFaOURZbmpjT3pnWkEwUWlSdWlWeTNVMXFDYjdIQUpw?=
+ =?utf-8?B?c3hzVWg5b096OVl5NzVzR3Y0V2RrR0IxcUx2ZGs0cUE3eEZNQ1UxYzk4MWlQ?=
+ =?utf-8?B?OXk3dXZLREF0eDZoNitIQTVLUXJ0S2RmdlJiZnRpQll6OFRDb3BXbHBVdEpy?=
+ =?utf-8?B?VHdsdFBSMlM2eS9qSEpkaGJWT1BKRUI2ODdpV00rVFArQVhIaitadFd0cWpl?=
+ =?utf-8?B?aWI4em5EQTluM20vcVlHak82eE9GVDBJU2JsTThod0VRYlNxa3dLbEhvZHY0?=
+ =?utf-8?B?K3d6Z2ZSZDZJWmQ0eHQ2QTZNZHdxQWJLUjdEUy9mNGNIK2xiVlFtUU1yWGVM?=
+ =?utf-8?B?VmtDbE9VdWN4Y0JrNFJ5bHVHRGVSd3RPZ1FoK3R6QVV2cDR2d3lkY2M0b21v?=
+ =?utf-8?B?K1JzM2dTMklJWnhxbDdlRkVRdDdaTHhiRmx6K2tabWJ3ZnhnZFVObmJwVlZW?=
+ =?utf-8?B?cWpsb0FCTU1VRVVBbFZJYjdSNFhoUXpzVDlzSVcvcWZ1WExDTVg5NCtHMGtV?=
+ =?utf-8?B?N0Z5eTdGa3pVOWRQMXBVMzNZRVJ1TmdYMU1xMmZrN21HUXJpdWYvWk92VmVq?=
+ =?utf-8?Q?GxeO/QwzWzYHBwzNvuBw995rT?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28de96b2-8041-4314-93be-08ddc9df3a6e
+X-MS-Exchange-CrossTenant-Network-Message-Id: b72d3d5f-26b5-4a52-7061-08ddc9df668d
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 11:51:15.4580
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 11:52:29.4230
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iGWTyKfMXhhoNpSQgHXVPEcEtbeU3eIFQgeEDNYJzQu3qihsYdrp5PXtBx5PFSgcvW+7z9lAVd5k679nm5DNMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9981
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5wQNPkpucqWEq4Dh0fc2Fwzh8IxlBEN4tI5n5VXZmKsadoTg/MwHoKbs4/+h0M9Phuo+k7MTgGALTRX2/hhXPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9963
 
 Hi Sakari,
 
 On 6/19/25 14:57, Sakari Ailus wrote:
 > 
 > 
-> The metadata layout control defines the layout of the metadata on the bus.
-> It is used on sub-devices that use generic metadata mbus codes on at least
-> on one of the pads.
-
-Please replace "on at least on one of the pads" with "on at least one of 
-the pads".
-
-Is this meant to be a read-only control?
-
-Regards,
-Mirela
-
-"
+> Document internal sink pads, pads that have both SINK and INTERNAL flags
+> set. Use the IMX219 camera sensor as an example.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by Julien Massot <julien.massot@collabora.com>
 > ---
->   .../userspace-api/media/v4l/ext-ctrls-image-source.rst      | 6 ++++++
->   drivers/media/v4l2-core/v4l2-ctrls-defs.c                   | 1 +
->   include/uapi/linux/v4l2-controls.h                          | 2 ++
->   3 files changed, 9 insertions(+)
+>   .../userspace-api/media/v4l/dev-subdev.rst    | 151 ++++++++++++++++++
+>   .../media/v4l/ext-ctrls-image-source.rst      |   2 +
+>   2 files changed, 153 insertions(+)
 > 
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 24a69c419dfe..835e910d4391 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
+>   sub-device and a (pad, stream) pair. For sub-devices that do not support
+>   multiplexed streams the 'stream' field is always 0.
+> 
+> +.. _v4l2-subdev-internal-source-pads:
+
+This ref does not match the subtitle below, would be nice to rename 
+_v4l2-subdev-internal-sink-pads
+
+Other than that,
+Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+
+
+> +
+> +Internal sink pads and routing
+> +------------------------------
+> +
+> +Cases where a single sub-device source pad is traversed by multiple streams, one
+> +or more of which originate from within the sub-device itself, are special as
+> +there is no external sink pad for such routes. In those cases, the sources of
+> +the internally generated streams are represented by internal sink pads, which
+> +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
+> +pad flag set.
+> +
+> +Internal pads have all the properties of an external pad, including formats and
+> +selections. The format in this case is the source format of the stream. An
+> +internal pad always has a single stream only (0).
+> +
+> +Routes from an internal sink pad to an external source pad are typically not
+> +modifiable but they can be activated and deactivated using the
+> +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+> +on driver capabilities.
+> +
+>   Interaction between routes, streams, formats and selections
+>   -----------------------------------------------------------
+> 
+> @@ -691,3 +712,133 @@ To configure this pipeline, the userspace must take the following steps:
+>      the configurations along the stream towards the receiver, using
+>      :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
+>      stream endpoint in each sub-device.
+> +
+> +   In case generic raw and metadata formats are used,
+> +   :ref:`V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>` and
+> +   :ref:`V4L2_CID_METADATA_LAYOUT <image_source_control_metadata_layout>`
+> +   controls are present on the source sub-device to obtain the pixel data color
+> +   pattern and metadata layout.
+> +
+> +Internal pads setup example
+> +---------------------------
+> +
+> +A simple example of a multiplexed stream setup might be as follows:
+> +
+> +- An IMX219 camera sensor source sub-device, with one source pad (0), one
+> +  internal sink pad (1) as the source of the image data and an internal sink
+> +  pad (2) as the source of the embedded data. There are two routes, one from the
+> +  internal sink pad 1 to the source pad 0 (image data) and another from the
+> +  internal sink pad 2 to the source pad 0 (embedded data). Both streams are
+> +  always active, i.e. there is no need to separately enable the embedded data
+> +  stream. The sensor uses the CSI-2 interface.
+> +
+> +- A CSI-2 receiver in the SoC. The receiver has a single sink pad (pad 0),
+> +  connected to the sensor, and two source pads (pads 1 and 2), to the two DMA
+> +  engines. The receiver demultiplexes the incoming streams to the source pads.
+> +
+> +- DMA engines in the SoC, one for each stream. Each DMA engine is connected to a
+> +  single source pad of the receiver.
+> +
+> +The sensor and the receiver are modelled as V4L2 sub-devices, exposed to
+> +userspace via /dev/v4l-subdevX device nodes. The DMA engines are modelled as
+> +V4L2 devices, exposed to userspace via /dev/videoX nodes.
+> +
+> +To configure this pipeline, the userspace must take the following steps:
+> +
+> +1) Set up media links between entities: enable the links from the sensor to the
+> +   receiver and from the receiver to the DMA engines. This step does not differ
+> +   from normal non-multiplexed media controller setup.
+> +
+> +2) Configure routing
+> +
+> +.. flat-table:: Camera sensor. There are no configurable routes.
+> +    :header-rows: 1
+> +
+> +    * - Sink Pad/Stream
+> +      - Source Pad/Stream
+> +      - Routing Flags
+> +      - Comments
+> +    * - 1/0
+> +      - 0/0
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Pixel data stream from the internal image sink pad
+> +    * - 2/0
+> +      - 0/1
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Metadata stream from the internal embedded data sink pad
+> +
+> +The options available in the sensor's routing configuration are dictated by
+> +hardware capabilities: typically camera sensors always produce an image data
+> +stream while it may be possible to enable and disable the embedded data stream.
+> +
+> +.. flat-table:: Receiver routing table. Typically both routes need to be
+> +               explicitly set.
+> +    :header-rows:  1
+> +
+> +    * - Sink Pad/Stream
+> +      - Source Pad/Stream
+> +      - Routing Flags
+> +      - Comments
+> +    * - 0/0
+> +      - 1/0
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Pixel data stream from camera sensor
+> +    * - 0/1
+> +      - 2/0
+> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> +      - Metadata stream from camera sensor
+> +
+> +3) Configure formats and selections
+> +
+> +   This example assumes that the formats are propagated from sink pad to the
+> +   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
+> +   and struct v4l2_mbus_framefmt.
+> +
+> +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
+> +                static or propagated. The order is aligned with configured
+> +                routes.
+> +    :header-rows: 1
+> +    :fill-cells:
+> +
+> +    * - Sub-device
+> +      - Pad/Stream
+> +      - Width
+> +      - Height
+> +      - Code
+> +    * - :rspan:`3` IMX219
+> +      - 1/0
+> +      - 3296
+> +      - 2480
+> +      - MEDIA_BUS_FMT_RAW_10
+> +    * - 0/0
+> +      - **3296**
+> +      - **2480**
+> +      - **MEDIA_BUS_FMT_RAW_10**
+> +    * - 2/0
+> +      - 3296
+> +      - 2
+> +      - MEDIA_BUS_FMT_META_10
+> +    * - 0/1
+> +      - 3296
+> +      - 2
+> +      - MEDIA_BUS_FMT_META_10
+> +    * - :rspan:`3` CSI-2 receiver
+> +      - 0/0
+> +      - **3296**
+> +      - **2480**
+> +      - **MEDIA_BUS_FMT_RAW_10**
+> +    * - 1/0
+> +      - 3296
+> +      - 2480
+> +      - MEDIA_BUS_FMT_RAW_10
+> +    * - 0/1
+> +      - **3296**
+> +      - **2**
+> +      - **MEDIA_BUS_FMT_META_10**
+> +    * - 2/0
+> +      - 3296
+> +      - 2
+> +      - MEDIA_BUS_FMT_META_10
+> +
+> +The embedded data format does not need to be configured on the sensor's pads as
+> +the format is dictated by the pixel data format in this case.
 > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> index 3cb7ee1b0aed..64c0f9ff5b1b 100644
+> index 64c0f9ff5b1b..d803a2f0f2f9 100644
 > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
 > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> @@ -145,3 +145,9 @@ Image Source Control IDs
->       of the reversed readout. ``V4L2_COLOR_PATTERN_FLIP_BOTH`` for setting both
+> @@ -146,6 +146,8 @@ Image Source Control IDs
 >       ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
 >       ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
+> 
+> +.. _image_source_control_metadata_layout:
 > +
-> +``V4L2_CID_METADATA_LAYOUT (integer)``
-> +    The metadata layout control defines the on-bus metadata layout for metadata
-> +    streams. The control is used in conjunction with :ref:`generic metadata
-> +    formats <media-bus-format-generic-meta>` formats to specify the layout of the
-> +    data.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 9ec65998a8f7..a7ea380de5ee 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1157,6 +1157,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->          case V4L2_CID_NOTIFY_GAINS:             return "Notify Gains";
->          case V4L2_CID_COLOR_PATTERN:            return "Color Pattern";
->          case V4L2_CID_COLOR_PATTERN_FLIP:       return "Color Pattern Flip";
-> +       case V4L2_CID_METADATA_LAYOUT:          return "Metadata Layout";
-> 
->          /* Image processing controls */
->          /* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 740bf8544446..bb8b0b174a43 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1233,6 +1233,8 @@ enum v4l2_jpeg_chroma_subsampling {
->   #define V4L2_COLOR_PATTERN_FLIP_BOTH \
->          (V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
-> 
-> +#define V4L2_CID_METADATA_LAYOUT               (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
-> +
->   /* Image processing controls */
-> 
->   #define V4L2_CID_IMAGE_PROC_CLASS_BASE         (V4L2_CTRL_CLASS_IMAGE_PROC | 0x900)
+>   ``V4L2_CID_METADATA_LAYOUT (integer)``
+>       The metadata layout control defines the on-bus metadata layout for metadata
+>       streams. The control is used in conjunction with :ref:`generic metadata
 > --
 > 2.39.5
 > 
