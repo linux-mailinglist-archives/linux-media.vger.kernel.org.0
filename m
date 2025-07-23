@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-38243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38244-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AB3B0EFC1
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:27:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 479FCB0EFC3
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:27:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5822E583836
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 10:27:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E02858387F
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 10:27:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CDD28FFE7;
-	Wed, 23 Jul 2025 10:26:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3112900BA;
+	Wed, 23 Jul 2025 10:26:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020143.outbound.protection.outlook.com [52.101.225.143])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021141.outbound.protection.outlook.com [40.107.57.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E11E28CF43;
-	Wed, 23 Jul 2025 10:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B8528D8C4;
+	Wed, 23 Jul 2025 10:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.141
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753266384; cv=fail; b=e+nCPxhfYGAFWboyyvESI9I/cItY4OS/FE9X00eu5q5ewSenQiSV34h1NRjpjAFE1rtOLGHrBNwvQ7JVROGxPV1fI8WONqCLFUrw0sZorzU2dGm9raNxlBrDgB9LAsvxFSkwLPVfY7NNsH8Woo/WtaDOygtHeVSr3elnsunE5cY=
+	t=1753266392; cv=fail; b=PH+to1Bx+LZVq1MY31BXm672hWhjmvgzVcJPIb7JELI61RxLLs4V66F/uWKnnbKuoH+EWvQAd0JLd/3GhJ16F/0A6ttam13EwVceBI/XaTL8M5Ad/8twntjinVrUqzICSlCocsPYZlruUSCnKGZju3sg3A+CUVEQt6Mq9pS1mY0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753266384; c=relaxed/simple;
-	bh=3HRROs0D+B7zajq+qSKPuyoYMFpI2ksuhnTxpnO+iA8=;
+	s=arc-20240116; t=1753266392; c=relaxed/simple;
+	bh=kaFwLkElVI1SFP6eNZDER9C4JCemVQLQFzkKuxLJW3E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uRnxQoP65mREX68eYyzM5Ioul+xg0pjeO16lKOOqJQPZTQqwR9X9ia/QkAv17goBBr4nPWEe37kivrfPbi8MPc2YuvK/bA7YpIqT1/NFHaXruD+mlpj93nEyaCVMisFCFWrw9QZGFOFNuHI0WTSoMEOHyZ2NYqgPjW87QzN36mc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.143
+	 Content-Type:MIME-Version; b=NSAXotFzhFjWGxBjUBHFzA1LJqI0/izOeEMP/hLpoQaYE1KIfzms/bOww/L+JwVom7pgGYbTkMjXzbkyP281UcSMGnEIYWVzYt9W/ZYpLQru69Szyup9un/DdgObfbJMdqK0/sVqefs98KGiuAGnZiu1O5/3kgHznN+7pKAP9s8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YYtKNrjr1Om/VfoZdGzqX4VZVQdUWgBfS5MgN7J8bWf7jYYuwLxjmoBT9NfYAa0VxDRjPBSd/IknCYyLUT0qOkT1xUtnAtRix1jfyqcs2Kz2+1VkFaT2w4e8tdVPtn/Rt5lUdqfz8cOaW6RJtrEnQoDCQUq+oYz9m1LOqXWDt3o4z9NGaquY5jIVhOvwLhl+GAGi2IW24DYJy2qGcmeaQWmESeO2fLY4AHroZV2PRoneeSlH7uBwlo8FUyGNIiAajJhLOsvsUVeFXfDXOrdPfoL/Eo/cgDtq8ff3uR0CJruyKuFnMHM6YPPrrHUMtStT0CWPCeLYW7dmwXNr5qWX0Q==
+ b=t6c56ZAG7D4ZialkVvNZWcDGVxbdT6gJY/uPU2g9Lwug9a+uJaDHrQGoXs/mD87FjDb6sgMeck2S7qoOoDx0wTBsOEoET6H9hwj9mkJB0Cc+SZNlp3Y5K/9eZuQ/mpouWEv6r32yGy+2hKiWFM0eFPV0d/rbNklTqUBia8jKpNSsTNcBdsjJN0Du+mOVpeGE63eSlUNLpc9z/Q4vCaAbBFrbPslrzPEG9zSb7Ge/HoppO5ZIkX9dRrJqW66EfiarAE/iaObJzXj/uNZqEI8XxclIT4iMp78Uysru9ny/Z+iMXs8HKY6q2wVSZOKuJUG3egVX5x9JD5kxP/M2BSg8Jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mnS7UGelQ9H1HjROEmUzp9abmqJQ/rYycosdNW+pZmc=;
- b=OlAInMITeViM75J544nJvuoaz3fK7NvEfaU5ny0FABq2Wdx/jTMGPcyvuQLTgfIlc5ITBpxm180uSZP232jj2e1JTYjHe9TiUcd2aAyeQwzQfVBATSn21AGvkWZ2HY+WKU1bP5Ibzif5c5f4kw085S9TQY8aMsrHtHJ/K9P1hUD1bHfglT1VmuJIManFzZliCMUjwr+4lqFY/W+QIvgVRfSaSmHvREfjQpnGwxqtMxcFhgACUzP1fRVrrXsQsavP29bxlMSXVAN2IZTAmoszJLWETH+1qGMQ7y0fl3w07XY01oYzzDcn55r3ZnsoJ5rt8bhZ11bTJpByT/tjwoGRuw==
+ bh=M1AXEpaMMUf58gpAzaHEXhZgWFNvfjz7EIJvKJn1WDQ=;
+ b=vXhQ/PIc7kqQtmcAmlq+tsNR9IIZMWL7L7BHnzObLwFqu/cOYJqk8kNve563tLAFW00EukQur0b7GbiIXgKWVEG98yI9NMOKnLNKz433+t++CFTnkYEX9mZ92YNRxt3IglCuIdgyUg0Q3toKldDa6BemQqlbmM78q5xzRN54fjpazo2FHSDY8KUF0w/W6dua42GBRSQA38eLEUf9w6ivSRQRaqU/kolVGleqrvHSq42GMnRcz3ThvrFICFChq1opV1gI3JZSvGTIELGqsbwP+VJm7rIGXKFWL+DmpZPBq3u3Etuwu/YHmglEpp32sxWkc8udGGJWQ5+bmXEOO+pgMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
@@ -45,11 +45,11 @@ Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
  by MA5P287MB4176.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:162::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
- 2025 10:26:18 +0000
+ 2025 10:26:28 +0000
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f%5]) with mapi id 15.20.8964.019; Wed, 23 Jul 2025
- 10:26:18 +0000
+ 10:26:27 +0000
 From: Tarang Raval <tarang.raval@siliconsignals.io>
 To: sakari.ailus@linux.intel.com,
 	laurent.pinchart@ideasonboard.com,
@@ -57,7 +57,6 @@ To: sakari.ailus@linux.intel.com,
 Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hansg@kernel.org>,
 	Yunke Cao <yunkec@google.com>,
 	James Cowgill <james.cowgill@blaize.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -65,9 +64,9 @@ Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
 	Tommaso Merciai <tomm.merciai@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] media: v4l: async: Add devm_v4l2_async_register_subdev_sensor() helper
-Date: Wed, 23 Jul 2025 15:55:06 +0530
-Message-Id: <20250723102515.64585-3-tarang.raval@siliconsignals.io>
+Subject: [PATCH 3/4] media: v4l2-subdev: Add devm_v4l2_subdev_init_finalize() helper
+Date: Wed, 23 Jul 2025 15:55:07 +0530
+Message-Id: <20250723102515.64585-4-tarang.raval@siliconsignals.io>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250723102515.64585-1-tarang.raval@siliconsignals.io>
 References: <20250723102515.64585-1-tarang.raval@siliconsignals.io>
@@ -84,154 +83,154 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|MA5P287MB4176:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd4fe0ba-0760-4ed9-0032-08ddc9d35c17
+X-MS-Office365-Filtering-Correlation-Id: cf38acad-acda-4db9-727a-08ddc9d3621e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|376014|7416014|1800799024|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?TeQgpkcZKkKXQlVv4Af4K/zAmFCIYqdb39qgIXqB63OnUrcJa2+Xe6KY/bNT?=
- =?us-ascii?Q?1r3CgirkjQNPeBMeMSKKv6YtPXjnq8DylSmAkbCW1zf+rrYPtbIUHgOG8CgF?=
- =?us-ascii?Q?Qzy6L3AXk50/TYUKVdpMRwyaI8QR1geEcZ+kCnXk4h7uMY4ge0iOloEH5vTC?=
- =?us-ascii?Q?P+wG0Fq7qpLUkml6YvY8I9ZKVs/YGIE/n4GSRWClrF24lR+1ferqLn88O/fo?=
- =?us-ascii?Q?hg/Maa1hSysw+GqCIfM8fSlqwJYBYO3YeMiyNZLPd4VLpoA6gNpEoJRh9RGd?=
- =?us-ascii?Q?rQ7rIzdfzQPYYYJVHpyKCMAAJKopVSDRpP+CM3Jx/dzYzisP/U4WOO/Ku1k1?=
- =?us-ascii?Q?c+nCesMThjvaVtk4dv/nAXkBwjNp9ou2DrwAoQ9o+cJiLtPFdkC4V7N1d8+N?=
- =?us-ascii?Q?CiOCIdQ/ioBLGk5G+7D2dsIoUhRDu9pQNs0ReSk7Lg9ZD/6/AaEkiDms3lwl?=
- =?us-ascii?Q?J5Z5a3kDFnbRb6qxlpFAq0F+dfbawTbl7PXWYhHjq5QeN1wGiEoi5QbCpeyi?=
- =?us-ascii?Q?1iV8j8tpBNjbVLwLv8/BiuM/VJpuDc1u0EiK0coTyFUXfLKXCQwvvBE8qALn?=
- =?us-ascii?Q?UQSR7/pJacr3yd2qutJn23ts0jbnMf8dlS7um9sOlP10Vl+Wbd2Rvk9y8r8/?=
- =?us-ascii?Q?sCyhEqle9uW1V2JIA5CWQ2wVB2AlmfmmkhYmAXZFEpNhDjGrGicVYSE31Hh3?=
- =?us-ascii?Q?2YRpq2lmuKNWWe32J3gzVwbJy/IttpGXjVLv0i66idWUZXE9kmOg7quD4MXt?=
- =?us-ascii?Q?rtBwULugWBjzANS/fFjSDWDbv1PMICFyDDfQpDtrAzKFhCHqMfghg6bIC++x?=
- =?us-ascii?Q?57Y4XcJT9B5dr622H/4F/QMfcjejrWZW2xpHkQmYx6mpPOwgafMyDK/Q7edl?=
- =?us-ascii?Q?HTKFzeevRafJeGk4pSIOrOWEVoXqBs3IaVn8jCE7nbEA/yDD5c2CJorGbi0z?=
- =?us-ascii?Q?pNAW6UK2LjdQKg+/4OKl9HUOW9fTlBhvFEmn0BLwHZugVcDdMSty+YhDdd6C?=
- =?us-ascii?Q?CnPeJwmEf0I1TgL+nKs3YpQ+zXT+xhYG2fTrVRic9L8EtgytfS+6Dupkme91?=
- =?us-ascii?Q?ltm0GQ3kNeCVXFsMdxS4Wj55QJyEMPue7PiPnNpjMmwX6GGSI7eIrDVjWJaX?=
- =?us-ascii?Q?C/7nOTq4cIZl4MB4+mvw9riJH4OEwsLGqjtBoANLhL1UbpfpN461hLiyZoqq?=
- =?us-ascii?Q?HyAALt+Z01M9JzVPv3MkSyF533SeWk/jOcJzuKJRO1T622EPxdgYzO+ZtzQn?=
- =?us-ascii?Q?PNwfL0PvM9EKTMl3FBjInYtQg9Heol6zoT0XR/WdcXtLwIPZhRb8j12OukCd?=
- =?us-ascii?Q?aI2o/TOEIuUhn6kLlVjaEjp+CHfuMTfPBcaVhXG5Mw6YRDecAbL10BWGB7qr?=
- =?us-ascii?Q?g44j/yc2kTikLsOH2jIilFoqhGkZwNCen4Fo2lex6Olvzlzo0sXVi3wnBaA8?=
- =?us-ascii?Q?pPq6zvVnnk1SZkwwhyv3kO6DMhEYcWS9MFBnhherTf16R1P8hwjXMQ=3D=3D?=
+	=?us-ascii?Q?Db8gt0SVWTsAIGDuy03tco/hrtecFd3WznWzsxl1N4VauI3O6qnP6ay5Y5wr?=
+ =?us-ascii?Q?MHsPMdxczYpDbxF9J7Ii0IClKgxW6XA9SUp+DddB2pxMugQn9UZXKHV4LrcU?=
+ =?us-ascii?Q?VzBIX/yikByC57yNRp0/b+COi8bSdwr7DfPWAr+7c88pSOLO2bw1ppxqDphj?=
+ =?us-ascii?Q?nUBmUcofFHx5twk2p59s8+m5Y1KRPiXu/qD0a/UrhQniQKdUBZO6VWu+PQt3?=
+ =?us-ascii?Q?hr5r234508pEU+8Y5HwmoSPzHUx5kBy8TBHxiTTAgRDitVouTEJfeBmN3je4?=
+ =?us-ascii?Q?al9GuDuJjWHZSxUb9ox0qPIw7Dgp9uPoOMVEDj9gT7qbJjXyh8kzSuP0s1FD?=
+ =?us-ascii?Q?n5hRbpXjRBeRVjKFIUPb84Z9eARKJ+TsfJLUdtpuLue1p2iSV7JIG991ZXak?=
+ =?us-ascii?Q?8/OIk9SfADVnivuns42Qe6TrVW1a0fuRpdkDtfC8Pa8lKJiGI3+1WMrq3rxS?=
+ =?us-ascii?Q?+5vglJ+bLFZASZWY+hwsuklJN9/XjAvYS1rzqVaFQQgo9QE/NHt2vgnerqj3?=
+ =?us-ascii?Q?loqhx3lpAdaarVEX1amI1Ds7GKmifg5gBgqrMMrJOYYbgXLZ/+ZjEdxcMps6?=
+ =?us-ascii?Q?b5edJP+rXzcS9jiFnwXnOjCBxGU19sZtiQ8dcCoAC///UGJIWGG7fygH+rfF?=
+ =?us-ascii?Q?pron87KC/Owcn71Y70uos6y26eLtuOwLnYRr4rLMIX91woZOKHAfAngdWT6k?=
+ =?us-ascii?Q?1xm4YKY4walBKEokSDJzCIxJ0sNBqeYZQCmYH8hsd9srGCZxmj/8PJN7bnn9?=
+ =?us-ascii?Q?uHu/B39pVNk/nOB35LBkj9xgc1iWxKJ+5bKe5CkIY5Uy26gRDGrn7A/dq6AQ?=
+ =?us-ascii?Q?GqqapBNk1LmVWAHh0PjycYo4zbUNxaWMej8H873foEdPyhgk/U2LG+zp9DIi?=
+ =?us-ascii?Q?YiAynagxuVUv9+yAWk1cBUHk5/MvTFhEx5xbFb1B2L/jd1vObogrfZHPJidh?=
+ =?us-ascii?Q?PMXutTVuPPe7G5F0m8cikZ6H9OGUWMMhEgwX6V9GvlThm01iH5naWSy+gqRu?=
+ =?us-ascii?Q?A2+u2i86L11nJR+muuViS7wMo6j9fKpuVZPuonvmeOpd6Vx6AglwTmNWcjqR?=
+ =?us-ascii?Q?NnJvFpxte/ZZ+78nG0FjKkWcQGcP9GY5JwlpYn38JFPEU+LTCL5mvx/uF5zG?=
+ =?us-ascii?Q?0qIHdrR27Hwe2YTM9EwiwRTuO8dJQSMRf9KKWaPisYJKljZiLnYwli6RdPW0?=
+ =?us-ascii?Q?IoOddzBdkfeXtYp5lhZo2rKPC8Zm/M6MSQ4cPYbyk4wbnrCrnHoFEwfcMKfe?=
+ =?us-ascii?Q?ANcyCMsV7hdAVAAXppwd0sXLvO6oR9lVj0o5jwVdHTgWXI3UOwObmifR2/zC?=
+ =?us-ascii?Q?WZRYxLBJqdlysaQTvqiH5m3jn5KGG1P4BII0OyIHvzS2ojamlphRzkddhaFS?=
+ =?us-ascii?Q?yubaWqJ7c74NoJni2gXl58uZ8Psn7AzICCV3f5+Q6ZkcJUe0DBvxKAsyfkrl?=
+ =?us-ascii?Q?xSMOgN7FnTz+u9tS3DTE6gm3NFhzTz0OUzNWKMRsg+5Ghpol0qpNFw=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lWFYmPnYdbHwrmyEW373W303/MVOmc2NvsMpxQa2GxYUTdvUJMBTsY7b5cdu?=
- =?us-ascii?Q?Z+1D+r7xn3CVGRJNfIm9s0O5N4JxRTKsWJWaWw2OBnLXb34dlIqG+dda8t/q?=
- =?us-ascii?Q?zuaD4XpVIqpzyrOy4Gt9tVwLALf1Q+tuiYm1/3k+3iw+HW4SO2c6gTP8WpuQ?=
- =?us-ascii?Q?49XzF3qHyf5UlvrIxpxuoNtFv2DjOAd3kjG5JB1f/qQKWQWmOaj1jc6kM3Zp?=
- =?us-ascii?Q?jjwtFFPUpOlEpKDNm1Rg4J9sgv3Jy0Ryl9I1xE3TAA5AldMaYHPf3k0PslLy?=
- =?us-ascii?Q?8AXF9fPSQ9DxqylK3oGNBulJFWtyA8R3ADMTuJE/MJwN1zKEiRdqTqzjdJkI?=
- =?us-ascii?Q?dU8fnqkznNezxHAfH5cl7Hkwvd7uYHCb9CCf+O8DvOCaZsA3I9OCZWd5NtA6?=
- =?us-ascii?Q?zwUn6zUZvEQaQQF3LqYviYUvUROxBpT6iP9AsELDp/34e9iXeSSz4Gvgrcq6?=
- =?us-ascii?Q?hO2g5Jtt79tAgeF64y+jA1VrHInjrbkyWvf0K8+PyzbcLGJGIOWsDUIN1uUA?=
- =?us-ascii?Q?YoSieBt7mNDgwfnpgBxae5K2sZBAtuAGo4Oe/klDlxJLLsTv06lFoNCDRYEq?=
- =?us-ascii?Q?1w2XG9TNhurSOxKgXj49fGVhrik8gyQNeVLySORcUM03wyuVcZAD6TNzTe6g?=
- =?us-ascii?Q?u/PqR/7aL23tiiX9hRaaZuhdcLpGSj1W1eodXdkTcjfUnLnvDyNRYG2UDnaH?=
- =?us-ascii?Q?7qnf4TdGmgv/TICY3+26zJWh4rIzBkAFjDr6hY8S9AYFTl5pCudDe6JrOF+i?=
- =?us-ascii?Q?JRixVj8QaOJNOPFeTrcvjMAetotu6KRZgqcxgSGUqvPzrKJJLApa0y3MEBXT?=
- =?us-ascii?Q?GKPlHmHfDhxfF3cvih28Ht5ZSaeQFZKD6v6h3YEEqnQvzhzvJrRTkMQFX//C?=
- =?us-ascii?Q?IpEiulaFUVdhoEl5LM/OI0n8LDyiDdmEFssob/5rXp0mNoQFwJAVY42cct+v?=
- =?us-ascii?Q?OMiIPmkY1ozujqmB4di4xZgSsNX1AtOOhp22GtWOguRyc1awKgEdBss8FMqo?=
- =?us-ascii?Q?lg199f8ipT+RDOnNF3Ae1Kqo73Wf25uX94R0zQ0oT80AKAwbwA9vID62uQ3o?=
- =?us-ascii?Q?qqVd6nMNjX9xMvkCg+4DNNWajn/czSSoQXqfNGeOXmJGqdjO/J4d4iLWK3zu?=
- =?us-ascii?Q?rYPTenksKLPwYQ0TIhEaVkyL3r0gaMUxJhVgWoyHtisuJnpgSkRmVParZMwV?=
- =?us-ascii?Q?3EehAWTrz0DW7N/v3eomHW+Q0vpD5G03t5KJH8YvF5rOvWbQsmDX7wmbHVFH?=
- =?us-ascii?Q?aR89iabafs0xCDOhPFVd8X1nycDt67eYYqXr6juihov+4dTTDea9IFKqZO9t?=
- =?us-ascii?Q?nKLc1kyRmm63LcQLUhYSAbclyubBoSW0cZlc7ATuXtqo9NR70CeO6W+pAGCY?=
- =?us-ascii?Q?R6911Q0Lkpn3I2VAjsDWqWP1HMD9uXrtvhpMIu8YdmPI0umxnDODki0+A8Jz?=
- =?us-ascii?Q?/uxyLVtpZzreOAK9WWJJ81lMp06PyCIxcjMMNtKNc43XHlxY8STi6dNte6XQ?=
- =?us-ascii?Q?Ec5pYpcp8SUgROYOOnP85JPN5E3Y4qaWVVDKmlRiX9TrAuAV1k1tMlgWRKIM?=
- =?us-ascii?Q?Ge2p/I1vnZdbV/9k7nz4RAPxPyHwDFHp04qx8Yr7rvWFOpgmWZ/bGm82RSEn?=
- =?us-ascii?Q?AQ=3D=3D?=
+	=?us-ascii?Q?56mvHxA4Knpy/i/1IBlA/R5DDXqDmEdjDKdk2++0pOK2ist3bvewoH2sOtfh?=
+ =?us-ascii?Q?gPbe25rzmnYK6mF6Mtv1x62PJGW8+nSdw5gkB+ZJot///S4dyN/n+0IjwO7l?=
+ =?us-ascii?Q?WHdb10Z4AXckvRq3FrYPGoibxn8tfFGqiwB5syD4NM0Sq1WPMy6mNTgtGJSU?=
+ =?us-ascii?Q?kSmuXBXLZpo7ca8fSxcvKgjjM13Zn3C0/Kaepvfg7fT8nJ8RY+FLACGscG6f?=
+ =?us-ascii?Q?G81FCUB5bcaZKNGLIIp9ytXp2C6UbWAtMntWyzzpmL7IWW02CUnEt6Lg3rDi?=
+ =?us-ascii?Q?I8foGdD/w8pHuAvnUzDsNt1ggaC95r3DZhSYcq8WZKOsmR0HptpHVxtd9kM9?=
+ =?us-ascii?Q?etbgDZXEQrZvvO6w7L9PGgd2bk1w/tQ0AlGbC+YCSYtEBKxyByeJvKbsKxvv?=
+ =?us-ascii?Q?KCux2YB1unEdSdXvQJFl2D1JH1hmYRhRxEbkpf/LwNaPC83cLV96PryU7UOi?=
+ =?us-ascii?Q?im8R8/6cM2otxN86fb47pSPzNFgTQ8aOjGtBx2EP/HO29+9QZd65GA0LG0G9?=
+ =?us-ascii?Q?hwQcbdtvnE6biHs0GIKrIiyHkiWYlYkRj0A1QZd/PKpGpe8heOmBS7PrGvdV?=
+ =?us-ascii?Q?ykt8wvDL1uVcu44eCyILAk/z7ygJ+5s3N8dTigWi82OgvDD0LFiE7FCNZMhA?=
+ =?us-ascii?Q?UTPV7qH9KHkh6Xobgk37kd/hwvYkqkueEI6uxaRQMe0dZ9uhlcpX0R1LmhxT?=
+ =?us-ascii?Q?C8OxCvSrMbhFV+2YrAJGccs9mQM2Qh1IdrpUVLeEhrcFX3sAnGdulZcX3zjX?=
+ =?us-ascii?Q?5c0j7/TSXXEVYRZKyIXQPBVHluSPYkrdZ2aWi5sahZ3OhGV3mbwy49AOHxL1?=
+ =?us-ascii?Q?tGSO+990Ad5w/qhC6njqmGOd94qwVkgCGkr728WNTxDAFcrNGvDCvRmHEtOT?=
+ =?us-ascii?Q?YL0MFFUyFwQtbGCbU0C8iiPbtZdus7UPQmfUzJ9anC1jZQherh13EW8AV5OB?=
+ =?us-ascii?Q?bK/fzOI9dtRPNiUJu4CbiWxzPZh/CQ7PnzUkkra7y2lzoHHFriY1Zi8JN4og?=
+ =?us-ascii?Q?lICnSm9POiV4G8ueIXJeYDBEhpH+oezu6UV6E3ZoDFQrzVeLL7TX3JUlK7W3?=
+ =?us-ascii?Q?WODCjQZIp3ozOtmTF7cqG2Y6QJojro3Ee2GGNipdnJQ70q3lw7hMiZVJY1Dr?=
+ =?us-ascii?Q?ULAeHFtVmpsfeEFV6Orj+z6GT/BgkQQUYvQJ7x7GhVZpUVg8F8HRTE56cM70?=
+ =?us-ascii?Q?bjlnC5+JxLziHXRDTsItmEIhhBMGURIUDEbVuxtNWNl8bpxvDMlXlxPo8Mv2?=
+ =?us-ascii?Q?lslRHVeyq90jldDR9Ut6vIv4DiHBAlhe8j5n7EH3TCabWvjjFqsw+uMEzXLy?=
+ =?us-ascii?Q?07PyiyoSknJeQpFM9hqZJ6tXCfShyoj5Wj/Qq5TZGOKua7/tU+LXW6itU32l?=
+ =?us-ascii?Q?FwWuCCk2Xca/+g6AZ2iS5qrx8vhZHtTOZcNp1AagIjMRA+5hYdaxNYFDCe7g?=
+ =?us-ascii?Q?QkwxOnnPHJladnLsT3V30IY/HUy4vwJqluGN3lY6yxwsdfYGriJiAS5Vy3bO?=
+ =?us-ascii?Q?qLc/YsUairUisZMJ/SygfCRkeDXktkAul+EmlKLfhbf9QeZJCDHVoYRED+fS?=
+ =?us-ascii?Q?srbUHXSKv//Eqwo4kNV03tqC92FlB8Hd157oDnlPncdXJTxZ2h3glqQ87Tig?=
+ =?us-ascii?Q?Rw=3D=3D?=
 X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd4fe0ba-0760-4ed9-0032-08ddc9d35c17
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf38acad-acda-4db9-727a-08ddc9d3621e
 X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 10:26:18.0184
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 10:26:27.8905
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TmCLv9VcEQly5K3pYBbewqZTNT0KfNMyHWxGJqyTvQLUmiRBq3QfhlNendtPNH1r7nq4tROFKd4XeJJ7VhRSmMgDahvXCpxkFxndudHyn7A=
+X-MS-Exchange-CrossTenant-UserPrincipalName: N2vhrqScqduEwRjYLIyWAr9Ft4+0Buz3nzvCArF95gL+l1s5apPAFyHdeOykhq00jhaBcLMSlsRNekSkUHQQiR71K0QnYdVOReq9sZoOFp4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB4176
 
-Add a devm-managed version of v4l2_async_register_subdev_sensor() to
-simplify sensor sub-device registration and cleanup using devres.
+Add a devm-managed version of v4l2_subdev_init_finalize() to simplify
+sub-device finalization and cleanup using devres.
 
 Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/v4l2-core/v4l2-async.c | 19 +++++++++++++++++++
- include/media/v4l2-async.h           | 18 ++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++++++++++++++
+ include/media/v4l2-subdev.h           | 17 +++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index ee884a8221fb..197a01a2d5d6 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -7,6 +7,7 @@
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index c69d1aff701f..da7a479584bc 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -8,6 +8,7 @@
+  *	    Sakari Ailus <sakari.ailus@iki.fi>
+  */
  
- #include <linux/debugfs.h>
- #include <linux/device.h>
 +#include <linux/device/devres.h>
- #include <linux/err.h>
- #include <linux/i2c.h>
- #include <linux/list.h>
-@@ -894,6 +895,24 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+ #include <linux/export.h>
+ #include <linux/ioctl.h>
+ #include <linux/leds.h>
+@@ -1710,6 +1711,23 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
  }
- EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+ EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
  
-+static void devm_v4l2_async_unregister_subdev(void *data)
++static void devm_v4l2_subdev_cleanup(void *data)
 +{
-+	v4l2_async_unregister_subdev(data);
++	v4l2_subdev_cleanup(data);
 +}
 +
-+int devm_v4l2_async_register_subdev_sensor(struct device *dev,
-+					   struct v4l2_subdev *sd)
++int devm_v4l2_subdev_init_finalize(struct device *dev, struct v4l2_subdev *sd)
 +{
 +	int err;
 +
-+	err = v4l2_async_register_subdev_sensor(sd);
++	err = v4l2_subdev_init_finalize(sd);
 +	if (err)
 +		return err;
 +
-+	return devm_add_action_or_reset(dev, devm_v4l2_async_unregister_subdev, sd);
-+};
-+EXPORT_SYMBOL(devm_v4l2_async_register_subdev_sensor);
++	return devm_add_action_or_reset(dev, devm_v4l2_subdev_cleanup, sd);
++}
++EXPORT_SYMBOL_GPL(devm_v4l2_subdev_init_finalize);
 +
- static void print_waiting_match(struct seq_file *s,
- 				struct v4l2_async_match_desc *match)
- {
-diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-index f26c323e9c96..df0e7337fd22 100644
---- a/include/media/v4l2-async.h
-+++ b/include/media/v4l2-async.h
-@@ -343,4 +343,22 @@ v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd);
-  * @sd: pointer to &struct v4l2_subdev
-  */
- void v4l2_async_unregister_subdev(struct v4l2_subdev *sd);
-+
+ struct v4l2_mbus_framefmt *
+ __v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+ 			       unsigned int pad, u32 stream)
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 57f2bcb4eb16..a5da32783846 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1337,6 +1337,23 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state);
+ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
+ 				struct lock_class_key *key);
+ 
 +/**
-+ * devm_v4l2_async_register_subdev_sensor - Managed registration of V4L2 sensor sub-device
++ * devm_v4l2_subdev_init_finalize - Managed finalization of V4L2 sub-device initialization
 + *
 + * @dev:        Device that manages the lifecycle of the V4L2 sub-device.
-+ * @sd:         V4L2 sub-device to be registered as a sensor.
++ * @sd:         Pointer to the initialized V4L2 sub-device.
 + *
-+ * This function registers a V4L2 sub-device using the asynchronous sub-device
-+ * framework and registers a managed cleanup action to be performed automatically
-+ * when the device is detached or the driver is unloaded.
++ * This function finalizes the initialization of a V4L2 sub-device and registers
++ * a managed cleanup action to be performed automatically when the device is
++ * detached or the driver is unloaded.
 + *
-+ * This is a managed version of v4l2_async_register_subdev_sensor(), and simplifies
++ * This is a managed version of v4l2_subdev_init_finalize(), and simplifies
 + * resource management using devres.
 + *
 + * Return: 0 on success or a negative error code on failure.
 + */
-+int devm_v4l2_async_register_subdev_sensor(struct device *dev,
-+					   struct v4l2_subdev *sd);
- #endif
++int devm_v4l2_subdev_init_finalize(struct device *dev, struct v4l2_subdev *sd);
++
+ /**
+  * v4l2_subdev_cleanup() - Releases the resources allocated by the subdevice
+  * @sd: The subdevice
 -- 
 2.34.1
 
