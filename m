@@ -1,121 +1,150 @@
-Return-Path: <linux-media+bounces-38289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38290-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37066B0FA97
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 20:59:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A431B0FB36
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 21:57:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BC43560113
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 18:59:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 929031CC1E01
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 19:58:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E03F422F772;
-	Wed, 23 Jul 2025 18:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C73FD230BFF;
+	Wed, 23 Jul 2025 19:57:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="WNhhE56j"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DEG8ct1W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8A02222CA;
-	Wed, 23 Jul 2025 18:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C7C1A23A0
+	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 19:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753297172; cv=none; b=k+rFJWC6axCMtsw2JM62oip/t60jxUXll2Yfk6oxG6ppq6Wsypmk8l2YQY/YdZzrv6FQcj1C+5dAoHhsh2emcjOnR1Qpe3HIs1ZuSkIe+6dJw3eR1smbHS/pSe1+FHqkRi7VOY0qtKrIh4oJib7U2CLVUYsOG3CwF9W5F1ZuU0Y=
+	t=1753300668; cv=none; b=bRhU6DvbZFnABnmbvqM2HMZx/Otf9xlOqN1JKlNADlzXn5ocz2buAPyYZELREmH2qpeea3HtzUh5YeKxt3ibaglusnbAyLH5iQ4mwSH2auEI2qGXy9msDMyZaGctPSo5N/YsE6Nmy50VYvmzIRtLcvLxxLt/UimMVJhU8F6zpqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753297172; c=relaxed/simple;
-	bh=YMmKd8UC5P21tTrV/oIf5AKV3dDkkV89/6bPT5QQSlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nxFQ0i7iZHMVLwkIjECTSrGdgR1yb3ZdTIaDkwTv3cwx0iAX6PPJZzdOJ4SIXFse23wIptE+Ra57TfjqXflYCLf1aVZMgPrZsKM+Kb9cxUegRrQPkHYQqEumZa6Kp5iTC9M7NezCzzrlCeSxUP7yTSh+ThBusLICWIFFnfvmskI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=WNhhE56j; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C1C1740E0163;
-	Wed, 23 Jul 2025 18:59:20 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id NV1TOurcSxM6; Wed, 23 Jul 2025 18:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1753297157; bh=3/iUg3kpzsiZrZyEgEoQDrYxpq8863x42bI2MvnPvd8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WNhhE56jaVQu8KmDXYrC1yQdKtIH4nMnxxKq6HHMfPn3KWLUYHkITgL5pmZOmECm2
-	 qIx5yZsp9NhxWPtrmSuKgpzrdK+6tDoipIeQAsybPeBFHe8nsxHbu9eGiRUwKvN35I
-	 moWd3v49g+xVRScU8E2A1IRcf9nJuTnXJf0IoCcR5ViZ97oHkY2LPBNpggxXfI8909
-	 KElCdwzek1ygeNaV95IzQSFtsYmW6y8EmMOZaOMj7eOAXvijsv9rBOh2DZ3mFNzXuu
-	 ZF+l+TxcKo2TiX2+lIhI3pFmBVZA83e5J1tRBwTLfOopbAJnkvNL9m60r/t253U8pg
-	 q/8ZlCL3IKF5Fg+PYg5+iDhJ3zt+Grhz4SPpVg3gvV2nq1fO3tKXzlnUZTy76DuQqZ
-	 8w5WlekiffnTR7PRFrECf+uRApDOGb6dhTBLovo+ph+FCh/pMiKZbcADaVPA9P6JDc
-	 pDVpuaKA19Snh/y1Uoa6TATlcEZ6FfJ1U2zkredBLcHM+xaX/TaPvBxUquapEQtLZw
-	 bz3KciijHf7kc2P7gju5ur8KnwqmE+AAwyZx7tJYAGWAqA7ro+T4GvvI9YCkERW2Or
-	 kRbhhGcn+OTYKMO/PQ2vTfHBNSTB5iEv+4o44KOwVfGCIiShLJhDiCKGmo+1U0Em4x
-	 mws8PKuTNcbxgVonXq9TlbUc=
-Received: from rn.tnic (unknown [78.130.214.207])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id C25CE40E0254;
-	Wed, 23 Jul 2025 18:58:47 +0000 (UTC)
-Date: Wed, 23 Jul 2025 21:00:48 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Breno Leitao <leitao@debian.org>
-Cc: kernel test robot <lkp@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Robert Moore <robert.moore@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
-	osandov@osandov.com, xueshuai@linux.alibaba.com,
-	konrad.wilk@oracle.com, linux-edac@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
-Message-ID: <20250723190048.GBaIExYJYiHWnSBFye@renoirsky.local>
-References: <20250722-vmcore_hw_error-v3-1-ff0683fc1f17@debian.org>
- <202507232209.GrgpSr47-lkp@intel.com>
- <cdlrppnrheyq7z3gmwmwsmktpmoiwq7g5hxa67rcx4iem5i6ge@jksa5o5use4w>
+	s=arc-20240116; t=1753300668; c=relaxed/simple;
+	bh=FVSyqqgqEq4MnbN1AK5ppWWETHgof3UqLFecD42QwMI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YIj+e+tlCP3IDRIce11SoTY+nzPZFZEOPdIsQOWOvuUDJw9Nc5DQB7g5leIs8Qf96DdVgaYJ8ewJgSN7un3PrH3BQwN3Bp/hob+DZKEo1An8W9BRKyRD/e6LPUbrkEBgwIyqTCweLq+GsmqEhGqrvWnhLBQqrHiEsHVU780IYGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DEG8ct1W; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-313a188174fso1107812a91.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 12:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753300666; x=1753905466; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/DG2m9HOzWXxFr0mPV6O/7kOINoRfxN8n3jHURo/ORo=;
+        b=DEG8ct1WATN5BwkWQIXgcWqP6ciIk034NbYWzPusn72yEkYoms4aCtNMDMF3B4AOm6
+         2DZP5IlmWNnNX0Zn+QNPC+F1O1ObGov/9wbs9lGLJAp673em5+w3xfik9w6wK8TU49qq
+         GAoQAYo4OhYrTzag8rTymSeLXkSNehTPjnWTw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753300666; x=1753905466;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/DG2m9HOzWXxFr0mPV6O/7kOINoRfxN8n3jHURo/ORo=;
+        b=k+ud/50Dgxf14hRmJOGxqEVM8fap3okUMdc8YtN+8vMSvyxmlKug8Wbz0102eaZxLr
+         1QzU0Niqehby2CWBMrYlLHDgm8uUvNxGiwBDilAisf89mam0ikg3Gl/7TYQydWSMF08Y
+         4d1BzIgrjdotLahLmhxsawkBJM78lNjfkKDFGzuE4eTIKhd5Z1OpxzyWU7qbZrD00tX8
+         GOmRJcs/OHt7ryBXDtosFmiQF8xa04xBM4fypURkO7sckDv+YfVcL4VAjUAD/mEtJIxQ
+         0qVMS1mneXjaVu1G1wZvW0jcYgJNfVpfH4DcqZjg88H8lokV9nGwZ592aLQ77GzuUfKi
+         Qyuw==
+X-Gm-Message-State: AOJu0Yx0guu5ZU5zCAAkhBNzO1N6PDuKSexFpyXZU4VU8JyKz3EF1bgC
+	Y+x1ycjtSjh4sqlpoQBd51HfM8Brg4qQVkfpeiKM5qn2RNFkvSQc8h1+740iJT+g6g==
+X-Gm-Gg: ASbGnctlVgdlr9T7SYBeLDUl66qBRjep3IjofhWGpvifJ5pylcwk4BjqJxwhTaiDaq2
+	jT5/S0loAtPLn9TXVzbAgcDJjPqsuw/YJ41m8kN7/rJpnSQFjWDFsmjX4c+xzVCSoJZu0x48fAW
+	aV26/FUZG10HBYoIBt7NjbbiBtxT+z4BlIynbx6dxdsT7e3vP2lOsfCdQVPZQbroCRWP9hzoxjm
+	s+k+Yja6LHqcy42vBrLwt5JcGmtbi5xWRMHyi6mG61nFa60WWxIXLtIHgWHi5617tZpkQJjsEDq
+	Sw3BxGgWFXEN8TtEVGXUtQrd1JKkzbuqtKkwRhorA35WIMvsi/1AGVDZBUk3pRYTPiXGU5mxJcI
+	HdPs84pttf5pkfnE4i7QWtDZkh24wuy85aQgHRlB02hUg2T4=
+X-Google-Smtp-Source: AGHT+IFkLaseT4J9N1a2WehClVWhl7WlueTj40zlFze3K+qatH6eNoY69q9GmgP0Dhp8ElHdTx56HQ==
+X-Received: by 2002:a17:90b:2709:b0:311:a5ab:3d47 with SMTP id 98e67ed59e1d1-31e5130f700mr4952881a91.1.1753300666086;
+        Wed, 23 Jul 2025 12:57:46 -0700 (PDT)
+Received: from ballway23.roam.corp.google.com ([136.27.48.153])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e519b1494sm2297587a91.4.2025.07.23.12.57.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 12:57:44 -0700 (PDT)
+From: Allen Ballway <ballway@chromium.org>
+Date: Wed, 23 Jul 2025 12:57:35 -0700
+Subject: [PATCH v2] media: ov8865: move mode_configure out of
+ state_configure
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cdlrppnrheyq7z3gmwmwsmktpmoiwq7g5hxa67rcx4iem5i6ge@jksa5o5use4w>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250723-mode_configure-v2-1-7fb0f6ba1194@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAK8+gWgC/3XMQQrCMBCF4auUWRtJUoLFlfeQIjWZtLNoRyZtU
+ Erubuze5f/gfTskFMIE12YHwUyJeKlhTw34aVhGVBRqg9XW6Yu1auaAD89LpHETVJ022sVn6Fo
+ XoJ5egpHeB3jva0+UVpbP4WfzW/9S2SijHA6t084O2sSbn4Rn2uYzywh9KeULhblnxa8AAAA=
+X-Change-ID: 20250722-mode_configure-80105fbd835d
+To: Hans de Goede <hansg@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Allen Ballway <ballway@chromium.org>
+X-Mailer: b4 0.14.2
 
-On Wed, Jul 23, 2025 at 08:36:52AM -0700, Breno Leitao wrote:
-> Basically there are two approaches, from what I understand:
-> 
-> 	1) mark do_machine_check() as noinstr
+ov8865_mode_configure() only needs to be called on sensor init, but it can
+be called multiple times from ov8865_state_configure(). Move
+ov8865_mode_configure() to ov8865_sensor_init().
 
-do_machine_check is already noinstr. I think you mean mark
-hwerr_log_error_type() noinstr.
+Signed-off-by: Allen Ballway <ballway@chromium.org>
+---
+Changes in v2:
+Cleaned up coding style
+Removed call to ov8865_state_configure() from ov8865_sensor_init()
+---
+ drivers/media/i2c/ov8865.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-And yes, you can mark it. hwerr_log_error_type() is not that fascinating
-to allow instrumentation for it.
+diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+index 95ffe7536aa6aba814f4e5c3d12e7279470b2f07..eaa84fe68bdef45961885f435df99d98eb0ac0ca 100644
+--- a/drivers/media/i2c/ov8865.c
++++ b/drivers/media/i2c/ov8865.c
+@@ -2304,14 +2304,6 @@ static int ov8865_state_configure(struct ov8865_sensor *sensor,
+ 	if (sensor->state.streaming)
+ 		return -EBUSY;
+ 
+-	/* State will be configured at first power on otherwise. */
+-	if (pm_runtime_enabled(sensor->dev) &&
+-	    !pm_runtime_suspended(sensor->dev)) {
+-		ret = ov8865_mode_configure(sensor, mode, mbus_code);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	ret = ov8865_state_mipi_configure(sensor, mode, mbus_code);
+ 	if (ret)
+ 		return ret;
+@@ -2384,10 +2376,10 @@ static int ov8865_sensor_init(struct ov8865_sensor *sensor)
+ 	}
+ 
+ 	/* Configure current mode. */
+-	ret = ov8865_state_configure(sensor, sensor->state.mode,
+-				     sensor->state.mbus_code);
++	ret = ov8865_mode_configure(sensor, sensor->state.mode,
++				    sensor->state.mbus_code);
+ 	if (ret) {
+-		dev_err(sensor->dev, "failed to configure state\n");
++		dev_err(sensor->dev, "failed to configure mode\n");
+ 		return ret;
+ 	}
+ 
 
-> 	2) Move hwerr_log_error_type() earlier inside the
-> 	instrumentation_begin() area.
+---
+base-commit: 6832a9317eee280117cd695fa885b2b7a7a38daf
+change-id: 20250722-mode_configure-80105fbd835d
 
-Or you can do that - that looks like less of an effort btw.
-
+Best regards,
 -- 
-Regards/Gruss,
-    Boris.
+Allen Ballway <ballway@chromium.org>
 
-https://people.kernel.org/tglx/notes-about-netiquette
 
