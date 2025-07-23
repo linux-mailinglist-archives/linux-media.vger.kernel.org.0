@@ -1,125 +1,152 @@
-Return-Path: <linux-media+bounces-38238-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38239-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA694B0EED3
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 11:53:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C94B0EF70
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 12:11:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C21AB9632C2
-	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 09:53:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F08D5606A6
+	for <lists+linux-media@lfdr.de>; Wed, 23 Jul 2025 10:11:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA0DF289E12;
-	Wed, 23 Jul 2025 09:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hxZ+X4HX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215E828C016;
+	Wed, 23 Jul 2025 10:10:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A553926C3BD;
-	Wed, 23 Jul 2025 09:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7B1283C9F
+	for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 10:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753264403; cv=none; b=ZLKQQnZbDXus9dekQ4FezyL/QEJq4xP2/hghB494Gycww53N+ZA14KvRd5a2zkOdevQY+SDkmflq4gzEqDn0uMUmu1HHvaZf4tXX5kIeROhbnZMN6/ZDqa3m7arfV2TKQk+abGdFITqBL0M/xC6L1k5XmNkVolrk9uG2E2r9kIg=
+	t=1753265409; cv=none; b=pN1S7wtQSqGj5rcOFGruOd0J8Vw33JNKG2sIbaSNcSGhiYH9NR5BGxDI17GL6lI8ackeEdfq+CrNRLfbmgT1tkLAbCaem5AkJp7tnzIkCamT5NouVZbiQ+7D3W9L98ZqNFpd0EOP7f9RxVC3JU5ijVeVkQYC9W0zIYxdmCmCSlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753264403; c=relaxed/simple;
-	bh=DI7ekfWyCxlDtUa0spYzAbklePE7kl5NCBVy46hkkdg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HgpmMNaoBbQud7/3ZdYUVkiHw+x0d7VbpNImOZPXeY39AR4rFrGs2esPO82IXMqZSHKR5CFa6BozPbzEDCFta1VW9cIvpXZb+x+fdT16odpF9AzUzpb6HZ/TM5t465Dein1GsccffX3fQ/TDwXAfaJLVAWJQs/sMvyss/NiLJh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hxZ+X4HX; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-456108bf94bso45794205e9.0;
-        Wed, 23 Jul 2025 02:53:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753264399; x=1753869199; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EYp6k2DX5D5XbLlxdIv0kw8mpvco5bmHcOTW1MVImJ8=;
-        b=hxZ+X4HXG/SyFOOE+M3NA62hwRy1slqDBRL49nVjQMHS20jz0Iqr/I6EdbLERKLtKr
-         PaSgx+pIMk9eZs5rTlJNYxFY5G7PwmrkVb8MpYpoCS/xpodLB6MArUO0MrU0q+wDS4UY
-         ai0KIJBfI7SSzGUN7rOIISzciOGDvz0Az4N5KSpqcKVxXFEYqEClhXVfev0UwaXFKW8q
-         iSaK1Kf929H5qfCYoI0IFVKB9XDh7xz3f7FahWLMssW4LIHWpuiBuVuBlZa5yRqQjF0W
-         aJtzJnH+bDJlZI1FIfPvEqL4/UmKlzn3CFJGg2ycN8ArLTd77pYcTYiyvGLYvdnXIqY9
-         kMYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753264399; x=1753869199;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EYp6k2DX5D5XbLlxdIv0kw8mpvco5bmHcOTW1MVImJ8=;
-        b=FX7o0EgCBvA62Lnwybi6JMXP4ctum2mbcf4UhF9C+6Q7MigulK6n1mi3CtdN0MXMz9
-         r7Dwes5ModTC5nUwn3EsB2hA47Sa+q4FnGECjV2NzDJC4uRq9wiZCbLOqUotxP1pShk+
-         MmQu56PPCCp92M+OaDO6lT8roEKm5vlkq5ld/+AfQn6dm6nS7R5bBeq8gssYKapqORYV
-         UTieb4q1slUGoDWQb+xR9uQIEkzmw/qbj4Q+4oK7KFm/H+jRzY1HeVMYD8bAeF5Pp1O/
-         yHhw3p0fpOiufN0EQlI29cNZU4FgMu5dKkBYClTI5PqfMJ+8megBqoj/8dYYFzUbhpDJ
-         y18Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXxz1XBj6+Waz2mZRa7I7lRa3dEv5A9QHtmann2qFt3v9hkRJZy3pja9rQ7s7Xsn/JA3C9rx/M1vaZWxOw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4R3CusI3JlyVZLzOkmHA9eE6VDJRCND9qxnZOqq1lzg8XxE4e
-	mRXakUrsX/l6l85q5wvkOZaMOt7fpvcjr93+93jP/LI/ljbF3sfxZDEC
-X-Gm-Gg: ASbGnct4OSz6fkXAkMb1GKkkTNbpigmETBhXXoIkwMbokDlF5y4EeWrnh3aewsl5WkU
-	+ZhVkM4co7flJJEEYfx85OpUZH0tJcWmhsP8Hi5GZ57iw23kPHg4VFG/9QcLeR7Ra72RYUepQ+1
-	J48faA5YdVKOba0F4tcV9mMB/FLjwRP11SWUK9py8IlKWkGmMPgru93lkUDaqMgnDvLLMOw6W02
-	5wg2iMQVv9KZVeLmMkVzbZR8WJNuSotqMXXWBYSdF3UN4cMx5QDDwFwHLlLvQI+Uzwzw6JIrOXh
-	TAaT+B+S/AEfNQOEsZ8KUDGowZVLq5cqChW6xtIEWSpu0qWE1gfY7YHogo0zzHGId2w4LewZJrr
-	eMThb1ORz+ZpSXlv4WHprf8oG0N+mb49Bb7EG/OWdvU3uhX+yKFO5SthCSyk=
-X-Google-Smtp-Source: AGHT+IGHhbL2sTaZXbG6R+vveuW5hqJzjcOEX+5FNByreYpvZYKCH9St+sdc+uLFjJtfcv8RAmaZFQ==
-X-Received: by 2002:a05:600c:450b:b0:456:1abd:fcfc with SMTP id 5b1f17b1804b1-45868d304cemr17334835e9.25.1753264398802;
-        Wed, 23 Jul 2025 02:53:18 -0700 (PDT)
-Received: from thinkpad-ThinkPad-E15-Gen-2.router ([154.105.198.199])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca4d807sm16038167f8f.73.2025.07.23.02.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 02:53:18 -0700 (PDT)
-From: Imene Jaziri <imenjazirii18@gmail.com>
-X-Google-Original-From: Imene Jaziri <imenjaziri@outlook.com>
-To: laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Imene Jaziri <imenjaziri@outlook.com>
-Subject: [PATCH] Add changes to uvcvideo driver 
-Date: Wed, 23 Jul 2025 10:53:14 +0100
-Message-Id: <20250723095314.16975-1-imenjaziri@outlook.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1753265409; c=relaxed/simple;
+	bh=8Suesx4npuPJMm9nhhKBhI/owXmIxD8q8h4mq2JB7Sc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YWbDwHn6vJUlmjQZMWEgHjxpuRsRLdDIpNojPVo+5baJEQgx3uCHAwgSZJWDvEQUIQYGOGcz78LOovJ6b/axxlJ/xaxBlNn5Y+pYidW5M+h/vcSQD4Bd85vf6okl/oLdEGXcLgGUtsKRVpzXJAClqNTHGrraWoRLglNh5wwtLqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <f.pfitzner@pengutronix.de>)
+	id 1ueWQB-0005dJ-Qq; Wed, 23 Jul 2025 12:09:59 +0200
+Message-ID: <3ac271c7-a67a-4f6f-935d-256937516068@pengutronix.de>
+Date: Wed, 23 Jul 2025 12:09:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] parse horizontal/vertical flip properties
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ entwicklung@pengutronix.de
+References: <20250718-fpf-media-dt-flip-v1-0-75b3a938b4be@pengutronix.de>
+ <ryuew3kxnocj6uqq4nadp3kyaxg27rxlrgnaieyy2hlpz5jkd3@iyetnsbfanee>
+ <35debf21-bca7-480f-a61e-7b0494f10ca5@pengutronix.de>
+ <mljx67lkcw4kh3cs344iprik244cm7hqfckmg4bj5j5atuyt62@lh2ht4mrtkjq>
+Content-Language: en-US, de-DE
+From: Fabian Pfitzner <f.pfitzner@pengutronix.de>
+In-Reply-To: <mljx67lkcw4kh3cs344iprik244cm7hqfckmg4bj5j5atuyt62@lh2ht4mrtkjq>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: f.pfitzner@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Add a pr_info() in the uvc_probe function to trace when the uvcvideo driver is loaded. 
-This is for learning purposes.
+On 7/23/25 11:44, Jacopo Mondi wrote:
+> On Wed, Jul 23, 2025 at 11:29:27AM +0200, Fabian Pfitzner wrote:
+>> On 7/23/25 11:17, Jacopo Mondi wrote:
+>>> Hi Fabian
+>>>
+>>> On Wed, Jul 23, 2025 at 10:58:28AM +0200, Fabian Pfitzner wrote:
+>>>> There are cameras containing a mirror on their optical path e. g. when
+>>>> mounted upside down.
+>>> How is this different from 'rotation = 180' ?
+>> If you simply want to flip the output (e. g. horizontally), you cannot do
+>> this with a rotation.
+>> The camera I'm referring to is not only upside down, but also flipped
+>> horizontally.
+> 180 degress rotation = HFLIP + VFLIP
+I do not want to do both. Only one of them.
+>
+> Yes, you can't express 'mirror' in DTS, because DTS are about the
+> physical mounting rotation of the camera. Sensor drivers shall not
+> apply any flip control automatically, it's userspace that by parsing
+> the rotation property through the associated v4l2 controls should decide
+> if it has to apply flips or not to correct the images.
+>
+> What is the use case you had in mind ? Tell the driver through a DTS
+> property it has to apply flips to auto-compensate ? Because I think we
+> shouldn't and if I'm not mistaken we also document it:
+> https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camera-sensor.html#rotation-orientation-and-flipping
+I have a camera that does a horizontal flip in its hardware, so the 
+output is not what I want. My example above was misleading. The rotation 
+fixes the "upside down" problem, but does not fix the flip.
 
-Signed-off-by: Imene Jaziri <imenjaziri@outlook.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Doing that in userspace might be a solution, but in my opinion it is a 
+bit ugly to write a script that always sets the flip property from 
+userspace when the device was started.
+A much cleaner way would be to simply set this property in the device 
+tree such that the driver can be initially configured with the proper 
+values.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index da24a655ab68..4e5d1d636640 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2170,7 +2170,6 @@ static int uvc_probe(struct usb_interface *intf,
- 		(const struct uvc_device_info *)id->driver_info;
- 	int function;
- 	int ret;
--
- 	/* Allocate memory for the device and initialize it. */
- 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
- 	if (dev == NULL)
-@@ -2188,7 +2187,7 @@ static int uvc_probe(struct usb_interface *intf,
- 	dev->info = info ? info : &uvc_quirk_none;
- 	dev->quirks = uvc_quirks_param == -1
- 		    ? dev->info->quirks : uvc_quirks_param;
--
-+	pr_info("I changed uvcvideo driver in the Linux Kernel\n");
- 	if (id->idVendor && id->idProduct)
- 		uvc_dbg(dev, PROBE, "Probing known UVC device %s (%04x:%04x)\n",
- 			udev->devpath, id->idVendor, id->idProduct);
+PS: I have to send this email twice. The first one contained HTML parts 
+that were rejected by some receivers...
+
+>
+> TL;DR drivers shall not flip, userspace should. Mirroring is an effect
+> of drivers applying an HFLIP, because unless I'm missing something
+> obvious, 'mirror' is not a physical mounting configuration of the camera
+> sensor.
+>
+> FIY we're talking about something similar in libcamera
+> https://lists.libcamera.org/pipermail/libcamera-devel/2025-July/051533.html
+>
+>>>> Introduce two options to change the device's flip property via device tree.
+>>>>
+>>>> As there is already support for the panel-common driver [1], add it for cameras in the same way.
+>>>>
+>>>> [1] commit 3c0ecd83eee9 ("dt-bindings: display: panel: Move flip properties to panel-common")
+>>>>
+>>>> Signed-off-by: Fabian Pfitzner <f.pfitzner@pengutronix.de>
+>>>> ---
+>>>> Fabian Pfitzner (2):
+>>>>         media: dt-bindings: add flip properties
+>>>>         media: v4l: fwnode: parse horizontal/vertical flip properties
+>>>>
+>>>>    .../devicetree/bindings/media/video-interface-devices.yaml        | 8 ++++++++
+>>>>    drivers/media/v4l2-core/v4l2-fwnode.c                             | 3 +++
+>>>>    include/media/v4l2-fwnode.h                                       | 4 ++++
+>>>>    3 files changed, 15 insertions(+)
+>>>> ---
+>>>> base-commit: 6832a9317eee280117cd695fa885b2b7a7a38daf
+>>>> change-id: 20250718-fpf-media-dt-flip-7fcad30bcfb7
+>>>>
+>>>> Best regards,
+>>>> --
+>>>> Fabian Pfitzner <f.pfitzner@pengutronix.de>
+>>>>
+>> --
+>> Pengutronix e.K.                           | Fabian Pfitzner             |
+>> Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+>> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+>> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+>>
 -- 
-2.34.1
+Pengutronix e.K.                           | Fabian Pfitzner             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
 
 
