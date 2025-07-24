@@ -1,365 +1,354 @@
-Return-Path: <linux-media+bounces-38426-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38427-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94ABBB111F1
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 22:00:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4C4B11218
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 22:19:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F62BB026E0
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 20:00:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 075307B229B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 20:17:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADEF6239581;
-	Thu, 24 Jul 2025 20:00:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA1B239567;
+	Thu, 24 Jul 2025 20:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rP0TUjCL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WjeQZFTc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895701FC3;
-	Thu, 24 Jul 2025 20:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D9A9443;
+	Thu, 24 Jul 2025 20:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753387224; cv=none; b=HpM3u26hvfi6GZXbyIuTkn6lAjEFIXK3JBvfBAVJZDlpH5Q4meQxNl5XXxP6eDuIhJlA7MzJud9nZPkvzFr1smyR9DxGf6UPrhngXXX/efDgZLifbf3tQ1OuQUJmMiJ3nN3RDz5GqQp+X6kI4XCLSVBhVbuhfu3V292UXPuRAl4=
+	t=1753388353; cv=none; b=UQlBJTdBq4CTpISNhX84qZXb8GU9HT07jt6TKBJYP666axQZVesKysGhMzZamaOX9F9LcNV81MH0SB7HjI2N+yox+1QBiO+XGWg8md2bIS+1GwEn7sjA9YXKugDkXwcT7XjRiEhclh3n5mGHY6obn9kXxBfZF4QlKu2ppBaLEH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753387224; c=relaxed/simple;
-	bh=tPhx3FIBKJn2F+//bEBVSeTAutL7pLci9lA+to7s5Pw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KkduVJ1AJAY1whsk088ctBLW7WsSamJFzzb9bUKiUkT98HobTCBd3nnde9GDLtYK9WeLDM929KygxIAeya0ArhdFyN8YTubPmLdG+6aZvRZX0hfXZgNcbwdjiAKwx//32ee8GaTKWPX2ru0SVam0i/jXPaNBvRHaOYUcEr1iTmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rP0TUjCL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2DCCBC0B;
-	Thu, 24 Jul 2025 21:59:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753387179;
-	bh=tPhx3FIBKJn2F+//bEBVSeTAutL7pLci9lA+to7s5Pw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rP0TUjCL/CZemun+Nk3AO3sAyIBP6T1XmBTcSUJpRmQSCCPwGdXlv/0/lPejvlMLe
-	 VWnJHmt4BA5Ib3em5Dndw0FuCn8Yqp2MyuSFS8OgprkFb13CDbyBZAzdqjmdYGBa9U
-	 gkMy8jB58uJD3U9N5kVWKiTuoA7aR3hbsXnUHsfM=
-Date: Thu, 24 Jul 2025 23:00:14 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hans Verkuil <hans@jjverkuil.nl>
-Subject: Re: [PATCH] media: uvcvideo: Drop stream->mutex
-Message-ID: <20250724200014.GT11202@pendragon.ideasonboard.com>
-References: <20250717-uvc-onelocksless-v1-1-91a1b834186a@chromium.org>
- <20250724120840.GL11202@pendragon.ideasonboard.com>
- <CANiDSCvvAX27u4_qnKxbSqWVWybsZFV-367eSv8ig85-cCeDTw@mail.gmail.com>
- <20250724155101.GA17890@pendragon.ideasonboard.com>
- <CANiDSCsojmQdCQqYXBFStPwGJ3n+-04_+dqTx+tsUrT+dRSC2Q@mail.gmail.com>
+	s=arc-20240116; t=1753388353; c=relaxed/simple;
+	bh=k+nnBxI2ivuJQq1IRpNsfqQSrTJOOPmunynAP2fyw3s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uPf9xjgd53RqWQtXLC2qMt2TYifLOPkoadaBl56WJ8B/ZOVPw6wkP1Cx36on1BbkfmQH8EHw4LNwcXnN35X2I/Agdm+FE49GA+ouLl7gwMYX/D9jz6Mk0PuquOWLmXi/nF8u3W5QOW0nKDk5mL/PT+QPfwXmWn2gRaw4kgHXbPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WjeQZFTc; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45600581226so14934955e9.1;
+        Thu, 24 Jul 2025 13:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753388349; x=1753993149; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PEVseRPVVao+xeDXS/I/3gsf95DLS+6mSeDY070gmUg=;
+        b=WjeQZFTc0ah7tkgQS7D1r58cIFMLcr/XAF1Z2FuqTvR/BQOtPJmGkJVgOf7v4066l9
+         DWJ9Q0T0QcIpG8TOa2T6RbSDwkByGdABN2hooJQQW3LvUYV7fOf84wbmYQiauaXvAGFC
+         OIdaqhEOfVXNgXCoIFy1HzJkukd1nV0bvoCPg8qbXoVtBBqjp+6GIf2yrwgiZwVr8cDN
+         bweHYi67Zi/9EcZom9UKiEOqKdZUEaqHb/divAlTjcj7eSDEwZrf2WnbtusaNeytUMI5
+         uNAZtgNCJCoMaaSvqoAecLL0qBKlgDp4iTpYK2siIQtNJUqfNSq+Xdj+DrhkRryxJ1zt
+         MDEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753388349; x=1753993149;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PEVseRPVVao+xeDXS/I/3gsf95DLS+6mSeDY070gmUg=;
+        b=hzatKTzHQSbsslOc8Lb/qIwq8xwF96FFlO9cd6oD8dPWCB7o+aAdnEHj1WZyKcRHdG
+         JmFm4t38WmiVDMB9XIvbxvNgbEpgbCGKh0SSXf+Grp0sfUrWCDB7oeedIw4M4/5s7VJF
+         mC3ZLVXUqgHhLJt1FvZRACdTN0pwQA2UH1oFwsioheg85ePf3X2r9GqwbyL+zbZBIaO4
+         t9x/KDFi+10lvYrfE2JTNIdWge+Ki4voam9cu/C1lCj5KruI17H+3RxtVprBA/7wDkPo
+         /R+5FGtv6upiXxsKw2DKRhGc218XFG0S2iv38D8ccVoubS/7B0JTj5Jg/kZQzthbHEmZ
+         lImg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0pBqaa5k85sImqkyWkTApqckrWzqIHiUSl+xZt270roiPFjQ1Oy+UdXdXh7suU923J/ytDZZmBoN1FGhLRYSZi38=@vger.kernel.org, AJvYcCXfR4GUXWL0KOLyeC0u9NyEtFLEgK7wL6egshgtWszWVuMAh/zXPit2/whiBtIyI4/X46F3i6vUYtzx@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN1YDacO6RkVJFw1OEsNLnY4CRSPDq2oOr9ryqC2EPU498Nayb
+	xhin6e9+lxj9Hol49688VvUA/ojyliWpG+jvqie46xTBJGZMPEhKGbPziWFSMhBiVH0b4H2uasX
+	a9uSwKr1SJO+65xER5MvUiwj9CBIhQC8=
+X-Gm-Gg: ASbGncuxOY8dX97wUPqyKPfpaAJ/IhAVmk4027FlcMbIo3Uu9nSmlHceuZap76sHZyc
+	t9mM04LuYumOPLpNhPCp7u2Ti3b87gefimAF4wri0AxhcFLXoc0v99S8xXWpB5a+rnGnvTqHp8Y
+	mhhOIhuFLfBg9XFQ5gdOIZ+KMVczVC67IKQZzUw6g5O9P3lTeBE6V78o98H2gMnczsZnP3LMwhw
+	FZFLPWh
+X-Google-Smtp-Source: AGHT+IEo380v+BdOqMWHpyiCP47G6cxBUBer8Fxfw+SLiSh9Ts52GOWDKPtTGLTVYQHCgySwCcZ1zdWPiR1vyioig9Q=
+X-Received: by 2002:a5d:64e2:0:b0:3b7:5b40:703 with SMTP id
+ ffacd0b85a97d-3b768f06ab7mr6405353f8f.46.1753388348919; Thu, 24 Jul 2025
+ 13:19:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsojmQdCQqYXBFStPwGJ3n+-04_+dqTx+tsUrT+dRSC2Q@mail.gmail.com>
+References: <20250714-ivc-v4-0-534ea488c738@ideasonboard.com>
+ <20250714-ivc-v4-2-534ea488c738@ideasonboard.com> <CA+V-a8s-WA8wyka6Z3Y-Fp1xNbcB=i8wPucJqA-nsp_fOKk=BQ@mail.gmail.com>
+ <f5bed915-f6f6-4b64-b1d0-cf4ba1c3ec30@ideasonboard.com>
+In-Reply-To: <f5bed915-f6f6-4b64-b1d0-cf4ba1c3ec30@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 24 Jul 2025 21:18:41 +0100
+X-Gm-Features: Ac12FXyQXJ_bn90oC3PQAc75xrG_SulsUzWNMoH5X9Qod7uRCe5qK-wjbjwER48
+Message-ID: <CA+V-a8tghkRS5+ip7bXL_6zZehxUu97E8JAzs2gkbkr=WEYY=A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] media: platform: Add Renesas Input Video Control
+ block driver
+To: Dan Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, jacopo.mondi@ideasonboard.com, 
+	biju.das.jz@bp.renesas.com, laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 24, 2025 at 08:15:48PM +0200, Ricardo Ribalda wrote:
-> On Thu, 24 Jul 2025 at 17:51, Laurent Pinchart wrote:
+Hi Dan,
+
+On Thu, Jul 24, 2025 at 7:04=E2=80=AFPM Dan Scally <dan.scally@ideasonboard=
+.com> wrote:
+>
+> Hi Prabhakar - thanks for the review
+>
+> On 24/07/2025 17:52, Lad, Prabhakar wrote:
+> > Hi Daniel,
 > >
-> > (CC'ing Hans Verkuil)
+> > Thank you for the patch.
 > >
-> > On Thu, Jul 24, 2025 at 05:41:06PM +0200, Ricardo Ribalda wrote:
-> > > On Thu, 24 Jul 2025 at 14:08, Laurent Pinchart wrote:
-> > > > On Thu, Jul 17, 2025 at 07:56:45AM +0000, Ricardo Ribalda wrote:
-> > > > > Since commit c93d73c9c2cf ("media: uvcvideo: Use vb2 ioctl and fop
-> > > > > helpers"), the IOCTLs are serialized. Due to this there is no more need
-> > > > > to protect ctrl, cur_format or cur_frame from concurrent access.
-> > > > >
-> > > > > Drop stream->mutex after thanking it for years of good service.
-> > > > >
-> > > > > Use this opportunity to do fix some CodeStyle.
-> > > >
-> > > > Is that about the following change only:
-> > > >
-> > > > -       if (format == NULL || frame == NULL) {
-> > > > +       if (!format || !frame)
-> > > >
-> > > > or is there something else I missed ?
-> > >
-> > > I believe that's it.
-> > >
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > >  drivers/media/usb/uvc/uvc_driver.c   |  4 ----
-> > > > >  drivers/media/usb/uvc/uvc_metadata.c |  8 ++------
-> > > > >  drivers/media/usb/uvc/uvc_v4l2.c     | 39 ++++++++----------------------------
-> > > > >  drivers/media/usb/uvc/uvcvideo.h     |  6 ------
-> > > > >  4 files changed, 10 insertions(+), 47 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > index 775bede0d93d9b3e5391914aa395326d3de6a3b1..3039e6a533b82dd917050d416c9ced8756d69170 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > @@ -183,8 +183,6 @@ static void uvc_stream_delete(struct uvc_streaming *stream)
-> > > > >       if (stream->async_wq)
-> > > > >               destroy_workqueue(stream->async_wq);
-> > > > >
-> > > > > -     mutex_destroy(&stream->mutex);
-> > > > > -
-> > > > >       usb_put_intf(stream->intf);
-> > > > >
-> > > > >       kfree(stream->formats);
-> > > > > @@ -201,8 +199,6 @@ static struct uvc_streaming *uvc_stream_new(struct uvc_device *dev,
-> > > > >       if (stream == NULL)
-> > > > >               return NULL;
-> > > > >
-> > > > > -     mutex_init(&stream->mutex);
-> > > > > -
-> > > > >       stream->dev = dev;
-> > > > >       stream->intf = usb_get_intf(intf);
-> > > > >       stream->intfnum = intf->cur_altsetting->desc.bInterfaceNumber;
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > index 229e08ff323eed9129d835b24ea2e8085bb713b8..d1d4fade634bd3f8b12bbaa75388db42aecc25ea 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > @@ -100,14 +100,10 @@ static int uvc_meta_v4l2_set_format(struct file *file, void *fh,
-> > > > >        * Metadata buffers would still be perfectly parseable, but it's more
-> > > > >        * consistent and cleaner to disallow that.
-> > > > >        */
-> > > > > -     mutex_lock(&stream->mutex);
-> > > > > -
-> > > > >       if (vb2_is_busy(&stream->meta.queue.queue))
-> > > > > -             ret = -EBUSY;
-> > > > > -     else
-> > > > > -             stream->meta.format = fmt->dataformat;
-> > > > > +             return -EBUSY;
-> > > > >
-> > > > > -     mutex_unlock(&stream->mutex);
-> > > > > +     stream->meta.format = fmt->dataformat;
-> > > > >
-> > > > >       return ret;
-> > > >
-> > > >         return 0;
-> > > >
-> > > > >  }
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > index 160f9cf6e6dbdbf39e3eff56a5d5ea1d977fbe22..d7be4d59f0c73b983aa01321f4acc8f8bf6e83ef 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > @@ -329,14 +329,12 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
-> > > > >        * developers test their webcams with the Linux driver as well as with
-> > > > >        * the Windows driver).
-> > > > >        */
-> > > > > -     mutex_lock(&stream->mutex);
-> > > > >       if (stream->dev->quirks & UVC_QUIRK_PROBE_EXTRAFIELDS)
-> > > > >               probe->dwMaxVideoFrameSize =
-> > > > >                       stream->ctrl.dwMaxVideoFrameSize;
-> > > > >
-> > > > >       /* Probe the device. */
-> > > > >       ret = uvc_probe_video(stream, probe);
-> > > > > -     mutex_unlock(&stream->mutex);
-> > > > >       if (ret < 0)
-> > > > >               return ret;
-> > > > >
-> > > > > @@ -395,19 +393,15 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
-> > > > >       struct uvc_streaming *stream = handle->stream;
-> > > > >       const struct uvc_format *format;
-> > > > >       const struct uvc_frame *frame;
-> > > > > -     int ret = 0;
-> > > > >
-> > > > >       if (fmt->type != stream->type)
-> > > > >               return -EINVAL;
-> > > > >
-> > > > > -     mutex_lock(&stream->mutex);
-> > > > >       format = stream->cur_format;
-> > > > >       frame = stream->cur_frame;
-> > > > >
-> > > > > -     if (format == NULL || frame == NULL) {
-> > > > > -             ret = -EINVAL;
-> > > > > -             goto done;
-> > > > > -     }
-> > > > > +     if (!format || !frame)
-> > > > > +             return -EINVAL;
-> > > > >
-> > > > >       fmt->fmt.pix.pixelformat = format->fcc;
-> > > > >       fmt->fmt.pix.width = frame->wWidth;
-> > > > > @@ -419,9 +413,7 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
-> > > > >       fmt->fmt.pix.xfer_func = format->xfer_func;
-> > > > >       fmt->fmt.pix.ycbcr_enc = format->ycbcr_enc;
-> > > > >
-> > > > > -done:
-> > > > > -     mutex_unlock(&stream->mutex);
-> > > > > -     return ret;
-> > > > > +     return 0;
-> > > > >  }
-> > > > >
-> > > > >  static int uvc_ioctl_s_fmt(struct file *file, void *fh,
-> > > > > @@ -441,19 +433,14 @@ static int uvc_ioctl_s_fmt(struct file *file, void *fh,
-> > > > >       if (ret < 0)
-> > > > >               return ret;
-> > > > >
-> > > > > -     mutex_lock(&stream->mutex);
-> > > > > -     if (vb2_is_busy(&stream->queue.queue)) {
-> > > > > -             ret = -EBUSY;
-> > > > > -             goto done;
-> > > > > -     }
-> > > > > +     if (vb2_is_busy(&stream->queue.queue))
-> > > > > +             return -EBUSY;
-> > > > >
-> > > > >       stream->ctrl = probe;
-> > > > >       stream->cur_format = format;
-> > > > >       stream->cur_frame = frame;
-> > > > >
-> > > > > -done:
-> > > > > -     mutex_unlock(&stream->mutex);
-> > > > > -     return ret;
-> > > > > +     return 0;
-> > > > >  }
-> > > > >
-> > > > >  static int uvc_ioctl_g_parm(struct file *file, void *fh,
-> > > > > @@ -466,9 +453,7 @@ static int uvc_ioctl_g_parm(struct file *file, void *fh,
-> > > > >       if (parm->type != stream->type)
-> > > > >               return -EINVAL;
-> > > > >
-> > > > > -     mutex_lock(&stream->mutex);
-> > > > >       numerator = stream->ctrl.dwFrameInterval;
-> > > > > -     mutex_unlock(&stream->mutex);
-> > > > >
-> > > >
-> > > > You can drop the blank line here.
-> > > >
-> > > > >       denominator = 10000000;
-> > > > >       v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
-> > > > > @@ -519,12 +504,9 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
-> > > > >       uvc_dbg(stream->dev, FORMAT, "Setting frame interval to %u/%u (%u)\n",
-> > > > >               timeperframe.numerator, timeperframe.denominator, interval);
-> > > > >
-> > > > > -     mutex_lock(&stream->mutex);
-> > > > >
-> > > >
-> > > > Double blank line.
-> > > >
-> > > > > -     if (uvc_queue_streaming(&stream->queue)) {
-> > > > > -             mutex_unlock(&stream->mutex);
-> > > > > +     if (uvc_queue_streaming(&stream->queue))
-> > > > >               return -EBUSY;
-> > > > > -     }
-> > > > >
-> > > > >       format = stream->cur_format;
-> > > > >       frame = stream->cur_frame;
-> > > > > @@ -556,14 +538,11 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
-> > > > >
-> > > > >       /* Probe the device with the new settings. */
-> > > > >       ret = uvc_probe_video(stream, &probe);
-> > > > > -     if (ret < 0) {
-> > > > > -             mutex_unlock(&stream->mutex);
-> > > > > +     if (ret < 0)
-> > > > >               return ret;
-> > > > > -     }
-> > > > >
-> > > > >       stream->ctrl = probe;
-> > > > >       stream->cur_frame = frame;
-> > > > > -     mutex_unlock(&stream->mutex);
-> > > > >
-> > > > >       /* Return the actual frame period. */
-> > > > >       timeperframe.numerator = probe.dwFrameInterval;
-> > > > > @@ -941,10 +920,8 @@ static int uvc_ioctl_g_selection(struct file *file, void *fh,
-> > > > >
-> > > > >       sel->r.left = 0;
-> > > > >       sel->r.top = 0;
-> > > > > -     mutex_lock(&stream->mutex);
-> > > > >       sel->r.width = stream->cur_frame->wWidth;
-> > > > >       sel->r.height = stream->cur_frame->wHeight;
-> > > > > -     mutex_unlock(&stream->mutex);
-> > > > >
-> > > > >       return 0;
-> > > > >  }
-> > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > index 757254fc4fe930ae61c9d0425f04d4cd074a617e..86765b9d7935f0888476249c3fb826cd7f36b35c 100644
-> > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > @@ -469,12 +469,6 @@ struct uvc_streaming {
-> > > > >       const struct uvc_format *cur_format;
-> > > > >       const struct uvc_frame *cur_frame;
-> > > > >
-> > > > > -     /*
-> > > > > -      * Protect access to ctrl, cur_format, cur_frame and hardware video
-> > > > > -      * probe control.
-> > > > > -      */
-> > > > > -     struct mutex mutex;
-> > > > > -
-> > > >
-> > > > Could you please instead keep this mutex and drop uvc_video_queue.mutex
-> > > > ? The rationale is that the same lock is now used to protect the queue
-> > > > operations and to serialize the ioctls. It's therefore a higher-level
-> > > > lock, which should be stored in the higher-level object, not in the
-> > > > queue.
-> > > >
-> > > > You can then also drop the lock assignment in uvc_queue.c that reads
-> > > >
-> > > >         queue->queue.lock = &queue->mutex;
-> > > >
-> > > > as videobuf2 and the V4L2 core will use the video device lock when no
-> > > > queue lock is set. The comment at the top of uvc_queue.c may need to be
-> > > > updated.
-> > >
-> > > Are we sure that it is exactly the same?
-> > >
-> > > There are places in videobuf2-core.c where we do not use video device lock.
-> > >
-> > > Eg:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/common/videobuf2/videobuf2-core.c#n2056
-> > >
-> > > I'd rather keep the assignment to be in the safe side.
+> > On Mon, Jul 14, 2025 at 4:25=E2=80=AFPM Daniel Scally
+> > <dan.scally@ideasonboard.com> wrote:
+> >> Add a driver for the Input Video Control block in an RZ/V2H SoC which
+> >> feeds data into the Arm Mali-C55 ISP.
+> >>
+> > s/V2H/V2HP everywhere.
+> Ack!
+> >> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> >> ---
+> >> Changes in v5:
+> >>
+> >>          - Fixed .enum_frame_sizes() to properly check that the
+> >>            given mbus_code matches the source pads format.
+> >>          - Tidy up extra space in Kconfig
+> >>          - Revise Kconfig option message
+> >>          - Don't mark functions inline
+> >>          - Fixup misleading comment
+> >>          - select CONFIG_PM
+> >>          - Use the new pm_sleep_ptr() functionality
+> >>          - Minor formatting
+> >>
+> >> Changes in v4:
+> >>
+> >>          - Update the compatible to renesas,r9a09g057-ivc
+> >>          - Dropped the media jobs / scheduler functionality, and re
+> >>            worked the driver to have its own workqueue pushing frames
+> >>          - Fix .enum_mbus_code() to return 20-bit output for source
+> >>            pad.
+> >>          - Fix some alignment issues
+> >>          - Make the forwarding of sink to source pad format a more
+> >>            explicit operation.
+> >>          - Rename rzv2h_initialise_video_device_and_queue()
+> >>          - Reversed order of v4l2_subdev_init_finalize() and
+> >>            v4l2_async_register_subdev() to make sure everything is
+> >>            finished initialising before registering the subdev.
+> >>          - Change function to MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER
+> >>          - Use a parametised macro for min vblank
+> >>          - Minor formatting
+> >>          - Use the DEFAULT macros for quantization / ycbcr_enc values
+> >>          - Switch to using the mplane API
+> >>          - Dropped select RESET_CONTROLLER
+> >>          - Used the new helpers for starting a media pipeline
+> >>          - Switch from threaded irq to normal with driver workqueue
+> >>            and revised startup routine
+> >>
+> >> Changes in v3:
+> >>
+> >>          - Account for the renamed CRU pixel formats
+> >>
+> >> Changes in v2:
+> >>
+> >>          - Added selects and depends statements to Kconfig entry
+> >>          - Fixed copyright year
+> >>          - Stopped including in .c files headers already included in .=
+h
+> >>          - Fixed uninitialized variable in iterator
+> >>          - Only check vvalid member in interrupt function and wait
+> >>            unconditionally elsewhere
+> >>          - __maybe_unused for the PM ops
+> >>          - Initialise the subdevice after setting up PM
+> >>          - Fixed the remove function for the driver to actually do
+> >>            something.
+> >>          - Some minor formatting changes
+> >>          - Fixed the quantization member for the format
+> >>          - Changes accounting for the v2 of the media jobs framework
+> >>          - Change min_queued_buffers to 0
+> >> ---
+> >>   drivers/media/platform/renesas/Kconfig             |   1 +
+> >>   drivers/media/platform/renesas/Makefile            |   1 +
+> >>   drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  18 +
+> >>   drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+> >>   .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 229 +++++++++
+> >>   .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 376 +++++++++++=
++++
+<snip>
+> > ISP Probe:
+> > [   11.600383] mali-c55 16080000.isp: Detected Mali-C55 ISP 9000043.310=
+32022.0
+> > [   11.622062] mali-c55 16080000.isp: Runtime PM usage count underflow!
 > >
-> > There are lots of places where the vdev lock is used is the queue has no
-> > lock. Hans, was is an oversight not to do it in __vb2_wait_for_done_vb()
-> > ? If we don't want to support not setting the queue lock that's OK, but
-> > we should then drop code that uses vdev->lock instead.
+> > Logs from IVC:
+> > root@rzv2h-evk:~/c55# media-ctl -p
+> > Media controller API version 6.16.0
 > >
-> > We can keep the assignment for the time being to be safe until that
-> > issue gets resolved, but I'd still like to use the stream mutex instead
-> > of the queue mutex.
-> 
-> The problem with using the stream mutex is that the meta device and
-> the capture device have the same uvc_streaming, but they need a
-> different mutex.
-> 
-> So if you do something like this:
-> 
-> console0 # yavta -c /dev/video1 &
-> 
-> console1# yavta -c /dev/video0 &
-> 
-> You end in a deadlock. Where the DQBUF of video1 do not let you use video0
+> > Media device information
+> > ------------------------
+> > driver          mali-c55
+> > model           ARM Mali-C55 ISP
+> > serial
+> > bus info        platform:16080000.isp
+> > hw revision     0x1d982d6
+> > driver version  6.16.0
+> >
+> > Device topology
+> > - entity 1: mali-c55 tpg (1 pad, 1 link, 0 routes)
+> >              type V4L2 subdev subtype Sensor flags 0
+> >              device node name /dev/v4l-subdev0
+> >          pad0: SOURCE
+> >                  [stream:0 fmt:SRGGB20_1X20/1920x1080 field:none
+> > colorspace:raw xfer:none ycbcr:601 quantization:lim-range]
+> >                  -> "mali-c55 isp":0 []
+> >
+> > - entity 3: mali-c55 isp (5 pads, 6 links, 0 routes)
+> >              type V4L2 subdev subtype Unknown flags 0
+> >              device node name /dev/v4l-subdev1
+> >          pad0: SINK,MUST_CONNECT
+> >                  [stream:0 fmt:SGRBG20_1X20/2304x1296 field:none
+> > colorspace:raw xfer:none ycbcr:601 quantization:lim-range
+> >                   crop:(0,0)/2304x1296]
+> >                  <- "mali-c55 tpg":0 []
+> >                  <- "rzv2h ivc block":1 [ENABLED]
+> >          pad1: SOURCE
+> >                  [stream:0 fmt:RGB121212_1X36/2304x1296 field:none
+> > colorspace:srgb xfer:none ycbcr:601 quantization:lim-range]
+> >                  -> "mali-c55 resizer fr":0 [ENABLED,IMMUTABLE]
+> >          pad2: SOURCE
+> >                  [stream:0 fmt:SGRBG20_1X20/2304x1296 field:none
+> > colorspace:raw xfer:none ycbcr:601 quantization:lim-range]
+> >                  -> "mali-c55 resizer fr":2 [ENABLED,IMMUTABLE]
+> >          pad3: SOURCE
+> >                  [stream:0 fmt:unknown/0x0 field:none]
+> >                  -> "mali-c55 3a stats":0 []
+> >          pad4: SINK
+> >                  [stream:0 fmt:unknown/0x0 field:none]
+> >                  <- "mali-c55 3a params":0 []
+> >
+> > - entity 9: mali-c55 resizer fr (3 pads, 3 links, 0 routes)
+> >              type V4L2 subdev subtype Unknown flags 0
+> >              device node name /dev/v4l-subdev2
+> >          pad0: SINK
+> >                  [stream:0 fmt:RGB121212_1X36/2304x1296 field:none
+> > colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range
+> >                   crop:(0,0)/2304x1296
+> >                   compose:(0,0)/2304x1296]
+> >                  <- "mali-c55 isp":1 [ENABLED,IMMUTABLE]
+> >          pad1: SOURCE
+> >                  [stream:0 fmt:RGB121212_1X36/2304x1296 field:none
+> > colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+> >                  -> "mali-c55 fr":0 [ENABLED]
+> >          pad2: SINK
+> >                  <- "mali-c55 isp":2 [ENABLED,IMMUTABLE]
+> >
+> > - entity 13: mali-c55 fr (1 pad, 1 link)
+> >               type Node subtype V4L flags 0
+> >               device node name /dev/video0
+> >          pad0: SINK
+> >                  <- "mali-c55 resizer fr":1 [ENABLED]
+> >
+> > - entity 17: mali-c55 3a params (1 pad, 1 link)
+> >               type Node subtype V4L flags 0
+> >               device node name /dev/video1
+> >          pad0: SOURCE
+> >                  -> "mali-c55 isp":4 []
+> >
+> > - entity 21: mali-c55 3a stats (1 pad, 1 link)
+> >               type Node subtype V4L flags 0
+> >               device node name /dev/video2
+> >          pad0: SINK
+> >                  <- "mali-c55 isp":3 []
+> >
+> > - entity 37: rzv2h ivc block (2 pads, 2 links, 0 routes)
+> >               type V4L2 subdev subtype Unknown flags 0
+> >               device node name /dev/v4l-subdev3
+> >          pad0: SINK
+> >                  [stream:0 fmt:SGRBG10_1X10/2304x1296 field:none
+> > colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+> >                  <- "rzv2h-ivc":0 [ENABLED,IMMUTABLE]
+> >          pad1: SOURCE
+> >                  [stream:0 fmt:SGRBG20_1X20/2304x1296 field:none
+> > colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+> >                  -> "mali-c55 isp":0 [ENABLED]
+> >
+> > - entity 40: rzv2h-ivc (1 pad, 1 link)
+> >               type Node subtype V4L flags 0
+> >               device node name /dev/video3
+> >          pad0: SOURCE
+> >                  -> "rzv2h ivc block":0 [ENABLED,IMMUTABLE]
+> >
+> > root@rzv2h-evk:~/c55#
+> > root@rzv2h-evk:~# v4l2-ctl -d3 --stream-out-mmap
+> > --stream-from=3D/root/c55/frame-15.bin --stream-loop
+> >>>>> VIDIOC_STREAMON returned -1 (Input/output error)
+> > root@rzv2h-evk:~#
+> >
+> > Logs from ISP:
+> > root@rzv2h-evk:~/c55# ./isp.sh
+> > Device /dev/video0 opened.
+> > Device `ARM Mali-C55 ISP' on `platform:16080000.isp' (driver
+> > 'mali-c55') supports video, capture, with mplanes.
+> > Video format set: RGB565 (50424752) 2304x1296 field none, 1 planes:
+> >   * Stride 4608, buffer size 5971968
+> > Video format: RGB565 (50424752) 2304x1296 field none, 1 planes:
+> >   * Stride 4608, buffer size 5971968
+> > 8 buffers requested.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 0/0 mapped at address 0xffff81f2e000.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 1/0 mapped at address 0xffff8197c000.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 2/0 mapped at address 0xffff813ca000.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 3/0 mapped at address 0xffff80e18000.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 4/0 mapped at address 0xffff80866000.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 5/0 mapped at address 0xffff802b4000.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 6/0 mapped at address 0xffff7fd02000.
+> > length: 1 offset: 4017363672 timestamp type/source: mono/EoF
+> > Buffer 7/0 mapped at address 0xffff7f750000.
+> > [   92.647719] kauditd_printk_skb: 8 callbacks suppressed
+> > [   92.647734] audit: type=3D1006 audit(1753371566.385:25): pid=3D407
+> > uid=3D0 old-auid=3D4294967295 auid=3D0 tty=3D(none) old-ses=3D429496729=
+5 ses=3D4
+> > res=3D1
+> > [   92.665263] audit: type=3D1300 audit(1753371566.385:25):
+> > arch=3Dc00000b7 syscall=3D64 success=3Dyes exit=3D1 a0=3D7 a1=3Dffffc4f=
+f5740 a2=3D1
+> > a3=3D1 items=3D0 ppid=3D1 pid=3D407 auid=3D0 uid=3D0 gid=3D0 euid=3D0 s=
+uid=3D0 fsuid=3D0
+> > egid=3D0 sgid=3D0 fsgid=3D0 tty=3D(none) ses=3D4 comm=3D"sshd"
+> > exe=3D"/usr/sbin/sshd" key=3D(null)
+> > [   92.689604] audit: type=3D1327 audit(1753371566.385:25):
+> > proctitle=3D737368643A20726F6F74205B707269765D
+> >
+> > [  100.932191] rz-dmac 11400000.dma-controller: dma_sync_wait: timeout!
+> > [  100.938566] mali-c55 16080000.isp: Failed to DMA xfer ISP config
+> > [  100.944702] mali-c55 16080000.isp: failed to write ISP config
+> > [  100.950562] mali-c55 16080000.isp: Failed to start ISP
+>
+>
+> Hm, Is this on the EVK? How did you set up devicetree?  It's trying to us=
+e the DMA write; I've so
+> far just been using CPU write on the RZ/V2H...I'll try to replicate it an=
+d see where I get
+>
+>
+Yes this is on the EVK. I have the changes [0] done to get it working
+(Ive not enabled the DMA).
 
-Aarrghhh :-(
+[0] https://gist.github.com/prabhakarlad/bb1d3649243617d88c9b4e8b386f0803
 
-I wouldn't expect a deadlock as DQBUF should release the lock when
-waiting, but still, aarrrrgghhhhh :-(
-
-> We can add a second mutex to uvc_streaming.... but I think this is a
-> bit overkill.
-> 
-> Any ideas?
-
-I'm thinking it could make sense to move the video_device members of
-uvc_streaming to uvc_video_queue and rename uvc_video_queue to
-uvc_video_device. That's a change that should probably be done on top of
-this patch, as it won't change the location of the mutex.
-
-> > > > >       /* Buffers queue. */
-> > > > >       unsigned int frozen : 1;
-> > > > >       struct uvc_video_queue queue;
-> > > > >
-> > > > > ---
-> > > > > base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
-> > > > > change-id: 20250716-uvc-onelocksless-b66658e01f89
-
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+Prabhakar
 
