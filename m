@@ -1,142 +1,243 @@
-Return-Path: <linux-media+bounces-38367-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38368-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D685B10772
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 12:10:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03970B107DE
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 12:36:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9DD3D5670DC
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 10:10:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 045BDAC03FC
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 10:35:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F38C825F97D;
-	Thu, 24 Jul 2025 10:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2864D267733;
+	Thu, 24 Jul 2025 10:36:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JZU4xHJx"
+	dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b="J9z+BkZj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4F0257423;
-	Thu, 24 Jul 2025 10:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A08218E91;
+	Thu, 24 Jul 2025 10:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753351810; cv=none; b=e5Cn1hrbI5SGMtyOJWpTR3l94dkk5LeL1geavcFKBL0we90aAXI5VTO89M2TM2a7ebXOP2S6LmQr9ZeYxNkYdSbmfX7MCAxBgi7IK4rDFnoriR2DGgqtqRPbSJ4/JihM+YqRJxRvKwplvlRwf2m7d2bPmNopSLBDb29NuWtvM7U=
+	t=1753353373; cv=none; b=F+Nffg6mAskTvHBgNuYLQ/x0VZirE8us+ES0cXXVcrXGlnt4hZQrqSy6BMwiQH10Tx3XRjpBg/IKbKHV/KliMgZz44Xw3PEWysX9B0WL2cRJEbGIajlJITs7RefFQbKqIadCp0kQmD+qrA+tc9uaP3Vigk1YdDgYef8gnALzvoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753351810; c=relaxed/simple;
-	bh=uQzWvURU4lR+pbczJKLhLxw0bqhAiazUuWm1Gc0CJPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Yt8J36HOIiJDncIafjjC7MdiGUvYSeadp9a/H6sCZTJkD9d2mcQulwsK7m1IHbqPfkrMpdFsVI3yK8sfZDfukXX4pDj9viirDU1vusNW/NK/wMVp7VhhqBhnUjYT6Uv3D4MAQTZ0Yfo+EPffC8IuTC6p1ZRyJ3J78G7rgOuIrL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JZU4xHJx; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56O9UsrP022192;
-	Thu, 24 Jul 2025 10:10:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	PlWxCPBa+jQkIvHdRLN268OyKsYFqTmFZB0uVTu9BqY=; b=JZU4xHJxFyvuefwF
-	BgcZLv4QLoFtuUbskr0iZf6YZggolSwm4xC5duUc8uV5DGVfkcbyy0XfUTHAaydL
-	26wsusKUqI5LkWeZN0kpdG19L5DCs/OCx5yGckgcjlKa7cz1eVYZhBU0ZbaLCxae
-	hogH9G2oqUI9wyF15hBYwzAA5ZzszoqQ8nItUeWrd5cLPWL7pBgb2ll0ya39Vzu8
-	l3E8g3Fzq2EU8PldWWBcPAibXq4l3kMnDoYEMs9CQASHoX3wui9Jyy6bHU7jvX2Y
-	zh4WyaEeYmPw6P1FSPGODS+MBSVrhxgvMnL7zOEZR9nZ6SrsPLPtKddE6J24wLhb
-	pLEXlw==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48313kjypm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Jul 2025 10:10:05 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56OAA4qD021026
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Jul 2025 10:10:04 GMT
-Received: from [10.216.10.236] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 24 Jul
- 2025 03:10:00 -0700
-Message-ID: <665bb169-8942-c3c9-c882-9b281cdca34a@quicinc.com>
-Date: Thu, 24 Jul 2025 15:39:57 +0530
+	s=arc-20240116; t=1753353373; c=relaxed/simple;
+	bh=od/xtHdR76xA66uiqHmn0euNvOxFQUSMktMhwNkDo3M=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=P19+nrV6xo+SaiKJTBlQWr48gLoaKC3ccC0gr4ClEgHePb6wO00nftaCNpJWR02PCE9zJRiGhQvwIqx1XXHU5ECwwFPlSAO/m/Jtt3I4iJOjZy7joXsjhlWQzl4UURy9neHzvMyqf6+hftkX0B/Bpf0dEn5WpOFZRU+SCJL12xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b=J9z+BkZj; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
+	s=s31663417; t=1753353342; x=1753958142; i=frank-w@public-files.de;
+	bh=qwlcmLAbRr/MQRSxhxjFBqTr2CYUizJoPcZmxNDBDks=;
+	h=X-UI-Sender-Class:Date:From:To:CC:Subject:Reply-to:In-Reply-To:
+	 References:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=J9z+BkZjf/3pjoMBKQ93ZNsxGhw7Zxdh8y4xg7zbiy4DSaQ1ePRJQs2YkfcpTYnb
+	 md8nMxMdY/TMXuKoKHkEywgXE1w3+wVBUaABS2tZDmZ/YV7QRCaBfY4JnvXC9jKPi
+	 RT1tq8gcEqqjnIn/R/Bk8j1AvE0+xGYiYLVL2dnqPhYZEyAzkzu6COE0HC1y36Ulc
+	 /u9ZFI0u75euPWamsARzcyiKWc4oVSCPhLUeK0iNoZHOvZDZezygyLhA0rrvOJtfl
+	 rDmc9aAW05+fe4eC3lwaLN9Z0yxZPLdeXPoLJMUxd80i33UCjtqbV2MZ9vKeiI6BR
+	 vuJDYtLquF2SrGnqpg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [IPv6:::1] ([80.187.69.140]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MzhnN-1uSBvr1TE1-00qu8U; Thu, 24
+ Jul 2025 12:35:42 +0200
+Date: Thu, 24 Jul 2025 12:35:32 +0200
+From: Frank Wunderlich <frank-w@public-files.de>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, robh@kernel.org
+CC: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
+ conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
+ mchehab@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, chunfeng.yun@mediatek.com,
+ vkoul@kernel.org, kishon@kernel.org, sean.wang@kernel.org,
+ linus.walleij@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ andersson@kernel.org, mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
+ tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
+ ck.hu@mediatek.com, houlong.wei@mediatek.com,
+ kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
+ tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, shane.chien@mediatek.com,
+ olivia.wen@mediatek.com, granquet@baylibre.com, eugen.hristev@linaro.org,
+ arnd@arndb.de, sam.shih@mediatek.com, jieyy.yang@mediatek.com,
+ mwalle@kernel.org, fparent@baylibre.com, linux-crypto@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_27/38=5D_arm64=3A_dts=3A_mediatek=3A_m?=
+ =?US-ASCII?Q?t7988a=3A_Fix_PCI-Express_T-PHY_node_address?=
+User-Agent: K-9 Mail for Android
+Reply-to: frank-w@public-files.de
+In-Reply-To: <20250724083914.61351-28-angelogioacchino.delregno@collabora.com>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-28-angelogioacchino.delregno@collabora.com>
+Message-ID: <E00D9C7A-CEC6-4BB3-8568-CC54C80E1F9F@public-files.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2] media: venus: pm_helpers: add fallback for the
- opp-table
-Content-Language: en-US
-To: Renjiang Han <quic_renjiang@quicinc.com>, <quic_qiweil@quicinc.com>,
-        <quic_wangaow@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-References: <20250724-fallback_of_opp_table-v2-1-2fc61f2407dc@quicinc.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250724-fallback_of_opp_table-v2-1-2fc61f2407dc@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI0MDA3NSBTYWx0ZWRfX19eHRWojybXb
- GTBjCToUU5Gpu1lWAQmsCw4jV6b+kfS/cxpgkKZuAsmV0N3yU70YAzxtysm+84CBU24lMK39VDR
- HF9WQF9b8bwA/c0iYIIhTL7OGppnGc1DzDRxp5dm7T0jRCNHLbF0QXIbRbqh4/XJi/gucvJgBYr
- eRUv1UGgimYE6CkKtkuyPhYVvvsNjJ4CuKmaa30011cyJ9AUBAEk2pi2LS38WwjjMD6wu00htyv
- dkmQ03tVY7B9Wm0X8yXDBg/4JiZ0EFQWGVFKHmGdjNp4e1Ve0eJh1pVP/eiPZR8FIFuLSmR3C1H
- 1n6ZItpX4OFeFzOvNhOtkSBOhV7AS3dWNw4lfZdC3nkxrMmcsgWZRdx050aelvUljKq8QHuihXX
- /b4xpUhBQtLsTHdAIrZBgo6U6chwkWbgyLcjE0fuBieXmxv9AfdQhG7kOxxFcJvor7KFufy+
-X-Proofpoint-ORIG-GUID: 7DGBAtOAhqwxOX0xJe7V60x-8N77iEQ2
-X-Proofpoint-GUID: 7DGBAtOAhqwxOX0xJe7V60x-8N77iEQ2
-X-Authority-Analysis: v=2.4 cv=C/TpyRP+ c=1 sm=1 tr=0 ts=6882067d cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8
- a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=iWKRvkjQqEvONqlByQsA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-24_01,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 mlxscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=999 bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507240075
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nkz0xBWOn6njT18nQoUfw6V1GVlL8WpIemZpMHLlbE8QqNvMruQ
+ Dw1Pn/9vrDC5T+QE1uC+gQrBvCbuCBubKZuNY/QtmAr8uYJpemV1UWgy1GRhjhzujMe4Sno
+ OFT//bgrHPOQkyWfSsQl5jIAop0RmK2bQYCM8GBsuQbZ18A3HnORU53wBCWooCm/gqkZStX
+ r26BYjnhKxDQSZciDLXoQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:LqPQEsDz8IY=;vMKO03lm15WSc5MEUEg0Iky4Zzx
+ 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
 
+Am 24=2E Juli 2025 10:39:03 MESZ schrieb AngeloGioacchino Del Regno <angelo=
+gioacchino=2Edelregno@collabora=2Ecom>:
+>The PCIe and USB TPHYs are under the soc bus, which provides MMIO,
+>and all nodes under that must use the bus, otherwise those would
+>clearly be out of place=2E
+>
+>Add ranges to both the tphy(s) and assign the address to the main
+>node to silence a dtbs_check warning, and fix the children to
+>use the MMIO range of t-phy=2E
+>
+>Fixes: ("f693e6ba55ae arm64: dts: mediatek: mt7988: Add t-phy for ssusb1"=
+)
+>Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino=2Edelregno@co=
+llabora=2Ecom>
+>---
+> arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi | 28 +++++++++++------------
+> 1 file changed, 14 insertions(+), 14 deletions(-)
+>
+>diff --git a/arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi b/arch/arm64/boo=
+t/dts/mediatek/mt7988a=2Edtsi
+>index 560ec86dbec0=2E=2Ecc0d3e3f4374 100644
+>--- a/arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi
+>+++ b/arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi
+>@@ -629,20 +629,20 @@ pcie_intc1: interrupt-controller {
+> 		tphy: t-phy@11c50000 {
+> 			compatible =3D "mediatek,mt7986-tphy",
+> 				     "mediatek,generic-tphy-v2";
+>-			#address-cells =3D <2>;
+>-			#size-cells =3D <2>;
+>-			ranges;
+>+			#address-cells =3D <1>;
+>+			#size-cells =3D <1>;
+>+			ranges =3D <0 0 0x11c50000 0x1000>;
+> 			status =3D "disabled";
+>=20
+>-			tphyu2port0: usb-phy@11c50000 {
+>-				reg =3D <0 0x11c50000 0 0x700>;
+>+			tphyu2port0: usb-phy@0 {
+>+				reg =3D <0 0x700>;
+> 				clocks =3D <&infracfg CLK_INFRA_USB_UTMI_CK_P1>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+> 			};
+>=20
+>-			tphyu3port0: usb-phy@11c50700 {
+>-				reg =3D <0 0x11c50700 0 0x900>;
+>+			tphyu3port0: usb-phy@700 {
+>+				reg =3D <0 0x700 0 0x900>;
 
-On 7/24/2025 1:23 PM, Renjiang Han wrote:
-> Since the device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX
-> do not include an opp-table and have not configured opp-pmdomain, they
-> still need to use the frequencies defined in the driver's freq_tbl.
-> 
-> Both core_power_v1 and core_power_v4 functions require core_clks_enable
-> function during POWER_ON. Therefore, in the core_clks_enable function,
-> if calling dev_pm_opp_find_freq_ceil to obtain the frequency fails,
-> it needs to fall back to the freq_tbl to retrieve the frequency.
-> 
-> Fixes: b179234b5e59 ("media: venus: pm_helpers: use opp-table for the frequency")
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
-> Since device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX do not
-> contain an opp-table and have not configured opp-pmdomain, they still
-> need to use the frequencies defined in the driver's freq_tbl.
-> 
-> Therefore, if calling dev_pm_opp_find_freq_ceil to obtain the frequency
-> fails in the core_clks_enable, it needs to fall back to the freq_tbl to
-> retrieve the frequency.
-> 
-> Validated this series on QCS615 and msm8916.
+This one looks wrong to me
 
-Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+I guess it should be=20
+
+reg =3D <0x700 0x900>;
+
+> 				clocks =3D <&infracfg CLK_INFRA_USB_PIPE_CK_P1>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+>@@ -659,20 +659,20 @@ topmisc: system-controller@11d10084 {
+> 		xsphy: xs-phy@11e10000 {
+> 			compatible =3D "mediatek,mt7988-xsphy",
+> 				     "mediatek,xsphy";
+>-			#address-cells =3D <2>;
+>-			#size-cells =3D <2>;
+>-			ranges;
+>+			#address-cells =3D <1>;
+>+			#size-cells =3D <1>;
+>+			ranges =3D <0 0 0x11e10000 0x3900>;
+> 			status =3D "disabled";
+>=20
+>-			xphyu2port0: usb-phy@11e10000 {
+>-				reg =3D <0 0x11e10000 0 0x400>;
+>+			xphyu2port0: usb-phy@0 {
+>+				reg =3D <0 0x400>;
+> 				clocks =3D <&infracfg CLK_INFRA_USB_UTMI>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+> 			};
+>=20
+>-			xphyu3port0: usb-phy@11e13000 {
+>-				reg =3D <0 0x11e13400 0 0x500>;
+>+			xphyu3port0: usb-phy@3400 {
+>+				reg =3D <0x3400 0x500>;
+> 				clocks =3D <&infracfg CLK_INFRA_USB_PIPE>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+
+Hi Angelo,
+
+thanks for taking case of many of current binding errors (only wondering a=
+bout this one as i had checked it before sending upstream)=2E
+regards Frank
 
