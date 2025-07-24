@@ -1,607 +1,373 @@
-Return-Path: <linux-media+bounces-38414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38415-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32591B10E4F
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 17:07:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EF4B10EE4
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 17:41:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07EF31CE5B71
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 15:07:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EC0E5A5C3C
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 15:41:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 535472E973C;
-	Thu, 24 Jul 2025 15:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B012EA47C;
+	Thu, 24 Jul 2025 15:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JGXuSHKm"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UhZDty8l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A028F2E92C0
-	for <linux-media@vger.kernel.org>; Thu, 24 Jul 2025 15:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331D2267729
+	for <linux-media@vger.kernel.org>; Thu, 24 Jul 2025 15:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753369642; cv=none; b=N/gG4H3qKJIaEYLxvuvx+vBpUITMW3hc2L55myGNLhhlxZ1bSNz4qeDnQKKSPQQydqn9DiOdaI9mgNcZ1DGoluwpsKrptB884LgKIfLgmTPzOCY4Zg0JGLPF6kSzCKqlKUZHBqblb8IIfKMzf11c0g7agA6FR8D1rm+YMowAo+E=
+	t=1753371685; cv=none; b=HCJQkxcm/eahr5pFyFjEhwcccFrUAAR8XAB0fgdgcSxhKZZe9mk039BCI79rMJgvMsOb6z6DZXJy+HYAznyqhSyEFysTUV14japB6HJ4jtmIBM8gJFZA7V02bO5SRBZ5ae/lb+gG0xnaULGabwAGwaTw85FsQBflA+e25jEweTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753369642; c=relaxed/simple;
-	bh=oZBb01Ah0Zg8ABrWhy4PV6AAI8yrnV+VQN+UjBN6rYo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KdD7ErEwBjGccL1CiD+rHBLNzXWOg1+9dapV/CEdVMK5VCrLYnB8M3UynO0ZIo9GKCVuRIcYBF/8R257dacdsRmVZXlXKs3W15kuP5bdkdp//QsJxzIcFIxVs7ghl4yBe0CvptxZGt12IKbRVafK4gUfKgRMU7FAMQuuOCCvGlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JGXuSHKm; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753369639;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=goool6zZHxbiYeT5PZTG+2TGMC8C7c+FdN7P0zvEbNc=;
-	b=JGXuSHKmaBr8QonYfJ7YG7RU8lN2UphdjOiU3V3nCBqISKKqPHdKQMwe4U1gPv9SnySGKN
-	mKRSRD1xmRhUbo2dpj7bi5JvZ5nReKVMgaFJ88nf7nnB9APcFSXOydfMieR02e4dtdUEQQ
-	p1EnXTKyRSFlnw8m7bxX5FtUGeQXz/M=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-161-O8kQwpQgPvSPl-Zu5h4w7A-1; Thu, 24 Jul 2025 11:07:16 -0400
-X-MC-Unique: O8kQwpQgPvSPl-Zu5h4w7A-1
-X-Mimecast-MFC-AGG-ID: O8kQwpQgPvSPl-Zu5h4w7A_1753369635
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ae3b2630529so108302666b.1
-        for <linux-media@vger.kernel.org>; Thu, 24 Jul 2025 08:07:16 -0700 (PDT)
+	s=arc-20240116; t=1753371685; c=relaxed/simple;
+	bh=v7Jkc7pnFnG8I79TgHdc6VVgvwulobyj8KqUatw+ML8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P9KU9q6+22RxA0mfgYYCXGTaMZPIzHs5t2gTXDRJz6phpsJ7QZs0yQ3IeNtJBEeM38rYAqsNYNmXUUswA3oX3mZe5y3MA53QbOheDH5kuXz3kUeUfq+Kg7vjye51BYHNv5t74sExHejijdFNLCGsIWjwksuZRZOgQ+r23ymwpAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UhZDty8l; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-32b595891d2so8718671fa.2
+        for <linux-media@vger.kernel.org>; Thu, 24 Jul 2025 08:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753371681; x=1753976481; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/YO2QLd6dFG0rH+KpwmcIh/OK0/vdVHmYGqiVqxRC7k=;
+        b=UhZDty8le7v74ZvGDy6SzP/NxxYBrlBzKixDeyDMvcmPnL/Vw4oVvyUw3+R3eSkFA3
+         oGOo24k2Ma0BcE77m83NtTthZ0KmkJPc0TMZ4bHmmUT3Ke6Y808e+gI7YKT5T4S2oO+D
+         IUjCdyM+TSq8oMx/gbDph2yseluXoVQf3Dep4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753369635; x=1753974435;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=goool6zZHxbiYeT5PZTG+2TGMC8C7c+FdN7P0zvEbNc=;
-        b=Xh9EPEi3wGTsk/yxm1Al2yAGrDQzqG3jXQs6IXsBqbexSvcrJnVt/WruVIfafofFUZ
-         2MNuGPo9BCgilLOu5mNMTuJwValpb+H6S0hM1vctEK1ZvKXoVNH1zq/cWmkfROcxhG9p
-         SMKBEhMLqsmJ4qEGQGRHc1gUCsRSv1kqpKIcuBaP8S8YM85/QpMWNkFnmnkbtkszC/Pa
-         fA9cKPGTmKlVQSbMOIe9pI9LzvkuUu/i1lfIx/s1HzgyaHFpBwc8YA0+q8wMbiYXu9Ri
-         s2ek5LdIs9FDQ1jJgu6wF+fY336J3XVOYoICqqPKqw3xBsL0htvd9ZZB2ETM/An0OI/p
-         MXgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLHgdPvZlRt+XsqXgAdawBV3m8/a1tXS8oxDTM0NMWBMwE19uuNxL52p4Ep5prVlfan6GVWIua+T9O8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyB5OUjW6YEaX77xRtStbUv1RcSI6FQp/7s4xajQB8wIEWFOico
-	tlAGdJnGPWvt7HbPbTwq2+2bbHs4hYh8JJm63yIpM7vaVxCetGqyqIjZ12kqDTobY4qFYx3Lqxp
-	+uPwvryh1IBsEy09txxArizbjoA0nX0nkWOMrTABDG0WivCRAQxkwBSutCLQ+q7+q
-X-Gm-Gg: ASbGncvx9mUGEFbu9xBixqZWJHY6ofkdfxaNN3KvHN0GNT5emU4WY+yuZINgcAnTzO4
-	gDhRR1aFFgjVQompJRbLgG7foSICLzR2FNp31shQYw+pwUKhzIMxGK9pTOhHyUnZbJq5c2KxNAv
-	pYHf4SpXZhB86eaPE58llNJF2HM+oGmf24SGZRL5Mg8B3PM3+pZEFpMhGUSCCyYEQWNIkCFPOMG
-	ZmK8ac/FG7YVNfbwSbWz5lUfG1AEpRZws5a196zhGiCViDQoDevNjkTMYW+t4ZDHippZWcR/iz1
-	31jqNk57CTSXvnhpCyEAOLornbTrzKe80Hs1zi2Bjimba1zjSyJ7xEMtQv5yHDHpWJl8upkKpDN
-	4EKWFmp9gggU=
-X-Received: by 2002:a17:906:4fd0:b0:ade:44f8:569 with SMTP id a640c23a62f3a-af2f8d4b875mr744969266b.42.1753369634799;
-        Thu, 24 Jul 2025 08:07:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGAFluBZU3m5JKhU2ovOhD302OI8fxKvv5Lg9wR8FzqLUzAc8MbyYgITS3m3obeKvUPi0BF7Q==
-X-Received: by 2002:a17:906:4fd0:b0:ade:44f8:569 with SMTP id a640c23a62f3a-af2f8d4b875mr744963466b.42.1753369634115;
-        Thu, 24 Jul 2025 08:07:14 -0700 (PDT)
-Received: from ?IPv6:2001:16b8:3df8:b00:49b5:ffbc:d28a:6af0? ([2001:16b8:3df8:b00:49b5:ffbc:d28a:6af0])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af47c496eefsm125727266b.25.2025.07.24.08.07.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 08:07:13 -0700 (PDT)
-Message-ID: <f064a8c305bd2f2c0684251d3cd2470699c28d5e.camel@redhat.com>
-Subject: Re: [PATCH] drm/sched: Extend and update documentation
-From: Philipp Stanner <pstanner@redhat.com>
-To: Philipp Stanner <phasta@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Matthew
- Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Christian
- =?ISO-8859-1?Q?K=F6nig?=
-	 <christian.koenig@amd.com>
-Date: Thu, 24 Jul 2025 17:07:11 +0200
-In-Reply-To: <20250724140121.70873-2-phasta@kernel.org>
-References: <20250724140121.70873-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+        d=1e100.net; s=20230601; t=1753371681; x=1753976481;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/YO2QLd6dFG0rH+KpwmcIh/OK0/vdVHmYGqiVqxRC7k=;
+        b=eUv2dEH5VNlryA8wwztPgNfVltiBFa+VHZdVCoRdXhOyNTtNw2+XLMAJ91Fm/th4CH
+         NTQ8qDQOFgFdBZnEJ0V88WvcsS3F8vjxoj9qNUZFvffOzol5JselxUgAM7SYhINTxPS5
+         eXgYeHWaHSaE7Oa7+anCHn+rgvZf2RLHejAphYzC/QxAPUAZXc0jX0822FzCVemWMlJF
+         VhUJqoeQdaKxiRUaM8sv4WjVHk3olzU7iT5rlihj6SXQqDScfarwVhk4mz5o7cFwLzux
+         xeu7UrzMI5EyD2N8ZY95gkIoKh741BZZvnxyuKSEafo72vO1cZQV60HUzzG8BtNZhDQF
+         +/3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUhJy86GeQxRPwPlq2S2k9sAFV0k58ZX+DmLrSFz51LAUXlXGFkZ3wlDfoytlY/sdkbIi2ZQqwcl6mbpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwO2tMrCeFoxSp+PUfKEGYIh68Gu4wtJruo2RKxU2QpBO37c9Ju
+	bOC17aArIQVygWccH849fdoI9spRtsMheraMh2MVvZtPW3GyxU53EoFq5AkcgrGGHaXgxkrqhLg
+	yqOg=
+X-Gm-Gg: ASbGncvCZuew04AHosI7rGHjrhWcaYDuaG2qYvXPkbWODvbhx6JXig1hxDhPcWnsQyN
+	yaPbpRMozxbmDZ2LsPx63RzfSLQkD/epwDCwMYbM0GpvXXpWB+A4JKqgY0L1OzQ93Vu/Ua1J2re
+	akW5j2qb+t/YrJGDpz1ZrtBxlIiDFgzVSgdlOg5bdZJU6T3cfsvfUDWhEcZpJ+aVV81ZyR0swWt
+	vtt8p8tugUG375j4XXR4LT9+/Ml4IdQRiYhBqNmoQ8QbnccLqIm+LnZQ3RR6s2nHLPVwyQLjTzU
+	XNPoyiZVticiNccxGqAqPH/k/0xg5e8ouAjasY315Vw9VbWzaBszRogawsCv70LxfBrPiPiTwwl
+	qBt2G7NZNb1z2lf0YjGZ8uHZPn+0HcIYFFhjC3VxBdyTJI6rwF6V/s9g2YOpD
+X-Google-Smtp-Source: AGHT+IFrmaMULYjQ514GgY3hvkIVQEH9QR42TN3xYN5IF0sX8uXzOASR3ICY7NajAYoITQYqoY0APg==
+X-Received: by 2002:a2e:88d1:0:b0:32c:a502:8334 with SMTP id 38308e7fff4ca-330dfe5c4ecmr21372771fa.36.1753371681086;
+        Thu, 24 Jul 2025 08:41:21 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com. [209.85.167.54])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-331e091252bsm3320851fa.75.2025.07.24.08.41.19
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Jul 2025 08:41:19 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5561ab55c4dso1170102e87.2
+        for <linux-media@vger.kernel.org>; Thu, 24 Jul 2025 08:41:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXh2Kd3H4yNfYxS0yq5UAE0eZFwzwMEmA8a0aRihOwcVh2+u9lQXLujm/7PRu1yoIxKFCVEGwzPXIbEvw==@vger.kernel.org
+X-Received: by 2002:a05:6512:159b:b0:553:3314:adcf with SMTP id
+ 2adb3069b0e04-55a51340ca8mr2321848e87.5.1753371678858; Thu, 24 Jul 2025
+ 08:41:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250717-uvc-onelocksless-v1-1-91a1b834186a@chromium.org> <20250724120840.GL11202@pendragon.ideasonboard.com>
+In-Reply-To: <20250724120840.GL11202@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 24 Jul 2025 17:41:06 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvvAX27u4_qnKxbSqWVWybsZFV-367eSv8ig85-cCeDTw@mail.gmail.com>
+X-Gm-Features: Ac12FXylfoPrM2Hz79UdvKdBFKxBMHUnQ0YXNw1mT6Ux9JoPA088IRzv3mRoF_U
+Message-ID: <CANiDSCvvAX27u4_qnKxbSqWVWybsZFV-367eSv8ig85-cCeDTw@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Drop stream->mutex
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Two comments from myself to open up room for discussion:
+Hi Laurent
 
-On Thu, 2025-07-24 at 16:01 +0200, Philipp Stanner wrote:
-> From: Philipp Stanner <pstanner@redhat.com>
->=20
-> The various objects and their memory lifetime used by the GPU scheduler
-> are currently not fully documented.
->=20
-> Add documentation describing the scheduler's objects. Improve the
-> general documentation at a few other places.
->=20
-> Co-developed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
-> The first draft for this docu was posted by Christian in late 2023 IIRC.
->=20
-> This is an updated version. Please review.
->=20
-> @Christian: As we agreed on months (a year?) ago I kept your Signed-off
-> by. Just tell me if there's any issue or sth.
-> ---
-> =C2=A0Documentation/gpu/drm-mm.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 36 ++++
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 228 ++++++++++++++++++++++=
----
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
-> =C2=A03 files changed, 238 insertions(+), 31 deletions(-)
->=20
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index d55751cad67c..95ee95fd987a 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -556,12 +556,48 @@ Overview
-> =C2=A0.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> =C2=A0=C2=A0=C2=A0 :doc: Overview
-> =C2=A0
-> +Job Object
-> +----------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> +=C2=A0=C2=A0 :doc: Job Object
-> +
-> +Entity Object
-> +-------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> +=C2=A0=C2=A0 :doc: Entity Object
-> +
-> +Hardware Fence Object
-> +---------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> +=C2=A0=C2=A0 :doc: Hardware Fence Object
-> +
-> +Scheduler Fence Object
-> +----------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> +=C2=A0=C2=A0 :doc: Scheduler Fence Object
-> +
-> +Scheduler and Run Queue Objects
-> +-------------------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> +=C2=A0=C2=A0 :doc: Scheduler and Run Queue Objects
-> +
-> =C2=A0Flow Control
-> =C2=A0------------
-> =C2=A0
-> =C2=A0.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> =C2=A0=C2=A0=C2=A0 :doc: Flow Control
-> =C2=A0
-> +Error and Timeout handling
-> +--------------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> +=C2=A0=C2=A0 :doc: Error and Timeout handling
-> +
-> =C2=A0Scheduler Function References
-> =C2=A0-----------------------------
-> =C2=A0
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index 5a550fd76bf0..2e7bc1e74186 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -24,48 +24,220 @@
-> =C2=A0/**
-> =C2=A0 * DOC: Overview
-> =C2=A0 *
-> - * The GPU scheduler provides entities which allow userspace to push job=
-s
-> - * into software queues which are then scheduled on a hardware run queue=
-.
-> - * The software queues have a priority among them. The scheduler selects=
- the entities
-> - * from the run queue using a FIFO. The scheduler provides dependency ha=
-ndling
-> - * features among jobs. The driver is supposed to provide callback funct=
-ions for
-> - * backend operations to the scheduler like submitting a job to hardware=
- run queue,
-> - * returning the dependencies of a job etc.
-> + * The GPU scheduler is shared infrastructure intended to help drivers m=
-anaging
-> + * command submission to their hardware.
-> =C2=A0 *
-> - * The organisation of the scheduler is the following:
-> + * To do so, it offers a set of scheduling facilities that interact with=
- the
-> + * driver through callbacks which the latter can register.
-> =C2=A0 *
-> - * 1. Each hw run queue has one scheduler
-> - * 2. Each scheduler has multiple run queues with different priorities
-> - *=C2=A0=C2=A0=C2=A0 (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
-> - * 3. Each scheduler run queue has a queue of entities to schedule
-> - * 4. Entities themselves maintain a queue of jobs that will be schedule=
-d on
-> - *=C2=A0=C2=A0=C2=A0 the hardware.
-> + * In particular, the scheduler takes care of:
-> + *=C2=A0=C2=A0 - Ordering command submissions
-> + *=C2=A0=C2=A0 - Signalling dma_fences, e.g., for finished commands
-> + *=C2=A0=C2=A0 - Taking dependencies between command submissions into ac=
-count
-> + *=C2=A0=C2=A0 - Handling timeouts for command submissions
-> =C2=A0 *
-> - * The jobs in an entity are always scheduled in the order in which they=
- were pushed.
-> + * All callbacks the driver needs to implement are restricted by dma_fen=
-ce
-> + * signaling rules to guarantee deadlock free forward progress. This esp=
-ecially
-> + * means that for normal operation no memory can be allocated in a callb=
-ack.
-> + * All memory which is needed for pushing the job to the hardware must b=
-e
-> + * allocated before arming a job. It also means that no locks can be tak=
-en
-> + * under which memory might be allocated.
-> =C2=A0 *
-> - * Note that once a job was taken from the entities queue and pushed to =
-the
-> - * hardware, i.e. the pending queue, the entity must not be referenced a=
-nymore
-> - * through the jobs entity pointer.
-> + * Optional memory, for example for device core dumping or debugging, *m=
-ust* be
-> + * allocated with GFP_NOWAIT and appropriate error handling if that allo=
-cation
-> + * fails. GFP_ATOMIC should only be used if absolutely necessary since d=
-ipping
-> + * into the special atomic reserves is usually not justified for a GPU d=
-river.
-> + *
-> + * Note especially the following about the scheduler's historic backgrou=
-nd that
-> + * lead to sort of a double role it plays today:
-> + *
-> + * In classic setups N ("hardware scheduling") entities share one schedu=
-ler,
-> + * and the scheduler decides which job to pick from which entity and mov=
-e it to
-> + * the hardware ring next (that is: "scheduling").
-> + *
-> + * Many (especially newer) GPUs, however, can have an almost arbitrary n=
-umber
-> + * of hardware rings and it's a firmware scheduler which actually decide=
-s which
-> + * job will run next. In such setups, the GPU scheduler is still used (e=
-.g., in
-> + * Nouveau) but does not "schedule" jobs in the classical sense anymore.=
- It
-> + * merely serves to queue and dequeue jobs and resolve dependencies. In =
-such a
-> + * scenario, it is recommended to have one scheduler per entity.
-> + */
-> +
-> +/**
-> + * DOC: Job Object
-> + *
-> + * The base job object (&struct drm_sched_job) contains submission depen=
-dencies
-> + * in the form of &struct dma_fence objects. Drivers can also implement =
-an
-> + * optional prepare_job callback which returns additional dependencies a=
-s
-> + * dma_fence objects. It's important to note that this callback can't al=
-locate
-> + * memory or grab locks under which memory is allocated.
-> + *
-> + * Drivers should use this as base class for an object which contains th=
-e
-> + * necessary state to push the command submission to the hardware.
-> + *
-> + * The lifetime of the job object needs to last at least from submitting=
- it to
-> + * the scheduler (through drm_sched_job_arm()) until the scheduler has i=
-nvoked
-> + * &struct drm_sched_backend_ops.free_job and, thereby, has indicated th=
-at it
-> + * does not need the job anymore. Drivers can of course keep their job o=
-bject
-> + * alive for longer than that, but that's outside of the scope of the sc=
-heduler
-> + * component.
-> + *
-> + * Job initialization is split into two stages:
-> + *=C2=A0=C2=A0 1. drm_sched_job_init() which serves for basic preparatio=
-n of a job.
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Drivers don't have to be mindful of thi=
-s function's consequences and
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 its effects can be reverted through drm=
-_sched_job_cleanup().
-> + *=C2=A0=C2=A0 2. drm_sched_job_arm() which irrevokably arms a job for e=
-xecution. This
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initializes the job's fences and the jo=
-b has to be submitted with
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_push_job(). Once drm_s=
-ched_job_arm() has been called,
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the job structure has to be valid until=
- the scheduler invoked
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_backend_ops.free_job().
-> + *
-> + * It's important to note that after arming a job drivers must follow th=
-e
-> + * dma_fence rules and can't easily allocate memory or takes locks under=
- which
-> + * memory is allocated.
-> + */
-> +
-> +/**
-> + * DOC: Entity Object
-> + *
-> + * The entity object (&struct drm_sched_entity) is a container for jobs =
-which
-> + * should execute sequentially. Drivers should create an entity for each
-> + * individual context they maintain for command submissions which can ru=
-n in
-> + * parallel.
-> + *
-> + * The lifetime of the entity *should not* exceed the lifetime of the
-> + * userspace process it was created for and drivers should call the
-> + * drm_sched_entity_flush() function from their file_operations.flush()
-> + * callback. It is possible that an entity object is not alive anymore
-> + * while jobs previously fetched from it are still running on the hardwa=
-re.
-> + *
-> + * This is done because all results of a command submission should becom=
-e
-> + * visible externally even after a process exits. This is normal POSIX
-> + * behavior for I/O operations.
-> + *
-> + * The problem with this approach is that GPU submissions contain execut=
-able
-> + * shaders enabling processes to evade their termination by offloading w=
-ork to
-> + * the GPU. So when a process is terminated with a SIGKILL the entity ob=
-ject
-> + * makes sure that jobs are freed without running them while still maint=
-aining
-> + * correct sequential order for signaling fences.
-> + *
-> + * All entities associated with a scheduler have to be torn down before =
-that
-> + * scheduler.
-> + */
-> +
-> +/**
-> + * DOC: Hardware Fence Object
-> + *
-> + * The hardware fence object is a dma_fence provided by the driver throu=
-gh
-> + * &struct drm_sched_backend_ops.run_job. The driver signals this fence =
-once the
-> + * hardware has completed the associated job.
-> + *
-> + * Drivers need to make sure that the normal dma_fence semantics are fol=
-lowed
-> + * for this object. It's important to note that the memory for this obje=
-ct can
-> + * *not* be allocated in &struct drm_sched_backend_ops.run_job since tha=
-t would
-> + * violate the requirements for the dma_fence implementation. The schedu=
-ler
-> + * maintains a timeout handler which triggers if this fence doesn't sign=
-al
-> + * within a configurable amount of time.
-> + *
-> + * The lifetime of this object follows dma_fence refcounting rules. The
-> + * scheduler takes ownership of the reference returned by the driver and
-> + * drops it when it's not needed any more.
-> + *
-> + * See &struct drm_sched_backend_ops.run_job for precise refcounting rul=
-es.
-> + */
-> +
-> +/**
-> + * DOC: Scheduler Fence Object
-> + *
-> + * The scheduler fence object (&struct drm_sched_fence) encapsulates the=
- whole
-> + * time from pushing the job into the scheduler until the hardware has f=
-inished
-> + * processing it. It is managed by the scheduler. The implementation pro=
-vides
-> + * dma_fence interfaces for signaling both scheduling of a command submi=
-ssion
-> + * as well as finishing of processing.
-> + *
-> + * The lifetime of this object also follows normal dma_fence refcounting=
- rules.
-> + */
+On Thu, 24 Jul 2025 at 14:08, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Thu, Jul 17, 2025 at 07:56:45AM +0000, Ricardo Ribalda wrote:
+> > Since commit c93d73c9c2cf ("media: uvcvideo: Use vb2 ioctl and fop
+> > helpers"), the IOCTLs are serialized. Due to this there is no more need
+> > to protect ctrl, cur_format or cur_frame from concurrent access.
+> >
+> > Drop stream->mutex after thanking it for years of good service.
+> >
+> > Use this opportunity to do fix some CodeStyle.
+>
+> Is that about the following change only:
+>
+> -       if (format == NULL || frame == NULL) {
+> +       if (!format || !frame)
+>
+> or is there something else I missed ?
 
-The relict I'm most unsure about is this docu for the scheduler fence.
-I know that some drivers are accessing the s_fence, but I strongly
-suspect that this is a) unncessary and b) dangerous.
+I believe that's it.
 
-But the original draft from Christian hinted at that. So, @Christian,
-this would be an opportunity to discuss this matter.
+>
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_driver.c   |  4 ----
+> >  drivers/media/usb/uvc/uvc_metadata.c |  8 ++------
+> >  drivers/media/usb/uvc/uvc_v4l2.c     | 39 ++++++++----------------------------
+> >  drivers/media/usb/uvc/uvcvideo.h     |  6 ------
+> >  4 files changed, 10 insertions(+), 47 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index 775bede0d93d9b3e5391914aa395326d3de6a3b1..3039e6a533b82dd917050d416c9ced8756d69170 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -183,8 +183,6 @@ static void uvc_stream_delete(struct uvc_streaming *stream)
+> >       if (stream->async_wq)
+> >               destroy_workqueue(stream->async_wq);
+> >
+> > -     mutex_destroy(&stream->mutex);
+> > -
+> >       usb_put_intf(stream->intf);
+> >
+> >       kfree(stream->formats);
+> > @@ -201,8 +199,6 @@ static struct uvc_streaming *uvc_stream_new(struct uvc_device *dev,
+> >       if (stream == NULL)
+> >               return NULL;
+> >
+> > -     mutex_init(&stream->mutex);
+> > -
+> >       stream->dev = dev;
+> >       stream->intf = usb_get_intf(intf);
+> >       stream->intfnum = intf->cur_altsetting->desc.bInterfaceNumber;
+> > diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+> > index 229e08ff323eed9129d835b24ea2e8085bb713b8..d1d4fade634bd3f8b12bbaa75388db42aecc25ea 100644
+> > --- a/drivers/media/usb/uvc/uvc_metadata.c
+> > +++ b/drivers/media/usb/uvc/uvc_metadata.c
+> > @@ -100,14 +100,10 @@ static int uvc_meta_v4l2_set_format(struct file *file, void *fh,
+> >        * Metadata buffers would still be perfectly parseable, but it's more
+> >        * consistent and cleaner to disallow that.
+> >        */
+> > -     mutex_lock(&stream->mutex);
+> > -
+> >       if (vb2_is_busy(&stream->meta.queue.queue))
+> > -             ret = -EBUSY;
+> > -     else
+> > -             stream->meta.format = fmt->dataformat;
+> > +             return -EBUSY;
+> >
+> > -     mutex_unlock(&stream->mutex);
+> > +     stream->meta.format = fmt->dataformat;
+> >
+> >       return ret;
+>
+>         return 0;
+>
+> >  }
+> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> > index 160f9cf6e6dbdbf39e3eff56a5d5ea1d977fbe22..d7be4d59f0c73b983aa01321f4acc8f8bf6e83ef 100644
+> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > @@ -329,14 +329,12 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+> >        * developers test their webcams with the Linux driver as well as with
+> >        * the Windows driver).
+> >        */
+> > -     mutex_lock(&stream->mutex);
+> >       if (stream->dev->quirks & UVC_QUIRK_PROBE_EXTRAFIELDS)
+> >               probe->dwMaxVideoFrameSize =
+> >                       stream->ctrl.dwMaxVideoFrameSize;
+> >
+> >       /* Probe the device. */
+> >       ret = uvc_probe_video(stream, probe);
+> > -     mutex_unlock(&stream->mutex);
+> >       if (ret < 0)
+> >               return ret;
+> >
+> > @@ -395,19 +393,15 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
+> >       struct uvc_streaming *stream = handle->stream;
+> >       const struct uvc_format *format;
+> >       const struct uvc_frame *frame;
+> > -     int ret = 0;
+> >
+> >       if (fmt->type != stream->type)
+> >               return -EINVAL;
+> >
+> > -     mutex_lock(&stream->mutex);
+> >       format = stream->cur_format;
+> >       frame = stream->cur_frame;
+> >
+> > -     if (format == NULL || frame == NULL) {
+> > -             ret = -EINVAL;
+> > -             goto done;
+> > -     }
+> > +     if (!format || !frame)
+> > +             return -EINVAL;
+> >
+> >       fmt->fmt.pix.pixelformat = format->fcc;
+> >       fmt->fmt.pix.width = frame->wWidth;
+> > @@ -419,9 +413,7 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
+> >       fmt->fmt.pix.xfer_func = format->xfer_func;
+> >       fmt->fmt.pix.ycbcr_enc = format->ycbcr_enc;
+> >
+> > -done:
+> > -     mutex_unlock(&stream->mutex);
+> > -     return ret;
+> > +     return 0;
+> >  }
+> >
+> >  static int uvc_ioctl_s_fmt(struct file *file, void *fh,
+> > @@ -441,19 +433,14 @@ static int uvc_ioctl_s_fmt(struct file *file, void *fh,
+> >       if (ret < 0)
+> >               return ret;
+> >
+> > -     mutex_lock(&stream->mutex);
+> > -     if (vb2_is_busy(&stream->queue.queue)) {
+> > -             ret = -EBUSY;
+> > -             goto done;
+> > -     }
+> > +     if (vb2_is_busy(&stream->queue.queue))
+> > +             return -EBUSY;
+> >
+> >       stream->ctrl = probe;
+> >       stream->cur_format = format;
+> >       stream->cur_frame = frame;
+> >
+> > -done:
+> > -     mutex_unlock(&stream->mutex);
+> > -     return ret;
+> > +     return 0;
+> >  }
+> >
+> >  static int uvc_ioctl_g_parm(struct file *file, void *fh,
+> > @@ -466,9 +453,7 @@ static int uvc_ioctl_g_parm(struct file *file, void *fh,
+> >       if (parm->type != stream->type)
+> >               return -EINVAL;
+> >
+> > -     mutex_lock(&stream->mutex);
+> >       numerator = stream->ctrl.dwFrameInterval;
+> > -     mutex_unlock(&stream->mutex);
+> >
+>
+> You can drop the blank line here.
+>
+> >       denominator = 10000000;
+> >       v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
+> > @@ -519,12 +504,9 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
+> >       uvc_dbg(stream->dev, FORMAT, "Setting frame interval to %u/%u (%u)\n",
+> >               timeperframe.numerator, timeperframe.denominator, interval);
+> >
+> > -     mutex_lock(&stream->mutex);
+> >
+>
+> Double blank line.
+>
+> > -     if (uvc_queue_streaming(&stream->queue)) {
+> > -             mutex_unlock(&stream->mutex);
+> > +     if (uvc_queue_streaming(&stream->queue))
+> >               return -EBUSY;
+> > -     }
+> >
+> >       format = stream->cur_format;
+> >       frame = stream->cur_frame;
+> > @@ -556,14 +538,11 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
+> >
+> >       /* Probe the device with the new settings. */
+> >       ret = uvc_probe_video(stream, &probe);
+> > -     if (ret < 0) {
+> > -             mutex_unlock(&stream->mutex);
+> > +     if (ret < 0)
+> >               return ret;
+> > -     }
+> >
+> >       stream->ctrl = probe;
+> >       stream->cur_frame = frame;
+> > -     mutex_unlock(&stream->mutex);
+> >
+> >       /* Return the actual frame period. */
+> >       timeperframe.numerator = probe.dwFrameInterval;
+> > @@ -941,10 +920,8 @@ static int uvc_ioctl_g_selection(struct file *file, void *fh,
+> >
+> >       sel->r.left = 0;
+> >       sel->r.top = 0;
+> > -     mutex_lock(&stream->mutex);
+> >       sel->r.width = stream->cur_frame->wWidth;
+> >       sel->r.height = stream->cur_frame->wHeight;
+> > -     mutex_unlock(&stream->mutex);
+> >
+> >       return 0;
+> >  }
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 757254fc4fe930ae61c9d0425f04d4cd074a617e..86765b9d7935f0888476249c3fb826cd7f36b35c 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -469,12 +469,6 @@ struct uvc_streaming {
+> >       const struct uvc_format *cur_format;
+> >       const struct uvc_frame *cur_frame;
+> >
+> > -     /*
+> > -      * Protect access to ctrl, cur_format, cur_frame and hardware video
+> > -      * probe control.
+> > -      */
+> > -     struct mutex mutex;
+> > -
+>
+> Could you please instead keep this mutex and drop uvc_video_queue.mutex
+> ? The rationale is that the same lock is now used to protect the queue
+> operations and to serialize the ioctls. It's therefore a higher-level
+> lock, which should be stored in the higher-level object, not in the
+> queue.
+>
+> You can then also drop the lock assignment in uvc_queue.c that reads
+>
+>         queue->queue.lock = &queue->mutex;
+>
+> as videobuf2 and the V4L2 core will use the video device lock when no
+> queue lock is set. The comment at the top of uvc_queue.c may need to be
+> updated.
 
-Otherwise I'd drop this docu section in v2. What users don't know, they
-cannot misuse.
+Are we sure that it is exactly the same?
 
-> +
-> +/**
-> + * DOC: Scheduler and Run Queue Objects
-> + *
-> + * The scheduler object itself (&struct drm_gpu_scheduler) does the actu=
-al
-> + * scheduling: it picks the next entity to run a job from and pushes tha=
-t job
-> + * onto the hardware. Both FIFO and RR selection algorithms are supporte=
-d, with
-> + * FIFO being the default and the recommended one.
-> + *
-> + * The lifetime of the scheduler is managed by the driver using it. Befo=
-re
-> + * destroying the scheduler the driver must ensure that all hardware pro=
-cessing
-> + * involving this scheduler object has finished by calling for example
-> + * disable_irq(). It is *not* sufficient to wait for the hardware fence =
-here
-> + * since this doesn't guarantee that all callback processing has finishe=
-d.
-> + *
-> + * The run queue object (&struct drm_sched_rq) is a container for entiti=
-es of a
-> + * certain priority level. This object is internally managed by the sche=
-duler
-> + * and drivers must not touch it directly. The lifetime of a run queue i=
-s bound
-> + * to the scheduler's lifetime.
-> + *
-> + * All entities associated with a scheduler must be torn down before it.=
- Drivers
-> + * should implement &struct drm_sched_backend_ops.cancel_job to avoid pe=
-nding
-> + * jobs (those that were pulled from an entity into the scheduler, but h=
-ave not
-> + * been completed by the hardware yet) from leaking.
-> =C2=A0 */
-> =C2=A0
-> =C2=A0/**
-> =C2=A0 * DOC: Flow Control
-> =C2=A0 *
-> =C2=A0 * The DRM GPU scheduler provides a flow control mechanism to regul=
-ate the rate
-> - * in which the jobs fetched from scheduler entities are executed.
-> + * at which jobs fetched from scheduler entities are executed.
-> =C2=A0 *
-> - * In this context the &drm_gpu_scheduler keeps track of a driver specif=
-ied
-> - * credit limit representing the capacity of this scheduler and a credit=
- count;
-> - * every &drm_sched_job carries a driver specified number of credits.
-> + * In this context the &struct drm_gpu_scheduler keeps track of a driver
-> + * specified credit limit representing the capacity of this scheduler an=
-d a
-> + * credit count; every &struct drm_sched_job carries a driver-specified =
-number
-> + * of credits.
-> =C2=A0 *
-> - * Once a job is executed (but not yet finished), the job's credits cont=
-ribute
-> - * to the scheduler's credit count until the job is finished. If by exec=
-uting
-> - * one more job the scheduler's credit count would exceed the scheduler'=
-s
-> - * credit limit, the job won't be executed. Instead, the scheduler will =
-wait
-> - * until the credit count has decreased enough to not overflow its credi=
-t limit.
-> - * This implies waiting for previously executed jobs.
-> + * Once a job is being executed, the job's credits contribute to the
-> + * scheduler's credit count until the job is finished. If by executing o=
-ne more
-> + * job the scheduler's credit count would exceed the scheduler's credit =
-limit,
-> + * the job won't be executed. Instead, the scheduler will wait until the=
- credit
-> + * count has decreased enough to not overflow its credit limit. This imp=
-lies
-> + * waiting for previously executed jobs.
-> =C2=A0 */
-> =C2=A0
-> +/**
-> + * DOC: Error and Timeout handling
-> + *
-> + * Errors are signaled by using dma_fence_set_error() on the hardware fe=
-nce
-> + * object before signaling it with dma_fence_signal(). Errors are then b=
-ubbled
-> + * up from the hardware fence to the scheduler fence.
-> + *
-> + * The entity allows querying errors on the last run submission using th=
-e
-> + * drm_sched_entity_error() function which can be used to cancel queued
-> + * submissions in &struct drm_sched_backend_ops.run_job as well as preve=
-nting
-> + * pushing further ones into the entity in the driver's submission funct=
-ion.
-> + *
-> + * When the hardware fence doesn't signal within a configurable amount o=
-f time
-> + * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver s=
-hould
-> + * then follow the procedure described in that callback's documentation.
-> + *
-> + * (TODO: The timeout handler should probably switch to using the hardwa=
-re
-> + * fence as parameter instead of the job. Otherwise the handling will al=
-ways
-> + * race between timing out and signaling the fence).
+There are places in videobuf2-core.c where we do not use video device lock.
 
-This TODO can probably removed, too. The recently merged
-DRM_GPU_SCHED_STAT_NO_HANG has solved this issue.
+Eg:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/common/videobuf2/videobuf2-core.c#n2056
+
+I'd rather keep the assignment to be in the safe side.
+
+Regards!
 
 
-P.
+>
+> >       /* Buffers queue. */
+> >       unsigned int frozen : 1;
+> >       struct uvc_video_queue queue;
+> >
+> > ---
+> > base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+> > change-id: 20250716-uvc-onelocksless-b66658e01f89
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-> + *
-> + * The scheduler also used to provided functionality for re-submitting j=
-obs
-> + * and, thereby, replaced the hardware fence during reset handling. This
-> + * functionality is now deprecated. This has proven to be fundamentally =
-racy
-> + * and not compatible with dma_fence rules and shouldn't be used in new =
-code.
-> + *
-> + * Additionally, there is the function drm_sched_increase_karma() which =
-tries
-> + * to find the entity which submitted a job and increases its 'karma' at=
-omic
-> + * variable to prevent resubmitting jobs from this entity. This has quit=
-e some
-> + * overhead and resubmitting jobs is now marked as deprecated. Thus, usi=
-ng this
-> + * function is discouraged.
-> + *
-> + * Drivers can still recreate the GPU state in case it should be lost du=
-ring
-> + * timeout handling *if* they can guarantee that forward progress will b=
-e made
-> + * and this doesn't cause another timeout. But this is strongly hardware
-> + * specific and out of the scope of the general GPU scheduler.
-> + */
-> =C2=A0#include <linux/export.h>
-> =C2=A0#include <linux/wait.h>
-> =C2=A0#include <linux/sched.h>
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 323a505e6e6a..0f0687b7ae9c 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -458,8 +458,8 @@ struct drm_sched_backend_ops {
-> =C2=A0	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
-> =C2=A0
-> =C2=A0	/**
-> -	 * @timedout_job: Called when a job has taken too long to execute,
-> -	 * to trigger GPU recovery.
-> +	 * @timedout_job: Called when a hardware fence didn't signal within a
-> +	 * configurable amount of time. Triggers GPU recovery.
-> =C2=A0	 *
-> =C2=A0	 * @sched_job: The job that has timed out
-> =C2=A0	 *
-> @@ -506,7 +506,6 @@ struct drm_sched_backend_ops {
-> =C2=A0	 * that timeout handlers are executed sequentially.
-> =C2=A0	 *
-> =C2=A0	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_=
-stat
-> -	 *
-> =C2=A0	 */
-> =C2=A0	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sche=
-d_job);
-> =C2=A0
 
+
+--
+Ricardo Ribalda
 
