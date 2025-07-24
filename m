@@ -1,430 +1,326 @@
-Return-Path: <linux-media+bounces-38383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BD3B10CB0
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 16:08:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 975C3B10CCB
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 16:10:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B32E5C24E7
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 14:04:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 99E877ACA92
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 14:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4508A2DE6F2;
-	Thu, 24 Jul 2025 14:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F792D9ED3;
+	Thu, 24 Jul 2025 14:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5cXUpYw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n+vsQIU5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933C026A1AC;
-	Thu, 24 Jul 2025 14:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3192C327B;
+	Thu, 24 Jul 2025 14:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753365701; cv=none; b=jx0PqUSBuhy2BpG3AVYvpgGHEmkczdFfzoYlGwLkca7WQhWdM+vCsdKtzn/I+0xUN8o7BD1lc58ZTt2VbaZR/sdfgKGGgYw7zho1NjGOaHVxVeyP+b2pipD8mgm0uxaUDN/BaorYY3lx5/hSNuIHFg3meFp+r46muLE+Wyg+9zs=
+	t=1753366232; cv=none; b=KECi0WKUB53Tb2SC2joW3ysWlMTZBb7yQmmax+kNpfrQ/CNh+hZJ8lQ/w09v+CYdwID6Xz++XQ+KY6/yEeWCFVpzDbhg1An1zSxFwnlQxc+kjyynTv8Ro7aLtLPRFXcBu7g0oKp4RxcSpLWow+U9GAZ6IkrfCTA4wID8yaaigAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753365701; c=relaxed/simple;
-	bh=Bl2z6UzBE2b4Fs8m5F+n8N6Lz4INOiTKISDcUCJVU6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y8Og/ZJKwTpsnwTVAAS90REJp9k0b2M9NcEIUTWah+MuR75RPTMK+Jl8appiJNr5bI+xHF8vtGaPcAM8vz+ARSYzH0NSbqFj+gI9tDiBRMo3nKtHOqt5Ih103tKqmd30jDcmJUArlx6l5M7eAAAiHWUE1/rPsNA8VMC7tItMLgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5cXUpYw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF647C4CEF5;
-	Thu, 24 Jul 2025 14:01:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753365701;
-	bh=Bl2z6UzBE2b4Fs8m5F+n8N6Lz4INOiTKISDcUCJVU6Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=T5cXUpYwzxh8ggJkSRCDhW/e0NBtjNCthqiOkZzLZudAyo18SbV43HJa1hT4pwMtH
-	 EKDTk80HOFN3U2Qvjo1UJANcDC6j4zLpmH1up7UHBEV/8+3jv91R6UcIqDFn4jno5j
-	 vd9zUbCpijiXDIUUfAapbS1nc7zJTC9lXKbg46KBP96YOgri48IjQXPQccW1MyRaLV
-	 pgqooFlkRaC9wwDiFLBoiPv9TNscMy9/T25K+hDUIHfDVYRwsjSzi65XAtYCYkVkrD
-	 /pM8+uheplEaLjRbzwuR/0BYb0c3+Ns62BJADtRFQnyeKg1r1wC3hLcOrrlbsS8Pcx
-	 GQGF5M2z5Mvuw==
-From: Philipp Stanner <phasta@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Philipp Stanner <pstanner@redhat.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/sched: Extend and update documentation
-Date: Thu, 24 Jul 2025 16:01:22 +0200
-Message-ID: <20250724140121.70873-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1753366232; c=relaxed/simple;
+	bh=I2DfFvSzoohaF8QaBJl3+Mx/Tsj5HbstN1YNZnjJmWM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mCJ3wfimLcKeByoIIVebloapk3aZUX8U5oqeMk7dHDsBan4JIU5mU04wYbnO4JOPI35ScbM9QsfS3DZLthwh8Ph2yKwhogXdsqmttMtnDIEaGgr5BmDJ+aoNdEBbkjLnQGi+miTy53gYINHQ0qcpkO0wEQIEcNN1l1wOmw9GiSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n+vsQIU5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.76] (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05B1EC79;
+	Thu, 24 Jul 2025 16:09:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753366188;
+	bh=I2DfFvSzoohaF8QaBJl3+Mx/Tsj5HbstN1YNZnjJmWM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=n+vsQIU5+axMze5JAIq6Q/orPUNGoynBOU2+YS2j3l5XTpj+TPtANUEX/53Wf8AtP
+	 kvhIqBJ+Dt6No47eehM+pap3u+8qD0ZAsLSAVYeeplm9KI86yQ3KZvk+nk0horh2yd
+	 /XcJ5t8RCk2rlOHCV55ZILzda3i3UNo3lXruTIOg=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v2 00/27] media: Add support for multi-context operations
+Date: Thu, 24 Jul 2025 16:10:07 +0200
+Message-Id: <20250724-multicontext-mainline-2025-v2-0-c9b316773486@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL8+gmgC/32NQQ6CMBBFr0Jm7Zi2oEVX3sOwKGWUSaA1bSUYw
+ t0tJG5dvv+T9xaIFJgiXIsFAk0c2bsM6lCA7Y17EnKXGZRQJ6HlGcf3kNh6l2hOOBp2AzvC7ca
+ y0herrapabSALXoEePO/ye5O555h8+OytSW7rT6v/aSeJAmtprKwvOSDKG3dkonetN6E7Wj9Cs
+ 67rF+O3kcTLAAAA
+X-Change-ID: 20250716-multicontext-mainline-2025-3479c7c24b7a
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Tomasz Figa <tfiga@chromium.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Hans Verkuil <hverkuil@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11585;
+ i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
+ bh=I2DfFvSzoohaF8QaBJl3+Mx/Tsj5HbstN1YNZnjJmWM=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBogj7N+u8dCU4tewo31CN4YD5BPwaMD4AE8hxvv
+ al5DxHRCiSJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaII+zQAKCRByNAaPFqFW
+ PI1/EADD3AVRXdMSw09qi1KjFELdP795UEv3Tsp7We2TymIEvw9pRPr5l+HcLfT2FboxT3ioxHO
+ 9FgEzPrOzOptYKmKOLxfGKKLzKWGDPP+SJeRBBcjpyN4A3R/DRNTSLMxa1Ig3vX8+NLJ0ceU5Sg
+ oW6A83otc7/bZlVjXtRUaqM3/6LL8tD77sFLiKFHJygQDxqmKztHsk7kyTUOuqf+5m3LeCymT7D
+ BSUXoKceWHTTgVUMSLcfbtRkpzcRDOqBHJQvXTyTsIaB37Tc7z1ioym2Nhlkr1pOZEi6ltn/DtM
+ I/Z3n1uJOxbxkQTP7AQzhj5hhl6hNsDYkw2C6B5CRshZBkVjD6UPLcW/3FD3rbLjCRVz9HHmRkT
+ 02BKLtxcP63vYwm52SKNbUSSS395B1tkFwPk/oiznDqqKtJNHVxhuANWvA/uBied5/IHJ2ELmU8
+ Tf7ilNj7RlAlVnY8T9tpfjfsLNaAZhTZnzKDS26WUeRkCp0yTfWs/Z9Ic4rlAz2hHfOWQZztnO6
+ 91aujEAoKPXdW/nLEV+QcYhrVAA+FSLxBo9lx55WKH+dOilzgZg+hJ/giA/4axe0LnJEj96ePtR
+ 7EmEwQFjyUhadpfBTUQwjx9Ul5z7HISK+l6b8/gfBqCinoHlUBrEd3kRBbcOZM8VfGLvoBdCOaU
+ d1najEngK2+Uwxw==
+X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-From: Philipp Stanner <pstanner@redhat.com>
+Modern ISPs are designed to handle multiple "streams" of data, not necessarily
+related to the same image or video stream.
 
-The various objects and their memory lifetime used by the GPU scheduler
-are currently not fully documented.
+The hardware resources are generally time-multiplexed between different
+execution contexts at the hardware or firmware level and in order to operate the
+ISP with multiple video sources it is necessary for drivers to keep track of
+per-context data and resources.
 
-Add documentation describing the scheduler's objects. Improve the
-general documentation at a few other places.
+In V4L2 the M2M framework supports multiple contexts through multiple opens of
+the same video device. This doesn't however support drivers exposing multiple
+video devices and sub-devices. Several out-of-tree drivers implement
+multi-context support by registering multiple 'logical' instances of the same
+media graph, one for each context. This effectively multiplies the number of
+video device nodes and subdevice nodes. Userspace applications open one media
+graph instance and operate on the corresponding video devices, under the
+impression of dealing with a dedicated instance of the sole underlying hardware
+resource.
 
-Co-developed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+This solution is however a short term hack, it doesn't scale well when the
+number of contexts grow. ISPs such as the Mali C55 have been designed to process
+8 cameras concurrently, and other ISPs may do more.
+
+For this reason, a solution to expose and manage multiple execution contexts
+without duplicating the number of media, video and sub-devices registered to
+userspace is needed to improve support for multi-context devices in V4L2.
+
+The series enables userspace to multiplex the usage of a media device and of
+video devices without duplicating the number of devnodes in userspace, by
+introducing the following concept in the framework:
+
+- Media Device Context: a context created at media-device open time and stored
+  in the media-fh file handle. To a media device context is associated a list
+  of media entity contexts which are 'bound' to it.
+
+- Video Device Context: represents an isolated execution context of a
+  video device. By storing the data and the configuration of a video
+  device userspace is allowed to effectively multiplex the usage of a
+  device node.
+
+- Video Subdevice Context: represents an isolated execution context of
+  v4l2 subdevice. It stores that subdev state which is now available in
+  three locations:
+  - in the file handle: for TRY formats
+  - in the subdevice: for ACTIVE formats to support operations of subdevices
+    drivers that do not implement context support
+  - in the subdevice default context: for ACTIVE formats to support
+    operations of subdevice drivers that implement context support and
+    are operated by non-context-aware userspace
+  - in the subdevice file-handle context: for ACTIVE formats to support
+    operations of subdevices drivers that implement context support and
+    are  bound to a media device context
+
+  Both the Video Device Context and the V4L2 Subdevice
+  Context extend the Media Entity Context base type so that the MC and
+  V4L2 layers are kept independent one from each other.
+
+- A Video Device Context is created by a new ioctl VIDIOC_BIND_CONTEXT and is
+  stored in the v4l2-fh file handle.
+
+- A V4L2 Subdevice context is created by a new ioctl
+  VIDIOC_SUBDEV_BIND_CONTEXT and is stored in the v4l2_subdev_fh file
+  handle.
+
+  The VIDIOC_BIND_CONTEXT and VIDIOC_SUBDEV_BIND_CONTEXT ioctls associates a
+  Video/Subdevice Context to a Media Device Context. By binding a set of video
+  devices and subdevices to a media device context userspace can create several
+  isolated 'execution contexts' which can be operated independently one from
+  each other.
+
+- A V4L2 Video Device and V4L2 Subdevice default context is made
+  created to allow drivers that implement multi-context support but are
+  operated by userspace that is not context aware (IOW doesn't call
+  VIDIOC_BIND_CONTEXT).
+
+The first 20 patches implement the above described changes in the
+framework:
+
+  media: v4l2-subdev: Validate media links with context
+  media: mc-entity: Add link_validate_context
+  media: media-entity: Support context in pipeline_start
+  media: v4l2-subdev: Get state from context
+  media: v4l2-subdev: Add subdev state accessor helpers
+  media: v4l2_subdev: Introduce default context
+  media: Documentation: Add VIDIOC_SUBDEV_BIND_CONTEXT
+  media: v4l2-subdv: Introduce VIDIOC_SUBDEV_BIND_CONTEXT
+  media: v4l2-subdev: Introduce v4l2 subdev context
+  media: videobuf2-v4l2: Support vb2_queue embedded in a context
+  media: v4l2-dev: Add video_device_context_from_queue()
+  media: v4l2-dev: Add video_device_context_from_file()
+  media: Introduce default contexts
+  media: v4l2-dev: Documentation: Add VIDIOC_BIND_CONTEXT
+  media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
+  media: v4l2-dev: Introduce video device context
+  media: media-device: Introduce media device context
+  media: media-entity: Introduce media_entity_context
+  media: mc: Maintain a list of open file handles in a media device
+  media: mc: Add per-file-handle data support
+
+For testing the implementation I used a Raspberry Pi5, implementing
+support for multiple contexts in the ISP driver. The PiSP BE driver
+however only implements video devices, as the single ISP subdev is not
+exposed to userspace and doesn't require any configuration. To test the
+V4L2 subdev context operations I had to first expose the ISP subdev to
+userspace and implement link validation and pipeline allocation for it.
+This is implemented in the following 6 patches NOT FOR INCLUSION in
+mainline but just here for reference
+
+ [DNI] media: pisp_be: Register devnode to userspace
+ [DNI] media: pisp_be: Implement link validation
+ [DNI] media: pisp_be: Implement set/get_pad_fmt
+ [DNI] media: pisp_be: Add support for subdev state
+ [DNI] media: pisp_be: Start and stop the media pipeline
+
+Finally, the last patch (again NOT FOR INCLUSION) ports the ISP driver
+to support multi-context operations and provides a reference for the
+multi-context API usage by drivers:
+
+ [DNI] media: pisp_be: Add support for multi-context
+
+The multi-context support has been tested with a version of libcamera
+that binds all video devices and the ISP subdevice in an execution
+context and allows to stream two cameras at the same time using the same
+media graph.
+
+In order to validate the fact that introducing context support in
+drivers doesn't break existing userspace which is not context-aware,
+capturing from a single camera with [mainline libcamera + ISP subdev
+configuration] has been tested as well.
+
+CI pipeline:
+- https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1472617
+- checkpatch errors are due to "DNI" prefix in last patches
+- static check errors seems unrelated to this set of patches but to
+  existing code
+- checkpatch error are due to the usage of "Generic" which checkpatch
+  doesn't like
+
+Branch for testing:
+- kernel patches:
+  https://gitlab.freedesktop.org/linux-media/users/jmondi/-/commits/multicontext/mainline/2025
+- libcamera multi-context:
+  https://git.libcamera.org/libcamera/jmondi/libcamera.git/log/?h=multicontext/rpi/mc
+- libcamera single context:
+  https://git.libcamera.org/libcamera/jmondi/libcamera.git/log/?h=multicontext/rpi/subdev-no-multi-context
+
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
-The first draft for this docu was posted by Christian in late 2023 IIRC.
+Changes in v2:
+- Add "media: uapi: Add 'flags' to media_device_info"
+- Fix robots complaints by protecting users of symbols only defined if
+  CONFIG_MEDIA_CONTROLLER with pre-processor guards
+- Link to v1: https://lore.kernel.org/r/20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com
 
-This is an updated version. Please review.
+rfc->v1 Compared to the RFC version sent in September 2024:
+  - Implement support for V4L2 Subdevice context
+  - Implement context-aware pipeline start and link validation
+  - Break out from Sakari's media lifetime series the only 2 required
+    patches that introduce media_device_fh
+  - Test the BE ISP subdevice by implementing support for the ISP
+    subdevice in the BE driver
 
-@Christian: As we agreed on months (a year?) ago I kept your Signed-off
-by. Just tell me if there's any issue or sth.
 ---
- Documentation/gpu/drm-mm.rst           |  36 ++++
- drivers/gpu/drm/scheduler/sched_main.c | 228 ++++++++++++++++++++++---
- include/drm/gpu_scheduler.h            |   5 +-
- 3 files changed, 238 insertions(+), 31 deletions(-)
+Jacopo Mondi (25):
+      media: media-entity: Introduce media_entity_context
+      media: media-device: Introduce media device context
+      media: v4l2-dev: Introduce video device context
+      media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
+      media: Documentation: Add VIDIOC_BIND_CONTEXT
+      media: v4l2-dev: Introduce default contexts
+      media: v4l2-dev: Add video_device_context_from_file()
+      media: v4l2-dev: Add video_device_context_from_queue()
+      media: videobuf2-v4l2: Support vb2_queue embedded in a context
+      media: v4l2-subdev: Introduce v4l2 subdev context
+      media: v4l2-subdev: Introduce VIDIOC_SUBDEV_BIND_CONTEXT
+      media: Documentation: Add VIDIOC_SUBDEV_BIND_CONTEXT
+      media: v4l2_subdev: Introduce default context
+      media: v4l2-subdev: Add subdev state accessor helpers
+      media: v4l2-subdev: Get state from context
+      media: media-entity: Support context in pipeline_start
+      media: mc-entity: Add link_validate_context
+      media: v4l2-subdev: Validate media links with context
+      media: uapi: Add 'flags' to media_device_info
+      [DNI] media: pisp_be: Start and stop the media pipeline
+      [DNI] media: pisp_be: Add support for subdev state
+      [DNI] media: pisp_be: Implement set/get_pad_fmt
+      [DNI] media: pisp_be: Implement link validation
+      [DNI] media: pisp_be: Register devnode to userspace
+      [DNI] media: pisp_be: Add support for multi-context
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..95ee95fd987a 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -556,12 +556,48 @@ Overview
- .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-    :doc: Overview
- 
-+Job Object
-+----------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Job Object
-+
-+Entity Object
-+-------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Entity Object
-+
-+Hardware Fence Object
-+---------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Hardware Fence Object
-+
-+Scheduler Fence Object
-+----------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Scheduler Fence Object
-+
-+Scheduler and Run Queue Objects
-+-------------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Scheduler and Run Queue Objects
-+
- Flow Control
- ------------
- 
- .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-    :doc: Flow Control
- 
-+Error and Timeout handling
-+--------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Error and Timeout handling
-+
- Scheduler Function References
- -----------------------------
- 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 5a550fd76bf0..2e7bc1e74186 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -24,48 +24,220 @@
- /**
-  * DOC: Overview
-  *
-- * The GPU scheduler provides entities which allow userspace to push jobs
-- * into software queues which are then scheduled on a hardware run queue.
-- * The software queues have a priority among them. The scheduler selects the entities
-- * from the run queue using a FIFO. The scheduler provides dependency handling
-- * features among jobs. The driver is supposed to provide callback functions for
-- * backend operations to the scheduler like submitting a job to hardware run queue,
-- * returning the dependencies of a job etc.
-+ * The GPU scheduler is shared infrastructure intended to help drivers managing
-+ * command submission to their hardware.
-  *
-- * The organisation of the scheduler is the following:
-+ * To do so, it offers a set of scheduling facilities that interact with the
-+ * driver through callbacks which the latter can register.
-  *
-- * 1. Each hw run queue has one scheduler
-- * 2. Each scheduler has multiple run queues with different priorities
-- *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
-- * 3. Each scheduler run queue has a queue of entities to schedule
-- * 4. Entities themselves maintain a queue of jobs that will be scheduled on
-- *    the hardware.
-+ * In particular, the scheduler takes care of:
-+ *   - Ordering command submissions
-+ *   - Signalling dma_fences, e.g., for finished commands
-+ *   - Taking dependencies between command submissions into account
-+ *   - Handling timeouts for command submissions
-  *
-- * The jobs in an entity are always scheduled in the order in which they were pushed.
-+ * All callbacks the driver needs to implement are restricted by dma_fence
-+ * signaling rules to guarantee deadlock free forward progress. This especially
-+ * means that for normal operation no memory can be allocated in a callback.
-+ * All memory which is needed for pushing the job to the hardware must be
-+ * allocated before arming a job. It also means that no locks can be taken
-+ * under which memory might be allocated.
-  *
-- * Note that once a job was taken from the entities queue and pushed to the
-- * hardware, i.e. the pending queue, the entity must not be referenced anymore
-- * through the jobs entity pointer.
-+ * Optional memory, for example for device core dumping or debugging, *must* be
-+ * allocated with GFP_NOWAIT and appropriate error handling if that allocation
-+ * fails. GFP_ATOMIC should only be used if absolutely necessary since dipping
-+ * into the special atomic reserves is usually not justified for a GPU driver.
-+ *
-+ * Note especially the following about the scheduler's historic background that
-+ * lead to sort of a double role it plays today:
-+ *
-+ * In classic setups N ("hardware scheduling") entities share one scheduler,
-+ * and the scheduler decides which job to pick from which entity and move it to
-+ * the hardware ring next (that is: "scheduling").
-+ *
-+ * Many (especially newer) GPUs, however, can have an almost arbitrary number
-+ * of hardware rings and it's a firmware scheduler which actually decides which
-+ * job will run next. In such setups, the GPU scheduler is still used (e.g., in
-+ * Nouveau) but does not "schedule" jobs in the classical sense anymore. It
-+ * merely serves to queue and dequeue jobs and resolve dependencies. In such a
-+ * scenario, it is recommended to have one scheduler per entity.
-+ */
-+
-+/**
-+ * DOC: Job Object
-+ *
-+ * The base job object (&struct drm_sched_job) contains submission dependencies
-+ * in the form of &struct dma_fence objects. Drivers can also implement an
-+ * optional prepare_job callback which returns additional dependencies as
-+ * dma_fence objects. It's important to note that this callback can't allocate
-+ * memory or grab locks under which memory is allocated.
-+ *
-+ * Drivers should use this as base class for an object which contains the
-+ * necessary state to push the command submission to the hardware.
-+ *
-+ * The lifetime of the job object needs to last at least from submitting it to
-+ * the scheduler (through drm_sched_job_arm()) until the scheduler has invoked
-+ * &struct drm_sched_backend_ops.free_job and, thereby, has indicated that it
-+ * does not need the job anymore. Drivers can of course keep their job object
-+ * alive for longer than that, but that's outside of the scope of the scheduler
-+ * component.
-+ *
-+ * Job initialization is split into two stages:
-+ *   1. drm_sched_job_init() which serves for basic preparation of a job.
-+ *      Drivers don't have to be mindful of this function's consequences and
-+ *      its effects can be reverted through drm_sched_job_cleanup().
-+ *   2. drm_sched_job_arm() which irrevokably arms a job for execution. This
-+ *      initializes the job's fences and the job has to be submitted with
-+ *      drm_sched_entity_push_job(). Once drm_sched_job_arm() has been called,
-+ *      the job structure has to be valid until the scheduler invoked
-+ *      drm_sched_backend_ops.free_job().
-+ *
-+ * It's important to note that after arming a job drivers must follow the
-+ * dma_fence rules and can't easily allocate memory or takes locks under which
-+ * memory is allocated.
-+ */
-+
-+/**
-+ * DOC: Entity Object
-+ *
-+ * The entity object (&struct drm_sched_entity) is a container for jobs which
-+ * should execute sequentially. Drivers should create an entity for each
-+ * individual context they maintain for command submissions which can run in
-+ * parallel.
-+ *
-+ * The lifetime of the entity *should not* exceed the lifetime of the
-+ * userspace process it was created for and drivers should call the
-+ * drm_sched_entity_flush() function from their file_operations.flush()
-+ * callback. It is possible that an entity object is not alive anymore
-+ * while jobs previously fetched from it are still running on the hardware.
-+ *
-+ * This is done because all results of a command submission should become
-+ * visible externally even after a process exits. This is normal POSIX
-+ * behavior for I/O operations.
-+ *
-+ * The problem with this approach is that GPU submissions contain executable
-+ * shaders enabling processes to evade their termination by offloading work to
-+ * the GPU. So when a process is terminated with a SIGKILL the entity object
-+ * makes sure that jobs are freed without running them while still maintaining
-+ * correct sequential order for signaling fences.
-+ *
-+ * All entities associated with a scheduler have to be torn down before that
-+ * scheduler.
-+ */
-+
-+/**
-+ * DOC: Hardware Fence Object
-+ *
-+ * The hardware fence object is a dma_fence provided by the driver through
-+ * &struct drm_sched_backend_ops.run_job. The driver signals this fence once the
-+ * hardware has completed the associated job.
-+ *
-+ * Drivers need to make sure that the normal dma_fence semantics are followed
-+ * for this object. It's important to note that the memory for this object can
-+ * *not* be allocated in &struct drm_sched_backend_ops.run_job since that would
-+ * violate the requirements for the dma_fence implementation. The scheduler
-+ * maintains a timeout handler which triggers if this fence doesn't signal
-+ * within a configurable amount of time.
-+ *
-+ * The lifetime of this object follows dma_fence refcounting rules. The
-+ * scheduler takes ownership of the reference returned by the driver and
-+ * drops it when it's not needed any more.
-+ *
-+ * See &struct drm_sched_backend_ops.run_job for precise refcounting rules.
-+ */
-+
-+/**
-+ * DOC: Scheduler Fence Object
-+ *
-+ * The scheduler fence object (&struct drm_sched_fence) encapsulates the whole
-+ * time from pushing the job into the scheduler until the hardware has finished
-+ * processing it. It is managed by the scheduler. The implementation provides
-+ * dma_fence interfaces for signaling both scheduling of a command submission
-+ * as well as finishing of processing.
-+ *
-+ * The lifetime of this object also follows normal dma_fence refcounting rules.
-+ */
-+
-+/**
-+ * DOC: Scheduler and Run Queue Objects
-+ *
-+ * The scheduler object itself (&struct drm_gpu_scheduler) does the actual
-+ * scheduling: it picks the next entity to run a job from and pushes that job
-+ * onto the hardware. Both FIFO and RR selection algorithms are supported, with
-+ * FIFO being the default and the recommended one.
-+ *
-+ * The lifetime of the scheduler is managed by the driver using it. Before
-+ * destroying the scheduler the driver must ensure that all hardware processing
-+ * involving this scheduler object has finished by calling for example
-+ * disable_irq(). It is *not* sufficient to wait for the hardware fence here
-+ * since this doesn't guarantee that all callback processing has finished.
-+ *
-+ * The run queue object (&struct drm_sched_rq) is a container for entities of a
-+ * certain priority level. This object is internally managed by the scheduler
-+ * and drivers must not touch it directly. The lifetime of a run queue is bound
-+ * to the scheduler's lifetime.
-+ *
-+ * All entities associated with a scheduler must be torn down before it. Drivers
-+ * should implement &struct drm_sched_backend_ops.cancel_job to avoid pending
-+ * jobs (those that were pulled from an entity into the scheduler, but have not
-+ * been completed by the hardware yet) from leaking.
-  */
- 
- /**
-  * DOC: Flow Control
-  *
-  * The DRM GPU scheduler provides a flow control mechanism to regulate the rate
-- * in which the jobs fetched from scheduler entities are executed.
-+ * at which jobs fetched from scheduler entities are executed.
-  *
-- * In this context the &drm_gpu_scheduler keeps track of a driver specified
-- * credit limit representing the capacity of this scheduler and a credit count;
-- * every &drm_sched_job carries a driver specified number of credits.
-+ * In this context the &struct drm_gpu_scheduler keeps track of a driver
-+ * specified credit limit representing the capacity of this scheduler and a
-+ * credit count; every &struct drm_sched_job carries a driver-specified number
-+ * of credits.
-  *
-- * Once a job is executed (but not yet finished), the job's credits contribute
-- * to the scheduler's credit count until the job is finished. If by executing
-- * one more job the scheduler's credit count would exceed the scheduler's
-- * credit limit, the job won't be executed. Instead, the scheduler will wait
-- * until the credit count has decreased enough to not overflow its credit limit.
-- * This implies waiting for previously executed jobs.
-+ * Once a job is being executed, the job's credits contribute to the
-+ * scheduler's credit count until the job is finished. If by executing one more
-+ * job the scheduler's credit count would exceed the scheduler's credit limit,
-+ * the job won't be executed. Instead, the scheduler will wait until the credit
-+ * count has decreased enough to not overflow its credit limit. This implies
-+ * waiting for previously executed jobs.
-  */
- 
-+/**
-+ * DOC: Error and Timeout handling
-+ *
-+ * Errors are signaled by using dma_fence_set_error() on the hardware fence
-+ * object before signaling it with dma_fence_signal(). Errors are then bubbled
-+ * up from the hardware fence to the scheduler fence.
-+ *
-+ * The entity allows querying errors on the last run submission using the
-+ * drm_sched_entity_error() function which can be used to cancel queued
-+ * submissions in &struct drm_sched_backend_ops.run_job as well as preventing
-+ * pushing further ones into the entity in the driver's submission function.
-+ *
-+ * When the hardware fence doesn't signal within a configurable amount of time
-+ * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver should
-+ * then follow the procedure described in that callback's documentation.
-+ *
-+ * (TODO: The timeout handler should probably switch to using the hardware
-+ * fence as parameter instead of the job. Otherwise the handling will always
-+ * race between timing out and signaling the fence).
-+ *
-+ * The scheduler also used to provided functionality for re-submitting jobs
-+ * and, thereby, replaced the hardware fence during reset handling. This
-+ * functionality is now deprecated. This has proven to be fundamentally racy
-+ * and not compatible with dma_fence rules and shouldn't be used in new code.
-+ *
-+ * Additionally, there is the function drm_sched_increase_karma() which tries
-+ * to find the entity which submitted a job and increases its 'karma' atomic
-+ * variable to prevent resubmitting jobs from this entity. This has quite some
-+ * overhead and resubmitting jobs is now marked as deprecated. Thus, using this
-+ * function is discouraged.
-+ *
-+ * Drivers can still recreate the GPU state in case it should be lost during
-+ * timeout handling *if* they can guarantee that forward progress will be made
-+ * and this doesn't cause another timeout. But this is strongly hardware
-+ * specific and out of the scope of the general GPU scheduler.
-+ */
- #include <linux/export.h>
- #include <linux/wait.h>
- #include <linux/sched.h>
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 323a505e6e6a..0f0687b7ae9c 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -458,8 +458,8 @@ struct drm_sched_backend_ops {
- 	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
- 
- 	/**
--	 * @timedout_job: Called when a job has taken too long to execute,
--	 * to trigger GPU recovery.
-+	 * @timedout_job: Called when a hardware fence didn't signal within a
-+	 * configurable amount of time. Triggers GPU recovery.
- 	 *
- 	 * @sched_job: The job that has timed out
- 	 *
-@@ -506,7 +506,6 @@ struct drm_sched_backend_ops {
- 	 * that timeout handlers are executed sequentially.
- 	 *
- 	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_stat
--	 *
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
+Laurent Pinchart (1):
+      media: mc: Add per-file-handle data support
+
+Sakari Ailus (1):
+      media: mc: Maintain a list of open file handles in a media device
+
+ .../media/mediactl/media-ioc-device-info.rst       |   6 +-
+ .../userspace-api/media/mediactl/media-types.rst   |  13 +
+ .../userspace-api/media/v4l/user-func.rst          |   2 +
+ .../media/v4l/vidioc-bind-context.rst              |  80 +++
+ .../media/v4l/vidioc-subdev-bind-context.rst       |  81 +++
+ drivers/media/common/videobuf2/videobuf2-v4l2.c    | 139 ++--
+ drivers/media/mc/mc-device.c                       | 213 +++++-
+ drivers/media/mc/mc-devnode.c                      |  20 +-
+ drivers/media/mc/mc-entity.c                       | 220 +++++-
+ .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 775 ++++++++++++++++-----
+ drivers/media/v4l2-core/v4l2-dev.c                 | 158 ++++-
+ drivers/media/v4l2-core/v4l2-device.c              |  11 +-
+ drivers/media/v4l2-core/v4l2-fh.c                  |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c               |  72 ++
+ drivers/media/v4l2-core/v4l2-subdev.c              | 414 ++++++++++-
+ include/media/media-device.h                       | 230 ++++++
+ include/media/media-devnode.h                      |  21 +-
+ include/media/media-entity.h                       | 163 ++++-
+ include/media/media-fh.h                           |  37 +
+ include/media/v4l2-dev.h                           | 252 +++++++
+ include/media/v4l2-fh.h                            |   3 +
+ include/media/v4l2-ioctl.h                         |   7 +
+ include/media/v4l2-subdev.h                        | 293 ++++++--
+ include/uapi/linux/media.h                         |   6 +-
+ include/uapi/linux/v4l2-subdev.h                   |  11 +
+ include/uapi/linux/videodev2.h                     |  11 +
+ 26 files changed, 2890 insertions(+), 349 deletions(-)
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20250716-multicontext-mainline-2025-3479c7c24b7a
+
+Best regards,
 -- 
-2.49.0
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 
