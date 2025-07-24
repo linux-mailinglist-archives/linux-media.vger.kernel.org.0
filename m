@@ -1,94 +1,77 @@
-Return-Path: <linux-media+bounces-38298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D1AB0FFD7
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 07:15:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD256B10008
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 07:45:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CDD61CC7C74
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 05:15:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB2AA565C78
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 05:45:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87D581FF1AD;
-	Thu, 24 Jul 2025 05:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76366207A2A;
+	Thu, 24 Jul 2025 05:44:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="MHyNHo4O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C6jGoMhe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851DD1FCFFC
-	for <linux-media@vger.kernel.org>; Thu, 24 Jul 2025 05:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FA217F4F6;
+	Thu, 24 Jul 2025 05:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753334082; cv=none; b=ZTgpDqBOJtDUXOOw4U6CYJY0qZKsNA7HIFdZc8FkHsPuwYB9aQnB8vu9gLWquVff95vVFRtpD+wtJPU844CtNrRqoLjbxhXCEe82fUzTaQBJmrkNwc5NvHxKfyE5tLeTQ1N7HNAO8Se2xWBtt6x9YSsGb2GhxMM3gIhy902gYEM=
+	t=1753335888; cv=none; b=OCPTFHrmnnsSxb2GKZHJsaZNSkkmTmBbmqmQKhGmbdjMB8EZ1WOHBjc1jDWPYl3tfDP0GFcEiYadOubfsP6QxpQdPFRvojuOy/9AAJPL1KhiqfikJjp5AGJ3x6/LDT6AeK4i5600yive7qTvTh/1jfwIDlj7hMDCxAT7cS+Molo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753334082; c=relaxed/simple;
-	bh=Vo2SdnJZK3om5RaPVgTp8e/yJvD9F7K+eZvYm4uzem4=;
+	s=arc-20240116; t=1753335888; c=relaxed/simple;
+	bh=U4I+CEURF422p0sGN26ha9HaOt720UUk24J+vl+6mjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=APvYe6UFVN5aduDVHVb8PCsuTD4ONQecGY0vYonZHWEGfuURr3GMsbzQf/3ns/QXFLordx0AboZWalipYxvDgF9aBoKqEBR8zUw5UNQqFcL20coWUgA+dmpEO2lfr2sKyky40WBmWzyA4uGVGqLOmtlvyJ6bE/vYs0xNEGtcVt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=MHyNHo4O; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b3508961d43so579836a12.3
-        for <linux-media@vger.kernel.org>; Wed, 23 Jul 2025 22:14:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1753334080; x=1753938880; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i7SimV5VJWEB25HagffS670JWUdLLyQFzQyMxpTCmMo=;
-        b=MHyNHo4O85x5x9k9Dn69n2UtgdEPylU/uyqIrmKV51KhNKEiLgmQJAOYeSEUn13tG/
-         SVZdOViKKtEd0ujxGEDNxlX0k7832Yw19MNK5L9mMpBd7rCw4VEijr4Y12xVoilkLJ3+
-         I4EoIcmgaZKVA+nRfvKPOWIe2wBOJYpM4KZN6pswHoS4PBorMkGs3qioHdysTnn3neQ8
-         mY+g9dr1jeCWiJ7lBoDooVVOFYPsJ4TU+8wsCr0j65pxAwA9+HCO0q7j74FH2B/DIVSL
-         UAIG0rB8YnQfhqeHXA3C/v8/9nHMWwP7vtwMc5Y1cheoXVHNNuzJ+WWVEjmtc8SW1sJt
-         nLzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753334080; x=1753938880;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i7SimV5VJWEB25HagffS670JWUdLLyQFzQyMxpTCmMo=;
-        b=FEyfFvaHXmUhfa07oMP3dU3Lsr4Yncei8MnNpHSU7OV316Kgcsk40cleq7E2m6zfBL
-         L2XDoF+gxXOkXe5A2azJHLWpsCDgG8/nfBAcETx0kU4PHy2GuxlHnK+5t8utQ0HyXX7E
-         iziFDD9zxYuXKH4DCxuvwveKxcHejyqrOuZ7naCv5nSLNuAe34M32NnP9EsQ1hNgINPv
-         Gy2AC09yKhtJdO9ZkeqxtdxULHWkSEaKkprWBtf8UcY/Pj6YOYZ3dgoM7AH+HT5ad9M7
-         axgTET8lGIZxccMr8CcC9EKbOTsKhdRji5vNquprB8uKfm/YkagLX593bvSfTjBHS8Kh
-         t3NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUe56qLiWK43WoKImqx106FKosIQlML47bEPqF30ukMikiaNoGq4zVwJkUEnWBqLpIQ7r72pdWDya02Rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznCYEYl0ag6VV7DDGfbvbT8qZqGC/Y4fWEwAt6FQfBmFF3Sh0l
-	H4OobB9IQ8Lh2Z5+enEx5zg4Lr9ysbp2Y8TT6Tb7WTK6TrPTDMPf3b3ptYlOxLYTyguM
-X-Gm-Gg: ASbGncu1QuMJuzD2wpjTpvmL8QOpX2fuD5wrmtHCjfdQNUTT9X46a/lg12Cz0ri3w8/
-	SetmSln88APl83n+MJbT++NIvHil3AdoenHDntirxoeROluLb4Zq+nTvWEA3D+x9r3wjWjq5MCs
-	+lXH1cfXWI9XvkIu/kbgdTMQRhKQi1CuD/3O+F6/8Srag7bBPeIP538hFApfUYHfvBu4p2hf5HU
-	lFnTi8EYwEn2uu5h55tA+Nv5twEg5/7GIKlUTahbZrtmRqNIDhDqCuBSoq9Bwe22TY/5sbEmqf4
-	T2bv4yxqvIaPnSzT6Ld53t/UfndtH0ZeIw0r/5VTdcLLYN98RcnkDyJGO7VSm9FGaXtoffHPKjQ
-	QvwwZ5AHucK7REzqKRPeb928D
-X-Google-Smtp-Source: AGHT+IENRsGq90aUM4ne2WTxB7vhhSJSRaiabdV70/A4kdHOS5MgcbNOqLONTS5Ybge8UgWLOEr1jQ==
-X-Received: by 2002:a17:903:17c8:b0:234:c22:c612 with SMTP id d9443c01a7336-23f9821dfbemr89796085ad.43.1753334079646;
-        Wed, 23 Jul 2025 22:14:39 -0700 (PDT)
-Received: from sultan-box ([142.147.89.218])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e662b3304sm378571a91.17.2025.07.23.22.14.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 22:14:39 -0700 (PDT)
-Date: Wed, 23 Jul 2025 22:14:35 -0700
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: Bin Du <Bin.Du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, Svetoslav.Stoilov@amd.com
-Subject: Re: [PATCH v2 6/8] media: platform: amd: isp4 video node and buffers
- handling added
-Message-ID: <aIHBO_2-hKWgb8Dq@sultan-box>
-References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-7-Bin.Du@amd.com>
- <aIEiJL83pOYO8lUJ@sultan-box>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jhk/VWkCQr1YjCrZqFChJSr6tJV+rfBwLHM43A9rYqWv6VkH9mYdjYLZHsCh81n4t7OWckfQBdBdruvQxP8jCIThwSPOVMavvmnreuOb2ES5BxHMBMGo1GeiPlhvecNpTBRZ0IkukWccvMcU31SDDD4XBaHQO9Gwwv5PF7wvCdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C6jGoMhe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E9B6C4CEED;
+	Thu, 24 Jul 2025 05:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753335888;
+	bh=U4I+CEURF422p0sGN26ha9HaOt720UUk24J+vl+6mjI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C6jGoMhePxWs2G1RnhF59gG3AXap97mUUE40SE0Rm0zZuH4EkRp+dPag/rTKFTJtk
+	 aIH8UT5BEZzz8AS2s95p9XeW+qVBOtlMdJU9OcofPSwraKN+wgvSIt7eeHshgWCTsT
+	 z/pst5aWEXs8QqfceKtXDCpdgWnxSY7hlyYDAOq+nTfBlhT9pT/3LCgyEKtkwCcEYG
+	 Qc+p/WDMbD1kDL3Wqi3br3L11qZxkfSyOQLi2R2Bu3EOjG1wVamcR4BfC5KFfACpsJ
+	 9GcKqEIPKMc7PjakSUojQydViLJlolHSBB2JOKHxDcIAki1C99B8uS3kEZjWAxtRnX
+	 jtT9QAxe4rLNA==
+Date: Thu, 24 Jul 2025 08:44:43 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+	Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	Jens Axboe <axboe@kernel.dk>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20250724054443.GP402218@unreal>
+References: <cover.1753274085.git.leonro@nvidia.com>
+ <aea452cc27ca9e5169f7279d7b524190c39e7260.1753274085.git.leonro@nvidia.com>
+ <IA0PR11MB7185E487736B8B4CD70600DEF85EA@IA0PR11MB7185.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,23 +80,126 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aIEiJL83pOYO8lUJ@sultan-box>
+In-Reply-To: <IA0PR11MB7185E487736B8B4CD70600DEF85EA@IA0PR11MB7185.namprd11.prod.outlook.com>
 
-On Wed, Jul 23, 2025 at 10:55:48AM -0700, Sultan Alsawaf wrote:
-> On Wed, Jun 18, 2025 at 05:19:57PM +0800, Bin Du wrote:
-> > +
-> > +	buf->bo = (void *)bo;
-> > +	buf->gpu_addr = gpu_addr;
-> > +
-> > +	refcount_set(&buf->refcount, 1);
+On Thu, Jul 24, 2025 at 05:13:49AM +0000, Kasireddy, Vivek wrote:
+> Hi Leon,
 > 
-> This discards the refcount inc triggered from amdgpu_bo_create_isp_user() when
-> it calls get_dma_buf(), leading to a use-after-free. Move this refcount_set()
-> up, preferably right after vmalloc_user() or right after `buf` is allocated so
-> there's no risk of this issue occurring again in the future.
+> > Subject: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
+> > regions
+> > 
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Add support for exporting PCI device MMIO regions through dma-buf,
+> > enabling safe sharing of non-struct page memory with controlled
+> > lifetime management. This allows RDMA and other subsystems to import
+> > dma-buf FDs and build them into memory regions for PCI P2P operations.
+> > 
+> > The implementation provides a revocable attachment mechanism using
+> > dma-buf move operations. MMIO regions are normally pinned as BARs
+> > don't change physical addresses, but access is revoked when the VFIO
+> > device is closed or a PCI reset is issued. This ensures kernel
+> > self-defense against potentially hostile userspace.
+> > 
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/vfio/pci/Kconfig           |  20 ++
+> >  drivers/vfio/pci/Makefile          |   2 +
+> >  drivers/vfio/pci/vfio_pci_config.c |  22 +-
+> >  drivers/vfio/pci/vfio_pci_core.c   |  25 ++-
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 321 +++++++++++++++++++++++++++++
+> >  drivers/vfio/pci/vfio_pci_priv.h   |  23 +++
+> >  include/linux/dma-buf.h            |   1 +
+> >  include/linux/vfio_pci_core.h      |   3 +
+> >  include/uapi/linux/vfio.h          |  19 ++
+> >  9 files changed, 431 insertions(+), 5 deletions(-)
+> >  create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
 
-Following up to correct myself: please disregard this one comment from my
-previous email since it's incorrect. Sorry for any confusion.
+<...>
 
-Sultan
+> > +static int validate_dmabuf_input(struct vfio_pci_core_device *vdev,
+> > +				 struct vfio_device_feature_dma_buf *dma_buf)
+> > +{
+> > +	struct pci_dev *pdev = vdev->pdev;
+> > +	u32 bar = dma_buf->region_index;
+> > +	u64 offset = dma_buf->offset;
+> > +	u64 len = dma_buf->length;
+> > +	resource_size_t bar_size;
+> > +	u64 sum;
+> > +
+> > +	/*
+> > +	 * For PCI the region_index is the BAR number like  everything else.
+> > +	 */
+> > +	if (bar >= VFIO_PCI_ROM_REGION_INDEX)
+> > +		return -ENODEV;
+
+<...>
+
+> > +/**
+> > + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
+> > + * regions selected.
+> > + *
+> > + * open_flags are the typical flags passed to open(2), eg O_RDWR,
+> > O_CLOEXEC,
+> > + * etc. offset/length specify a slice of the region to create the dmabuf from.
+> > + * nr_ranges is the total number of (P2P DMA) ranges that comprise the
+> > dmabuf.
+> Any particular reason why you dropped the option (nr_ranges) of creating a
+> single dmabuf from multiple ranges of an MMIO region?
+
+I did it for two reasons. First, I wanted to simplify the code in order
+to speed-up discussion over the patchset itself. Second, I failed to
+find justification for need of multiple ranges, as the number of BARs
+are limited by VFIO_PCI_ROM_REGION_INDEX (6) and same functionality
+can be achieved by multiple calls to DMABUF import.
+
+> 
+> Restricting the dmabuf to a single range (or having to create multiple dmabufs
+> to represent multiple regions/ranges associated with a single scattered buffer)
+> would be very limiting and may not work in all cases. For instance, in my use-case,
+> I am trying to share a large (4k mode) framebuffer (FB) located in GPU's VRAM
+> between two (p2p compatible) GPU devices. And, this would probably not work
+> given that allocating a large contiguous FB (nr_ranges = 1) in VRAM may not be
+> feasible when there is memory pressure.
+
+Can you please help me and point to the place in the code where this can fail?
+I'm probably missing something basic as there are no large allocations
+in the current patchset.
+
+> 
+> Furthermore, since you are adding a new UAPI with this patch/feature, as you know,
+> we cannot go back and tweak it (to add support for nr_ranges > 1) should there
+> be a need in the future, but you can always use nr_ranges = 1 anytime. Therefore,
+> I think it makes sense to be flexible in terms of the number of ranges to include
+> while creating a dmabuf instead of restricting ourselves to one range.
+
+I'm not a big fan of over-engineering. Let's first understand if this
+case is needed.
+
+Thanks
+
+> 
+> Thanks,
+> Vivek
+> 
+> > + *
+> > + * Return: The fd number on success, -1 and errno is set on failure.
+> > + */
+> > +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
+> > +
+> > +struct vfio_device_feature_dma_buf {
+> > +	__u32	region_index;
+> > +	__u32	open_flags;
+> > +	__u64	offset;
+> > +	__u64	length;
+> > +};
+> > +
+> >  /* -------- API for Type1 VFIO IOMMU -------- */
+> > 
+> >  /**
+> > --
+> > 2.50.1
+> 
 
