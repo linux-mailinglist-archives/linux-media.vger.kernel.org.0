@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5873B10CE4
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 16:13:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6599B10CDC
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 16:12:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 701843AC382
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 14:11:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD0051C26D00
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 14:12:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D88142E542E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C669B2E5425;
 	Thu, 24 Jul 2025 14:10:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kbLncd37"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QwlwWrx9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843022E427B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8361A2E4275;
 	Thu, 24 Jul 2025 14:10:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753366244; cv=none; b=N40FF0MNCUVCicY74d7gs+UplHgbN6bzlsMq2htVbDiMN90HwbxtRifYXZ4wTg9q60u2IoYzgt78P6KBa7pDoVSsBb+YWjiM/w3NNPnOBXyDAYBWJwmPAIzbEVsfjr7xB01+m+RhCo3tSM5D+aDeoMVjhHob6Frnv6s0MgsqYzM=
+	t=1753366244; cv=none; b=tpe/VVGKQwpTgyFXUljwTVCXYLCRLl/bhWuBNI3+OLppgWIsOfcN0xdmlfynekOA8pmGUecMr0zkp0kiJqtV1ebV0vu076nWkAeITfV52PXh6SwZFmjsDDfe6xN/w2M1TWdsxHfELryUYxhHvq7OGyVHtU0gukTPqZzqPKHmSzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1753366244; c=relaxed/simple;
-	bh=y6CtFSygCTQezYgM+DYFcUUx7oApPhfpK3+h4WXc9Ak=;
+	bh=V29a6qX8KA0ELmVzRolMfVBPPzH85sU33AYkFGGSdRI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MFzqLMz/4heK4HtAOMjSgbdSPc2tWZZfZcwSeDPLhTHokJtPgJNN+Asfe85hk84VtNPAj7JsouXgUGa/eDspC/lHazGJT3DTwVUZZjghdJkR12S8igXn7qxdDTD0t4o1Krb8+CyigLi81as6IgoXwd5GF4Ms7ObIudaTN+Haum8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kbLncd37; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=OPuqW/J647RVvYH7jB4uvXda9NJjUHZKyyrgZbUl8Vs0DPVZO2pjIZpgdf+3u3CTNjJRZ2p+Vr7s2urQ9FnMc0hiYvyK4gZR+0e4Vklk0t1Z+yANpMiicn2wWlIUbGstKGCxlxqU7yFXZ2yZ3z/rB79Fw3lN6TpsmG/gc1Xyvac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QwlwWrx9; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.1.76] (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 448871ACF;
-	Thu, 24 Jul 2025 16:09:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71877C79;
+	Thu, 24 Jul 2025 16:09:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753366195;
-	bh=y6CtFSygCTQezYgM+DYFcUUx7oApPhfpK3+h4WXc9Ak=;
+	s=mail; t=1753366196;
+	bh=V29a6qX8KA0ELmVzRolMfVBPPzH85sU33AYkFGGSdRI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=kbLncd37uM6slkchMwKMFoa5Z+rme7cALBL/gmeJPvzlOC9u6V32nK4u3NdvORqC+
-	 QCCSBLEOKBiMlHeB6tb+aEe91YybJMTCrRRgMjxG1qWBBGfR76tZLOtkdBykjJ9cyd
-	 TV5aIuX4T5Hjyjiu3L47i/pS7YwNI89GBuSOhgeo=
+	b=QwlwWrx9/bXH6s6L686gbmUSCanbKpOJt0Rv2wgRpyNVXfVpIhnj0jsfAQhzbSmVQ
+	 qgszdOGLzxyg6BONkbJWnBR52Vby5KQwlNPaE+S3ZsrTuCk0RiKuWR6gpwKfLzy3dM
+	 RThkXLiKp7KEwHcVbreBzOaGvNQHbt/T69t4nRCg=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Thu, 24 Jul 2025 16:10:13 +0200
-Subject: [PATCH v2 06/27] media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
+Date: Thu, 24 Jul 2025 16:10:14 +0200
+Subject: [PATCH v2 07/27] media: Documentation: Add VIDIOC_BIND_CONTEXT
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250724-multicontext-mainline-2025-v2-6-c9b316773486@ideasonboard.com>
+Message-Id: <20250724-multicontext-mainline-2025-v2-7-c9b316773486@ideasonboard.com>
 References: <20250724-multicontext-mainline-2025-v2-0-c9b316773486@ideasonboard.com>
 In-Reply-To: <20250724-multicontext-mainline-2025-v2-0-c9b316773486@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -71,256 +71,130 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8696;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4469;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=y6CtFSygCTQezYgM+DYFcUUx7oApPhfpK3+h4WXc9Ak=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBogj7OCMocGJg4McaY1eSfSvbZPdFRvvqXYBeuy
- 1Sht/lP79eJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaII+zgAKCRByNAaPFqFW
- PJVOD/0XAYjLtUFbG6lCv0mocUmp2jzA8aHY3WAyxy1LGEk0h23LFl7Ldw9t8Rtb1IWe1sR1Xey
- dJxntT81RpS+p+B06GzDswCgy0hyCKYYJBNyxwhCBPp/nBphdDgucoRfW8lLADNl13RfH8I/jL0
- 8Fq/mml98a+AsKmHxYw50yO6OhAIlhJtATpf3a8cwRSCOcoQEwHWV87nvd9MlllkoTm8lukh+Z9
- owkWKDjDvfO0snm9gJsF/2P1aKgLjL+i2bCdCFpUpppbTrr727E6J6/YooWPi+0TZXUdEZueFtt
- w9fnf/SWhXEH+Ind9BUVG3RbmwPjDYfw8KEj+VrAKmJiHW01DrRqiWQwSSXW+l3E5fWk62TvunK
- Ifix0dCR+QBcvMxdkNmvZgRms+ZEmP5LVHCUF19Wcv057eUQFXR3kVh5h/IT2jSWVA1iJ9uP/ds
- JqbJmkA3SdDSU+sZjRnfjQIEhSeMbWD3wxBZiCOZmiRCcQo31sZQgh9xxt25Od3SnP9JsF26xDS
- B1S63mJl77am4UvDFs4Y6ggYAcMcEke9zPK3JytIAJo+hdy1wcKUEAkcl0vPj370wIYPq5S0sDo
- SQ2ei4DrQLOYiBSRyYQBJbnes93h24sC22BNbRyRCF9RqsFQTlgX9O+sylKf1GymZD5joDOW3N4
- 3aLqtYbXhM9+Eyg==
+ bh=V29a6qX8KA0ELmVzRolMfVBPPzH85sU33AYkFGGSdRI=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBogj7OHWG882uXaFEbSbt0Hr5/yWbNirgfhlDO1
+ fH9BACuQ0GJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaII+zgAKCRByNAaPFqFW
+ PMiXD/9ptjYvK6OodJsJm6frucZmguwClByRCBQIzmoIHod2NI+aXnplxYiBs004EFI+isBYOf2
+ ofXGV85huvYTG8eBx/S7ocknJu/aU3fLMOsO+EDpLKJ3nzhz6eUp3yWo/pdv3MKQpNSu0vurBeq
+ oVDbfgWZFi1K/HrVDfMVLptskMYg6FyAvrd9bNrAjaLO8Um8/GA1cv+xjhiq3ZY5XKgtE4/4MDU
+ x11OIj9KnUfa0jHl9YwIThbaENit1LsIXtBoNUTUNZPBKKL9cqKLOfHfr3i5qr55rsH4opPaMsn
+ gbvBwtxjggqTbqoZAi/nss8gvck/3VtS8FfB7LooadDdrWNA6yWhWcvEMdxEd4DWbiFpvxPyWiF
+ TzBoePhTZjBd/FVrSDklaRJ36Gl6zq+5y7FLcvUyDfvCkMZZyYSrxOrcCdlN2sspyXtVnsWwGRv
+ f1od1+T1q+UDQ/Xp1S6rfiHKbq9KURLqgSaarSkjjfRsUQ5xfbSBUjjcanix4U0Dilux9DOW8aF
+ W3zHtE1JAUbNhv2auXcMpC+nOv7nizoQxUItCutHDFvjd4J2cPp74zgtRcMZ84FU9gA6XijuTd9
+ T4pdogp3UHtV39jF0c7B8PrhnCICx7FZBd9sf6++rODg56jYiUYG2b5QVCJHBtWLM7OSpPHBjRG
+ dFjZ4mFhvDKCdtw==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Introduce a new ioctl in V4L2 to allocate a video device context and
-associate it with a media device context.
-
-The ioctl is valid only if support for MEDIA_CONTROLLER is compiled in
-as it calls into the entity ops to let driver allocate a new context and
-binds the newly created context with the media context associated
-with the file descriptor provided by userspace as the new ioctl
-argument.
-
-The newly allocated video context is then stored in the v4l2-fh that
-represent the open file handle on which the ioctl has been called.
+Document the newly introduced VIDIOC_BIND_CONTEXT ioctl.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-dev.c   | 10 +++++
- drivers/media/v4l2-core/v4l2-fh.c    |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c | 72 ++++++++++++++++++++++++++++++++++++
- include/media/v4l2-ioctl.h           |  7 ++++
- include/uapi/linux/videodev2.h       | 11 ++++++
- 5 files changed, 101 insertions(+)
+ .../userspace-api/media/v4l/user-func.rst          |  1 +
+ .../media/v4l/vidioc-bind-context.rst              | 80 ++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index c83c37843c9e7beb899a4b2bd176273c3dec381b..bc6502b4ce21cc0ad53136e1637d1c926e31dd89 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -606,6 +606,10 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		__set_bit(_IOC_NR(VIDIOC_ENUM_FREQ_BANDS), valid_ioctls);
+diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+index 6f661138801cde2810997740ee8305085fe73a43..0d9aff56ab653b2a4f6afe4828f88bc5637addf1 100644
+--- a/Documentation/userspace-api/media/v4l/user-func.rst
++++ b/Documentation/userspace-api/media/v4l/user-func.rst
+@@ -12,6 +12,7 @@ Function Reference
  
- 	if (is_vid) {
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
-+#endif
+     func-close
+     func-ioctl
++    vidioc-bind-context
+     vidioc-create-bufs
+     vidioc-cropcap
+     vidioc-dbg-g-chip-info
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-bind-context.rst b/Documentation/userspace-api/media/v4l/vidioc-bind-context.rst
+new file mode 100644
+index 0000000000000000000000000000000000000000..74c885169e22c495056a9364e722e2140d8f21c5
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/vidioc-bind-context.rst
+@@ -0,0 +1,80 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: V4L
 +
- 		/* video specific ioctls */
- 		if ((is_rx && (ops->vidioc_enum_fmt_vid_cap ||
- 			       ops->vidioc_enum_fmt_vid_overlay)) ||
-@@ -661,12 +665,18 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_cap);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_cap);
- 		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_cap);
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
-+#endif
- 	} else if (is_meta && is_tx) {
- 		/* metadata output specific ioctls */
- 		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_meta_out);
- 		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_out);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_out);
- 		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_out);
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
-+#endif
- 	}
- 	if (is_vbi) {
- 		/* vbi specific ioctls */
-diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
-index 90eec79ee995a2d214590beeacc91b9f8f33236d..f7af444d2344541ccae1eae230b39d4cbc47f6bd 100644
---- a/drivers/media/v4l2-core/v4l2-fh.c
-+++ b/drivers/media/v4l2-core/v4l2-fh.c
-@@ -93,6 +93,7 @@ int v4l2_fh_release(struct file *filp)
- 	struct v4l2_fh *fh = filp->private_data;
- 
- 	if (fh) {
-+		video_device_context_put(fh->context);
- 		v4l2_fh_del(fh);
- 		v4l2_fh_exit(fh);
- 		kfree(fh);
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 46da373066f4ec786b87ef18b8372abee621332f..ff80a3d9a9fe66753d8c9bc83535f6ad5288c3ec 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/compat.h>
-+#include <linux/file.h>
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -350,6 +351,13 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	}
- }
- 
-+static void v4l_print_context(const void *arg, bool write_only)
-+{
-+	const struct v4l2_context *c = arg;
++.. _vidioc_bind_context:
 +
-+	pr_cont("context=%u\n", c->context_fd);
-+}
++*************************
++ioctl VIDIOC_BIND_CONTEXT
++*************************
 +
- static void v4l_print_framebuffer(const void *arg, bool write_only)
- {
- 	const struct v4l2_framebuffer *p = arg;
-@@ -2151,6 +2159,69 @@ static int v4l_overlay(const struct v4l2_ioctl_ops *ops,
- 	return ops->vidioc_overlay(file, fh, *(unsigned int *)arg);
- }
- 
-+#if defined(CONFIG_MEDIA_CONTROLLER)
-+static int v4l_bind_context(const struct v4l2_ioctl_ops *ops,
-+			    struct file *file, void *fh, void *arg)
-+{
-+	struct video_device *vdev = video_devdata(file);
-+	struct media_device_context *mdev_context;
-+	struct v4l2_fh *vfh =
-+		test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags) ? fh : NULL;
-+	struct v4l2_context *c = arg;
-+	int ret;
++Name
++====
 +
-+	/*
-+	 * TODO: do not __set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls)
-+	 * if V4L2_FL_USES_V4L2_FH isn't set or the driver does not implement
-+	 * alloc_context and destroy_context.
-+	 */
-+	if (!vfh)
-+		return -ENOTTY;
++VIDIOC_BIND_CONTEXT - Bind a video device file handle to a media device context
 +
-+	if (!vdev->entity.ops || !vdev->entity.ops->alloc_context ||
-+	    !vdev->entity.ops->destroy_context)
-+		return -ENOTTY;
++Synopsis
++========
 +
-+	mdev_context = media_device_context_get_from_fd(c->context_fd);
-+	if (!mdev_context)
-+		return -EINVAL;
++.. c:macro:: VIDIOC_BIND_CONTEXT
 +
-+	/* Let the driver allocate the per-file handle context. */
-+	ret = vdev->entity.ops->alloc_context(&vdev->entity,
-+					      (struct media_entity_context **)
-+					      &vfh->context);
-+	if (ret)
-+		goto err_put_mdev_context;
++``int ioctl(int fd, VIDIOC_BIND_CONTEXT, struct v4l2_context *argp)``
 +
-+	/*
-+	 * Bind the newly created video device context to the media device
-+	 * context identified by the file descriptor.
-+	 */
-+	ret = media_device_bind_context(mdev_context,
-+					(struct media_entity_context *)
-+					vfh->context);
-+	if (ret)
-+		goto err_put_context;
++Arguments
++=========
 +
-+	media_device_context_put(mdev_context);
++``fd``
++    File descriptor returned by :c:func:`open()`.
 +
-+	return 0;
++``argp``
++    Pointer to struct :c:type:`v4l2_context`.
 +
-+err_put_context:
-+	video_device_context_put(vfh->context);
-+err_put_mdev_context:
-+	media_device_context_put(mdev_context);
++Description
++===========
 +
-+	return ret;
-+}
-+#else
-+static int v4l_bind_context(const struct v4l2_ioctl_ops *ops,
-+			    struct file *file, void *fh, void *arg)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_MEDIA_CONTROLLER */
++Applications call the ``VIDIOC_BIND_CONTEXT`` ioctl to bind a video device file
++handle to a media device  context. Binding a video device file handle to a media
++device context creates an isolated execution context which allows to multiplex
++the usage of a video device. This means, in practice, that the video device
++configuration (format, sizes etc) applied on a file handle bound to a media
++device context won't be visible on file handles bound to a different media
++device context (or not bound at all).
 +
- static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
-@@ -2998,6 +3069,7 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
- 	IOCTL_INFO(VIDIOC_DBG_G_CHIP_INFO, v4l_dbg_g_chip_info, v4l_print_dbg_chip_info, INFO_FL_CLEAR(v4l2_dbg_chip_info, match)),
- 	IOCTL_INFO(VIDIOC_QUERY_EXT_CTRL, v4l_query_ext_ctrl, v4l_print_query_ext_ctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_query_ext_ctrl, id)),
- 	IOCTL_INFO(VIDIOC_REMOVE_BUFS, v4l_remove_bufs, v4l_print_remove_buffers, INFO_FL_PRIO | INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_remove_buffers, type)),
-+	IOCTL_INFO(VIDIOC_BIND_CONTEXT, v4l_bind_context, v4l_print_context, 0),
- };
- #define V4L2_IOCTLS ARRAY_SIZE(v4l2_ioctls)
- 
-diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
-index 82695c3a300a73219f262fb556ed61a8f09d273e..6d9edfd9ca912972ad15acdc07014dee1ed36ab6 100644
---- a/include/media/v4l2-ioctl.h
-+++ b/include/media/v4l2-ioctl.h
-@@ -18,6 +18,7 @@
- #include <linux/videodev2.h>
- 
- struct v4l2_fh;
-+struct video_device_context;
- 
- /**
-  * struct v4l2_ioctl_ops - describe operations for each V4L2 ioctl
-@@ -149,6 +150,8 @@ struct v4l2_fh;
-  *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for metadata capture
-  * @vidioc_try_fmt_meta_out: pointer to the function that implements
-  *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for metadata output
-+ * @vidioc_bind_context: pointer to the function that implements
-+ *	:ref:`VIDIOC_BIND_CONTEXT <vidioc_bind_context>` ioctl
-  * @vidioc_reqbufs: pointer to the function that implements
-  *	:ref:`VIDIOC_REQBUFS <vidioc_reqbufs>` ioctl
-  * @vidioc_querybuf: pointer to the function that implements
-@@ -402,6 +405,10 @@ struct v4l2_ioctl_ops {
- 	int (*vidioc_try_fmt_meta_out)(struct file *file, void *fh,
- 				       struct v4l2_format *f);
- 
-+	/* Context handlers */
-+	int (*vidioc_bind_context)(struct file *file, void *fh,
-+				   struct video_device_context *c);
++By opening a media device applications create a media device context to which
++video devices and subdevices file handles can be bound to. The file descriptor
++returned by a call to :c:func:`open()` on the media device identifies uniquely
++the media device context. Application populates the ``context_fd`` field of
++:c:type:`v4l2_context` with the file descriptor of an open media device to
++identify the media context to which they want to bind a video device to.
 +
- 	/* Buffer handlers */
- 	int (*vidioc_reqbufs)(struct file *file, void *fh,
- 			      struct v4l2_requestbuffers *b);
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 3dd9fa45dde1066d52a68581625a39e7ec92c9b7..0b9aa89e2479620dbbaa54f1aadff7aaa7a3d0f7 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1057,6 +1057,14 @@ struct v4l2_jpegcompression {
- 					* always use APP0 */
- };
- 
-+/*
-+ *     V I D E O   D E V I C E   C O N T E X T
-+ */
++Applications can open a video device node multiple times, and call
++``VIDIOC_BIND_CONTEXT`` on each file handle returned by a successful call to
++:c:func:`open()` to isolate the operations performed on that file handle from
++any operation performed on other file handles bound to different contexts. This
++means, in example, that the video device format, sizes and the buffers are
++isolated from the ones associated with a file descriptor, obtained by opening
++the same video device but bound to a different media device context (or not
++bound at all).
 +
-+struct v4l2_context {
-+	__u32 context_fd;
-+};
++The bounding operation realizes a permanent association valid until the video
++device context is released by closing the file handle.
 +
- /*
-  *	M E M O R Y - M A P P I N G   B U F F E R S
-  */
-@@ -2818,6 +2826,9 @@ struct v4l2_remove_buffers {
- #define VIDIOC_REMOVE_BUFS	_IOWR('V', 104, struct v4l2_remove_buffers)
- 
- 
-+/* Context handling */
-+#define VIDIOC_BIND_CONTEXT	_IOW('V', 105, struct v4l2_context)
++A video device file handle can be bound to the same media device context once
++only. Trying to bind the same file handle to the same media device context a
++second time, without releasing the already established context by closing the
++bound file descriptor first, will result in an error.
 +
- /* Reminder: when adding new ioctls please add support for them to
-    drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
- 
++Bounding is an opt-in feature that applications are free to ignore. Any
++operation directed to a non bound file handle will continue to work as it used
++to, and the video device configuration (formats, sizes etc) will be visible
++across all the other non-bound file handles.
++
++Return Value
++============
++
++On success 0 is returned, on error -1 and the ``errno`` variable is set
++appropriately. The generic error codes are described at the
++:ref:`Generic Error Codes <gen-errors>` chapter.
++
++EINVAL
++    The media device context file handle ``context_fd`` is not valid or the
++    video device file handle is already bound to a context.
 
 -- 
 2.49.0
