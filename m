@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-38399-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1C1B10CF2
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 16:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29ED4B10CF6
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 16:16:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB7C53BC21C
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 14:13:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D5413ABACE
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 14:14:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD7892E9742;
-	Thu, 24 Jul 2025 14:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 333132EA475;
+	Thu, 24 Jul 2025 14:11:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KldGWVzh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eflzKinz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933022E8E08;
-	Thu, 24 Jul 2025 14:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DF82E9EBA;
+	Thu, 24 Jul 2025 14:10:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753366257; cv=none; b=iBjVFk7J84Etuf8SWbw027CGFuNlOUBpKTvqsUGihJhmUH/AWt2w3+ovCBbS3+827qIZv8x76gmaX9xLn66XB0PI3qQs8X/HCQbVprO1mFQho/7be59FehqjPd/9RWgtdrIcE14MgWIORQLRun11jHCnQRITEmiAKQtjPAeLlJY=
+	t=1753366260; cv=none; b=eAym+bHrCetYIGzSTSSqX3vgxTG/PfIAVI67/E6PFrlikWEExHqgncUiNlWA7tNVbWwhqgQqAIgM1arQrHeSa+5waZozPyvoVybVKK3pp4PM3I0VZSADBnuKm8tSXJHINmVN3VEUuhpH2tQEZxEQaEA1Q0arjBtGmtwhTxCqHJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753366257; c=relaxed/simple;
-	bh=RMEJm/E/usNBixZcp+GBwmSg7HkpwQhhGNile6Mrpfg=;
+	s=arc-20240116; t=1753366260; c=relaxed/simple;
+	bh=LTlCiL6fmmVVuL8bKDmzSBOA/E25dmRY67EoUr9sHTM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Re8j0F4Ww3udwl+Ho65navQ2cpLolB/0FefaSKbmYuXVtsmXMksfuwEe5kKVbs25Tdtl8ie+lJ6N6L5DxgzUAWv8ye07RO8OmVCJQ8l4+yA6Piw+aSsSJhtuMNZUkcJ7X3evlTu++ajU+D9heKOdnZWGyjCxzpCaEdt/+YeI8K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KldGWVzh; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=tNcfgxW7q4dvz+SKlzfGHSvszwhchup3gqBQvTMt8IjKhfss2o8WIwGGC+/LIqUjYEkBi6WQzy8NxlFkNXCUxCD0Gw5jybomAm9UvJnLKkMz3bcXzxmm4d/sUq47UY98j6Rkl6xAEWAhIcQqq965VoJHRYiJOaJ1tkrKH/f1Bzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eflzKinz; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.1.76] (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D0D9190D;
-	Thu, 24 Jul 2025 16:10:05 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B44A2C79;
+	Thu, 24 Jul 2025 16:10:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753366206;
-	bh=RMEJm/E/usNBixZcp+GBwmSg7HkpwQhhGNile6Mrpfg=;
+	s=mail; t=1753366208;
+	bh=LTlCiL6fmmVVuL8bKDmzSBOA/E25dmRY67EoUr9sHTM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KldGWVzhzELrAs96NQ9xfnzg0umN6bK5CgorjcgIdyNgJhUW7vG/LvV1YCSH8duET
-	 LaSJGklP/fPcnZYJRaAGKJchQGM8T9xCbFXV9UVMUWrK/qAx5QUxzVQD7Fx5nB4zlk
-	 C9TCugCnoeIO8mzUypMusl+C/3a24dd+XMNFyI64=
+	b=eflzKinzcge3uNK6Yy71BC8PHhXpTWj2kEbEr9oWIREWTg6irW8FYgaC8MAM9wHa8
+	 Fv2O5M4BMsi9kI2Hp9ykUzS5Fc91KKj0H34h6eBNQqJlh1diou9IcNRavRj7lmYEx4
+	 Eb6gbVOBjx4V9dpNE6cHImYyeS7ISuURAZdD6+Ko=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Thu, 24 Jul 2025 16:10:22 +0200
-Subject: [PATCH v2 15/27] media: v4l2_subdev: Introduce default context
+Date: Thu, 24 Jul 2025 16:10:23 +0200
+Subject: [PATCH v2 16/27] media: v4l2-subdev: Add subdev state accessor
+ helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250724-multicontext-mainline-2025-v2-15-c9b316773486@ideasonboard.com>
+Message-Id: <20250724-multicontext-mainline-2025-v2-16-c9b316773486@ideasonboard.com>
 References: <20250724-multicontext-mainline-2025-v2-0-c9b316773486@ideasonboard.com>
 In-Reply-To: <20250724-multicontext-mainline-2025-v2-0-c9b316773486@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -71,188 +72,315 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5859;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10156;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=RMEJm/E/usNBixZcp+GBwmSg7HkpwQhhGNile6Mrpfg=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBogj7P1/MKU1Ktuh3wvx1qB/QU79/dRKxCfwG1p
- 2Oo0BAz+F6JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaII+zwAKCRByNAaPFqFW
- PCc7D/460AOKgiuGxo8oHW7UIhLM+ZqXE8WCJjPH6HxSRZm0imC+qVc+LJG8YwdZ7InirAUxNJW
- C9Gzu7a9wEZOtDl2dgVtgsMTKBq4NCk83bEnIz1hdbIpiq8xsGMCpJFJW34QOzJHXmvi2bcFcZd
- kIYJVjQ9nXdDLdPO0Hj1jqpI4noQ7q4cLaIRe+SxRdQ6lkK0fqmjrquYuoTBd4BqWfwBXO8gme9
- 0EJXGZxMRTBtEOH+pfNYQV3n363wrs+smCkWubOKvSGmVffaSAntOqqT41zr9EiwJ9hBm3rZj1G
- k6vcGDe70r0hId4CKCXPBLOfT67qnphMJlOCQsFgZQyXo3wU5VYjFGG+P5F0XxA+1EMmMBwdX7d
- qlAXIx4YoeZKm+qKNZx1obWbWGSSQdu1CKZLnO96x00IiJ5CNr7fVi1Xr6MNvBLfl5MR3HRemmf
- 2Xy30ENpV+uSdzsbUtFjOMXYwi/f56RnqR+L0xBKcQT9QnvM13hy3FBzvn8v8cN9f970tCueSFg
- JKnnhPGSP3CBSwDIJtl2hrPTp7VUJNONCVq4g7jh2b7TA/3WnRp5cEWwjxeZrT2yVwirDFlUUyt
- bTbxvDcc7wCzG8v+yZwZYQOV4XnA2Lt4vig1vJz6trijNEIxW3CGTO2IR0v4Wgk4D/Kz02GVHO2
- /niTwqVtIfEzVVA==
+ bh=LTlCiL6fmmVVuL8bKDmzSBOA/E25dmRY67EoUr9sHTM=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBogj7QjdzL4huWoPQWt9hdYUH28WTHaaCsqpjeU
+ qna2kZzuD6JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaII+0AAKCRByNAaPFqFW
+ PGOyD/0SmIsZq5YVWnS8yOYo+Js9CALdRiBwlS1FU+yS7Wah+l/YMy5QZ1c+pvSGbDEexB1IRLB
+ Pke0D0N6TmmHG1aXW5ATpJoruhITQ18ZqTGAmguMPvSaJewWfi6nFQ1mt1fDPm4Vnk60cdW+xWI
+ GCNb/jqBiJbjAnILhpEN2peDig8jSSM3WPtAeFCaD5y9Jr/oK4Tb7Kgs/itZdwvlZqwXHWJhURw
+ QXtWM6PF42A+J3vM3zwcwvMQ4KSL07YfFQDyjP9ai8Xg7d2pLNKx5EvdeH1fqopHM6ZCDt4Cz81
+ U1RA9W8W/Lwq2d8ICw6yrn5GUfsh0ySeSlrejapD/96zV+1VW6jenjf04IN4V83N4CHWOJKGL8z
+ RJpSloDiHE+8o9+rU3dwWA2AzoslILnPdWyoutRp00T3y32tHYy/yni9c/s+ASoT740dq7enqVl
+ geoUDi+v8Qz7uRoh3MJHeW+FvfOtxO6tK+utrj9GpStNIuGcEVYUe7p4C+5KZHGODMPaNHq4ufc
+ GIMHQCsdvvE7hm86iaV0nwI6PBD9d6E6vPjdW9Z169PSDrk88wNOEoiOoG9ku1G580l2KFnL08A
+ C5wHL6XTGz+NEGuYQwJZC3EGtI0O+20m5RvdBiCFDEpTMvYD3YqnOng4gOY+lz3mCG24zbSfqS+
+ u4yXvcT7CyDuhtQ==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Introduce a default context for v4l2 subdvice.
+The v4l2-subdev.c file offers three helpers to access the subdevice
+active state from a v4l2_subdev pointer:
 
-Drivers ported to use multi-context support that used to work with a
-non-context aware userspace (which doesn't call VIDIOC_SUBDEV_BIND_CONTEXT)
-shall continue to work even if they are context aware.
+- v4l2_subdev_get_unlocked_active_state(sd)
+- v4l2_subdev_get_locked_active_state(sd)
+- v4l2_subdev_lock_and_get_active_state(sd)
 
-Provide a default context in the v4l2 subdev and bind it to the media
-device default context when the subdevice is fully registered by
-providing a v4l2_subdev_registered() function.
+With the introduction of struct v4l2_subdev_context which contains a
+subdev_state as well, the actual "active" state is stored in three
+possible places:
+- A context associated with a v4l2_subdev_fh for context aware drivers
+  operated by context aware userspace
+- The default subdevice context for context aware drivers operated by
+  non-context aware userspace
+- The subdevice active state for non-context aware drivers
 
-Release the context when the subdevice gets unregistered by the core,
-providing a v4l2_subdev_unregistered() helper.
+Provide helpers similar in spirit the existing ones but accept as
+argument either a subdevice the context itself and retrieve the active
+state from the correct place.
+
+Helpers will be used in following patches for link validation.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-device.c | 11 +++-----
- drivers/media/v4l2-core/v4l2-subdev.c | 50 +++++++++++++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 29 ++++++++++++++++++++
- 3 files changed, 83 insertions(+), 7 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 101 +++++++++++++++++++++++++++++++++
+ include/media/v4l2-subdev.h           | 104 +++++++++++++++++++---------------
+ 2 files changed, 159 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
-index 5e537454f5cd71b3c50a2a2864642f7d5548047b..bf3ebd77b7bb8b13c849a89d01e6d889e8a2e4fd 100644
---- a/drivers/media/v4l2-core/v4l2-device.c
-+++ b/drivers/media/v4l2-core/v4l2-device.c
-@@ -146,11 +146,9 @@ int __v4l2_device_register_subdev(struct v4l2_device *v4l2_dev,
- 	}
- #endif
- 
--	if (sd->internal_ops && sd->internal_ops->registered) {
--		err = sd->internal_ops->registered(sd);
--		if (err)
--			goto error_unregister;
--	}
-+	err = v4l2_subdev_registered(sd);
-+	if (err)
-+		goto error_unregister;
- 
- 	sd->owner = module;
- 
-@@ -274,8 +272,7 @@ void v4l2_device_unregister_subdev(struct v4l2_subdev *sd)
- 	list_del(&sd->list);
- 	spin_unlock(&v4l2_dev->lock);
- 
--	if (sd->internal_ops && sd->internal_ops->unregistered)
--		sd->internal_ops->unregistered(sd);
-+	v4l2_subdev_unregistered(sd);
- 	sd->v4l2_dev = NULL;
- 
- #if defined(CONFIG_MEDIA_CONTROLLER)
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 300f84317623dd082a4cd2caec97057f972e82a3..438f51980e5ac0f092ba6b0a979a376133968ddf 100644
+index 438f51980e5ac0f092ba6b0a979a376133968ddf..7372f61127c871cec44a3d1900e2b8bef34632b9 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1275,6 +1275,56 @@ const struct v4l2_file_operations v4l2_subdev_fops = {
- 	.poll = subdev_poll,
- };
+@@ -20,6 +20,7 @@
+ #include <linux/version.h>
+ #include <linux/videodev2.h>
  
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+static int v4l2_subdev_register_default_context(struct v4l2_subdev *sd)
-+{
-+	struct media_device_context *mdev_context;
-+
-+	/* If the driver does not support contexts, return here. */
-+	if (!sd->entity.ops || !sd->entity.ops->alloc_context ||
-+	    !sd->entity.ops->destroy_context)
-+		return 0;
-+
-+	mdev_context = sd->entity.graph_obj.mdev->default_context;
-+	return subdev_do_bind_context(sd, &sd->default_context, mdev_context);
-+}
-+#endif /* CONFIG_MEDIA_CONTROLLER */
-+
-+int v4l2_subdev_registered(struct v4l2_subdev *sd)
-+{
-+	int ret;
-+
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	ret = v4l2_subdev_register_default_context(sd);
-+	if (ret)
-+		return ret;
-+#endif /* CONFIG_MEDIA_CONTROLLER */
-+
-+	if (sd->internal_ops && sd->internal_ops->registered) {
-+		ret = sd->internal_ops->registered(sd);
-+		if (ret)
-+			goto err_registered;
-+	}
-+
-+	return 0;
-+
-+err_registered:
-+	if (sd->default_context)
-+		v4l2_subdev_context_put(sd->default_context);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_registered);
-+
-+void v4l2_subdev_unregistered(struct v4l2_subdev *sd)
-+{
-+	if (sd->default_context)
-+		v4l2_subdev_context_put(sd->default_context);
-+
-+	if (sd->internal_ops && sd->internal_ops->unregistered)
-+		sd->internal_ops->unregistered(sd);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_unregistered);
-+
- #ifdef CONFIG_MEDIA_CONTROLLER
- 
- int v4l2_subdev_get_fwnode_pad_1_to_1(struct media_entity *entity,
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 9d257b859acafb11cfe6976e906e7baabd0206f6..1fa42a9f322be0be44fc9308744f4f4ae0cf1606 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1130,6 +1130,10 @@ struct v4l2_subdev_platform_data {
-  * @active_state: Active state for the subdev (NULL for subdevs tracking the
-  *		  state internally). Initialized by calling
-  *		  v4l2_subdev_init_finalize().
-+ * @default_context: Default context for the subdev, allows to operate
-+ *		     context-aware drivers with a context-unaware userspace.
-+ *		     It is initialized when the subdev is registered in
-+ *		     v4l2_subdev_registered().
-  * @enabled_pads: Bitmask of enabled pads used by v4l2_subdev_enable_streams()
-  *		  and v4l2_subdev_disable_streams() helper functions for
-  *		  fallback cases.
-@@ -1182,6 +1186,7 @@ struct v4l2_subdev {
- 	 * doesn't support it.
- 	 */
- 	struct v4l2_subdev_state *active_state;
-+	struct v4l2_subdev_context *default_context;
- 	u64 enabled_pads;
- 	bool s_stream_enabled;
- };
-@@ -1286,6 +1291,30 @@ static inline void *v4l2_get_subdev_hostdata(const struct v4l2_subdev *sd)
- 	return sd->host_priv;
++#include <media/media-device.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-event.h>
+@@ -189,6 +190,106 @@ static inline int check_pad(struct v4l2_subdev *sd, u32 pad)
+ 	return 0;
  }
  
-+/**
-+ * v4l2_subdev_registered - Subdevice registered notification
-+ *
-+ * @sd: The subdevice that has been registered
-+ *
-+ * Notify that a subdevice has been registered by the core. This function wraps
-+ * a call to sd->internal_ops->registered (if available) and instantiates the
-+ * default v4l2 subdevice context.
-+ *
-+ * Returns 0 on success, a negative error code otherwise.
-+ */
-+int v4l2_subdev_registered(struct v4l2_subdev *sd);
++/* subdev state accessor helpers */
 +
-+/**
-+ * v4l2_subdev_unregistered - Subdevice unregistered notification
++/*
++ * Access the state from the subdevice.
 + *
-+ * @sd: The subdevice that has been unregistered
-+ *
-+ * Notify that a subdevice has been unregistered by the core. This function
-+ * wraps a call to sd->internal_ops->unregistered (if available) and deletes
-+ * the default v4l2 subdevice context.
++ * If the driver is context-aware use the state stored in the default context
++ * otherwise use the active state stored in the subdevice.
 + */
-+void v4l2_subdev_unregistered(struct v4l2_subdev *sd);
 +
- #ifdef CONFIG_MEDIA_CONTROLLER
++struct v4l2_subdev_state *
++v4l2_subdev_get_unlocked_active_state_from_sd(struct v4l2_subdev *sd)
++{
++	if (!sd)
++		return NULL;
++
++	if (sd->default_context) {
++		lockdep_assert_not_held(sd->default_context->state->lock);
++
++		return sd->default_context->state;
++	}
++
++	if (sd->active_state)
++		lockdep_assert_not_held(sd->active_state->lock);
++	return sd->active_state;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_get_unlocked_active_state_from_sd);
++
++struct v4l2_subdev_state *
++v4l2_subdev_get_locked_active_state_from_sd(struct v4l2_subdev *sd)
++{
++	if (!sd)
++		return NULL;
++
++	if (sd->default_context) {
++		lockdep_assert_held(sd->default_context->state->lock);
++
++		return sd->default_context->state;
++	}
++
++	if (sd->active_state)
++		lockdep_assert_held(sd->active_state->lock);
++	return sd->active_state;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_get_locked_active_state_from_sd);
++
++struct v4l2_subdev_state *
++v4l2_subdev_lock_and_get_active_state_from_sd(struct v4l2_subdev *sd)
++{
++	if (!sd)
++		return NULL;
++
++	if (sd->default_context) {
++		v4l2_subdev_lock_state(sd->default_context->state);
++
++		return sd->default_context->state;
++	}
++
++	if (sd->active_state)
++		v4l2_subdev_lock_state(sd->active_state);
++	return sd->active_state;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_lock_and_get_active_state_from_sd);
++
++/* Access the subdevice state from a subdvice context. */
++struct v4l2_subdev_state *
++v4l2_subdev_get_unlocked_active_state_from_ctx(struct v4l2_subdev_context *ctx)
++{
++	if (!ctx)
++		return NULL;
++
++	if (ctx->state)
++		lockdep_assert_not_held(ctx->state->lock);
++	return ctx->state;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_get_unlocked_active_state_from_ctx);
++
++struct v4l2_subdev_state *
++v4l2_subdev_get_locked_active_state_from_ctx(struct v4l2_subdev_context *ctx)
++{
++	if (!ctx)
++		return NULL;
++
++	if (ctx->state)
++		lockdep_assert_held(ctx->state->lock);
++	return ctx->state;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_get_locked_active_state_from_ctx);
++
++struct v4l2_subdev_state *
++v4l2_subdev_lock_and_get_active_state_from_ctx(struct v4l2_subdev_context *ctx)
++{
++	if (!ctx)
++		return NULL;
++
++	if (ctx->state)
++		v4l2_subdev_lock_state(ctx->state);
++	return ctx->state;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_lock_and_get_active_state_from_ctx);
++
+ static int check_state(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+ 		       u32 which, u32 pad, u32 stream)
+ {
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 1fa42a9f322be0be44fc9308744f4f4ae0cf1606..8087c0ae3bc0a0a95512b4b0ff5257522a104ca0 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -29,16 +29,17 @@
+ 
+ #define	V4L2_DEVICE_NOTIFY_EVENT		_IOW('v', 2, struct v4l2_event)
+ 
+-struct v4l2_device;
++struct led_classdev;
++struct media_device_context;
++struct tuner_setup;
+ struct v4l2_ctrl_handler;
++struct v4l2_device;
+ struct v4l2_event;
+ struct v4l2_event_subscription;
+ struct v4l2_fh;
++struct v4l2_mbus_frame_desc;
+ struct v4l2_subdev;
+ struct v4l2_subdev_fh;
+-struct tuner_setup;
+-struct v4l2_mbus_frame_desc;
+-struct led_classdev;
  
  /**
+  * struct v4l2_decode_vbi_line - used to decode_vbi_line
+@@ -1968,64 +1969,75 @@ static inline void v4l2_subdev_unlock_states(struct v4l2_subdev_state *state1,
+ 		mutex_unlock(state2->lock);
+ }
+ 
++struct v4l2_subdev_state *
++v4l2_subdev_get_unlocked_active_state_from_sd(struct v4l2_subdev *sd);
++struct v4l2_subdev_state *
++v4l2_subdev_get_locked_active_state_from_sd(struct v4l2_subdev *sd);
++struct v4l2_subdev_state *
++v4l2_subdev_lock_and_get_active_state_from_sd(struct v4l2_subdev *sd);
++
++struct v4l2_subdev_state *
++v4l2_subdev_get_unlocked_active_state_from_ctx(struct v4l2_subdev_context *ctx);
++struct v4l2_subdev_state *
++v4l2_subdev_get_locked_active_state_from_ctx(struct v4l2_subdev_context *ctx);
++struct v4l2_subdev_state *
++v4l2_subdev_lock_and_get_active_state_from_ctx(struct v4l2_subdev_context *ctx);
++
+ /**
+- * v4l2_subdev_get_unlocked_active_state() - Checks that the active subdev state
+- *					     is unlocked and returns it
+- * @sd: The subdevice
++ * v4l2_subdev_get_unlocked_active_state() - Checks that the subdev state is
++ *					     unlocked and returns it
++ * @sdctx: The subdevice, or the subdevice context
+  *
+- * Returns the active state for the subdevice, or NULL if the subdev does not
+- * support active state. If the state is not NULL, calls
+- * lockdep_assert_not_held() to issue a warning if the state is locked.
++ * Returns the subdevice state, or NULL if it is not valid. If the state is
++ * not NULL, calls lockdep_assert_not_held() to issue a warning if the state
++ * is locked.
+  *
+- * This function is to be used e.g. when getting the active state for the sole
+- * purpose of passing it forward, without accessing the state fields.
++ * This function is to be used e.g. when getting the state for the sole purpose
++ * of passing it forward, without accessing the state fields.
+  */
+-static inline struct v4l2_subdev_state *
+-v4l2_subdev_get_unlocked_active_state(struct v4l2_subdev *sd)
+-{
+-	if (sd->active_state)
+-		lockdep_assert_not_held(sd->active_state->lock);
+-	return sd->active_state;
+-}
++#define v4l2_subdev_get_unlocked_active_state(sdctx)				\
++	_Generic((sdctx),							\
++		struct v4l2_subdev *: 						\
++			v4l2_subdev_get_unlocked_active_state_from_sd,		\
++		struct v4l2_subdev_context *:					\
++			v4l2_subdev_get_unlocked_active_state_from_ctx)		\
++	(sdctx)
+ 
+ /**
+- * v4l2_subdev_get_locked_active_state() - Checks that the active subdev state
+- *					   is locked and returns it
+- *
+- * @sd: The subdevice
++ * v4l2_subdev_get_locked_active_state() - Checks that the subdev state is
++ *					   locked and returns it
++ * @sdctx: The subdevice, or the subdevice context
+  *
+- * Returns the active state for the subdevice, or NULL if the subdev does not
+- * support active state. If the state is not NULL, calls lockdep_assert_held()
+- * to issue a warning if the state is not locked.
++ * Returns the subdevice state, or NULL is not valid. If the state is not NULL,
++ * calls lockdep_assert_held() to issue a warning if the state is not locked.
+  *
+- * This function is to be used when the caller knows that the active state is
++ * This function is to be used when the caller knows that the context state is
+  * already locked.
+  */
+-static inline struct v4l2_subdev_state *
+-v4l2_subdev_get_locked_active_state(struct v4l2_subdev *sd)
+-{
+-	if (sd->active_state)
+-		lockdep_assert_held(sd->active_state->lock);
+-	return sd->active_state;
+-}
++#define v4l2_subdev_get_locked_active_state(sdctx)				\
++	_Generic((sdctx),							\
++		struct v4l2_subdev *:						\
++			v4l2_subdev_get_locked_active_state_from_sd,		\
++		struct v4l2_subdev_context *:					\
++			v4l2_subdev_get_locked_active_state_from_ctx)		\
++	(sdctx)
+ 
+ /**
+- * v4l2_subdev_lock_and_get_active_state() - Locks and returns the active subdev
+- *					     state for the subdevice
+- * @sd: The subdevice
++ * v4l2_subdev_lock_and_get_active_state_from_ctx() - Locks and returns the
++ *						      subdevice state
++ * @sdctx: The subdevice, or the subdevice context
+  *
+- * Returns the locked active state for the subdevice, or NULL if the subdev
+- * does not support active state.
++ * Returns the locked subdevice state, or NULL if it is not valid.
+  *
+  * The state must be unlocked with v4l2_subdev_unlock_state() after use.
+  */
+-static inline struct v4l2_subdev_state *
+-v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+-{
+-	if (sd->active_state)
+-		v4l2_subdev_lock_state(sd->active_state);
+-	return sd->active_state;
+-}
++#define v4l2_subdev_lock_and_get_active_state(sdctx)				\
++	_Generic((sdctx),							\
++		struct v4l2_subdev *:						\
++			v4l2_subdev_lock_and_get_active_state_from_sd,		\
++		struct v4l2_subdev_context *:					\
++			v4l2_subdev_get_locked_active_state_from_ctx)		\
++	(sdctx)
+ 
+ /**
+  * v4l2_subdev_init - initializes the sub-device struct
 
 -- 
 2.49.0
