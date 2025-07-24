@@ -1,304 +1,430 @@
-Return-Path: <linux-media+bounces-38382-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38383-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE17B10C3D
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 15:56:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BD3B10CB0
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 16:08:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5430541834
-	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 13:54:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B32E5C24E7
+	for <lists+linux-media@lfdr.de>; Thu, 24 Jul 2025 14:04:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A912D2E03EC;
-	Thu, 24 Jul 2025 13:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4508A2DE6F2;
+	Thu, 24 Jul 2025 14:01:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Q6mze2Uq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5cXUpYw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2304D2DE6E1;
-	Thu, 24 Jul 2025 13:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933C026A1AC;
+	Thu, 24 Jul 2025 14:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753365189; cv=none; b=H5MVdgSA0awDgPQrjyKCLyNW/FybCOb8E7ZO6tCaYmTK4fNIUqJVUQoX6RqYPFGIEHIcaPjcvEOFM929IVsCmJLGDpKBNouUnZBlQVl+8ubEGXyioXVwJ0tnjTEjwW434UWhderA7cXzAp9RgSoeTsU67WD7I8XP2/YCmoURZ54=
+	t=1753365701; cv=none; b=jx0PqUSBuhy2BpG3AVYvpgGHEmkczdFfzoYlGwLkca7WQhWdM+vCsdKtzn/I+0xUN8o7BD1lc58ZTt2VbaZR/sdfgKGGgYw7zho1NjGOaHVxVeyP+b2pipD8mgm0uxaUDN/BaorYY3lx5/hSNuIHFg3meFp+r46muLE+Wyg+9zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753365189; c=relaxed/simple;
-	bh=yqn7eXWGIicat6ACtQ06fChq2+bwHai2eNzsQEGAiZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pFmujNQ7x0dtmyexmvoy87HPyAvVMLSGWuJVfFihC0h0F/3uruyJui8+B/jJWY39Pzd0zxrudIdndUcoRZ023s0j/ADBy1vZkYTSUWKxbeqfVDiKVzoMOZWvNsudQwyXVdr33HeJOQEMiNc1xbNbd4YjVAWHBsDrNsiO5/OtGYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Q6mze2Uq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 129698BF;
-	Thu, 24 Jul 2025 15:52:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753365144;
-	bh=yqn7eXWGIicat6ACtQ06fChq2+bwHai2eNzsQEGAiZc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q6mze2UqXFwh86Xtgaeu1xH+pGVtu3y3IGXfrWbM+IHtdZvLvV+KWdf1wPiHxCUUG
-	 wS5S2sHAqnfWVi4xOY5PgiM4mfRjJBG6AOYbYILNPM0dyegcAMR3HcMAvOJldHPuDH
-	 FFIaeNm6i+BIst7SC7YtTgFSfK9ibU/PTOGR506o=
-Date: Thu, 24 Jul 2025 16:52:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Arec Kao <arec.kao@intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Dongchun Zhu <dongchun.zhu@mediatek.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hans de Goede <hansg@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>, Hao Yao <hao.yao@intel.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Jason Chen <jason.z.chen@intel.com>, Jimmy Su <jimmy.su@intel.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Leon Luo <leonl@leopardimaging.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Matthew Majewski <mattwmajewski@gmail.com>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Rob Herring <robh@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shunqian Zheng <zhengsq@rock-chips.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Todor Tomov <todor.too@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tony Lindgren <tony@atomide.com>, Zhi Mao <zhi.mao@mediatek.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>
-Subject: Re: [PATCH 00/72] media: i2c: Reduce cargo-cult
-Message-ID: <20250724135259.GR11202@pendragon.ideasonboard.com>
-References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
- <PN3P287MB1829DD1254FB74391A750F498B5EA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20250724115202.GK11202@pendragon.ideasonboard.com>
- <PN3P287MB1829C9E8C78ADD70259A68F08B5EA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1753365701; c=relaxed/simple;
+	bh=Bl2z6UzBE2b4Fs8m5F+n8N6Lz4INOiTKISDcUCJVU6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y8Og/ZJKwTpsnwTVAAS90REJp9k0b2M9NcEIUTWah+MuR75RPTMK+Jl8appiJNr5bI+xHF8vtGaPcAM8vz+ARSYzH0NSbqFj+gI9tDiBRMo3nKtHOqt5Ih103tKqmd30jDcmJUArlx6l5M7eAAAiHWUE1/rPsNA8VMC7tItMLgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5cXUpYw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF647C4CEF5;
+	Thu, 24 Jul 2025 14:01:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753365701;
+	bh=Bl2z6UzBE2b4Fs8m5F+n8N6Lz4INOiTKISDcUCJVU6Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T5cXUpYwzxh8ggJkSRCDhW/e0NBtjNCthqiOkZzLZudAyo18SbV43HJa1hT4pwMtH
+	 EKDTk80HOFN3U2Qvjo1UJANcDC6j4zLpmH1up7UHBEV/8+3jv91R6UcIqDFn4jno5j
+	 vd9zUbCpijiXDIUUfAapbS1nc7zJTC9lXKbg46KBP96YOgri48IjQXPQccW1MyRaLV
+	 pgqooFlkRaC9wwDiFLBoiPv9TNscMy9/T25K+hDUIHfDVYRwsjSzi65XAtYCYkVkrD
+	 /pM8+uheplEaLjRbzwuR/0BYb0c3+Ns62BJADtRFQnyeKg1r1wC3hLcOrrlbsS8Pcx
+	 GQGF5M2z5Mvuw==
+From: Philipp Stanner <phasta@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Philipp Stanner <pstanner@redhat.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] drm/sched: Extend and update documentation
+Date: Thu, 24 Jul 2025 16:01:22 +0200
+Message-ID: <20250724140121.70873-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB1829C9E8C78ADD70259A68F08B5EA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
 
-On Thu, Jul 24, 2025 at 01:24:24PM +0000, Tarang Raval wrote:
-> > On Thu, Jul 24, 2025 at 11:42:55AM +0000, Tarang Raval wrote:
-> > > Hi Laurent,
-> > >
-> > > > This patch series build on top of Mehdi's introduction of the
-> > > > devm_v4l2_sensor_clk_get() helper (see [1]) to drastically reduce
-> > > > cargo-cult in camera sensor drivers.
-> > > >
-> > > > A large number of camera sensor drivers directly use the
-> > > > "clock-frequency" property to retrieve the effective or desired external
-> > > > clock rate. This is standard behaviour on ACPI platforms that don't
-> > > > implement MIPI DisCo for Imaging, but usage of the property has leaked
-> > > > to OF-based platforms, due to a combination of historical reasons (using
-> > > > "clock-frequency" was initially considered right until before the
-> > > > introduction of "assigned-clock-rates") and plain cargo-cult.
-> > > >
-> > > > A large number of camera sensor drivers also set the rate of the
-> > > > external clock with clk_set_rate(). This behaviour is also fine on ACPI
-> > > > platforms, and has also leaked to OF-based platforms for the same
-> > > > reasons.
-> > > >
-> > > > Mehdi's "[PATCH v2 00/48] media: Add a helper for obtaining the clock
-> > > > producer" series improves the situation by centralizing clock handling
-> > > > for camera sensor in one helper function that implements the correct
-> > > > behaviour for all types of platforms (and should later allow support of
-> > > > MIPI DisCo for Imaging transparently for camera sensor drivers). It
-> > > > doesn't however address direct access of the "clock-frequency" property
-> > > > or direct calls to clk_set_rate() in drivers.
-> > > >
-> > > > This series builds on top of the new helper to replace manual handling
-> > > > of the clock frequency in camera sensor drivers. It starts by addressing
-> > > > the DT bindings and reprecating the clock-frequency property for camera
-> > > > sensor drivers in all YAML bindings (01/72) and in the et8ek8 text
-> > > > bindings (02/72). After that, patches 03/72 and 04/72 make the clocks
-> > > > property mandatory in the two camera sensor DT bindings that specified
-> > > > it as optional. Finally for the DT side, patches 05/72 to 14/72 replace
-> > > > clock-frequency with assigned-clock-rates, or drops the property
-> > > > altogether when the source clock has a fixed rate. This aligns the DT
-> > > > bindings and device tree sources to the current recommended practice.
-> > > >
-> > > > After that, the next 5 patches are assorted drive-by changes. Patch
-> > > > 15/72 drops an unused header the belonged to a long gone driver, and
-> > > > patch 17/72 drops unusued support for platform data in the mt9v032
-> > > > driver. Patch 18/72 is the first that addresses clock rate handling by
-> > > > dropping unneeded clock rate setting in the mt9v111 driver. Patch 19/72
-> > > > takes a harsher approach for the ov6650 by dropping the driver
-> > > > completely as the driver hasn't been used since v5.9.
-> > > >
-> > > > The next part of the series replaces manual clock rate handling with
-> > > > usage of the devm_v4l2_sensor_clk_get() helper in a large number of
-> > > > camera sensor drivers that implement clock rate handling in a standard
-> > > > way. This is done in patches 20/72 to 54/72. This interleaves the clock
-> > > > rate handling changes with drive-by refactoring (in separate patches) to
-> > > > make the code easier to deal with.
-> > > >
-> > > > The final part of the series addresses the remaining drivers that
-> > > > implement non-standard behaviours. It starts in 55/72 by adding a new
-> > > > devm_v4l2_sensor_clk_get_legacy() helper function for those drivers,
-> > > > similar to devm_v4l2_sensor_clk_get() but with a few more quirks. This
-> > > > function should not be used in any new driver. The remaining patches,
-> > > > from 53/72 to 72/72, use the new helper in drivers, interleaved with
-> > > > drive-by refactoring similarly to the previous part.
-> > > >
-> > > > Before this series, with Mehdi's series applied, 29 drivers read the
-> > > > "clock-frequency" property and 18 drivers set the external clock rate.
-> > > > With these series we go down to 1 and 3 respectively, namely the ccs,
-> > > > mt9p031 and mt9v032 drivers. Clock handling in the CCS driver is a bit
-> > > > more convoluted so I will leave to Sakari the honour of dropping the
-> > > > last direct user of "clock-frequency" :-) As for the mt9p031 and mt9v032
-> > > > driver, addressing the issue there is more difficult and likely not
-> > > > worth it.
-> > > >
-> > > > [1] https://lore.kernel.org/linux-media/
-> cover.1750942967.git.mehdi.djait@linux.intel.com
-> > > >
-> > > > Laurent Pinchart (72):
-> > > >   dt-bindings: media: Deprecate clock-frequency property for camera sensors
-> > > >   dt-bindings: media: et8ek8: Deprecate clock-frequency property
-> > > >   dt-bindings: media: imx258: Make clocks property required
-> > > >   dt-bindings: media: imx274: Make clocks property required
-> > > >   ARM: dts: nxp: imx6qdl-pico: Replace clock-frequency in camera sensor node
-> > > >   ARM: dts: nxp: imx6qdl-wandboard: Replace clock-frequency in camera sensor node
-> > > >   ARM: dts: samsung: exynos4210-i9100: Replace clock-frequency in camera sensor node
-> > > >   ARM: dts: samsung: exynos4412-midas: Replace clock-frequency in camera sensor node
-> > > >   ARM: dts: ti: omap3-n900: Replace clock-frequency in camera sensor node
-> > > >   ARM: dts: ti: omap3-n950: Replace clock-frequency in camera sensor node
-> > > >   ARM: dts: ti: omap3-n9: Replace clock-frequency in camera sensor node
-> > > >   arm64: dts: qcom: sdm845-db845c-navigation-mezzanine: Replace clock-frequency in camera sensor node
-> > > >   arm64: dts: renesas: aistarvision-mipi-adapter-2.1: Drop clock-frequency from camera sensor node
-> > > >   arm64: dts: renesas: rzg2l-smarc: Drop clock-frequency from camera sensor node
-> > > >   media: i2c: mt9v022: Drop unused mt9v022.h header
-> > > >   media: i2c: mt9v032: Replace client->dev usage
-> > > >   media: i2c: mt9v032: Drop support for platform data
-> > > >   media: i2c: mt9v111: Do not set clock rate manually
-> > > >   media: i2c: ov6650: Drop unused driver
-> > > >   media: i2c: hi556: Replace client->dev usage
-> > > >   media: i2c: hi556: Use V4L2 sensor clock helper
-> > > >   media: i2c: hi847: Replace client->dev usage
-> > > >   media: i2c: hi847: Use V4L2 sensor clock helper
-> > > >   media: i2c: imx208: Replace client->dev usage
-> > > >   media: i2c: imx208: Use V4L2 sensor clock helper
-> > > >   media: i2c: imx319: Replace client->dev usage
-> > > >   media: i2c: imx319: Use V4L2 sensor clock helper
-> > > >   media: i2c: imx355: Replace client->dev usage
-> > > >   media: i2c: imx335: Use V4L2 sensor clock helper
-> > > >   media: i2c: og01a1b: Replace client->dev usage
-> > > >   media: i2c: og01a1b: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov02c10: Replace client->dev usage
-> > > >   media: i2c: ov02c10: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov02e10: Replace client->dev usage
-> > > >   media: i2c: ov02e10: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov08d10: Replace client->dev usage
-> > > >   media: i2c: ov08d10: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov08x40: Replace client->dev usage
-> > > >   media: i2c: ov08x40: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov13858: Replace client->dev usage
-> > > >   media: i2c: ov13858: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov13b10: Replace client->dev usage
-> > > >   media: i2c: ov13b10: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov2740: Replace client->dev usage
-> > > >   media: i2c: ov2740: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov4689: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov5670: Replace client->dev usage
-> > > >   media: i2c: ov5670: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov5675: Replace client->dev usage
-> > > >   media: i2c: ov5675: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov5693: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov7251: Use V4L2 sensor clock helper
-> > > >   media: i2c: ov9734: Replace client->dev usage
-> > > >   media: i2c: ov9734: Use V4L2 sensor clock helper
-> > > >   media: v4l2-common: Add legacy camera sensor clock helper
-> > > >   media: i2c: et8ek8: Drop support for per-mode external clock frequency
-> > > >   media: i2c: et8ek8: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: gc05a2: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: gc08a3: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: imx258: Replace client->dev usage
-> > > >   media: i2c: imx258: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: imx290: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: ov02a10: Replace client->dev usage
-> > > >   media: i2c: ov02a10: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: ov2685: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: ov5645: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: ov5695: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: ov8856: Replace client->dev usage
-> > > >   media: i2c: ov8856: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: s5c73m3: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: s5k5baf: Use V4L2 legacy sensor clock helper
-> > > >   media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper
-> > >
-> > > If you are planning a v2 version of this patch series, please consider
-> > > incorporating the following improvements:
-> > >
-> > > 1. In the imx219 driver, you can also replace direct client->dev usage.
-> > 
-> > The series doesn't touch the imx219 driver. The patches that replace
-> > client->dev usage were meant to simplify the other changes. Additional
-> > client->dev removal should be done on top (and likely through all camera
-> > sensor drivers in one go).
-> 
-> Okay, great
-> 
-> > > 2. In the regulator code, you can reduce boilerplate by using
-> > >    devm_regulator_bulk_get_enable().
-> > 
-> > devm_regulator_bulk_get_enable() doesn't seem to be a good idea. You
-> > generally don't want to enable power everywhere unconditionally, and
-> > sensors very often need a guaranteed power up sequence.
-> 
-> The regulators are optional, we supply power to the camera sensor directly
-> through dedicated power rails and there is no strict enable sequence 
-> required in this case.
+From: Philipp Stanner <pstanner@redhat.com>
 
-What exactly do you mean by "this case" ? Are you talking about one
-particular sensor ? One particular camera module ?
+The various objects and their memory lifetime used by the GPU scheduler
+are currently not fully documented.
 
-> However, if you feel it's better to retain explicit handling for clarity 
-> and flexibility, I’m happy to stick with the current approach.
+Add documentation describing the scheduler's objects. Improve the
+general documentation at a few other places.
 
+Co-developed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+The first draft for this docu was posted by Christian in late 2023 IIRC.
+
+This is an updated version. Please review.
+
+@Christian: As we agreed on months (a year?) ago I kept your Signed-off
+by. Just tell me if there's any issue or sth.
+---
+ Documentation/gpu/drm-mm.rst           |  36 ++++
+ drivers/gpu/drm/scheduler/sched_main.c | 228 ++++++++++++++++++++++---
+ include/drm/gpu_scheduler.h            |   5 +-
+ 3 files changed, 238 insertions(+), 31 deletions(-)
+
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index d55751cad67c..95ee95fd987a 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -556,12 +556,48 @@ Overview
+ .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+    :doc: Overview
+ 
++Job Object
++----------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Job Object
++
++Entity Object
++-------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Entity Object
++
++Hardware Fence Object
++---------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Hardware Fence Object
++
++Scheduler Fence Object
++----------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Scheduler Fence Object
++
++Scheduler and Run Queue Objects
++-------------------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Scheduler and Run Queue Objects
++
+ Flow Control
+ ------------
+ 
+ .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
+    :doc: Flow Control
+ 
++Error and Timeout handling
++--------------------------
++
++.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
++   :doc: Error and Timeout handling
++
+ Scheduler Function References
+ -----------------------------
+ 
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 5a550fd76bf0..2e7bc1e74186 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -24,48 +24,220 @@
+ /**
+  * DOC: Overview
+  *
+- * The GPU scheduler provides entities which allow userspace to push jobs
+- * into software queues which are then scheduled on a hardware run queue.
+- * The software queues have a priority among them. The scheduler selects the entities
+- * from the run queue using a FIFO. The scheduler provides dependency handling
+- * features among jobs. The driver is supposed to provide callback functions for
+- * backend operations to the scheduler like submitting a job to hardware run queue,
+- * returning the dependencies of a job etc.
++ * The GPU scheduler is shared infrastructure intended to help drivers managing
++ * command submission to their hardware.
+  *
+- * The organisation of the scheduler is the following:
++ * To do so, it offers a set of scheduling facilities that interact with the
++ * driver through callbacks which the latter can register.
+  *
+- * 1. Each hw run queue has one scheduler
+- * 2. Each scheduler has multiple run queues with different priorities
+- *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
+- * 3. Each scheduler run queue has a queue of entities to schedule
+- * 4. Entities themselves maintain a queue of jobs that will be scheduled on
+- *    the hardware.
++ * In particular, the scheduler takes care of:
++ *   - Ordering command submissions
++ *   - Signalling dma_fences, e.g., for finished commands
++ *   - Taking dependencies between command submissions into account
++ *   - Handling timeouts for command submissions
+  *
+- * The jobs in an entity are always scheduled in the order in which they were pushed.
++ * All callbacks the driver needs to implement are restricted by dma_fence
++ * signaling rules to guarantee deadlock free forward progress. This especially
++ * means that for normal operation no memory can be allocated in a callback.
++ * All memory which is needed for pushing the job to the hardware must be
++ * allocated before arming a job. It also means that no locks can be taken
++ * under which memory might be allocated.
+  *
+- * Note that once a job was taken from the entities queue and pushed to the
+- * hardware, i.e. the pending queue, the entity must not be referenced anymore
+- * through the jobs entity pointer.
++ * Optional memory, for example for device core dumping or debugging, *must* be
++ * allocated with GFP_NOWAIT and appropriate error handling if that allocation
++ * fails. GFP_ATOMIC should only be used if absolutely necessary since dipping
++ * into the special atomic reserves is usually not justified for a GPU driver.
++ *
++ * Note especially the following about the scheduler's historic background that
++ * lead to sort of a double role it plays today:
++ *
++ * In classic setups N ("hardware scheduling") entities share one scheduler,
++ * and the scheduler decides which job to pick from which entity and move it to
++ * the hardware ring next (that is: "scheduling").
++ *
++ * Many (especially newer) GPUs, however, can have an almost arbitrary number
++ * of hardware rings and it's a firmware scheduler which actually decides which
++ * job will run next. In such setups, the GPU scheduler is still used (e.g., in
++ * Nouveau) but does not "schedule" jobs in the classical sense anymore. It
++ * merely serves to queue and dequeue jobs and resolve dependencies. In such a
++ * scenario, it is recommended to have one scheduler per entity.
++ */
++
++/**
++ * DOC: Job Object
++ *
++ * The base job object (&struct drm_sched_job) contains submission dependencies
++ * in the form of &struct dma_fence objects. Drivers can also implement an
++ * optional prepare_job callback which returns additional dependencies as
++ * dma_fence objects. It's important to note that this callback can't allocate
++ * memory or grab locks under which memory is allocated.
++ *
++ * Drivers should use this as base class for an object which contains the
++ * necessary state to push the command submission to the hardware.
++ *
++ * The lifetime of the job object needs to last at least from submitting it to
++ * the scheduler (through drm_sched_job_arm()) until the scheduler has invoked
++ * &struct drm_sched_backend_ops.free_job and, thereby, has indicated that it
++ * does not need the job anymore. Drivers can of course keep their job object
++ * alive for longer than that, but that's outside of the scope of the scheduler
++ * component.
++ *
++ * Job initialization is split into two stages:
++ *   1. drm_sched_job_init() which serves for basic preparation of a job.
++ *      Drivers don't have to be mindful of this function's consequences and
++ *      its effects can be reverted through drm_sched_job_cleanup().
++ *   2. drm_sched_job_arm() which irrevokably arms a job for execution. This
++ *      initializes the job's fences and the job has to be submitted with
++ *      drm_sched_entity_push_job(). Once drm_sched_job_arm() has been called,
++ *      the job structure has to be valid until the scheduler invoked
++ *      drm_sched_backend_ops.free_job().
++ *
++ * It's important to note that after arming a job drivers must follow the
++ * dma_fence rules and can't easily allocate memory or takes locks under which
++ * memory is allocated.
++ */
++
++/**
++ * DOC: Entity Object
++ *
++ * The entity object (&struct drm_sched_entity) is a container for jobs which
++ * should execute sequentially. Drivers should create an entity for each
++ * individual context they maintain for command submissions which can run in
++ * parallel.
++ *
++ * The lifetime of the entity *should not* exceed the lifetime of the
++ * userspace process it was created for and drivers should call the
++ * drm_sched_entity_flush() function from their file_operations.flush()
++ * callback. It is possible that an entity object is not alive anymore
++ * while jobs previously fetched from it are still running on the hardware.
++ *
++ * This is done because all results of a command submission should become
++ * visible externally even after a process exits. This is normal POSIX
++ * behavior for I/O operations.
++ *
++ * The problem with this approach is that GPU submissions contain executable
++ * shaders enabling processes to evade their termination by offloading work to
++ * the GPU. So when a process is terminated with a SIGKILL the entity object
++ * makes sure that jobs are freed without running them while still maintaining
++ * correct sequential order for signaling fences.
++ *
++ * All entities associated with a scheduler have to be torn down before that
++ * scheduler.
++ */
++
++/**
++ * DOC: Hardware Fence Object
++ *
++ * The hardware fence object is a dma_fence provided by the driver through
++ * &struct drm_sched_backend_ops.run_job. The driver signals this fence once the
++ * hardware has completed the associated job.
++ *
++ * Drivers need to make sure that the normal dma_fence semantics are followed
++ * for this object. It's important to note that the memory for this object can
++ * *not* be allocated in &struct drm_sched_backend_ops.run_job since that would
++ * violate the requirements for the dma_fence implementation. The scheduler
++ * maintains a timeout handler which triggers if this fence doesn't signal
++ * within a configurable amount of time.
++ *
++ * The lifetime of this object follows dma_fence refcounting rules. The
++ * scheduler takes ownership of the reference returned by the driver and
++ * drops it when it's not needed any more.
++ *
++ * See &struct drm_sched_backend_ops.run_job for precise refcounting rules.
++ */
++
++/**
++ * DOC: Scheduler Fence Object
++ *
++ * The scheduler fence object (&struct drm_sched_fence) encapsulates the whole
++ * time from pushing the job into the scheduler until the hardware has finished
++ * processing it. It is managed by the scheduler. The implementation provides
++ * dma_fence interfaces for signaling both scheduling of a command submission
++ * as well as finishing of processing.
++ *
++ * The lifetime of this object also follows normal dma_fence refcounting rules.
++ */
++
++/**
++ * DOC: Scheduler and Run Queue Objects
++ *
++ * The scheduler object itself (&struct drm_gpu_scheduler) does the actual
++ * scheduling: it picks the next entity to run a job from and pushes that job
++ * onto the hardware. Both FIFO and RR selection algorithms are supported, with
++ * FIFO being the default and the recommended one.
++ *
++ * The lifetime of the scheduler is managed by the driver using it. Before
++ * destroying the scheduler the driver must ensure that all hardware processing
++ * involving this scheduler object has finished by calling for example
++ * disable_irq(). It is *not* sufficient to wait for the hardware fence here
++ * since this doesn't guarantee that all callback processing has finished.
++ *
++ * The run queue object (&struct drm_sched_rq) is a container for entities of a
++ * certain priority level. This object is internally managed by the scheduler
++ * and drivers must not touch it directly. The lifetime of a run queue is bound
++ * to the scheduler's lifetime.
++ *
++ * All entities associated with a scheduler must be torn down before it. Drivers
++ * should implement &struct drm_sched_backend_ops.cancel_job to avoid pending
++ * jobs (those that were pulled from an entity into the scheduler, but have not
++ * been completed by the hardware yet) from leaking.
+  */
+ 
+ /**
+  * DOC: Flow Control
+  *
+  * The DRM GPU scheduler provides a flow control mechanism to regulate the rate
+- * in which the jobs fetched from scheduler entities are executed.
++ * at which jobs fetched from scheduler entities are executed.
+  *
+- * In this context the &drm_gpu_scheduler keeps track of a driver specified
+- * credit limit representing the capacity of this scheduler and a credit count;
+- * every &drm_sched_job carries a driver specified number of credits.
++ * In this context the &struct drm_gpu_scheduler keeps track of a driver
++ * specified credit limit representing the capacity of this scheduler and a
++ * credit count; every &struct drm_sched_job carries a driver-specified number
++ * of credits.
+  *
+- * Once a job is executed (but not yet finished), the job's credits contribute
+- * to the scheduler's credit count until the job is finished. If by executing
+- * one more job the scheduler's credit count would exceed the scheduler's
+- * credit limit, the job won't be executed. Instead, the scheduler will wait
+- * until the credit count has decreased enough to not overflow its credit limit.
+- * This implies waiting for previously executed jobs.
++ * Once a job is being executed, the job's credits contribute to the
++ * scheduler's credit count until the job is finished. If by executing one more
++ * job the scheduler's credit count would exceed the scheduler's credit limit,
++ * the job won't be executed. Instead, the scheduler will wait until the credit
++ * count has decreased enough to not overflow its credit limit. This implies
++ * waiting for previously executed jobs.
+  */
+ 
++/**
++ * DOC: Error and Timeout handling
++ *
++ * Errors are signaled by using dma_fence_set_error() on the hardware fence
++ * object before signaling it with dma_fence_signal(). Errors are then bubbled
++ * up from the hardware fence to the scheduler fence.
++ *
++ * The entity allows querying errors on the last run submission using the
++ * drm_sched_entity_error() function which can be used to cancel queued
++ * submissions in &struct drm_sched_backend_ops.run_job as well as preventing
++ * pushing further ones into the entity in the driver's submission function.
++ *
++ * When the hardware fence doesn't signal within a configurable amount of time
++ * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver should
++ * then follow the procedure described in that callback's documentation.
++ *
++ * (TODO: The timeout handler should probably switch to using the hardware
++ * fence as parameter instead of the job. Otherwise the handling will always
++ * race between timing out and signaling the fence).
++ *
++ * The scheduler also used to provided functionality for re-submitting jobs
++ * and, thereby, replaced the hardware fence during reset handling. This
++ * functionality is now deprecated. This has proven to be fundamentally racy
++ * and not compatible with dma_fence rules and shouldn't be used in new code.
++ *
++ * Additionally, there is the function drm_sched_increase_karma() which tries
++ * to find the entity which submitted a job and increases its 'karma' atomic
++ * variable to prevent resubmitting jobs from this entity. This has quite some
++ * overhead and resubmitting jobs is now marked as deprecated. Thus, using this
++ * function is discouraged.
++ *
++ * Drivers can still recreate the GPU state in case it should be lost during
++ * timeout handling *if* they can guarantee that forward progress will be made
++ * and this doesn't cause another timeout. But this is strongly hardware
++ * specific and out of the scope of the general GPU scheduler.
++ */
+ #include <linux/export.h>
+ #include <linux/wait.h>
+ #include <linux/sched.h>
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 323a505e6e6a..0f0687b7ae9c 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -458,8 +458,8 @@ struct drm_sched_backend_ops {
+ 	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+ 
+ 	/**
+-	 * @timedout_job: Called when a job has taken too long to execute,
+-	 * to trigger GPU recovery.
++	 * @timedout_job: Called when a hardware fence didn't signal within a
++	 * configurable amount of time. Triggers GPU recovery.
+ 	 *
+ 	 * @sched_job: The job that has timed out
+ 	 *
+@@ -506,7 +506,6 @@ struct drm_sched_backend_ops {
+ 	 * that timeout handlers are executed sequentially.
+ 	 *
+ 	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_stat
+-	 *
+ 	 */
+ 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
+ 
 -- 
-Regards,
+2.49.0
 
-Laurent Pinchart
 
