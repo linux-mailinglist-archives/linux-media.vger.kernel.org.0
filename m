@@ -1,406 +1,704 @@
-Return-Path: <linux-media+bounces-38450-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38464-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D53B11C97
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 12:37:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4486AB11DCC
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 13:44:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AB1216B751
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 10:37:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D375117F380
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:43:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD0AB2E6D05;
-	Fri, 25 Jul 2025 10:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E36462E6D17;
+	Fri, 25 Jul 2025 11:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AJJHGyps"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020131.outbound.protection.outlook.com [52.101.225.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448E12BD58E;
-	Fri, 25 Jul 2025 10:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753439734; cv=fail; b=lXriPlJpp4KOqLa2d1T6UW+SQiXL0wYUhysqbRhXaCIG92PtVMagQ3B5kKG04c6G8AmyhD8f8Mcaz74E0biB/CYBj6gDcxZZJrj058eRjrA44zS2EtA/LtaRd3fkBbP/+G+kSPH7KhNOmvrFCuyQ6qHyIo76PncBz9LiWuDoEUM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753439734; c=relaxed/simple;
-	bh=Oo0hQhzuHioO8l/BPWquc1L5tUtWk9sz/T7gwdbOdOQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=m5d9nJgTEBqDNBSmubb+gHncXt4w/KVD9r7/MK6HliQ0oi9Sw2NGjnkgl1sGSRkPooUVu0U7CpLhebaD1b5SgH4BI1VaMEW+RHtKT2o5xNXdhTxcAGGSbAHTwwFJJCBojGnjBqtsYUt9LZJHOGv1yYoOj88FdS7Z5Jvu457B52U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VNdRmYyASDby8bFFL+9hs+tk+8V7/cAZ9muypppBemmzXEcLI0geWge0S6ciFWkgD2z7mavfYvRVM0J+HuKob5YKjI+uYFE5uQ7e9OztsjUoAXLMZlqOnYY7/J0RO2thxJpM9C2RjpSq7vkIC6H85+eAT0argibcArxpq8Ev1dl280LS8PK60XHjtpi8RDlE8+FU1cBbt4NxqwPGgyh2nHD8Q70J0cc7Ni6B7ppfEOKRn90V7Dh7Bqf0+2R4quQadZhG1ktsiki2FQVGC9Bp/Y8cM2l19G2JqNzckrdGwMg+jbEXdOp9Ldn57Kfq9pKpm90cvnKsPjxOGHta0AdGUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B3UpnoDvQQVW9vXXybIKg2RVhDAmnO/lwsGVxI4WZcU=;
- b=hG2Pwalm3vYqCMZad7qFvm/7ip7e/OKrTCn386EPU/CzVz2axm7aYVl2pAZ3w7R3plYXCxhov1lYNftbCjO1HWYXm0GOO+EZoNxDHgLpdnnQttRaqxt21shRfIIWOEUQnQ2I+xiutUoepgq2VP5rqqJxWNlTNgJg3YdxIhOPfsIoIE+a4VQA+2m0rr6RjtEvhWmeVmR6tbKR9eqbxdHI3jZ17CyzHuXGzl2SX5Ses5JfXsUuquK+txfsKBkF2axwHZkCQW/kx41FJa/+et5ES57N8kxdb5HC0VD1ZKhyPsLt6y4hOjgpZkBm8/nAnHQ6xQ+367IG9Fhg8i7EC6nkHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by PN2P287MB1801.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b1::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.23; Fri, 25 Jul
- 2025 10:35:28 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f%5]) with mapi id 15.20.8964.023; Fri, 25 Jul 2025
- 10:35:28 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>, =?Windows-1252?Q?Andr=E9_Apitzsch?=
-	<git@apitzsch.eu>, Andrzej Hajda <andrzej.hajda@intel.com>, Arec Kao
-	<arec.kao@intel.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bingbu
- Cao <bingbu.cao@intel.com>, Bjorn Andersson <andersson@kernel.org>, Bryan
- O'Donoghue <bod@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>, Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>, Hans de Goede
-	<hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, Hao Yao
-	<hao.yao@intel.com>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jacopo Mondi <jacopo@jmondi.org>, Jimmy Su <jimmy.su@intel.com>, Jingjing
- Xiong <jingjing.xiong@intel.com>, Jonas Karlman <jonas@kwiboo.se>, Konrad
- Dybcio <konradybcio@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Leon Luo
-	<leonl@leopardimaging.com>, Liam Girdwood <lgirdwood@gmail.com>, Magnus Damm
-	<magnus.damm@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Mark Brown
-	<broonie@kernel.org>, Matthew Majewski <mattwmajewski@gmail.com>, Matthias
- Fend <matthias.fend@emfend.at>, Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	=?Windows-1252?Q?Niklas_S=F6derlund?=
-	<niklas.soderlund+renesas@ragnatech.se>, Pavel Machek <pavel@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Ricardo Ribalda
-	<ribalda@chromium.org>, Rob Herring <robh@kernel.org>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shunqian Zheng
-	<zhengsq@rock-chips.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Tianshu Qiu
-	<tian.shu.qiu@intel.com>, Todor Tomov <todor.too@gmail.com>, Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>, Tony Lindgren <tony@atomide.com>, Zhi Mao
-	<zhi.mao@mediatek.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "linux-omap@vger.kernel.org"
-	<linux-omap@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-samsung-soc@vger.kernel.org"
-	<linux-samsung-soc@vger.kernel.org>
-Subject: Re: [PATCH 00/72] media: i2c: Reduce cargo-cult
-Thread-Topic: [PATCH 00/72] media: i2c: Reduce cargo-cult
-Thread-Index:
- AQHb8cLi1z5mGUN1NkaS3NoM5ohUK7RBNANAgAALMwCAABfMAIAACf+AgAAFhHOAABmSAIAA/hWQgAAt8oCAAArRBg==
-Date: Fri, 25 Jul 2025 10:35:28 +0000
-Message-ID:
- <PN3P287MB1829C2D2D0577D4DA82D6AF58B59A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
- <PN3P287MB1829DD1254FB74391A750F498B5EA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20250724115202.GK11202@pendragon.ideasonboard.com>
- <PN3P287MB1829C9E8C78ADD70259A68F08B5EA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20250724135259.GR11202@pendragon.ideasonboard.com>
- <PN3P287MB1829E1FEE7D2468CE9915C778B5EA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20250724154414.GE22016@pendragon.ideasonboard.com>
- <PN3P287MB1829FC781EA3A94E0B8F16B98B59A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20250725093805.GY11202@pendragon.ideasonboard.com>
-In-Reply-To: <20250725093805.GY11202@pendragon.ideasonboard.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PN2P287MB1801:EE_
-x-ms-office365-filtering-correlation-id: d1a4c73a-398b-4f7c-1eb9-08ddcb66f901
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?Windows-1252?Q?/YnIaMkSvcuAK7ST33ux1ms13YgG/eFxQMpLF/jSWouJuJj6/k2MykX4?=
- =?Windows-1252?Q?Xd9a1voD2NOMhlZ1iEBkOfmlbe2au4Rv59QwPSFcrzn8mmOXqqQEwxg+?=
- =?Windows-1252?Q?oIRmBhofYB+yUaE1JsHxQr/bGV3uv3Spcn4R5Dhefb/HWRHyWuveAQ5j?=
- =?Windows-1252?Q?u3xU1bbNhKpWNqbGli7t6GVmWxIm7Ylm6fgklxnXAf3wRMi+rrSfj4iA?=
- =?Windows-1252?Q?OHJcEThK8mnC3Q91yRQZF4UZhBiV5govNZ05HlRbiWKNdxVp1h0jtuUt?=
- =?Windows-1252?Q?Bppa9Tqm5aM/NTFFfbP38j9vW+BwFqxFpCIDrDV0zi1SWOMadrz0JAMW?=
- =?Windows-1252?Q?ycpaHh3ZVWmH2QXiWsGV/aRXoX8rwa5Wy0VT6jkzzVWgJMgOIm7NIGxS?=
- =?Windows-1252?Q?9t6l+tS/3COBpYAl5fNQlrSSOmcoSJOnoYiXSePFAJ+G4uqCNvf+WC/3?=
- =?Windows-1252?Q?lRLFIqwvVMT7uryQpIOeOnDpi8NSmT/reJX/OA19asd2Ug9tV/9m+pxu?=
- =?Windows-1252?Q?zqb/AZxKQFpjVA9XT29XG9/f5wNuYuLBSViQ6W7ou0WZ+9I55XlCbKFD?=
- =?Windows-1252?Q?ggOAgBC896K/wxY6kwfS0a2uppwxREYsTs4LeuDURt644F/o950rs9Rq?=
- =?Windows-1252?Q?apyOiqqjqDYK+hO0nC9TavJffBSnMUJimhcuMdwd3ucGmEFw2YceiXeC?=
- =?Windows-1252?Q?dqRn86qnS/JrZdALV/qx6S8sAnkOej2FIPEAueVHZt9a7eeor7k81f68?=
- =?Windows-1252?Q?O4GMH8FDExd1RiZIwhYqUYZMlgxrkmYWwEMMyCIydDvvY7010aKk1giM?=
- =?Windows-1252?Q?SOG9VlJNQ4CczS75ZmSJaUAuq9GJBdKSbaohvxTZQCzFoB+3mPU19hro?=
- =?Windows-1252?Q?MERPEbRfpm6lcaj9dhJiysJqqJ4k+nOBeqQLZH79ZXTaispESdEcRRVF?=
- =?Windows-1252?Q?jarutd9s2xfq0xptUOGHe7NKP/Wz6cOdDcWupxfAXqEhIMWFJdPS6cgO?=
- =?Windows-1252?Q?J7L7lWLcXUgWxuY8lvDjqO2b+uxnG1NF+2NWV4kOBBd8DbndGWh+Qdju?=
- =?Windows-1252?Q?V4gKS+lf61Zd5aFLsyXLw1EMncSjpPDuiuY5TAahIxUWQXw2SPPlevqw?=
- =?Windows-1252?Q?mEceF5Z6b92vIm/ItLMaHO9plR+yyPdQJgl1kFzNgNqp2cRK8F9XwCZl?=
- =?Windows-1252?Q?P/ytOeG0znui3k1gOnGQEE6DCCtmcGvU5Np58KdJAPUFa7Zj7qajJJRZ?=
- =?Windows-1252?Q?VpVfO9zyKwkYXsZUn89D45LZPA4FV1+E8zc8RzH3tT68HVAIRDsgCVHo?=
- =?Windows-1252?Q?q2ADWWzuOsKdZJdYgnqw15W3XkvQmmuSBZoeqOtMmbc2OK//zeEPWQCW?=
- =?Windows-1252?Q?soEK5oVazxOIyc1iQ0+ptfO38nwENZGrlSZjXNVlw92el1lJI8Cnx2+f?=
- =?Windows-1252?Q?5VzksF4s1pUP8ECvea5JlNCkNBGXv+G4UfX2W+8bHR1GDb5a/yB1z4K3?=
- =?Windows-1252?Q?MAFVUiFzpV/qZiXzgP5zvHJGNRKzMBaS82mSKIjGOGO8nFmyI9FQX7Jw?=
- =?Windows-1252?Q?3aZGuIn+3+Xh8RzOjPAvlHV0goRZdjBx11NP6w=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?Windows-1252?Q?wVsiaCj+Gy2j3tC7ucMAOKnadBhM8Y7eWA/e20WaGrkVlICGSk5CDzs9?=
- =?Windows-1252?Q?YMuMnaD29g3baHw91te08Fxs7MW/iJUt/LOqDfb+sxCm2iuz9j7+MO8O?=
- =?Windows-1252?Q?bA8gtNTsE/Es8i4PGdVbAZFqfz7hT5MbBYCz4QM5GpqHMoCS4MTFu9kb?=
- =?Windows-1252?Q?XaG1bpozVHH2VoTSNqZAJ9962PH9UC9hiOCLZomhvfGTB3Th523I3HyZ?=
- =?Windows-1252?Q?lmd42+VdY6rDrg8fty0k7IhoywxYSg21gf7I+QXAKhbAyRaBF9Cz+oXY?=
- =?Windows-1252?Q?4YxQiwZGfsrFQJqrZI4roeTRtgTPG1iXN7nwdgTJewCCD+6Q2SbjO/Dv?=
- =?Windows-1252?Q?FGsAAY25YOF/VjymTaCJ1aXKLuzElhYSQAw1zhwYuVUGkWhACabuvHxy?=
- =?Windows-1252?Q?sucX4Qcdt7Czj6C2MjNiHe6K/gCDMOeizZj5+ojyifM2gleMkKp/sbuB?=
- =?Windows-1252?Q?JumKb7IEu6zkrD4xOqiuDgoFs6+X6ikGCBqf5ta6t6VuDlPoZK8rDQzL?=
- =?Windows-1252?Q?aXgJGINnegctD7blArOHcJvDkJR3AnbV4fDR6omU6qcCj6fjFS38ESBj?=
- =?Windows-1252?Q?PKz2naTIhhvdFOX7tNJ29Zw106PJEKqvjwoyKSQwasUf9zyA5gFGRlVz?=
- =?Windows-1252?Q?evFxRLAuul6L7JB9Wc5LCDaIf9+7XCGygsOJjDaqhNcNqix3OQX8XHDX?=
- =?Windows-1252?Q?td7SiCA/2e+11lB6QL9SeV/xz9PPvNmNhA4sWFiDW1Ooj/o4kXbqe1dm?=
- =?Windows-1252?Q?CmNJlUN0+uIlE2vNJdRz5W2/X/MkrJo4Sbs53sERUFUeR2kaHSLZ3hAV?=
- =?Windows-1252?Q?J848v8ejAYpqzkR6c3V3BmYd7QiFYCWZ0WTYSfntqHcpnzb2l6qI9cix?=
- =?Windows-1252?Q?iwG5yBsSg6hMtA+XmHasXbpOWr9IfbGXjeyAFaS8S1kbys9NUbYOA2gL?=
- =?Windows-1252?Q?/bSlbAm3jLn9Ov2rzK4ZRQBjqz+nobgF/BsEIL+5/+pBtWR+45rPBdSo?=
- =?Windows-1252?Q?LK39qlofIN6c5d01Rqcq4kfTerVjQwGsSXofAIqoHrgU7NphidL2QULA?=
- =?Windows-1252?Q?czC+65MNTeWzyBR4CaT6MIWRsOCGv9VdyH98xjGVio1JfDKjT0uCtfTI?=
- =?Windows-1252?Q?G8CM5rc1Z/oZrUkuE1JwHaXwaWTKNW5byRom4bBTFYEcvgf6UsLwQHqy?=
- =?Windows-1252?Q?IlU7GD/Css8Mf5b3KzDCOzRlJNN/CUUlLHifbib6q8r9ET4FcJFpqGs/?=
- =?Windows-1252?Q?NaZL5t6IGKoOrh9GeezpEHpF2i7qWZhtp7CH9SHUpe0TBJydwLRzqmEH?=
- =?Windows-1252?Q?0vhLLnbLc+MN3tjfjSblPoZrzmo0MxcXJF0vJm0OIbM1uq4bR+A3attD?=
- =?Windows-1252?Q?67n381Bjv4aMHng+eO9N/rb9EHWJ3jYIYWJuZglBDlHXwpZ3uWgoVrZa?=
- =?Windows-1252?Q?DaJF1J1iEbmxZHn/RzKY/lDtbU6hqEFFJ45mJUoD+rl2FsdSQ/1dDwKO?=
- =?Windows-1252?Q?qMjvv3gTGstWCSDEbOpZhgWybApKWBTvMUL3UYzdsKJwIc7TV7nPxzRk?=
- =?Windows-1252?Q?k1TqdWduRwE8ZfI684nBtAI5wcRckjuGxJgl+9oKZ+65ogDClKPR+PFR?=
- =?Windows-1252?Q?8pnOBi2B8MIcFukQFcOllGW5JCNMcufhFGFAwpJX9oqa4plKTudFf945?=
- =?Windows-1252?Q?diF3kie8fMN+jdDqhlpibN8Jedcpy9bg?=
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5032C2E6D01
+	for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 11:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753443804; cv=none; b=BkxtNsdrP87cHGFF8KDh62xN2dDHDvbNmGEmN97m0JJGyneT8qsCFe0b01bpO9eYNqNHwByHuSyfn9nbqi8XEGtoVan4e7/ZEHyOZsOAn0nibygSOi+c39QjvsDG9ibw3NRpQOi2Rd3kbqoGGAhs6t+W4iU9xkIWRPyy2KPtamY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753443804; c=relaxed/simple;
+	bh=neLJ2LNFLvS6lJPQrIgKwy7onPWVY8g22J6pC1uMoyU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PUsFfIfOKHsLOfSC7FgdfK1wBu8AoQCcFT5zHsSK85yYNe33IY9Rxbi5rD8qZE5WqE6cRnWndtJ6BGxya+S0hc3A6m4N2eNN5H2eTLsmJvvBB/NLwl3CAvYEPJkh1GxMMzjaqJgtbEHYoZeNYE+fzjviivN2eOHEAoz9N/qxHBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AJJHGyps; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-700fee04941so19228796d6.1
+        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 04:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753443801; x=1754048601; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PrirJd8VRiPqD9MKXgOuUU8KSWZo2kqc4pWOmW9YaxM=;
+        b=AJJHGypsOU2F769H3WLjjQv1JSe7skUVy7ava9vMOhuT4ZxvMKxek35Yvfwg4BGJYf
+         eCMJi7WSiT7r5CSeCqB5j9UcaAWqGsDRM+HYr+I5ns7Hu3nX/ginsCANVClAzWN7r3JX
+         S5t/3ZBjJ37I7fWvjpP46MdJy9ppvGRq3BX/E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753443801; x=1754048601;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PrirJd8VRiPqD9MKXgOuUU8KSWZo2kqc4pWOmW9YaxM=;
+        b=VmUrEvVofxsVisy/PuMO+t/Q2aSHKx0UYeGcvs0sxWzWenYHZNw61lS/XLSnF+nH0f
+         r2xwK8iFjZ/02IMXpIBmz5nCH1/ICcg8HS4EbJaBPTLvhRR+s2sn2/HsGErFjcoiNsEa
+         ttYBvozzAyWZzJ1IJJCUBV5DvyhChhjiwjX+lZlVSGrvvexoiRmg2GZVcwpZAsYQKgVu
+         3cOMiRIIOmqvN8DUitw2IFkjTruHWdMlM9FAWf9SeQOqpSKLvLA3iIF0xDCf9XkgCgU/
+         066TsIF+YtU3WsIW6sLtlrqb4rXZLOkRwHZYpnQHQsQ58jD+OOv5F+aMr0q4doBTtBUM
+         VwJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYkXDZASdHldT3vaqHuit1YoEfd9Pm+gn1lVW4I2tmBIpTBYt04spoCV0uXTNP8GxdUxy0lgyAsJ+vyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTMZoYju5EIMmVZ4GVH9skEQ4+BZbUdYqJRXudxhhUxV+3BvHs
+	mXt/jshfAOxL+GUhRoxbEwk9wzi94+od9Elkwsbj/swcHvGg5tgRILKelcqyfivXVkVtSRnSm39
+	OKl5FYA==
+X-Gm-Gg: ASbGnct3We2hwWwNY3DnthOQyB/JpAP/11DDv2Hj29iofpF6O8rIOWwVGCniQRZOKVL
+	bdNlHY58xpAZ63ZUnVhexAYPpHTZLhmVEwbiTrPVkJB2MHEOB4/AIOZOed9RszpVm5Qu04NOV3B
+	1spJSNCeTLBELVvS0VzT9SjJ0+RbdPeQNJ1wiPdo4SDgaI4mVUSaqmZvezRkDbQ5/EKg+rRnlgV
+	8BaguZn4HUK9Rq5Da55hpbrafnIESgdHUe5Osj0RiwQrdb1JcbZyhnZAqDkTdINgskw9/Ik+oll
+	QZFUNRagG0f/2Evpo14/G8ms6XXwsTSLX6pRZTg16h87ajJOPQ5rw4IBW82AfwlJKfo5KWKzT5A
+	qMZ9KtQs1C7A82FvylxomLWUpsFUWCrh++MDVKNkKZC/ML983gE3z2vT48lwqxh4YHqIkxry+
+X-Google-Smtp-Source: AGHT+IFE7KTGKYCW0aKcG7Gcd19vGEbCKHHOmJ4pFL82v5RuI1GJzc6VMcjKAd8emJM+DkCXJp1e9w==
+X-Received: by 2002:ad4:5d62:0:b0:704:8c06:a6ef with SMTP id 6a1803df08f44-707205411d5mr17123286d6.15.1753443800365;
+        Fri, 25 Jul 2025 04:43:20 -0700 (PDT)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7070fc9f711sm25634866d6.63.2025.07.25.04.43.20
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Jul 2025 04:43:20 -0700 (PDT)
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7e346ab53d8so193543885a.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 04:43:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWBsBm6yIueMXOULApj0LgiJPjfvvS3uqIYklhtSxpwihSnMF+4PRGfvB1Lu7YOSLMwBdxImGY42IEWuA==@vger.kernel.org
+X-Received: by 2002:a05:6102:4189:b0:4e7:efa3:6475 with SMTP id
+ ada2fe7eead31-4fa3feec1c3mr259497137.25.1753439904300; Fri, 25 Jul 2025
+ 03:38:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1a4c73a-398b-4f7c-1eb9-08ddcb66f901
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2025 10:35:28.0907
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: D+69RSTqrBqvL7kNKMt9yjhHEOCnqgGqYotYv8plO6Zw3URl0RRjahM1DQnXXrf5o3Ku4PQzDckBNjzgQSHoajE4BxWHihEDoCACKNDCxw8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB1801
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-30-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-30-angelogioacchino.delregno@collabora.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Fri, 25 Jul 2025 18:37:48 +0800
+X-Gmail-Original-Message-ID: <CAC=S1njj09KgrNa_3VX7VeaK3nsW+jqBZF7aEg_Umv6WLSRRDw@mail.gmail.com>
+X-Gm-Features: Ac12FXxdd5uFk8-UFyXPvWwDifRa0isEQfedIYH5-7QbMGirM6GwiOfkuIBzx6U
+Message-ID: <CAC=S1njj09KgrNa_3VX7VeaK3nsW+jqBZF7aEg_Umv6WLSRRDw@mail.gmail.com>
+Subject: Re: [PATCH 29/38] arm64: dts: mediatek: mt8183: Fix pinctrl node names
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
+	daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
+	linus.walleij@linaro.org, linux-remoteproc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	olivia.wen@mediatek.com, shane.chien@mediatek.com, linux-gpio@vger.kernel.org, 
+	linux-phy@lists.infradead.org, airlied@gmail.com, simona@ffwll.ch, 
+	herbert@gondor.apana.org.au, jassisinghbrar@gmail.com, jiaxin.yu@mediatek.com, 
+	andy.teng@mediatek.com, chunfeng.yun@mediatek.com, jieyy.yang@mediatek.com, 
+	chunkuang.hu@kernel.org, conor+dt@kernel.org, jitao.shi@mediatek.com, 
+	p.zabel@pengutronix.de, arnd@arndb.de, kishon@kernel.org, 
+	kyrie.wu@mediatek.corp-partner.google.com, maarten.lankhorst@linux.intel.com, 
+	tinghan.shen@mediatek.com, mripard@kernel.org, ck.hu@mediatek.com, 
+	broonie@kernel.org, eugen.hristev@linaro.org, houlong.wei@mediatek.com, 
+	matthias.bgg@gmail.com, tglx@linutronix.de, mchehab@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, granquet@baylibre.com, 
+	sam.shih@mediatek.com, mathieu.poirier@linaro.org, fparent@baylibre.com, 
+	andersson@kernel.org, sean.wang@kernel.org, linux-sound@vger.kernel.org, 
+	lgirdwood@gmail.com, vkoul@kernel.org, linux-crypto@vger.kernel.org, 
+	tzimmermann@suse.de, atenart@kernel.org, krzk+dt@kernel.org, 
+	linux-media@vger.kernel.org, davem@davemloft.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Fri, Jul 25, 2025 at 07:00:40AM +0000, Tarang Raval wrote:=0A=
-> > > On Thu, Jul 24, 2025 at 02:20:10PM +0000, Tarang Raval wrote:=0A=
-> > > > > > > > 2. In the regulator code, you can reduce boilerplate by usi=
-ng=0A=
-> > > > > > > >=A0=A0=A0 devm_regulator_bulk_get_enable().=0A=
-> > > > > > >=0A=
-> > > > > > > devm_regulator_bulk_get_enable() doesn't seem to be a good id=
-ea. You=0A=
-> > > > > > > generally don't want to enable power everywhere unconditional=
-ly, and=0A=
-> > > > > > > sensors very often need a guaranteed power up sequence.=0A=
-> >=0A=
-> > -----(1)=0A=
-> >=0A=
-> > > > > >=0A=
-> > > > > > The regulators are optional, we supply power to the camera sens=
-or directly=0A=
-> > > > > > through dedicated power rails and there is no strict enable seq=
-uence=0A=
-> > > > > > required in this case.=0A=
-> > > > >=0A=
-> > > > > What exactly do you mean by "this case" ? Are you talking about o=
-ne=0A=
-> > > > > particular sensor ? One particular camera module ?=0A=
-> > > >=0A=
-> > > > Laurent, by =93this case=94 I meant the common scenario where power=
- to the=0A=
-> > > > camera sensor is supplied by a PMIC regulator that is always-on. In=
- such=0A=
-> > > > setups, the regulator is fixed and cannot be enabled or disabled fr=
-om the=0A=
-> > > > driver, the sensor is always powered.=0A=
-> > > >=0A=
-> > > > This is what I=92ve seen in most platforms, where the CSI input con=
-nector=0A=
-> > > > provides fixed 3.3V/1.8V power rails directly to the camera module.=
-=0A=
-> > > >=0A=
-> > > > Of course, if the camera supply comes from a dedicated regulator co=
-ntrolled=0A=
-> > > > via a GPIO, then the driver would need to handle enable/disable seq=
-uencing=0A=
-> > > > explicitly. But I=92m specifically referring to the first case, whe=
-re the power rails=0A=
-> > > > are always-on.=0A=
-> > >=0A=
-> > > How does the sensor driver know which of those two cases it is dealin=
-g=0A=
-> > > with ?=0A=
-> >=0A=
-> > The sensor driver typically determines this via the presence (or absenc=
-e)=0A=
-> > of regulator supply entries in the Device Tree. If a supply is not defi=
-ned,=0A=
-> > it's assumed to be always-on (e.g., provided by the board via fixed rai=
-ls).=0A=
-> =0A=
-> Do we have sensor drivers that check the presense of supply properties ?=
-=0A=
-> Drivers generally shouldn't.=0A=
-> =0A=
-> > When defined, the driver retrieves and manages the regulator. This appr=
-oach=0A=
-> > allows a single driver to support both cases, by treating supplies as o=
-ptional=0A=
-> > and only enabling them when explicitly defined.=0A=
-> =0A=
-> I don't see what you're trying to do here. A sensor always needs=0A=
-> supplies, regardless of whether or not they're always on. Drivers should=
-=0A=
-> get the supplies with regulator_get() (or possibly the bulk API), and=0A=
-> then implement the power enable/disable sequences that the sensor=0A=
-> requires. If all suplies are manually controllable, this will produce=0A=
-> the correct sequence. If the supplies are always on, it will be a no-op.=
-=0A=
-> That's a single implementation in the driver, you don't need to care=0A=
-> about the nature of the supplies, or their presence in DT.=0A=
-> =0A=
-> > At comment (1): you gave two reasons why we cannot use devm_regulator_b=
-ulk_get_enable.=0A=
-> >=0A=
-> > What I=92m trying to say is:=0A=
-> >=0A=
-> > You mentioned "generally don't want to enable power everywhere uncondit=
-ionally,"=0A=
-> > but on almost every platform, the power rails are always-on.=0A=
-> =0A=
-> "almost every platform" doesn't sound right to me. It does happen though.=
-=0A=
-> =0A=
-> > And regarding the second point =97 "sensors very often need a guarantee=
-d power-up sequence"=0A=
-> > I don=92t understand why this would be an issue. Even if we use devm_re=
-gulator_bulk_get_enable,=0A=
-> > the power-up sequence remains the same. So how is it not a good option =
-in this case?=0A=
-> =0A=
-> Because the bulk API enables all regulators in parallel, it doesn't=0A=
-> guarantee sequencing.=0A=
-=0A=
-Except for a few drivers, almost all camera drivers use the bulk API, which=
- suggests=0A=
-that a guaranteed power-up sequence may not be strictly required in most ca=
-ses.=0A=
- =0A=
-> Don't use devm_regulator_bulk_get_enable() in sensor drivers, implement=
-=0A=
-> power enable/disable functions that do the right thing. That's the code=
-=0A=
-> pattern I want to see.=0A=
-=0A=
-Perhaps I wasnt clear in my explanation. If you look at the patch below, yo=
-u'll =0A=
-see that we are not changing any sequencing behavior.=0A=
-=0A=
-I am not suggesting we use this API everywhere, only where it's appropriate=
- and =0A=
-doesn't compromise sequencing requirements. =0A=
-=0A=
-Best Regards,=0A=
-Tarang=0A=
-=0A=
-------=0A=
-=0A=
-diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c=0A=
-index da618c8cbadc..4dbf7215cef4 100644=0A=
---- a/drivers/media/i2c/imx283.c=0A=
-+++ b/drivers/media/i2c/imx283.c=0A=
-@@ -1176,8 +1176,8 @@ static int imx283_power_on(struct device *dev)=0A=
-        struct imx283 *imx283 =3D to_imx283(sd);=0A=
-        int ret;=0A=
- =0A=
--       ret =3D regulator_bulk_enable(ARRAY_SIZE(imx283_supply_name),=0A=
--                                   imx283->supplies);=0A=
-+       ret =3D devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(imx283_suppl=
-y_name),=0A=
-+                                   imx283_supply_name);=0A=
-        if (ret) {=0A=
-                dev_err(imx283->dev, "failed to enable regulators\n");=0A=
-                return ret;=0A=
-@@ -1186,7 +1186,7 @@ static int imx283_power_on(struct device *dev)=0A=
-        ret =3D clk_prepare_enable(imx283->xclk);=0A=
-        if (ret) {=0A=
-                dev_err(imx283->dev, "failed to enable clock\n");=0A=
--               goto reg_off;=0A=
-+               return ret;=0A=
-        }=0A=
- =0A=
-        gpiod_set_value_cansleep(imx283->reset_gpio, 0);=0A=
-@@ -1195,10 +1195,6 @@ static int imx283_power_on(struct device *dev)=0A=
-                     IMX283_XCLR_MIN_DELAY_US + IMX283_XCLR_DELAY_RANGE_US)=
-;=0A=
- =0A=
-        return 0;=0A=
--=0A=
--reg_off:=0A=
--       regulator_bulk_disable(ARRAY_SIZE(imx283_supply_name), imx283->supp=
-lies);=0A=
--       return ret;=0A=
- }=0A=
- =0A=
- static int imx283_power_off(struct device *dev)=0A=
-@@ -1207,24 +1203,11 @@ static int imx283_power_off(struct device *dev)=0A=
-        struct imx283 *imx283 =3D to_imx283(sd);=0A=
- =0A=
-        gpiod_set_value_cansleep(imx283->reset_gpio, 1);=0A=
--       regulator_bulk_disable(ARRAY_SIZE(imx283_supply_name), imx283->supp=
-lies);=0A=
-        clk_disable_unprepare(imx283->xclk);=0A=
- =0A=
-        return 0;=0A=
- }=0A=
- =0A=
--static int imx283_get_regulators(struct imx283 *imx283)=0A=
--{=0A=
--       unsigned int i;=0A=
--=0A=
--       for (i =3D 0; i < ARRAY_SIZE(imx283_supply_name); i++)=0A=
--               imx283->supplies[i].supply =3D imx283_supply_name[i];=0A=
--=0A=
--       return devm_regulator_bulk_get(imx283->dev,=0A=
--                                      ARRAY_SIZE(imx283_supply_name),=0A=
--                                      imx283->supplies);=0A=
--}=0A=
--=0A=
- /* Verify chip ID */=0A=
- static int imx283_identify_module(struct imx283 *imx283)=0A=
- {=0A=
-@@ -1480,12 +1463,6 @@ static int imx283_probe(struct i2c_client *client)=
-=0A=
-                return -EINVAL;=0A=
-        }=0A=
- =0A=
--       ret =3D imx283_get_regulators(imx283);=0A=
--       if (ret) {=0A=
--               return dev_err_probe(imx283->dev, ret,=0A=
--                               "failed to get regulators\n");=0A=
--       }=0A=
--=0A=
-        ret =3D imx283_parse_endpoint(imx283);=0A=
-        if (ret) {=0A=
-                dev_err(imx283->dev, "failed to parse endpoint configuratio=
-n\n");=
+On Thu, Jul 24, 2025 at 5:50=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Fix the pinctrl node names to adhere to the bindings, as the main
+> pin node is supposed to be named like "uart0-pins" and the pinmux
+> node named like "pins-bus".
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+
+Reviewed-by: Fei Shao <fshao@chromium.org>
+
+> ---
+>  .../mediatek/mt8183-kukui-audio-da7219.dtsi   |  4 +-
+>  .../mediatek/mt8183-kukui-audio-ts3a227e.dtsi |  2 +-
+>  .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    | 22 +++---
+>  .../dts/mediatek/mt8183-kukui-kakadu.dtsi     | 16 ++--
+>  .../dts/mediatek/mt8183-kukui-kodama.dtsi     | 12 +--
+>  .../boot/dts/mediatek/mt8183-kukui-krane.dtsi | 12 +--
+>  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 78 +++++++++----------
+>  7 files changed, 73 insertions(+), 73 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi =
+b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi
+> index 586eee79c73c..f69ffcb9792a 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi
+> @@ -39,8 +39,8 @@ da7219_aad {
+>  };
+>
+>  &pio {
+> -       da7219_pins: da7219_pins {
+> -               pins1 {
+> +       da7219_pins: da7219-pins {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO165__FUNC_GPIO165>;
+>                         input-enable;
+>                         bias-pull-up;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dts=
+i b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dtsi
+> index 548e22c194a2..c4aedf8cbfcd 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dtsi
+> @@ -17,7 +17,7 @@ ts3a227e: ts3a227e@3b {
+>  };
+>
+>  &pio {
+> -       ts3a227e_pins: ts3a227e_pins {
+> +       ts3a227e_pins: ts3a227e-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO157__FUNC_GPIO157>;
+>                         input-enable;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arc=
+h/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> index 80888bd4ad82..f2afca63c75a 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> @@ -395,14 +395,14 @@ &pio {
+>                 "",
+>                 "";
+>
+> -       pp1000_mipibrdg_en: pp1000-mipibrdg-en {
+> +       pp1000_mipibrdg_en: pp1000-mipibrdg-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO54__FUNC_GPIO54>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       pp1800_mipibrdg_en: pp1800-mipibrdg-en {
+> +       pp1800_mipibrdg_en: pp1800-mipibrdg-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO36__FUNC_GPIO36>;
+>                         output-low;
+> @@ -410,20 +410,20 @@ pins1 {
+>         };
+>
+>         pp3300_panel_pins: pp3300-panel-pins {
+> -               panel_3v3_enable: panel-3v3-enable {
+> +               panel_3v3_enable: pins-panel-en {
+>                         pinmux =3D <PINMUX_GPIO35__FUNC_GPIO35>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       ppvarp_lcd_en: ppvarp-lcd-en {
+> +       ppvarp_lcd_en: ppvarp-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO66__FUNC_GPIO66>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       ppvarn_lcd_en: ppvarn-lcd-en {
+> +       ppvarn_lcd_en: ppvarn-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO166__FUNC_GPIO166>;
+>                         output-low;
+> @@ -444,27 +444,27 @@ pins2 {
+>         };
+>
+>         touchscreen_pins: touchscreen-pins {
+> -               touch-int-odl {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO155__FUNC_GPIO155>;
+>                         input-enable;
+>                         bias-pull-up;
+>                 };
+>
+> -               touch-rst-l {
+> +               pins-rst {
+>                         pinmux =3D <PINMUX_GPIO156__FUNC_GPIO156>;
+>                         output-high;
+>                 };
+>         };
+>
+>         trackpad_pins: trackpad-pins {
+> -               trackpad-int {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO7__FUNC_GPIO7>;
+>                         input-enable;
+>                         bias-disable; /* pulled externally */
+>                 };
+>         };
+>
+> -       pp3300_mipibrdg_en: pp3300-mipibrdg-en {
+> +       pp3300_mipibrdg_en: pp3300-mipibrdg-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO37__FUNC_GPIO37>;
+>                         output-low;
+> @@ -472,13 +472,13 @@ pins1 {
+>         };
+>
+>         volume_button_pins: volume-button-pins {
+> -               voldn-btn-odl {
+> +               pins-voldn {
+>                         pinmux =3D <PINMUX_GPIO6__FUNC_GPIO6>;
+>                         input-enable;
+>                         bias-pull-up;
+>                 };
+>
+> -               volup-btn-odl {
+> +               pins-volup {
+>                         pinmux =3D <PINMUX_GPIO5__FUNC_GPIO5>;
+>                         input-enable;
+>                         bias-pull-up;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi b/arch=
+/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> index ff02f63bac29..472d4987615a 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> @@ -304,35 +304,35 @@ &pio {
+>                 "",
+>                 "";
+>
+> -       ppvarp_lcd_en: ppvarp-lcd-en {
+> +       ppvarp_lcd_en: ppvarp-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO66__FUNC_GPIO66>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       ppvarn_lcd_en: ppvarn-lcd-en {
+> +       ppvarn_lcd_en: ppvarn-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO166__FUNC_GPIO166>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       pp1800_lcd_en: pp1800-lcd-en {
+> +       pp1800_lcd_en: pp1800-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO36__FUNC_GPIO36>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       open_touch: open_touch {
+> -               irq_pin {
+> +       open_touch: opentouch-pins {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO155__FUNC_GPIO155>;
+>                         input-enable;
+>                         bias-pull-up;
+>                 };
+>
+> -               rst_pin {
+> +               pins-rst {
+>                         pinmux =3D <PINMUX_GPIO156__FUNC_GPIO156>;
+>
+>                         /*
+> @@ -349,8 +349,8 @@ rst_pin {
+>                 };
+>         };
+>
+> -       pen_eject: peneject {
+> -               pen_eject {
+> +       pen_eject: pen-pins {
+> +               pins-eject {
+>                         pinmux =3D <PINMUX_GPIO6__FUNC_GPIO6>;
+>                         input-enable;
+>                         /* External pull-up. */
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi b/arch=
+/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> index da6e767b4cee..1b21e3958061 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> @@ -292,35 +292,35 @@ &pio {
+>                 "",
+>                 "";
+>
+> -       ppvarp_lcd_en: ppvarp-lcd-en {
+> +       ppvarp_lcd_en: ppvarp-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO66__FUNC_GPIO66>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       ppvarn_lcd_en: ppvarn-lcd-en {
+> +       ppvarn_lcd_en: ppvarn-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO166__FUNC_GPIO166>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       pp1800_lcd_en: pp1800-lcd-en {
+> +       pp1800_lcd_en: pp1800-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO36__FUNC_GPIO36>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       touch_default: touchdefault {
+> -               pin_irq {
+> +       touch_default: touch-pins {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO155__FUNC_GPIO155>;
+>                         input-enable;
+>                         bias-pull-up;
+>                 };
+>
+> -               touch_pin_reset: pin_reset {
+> +               touch_pin_reset: pins-rst {
+>                         pinmux =3D <PINMUX_GPIO156__FUNC_GPIO156>;
+>
+>                         /*
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi b/arch/=
+arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> index 8b56b8564ed7..a85c73b43195 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> @@ -296,35 +296,35 @@ &pio {
+>                 "",
+>                 "";
+>
+> -       ppvarp_lcd_en: ppvarp-lcd-en {
+> +       ppvarp_lcd_en: ppvarp-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO66__FUNC_GPIO66>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       ppvarn_lcd_en: ppvarn-lcd-en {
+> +       ppvarn_lcd_en: ppvarn-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO166__FUNC_GPIO166>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       pp1800_lcd_en: pp1800-lcd-en {
+> +       pp1800_lcd_en: pp1800-lcd-en-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO36__FUNC_GPIO36>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       open_touch: open_touch {
+> -               irq_pin {
+> +       open_touch: opentouch-pins {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO155__FUNC_GPIO155>;
+>                         input-enable;
+>                         bias-pull-up;
+>                 };
+>
+> -               rst_pin {
+> +               pins-rst {
+>                         pinmux =3D <PINMUX_GPIO156__FUNC_GPIO156>;
+>
+>                         /*
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/=
+boot/dts/mediatek/mt8183-kukui.dtsi
+> index 400c61d11035..8f3a0e85b4ed 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> @@ -435,7 +435,7 @@ &mt6358_vsram_gpu_reg {
+>  };
+>
+>  &pio {
+> -       aud_pins_default: audiopins {
+> +       aud_pins_default: audio-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO97__FUNC_I2S2_MCK>,
+>                                 <PINMUX_GPIO98__FUNC_I2S2_BCK>,
+> @@ -457,7 +457,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       aud_pins_tdm_out_on: audiotdmouton {
+> +       aud_pins_tdm_out_on: audio-tdmout-on-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO169__FUNC_TDM_BCK_2ND>,
+>                                 <PINMUX_GPIO170__FUNC_TDM_LRCK_2ND>,
+> @@ -469,7 +469,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       aud_pins_tdm_out_off: audiotdmoutoff {
+> +       aud_pins_tdm_out_off: audio-tdmout-off-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO169__FUNC_GPIO169>,
+>                                 <PINMUX_GPIO170__FUNC_GPIO170>,
+> @@ -490,22 +490,22 @@ pins-bt-en {
+>                 };
+>         };
+>
+> -       ec_ap_int_odl: ec-ap-int-odl {
+> -               pins1 {
+> +       ec_ap_int_odl: ec-ap-int-odl-pins {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO151__FUNC_GPIO151>;
+>                         input-enable;
+>                         bias-pull-up;
+>                 };
+>         };
+>
+> -       h1_int_od_l: h1-int-od-l {
+> -               pins1 {
+> +       h1_int_od_l: h1-int-od-l-pins {
+> +               pins-intn {
+>                         pinmux =3D <PINMUX_GPIO153__FUNC_GPIO153>;
+>                         input-enable;
+>                 };
+>         };
+>
+> -       i2c0_pins: i2c0 {
+> +       i2c0_pins: i2c0-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO82__FUNC_SDA0>,
+>                                  <PINMUX_GPIO83__FUNC_SCL0>;
+> @@ -513,7 +513,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       i2c1_pins: i2c1 {
+> +       i2c1_pins: i2c1-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO81__FUNC_SDA1>,
+>                                  <PINMUX_GPIO84__FUNC_SCL1>;
+> @@ -521,7 +521,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       i2c2_pins: i2c2 {
+> +       i2c2_pins: i2c2-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO103__FUNC_SCL2>,
+>                                  <PINMUX_GPIO104__FUNC_SDA2>;
+> @@ -529,7 +529,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       i2c3_pins: i2c3 {
+> +       i2c3_pins: i2c3-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO50__FUNC_SCL3>,
+>                                  <PINMUX_GPIO51__FUNC_SDA3>;
+> @@ -537,7 +537,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       i2c4_pins: i2c4 {
+> +       i2c4_pins: i2c4-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO105__FUNC_SCL4>,
+>                                  <PINMUX_GPIO106__FUNC_SDA4>;
+> @@ -545,7 +545,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       i2c5_pins: i2c5 {
+> +       i2c5_pins: i2c5-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO48__FUNC_SCL5>,
+>                                  <PINMUX_GPIO49__FUNC_SDA5>;
+> @@ -553,7 +553,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       i2c6_pins: i2c6 {
+> +       i2c6_pins: i2c6-pins {
+>                 pins-bus {
+>                         pinmux =3D <PINMUX_GPIO11__FUNC_SCL6>,
+>                                  <PINMUX_GPIO12__FUNC_SDA6>;
+> @@ -561,7 +561,7 @@ pins-bus {
+>                 };
+>         };
+>
+> -       mmc0_pins_default: mmc0-pins-default {
+> +       mmc0_pins_default: mmc0-default-pins {
+>                 pins-cmd-dat {
+>                         pinmux =3D <PINMUX_GPIO123__FUNC_MSDC0_DAT0>,
+>                                  <PINMUX_GPIO128__FUNC_MSDC0_DAT1>,
+> @@ -625,7 +625,7 @@ pins-rst {
+>                 };
+>         };
+>
+> -       mmc1_pins_default: mmc1-pins-default {
+> +       mmc1_pins_default: mmc1-default-pins {
+>                 pins-cmd-dat {
+>                         pinmux =3D <PINMUX_GPIO31__FUNC_MSDC1_CMD>,
+>                                  <PINMUX_GPIO32__FUNC_MSDC1_DAT0>,
+> @@ -643,7 +643,7 @@ pins-clk {
+>                 };
+>         };
+>
+> -       mmc1_pins_uhs: mmc1-pins-uhs {
+> +       mmc1_pins_uhs: mmc1-uhs-pins {
+>                 pins-cmd-dat {
+>                         pinmux =3D <PINMUX_GPIO31__FUNC_MSDC1_CMD>,
+>                                  <PINMUX_GPIO32__FUNC_MSDC1_DAT0>,
+> @@ -663,15 +663,15 @@ pins-clk {
+>                 };
+>         };
+>
+> -       panel_pins_default: panel-pins-default {
+> -               panel-reset {
+> +       panel_pins_default: panel-pins {
+> +               pins-panel-reset {
+>                         pinmux =3D <PINMUX_GPIO45__FUNC_GPIO45>;
+>                         output-low;
+>                         bias-pull-up;
+>                 };
+>         };
+>
+> -       pwm0_pin_default: pwm0-pin-default {
+> +       pwm0_pin_default: pwm0-pins {
+>                 pins1 {
+>                         pinmux =3D <PINMUX_GPIO176__FUNC_GPIO176>;
+>                         output-high;
+> @@ -682,15 +682,15 @@ pins2 {
+>                 };
+>         };
+>
+> -       scp_pins: scp {
+> +       scp_pins: scp-pins {
+>                 pins-scp-uart {
+>                         pinmux =3D <PINMUX_GPIO110__FUNC_TP_URXD1_AO>,
+>                                  <PINMUX_GPIO112__FUNC_TP_UTXD1_AO>;
+>                 };
+>         };
+>
+> -       spi0_pins: spi0 {
+> -               pins-spi {
+> +       spi0_pins: spi0-pins {
+> +               pins-bus {
+>                         pinmux =3D <PINMUX_GPIO85__FUNC_SPI0_MI>,
+>                                  <PINMUX_GPIO86__FUNC_GPIO86>,
+>                                  <PINMUX_GPIO87__FUNC_SPI0_MO>,
+> @@ -699,8 +699,8 @@ pins-spi {
+>                 };
+>         };
+>
+> -       spi1_pins: spi1 {
+> -               pins-spi {
+> +       spi1_pins: spi1-pins {
+> +               pins-bus {
+>                         pinmux =3D <PINMUX_GPIO161__FUNC_SPI1_A_MI>,
+>                                  <PINMUX_GPIO162__FUNC_SPI1_A_CSB>,
+>                                  <PINMUX_GPIO163__FUNC_SPI1_A_MO>,
+> @@ -709,21 +709,21 @@ pins-spi {
+>                 };
+>         };
+>
+> -       spi2_pins: spi2 {
+> -               pins-spi {
+> +       spi2_pins: spi2-pins {
+> +               pins-bus {
+>                         pinmux =3D <PINMUX_GPIO0__FUNC_SPI2_CSB>,
+>                                  <PINMUX_GPIO1__FUNC_SPI2_MO>,
+>                                  <PINMUX_GPIO2__FUNC_SPI2_CLK>;
+>                         bias-disable;
+>                 };
+> -               pins-spi-mi {
+> +               pins-miso {
+>                         pinmux =3D <PINMUX_GPIO94__FUNC_SPI2_MI>;
+>                         mediatek,pull-down-adv =3D <00>;
+>                 };
+>         };
+>
+> -       spi3_pins: spi3 {
+> -               pins-spi {
+> +       spi3_pins: spi3-pins {
+> +               pins-bus {
+>                         pinmux =3D <PINMUX_GPIO21__FUNC_SPI3_MI>,
+>                                  <PINMUX_GPIO22__FUNC_SPI3_CSB>,
+>                                  <PINMUX_GPIO23__FUNC_SPI3_MO>,
+> @@ -732,8 +732,8 @@ pins-spi {
+>                 };
+>         };
+>
+> -       spi4_pins: spi4 {
+> -               pins-spi {
+> +       spi4_pins: spi4-pins {
+> +               pins-bus {
+>                         pinmux =3D <PINMUX_GPIO17__FUNC_SPI4_MI>,
+>                                  <PINMUX_GPIO18__FUNC_SPI4_CSB>,
+>                                  <PINMUX_GPIO19__FUNC_SPI4_MO>,
+> @@ -742,8 +742,8 @@ pins-spi {
+>                 };
+>         };
+>
+> -       spi5_pins: spi5 {
+> -               pins-spi {
+> +       spi5_pins: spi5-pins {
+> +               pins-bus {
+>                         pinmux =3D <PINMUX_GPIO13__FUNC_SPI5_MI>,
+>                                  <PINMUX_GPIO14__FUNC_SPI5_CSB>,
+>                                  <PINMUX_GPIO15__FUNC_SPI5_MO>,
+> @@ -752,7 +752,7 @@ pins-spi {
+>                 };
+>         };
+>
+> -       uart0_pins_default: uart0-pins-default {
+> +       uart0_pins_default: uart0-pins {
+>                 pins-rx {
+>                         pinmux =3D <PINMUX_GPIO95__FUNC_URXD0>;
+>                         input-enable;
+> @@ -763,7 +763,7 @@ pins-tx {
+>                 };
+>         };
+>
+> -       uart1_pins_default: uart1-pins-default {
+> +       uart1_pins_default: uart1-pins {
+>                 pins-rx {
+>                         pinmux =3D <PINMUX_GPIO121__FUNC_URXD1>;
+>                         input-enable;
+> @@ -781,7 +781,7 @@ pins-cts {
+>                 };
+>         };
+>
+> -       uart1_pins_sleep: uart1-pins-sleep {
+> +       uart1_pins_sleep: uart1-sleep-pins {
+>                 pins-rx {
+>                         pinmux =3D <PINMUX_GPIO121__FUNC_GPIO121>;
+>                         input-enable;
+> @@ -799,14 +799,14 @@ pins-cts {
+>                 };
+>         };
+>
+> -       wifi_pins_pwrseq: wifi-pins-pwrseq {
+> +       wifi_pins_pwrseq: wifi-pwr-pins {
+>                 pins-wifi-enable {
+>                         pinmux =3D <PINMUX_GPIO119__FUNC_GPIO119>;
+>                         output-low;
+>                 };
+>         };
+>
+> -       wifi_pins_wakeup: wifi-pins-wakeup {
+> +       wifi_pins_wakeup: wifi-wake-pins {
+>                 pins-wifi-wakeup {
+>                         pinmux =3D <PINMUX_GPIO113__FUNC_GPIO113>;
+>                         input-enable;
+> --
+> 2.50.1
+>
+>
 
