@@ -1,192 +1,154 @@
-Return-Path: <linux-media+bounces-38435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38436-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F95B117FF
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 07:35:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 951C5B11820
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 07:55:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB3C11C2772E
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 05:35:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 673EF3BE89B
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 05:55:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4598245010;
-	Fri, 25 Jul 2025 05:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LPdx4nUS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 841D92459FA;
+	Fri, 25 Jul 2025 05:55:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021125.outbound.protection.outlook.com [40.107.57.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422371DEFDD;
-	Fri, 25 Jul 2025 05:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC1C3A1DB;
+	Fri, 25 Jul 2025 05:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.125
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753421719; cv=fail; b=RhdYjfgQ8gieYrYaI5Kzk4Iys/Q/hSMZLou3+qIe5MIk3Pn3w/AKI3awMAr/nnEcUnsyJ8mtiaQxeMum7nawkHu79S0V4AgNlRmXpujPXCoUMA3WE5hvACQ84sEgVaWUwfyZqmaHWuAcBXpU8Kn/OiypFddENxBFgBFRqiXZTYs=
+	t=1753422936; cv=fail; b=gSgS16GTpiJnzxb8XeBN80l4f25ydhRWZT91oQfzsDHIBist4OqzqcyByqX4VMjWrqXrbqHGE6I0gfUTOGXAWx4/gpNKppOCehkjK5iP1PlxLe0J8B3+4U8POjqrW67OL/MgBb0ODY/WrzpyIa7Vh8vUK9VHaC0asY5pw3HUsP4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753421719; c=relaxed/simple;
-	bh=+ykA1GinmkeX9aOrZt0lxJZmMZ/crmGw3BtfXC2U8+g=;
+	s=arc-20240116; t=1753422936; c=relaxed/simple;
+	bh=iEjMThMQKU49/yxcthXdO6VPra5L2gYR407bUT0zTW8=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=KB7RcXSncZy7PBSbH84aDgv6EYp3KdKufF/4Bb315fBMYq1Qbwpjk5Js1nYTddG+TrFOamKdbNKNZwkRDsPeRPIr6XAXHHImRbi92qw0QetNZ1jSWf4XCfUxTiSVjZN5TZpZx8ziCWSTJfkLTEoisQBMFOZgAvZoWAHmos2IMbo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LPdx4nUS; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753421717; x=1784957717;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=+ykA1GinmkeX9aOrZt0lxJZmMZ/crmGw3BtfXC2U8+g=;
-  b=LPdx4nUShoiMTQFgC40xQy8vtBTdzTjGQudkXX32caijAiAloJKNZXt6
-   678nrm4AFXZBVlsT4qsu6JO8BLyDlO6nfQiuVoO/AE0a+o3nStjj6+9Eo
-   AjDDZjZ/L0/QMbeiPr65Qy/N4btIj6a+KbbG4AHZJXYj/o1VbwYWXuwg0
-   oWtrXg81TRkgGHqE8zSiqChrTnCVoaBkigmQ4Caw/nAKfGU+LPnV9o+Nz
-   qI4ch5H2ma6HV7Qd30Gq7UFT2PSgMw0KMe9FRd46cQazbMcrhbwnSaxVN
-   tU9AZyI/eWcqniOXoVaC6RHXBciDHYaCREWQYICZE9T58jPE/iMCYCzW+
-   w==;
-X-CSE-ConnectionGUID: hqVNuCZ1RCKPv6U7XnCvbw==
-X-CSE-MsgGUID: zJpnErfKTY6hWHrhbld9+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="67103876"
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; 
-   d="scan'208";a="67103876"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 22:35:14 -0700
-X-CSE-ConnectionGUID: NxPhb5t0S7CKlOFCQQZzmg==
-X-CSE-MsgGUID: BtKlH1fcSCapNwi6WZwIIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; 
-   d="scan'208";a="159893247"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 22:35:14 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 24 Jul 2025 22:35:11 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Thu, 24 Jul 2025 22:35:11 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.43)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 24 Jul 2025 22:35:09 -0700
+	 Content-Type:MIME-Version; b=ZLfKAuMRtDA9TOnRyL5OpdAQuuFXrMP4pL/aiOEyg+SOtAsfM//SRgjDoslhMP88zNDBkDsGCVvaX02Q5CvhJfdkrbaO9tk5bWrExi8qXCklFOcZH569q1shfrm4zTty3ldmr0D4BUhAsq9aeL3FbgsHs4iq+WHUV/UfvcHDWe8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CDUogXIhtZuBt9X873ynjAehD5U77T01uD3bfMBOQMnY7vosShPJsLqhrBBE+9U5wKtrxZa/tHpOF+cLlq3b3bWVsNTyGgJVPxs+1VF6eimvY1MVRP4CWA1dCfrnezCb6qH+rE0kI+sQQkT8m3BxBxqgtNbzDTbATmyNhl9Vsp0LJXCtkHQDFudQTtaHY/gUlB9nyB86SJTd34XslHW62FfzPSt47QSjbONxaTtUkP2SLqhpoFvwg+xKmwXSJ2VukaQU9sxKlfMEFglcVAlD8Yv54BK2eHDl5A0m+qvO+Shejx/n401VMxwc9H/kXwkorAh9K9+klwB+amT+RkPJ9g==
+ b=hGg/6ToQVFB7Vl5raz2kTFcxhq2oZmYFdNr818HBg6zqAjMA1axf9F/VNZbr/o0RWKs4vmTwSoWa6Eehl+kkngELJgL/fCH7FIycNowFkwNIxPhM2JdbJhw/tKfUJvmnMgbUuLZG1gt4bdZxjFo2EhIMVTV0dEdMcVEH1Zy3CZ5DWCeHGoqSHmcpkSypVS3uetcXbtPAMEOu2Gehqn1NRvH9O3Q9dSzcC8SO5UUh6rcRH51l9leF+xUM36Juvr4ii8n8rMLj0e+xyCk/Md1bH3Nd7dMEZBkgwgcm2wWVJF28TiPoVZbXNVXeUwUx7LZ692jh2SaxUMfCnh66J3a07w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6p8xnh5uPIVEHYCep2fbZkINgQ1Sn0UjMAN1emoIDSU=;
- b=l/VRu33yELQmNZA5aSoMtS7m3wMFtbU1TqTXTFF+xitwFYDBGK2j4wheaddOCE5hMrkvunEHVTVTA1X6T+CLaL2PxyMBlB7oXsLKRbasywVQypVkM/GevCROR8UNFzuloO2fJLYO+Uz4HfeIOIOiDAaoLJ1QehEQl+GlyQlLtucxGumXeODORRsQaelW4lOJGL47LT8bf4XpN7r+inqn5VzXVvadwYdm/kwqs0MAp8pACkTdkNIwR+Wg6LwQf1Z/SjBWlyP7QbpMVYs7006cOId3+6OZSKJ5EXBtyvFMKAb7FjtcuHEaBAUkpGq/o4vBWOrHnGSPqK6PWeZSgcIkig==
+ bh=n8PnOG/6N4K/TUIElKY2xiSFMKP0VwMvvOjDWKgGe+8=;
+ b=Gdq5+ZOFcaQuXBfIE3pXBCQjJS0PnYuyRQURgK3hS5PV7KQkqNraa+ule0w7l7usNGllS8c2I2UCcw3vbH4nEt47XQDZj9Cr8U2yfp0zOy/IupPVeG2wVTgmKYOLyNCr6cwoulhT5KrAhsLhi3pxnrcuxenMFOvk/oGja6CEjAFlopQiiQiiC20hwmizASCkEBvbzJicAWqIBBdjzouRoe7lBYPRP0jwnx7ynvv0StI8gWUsw1dmOu2Q2kws6oLVqCeZJATiA/a/R1URbYI6xh/8Ic7chZReRrbqxUrplZi0HLeIgAO98hEaFVuHnD0TdaOfhv4JcAttd78Uw+8Jew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by LV8PR11MB8608.namprd11.prod.outlook.com (2603:10b6:408:1f0::15) with
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:229::21)
+ by PNYP287MB4056.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:287::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.28; Fri, 25 Jul
- 2025 05:34:40 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b%3]) with mapi id 15.20.8943.029; Fri, 25 Jul 2025
- 05:34:40 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Alex Williamson <alex.williamson@redhat.com>, Christoph Hellwig
-	<hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	=?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, Jens Axboe
-	<axboe@kernel.dk>, =?iso-8859-1?Q?J=E9r=F4me_Glisse?= <jglisse@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.23; Fri, 25 Jul
+ 2025 05:55:24 +0000
+Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
+ ([fe80::5c9a:906e:318b:c418]) by PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
+ ([fe80::5c9a:906e:318b:c418%6]) with mapi id 15.20.8964.023; Fri, 25 Jul 2025
+ 05:55:24 +0000
+From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Hans Verkuil
+	<hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>, Bryan
+ O'Donoghue <bryan.odonoghue@linaro.org>, Hans de Goede <hansg@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>, Benjamin Mugnier
+	<benjamin.mugnier@foss.st.com>, Matthias Fend <matthias.fend@emfend.at>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Sylvain Petinot
+	<sylvain.petinot@foss.st.com>, Dongcheng Yan <dongcheng.yan@intel.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>, Arnd Bergmann <arnd@arndb.de>,
 	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, Logan Gunthorpe <logang@deltatee.com>, "Marek
- Szyprowski" <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon <will@kernel.org>
-Subject: RE: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
- regions
-Thread-Topic: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
- regions
-Thread-Index: AQHb+9IaqW2aYf5a0kKT+xAFJGMHyLRAkYIggAAy9YCAALri8A==
-Date: Fri, 25 Jul 2025 05:34:40 +0000
-Message-ID: <IA0PR11MB71855A080F43E4D657A70311F859A@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <aea452cc27ca9e5169f7279d7b524190c39e7260.1753274085.git.leonro@nvidia.com>
- <IA0PR11MB7185E487736B8B4CD70600DEF85EA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20250724054443.GP402218@unreal>
-In-Reply-To: <20250724054443.GP402218@unreal>
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 2/2] media: i2c: add ov2735 image sensor driver
+Thread-Topic: [PATCH v5 2/2] media: i2c: add ov2735 image sensor driver
+Thread-Index: AQHb/Ih6djfjLciEYkK3gvcBpDSgELRBx44AgACQNVA=
+Date: Fri, 25 Jul 2025 05:55:23 +0000
+Message-ID:
+ <PN3P287MB35190A4AEE4C8D98142E7B6AFF59A@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
+References: <20250724104711.18764-1-hardevsinh.palaniya@siliconsignals.io>
+ <20250724104711.18764-3-hardevsinh.palaniya@siliconsignals.io>
+ <aIKi1BkNzNvsf5Tr@smile.fi.intel.com>
+In-Reply-To: <aIKi1BkNzNvsf5Tr@smile.fi.intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
+msip_labels:
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|LV8PR11MB8608:EE_
-x-ms-office365-filtering-correlation-id: 72a76a66-36f7-4b7c-edc1-08ddcb3cf3dd
+x-ms-traffictypediagnostic: PN3P287MB3519:EE_|PNYP287MB4056:EE_
+x-ms-office365-filtering-correlation-id: f8e9d4e8-a42d-4a28-2445-08ddcb3fd8f4
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700018;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?2V/V0TtdzhZqSO9vdhz+N3JCc40ok7U6BbBdsI8Zq3xGxRO9rKsOMdIRnO?=
- =?iso-8859-1?Q?pRGkSoWCPLWV2SHobXgZV11+CymM1MXgM6MOA/O7lZnlHVVIvPSNjUMKtR?=
- =?iso-8859-1?Q?/4ss0H/629Vgf4g0GsDvHaoedNI1FR70hdiVm8LqhDp1XM8wMhMJ1MjzXX?=
- =?iso-8859-1?Q?morzlcOQdLd1sOxQsgvPvTos7z5gzzI3oEKOK5c2JOs97tZ+4tS20GVYKW?=
- =?iso-8859-1?Q?8VH2KapZFd8MlRgO31MZrD7ve+d1qW+wKdE3tNPWOwkGP8xZjJ2uWu13py?=
- =?iso-8859-1?Q?CfVQa6nnfEbo/ElzuO60jz6v9s8pMM8RN3yddsWnZZWG4x6RoOPzuo7lxb?=
- =?iso-8859-1?Q?S6eMa1tIv7+du+WDLvc5uaIt/WuvQe3DrvN5MR+Wjzk2fl+gtqk0+w9gDl?=
- =?iso-8859-1?Q?SisBNf4/oYrDbUfwPaQj/NocxA69NKOR34h/m6TAa8NOr3Va2A3T1d6++q?=
- =?iso-8859-1?Q?THHS0+vWeCyoIMZizonpCck6oLKmfrlX9jUdrcIxfgQVJbaQC4DaIorjdy?=
- =?iso-8859-1?Q?qmXQ5FCQVtfdQEGZl87CVlkiveavEB+xshnXuZUW8kst5PA+u+8EUYeV6+?=
- =?iso-8859-1?Q?jafCr0gNz5yE1BMxenJ40GdmjLoHNL7hu2f/t3pnw40V6VIQVXXmhLZaAa?=
- =?iso-8859-1?Q?y2evN5I2R8v0jHuiOKaKh7wYjmctzPUmuvQzfS6rSz8ZhMkoS8N+lBRU2Q?=
- =?iso-8859-1?Q?qu2THonbKNXSzBifPaC/dTZDNNmXQJpIOzvpuHzvIwnui0yYUoEg8Gqg/r?=
- =?iso-8859-1?Q?6jnQTjanHI0hUrs0+somAmT1TWZ1bFFPFn6YeKnWyIzgxJlEC4KAdYApn1?=
- =?iso-8859-1?Q?y7UeTmD6/4bx5zsvJ+/rJQ3jbic0XMfsetRpWLBt8dmfWhbliyzFTMyzh9?=
- =?iso-8859-1?Q?Fhv+M2n0nghZF9MISzsuA6lUMXXxG56fBvrvJXEH5ZVwiE0ddp7/DSOeuP?=
- =?iso-8859-1?Q?GFP12oZcQqlHo91BC5E2HdfangJ8l+ZNpEAhxJJ6vULjmXkVZodCNk6hFR?=
- =?iso-8859-1?Q?mWJScbfI4n+QitkGgSRgqvmCVT8Otj4oYFNyJ0KY3dbhRPFyExA79Rkq6/?=
- =?iso-8859-1?Q?UySPqP1liaVsFse/tfnlgsjxhncX6n4n3XsCvY9/rODyzO6RJeUcpxOnDn?=
- =?iso-8859-1?Q?76jGuy1lHl3EkL8GirWkX6W+EuWg+SqZ/x9wDcDMp/oHpdKj3INXgR3U+f?=
- =?iso-8859-1?Q?f5NIud5VoFmHhTgLh1wyuCOoaAUr3Kg0mwNYUDw8NAM8u+Ebfz1AyZKVHD?=
- =?iso-8859-1?Q?JDjVfzgJM9VbFBOXV4+h0RFPf9te4eu5Dlam2JTL8tZnviNyQs/fMInOl4?=
- =?iso-8859-1?Q?6IAf2OMzbN4dEysj59EcORSWKXtXyfLA6j1ZsdZmG7V4Nv2iu31mP21R0B?=
- =?iso-8859-1?Q?psbrEQds59W8W5h77QKH337+L0dGQSRqZadVcjNkSEKaqC0c+gV9/fFJuC?=
- =?iso-8859-1?Q?HfaCZhzS9LuJUXig51aIyWnf9vNoLUr9tZdDFna/H68kUu2QM5ntvXEXBd?=
- =?iso-8859-1?Q?4=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?EgIAiN8mZYPZxZyxdBuHNeOhaBEMhQrrTxqNkYEejZZauzSleZCjrZxQzV?=
+ =?iso-8859-1?Q?cXHhG9iEBECgXA6LA6SuhIb4Hn2FaKKqRjiN9iXgIOdTsvn/cAE9AcEu0n?=
+ =?iso-8859-1?Q?ORTfTyiR/IuOPGn03W1FL9kOPsBaQ5Dw1kzWp7pRunZp3Tn/0OJCOUND8o?=
+ =?iso-8859-1?Q?yMtJcpw4oC0+el6vqLjN/BZ8UG+IAb5LQb3bJfKRCWtf4jbniuZdeUFnhb?=
+ =?iso-8859-1?Q?grJgXtnXCQxl2gyLbleXl4KYs34JA2tXNypsurn8h0q1DDCHNg4TTwlX7t?=
+ =?iso-8859-1?Q?C6quZGxY0A+yScd893SM8OIFK2XZiW7ZwiAgs5S/bRz0FC/8/vkYmQTqY4?=
+ =?iso-8859-1?Q?QM6lziTpZQ7ze6E065L8we82y4lV90Rnveu8WaL8LvRWKOVU4mjhU1p4rw?=
+ =?iso-8859-1?Q?Olgg+m7btczYHCEruNg/H6vbfgSAmjb3ZH11rYoVTEeI66GoQmOoN0SK5N?=
+ =?iso-8859-1?Q?F3A5/IkcUwVgY16NYuYeShD8dUbAlxG+SG6t6y+rSoxFw7+zsvhoxjfKxq?=
+ =?iso-8859-1?Q?55griT4nS08nHyF+Hno8BBbq3JfcKoGV685Ojsor5pwOeLeyKnZ6swf/ID?=
+ =?iso-8859-1?Q?3iCTBD1KtwyugBvF7YJQlGM3Akou30PQK/r2GhFStT9ogopByXVexwUdXu?=
+ =?iso-8859-1?Q?asvhJjE0isRJHBcZjy/5+pAAyK5MUvmfdVPL0iU4XBbjDG1bXvlY0k8Jnd?=
+ =?iso-8859-1?Q?hzq+sH4xDCVN6TYHkPYEz3IlQdkOEAtvXNieJS21ciDMzhGTCTlIOgcbnc?=
+ =?iso-8859-1?Q?xyMiN20wVlMAP6Aohy++5dMFIHgIJnO7YXuSwu3+HsqnB3i811/s/xa+v9?=
+ =?iso-8859-1?Q?qz43paY4NyUhMGm1QDM3195/E1C1GGFia2WymrGpUA3U7sjoq1vLdO/IpV?=
+ =?iso-8859-1?Q?keLwA98b7W9eqq4ZvnkfzSzSEowGH2bKYEKezZRlarnRnvd5AtAjX5VtWF?=
+ =?iso-8859-1?Q?ucwSZtUVQvuw1qHEgzyvp3aFKv0IpgQyujlnpqw6yf8GBFoTqp+ZX6Uc23?=
+ =?iso-8859-1?Q?QE8glLF0W9Cilf/bBU6IF0N1LIf0hCYYseS9N0NEkbx2aU6jAPeqYFfm9S?=
+ =?iso-8859-1?Q?nagsyJLp0ks5xda+WKzuvgBe5Nmqw/TFTgQVGn+63QJPPwOoD0upwybFvx?=
+ =?iso-8859-1?Q?peW7c3sfrXlvfxeiZjqXs1RrKMF9GL91kj2SLqaBq0cHIo9knF4cZ+VEMf?=
+ =?iso-8859-1?Q?slnZb1ie9CQhdqtCpGo0T6ebrKX3huka0O+BtmmhCsVeXZ+OAqEajAs/iA?=
+ =?iso-8859-1?Q?lUGkWhsBqM+Lu9gDGpUkHh3EPhuiV3IU7kTwQrEDjqSM80+GOuvLeRAE+w?=
+ =?iso-8859-1?Q?eUm1EDnjDWK2VlHXOkpD/uF7aZRkZDBjeEt6JvG7qg+MhKsvL0Mu+I7ffw?=
+ =?iso-8859-1?Q?ESPkMrxksZHnak/DlhAYF+zgUW6mkZmgrQFoYfyeCt091ovCSjs1rm3w5r?=
+ =?iso-8859-1?Q?bxi1CBObClErXlhsa0f1BZpVc9sOPkuYt4l90xD6uAQXQMU5dd1TTBgY1x?=
+ =?iso-8859-1?Q?3T46/mamfcBGBQRjrs0TIbhHC3T71Zx75hx3Y9xJQV2A=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3519.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?jXk/jJ9sXof40pxEqcnaU7MfH0OX7V3yc9p/K8I9Wc4x5LEo8YD00HcYPJ?=
- =?iso-8859-1?Q?79wxK2KbzH842ZywrcEOSgojMxTbLz7kR4F0sy1ZapKe757Op152+0AIRf?=
- =?iso-8859-1?Q?WeXuTEpNODJIDv50NbRvmRwpno3EWf558ebIFkihncoOFDXk19ZjHR4RqT?=
- =?iso-8859-1?Q?NFHe5DJ9x2gyDsdgAKb5x1KmW5GXabscg4AjBQtsBisJvrovhmKW4MyXzt?=
- =?iso-8859-1?Q?mGL6a79sS1zU3Uyg5hNEdWzvsPoIOvqbokE9+0I5ldbZ/toRR738Qi5fgr?=
- =?iso-8859-1?Q?uzrTKil9IiAoDhziv/U0SqPWn9HZPGLIf5pQN9bIzDnXF1OwIedjcByhN4?=
- =?iso-8859-1?Q?a9wljgitQuKV/2fUcC16DlEZuZ8jtqHk54Xzfa2c9jy31Q8HUne9g2Wl2i?=
- =?iso-8859-1?Q?A7Qb3TA9PASW2kfAEEW1VWxS0WD2Fj2oFprHIijl1wbO8b7RmqaCvnijL2?=
- =?iso-8859-1?Q?Tl2PBAFbACxBs9hXZyP9s3DzL+bD+lKY88Znlz3BCAk7coLwzijUwiaIRL?=
- =?iso-8859-1?Q?t3lySr7RdRc6iNkRIcgucMgIw20j8Ezw1v90wcmgZVOhqquWU6CbjnJfse?=
- =?iso-8859-1?Q?hy5iCE6W3rtZQLMb33SjOGrgjfAQOfZ1D2a9hwtTsq5UfA8vsw5ZnYq4AM?=
- =?iso-8859-1?Q?blmkLmLQWdaxCB82tJPmCLl/57Lt67u9U7PXu/BmukqnjL7ChTijwJ8xkw?=
- =?iso-8859-1?Q?xBOhn97jWpuRjoLmYhaLRzW72plLxoEMDtuyen8HZy160aEUJcTr/aBK3C?=
- =?iso-8859-1?Q?01tUSWQrnQRhsAsYJREHgflzKTVntEhcSadBAlDVGLPOfeN0aYP5fV2OxN?=
- =?iso-8859-1?Q?biugPOpMv9J1VtnZfqVOIlg3IzY1qw5S+fDCo/oR2K0AYPYpLt7zdqPqTN?=
- =?iso-8859-1?Q?89Rj6f7yiUbjxHL6lDtblt9O8rumqn0xdWVP0AptA3VqUqs1KTBOs1JFql?=
- =?iso-8859-1?Q?OtSZSl3XFF1yEB0EB9v2ONs5V3HdjLEAciEUzgnoqimDnp0JVVAkQIyUlY?=
- =?iso-8859-1?Q?u/Y2PBbxfNz87Pv9OW4c7h1bAJNPCproda8KhgqxIgRyHxN99uI7Ce1Ptz?=
- =?iso-8859-1?Q?GFYqpalz4iKbrcKBbQN9VF/PO/5cIjC5OGbtE2K8CZZV2B8ei5lo4FhrKe?=
- =?iso-8859-1?Q?uKOMjS7PzZOLS/WpYnfdQtJ/a2qw5BQxOOMHtBCi7z9z5rI3NDEqPyLOKk?=
- =?iso-8859-1?Q?gbkhk8H9iyxdCEa9nowcvMmoiV8gMT2LyOgybxWsMfdjMHTmPPphtsxRlR?=
- =?iso-8859-1?Q?M1gsaym8L+BPPoFWigqJ3YXSvw0KoVCGsEDpJIN72popq+ux5prrvb8xpN?=
- =?iso-8859-1?Q?Ay4UwM7eVWrU/5tbcSENt+KVC6+jJ5fgsfKEurOa4aDRPwxAotGXC2zimH?=
- =?iso-8859-1?Q?zaMEYDRnK/COFQpPreYbVIiP5A/3iO4jOE7jdhi5K9Uvpj3HSLzK38vmeA?=
- =?iso-8859-1?Q?+55s5lOs3+pshCNEiz8MPvQI74c1Hoy/a2OUkGgpA6VDXZ6f45hCSr9Nxc?=
- =?iso-8859-1?Q?tTVxNHgRKi0wo5ebE475Hc7xAlhXnNvwPq4rCOtN+IK5kwnNEKAdu2NXG7?=
- =?iso-8859-1?Q?pnwUWC7eXJBmufzFvjln3g2CUSR6b7rjlg+sS/rQuHWLKWrkouEoUFQxN1?=
- =?iso-8859-1?Q?RQIdHAFwt2wqd7sLX/fgvkR0leITbEx3hn?=
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?7ujiuk33bMrhmUvMb2oerm9LSbYq1MHA4CY3S6rgjwBPxgeECulSS9XkM/?=
+ =?iso-8859-1?Q?9PgfvF2nhaQ/tB6PyPcdVOhCuEnDtJuq6TjgxEOAwu2na76/1yq4foLq2r?=
+ =?iso-8859-1?Q?8W94/r79H0Cts3zkiQQ0DcAMPGHuFDsklBb0Mz9/XURaVxISK+qx7RU0a5?=
+ =?iso-8859-1?Q?GQO5YzsYH0dzoNKwWMhkuFhTC18naqjBIvPRvqYkif8hufYvGMgiP1XlTg?=
+ =?iso-8859-1?Q?7E+l8j+mKwdhR0Eokb2jVkw1ma9Hn3rPwFO2sm+t7VsMPQCDS9K+zKfk4y?=
+ =?iso-8859-1?Q?9eP6emdtiIY37lP+/5RsFstsw0OwScN164f8a30MoHxveIOGKsEA//gbKE?=
+ =?iso-8859-1?Q?SkLCip8oFTaCbQiB4HRCcNGh0j1JufuKzuN/gmO/2FkfBXmj1doYxOR216?=
+ =?iso-8859-1?Q?2oVJvGm/rn4fHF7LDT+znrlg1SCYVBNAbzS/DTBg8F75XqCaEBDby4UPrJ?=
+ =?iso-8859-1?Q?EPRT7Y1hqnSqDBi7gFgnACsoS6a8tJrxK1utOY3VsHnlsCq+XQcCVDUead?=
+ =?iso-8859-1?Q?BoFicvCyUgcQrF9Q4Pq+WXR4Tw7QCPVXtw8EFxQ6L9E9iw13tf0bwAW0eR?=
+ =?iso-8859-1?Q?B97lDaTex88vIkmOTJFwGV9WR8YX6mm4IA5ObTcr5KCn0HyOeoBR0e2XZo?=
+ =?iso-8859-1?Q?Ld8Oih56nFUx8Swwve4iUPNaiHCWACoa+cjKjWtqQhuud2bXhw9rWwk0Ns?=
+ =?iso-8859-1?Q?L4TjeQNF4UUxblu8QsADMgStNd6tzkUwR6SFVTYTYefyxK9IR2mr2IAO5y?=
+ =?iso-8859-1?Q?U91oXHaCcHrBcf+zNKuYBaQZ2h8GeqGDw/jJHI+owSeAhb9mZLKUKuVhpL?=
+ =?iso-8859-1?Q?DFgcKOHHIYKySBvFBYhJxqJhfVbNPIAYKVw1NWCMNcYAdlfAY029pcBIZC?=
+ =?iso-8859-1?Q?NlUj4Tr20bCN/th1jUaEK8gxt2uTg4Eu+4CXtGhRmtgZH68drj5BSiK91G?=
+ =?iso-8859-1?Q?/RWo5H3WHZwVeJeNBfvC+UzjMVcPkkJG1odmsmg31Pf0xPaoGZvgyavdhn?=
+ =?iso-8859-1?Q?TJZt65q6PlluXrN2RVnPBFTyf8l8X5tbEiTL2dyov2GOczLH1D6xKxy+io?=
+ =?iso-8859-1?Q?FXu9MC+/r1iBZbfymlp/fextpzb5x5WOkIYNrfNU5dlJ29wXAb7D3IKVEy?=
+ =?iso-8859-1?Q?E9i1vAGDln5apKcFXeXKC7aPKqO0586zpqBRdX4Xd4Iu/4FtNe3avNnMuy?=
+ =?iso-8859-1?Q?6laMBN9snMkVst9ZOfmimnVDSGjR9KIzqLdkVnMvi2ZSaKfV3IMtrukULv?=
+ =?iso-8859-1?Q?aEj86mT3iOp8fa6mdm4nar5ONuswPF41EW8p3SQyr/ytK0D1/6DrB0GKYF?=
+ =?iso-8859-1?Q?NGR8dOpvIKPsetsZARkzsTHduwCqabiXB2SRWa6qOpk/1ItZqV3Cg/eE7i?=
+ =?iso-8859-1?Q?8b2vRIhMJziuQILhbgKZwGG3I+xcjg3l40Kc/HIWY5dUW2YSJQHhSh6moY?=
+ =?iso-8859-1?Q?SDH6lzR/aIBf/A0p7cqmTZAFE0+Tyu3ziEG/oCMrwZJve4WSoV6oLVaUKf?=
+ =?iso-8859-1?Q?l/CmqEdQskTYaDX3+jqbBdNKV6oVN2gR0dXf1XvvWuxS1OzYGjIUX67QR5?=
+ =?iso-8859-1?Q?kd3MKyUwRMCEEstDMw2zhD4cQfsPdltl3fYtYuRPuMQozo15Ck4/uld3zI?=
+ =?iso-8859-1?Q?oO55TcryEM2Glyish05WHpW0ZL5J4cBehiC8yo1ipCKLec7RR2AQYCww?=
+ =?iso-8859-1?Q?=3D=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -195,214 +157,267 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-OriginatorOrg: siliconsignals.io
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72a76a66-36f7-4b7c-edc1-08ddcb3cf3dd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2025 05:34:40.6229
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8e9d4e8-a42d-4a28-2445-08ddcb3fd8f4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2025 05:55:23.9643
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vBwOjp45moms5qpvVve6kATdWSQPSuOZxuwWfyj9NGCekgTDWY7piXkkn4Ufl2Re4IB6641yf39VU0lnWOsRH4aoUxIfdaJgIPfG7aUpVu4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8608
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: QvTqoksSgmFauOoIVX4DPmlpW72iHTtpJ0p2AN2+V+IbzkwtHOjl51WD44YMNRh1vfh435ClkSTy5dSRz1PPBuOrv3vvREGASc+IOQtBeK66RgS35pHdG6/zbkgj21kY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNYP287MB4056
 
-Hi Leon,
-
-> Subject: Re: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
-> regions
->=20
-> > >
-> > > From: Leon Romanovsky <leonro@nvidia.com>
-> > >
-> > > Add support for exporting PCI device MMIO regions through dma-buf,
-> > > enabling safe sharing of non-struct page memory with controlled
-> > > lifetime management. This allows RDMA and other subsystems to
-> import
-> > > dma-buf FDs and build them into memory regions for PCI P2P
-> operations.
-> > >
-> > > The implementation provides a revocable attachment mechanism using
-> > > dma-buf move operations. MMIO regions are normally pinned as BARs
-> > > don't change physical addresses, but access is revoked when the VFIO
-> > > device is closed or a PCI reset is issued. This ensures kernel
-> > > self-defense against potentially hostile userspace.
-> > >
-> > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > ---
-> > >  drivers/vfio/pci/Kconfig           |  20 ++
-> > >  drivers/vfio/pci/Makefile          |   2 +
-> > >  drivers/vfio/pci/vfio_pci_config.c |  22 +-
-> > >  drivers/vfio/pci/vfio_pci_core.c   |  25 ++-
-> > >  drivers/vfio/pci/vfio_pci_dmabuf.c | 321
-> +++++++++++++++++++++++++++++
-> > >  drivers/vfio/pci/vfio_pci_priv.h   |  23 +++
-> > >  include/linux/dma-buf.h            |   1 +
-> > >  include/linux/vfio_pci_core.h      |   3 +
-> > >  include/uapi/linux/vfio.h          |  19 ++
-> > >  9 files changed, 431 insertions(+), 5 deletions(-)
-> > >  create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
->=20
-> <...>
->=20
-> > > +static int validate_dmabuf_input(struct vfio_pci_core_device *vdev,
-> > > +				 struct vfio_device_feature_dma_buf
-> *dma_buf)
-> > > +{
-> > > +	struct pci_dev *pdev =3D vdev->pdev;
-> > > +	u32 bar =3D dma_buf->region_index;
-> > > +	u64 offset =3D dma_buf->offset;
-> > > +	u64 len =3D dma_buf->length;
-> > > +	resource_size_t bar_size;
-> > > +	u64 sum;
-> > > +
-> > > +	/*
-> > > +	 * For PCI the region_index is the BAR number like  everything else=
-.
-> > > +	 */
-> > > +	if (bar >=3D VFIO_PCI_ROM_REGION_INDEX)
-> > > +		return -ENODEV;
->=20
-> <...>
->=20
-> > > +/**
-> > > + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
-> > > + * regions selected.
-> > > + *
-> > > + * open_flags are the typical flags passed to open(2), eg O_RDWR,
-> > > O_CLOEXEC,
-> > > + * etc. offset/length specify a slice of the region to create the dm=
-abuf
-> from.
-> > > + * nr_ranges is the total number of (P2P DMA) ranges that comprise t=
-he
-> > > dmabuf.
-> > Any particular reason why you dropped the option (nr_ranges) of creatin=
-g
-> a
-> > single dmabuf from multiple ranges of an MMIO region?
->=20
-> I did it for two reasons. First, I wanted to simplify the code in order
-> to speed-up discussion over the patchset itself. Second, I failed to
-> find justification for need of multiple ranges, as the number of BARs
-> are limited by VFIO_PCI_ROM_REGION_INDEX (6) and same functionality
-> can be achieved by multiple calls to DMABUF import.
-I don't think the same functionality can be achieved by multiple calls to
-dmabuf import. AFAIU, a dmabuf (as of today) is backed by a SGL that can
-have multiple entries because it represents a scattered buffer (multiple
-non-contiguous entries in System RAM or an MMIO region). But in this
-patch you are constraining it such that only one entry associated with a
-buffer would be included, which effectively means that we cannot create
-a dmabuf to represent scattered buffers (located in a single MMIO region
-such as VRAM or other device memory) anymore.=20
-
->=20
-> >
-> > Restricting the dmabuf to a single range (or having to create multiple
-> dmabufs
-> > to represent multiple regions/ranges associated with a single scattered
-> buffer)
-> > would be very limiting and may not work in all cases. For instance, in =
-my
-> use-case,
-> > I am trying to share a large (4k mode) framebuffer (FB) located in GPU'=
-s
-> VRAM
-> > between two (p2p compatible) GPU devices. And, this would probably not
-> work
-> > given that allocating a large contiguous FB (nr_ranges =3D 1) in VRAM m=
-ay
-> not be
-> > feasible when there is memory pressure.
->=20
-> Can you please help me and point to the place in the code where this can
-> fail?
-> I'm probably missing something basic as there are no large allocations
-> in the current patchset.
-Sorry, I was not very clear. What I meant is that it is not prudent to assu=
-me that
-there will only be one range associated with an MMIO region which we need t=
-o
-consider while creating a dmabuf. And, I was pointing out my use-case as an
-example where vfio-pci needs to create a dmabuf for a large buffer (FB) tha=
-t
-would likely be scattered (and not contiguous) in an MMIO region (such as V=
-RAM).
-
-Let me further explain with my use-case. Here is a link to my Qemu-based te=
-st:
-https://gitlab.freedesktop.org/Vivek/qemu/-/commit/b2bdb16d9cfaf55384c95b1f=
-060f175ad1c89e95#81dc845f0babf39649c4e086e173375614111b4a_29_46
-
-While exhaustively testing this case, I noticed that the Guest VM (GPU driv=
-er)
-would occasionally create the buffer (represented by virtio_gpu_simple_reso=
-urce,
-for which we need to create a dmabuf) in such a way that there are multiple
-entries (indicated by res->iov_cnt) that need to be included. This is the m=
-ain
-reason why I added support for nr_ranges > 1 to this patch/feature.
-
-Furthermore, creating multiple dmabufs to represent each range of the same
-buffer, like you suggest IIUC is suboptimal and does not align with how dma=
-buf
-works currently.
-
->=20
-> >
-> > Furthermore, since you are adding a new UAPI with this patch/feature, a=
-s
-> you know,
-> > we cannot go back and tweak it (to add support for nr_ranges > 1) shoul=
-d
-> there
-> > be a need in the future, but you can always use nr_ranges =3D 1 anytime=
-.
-> Therefore,
-> > I think it makes sense to be flexible in terms of the number of ranges =
-to
-> include
-> > while creating a dmabuf instead of restricting ourselves to one range.
->=20
-> I'm not a big fan of over-engineering. Let's first understand if this
-> case is needed.
-As explained above with my use-case, having support for nr_ranges > 1 is no=
-t
-just nice to have but absolutely necessary. Otherwise, this feature would b=
-e
-constrained to creating dmabufs for contiguous buffers (nr_ranges =3D 1) on=
-ly,
-which would limit its effectiveness as most GPU buffers are rarely contiguo=
-us.
-
-Thanks,
-Vivek
-
->=20
-> Thanks
->=20
-> >
-> > Thanks,
-> > Vivek
-> >
-> > > + *
-> > > + * Return: The fd number on success, -1 and errno is set on failure.
-> > > + */
-> > > +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
-> > > +
-> > > +struct vfio_device_feature_dma_buf {
-> > > +	__u32	region_index;
-> > > +	__u32	open_flags;
-> > > +	__u64	offset;
-> > > +	__u64	length;
-> > > +};
-> > > +
-> > >  /* -------- API for Type1 VFIO IOMMU -------- */
-> > >
-> > >  /**
-> > > --
-> > > 2.50.1
-> >
+> On Thu, Jul 24, 2025 at 04:17:05PM +0530, Hardevsinh Palaniya wrote:=0A=
+> > Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.=0A=
+> >=0A=
+> > The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an=0A=
+> > active array size of 1920 x 1080.=0A=
+> >=0A=
+> > The following features are supported:=0A=
+> > - Manual exposure an gain control support=0A=
+> > - vblank/hblank control support=0A=
+> > - Test pattern support control=0A=
+> > - Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> >=A0 MAINTAINERS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0 =
+9 +=0A=
+> =0A=
+> This should be started as part of patch 1 as in between you will have a=
+=0A=
+> dangling file, which is not recorded in MAINTAINERS.=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > + * Inspired from ov8858, imx219, imx283 camera drivers=0A=
+> =0A=
+> Missing period at the end.=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > +#include <linux/array_size.h>=0A=
+> =0A=
+> + bitops.h=0A=
+=0A=
+Why??=0A=
+ =0A=
+> > +#include <linux/clk.h>=0A=
+> > +#include <linux/container_of.h>=0A=
+> > +#include <linux/delay.h>=0A=
+> > +#include <linux/device/devres.h>=0A=
+> > +#include <linux/err.h>=0A=
+> > +#include <linux/gpio/consumer.h>=0A=
+> > +#include <linux/i2c.h>=0A=
+> > +#include <linux/module.h>=0A=
+> > +#include <linux/mutex.h>=0A=
+> > +#include <linux/pm_runtime.h>=0A=
+> > +#include <linux/property.h>=0A=
+> > +#include <linux/regulator/consumer.h>=0A=
+> > +#include <linux/units.h>=0A=
+> > +#include <linux/types.h>=0A=
+> =0A=
+> > +#include <vdso/time64.h>=0A=
+> =0A=
+> We do not include vdso in the (regular) drivers. Use linux/time.h.=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > +struct ov2735 {=0A=
+> > +=A0=A0=A0=A0 struct device *dev;=0A=
+> =0A=
+> Do you need this? Can't it be derived from regmap cci below?=0A=
+=0A=
+I prefer keeping the dev pointer directly in the struct for simplicity=0A=
+and better readability. Using regmap_get_device(ov2735->cci) adds an =0A=
+unnecessary level of indirection, especially since dev is frequently =0A=
+used for logging, error handling, and regulator/device tree access. =0A=
+I would prefer to retain it. =0A=
+=0A=
+> > +=A0=A0=A0=A0 struct regmap *cci;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_subdev sd;=0A=
+> > +=A0=A0=A0=A0 struct media_pad pad;=0A=
+> =0A=
+> > +=A0=A0=A0=A0 struct i2c_client *client;=0A=
+> =0A=
+> Do you need this?=0A=
+> =0A=
+> > +=A0=A0=A0=A0 struct clk *xclk;=0A=
+> > +=A0=A0=A0=A0 struct gpio_desc *reset_gpio;=0A=
+> > +=A0=A0=A0=A0 struct gpio_desc *enable_gpio;=0A=
+> > +=A0=A0=A0=A0 struct regulator_bulk_data supplies[ARRAY_SIZE(ov2735_sup=
+ply_name)];=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 /* V4L2 Controls */=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl_handler handler;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl *link_freq;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl *pixel_rate;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl *hblank;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl *vblank;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl *gain;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl *exposure;=0A=
+> > +=A0=A0=A0=A0 struct v4l2_ctrl *test_pattern;=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 u32 link_freq_index;=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 u8 current_page;=0A=
+> > +=A0=A0=A0=A0 struct mutex page_lock;=0A=
+> > +};=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > +static int ov2735_page_access(struct ov2735 *ov2735,=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 u32 reg, void *val, int *err, bool is_read)=0A=
+> > +{=0A=
+> > +=A0=A0=A0=A0 u8 page =3D (reg >> CCI_REG_PRIVATE_SHIFT) & 0xff;=0A=
+> =0A=
+> ' & 0xff' part is redundant.=0A=
+> =0A=
+> > +=A0=A0=A0=A0 u32 addr =3D reg & ~CCI_REG_PRIVATE_MASK;=0A=
+> > +=A0=A0=A0=A0 int ret =3D 0;=0A=
+> =0A=
+> How is this assignment being used?=0A=
+> =0A=
+> > +=A0=A0=A0=A0 if (err && *err)=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return *err;=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 mutex_lock(&ov2735->page_lock);=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 /* Perform page access before read/write */=0A=
+> > +=A0=A0=A0=A0 if (ov2735->current_page !=3D page) {=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D cci_write(ov2735->cci, OV=
+2735_REG_PAGE_SELECT, page, err);=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ret)=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto err_=
+mutex_unlock;=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ov2735->current_page =3D page;=0A=
+> > +=A0=A0=A0=A0 }=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 if (is_read)=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D cci_read(ov2735->cci, add=
+r, (u64 *)val, err);=0A=
+> > +=A0=A0=A0=A0 else=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D cci_write(ov2735->cci, ad=
+dr, *(u64 *)val, err);=0A=
+> =0A=
+> Do you really need this castings?=0A=
+=0A=
+Do you really think this casting is unnecessary?=0A=
+=0A=
+Please check the definitions of cci_read/write=0A=
+=0A=
+without this, we can't even build the driver.=0A=
+=0A=
+> > +=0A=
+> > +err_mutex_unlock:=0A=
+> > +=A0=A0=A0=A0 mutex_unlock(&ov2735->page_lock);=0A=
+> > +=A0=A0=A0=A0 return ret;=0A=
+> =0A=
+> Hmm... Wouldn't be cleanup.h helpful here?=0A=
+>=0A=
+> > +}=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > +static int ov2735_write(struct ov2735 *ov2735, u32 reg, u64 val, int *=
+err)=0A=
+> > +{=0A=
+> > +=A0=A0=A0=A0 return ov2735_page_access(ov2735, reg, (void *)&val, err,=
+ false);=0A=
+> =0A=
+> Why casting?=0A=
+> =0A=
+> > +}=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > +static int ov2735_set_pll_ctrl(struct ov2735 *ov2735)=0A=
+> > +{=0A=
+> > +=A0=A0=A0=A0 struct ov2735_pll_parameters *pll_parameters;=0A=
+> > +=A0=A0=A0=A0 u8 pll_ctrl;=0A=
+> > +=A0=A0=A0=A0 u8 pll_outdiv;=0A=
+> > +=A0=A0=A0=A0 int ret =3D 0;=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 pll_parameters =3D &pll_configs[ov2735->link_freq_index];=
+=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 /* BIT[7]: pll_clk_sel, BIT[6:2]: pll_nc, BIT[1:0]: pll_m=
+c */=0A=
+> > +=A0=A0=A0=A0 pll_ctrl =3D ((pll_parameters->pll_nc << 2) |=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 (pll_parameters->pll_=
+mc << 0)) & OV2735_REG_PLL_ENABLE;=0A=
+> =0A=
+> Logically better to wrap like this (yes, I know that it's slightly longer=
+ than 80):=0A=
+> =0A=
+> =A0=A0=A0=A0=A0=A0=A0 pll_ctrl =3D ((pll_parameters->pll_nc << 2) | (pll_=
+parameters->pll_mc << 0)) &=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 OV2735_REG_PLL_ENA=
+BLE;=0A=
+ =0A=
+Will do.=0A=
+=0A=
+Could you please clarify what you mean by "logically better" in this contex=
+t?=0A=
+=0A=
+> > +=A0=A0=A0=A0 pll_outdiv =3D pll_parameters->pll_outdiv;=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 ov2735_write(ov2735, OV2735_REG_PLL_CTRL, pll_ctrl, &ret)=
+;=0A=
+> =0A=
+> > +=A0=A0=A0=A0 ov2735_write(ov2735, OV2735_REG_PLL_OUTDIV, pll_outdiv, &=
+ret);=0A=
+> > +=0A=
+> > +=A0=A0=A0=A0 return ret;=0A=
+> > +}=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > +=A0=A0=A0=A0 /* Apply format settings. */=0A=
+> =0A=
+> > +=A0=A0=A0=A0 /* Apply customized values from user */=0A=
+> =0A=
+> Define a single style for one-line comments and use it everywhere consist=
+ently.=0A=
+=0A=
+Are you referring to the period at the end of the comment?=0A=
+ =0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto error_power_off;=0A=
+> =0A=
+> ...=0A=
+> =0A=
+> > +=A0=A0=A0=A0 devm_pm_runtime_set_active_enabled(ov2735->dev);=0A=
+> > +=A0=A0=A0=A0 devm_pm_runtime_get_noresume(ov2735->dev);=0A=
+> =0A=
+> No error checks? What's the point to use devm and what will happen if the=
+ first=0A=
+> fails, for example?=0A=
+> =0A=
+> --=0A=
+> With Best Regards,=0A=
+> Andy Shevchenko=0A=
+=0A=
+With all due respect,=0A=
+=0A=
+I completely understand and appreciate the need for multiple rounds of revi=
+ew.=0A=
+However, where feasible, it would be helpful to receive style-related and =
+=0A=
+non-blocking comments earlier in the review process. Iterating on minor iss=
+ues=0A=
+in later versions, especially ones that could have been addressed together =
+=0A=
+earlier, can become a bit frustrating at times. I hope you can understand t=
+his =0A=
+perspective.=0A=
+=0A=
+Once again, thank you for your time and effort in helping improve the quali=
+ty=0A=
+of the driver.=0A=
+=0A=
+Best Regards,=0A=
+Hardev    =0A=
 
