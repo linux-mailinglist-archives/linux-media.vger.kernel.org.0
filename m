@@ -1,257 +1,100 @@
-Return-Path: <linux-media+bounces-38482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770FCB1235C
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 19:57:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7206B12389
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 20:07:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 653D6189398E
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 17:57:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D883117CB08
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 18:07:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF71E2EFDBE;
-	Fri, 25 Jul 2025 17:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4030428B3E2;
+	Fri, 25 Jul 2025 18:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GUoipYeI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iFgOFP4G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B8248CFC;
-	Fri, 25 Jul 2025 17:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B55324A05D
+	for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 18:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753466242; cv=none; b=INne48bsPD12/5Jior8Oull0yhQJs4htW4y318YpozR214F9kUY/O1ghI5SrZoAMyvkZ2Ea4djoxdgGZXIgsptfnrhH6INOZysE1ZiNUCcP7p4BLMXF+zpna0r8uFlCFk9T4JBjzDeDVFl/pnPcO8x+uITfd99ayAMUoCUczLQU=
+	t=1753466855; cv=none; b=s0tym3tpqiGoESs5L0P3CkbrSKATCQWmtQjwJJyja7e2CVCNMFNnlvvO2xZ/uYpnGQQW4FleZe49dNByjYwfN/izK3LShZK9Z3jSwmZAThocya8uT4k673AiuLOPYJ81dijuw1iww718Jjjh7B/CfLcuJ+KcenRQzyiTvrZOBkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753466242; c=relaxed/simple;
-	bh=5ldzZ9vyLUpLw7BH0/+el75YcJaK4n9pqdRVPuEkdaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXVEX6nQkbYZb2kG+SOusgIwiGuwF/Bd2EHu+2/8E2SRrEG1d7Ys5VIa43a+okXxZHbhPnwD8G8zqU4oKpXRZdtTSDqr+jPzZ3HcUDI+LgtNUTFewddpEsejBoHh/oXR3QQyPXstOGtbd7LrcK9EB+KxQIuIhizHDPK0QAPhxzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GUoipYeI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0FEA0C66;
-	Fri, 25 Jul 2025 19:56:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753466197;
-	bh=5ldzZ9vyLUpLw7BH0/+el75YcJaK4n9pqdRVPuEkdaQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GUoipYeI4r5hxShSrw8p3pKpANuUknHdeOB6tf2trLpU50/AJJHr2gSz0BvuCacl0
-	 0ntiCKiiL74GFeFu/Ve3GUvIUxwe9JPu+bCOJCB4aVY3Ls/b3dDYN3wABpEzw/GBgk
-	 YM80nWbUZ6egMPhVsFIE1V0L1aIEyGQr47DuN5Yo=
-Date: Fri, 25 Jul 2025 20:57:11 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Alice Yuan <alice.yuan@nxp.com>,
-	Robert Chiras <robert.chiras@nxp.com>,
-	Zhipeng Wang <zhipeng.wang_1@nxp.com>
-Subject: Re: [PATCH v3 2/4] media: nxp: add V4L2 subdev driver for camera
- parallel interface (CPI)
-Message-ID: <20250725175711.GA27425@pendragon.ideasonboard.com>
-References: <20250708-imx8qxp_pcam-v3-0-c8533e405df1@nxp.com>
- <20250708-imx8qxp_pcam-v3-2-c8533e405df1@nxp.com>
- <20250725000404.GW11202@pendragon.ideasonboard.com>
- <aIOk9W/RBKmS8uVQ@lizhi-Precision-Tower-5810>
+	s=arc-20240116; t=1753466855; c=relaxed/simple;
+	bh=mMyBH8XWCbLKY3CM1zh7K6TDls+3IaHkmuljUMmQ4cA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=QSLo2V4dZol6ijxuxiq+QJDxFIBJ2OeWcUPWzFNuMdSbvW7Pqf2eNrDVOuW72JqIu++krL7loaX5O48l4Ysuc+iL0I4RDu2ghwJX27ta1RuBhfef8JXYhLFXqJRWWPHX4Da1ZyX5LaGJnevcQDafixMzgn2H+VyPM6E3h5gBHsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iFgOFP4G; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32b50f357ecso22243161fa.2
+        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 11:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753466852; x=1754071652; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mMyBH8XWCbLKY3CM1zh7K6TDls+3IaHkmuljUMmQ4cA=;
+        b=iFgOFP4GmO2zHFN63PeeEschrKDK+kmzQkYwHD3haOKd2oJi2t9LyUeAQTPL2BSfrQ
+         4hIc2P9f6grkzmi3yzPwr9JGQUBg7KKr3AaRUS8wh43eD+/vCxZjPYGtJ+s8cP07n/3p
+         e5arIplHM4YNzltukIkmRjz85iX8PWb7jrKURlW8wJr6coE+DgFEQx5PHNMiiGbrX0vM
+         Aj5RQBnlgfDBYfmY4UGV9TJn/cpDJxhMYdwFZbgrKnahanlIjJSgf+RaxBc6uI1Qvsqb
+         T7I+fc9rtyxjj992/yus3Klcvx0qeGlJKq24AxnU3qArAMn9T+5Td+8ZJMNUrOuBF9v/
+         P6pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753466852; x=1754071652;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mMyBH8XWCbLKY3CM1zh7K6TDls+3IaHkmuljUMmQ4cA=;
+        b=hxj2HyC9vQ61SSWcpDn/eHF3AijeQSrtOz9XandJnEl1VWbDtu22TwZXnc9XLKaAqY
+         30TK2wVCOMX1P36h0Fm8Hqiy5n4llvz3lMIQJ4NX92gf++i6z0Nq85Zc1Gn3/M2dohbf
+         FZzZbTrj0nECafOL5EMJDPZ3wGaFVXjtaZR3lvvioxHzblbeZ4f8tGWYa1Aa8l+oxEGz
+         /uEIgjaPS5TZpwk2rQA1i1801iiXHrLE+o9q36NJghz7MVA6lP7/J5kq5oP/z+Ya64gV
+         1mmd+2DVXEJkHQ+GGEMLvzpLK/E4TLAx00OLY6hOsRjYfRAZnLYHkpRLjeFqnskychUi
+         3GGw==
+X-Gm-Message-State: AOJu0YwLRj9eaUn0fSC3zcWPacAqV7C1bpVghDK0BJGD3ydGbMOj/hGI
+	uGbrJzh5QG0Awbg67yFy1WdxMCzyWExTJ+Zytw7++qdgleyUBBaxlYD3hNLbGzMSlLXUlVOapmF
+	XGJqIHLdkWdWgkupI9FrOSAXAeoF449/fpa0/
+X-Gm-Gg: ASbGncs25apGpoySkmez62yMwifCtxNChKIRzjOc1RMZeLg7G4mLtpj3P7EFDP1YcOs
+	UMZWkkCVkMPGTIUfLiBcRV4JkFp1nJnIt8y/4rDLoHSv7CUlkHX3MLmlLla12NFmi9FV8B/xPBe
+	s2oxYJaVj3rxMm8BRyrV9iWBbWwaNjVEDigu3OKz0So9nmZPh8V7KfILdbz7pSmC7O1Vh4WF5WK
+	0apiH8mykESw1Wl9ZXnC6aP38iLLOIKG4A+yw==
+X-Google-Smtp-Source: AGHT+IERgpQfvXIsEDYi6hVuE27Xk6aRfttoQZ6MhGPv/tzKFhUSAhvOQvp1/wdmn9B/REOgUPqO8u4vsalItYHGARU=
+X-Received: by 2002:a2e:a552:0:b0:32b:488a:f519 with SMTP id
+ 38308e7fff4ca-331ee5fab0fmr8524141fa.6.1753466851802; Fri, 25 Jul 2025
+ 11:07:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aIOk9W/RBKmS8uVQ@lizhi-Precision-Tower-5810>
+From: Bobby Smith <bobbyx140x@gmail.com>
+Date: Fri, 25 Jul 2025 14:07:20 -0400
+X-Gm-Features: Ac12FXwh_MOhiUD4CdgyOe3YsNVNOT4HczAe4rGBdk3iAfWdUYq4WA41Jn8V_7M
+Message-ID: <CALp4EOq+awthKmy_Q3r-ts_hXN=AriHedODf2taCaTGr1P5Rqg@mail.gmail.com>
+Subject: Unknown Card
+To: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 25, 2025 at 11:38:29AM -0400, Frank Li wrote:
-> On Fri, Jul 25, 2025 at 03:04:04AM +0300, Laurent Pinchart wrote:
-> > Hi Frank,
-> >
-> > Thank you for the patch.
-> >
-> > On Tue, Jul 08, 2025 at 01:48:43PM -0400, Frank Li via B4 Relay wrote:
-> > > From: Alice Yuan <alice.yuan@nxp.com>
-> > >
-> > > Add a V4L2 sub-device driver for the CPI controller found on i.MX8QXP,
-> > > i.MX8QM, and i.MX93 SoCs. This controller supports parallel camera sensors
-> > > and enables image data capture through a parallel interface.
-> > >
-> > > Signed-off-by: Alice Yuan <alice.yuan@nxp.com>
-> > > Signed-off-by: Robert Chiras <robert.chiras@nxp.com>
-> > > Signed-off-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > > change in v3
-> > > - replace csi with cpi
-> > > - use __free(fwnode_handle) to simpilfy code
-> > > - remove imx91 driver data, which is the same as imx93
-> > >
-> > > change in v2
-> > > - remove MODULE_ALIAS
-> > > - use devm_pm_runtime_enable() and cleanup remove function
-> > > - change output format to 1x16. controller convert 2x8 to 1x16 format
-> > > ---
-> > >  MAINTAINERS                                   |   1 +
-> > >  drivers/media/platform/nxp/Kconfig            |  11 +
-> > >  drivers/media/platform/nxp/Makefile           |   1 +
-> > >  drivers/media/platform/nxp/imx-parallel-cpi.c | 920 ++++++++++++++++++++++++++
-> > >  4 files changed, 933 insertions(+)
-> > >
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 8ae0667d2bb41fb6a1549bd3b2b33f326cbd1303..14842a3b860a6f23846f12a684eedcbb9eb69e19 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -15112,6 +15112,7 @@ F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> > >  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > >  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> > >  F:	drivers/media/platform/nxp/imx-mipi-csis.c
-> > > +F:	drivers/media/platform/nxp/imx-parallel-cpi.c
-> > >  F:	drivers/media/platform/nxp/imx7-media-csi.c
-> > >  F:	drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> > >
-> > > diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
-> > > index 40e3436669e213fdc5da70821dc0b420e1821f4f..504ae1c6494f331c16124a224421ac7acd433ba5 100644
-> > > --- a/drivers/media/platform/nxp/Kconfig
-> > > +++ b/drivers/media/platform/nxp/Kconfig
-> > > @@ -39,6 +39,17 @@ config VIDEO_IMX_MIPI_CSIS
-> > >  	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
-> > >  	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
-> > >
-> > > +config VIDEO_IMX_PARALLEL_CPI
-> > > +	tristate "NXP i.MX9/i.MX8 Parallel CPI Driver"
-> >
-> > I'd write it in numerical order, "i.MX8/i.MX9"
-> >
-> > > +	depends on ARCH_MXC || COMPILE_TEST
-> > > +	depends on VIDEO_DEV
-> > > +	select MEDIA_CONTROLLER
-> > > +	select V4L2_FWNODE
-> > > +	select VIDEO_V4L2_SUBDEV_API
-> > > +	help
-> > > +	  Video4Linux2 sub-device driver for PARALLEL CPI receiver found
-> > > +	  on some iMX8 and iMX9 SoCs.
-> > > +
-> > >  source "drivers/media/platform/nxp/imx8-isi/Kconfig"
-> > >
-> > >  # mem2mem drivers
-> > > diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
-> > > index 4d90eb71365259ebdda84ea58483e1c4131d3ac7..5346919d2f1083b51ec99b66981c5d38b3df960c 100644
-> > > --- a/drivers/media/platform/nxp/Makefile
-> > > +++ b/drivers/media/platform/nxp/Makefile
-> > > @@ -7,5 +7,6 @@ obj-y += imx8-isi/
-> > >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> > >  obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
-> > >  obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
-> > > +obj-$(CONFIG_VIDEO_IMX_PARALLEL_CPI) += imx-parallel-cpi.o
-> > >  obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
-> > >  obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
-> > > diff --git a/drivers/media/platform/nxp/imx-parallel-cpi.c b/drivers/media/platform/nxp/imx-parallel-cpi.c
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..718f02bf70c4d0ae74ecf842c1ecb1a1afbcdd45
-> > > --- /dev/null
-> > > +++ b/drivers/media/platform/nxp/imx-parallel-cpi.c
-> > > @@ -0,0 +1,920 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * i.MX Parallel CPI receiver driver.
-> > > + *
-> > > + * Copyright 2019-2025 NXP
-> > > + *
-> > > + */
-> > > +
-> > > +#include <linux/bits.h>
-> > > +#include <linux/clk.h>
-> > > +#include <linux/debugfs.h>
-> >
-> > I don't think you use this.
-> >
-> > > +#include <linux/delay.h>
-> > > +#include <linux/errno.h>
-> > > +#include <linux/interrupt.h>
-> >
-> > I don't think you use this either.
-> >
-> > > +#include <linux/io.h>
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/mutex.h>
-> > > +#include <linux/mfd/syscon.h>
-> >
-> > Alphabetical order please.
-> >
-> > > +#include <linux/of.h>
-> > > +#include <linux/platform_device.h>
-> > > +#include <linux/pm_domain.h>
-> >
-> > This doesn't seem needed.
-> >
-> > > +#include <linux/pm_runtime.h>
-> > > +#include <linux/regulator/consumer.h>
-> > > +#include <linux/reset.h>
-> >
-> > Same here.
-> >
-> > > +#include <linux/spinlock.h>
-> >
-> > And here. Please verify all headers, drop the ones you don't need, and
-> > add any you may have forgotten. That includes the media/ headers.
-> 
-> Do you have good method to check it?
+Im attempting to install debain-12.11.0-i386 onto a Tohsiba Qosmio
+G35-AV600 and am getting the below error. It flashes for a second or 2
+then the screen goes black and hangs.
 
-There are tools such as include-what-you-use, but I haven't tested that
-one with the kernel.
+This is a fresh install with no desktop environment. This laptop is
+very old I can't imagine the card is unknown
 
-> > > +
-> > > +#include <media/v4l2-common.h>
-> > > +#include <media/v4l2-device.h>
-> > > +#include <media/v4l2-event.h>
-> > > +#include <media/v4l2-fwnode.h>
-> > > +#include <media/v4l2-mc.h>
-> > > +#include <media/v4l2-subdev.h>
-> 
-> ...
-> 
-> > > +
-> > > +	/* Software Reset */
-> > > +	imx_cpi_sw_reset(pcpidev);
-> > > +
-> > > +	/* Config PL Data Type */
-> > > +	val = readl(pcpidev->regs + pdata->if_ctrl_reg);
-> > > +	val |= IF_CTRL_REG_DATA_TYPE(DATA_TYPE_OUT_YUV444);
-> >
-> > Don't you need to clear the field first ? Same everywhere else where
-> > applicable.
-> 
-> imx_cpi_sw_reset() clean all register.
-
-OK. I wonder if you could then replace some (most ? all ?) of the
-read-update-write sequences with plain writes.
-
-> > > +	writel(val, pcpidev->regs + pdata->if_ctrl_reg);
-> > > +
-> > > +	/* Enable sync Force */
-> > > +	val = readl(pcpidev->regs + pdata->interface_ctrl_reg);
-> > > +	val |= (CPI_CTRL_REG_HSYNC_FORCE_EN | CPI_CTRL_REG_VSYNC_FORCE_EN);
-> > > +	writel(val, pcpidev->regs + pdata->interface_ctrl_reg);
-> 
-> ....
-
--- 
-Regards,
-
-Laurent Pinchart
+/dev/sda1: recovering journal
+/dev/sda1: clean, 40212/4521984 files, 794811/18067968 blocks
+[17.888585] cx18-0: Unknown card: vendor/device: [14f1:5b7a]
+[17.888651] cx18-0: subsystem vendor/device: [1179:0010]
+[17.888713] cx18-0: Defaulting to Hauppauge HVR-1600 card
+[17.888771] cx18-0: Please mail the vendor/device and subsystem
+vendor/device IDS and what kind of
+[ 17.888835] cx18-0: card you have to the linux-media mailinglist
+(www.linuxtv .org)
+17.888896] cx18-0: Prefix your subject line with [UNKNOWN CX18 CARD].
+18.150139] cx18-0: Invalid EEPROM
 
