@@ -1,205 +1,306 @@
-Return-Path: <linux-media+bounces-38443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38444-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349EAB11A7C
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:05:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DAAEB11A7E
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:05:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1AAAB1891F4A
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 09:05:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49EF03AFFCB
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 09:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 289BE272800;
-	Fri, 25 Jul 2025 09:05:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90A38273811;
+	Fri, 25 Jul 2025 09:05:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hg1qmCkR"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="pSikeqVh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CE51FF7BC;
-	Fri, 25 Jul 2025 09:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753434328; cv=fail; b=aJeT+KCMmHgIgA+wia7MRI6M+w7BvQFuoRMB5KOlOweuu0Cx43Q+dhFSc2TPFr1MmFftxAebdCcwRB9ovU46s8YQOXxCcPTr5vAF9LLFGMX69PNz5TLGSGNyQFQy4sQEL9O63CUqpokwIXPofB0rwnNk/GQUGXq15bzL6gxwZF8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753434328; c=relaxed/simple;
-	bh=RAa7PYhnIwph6G8zY14fexT+rZspIoOllM0/WyHs48k=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=G7VBqya0lNt7X5HQoLs85RTVgDsWn1e5a3QeFd4i4WylkE9oLf76dgV4ERA/Uk1hEpdyEcRYj6AaeOjf079AvTnEY5NQRmSB24sFwg47kIghsM+nV+vRyGV7Du038SgUp4BK7Mmr1OUalfxUndZIz8SCCOSygILJ4B9+OgRYbU4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hg1qmCkR; arc=fail smtp.client-ip=40.107.243.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y/OYnHMQy0vLh7pIikPGisdfgWJhdJjFKdE09ehFro027RY345Mo4cw/j8zgc3VlF+YsvQ0Gx022qeeXaxn9inoUj+IrZLwnEUZP1pd1uCw5IEi/wy14TLop1aafH1QCUY5z1VxzBIvz041bHlTrs6Sd03PjosZ6gWNAFqzxXUQncbuXLwCgmzDEF6ZrqiA0MbFrU+xZXo0hfUT+ot0MA+nhlUiLRZNQeRw39gN6bPZf7/v4B8j6U6G2HYIB9XjE6yal+kIdJ+k0REk5hOsuIqb59aiKzQ7gO4CKTYj68LOB+5w0IRbXD0JRSd/+71GO39mLT9necfniB14xd2h1bQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iW5MdC1qQZEHt9G2g2vcwnIVq6TdZN07GJ+DLSsSQqI=;
- b=joE73XkJizVl+DWWAn/Hg9qmy6jMzVy7gdzsXM3V77Ga22pvG8WVSzXscIBBWZ7pNkQdrdIPVh1CRkgDBWts/mO7URsh3exKgMgM+o7cZha2noCmg+lQc6GIK1l9o4rfPUKRMJO+l2oeCzazVjU6P08zhRpL/Q21z+baFaWJaPyV/iXim5f/Ap51yvKglQNg8N/QjLKLxmi/HsDX3BSdYACM8ZC60f0eu2T3yY/E9OFK6Y2dZfDTDm/U6B+DH6nFy4bSGHm88FJCWN0Dm4YOsh++JxmtIOhxm2u/jgOhiv7IkNWycnuK7x7xd3fZrEtfx2f3xk9UHqR2IQKYBrgxfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iW5MdC1qQZEHt9G2g2vcwnIVq6TdZN07GJ+DLSsSQqI=;
- b=hg1qmCkRLaLe0UQK2r0ACGSP5qdrCIujGwfEvdABm3nfgoKGlbjH8kOgFg+TopmdEKh9i7+ngv9ZlcMKertWthBommr/5062JMlxSZlvjocPS3aFc0gx3flAFpP6aFFXOiSKsNqnuAZoc3uAfbmokDHv0n/JCXQLnaBrgaA3RC8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13)
- by BN7PPF683A477A9.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6d3) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Fri, 25 Jul
- 2025 09:05:18 +0000
-Received: from PH8PR12MB7446.namprd12.prod.outlook.com
- ([fe80::e5c1:4cae:6e69:52d7]) by PH8PR12MB7446.namprd12.prod.outlook.com
- ([fe80::e5c1:4cae:6e69:52d7%3]) with mapi id 15.20.8964.021; Fri, 25 Jul 2025
- 09:05:14 +0000
-Message-ID: <6cbf96ec-67a2-44c1-84ec-57ca0582a0de@amd.com>
-Date: Fri, 25 Jul 2025 17:05:06 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] media: platform: amd: isp4 video node and buffers
- handling added
-To: Sultan Alsawaf <sultan@kerneltoast.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
- sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
- gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
- Svetoslav.Stoilov@amd.com
-References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-7-Bin.Du@amd.com> <aIEiJL83pOYO8lUJ@sultan-box>
- <aIHBO_2-hKWgb8Dq@sultan-box>
-Content-Language: en-US
-From: "Du, Bin" <bin.du@amd.com>
-In-Reply-To: <aIHBO_2-hKWgb8Dq@sultan-box>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR02CA0018.apcprd02.prod.outlook.com
- (2603:1096:4:194::18) To PH8PR12MB7446.namprd12.prod.outlook.com
- (2603:10b6:510:216::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07ADF2737E5;
+	Fri, 25 Jul 2025 09:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753434333; cv=none; b=XXoEEzKptDomGJb4duWZEWcMnyciA5eHrjWAxVVFcKCF65DrBIZAWxRlx79a1LhU3n+G2Lb4XOmaibGy4trDgxK0vaRKVaOMQbl6n6ztwlPuZByns28ksMEG9Hp6fPLh1mUdyt/miweDnNouh4MbEAA/KYXVYUJneF4DFX8PwKU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753434333; c=relaxed/simple;
+	bh=Vgafa3vbljfQRNzyc9Mb8JSo2I+9EP9jfVb0WOnptHU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=RxzUBy+z2ncL/V4n5T1SofAiA48kCH3+MMZhcFISJBLDD6CoJQSKggTs9+QaVmWRSohORJzoOKdNL++deq0sVveFAJZqiI8I2aeJpjkgTgjP5vNgYJ/dDpp9MBtSUlp9n3/13pr7GsYFK3t9e66sM08CjJJwVP80Dq61NpBRrZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=pSikeqVh; arc=none smtp.client-ip=185.233.34.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
+Received: from smtp.freedom.nl (unknown [10.10.4.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by dane.soverin.net (Postfix) with ESMTPS id 4bpMQw6Jk9z10nF;
+	Fri, 25 Jul 2025 09:05:28 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4bpMQw2wHCz7P;
+	Fri, 25 Jul 2025 09:05:28 +0000 (UTC)
+Authentication-Results: smtp.freedom.nl;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=pSikeqVh;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
+	s=soverin1; t=1753434328;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Pullx83NlaIpxJg6m+vDjhNOh5Jd1i42EPX4CAcQhro=;
+	b=pSikeqVhVsfiOhiCgZc1z4GJKwfAHeq6DIcOyrSD4I/cll1WkgCjaskzwUS3ktvctYuPqR
+	y1PYRiOoHuo5Lfnpa2oscfc4znrRfi6Qt6drQif1Ho5LEyS1nvSpQl422T/acz6CRDbg0a
+	t9wD8XB9AJeQuQaBmMzxC91v4PYds8yGZfqULWk8rCvaftrquPE4lVigByQyvHhR+k9nNE
+	X1Gmr6R7bBjz1r0Ws0wbyaJIoIT1gaMZeXDoAdNcpo1lXUtBMN4VAGggke8AO2bwvgXuhM
+	7RztSUCa5lYxW7AtEL9oRcUHqR7RrVV86VYrgblYLvUusdGwByaJ107/T/behg==
+X-CM-Analysis: v=2.4 cv=d/oPyQjE c=1 sm=1 tr=0 ts=688348d8 a=IkcTkHD0fZMA:10 a=NEAV23lmAAAA:8 a=8AirrxEcAAAA:8 a=vWrmB23aV7b_PkFYOm0A:9 a=QEXdDO2ut3YA:10 a=ST-jHhOKWsTCqRlWije3:22
+Message-ID: <8d452d63-b52b-4cda-acf0-14deeb81d65e@jjverkuil.nl>
+Date: Fri, 25 Jul 2025 11:05:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7446:EE_|BN7PPF683A477A9:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0f8d0af-3a03-4f6e-d78a-08ddcb5a5e1f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cEoxZ0xoTXYxbWN3QzVUTHFXSFlqM25jUFgvTnRtNFB0Umk2YmJEbTlibERm?=
- =?utf-8?B?dVpuRGNhNVhqeE9ndmtQbThYREQ3TUZ6UVd6RTc2SjVMeGJVdjlFRnd3SGJP?=
- =?utf-8?B?Q1JtZHZQKzdGWCtiU0xhZlp4bm1CWHVIYmUyZ1dRY0NKQ1RodkJHMGxPZHdt?=
- =?utf-8?B?c0ptSkc2QnQxa0Y3RU9wV0ozMXFFYWZjaml2cjJjY1NwOTF5b0kzOFFPdW5T?=
- =?utf-8?B?OTM4VExwbDhnRlN1WGN6ampMM3puVUVjc1A5YUxnajR3MUttZXVCd2V2cy91?=
- =?utf-8?B?TnJRekM0RXRSeWlNZVpIMmNWNWVVQlJxUjk0UFh0ZzdPS3pRa0dzOEdlcU5S?=
- =?utf-8?B?SGUzUmVJQkQvRmh1MU1zWWUyWmRQZXorcFNhUjB2d1dLaGdJTDFlZnFwK1BZ?=
- =?utf-8?B?RnFvaXpUdXRlUnBoRmpQaGZvK1F3WWNvMG9WR0MwYmQyVDFHZDRoRzZ1WlR3?=
- =?utf-8?B?cUtMSU8zNzZRdWEvV0pkNDlrbXFQL3BwYm9xZG9qbzRBbHJ5azZKWXFpeXk2?=
- =?utf-8?B?WVQvZ2FCNGZ4MGNzVlBUODhuVkJrRUswcnZ5UW1VSDNpdWxrZmRGcG0xTzNj?=
- =?utf-8?B?aWtxU2VtcTM0UjhlVys0Q0tXRFk1OE9NblBvR3Y3K1hKd1ZpNlV1MXJHY2NE?=
- =?utf-8?B?a3ZORFpCekcyWlR2bm9DaDJEYXZ3ZjVFZzJYRDhDMko3OEwvQ0ZjekEvTWhj?=
- =?utf-8?B?a0dFZHBOc3dEWUNiS01iTWZzM25JQVN6SnJJOHpFcXFWRTNxbi9OUDdBTXdV?=
- =?utf-8?B?MHdMbVRoM2N6WFFXYjRVL1BmVUpPaXFhVTd0eFZicnNKK1V3cGZBb3I1SlBh?=
- =?utf-8?B?N29vMUJqOHhpYUNuS1gxUWQ1bHdZa0lHdFBlRlZmWGtZU09TaGhudUdYQ1NT?=
- =?utf-8?B?cW5xdExaWWd5cW52UEhwckIxbE1Xb28xa3hIbFdQTWNuL1hBbUpyZHpwMHAv?=
- =?utf-8?B?NEppSVpyZFdMTFl6UFBIMUVjTjNGMnkxMDdoem1CYmRIeHVuS1AwZGwreHBH?=
- =?utf-8?B?VHdEYkZaY2NLL3RYZWNuR0dMMmJCajArOFRkMUF2cUptVTFhZkVJcUFzUDQ2?=
- =?utf-8?B?czJEcHltdFlMRUsrWVJGbCtjVEtNU0R3bWNrdXZyYlNoMU9Xa2dERjJYM3hv?=
- =?utf-8?B?NkI4YzNEdklIckFBWmxlNk5qeXlnb2YrZkNOenQrQ3kwUW1qM0dzY1hvWlpE?=
- =?utf-8?B?VTVCYUF1YWxLazZoaDNJK1FDZU52eUpzemhLSWdseVpVMU0zTXpidG1KZmlU?=
- =?utf-8?B?OGsrTmZMMmZJZDZuUWlJeDlyc2JqMlM3VDBuTmhtd3MvL3BzWTZSQTIrajQx?=
- =?utf-8?B?K1hTUUVnb1pZdnFPQ2VoaGNwRFpOaVF0QXY1Tk9tUTRPU3p1bFVYSFExVmll?=
- =?utf-8?B?V29IQlZRdzBQNVNtOFpvKy8wRnF3c3padzNBQTRndkUrUzJ1d3hlY1lOMTlM?=
- =?utf-8?B?MDY3Zkt4akM0Qi9HVWhLYmxsb1BUd2ZoRjFrSmFwK294N0IzQTR6TnNvclJm?=
- =?utf-8?B?aWJTcUZhKzBvcDQzVVBHUGxuaUhGWklUdHErYU9PeEVja0lXUk1sNkVldjAx?=
- =?utf-8?B?ZWNyeHlLZWJ5MGVUbVRTMHExRW0yMHR2R1QxNU05cTJaZVdyRHBuUEMzVTc3?=
- =?utf-8?B?OWN4SDBQSFV0aHZtZlVTUEFVN3hVTS9iR1R0WlFWOUdxMEc1aENnYU5sWnpD?=
- =?utf-8?B?dFdISUNzbkl0VnBidElmcXFTRlpGeWEyZ3pxZUlKWmFlSy94anZkS3Uydlky?=
- =?utf-8?B?b1VNT2UyT0dZTU9JWVlyVlhFSC9UZklYREh5S08wTCt3c21GMnhMUUxsWmlD?=
- =?utf-8?B?Slc4QkoxdnVQekwrY2hLbERFMHAxZU1uY2FZNXpQbWxCR3Fmb28zWnZ6MHd5?=
- =?utf-8?B?bDZTRTVyenYzYzFBRGFKYVhmZE5ZVnJDS2xjR2pYbUx0WDg0aVhXV0NqbS9j?=
- =?utf-8?Q?R1WLb28WzLE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7446.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SittU0xpRlNFcUJtOTFleDcrWlV3emc2Q3FZZVZINExiRUR5OFpRbUNMMWZq?=
- =?utf-8?B?bmxWSERyNFJNZ1NuTWJ3ekZ1QmUySm5iK05Xbk5oVVVoWndQZTNaM2t0R1FH?=
- =?utf-8?B?aFg3WHZ1RU5QU09ZVUp5UmhGWlU4WU1oN0JaTFJlZy9XVmhHMWdXWjZ5blJD?=
- =?utf-8?B?c1hKYjFKMDhEeTR3RFFFelFHb3NhdXNLN0g5ViswcVBwOFF6NWJySDB4SVJT?=
- =?utf-8?B?WjZsb2NnOWk1blo4UWpjTjNBZ0xPRjdKb21kaHZEMWFvRS9JQjZoSk5RRWdH?=
- =?utf-8?B?SzhzUkN5TFVtcWZETWZHc0lJRmdCc1VMajhzeWgvZDZ2N002ZXN4MUJ0RXNY?=
- =?utf-8?B?dG5DWjRRcGp3SHl4YW5MZUw4bnZ6cU4zV2FBZ3ZIQnBVMWcwc3J6aU5EWVVV?=
- =?utf-8?B?SEJVYUV0aW14TGJpQzUwY1kvL2NwdzJOWUtRblgrcEMwY1hMNnBPRzgyREQr?=
- =?utf-8?B?Nk8zZXRpRWxMTW1pM3Z0a2psYnUxMlZ5eEttd0hBbVR1aEs0Um1KaUMvcGxO?=
- =?utf-8?B?RXRURDJ6WGcwd3d4SjJsYm1FYVdFS0hLS3p5R2NRRjVUVE1maUFOWWVFNXJC?=
- =?utf-8?B?TnkrR091WU1lb25pV0laMHBXNGpBSXlmMTUzVlU0bGFWckIxZ3MrenYrNDQr?=
- =?utf-8?B?Q2ZjV0lvUnE1dWpKcG80OHBYK2xjd1o1bFgvRndnK2hVaGVJcXJJQkhRRExj?=
- =?utf-8?B?UTM0aXc4bVBsZStEVUZtSU5NVGZuc3RWOXNPdm56VzBRQlVNVUZqbjEvello?=
- =?utf-8?B?Z2kxbG5YMVJFQURzOTY1dXdqUkFrNDByTXhhTGpicFVnbzN0MVZKQVJsMENJ?=
- =?utf-8?B?L0FvVHhDcmJTa045NHNwRUtzd2hmK2dmU0NrRzdmYjAyTHZuczZwYUdGV1Aw?=
- =?utf-8?B?d0RkdlNPR3pxN29QenZvcjI5Skk5U1I4MS9qVytKRjBaeHFOK0daQzQ5bkJS?=
- =?utf-8?B?eXZ3MUlzdkl2ZmxZYXlRSGdRL0pUSHVFZDJpZzk2QUVKVVNuZ3ZqelR1ekpK?=
- =?utf-8?B?NnZnUGhNcUpGTk02akpzbWpiL0J0WFI0T0ltMHE1N3N6bmgvaWdCcmZwRlhp?=
- =?utf-8?B?QitxalFSMjVxY1JjL0JDeGdNeEszZFM4Mmwxa1pWcm4waXQ0WE5Xc0w3WGFB?=
- =?utf-8?B?MWI3SVo3YkRMejh3UFlFb3pMWDBXZGdWTmFHWVl5bE10alhiR0hxWVZ1K1FD?=
- =?utf-8?B?eU52UTAzN0NRcTBkaGpvZFA2Y241VkVvbXpLUTZuazMyNkUrV0NjMkY5QWo5?=
- =?utf-8?B?TWdtVjhCTmRxTEhIVVMrbUZPYlg1V0k2SElCd3hjR2pJb2FOTDB4QllheFFR?=
- =?utf-8?B?T0tNUTFydGtXV2xQOS9BdkUrNWhmTmZDdVpQME56d0dOL2JXU3FCaTNnMVM1?=
- =?utf-8?B?RThNN1ZORkFOQ0Q1ZUZBbUEzT3RoZzBLeGYrZ1ZLUmlmR0tZMzJNODIxbDly?=
- =?utf-8?B?a3NkRlV6eVNBYjhRbm5aaEtObndQWkJzVURBWVhwN3hvQnBWcEVLRm1VeUZC?=
- =?utf-8?B?UkpmZVUxY3RLeFQ5VjBPN0tMR1FPRHNtZ3ozUnViRzZ2WHowb1FOWE1pbHBl?=
- =?utf-8?B?K1JHbWVhbXEzSUt2Q0JweXNkLzVxZ3BXbmZ6bEpmTExBbU5IdTJJYm1EZEJ6?=
- =?utf-8?B?QWNqT0x5YTRWQnVuMUJoUDdQY1AyS1lIbEZaMGZ6ZkUrSHZJNVFnQkxQVlEw?=
- =?utf-8?B?M243eE5rRnl3U1hxekx3NUNZRmtSL0NTNUpTYm5SWHM2dGdXdDFnVUhqMVJR?=
- =?utf-8?B?b21rRDM2RTRuNVJmeHR2TG5HMkZ1WUZnaFhQYjlTWHNYRFB6SXdYYnhBMlkw?=
- =?utf-8?B?dkpWQzZoeU5YaklnZUZnUlVROXJrZHNVRGVNaXpBTGsvckdSWS9tQ3lsUzcx?=
- =?utf-8?B?RUpzQ1VGcUNHR2RreXFCNWhJZ3JEbFVsTG4ya0hweTNCVTZVZEJKa2NOMlNi?=
- =?utf-8?B?NGl2cTZFaWovVG5UcVlySjNhV0g0Vnc3QzJJdFRqSnJ1Znhpemh0QW9WNG1s?=
- =?utf-8?B?SFhMR2YwSFVhdkF5S25mZ3JxaDJlaFBndHViWG5jU2Z1ME5RVnZaeEI1Qm1l?=
- =?utf-8?B?bTd5N3d6VTJZTk1DejBla2NYNzNkc3daMzY5MStoc1lpdnVDWjZUWnpsSlpK?=
- =?utf-8?Q?ztzY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0f8d0af-3a03-4f6e-d78a-08ddcb5a5e1f
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7446.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2025 09:05:14.5946
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zXGZ0gJorfxC7l4sSc0I3cJ1n8/WE4fB6ejOA0cPBKNYPaasEP5mCsKoS26Rsv8Y
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF683A477A9
+From: hans@jjverkuil.nl
+Subject: Re: [RFC 2/2] Documentation: media: Describe exposure and gain
+ controls for multiple captures
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, ribalda@chromium.org, jai.luthra@ideasonboard.com,
+ laurentiu.palcu@nxp.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, LnxRevLi@nxp.com, julien.vuillaumier@nxp.com,
+ celine.laurencin@nxp.com
+References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
+ <20250710220544.89066-3-mirela.rabulea@nxp.com>
+ <20250716000738.GF19299@pendragon.ideasonboard.com>
+ <fcb87e2d-5ddf-4f33-b5f7-5af67c438af5@nxp.com>
+ <20250723134942.GC6719@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+Autocrypt: addr=hans@jjverkuil.nl; keydata=
+ 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
+In-Reply-To: <20250723134942.GC6719@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spampanel-Class: ham
 
-Thanks Sultan, never mind.
+On 23/07/2025 15:49, Laurent Pinchart wrote:
+> On Sun, Jul 20, 2025 at 10:02:13PM +0300, Mirela Rabulea wrote:
+>> On 7/16/25 03:07, Laurent Pinchart wrote:
+>>> On Fri, Jul 11, 2025 at 01:05:44AM +0300, Mirela Rabulea wrote:
+>>>> The standard controls for exposure and gains allow a
+>>>> single value, for a single capture. For sensors with HDR
+>>>> capabilities or context switching, this is not enough, so
+>>>> add new controls that allow multiple values, one for each
+>>>> capture.
+>>>
+>>> One important question not addressed by this patch is how the new
+>>> controls interact with the old ones. For instance, if a sensor
+>>> implements 2-DOL, it should expose a V4L2_CID_EXPOSURE_MULTI control
+>>> with 2 elements. Should it also expose the V4L2_CID_EXPOSURE control,
+>>> when operating in SDR mode ? What should happen when both controls are
+>>> set ?
+>>
+>> Yes, it's a good point. I experimented with the option of implementing 
+>> both, at least for backward compatibility (libcamera requires them) and 
+>> kept them consistent, I mean if V4L2_CID_EXPOSURE_MULTI values change, 
+>> also change V4L2_CID_EXPOSURE and viceversa, so basically keep 
+>> consistent the values from V4L2_CID_EXPOSURE with the values for the 
+>> first exposure from V4L2_CID_EXPOSURE_MULTI. Also, I had to check if hdr 
+>> mode is not enabled, do nothing in s_ctrl for V4L2_CID_EXPOSURE_MULTI 
+>> (cannot return error, as it will make __v4l2_ctrl_handler_setup fail).
+>>
+>>> There are also sensors that implement multi-exposure with direct control
+>>> of the long exposure, and indirect control of the short exposure through
+>>> an exposure ratio. The sensors I'm working on support both, so we could
+>>> just ignore the exposure ratio, but if I recall correctly CCS allows
+>>> sensors to implement exposure ratio only without direct short exposure
+>>> control. How should we deal with that ?
+>>
+>> I'm not sure I understand, but in case of indirect short exposure 
+>> control I think we do not need these multiple exposure controls, we can 
+>> use the existing ones, as only the value for the long exposure is 
+>> needed, the driver can derive the value for the short exposure using the 
+>> ratio.
+> 
+> I'm talking about sensors that implement the CCS exposure ratio, or a
+> similar mechanism. With those sensors, the long exposure time is set
+> directly, and the short exposure time is calculated by the sensor by
+> dividing the long exposure time by a ratio. The ratio is programmed by
+> the driver through a register. The ratio could be set to a fixed value,
+> but I think there are use cases for controlling it from userspace.
+> 
+> Some sensors support both direct control of the short exposure and
+> indirect control through a ratio, while other may support indirect
+> control only. For the sensors that support both, we could decide to only
+> expose the multi-exposure control with direct control of the short
+> exposure. For sensors that support indirect control only, we need to
+> define an API. We could possibly still use the same multi-exposure
+> control and compute the ratio internally in the driver, but there may be
+> a better option.
+> 
+>> In some cases, this may be enough, but when direct individual 
+>> control is needed for both long and short exposure, then we need the 
+>> multiple exposure controls. Do you have a specific sensor example in mind?
+>> I think in the past we looked at imx708, and my understanding was that 
+>> the exposure control affects only the long exposure and the sensor will 
+>> automatically divide the medium and short one with the corresponding ratio:
+>> https://github.com/raspberrypi/linux/blob/rpi-6.12.y/drivers/media/i2c/imx708.c
+> 
+> The ratio seems configurable. Register 0x0220 is programmed to 0x62,
+> which selects ratio-based control of the exposure. I don't know if the
+> sensor supports direct control of the short (and very short) exposure.
+> 
+>>> Finally, I was recently wondering if it would be possible to reuse the
+>>> existing controls instead, allowing them to be either single values or
+>>> arrays. The idea would be that setting the control to a single value
+>>> (essentially ignoring it's an array) would provide the current
+>>> behaviour, while setting values for multiple elements would control the
+>>> separate exposures.
+>>
+>> You mean to divide the 32 bits value of the current controls between the 
+>> multiple exposures?
+>> Just one comment here, we have encountered the ox03c10 sensor with 4 
+>> exposures (that will leave only 8 bits per exposure), and the ox05b1s 
+>> sensor with context switching and the exposure on 24 bits (for 2 
+>> contexts, 2x24=48). So reusing current 32 bit controls  might not be 
+>> enough.
+> 
+> I'm not sure the controls here should be used in the context switching
+> use case. It would be better to define a more generic mechanism that
+> supports multiple contexts for all controls.
+> 
+>> Or do you mean changing the current controls type from 
+>> V4L2_CTRL_TYPE_INTEGER to u32 array?
+> 
+> Yes, this is what I mean.
+> 
+>> Would that not cause issues with 
+>> applications already using current controls?
+> 
+> That would only work if the kernel could handle some type of backward
+> compatibility, doing the right thing when userspace sets the control to
+> a single value (as opposed to an array of values). That's probably not
+> very realistic, as the control would enumerate as a compound control,
+> and that may break existing userspace.
+> 
+> Another option would be to change the control type at runtime based on
+> whether or not HDR is enabled, but that also sounds like it will cause
+> lots of issue.
+
+While technically it is possible to change the type at initialization time
+(although probably not dynamically), it is basically a uAPI change since it
+was never documented that you had to check the control type first for these
+controls before using them.
+
+I think introducing these MULTI variants makes sense and is the right way to
+go.
 
 Regards,
-Bin
 
-On 7/24/2025 1:14 PM, Sultan Alsawaf wrote:
-> On Wed, Jul 23, 2025 at 10:55:48AM -0700, Sultan Alsawaf wrote:
->> On Wed, Jun 18, 2025 at 05:19:57PM +0800, Bin Du wrote:
->>> +
->>> +	buf->bo = (void *)bo;
->>> +	buf->gpu_addr = gpu_addr;
->>> +
->>> +	refcount_set(&buf->refcount, 1);
+	Hans
+
+>>> I haven't checked if the control framework supports
+>>> this, or if it could be supported with minimum changes. The advantage is
+>>> that we wouldn't need to define how the new and old controls interact if
+>>> we don't introduce new controls. 
 >>
->> This discards the refcount inc triggered from amdgpu_bo_create_isp_user() when
->> it calls get_dma_buf(), leading to a use-after-free. Move this refcount_set()
->> up, preferably right after vmalloc_user() or right after `buf` is allocated so
->> there's no risk of this issue occurring again in the future.
+>> I think the same advantage will be achieved with stream-aware controls 
+>> (no new controls, also the min/max/def semantics remain clear), but 
+>> there is the issue we do not have streams if the sensor does internally 
+>> the hdr merge. Does it sound any better to introduce some fake streams 
+>> or pads that are not associated with any pixel stream, but just to allow 
+>> multiple exposure control?
 > 
-> Following up to correct myself: please disregard this one comment from my
-> previous email since it's incorrect. Sorry for any confusion.
+> That also sounds like quite a bit of complexity for little gain. It
+> seems that new controls are the best option. There are still a few
+> issues to solve:
 > 
-> Sultan
+> - Should sensors that support multi-exposure (or gains) implement
+>   V4L2_CID_EXPOSURE for backward compatibility, or only
+>   V4L2_CID_EXPOSURE_MULTI ? If both are implemented, how should the two
+>   controls interact ?
+> 
+> - How do we handle ratio-based exposure control ?
+> 
+> - In which order are the exposures (and gains) stored in the array ?
+> 
+>> BTW, Jay, what are your plans around the stream-aware controls?
+>>
+>> Thanks again for feedback, Laurent!
+>>
+>>> Hans, what do you think ?
+>>
+>> Same question from me ;)
+>>
+>>>> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+>>>> ---
+>>>>   .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
+>>>>   1 file changed, 12 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+>>>> index 71f23f131f97..6efdb58dacf5 100644
+>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+>>>> @@ -92,3 +92,15 @@ Image Source Control IDs
+>>>>       representing a gain of exactly 1.0. For example, if this default value
+>>>>       is reported as being (say) 128, then a value of 192 would represent
+>>>>       a gain of exactly 1.5.
+>>>> +
+>>>> +``V4L2_CID_EXPOSURE_MULTI (__u32 array)``
+>>>> +    Same as V4L2_CID_EXPOSURE, but for multiple exposure sensors. Each
+>>>> +    element of the array holds the exposure value for one capture.
+>>>> +
+>>>> +``V4L2_CID_AGAIN_MULTI (__u32 array)``
+>>>> +    Same as V4L2_CID_ANALOGUE_GAIN, but for multiple exposure sensors. Each
+>>>> +    element of the array holds the analog gain value for one capture.
+>>>> +
+>>>> +``V4L2_CID_DGAIN_MULTI (__u32 array)``
+>>>> +    Same as V4L2_CID_DIGITAL_GAIN, but for multiple exposure sensors. Each
+>>>> +    element of the array holds the digital gain value for one capture.
+> 
 
 
