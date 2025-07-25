@@ -1,415 +1,327 @@
-Return-Path: <linux-media+bounces-38440-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38441-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D60B11A60
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 10:59:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 010DBB11A6E
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:01:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1A1B5A1A26
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 08:59:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FD765A20B6
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 09:01:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C603A24A043;
-	Fri, 25 Jul 2025 08:59:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8C91FF7BC;
+	Fri, 25 Jul 2025 09:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Rs8Z3b35"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="tiqGIqQe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083B1241CB7
-	for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 08:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F6E1FC3;
+	Fri, 25 Jul 2025 09:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753433962; cv=none; b=g2n8uzs5oSjwq0+Kim6tz9v54rgnY1DnNF7K7IjqabfSoYY5ZahvvAZ1sSCu1r9x912KDazEBD3eh6pPiw/b5SKYJ6Lc9bZDFcgkdb7Vtzyx77QtTvbJQ5bmcRJNK5WJ64wE/zUtsuKtAcl6pmVwAw2XisHjjsj5znqSEyCPLUs=
+	t=1753434087; cv=none; b=OScrVUkcrRepz9YNB0XXtKPW/sVbGX/AeZ3tYg3CQF9yKN6MTcu8lItBHMFK2OzscqwZNBv9ZVuCklKTpWSdprmd0nNeAaw4qP0O8Tp/4aYK32JR+sUur2m99+EDQo5MVt4gBKfk+WQNmq2irNhUvtlA3WONcySU/4CWjA5DwCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753433962; c=relaxed/simple;
-	bh=Epvz5xYDEH6GKKNdQXbFMYOls6Bpp+GEsfDk9aT0VMc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YZZJwcEJA+au7plUqxaU0z36086uFTcM0pppsOKfl0X/UbfiubJec50BODB5mK/tgFE3nxl0hvokghQaMg6JCop+a2QB2Qs2d9hw+OjEJaX15VbLspdxXKrh8CYBpMpH2Ghuwhy7rp6iYmjZ1+Dg5Nh23NQySRZxszuOysBA40E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Rs8Z3b35; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-32f2947ab0bso15159471fa.3
-        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 01:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753433956; x=1754038756; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z4AOzOJElgwV0qIorBKZrScQx66fbUFWWoBvz5q4bGY=;
-        b=Rs8Z3b35G9lDFbxqagHt6+uUgLTxBMDLgoKZi+zVrBxR4c4PSIiYuCnvJdgDyFyMWJ
-         lrlNS9D0GmWtckEIZqHnZYNMv3twGnfN0JhGVFujJBpv5TRj3fydPHQWWKDLu6+aZwgq
-         darmExu9em5K0xQDdSZCrEdYHbKjfTCfSJAmw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753433956; x=1754038756;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z4AOzOJElgwV0qIorBKZrScQx66fbUFWWoBvz5q4bGY=;
-        b=e2KjzKmyoIPCdk3l9oLVPDnQGy0BLrP/m2PU2rYJWMq2uF1blS3hnkbg59XtdJeOO4
-         EYcr3jyYxlT9/PR1zbvqd6SAh+q4GxMEYasca+ToofZoPfq1yyRI6iR57ZMXKyS4kTVe
-         5/z1eTeKLyGsKPkQo/dSS7KMBG0TvDv4ciSB3e/ngKHtNKd3itIckK9eStdKVanYMubZ
-         kQxCBkmZgiUFVTdAKcYU+tHSor0Jyx6IO8pNBNsIH4WQbKhuH1xboeZ1n1GjiewxTdHT
-         jL8aeC+VWjbuIrvwaFhpTgurR3XoXuNavYGk8CjjanLa/45CerNXXAlfmjCNUFNsczbF
-         8Npw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2PBF263hqLFcizGLs+5WQxCOamPaJM8ZWvRbg704bEnSYAl8T+XNWIpYvg2paCvfEWA9BFLnU7rPcSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBF6xJuMfse2I66A/t4l6QK80WmOenbus38xWn3Qod1K2MiBf+
-	qKx9deeMI6xRMI/Y0lueiiPEqSHivbY4viPAUv9pIuY7wLYbvQWmTv3o2JxKI5VC34Zhuy7Y2xD
-	YW/s=
-X-Gm-Gg: ASbGncvj124SobwBs4+HD6XZf8HJkdylaHwwYY7m5SZTiEzmCxWt0xha/hIoEoqrd8x
-	Ft65CrHnlGIsHvPDa64jPBQgvlYbf1C2pNhG/vJJY9NSJMhze9SvmQYQr0m93J0fN4+r6NkEDo1
-	JWqWBhVMTUD+gkhKNkdUZFusMXVGzeTfobzfSk/ns85xJE24KlI5+l9XennvGRFBcFRGkKEsF59
-	gygGlI19Rt7OHybWLOFXEPAyP3iOnBJ7VPvLdjIilLDCh4vhWRBjj1CzumsE2I2vwZR4KPiqY7f
-	KEMEOUVTt5MP3IzXT2TlhacnD23gdCHvriOV/5sLp7wFo2zFqk1zEvpeUrOHJEaylcTk1HJjbuE
-	m9yoC9ForaGsaZs6L06CyccxtRc7rUyaT5xmo3MLDAEjFsO/XfHC3o+k9/awOj5n1
-X-Google-Smtp-Source: AGHT+IFP5wMpP3zDfhRmf57+FteH24MDS3FVNMk8W4tNW30KNI7QogwbPXP2eExIaxHw0/FLbMZ0sA==
-X-Received: by 2002:a05:651c:20cc:20b0:32c:ab57:126b with SMTP id 38308e7fff4ca-331ee75ee79mr2093611fa.16.1753433955806;
-        Fri, 25 Jul 2025 01:59:15 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-331e08e9955sm6982641fa.48.2025.07.25.01.59.14
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Jul 2025 01:59:14 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-32b5226e6beso16691921fa.2
-        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 01:59:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWsqt6tx8oKi3WAywr74U4Ty7mk2Y1JGcP5YtcuwsQHtgAGYkpaZuOswsoQGiwC4f76sETORcUev2WMcw==@vger.kernel.org
-X-Received: by 2002:a2e:b8ce:0:b0:32b:4773:7aaf with SMTP id
- 38308e7fff4ca-331ee83c6c1mr3694771fa.35.1753433953931; Fri, 25 Jul 2025
- 01:59:13 -0700 (PDT)
+	s=arc-20240116; t=1753434087; c=relaxed/simple;
+	bh=aapyBRhPC6boNtWln0Sna1KVKIZYKIeI5KqZzl377Ug=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=czDQHBcXTxdgf32NKpABZdYbgY7icyQgjMUZTeXWYLatKpgaJ2vRZHDVZdR7iXlLNP5kYoPd21PnCSqaCZBVySbYx99bCyhE38cRQVDTekD4Q5BxOu/9NKOWJY4ANdjHXcrZhm5jUZswFurVkzW3uRLNOx+ltlHO4o0csgThLn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=tiqGIqQe; arc=none smtp.client-ip=185.233.34.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
+Received: from smtp.freedom.nl (unknown [10.10.4.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by dane.soverin.net (Postfix) with ESMTPS id 4bpML60J8vz10dk;
+	Fri, 25 Jul 2025 09:01:18 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4bpML53jwKz2xMl;
+	Fri, 25 Jul 2025 09:01:17 +0000 (UTC)
+Authentication-Results: smtp.freedom.nl;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=tiqGIqQe;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
+	s=soverin1; t=1753434077;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=mWjknV5/6V9ie98tvg71C6g6oYwg1U4f7a4DFf5FQyQ=;
+	b=tiqGIqQea6Wf1djBF3nFTXHd1o64HEVECY1QQ8wglxRg+b1yTME6EqRVFvEntPqRXng3Xr
+	0K8a5v9M32q7//gA5Y7V9wWNl2Wh8IZJe9VxaU/phaNyCgsQkBCAHnKEun1ZwCVImhCIes
+	5pcTLKVxl+7WMYMUDJrccblZwZ7MPORyn6U2S5pN46cnqs9iQzrThD/8pgK8FyriSHrRxM
+	RUu6boJIkptFwlTbKlVyhjrMTqldgtFPEfctDi1phIgftGUZHXfOi4qVqluj/dGsOcUxR4
+	Xkndnwey8ISRG1hwED3AnWMM4qDC0Mjxe+92EEiIL91E9npKh9mPuZPOB3Rt3w==
+X-CM-Envelope: MS4xfEvRKi8lvbPWCYws1uvVlDImyr3B/QTMUH4wFulWBovc+Q4tqWfC7vJg8dpGfIymdRsxFUe1XAUs5qywVB9eDrRtbgz+5oOMctIArDnl2PB4WTs2R18R vFQhtd0IvNFqGd4/Jx/VGZCj1zVbYBpY4gO+PSscUgSH1ZHkai2yXvSSIbRWqED1dXBnCXeTjhx7181EwyJTs16/VPY16XaA3xrVNVSeECpwhMSIuSq0vpCe M4Fs79QZbllZUkUMdjlBGwqkD1adK7ne7AWC1kKoeuRRWi6fMWQSTqyeZp/7K2tmDKQ2YyIR9MK0hDW/fLbpOx2cL+S/MVV3AROLzFCVWwap/BhfQZ9War82 hQZZehEFY1Z70oZH0pPE8EZZAjSLqGgPN8TDVJ9Diz5rJ59Q+3bCB14Srm+Im12RiX33RiZx8Xuhs4VeI3ya+5MoB7E9ab+mTfdbLkE5HZCFULRNTWmIXtlN jxeEKBdD6TBZypm9pC9sJF7QQL9/9vm9EaCa2gMdZG5Grev0g3yLLSzRxYSVaJlHRofpwc7A4Ha1BEY1AY4d7M25hykgLBkY6eh8/F9pzTnRZjXPxsp5n6ZW RTkqM+yovj5FL0rLlbJLWJn1dP0AuOzBgpT2GfD624xDQL9F3izLuyzZmAfSJs4tLmuqa2fsFv7Pi0CzbK0tcup1y22lUbdXwGsNPyxIy9paYhutNeWra/Nm evozYKKcJABgrdZbj4tLJFH5oixssiFI
+X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=688347dd a=FeCTsR0yliqZQd7G3+UDAA==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=SP3DJ-cdnuwgAGiMDlsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+Message-ID: <ae5ce461-0be5-4e00-8f6b-9c65ec6e66dc@jjverkuil.nl>
+Date: Fri, 25 Jul 2025 11:01:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250717-uvc-onelocksless-v1-1-91a1b834186a@chromium.org>
- <20250724120840.GL11202@pendragon.ideasonboard.com> <CANiDSCvvAX27u4_qnKxbSqWVWybsZFV-367eSv8ig85-cCeDTw@mail.gmail.com>
- <20250724155101.GA17890@pendragon.ideasonboard.com> <CANiDSCsojmQdCQqYXBFStPwGJ3n+-04_+dqTx+tsUrT+dRSC2Q@mail.gmail.com>
- <20250724200014.GT11202@pendragon.ideasonboard.com>
-In-Reply-To: <20250724200014.GT11202@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 25 Jul 2025 10:59:01 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvfD_j3KhrEU9ajRxC5Wgdp=Anq_PTZkUg7G8-Nof3O4w@mail.gmail.com>
-X-Gm-Features: Ac12FXyUZoN8IWCHRFEqo-qPEo_qvsB-UP_v6qbQ-rSDUJObnSDxRVqW8O02WBk
-Message-ID: <CANiDSCvfD_j3KhrEU9ajRxC5Wgdp=Anq_PTZkUg7G8-Nof3O4w@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Drop stream->mutex
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Hans Verkuil <hans@jjverkuil.nl>
-Content-Type: text/plain; charset="UTF-8"
+From: hans@jjverkuil.nl
+Subject: Re: [RFC 0/2] Add standard exposure and gain controls for multiple
+ captures
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Julien Vuillaumier <julien.vuillaumier@nxp.com>
+Cc: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+ ribalda@chromium.org, jai.luthra@ideasonboard.com, laurentiu.palcu@nxp.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, LnxRevLi@nxp.com,
+ celine.laurencin@nxp.com
+References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
+ <20250715235952.GE19299@pendragon.ideasonboard.com>
+ <20250716001205.GG19299@pendragon.ideasonboard.com>
+ <38e022d0-cc8f-4df2-8a81-69513c854035@nxp.com>
+ <dddcad1a-1f0a-4ecc-8093-8a75ec24d2ec@nxp.com>
+ <20250723150206.GE6719@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+Autocrypt: addr=hans@jjverkuil.nl; keydata=
+ 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
+In-Reply-To: <20250723150206.GE6719@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spampanel-Class: ham
 
-On Thu, 24 Jul 2025 at 22:00, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Thu, Jul 24, 2025 at 08:15:48PM +0200, Ricardo Ribalda wrote:
-> > On Thu, 24 Jul 2025 at 17:51, Laurent Pinchart wrote:
-> > >
-> > > (CC'ing Hans Verkuil)
-> > >
-> > > On Thu, Jul 24, 2025 at 05:41:06PM +0200, Ricardo Ribalda wrote:
-> > > > On Thu, 24 Jul 2025 at 14:08, Laurent Pinchart wrote:
-> > > > > On Thu, Jul 17, 2025 at 07:56:45AM +0000, Ricardo Ribalda wrote:
-> > > > > > Since commit c93d73c9c2cf ("media: uvcvideo: Use vb2 ioctl and fop
-> > > > > > helpers"), the IOCTLs are serialized. Due to this there is no more need
-> > > > > > to protect ctrl, cur_format or cur_frame from concurrent access.
-> > > > > >
-> > > > > > Drop stream->mutex after thanking it for years of good service.
-> > > > > >
-> > > > > > Use this opportunity to do fix some CodeStyle.
-> > > > >
-> > > > > Is that about the following change only:
-> > > > >
-> > > > > -       if (format == NULL || frame == NULL) {
-> > > > > +       if (!format || !frame)
-> > > > >
-> > > > > or is there something else I missed ?
-> > > >
-> > > > I believe that's it.
-> > > >
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/media/usb/uvc/uvc_driver.c   |  4 ----
-> > > > > >  drivers/media/usb/uvc/uvc_metadata.c |  8 ++------
-> > > > > >  drivers/media/usb/uvc/uvc_v4l2.c     | 39 ++++++++----------------------------
-> > > > > >  drivers/media/usb/uvc/uvcvideo.h     |  6 ------
-> > > > > >  4 files changed, 10 insertions(+), 47 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > index 775bede0d93d9b3e5391914aa395326d3de6a3b1..3039e6a533b82dd917050d416c9ced8756d69170 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > @@ -183,8 +183,6 @@ static void uvc_stream_delete(struct uvc_streaming *stream)
-> > > > > >       if (stream->async_wq)
-> > > > > >               destroy_workqueue(stream->async_wq);
-> > > > > >
-> > > > > > -     mutex_destroy(&stream->mutex);
-> > > > > > -
-> > > > > >       usb_put_intf(stream->intf);
-> > > > > >
-> > > > > >       kfree(stream->formats);
-> > > > > > @@ -201,8 +199,6 @@ static struct uvc_streaming *uvc_stream_new(struct uvc_device *dev,
-> > > > > >       if (stream == NULL)
-> > > > > >               return NULL;
-> > > > > >
-> > > > > > -     mutex_init(&stream->mutex);
-> > > > > > -
-> > > > > >       stream->dev = dev;
-> > > > > >       stream->intf = usb_get_intf(intf);
-> > > > > >       stream->intfnum = intf->cur_altsetting->desc.bInterfaceNumber;
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > > index 229e08ff323eed9129d835b24ea2e8085bb713b8..d1d4fade634bd3f8b12bbaa75388db42aecc25ea 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_metadata.c
-> > > > > > @@ -100,14 +100,10 @@ static int uvc_meta_v4l2_set_format(struct file *file, void *fh,
-> > > > > >        * Metadata buffers would still be perfectly parseable, but it's more
-> > > > > >        * consistent and cleaner to disallow that.
-> > > > > >        */
-> > > > > > -     mutex_lock(&stream->mutex);
-> > > > > > -
-> > > > > >       if (vb2_is_busy(&stream->meta.queue.queue))
-> > > > > > -             ret = -EBUSY;
-> > > > > > -     else
-> > > > > > -             stream->meta.format = fmt->dataformat;
-> > > > > > +             return -EBUSY;
-> > > > > >
-> > > > > > -     mutex_unlock(&stream->mutex);
-> > > > > > +     stream->meta.format = fmt->dataformat;
-> > > > > >
-> > > > > >       return ret;
-> > > > >
-> > > > >         return 0;
-> > > > >
-> > > > > >  }
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > > index 160f9cf6e6dbdbf39e3eff56a5d5ea1d977fbe22..d7be4d59f0c73b983aa01321f4acc8f8bf6e83ef 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > > @@ -329,14 +329,12 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
-> > > > > >        * developers test their webcams with the Linux driver as well as with
-> > > > > >        * the Windows driver).
-> > > > > >        */
-> > > > > > -     mutex_lock(&stream->mutex);
-> > > > > >       if (stream->dev->quirks & UVC_QUIRK_PROBE_EXTRAFIELDS)
-> > > > > >               probe->dwMaxVideoFrameSize =
-> > > > > >                       stream->ctrl.dwMaxVideoFrameSize;
-> > > > > >
-> > > > > >       /* Probe the device. */
-> > > > > >       ret = uvc_probe_video(stream, probe);
-> > > > > > -     mutex_unlock(&stream->mutex);
-> > > > > >       if (ret < 0)
-> > > > > >               return ret;
-> > > > > >
-> > > > > > @@ -395,19 +393,15 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
-> > > > > >       struct uvc_streaming *stream = handle->stream;
-> > > > > >       const struct uvc_format *format;
-> > > > > >       const struct uvc_frame *frame;
-> > > > > > -     int ret = 0;
-> > > > > >
-> > > > > >       if (fmt->type != stream->type)
-> > > > > >               return -EINVAL;
-> > > > > >
-> > > > > > -     mutex_lock(&stream->mutex);
-> > > > > >       format = stream->cur_format;
-> > > > > >       frame = stream->cur_frame;
-> > > > > >
-> > > > > > -     if (format == NULL || frame == NULL) {
-> > > > > > -             ret = -EINVAL;
-> > > > > > -             goto done;
-> > > > > > -     }
-> > > > > > +     if (!format || !frame)
-> > > > > > +             return -EINVAL;
-> > > > > >
-> > > > > >       fmt->fmt.pix.pixelformat = format->fcc;
-> > > > > >       fmt->fmt.pix.width = frame->wWidth;
-> > > > > > @@ -419,9 +413,7 @@ static int uvc_ioctl_g_fmt(struct file *file, void *fh,
-> > > > > >       fmt->fmt.pix.xfer_func = format->xfer_func;
-> > > > > >       fmt->fmt.pix.ycbcr_enc = format->ycbcr_enc;
-> > > > > >
-> > > > > > -done:
-> > > > > > -     mutex_unlock(&stream->mutex);
-> > > > > > -     return ret;
-> > > > > > +     return 0;
-> > > > > >  }
-> > > > > >
-> > > > > >  static int uvc_ioctl_s_fmt(struct file *file, void *fh,
-> > > > > > @@ -441,19 +433,14 @@ static int uvc_ioctl_s_fmt(struct file *file, void *fh,
-> > > > > >       if (ret < 0)
-> > > > > >               return ret;
-> > > > > >
-> > > > > > -     mutex_lock(&stream->mutex);
-> > > > > > -     if (vb2_is_busy(&stream->queue.queue)) {
-> > > > > > -             ret = -EBUSY;
-> > > > > > -             goto done;
-> > > > > > -     }
-> > > > > > +     if (vb2_is_busy(&stream->queue.queue))
-> > > > > > +             return -EBUSY;
-> > > > > >
-> > > > > >       stream->ctrl = probe;
-> > > > > >       stream->cur_format = format;
-> > > > > >       stream->cur_frame = frame;
-> > > > > >
-> > > > > > -done:
-> > > > > > -     mutex_unlock(&stream->mutex);
-> > > > > > -     return ret;
-> > > > > > +     return 0;
-> > > > > >  }
-> > > > > >
-> > > > > >  static int uvc_ioctl_g_parm(struct file *file, void *fh,
-> > > > > > @@ -466,9 +453,7 @@ static int uvc_ioctl_g_parm(struct file *file, void *fh,
-> > > > > >       if (parm->type != stream->type)
-> > > > > >               return -EINVAL;
-> > > > > >
-> > > > > > -     mutex_lock(&stream->mutex);
-> > > > > >       numerator = stream->ctrl.dwFrameInterval;
-> > > > > > -     mutex_unlock(&stream->mutex);
-> > > > > >
-> > > > >
-> > > > > You can drop the blank line here.
-> > > > >
-> > > > > >       denominator = 10000000;
-> > > > > >       v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
-> > > > > > @@ -519,12 +504,9 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
-> > > > > >       uvc_dbg(stream->dev, FORMAT, "Setting frame interval to %u/%u (%u)\n",
-> > > > > >               timeperframe.numerator, timeperframe.denominator, interval);
-> > > > > >
-> > > > > > -     mutex_lock(&stream->mutex);
-> > > > > >
-> > > > >
-> > > > > Double blank line.
-> > > > >
-> > > > > > -     if (uvc_queue_streaming(&stream->queue)) {
-> > > > > > -             mutex_unlock(&stream->mutex);
-> > > > > > +     if (uvc_queue_streaming(&stream->queue))
-> > > > > >               return -EBUSY;
-> > > > > > -     }
-> > > > > >
-> > > > > >       format = stream->cur_format;
-> > > > > >       frame = stream->cur_frame;
-> > > > > > @@ -556,14 +538,11 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
-> > > > > >
-> > > > > >       /* Probe the device with the new settings. */
-> > > > > >       ret = uvc_probe_video(stream, &probe);
-> > > > > > -     if (ret < 0) {
-> > > > > > -             mutex_unlock(&stream->mutex);
-> > > > > > +     if (ret < 0)
-> > > > > >               return ret;
-> > > > > > -     }
-> > > > > >
-> > > > > >       stream->ctrl = probe;
-> > > > > >       stream->cur_frame = frame;
-> > > > > > -     mutex_unlock(&stream->mutex);
-> > > > > >
-> > > > > >       /* Return the actual frame period. */
-> > > > > >       timeperframe.numerator = probe.dwFrameInterval;
-> > > > > > @@ -941,10 +920,8 @@ static int uvc_ioctl_g_selection(struct file *file, void *fh,
-> > > > > >
-> > > > > >       sel->r.left = 0;
-> > > > > >       sel->r.top = 0;
-> > > > > > -     mutex_lock(&stream->mutex);
-> > > > > >       sel->r.width = stream->cur_frame->wWidth;
-> > > > > >       sel->r.height = stream->cur_frame->wHeight;
-> > > > > > -     mutex_unlock(&stream->mutex);
-> > > > > >
-> > > > > >       return 0;
-> > > > > >  }
-> > > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > index 757254fc4fe930ae61c9d0425f04d4cd074a617e..86765b9d7935f0888476249c3fb826cd7f36b35c 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > @@ -469,12 +469,6 @@ struct uvc_streaming {
-> > > > > >       const struct uvc_format *cur_format;
-> > > > > >       const struct uvc_frame *cur_frame;
-> > > > > >
-> > > > > > -     /*
-> > > > > > -      * Protect access to ctrl, cur_format, cur_frame and hardware video
-> > > > > > -      * probe control.
-> > > > > > -      */
-> > > > > > -     struct mutex mutex;
-> > > > > > -
-> > > > >
-> > > > > Could you please instead keep this mutex and drop uvc_video_queue.mutex
-> > > > > ? The rationale is that the same lock is now used to protect the queue
-> > > > > operations and to serialize the ioctls. It's therefore a higher-level
-> > > > > lock, which should be stored in the higher-level object, not in the
-> > > > > queue.
-> > > > >
-> > > > > You can then also drop the lock assignment in uvc_queue.c that reads
-> > > > >
-> > > > >         queue->queue.lock = &queue->mutex;
-> > > > >
-> > > > > as videobuf2 and the V4L2 core will use the video device lock when no
-> > > > > queue lock is set. The comment at the top of uvc_queue.c may need to be
-> > > > > updated.
-> > > >
-> > > > Are we sure that it is exactly the same?
-> > > >
-> > > > There are places in videobuf2-core.c where we do not use video device lock.
-> > > >
-> > > > Eg:
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/common/videobuf2/videobuf2-core.c#n2056
-> > > >
-> > > > I'd rather keep the assignment to be in the safe side.
-> > >
-> > > There are lots of places where the vdev lock is used is the queue has no
-> > > lock. Hans, was is an oversight not to do it in __vb2_wait_for_done_vb()
-> > > ? If we don't want to support not setting the queue lock that's OK, but
-> > > we should then drop code that uses vdev->lock instead.
-> > >
-> > > We can keep the assignment for the time being to be safe until that
-> > > issue gets resolved, but I'd still like to use the stream mutex instead
-> > > of the queue mutex.
-> >
-> > The problem with using the stream mutex is that the meta device and
-> > the capture device have the same uvc_streaming, but they need a
-> > different mutex.
-> >
-> > So if you do something like this:
-> >
-> > console0 # yavta -c /dev/video1 &
-> >
-> > console1# yavta -c /dev/video0 &
-> >
-> > You end in a deadlock. Where the DQBUF of video1 do not let you use video0
->
-> Aarrghhh :-(
->
-> I wouldn't expect a deadlock as DQBUF should release the lock when
-> waiting, but still, aarrrrgghhhhh :-(
->
-> > We can add a second mutex to uvc_streaming.... but I think this is a
-> > bit overkill.
-> >
-> > Any ideas?
->
-> I'm thinking it could make sense to move the video_device members of
-> uvc_streaming to uvc_video_queue and rename uvc_video_queue to
-> uvc_video_device. That's a change that should probably be done on top of
-> this patch, as it won't change the location of the mutex.
+On 23/07/2025 17:02, Laurent Pinchart wrote:
+> On Tue, Jul 22, 2025 at 11:53:53AM +0200, Julien Vuillaumier wrote:
+>> On 20/07/2025 20:56, Mirela Rabulea wrote:
+>>> On 7/16/25 03:12, Laurent Pinchart wrote:
+>>>> On Wed, Jul 16, 2025 at 02:59:54AM +0300, Laurent Pinchart wrote:
+>>>>> On Fri, Jul 11, 2025 at 01:05:42AM +0300, Mirela Rabulea wrote:
+>>>>>> Add new standard controls as U32 arrays, for sensors with multiple
+>>>>>> captures: V4L2_CID_EXPOSURE_MULTI, V4L2_CID_AGAIN_MULTI and
+>>>>>> V4L2_CID_DGAIN_MULTI. These will be particularly useful for sensors
+>>>>>> that have multiple captures, but the HDR merge is done inside the 
+>>>>>> sensor,
+>>>>>> in the end exposing a single stream, but still requiring AEC control
+>>>>>> for all captures.
+>>>>>
+>>>>> It's also useful for sensors supporting DOL or DCG with HDR merge being
+>>>>> performed outside of the sensor.
+>>>>
+>>>> Regarless of where HDR merge is implemented, we will also need controls
+>>>> to select the HDR mode. We have V4L2_CID_HDR_SENSOR_MODE, which doesn't
+>>>> standardize the values, and that's not good enough. At least for DOL and
+>>>> DCG with HDR merge implemented outside of the sensor, we need to
+>>>> standardize the modes.
+>>>>
+>>>> Can you tell which sensor(s) you're working with ?
+>>>
+>>> We are working mostly with these 3:
+>>> Omnivision's os08a20 (2 exposures staggered hdr, each exposure on a 
+>>> separate virtual channel, there are also other hdr modes which we do not 
+>>> use)
+>>> Omnivision ox05b1s (RGB-Ir with context switching based on group holds, 
+>>> 1 context optimized for RGB, the other context optimized for Ir, each 
+>>> context on a different virtual channel)
+>>> Omnivision ox03c10 (4 exposures, hdr merge in sensor).
+>>>
+>>>>>> All controls are in the same class, so they could all be set
+>>>>>> atomically via VIDIOC_S_EXT_CTRLS, this could turn out to be
+>>>>>> useful in case of sensors with context switching.
+>>>>>
+>>>>> Agreed, we should be able to set them all. Are we still unable to set
+>>>>> controls from multiple classes atomatically ? I thought that limitation
+>>>>> has been lifted.
+>>>
+>>> Maybe I need some background check on this, but looking at kernel tag 
+>>> next-20250718, this comment still lies in the documentation:
+>>> "These ioctls allow the caller to get or set multiple controls
+>>> atomically. Control IDs are grouped into control classes (see
+>>> :ref:`ctrl-class`) and all controls in the control array must belong
+>>> to the same control class."
+>>>
+>>> Maybe it needs to be updated, or not...since there is also this check in 
+>>> check_ext_ctrls():
+>>>      /* Check that all controls are from the same control class. */
+>>>      for (i = 0; i < c->count; i++) {
+>>>          if (V4L2_CTRL_ID2WHICH(c->controls[i].id) != c->which) {
+>>>              c->error_idx = ioctl == VIDIOC_TRY_EXT_CTRLS ? i :
+>>>                                        c->count;
+>>>              return false;
+>>>          }
+>>>      }
+> 
+> This only when c->which is set to a control class. If you set it to
+> V4L2_CTRL_WHICH_CUR_VAL (equal to 0) then you can set (or get) controls
+> from multiple classes in one go.
 
-I have moved the video_device members.
+That's correct. Early implementations of the control framework required
+that all controls were from the same control class, but later I dropped
+that requirement and you can just set 'which' to 0 and it no longer matters.
 
-But after playing a bit with renaming uvc_video_queue.... It does not
-look like a good idea. To do it properly we also need to rename
-variables and functions and the change will be pretty massive. Any
-future backport to stable is going to be hell....
+> 
+>>> There is also another inconvenient, the VIDIOC_S_EXT_CTRLS does not 
+>>> reach the v4l2 subdevice driver, what we get in the sensor driver is a 
+>>> set of .s_ctrl calls. I don't know about other sensors, but for the 
+>>> Omivision sensors which I am familiar with, the group holds feature 
+>>> could be used to get multiple registers to be applied atomically in the 
+>>> same frame, but the sensor driver would need to know when to start and 
+>>> when to end filling the group hold with the desired registers. If there 
+>>> is some similar feature in other sensors, I think the VIDIOC_S_EXT_CTRLS 
+>>> should have a corresponding v4l2-subdev operation, so that it can be 
+>>> implemented in the sensor subdevice driver. This would probably require 
+>>> some changes in the v4l2 core, as currently the subdev_do_ioctl() 
+>>> function does not let the VIDIOC_S_EXT_CTRLS go to the subdevice.
+>>>
+>>> Laurent, Hans, any thoughts on this?
+> 
+> I can think of at least 3 ways to handle this.
+> 
+> The first method would be to group all controls in a cluster. That way
+> you will get a single .s_ctrl() call per VIDIOC_S_EXT_CTRLS. You will
+> have to iterate over the controls to see which ones have changed, and
+> configure the sensor accordingly. This short-circuits the logic in the
+> control framework that dispatches individual controls to separate
+> .s_ctrl() calls (or rather still goes through that logic, but doesn't
+> make use of it), and requires reimplementing it manually in the
+> .s_ctrl() handler. It's not ideal.
 
->
-> > > > > >       /* Buffers queue. */
-> > > > > >       unsigned int frozen : 1;
-> > > > > >       struct uvc_video_queue queue;
-> > > > > >
-> > > > > > ---
-> > > > > > base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
-> > > > > > change-id: 20250716-uvc-onelocksless-b66658e01f89
->
-> --
-> Regards,
->
-> Laurent Pinchart
+This should work out-of-the-box.
 
+> 
+> The second method would be to add new .begin() and .end() (name to be
+> bikeshedded) control operations. I experimented with this a while ago to
+> expose group hold to userspace, but never upstreamed the patches as I
+> didn't really need them in the end. Alternatively, the VIDIOC_S_EXT_CTRL
+> could be exposed to drivers, allowing them to implement begin/end
+> operations before and after calling the control framework. I don't have
+> a strong preference (maybe Hans would).
 
+I wonder if you could make 'HOLD_BEGIN' and 'HOLD_END' button controls, and
+start and end the control array in VIDIOC_S_EXT_CTRLS with it. There are
+some issues that need to be figured out, but I think this is doable.
 
--- 
-Ricardo Ribalda
+Regards,
+
+	Hans
+
+> 
+> I increasingly think that the control framework doesn't provide the best
+> value for subdevs. It has been developed for video devices, and for
+> subdevs in video-centric devices where subdevs are hidden behind a video
+> device, but not for MC-centric use cases where subdevs are exposed to
+> userspace. The third option would be to implement something better,
+> dropping the useless features and adding support for the needs of modern
+> devices, but that would be much more work.
+> 
+>>>>>> Each element of the array will hold an u32 value (exposure or gain)
+>>>>>> for one capture. The size of the array is up to the sensor driver which
+>>>>>> will implement the controls and initialize them via 
+>>>>>> v4l2_ctrl_new_custom().
+>>>>>> With this approach, the user-space will have to set valid values
+>>>>>> for all the captures represented in the array.
+>>>>>
+>>>>> I'll comment on the controls themselves in patch 2/2.
+>>>>>
+>>>>>> The v4l2-core only supports one scalar min/max/step value for the
+>>>>>> entire array, and each element is validated and adjusted to be within
+>>>>>> these bounds in v4l2_ctrl_type_op_validate(). The significance for the
+>>>>>> maximum value for the exposure control could be "the max value for the
+>>>>>> long exposure" or "the max value for the sum of all exposures". If none
+>>>>>> of these is ok, the sensor driver can adjust the values as supported and
+>>>>>> the user space can use the TRY operation to query the sensor for the
+>>>>>> minimum or maximum values.
+>>>>>
+>>>>> Hmmmm... I wonder if we would need the ability to report different
+>>>>> limits for different array elements. There may be over-engineering
+>>>>> though, my experience with libcamera is that userspace really needs
+>>>>> detailed information about those controls, and attempting to convey the
+>>>>> precise information through the kernel-userspace API is bound to fail.
+>>>>> That's why we implement a sensor database in libcamera, with information
+>>>>> about how to convert control values to real gain and exposure time.
+>>>>> Exposing (close to) raw register values and letting userspace handle the
+>>>>> rest may be better.
+>>>
+>>> Julien, any thoughts on this?
+>>
+>> Reporting min/max value per array element could have made sense for some 
+>> controls. For instance we have a HDR sensor whose long capture analog 
+
+Actually, support for this exists. See the VIDIOC_G_EXT_CTRLS documentation
+and look for V4L2_CTRL_WHICH_DEF_VAL/V4L2_CTRL_WHICH_MIN_VAL/V4L2_CTRL_WHICH_MAX_VAL.
+
+>> gain range is different from the shorter captures gain. Conversely, it 
+>> may not work well for the multi-capture exposure control where the 
+>> constraint can be more about the sum of the exposures for each capture 
+>> rather than the individual exposure values. In that case, exposing 
+>> min/max values per array element does not really help the user space.
+>>
+>> Thus, having the user space to have the necessary insight into each 
+>> sensor specifics for its AEC control seems to be the versatile option.
+> 
+> Then I think we should look at a libcamera implementation alongside with
+> this patch series, and review them together.
+> 
+>>> If we don't need to report different limits for different array 
+>>> elements, we are fine, just we need to document better what those limits 
+>>> stand for in case of arrays.
+>>>
+>>>>>> Mirela Rabulea (2):
+>>>>>>    LF-15161-6: media: Add exposure and gain controls for multiple
+>>>>>>      captures
+>>>>>>    LF-15161-7: Documentation: media: Describe exposure and gain 
+>>>>>> controls
+>>>>>>      for multiple captures
+>>>>>
+>>>>> Did you forget to remove the LF-* identifiers ? :-)
+>>>
+>>> Yes, at least in the cover-letter, my bad :(
+>>>
+>>> Thanks for feedback.
+>>>
+>>>>>>
+>>>>>>   .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
+>>>>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c            |  8 ++++++++
+>>>>>>   include/uapi/linux/v4l2-controls.h                   |  3 +++
+>>>>>>   3 files changed, 23 insertions(+)
+> 
+
 
