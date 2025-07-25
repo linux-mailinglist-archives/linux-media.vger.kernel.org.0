@@ -1,98 +1,98 @@
-Return-Path: <linux-media+bounces-38463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38467-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4F4B11DB9
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 13:42:46 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0045CB11DFF
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 13:57:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A503A1CE25F5
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:43:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 278887ADDDD
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:56:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995A22E62BF;
-	Fri, 25 Jul 2025 11:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB42B2E7628;
+	Fri, 25 Jul 2025 11:57:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TVMtxO3o"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="G8gNcfov"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE0D15746F
-	for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 11:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABF52D131A
+	for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 11:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753443761; cv=none; b=JeSPizfZeNR6CLMdl3nhj9IEPVwTqRmWaQab09jEbvRonL74EUMxG1tVEfOFKEo4c1KZkNm0Ngu6VImP7zaTbQKLXFpng+Qm4fpR0/hjZKRMGjxrU/MfBA6o6tAPBnfCeJOX/xAahFNnwqHRFJaPJ2Rv3jwYAGOJFfh8+HdFy1s=
+	t=1753444668; cv=none; b=qFmzQ+jWEv+Itvbxt8+NCfuvaoqYPokSY1bL4qzxsUqt3Y2b5aYv8yiqbZixE1T1ZcPDe7YsFMSwVmNwh9r5z34dIw0mPqPjoC8uYCAPwyQCNKHIc/ftQEErtQf/+eUofWafDxK9c93aADb2LppRYuytkaoS3+0VuW9ar3vXwes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753443761; c=relaxed/simple;
-	bh=70cZJ5+MOSuyvoTc0hRAELy7cfRbFrHaFdQesC+yVH8=;
+	s=arc-20240116; t=1753444668; c=relaxed/simple;
+	bh=7Lq+L8ybIKzJFE7aCP8K4OUgb0w5TEGi1D/8HV86VOI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V2FAiNzbb0xTS2WCelS7o3C6CiO2yVoNxrQuxsj7odlOUdAmzuZPk8vGTLeRTfLrzwOSMbFOGuSswyIs/xOwM65vK3VNkmjZvWk1OVLpb3h1OBK+hbQ9PEGDNrNETWbH0bjW9FW3bnpjqkfYS98iy8ZFwhinLW9mcZ6qL9c37VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TVMtxO3o; arc=none smtp.client-ip=209.85.210.45
+	 To:Cc:Content-Type; b=UyZMm85laeZP1TjLubIvAEWqBp0yHjvqWllKfHxccilhwolkuvzsjpEeig+TKy1ZaEKhZqisS1R1QxXlNmfO6IT2rzj8YKaAVxJhZ5XWL3q9UuvIgJ/Q7gYrwWkvrBmOxSX6i/6WYcQ0Ru7/LPwVkytdkavyxpJto3/wHt4IKyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=G8gNcfov; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-73e64e87d49so1196019a34.2
-        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 04:42:39 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7e62a1cbf81so287931985a.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 04:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753443758; x=1754048558; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1753444666; x=1754049466; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lj71s94DBO5ChtWnhYstkEV7QIcBC/2WSymKueRnDS4=;
-        b=TVMtxO3oDU7n+Ng/CICh9SPedbSU4livTcUsez2D5zyt/gGymTHHZUiud1HF1Hcf4p
-         8HiW9wakYAsWeerxIMb4lf1vAmPvM09o8t5z22kQ3q5GkpF70Plnq4CalsRWUcdjMLdf
-         qdjAT7Kf3ltamQlnmS46p4XldP6S1U2XYgRLU=
+        bh=5hJBa13s79OQWhYLxMwSe1UwJVG9FUdchi7fOARwLxY=;
+        b=G8gNcfovYtr3FdNLMAkQwO77bPpSQIc2tlv56lC46i2rHIQjG6KvDG6NopcKIasASz
+         KmK23IbSc/1RWwkht+f4ebuYJdEVT9iCCv1t24ABRItrYPcubvlpzrEbnVhu1Y4cDsvi
+         zO0RBqquqjGBu+aDfOoY+LP79hVnL0NZxc7A8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753443758; x=1754048558;
+        d=1e100.net; s=20230601; t=1753444666; x=1754049466;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lj71s94DBO5ChtWnhYstkEV7QIcBC/2WSymKueRnDS4=;
-        b=PXrYcoTT68hPQ54maccyrJYV8tPKwMp1KW/Y6zR/wbVgdH44HJOZabN22RxMLSCau0
-         9nz4mmXdt3IkJx26X3feflIKP8zKeuevjmhdJ5M6ZL1VLOujWQDWoynFIZupJdcZenj2
-         s+sNaDeq3NVYPVag5NEvglsWMDdvabPg3r1Y1fbWMTYsvdHNEpQJfmQEVf9tK8egjWsc
-         /Qs4M+nfYR3knVfN9XA7gXJ+ZFSRLjWU8GPZelvngaDZ3jD9zcX5wiEIM5jbEuBLadZ0
-         b5BH3p3qBYS9+AMwTXSM1B1EJ0XvKmXjUoUW8FwDBARiiQQ4qqgV0L38ykNI+NXj5NK4
-         c8MA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXg3gHqUAIoW1kE/rJE2ekA887+WUzQZr7kMKvnvKBsilnWe6j/6+Mh9BTu1eNFmE9PHr29TrjUkQueQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/tbRTgXZkKSNgAvd8t44OO2mYi5z2DXen311TV78seyCU+NiD
-	HUtXZqqsYJ46Edwfsu+WmW+tWFWQKg5tn774mLIxi+mspwRCkhRdOt9xYyPtskXkc0r2sq4CFjS
-	IW82dKA==
-X-Gm-Gg: ASbGncuVoKiZrH/7EuiyTh0TKg/vXkNiEuDoH/sRhKZ4EuGViZoaCu51Ds4ImXsX1Ra
-	P/+liL4ARRtNpXH3209/BIZIhzxX6tVpcXpC7b9JmPqra6ziC7hkYRr5EXzQXFsP289rH8Vnco8
-	W4j28nxzFVJ+2b5DBIcrZ0vdMwtCjY5euaKWqxZZggXStC7d41V6MlPaZkAk7sjc8Fsut8nu/Mc
-	7ItVeHSITTAuglRlHah4eI7zw92eUSmJSiMbm92Bf7Dr+tSjzB6O6WbEACQeo5nsxKnhzFrDtdp
-	AMg5eIBzGFqZQB3WKtUgPX362WrX3finyFPSPF2/P0yWw1QC9GQkLCOxdzduN0xVXQp7rplMgRn
-	0vdT+5w0CbPW9yFMXmSJxdS1RDFl3SBsWsyBHqwX/At2sAbWVBka8BMJf6g==
-X-Google-Smtp-Source: AGHT+IHRBzhS6ljUPRkw0bEe39ioetvnw64PVvX22TIv13H8bJoUqxL+aRhvOy5ktblIp16xRIxpww==
-X-Received: by 2002:a05:6808:152c:b0:405:6b13:ca55 with SMTP id 5614622812f47-42bb9919c97mr614936b6e.37.1753443758386;
-        Fri, 25 Jul 2025 04:42:38 -0700 (PDT)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com. [209.85.161.52])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-42a32ca6ab5sm607092b6e.22.2025.07.25.04.42.37
+        bh=5hJBa13s79OQWhYLxMwSe1UwJVG9FUdchi7fOARwLxY=;
+        b=eStfV23nFS8KBhsG3ZiLXYd58mZ/J9gwEUzxDZ/0xbagDCQqzmkvnVy+3MyBt9P8Pl
+         S9nR/ZuNUEHDHZTYf27nyPiW9QNBFaZYeYQcgUnjEeZp/AZ5F/aOZiLaXM620z4ADc9c
+         jTvI7WdgySQwhx7pYea/pX1M0FULWTIDI4nG3ORO6DMfF9So8aICQ93DLgP9bBqcZUbJ
+         m1lTLWavAkrrpPhG5BlRK35HuaWigLPrCS7umt8HPMQtH1Lk2LPwsTsMAa2PkI5jnPJ6
+         /IPKdVpem15ep3eJEt6oCEoZI0Q6RPtdseLiTBpAPbVfT0LXF2l041ZMmJ35yx0QuSlM
+         tIuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDWF9WSChQh60VFV7frCrkfNQgl+npjmWu1L91XbVg+bLOcCmAp08brKNWt3EwS1BstvGRgJBZWMxTNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9MJ/CdIS9w3NyzllVj0FGVbk4xQlpl0bI+v2DI83LHh4dT3Ef
+	7oREo7LLr83jdlVrDrEH9zVXkoQNJKD7uO6VoLOzCeX021QizqAcGDasAbCnNQlPAsI6Zm8ArCr
+	v0Uo=
+X-Gm-Gg: ASbGncu+pSLZfmLVzcKfNL6JZJLpC26nPHhaV1MNbBe4bWzhwvvZf14Yo+nrS0Dl6XO
+	4OkxZF1H3QjB+8362IjDxhkVhQkHXKOgCJcWoMuqsvrxxMDK/Pzlz/Km6q5tS3dkYfKMLXVz2wQ
+	UdzmwI4iuf9ut+AVpLRz2ihXo6O6q7MVx7ZV2R7knDWwL3Dl84E9/EDtGiL8sswT0wrBCoLsvBP
+	vKDLSvQJUpDxJ7W8+2GjxNLISmYXFbPMWSsKLvZg6dAkUiLmfH+Ue1Df2y/eDCArynoPwGHOJ5X
+	080C2wi38YrvpFYYCnx8kT/0A3sSG8ZEGSRb6ZkGYQUX2jKQVwbY4DxZDFr6eiRHPgmeUjMZ+fq
+	0SDfbeXC1kxfpDSW5gs/G0qvtjPPpiG+muoVoqQMbAEKEnEJNgKsGJ0mWDKbwoQ==
+X-Google-Smtp-Source: AGHT+IHoeY/Cb2XjYo0L3gkIJbbbFTQTszyjFepVXV2YfGa5VBPg6xUfgC4uwfLdjplmIJSoSC5d5Q==
+X-Received: by 2002:a05:620a:2552:b0:7d4:3ac2:4c4 with SMTP id af79cd13be357-7e63c1b7768mr153739285a.50.1753444665496;
+        Fri, 25 Jul 2025 04:57:45 -0700 (PDT)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com. [209.85.222.181])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e632e38538sm240329385a.73.2025.07.25.04.57.45
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Jul 2025 04:42:38 -0700 (PDT)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6159c26766fso1090370eaf.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 04:42:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW44jZWzYi1ziU3EZOI/Awzyd7jrjqmgRa4jutPcmVGeVvBphWmtivwv/aKm+Npit3HpDkoB+hPPqEVFA==@vger.kernel.org
-X-Received: by 2002:a05:6102:358d:b0:4eb:f003:a636 with SMTP id
- ada2fe7eead31-4fa3f8f1683mr313640137.0.1753440679035; Fri, 25 Jul 2025
- 03:51:19 -0700 (PDT)
+        Fri, 25 Jul 2025 04:57:45 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7e623a12701so306579085a.2
+        for <linux-media@vger.kernel.org>; Fri, 25 Jul 2025 04:57:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW/nBG59E8E0dROZrfBOPaGJV8fQTVeXOSh08Ef3XYxkXl9Zj1YbaBsHsoP+zIRh3Evfhs1XKqEzbthVA==@vger.kernel.org
+X-Received: by 2002:a05:6102:6891:b0:4dd:b82d:e0de with SMTP id
+ ada2fe7eead31-4fa3ff44195mr316348137.17.1753440787376; Fri, 25 Jul 2025
+ 03:53:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-25-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250724083914.61351-25-angelogioacchino.delregno@collabora.com>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-20-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-20-angelogioacchino.delregno@collabora.com>
 From: Fei Shao <fshao@chromium.org>
-Date: Fri, 25 Jul 2025 18:50:41 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nhS8yY6iWNDfv4Lwz8zUJEy0nMxC5MVZGb983hDsg7bhA@mail.gmail.com>
-X-Gm-Features: Ac12FXxJVbrVgIPSlm6u4--DKBHxaHRjM_36IT45XEIgpl9bR5PM8dE-s5Wt-28
-Message-ID: <CAC=S1nhS8yY6iWNDfv4Lwz8zUJEy0nMxC5MVZGb983hDsg7bhA@mail.gmail.com>
-Subject: Re: [PATCH 24/38] arm64: dts: mediatek: mt7986a-bpi-r3: Fix SFP I2C
- node names
+Date: Fri, 25 Jul 2025 18:52:31 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
+X-Gm-Features: Ac12FXzhNEGCOc6TL2wVpoG5kEXhC599YdNWu941VvXlO0dL7_W9Jc4if8EyMHA
+Message-ID: <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
+Subject: Re: [PATCH 19/38] arm64: dts: mediatek: mt6795: Add mediatek,infracfg
+ to iommu node
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
 	daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
@@ -120,59 +120,31 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Jul 24, 2025 at 5:49=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> The binding wants the node to be named "i2c-number", alternatively
-> "i2c@address", but those are named "i2c-gpio-number" instead.
->
-> Rename those to i2c-0, i2c-1 to adhere to the binding and suppress
-> dtbs_check warnings.
+> The "M4U" IOMMU requires a handle to the infracfg to switch to
+> the 4gb/pae addressing mode: add it.
 >
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 
-It'd be nice to mention in v2 (if needed) that this patch also drops
-redundant #address-cells and #size-cells, but it's minor.
-
 Reviewed-by: Fei Shao <fshao@chromium.org>
 
 > ---
->  arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  arch/arm64/boot/dts/mediatek/mt6795.dtsi | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts b/a=
-rch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> index ed79ad1ae871..6d2762866a1a 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> @@ -64,23 +64,19 @@ wps-key {
->         };
->
->         /* i2c of the left SFP cage (wan) */
-> -       i2c_sfp1: i2c-gpio-0 {
-> +       i2c_sfp1: i2c-0 {
->                 compatible =3D "i2c-gpio";
->                 sda-gpios =3D <&pio 16 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
-N)>;
->                 scl-gpios =3D <&pio 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
-N)>;
->                 i2c-gpio,delay-us =3D <2>;
-> -               #address-cells =3D <1>;
-> -               #size-cells =3D <0>;
->         };
->
->         /* i2c of the right SFP cage (lan) */
-> -       i2c_sfp2: i2c-gpio-1 {
-> +       i2c_sfp2: i2c-1 {
->                 compatible =3D "i2c-gpio";
->                 sda-gpios =3D <&pio 18 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
-N)>;
->                 scl-gpios =3D <&pio 19 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
-N)>;
->                 i2c-gpio,delay-us =3D <2>;
-> -               #address-cells =3D <1>;
-> -               #size-cells =3D <0>;
->         };
->
->         leds {
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/d=
+ts/mediatek/mt6795.dtsi
+> index e5e269a660b1..38f65aad2802 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> @@ -427,6 +427,7 @@ iommu: iommu@10205000 {
+>                         clocks =3D <&infracfg CLK_INFRA_M4U>;
+>                         clock-names =3D "bclk";
+>                         interrupts =3D <GIC_SPI 146 IRQ_TYPE_LEVEL_LOW>;
+> +                       mediatek,infracfg =3D <&infracfg>;
+>                         mediatek,larbs =3D <&larb0 &larb1 &larb2 &larb3>;
+>                         power-domains =3D <&spm MT6795_POWER_DOMAIN_MM>;
+>                         #iommu-cells =3D <1>;
 > --
 > 2.50.1
 >
