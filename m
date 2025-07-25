@@ -1,306 +1,444 @@
-Return-Path: <linux-media+bounces-38444-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38445-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAAEB11A7E
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:05:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 403B3B11AC1
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 11:23:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49EF03AFFCB
-	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 09:05:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23540189BFB5
+	for <lists+linux-media@lfdr.de>; Fri, 25 Jul 2025 09:23:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90A38273811;
-	Fri, 25 Jul 2025 09:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC302D0C7D;
+	Fri, 25 Jul 2025 09:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="pSikeqVh"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="gl14akNn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2088.outbound.protection.outlook.com [40.107.94.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07ADF2737E5;
-	Fri, 25 Jul 2025 09:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753434333; cv=none; b=XXoEEzKptDomGJb4duWZEWcMnyciA5eHrjWAxVVFcKCF65DrBIZAWxRlx79a1LhU3n+G2Lb4XOmaibGy4trDgxK0vaRKVaOMQbl6n6ztwlPuZByns28ksMEG9Hp6fPLh1mUdyt/miweDnNouh4MbEAA/KYXVYUJneF4DFX8PwKU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753434333; c=relaxed/simple;
-	bh=Vgafa3vbljfQRNzyc9Mb8JSo2I+9EP9jfVb0WOnptHU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RxzUBy+z2ncL/V4n5T1SofAiA48kCH3+MMZhcFISJBLDD6CoJQSKggTs9+QaVmWRSohORJzoOKdNL++deq0sVveFAJZqiI8I2aeJpjkgTgjP5vNgYJ/dDpp9MBtSUlp9n3/13pr7GsYFK3t9e66sM08CjJJwVP80Dq61NpBRrZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=pSikeqVh; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4bpMQw6Jk9z10nF;
-	Fri, 25 Jul 2025 09:05:28 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4bpMQw2wHCz7P;
-	Fri, 25 Jul 2025 09:05:28 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=pSikeqVh;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1753434328;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Pullx83NlaIpxJg6m+vDjhNOh5Jd1i42EPX4CAcQhro=;
-	b=pSikeqVhVsfiOhiCgZc1z4GJKwfAHeq6DIcOyrSD4I/cll1WkgCjaskzwUS3ktvctYuPqR
-	y1PYRiOoHuo5Lfnpa2oscfc4znrRfi6Qt6drQif1Ho5LEyS1nvSpQl422T/acz6CRDbg0a
-	t9wD8XB9AJeQuQaBmMzxC91v4PYds8yGZfqULWk8rCvaftrquPE4lVigByQyvHhR+k9nNE
-	X1Gmr6R7bBjz1r0Ws0wbyaJIoIT1gaMZeXDoAdNcpo1lXUtBMN4VAGggke8AO2bwvgXuhM
-	7RztSUCa5lYxW7AtEL9oRcUHqR7RrVV86VYrgblYLvUusdGwByaJ107/T/behg==
-X-CM-Analysis: v=2.4 cv=d/oPyQjE c=1 sm=1 tr=0 ts=688348d8 a=IkcTkHD0fZMA:10 a=NEAV23lmAAAA:8 a=8AirrxEcAAAA:8 a=vWrmB23aV7b_PkFYOm0A:9 a=QEXdDO2ut3YA:10 a=ST-jHhOKWsTCqRlWije3:22
-Message-ID: <8d452d63-b52b-4cda-acf0-14deeb81d65e@jjverkuil.nl>
-Date: Fri, 25 Jul 2025 11:05:28 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74576285053;
+	Fri, 25 Jul 2025 09:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.88
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753435374; cv=fail; b=a78+pWSt9aZ0G0Rbhx2odm9/kng66TQrI6tJzjTmHx/soeVwiWtkCm/Xky6rYWmFl7l3I0ihNTo/d20OZN1Kz8q9e3P+BZ7OLqSl9dBVl0jCElVw+I7Ka96yk+pCF0wsffiuLuI9I97WE+JkoHbD++irBUJzIl4UCgHiBWifoWY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753435374; c=relaxed/simple;
+	bh=wBO6SMaAbKK3d9Dy8VfZVeXK3u/mkg/XGo4Qveo82lQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=mc3CzOW7NVL0j64YalQLkOf8Wr3ziSzqEScq0TkS8oVIDCiI1c5JMYhmNo56YYKyKCFiBj2CQxTAV8bMqeoBC2aYOMztwNJs0vLJHnZ4vscw1Wkvukz+hwkPyanJiZ/+kTxzkQRXpc/OVxnRT+LkS+kQxjQzBYYso6vFrCRt1To=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=gl14akNn; arc=fail smtp.client-ip=40.107.94.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BlAQlM1gS5Sg1wna+V9Or7IW/MC5/+ETSZ8ytSgpYrLI6a48NpwEJMtYFvQuZwWb0gbcxUpL9xUwWzMMfWd2IxNoMnFWAwarKS5ShUPCQc1IlqAmk3ox88qBgpqF1Ah+3KweXp1kYAQn5KyoG3IHL12fVD/mhQUcnBE/m6jWfPnwgRaiaGzQ3+/hhOTGSGVkLS7XAbbyAD5JOB333MW2UkFW4scswcRUczPludLDK7WjtZgCIVX5Ka9bSgzBeHeX2C7CCzVngivkWFt+exONfheREMM2vu7U4z29de0GTNkZBlV4+jgPU9eyQitKZYTSw61vsc8q63M3K5q9lw5j8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8MYJWocqT3hwPeiSE1v9bXr6xAEtSw14WxrPNcYKa0k=;
+ b=LfE15wNh7ZfAW6sEb8MkCdEbWnOp5fNsVfir7hcMdkLX1wonp3+pT3uvX7cyl6gSqZfGljCp7NJQRoQOsRgBFEFP3J1sVDf9nOUOqLgxI2d2es2oumSGfCVpfKISWnQ8SJevKlcVcKZy9ZAIiBupRqxCgQpogeZom9czXEBxCWVe38FFJlUItAQRdBduY1OgQH+9NU+/ynFn75WBF/mBkGsChjBRPFIAy9HtT8lSpPhjeHGHH/bqFB6e+UKoV8cghpnPRaSnLupPFAHRSpE2gdbe4j2ztQc5WtUI8KqauoN/7r42GcaV2+q1UGDL0d79eRLkqtF2xsjN20ydPwTkIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8MYJWocqT3hwPeiSE1v9bXr6xAEtSw14WxrPNcYKa0k=;
+ b=gl14akNn2j0GxLzcytNgKQgT51ZUzd3fbmz5Jwmk2jQvanGh3O8TRC5/oxfb/E1i8vqzCA7W20EBHG7ME4GX5KE98920kp2ey3ypIAfYZAZgCFbqBFiV+W3+vgJL/j62LY5ZAc6AXIKWz5ys8q4bMV3ZtkETAVsiAUkYFuegpmE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13)
+ by IA0PR12MB8907.namprd12.prod.outlook.com (2603:10b6:208:492::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.23; Fri, 25 Jul
+ 2025 09:22:49 +0000
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7]) by PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7%3]) with mapi id 15.20.8964.021; Fri, 25 Jul 2025
+ 09:22:49 +0000
+Message-ID: <ff2f17c6-c5e4-4b7b-b897-8abb4cb79c35@amd.com>
+Date: Fri, 25 Jul 2025 17:22:41 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/8] media: platform: amd: isp4 video node and buffers
+ handling added
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+ gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
+ bin.du@amd.com
+References: <20250618091959.68293-1-Bin.Du@amd.com>
+ <20250618091959.68293-7-Bin.Du@amd.com> <aIEiJL83pOYO8lUJ@sultan-box>
+Content-Language: en-US
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <aIEiJL83pOYO8lUJ@sultan-box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0023.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::19) To PH8PR12MB7446.namprd12.prod.outlook.com
+ (2603:10b6:510:216::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: hans@jjverkuil.nl
-Subject: Re: [RFC 2/2] Documentation: media: Describe exposure and gain
- controls for multiple captures
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, ribalda@chromium.org, jai.luthra@ideasonboard.com,
- laurentiu.palcu@nxp.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, LnxRevLi@nxp.com, julien.vuillaumier@nxp.com,
- celine.laurencin@nxp.com
-References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
- <20250710220544.89066-3-mirela.rabulea@nxp.com>
- <20250716000738.GF19299@pendragon.ideasonboard.com>
- <fcb87e2d-5ddf-4f33-b5f7-5af67c438af5@nxp.com>
- <20250723134942.GC6719@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSBIYW5zIFZlcmt1
- aWwgPGhhbnNAamp2ZXJrdWlsLm5sPsLBlAQTAQoAPhYhBAUs3nvCFQU7aJ8byr0tYUhmFDtM
- BQJoBTEAAhsDBQkX+5V7BQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEL0tYUhmFDtMb8EQ
- AK6Ecb5mGBanCa0R+J/WkWxGVsgqsaTjNU6nS5sl9lkiY64Tad6nF8RNO9YKRyfuokm2pxAD
- a91Tk92DFstszKGwiisEG7PQ3zXHEJTqxIosy9ueLbHTOvB4CnWVChcvaBWZ2uilyKFsWNTq
- mbDQf3/0UC3LxbEvGsYNU1Q6Pz+h+Pdv7GgdOJhYGKSLCpQyPYOyaU9tenHDKx6aNedNG4ZI
- 2OAM18nDfKrEplSjDF9E9Ras65/n9iWQfGoUdxSlGrxM/t3EVgi1FXEq14FaCi6HhvreBZuw
- 3NTHg4Za6bqnYsZnbyHY36bgnxi2YJYxKlh+IMT/TpfEh8nf2nnJTgs3bsNIVVaaYxJtl4w/
- Y48gKt6YzcWsHR6l0CSMQhZXQqp/Ljpi+/xtE6JJ/tJnG9Wyi3+hA11GFQ50uciXTpp9/w8s
- fScrv8qrfRiUsd+zfd0MC6EJmHSlW7qSVQjEauWDsdCFmsER8y/ab3DQb5uhrsyuooB+V7uj
- 476vUbH/fM3KMrvh8HOTUBoAE/Mf82/bMlrduuU5PkbO+3/PcUR0WFUSK2yRK32GX/Tt2tD+
- YJq0RnyR8UeYslVLzyehrt8Cgc9KgHa8VUi/vkSTenjieYJYxgrd+oTYXB38gKlADnhw+zyp
- CsqeGGZu+SS2qrPUyUkeruRX7kC2tQ6gNoYpzsFNBFQ84W0BEADcy4iOoB5CIQUCnkGmLKdk
- kqhfXPvvSzsucep20OLNF96EymjBnwWboipJFOjZxwkmtAM+UnEVi2kRrtT844HFcM5eTrA2
- sEdQbThv16D0TQdt+dT0afvlvE1qNr4mGGNLiRyhRzC/pLvatD/jZHU8xRiSz/oZ+8dEUwzG
- 4Skxztx9sSc+U1zRPc0ybiHxgM90oQ6Yo782InmN99Ac2WH6YLwpZQ1TOROF4HxeBfzfdMFi
- rudHzANNbn8LvvfRhMExVRtms+U/Ul3e730oEUpM18u4XJ8Y+CITnzOk7POfwYzHiKXqskw3
- bLnrQYF/QzDFsTFpewS3ojMzBq35CeLb5aH9LFY7q14m04m2cn8hkdq4nIPIk2x8hWgM19rh
- VaGWj8a6e7nQ30PerH89IXrBfWYvHezZzZzGG1JlLWktPNy/5dhAyrwiJIUo3ePFxfmjvFYa
- wn211qRkWi3GP4MYtk10WBvcQmuzyDYM/Usjt+LC+k3hT0mZ+Gz0FeTtY/OQ4+IwXnAdZM9m
- q88JVlijGVG0dOB03gLrr2LwihDJ31twAc3aJ4e9EHaiW6UBnwBdqeP4ghEylrqnn4jmJ6Uf
- D6qEANQ2L97e8vQyDeScP/Do+cDnhMm8Or0zAdK658fiWl78Xh0pRcx4g+opfwoQw5CfSf3o
- wh1ECJeNMC0g0QARAQABwsF8BBgBCgAmAhsMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU
- 3McFCRf7ldoACgkQvS1hSGYUO0zJTw//aaYKzeGfYF7WvSHUvGvtBO5Y/3XNC5xfU+jDKmlA
- vghX304jqDQ5314fLH7Kk4wE+dE7FaXZR+mMj5W1ORUfGwvMJ7ayemUVg3RyYggy6jQP5Rlb
- SCj9WFvHwNNbYTHFVMkAnVVKpwcjCYiUA82WK1/hP2ClE4dkS+WHtH6ABhO0hs32WoCNAzmT
- fdsOfXtSYN8wYWF0CI8wW4RiMu7rAX7xPPNhnVGz9vWyn06XDipCSIDuivsPNg/9XeUzjUg9
- eOvlMkphJ42MRyPJAWGmSeLm8mKwxoF094yAT6vIvYmT9yUnmf9BfVCJV+CnjEhvMpoAkUqi
- 9cvaZfUdnsAnqQmoRJE0+yInhlMyWc+3xlGsa0snsTxNfqjaLH61CLt8oUQOgCI4cD4rJWks
- A8SyOqlgxEHnljUGmFEhCBUOV5GcXf1TfCXjMBiAKtex5cpvic4wZIJJtS1fS18PQ/DEC3vL
- UnhF1/AWSHp+sv8vlNgnncxLDCho8uVjZrn4jzswd6ticBUAsPAKDYnO7KDzfQlQhIHdq10v
- jlGW/FbxA1UUiuWH+/Ub3qh75oQHTTlYe9H+Qr8Ef231/xItks8c+OyoWV6Z9ZcZnHbOmy2I
- 0wGRdGp8puOL7LzhLkIN66sY/+x4s+ANxyJK6U1nJVeq7tbbhqf2Se2mPG3b87T9ik8=
-In-Reply-To: <20250723134942.GC6719@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7446:EE_|IA0PR12MB8907:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d68cba3-d30a-46f5-3d45-08ddcb5cd2cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bThHa0xBdUd5U0RCY3NEbXMrNnhIdkFjaHVHSGx2S3hMSDErN1ZZdW1BYytk?=
+ =?utf-8?B?NUZtYzcxSm52ekwwWXdZMnR5QWpVeGphVnZzZmdFMG9ETjVDSjZrbzk1eU12?=
+ =?utf-8?B?Q1RnTktBbVRZRE9ncDlua1g2aVh0S0VSRlVQMzZKamxCOVF2MjE2ak41MzNa?=
+ =?utf-8?B?Y3M4TEk4UXQ4cEV5TWNGVmdleUJLalhGQTFsRTF1QmVZMHhJT1ZFb1BtMStG?=
+ =?utf-8?B?OWFqZVVzdm1XcW5naFd4blBaTyszOGx6eTduRDRjUGJXT1J3UTBYRlM3T3Jq?=
+ =?utf-8?B?N2hhTWZSaFM0TktKWTg5ZHVsMzc2M1l5ek45Nit2c0YrMXdKZXBwMXpVRUFB?=
+ =?utf-8?B?NmdaUTlFU3VsUUlWdDhCQVJiQW5yVWRHbko3YjE3SzFLY2pkWS9QMzViSkdG?=
+ =?utf-8?B?ZFJtRkdPbFpWZHhzV01hVE9sRHZvalhFUUh1aElSTzVQdHIwRG44YVNDOTVJ?=
+ =?utf-8?B?NktoNDhXSEdnR21uamNGU0V6K1Ftby8wK1pwczhWZXc5QjNpbFVBNkY5Z3Bt?=
+ =?utf-8?B?b0JKKzJsOFA3QzZrQXVxeXRiTHVpalhRa0xsL3liYWplQzNKa2srZlpHMitL?=
+ =?utf-8?B?cytHVXJGdUNFVEdzbjJwSksrZ2V6cVRiUUZKdk5vUXh4QTI2TktaVWV1NDhR?=
+ =?utf-8?B?c3ZxQldFVnd0ZGVRWTB0QjNWV2NuaGJ6TGgvTmRlSnhoaTdxTDM5QXl0Ni9m?=
+ =?utf-8?B?aTZtLy9xdkRQdllKMVpkVng4ampTV1FIZkxqSy9EeDc2ZERkN3JQVGlFYnRw?=
+ =?utf-8?B?eFE1anZLRXJLUHFwanRySk9GYmtldHZnOE9SQS9SVTJmRGNxZy9kNUFIeTBG?=
+ =?utf-8?B?K2c2NzlkWFlOSUZzSm94Z00xTSsvSW1sT01yak9YbThFNlh5TlRibUNEdllx?=
+ =?utf-8?B?amxabGJXRXRreXNia3J2c0dKRzhlaG10SVVOSTVTOTdUTjArYlNxeGVCckdM?=
+ =?utf-8?B?OWlPb2pzc2Rtb2ptZmVqU0tma3pNYWtPV05Pd05VTVF1SjZKckNpcTRNWG1y?=
+ =?utf-8?B?byswUHk4bThzT210dERSZU10eGVaOVAreFJiODFzTHk0YVZ2U1B2cmFIZWdJ?=
+ =?utf-8?B?RW1pMDVDWCszSExZYnNva1hJZndXVkdaVWs0SCtNeGRCNHZuNjZGRHNYcGtW?=
+ =?utf-8?B?cDVwUWl6cDN4TXhWN3dLaVFsbkRtS3AzT01XLzNTZjlxZXVNRU81Yi9PbXdF?=
+ =?utf-8?B?R1drUUtyemdka3VKbTBGWjBqa1JVcGxxS1hFZ2xwVVhEWU1GNjJ0Vmk5dFN4?=
+ =?utf-8?B?M2k5UllyZmZXbDRJbFZDKzFrVlY3Vk93S2NQV3djWWJXUi82czBlcGhUUEk1?=
+ =?utf-8?B?KzRKZm9sai9IWXdEOVNTVFNoTHFYRzhLcXhQRU9zT1BUL2hONHRoTGhVdVFQ?=
+ =?utf-8?B?aHQwOEpYUFVUVnduTmpDVmZSejZ5TmlBbmFKb213WVNqbXVlT1VXS3JXMkNy?=
+ =?utf-8?B?T25hai96cG1za1doa1NUVWZXNGlnQVJoREhWbWhTOXFhTU5adDhhbDVsMk04?=
+ =?utf-8?B?TktnTjkreUd4SDVta3pYNmZjNE9PeHk3NUx2d3hnRUlJQ0dLRCtZYzlUY1lR?=
+ =?utf-8?B?R0NGSXJ3L2ViM0loSUtQZmROUXVoQkFzTm41clNNS25uTDVLeGxxUnFlSkdS?=
+ =?utf-8?B?cjVtTEZPa0gybm4wQWpXSG9kUTZwWnlVZUw5Zmo0TTJSOGQ1eTZpeEZORlVa?=
+ =?utf-8?B?MzNOekJZU3NjcU1BZEpzTlNzV1hZdzcrWXE3ZFc5WW9TU3pjcFRkcEdROEFX?=
+ =?utf-8?B?Rm1SSEhaTi9LRTZoUmRVWlhwUXRZb1FSb0dYckZTUXJtL29FTUh6cW5BM2dJ?=
+ =?utf-8?B?QTNRSjRLcnZwamxHYm8zSWRiVTM2T0tiSmtSYUFlR1EwcHZucWFEL2ZVYXVS?=
+ =?utf-8?B?YUlDOENKdGovUThuU2V6MWZLUm50QWZyTjVKeC9aODBoRDJEeHE0ejM3dTd3?=
+ =?utf-8?Q?GfQWxc85Dwg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7446.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UHhaNnBubG1tUlFGMFlxRjYyKzF2WWRiK2FVMUZ6VlZoNEt6QVV5U0Z4MERp?=
+ =?utf-8?B?bmV4ZkRpTG15SUxDZEQ2dEUxbnd0U2ROMG92UEhQRnkwSitER2ZYbnM5L1E1?=
+ =?utf-8?B?cC8yL0NxTTdQaWFzeW5vMzJ6cW80SmU3a0M1VjllQkRNaDAvNHdqSHFlQUFI?=
+ =?utf-8?B?RnpxZlhGYlJIYkxkam9pUUVhc3NWcEMrOHJoNUJpUUxVeGpwcFRMQUZ0NElE?=
+ =?utf-8?B?cVRWYXh2dmZYdU1qRmx0QUdlNWNqUkZmdlE5blh3RWUwYWw2SlgyY2Z3YlhS?=
+ =?utf-8?B?UjNlZXB5c3hqUkh0UDBaY0w2dDRZREsvdTk3WDh6QlZzMUM1d25iSE5rc2k5?=
+ =?utf-8?B?bHB2UXowb3E4bTFXdW43VytzdmFRbVhwbEVsb2ZwUzlCN21jWGx5VHdqd1oz?=
+ =?utf-8?B?OWtJd252VDBpditrMmZOSFloNHlaT1NZN2ZYdDNGZzFkVy8vcUU1QTNoL21l?=
+ =?utf-8?B?eXpzbnZmSGVNNEUzSThxaDg4YmNNVDV1LzczQUN6L1ZMT1RHRDlRUmZ6Q1dL?=
+ =?utf-8?B?V2FvNE4zTFNkbllwdE93dHZmUlpTMTNDRXRxTWtKVVprWmkrdTZqV0tGYkxi?=
+ =?utf-8?B?WTJsd3NGMndOVm5aSWdIRHdoQ25XRlBRS3ZnMnY0OHhjb1BvVW1DekYrMktz?=
+ =?utf-8?B?cGZkZnYwcE5QRmpGNmo5M3VlRStPdm1oZk5MdGZpRHBQZjFPWFYyMURvWG4z?=
+ =?utf-8?B?N3QxUElmSkkreG84QUcvQXA0VW5SVWlRWHJkMEQ2aDczZG5KV0xOaE1LZG96?=
+ =?utf-8?B?L0JMeXlaNDRLcWl2YW5ta09rNHZpeU1xMkJIOEVISUdXRnBUMk8vaTFpK0xJ?=
+ =?utf-8?B?Q2t4dStYbDN4OG5IRFdwSWNwaG9uNGF3SDIxVGpBQkh4eFRlTm00UzlQaUl1?=
+ =?utf-8?B?RTVhQ2w5ZnhpSUFZTlZRSHVYSDF2Y0JwdjZFOVdXQytkL1dpQTYrOUJNanlH?=
+ =?utf-8?B?M2dnMHVZSWJJL1QwWFVnaEVlTVlCSVRKdzhXdFg5NDZXL3FqYk5sUC83aENR?=
+ =?utf-8?B?RE84STlZeVlobW0rQndsVzJiSlFhSUl0MWdTZFk3Z2w0a09zY3R1VjgybGFR?=
+ =?utf-8?B?VHFyaFUyYXY4SGwwT3VOUTBJZFR5dFpXclpKeTdHYlpwLy83dGZyeDYwdHRO?=
+ =?utf-8?B?ampSM3BBOGRoU2tLN0haY21RVGVlQnNoVDJGbXVVTno0ZFJhRkY3R2hkSkNY?=
+ =?utf-8?B?S29TeFNmS29PMGJSS01vTzZZamF4U1ZvR2I1b1R0eDF0eFhSL2RVTFpseFk1?=
+ =?utf-8?B?YnFtZ202aG5LdlQ5TVVtQWo1MTBHMUVzZjZPckdCZi9kVWs0RzlDU2lPZ051?=
+ =?utf-8?B?cU5HQjRSOTc0T2hTQjk5eWNqUk93RVRqN0p2aURKbTl4bXlJaGl2cE1kalZF?=
+ =?utf-8?B?S0hzWnlFY2UxV3JvL01TV3dRZDhyTGZ4YU9mL25udEx2L3hKL2ViNGRnOGRk?=
+ =?utf-8?B?OHhCV25lNC9Xc3NQcGY1cnpqUEVNWmt6REhCTkdGUmIwZGZhZjhpMmxzN082?=
+ =?utf-8?B?cENrNUFRVTI3dXQ5ZWNNZ201VDZiSlV2REcwSlNzaG1nZ1hhLzVEUGt6dFB6?=
+ =?utf-8?B?MG9iTlVsYkFOUHkzY2ljY0tFZTJxaVhQdHlnMkgvWDB6bEE5L005S3pocWxv?=
+ =?utf-8?B?M1hvWDI0ZHZnbllhVEpKTkN1ZWNPT3NaS2ViY1ZJNE9HSmNtV1dkNTNGVTJG?=
+ =?utf-8?B?NHBPaGhRUm5mOUIvWVJUam9ROWtJUmFuWTFPZVJPYTl0ZzVEaDVJaXIyVW4y?=
+ =?utf-8?B?YUlHVmZFS2wrY3padHlkY0o2M1cxdEV0aHBMRkt1Q1NHTm02UDZ0TW5SMmpS?=
+ =?utf-8?B?YzdFZ1oxSzc3MXREa0pTdlhjVFFkb0EyUFpiTEFnMU93L1FjTXM4N3NGUUcz?=
+ =?utf-8?B?VElJYkN0SDN6aGJJdEV3ZlVnc1E3aXhtRkt1bk4xWG5PNmY0RXEzbVhWZzBO?=
+ =?utf-8?B?TWxRbVdxbUN0VGN6QSs1T21JSzR3eklaQXNRMEZyRXdLSTZSTVZRNUpVSGFZ?=
+ =?utf-8?B?S3p2R3o3S1dqTTNmL0tWQWdXWlUxNjRQSE02bEliV0FCb1pNYzEzckZlQUpi?=
+ =?utf-8?B?Q1NsdEI4R2N0dU8reTlicmVyWVlsc0Z3UFRFaGQ1Z0wvK1V6OW90ditOQThP?=
+ =?utf-8?Q?TgcU=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d68cba3-d30a-46f5-3d45-08ddcb5cd2cc
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7446.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2025 09:22:49.3937
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZkATilumCfqYjCx/aPDwNRdctg3MxC+ZAQ6ZFxtAMl7blZnB+4nS6cMrpqLDC4Kz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8907
 
-On 23/07/2025 15:49, Laurent Pinchart wrote:
-> On Sun, Jul 20, 2025 at 10:02:13PM +0300, Mirela Rabulea wrote:
->> On 7/16/25 03:07, Laurent Pinchart wrote:
->>> On Fri, Jul 11, 2025 at 01:05:44AM +0300, Mirela Rabulea wrote:
->>>> The standard controls for exposure and gains allow a
->>>> single value, for a single capture. For sensors with HDR
->>>> capabilities or context switching, this is not enough, so
->>>> add new controls that allow multiple values, one for each
->>>> capture.
->>>
->>> One important question not addressed by this patch is how the new
->>> controls interact with the old ones. For instance, if a sensor
->>> implements 2-DOL, it should expose a V4L2_CID_EXPOSURE_MULTI control
->>> with 2 elements. Should it also expose the V4L2_CID_EXPOSURE control,
->>> when operating in SDR mode ? What should happen when both controls are
->>> set ?
->>
->> Yes, it's a good point. I experimented with the option of implementing 
->> both, at least for backward compatibility (libcamera requires them) and 
->> kept them consistent, I mean if V4L2_CID_EXPOSURE_MULTI values change, 
->> also change V4L2_CID_EXPOSURE and viceversa, so basically keep 
->> consistent the values from V4L2_CID_EXPOSURE with the values for the 
->> first exposure from V4L2_CID_EXPOSURE_MULTI. Also, I had to check if hdr 
->> mode is not enabled, do nothing in s_ctrl for V4L2_CID_EXPOSURE_MULTI 
->> (cannot return error, as it will make __v4l2_ctrl_handler_setup fail).
->>
->>> There are also sensors that implement multi-exposure with direct control
->>> of the long exposure, and indirect control of the short exposure through
->>> an exposure ratio. The sensors I'm working on support both, so we could
->>> just ignore the exposure ratio, but if I recall correctly CCS allows
->>> sensors to implement exposure ratio only without direct short exposure
->>> control. How should we deal with that ?
->>
->> I'm not sure I understand, but in case of indirect short exposure 
->> control I think we do not need these multiple exposure controls, we can 
->> use the existing ones, as only the value for the long exposure is 
->> needed, the driver can derive the value for the short exposure using the 
->> ratio.
-> 
-> I'm talking about sensors that implement the CCS exposure ratio, or a
-> similar mechanism. With those sensors, the long exposure time is set
-> directly, and the short exposure time is calculated by the sensor by
-> dividing the long exposure time by a ratio. The ratio is programmed by
-> the driver through a register. The ratio could be set to a fixed value,
-> but I think there are use cases for controlling it from userspace.
-> 
-> Some sensors support both direct control of the short exposure and
-> indirect control through a ratio, while other may support indirect
-> control only. For the sensors that support both, we could decide to only
-> expose the multi-exposure control with direct control of the short
-> exposure. For sensors that support indirect control only, we need to
-> define an API. We could possibly still use the same multi-exposure
-> control and compute the ratio internally in the driver, but there may be
-> a better option.
-> 
->> In some cases, this may be enough, but when direct individual 
->> control is needed for both long and short exposure, then we need the 
->> multiple exposure controls. Do you have a specific sensor example in mind?
->> I think in the past we looked at imx708, and my understanding was that 
->> the exposure control affects only the long exposure and the sensor will 
->> automatically divide the medium and short one with the corresponding ratio:
->> https://github.com/raspberrypi/linux/blob/rpi-6.12.y/drivers/media/i2c/imx708.c
-> 
-> The ratio seems configurable. Register 0x0220 is programmed to 0x62,
-> which selects ratio-based control of the exposure. I don't know if the
-> sensor supports direct control of the short (and very short) exposure.
-> 
->>> Finally, I was recently wondering if it would be possible to reuse the
->>> existing controls instead, allowing them to be either single values or
->>> arrays. The idea would be that setting the control to a single value
->>> (essentially ignoring it's an array) would provide the current
->>> behaviour, while setting values for multiple elements would control the
->>> separate exposures.
->>
->> You mean to divide the 32 bits value of the current controls between the 
->> multiple exposures?
->> Just one comment here, we have encountered the ox03c10 sensor with 4 
->> exposures (that will leave only 8 bits per exposure), and the ox05b1s 
->> sensor with context switching and the exposure on 24 bits (for 2 
->> contexts, 2x24=48). So reusing current 32 bit controls  might not be 
->> enough.
-> 
-> I'm not sure the controls here should be used in the context switching
-> use case. It would be better to define a more generic mechanism that
-> supports multiple contexts for all controls.
-> 
->> Or do you mean changing the current controls type from 
->> V4L2_CTRL_TYPE_INTEGER to u32 array?
-> 
-> Yes, this is what I mean.
-> 
->> Would that not cause issues with 
->> applications already using current controls?
-> 
-> That would only work if the kernel could handle some type of backward
-> compatibility, doing the right thing when userspace sets the control to
-> a single value (as opposed to an array of values). That's probably not
-> very realistic, as the control would enumerate as a compound control,
-> and that may break existing userspace.
-> 
-> Another option would be to change the control type at runtime based on
-> whether or not HDR is enabled, but that also sounds like it will cause
-> lots of issue.
-
-While technically it is possible to change the type at initialization time
-(although probably not dynamically), it is basically a uAPI change since it
-was never documented that you had to check the control type first for these
-controls before using them.
-
-I think introducing these MULTI variants makes sense and is the right way to
-go.
+Many thanks Sultan for your so careful review.
 
 Regards,
+Bin
 
-	Hans
-
->>> I haven't checked if the control framework supports
->>> this, or if it could be supported with minimum changes. The advantage is
->>> that we wouldn't need to define how the new and old controls interact if
->>> we don't introduce new controls. 
->>
->> I think the same advantage will be achieved with stream-aware controls 
->> (no new controls, also the min/max/def semantics remain clear), but 
->> there is the issue we do not have streams if the sensor does internally 
->> the hdr merge. Does it sound any better to introduce some fake streams 
->> or pads that are not associated with any pixel stream, but just to allow 
->> multiple exposure control?
+On 7/24/2025 1:55 AM, Sultan Alsawaf wrote:
+> On Wed, Jun 18, 2025 at 05:19:57PM +0800, Bin Du wrote:
+>> +static void isp4vid_vb2_detach_dmabuf(void *mem_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = mem_priv;
+>> +
+>> +	if (!buf) {
+>> +		pr_err("fail invalid buf handle\n");
+>> +		return;
+>> +	}
+>> +
+>> +	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
 > 
-> That also sounds like quite a bit of complexity for little gain. It
-> seems that new controls are the best option. There are still a few
-> issues to solve:
+> Variable declaration mixed with code, move the variable declaration to the top.
+Will fix in the next patch>
+>> +
+>> +	dev_dbg(buf->dev, "detach dmabuf of isp user bo 0x%llx size %ld",
+>> +		buf->gpu_addr, buf->size);
+>> +
+>> +	if (buf->vaddr)
+>> +		dma_buf_vunmap_unlocked(buf->dbuf, &map);
+>> +
+>> +	// put dmabuf for exported ones
+>> +	dma_buf_put(buf->dbuf);
 > 
-> - Should sensors that support multi-exposure (or gains) implement
->   V4L2_CID_EXPOSURE for backward compatibility, or only
->   V4L2_CID_EXPOSURE_MULTI ? If both are implemented, how should the two
->   controls interact ?
+> The dmabuf shouldn't be put from the detach_dmabuf memop. Remove this.
 > 
-> - How do we handle ratio-based exposure control ?
+Will fix in the next patch>> +
+>> +	kfree(buf);
+>> +}
 > 
-> - In which order are the exposures (and gains) stored in the array ?
+> [snip]
 > 
->> BTW, Jay, what are your plans around the stream-aware controls?
->>
->> Thanks again for feedback, Laurent!
->>
->>> Hans, what do you think ?
->>
->> Same question from me ;)
->>
->>>> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
->>>> ---
->>>>   .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
->>>>   1 file changed, 12 insertions(+)
->>>>
->>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
->>>> index 71f23f131f97..6efdb58dacf5 100644
->>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
->>>> @@ -92,3 +92,15 @@ Image Source Control IDs
->>>>       representing a gain of exactly 1.0. For example, if this default value
->>>>       is reported as being (say) 128, then a value of 192 would represent
->>>>       a gain of exactly 1.5.
->>>> +
->>>> +``V4L2_CID_EXPOSURE_MULTI (__u32 array)``
->>>> +    Same as V4L2_CID_EXPOSURE, but for multiple exposure sensors. Each
->>>> +    element of the array holds the exposure value for one capture.
->>>> +
->>>> +``V4L2_CID_AGAIN_MULTI (__u32 array)``
->>>> +    Same as V4L2_CID_ANALOGUE_GAIN, but for multiple exposure sensors. Each
->>>> +    element of the array holds the analog gain value for one capture.
->>>> +
->>>> +``V4L2_CID_DGAIN_MULTI (__u32 array)``
->>>> +    Same as V4L2_CID_DIGITAL_GAIN, but for multiple exposure sensors. Each
->>>> +    element of the array holds the digital gain value for one capture.
+>> +static void isp4vid_vb2_dmabuf_ops_release(struct dma_buf *dbuf)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = dbuf->priv;
+>> +
+>> +	/* drop reference obtained in vb2_isp4vid_get_dmabuf */
 > 
+> s/vb2_isp4vid_get_dmabuf/isp4vid_vb2_get_dmabuf/
+> 
+Will fix in the next patch>> +	if (buf->is_expbuf)
+>> +		isp4vid_vb2_put(dbuf->priv);
+>> +	else
+>> +		dev_dbg(buf->dev, "ignore buf release for implicit case");
+>> +}
+> 
+> [snip]
+> 
+>> +static struct dma_buf *isp4vid_vb2_get_dmabuf(struct vb2_buffer *vb,
+>> +					      void *buf_priv,
+>> +					      unsigned long flags)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = buf_priv;
+>> +	struct dma_buf *dbuf;
+>> +
+>> +	if (buf->dbuf) {
+>> +		dev_dbg(buf->dev,
+>> +			"dbuf already created, reuse implicit dbuf\n");
+>> +		dbuf = buf->dbuf;
+> 
+> The dmabuf is reused here without taking a reference to it. When the get_dmabuf
+> memop is called by vb2_core_expbuf(), it assumes that a reference to the dmabuf
+> is acquired. So you need to add `get_dma_buf(dbuf)` here.
+After test, we found we can't add get_dma_buf(dbuf) here because it will 
+make cheese APP fail to open camera with following error:
+amdgpu: [drm] *ERROR* failed to alloc gart kernel buffer (-28)>
+>> +	} else {
+>> +		dbuf = isp4vid_get_dmabuf(vb, buf_priv, flags);
+>> +		dev_dbg(buf->dev, "created new dbuf\n");
+>> +	}
+>> +	buf->is_expbuf = true;
+>> +	refcount_inc(&buf->refcount);
+>> +
+>> +	dev_dbg(buf->dev, "buf exported, refcount %d\n",
+>> +		buf->refcount.refs.counter);
+>> +
+>> +	return dbuf;
+>> +}
+> 
+> [snip]
+> 
+>> +static void *isp4vid_vb2_get_userptr(struct vb2_buffer *vb, struct device *dev,
+>> +				     unsigned long vaddr, unsigned long size)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf;
+>> +	struct frame_vector *vec;
+>> +	int n_pages, offset, i;
+>> +	int ret = -ENOMEM;
+>> +
+>> +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+>> +	if (!buf)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	buf->dev = dev;
+>> +	buf->dma_dir = vb->vb2_queue->dma_dir;
+>> +	offset = vaddr & ~PAGE_MASK;
+>> +	buf->size = size;
+>> +	vec = vb2_create_framevec(vaddr, size,
+>> +				  buf->dma_dir == DMA_FROM_DEVICE ||
+>> +				  buf->dma_dir == DMA_BIDIRECTIONAL);
+>> +	if (IS_ERR(vec)) {
+>> +		kfree(buf);
+>> +		return vec;
+>> +	}
+> 
+> You can combine the error handling here with the error path at the bottom of the
+> function instead of duplicating the `kfree(buf)`.
+> 
+Will fix in the next patch>> +	buf->vec = vec;
+>> +	n_pages = frame_vector_count(vec);
+>> +	if (frame_vector_to_pages(vec) < 0) {
+>> +		unsigned long *nums = frame_vector_pfns(vec);
+>> +
+>> +		/*
+>> +		 * We cannot get page pointers for these pfns. Check memory is
+>> +		 * physically contiguous and use direct mapping.
+>> +		 */
+>> +		for (i = 1; i < n_pages; i++)
+>> +			if (nums[i - 1] + 1 != nums[i])
+>> +				goto err_destroy_free;
+>> +		buf->vaddr = (__force void *)
+>> +			     ioremap(__pfn_to_phys(nums[0]), size + offset);
+>> +	} else {
+>> +		buf->vaddr = vm_map_ram(frame_vector_pages(vec), n_pages, -1);
+>> +	}
+>> +
+>> +	if (!buf->vaddr)
+>> +		goto err_destroy_free;
+>> +
+>> +	buf->vaddr = ((char *)buf->vaddr) + offset;
+>> +	return buf;
+>> +
+>> +err_destroy_free:
+>> +	vb2_destroy_framevec(vec);
+>> +	kfree(buf);
+>> +	return ERR_PTR(ret);
+>> +}
+>> +
+>> +static void isp4vid_vb2_put(void *buf_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = (struct isp4vid_vb2_buf *)buf_priv;
+>> +	struct amdgpu_bo *bo = (struct amdgpu_bo *)buf->bo;
+>> +
+>> +	dev_dbg(buf->dev,
+>> +		"release isp user bo 0x%llx size %ld refcount %d is_expbuf %d",
+>> +		buf->gpu_addr, buf->size,
+>> +		buf->refcount.refs.counter, buf->is_expbuf);
+>> +
+>> +	if (refcount_dec_and_test(&buf->refcount)) {
+>> +		amdgpu_bo_free_isp_user(bo);
+>> +
+>> +		// put implicit dmabuf here, detach_dmabuf will not be called
+> 
+> Comment style (use /**/ instead of //).
+> 
+Will fix in the next patch>> +		if (!buf->is_expbuf)
+>> +			dma_buf_put(buf->dbuf);
+>> +
+>> +		vfree(buf->vaddr);
+>> +		kfree(buf);
+>> +		buf = NULL;
+> 
+> `buf = NULL;` here is superfluous; you can remove it.
+> 
+Will fix in the next patch>> +	} else {
+>> +		dev_warn(buf->dev, "ignore buffer free, refcount %u > 0",
+>> +			 refcount_read(&buf->refcount));
+> 
+> This refcount_read() is a possible use-after-free because `buf` is accessed
+> after isp4vid_vb2_put() puts its reference to `buf`. So something else could put
+> the last reference to `buf` and free it after this refcount dec but before the
+> refcount_read(). Maybe just remove this dev_warn() entirely?
+> 
+The warning is important to debug mem related issue, plan to keep it but 
+without accessing buf or buf->refcount here. Do you think it 
+acceptible?>> +	}
+>> +}
+>> +
+>> +static void *isp4vid_vb2_alloc(struct vb2_buffer *vb, struct device *dev,
+>> +			       unsigned long size)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vb->vb2_queue);
+>> +	struct isp4vid_vb2_buf *buf = NULL;
+>> +	struct amdgpu_bo *bo;
+>> +	u64 gpu_addr;
+>> +	u32 ret;
+>> +
+>> +	buf = kzalloc(sizeof(*buf), GFP_KERNEL | vb->vb2_queue->gfp_flags);
+>> +	if (!buf)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	buf->dev = dev;
+>> +	buf->size = size;
+>> +	buf->vaddr = vmalloc_user(buf->size);
+>> +	if (!buf->vaddr) {
+>> +		kfree(buf);
+>> +		return ERR_PTR(-ENOMEM);
+>> +	}
+>> +
+>> +	buf->dma_dir = vb->vb2_queue->dma_dir;
+>> +	buf->handler.refcount = &buf->refcount;
+>> +	buf->handler.put = isp4vid_vb2_put;
+>> +	buf->handler.arg = buf;
+> 
+> What is buf->handler for? I don't see it used anywhere in the entire patchset; I
+> can delete `handler` from `struct isp4vid_vb2_buf` along with these lines and it
+> compiles.
+> 
+Yes, will remove it.>> +
+>> +	// get implicit dmabuf
+> 
+> Comment style.
+> 
+>> +	buf->dbuf = isp4vid_get_dmabuf(vb, buf, 0);
+>> +	if (!buf->dbuf) {
+>> +		dev_err(dev, "fail to get dmabuf\n");
+>> +		return ERR_PTR(-EINVAL);
+>> +	}
+> 
+> Doesn't free `buf` or `buf->vaddr` on error here. Also, comment style.
+> 
+Will fix in the next patch>> +
+>> +	// create isp user BO and obtain gpu_addr
+> 
+> Comment style.
+> 
+Will fix in the next patch>> +	ret = 
+amdgpu_bo_create_isp_user(isp_vdev->amdgpu_dev, buf->dbuf,
+>> +					AMDGPU_GEM_DOMAIN_GTT, &bo, &gpu_addr);
+>> +	if (ret) {
+>> +		dev_err(dev, "fail to create BO\n");
+>> +		return ERR_PTR(-EINVAL);
+>> +	}
+> 
+> Doesn't free `buf` or `buf->vaddr` or put `buf->dbuf` on error here.
+> 
+Will fix in the next patch>> +
+>> +	buf->bo = (void *)bo;
+>> +	buf->gpu_addr = gpu_addr;
+>> +
+>> +	refcount_set(&buf->refcount, 1);
+> 
+> This discards the refcount inc triggered from amdgpu_bo_create_isp_user() when
+> it calls get_dma_buf(), leading to a use-after-free. Move this refcount_set()
+> up, preferably right after vmalloc_user() or right after `buf` is allocated so
+> there's no risk of this issue occurring again in the future.
+> 
+Ignore it as you did correction in another mail.>> +
+>> +	dev_dbg(dev, "allocated isp user bo 0x%llx size %ld refcount %d",
+>> +		buf->gpu_addr, buf->size, buf->refcount.refs.counter);
+>> +
+>> +	return buf;
+>> +}
+> 
+> [snip]
+> 
+> Sultan
 
 
