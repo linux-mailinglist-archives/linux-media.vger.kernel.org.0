@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-38506-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38507-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D397B12CC0
-	for <lists+linux-media@lfdr.de>; Sat, 26 Jul 2025 23:50:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574A1B12CF6
+	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 00:32:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D6605427C6
-	for <lists+linux-media@lfdr.de>; Sat, 26 Jul 2025 21:50:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E0547A8577
+	for <lists+linux-media@lfdr.de>; Sat, 26 Jul 2025 22:30:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 387382222A1;
-	Sat, 26 Jul 2025 21:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B67C3219311;
+	Sat, 26 Jul 2025 22:32:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="FjYv7uJH"
+	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="P25KKNDW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506A720C029
-	for <linux-media@vger.kernel.org>; Sat, 26 Jul 2025 21:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48EB43159
+	for <linux-media@vger.kernel.org>; Sat, 26 Jul 2025 22:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753566613; cv=none; b=Od2Cr82cJ4N5B5TTIHQQFw2pqTkoB6MSBj6Aun+nWzzxJCf8wXoEBr0mHJC93puK9jaclFcYV7GOrwpincwVb1uvc25Q5+kho5/CftwZpjE02qVQbeQHpRw4AY6ZAPpDUc/dI+11k8Bzxh94T4Bs9q7d9PfQojiC5+C/a0Ctbp0=
+	t=1753569121; cv=none; b=K1tP2kxh6j3O29JqKFH5QTwrxsPmia68+gRgTvMP2GaubWF8fL+ztGPmzl33ihMYAtNwPzkGh170Y9Er3015e3vvxCMbwcXveW9Y1fFdYsJ3FPGqNrsri+RgUV5cM1yO4k+33L1rd01b3l0RS0A5EHrGMafVkvEgnhLtkY7DEK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753566613; c=relaxed/simple;
-	bh=kSk6pZi5JERX35vTFewHBzc9w+TCNbhDLEr20oEZUH8=;
+	s=arc-20240116; t=1753569121; c=relaxed/simple;
+	bh=Br0igOSWeBgd+8tcin2EbctaTl2MsLwbeeC9XmXtjgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dcYGNWm2MJ4QJELcD4B5ixejkFZAgLaX4x7guvsTvc8iyW5hW46knoWYYU2+UhSFqP+h6Qn+4fCnCEFekNYb2bg3UEXdSSAcattElF6xuCo1SSqO3jrxT2Keqp05zBHCOW0t0mWBXwMyhfLFjXv6SAiuNTLpJDpEOtk/jx6KW3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=FjYv7uJH; arc=none smtp.client-ip=209.85.215.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=fN9ol9cnnblFFsc296aG+BXyE9qTccLPiiJuLkz6/jGbmhMaUJivR7ux2RMp4nEKraTHFu9t04Df4Ccq0juXgWZFvbPsPpgBsjP2OzmQNxCFbvXP40DiCTnIRpplIgOyxxqfQJqKqI6nm5Fkwmm9RF6ose7hvVkUkJhMOmDUqtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=P25KKNDW; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b3226307787so2741938a12.1
-        for <linux-media@vger.kernel.org>; Sat, 26 Jul 2025 14:50:12 -0700 (PDT)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so2219896b3a.0
+        for <linux-media@vger.kernel.org>; Sat, 26 Jul 2025 15:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1753566611; x=1754171411; darn=vger.kernel.org;
+        d=kerneltoast.com; s=google; t=1753569118; x=1754173918; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OfyX0fUAfObswyvdjCTspDSkpBigkD/S5xxQ8c6KV3Y=;
-        b=FjYv7uJHRGCMal4GaUhg99baBOP2kMvBuHwNBYke92hwbshg745PM8jv93O1pmDHa2
-         6FWCjYQlYgNth9gK4eqCp3jsNK3E35d/utH1/aftvRQgLrEQPe3/eQBp85bsmxyxFIle
-         VI+1Tw8sb+B59c7sk3NSuE9pBnbCO8wIGGfkAfPwfou/WHjDyDpPxLbpHQaheh/guQRy
-         jJcWQfqAU7HpOuB4PIVsuKtmTfoUGSMpAQWQkHkt6IMHwfaYxtJoawI2eYtanGjUBJfn
-         l+mX0Ht5UGjdOuYnZiOJ0QqIWw+534q5KukeUIp471iDlAkCxsg1knqaq/GMzN7eBrdo
-         EL3Q==
+        bh=goQUyZCivbdecbzMlPOrKS5rZk5oqTbMCiPefv4GjFo=;
+        b=P25KKNDWzt+sxvY0e2H41NVa0sYMlMrdrrr1Q3yRo8qGUIV69tMU6rHQ5t0TGscHQR
+         6ucEoXCjq3q47k+hVa10eZhTugEk2DPlLZNVP22mWhgrWAIHwHtRD7VTJ85ugUZOJoUk
+         0L2UR7M/IhOlLI6mjOhBYKuaHZtLN58AcDQTc3p9UyT3IGqqmzgdsapP80LmpuEgxS5a
+         dV0QVhtS4Z3dly2+/XmH4qhXr6T3cqBY+eWtfMJthIKnrmqOeNpkxf9mQ0SCFwfa3u9G
+         1RwcwIkF00+lnHW3BYcvf7YA2cSkXvfWgF/c966J27CuD1tXkvLO/e3b49ZsrBm0i6dH
+         A39g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753566611; x=1754171411;
+        d=1e100.net; s=20230601; t=1753569118; x=1754173918;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OfyX0fUAfObswyvdjCTspDSkpBigkD/S5xxQ8c6KV3Y=;
-        b=ErNmcWno3o2vybzij3ujNzOG/aCr8cSc6CMs1iBbprDzk2/HwIJCNcaas3HE1+p03x
-         b1aIoGuMe6D7Akja4YR0ZIx97uFzXBuCrJJ2QNci9zPNK2FkI/GZFTD2MBeD6SSVMh50
-         8/bHa4tJtuILQV+yQardulH2GZXing0Z7AzMUnHCQYhnSOYWY/bO4AjQ6CxUHL/X5yjC
-         gRWQtz6Fgeso+tRIh/wrNUy+jDqCf+obSEQCciXHVQA4rs2DGAhjt0O6//2WRUKk07Dz
-         HzgDD9QYmDSpJGVM6lb6Y0emeKmhol/LKLsTG8z3fQHdZMcYO/Ta0CR5Ug+uboCcLDHA
-         rZsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCaQ9I5H1f+OwTOUhlnJxHYVXYH1QGb5glbnu/JEx2YO2kYyMxlP+HAsXOPBET2tNR2pXHTtH10SSkvA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3QvtvhKsHRF3Ng3O2GJw0mBAX8/b8BXIH7xKYvEYKe/4wAZy0
-	GWZkAQXQn5uSL5QWMxE8Q82nG+k85VShEO+NSr/VDfAeZnNNUfpP6Sn9q0EXMyXbBV6D
-X-Gm-Gg: ASbGncvwPnuOESZg7XpffauKQIUuEZor4h8jOKoblgvJXvEvf2OAoPGkBuXDjCo1znd
-	hT7VPJSyqVlCSwSwj7Qavl2Op1gBvZu2wRIP9P8E5FSdRRIz65m4Z+cumN/kGkNJ825lVBVtCOd
-	acwv85Dr1THZMVjccxzz7ZTJ6AxpupIdbYrQ+cZLuZVofZF+bg8N0jX6ThswKbN+7kWc766ykaH
-	EW7XBfmb33XkhrnduHN6knUPjXylw4MSg+GGaJ8XCZHrdqPYm3kWjPM0jmDsXEnzEplPcfmplAv
-	uuOgrUFblrN1afzbeOnEiB6FOnNS+03eL5stQb6zWsmbqvHyRpr9VZrQDw8GNTLKrJOINPev7W+
-	ajeyMQp6D7bipFMAgVB4p1UnKnv3WXXuxxss=
-X-Google-Smtp-Source: AGHT+IEkYrj6kv0r98d6vdlLZ7nm1KHBvgDzCH8zTJu/LUIUWNAlJSeF/oMmjr7mZf/D/M56RHi9Iw==
-X-Received: by 2002:a17:902:e74f:b0:23f:ac71:ef0 with SMTP id d9443c01a7336-23fb3197539mr109807735ad.43.1753566611371;
-        Sat, 26 Jul 2025 14:50:11 -0700 (PDT)
+        bh=goQUyZCivbdecbzMlPOrKS5rZk5oqTbMCiPefv4GjFo=;
+        b=Ygu/IujULgZkJhgnvOUE+ULB1LCwTVFHFSmhk3vquhxUx3KJ8A+SZaWXGJBu1RS9g/
+         tt/gA0eLuIKV4UOtSvnsT6DgW6diZqOa+/fKhlu8ZiLmWbnKAR8bv/KGAsLPwMnXRQG9
+         XvhQdO5ZYiiuxqiULazUo4gFuPUuCpFz7tZK8KWLLXG7PzIAGxexJJ7yEXzOYRFvH2P2
+         OmwTE+6HeFzRy8CY2D6U1jET5F1b/45Q/pynR1cLjTEd4kkDmgr8R96BtxzHQHkeonzZ
+         2SmvgPKbH+HjGYkz7p5Er2xIkzOa6W9C7vtbcShiW9GeAZ9QEmrsd1eNkURaiglRBHh8
+         nSfg==
+X-Forwarded-Encrypted: i=1; AJvYcCVib+g0hZqMc0rzUbxyFinwM+8Fj5ZC8SgGtOLjjuF0p62ictKSbgx/tbGEpmkYk6qtqOAUKP/88vVMTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiHQboABJg6dDB1Vb8gXS+AupJX8/UB5FLTy5o3tsEYOwJhpjK
+	233VJpF4L+gDlsrhV/l1qb4gTbZ/T5FCmYc63tLI3o4EnorfOwqZMEnYrD+W2ZQJ7z+7
+X-Gm-Gg: ASbGncslnvRPu0YSlcJmGxRG8Qlstv7OTpOnYHY/VlCqQSyQ5cghV82R9bx4A/zOboC
+	6C71cLXZZ0oit42Ie1WBt6rvVFalij4NbrsouNw9faO7rnxa8h8g/NLNvjrOwlirwqye76/bO+6
+	ZmmtyfgapMZCINH+jljdAXEddFw5admZIiciTkAgOb7Kw20WZaPB3dEu5C/7O4fOx5Fo5ZETS6B
+	zVyV+2g4eaaW8xpu9oSUW2QBFpCUVYrfsAG9Yabndxkvys3AwF/mI3fc1FQLW5ZgRKnAsTsmr6p
+	QL2pRnDTrEEBVZXgmAfgqx5jqEFebP/uVXG9Btb29XMTAZrg3Y8qcKKzPEYwqo0aKqmcy6MpHVD
+	GOej84FltOF9eknOs8p5rFfGZ
+X-Google-Smtp-Source: AGHT+IHV8UrL+m4gTW5oOstx5hy347NvkBbkiGVIXjzUOoId55IP6klYPnDv+SEeKUmZ3w4agAipyw==
+X-Received: by 2002:a05:6a20:914c:b0:21f:53e4:1919 with SMTP id adf61e73a8af0-23d6df7ea1dmr10973722637.3.1753569117874;
+        Sat, 26 Jul 2025 15:31:57 -0700 (PDT)
 Received: from sultan-box ([142.147.89.207])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe30cef7sm23128315ad.26.2025.07.26.14.50.09
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f7f6dd053sm2120290a12.68.2025.07.26.15.31.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Jul 2025 14:50:10 -0700 (PDT)
-Date: Sat, 26 Jul 2025 14:50:07 -0700
+        Sat, 26 Jul 2025 15:31:57 -0700 (PDT)
+Date: Sat, 26 Jul 2025 15:31:50 -0700
 From: Sultan Alsawaf <sultan@kerneltoast.com>
 To: "Du, Bin" <bin.du@amd.com>
 Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
@@ -82,15 +82,12 @@ Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
 	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com
-Subject: Re: [PATCH v2 6/8] media: platform: amd: isp4 video node and buffers
- handling added
-Message-ID: <aIVNj1DLab18eArC@sultan-box>
+	Dominic.Antony@amd.com, Svetoslav.Stoilov@amd.com
+Subject: Re: [PATCH v2 0/8] Add AMD ISP4 driver
+Message-ID: <aIVXVpg_9XxRXUAH@sultan-box>
 References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-7-Bin.Du@amd.com>
- <aIEiJL83pOYO8lUJ@sultan-box>
- <ff2f17c6-c5e4-4b7b-b897-8abb4cb79c35@amd.com>
- <aIVLlZvTQFoBL70r@sultan-box>
+ <aIEmJXNpNN0QF233@sultan-box>
+ <12fb4d09-6b94-4f54-86b8-8a3ac0949151@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,50 +96,77 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aIVLlZvTQFoBL70r@sultan-box>
+In-Reply-To: <12fb4d09-6b94-4f54-86b8-8a3ac0949151@amd.com>
 
-On Sat, Jul 26, 2025 at 02:41:41PM -0700, Sultan Alsawaf wrote:
-> On Fri, Jul 25, 2025 at 05:22:41PM +0800, Du, Bin wrote:
-> > > > +		dev_warn(buf->dev, "ignore buffer free, refcount %u > 0",
-> > > > +			 refcount_read(&buf->refcount));
-> > > 
-> > > This refcount_read() is a possible use-after-free because `buf` is accessed
-> > > after isp4vid_vb2_put() puts its reference to `buf`. So something else could put
-> > > the last reference to `buf` and free it after this refcount dec but before the
-> > > refcount_read(). Maybe just remove this dev_warn() entirely?
-> > > 
-> > The warning is important to debug mem related issue, plan to keep it but
-> > without accessing buf or buf->refcount here. Do you think it acceptible?
+On Fri, Jul 25, 2025 at 06:22:03PM +0800, Du, Bin wrote:
+> > I have the Ryzen AI MAX+ 395 SKU of the HP ZBook Ultra G1a 14.
+> > 
+> > I cannot for the life of me get the webcam working under Linux. The webcam works
+> > under Windows so it's not a hardware issue.
+> > 
+> > With this patchset and all of the patches you link here applied to 6.15, I get
+> > the following errors:
+> >    [   11.970038] amd_isp_i2c_designware amd_isp_i2c_designware: Unknown Synopsys component type: 0xffffffff
+> >    [   11.973162] amd_isp_i2c_designware amd_isp_i2c_designware: error -19: i2c_dw_probe failed
+> > 
+> > With the old ispkernel code from February [1] applied on 6.15, the webcam
+> > indicator LED lights up but there's no image. I see these messages at boot:
+> >    [    9.449005] amd_isp_capture amd_isp_capture.1.auto: amdgpu: AMD ISP v4l2 device registered
+> >    [    9.489005] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: The OV05 sensor device is added to the ISP I2C bus
+> >    [    9.529012] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout while trying to abort current transfer
+> >    [    9.554046] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout in disabling adapter
+> >    [    9.554174] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout while trying to abort current transfer
+> >    [    9.580022] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout in disabling adapter
+> > 
+> > And then the kernel crashes due to the same use-after-free issues I pointed out
+> > in my other email [2].
+> > 
+> > Any idea what's going on?
+> > 
+> > [1] https://github.com/amd/Linux_ISP_Kernel/commit/c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4
+> > [2] https://lore.kernel.org/r/aIEiJL83pOYO8lUJ@sultan-box
+> Hi Sultan,
 > 
-> Yes, that sounds good. So something like this:
-> `dev_warn(buf->dev, "ignore buffer free, refcount > 0");`
+> [1] is for kernel 6.8, believe it can't be applied to 6.15. We didn't verify
+> on 6.15 but we are really glad to help, would you please provide some info,
+> 1. Suppose you are using Ubuntu, right? What's the version?
+> 2. 6.15, do you mean https://github.com/torvalds/linux/tree/v6.15 ?
+> 
+> After your confirmation, we'll see what we can do to enable your camera
+> quickly and easily
+>
+> Regards,
+> Bin
 
-Sorry, to fix the dev_warn() we need to make a copy of buf->dev first:
+Thank you, Bin!
 
---- a/drivers/media/platform/amd/isp4/isp4_video.c
-+++ b/drivers/media/platform/amd/isp4/isp4_video.c
-@@ -584,8 +584,9 @@ static void isp4vid_vb2_put(void *buf_priv)
- {
- 	struct isp4vid_vb2_buf *buf = (struct isp4vid_vb2_buf *)buf_priv;
- 	struct amdgpu_bo *bo = (struct amdgpu_bo *)buf->bo;
-+	struct device *dev = buf->dev;
- 
--	dev_dbg(buf->dev,
-+	dev_dbg(dev,
- 		"release isp user bo 0x%llx size %ld refcount %d is_expbuf %d",
- 		buf->gpu_addr, buf->size,
- 		buf->refcount.refs.counter, buf->is_expbuf);
-@@ -601,8 +602,7 @@ static void isp4vid_vb2_put(void *buf_priv)
- 		kfree(buf);
- 		buf = NULL;
- 	} else {
--		dev_warn(buf->dev, "ignore buffer free, refcount %u > 0",
--			 refcount_read(&buf->refcount));
-+		dev_warn(dev, "ignore buffer free, refcount > 0\n");
- 	}
- }
- 
---
+1. I'm using Arch Linux with the ISP4-patched libcamera [1].
+2. Yes, here is my kernel source [2].
+
+I have some more findings:
+
+Currently, the first blocking issue is that the I2C adapter fails to initialize.
+This is because the ISP tile isn't powered on.
+
+I noticed that in the old version of amd_isp_i2c_designware [3], there were
+calls to isp_power_set(), which is available in the old ISP4 sources [4].
+Without isp_power_set(), the I2C adapter always fails to initialize for me.
+
+How is the ISP tile supposed to get powered on in the current ISP4 code?
+
+Also, I noticed that the driver init ordering matters between all of the drivers
+needed for the ISP4 camera. In particular, amd_isp_i2c_designware and amd_isp4
+must be initialized before amd_capture, otherwise amd_capture will fail to find
+the fwnode properties for the OV05C10 device attached to the I2C bus.
+
+But there is no driver init ordering enforced, which also caused some issues for
+me until I figured it out. Maybe probe deferral (-EPROBE_DEFER) should be used
+to ensure each driver waits for its dependencies to init first?
+
+[1] https://github.com/amd/Linux_ISP_libcamera/tree/3.0
+[2] https://github.com/kerneltoast/kernel_x86_laptop/tree/v6.15-sultan-isp4
+[3] https://lore.kernel.org/all/20250228164519.3453927-1-pratap.nirujogi@amd.com
+[4] https://github.com/amd/Linux_ISP_Kernel/blob/c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4/drivers/media/platform/amd/isp4/isp_hwa.c#L378-L385
 
 Sultan
 
