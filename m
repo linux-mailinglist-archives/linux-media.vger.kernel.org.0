@@ -1,218 +1,124 @@
-Return-Path: <linux-media+bounces-38509-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38510-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98829B12DDB
-	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 08:16:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 203FDB12F1F
+	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 12:06:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FA541738D2
-	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 06:16:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70E97189C23E
+	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 10:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 521411A76DE;
-	Sun, 27 Jul 2025 06:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C98B6213E94;
+	Sun, 27 Jul 2025 10:03:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p0n3rAFd"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="lg1guOok"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F7018FC92;
-	Sun, 27 Jul 2025 06:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8291F7575;
+	Sun, 27 Jul 2025 10:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753596980; cv=none; b=cdGfRa0yPqPuZGVKSxy9O9MFw0DBDjEP6Hk3ktaB3HNKfrXVbJGkGMNEaCjucjbNzqrUldkhgIdqdnG3wY9ofvKSQk49dupme8y2b70BsqFY2trt6pzpnsxfC3CLeSRPCzA9jqvJ4v0SxCdMgKTpwHnckvrt5R/5HfPOTHV14Y4=
+	t=1753610631; cv=none; b=H3oafoxgUxeTuQOj316u5il1APW5CVXaE+GYyB22kXMhLGu7aCWdnxAueEameEgx1wlnPn6k4sE3ntMgUlq/Htj0Sgzh5agIJH29zyDbadFNNONiZDo43bEPRadYgImq2uZFjzTG8JHIPkVXPE5Wf8K4D8bLGAMM5fAaA85H0Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753596980; c=relaxed/simple;
-	bh=uyb+7FyuIzMo0UI+mEQEGNm9qjuMtb30fpmryEwM5AA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CySBTQeapy8xIHnbZqcz1F9WrxtajUOlXww5rKOAjp21jZBgrutTvpLLZJSPu0/G/Z5H3kzeI2xTjsE5AAitdlRdBw9MgzwjzuUHD8RT7ALv4aiesK1VO/C45C2z4/w8zCTLGaAx4DckUNYzTYdy1W7uTouF88zLwKBuAfL7cMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p0n3rAFd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EC05C4CEEB;
-	Sun, 27 Jul 2025 06:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753596980;
-	bh=uyb+7FyuIzMo0UI+mEQEGNm9qjuMtb30fpmryEwM5AA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p0n3rAFdvPX8SSmrmPGbM3OFcMaPV5tlPd6lSBHW0nfQvfLr5t05u9i0xY+PlQRlr
-	 RYRm6L/3T+8Yzum1IOO6FuEwCg9bbaROc1fI3BeUrhEcwJTtjTLXnFoEogHoVbqEWr
-	 n+53AqEFJ1sK6ggO0K644GUqZ8bAkBv9+wjSNvXCqhTOcgOBy3alEhY5GPckrM5VkG
-	 mwgn4GAdZbM+j8wVP7nsOAB3eS+56hTYprqNgJDscfKHaMRs02RwpMr8LhZDxLDbH9
-	 mWVU9OyNjSvCkRiurpDskSoZ4dWfvIoXZCW2ZJFAR+xqCkxl3ItEHmgpvoKuBPLlou
-	 Yij/pATng8pAw==
-Date: Sun, 27 Jul 2025 09:16:15 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
-	Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Jens Axboe <axboe@kernel.dk>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20250727061615.GW402218@unreal>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <aea452cc27ca9e5169f7279d7b524190c39e7260.1753274085.git.leonro@nvidia.com>
- <IA0PR11MB7185E487736B8B4CD70600DEF85EA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20250724054443.GP402218@unreal>
- <IA0PR11MB71855A080F43E4D657A70311F859A@IA0PR11MB7185.namprd11.prod.outlook.com>
+	s=arc-20240116; t=1753610631; c=relaxed/simple;
+	bh=nIyiASwoNikBaVQJ7F4QDZY0tQenudpt7x9V2nTwvh0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sErPqlzoNZPImrtEz6F5okgzPPQTGu3ThuoR9Jmz5lckAxvMR9uZwLNx8L9cTDayKNpPeaQHvLTGvGj8PTrb9U5c1MZCpXCouJm9sD3GKiUsqc+Y3tnriaqfujU4ED48tX3eGwG6G4Ac+gfhtSopkuzhBfivRyvBYsvNeDO0b64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=lg1guOok; arc=none smtp.client-ip=80.12.242.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id fyD9uBnh5hOKjfyD9uuogC; Sun, 27 Jul 2025 12:02:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1753610552;
+	bh=ycw+FwEwMNFwepsTT4M/3aAYYVR3er1gB6c9vBitnyw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=lg1guOokmw5lhfHrRRpWCP0dJeZtL6mXaidGHd/V/nZamffVp842m+eWMZoh95c3w
+	 hs14scpjDjfaXy1sw5B1j61aojWkm0NpkQ1JpxWvYdZXBD+TklBedyxlXxHU8Y98Ll
+	 uunPw5SyFo+uBKaLmgJZIlwPvZ2jwUC/MvENklEdw0kYleHw5PL7N3ZhJ2lsSMT+CG
+	 EdYp5dJLOiBktvX1WextfW02JqoRp7vc4KHHJOS0H1jALq3gh5gmF+OZ7zzTIWfSIt
+	 NY7Y6FRdpYU9y34t4VDOkfrQ253gM42AZvCLAGHO0mcpZy3BuwGEESx/OgHqgmOmLi
+	 CbrpjNfY63IgA==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 27 Jul 2025 12:02:32 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: rkvdec: Fix an error handling path in rkvdec_probe()
+Date: Sun, 27 Jul 2025 12:02:21 +0200
+Message-ID: <b69c20783a7b6f7964ab636679d3da80fc48372e.1753610517.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA0PR11MB71855A080F43E4D657A70311F859A@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 25, 2025 at 05:34:40AM +0000, Kasireddy, Vivek wrote:
-> Hi Leon,
-> 
-> > Subject: Re: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
-> > regions
-> > 
-> > > >
-> > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > >
-> > > > Add support for exporting PCI device MMIO regions through dma-buf,
-> > > > enabling safe sharing of non-struct page memory with controlled
-> > > > lifetime management. This allows RDMA and other subsystems to
-> > import
-> > > > dma-buf FDs and build them into memory regions for PCI P2P
-> > operations.
-> > > >
-> > > > The implementation provides a revocable attachment mechanism using
-> > > > dma-buf move operations. MMIO regions are normally pinned as BARs
-> > > > don't change physical addresses, but access is revoked when the VFIO
-> > > > device is closed or a PCI reset is issued. This ensures kernel
-> > > > self-defense against potentially hostile userspace.
-> > > >
-> > > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > > ---
-> > > >  drivers/vfio/pci/Kconfig           |  20 ++
-> > > >  drivers/vfio/pci/Makefile          |   2 +
-> > > >  drivers/vfio/pci/vfio_pci_config.c |  22 +-
-> > > >  drivers/vfio/pci/vfio_pci_core.c   |  25 ++-
-> > > >  drivers/vfio/pci/vfio_pci_dmabuf.c | 321
-> > +++++++++++++++++++++++++++++
-> > > >  drivers/vfio/pci/vfio_pci_priv.h   |  23 +++
-> > > >  include/linux/dma-buf.h            |   1 +
-> > > >  include/linux/vfio_pci_core.h      |   3 +
-> > > >  include/uapi/linux/vfio.h          |  19 ++
-> > > >  9 files changed, 431 insertions(+), 5 deletions(-)
-> > > >  create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
-> > 
-> > <...>
-> > 
-> > > > +static int validate_dmabuf_input(struct vfio_pci_core_device *vdev,
-> > > > +				 struct vfio_device_feature_dma_buf
-> > *dma_buf)
-> > > > +{
-> > > > +	struct pci_dev *pdev = vdev->pdev;
-> > > > +	u32 bar = dma_buf->region_index;
-> > > > +	u64 offset = dma_buf->offset;
-> > > > +	u64 len = dma_buf->length;
-> > > > +	resource_size_t bar_size;
-> > > > +	u64 sum;
-> > > > +
-> > > > +	/*
-> > > > +	 * For PCI the region_index is the BAR number like  everything else.
-> > > > +	 */
-> > > > +	if (bar >= VFIO_PCI_ROM_REGION_INDEX)
-> > > > +		return -ENODEV;
-> > 
-> > <...>
-> > 
-> > > > +/**
-> > > > + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
-> > > > + * regions selected.
-> > > > + *
-> > > > + * open_flags are the typical flags passed to open(2), eg O_RDWR,
-> > > > O_CLOEXEC,
-> > > > + * etc. offset/length specify a slice of the region to create the dmabuf
-> > from.
-> > > > + * nr_ranges is the total number of (P2P DMA) ranges that comprise the
-> > > > dmabuf.
-> > > Any particular reason why you dropped the option (nr_ranges) of creating
-> > a
-> > > single dmabuf from multiple ranges of an MMIO region?
-> > 
-> > I did it for two reasons. First, I wanted to simplify the code in order
-> > to speed-up discussion over the patchset itself. Second, I failed to
-> > find justification for need of multiple ranges, as the number of BARs
-> > are limited by VFIO_PCI_ROM_REGION_INDEX (6) and same functionality
-> > can be achieved by multiple calls to DMABUF import.
-> I don't think the same functionality can be achieved by multiple calls to
-> dmabuf import. AFAIU, a dmabuf (as of today) is backed by a SGL that can
-> have multiple entries because it represents a scattered buffer (multiple
-> non-contiguous entries in System RAM or an MMIO region). 
+If an error occurs after a successful iommu_paging_domain_alloc() call, it
+should be undone by a corresponding iommu_domain_free() call, as already
+done in the remove function.
 
-I don't know all the reasons why SG was chosen, but one of the main
-reasons is that DMA SG API was the only one possible way to handle p2p
-transfers (peer2peer flag).
+Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested only
+---
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index d707088ec0dc..eb0d41f85d89 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -1169,15 +1169,17 @@ static int rkvdec_probe(struct platform_device *pdev)
+ 	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+ 
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq <= 0)
+-		return -ENXIO;
++	if (irq <= 0) {
++		ret = -ENXIO;
++		goto err_free_domain;
++	}
+ 
+ 	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+ 					rkvdec_irq_handler, IRQF_ONESHOT,
+ 					dev_name(&pdev->dev), rkvdec);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Could not request vdec IRQ\n");
+-		return ret;
++		goto err_free_domain;
+ 	}
+ 
+ 	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
+@@ -1193,6 +1195,9 @@ static int rkvdec_probe(struct platform_device *pdev)
+ err_disable_runtime_pm:
+ 	pm_runtime_dont_use_autosuspend(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
++err_free_domain:
++	if (rkvdec->empty_domain)
++		iommu_domain_free(rkvdec->empty_domain);
+ 	return ret;
+ }
+ 
+-- 
+2.50.1
 
-> But in this patch you are constraining it such that only one entry associated with a
-> buffer would be included, which effectively means that we cannot create
-> a dmabuf to represent scattered buffers (located in a single MMIO region
-> such as VRAM or other device memory) anymore. 
-
-Yes
-
-> 
-> > 
-> > >
-> > > Restricting the dmabuf to a single range (or having to create multiple
-> > dmabufs
-> > > to represent multiple regions/ranges associated with a single scattered
-> > buffer)
-> > > would be very limiting and may not work in all cases. For instance, in my
-> > use-case,
-> > > I am trying to share a large (4k mode) framebuffer (FB) located in GPU's
-> > VRAM
-> > > between two (p2p compatible) GPU devices. And, this would probably not
-> > work
-> > > given that allocating a large contiguous FB (nr_ranges = 1) in VRAM may
-> > not be
-> > > feasible when there is memory pressure.
-> > 
-> > Can you please help me and point to the place in the code where this can
-> > fail?
-> > I'm probably missing something basic as there are no large allocations
-> > in the current patchset.
-> Sorry, I was not very clear. What I meant is that it is not prudent to assume that
-> there will only be one range associated with an MMIO region which we need to
-> consider while creating a dmabuf. And, I was pointing out my use-case as an
-> example where vfio-pci needs to create a dmabuf for a large buffer (FB) that
-> would likely be scattered (and not contiguous) in an MMIO region (such as VRAM).
-> 
-> Let me further explain with my use-case. Here is a link to my Qemu-based test:
-> https://gitlab.freedesktop.org/Vivek/qemu/-/commit/b2bdb16d9cfaf55384c95b1f060f175ad1c89e95#81dc845f0babf39649c4e086e173375614111b4a_29_46
-
-Ohh, thanks. I'll add nr_ranges in next version. I see that you are
-using same region_index for all ranges and this is how I would like to
-keep it: "multiple nr_ranges, same region_index".
-
-Thanks
 
