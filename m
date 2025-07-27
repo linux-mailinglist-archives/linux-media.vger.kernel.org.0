@@ -1,394 +1,359 @@
-Return-Path: <linux-media+bounces-38516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1738B13187
-	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 21:20:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12499B131B9
+	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 22:27:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC2391895BAC
-	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 19:20:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C31A165AAF
+	for <lists+linux-media@lfdr.de>; Sun, 27 Jul 2025 20:27:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17E81223DE9;
-	Sun, 27 Jul 2025 19:20:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCA75230BCC;
+	Sun, 27 Jul 2025 20:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRviUR+8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L8FvRXIp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE6D21E0A8;
-	Sun, 27 Jul 2025 19:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E670A22E406;
+	Sun, 27 Jul 2025 20:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753643999; cv=none; b=OEzSPKAVVNB6a7oLtuSJsrdghi/tlJD9HRi1oGsXL91tFwW+5dlcVVojf+HNwFIvgHcZhki8sljt6XNU4h1KmVdJ3IVN0qBlT/8Y/S8XA8idfnFIz6qnbl+LEMZsRkz6naYiq+HYlJcCyg240K+IaomlboXZS7NN78zVfF8Zj/o=
+	t=1753648040; cv=none; b=lKMrK3rZx2FNP0UbFVgJY5rexs512lxX1BQ/SWWd8Ri4ToHOj+pz5ag2Kw482SjdC8vB5dD29Uc1sw48QKO1r6tPA7eua3CNiQM7sjXo5DkKDWE/d9rm3yOvTsMoFwnA8Bk+ztnyR38uJ+LrVH4EyfybSDSmE8tNtR7ccer9Xnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753643999; c=relaxed/simple;
-	bh=ODQad/kLebqtWcgou3DFGpBib/gjsX4M3+AiroUgXOs=;
+	s=arc-20240116; t=1753648040; c=relaxed/simple;
+	bh=hwJMRBiwVYp7oXd0l6dskolRuamIxQCJspfm4M9o+lk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ljwZo6Djn36OFF/DmOpu6+sceWB14mKGZyKk06kY0ejHdBKLtTzKKlPQ5ADMX1FjMlDU6BgjLlhloae0edfhTWBkWorlZ3JQgSpto8tHLVHfH2tzU2q/so9eKoa16XcNM2L46hOqC7+2yJsfYdh+lLHumX4gyS/V2kZMJJAdvLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRviUR+8; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753643998; x=1785179998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ODQad/kLebqtWcgou3DFGpBib/gjsX4M3+AiroUgXOs=;
-  b=FRviUR+8bGTISj1QxV+JqdMHItlTPdKDfFcPs5G3ilGiXupsgVDUEAjY
-   vAOHPkSM/sTRJ2dedP2BQdnUWLd0WpzDXyoTwlR3SI1KT5mgZzwGgI6Sl
-   aEUtEqmVvNo1RWSvm9r0otA4wi9nHVyQcMY5iPtvepufvvcRYmwS+C3JK
-   IjguS845BrrUoZffosv/pZX6AAJusSJ7H/Vu8IqDSr9kU1/sq7taxWBq+
-   VqKHYPdyhQ/agzqE6wP5cAn8RHY0gFMp14acuYOhRrIOfT/WRaaFJzmVf
-   mG2vOzuPpKXZfS6VHO8k7FastxE6zSXP9G/ms8erY+gOTSiTf59Q6sNsP
-   w==;
-X-CSE-ConnectionGUID: /GPk1INoRFWR2vew0C/c5w==
-X-CSE-MsgGUID: wzrn8mrsS4elBsrxTIabhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="58518747"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="58518747"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 12:19:57 -0700
-X-CSE-ConnectionGUID: Wlqgd4GMRi2rWUo+AG9GTw==
-X-CSE-MsgGUID: ftSqS2g5RKOKTsUxssggWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="193215578"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.124])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 12:19:53 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 821F111FAF5;
-	Sun, 27 Jul 2025 22:19:49 +0300 (EEST)
-Date: Sun, 27 Jul 2025 19:19:49 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Julien Massot <julien.massot@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v7 14/24] dt-bindings: media: i2c: add MAX9296A,
- MAX96716A, MAX96792A
-Message-ID: <aIZ71TZM9wUGlGoU@kekkonen.localdomain>
-References: <20250718152500.2656391-1-demonsingur@gmail.com>
- <20250718152500.2656391-15-demonsingur@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=aovKTsS+TlyfBDObSX/oyWtI9+kctvsQqFjh65nek52XM5XPajWxz577jqVaaoWDan8fvqYdoYeXnU0O9m+T5Wnm61ETLAUXTYT8W94MKe/5F35aWjKN4hcfUC+EbrOy69x/uie9DhoIVHy2pXl4TJpCWRMepvWxOAjneDXQjjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L8FvRXIp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 88C0D55C;
+	Sun, 27 Jul 2025 22:26:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753647986;
+	bh=hwJMRBiwVYp7oXd0l6dskolRuamIxQCJspfm4M9o+lk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L8FvRXIpvNtcDnkj2vXS60Upd5W4bC4YF7L3nIVwsWWLFOwltZ+/BCo8Q7l6VkcT+
+	 xz34xWmwkb07ZSVFHBspbYcY2sKL4/x04ppbAaX4/wVUJiOg/4p+EBMdt5Zjwoi4eC
+	 AT/Ouf7MBbcJozjRdDLkG2rp1DsyiYWTrhYmmyQg=
+Date: Sun, 27 Jul 2025 23:27:01 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	hverkuil-cisco@xs4all.nl, ribalda@chromium.org,
+	jai.luthra@ideasonboard.com, laurentiu.palcu@nxp.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	LnxRevLi@nxp.com, julien.vuillaumier@nxp.com,
+	celine.laurencin@nxp.com
+Subject: Re: Re: Re: [RFC 2/2] Documentation: media: Describe exposure and
+ gain controls for multiple captures
+Message-ID: <20250727202701.GA787@pendragon.ideasonboard.com>
+References: <20250710220544.89066-1-mirela.rabulea@nxp.com>
+ <20250710220544.89066-3-mirela.rabulea@nxp.com>
+ <20250716000738.GF19299@pendragon.ideasonboard.com>
+ <fcb87e2d-5ddf-4f33-b5f7-5af67c438af5@nxp.com>
+ <20250723134942.GC6719@pendragon.ideasonboard.com>
+ <e86c8543-b883-4bd3-ae21-87e7c9443957@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250718152500.2656391-15-demonsingur@gmail.com>
+In-Reply-To: <e86c8543-b883-4bd3-ae21-87e7c9443957@nxp.com>
 
-Hi Cosmin,
+Hi Mirela,
 
-On Fri, Jul 18, 2025 at 06:24:50PM +0300, Cosmin Tanislav wrote:
-> The MAX9296A deserializer converts single or dual serial inputs to MIPI
-> CSI-2 outputs. The GMSL2 links operate at a fixed rate of 3Gbps or 6Gbps
-> in the forward direction and 187.5Mbps in the reverse direction.
-> In GMSL1 mode, each serial link can be paired with 3.12Gbps or 1.5Gbps
-> GMSL1 serializers or operate up to 4.5Gbps with GMSL2 serializers with
-> GMSL1 backward compatibility. The MAX9296A supports mixed GMSL2 and
-> GMSL1 links. The serial inputs operate independently, allowing videos
-> with different timings and resolutions to be received on each input.
-
-C-PHY or D-PHY? I'd assume the latter?
-
+On Thu, Jul 24, 2025 at 12:33:41PM +0300, Mirela Rabulea wrote:
+> On 7/23/25 16:49, Laurent Pinchart wrote:
+> > On Sun, Jul 20, 2025 at 10:02:13PM +0300, Mirela Rabulea wrote:
+> >> On 7/16/25 03:07, Laurent Pinchart wrote:
+> >>> On Fri, Jul 11, 2025 at 01:05:44AM +0300, Mirela Rabulea wrote:
+> >>>> The standard controls for exposure and gains allow a
+> >>>> single value, for a single capture. For sensors with HDR
+> >>>> capabilities or context switching, this is not enough, so
+> >>>> add new controls that allow multiple values, one for each
+> >>>> capture.
+> >>>
+> >>> One important question not addressed by this patch is how the new
+> >>> controls interact with the old ones. For instance, if a sensor
+> >>> implements 2-DOL, it should expose a V4L2_CID_EXPOSURE_MULTI control
+> >>> with 2 elements. Should it also expose the V4L2_CID_EXPOSURE control,
+> >>> when operating in SDR mode ? What should happen when both controls are
+> >>> set ?
+> >>
+> >> Yes, it's a good point. I experimented with the option of implementing
+> >> both, at least for backward compatibility (libcamera requires them) and
+> >> kept them consistent, I mean if V4L2_CID_EXPOSURE_MULTI values change,
+> >> also change V4L2_CID_EXPOSURE and viceversa, so basically keep
+> >> consistent the values from V4L2_CID_EXPOSURE with the values for the
+> >> first exposure from V4L2_CID_EXPOSURE_MULTI. Also, I had to check if hdr
+> >> mode is not enabled, do nothing in s_ctrl for V4L2_CID_EXPOSURE_MULTI
+> >> (cannot return error, as it will make __v4l2_ctrl_handler_setup fail).
+> >>
+> >>> There are also sensors that implement multi-exposure with direct control
+> >>> of the long exposure, and indirect control of the short exposure through
+> >>> an exposure ratio. The sensors I'm working on support both, so we could
+> >>> just ignore the exposure ratio, but if I recall correctly CCS allows
+> >>> sensors to implement exposure ratio only without direct short exposure
+> >>> control. How should we deal with that ?
+> >>
+> >> I'm not sure I understand, but in case of indirect short exposure
+> >> control I think we do not need these multiple exposure controls, we can
+> >> use the existing ones, as only the value for the long exposure is
+> >> needed, the driver can derive the value for the short exposure using the
+> >> ratio.
+> > 
+> > I'm talking about sensors that implement the CCS exposure ratio, or a
+> > similar mechanism. With those sensors, the long exposure time is set
+> > directly, and the short exposure time is calculated by the sensor by
+> > dividing the long exposure time by a ratio. The ratio is programmed by
+> > the driver through a register. The ratio could be set to a fixed value,
+> > but I think there are use cases for controlling it from userspace.
 > 
-> MAX96716A supports both tunnel and pixel mode.
-> MAX96792A supports both tunnel and pixel mode, and has two GMSL3 links.
-> 
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../bindings/media/i2c/maxim,max9296a.yaml    | 242 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 248 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
-> new file mode 100644
-> index 0000000000000..4f2b3b5b69cf4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
-> @@ -0,0 +1,242 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2024 Collabora Ltd.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/maxim,max9296a.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim MAX9296A GMSL2 to CSI-2 Deserializer
-> +
-> +maintainers:
-> +  - Cosmin Tanislav <cosmin.tanislav@analog.com>
-> +
-> +description: >
-> +  The MAX9296A deserializer converts single or dual serial inputs to
-> +  MIPI CSI-2 outputs. The GMSL2 links operate at a fixed rate of 3Gbps
-> +  or 6Gbps in the forward direction and 187.5Mbps in the reverse
-> +  direction. In GMSL1 mode, each serial link can be paired with 3.12Gbps
-> +  or 1.5Gbps GMSL1 serializers or operate up to 4.5Gbps with GMSL2
-> +  serializers with GMSL1 backward compatibility. The MAX9296A supports
-> +  mixed GMSL2 and GMSL1 links. The serial inputs operate independently,
-> +  allowing videos with different timings and resolutions to be received
-> +  on each input.
-> +
-> +  MAX96716A supports both tunnel and pixel mode.
-> +
-> +  MAX96792A supports both tunnel and pixel mode, and has two GMSL3 links.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - maxim,max9296a
-> +      - maxim,max96716a
-> +      - maxim,max96792a
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description: Specifier for the GPIO connected to the PWDNB pin.
-> +
-> +  port0-poc-supply:
-> +    description: Regulator providing Power over Coax for GMSL port 0
-> +
-> +  port1-poc-supply:
-> +    description: Regulator providing Power over Coax for GMSL port 1
-> +
-> +  i2c-alias-pool:
-> +    maxItems: 2
-> +
-> +  i2c-atr:
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +    patternProperties:
-> +      '^i2c@[0-1]$':
-> +        $ref: /schemas/i2c/i2c-controller.yaml#
-> +        unevaluatedProperties: false
-> +        properties:
-> +          reg:
-> +            items:
-> +              minimum: 0
-> +              maximum: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    patternProperties:
-> +      '^port@[0-1]$':
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: GMSL Input ports 0-1
-> +
-> +      '^port@[2-3]$':
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: CSI-2 Output ports 0-1
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +              lane-polarities:
-> +                minItems: 1
+> Sounds like we could use another control to allow userspace to control 
+> the exposure ratio, let's hypothetically call it 
+> V4L2_CID_EXPOSURE_RATIO? Would the ratio be a scalar number, or do you 
+> think we need an array?
 
-With D-PHY, 2 is the minimum.
+If we have more than two exposures we would probably need an array,
+assuming the sensor can set different ratios between the long and short
+exposures compared to the short and very short exposures ratio. I
+haven't analyzed enough sensors to have a good enough view of the
+typical configuration parameters for exposure ratios.
 
-> +                maxItems: 5
-> +
-> +              link-frequencies:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +    anyOf:
-> +      - required:
-> +          - port@2
-> +      - required:
-> +          - port@3
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-atr.yaml#
-> +
-> +dependentRequired:
-> +  i2c-atr: [i2c-alias-pool]
-> +  i2c-alias-pool: [i2c-atr]
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        deserializer@28 {
-> +            compatible = "maxim,max9296a";
-> +            reg = <0x28>;
-> +            powerdown-gpios = <&main_gpio0 37 GPIO_ACTIVE_LOW>;
-> +
-> +            i2c-alias-pool = <0x40 0x41>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    des_gmsl_in_0: endpoint {
-> +                        remote-endpoint = <&ser_0_gmsl_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    des_gmsl_in_1: endpoint {
-> +                        remote-endpoint = <&ser_1_gmsl_out>;
-> +                    };
-> +                };
-> +
-> +                port@2 {
-> +                    reg = <2>;
-> +                    des_csi_out: endpoint {
-> +                        data-lanes = <1 2 3 4>;
-> +                        link-frequencies = /bits/ 64 <400000000>;
-> +                        remote-endpoint = <&csi_in>;
-> +                    };
-> +                };
-> +            };
-> +
-> +            i2c-atr {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                i2c@0 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    reg = <0>;
-> +
-> +                    serializer@40 {
-> +                        compatible = "maxim,max96717", "maxim,max96717f";
-> +                        reg = <0x40>;
-> +                        gpio-controller;
-> +                        #gpio-cells = <2>;
-> +                        #clock-cells = <0>;
-> +
-> +                        ports {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            port@0 {
-> +                                reg = <0>;
-> +                                ser_0_csi_in: endpoint {
-> +                                    data-lanes = <1 2>;
-> +                                    remote-endpoint = <&sensor_0_out>;
-> +                                };
-> +                            };
-> +
-> +                            port@1 {
-> +                                reg = <1>;
-> +                                ser_0_gmsl_out: endpoint {
-> +                                    remote-endpoint = <&des_gmsl_in_0>;
-> +                                };
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +
-> +                i2c@1 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    reg = <1>;
-> +
-> +                    serializer@40 {
-> +                        compatible = "maxim,max96717", "maxim,max96717f";
-> +                        reg = <0x40>;
-> +                        gpio-controller;
-> +                        #gpio-cells = <2>;
-> +                        #clock-cells = <0>;
-> +
-> +                        ports {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            port@0 {
-> +                                reg = <0>;
-> +                                ser_1_csi_in: endpoint {
-> +                                    data-lanes = <1 2>;
-> +                                    remote-endpoint = <&sensor_1_out>;
-> +                                };
-> +                            };
-> +
-> +                            port@1 {
-> +                                reg = <1>;
-> +                                ser_1_gmsl_out: endpoint {
-> +                                    remote-endpoint = <&des_gmsl_in_1>;
-> +                                };
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 93e22dfd61c17..0eb1729ae1647 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14783,6 +14783,12 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/iio/proximity/maxbotix,mb1232.yaml
->  F:	drivers/iio/proximity/mb1232.c
->  
-> +MAXIM GMSL2/3 SERIALIZERS AND DESERIALIZERS
-> +M:	Cosmin Tanislav <cosmin.tanislav@analog.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
-> +
->  MAXIM MAX11205 DRIVER
->  M:	Ramona Bolboaca <ramona.bolboaca@analog.com>
->  L:	linux-iio@vger.kernel.org
+> While a combination of the existing V4L2_CID_EXPOSURE + a new 
+> V4L2_CID_EXPOSURE_RATIO control could make an API for sensors with 
+> indirect exposure control only, I am concerned that if we were to add 
+> such a control, we would also need to define it's interaction with 
+> V4L2_CID_EXPOSURE/V4L2_CID_EXPOSURE_MULTI, I think the logic here can 
+> get complicated, especially if we begin to think also for sensors that 
+> support both direct and indirect short exposure control.
+
+I agree. This is an area where the V4L2 control framework, with its
+extensive API and genericity, is counter-productive. When setting the
+V4L2_CID_EXPOSURE_RATIO ratio control, the driver would likely need to
+update the V4L2_CID_EXPOSURE_MULTI control. That's more work, for no
+gain as userspace would really not care.
+
+> > Some sensors support both direct control of the short exposure and
+> > indirect control through a ratio, while other may support indirect
+> > control only. For the sensors that support both, we could decide to only
+> > expose the multi-exposure control with direct control of the short
+> > exposure. For sensors that support indirect control only, we need to
+> > define an API. We could possibly still use the same multi-exposure
+> > control and compute the ratio internally in the driver, but there may be
+> > a better option.
+> 
+> I think I like better the idea of using the multi-exposure control and 
+> compute the ratio internally in the driver, it sounds more flexible, in 
+> case different ratios are needed, maybe for sensors with more than 2 
+> exposures, it saves us the trouble of adding a new ratio control 
+> (possibly array) and defining it's interaction with the other controls.
+> 
+> For the sensors that support both direct and indirect short exposure 
+> control, I like the idea of exposing only the multi controls, and let 
+> the driver use what it needs from the array, depending on what routes 
+> are active. But, if needed for backward compatibility with userspace 
+> applications, we can have both.
+
+Let's start with just direct exposure control then, and see where it
+leads us.
+
+> >> In some cases, this may be enough, but when direct individual
+> >> control is needed for both long and short exposure, then we need the
+> >> multiple exposure controls. Do you have a specific sensor example in mind?
+> >> I think in the past we looked at imx708, and my understanding was that
+> >> the exposure control affects only the long exposure and the sensor will
+> >> automatically divide the medium and short one with the corresponding ratio:
+> >> https://github.com/raspberrypi/linux/blob/rpi-6.12.y/drivers/media/i2c/imx708.c
+> > 
+> > The ratio seems configurable. Register 0x0220 is programmed to 0x62,
+> > which selects ratio-based control of the exposure. I don't know if the
+> > sensor supports direct control of the short (and very short) exposure.
+> > 
+> >>> Finally, I was recently wondering if it would be possible to reuse the
+> >>> existing controls instead, allowing them to be either single values or
+> >>> arrays. The idea would be that setting the control to a single value
+> >>> (essentially ignoring it's an array) would provide the current
+> >>> behaviour, while setting values for multiple elements would control the
+> >>> separate exposures.
+> >>
+> >> You mean to divide the 32 bits value of the current controls between the
+> >> multiple exposures?
+> >> Just one comment here, we have encountered the ox03c10 sensor with 4
+> >> exposures (that will leave only 8 bits per exposure), and the ox05b1s
+> >> sensor with context switching and the exposure on 24 bits (for 2
+> >> contexts, 2x24=48). So reusing current 32 bit controls  might not be
+> >> enough.
+> > 
+> > I'm not sure the controls here should be used in the context switching
+> > use case. It would be better to define a more generic mechanism that
+> > supports multiple contexts for all controls.
+> 
+> Stream-aware controls could also do it, in case of context switching we 
+> have a stream/vc per context.
+
+It depends on the sensor, some sensors have multiple contexts but do not
+output images on different virtual channels (or at least not
+necessarily, it can also sometimes be configurable).
+
+> >> Or do you mean changing the current controls type from
+> >> V4L2_CTRL_TYPE_INTEGER to u32 array?
+> > 
+> > Yes, this is what I mean.
+> > 
+> >> Would that not cause issues with
+> >> applications already using current controls?
+> > 
+> > That would only work if the kernel could handle some type of backward
+> > compatibility, doing the right thing when userspace sets the control to
+> > a single value (as opposed to an array of values). That's probably not
+> > very realistic, as the control would enumerate as a compound control,
+> > and that may break existing userspace.
+> > 
+> > Another option would be to change the control type at runtime based on
+> > whether or not HDR is enabled, but that also sounds like it will cause
+> > lots of issue.
+> 
+> Let me know if you think it is worth investigating any of these paths 
+> (control as single&array or change control type at runtime).
+
+I don't think that's needed. Let's stick to the new MULTI controls, and
+see how they work in sensor drivers and in libcamera.
+
+> >>> I haven't checked if the control framework supports
+> >>> this, or if it could be supported with minimum changes. The advantage is
+> >>> that we wouldn't need to define how the new and old controls interact if
+> >>> we don't introduce new controls.
+> >>
+> >> I think the same advantage will be achieved with stream-aware controls
+> >> (no new controls, also the min/max/def semantics remain clear), but
+> >> there is the issue we do not have streams if the sensor does internally
+> >> the hdr merge. Does it sound any better to introduce some fake streams
+> >> or pads that are not associated with any pixel stream, but just to allow
+> >> multiple exposure control?
+> > 
+> > That also sounds like quite a bit of complexity for little gain. It
+> 
+> What sounds like complexity, stream-aware controls or fake streams/pads?
+
+The fake streams. Per-stream controls also add complexity, but are in my
+opinion still potentially worth the complexity. Adding fake streams and
+internal pads seems cumbersome. But maybe I'm worrying too much, if you
+think it's worth investigating, we could look at how it translates to
+patches (for both kernel and userspace).
+
+> > seems that new controls are the best option. There are still a few
+> > issues to solve:
+> > 
+> > - Should sensors that support multi-exposure (or gains) implement
+> >    V4L2_CID_EXPOSURE for backward compatibility, or only
+> >    V4L2_CID_EXPOSURE_MULTI ? If both are implemented, how should the two
+> >    controls interact ?
+> 
+> I think sensor developer's life would be simpler with only 
+> V4L2_CID_EXPOSURE_MULTI, it would have been ideal if V4L2_CID_EXPOSURE 
+> was an array in the first place.
+
+Give me a time machine please, there are so many things I'd like to
+change in V4L2 :-)
+
+> For backward compatibility though, which is an important practical 
+> aspect, we can allow both V4L2_CID_EXPOSURE and V4L2_CID_EXPOSURE_MULTI, 
+> with the mention that V4L2_CID_EXPOSURE, when used,it has clear effects 
+> on the first (longest?) exposure, but may have undefined behavior for 
+> the other exposures (a default ratio could be applied by the driver, or 
+> a default or previous exposure could be set). On the other hand, 
+> V4L2_CID_EXPOSURE_MULTI has clear effects on all exposures and would 
+> recommended it to be used in case of multiple captures.
+
+From a very selfish point of view, considering libcamera, I wouldn't
+mind camera sensors that only expose V4L2_CID_EXPOSURE_MULTI without
+V4L2_CID_EXPOSURE. They will work all fine (once support for
+V4L2_CID_EXPOSURE_MULTI will be merged in libcamera, of course), even in
+the non-HDR case.
+
+On the other hand, some people may object to all the rest of userspace
+having to be updated to support new sensor drivers. If we want to
+support V4L2_CID_EXPOSURE, I think we can restrict the control to
+operating only when HDR is disabled (an HDR-unaware userspace should
+never enable HDR in the first place, and wouldn't work if it's enabled
+anyway), and define V4L2_CID_EXPOSURE_MULTI as having priority over
+V4L2_CID_EXPOSURE, and setting V4L2_CID_EXPOSURE to the first array
+value. We can also adapt this behaviour to ease the implementation.
+
+Note that I think this should be implemented in a helper (possibly in the
+control handler core ?), HDR-aware drivers should deal with
+V4L2_CID_EXPOSURE_MULTI, and the V4L2_CID_EXPOSURE control should be
+created by the helper, and fully handled by it. Otherwise we'll make
+drivers more complex, and open the door to variations in behaviour
+between different drivers.
+
+> > - How do we handle ratio-based exposure control ?
+> 
+> For ratio-based exposure control, I'm thinking it is better to use 
+> V4L2_CID_EXPOSURE_MULTI for both direct and indirect short exposure 
+> control. Let the driver calculate the ratio, and there can be n-1 ratios 
+> (n=number of exposures). This would save us the troubles to define and 
+> manage the interaction of a ratio control with the exposure controls.
+
+Ack.
+
+> > - In which order are the exposures (and gains) stored in the array ?
+> 
+> With the os08a20 in mind, I would propose from the longest to the 
+> shortest (when the sensor operates in non-hdr mode, only the long 
+> exposure registers are used, that is the first and only exposure).
+
+Ack.
+
+> Well, these are my opinions, more or less justified, I would like to 
+> hear your opinion further, as well as anyone's else.
+> 
+> >> BTW, Jay, what are your plans around the stream-aware controls?
+> >>
+> >> Thanks again for feedback, Laurent!
+> >>
+> >>> Hans, what do you think ?
+> >>
+> >> Same question from me ;)
+> >>
+> >>>> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> >>>> ---
+> >>>>    .../media/v4l/ext-ctrls-image-source.rst             | 12 ++++++++++++
+> >>>>    1 file changed, 12 insertions(+)
+> >>>>
+> >>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> >>>> index 71f23f131f97..6efdb58dacf5 100644
+> >>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> >>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> >>>> @@ -92,3 +92,15 @@ Image Source Control IDs
+> >>>>        representing a gain of exactly 1.0. For example, if this default value
+> >>>>        is reported as being (say) 128, then a value of 192 would represent
+> >>>>        a gain of exactly 1.5.
+> >>>> +
+> >>>> +``V4L2_CID_EXPOSURE_MULTI (__u32 array)``
+> >>>> +    Same as V4L2_CID_EXPOSURE, but for multiple exposure sensors. Each
+> >>>> +    element of the array holds the exposure value for one capture.
+> >>>> +
+> >>>> +``V4L2_CID_AGAIN_MULTI (__u32 array)``
+> >>>> +    Same as V4L2_CID_ANALOGUE_GAIN, but for multiple exposure sensors. Each
+> >>>> +    element of the array holds the analog gain value for one capture.
+> >>>> +
+> >>>> +``V4L2_CID_DGAIN_MULTI (__u32 array)``
+> >>>> +    Same as V4L2_CID_DIGITAL_GAIN, but for multiple exposure sensors. Each
+> >>>> +    element of the array holds the digital gain value for one capture.
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
