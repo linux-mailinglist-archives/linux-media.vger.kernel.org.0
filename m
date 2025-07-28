@@ -1,301 +1,172 @@
-Return-Path: <linux-media+bounces-38555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70C1B13951
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 12:55:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A13B13A0E
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 13:52:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1691189A732
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 10:55:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EDD197AA8D1
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 11:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1DFC253F1B;
-	Mon, 28 Jul 2025 10:55:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF15925F7A7;
+	Mon, 28 Jul 2025 11:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z4GnV0Rh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7ZyfzAU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63D419E96D;
-	Mon, 28 Jul 2025 10:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73E0748F;
+	Mon, 28 Jul 2025 11:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753700116; cv=none; b=ZNr2TTJmSCgNRtRvhREXd3z4B6b6jzPbNQp3p22jhzLBbamVDhOGtK304k0XHt884ipftYJT8535Kb0rt4cnV8cEYrjixmy3cGc6AeYRcRhaND/9aRjWefA1ZVv7xrH5NoCwswEle82kYIDDxaZTjWB/x7AmhHHosd4SzZww53U=
+	t=1753703518; cv=none; b=JWFDeb68dkMWhxYB7boFQ3K5p2yUhU3zqAi0Z3CY6ClK2Vr8+X7tH0kJetxmsfZhlBPMvRrJctfdBrmEUHkC1M1pbhTrm25lr6mVoouayXUV6Ml7NAV/dFdiO4ENCV8H716sGRzNku9HtyoJtOy/MwIKvuHi74BVmXAG50tJ6hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753700116; c=relaxed/simple;
-	bh=W/a1/xZzEgZMEVHhYSue9fgjv4ZrPtKFHh6NMQSoygU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lZrNZP5fDLMegLnYH1qu/WpJPMgRU0IXzm6qfOSgbmz2Ohm3rhIgun6xJlNSbNRDRQjxJ6tfjwpM+75aerenbXmyQGeVrlaFKNsIo61/L9qg++PZYoGSybpWzPf0WSIc2GRBzlWEaNw+bELzvi380jAISi3FF+K6LsELfO8dL1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z4GnV0Rh; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1753700111;
-	bh=W/a1/xZzEgZMEVHhYSue9fgjv4ZrPtKFHh6NMQSoygU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z4GnV0RhagZI/l+vTFifPA3DWnvbrrycblRTy62QNPy0HMqJq7wn7Ocqo4aRxl41C
-	 wAiBoWnqsQuKyCk23pnPVHMnQi8cQclM4RqiYlM+la+UKFBbBVv5cXIoKTiMKB89+E
-	 9pmt6SJyXxYmlWvEbWfdb1o0HXPUWUB6h09prEJJrl1OlCaMB0LqlLa02kpIZHWWmc
-	 BLml2gDUkClRvinF4cK7aKSjCsWgvXWIOc07U2mZfOuJBCgIpyUC9XteWI+GtxJg32
-	 o/BNTUaeiOsgQnk1gRSLcbl03vd3WOCgtozzwfmHwpz4T0SIMU2hieX9GAkqpuuvVA
-	 E6RE832yEBBtQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1F4DC17E00EC;
-	Mon, 28 Jul 2025 12:55:09 +0200 (CEST)
-Message-ID: <f804c19f-622e-41af-8be5-3751532c4e9c@collabora.com>
-Date: Mon, 28 Jul 2025 12:55:08 +0200
+	s=arc-20240116; t=1753703518; c=relaxed/simple;
+	bh=765Zg2kvdW9MEMLHWxxka94UDM3iWDfdwAN2sOe8HSQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tj52EH6tlA68PLdt7UAdjl3phqd6o9FNUQPX/SrChhByjpL3tcLP2gkXITyot5/Y6A9iwfBLImWU3Xj7OZoQPGHgloLcXKiC6I/Xvn/t5q/HB2cFaG5ZiWZSvTQEpPhZmVmsW2haoAklCjhtrmt8tnimQGgplhFjKvW/E5yUfb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7ZyfzAU; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4e8088896b7so3818192137.1;
+        Mon, 28 Jul 2025 04:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753703515; x=1754308315; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Likoa40Tg3Hu27n+cGt0OOu4O4FlIaVhlBXKe7cRGBI=;
+        b=E7ZyfzAU93HoFBe6J0EiiyZ/q8gMb7qXfp/2xHEs7LLzVEsPN/jtKJW5e1TjR4nPMd
+         z1+Y/Ha+VSr34weD+DluafPN/ePxALHR4rnep/Jkl1hBo8f0ZtnK7wZDlyEJo2dtyraY
+         YU2uVnbPJTZ2NIlJW898MYu4Zlj070voOC7RCrjab+srI1qos8NMN2U5XBUfFttdPjaX
+         Dw8fqElgL6c6kKDkvAkxhyDrufin+aX5lLwW6e4ai/xgzcWlpDrSxZEy6F8NFBZJFJMo
+         dSmZ3s+5P0Z8l0MxQFTxl6jBLcq+PI3eUWDybG6DDYXoAUiMHEwYtXYDxlY97X51Cj5o
+         E3Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753703515; x=1754308315;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Likoa40Tg3Hu27n+cGt0OOu4O4FlIaVhlBXKe7cRGBI=;
+        b=n53I5slh3AZFNVTERwGg66Dg8aLkdYc7YwYJOAjPmdkgdY/9ULOtxUlta3Tzt5tum6
+         y0vHsaWUfUmxv2RyhwqWXyYKd2qLlhqEP5mCYe4dijxvb+Cg7RCu4LyRZt73nTFp9FDc
+         oF3Sl/lZl2F/QeyybLznXuuhThn8o6hgQ0jrs1ZOjo5dXEnKfvUOm3QNMCLFkZm6Cadq
+         FkhkRkkJgnAPk+BspXPZ75xkI5g6TakKw7UaRDy/q59wzFFBaHpSlhNVli1FVbNhF94G
+         0GcunD3FZeF4+deUckmqA1qSjY6wL3wtA3hrLu7ZwRVRNokr3Cb/CwbTb6mDAk5VXFYv
+         HqDg==
+X-Forwarded-Encrypted: i=1; AJvYcCWyt9yJC0/92tFvZI9blWog3RKX11D9ls/OiqeH242QY+gsYCw3zj+kdC91ZfQCcrIB95zMUIuTCo80EAw=@vger.kernel.org, AJvYcCX4Sl0oisCuWCR+bvDoY4xSLQHAKA6so1WgNBPuJJ8/vqLBCwBrWUSdG1huvDDlSg1Q152HJQ7CDJpCHRg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdH3ey5tcpHDfsLcCSpsOUJ3mFveLOf4yyhRioRdAoX9qs1Kmm
+	jNjjTUqfPHfBc+ZJZUgb1Q9UbbfsDHk/wMuMvAl//63TsmpJjrgnPzwLraMblpdbXc2u5fkCAyp
+	UDOC4gxQP5CYyvVCqJ9Ihy4rlMSxLw0M=
+X-Gm-Gg: ASbGncuIxIidLPkOcGXUBpo/6/wSCcgy2TIlwWloq0za/cuQsTkbjtdi+7y/5JAMhiL
+	9SX9giVk7ETHrU/UPi0OeTTtZrOOJfcNsqxUMlpvmD105rkoNCMJeAcUExxUaTiIIJjXYzbo/JY
+	eX+OFKu6NB8agg6vaMvj4VPRuQrSqmEH+OJtf69u81WtJr/cgRxTH2zY6e42yXKPLPcQcLCbczF
+	AjHWc+7YempSVAM3lNoreExdERq13WENMsuByRNqSswO6qS
+X-Google-Smtp-Source: AGHT+IHsqmvDN1OFlcp19Q+AvY6FXGJmsuYKzkKxh4r8EMVJpKypY+COSUIzdrhQaRKNH1fBxdx0oolMl9lsOpkidVQ=
+X-Received: by 2002:a05:6102:548c:b0:4fa:3547:2d38 with SMTP id
+ ada2fe7eead31-4fa3547343cmr5831280137.10.1753703515441; Mon, 28 Jul 2025
+ 04:51:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/38] MediaTek devicetree/bindings warnings sanitization
-To: Rob Herring <robh@kernel.org>, Matthias Brugger
- <matthias.bgg@kernel.org>, Julien Massot <julien.massot@collabora.com>,
- Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: linux-mediatek@lists.infradead.org, herbert@gondor.apana.org.au,
- davem@davemloft.net, krzk+dt@kernel.org, conor+dt@kernel.org,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, jassisinghbrar@gmail.com, mchehab@kernel.org,
- matthias.bgg@gmail.com, chunfeng.yun@mediatek.com, vkoul@kernel.org,
- kishon@kernel.org, sean.wang@kernel.org, linus.walleij@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, andersson@kernel.org,
- mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, tglx@linutronix.de,
- atenart@kernel.org, jitao.shi@mediatek.com, ck.hu@mediatek.com,
- houlong.wei@mediatek.com, kyrie.wu@mediatek.corp-partner.google.com,
- andy.teng@mediatek.com, tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
- shane.chien@mediatek.com, olivia.wen@mediatek.com, granquet@baylibre.com,
- eugen.hristev@linaro.org, arnd@arndb.de, sam.shih@mediatek.com,
- jieyy.yang@mediatek.com, frank-w@public-files.de, mwalle@kernel.org,
- fparent@baylibre.com, linux-crypto@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <CAL_JsqJGNdp3Z0sXaEXWY8nqXD+0kSCo+BYCkcGstE7zcVVcXw@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAL_JsqJGNdp3Z0sXaEXWY8nqXD+0kSCo+BYCkcGstE7zcVVcXw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+ <CANiDSCsmbiveo4GHX54_q7-1CeKiDAVaGnb8+jsCybM+pyA7Fw@mail.gmail.com>
+ <20250601113425.4d5a3d89@foz.lan> <CANiDSCt9nGP=r8VxkZH76a1i+xEd+RCJ71=6qx0_iPYdrn+GoQ@mail.gmail.com>
+ <20250724191833.253b8f40@foz.lan>
+In-Reply-To: <20250724191833.253b8f40@foz.lan>
+From: Alexandre Courbot <gnurou@gmail.com>
+Date: Mon, 28 Jul 2025 20:51:43 +0900
+X-Gm-Features: Ac12FXzLrdinDNy_ff-eOZ_xxvjLB4Bph9uh3DCpSNYBsMQAHaG1vHziQkM_kmQ
+Message-ID: <CAAVeFuLPAwMyq7cTDE4Fp3+i883RdDWkg=GOMGDzMxZz6rgSuw@mail.gmail.com>
+Subject: Re: [PATCH v3] media: add virtio-media driver
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Albert Esteve <aesteve@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	gurchetansingh@google.com, daniel.almeida@collabora.com, adelva@google.com, 
+	changyeon@google.com, nicolas.dufresne@collabora.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	virtualization@lists.linux.dev, Alexandre Courbot <acourbot@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Il 25/07/25 15:52, Rob Herring ha scritto:
-> On Thu, Jul 24, 2025 at 3:39 AM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> As Rob pointed out, MediaTek devicetrees are *poor* in the dtbs_check
->> tests, and got an infinite load of warnings.
->>
->> This series starts attacking this situation.
->>
->> I didn't really count how many warnings I have resolved - it's a lot
->> of them anyway - and I think that this is a good start in any case.
-> 
-> 40 out of 125 (on arm64) fixed! Thanks! FYI, here's the ones that
-> remain (first number is number of times the warning occurs):
-> 
+Hi Mauro,
 
-Thanks Rob!
+On Fri, Jul 25, 2025 at 2:24=E2=80=AFAM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Em Sun, 1 Jun 2025 12:01:22 +0200
+> Ricardo Ribalda <ribalda@chromium.org> escreveu:
+>
+> > Hi Mauro
+> >
+> > On Sun, 1 Jun 2025 at 11:34, Mauro Carvalho Chehab
+> > <mchehab+huawei@kernel.org> wrote:
+> > >
+> > > Em Wed, 28 May 2025 18:23:02 +0200
+> > > Ricardo Ribalda <ribalda@chromium.org> escreveu:
+> > >
+> > > > > +static int scatterlist_builder_add_userptr(struct scatterlist_bu=
+ilder *builder,
+> > > > > +                                          unsigned long userptr,
+> > > > > +                                          unsigned long length)
+> > > > > +{
+> > > > > +       int ret;
+> > > > > +       int nents;
+> > > > Could you initialize nents and sg_list?
+> > > > old versions of gcc are a bit picky
+> > > > https://gitlab.freedesktop.org/linux-media/users/ribalda/-/jobs/770=
+42562#L4381
+> > >
+> > > Please don't. In this specific case, ret is always initialized:
+> > >
+> > > > +       struct virtio_media_sg_entry *sg_list;
+> > > > +
+> > > > +       ret =3D __scatterlist_builder_add_userptr(builder, userptr,=
+ length,
+> > > > +                                               &sg_list, &nents);
+> > >
+> > > nents and sg_list may or may not be initialized at the function,
+> > > but initializing it is wrong, as, when they are not initialized, the
+> > > ret code shall catch it (and if not, we *do* want gcc to warn).
+> > >
+> > > So, if our CI is warning about that due to an old version, please upg=
+rade
+> > > the version at the CI runner.
+> >
+> > The main version of gcc works fine. It is the minimal version (8.1) req=
+uired by
+> > https://www.kernel.org/doc/html/next/process/changes.html
+> > that  complains.
+>
+> Ricardo,
+>
+> gcc 8.1 was released in May 2, 2018. I don't think it makes sense to
+> address bogus warnings with that old gcc versions. I would just disable
+> WERROR for such versions on our CI tests.
+>
+> ---
+>
+> Alexandre/Michael,
+>
+> I need a couple of full days to properly review virtio-media.
+> I was planning to do it during this Kernel cycle, but I ended
+> allocating too much time just to be able to create a crossvm
+> that would allow testing it. Afterwards, I got sidetracked with other
+> issues. I won't be able to review it in time for this merge window.
+>
+> I'm planning to do it at the beginning of the next merge cycle.
 
-I know that there are more warnings to be fixed - but I am unable to do that
-right now, as I'm going on holiday in a few days.
+Not a worry at all and I appreciate the time you are putting aside to
+review this properly!
 
-However, I will ask to some colleagues of mine (Ariel and Julien, added to this
-thread so that they also get your log and can take action) to try to solve
-some more warnings while I am away, starting with the easiest ones so that we
-reduce this bad number.
-
-In that pinctrl dt fixes commit, you made me realize how many (old leftover and
-new) warnings we had on MediaTek - it's bad, and must be fixed.. but in the
-meanwhile, thanks again for making me notice.
-
-Speaking of holidays, I'll also ask to Matthias to manage this merge window, so
-that those commits won't have to wait for the next one (as I'll be back in early
-September, I'm not sure how much time will be left until the window closes).
-
-Cheers!
-Angelo
-
->       29 (mediatek,mt8183-mfgcfg): 'power-domains' does not match any
-> of the regexes: '^pinctrl-[0-9]+$'
->       29 failed to match any schema with compatible:
-> ['mediatek,mt8183-audiosys', 'syscon']
->       29 failed to match any schema with compatible: ['mediatek,mt8183-audio']
->       27 (mediatek,mt8183-pinctrl): 'gpio-line-names' does not match
-> any of the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
->       22 (mediatek,mt6359): '#sound-dai-cells' does not match any of
-> the regexes: '^pinctrl-[0-9]+$'
->       14 failed to match any schema with compatible:
-> ['mediatek,mt8183_mt6358_ts3a227_max98357']
->       12 (mediatek,mt8186-mt6366-rt1019-rt5682s-sound): 'model' is a
-> required property
->       12 failed to match any schema with compatible: ['mediatek,mt8173-mdp-rsz']
->        9 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0],
-> [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too
-> long
->        8 failed to match any schema with compatible: ['mediatek,mt8173-mdp-wrot']
->        8 failed to match any schema with compatible:
-> ['mediatek,mt8173-mdp-rdma', 'mediatek,mt8173-mdp']
->        6 failed to match any schema with compatible:
-> ['mediatek,mt8183_da7219_rt1015p']
->        5 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4],
-> [0, 198, 4], [0, 199, 4]] is too short
->        5 failed to match any schema with compatible:
-> ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
->        4 (mediatek,mt8173-mmsys): 'assigned-clock-rates',
-> 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
->        4 (mediatek,mt8173-disp-ufoe): 'mediatek,gce-client-reg' does
-> not match any of the regexes: '^pinctrl-[0-9]+$'
->        4 (mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not
-> match any of the regexes: '^pinctrl-[0-9]+$'
->        4 (mediatek,mt6360): #interrupt-cells: 1 was expected
->        4 failed to match any schema with compatible: ['mediatek,mt8173-vpu']
->        4 failed to match any schema with compatible: ['mediatek,mt8173-mdp-wdma']
->        4 failed to match any schema with compatible: ['mediatek,mt8173-mdp-rdma']
->        4 failed to match any schema with compatible: ['mediatek,mt7622-pcie']
->        3 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any
-> of the regexes: '^pinctrl-[0-9]+$'
->        3 (mediatek,mt8173-thermal): Unevaluated properties are not
-> allowed ('bank0-supply', 'bank1-supply' were unexpected)
->        3 (mediatek,mt8173-pinctrl): 'gpio-line-names' does not match
-> any of the regexes: '^pinctrl-[0-9]+$', 'pins$'
->        3 (mediatek,mt8173-dsi): Unevaluated properties are not allowed
-> ('ports' was unexpected)
->        3 (mediatek,mt8173-dsi): ports: 'port@1' is a required property
->        3 (mediatek,mt8173-dsi): ports: 'port@0' is a required property
->        3 failed to match any schema with compatible: ['mediatek,mt8173-rt5650']
->        2 (mediatek,mt8192_mt6359_rt1015p_rt5682): 'model' is a required property
->        2 (mediatek,mt8192-i2c): Unevaluated properties are not allowed
-> ('clock-stretch-ns' was unexpected)
->        2 (mediatek,mt8186-spmi): Unevaluated properties are not allowed
-> ('interrupts' was unexpected)
->        2 (mediatek,mt7986-tphy): usb-phy@700:reg: [[0, 1792], [0,
-> 2304]] is too long
->        2 (mediatek,mt7622-pwrap): 'regulators' does not match any of
-> the regexes: '^pinctrl-[0-9]+$'
->        2 (mediatek,mt7622-pciesys): compatible: 'oneOf' conditional
-> failed, one must be fixed:
->        2 (mediatek,mt7622-audsys): audio-controller: 'power-domains' is
-> a required property
->        2 (mediatek,mt7622-audsys): audio-controller:clock-names:
-> ['infra_sys_audio_clk', 'top_audio_mux1_sel
-> ', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp',
-> 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_
-> src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div',
-> 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en','
-> i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck',
-> 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_c
-> k', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck',
-> 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_
-> out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd',
-> 'audio_a1sys_pd', 'audio_a2sys_pd'] is too sh
-> ort
->        2 (mediatek,mt7622-audio): 'power-domains' is a required property
->        2 (mediatek,mt7622-audio): clock-names: ['infra_sys_audio_clk',
-> 'top_audio_mux1_sel', 'top_audio_mux2
-> _sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel',
-> 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_sr
-> c_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div',
-> 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2
-> s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck',
-> 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck'
-> , 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck',
-> 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_ou
-> t_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd',
-> 'audio_a2sys_pd'] is too short
->        2 (mediatek,mt6795-mmsys): 'assigned-clock-rates',
-> 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
->        2 (mediatek,mt6795-mmc): Unevaluated properties are not allowed
-> ('pinctrl-names' was unexpected)
->        2 (mediatek,mt6795-mmc): pinctrl-names: ['default'] is too short
->        2 (mediatek,mt6795-mmc): 'pinctrl-1' is a required property
->        2 (mediatek,mt6795-disp-ufoe): 'mediatek,gce-client-reg' does
-> not match any of the regexes: '^pinctrl-[0-9]+$'
->        2 (mediatek,mt6795-disp-od): 'mediatek,gce-client-reg' does not
-> match any of the regexes: '^pinctrl-[0-9]+$'
->        2 failed to match any schema with compatible:
-> ['mediatek,mt8183_da7219_max98357']
->        2 failed to match any schema with compatible:
-> ['mediatek,mt7622-scpsys', 'syscon']
->        2 failed to match any schema with compatible: ['mediatek,mt6797-scpsys']
->        2 failed to match any schema with compatible:
-> ['mediatek,mt6380-regulator']
->        2 failed to match any schema with compatible: ['mediatek,mt2712-pcie']
->        1 (mediatek,mt8516-topckgen): compatible: 'oneOf' conditional
-> failed, one must be fixed:
->        1 (mediatek,mt8516-apmixedsys): compatible: 'oneOf' conditional
-> failed, one must be fixed:
->        1 (mediatek,mt8186-mt6366-rt5682s-max98360-sound): 'model' is a
-> required property
->        1 (mediatek,mt8186-cci): 'proc-supply' is a required property
->        1 (mediatek,mt8183-pinctrl): 'i2c0', 'i2c1', 'i2c2', 'i2c3',
-> 'i2c4', 'i2c5', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'pwm1',
-> 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5' do not match any of the
-> regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
->        1 (mediatek,mt8183-pinctrl): 'i2c0', 'i2c1', 'i2c2', 'i2c3',
-> 'i2c4', 'i2c5', 'i2c6', 'keyboard' do not match any of the regexes:
-> '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
->        1 (mediatek,mt8183-pinctrl): bt-pins-wakeup: 'piins-bt-wakeup'
-> does not match any of the regexes: '^pinctrl-[0-9]+$', '^pins'
->        1 (mediatek,mt8173-pwrap): 'power-domains' does not match any of
-> the regexes: '^pinctrl-[0-9]+$'
->        1 (mediatek,mt7622-pinctrl): 'asm-sel-hog' does not match any of
-> the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
->        1 (mediatek,mt7622-audsys): audio-controller:clocks: [[2, 2],
-> [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18,
-> 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18,
-> 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38,
-> 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40],
-> [38, 0], [38, 46], [38, 17], [38, 18]] is too short
->        1 (mediatek,mt7622-audsys): audio-controller:clocks: [[2, 2],
-> [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18,
-> 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18,
-> 104], [18, 105], [18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37,
-> 4], [37, 5], [37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40],
-> [37, 0], [37, 46], [37, 17], [37, 18]] is too short
->        1 (mediatek,mt7622-audio): clocks: [[2, 2], [18, 80], [18, 81],
-> [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18,
-> 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105],
-> [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5],
-> [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0],
-> [38, 46], [38, 17], [38, 18]] is too short
->        1 (mediatek,mt7622-audio): clocks: [[2, 2], [18, 80], [18, 81],
-> [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18,
-> 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105],
-> [18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37, 4], [37, 5],
-> [37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40], [37, 0],
-> [37, 46], [37, 17], [37, 18]] is too short
->        1 (mediatek,mt7531): 'interrupts' is a dependency of
-> 'interrupt-controller'
->        1 (mediatek,mt6357): 'adc' does not match any of the regexes:
-> '^pinctrl-[0-9]+$'
->        1 (mediatek,mt6331): regulators:compatible: 'oneOf' conditional
-> failed, one must be fixed:
->        1 (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of
-> the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$',
-> '^ldo-(avdd32aud|vauxa32)$',
-> '^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$',
-> '^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$',
-> '^pinctrl-[0-9]+$'
->        1 (mediatek,mt6331-regulator): ldo-vcamio:regulator-name:0:
-> 'vcam_io' does not match '^vcam(a|_af|d|io)$'
->        1 (mediatek,mt6331): 'mt6332-led' does not match any of the
-> regexes: '^pinctrl-[0-9]+$'
->        1 failed to match any schema with compatible:
-> ['mediatek,mt6779-audio', 'syscon']
->        1 failed to match any schema with compatible:
-> ['mediatek,mt2712-scpsys', 'syscon']
-
-
+Thanks,
+Alex.
 
