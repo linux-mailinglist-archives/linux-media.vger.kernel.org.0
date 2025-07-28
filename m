@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-38520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041C0B13453
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 07:55:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BF1B13480
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 07:59:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63D9C3B3A3D
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 05:54:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33BA03B900E
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 05:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58BDB221F31;
-	Mon, 28 Jul 2025 05:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8192322154D;
+	Mon, 28 Jul 2025 05:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOky2Brq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGWUJT87"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA721D5147;
-	Mon, 28 Jul 2025 05:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DBD21FF50;
+	Mon, 28 Jul 2025 05:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753682093; cv=none; b=aFzY/PHa0e1w4vLbDNVSHKgCPVvqRN5eMx+MqAcwdjKgLm+n3lpD3/bhWizCQw0RukZ7qMuXsqd2YRfRp2My6ucqp4BGCPbcfInGky7FlfVvzwHmQ3zpPvStoJmWlCfn7c5B9mf7+K8R7QemW9CitiatOIwmSHwFrEgUcDR+ZVg=
+	t=1753682262; cv=none; b=hTpCHyI73qBHR+dpKalJ4L8fUNuirnkTcl4tALMOmClgpSWc7OWv2aulqRudX0Y2h6K5qRxBNi8yWSq9CWgiB5gxzemZLY0qI4fRzaEecXBBUau4ns8808fl44wkjuCuZ6XwflXHSKf+YED9pdtyFxfH2bbbNhc+ER4PtKgUeys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753682093; c=relaxed/simple;
-	bh=cCKM2xSPs1SaHA/XS8K6rNJfFARxaon21ig+00tOWAo=;
+	s=arc-20240116; t=1753682262; c=relaxed/simple;
+	bh=93FmW8XV2jJxelvz++7T6HWXvhNpHYrpAeDkgbikgKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hsFfJ9bJtLyaA4mZGLEyVrkC89U9A3n2P+Z5EzljwANAFZShTvZhTPN4iUIgzN2zQFM+0KMF98RZSVrkVIE0WMTJHhrT5sYWuUYUcoqIyuj5Ko/Y+xOv7r3FQ5dGYEfpxf+TKaWka+MFugSc67EN4O5crfxS5YdipcMQAaAMq98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOky2Brq; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=aXE+JMBv1P+U0vZmDLpo4DiTRHHAah4CxbJbXKkcLHWxCTySAb00sCXz3zzIt3s5hG3YpivTHI3ZWYxkeCCNcxSwbOXpwAU/+JeRBYmqZst7WWHiGLLsi8ChcQSI4iMo7G0u47wCrs2jjfe6EpTDiwmwpz4heSK5RNwrZQ/qeEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGWUJT87; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753682092; x=1785218092;
+  t=1753682260; x=1785218260;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cCKM2xSPs1SaHA/XS8K6rNJfFARxaon21ig+00tOWAo=;
-  b=lOky2Brq2cQBGPuG57qBTr8ps1eLVgkoZ2fi7+ggmEiGvIdCHTUvLaGx
-   BURrZxJqpUvVS/iOmhNQV1+plCWDMo+YiDKWhTMkeGHTlVBjz+26IuDe/
-   s/Uau3Uix8zdL1i8/z0VhKDXgUVvj9Xr5Zj/xDsM38JfJirKKTOODykQW
-   f3FexA67uA4SUUXEXFsGfOaMLyP5g9p8JNdcPZyr/sLSz21l2Whr64jV2
-   Rthugxs0pYi59mIEdbbxjODIfZuReMo1Qaq2o9iCHZTa0fXDpa89wxHaR
-   oY002PAn4iZv46UYLH3OlMDjWYWL3fucCV34SK0Gm8SLkI+pkhtAVnRYy
-   Q==;
-X-CSE-ConnectionGUID: UHXqaY1BSVaYlD1lN4/nxw==
-X-CSE-MsgGUID: 8wIVQSkRTLGzJRrrLL4Qsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="73372787"
+  bh=93FmW8XV2jJxelvz++7T6HWXvhNpHYrpAeDkgbikgKQ=;
+  b=RGWUJT87d1gYTqOJHeRHdNOhtSSbQypWm7qhpEXDgAb0M4YXUgJ2QJLP
+   gdEnNOSHqhmgQXBnpZYGPC/g325pXruj1YR5Jpr/Ap6i5hDRcubUNrXdZ
+   C0f5QmzlGi3yiI3b6ZwAL6joIIf6i9zHLZho4WTY9Hlxay278YKogIhE+
+   HuFbJoT4MlLAuHI99UwJZCWHXurPlrw3Fj8+Py9xJW1mUPJ9ku6jbZh9z
+   znaIbGq/L5HSuxPu2T6XqKA+4qmGWJMK74MyhKFIXO7c5zg8bRoNHxT0c
+   tYu7s3mLRlSXiI3tQ5OByCyMiSj4CJSXte0DIo+Ok27FtVYcU2MsP00p+
+   g==;
+X-CSE-ConnectionGUID: mXWtSjVvR2m9e2ox+88sKA==
+X-CSE-MsgGUID: 1ZjU8vhuSpmw3vENRs4eQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="58543784"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="73372787"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 22:54:52 -0700
-X-CSE-ConnectionGUID: IfNdnTbWTKihqWXp3ygQ9w==
-X-CSE-MsgGUID: Es5a5F7AQVqGprDq+8nDvQ==
+   d="scan'208";a="58543784"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 22:57:39 -0700
+X-CSE-ConnectionGUID: Pn+BF0l3Swm79I6tIvPCSQ==
+X-CSE-MsgGUID: TA+jyJIVQYyuoKCKw1yjyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162385073"
+   d="scan'208";a="162647152"
 Received: from opintica-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.174])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 22:54:48 -0700
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 22:57:36 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A87391202CF;
-	Mon, 28 Jul 2025 08:54:44 +0300 (EEST)
-Date: Mon, 28 Jul 2025 05:54:44 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 196AA1202CF;
+	Mon, 28 Jul 2025 08:57:33 +0300 (EEST)
+Date: Mon, 28 Jul 2025 05:57:33 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Bin Du <Bin.Du@amd.com>
@@ -72,11 +72,11 @@ Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
 	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
 	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
 	Dominic.Antony@amd.com, Svetoslav.Stoilov@amd.com
-Subject: Re: [PATCH v2 1/8] media: platform: amd: Introduce amd isp4 capture
- driver
-Message-ID: <aIcQpB3pD8oWJPHZ@kekkonen.localdomain>
+Subject: Re: [PATCH v2 2/8] media: platform: amd: low level support for isp4
+ firmware
+Message-ID: <aIcRTapInMVSIkx5@kekkonen.localdomain>
 References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-2-Bin.Du@amd.com>
+ <20250618091959.68293-3-Bin.Du@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,367 +85,249 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618091959.68293-2-Bin.Du@amd.com>
+In-Reply-To: <20250618091959.68293-3-Bin.Du@amd.com>
 
 Hi Bin,
 
-On Wed, Jun 18, 2025 at 05:19:52PM +0800, Bin Du wrote:
-> Amd isp4 capture is a v4l2 media device which implements media controller
-> interface.
-> It has one sub-device (amd ISP4 sub-device) endpoint which can be connected
-> to a remote CSI2 TX endpoint. It supports only one physical interface for
-> now.
-> Also add ISP4 driver related entry info into the MAINAINERS file
+On Wed, Jun 18, 2025 at 05:19:53PM +0800, Bin Du wrote:
+> Low level functions for access the registers and mapping to their ranges.
+> This change also includes register definitions for ring buffer used to
+> communicate with ISP Firmware.
+> Ring buffer is the communication interface between driver and ISP Firmware.
+> Command and responses are exchanged through the ring buffer.
 
-You could rewrap the text and use the full lines here -- up to 75
-characters per line.
+Please rewrap this, the third line could well be longer.
 
 > 
 > Signed-off-by: Bin Du <Bin.Du@amd.com>
 > Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
 > ---
->  MAINTAINERS                              |  10 ++
->  drivers/media/platform/Kconfig           |   1 +
->  drivers/media/platform/Makefile          |   1 +
->  drivers/media/platform/amd/Kconfig       |  17 +++
->  drivers/media/platform/amd/Makefile      |   5 +
->  drivers/media/platform/amd/isp4/Makefile |  21 ++++
->  drivers/media/platform/amd/isp4/isp4.c   | 139 +++++++++++++++++++++++
->  drivers/media/platform/amd/isp4/isp4.h   |  35 ++++++
->  8 files changed, 229 insertions(+)
->  create mode 100644 drivers/media/platform/amd/Kconfig
->  create mode 100644 drivers/media/platform/amd/Makefile
->  create mode 100644 drivers/media/platform/amd/isp4/Makefile
->  create mode 100644 drivers/media/platform/amd/isp4/isp4.c
->  create mode 100644 drivers/media/platform/amd/isp4/isp4.h
+>  drivers/media/platform/amd/isp4/Makefile      |   3 +-
+>  drivers/media/platform/amd/isp4/isp4_hw.c     |  46 +++++++
+>  drivers/media/platform/amd/isp4/isp4_hw.h     |  14 +++
+>  drivers/media/platform/amd/isp4/isp4_hw_reg.h | 116 ++++++++++++++++++
+>  4 files changed, 178 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/platform/amd/isp4/isp4_hw.c
+>  create mode 100644 drivers/media/platform/amd/isp4/isp4_hw.h
+>  create mode 100644 drivers/media/platform/amd/isp4/isp4_hw_reg.h
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 10893c91b1c1..15070afb14b5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1107,6 +1107,16 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git
->  F:	drivers/iommu/amd/
->  F:	include/linux/amd-iommu.h
->  
-> +AMD ISP4 DRIVER
-> +M:	Bin Du <bin.du@amd.com>
-> +M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media.git
-> +F:	drivers/media/platform/amd/Kconfig
-> +F:	drivers/media/platform/amd/Makefile
-> +F:	drivers/media/platform/amd/isp4/*
-> +
->  AMD KFD
->  M:	Felix Kuehling <Felix.Kuehling@amd.com>
->  L:	amd-gfx@lists.freedesktop.org
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 85d2627776b6..d525c2262a7d 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -89,5 +89,6 @@ source "drivers/media/platform/ti/Kconfig"
->  source "drivers/media/platform/verisilicon/Kconfig"
->  source "drivers/media/platform/via/Kconfig"
->  source "drivers/media/platform/xilinx/Kconfig"
-> +source "drivers/media/platform/amd/Kconfig"
->  
->  endif # MEDIA_PLATFORM_DRIVERS
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index ace4e34483dd..9f3d1693868d 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -32,6 +32,7 @@ obj-y += ti/
->  obj-y += verisilicon/
->  obj-y += via/
->  obj-y += xilinx/
-> +obj-y += amd/
->  
->  # Please place here only ancillary drivers that aren't SoC-specific
->  # Please keep it alphabetically sorted by Kconfig name
-> diff --git a/drivers/media/platform/amd/Kconfig b/drivers/media/platform/amd/Kconfig
-> new file mode 100644
-> index 000000000000..3b1dba0400a0
-> --- /dev/null
-> +++ b/drivers/media/platform/amd/Kconfig
-> @@ -0,0 +1,17 @@
-> +# SPDX-License-Identifier: MIT
-> +
-> +config AMD_ISP4
-> +	tristate "AMD ISP4 and camera driver"
-> +	default y
-> +	depends on VIDEO_DEV && VIDEO_V4L2_SUBDEV_API
-> +	select VIDEOBUF2_CORE
-> +	select VIDEOBUF2_V4L2
-> +	select VIDEOBUF2_MEMOPS
-> +	select VIDEOBUF2_VMALLOC
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select VIDEOBUF2_DMA_SG
-
-Do you need all these three? Most drivers need only one.
-
-> +	help
-> +	  This is support for AMD ISP4 and camera subsystem driver.
-> +	  Say Y here to enable the ISP4 and camera device for video capture.
-> +	  To compile this driver as a module, choose M here. The module will
-> +	  be called amd_capture.
-> diff --git a/drivers/media/platform/amd/Makefile b/drivers/media/platform/amd/Makefile
-> new file mode 100644
-> index 000000000000..76146efcd2bf
-> --- /dev/null
-> +++ b/drivers/media/platform/amd/Makefile
-> @@ -0,0 +1,5 @@
-> +# Copyright 2024 Advanced Micro Devices, Inc.
-> +# add isp block
-> +ifneq ($(CONFIG_AMD_ISP4),)
-> +obj-y += isp4/
-> +endif
 > diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
-> new file mode 100644
-> index 000000000000..e9e84160517d
-> --- /dev/null
+> index e9e84160517d..8ca1c4dfe246 100644
+> --- a/drivers/media/platform/amd/isp4/Makefile
 > +++ b/drivers/media/platform/amd/isp4/Makefile
-> @@ -0,0 +1,21 @@
-> +# SPDX-License-Identifier: GPL-2.0+
-> +#
-> +# Copyright (C) 2025 Advanced Micro Devices, Inc.
-> +
-> +obj-$(CONFIG_AMD_ISP4) += amd_capture.o
-> +amd_capture-objs := isp4.o
-> +
-> +ccflags-y += -I$(srctree)/drivers/media/platform/amd/isp4
-> +ccflags-y += -I$(srctree)/include
-> +
-> +ifneq ($(call cc-option, -mpreferred-stack-boundary=4),)
-> +	cc_stack_align := -mpreferred-stack-boundary=4
-> +endif
-
-Uh... does the driver actually depend on this?
-
-> +
-> +ccflags-y += $(cc_stack_align)
-> +ccflags-y += -DCONFIG_COMPAT
-> +ccflags-y += -Wunused-but-set-variable
-> +ccflags-y += -Wmissing-include-dirs
-> +ccflags-y += -Wunused-const-variable
-> +ccflags-y += -Wmaybe-uninitialized
-> +ccflags-y += -Wunused-value
-> diff --git a/drivers/media/platform/amd/isp4/isp4.c b/drivers/media/platform/amd/isp4/isp4.c
+> @@ -3,7 +3,8 @@
+>  # Copyright (C) 2025 Advanced Micro Devices, Inc.
+>  
+>  obj-$(CONFIG_AMD_ISP4) += amd_capture.o
+> -amd_capture-objs := isp4.o
+> +amd_capture-objs := isp4.o	\
+> +			isp4_hw.o	\
+>  
+>  ccflags-y += -I$(srctree)/drivers/media/platform/amd/isp4
+>  ccflags-y += -I$(srctree)/include
+> diff --git a/drivers/media/platform/amd/isp4/isp4_hw.c b/drivers/media/platform/amd/isp4/isp4_hw.c
 > new file mode 100644
-> index 000000000000..d0be90c5ec3b
+> index 000000000000..e5315330a514
 > --- /dev/null
-> +++ b/drivers/media/platform/amd/isp4/isp4.c
-> @@ -0,0 +1,139 @@
+> +++ b/drivers/media/platform/amd/isp4/isp4_hw.c
+> @@ -0,0 +1,46 @@
 > +// SPDX-License-Identifier: GPL-2.0+
 > +/*
 > + * Copyright (C) 2025 Advanced Micro Devices, Inc.
 > + */
 > +
-> +#include <linux/pm_runtime.h>
-> +#include <linux/vmalloc.h>
-> +#include <media/v4l2-ioctl.h>
-
-Alphabetic order, please.
-
+> +#include <linux/io.h>
+> +#include <linux/types.h>
 > +
-> +#include "isp4.h"
+> +#include "isp4_hw.h"
+> +#include "isp4_hw_reg.h"
 > +
-> +#define VIDEO_BUF_NUM 5
+> +#define RMMIO_SIZE 524288
+> +
+> +u32 isp4hw_rreg(void __iomem *base, u32 reg)
+> +{
+> +	void __iomem *reg_addr;
+> +
+> +	if (reg >= RMMIO_SIZE)
+> +		return RREG_FAILED_VAL;
+> +
+> +	if (reg < ISP_MIPI_PHY0_REG0)
+> +		reg_addr = base + reg;
+> +	else if (reg <= ISP_MIPI_PHY0_REG0 + ISP_MIPI_PHY0_SIZE)
+> +		reg_addr = base + (reg - ISP_MIPI_PHY0_REG0);
 
-Unused.
+Redundant parentheses.
 
+> +	else
+> +		return RREG_FAILED_VAL;
 > +
-> +#define ISP4_DRV_NAME "amd_isp_capture"
-> +
-> +/* interrupt num */
-> +static const u32 isp4_ringbuf_interrupt_num[] = {
-> +	0, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT9 */
-> +	1, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT10 */
-> +	3, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT11 */
-> +	4, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT12 */
+> +	return readl(reg_addr);
 > +};
 > +
-> +#define to_isp4_device(dev) \
-> +	((struct isp4_device *)container_of(dev, struct isp4_device, v4l2_dev))
-
-No need for the cast.
-
-> +
-> +static irqreturn_t isp4_irq_handler(int irq, void *arg)
+> +void isp4hw_wreg(void __iomem *base, u32 reg, u32 val)
 > +{
-> +	struct isp4_device *isp_dev = dev_get_drvdata((struct device *)arg);
+> +	void __iomem *reg_addr;
 > +
-> +	if (!isp_dev)
-> +		goto error_drv_data;
+> +	if (reg >= RMMIO_SIZE)
+> +		return;
 > +
-> +error_drv_data:
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +/*
-> + * amd capture module
-> + */
-> +static int isp4_capture_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct isp4_device *isp_dev;
-> +
+> +	if (reg < ISP_MIPI_PHY0_REG0)
+> +		reg_addr = base + reg;
+> +	else if (reg <= ISP_MIPI_PHY0_REG0 + ISP_MIPI_PHY0_SIZE)
+> +		reg_addr = base + (reg - ISP_MIPI_PHY0_REG0);
 
-Extra newline.
+Ditto.
 
-> +	int i, irq, ret;
-
-unsigned int i?
-
+> +	else
+> +		return;
 > +
-> +	isp_dev = devm_kzalloc(&pdev->dev, sizeof(*isp_dev), GFP_KERNEL);
-> +	if (!isp_dev)
-> +		return -ENOMEM;
-> +
-> +	isp_dev->pdev = pdev;
-> +	dev->init_name = ISP4_DRV_NAME;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(isp4_ringbuf_interrupt_num); i++) {
-> +		irq = platform_get_irq(pdev, isp4_ringbuf_interrupt_num[i]);
-> +		if (irq < 0)
-> +			return dev_err_probe(dev, -ENODEV,
-> +					     "fail to get irq %d\n",
-> +					     isp4_ringbuf_interrupt_num[i]);
-> +		ret = devm_request_irq(&pdev->dev, irq, isp4_irq_handler, 0,
-> +				       "ISP_IRQ", &pdev->dev);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "fail to req irq %d\n",
-> +					     irq);
-> +	}
-> +
-> +	isp_dev->pltf_data = pdev->dev.platform_data;
-> +
-> +	dev_dbg(dev, "isp irq registration successful\n");
-
-Please leave this out.
-
-> +
-> +	/* Link the media device within the v4l2_device */
-> +	isp_dev->v4l2_dev.mdev = &isp_dev->mdev;
-> +
-> +	/* Initialize media device */
-> +	strscpy(isp_dev->mdev.model, "amd_isp41_mdev",
-> +		sizeof(isp_dev->mdev.model));
-> +	snprintf(isp_dev->mdev.bus_info, sizeof(isp_dev->mdev.bus_info),
-> +		 "platform:%s", ISP4_DRV_NAME);
-> +	isp_dev->mdev.dev = &pdev->dev;
-> +	media_device_init(&isp_dev->mdev);
-> +
-> +	/* register v4l2 device */
-> +	snprintf(isp_dev->v4l2_dev.name, sizeof(isp_dev->v4l2_dev.name),
-> +		 "AMD-V4L2-ROOT");
-> +	ret = v4l2_device_register(&pdev->dev, &isp_dev->v4l2_dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "fail register v4l2 device\n");
-> +
-> +	dev_dbg(dev, "AMD ISP v4l2 device registered\n");
-
-This doesn't seem useful.
-
-> +
-> +	ret = media_device_register(&isp_dev->mdev);
-> +	if (ret) {
-> +		dev_err(dev, "fail to register media device %d\n", ret);
-> +		goto err_unreg_v4l2;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, isp_dev);
-> +
-> +	pm_runtime_set_suspended(dev);
-> +	pm_runtime_enable(dev);
-
-You'll need to enable runtime PM before registering any interfaces on UAPI.
-Same goes for setting driver data for the device.
-
-> +
-> +	return 0;
-> +
-> +err_unreg_v4l2:
-> +	v4l2_device_unregister(&isp_dev->v4l2_dev);
-> +
-> +	return dev_err_probe(dev, ret, "isp probe fail\n");
-> +}
-> +
-> +static void isp4_capture_remove(struct platform_device *pdev)
-> +{
-> +	struct isp4_device *isp_dev = platform_get_drvdata(pdev);
-> +	struct device *dev = &pdev->dev;
-> +
-> +	media_device_unregister(&isp_dev->mdev);
-> +	v4l2_device_unregister(&isp_dev->v4l2_dev);
-> +	dev_dbg(dev, "AMD ISP v4l2 device unregistered\n");
-
-I'd say this is redundant.
-
-> +}
-> +
-> +static struct platform_driver isp4_capture_drv = {
-> +	.probe = isp4_capture_probe,
-> +	.remove = isp4_capture_remove,
-> +	.driver = {
-> +		.name = ISP4_DRV_NAME,
-> +		.owner = THIS_MODULE,
-> +	}
+> +	writel(val, reg_addr);
 > +};
-> +
-> +module_platform_driver(isp4_capture_drv);
-> +
-> +MODULE_ALIAS("platform:" ISP4_DRV_NAME);
-> +MODULE_IMPORT_NS("DMA_BUF");
-> +
-> +MODULE_DESCRIPTION("AMD ISP4 Driver");
-> +MODULE_AUTHOR("Bin Du <bin.du@amd.com>");
-> +MODULE_AUTHOR("Pratap Nirujogi <pratap.nirujogi@amd.com>");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/media/platform/amd/isp4/isp4.h b/drivers/media/platform/amd/isp4/isp4.h
+> diff --git a/drivers/media/platform/amd/isp4/isp4_hw.h b/drivers/media/platform/amd/isp4/isp4_hw.h
 > new file mode 100644
-> index 000000000000..27a7362ce6f9
+> index 000000000000..072d135b9e3a
 > --- /dev/null
-> +++ b/drivers/media/platform/amd/isp4/isp4.h
-> @@ -0,0 +1,35 @@
+> +++ b/drivers/media/platform/amd/isp4/isp4_hw.h
+> @@ -0,0 +1,14 @@
 > +/* SPDX-License-Identifier: GPL-2.0+ */
 > +/*
 > + * Copyright (C) 2025 Advanced Micro Devices, Inc.
 > + */
 > +
-> +#ifndef _ISP4_H_
-> +#define _ISP4_H_
+> +#ifndef _ISP4_HW_H_
+> +#define _ISP4_HW_H_
 > +
-> +#include <linux/mutex.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/videobuf2-memops.h>
-> +#include <media/videobuf2-vmalloc.h>
+> +#define RREG_FAILED_VAL 0xFFFFFFFF
 > +
-> +#define ISP4_GET_ISP_REG_BASE(isp4sd) (((isp4sd))->mmio)
+> +u32 isp4hw_rreg(void __iomem *base, u32 reg);
+> +void isp4hw_wreg(void __iomem *base, u32 reg, u32 val);
 > +
-> +struct isp4_platform_data {
-> +	void *adev;
-> +	void *bo;
-> +	void *cpu_ptr;
-> +	u64 gpu_addr;
-> +	u32 size;
-> +	u32 asic_type;
-> +	resource_size_t base_rmmio_size;
-> +};
+> +#endif
+> diff --git a/drivers/media/platform/amd/isp4/isp4_hw_reg.h b/drivers/media/platform/amd/isp4/isp4_hw_reg.h
+> new file mode 100644
+> index 000000000000..b11f12ba6c56
+> --- /dev/null
+> +++ b/drivers/media/platform/amd/isp4/isp4_hw_reg.h
+> @@ -0,0 +1,116 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/*
+> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
+> + */
 > +
-> +struct isp4_device {
-> +	struct v4l2_device v4l2_dev;
-> +	struct media_device mdev;
+> +#ifndef _ISP4_HW_REG_H_
+> +#define _ISP4_HW_REG_H_
 > +
-> +	struct isp4_platform_data *pltf_data;
-> +	struct platform_device *pdev;
-> +	struct notifier_block i2c_nb;
-> +};
-> +
-> +#endif /* isp4.h */
+> +#define ISP_SOFT_RESET		0x62000
+> +#define ISP_SYS_INT0_EN		0x62010
+> +#define ISP_SYS_INT0_STATUS	0x62014
+> +#define ISP_SYS_INT0_ACK	0x62018
+> +#define ISP_CCPU_CNTL		0x62054
+> +#define ISP_STATUS		0x62058
+> +#define ISP_LOG_RB_BASE_LO0	0x62148
+> +#define ISP_LOG_RB_BASE_HI0	0x6214C
 
-Use the same name as for the macro here, please.
+Lower case hexadecimals, please.
+
+> +#define ISP_LOG_RB_SIZE0	0x62150
+> +#define ISP_LOG_RB_RPTR0	0x62154
+> +#define ISP_LOG_RB_WPTR0	0x62158
+> +#define ISP_RB_BASE_LO1		0x62170
+> +#define ISP_RB_BASE_HI1		0x62174
+> +#define ISP_RB_SIZE1		0x62178
+> +#define ISP_RB_RPTR1		0x6217C
+> +#define ISP_RB_WPTR1		0x62180
+> +#define ISP_RB_BASE_LO2		0x62184
+> +#define ISP_RB_BASE_HI2		0x62188
+> +#define ISP_RB_SIZE2		0x6218C
+> +#define ISP_RB_RPTR2		0x62190
+> +#define ISP_RB_WPTR2		0x62194
+> +#define ISP_RB_BASE_LO3		0x62198
+> +#define ISP_RB_BASE_HI3		0x6219C
+> +#define ISP_RB_SIZE3		0x621A0
+> +#define ISP_RB_RPTR3		0x621A4
+> +#define ISP_RB_WPTR3		0x621A8
+> +#define ISP_RB_BASE_LO4		0x621AC
+> +#define ISP_RB_BASE_HI4		0x621B0
+> +#define ISP_RB_SIZE4		0x621B4
+> +#define ISP_RB_RPTR4		0x621B8
+> +#define ISP_RB_WPTR4		0x621BC
+> +#define ISP_RB_BASE_LO5		0x621C0
+> +#define ISP_RB_BASE_HI5		0x621C4
+> +#define ISP_RB_SIZE5		0x621C8
+> +#define ISP_RB_RPTR5		0x621CC
+> +#define ISP_RB_WPTR5		0x621D0
+> +#define ISP_RB_BASE_LO6		0x621D4
+> +#define ISP_RB_BASE_HI6		0x621D8
+> +#define ISP_RB_SIZE6		0x621DC
+> +#define ISP_RB_RPTR6		0x621E0
+> +#define ISP_RB_WPTR6		0x621E4
+> +#define ISP_RB_BASE_LO7		0x621E8
+> +#define ISP_RB_BASE_HI7		0x621EC
+> +#define ISP_RB_SIZE7		0x621F0
+> +#define ISP_RB_RPTR7		0x621F4
+> +#define ISP_RB_WPTR7		0x621F8
+> +#define ISP_RB_BASE_LO8		0x621FC
+> +#define ISP_RB_BASE_HI8		0x62200
+> +#define ISP_RB_SIZE8		0x62204
+> +#define ISP_RB_RPTR8		0x62208
+> +#define ISP_RB_WPTR8		0x6220C
+> +#define ISP_RB_BASE_LO9		0x62210
+> +#define ISP_RB_BASE_HI9		0x62214
+> +#define ISP_RB_SIZE9		0x62218
+> +#define ISP_RB_RPTR9		0x6221C
+> +#define ISP_RB_WPTR9		0x62220
+> +#define ISP_RB_BASE_LO10	0x62224
+> +#define ISP_RB_BASE_HI10	0x62228
+> +#define ISP_RB_SIZE10		0x6222C
+> +#define ISP_RB_RPTR10		0x62230
+> +#define ISP_RB_WPTR10		0x62234
+> +#define ISP_RB_BASE_LO11	0x62238
+> +#define ISP_RB_BASE_HI11	0x6223C
+> +#define ISP_RB_SIZE11		0x62240
+> +#define ISP_RB_RPTR11		0x62244
+> +#define ISP_RB_WPTR11		0x62248
+> +#define ISP_RB_BASE_LO12	0x6224C
+> +#define ISP_RB_BASE_HI12	0x62250
+> +#define ISP_RB_SIZE12		0x62254
+> +#define ISP_RB_RPTR12		0x62258
+> +#define ISP_RB_WPTR12		0x6225C
+> +
+> +#define ISP_POWER_STATUS	0x60000
+> +
+> +#define ISP_MIPI_PHY0_REG0	0x66700
+> +#define ISP_MIPI_PHY1_REG0	0x66780
+> +#define ISP_MIPI_PHY2_REG0	0x67400
+> +
+> +#define ISP_MIPI_PHY0_SIZE	0xD30
+> +
+> +/* ISP_SOFT_RESET */
+> +#define ISP_SOFT_RESET__CCPU_SOFT_RESET_MASK			0x00000001UL
+> +
+> +/* ISP_CCPU_CNTL */
+> +#define ISP_CCPU_CNTL__CCPU_HOST_SOFT_RST_MASK			0x00040000UL
+> +
+> +/* ISP_STATUS */
+> +#define ISP_STATUS__CCPU_REPORT_MASK				0x000000feUL
+> +
+> +/* ISP_SYS_INT0_STATUS */
+> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT9_INT_MASK	0x00010000UL
+> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT10_INT_MASK	0x00040000UL
+> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT11_INT_MASK	0x00100000UL
+> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK	0x00400000UL
+> +
+> +/* ISP_SYS_INT0_EN */
+> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT9_EN_MASK	0x00010000UL
+> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT10_EN_MASK	0x00040000UL
+> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT11_EN_MASK	0x00100000UL
+> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT12_EN_MASK	0x00400000UL
+> +
+> +/* ISP_SYS_INT0_ACK */
+> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT9_ACK_MASK	0x00010000UL
+> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT10_ACK_MASK	0x00040000UL
+> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT11_ACK_MASK	0x00100000UL
+> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT12_ACK_MASK	0x00400000UL
+> +
+> +#endif
 
 -- 
 Kind regards,
