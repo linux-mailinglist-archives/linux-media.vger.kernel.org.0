@@ -1,151 +1,144 @@
-Return-Path: <linux-media+bounces-38590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38591-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020C7B14083
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 18:41:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88DA9B140EE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 19:07:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED7C3189F42D
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 16:42:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6C72166D82
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 17:07:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D35A274FE0;
-	Mon, 28 Jul 2025 16:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F76F275873;
+	Mon, 28 Jul 2025 17:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B+keFTh/"
+	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="XHjgXFrK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AED218ABD;
-	Mon, 28 Jul 2025 16:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D842273D6E;
+	Mon, 28 Jul 2025 17:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753720903; cv=none; b=IrOANAseTZ078tKj5fGWHYFH5lauqmIoNSsQKk0vLbcRCgSZBEyYr+WYN/tyGSxdgB9dFfcElDMZqqVhMLEQlseMD3aodittTyPFrLvmg34fzmDz9JSoeg3WuALLsO1T7YxqhucjErftKZjsAUU0+k9qW/TZ0knWicKnFpnwNLA=
+	t=1753722466; cv=none; b=ViBdCGHYZ5vY1Qyy5OO8ZffAYnybJlGgYp7jYkyyR2G/1xsMxKhminFVWCx0SeErwoEiL79k2h5+dfBTW7ERGwwX7wBnZ6L+ETLWJ8AHA444MzaIdKe1LO2vNu/puR8vRS//KoCLKOLeMxN9hp4GfUi0s2MJH+NIiM0S0aELTNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753720903; c=relaxed/simple;
-	bh=7x0ZgIgFMhmGblvNn1rp9l0J3jLs/NKo357QqFEU40c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dBOknKt0Tlyw0y72pRRvVlIzOqUJ9DSEwXjKByOC0FHLakpzUXRv+G2hj36n3Anep9plgnL5wufoFfMHOBQzqITVoB4Xiy5jGob0pPwnPbkS+Ml2K5p+S2S66AhnPiwpcUAVsi+IZmqhlhjMby7g+2k2oGD303Cu+BMA46qivKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B+keFTh/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E4FC4CEE7;
-	Mon, 28 Jul 2025 16:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753720902;
-	bh=7x0ZgIgFMhmGblvNn1rp9l0J3jLs/NKo357QqFEU40c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B+keFTh/H3uyJm+2CRXywKicPx1XFBBkxeKmrZZbdSdo7TbhwSKWM+9PVaAkV/Ggd
-	 rdbs8jBkHbT/8OTgeGMPL4gfUOW2ABlcD8WUcg8AnFQUJTXwNmVXpc6MVeqX+1gX/B
-	 Hl4YyyFNqJKjrMehvwoAGQununhgEiDlRgPJ4pHhRsT2e9nnS0dUD7g029zGYqMvz0
-	 +n1X/yXScSmTwLjOGstVCV5NVXNowOdBanEpgP5gJZIZzUwp2PqhdbrI1ndD1ANzQ6
-	 U3SK+z5/iiu7H8t8oy3Nyrh+r+SHqvFdQXzv1CHbtq87l4SZmHe8/P8OoUYzv0vSLF
-	 T/9RjFtCR33XQ==
-Date: Mon, 28 Jul 2025 19:41:36 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 05/10] PCI/P2PDMA: Export pci_p2pdma_map_type() function
-Message-ID: <20250728164136.GD402218@unreal>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <82e62eb59afcd39b68ae143573d5ed113a92344e.1753274085.git.leonro@nvidia.com>
- <20250724080313.GA31887@lst.de>
- <20250724081321.GT402218@unreal>
- <b32ae619-6c4a-46fc-a368-6ad4e245d581@deltatee.com>
- <20250727190514.GG7551@nvidia.com>
- <d69e0d74-285e-4cde-a2e4-a803accfa9e1@deltatee.com>
+	s=arc-20240116; t=1753722466; c=relaxed/simple;
+	bh=8zF2yMQp+ihqRs6CXyF3EAgjaysxgFn3aji1yds87Gw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Subject; b=ujaZDjBRkVKbUmLahosWlaRu+SOeEoPRQ13pVaN6y+yK2YZUEEGeIRA8JFe6nBkVlTp4hvxFsxHExAkFlpQRo+YcoYsOB6cqgOGd7m5SLWNYJ7hJxXZIAfOT+j9+sOMuAZRl0gipIz6jq5AaJDDdPX8kL2tbWuzVbJ7SChHAeW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=XHjgXFrK; arc=none smtp.client-ip=204.191.154.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=vCTi7Vmk9aRE1IKFUsfxXldYjrZeeC/iIVRDXKgVHWo=; b=XHjgXFrKuAhiveJ6zCrvJT8Pvw
+	re9J8LZpJpl40TreVfHUPY2lnYVRFy+PufGoNxDVEgTuS0s84xxDxMwecbKLo3UpnvzoMVqFabY5O
+	fns6daDQC4GZzjzk81dgUnIBncap8IUcFBgRQ+FDj7GtQEkK7F51IIrGWpfK4rRTXW5sfS9q1MDKQ
+	6/wNP0s/OHbfhbpmZL9kyyw6F9TOJplnVRRzeSNunWZGOK7MaBeHKnz82mVkMDabojTslET5bVvMG
+	d6AG/BDnrsJDD6etzDoLtYTAaCoD+hgyhnRjFdBQiaqbGi/0dIRgNCr5slZOAZysPyyIWQSEA7f7t
+	Ibk+mOxA==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96)
+	(envelope-from <logang@deltatee.com>)
+	id 1ugRK6-008OdV-0r;
+	Mon, 28 Jul 2025 11:07:39 -0600
+Message-ID: <d3c8c573-f201-4450-9400-cc3ccafd2c04@deltatee.com>
+Date: Mon, 28 Jul 2025 11:07:34 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d69e0d74-285e-4cde-a2e4-a803accfa9e1@deltatee.com>
+User-Agent: Mozilla Thunderbird
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
+ <jglisse@redhat.com>, Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+References: <cover.1753274085.git.leonro@nvidia.com>
+ <82e62eb59afcd39b68ae143573d5ed113a92344e.1753274085.git.leonro@nvidia.com>
+ <20250724080313.GA31887@lst.de> <20250724081321.GT402218@unreal>
+ <b32ae619-6c4a-46fc-a368-6ad4e245d581@deltatee.com>
+ <20250727190514.GG7551@nvidia.com>
+ <d69e0d74-285e-4cde-a2e4-a803accfa9e1@deltatee.com>
+ <20250728164136.GD402218@unreal>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20250728164136.GD402218@unreal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: leon@kernel.org, jgg@nvidia.com, hch@lst.de, alex.williamson@redhat.com, akpm@linux-foundation.org, bhelgaas@google.com, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, axboe@kernel.dk, jglisse@redhat.com, joro@8bytes.org, kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, m.szyprowski@samsung.com, robin.murphy@arm.com, sumit.semwal@linaro.org, vivek.kasireddy@intel.com, will@kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Level: 
+Subject: Re: [PATCH 05/10] PCI/P2PDMA: Export pci_p2pdma_map_type() function
+X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
-On Mon, Jul 28, 2025 at 10:12:31AM -0600, Logan Gunthorpe wrote:
-> 
-> 
-> On 2025-07-27 13:05, Jason Gunthorpe wrote:
-> > On Fri, Jul 25, 2025 at 10:30:46AM -0600, Logan Gunthorpe wrote:
-> >>
-> >>
-> >> On 2025-07-24 02:13, Leon Romanovsky wrote:
-> >>> On Thu, Jul 24, 2025 at 10:03:13AM +0200, Christoph Hellwig wrote:
-> >>>> On Wed, Jul 23, 2025 at 04:00:06PM +0300, Leon Romanovsky wrote:
-> >>>>> From: Leon Romanovsky <leonro@nvidia.com>
-> >>>>>
-> >>>>> Export the pci_p2pdma_map_type() function to allow external modules
-> >>>>> and subsystems to determine the appropriate mapping type for P2PDMA
-> >>>>> transfers between a provider and target device.
-> >>>>
-> >>>> External modules have no business doing this.
-> >>>
-> >>> VFIO PCI code is built as module. There is no way to access PCI p2p code
-> >>> without exporting functions in it.
-> >>
-> >> The solution that would make more sense to me would be for either
-> >> dma_iova_try_alloc() or another helper in dma-iommu.c to handle the
-> >> P2PDMA case.
-> > 
-> > This has nothing to do with dma-iommu.c, the decisions here still need
-> > to be made even if dma-iommu.c is not compiled in.
-> 
-> Doesn't it though? Every single call in patch 10 to the newly exported
-> PCI functions calls into the the dma-iommu functions. If there were
-> non-iommu paths then I would expect the code would use the regular DMA
-> api directly which would then call in to dma-iommu.
 
-If p2p type is PCI_P2PDMA_MAP_BUS_ADDR, there will no dma-iommu and DMA
-at all.
 
-+static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
-+				   struct dma_buf_attachment *attachment)
-+{
-+	struct vfio_pci_dma_buf *priv = dmabuf->priv;
-+
-+	if (!attachment->peer2peer)
-+		return -EOPNOTSUPP;
-+
-+	if (priv->revoked)
-+		return -ENODEV;
-+
-+	switch (pci_p2pdma_map_type(priv->vdev->provider, attachment->dev)) {
-+	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-+		break;
-+	case PCI_P2PDMA_MAP_BUS_ADDR:
-+		/*
-+		 * There is no need in IOVA at all for this flow.
-+		 * We rely on attachment->priv == NULL as a marker
-+		 * for this mode.
-+		 */
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	attachment->priv = kzalloc(sizeof(struct dma_iova_state), GFP_KERNEL);
-+	if (!attachment->priv)
-+		return -ENOMEM;
-+
-+	dma_iova_try_alloc(attachment->dev, attachment->priv, 0, priv->phys_vec.len);
-+	return 0;
-+}
+On 2025-07-28 10:41, Leon Romanovsky wrote:
+> On Mon, Jul 28, 2025 at 10:12:31AM -0600, Logan Gunthorpe wrote:
+>>
+>>
+>> On 2025-07-27 13:05, Jason Gunthorpe wrote:
+>>> On Fri, Jul 25, 2025 at 10:30:46AM -0600, Logan Gunthorpe wrote:
+>>>>
+>>>>
+>>>> On 2025-07-24 02:13, Leon Romanovsky wrote:
+>>>>> On Thu, Jul 24, 2025 at 10:03:13AM +0200, Christoph Hellwig wrote:
+>>>>>> On Wed, Jul 23, 2025 at 04:00:06PM +0300, Leon Romanovsky wrote:
+>>>>>>> From: Leon Romanovsky <leonro@nvidia.com>
+>>>>>>>
+>>>>>>> Export the pci_p2pdma_map_type() function to allow external modules
+>>>>>>> and subsystems to determine the appropriate mapping type for P2PDMA
+>>>>>>> transfers between a provider and target device.
+>>>>>>
+>>>>>> External modules have no business doing this.
+>>>>>
+>>>>> VFIO PCI code is built as module. There is no way to access PCI p2p code
+>>>>> without exporting functions in it.
+>>>>
+>>>> The solution that would make more sense to me would be for either
+>>>> dma_iova_try_alloc() or another helper in dma-iommu.c to handle the
+>>>> P2PDMA case.
+>>>
+>>> This has nothing to do with dma-iommu.c, the decisions here still need
+>>> to be made even if dma-iommu.c is not compiled in.
+>>
+>> Doesn't it though? Every single call in patch 10 to the newly exported
+>> PCI functions calls into the the dma-iommu functions. If there were
+>> non-iommu paths then I would expect the code would use the regular DMA
+>> api directly which would then call in to dma-iommu.
+> 
+> If p2p type is PCI_P2PDMA_MAP_BUS_ADDR, there will no dma-iommu and DMA
+> at all.
+
+I understand that and it is completely beside my point.
+
+If the dma mapping for P2P memory doesn't need to create an iommu
+mapping then that's fine. But it should be the dma-iommu layer to decide
+that. It's not a decision that should be made by every driver doing this
+kind of thing.
+
+With P2PDMA memory we are still creating a DMA mapping. It's just the
+dma address will be a PCI bus address instead of an IOVA. My opinion
+remains: none of these details should be exposed to the drivers.
+
+Logan
 
