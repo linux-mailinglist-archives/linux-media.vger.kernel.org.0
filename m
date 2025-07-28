@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-38576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38577-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35718B13D0A
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 16:25:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE00FB13D18
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 16:27:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E5963A2B12
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 14:23:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3CDA1891FA3
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 14:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F201326E6EB;
-	Mon, 28 Jul 2025 14:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02431265CC5;
+	Mon, 28 Jul 2025 14:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KQ2tgB92"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E1tg+/Ns"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA7C262FC1
-	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 14:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A7A25C81B
+	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 14:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753712618; cv=none; b=j2zjb8sOMFsZ1HNOcgEbnlpqH25Js+g09wDubBczDXKFw+FVu/o01LOepXJTY4/c9G2SbDaKg2f59LqUciD1EAt/jHhrC3vSbFR2W9+FNfV3jxQoa4EgIBaixJjnB7MounD1XqU2Vxy7ut2UmX3zIltZvEqQA0enr/lpbVNK3UQ=
+	t=1753712839; cv=none; b=B98SP0ukZJR7Wz+e86BagfoGIWgCsrEhengyg7Mw/mPKgB5btCFImymrXmplN8YOwxPKRmLYg7T43VoQxQjoswE1jUuaLvPQIy/tZpbREN50EUh6fOspR1Og7Jnl/w+RQZRGiet3KsOqnh4zzq1fhJOGPOkEs1abLGzX1nsdaZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753712618; c=relaxed/simple;
-	bh=rFp8oa9Ob5g0v/+OfvXGOCtTlSZUW99iq8sUu541Jqo=;
+	s=arc-20240116; t=1753712839; c=relaxed/simple;
+	bh=L2BzaP0B7qndzvrBlPlthiU2AyLgXsztFl46FrqQJyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cXXr1lbqVT/4O+nYo00GgbI+Pe7aSKIVj40wjj1x2+3nk1mIx+RiUp6SFB65dJJ8eXKkbUbYuqt2Kh75bZxfNM0Lseo2f0lKi4PKy8xnwXNCUcr4uLhkV9gOnD6HpKl1XbodClemBu96Hl26u+XLJJA8ePeH8ZqztHHErrSwSkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KQ2tgB92; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=LWIuTsPuRn68/5gywM3wlisERsRwZYvl7Tsz1DwoDbU+EuGTl4ONliyviZbZLTuPpQYDI0HtkGRdeVobso2xJ+PQlCWJFhgO0i5T6aDrdYzUEyVALasze6vzY58eBbEcubuf9fFFzg1dkaASTtD+vbhoLKgccCwECATJH99BZMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E1tg+/Ns; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (mob-5-90-139-29.net.vodafone.it [5.90.139.29])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B051446;
-	Mon, 28 Jul 2025 16:22:50 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B630446;
+	Mon, 28 Jul 2025 16:26:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753712571;
-	bh=rFp8oa9Ob5g0v/+OfvXGOCtTlSZUW99iq8sUu541Jqo=;
+	s=mail; t=1753712788;
+	bh=L2BzaP0B7qndzvrBlPlthiU2AyLgXsztFl46FrqQJyM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KQ2tgB92/B7vZmAz3JWCALESjNk76M1FX4fKIKXOOPk4lM6B0Hx54WLyMxfX12z3n
-	 NM83z0xfDHph5i0qaD4vtegmynDyVhAQhHEOxf9Zvaj+pj2p/5KxNhZKPuqFiWNFDF
-	 V7ir7r3Ueg2cZnHPX7AlHKjfn48K416PGyfQhbvA=
-Date: Mon, 28 Jul 2025 16:23:27 +0200
+	b=E1tg+/Ns1nYuAP9UccqyqmYSDGw3ReRjE+0+RievJdC0HUpsle9Oi64+19iRnFdC/
+	 ICg3P5xFX/dohQ9ZrYF5yaNgGWBYdUFog1agftOSJfRxIrW+SLvxwq38n1XjKbmeDW
+	 y3PmBQhQ1zDcmP+hcDz61aOvtvsSNR7nQ2zPHH2Y=
+Date: Mon, 28 Jul 2025 16:27:01 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
@@ -59,11 +59,11 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
 	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v10 37/64] media: uapi: Documentation: Improve column
- width hints for examples
-Message-ID: <wnfszqq6vwgzvcr3e6pfm3ffov27anewy4crug56in3nt6mg56@7vhi3e3zkvqy>
+Subject: Re: [PATCH v10 44/64] media: uapi: Add controls for sub-sampling
+ configuration
+Message-ID: <2do7syct2hoxx4cifzn4fy4ukt2usfkscvmwimsejfzgh5lran@wnfrgpkef7v2>
 References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-38-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-45-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,63 +72,108 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250619115836.1946016-38-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250619115836.1946016-45-sakari.ailus@linux.intel.com>
 
 Hi Sakari
 
-On Thu, Jun 19, 2025 at 02:58:09PM +0300, Sakari Ailus wrote:
-> Use less arbitrary widths for the columns in metadata layout examples.
+On Thu, Jun 19, 2025 at 02:58:16PM +0300, Sakari Ailus wrote:
+> Sub-sampling is a way to decrease the data rates after the pixel array by
+> systematically discarding some samples, either vertically or horizontally
+> or both. Add two controls for the purpose and document them. The
+> sub-sampling configuration is taken into account in the compose rectangle.
 >
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Sorry, missed this one in previous review cycle
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+This patch modifies the previous one. Should the two be merged
+together ?
 
 > ---
->  Documentation/userspace-api/media/v4l/metafmt-generic.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .../media/drivers/camera-sensor.rst              | 16 +++++++++++++---
+>  .../userspace-api/media/v4l/ext-ctrls-camera.rst | 11 +++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c        |  2 ++
+>  include/uapi/linux/v4l2-controls.h               |  2 ++
+>  4 files changed, 28 insertions(+), 3 deletions(-)
 >
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> index 90a1bc2ea15e..e8824b5a65d6 100644
-> --- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> @@ -76,7 +76,7 @@ This format is little endian.
->  **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_10.**
->  Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> index ef1f51862980..b0ad0d778396 100644
+> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -120,8 +120,8 @@ values programmed by the register sequences. The default values of these
+>  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+>  independently of the sensor's mounting rotation.
 >
-> -.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|
-> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|
+> -Binning
+> --------
+> +Binning and sub-sampling
+> +------------------------
 >
->  .. flat-table:: Sample 4x2 Metadata Frame
->      :header-rows:  0
-> @@ -120,7 +120,7 @@ This format is little endian.
->  **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_12.**
->  Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
+>  Binning has traditionally been configured using :ref:`the compose selection
+>  rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
+> @@ -130,7 +130,17 @@ users should use it when it's available. Drivers supporting the control shall
+>  also support the compose rectangle, albeit the rectangle may be read-only when
+>  the control is present.
 >
-> -.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
-> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|
+> -Binning isn't affected by flipping.
+> +Sub-sampling is often supported as part of a camera sensor's binning
+> +functionality and performed after the binning operation. Sub-sampling typically
+> +produces quality-wise worse results than binning. Sub-sampling factors are
+> +independent horizontally and vertically and they are controlled using two
+> +controls, :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
+> +V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`. In
+> +sub-sampling, the image size before sub-sampling is horizontally and vertically
+> +divided by the respective sub-sampling factors. Drivers supporting the control shall
+> +also reflect the sub-sampling configuration in the compose rectangle.
+> +
+> +Binning and sub-sampling aren't affected by flipping.
 >
->  .. flat-table:: Sample 4x2 Metadata Frame
->      :header-rows:  0
-> @@ -161,7 +161,7 @@ This format is little endian.
->  **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_14.**
->  Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
+>  .. _media_using_camera_sensor_drivers_embedded_data:
 >
-> -.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{.8cm}|
-> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index 18b484ff5d75..577b73045bee 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -701,3 +701,14 @@ enum v4l2_scene_mode -
 >
->  .. flat-table:: Sample 4x2 Metadata Frame
->      :header-rows:  0
-> @@ -257,7 +257,7 @@ This format is little endian.
->  **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_20.**
->  Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
+>  For instance, a value of ``0x0001000300020003`` indicates binning by 3
+>  (horizontally) * 3/2 (vertically).
+> +
+> +.. _v4l2-cid-camera-sensor-subsampling:
+> +
+> +``V4L2_CID_SUBSAMPLING_HORIZONTAL`` and ``V4L2_CID_SUBSAMPLING_VERTICAL``
+> +(integer)
+> +
+> +    Horizontal and vertical subsampling factors.
+> +
+> +    Sub-sampling is used to downscale an image, horizontally and vertically, by
+> +    discarding a part of the image data. Typically sub-sampling produces lower
+> +    quality images than binning.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 5e1c28850e87..9f8816bfffbe 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1088,6 +1088,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+>  	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
+>  	case V4L2_CID_BINNING_FACTORS:		return "Binning Factors";
+> +	case V4L2_CID_SUBSAMPLING_HORIZONTAL:	return "Sub-Sampling Factor, Horizontal";
+> +	case V4L2_CID_SUBSAMPLING_VERTICAL:	return "Sub-Sampling Factor, Vertical";
 >
-> -.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
-> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 630850d237ad..61d82e250480 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1096,6 +1096,8 @@ enum v4l2_auto_focus_range {
 >
->  .. flat-table:: Sample 4x2 Metadata Frame
->      :header-rows:  0
+>  #define V4L2_CID_HDR_SENSOR_MODE		(V4L2_CID_CAMERA_CLASS_BASE+36)
+>  #define V4L2_CID_BINNING_FACTORS		(V4L2_CID_CAMERA_CLASS_BASE+37)
+> +#define V4L2_CID_SUBSAMPLING_HORIZONTAL		(V4L2_CID_CAMERA_CLASS_BASE+38)
+> +#define V4L2_CID_SUBSAMPLING_VERTICAL		(V4L2_CID_CAMERA_CLASS_BASE+39)
+>
+>  /* FM Modulator class control IDs */
+>
 > --
 > 2.39.5
 >
