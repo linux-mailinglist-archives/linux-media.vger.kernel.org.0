@@ -1,336 +1,209 @@
-Return-Path: <linux-media+bounces-38521-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38522-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BF1B13480
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 07:59:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B65B1B134CE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 08:17:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33BA03B900E
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 05:58:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF0321896BC3
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 06:17:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8192322154D;
-	Mon, 28 Jul 2025 05:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33410221FA1;
+	Mon, 28 Jul 2025 06:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGWUJT87"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="n+yLNASi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DBD21FF50;
-	Mon, 28 Jul 2025 05:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EE886344;
+	Mon, 28 Jul 2025 06:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753682262; cv=none; b=hTpCHyI73qBHR+dpKalJ4L8fUNuirnkTcl4tALMOmClgpSWc7OWv2aulqRudX0Y2h6K5qRxBNi8yWSq9CWgiB5gxzemZLY0qI4fRzaEecXBBUau4ns8808fl44wkjuCuZ6XwflXHSKf+YED9pdtyFxfH2bbbNhc+ER4PtKgUeys=
+	t=1753683417; cv=none; b=c8y+hEvwkN9JtpDNtbnk1x5VnTZ6tx2+RCaSVQqLbdAFmGxxeUyhAf4Lxwd/C98fBy14BQhtehL43rHj0cNbW2TuNkPkcy9bigB1ir/1ZN9eBCbD5TPJf37mVPnojWFXs5YQSPggOTJoUArYnuFOyUVt2HL5F/aSZ2GqQ/+9MZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753682262; c=relaxed/simple;
-	bh=93FmW8XV2jJxelvz++7T6HWXvhNpHYrpAeDkgbikgKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aXE+JMBv1P+U0vZmDLpo4DiTRHHAah4CxbJbXKkcLHWxCTySAb00sCXz3zzIt3s5hG3YpivTHI3ZWYxkeCCNcxSwbOXpwAU/+JeRBYmqZst7WWHiGLLsi8ChcQSI4iMo7G0u47wCrs2jjfe6EpTDiwmwpz4heSK5RNwrZQ/qeEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGWUJT87; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753682260; x=1785218260;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=93FmW8XV2jJxelvz++7T6HWXvhNpHYrpAeDkgbikgKQ=;
-  b=RGWUJT87d1gYTqOJHeRHdNOhtSSbQypWm7qhpEXDgAb0M4YXUgJ2QJLP
-   gdEnNOSHqhmgQXBnpZYGPC/g325pXruj1YR5Jpr/Ap6i5hDRcubUNrXdZ
-   C0f5QmzlGi3yiI3b6ZwAL6joIIf6i9zHLZho4WTY9Hlxay278YKogIhE+
-   HuFbJoT4MlLAuHI99UwJZCWHXurPlrw3Fj8+Py9xJW1mUPJ9ku6jbZh9z
-   znaIbGq/L5HSuxPu2T6XqKA+4qmGWJMK74MyhKFIXO7c5zg8bRoNHxT0c
-   tYu7s3mLRlSXiI3tQ5OByCyMiSj4CJSXte0DIo+Ok27FtVYcU2MsP00p+
-   g==;
-X-CSE-ConnectionGUID: mXWtSjVvR2m9e2ox+88sKA==
-X-CSE-MsgGUID: 1ZjU8vhuSpmw3vENRs4eQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="58543784"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="58543784"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 22:57:39 -0700
-X-CSE-ConnectionGUID: Pn+BF0l3Swm79I6tIvPCSQ==
-X-CSE-MsgGUID: TA+jyJIVQYyuoKCKw1yjyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162647152"
-Received: from opintica-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.174])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 22:57:36 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 196AA1202CF;
-	Mon, 28 Jul 2025 08:57:33 +0300 (EEST)
-Date: Mon, 28 Jul 2025 05:57:33 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bin Du <Bin.Du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, Svetoslav.Stoilov@amd.com
-Subject: Re: [PATCH v2 2/8] media: platform: amd: low level support for isp4
- firmware
-Message-ID: <aIcRTapInMVSIkx5@kekkonen.localdomain>
-References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-3-Bin.Du@amd.com>
+	s=arc-20240116; t=1753683417; c=relaxed/simple;
+	bh=mw/XPlPKMDno6G8YIqCwyPXZ88qFJ4U3/hr6QCOL0eU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=D6rzvOmrFueokFHMPQZfJNdlexxBAzfGzprOnXfy/s3VE0v/jd/BsfIImpBcAioqHTRuolqPqVvNPcv4/408G88UVZsjIyskNQIw7Ly4Vh2Qci0bU2QxUTUIcFPRGTnCsBbAWzhXw/MPIpgNWqLRroSQZWCQ1+1qA4EIn3FvwSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=n+yLNASi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56S4rVH4019654;
+	Mon, 28 Jul 2025 06:16:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	XuAZsK0BtOoqFUMaBkh4WaTxus9sHxVIny3hqpjTFr8=; b=n+yLNASiQ8BrhoFM
+	UuV3+r3tQDdx67X7VEJM1OnfQEteUuLks8TIxKk5u85Dr8rE0zPdbmdbKJWkOP+x
+	bxP1gUyxoiiijgQuL1+80mrEBBoZaVhHPanDy8jNFlyuGwkbw9V3EodRSdMm/80f
+	QqjlHezEe7atTsMd2kkiHz/v0cB9Mxk26ZI7ecEiMVa+myBCF6s+MZ53Sy4exJtk
+	dTMa5JyzwyWKn8AhciQ0NMkCI8PKvfE63GgIwtUa1dvGXNbI4UXYiDWutjy0/jlO
+	6OU3iCRIIJVsg9pSHfjvWcJlvRbaVNtAoPsSnrKr0wkdugRi9Nl8CaetxIJdCKOV
+	OPqKPg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484r6qkaqb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Jul 2025 06:16:51 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56S6GpAf014949
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Jul 2025 06:16:51 GMT
+Received: from [10.204.101.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Sun, 27 Jul
+ 2025 23:16:47 -0700
+Message-ID: <7fb5256e-630c-3040-ca6d-4e9dee52162c@quicinc.com>
+Date: Mon, 28 Jul 2025 11:46:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250618091959.68293-3-Bin.Du@amd.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 5/7] media: venus: core: Add qcm2290 DT compatible and
+ resource data
+To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
+        <quic_vgarodia@quicinc.com>, <bryan.odonoghue@linaro.org>,
+        <krzk+dt@kernel.org>, <konradybcio@kernel.org>, <mchehab@kernel.org>,
+        <andersson@kernel.org>, <conor+dt@kernel.org>,
+        <amit.kucheria@oss.qualcomm.com>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250715204749.2189875-1-jorge.ramirez@oss.qualcomm.com>
+ <20250715204749.2189875-6-jorge.ramirez@oss.qualcomm.com>
+Content-Language: en-US
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250715204749.2189875-6-jorge.ramirez@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDA0MSBTYWx0ZWRfX3FM+GhfM+Dxv
+ sjthqkVmTAu6dOjtNsSIevD/Z0IsZdG3Vt0185d/URdPH8/E/VYxvll6ClEIG8ESWmLs/3mMD+/
+ 2RE7gP4K1b2aZoW6YR+SnxfAjBERExYQeksnKg3NVxyDC5cD4cwLGYFf5HOW/+uYKUpMrODdgt3
+ 4BMZojmYhJkKWuTqHabb/bKwA5RQiousDNQkH8/re/4bvPDPeQjiZAdym1o9m91OinIgIpcfcx+
+ LeZ0AjmKChG3i85mvRAS665AFN/Icj6TIfZtmyPRjSRxO+HpNWC04l0IBPtLRdpZHk8uE82EUL/
+ 4XO1uM4iC0MPTavwlK+/4bXxZOS6PHWaVKtlPquihEFuGnkan74vzQ/f+4rjJ8iI+0HabIAsWaP
+ vM3i1PwxCNdP5wf/T9224lb287zWlBM0tl8sGNGswJjec9C3nZGqC7x/B5qmL1S4aLtEhiv5
+X-Proofpoint-ORIG-GUID: AMNBmPYI8gIppHYbmYn2QR5072qhAqk9
+X-Authority-Analysis: v=2.4 cv=ea89f6EH c=1 sm=1 tr=0 ts=688715d4 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8
+ a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=-h2BoODB7oHphHcttcwA:9 a=QEXdDO2ut3YA:10
+ a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: AMNBmPYI8gIppHYbmYn2QR5072qhAqk9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-28_02,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0 clxscore=1015
+ spamscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507280041
 
-Hi Bin,
 
-On Wed, Jun 18, 2025 at 05:19:53PM +0800, Bin Du wrote:
-> Low level functions for access the registers and mapping to their ranges.
-> This change also includes register definitions for ring buffer used to
-> communicate with ISP Firmware.
-> Ring buffer is the communication interface between driver and ISP Firmware.
-> Command and responses are exchanged through the ring buffer.
 
-Please rewrap this, the third line could well be longer.
-
+On 7/16/2025 2:17 AM, Jorge Ramirez-Ortiz wrote:
+> Add a qcm2290 compatible binding to the Cenus core.
 > 
-> Signed-off-by: Bin Du <Bin.Du@amd.com>
-> Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
+> The maximum concurrency is video decode at 1920x1080 (FullHD) with video
+> encode at 1280x720 (HD).
+> 
+> The encoder is not available to firmware versions below 6.0.54 due to an
+> internal requirement for secure buffers.
+> 
+> The bandwidth tables incorporate a conservative safety margin to ensure
+> stability under peak DDR and interconnect load conditions.
+> 
+> Co-developed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  drivers/media/platform/amd/isp4/Makefile      |   3 +-
->  drivers/media/platform/amd/isp4/isp4_hw.c     |  46 +++++++
->  drivers/media/platform/amd/isp4/isp4_hw.h     |  14 +++
->  drivers/media/platform/amd/isp4/isp4_hw_reg.h | 116 ++++++++++++++++++
->  4 files changed, 178 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/platform/amd/isp4/isp4_hw.c
->  create mode 100644 drivers/media/platform/amd/isp4/isp4_hw.h
->  create mode 100644 drivers/media/platform/amd/isp4/isp4_hw_reg.h
+>  drivers/media/platform/qcom/venus/core.c | 51 ++++++++++++++++++++++++
+>  1 file changed, 51 insertions(+)
 > 
-> diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
-> index e9e84160517d..8ca1c4dfe246 100644
-> --- a/drivers/media/platform/amd/isp4/Makefile
-> +++ b/drivers/media/platform/amd/isp4/Makefile
-> @@ -3,7 +3,8 @@
->  # Copyright (C) 2025 Advanced Micro Devices, Inc.
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index bad49f0b4a77..2c9e2e0f95f5 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -1088,6 +1088,56 @@ static const struct venus_resources sc7280_res = {
+>  	.enc_nodename = "video-encoder",
+>  };
 >  
->  obj-$(CONFIG_AMD_ISP4) += amd_capture.o
-> -amd_capture-objs := isp4.o
-> +amd_capture-objs := isp4.o	\
-> +			isp4_hw.o	\
->  
->  ccflags-y += -I$(srctree)/drivers/media/platform/amd/isp4
->  ccflags-y += -I$(srctree)/include
-> diff --git a/drivers/media/platform/amd/isp4/isp4_hw.c b/drivers/media/platform/amd/isp4/isp4_hw.c
-> new file mode 100644
-> index 000000000000..e5315330a514
-> --- /dev/null
-> +++ b/drivers/media/platform/amd/isp4/isp4_hw.c
-> @@ -0,0 +1,46 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
-> + */
-> +
-> +#include <linux/io.h>
-> +#include <linux/types.h>
-> +
-> +#include "isp4_hw.h"
-> +#include "isp4_hw_reg.h"
-> +
-> +#define RMMIO_SIZE 524288
-> +
-> +u32 isp4hw_rreg(void __iomem *base, u32 reg)
-> +{
-> +	void __iomem *reg_addr;
-> +
-> +	if (reg >= RMMIO_SIZE)
-> +		return RREG_FAILED_VAL;
-> +
-> +	if (reg < ISP_MIPI_PHY0_REG0)
-> +		reg_addr = base + reg;
-> +	else if (reg <= ISP_MIPI_PHY0_REG0 + ISP_MIPI_PHY0_SIZE)
-> +		reg_addr = base + (reg - ISP_MIPI_PHY0_REG0);
-
-Redundant parentheses.
-
-> +	else
-> +		return RREG_FAILED_VAL;
-> +
-> +	return readl(reg_addr);
+> +static const struct bw_tbl qcm2290_bw_table_dec[] = {
+> +	{ 352800, 597000, 0, 746000, 0 }, /* 1080p@30 + 720p@30 */
+> +	{ 244800, 413000, 0, 516000, 0 }, /* 1080p@30 */
+> +	{ 216000, 364000, 0, 454000, 0 }, /* 720p@60  */
+> +	{ 108000, 182000, 0, 227000, 0 }, /* 720p@30  */
 > +};
 > +
-> +void isp4hw_wreg(void __iomem *base, u32 reg, u32 val)
-> +{
-> +	void __iomem *reg_addr;
-> +
-> +	if (reg >= RMMIO_SIZE)
-> +		return;
-> +
-> +	if (reg < ISP_MIPI_PHY0_REG0)
-> +		reg_addr = base + reg;
-> +	else if (reg <= ISP_MIPI_PHY0_REG0 + ISP_MIPI_PHY0_SIZE)
-> +		reg_addr = base + (reg - ISP_MIPI_PHY0_REG0);
-
-Ditto.
-
-> +	else
-> +		return;
-> +
-> +	writel(val, reg_addr);
+> +static const struct bw_tbl qcm2290_bw_table_enc[] = {
+> +	{ 352800, 396000, 0, 0, 0 }, /* 1080p@30 + 720p@30 */
+> +	{ 244800, 275000, 0, 0, 0 }, /* 1080p@30 */
+> +	{ 216000, 242000, 0, 0, 0 }, /* 720p@60  */
+> +	{ 108000, 121000, 0, 0, 0 }, /* 720p@30  */
 > +};
-> diff --git a/drivers/media/platform/amd/isp4/isp4_hw.h b/drivers/media/platform/amd/isp4/isp4_hw.h
-> new file mode 100644
-> index 000000000000..072d135b9e3a
-> --- /dev/null
-> +++ b/drivers/media/platform/amd/isp4/isp4_hw.h
-> @@ -0,0 +1,14 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
-> + */
 > +
-> +#ifndef _ISP4_HW_H_
-> +#define _ISP4_HW_H_
+> +static const struct venus_min_fw min_fw_encode = {
+> +	.major = 6, .minor = 0, .rev = 54  /* encode min fw version */
+> +};
 > +
-> +#define RREG_FAILED_VAL 0xFFFFFFFF
+> +static const struct venus_resources qcm2290_res = {
+> +	.bw_tbl_dec = qcm2290_bw_table_dec,
+> +	.bw_tbl_dec_size = ARRAY_SIZE(qcm2290_bw_table_dec),
+> +	.bw_tbl_enc = qcm2290_bw_table_enc,
+> +	.bw_tbl_enc_size = ARRAY_SIZE(qcm2290_bw_table_enc),
+> +	.clks = { "core", "iface", "bus", "throttle" },
+> +	.clks_num = 4,
+> +	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+> +	.vcodec_clks_num = 2,
+> +	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
+> +	.vcodec_pmdomains_num = 2,
+> +	.opp_pmdomain = (const char *[]) { "cx" },
+> +	.vcodec_num = 1,
+> +	.hfi_version = HFI_VERSION_4XX,
+> +	.vpu_version = VPU_VERSION_AR50_LITE,
+> +	.max_load = 352800,
+> +	.num_vpp_pipes = 1,
+> +	.vmem_id = VIDC_RESOURCE_NONE,
+> +	.vmem_size = 0,
+> +	.vmem_addr = 0,
+> +	.cp_start = 0,
+> +	.cp_size = 0x70800000,
+> +	.cp_nonpixel_start = 0x1000000,
+> +	.cp_nonpixel_size = 0x24800000,
+> +	.dma_mask = 0xe0000000 - 1,
+> +	.fwname = "qcom/venus-6.0/venus.mbn",
+> +	.dec_nodename = "video-decoder",
+> +	.dec_minfw = NULL,
+> +	.enc_nodename = "video-encoder",
+> +	.enc_minfw = &min_fw_encode,
+> +};
 > +
-> +u32 isp4hw_rreg(void __iomem *base, u32 reg);
-> +void isp4hw_wreg(void __iomem *base, u32 reg, u32 val);
-> +
-> +#endif
-> diff --git a/drivers/media/platform/amd/isp4/isp4_hw_reg.h b/drivers/media/platform/amd/isp4/isp4_hw_reg.h
-> new file mode 100644
-> index 000000000000..b11f12ba6c56
-> --- /dev/null
-> +++ b/drivers/media/platform/amd/isp4/isp4_hw_reg.h
-> @@ -0,0 +1,116 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
-> + */
-> +
-> +#ifndef _ISP4_HW_REG_H_
-> +#define _ISP4_HW_REG_H_
-> +
-> +#define ISP_SOFT_RESET		0x62000
-> +#define ISP_SYS_INT0_EN		0x62010
-> +#define ISP_SYS_INT0_STATUS	0x62014
-> +#define ISP_SYS_INT0_ACK	0x62018
-> +#define ISP_CCPU_CNTL		0x62054
-> +#define ISP_STATUS		0x62058
-> +#define ISP_LOG_RB_BASE_LO0	0x62148
-> +#define ISP_LOG_RB_BASE_HI0	0x6214C
+>  static const struct of_device_id venus_dt_match[] = {
+>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+> @@ -1098,6 +1148,7 @@ static const struct of_device_id venus_dt_match[] = {
+>  	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
+>  	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res, },
+>  	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res, },
+> +	{ .compatible = "qcom,qcm2290-venus", .data = &qcm2290_res, },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, venus_dt_match);
 
-Lower case hexadecimals, please.
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-> +#define ISP_LOG_RB_SIZE0	0x62150
-> +#define ISP_LOG_RB_RPTR0	0x62154
-> +#define ISP_LOG_RB_WPTR0	0x62158
-> +#define ISP_RB_BASE_LO1		0x62170
-> +#define ISP_RB_BASE_HI1		0x62174
-> +#define ISP_RB_SIZE1		0x62178
-> +#define ISP_RB_RPTR1		0x6217C
-> +#define ISP_RB_WPTR1		0x62180
-> +#define ISP_RB_BASE_LO2		0x62184
-> +#define ISP_RB_BASE_HI2		0x62188
-> +#define ISP_RB_SIZE2		0x6218C
-> +#define ISP_RB_RPTR2		0x62190
-> +#define ISP_RB_WPTR2		0x62194
-> +#define ISP_RB_BASE_LO3		0x62198
-> +#define ISP_RB_BASE_HI3		0x6219C
-> +#define ISP_RB_SIZE3		0x621A0
-> +#define ISP_RB_RPTR3		0x621A4
-> +#define ISP_RB_WPTR3		0x621A8
-> +#define ISP_RB_BASE_LO4		0x621AC
-> +#define ISP_RB_BASE_HI4		0x621B0
-> +#define ISP_RB_SIZE4		0x621B4
-> +#define ISP_RB_RPTR4		0x621B8
-> +#define ISP_RB_WPTR4		0x621BC
-> +#define ISP_RB_BASE_LO5		0x621C0
-> +#define ISP_RB_BASE_HI5		0x621C4
-> +#define ISP_RB_SIZE5		0x621C8
-> +#define ISP_RB_RPTR5		0x621CC
-> +#define ISP_RB_WPTR5		0x621D0
-> +#define ISP_RB_BASE_LO6		0x621D4
-> +#define ISP_RB_BASE_HI6		0x621D8
-> +#define ISP_RB_SIZE6		0x621DC
-> +#define ISP_RB_RPTR6		0x621E0
-> +#define ISP_RB_WPTR6		0x621E4
-> +#define ISP_RB_BASE_LO7		0x621E8
-> +#define ISP_RB_BASE_HI7		0x621EC
-> +#define ISP_RB_SIZE7		0x621F0
-> +#define ISP_RB_RPTR7		0x621F4
-> +#define ISP_RB_WPTR7		0x621F8
-> +#define ISP_RB_BASE_LO8		0x621FC
-> +#define ISP_RB_BASE_HI8		0x62200
-> +#define ISP_RB_SIZE8		0x62204
-> +#define ISP_RB_RPTR8		0x62208
-> +#define ISP_RB_WPTR8		0x6220C
-> +#define ISP_RB_BASE_LO9		0x62210
-> +#define ISP_RB_BASE_HI9		0x62214
-> +#define ISP_RB_SIZE9		0x62218
-> +#define ISP_RB_RPTR9		0x6221C
-> +#define ISP_RB_WPTR9		0x62220
-> +#define ISP_RB_BASE_LO10	0x62224
-> +#define ISP_RB_BASE_HI10	0x62228
-> +#define ISP_RB_SIZE10		0x6222C
-> +#define ISP_RB_RPTR10		0x62230
-> +#define ISP_RB_WPTR10		0x62234
-> +#define ISP_RB_BASE_LO11	0x62238
-> +#define ISP_RB_BASE_HI11	0x6223C
-> +#define ISP_RB_SIZE11		0x62240
-> +#define ISP_RB_RPTR11		0x62244
-> +#define ISP_RB_WPTR11		0x62248
-> +#define ISP_RB_BASE_LO12	0x6224C
-> +#define ISP_RB_BASE_HI12	0x62250
-> +#define ISP_RB_SIZE12		0x62254
-> +#define ISP_RB_RPTR12		0x62258
-> +#define ISP_RB_WPTR12		0x6225C
-> +
-> +#define ISP_POWER_STATUS	0x60000
-> +
-> +#define ISP_MIPI_PHY0_REG0	0x66700
-> +#define ISP_MIPI_PHY1_REG0	0x66780
-> +#define ISP_MIPI_PHY2_REG0	0x67400
-> +
-> +#define ISP_MIPI_PHY0_SIZE	0xD30
-> +
-> +/* ISP_SOFT_RESET */
-> +#define ISP_SOFT_RESET__CCPU_SOFT_RESET_MASK			0x00000001UL
-> +
-> +/* ISP_CCPU_CNTL */
-> +#define ISP_CCPU_CNTL__CCPU_HOST_SOFT_RST_MASK			0x00040000UL
-> +
-> +/* ISP_STATUS */
-> +#define ISP_STATUS__CCPU_REPORT_MASK				0x000000feUL
-> +
-> +/* ISP_SYS_INT0_STATUS */
-> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT9_INT_MASK	0x00010000UL
-> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT10_INT_MASK	0x00040000UL
-> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT11_INT_MASK	0x00100000UL
-> +#define ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK	0x00400000UL
-> +
-> +/* ISP_SYS_INT0_EN */
-> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT9_EN_MASK	0x00010000UL
-> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT10_EN_MASK	0x00040000UL
-> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT11_EN_MASK	0x00100000UL
-> +#define ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT12_EN_MASK	0x00400000UL
-> +
-> +/* ISP_SYS_INT0_ACK */
-> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT9_ACK_MASK	0x00010000UL
-> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT10_ACK_MASK	0x00040000UL
-> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT11_ACK_MASK	0x00100000UL
-> +#define ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT12_ACK_MASK	0x00400000UL
-> +
-> +#endif
-
--- 
-Kind regards,
-
-Sakari Ailus
+Thanks,
+Dikshita
 
