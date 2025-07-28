@@ -1,172 +1,173 @@
-Return-Path: <linux-media+bounces-38556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38557-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A13B13A0E
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 13:52:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB7FB13AD2
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 14:55:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EDD197AA8D1
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 11:50:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C85BB3B0D8C
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 12:54:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF15925F7A7;
-	Mon, 28 Jul 2025 11:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A0BE265CAA;
+	Mon, 28 Jul 2025 12:55:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7ZyfzAU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BQ3dK+jP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73E0748F;
-	Mon, 28 Jul 2025 11:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9002222A3
+	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 12:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753703518; cv=none; b=JWFDeb68dkMWhxYB7boFQ3K5p2yUhU3zqAi0Z3CY6ClK2Vr8+X7tH0kJetxmsfZhlBPMvRrJctfdBrmEUHkC1M1pbhTrm25lr6mVoouayXUV6Ml7NAV/dFdiO4ENCV8H716sGRzNku9HtyoJtOy/MwIKvuHi74BVmXAG50tJ6hA=
+	t=1753707320; cv=none; b=eWZmwV4hyhG9JNC8frRUHPibMOVPTgYA9LEIU8RHF1zRfG9rgmvYvxuokKYd/GPZH15iDdXXLIZd0Sj6YI/mvpbo7HTFqEsZCEIsjpkLOV4Yj47/aF27UTk+uUXmlT7LkV2WgdSpSy5eIA8eZ0zYqNv6iodT2GMZCZOqJoxMLvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753703518; c=relaxed/simple;
-	bh=765Zg2kvdW9MEMLHWxxka94UDM3iWDfdwAN2sOe8HSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tj52EH6tlA68PLdt7UAdjl3phqd6o9FNUQPX/SrChhByjpL3tcLP2gkXITyot5/Y6A9iwfBLImWU3Xj7OZoQPGHgloLcXKiC6I/Xvn/t5q/HB2cFaG5ZiWZSvTQEpPhZmVmsW2haoAklCjhtrmt8tnimQGgplhFjKvW/E5yUfb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7ZyfzAU; arc=none smtp.client-ip=209.85.217.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4e8088896b7so3818192137.1;
-        Mon, 28 Jul 2025 04:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753703515; x=1754308315; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Likoa40Tg3Hu27n+cGt0OOu4O4FlIaVhlBXKe7cRGBI=;
-        b=E7ZyfzAU93HoFBe6J0EiiyZ/q8gMb7qXfp/2xHEs7LLzVEsPN/jtKJW5e1TjR4nPMd
-         z1+Y/Ha+VSr34weD+DluafPN/ePxALHR4rnep/Jkl1hBo8f0ZtnK7wZDlyEJo2dtyraY
-         YU2uVnbPJTZ2NIlJW898MYu4Zlj070voOC7RCrjab+srI1qos8NMN2U5XBUfFttdPjaX
-         Dw8fqElgL6c6kKDkvAkxhyDrufin+aX5lLwW6e4ai/xgzcWlpDrSxZEy6F8NFBZJFJMo
-         dSmZ3s+5P0Z8l0MxQFTxl6jBLcq+PI3eUWDybG6DDYXoAUiMHEwYtXYDxlY97X51Cj5o
-         E3Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753703515; x=1754308315;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Likoa40Tg3Hu27n+cGt0OOu4O4FlIaVhlBXKe7cRGBI=;
-        b=n53I5slh3AZFNVTERwGg66Dg8aLkdYc7YwYJOAjPmdkgdY/9ULOtxUlta3Tzt5tum6
-         y0vHsaWUfUmxv2RyhwqWXyYKd2qLlhqEP5mCYe4dijxvb+Cg7RCu4LyRZt73nTFp9FDc
-         oF3Sl/lZl2F/QeyybLznXuuhThn8o6hgQ0jrs1ZOjo5dXEnKfvUOm3QNMCLFkZm6Cadq
-         FkhkRkkJgnAPk+BspXPZ75xkI5g6TakKw7UaRDy/q59wzFFBaHpSlhNVli1FVbNhF94G
-         0GcunD3FZeF4+deUckmqA1qSjY6wL3wtA3hrLu7ZwRVRNokr3Cb/CwbTb6mDAk5VXFYv
-         HqDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWyt9yJC0/92tFvZI9blWog3RKX11D9ls/OiqeH242QY+gsYCw3zj+kdC91ZfQCcrIB95zMUIuTCo80EAw=@vger.kernel.org, AJvYcCX4Sl0oisCuWCR+bvDoY4xSLQHAKA6so1WgNBPuJJ8/vqLBCwBrWUSdG1huvDDlSg1Q152HJQ7CDJpCHRg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdH3ey5tcpHDfsLcCSpsOUJ3mFveLOf4yyhRioRdAoX9qs1Kmm
-	jNjjTUqfPHfBc+ZJZUgb1Q9UbbfsDHk/wMuMvAl//63TsmpJjrgnPzwLraMblpdbXc2u5fkCAyp
-	UDOC4gxQP5CYyvVCqJ9Ihy4rlMSxLw0M=
-X-Gm-Gg: ASbGncuIxIidLPkOcGXUBpo/6/wSCcgy2TIlwWloq0za/cuQsTkbjtdi+7y/5JAMhiL
-	9SX9giVk7ETHrU/UPi0OeTTtZrOOJfcNsqxUMlpvmD105rkoNCMJeAcUExxUaTiIIJjXYzbo/JY
-	eX+OFKu6NB8agg6vaMvj4VPRuQrSqmEH+OJtf69u81WtJr/cgRxTH2zY6e42yXKPLPcQcLCbczF
-	AjHWc+7YempSVAM3lNoreExdERq13WENMsuByRNqSswO6qS
-X-Google-Smtp-Source: AGHT+IHsqmvDN1OFlcp19Q+AvY6FXGJmsuYKzkKxh4r8EMVJpKypY+COSUIzdrhQaRKNH1fBxdx0oolMl9lsOpkidVQ=
-X-Received: by 2002:a05:6102:548c:b0:4fa:3547:2d38 with SMTP id
- ada2fe7eead31-4fa3547343cmr5831280137.10.1753703515441; Mon, 28 Jul 2025
- 04:51:55 -0700 (PDT)
+	s=arc-20240116; t=1753707320; c=relaxed/simple;
+	bh=8lbjOcxvy55Uh5WFwLyAOe89hzmXN6f4/1DLnti+fa0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUa1BRv+ZmGEHYrxMIa1Svw/m6vqtPSDdDW+lMbkTRFAvcBnyhrftA3dFSW4HRZDbSAmM1ybbXKACAkKXPBKWUiXViZtKa5sBRqp01E952iKWXffiOeYwLSr8U8eU3MEoD41+qXaGZgxZJETBSygDGYTUrhpLqE8R6I7jHfst/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BQ3dK+jP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-139-29.net.vodafone.it [5.90.139.29])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FED7446;
+	Mon, 28 Jul 2025 14:54:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753707271;
+	bh=8lbjOcxvy55Uh5WFwLyAOe89hzmXN6f4/1DLnti+fa0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BQ3dK+jPGaVGfaTyncFtq/03gvJ7A6v2s7W6VtN/N7adubGgTCwedVfD5Q8uXDQXK
+	 p7UqDg6EsvqUKsIyyNyHqPwOYg3c4evzglfqZz8UFh+oFwi60kQnj3a7a987fcZas0
+	 uqbuQg4Z+u/stmC3LW2j4DOzE8Jx4MBdlmenpnpQ=
+Date: Mon, 28 Jul 2025 14:55:10 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 03/64] media: Documentation: Clean up figure titles
+Message-ID: <yhrlfesj5dxdufuzuudnfezboeid6fbe6gdvap5kxqalr3wetg@geajygftoiux>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-4-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
- <CANiDSCsmbiveo4GHX54_q7-1CeKiDAVaGnb8+jsCybM+pyA7Fw@mail.gmail.com>
- <20250601113425.4d5a3d89@foz.lan> <CANiDSCt9nGP=r8VxkZH76a1i+xEd+RCJ71=6qx0_iPYdrn+GoQ@mail.gmail.com>
- <20250724191833.253b8f40@foz.lan>
-In-Reply-To: <20250724191833.253b8f40@foz.lan>
-From: Alexandre Courbot <gnurou@gmail.com>
-Date: Mon, 28 Jul 2025 20:51:43 +0900
-X-Gm-Features: Ac12FXzLrdinDNy_ff-eOZ_xxvjLB4Bph9uh3DCpSNYBsMQAHaG1vHziQkM_kmQ
-Message-ID: <CAAVeFuLPAwMyq7cTDE4Fp3+i883RdDWkg=GOMGDzMxZz6rgSuw@mail.gmail.com>
-Subject: Re: [PATCH v3] media: add virtio-media driver
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Albert Esteve <aesteve@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	gurchetansingh@google.com, daniel.almeida@collabora.com, adelva@google.com, 
-	changyeon@google.com, nicolas.dufresne@collabora.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	virtualization@lists.linux.dev, Alexandre Courbot <acourbot@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250619115836.1946016-4-sakari.ailus@linux.intel.com>
 
-Hi Mauro,
+Hi Sakari
 
-On Fri, Jul 25, 2025 at 2:24=E2=80=AFAM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Thu, Jun 19, 2025 at 02:57:35PM +0300, Sakari Ailus wrote:
+> Remove DocBook (?) conversion leftovers from figure titles, including
+> obsolete numbering and highlighting. This aligns these titles with others.
 >
-> Em Sun, 1 Jun 2025 12:01:22 +0200
-> Ricardo Ribalda <ribalda@chromium.org> escreveu:
->
-> > Hi Mauro
-> >
-> > On Sun, 1 Jun 2025 at 11:34, Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > >
-> > > Em Wed, 28 May 2025 18:23:02 +0200
-> > > Ricardo Ribalda <ribalda@chromium.org> escreveu:
-> > >
-> > > > > +static int scatterlist_builder_add_userptr(struct scatterlist_bu=
-ilder *builder,
-> > > > > +                                          unsigned long userptr,
-> > > > > +                                          unsigned long length)
-> > > > > +{
-> > > > > +       int ret;
-> > > > > +       int nents;
-> > > > Could you initialize nents and sg_list?
-> > > > old versions of gcc are a bit picky
-> > > > https://gitlab.freedesktop.org/linux-media/users/ribalda/-/jobs/770=
-42562#L4381
-> > >
-> > > Please don't. In this specific case, ret is always initialized:
-> > >
-> > > > +       struct virtio_media_sg_entry *sg_list;
-> > > > +
-> > > > +       ret =3D __scatterlist_builder_add_userptr(builder, userptr,=
- length,
-> > > > +                                               &sg_list, &nents);
-> > >
-> > > nents and sg_list may or may not be initialized at the function,
-> > > but initializing it is wrong, as, when they are not initialized, the
-> > > ret code shall catch it (and if not, we *do* want gcc to warn).
-> > >
-> > > So, if our CI is warning about that due to an old version, please upg=
-rade
-> > > the version at the CI runner.
-> >
-> > The main version of gcc works fine. It is the minimal version (8.1) req=
-uired by
-> > https://www.kernel.org/doc/html/next/process/changes.html
-> > that  complains.
->
-> Ricardo,
->
-> gcc 8.1 was released in May 2, 2018. I don't think it makes sense to
-> address bogus warnings with that old gcc versions. I would just disable
-> WERROR for such versions on our CI tests.
->
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+This patch seems to be missing a tag
+
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
 > ---
+>  Documentation/userspace-api/media/v4l/dev-raw-vbi.rst    | 6 +++---
+>  Documentation/userspace-api/media/v4l/dev-subdev.rst     | 6 +++---
+>  Documentation/userspace-api/media/v4l/subdev-formats.rst | 2 +-
+>  3 files changed, 7 insertions(+), 7 deletions(-)
 >
-> Alexandre/Michael,
+> diff --git a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> index 2bec20d87928..1f7bb8fd15e7 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> @@ -221,7 +221,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_hsync.svg
+>      :align: center
 >
-> I need a couple of full days to properly review virtio-media.
-> I was planning to do it during this Kernel cycle, but I ended
-> allocating too much time just to be able to create a crossvm
-> that would allow testing it. Afterwards, I got sidetracked with other
-> issues. I won't be able to review it in time for this merge window.
+> -    **Figure 4.1. Line synchronization**
+> +    Line synchronization
 >
-> I'm planning to do it at the beginning of the next merge cycle.
-
-Not a worry at all and I appreciate the time you are putting aside to
-review this properly!
-
-Thanks,
-Alex.
+>  .. _vbi-525:
+>
+> @@ -229,7 +229,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_525.svg
+>      :align: center
+>
+> -    **Figure 4.2. ITU-R 525 line numbering (M/NTSC and M/PAL)**
+> +    ITU-R 525 line numbering (M/NTSC and M/PAL)
+>
+>  .. _vbi-625:
+>
+> @@ -237,7 +237,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_625.svg
+>      :align: center
+>
+> -    **Figure 4.3. ITU-R 625 line numbering**
+> +    ITU-R 625 line numbering
+>
+>  Remember the VBI image format depends on the selected video standard,
+>  therefore the application must choose a new standard or query the
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 225a45fef994..24a69c419dfe 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -459,7 +459,7 @@ selection will refer to the sink pad format dimensions instead.
+>      :alt:   subdev-image-processing-crop.svg
+>      :align: center
+>
+> -    **Figure 4.5. Image processing in subdevs: simple crop example**
+> +    Image processing in subdevs: simple crop example
+>
+>  In the above example, the subdev supports cropping on its sink pad. To
+>  configure it, the user sets the media bus format on the subdev's sink
+> @@ -476,7 +476,7 @@ pad.
+>      :alt:   subdev-image-processing-scaling-multi-source.svg
+>      :align: center
+>
+> -    **Figure 4.6. Image processing in subdevs: scaling with multiple sources**
+> +    Image processing in subdevs: scaling with multiple sources
+>
+>  In this example, the subdev is capable of first cropping, then scaling
+>  and finally cropping for two source pads individually from the resulting
+> @@ -492,7 +492,7 @@ an area at location specified by the source crop rectangle from it.
+>      :alt:    subdev-image-processing-full.svg
+>      :align:  center
+>
+> -    **Figure 4.7. Image processing in subdevs: scaling and composition with multiple sinks and sources**
+> +    Image processing in subdevs: scaling and composition with multiple sinks and sources
+>
+>  The subdev driver supports two sink pads and two source pads. The images
+>  from both of the sink pads are individually cropped, then scaled and
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index 2a94371448dc..9ef1bc22ad9c 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -2631,7 +2631,7 @@ be named ``MEDIA_BUS_FMT_SRGGB10_2X8_PADHI_LE``.
+>      :alt:    bayer.svg
+>      :align:  center
+>
+> -    **Figure 4.8 Bayer Patterns**
+> +    Bayer Patterns
+>
+>  The following table lists existing packed Bayer formats. The data
+>  organization is given as an example for the first pixel only.
+> --
+> 2.39.5
+>
+>
 
