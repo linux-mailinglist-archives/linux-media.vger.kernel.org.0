@@ -1,175 +1,214 @@
-Return-Path: <linux-media+bounces-38526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38553-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382FAB135B5
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 09:28:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D75B138EE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 12:28:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 046237A54AD
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 07:26:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C52133B6886
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 10:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 126CA22F76F;
-	Mon, 28 Jul 2025 07:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D42EB254AE7;
+	Mon, 28 Jul 2025 10:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GcaprkMy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VcUNhneK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B39121A436;
-	Mon, 28 Jul 2025 07:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC64C26AF3;
+	Mon, 28 Jul 2025 10:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753687676; cv=none; b=RRo+8hwQh3GEpO67xdt2GuzviWs5cZlkGQxKObOlAX7oOhHS5rRFAJca75r+0oJDtLsSbBlgXPTly9iL7fcDlthP7fA0I11LgUVWT7jPbMvt+RA4XsTzjBFKy7q8ARPQ3AdLjgWB5jDkscTODng2Ojjy0mh1Wr+qhzZt/7QV9wE=
+	t=1753698487; cv=none; b=RqjWHfCJ0EMzpmmuJK/t+I5VW+eoMnOf84c0N0efKeDoPZ62ZcAApJ0+o51oCz50gcsxAQ77+RUSKRZ0gnpGQUE//bjhAImYnehLrOA4bEoaU5k8Hkwj+XHdiiNK/5dEwlaKwau3f4DWxifm9EZg++RTsPFIMNnjWMbyFBXcIqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753687676; c=relaxed/simple;
-	bh=s8XctckT3Sdb4YvEEyVaRTMNQimbq2CU+c1oA1oZ7ho=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A7CghrvgOsGcb2oqMIEsSyS8U5FeDkhPuf4wZ+tbSYpohEGcsmJ/b0LWsau/AZvYryVRT5SsVr7kpxK2H72rR7HNbomem6jrH2E/lM18yX4llx+/Y3dCgbmGbGZQLOtwmcea7ZoUgdturqpILASFR5Zo2fgLtH80zx9PXpVDrLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GcaprkMy; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-236470b2dceso35268945ad.0;
-        Mon, 28 Jul 2025 00:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753687674; x=1754292474; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CIkA7rxj2aeFkUnZL3Z4nhuVfvXyGjEGJhkZwRCP+pk=;
-        b=GcaprkMy50QL3ubiBxUwNf+SWq/uPbT9rYFnA323D/i3aR1n7Fgx2tVneC/52kug4C
-         Dw0mjomIIIFBhIS9/ck4K7Y2SkZ2FXpt69UQ8tSbqj9pbjpQD/XH8qpOKKLvlnbYejyM
-         fCvfTZ9SKCPFxPYCUKo7leA7Q8qAAkn0L1tbvsxBYf8foSPnewdAzx1qkJnlKO13T4/X
-         FDteAlIktWtIS4JEt7gNlrFbwevgzAjNEqzWYBAUoKznMi8BbZa5EiK0dD38z2tf3AGE
-         MacVObY3STzmvcImTjtzEvcBILWpW141pCAqJw3XHm/rOIx1vHuLJ2H7pNYQa8O0Yh5i
-         EHbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753687674; x=1754292474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CIkA7rxj2aeFkUnZL3Z4nhuVfvXyGjEGJhkZwRCP+pk=;
-        b=eoejNRAc1NLwOiJSNa5ohI1jAubeKNwS6rVQIjU9778hbZUKDKukfZqqN/+ecJ275v
-         75bDRi1LY33QGcVLMzZeipNTrYlKPXa9Ci6aXUg4VCFRDCN1jKYfeiYitTbUYNjkV1qA
-         79ZlaWeaL0jwL91E3+Le7v3+ic0nr2hUklU2w2BpHkNZg6+mJ/XRrkEtOaHkLgL3oJTc
-         o9mo9ul73EMhnpjA6QN1EVYOzuLfQ9+akh4s2TKpUQYzarMkJzC28WLy4W5ZWffldxPR
-         GxNLJqqD/Twun5LTIJqA7UM3KkGoiTgcERJwUrtXt5McVlHggqHP4fCG6iRMgBe7Tm6n
-         BGQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUTCtjRf1RK6bYSwqtHLw2ueKS/nIUbPBb4MieEXOgGzms2tQMrAXWw0x8JtXqj43UBwJ6tP9XqDBNiY9k=@vger.kernel.org, AJvYcCW+H/kBjovRWnac7veni7i+Y7X8MbMMylSqYpSTcpTzy/aQz2C7s1ujfQ3sIlA/wJnY9Cj/kpPBg+hBZO8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzG664+9NdHqkuHdzc4XLnHVMLMZsPgASePH9QTAg/P5SDFrU+I
-	0Q+5Ith0YUBtc9h2VmWNTileea7SA8N4ziStYXc2nxHw2W+CcSIM7dme
-X-Gm-Gg: ASbGncsR9uNNGYRfXbD4mfPBH6K6e2hTvb3ZUpiPQErfU9ucroWIX40FrKSbc0jIDet
-	ds6m8MYmJ/ReWQIUsgj4MIM6R6vkCWNrLSr2QG2cKcmJEkjvnUw/VyxiSD8DUrDnZnD2GA34Jtb
-	nwVf7Y/xF4ue9WvgRPXZQi+1EicZbwymzT42vKSlBjkFFv8OyCYuWfxoRMDZL4tBOu2fCDu22Ik
-	CcAS4u+8L2Llt28bYi3qGsitV7ItnulNUDjAvy7k+0qUuEl7T+M1Lt3P6DA0AGwFQZeFXSegkL1
-	1lnbhqrp5YOrjg+g2cijJhNehkARONq9AcD/q4VcHUogbU/7dqQaBmNKywOcwKsRayMalmXKQmq
-	fxNUNsJRijcVmC8qDMAAN0eCsuBnORSKDOmMS8ZerQZvOitlANk51rtPprnTJAO9p8L2NTW7uTX
-	p4fw==
-X-Google-Smtp-Source: AGHT+IGxXFmKSvT4xZhknxQ8XN0geHH0nu1k5wB6QGBZYZRXvZJGddPc1NKhIESQxbDZ2gZaSJERlA==
-X-Received: by 2002:a17:903:fa3:b0:235:f298:cbbd with SMTP id d9443c01a7336-23fb30ac008mr182227745ad.21.1753687674219;
-        Mon, 28 Jul 2025 00:27:54 -0700 (PDT)
-Received: from SIQOL-WIN-0002-DARSHAN.localdomain ([49.36.68.217])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2403f4dbd1bsm5783435ad.59.2025.07.28.00.27.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 00:27:53 -0700 (PDT)
-From: "Darshan R." <rathod.darshan.0896@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	jogidishank503@gmail.com,
-	"Darshan R." <rathod.darshan.0896@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Fix indentation and styling in output kernel code
-Date: Mon, 28 Jul 2025 07:28:22 +0000
-Message-ID: <20250728072822.10730-1-rathod.darshan.0896@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1753698487; c=relaxed/simple;
+	bh=3AnWV7DkyxpUinOHa2NdfWkE9BXbV1glkkPC/peih7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=COVDGHt1xBfI7CmyCtNyJgpzBxhopiM4prFj39prCgZbJZLSY9kcNa8/7zWYL2lcbFEfI6wLKYh4cpgfjJQBMQWM58lhoJVLhh/S/8pfyIx0HWRdRD3zt8VzDvFEJUqqpyeeJ7XutV8uzHyDTZ/FArmw3rQBXX7BT96PutneamA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VcUNhneK; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753698486; x=1785234486;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3AnWV7DkyxpUinOHa2NdfWkE9BXbV1glkkPC/peih7Y=;
+  b=VcUNhneKxQ4XMyGmBZUe0F+OH/KXgpvFVniXunfInlzikCtXm9cYa/XJ
+   YjKkVa6w/9C8leiNjJ62p06MjvzKA+vurlQEiWlTkgMzDaw1nu9ZCfSOb
+   FH14yV1LqWgnfQAvVnd7utaXQ6febOVda641OQJoCEHjsDboL3GOcQpZE
+   MtC07IHM6A39uLzaMTDanp54b0ect7yHUUE2Wwx44XO3emqOOSm7f8Y0t
+   37w+aduo93GnI7MYSzILnjV3TlPJTGky8Cuk8hOJMD5a+DkYX+o9QaOSY
+   GkU5JtIGkGTAvIgs+2djYGvbenx2dyKLlKNHJ3j7PLFUPh0+4wpqkMoMi
+   A==;
+X-CSE-ConnectionGUID: y/cGMFp0T3KGEU4OBYDCAQ==
+X-CSE-MsgGUID: PeEjrfLGS5O+R4Wm2+htXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55826513"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="55826513"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 03:28:05 -0700
+X-CSE-ConnectionGUID: XsCgo5pRTpKbIkiqcHjbig==
+X-CSE-MsgGUID: mwAAXCYLSiSRImYODtjYeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="193345808"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.254])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 03:28:02 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3CE2C120317;
+	Mon, 28 Jul 2025 10:28:24 +0300 (EEST)
+Date: Mon, 28 Jul 2025 07:28:24 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bin Du <Bin.Du@amd.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart+renesas@ideasonboard.com,
+	bryan.odonoghue@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com, Svetoslav.Stoilov@amd.com
+Subject: Re: [PATCH v2 3/8] media: platform: amd: Add helpers to configure
+ isp4 mipi phy
+Message-ID: <aIcmmLi_pNGAYYtN@kekkonen.localdomain>
+References: <20250618091959.68293-1-Bin.Du@amd.com>
+ <20250618091959.68293-4-Bin.Du@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250618091959.68293-4-Bin.Du@amd.com>
 
-Updated the formatting of function definitions and if statements to match
-kernel coding standards. This helps with readability and consistency across
-the codebase.
+Hi Bin,
 
-These are non-functional changes aimed at preparing the driver for eventual
-mainline readiness by addressing common checkpatch warnings.
+On Wed, Jun 18, 2025 at 05:19:54PM +0800, Bin Du wrote:
+> +struct isp4phy_mipi_reg_seq {
+> +	u16 addr;
+> +	u16 mask;
+> +	u16 data;
+> +};
+> +
+> +union isp4phy_mipi_0 {
+> +	struct {
+> +		u32 shutdownz : 1;
+> +		u32 rstz : 1;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_1 {
+> +	struct {
+> +		u32 mode : 1;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_2 {
+> +	struct {
+> +		u32 rxdatawidthhs_0 : 2;
+> +		u32 rxdatawidthhs_1 : 2;
+> +		u32 rxdatawidthhs_2 : 2;
+> +		u32 rxdatawidthhs_3 : 2;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +struct isp4phy_mipi_3 {
+> +	u32 reserved;
+> +};
+> +
+> +union isp4phy_mipi_4 {
+> +	struct {
+> +		u32 enableclk : 1;
+> +		u32 enable_0 : 1;
+> +		u32 enable_1 : 1;
+> +		u32 enable_2 : 1;
+> +		u32 enable_3 : 1;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_5 {
+> +	struct {
+> +		u32 forcerxmode_0 : 1;
+> +		u32 forcerxmode_1 : 1;
+> +		u32 forcerxmode_2 : 1;
+> +		u32 forcerxmode_3 : 1;
+> +		u32 forcerxmode_clk : 1;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_6 {
+> +	struct {
+> +		u32 turndisable_0 : 1;
+> +		u32 turndisable_1 : 1;
+> +		u32 turndisable_2 : 1;
+> +		u32 turndisable_3 : 1;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_7 {
+> +	struct {
+> +		u32 ready : 1;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_ind_idx {
+> +	struct {
+> +		u32 addr : 16;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_ind_data {
+> +	struct {
+> +		u32 data : 16;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +union isp4phy_mipi_ind_wack {
+> +	struct {
+> +		u32 ack : 1;
+> +		u32 pslverr : 1;
+> +	} bit;
+> +	u32 value;
+> +};
+> +
+> +struct isp4phy_mipi_reg {
+> +	union isp4phy_mipi_0 isp_mipi_phy0;
+> +	union isp4phy_mipi_1 isp_mipi_phy1;
+> +	union isp4phy_mipi_2 isp_mipi_phy2;
+> +	struct isp4phy_mipi_3 isp_mipi_phy3;
+> +	union isp4phy_mipi_4 isp_mipi_phy4;
+> +	union isp4phy_mipi_5 isp_mipi_phy5;
+> +	union isp4phy_mipi_6 isp_mipi_phy6;
+> +	union isp4phy_mipi_7 isp_mipi_phy7;
+> +	u32 reserve;
+> +	union isp4phy_mipi_ind_idx isp_mipi_phy_ind_idx;
+> +	union isp4phy_mipi_ind_data isp_mipi_phy_ind_data;
+> +	union isp4phy_mipi_ind_wack isp_mipi_phy_inc_wack;
+> +};
 
-Signed-off-by: Darshan R. <rathod.darshan.0896@gmail.com>
----
- .../output/output_1.0/ia_css_output.host.c    | 22 ++++++++++---------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+One more thing. Is there an endianness issue here?
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-index d09365e0c471..4f84c6d3622a 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-@@ -34,9 +34,9 @@ static const struct ia_css_output1_configuration default_output1_configuration
- 
- void
- ia_css_output_encode(
--    struct sh_css_isp_output_params *to,
--    const struct ia_css_output_config *from,
--    unsigned int size)
-+	struct sh_css_isp_output_params *to,
-+	const struct ia_css_output_config *from,
-+	unsigned int size)
- {
- 	(void)size;
- 	to->enable_hflip = from->enable_hflip;
-@@ -74,7 +74,7 @@ int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
- }
- 
- int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
--		          const struct ia_css_output1_configuration *from,
-+			  const struct ia_css_output1_configuration *from,
- 			  unsigned int size)
- {
- 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
-@@ -95,7 +95,7 @@ int ia_css_output_configure(const struct ia_css_binary     *binary,
- }
- 
- int ia_css_output0_configure(const struct ia_css_binary    *binary,
--			    const struct ia_css_frame_info *info)
-+			     const struct ia_css_frame_info *info)
- {
- 	if (info) {
- 		struct ia_css_output0_configuration config =
-@@ -124,10 +124,12 @@ int ia_css_output1_configure(const struct ia_css_binary     *binary,
- 
- void
- ia_css_output_dump(
--    const struct sh_css_isp_output_params *output,
--    unsigned int level)
-+	const struct sh_css_isp_output_params *output,
-+	unsigned int level)
- {
--	if (!output) return;
-+	if (!output)
-+		return;
-+
- 	ia_css_debug_dtrace(level, "Horizontal Output Flip:\n");
- 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
- 			    "enable", output->enable_hflip);
-@@ -138,8 +140,8 @@ ia_css_output_dump(
- 
- void
- ia_css_output_debug_dtrace(
--    const struct ia_css_output_config *config,
--    unsigned int level)
-+	const struct ia_css_output_config *config,
-+	unsigned int level)
- {
- 	ia_css_debug_dtrace(level,
- 			    "config.enable_hflip=%d",
+Overall the CPU endianness may be big or little while the device endianness
+is little, presumably. You should use __le* types and functions to convert
+the endianness when dealing with the messages to and from the device.
+
 -- 
-2.43.0
+Kind regards,
 
+Sakari Ailus
 
