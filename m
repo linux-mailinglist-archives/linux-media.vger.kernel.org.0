@@ -1,187 +1,183 @@
-Return-Path: <linux-media+bounces-38596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BE4B1445C
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 00:22:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBC0B1447A
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 00:50:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E0E818C24F7
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 22:22:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 411275400CE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 22:50:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B9A2248B8;
-	Mon, 28 Jul 2025 22:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A755D235BEE;
+	Mon, 28 Jul 2025 22:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AtUdo9EC"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jz3AhKYX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA7A1E4AB;
-	Mon, 28 Jul 2025 22:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6E82E3708;
+	Mon, 28 Jul 2025 22:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753741313; cv=none; b=bZJABLrZetYpjKNvvSGox8ryfnTf5A4ncG7tNkEO3RmTBP8Q6q2/9xxjagFPyBX7JO/8QIYOxhTizVlWqJPX6WdlPAZd6bzA10cOQziL/umN1v+O9GRhmXL866/SQG6EU5lBmljQR8PY4kzshdzImrnPH4Uyp7zUaAZw/S7wKGY=
+	t=1753743044; cv=none; b=PYKYkR7tjJ18WMANyEUiR6rNCSgdl1rQowsMZZz6kue33tYT9sLI+8DlHRWaVyeYQPXXB23ER6N7m//mNgvDpEQWshrqx0Ui7uKdVEGGAlGHNBqdcM5VV7sAFoi0rEitB2CvIVESdQYsXVBOAHLLXep3WKP+6y0pXi5lK7ndC88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753741313; c=relaxed/simple;
-	bh=FAvyqAwjVQrVisvFktnzBMxF4I8aeCcPbJFIZI3v1jY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FijLIKDzb5o87vvSDMfHPE2NzIMA7lh+rBdPoVuw+mUwS+fKsYnCZR4jv6W+07gAxL+R9XLz5bL8rwfPRvrqvTF6zEpf/oN9ve+eRyWhRTSIiUY+tzmBQ7aLsgNZu08SwwdBBAFbuaH8PBMo7V68nlOcTIN3KNNrC499dnXLqa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AtUdo9EC; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753741311; x=1785277311;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FAvyqAwjVQrVisvFktnzBMxF4I8aeCcPbJFIZI3v1jY=;
-  b=AtUdo9ECjq76MYnXRIOf/qo3t0pRNGxiSZMbkPXdz7MADPecbjXOAh03
-   qGbFMaCzFPmmJhUb5xKYFN28Pd8y9XqV3io7olFtpMIwWZG5Q6cx4KnfU
-   J6fX2QumCqX6URTuDf27xD57Ril0/DE82/s3i3dekfxuyXbtqes+Ef35V
-   BWkRSUPWx3/Q6DXKpOdZ3ENCW7sC6SJoPqodeTG+IqvycX33u7iUb2a9l
-   T2zHQclYyxUBxnfWJ3oVaNzln2jqpBcb0766Ojgx7Yy2xlnLWa6G15R0T
-   vk0atCbdIkMkJWm4eDJBDFhqPYYIzFIk4Do3T/Cz80cFSs1gcMTQrpV9c
-   Q==;
-X-CSE-ConnectionGUID: gPw37YKIQOGuy368i+qDdg==
-X-CSE-MsgGUID: mW4T8ZRPT1KMmLlzEj/y4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="66272034"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="66272034"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 15:21:51 -0700
-X-CSE-ConnectionGUID: PZsbSpSiTimNRiA24MXe6Q==
-X-CSE-MsgGUID: zPAcBhK1RqKoO7B8y7QZ3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="199672228"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.78])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 15:21:49 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C220911FC49;
-	Tue, 29 Jul 2025 01:21:45 +0300 (EEST)
-Date: Mon, 28 Jul 2025 22:21:45 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-	Thinh.Nguyen@synopsys.com, Amardeep Rai <amardeep.rai@intel.com>,
-	Kannappan R <r.kannappan@intel.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v2 3/4] USB: Add a function to obtain USB version
- independent maximum bpi value
-Message-ID: <aIf3-W1d_-Cn2Yt-@kekkonen.localdomain>
-References: <20250711083413.1552423-1-sakari.ailus@linux.intel.com>
- <20250711083413.1552423-4-sakari.ailus@linux.intel.com>
- <4ae4a0cf-8b63-4999-941d-011f00cdb5fb@kernel.org>
- <aHYNpTKsnzBwhl3w@kekkonen.localdomain>
- <f8502b45-967d-4377-88a3-bbfb3decad95@kernel.org>
+	s=arc-20240116; t=1753743044; c=relaxed/simple;
+	bh=aUFYEhrBDCMb4rwh/p3Q8a9jltXCwz63SKfYeyEBQ9c=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=V374/Bd8lQWuTVZ6WVJhnR0+eRY1wtHYjBndG4Q0RCQ1GuojjI1HyEeIaqP9CczVTqfRiZgbfGQ0yHavIRkQphxorzafXLH+177R63GW/189RjPUkuz9U/g7BHi0fWtGI8Fhy2vGh/HLqjCBAQxs212IUxPgO5iZFvB9tzJAj9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jz3AhKYX; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1753743040;
+	bh=aUFYEhrBDCMb4rwh/p3Q8a9jltXCwz63SKfYeyEBQ9c=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=jz3AhKYXHiMcXAa5/TA6plvdh9o27whoXtIwBXldnVh6kY0wZbIFp7Bd0PdmUBkhV
+	 JrSb5Qui32vWAwBDerTapR7pJhoeT4wXj4fJJeWefITauKHpqg2AL5Yh1h1qhWqiA/
+	 wM7TRDt5Yt7gVJdy1ohMmrHfFyjdZgWcBbjnGzzVGZwIG/+Ov+oZSBVsGyGCGyH3bu
+	 LVjpw2IRptw6sFa87JZKElLRc5vpiGkiMDbSo/1tftTGTjrO/+3QLoLvRSDC63Va6a
+	 gr5bYx9CTVwRQujAPVn1n4NYndKo7cQ6lZHX3c40SKA2+yKYme+4aZV2jJWgWjJd18
+	 7NAzEwERFL0iQ==
+Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E982017E0FA8;
+	Tue, 29 Jul 2025 00:50:38 +0200 (CEST)
+Message-ID: <0a8391cb368653b91ea73a51e2c0dee35cceb128.camel@collabora.com>
+Subject: Re: [PATCH] media: rkvdec: Fix an error handling path in
+ rkvdec_probe()
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Detlev Casanova	
+ <detlev.casanova@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Heiko Stuebner	 <heiko@sntech.de>, Hans Verkuil
+ <hverkuil@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
+Date: Mon, 28 Jul 2025 18:50:36 -0400
+In-Reply-To: <b69c20783a7b6f7964ab636679d3da80fc48372e.1753610517.git.christophe.jaillet@wanadoo.fr>
+References: 
+	<b69c20783a7b6f7964ab636679d3da80fc48372e.1753610517.git.christophe.jaillet@wanadoo.fr>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+	boundary="=-HBQA1dSSAY++JW3+CEB6"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8502b45-967d-4377-88a3-bbfb3decad95@kernel.org>
 
-Hi Hans,
 
-On Wed, Jul 16, 2025 at 06:35:24PM +0200, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 15-Jul-25 10:13 AM, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > Thank you for the review.
-> > 
-> > On Fri, Jul 11, 2025 at 03:44:21PM +0200, Hans de Goede wrote:
-> >> Hi Sarari,
-> >>
-> >> On 11-Jul-25 10:34 AM, Sakari Ailus wrote:
-> >>> From: "Rai, Amardeep" <amardeep.rai@intel.com>
-> >>>
-> >>> Add usb_endpoint_max_isoc_bpi() to obtain maximum bytes per interval for
-> >>> isochronous endpoints in a USB version independent way.
-> >>
-> >> Nice, thank you for adding a generic helper for this.
-> >>
-> >>> Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
-> >>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> >>> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >>> ---
-> >>>  include/linux/usb.h | 22 ++++++++++++++++++++++
-> >>>  1 file changed, 22 insertions(+)
-> >>>
-> >>> diff --git a/include/linux/usb.h b/include/linux/usb.h
-> >>> index 68166718ab30..bd70bd5ca82d 100644
-> >>> --- a/include/linux/usb.h
-> >>> +++ b/include/linux/usb.h
-> >>> @@ -2038,6 +2038,28 @@ static inline int usb_translate_errors(int error_code)
-> >>>  	}
-> >>>  }
-> >>>  
-> >>> +static inline u32 usb_endpoint_max_isoc_bpi(struct usb_device *dev,
-> >>> +					    const struct usb_host_endpoint *ep)
-> >>> +{
-> >>> +	if (usb_endpoint_type(&ep->desc) != USB_ENDPOINT_XFER_ISOC)
-> >>> +		return 0;
-> >>> +
-> >>> +	switch (dev->speed) {
-> >>> +	case USB_SPEED_SUPER_PLUS:
-> >>> +		if (USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes))
-> >>> +			return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
-> >>> +		fallthrough;
-> >>> +	case USB_SPEED_SUPER:
-> >>> +		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
-> >>> +	case USB_SPEED_HIGH:
-> >>> +		if (!usb_endpoint_maxp(&ep->desc) && le16_to_cpu(dev->descriptor.bcdUSB) == 0x220)
-> >>> +			return le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval);
-> >>
-> >> Shouldn't there be a check here that ep->eusb2_isoc_ep_comp is filled?
-> >>
-> >> Like how the USB_SPEED_SUPER_PLU code above checks
-> >> USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes)?
-> >>
-> >> I know you check the bcdUSB, but in my experience that field sometimes
-> >> contains made up numbers, so I was wondering if there is an extra check
-> >> we can do here ?
-> > 
-> > In the case of eUSB2, there's no such flag as for the SuperSpeedPlus
-> > Isochronous Endpoint Companion. The eUSB2 Isochronous Endpoint Companion
-> > Descriptor is simply expected to be present on eUSB2 (bcdUSB check)
-> > isochronous IN endpoints that support more than 3KB per microframe.
-> > 
-> > Also what the USB_SS_SSP_ISOC_COMP() macro returns actually dependens on
-> > the device telling there's such a descriptor but it's still different from
-> > the device actually providing one. But what would you do if the device
-> > indicates it provides no SSP_ISOC_COMP descriptor but still does provide
-> > one?
-> > 
-> > How about adding a flag (or maybe a bit field?) to tell which endpoint
-> > descriptors have been actually filled in struct usb_host_endpoint? I might
-> > do that as a separate patch on top...
-> 
-> Adding a bit-field with which endpoint descriptors have actually
-> been filled sounds like a good idea.
-> 
-> I also agree with doing that as a follow-up patch and moving forward with
-> this patch as is, so:
-> 
-> Reviewed-by: Hans de Goede <hansg@kernel.org>
+--=-HBQA1dSSAY++JW3+CEB6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks.
+Hi,
 
-The descriptors appear to already have bDescriptorType field which can tell
-the same -- it's non-zero for the valid ones. I think I'll use that instead
-of adding new ones.
+Le dimanche 27 juillet 2025 =C3=A0 12:02 +0200, Christophe JAILLET a =C3=A9=
+crit=C2=A0:
+> If an error occurs after a successful iommu_paging_domain_alloc() call, i=
+t
+> should be undone by a corresponding iommu_domain_free() call, as already
+> done in the remove function.
+>=20
+> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested only
+> ---
+> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.c | 11 ++++++++---
+> =C2=A01 file changed, 8 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> index d707088ec0dc..eb0d41f85d89 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -1169,15 +1169,17 @@ static int rkvdec_probe(struct platform_device *p=
+dev)
+> =C2=A0	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> =C2=A0
+> =C2=A0	irq =3D platform_get_irq(pdev, 0);
+> -	if (irq <=3D 0)
+> -		return -ENXIO;
+> +	if (irq <=3D 0) {
+> +		ret =3D -ENXIO;
+> +		goto err_free_domain;
+> +	}
+> =C2=A0
+> =C2=A0	ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL,
+> =C2=A0					rkvdec_irq_handler, IRQF_ONESHOT,
+> =C2=A0					dev_name(&pdev->dev), rkvdec);
+> =C2=A0	if (ret) {
+> =C2=A0		dev_err(&pdev->dev, "Could not request vdec IRQ\n");
+> -		return ret;
+> +		goto err_free_domain;
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
 
--- 
-Regards,
+Have you considered moving the allocation of the domain right above the abo=
+ve
+line instead ? The empty domain can't possibly be used unless the probe hav=
+e
+fully completed.
 
-Sakari Ailus
+Nicolas
+
+> @@ -1193,6 +1195,9 @@ static int rkvdec_probe(struct platform_device *pde=
+v)
+> =C2=A0err_disable_runtime_pm:
+> =C2=A0	pm_runtime_dont_use_autosuspend(&pdev->dev);
+> =C2=A0	pm_runtime_disable(&pdev->dev);
+> +err_free_domain:
+> +	if (rkvdec->empty_domain)
+> +		iommu_domain_free(rkvdec->empty_domain);
+> =C2=A0	return ret;
+> =C2=A0}
+> =C2=A0
+
+--=-HBQA1dSSAY++JW3+CEB6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaIf+vAAKCRBxUwItrAao
+HIh7AJ9siqERzUwFpo03WB/ccY47zYm2BwCcDeERz+YrhGQaSfBNmTmJ7h2Kxgw=
+=gy7Q
+-----END PGP SIGNATURE-----
+
+--=-HBQA1dSSAY++JW3+CEB6--
 
