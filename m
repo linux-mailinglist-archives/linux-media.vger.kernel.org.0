@@ -1,51 +1,55 @@
-Return-Path: <linux-media+bounces-38544-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38545-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F40B1384F
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 11:54:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB5DB1384B
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 11:54:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C4EF173C99
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 09:49:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E918F1889411
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 09:50:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB9D1255F57;
-	Mon, 28 Jul 2025 09:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B85F1C5D4B;
+	Mon, 28 Jul 2025 09:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9aaioZF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+AWUSYv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550E722173F
-	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 09:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B858288D6
+	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 09:48:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753696109; cv=none; b=tnEha1QPDJ5W1XgG6Z5DYjgU0bcSNfZr6GHXRktu+iKhoNkV3PvDYDwz6JbVmEjsgfnlh7F1/XhHK96nPaPuFs8bSfJ+wA5WxnvVIWq6HxmqJBPS8IUpWHYizqo39+ujA765XVLIQkF6iAqnXjJzdotfnhRtOsMtMKTvlW/zNLs=
+	t=1753696110; cv=none; b=TutyLkGhDDn9zgd7sXAm9nz0RV/+8cLCokwrK4q6HzJCGc17mXy2n+1CbuSF0p1pUBD4e4/h5QQxlhiJLMVI0bBu8IuVXHpmVb9rEEEAXBeUNxuSKUkFRFB9LvoqJydF+CtEfAjT3HNktBT6Lk4rQkMGuYShwVCaJZVFte2R8pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753696109; c=relaxed/simple;
-	bh=ANBbRhKijYwdtWzF8Bpke9rPwkPvY0QlesJRG4BpB/Y=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=mRzLvxPwV6aMzwQyOFfvum8h2s/TzUQkCfPTq+JJHpU5I61UIQPupd9OgUPa39/Rk5S61GNNVSfpsKsldV+RIGk5x25VABndOPc9XwaE0ikbtyBWXGwxNQOcW5BI82B4glOGCMPr84DAw2CQ8+Ls9MMSqZvV4BYhqnhhm3gpxGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9aaioZF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD9EC4CEE7
-	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 09:48:28 +0000 (UTC)
+	s=arc-20240116; t=1753696110; c=relaxed/simple;
+	bh=LmiYQDL3E+asPbtz+SBgkfBvc8Ctf82aQkucWQglC3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hVA4X71blNPehoDBHOP/hfbqPvHFn2YS4o12Uhhxr0mOPsF+uXvCxh70VPkWk96gZ8/0KUSU/I0JFEtneMXX3KtwQFR35E5nl6P9u3/tU8TIF8ggNvafJMv9W64F7mPB0Gw9RIxCrC1n+2JuY8aSqWoGPfpkuj6VKrC4EB0oBeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f+AWUSYv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4AEC4CEF7;
+	Mon, 28 Jul 2025 09:48:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753696108;
-	bh=ANBbRhKijYwdtWzF8Bpke9rPwkPvY0QlesJRG4BpB/Y=;
-	h=From:To:Subject:Date:From;
-	b=A9aaioZFzb0V3zCkPjkCh7gcv+LlcKDKlAEir1ONqWSoZnyfXtrL1onPRMs7zk6VU
-	 pR1xUG9KZV7+uBEVN2fPUEhnDx2+wq7jRCKUoRUYokZKIBfF0RTP6zEPcPEOLxeKeC
-	 OCB2fDDXi7N/OhhoW6A4Iwp6DKfx+18vrIi+B1sU8KPzMwcXHpbS9aaFFlftc3yIMG
-	 sWlaNJwZhKF1z0KQfKxOONeX0vf92Qr2fA4zP5MKEPmzal3RNChs0x3S2pIF371ziE
-	 QU0BLn9SHpwuK4qE/59B47RMOAWsQjK/Oti+/Y/SE9heyxOFklu8j89lPmgOizjdiV
-	 xPSIIdkbIMQJg==
+	s=k20201202; t=1753696110;
+	bh=LmiYQDL3E+asPbtz+SBgkfBvc8Ctf82aQkucWQglC3g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=f+AWUSYvDG1R1ASPmR+fL/oeo1c1vjwA+zyVSjfFzj5xrmuli3pGNUNxefJBZd/75
+	 otHnH/oJIfcjUZHmsZO5V0dnv/9qcJjwJYyzLHxPRXFl0im/sdXXwVs00vYnxhrVnW
+	 BtuRS6uiYqU9gKK13S0oIyzl6MC87x8nJ8H/91adbYU0tVVV+praZ1JN1COzspTa6T
+	 t8/oaV5xJnv+EsUpUseW0HPmw6UGzVDaDr4OSYeN1te68mR4HGYRRWwRf2yeXxpv2M
+	 7263b/vcsAaRLkWPIZu8EDx7IcM+sOf2TPmw2EqMz1dXvwomDg38f7WY8DTdzqiGlT
+	 FlScu9pICdz4g==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
-Subject: [PATCHv2 0/8] media: update Hans Verkuil's email addresses
-Date: Mon, 28 Jul 2025 11:46:55 +0200
-Message-ID: <cover.1753696022.git.hverkuil+cisco@kernel.org>
+Cc: Hans Verkuil <hverkuil@kernel.org>
+Subject: [PATCHv2 1/8] MAINTAINERS: update Hans Verkuil's email addresses
+Date: Mon, 28 Jul 2025 11:46:56 +0200
+Message-ID: <168beae83837fc3355c884fa7cff7f3d76bfd580.1753696022.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <cover.1753696022.git.hverkuil+cisco@kernel.org>
+References: <cover.1753696022.git.hverkuil+cisco@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,191 +58,384 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I'm moving to my kernel.org address, and now that the new
-email is in the .mailmap file and listed in pgpkeys, switch
-to the new email in MAINTAINERS, documentation and drivers.
+From: Hans Verkuil <hverkuil@kernel.org>
 
-Regards,
+Use hverkuil@kernel.org as the main address for kernel work.
 
-	Hans
+Signed-off-by: Hans Verkuil <hverkuil@kernel.org>
+---
+ MAINTAINERS | 82 ++++++++++++++++++++++++++---------------------------
+ 1 file changed, 41 insertions(+), 41 deletions(-)
 
-v2: I sent v1 with the old Author email and with the old SoB, and
-I noticed it only when it was already sent. Apologies for that.
-
-Hans Verkuil (8):
-  MAINTAINERS: update Hans Verkuil's email addresses
-  Documentation: media: update Hans Verkuil's email address
-  media: v4l2-core: update Hans Verkuil's email address
-  media: update Hans Verkuil's email address
-  Documentation: update Hans Verkuil's email address
-  media: include: update Hans Verkuil's email address
-  media: update Hans Verkuil's email address
-  gpu: drm: display: drm_dp_cec: update Hans' email address
-
- .../ABI/testing/debugfs-cec-error-inj         |  2 +-
- Documentation/admin-guide/bug-hunting.rst     |  2 +-
- Documentation/admin-guide/media/ivtv.rst      |  2 +-
- .../bindings/media/cec/cec-common.yaml        |  2 +-
- .../bindings/media/cec/cec-gpio.yaml          |  2 +-
- .../media/cec/nvidia,tegra114-cec.yaml        |  2 +-
- .../bindings/media/i2c/adi,adv7604.yaml       |  2 +-
- .../bindings/media/silabs,si470x.yaml         |  2 +-
- .../media/maintainer-entry-profile.rst        |  4 +-
- .../zh_CN/admin-guide/bug-hunting.rst         |  2 +-
- .../zh_TW/admin-guide/bug-hunting.rst         |  2 +-
- .../userspace-api/media/cec/cec-api.rst       |  2 +-
- .../media/drivers/cx2341x-uapi.rst            |  2 +-
- .../userspace-api/media/v4l/v4l2.rst          |  2 +-
- MAINTAINERS                                   | 82 +++++++++----------
- drivers/gpu/drm/display/drm_dp_cec.c          |  2 +-
- drivers/media/cec/core/cec-core.c             |  2 +-
- .../media/cec/platform/cec-gpio/cec-gpio.c    |  2 +-
- .../extron-da-hd-4k-plus.c                    |  2 +-
- drivers/media/cec/usb/pulse8/pulse8-cec.c     |  4 +-
- .../media/cec/usb/rainshadow/rainshadow-cec.c |  4 +-
- drivers/media/common/cx2341x.c                |  2 +-
- drivers/media/i2c/adv7604.c                   |  2 +-
- drivers/media/i2c/adv7842.c                   |  2 +-
- drivers/media/i2c/cx25840/cx25840-core.c      |  4 +-
- drivers/media/i2c/saa6752hs.c                 |  2 +-
- drivers/media/i2c/saa7115.c                   |  2 +-
- drivers/media/i2c/saa7127.c                   |  2 +-
- drivers/media/i2c/saa717x.c                   |  2 +-
- drivers/media/i2c/tda9840.c                   |  2 +-
- drivers/media/i2c/tea6415c.c                  |  2 +-
- drivers/media/i2c/tea6420.c                   |  2 +-
- drivers/media/i2c/ths7303.c                   |  2 +-
- drivers/media/i2c/tlv320aic23b.c              |  2 +-
- drivers/media/i2c/upd64031a.c                 |  2 +-
- drivers/media/i2c/upd64083.c                  |  2 +-
- drivers/media/i2c/vp27smpx.c                  |  2 +-
- drivers/media/i2c/wm8739.c                    |  2 +-
- drivers/media/i2c/wm8775.c                    |  2 +-
- drivers/media/mc/mc-request.c                 |  2 +-
- drivers/media/pci/cobalt/cobalt-driver.c      |  2 +-
- drivers/media/pci/cx18/cx18-audio.c           |  2 +-
- drivers/media/pci/cx18/cx18-audio.h           |  2 +-
- drivers/media/pci/cx18/cx18-av-audio.c        |  2 +-
- drivers/media/pci/cx18/cx18-av-core.c         |  2 +-
- drivers/media/pci/cx18/cx18-av-core.h         |  2 +-
- drivers/media/pci/cx18/cx18-av-firmware.c     |  2 +-
- drivers/media/pci/cx18/cx18-av-vbi.c          |  2 +-
- drivers/media/pci/cx18/cx18-cards.c           |  2 +-
- drivers/media/pci/cx18/cx18-cards.h           |  2 +-
- drivers/media/pci/cx18/cx18-controls.c        |  2 +-
- drivers/media/pci/cx18/cx18-controls.h        |  2 +-
- drivers/media/pci/cx18/cx18-driver.c          |  2 +-
- drivers/media/pci/cx18/cx18-driver.h          |  2 +-
- drivers/media/pci/cx18/cx18-fileops.c         |  2 +-
- drivers/media/pci/cx18/cx18-fileops.h         |  2 +-
- drivers/media/pci/cx18/cx18-firmware.c        |  2 +-
- drivers/media/pci/cx18/cx18-firmware.h        |  2 +-
- drivers/media/pci/cx18/cx18-gpio.c            |  2 +-
- drivers/media/pci/cx18/cx18-gpio.h            |  2 +-
- drivers/media/pci/cx18/cx18-i2c.c             |  2 +-
- drivers/media/pci/cx18/cx18-i2c.h             |  2 +-
- drivers/media/pci/cx18/cx18-io.c              |  2 +-
- drivers/media/pci/cx18/cx18-io.h              |  2 +-
- drivers/media/pci/cx18/cx18-ioctl.c           |  2 +-
- drivers/media/pci/cx18/cx18-ioctl.h           |  2 +-
- drivers/media/pci/cx18/cx18-irq.c             |  2 +-
- drivers/media/pci/cx18/cx18-irq.h             |  2 +-
- drivers/media/pci/cx18/cx18-mailbox.c         |  2 +-
- drivers/media/pci/cx18/cx18-mailbox.h         |  2 +-
- drivers/media/pci/cx18/cx18-queue.c           |  2 +-
- drivers/media/pci/cx18/cx18-queue.h           |  2 +-
- drivers/media/pci/cx18/cx18-scb.c             |  2 +-
- drivers/media/pci/cx18/cx18-scb.h             |  2 +-
- drivers/media/pci/cx18/cx18-streams.c         |  2 +-
- drivers/media/pci/cx18/cx18-streams.h         |  2 +-
- drivers/media/pci/cx18/cx18-vbi.c             |  2 +-
- drivers/media/pci/cx18/cx18-vbi.h             |  2 +-
- drivers/media/pci/cx18/cx18-version.h         |  2 +-
- drivers/media/pci/cx18/cx18-video.c           |  2 +-
- drivers/media/pci/cx18/cx18-video.h           |  2 +-
- drivers/media/pci/cx18/cx23418.h              |  2 +-
- drivers/media/pci/ivtv/ivtv-cards.c           |  2 +-
- drivers/media/pci/ivtv/ivtv-cards.h           |  2 +-
- drivers/media/pci/ivtv/ivtv-controls.c        |  2 +-
- drivers/media/pci/ivtv/ivtv-controls.h        |  2 +-
- drivers/media/pci/ivtv/ivtv-driver.c          |  2 +-
- drivers/media/pci/ivtv/ivtv-driver.h          |  2 +-
- drivers/media/pci/ivtv/ivtv-fileops.c         |  2 +-
- drivers/media/pci/ivtv/ivtv-fileops.h         |  2 +-
- drivers/media/pci/ivtv/ivtv-firmware.c        |  2 +-
- drivers/media/pci/ivtv/ivtv-firmware.h        |  2 +-
- drivers/media/pci/ivtv/ivtv-gpio.c            |  2 +-
- drivers/media/pci/ivtv/ivtv-gpio.h            |  2 +-
- drivers/media/pci/ivtv/ivtv-i2c.c             |  2 +-
- drivers/media/pci/ivtv/ivtv-i2c.h             |  2 +-
- drivers/media/pci/ivtv/ivtv-ioctl.c           |  2 +-
- drivers/media/pci/ivtv/ivtv-ioctl.h           |  2 +-
- drivers/media/pci/ivtv/ivtv-irq.c             |  2 +-
- drivers/media/pci/ivtv/ivtv-irq.h             |  2 +-
- drivers/media/pci/ivtv/ivtv-mailbox.c         |  2 +-
- drivers/media/pci/ivtv/ivtv-mailbox.h         |  2 +-
- drivers/media/pci/ivtv/ivtv-queue.c           |  2 +-
- drivers/media/pci/ivtv/ivtv-queue.h           |  2 +-
- drivers/media/pci/ivtv/ivtv-routing.c         |  2 +-
- drivers/media/pci/ivtv/ivtv-routing.h         |  2 +-
- drivers/media/pci/ivtv/ivtv-streams.c         |  2 +-
- drivers/media/pci/ivtv/ivtv-streams.h         |  2 +-
- drivers/media/pci/ivtv/ivtv-udma.c            |  2 +-
- drivers/media/pci/ivtv/ivtv-udma.h            |  2 +-
- drivers/media/pci/ivtv/ivtv-vbi.c             |  2 +-
- drivers/media/pci/ivtv/ivtv-vbi.h             |  2 +-
- drivers/media/pci/ivtv/ivtv-version.h         |  2 +-
- drivers/media/pci/tw68/tw68-core.c            |  4 +-
- drivers/media/pci/tw68/tw68-reg.h             |  2 +-
- drivers/media/pci/tw68/tw68-risc.c            |  2 +-
- drivers/media/pci/tw68/tw68-video.c           |  2 +-
- drivers/media/pci/tw68/tw68.h                 |  2 +-
- drivers/media/platform/marvell/cafe-driver.c  |  2 +-
- drivers/media/radio/radio-aimslab.c           |  2 +-
- drivers/media/radio/radio-aztech.c            |  2 +-
- drivers/media/radio/radio-gemtek.c            |  2 +-
- drivers/media/radio/radio-isa.c               |  2 +-
- drivers/media/radio/radio-isa.h               |  2 +-
- drivers/media/radio/radio-keene.c             |  4 +-
- drivers/media/radio/radio-miropcm20.c         |  2 +-
- drivers/media/radio/radio-raremono.c          |  4 +-
- drivers/media/radio/radio-rtrack2.c           |  2 +-
- drivers/media/radio/radio-terratec.c          |  2 +-
- drivers/media/radio/radio-zoltrix.c           |  2 +-
- .../media/test-drivers/vicodec/vicodec-core.c |  2 +-
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  2 +-
- drivers/media/v4l2-core/v4l2-ctrls-api.c      |  2 +-
- drivers/media/v4l2-core/v4l2-ctrls-core.c     |  2 +-
- drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 +-
- drivers/media/v4l2-core/v4l2-ctrls-priv.h     |  2 +-
- drivers/media/v4l2-core/v4l2-ctrls-request.c  |  2 +-
- drivers/media/v4l2-core/v4l2-device.c         |  2 +-
- include/dt-bindings/media/tvp5150.h           |  2 +-
- include/linux/videodev2.h                     |  2 +-
- include/media/drv-intf/cx25840.h              |  2 +-
- include/media/drv-intf/msp3400.h              |  2 +-
- include/media/i2c/bt819.h                     |  2 +-
- include/media/i2c/cs5345.h                    |  2 +-
- include/media/i2c/cs53l32a.h                  |  2 +-
- include/media/i2c/m52790.h                    |  2 +-
- include/media/i2c/mt9v011.h                   |  2 +-
- include/media/i2c/saa7115.h                   |  2 +-
- include/media/i2c/saa7127.h                   |  2 +-
- include/media/i2c/ths7303.h                   |  2 +-
- include/media/i2c/tvaudio.h                   |  2 +-
- include/media/i2c/upd64031a.h                 |  2 +-
- include/media/i2c/upd64083.h                  |  2 +-
- include/media/i2c/wm8775.h                    |  2 +-
- include/media/media-request.h                 |  2 +-
- include/media/v4l2-common.h                   |  2 +-
- include/media/v4l2-ctrls.h                    |  2 +-
- include/media/v4l2-device.h                   |  2 +-
- include/media/v4l2-subdev.h                   |  2 +-
- include/uapi/linux/ivtv.h                     |  2 +-
- include/uapi/linux/v4l2-dv-timings.h          |  2 +-
- include/uapi/linux/videodev2.h                |  2 +-
- 162 files changed, 209 insertions(+), 209 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 24c557ee091d..17a120c08321 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -714,7 +714,7 @@ S:	Maintained
+ F:	drivers/scsi/aic7xxx/
+ 
+ AIMSLAB FM RADIO RECEIVER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -1662,20 +1662,20 @@ F:	Documentation/devicetree/bindings/media/i2c/adi,adv748x.yaml
+ F:	drivers/media/i2c/adv748x/*
+ 
+ ANALOG DEVICES INC ADV7511 DRIVER
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/i2c/adv7511*
+ 
+ ANALOG DEVICES INC ADV7604 DRIVER
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml
+ F:	drivers/media/i2c/adv7604*
+ 
+ ANALOG DEVICES INC ADV7842 DRIVER
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/i2c/adv7842*
+@@ -3362,7 +3362,7 @@ F:	arch/arm/mach-berlin/
+ F:	arch/arm64/boot/dts/synaptics/
+ 
+ ARM/TEGRA HDMI CEC SUBSYSTEM SUPPORT
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-tegra@vger.kernel.org
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+@@ -4044,7 +4044,7 @@ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/usb/dvb-usb-v2/az6007.c
+ 
+ AZTECH FM RADIO RECEIVER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -5284,7 +5284,7 @@ F:	drivers/usb/cdns3/
+ X:	drivers/usb/cdns3/cdns3*
+ 
+ CADET FM/AM RADIO RECEIVER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -5477,7 +5477,7 @@ F:	drivers/char/hw_random/cctrng.c
+ F:	drivers/char/hw_random/cctrng.h
+ 
+ CEC FRAMEWORK
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Supported
+ W:	http://linuxtv.org
+@@ -5494,7 +5494,7 @@ F:	include/uapi/linux/cec-funcs.h
+ F:	include/uapi/linux/cec.h
+ 
+ CEC GPIO DRIVER
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Supported
+ W:	http://linuxtv.org
+@@ -5908,7 +5908,7 @@ S:	Supported
+ F:	drivers/platform/x86/classmate-laptop.c
+ 
+ COBALT MEDIA DRIVER
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Supported
+ W:	https://linuxtv.org
+@@ -6427,7 +6427,7 @@ F:	crypto/ansi_cprng.c
+ F:	crypto/rng.c
+ 
+ CS3308 MEDIA DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ W:	http://linuxtv.org
+@@ -6468,7 +6468,7 @@ F:	drivers/media/pci/cx18/
+ F:	include/uapi/linux/ivtv*
+ 
+ CX2341X MPEG ENCODER HELPER MODULE
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -8352,7 +8352,7 @@ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/radio/dsbr100.c
+ 
+ DT3155 MEDIA DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ W:	https://linuxtv.org
+@@ -9092,7 +9092,7 @@ F:	tools/bootconfig/*
+ F:	tools/bootconfig/scripts/*
+ 
+ EXTRON DA HD 4K PLUS CEC DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -10022,7 +10022,7 @@ S:	Maintained
+ F:	drivers/crypto/gemini/
+ 
+ GEMTEK FM RADIO RECEIVER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -10210,7 +10210,7 @@ F:	drivers/gnss/
+ F:	include/linux/gnss.h
+ 
+ GO7007 MPEG CODEC
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/usb/go7007/
+@@ -10462,7 +10462,7 @@ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/usb/gspca/m5602/
+ 
+ GSPCA PAC207 SONIXB SUBDRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ T:	git git://linuxtv.org/media.git
+@@ -10483,7 +10483,7 @@ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/usb/gspca/t613.c
+ 
+ GSPCA USB WEBCAM DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ T:	git git://linuxtv.org/media.git
+@@ -10600,7 +10600,7 @@ S:	Maintained
+ F:	sound/parisc/harmony.*
+ 
+ HDPVR USB VIDEO ENCODER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ W:	https://linuxtv.org
+@@ -12785,7 +12785,7 @@ F:	drivers/base/isa.c
+ F:	include/linux/isa.h
+ 
+ ISA RADIO MODULE
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -13059,7 +13059,7 @@ F:	include/uapi/linux/vmcore.h
+ F:	kernel/crash_*.c
+ 
+ KEENE FM RADIO TRANSMITTER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -14904,7 +14904,7 @@ F:	include/linux/mfd/max77693*.h
+ F:	include/linux/mfd/max77705*.h
+ 
+ MAXIRADIO FM RADIO RECEIVER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -16727,7 +16727,7 @@ F:	drivers/irqchip/irq-loongson*
+ F:	drivers/platform/mips/cpu_hwmon.c
+ 
+ MIROSOUND PCM20 FM RADIO RECEIVER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ W:	https://linuxtv.org
+@@ -20036,7 +20036,7 @@ F:	include/uapi/linux/ptrace.h
+ F:	kernel/ptrace.c
+ 
+ PULSE8-CEC DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -20059,7 +20059,7 @@ F:	Documentation/driver-api/media/drivers/pvrusb2*
+ F:	drivers/media/usb/pvrusb2/
+ 
+ PWC WEBCAM DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ T:	git git://linuxtv.org/media.git
+@@ -20638,14 +20638,14 @@ F:	drivers/video/fbdev/aty/radeon*
+ F:	include/uapi/linux/radeonfb.h
+ 
+ RADIOSHARK RADIO DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/radio/radio-shark.c
+ 
+ RADIOSHARK2 RADIO DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -20669,7 +20669,7 @@ S:	Orphan
+ F:	drivers/video/fbdev/aty/aty128fb.c
+ 
+ RAINSHADOW-CEC DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -21931,7 +21931,7 @@ S:	Supported
+ F:	drivers/s390/scsi/zfcp_*
+ 
+ SAA6588 RDS RECEIVER DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ W:	https://linuxtv.org
+@@ -21948,7 +21948,7 @@ F:	Documentation/driver-api/media/drivers/saa7134*
+ F:	drivers/media/pci/saa7134/
+ 
+ SAA7146 VIDEO4LINUX-2 DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -22647,7 +22647,7 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ F:	drivers/media/dvb-frontends/si2168*
+ 
+ SI470X FM RADIO RECEIVER I2C DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ W:	https://linuxtv.org
+@@ -22656,7 +22656,7 @@ F:	Documentation/devicetree/bindings/media/silabs,si470x.yaml
+ F:	drivers/media/radio/si470x/radio-si470x-i2c.c
+ 
+ SI470X FM RADIO RECEIVER USB DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -22682,7 +22682,7 @@ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/radio/si4713/radio-platform-si4713.c
+ 
+ SI4713 FM RADIO TRANSMITTER USB DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -24288,7 +24288,7 @@ T:	git git://linuxtv.org/mkrufky/tuners.git
+ F:	drivers/media/tuners/tda8290.*
+ 
+ TDA9840 MEDIA DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -24312,7 +24312,7 @@ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/tuners/tea5767.*
+ 
+ TEA6415C MEDIA DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -24320,7 +24320,7 @@ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/i2c/tea6415c*
+ 
+ TEA6420 MEDIA DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -24629,7 +24629,7 @@ F:	Documentation/devicetree/bindings/iio/temperature/ti,tmp117.yaml
+ F:	drivers/iio/temperature/tmp117.c
+ 
+ THANKO'S RAREMONO AM/FM/SW RADIO RECEIVER USB DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -25123,7 +25123,7 @@ F:	include/linux/toshiba.h
+ F:	include/uapi/linux/toshiba.h
+ 
+ TOSHIBA TC358743 DRIVER
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/toshiba,tc358743.txt
+@@ -25325,7 +25325,7 @@ S:	Supported
+ F:	drivers/media/pci/tw5864/
+ 
+ TW68 VIDEO4LINUX DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Odd Fixes
+ W:	https://linuxtv.org
+@@ -26119,7 +26119,7 @@ S:	Maintained
+ F:	drivers/net/ethernet/via/via-velocity.*
+ 
+ VICODEC VIRTUAL CODEC DRIVER
+-M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+@@ -26424,7 +26424,7 @@ S:	Supported
+ F:	drivers/media/test-drivers/visl
+ 
+ VIVID VIRTUAL VIDEO DRIVER
+-M:	Hans Verkuil <hverkuil@xs4all.nl>
++M:	Hans Verkuil <hverkuil@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
 -- 
 2.47.2
 
