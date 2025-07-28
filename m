@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-38563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67A1B13BE6
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 15:48:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E06B13BF1
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 15:49:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A69B53A1ED7
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 13:48:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D01973B8826
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 13:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 701D5263892;
-	Mon, 28 Jul 2025 13:48:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ACE326B2DC;
+	Mon, 28 Jul 2025 13:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FBpsdSPC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BhdH6p9S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1691B264A9E
-	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 13:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A3E25E834
+	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 13:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753710521; cv=none; b=NCVDrlPZcVlff8NaX+nJEYyXi29sC76/LHJwH9LPUxAtwU6+BNm4M4nzoRETLTMgE8EibfWQHanOvRgDGklqSMAFKK6x1PgPzuHAKjtSdbH86NxPiHByrHUu9JzscLHlwtFOIPW7xQQ/jNsQW7mMVXyqyCNbMvoffJoM82I9gbE=
+	t=1753710578; cv=none; b=O9eFKJMnaGPSCADzGlWtinDVmq9iC5hhQu8rpo4AgbG++6cXUcLJaNpemp0opgviwFECljDn+m6Q2t3LmHuCG6UX/Z6XACuuvdFH3qo9owtacXmcsYjVx51RlW4VRQBT5MvVE90DmlXtxVODJbDHj9n9+pwwWMUTkOsaJWcRYpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753710521; c=relaxed/simple;
-	bh=7xYiPiwMPmCKG3Rb8ODYtqdcgFby8L44/hiz+sqse64=;
+	s=arc-20240116; t=1753710578; c=relaxed/simple;
+	bh=gD9Nrukl5V8j4gMQt+Gi7qKFR1sefM1ZFzTUiaCrRd0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bBSTy8UEGS1lB7sWCfc/4TGT/BVFlTVTxMn+r8p4/YgD8WqC+cQ+ZdNYMFYsnAH1PzauL4sqkYDHUuyH75cGMXUoeOYAFk3IhNNRSFHsZYFowLol5KO1z+8PgssEFGbcEiuQU1Go7vgYN14+fIfXLJXues1VLrZXjm/C+JuTKz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FBpsdSPC; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=oU2z++OlD534CM/E1Q9gNLoTeyYuAAm3Rr60eDugidsUqgMQftuhbrWim28NzH9uluW8mTp6MBezeEZbwmxP7Z9R1pd2H57kRSqLVkLchozHa1W3NcC++slfHnwfK0/wkOdaSB8v99aZqHxYjEyv2WselSUJAVP8580ToORDpJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BhdH6p9S; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4561607166aso31108125e9.2
-        for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 06:48:39 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4561a4a8bf2so50078365e9.1
+        for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 06:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753710518; x=1754315318; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1753710574; x=1754315374; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GySiiFaaabiZQ4Il8d89HhZwj5V40q8muWzbkZdlYfk=;
-        b=FBpsdSPChJxvCI0Q9iJdpiZQRbt1FGfCORhgABTx4FdGViq5ydA1VsG0HZWRxbOzVB
-         MDVR5O2STGFzMFHa5urCAb42dbl2qJ4IAeoK89XVFkKNOFoNPb+BPSGyCKzttDC/SVoY
-         sD2+FdFLFR5fhXPl8xywviBGdXI2QYc/FLfypsQl91l5m2ieEzjIqe3TPGCDA1MvIGbN
-         dYFvRX0IR/vKbfuhw1WbEX4t82Jo4WepVAiXEPFkwcrwtBjAsFrHVkYsiGRue7tWuDzG
-         JS/4dZo3O4saAoWTyZ0Ocwlp5UXeb//nJ2hi271raIF6oiKvRQJ7vBTrtrnWgOXJdP1W
-         3KhQ==
+        bh=n36b9ILb11wJVdUKrW9GQVceZTen+jKpbT7ykNbDKSU=;
+        b=BhdH6p9SHPjBBvUhmjf5Ncd2ptSrTuceqnlkrsJcJi4MlVqYMn9v1YbPCnxgEiFdsE
+         KPRZGeX4WkDJV/90prs9UOylpjDvdhSU4lMKCC9SJyry14f+V13O2Xh3HkpjajVqYGIO
+         zLekLaXXa/+iRYllMbMryt3bq4bLfenlCCcTwejQbqAqpbjpGXnO9g8keC8mY6GgYPmo
+         UY7Q2jyIGo5Z1apD6KERe9qgyKMTtPhS2zgmOmFKIFMMdy1EkeesHcqyLG4+OnG9T6aW
+         97w/9N8FjG9ZcyShe7IqNvVPu3U+gtDLmINIU+zm6T7ypgWEzI0lqGlOqArxupd5n/68
+         7gLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753710518; x=1754315318;
+        d=1e100.net; s=20230601; t=1753710574; x=1754315374;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GySiiFaaabiZQ4Il8d89HhZwj5V40q8muWzbkZdlYfk=;
-        b=KQakb/QaoZJrcs14vnDPqM4KithFt1o+hJaBTj4/O7DJtXAet0otOHuhkavgnyAKo6
-         oHmyj4F85jMrfhTCCsvLJoBoOChxkI3YwJ8OSd3n6V+FE6YzlfjS+QqZn+9b8F67ufgN
-         TEb5fp8AKJiNQBAa1pNgsid1dta8n7bvm0aII4+63qnYU7kvtbfMIuQ2DwtgkfuB98fk
-         8Cyxudj6KLQtxkTM3iMqZn51hRpXJTu/+MH0hcp3bE6XHkAjch5XldOTuAW6hVeFCwE2
-         DIblAuMoIEm0gI7pMER88ibIJrtQWVsKMP9tjgPKkRQlP1u5enxuRThUt6K8TYG8qbHc
-         VneA==
-X-Forwarded-Encrypted: i=1; AJvYcCWjJvn7RZcQGv7cifYewBPvXb4m+t7kCUr0BUaJcHLnbPbzbXGATUp5BbUr6VMYM8GoXwV2TYBIWgRCTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8SkG8HkEdOdSEH4AHVxwotNN3lRGa3smBKaL4SSOxdhcPDpWY
-	BeWtz1t87CX5ikJbnUel/Yz1BJ6rA8jKXa3b+qIAdOPkd318dVcZ566+rOpGF8enW7A=
-X-Gm-Gg: ASbGncuRGGnlpJoFX6xomTb6CY+GkraNG98D0q7F3vKJ5t70EKPLpDlBxEcN6W4lHg4
-	SdE5UoCRkOUM/Bm1XO32irdZ17+nK30AGntjx8MWsQBClwbS8OdQdZxyRj9WK7D4cjOFXstIEgb
-	YfgJqb9fs2dqUAqGLJiWK5btpTh1DqJIJUA1UoRf5VdxaoW5Z+0jO5XwogBPAlABkgM9Jj93jg9
-	oqZxWa6zgHPiNgUYHMZlcpoivUqPXQs2y99V1CV/vqu98RAh1aI72xmYftWf1gJQHVQEZiQMYXo
-	3pqmOnTtvSzl4TuKjDQUcw4WvRQ3GcO3gst14fnn5e3DFpvHmCBKCawyUAV1E3fVPVSMUN3o/XS
-	IDVLzz6tHp10iXskXz5f23QvArekerQ0xAh/RJ3pqFN8t9ZBXZ4cvsrETFGigTpU=
-X-Google-Smtp-Source: AGHT+IFc0a/dVlHIMLVOyP9kKSGycnWL7vZKmINSvzq5X/lptb5FMCqb9vFSczBjeGl5NDbg5XFrqQ==
-X-Received: by 2002:a05:600c:4f14:b0:453:5c30:a1fd with SMTP id 5b1f17b1804b1-4587a6ab65cmr76381245e9.8.1753710518174;
-        Mon, 28 Jul 2025 06:48:38 -0700 (PDT)
+        bh=n36b9ILb11wJVdUKrW9GQVceZTen+jKpbT7ykNbDKSU=;
+        b=JKja8OVH7RP6hLvbilSuh9TXJ67g2bEFMdanJo0Hn+THL7UBlHFYLvh3vsXJdDOauM
+         AVvBBBvc81ouX4xjcoXoo1SphrPpG/65jV2B/pa9lCMAQjmb/IFOSduv3Rc8j05ZpLwi
+         CQe9vmkfytlbtzHj8gvzRD2SwXK6CsF8GeLC7hvUl7T1asyq25KKLgIBK1QopxXPQc5e
+         ulohYiu/tXlTS6gFuzllZYkvxggqsaOBBzwm3bEumU897bYVgQaKjPKp6UDH28gFhKMC
+         Emc21GpHHEh8ec9gIzTbF2jG62x2htRE/56Wx98mmjqlZ7u8+wsqBp4UD4Yd0GqGEUiC
+         WbcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWsLeASjenw7Kl/IaZkRcOi8CkWIIwCdQMMjSBuEDIVmKiytAgpWtF3DIzywSrCtQE8wjJ2EECuNzHfpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6juhwfnp9BHaUqn1HIji7DkRb1P0nXvJ7vg/GVyNwRM6ViWY9
+	afi+eAqQbiyYEPO/llqfZTe3HwGlLCFePNML84fUpNnh5BzhOVHHd16ak5wnACxWKnU=
+X-Gm-Gg: ASbGncsecIuVcOmo+x2u7CunM3iWU+P4/XohVtog69Zj1P+M35k6ohji+8mfmSwzp64
+	9emFFkk8XWSGkjSTmlGS+5TMkJmxUSUq90W8s4WAfhbGsrr/0qRTI7qcSgxGSLaBMalQ1KwmlF8
+	bdIuoYwWbLcdCsyevF/YSPxAwCQ9R2XxK+THiwQqtLWR6NdKOj0d16U5IHYg/pOS+TaKyDDRoQ4
+	41T1pazJ+1C7h8t2kCy3QJauSinAHGksNCvls6AvwakwViX/OM9eNJBqV65rnE4Q01mWOsK6KL1
+	Y7LVJwH3b4fspCzoXT8J1JEvF4KUx9Plie1O6ea8mp8ernVXMAqZebrfd98uloH83F/42EHFZJh
+	XbHWpnZdhG4BWvEPgg1PedU8/Wk1EEGxydxu4Psr4blwdwmmwIZTQ29AKSLyPC9k=
+X-Google-Smtp-Source: AGHT+IGQ2KHXqDEDGEp9BnTNFiPQGdAVT8Ouj1BVUG/QhZCfM9UZZgtqTuoNYoWMo1tQOuCn7aFqvw==
+X-Received: by 2002:a05:6000:645:b0:3b7:7d57:575a with SMTP id ffacd0b85a97d-3b77d575a53mr4407496f8f.29.1753710574286;
+        Mon, 28 Jul 2025 06:49:34 -0700 (PDT)
 Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4587ac66ed6sm100843815e9.28.2025.07.28.06.48.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b785258135sm5093611f8f.42.2025.07.28.06.49.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Jul 2025 06:48:37 -0700 (PDT)
-Message-ID: <ef93c737-1a85-4b8b-bd70-5dcebe0a1f18@linaro.org>
-Date: Mon, 28 Jul 2025 14:48:36 +0100
+        Mon, 28 Jul 2025 06:49:33 -0700 (PDT)
+Message-ID: <3b0e880b-b85a-442e-9ebc-377685794ef1@linaro.org>
+Date: Mon, 28 Jul 2025 14:49:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/9] arm64: dts: qcom: sa8775p: Add support for camss
+Subject: Re: [PATCH v3 5/9] media: qcom: camss: Add sa8775p compatible
 To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
@@ -90,84 +90,88 @@ To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
  cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
 Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250703171938.3606998-1-quic_vikramsa@quicinc.com>
- <20250703171938.3606998-5-quic_vikramsa@quicinc.com>
+ <20250703171938.3606998-6-quic_vikramsa@quicinc.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20250703171938.3606998-5-quic_vikramsa@quicinc.com>
+In-Reply-To: <20250703171938.3606998-6-quic_vikramsa@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 03/07/2025 18:19, Vikram Sharma wrote:
-> Add changes to support the camera subsystem on the SA8775P.
+> Add CAMSS_8775P enum, SA8775P compatible and sa8775p camss driver
+> private data, the private data just include some basic information
+> now, later changes will enumerate with csiphy, tpg, csid and vfe
+> resources.
 > 
-> Co-developed-by: Suresh Vankadara<quic_svankada@quicinc.com>
-> Signed-off-by: Suresh Vankadara<quic_svankada@quicinc.com>
-> Signed-off-by: Vikram Sharma<quic_vikramsa@quicinc.com>
-> Reviewed-by: Konrad Dybcio<konrad.dybcio@oss.qualcomm.com>
+> Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 > ---
->   arch/arm64/boot/dts/qcom/sa8775p.dtsi | 185 ++++++++++++++++++++++++++
->   1 file changed, 185 insertions(+)
+>   drivers/media/platform/qcom/camss/camss.c | 23 +++++++++++++++++++++++
+>   drivers/media/platform/qcom/camss/camss.h |  1 +
+>   2 files changed, 24 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> index fed34717460f..38ac33b082c8 100644
-> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> @@ -12,6 +12,7 @@
->   #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
->   #include <dt-bindings/clock/qcom,sa8775p-gpucc.h>
->   #include <dt-bindings/clock/qcom,sa8775p-videocc.h>
-> +#include <dt-bindings/clock/qcom,sa8775p-camcc.h>
->   #include <dt-bindings/dma/qcom-gpi.h>
->   #include <dt-bindings/interconnect/qcom,osm-l3.h>
->   #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
-> @@ -4345,6 +4346,190 @@ videocc: clock-controller@abf0000 {
->   			#power-domain-cells = <1>;
->   		};
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 310b5cd8de5f..3122a29891c2 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -2483,6 +2483,19 @@ static const struct resources_icc icc_res_sm8550[] = {
+>   	},
+>   };
 >   
-> +		camss: isp@ac7a000 {
-> +			compatible = "qcom,sa8775p-camss";
+> +static const struct resources_icc icc_res_sa8775p[] = {
+> +	{
+> +		.name = "ahb",
+> +		.icc_bw_tbl.avg = 38400,
+> +		.icc_bw_tbl.peak = 76800,
+> +	},
+> +	{
+> +		.name = "hf_0",
+> +		.icc_bw_tbl.avg = 2097152,
+> +		.icc_bw_tbl.peak = 2097152,
+> +	},
+> +};
 > +
-> +			reg = <0x0 0xac7a000 0x0 0x0f00>,
-> +			      <0x0 0xac7c000 0x0 0x0f00>,
-> +			      <0x0 0xac84000 0x0 0x0f00>,
-> +			      <0x0 0xac88000 0x0 0x0f00>,
-> +			      <0x0 0xac8c000 0x0 0x0f00>,
-> +			      <0x0 0xac90000 0x0 0x0f00>,
-> +			      <0x0 0xac94000 0x0 0x0f00>,
-> +			      <0x0 0xac78000 0x0 0x1000>,
-> +			      <0x0 0xac9c000 0x0 0x2000>,
-> +			      <0x0 0xac9e000 0x0 0x2000>,
-> +			      <0x0 0xaca0000 0x0 0x2000>,
-> +			      <0x0 0xaca2000 0x0 0x2000>,
-> +			      <0x0 0xacac000 0x0 0x0400>,
-> +			      <0x0 0xacad000 0x0 0x0400>,
-> +			      <0x0 0xacae000 0x0 0x0400>,
-> +			      <0x0 0xac4d000 0x0 0xd000>,
-> +			      <0x0 0xac5a000 0x0 0xd000>,
-> +			      <0x0 0xac85000 0x0 0x0d00>,
-> +			      <0x0 0xac89000 0x0 0x0d00>,
-> +			      <0x0 0xac8d000 0x0 0x0d00>,
-> +			      <0x0 0xac91000 0x0 0x0d00>,
-> +			      <0x0 0xac95000 0x0 0x0d00>;
-> +			reg-names = "csid0",
-> +				    "csid1",
-> +				    "csid_lite0",
-> +				    "csid_lite1",
-> +				    "csid_lite2",
-> +				    "csid_lite3",
-> +				    "csid_lite4",
-> +				    "csid_wrapper",
-
-
-You can add my RB here with csid_wrapper as the first register bank.
-
-The reason for this is CSID wrapper contains a mux for the CSID register 
-banks and so its the "boss" so to speak.
-
-Please update and then add my.
-
+>   static const struct camss_subdev_resources csiphy_res_x1e80100[] = {
+>   	/* CSIPHY0 */
+>   	{
+> @@ -3753,6 +3766,15 @@ static const struct camss_resources msm8996_resources = {
+>   	.link_entities = camss_link_entities
+>   };
+>   
+> +
+> +static const struct camss_resources sa8775p_resources = {
+> +	.version = CAMSS_8775P,
+> +	.pd_name = "top",
+> +	.icc_res = icc_res_sa8775p,
+> +	.icc_path_num = ARRAY_SIZE(icc_res_sa8775p),
+> +	.link_entities = camss_link_entities
+> +};
+> +
+>   static const struct camss_resources sdm660_resources = {
+>   	.version = CAMSS_660,
+>   	.csiphy_res = csiphy_res_660,
+> @@ -3865,6 +3887,7 @@ static const struct of_device_id camss_dt_match[] = {
+>   	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
+>   	{ .compatible = "qcom,msm8953-camss", .data = &msm8953_resources },
+>   	{ .compatible = "qcom,msm8996-camss", .data = &msm8996_resources },
+> +	{ .compatible = "qcom,sa8775p-camss", .data = &sa8775p_resources },
+>   	{ .compatible = "qcom,sc7280-camss", .data = &sc7280_resources },
+>   	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
+>   	{ .compatible = "qcom,sdm660-camss", .data = &sdm660_resources },
+> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+> index 63c0afee154a..345479f6feba 100644
+> --- a/drivers/media/platform/qcom/camss/camss.h
+> +++ b/drivers/media/platform/qcom/camss/camss.h
+> @@ -86,6 +86,7 @@ enum camss_version {
+>   	CAMSS_8280XP,
+>   	CAMSS_845,
+>   	CAMSS_8550,
+> +	CAMSS_8775P,
+>   	CAMSS_X1E80100,
+>   };
+>   
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
