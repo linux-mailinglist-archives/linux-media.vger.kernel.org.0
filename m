@@ -1,66 +1,75 @@
-Return-Path: <linux-media+bounces-38593-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38594-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECFEB142E3
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 22:22:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15932B14305
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 22:31:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0F53542C6A
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 20:22:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EF0E3AC2C6
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 20:30:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E39C274670;
-	Mon, 28 Jul 2025 20:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CAEA223DF5;
+	Mon, 28 Jul 2025 20:31:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Xk+exa4K"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QM4F9cAa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B56E217F23;
-	Mon, 28 Jul 2025 20:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196774C9D;
+	Mon, 28 Jul 2025 20:31:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753734160; cv=none; b=HIJ5u45wrGl90O55EklR+wprEzaBQT+SOdctE9kQfE8YCuFpflLb+kFX6SBnXoenfwgu4/KWq+E65PeKDwa+Ta3WmA83lz22mIbolcR7ngxpQ+xBpP42kQdyDiKU9AgqOjm38cJ30igYKAR0k7/gWBnIAkV06V4A/yuOtnIAbdk=
+	t=1753734680; cv=none; b=nnhbjPY2uAn8uK6IVrBBVagTzqbNi/mjOsBWT8v8YBs7i/3+wH+QNzIfJSD0G/gWolGVLvx2dpbWB/K8eJHOtrqCBKPeiGtLKnXAG6ClmsGgkW6yTtwbjRNwzEn8dSvcctJOEyLY/WcXslWKLzU4HwReJVYWQPKT2U9TLfaCWJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753734160; c=relaxed/simple;
-	bh=kHf9urtE6dhy3OGMYKIpupIQffnnwOTxLGJgRdWr7OU=;
+	s=arc-20240116; t=1753734680; c=relaxed/simple;
+	bh=5zpLgvcFjyvCbRJ2K9eYrKV3wY29rhQ2Migll4tMDKI=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Pk4rFxOlX9Mbvy2l4BjU/Thwcvh8jlvHIsCSgHP2W5IueGL1EWC261KRhgA+LA16S/3maQ8cirubyB6pI1rJoHvdSNK/qoNCsQq++P8FjdeHZTzKdHuCjhS5J2N1HksL4DB8pGaBPq9I/rEeCtog00ew8JGxeCXCoLLR2Fn0x5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Xk+exa4K; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=Y0JMLIEA5XYWvIRfsiN9TNIixecBgkwCFGBXdSfb3xqDb/wvBgfiyhmKJ8ZqCMHRJt/l5zcmiK/MylzX719r/o/FUOPZSLiZ1ghkNzw4ZXXU0GFapgdCABt2vSOk7jIL8pSxMQ+tC+RXX9c5sOl772xGumhxO3SJGkVzhoM8LHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QM4F9cAa; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1753734156;
-	bh=kHf9urtE6dhy3OGMYKIpupIQffnnwOTxLGJgRdWr7OU=;
+	s=mail; t=1753734676;
+	bh=5zpLgvcFjyvCbRJ2K9eYrKV3wY29rhQ2Migll4tMDKI=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Xk+exa4KMs7J1kipivohRSl/HGbJ2fsmhK/R+5H3q0OE7nxir3RDNDP0z4adNx5l2
-	 dcqvXXQv6GARnoKnpZpSpIhdy2J2NT8ujdBxvh+iSWYtfi59GbVOs23a0k5odlkFbX
-	 EvLgws3tlGfTpM0cqWM9r8124VqsFl0iPeFu9tZdQKhYwT/gH6WTIoMCGbHXBXiZmc
-	 k+8r0M4KIppVWWUz0nGeeoIxpbGrQWTMyxnn/M6Y62R7RhJOC+UoB+lp/HKvQ9VDwt
-	 Ol1D9+RYptCF75n2qAwgv+nWKfR9sOxDemIipoZri+9V02fsggOQY1xreRQEXjy+Jm
-	 HKTqG9WWpXH2w==
+	b=QM4F9cAaDDALe1tJ9ZVTGG1R28qF2oJ+isM2Bew938coHxcKgnfLcYEidcQuKQ/ni
+	 KzaIUnZuI6UZB540kep3TjAAFDJlyWbSbrbXYHnF38Uoq7NhLAAKlYitEOBM3fD3xN
+	 idSz7nBsaXlALrgd8vC370FUt7ZPQowf8g0wn+yPrdM8/qorBPfayu1qCtJr5Gp5ix
+	 JsUO13dafFUKzcDyighala6keY3aaAn1IHrLAZ5zsptWt5US0XmlzWgMKdHHVUVek7
+	 gkHxTbZiVvmUMxWjWdhe1uCiyvGRrOk78/JRPFAaJMHqidP1eIXIOgQIh1Idg9/T8f
+	 5E/GLAmyuTJOg==
 Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E513817E11FE;
-	Mon, 28 Jul 2025 22:22:34 +0200 (CEST)
-Message-ID: <75207b49155acaa83e2ed0182fd1a78a9242aab7.camel@collabora.com>
-Subject: Re: [PATCH 00/12] media: rkvdec: Add support for VDPU381 and VDPU383
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A65D717E0DD0;
+	Mon, 28 Jul 2025 22:31:13 +0200 (CEST)
+Message-ID: <9ed47afadc8f624daff6711b86360cbd9e68af79.camel@collabora.com>
+Subject: Re: [PATCH v1 0/8] Enable video decoder & encoder for MT8189
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jianfeng Liu <liujianfeng1994@gmail.com>
-Cc: detlev.casanova@collabora.com, heiko@sntech.de, kernel@collabora.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	mchehab@kernel.org, nicolas.frattaroli@collabora.com, jonas@kwiboo.se, 
-	benjamin.gaignard@collabora.com
-Date: Mon, 28 Jul 2025 16:22:32 -0400
-In-Reply-To: <20250718093746.631072-1-liujianfeng1994@gmail.com>
-References: <20250714144610.258372-1-liujianfeng1994@gmail.com>
-	 <20250718093746.631072-1-liujianfeng1994@gmail.com>
+To: Kyrie Wu <kyrie.wu@mediatek.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>,  Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger	
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>,  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>, Nathan Hebert	
+ <nhebert@chromium.org>, Arnd Bergmann <arnd@arndb.de>, Irui Wang	
+ <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
+	 <andrzejtp2010@gmail.com>
+Date: Mon, 28 Jul 2025 16:31:11 -0400
+In-Reply-To: <20250721105520.5625-1-kyrie.wu@mediatek.com>
+References: <20250721105520.5625-1-kyrie.wu@mediatek.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
  oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
@@ -86,7 +95,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  +E7ItOqZEHAs+xabBgknYZIFPU=
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-JxB+zX8IA3mywv/uYbEy"
+	boundary="=-FYdGZs1zTcICozY3Py8W"
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -96,91 +105,88 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-JxB+zX8IA3mywv/uYbEy
+--=-FYdGZs1zTcICozY3Py8W
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le vendredi 18 juillet 2025 =C3=A0 17:37 +0800, Jianfeng Liu a =C3=A9crit=
-=C2=A0:
-> Hi,
->=20
-> On Mon, 14 Jul 2025 22:46:10 +0800, Jianfeng Liu wrote:
-> > You are right, the code of chromium should be fixed for frame size type
-> > V4L2_FRMSIZE_TYPE_CONTINUOUS.
->=20
-> I have just sent a cr at chromium[1] to fix this.
->=20
-> > I have checked that this issue is not introduced by your series. After
-> > reverting this commit[2] which adds Support High 10 and 4:2:2 profiles,
-> > chromium can play video well on rk3399. I will investigate further.
->=20
-> I found that this issue is caused by this code block[2]. Before adding
-> .get_image_fmt, rkvdec_s_ctrl will just return 0. But now when detecting
-> image format change(usually from RKVDEC_IMG_FMT_ANY to real video format
-> like RKVDEC_IMG_FMT_420_8BIT), it will return -EBUSY, then I get green
-> frame at chromium.
->=20
-> After taking a look at hantro's code, I find that it is not necessary to
-> let .s_ctrl return -EBUSY when format changes, here is a commit[3]
-> disabling this check in hantro_set_fmt_cap. I have written a patch that
-> can fix my issue with chromium, you can see it at the bottom of my mail.
->=20
-> [1] https://chromium-review.googlesource.com/c/chromium/src/+/6767118
-> [2]
-> https://github.com/torvalds/linux/blob/v6.16-rc6/drivers/staging/media/rk=
-vdec/rkvdec.c#L143-L146
-> [3]
-> https://github.com/torvalds/linux/commit/bbd267daf4fc831f58bf4a2530a8b648=
-81779e6a
->=20
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> index 5d86fb7cdd6..7800d159fad 100644
-> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> @@ -185,7 +185,6 @@ static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> =C2=A0	struct rkvdec_ctx *ctx =3D container_of(ctrl->handler, struct
-> rkvdec_ctx, ctrl_hdl);
-> =C2=A0	const struct rkvdec_coded_fmt_desc *desc =3D ctx->coded_fmt_desc;
-> =C2=A0	enum rkvdec_image_fmt image_fmt;
-> -	struct vb2_queue *vq;
-> =C2=A0
-> =C2=A0	/* Check if this change requires a capture format reset */
-> =C2=A0	if (!desc->ops->get_image_fmt)
-> @@ -193,11 +192,6 @@ static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> =C2=A0
-> =C2=A0	image_fmt =3D desc->ops->get_image_fmt(ctx, ctrl);
-> =C2=A0	if (rkvdec_image_fmt_changed(ctx, image_fmt)) {
-> -		vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> -		if (vb2_is_busy(vq))
-> -			return -EBUSY;
-> -
+Hi,
 
-Hantro driver have extra code to protect against the fact that the queue fo=
-rmat
-may not match the currently allocated buffer size. This change alone seems
-unsafe and may allow tricking the driver into buffer overflow. It believe s=
-ome
-further thought and care need to be put into this.
+Le lundi 21 juillet 2025 =C3=A0 18:55 +0800, Kyrie Wu a =C3=A9crit=C2=A0:
+> This series have the follow changing:
+> Firstly add mt8189 video decoder compatible, profile and level to support
+> MT8189 kernel driver.
+> Secondly fix some bugs, including vp 4K profile2 and media device node
+> number bug.
+> Lastly, add mt8189 video encoder compatible.
 
+Since its a new hardware, please provide v4l2-compliance test results along=
+ with
+relevant fluster result for the decoder part. Please also provide a link to=
+ your
+submission of the related SCP firmware to the linux-firmware project. This =
+way I
+don't have to ask if/when the firmware will land.
+
+cheers,
 Nicolas
 
-> =C2=A0		ctx->image_fmt =3D image_fmt;
-> =C2=A0		rkvdec_reset_decoded_fmt(ctx);
-> =C2=A0	}
+>=20
+> This series has been tested with MT8189 tast test.
+> Encoding and decoding worked for this chip.
+>=20
+> Patches 1-2 Add decoder compatible.
+> Patches 3 Add profile and level supporting.
+> Patches 4 Add core-only VP9 decoding supporting.
+> Patches 5-6 fix some bugs.
+> Patches 7-8 Adds encoder compatible.
+>=20
+> ---
+> This series patches dependent on:
+> [1]
+> https://patchwork.linuxtv.org/project/linux-media/cover/20250510075357.11=
+761-1-yunfei.dong@mediatek.com/
+> [2]
+> https://patchwork.linuxtv.org/project/linux-media/cover/20250528063633.14=
+054-1-irui.wang@mediatek.com/
+>=20
+> Kyrie Wu (8):
+> =C2=A0 dt-bindings: media: mediatek: decoder: Add MT8189
+> =C2=A0=C2=A0=C2=A0 mediatek,vcodec-decoder
+> =C2=A0 media: mediatek: vcodec: add decoder compatible to support MT8189
+> =C2=A0 media: mediatek: vcodec: add profile and level supporting for MT81=
+89
+> =C2=A0 media: mediatek: vcodec: Add core-only VP9 decoding support for MT=
+8189
+> =C2=A0 media: mediatek: vcodec: fix vp9 4096x2176 fail for profile2
+> =C2=A0 media: mediatek: vcodec: fix media device node number
+> =C2=A0 dt-bindings: media: Add MT8189 mediatek,vcodec-encoder
+> =C2=A0 media: mediatek: encoder: Add MT8189 encoder compatible data
+>=20
+> =C2=A0.../media/mediatek,vcodec-encoder.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 2 ++
+> =C2=A0.../media/mediatek,vcodec-subdev-decoder.yaml |=C2=A0 1 +
+> =C2=A0.../vcodec/decoder/mtk_vcodec_dec_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 9 +++++-
+> =C2=A0.../vcodec/decoder/mtk_vcodec_dec_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 1 +
+> =C2=A0.../vcodec/decoder/mtk_vcodec_dec_stateless.c |=C2=A0 4 +++
+> =C2=A0.../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 32 ++++++++++++----=
+---
+> =C2=A0.../vcodec/encoder/mtk_vcodec_enc_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 14 ++++++++
+> =C2=A07 files changed, 50 insertions(+), 13 deletions(-)
 
---=-JxB+zX8IA3mywv/uYbEy
+--=-FYdGZs1zTcICozY3Py8W
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaIfcCAAKCRBxUwItrAao
-HKJ9AJ9lIeksQ/frtYIbyb7342kuZLSytQCeIu9nWl2kX0opPHtm8enN8Fx5jFo=
-=1i09
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaIfeDwAKCRBxUwItrAao
+HMzZAKDRnKnZLS0mmgeweRyByWUpJk3rxQCdEEBk7PHedwsGNq6oR45JEjQNdhw=
+=4Qqz
 -----END PGP SIGNATURE-----
 
---=-JxB+zX8IA3mywv/uYbEy--
+--=-FYdGZs1zTcICozY3Py8W--
 
