@@ -1,174 +1,222 @@
-Return-Path: <linux-media+bounces-38582-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38583-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C517B13E26
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 17:21:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03741B13E2A
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 17:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D974B7A30DA
-	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 15:18:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D65C3BEF4C
+	for <lists+linux-media@lfdr.de>; Mon, 28 Jul 2025 15:23:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DF5E27147C;
-	Mon, 28 Jul 2025 15:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1374A27147A;
+	Mon, 28 Jul 2025 15:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VaCNnd8B"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KuhAKC9K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B651813D51E
-	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 15:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72A12905
+	for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 15:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753716005; cv=none; b=TC9lDZ9DJYfNKYjRpPzB3aVvWOJP2QjcpCSfOLJzMvd9wPQXjpVQoxDcvBHnJ8Nte3EJ/toisLe5iiFxhG/auko6KbmdVO6fDgHvmhtaZAcE//P37H6pr//FtewVwCrO8t5GA7PWlfI6Wbj6TCBQs/oxe0m5syqJvaANg/rcppE=
+	t=1753716255; cv=none; b=aRgak56qARiz818F9fz3pgdXYIAwBpi8J2GkiAd1oqJPBr91ctHClE9AoqtxnKi+Z7ih9cvQxQdnC5l9d37ahEyQsWkFsl97Wr6WItl6MtFtXT0e0c4GdDegtWuwaIvU6thPUa5T8YXGEHEYFeTvqEiLMLUUp2BT2OTMWSwQy/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753716005; c=relaxed/simple;
-	bh=LNQzmDVPXFAc/zMEWuShx2jfF/wSMyxK4QbpQtkKNT0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s8BPOE1AL1ZqZz0IgseqP6AWyTTX+NV792oeSvpoIOKiVY4hG2l/AaczcES3vW2y+jAUxh+YRvpF10bBQZZlg5ZtrN2eIo1GgMuxsy6iQ7lw31OWZxNIHJIicIvo9LftR6klVElBR8dxYzJOdl+fNCLdK/CG7acY0v/nqSSSsag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VaCNnd8B; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a6f2c6715fso3641182f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 28 Jul 2025 08:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753716002; x=1754320802; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t3M6HADrcbiuvKh0/Kz/xLBlEH+H9X+k3yVRG8+8/+Q=;
-        b=VaCNnd8B13QkdvW4H1B7XUKe7Y+5foeI89AyRUEBoGCNA1XvZrQX5hUN+CQ1S+oipw
-         MAUVC6a8fwMRTk//OUP2+o0K1ZmgiWCERe+kkQA7HzhVXpy2Vgxt1NJW1l46Zkw9+vGz
-         n7rtycULtrZuD8m8DjIvrEHuX3Y1wjZzmTDS8//AxanVbiAzB6YyhuDVWxYQtS6acU58
-         6LIoE131Y5rsnbXohQyRRNGghQfUxjECyvEQ6sFENwUnzqY//ZA/s0TxN2/1I9KsCfiy
-         sOTm5YHtkijGf3M/KCV3MCXGyea7fab3fNvpA7+zQ6ZKZJTWvUxZ+BCsQXqDOKhd4FRD
-         ttAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753716002; x=1754320802;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t3M6HADrcbiuvKh0/Kz/xLBlEH+H9X+k3yVRG8+8/+Q=;
-        b=rr/H3G54iUE9lnwYsFxwszsJoVo6uvVYMTou5yMppnkzd5tT5z9myBPFz/VkAv4A4O
-         shqlGu66Ag8yVhTZ6MsymbfocA7QUh9A5tAs/GbTMVIAQknXt5DzfUfhHH0910FePgjl
-         AxrIn9rl4olwpAcfBFFIdUSQjpSG3hmPY0WSYOhgqxIXXTLt4KxqGfoFRZD/grijXhZ5
-         nOehT9thl/LmTxmZ6w0CBIVvYMKKA2J0J9aQzWH5htRrU2oG3VchTRgUgMqhALxC7uXD
-         OKs5V68MFOomjkJPK8f38W6s0LpZNMKTSIp4Rw03twkYFMekaxMb4RiBNj02U3srZo4J
-         gy4Q==
-X-Gm-Message-State: AOJu0YznRCV3KggVQ907JSR6DedfOwZqXP6O2WEqzeLUA1SuDDKvvEOH
-	XzsumJoCddhEUXDXVliaZC83le7GEHCs6zKRZGZcG3wkDgdjJ9K2HjK6Kp6Wloe1duc=
-X-Gm-Gg: ASbGncsctKCZkdIBDMUcfqGypfVKl0VIVL+GknvcObRsp5NlYOFetaMCvKT3kJNQgaT
-	f+2b1NmouoMJfy9TDmvTmiqGeZMfgqFar7LG7ISVQxYjBM+G1GiOtadXMMroA/8XgxF/32LdFg4
-	Ecref0iIdbHI/O3sx48YUkGRqSRmmmZVZXHTK5edbGu3OdGhPVH/Dig81dMTDv2SOAmuY2psp9d
-	sHbnn2Y23/xvEMZrfRcrB6GyHpJruxEpNYS7eqGr5zIoJ80djqPnDo/26JtU8GF17fO8+0BHbej
-	ejd3gjSl1/2iUgCW/DN7oZtpsdjXYjZTmWOFfIEAS7LWqfCLGnws5RITGqHadWyU3WtLfHGIC+1
-	s0vy194zBM2Uv27fQKbb+wBR/i0814b1mvMd5Oz1+7ATxkKEm0HPEatiWe18Sp5M=
-X-Google-Smtp-Source: AGHT+IHuFxUfNvgAlegftl8WivsnpjLThvsD/neUVLJFPFSoDoKmpaGfm37Dy5WdZFowr4b1ZggyxQ==
-X-Received: by 2002:a05:6000:4211:b0:3b7:73b5:e96d with SMTP id ffacd0b85a97d-3b776725608mr8244540f8f.15.1753716001775;
-        Mon, 28 Jul 2025 08:20:01 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b778ec36bcsm8929728f8f.37.2025.07.28.08.20.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Jul 2025 08:20:01 -0700 (PDT)
-Message-ID: <6dc33f02-6691-4ad8-b04f-423e4e5caea8@linaro.org>
-Date: Mon, 28 Jul 2025 16:20:00 +0100
+	s=arc-20240116; t=1753716255; c=relaxed/simple;
+	bh=8B8sSnUqtUHxGsihtZTP8uPViucRc/t6QkI702Oa5D8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWHAD6ioIya3mL1YT6wIMSbwmfYiu7uliefFOWXEA95Esta1i9HyLO3KgcDAqPAh6/O0FJbhKRz4Znj1XvsPajSiDekp1To1bEgcVZOAeeF0/uT1V6HU/3NbR5a+BA1yM/Q0prVnK9eIhW6ReN4Fuk9QaBJLGfoT3AC220/JCrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KuhAKC9K; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-139-29.net.vodafone.it [5.90.139.29])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B420442B;
+	Mon, 28 Jul 2025 17:23:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753716208;
+	bh=8B8sSnUqtUHxGsihtZTP8uPViucRc/t6QkI702Oa5D8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KuhAKC9KoDsht4P7mc/yLm9AvriYlGLpieOCidNFXVayPA4sBPsSj0usabfhAAUOy
+	 WTIuFxLf5AJSKhS+6n3JMSshKWqEGEMLNvzbmmTSP8WproN6Uc4wXLplSOVeo3KCkE
+	 M5Yaud2ylxeW5iNwm3CbW4E025OWYLXJ+rlzWlY0=
+Date: Mon, 28 Jul 2025 17:24:03 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 43/64] media: uapi: Add V4L2_CID_BINNING control for
+ binning configuration
+Message-ID: <ogvkuq54ro3vkvz6cmphnqpaq45zdrxllv7yq77otmwuxx7ydf@cpnxztiwy25h>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-44-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: venus: pm_helpers: add fallback for the
- opp-table
-To: Renjiang Han <quic_renjiang@quicinc.com>, quic_qiweil@quicinc.com,
- quic_wangaow@quicinc.com, Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250724-fallback_of_opp_table-v2-1-2fc61f2407dc@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20250724-fallback_of_opp_table-v2-1-2fc61f2407dc@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250619115836.1946016-44-sakari.ailus@linux.intel.com>
 
-On 24/07/2025 08:53, Renjiang Han wrote:
-> Since the device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX
-> do not include an opp-table and have not configured opp-pmdomain, they
-> still need to use the frequencies defined in the driver's freq_tbl.
-> 
-> Both core_power_v1 and core_power_v4 functions require core_clks_enable
-> function during POWER_ON. Therefore, in the core_clks_enable function,
-> if calling dev_pm_opp_find_freq_ceil to obtain the frequency fails,
-> it needs to fall back to the freq_tbl to retrieve the frequency.
-> 
-> Fixes: b179234b5e59 ("media: venus: pm_helpers: use opp-table for the frequency")
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+Hi Sakari
+
+On Thu, Jun 19, 2025 at 02:58:15PM +0300, Sakari Ailus wrote:
+> Add V4L2_CID_BINNING control for configuring binning and enumerating a
+> camera sensor's binning capabilities. The control combines horizontal and
+> vertical binning into a single control as the two are generally related.
+>
+> New drivers should use this control to configure binning.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
-> Since device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX do not
-> contain an opp-table and have not configured opp-pmdomain, they still
-> need to use the frequencies defined in the driver's freq_tbl.
-> 
-> Therefore, if calling dev_pm_opp_find_freq_ceil to obtain the frequency
-> fails in the core_clks_enable, it needs to fall back to the freq_tbl to
-> retrieve the frequency.
-> 
-> Validated this series on QCS615 and msm8916.
-> ---
-> Changes in v2:
-> - 1. Update the returned error value as per the feedback.
-> - Link to v1: https://lore.kernel.org/r/20250723-fallback_of_opp_table-v1-1-20a6277fdded@quicinc.com
-> ---
->   drivers/media/platform/qcom/venus/pm_helpers.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 8dd5a9b0d060cddfeafd4da477ade0c7aeb6c390..77c12273dbb9505244e260fc8fa635e4fe045236 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -40,6 +40,8 @@ static int core_clks_get(struct venus_core *core)
->   
->   static int core_clks_enable(struct venus_core *core)
->   {
-> +	const struct freq_tbl *freq_tbl = core->res->freq_tbl;
-> +	unsigned int freq_tbl_size = core->res->freq_tbl_size;
->   	const struct venus_resources *res = core->res;
->   	struct device *dev = core->dev;
->   	unsigned long freq = 0;
-> @@ -48,7 +50,14 @@ static int core_clks_enable(struct venus_core *core)
->   	int ret;
->   
->   	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
-> -	dev_pm_opp_put(opp);
-> +	if (IS_ERR(opp)) {
-> +		if (!freq_tbl)
-> +			return -ENODEV;
-> +		freq = freq_tbl[freq_tbl_size - 1].freq;
-> +	} else {
-> +		dev_pm_opp_put(opp);
-> +	}
+>  .../media/drivers/camera-sensor.rst           | 12 ++++++++
+>  .../media/v4l/ext-ctrls-camera.rst            | 29 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
+>  include/uapi/linux/v4l2-controls.h            |  1 +
+>  4 files changed, 44 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> index 39f3f91c6733..ef1f51862980 100644
+> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -120,6 +120,18 @@ values programmed by the register sequences. The default values of these
+>  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+>  independently of the sensor's mounting rotation.
+>
+> +Binning
+> +-------
 > +
->   
->   	for (i = 0; i < res->clks_num; i++) {
->   		if (IS_V6(core)) {
-> 
-> ---
-> base-commit: d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-> change-id: 20250721-fallback_of_opp_table-4ea39376f617
-> 
-> Best regards,
+> +Binning has traditionally been configured using :ref:`the compose selection
+> +rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
 
-Note to self add a
+To be honest, I don't think we should only refer to the generic
+description of the selection targets which has not meaning
+specifically in relation to raw camera sensors, but to this very specific
+part of Documentation/userspace-api/media/v4l/subdev-config-model.rst
 
-Closes: CA+G9fYu5=3n84VY+vTbCAcfFKOq7Us5vgBZgpypY4MveM=eVwg@mail.gmail.com
+------------------------------------------------------------------------------
+Binning and sub-sampling are configured using the V4L2_SEL_TGT_COMPOSE
+rectangle, relative to the analogue crop rectangle, on (pad, stream)
+pair 1/0. The driver implementation determines how to configure
+binning and sub-sampling to achieve the desired size.
+------------------------------------------------------------------------------
 
----
-bod
+introduced by
+[PATCH v10 40/64] media: Documentation: Add subdev configuration models, raw sensor model
+
+> +<v4l2-cid-camera-sensor-binning>` is also available for binning configuration and
+> +users should use it when it's available. Drivers supporting the control shall
+> +also support the compose rectangle, albeit the rectangle may be read-only when
+> +the control is present.
+> +
+> +Binning isn't affected by flipping.
+
+As it isn't affected by other configurations like link_freq etc.
+Why do you think flipping is particular relevant here ?
+
+
+> +
+>  .. _media_using_camera_sensor_drivers_embedded_data:
+>
+>  Embedded data
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index cdc515c60468..18b484ff5d75 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -672,3 +672,32 @@ enum v4l2_scene_mode -
+>
+>      As modes differ for each sensor, menu items are not standardized by this
+>      control and are left to the programmer.
+> +
+> +.. _v4l2-cid-camera-sensor-binning:
+> +
+> +``V4L2_CID_BINNING_FACTORS (integer menu)``
+
+Should the control name be singular ? (BINNING_FACTOR) ?
+
+> +
+> +    Horizontal and vertical binning factors. Binning combines several
+> +    horizontal, vertical or both pixel values into a single pixel. It is a way
+> +    to scale an image. Binning typically produces fairly good quality output.
+> +
+> +    Determines both horizontal and vertical binning factors for a camera
+
+"This control determines ... "
+
+> +    sensor. The values are encoded in the following way:
+> +
+> +.. flat-table::
+> +    :header-rows:  1
+> +    :stub-columns: 0
+> +
+> +    * - Bits
+> +      - Synopsis
+> +    * - 48--63
+> +      - Horizontal binning numerator.
+> +    * - 32--47
+> +      - Horizontal binning denominator.
+> +    * - 16--31
+> +      - Vertical binning numerator.
+> +    * - 0--15
+> +      - Vertical binning denominator.
+> +
+> +For instance, a value of ``0x0001000300020003`` indicates binning by 3
+> +(horizontally) * 3/2 (vertically).
+
+Ok, I might be missing how 3/2 binning works (I presume it's just 3
+pixels are binned in to 2...)
+
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index a7ea380de5ee..5e1c28850e87 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1087,6 +1087,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+>  	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
+> +	case V4L2_CID_BINNING_FACTORS:		return "Binning Factors";
+>
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1427,6 +1428,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_HDR_SENSOR_MODE:
+>  		*type = V4L2_CTRL_TYPE_MENU;
+>  		break;
+> +	case V4L2_CID_BINNING_FACTORS:
+>  	case V4L2_CID_LINK_FREQ:
+>  		*type = V4L2_CTRL_TYPE_INTEGER_MENU;
+>  		break;
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 762751588439..630850d237ad 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1095,6 +1095,7 @@ enum v4l2_auto_focus_range {
+>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
+>
+>  #define V4L2_CID_HDR_SENSOR_MODE		(V4L2_CID_CAMERA_CLASS_BASE+36)
+> +#define V4L2_CID_BINNING_FACTORS		(V4L2_CID_CAMERA_CLASS_BASE+37)
+>
+>  /* FM Modulator class control IDs */
+>
+> --
+> 2.39.5
+>
+>
 
