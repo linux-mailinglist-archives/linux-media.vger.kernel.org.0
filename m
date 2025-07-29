@@ -1,357 +1,263 @@
-Return-Path: <linux-media+bounces-38632-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38633-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF00B14FE1
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 17:00:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38218B150D9
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 18:07:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B03218850AD
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 15:00:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADD44161998
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 16:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7BF5286888;
-	Tue, 29 Jul 2025 14:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C01293C79;
+	Tue, 29 Jul 2025 16:07:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L2qlZYQf"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="km3+1MlK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013033.outbound.protection.outlook.com [52.101.83.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCD628643F
-	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 14:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753801185; cv=none; b=T/8TNUNcpIx2sAW1Km7qYubKgbLtBPBvm//LRFTAlrJpv632ZEZP8xoufF14IUc3UkGePYV1d4dB0AvaKNKLq9BNxGgBffnazNRnWxyORRHmN00pC4KtU6PzFujTku8Eui+QzXFsvo+/UhxkQGbJa4IoPxQhsDGMM5HQRlZyhSw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753801185; c=relaxed/simple;
-	bh=cvnUNWtM+/py3RjswhLKoAesw6Rqt7tW0yO7nZWZ+wU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JsseT3slhiO87jfPCjLTKrQXmRMxKVhpg/+mO+l21BBbRr0BzWI3KzHn5jP6nSJorHoIwvRooIzmeTBn+eR+VsFEhS07+7D7bKuvmme5bBWQ8FPiCudAnEMkokUU5tGcJm32r1z03y5mZrPC/kkWC++xHwTwAAy0m5SifgPu3dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L2qlZYQf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 226AD6DC;
-	Tue, 29 Jul 2025 16:58:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753801138;
-	bh=cvnUNWtM+/py3RjswhLKoAesw6Rqt7tW0yO7nZWZ+wU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L2qlZYQfTas1ekJdM52QFYI/UUnpjV9ujoXViKEuqPd0zYVNm+nlPhXZY30+PCRq1
-	 VNXgbtdGfGuWRkB1uxQ2A3WQzJ67DmaQV3S302kMQmOUQF/BqT9Pj/Xa8LuvGiJ10x
-	 5QEQQehMJ1gSdsk/u4IeBlr5Oe3IEHiHcCdUQDeU=
-Date: Tue, 29 Jul 2025 17:59:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dafna Hirschfeld <dafna@fastmail.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC 1/3] media: v4l2-core: Add support for video device
- state
-Message-ID: <20250729145932.GG5233@pendragon.ideasonboard.com>
-References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
- <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com>
- <3yifjhhqjrryg2fnfep6yqpxlvc3y5drh54smwajptfzy75tuu@dfsl6g5ktxbw>
- <175227804873.3930831.3557651361410884449@freya>
- <20250714171632.GA13846@pendragon.ideasonboard.com>
- <zxgkpvodgtanbe5mihgi4cboh3u6csmfsvbnruktaykhzfwgvs@fbgchdqjivbh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80B8134AB;
+	Tue, 29 Jul 2025 16:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753805234; cv=fail; b=DShvCUV9Y6c/II1H1Kw5QjGK8r1U3YMdAGUNGb9GApojNUuOfZ78T/8STCob0aUuOmSdR7I9ZdnSOK9qvAFMOSnrOTq0+pV7GrkYuQJaM0q4fd6NYNvhLctQKJAA4sW5/+djNUZgktbBpeDefwGv91JM7Z4+0Ll/xtfjuQhxgNs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753805234; c=relaxed/simple;
+	bh=in1OIJaaAaTNfIu5fxp61kLPwGvarDyPpthBXrRVePM=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=Yc6FM8u10JBoeHDlIin5/SDSQyUaieiQJDY4PMt24dWO4fDrfhwMvD3K+CDJDt+Nfe7MqFKLpzlBbJYruAQH8CYFiCCcVvBYGqZ80ovyYRrAmAWfeD9l9Zyl5QRa9EIR//3psaE3lB7HBzIhPKfI3PKbPj1MQduhMv82cTpXfNI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=km3+1MlK; arc=fail smtp.client-ip=52.101.83.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L1uprR9M2BqLjct9S0vT1yg6YvbvsfJUe0lPdR5PR5NzqbyaPuyvZkr0lMbSjaqiloF4+NkHjWD5q9i1AhzIozeqqIpVTkkECNMheLl+ry1UEh+zP06pYy95Sc+ajroMyboFtIrbXApcuNo8kGK1c/B5PKLGZqUEsMmI9r3yFkatuD6toK1EwyY0xW9HY21ifLwGxOXNuC9hCh4o8GPI7Hwp+YCyjFxSqphi0bPWFvAjYITcduhT+fu9bD39wseObfUJLlpgTtNMu1LWJXTqiBhZ75JvBlQcDyZ3ex5wr8IB/gnN/AL3JJFfVLJpIvhNKmibGqVkYhJj0yoEtstxpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=my1u7Ka5sCdrW/fgSDtb+bfge65GG//EMuEKuw36RZA=;
+ b=TK71/Cq6EmnOZv2fpb1Pupgu2vjJ2ohgRI5/Nn+7I2RssKcaoSmdCyHjEb72N0JjSO7J0FCY95jffuSEyOAut20FcwidM5L32J6LcZId80dPIC7E30X7rG63X5nPowcQOmibpHX+okbRHS8FnOK5HTx3Aqh/BOCO3eFiQxAGsL/ZbQd76iYWFzpu6JqC9INy7gJyAnrUXQceS15PcsMCaaGNzbegmUXBG94AVmkTwTNWSNISYkPauDjyY+k+59OBOxXlWpryMhiUvWDCb1ER5qNj9BGHz5a1WJU//HBHYeq8x1biuD99VR6+52sMA4ZoNxeQs03LLf/9TFQ6T9tsjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=my1u7Ka5sCdrW/fgSDtb+bfge65GG//EMuEKuw36RZA=;
+ b=km3+1MlK7TimXzqJHLyvS7BuZaLVz/x5VafBzAhlgABnZR9uBWkxKL1OEVghpOx9XF7t8RDbBaoxs77Wp1CULK8RSOnh/XKHxROFd1JRHtQ2WrT0B+DiU6xDdNbkxfa9fIBcS3u5FBbo1OLNnriBo/ctlhdC9d/LLkM/41Ddpw7n2MMhoI1OHlaQ9ADjRno3YuE5NxWjFddsXL//F03GPcpAWDN3RY2x/tGPu3hns3W94YU4FHvrgpgx1Evfe8JNbmWnPw1DZ1Q2rWzLD38C/dGkebeyye7En6kO7sRJtPEztg6xEO2eH3a/WqqXumretld1E7utzy0XZs7XUz+zeA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DU4PR04MB10551.eurprd04.prod.outlook.com (2603:10a6:10:588::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Tue, 29 Jul
+ 2025 16:07:08 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8964.025; Tue, 29 Jul 2025
+ 16:07:08 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v4 0/5] media: imx8qxp: add parallel camera support
+Date: Tue, 29 Jul 2025 12:06:21 -0400
+Message-Id: <20250729-imx8qxp_pcam-v4-0-4dfca4ed2f87@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH3xiGgC/13M0Q6CIBiG4VtxHEcDfrG/jrqP1poBJgcqQWM05
+ 72Hri3z8Pu25x1JMN6aQE7FSLyJNtihz6PcFUS1df8w1Oq8iWBCskpU1HYJn8ndnKo7qlFyAQg
+ lKCCZOG8am5bc5Zp3a8Nr8O+lHvn8fkPA/kORU0aNUhpQH4+C8XOf3F4NHZkzUfzogcGGikw54
+ t2gbFjVbCisKW4oZKpQApiSSb2m0zR9AIowNEwcAQAA
+X-Change-ID: 20250626-imx8qxp_pcam-d851238343c3
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>, 
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
+ Alice Yuan <alice.yuan@nxp.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Robert Chiras <robert.chiras@nxp.com>, 
+ Zhipeng Wang <zhipeng.wang_1@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753805222; l=2721;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=in1OIJaaAaTNfIu5fxp61kLPwGvarDyPpthBXrRVePM=;
+ b=TEeTHo57ls+AmwDo4fUjku2MktzEpSC/yU1qWxiaVks8iTl63Jf4ZOe45Azt/yCSnAnVt2F66
+ PWpvg6tx2L0CTFEmEpBfYn50ZDTD9f5XOSoiiQdAXCMaRj9JvEVGEYU
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: BY3PR05CA0028.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::33) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <zxgkpvodgtanbe5mihgi4cboh3u6csmfsvbnruktaykhzfwgvs@fbgchdqjivbh>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU4PR04MB10551:EE_
+X-MS-Office365-Filtering-Correlation-Id: 971dfae5-efd2-41a0-d132-08ddceb9f7f0
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|19092799006|52116014|376014|7416014|366016|1800799024|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?QTlDeWYybkhPNmpUZ3l5T1Mrdkk5ZDZrNFpURDY0N29YcVlhVFRkYlZPamc3?=
+ =?utf-8?B?N1A3Z3N5MlpDS2pSWFUwQkp1cno2bzcyWURUVHlhdWlpRysya3YvT1R2N2E1?=
+ =?utf-8?B?Qk11TUkzN05ueE5FNHNITmVBQ1FkQ1ozcXV4OFE3M2dYWFVGSEF1VTBaQUxM?=
+ =?utf-8?B?Q0FqOWhNcGs0WXp5Mk9IS1QrUjZjeXZkbk5tSVVaOUtFSDUyeWhpeTZvZUhT?=
+ =?utf-8?B?eG4wRU1xMVp5cEcxUzNJdTAwL2dRTjNkZDZnbTYwb1hiOUpFQ2NvUU8yUS8z?=
+ =?utf-8?B?L1R3aWdEMXZxWTNjSXNlc0lnQm56bmtaTEdnakRqdWFYNXZ5aStaOEE5ZGdJ?=
+ =?utf-8?B?ZU9wdVBLQkJVLzdRb1orUU1ZUTlUV3d4Wmd3NWU2WkxrUTRqckpJRXhGdGRU?=
+ =?utf-8?B?Z3FyeTVUTDVma2lFbXJKbmNmZFF4cGxDWm8zdHJPTUhCN2FNME9CZEc5b2lv?=
+ =?utf-8?B?cWpZMVNKaUpNeE9STFpzVVA0OFAyNHhIdFhGYm5DbGRFTEEySUdmUDJOL20y?=
+ =?utf-8?B?Tlk5R2U1ZU9rV2E3eHJSWThmWmNPTTNNaStnVXFHNWlTRmptUWtkOEVJdDk5?=
+ =?utf-8?B?ZWZSTXpGVlhpY3lER3BxVkJ0Z0ZzYkdNeE5xNSsrNnI1dVdxSlhGbzZ5UWVx?=
+ =?utf-8?B?ekpCUmFQdk8vNU1UNjZLcERsVDM1MEgwMTBiQ0RXTllqc3dUN0dOcktwQWgv?=
+ =?utf-8?B?TDVENEtOVzhIMjgrUGJmNlFzRVNDY2J2R1pvbGV2VmFST2NoZXJ5Yk9ONTZ0?=
+ =?utf-8?B?R0ZXY09nRzhsUUVHcHVwQzh5NnFDVkxMdTVkTHJNVUNqeGcyTHpxbWJqRHE5?=
+ =?utf-8?B?THA3MW9VTE8wMkdWT1diNXVWOG1PNkNXNEpCcXhiVEJUSXhlTFNzRjhKTm9s?=
+ =?utf-8?B?b2VQNVhuTUFBMFBZMUJFVmlOZ2RrZW0ra3F6OUg0Y0J5cGJQOEh2RktEMmRh?=
+ =?utf-8?B?clhWUlV5NzNJQTFIQUF0TmlodWxQVk1iT3Y3aVFFKzI2MS9oQXg0OGVrbUxm?=
+ =?utf-8?B?b0xnamdMSjB2UmlCUUhvc3lOaWttcTZiY2Y3c3k3b3pUc3pRT1F1cmxUalM3?=
+ =?utf-8?B?TkdCdkpJZHRHM2dST21OdU52dWFoRHdFUXNFc2pKV2dEaHozVmNXM3ZHdmpH?=
+ =?utf-8?B?RGpjUDJ4cGZtQlhnQ1hRMS9rTlNjY1Q5REZjenVnMlFhL1VZLzBnVTZ5OU82?=
+ =?utf-8?B?NDRGSVBHRHM1NXpOSkZtSDNNMXNiSllJc2Z1aThvbUxVb2ZmYUZwbFdZQ1V1?=
+ =?utf-8?B?WVZ5dzJZNjJtZ2hoVFZIRTZ1ME5tN21ZTjQrOEVQZHNnNVVWZ1VxeFVDZnlR?=
+ =?utf-8?B?cHV6R2tMdFZGSnBmN0paMHVobHhoMHZnZElwQm1UT3BiRDQxRURGSlZodEox?=
+ =?utf-8?B?U3pJRytOMUdteVN2TDByVGltYkRQYkI3RXV2Y0pIYjJDVWYvNDNQRUlzYzRJ?=
+ =?utf-8?B?MmQ5SUpwczhrSHNHMGt2Njh5T212QjVOeE9icklNQTRGQ3ZHdUw2K1NVNmNF?=
+ =?utf-8?B?TW1XZXQ1b3kvOHJheFdHM0VHRG1pMjI5TGovTkd2UmU4WmRJRENZZnNyR0Z1?=
+ =?utf-8?B?aVBXNGQ3V1gxQ1REMURUSjIrWmJNdjFsVU1rOWxTSVg2ZDI5eFdPY2NtZ2lT?=
+ =?utf-8?B?TEd1YzZxNTNXOVBEbWVTVm44V1lJMy9XT0dFKzZtRlA1RE9oUTZIdS9Ta3dJ?=
+ =?utf-8?B?Z3R4SmpSeFBtcVJSdkJNdVg3MHFsc05oQjg0Q1lTbjZrTUJRd3p5WnY4NlNO?=
+ =?utf-8?B?cEpkTDY3Sld6bjViMlJEMEFseUNGZ20xdFZSNDlFMWNlM1ZvSUxzVlNNMFYv?=
+ =?utf-8?B?aHhwaFNNQm1lU3VLekRYZzJPYU14Tkorb2N5YXB1QlQxSjd3K1BNQUZHNFpn?=
+ =?utf-8?B?ZEpxbHo0TTNwL1BHZk1wYW5MOE5XMnUvSHdtRUJ1elFLRVhMdkRiSFg4eFlB?=
+ =?utf-8?B?cUVzOWNYMitVd0Jqb01mK2MxekFGM1hWVWxmTVQrTStyNy95emx6MWZySzFF?=
+ =?utf-8?B?QTlPeEhzTmhhbndxa3FnY1hwRzJBZVpEb241VEVPRWFDdUEvOXhTeE1CQmNS?=
+ =?utf-8?Q?5rOxn6?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(52116014)(376014)(7416014)(366016)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?U3JDbXQwckxlanVqNEd1eE1XMW4yelhkZ1E3c0xYNzBMMWYvTFV6Y3pMUUdn?=
+ =?utf-8?B?bExqdEtzMmtjSGc2cEZYZ1FoelBHNVVGN1BrUm11cVNpZ3NQQWJMV090ekhU?=
+ =?utf-8?B?SGg3djNIWXpHSmZZLzJjQit0TE1nd0RmZWVkaldmTVkvMnZ5TWVtbmthNTkw?=
+ =?utf-8?B?Ynk1T2Q5L1V2cFgwdXFXVEJyZVR2S1BsV3BpUUQ2TU5oK0dSbjl5c1FxMUNx?=
+ =?utf-8?B?b1p1Qmo4RXhyU2g5UkZtNEw1THFsY2hjT3RHRTdaTC91cCs5VjV0SHhSQ3Z5?=
+ =?utf-8?B?QTBSWmN3MmFkdDA5aTZDTmxuMWMzODFTbkErRHZKdzZlZEw3cnQvVi9nNDA3?=
+ =?utf-8?B?RThqbjh5MEpGY2ZzUjNzanZWYlVuWWQ2djh2SDEzTEE0V3EvTkdIYjg0RHNV?=
+ =?utf-8?B?c1I1MU44T3hHRUsxQ2xneExreHhuSDlrRytCRWIvdE5LTzlOeUg2V2xob1A2?=
+ =?utf-8?B?WnJ0L05QNFRSbUpxYXc4VldVU1hhVVdJenU2QUw5TmhVakxhdlpUd1RPeTMy?=
+ =?utf-8?B?SWhHV1pnY0VxaEhkcjBpckJORy9sUUVZY29qaUdLQ3lyYmdoSDFpSTMxRHIz?=
+ =?utf-8?B?UUdSZXIydXZvSjZucVpWbTBSVkJFZDA3SEZsT1RMdlYrNWtxRDA2Z2hMUnhU?=
+ =?utf-8?B?SHJCeXJ2TzQ4SHE5cXkyLzgycW9obEU3MnZKWXkxd2V4bzlRT3ZxSzhoWGw5?=
+ =?utf-8?B?SVVoMXl2QkF4OGtGY2FkUU1UWDFwcVlIMUw4cWJZRm5KdC92M1JYY3Z2K0JL?=
+ =?utf-8?B?WXV2OVdYMEhYMDdOeFBpTHQ3bFpOZ2FOT2pSTmJyTmRiQnFrQzNiWXFFZjVB?=
+ =?utf-8?B?Rlc2R2RadU0vQVpaR1BEVSt5WlVVaU16UWcrb3FuWm9hUkowaDVEMGlVRUx3?=
+ =?utf-8?B?b0tnR05GMjRZWitzVWE5V3RuMGRCbHB2RUdMczdhTnc0TzBsYnlmdmxyWjkw?=
+ =?utf-8?B?Yk5heDBLUTNValZDcnhITzBPa2dPNG9BMmR3L3JVN0dlbEJjaUNNWDN3UUZh?=
+ =?utf-8?B?c0ZiY3lwNWRHOWhMbzIxS1Rtckc1YWNkazNYMVJ4NjRmQWN6dHFKb2E5dko1?=
+ =?utf-8?B?TjAwVlFmSitKaWFzVnE5d0NEbDdIeit2ODF5U0IycmtyN2x6NUgvaExjZnFu?=
+ =?utf-8?B?TURZN2c0aTJOeEVXUlJGSzVERlFlaFA5eVUzRnZ2a2IwMDc1N2NFaW9BVUJh?=
+ =?utf-8?B?UVdaWUNjR3cyUDZJc2Z0VGVDNDdqaGx3czV1L2tyRU42cTVrTW1TZFZQdVlV?=
+ =?utf-8?B?SGVNMW5RTE1JVWRnemIvM1VwK24xeUoxa2xHaEJyeTN6cFlDN25Za3kzdmVo?=
+ =?utf-8?B?Y0ZURmZYV1prMVBnYTQ5d2FhU1Q3ZkpFK1M0MUxTeXRGWEdjYTNUeDNHYVpC?=
+ =?utf-8?B?cElqcnMwNlRyV0V4RDRmTk1GczI4dHAxQ29kK1RrTjk1YjlxZXlaK3Bhc1Av?=
+ =?utf-8?B?S0dPRVcvdEpmaERKSFc3b2E1ejNxelN3dWRrZnBDNi9TSVBwQkJ0YXArQ0Fx?=
+ =?utf-8?B?eUdaNkptYzBqK1VOWitIZ21OQ2tYWGwveHkzbTRrWENSUk1sWFdPUzdrSU5Y?=
+ =?utf-8?B?MkorQmFzdXZ0RFJ6YUhXYTVmd2pKYnVPemFTZ0hqRStzUDFHZUlpMjBxZWMv?=
+ =?utf-8?B?SGR1NWZxazEzckgxaGdZV0lwL1ZsdEFXUlZEY21WVlppYmVPTURwZ2tYNkdH?=
+ =?utf-8?B?eGtCV1VENVlHWUw1T0QxL25tOE5JMUtQY1Z2Wk80TnEzTDR4NWRTcklHd3BH?=
+ =?utf-8?B?bnViUTdVTE5nTnF5NDhWWWliT3pxZTNLL2dPVGxrbmlzcjdTQ1B3Qm1CNnAr?=
+ =?utf-8?B?a1dsZzF4UHdVclJxNHU3a1NpbWJheFpMaFR5WjhoZ2ZIMGNyVjBnelJhOFhW?=
+ =?utf-8?B?RnBhOGtFd0liTG5jemVBYnBMNGtVUFlOLzF0QTI3by9HaFVZakUraVZ6YU85?=
+ =?utf-8?B?SkJvSnJNaUFrVTErcHNiRnM2MU1wTjdPV1hpeXd0NHNHT2NKZEEwclJ1T09S?=
+ =?utf-8?B?dEdKbEZOTEJZWGQ5ODdSZHg1TnpuMVYvS09tRnFZODhGekR4NTBWTGtWcU5q?=
+ =?utf-8?B?cUZxa2N3WWxkbDh5b1ZFNUpOQ09rTFk0aWdRb2dkZWRobDA1aXBNTm5xOUQy?=
+ =?utf-8?Q?HpEp7m4HqkNJNDgb4ZV05ze3T?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 971dfae5-efd2-41a0-d132-08ddceb9f7f0
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2025 16:07:08.2703
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TXMfNMRAZbdo9E0ivu1PmXsbkP6ZOMxmJnvYe+IQB/JIC0SEWNRzL1UAQclDiBO4502xDMCCrHgBT/qn/HUz2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10551
 
-On Tue, Jul 29, 2025 at 03:43:17PM +0200, Jacopo Mondi wrote:
-> Hi Laurent
-> 
-> On Mon, Jul 14, 2025 at 08:16:32PM +0300, Laurent Pinchart wrote:
-> > On Fri, Jul 11, 2025 at 04:54:08PM -0700, Jai Luthra wrote:
-> > > Quoting Jacopo Mondi (2025-07-08 09:26:29)
-> 
-> [snip]
-> 
-> > > > >  static long __video_do_ioctl(struct file *file,
-> > > > >               unsigned int cmd, void *arg)
-> > > > >  {
-> > > > > @@ -3081,6 +3106,9 @@ static long __video_do_ioctl(struct file *file,
-> > > > >       if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
-> > > > >               vfh = file->private_data;
-> > > > >
-> > > > > +     if (vfh && test_bit(V4L2_FL_USES_STATE, &vfd->flags))
-> > > > > +             fh = video_device_get_state(vfd, vfh, cmd, arg);
-> > > > > +
-> >
-> > That's very dangerous, using the same void pointer for two different
-> > purposes depending on the USES_STATE flag. I think you should start with
-> > some refactoring to move away from using a void pointer.
-> >
-> > The first step is to remove direct setting of file->private_data in
-> > drivers. Quite a few do so because they need to allocate the structure
-> > containing the v4l2_fh. They therefore can't call v4l2_fh_open(), which
-> > sets file->private_data, but call v4l2_fh_init(), set the private_data
-> > field, and then call v4l2_fh_add(). In many cases it seems
-> > v4l2_fh_init() could set file->private_data. You will need to check all
-> > drivers that set the field directly, see if any of them set
-> > file->private_data to a value different than the v4l2_fh pointer, and if
-> > that could be fixed.
-> 
-> Can I reverse it ?
-> 
-> drivers that sets file->private_date = vfh; should be checked to make
-> sure they do not retrieve 'vfh' from the 'void *' in their ioctl
-> handlers but rather access file->private_data directly.
-> 
-> Once all of them are checked, we can replace the 'void *' argument
-> with the video_device_state pointer. And yes, if we can have
-> v4l2_fh_init() set file->private_data to vfh that's certainly better
-> than having drivers doing that by hand.
-> 
-> But ...
-> 
-> > (Note that some drivers set the private_data field of a debugfs file, or
-> 
-> ... some drivers assume something different is set in
-> file->private_data.
+Add parallel camera support for i.MX8 chips.
 
-I'm not sure about that. My comment was related to the fact that more
-than a quick grep is needed. There are drivers that set the private_date
-field of a debugfs file or an ALSA device. Grepping for private_data
-will show those, but they're not a problem. What we can is only the
-private_data field of the struct file associated with a video_device.
+The below patch to add new format support to test ov5640 sensor
+   media: nxp: isi: add support for UYVY8_2X8 and YUYV8_2X8 bus codes
 
-Can we start with an assessment of what existing drivers do ?
+The bindings and driver for parallel CSI
+   dt-bindings: media: add i.MX parallel csi support
+   media: nxp: add V4L2 subdev driver for parallel CSI
 
-> Again however, if in their ioctl handlers they retrieve it from
-> file->private_data and do not hard-cast the void * to whatever they
-> need, again the void * argument can safely be replaced by a pointer to
-> video_device_state.
-> 
-> > an ALSA device. Don't mistakenly consider those as direct usage of
-> > private_data conflicting with V4L2_FL_USES_V4L2_FH.)
-> 
-> I noticed, in example  drivers/media/platform/amphion/vpu_dbg.c
-> 
-> However I don't see it setting file->private_data but rather access
-> it in their debugfs handlers:
-> 
-> 	struct seq_file *s = file->private_data;
-> 
-> Is this what you mean with
-> 
-> "Don't mistakenly consider those as direct usage of
->  private_data conflicting with V4L2_FL_USES_V4L2_FH."
-> 
-> ?
+DTS part need depend on previous MIPI CSI patches.
+  https://lore.kernel.org/imx/20250522-8qxp_camera-v5-13-d4be869fdb7e@nxp.com/
 
-Yes, this isn't a problem, as that struct file isn't related to the
-video_device.
+  arm64: dts: imx8: add parellel csi nodes
+  arm64: dts: imx8qxp-mek: add parallel ov5640 camera support
 
-> > If we're lucky, we'll be able to remove manual usage of private_data in
-> > drivers. In that case, we could then either
-> >
-> > - Patch ioctl handlers in drivers to use file->private_data to access
-> >   the v4l2_fh and stop using the void *fh argument, and then replace the
-> >   void *fh argument with a video_device_state *state.
-> 
-> This would be preferable imho
-> 
-> > - Add a video_device_state *state argument to the ioctl handlers, if we
-> >   decide to keep the fh pointer. In that case we should replace void *fh
-> >   with v4l2_fh *fh.
-> >
-> > If there are drivers left that can't easily stop setting private_data
-> > manually, let's discuss them.
-> >
-> > > > >       /*
-> > > > >        * We need to serialize streamon/off with queueing new requests.
-> > > > >        * These ioctls may trigger the cancellation of a streaming
-> > > > > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-> > > > > index 1b6222fab24eda96cbe459b435431c01f7259366..8e6e7799212cd07ae4ad3dfc85912c21a9bcab2d 100644
-> > > > > --- a/include/media/v4l2-dev.h
-> > > > > +++ b/include/media/v4l2-dev.h
-> > > > > @@ -89,12 +89,18 @@ struct dentry;
-> > > > >   *   set by the core when the sub-devices device nodes are registered with
-> > > > >   *   v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
-> > > > >   *   handler to restrict access to some ioctl calls.
-> > > > > + * @V4L2_FL_USES_STATE:
-> > > > > + *   indicates that the &struct video_device has state support.
-> > > > > + *   The active video and metadata formats are stored in video_device.state,
-> > > > > + *   and the try video and metadata formats are stored in v4l2_fh.state.
-> > > > > + *   All new drivers should use it.
-> > > > >   */
-> > > > >  enum v4l2_video_device_flags {
-> > > > >       V4L2_FL_REGISTERED              = 0,
-> > > > >       V4L2_FL_USES_V4L2_FH            = 1,
-> > > > >       V4L2_FL_QUIRK_INVERTED_CROP     = 2,
-> > > > >       V4L2_FL_SUBDEV_RO_DEVNODE       = 3,
-> > > > > +     V4L2_FL_USES_STATE              = 4,
-> > > > >  };
-> > > > >
-> > > > >  /* Priority helper functions */
-> > > > > @@ -214,6 +220,30 @@ struct v4l2_file_operations {
-> > > > >       int (*release) (struct file *);
-> > > > >  };
-> > > > >
-> > > > > +/**
-> > > > > + * enum video_device_format_whence - Video device format type
-> > > > > + *
-> > > > > + * @V4L2_DEVICE_FORMAT_TRY: from VIDIOC_TRY_FMT, for negotiation only
-> > > > > + * @V4L2_DEVICE_FORMAT_ACTIVE: from VIDIOC_S_FMT, applied to the device
-> > > > > + */
-> > > > > +enum video_device_format_whence {
-> > > > > +     VIDEO_DEVICE_FORMAT_TRY = 0,
-> > > > > +     VIDEO_DEVICE_FORMAT_ACTIVE = 1,
-> > > > > +};
-> > > >
-> > > > I'm not sure we need these. More on this on the drivers
-> > > > implementation in the next patches.
-> >
-> > I agree, this should not be needed at this point. The whole point of
-> > states is that drivers should not care whether they're operating on a
-> > TRY or ACTIVE state. There are exceptions with subdevs for historical
-> > reasons, but we shouldn't repeat that here.
-> >
-> > It may make sense to later add TRY/ACTIVE identifiers for the UAPI, but
-> > within drivers they should not be used. How about repurposing the
-> > .try_fmt() and .s_fmt() ioctl handlers for drivers support states, by
-> > using .try_fmt() first to adjust the format and store it in the state
-> > (ACTIVE or TRY, that shouldn't matter to drivers), and then using
-> > .s_fmt() to apply the state to the device ? The V4L2 core should call
-> > .try_fmt() first followed by .s_fmt() when V4L2_FL_USES_STATE is set.
-> > The vast majority of state-aware drivers will configure the device when
-> > starting streaming, so they won't need to implement .s_fmt().
-> >
-> > Now that I wrote this, the plan may conflict with my comment above
-> > regarding leaving the busy check in drivers. Let's figure that one
-> > first, and see if we need to let drivers known on what state they're
-> > operating. I think repurposing .try_fmt() and .s_fmt() should be done
-> > regardless.
-> >
-> > > > > +
-> > > > > +/**
-> > > > > + * struct video_device_state - Used for storing video device state information.
-> > > > > + *
-> > > > > + * @vid_fmt: Format of the video capture stream
-> > > > > + * @meta_fmt: Format of the metadata capture stream
-> > > > > + * @which: is this a TRY or ACTIVE format?
-> > > > > + */
-> > > > > +struct video_device_state {
-> > > > > +     struct v4l2_format vid_fmt;
-> > > > > +     struct v4l2_format meta_fmt;
-> > > > > +     enum video_device_format_whence which;
-> > > > > +};
-> > > > > +
-> > > > >  /*
-> > > > >   * Newer version of video_device, handled by videodev2.c
-> > > > >   *   This version moves redundant code from video device code to
-> > > > > @@ -238,6 +268,7 @@ struct v4l2_file_operations {
-> > > > >   * @queue: &struct vb2_queue associated with this device node. May be NULL.
-> > > > >   * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
-> > > > >   *    If NULL, then v4l2_dev->prio will be used.
-> > > > > + * @state: &struct video_device_state, holds the active state for the device.
-> > > > >   * @name: video device name
-> > > > >   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
-> > > > >   * @vfl_dir: V4L receiver, transmitter or m2m
-> > > > > @@ -283,6 +314,7 @@ struct video_device {
-> > > > >       struct vb2_queue *queue;
-> > > > >
-> > > > >       struct v4l2_prio_state *prio;
-> > > > > +     struct video_device_state state;
-> > > >
-> > > > One of the key design requirement it's the ability for drivers to
-> > > > sub-class video_device_state. One possibile way to obtain this is to
-> > > > dynamically allocate the state either by deferring to the driver's the
-> > > > allocation (so that they can allocate a bigger structure) or by
-> > > > passing to the framework the size it has to allocate.
-> > > >
-> > > > In any case, I'm afraid the state should be allocated dynamically,
-> > > > either in the drivers' init_state() (or similar) callback or by the
-> > > > framework with a size hint from the driver.
-> > > >
-> > > > What do you think ?
-> > >
-> > > Ah okay, I missed that. Should be possible to make this dynamically
-> > > allocatable by the driver. It will also tie into Sakari's suggestion of
-> > > creating a helper for initializing the state.
-> >
-> > Yes, I agree with Jacopo and Sakari here. The state should be
-> > dynamically allocated, and you should add an operation to initialize it.
-> >
-> > > > >
-> > > > >       /* device info */
-> > > > >       char name[64];
-> > > > > @@ -540,6 +572,26 @@ static inline int video_is_registered(struct video_device *vdev)
-> > > > >       return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
-> > > > >  }
-> > > > >
-> > > > > +/**
-> > > > > + * video_device_g_fmt_vid() - fill video v4l2_format from the state.
-> > > > > + *
-> > > > > + * @file: pointer to struct file
-> > > > > + * @state: pointer to video device state
-> > > > > + * @format: pointer to &struct v4l2_format
-> > > > > + */
-> > > > > +int video_device_g_fmt_vid(struct file *file, void *state,
-> > > > > +                        struct v4l2_format *format);
-> > > > > +
-> > > > > +/**
-> > > > > + * video_device_g_fmt_meta() - fill metadata v4l2_format from the state.
-> > > > > + *
-> > > > > + * @file: pointer to struct file
-> > > > > + * @state: pointer to video device state
-> > > > > + * @format: pointer to &struct v4l2_format
-> > > > > + */
-> > > > > +int video_device_g_fmt_meta(struct file *file, void *state,
-> > > > > +                         struct v4l2_format *format);
-> > > > > +
-> > > > >  /**
-> > > > >   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
-> > > > >   *
-> > > > > diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
-> > > > > index b5b3e00c8e6a0b082d9cd8a0c972a5094adcb6f2..02579f87ba99d0c849a0865f8cc4295446c39f94 100644
-> > > > > --- a/include/media/v4l2-fh.h
-> > > > > +++ b/include/media/v4l2-fh.h
-> > > > > @@ -18,7 +18,8 @@
-> > > > >  #include <linux/list.h>
-> > > > >  #include <linux/videodev2.h>
-> > > > >
-> > > > > -struct video_device;
-> > > > > +#include <media/v4l2-dev.h>
-> > > > > +
-> >
-> > You will be able to go back to forward declarations once you replace the
-> > state field below with a pointer.
-> >
-> > > > >  struct v4l2_ctrl_handler;
-> > > > >
-> > > > >  /**
-> > > > > @@ -28,6 +29,7 @@ struct v4l2_ctrl_handler;
-> > > > >   * @vdev: pointer to &struct video_device
-> > > > >   * @ctrl_handler: pointer to &struct v4l2_ctrl_handler
-> > > > >   * @prio: priority of the file handler, as defined by &enum v4l2_priority
-> > > > > + * @state: try state used for format negotiation on the video device
-> > > > >   *
-> > > > >   * @wait: event' s wait queue
-> > > > >   * @subscribe_lock: serialise changes to the subscribed list; guarantee that
-> > > > > @@ -44,6 +46,7 @@ struct v4l2_fh {
-> > > > >       struct video_device     *vdev;
-> > > > >       struct v4l2_ctrl_handler *ctrl_handler;
-> > > > >       enum v4l2_priority      prio;
-> > > > > +     struct video_device_state state;
-> > > > >
-> > > > >       /* Events */
-> > > > >       wait_queue_head_t       wait;
-> > > > >
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+Changes in v4:
+- remove imx93 driver support since have not camera sensor module to do test now.
+  Add it later
+- Add new patch
+  media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
+- See each patche's change log for detail.
+- Link to v3: https://lore.kernel.org/r/20250708-imx8qxp_pcam-v3-0-c8533e405df1@nxp.com
 
--- 
-Regards,
+Changes in v3:
+- replace CSI with CPI.
+- detail change see each patch's change logs
+- Link to v2: https://lore.kernel.org/r/20250703-imx8qxp_pcam-v2-0-188be85f06f1@nxp.com
 
-Laurent Pinchart
+Changes in v2:
+- remove patch media: nxp: isi: add support for UYVY8_2X8 and YUYV8_2X8 bus codes
+  because pcif controller convert 2x8 to 1x16 to match isi's input
+- rename comaptible string to fsl,imx8qxp-pcif
+- See each patches's change log for detail
+- Link to v1: https://lore.kernel.org/r/20250630-imx8qxp_pcam-v1-0-eccd38d99201@nxp.com
+
+---
+Alice Yuan (2):
+      dt-bindings: media: add i.MX parallel CPI support
+      media: nxp: add V4L2 subdev driver for camera parallel interface (CPI)
+
+Frank Li (3):
+      media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
+      arm64: dts: imx8: add camera parallel interface (CPI) node
+      arm64: dts: imx8qxp-mek: add parallel ov5640 camera support
+
+ .../devicetree/bindings/media/fsl,imx93-pcif.yaml  | 126 ++++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/freescale/Makefile             |   3 +
+ arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi     |  13 +
+ .../boot/dts/freescale/imx8qxp-mek-ov5640-cpi.dtso |  83 +++
+ arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi  |  27 +
+ drivers/media/platform/nxp/Kconfig                 |  11 +
+ drivers/media/platform/nxp/Makefile                |   1 +
+ drivers/media/platform/nxp/imx-parallel-cpi.c      | 728 +++++++++++++++++++++
+ include/media/v4l2-common.h                        |  30 +
+ 10 files changed, 1024 insertions(+)
+---
+base-commit: 37a294c6211bea9deb14bedd2dcce498935cbd4e
+change-id: 20250626-imx8qxp_pcam-d851238343c3
+
+Best regards,
+--
+Frank Li <Frank.Li@nxp.com>
+
 
