@@ -1,351 +1,202 @@
-Return-Path: <linux-media+bounces-38641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E16B1535B
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 21:21:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3A7B15370
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 21:33:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B27718A601E
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 19:21:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E53D616DC1B
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 19:33:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5448D239E81;
-	Tue, 29 Jul 2025 19:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF83E253B40;
+	Tue, 29 Jul 2025 19:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpUcZZh8"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="p8PaVsrZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-69.smtpout.orange.fr [80.12.242.69])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A465315CD74
-	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 19:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4198324886F;
+	Tue, 29 Jul 2025 19:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753816860; cv=none; b=DMx7b+wwxavwxSGgBWh8OauAQsuo9WBYQf3HZc0BKLCeqdHtkLc0lVSq+oQwfArXlA4xxhqZnZxoc4tljHzG1TNkMTeA0V9XnrJP3+XnUuuFI6PGtDgBbdt1MixY2Wwe3Er5Yt1vR5jbzMb14p0srLVwZPjuorU1SuPp63WggHQ=
+	t=1753817619; cv=none; b=BE1QNLD6tT1GkOYF63x3FpHalUYKXOzFqM/XdaJUVLBnqUgsRXWAySuK2FiheHsCxS7R1ocku9hDTCIKW7k2YO7Lkx9BHcinta7uwUkBYOF6VLZ+3LNwlKNhT/Uylp5bR9qP8mhlCLWDIZPN0uqmHnC+5+MdDoA6hVoRvXbz4Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753816860; c=relaxed/simple;
-	bh=JTmKHWBaShp+3l9gShp3d8kpbUYIVfy8seJbKydlcF4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FCnWQjAYHsXSHGM9dtO5libMhLtNQzAtQJCNwHiH16/dK40gSSWnnFHO4a2Q1wjGL2GPVp99qYxTwunNk7JhZ0xE8iFSX5NB8/TPrqfCsaZ/9RF90pbCbSZ4IZMkUMS1bQW5gvicCDdK5oaKwhYpcmNv8XLHvOlqLXkDVsb946o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpUcZZh8; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753816858; x=1785352858;
-  h=date:from:to:cc:subject:message-id;
-  bh=JTmKHWBaShp+3l9gShp3d8kpbUYIVfy8seJbKydlcF4=;
-  b=DpUcZZh8oV7RHcfBPho41ydBcrnJZ4FybnTcDyX46Dgr8MQnwTCeV0hN
-   ODO5QJqw2P1+XTCaTIiTVLvkR9rrBYtV1zm3TsdHn7GX/S1Yy37UNJJVu
-   idW1MePmsHYIEd66W44sX+988pz4MG+9y5I7y9TQdUaP2gn5pclcBj51Q
-   nglLOkmIkliLiKE6eXHPSyPt4uzbTOs12NYEdx/y4VNeb6F6GtJhaaPTX
-   XDXi0mTfMLufS/LaYdYKeiHo4lnHHimwOkVLiQpAjVtpWqoQPW+Fw0uB2
-   aQXMRnNU8yBi6gCv/BfAZRiiI7hVbi4r4Nv0V3tatS4XQXLtTJmeJlW2X
-   Q==;
-X-CSE-ConnectionGUID: Uc6aUQgNTYmJFBF5MZl05A==
-X-CSE-MsgGUID: /fCmaVQ+SB6scSoDfp50Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="66673036"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="66673036"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 12:20:57 -0700
-X-CSE-ConnectionGUID: GvhsTxbhQPmjQze4umGYiQ==
-X-CSE-MsgGUID: QF/B77mfSXalEQCzLyryxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="193626706"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Jul 2025 12:20:56 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ugpsc-0001bW-2e;
-	Tue, 29 Jul 2025 19:20:54 +0000
-Date: Wed, 30 Jul 2025 03:20:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:eusb2] BUILD SUCCESS
- 644ce903381e9f2449cd3faa61e482466eea0db5
-Message-ID: <202507300324.MSZKBqvO-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1753817619; c=relaxed/simple;
+	bh=Pn/4wU3FWzPANPeulCS77bi1iXkwqEjETvGQ2NElXbU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U/rWCADIUdlOuAXZBu5PtZZCkz+jRLgjMSrao4V2B+wRsB9fEqf7LjSycBRfOga0rs6XHFROj418laqxAe1TJ2hCgoBYZXDxG5AQSk7nPSBu8xA65nGOl1h0PeLOVweUWFniJTHoozjH/ZfBZCm+JpvuvJkAS5T5ibk8h/O/Gho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=p8PaVsrZ; arc=none smtp.client-ip=80.12.242.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id gq4ru80ArUD3Ugq4ru4oqm; Tue, 29 Jul 2025 21:33:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1753817614;
+	bh=z+SRRL3rRltS4sAuSdLWbFetbEgJEuFio4WE2T9Xyb4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=p8PaVsrZqWeFVlslirJenx5xHw0FCGjNcLzugJozH3WTmqHGn5fi/qsz9EKnhlDK9
+	 8JnMXrCM24Qd8qHpbd0v82eiHrGWsWvz67yHCkwUIeW/kpFRRXZesPKDtGtsm0o9HR
+	 XPKiEtHRSaO5ZA/9LCOSS/bpEo60rz9OyhO5hbNKUR3Dw3vnDrf0x3hfIOjB5y66dj
+	 3uLSIJutYRHOBiP3Og5JMCsFgPFW7+jrjnxXIKOAiXhIwVrClRFn9ueI1gApEyuyfq
+	 bL9Nf8wuWKX293f2HmS2HmQAFpz10J0/bwqDv7uI1lCkcz61PMaOxB04RQek127Hfo
+	 ZsoBmEp7pBInA==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 29 Jul 2025 21:33:34 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <884293c1-f6f4-48b3-a5d9-9b41fa8614a5@wanadoo.fr>
+Date: Tue, 29 Jul 2025 21:33:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: rkvdec: Fix an error handling path in
+ rkvdec_probe()
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+References: <b69c20783a7b6f7964ab636679d3da80fc48372e.1753610517.git.christophe.jaillet@wanadoo.fr>
+ <0a8391cb368653b91ea73a51e2c0dee35cceb128.camel@collabora.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Content-Language: en-US, fr-FR
+In-Reply-To: <0a8391cb368653b91ea73a51e2c0dee35cceb128.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git eusb2
-branch HEAD: 644ce903381e9f2449cd3faa61e482466eea0db5  media: uvcvideo: eUSB2 double isochronous bandwidth support
+Le 29/07/2025 à 00:50, Nicolas Dufresne a écrit :
+> Hi,
+> 
+> Le dimanche 27 juillet 2025 à 12:02 +0200, Christophe JAILLET a écrit :
+>> If an error occurs after a successful iommu_paging_domain_alloc() call, it
+>> should be undone by a corresponding iommu_domain_free() call, as already
+>> done in the remove function.
+>>
+>> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>> Compile tested only
+>> ---
+>>   drivers/media/platform/rockchip/rkvdec/rkvdec.c | 11 ++++++++---
+>>   1 file changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+>> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+>> index d707088ec0dc..eb0d41f85d89 100644
+>> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+>> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+>> @@ -1169,15 +1169,17 @@ static int rkvdec_probe(struct platform_device *pdev)
+>>   	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+>>   
+>>   	irq = platform_get_irq(pdev, 0);
+>> -	if (irq <= 0)
+>> -		return -ENXIO;
+>> +	if (irq <= 0) {
+>> +		ret = -ENXIO;
+>> +		goto err_free_domain;
+>> +	}
+>>   
+>>   	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+>>   					rkvdec_irq_handler, IRQF_ONESHOT,
+>>   					dev_name(&pdev->dev), rkvdec);
+>>   	if (ret) {
+>>   		dev_err(&pdev->dev, "Could not request vdec IRQ\n");
+>> -		return ret;
+>> +		goto err_free_domain;
+>>   	}
+>>   
+>>   	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
+> 
+> Have you considered moving the allocation of the domain right above the above
+> line instead ? The empty domain can't possibly be used unless the probe have
+> fully completed.
 
-elapsed time: 1205m
+That would not change things much. We still need to handle 
+rkvdec_v4l2_init() failure a few lines below.
 
-configs tested: 258
-configs skipped: 6
+If it is correct to move it at the very end of the function, after 
+rkvdec_v4l2_init(), then the patch would be simpler.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-tested configs:
-alpha                             allnoconfig    clang-22
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    clang-22
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                              allyesconfig    gcc-15.1.0
-arc                          axs103_defconfig    gcc-15.1.0
-arc                                 defconfig    clang-19
-arc                   randconfig-001-20250729    gcc-10.5.0
-arc                   randconfig-001-20250729    gcc-8.5.0
-arc                   randconfig-002-20250729    gcc-10.5.0
-arc                   randconfig-002-20250729    gcc-8.5.0
-arm                              allmodconfig    clang-19
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-19
-arm                          ep93xx_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250729    gcc-10.5.0
-arm                   randconfig-001-20250729    gcc-15.1.0
-arm                   randconfig-002-20250729    clang-19
-arm                   randconfig-002-20250729    gcc-10.5.0
-arm                   randconfig-003-20250729    clang-22
-arm                   randconfig-003-20250729    gcc-10.5.0
-arm                   randconfig-004-20250729    clang-22
-arm                   randconfig-004-20250729    gcc-10.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    clang-19
-arm64                 randconfig-001-20250729    clang-17
-arm64                 randconfig-001-20250729    gcc-10.5.0
-arm64                 randconfig-002-20250729    gcc-10.5.0
-arm64                 randconfig-003-20250729    clang-22
-arm64                 randconfig-003-20250729    gcc-10.5.0
-arm64                 randconfig-004-20250729    gcc-10.5.0
-arm64                 randconfig-004-20250729    gcc-11.5.0
-csky                              allnoconfig    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    clang-19
-csky                  randconfig-001-20250729    gcc-10.5.0
-csky                  randconfig-001-20250729    gcc-15.1.0
-csky                  randconfig-002-20250729    gcc-10.5.0
-csky                  randconfig-002-20250729    gcc-11.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-19
-hexagon               randconfig-001-20250729    clang-22
-hexagon               randconfig-001-20250729    gcc-10.5.0
-hexagon               randconfig-002-20250729    clang-22
-hexagon               randconfig-002-20250729    gcc-10.5.0
-i386                             allmodconfig    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-20
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-20
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250729    gcc-12
-i386        buildonly-randconfig-001-20250730    clang-20
-i386        buildonly-randconfig-002-20250729    clang-20
-i386        buildonly-randconfig-002-20250729    gcc-12
-i386        buildonly-randconfig-002-20250730    clang-20
-i386        buildonly-randconfig-003-20250729    clang-20
-i386        buildonly-randconfig-003-20250729    gcc-12
-i386        buildonly-randconfig-003-20250730    clang-20
-i386        buildonly-randconfig-004-20250729    clang-20
-i386        buildonly-randconfig-004-20250729    gcc-12
-i386        buildonly-randconfig-004-20250730    clang-20
-i386        buildonly-randconfig-005-20250729    gcc-12
-i386        buildonly-randconfig-005-20250730    clang-20
-i386        buildonly-randconfig-006-20250729    clang-20
-i386        buildonly-randconfig-006-20250729    gcc-12
-i386        buildonly-randconfig-006-20250730    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250729    gcc-12
-i386                  randconfig-002-20250729    gcc-12
-i386                  randconfig-003-20250729    gcc-12
-i386                  randconfig-004-20250729    gcc-12
-i386                  randconfig-005-20250729    gcc-12
-i386                  randconfig-006-20250729    gcc-12
-i386                  randconfig-007-20250729    gcc-12
-i386                  randconfig-011-20250729    clang-20
-i386                  randconfig-012-20250729    clang-20
-i386                  randconfig-013-20250729    clang-20
-i386                  randconfig-014-20250729    clang-20
-i386                  randconfig-015-20250729    clang-20
-i386                  randconfig-016-20250729    clang-20
-i386                  randconfig-017-20250729    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250729    gcc-10.5.0
-loongarch             randconfig-001-20250729    gcc-15.1.0
-loongarch             randconfig-002-20250729    gcc-10.5.0
-loongarch             randconfig-002-20250729    gcc-15.1.0
-m68k                             allmodconfig    clang-19
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    clang-19
-microblaze                       allmodconfig    clang-19
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                       bmips_be_defconfig    gcc-15.1.0
-mips                  cavium_octeon_defconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-11.5.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250729    gcc-10.5.0
-nios2                 randconfig-001-20250729    gcc-8.5.0
-nios2                 randconfig-002-20250729    gcc-10.5.0
-nios2                 randconfig-002-20250729    gcc-11.5.0
-openrisc                          allnoconfig    clang-22
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-22
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250729    gcc-10.5.0
-parisc                randconfig-002-20250729    gcc-10.5.0
-parisc                randconfig-002-20250729    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-22
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                 mpc8313_rdb_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250729    clang-22
-powerpc               randconfig-001-20250729    gcc-10.5.0
-powerpc               randconfig-002-20250729    gcc-10.5.0
-powerpc               randconfig-002-20250729    gcc-8.5.0
-powerpc               randconfig-003-20250729    gcc-10.5.0
-powerpc               randconfig-003-20250729    gcc-11.5.0
-powerpc                     tqm8541_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250729    clang-22
-powerpc64             randconfig-001-20250729    gcc-10.5.0
-powerpc64             randconfig-002-20250729    clang-16
-powerpc64             randconfig-002-20250729    gcc-10.5.0
-powerpc64             randconfig-003-20250729    clang-22
-powerpc64             randconfig-003-20250729    gcc-10.5.0
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20250729    clang-22
-riscv                 randconfig-002-20250729    clang-17
-riscv                 randconfig-002-20250729    clang-22
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250729    clang-22
-s390                  randconfig-001-20250729    gcc-8.5.0
-s390                  randconfig-002-20250729    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20250729    clang-22
-sh                    randconfig-001-20250729    gcc-14.3.0
-sh                    randconfig-002-20250729    clang-22
-sh                    randconfig-002-20250729    gcc-9.5.0
-sh                          rsk7203_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250729    clang-22
-sparc                 randconfig-001-20250729    gcc-8.5.0
-sparc                 randconfig-002-20250729    clang-22
-sparc                 randconfig-002-20250729    gcc-15.1.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250729    clang-22
-sparc64               randconfig-002-20250729    clang-20
-sparc64               randconfig-002-20250729    clang-22
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250729    clang-22
-um                    randconfig-001-20250729    gcc-12
-um                    randconfig-002-20250729    clang-22
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250729    clang-20
-x86_64      buildonly-randconfig-001-20250729    gcc-12
-x86_64      buildonly-randconfig-001-20250730    clang-20
-x86_64      buildonly-randconfig-002-20250729    clang-20
-x86_64      buildonly-randconfig-002-20250729    gcc-12
-x86_64      buildonly-randconfig-002-20250730    clang-20
-x86_64      buildonly-randconfig-003-20250729    clang-20
-x86_64      buildonly-randconfig-003-20250730    clang-20
-x86_64      buildonly-randconfig-004-20250729    clang-20
-x86_64      buildonly-randconfig-004-20250729    gcc-12
-x86_64      buildonly-randconfig-004-20250730    clang-20
-x86_64      buildonly-randconfig-005-20250729    clang-20
-x86_64      buildonly-randconfig-005-20250730    clang-20
-x86_64      buildonly-randconfig-006-20250729    clang-20
-x86_64      buildonly-randconfig-006-20250729    gcc-12
-x86_64      buildonly-randconfig-006-20250730    clang-20
-x86_64                              defconfig    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250729    clang-20
-x86_64                randconfig-002-20250729    clang-20
-x86_64                randconfig-003-20250729    clang-20
-x86_64                randconfig-004-20250729    clang-20
-x86_64                randconfig-005-20250729    clang-20
-x86_64                randconfig-006-20250729    clang-20
-x86_64                randconfig-007-20250729    clang-20
-x86_64                randconfig-008-20250729    clang-20
-x86_64                randconfig-071-20250729    gcc-12
-x86_64                randconfig-071-20250730    clang-20
-x86_64                randconfig-072-20250729    gcc-12
-x86_64                randconfig-072-20250730    clang-20
-x86_64                randconfig-073-20250729    gcc-12
-x86_64                randconfig-073-20250730    clang-20
-x86_64                randconfig-074-20250729    gcc-12
-x86_64                randconfig-074-20250730    clang-20
-x86_64                randconfig-075-20250729    gcc-12
-x86_64                randconfig-075-20250730    clang-20
-x86_64                randconfig-076-20250729    gcc-12
-x86_64                randconfig-076-20250730    clang-20
-x86_64                randconfig-077-20250729    gcc-12
-x86_64                randconfig-077-20250730    clang-20
-x86_64                randconfig-078-20250729    gcc-12
-x86_64                randconfig-078-20250730    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-12
-x86_64                         rhel-9.4-kunit    gcc-12
-x86_64                           rhel-9.4-ltp    gcc-12
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250729    clang-22
-xtensa                randconfig-001-20250729    gcc-8.5.0
-xtensa                randconfig-002-20250729    clang-22
-xtensa                randconfig-002-20250729    gcc-8.5.0
+Honestly, I'm not very confident with it. request_threaded_irq() 
+documentation states that "From the point this call is made your handler 
+function may be invoked."
+And rkvdec_irq_handler() may call rkvdec_iommu_restore() which uses 
+empty_domain.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Not sure if I'm right and if this can happen, but the existing order 
+looks safer to me.
+
+
+That said, if it is fine for you, I can send a v2.
+
+
+This would be:
+
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c 
+b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index d707088ec0dc..6eae10e16c73 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -1159,13 +1159,6 @@ static int rkvdec_probe(struct platform_device *pdev)
+                 return ret;
+         }
+
+-       if (iommu_get_domain_for_dev(&pdev->dev)) {
+-               rkvdec->empty_domain = 
+iommu_paging_domain_alloc(rkvdec->dev);
+-
+-               if (!rkvdec->empty_domain)
+-                       dev_warn(rkvdec->dev, "cannot alloc new empty 
+domain\n");
+-       }
+-
+         vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+
+         irq = platform_get_irq(pdev, 0);
+@@ -1188,6 +1181,13 @@ static int rkvdec_probe(struct platform_device *pdev)
+         if (ret)
+                 goto err_disable_runtime_pm;
+
++       if (iommu_get_domain_for_dev(&pdev->dev)) {
++               rkvdec->empty_domain = 
+iommu_paging_domain_alloc(rkvdec->dev);
++
++               if (!rkvdec->empty_domain)
++                       dev_warn(rkvdec->dev, "cannot alloc new empty 
+domain\n");
++       }
++
+         return 0;
+
+  err_disable_runtime_pm:
+
+
+CJ
+
+> 
+> Nicolas
+> 
+>> @@ -1193,6 +1195,9 @@ static int rkvdec_probe(struct platform_device *pdev)
+>>   err_disable_runtime_pm:
+>>   	pm_runtime_dont_use_autosuspend(&pdev->dev);
+>>   	pm_runtime_disable(&pdev->dev);
+>> +err_free_domain:
+>> +	if (rkvdec->empty_domain)
+>> +		iommu_domain_free(rkvdec->empty_domain);
+>>   	return ret;
+>>   }
+>>   
+
 
