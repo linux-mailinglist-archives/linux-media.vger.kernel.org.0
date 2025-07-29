@@ -1,227 +1,350 @@
-Return-Path: <linux-media+bounces-38629-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38630-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10F1B14E38
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 15:15:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4728B14E97
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 15:43:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8484545B04
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 13:15:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1144C4E6112
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 13:43:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB2E27CCF2;
-	Tue, 29 Jul 2025 13:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA4CA19D065;
+	Tue, 29 Jul 2025 13:43:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PuNjtah8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ePS4jH9q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2084.outbound.protection.outlook.com [40.107.212.84])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7003FB31;
-	Tue, 29 Jul 2025 13:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753794913; cv=fail; b=hZBaaIfoDqiSlJq9kuZMfAliu61gWIAhI4xf7+uJLWYf+GhcUnLMuOEh5nAuUxTQMyWcTfc1xfkwt5/4PV1esaaBpSmYkhnco9fF/dve/vAWH3ujnnYby2slvQSe0YIEF0pX+hiZKV/DAhaU0Esl14PMBzdf7WTWyJ3JGqANTPk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753794913; c=relaxed/simple;
-	bh=G8X0aMyiTSYWKNaJR3Luf9UjJwpcW4qQoSfAbXIuWvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=C4L0rXDgzt6p6rK3lq2+n+vk0tJaT4pPSpBQDqaTsuzShfIgIHdXWOPGs1kUYVHjKo/v36LX8IYRj1uD/eMjUfRQ+JhyqPy3hc4Do586xy8KCsUCr8ps14gyZB+gGdbcJQY9YlNCT8IGYAvsgR3bnnuVkPXdovn2dLQyfTyBOjc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PuNjtah8; arc=fail smtp.client-ip=40.107.212.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SQ8ndPrmMpZvoQl7pOvs2BOvfhnnDp3nyTSZ6WzV/AG+g8ve2dGi7D/H0zztITejlS7k+J60AtsR+nW3KBYJqy371sj3eJvJBA1x+QhlWvUius34RjIrUTD9gQoj0gKL+1TLYEnKmqe6Lc/3KTkU/+7Aahh8y8xYCUAhDOk6AchDg/8yibaTHl0/Kk2wMTJzlpgoWs7+j4VUEi59k1EoBI/tf9U6PGhvtWQ30g+5AaP874GAZH/JUFFU/Z0vSiSBn59FIEU4vUMWVZiFZOjVnq3eo2HEA18gA9aapyQWekbaP216g+0FEdy9AoBRMVhbF0aBs0G1E3cieFexRV9iMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6R2y9MIzKgh4p4crlgJU6iT5Xs9aQTF02KsxIyQvNyU=;
- b=hbpJPkV4NB5Sw0Li2HQNJOeZAOCKxHI0x+1A/F9v/Qtr1CZoWHeHEjI0sfoz7DrthI8uxa2WbZUlJPnKbU+qVjMcryTM95qBfhAb5rp0nqURyuFVAekYyROAtI4Ed7l2+kqDR+KeqgzFvUEc0Qbe4CK++aywDky8BWPiGySO8e+ItHHuHd2k4dQ4YNZFj4qmbnkQDqJcu+GZ3t7bJ0bM41nMrY9NHOgIXPcls4NUs49aZnlHvgx+c2QsiBFL4QX3zbnbkxC+e6IC97UQxDTKboVCEQu3U7TYELzmGESXbHYQgjLXuT5U0vAAtGFKkstLmitc0mL8+a9k7pAL1s3wug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6R2y9MIzKgh4p4crlgJU6iT5Xs9aQTF02KsxIyQvNyU=;
- b=PuNjtah8eZ2aSiZwTEj95uqv+AIjkfsboRn1sKSyuR1dzu7ucahskJUqOsFJqI3mcFll3DOIKFaTkSSJFfQHnx/mHvigXT90CDy9aedRf4q8T2kDNdQlZaER49IzJ9kbel/WV+iABQtGpg8BFMjzDHZuHL3ThUnUkm+gFAcV3yFvUZtj9IsVYsWtcSTWm3W+rOyYzFlkN667rAACBNiAl+Nuf/TeGMqhAsLJ2m4eMUj5gfjImPG50KXwA9OXcft5W7iMBNvXg3UUaYeZNkxZusjOQrP8WmoDyPC/ATcioTGC9lKBVd3ka4oTgcOoU/UR2YzurPJysVbRZbqBbwLNJA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MN0PR12MB5810.namprd12.prod.outlook.com (2603:10b6:208:376::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Tue, 29 Jul
- 2025 13:15:07 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8964.024; Tue, 29 Jul 2025
- 13:15:07 +0000
-Date: Tue, 29 Jul 2025 10:15:02 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 02/10] PCI/P2PDMA: Introduce p2pdma_provider structure
- for cleaner abstraction
-Message-ID: <20250729131502.GJ36037@nvidia.com>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <c2307cb4c3f1af46da138f3410738754691fbb3d.1753274085.git.leonro@nvidia.com>
- <20250724075145.GB30590@lst.de>
- <20250724075533.GR402218@unreal>
- <20250724075922.GD30590@lst.de>
- <20250727185158.GE7551@nvidia.com>
- <20250729075209.GA23823@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729075209.GA23823@lst.de>
-X-ClientProxiedBy: YT2PR01CA0019.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::24) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865F5200A3
+	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 13:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753796607; cv=none; b=efCflju9zojlXyRA+heghCODzpWYct3lhtx7VtJ08KLQuBYzfRFTimMjz2TQjXOszdpgQQzwIaz3MsB1AJ0xw3JCBZci+OQgrlckjgoGsZMQ5/NKArTrZ7XPYIeFjAMJS6/90105N3xCI2AKdpHX3GumccKbUcyRT0tJDr7DPn4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753796607; c=relaxed/simple;
+	bh=lBWTCsDnGl+p1mT29xSzCef9YLjdD0fmAsGZ234csu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gbb/UBVhHwcrIfYaUXpYRKjZlr0ZJYdneuKFVpa3gLfU6dW1B0NdT3qnTA2vN5FTMhsGWY7wZJzPekMejVla//8pX8Imxf1KZYi8iCF4HtQSwS5eR7s9dUAdapqKfDskQgdHsyxCO9yUquevh0j8qwn4Z4dtoQy6irE+BokdMjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ePS4jH9q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-139-29.net.vodafone.it [5.90.139.29])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAF16C6E;
+	Tue, 29 Jul 2025 15:42:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753796558;
+	bh=lBWTCsDnGl+p1mT29xSzCef9YLjdD0fmAsGZ234csu4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ePS4jH9qs8qGAA4NvQSaBkMvej9h7AtXoTDBh+Nzh6NgdypjR/0Dq/wwcWG6PZfVY
+	 cBDclDsw+5McuvmsqtGVl15OQScbhuYllo13cULHcwf/KVE0r/St8lrAdj7tGXU4Q0
+	 bmEzY0Ash3nJz2qdAhJC/Dhe0X4063DaBXBngEOs=
+Date: Tue, 29 Jul 2025 15:43:17 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Dafna Hirschfeld <dafna@fastmail.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC 1/3] media: v4l2-core: Add support for video device
+ state
+Message-ID: <zxgkpvodgtanbe5mihgi4cboh3u6csmfsvbnruktaykhzfwgvs@fbgchdqjivbh>
+References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
+ <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com>
+ <3yifjhhqjrryg2fnfep6yqpxlvc3y5drh54smwajptfzy75tuu@dfsl6g5ktxbw>
+ <175227804873.3930831.3557651361410884449@freya>
+ <20250714171632.GA13846@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN0PR12MB5810:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a0b59bd-ad75-4999-0cdf-08ddcea1f05c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JkAS5HNlkVFre62pZISeLh4GukXjb/Q9HvbyZ/owSW6LO2RXRkxMQEX2P6f7?=
- =?us-ascii?Q?JO0N1bKL31ZEnDo5/0rKWMsG8P8hdpA7E77jR2nUM4EHFXbrPJLIDsdPUGV7?=
- =?us-ascii?Q?SkFi9ypbZhpv/7WQNcLWJ4BlJF0jvAo7/UkBoZo0rkTioYliW8eNzIPK6oDC?=
- =?us-ascii?Q?pBFHLb6+oLodlKksvLmVmz1FoAZqoUI+vEJy0GNTfiHknDIyAkwT/8A+yUVm?=
- =?us-ascii?Q?ra0G5aVAIReH7ERB2tD6FWD253igDUIO+M3BOIh/3Xv8oFV6jLKX89M99pSq?=
- =?us-ascii?Q?ozwjL8U8mW2uxlDdJUZEW7KjEObe3RYeUZmw7rNwhSUTbw0JbDm1ZPj8fdLf?=
- =?us-ascii?Q?6vINXvo0AWUsx9/oCi+qAEcaR1Lj0WxgfRx9XFO6OzHOd8azq8gWaYriiSGX?=
- =?us-ascii?Q?YRyqzswonA0841agpya7gMMEtfsBGYyOjbqnAE5s0SnM0XuBFyyBu4INysVI?=
- =?us-ascii?Q?yeboNcmv+MUwF29FMjxw7TEigHMWvb/+s7emTaiZe7p0CKRcilfwCFEm+mxs?=
- =?us-ascii?Q?Z2WYFHk5LPr/hqgqWHw02SeRr6RYRKtUDBWnPucUxATSmy+m4rb06JtJ7fwe?=
- =?us-ascii?Q?p6mOObJpzRoF9bXiwXYr8wDa05xnvaX/8BYil7Iu1sCQyLXIN6bcqdv/Xflj?=
- =?us-ascii?Q?46wkbXG+4v1gq2vOPiLAtJ0tiPJeINikA1Zic0tVRD826P8NqCjof5oSFI4H?=
- =?us-ascii?Q?a+bBbXv9HhSj9+pyLUoL3jpcjNiVir4q/5gBGC8wNCo5nMazDpX7I8eraLdV?=
- =?us-ascii?Q?8v6z5VAVGUprGlpaN3UmxOrTuKrZQW7GnL9bj+e9t6B1JX/uuAlTc9YITPKu?=
- =?us-ascii?Q?3XTAxg6B/Un7X/TroHM2kPL463I7g0Oz65X1WRzvQcnCR1LN4gMEPIedsyty?=
- =?us-ascii?Q?/OU4dhsW+D1v0uBFEsjgWf5gzVDqXHMtEJbxLvLuF0WC9Dnf2P7Yf31t1QFu?=
- =?us-ascii?Q?3vsY7bLDht9tFNvSbJDQ/1P6vJRz1/IaLC1kQXW3TfSZs1qwQ8lLT9oSGRyK?=
- =?us-ascii?Q?U4n7POPsiKMdlIuqCKDRF/GQtSFQNmf+s7MZ6wllei/wG7MKcHKDD77qCTgA?=
- =?us-ascii?Q?hs9aKdg2jIATPPbi4b4J8MSSC+i+obFjpCUMOzu/c2WLF2cAFCsp+tK6LE6d?=
- =?us-ascii?Q?mQFKvQQflTiivf/w5KOmWWftyF4h046W7pqOIy8YJaVIGNH/jjHeEOQNsKFH?=
- =?us-ascii?Q?1Inv1M4Awod84qGCZ2QbnWkJ+L+g6bX1ktUHlW5UYKKgN3ebpkAvpYjhLZ3n?=
- =?us-ascii?Q?hUV6X2zqeA6XwwaKAdW+4latunKIyF9YQH9xIEs+zcuE/07/lQ+f5mqnObsK?=
- =?us-ascii?Q?LOokDW18XxpKtUcxOU0mcfJm4C3F2vy5XBGrJoBFclExfDC67OQIW/N9JPE6?=
- =?us-ascii?Q?9AeqY27QKrXRIJXD59r7OHedwDo20XzXTgXwZWtG4zcbh+u3a5TKzzfMy0Yy?=
- =?us-ascii?Q?ngO1r4FcNFo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5owiKLb1tyFlILIyxNRcDGfOEAq5B4EP8MakmNt5/DSEj/IaU3HN11FMKrez?=
- =?us-ascii?Q?CbIVA9WsWt+UySx0DPOW9FG9mNlUyXtIdWgmd5tDozmRTs9a8NXtFYULMTWY?=
- =?us-ascii?Q?kpVZQik38sfwcoGN49DEnsVjIIbSl41QqLPRIrGDh46WlrQEmH94piYUjRlb?=
- =?us-ascii?Q?MbZJKKst5cJDces0BAG+w6bkHrcu6dlAeHazS4a9kZXEEG3IoqcykcRBlb9r?=
- =?us-ascii?Q?vfv431qWhQlk/6fFrn4Rq2NLzb0MY8PfhAC4g4tiulOPCxrUDoyhiF64PebT?=
- =?us-ascii?Q?ucOwBHPsjo1owqcyZidb3hLyUC82fFNxj4/3JG00d32n36ki1TN6XEaWEOvX?=
- =?us-ascii?Q?f+FlhZyqwd7i3Zp3RnwIRhwI4ifgRzI6c0zB725WVpbIGZk4KFZCqk14bb12?=
- =?us-ascii?Q?fezasc/Q1bjYi3UcaENcO7f27CcYnZURgG4Pe7fwKzv9aQUuJOWxipQAZkS0?=
- =?us-ascii?Q?pt70OpHtlWw/2qLYEfch9CJL8wTXG+wo5ho8cDk5yCfwBL/f2DJtt/ixO4RA?=
- =?us-ascii?Q?4N7Z/Zxlm9DOERyC3XIQqJuYf1SrmOvJBj9sojSSm5zrCwzFSQ2knNYHkBKY?=
- =?us-ascii?Q?Kv3+jvzVivSufMOxqiGXRlnSwq2TgYgzN9tgPLQBWGWkf42OGxUcEYL/KT/c?=
- =?us-ascii?Q?dlkUgGTaEg855z9ify+QzWoHn6Mou1KqBJAm8lGxbWk9EOAp8BpPfzZSF5yL?=
- =?us-ascii?Q?3+QxACU9aNATUoBT30USR8DNRa7hfV6F6KCiYujhBznLOdh1BOmYjBRMlpGI?=
- =?us-ascii?Q?AWVeK4e1Mdx6nyKfaDZ5J2Df7Ag5e2crCYxhWumdG7YitSQEQH4tjUKApdcr?=
- =?us-ascii?Q?eDlxbkN177uof7mxcovFkzvA+9jeFN3ZPxRB33bFxCKKLuEDsabLkJsEpHKA?=
- =?us-ascii?Q?XTkzjKegkylkXD9psD8bNx+yA1PqIP5PBLijzA4QDvOd/0x18slqutAb5Jch?=
- =?us-ascii?Q?/i/Wa5OB4N2Pu4fByCnR4D9whXjRcaI3TgWssvR7RczLtP47oMXxihDl4c+W?=
- =?us-ascii?Q?OXTDssj5FGTih04mE/pZHpG9N//oiZpFVoeu/a9kVzuNwcD/4F9NmX8B08bF?=
- =?us-ascii?Q?yBP+BKxjxwBcEWBPw1e3Qo03SnGEpHukq75W+a78+y9kOEkLy25fQ/onq+d6?=
- =?us-ascii?Q?PeY17IN5NUNisHALozt+nmvacThmHQPBdI4qQ3byOAnckyB47PrMQNil3j+I?=
- =?us-ascii?Q?hN1vuzX1/YtqAarsxeWB/QB1Pm28u/eM8jDdEapYBdrYpfRmMithiHV8DUJL?=
- =?us-ascii?Q?s2XDT6PchGF9wZ7Z/35mrVLk4o2QXU5Xt+z438xSqf76H3qmrGhkCrLz4dnz?=
- =?us-ascii?Q?vVkv1Af77i6v3cB6VPRrVQdJkYzMBK40+u5kbwwbfScLyU25TX1pS29oMRa+?=
- =?us-ascii?Q?S50N/N3x3sO+MYeQMNSzAnC3JbcPdXu9yfX1Qkj/swVOObzFPt4KLEhE8CIR?=
- =?us-ascii?Q?DoQ+YDh0mWq72FS+Y7IwVZrsyh52Cu9CClo+OdJzgOESltF04zJrtDluAwHm?=
- =?us-ascii?Q?8Hz0lf5VPHspHsdXOkmDqe4RBc4GLu4IX7AemZ9gpF/vTYETplse+i8AlVRC?=
- =?us-ascii?Q?AzbApihL/JShUgO96bQ=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a0b59bd-ad75-4999-0cdf-08ddcea1f05c
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2025 13:15:07.5783
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: viF4QoAerpzTmA+6p0qC+SdZpGxA43S6TE6dNLfjLOpP3aIN5CRaUd/sP4oF8Ciu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5810
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250714171632.GA13846@pendragon.ideasonboard.com>
 
-On Tue, Jul 29, 2025 at 09:52:09AM +0200, Christoph Hellwig wrote:
-> On Sun, Jul 27, 2025 at 03:51:58PM -0300, Jason Gunthorpe wrote:
-> > On Thu, Jul 24, 2025 at 09:59:22AM +0200, Christoph Hellwig wrote:
-> > > On Thu, Jul 24, 2025 at 10:55:33AM +0300, Leon Romanovsky wrote:
-> > > > Please, see last patch in the series https://lore.kernel.org/all/aea452cc27ca9e5169f7279d7b524190c39e7260.1753274085.git.leonro@nvidia.com
-> > > > It gives me a way to call p2p code with stable pointer for whole BAR.
-> > > > 
-> > > 
-> > > That simply can't work.
-> > 
-> > Why not?
-> > 
-> > That's the whole point of this, to remove struct page and use
-> > something else as a handle for the p2p when doing the DMA API stuff.
-> 
-> Because the struct page is the only thing that:
-> 
->  a) dma-mapping works on
+Hi Laurent
 
-The main point of the "dma-mapping: migrate to physical
-address-based API" series was to remove the struct page dependencies
-in the DMA API:
+On Mon, Jul 14, 2025 at 08:16:32PM +0300, Laurent Pinchart wrote:
+> On Fri, Jul 11, 2025 at 04:54:08PM -0700, Jai Luthra wrote:
+> > Quoting Jacopo Mondi (2025-07-08 09:26:29)
 
-https://lore.kernel.org/all/cover.1750854543.git.leon@kernel.org/
+[snip]
 
-If it is not complete, then it needs more fixing.
+> > > >  static long __video_do_ioctl(struct file *file,
+> > > >               unsigned int cmd, void *arg)
+> > > >  {
+> > > > @@ -3081,6 +3106,9 @@ static long __video_do_ioctl(struct file *file,
+> > > >       if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
+> > > >               vfh = file->private_data;
+> > > >
+> > > > +     if (vfh && test_bit(V4L2_FL_USES_STATE, &vfd->flags))
+> > > > +             fh = video_device_get_state(vfd, vfh, cmd, arg);
+> > > > +
+>
+> That's very dangerous, using the same void pointer for two different
+> purposes depending on the USES_STATE flag. I think you should start with
+> some refactoring to move away from using a void pointer.
+>
+> The first step is to remove direct setting of file->private_data in
+> drivers. Quite a few do so because they need to allocate the structure
+> containing the v4l2_fh. They therefore can't call v4l2_fh_open(), which
+> sets file->private_data, but call v4l2_fh_init(), set the private_data
+> field, and then call v4l2_fh_add(). In many cases it seems
+> v4l2_fh_init() could set file->private_data. You will need to check all
+> drivers that set the field directly, see if any of them set
+> file->private_data to a value different than the v4l2_fh pointer, and if
+> that could be fixed.
 
->  b) is the only place we can discover the routing information, 
+Can I reverse it ?
 
-This patch adds the p2pdma_provider structure to discover the routing
-information, this is exactly the problem being solved here.
+drivers that sets file->private_date = vfh; should be checked to make
+sure they do not retrieve 'vfh' from the 'void *' in their ioctl
+handlers but rather access file->private_data directly.
 
->     but also more importantly ensure that the underlying page is
->     still present and the device is not hot unplugged, or in a very
->     theoretical worst case replaced by something else.
+Once all of them are checked, we can replace the 'void *' argument
+with the video_device_state pointer. And yes, if we can have
+v4l2_fh_init() set file->private_data to vfh that's certainly better
+than having drivers doing that by hand.
 
-I already answered this, for DMABUF the DMABUF invalidation scheme is
-used to control the lifetime and no DMA mapping outlives the provider,
-and the provider doesn't outlive the driver.
+But ...
+>
+> (Note that some drivers set the private_data field of a debugfs file, or
 
-Hotplug works fine. VFIO gets the driver removal callback, it
-invalidates all the DMABUFs, refuses to re-validate them, destroys the
-P2P provider, and ends its driver. There is no lifetime issue.
+... some drivers assume something different is set in
+file->private_data.
 
-Obviously you cannot use the new p2provider mechanism without some
-kind of protection against use after hot unplug, but it doesn't have
-to be struct page based.
+Again however, if in their ioctl handlers they retrieve it from
+file->private_data and do not hard-cast the void * to whatever they
+need, again the void * argument can safely be replaced by a pointer to
+video_device_state.
 
-Jason
+> an ALSA device. Don't mistakenly consider those as direct usage of
+> private_data conflicting with V4L2_FL_USES_V4L2_FH.)
+
+I noticed, in example  drivers/media/platform/amphion/vpu_dbg.c
+
+However I don't see it setting file->private_data but rather access
+it in their debugfs handlers:
+
+	struct seq_file *s = file->private_data;
+
+Is this what you mean with
+
+"Don't mistakenly consider those as direct usage of
+ private_data conflicting with V4L2_FL_USES_V4L2_FH."
+
+?
+
+>
+> If we're lucky, we'll be able to remove manual usage of private_data in
+> drivers. In that case, we could then either
+>
+> - Patch ioctl handlers in drivers to use file->private_data to access
+>   the v4l2_fh and stop using the void *fh argument, and then replace the
+>   void *fh argument with a video_device_state *state.
+>
+
+This would be preferable imho
+
+Thanks
+  j
+
+
+> - Add a video_device_state *state argument to the ioctl handlers, if we
+>   decide to keep the fh pointer. In that case we should replace void *fh
+>   with v4l2_fh *fh.
+>
+> If there are drivers left that can't easily stop setting private_data
+> manually, let's discuss them.
+>
+> > > >       /*
+> > > >        * We need to serialize streamon/off with queueing new requests.
+> > > >        * These ioctls may trigger the cancellation of a streaming
+> > > > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> > > > index 1b6222fab24eda96cbe459b435431c01f7259366..8e6e7799212cd07ae4ad3dfc85912c21a9bcab2d 100644
+> > > > --- a/include/media/v4l2-dev.h
+> > > > +++ b/include/media/v4l2-dev.h
+> > > > @@ -89,12 +89,18 @@ struct dentry;
+> > > >   *   set by the core when the sub-devices device nodes are registered with
+> > > >   *   v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
+> > > >   *   handler to restrict access to some ioctl calls.
+> > > > + * @V4L2_FL_USES_STATE:
+> > > > + *   indicates that the &struct video_device has state support.
+> > > > + *   The active video and metadata formats are stored in video_device.state,
+> > > > + *   and the try video and metadata formats are stored in v4l2_fh.state.
+> > > > + *   All new drivers should use it.
+> > > >   */
+> > > >  enum v4l2_video_device_flags {
+> > > >       V4L2_FL_REGISTERED              = 0,
+> > > >       V4L2_FL_USES_V4L2_FH            = 1,
+> > > >       V4L2_FL_QUIRK_INVERTED_CROP     = 2,
+> > > >       V4L2_FL_SUBDEV_RO_DEVNODE       = 3,
+> > > > +     V4L2_FL_USES_STATE              = 4,
+> > > >  };
+> > > >
+> > > >  /* Priority helper functions */
+> > > > @@ -214,6 +220,30 @@ struct v4l2_file_operations {
+> > > >       int (*release) (struct file *);
+> > > >  };
+> > > >
+> > > > +/**
+> > > > + * enum video_device_format_whence - Video device format type
+> > > > + *
+> > > > + * @V4L2_DEVICE_FORMAT_TRY: from VIDIOC_TRY_FMT, for negotiation only
+> > > > + * @V4L2_DEVICE_FORMAT_ACTIVE: from VIDIOC_S_FMT, applied to the device
+> > > > + */
+> > > > +enum video_device_format_whence {
+> > > > +     VIDEO_DEVICE_FORMAT_TRY = 0,
+> > > > +     VIDEO_DEVICE_FORMAT_ACTIVE = 1,
+> > > > +};
+> > >
+> > > I'm not sure we need these. More on this on the drivers
+> > > implementation in the next patches.
+>
+> I agree, this should not be needed at this point. The whole point of
+> states is that drivers should not care whether they're operating on a
+> TRY or ACTIVE state. There are exceptions with subdevs for historical
+> reasons, but we shouldn't repeat that here.
+>
+> It may make sense to later add TRY/ACTIVE identifiers for the UAPI, but
+> within drivers they should not be used. How about repurposing the
+> .try_fmt() and .s_fmt() ioctl handlers for drivers support states, by
+> using .try_fmt() first to adjust the format and store it in the state
+> (ACTIVE or TRY, that shouldn't matter to drivers), and then using
+> .s_fmt() to apply the state to the device ? The V4L2 core should call
+> .try_fmt() first followed by .s_fmt() when V4L2_FL_USES_STATE is set.
+> The vast majority of state-aware drivers will configure the device when
+> starting streaming, so they won't need to implement .s_fmt().
+>
+> Now that I wrote this, the plan may conflict with my comment above
+> regarding leaving the busy check in drivers. Let's figure that one
+> first, and see if we need to let drivers known on what state they're
+> operating. I think repurposing .try_fmt() and .s_fmt() should be done
+> regardless.
+>
+> > > > +
+> > > > +/**
+> > > > + * struct video_device_state - Used for storing video device state information.
+> > > > + *
+> > > > + * @vid_fmt: Format of the video capture stream
+> > > > + * @meta_fmt: Format of the metadata capture stream
+> > > > + * @which: is this a TRY or ACTIVE format?
+> > > > + */
+> > > > +struct video_device_state {
+> > > > +     struct v4l2_format vid_fmt;
+> > > > +     struct v4l2_format meta_fmt;
+> > > > +     enum video_device_format_whence which;
+> > > > +};
+> > > > +
+> > > >  /*
+> > > >   * Newer version of video_device, handled by videodev2.c
+> > > >   *   This version moves redundant code from video device code to
+> > > > @@ -238,6 +268,7 @@ struct v4l2_file_operations {
+> > > >   * @queue: &struct vb2_queue associated with this device node. May be NULL.
+> > > >   * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
+> > > >   *    If NULL, then v4l2_dev->prio will be used.
+> > > > + * @state: &struct video_device_state, holds the active state for the device.
+> > > >   * @name: video device name
+> > > >   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
+> > > >   * @vfl_dir: V4L receiver, transmitter or m2m
+> > > > @@ -283,6 +314,7 @@ struct video_device {
+> > > >       struct vb2_queue *queue;
+> > > >
+> > > >       struct v4l2_prio_state *prio;
+> > > > +     struct video_device_state state;
+> > >
+> > > One of the key design requirement it's the ability for drivers to
+> > > sub-class video_device_state. One possibile way to obtain this is to
+> > > dynamically allocate the state either by deferring to the driver's the
+> > > allocation (so that they can allocate a bigger structure) or by
+> > > passing to the framework the size it has to allocate.
+> > >
+> > > In any case, I'm afraid the state should be allocated dynamically,
+> > > either in the drivers' init_state() (or similar) callback or by the
+> > > framework with a size hint from the driver.
+> > >
+> > > What do you think ?
+> >
+> > Ah okay, I missed that. Should be possible to make this dynamically
+> > allocatable by the driver. It will also tie into Sakari's suggestion of
+> > creating a helper for initializing the state.
+>
+> Yes, I agree with Jacopo and Sakari here. The state should be
+> dynamically allocated, and you should add an operation to initialize it.
+>
+> > > >
+> > > >       /* device info */
+> > > >       char name[64];
+> > > > @@ -540,6 +572,26 @@ static inline int video_is_registered(struct video_device *vdev)
+> > > >       return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
+> > > >  }
+> > > >
+> > > > +/**
+> > > > + * video_device_g_fmt_vid() - fill video v4l2_format from the state.
+> > > > + *
+> > > > + * @file: pointer to struct file
+> > > > + * @state: pointer to video device state
+> > > > + * @format: pointer to &struct v4l2_format
+> > > > + */
+> > > > +int video_device_g_fmt_vid(struct file *file, void *state,
+> > > > +                        struct v4l2_format *format);
+> > > > +
+> > > > +/**
+> > > > + * video_device_g_fmt_meta() - fill metadata v4l2_format from the state.
+> > > > + *
+> > > > + * @file: pointer to struct file
+> > > > + * @state: pointer to video device state
+> > > > + * @format: pointer to &struct v4l2_format
+> > > > + */
+> > > > +int video_device_g_fmt_meta(struct file *file, void *state,
+> > > > +                         struct v4l2_format *format);
+> > > > +
+> > > >  /**
+> > > >   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
+> > > >   *
+> > > > diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+> > > > index b5b3e00c8e6a0b082d9cd8a0c972a5094adcb6f2..02579f87ba99d0c849a0865f8cc4295446c39f94 100644
+> > > > --- a/include/media/v4l2-fh.h
+> > > > +++ b/include/media/v4l2-fh.h
+> > > > @@ -18,7 +18,8 @@
+> > > >  #include <linux/list.h>
+> > > >  #include <linux/videodev2.h>
+> > > >
+> > > > -struct video_device;
+> > > > +#include <media/v4l2-dev.h>
+> > > > +
+>
+> You will be able to go back to forward declarations once you replace the
+> state field below with a pointer.
+>
+> > > >  struct v4l2_ctrl_handler;
+> > > >
+> > > >  /**
+> > > > @@ -28,6 +29,7 @@ struct v4l2_ctrl_handler;
+> > > >   * @vdev: pointer to &struct video_device
+> > > >   * @ctrl_handler: pointer to &struct v4l2_ctrl_handler
+> > > >   * @prio: priority of the file handler, as defined by &enum v4l2_priority
+> > > > + * @state: try state used for format negotiation on the video device
+> > > >   *
+> > > >   * @wait: event' s wait queue
+> > > >   * @subscribe_lock: serialise changes to the subscribed list; guarantee that
+> > > > @@ -44,6 +46,7 @@ struct v4l2_fh {
+> > > >       struct video_device     *vdev;
+> > > >       struct v4l2_ctrl_handler *ctrl_handler;
+> > > >       enum v4l2_priority      prio;
+> > > > +     struct video_device_state state;
+> > > >
+> > > >       /* Events */
+> > > >       wait_queue_head_t       wait;
+> > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
