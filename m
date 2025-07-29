@@ -1,119 +1,273 @@
-Return-Path: <linux-media+bounces-38612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC897B148DB
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 09:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80BDCB14900
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 09:16:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01F83188305F
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 07:01:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E642D189A0A4
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 07:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90F5A25D216;
-	Tue, 29 Jul 2025 07:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF186260588;
+	Tue, 29 Jul 2025 07:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rn0SQqDd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GB7o58lC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64486290F;
-	Tue, 29 Jul 2025 07:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179DA263F4E
+	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 07:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753772459; cv=none; b=Yc50de+nu+KsuhjhDtc8EkpypLCAguUQBeeF3NSTdmGgbbt1TbYjS6E7H016Lpu/mWy93HBAlCu2/bsFh/tjiSIVGmw524IbLVxXMpNeDo+jgmQT8+A8CRkxV7FR4OMIFuH0cAJgf40328Zpyq48Xkj7YMjAehV15k1PDIWoKqk=
+	t=1753773382; cv=none; b=W7pCn7TMT8W3XtST37VrVJTRxlEEcNDjk+SUOs1Go35WTCb7j+oe69fFAyHaTtW2LdVDg3bxtlCWOGOrmDMZIDoRShukQWkXzgOKVrriv7iCf6lLy9gFvGy5qDHeHsQ9I0zD0MHqTKCajCozi1UNgXUpY4X5JsqcFUVak8EsxL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753772459; c=relaxed/simple;
-	bh=4zir6EZFKxTAw5jAMxPZ3bM9r0SW/RrUbrbCmKXQq7k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NllnLQHhrG7zBEiyMPaEJhHk70AN0hHlizo4hRXfSEO1TkGM3ODYvx8Pvy2lO7DVMco03bn+c7iQugdaWLNK4vd08LF8gx/0ZKCTQBzo5HusBJJi9acg1ZnT+o56DtHxb484XyZtJX9j/Ydnays0djBTPH24s8qcn8yJyRMDh8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rn0SQqDd; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so31535555e9.1;
-        Tue, 29 Jul 2025 00:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753772456; x=1754377256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ttNeMXJ7C0/yz0Q1cFAKO+GXt2M48g6T6K0pnZ0/AhI=;
-        b=Rn0SQqDddBtHqCrF15Fjk/DqDsOqa2N+YRWWVbXOED2j5SGBGr5JKrG/CcoD1lbYsw
-         PEbUl2n3FrE7tX/J/qKazDykOFCczqCSCMhQGKFZTVNIXsSRUqzbOSORNyloF6a/FKr8
-         65N7S23zSqfcvIg638DvW0f83hi3m+CvxJl6cm5aNAoX5n40zbJ2rsHELHf3H9gtCt16
-         oeYik4jj75oXaTZk3K0+Q/ZTavGf0khwyI/KrGwx52R1wSNFbn79hhcWdI48qCtzwO/e
-         SpJUJDBw3eQ+qZcdRLMkAGHTQpRagAMD0wHf7RHz5iO/Mu6xDIM3IOgTBSBygQcePGWU
-         veCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753772456; x=1754377256;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ttNeMXJ7C0/yz0Q1cFAKO+GXt2M48g6T6K0pnZ0/AhI=;
-        b=YpEGpkXtInTB37mQ+OD1ocrsys9vd9w4M0F6u+uoRWgRvt+syMYOeP55I10+UoE0RC
-         yqQze93Coc8dx3pdqbK7VXRvRBO7NpEKEeKnhdrdx62/tAJC7hxx01KxlisXAcVbCaqI
-         m2j/QKQXB5BiNctaEVcMJAcOknePKr0wf3RIQZAOMwain9hdYlFr/f3PYET1aKF4kYA3
-         wPo8n+xF7iKrpPN1q0DHfTx444JueVZJBA6ZEeaQ+RdhKwLQePCHdA/UtU47ZDB0NkYt
-         Kxyw8lBhD1Ph5gfg/7dN3zWd54k3R5R0JWs+zQlSsAqylufYkHA5HOtSnR/WDgtINb9h
-         CU+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUS8AE8EGIy8d9ucQZ0vGGNStxWSw9Q3AvnMYFIx7pcrQTIJowx/b4IlS/03GMhCGYhWUFSGRSeaOs+1dM=@vger.kernel.org, AJvYcCUjdhzIWF11wapgR2V/8tWsnI7mWi9a4Ke1JtPMF3gRYuAP91UqCXz0m0JFxvYh+2EjcykypMFt+oGwllk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr7MsQReHdUIYaE9Sav4p+iYg+4t8krcuueQL31m4Sg9+4n059
-	dRYGLp4dj0rAq7mQeHctdK+alsR7kgxH5xQY+S2IZJla/0CahazWzbGT
-X-Gm-Gg: ASbGncshw3/vnUrOMelX5HUpxDdMpN3obdEmZyewOCMzQmMFxMhqnOPwGxBBrYi9jSg
-	TpQfi8NI2ioJOY3Z5N8oxZvmxGwQYisYgJc1oovnYTPwU4TnK9VkAyQzjz1WvC8ek3xWdBeJd0F
-	jGmI0H5rnqur7V3cHFdfN2d5lL5Q+dfSZ73H0ln2sFRikZA34q0pwS+rd94vZ6As/NaqOBMMJiJ
-	2JcGcC7IvuEkqAZuNcoD/00NkfLjnlVkXSy9VyNiCQkyEWtGYRlcAr7aa7/W1qkPARU+jQxxM2f
-	KCe0QJ6OA1l210dUtgatdg99zXde0t+SuXhGS3Yj0GfsnnU2QXtJXhJah5GviIhjasoTEfF6fMS
-	Ef6Sazrpzr57cq6XtaQ44
-X-Google-Smtp-Source: AGHT+IGF3754rBDu14/bYmKAnzfiy/mo2VV5nBc+fe9fTEAHSBar23LpWafsxPoAvG1Ah6venOuKlg==
-X-Received: by 2002:a05:600c:518d:b0:456:24aa:9586 with SMTP id 5b1f17b1804b1-45876449ee6mr91588465e9.21.1753772455275;
-        Tue, 29 Jul 2025 00:00:55 -0700 (PDT)
-Received: from localhost ([87.254.0.133])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b778f034a6sm11271145f8f.47.2025.07.29.00.00.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jul 2025 00:00:54 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: ov5648: make read-only arrays regs and values static const
-Date: Tue, 29 Jul 2025 08:00:21 +0100
-Message-ID: <20250729070021.1659848-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.50.0
+	s=arc-20240116; t=1753773382; c=relaxed/simple;
+	bh=ouxWcyAB3vsEctfk984PCtbm105fHIqlt3FrgpVx99s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f4jVytLN4Y+YNuoVwSdY3B85c5vQph5EkbSUJ55EZDPNt5sRZ3m00c1LmDL1KbNREYeK6hx7z491LN1EUUPycmcfNLoMmlKCzrSNmr+aV7xgw5M8UPtZNvjW8ksubna1LvLPDxF510onhnFreHR4Ov3SB9Um3QLimOG0VNlqNIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GB7o58lC; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-139-29.net.vodafone.it [5.90.139.29])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2515A3A4;
+	Tue, 29 Jul 2025 09:15:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1753773331;
+	bh=ouxWcyAB3vsEctfk984PCtbm105fHIqlt3FrgpVx99s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GB7o58lC0+TTBwPpk56tp9z8C8eXYuUHKc4nMjtBAEKqWP8auynZRIx+FtY72LoWn
+	 q504qsoBr3aOcYNCjvNvIvGOKpmy/OOLU5yN7PDAHvlSQ3j+0Tfjnb/TtLZw2NmYGR
+	 MD64/uZbW9XxoLXT6hao8R+Is9WmZz+lZNFS8IUc=
+Date: Tue, 29 Jul 2025 09:16:07 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Hans Verkuil <hans@jjverkuil.nl>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH v2 2/3] media: staging/ipu7: Disallow source multiplexing
+Message-ID: <tqwniavoehnopc7insbkb2r6gyvsh2fgh4hcvqiaa3lk3hqfau@mi6v67owfohq>
+References: <20250728235010.2926-1-laurent.pinchart@ideasonboard.com>
+ <20250728235010.2926-3-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250728235010.2926-3-laurent.pinchart@ideasonboard.com>
 
-Don't populate the read-only arrays regs and values on the stack at run
-time, instead make them static const.
+Hi Laurent
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/i2c/ov5648.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, Jul 29, 2025 at 02:50:09AM +0300, Laurent Pinchart wrote:
+> The IPU7 ISYS driver can't capture multiple streams on the same video
+> device. Disallow source multiplexing in the routes of the internal
+> subdev to reflect that limitation. As a result we can hardcode the
+> source stream to 0, simplifying the driver.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/staging/media/ipu7/ipu7-isys-queue.c  |  3 +-
+>  drivers/staging/media/ipu7/ipu7-isys-subdev.c | 35 ++++++-------------
+>  drivers/staging/media/ipu7/ipu7-isys-subdev.h |  1 -
+>  drivers/staging/media/ipu7/ipu7-isys-video.c  | 35 ++-----------------
+>  4 files changed, 14 insertions(+), 60 deletions(-)
+>
+> diff --git a/drivers/staging/media/ipu7/ipu7-isys-queue.c b/drivers/staging/media/ipu7/ipu7-isys-queue.c
+> index 7046c29141f8..434d9d9c7158 100644
+> --- a/drivers/staging/media/ipu7/ipu7-isys-queue.c
+> +++ b/drivers/staging/media/ipu7/ipu7-isys-queue.c
+> @@ -442,14 +442,13 @@ static int ipu7_isys_link_fmt_validate(struct ipu7_isys_queue *aq)
+>  		media_pad_remote_pad_first(av->vdev.entity.pads);
+>  	struct v4l2_mbus_framefmt format;
+>  	struct v4l2_subdev *sd;
+> -	u32 r_stream, code;
+> +	u32 r_stream = 0, code;
+>  	int ret;
+>
+>  	if (!remote_pad)
+>  		return -ENOTCONN;
+>
+>  	sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+> -	r_stream = ipu7_isys_get_src_stream_by_src_pad(sd, remote_pad->index);
+>
+>  	ret = ipu7_isys_get_stream_pad_fmt(sd, remote_pad->index, r_stream,
+>  					   &format);
+> diff --git a/drivers/staging/media/ipu7/ipu7-isys-subdev.c b/drivers/staging/media/ipu7/ipu7-isys-subdev.c
+> index 98b6ef6a2f21..67a776033d5b 100644
+> --- a/drivers/staging/media/ipu7/ipu7-isys-subdev.c
+> +++ b/drivers/staging/media/ipu7/ipu7-isys-subdev.c
+> @@ -194,13 +194,22 @@ static int subdev_set_routing(struct v4l2_subdev *sd,
+>  		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+>  		.field = V4L2_FIELD_NONE,
+>  	};
+> +	struct v4l2_subdev_route *route;
+>  	int ret;
+>
+>  	ret = v4l2_subdev_routing_validate(sd, routing,
+> -					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
+> +					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 |
+> +					   V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING);
+>  	if (ret)
+>  		return ret;
+>
+> +	/*
+> +	 * The device doesn't support source multiplexing, set all source
+> +	 * streams to 0 to simplify stream handling through the driver.
+> +	 */
+> +	for_each_active_route(routing, route)
+> +		route->source_stream = 0;
+> +
+>  	return v4l2_subdev_set_routing_with_fmt(sd, state, routing, &fmt);
+>  }
+>
+> @@ -222,30 +231,6 @@ int ipu7_isys_get_stream_pad_fmt(struct v4l2_subdev *sd, u32 pad, u32 stream,
+>  	return fmt ? 0 : -EINVAL;
+>  }
+>
+> -u32 ipu7_isys_get_src_stream_by_src_pad(struct v4l2_subdev *sd, u32 pad)
+> -{
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_subdev_route *routes;
+> -	u32 source_stream = 0;
+> -	unsigned int i;
+> -
+> -	state = v4l2_subdev_lock_and_get_active_state(sd);
+> -	if (!state)
+> -		return 0;
+> -
+> -	routes = state->routing.routes;
+> -	for (i = 0; i < state->routing.num_routes; i++) {
+> -		if (routes[i].source_pad == pad) {
+> -			source_stream = routes[i].source_stream;
+> -			break;
+> -		}
+> -	}
+> -
+> -	v4l2_subdev_unlock_state(state);
+> -
+> -	return source_stream;
+> -}
+> -
+>  static int ipu7_isys_subdev_init_state(struct v4l2_subdev *sd,
+>  				       struct v4l2_subdev_state *state)
+>  {
+> diff --git a/drivers/staging/media/ipu7/ipu7-isys-subdev.h b/drivers/staging/media/ipu7/ipu7-isys-subdev.h
+> index 1057ec39ae39..faa50031cf24 100644
+> --- a/drivers/staging/media/ipu7/ipu7-isys-subdev.h
+> +++ b/drivers/staging/media/ipu7/ipu7-isys-subdev.h
+> @@ -37,7 +37,6 @@ int ipu7_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
+>  				    struct v4l2_subdev_state *state,
+>  				    struct v4l2_subdev_mbus_code_enum
+>  				    *code);
+> -u32 ipu7_isys_get_src_stream_by_src_pad(struct v4l2_subdev *sd, u32 pad);
+>  int ipu7_isys_get_stream_pad_fmt(struct v4l2_subdev *sd, u32 pad, u32 stream,
+>  				 struct v4l2_mbus_framefmt *format);
+>  int ipu7_isys_subdev_set_routing(struct v4l2_subdev *sd,
+> diff --git a/drivers/staging/media/ipu7/ipu7-isys-video.c b/drivers/staging/media/ipu7/ipu7-isys-video.c
+> index 8756da3a8fb0..3d52634683d6 100644
+> --- a/drivers/staging/media/ipu7/ipu7-isys-video.c
+> +++ b/drivers/staging/media/ipu7/ipu7-isys-video.c
+> @@ -291,7 +291,7 @@ static int link_validate(struct media_link *link)
+>  	struct v4l2_mbus_framefmt *s_fmt;
+>  	struct v4l2_subdev *s_sd;
+>  	struct media_pad *s_pad;
+> -	u32 s_stream, code;
+> +	u32 s_stream = 0, code;
+>  	int ret = -EPIPE;
+>
+>  	if (!link->source->entity)
+> @@ -307,7 +307,6 @@ static int link_validate(struct media_link *link)
+>  		link->sink->entity->name);
+>
+>  	s_pad = media_pad_remote_pad_first(&av->pad);
+> -	s_stream = ipu7_isys_get_src_stream_by_src_pad(s_sd, s_pad->index);
+>
+>  	v4l2_subdev_lock_state(s_state);
+>
+> @@ -370,10 +369,9 @@ static int ipu7_isys_fw_pin_cfg(struct ipu7_isys_video *av,
+>  	struct device *dev = &isys->adev->auxdev.dev;
+>  	struct v4l2_mbus_framefmt fmt;
+>  	int output_pins;
+> -	u32 src_stream;
+> +	u32 src_stream = 0;
 
-diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-index 4b86d2631bd1..02bfb948e2fb 100644
---- a/drivers/media/i2c/ov5648.c
-+++ b/drivers/media/i2c/ov5648.c
-@@ -1061,8 +1061,8 @@ static int ov5648_sw_standby(struct ov5648_sensor *sensor, int standby)
- 
- static int ov5648_chip_id_check(struct ov5648_sensor *sensor)
- {
--	u16 regs[] = { OV5648_CHIP_ID_H_REG, OV5648_CHIP_ID_L_REG };
--	u8 values[] = { OV5648_CHIP_ID_H_VALUE, OV5648_CHIP_ID_L_VALUE };
-+	static const u16 regs[] = { OV5648_CHIP_ID_H_REG, OV5648_CHIP_ID_L_REG };
-+	static const u8 values[] = { OV5648_CHIP_ID_H_VALUE, OV5648_CHIP_ID_L_VALUE };
- 	unsigned int i;
- 	u8 value;
- 	int ret;
--- 
-2.50.0
+very minor nit: this can now be moved up
 
+>  	int ret;
+>
+> -	src_stream = ipu7_isys_get_src_stream_by_src_pad(sd, src_pad->index);
+>  	ret = ipu7_isys_get_stream_pad_fmt(sd, src_pad->index, src_stream,
+>  					   &fmt);
+>  	if (ret < 0) {
+> @@ -781,32 +779,6 @@ ipu7_isys_query_stream_by_source(struct ipu7_isys *isys, int source, u8 vc)
+>  	return stream;
+>  }
+>
+> -static u32 get_remote_pad_stream(struct media_pad *r_pad)
+> -{
+> -	struct v4l2_subdev_state *state;
+> -	struct v4l2_subdev *sd;
+> -	u32 stream_id = 0;
+> -	unsigned int i;
+> -
+> -	sd = media_entity_to_v4l2_subdev(r_pad->entity);
+> -	state = v4l2_subdev_lock_and_get_active_state(sd);
+> -	if (!state)
+> -		return 0;
+> -
+> -	for (i = 0; i < state->stream_configs.num_configs; i++) {
+> -		struct v4l2_subdev_stream_config *cfg =
+> -			&state->stream_configs.configs[i];
+> -		if (cfg->pad == r_pad->index) {
+> -			stream_id = cfg->stream;
+> -			break;
+> -		}
+> -	}
+> -
+> -	v4l2_subdev_unlock_state(state);
+> -
+> -	return stream_id;
+> -}
+> -
+>  int ipu7_isys_video_set_streaming(struct ipu7_isys_video *av, int state,
+>  				  struct ipu7_isys_buffer_list *bl)
+>  {
+> @@ -814,7 +786,7 @@ int ipu7_isys_video_set_streaming(struct ipu7_isys_video *av, int state,
+>  	struct device *dev = &av->isys->adev->auxdev.dev;
+>  	struct media_pad *r_pad;
+>  	struct v4l2_subdev *sd;
+> -	u32 r_stream;
+> +	u32 r_stream = 0;
+>  	int ret = 0;
+>
+>  	dev_dbg(dev, "set stream: %d\n", state);
+> @@ -824,7 +796,6 @@ int ipu7_isys_video_set_streaming(struct ipu7_isys_video *av, int state,
+>
+>  	sd = &stream->asd->sd;
+>  	r_pad = media_pad_remote_pad_first(&av->pad);
+> -	r_stream = get_remote_pad_stream(r_pad);
+>  	if (!state) {
+>  		stop_streaming_firmware(av);
+>
+
+Here and in the other occurencies where s_stream/r_stream gets
+hardcoded to 0, I wonder if using 0 directly instead of going through
+a variable would make things easier to follow.
+
+Either way:
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
