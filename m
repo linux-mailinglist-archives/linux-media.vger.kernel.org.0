@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-38649-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38650-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4A7B155CB
-	for <lists+linux-media@lfdr.de>; Wed, 30 Jul 2025 01:15:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEB6B155CD
+	for <lists+linux-media@lfdr.de>; Wed, 30 Jul 2025 01:15:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B82F1630B1
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 23:15:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D191B3A8CA4
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 23:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AD51286D46;
-	Tue, 29 Jul 2025 23:15:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86B97287504;
+	Tue, 29 Jul 2025 23:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mhlrGFmk"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QXMWs53c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952372868AD
-	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 23:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2B82874F1
+	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 23:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753830912; cv=none; b=PqujplMdkC612JBUQ/thqQ2nHKiK6VbiTO4Ecd8+WGtjD6zEfLLcPY+gAO6ixSBMh0mf3/R1uZoX6whiq1OZgOzKbbf5hTphTQVfpP2TTaG6PLQUg/yY+F5AodggBe6556aMTthWRzTLVSUPzJyYRCySirh+vNomXIhnDIn5g1I=
+	t=1753830914; cv=none; b=in/DdcOlQQJs5qVX/MxrLfjT/Y9QzUCt9MjGDV6rSDxfFVywumkGL+FHrbtccoSkJTVkpBIH+uW+8h/8XiHD0dJEnyq0uX2PiZBAYt0BbAvr0AszTMz5mwko/dgIYPFR2tcdnZC+qHy8thUTMaWqgQr4iNb2JJDgaOGUwH57898=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753830912; c=relaxed/simple;
-	bh=QaiQUqLouvjHeljXFqCtPfP7iBqF/ado6CVRD2clWXo=;
+	s=arc-20240116; t=1753830914; c=relaxed/simple;
+	bh=IpJCZu+KtDoP5l0LiPM35qCHXG5St/Gon5Jr9DZ+GqU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GH/35S39EVmkm5+Wv60fkPKHM7XOA3jYsADW+JFDse+bE6FlGageh/iM5aht6sUs7ZI3PLY0CqTloSz5fYa15h179CejYW8gKskD+1mu0BLEhJ1mO3SWOl9tA9M/FmGPkwPU3yk/d1jwRdyfbe2acw4mw5BrYmVCTsTb6tW+q6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mhlrGFmk; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=a75S+Eu7vkPyiw5j20Vk8Ve05sZyBwQx5gtXpCJIs09QZkxXQeU4iKyJlmKuF1tdkWBdjv5B2osZeF8oDZhyPOAOZ2OEWgdXbz0vSlV+9wBN7KNTCt1FG2QuauIPMSK9Mk2u/mPKnHI4IJetHkU2YD+UI3CiQzhNV1zQ2iUW8ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QXMWs53c; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55b7afda5d1so48358e87.3
-        for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 16:15:10 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-55b7bf4b6c8so90822e87.2
+        for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 16:15:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753830909; x=1754435709; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1753830910; x=1754435710; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DXyxJz1QwaeqrSgC7ktODDASc0rDoCkzFWWOIOkTz44=;
-        b=mhlrGFmkjtLThzxvaFyQRAxd33hAVpHwVEiGU5zorHBwuyQfv1KotMX9SZT5S6uERD
-         YRNJyWM+K8bQn4OIXo4zW+wcyRcvzQ2k9ETrlbOLQkfSWdhz1RSL9uf4V0dEbUlBBhQh
-         AFRu+ju1jg3nTMmNaZNuxHfD/3ct//kSXLPnnqCOO3eLuwxB+zGwnnh2It9y5F0wLpk2
-         uSQC5DyN9KMAnSrSDok/3BstIUmlNtbnHB2pzi3LKWQpmA8sQ54zu7AtLE9dHfLyMcII
-         3Sfr9xljyOZPot2/MDhc1K0mAjdiaZIK2RalWxAgWAcJBf6Jq8AVOTdDCCVXQ0XN8kX2
-         AdJA==
+        bh=MuL6J5+w1DzuaKfpc04tlBIsjTstkIp9GKDOl6PZAus=;
+        b=QXMWs53ch1ENHlQeFPmAbzdQ2+7zCT3ebX7ODX7taBdDaljzUFF+qrF2lXcwLEuNrh
+         LHtND99GUWnKhzR1Y+xXIq3EM/ZS4O2HcBCLelF68/8ma+8kefRQ6Rf2vAHVKcJAuy2u
+         EyvcC4C8V2YTGawUT/h+cJrDB9YBb4aSk90WPhhAztIKIVGX55s7xbMjAYSTJwZ87Z8U
+         WzccwwtI78EPEGvSssihSjRKXfsl2ja7UiwRuqAH+yVOzf2ke/TdpFA+Mw9NyAnZLpYg
+         UM0KkjJoPdzA/CLAJK4zMW9WXd0PAIvtOE1TgYj5+X7wECn6sAdlWwwum0L0jebi6z+N
+         O9sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753830909; x=1754435709;
+        d=1e100.net; s=20230601; t=1753830910; x=1754435710;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DXyxJz1QwaeqrSgC7ktODDASc0rDoCkzFWWOIOkTz44=;
-        b=hNykwyqH/5LiOtx0wvAETSM1YufT9O/pTQsfAqYgDBfK6eQtW/m4rX0i0jjWjfEoI3
-         0EF8LEJVaLdPlpbVP/3RZAh0kBmx5d2JaSCSuDSva+qgZ0mFrFJuwEvfN8gMle7vB8vA
-         P9JgEaBHuFhdbEh9I0nFPPyVSRmtECStV5WxEOFdFIjARWXUdkpA6+chEaoxXpKYceMl
-         wXaEf+Wrvu7dh0Mrf0MQspK0JjW+CDhfmtEMkN10TVSCB/58QX1J4DkcW4txWddwk4iP
-         inWbfcstc5oDBx89QDl6ETgdA0PbZEhSzTrv7JPKtHZrg5LRo01O6jYGQppf15CMZTXV
-         mGmg==
-X-Gm-Message-State: AOJu0YzA7JipAe4OkmtJtr5M2RoS9oTuMel0Pb0IeBgFttrrUVDUk0sv
-	0YeWiw54h3G4+IQcvDUmR9WU0Y0xk7eNKwa4EmpeBQdbQ2NJux85TfOUgjGMI78VPXg=
-X-Gm-Gg: ASbGncsfNy3mvBq6WwPvI4LkfrAWFXt2e37KhQP7LTpCKFhWLD5qAUITS9L9ab9Q9j1
-	VxJa+dXjh3RL5ooVa4fcZ3xzxRhP80s20vtZbbm+I5XuNSmf+S6HAw+Ii8uU+Gu0XeQEayIzpfP
-	LxAno3UOIpvpSpRH4oTijcdyQll+PJ+aYMGol8conPnlqH9Q3mnTkJ0O9wDY1MwWy5bC70J0GJn
-	FjoccPt2cn8fc5p0K3E3Czs0cLB7N96kcSkyrfe2ylxzMnPt6VoXPWGHGTZIo1I/udEb2HzYhbs
-	t05BRkSPB39X37AkgWECepAaW3nNmjhLxYnd24d+D6VWxsW/MRTskii5RB8OXIi/L+LwahuuI3h
-	koxcKPIAiDXvNarLjNLJ/albzmCybRgfxXoanzr0tVTyQjLhQF4kOJpt4+BLtuIz4gDV+/WXMwR
-	wB7pkKrnAU
-X-Google-Smtp-Source: AGHT+IEmJF656Itd4v5emghqrsiL8IQ/+FdXHUie5DU/KY2g7Oe+sOax8EVgMto97SoObNMOHs7bKw==
-X-Received: by 2002:ac2:4c47:0:b0:55b:75b3:dc97 with SMTP id 2adb3069b0e04-55b7c015c4dmr127218e87.5.1753830908665;
-        Tue, 29 Jul 2025 16:15:08 -0700 (PDT)
+        bh=MuL6J5+w1DzuaKfpc04tlBIsjTstkIp9GKDOl6PZAus=;
+        b=T+cex5vfJyvV+jV71VURMtClYjo9Uqa4IJjwUIzNz7eeog13kheoV1D3jmpMDBNpjk
+         WYK4xXi+Q3xwHwlg41CpR2fbryI4zIT2XAPCog19Xay/+Y+C83lvHofSrnGHcRaiemtp
+         JNPNIH9JLYQ4FwZ1ayhONXNWBLyXKoKOSMTRhN3YzxlwlD35xxY/xlG62umGlVCKQhBs
+         MWjkinrL0mYfOa7rqN9EIqHfpCF1WPwJrtepjAWGjB1P0UpYVasavogfUMmde2CEd6dS
+         uz+wC2HZtokSJQWb/jLT+IjRkOcIAcwrd3VFNNvcIVCC0pUMdgVdV9+MIFqC0D1qzwya
+         W16Q==
+X-Gm-Message-State: AOJu0Yz6B7wFS9g7QBMWUIYVGIT10nk0t6/rB7lK9K7+BwVs6Wd7eFoX
+	jg2JEPkxUB2MannA6yrcSQlq+IdqqIL2uEhP/KR4NlJ2DZKNd8wW+mlwn8S8z+mzGOs=
+X-Gm-Gg: ASbGncu8R/bhmEEUdR9dKB87G+/iGQo4SqWoBtmwrgt8assc/IOfx5D4NxcfTlPWHmf
+	QiNTcZGc8gAO9ngYx1s9XDaMhNx/WtPJHFq6h6/W292kskysGPCVn1fxN6h4o1EYRLzBBK+O35W
+	yCWsscBsGjXC2saOjYW5Ciu5aCeIhrvM1Xai4QKIUbYgORrksNlCwmdpqpwFdLxlGJpEj3ivxjL
+	IpY+xLEC3DsQrgP6i8v7XS38PYCFVIK00NxGGIkpQqiWBc2yO/cgyFlnbLQ0M8nCZUvJwRx8DQs
+	Es2FEjqKwfkT2XyXwzqT5P+7y2eW5sgZxR6+UShwOTEFP0qkgolYxTQfHLh7uS0MnhvJtgyxGqa
+	6tTR6a+DgGygXgbtCQo7Re5V9g1ztXuoX2MKXQIqI0GMemz97MgL4vha13QgLNi+rxZvMVV6NrS
+	mMsyvorjCe4xGcu1J/Mro=
+X-Google-Smtp-Source: AGHT+IEs6idz1mCxaUV4VNNyu2kFadzKS78zaluSEhCZyInKBPLNH8kPLzRFsuQgRwlCN5xulXuK9g==
+X-Received: by 2002:a05:6512:1243:b0:553:252f:adf9 with SMTP id 2adb3069b0e04-55b7c09b4e0mr158947e87.13.1753830910197;
+        Tue, 29 Jul 2025 16:15:10 -0700 (PDT)
 Received: from localhost.localdomain (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b63375a6bsm1871650e87.144.2025.07.29.16.15.06
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b63375a6bsm1871650e87.144.2025.07.29.16.15.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jul 2025 16:15:08 -0700 (PDT)
+        Tue, 29 Jul 2025 16:15:09 -0700 (PDT)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -84,9 +84,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>
 Cc: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: media: i2c: Add OmniVision OV6211 image sensor
-Date: Wed, 30 Jul 2025 02:14:53 +0300
-Message-ID: <20250729231454.242748-2-vladimir.zapolskiy@linaro.org>
+Subject: [PATCH v2 2/2] media: i2c: Add OmniVision OV6211 image sensor driver
+Date: Wed, 30 Jul 2025 02:14:54 +0300
+Message-ID: <20250729231454.242748-3-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250729231454.242748-1-vladimir.zapolskiy@linaro.org>
 References: <20250729231454.242748-1-vladimir.zapolskiy@linaro.org>
@@ -98,117 +98,898 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add device tree bindings documentation for OmniVision OV6211 image
-sensor.
+OmniVision OV6211 is a monochrome image sensor, which produces frames in
+8/10-bit raw output format and supports 400x400, 200x200 and 100x100
+output image resolution modes.
 
 Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 ---
- .../bindings/media/i2c/ovti,ov6211.yaml       | 96 +++++++++++++++++++
- 1 file changed, 96 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov6211.yaml
+ MAINTAINERS                |   8 +
+ drivers/media/i2c/Kconfig  |  10 +
+ drivers/media/i2c/Makefile |   1 +
+ drivers/media/i2c/ov6211.c | 821 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 840 insertions(+)
+ create mode 100644 drivers/media/i2c/ov6211.c
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov6211.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov6211.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 658543062bba..df6cec828bf7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18423,6 +18423,14 @@ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/i2c/ov5695.c
+ 
++OMNIVISION OV6211 SENSOR DRIVER
++M:	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov6211.yaml
++F:	drivers/media/i2c/ov6211.c
++
+ OMNIVISION OV64A40 SENSOR DRIVER
+ M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+ L:	linux-media@vger.kernel.org
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 4b4c199da6ea..31f0c2fada03 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -542,6 +542,16 @@ config VIDEO_OV5695
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called ov5695.
+ 
++config VIDEO_OV6211
++	tristate "OmniVision OV6211 sensor support"
++	select V4L2_CCI_I2C
++	help
++	  This is a Video4Linux2 sensor driver for the OmniVision
++	  OV6211 camera.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called ov6211.
++
+ config VIDEO_OV64A40
+ 	tristate "OmniVision OV64A40 sensor support"
+ 	select V4L2_CCI_I2C
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index 5873d29433ee..03814fc8e2f7 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -103,6 +103,7 @@ obj-$(CONFIG_VIDEO_OV5670) += ov5670.o
+ obj-$(CONFIG_VIDEO_OV5675) += ov5675.o
+ obj-$(CONFIG_VIDEO_OV5693) += ov5693.o
+ obj-$(CONFIG_VIDEO_OV5695) += ov5695.o
++obj-$(CONFIG_VIDEO_OV6211) += ov6211.o
+ obj-$(CONFIG_VIDEO_OV64A40) += ov64a40.o
+ obj-$(CONFIG_VIDEO_OV6650) += ov6650.o
+ obj-$(CONFIG_VIDEO_OV7251) += ov7251.o
+diff --git a/drivers/media/i2c/ov6211.c b/drivers/media/i2c/ov6211.c
 new file mode 100644
-index 000000000000..0c552421eea5
+index 000000000000..bbe6fa36bff7
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov6211.yaml
-@@ -0,0 +1,96 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ov6211.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/media/i2c/ov6211.c
+@@ -0,0 +1,821 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) 2024-2025 Linaro Ltd
 +
-+title: OmniVision OV6211 Image Sensor
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
++#include <media/v4l2-cci.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
 +
-+description:
-+  OmniVision OV6211 image sensor is a high performance monochrome image
-+  sensor. The sensor is controlled over a serial camera control bus
-+  protocol (SCCB), the widest supported output image frame size is 400x400
-+  at 120 frames per second rate, data output format is 8/10-bit RAW
-+  transferred over one-lane MIPI D-PHY interface.
++#define OV6211_LINK_FREQ_240MHZ		240000000ULL
++#define OV6211_MCLK_FREQ_24MHZ		24000000
 +
-+maintainers:
-+  - Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
++#define OV6211_REG_CHIP_ID		CCI_REG16(0x300a)
++#define OV6211_CHIP_ID			0x6710
 +
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
++#define OV6211_REG_MODE_SELECT		CCI_REG8(0x0100)
++#define OV6211_MODE_STANDBY		0x00
++#define OV6211_MODE_STREAMING		0x01
 +
-+properties:
-+  compatible:
-+    const: ovti,ov6211
++/* Exposure controls from sensor */
++#define OV6211_REG_EXPOSURE		CCI_REG24(0x3500)
++#define OV6211_EXPOSURE_MIN		1
++#define OV6211_EXPOSURE_MAX_MARGIN	4
++#define OV6211_EXPOSURE_STEP		1
++#define OV6211_EXPOSURE_DEFAULT		210
 +
-+  reg:
-+    maxItems: 1
++/* Analogue gain controls from sensor */
++#define OV6211_REG_ANALOGUE_GAIN	CCI_REG16(0x350a)
++#define OV6211_ANALOGUE_GAIN_MIN	1
++#define OV6211_ANALOGUE_GAIN_MAX	0x3ff
++#define OV6211_ANALOGUE_GAIN_STEP	1
++#define OV6211_ANALOGUE_GAIN_DEFAULT	0xa0
 +
-+  clocks:
-+    description: XVCLK supply clock, 6MHz to 27MHz frequency.
-+    maxItems: 1
++#define to_ov6211(_sd)			container_of(_sd, struct ov6211, sd)
 +
-+  reset-gpios:
-+    description: Active low GPIO connected to XSHUTDOWN pad of the sensor.
-+    maxItems: 1
++struct ov6211_reg_list {
++	const struct cci_reg_sequence *regs;
++	unsigned int num_regs;
++};
 +
-+  strobe-gpios:
-+    description: Input GPIO connected to strobe pad of the sensor.
-+    maxItems: 1
++struct ov6211_mode {
++	u32 width;	/* Frame width in pixels */
++	u32 height;	/* Frame height in pixels */
++	u32 hts;	/* Horizontal timing size */
++	u32 vts;	/* Default vertical timing size */
++	u32 bpp;	/* Bits per pixel */
 +
-+  avdd-supply:
-+    description: Analogue voltage supply, 2.6 to 3.0 volts.
++	const struct ov6211_reg_list reg_list;	/* Sensor register setting */
++};
 +
-+  dovdd-supply:
-+    description: Digital I/O voltage supply, 1.7 to 3.0 volts.
++static const s64 link_freq_menu_items[] = {
++	OV6211_LINK_FREQ_240MHZ,
++};
 +
-+  dvdd-supply:
-+    description: Digital core voltage supply, 1.2 volts.
++static const struct cci_reg_sequence ov6211_400x400_mode[] = {
++	{ CCI_REG8(0x0103), 0x01 },
++	{ CCI_REG8(0x0100), 0x00 },
++	{ CCI_REG8(0x3005), 0x08 },
++	{ CCI_REG8(0x3013), 0x12 },
++	{ CCI_REG8(0x3014), 0x04 },
++	{ CCI_REG8(0x3016), 0x10 },
++	{ CCI_REG8(0x3017), 0x00 },
++	{ CCI_REG8(0x3018), 0x00 },
++	{ CCI_REG8(0x301a), 0x00 },
++	{ CCI_REG8(0x301b), 0x00 },
++	{ CCI_REG8(0x301c), 0x00 },
++	{ CCI_REG8(0x3037), 0xf0 },
++	{ CCI_REG8(0x3080), 0x01 },
++	{ CCI_REG8(0x3081), 0x00 },
++	{ CCI_REG8(0x3082), 0x01 },
++	{ CCI_REG8(0x3098), 0x04 },
++	{ CCI_REG8(0x3099), 0x28 },
++	{ CCI_REG8(0x309a), 0x06 },
++	{ CCI_REG8(0x309b), 0x04 },
++	{ CCI_REG8(0x309c), 0x00 },
++	{ CCI_REG8(0x309d), 0x00 },
++	{ CCI_REG8(0x309e), 0x01 },
++	{ CCI_REG8(0x309f), 0x00 },
++	{ CCI_REG8(0x30b0), 0x08 },
++	{ CCI_REG8(0x30b1), 0x02 },
++	{ CCI_REG8(0x30b2), 0x00 },
++	{ CCI_REG8(0x30b3), 0x28 },
++	{ CCI_REG8(0x30b4), 0x02 },
++	{ CCI_REG8(0x30b5), 0x00 },
++	{ CCI_REG8(0x3106), 0xd9 },
++	{ CCI_REG8(0x3500), 0x00 },
++	{ CCI_REG8(0x3501), 0x0d },
++	{ CCI_REG8(0x3502), 0x20 },
++	{ CCI_REG8(0x3503), 0x07 },
++	{ CCI_REG8(0x3509), 0x10 },
++	{ CCI_REG8(0x350b), 0xa0 },
++	{ CCI_REG8(0x3600), 0xfc },
++	{ CCI_REG8(0x3620), 0xb7 },
++	{ CCI_REG8(0x3621), 0x05 },
++	{ CCI_REG8(0x3626), 0x31 },
++	{ CCI_REG8(0x3627), 0x40 },
++	{ CCI_REG8(0x3632), 0xa3 },
++	{ CCI_REG8(0x3633), 0x34 },
++	{ CCI_REG8(0x3634), 0x40 },
++	{ CCI_REG8(0x3636), 0x00 },
++	{ CCI_REG8(0x3660), 0x80 },
++	{ CCI_REG8(0x3662), 0x03 },
++	{ CCI_REG8(0x3664), 0xf0 },
++	{ CCI_REG8(0x366a), 0x10 },
++	{ CCI_REG8(0x366b), 0x06 },
++	{ CCI_REG8(0x3680), 0xf4 },
++	{ CCI_REG8(0x3681), 0x50 },
++	{ CCI_REG8(0x3682), 0x00 },
++	{ CCI_REG8(0x3708), 0x20 },
++	{ CCI_REG8(0x3709), 0x40 },
++	{ CCI_REG8(0x370d), 0x03 },
++	{ CCI_REG8(0x373b), 0x02 },
++	{ CCI_REG8(0x373c), 0x08 },
++	{ CCI_REG8(0x3742), 0x00 },
++	{ CCI_REG8(0x3744), 0x16 },
++	{ CCI_REG8(0x3745), 0x08 },
++	{ CCI_REG8(0x3781), 0xfc },
++	{ CCI_REG8(0x3788), 0x00 },
++	{ CCI_REG8(0x3800), 0x00 },
++	{ CCI_REG8(0x3801), 0x04 },
++	{ CCI_REG8(0x3802), 0x00 },
++	{ CCI_REG8(0x3803), 0x04 },
++	{ CCI_REG8(0x3804), 0x01 },
++	{ CCI_REG8(0x3805), 0x9b },
++	{ CCI_REG8(0x3806), 0x01 },
++	{ CCI_REG8(0x3807), 0x9b },
++	{ CCI_REG8(0x3808), 0x01 },
++	{ CCI_REG8(0x3809), 0x90 },
++	{ CCI_REG8(0x380a), 0x01 },
++	{ CCI_REG8(0x380b), 0x90 },
++	{ CCI_REG8(0x380c), 0x05 },
++	{ CCI_REG8(0x380d), 0xf2 },
++	{ CCI_REG8(0x380e), 0x01 },
++	{ CCI_REG8(0x380f), 0xb6 },
++	{ CCI_REG8(0x3810), 0x00 },
++	{ CCI_REG8(0x3811), 0x04 },
++	{ CCI_REG8(0x3812), 0x00 },
++	{ CCI_REG8(0x3813), 0x04 },
++	{ CCI_REG8(0x3814), 0x11 },
++	{ CCI_REG8(0x3815), 0x11 },
++	{ CCI_REG8(0x3820), 0x00 },
++	{ CCI_REG8(0x3821), 0x00 },
++	{ CCI_REG8(0x382b), 0xfa },
++	{ CCI_REG8(0x382f), 0x04 },
++	{ CCI_REG8(0x3832), 0x00 },
++	{ CCI_REG8(0x3833), 0x05 },
++	{ CCI_REG8(0x3834), 0x00 },
++	{ CCI_REG8(0x3835), 0x05 },
++	{ CCI_REG8(0x3882), 0x04 },
++	{ CCI_REG8(0x3883), 0x00 },
++	{ CCI_REG8(0x38a4), 0x10 },
++	{ CCI_REG8(0x38a5), 0x00 },
++	{ CCI_REG8(0x38b1), 0x03 },
++	{ CCI_REG8(0x3b80), 0x00 },
++	{ CCI_REG8(0x3b81), 0xff },
++	{ CCI_REG8(0x3b82), 0x10 },
++	{ CCI_REG8(0x3b83), 0x00 },
++	{ CCI_REG8(0x3b84), 0x08 },
++	{ CCI_REG8(0x3b85), 0x00 },
++	{ CCI_REG8(0x3b86), 0x01 },
++	{ CCI_REG8(0x3b87), 0x00 },
++	{ CCI_REG8(0x3b88), 0x00 },
++	{ CCI_REG8(0x3b89), 0x00 },
++	{ CCI_REG8(0x3b8a), 0x00 },
++	{ CCI_REG8(0x3b8b), 0x05 },
++	{ CCI_REG8(0x3b8c), 0x00 },
++	{ CCI_REG8(0x3b8d), 0x00 },
++	{ CCI_REG8(0x3b8e), 0x01 },
++	{ CCI_REG8(0x3b8f), 0xb2 },
++	{ CCI_REG8(0x3b94), 0x05 },
++	{ CCI_REG8(0x3b95), 0xf2 },
++	{ CCI_REG8(0x3b96), 0xc0 },
++	{ CCI_REG8(0x4004), 0x04 },
++	{ CCI_REG8(0x404e), 0x01 },
++	{ CCI_REG8(0x4801), 0x0f },
++	{ CCI_REG8(0x4806), 0x0f },
++	{ CCI_REG8(0x4837), 0x43 },
++	{ CCI_REG8(0x5a08), 0x00 },
++	{ CCI_REG8(0x5a01), 0x00 },
++	{ CCI_REG8(0x5a03), 0x00 },
++	{ CCI_REG8(0x5a04), 0x10 },
++	{ CCI_REG8(0x5a05), 0xa0 },
++	{ CCI_REG8(0x5a06), 0x0c },
++	{ CCI_REG8(0x5a07), 0x78 },
++};
 +
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
++static const struct ov6211_mode supported_modes[] = {
++	{
++		.width = 400,
++		.height = 400,
++		.hts = 1522,
++		.vts = 438,
++		.bpp = 8,
++		.reg_list = {
++			.regs = ov6211_400x400_mode,
++			.num_regs = ARRAY_SIZE(ov6211_400x400_mode),
++		},
++	},
++};
 +
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
++struct ov6211 {
++	struct regmap *regmap;
++	struct clk *xvclk;
++	struct gpio_desc *reset_gpio;
++	struct regulator *avdd;
++	struct regulator *dovdd;
++	struct regulator *dvdd;
 +
-+        required:
-+          - link-frequencies
++	struct v4l2_subdev sd;
++	struct media_pad pad;
 +
-+required:
-+  - compatible
-+  - reg
-+  - port
++	struct v4l2_ctrl_handler ctrl_handler;
 +
-+unevaluatedProperties: false
++	const struct ov6211_mode *cur_mode;
 +
-+examples:
-+  - |
-+      #include <dt-bindings/gpio/gpio.h>
++	/* To serialize asynchronous callbacks */
++	struct mutex mutex;
++};
 +
-+      i2c {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
++static int ov6211_set_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct ov6211 *ov6211 = container_of(ctrl->handler, struct ov6211,
++					     ctrl_handler);
++	struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
++	int ret;
 +
-+          camera@60 {
-+              compatible = "ovti,ov6211";
-+              reg = <0x60>;
-+              clocks = <&camera_clk 0>;
-+              assigned-clocks = <&camera_clk 0>;
-+              assigned-clock-rates = <24000000>;
-+              reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
-+              avdd-supply = <&vreg_2p8>;
-+              dovdd-supply = <&vreg_1p8>;
-+              dvdd-supply = <&vreg_1p2>;
++	/* V4L2 controls values will be applied only when power is already up */
++	if (!pm_runtime_get_if_in_use(&client->dev))
++		return 0;
 +
-+              port {
-+                  endpoint {
-+                      link-frequencies = /bits/ 64 <240000000>;
-+                      remote-endpoint = <&mipi_csi2_ep>;
-+                  };
-+              };
-+          };
-+      };
-+...
++	switch (ctrl->id) {
++	case V4L2_CID_ANALOGUE_GAIN:
++		ret = cci_write(ov6211->regmap, OV6211_REG_ANALOGUE_GAIN,
++				ctrl->val, NULL);
++		break;
++	case V4L2_CID_EXPOSURE:
++		ret = cci_write(ov6211->regmap, OV6211_REG_EXPOSURE,
++				ctrl->val << 4, NULL);
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	pm_runtime_put(&client->dev);
++
++	return ret;
++}
++
++static const struct v4l2_ctrl_ops ov6211_ctrl_ops = {
++	.s_ctrl = ov6211_set_ctrl,
++};
++
++static int ov6211_init_controls(struct ov6211 *ov6211)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
++	struct v4l2_ctrl_handler *ctrl_hdlr = &ov6211->ctrl_handler;
++	const struct ov6211_mode *cur_mode = ov6211->cur_mode;
++	struct v4l2_fwnode_device_properties props;
++	s64 exposure_max, pixel_rate, h_blank;
++	struct v4l2_ctrl *ctrl;
++	int ret;
++
++	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
++	if (ret)
++		return ret;
++
++	ctrl_hdlr->lock = &ov6211->mutex;
++
++	ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov6211_ctrl_ops,
++				      V4L2_CID_LINK_FREQ,
++				      ARRAY_SIZE(link_freq_menu_items) - 1,
++				      0, link_freq_menu_items);
++	if (ctrl)
++		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	pixel_rate = link_freq_menu_items[0] * 2 / cur_mode->bpp;
++	v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops, V4L2_CID_PIXEL_RATE,
++			  0, pixel_rate, 1, pixel_rate);
++
++	h_blank = cur_mode->hts - cur_mode->width;
++	ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops, V4L2_CID_HBLANK,
++				 h_blank, h_blank, 1, h_blank);
++	if (ctrl)
++		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops, V4L2_CID_VBLANK,
++				 cur_mode->vts - cur_mode->height,
++				 cur_mode->vts - cur_mode->height, 1,
++				 cur_mode->vts - cur_mode->height);
++	if (ctrl)
++		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
++			  OV6211_ANALOGUE_GAIN_MIN, OV6211_ANALOGUE_GAIN_MAX,
++			  OV6211_ANALOGUE_GAIN_STEP,
++			  OV6211_ANALOGUE_GAIN_DEFAULT);
++
++	exposure_max = (cur_mode->vts - OV6211_EXPOSURE_MAX_MARGIN);
++	ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops,
++				 V4L2_CID_EXPOSURE,
++				 OV6211_EXPOSURE_MIN, exposure_max,
++				 OV6211_EXPOSURE_STEP,
++				 OV6211_EXPOSURE_DEFAULT);
++
++	if (ctrl_hdlr->error)
++		return ctrl_hdlr->error;
++
++	ret = v4l2_fwnode_device_parse(&client->dev, &props);
++	if (ret)
++		goto error_free_hdlr;
++
++	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov6211_ctrl_ops,
++					      &props);
++	if (ret)
++		goto error_free_hdlr;
++
++	ov6211->sd.ctrl_handler = ctrl_hdlr;
++
++	return 0;
++
++error_free_hdlr:
++	v4l2_ctrl_handler_free(ctrl_hdlr);
++
++	return ret;
++}
++
++static void ov6211_update_pad_format(const struct ov6211_mode *mode,
++				     struct v4l2_mbus_framefmt *fmt)
++{
++	fmt->width = mode->width;
++	fmt->height = mode->height;
++	fmt->code = MEDIA_BUS_FMT_Y8_1X8;
++	fmt->field = V4L2_FIELD_NONE;
++}
++
++static int ov6211_start_streaming(struct ov6211 *ov6211)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
++	const struct ov6211_reg_list *reg_list;
++	int ret;
++
++	reg_list = &ov6211->cur_mode->reg_list;
++	ret = cci_multi_reg_write(ov6211->regmap, reg_list->regs,
++				  reg_list->num_regs, NULL);
++	if (ret) {
++		dev_err(&client->dev, "failed to set mode: %d\n", ret);
++		return ret;
++	}
++
++	ret = __v4l2_ctrl_handler_setup(ov6211->sd.ctrl_handler);
++	if (ret)
++		return ret;
++
++	ret = cci_write(ov6211->regmap, OV6211_REG_MODE_SELECT,
++			OV6211_MODE_STREAMING, NULL);
++	if (ret) {
++		dev_err(&client->dev, "failed to start streaming: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void ov6211_stop_streaming(struct ov6211 *ov6211)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
++	int ret;
++
++	ret = cci_write(ov6211->regmap, OV6211_REG_MODE_SELECT,
++			OV6211_MODE_STANDBY, NULL);
++	if (ret)
++		dev_err(&client->dev, "failed to stop streaming: %d\n", ret);
++}
++
++static int ov6211_set_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ov6211 *ov6211 = to_ov6211(sd);
++	int ret = 0;
++
++	mutex_lock(&ov6211->mutex);
++
++	if (enable) {
++		ret = pm_runtime_resume_and_get(&client->dev);
++		if (ret) {
++			mutex_unlock(&ov6211->mutex);
++			return ret;
++		}
++
++		ret = ov6211_start_streaming(ov6211);
++		if (!ret) {
++			mutex_unlock(&ov6211->mutex);
++			return 0;
++		}
++	}
++
++	ov6211_stop_streaming(ov6211);
++	pm_runtime_put(&client->dev);
++
++	mutex_unlock(&ov6211->mutex);
++
++	return ret;
++}
++
++static int ov6211_set_format(struct v4l2_subdev *sd,
++			     struct v4l2_subdev_state *sd_state,
++			     struct v4l2_subdev_format *fmt)
++{
++	struct ov6211 *ov6211 = to_ov6211(sd);
++	const struct ov6211_mode *mode;
++
++	mode = v4l2_find_nearest_size(supported_modes,
++				      ARRAY_SIZE(supported_modes),
++				      width, height,
++				      fmt->format.width,
++				      fmt->format.height);
++
++	mutex_lock(&ov6211->mutex);
++
++	ov6211_update_pad_format(mode, &fmt->format);
++	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
++		*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
++	else
++		ov6211->cur_mode = mode;
++
++	mutex_unlock(&ov6211->mutex);
++
++	return 0;
++}
++
++static int ov6211_get_format(struct v4l2_subdev *sd,
++			     struct v4l2_subdev_state *sd_state,
++			     struct v4l2_subdev_format *fmt)
++{
++	struct ov6211 *ov6211 = to_ov6211(sd);
++
++	mutex_lock(&ov6211->mutex);
++
++	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
++		fmt->format = *v4l2_subdev_state_get_format(sd_state, fmt->pad);
++	else
++		ov6211_update_pad_format(ov6211->cur_mode, &fmt->format);
++
++	mutex_unlock(&ov6211->mutex);
++
++	return 0;
++}
++
++static int ov6211_enum_mbus_code(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *sd_state,
++				 struct v4l2_subdev_mbus_code_enum *code)
++{
++	if (code->index > 0)
++		return -EINVAL;
++
++	code->code = MEDIA_BUS_FMT_Y8_1X8;
++
++	return 0;
++}
++
++static int ov6211_enum_frame_size(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *sd_state,
++				  struct v4l2_subdev_frame_size_enum *fse)
++{
++	if (fse->index >= ARRAY_SIZE(supported_modes))
++		return -EINVAL;
++
++	if (fse->code != MEDIA_BUS_FMT_Y8_1X8)
++		return -EINVAL;
++
++	fse->min_width = supported_modes[fse->index].width;
++	fse->max_width = fse->min_width;
++	fse->min_height = supported_modes[fse->index].height;
++	fse->max_height = fse->min_height;
++
++	return 0;
++}
++
++static int ov6211_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
++{
++	struct ov6211 *ov6211 = to_ov6211(sd);
++
++	mutex_lock(&ov6211->mutex);
++
++	ov6211_update_pad_format(&supported_modes[0],
++				 v4l2_subdev_state_get_format(fh->state, 0));
++
++	mutex_unlock(&ov6211->mutex);
++
++	return 0;
++}
++
++static const struct v4l2_subdev_video_ops ov6211_video_ops = {
++	.s_stream = ov6211_set_stream,
++};
++
++static const struct v4l2_subdev_pad_ops ov6211_pad_ops = {
++	.set_fmt = ov6211_set_format,
++	.get_fmt = ov6211_get_format,
++	.enum_mbus_code = ov6211_enum_mbus_code,
++	.enum_frame_size = ov6211_enum_frame_size,
++};
++
++static const struct v4l2_subdev_ops ov6211_subdev_ops = {
++	.video = &ov6211_video_ops,
++	.pad = &ov6211_pad_ops,
++};
++
++static const struct media_entity_operations ov6211_subdev_entity_ops = {
++	.link_validate = v4l2_subdev_link_validate,
++};
++
++static const struct v4l2_subdev_internal_ops ov6211_internal_ops = {
++	.open = ov6211_open,
++};
++
++static int ov6211_identify_module(struct ov6211 *ov6211)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
++	u64 val;
++	int ret;
++
++	ret = cci_read(ov6211->regmap, OV6211_REG_CHIP_ID, &val, NULL);
++	if (ret) {
++		dev_err(&client->dev, "failed to read chip id: %d\n", ret);
++		return ret;
++	}
++
++	if (val != OV6211_CHIP_ID) {
++		dev_err(&client->dev, "chip id mismatch: %x!=%llx\n",
++			OV6211_CHIP_ID, val);
++		return -ENODEV;
++	}
++
++	return 0;
++}
++
++static int ov6211_check_hwcfg(struct ov6211 *ov6211)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov6211->sd);
++	struct device *dev = &client->dev;
++	struct fwnode_handle *fwnode = dev_fwnode(dev), *ep;
++	struct v4l2_fwnode_endpoint bus_cfg = {
++		.bus_type = V4L2_MBUS_CSI2_DPHY,
++	};
++	int ret;
++
++	if (!fwnode)
++		return -ENODEV;
++
++	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
++	if (!ep)
++		return -EINVAL;
++
++	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
++	fwnode_handle_put(ep);
++	if (ret)
++		return ret;
++
++	if (!bus_cfg.nr_of_link_frequencies) {
++		dev_err(dev, "link-frequency property is not found\n");
++		ret = -EINVAL;
++		goto error;
++	}
++
++	if (bus_cfg.nr_of_link_frequencies != 1 ||
++	    bus_cfg.link_frequencies[0] != link_freq_menu_items[0]) {
++		dev_err(dev, "Unsupported MIPI CSI2 link frequency\n");
++		ret = -EINVAL;
++		goto error;
++	}
++
++error:
++	v4l2_fwnode_endpoint_free(&bus_cfg);
++
++	return ret;
++}
++
++static int ov6211_power_on(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ov6211 *ov6211 = to_ov6211(sd);
++	int ret;
++
++	if (ov6211->avdd) {
++		ret = regulator_enable(ov6211->avdd);
++		if (ret)
++			return ret;
++	}
++
++	if (ov6211->dovdd) {
++		ret = regulator_enable(ov6211->dovdd);
++		if (ret)
++			goto avdd_disable;
++	}
++
++	if (ov6211->dvdd) {
++		ret = regulator_enable(ov6211->dvdd);
++		if (ret)
++			goto dovdd_disable;
++	}
++
++	gpiod_set_value_cansleep(ov6211->reset_gpio, 0);
++	usleep_range(10 * USEC_PER_MSEC, 15 * USEC_PER_MSEC);
++
++	ret = clk_prepare_enable(ov6211->xvclk);
++	if (ret)
++		goto reset_gpio;
++
++	return 0;
++
++reset_gpio:
++	gpiod_set_value_cansleep(ov6211->reset_gpio, 1);
++
++	if (ov6211->dvdd)
++		regulator_disable(ov6211->dvdd);
++dovdd_disable:
++	if (ov6211->dovdd)
++		regulator_disable(ov6211->dovdd);
++avdd_disable:
++	if (ov6211->avdd)
++		regulator_disable(ov6211->avdd);
++
++	return ret;
++}
++
++static int ov6211_power_off(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ov6211 *ov6211 = to_ov6211(sd);
++
++	clk_disable_unprepare(ov6211->xvclk);
++
++	gpiod_set_value_cansleep(ov6211->reset_gpio, 1);
++
++	if (ov6211->dvdd)
++		regulator_disable(ov6211->dvdd);
++
++	if (ov6211->dovdd)
++		regulator_disable(ov6211->dovdd);
++
++	if (ov6211->avdd)
++		regulator_disable(ov6211->avdd);
++
++	return 0;
++}
++
++static int ov6211_probe(struct i2c_client *client)
++{
++	struct ov6211 *ov6211;
++	unsigned long freq;
++	int ret;
++
++	ov6211 = devm_kzalloc(&client->dev, sizeof(*ov6211), GFP_KERNEL);
++	if (!ov6211)
++		return -ENOMEM;
++
++	ov6211->regmap = devm_cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(ov6211->regmap))
++		return dev_err_probe(&client->dev, PTR_ERR(ov6211->regmap),
++				     "failed to init CCI\n");
++
++	v4l2_i2c_subdev_init(&ov6211->sd, client, &ov6211_subdev_ops);
++
++	ov6211->xvclk = devm_v4l2_sensor_clk_get(&client->dev, NULL);
++	if (IS_ERR(ov6211->xvclk))
++		return dev_err_probe(&client->dev, PTR_ERR(ov6211->xvclk),
++				     "failed to get XVCLK clock\n");
++
++	freq = clk_get_rate(ov6211->xvclk);
++	if (freq && freq != OV6211_MCLK_FREQ_24MHZ)
++		return dev_err_probe(&client->dev, -EINVAL,
++				"XVCLK clock frequency %lu is not supported\n",
++				freq);
++
++	ret = ov6211_check_hwcfg(ov6211);
++	if (ret)
++		return dev_err_probe(&client->dev, ret,
++				     "failed to check HW configuration\n");
++
++	ov6211->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
++						     GPIOD_OUT_HIGH);
++	if (IS_ERR(ov6211->reset_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(ov6211->reset_gpio),
++				     "cannot get reset GPIO\n");
++
++	ov6211->avdd = devm_regulator_get_optional(&client->dev, "avdd");
++	if (IS_ERR(ov6211->avdd)) {
++		ret = PTR_ERR(ov6211->avdd);
++		if (ret != -ENODEV)
++			return dev_err_probe(&client->dev, ret,
++					     "Failed to get avdd regulator\n");
++
++		ov6211->avdd = NULL;
++	}
++
++	ov6211->dovdd = devm_regulator_get_optional(&client->dev, "dovdd");
++	if (IS_ERR(ov6211->dovdd)) {
++		ret = PTR_ERR(ov6211->dovdd);
++		if (ret != -ENODEV)
++			return dev_err_probe(&client->dev, ret,
++					     "Failed to get dovdd regulator\n");
++
++		ov6211->dovdd = NULL;
++	}
++
++	ov6211->dvdd = devm_regulator_get_optional(&client->dev, "dvdd");
++	if (IS_ERR(ov6211->dvdd)) {
++		ret = PTR_ERR(ov6211->dvdd);
++		if (ret != -ENODEV)
++			return dev_err_probe(&client->dev, ret,
++					     "Failed to get dvdd regulator\n");
++
++		ov6211->dvdd = NULL;
++	}
++
++	/* The sensor must be powered on to read the CHIP_ID register */
++	ret = ov6211_power_on(&client->dev);
++	if (ret)
++		return ret;
++
++	ret = ov6211_identify_module(ov6211);
++	if (ret) {
++		dev_err_probe(&client->dev, ret, "failed to find sensor\n");
++		goto power_off;
++	}
++
++	mutex_init(&ov6211->mutex);
++	ov6211->cur_mode = &supported_modes[0];
++
++	ret = ov6211_init_controls(ov6211);
++	if (ret) {
++		dev_err_probe(&client->dev, ret, "failed to init controls\n");
++		goto mutex_destroy;
++	}
++
++	ov6211->sd.internal_ops = &ov6211_internal_ops;
++	ov6211->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	ov6211->sd.entity.ops = &ov6211_subdev_entity_ops;
++	ov6211->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
++	ov6211->pad.flags = MEDIA_PAD_FL_SOURCE;
++	ret = media_entity_pads_init(&ov6211->sd.entity, 1, &ov6211->pad);
++	if (ret) {
++		dev_err_probe(&client->dev, ret,
++			      "failed to init media entity pads\n");
++		goto v4l2_ctrl_handler_free;
++	}
++
++	ret = v4l2_async_register_subdev_sensor(&ov6211->sd);
++	if (ret < 0) {
++		dev_err_probe(&client->dev, ret,
++			      "failed to register V4L2 subdev\n");
++		goto media_entity_cleanup;
++	}
++
++	/* Enable runtime PM and turn off the device */
++	pm_runtime_set_active(&client->dev);
++	pm_runtime_enable(&client->dev);
++	pm_runtime_idle(&client->dev);
++
++	return 0;
++
++media_entity_cleanup:
++	media_entity_cleanup(&ov6211->sd.entity);
++
++v4l2_ctrl_handler_free:
++	v4l2_ctrl_handler_free(ov6211->sd.ctrl_handler);
++
++mutex_destroy:
++	mutex_destroy(&ov6211->mutex);
++
++power_off:
++	ov6211_power_off(&client->dev);
++
++	return ret;
++}
++
++static void ov6211_remove(struct i2c_client *client)
++{
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ov6211 *ov6211 = to_ov6211(sd);
++
++	v4l2_async_unregister_subdev(sd);
++	media_entity_cleanup(&sd->entity);
++	v4l2_ctrl_handler_free(sd->ctrl_handler);
++	pm_runtime_disable(&client->dev);
++	mutex_destroy(&ov6211->mutex);
++}
++
++static const struct dev_pm_ops ov6211_pm_ops = {
++	SET_RUNTIME_PM_OPS(ov6211_power_off, ov6211_power_on, NULL)
++};
++
++static const struct of_device_id ov6211_of_match[] = {
++	{ .compatible = "ovti,ov6211" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, ov6211_of_match);
++
++static struct i2c_driver ov6211_i2c_driver = {
++	.driver = {
++		.name = "ov6211",
++		.pm = &ov6211_pm_ops,
++		.of_match_table = ov6211_of_match,
++	},
++	.probe = ov6211_probe,
++	.remove = ov6211_remove,
++};
++
++module_i2c_driver(ov6211_i2c_driver);
++
++MODULE_AUTHOR("Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>");
++MODULE_DESCRIPTION("OmniVision OV6211 sensor driver");
++MODULE_LICENSE("GPL");
 -- 
 2.49.0
 
