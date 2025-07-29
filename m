@@ -1,294 +1,283 @@
-Return-Path: <linux-media+bounces-38625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38624-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B073B14C16
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 12:22:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9019B14BFF
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 12:14:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05A6017FDA3
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 10:22:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79E6F7A4CA4
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 10:12:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA9E289342;
-	Tue, 29 Jul 2025 10:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57ED8288C3A;
+	Tue, 29 Jul 2025 10:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="Xbwn3BWA";
-	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="TD3fE41v"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oDFyHHo3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailhub11-fb.kaspersky-labs.com (mailhub11-fb.kaspersky-labs.com [81.19.104.124])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2040.outbound.protection.outlook.com [40.107.92.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821302882B8;
-	Tue, 29 Jul 2025 10:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.19.104.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753784518; cv=none; b=BKpmTUy9J5P38c7kdyNjqLEMeaQ+uI7n1TRXAMMoRwNsjpFUm8zJ6nl3lhOkRi8OCeVruyT37El2sDGD/Ssp0IIA8vko25mANznHj6pYhCuvEZY7UrmVof4B3f1ZjNXI3RvS/Ez/VnHQqRVpttGE2iSdvufxkglSu/lXmXa2wAQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753784518; c=relaxed/simple;
-	bh=RdwgkpJygYbVHv+DnDQgJ36uT2BMnCr2YQHud15WhqQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LVHwMnwQMt3+734M797NQO3gIUH5iLAfkr4BHoNkTTRAb8mSS+OHpEhZyIA+xACEG7eQRj2A+cgFCGk5g6nkHJ3pvPF8XGOuX5dg3m9SJOc++R9I9B6EkhE9EIK3CTYk1VSMXgGgrAFR1ZxpQk472wL2nu7O3JmeRAf0miFB1ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com; spf=pass smtp.mailfrom=kaspersky.com; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=Xbwn3BWA; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=TD3fE41v; arc=none smtp.client-ip=81.19.104.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaspersky.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
-	s=mail202505; t=1753784023;
-	bh=hq+m1yjCde1obhWdPENYPOgw5P3QzOy2HCU8y8pSSrM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Xbwn3BWA9CW9EOCSpY1AOMks/vAhm35p2YhMJ4RIpg5BlHiJJTFVGOwosyu8cxfh8
-	 F3kqhQpdgzWcCUuYCzXAsoL45IJ0JFgnW8DaEvRwsLOI4oL8Ltof17pX4xWtNW74i0
-	 T5FckLgEUUYEaJo1XGy2L1kViJVcoWsHW8c0PNHKoXceOxiWLeKQAAOWyoomNcki3f
-	 kEkNAlI0mmrl4kDN/UA3rrnY25GEfen0rnLPY8dYhDHEs/WnQFqUa2ocJemat5jxu9
-	 Si3IGF/NC2n1FKGwsqA01cPzRPTGER+kbootwKbMsS19zaYn65oe8yRezmMlE/usrv
-	 Fzau7jHHwVNzw==
-Received: from mailhub11-fb.kaspersky-labs.com (localhost [127.0.0.1])
-	by mailhub11-fb.kaspersky-labs.com (Postfix) with ESMTP id 7FD84E876C2;
-	Tue, 29 Jul 2025 13:13:43 +0300 (MSK)
-Received: from mx13.kaspersky-labs.com (mx13.kaspersky-labs.com [91.103.66.164])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "mx13.kaspersky-labs.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
-	by mailhub11-fb.kaspersky-labs.com (Postfix) with ESMTPS id 47961E808C1;
-	Tue, 29 Jul 2025 13:13:43 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
-	s=mail202505; t=1753784014;
-	bh=hq+m1yjCde1obhWdPENYPOgw5P3QzOy2HCU8y8pSSrM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=TD3fE41vAUBFWEJwpbLkG8LJ2MOKaJH3COHWfDOsFEqTWrcfjX3FKly9Qvts5uB6y
-	 Ir10vZ9MtLghOExFY4ffZ0z237sz6qzDp/gSci2LwWzvgzx3bx4S6SO4fVNZb6BQlw
-	 y3k3S0aDhLKSIwqc5Uhkev7Lx43fG6EcSplwLUTMaas7a7dpMRcQr0mTiYYSwN4FSf
-	 rbg2YUpCA3oAGTwNgctwtUMrJnB+lW31N2Y9NTVyePYBZ6vj2gJOH7BxzX2c48DI4B
-	 XiWXwzqYNEFvNMdlMQHMlZwQcNZnz55lurwYZjDWZ6SPaDINCa/yHYJESL9xRKp7WB
-	 RAt+RXsu+x06w==
-Received: from relay13.kaspersky-labs.com (localhost [127.0.0.1])
-	by relay13.kaspersky-labs.com (Postfix) with ESMTP id AEFFC3E1C62;
-	Tue, 29 Jul 2025 13:13:34 +0300 (MSK)
-Received: from mail-hq2.kaspersky.com (unknown [91.103.66.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "mail-hq2.kaspersky.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
-	by mailhub13.kaspersky-labs.com (Postfix) with ESMTPS id E0FF73E151D;
-	Tue, 29 Jul 2025 13:13:33 +0300 (MSK)
-Received: from larshin.avp.ru (10.16.106.5) by HQMAILSRV2.avp.ru (10.64.57.52)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 29 Jul
- 2025 13:13:33 +0300
-From: Larshin Sergey <Sergey.Larshin@kaspersky.com>
-To: Sean Young <sean@mess.org>
-CC: Larshin Sergey <Sergey.Larshin@kaspersky.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Jarod Wilson <jarod@redhat.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<lvc-project@linuxtesting.org>, <Oleg.Kazakov@kaspersky.com>,
-	<syzbot+f1a69784f6efe748c3bf@syzkaller.appspotmail.com>,
-	<stable@vger.kernel.org>
-Subject: [PATCH] media: rc: fix races with imon_disconnect()
-Date: Tue, 29 Jul 2025 13:13:32 +0300
-Message-ID: <20250729101332.2435282-1-Sergey.Larshin@kaspersky.com>
-X-Mailer: git-send-email 2.39.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9EE286897;
+	Tue, 29 Jul 2025 10:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753784043; cv=fail; b=jf8LTtRxYi6nRIN8x8DigPOy6hCviJ003fxeUluSXUuVljVvMz/x6WmHSxU1QDyN0CLzZ0ljEtBQYBXOkmXDjo7NqGc/jDhuJiyFgV+1gVanxrF2+BY2DiFM855bbe9WYlAoaCmJbbvVBBkhA82e6y4thSd58x/BlLEYApW4Has=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753784043; c=relaxed/simple;
+	bh=L5kYnlTpeW+vU/JUxf8VbQpbRFvSYq65gbgTaNK66vI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UdJH/gudLOqoDZpksNqUql1UPTjpI2xDLu8C0Ejbz6roiPacUBnBVhS59rbXYZeJnjDQJ0rRnp/Ep36R0fsxxBI0bV5dO7tU2tM/Uj9AOtwzecm76dIKhnvX2Bv4vrrRqOSkr4xh2c5scEP11dZY5qoUnK8YywAew8JvLbVWaLQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oDFyHHo3; arc=fail smtp.client-ip=40.107.92.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JAl2wLPfIwZx3oLzrSZi9XiDOdLeCmHjhxWq4hodms3NYQafA613Fl/KyuXAma3zfZKYItWxQNUM0ZDk2CyvKPk0auv+gqZ5nMs3I2RxVbJg9Mj0IvcG2nGDZb5w2Wg2bnxDGxMFvTG9/HT/fA9zSluTI/3RT6IZRgPpdr832lQvNteQAdSsL1S7mqC47Pwq1s1n+i/ifhtQVWxbNkA8uf+PQ35ut90vHDqZdgAD1yZ6HZfH9ke+2DNm74ZRnr7U5czSVNMSK75fNZIX5O8rWajClc0aNZae3uZgFtSNSsbpXzhZCbwIrqxbacbh/STkB+xZHbfR6n5TH06tcO3yxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RmWSMoeap8MCNnrmUNRQSaMtafmy0BgtkThne1lkUSE=;
+ b=Hv++EWP1JmHHBYToJKGqnuQYzfeVv9dPYxOjnwV2+IK3S6tzzKbTYGrLOnKz7oUvFIKcvhpK4SwH1YJufJbSBpBCC1icU1gTDFv20b27GqglFzm7E1AjtqSRJQ6/fL1SWmI8eVOZSWsRw76RKCLloWIf4XC/6KEX00ZUzWcmtBYxCWmJdeYnDHpwCreZhqFUtTkXt7uCuttjl5NejwyEHjb+ccmTBuqwp1pgM4Zp1l+XgsEJ6rGTT2uf98OX4F36LGcz6rYctDO/uXx/y+PRug4kgjie098/a3QOX6L3muppKFuO8bFswhjOpu56Qo8lrj+BZxpjKtoNt0w8y0afGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RmWSMoeap8MCNnrmUNRQSaMtafmy0BgtkThne1lkUSE=;
+ b=oDFyHHo3zOtT6Lnkp8YWZtcTvHS5iokeWrMLMMCULz8+JZa7dZEAG28qLhcL10GosghEEM+2wf38zyzaKLlyu3N5J8ji/5LLeX7/rSaxX9aQoH99cNdOODx7RZgFInsBM4QiQaXjJRGI3bZ/FYuVP0wjnUL2R3r/xLykAWppjEU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13)
+ by PH7PR12MB7795.namprd12.prod.outlook.com (2603:10b6:510:278::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Tue, 29 Jul
+ 2025 10:13:59 +0000
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7]) by PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7%3]) with mapi id 15.20.8964.026; Tue, 29 Jul 2025
+ 10:13:58 +0000
+Message-ID: <751e9265-889f-4fbf-acf8-7374311a6b6f@amd.com>
+Date: Tue, 29 Jul 2025 18:13:50 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] Add AMD ISP4 driver
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+ gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
+ bin.du@amd.com
+References: <20250618091959.68293-1-Bin.Du@amd.com>
+ <aIEmJXNpNN0QF233@sultan-box> <12fb4d09-6b94-4f54-86b8-8a3ac0949151@amd.com>
+ <aIVXVpg_9XxRXUAH@sultan-box> <b02d0749-6ecb-4e69-818a-6268f894464d@amd.com>
+ <aIh7WB0TGNU15Zm1@sultan-box> <aIh8JPTv9Z5lphRQ@sultan-box>
+Content-Language: en-US
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <aIh8JPTv9Z5lphRQ@sultan-box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR01CA0032.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::18) To PH8PR12MB7446.namprd12.prod.outlook.com
+ (2603:10b6:510:216::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HQMAILSRV5.avp.ru (10.64.57.55) To HQMAILSRV2.avp.ru
- (10.64.57.52)
-X-KSE-ServerInfo: HQMAILSRV2.avp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 07/29/2025 09:55:44
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 195156 [Jul 29 2025]
-X-KSE-AntiSpam-Info: Version: 6.1.1.11
-X-KSE-AntiSpam-Info: Envelope from: Sergey.Larshin@kaspersky.com
-X-KSE-AntiSpam-Info: LuaCore: 63 0.3.63
- 9cc2b4b18bf16653fda093d2c494e542ac094a39
-X-KSE-AntiSpam-Info: {Tracking_cluster_exceptions}
-X-KSE-AntiSpam-Info: {Tracking_real_kaspersky_domains}
-X-KSE-AntiSpam-Info: {Tracking_one_url}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: syzkaller.appspot.com:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;kaspersky.com:5.0.1,7.1.1;larshin.avp.ru:5.0.1,7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: {Tracking_white_helo}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Deterministic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 07/29/2025 09:57:00
-X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
- rules found
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 7/29/2025 9:06:00 AM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
- rules found
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-KSMG-AntiPhishing: NotDetected, bases: 2025/07/29 09:04:00
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/07/29 08:29:00 #27646063
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2025/07/29 09:04:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 52
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7446:EE_|PH7PR12MB7795:EE_
+X-MS-Office365-Filtering-Correlation-Id: a31c59a8-e3ee-40f9-e79c-08ddce88a21b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?S1h2NUtLaWZYNm5Qdml1NFNLTm5yZm9kTEZaN0d3YWp4NCtUcHowMFV4Q3hP?=
+ =?utf-8?B?OEkyTHcxTWZ5ZG9NMTdtRWhwdUVCV0tIclEwWmY1TWVVUkk2b3hGNGZqNm5P?=
+ =?utf-8?B?cGtjeWV6VjZLUTZLMStEeHJpaU9QOFRkUThPQ0NjVmIvSDY0ekI5K3N1K0tx?=
+ =?utf-8?B?WnozQnVFaFdjTTJqZENlelpRclZjMnpJSkZWU3BLMHR4L2ZOUWNyTnFRV3FL?=
+ =?utf-8?B?S2E0OWhYU1dsL2oxcDVZdjRwVkpsUVNnOStoRExPLzBGMkY1aTA4akY1Q2lM?=
+ =?utf-8?B?R2d3QTFHQ04wZ3FsUkVlZHFnZk50ZVE0N1dHazRsdE9LbEZudHJ3SStwenBF?=
+ =?utf-8?B?M1BYVXBhZUltVnd2NXNhYUpuTUdmV0lkUUJPdCtDbjBGWnNRc3ZiUFkyOUVu?=
+ =?utf-8?B?bTJIUVBzdzV4SzhpU1RUSVpOdHpWc05vejVGbU1sYlRRN2JXNEhyN2RsK3pY?=
+ =?utf-8?B?UkpyTUljTWc3STAzU1puWXpKb3ZPTHhYS3AxSm5BemJ4eEZuMnY5ZXhqZGtE?=
+ =?utf-8?B?K1ppNEVkWUV0MmNRZ3drd1psMDAyem85T2N1QWE5emNydnBmbWdQdUhZRlph?=
+ =?utf-8?B?SWx4aVdJUnlTcTRnUGNJYnd3bWZRSHo2YWV0N1UyRzF1eXJyekEraWJGbUlp?=
+ =?utf-8?B?U3drQVAva09LN1dlblkxNTVoQWpTNDdjckNheXF0cWdYcnNxWUo0b09sTjYx?=
+ =?utf-8?B?R3QwbC90cjBIb0IzdzJTVEVMNCtoUjNUYmhaMmk2QXFLcDF3Y0R4eC84L1cz?=
+ =?utf-8?B?aisvRThlTXN0dmtwYjZWemprZjdhWVlCQTVUOW4yT3luMXFjVHo4U0NaUzBv?=
+ =?utf-8?B?MlU2bHdxQUNLdDlWZlk5V1l4ck9tVDdjMWZwc20zMjJrd3pCcEhOeHE0NnU3?=
+ =?utf-8?B?dDFhTk92akJiZjlPcU54T0FXb2pZM3YrZWlWTElQUFVROWpoWHEzTW5QS2Rt?=
+ =?utf-8?B?SHRRNHh5NFlHaStCdTJYRWZQcFoxdVdOM2NqbThWTHA2QUU3N2wxOEtWeVJE?=
+ =?utf-8?B?Z1pzaWVBV3NSbktucWdZSzVZbm1SSEZ4NXpGZG9YY1pKcTBmVllDWVVNOWRa?=
+ =?utf-8?B?VUJtNUNPZmRDYUljQmExRTk5UW9PRDNvN1kxVVR1RzRFZndQOURCVmtlYlk5?=
+ =?utf-8?B?U0RTeTJzS21BNXpZZVdEL3YwMFhpRitibCtMZFg3RDlTYWNCWHJBMDQzdlBI?=
+ =?utf-8?B?bmtXYXI1RTZVSHBFQmpxWm5LZ2N0N25vU2FudzlOeHQ2cVZoSjJDMkhsSHJy?=
+ =?utf-8?B?U0twUEhjR0pLV0hkMW1yMkNTWHA3SWZleVF1R2g1MGRnWWlieWRrSUlFZndB?=
+ =?utf-8?B?ekJ3M1B6UUxPM2xwRk82WTlSUXNtZFZkdndRUkVENjZla3NMZ0N0TnhjNEdv?=
+ =?utf-8?B?eE95cEdQS0RTNEgwQTc3TDRmek9Od0F3Vzh5RmVyaDhKRG12N0tBclNTZTJ2?=
+ =?utf-8?B?eVZjRUI1ZUJPa1VrWWdjL2FDaG9McGZMUE4rUjU4Z0hIUjc0aEFxQ1N3RURk?=
+ =?utf-8?B?WlBRcU5aWkdaeVRBTnlqektScldsNGUxNmFXN1FMQVM0NWpQeVVXVk53TXVj?=
+ =?utf-8?B?dGZhaXlVc281cVNUWGFWSk93Slk0LzRjRWtZeEhKMk5iMjlOQUg1cU51L2I3?=
+ =?utf-8?B?QUhnRnhKTGpmL2U0MkIvQ2tzRnhOZ0JSYTRjR1djMldFOXArdnJranVuSlRk?=
+ =?utf-8?B?d0FIZ2YvMjlKVnZZNWU1emNpU09JL1gxc2lIS2tJYUVqL0RZUnY4NDJqS0FD?=
+ =?utf-8?B?NWtrZ1NpT0t5T1JxVW41TzlLRWZzRTVxT2h4RWxQcFlpeFBOYVlCM0NlY01q?=
+ =?utf-8?B?SUFhVkhlaEFldHpIZWtqbWovUXZMQ0M3dnFhV2xPbEZFUlNKOXJpSFkvamFl?=
+ =?utf-8?B?b2pjVEpTWWI5dFYwdnE4Wnlja0hBQmt5cEs0Sk8zS3c3ZVpkZkxlRGVuYmY1?=
+ =?utf-8?Q?sV6sZbrWF0c=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7446.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cWFuNVBCeHZIT1drWXIwbkJzSURNT2JrTHJsYmRIdEVEQ2pDZWRxM1pEYVBC?=
+ =?utf-8?B?RHkrMU1yQzlESEowL1EyaUYvN29BbDlzZ1p1OW1acXB2RlpqbTMwcjJYd3Y3?=
+ =?utf-8?B?M2oya0UyQ3Jod3FGYk9vQjBmZ2trejVacTVucE5lczlaMDhJajZ0UzI3MDBa?=
+ =?utf-8?B?Q0ZkbGpIbDlYRS8wcDUwckpWb1ZTYy9nT2xuSGE4cjd5RjZnakkrZUh0UHBh?=
+ =?utf-8?B?VlNpUzFWL3pGc2hkY1ZaeHNWSVRVYTNtRXFvZ1dnVWQ2aS9paVFRVjlpMzlV?=
+ =?utf-8?B?VldzbkZIZ3p1RXVreHp5MGZhOUV0RFRNd2VpYlpma0dhVm03VXB0QTBFUkFa?=
+ =?utf-8?B?cnJXc0dlSjlaSFlTd3VLV1NhQVBKOFNkTXllTUptak1VVUFVdjdYL2svWWNS?=
+ =?utf-8?B?M2JaMG5lc1NlWlRpZElTMk5LSkxqWm1zQVBmQ01RaVhPK0lRR3VpdDhsWHJV?=
+ =?utf-8?B?eUNZZ29Bckd5MFpseEtVQWpYUWNBb2lnY3FOdmE4UWhNZzVpSHJVbE9GUFpp?=
+ =?utf-8?B?YlovSndiRjZFRm5HdUN0Tzh2QWxHeWxKS1kwWU9FeEQ3b3d5Y2NtU1Jua1ZB?=
+ =?utf-8?B?QVhhMld5a2M0T0huMWN0RTVvc01Wd2RxdVhsaEhmc0g3YnFCeDJLZ1JPd2FL?=
+ =?utf-8?B?VXZlUUMzSGZycXRvTlFqbVJuTGpzWFhKK3pzZVdMVlhmZUJveU9lalJLTUt2?=
+ =?utf-8?B?K2hRMHRYUXBsZ21RU3lOa0tCY21lUUNDRks0M3R5RWlyMmdwL1g0czMxcnNC?=
+ =?utf-8?B?djd4aUdMcTFqTkZHQ3ZSbjc2OENuZ0RyWWxuL2twTzZkUTVIZU93Nk56RUMx?=
+ =?utf-8?B?bDNMR3BIck1YenMxUlkvNnVVUCt3djFBMTJIc3FmaVJ0MjFOMVZEM1p1WkNz?=
+ =?utf-8?B?Q0E3U05CQzRhekk0YkhVQUNNUjd1WksxZ0c3MHpaOUMzanhDLzl0WUlzSTZ2?=
+ =?utf-8?B?S3NpQ3d1SXVYV1ExVStNRDhzUUhxM0ZMZ3hhOE4zeUhNTnFHak5QajFFbHBL?=
+ =?utf-8?B?djJ5MnV6TEN4bHJiTUNZWm02UWNLSW5maGNJTm5RdE5pemdodVZUdFpKa2hJ?=
+ =?utf-8?B?WVF5K3FJc25hRGQ1bUdMRlpJU0dIY1lMdDVJM2F5YnN0M0h5ZTJUY3RkQzBF?=
+ =?utf-8?B?b2ZBYnNWSHFYOUM2OHFlZlJ0alR3UDgxV2hIT2JvYjRiNjdJSHNVUDZTcXRP?=
+ =?utf-8?B?MWJ6VUN6cUFEb0Nnc1BmWWlhSHRoZSt5amV6RzJQd253OTI1aXpvWXd3ck8v?=
+ =?utf-8?B?ZmNvbG5sS0JxWWJwdmpIczJ4M2xWR1lFamJocmF3bGNmUFN3VkVnV29lQkg3?=
+ =?utf-8?B?VmZNYitlWUN0Ly8ybXlVOE40M3RVVzNtWGRVN2lxQ2Uyc0Vsa05pZ3RDUEJO?=
+ =?utf-8?B?cS9wRm9iTFFMZU1Semk3NUNwTHNQbHJNVGFEckM4bHUxVDNubGdZcHdWUkxx?=
+ =?utf-8?B?ekNxYzZvMUsyNzBPTVRMQmVodDdoZ0VRVDlEai9vWkpPMFZoZ0tnRmNQR3lU?=
+ =?utf-8?B?OFpUUVYwQTFMVXEzS3IwOGQ0SWFpVmhXSjRHVTdFaVFPanYyOEtWN2tYbnhW?=
+ =?utf-8?B?c1VDYklXdXZzc2V2bVNETm1ZYlg5U0FDdVp1R2Zub0dnN0pnMWJ2OUVnem1z?=
+ =?utf-8?B?WUxkTDhMQm9IQ1lVZGZsK21LV1NZODhQUWJnbDBMcXpmMXRnMk1SckRMeG5R?=
+ =?utf-8?B?ZnMvQ0FIRW5KK3RlcUNZcXZRVnZZT0d1RmdObUdsRkg2dDlvbVBtZXM3SjlW?=
+ =?utf-8?B?TzNoaEpnbG1nT05rSEhjdk1JMmtaKzZaQ3g0NnlJYlUzZTJTb0s5RjlRVURy?=
+ =?utf-8?B?WTVYOTlvc01xemtiZHJDRWw3bFQzODZiNkl0bkZLelhTeGNrdnoxaGJPdTBx?=
+ =?utf-8?B?REpZdHZWTjhuZW52QzJuRzFPQzdJejRsV3BFTjR2ZE5nOExkWXlBUWpRQTlS?=
+ =?utf-8?B?SXNpMGp5b2J1UW1EaitTOTNrSzBpak1vSm9iVllPQVM0ZHMxSUFmUFFUZnRF?=
+ =?utf-8?B?bTUrak45ZndNR1RxSnZBa3cvTFdCWkJqcllSYXBOMmZaYlFXSmhIWFJ5bHhB?=
+ =?utf-8?B?WXlDeld5aWpIdEJRSk0yaC80Y200OU1LNzdWV2VXWHZJb2lKcFZ0NE13cVdi?=
+ =?utf-8?Q?Nr+4=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a31c59a8-e3ee-40f9-e79c-08ddce88a21b
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7446.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2025 10:13:58.8951
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FV5LZtbQifRV/PLa7LTDn0KjkUX1t/Evz8ziRXZ7c8y5ey3dBLLjLOQOkvF4Geny
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7795
 
-Syzbot reports a KASAN issue as below:
-BUG: KASAN: use-after-free in __create_pipe include/linux/usb.h:1945 [inline]
-BUG: KASAN: use-after-free in send_packet+0xa2d/0xbc0 drivers/media/rc/imon.c:627
-Read of size 4 at addr ffff8880256fb000 by task syz-executor314/4465
+Thanks Sultan, yes, seems much close to the final success. Will have 
+some internal discussion.
 
-CPU: 2 PID: 4465 Comm: syz-executor314 Not tainted 6.0.0-rc1-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-Call Trace:
- <TASK>
-__dump_stack lib/dump_stack.c:88 [inline]
-dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
-print_address_description mm/kasan/report.c:317 [inline]
-print_report.cold+0x2ba/0x6e9 mm/kasan/report.c:433
-kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
-__create_pipe include/linux/usb.h:1945 [inline]
-send_packet+0xa2d/0xbc0 drivers/media/rc/imon.c:627
-vfd_write+0x2d9/0x550 drivers/media/rc/imon.c:991
-vfs_write+0x2d7/0xdd0 fs/read_write.c:576
-ksys_write+0x127/0x250 fs/read_write.c:631
-do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-The iMON driver improperly releases the usb_device reference in
-imon_disconnect without coordinating with active users of the
-device.
-
-Specifically, the fields usbdev_intf0 and usbdev_intf1 are not
-protected by the users counter (ictx->users). During probe,
-imon_init_intf0 or imon_init_intf1 increments the usb_device
-reference count depending on the interface. However, during
-disconnect, usb_put_dev is called unconditionally, regardless of
-actual usage.
-
-As a result, if vfd_write or other operations are still in
-progress after disconnect, this can lead to a use-after-free of
-the usb_device pointer.
-
-Thread 1 vfd_write                      Thread 2 imon_disconnect
-                                        ...
-                                        if
-                                          usb_put_dev(ictx->usbdev_intf0)
-                                        else
-                                          usb_put_dev(ictx->usbdev_intf1)
-...
-while
-  send_packet
-    if
-      pipe = usb_sndintpipe(
-        ictx->usbdev_intf0) UAF
-    else
-      pipe = usb_sndctrlpipe(
-        ictx->usbdev_intf0, 0) UAF
-
-Guard access to usbdev_intf0 and usbdev_intf1 after disconnect by
-checking ictx->disconnected in all writer paths. Add early return
-with -ENODEV in send_packet(), vfd_write(), lcd_write() and
-display_open() if the device is no longer present.
-
-Set and read ictx->disconnected under ictx->lock to ensure memory
-synchronization. Acquire the lock in imon_disconnect() before setting
-the flag to synchronize with any ongoing operations.
-
-Ensure writers exit early and safely after disconnect before the USB
-core proceeds with cleanup.
-
-Found by Linux Verification Center (linuxtesting.org) with Syzkaller.
-
-Reported-by: syzbot+f1a69784f6efe748c3bf@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
-Fixes: 21677cfc562a ("V4L/DVB: ir-core: add imon driver")
-Cc: stable@vger.kernel.org
-
-Signed-off-by: Larshin Sergey <Sergey.Larshin@kaspersky.com>
----
- drivers/media/rc/imon.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index f5221b018808..cf3e6e43c0c7 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -536,7 +536,9 @@ static int display_open(struct inode *inode, struct file *file)
- 
- 	mutex_lock(&ictx->lock);
- 
--	if (!ictx->display_supported) {
-+	if (ictx->disconnected) {
-+		retval = -ENODEV;
-+	} else if (!ictx->display_supported) {
- 		pr_err("display not supported by device\n");
- 		retval = -ENODEV;
- 	} else if (ictx->display_isopen) {
-@@ -598,6 +600,9 @@ static int send_packet(struct imon_context *ictx)
- 	int retval = 0;
- 	struct usb_ctrlrequest *control_req = NULL;
- 
-+	if (ictx->disconnected)
-+		return -ENODEV;
-+
- 	/* Check if we need to use control or interrupt urb */
- 	if (!ictx->tx_control) {
- 		pipe = usb_sndintpipe(ictx->usbdev_intf0,
-@@ -949,12 +954,14 @@ static ssize_t vfd_write(struct file *file, const char __user *buf,
- 	static const unsigned char vfd_packet6[] = {
- 		0x01, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF };
- 
--	if (ictx->disconnected)
--		return -ENODEV;
--
- 	if (mutex_lock_interruptible(&ictx->lock))
- 		return -ERESTARTSYS;
- 
-+	if (ictx->disconnected) {
-+		retval = -ENODEV;
-+		goto exit;
-+	}
-+
- 	if (!ictx->dev_present_intf0) {
- 		pr_err_ratelimited("no iMON device present\n");
- 		retval = -ENODEV;
-@@ -1029,11 +1036,13 @@ static ssize_t lcd_write(struct file *file, const char __user *buf,
- 	int retval = 0;
- 	struct imon_context *ictx = file->private_data;
- 
--	if (ictx->disconnected)
--		return -ENODEV;
--
- 	mutex_lock(&ictx->lock);
- 
-+	if (ictx->disconnected) {
-+		retval = -ENODEV;
-+		goto exit;
-+	}
-+
- 	if (!ictx->display_supported) {
- 		pr_err_ratelimited("no iMON display present\n");
- 		retval = -ENODEV;
-@@ -2499,7 +2508,11 @@ static void imon_disconnect(struct usb_interface *interface)
- 	int ifnum;
- 
- 	ictx = usb_get_intfdata(interface);
-+
-+	mutex_lock(&ictx->lock);
- 	ictx->disconnected = true;
-+	mutex_unlock(&ictx->lock);
-+
- 	dev = ictx->dev;
- 	ifnum = interface->cur_altsetting->desc.bInterfaceNumber;
- 
--- 
-2.39.5
+On 7/29/2025 3:45 PM, Sultan Alsawaf wrote:
+> On Tue, Jul 29, 2025 at 12:42:16AM -0700, Sultan Alsawaf wrote:
+>> On Tue, Jul 29, 2025 at 11:32:23AM +0800, Du, Bin wrote:
+>>> Thanks Sultan, please see my comments
+>>>
+>>> On 7/27/2025 6:31 AM, Sultan Alsawaf wrote:
+>>>> On Fri, Jul 25, 2025 at 06:22:03PM +0800, Du, Bin wrote:
+>>>>>> I have the Ryzen AI MAX+ 395 SKU of the HP ZBook Ultra G1a 14.
+>>>>>>
+>>>>>> I cannot for the life of me get the webcam working under Linux. The webcam works
+>>>>>> under Windows so it's not a hardware issue.
+>>>>>>
+>>>>>> With this patchset and all of the patches you link here applied to 6.15, I get
+>>>>>> the following errors:
+>>>>>>      [   11.970038] amd_isp_i2c_designware amd_isp_i2c_designware: Unknown Synopsys component type: 0xffffffff
+>>>>>>      [   11.973162] amd_isp_i2c_designware amd_isp_i2c_designware: error -19: i2c_dw_probe failed
+>>>>>>
+>>>>>> With the old ispkernel code from February [1] applied on 6.15, the webcam
+>>>>>> indicator LED lights up but there's no image. I see these messages at boot:
+>>>>>>      [    9.449005] amd_isp_capture amd_isp_capture.1.auto: amdgpu: AMD ISP v4l2 device registered
+>>>>>>      [    9.489005] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: The OV05 sensor device is added to the ISP I2C bus
+>>>>>>      [    9.529012] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout while trying to abort current transfer
+>>>>>>      [    9.554046] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout in disabling adapter
+>>>>>>      [    9.554174] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout while trying to abort current transfer
+>>>>>>      [    9.580022] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout in disabling adapter
+>>>>>>
+>>>>>> And then the kernel crashes due to the same use-after-free issues I pointed out
+>>>>>> in my other email [2].
+>>>>>>
+>>>>>> Any idea what's going on?
+>>>>>>
+>>>>>> [1] https://github.com/amd/Linux_ISP_Kernel/commit/c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4
+>>>>>> [2] https://lore.kernel.org/r/aIEiJL83pOYO8lUJ@sultan-box
+>>>>> Hi Sultan,
+>>>>>
+>>>>> [1] is for kernel 6.8, believe it can't be applied to 6.15. We didn't verify
+>>>>> on 6.15 but we are really glad to help, would you please provide some info,
+>>>>> 1. Suppose you are using Ubuntu, right? What's the version?
+>>>>> 2. 6.15, do you mean https://github.com/torvalds/linux/tree/v6.15 ?
+>>>>>
+>>>>> After your confirmation, we'll see what we can do to enable your camera
+>>>>> quickly and easily
+>>>>>
+>>>>> Regards,
+>>>>> Bin
+>>>>
+>>>> Thank you, Bin!
+>>>>
+>>>> 1. I'm using Arch Linux with the ISP4-patched libcamera [1].
+>>>> 2. Yes, here is my kernel source [2].
+>>>>
+>>>> I have some more findings:
+>>>>
+>>>> Currently, the first blocking issue is that the I2C adapter fails to initialize.
+>>>> This is because the ISP tile isn't powered on.
+>>>>
+>>>> I noticed that in the old version of amd_isp_i2c_designware [3], there were
+>>>> calls to isp_power_set(), which is available in the old ISP4 sources [4].
+>>>> Without isp_power_set(), the I2C adapter always fails to initialize for me.
+>>>>
+>>>> How is the ISP tile supposed to get powered on in the current ISP4 code?
+>>>>
+>>> You are correct, yes, i believe the I2C adapter failure is caused by ISP not
+>>> being powered up. Currently in latest code, isp_power_set is no longer
+>>> available, instead, we implemented genPD for ISP in amdgpu
+>>> https://lore.kernel.org/all/20250618221923.3944751-1-pratap.nirujogi@amd.com/
+>>> Both amd_isp_i2c and amd_isp_capture are in the power domain and use the
+>>> standard runtime PM API to do the power control
+>>
+>> Thanks for that link, I found it along with another patch on the list to make
+>> the fwnode work ("drm/amd/amdgpu: Initialize swnode for ISP MFD device").
+>>
+>>>> Also, I noticed that the driver init ordering matters between all of the drivers
+>>>> needed for the ISP4 camera. In particular, amd_isp_i2c_designware and amd_isp4
+>>>> must be initialized before amd_capture, otherwise amd_capture will fail to find
+>>>> the fwnode properties for the OV05C10 device attached to the I2C bus.
+>>>>
+>>>> But there is no driver init ordering enforced, which also caused some issues for
+>>>> me until I figured it out. Maybe probe deferral (-EPROBE_DEFER) should be used
+>>>> to ensure each driver waits for its dependencies to init first?
+>>>>
+>>> amd_isp_capture only has dependency on amd_isp4 which is the ACPI platform
+>>> driver, it is init before amd_isp_catpure.
+>>> Do you see in your side the amd_capture probe failure caused by failing to
+>>> read fwnode properties? If that's the case please help to check if amd_isp4
+>>> is loaded successfully
+>>
+>> I got much further now: there aren't any driver initialization errors, but when
+>> I open the camera, there's no image. The camera LED turns on so it's active.
+>>
+>> And then shortly afterwards, amdgpu dies and the entire system freezes.
+>>
+>> I've attached my full dmesg, please let me know what you think. Thanks!
+> 
+> I almost forgot, here is my current kernel tree:
+> https://github.com/kerneltoast/kernel_x86_laptop/tree/v6.16-sultan-isp4
+> 
+> Sultan
 
 
