@@ -1,350 +1,292 @@
-Return-Path: <linux-media+bounces-38630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38631-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4728B14E97
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 15:43:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7553B14F30
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 16:24:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1144C4E6112
-	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 13:43:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BEF618A202C
+	for <lists+linux-media@lfdr.de>; Tue, 29 Jul 2025 14:24:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA4CA19D065;
-	Tue, 29 Jul 2025 13:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F4A31DE3D6;
+	Tue, 29 Jul 2025 14:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ePS4jH9q"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="RfpXdjm9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865F5200A3
-	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 13:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E546D1D7E41
+	for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 14:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753796607; cv=none; b=efCflju9zojlXyRA+heghCODzpWYct3lhtx7VtJ08KLQuBYzfRFTimMjz2TQjXOszdpgQQzwIaz3MsB1AJ0xw3JCBZci+OQgrlckjgoGsZMQ5/NKArTrZ7XPYIeFjAMJS6/90105N3xCI2AKdpHX3GumccKbUcyRT0tJDr7DPn4=
+	t=1753799068; cv=none; b=uNWhhHn6jVMrBfyg/6mWoKHsUBZmgx9zGBJHhGEZazaJC/T8PNYWE4jErKo3HwNea1Oz8bTHOE+IAu//IY9HiMvZYUrFdx44prM4X19LFAHN2YI0wBS0tEruog1oei/TS2+z9yza9l7NlntmI+i0uvAwRbyt/b+5sQWwl8JisDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753796607; c=relaxed/simple;
-	bh=lBWTCsDnGl+p1mT29xSzCef9YLjdD0fmAsGZ234csu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gbb/UBVhHwcrIfYaUXpYRKjZlr0ZJYdneuKFVpa3gLfU6dW1B0NdT3qnTA2vN5FTMhsGWY7wZJzPekMejVla//8pX8Imxf1KZYi8iCF4HtQSwS5eR7s9dUAdapqKfDskQgdHsyxCO9yUquevh0j8qwn4Z4dtoQy6irE+BokdMjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ePS4jH9q; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-139-29.net.vodafone.it [5.90.139.29])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAF16C6E;
-	Tue, 29 Jul 2025 15:42:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1753796558;
-	bh=lBWTCsDnGl+p1mT29xSzCef9YLjdD0fmAsGZ234csu4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ePS4jH9qs8qGAA4NvQSaBkMvej9h7AtXoTDBh+Nzh6NgdypjR/0Dq/wwcWG6PZfVY
-	 cBDclDsw+5McuvmsqtGVl15OQScbhuYllo13cULHcwf/KVE0r/St8lrAdj7tGXU4Q0
-	 bmEzY0Ash3nJz2qdAhJC/Dhe0X4063DaBXBngEOs=
-Date: Tue, 29 Jul 2025 15:43:17 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC 1/3] media: v4l2-core: Add support for video device
- state
-Message-ID: <zxgkpvodgtanbe5mihgi4cboh3u6csmfsvbnruktaykhzfwgvs@fbgchdqjivbh>
-References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
- <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com>
- <3yifjhhqjrryg2fnfep6yqpxlvc3y5drh54smwajptfzy75tuu@dfsl6g5ktxbw>
- <175227804873.3930831.3557651361410884449@freya>
- <20250714171632.GA13846@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1753799068; c=relaxed/simple;
+	bh=xRXyGwni6xiYtnm8ZbqUkc6iEgaQ7Xp7nL19BSMO+nE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BFT+ZWSZxc3e4LlVddztZ9Sq4VCoz4o2WjqqP1U1qwPLDkCA+kr8MtSZXUgrBq73oplAQrvGjK/NQA3oCwEqnrh0VW8FaXFNwY1be+QZi5Qi0deTubkhYdkaTDSnJiPWEe589UgsleAvZ2BW0uNFJDAvaEP2dp7X1JoSz1PqCE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=RfpXdjm9; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4abc006bcadso63705081cf.0
+        for <linux-media@vger.kernel.org>; Tue, 29 Jul 2025 07:24:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1753799066; x=1754403866; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=rmeKc3jet6u3gOUQd2X+WQs6A8Udrvi7OwSfi5a8wj0=;
+        b=RfpXdjm9/ehHyfC9vqyBgC6l0LqQAOcXlW0A3I7QfRD3rrVvWxqRKVRL0gfbKWmuwK
+         U0RYxV3ynhUymkYGRlr4TjpKWuQncYCsXnDQpw/qo+XP3/pLB+pPMH5A/Kyk9bxMi7XA
+         UHihM0i6tIM33Scjb+mtKu1fcZiEHhJzNSGWjSO0kAxj+oi4s1EU+w3/ReAK1+i5du/Y
+         GbB1t9j6CMHJv8kmi+kVeO4HHuN/Ior9yUBehsx8ym7Hbp1BAzM1+KcEPD+5DDY1eEYl
+         XHmhrA+yGc2EQktTyXoMPiqWZzdca+oPaenVJu/dcradCCwDQG9rBcFRF+t9dbEXOda/
+         c/og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753799066; x=1754403866;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rmeKc3jet6u3gOUQd2X+WQs6A8Udrvi7OwSfi5a8wj0=;
+        b=t3sXV0MULDfI2q8hTvcwSFtAyDkMhlNjH1UhpimlqZgqoYPkM6lXyhKIZjpOgnaQHt
+         fPXV12KGhoXu2udJNT475HOqoB0HquuUtUZQ91sAPRxm5HDam/Su6WiNhfO5vlyOTzw0
+         VkFSpPNJLU7yl1W3kxDw39UKKfUFQp6VgwOfiFqrRpeB2Jdba+zO/eKRiFHZA5hyq4aX
+         xldE77v6TgX962CgzkRTdRmhGDvPX9imbXASE6ZOpJHlYHXhjTII30jt1gkCRf/7jhXI
+         9/3dK7djZ3WfnBXPyd0OjIkMU4gTE9uO5FhssE1Djigre1ly62QWW3dRmc5EVEl8MrSP
+         oJ8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXvO2PIaaAtMQviFaparb4xL5lyMNtsc3Y3NHi3Kd4c/bzUpxbPL0WPuhi0nAA9RVqclx7oAJmOImU0TA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWaob1QFhgt/znEGIdMqPUDAxjoQTUMXJkIu4DrxeI7haxTwSt
+	RzmZD8jUd5Lbn1X6nV9Y9kQp3NzTGSrZrYYO+PtI+qQBiOH5Ibw81zDwzdH1HXhSHJI=
+X-Gm-Gg: ASbGncvF/rAoMGH6FY9TsaBeumgKb7BQJ0GgSIBFVPn8JcYrohbtcuDaVkcgvlJhC44
+	UAUrUmcIgqnN/nnaLlwfCDPD9lszDaMWbEmMIr1jfTziIqAlWg2s9iLgq5WqrRm2l+wboRFKlty
+	/dkga4QKG/K308j5JeAaisVzmc0A1cdWagb7A8RVqGt48654/vT0LpxP5iySwUYiMMRqDDUVzzL
+	ZOLl61nIyeNLybvCw6JQrGQD41XzjLeo4bho0x3RCc/CXGYd5AFtcChMigfsxw1gbNGYi0VRXM9
+	L26qIbs5mxNDa9aUs0LgsF9CHBIcWwupuHf3llWeP039wlP8qg0v+j3WdsXTmPbEwjJPBeuVFkW
+	Ju7qmLU5KySMGbFyZ++qxDQN1pUfIp57rGCUV+w==
+X-Google-Smtp-Source: AGHT+IEls/QVu7ZlIlUQJ28Xm3RrlwZ4/ODLxhT+f7gRkpVOEKn45LTTgozTNCaJLKONRyTYZ09YoQ==
+X-Received: by 2002:ac8:7c47:0:b0:4ab:6531:1288 with SMTP id d75a77b69052e-4ae8f08eb9dmr256458761cf.35.1753799065474;
+        Tue, 29 Jul 2025 07:24:25 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:5a76::5ac? ([2606:6d00:11:5a76::5ac])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ae9963b732sm48999481cf.39.2025.07.29.07.24.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jul 2025 07:24:24 -0700 (PDT)
+Message-ID: <9650d2e240a9170175069e3a4f6d6d9512d62aa3.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: s5p-mfc: Always pass NULL to
+ s5p_mfc_cmd_host2risc_v6()
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Nathan Chancellor <nathan@kernel.org>, Marek Szyprowski
+	 <m.szyprowski@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+	llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
+Date: Tue, 29 Jul 2025 10:24:22 -0400
+In-Reply-To: <20250715-media-s5p-mfc-fix-uninit-const-pointer-v1-1-4d52b58cafe9@kernel.org>
+References: 
+	<20250715-media-s5p-mfc-fix-uninit-const-pointer-v1-1-4d52b58cafe9@kernel.org>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
+ oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
+ oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
+ AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
+ 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
+ TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
+ cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-eEnUSaAdqhTct/4k3GEr"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250714171632.GA13846@pendragon.ideasonboard.com>
-
-Hi Laurent
-
-On Mon, Jul 14, 2025 at 08:16:32PM +0300, Laurent Pinchart wrote:
-> On Fri, Jul 11, 2025 at 04:54:08PM -0700, Jai Luthra wrote:
-> > Quoting Jacopo Mondi (2025-07-08 09:26:29)
-
-[snip]
-
-> > > >  static long __video_do_ioctl(struct file *file,
-> > > >               unsigned int cmd, void *arg)
-> > > >  {
-> > > > @@ -3081,6 +3106,9 @@ static long __video_do_ioctl(struct file *file,
-> > > >       if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags))
-> > > >               vfh = file->private_data;
-> > > >
-> > > > +     if (vfh && test_bit(V4L2_FL_USES_STATE, &vfd->flags))
-> > > > +             fh = video_device_get_state(vfd, vfh, cmd, arg);
-> > > > +
->
-> That's very dangerous, using the same void pointer for two different
-> purposes depending on the USES_STATE flag. I think you should start with
-> some refactoring to move away from using a void pointer.
->
-> The first step is to remove direct setting of file->private_data in
-> drivers. Quite a few do so because they need to allocate the structure
-> containing the v4l2_fh. They therefore can't call v4l2_fh_open(), which
-> sets file->private_data, but call v4l2_fh_init(), set the private_data
-> field, and then call v4l2_fh_add(). In many cases it seems
-> v4l2_fh_init() could set file->private_data. You will need to check all
-> drivers that set the field directly, see if any of them set
-> file->private_data to a value different than the v4l2_fh pointer, and if
-> that could be fixed.
-
-Can I reverse it ?
-
-drivers that sets file->private_date = vfh; should be checked to make
-sure they do not retrieve 'vfh' from the 'void *' in their ioctl
-handlers but rather access file->private_data directly.
-
-Once all of them are checked, we can replace the 'void *' argument
-with the video_device_state pointer. And yes, if we can have
-v4l2_fh_init() set file->private_data to vfh that's certainly better
-than having drivers doing that by hand.
-
-But ...
->
-> (Note that some drivers set the private_data field of a debugfs file, or
-
-... some drivers assume something different is set in
-file->private_data.
-
-Again however, if in their ioctl handlers they retrieve it from
-file->private_data and do not hard-cast the void * to whatever they
-need, again the void * argument can safely be replaced by a pointer to
-video_device_state.
-
-> an ALSA device. Don't mistakenly consider those as direct usage of
-> private_data conflicting with V4L2_FL_USES_V4L2_FH.)
-
-I noticed, in example  drivers/media/platform/amphion/vpu_dbg.c
-
-However I don't see it setting file->private_data but rather access
-it in their debugfs handlers:
-
-	struct seq_file *s = file->private_data;
-
-Is this what you mean with
-
-"Don't mistakenly consider those as direct usage of
- private_data conflicting with V4L2_FL_USES_V4L2_FH."
-
-?
-
->
-> If we're lucky, we'll be able to remove manual usage of private_data in
-> drivers. In that case, we could then either
->
-> - Patch ioctl handlers in drivers to use file->private_data to access
->   the v4l2_fh and stop using the void *fh argument, and then replace the
->   void *fh argument with a video_device_state *state.
->
-
-This would be preferable imho
-
-Thanks
-  j
 
 
-> - Add a video_device_state *state argument to the ioctl handlers, if we
->   decide to keep the fh pointer. In that case we should replace void *fh
->   with v4l2_fh *fh.
->
-> If there are drivers left that can't easily stop setting private_data
-> manually, let's discuss them.
->
-> > > >       /*
-> > > >        * We need to serialize streamon/off with queueing new requests.
-> > > >        * These ioctls may trigger the cancellation of a streaming
-> > > > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-> > > > index 1b6222fab24eda96cbe459b435431c01f7259366..8e6e7799212cd07ae4ad3dfc85912c21a9bcab2d 100644
-> > > > --- a/include/media/v4l2-dev.h
-> > > > +++ b/include/media/v4l2-dev.h
-> > > > @@ -89,12 +89,18 @@ struct dentry;
-> > > >   *   set by the core when the sub-devices device nodes are registered with
-> > > >   *   v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
-> > > >   *   handler to restrict access to some ioctl calls.
-> > > > + * @V4L2_FL_USES_STATE:
-> > > > + *   indicates that the &struct video_device has state support.
-> > > > + *   The active video and metadata formats are stored in video_device.state,
-> > > > + *   and the try video and metadata formats are stored in v4l2_fh.state.
-> > > > + *   All new drivers should use it.
-> > > >   */
-> > > >  enum v4l2_video_device_flags {
-> > > >       V4L2_FL_REGISTERED              = 0,
-> > > >       V4L2_FL_USES_V4L2_FH            = 1,
-> > > >       V4L2_FL_QUIRK_INVERTED_CROP     = 2,
-> > > >       V4L2_FL_SUBDEV_RO_DEVNODE       = 3,
-> > > > +     V4L2_FL_USES_STATE              = 4,
-> > > >  };
-> > > >
-> > > >  /* Priority helper functions */
-> > > > @@ -214,6 +220,30 @@ struct v4l2_file_operations {
-> > > >       int (*release) (struct file *);
-> > > >  };
-> > > >
-> > > > +/**
-> > > > + * enum video_device_format_whence - Video device format type
-> > > > + *
-> > > > + * @V4L2_DEVICE_FORMAT_TRY: from VIDIOC_TRY_FMT, for negotiation only
-> > > > + * @V4L2_DEVICE_FORMAT_ACTIVE: from VIDIOC_S_FMT, applied to the device
-> > > > + */
-> > > > +enum video_device_format_whence {
-> > > > +     VIDEO_DEVICE_FORMAT_TRY = 0,
-> > > > +     VIDEO_DEVICE_FORMAT_ACTIVE = 1,
-> > > > +};
-> > >
-> > > I'm not sure we need these. More on this on the drivers
-> > > implementation in the next patches.
->
-> I agree, this should not be needed at this point. The whole point of
-> states is that drivers should not care whether they're operating on a
-> TRY or ACTIVE state. There are exceptions with subdevs for historical
-> reasons, but we shouldn't repeat that here.
->
-> It may make sense to later add TRY/ACTIVE identifiers for the UAPI, but
-> within drivers they should not be used. How about repurposing the
-> .try_fmt() and .s_fmt() ioctl handlers for drivers support states, by
-> using .try_fmt() first to adjust the format and store it in the state
-> (ACTIVE or TRY, that shouldn't matter to drivers), and then using
-> .s_fmt() to apply the state to the device ? The V4L2 core should call
-> .try_fmt() first followed by .s_fmt() when V4L2_FL_USES_STATE is set.
-> The vast majority of state-aware drivers will configure the device when
-> starting streaming, so they won't need to implement .s_fmt().
->
-> Now that I wrote this, the plan may conflict with my comment above
-> regarding leaving the busy check in drivers. Let's figure that one
-> first, and see if we need to let drivers known on what state they're
-> operating. I think repurposing .try_fmt() and .s_fmt() should be done
-> regardless.
->
-> > > > +
-> > > > +/**
-> > > > + * struct video_device_state - Used for storing video device state information.
-> > > > + *
-> > > > + * @vid_fmt: Format of the video capture stream
-> > > > + * @meta_fmt: Format of the metadata capture stream
-> > > > + * @which: is this a TRY or ACTIVE format?
-> > > > + */
-> > > > +struct video_device_state {
-> > > > +     struct v4l2_format vid_fmt;
-> > > > +     struct v4l2_format meta_fmt;
-> > > > +     enum video_device_format_whence which;
-> > > > +};
-> > > > +
-> > > >  /*
-> > > >   * Newer version of video_device, handled by videodev2.c
-> > > >   *   This version moves redundant code from video device code to
-> > > > @@ -238,6 +268,7 @@ struct v4l2_file_operations {
-> > > >   * @queue: &struct vb2_queue associated with this device node. May be NULL.
-> > > >   * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
-> > > >   *    If NULL, then v4l2_dev->prio will be used.
-> > > > + * @state: &struct video_device_state, holds the active state for the device.
-> > > >   * @name: video device name
-> > > >   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
-> > > >   * @vfl_dir: V4L receiver, transmitter or m2m
-> > > > @@ -283,6 +314,7 @@ struct video_device {
-> > > >       struct vb2_queue *queue;
-> > > >
-> > > >       struct v4l2_prio_state *prio;
-> > > > +     struct video_device_state state;
-> > >
-> > > One of the key design requirement it's the ability for drivers to
-> > > sub-class video_device_state. One possibile way to obtain this is to
-> > > dynamically allocate the state either by deferring to the driver's the
-> > > allocation (so that they can allocate a bigger structure) or by
-> > > passing to the framework the size it has to allocate.
-> > >
-> > > In any case, I'm afraid the state should be allocated dynamically,
-> > > either in the drivers' init_state() (or similar) callback or by the
-> > > framework with a size hint from the driver.
-> > >
-> > > What do you think ?
-> >
-> > Ah okay, I missed that. Should be possible to make this dynamically
-> > allocatable by the driver. It will also tie into Sakari's suggestion of
-> > creating a helper for initializing the state.
->
-> Yes, I agree with Jacopo and Sakari here. The state should be
-> dynamically allocated, and you should add an operation to initialize it.
->
-> > > >
-> > > >       /* device info */
-> > > >       char name[64];
-> > > > @@ -540,6 +572,26 @@ static inline int video_is_registered(struct video_device *vdev)
-> > > >       return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
-> > > >  }
-> > > >
-> > > > +/**
-> > > > + * video_device_g_fmt_vid() - fill video v4l2_format from the state.
-> > > > + *
-> > > > + * @file: pointer to struct file
-> > > > + * @state: pointer to video device state
-> > > > + * @format: pointer to &struct v4l2_format
-> > > > + */
-> > > > +int video_device_g_fmt_vid(struct file *file, void *state,
-> > > > +                        struct v4l2_format *format);
-> > > > +
-> > > > +/**
-> > > > + * video_device_g_fmt_meta() - fill metadata v4l2_format from the state.
-> > > > + *
-> > > > + * @file: pointer to struct file
-> > > > + * @state: pointer to video device state
-> > > > + * @format: pointer to &struct v4l2_format
-> > > > + */
-> > > > +int video_device_g_fmt_meta(struct file *file, void *state,
-> > > > +                         struct v4l2_format *format);
-> > > > +
-> > > >  /**
-> > > >   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
-> > > >   *
-> > > > diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
-> > > > index b5b3e00c8e6a0b082d9cd8a0c972a5094adcb6f2..02579f87ba99d0c849a0865f8cc4295446c39f94 100644
-> > > > --- a/include/media/v4l2-fh.h
-> > > > +++ b/include/media/v4l2-fh.h
-> > > > @@ -18,7 +18,8 @@
-> > > >  #include <linux/list.h>
-> > > >  #include <linux/videodev2.h>
-> > > >
-> > > > -struct video_device;
-> > > > +#include <media/v4l2-dev.h>
-> > > > +
->
-> You will be able to go back to forward declarations once you replace the
-> state field below with a pointer.
->
-> > > >  struct v4l2_ctrl_handler;
-> > > >
-> > > >  /**
-> > > > @@ -28,6 +29,7 @@ struct v4l2_ctrl_handler;
-> > > >   * @vdev: pointer to &struct video_device
-> > > >   * @ctrl_handler: pointer to &struct v4l2_ctrl_handler
-> > > >   * @prio: priority of the file handler, as defined by &enum v4l2_priority
-> > > > + * @state: try state used for format negotiation on the video device
-> > > >   *
-> > > >   * @wait: event' s wait queue
-> > > >   * @subscribe_lock: serialise changes to the subscribed list; guarantee that
-> > > > @@ -44,6 +46,7 @@ struct v4l2_fh {
-> > > >       struct video_device     *vdev;
-> > > >       struct v4l2_ctrl_handler *ctrl_handler;
-> > > >       enum v4l2_priority      prio;
-> > > > +     struct video_device_state state;
-> > > >
-> > > >       /* Events */
-> > > >       wait_queue_head_t       wait;
-> > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+--=-eEnUSaAdqhTct/4k3GEr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Nathan,
+
+Le mardi 15 juillet 2025 =C3=A0 15:13 -0700, Nathan Chancellor a =C3=A9crit=
+=C2=A0:
+> A new warning in clang [1] points out a few places in s5p_mfc_cmd_v6.c
+> where an uninitialized variable is passed as a const pointer:
+>=20
+> =C2=A0 drivers/media/platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c:45:7: erro=
+r: variable 'h2r_args' is uninitialized when passed as a const pointer argu=
+ment here [-Werror,-Wuninitialized-const-pointer]
+> =C2=A0=C2=A0=C2=A0=C2=A0 45 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &h2r_args);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~=
+~~~
+> =C2=A0 drivers/media/platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c:133:7: err=
+or: variable 'h2r_args' is uninitialized when passed as a const pointer arg=
+ument here [-Werror,-Wuninitialized-const-pointer]
+> =C2=A0=C2=A0=C2=A0 133 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &h2r_args);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~=
+~~~
+> =C2=A0 drivers/media/platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c:148:7: err=
+or: variable 'h2r_args' is uninitialized when passed as a const pointer arg=
+ument here [-Werror,-Wuninitialized-const-pointer]
+> =C2=A0=C2=A0=C2=A0 148 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &h2r_args);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~=
+~~~
+>=20
+> The args parameter in s5p_mfc_cmd_host2risc_v6() is never actually used,
+> so just pass NULL to it in the places where h2r_args is currently
+> passed, clearing up the warning and not changing the functionality of
+> the code.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: f96f3cfa0bb8 ("[media] s5p-mfc: Update MFC v4l2 driver to support =
+MFC6.x")
+> Link: https://github.com/llvm/llvm-project/commit/00dacf8c22f065cb52efb14=
+cd091d441f19b319e=C2=A0[1]
+> Closes: https://github.com/ClangBuiltLinux/linux/issues/2103
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> From what I can tell, it seems like ->cmd_host2risc() is only ever
+> called from v6 code, which always passes NULL? It seems like it should
+> be possible to just drop .cmd_host2risc on the v5 side, then update
+> .cmd_host2risc to only take two parameters? If so, I can send a follow
+> up as a clean up, so that this can go back relatively conflict free.
+
+It seems so yes. For this specific patch, I would probably rename "args" to
+"__unused" to make the reading faster. But does not matter so much if you l=
+ater
+remove it.
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> ---
+> =C2=A0.../platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 22 +++++-----------------
+> =C2=A01 file changed, 5 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c b/dr=
+ivers/media/platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c
+> index 47bc3014b5d8..735471c50dbb 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c
+> @@ -31,7 +31,6 @@ static int s5p_mfc_cmd_host2risc_v6(struct s5p_mfc_dev =
+*dev, int cmd,
+> =C2=A0
+> =C2=A0static int s5p_mfc_sys_init_cmd_v6(struct s5p_mfc_dev *dev)
+> =C2=A0{
+> -	struct s5p_mfc_cmd_args h2r_args;
+> =C2=A0	const struct s5p_mfc_buf_size_v6 *buf_size =3D dev->variant->buf_s=
+ize->priv;
+> =C2=A0	int ret;
+> =C2=A0
+> @@ -41,33 +40,23 @@ static int s5p_mfc_sys_init_cmd_v6(struct s5p_mfc_dev=
+ *dev)
+> =C2=A0
+> =C2=A0	mfc_write(dev, dev->ctx_buf.dma, S5P_FIMV_CONTEXT_MEM_ADDR_V6);
+> =C2=A0	mfc_write(dev, buf_size->dev_ctx, S5P_FIMV_CONTEXT_MEM_SIZE_V6);
+> -	return s5p_mfc_cmd_host2risc_v6(dev, S5P_FIMV_H2R_CMD_SYS_INIT_V6,
+> -					&h2r_args);
+> +	return s5p_mfc_cmd_host2risc_v6(dev, S5P_FIMV_H2R_CMD_SYS_INIT_V6, NULL=
+);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int s5p_mfc_sleep_cmd_v6(struct s5p_mfc_dev *dev)
+> =C2=A0{
+> -	struct s5p_mfc_cmd_args h2r_args;
+> -
+> -	memset(&h2r_args, 0, sizeof(struct s5p_mfc_cmd_args));
+> -	return s5p_mfc_cmd_host2risc_v6(dev, S5P_FIMV_H2R_CMD_SLEEP_V6,
+> -			&h2r_args);
+> +	return s5p_mfc_cmd_host2risc_v6(dev, S5P_FIMV_H2R_CMD_SLEEP_V6, NULL);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int s5p_mfc_wakeup_cmd_v6(struct s5p_mfc_dev *dev)
+> =C2=A0{
+> -	struct s5p_mfc_cmd_args h2r_args;
+> -
+> -	memset(&h2r_args, 0, sizeof(struct s5p_mfc_cmd_args));
+> -	return s5p_mfc_cmd_host2risc_v6(dev, S5P_FIMV_H2R_CMD_WAKEUP_V6,
+> -					&h2r_args);
+> +	return s5p_mfc_cmd_host2risc_v6(dev, S5P_FIMV_H2R_CMD_WAKEUP_V6, NULL);
+> =C2=A0}
+> =C2=A0
+> =C2=A0/* Open a new instance and get its number */
+> =C2=A0static int s5p_mfc_open_inst_cmd_v6(struct s5p_mfc_ctx *ctx)
+> =C2=A0{
+> =C2=A0	struct s5p_mfc_dev *dev =3D ctx->dev;
+> -	struct s5p_mfc_cmd_args h2r_args;
+> =C2=A0	int codec_type;
+> =C2=A0
+> =C2=A0	mfc_debug(2, "Requested codec mode: %d\n", ctx->codec_mode);
+> @@ -130,14 +119,13 @@ static int s5p_mfc_open_inst_cmd_v6(struct s5p_mfc_=
+ctx *ctx)
+> =C2=A0	mfc_write(dev, 0, S5P_FIMV_D_CRC_CTRL_V6); /* no crc */
+> =C2=A0
+> =C2=A0	return s5p_mfc_cmd_host2risc_v6(dev, S5P_FIMV_H2R_CMD_OPEN_INSTANC=
+E_V6,
+> -					&h2r_args);
+> +					NULL);
+> =C2=A0}
+> =C2=A0
+> =C2=A0/* Close instance */
+> =C2=A0static int s5p_mfc_close_inst_cmd_v6(struct s5p_mfc_ctx *ctx)
+> =C2=A0{
+> =C2=A0	struct s5p_mfc_dev *dev =3D ctx->dev;
+> -	struct s5p_mfc_cmd_args h2r_args;
+> =C2=A0	int ret =3D 0;
+> =C2=A0
+> =C2=A0	dev->curr_ctx =3D ctx->num;
+> @@ -145,7 +133,7 @@ static int s5p_mfc_close_inst_cmd_v6(struct s5p_mfc_c=
+tx *ctx)
+> =C2=A0		mfc_write(dev, ctx->inst_no, S5P_FIMV_INSTANCE_ID_V6);
+> =C2=A0		ret =3D s5p_mfc_cmd_host2risc_v6(dev,
+> =C2=A0					S5P_FIMV_H2R_CMD_CLOSE_INSTANCE_V6,
+> -					&h2r_args);
+> +					NULL);
+> =C2=A0	} else {
+> =C2=A0		ret =3D -EINVAL;
+> =C2=A0	}
+>=20
+> ---
+> base-commit: 347e9f5043c89695b01e66b3ed111755afcf1911
+> change-id: 20250715-media-s5p-mfc-fix-uninit-const-pointer-cbf944ae4b4b
+>=20
+> Best regards,
+> --=C2=A0=20
+> Nathan Chancellor <nathan@kernel.org>
+>=20
+
+--=-eEnUSaAdqhTct/4k3GEr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaIjZlwAKCRDZQZRRKWBy
+9MSgAPoDXRwf5Lxtcq7Hp7OG4Atltr1GrYd2XN3KIA0gsC/AKwD9FHG0AEjkTtQA
+V4fMhdBvUCT66a8f4JosODa/RnqNtwE=
+=4vZk
+-----END PGP SIGNATURE-----
+
+--=-eEnUSaAdqhTct/4k3GEr--
 
