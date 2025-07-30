@@ -1,333 +1,276 @@
-Return-Path: <linux-media+bounces-38665-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38666-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182B7B16403
-	for <lists+linux-media@lfdr.de>; Wed, 30 Jul 2025 18:02:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692B8B164C5
+	for <lists+linux-media@lfdr.de>; Wed, 30 Jul 2025 18:33:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC1A718C222D
-	for <lists+linux-media@lfdr.de>; Wed, 30 Jul 2025 16:02:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A067D188FDEE
+	for <lists+linux-media@lfdr.de>; Wed, 30 Jul 2025 16:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 479D02DCF68;
-	Wed, 30 Jul 2025 16:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E0012DCC17;
+	Wed, 30 Jul 2025 16:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="poJxTL0+"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="RvSAbT7h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2052.outbound.protection.outlook.com [40.107.236.52])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34B4174EE4;
-	Wed, 30 Jul 2025 16:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753891323; cv=fail; b=sR0jn2tIUrWaKJe1xlBR+EQ/QzAoOb9rkooLEYMcr/0Eph0UmZwI1HpXfyWkAyGldvBFpLsegh+hnQHGbP3Kqb/7mWRrtGD0anuFyPc69FgRsEZYEblEhGcqUsRD8XAX80fuA6KpIDZ/erQwks+5OTRbFbcJi9Mibnp/X0pRl1o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753891323; c=relaxed/simple;
-	bh=+yuHEFC08IDvYfqiyZNK3h/+YCxTMoCG0qIqmLvM+ZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=m3Zn0MFVAbyzQ8v/mNsAV5VSfruN1SOuz2Jy10eIsLCimnp7JzR1+lTSPRLtNIh9e0fNsUvc8EqIuzjxCFjkbf9sRPJPDE1ChLqMBF/rj8swzoluihSTfExwt4p26rrGi61qlS6EMRuZ9qPzxUpwUDzSOEhfK94bjbB2X1c5Yyw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=poJxTL0+; arc=fail smtp.client-ip=40.107.236.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G9ZGnRdUWVVTbcM6lDAc54b7Iz0qF/zSn5z8AVapL+Dw9+qZPFBV7jin1MES8MH9lmtEBGdGq0+VRN5iVd0lSA+Xyh/QU5PokH4Joslk19GXgpX83APjOg0Mi/9NUJqB/cKrf0cGpAPZ8But7LG+LApnSwEOapV+fZVuMCa8ExAXznNS8dvQjDuElon0vUEAj4KWSZXrbPuDagMpiykv3CVDcEmTlmMCcJYQWC4TUIxDK1VXfoI5EguCw+X5MSvCVK6P8/XpOjgtsafStGDLTk1UpfrR54yAnhr3R//qFqE9AN0M2YLLZruAzntA6IWH/EQ0FWViLOxoe7rB2LxY8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/HH4uQ7brE0iQgVDUCu9Tq6HsEYeLjK5TCFH4yU2yNQ=;
- b=GkJYLr/8gIdfpfjy953n1q/PvUDB6Kptx59Hc6adta/T72qq3VaJkCYUqanDFn9Jgy2FpHFzlX1Ntc6dE9vO9YCJXgo4ZlSHM7wWDqAK504Yck1x8kWtkg3sM2Oo/IXMtkp5wz65DS6cxRBx1l5F6t+uclYAO/hjA7L8f4LK3D5023OliyfGRkjgohPR4u73xvfOS+aTY9+lfS3d1f9EiWrZb5Ox9v1ArZcj6kxXwcgG6a7mpIrtAjxmbI1eweHY4x5kyk7A3tXIUPfz111lglJv0l1mnaFvo/pLzxQ11ZOydho9YFQ2o9e/9v7NhjOYf/2Jg9KphKue5FkcR23l7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/HH4uQ7brE0iQgVDUCu9Tq6HsEYeLjK5TCFH4yU2yNQ=;
- b=poJxTL0+LaVNtiOCUkA6ju26KbTnnGr5FDBJ8/rQ5IhRkRmtioBUm/d78nyiklIPzTnHinycl+logPbiNzDAWQo5ljlBP29Vu1V17NDxSCEHiZyZLE51IEDb3s8nEDGDDuBF+SU3qw5jR4DIBXOC+A2FkB8EfXMhPnHB9bxlOXFzWlXz1YqwORBevEyoDnx5+oSiilfG77jGmosbQTQIpDofjv3CPN7NLVhJ4l1iYh93EjAC/AAVbgXZJDHcDjBAOXDStI6VyWMqYbx/v7LgLq5RbX0m3bsdQgYxWkEW8niHBRGFYCUMwSUUwLZCKgTR/ozURDc92ndVD4Ed50cOmA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Wed, 30 Jul
- 2025 16:01:55 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8989.011; Wed, 30 Jul 2025
- 16:01:54 +0000
-Date: Wed, 30 Jul 2025 13:01:53 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 10/10] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20250730160153.GB89283@nvidia.com>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <aea452cc27ca9e5169f7279d7b524190c39e7260.1753274085.git.leonro@nvidia.com>
- <8f912671-f1d9-4f73-9c1d-e39938bfc09f@arm.com>
- <20250729201351.GA82395@nvidia.com>
- <6c5fb9f0-c608-4e19-8c60-5d8cef3efbdf@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c5fb9f0-c608-4e19-8c60-5d8cef3efbdf@arm.com>
-X-ClientProxiedBy: YT4PR01CA0320.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10a::13) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4331C3C04
+	for <linux-media@vger.kernel.org>; Wed, 30 Jul 2025 16:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753893195; cv=none; b=KYUWc2Wo3F7PwnoFH1ykMnUyO/bfSMFBY0+SB7G5nNY3fyzYMmrzAOQj8hA5K78sdpJEc6KrJaGmRW8j5Kz5S1iPqjgg0+V8V1HAwlwMBqmTDkXQOrh22zaNQtdIEshtyqs6ILeqzzX+9XYhj+mMCq7jx1DcEVGiO2Czu4al5ec=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753893195; c=relaxed/simple;
+	bh=VeK6VpXXq44XFYRqRAeMR9tktZ2+dwviX+kkdBaw00Q=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=mxfKKophxVHjud9GgI35Af0CwpPGe1UG17At34Otb1Aa2fqqN+1777tTQPC6rcJ/5M1mOC72SbSkYfzSOwhucuwl71FUv1jJ77sZQQP7U4kiaQFyYL8OxG22U/s92MAoiljiDIORlAWW6aKDmAPKAvC6IphR3Kl9XzifcJdH6pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=RvSAbT7h; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
+	Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=xUNd/cwejzO2WX1P71N0vXqgIAP0rtlOx3HAw+Lt4KM=; b=RvSAbT7hkRKFsMtNfpZLf9o6cI
+	y0E1yPEcCoQaQDcMX/M8CjzOT09qixmRub6rImS5Bfrju0Sd9og26Sl6k38WpeyUHeh1g58v3d+SW
+	2JVnjXYlGOtY8AFVvI1+vOL6VeXq//lxeJgoCotgSD/z95Fzt+qsZ2v0hEGB3Td2im8kYF/I2RGwo
+	C7Ucv367EdeI94vbNSOCh7B/VXNLbSlP8bN20kbRp2zRyLIbST6G8r/oXqGC2/duW2zwa3mVaG00W
+	wQu4fbsSYlyr+WaLlrWkYt35KCA0aPlPUbL4k+L1Sta6fVZ0NwtZLkymAPT3L7XOS3WgWAGUK7Npm
+	9FAMOMtA==;
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1uh9jt-0000tZ-04;
+	Wed, 30 Jul 2025 16:33:13 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1uh9jt-004rFL-05;
+	Wed, 30 Jul 2025 16:33:12 +0000
+Date: Wed, 30 Jul 2025 16:33:12 +0000 (UTC)
+From: Jenkins Builder Robot  <jenkins@linuxtv.org>
+To: mchehab@kernel.org, linux-media@vger.kernel.org,
+	libcamera-devel@lists.libcamera.org
+Message-ID: <1335602510.1.1753893192925@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #1446
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BY5PR12MB4116:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ac4e616-1dcd-4f5e-2a07-08ddcf826762
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xEvBAg7/x4C4du1gSjBRGUwm5zub2v4nodI3BAtiEVAXvnzz7Fl4BxMs8ULY?=
- =?us-ascii?Q?uYwqSzU7yZsaqStRgmiDWBTz2I+u5Eu2zfP52x09ZAx08u/zc3zQ/ovh2kAt?=
- =?us-ascii?Q?aX8H7EMc4KciS+ptEvS9dGBRF94VibgjrJDW67/qb98dxSP5Fb8ZdOzFQiej?=
- =?us-ascii?Q?pvREzX1BbyPKJiVKQRQ9w5mvglpSfqIxiV60+arana4Ndu6Dc3/bebwHcba8?=
- =?us-ascii?Q?twSP+VQzA9nSTii4J4XBLTEd/i88omp2fER/22t/YYEA8esamHE6oOFPLWCH?=
- =?us-ascii?Q?LXhgcWU6iWAwyYhGv/BAqXfqiX7PUV7OFNJ1hzCNF4jW0XYZP7k4cmPjw/L+?=
- =?us-ascii?Q?MdkT3k3WZbHX/70k9g1xGYIRVv+QFeNt7L1ap0JnV4Hnn1KT0kiVON/YwlDG?=
- =?us-ascii?Q?+PPqUUP1izVnFs2HDtwIcd2PIFMVqVAa5LHdw8CCqWGNQ4biuQ1A6+OLdAdu?=
- =?us-ascii?Q?e2/fcgBKQrBYiFCczpzcALzSxSJswI9AJxNZfwUBNtHw1P8giCEm5jthS3l+?=
- =?us-ascii?Q?Bvn5laEb4CcPaQpvuURuAiad2Lny71bd0o1tzfZCTGb9eW/QbA3UPAm3/JDW?=
- =?us-ascii?Q?52QZxZUTX1I4LIFb9g9R2V7drZYsh+qCvavfw0MkqvDIv0bvhP5XsRyg2ccP?=
- =?us-ascii?Q?oPwuXyQKssasD+fA0PPV20cGWvp3BXJdq9Hm7wp5z/adIl0Nf16iPAW/Qd1G?=
- =?us-ascii?Q?OPoiRmgN0WCDOwkzoPZiFgV1TH+6Qm77bjyaAiU7eGYNkU2BmTlmm6I1Tz+M?=
- =?us-ascii?Q?bKax+rqSiTxHhS3lopBiCCsNJhkq6UXiuqrBQjUJvD4hcKOrwfISo2RY5k3w?=
- =?us-ascii?Q?sWX50UEBNEK/XqxKPlIMm98xfeupfzkhaPTL6GlyngwpJGGiv3yFbfLwCjz2?=
- =?us-ascii?Q?E3cl+p0vOB9rsADFU65iZN5HHquSX8gskw1MIqJNr8urxQ2kSSQSGo6J29Fm?=
- =?us-ascii?Q?aCzErX+BuiYIVM7Wdjhboxu0KoKqU/PoLfHm6Tor7hDyKYZVUKnvhxJZnNuA?=
- =?us-ascii?Q?0YqUzgpggcCsOML1+/Gqma/DQZYxN0YXk1lBk37cG1Yj7+itrAK2CvpeRwiz?=
- =?us-ascii?Q?8WTyNaGCOEVPbJJoWFb6Qc/2dL5uePMspSwGdU8H66t7OHUUpue/i/XbeU15?=
- =?us-ascii?Q?6pzfLx2timBQen+FSSPoGuCEFqXACmQalSEfKJ52yI8Ep6uEw3hvD0Ivt8hM?=
- =?us-ascii?Q?4a156wsWYi+5ZO3LQ2x8tXbP+j3nOTV2ntIAF966m/UkuoD9Yd7Vvh9xXa/q?=
- =?us-ascii?Q?FjGuauEwdOVKajeSxqUNFMPjsGf+QZpCe0Iag7wgoCG95pEVNTCSbJlfpRan?=
- =?us-ascii?Q?RzHbwl2oYQ72QaeJydUlOHQ50gA5MyuO7nPgKw/UPyr8glYAFOQyhr0KzEH4?=
- =?us-ascii?Q?V7NC9jO5/lVVm0+8m2HFm+975l4k2yk6lvr3THr8iWrwgUTrFsjC4U/+siyW?=
- =?us-ascii?Q?tO47oQ5Bqys=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?86nD5jkWgWdG2YKRaihzHSUvOnQxtUXRTnyq0//ELpWB5ZFuJM0n1qBA4/Lg?=
- =?us-ascii?Q?EHnxDoSW09TdOMxd6lI10WbKTBIZICYNwAoiUNT8R+ZkZEgKxerWHlLNErFL?=
- =?us-ascii?Q?HTb6iU3UUmwLhLGt+LL0WJmMgvaufEbp0o3CAcexmJ5RlVs58zgXtfXGbB6D?=
- =?us-ascii?Q?xi/pv6a5rzv7zlY0rbz6rzd/CygAyx52RhzqowwU5JUuq3yULLknwjhyNSh4?=
- =?us-ascii?Q?BgU1GhUjXtMEXOKRjqE8LQTeIxSyZVAGudMrQGMofKLWkHyryCWQlyqWSoYo?=
- =?us-ascii?Q?/F3KFKYU6TbpQfQwNZxUuTQw2hIY7TD5AAIM2yR9fGofu86qLAptq+CY4LpL?=
- =?us-ascii?Q?qRb2s88pgCUz+E/nbjWZ63qt4LuGtg+iDKN8POaev+xlJB6z+uW+B5l/gPSY?=
- =?us-ascii?Q?QSFnnVDO3tAoiT8Lnoepo3npm5XiVXyKp9uUKpJznp437CHIRt9x/ETjdJoU?=
- =?us-ascii?Q?L9I81x0+GBgT5Qf829bMHsBmQZwgzRdhygJx54M8z90jC9M4vOWImNxKj9ou?=
- =?us-ascii?Q?vvZATK5FhAhPqwDsaLV/G/JL58e1xTo3y+2sgWHH9nZHZ+5shHbGLjrl4Zub?=
- =?us-ascii?Q?NCBMYc4vfk1c9GyGvd8vzCxd3vsv2Ce5ggebcbSexjzDTQVXgzTg8szPXNvS?=
- =?us-ascii?Q?bVfr4JLwCj71kLp3ROnI3l6rDkpyHY6bSon3nRMvRwumqxvrSxpWq8dD7H3n?=
- =?us-ascii?Q?wFvRutS9XhrD7iJpBG+vHPp6lveN9OUlQKCigYuxrAQZHYIF67pqNTvmQx/E?=
- =?us-ascii?Q?vyDfI0cr9vL3O+cEpezr/gEoY7qH5XnuGvJ90LNPILFo4Ikyi5nHMpmpUgGb?=
- =?us-ascii?Q?Jz0o4cTRo5t51A82crepFT3L5sGAceaoVJrkEtNSTunb1vzJvyi2/RqkaUrZ?=
- =?us-ascii?Q?HkAsFTktP9e5xd0Haogrgs7rPy/4DV/UhZPW05GRViKm0vWypB4HR8CYzdli?=
- =?us-ascii?Q?zGBv0y4OMCX4m9mbAVSOWRJhGYwNisDywWBD8dnlXBQsPgfP5aZRq2AQG3j3?=
- =?us-ascii?Q?rQ5pzYUMIaW/VMyVlXVuBx/43dAMBjraN8E77+jpsrYRB+y9Kilt/j/bLE9V?=
- =?us-ascii?Q?0MLlMJ8vVx4vf97NSxAJEiDuO/xKHuBV1pTirEHQrkpTouZQwHN9tEhFuzPE?=
- =?us-ascii?Q?HttpVRPQDWpoImc9KGzaMbsQKqaPiiMYUSAISoZMOtWd6ryV/pxbUmakWyzD?=
- =?us-ascii?Q?3qNU0Y60ICxZ0aDNkgMt2lcOpZ/jnT0RiEc8/wBA2ErkUdA/1MsjicY5HImY?=
- =?us-ascii?Q?10t/n3oZsj2JWdn3r53159CG5Uu10/c/lMbMjjUMvPyDjoYhPbgv8XJ6IXXw?=
- =?us-ascii?Q?O32NuUE6+f2+hZBdFMqhDwBh0q0SyQ+3XbqX8YaPN7CtqfILfCmJbbqwbc6a?=
- =?us-ascii?Q?0eIuHqRqSuVxikDRPJ2toRIaC/dDWPK5zFxo4xVSSusvbL4ktYkDyl82PmtZ?=
- =?us-ascii?Q?i9DIxNLp+0abn16vkRRfGKjvzozv0ZkvvgWpJWYw9zTzXkN5IwXtHtZeh7mN?=
- =?us-ascii?Q?htMECF1UA7ISXDUlBrYjMc5wgHKXwg8/25sjrf8V9uw4DxV9FeI+iGJjHki0?=
- =?us-ascii?Q?elQKo/CZPZ3lmJRbc9A=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ac4e616-1dcd-4f5e-2a07-08ddcf826762
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2025 16:01:54.6342
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 63FIZpb6wwQmhNSiP08AmjsNyqAojI4z3eTWlBrD6yVI2vsRbua1H53DvnKjLmTo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4116
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 
-On Wed, Jul 30, 2025 at 03:49:45PM +0100, Robin Murphy wrote:
-> On 2025-07-29 9:13 pm, Jason Gunthorpe wrote:
-> > On Tue, Jul 29, 2025 at 08:44:21PM +0100, Robin Murphy wrote:
-> > 
-> > > In this case with just one single
-> > > contiguous mapping, it is clearly objectively worse to have to bounce in and
-> > > out of the IOMMU layer 3 separate times and store a dma_map_state,
-> > 
-> > The non-contiguous mappings are comming back, it was in earlier drafts
-> > of this. Regardless, the point is to show how to use the general API
-> > that we would want to bring into the DRM drivers that don't have
-> > contiguity even though VFIO is a bit special.
-> > 
-> > > Oh yeah, and mapping MMIO with regular memory attributes (IOMMU_CACHE)
-> > > rather than appropriate ones (IOMMU_MMIO), as this will end up doing, isn't
-> > > guaranteed not to end badly either (e.g. if the system interconnect ends up
-> > > merging consecutive write bursts and exceeding the target root port's MPS.)
-> > 
-> > Yes, I recently noticed this too, it should be fixed..
-> > 
-> > But so we are all on the same page, alot of the PCI P2P systems are
-> > setup so P2P does not transit through the iommu. It either takes the
-> > ACS path through a switch or it uses ATS and takes a different ACS
-> > path through a switch. It only transits through the iommu in
-> > misconfigured systems or in the rarer case of P2P between root ports.
-> 
-> For non-ATS (and ATS Untranslated traffic), my understanding is that we rely
-> on ACS upstream redirect to send transactions all the way up to the root
-> port for translation (and without that then they are indeed pure bus
-> addresses, take the pci_p2pdma_bus_addr_map() case,
+See <https://builder.linuxtv.org/job/libcamera/1446/display/redirect?page=changes>
 
-My point is it is common for real systems to take the pci_p2pdma_bus_addr_map()
-path. Going through the RP is too slow.
+Changes:
 
-> all irrelevant). In Arm system terms, simpler root ports may well have to
-> run that traffic out to an external SMMU TBU, at which point any P2P would
-> loop back externally through the memory space window in the system
+[Laurent Pinchart] Documentation: application: Update mediactl URL
 
-Many real systems simply don't support this at all :(
+[Laurent Pinchart] Documentation: Remove unneeded options from Sphinx configuration
 
-> But of course, if it's not dma-direct because we're on POWER with TCE,
-> rather than VFIO Type1 implying an iommu-dma/dma-direct arch, then who
-> knows? I imagine the complete absence of any mention means this hasn't been
-> tried, or possibly even considered?
+[Laurent Pinchart] Documentation: Drop documentation author names
 
-POWER uses dma_ops and the point of this design is that dma_may_phys()
-will still call the dma_ops. See below.
+[Laurent Pinchart] Documentation: Use Sphinx doxylink to generate links to doxygen
 
-> I don't get what you mean by "not be a full no-op", can you clarify exactly
-> what you think it should be doing? Even if it's just the dma_capable() mask
-> check equivalent to dma_direct_map_resource(), you don't actually want that
-> here either - in that case you'd want to fail the entire attachment to begin
-> with since it can never work.
+[Laurent Pinchart] Documentation: Replace links to Doxygen documentation with doxylink
 
-The expectation would be if the dma mapping can't succeed then the
-phys map should fail. So if dma_capable() or whatever is not OK then
-fail inside the loop and unwind back to failing the whole attach.
 
-> > It should be failing for cases where it is not supported (ie
-> > swiotlb=force), it should still be calling the legacy dma_ops, and it
-> > should be undoing any CC mangling with the address. (also the
-> > pci_p2pdma_bus_addr_map() needs to deal with any CC issues too)
-> 
-> Um, my whole point is that the "legacy DMA ops" cannot be called, because
-> they still assume page-backed memory, so at best are guaranteed to fail; any
-> "CC mangling" assumed for memory is most likely wrong for MMIO, and there
-> simply is no "deal with" at this point.
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/libcamera/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.5'
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 56748884b649171c18efc723da4dfb97e551d1e2 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 56748884b649171c18efc723da4dfb97e551d1e2 # timeout=10
+Commit message: "Documentation: Replace links to Doxygen documentation with doxylink"
+ > git rev-list --no-walk 2d5a1367e2b14dab9671270655bbb1702e0826de # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 56748884b649171c18efc723da4dfb97e551d1e2^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/libcamera.git'
+[GitCheckoutListener] Found previous build 'libcamera #1445' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '2d5a136'
+[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
+[GitCheckoutListener] -> Using head commit '5674888' as starting point
+[GitCheckoutListener] -> Recorded 5 new commits
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@7fed2a51'
+[libcamera] $ /bin/sh -xe /tmp/jenkins13722130373720305186.sh
++ rm -rf build
++ meson setup -Dandroid=auto -Dv4l2=true build
+The Meson build system
+Version: 1.0.1
+Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+Build type: native build
+DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
+Project name: libcamera
+Project version: 0.5.1
+C compiler for the host machine: ccache cc (gcc 12.2.0 "cc (Debian 12.2.0-14) 12.2.0")
+C linker for the host machine: cc ld.bfd 2.40
+C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
+C++ linker for the host machine: c++ ld.bfd 2.40
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Header "fcntl.h" has symbol "F_ADD_SEALS" : YES 
+Header "unistd.h" has symbol "issetugid" : NO 
+Header "locale.h" has symbol "locale_t" : YES 
+Header "sys/mman.h" has symbol "memfd_create" : YES 
+Header "stdlib.h" has symbol "secure_getenv" : YES 
+Compiler for C supports arguments -Wno-c99-designator: NO 
+Found pkg-config: /usr/bin/pkg-config (1.8.1)
+Run-time dependency lttng-ust found: YES 2.13.5
+Program ./parser.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./parser.py)>
+Program ./generate.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./generate.py)>
+Program ./extract-docs.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./extract-docs.py)>
+Configuring version.h using configuration
+Program openssl found: YES (/usr/bin/openssl)
+Found CMake: /usr/bin/cmake (3.25.1)
+Run-time dependency libyuv found: NO (tried pkgconfig and cmake)
+Has header "libyuv.h" : NO 
 
-I think we all agreed it should use the resource path. So legacy DMA
-ops, including POWER, should end up calling
+Executing subproject libyuv method cmake 
 
-struct dma_map_ops {
-	dma_addr_t (*map_resource)(struct device *dev, phys_addr_t phys_addr,
-			size_t size, enum dma_data_direction dir,
-			unsigned long attrs);
+libyuv| Found CMake: /usr/bin/cmake (3.25.1)
 
-And if that is NULL it should fail.
+| Configuring the build directory with CMake version 3.25.1
+| Running CMake with: -G Ninja -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+| - build directory:          <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
+| - source directory:         <https://builder.linuxtv.org/job/libcamera/ws/subprojects/libyuv>
+| - toolchain file:           <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build/CMakeMesonToolchainFile.cmake>
+| - preload file:             /usr/lib/python3/dist-packages/mesonbuild/cmake/data/preload.cmake
+| - trace args:               --trace-expand --trace-format=json-v1 --no-warn-unused-cli --trace-redirect=cmake_trace.txt
+| - disabled policy warnings: [CMP0025, CMP0047, CMP0056, CMP0060, CMP0065, CMP0066, CMP0067, CMP0082, CMP0089, CMP0102]
 
-> A device BAR is simply not under control of the trusted hypervisor the same
-> way memory is;
+| Running with expanded trace output on.
+| Not searching for unused variables given on the command line.
+| Trace will be written to cmake_trace.txt
+| -- The C compiler identification is GNU 12.2.0
+| -- The CXX compiler identification is GNU 12.2.0
+| -- Detecting C compiler ABI info
+| -- Detecting C compiler ABI info - done
+| -- Check for working C compiler: /usr/lib/ccache/cc - skipped
+| -- Detecting C compile features
+| -- Detecting C compile features - done
+| -- Detecting CXX compiler ABI info
+| -- Detecting CXX compiler ABI info - done
+| -- Check for working CXX compiler: /usr/lib/ccache/c++ - skipped
+| -- Detecting CXX compile features
+| -- Detecting CXX compile features - done
+| CMake Deprecation Warning at CMakeLists.txt:6 (CMAKE_MINIMUM_REQUIRED):
+| Compatibility with CMake < 2.8.12 will be removed from a future version of
+| CMake.
 
-I'm not sure what you mean? I think it is, at least for CC I expect
-ACS to be setup to force translation and this squarly puts access to
-the MMIO BAR under control of the the S2 translation.
+| Update the VERSION argument <min> value or use a ...<max> suffix to tell
+| CMake that the project does not need compatibility with older versions.
 
-In ARM terms I expect that the RMM's S2 will contain the MMIO BAR at
-the shared IPA (ie top bit set), which will match where the CPU should
-access it? Linux's IOMMU S2 should mirror this and put the MMIO BAR at
-the shared IPA. Meaning upon locking the MMIO phys_addr_t effectively
-moves?
 
-At least I would be surprised to hear that shared MMIO was placed in
-the private IPA space??
+| -- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "62")
+| CMake Warning (dev) at CMakeLists.txt:45 (if):
+| Policy CMP0064 is not set: Support new TEST if() operator.  Run "cmake
+| --help-policy CMP0064" for policy details.  Use the cmake_policy command to
+| set the policy and suppress this warning.
 
-Outside CC we do have a rare configuration where the ACS is not
-forcing translation and then your remarks are true. Hypervisor must
-enfroce IPA == GPA == bus addr. It's a painful configuration to make
-work.
+| TEST will be interpreted as an operator when the policy is set to NEW.
+| Since the policy is not set the OLD behavior will be used.
+| This warning is for project developers.  Use -Wno-dev to suppress it.
 
-> Sticking to Arm CCA terminology for example, if a device in shared
-> state tries to import a BAR from a device in locked/private state,
-> there is no notion of touching the shared alias and hoping it
-> somehow magically works (at best it might throw the exporting device
-> into TDISP error state terminally);
+| Building ver.: 0.0.1770
+| Packaging for: amd-64
+| -- Configuring done
+| -- Generating done
+| -- Build files have been written to: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
 
-Right, we don't support T=1 DMA yet, or locked devices, but when we do
-the p2pdma layer needs to be fixed up to catch this and reject it.
+libyuv| CMake configuration: SUCCEEDED
+libyuv| CMake project YUV has 3 build targets.
 
-I think it is pretty easy, the p2pdma_provider struct can record if
-the exporting struct device has shared or private MMIO. Then when
-doing the mapping we require that private MMIO be accessed from T=1.
+cmake-ast| Processing generated meson AST
+cmake-ast| Build file: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/meson.build>
 
-This should be addressed as part of enabling PCI T=1 support, eg in
-ARM terms along with Aneesh's series "ARM CCA Device Assignment
-support"
+libyuv| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
+libyuv| Project name: YUV
+libyuv| Project version: undefined
+libyuv| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
+libyuv| C++ linker for the host machine: c++ ld.bfd 2.40
+libyuv| Build targets in project: 23
+libyuv| Subproject libyuv finished.
 
-> simply cannot be allowed. If an shared resource exists in the shared IPA
-> space to begin with, dma_to_phys() will do the wrong thing, and even
-> phys_to_dma() would technically not walk dma_range_map correctly, because
-> both assume "phys" represents kernel memory. 
 
-As above for CC I am expecting that translation will always be
-required. The S2 in both the RMM and hypervisor SMMUs should both have
-shared accessiblity for whatever phys_addr the CPU is using.
+Library atomic found: YES
+Run-time dependency threads found: YES
+Run-time dependency libdw found: YES 0.188
+Run-time dependency libunwind found: YES 1.6.2
+Header "execinfo.h" has symbol "backtrace" : YES 
+Checking for function "dlopen" : YES 
+Run-time dependency libudev found: YES 252
+Run-time dependency yaml-0.1 found: YES 0.2.5
+Run-time dependency gnutls found: YES 3.7.9
+Run-time dependency libexif found: YES 0.6.24
+Run-time dependency libjpeg found: YES 2.1.5
+Run-time dependency libhardware found: NO (tried pkgconfig and cmake)
+Run-time dependency libevent_pthreads found: YES 2.1.12-stable
+Run-time dependency libtiff-4 found: YES 4.5.0
+Run-time dependency GTest found: NO (tried pkgconfig and system)
+Looking for a fallback subproject for the dependency gtest
 
-So phys_to_dma() just needs to return the normal CPU phys_addr_t to
-work, and this looks believable to me. ARM forces the shared IPA
-through dma_addr_unencrypted(), but it is already wrong for the core
-code to call that function for "encrypted" MMIO.
+Executing subproject gtest 
 
-Not sure about the ranges or dma_to_phys(), I doubt anyone has ever
-tested this so it probably doesn't work - but I don't see anything
-architecturally catastrophic here, just some bugs.
+gtest| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
+gtest| Project name: gtest
+gtest| Project version: 1.11.0
+gtest| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
+gtest| C++ linker for the host machine: c++ ld.bfd 2.40
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Build targets in project: 50
+gtest| Subproject gtest finished.
 
-> However it's also all moot since any attempt at any combination will
-> fail anyway due to SWIOTLB being forced by is_realm_world().
+Dependency gtest from subproject subprojects/googletest-release-1.11.0 found: YES 1.11.0
+Run-time dependency libdrm found: YES 2.4.114
+Dependency libjpeg found: YES 2.1.5 (cached)
+Run-time dependency sdl2 found: YES 2.26.5
+Run-time dependency qt6 (modules: Core, Gui, OpenGL, OpenGLWidgets, Widgets) found: NO (tried pkgconfig)
+Run-time dependency glib-2.0 found: YES 2.74.6
+Run-time dependency gstreamer-video-1.0 found: YES 1.22.0
+Run-time dependency gstreamer-allocators-1.0 found: YES 1.22.0
+Run-time dependency python3 found: YES 3.11
+Run-time dependency pybind11 found: NO (tried pkgconfig and cmake)
+Configuring libcamerify using configuration
+Program doxygen found: YES (/usr/bin/doxygen)
+Program dot found: YES (/usr/bin/dot)
+Configuring Doxyfile-common using configuration
+Configuring Doxyfile-public.tmpl using configuration
+Configuring Doxyfile-internal using configuration
+Program sphinx-build found: YES (/var/lib/jenkins/.local/bin/sphinx-build)
+Program python3 found: YES (/usr/bin/python3)
 
-Yep.
+Documentation/meson.build:137:8: ERROR: Problem encountered: sphinxcontrib.doxylink module not found
 
-Basically P2P for ARM CCA today needs some bug fixing and testing -
-not surprising. ARM CCA is already rare, and even we don't use P2P
-under any CC architecture today.
-
-I'm sure it will be fixed as a separate work, at least we will soon
-care about P2P on ARM CCA working.
-
-Regardless, from a driver perspective none of the CC detail should
-leak into VFIO. The P2P APIs and the DMA APIs are the right place to
-abstract it away, and yes they probably fail to do so right now.
-
-I'm guessing that if DMA_ATTR_MMIO is agreed then a
-DMA_ATTR_MMIO_ENCRYPTED would be the logical step. That should provide
-enough detail that the DMA API can compute correct addressing.
-
-Maybe this whole discussion improves the case for DMA_ATTR_MMIO.
-
-Jason
+A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
+Build step 'Execute shell' marked build as failure
 
