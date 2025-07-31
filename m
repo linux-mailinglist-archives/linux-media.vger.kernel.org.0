@@ -1,216 +1,271 @@
-Return-Path: <linux-media+bounces-38693-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38694-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5512B16EEE
-	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 11:46:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E15E7B16EF8
+	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 11:48:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9FD13ABF09
-	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 09:45:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B7851AA7AC7
+	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 09:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F66C27CCE2;
-	Thu, 31 Jul 2025 09:46:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B34628D830;
+	Thu, 31 Jul 2025 09:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sluoQ+9e"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="V3dCW53Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6C2187FEC;
-	Thu, 31 Jul 2025 09:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753955174; cv=fail; b=mHsc8lpu6MNqipy55ESbXh/roPtlqNizHbAR+5B/eaLVTTeUlDc6eqXoEcQk6XOtstnUcTXolM/IGDXVhUvQkN2CC+VTq+aBFkNhiYJCSPU8jUnfk5XCKbyhXvlNPBKuc6gQe3lUF32qgs5SYUHNIOYhzcjzaSj/1CVpi+TcIp4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753955174; c=relaxed/simple;
-	bh=QO8Opk2//G9N0VR6N9/njP2TC5xYkAdWxZ6RFb2MGRE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pwsBIhVow9pNylrwt1P72XtRXky8+evw2CG2dyMHAxgGYuqYJPD3N0ak+oV2D4jZTiFpULP8EgnBMNkjn0k6QDclxwkXzORn7nWRGPzIauaok6Isr5SKy7VEtelTFqZ/Pv4QTUKwGmg7onmppmz5HReG2H3NeaJ3CGC9BIiM/uc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sluoQ+9e; arc=fail smtp.client-ip=40.107.93.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H4YhgKWVbIE43PjpWoCISk821IAJbE6c17yndcpp9Wxs4sBvbAg56jVOXwOkBCw7r8mTPl8+/QgjYO5V13Eg1AsJUMZ262545GgcH5aHr2ivgrRRmC0VStoGKbWjs2JfWLujNCk9apUxHyrG3uFiCluvPsn+2/mhJsOjp4/dHRArcRlk0BCMCqIZphpJgQJ/aZ0U6G2ExHZz6u+FYsqj2PXN73WiBC+0mQ/8F9baq+Y0yb4WLIJ3m/IstX47eQIosXbcwTqoRbIKVobPVjk7dVt3Bn4+HxgMOTWuJjpfRPCdouG8jcDQSSrOS2irbI7AOkP8yOCC+fh2B9GJDO1zqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0K4sskHudctcrgXBt1iWCijQUMiqGCc0ZI/oU9HnPAM=;
- b=sbnCB+YBshp1QS9+tzPzytncrQXuV7d0twoK8aOiyeT9E0d85uujSdyvzFgxgkMGP1BVdrT1YzQ/MWuzzqKB9rOaBvoB1zbLSk9Aea4ze2YYh9EcPs/HwELhyAao9GSXQ0Bz9SKkH44BW0iyqSmBhrnT3qqaNLaXE/OaQWQj9TxxW7kCDwooIlHndZi1kT0rSaX3cPhFBLPhJRch66fS5SPNlT3lbCqD/IlPmgUkQ/FSUlx1x8yze/25sq8ZKB7svhTLEMUlKnLljUiZV6sNi35H3Moo+0YExbpfFor7Q2ysOZWDQDGaUXetKlIw9UiKlkwddEiiZs3l2mzh1EFaxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0K4sskHudctcrgXBt1iWCijQUMiqGCc0ZI/oU9HnPAM=;
- b=sluoQ+9ezcGIgnXL0VWRbVF5xQMYdrPil9CgTpaIHabddetI8O5ozd5TV+a38uPHjAYaVy0hPK7iSUa2CZkqtILX4PL53WJAiQX95U5CLgzjrBVidcbfH1DygxYmZ/up+yv0W8V3Ne7DDsSeET2a6eSlucQ6qf2JcnuKo3Xw+K4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13)
- by DM3PR12MB9436.namprd12.prod.outlook.com (2603:10b6:8:1af::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.14; Thu, 31 Jul
- 2025 09:46:07 +0000
-Received: from PH8PR12MB7446.namprd12.prod.outlook.com
- ([fe80::e5c1:4cae:6e69:52d7]) by PH8PR12MB7446.namprd12.prod.outlook.com
- ([fe80::e5c1:4cae:6e69:52d7%3]) with mapi id 15.20.8964.026; Thu, 31 Jul 2025
- 09:46:07 +0000
-Message-ID: <263874ef-46b9-4508-ab96-7fb311668faa@amd.com>
-Date: Thu, 31 Jul 2025 17:45:58 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] media: platform: amd: isp4 video node and buffers
- handling added
-To: Sultan Alsawaf <sultan@kerneltoast.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
- sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
- gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
- bin.du@amd.com
-References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-7-Bin.Du@amd.com> <aIchBRdmy48BHl2k@sultan-box>
- <7a422602-7a99-4b49-b994-cddd9730cb20@amd.com> <aIq6DpV_cMJWKfhn@sultan-box>
-Content-Language: en-US
-From: "Du, Bin" <bin.du@amd.com>
-In-Reply-To: <aIq6DpV_cMJWKfhn@sultan-box>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0116.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::20) To PH8PR12MB7446.namprd12.prod.outlook.com
- (2603:10b6:510:216::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33198F4FA
+	for <linux-media@vger.kernel.org>; Thu, 31 Jul 2025 09:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753955299; cv=none; b=ixfRqbzqvyV8g6qA3jca7glNjICOQlnUxvFMlm2wczMLRzuawE8K0ihu4GFNKw4ybtODKnSkiuOfrvjS5j4BQKEap3ctf/aIezor65t6ck8U+y2L05CmpZzG/fvnjEcbATitN2OtejtVG2ypenETkaVZQvPs1m9bgGA16y29QV4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753955299; c=relaxed/simple;
+	bh=pV1Y6Kg3Exjmncau4ja1aoREh1jQmktf8fk+JYYkWlo=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=URyoRFG8WISfWPeIRGq/C345T3k/VoHek0i1oyyMVYetK/rOycTv5tnEuq2iIaaZvccnpZmvg6xo4UFqxIa6R5wVDZMQsYe2VgAyOJ+2i3Xoo7aUMWq5na7VQDHZj5YjrAFE5WtfIDGGI2UNUuN41uraF+NTW40M4jVSoSL6j2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=V3dCW53Z; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
+	References:In-Reply-To:Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=DuNndqJ96Pc4NK+PKSmjFwHk7Ruto1mMQqsQ/UJFmIo=; b=V3dCW53ZvJFB7i9Hyr4KF+6J2/
+	FKlDuM/VvBaBx4gvPrPxgCx/xl4eFVdLX3pd0AN9G35DbVEVDmVgfi8zfKbilrhII/3LLDf/eX0VP
+	YL/jeKZvFOaCXZavN0RQil1u083W/KH2+K+7pfyTPtsRuzcDZgPsoB9qWcTmysMp58gxUiBIPOlOh
+	dSVX6Yw8vwZfnM0fPF6UsC51yIgrtmdbUUU4nMYFyt294AEqAdRwghHk7/TcKt2jrw6pclY7FufoS
+	r+MbcNQqB9ZlaGoH1N1wzMm+3JBHPx3BcNhsBD7HRJNngG7drm9BlkdMusT6GMuLeWPUQ7cAJ4f9b
+	ofdP66gg==;
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1uhPtZ-0000Ep-17;
+	Thu, 31 Jul 2025 09:48:17 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1uhPtZ-004xFF-10;
+	Thu, 31 Jul 2025 09:48:17 +0000
+Date: Thu, 31 Jul 2025 09:48:17 +0000 (UTC)
+From: Jenkins Builder Robot  <jenkins@linuxtv.org>
+To: mchehab@kernel.org, linux-media@vger.kernel.org,
+	libcamera-devel@lists.libcamera.org
+Message-ID: <359420275.1.1753955297211@builder.linuxtv.org>
+In-Reply-To: <1679223777.2.1753910294091@builder.linuxtv.org>
+References: <1679223777.2.1753910294091@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #1448
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7446:EE_|DM3PR12MB9436:EE_
-X-MS-Office365-Filtering-Correlation-Id: e420aab0-1b16-4188-1708-08ddd01712bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?S0JZOUNXc0FBRUhhNUNkMjVCOVNFK25PM1RTWWlNRGcyUzNQTDl3YUoyMmVo?=
- =?utf-8?B?bHpxM0pNajNMUXFYTGxvSjUvTUJWUnNSSDI0Sk0zdlVRZlh2RW9DMkdqUEho?=
- =?utf-8?B?amVqbEtVOUYyY3VBdEdNOHZxbGhUejhGa2pSbEFxSUVpVEtiS1oxMGxwaW8v?=
- =?utf-8?B?cktrVkJkSUpycWFKSXNLaFduL05md0E1d3lwY2pHUTdQK3lEZW8xT2RSRHhx?=
- =?utf-8?B?dDdsSEJTNGhOcmdQa2xMWEx0MFdFRVI3ZENIazFYSWN4RVZtcmRZNVpMSEpM?=
- =?utf-8?B?WkszY1NuYnUrRmF3UUpVOHJGQnFFREEyRkkyQ0FwaTlOZUw1OXBpQUhvSUtM?=
- =?utf-8?B?dFlkKzVYV01FcnJFNmdad0NtWE52K1RhdldiNjhkN3AwZFFjR2NiY0ZaUGY3?=
- =?utf-8?B?dXhZaldlV2VpNFc0dkF6YVQyVWczNVYzVUJZQ3MrOFFobmRNcGJRYk1oTnlo?=
- =?utf-8?B?WTk0VVhaS3ZueHRmRFo2R3V4UXp5dmRNZDgvWE1GTmQyT1ptSkFMSStndjN0?=
- =?utf-8?B?aUErYUpkd2JOMEg1VGFHZEQ5QVpocGNaZ0xGTDY0eGZyY2VJMVhGVG1VYTE0?=
- =?utf-8?B?cjJwNjFpTlBRd3FkWnZKcUxqNzdFZSs4SkpJVTZuT09XTWwrUG9RenpGOWk0?=
- =?utf-8?B?RERQc2cxZUt2ellvNTNxYThYZkg5cE5jWXZhaWovbkw5dGxXWmpOT3V3Nmxm?=
- =?utf-8?B?L3Z0L1RjUDZ3TmxSeEdpTVdtTzlMYVcrWm5STjlHM3o4MzBJRThBWE41bzlK?=
- =?utf-8?B?ZGJnK2hRVGtoRFRML0tzbDl2anQ3L1RhQUtkQmNENHRLNGdGMkNmRExLUHN2?=
- =?utf-8?B?LzN3S1FGTExTWnQwQ3dkbEtyekFFdElZSkIveTkvOW9yc1EyNTNvNlIzbXB1?=
- =?utf-8?B?ckZHTVJ0cnlvWnZGeVdsU2JRdEkxaEQ2Z1hKbysrNkVwL09SdXVTczU5S2c0?=
- =?utf-8?B?akxNSHVFaGdWSFdudy9YTnNscWtQQmhBdUhNL25QbzdSZGwvN240TlZmb3Fm?=
- =?utf-8?B?SXBkWE9TdS9QY1cwSDRBNjlmL3lWSG1JOER3UG9CQ0pZZ0lIY2hOWFFjb05X?=
- =?utf-8?B?Q0crQ0ZkMm80cXk3L2JwSzk0amJsSTRXbkZQKzZiSEtJQjViQTRHM1Z2b1BP?=
- =?utf-8?B?MGlPTHoySXZGeDhaWFB1SG1Ib3BsM2o5Nytvek9tMHZZZElTd1JKN29zckdi?=
- =?utf-8?B?NU5EM0V5S1c2ajNsc2FhQnNvMGpISE9qZjhOK1dMWTRCVElQZFNSYnFzR3lI?=
- =?utf-8?B?L2J1bjRxODkxMnEyZitseW00dUN5RUNoc2NKQUhwUk9wK01SY2haV1NKRWg4?=
- =?utf-8?B?ZEYvQy92d2FqTXVpbTJhR2Z0TGt3akVBWHlxRE9nUzlVTTA5MnhNM2tNWi9o?=
- =?utf-8?B?YjJHWFd6OHJDaWdtWXZ3SmxaeDlKODlzR1VnMkg3bVNOU3BIblNOdEFWL21p?=
- =?utf-8?B?Sk5aSVJ4WGZrQm8vSUJvU0NmdUgwMnh1RjRvNHhWaThDS3BNWTdESjZFcTJv?=
- =?utf-8?B?Zlk1V3JTZ0xYckdFRzVycVorb3pCb2dJT003TUFYRFpBa09ocEpsZG5IOUNR?=
- =?utf-8?B?SVQ2TWlXbWNPcXkxcXZONExRZTlpTDMvVkgxNmlNRERNZXdXZ0YwaW5iL2R2?=
- =?utf-8?B?THFqL2JnbFRaNGdaWXN2NEI5TCthWjE1ZDFiakhhbzN5Zkt3NmpzYjlpd0Nv?=
- =?utf-8?B?aEk1S3FGU3Bvc2tCRVMybnpHM1VoU2J1dXRQSjdTVVkrdG12VzJxelF0WEJn?=
- =?utf-8?B?ZGZTTWNhaGFqWjlBcUEvYzRiVFEvcWFNeDJLVTNOa2RwSkZ6b2lYZndDQ2I1?=
- =?utf-8?B?N281Qk5xK0RLZHk2STZaTEVkNm1IL21OMEJuQWJ1cEJuakgxN2syL2dmaExk?=
- =?utf-8?B?cldBU3pQWU5id0xYT1pjZFE1Q21oczlQVlNML3Y2a0hZditOSVlGc2t6ZlJw?=
- =?utf-8?Q?ima5G95vpoc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7446.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SEpiK3hYSGNKOFhKeXNpZ2JxNFV2R083TElKY0o0VzNKVUtOYmlUNzhZQ1NR?=
- =?utf-8?B?Um5BUEhhcHhxMHRDcWhBaGsrekJ6blY0K0dzeEFwL2lFRHM3NGdRVlVjNC9s?=
- =?utf-8?B?VDVIRldNaXRPZXp6UFE4NDFGQmJPU2dTYi9xUkkxaHNqMlVaUzVlZ1p6TUFU?=
- =?utf-8?B?Nm03OWordXhGdDZaVUFUVkE3NHVuSkdtam13Rjc1MThVZW1tR21NdXlIbjBw?=
- =?utf-8?B?aE51TFdRSGN6cjlpK3liQ28rcDNXZHRKVVhQeHJCSi9zVG4xL1Arb0h3OFBq?=
- =?utf-8?B?aGZvTnk0dDRMQVJpQW9Ya25QRHhWK2ZuUW5RdTJ4c21SdVFCZlJ0MUpCdFBu?=
- =?utf-8?B?dkVrSEVNdnV0V3AyZ0dFa0hRSExkanpqbDhXenJUcUFGdWlXQ3Nqay92YjJx?=
- =?utf-8?B?MlJNRURjR2QvUzRNdDhVTHl6VWp5bll6dVhLdmFnTWV3QVJSMWpoUnFxdE5U?=
- =?utf-8?B?VlZFLzVWc2xld2RJYWJvbHh2VUFqaFU3NDVOZVZVMFBzMHhNZVlxTEpzYVJB?=
- =?utf-8?B?dzgyUkxla2hydEk1V2pLMDk4S0RUbWtoU0lrVitTS1dKS3h5WktDL0FPUTJa?=
- =?utf-8?B?VGZqRDg2QThLZHZNcUkvbjdzOHNSOTNpa1QxZStTL1FIU0xDL2Mydm1telhP?=
- =?utf-8?B?ZUJQc0pPdTVJV3lVYUhEbmN0TG9PWFE1eEk1MkU0bVBZYytSVG05V1BPcHJO?=
- =?utf-8?B?ME1GWG5kUDRvMUR2TlMrNDNmbmNJdmVUUk9VcjBydzNpSzRYWEp5WmNDaWJz?=
- =?utf-8?B?YytMSDJuK1AxMTJqdmpqTWpVVnpLa2lBb2pRUG9MQk9iaTNzcW5NOE9QWCtN?=
- =?utf-8?B?ZjJRLzJPNlNlRGxYYjFDZnJlVUZaa1BnbGJqUmt6TEJKcFMrRHVvWGpIZmMz?=
- =?utf-8?B?UGN6QStwR0NoNXl4SC9ERlR1YjI5TWNRRm44dDBDTEZJeUFGL0IxMWs2ZGJE?=
- =?utf-8?B?TTh1ejZxVXAwdEJIbkorL0tGSG9mZE5MMk5NcC9HOFBrOEN0ZXd0bG5VbzUz?=
- =?utf-8?B?RHBOODdHMFJJMGl1RGlpZk50VGZpRklLZjN3MjIrK1hkcmd3aE1UU2hRcXAw?=
- =?utf-8?B?VkNiODhWVjhDQWROUzA2OWRPOFR1YkJtbnJFUG50RVdZSlRJK2xTRE1Uak40?=
- =?utf-8?B?NGVEamVtUlFPUmxTOUJzVzRYdFNoVkVHZ0s0QUlobkFtRDgzcDI3cTJrTUxq?=
- =?utf-8?B?YUhsaGpyd3BWcG1mV2lncXhCUXJRUGVsTURoU1BnL2hpNlJ4MVdaVVF5MDdE?=
- =?utf-8?B?bzk0bE5JaC9nbjUzREpTM05OejZzSXZCdjhmQmtEb2ZGSnFRZ05xN3UxbEp1?=
- =?utf-8?B?TmtTdThGcnlKN3dUQ09kV0EydEJia21udTVjai85dkYyQUZUUkltZllCd3Jp?=
- =?utf-8?B?d2FaamFnVFBkWGp6bmNraE4zSGpRbEp3WkVyMnJQZVVjcWtibWIwdkNGRC9R?=
- =?utf-8?B?dHBndm1CY0RXVE9pa1JxT1pDUUs4MWlrcUVuQVN4cDJuR1J5MEFFUUF5RGxm?=
- =?utf-8?B?NVNRbVBEaG9HQ2NsVEVtbTlicFZkb1c4Z3pPSHk0OVVRbGhESXN5YW80Z2h6?=
- =?utf-8?B?NjdNVW9UR25iYjRuWGVyZE0yTlNZYU1iWUtTc2tvVTV0M3pKcDltdGk2Z0Qw?=
- =?utf-8?B?NVhYSHhSR2pjMnZoK1I2NHo2OWVwUDdlNWxKb3V5WEFnNUZzS3JyamdBbHA3?=
- =?utf-8?B?V3JBcytNTjRqUkZZZm9pZmV3dDE0bUdvNGY4MTgzN0Q5OXRPNGlhRWp6VUR1?=
- =?utf-8?B?NHlzeFRxVzNnTHFnM295VUJuNllaSlJBSXZRT3loMHFqcjdjNUhvNXgyNC9m?=
- =?utf-8?B?NUp3b1hIeXltRDlmU25qQitDZDhqc3IxbGMzZ2pJZExTWkFTSlNNNWhUL3pu?=
- =?utf-8?B?UmMwNTM5OUFVZkUwMW5GRjVCQTRLUmdIb3huMDRlOXc1QXZKdUFtR2h0WVVv?=
- =?utf-8?B?R0xnb04zTDFVSlRyMWk3eS9tdUhlV2RNNENsY1Btd1Noa0lVemNNMEkxdUMx?=
- =?utf-8?B?RXJDK1FINW1BcG5FUm81YnBYTnIvVERrTXNuTW1SSHVCelEyM2sycENDb1VT?=
- =?utf-8?B?NVhUY2F2U0hFVnRkbkxEaWlUWXJGWUlxQmU1VXQwek9GRGFBUEYvTUlQSXA0?=
- =?utf-8?Q?7nvI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e420aab0-1b16-4188-1708-08ddd01712bd
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7446.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 09:46:07.7014
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vEj6H/J1RxPztmjduxP+NKhRVP8JACHUUrJroEtT9jslxi28SBi/J3jDkYToJhP9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9436
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 
-Thanks Sultan.
+See <https://builder.linuxtv.org/job/libcamera/1448/display/redirect?page=changes>
 
-On 7/31/2025 8:34 AM, Sultan Alsawaf wrote:
-> On Tue, Jul 29, 2025 at 03:43:14PM +0800, Du, Bin wrote:
->> Hi Sultan, really appreciate your time and effort
->>
->> On 7/28/2025 3:04 PM, Sultan Alsawaf wrote:
->>> I found more refcounting issues in addition to the ones from my other emails
->>> while trying to make my webcam work:
->>>
+Changes:
 
-[snip]
->>   static const struct vb2_ops isp4vid_qops = {
->>   	.queue_setup = isp4vid_qops_queue_setup,
->> -	.buf_cleanup = isp4vid_qops_buffer_cleanup,
->>   	.buf_queue = isp4vid_qops_buffer_queue,
->>   	.start_streaming = isp4vid_qops_start_streaming,
->>   	.stop_streaming = isp4vid_qops_stop_streaming,
->> -- 
->> 2.34.1
-> 
-> The patch looks correct. I will get back to you on this after doing some testing
-> myself.
-> 
-> FYI, I can only test these changes with the old isp4 driver right now, since the
-> new isp4 driver doesn't work for me as mentioned in my other email. So far,
-> something does seem wrong after these changes I suggested because they break the
-> camera on the old isp4 driver too.
-> 
-> Sultan
-Yes, seems so. At the same time, we are checking the new upstream isp4 
-driver
+[barnabas.pocze] libcamera: base: log: Take `LogCategory` by reference
 
-Regards,
-Bin
+
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/libcamera/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.5'
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision b0db9388f650fe0e00c0db0af488cd7a2d5dd4bb (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b0db9388f650fe0e00c0db0af488cd7a2d5dd4bb # timeout=10
+Commit message: "libcamera: base: log: Take `LogCategory` by reference"
+ > git rev-list --no-walk 096b9416b2ea8aad709c9b0f7f8f8002c0d6f9e7 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse b0db9388f650fe0e00c0db0af488cd7a2d5dd4bb^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/libcamera.git'
+[GitCheckoutListener] Found previous build 'libcamera #1447' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '096b941'
+[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
+[GitCheckoutListener] -> Using head commit 'b0db938' as starting point
+[GitCheckoutListener] -> Recorded one new commit
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@2f641b9d'
+[libcamera] $ /bin/sh -xe /tmp/jenkins12085261309035350793.sh
++ rm -rf build
++ meson setup -Dandroid=auto -Dv4l2=true build
+The Meson build system
+Version: 1.0.1
+Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+Build type: native build
+DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
+Project name: libcamera
+Project version: 0.5.1
+C compiler for the host machine: ccache cc (gcc 12.2.0 "cc (Debian 12.2.0-14) 12.2.0")
+C linker for the host machine: cc ld.bfd 2.40
+C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
+C++ linker for the host machine: c++ ld.bfd 2.40
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Header "fcntl.h" has symbol "F_ADD_SEALS" : YES 
+Header "unistd.h" has symbol "issetugid" : NO 
+Header "locale.h" has symbol "locale_t" : YES 
+Header "sys/mman.h" has symbol "memfd_create" : YES 
+Header "stdlib.h" has symbol "secure_getenv" : YES 
+Compiler for C supports arguments -Wno-c99-designator: NO 
+Found pkg-config: /usr/bin/pkg-config (1.8.1)
+Run-time dependency lttng-ust found: YES 2.13.5
+Program ./parser.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./parser.py)>
+Program ./generate.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./generate.py)>
+Program ./extract-docs.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./extract-docs.py)>
+Configuring version.h using configuration
+Program openssl found: YES (/usr/bin/openssl)
+Found CMake: /usr/bin/cmake (3.25.1)
+Run-time dependency libyuv found: NO (tried pkgconfig and cmake)
+Has header "libyuv.h" : NO 
+
+Executing subproject libyuv method cmake 
+
+libyuv| Found CMake: /usr/bin/cmake (3.25.1)
+
+| Configuring the build directory with CMake version 3.25.1
+| Running CMake with: -G Ninja -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+| - build directory:          <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
+| - source directory:         <https://builder.linuxtv.org/job/libcamera/ws/subprojects/libyuv>
+| - toolchain file:           <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build/CMakeMesonToolchainFile.cmake>
+| - preload file:             /usr/lib/python3/dist-packages/mesonbuild/cmake/data/preload.cmake
+| - trace args:               --trace-expand --trace-format=json-v1 --no-warn-unused-cli --trace-redirect=cmake_trace.txt
+| - disabled policy warnings: [CMP0025, CMP0047, CMP0056, CMP0060, CMP0065, CMP0066, CMP0067, CMP0082, CMP0089, CMP0102]
+
+| Running with expanded trace output on.
+| Not searching for unused variables given on the command line.
+| Trace will be written to cmake_trace.txt
+| -- The C compiler identification is GNU 12.2.0
+| -- The CXX compiler identification is GNU 12.2.0
+| -- Detecting C compiler ABI info
+| -- Detecting C compiler ABI info - done
+| -- Check for working C compiler: /usr/lib/ccache/cc - skipped
+| -- Detecting C compile features
+| -- Detecting C compile features - done
+| -- Detecting CXX compiler ABI info
+| -- Detecting CXX compiler ABI info - done
+| -- Check for working CXX compiler: /usr/lib/ccache/c++ - skipped
+| -- Detecting CXX compile features
+| -- Detecting CXX compile features - done
+| CMake Deprecation Warning at CMakeLists.txt:6 (CMAKE_MINIMUM_REQUIRED):
+| Compatibility with CMake < 2.8.12 will be removed from a future version of
+| CMake.
+
+| Update the VERSION argument <min> value or use a ...<max> suffix to tell
+| CMake that the project does not need compatibility with older versions.
+
+
+| -- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "62")
+| CMake Warning (dev) at CMakeLists.txt:45 (if):
+| Policy CMP0064 is not set: Support new TEST if() operator.  Run "cmake
+| --help-policy CMP0064" for policy details.  Use the cmake_policy command to
+| set the policy and suppress this warning.
+
+| TEST will be interpreted as an operator when the policy is set to NEW.
+| Since the policy is not set the OLD behavior will be used.
+| This warning is for project developers.  Use -Wno-dev to suppress it.
+
+| Building ver.: 0.0.1770
+| Packaging for: amd-64
+| -- Configuring done
+| -- Generating done
+| -- Build files have been written to: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
+
+libyuv| CMake configuration: SUCCEEDED
+libyuv| CMake project YUV has 3 build targets.
+
+cmake-ast| Processing generated meson AST
+cmake-ast| Build file: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/meson.build>
+
+libyuv| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
+libyuv| Project name: YUV
+libyuv| Project version: undefined
+libyuv| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
+libyuv| C++ linker for the host machine: c++ ld.bfd 2.40
+libyuv| Build targets in project: 23
+libyuv| Subproject libyuv finished.
+
+
+Library atomic found: YES
+Run-time dependency threads found: YES
+Run-time dependency libdw found: YES 0.188
+Run-time dependency libunwind found: YES 1.6.2
+Header "execinfo.h" has symbol "backtrace" : YES 
+Checking for function "dlopen" : YES 
+Run-time dependency libudev found: YES 252
+Run-time dependency yaml-0.1 found: YES 0.2.5
+Run-time dependency gnutls found: YES 3.7.9
+Run-time dependency libexif found: YES 0.6.24
+Run-time dependency libjpeg found: YES 2.1.5
+Run-time dependency libhardware found: NO (tried pkgconfig and cmake)
+Run-time dependency libevent_pthreads found: YES 2.1.12-stable
+Run-time dependency libtiff-4 found: YES 4.5.0
+Run-time dependency GTest found: NO (tried pkgconfig and system)
+Looking for a fallback subproject for the dependency gtest
+
+Executing subproject gtest 
+
+gtest| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
+gtest| Project name: gtest
+gtest| Project version: 1.11.0
+gtest| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
+gtest| C++ linker for the host machine: c++ ld.bfd 2.40
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Dependency threads found: YES unknown (cached)
+gtest| Build targets in project: 50
+gtest| Subproject gtest finished.
+
+Dependency gtest from subproject subprojects/googletest-release-1.11.0 found: YES 1.11.0
+Run-time dependency libdrm found: YES 2.4.114
+Dependency libjpeg found: YES 2.1.5 (cached)
+Run-time dependency sdl2 found: YES 2.26.5
+Run-time dependency qt6 (modules: Core, Gui, OpenGL, OpenGLWidgets, Widgets) found: NO (tried pkgconfig)
+Run-time dependency glib-2.0 found: YES 2.74.6
+Run-time dependency gstreamer-video-1.0 found: YES 1.22.0
+Run-time dependency gstreamer-allocators-1.0 found: YES 1.22.0
+Run-time dependency python3 found: YES 3.11
+Run-time dependency pybind11 found: NO (tried pkgconfig and cmake)
+Configuring libcamerify using configuration
+Program doxygen found: YES (/usr/bin/doxygen)
+Program dot found: YES (/usr/bin/dot)
+Configuring Doxyfile-common using configuration
+Configuring Doxyfile-public.tmpl using configuration
+Configuring Doxyfile-internal using configuration
+Program sphinx-build found: YES (/var/lib/jenkins/.local/bin/sphinx-build)
+Program python3 found: YES (/usr/bin/python3)
+
+Documentation/meson.build:137:8: ERROR: Problem encountered: sphinxcontrib.doxylink module not found
+
+A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
+Build step 'Execute shell' marked build as failure
 
