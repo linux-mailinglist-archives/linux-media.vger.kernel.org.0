@@ -1,271 +1,359 @@
-Return-Path: <linux-media+bounces-38694-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38695-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15E7B16EF8
-	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 11:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13941B16F22
+	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 12:04:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B7851AA7AC7
-	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 09:48:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 634A71AA1C86
+	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 10:04:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B34628D830;
-	Thu, 31 Jul 2025 09:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B30C7221561;
+	Thu, 31 Jul 2025 10:04:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="V3dCW53Z"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OOySnTN+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2063.outbound.protection.outlook.com [40.107.100.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33198F4FA
-	for <linux-media@vger.kernel.org>; Thu, 31 Jul 2025 09:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753955299; cv=none; b=ixfRqbzqvyV8g6qA3jca7glNjICOQlnUxvFMlm2wczMLRzuawE8K0ihu4GFNKw4ybtODKnSkiuOfrvjS5j4BQKEap3ctf/aIezor65t6ck8U+y2L05CmpZzG/fvnjEcbATitN2OtejtVG2ypenETkaVZQvPs1m9bgGA16y29QV4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753955299; c=relaxed/simple;
-	bh=pV1Y6Kg3Exjmncau4ja1aoREh1jQmktf8fk+JYYkWlo=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=URyoRFG8WISfWPeIRGq/C345T3k/VoHek0i1oyyMVYetK/rOycTv5tnEuq2iIaaZvccnpZmvg6xo4UFqxIa6R5wVDZMQsYe2VgAyOJ+2i3Xoo7aUMWq5na7VQDHZj5YjrAFE5WtfIDGGI2UNUuN41uraF+NTW40M4jVSoSL6j2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=V3dCW53Z; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-	References:In-Reply-To:Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=DuNndqJ96Pc4NK+PKSmjFwHk7Ruto1mMQqsQ/UJFmIo=; b=V3dCW53ZvJFB7i9Hyr4KF+6J2/
-	FKlDuM/VvBaBx4gvPrPxgCx/xl4eFVdLX3pd0AN9G35DbVEVDmVgfi8zfKbilrhII/3LLDf/eX0VP
-	YL/jeKZvFOaCXZavN0RQil1u083W/KH2+K+7pfyTPtsRuzcDZgPsoB9qWcTmysMp58gxUiBIPOlOh
-	dSVX6Yw8vwZfnM0fPF6UsC51yIgrtmdbUUU4nMYFyt294AEqAdRwghHk7/TcKt2jrw6pclY7FufoS
-	r+MbcNQqB9ZlaGoH1N1wzMm+3JBHPx3BcNhsBD7HRJNngG7drm9BlkdMusT6GMuLeWPUQ7cAJ4f9b
-	ofdP66gg==;
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1uhPtZ-0000Ep-17;
-	Thu, 31 Jul 2025 09:48:17 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1uhPtZ-004xFF-10;
-	Thu, 31 Jul 2025 09:48:17 +0000
-Date: Thu, 31 Jul 2025 09:48:17 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org,
-	libcamera-devel@lists.libcamera.org
-Message-ID: <359420275.1.1753955297211@builder.linuxtv.org>
-In-Reply-To: <1679223777.2.1753910294091@builder.linuxtv.org>
-References: <1679223777.2.1753910294091@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #1448
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BF82745E;
+	Thu, 31 Jul 2025 10:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753956261; cv=fail; b=epj/M1ZwmSnvOzZ0oAU5ht3gWA/XClBwjiLpHHB4OjiyHAL9TbsE9obp72NyuZVJsiCXSLcNnY9/52s2elVRE5MBHAIeqk2h0JrSI1ITKQugRsFLpFPLzULnamywp5JYC20bUSY488h8zvOYvWKOT6lG+2rRxWCx0jmeLrdGXB4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753956261; c=relaxed/simple;
+	bh=wVeo+yyajxr81Feknr0SI2S8cvNjKvA3JMfiKuH4efM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=o09DRm3MqywuO4D7aj62q1JIbGyc0LXxoQWyTpe0sGInhBKHEMvpQg2EsbzBi9HjAEu2+SsJm4xd7MUWiGpUWl3lHUSqwGMT6xbGZFczfJ7WxJTbx/T4S85YOC7YjRNBxXfc5osMCTRYY2Vof3DwMn2jrt6n3OnOYEr+IR2FGEM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OOySnTN+; arc=fail smtp.client-ip=40.107.100.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZIc4TwA78X6cwIbEkvjOedVcvmDcMb5dwTA487nSO7Py2bXHvv9Q3IkIp/GQIQhbiZmPZIY/yk13I7w8CjvBel5Ibw1ycx5LIL+1Qf8TMkgwzBfqr9iT7UJatZLiN25ljrvr5G3QdWMy5Lppn/DAHk1jdZgbEmK1IumUstyqJ60ZRCnq8/SXuoknRYFGJ5ApvOXj6W5F4NBoeaIjv0qUxGrM39Ppyd1sFvnviRPWMSZfwYDfaI3Q1nYDizucRqxD5wsJcxmckEXcIqnv/UVpkD24mvKM7Sv27J91OFTERT+zONJ0/txh72WvvkYnWqrtZUbZnK1nx1zf8scnqj5JlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9Q0rre0KypxgJ+YcZ6m5V/iQssOH0es6Y4E0pnx8Lu8=;
+ b=Lc8xisF/ZQYNZ29TKp+bJBcPd6sVgs/CQln0qiz6qRjsu2bqMCc1f66uzE5FlAbTAWHywWULCSFwETWs15d8R3H1twEw8edxQpHESMvtZV/5xF6j/fDyM1YsB7Vypl+tkvSncALESI3RnRDEYf3RckiVAihUKK+/aHVX1T813of1Hw6PIZIeFu519FBQ2ihzxstvBrBPvI+1ZOHq7k/b0bqB3bP2mBXkeJ6QmQvD9aco19OAPRhEmFUMV6Uggj/gE90ACM0RD3gMFHjmGuiEWqZkzXWcHYWCQLgoJB5BYSQu9fYGXCl+RFCcxgncbQbpPFr3PTaR7I2iQMwnHiwA8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9Q0rre0KypxgJ+YcZ6m5V/iQssOH0es6Y4E0pnx8Lu8=;
+ b=OOySnTN+OgdGEjDK0mnz532Oc7P59F07VY/ljWPF1SuruYevxYLzvXJWBgniQR5OZPb7I0xN5d2l2f3ZUrQAhhmH4DsLdINjIcmAben6pUGTNSPitsBkrhRZSRGB8v4LSSWF6NuqLZ5FI/CnPZciiBq7Zlhw80cOxnQXkBsXYzw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13)
+ by PH7PR12MB5830.namprd12.prod.outlook.com (2603:10b6:510:1d5::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.14; Thu, 31 Jul
+ 2025 10:04:15 +0000
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7]) by PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7%3]) with mapi id 15.20.8964.026; Thu, 31 Jul 2025
+ 10:04:15 +0000
+Message-ID: <1a9a4beb-97ab-4853-8201-bf08f1a030ab@amd.com>
+Date: Thu, 31 Jul 2025 18:04:07 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] Add AMD ISP4 driver
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+ gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
+ bin.du@amd.com
+References: <20250618091959.68293-1-Bin.Du@amd.com>
+ <aIEmJXNpNN0QF233@sultan-box> <12fb4d09-6b94-4f54-86b8-8a3ac0949151@amd.com>
+ <aIVXVpg_9XxRXUAH@sultan-box> <b02d0749-6ecb-4e69-818a-6268f894464d@amd.com>
+ <aIh7WB0TGNU15Zm1@sultan-box> <aIh8JPTv9Z5lphRQ@sultan-box>
+ <751e9265-889f-4fbf-acf8-7374311a6b6f@amd.com> <aImvvC9JEgQ2xBki@sultan-box>
+ <a3272335-1813-4706-813e-a79a9cabc659@amd.com> <aIq5EyQ_uuO63dJb@sultan-box>
+Content-Language: en-US
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <aIq5EyQ_uuO63dJb@sultan-box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0056.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::7) To PH8PR12MB7446.namprd12.prod.outlook.com
+ (2603:10b6:510:216::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7446:EE_|PH7PR12MB5830:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72a37571-99f3-4deb-2e04-08ddd0199b1f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RXRkZk5DR0t2ci9GRE1HRkM1bTlBYUE4Skx2TU8xbFJSeGRnR1cvZDMwVTJ2?=
+ =?utf-8?B?VllGUXAydGUzNGQ4TlJ6d0NiZDM1cVNKUWEwVkhrUnNFZGhQVkl6clVoTXhU?=
+ =?utf-8?B?bWJUVGVYTHpSdko2R2Q3K3FjeUlmQ3BTSVNRTVlMQXBwVmZmNitDaGs0SnZp?=
+ =?utf-8?B?SEpIc1ZkZkhmTGdhRU9TaDN2bU95NEVCNlJZOGFaUi9xWUtXTUVBSDVGMFJV?=
+ =?utf-8?B?ZDV1and3OWRSVmgxWmN3OEZjU2VLditJUWNObmlZOTgyWS8zeTAxRlBzQitV?=
+ =?utf-8?B?dThxTVIwTXhBZ3JXR1dSZkJIenBUajFBMElyQnh3N2tNcTMzV1VVcVl2RnlC?=
+ =?utf-8?B?TEt2aU10RVJoWk5QNWEyRFR6aE41SEtEcFphWTJmaXBOeUh6a2lLNjVjMWtG?=
+ =?utf-8?B?SUZjQ1ArdXJRU05Wc3VPZW5WdEJGUTJrcHJsY1ZXWnpWS0ErZkREaitjVS9O?=
+ =?utf-8?B?dDlJNHVYa25Oazc4SUgzdmJuRml0bU1MNVBIWWNrVUltWGVFcVVweTFJQ2JB?=
+ =?utf-8?B?V3VlSkVGb0RKZy8ranVZcjdFUVYvNkVScHlETkdGaVN3RldvZm5qbGpZVHZX?=
+ =?utf-8?B?SXlNcGIvSXM3a08xblFFV3dDbUhvUjUyOVdOVGVLaUJxYTlTcFRGUTF1TEE1?=
+ =?utf-8?B?b0l4NGcwZS9oQjdpWnNibEMrbWF5UHpyemVvTG1VbFNIWU9kNFMwR1Y5UEox?=
+ =?utf-8?B?cGV5Qlc2aHZuWWszeHZTeVUzYytHdEJJR1Y1UEtFOUhzMnQwTGVaLzBKUlhj?=
+ =?utf-8?B?TmtlVkZJcStkWWlyd29uaUtqZm1CZDBPUC9mWjkrYVV5WmdXaTFIaUNLUy9V?=
+ =?utf-8?B?YXBod3BTaTlYQzF1ZHBQSk9QS3dNUXdCaVFRNHJ4RWNBVEozbGNQbHpPdHpq?=
+ =?utf-8?B?V3lTeWxEZS9oWHdqdStOTjZLVUNHenZXVDhMMkhvQUNBaDl2ektVVU1CR2wy?=
+ =?utf-8?B?eElQRFNOdXBBejBEemVEaDFhZTBPa3Rqb1puWnBMU0pta1gwNmI0Mk9Vdnc2?=
+ =?utf-8?B?VFBmNGlteFU4bHRLR2ZsalZtYVVJQzllVmhwS0QvQStsdTFaVjlpNUZVcDhS?=
+ =?utf-8?B?Y1ZIeGF0c0xtRVBWOHRlS0dCWlFBdllLaWZtbllqczdFcVJyM1hreE5nOU14?=
+ =?utf-8?B?cU0zVUh2aDlHZXZBUlpOb1NzT1Y3bFBMNUQ5aVhqUWhxZTFncUd4Z3V1cWRD?=
+ =?utf-8?B?NldSZTgvOEtTc3dCeDlrMTBnYlZrZzk4aktzK0NDTlZ6MkFNQlJPY3pxdEdk?=
+ =?utf-8?B?NUQ5TXdUZ290VDl0Ri9iQTB6OE1IQysyQlZENGhUVWtvRXU1aGwvTk9sYUhD?=
+ =?utf-8?B?QmZ5RWlEU2QxR1IvU0R6cC9Wc21DcFp1SS9YU2pLWjZoNHkrWGNkdFcyVGl0?=
+ =?utf-8?B?clFyK3grRUY0S0NZV1gvbnUyZW5sMEc3dEpUQU9hZXo3dWRTd3VpSXA4RUwx?=
+ =?utf-8?B?MkgyM2krVnpKQzJPeDRKYm1uNjhsM1dpOEdpb2lGS2pNZUNmR3BtVEV2YmhB?=
+ =?utf-8?B?RzJuSVQ0cFJZc24yL3EvVUtYS3NyZjRkSTcwRVdEZEhRYmlDZVlOMkF2RzM0?=
+ =?utf-8?B?VTFaTGFPMWlaTFhSeGZQa0dhM2N3NDBYRXF3aE5EeE9WSndaYlp1aWN6M29N?=
+ =?utf-8?B?S2hEVnJEYXNWdjJ4RkFOVzlJeFhLUUtwb3puaGtWblZOKzByQkt1Ym1COXQz?=
+ =?utf-8?B?NThNZWxySnR6U3FTTmlZV2I3ZWNOeU8vcytVRVRybC8zQzhSK081dlR5c1Zw?=
+ =?utf-8?B?TGJHSVRabC82bUs4Nk1ERkFNRk5FWEhCNmFnd0FCN3RTYTVtcWxsU1VUQ2hJ?=
+ =?utf-8?B?NDJSaEpDcVZaK01iVVJiSGpQMHR3S3FjcExFT3pCVHlkWm5hYjBrMHJNWjhQ?=
+ =?utf-8?B?Z2RUbnlkYkovYWd5RGVmM3NhYnZHVTRGUHczbk1lc0JBRndhYkhYQXhkSmU5?=
+ =?utf-8?Q?DpOLJJG9mEE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7446.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0I4b0VSTFV6WVJuS3NqYjVCOEJVWW1CUm11NFd3Z0VpM3k3VUIvb1IxRitP?=
+ =?utf-8?B?V2h2Y21vYUY5NDh1dklNVEZEMEplZTdaVGFJZC9mMzFVRDdYQTNOMXo2czd0?=
+ =?utf-8?B?NDNGTzkrZDNmK3JUZTJHTzdsY2RJWkVKSUFpOUpNaldSUjV6TFhIcVhPTC95?=
+ =?utf-8?B?NW1FVDNWV3p5SXo4NEpySVRnMXR2THYwTWVubE1tNVZ5ZG1XZTBpQjJheTl6?=
+ =?utf-8?B?MDRaVWl1bSsvSlEydm0zYjVvcjRFVUNWYVErVUNwZkMyUVk1eThEenQwZnBD?=
+ =?utf-8?B?OXNzbzN4NEpHRmlUci9UY2Ftb0NQblFSTkNDK0gxd255Vmh3Z1lXMUtNNW8x?=
+ =?utf-8?B?WWVqQnp6a0ZSeHk1M2tNaHZOdFVLckM2NHVpRm9RdnFMTEpMN083clk0VExJ?=
+ =?utf-8?B?Z1hjRkp2QzNJc29HSFU2WVVFdlBhWjRhS3ZFYXRNd0pybmRpc0ttRlhHUkVJ?=
+ =?utf-8?B?YmRzcUtpanNCRGxyZmxKbUd1NjVQQUlTdmd3a3pheVZXdzgremczRTFIa2NS?=
+ =?utf-8?B?L01jS1Y1blQ5a2huZ2VCL1dyMEpHL1NFUlZCMzRNclhLd2Vsa2hlNDlFQSt5?=
+ =?utf-8?B?SHc2M1FLWU12dlVMSEdscmgzVlUrNkFnaFlOVkg0d0JZcFJVbitlQWUxSURp?=
+ =?utf-8?B?UFJBc3d6a2tjeVJJY1c0aWdLWWJqeFNYdTgvVGJOd1Z3ODcxUWlQNng1VG9H?=
+ =?utf-8?B?NFFuQkpjZUFCakdiTVJzL2w4RmdRSU52YmtNeVFoTkFtemlRNEJ6QmdwRjNF?=
+ =?utf-8?B?TXc3cGJsdEtDL3YyVkplSjBXcGxobTdnY2RxdG05bzFYVUduMFFTODBBSW55?=
+ =?utf-8?B?K0NncGNLeElWYStySXdIaklxa09sMWpIMEtPbUlCMUZxY1hIRHh0eVRjZm9s?=
+ =?utf-8?B?cXl6cVdaR3VsTkYrQjQ4enA1NE9vbkx6RmYxRHQ4VHNXeFVxUkNraVkvMGpM?=
+ =?utf-8?B?cFhrOVQ0TWtHejduWlovS25lTE02a3FIcDlHYytOdm9zTllGVzAzUnlMNkRk?=
+ =?utf-8?B?QkVvRS9nWHJDbFAxQXZSbjBOZHpwQy9XREVPcFpnWFRwcy8xVVlZNk5seFRj?=
+ =?utf-8?B?RGRYcytyeGRhaWlwWXdhWDZMT0M4Nk5uN0dQbGNWZ1JFUXlGRzEwVXNLSFF3?=
+ =?utf-8?B?S3hlNXZHVjNkZGdmdTFLZmhtM3lwdlNoc3BKUTBJc2pNNDhXcEFWUUQ5K3ow?=
+ =?utf-8?B?eHhVdXNna3dIUnR2Sld1TXJHa2hqK0FnckhDVFdyMWFOenN5WmtKdnNzY1cw?=
+ =?utf-8?B?cFF1WDhlT3B1UGpEeGxOT1h2dEN1b3A0SkxMTXFBazBaSkd1ek1oaEo2OFZi?=
+ =?utf-8?B?WFA3bFpnRXFGbXhzend3WXVuSEM2RE9zTDFDQ2g1TlhrQ0lSNnBMNlg4ZEh1?=
+ =?utf-8?B?dDJBdGU0N3pqdFR4czhVM2RwZXllSlR2MTh2STBFYnhiSTAyYzVyT1B1OVBQ?=
+ =?utf-8?B?eVFPMm5UdUFIdnVVR0RuelF3RlJsMHRYbG5GR240OS9jTTVnTmdLTzFQTmlq?=
+ =?utf-8?B?dEl5M2VNYmZOT2lBMXBocndEOHEvb2xHVmxQUDFNUmRiT3BPMm9qUHRZSVZm?=
+ =?utf-8?B?a0UrcEtnMExJaVZIcXpuWjVaNE1aMkhBR2JidWIzbEtTSGUzS1RwQVppczZ4?=
+ =?utf-8?B?TitpWWMvbEoyV05lU3plSzNNbWZHNDlGTmlwampsT0VJUlhrakN2eVZ2TWpN?=
+ =?utf-8?B?UWRyakliUlFleWo1U091NEk3OWhBcFowZnNlTWcxWlZxbU9lSWpnTXFLb2pW?=
+ =?utf-8?B?UHlOMU8yYUhPbjk0akxZV05iODNXclZ4bFRya0VrR1VxaWpncDBRYTBkVGd2?=
+ =?utf-8?B?Mzg3YmZHQ3hQTG0vSThkV2Y0cWVqZlgxUEFUbWlqYTQ3VGtFQzJXSTR6SFZi?=
+ =?utf-8?B?djJiRVdzbFJNTEkvSFQyRUVXajlXS2VBT0svcW5OR0RBdUVwSWI2QVRmTGNp?=
+ =?utf-8?B?U1dPQzB1dmZmM1QzbUQ4UkM3WFlpZFFwdEVRb2RJRHBjRGMrSzUwbnBuclFx?=
+ =?utf-8?B?ZThpZHJxNXRzMzl4UzhRUEYrZUdQNDNmQmVHT1F6dGdEcUJFTlNaZmxVY0RC?=
+ =?utf-8?B?Y0pnUTlsQ2o3Z2NMSXVUVHp2bGpJSi9JMVdTcnQ5NkFqNktRY0hQSzBOVThu?=
+ =?utf-8?Q?vKPg=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72a37571-99f3-4deb-2e04-08ddd0199b1f
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7446.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 10:04:15.5130
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IE5tuFxtcazcTMsDoe84LzROnFj/rH1RY1/W6QtHijqp2UucCQUldEai0Haam/Oq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5830
 
-See <https://builder.linuxtv.org/job/libcamera/1448/display/redirect?page=changes>
+Thanks Sultan for your test
 
-Changes:
+On 7/31/2025 8:30 AM, Sultan Alsawaf wrote:
+> On Wed, Jul 30, 2025 at 05:53:58PM +0800, Du, Bin wrote:
+>> On 7/30/2025 1:38 PM, Sultan Alsawaf wrote:
+>>> On Tue, Jul 29, 2025 at 06:13:50PM +0800, Du, Bin wrote:
+>>>> On 7/29/2025 3:45 PM, Sultan Alsawaf wrote:
+>>>>> On Tue, Jul 29, 2025 at 12:42:16AM -0700, Sultan Alsawaf wrote:
+>>>>>> On Tue, Jul 29, 2025 at 11:32:23AM +0800, Du, Bin wrote:
+>>>>>>> Thanks Sultan, please see my comments
+>>>>>>>
+>>>>>>> On 7/27/2025 6:31 AM, Sultan Alsawaf wrote:
+>>>>>>>> On Fri, Jul 25, 2025 at 06:22:03PM +0800, Du, Bin wrote:
+>>>>>>>>>> I have the Ryzen AI MAX+ 395 SKU of the HP ZBook Ultra G1a 14.
+>>>>>>>>>>
+>>>>>>>>>> I cannot for the life of me get the webcam working under Linux. The webcam works
+>>>>>>>>>> under Windows so it's not a hardware issue.
+>>>>>>>>>>
+>>>>>>>>>> With this patchset and all of the patches you link here applied to 6.15, I get
+>>>>>>>>>> the following errors:
+>>>>>>>>>>        [   11.970038] amd_isp_i2c_designware amd_isp_i2c_designware: Unknown Synopsys component type: 0xffffffff
+>>>>>>>>>>        [   11.973162] amd_isp_i2c_designware amd_isp_i2c_designware: error -19: i2c_dw_probe failed
+>>>>>>>>>>
+>>>>>>>>>> With the old ispkernel code from February [1] applied on 6.15, the webcam
+>>>>>>>>>> indicator LED lights up but there's no image. I see these messages at boot:
+>>>>>>>>>>        [    9.449005] amd_isp_capture amd_isp_capture.1.auto: amdgpu: AMD ISP v4l2 device registered
+>>>>>>>>>>        [    9.489005] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: The OV05 sensor device is added to the ISP I2C bus
+>>>>>>>>>>        [    9.529012] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout while trying to abort current transfer
+>>>>>>>>>>        [    9.554046] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout in disabling adapter
+>>>>>>>>>>        [    9.554174] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout while trying to abort current transfer
+>>>>>>>>>>        [    9.580022] amd_isp_i2c_designware amd_isp_i2c_designware.2.auto: timeout in disabling adapter
+>>>>>>>>>>
+>>>>>>>>>> And then the kernel crashes due to the same use-after-free issues I pointed out
+>>>>>>>>>> in my other email [2].
+>>>>>>>>>>
+>>>>>>>>>> Any idea what's going on?
+>>>>>>>>>>
+>>>>>>>>>> [1] https://github.com/amd/Linux_ISP_Kernel/commit/c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4
+>>>>>>>>>> [2] https://lore.kernel.org/r/aIEiJL83pOYO8lUJ@sultan-box
+>>>>>>>>> Hi Sultan,
+>>>>>>>>>
+>>>>>>>>> [1] is for kernel 6.8, believe it can't be applied to 6.15. We didn't verify
+>>>>>>>>> on 6.15 but we are really glad to help, would you please provide some info,
+>>>>>>>>> 1. Suppose you are using Ubuntu, right? What's the version?
+>>>>>>>>> 2. 6.15, do you mean https://github.com/torvalds/linux/tree/v6.15 ?
+>>>>>>>>>
+>>>>>>>>> After your confirmation, we'll see what we can do to enable your camera
+>>>>>>>>> quickly and easily
+>>>>>>>>>
+>>>>>>>>> Regards,
+>>>>>>>>> Bin
+>>>>>>>>
+>>>>>>>> Thank you, Bin!
+>>>>>>>>
+>>>>>>>> 1. I'm using Arch Linux with the ISP4-patched libcamera [1].
+>>>>>>>> 2. Yes, here is my kernel source [2].
+>>>>>>>>
+>>>>>>>> I have some more findings:
+>>>>>>>>
+>>>>>>>> Currently, the first blocking issue is that the I2C adapter fails to initialize.
+>>>>>>>> This is because the ISP tile isn't powered on.
+>>>>>>>>
+>>>>>>>> I noticed that in the old version of amd_isp_i2c_designware [3], there were
+>>>>>>>> calls to isp_power_set(), which is available in the old ISP4 sources [4].
+>>>>>>>> Without isp_power_set(), the I2C adapter always fails to initialize for me.
+>>>>>>>>
+>>>>>>>> How is the ISP tile supposed to get powered on in the current ISP4 code?
+>>>>>>>>
+>>>>>>> You are correct, yes, i believe the I2C adapter failure is caused by ISP not
+>>>>>>> being powered up. Currently in latest code, isp_power_set is no longer
+>>>>>>> available, instead, we implemented genPD for ISP in amdgpu
+>>>>>>> https://lore.kernel.org/all/20250618221923.3944751-1-pratap.nirujogi@amd.com/
+>>>>>>> Both amd_isp_i2c and amd_isp_capture are in the power domain and use the
+>>>>>>> standard runtime PM API to do the power control
+>>>>>>
+>>>>>> Thanks for that link, I found it along with another patch on the list to make
+>>>>>> the fwnode work ("drm/amd/amdgpu: Initialize swnode for ISP MFD device").
+>>>>>>
+>>>>>>>> Also, I noticed that the driver init ordering matters between all of the drivers
+>>>>>>>> needed for the ISP4 camera. In particular, amd_isp_i2c_designware and amd_isp4
+>>>>>>>> must be initialized before amd_capture, otherwise amd_capture will fail to find
+>>>>>>>> the fwnode properties for the OV05C10 device attached to the I2C bus.
+>>>>>>>>
+>>>>>>>> But there is no driver init ordering enforced, which also caused some issues for
+>>>>>>>> me until I figured it out. Maybe probe deferral (-EPROBE_DEFER) should be used
+>>>>>>>> to ensure each driver waits for its dependencies to init first?
+>>>>>>>>
+>>>>>>> amd_isp_capture only has dependency on amd_isp4 which is the ACPI platform
+>>>>>>> driver, it is init before amd_isp_catpure.
+>>>>>>> Do you see in your side the amd_capture probe failure caused by failing to
+>>>>>>> read fwnode properties? If that's the case please help to check if amd_isp4
+>>>>>>> is loaded successfully
+>>>>>>
+>>>>>> I got much further now: there aren't any driver initialization errors, but when
+>>>>>> I open the camera, there's no image. The camera LED turns on so it's active.
+>>>>>>
+>>>>>> And then shortly afterwards, amdgpu dies and the entire system freezes.
+>>>>>>
+>>>>>> I've attached my full dmesg, please let me know what you think. Thanks!
+>>>>>
+>>>>> I almost forgot, here is my current kernel tree:
+>>>>> https://github.com/kerneltoast/kernel_x86_laptop/tree/v6.16-sultan-isp4
+>>>>>
+>>>>> Sultan
+>>>>
+>>>> Thanks Sultan, yes, seems much close to the final success. Will have some
+>>>> internal discussion.
+>>>
+>>> I got the webcam working. The same bug happened when I tried Ubuntu's linux-oem
+>>> kernel, which made me think that the issue was firmware.
+>>>
+>>> And indeed, the culprit was a firmware update from February. I bisected
+>>> linux-firmware and found the commit which broke the webcam for me:
+>>>
+>>> 	commit 1cc8c1bfa11251ce8bfcc97d1f15e312f7fe4df0 (HEAD)
+>>> 	Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
+>>> 	Date:   Wed Feb 19 12:16:51 2025 -0500
+>>>
+>>> 	    amdgpu: Update ISP FW for isp v4.1.1
+>>> 	
+>>> 	    From internal git commit:
+>>> 	    5058202443e08a673b6772ea6339efb50853be28
+>>> 	
+>>> 	    Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+>>>
+>>> 	 amdgpu/isp_4_1_1.bin | Bin 4543184 -> 6083536 bytes
+>>> 	 1 file changed, 0 insertions(+), 0 deletions(-)
+>>>
+>>> Downgrading firmware to before that commit fixes the webcam. Any idea why?
+>>>
+>>> Thanks,
+>>> Sultan
+>>
+>> So, can i say the working firmware binary is this one?
+>>
+>> Commit 8f070131
+>> amdgpu: Update ISP FW for isp v4.1.1
+>>
+>>  From internal git commit:
+>> 39b007366cc76ef8c65e3bc6220ccb213f4861fb
+>>
+>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> 
+> Correct.
+> 
+>> There are too many changes between them, so i can't tell exactly which
+>> change caused this. So, from my side
+>> 1. Will try these two firmware to see if we have the same issue.
+>> 2. It has been quite a long time since last release, will see if need to
+>> release a latest one.
+> 
+> Thanks. It was a quick bisect for me, so I'm happy to help test if a bisect
+> between those two internal git commits is needed.
+> 
+Really appreciate your test.
+> In case it makes a difference, I have the laptop with the 2.8K OLED display. I'm
+> aware there is one other display variant on other SKUs, which is a WUXGA IPS.
+> 
+Good to know, I believe it won't make any difference for ISP
 
-[barnabas.pocze] libcamera: base: log: Take `LogCategory` by reference
+> Also, with that old firmware, my camera only works with the old isp4 driver from
+> that Linux_ISP_Kernel repo (which is the same isp4 driver used in Ubuntu's
+> linux-oem kernel). Does the new isp4 driver you've submitted here require newer
+> firmware than the old driver located in Linux_ISP_Kernel?
+> 
+> Sultan
 
+We had a try, yes, both of the old FW can't work on the new ISP4 driver, 
+as you know, for the last months, we did lots of driver modifications 
+for upstream and cause it incompatible with old FW.
+Now, under internal discussion to upstream a new FW to support the new 
+ISP driver
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/libcamera/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/libcamera.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.5'
- > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision b0db9388f650fe0e00c0db0af488cd7a2d5dd4bb (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f b0db9388f650fe0e00c0db0af488cd7a2d5dd4bb # timeout=10
-Commit message: "libcamera: base: log: Take `LogCategory` by reference"
- > git rev-list --no-walk 096b9416b2ea8aad709c9b0f7f8f8002c0d6f9e7 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse b0db9388f650fe0e00c0db0af488cd7a2d5dd4bb^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/libcamera.git'
-[GitCheckoutListener] Found previous build 'libcamera #1447' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '096b941'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit 'b0db938' as starting point
-[GitCheckoutListener] -> Recorded one new commit
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@2f641b9d'
-[libcamera] $ /bin/sh -xe /tmp/jenkins12085261309035350793.sh
-+ rm -rf build
-+ meson setup -Dandroid=auto -Dv4l2=true build
-The Meson build system
-Version: 1.0.1
-Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
-Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
-Build type: native build
-DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
-Project name: libcamera
-Project version: 0.5.1
-C compiler for the host machine: ccache cc (gcc 12.2.0 "cc (Debian 12.2.0-14) 12.2.0")
-C linker for the host machine: cc ld.bfd 2.40
-C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
-C++ linker for the host machine: c++ ld.bfd 2.40
-Host machine cpu family: x86_64
-Host machine cpu: x86_64
-Header "fcntl.h" has symbol "F_ADD_SEALS" : YES 
-Header "unistd.h" has symbol "issetugid" : NO 
-Header "locale.h" has symbol "locale_t" : YES 
-Header "sys/mman.h" has symbol "memfd_create" : YES 
-Header "stdlib.h" has symbol "secure_getenv" : YES 
-Compiler for C supports arguments -Wno-c99-designator: NO 
-Found pkg-config: /usr/bin/pkg-config (1.8.1)
-Run-time dependency lttng-ust found: YES 2.13.5
-Program ./parser.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./parser.py)>
-Program ./generate.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./generate.py)>
-Program ./extract-docs.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./extract-docs.py)>
-Configuring version.h using configuration
-Program openssl found: YES (/usr/bin/openssl)
-Found CMake: /usr/bin/cmake (3.25.1)
-Run-time dependency libyuv found: NO (tried pkgconfig and cmake)
-Has header "libyuv.h" : NO 
+Regards,
+Bin
 
-Executing subproject libyuv method cmake 
-
-libyuv| Found CMake: /usr/bin/cmake (3.25.1)
-
-| Configuring the build directory with CMake version 3.25.1
-| Running CMake with: -G Ninja -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-| - build directory:          <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
-| - source directory:         <https://builder.linuxtv.org/job/libcamera/ws/subprojects/libyuv>
-| - toolchain file:           <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build/CMakeMesonToolchainFile.cmake>
-| - preload file:             /usr/lib/python3/dist-packages/mesonbuild/cmake/data/preload.cmake
-| - trace args:               --trace-expand --trace-format=json-v1 --no-warn-unused-cli --trace-redirect=cmake_trace.txt
-| - disabled policy warnings: [CMP0025, CMP0047, CMP0056, CMP0060, CMP0065, CMP0066, CMP0067, CMP0082, CMP0089, CMP0102]
-
-| Running with expanded trace output on.
-| Not searching for unused variables given on the command line.
-| Trace will be written to cmake_trace.txt
-| -- The C compiler identification is GNU 12.2.0
-| -- The CXX compiler identification is GNU 12.2.0
-| -- Detecting C compiler ABI info
-| -- Detecting C compiler ABI info - done
-| -- Check for working C compiler: /usr/lib/ccache/cc - skipped
-| -- Detecting C compile features
-| -- Detecting C compile features - done
-| -- Detecting CXX compiler ABI info
-| -- Detecting CXX compiler ABI info - done
-| -- Check for working CXX compiler: /usr/lib/ccache/c++ - skipped
-| -- Detecting CXX compile features
-| -- Detecting CXX compile features - done
-| CMake Deprecation Warning at CMakeLists.txt:6 (CMAKE_MINIMUM_REQUIRED):
-| Compatibility with CMake < 2.8.12 will be removed from a future version of
-| CMake.
-
-| Update the VERSION argument <min> value or use a ...<max> suffix to tell
-| CMake that the project does not need compatibility with older versions.
-
-
-| -- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "62")
-| CMake Warning (dev) at CMakeLists.txt:45 (if):
-| Policy CMP0064 is not set: Support new TEST if() operator.  Run "cmake
-| --help-policy CMP0064" for policy details.  Use the cmake_policy command to
-| set the policy and suppress this warning.
-
-| TEST will be interpreted as an operator when the policy is set to NEW.
-| Since the policy is not set the OLD behavior will be used.
-| This warning is for project developers.  Use -Wno-dev to suppress it.
-
-| Building ver.: 0.0.1770
-| Packaging for: amd-64
-| -- Configuring done
-| -- Generating done
-| -- Build files have been written to: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
-
-libyuv| CMake configuration: SUCCEEDED
-libyuv| CMake project YUV has 3 build targets.
-
-cmake-ast| Processing generated meson AST
-cmake-ast| Build file: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/meson.build>
-
-libyuv| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
-libyuv| Project name: YUV
-libyuv| Project version: undefined
-libyuv| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
-libyuv| C++ linker for the host machine: c++ ld.bfd 2.40
-libyuv| Build targets in project: 23
-libyuv| Subproject libyuv finished.
-
-
-Library atomic found: YES
-Run-time dependency threads found: YES
-Run-time dependency libdw found: YES 0.188
-Run-time dependency libunwind found: YES 1.6.2
-Header "execinfo.h" has symbol "backtrace" : YES 
-Checking for function "dlopen" : YES 
-Run-time dependency libudev found: YES 252
-Run-time dependency yaml-0.1 found: YES 0.2.5
-Run-time dependency gnutls found: YES 3.7.9
-Run-time dependency libexif found: YES 0.6.24
-Run-time dependency libjpeg found: YES 2.1.5
-Run-time dependency libhardware found: NO (tried pkgconfig and cmake)
-Run-time dependency libevent_pthreads found: YES 2.1.12-stable
-Run-time dependency libtiff-4 found: YES 4.5.0
-Run-time dependency GTest found: NO (tried pkgconfig and system)
-Looking for a fallback subproject for the dependency gtest
-
-Executing subproject gtest 
-
-gtest| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
-gtest| Project name: gtest
-gtest| Project version: 1.11.0
-gtest| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
-gtest| C++ linker for the host machine: c++ ld.bfd 2.40
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Build targets in project: 50
-gtest| Subproject gtest finished.
-
-Dependency gtest from subproject subprojects/googletest-release-1.11.0 found: YES 1.11.0
-Run-time dependency libdrm found: YES 2.4.114
-Dependency libjpeg found: YES 2.1.5 (cached)
-Run-time dependency sdl2 found: YES 2.26.5
-Run-time dependency qt6 (modules: Core, Gui, OpenGL, OpenGLWidgets, Widgets) found: NO (tried pkgconfig)
-Run-time dependency glib-2.0 found: YES 2.74.6
-Run-time dependency gstreamer-video-1.0 found: YES 1.22.0
-Run-time dependency gstreamer-allocators-1.0 found: YES 1.22.0
-Run-time dependency python3 found: YES 3.11
-Run-time dependency pybind11 found: NO (tried pkgconfig and cmake)
-Configuring libcamerify using configuration
-Program doxygen found: YES (/usr/bin/doxygen)
-Program dot found: YES (/usr/bin/dot)
-Configuring Doxyfile-common using configuration
-Configuring Doxyfile-public.tmpl using configuration
-Configuring Doxyfile-internal using configuration
-Program sphinx-build found: YES (/var/lib/jenkins/.local/bin/sphinx-build)
-Program python3 found: YES (/usr/bin/python3)
-
-Documentation/meson.build:137:8: ERROR: Problem encountered: sphinxcontrib.doxylink module not found
-
-A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
-Build step 'Execute shell' marked build as failure
 
