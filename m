@@ -1,273 +1,296 @@
-Return-Path: <linux-media+bounces-38697-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38698-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B283BB16FA9
-	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 12:33:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A4FB16FB4
+	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 12:39:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0202189206D
-	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 10:33:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 169AE3B2887
+	for <lists+linux-media@lfdr.de>; Thu, 31 Jul 2025 10:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B736221572;
-	Thu, 31 Jul 2025 10:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C8C225A38;
+	Thu, 31 Jul 2025 10:39:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="ZjOM4ozG"
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Pf+t6wqy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FAE2E3708
-	for <linux-media@vger.kernel.org>; Thu, 31 Jul 2025 10:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF581A23A5
+	for <linux-media@vger.kernel.org>; Thu, 31 Jul 2025 10:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753957996; cv=none; b=leJiCzkXioyz0iJaU0kHK3Gc8k3NDyofBsva4dO7CVF1a/JDKfFlEdF2sNBLJCuR4Xv0AAJbYiGSMLnd+IU2IZ0CLFqTQF5pIqD3+AxdRQbDRps6iCNbnO54evYoCjn24B8XDSXWqC7fB6UAUQqJLQEeWqTC/7/u6cwteHCmlsA=
+	t=1753958354; cv=none; b=tYhmNhP2+fn+lpHW/NB8cXeh331G/oJQrNYVfGuYKNr9fXhOaWQRNM+ed7ThiHszWRL5MDN9TuC7fAa51rlguKQV55+Zpwcip0wFAyr8oVGFCIMRgcgO2Tx83bv7EO/6/JtsvRaDAzHPiAdZTUtDFeJWG4UyeA+WrEa9hDBJ6p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753957996; c=relaxed/simple;
-	bh=ERtjsI35rjFNR7PML3k4NVYkE2+IMts9JQzaxlDYN6E=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=MQqxA4Dd/rD0mN5LF22/TLWjuba4Oj1egvja5qMDMi3raCXO8qo40+JIfJvRTEd8EUqIhOQlp28Db40Rx1RkVsupXaUW5ZedNkltrbB6b/ZvHeSr+TCs4PMxfEXtV1RBR1979GS0QGq6hWJqRGX6sjaNtUjUonjQrx6h35cJz2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=ZjOM4ozG; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-	References:In-Reply-To:Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=HWK2N2ejfdb95WM8wYsW3hQFIqnz4n4wXCvaKFidWQQ=; b=ZjOM4ozGP620BN4RHmu9QHDncE
-	vyEjEmfI6GMO8T3bHvuhbpe0ApltVQebAbL8ENKC/lepNdXAv5ebtO6Bdna937pBeYM06qcANS1eC
-	8Wt8G6SLqte/0TbVDHXS7+YiuUFuWhdRG1CkDZx8/b2hKQ/kgFwDVPdk4FEaYrN8whgrQGg86W3dX
-	xgfHuFBdCsfToAT7LMEPkhqtzWAYiz74htF4hUG04BeUcmUx1Qu9zEjVabyGvy/eDcjcc572mB0Sv
-	uvmBAom13WqwUFwLSgcQaIjM9egcAIQUpNHWLaYcjBST9Wjp/H6P7kBndHW9O40MtM16Z1NrDQtx4
-	boLMkriQ==;
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1uhQb4-0001HG-26;
-	Thu, 31 Jul 2025 10:33:14 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1uhQb4-004xQM-22;
-	Thu, 31 Jul 2025 10:33:14 +0000
-Date: Thu, 31 Jul 2025 10:33:14 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org,
-	libcamera-devel@lists.libcamera.org
-Message-ID: <1046817223.2.1753957994531@builder.linuxtv.org>
-In-Reply-To: <359420275.1.1753955297211@builder.linuxtv.org>
-References: <359420275.1.1753955297211@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #1449
+	s=arc-20240116; t=1753958354; c=relaxed/simple;
+	bh=xyUnWD6IV8AkGP10vfylhznJyIy8nEhkXOncPtUr5M0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=h5uHTDgOTPpV687/NujY5PVBPwQWGt/WJ5wpUk51RolMa7eguKJJlwwZ6ejEmW96ORsds/qf6nR0kE3M3OTg+/uKUo0s+je0Hot+ZNeRJX1+AUIRQWiL87Ch9e8ydn7B+w3O5tLAI53NqXLcXFAJl31FsTBJw8LmFTFlc6XdaS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Pf+t6wqy; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+X-KPN-MessageId: 6e71bf34-6dfa-11f0-9773-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 6e71bf34-6dfa-11f0-9773-005056999439;
+	Thu, 31 Jul 2025 12:38:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:to:subject:from:mime-version:date:message-id;
+	bh=XNymT6+BJBPnmhBVaOKXOVgErabOHa07F6ZNqQ7OXRE=;
+	b=Pf+t6wqyF3B3mGG9iii0vLUl+jCz4whtgyqJfR/UVxcSjG2QJvME4PiGzXLTCE9+E9C78ETNTJjL7
+	 8bbsSSYShjoSgDJRSVDJbSBQzeWHGb0W5MVYTr6QBB/ogvb9844Hl/yXa33StB48F9W8iSgE5wHC+k
+	 6E95hvb20+8CIYJ/XCesg0zwen2Cop2myCQY6xkJwpVdOYFS48GSJN9A0m2R+ZtSpxuBIhHn9gE508
+	 j9uQeRVVoGhpEnRmYwwxj6gCXE7I+u+BWzxz3Lq9itfbqrk9VTGDcPRqnmQbsMJL/XXzEgEvUPp50O
+	 9Ojs1cR2m5EFDzUsYmxhm5DxUdmJ3Xg==
+X-KPN-MID: 33|5bt2Dnx4eHO14gmm69eTbXRvVgzf8gt4FBP3+YqvdAtOkPPKpI2vGRvVtAUk90G
+ 7+Sbj2EhIShCCxtIKycn5I58HBJeRVTiiSAFr56TTW+A=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|998aPlYRk3r14CFTtQHO6OU5c2S6ZnhRN+4tc1JpOgnc+6q9Y2ZNFgQgwm+tKhV
+ wmoyTj5LIGJRCL+ssPdgvrQ==
+Received: from [192.168.2.10] (unknown [178.74.16.2])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 6e45c54e-6dfa-11f0-8d53-00505699b758;
+	Thu, 31 Jul 2025 12:38:01 +0200 (CEST)
+Message-ID: <fd856b59-8a08-4900-96aa-b8fa51a7f5e1@xs4all.nl>
+Date: Thu, 31 Jul 2025 12:38:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 3/4] media: tc358743: Fix the RGB MBUS format
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mats Randgaard <matrandg@cisco.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250612-csi-bgr-rgb-v1-0-dc8a309118f8@kernel.org>
+ <20250612-csi-bgr-rgb-v1-3-dc8a309118f8@kernel.org>
+ <CAPY8ntCYG8ufxpMkgBj1ZpSW-H2HObpcbQNg9tj+EXUM4PGkfQ@mail.gmail.com>
+ <e9b61666-6bf0-4ec2-8524-0b6d94f028ef@jjverkuil.nl>
+ <20250618-dancing-rare-skua-eb7ffd@houat>
+ <20250731-teal-oryx-of-shopping-ced228@houat>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250731-teal-oryx-of-shopping-ced228@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
 
-See <https://builder.linuxtv.org/job/libcamera/1449/display/redirect?page=changes>
+On 31/07/2025 12:14, Maxime Ripard wrote:
+> Hi Hans,
+> 
+> On Wed, Jun 18, 2025 at 04:54:07PM +0200, Maxime Ripard wrote:
+>> On Mon, Jun 16, 2025 at 10:02:17AM +0200, Hans Verkuil wrote:
+>>> On 12/06/2025 19:01, Dave Stevenson wrote:
+>>>> On Thu, 12 Jun 2025 at 13:54, Maxime Ripard <mripard@kernel.org> wrote:
+>>>>>
+>>>>> The tc358743 is an HDMI to MIPI-CSI2 bridge. It supports two of the
+>>>>> three HDMI 1.4 video formats: RGB 4:4:4 and YCbCr 422.
+>>>>>
+>>>>> RGB 4:4:4 is converted to the MIPI-CSI2 RGB888 video format, and listed
+>>>>> in the driver as MEDIA_BUS_FMT_RGB888_1X24.
+>>>>>
+>>>>> Most CSI2 receiver drivers then map MEDIA_BUS_FMT_RGB888_1X24 to
+>>>>> V4L2_PIX_FMT_RGB24.
+>>>>>
+>>>>> However, V4L2_PIX_FMT_RGB24 is defined as having its color components in
+>>>>> the R, G and B order, from left to right. MIPI-CSI2 however defines the
+>>>>> RGB888 format with blue first.
+>>>>>
+>>>>> This essentially means that the R and B will be swapped compared to what
+>>>>> V4L2_PIX_FMT_RGB24 defines.
+>>>>>
+>>>>> The proper MBUS format would be BGR888, so let's use that.
+>>>>
+>>>> I know where you're coming from, but this driver has been in the tree
+>>>> since 2015, so there is a reasonable expectation of users. I've had an
+>>>> overlay for it in our kernel tree since 4.14 (July 2018), and I know
+>>>> of at least PiKVM [1] as a product based on it. I don't know if Cisco
+>>>> are still supporting devices with it in.
+>>>
+>>> Those are all EOL, so no need to be concerned about that.
+>>>
+>>> But it is the most commonly used HDMI-to-CSI bridge, so breaking uAPI is
+>>> a real concern.
+>>
+>> Is it really broken?
+>>
+>> Discussing it with Laurent and Sakari last week, we couldn't find any
+>> example of a userspace where the media format was set in stone and not
+>> propagated across the pipeline.
+>>
+>> The uAPI however is *definitely* broken with unicam right now.
+>>
+>>> See more in my review comment in the code below.
+>>>
+>>>> Whilst the pixel format may now be considered to be incorrect,
+>>>> changing it will break userspace applications that have been using it
+>>>> for those 10 years if they're explicitly looking for
+>>>> MEDIA_BUS_FMT_RGB888_1X24 or the mapping of it through to
+>>>> V4L2_PIX_FMT_RGB24.
+>>>> The kernel docs at [2] quote Linus as saying
+>>>> "If you break existing user space setups THAT IS A REGRESSION.
+>>>> It's not ok to say "but we'll fix the user space setup"
+>>>> Really. NOT OK."
+>>>>
+>>>> I'm thinking of GStreamer if the format has been specified explicitly
+>>>> - it'll fail to negotiate due to v4l2src saying it can't handle the
+>>>> caps.
+>>>>
+>>>> Yes it sucks as a situation, but I'm not sure what the best solution
+>>>> is. Potentially accepting both MEDIA_BUS_FMT_RGB888_1X24 and
+>>>> MEDIA_BUS_FMT_BGR888_1X24 as valid MBUS codes for RGB, alongside
+>>>> MEDIA_BUS_FMT_UYVY8_1X16 for UYVY?
+>>>>
+>>>>   Dave
+>>>>
+>>>> [1] https://pikvm.org/
+>>>> [2] https://www.kernel.org/doc/html/latest/process/handling-regressions.html#quotes-from-linus-about-regression
+>>>>
+>>>>> Fixes: d32d98642de6 ("[media] Driver for Toshiba TC358743 HDMI to CSI-2 bridge")
+>>>>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>>>>> ---
+>>>>>  drivers/media/i2c/tc358743.c | 10 +++++-----
+>>>>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+>>>>> index ca0b0b9bda1755313f066ba36ab218873b9ae438..a1c164a7716a10b0cb9ff38f88c0513b45f24771 100644
+>>>>> --- a/drivers/media/i2c/tc358743.c
+>>>>> +++ b/drivers/media/i2c/tc358743.c
+>>>>> @@ -688,11 +688,11 @@ static void tc358743_set_csi_color_space(struct v4l2_subdev *sd)
+>>>>>                 mutex_lock(&state->confctl_mutex);
+>>>>>                 i2c_wr16_and_or(sd, CONFCTL, ~MASK_YCBCRFMT,
+>>>>>                                 MASK_YCBCRFMT_422_8_BIT);
+>>>>>                 mutex_unlock(&state->confctl_mutex);
+>>>>>                 break;
+>>>>> -       case MEDIA_BUS_FMT_RGB888_1X24:
+>>>>> +       case MEDIA_BUS_FMT_BGR888_1X24:
+>>>>>                 v4l2_dbg(2, debug, sd, "%s: RGB 888 24-bit\n", __func__);
+>>>>>                 i2c_wr8_and_or(sd, VOUT_SET2,
+>>>>>                                 ~(MASK_SEL422 | MASK_VOUT_422FIL_100) & 0xff,
+>>>>>                                 0x00);
+>>>>>                 i2c_wr8_and_or(sd, VI_REP, ~MASK_VOUT_COLOR_SEL & 0xff,
+>>>>> @@ -1353,11 +1353,11 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
+>>>>>                         (i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
+>>>>>                         "yes" : "no");
+>>>>>         v4l2_info(sd, "Color space: %s\n",
+>>>>>                         state->mbus_fmt_code == MEDIA_BUS_FMT_UYVY8_1X16 ?
+>>>>>                         "YCbCr 422 16-bit" :
+>>>>> -                       state->mbus_fmt_code == MEDIA_BUS_FMT_RGB888_1X24 ?
+>>>>> +                       state->mbus_fmt_code == MEDIA_BUS_FMT_BGR888_1X24 ?
+>>>>>                         "RGB 888 24-bit" : "Unsupported");
+>>>>>
+>>>>>         v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
+>>>>>         v4l2_info(sd, "HDCP encrypted content: %s\n",
+>>>>>                         hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
+>>>>> @@ -1691,11 +1691,11 @@ static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
+>>>>>                 struct v4l2_subdev_state *sd_state,
+>>>>>                 struct v4l2_subdev_mbus_code_enum *code)
+>>>>>  {
+>>>>>         switch (code->index) {
+>>>>>         case 0:
+>>>>> -               code->code = MEDIA_BUS_FMT_RGB888_1X24;
+>>>>> +               code->code = MEDIA_BUS_FMT_BGR888_1X24;
+>>>
+>>> So would this change break or fix the formats[] table in:
+>>>
+>>> drivers/media/platform/raspberrypi/rp1-cfe/cfe-fmts.h
+>>
+>> It's pretty much the same table than unicam, and I don't believe it
+>> does. For both those drivers the pixels are stored in memory in the CSI
+>> wire order, so the proper format to use is BGR24 for CSI, not RGB24.
+>>
+>>> Are there other bridge drivers that misinterpret MEDIA_BUS_FMT_RGB888_1X24
+>>> and/or MEDIA_BUS_FMT_RGB888_1X24?
+>>
+>> Yes, it's kind of a mess.
+>>
+>> adv748x, ds90ub960 and tc358743 report RGB888, and ov5640 reports
+>> BGR888.
+>>
+>> Then we have alvium CSI2 that supports both, and can swap color
+>> components, so that one isn't a concern.
+>>
+>> And finally, we have st-mipid02 which is also affected, but is a
+>> receiver so it's easier to solve.
+>>
+>> For RGB565, ov5640, mt9m114 and gc2145 are in that list, but the pixel
+>> representation isn't the same than RGB888, so it's not clear to me how
+>> they are affected.
+>>
+>> For RGB666, no v4l2 drivers are affected, but a fair bit of KMS drivers
+>> that use media bus formats still might.
+> 
+> Can we make some progress on this, one way or another?
 
-Changes:
+Thank you for reminding me.
 
-[barnabas.pocze] libcamera: process: Use `pid_` member to decide if running
+I would prefer to support both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_RGB888_1X24,
+as you suggested at one point.
 
-[barnabas.pocze] libcamera: process: start(): Use span instead of vector
+MEDIA_BUS_FMT_RGB888_1X24 should be enumerated last in enum_mbus_code.
 
+If MEDIA_BUS_FMT_RGB888_1X24 is used, a warn_on_once message can be logged. Because
+basically it's there for backwards compatibility only.
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/libcamera/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/libcamera.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.5'
- > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 7a42f3c3d88926aa05b07d9c6a783bdbbfb73610 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 7a42f3c3d88926aa05b07d9c6a783bdbbfb73610 # timeout=10
-Commit message: "libcamera: process: start(): Use span instead of vector"
- > git rev-list --no-walk b0db9388f650fe0e00c0db0af488cd7a2d5dd4bb # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 7a42f3c3d88926aa05b07d9c6a783bdbbfb73610^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/libcamera.git'
-[GitCheckoutListener] Found previous build 'libcamera #1448' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'b0db938'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit '7a42f3c' as starting point
-[GitCheckoutListener] -> Recorded 2 new commits
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@2f641b9d'
-[libcamera] $ /bin/sh -xe /tmp/jenkins7446156597352370072.sh
-+ rm -rf build
-+ meson setup -Dandroid=auto -Dv4l2=true build
-The Meson build system
-Version: 1.0.1
-Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
-Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
-Build type: native build
-DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
-Project name: libcamera
-Project version: 0.5.1
-C compiler for the host machine: ccache cc (gcc 12.2.0 "cc (Debian 12.2.0-14) 12.2.0")
-C linker for the host machine: cc ld.bfd 2.40
-C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
-C++ linker for the host machine: c++ ld.bfd 2.40
-Host machine cpu family: x86_64
-Host machine cpu: x86_64
-Header "fcntl.h" has symbol "F_ADD_SEALS" : YES 
-Header "unistd.h" has symbol "issetugid" : NO 
-Header "locale.h" has symbol "locale_t" : YES 
-Header "sys/mman.h" has symbol "memfd_create" : YES 
-Header "stdlib.h" has symbol "secure_getenv" : YES 
-Compiler for C supports arguments -Wno-c99-designator: NO 
-Found pkg-config: /usr/bin/pkg-config (1.8.1)
-Run-time dependency lttng-ust found: YES 2.13.5
-Program ./parser.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./parser.py)>
-Program ./generate.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./generate.py)>
-Program ./extract-docs.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/utils/codegen/ipc/./extract-docs.py)>
-Configuring version.h using configuration
-Program openssl found: YES (/usr/bin/openssl)
-Found CMake: /usr/bin/cmake (3.25.1)
-Run-time dependency libyuv found: NO (tried pkgconfig and cmake)
-Has header "libyuv.h" : NO 
+Clearly document this as well.
 
-Executing subproject libyuv method cmake 
+I feel uncomfortable just dropping MEDIA_BUS_FMT_RGB888_1X24. This driver is widely
+used, certainly on the RPi, and I suspect there are quite a few home-brewn applications
+out there that we don't know about.
 
-libyuv| Found CMake: /usr/bin/cmake (3.25.1)
+Would this work for you?
 
-| Configuring the build directory with CMake version 3.25.1
-| Running CMake with: -G Ninja -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-| - build directory:          <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
-| - source directory:         <https://builder.linuxtv.org/job/libcamera/ws/subprojects/libyuv>
-| - toolchain file:           <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build/CMakeMesonToolchainFile.cmake>
-| - preload file:             /usr/lib/python3/dist-packages/mesonbuild/cmake/data/preload.cmake
-| - trace args:               --trace-expand --trace-format=json-v1 --no-warn-unused-cli --trace-redirect=cmake_trace.txt
-| - disabled policy warnings: [CMP0025, CMP0047, CMP0056, CMP0060, CMP0065, CMP0066, CMP0067, CMP0082, CMP0089, CMP0102]
+Regards,
 
-| Running with expanded trace output on.
-| Not searching for unused variables given on the command line.
-| Trace will be written to cmake_trace.txt
-| -- The C compiler identification is GNU 12.2.0
-| -- The CXX compiler identification is GNU 12.2.0
-| -- Detecting C compiler ABI info
-| -- Detecting C compiler ABI info - done
-| -- Check for working C compiler: /usr/lib/ccache/cc - skipped
-| -- Detecting C compile features
-| -- Detecting C compile features - done
-| -- Detecting CXX compiler ABI info
-| -- Detecting CXX compiler ABI info - done
-| -- Check for working CXX compiler: /usr/lib/ccache/c++ - skipped
-| -- Detecting CXX compile features
-| -- Detecting CXX compile features - done
-| CMake Deprecation Warning at CMakeLists.txt:6 (CMAKE_MINIMUM_REQUIRED):
-| Compatibility with CMake < 2.8.12 will be removed from a future version of
-| CMake.
-
-| Update the VERSION argument <min> value or use a ...<max> suffix to tell
-| CMake that the project does not need compatibility with older versions.
-
-
-| -- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "62")
-| CMake Warning (dev) at CMakeLists.txt:45 (if):
-| Policy CMP0064 is not set: Support new TEST if() operator.  Run "cmake
-| --help-policy CMP0064" for policy details.  Use the cmake_policy command to
-| set the policy and suppress this warning.
-
-| TEST will be interpreted as an operator when the policy is set to NEW.
-| Since the policy is not set the OLD behavior will be used.
-| This warning is for project developers.  Use -Wno-dev to suppress it.
-
-| Building ver.: 0.0.1770
-| Packaging for: amd-64
-| -- Configuring done
-| -- Generating done
-| -- Build files have been written to: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/__CMake_build>
-
-libyuv| CMake configuration: SUCCEEDED
-libyuv| CMake project YUV has 3 build targets.
-
-cmake-ast| Processing generated meson AST
-cmake-ast| Build file: <https://builder.linuxtv.org/job/libcamera/ws/build/subprojects/libyuv/meson.build>
-
-libyuv| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
-libyuv| Project name: YUV
-libyuv| Project version: undefined
-libyuv| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
-libyuv| C++ linker for the host machine: c++ ld.bfd 2.40
-libyuv| Build targets in project: 23
-libyuv| Subproject libyuv finished.
-
-
-Library atomic found: YES
-Run-time dependency threads found: YES
-Run-time dependency libdw found: YES 0.188
-Run-time dependency libunwind found: YES 1.6.2
-Header "execinfo.h" has symbol "backtrace" : YES 
-Checking for function "dlopen" : YES 
-Run-time dependency libudev found: YES 252
-Run-time dependency yaml-0.1 found: YES 0.2.5
-Run-time dependency gnutls found: YES 3.7.9
-Run-time dependency libexif found: YES 0.6.24
-Run-time dependency libjpeg found: YES 2.1.5
-Run-time dependency libhardware found: NO (tried pkgconfig and cmake)
-Run-time dependency libevent_pthreads found: YES 2.1.12-stable
-Run-time dependency libtiff-4 found: YES 4.5.0
-Run-time dependency GTest found: NO (tried pkgconfig and system)
-Looking for a fallback subproject for the dependency gtest
-
-Executing subproject gtest 
-
-gtest| DEPRECATION: Option 'v4l2' value 'true' is replaced by 'enabled'
-gtest| Project name: gtest
-gtest| Project version: 1.11.0
-gtest| C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
-gtest| C++ linker for the host machine: c++ ld.bfd 2.40
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Dependency threads found: YES unknown (cached)
-gtest| Build targets in project: 50
-gtest| Subproject gtest finished.
-
-Dependency gtest from subproject subprojects/googletest-release-1.11.0 found: YES 1.11.0
-Run-time dependency libdrm found: YES 2.4.114
-Dependency libjpeg found: YES 2.1.5 (cached)
-Run-time dependency sdl2 found: YES 2.26.5
-Run-time dependency qt6 (modules: Core, Gui, OpenGL, OpenGLWidgets, Widgets) found: NO (tried pkgconfig)
-Run-time dependency glib-2.0 found: YES 2.74.6
-Run-time dependency gstreamer-video-1.0 found: YES 1.22.0
-Run-time dependency gstreamer-allocators-1.0 found: YES 1.22.0
-Run-time dependency python3 found: YES 3.11
-Run-time dependency pybind11 found: NO (tried pkgconfig and cmake)
-Configuring libcamerify using configuration
-Program doxygen found: YES (/usr/bin/doxygen)
-Program dot found: YES (/usr/bin/dot)
-Configuring Doxyfile-common using configuration
-Configuring Doxyfile-public.tmpl using configuration
-Configuring Doxyfile-internal using configuration
-Program sphinx-build found: YES (/var/lib/jenkins/.local/bin/sphinx-build)
-Program python3 found: YES (/usr/bin/python3)
-
-Documentation/meson.build:137:8: ERROR: Problem encountered: sphinxcontrib.doxylink module not found
-
-A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
-Build step 'Execute shell' marked build as failure
+	Hans
 
