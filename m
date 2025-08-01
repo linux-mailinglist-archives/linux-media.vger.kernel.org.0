@@ -1,270 +1,91 @@
-Return-Path: <linux-media+bounces-38715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C6BB18199
-	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 14:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C48B1819C
+	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 14:21:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADDA44E652D
-	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 12:20:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19CD24E6BC9
+	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 12:21:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B819B248191;
-	Fri,  1 Aug 2025 12:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0314C24EF6B;
+	Fri,  1 Aug 2025 12:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KcBU3NSw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC1B1C7013;
-	Fri,  1 Aug 2025 12:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA82823F294;
+	Fri,  1 Aug 2025 12:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754050810; cv=none; b=kZrzguRYq/pjFlhR2OEVnmMpV7Zdod+W7JZySN9k8mvpv+47a7NG2pKa5Na3KtikVPQRBwyhabzZLtSqi2eYEiXT7sRSDwsXVNiN3lvfzy+LUWPAs8swj4SnWNkueUSwX1uf4QAvWyHky4R9OqiM8Fo4TCv48Sh4lA1gsAkx4lk=
+	t=1754050820; cv=none; b=UskkZUXV5z5tkE/c+Jpcg4WQr6o4qU4em2d08SFpC5aSVhaOmyBusn7Ax3nGy0i4FMbGsg2vr2zxE8VLguyxf6uGuQw5HN0n2fCUI3u7UxADOu2JhZV1TZ/RUKUSDtojVFi3POMRwRFf1HmyXbSHktYBDUf2MJEiNuGlfPd16Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754050810; c=relaxed/simple;
-	bh=2T5cFFYUwRk8ogWcHxlsJy/whKUCS6eAH0G0oVEzW1U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bdYx8kxdgLmHEggqyPerygkUFd1dZlVXA7Zx15iFa7sEo4C44iAQJWcD+PnO2Qho/0E+jBvc7X2Fk72kUqzpStYLnAz1Be4QEJ5nbKgnVOoMsPX6If/J3v9wrXWsibG6nOV/3eLH0dSG1R9DKZuCZSI4f3vaFZ90tO7WtwuF/g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-	by ni.piap.pl (Postfix) with ESMTPS id 8E5C3C3EEAC9;
-	Fri,  1 Aug 2025 14:19:56 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 8E5C3C3EEAC9
-From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,  Heiko Stuebner <heiko@sntech.de>,
-  Paul Elder <paul.elder@ideasonboard.com>,  Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>,  Ondrej Jirman <megi@xff.cz>,
-  linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
-  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
-Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption
-In-Reply-To: <m3qzxyug1s.fsf@t19.piap.pl> ("Krzysztof =?utf-8?Q?Ha=C5=82as?=
- =?utf-8?Q?a=22's?= message of
-	"Wed, 30 Jul 2025 12:30:23 +0200")
-References: <m3h5zbxkc6.fsf@t19.piap.pl> <m38qknx939.fsf@t19.piap.pl>
-	<175308758352.3134829.9472501038683860006@localhost>
-	<m31pq9y98z.fsf@t19.piap.pl>
-	<175326599663.2811177.16620980968274114885@localhost>
-	<m3h5z2vw12.fsf@t19.piap.pl>
-	<175344176070.2811177.10693943493658922992@localhost>
-	<m3qzxyug1s.fsf@t19.piap.pl>
-Sender: khalasa@piap.pl
-Date: Fri, 01 Aug 2025 14:19:56 +0200
-Message-ID: <m3cy9futcj.fsf@t19.piap.pl>
+	s=arc-20240116; t=1754050820; c=relaxed/simple;
+	bh=ubzGrW94MWhU2Fj0Rg0wOd3qcRVcxwxlTC0A4cHNNOE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BlOpoQ1eQxnesE7uzufVR4HQORMgOT4pLFUq86Se57kXDaj598Va+4UF0DhozSCuhoP93lw9k5XV/LsCgLck9PZYCwyJE49GszeSoG/4Zo+u2KyYLcye4Wn3Y/UZqIxcLiMeOLmZeHuA3oH4wtABlMW3rVEAzJ2qTWpjoMCmxwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KcBU3NSw; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1754050817;
+	bh=ubzGrW94MWhU2Fj0Rg0wOd3qcRVcxwxlTC0A4cHNNOE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=KcBU3NSwubUUuF9KiS/gQjFWpT21KyD6u2bv7ll3NLS4pb7kbzwbZFncK9IMCXLBB
+	 mBPlYAZsmZjKeOX/i/zQwZMdIFNgIqWngHu1Xy9UawZFBMshodx1S7zJUlQKfdoA6f
+	 rziJHy8oBrfuxEqGpbxtbD7HIuAcFNbaUZQyY2h8X3UyyUAuMjQ+KgfD8DosVl+gpr
+	 Y+CBFo6J9qCqpAJ42Uz0znqdRX2MHl94cnryW+nJVSwFVUfoacRvMcOBOAWJXA5lAJ
+	 C631lWnznDvdofbVGKiYC6BZLa41mIsWR+tVYc0LMFApbky+/L5owmH7s1hlJ6SL7t
+	 m7jz7l5Mo0X/Q==
+Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 421E717E046D;
+	Fri,  1 Aug 2025 14:20:16 +0200 (CEST)
+Message-ID: <b3efdf32df6a53f2d7783f2521aae3727fe1e59f.camel@collabora.com>
+Subject: Re: [PATCH v6 04/24] dt-bindings: media: i2c: max96717: add support
+ for pinctrl/pinconf
+From: Julien Massot <julien.massot@collabora.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>, Cosmin Tanislav	
+ <cosmin.tanislav@analog.com>, Tomi Valkeinen	
+ <tomi.valkeinen+renesas@ideasonboard.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Niklas
+ =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund@ragnatech.se>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Date: Fri, 01 Aug 2025 14:20:15 +0200
+In-Reply-To: <20250716193111.942217-5-demonsingur@gmail.com>
+References: <20250716193111.942217-1-demonsingur@gmail.com>
+	 <20250716193111.942217-5-demonsingur@gmail.com>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, 2025-07-16 at 22:30 +0300, Cosmin Tanislav wrote:
+> MAX96717 is capable of configuring various pin properties.
+>=20
+> Add pinctrl/pinconf properties to support this usecase.
+>=20
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>=20
 
-reporting from the field :-)
-
-At this point I've something like the following:
-- run camera apps in background (so the clocks etc. are up)
-- while (analyze_mi -m1 -s10000000 -r -a 0x32E21400 shows errors) {
-	change_clock 0x30388A80 3 3 # 50 MHz
-        change_clock 0x30388A80 0 3 # 200 MHz - the original settings
-}
-
-It all takes a couple of seconds.
-I guess I made some minor changes to analyze_mi.c, can post it
-if needed.
-
-where change_clock writes directly do the CCM registers
-(MEDIA_APB_ROOT_CLK) and sets "PRE" and "POST" dividers (3 and 3 =3D
-800 MHz / (3 + 1) / (3 + 1) =3D 50 Mhz and the same for 200 Mhz.
-
-It appears to work. I'm getting (Connection closed =3D reboot):
-
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 9,999,999
-Register 0x32E21400 mi_ctrl value          0 count 1
-
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 16 =3D 50 MHz
-MEDIA_APB EN mux 2 pre 0 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 9,999,998
-Register 0x32E21400 mi_ctrl value          0 count 1
-Register 0x32E21400 mi_ctrl value 0x00010001 count 1
-
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 16 =3D 50 MHz
-MEDIA_APB EN mux 2 pre 0 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 9,999,988
-Register 0x32E21400 mi_ctrl value          0 count 12
-
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 16 =3D 50 MHz
-MEDIA_APB EN mux 2 pre 0 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 9,999,781
-Register 0x32E21400 mi_ctrl value          0 count 206
-Register 0x32E21400 mi_ctrl value 0x3C380000 count 3
-Register 0x32E21400 mi_ctrl value 0x000FD200 count 5
-Register 0x32E21400 mi_ctrl value 0x3C440000 count 3
-Register 0x32E21400 mi_ctrl value 0x3C140000 count 2
-
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 16 =3D 50 MHz
-MEDIA_APB EN mux 2 pre 0 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 9,999,999
-Register 0x32E21400 mi_ctrl value          0 count 1
-
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 16 =3D 50 MHz
-MEDIA_APB EN mux 2 pre 0 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 9,999,752
-Register 0x32E21400 mi_ctrl value          0 count 237
-Register 0x32E21400 mi_ctrl value 0x3C140000 count 2
-Register 0x32E21400 mi_ctrl value 0x000FD200 count 4
-Register 0x32E21400 mi_ctrl value 0x3C380000 count 1
-Register 0x32E21400 mi_ctrl value 0x3C440000 count 2
-Register 0x32E21400 mi_ctrl value 0x3C2C0000 count 2
-
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 16 =3D 50 MHz
-MEDIA_APB EN mux 2 pre 0 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
-
-Connection to 10.0.9.123 closed by remote host.
-MEDIA_APB EN mux 2 pre 3 SYSTEM_PLL1_CLK / 4 =3D 200 MHz
-Register 0x32E21400 mi_ctrl value 0x007A2001 count 10,000,000
-
-Found possibly stable condition
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
 
