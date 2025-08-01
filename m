@@ -1,91 +1,129 @@
-Return-Path: <linux-media+bounces-38712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD37B17E2B
-	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 10:22:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B53B18187
+	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 14:17:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15C0258497F
-	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 08:22:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 809CA4E5FB0
+	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 12:17:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ABD72185A6;
-	Fri,  1 Aug 2025 08:22:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73482459C8;
+	Fri,  1 Aug 2025 12:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jm6lQfiz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359CE20B1E8;
-	Fri,  1 Aug 2025 08:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7E61F78E6;
+	Fri,  1 Aug 2025 12:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754036544; cv=none; b=IeNduAgeiRYaygnWMKkN88UFmztny8ELcVNPL9tZIb7CQiAwEMHRnuW5SM80vn9I5RpxogapnGDlLqhX9eyoXlwPtx+oRDOYzmUXEHtT38VZUlxvffV0G3wbyjCYlWwH6yGH5xP7PG0P5C2k+Ir5tg1v5jujzCY3D5bvREYpkss=
+	t=1754050637; cv=none; b=sBPPX9YOx0013I3SuV5Ib+JZIq9LlpaNQzYBzfhfbydGMOPUr6Ljl/9ZNGoTdkRP/+/xKBv+qCaC6ck04a0mdQ6duFOfw+FmW2IRoU+0YQskIADLcU3d8tPfnPXiNQ2Pzp/uzoaLtrVVCg1joZO0irzXJFuONMDazxDwNK6Hm/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754036544; c=relaxed/simple;
-	bh=pHwO2lQbomnHeulpznF5TDaTNdoAuuEEitIN2jfiTGY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kD5R0G9CZiLEkpFE/jrt8hkpYgt16FuhXGByFMC0HNjKMUszJsdbkOhwvktqDVzOt0YEtw5fgiTCv4pmNir8kYUMFKlIUsgt2iW1wX7NUEo4lsJTkW2iwtdZ+/rttqcqb9nfAQi8ec9INjC3ErUSiW0zHfxGTtsUXf5S1sjDxoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 352F41F00050;
-	Fri,  1 Aug 2025 08:22:18 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id BB13CB00FC8; Fri,  1 Aug 2025 08:22:17 +0000 (UTC)
-X-Spam-Level: *
-Received: from shepard (unknown [192.168.1.65])
-	by laika.paulk.fr (Postfix) with ESMTP id 71270B00FC9;
-	Fri,  1 Aug 2025 08:21:51 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH] media: starfive: camss: Use common dma-contig dma addr helper
-Date: Fri,  1 Aug 2025 10:21:49 +0200
-Message-ID: <20250801082149.591192-1-paulk@sys-base.io>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1754050637; c=relaxed/simple;
+	bh=iqWJ70y9buvA8nkZlc67QtTGQA3nl96+0Hhd7pFajYs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Owyr0Md3s0XYzQTWjfReBO+sRNoPfhfbWtud5mXkywttnukIMThL9VTjop4buGiJqbYRqKHXvURayn1sfJDgRVjAUTs0pah6+s0bA3MSRs7LNJJyZWHsk/VJGO1iI0j9FMNLsB827mCqsjM33aydsWbuKtC6sXsT+aH/uVAmSvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jm6lQfiz; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1754050633;
+	bh=iqWJ70y9buvA8nkZlc67QtTGQA3nl96+0Hhd7pFajYs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=jm6lQfizSsqJcUBefLSOsUCpwkP4p4z7b52sE+/dPAVQ1hkpBEC16xy7KV5DWiqld
+	 91WqMEiPfOi70qjgsNEYG6hIGMJx+8gamdhu+wgTwND8hTTUtRWzatTaeIz9LYW9nY
+	 MvOoAAIDNP8c9kmnqWIWqSHQ+t5e+dQrwsN+tNZ9rBBMKWkaTndoSOsFIlkJZAVRet
+	 03yilDAdCIAO8EwEyk09foPNuHQbNlmz8i8yJXROUFKQkVNZkEh1x07oTEBSD4Tr7o
+	 XOiTxKoeUA3zSBNHV9FHKRHmTTiTt6umyTO/9AvlWm+POtimM/XEMm6bL7SKS7BxaV
+	 Qe7+4T+ujMs2A==
+Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892F2d600c8f85cF092D4aF51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9C88117E0DD7;
+	Fri,  1 Aug 2025 14:17:12 +0200 (CEST)
+Message-ID: <b8d48519e607698ada70ec1f87ee6e222e14940e.camel@collabora.com>
+Subject: Re: [PATCH v6 02/24] dt-bindings: media: i2c: max96717: add myself
+ as maintainer
+From: Julien Massot <julien.massot@collabora.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>, Cosmin Tanislav	
+ <cosmin.tanislav@analog.com>, Tomi Valkeinen	
+ <tomi.valkeinen+renesas@ideasonboard.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Niklas
+ =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund@ragnatech.se>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Date: Fri, 01 Aug 2025 14:17:11 +0200
+In-Reply-To: <20250716193111.942217-3-demonsingur@gmail.com>
+References: <20250716193111.942217-1-demonsingur@gmail.com>
+	 <20250716193111.942217-3-demonsingur@gmail.com>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The vb2_plane_cookie helpers is not meant to be used directly by
-drivers using the generic dma-contig allocator.
+Hi Cosmin,
 
-Use the common helper to retrieve the plane dma address instead.
+On Wed, 2025-07-16 at 22:30 +0300, Cosmin Tanislav wrote:
+> Analog Devices is taking responsability for the maintenance of the Maxim
+> GMSL2/3 devices.
+> Add myself to the maintainers list and to the device tree bindings.
+>=20
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> =C2=A0Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 1=
+ +
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+> =C2=A02 files changed, 2 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.y=
+aml
+> b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> index d1e8ba6e368ec..15ab37702a927 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> @@ -9,6 +9,7 @@ title: MAX96717 CSI-2 to GMSL2 Serializer
+> =C2=A0
+> =C2=A0maintainers:
+> =C2=A0=C2=A0 - Julien Massot <julien.massot@collabora.com>
+> +=C2=A0 - Cosmin Tanislav <cosmin.tanislav@analog.com>
+> =C2=A0
+> =C2=A0description:
+> =C2=A0=C2=A0 The MAX96717 serializer converts MIPI CSI-2 D-PHY formatted =
+input
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 24c557ee091d7..e973b0a985815 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14761,6 +14761,7 @@ F:	drivers/media/i2c/max96714.c
+> =C2=A0
+> =C2=A0MAX96717 GMSL2 SERIALIZER DRIVER
+> =C2=A0M:	Julien Massot <julien.massot@collabora.com>
+> +M:	Cosmin Tanislav <cosmin.tanislav@analog.com>
+> =C2=A0L:	linux-media@vger.kernel.org
+> =C2=A0S:	Maintained
+> =C2=A0F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
 
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
----
- drivers/staging/media/starfive/camss/stf-video.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-index a0420eb6a0aa..b0b9b70b9641 100644
---- a/drivers/staging/media/starfive/camss/stf-video.c
-+++ b/drivers/staging/media/starfive/camss/stf-video.c
-@@ -167,10 +167,8 @@ static int video_buf_init(struct vb2_buffer *vb)
- 	struct stfcamss_video *video = vb2_get_drv_priv(vb->vb2_queue);
- 	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
- 	const struct v4l2_pix_format *fmt = &video->active_fmt.fmt.pix;
--	dma_addr_t *paddr;
- 
--	paddr = vb2_plane_cookie(vb, 0);
--	buffer->addr[0] = *paddr;
-+	buffer->addr[0] = vb2_dma_contig_plane_dma_addr(vb, 0);
- 
- 	if (fmt->pixelformat == V4L2_PIX_FMT_NV12)
- 		buffer->addr[1] =
--- 
-2.50.1
-
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
 
