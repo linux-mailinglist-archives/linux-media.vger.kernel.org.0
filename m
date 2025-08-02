@@ -1,50 +1,49 @@
-Return-Path: <linux-media+bounces-38755-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38756-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F38B18C1A
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:31:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5254B18C23
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:32:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA6A216D7DA
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:31:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3BCB7AE5AF
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB39B258CE2;
-	Sat,  2 Aug 2025 09:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B15E025A623;
+	Sat,  2 Aug 2025 09:26:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OTFLVa01"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Aq19Q2nr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8C91FBE87;
-	Sat,  2 Aug 2025 09:26:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5A92192E1;
+	Sat,  2 Aug 2025 09:26:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754126770; cv=none; b=NsZjmClagKoTj/Dw22im29FCkFCW/2e8HZ5ijsrRhADa/CgAuWZxlgdCwOwVojwQsPkuaYDGyXx4zBl3qnUZ6n2nE/TxsZ+wIg3rs9rpw75oI4XlfFawc+zWaw13kyO/xJ2dUJCGBp7mBrOkQa5ozL3UF1Z8JIO7TjHRP5gXFvg=
+	t=1754126781; cv=none; b=RL3mW5Jiy33RSyYYhaFcgXURmg/CHhhtUA7U1aesQV1b9VNFKGfQQmBhhFB/jIGdYit5CEigMgH6knN9Y0mIMNI3siuAq8jIU6XVaxca2/e9Np+sWE+4q8UlvtCf5zrwtoP4CX96otGJjB3gTpF1hBzUb5zGgQq/JDk3pOqr/xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754126770; c=relaxed/simple;
-	bh=PZJ1dtH8nmhfLvI56JLBdPdVDA0PB4szlI4XA3Wq6yw=;
+	s=arc-20240116; t=1754126781; c=relaxed/simple;
+	bh=zpnIwVYIp7ypZ1fcLHzyPvjh8rTKeT+VELtoNeP7zPc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ap8zmDdpyOdiIEeDYiUE0WKzo4y0bVj6U8+JZVVXlaz8VU52pngmMmxoj/at7JRZvrrrIRJpB8gfVr4cuyxlURB/LpbpsWgcIrhjNnKLAx5LysHPdB8LQpUg+IenONWJJWc66roMKdbxbe6jreuPtXGG6nREGYeLyC6Yem2TsC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OTFLVa01; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=eep6FsNyVtvBSrLp/WQQKiSU8PP3adKa4406LVfHSXQhgTlL1R0m6msexY3bUbfu9cXcIHEy3XbYmceAG/pIAeA1b9IPQAlXTJIgM+lkTpLwdH0Izh2eYWltzeoOJd/FeuJPymQM4t/l6jQUdEzHNJtEW9UhY+ZELnmkW3tadKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Aq19Q2nr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B634132CE;
-	Sat,  2 Aug 2025 11:25:10 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7ED6732A6;
+	Sat,  2 Aug 2025 11:25:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754126720;
-	bh=PZJ1dtH8nmhfLvI56JLBdPdVDA0PB4szlI4XA3Wq6yw=;
+	s=mail; t=1754126731;
+	bh=zpnIwVYIp7ypZ1fcLHzyPvjh8rTKeT+VELtoNeP7zPc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=OTFLVa011NnEd62Pg03uYC4ijQ+I7C7eKlpJ/1lEAKQn52ln5poN59ByaM1OP/BJJ
-	 1bGZzAQl8d3H7dkSml1kQTy9Mv+ol4VjnBH3vkVhOgfYLCUFuf44EaIzs77SisC9gp
-	 9NTv3iC0LTAsfBWAeEubFS1vkreWcTWYo8AiEHoc=
+	b=Aq19Q2nrPXf6402OKOWFm8otA0CLAkk8S1RrOtGTySgQYBF2fg4rJCODH8bW16FNL
+	 pVgq3zitoHUeNFytnfbtbBBgd9E5Q5Bdy/8WtYlDbVA/Jz3CVHIP253xgfEAfa70Za
+	 oPRzuCj4TIjDImKku1Uj/Od/PKd2Gg/gU8ccslXQ=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:22:38 +0200
-Subject: [PATCH 16/65] media: v4l2-fh: Move piece of documentation to
- correct function
+Date: Sat, 02 Aug 2025 11:22:39 +0200
+Subject: [PATCH 17/65] media: rcar-vin: Do not set file->private_data
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-16-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-17-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -142,60 +141,48 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1332;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=936;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=3mdLRukve15yg0XhGTxj6WeSGHvr7vlZ9xqEhBw1Ap8=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj5Aqu9VSv4VW4JgzhkKv4IejFT1+wHP4iEB
- k8A3tbKR0+JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+QAKCRByNAaPFqFW
- PMs+D/95ql+AofdksJ9+zTLY+7aOcDVLMQvYbA3pgfKJARD2L8GaSgT26Bs+muoW5SxO55NXUua
- M1AsJL8/xTGUpkmb9QB6bqbkIQqfW0MAU/R6prYbSr2QVa7palsTZqZuzU1Ngf/aJWjOMes52Hg
- FEqpmzq1bF+rXHMuiK4CKcExsn3a5ww/jpd1mJQ2dKh44gRYjXhv+JEsMUBsXfF8bjZsjHKBEdR
- xiGrMTt07gugBQDNa0zaJIV9bvYRqzDBh6zrx6VG9cCqltgdvn6qa4E5xuD2wJNOYo5f8jHzICK
- jzkTlBzDRuJ9pyNfQwcPM2CucUdG6ESpU38FP080jZnPDHGqOEOpZSPTNi1r6lkQyBZov0Oidmh
- AFDsX3+1yLe/Q36ytvuP/eRkK0QCU3T0AreReNKzLe/MkxA9MOs8v8n5Jg+hO60DSPMhzyIOzF8
- TTUgxC1Rv7kDtLKhwRVAgFmypxz+Yl7XdTm7v5nA8aqCQJTHjNzPSMZbDP4mIlzCVNWGztU2CKb
- OF8H9KNqJaiUO3BJPX1eqCOacTSvtuI/Z3y9X0/HTPfwXXZNSkaLm1Wp2oPcWu4T8H6XTH9dO4t
- JIh7O8nImH8gE4dCTNvxjXypvMugfjCkwL4iM/yXf0Ilmp25VoACwNJCB3vA67AyhaVa+5Pd786
- vgFeamTgOOjrY+A==
+ bh=zpnIwVYIp7ypZ1fcLHzyPvjh8rTKeT+VELtoNeP7zPc=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj5qAvM1W11y3eYPTqi4SdtrYyBxO2xYiR+h
+ or9E17Q/iGJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+QAKCRByNAaPFqFW
+ PN2tD/0RGqTPdqW8RlaR9z1IRhg8ScsmdFRh/ZMQE2VtOzJ94v7+xB2dliSExPo9x7ySaLIYI1f
+ LwLSeI+X1RMPjTK+lN3mVhG/LbQf0Z8+NsEE6GEe+L4faXhbBL/vfddlGjgMHYGZXvYoISOP6rb
+ KC2/r9tsW8n0VY+X7Tv3yWkksNugzetOMqAe/kbdIOpGg/zFwgGM50hjZnL5qaUUN9qF/bPqQ/R
+ irtg2ynJVsxkxn9JK7XA3NTPxlTQTrh9LUhuMAwDowSqRZ2S4ij7l2PiLUgxcHIz7kjUm9MFPJY
+ 8223+FLQRPI0l7exJgDkLe5Te6yvPg/pmGgRlipYufbF8ZOaA2Eu+nGdYbxvQu+4yEqEmVDP34M
+ lNTnm+YWFa717LA1btjXhdQeUxzGYlH+/ST3yFGWczrxr4cAAsnJth2pZ1zVZMUyTQUjGpG9VAR
+ qmEIBwJudVBfoSmzM71uajLl3fBbysQPX5MARM8q9r2RaS8nUM8+hoTrKOQKERxy/U1Ny2Y/sbu
+ FD+m5FALVJT7xpmYCH4/aSpaU/icTmbFUaxMNlUCBPeMj0k8dN7M2uffS4Ce/jJ7ph3AgvX7OQE
+ E9KLB86w2mijIE71MOjEY1QhNEFeoF+UNjiiUimmNL4YZXqHmOXLaLQoD5qZixbfvO0xo5FLtPP
+ sclGwxTMJHMLRgw==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The R-Car VIN driver sets file->private_data to the driver-specific
+structure, but the following call to v4l2_fh_open() overwrites it
+with a pointer to the just allocated v4l2_fh.
 
-The paragraph in the v4l2_fh_del() documentation that indicates the
-function sets filp->private_data was added in the wrong place. It is
-meant for v4l2_fh_open(). Move it to where it belongs.
+Remove the mis-leading assignment in the driver.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- include/media/v4l2-fh.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
-index 823fa8ebeb8fbe36f05a1c31d3d3a9b7bba4de4d..14e7136e693f0a7b8b25959200603028e0db36ac 100644
---- a/include/media/v4l2-fh.h
-+++ b/include/media/v4l2-fh.h
-@@ -101,6 +101,9 @@ void v4l2_fh_add(struct v4l2_fh *fh);
-  *
-  * It allocates a v4l2_fh and inits and adds it to the &struct video_device
-  * associated with the file pointer.
-+ *
-+ * On error filp->private_data will be %NULL, otherwise it will point to
-+ * the &struct v4l2_fh.
-  */
- int v4l2_fh_open(struct file *filp);
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+index 62eddf3a35fc91434cb2e584a01819380a7a6dd8..079dbaf016c25139e2ac82be63d8fce0d11fd208 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+@@ -588,8 +588,6 @@ static int rvin_open(struct file *file)
+ 	if (ret)
+ 		goto err_pm;
  
-@@ -109,9 +112,6 @@ int v4l2_fh_open(struct file *filp);
-  *
-  * @fh: pointer to &struct v4l2_fh
-  *
-- * On error filp->private_data will be %NULL, otherwise it will point to
-- * the &struct v4l2_fh.
-- *
-  * .. note::
-  *    Must be called in v4l2_file_operations->release\(\) handler if the driver
-  *    uses &struct v4l2_fh.
+-	file->private_data = vin;
+-
+ 	ret = v4l2_fh_open(file);
+ 	if (ret)
+ 		goto err_unlock;
 
 -- 
 2.49.0
