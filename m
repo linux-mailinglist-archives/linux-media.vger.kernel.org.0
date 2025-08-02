@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9AFB18D66
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:47:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0C9B18D6D
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:47:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 895573BBDA7
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:47:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CD081AA3E3F
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:48:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D63FB2820A0;
-	Sat,  2 Aug 2025 09:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E64B328313A;
+	Sat,  2 Aug 2025 09:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p5R3K+Ce"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="az8gjqsy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CAB23644D;
-	Sat,  2 Aug 2025 09:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFEE2367A6;
+	Sat,  2 Aug 2025 09:33:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754127183; cv=none; b=GzecR9z3hFg3ycQ5/MW7n8rnigv1jHAWp/rpcqXnSh6rnWIBoRr7EA+8jWaedDiTOYosvV+0wlo8sBqkSUUczDc/cMNu6KLX8057H+n4OmsQr7ENUWrb3hqdBeoWXpnb2UNG20ZUTo2l2eS2NqSkuBer6T40atkph1TaMaN33HQ=
+	t=1754127193; cv=none; b=ZW6oLpcwSkypxbiyKVQR90Qa7YcOyjZJzK6whBelxEg4C55pEIY25qg9MMAYl6hyjgB1oh5rNytR207sHcZwsetVvi/AG9z75ToQLxihEY/ypHZRr8EKZIek82AXDWs4I93HBKRxR11wk9H1VQtG/x8Z6Tyeghbz0XXXM4/siPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754127183; c=relaxed/simple;
-	bh=66BEglrdeD2FnJRtm4kSgXnN6HNo5xlbirCCT8rWe5c=;
+	s=arc-20240116; t=1754127193; c=relaxed/simple;
+	bh=miW0R2xYtxU5IpQyW/2QNq3ARYOqYEt7oDwJXWluDGc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m0fPav0AHNS+0WBVwEEAT/zWB18TAC8cctwThvoJvSTJs5E8GyL4zpbmEBQEOWd8wsesizfMGTQjPYzKH8aIHnqOeApKR/CORz5ljKZj3obiEpKSIzqpW5S/FoOdSWSJR8xeuY2pYGF/vlfgphTqoYC8cdmbeIbiNpz74KJCbkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p5R3K+Ce; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=K2vXWV4H+BchBrU74Dv/9oX9/KnAO6PnO5Ez+ySOUDr0VZMFM7P2fR4fIH/43rM/3okvvxekdkxZVwMVIz+GINBBaUUaJhTnAI867ca2hin9d8eRleKCr/P/Ld5bYTLEQGdKAkIAnznF9GDmIcLSt2TGm+9JZv8/U/kfLHlmXr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=az8gjqsy; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 730FA4334;
-	Sat,  2 Aug 2025 11:32:06 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A4ED4370;
+	Sat,  2 Aug 2025 11:32:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754127134;
-	bh=66BEglrdeD2FnJRtm4kSgXnN6HNo5xlbirCCT8rWe5c=;
+	s=mail; t=1754127143;
+	bh=miW0R2xYtxU5IpQyW/2QNq3ARYOqYEt7oDwJXWluDGc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=p5R3K+CeygVp1bnLJzVyIkEJ5l/7ByRskXoCAOaCf3ToWRKzFMbhQXQYpLw6nhHEa
-	 FFMFIGTMmqDaVfCCeQNnIPyfyBVXEpak3bs4wQI1Vj6+oQvfkvg6kSNo1BWYeTIb6x
-	 IaNd+uNpROhN3ds5QUTW0OfEJilYLfuyEFzGg+cs=
+	b=az8gjqsyXEti0JeVSm77geSmA7AkpCysThF60WhNPtJM1uNt7bbBCDUakaT72hVhp
+	 l1GEVpO9e8XGH0VXe1MBRi2SnPKVb88n3ZKKaA2ZQlRkgmHZNFLOH75+TXNUtFCuFY
+	 RzGTt8HUu1W6qrgy51RvHIBcPJ9wsdrXruX+PJT8=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:23:17 +0200
-Subject: [PATCH 55/65] media: omap3isp: Access v4l2_fh from file
+Date: Sat, 02 Aug 2025 11:23:18 +0200
+Subject: [PATCH 56/65] media: cx18: Access v4l2_fh from file
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-55-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-56-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -141,21 +141,21 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5850;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11351;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=66BEglrdeD2FnJRtm4kSgXnN6HNo5xlbirCCT8rWe5c=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj+uQ6AVm7vuiTX095tLRMegUIn5F62kjDrQ
- 0psRthrsRWJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/gAKCRByNAaPFqFW
- PHIiD/4uYOsKvXm2CPF0UtRBkVwC9+EC4KyRliMfJRXvQmbWJkIh7DYXOESnZ4bBTa8c3UEZDk4
- fjo44DHrjN7BD+1T3lRuHTQVA95aQyol1CygcjtqDw9uInfUeNmKfaHpTBlVtV2/RLdafLyKR09
- g2Yx/R5hn9YMAdNI+jFWGTQf/AYD/xHm2kJnIhlSLvV7FyY/fzKOcuEB5j2t4Om3l2OHeSp4EU6
- Q+KWZGIHhdgucc1721ryoG34r1nIP3BM2fe72cGri7jjkmA0wi3T9lEsLVv6+9LlX44JY56gzkU
- U1paLPSLsLgXpzDIGT9vv9ZaGEFuA0ZtB/2yRm/8CjX3mfN6cKH9FpJjOxwLvSqva/yl1KBCF+r
- +YsqNA0ii2zHxXje8LUuxGiHVglCrpYeX+TeQfsKA0/+gdHQZILwKUx8rPRZ5nTBKi2xz0AZ7Di
- QFeqJ+7yYr9VU4Dff5V4PrmbEE8slWWFfpNdddD+WenrrrP7ol8VG+uOynol37PqJ4SsXoBRx1R
- mo/hAXX2A3Zcll+A0qXPwSskXV7rmPeOWUNTblTB4B1uaCgS0/eCzkBbuCdYLjQtUlnOky0ryWc
- ZWvkhrmk/NaRbd+2VrJI1ccq0/eWhrhe1WN0mQtzSAq1DT5C8vNb4TRENSMHWTjGQvkI8MPRwlJ
- PAyInkkQkAcd1DQ==
+ bh=miW0R2xYtxU5IpQyW/2QNq3ARYOqYEt7oDwJXWluDGc=;
+ b=kA0DAAoBcjQGjxahVjwByyZiAGiN2P6hMeCxCr0Vka9Jl65Kl6jOUQEBXEv4+uSblIpUX075K
+ YkCMwQAAQoAHRYhBLXEPUiAmiCKj1g4wHI0Bo8WoVY8BQJojdj+AAoJEHI0Bo8WoVY8yzYP/jvk
+ Cn3ngJT9BnSoIQGO0difqKYaY1cOKFJbaTdTzoLYKZ69MckDT1/9I3IehU8xvX/UhTdz5n6QdKD
+ BAQS9lATwrt7P4Xq5uAKscHSkqZWRqV2OCe62nOwrWce6tsEaSznl9IIW9IltgMfA7LzjugyXed
+ pzGRV0ByLbznHIYPOjUfErQNkQ4HlLMIXRSdSdCM21OZb2eYnEgRDKQv66Kh3kZWlUM3PnOnSAS
+ 82Xha7svCmWPYkLpOTtSuPaUveRcfcmkz3IBjsJY3JX34RZDY6IGhgNPYzNAVyCdkz6QI7LuFj6
+ 9phgs8UVK17Dd45xpXRFdgKVmKkM7uJayjqrWAVeuiyvJXKCT4DPMgMCf2LyxX9u3vE3z0x8pE9
+ GG5jEhOBFOh8QJNV7BuWk8ivRC6QBX6h1BxwBCjCUTgo8/ktEcuaNR6AA7Y3FlgQRbKSR2XyZ5q
+ NkiBoasrxsyCUPw5hhXrXTPJDIVRrV85Y2uT5wyiXTUuflm5bIbRQO3Pb3qDMDNU6/l/KsJo37N
+ cvU+EkKMPwpJe6rktlQWrLqLW0TT2HQArsVlpZrTUmuQ8wVJJafbqFYwcEitbxi3ZqAQF22uiVn
+ 17W9hTzoSrtIKSM8NAfNewUYnTvyQPQ7/oEQVj3m3/HLXss/LiU6hE2+R0lnThzbpJNCVXBYjSQ
+ 5ybBH
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
@@ -165,131 +165,302 @@ to be available in file->private_data, initialised by v4l2_fh_add().
 Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
-While at it remove the only left user of to_isp_video_fh() and remove
-the macro completely.
-
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/ti/omap3isp/ispvideo.c | 22 +++++++++++-----------
- drivers/media/platform/ti/omap3isp/ispvideo.h |  2 --
- 2 files changed, 11 insertions(+), 13 deletions(-)
+ drivers/media/pci/cx18/cx18-ioctl.c | 64 ++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
-index 2c0008444b7e2b532c9af061760e7399cdf3e45d..0e7f0bf2b3463b7ef6678f7bd836a952e0b707a7 100644
---- a/drivers/media/platform/ti/omap3isp/ispvideo.c
-+++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
-@@ -657,7 +657,7 @@ isp_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
- static int
- isp_video_get_format(struct file *file, void *fh, struct v4l2_format *format)
+diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
+index 9a1512b1ccaafd991c0422616a0d7b3e6c7c49cc..bf16d36448f888d9326b5f4a8f9c8f0e13d0c3a1 100644
+--- a/drivers/media/pci/cx18/cx18-ioctl.c
++++ b/drivers/media/pci/cx18/cx18-ioctl.c
+@@ -52,7 +52,7 @@ static const struct v4l2_fmtdesc cx18_formats_mpeg[] = {
+ static int cx18_g_fmt_vid_cap(struct file *file, void *fh,
+ 			      struct v4l2_format *fmt)
  {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 	struct cx18_stream *s = &cx->streams[id->type];
+ 	struct v4l2_pix_format *pixfmt = &fmt->fmt.pix;
+@@ -76,7 +76,7 @@ static int cx18_g_fmt_vid_cap(struct file *file, void *fh,
+ static int cx18_try_fmt_vid_cap(struct file *file, void *fh,
+ 				struct v4l2_format *fmt)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 	struct v4l2_pix_format *pixfmt = &fmt->fmt.pix;
+ 	int w = pixfmt->width;
+@@ -121,7 +121,7 @@ static int cx18_try_fmt_vid_cap(struct file *file, void *fh,
+ static int cx18_s_fmt_vid_cap(struct file *file, void *fh,
+ 			      struct v4l2_format *fmt)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+@@ -261,7 +261,7 @@ u16 cx18_get_service_set(struct v4l2_sliced_vbi_format *fmt)
+ static int cx18_g_fmt_vbi_cap(struct file *file, void *fh,
+ 				struct v4l2_format *fmt)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 	struct v4l2_vbi_format *vbifmt = &fmt->fmt.vbi;
  
- 	if (format->type != video->type)
-@@ -673,7 +673,7 @@ isp_video_get_format(struct file *file, void *fh, struct v4l2_format *format)
- static int
- isp_video_set_format(struct file *file, void *fh, struct v4l2_format *format)
+ 	vbifmt->sampling_rate = 27000000;
+@@ -280,7 +280,7 @@ static int cx18_g_fmt_vbi_cap(struct file *file, void *fh,
+ static int cx18_g_fmt_sliced_vbi_cap(struct file *file, void *fh,
+ 					struct v4l2_format *fmt)
  {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
- 	struct v4l2_mbus_framefmt fmt;
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 	struct v4l2_sliced_vbi_format *vbifmt = &fmt->fmt.sliced;
  
-@@ -858,7 +858,7 @@ isp_video_set_selection(struct file *file, void *fh, struct v4l2_selection *sel)
- static int
- isp_video_get_param(struct file *file, void *fh, struct v4l2_streamparm *a)
+ 	/* sane, V4L2 spec compliant, defaults */
+@@ -311,7 +311,7 @@ static int cx18_try_fmt_vbi_cap(struct file *file, void *fh,
+ static int cx18_try_fmt_sliced_vbi_cap(struct file *file, void *fh,
+ 					struct v4l2_format *fmt)
  {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 	struct v4l2_sliced_vbi_format *vbifmt = &fmt->fmt.sliced;
  
- 	if (video->type != V4L2_BUF_TYPE_VIDEO_OUTPUT ||
-@@ -876,7 +876,7 @@ isp_video_get_param(struct file *file, void *fh, struct v4l2_streamparm *a)
- static int
- isp_video_set_param(struct file *file, void *fh, struct v4l2_streamparm *a)
+ 	vbifmt->io_size = sizeof(struct v4l2_sliced_vbi_data) * 36;
+@@ -330,7 +330,7 @@ static int cx18_try_fmt_sliced_vbi_cap(struct file *file, void *fh,
+ static int cx18_s_fmt_vbi_cap(struct file *file, void *fh,
+ 				struct v4l2_format *fmt)
  {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
- 
- 	if (video->type != V4L2_BUF_TYPE_VIDEO_OUTPUT ||
-@@ -894,7 +894,7 @@ isp_video_set_param(struct file *file, void *fh, struct v4l2_streamparm *a)
- static int
- isp_video_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *rb)
- {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
  	int ret;
  
-@@ -908,7 +908,7 @@ isp_video_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *rb)
- static int
- isp_video_querybuf(struct file *file, void *fh, struct v4l2_buffer *b)
+@@ -360,7 +360,7 @@ static int cx18_s_fmt_vbi_cap(struct file *file, void *fh,
+ static int cx18_s_fmt_sliced_vbi_cap(struct file *file, void *fh,
+ 					struct v4l2_format *fmt)
  {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
  	int ret;
+ 	struct v4l2_sliced_vbi_format *vbifmt = &fmt->fmt.sliced;
+@@ -392,7 +392,7 @@ static int cx18_s_fmt_sliced_vbi_cap(struct file *file, void *fh,
+ static int cx18_g_register(struct file *file, void *fh,
+ 				struct v4l2_dbg_register *reg)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
  
-@@ -922,7 +922,7 @@ isp_video_querybuf(struct file *file, void *fh, struct v4l2_buffer *b)
- static int
- isp_video_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ 	if (reg->reg & 0x3)
+ 		return -EINVAL;
+@@ -406,7 +406,7 @@ static int cx18_g_register(struct file *file, void *fh,
+ static int cx18_s_register(struct file *file, void *fh,
+ 				const struct v4l2_dbg_register *reg)
  {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
- 	int ret;
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
  
-@@ -936,7 +936,7 @@ isp_video_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
- static int
- isp_video_dqbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ 	if (reg->reg & 0x3)
+ 		return -EINVAL;
+@@ -420,7 +420,7 @@ static int cx18_s_register(struct file *file, void *fh,
+ static int cx18_querycap(struct file *file, void *fh,
+ 				struct v4l2_capability *vcap)
  {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
- 	int ret;
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
  
-@@ -1074,7 +1074,7 @@ static int isp_video_check_external_subdevs(struct isp_video *video,
- static int
- isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
- 	enum isp_pipeline_state state;
- 	struct isp_pipeline *pipe;
-@@ -1180,7 +1180,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- static int
- isp_video_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
- {
--	struct isp_video_fh *vfh = to_isp_video_fh(fh);
-+	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
- 	struct isp_video *video = video_drvdata(file);
- 	struct isp_pipeline *pipe = to_isp_pipeline(&video->video.entity);
- 	enum isp_pipeline_state state;
-@@ -1348,7 +1348,7 @@ static int isp_video_release(struct file *file)
- {
- 	struct isp_video *video = video_drvdata(file);
- 	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
--	struct isp_video_fh *handle = to_isp_video_fh(vfh);
-+	struct isp_video_fh *handle = file_to_isp_video_fh(file);
+ 	strscpy(vcap->driver, CX18_DRIVER_NAME, sizeof(vcap->driver));
+@@ -431,14 +431,14 @@ static int cx18_querycap(struct file *file, void *fh,
  
- 	/* Disable streaming and free the buffers queue resources. */
- 	isp_video_streamoff(file, vfh, video->type);
-diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.h b/drivers/media/platform/ti/omap3isp/ispvideo.h
-index 355812770e18ef5353ac68e65426a3180a6d91ab..537da59cff6258cb66ff4eac6ad2739c3f9465c4 100644
---- a/drivers/media/platform/ti/omap3isp/ispvideo.h
-+++ b/drivers/media/platform/ti/omap3isp/ispvideo.h
-@@ -194,8 +194,6 @@ struct isp_video_fh {
- 	struct v4l2_fract timeperframe;
- };
- 
--#define to_isp_video_fh(fh)	container_of(fh, struct isp_video_fh, vfh)
--
- static inline struct isp_video_fh *file_to_isp_video_fh(struct file *filp)
+ static int cx18_enumaudio(struct file *file, void *fh, struct v4l2_audio *vin)
  {
- 	return container_of(file_to_v4l2_fh(filp), struct isp_video_fh, vfh);
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	return cx18_get_audio_input(cx, vin->index, vin);
+ }
+ 
+ static int cx18_g_audio(struct file *file, void *fh, struct v4l2_audio *vin)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	vin->index = cx->audio_input;
+ 	return cx18_get_audio_input(cx, vin->index, vin);
+@@ -446,7 +446,7 @@ static int cx18_g_audio(struct file *file, void *fh, struct v4l2_audio *vin)
+ 
+ static int cx18_s_audio(struct file *file, void *fh, const struct v4l2_audio *vout)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	if (vout->index >= cx->nof_audio_inputs)
+ 		return -EINVAL;
+@@ -457,7 +457,7 @@ static int cx18_s_audio(struct file *file, void *fh, const struct v4l2_audio *vo
+ 
+ static int cx18_enum_input(struct file *file, void *fh, struct v4l2_input *vin)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	/* set it to defaults from our table */
+ 	return cx18_get_input(cx, vin->index, vin);
+@@ -466,7 +466,7 @@ static int cx18_enum_input(struct file *file, void *fh, struct v4l2_input *vin)
+ static int cx18_g_pixelaspect(struct file *file, void *fh,
+ 			      int type, struct v4l2_fract *f)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+@@ -479,7 +479,7 @@ static int cx18_g_pixelaspect(struct file *file, void *fh,
+ static int cx18_g_selection(struct file *file, void *fh,
+ 			    struct v4l2_selection *sel)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+@@ -499,7 +499,7 @@ static int cx18_g_selection(struct file *file, void *fh,
+ static int cx18_enum_fmt_vid_cap(struct file *file, void *fh,
+ 					struct v4l2_fmtdesc *fmt)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 
+ 	if (id->type == CX18_ENC_STREAM_TYPE_YUV) {
+ 		if (fmt->index >= ARRAY_SIZE(cx18_formats_yuv))
+@@ -515,7 +515,7 @@ static int cx18_enum_fmt_vid_cap(struct file *file, void *fh,
+ 
+ static int cx18_g_input(struct file *file, void *fh, unsigned int *i)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	*i = cx->active_input;
+ 	return 0;
+@@ -523,7 +523,7 @@ static int cx18_g_input(struct file *file, void *fh, unsigned int *i)
+ 
+ int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 	v4l2_std_id std = V4L2_STD_ALL;
+ 	const struct cx18_card_video_input *card_input =
+@@ -561,7 +561,7 @@ int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+ static int cx18_g_frequency(struct file *file, void *fh,
+ 				struct v4l2_frequency *vf)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	if (vf->tuner != 0)
+ 		return -EINVAL;
+@@ -572,7 +572,7 @@ static int cx18_g_frequency(struct file *file, void *fh,
+ 
+ int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 
+ 	if (vf->tuner != 0)
+@@ -587,7 +587,7 @@ int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
+ 
+ static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	*std = cx->std;
+ 	return 0;
+@@ -595,7 +595,7 @@ static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
+ 
+ int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 
+ 	if ((std & V4L2_STD_ALL) == 0)
+@@ -644,7 +644,7 @@ int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+ 
+ static int cx18_s_tuner(struct file *file, void *fh, const struct v4l2_tuner *vt)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 
+ 	if (vt->index != 0)
+@@ -656,7 +656,7 @@ static int cx18_s_tuner(struct file *file, void *fh, const struct v4l2_tuner *vt
+ 
+ static int cx18_g_tuner(struct file *file, void *fh, struct v4l2_tuner *vt)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	if (vt->index != 0)
+ 		return -EINVAL;
+@@ -673,7 +673,7 @@ static int cx18_g_tuner(struct file *file, void *fh, struct v4l2_tuner *vt)
+ static int cx18_g_sliced_vbi_cap(struct file *file, void *fh,
+ 					struct v4l2_sliced_vbi_cap *cap)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 	int set = cx->is_50hz ? V4L2_SLICED_VBI_625 : V4L2_SLICED_VBI_525;
+ 	int f, l;
+ 
+@@ -794,7 +794,7 @@ static int cx18_process_idx_data(struct cx18_stream *s, struct cx18_mdl *mdl,
+ static int cx18_g_enc_index(struct file *file, void *fh,
+ 				struct v4l2_enc_idx *idx)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 	struct cx18_stream *s = &cx->streams[CX18_ENC_STREAM_TYPE_IDX];
+ 	s32 tmp;
+ 	struct cx18_mdl *mdl;
+@@ -841,7 +841,7 @@ static int cx18_g_enc_index(struct file *file, void *fh,
+ static int cx18_encoder_cmd(struct file *file, void *fh,
+ 				struct v4l2_encoder_cmd *enc)
+ {
+-	struct cx18_open_id *id = fh2id(fh);
++	struct cx18_open_id *id = file2id(file);
+ 	struct cx18 *cx = id->cx;
+ 	u32 h;
+ 
+@@ -900,7 +900,7 @@ static int cx18_encoder_cmd(struct file *file, void *fh,
+ static int cx18_try_encoder_cmd(struct file *file, void *fh,
+ 				struct v4l2_encoder_cmd *enc)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	switch (enc->cmd) {
+ 	case V4L2_ENC_CMD_START:
+@@ -932,7 +932,7 @@ static int cx18_try_encoder_cmd(struct file *file, void *fh,
+ 
+ static int cx18_log_status(struct file *file, void *fh)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 	struct v4l2_input vidin;
+ 	struct v4l2_audio audin;
+ 	int i;
+@@ -976,7 +976,7 @@ static int cx18_log_status(struct file *file, void *fh)
+ static long cx18_default(struct file *file, void *fh, bool valid_prio,
+ 			 unsigned int cmd, void *arg)
+ {
+-	struct cx18 *cx = fh2id(fh)->cx;
++	struct cx18 *cx = file2id(file)->cx;
+ 
+ 	switch (cmd) {
+ 	case VIDIOC_INT_RESET: {
 
 -- 
 2.49.0
