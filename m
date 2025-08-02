@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38788-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94020B18D1A
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:44:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEC2B18D22
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:44:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADC5117A660
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:44:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40B211885410
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:44:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578DC27F4D9;
-	Sat,  2 Aug 2025 09:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAB2C2586EB;
+	Sat,  2 Aug 2025 09:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TYEMJ1NQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HpX5BDdV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE3F252912;
-	Sat,  2 Aug 2025 09:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E73227BB5;
+	Sat,  2 Aug 2025 09:31:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754127082; cv=none; b=ALraOfqV8lfSp297Jf+NtYkxRLqMi1wOY2T0WCTRtMaJ7kzh75KVrtBfka7+bnFngkAs7voAvl/ey1E7EI/akipcbfOhw394kFr268emzz5KjZPS4jks+uX6Qk+hFK8284uiA3RHo8wVEAmd7AsmEe7Y9tacO8DXFos+K2sRSVg=
+	t=1754127101; cv=none; b=dR2hAGKCcMWtchWznr7PpZmHRMkpwD+PfnTH3s6oqop+PDzQKCtOzoh7O9zljuDXZ80kNpFjTexKsPUQCe1sBMY4F9mk6mELcNC47X8/2GYdDgTHlOWCTJw9tCzkE5b+4esRgVBQ+vjKAABoOr+99ExjCtnxhQ8BQJhEA09WCLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754127082; c=relaxed/simple;
-	bh=P+AdXovkDs72ySz3QReqGKxKqBANHR4M/z/Qnx0Et0A=;
+	s=arc-20240116; t=1754127101; c=relaxed/simple;
+	bh=e9spn0Wp0nY1lMfXntKTb/kLvwEFE4ID3yslOAjGdJI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=W6M60XO2BIeuiCxBKLRO0AymdeeETcbPT8RJ1HelcLnEijHgsR2NT+PmVRoSM2CNc/ZUgHwVGjbP+LXjfUiv8+F4WHSJAk+xpZFPHmkM8ejkxb5kjlnWc6KMy80Z4XJ1ix/VBl5i6k1eqkiCyzPjAxVtunxhqlbuhrjZwfmiVKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TYEMJ1NQ; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=FU+zuq2RCCgfTlAeQfIbpA6/4wf2VkS2EqK2VN2X50WikaCO1lSey0gccnrKGcvJcvavCx3+BwGhWDyMK7m8LwpGm27MK42FK2BAinlhLxwQtk5mlUI1iScr+M+e01T3hTRX+e2naraSLnhiSJ3zBX9el7E3x40JFaweeGRJLVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HpX5BDdV; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3C5940D8;
-	Sat,  2 Aug 2025 11:30:23 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B88723FCE;
+	Sat,  2 Aug 2025 11:30:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754127034;
-	bh=P+AdXovkDs72ySz3QReqGKxKqBANHR4M/z/Qnx0Et0A=;
+	s=mail; t=1754127052;
+	bh=e9spn0Wp0nY1lMfXntKTb/kLvwEFE4ID3yslOAjGdJI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=TYEMJ1NQIn2AHami8rz14vK1JzGQigVifiRoyt6QHmF3Iu7LxEUWe+myT+degFzvr
-	 js1GxPK6uXfvuzkK5py81gAkb/ClqJxrx4Q9yB2nZNuMAdOJCd1ZQz6ex+ZmHLpccd
-	 Mvkz9iIBZ12ifbUQkccgBT6ah7Ey34/3qfhaou9E=
+	b=HpX5BDdVS3j+pTsNcwI1BeCJShWH8n9M85Z1l5akK04RGo19pEFRLt6X/IxG5rJOl
+	 poLl3ecPsVXrhmA1hnnbF5A0Kjc6WhMdGf1Q0Y9vJ8ijF78krqD2t5L4pCzXJojnGU
+	 PJ/ijYO2i6nQmjKqqWUzB4vwpkcHyzab7qcD1niw=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:23:10 +0200
-Subject: [PATCH 48/65] media: s5p-g2d: Access v4l2_fh from file
+Date: Sat, 02 Aug 2025 11:23:11 +0200
+Subject: [PATCH 49/65] media: s5p-jpeg: Access v4l2_fh from file
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-48-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-49-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -141,21 +141,21 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2354;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4867;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=P+AdXovkDs72ySz3QReqGKxKqBANHR4M/z/Qnx0Et0A=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj9QjDArsCCpetRJypejE9fiKxkH/6QF97H/
- V7Va6UoY5qJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/QAKCRByNAaPFqFW
- PC37EACiB4t1ueWIIp+xm9SL1tP9bPd4oIx6m58tUtufzqv2UhhlQY2uIeweEcdjDrnmK6wlPFf
- Zh67AxZib08g3DhnLVPtuf6zyFFx9glCJg6E37kf4tO0Cbjk2b7Wo0XqOtvRvL0mrbcFdm10XOQ
- u48ojoafbcLDoihcjqYmZZQA517dhFRTPQq0ewLAWh1vRHp5r3u6zxmRYWXvtvn07t8yRHYo1yy
- pTIdGY05xvfVpm2AwuDef2uLWLTO0ecyx5rhZzPNUGXD+b+hBJfXTGV2aZuhzrLZFz4q/HnJ3x0
- BYQRN2rUU0mfRw6XAJg2vcYskCk4xE1oHXWcvGmeORkGTZqWQquB4DHbQxT1ITU7vwv3iRSKx36
- fCognK5a0c4ZW//QBYFwwlv9k74VAtnxKtNiBK6Vbuhbjdsu+YafF0wxxd0bwQ7mVD56iAeaLTZ
- aP2D2Iy/3E+BdZ4DzVXCbcj9E+jTxZfxbaXg3u5ARjUZb/cQaha4H5DW+a/bxwe6Dc0pyaf8hr7
- jlWtg1P74osSQLocQSEkYZA+LkuSwrf7AjDO/49ylXeeTtmSe4k4UQHi0XpMZYOYBqHYmyW7gGE
- ppnTGZndhnM4xWgtUrd4XxDQx4HNaUV59HsflvBoP9BCtbJ8eruyG9ddj+y0d1cNTq36z2Yf78+
- 2X3qjhfFmyd527g==
+ bh=e9spn0Wp0nY1lMfXntKTb/kLvwEFE4ID3yslOAjGdJI=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj99eZoQBrrRU8HwZCp/lEmCC2AHXC6KN4bo
+ 5sTBWh+2PmJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/QAKCRByNAaPFqFW
+ POKlEACwPh0PROmzVn8vNI8tmgzbJ3MnsT1OqXi7X6rM2NINFWzgSBIn68R5SI9nExICwVvZOcg
+ C/VU+1NnSJmzepB4eugrvkN8R/ohZPC931mfV5qnxmgqlfzIqhHFxL/yTAzB38rIMy6W79Iz0wz
+ /2vu83MetiFDnqHirzlPi971oztZDB3goYVIWsVt2VHSjdxv84OLJy4k4K+uH28ZQLSzDtDuF+e
+ rmvsS0NnkAcB00aYRXJBygz6VJc6NX4UXXRUr2k7t7nBGdyypfMnT6wCCnfVl2D/ZJqtPwIqOA+
+ lqCYjutFAd2rqSrAH8+p49h8x6tUkSX8D/2pbGQE4XlqNLqfEqHEB9wDFguUkoTgcP63SiSTVDt
+ cjEzihdAXBLo/FZvYtllF3pzk/CygB7kQbuCX+65CBD3mA4hFxTgMUVs06EWPuGYuMMCxMYznc6
+ rJYKEUEZ83mM/c0/rdTHpa9zf4l25/nJ+N+88J4jWdYjdfgt0oihZQRHC8B9km3bomn1Chf4EMt
+ FGW4aMoIugkEgb0C7vNcfkDdTLQQQzhiK9hFvThH8lAwJAfV/9danxqiMj/hrf2T9JXXicqycZ0
+ NYKJ31e5gDAGyuFSX3Cpfv5NBB7pUKfd0az1qZiKNEJWanS9nhV99GPNis9HU370KDk2gE5jOLF
+ os4dXx+4t0F7obw==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
@@ -165,60 +165,120 @@ to be available in file->private_data, initialised by v4l2_fh_add().
 Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
+While at it, remove the now unused fh_to_ctx() macro.
+
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/samsung/s5p-g2d/g2d.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../media/platform/samsung/s5p-jpeg/jpeg-core.c    | 25 +++++++++-------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/media/platform/samsung/s5p-g2d/g2d.c b/drivers/media/platform/samsung/s5p-g2d/g2d.c
-index 922262f61e7b53baf1b5840d35149bf5b4b2e7ad..55f5130156b7e8690bd0eb204630a730d9f84bd6 100644
---- a/drivers/media/platform/samsung/s5p-g2d/g2d.c
-+++ b/drivers/media/platform/samsung/s5p-g2d/g2d.c
-@@ -307,7 +307,7 @@ static int vidioc_enum_fmt(struct file *file, void *prv, struct v4l2_fmtdesc *f)
+diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+index 2a57efd181540183e7d2b66d51f9f2f274ddd100..81792f7f8b1671dba2023f99b2779784d9a14b8c 100644
+--- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
++++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+@@ -580,11 +580,6 @@ static inline struct s5p_jpeg_ctx *ctrl_to_ctx(struct v4l2_ctrl *c)
+ 	return container_of(c->handler, struct s5p_jpeg_ctx, ctrl_handler);
+ }
  
- static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
+-static inline struct s5p_jpeg_ctx *fh_to_ctx(struct v4l2_fh *fh)
+-{
+-	return container_of(fh, struct s5p_jpeg_ctx, fh);
+-}
+-
+ static inline struct s5p_jpeg_ctx *file_to_ctx(struct file *filp)
  {
--	struct g2d_ctx *ctx = prv;
-+	struct g2d_ctx *ctx = file2ctx(file);
+ 	return container_of(file_to_v4l2_fh(filp), struct s5p_jpeg_ctx, fh);
+@@ -1015,8 +1010,8 @@ static int s5p_jpeg_open(struct file *file)
+ 
+ static int s5p_jpeg_release(struct file *file)
+ {
+-	struct s5p_jpeg *jpeg = video_drvdata(file);
+ 	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
++	struct s5p_jpeg *jpeg = video_drvdata(file);
+ 
+ 	mutex_lock(&jpeg->lock);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+@@ -1253,7 +1248,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
+ static int s5p_jpeg_querycap(struct file *file, void *priv,
+ 			   struct v4l2_capability *cap)
+ {
+-	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
++	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+ 
+ 	if (ctx->mode == S5P_JPEG_ENCODE) {
+ 		strscpy(cap->driver, S5P_JPEG_M2M_NAME,
+@@ -1301,7 +1296,7 @@ static int enum_fmt(struct s5p_jpeg_ctx *ctx,
+ static int s5p_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
+ 				   struct v4l2_fmtdesc *f)
+ {
+-	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
++	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+ 
+ 	if (ctx->mode == S5P_JPEG_ENCODE)
+ 		return enum_fmt(ctx, sjpeg_formats, SJPEG_NUM_FORMATS, f,
+@@ -1314,7 +1309,7 @@ static int s5p_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
+ static int s5p_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
+ 				   struct v4l2_fmtdesc *f)
+ {
+-	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
++	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+ 
+ 	if (ctx->mode == S5P_JPEG_ENCODE)
+ 		return enum_fmt(ctx, sjpeg_formats, SJPEG_NUM_FORMATS, f,
+@@ -1340,7 +1335,7 @@ static int s5p_jpeg_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
  	struct vb2_queue *vq;
- 	struct g2d_frame *frm;
+ 	struct s5p_jpeg_q_data *q_data = NULL;
+ 	struct v4l2_pix_format *pix = &f->fmt.pix;
+-	struct s5p_jpeg_ctx *ct = fh_to_ctx(priv);
++	struct s5p_jpeg_ctx *ct = file_to_ctx(file);
  
-@@ -359,7 +359,7 @@ static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 
- static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ 	vq = v4l2_m2m_get_vq(ct->fh.m2m_ctx, f->type);
+ 	if (!vq)
+@@ -1480,7 +1475,7 @@ static int vidioc_try_fmt(struct v4l2_format *f, struct s5p_jpeg_fmt *fmt,
+ static int s5p_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
+ 				  struct v4l2_format *f)
  {
--	struct g2d_ctx *ctx = prv;
-+	struct g2d_ctx *ctx = file2ctx(file);
- 	struct g2d_dev *dev = ctx->dev;
- 	struct vb2_queue *vq;
- 	struct g2d_frame *frm;
-@@ -400,7 +400,7 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- static int vidioc_g_selection(struct file *file, void *prv,
- 			      struct v4l2_selection *s)
- {
--	struct g2d_ctx *ctx = prv;
-+	struct g2d_ctx *ctx = file2ctx(file);
- 	struct g2d_frame *f;
- 
- 	f = get_frame(ctx, s->type);
-@@ -450,7 +450,7 @@ static int vidioc_g_selection(struct file *file, void *prv,
- static int vidioc_try_selection(struct file *file, void *prv,
- 				const struct v4l2_selection *s)
- {
--	struct g2d_ctx *ctx = prv;
-+	struct g2d_ctx *ctx = file2ctx(file);
- 	struct g2d_dev *dev = ctx->dev;
- 	struct g2d_frame *f;
- 
-@@ -478,7 +478,7 @@ static int vidioc_try_selection(struct file *file, void *prv,
- static int vidioc_s_selection(struct file *file, void *prv,
- 			      struct v4l2_selection *s)
- {
--	struct g2d_ctx *ctx = prv;
-+	struct g2d_ctx *ctx = file2ctx(file);
- 	struct g2d_frame *f;
+-	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
++	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+ 	struct v4l2_pix_format *pix = &f->fmt.pix;
+ 	struct s5p_jpeg_fmt *fmt;
  	int ret;
+@@ -1539,7 +1534,7 @@ static int s5p_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
+ static int s5p_jpeg_try_fmt_vid_out(struct file *file, void *priv,
+ 				  struct v4l2_format *f)
+ {
+-	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
++	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+ 	struct s5p_jpeg_fmt *fmt;
  
+ 	fmt = s5p_jpeg_find_format(ctx, f->fmt.pix.pixelformat,
+@@ -1686,7 +1681,7 @@ static int s5p_jpeg_s_fmt_vid_cap(struct file *file, void *priv,
+ 	if (ret)
+ 		return ret;
+ 
+-	return s5p_jpeg_s_fmt(fh_to_ctx(priv), f);
++	return s5p_jpeg_s_fmt(file_to_ctx(file), f);
+ }
+ 
+ static int s5p_jpeg_s_fmt_vid_out(struct file *file, void *priv,
+@@ -1698,7 +1693,7 @@ static int s5p_jpeg_s_fmt_vid_out(struct file *file, void *priv,
+ 	if (ret)
+ 		return ret;
+ 
+-	return s5p_jpeg_s_fmt(fh_to_ctx(priv), f);
++	return s5p_jpeg_s_fmt(file_to_ctx(file), f);
+ }
+ 
+ static int s5p_jpeg_subscribe_event(struct v4l2_fh *fh,
+@@ -1795,7 +1790,7 @@ static int exynos3250_jpeg_try_crop(struct s5p_jpeg_ctx *ctx,
+ static int s5p_jpeg_g_selection(struct file *file, void *priv,
+ 			 struct v4l2_selection *s)
+ {
+-	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
++	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+ 
+ 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
+ 	    s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
 
 -- 
 2.49.0
