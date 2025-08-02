@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38741-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F43B18B97
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:24:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A72CB18B9F
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:25:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 332051AA2465
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:24:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90D9E1895836
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB0621ABAD;
-	Sat,  2 Aug 2025 09:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7AB3221568;
+	Sat,  2 Aug 2025 09:23:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V5iDpcEs"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g8cVRCST"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FAD214A91;
-	Sat,  2 Aug 2025 09:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7315620B81B;
+	Sat,  2 Aug 2025 09:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754126620; cv=none; b=LAyiqt2X8DUFAbsJ5EoaU7Mrms+WWTe96x5MvoG3im1q/aaRDlQG5gYwHfB1e5lqMCoSRi288yn7NAj8jK/w5h0xai08jSr/8zjwScHgzKix/wMPNI2iCOlq4qMhoMIVimgjp1kKlKvuvLU4UrjyqffMqfpdHB6X0pC6xgjcItU=
+	t=1754126629; cv=none; b=Z8n3LxArR0LKJsvMvc/DLjTlTk02CkOXW0Xf6L8PUxeoxWB34Eo7EUybO/Cq7fQixv9bO6dnn8efdibfLJLFKC0olnJSUqQcFPJLNbio3KIGUDft0igPPrObIQ+IVb6W0j7laFeyDYowLHfIq2NvXp/qj08+SN0Afws1L8mNYBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754126620; c=relaxed/simple;
-	bh=uc+e4D121XpcsbBTsetI8Y/3AlX9Hz46SjF1XOt24QQ=;
+	s=arc-20240116; t=1754126629; c=relaxed/simple;
+	bh=K8dDCPVG1nkY6ic4h3FKwjvVzHTUjGzd1GG1sYDnoFA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Da0/GQsqDXWdPgIQ5G5DqvTtdb0GI9UoxNASs031PA8of0XG5mhcy1yWETYnQIkDgO6KLaZl7UqfCTSFr1dg+FGVF2oJsZPEZv6u2mYz6DD7sN4iabnHyjc45rndoVbge5NtBeqSadhmY5i1H2Sdn1Nzq32TgeesmizbMr7Zrzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=V5iDpcEs; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=e0SZxS5eTN3INCIkuuiX+MMXSMA7oibf4gdxNjBpPSiXBRICR/HURqVPczaqmVYVYbylTXBV1Yde6yoqPwIbq6UGi+KCbkDb7r/0BlwSp6WfJoZnpkbymsL3ifXa0z0yEPBGoOK/qffG4yHZuQpeG15EbxPzMbsZ/++1AQcggGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g8cVRCST; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11CC83DA;
-	Sat,  2 Aug 2025 11:22:40 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50061725;
+	Sat,  2 Aug 2025 11:22:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754126570;
-	bh=uc+e4D121XpcsbBTsetI8Y/3AlX9Hz46SjF1XOt24QQ=;
+	s=mail; t=1754126580;
+	bh=K8dDCPVG1nkY6ic4h3FKwjvVzHTUjGzd1GG1sYDnoFA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=V5iDpcEspRPnvHfAwmOr99+IOUj9lDyUHdxF6w3FWnwGAO1+33nGVL7N9XM5qQJqa
-	 zG/eRFBKfgJFJiJ1JPZ3l47lLiuJfgv5GQ7AvAEbP6KtwH3xGSQXtSsVwcwTytnmGT
-	 2HukJ/5pnKY6Jk6oBPJzo8ZfDbDuVBmWfAaONPC8=
+	b=g8cVRCST89q8XYffSHxu1w8tRa9g2WsNGAItA5r8tH7V/DbNblJ6jc6QvVyhgL8GB
+	 eKkqv3HG0YcDlIfWs/kNrYjBUoXt/w9rLBJirlDl0OvkFCg0Gk7qcnY3MaZSyFiphj
+	 CNoEtAx/JHqYMJ4o7RcXRdqE15IMUkcyVG52VhQU=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:22:23 +0200
-Subject: [PATCH 01/65] media: pci: saa7164: Store v4l2_fh pointer in
+Date: Sat, 02 Aug 2025 11:22:24 +0200
+Subject: [PATCH 02/65] media: imagination: Store v4l2_fh pointer in
  file->private_data
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-1-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-2-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -142,291 +142,139 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10416;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4825;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=4KYc+fAfF5XAqGdIeu1Z3mk2YUK/u81xqaNfmxJ3Ufs=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj3RHqWTU3HuCd37ITdQdY7tRmUtJ6lQQYz0
- KMrHWu85E+JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y9wAKCRByNAaPFqFW
- PEKcD/98jLHB4HokFvLEJrxTaXM/Serb/l7Ex/Uds/UYB8jQLGOeF/4nWiAMeE9ljn9idNeoexQ
- YzY6l5ipNXYKt8SpqjiNJ0WO/2Yu6CvTgBB7URe02gA2bJNnXjlBGXmaquBHBzvqaJLaz4cn8eu
- 9624b/9DQMRo0VVg4uAyclXwBLHSlBzZ5jUbAOIB1iqi1oSuzh5AhiboRs+OAb7yk3xRj+F2ew0
- GfBOXE7qHxtzXyt2mHc+evzBcTOScHKEZDy/ZcwqAFCkR0x/up3I3ICsyrfPCZKQ13BrHEtjmGP
- zZnYt/jFmUjMiHVUFG+JBSOGkZAXEEW/I6lvsFLYnWvOBrGQS6TiLo+44PBa9V8XRzp8pddAr/+
- ejretpCpgosNlOQhdUuxxMedmu2B7Duot57BIAfx6kWQEkqwr3/3UY2eenTgITzQwFfBNyJ9QmR
- VTwgKdM0gzy6KGahbRc2ln1oaGCZyGoQNRvwjH2BCKZnuqyzzKhd03K2v43qHXtOJjwKoaSRkvl
- wrtb2LZ6gJ/2U2diVU9sidMTAUioUH0zt7e4AsxR/3MKBafy/+lXdohYJWdFBpW/qXgLjqJVlvh
- tS0iQ5SoNtCBJlRnbw0ak+o40Le5sVvkLGvfdWa0pE8ENPBX2N8vVjRt8dpKg+3XN/7Bxq/cRzj
- wzQUMrJx6Nx3rng==
+ bh=uq3V2iL6jCR+ekaMlo1+qk6d+aP7IFCv3nHFixV02JI=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj30OFbTXcU0cO/acV0mQKqOVtG4JiSgWCWT
+ g8NFanNpkOJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y9wAKCRByNAaPFqFW
+ PHCED/4vrTjKJYdLSEILTxmBH365qg3YmPx3URIJqZdf8km+nCKwi18Ewh7L8dvElXpn+jZJHMK
+ iKF6lVmZ0nmIlIRlnH0Se6dmxhUSypRm6TuyQrsNID25XEkTcjN53a2+mk/NPFIGywdmIT7RxA0
+ bhfdBlfEJs53trejkMhGwCeigYz4KCwv9Jp+4R6xKuTII7IzCGi4ChSkK84RyAQYIYJrePAGgWY
+ DNIXleinVIw/43K55GUapypW1rzzVB57Hf8PJCHKazRfD5Gxqmz51P8817+/bcabIMfp6b+wk0w
+ /xgE23R2n45by1ZqRZPJgg3RSjyYhQ+SZEIojBzMxHsjz7ER/Uqp74kbaBK46lUromE5rNJKVIi
+ 8fkdjLbmGlxHZIVaJG+mc83ADCfH572DS8t0knqjYlieQGK8F2wak6rvN/voGvF7UM3oZpjURwb
+ Le9qpnU9LdYcS5WGJ2/ZjuWgjv6j4DwdSmxEHhtqX4Y21ggO8HrL6lWdhdvk943omp9GFgDPGWt
+ qv5A5St0/fo6JY1FcZYd/AV2SbfJoaCb6aaaFuo/Ore1XBRkOSzj3IFDFCDa0wlOGaAqVsM1GNr
+ /oaORYpASWFGcUWz2IBIjnFDw+QsEUtkzz9n5Hf3Yw+ojHMdNjUAQa2UzZxJhtL9XlP9gjqDZ/Q
+ 1WxsRYX5yD/TxHA==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Most V4L2 drivers store the v4l2_fh pointer in file->private_data. The
-saa7164 instead stores the pointer to the driver-specific structure that
-embeds the v4l2_fh. Switch to storing the v4l2_fh pointer itself to
-standardize behaviour across drivers. This also prepares for future
-refactoring that depends on v4l2_fh being stored in private_data.
-
-This also fixes a bug in the vidioc_g_std() in saa7164-vbi.c that casts
-the private_data void pointer to a saa7164_encoder_fh instead of a
-saa7164_vbi_fh. The bug has no practical consequence as the two
-structures are identical.
+e5010-jpeg-enc driver instead stores the pointer to the driver-specific
+structure that embeds the v4l2_fh. Switch to storing the v4l2_fh pointer
+itself to standardize behaviour across drivers. This also prepares for
+future refactoring that depends on v4l2_fh being stored in private_data.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/pci/saa7164/saa7164-encoder.c | 27 +++++++++++++--------------
- drivers/media/pci/saa7164/saa7164-vbi.c     | 22 +++++++++++-----------
- drivers/media/pci/saa7164/saa7164.h         | 10 ++++++++++
- 3 files changed, 34 insertions(+), 25 deletions(-)
+ drivers/media/platform/imagination/e5010-jpeg-enc.c | 18 +++++++++---------
+ drivers/media/platform/imagination/e5010-jpeg-enc.h |  5 +++++
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/pci/saa7164/saa7164-encoder.c b/drivers/media/pci/saa7164/saa7164-encoder.c
-index bf73e9e83f52324ca494816f7d9fa2fae7de6774..296f50b6b8d38e0ab617f0990d8f697ba96b0016 100644
---- a/drivers/media/pci/saa7164/saa7164-encoder.c
-+++ b/drivers/media/pci/saa7164/saa7164-encoder.c
-@@ -219,7 +219,7 @@ int saa7164_s_std(struct saa7164_port *port, v4l2_std_id id)
- 
- static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id id)
+diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+index ae868d9f73e13fdac747ef603e08ea13cd66d3a6..295461325862fb2bcac755cf815955955b37e6f0 100644
+--- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
++++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+@@ -253,7 +253,7 @@ static int e5010_enum_fmt(struct file *file, void *priv, struct v4l2_fmtdesc *f)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
+ 	int i, index = 0;
+ 	struct e5010_fmt *fmt = NULL;
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
  
- 	return saa7164_s_std(fh->port, id);
- }
-@@ -232,7 +232,7 @@ int saa7164_g_std(struct saa7164_port *port, v4l2_std_id *id)
+ 	if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+ 		v4l2_err(&ctx->e5010->v4l2_dev, "ENUMFMT with Invalid type: %d\n", f->type);
+@@ -279,7 +279,7 @@ static int e5010_enum_fmt(struct file *file, void *priv, struct v4l2_fmtdesc *f)
  
- static int vidioc_g_std(struct file *file, void *priv, v4l2_std_id *id)
+ static int e5010_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
+ 	struct e5010_q_data *queue;
+ 	int i;
+ 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+@@ -380,14 +380,14 @@ static int e5010_jpeg_try_fmt(struct v4l2_format *f, struct e5010_context *ctx)
  
- 	return saa7164_g_std(fh->port, id);
- }
-@@ -277,7 +277,7 @@ int saa7164_g_input(struct saa7164_port *port, unsigned int *i)
- 
- static int vidioc_g_input(struct file *file, void *priv, unsigned int *i)
+ static int e5010_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
  
- 	return saa7164_g_input(fh->port, i);
- }
-@@ -301,14 +301,14 @@ int saa7164_s_input(struct saa7164_port *port, unsigned int i)
- 
- static int vidioc_s_input(struct file *file, void *priv, unsigned int i)
- {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
- 
- 	return saa7164_s_input(fh->port, i);
+ 	return e5010_jpeg_try_fmt(f, ctx);
  }
  
- int saa7164_g_tuner(struct file *file, void *priv, struct v4l2_tuner *t)
+ static int e5010_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	struct saa7164_dev *dev = port->dev;
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
+ 	struct vb2_queue *vq;
+ 	int ret = 0, i = 0;
+ 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+@@ -462,7 +462,7 @@ static int e5010_enum_framesizes(struct file *file, void *priv, struct v4l2_frms
  
-@@ -347,7 +347,7 @@ int saa7164_g_frequency(struct saa7164_port *port, struct v4l2_frequency *f)
- static int vidioc_g_frequency(struct file *file, void *priv,
- 	struct v4l2_frequency *f)
+ static int e5010_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
+ 	struct e5010_q_data *queue;
  
- 	return saa7164_g_frequency(fh->port, f);
- }
-@@ -400,7 +400,7 @@ int saa7164_s_frequency(struct saa7164_port *port,
- static int vidioc_s_frequency(struct file *file, void *priv,
- 			      const struct v4l2_frequency *f)
+ 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+@@ -490,7 +490,7 @@ static int e5010_g_selection(struct file *file, void *fh, struct v4l2_selection
+ 
+ static int e5010_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
+ 	struct e5010_q_data *queue;
+ 	struct vb2_queue *vq;
+ 	struct v4l2_rect base_rect;
+@@ -742,7 +742,7 @@ static int e5010_open(struct file *file)
+ 	}
  
- 	return saa7164_s_frequency(fh->port, f);
- }
-@@ -483,7 +483,7 @@ static int saa7164_s_ctrl(struct v4l2_ctrl *ctrl)
- static int vidioc_querycap(struct file *file, void  *priv,
- 	struct v4l2_capability *cap)
+ 	v4l2_fh_init(&ctx->fh, vdev);
+-	file->private_data = ctx;
++	file->private_data = &ctx->fh;
+ 	v4l2_fh_add(&ctx->fh);
+ 
+ 	ctx->e5010 = e5010;
+@@ -781,7 +781,7 @@ static int e5010_open(struct file *file)
+ static int e5010_release(struct file *file)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	struct saa7164_dev *dev = port->dev;
+ 	struct e5010_dev *e5010 = video_drvdata(file);
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
  
-@@ -510,7 +510,7 @@ static int vidioc_enum_fmt_vid_cap(struct file *file, void  *priv,
- static int vidioc_fmt_vid_cap(struct file *file, void *priv,
- 				struct v4l2_format *f)
+ 	dprintk(e5010, 1, "Releasing instance: 0x%p, m2m_ctx: 0x%p\n", ctx, ctx->fh.m2m_ctx);
+ 	mutex_lock(&e5010->mutex);
+@@ -1262,7 +1262,7 @@ static void e5010_buf_queue(struct vb2_buffer *vb)
+ static int e5010_encoder_cmd(struct file *file, void *priv,
+ 			     struct v4l2_encoder_cmd *cmd)
  {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
- 	struct saa7164_port *port = fh->port;
+-	struct e5010_context *ctx = file->private_data;
++	struct e5010_context *ctx = to_e5010_context(file);
+ 	int ret;
+ 	struct vb2_queue *cap_vq;
  
- 	f->fmt.pix.pixelformat  = V4L2_PIX_FMT_MPEG;
-@@ -726,14 +726,14 @@ static int fops_open(struct file *file)
- 	fh->port = port;
- 	v4l2_fh_init(&fh->fh, video_devdata(file));
- 	v4l2_fh_add(&fh->fh);
--	file->private_data = fh;
-+	file->private_data = &fh->fh;
- 
- 	return 0;
- }
- 
- static int fops_release(struct file *file)
- {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	struct saa7164_dev *dev = port->dev;
- 
-@@ -787,7 +787,7 @@ saa7164_user_buffer *saa7164_enc_next_buf(struct saa7164_port *port)
- static ssize_t fops_read(struct file *file, char __user *buffer,
- 	size_t count, loff_t *pos)
- {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	struct saa7164_user_buffer *ubuf = NULL;
- 	struct saa7164_dev *dev = port->dev;
-@@ -893,8 +893,7 @@ static ssize_t fops_read(struct file *file, char __user *buffer,
- static __poll_t fops_poll(struct file *file, poll_table *wait)
- {
- 	__poll_t req_events = poll_requested_events(wait);
--	struct saa7164_encoder_fh *fh =
--		(struct saa7164_encoder_fh *)file->private_data;
-+	struct saa7164_encoder_fh *fh = to_saa7164_encoder_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	__poll_t mask = v4l2_ctrl_poll(file, wait);
- 
-diff --git a/drivers/media/pci/saa7164/saa7164-vbi.c b/drivers/media/pci/saa7164/saa7164-vbi.c
-index ac958a5fca78e5094d7befd8c125fa4233bb6999..a7e398f304725c7fa5aa4cf1edf0deb0df059641 100644
---- a/drivers/media/pci/saa7164/saa7164-vbi.c
-+++ b/drivers/media/pci/saa7164/saa7164-vbi.c
-@@ -144,28 +144,28 @@ static int saa7164_vbi_initialize(struct saa7164_port *port)
- /* -- V4L2 --------------------------------------------------------- */
- static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id id)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 
- 	return saa7164_s_std(fh->port->enc_port, id);
- }
- 
- static int vidioc_g_std(struct file *file, void *priv, v4l2_std_id *id)
- {
--	struct saa7164_encoder_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 
- 	return saa7164_g_std(fh->port->enc_port, id);
- }
- 
- static int vidioc_g_input(struct file *file, void *priv, unsigned int *i)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 
- 	return saa7164_g_input(fh->port->enc_port, i);
- }
- 
- static int vidioc_s_input(struct file *file, void *priv, unsigned int i)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 
- 	return saa7164_s_input(fh->port->enc_port, i);
- }
-@@ -173,7 +173,7 @@ static int vidioc_s_input(struct file *file, void *priv, unsigned int i)
- static int vidioc_g_frequency(struct file *file, void *priv,
- 	struct v4l2_frequency *f)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 
- 	return saa7164_g_frequency(fh->port->enc_port, f);
- }
-@@ -181,7 +181,7 @@ static int vidioc_g_frequency(struct file *file, void *priv,
- static int vidioc_s_frequency(struct file *file, void *priv,
- 	const struct v4l2_frequency *f)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 	int ret = saa7164_s_frequency(fh->port->enc_port, f);
- 
- 	if (ret == 0)
-@@ -192,7 +192,7 @@ static int vidioc_s_frequency(struct file *file, void *priv,
- static int vidioc_querycap(struct file *file, void  *priv,
- 	struct v4l2_capability *cap)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	struct saa7164_dev *dev = port->dev;
- 
-@@ -429,14 +429,14 @@ static int fops_open(struct file *file)
- 	fh->port = port;
- 	v4l2_fh_init(&fh->fh, video_devdata(file));
- 	v4l2_fh_add(&fh->fh);
--	file->private_data = fh;
-+	file->private_data = &fh->fh;
- 
- 	return 0;
- }
- 
- static int fops_release(struct file *file)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	struct saa7164_dev *dev = port->dev;
- 
-@@ -489,7 +489,7 @@ saa7164_user_buffer *saa7164_vbi_next_buf(struct saa7164_port *port)
- static ssize_t fops_read(struct file *file, char __user *buffer,
- 	size_t count, loff_t *pos)
- {
--	struct saa7164_vbi_fh *fh = file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	struct saa7164_user_buffer *ubuf = NULL;
- 	struct saa7164_dev *dev = port->dev;
-@@ -596,7 +596,7 @@ static ssize_t fops_read(struct file *file, char __user *buffer,
- 
- static __poll_t fops_poll(struct file *file, poll_table *wait)
- {
--	struct saa7164_vbi_fh *fh = (struct saa7164_vbi_fh *)file->private_data;
-+	struct saa7164_vbi_fh *fh = to_saa7164_vbi_fh(file);
- 	struct saa7164_port *port = fh->port;
- 	__poll_t mask = 0;
- 
-diff --git a/drivers/media/pci/saa7164/saa7164.h b/drivers/media/pci/saa7164/saa7164.h
-index e1bac1fe19d3098792b2051b537857e3f13054d5..7b511f7f1cfc305a9ffe60722b9ebe093163787d 100644
---- a/drivers/media/pci/saa7164/saa7164.h
-+++ b/drivers/media/pci/saa7164/saa7164.h
-@@ -180,12 +180,22 @@ struct saa7164_encoder_fh {
- 	atomic_t v4l_reading;
+diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.h b/drivers/media/platform/imagination/e5010-jpeg-enc.h
+index 71f49ead68980c83fd81b19fd63d9abd47abef64..eefaf60489d3fba518acd12709f2e4831686620b 100644
+--- a/drivers/media/platform/imagination/e5010-jpeg-enc.h
++++ b/drivers/media/platform/imagination/e5010-jpeg-enc.h
+@@ -120,6 +120,11 @@ struct e5010_context {
+ 	u8				chroma_qp[QP_TABLE_SIZE];
  };
  
-+static inline struct saa7164_encoder_fh *to_saa7164_encoder_fh(struct file *filp)
++static inline struct e5010_context *to_e5010_context(struct file *filp)
 +{
-+	return container_of(filp->private_data, struct saa7164_encoder_fh, fh);
++	return container_of(filp->private_data, struct e5010_context, fh);
 +}
 +
- struct saa7164_vbi_fh {
- 	struct v4l2_fh fh;
- 	struct saa7164_port *port;
- 	atomic_t v4l_reading;
- };
- 
-+static inline struct saa7164_vbi_fh *to_saa7164_vbi_fh(struct file *filp)
-+{
-+	return container_of(filp->private_data, struct saa7164_vbi_fh, fh);
-+}
-+
- struct saa7164_histogram_bucket {
- 	u32 val;
- 	u32 count;
+ /*
+  * Buffer structure
+  * Contains info for all buffers
 
 -- 
 2.49.0
