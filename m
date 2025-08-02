@@ -1,109 +1,126 @@
-Return-Path: <linux-media+bounces-38732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38733-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B433B188F2
-	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 23:58:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D033DB189F8
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 02:52:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 525875A174A
-	for <lists+linux-media@lfdr.de>; Fri,  1 Aug 2025 21:58:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED9073BC341
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 00:52:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D69C7222587;
-	Fri,  1 Aug 2025 21:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B4A76C61;
+	Sat,  2 Aug 2025 00:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DI3rps9/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPGFbx8R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9F420C00E;
-	Fri,  1 Aug 2025 21:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7AE182B4;
+	Sat,  2 Aug 2025 00:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754085503; cv=none; b=FTe4CnRjYQv7bnfahc3Fe+7ir9JLW1LLW++6NDArI9aKr+UhzWnhzEJJyErAD0+mYaAwiXjBNfFtSwtnjvtcIddF2IhdDGPTIWptjm/BrBT9AzXnNxnnd4I+B7jZD6ltpKNIcZzJKiQGPooiBM8vpvgSNt3Hf9jKh6ILWR3CQLw=
+	t=1754095935; cv=none; b=QgRMZWRwcUtzvTQCgYAY1Q4UykM3EesSRiM44ilWmWv6QTnZ8GW/JQay+PCsSBwzzGIm9C0C5Hy6r26enS1Gubf5Ph2EQjWeFmf1TQ9lYZwWy8Y4NkbshZfuW75AI9l91j3VmHM1kn7iIjVAGe76g13KfaO8EmH5ONSN76BjESI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754085503; c=relaxed/simple;
-	bh=9W9aLRKcskQT2G+1SL74xY98V8kvoY+yZ4RYwLfO4lQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rpq0iSgCwL1eVQrX1c9TbFHBwECkKYfTOGnJt93exnB4T4gpBQ4IFYvUQtNR0YC+ozyODkIwz5/Udg2vcb5aP1XU4zRpww0p5fkJkrWRGLNkINMhCt9kjuDwdMlxQoFrsYwkWggQo74Ey4EVbqNvDs0yAxnPsvXpWNeL2HSYl08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DI3rps9/; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-af910372ab3so519741466b.1;
-        Fri, 01 Aug 2025 14:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754085500; x=1754690300; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9W9aLRKcskQT2G+1SL74xY98V8kvoY+yZ4RYwLfO4lQ=;
-        b=DI3rps9/qk7TYFb2iUmxg9mEZQV12DpuZwyvRRSL/tjzjolpBHl5HOPr1KYq5Tilyr
-         vY/noGPlqi4qqCbwiwbEGjOe1xewNRCDHB+MhksyCorhcfG7RMJ71ctsD4w4gK5C1zz4
-         ++J/bZnMZj4cT1NChuXSb8hAo+bXiqeAwHPoArsxKYE1hD1pdfTFirox0TomqiG3e43Z
-         4kTc00ZQ9XN4s92Icoc7O5rTnfG9i06ffr9UIVRn37bsyfaa/rQ/3cQ75fCtwhKBRNEb
-         DAP3mrxaQl1GbmYyihGekPmfgQQ/Xz2BYyzkZ6ZR0asyLDyyoKqmrciYv8RmHScjwEUQ
-         Q9gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754085500; x=1754690300;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9W9aLRKcskQT2G+1SL74xY98V8kvoY+yZ4RYwLfO4lQ=;
-        b=e3aVZgZZby4F6Ntez+/2BYg1nNtlOMoJHBZQjCfsKx/VpaxZZ6EYDxFGRY1Uq1JAHs
-         1ZIoaKznsm2VfrvoclnPqFMIjLVEsUTsgj0HQQZUqK45Mdzdbz0y/24/mGUEMKOM7z8g
-         srJ3ix4HwDRaNDQaAKp7ZpKFqPR4uFsAA8YZpldeG6QtmvBgYqjxGqaQUaur3AmJlEXN
-         a5gRmVFNBrp269MOkYJb3mf+HuMPZww2t46RdUlFf3Sz71cCK3wp52MDnD/pmf9glJDa
-         ZV5jH3B6uy0sYJhZx9/W5zK551llBjwqV4mO8861Frl/SUq/ogqTWOKgWz9ys0RJoRR5
-         JQ6g==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Kb0dvNFX4YnWP9WNz5QH9slaLd02w69Vly2Mxt4kgdrmhr/9op5vfMPk6bGOeTrYwII99ra2QT0V0zQV@vger.kernel.org, AJvYcCWqWYQSinSd+cQG/nVwuL2iY3A5BYoGmo9suvYbKTQsqS61UWfOb/5pRdygB9KcBuAr9zpeFbrX8V8VtyQ=@vger.kernel.org, AJvYcCXVoqqWcuaO+WLkZOz43LQ7kcAZoKdgKOyVaFxTJZFR0g/4kMqN1chKj9Sa36nD1OAEoIekjagZKbjsjKOrjWw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6PSJxCfSdCioqsosqrwBIU5bkUFcPVyxnSxiUVDpZ1xVHdgZG
-	f90OMHJCsQCXqGJAdFkm4eMBDYRYciy5UnPdW6Sjy5oa9qlUkvTqz77ZQgf+UOr3MaB6ri020q0
-	HhlPn1JqDeBBj8ohkz35tWHhF1zi6Mv0=
-X-Gm-Gg: ASbGnctNwiJVDX8Ue1j4+cYVnxzu3GxVUI+48r3jagDhFiHwgyNPJL51Zn8AeYw/2XL
-	j2CjrZBf7TqFjPxN0RvDsK4bUC8Q/6kuZaf2Xbu19/1sbAK+Dipxof7cEEBCgl+JwNhUry2dn9M
-	CkA8vsrrjglS5DQ4jdAisKe9aLx0wbw4I7xRpTdAkIYUWmkmprWYBLVnvLiP7MGawn9X6fAo5Yf
-	J8GMi1sDBpggaJko21m
-X-Google-Smtp-Source: AGHT+IGRVGVyVuPJT5g+alark4GxiU9Zv8r0lEr7ASyTvdvyElIxZVu7IYlNYR9NTTG/h/hIC6BKUMEQv7AJTLW61rY=
-X-Received: by 2002:a17:906:6a10:b0:af2:4690:9df3 with SMTP id
- a640c23a62f3a-af91beb7837mr862906366b.14.1754085499840; Fri, 01 Aug 2025
- 14:58:19 -0700 (PDT)
+	s=arc-20240116; t=1754095935; c=relaxed/simple;
+	bh=cLiV1YAVc0XpLVydFzX5qDQFT8RxMUqUxFC45R3+Hu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E35/dql52jj4hHtz5wU84Y6Hb9dnRaor9AmGawZTA5Brz3T03K0edE8D6ypePKJu6b3XwOTHz2JPb992Z/LeYrSSXojBCDQuCztyF99qPhrYaSbXLRDKP7Yo7OTGa5TqJBtQsQ9sXXaJLWUiBoZrqabCwhsOiHlp+R50gin4THE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPGFbx8R; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754095934; x=1785631934;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cLiV1YAVc0XpLVydFzX5qDQFT8RxMUqUxFC45R3+Hu0=;
+  b=iPGFbx8RMzp+Zpeg+TXBcZzMhL163nD2LC6lgxfNciyqf8Uxb9/W0fuX
+   5LphLFeW+9BZqYnkGMD9eXSKwYoSrRwgm5Bl6YX/l7ZhF/D+0dABi5ogv
+   qqhvaV0DsVcFe4bQvJRsPw7dCht/rcbm5KMibypFXjmySXE5gKQRJHF4V
+   jhnm8PTs1PPz3k246rJYTBanTCwucmXxkAckJEvUU8Y5vHYw1n8Bav9EA
+   ehnyqn1KSWeMjgJvz+XsRhAsGStZjP7sFxepTckMAC4NVTqKaVh6r5X8l
+   rquLe64SKjLFYSZm3VgI/1QMSABb1w7KIz+LV+sVkM8Y+dKOaGNu08mSf
+   Q==;
+X-CSE-ConnectionGUID: ZGST44dWStqyACh5N7BW0g==
+X-CSE-MsgGUID: 28dXcmVmRlGIaPSE2j/LCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="67020061"
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
+   d="scan'208";a="67020061"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 17:52:13 -0700
+X-CSE-ConnectionGUID: rhpO9yacQcSx45fuiX/l8g==
+X-CSE-MsgGUID: +seHoRPmSrS3nDsJ+5KE6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
+   d="scan'208";a="164083746"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 01 Aug 2025 17:52:07 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ui0Tk-000536-2p;
+	Sat, 02 Aug 2025 00:52:04 +0000
+Date: Sat, 2 Aug 2025 08:51:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
+	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+	Robert Moore <robert.moore@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	acpica-devel@lists.linux.dev, osandov@osandov.com,
+	xueshuai@linux.alibaba.com, konrad.wilk@oracle.com,
+	linux-edac@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-pci@vger.kernel.org, kernel-team@meta.com, osandov@fb.com,
+	Breno Leitao <leitao@debian.org>
+Subject: Re: [PATCH v4] vmcoreinfo: Track and log recoverable hardware errors
+Message-ID: <202508020814.lzX1CZpj-lkp@intel.com>
+References: <20250801-vmcore_hw_error-v4-1-fa1fe65edb83@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250801160023.2434130-1-colin.i.king@gmail.com>
-In-Reply-To: <20250801160023.2434130-1-colin.i.king@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 1 Aug 2025 23:57:43 +0200
-X-Gm-Features: Ac12FXymuCoCTkN9AJAJa7gXREI0nQIfvbT-NIqpDvHhaI6WuM_cL9u36xBUzHw
-Message-ID: <CAHp75VeDt=1=9epJPQjzfyyph09bov9UWWwpaAXgu01Egf1hag@mail.gmail.com>
-Subject: Re: [PATCH][next] media: atomisp: Fix incorrect snprintf format
- specifiers for signed integers
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250801-vmcore_hw_error-v4-1-fa1fe65edb83@debian.org>
 
-On Fri, Aug 1, 2025 at 6:01=E2=80=AFPM Colin Ian King <colin.i.king@gmail.c=
-om> wrote:
->
-> There are incorrect %u format specifiers being used to for signed integer=
-s,
-> fix this by using %d instead.
+Hi Breno,
 
-Both of them sound to me like the fix of the symptom and not the
-cause. Can we simply make types of the iterators to be unsigned
-instead?
+kernel test robot noticed the following build warnings:
 
---=20
-With Best Regards,
-Andy Shevchenko
+[auto build test WARNING on 89748acdf226fd1a8775ff6fa2703f8412b286c8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/vmcoreinfo-Track-and-log-recoverable-hardware-errors/20250801-211624
+base:   89748acdf226fd1a8775ff6fa2703f8412b286c8
+patch link:    https://lore.kernel.org/r/20250801-vmcore_hw_error-v4-1-fa1fe65edb83%40debian.org
+patch subject: [PATCH v4] vmcoreinfo: Track and log recoverable hardware errors
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250802/202508020814.lzX1CZpj-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020814.lzX1CZpj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508020814.lzX1CZpj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> vmlinux.o: warning: objtool: hwerr_log_error_type+0x23: call to ktime_get_real_seconds() leaves .noinstr.text section
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
