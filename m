@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38790-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38791-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EF9B18D46
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:45:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB0CB18D4F
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:45:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 929CC1889C6F
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:45:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFC9D188177D
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:46:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1814725EFBE;
-	Sat,  2 Aug 2025 09:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613FC28000A;
+	Sat,  2 Aug 2025 09:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GL6CR5yU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="prjR2qME"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0593218599;
-	Sat,  2 Aug 2025 09:32:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1BE21A435;
+	Sat,  2 Aug 2025 09:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754127146; cv=none; b=OYabmyE0Z2GjSpk25zXKrfVJmo/+HU8OZrYsQJvOVlryzvunAnC5yHM8FBUt+lj/qr/2mprasG9nLA9Mm4c1Rseto5QjXYoLTO8hf/6TKqfgWJUCf9+Lj/P2+zJt83RBSfegXc/A3eUyMJ1HkS3X2YZZYnf3XA8xqwSHtNmE/Ig=
+	t=1754127156; cv=none; b=LQlJ08fXCfvN3vrAvUzVQtp5+EYgwUv5rNeyjHoFsEGFVaa5PfpGobDrYttBgIDd5Ln1rT3eekSWkwLcJh8mUA1gjkGY4bLs3OsOwBg0PGwkX3Al7L9wLBw27YCUqnD/S/hjb9vSXG9MqC9eAkKXzlWlvOvUX34eiHCwOeQpjvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754127146; c=relaxed/simple;
-	bh=gIu7Q4nN31+tN7fJeeN0sXg6UA/9FufXt5i86vLgD+Y=;
+	s=arc-20240116; t=1754127156; c=relaxed/simple;
+	bh=Gv9lbTXbRA6yPchkZ3lS+TOW5kUSmV4lOuM2BHAl6rc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ILTOjXIxayU+LRjULjaNktqRcE72o7b2jwUVeCr9J3uJZZ/EXTOtVzy+9rSQGNd9+YCMzm4vjMjV+F4hiEaBs+MrVW8zG82f5yy+uh0VcFvDkSP/U+RjdAkOilSNX+FHXPdeaOqCB7WBuAGvfW58/rbBQXHdASlsOEuN+jY4oQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GL6CR5yU; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=Vynjxb6dgLHbtxw2LK24qL3HlinmcuTJInhYMq81pV5Fr40zK2+NZHKmAoi7kDpAHGayFbLY/Pa3qlbwimOCGUN3Pfs0UId/2M/mT1OO2LhRRD18heZaGPINjWQE//GcRUqAD8+UdzZXwu3nhiXgJNXynZVLUEB8jHQnJSyea78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=prjR2qME; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92D654129;
-	Sat,  2 Aug 2025 11:31:14 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ACBF54335;
+	Sat,  2 Aug 2025 11:31:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754127098;
-	bh=gIu7Q4nN31+tN7fJeeN0sXg6UA/9FufXt5i86vLgD+Y=;
+	s=mail; t=1754127108;
+	bh=Gv9lbTXbRA6yPchkZ3lS+TOW5kUSmV4lOuM2BHAl6rc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=GL6CR5yUCjrJ8Di6FitQc05AJIWv3/YAnWtH8vT9/rbN5zj5cL2izsjDnupBw8yvE
-	 L0lWTuvumb2ZXhIQVExAoei84xv19KDAVimC9N9bAnzu0BKdzv61ucCiFN0qXJifX0
-	 hybuyN5nw7SUK45tB57L48cM/R8LXK+PwyxTM8CM=
+	b=prjR2qMEqDFUpRAMyRMQie2Nv0psrCvqJct/SVaw4UJ1ZnQGtwemB81zuwIxfhYmA
+	 UT5xqYwRWk4pliCkOwyDtOZIWgQ02ealWQ9qhJOwpXw0HYOuCGUOVZSW9E4Olza9D9
+	 1kBxLlAAFwfvVJtSUCBdG3fkfFioLN9du/EPH7ao=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:23:13 +0200
-Subject: [PATCH 51/65] media: bdisp: Access v4l2_fh from file
+Date: Sat, 02 Aug 2025 11:23:14 +0200
+Subject: [PATCH 52/65] media: st: delta: Access v4l2_fh from file
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-51-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-52-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -141,21 +141,21 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4052;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2303;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=gIu7Q4nN31+tN7fJeeN0sXg6UA/9FufXt5i86vLgD+Y=;
- b=kA0DAAoBcjQGjxahVjwByyZiAGiN2P2hAJjeL4C7TG81g20mJ+/1CxQtsOthszQGUM0XJNW7W
- okCMwQAAQoAHRYhBLXEPUiAmiCKj1g4wHI0Bo8WoVY8BQJojdj9AAoJEHI0Bo8WoVY8h/YP/Rrz
- +Cuai5dHAU1rx/elvXgMyktAPuA4wu2VdL2V1bVM4s1xdxx9aSpDpB3gUm87g00dGiGAfgAh3wd
- mmcHoafszDQ2MPBlhouZzjL+DDhOTP8r84ZaJVQ/mMHppYjPnBC2zKjQf/ZUK3H2DRmwu+Nz5os
- qwTvV2AsKkC4z3J1dyTi/pbkk0rvsi/+gy1QgI7+EjE7oG3p6cx9UJGenTyylr9nd27N9lYe3cD
- IAAfl09YRRop4Wg+xsoENjcSbTjb/dHkOoneJKKYr9LAOozYGP43+LOcG5Wjk1na1F3zI6a7fBj
- KwpT5npGhEzVMR8XPK2JpEK8Lqj4Rftu7vY5sX8xEl9ZQboZx8gm/+ZbR46Z/mHtKU5rSO+iIpJ
- T7M11oVBNsDh8e65csMOcST1mudTVJ+tsi38V5gZVjTWYjL5OXUVBGKUDOEs9YXB7Y660wKt5NW
- Wlta5Uzg32G9b4/vkxuo0s+r+WMn2svTvFr2hXBiDFy+3mgSPTd2+u+c1m1bA2/K7wN5jC7Vi+g
- vhh3Nn6SjRE5nU0tGvhgnITb3nSIyvVRaD9R/3TGWkInsh3DiBfiANIct7tsVMxlob/5Fu6Kvmb
- z4kRAbF9Mx8TXDmfyqZ+5irZIWPNW3aa9qMZOCiRyndODnDB80Z54qfqJxCYsEitNZNWMDw+Ddv
- r/hZZ
+ bh=Gv9lbTXbRA6yPchkZ3lS+TOW5kUSmV4lOuM2BHAl6rc=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj9vdOmSnLOUwNwZy60z/PGCExXr86n8sWQN
+ A1xKQtQDdiJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/QAKCRByNAaPFqFW
+ PM7LEADD+AAAj6JZRdP++0YsTAt4fObDpya+EVPh0Cb6TnbK5FzsF4T3lKA6HhvS/ZooVnw7Qt6
+ ZpWIDwjI5j7u+vUeC1Do3HIjmUMHE7dy6rPcFFFYJ8i/gRomOvyDoOZs+iBbQp/jNPmks7dD1/0
+ XvAOPjC8OwzdASEGKKnYyY7Nlx9vpxlhz/1PlG7c69xJu7QXyP6Oh14W7IEpbixZCSduafhQWDy
+ anWvYa0l/kB3kjG0SvbpfqoyCoYyS7dOmtMccsrqvkN6Jg/P3cMEXaqjm7u+YPuwI6hbNbNzThW
+ 2A6reQ1Ppsheu3gX/KTOuV1GbuBoEtugJuj2SYYrN2tkIwcs+b070nlaGrUjnaCjBR6vrl5rgg9
+ 3r/tBLDf4cYBpghzvw9pWiNuxfaYcPmGta1lFZvZD6EvNKv7qpCJeubCbOY7+y4fSXliKRWunTv
+ A6ghHNWLKUjZeIEG/SB9kODMGrjXog5eevGf8bg3APXdUQewvBQ5wtPLBJ5hDKa/nrrOpatS+73
+ S33mhSyYAbGnXk/FvdKW0CyYkhKhFYpAJD/G4PEFPl/KfH0FgL98LWJRailHu0zYoRvIN47ABBk
+ A+HmZuJVgKFOB0gKqfCbqdNp9mK0h6YBD2sX8h0jI/O1LvaFppcRnZAMDdydv7fRr+pji3KSqGE
+ /UkNMoMG/NlhRdg==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
@@ -169,96 +169,57 @@ While at it, remove the now unused fh_to_ctx() macro.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ drivers/media/platform/st/sti/delta/delta-v4l2.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c b/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-index fc7945d29bccc2fdf0fc48fc14d6698b321418d9..56169b70652d3aaf7c3c395a630a29023cbd9722 100644
---- a/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-+++ b/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-@@ -33,8 +33,6 @@
- #define BDISP_MIN_H             1
- #define BDISP_MAX_H             8191
+diff --git a/drivers/media/platform/st/sti/delta/delta-v4l2.c b/drivers/media/platform/st/sti/delta/delta-v4l2.c
+index adff43271b2dc059abbbf82d90cd13482f6bca30..6c1a53c771f746813a6062cb3ffc139250ff7146 100644
+--- a/drivers/media/platform/st/sti/delta/delta-v4l2.c
++++ b/drivers/media/platform/st/sti/delta/delta-v4l2.c
+@@ -24,8 +24,6 @@
  
--#define fh_to_ctx(__fh) container_of(__fh, struct bdisp_ctx, fh)
+ #define DELTA_PREFIX "[---:----]"
+ 
+-#define to_ctx(__fh) container_of(__fh, struct delta_ctx, fh)
 -
- static inline struct bdisp_ctx *file_to_ctx(struct file *filp)
+ static inline struct delta_ctx *file_to_ctx(struct file *filp)
  {
- 	return container_of(file_to_v4l2_fh(filp), struct bdisp_ctx, fh);
-@@ -686,7 +684,7 @@ static const struct v4l2_file_operations bdisp_fops = {
- static int bdisp_querycap(struct file *file, void *fh,
- 			  struct v4l2_capability *cap)
- {
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
- 	struct bdisp_dev *bdisp = ctx->bdisp_dev;
- 
- 	strscpy(cap->driver, bdisp->pdev->name, sizeof(cap->driver));
-@@ -698,7 +696,7 @@ static int bdisp_querycap(struct file *file, void *fh,
- 
- static int bdisp_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- {
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
- 	const struct bdisp_fmt *fmt;
- 
- 	if (f->index >= ARRAY_SIZE(bdisp_formats))
-@@ -718,7 +716,7 @@ static int bdisp_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 
- static int bdisp_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
- {
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
- 	struct v4l2_pix_format *pix;
- 	struct bdisp_frame *frame  = ctx_get_frame(ctx, f->type);
- 
-@@ -742,7 +740,7 @@ static int bdisp_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 
- static int bdisp_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
- {
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
- 	struct v4l2_pix_format *pix = &f->fmt.pix;
- 	const struct bdisp_fmt *format;
- 	u32 in_w, in_h;
-@@ -792,7 +790,7 @@ static int bdisp_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 
- static int bdisp_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
- {
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
- 	struct vb2_queue *vq;
- 	struct bdisp_frame *frame;
- 	struct v4l2_pix_format *pix;
-@@ -845,8 +843,8 @@ static int bdisp_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
- static int bdisp_g_selection(struct file *file, void *fh,
+ 	return container_of(file_to_v4l2_fh(filp), struct delta_ctx, fh);
+@@ -727,7 +725,7 @@ static int delta_s_fmt_frame(struct file *file, void *fh, struct v4l2_format *f)
+ static int delta_g_selection(struct file *file, void *fh,
  			     struct v4l2_selection *s)
  {
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
- 	struct bdisp_frame *frame;
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
+-	struct delta_ctx *ctx = to_ctx(fh);
++	struct delta_ctx *ctx = file_to_ctx(file);
+ 	struct delta_frameinfo *frameinfo = &ctx->frameinfo;
+ 	struct v4l2_rect crop;
  
- 	frame = ctx_get_frame(ctx, s->type);
- 	if (IS_ERR(frame)) {
-@@ -923,8 +921,8 @@ static int is_rect_enclosed(struct v4l2_rect *a, struct v4l2_rect *b)
- static int bdisp_s_selection(struct file *file, void *fh,
- 			     struct v4l2_selection *s)
+@@ -809,7 +807,7 @@ static int delta_try_decoder_cmd(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
+-static int delta_decoder_stop_cmd(struct delta_ctx *ctx, void *fh)
++static int delta_decoder_stop_cmd(struct delta_ctx *ctx)
  {
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
- 	struct bdisp_frame *frame;
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
- 	struct v4l2_rect *in, out;
- 	bool valid = false;
- 
-@@ -1001,7 +999,7 @@ static int bdisp_s_selection(struct file *file, void *fh,
- 
- static int bdisp_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+ 	const struct delta_dec *dec = ctx->dec;
+ 	struct delta_dev *delta = ctx->dev;
+@@ -872,14 +870,14 @@ static int delta_decoder_stop_cmd(struct delta_ctx *ctx, void *fh)
+ static int delta_decoder_cmd(struct file *file, void *fh,
+ 			     struct v4l2_decoder_cmd *cmd)
  {
--	struct bdisp_ctx *ctx = fh_to_ctx(fh);
-+	struct bdisp_ctx *ctx = file_to_ctx(file);
+-	struct delta_ctx *ctx = to_ctx(fh);
++	struct delta_ctx *ctx = file_to_ctx(file);
+ 	int ret = 0;
  
- 	if ((type == V4L2_BUF_TYPE_VIDEO_OUTPUT) &&
- 	    !bdisp_ctx_state_is_set(BDISP_SRC_FMT, ctx)) {
+ 	ret = delta_try_decoder_cmd(file, fh, cmd);
+ 	if (ret)
+ 		return ret;
+ 
+-	return delta_decoder_stop_cmd(ctx, fh);
++	return delta_decoder_stop_cmd(ctx);
+ }
+ 
+ static int delta_subscribe_event(struct v4l2_fh *fh,
 
 -- 
 2.49.0
