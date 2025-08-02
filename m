@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218A9B18CD2
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:40:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BD3B18CDB
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:40:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4ABC25662AA
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:40:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5447E16816C
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E845027935C;
-	Sat,  2 Aug 2025 09:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B62248871;
+	Sat,  2 Aug 2025 09:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a6yKtLO3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hT8Gx6Bm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A023F212D67;
-	Sat,  2 Aug 2025 09:29:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653352797A3;
+	Sat,  2 Aug 2025 09:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754126999; cv=none; b=BajQmboq8G4yJQEnWFEC5pE1XApQpWY9S4fwAHM3Su1ndFBhABkImbiWvKsR+nSxJJe5HYG+TsfdzP0Ppm67aJji+l33VBWdHcWwLVHGqcLvGSeI6hFzvFbyxg28rncIkHewn6rbFseYRaTqqThqGKHbwI3DOcHfQbE7AGIoMOM=
+	t=1754127008; cv=none; b=Jj2ywAoNqeAo2D8utraznNXkef3AZZq7CjbAvr8TbXuuL0RQnVnxGcdr6iidJMKaxnwZVsdO+9zOUXLekJy25HmHLLLJwIwYd6s9P3d8o/fPPdLzaU1cSeHfEU4N73dP82BYfci6a6+jFQeA77V+6O96XUtCTKpRFifbZIIGyBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754126999; c=relaxed/simple;
-	bh=QMXN795g4JQ02dbn34MUgI1SrXfUXWeSvy7JvnRGT/4=;
+	s=arc-20240116; t=1754127008; c=relaxed/simple;
+	bh=DR8H5PIAc8L4JOzfoP4xWpCxebhDCEnaJqqWhPBFy+0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=r+okpetGUAIQi78vz4eu/YFPQWxjpofckNUNeXorbOWQk1l84aTJWEK9gPOhV6Ufb5eJ5F/qVs9l1KSb1ScRi/tudl/INw8l7rL5MMLEY3YCh0dQQR07eBban0PddQkwSfwz1MEoVD4ZvRxCAGcG+iy58Vzca4o99ZSDYaFpu8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a6yKtLO3; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=ug1QI8sYv+2Mkc4VBK7fi5t7+v77d31BgdPw3jz+E/rc5d70KLwRTtSLUjgUUKeezZipnQDEk+iXTdMNj4bz3noxa73LQtYAraof2nNRLSHEbhe6nixJzwlmk5Po94/b+HFpkeSh47s1wl5FGEs2t7xASy1YqpRnLCi5yKH4JlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hT8Gx6Bm; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D13D93EE9;
-	Sat,  2 Aug 2025 11:29:02 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDA0D3C97;
+	Sat,  2 Aug 2025 11:29:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754126950;
-	bh=QMXN795g4JQ02dbn34MUgI1SrXfUXWeSvy7JvnRGT/4=;
+	s=mail; t=1754126959;
+	bh=DR8H5PIAc8L4JOzfoP4xWpCxebhDCEnaJqqWhPBFy+0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=a6yKtLO3p3dptqs8nDpC4CTqf6f17ThWt2kAQ1RtjLbHys7ZhKQtBaxqQGSFM14hJ
-	 lo2so0O2XgjC9oyqujkhkQVVJ41fDYV4TE+DbxU0VOqJKvsFvw9M/9U/KkF7+/glzq
-	 Xda2N5WbvBrVab8G1DXb+S/ilReE23HpnougskVQ=
+	b=hT8Gx6BmOM76bDFeML8LExuJPTAnht6Wvn57/qJhB7+ZhlNMqfXhEkASH3NW3RuyW
+	 UZTqUXH/j8H6xn9lPsNIuJ1E2Ht2wzHcwFHMec6ZTXX4zFnaK3T8vOqZ9UuNg86A45
+	 wLsnMm4kFRwPqYJBTI/nmtZ/BWbP+cVS1qJzP4Mw=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:23:01 +0200
-Subject: [PATCH 39/65] media: imx-jpeg: Access v4l2_fh from file
+Date: Sat, 02 Aug 2025 11:23:02 +0200
+Subject: [PATCH 40/65] media: imx-isi: Access v4l2_fh from file
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-39-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-40-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -141,21 +141,21 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6555;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3477;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=QMXN795g4JQ02dbn34MUgI1SrXfUXWeSvy7JvnRGT/4=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj8/oWIIARD+dfkmFv/taMUYIiUf/KYJk9vV
- f7+9cr+2++JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/AAKCRByNAaPFqFW
- PKtxD/0WLPIL/mL1eF89kxSMM9GwOxEKdo8GLGfT13RWpduaSJTQpP/edD44lwWuTCc/Ppgs83F
- u9bd6x4dOVwYfaPQIN5wij1VrkrZ6Bukd6h598tHgoKq0LmK6g9AS6SSJyKCVG8ETu/fpF0ARpW
- 1oq1soPH+lkWm2YsCf88hjEAeLKuLe6T2CZB8MolKhAQOKNFewTMquWE8SfXrpMELAUh97npU/h
- GzVOcyJRfI+Me9QDMgov6AQRy+qGdm2K6R0aK8XaHuDSUkdPw4breQtXzbxvHJujLsZ3Ylt4IrG
- 5pTN90+UngJ1pYigkyC8u8WI8bF5BcOxKx+gjGXuO+zcdr++UiIKHU/iOzkeJvdSnBPE6XjtZEW
- DBYFVMgrlvKkBQ9pjwJIsek4GgkDSCUoTnyXtR5YpjSZLIOP2Hkxg/MYLR1K00HzGwNykLZfmwU
- gvHiAygX/esogRpR/rFyA6SnjaCLLoy/9Dak8v/a15IEWnRsw8DD6LGJGELTh5E3YGkkeFfBkWQ
- nk9hYsCX5zLegyyQZ6tjuv6HJc53gqm0Mq3KtJl8V5t46D4VXt+WsPiGrcRHyyYD8ibuJBlaHs2
- ocOq1NEyVZ4BCdDoTWV7kqUn46e9u4uWM6Owwwggr8iOtxOn3o1mz5KuPz3wd7z2Oc1LrqSZ3Ry
- yexlpARHGjG1bXg==
+ bh=DR8H5PIAc8L4JOzfoP4xWpCxebhDCEnaJqqWhPBFy+0=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj8EoZgkMCHL3+wASHVhjTV75Orj6SKgaDZA
+ 6AcS4LUd4KJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/AAKCRByNAaPFqFW
+ POVpD/9a3Ls6bK9algAcZ2oeiBjNz7tRIjEIwEqB46qB5Bq/kQDbriurqxVTCwNigHT9yYh0mXP
+ 7cACNJ33RBJeyO9365kZBXs/wmIKGs/p4y+dJ8d2bdWddvcupEtgqZNitoozeu7ESiwRcXbm3y+
+ BoqB1V1jDTE11ypab29+vcaKo4qzSBIP3Hrtk4YeBKLn7gvYgaFBrNEonU6NKD9ODA/LIQulZRe
+ 73jR/l7r+PYcnZ7Rx2T3rwKBgs8D83nyaNr0oEZik56YfleC18XsXP3MSfruSvbfjD6GZWeNrgd
+ 712W4aBRF81a+B6kH5V8Aovltk00OUqLELIBHSUZ7El7W4Me1pXr/QPd6vAC1H+DRpxf2j40+RN
+ TDxqmDHi3YGoi8kJ0PnEMVgSCBCaLXRuhS8dGLvwvkIDAcuHVFiPB8byYSwpkGOYBKB7luuYB7H
+ 4xIhq9bAWnGPh09Xfuwcd9HL+8K5DLRYr1sqRYZZ55yszHbxWsYKKm4yD7EKfvDRiOMJb3LBBrX
+ Z35HmnmFMEe15m2PWocAX01Sgl4eA0YFESsMERAWjZQgueknFQDoJGsL4JOMUxeaYI6kcUScc+3
+ RYuRDI3FkGlEJpgXEYQ+q+gim7m/X5v4sL1NiwSpLY259tUn9RHwSBlkYDikigIZORsM45vlmyz
+ zSJL01P1ffA0xNA==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
@@ -165,152 +165,74 @@ to be available in file->private_data, initialised by v4l2_fh_add().
 Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
-While at it, remove the now unused mxc_jpeg_fh_to_ctx() macro.
+While at it, remove the now unused to_isi_m2m_ctx() macro.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 33 +++++++++++---------------
- 1 file changed, 14 insertions(+), 19 deletions(-)
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index fa7d74d8c1aabd3bf74482e214165d8c1a7e89da..df3ccdf767baf0bf6687808e2c017063181a7220 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -644,11 +644,6 @@ static void print_mxc_buf(struct mxc_jpeg_dev *jpeg, struct vb2_buffer *buf,
- 	}
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+index 850dd8ae95841d4470ac6bd7cb1e54a7510d6d5e..5501214cc6c0ce3e0188ae6d4ff4ae277b975911 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+@@ -74,11 +74,6 @@ to_isi_m2m_buffer(struct vb2_v4l2_buffer *buf)
+ 	return container_of(buf, struct mxc_isi_m2m_buffer, buf.vb);
  }
  
--static inline struct mxc_jpeg_ctx *mxc_jpeg_fh_to_ctx(struct v4l2_fh *fh)
+-static inline struct mxc_isi_m2m_ctx *to_isi_m2m_ctx(struct v4l2_fh *fh)
 -{
--	return container_of(fh, struct mxc_jpeg_ctx, fh);
+-	return container_of(fh, struct mxc_isi_m2m_ctx, fh);
 -}
 -
- static inline struct mxc_jpeg_ctx *mxc_jpeg_file_to_ctx(struct file *filp)
+ static inline struct mxc_isi_m2m_ctx *file_to_isi_m2m_ctx(struct file *filp)
  {
- 	return container_of(file_to_v4l2_fh(filp), struct mxc_jpeg_ctx, fh);
-@@ -1610,7 +1605,7 @@ static int mxc_jpeg_decoder_cmd(struct file *file, void *priv,
- 				struct v4l2_decoder_cmd *cmd)
+ 	return container_of(file_to_v4l2_fh(filp), struct mxc_isi_m2m_ctx, fh);
+@@ -432,7 +427,7 @@ static int mxc_isi_m2m_try_fmt_vid(struct file *file, void *fh,
+ 	const enum mxc_isi_video_type type =
+ 		f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ?
+ 		MXC_ISI_VIDEO_M2M_OUT : MXC_ISI_VIDEO_M2M_CAP;
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 
+ 	__mxc_isi_m2m_try_fmt_vid(ctx, &f->fmt.pix_mp, type);
+ 
+@@ -442,7 +437,7 @@ static int mxc_isi_m2m_try_fmt_vid(struct file *file, void *fh,
+ static int mxc_isi_m2m_g_fmt_vid(struct file *file, void *fh,
+ 				 struct v4l2_format *f)
  {
- 	struct v4l2_fh *fh = file_to_v4l2_fh(file);
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	unsigned long flags;
- 	int ret;
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	const struct mxc_isi_m2m_ctx_queue_data *qdata =
+ 		mxc_isi_m2m_ctx_qdata(ctx, f->type);
  
-@@ -1643,7 +1638,7 @@ static int mxc_jpeg_encoder_cmd(struct file *file, void *priv,
- 				struct v4l2_encoder_cmd *cmd)
+@@ -457,7 +452,7 @@ static int mxc_isi_m2m_s_fmt_vid(struct file *file, void *fh,
+ 	const enum mxc_isi_video_type type =
+ 		f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ?
+ 		MXC_ISI_VIDEO_M2M_OUT : MXC_ISI_VIDEO_M2M_CAP;
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
+ 	const struct mxc_isi_format_info *info;
+ 	struct vb2_queue *vq;
+@@ -489,7 +484,7 @@ static int mxc_isi_m2m_s_fmt_vid(struct file *file, void *fh,
+ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ 				enum v4l2_buf_type type)
  {
- 	struct v4l2_fh *fh = file_to_v4l2_fh(file);
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	unsigned long flags;
- 	int ret;
- 
-@@ -2260,7 +2255,7 @@ static int mxc_jpeg_querycap(struct file *file, void *priv,
- static int mxc_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
- 				     struct v4l2_fmtdesc *f)
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
+ 	const struct v4l2_pix_format_mplane *out_pix = &ctx->queues.out.format;
+ 	const struct v4l2_pix_format_mplane *cap_pix = &ctx->queues.cap.format;
+@@ -577,7 +572,7 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+ 				 enum v4l2_buf_type type)
  {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data = mxc_jpeg_get_q_data(ctx, f->type);
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
+ 	struct mxc_isi_m2m *m2m = ctx->m2m;
  
- 	if (ctx->mxc_jpeg->mode == MXC_JPEG_ENCODE) {
-@@ -2300,7 +2295,7 @@ static int mxc_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
- static int mxc_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
- 				     struct v4l2_fmtdesc *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	u32 type = ctx->mxc_jpeg->mode == MXC_JPEG_DECODE ?  MXC_JPEG_FMT_TYPE_ENC :
- 							     MXC_JPEG_FMT_TYPE_RAW;
- 	int ret;
-@@ -2441,7 +2436,7 @@ static int mxc_jpeg_try_fmt(struct v4l2_format *f,
- static int mxc_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
- 				    struct v4l2_format *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
- 	struct mxc_jpeg_q_data tmp_q;
-@@ -2460,7 +2455,7 @@ static int mxc_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
- static int mxc_jpeg_try_fmt_vid_out(struct file *file, void *priv,
- 				    struct v4l2_format *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
- 	struct mxc_jpeg_q_data tmp_q;
-@@ -2512,20 +2507,20 @@ static int mxc_jpeg_s_fmt(struct mxc_jpeg_ctx *ctx,
- static int mxc_jpeg_s_fmt_vid_cap(struct file *file, void *priv,
- 				  struct v4l2_format *f)
- {
--	return mxc_jpeg_s_fmt(mxc_jpeg_fh_to_ctx(priv), f);
-+	return mxc_jpeg_s_fmt(mxc_jpeg_file_to_ctx(file), f);
- }
- 
- static int mxc_jpeg_s_fmt_vid_out(struct file *file, void *priv,
- 				  struct v4l2_format *f)
- {
- 	int ret;
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct vb2_queue *dst_vq;
- 	struct mxc_jpeg_q_data *q_data_cap;
- 	enum v4l2_buf_type cap_type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 	struct v4l2_format fc;
- 
--	ret = mxc_jpeg_s_fmt(mxc_jpeg_fh_to_ctx(priv), f);
-+	ret = mxc_jpeg_s_fmt(ctx, f);
- 	if (ret)
- 		return ret;
- 
-@@ -2554,7 +2549,7 @@ static int mxc_jpeg_s_fmt_vid_out(struct file *file, void *priv,
- static int mxc_jpeg_g_fmt_vid(struct file *file, void *priv,
- 			      struct v4l2_format *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
- 	struct v4l2_pix_format_mplane   *pix_mp = &f->fmt.pix_mp;
-@@ -2592,7 +2587,7 @@ static int mxc_jpeg_g_fmt_vid(struct file *file, void *priv,
- 
- static int mxc_jpeg_dec_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data_cap;
- 
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE && s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-@@ -2621,7 +2616,7 @@ static int mxc_jpeg_dec_g_selection(struct file *file, void *fh, struct v4l2_sel
- 
- static int mxc_jpeg_enc_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data_out;
- 
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT && s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-@@ -2649,7 +2644,7 @@ static int mxc_jpeg_enc_g_selection(struct file *file, void *fh, struct v4l2_sel
- 
- static int mxc_jpeg_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 
- 	if (ctx->mxc_jpeg->mode == MXC_JPEG_DECODE)
- 		return mxc_jpeg_dec_g_selection(file, fh, s);
-@@ -2659,7 +2654,7 @@ static int mxc_jpeg_g_selection(struct file *file, void *fh, struct v4l2_selecti
- 
- static int mxc_jpeg_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data_out;
- 
- 	if (ctx->mxc_jpeg->mode != MXC_JPEG_ENCODE)
 
 -- 
 2.49.0
