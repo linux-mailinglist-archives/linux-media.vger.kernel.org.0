@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7609FB18D89
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:49:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08EB4B18D80
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:49:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AA3067B9042
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:47:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5461D1AA409C
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:49:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 636EB283FD5;
-	Sat,  2 Aug 2025 09:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BCF0284670;
+	Sat,  2 Aug 2025 09:33:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WzvZ2DuT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="etIRH98N"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C8C26657D;
-	Sat,  2 Aug 2025 09:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3900265603;
+	Sat,  2 Aug 2025 09:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754127212; cv=none; b=nH7FceDneMfGjpSPK0XTD7Nnp8yRPRNU2htS6xoS5HPK2+Qn+/3KyKl9zuTEVWVdp+MxWel+BjTrDeDmlatu7QnLOjlKLKHwfx+la+B8XdlwJwDoxK201NSF9WSxwuJrRnn+QdcNWlHmA2Kdg63wwceZ5LTbhmk7TlB24jpw424=
+	t=1754127221; cv=none; b=E0EZsuL3CRXTEa99DtA4usKDQ7iSLzmrr6oMmgbaiyFShe6bqgxeIjhjp7TqW4FWY4ooeP1gI1zmUYh76agUBMXBRU3FBbZvMvW0vNgI47//4ojiIJwUp5LbsnYM3CD9fFLzIQstwN0W3BG9jTpxDSYDxfv5b1SQxbhqRI5+jJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754127212; c=relaxed/simple;
-	bh=K/dzfOS0dkV05E8cvQoG7rwz6dZ9ZnnXvqtKDs2t7xo=;
+	s=arc-20240116; t=1754127221; c=relaxed/simple;
+	bh=iuKNDwtt8kKRQfGxKCSjEUYPIwMYunyGqFuuiLv3K0Q=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nCZFI7SN6kfPWU0eCseELTtAZq/k46hETLqcTd41jwozeNAECqiqesmBkuSXIMf7T6LsX0QopQ/jWrSP7afowzztqdQBpLXhfA7kOkvEftfNz7++FFGvLQgzN+NmQP5S5odB/GRT0mIbCL60mPCOvZdYQXZE7h/nR/45+/0z39w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WzvZ2DuT; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=o7EzNCKCaNbcvk+MDAscEA5EWjjmY4scDQ8763u5u90MH97+5Nyx0HxPDb1SAIEPJSctHjKQOzCyLwYduhQdkWSmltT0HZXVssZiKF5dUjQ0foCif7af7UTR5Gc56Kr0hkTV+fwDwAefuoFSeN1yNCkmAb99/DglH1CmkAhV6fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=etIRH98N; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65B522F8B;
-	Sat,  2 Aug 2025 11:32:32 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4D2132D9;
+	Sat,  2 Aug 2025 11:32:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754127164;
-	bh=K/dzfOS0dkV05E8cvQoG7rwz6dZ9ZnnXvqtKDs2t7xo=;
+	s=mail; t=1754127173;
+	bh=iuKNDwtt8kKRQfGxKCSjEUYPIwMYunyGqFuuiLv3K0Q=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=WzvZ2DuTeTr9GaZYJYqUZ0wzA/oeg6yvYX0wZsUJFGdjrfZamwqsW67ol38XV9gwp
-	 kdyl8dDrLlE/F0D5V9Xqi/vjReFJX7jg/lwbTcK7TvBh541QqyFa7LeywALRlK5zzV
-	 hXdFNW5LxfxIjbogRPihvL8rs0OoosH5yzwzMaD0=
+	b=etIRH98NKbNN5H2qEksc93SH3XM0T+iHwBiOZ2zIIi9Jz5Nfq8I5gq/qqfZoLaGIf
+	 jwI5tLaeBjeNOiJimErQ6oMw555d/gVWivBRSyNQPaGhthmghohdU9eW2fyrzXMbKN
+	 YNAvg3Xt+DbgyFDC+JIZ+7yhFf9U81sDlxpvzS2A=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:23:20 +0200
-Subject: [PATCH 58/65] media: zoran: Remove access to __fh
+Date: Sat, 02 Aug 2025 11:23:21 +0200
+Subject: [PATCH 59/65] media: usb: hdpvr: Access v4l2_fh from file
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-58-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-59-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -141,68 +141,134 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1617;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3953;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=K/dzfOS0dkV05E8cvQoG7rwz6dZ9ZnnXvqtKDs2t7xo=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj+SsmP6BGofKCY4QKrL2701OyUXD717ITDG
- 7Ik2h8or36JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/gAKCRByNAaPFqFW
- PEGYEAC/vc5ffxbdnceLM5+KLumODTQTA1neOKuNhgMT8YpOzMtlVK+dF5JMoJu9D11t01DCqCo
- JkYJbGM3IjxD6odRWgYWcOW+XVJN9coQUv+6MDOKDpPZibuaZt2nrGJlvwFK2cwh8/pye7jMGwo
- EYlMCweT91Pwu/glbdctNofWZQH0kCBURg0VbT8s2bzOgqlD+483+LVSSl5VIYBXRRnGLXEh6qP
- E0rNx7KliVie3Bo7yRmkedmcWuHOuro9Ypu/3L3g3rR31ONnmHdjNK22QUJinRjV5dvHgL4bJl4
- nxl9NA0ktz4tYk/PruS0Zwv05qMJtpsdgkbBD3JJ8CO7bUQbgPcqH2BbiO9lKUDzqVKVIjLh0Hi
- vgL7W9cg2DZ7x1p6ou9TOx5FS9UOxR5rHnYBLPRwbDo1skp/TvQK+dTgNxyN7+5eqz8Hcq4Ks09
- NOSTRHu44Vn7RPSdf4RUbC0OqccCCL/UUnAvRYtKl/yrnOGuV/jCUq+R6wt/5nBSwWqDCV1mBr4
- h5/1HqY2L6B0ZD6KOnflHG8B9JOJGt+luOyaRDGG3IGyQ4wqHChbDw/qd2YgwrjNwVJc+SAg05p
- 7HUKO0Tdh3VYf0edLQc7zgVxc1VzQcptntmErcuywAlnyBp0N3Tv0ND51Gg+L8W3gwhQ4RecDfW
- JboSxoPNrKexePw==
+ bh=iuKNDwtt8kKRQfGxKCSjEUYPIwMYunyGqFuuiLv3K0Q=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj+3oIZOpPyRnUEOapjuFEBEhE8i4b15dP3j
+ TFU3u0Zq82JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y/gAKCRByNAaPFqFW
+ PEWzD/wO0yY2ImRGI/xM/rt7O/iVxa6dL1bda4RnoBRoPjDFzI2D/JgAWB88ItgnHwmmeUYyrHD
+ aj6Oer2TYNjkhdmVyApjHfcDzEVdnHmj0MCYdbR5oYRULICvDiv+kZJ0aPYK9Vr/rWjwbEbyxu8
+ TZoBzFl9CY4bK7bDY6qWTtl1Pv1l9xYj466g0Dez2B/ww/Ei1tJVucCoAdclB61xY0Njd5X0RVN
+ D/y29IhK9YmbbIeAYOaN3iOnc67GIwI7A2gJfXZNbXwNrmfs3hTN0onFjIqGYA9CH98qnp8ZFOz
+ dgNwNbCS2sscvB/QF+zhd1S+x7O6/818r7a9o1Vu31PLtAllughH3gzfaKL4oIfUJeSXe7uZQKZ
+ y1V77hajADut4bY3tNpd4jdT66FUKAnZNVaKkBiiL8iRNSDwrGmsWcArE+SETAqLKrmJz9HkT73
+ JvjpNxuC5xbZ+4J/yBgaSlrh1Sd2i+cLtXzNftndJsiE8bsLMw09qnRtgyZtMjiGd7XN2BhbnBR
+ RO3qRrFXEwntpdTPzHbs8a+S1xXGCeVbVKgWfkzcuel9H4TGqByb+6zSzkEpxmo38Agt5D/yYIQ
+ dELD/16003/RrZ2xtraKeJ72lH62ckXJVyXXwjoQrysiGVxDAhvB+SQ2okXgKbbhWAudP7U5PYh
+ qsmZdurZGwpzh6g==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-The __fh parameter is assigned to an unsued variable. Remove it
-and remove the unused struct zoran_fh type.
+The v4l2_fh associated with an open file handle is now guaranteed
+to be available in file->private_data, initialised by v4l2_fh_add().
+
+Access the v4l2_fh, and from there the driver-specific structure,
+from the file * in all ioctl handlers.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/pci/zoran/zoran.h        | 6 ------
- drivers/media/pci/zoran/zoran_driver.c | 3 +--
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ drivers/media/usb/hdpvr/hdpvr-video.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/pci/zoran/zoran.h b/drivers/media/pci/zoran/zoran.h
-index 1cd990468d3de9db8b14b72483972041c57bfee2..d05e222b392156bf1b3b4c83c6591db642c3c377 100644
---- a/drivers/media/pci/zoran/zoran.h
-+++ b/drivers/media/pci/zoran/zoran.h
-@@ -154,12 +154,6 @@ struct zoran_jpg_settings {
+diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c b/drivers/media/usb/hdpvr/hdpvr-video.c
+index 6c6e467f85549e86598e73d29352a84de7df2f4d..8a5c2c5227ebe6f64bf44fff50dd4918f4f5394e 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-video.c
++++ b/drivers/media/usb/hdpvr/hdpvr-video.c
+@@ -52,6 +52,11 @@ struct hdpvr_fh {
+ 	bool legacy_mode;
+ };
  
- struct zoran;
- 
--/* zoran_fh contains per-open() settings */
--struct zoran_fh {
--	struct v4l2_fh fh;
--	struct zoran *zr;
--};
--
- struct card_info {
- 	enum card_type type;
- 	char name[32];
-diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
-index f42f596d3e6295e31e3b33cd83c5f7243911bd30..ec7fc1da4cc02f5a344cb49bb9a783c41c758195 100644
---- a/drivers/media/pci/zoran/zoran_driver.c
-+++ b/drivers/media/pci/zoran/zoran_driver.c
-@@ -511,12 +511,11 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
- 			       struct v4l2_format *fmt)
++static inline struct hdpvr_fh *file_to_hdpvr_fh(struct file *file)
++{
++	return container_of(file_to_v4l2_fh(file), struct hdpvr_fh, fh);
++}
++
+ static uint list_size(struct list_head *list)
  {
- 	struct zoran *zr = video_drvdata(file);
--	struct zoran_fh *fh = __fh;
+ 	struct list_head *tmp;
+@@ -589,7 +594,7 @@ static int vidioc_s_std(struct file *file, void *_fh,
+ 			v4l2_std_id std)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
+ 	u8 std_type = 1;
+ 
+ 	if (!fh->legacy_mode && dev->options.video_input == HDPVR_COMPONENT)
+@@ -609,7 +614,8 @@ static int vidioc_g_std(struct file *file, void *_fh,
+ 			v4l2_std_id *std)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
++
+ 
+ 	if (!fh->legacy_mode && dev->options.video_input == HDPVR_COMPONENT)
+ 		return -ENODATA;
+@@ -620,8 +626,8 @@ static int vidioc_g_std(struct file *file, void *_fh,
+ static int vidioc_querystd(struct file *file, void *_fh, v4l2_std_id *a)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
+ 	struct hdpvr_video_info vid_info;
+-	struct hdpvr_fh *fh = _fh;
+ 	int ret;
+ 
+ 	*a = V4L2_STD_UNKNOWN;
+@@ -640,7 +646,7 @@ static int vidioc_s_dv_timings(struct file *file, void *_fh,
+ 				    struct v4l2_dv_timings *timings)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
  	int i;
- 	int res = 0;
  
- 	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
--		return zoran_s_fmt_vid_out(file, fh, fmt);
-+		return zoran_s_fmt_vid_out(file, __fh, fmt);
+ 	fh->legacy_mode = false;
+@@ -663,7 +669,7 @@ static int vidioc_g_dv_timings(struct file *file, void *_fh,
+ 				    struct v4l2_dv_timings *timings)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
  
- 	for (i = 0; i < NUM_FORMATS; i++)
- 		if (fmt->fmt.pix.pixelformat == zoran_formats[i].fourcc)
+ 	fh->legacy_mode = false;
+ 	if (dev->options.video_input)
+@@ -676,7 +682,7 @@ static int vidioc_query_dv_timings(struct file *file, void *_fh,
+ 				    struct v4l2_dv_timings *timings)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
+ 	struct hdpvr_video_info vid_info;
+ 	bool interlaced;
+ 	int ret = 0;
+@@ -718,7 +724,7 @@ static int vidioc_enum_dv_timings(struct file *file, void *_fh,
+ 				    struct v4l2_enum_dv_timings *timings)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
+ 
+ 	fh->legacy_mode = false;
+ 	memset(timings->reserved, 0, sizeof(timings->reserved));
+@@ -734,7 +740,7 @@ static int vidioc_dv_timings_cap(struct file *file, void *_fh,
+ 				    struct v4l2_dv_timings_cap *cap)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
+ 
+ 	fh->legacy_mode = false;
+ 	if (dev->options.video_input)
+@@ -994,7 +1000,7 @@ static int vidioc_g_fmt_vid_cap(struct file *file, void *_fh,
+ 				struct v4l2_format *f)
+ {
+ 	struct hdpvr_device *dev = video_drvdata(file);
+-	struct hdpvr_fh *fh = _fh;
++	struct hdpvr_fh *fh = file_to_hdpvr_fh(file);
+ 	int ret;
+ 
+ 	/*
 
 -- 
 2.49.0
