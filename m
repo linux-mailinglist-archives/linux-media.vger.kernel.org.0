@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-38760-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38761-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F00B18C42
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:33:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAF8B18C4A
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:33:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B67DA4E048D
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:33:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29F711AA3046
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:34:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CB02673B7;
-	Sat,  2 Aug 2025 09:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4F4F26A1AC;
+	Sat,  2 Aug 2025 09:27:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="efEEkJTn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="glpozsiM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9EF207DEE;
-	Sat,  2 Aug 2025 09:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA09721D3F8;
+	Sat,  2 Aug 2025 09:27:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754126823; cv=none; b=U+jODViItz5DqsJwxZ6e5jeXOzZ3BTy3Ta7lB3rrQbOx2GADJGLRbQGefWIf1Q2Llpq4nsw/mcnwoSicVURkbEmnQi0d5M+o/pFTi3A6x23jXq5XcY0sa+8vhvBhs6XmIJNAomsMir6lM6hYPZs5qNIF4YvBq+RZRYHlj5zKnWY=
+	t=1754126832; cv=none; b=d9/HnGfJNqeC1WtSG+tPs55liLqN+mhszjhl18lJNakm3EwOH5b9ZZbcryse4H3uCbAgT0kNkh88P7Rk1r/Uqso7f8X5dKe4mGygF0ql94d05yaIslLO+sGeJsw52EOcSoXX1MNHgyt4bm0qnywGaT3wwwFmonumQj8+02u7xM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754126823; c=relaxed/simple;
-	bh=YeeZiet6PqHm7IlGh7t3GZOdydEI6jy4AdesJo+UFJ8=;
+	s=arc-20240116; t=1754126832; c=relaxed/simple;
+	bh=PZLQVaI1vZKi0WIr3Q878QLqEaTr0uij9E9KhgQTBLY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LVXT65AUeD4WkCNtL9klI2tEBHwtaGhYLv4eBEjC6CVzZFEXTeqUIvUWaRDtq1akz4IG26C0ENX0q1qRlgdqiX9Oq9rIjJxlJZNtOIS+tUp3nQgREn/5Q56Im59AMvELEUQwRowOk+/CMIqBxY5diHXb6L6ZD8tUJcpzqn/lCgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=efEEkJTn; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=rLcTpAQSSdQO/sNRfsKkISjIQeZwrhfwFmqzBfOvSiBdpLbxb3aFEwkOGwZCSWHMT3HruHWx3C4F/knXItPq/PTfPqcy9pQYEQn2+BduatjqX23jf33ZD+xzvlgzEj1Fe0U5Yr7iSVJsyqt3GDEIEwYarpBm7O3bbeXYdAWEo8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=glpozsiM; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C35D330E;
-	Sat,  2 Aug 2025 11:26:06 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CEC0B3AC8;
+	Sat,  2 Aug 2025 11:26:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754126774;
-	bh=YeeZiet6PqHm7IlGh7t3GZOdydEI6jy4AdesJo+UFJ8=;
+	s=mail; t=1754126784;
+	bh=PZLQVaI1vZKi0WIr3Q878QLqEaTr0uij9E9KhgQTBLY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=efEEkJTnS1kS5gUzaXOmI/yYslA+2pJMaHIkGKProANNbr8dxKaCBtqnVHS7MQhUm
-	 5O2inCnrkmxZUR7Sb/afzgyTKrbaPNf/CC1zw3zEX7ePOorKxhty47n27+ZtwThhbW
-	 xJ9x9IaW2d+ETCWGrE3pPgiKenybAl/eZ+xNKYmQ=
+	b=glpozsiMSkAdE8qk8DV+qPeB3taW375MoVrWdOB4cufVoZ/iT2/9a/sHUU6CS0d5I
+	 riolvMj1G/tGQ7S2/0rHQQjGwNysQGwANruXqaKpTG39MMXBMknM5lc8YSPrjUgIai
+	 9jDndo/hQZm6gNe2reNXZU/1z+kKk7B/biiUSd+U=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:22:43 +0200
-Subject: [PATCH 21/65] media: chips-media: wave5: Pass file pointer to
- wave5_cleanup_instance()
+Date: Sat, 02 Aug 2025 11:22:44 +0200
+Subject: [PATCH 22/65] media: qcom: iris: Pass file pointer to
+ iris_v4l2_fh_(de)init()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-21-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-22-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -142,101 +142,85 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3292;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2406;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=sFLeSeZ18AiPz7TNtzZuErYTeuXEDyYERBW9KVUCez8=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj5Ab8WMNqTk1vrNJmzEF9fusCZ5AJs5tg8p
- ikoDaHa4TGJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+QAKCRByNAaPFqFW
- PIGXD/9X1mdSs4tmw4s1JTfYvMbuDI1kxi3A97kXvrt+El+sQRTisOHlSxLE9USoyAGm9PnoFPY
- icrGza2HD8EwUhtANb4EwK4SX8gRpvg5DXsHiY+BzBm4ZVvbrn4YKQ8EspQAqrqPqNpRCC3jLzn
- 0GRaHqxDXvUIkwHB48fJQ6GV3QDhI0wZH4KOeyPYnI+UAT/tN3QLKewQVSIxCvc+x44Uz1UIfYt
- kdVvO1fp4phNaCAUHr+TNYEglxeQRmyTjF7EFg8glg2DIQvarhZjR2idgNmJRc32RfKKlrWhLLG
- qsc3G5XT4rTHdpVwmtUQZodlMjwJIMrLeeq3gmQLcuVkPx7WrqJFWrykMYjVSJW9boC6wQNseOL
- g/jwwARgjsbT4VVBTM34U4UGM25/qXegXPcvFArnizqPHj2jNKsfNiwqCk9hQvsaZb0hejeg2C6
- PIHxrsXkFRQdQNuT5CuoeTdUazuF9Y8PozrVwKktzkTD3iCYWR6uVAZwa5j/+W0fWDzMJe3etdR
- iL0DtcbzUnBRXuciDmUfTXXz4QqjEoF7LYYGV9gHpobdDmtnG6aN+YRDMpFr8/cXnc76JpLWK1O
- iZ4WMJ6IpVenQcUxz2evwcVueKdYxxj8eIkzeEvX3GLQmspDOksNr43SNDrl2k/d9vKpDQ7djH2
- UWeorQDKZwyuLsQ==
+ bh=T7tnvhAAkedHKQQVRtKCkxG+wcLOyWF1XErsaMtfBYY=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj59XaFL/Sd0BVhJH0Xfg7Vmb1RhxbHsvp6x
+ 5ltEdCDgMOJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+QAKCRByNAaPFqFW
+ PCwcEACdclKr4oR/Yg45NonSfNvh7MFckOXskhI7d8HCP6X6W2mxvMN2af258eUD0Po2k7UJAdg
+ yhzWebC08rW11AJ0yJ3BPh7FKCi1eL6HmLvL6gUYdf/HFCIzVRaXRBIrvgCE9Z7XiMpZOvHml3U
+ PH+YUa/VZZd/SLAZtNbWr1356EBCqBLxuvqCV9B0zyLAgNGvv1CoyeO3pbvl2oNL7OJyn7v2mof
+ YqY9cFeaIDMIhiDfZ4xNa4r/eQ1DT43YITKFB8bZmFcojlHmuByILVOj+o9uOTJWeMFIl2UC5F/
+ YZxhB+yQInGuMlJVYQkGvBp06TE3kgE3NjJyhV52/FwlfnUdSo0d1/HxG4QxVaoAUp9BsuJKAwS
+ eJ4eo9xwhHWzs06HcHx1Kt/YmtN/QJJd6Ukjby5WdtpRpmAARIgr5LwfiYuysqD9N3VRbKq+9fZ
+ kLJ0e40lPrCJaeDc36gAl0dUgo8OeDcuHcWRiUL3uOHxA9+U0oRdQ15nEgmGY1MxnBeO/hLMLkI
+ G3PtZs8kgWlBW8b/bMN28rvvgm9rR7VUuvAk/4f9p+dgDkhu4ZTPyheBI2V4JRgGlleR7vVeSTm
+ UZvbPhAiM16/87VqLg31yijDZzm1Zn8du/yPyJN8U7+HyQIBTjVVhYTrY9eD0NO9TTEdkwfHdsx
+ 5RIsN9qBKPBFCrw==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 In preparation for a tree-wide rework automated with coccinelle that
-will need to access a struct file pointer in the
-wave5_cleanup_instance() function, pass it from the callers. There is
-not functional change yet.
+will need to access a struct file pointer in the iris_v4l2_fh_init() and
+iris_v4l2_fh_deinit() functions, pass it from the callers. There is not
+functional change yet.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/chips-media/wave5/wave5-helper.c  | 4 ++--
- drivers/media/platform/chips-media/wave5/wave5-helper.h  | 2 +-
- drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 2 +-
- drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/platform/qcom/iris/iris_vidc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-index 031dea0ee61c6c5afddf7ff47d67d85826f16d8d..ed8ff04a899da0a3c9e0f037dac2c9548c98920f 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-@@ -27,7 +27,7 @@ const char *state_to_str(enum vpu_instance_state state)
- 	}
- }
+diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+index 0c3b47b9958aa3388d91ffda9b2acfbb53f09f59..d5f99519def45d1c5859e641eed490ec9ad5784a 100644
+--- a/drivers/media/platform/qcom/iris/iris_vidc.c
++++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+@@ -21,14 +21,14 @@
+ #define STEP_WIDTH 1
+ #define STEP_HEIGHT 1
  
--void wave5_cleanup_instance(struct vpu_instance *inst)
-+void wave5_cleanup_instance(struct vpu_instance *inst, struct file *filp)
+-static void iris_v4l2_fh_init(struct iris_inst *inst)
++static void iris_v4l2_fh_init(struct iris_inst *inst, struct file *filp)
  {
- 	int i;
- 
-@@ -78,7 +78,7 @@ int wave5_vpu_release_device(struct file *filp,
- 		}
- 	}
- 
--	wave5_cleanup_instance(inst);
-+	wave5_cleanup_instance(inst, filp);
- 
- 	return ret;
- }
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.h b/drivers/media/platform/chips-media/wave5/wave5-helper.h
-index 9937fce553fc33000bd31abcfc6d7345f6f7e485..976a402e426ff329490717925a08a76d777cbe3e 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-helper.h
-+++ b/drivers/media/platform/chips-media/wave5/wave5-helper.h
-@@ -14,7 +14,7 @@
- #define MAX_FMTS	12
- 
- const char *state_to_str(enum vpu_instance_state state);
--void wave5_cleanup_instance(struct vpu_instance *inst);
-+void wave5_cleanup_instance(struct vpu_instance *inst, struct file *filp);
- int wave5_vpu_release_device(struct file *filp,
- 			     int (*close_func)(struct vpu_instance *inst, u32 *fail_res),
- 			     char *name);
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-index fd71f0c43ac37a0bb56f669d4b89d6054cb181d5..f3188d720ed3e183f3400816a9c939014213711d 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-@@ -1840,7 +1840,7 @@ static int wave5_vpu_open_dec(struct file *filp)
- 	return 0;
- 
- cleanup_inst:
--	wave5_cleanup_instance(inst);
-+	wave5_cleanup_instance(inst, filp);
- 	return ret;
+ 	v4l2_fh_init(&inst->fh, inst->core->vdev_dec);
+ 	inst->fh.ctrl_handler = &inst->ctrl_handler;
+ 	v4l2_fh_add(&inst->fh);
  }
  
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index 1e5fc5f8b856c5329b2c6007649285a28749b6aa..b69a1206fa12c2ff5f3a32d269b8fd3b80a597aa 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -1784,7 +1784,7 @@ static int wave5_vpu_open_enc(struct file *filp)
- 	return 0;
+-static void iris_v4l2_fh_deinit(struct iris_inst *inst)
++static void iris_v4l2_fh_deinit(struct iris_inst *inst, struct file *filp)
+ {
+ 	v4l2_fh_del(&inst->fh);
+ 	inst->fh.ctrl_handler = NULL;
+@@ -164,7 +164,7 @@ int iris_open(struct file *filp)
+ 	init_completion(&inst->completion);
+ 	init_completion(&inst->flush_completion);
  
- cleanup_inst:
--	wave5_cleanup_instance(inst);
-+	wave5_cleanup_instance(inst, filp);
- 	return ret;
- }
+-	iris_v4l2_fh_init(inst);
++	iris_v4l2_fh_init(inst, filp);
  
+ 	inst->m2m_dev = v4l2_m2m_init(&iris_m2m_ops);
+ 	if (IS_ERR_OR_NULL(inst->m2m_dev)) {
+@@ -194,7 +194,7 @@ int iris_open(struct file *filp)
+ fail_m2m_release:
+ 	v4l2_m2m_release(inst->m2m_dev);
+ fail_v4l2_fh_deinit:
+-	iris_v4l2_fh_deinit(inst);
++	iris_v4l2_fh_deinit(inst, filp);
+ 	mutex_destroy(&inst->ctx_q_lock);
+ 	mutex_destroy(&inst->lock);
+ 	kfree(inst);
+@@ -259,7 +259,7 @@ int iris_close(struct file *filp)
+ 	iris_vdec_inst_deinit(inst);
+ 	iris_session_close(inst);
+ 	iris_inst_change_state(inst, IRIS_INST_DEINIT);
+-	iris_v4l2_fh_deinit(inst);
++	iris_v4l2_fh_deinit(inst, filp);
+ 	iris_destroy_all_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+ 	iris_destroy_all_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+ 	iris_check_num_queued_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
 
 -- 
 2.49.0
