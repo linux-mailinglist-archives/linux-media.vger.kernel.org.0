@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-38741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A72CB18B9F
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:25:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F19FEB18BA5
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:25:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90D9E1895836
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:25:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E88F56273D
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:25:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7AB3221568;
-	Sat,  2 Aug 2025 09:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C29921171B;
+	Sat,  2 Aug 2025 09:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g8cVRCST"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Xh5QMoMj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7315620B81B;
-	Sat,  2 Aug 2025 09:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A591020E00B;
+	Sat,  2 Aug 2025 09:23:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754126629; cv=none; b=Z8n3LxArR0LKJsvMvc/DLjTlTk02CkOXW0Xf6L8PUxeoxWB34Eo7EUybO/Cq7fQixv9bO6dnn8efdibfLJLFKC0olnJSUqQcFPJLNbio3KIGUDft0igPPrObIQ+IVb6W0j7laFeyDYowLHfIq2NvXp/qj08+SN0Afws1L8mNYBU=
+	t=1754126638; cv=none; b=NEg2D+LVvPNcV8ItW9UgK0NN533LGku8XOrVRUYu49gRUJeeFJhJTBmtE3chxl8H9euwjcRb8LgE+11nKLjTyrnunGh8BmoDa6boVwlnI1o2XIEqeQYhw1k/VfFDyn/wRx5raE7gYETmO8H9prGeDp44nG7Sj4bY+XAYfGQXwvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754126629; c=relaxed/simple;
-	bh=K8dDCPVG1nkY6ic4h3FKwjvVzHTUjGzd1GG1sYDnoFA=;
+	s=arc-20240116; t=1754126638; c=relaxed/simple;
+	bh=M16fcXPSFGIgO1fjImCRLdBNZivtR5rZm3smOC67Dos=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e0SZxS5eTN3INCIkuuiX+MMXSMA7oibf4gdxNjBpPSiXBRICR/HURqVPczaqmVYVYbylTXBV1Yde6yoqPwIbq6UGi+KCbkDb7r/0BlwSp6WfJoZnpkbymsL3ifXa0z0yEPBGoOK/qffG4yHZuQpeG15EbxPzMbsZ/++1AQcggGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g8cVRCST; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=VkIOzMAnc+g3/+TMBP9nNXfXezYMZp4My29qpisw48d4lo0cTpbf9Pt7ZdNQpLHdabYrWmyeoH8OA++NoNCu+1gSgiSfFWcJBW5bIxEVSSmJnGgYmI2F4H+1HRLmTFnx8K6eSXLB3euTnfeJtInaS9cescge3wlanBCBkZNju5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Xh5QMoMj; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50061725;
-	Sat,  2 Aug 2025 11:22:50 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3885A842;
+	Sat,  2 Aug 2025 11:23:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754126580;
-	bh=K8dDCPVG1nkY6ic4h3FKwjvVzHTUjGzd1GG1sYDnoFA=;
+	s=mail; t=1754126589;
+	bh=M16fcXPSFGIgO1fjImCRLdBNZivtR5rZm3smOC67Dos=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=g8cVRCST89q8XYffSHxu1w8tRa9g2WsNGAItA5r8tH7V/DbNblJ6jc6QvVyhgL8GB
-	 eKkqv3HG0YcDlIfWs/kNrYjBUoXt/w9rLBJirlDl0OvkFCg0Gk7qcnY3MaZSyFiphj
-	 CNoEtAx/JHqYMJ4o7RcXRdqE15IMUkcyVG52VhQU=
+	b=Xh5QMoMjqrqkgjHWdCiChhC1kdX3rt6vslL7ao3U194rehb2t/LzhlzZlqrh6+4Li
+	 TXEK7x4SM24jeMVMI9tnUtNWGlre6MKBX/a1G7iPg7TPV5tvdJ4RtiQc9hq6VaiCnv
+	 i2Hx8PcD5E6xY6KEeR7bvKmTwPdPJt9t1aXwo9Q4=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:22:24 +0200
-Subject: [PATCH 02/65] media: imagination: Store v4l2_fh pointer in
+Date: Sat, 02 Aug 2025 11:22:25 +0200
+Subject: [PATCH 03/65] media: ti: vpe: Store v4l2_fh pointer in
  file->private_data
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-2-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-3-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -142,28 +142,28 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4825;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3454;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=uq3V2iL6jCR+ekaMlo1+qk6d+aP7IFCv3nHFixV02JI=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj30OFbTXcU0cO/acV0mQKqOVtG4JiSgWCWT
- g8NFanNpkOJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y9wAKCRByNAaPFqFW
- PHCED/4vrTjKJYdLSEILTxmBH365qg3YmPx3URIJqZdf8km+nCKwi18Ewh7L8dvElXpn+jZJHMK
- iKF6lVmZ0nmIlIRlnH0Se6dmxhUSypRm6TuyQrsNID25XEkTcjN53a2+mk/NPFIGywdmIT7RxA0
- bhfdBlfEJs53trejkMhGwCeigYz4KCwv9Jp+4R6xKuTII7IzCGi4ChSkK84RyAQYIYJrePAGgWY
- DNIXleinVIw/43K55GUapypW1rzzVB57Hf8PJCHKazRfD5Gxqmz51P8817+/bcabIMfp6b+wk0w
- /xgE23R2n45by1ZqRZPJgg3RSjyYhQ+SZEIojBzMxHsjz7ER/Uqp74kbaBK46lUromE5rNJKVIi
- 8fkdjLbmGlxHZIVaJG+mc83ADCfH572DS8t0knqjYlieQGK8F2wak6rvN/voGvF7UM3oZpjURwb
- Le9qpnU9LdYcS5WGJ2/ZjuWgjv6j4DwdSmxEHhtqX4Y21ggO8HrL6lWdhdvk943omp9GFgDPGWt
- qv5A5St0/fo6JY1FcZYd/AV2SbfJoaCb6aaaFuo/Ore1XBRkOSzj3IFDFCDa0wlOGaAqVsM1GNr
- /oaORYpASWFGcUWz2IBIjnFDw+QsEUtkzz9n5Hf3Yw+ojHMdNjUAQa2UzZxJhtL9XlP9gjqDZ/Q
- 1WxsRYX5yD/TxHA==
+ bh=Np6gXh7MItHymabBs1Yqzt+CAwSTLfj7TvMeffHrbwk=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj33+4XwqxYN9ZW66BafwfZLuLpBrwno2f/A
+ DUK8COJi/uJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y9wAKCRByNAaPFqFW
+ PAwfD/9nt85cmSPVXvNKQvfs5+zCtyPn2ct+RqtRZcjNxMi7ESzI1Hd093H9IIFBZSRZ4js9WNd
+ SR4bWDMxl4ZMN3Z15rOrZEiyXKKAsu7Mjczefb5pYS67Rt0zsQR4M3vBAyjSgt4ONv/YOPnyJUv
+ A/52sMC/hiQTgIJBrXaRA9qrECHWA1TMDYIDhdFZ/wJQWSd0NtEXkHnDmrtP2S38BtR03Rph1Iw
+ +atlfcIB85GJX5d9Z4qXFlxfbm+EzZN5wzwP2wo3o1SZ08cbgOoBxuYYL+y15d4BmaWjlInbYEg
+ Y8n2vsiO/Bhhqlg5rFC27ReaLp3GU0OgdlWkvoe7Mul/hXsRqFBXYgXTITfEfKYXA/h9ngMaUwC
+ zJ5Gl3JNY/bevC/OE7UUStL/LwSByKeXsWAAIgK5g87BIN/iwMoIvLBpeEhf3/bIujUIrs0TxJ9
+ /e2/GqK06yKJoqucWoTtgYEwYGsxxOfMZRPj1gS1nyFpJKkpEjc/6cj5A39OUSpa3SO2TBZekO0
+ f5Mz3BWD7OjNemqOtj7qWsC9Q+Inze9auS33BFlI1MEnsZAoOcZWnXFqmb7jQSi1bgOJkzvSF1Q
+ q3ddzKvIzhgXHi8v2KnEilNsO2s2MzBSzpqBIKTBKzAAhCtYWz+IxE8ZD+ax14Ax4/cNmk2ruLZ
+ vHl5gQqKJGgGbbQ==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Most V4L2 drivers store the v4l2_fh pointer in file->private_data. The
-e5010-jpeg-enc driver instead stores the pointer to the driver-specific
+ti-vpe driver instead stores the pointer to the driver-specific
 structure that embeds the v4l2_fh. Switch to storing the v4l2_fh pointer
 itself to standardize behaviour across drivers. This also prepares for
 future refactoring that depends on v4l2_fh being stored in private_data.
@@ -171,110 +171,87 @@ future refactoring that depends on v4l2_fh being stored in private_data.
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/imagination/e5010-jpeg-enc.c | 18 +++++++++---------
- drivers/media/platform/imagination/e5010-jpeg-enc.h |  5 +++++
- 2 files changed, 14 insertions(+), 9 deletions(-)
+ drivers/media/platform/ti/vpe/vpe.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
-index ae868d9f73e13fdac747ef603e08ea13cd66d3a6..295461325862fb2bcac755cf815955955b37e6f0 100644
---- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
-+++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
-@@ -253,7 +253,7 @@ static int e5010_enum_fmt(struct file *file, void *priv, struct v4l2_fmtdesc *f)
- {
- 	int i, index = 0;
- 	struct e5010_fmt *fmt = NULL;
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 
- 	if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
- 		v4l2_err(&ctx->e5010->v4l2_dev, "ENUMFMT with Invalid type: %d\n", f->type);
-@@ -279,7 +279,7 @@ static int e5010_enum_fmt(struct file *file, void *priv, struct v4l2_fmtdesc *f)
- 
- static int e5010_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 	struct e5010_q_data *queue;
- 	int i;
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-@@ -380,14 +380,14 @@ static int e5010_jpeg_try_fmt(struct v4l2_format *f, struct e5010_context *ctx)
- 
- static int e5010_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 
- 	return e5010_jpeg_try_fmt(f, ctx);
- }
- 
- static int e5010_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 	struct vb2_queue *vq;
- 	int ret = 0, i = 0;
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-@@ -462,7 +462,7 @@ static int e5010_enum_framesizes(struct file *file, void *priv, struct v4l2_frms
- 
- static int e5010_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 	struct e5010_q_data *queue;
- 
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-@@ -490,7 +490,7 @@ static int e5010_g_selection(struct file *file, void *fh, struct v4l2_selection
- 
- static int e5010_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 	struct e5010_q_data *queue;
- 	struct vb2_queue *vq;
- 	struct v4l2_rect base_rect;
-@@ -742,7 +742,7 @@ static int e5010_open(struct file *file)
- 	}
- 
- 	v4l2_fh_init(&ctx->fh, vdev);
--	file->private_data = ctx;
-+	file->private_data = &ctx->fh;
- 	v4l2_fh_add(&ctx->fh);
- 
- 	ctx->e5010 = e5010;
-@@ -781,7 +781,7 @@ static int e5010_open(struct file *file)
- static int e5010_release(struct file *file)
- {
- 	struct e5010_dev *e5010 = video_drvdata(file);
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 
- 	dprintk(e5010, 1, "Releasing instance: 0x%p, m2m_ctx: 0x%p\n", ctx, ctx->fh.m2m_ctx);
- 	mutex_lock(&e5010->mutex);
-@@ -1262,7 +1262,7 @@ static void e5010_buf_queue(struct vb2_buffer *vb)
- static int e5010_encoder_cmd(struct file *file, void *priv,
- 			     struct v4l2_encoder_cmd *cmd)
- {
--	struct e5010_context *ctx = file->private_data;
-+	struct e5010_context *ctx = to_e5010_context(file);
- 	int ret;
- 	struct vb2_queue *cap_vq;
- 
-diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.h b/drivers/media/platform/imagination/e5010-jpeg-enc.h
-index 71f49ead68980c83fd81b19fd63d9abd47abef64..eefaf60489d3fba518acd12709f2e4831686620b 100644
---- a/drivers/media/platform/imagination/e5010-jpeg-enc.h
-+++ b/drivers/media/platform/imagination/e5010-jpeg-enc.h
-@@ -120,6 +120,11 @@ struct e5010_context {
- 	u8				chroma_qp[QP_TABLE_SIZE];
+diff --git a/drivers/media/platform/ti/vpe/vpe.c b/drivers/media/platform/ti/vpe/vpe.c
+index 636d76ecebcd7e6f4e98d6fe4873bf98b0f0239e..b76b5d18c963d9a3313d34cfe0e12772738d336f 100644
+--- a/drivers/media/platform/ti/vpe/vpe.c
++++ b/drivers/media/platform/ti/vpe/vpe.c
+@@ -422,6 +422,10 @@ struct vpe_ctx {
+ 	unsigned int		src_mv_buf_selector;
  };
  
-+static inline struct e5010_context *to_e5010_context(struct file *filp)
++static inline struct vpe_ctx *to_vpe_ctx(struct file *filp)
 +{
-+	return container_of(filp->private_data, struct e5010_context, fh);
++	return container_of(filp->private_data, struct vpe_ctx, fh);
 +}
-+
+ 
  /*
-  * Buffer structure
-  * Contains info for all buffers
+  * M2M devices get 2 queues.
+@@ -1562,7 +1566,7 @@ static int vpe_enum_fmt(struct file *file, void *priv,
+ static int vpe_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ {
+ 	struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
+-	struct vpe_ctx *ctx = file->private_data;
++	struct vpe_ctx *ctx = to_vpe_ctx(file);
+ 	struct vb2_queue *vq;
+ 	struct vpe_q_data *q_data;
+ 
+@@ -1719,7 +1723,7 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
+ 
+ static int vpe_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ {
+-	struct vpe_ctx *ctx = file->private_data;
++	struct vpe_ctx *ctx = to_vpe_ctx(file);
+ 	struct vpe_fmt *fmt = find_format(f);
+ 
+ 	if (V4L2_TYPE_IS_OUTPUT(f->type))
+@@ -1783,7 +1787,7 @@ static int __vpe_s_fmt(struct vpe_ctx *ctx, struct v4l2_format *f)
+ static int vpe_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ {
+ 	int ret;
+-	struct vpe_ctx *ctx = file->private_data;
++	struct vpe_ctx *ctx = to_vpe_ctx(file);
+ 
+ 	ret = vpe_try_fmt(file, priv, f);
+ 	if (ret)
+@@ -1871,7 +1875,7 @@ static int __vpe_try_selection(struct vpe_ctx *ctx, struct v4l2_selection *s)
+ static int vpe_g_selection(struct file *file, void *fh,
+ 		struct v4l2_selection *s)
+ {
+-	struct vpe_ctx *ctx = file->private_data;
++	struct vpe_ctx *ctx = to_vpe_ctx(file);
+ 	struct vpe_q_data *q_data;
+ 	struct v4l2_pix_format_mplane *pix;
+ 	bool use_c_rect = false;
+@@ -1935,7 +1939,7 @@ static int vpe_g_selection(struct file *file, void *fh,
+ static int vpe_s_selection(struct file *file, void *fh,
+ 		struct v4l2_selection *s)
+ {
+-	struct vpe_ctx *ctx = file->private_data;
++	struct vpe_ctx *ctx = to_vpe_ctx(file);
+ 	struct vpe_q_data *q_data;
+ 	struct v4l2_selection sel = *s;
+ 	int ret;
+@@ -2306,7 +2310,7 @@ static int vpe_open(struct file *file)
+ 	init_adb_hdrs(ctx);
+ 
+ 	v4l2_fh_init(&ctx->fh, video_devdata(file));
+-	file->private_data = ctx;
++	file->private_data = &ctx->fh;
+ 
+ 	hdl = &ctx->hdl;
+ 	v4l2_ctrl_handler_init(hdl, 1);
+@@ -2400,7 +2404,7 @@ static int vpe_open(struct file *file)
+ static int vpe_release(struct file *file)
+ {
+ 	struct vpe_dev *dev = video_drvdata(file);
+-	struct vpe_ctx *ctx = file->private_data;
++	struct vpe_ctx *ctx = to_vpe_ctx(file);
+ 
+ 	vpe_dbg(dev, "releasing instance %p\n", ctx);
+ 
 
 -- 
 2.49.0
