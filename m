@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-38752-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38753-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948E6B18C02
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:30:35 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8790DB18C0A
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 11:30:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6F23563B02
-	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:30:35 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 76C974E040F
+	for <lists+linux-media@lfdr.de>; Sat,  2 Aug 2025 09:30:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A53D5246794;
-	Sat,  2 Aug 2025 09:25:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2895B254878;
+	Sat,  2 Aug 2025 09:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gk3w0dlg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tM1rKmPr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342C3224891;
-	Sat,  2 Aug 2025 09:25:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43B4227EA4;
+	Sat,  2 Aug 2025 09:25:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754126741; cv=none; b=chUv8kUqu6lm5PFevsgEJg1EigDZw36affNhEa+O9yhkcDeBxe8jsj1VNjT/DkwuNI1ofo6dYOwMky6z2znuJBRA4sl48gilJabHj5pbJqJy+jYErAzO1HPwtwX86MWG5Q0lO4N7sDUGnZRPhsNT1i8ck/GNos5eg+HjP8y9IV0=
+	t=1754126750; cv=none; b=C/4zUXQYm7pwno0mGsM1ghIE4WYjzrqb4L3ueerTkly6SV5s6X3H6BhPMKqO1cBZQrrS44lyobb7EVzxTFK5qQDbFNXGziL0gpQvsoGqkxJazLoSVOTcP6Gfe4mEZCxgb29Cwv2iXUB9a5bm6QQn/huREgckEBGuWsqzGgviE5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754126741; c=relaxed/simple;
-	bh=b7RMG5gKbuuF6gv8S+Uj2KKTs6XM6lsobaqxn6pl4VQ=;
+	s=arc-20240116; t=1754126750; c=relaxed/simple;
+	bh=J8TTwhJddKQQCi/2/sZ0CDO0sHlrqQEKhYX28Jwyu0w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J/2ZgNFRQgiFp7mhxO11PTyErtukZLf5H+uIpM7AkiggpXaPBPOy2bA6Ya+dRy3l6Cry8woYHaXSWGqkWycmYlvEAkZ23A50YDS/gWwK6qC/5oUwqN1uDJpb2PG9DPDQXwky1uLBG9ykEMjHNISXc/hr4JfECsu3GCPSB5nlf04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gk3w0dlg; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=I8RQ8gMj86FeuiJCd+jMC0soaT/ChjPePx2QTsfhefJGsuiHMFxz6+L2xYtiOJq9X1x4Ki440N/mcZSH9ajijge5dUY38wC1PLEB2KzZBNK4yanyNbJP3T7GGlhYC90KSQfpg7eJ/7NxzISU8WFVZW3Qa4SKzU3mupHPTDgYoS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tM1rKmPr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E2D6730FB;
-	Sat,  2 Aug 2025 11:24:43 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFB0232DD;
+	Sat,  2 Aug 2025 11:24:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754126692;
-	bh=b7RMG5gKbuuF6gv8S+Uj2KKTs6XM6lsobaqxn6pl4VQ=;
+	s=mail; t=1754126702;
+	bh=J8TTwhJddKQQCi/2/sZ0CDO0sHlrqQEKhYX28Jwyu0w=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=gk3w0dlgcofaVXob0cmxl8yMO31aZvlLIP5dNDbKo5GN+5wPIeTV9Lm2ORxzAXc9q
-	 k5+FLvQAYlaUUa1kJh1WvioDAY3R/ZOTICtyWirY7Lq96AUzlXpK4qPEiJ/GIWg5RP
-	 8w8iLIua6QiOS0uuC7UD/aR2bOMEvGLDOuD/wwGE=
+	b=tM1rKmPr+fH2WfgPtZCZkJjqcu/w7/G+w6cz92yWycqLT5VpOjmPaMdaJfqzClFxZ
+	 5ClT7kBVW481USto1xQwyh7d2yBzFeZ57f9JBGoGwhKuk1y/tiNNcIzdVEmbigKo+i
+	 EUoFs8UzINRMjvZZz5Sw6nhUJny7Gin1ywKuJ6B0=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:22:35 +0200
-Subject: [PATCH 13/65] media: amphion: Make some vpu_v4l2 functions static
+Date: Sat, 02 Aug 2025 11:22:36 +0200
+Subject: [PATCH 14/65] media: amphion: Delete v4l2_fh synchronously in
+ .release()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-13-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-14-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -141,112 +142,103 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3584;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3037;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=xoIDFBRhMGMv4oe8TS+uJUoPhd8rKNXueeGPvdsLtfY=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj4frLXYwpCxfo4ZpqKpoU9LXTbFeqaHunMr
- /yn/7NHhzqJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+AAKCRByNAaPFqFW
- PPryEACXh4Keg40awBycOCQweW9WKXDN0UhcSzNg8faLq0NIOsrCU3oYLR3dMz4vYAhlzfGSFi0
- vqn6qO2LPe+ZmXjSVyJaJXyDjNDo+pzRTWl2toKrWplPdzOgk+cgtZX9MhTZs2edrBLCepiGmMm
- Nu4xsweyLEsP3us9ZxhJy6L5X1FVv5a6yVoy85WIbBAp+nHxjoGDxP6SUDoBrpk8Pfyl6+cIwzO
- rJty3YmxpSIB2JX0lum9rKPxO4UckOXnbDEP2WwP92vME5ewnUURSnfBS/NNRETxzt4oQHb4Zk4
- GgEjqxl4NnGf/cu7L2xTlfHwtVcagda/LbUnAkjCkak7NvCibfzhpqdNAQplgQj96yxQaTDGItx
- lr4YhKx916rR2nU0B+GKKQnMnapP+21PSUI/nHrc7LFvre4WStF38IVTTWMaVfIYnRUny5I4UZ+
- yhxg/qC2K27wR+PlqKw6ZoH7hit/PjiUZfQSzvKj4M6D2NV4B8D7lQB22k/2kMfA7ShJkI4u3HX
- YsfjXe0txPZ07xUZuMpwf93yl86YrU31oY0Fu9UlWLvINmMwBjLhiHeMvmwaANWSSUwfCgjb2VD
- 4ohbl6n/IEG0oLZvqHlTD5on65ODc8rJFC3MmECELJ7oRJUG/keEolT9Sv39sWLZ6auuIdu8mU2
- 0EofLwM3RKG2hrg==
+ bh=hzBP7yKh2YjUysXVlLoN8hpVPYpgEzv7aW1XCIBS1I0=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj4AOSO5FBCFS9eBnS6KgpFdnr2VL0H2UfS/
+ DqQ0HfrHvGJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+AAKCRByNAaPFqFW
+ PMm3D/oDVbxrw1/iCgPXqStUx8dfqUJ7S6vGmdOYo0/z1iksjHzSYi48UbwtNPUG7fuHA21WJ1+
+ kiPRiGKCdr7IvMGFPn+j/bFV9E/BXMYyPGvHFiWXtgSOqAJotOWsw8+b5INDo9uPZMDDeMOFy0C
+ zLQcJ3eXtVeuSokKmLg35b4Wrd+FPqOMgjTOLd34T47bVZpmQoDbBQIfCm7CXbW4gE3j9D64rMC
+ odNDo8AGXh8fTYMNENAeaX8+x5JZ0aWkkTxhu4OZ/dlnmjhSj73sELzFd0fXHcaMhaMakMrK/iL
+ zokSPIqRSpg0tDyguHqphECalSY8+YnokUIspV0vSEyhl7stnE4cLs3mlbY4+dh6QlNaSmlAf3l
+ 64oz6QQbIt20Gpbq8xnXVgNweOalGy4qJ4QEcrx5XDGMYZbVZ5GY44CbagDYuC5Zj/CrI0eN4O5
+ MfKakB5B6wFkn+t+p20yWBTnCDW2MFBuQVeHNCCJcm0vs6G8FgrBiMrueeIYm4ejGumx2u+je3Y
+ WoQxW0Cb9mtc6ZDqQfo0qZSej9IbCTT/UPvbcjJuLxbmi4zZn9yYpAZR5AVslfu8ZAXjvw4k/wh
+ FznYp7H1Ps4G02wLUtxgZNLFh9Jl/HWXlDKawTwpi1Y9HJXZPnI7IbQZ3dd7nGmJEpFneZx4LR+
+ Q6bzQiwDKqZ7sEA==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Some functions defined in vpu_v4l2.c are never used outside of that
-compilation unit. Make them static.
+The v4l2_fh initialized and added in vpu_v4l2_open() is delete and
+cleaned up when the last reference to the vpu_inst is released. This may
+happen later than at vpu_v4l2_close() time.
+
+Not deleting and cleaning up the v4l2_fh when closing the file handle to
+the video device is not ideal, as the v4l2_fh will still be present in
+the video device's fh_list, and will store a copy of events queued to
+the video device. There may also be other side effects of keeping alive
+an object that represents an open file handle after the file handle is
+closed.
+
+The v4l2_fh instance is embedded in the vpu_inst structure, and is
+accessed in two different ways:
+
+- in vpu_notify_eos() and vpu_notify_source_change(), to queue V4L2
+  events to the file handle ; and
+
+- through the driver to access the v4l2_fh.m2m_ctx pointer.
+
+The v4l2_fh.m2m_ctx pointer is not touched by v4l2_fh_del() and
+v4l2_fh_exit(). It is set to NULL by the driver when closing the file
+handle, in vpu_v4l2_close().
+
+The vpu_notify_eos() and vpu_notify_source_change() functions are called
+in vpu_set_last_buffer_dequeued() and vdec_handle_resolution_change()
+respectively, only if the v4l2_fh.m2m_ctx pointer is not NULL. There is
+therefore a guarantee that no new event will be queued to the v4l2_fh
+after vpu_v4l2_close() destroys the m2m_ctx.
+
+The vpu_notify_eos() function is also called from vpu_vb2_buf_finish(),
+which is guaranteed to be called for all queued buffers when
+vpu_v4l2_close() calls v4l2_m2m_ctx_release(), and will not be called
+later.
+
+It is therefore safe to assume that the driver will not touch the
+v4l2_fh, except to check the m2m_ctx pointer, after vpu_v4l2_close()
+destroys the m2m_ctx. We can safely delete and cleanup the v4l2_fh
+synchronously in vpu_v4l2_close().
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/amphion/vpu_v4l2.c | 12 +++++++++---
- drivers/media/platform/amphion/vpu_v4l2.h |  8 --------
- 2 files changed, 9 insertions(+), 11 deletions(-)
+ drivers/media/platform/amphion/vpu_v4l2.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-index 74668fa362e24fd34829b500e99c8455a9413fc1..306d94e0f8e79faaacfa35b28e5786860f7bd1ca 100644
+index 306d94e0f8e79faaacfa35b28e5786860f7bd1ca..57ca6262bb04b356a85e217ef51cfb13cb9a0a36 100644
 --- a/drivers/media/platform/amphion/vpu_v4l2.c
 +++ b/drivers/media/platform/amphion/vpu_v4l2.c
-@@ -24,6 +24,11 @@
- #include "vpu_msgs.h"
- #include "vpu_helpers.h"
+@@ -724,8 +724,6 @@ static int vpu_v4l2_release(struct vpu_inst *inst)
  
-+static char *vpu_type_name(u32 type)
-+{
-+	return V4L2_TYPE_IS_OUTPUT(type) ? "output" : "capture";
-+}
-+
- void vpu_inst_lock(struct vpu_inst *inst)
- {
- 	mutex_lock(&inst->lock);
-@@ -42,7 +47,7 @@ dma_addr_t vpu_get_vb_phy_addr(struct vb2_buffer *vb, u32 plane_no)
- 			vb->planes[plane_no].data_offset;
+ 	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ 	mutex_destroy(&inst->lock);
+-	v4l2_fh_del(&inst->fh);
+-	v4l2_fh_exit(&inst->fh);
+ 
+ 	call_void_vop(inst, cleanup);
+ 
+@@ -794,6 +792,8 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
+ 
+ 	return 0;
+ error:
++	v4l2_fh_del(&inst->fh);
++	v4l2_fh_exit(&inst->fh);
+ 	vpu_inst_put(inst);
+ 	return ret;
  }
- 
--unsigned int vpu_get_vb_length(struct vb2_buffer *vb, u32 plane_no)
-+static unsigned int vpu_get_vb_length(struct vb2_buffer *vb, u32 plane_no)
- {
- 	if (plane_no >= vb->num_planes)
- 		return 0;
-@@ -81,7 +86,7 @@ void vpu_v4l2_set_error(struct vpu_inst *inst)
+@@ -813,6 +813,9 @@ int vpu_v4l2_close(struct file *file)
+ 	call_void_vop(inst, release);
  	vpu_inst_unlock(inst);
- }
  
--int vpu_notify_eos(struct vpu_inst *inst)
-+static int vpu_notify_eos(struct vpu_inst *inst)
- {
- 	static const struct v4l2_event ev = {
- 		.id = 0,
-@@ -573,7 +578,8 @@ static void vpu_vb2_buf_finish(struct vb2_buffer *vb)
- 		call_void_vop(inst, on_queue_empty, q->type);
- }
++	v4l2_fh_del(&inst->fh);
++	v4l2_fh_exit(&inst->fh);
++
+ 	vpu_inst_unregister(inst);
+ 	vpu_inst_put(inst);
  
--void vpu_vb2_buffers_return(struct vpu_inst *inst, unsigned int type, enum vb2_buffer_state state)
-+static void vpu_vb2_buffers_return(struct vpu_inst *inst, unsigned int type,
-+				   enum vb2_buffer_state state)
- {
- 	struct vb2_v4l2_buffer *buf;
- 
-diff --git a/drivers/media/platform/amphion/vpu_v4l2.h b/drivers/media/platform/amphion/vpu_v4l2.h
-index 56f2939fa84d07b7ea07e889ab5ad3bb7ca9ab5c..4a87b06ae520306ede356b6f3309d8b4a67c204a 100644
---- a/drivers/media/platform/amphion/vpu_v4l2.h
-+++ b/drivers/media/platform/amphion/vpu_v4l2.h
-@@ -26,15 +26,12 @@ void vpu_skip_frame(struct vpu_inst *inst, int count);
- struct vb2_v4l2_buffer *vpu_find_buf_by_sequence(struct vpu_inst *inst, u32 type, u32 sequence);
- struct vb2_v4l2_buffer *vpu_find_buf_by_idx(struct vpu_inst *inst, u32 type, u32 idx);
- void vpu_v4l2_set_error(struct vpu_inst *inst);
--int vpu_notify_eos(struct vpu_inst *inst);
- int vpu_notify_source_change(struct vpu_inst *inst);
- int vpu_set_last_buffer_dequeued(struct vpu_inst *inst, bool eos);
--void vpu_vb2_buffers_return(struct vpu_inst *inst, unsigned int type, enum vb2_buffer_state state);
- int vpu_get_num_buffers(struct vpu_inst *inst, u32 type);
- bool vpu_is_source_empty(struct vpu_inst *inst);
- 
- dma_addr_t vpu_get_vb_phy_addr(struct vb2_buffer *vb, u32 plane_no);
--unsigned int vpu_get_vb_length(struct vb2_buffer *vb, u32 plane_no);
- static inline struct vpu_format *vpu_get_format(struct vpu_inst *inst, u32 type)
- {
- 	if (V4L2_TYPE_IS_OUTPUT(type))
-@@ -43,11 +40,6 @@ static inline struct vpu_format *vpu_get_format(struct vpu_inst *inst, u32 type)
- 		return &inst->cap_format;
- }
- 
--static inline char *vpu_type_name(u32 type)
--{
--	return V4L2_TYPE_IS_OUTPUT(type) ? "output" : "capture";
--}
--
- static inline int vpu_vb_is_codecconfig(struct vb2_v4l2_buffer *vbuf)
- {
- #ifdef V4L2_BUF_FLAG_CODECCONFIG
 
 -- 
 2.49.0
