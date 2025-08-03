@@ -1,178 +1,224 @@
-Return-Path: <linux-media+bounces-38810-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38811-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0399FB194AD
-	for <lists+linux-media@lfdr.de>; Sun,  3 Aug 2025 19:51:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A3EB194B0
+	for <lists+linux-media@lfdr.de>; Sun,  3 Aug 2025 20:02:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DCA51890C70
-	for <lists+linux-media@lfdr.de>; Sun,  3 Aug 2025 17:51:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B36B7189242A
+	for <lists+linux-media@lfdr.de>; Sun,  3 Aug 2025 18:02:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888531DF258;
-	Sun,  3 Aug 2025 17:50:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7535B1C860F;
+	Sun,  3 Aug 2025 18:02:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d0ZEVntA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVJ+oU3p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2321C5496;
-	Sun,  3 Aug 2025 17:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD5C4C8F
+	for <linux-media@vger.kernel.org>; Sun,  3 Aug 2025 18:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754243451; cv=none; b=maH+Hz6JQCSsHSn/iYUClD1zNgRAj3Ns1/3htWIb2r0bulDpiwq/g2A7mVCXTAOVVd30E3c+OQpabFMUORPAKvw9hazB38Gui5E5Smg4TZq7/BqptlA5k+1n8KYOR0/jat8NV++N5tvn/cDCKXZKj2+yxtXogxktenHcnaCxHUg=
+	t=1754244126; cv=none; b=pQbV3ui6v8HRDMjs6xez9+ueM9MLO5Dtx0WtiG5j3pPwH/+YkMhjMJEEqaAOBP68xb1Wu1CyiCH7UnfQgjDB2+mxbxdwTo6ai0BGd5we4HFKFey6XwrWs1PY1yUOjHIMJdqe6oH2M03qmXy1827Fm7Gtksfo/6zWZNEsYtlwXt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754243451; c=relaxed/simple;
-	bh=DJiSK5yw31vSZeaWgFi3HoD1YTH8Ir78jDdMH+9lJz8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ALWh+qp3zo3V5Who35f6Gs4teIajEZHc/w2dIV/x2pyG6rhSCBXeSd4nCDRLhSnAsDgabP12Z1bnoZtICP0p3pVJgnqK8QglFSzAkWVBd8pFinTB9lSLHE93AI9yxXxfHgJfg1wW7H/djCi8f/PdtX9T/BFkU6U3v3jy4acMtlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d0ZEVntA; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1754244126; c=relaxed/simple;
+	bh=j7bjrZWrsbdDpFxYOCkbqUx7Wp11ekk4d2R2728yPgY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=cEarWoaBLV4LT3Jl9DWC/rokAEu+Ntc5xyjPOpZzdcd9ftnA9eDCDLgDfGVdpYSr/kyWFINvRxSHscOAWU+NceoSFoZOQw7XRgWvF9tKQmrbQVSFvFhifoZ+pbR5sl2s/7luabMpKMJvtUmTmNpCGolKKv1iXO2kpcIBuEvDx6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WVJ+oU3p; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23fd3fe0d81so32932215ad.3;
-        Sun, 03 Aug 2025 10:50:49 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61564c06e0dso4778981a12.3
+        for <linux-media@vger.kernel.org>; Sun, 03 Aug 2025 11:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754243449; x=1754848249; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WDyaOvtCXv9NJO8ZoH8TFWDjjaf7wJBFVeWQpU5YhM=;
-        b=d0ZEVntAzBQ96cX2/iRrTxY8MWbudQKCnc5YTYhMcD/CUnojuEEpTd3+2u9e5NgqcZ
-         bdJ/RntuZG4iGTticPwN2NZ2E/lJzJErz6iSDRP8myijnCDcMDITMOroOmetGmS0d98w
-         OMadTs3RoVMrftvKbzNLdtnjIX1rXKW7LEybLSugC3042EgYEY38Mswe7VAUHN4hEHPo
-         yEo5KMlsAs+15XsP8M9fk1Ql5Wn6BE6zrplRxUR05DJ72uxCoXRizQV3l5/5Lieerg6e
-         Zy/bjE3W/4KTJZwy2KpTAnXZcchNVRvDW+ef5lxoV05LppkCYrzuZJ6yasjS6LPyFoY3
-         yaFg==
+        d=gmail.com; s=20230601; t=1754244123; x=1754848923; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PswKZBkIj5wvQra9eFzj+cmOMtpOj3ue8YzHhRfK+RE=;
+        b=WVJ+oU3pY8YCoqimi8ogR7gBabtvmX5Gegqwdmwy6WNNZnCLR5aee7aMYJFUxPv8GR
+         n5ywH4s+p+cBMa2uTTBq5QP2de2EMgToPijdgOEb825F6wWuRnzysXKXv6JifGO6Qrq8
+         qZFKYCCqgPSssbrffIhC4UblIX/NFoeMp1ty6thPgeWg87hT+PpQhuwM6L6PPytwJ9zB
+         CdhrQxjHR4X6YMOPZ2leb78GG2ix8DixPzcgQjw507kajxtmr3QPa2TweQz8hcaTW7JF
+         /i8PO9oK9YEHvd4Fdu6Z+o0whXYRunJBYZqXByTe+vYfq2rcGcX3BnzbL2pve/R1trv1
+         938Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754243449; x=1754848249;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5WDyaOvtCXv9NJO8ZoH8TFWDjjaf7wJBFVeWQpU5YhM=;
-        b=cmP/171P3tnxYR8vFj1Et6flEnKfMpEbN75mvbqsb4Hq7A85J8pkfOeZXMqOM0PWdS
-         4wrLnWWerZsd0KPkD46qc9GE73xHdtLfNVm34ff0t8yT3pyHVA/QfXWBT/R80qBe/XRL
-         KvZiMBeAyYesM0AgVH+4YdAYRm7u2WqPlw1Lw4UhfNg4pjJLEHc10vh1aRXAOg8vnNK0
-         lQxii+lq6Y430sFfTors/2JMM+LTFTR+R2wlq1I+f4N3GCuTSqeRv9cYS/BaK/tvDQq0
-         e5sDXD1bbbkEOp+NkZYZ85FKQpzf/nAfHfW4xojo5fMX3/NgkbhRHz3sHet3zlSqidYz
-         D0iw==
-X-Forwarded-Encrypted: i=1; AJvYcCUhlv+kCRWIX0G+IqgDddUJvOaZ9VFDBGcg2nKTgn0dGJitsKVJcyObwi4tBmW2cm3jOOSjSVmF3NXv9Jw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKSueGQVUu8q5mbyI6MbUd2oiqdSK7msZZ2q7WdNQ0vv7rCmnP
-	gACdyqdzGF7eTDCtKg5EESQlPZFdQlA/A4dyYhpsk8Q8poerIewdRbaa
-X-Gm-Gg: ASbGncvoegSP8Usv70MBSUMsDuQVDDabxyCeypFyruPnS3a5JfrJSfuDlFEACGj99Su
-	+i0Uod8oj367bgpnLhmBSiEdbf8Pg02+RMqjzjWQKFoFOc16VDngNBhC+JupX0sMYYLMJLDwJCR
-	0aGYbuDsKAsp4GMnDH6sD10dl+Qzh+LcJJZJ5EBJfq+FBwuZ2VZy6zXA35U+mOFtDFF/JLrGAkl
-	SDkZGtllhGFDxhMpe+ojm+jdNQ/68Gz+W7JYNKzTGlOz+sxZcf/elGt6WT20OffuWYln1UxaRdS
-	ZeyKv0ObUodRC69C+DWK2fHz8uA2E9EuPQltiWYUUh5uk+IlBY2UDdeCZVPDeJzkCyfeOAdModm
-	GS2XLk101GZrAgUgdSOIEqB9LC/7b7MGh
-X-Google-Smtp-Source: AGHT+IGX/HUMKV1bH9ywZLaMy2B08//y844ZJnjF/5ErmKsBhlBzUgfoooG0/8ewYodeApVof0bBbg==
-X-Received: by 2002:a17:903:32c1:b0:234:b743:c7a4 with SMTP id d9443c01a7336-2424701ae4fmr102641745ad.38.1754243448705;
-        Sun, 03 Aug 2025 10:50:48 -0700 (PDT)
-Received: from localhost ([106.105.221.253])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-241e899a48esm91069455ad.114.2025.08.03.10.50.45
+        d=1e100.net; s=20230601; t=1754244123; x=1754848923;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PswKZBkIj5wvQra9eFzj+cmOMtpOj3ue8YzHhRfK+RE=;
+        b=ZThw1B8f9YuMnGPr8Pva9mS54VPQz7G67V5o3ub9V5Bn6HX1SNTZk13fxqTuhb7eNN
+         Qky8gXJpGWcNXV5Eb2wVsSKd+95ULIKSmIpOu66MF9/0NKalkkH7cN0t4AAbQUdV0BYW
+         xTmelGM2ZvU+A2935ZutfUFq8iAuiG6iAVZQ5QGL+kVYG+fJX1i9p3lOgqkeQUHLn29/
+         2Z4YcVm8ntkqo84PurS9Tjbpb39ADLMrp0SO6JSo03et+GfPMl5Vc0txdL8AgHCWp7Bm
+         C0CpxBLbSn/68TLQ/pdaZhDhzVqh/W1AnnXRpny+h799jwd3yXIO+Higt+R+ZezANqsr
+         IDlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuRjLUuOQLmtFKSu44/DsZeKjOAgsfAFZmzL7EyTuvXC8x4xw67llObq1yHwQo4BmEqZ9Pr9FztHp/ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgolBoCAaBUAb56ROGWXOknkpnucnpXVBF50BJpxuCNB9Q30m3
+	e+4G2zL2QgZRB39AKuzw3VhHXWZ/MR48eotPb9BYB9xt/079xbLIVhBl
+X-Gm-Gg: ASbGnctZuEggow4FJL2jI3V8NwgXlY6DgPjDETmwJCIteJ90V5gfMsKU017dqof6iy7
+	V4vYibLFoxbs5/2zDHFnd3IBru3reb8L8eJ+98zUF1/sCUkrhluyr1zWpHTIBbvv+ax4oWawT+r
+	4/BLnyyd37e175uvkTukilQmhC8O6MFeAziej4KzjZSShpzOTq7pi2f7DGhvpiE8hBzp8Q3GdHs
+	OCThoslq3TtbzNqBU3ml4JVw1p1AfrUFPGsrhTkn1Xa9qcULT9bICO0N792x9dPUQLtNi/ngN5G
+	UHsJYQndoacZy7Ui651iuIxzYx08mJl3ZD5PESb3QScowL5roQWX2l69OpAJKXVobIRaO1NYJ3d
+	DEw8WweC5y2Ds1RRF+0RcFVganxI0+HlMaw2f2Ch1Ixq3wWw=
+X-Google-Smtp-Source: AGHT+IHfKJUBeksOuNG4Jcg7GuqyRnhd1W/FpRYbPHqGZjNOgYA8IRh4daZIwLuyXYHzF+MSAzmeSw==
+X-Received: by 2002:a17:906:c10b:b0:ae3:bb4a:91fb with SMTP id a640c23a62f3a-af940294d11mr791295366b.59.1754244122844;
+        Sun, 03 Aug 2025 11:02:02 -0700 (PDT)
+Received: from [192.168.15.130] (94-240-0-2.lukman.pl. [94.240.0.2])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0a3b6csm609387066b.48.2025.08.03.11.02.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Aug 2025 10:50:48 -0700 (PDT)
-From: Nai-Chen Cheng <bleach1827@gmail.com>
-Date: Mon, 04 Aug 2025 01:49:55 +0800
-Subject: [PATCH] staging: media: ipu3: use string_choices API instead of
- ternary operator
+        Sun, 03 Aug 2025 11:02:01 -0700 (PDT)
+Message-ID: <c52ec06e-e4b5-4f7d-af13-0e2b712307fe@gmail.com>
+Date: Sun, 3 Aug 2025 20:02:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250804-ipu3-string-choices-v1-1-506834a013b5@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAEKhj2gC/x3MPQqAMAxA4atIZgOx/hWvIg5SY5ulSqMiiHe3O
- H7Dew8oJ2GFoXgg8SUqW8yoygJcmKNnlCUbDJmWLDUo+1mjHkmiRxc2caxo5o6oWc3SWwu53BO
- vcv/XcXrfDxJfyBZlAAAA
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Nai-Chen Cheng <bleach1827@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754243443; l=2507;
- i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
- bh=DJiSK5yw31vSZeaWgFi3HoD1YTH8Ir78jDdMH+9lJz8=;
- b=htjeU4Zc0Y182neDXxTA5WYFV023GLFtax2bY9msrCmY8VaQM8iVUxmWzyM0JUIi3ZHu9z7/z
- OmLsS9HRoqQA5z2KpiaaEdGLpQuXW22+thgPtEFK/gf8MK2zCxs3XVf
-X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
- pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 49/65] media: s5p-jpeg: Access v4l2_fh from file
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ linux-media <linux-media@vger.kernel.org>
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-49-eb140ddd6a9d@ideasonboard.com>
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+In-Reply-To: <20250802-media-private-data-v1-49-eb140ddd6a9d@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Use string_choices API instead of manually determining the output using
-ternary operator to improve code readability and consistency.
+Hi Jacopo,
 
-This also fixes cocci warning.
+W dniu 2.08.2025 o 11:23, Jacopo Mondi pisze:
+> The v4l2_fh associated with an open file handle is now guaranteed
+> to be available in file->private_data, initialised by v4l2_fh_add().
+> 
+> Access the v4l2_fh, and from there the driver-specific structure,
+> from the file * in all ioctl handlers.
+> 
+> While at it, remove the now unused fh_to_ctx() macro.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
----
- drivers/staging/media/ipu3/ipu3-css.c  | 3 ++-
- drivers/staging/media/ipu3/ipu3-v4l2.c | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+Reviewed-by: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-index 1b0a59b78949..777cac1c27bf 100644
---- a/drivers/staging/media/ipu3/ipu3-css.c
-+++ b/drivers/staging/media/ipu3/ipu3-css.c
-@@ -4,6 +4,7 @@
- #include <linux/device.h>
- #include <linux/iopoll.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- 
- #include "ipu3.h"
- #include "ipu3-css.h"
-@@ -226,7 +227,7 @@ int imgu_css_set_powerup(struct device *dev, void __iomem *base,
- 	state = readl(base + IMGU_REG_STATE);
- 
- 	dev_dbg(dev, "CSS pm_ctrl 0x%x state 0x%x (power %s)\n",
--		pm_ctrl, state, state & IMGU_STATE_POWER_DOWN ? "down" : "up");
-+		pm_ctrl, state, str_down_up(state & IMGU_STATE_POWER_DOWN));
- 
- 	/* Power up CSS using wrapper */
- 	if (state & IMGU_STATE_POWER_DOWN) {
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index ad6095bf717d..2f6041d342f4 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -3,6 +3,7 @@
- 
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/string_choices.h>
- 
- #include <media/v4l2-event.h>
- #include <media/v4l2-ioctl.h>
-@@ -287,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
- 	WARN_ON(pad >= IMGU_NODE_NUM);
- 
- 	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
--		 flags & MEDIA_LNK_FL_ENABLED ? "enabled" : "disabled");
-+		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
- 
- 	imgu_pipe = &imgu->imgu_pipe[pipe];
- 	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
-@@ -302,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
- 		__clear_bit(pipe, imgu->css.enabled_pipes);
- 
- 	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
--		 flags & MEDIA_LNK_FL_ENABLED ? "enabled" : "disabled");
-+		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
- 
- 	return 0;
- }
-
----
-base-commit: 186f3edfdd41f2ae87fc40a9ccba52a3bf930994
-change-id: 20250804-ipu3-string-choices-2a6004f2d788
-
-Best regards,
--- 
-Nai-Chen Cheng <bleach1827@gmail.com>
+> ---
+>   .../media/platform/samsung/s5p-jpeg/jpeg-core.c    | 25 +++++++++-------------
+>   1 file changed, 10 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> index 2a57efd181540183e7d2b66d51f9f2f274ddd100..81792f7f8b1671dba2023f99b2779784d9a14b8c 100644
+> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+> @@ -580,11 +580,6 @@ static inline struct s5p_jpeg_ctx *ctrl_to_ctx(struct v4l2_ctrl *c)
+>   	return container_of(c->handler, struct s5p_jpeg_ctx, ctrl_handler);
+>   }
+>   
+> -static inline struct s5p_jpeg_ctx *fh_to_ctx(struct v4l2_fh *fh)
+> -{
+> -	return container_of(fh, struct s5p_jpeg_ctx, fh);
+> -}
+> -
+>   static inline struct s5p_jpeg_ctx *file_to_ctx(struct file *filp)
+>   {
+>   	return container_of(file_to_v4l2_fh(filp), struct s5p_jpeg_ctx, fh);
+> @@ -1015,8 +1010,8 @@ static int s5p_jpeg_open(struct file *file)
+>   
+>   static int s5p_jpeg_release(struct file *file)
+>   {
+> -	struct s5p_jpeg *jpeg = video_drvdata(file);
+>   	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+> +	struct s5p_jpeg *jpeg = video_drvdata(file);
+>   
+>   	mutex_lock(&jpeg->lock);
+>   	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+> @@ -1253,7 +1248,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
+>   static int s5p_jpeg_querycap(struct file *file, void *priv,
+>   			   struct v4l2_capability *cap)
+>   {
+> -	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
+> +	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+>   
+>   	if (ctx->mode == S5P_JPEG_ENCODE) {
+>   		strscpy(cap->driver, S5P_JPEG_M2M_NAME,
+> @@ -1301,7 +1296,7 @@ static int enum_fmt(struct s5p_jpeg_ctx *ctx,
+>   static int s5p_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
+>   				   struct v4l2_fmtdesc *f)
+>   {
+> -	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
+> +	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+>   
+>   	if (ctx->mode == S5P_JPEG_ENCODE)
+>   		return enum_fmt(ctx, sjpeg_formats, SJPEG_NUM_FORMATS, f,
+> @@ -1314,7 +1309,7 @@ static int s5p_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
+>   static int s5p_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
+>   				   struct v4l2_fmtdesc *f)
+>   {
+> -	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
+> +	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+>   
+>   	if (ctx->mode == S5P_JPEG_ENCODE)
+>   		return enum_fmt(ctx, sjpeg_formats, SJPEG_NUM_FORMATS, f,
+> @@ -1340,7 +1335,7 @@ static int s5p_jpeg_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+>   	struct vb2_queue *vq;
+>   	struct s5p_jpeg_q_data *q_data = NULL;
+>   	struct v4l2_pix_format *pix = &f->fmt.pix;
+> -	struct s5p_jpeg_ctx *ct = fh_to_ctx(priv);
+> +	struct s5p_jpeg_ctx *ct = file_to_ctx(file);
+>   
+>   	vq = v4l2_m2m_get_vq(ct->fh.m2m_ctx, f->type);
+>   	if (!vq)
+> @@ -1480,7 +1475,7 @@ static int vidioc_try_fmt(struct v4l2_format *f, struct s5p_jpeg_fmt *fmt,
+>   static int s5p_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
+>   				  struct v4l2_format *f)
+>   {
+> -	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
+> +	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+>   	struct v4l2_pix_format *pix = &f->fmt.pix;
+>   	struct s5p_jpeg_fmt *fmt;
+>   	int ret;
+> @@ -1539,7 +1534,7 @@ static int s5p_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
+>   static int s5p_jpeg_try_fmt_vid_out(struct file *file, void *priv,
+>   				  struct v4l2_format *f)
+>   {
+> -	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
+> +	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+>   	struct s5p_jpeg_fmt *fmt;
+>   
+>   	fmt = s5p_jpeg_find_format(ctx, f->fmt.pix.pixelformat,
+> @@ -1686,7 +1681,7 @@ static int s5p_jpeg_s_fmt_vid_cap(struct file *file, void *priv,
+>   	if (ret)
+>   		return ret;
+>   
+> -	return s5p_jpeg_s_fmt(fh_to_ctx(priv), f);
+> +	return s5p_jpeg_s_fmt(file_to_ctx(file), f);
+>   }
+>   
+>   static int s5p_jpeg_s_fmt_vid_out(struct file *file, void *priv,
+> @@ -1698,7 +1693,7 @@ static int s5p_jpeg_s_fmt_vid_out(struct file *file, void *priv,
+>   	if (ret)
+>   		return ret;
+>   
+> -	return s5p_jpeg_s_fmt(fh_to_ctx(priv), f);
+> +	return s5p_jpeg_s_fmt(file_to_ctx(file), f);
+>   }
+>   
+>   static int s5p_jpeg_subscribe_event(struct v4l2_fh *fh,
+> @@ -1795,7 +1790,7 @@ static int exynos3250_jpeg_try_crop(struct s5p_jpeg_ctx *ctx,
+>   static int s5p_jpeg_g_selection(struct file *file, void *priv,
+>   			 struct v4l2_selection *s)
+>   {
+> -	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
+> +	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+>   
+>   	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
+>   	    s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> 
 
 
