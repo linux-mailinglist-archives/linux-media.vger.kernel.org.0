@@ -1,126 +1,142 @@
-Return-Path: <linux-media+bounces-38813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5EEB196E8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 02:05:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C270B19A09
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 04:01:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A65671892DC3
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 00:06:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C62C7A6214
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 01:59:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E416C63CB;
-	Mon,  4 Aug 2025 00:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76C821F3FDC;
+	Mon,  4 Aug 2025 02:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arI/F6s0"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="M3qCQt54"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC4738D;
-	Mon,  4 Aug 2025 00:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976D81FB3;
+	Mon,  4 Aug 2025 02:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754265945; cv=none; b=smWFqDIt8NsyGOhtHZ6sGYD6WVLvR2fmtpTV5dYy+plotTclVZ+DcaUSSkWjA+lbWtjYSKH9vrQmF+iW8482jBHS6XZz9j4QLVrjjotsYmurJUOzWS2hEPHLHgz1I9TDLStl+lhKbdwToPN9pqO5pBPNuiKpq1h0pX4mSoIIwVw=
+	t=1754272865; cv=none; b=Wu174cf+bYVlxAmbVCKgkuITFeatpaY87uKXxEh5XCcZ5HLojqr80DYueVoDLzRzxSefvCg5nxJWGVDZABN+NPmJWBMNmzmO0t0Bvy7gjcH3QJZ3oO4Mqw3ow4JDyp6EelZ+6DcYo5VG7a+fepqoTnC5xPl11fwC4pFw/PNUEHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754265945; c=relaxed/simple;
-	bh=9KNKvPGAn/W7k7hCCGpLEmkYx8HoMwBR2BuHqnqD4Jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WWwwk5r6K3Tc251QTuCcQD00k/p9yGV5InRCW3CgRJbcGCO/HM8vqURihJNyNsPylF6lrKiIVVUd+q9qJBqIUc2Fx+R2C0hv+bYIuiIFjOFHalw0ByTc9ORiYGeqG+sIVbOSfho6tWk3mqtyY1BmLutfSbjKJp8oaYZ7QBpWDEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arI/F6s0; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754265943; x=1785801943;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9KNKvPGAn/W7k7hCCGpLEmkYx8HoMwBR2BuHqnqD4Jc=;
-  b=arI/F6s0WyZOBsSPWBh74heSfOVGbYG+9Pu6elFYKHd9//wwS87k0EN+
-   DeNksDu5xZ76BqShr5U+VQ/thaEs3JzI7bdykIvwYo27xHPR7gwfhKJRZ
-   XzfLOD0Wy4XKMNEQaJW0pq7Oc4kd09kogFhwUwljEW8X68sSBLCot/pTI
-   jBcfni562gvTVVOKZk0AI26i1k6nld5INbsAWCpT5yG4THJO63ICEBWu2
-   4PQVN6HbrfgIywm4fEwqkNCJNfBZ5z6fij954gSjRnFVUDaSO+fqOx8+r
-   3iRftrt4zOi+AC7N4DWU/QrKcYQPun50OqLO8V2mztZ4uF5IBg2SA3WAx
-   g==;
-X-CSE-ConnectionGUID: Xs+11953TSayzf8gakm1FA==
-X-CSE-MsgGUID: ZS2jd5ARTJqr0hxkK6OWQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="55573909"
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="55573909"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 17:05:42 -0700
-X-CSE-ConnectionGUID: SqTPPasQRUm79hJM7o9n4g==
-X-CSE-MsgGUID: BfNupMSDSl6xzF4jpyegdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="164410220"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Aug 2025 17:05:37 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uiihq-0006gm-1T;
-	Mon, 04 Aug 2025 00:05:34 +0000
-Date: Mon, 4 Aug 2025 08:05:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
-	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
-	Robert Moore <robert.moore@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	acpica-devel@lists.linux.dev, osandov@osandov.com,
-	xueshuai@linux.alibaba.com, konrad.wilk@oracle.com,
-	linux-edac@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-pci@vger.kernel.org, kernel-team@meta.com, osandov@fb.com,
-	Breno Leitao <leitao@debian.org>
-Subject: Re: [PATCH v4] vmcoreinfo: Track and log recoverable hardware errors
-Message-ID: <202508040737.rlDPN1um-lkp@intel.com>
-References: <20250801-vmcore_hw_error-v4-1-fa1fe65edb83@debian.org>
+	s=arc-20240116; t=1754272865; c=relaxed/simple;
+	bh=KqPSsEAipp0FTBHpQ1gr9MqM8UbNzirmUIjEDZfuUzA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UttuvldUujecSv3UKxR2COvTT12/9+rIDCnkB3wGi5FtPOlHgFY0DDPaNmUUFYy2q0bJRHb7QhR8pXWHBmXtZEUfnwI1LBRViQjXzXiMF7i0xXUBybuxyc9aCm3n3ENWDqkkGnKfuI3tme1zb4cAcnsakZ1R8yC0Z4mYDEv85uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=M3qCQt54; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1754272825;
+	bh=yfXEkqEa/uISK0w4262atq7Tl4Mh0WUTkGxrLVIQDCk=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=M3qCQt54oMDYf0VzhdwvbTiFKo8cKyy/rlIuNQlTlnG//ZphGq6lGwGk4vRGqa26k
+	 ui7QwyNw2p0l6rPC+R1bMXh6ygaFK32GWIEcD7gcYAV7zEksP6hKvoeI6EOz83DVR5
+	 W7eP9ot4tBbiCgIThk90C5laOS41nLAF2rXJYNYk=
+X-QQ-mid: zesmtpip2t1754272816t1d0cbc91
+X-QQ-Originating-IP: 3f+7dAnPMh0pAYDIDnCsuyKVOvur5LAiZFM38c1kZOc=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 04 Aug 2025 10:00:14 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 16794348384698843129
+EX-QQ-RecipientCnt: 6
+From: tuhaowen <tuhaowen@uniontech.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tuhaowen@uniontech.com,
+	huangbibo@uniontech.com,
+	wangyuli@uniontech.com
+Subject: [PATCH] media/dvb-core: remove redundant new_node cleanup in dvb_register_device
+Date: Mon,  4 Aug 2025 10:00:11 +0800
+Message-Id: <20250804020011.19029-1-tuhaowen@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250801-vmcore_hw_error-v4-1-fa1fe65edb83@debian.org>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: Mf+wQkWJ2TuYsocu5Hu36j3NF3eDBQmYzlLkRCSF6kEcSZC6P20DESfW
+	mxh7pqMgGYAdjdjccR6mtHDy6mjnCF7SBiglsHji56xXHLof8IgIcuxNYfi4W+QEkh1Iiss
+	C8/RTeld4sNJG7779cc8zQxxhD1mxk48zSVqfgQG6SwcEqw20dEiB4o2aVXtwxhnHgEuogx
+	lRWtbXb0q4ip+WZWp4F0lImPsW4hi3vt7Sv6W3Gow9qMwCBLxZXixMBPDjB/c5qNPbu8oIA
+	r3sY/64L40IWV+ljwOKmjRdrjSMugx7KL1cQJUq6R+B+lnKPOIsQOsYJzt1ig5adHWg84hL
+	J8wPSvmWzYud/g679TwapGO8MklU9KPQ9wUY5Ph56uVbder3B2bPPjB5oLLM/n/yEjgV1u1
+	iSQzHG7BdmvAoqV5+9LwrdOplnalKvRmQuT490qNxasN1Ad5IAwXCLaNsIDtsyXQ4m09sQF
+	+U4QxsoqpLkcUknl1dAk9C52Mp9vx9dp3mrCenbMbDExRxGoNeqdPyINKfRnd1lYmNecmJr
+	T3eZiYH9TZnifffumwiKJB067umjKNK84DQP0U6jKqzJcOHcHdniRtTc6hVmnSnkHpNmZiy
+	Lu/3be+2lQkRipEfHJ/VNPOejhLg6zCCT4u4kLu18f9XZy1uY3dKzUe5+CaNqhIb5JJfQRo
+	56GTf/yBOiA9RASCVIoaKwUZwdo0aaFVlzZqNVu8AIYzd9HhLfjeawQUXmvXvUCIZ5vy8FI
+	1/mR4K0z0A6vgNwfja4vpa4ClbAv/KpcTvEyc7BFnExYxchTYidBWAqaiuX/UTmaOMRO8oI
+	tZBwjBOO2+WU1BvYfzpAP6JW0y7n+2Cj4OZ2uEXGIVljfm9HcUjStsLFi2nTo6iMYRbkFKd
+	bhShSsiCSFSNm3wZIIsPROmUiKXjM5FnzgJrW1E+JkkrwSQ9sEdXASuayaF5ezPuU71pJMG
+	AF6S3Yk/Pe5oVpciT+MiY/Yk7WMGut0XB0mZqSsyCeAJ5TAIWt2gsieLicHmk453QJqXuW8
+	zT9c0C8A==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-RECHKSPAM: 0
 
-Hi Breno,
+The error handling paths in dvb_register_device repeatedly check
+if (new_node) before cleanup. However, if new_node allocation fails,
+the function returns immediately and does not reach these branches.
+Thus, these conditionals are redundant and can be removed for code
+clarity and maintainability.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: tuhaowen <tuhaowen@uniontech.com>
+---
+ drivers/media/dvb-core/dvbdev.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-[auto build test ERROR on 89748acdf226fd1a8775ff6fa2703f8412b286c8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/vmcoreinfo-Track-and-log-recoverable-hardware-errors/20250801-211624
-base:   89748acdf226fd1a8775ff6fa2703f8412b286c8
-patch link:    https://lore.kernel.org/r/20250801-vmcore_hw_error-v4-1-fa1fe65edb83%40debian.org
-patch subject: [PATCH v4] vmcoreinfo: Track and log recoverable hardware errors
-config: x86_64-randconfig-076-20250803 (https://download.01.org/0day-ci/archive/20250804/202508040737.rlDPN1um-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508040737.rlDPN1um-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508040737.rlDPN1um-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> vmlinux.o: error: objtool: hwerr_log_error_type+0x3b: call to ktime_get_real_seconds() leaves .noinstr.text section
-
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 9df7c213716a..2be0cc81bd47 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -534,11 +534,6 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	minor = nums2minor(adap->num, type, id);
+ #endif
+ 	if (minor >= MAX_DVB_MINORS) {
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
+ 		list_del(&dvbdev->list_head);
+ 		kfree(dvbdev);
+ 		*pdvbdev = NULL;
+@@ -554,11 +549,6 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	if (ret) {
+ 		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
+ 		       __func__);
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
+ 		dvb_media_device_free(dvbdev);
+ 		list_del(&dvbdev->list_head);
+ 		kfree(dvbdev);
+@@ -573,11 +563,6 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	if (IS_ERR(clsdev)) {
+ 		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
+ 		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
+ 		dvb_media_device_free(dvbdev);
+ 		list_del(&dvbdev->list_head);
+ 		kfree(dvbdev);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.20.1
+
 
