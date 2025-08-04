@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-38814-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38815-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C270B19A09
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 04:01:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B65B19A73
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 05:16:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C62C7A6214
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 01:59:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C3F31897CC7
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 03:17:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76C821F3FDC;
-	Mon,  4 Aug 2025 02:01:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC33221FB2;
+	Mon,  4 Aug 2025 03:16:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="M3qCQt54"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="C8vsTS6v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976D81FB3;
-	Mon,  4 Aug 2025 02:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4FF2E3710;
+	Mon,  4 Aug 2025 03:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754272865; cv=none; b=Wu174cf+bYVlxAmbVCKgkuITFeatpaY87uKXxEh5XCcZ5HLojqr80DYueVoDLzRzxSefvCg5nxJWGVDZABN+NPmJWBMNmzmO0t0Bvy7gjcH3QJZ3oO4Mqw3ow4JDyp6EelZ+6DcYo5VG7a+fepqoTnC5xPl11fwC4pFw/PNUEHg=
+	t=1754277402; cv=none; b=prDdHzR0edFt9WdPYOdo1CJ2BUOEILeo52XVXx3RE/iQ8sdOwBN+EpmkU4PUBX3Ro3PTh696Yit4M3Tjzwkp+rqHQXmo9mKb1K5Xw2rk4WpJI7NICKaIcuogtk8aUTLW3D/EGZ+ZUVPbA0wwlBMzcBebUadE2u3JG7N/okIm670=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754272865; c=relaxed/simple;
+	s=arc-20240116; t=1754277402; c=relaxed/simple;
 	bh=KqPSsEAipp0FTBHpQ1gr9MqM8UbNzirmUIjEDZfuUzA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UttuvldUujecSv3UKxR2COvTT12/9+rIDCnkB3wGi5FtPOlHgFY0DDPaNmUUFYy2q0bJRHb7QhR8pXWHBmXtZEUfnwI1LBRViQjXzXiMF7i0xXUBybuxyc9aCm3n3ENWDqkkGnKfuI3tme1zb4cAcnsakZ1R8yC0Z4mYDEv85uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=M3qCQt54; arc=none smtp.client-ip=54.206.16.166
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MUIMwOy1zDOiRKWIW7LaH62gqoIHAbwyusKGmiV+8012BH+kWo4fzi6JZBEM8U1bC2dUyugB+hw7wvRFKRS0FfSJTggrKd/OAODC5NTIjwbBtH5dIKK9Fhq2/cYJ24xE8AANZ3ngG1ChxrtLNJPt4nk5+kJpsDpcN5vVAe+6J5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=C8vsTS6v; arc=none smtp.client-ip=15.184.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1754272825;
+	s=onoh2408; t=1754277368;
 	bh=yfXEkqEa/uISK0w4262atq7Tl4Mh0WUTkGxrLVIQDCk=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=M3qCQt54oMDYf0VzhdwvbTiFKo8cKyy/rlIuNQlTlnG//ZphGq6lGwGk4vRGqa26k
-	 ui7QwyNw2p0l6rPC+R1bMXh6ygaFK32GWIEcD7gcYAV7zEksP6hKvoeI6EOz83DVR5
-	 W7eP9ot4tBbiCgIThk90C5laOS41nLAF2rXJYNYk=
-X-QQ-mid: zesmtpip2t1754272816t1d0cbc91
-X-QQ-Originating-IP: 3f+7dAnPMh0pAYDIDnCsuyKVOvur5LAiZFM38c1kZOc=
+	b=C8vsTS6vgrPgq/S6/t37BwfdCfv4pqCdqy8CjZ55JH/FbQNVPpQxCNONfqs+Jldah
+	 PgHRKBYXRfgiW3F/DCB1Idj+tWPMGNwZzXIky9a+cZffchfjgDUuNETYWWa5QzmNEB
+	 MG+xExLmSnSLVJxYEwu6HCt1IyFz9L2KGBBwL0Hw=
+X-QQ-mid: zesmtpip4t1754277360te817ce39
+X-QQ-Originating-IP: CsLbrNJfu0xmck4+IBUlfdUD9PJ6+4Ev/LU8dhC/Nsc=
 Received: from localhost.localdomain ( [localhost])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 04 Aug 2025 10:00:14 +0800 (CST)
+	id ; Mon, 04 Aug 2025 11:15:58 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 16794348384698843129
+X-BIZMAIL-ID: 10298245471260846125
 EX-QQ-RecipientCnt: 6
 From: tuhaowen <tuhaowen@uniontech.com>
 To: mchehab@kernel.org
@@ -53,9 +53,9 @@ Cc: linux-media@vger.kernel.org,
 	tuhaowen@uniontech.com,
 	huangbibo@uniontech.com,
 	wangyuli@uniontech.com
-Subject: [PATCH] media/dvb-core: remove redundant new_node cleanup in dvb_register_device
-Date: Mon,  4 Aug 2025 10:00:11 +0800
-Message-Id: <20250804020011.19029-1-tuhaowen@uniontech.com>
+Subject: [PATCH v2] media: dvb-core: remove redundant new_node cleanup in dvb_register_device
+Date: Mon,  4 Aug 2025 11:15:53 +0800
+Message-Id: <20250804031553.4411-1-tuhaowen@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -66,23 +66,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: Mf+wQkWJ2TuYsocu5Hu36j3NF3eDBQmYzlLkRCSF6kEcSZC6P20DESfW
-	mxh7pqMgGYAdjdjccR6mtHDy6mjnCF7SBiglsHji56xXHLof8IgIcuxNYfi4W+QEkh1Iiss
-	C8/RTeld4sNJG7779cc8zQxxhD1mxk48zSVqfgQG6SwcEqw20dEiB4o2aVXtwxhnHgEuogx
-	lRWtbXb0q4ip+WZWp4F0lImPsW4hi3vt7Sv6W3Gow9qMwCBLxZXixMBPDjB/c5qNPbu8oIA
-	r3sY/64L40IWV+ljwOKmjRdrjSMugx7KL1cQJUq6R+B+lnKPOIsQOsYJzt1ig5adHWg84hL
-	J8wPSvmWzYud/g679TwapGO8MklU9KPQ9wUY5Ph56uVbder3B2bPPjB5oLLM/n/yEjgV1u1
-	iSQzHG7BdmvAoqV5+9LwrdOplnalKvRmQuT490qNxasN1Ad5IAwXCLaNsIDtsyXQ4m09sQF
-	+U4QxsoqpLkcUknl1dAk9C52Mp9vx9dp3mrCenbMbDExRxGoNeqdPyINKfRnd1lYmNecmJr
-	T3eZiYH9TZnifffumwiKJB067umjKNK84DQP0U6jKqzJcOHcHdniRtTc6hVmnSnkHpNmZiy
-	Lu/3be+2lQkRipEfHJ/VNPOejhLg6zCCT4u4kLu18f9XZy1uY3dKzUe5+CaNqhIb5JJfQRo
-	56GTf/yBOiA9RASCVIoaKwUZwdo0aaFVlzZqNVu8AIYzd9HhLfjeawQUXmvXvUCIZ5vy8FI
-	1/mR4K0z0A6vgNwfja4vpa4ClbAv/KpcTvEyc7BFnExYxchTYidBWAqaiuX/UTmaOMRO8oI
-	tZBwjBOO2+WU1BvYfzpAP6JW0y7n+2Cj4OZ2uEXGIVljfm9HcUjStsLFi2nTo6iMYRbkFKd
-	bhShSsiCSFSNm3wZIIsPROmUiKXjM5FnzgJrW1E+JkkrwSQ9sEdXASuayaF5ezPuU71pJMG
-	AF6S3Yk/Pe5oVpciT+MiY/Yk7WMGut0XB0mZqSsyCeAJ5TAIWt2gsieLicHmk453QJqXuW8
-	zT9c0C8A==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-XMAILINFO: OdImatYx1y6xee80NRrQfSzJSATFpG38jwbM8scbLV0FZnVOc6zsv1vI
+	0bsHPxHJuLuoXUGKUF+W/foY3Av6SKPFPYXd7/hnTyqYrfevju7JG78WuDHD58ZSf2cCtHs
+	UhdkCexN4JlTvKVovunFhWKwGhKdb7M4NXZHm4jbKFRUxzw4Rl1/SD4IorxdrNwZsQMPnC8
+	PEvuHOyl93GYh9zdifGxKP4K+KYn7h+4UZ9OC/qVy8DOCaLkt0Q6MGL4ChwaANjW5NinkyE
+	b/6Cry2EDXSYdadCj2B+g+7wI02sFWwJ/wdLgvz4BhW0pT3q3nZhpE1gda8CQX6ua/Sqhf1
+	S89TZ7bk/cA08PGciBN7QBPqgV2ePPl5kulRrqULziTH7tbw19Y3zJrATdpYIkoDZ12TVFk
+	ld52aDxVI/bkJLaW1Mf/bjTa9Pg6iZTV/LY7n8rLcGDeK9s7sHhYleeThvUee55U+8BAjXr
+	QyNxN7x0T+6u+olPgsMKxxEkALbMaBd4/NzS/9Lk+0/ZaaqoPLwcqyktExOAnm++7YBXwiq
+	SoG1NVcQcVc1svujm5C7iTRWYhbHwt8svWT6ogFXkHKMkl7v/+AV0e+DBH3AG1XfnuBqVRW
+	OYQD7BLKbE451hUguTF6deIu8LYeX7ONKkRdVLRKQGZjMvRjt4s01Br2s/lDox4UVJBfk2c
+	4ESTOD9VyPmfrobwJ6isRD34HVcO1RaDJlTJIdVuf5A6R58bExXRjyFgAP0iPas0ptvrkMZ
+	bUzEAo/Ze6fqUbeEe1Kd+6W2hQqfWcvbkMdpNTlaBcE85SUlNJNZapiK9BnwWTwrCsVljiF
+	vri5/fOJmrwgSkUW1Xa7L62ZWSAI3bc5j4hBzZrKj8HgCB339SBMChCe2VVStFB2+DOkGQY
+	wPRXQELAbc/64UTOm5h8BIM2lY6NOSkmBywtAzcU/WmOq+uqG41WYEYOIC8SdLA9hbwYG87
+	cjSV0rA8I0mzrblOdKN2XF5BbyrMH9CEwC+5aU26ebaFxJttsiksR3xcceXR15HEV53zzEF
+	NpE47ZBPNHeS7OCmjgUuOzFygbvxiSSpBk6KRdYZeMWioqhvmB4lVzSoixP5Nu7NkXgwqHu
+	jQOyhnBQ4sFhChyrKee2KY=
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
 X-QQ-RECHKSPAM: 0
 
 The error handling paths in dvb_register_device repeatedly check
