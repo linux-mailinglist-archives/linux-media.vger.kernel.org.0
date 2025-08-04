@@ -1,118 +1,233 @@
-Return-Path: <linux-media+bounces-38870-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38871-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76FAB1A8BC
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 19:49:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A5FB1AA06
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 22:22:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25BD9180138
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 17:49:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2CFAE180307
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 20:22:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE9392264C5;
-	Mon,  4 Aug 2025 17:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OAMEhejm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB0F218EA2;
+	Mon,  4 Aug 2025 20:22:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1081CDFAC;
-	Mon,  4 Aug 2025 17:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B74128E3F
+	for <linux-media@vger.kernel.org>; Mon,  4 Aug 2025 20:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754329751; cv=none; b=tICE8pRuvoPAfoaCnIVOKCjUxUt29Ba3AVrJb704Rwek+xRadyUYQQs+Yq8kujLGmR5zW2YWzW6eqZ61NHS1+ncMfCwH7fK1qz0hAJDc0mnH/6znXjqodNmleZYp3NzINHjLVI8FGexnMPE7uHnP/0nJnHFsyXewwgwfueNl9I8=
+	t=1754338951; cv=none; b=JX2aZJWb45FVbIdLpO772oq/Ew0i3hxA4LkPcsJ/LpxdU6DflJ3oJifF6MtpQeoY4rzeIxrbrWxgog0XVhzuQCWbDLeL9UAGQabCvO3J2SbMe+tpmZhZsJEsQlrQBajQB2Vy/7pNQUwVblGAZt/i7KegcHoB7b1cMYVVTOYhLsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754329751; c=relaxed/simple;
-	bh=v4pUmsqMa6OFko8oVu9RDVTG4nJaK5RpK2KGBLtv8XY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OnIltGy+KqFTKPBFiX1oQ7L5Xd5a21CuM/i3c3szA/8J/kAJh9mVfwvb8r3PcjFqmDNVpskkJnf0CmMHFi5RSyrNuwJpef4iohuiMWcFO7L+5KUVk5OGpOSTtscrSo5Jaqc9+DrBvXZquXiZSS9RRd0b8pHlBv//xcrtll/yL2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OAMEhejm; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-458ba079338so16421615e9.1;
-        Mon, 04 Aug 2025 10:49:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754329748; x=1754934548; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0PNg9gSDjOiob/s8QaN8PpDUNVskdCO9RYGBdtiZaAo=;
-        b=OAMEhejmVmuFQFq38lk8jDjtqevsjHWzfNxs91/CvJmewbGqK5yJJYj3GTeWjmJTvk
-         QoPo00rInxoeRc5wJJnAnenR6nmsW6ROESB1K5jC3/4Yl8hDH0/AwMh42zAwxeP81V6J
-         HWF+TBogtQC4+LLClaerjkkAjrfXW7r7TII/ei5QCcyiPTyks41uT3kAj6lQYjGDgJ5r
-         a7loaHCU2+by9ceG39jzbvYPPs8j0FNgS3Xk+1FZMjHNQzh5kjYoyyFbhCz+KhgsGWBo
-         bwbLhF0a4BcdYp84YH4Y8iuDsTrErpPEs4LCKkBQZiQaZRMSD8ShoPRZPP0RI3u3zz+3
-         +FnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754329748; x=1754934548;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0PNg9gSDjOiob/s8QaN8PpDUNVskdCO9RYGBdtiZaAo=;
-        b=hi9HKIuGbWyZF1sEIFdFEEMgAb2NyU8r74kuxmVIXYeW+7ODW+JBTp25J+mT1EyrEe
-         t4lEfz8fieu4jcaEwSyhLC1tyw6V3vE8v88PqgLO0ZsIwgQ+Oah5/MTdZR9yp9hxsgrh
-         cnIMvS7aw+Jx6qwL8sbS7pynfYFvCKS0/C9MlBCzrLzGheDbKAgzIEOcpJa8u6GOhW2n
-         vmX3vl9PT0i++w3HDcpT3bNblavi61+WtgnyVElkUEN21klaKa8SGOu711J4sBGelFl7
-         IISCcQ+PFD/XalidMe2usgYNG8gpo1yQOigCFJrgfv/Y2y6KBkW5WWCZ+KM1pkI4JgHJ
-         hDDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVX6IWuuK3A7qpYCAy6QZ34WK+ukM9wJCLu3ZzUu89i9KdWJw4/Xzuht5sVhlsjxptsf3W9toIIbFYdg1A=@vger.kernel.org, AJvYcCVsRer8BKgL13oSlEh1i1Mu4SUvl+FLwXQAJH+0B2gyBHcTclzHIOQ5GymtOManCLulO1LeORJ97g1J2dw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9eu1Zo3BshDaPAJuUhh6jcU44YyXTJzOU7DgX21piUgLl9oXT
-	PO4yXUMhwN+fQH1bI5OBcsHkwqVCXJmIEFma+RFLqXU+AT0VpQLk/1tJ
-X-Gm-Gg: ASbGncuBKiUa30888WqxsERDa0laC8dW3jhTcIcxUq+R6lFiRWF9ZiyUffh57XmVEbb
-	ezwEgQRXtiiYvDlgzB0kOqhFoU0w7c+qPIF8GI8yNwj9df7Dp1ZH1JDepV5dVztPrc2/pk11Wd3
-	kojrSZyipC9jJtUGIHHoNQmYgDgBZtmyz/GmVRmZhY0nHkYi4R8RxFOX7bcZaq1FrunLTfGmpyE
-	+YNfWfBfh6INDTBodj+4MBNC9s4NrAjJrBRi0XQY/URSyTs+iOfAHciLvmRlrX+BleQDgNzoL8g
-	mKMrPngmF+X/VFeuVFjpBmSAw3HIx0yrxbzd2YrQWmhpGv/WL3OdlupGRYQq7Rc5lhXvJ1Y90GG
-	wPN+uaELBqbSnsYy01O+x5oEENf+v4MmwEPWho3zxSXjs/+opgpO0i9M=
-X-Google-Smtp-Source: AGHT+IFOOE3AXvqzuEIjTYw9u2iDlmZZpzl0a6bpUDI2FU8kwx1CCcCcT3KRIH5cRtf3YuJwjOSfuQ==
-X-Received: by 2002:a05:600c:c119:b0:456:15be:d113 with SMTP id 5b1f17b1804b1-459e0cbf682mr3528715e9.1.1754329747710;
-        Mon, 04 Aug 2025 10:49:07 -0700 (PDT)
-Received: from localhost.localdomain ([2001:16a2:6713:7d00:3d48:427d:c564:e107])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4595cffdb28sm76021935e9.32.2025.08.04.10.49.06
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 04 Aug 2025 10:49:07 -0700 (PDT)
-From: Osama Albahrani <osalbahr@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Osama Albahrani <osalbahr@gmail.com>
-Subject: [PATCH] media: av7110: Fix warning 'unsigned' -> 'unsigned int'
-Date: Mon,  4 Aug 2025 20:48:59 +0300
-Message-Id: <20250804174859.9419-1-osalbahr@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	s=arc-20240116; t=1754338951; c=relaxed/simple;
+	bh=EQZkrcHwBiIAideA7Cm2rrBxjQcXYJZlvoo/WmBoBcg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=acRwo+/pJHVATYiGT41kTqZ7T1bxFOeKZJ59qM90b6w9XAGcfYldCw+d4OoRjIcklQ5LhuWKMi+wUV2DUL3+13P+YHpyRKRDZ6js6prcoqXURJmuPzzQCr/rmlQ/jnB9uwARo0af14LNix/vlAztgHjN6jposrV5TlUt9Gqj8xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from mop.sam.mop (unknown [82.8.138.118])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sam)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 1DE2C33FECD;
+	Mon, 04 Aug 2025 20:22:27 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: Sean Young <sean@mess.org>
+Cc: James Le Cuirot <chewi@gentoo.org>,  linux-media@vger.kernel.org
+Subject: Re: [PATCH] meson: Allow BPF code to be built with GCC
+In-Reply-To: <aJB5rmwRfiYv7sJb@gofer.mess.org>
+Organization: Gentoo
+References: <20250803081759.13952-1-chewi@gentoo.org>
+	<aJB5rmwRfiYv7sJb@gofer.mess.org>
+User-Agent: mu4e 1.12.12; emacs 31.0.50
+Date: Mon, 04 Aug 2025 21:22:25 +0100
+Message-ID: <87v7n2q1ku.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Fix the following checkpatch warning:
+Sean Young <sean@mess.org> writes:
 
-av7110_ca.c:29: WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+> On Sun, Aug 03, 2025 at 09:17:59AM +0100, James Le Cuirot wrote:
+>> GCC can also target BPF, but it does not understand the "-target bpf"
+>> arguments passed to Clang.
+>> 
+>> Detect it as either bpf-gcc, bpf-none-gcc, or bpf-unknown-none-gcc, the
+>> same as systemd does.
+>
+> Thank you for the patch, I had not looked into this yet.
+>
+>> Determine the include paths with the compiler used by the rest of the
+>> build rather than Clang, which might not be installed or might not give
+>> the right answer, especially when cross-compiling.
+>
+> Fair enough.
+>  
+>> Check whether Clang actually supports the BPF target so that
+>> auto-detection doesn't cause the build to fail when it doesn't.
+>
+> clang has supported BPF for a really long time. We've never bothered to
+> test whether clang supports BPF before and I've never seen this be a
+> problem; why introduce this test?
 
-Signed-off-by: Osama Albahrani <osalbahr@gmail.com>
----
- drivers/staging/media/av7110/av7110_ca.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Clang takes a long time to build and you don't actually have to enable
+all targets.
 
-diff --git a/drivers/staging/media/av7110/av7110_ca.c b/drivers/staging/media/av7110/av7110_ca.c
-index fce4023c9dea..63d9c97a5190 100644
---- a/drivers/staging/media/av7110/av7110_ca.c
-+++ b/drivers/staging/media/av7110/av7110_ca.c
-@@ -26,7 +26,7 @@
- 
- void CI_handle(struct av7110 *av7110, u8 *data, u16 len)
- {
--	unsigned slot_num;
-+	unsigned int slot_num;
- 
- 	dprintk(8, "av7110:%p\n", av7110);
- 
--- 
-2.39.5 (Apple Git-154)
+>
+>> Disclaimer: I haven't actually tested the result of the GCC build.
+>
+> Let me test this.
+>
+> I do wonder why you default to bpf-gcc rather than clang. Any particular
+> reason?
 
+Clang *tends* to have BPF as a target (just not always), so having the
+less common option > the more common one means the less common one can
+be used.
+
+i.e. if Clang was first, even if you have a cross BPF toolchain w/ GCC,
+you probably can't then use the GCC path. But maybe it should be an
+option instead.
+
+>
+> Thanks,
+>
+> Sean
+>
+>> 
+>> Signed-off-by: James Le Cuirot <chewi@gentoo.org>
+>> ---
+>>  meson.build                                   | 23 ++++++++++++++++++-
+>>  .../keytable/bpf_protocols/cc_sys_includes.sh | 10 ++++++++
+>>  .../bpf_protocols/clang_sys_includes.sh       |  9 --------
+>>  utils/keytable/bpf_protocols/meson.build      | 12 +++++-----
+>>  utils/keytable/meson.build                    |  2 +-
+>>  5 files changed, 39 insertions(+), 17 deletions(-)
+>>  create mode 100755 utils/keytable/bpf_protocols/cc_sys_includes.sh
+>>  delete mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+>> 
+>> diff --git a/meson.build b/meson.build
+>> index 88781e59..0aff6970 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -83,11 +83,32 @@ endif
+>>  v4l2_utils_incdir = include_directories(v4l2_utils_incdir_arr)
+>>  
+>>  prog_bash = find_program('bash')
+>> -prog_clang = find_program('clang', required : get_option('bpf'))
+>>  prog_doxygen = find_program('doxygen', required : get_option('doxygen-doc'))
+>>  prog_grep = find_program('grep')
+>>  prog_perl = find_program('perl')
+>>  
+>> +if get_option('bpf').allowed()
+>> +    bpf_args = []
+>> +    prog_bpf = find_program('bpf-gcc',
+>> +                            'bpf-none-gcc',
+>> +                            'bpf-unknown-none-gcc',
+>> +                            required : false)
+>> +
+>> +    if not prog_bpf.found()
+>> +        prog_bpf = find_program('clang', required : get_option('bpf'))
+>> +        if prog_bpf.found()
+>> +            target_bpf = run_command(prog_bpf, '-target', 'bpf', '--print-supported-cpus', check : get_option('bpf').enabled())
+>> +            if target_bpf.returncode() == 0
+>> +                bpf_args += ['-target', 'bpf']
+>> +            else
+>> +                prog_bpf = disabler()
+>> +            endif
+>> +        endif
+>> +    endif
+>> +else
+>> +    prog_bpf = disabler()
+>> +endif
+>> +
+>>  dep_alsa = dependency('alsa', required : false)
+>>  if dep_alsa.found()
+>>      conf.set('HAVE_ALSA', 1)
+>> diff --git a/utils/keytable/bpf_protocols/cc_sys_includes.sh b/utils/keytable/bpf_protocols/cc_sys_includes.sh
+>> new file mode 100755
+>> index 00000000..0a8fa277
+>> --- /dev/null
+>> +++ b/utils/keytable/bpf_protocols/cc_sys_includes.sh
+>> @@ -0,0 +1,10 @@
+>> +#!/bin/sh
+>> +# Get C compiler's default includes on this system, as the BPF toolchain
+>> +# generally doesn't see the Linux headers. This fixes "missing" files on some
+>> +# architectures/distros, such as asm/byteorder.h, asm/socket.h, asm/sockios.h,
+>> +# sys/cdefs.h etc.
+>> +#
+>> +# Use '-idirafter': Don't interfere with include mechanics except where the
+>> +# build would have failed anyways.
+>> +"$@" -v -E - </dev/null 2>&1 \
+>> +	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
+>> diff --git a/utils/keytable/bpf_protocols/clang_sys_includes.sh b/utils/keytable/bpf_protocols/clang_sys_includes.sh
+>> deleted file mode 100755
+>> index 9dc4af12..00000000
+>> --- a/utils/keytable/bpf_protocols/clang_sys_includes.sh
+>> +++ /dev/null
+>> @@ -1,9 +0,0 @@
+>> -#!/bin/sh
+>> -# Get Clang's default includes on this system, as opposed to those seen by
+>> -# '-target bpf'. This fixes "missing" files on some architectures/distros,
+>> -# such as asm/byteorder.h, asm/socket.h, asm/sockios.h, sys/cdefs.h etc.
+>> -#
+>> -# Use '-idirafter': Don't interfere with include mechanics except where the
+>> -# build would have failed anyways.
+>> -$CLANG -v -E - </dev/null 2>&1 \
+>> -	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
+>> diff --git a/utils/keytable/bpf_protocols/meson.build b/utils/keytable/bpf_protocols/meson.build
+>> index 1e4f0064..dbb926c4 100644
+>> --- a/utils/keytable/bpf_protocols/meson.build
+>> +++ b/utils/keytable/bpf_protocols/meson.build
+>> @@ -10,9 +10,9 @@ bpf_protocols_files = [
+>>      'xbox-dvd',
+>>  ]
+>>  
+>> -clang_sys_includes = run_command('clang_sys_includes.sh',
+>> -                                 check : true,
+>> -                                 env : ['CLANG=' + prog_clang.full_path()])
+>> +bpf_args += run_command('cc_sys_includes.sh',
+>> +                        cc.cmd_array(),
+>> +                        check : true).stdout().split()
+>>  
+>>  foreach file : bpf_protocols_files
+>>      output = file + '.o'
+>> @@ -21,9 +21,9 @@ foreach file : bpf_protocols_files
+>>                    output : output,
+>>                    input : input,
+>>                    command : [
+>> -                      prog_clang,
+>> -                      clang_sys_includes.stdout().split(),
+>> -                      '-D__linux__', '-fno-stack-protector', '-target', 'bpf',
+>> +                      prog_bpf,
+>> +                      bpf_args,
+>> +                      '-D__linux__', '-fno-stack-protector',
+>>                        '-O2', '-c', '@INPUT@', '-o', '@OUTPUT@',
+>>                    ],
+>>                    install : true,
+>> diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
+>> index e214e0b5..56e61a79 100644
+>> --- a/utils/keytable/meson.build
+>> +++ b/utils/keytable/meson.build
+>> @@ -22,7 +22,7 @@ ir_keytable_c_args = [
+>>      '-DIR_KEYTABLE_USER_DIR="@0@"'.format(ir_keytable_user_dir),
+>>  ]
+>>  
+>> -ir_bpf_enabled = prog_clang.found() and dep_libbpf.found() and dep_libelf.found()
+>> +ir_bpf_enabled = prog_bpf.found() and dep_libbpf.found() and dep_libelf.found()
+>>  
+>>  if ir_bpf_enabled
+>>      ir_keytable_sources += files(
+>> -- 
+>> 2.50.1
+>> 
 
