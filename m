@@ -1,150 +1,222 @@
-Return-Path: <linux-media+bounces-38821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38822-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396A1B19E7B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 11:08:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88559B19EB3
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 11:23:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 295AA189B0E8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 09:08:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 176F6189AA23
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 09:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 758CE2459FE;
-	Mon,  4 Aug 2025 09:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2DDA24500A;
+	Mon,  4 Aug 2025 09:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PlBHTgSi"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="arM02J4u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DD717D346;
-	Mon,  4 Aug 2025 09:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A2BE55B
+	for <linux-media@vger.kernel.org>; Mon,  4 Aug 2025 09:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754298497; cv=none; b=NzcrZvRu8zWa84BDlUIZ6aSzzUJxCxPqwHlos9QJpxri65dssXzbuza1CrMqYvRsrPYVqAE7hl5xSrgancRQL4qN+QqCQyMUR6/ClX+y0/SRxEiHpk+BNs011FtYTWYEQVv2H889rkHARaJyQAgr1lRwJe6jdXVLhgRYLFxnqsg=
+	t=1754299394; cv=none; b=EW3O9FA5mN8qSZLIEppQqESDJy52iR5LPIP3XhaNfGpjiuIxdeY9Rs3XznfFUa78lfQ5P0NhCJWbZpFUQE7WEd4WYJudz+JkA6CbKv47CJLAKVdrY/CIQJgVql++I97qAdq7DYph8azvFBpVNhCnpRHFkgkvsgUYj3j9+X8Du0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754298497; c=relaxed/simple;
-	bh=dNCb1GbU+zMwwHGSEs5J88EmPe3I2aoFVC/o3+7U2F0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VpwI6sIm3VrC/wTpD52DuM12A5WwRuCC3AwIv9XXqvEpHmcghZOoNhGXgQAw9koHWUpNwYd23UVWQDWqsYdvqkuWQnLRK0e6cSRP9c0bTJJb9C/71twyM9x3WWhC1JtslLR7+FKPhryVUPhjpMuYgV1MdKdgHn7wM7OVN5Od+5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PlBHTgSi; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1754298493;
-	bh=dNCb1GbU+zMwwHGSEs5J88EmPe3I2aoFVC/o3+7U2F0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PlBHTgSi+7JUOYuxMn8femLuLfq3RszCQHshgoXnZkewKPTRWb22SaKzxCGHhf840
-	 FQTF+WkJpIePV9vztC7CZg4vYnqlyZRMQG56aEoIjG7KFvVRT+Kj4scAov60j7U5ec
-	 Fzz8Ec1QZUc8YC4G13q8/RbRYSKruZQQxe1PirBbachk/U30E0fnliOldzBjunQON/
-	 +dvTmo6jULLhF59a8odkYh/Q+tot5DtamutSrYLrrNMH9Bvnh+GB6u9hPnunLJtliO
-	 0tmK/DIrbt53tW3dHiFdNBmZ5ChqnnxHdFu1OtU3dZyHCGWHzIoP9IUvu9EYfsEQhh
-	 u/iH0Tx98hw7Q==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9849017E0593;
-	Mon,  4 Aug 2025 11:08:11 +0200 (CEST)
-Message-ID: <fe135942-3040-4858-b2e4-a8e4507b89e9@collabora.com>
-Date: Mon, 4 Aug 2025 11:08:11 +0200
+	s=arc-20240116; t=1754299394; c=relaxed/simple;
+	bh=01E726RWTq4C2iczchTrqN9s7aL2C8zc5dRL6MTT4vI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e5PaYX1vF2U90Jx9RPqYtCCcKkom8cLJHH/Zory6GFJ7dF6nW9NbPWH8rAI7B6jdHsdc7dUOtfQSWwxEt7ZtMB+BzOylEpCW5SC5xIhFY77g1ZKsWsd39zV5DHgx9N9hSeMxmQuxUk4KPNHgwxmo/qSStJBHPvUVgjus7pPWoqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=arM02J4u; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1754298798; bh=01E726RWTq4C2iczchTrqN9s7aL2C8zc5dRL6MTT4vI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=arM02J4uvqwBwPMN2uqItQuno1GFM3jNBnsgo9nH0IJpc/RvIFrllIyfuN3juVgCr
+	 ATM666eqxHgk/VzX2tXmDH4NHexaMRcKCkpPTFYJMIme8XVjkP+krvouAGeLF/5ZXa
+	 eyn3c+a7fP6R95EDumUw8bMULdrXsTIc5WcQ5yGg9OI2AwsQf+9uYrmHLODCdoTuqw
+	 Zbt5L5/QutSnapJjpHR5DOlO91xdwx0p0bDNUZDl6R5VDkJ1+QMkJFeYSHdz9rUt3C
+	 BWrK6F4LZw5g8q7yTtFyV5mzBowE6wZdrBq5rS8kF3RrxaMowMAXoTZzMAgN6BYcZs
+	 3Qlmj7sDWOALQ==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 5C670100090; Mon,  4 Aug 2025 10:13:18 +0100 (BST)
+Date: Mon, 4 Aug 2025 10:13:18 +0100
+From: Sean Young <sean@mess.org>
+To: James Le Cuirot <chewi@gentoo.org>
+Cc: linux-media@vger.kernel.org, Sam James <sam@gentoo.org>
+Subject: Re: [PATCH] meson: Allow BPF code to be built with GCC
+Message-ID: <aJB5rmwRfiYv7sJb@gofer.mess.org>
+References: <20250803081759.13952-1-chewi@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/38] ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and
- clock-names
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- linux-mediatek@lists.infradead.org, robh@kernel.org
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
- conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
- mchehab@kernel.org, matthias.bgg@gmail.com, chunfeng.yun@mediatek.com,
- vkoul@kernel.org, kishon@kernel.org, sean.wang@kernel.org,
- linus.walleij@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
- andersson@kernel.org, mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
- tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
- ck.hu@mediatek.com, houlong.wei@mediatek.com,
- kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
- tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, shane.chien@mediatek.com,
- olivia.wen@mediatek.com, granquet@baylibre.com, eugen.hristev@linaro.org,
- arnd@arndb.de, sam.shih@mediatek.com, jieyy.yang@mediatek.com,
- frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com,
- linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-5-angelogioacchino.delregno@collabora.com>
- <b7c9f6b8-4f29-4e38-9c93-e22cfed7229d@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <b7c9f6b8-4f29-4e38-9c93-e22cfed7229d@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250803081759.13952-1-chewi@gentoo.org>
 
-Il 24/07/25 11:12, Krzysztof Kozlowski ha scritto:
-> On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
->>   
->>     clock-names:
->>       items:
->>         - const: aud_afe_clk
->>         - const: aud_dac_clk
->>         - const: aud_dac_predis_clk
->> +      - const: aud_adc_clk
->> +      - const: aud_adda6_adc_clk
->> +      - const: aud_apll22m_clk
->> +      - const: aud_apll24m_clk
->> +      - const: aud_apll1_tuner_clk
->> +      - const: aud_apll2_tuner_clk
->> +      - const: aud_tdm_clk
->> +      - const: aud_tml_clk
->> +      - const: aud_nle
->> +      - const: aud_dac_hires_clk
->> +      - const: aud_adc_hires_clk
->> +      - const: aud_adc_hires_tml
->> +      - const: aud_adda6_adc_hires_clk
->> +      - const: aud_3rd_dac_clk
->> +      - const: aud_3rd_dac_predis_clk
->> +      - const: aud_3rd_dac_tml
->> +      - const: aud_3rd_dac_hires_clk
->>         - const: aud_infra_clk
->>         - const: aud_infra_26m_clk
+On Sun, Aug 03, 2025 at 09:17:59AM +0100, James Le Cuirot wrote:
+> GCC can also target BPF, but it does not understand the "-target bpf"
+> arguments passed to Clang.
 > 
-> 
-> You can only add to the end of lists, not in the middle.
-> 
+> Detect it as either bpf-gcc, bpf-none-gcc, or bpf-unknown-none-gcc, the
+> same as systemd does.
 
-The devicetree follows exactly what I've done here, and if I add to the
-end of the list (which was wrong from the beginning), I'd have to reorder
-all of the clocks in the devicetree node as well.
+Thank you for the patch, I had not looked into this yet.
 
-I know that I'm not supposed to add those there, but this is not about adding
-new clocks, it's about adding ones that were missing in the middle.
+> Determine the include paths with the compiler used by the rest of the
+> build rather than Clang, which might not be installed or might not give
+> the right answer, especially when cross-compiling.
 
-> Also, please drop all _clk suffixes and aud/top prefixes. These are
-> supposed to be clock inputs, so you name them based on this device. Not
-> based on the provider's name.
+Fair enough.
+ 
+> Check whether Clang actually supports the BPF target so that
+> auto-detection doesn't cause the build to fail when it doesn't.
 
-That breaks everything: the driver uses the _clk suffixes and aud/top prefixes
-to get clocks by name - I know that "driver" and "binding" are not two words
-that go together in that sense, but *otherwise* we'd need to perform way bigger
-changes to get this situation resolved.
+clang has supported BPF for a really long time. We've never bothered to
+test whether clang supports BPF before and I've never seen this be a
+problem; why introduce this test?
 
-Those "way bigger changes" would also add bloat to the kernel as we'd need to
-parse clocks with old and new names.
+> Disclaimer: I haven't actually tested the result of the GCC build.
 
-Can we please avoid this on SoCs from years ago, which are only getting maintenance
-and no new feat/dev?
+Let me test this.
+
+I do wonder why you default to bpf-gcc rather than clang. Any particular
+reason?
 
 Thanks,
-Angelo
 
+Sean
+
+> 
+> Signed-off-by: James Le Cuirot <chewi@gentoo.org>
+> ---
+>  meson.build                                   | 23 ++++++++++++++++++-
+>  .../keytable/bpf_protocols/cc_sys_includes.sh | 10 ++++++++
+>  .../bpf_protocols/clang_sys_includes.sh       |  9 --------
+>  utils/keytable/bpf_protocols/meson.build      | 12 +++++-----
+>  utils/keytable/meson.build                    |  2 +-
+>  5 files changed, 39 insertions(+), 17 deletions(-)
+>  create mode 100755 utils/keytable/bpf_protocols/cc_sys_includes.sh
+>  delete mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+> 
+> diff --git a/meson.build b/meson.build
+> index 88781e59..0aff6970 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -83,11 +83,32 @@ endif
+>  v4l2_utils_incdir = include_directories(v4l2_utils_incdir_arr)
+>  
+>  prog_bash = find_program('bash')
+> -prog_clang = find_program('clang', required : get_option('bpf'))
+>  prog_doxygen = find_program('doxygen', required : get_option('doxygen-doc'))
+>  prog_grep = find_program('grep')
+>  prog_perl = find_program('perl')
+>  
+> +if get_option('bpf').allowed()
+> +    bpf_args = []
+> +    prog_bpf = find_program('bpf-gcc',
+> +                            'bpf-none-gcc',
+> +                            'bpf-unknown-none-gcc',
+> +                            required : false)
+> +
+> +    if not prog_bpf.found()
+> +        prog_bpf = find_program('clang', required : get_option('bpf'))
+> +        if prog_bpf.found()
+> +            target_bpf = run_command(prog_bpf, '-target', 'bpf', '--print-supported-cpus', check : get_option('bpf').enabled())
+> +            if target_bpf.returncode() == 0
+> +                bpf_args += ['-target', 'bpf']
+> +            else
+> +                prog_bpf = disabler()
+> +            endif
+> +        endif
+> +    endif
+> +else
+> +    prog_bpf = disabler()
+> +endif
+> +
+>  dep_alsa = dependency('alsa', required : false)
+>  if dep_alsa.found()
+>      conf.set('HAVE_ALSA', 1)
+> diff --git a/utils/keytable/bpf_protocols/cc_sys_includes.sh b/utils/keytable/bpf_protocols/cc_sys_includes.sh
+> new file mode 100755
+> index 00000000..0a8fa277
+> --- /dev/null
+> +++ b/utils/keytable/bpf_protocols/cc_sys_includes.sh
+> @@ -0,0 +1,10 @@
+> +#!/bin/sh
+> +# Get C compiler's default includes on this system, as the BPF toolchain
+> +# generally doesn't see the Linux headers. This fixes "missing" files on some
+> +# architectures/distros, such as asm/byteorder.h, asm/socket.h, asm/sockios.h,
+> +# sys/cdefs.h etc.
+> +#
+> +# Use '-idirafter': Don't interfere with include mechanics except where the
+> +# build would have failed anyways.
+> +"$@" -v -E - </dev/null 2>&1 \
+> +	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
+> diff --git a/utils/keytable/bpf_protocols/clang_sys_includes.sh b/utils/keytable/bpf_protocols/clang_sys_includes.sh
+> deleted file mode 100755
+> index 9dc4af12..00000000
+> --- a/utils/keytable/bpf_protocols/clang_sys_includes.sh
+> +++ /dev/null
+> @@ -1,9 +0,0 @@
+> -#!/bin/sh
+> -# Get Clang's default includes on this system, as opposed to those seen by
+> -# '-target bpf'. This fixes "missing" files on some architectures/distros,
+> -# such as asm/byteorder.h, asm/socket.h, asm/sockios.h, sys/cdefs.h etc.
+> -#
+> -# Use '-idirafter': Don't interfere with include mechanics except where the
+> -# build would have failed anyways.
+> -$CLANG -v -E - </dev/null 2>&1 \
+> -	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
+> diff --git a/utils/keytable/bpf_protocols/meson.build b/utils/keytable/bpf_protocols/meson.build
+> index 1e4f0064..dbb926c4 100644
+> --- a/utils/keytable/bpf_protocols/meson.build
+> +++ b/utils/keytable/bpf_protocols/meson.build
+> @@ -10,9 +10,9 @@ bpf_protocols_files = [
+>      'xbox-dvd',
+>  ]
+>  
+> -clang_sys_includes = run_command('clang_sys_includes.sh',
+> -                                 check : true,
+> -                                 env : ['CLANG=' + prog_clang.full_path()])
+> +bpf_args += run_command('cc_sys_includes.sh',
+> +                        cc.cmd_array(),
+> +                        check : true).stdout().split()
+>  
+>  foreach file : bpf_protocols_files
+>      output = file + '.o'
+> @@ -21,9 +21,9 @@ foreach file : bpf_protocols_files
+>                    output : output,
+>                    input : input,
+>                    command : [
+> -                      prog_clang,
+> -                      clang_sys_includes.stdout().split(),
+> -                      '-D__linux__', '-fno-stack-protector', '-target', 'bpf',
+> +                      prog_bpf,
+> +                      bpf_args,
+> +                      '-D__linux__', '-fno-stack-protector',
+>                        '-O2', '-c', '@INPUT@', '-o', '@OUTPUT@',
+>                    ],
+>                    install : true,
+> diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
+> index e214e0b5..56e61a79 100644
+> --- a/utils/keytable/meson.build
+> +++ b/utils/keytable/meson.build
+> @@ -22,7 +22,7 @@ ir_keytable_c_args = [
+>      '-DIR_KEYTABLE_USER_DIR="@0@"'.format(ir_keytable_user_dir),
+>  ]
+>  
+> -ir_bpf_enabled = prog_clang.found() and dep_libbpf.found() and dep_libelf.found()
+> +ir_bpf_enabled = prog_bpf.found() and dep_libbpf.found() and dep_libelf.found()
+>  
+>  if ir_bpf_enabled
+>      ir_keytable_sources += files(
+> -- 
+> 2.50.1
+> 
 
