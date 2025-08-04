@@ -1,169 +1,160 @@
-Return-Path: <linux-media+bounces-38860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38861-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E117B1A41D
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 16:10:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B54EB1A45C
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 16:17:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 198893A3B68
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 14:10:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EA91180DA7
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 14:17:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2600426FD9F;
-	Mon,  4 Aug 2025 14:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0B98271472;
+	Mon,  4 Aug 2025 14:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FbNECHKS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from kanga.kvack.org (kanga.kvack.org [205.233.56.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A38D8F58;
-	Mon,  4 Aug 2025 14:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.233.56.17
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764BA271459
+	for <linux-media@vger.kernel.org>; Mon,  4 Aug 2025 14:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754316640; cv=none; b=IMi7ZFWIWom/OXdTLBBSkUjxLIwzrWLZyzQPrcatz1p6noS/M/joqKKwIYfBdu0Iki+9SZ/OmKmfiPox9jnjQwErXrm8rCoSm27GNzBNOUVEuMGEUb5xB9YgRHK7Q2bJxWlNtjzdHPM5/Uij4M/CSt+KjbKHV6j5wGhDoj6qUOY=
+	t=1754317034; cv=none; b=VARsopWR0vDMHSeyFUWpaWPk0lWeH9aEhONszgebcFNCGx+2IbdL8hSWeo3Cx2Vz1uPn9dpCV8+zeJRxA0X4bHV4hh6OxdZ/DrMqs4aIylHarmbvST/LoI015cmzpvuCYcV9Cf5LamXb7a7bPVxRaoXQh88juPCNo7GmQV5/iHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754316640; c=relaxed/simple;
-	bh=PAva6HWFhzF5FDISaUn14VPngMQ/Xi5WhXW9wpYIysw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Mime-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EpRiTXIOSRep/fzTSEzG3j5xuqcP/9fE2eTKkzXPDrEYkKYPQQeBgK+UQ8Nzkt5yFjBc7MECR9Ue2zH/jv+ZkdVrm5wpty64SJiqFqOMREMkamHnPUJaHPvCFUNeG4matP8dQ+BRMVlo6bZNKZgsxPGsEXfqBFqiy0VOFJrOnu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kvack.org; spf=pass smtp.mailfrom=kvack.org; arc=none smtp.client-ip=205.233.56.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kvack.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kvack.org
-Received: by kanga.kvack.org (Postfix, from userid 63042)
-	id 8AB4F6B009F; Mon,  4 Aug 2025 10:10:32 -0400 (EDT)
-Date: Mon, 4 Aug 2025 10:10:32 -0400
-From: Benjamin LaHaise <bcrl@kvack.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
-	iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v1 00/10] vfio/pci: Allow MMIO regions to be exported through dma-buf
-Message-ID: <20250804141032.GA30056@kvack.org>
-References: <cover.1754311439.git.leon@kernel.org>
+	s=arc-20240116; t=1754317034; c=relaxed/simple;
+	bh=A8DC5GZiezWSG87vEws0C6j85Kf6YPZuvC+TN+JTLpA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q+cUe8FPmBZPN4eLMe6IOBs0wMaFwzB725EVCrVmsYYgpjZS5OIPcbvK5GGohHR8wMGCXIKqKxu7dMi6d3eK+JdARhRfMNqI/uADUMRyNin+GPRJM0x16eF9FZf7XsGR226baHRBFW4EHaW7znVSTL6PMKLHs1WSoY5ISkERjG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FbNECHKS; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 574E295W016608
+	for <linux-media@vger.kernel.org>; Mon, 4 Aug 2025 14:17:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Gvpm8a+Po3AvQHyqTVypgq8YhFb8qXLB0jdSvQ5uttg=; b=FbNECHKSPMlvxaR8
+	+1TSgffV1F63Cw3pBysSRWE9dSLwjhlmI38dZO7d5+Jqc0QI3LNC71UP5oyfzjtH
+	U7xCmKbE7z7Too77s3Y6z8NNOyMJcQ7++P/yiPnavxDkEFpZWazXr7HJr3jYh+Lq
+	J++xkirzs7DGhQgqnzB0Lj5JhSjnmjWQ4XfL0Oq6giJowZ4arispTlZdSwPiCQy0
+	4f91W0VNc4vW4j5/6+I2wTwn5W0McWr0FiCjhBr9rSQbqSxViluw4/UbwXOhjAby
+	P/tR6sbAV3I1rMbRakVDTzel2h8rhXk98hp0G2ZSpOGGJaan8/2OnyF3rpZb70XU
+	ALC5OQ==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489b2a5522-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 04 Aug 2025 14:17:10 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-b42218e4a59so2893664a12.0
+        for <linux-media@vger.kernel.org>; Mon, 04 Aug 2025 07:17:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754317026; x=1754921826;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gvpm8a+Po3AvQHyqTVypgq8YhFb8qXLB0jdSvQ5uttg=;
+        b=Ev6gN/3StMHO0WIlQI6YnvtPZJLDXytK2OvTDUrzFJwGbRM2iiqkFTz9wJUzxPWFHU
+         PrpepNBEoCY0NndSPW0IjUaZ8KPR85v/Na+lLxh7GV4WCZF8v2jryT7AssVAKuL/l4rH
+         NRAR0Qge68WqV/irZBoAn2M0iBeJfwiQsoCBnMHVg7k8ggQBcJNeNxYvDu5jqQOGge+a
+         WMTb76yZ+xw4ML0qabnAQB/wasQydFYNBpCt8JqHSpCX2bjT4rbnWUxkXKzuqdjHe/iN
+         TzeXHjljoMX0nqQvW/Va7Bzfrlc+3TvZmImKSLkhwpKHaXo848sT3uFz/rf4sepXiAz9
+         l5lQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWjUY59Hq/lYS7lxOOr5IVJGRSTvZE1/dcr1ZGJG45cK/vXCheuvJEcmSoOlzE5U/VJXyCFGPvrjmVSXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlIhpU4wqyPsCkCQfdukdFtyEqKBtZJYTgZY8dDRgHE1BQcJFC
+	tyDHu22yGXcaQOTdzvmZ/LnvOCWPCMa4ijBN1YQBWs7p68CG5XIy8aPvdX4b4dxUZn/VnWmtZ/+
+	jRJrccoZ8L7lo+DQe4nmRJUmvovpXGSv0GJEELdvYfd2zhrqdMVx16lo/DXuXrWGtSw==
+X-Gm-Gg: ASbGncsJQDJ3xfAokSc+Hsn1V7aPa0PJgIzzCxxscEp+H+52Gs4i8ETdnc+gyLodhqU
+	Rwf/9fOvHJyuw70XH/BIXlqRd2GhAd1fLwYpQO6DoZG7f19kyveN1hcwlBV+SKqFME2C/Yp1/wi
+	7U/gtO+9fQ3hSKf5aALQ4ZBhucL2DhahDMsgL6pPM2Wk7AcLp1GJMZFHXXrqtD5WkB3xFEPY7VW
+	TS4vPH6cd5vlHB78HL2HyRCiKGMt10OeZdJvzB9Ltahm8jzNiKVVz8hXU49N/BKNIo77fbe+VLe
+	R4I9jPKCI6XW4juPMJgdufEUDAR67pB0GcXMyTGv7dRQEB8NfX2H2k/42rDx1NDvSvmAA8iZ6o9
+	FmFXCnTPumsn4w9SAbNxTXwDW087xFVe3
+X-Received: by 2002:a17:902:ef45:b0:240:3dea:b269 with SMTP id d9443c01a7336-24247033fc0mr139082335ad.48.1754317025695;
+        Mon, 04 Aug 2025 07:17:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEHaeEa9NWdmU9v/K3+J+uYiBAHxa0ZMd4TXiIz+8nIet/FavC5/MvKeVD+zMUzhg/+SbvBVg==
+X-Received: by 2002:a17:902:ef45:b0:240:3dea:b269 with SMTP id d9443c01a7336-24247033fc0mr139081745ad.48.1754317025156;
+        Mon, 04 Aug 2025 07:17:05 -0700 (PDT)
+Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899a81fsm110766825ad.120.2025.08.04.07.17.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Aug 2025 07:17:04 -0700 (PDT)
+Message-ID: <658d7d55-fd5e-42cb-bc5d-abcc0b47a168@oss.qualcomm.com>
+Date: Mon, 4 Aug 2025 07:17:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1754311439.git.leon@kernel.org>
-User-Agent: Mutt/1.4.2.2i
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] soc: qcom: mdt_loader: Remove pas id parameter
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
+        ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+References: <20250804-mdtloader-changes-v1-0-5e74629a2241@oss.qualcomm.com>
+ <20250804-mdtloader-changes-v1-2-5e74629a2241@oss.qualcomm.com>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20250804-mdtloader-changes-v1-2-5e74629a2241@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=OKwn3TaB c=1 sm=1 tr=0 ts=6890c0e6 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=e70TP3dOR9hTogukJ0528Q==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=IDvrs2r2PCma8_SM7s4A:9
+ a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-ORIG-GUID: gtnnfxtQxgq19fVWhZbELNQe5sZ8DyDJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDA3OSBTYWx0ZWRfXxprAGUFyofOq
+ Y1s9Dkge42OHNupX5UPvbk1UCNixG1nlzB0kDHFzEtQ2bX1XfSx4g1e2/CUDz7dvj9JSo+FGbi2
+ b9nAWTkAjlPASDxqzQA/qMvro+dF6cRmKyJJEUuYKXU9oL6wTKsNXsChNMT9w9rTbuRIyv550Rs
+ 5Rok99zFQNTfmKI23I/6qED+J4+P4iVdIA4W7Ic2s9CmqZ0+2CxmK9wRwofEsG2JKFVx5oeOQ8D
+ wbZ91HaOc1w/TkPjOeBWQ3RUUS8u8oj5gXhek4Wu4O80xIzuaHVX4FoXd/NeCbfz3ep7Vrg1HP6
+ f298c1uQUvJi3SEV7pXMscnsD349QXMdU1kRxAyVOs8Np3lDfDoCy9nSdD0/JC4i+hCAWV71rQE
+ +XdNGddBHOPR/bQngjruDOvvbLwQ2peNcQbgHI2kytMvxm3iVniKnpsJxazn5rVw9TSTqD+c
+X-Proofpoint-GUID: gtnnfxtQxgq19fVWhZbELNQe5sZ8DyDJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-04_06,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0 suspectscore=0 mlxlogscore=913 clxscore=1011
+ phishscore=0 impostorscore=0 priorityscore=1501 adultscore=0 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2508040079
 
-FYI: this entire patch series was rejected as spam by large numbers of
-linux-mm subscribers using @gmail.com email addresses.
+On 8/4/2025 5:41 AM, Mukesh Ojha wrote:
+> pas id is not used in qcom_mdt_load_no_init() and it should not
+> be used as it is non-PAS specific function and has no relation
+> to PAS specific mechanism.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  drivers/media/platform/qcom/venus/firmware.c |  4 ++--
+>  drivers/net/wireless/ath/ath12k/ahb.c        |  2 +-
+>  drivers/remoteproc/qcom_q6v5_adsp.c          |  2 +-
+>  drivers/remoteproc/qcom_q6v5_pas.c           |  7 +++----
+>  drivers/remoteproc/qcom_q6v5_wcss.c          |  2 +-
+>  drivers/soc/qcom/mdt_loader.c                | 14 ++++++--------
+>  include/linux/soc/qcom/mdt_loader.h          |  7 +++----
+>  7 files changed, 17 insertions(+), 21 deletions(-)
 
-		-ben (owner-linux-mm)
+Since this patch touches files which go through different maintainers, do you
+have a plan on how this will be merged?
 
-On Mon, Aug 04, 2025 at 04:00:35PM +0300, Leon Romanovsky wrote:
-> Changelog:
-> v1:
->  * Changed commit messages.
->  * Reused DMA_ATTR_MMIO attribute.
->  * Returned support for multiple DMA ranges per-dMABUF.
-> v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com
-> 
-> ---------------------------------------------------------------------------
-> Based on "[PATCH v1 00/16] dma-mapping: migrate to physical address-based API"
-> https://lore.kernel.org/all/cover.1754292567.git.leon@kernel.org series.
-> ---------------------------------------------------------------------------
-> 
-> This series extends the VFIO PCI subsystem to support exporting MMIO regions
-> from PCI device BARs as dma-buf objects, enabling safe sharing of non-struct
-> page memory with controlled lifetime management. This allows RDMA and other
-> subsystems to import dma-buf FDs and build them into memory regions for PCI
-> P2P operations.
-> 
-> The series supports a use case for SPDK where a NVMe device will be owned
-> by SPDK through VFIO but interacting with a RDMA device. The RDMA device
-> may directly access the NVMe CMB or directly manipulate the NVMe device's
-> doorbell using PCI P2P.
-> 
-> However, as a general mechanism, it can support many other scenarios with
-> VFIO. This dmabuf approach can be usable by iommufd as well for generic
-> and safe P2P mappings.
-> 
-> In addition to the SPDK use-case mentioned above, the capability added
-> in this patch series can also be useful when a buffer (located in device
-> memory such as VRAM) needs to be shared between any two dGPU devices or
-> instances (assuming one of them is bound to VFIO PCI) as long as they
-> are P2P DMA compatible.
-> 
-> The implementation provides a revocable attachment mechanism using dma-buf
-> move operations. MMIO regions are normally pinned as BARs don't change
-> physical addresses, but access is revoked when the VFIO device is closed
-> or a PCI reset is issued. This ensures kernel self-defense against
-> potentially hostile userspace.
-> 
-> The series includes significant refactoring of the PCI P2PDMA subsystem
-> to separate core P2P functionality from memory allocation features,
-> making it more modular and suitable for VFIO use cases that don't need
-> struct page support.
-> 
-> -----------------------------------------------------------------------
-> The series is based originally on
-> https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
-> but heavily rewritten to be based on DMA physical API.
-> -----------------------------------------------------------------------
-> The WIP branch can be found here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v1
-> 
-> Thanks
-> 
-> Leon Romanovsky (8):
->   PCI/P2PDMA: Remove redundant bus_offset from map state
->   PCI/P2PDMA: Separate the mmap() support from the core logic
->   PCI/P2PDMA: Simplify bus address mapping API
->   PCI/P2PDMA: Refactor to separate core P2P functionality from memory
->     allocation
->   PCI/P2PDMA: Export pci_p2pdma_map_type() function
->   types: move phys_vec definition to common header
->   vfio/pci: Enable peer-to-peer DMA transactions by default
->   vfio/pci: Add dma-buf export support for MMIO regions
-> 
-> Vivek Kasireddy (2):
->   vfio: Export vfio device get and put registration helpers
->   vfio/pci: Share the core device pointer while invoking feature
->     functions
-> 
->  block/blk-mq-dma.c                 |   7 +-
->  drivers/iommu/dma-iommu.c          |   4 +-
->  drivers/pci/p2pdma.c               | 154 ++++++++----
->  drivers/vfio/pci/Kconfig           |  20 ++
->  drivers/vfio/pci/Makefile          |   2 +
->  drivers/vfio/pci/vfio_pci_config.c |  22 +-
->  drivers/vfio/pci/vfio_pci_core.c   |  59 +++--
->  drivers/vfio/pci/vfio_pci_dmabuf.c | 390 +++++++++++++++++++++++++++++
->  drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
->  drivers/vfio/vfio_main.c           |   2 +
->  include/linux/dma-buf.h            |   1 +
->  include/linux/pci-p2pdma.h         | 114 +++++----
->  include/linux/types.h              |   5 +
->  include/linux/vfio.h               |   2 +
->  include/linux/vfio_pci_core.h      |   4 +
->  include/uapi/linux/vfio.h          |  25 ++
->  kernel/dma/direct.c                |   4 +-
->  mm/hmm.c                           |   2 +-
->  18 files changed, 715 insertions(+), 125 deletions(-)
->  create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
-> 
-> -- 
-> 2.50.1
-> 
+I can ack the drivers/net/wireless/ath change once I know how it will be handled.
 
--- 
-"Thought is the essence of where you are now."
+/jeff
 
