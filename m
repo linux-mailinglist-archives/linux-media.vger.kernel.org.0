@@ -1,51 +1,50 @@
-Return-Path: <linux-media+bounces-38863-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7EC3B1A46E
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 16:19:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BB8B1A5F8
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 17:29:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF0161811D6
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 14:18:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3BF787A2101
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 15:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 887FD272E41;
-	Mon,  4 Aug 2025 14:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231482741C9;
+	Mon,  4 Aug 2025 15:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcZdA0LS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8aHgZEn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C097925D53C;
-	Mon,  4 Aug 2025 14:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625E721D3D4;
+	Mon,  4 Aug 2025 15:26:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754317096; cv=none; b=H8EdoLc21fnpid/EC49m9GblMO+o5PItr6/2Wvh9RNUq+jVsItYxhAQ9Teks9jUqK6p++C3jcT1s3jZDXe2BAJ+lJ5IoNF1cGmfma6CWl+LTSDRV0JPHGF8m0EVHXwQtV/fRnfj52cwKeN2IcRXsrhhgwma1/rgFYRWiVXfltUE=
+	t=1754321184; cv=none; b=WhcUTgjgQyRNuAbroy6GmTa4ygYT9WGIWwMROzZGO8jR/eSR0m3zLDmc7b7DAmFGs9poUOdB+t+LRhLca0WMbiWvMMvhY+NvaQs+LhH8pHydOPrmLGb/Bcrh7dGzMOeDKnMcsFaBg5EHYrL6ArygNf3dmO8KwrANE98ICsxIigE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754317096; c=relaxed/simple;
-	bh=Zr3kPkorN9J0wHoU77coJxVhd5vO47zAf6WxVna9oFs=;
+	s=arc-20240116; t=1754321184; c=relaxed/simple;
+	bh=A7QWfqthNAE1vRjDCcZdbOxk67HAqqSO9Vh3esAKykw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gyrxtZuXxgRb42kUXyLdOtiiBWzSG+RnWxPzAVKbqCjoNJuVxrHubbvQ5q8dbsX6P6lWGs89IGQ7sQGS8yYhmBv9T4F5e+Y6TA7cdAOZuN3gkCZQhrlOr1iG7FewD5yO5onKZdD46LxYyft8a639xyPtgHWH188LQfWDZsrYVKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcZdA0LS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ED16C4CEE7;
-	Mon,  4 Aug 2025 14:18:15 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=bR2qKV8aTfiHKarR4h/eCJwFQ1JDq9andM7qLGlwga2fQDBpNX711bv3BdQqlyb4lx9eK82LceyHe1wYRRJNac0M1PHQafaV4t8NrZBJtu1B8unwuOkrERJZM0cHT+3v4ZQrfmKBKlDhfuy6Ywgs2imP0IQxnalxkXqVItVdebs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8aHgZEn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28538C4CEE7;
+	Mon,  4 Aug 2025 15:26:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754317096;
-	bh=Zr3kPkorN9J0wHoU77coJxVhd5vO47zAf6WxVna9oFs=;
+	s=k20201202; t=1754321183;
+	bh=A7QWfqthNAE1vRjDCcZdbOxk67HAqqSO9Vh3esAKykw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rcZdA0LSgVnIJ/ja+rzujOZjYxEuQpnBSSJNlhmM+uIS36PMWIvxGnxJBKVGS0y/k
-	 vBjKAwytVDKvxwg3o4C9JLt2cc5Xf3Ulyggy/L7MyOHzWrqYM35ShQ8xJDtl2YOAB7
-	 3wGRmkXADNX6dFnB5tDVmYtUzfYrZkmqh/fAJX007BI21XLotatJs14FAYy7dz2Pqv
-	 Eb7LFQAA4+jV/XnEzEvrRUpolhq+I8mzh+IQZcnXLb5j7+5cmwoKzIv7/4Y2lgrdRR
-	 b8oxjcA0vaYNH78RQuyAh19r+u1Tc+UWreSga05cOcSy8fmAwfSkJk+8HgQjXZFhcc
-	 /nh+mNJsc6Ehw==
-Date: Mon, 4 Aug 2025 17:18:11 +0300
+	b=G8aHgZEnu5iXvCP7Bs5tuWefE4ftgA8h8Cjl85Cwm5By9LieCOsjVqy3AdZGS2J2M
+	 gWpzl+6EFBw/RcBqC5KpnG1ipGUhJpU+Zji4nx/hTyt4NrdEsiC2Yz2U1Wkzd/Ib2a
+	 QqAw4VBqd0cclEUaixH0rs/7nLDQeEd4unvRQYUSQURTz7+jVwS/zV9otrzj3jp79N
+	 yUvnvgyE3xRQ4zHvh0Mw/ECgF8Le7V8q2qdcMJT+F/84f2NxFe4MykBa4PKbCdIa1S
+	 PCz7RUMVTUjwcVuJgGK+jMXUeWg1UaBDlwSS3wIOPEFwlaX7GvD5jEG30YanErScjg
+	 iRFzDP1lYO0Lg==
+Date: Mon, 4 Aug 2025 18:26:18 +0300
 From: Leon Romanovsky <leon@kernel.org>
-To: Benjamin LaHaise <bcrl@kvack.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
@@ -61,11 +60,11 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	Vivek Kasireddy <vivek.kasireddy@intel.com>,
 	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v1 00/10] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <20250804141811.GT402218@unreal>
+Subject: Re: [PATCH v1 10/10] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20250804152618.GU402218@unreal>
 References: <cover.1754311439.git.leon@kernel.org>
- <20250804141032.GA30056@kvack.org>
+ <5e043d8b95627441db6156e7f15e6e1658e9d537.1754311439.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,17 +73,51 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250804141032.GA30056@kvack.org>
+In-Reply-To: <5e043d8b95627441db6156e7f15e6e1658e9d537.1754311439.git.leon@kernel.org>
 
-On Mon, Aug 04, 2025 at 10:10:32AM -0400, Benjamin LaHaise wrote:
-> FYI: this entire patch series was rejected as spam by large numbers of
-> linux-mm subscribers using @gmail.com email addresses.
+On Mon, Aug 04, 2025 at 04:00:45PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Add support for exporting PCI device MMIO regions through dma-buf,
+> enabling safe sharing of non-struct page memory with controlled
+> lifetime management. This allows RDMA and other subsystems to import
+> dma-buf FDs and build them into memory regions for PCI P2P operations.
+> 
+> The implementation provides a revocable attachment mechanism using
+> dma-buf move operations. MMIO regions are normally pinned as BARs
+> don't change physical addresses, but access is revoked when the VFIO
+> device is closed or a PCI reset is issued. This ensures kernel
+> self-defense against potentially hostile userspace.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/vfio/pci/Kconfig           |  20 ++
+>  drivers/vfio/pci/Makefile          |   2 +
+>  drivers/vfio/pci/vfio_pci_config.c |  22 +-
+>  drivers/vfio/pci/vfio_pci_core.c   |  25 +-
+>  drivers/vfio/pci/vfio_pci_dmabuf.c | 390 +++++++++++++++++++++++++++++
+>  drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
+>  include/linux/dma-buf.h            |   1 +
+>  include/linux/vfio_pci_core.h      |   3 +
+>  include/uapi/linux/vfio.h          |  25 ++
+>  9 files changed, 506 insertions(+), 5 deletions(-)
+>  create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
 
-Thanks for the heads-up. Are you aware of any issues from my side?
-I'm sending patches with git-send-email through mail.kernel.org SMTP.
+<...>
+
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index d58e329ac0e71..f14b413aae48d 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -483,6 +483,7 @@ struct dma_buf_attach_ops {
+>   * @dev: device attached to the buffer.
+>   * @node: list of dma_buf_attachment, protected by dma_resv lock of the dmabuf.
+>   * @peer2peer: true if the importer can handle peer resources without pages.
+> + * #state: DMA structure to provide support for physical addresses DMA interface
+
+This is rebase error, there is no need in this hunk.
 
 Thanks
-
-> 
-> 		-ben (owner-linux-mm)
 
