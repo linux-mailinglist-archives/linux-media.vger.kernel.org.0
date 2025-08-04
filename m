@@ -1,81 +1,87 @@
-Return-Path: <linux-media+bounces-38868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38870-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B615B1A6B3
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 17:55:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76FAB1A8BC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 19:49:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADAC5181955
-	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 15:55:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25BD9180138
+	for <lists+linux-media@lfdr.de>; Mon,  4 Aug 2025 17:49:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1772737E6;
-	Mon,  4 Aug 2025 15:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE9392264C5;
+	Mon,  4 Aug 2025 17:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kx/ITh0I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OAMEhejm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4F5264A8E
-	for <linux-media@vger.kernel.org>; Mon,  4 Aug 2025 15:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1081CDFAC;
+	Mon,  4 Aug 2025 17:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754322728; cv=none; b=Xg4cULWnEUB0xebu0lZ8Z5Huv4egFdavjtgIfs96+Q17btedNCTgG19anWz7txbU81zoU8pou4Qz6BTeHX/ZrVhq3D1/4GhiJv44HvNOi4AB2lwt0QV1U7UV4p9L5wpqPM7TcdF+qtDPEGr0cFRSgcDEug4YEahwEnpymbTpLy0=
+	t=1754329751; cv=none; b=tICE8pRuvoPAfoaCnIVOKCjUxUt29Ba3AVrJb704Rwek+xRadyUYQQs+Yq8kujLGmR5zW2YWzW6eqZ61NHS1+ncMfCwH7fK1qz0hAJDc0mnH/6znXjqodNmleZYp3NzINHjLVI8FGexnMPE7uHnP/0nJnHFsyXewwgwfueNl9I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754322728; c=relaxed/simple;
-	bh=RWHbFFxzLatyCHlWMgS7Lg/h4tfl812r8HSwwuVgdgk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UPcKQCCn5pDd+TQsufVWSQ6aIoG0SyY9mvAbPFpFjJL3nJ1dIDwuyHAWIFgIT85bem37qMDxBtad4mB8nR2E1PnP1LLhDQ2IPkMGfGdXBu2dYHbIx6JHbM3Az9apM6ZfSCJNe1uaNzoI823AZ8/S8WHTINJ/7vbVp1Arjngplo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kx/ITh0I; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754322728; x=1785858728;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=RWHbFFxzLatyCHlWMgS7Lg/h4tfl812r8HSwwuVgdgk=;
-  b=kx/ITh0Iuuh2UBGqlU40nlQXrdVy3mOIk7Wo9F0fXzxxGQdJR2Q18YB/
-   wpPWIFyZRmXcOjYp5Ypb6ag7rXpYtwO+xQXH13wVo6CzDp1wBAFJZuWnz
-   q2NOXecv4D+JuVHmGn0FAn6PzXA3c8WtGfoCSDFWggdfxuSGG+ldxVC5s
-   LYZhU/R53P4s9nnJoETcfuTY91GQ/wid1H9DarzwTvQehdrAil0JRZLZI
-   6rqx/DMySOybvSGW+Geru+JO0oJFy7LQcuo+mEjBfi1843cv9Fp6Y9ztE
-   mbyTcBKixoRI3JC0DiOiFEwoUQS4jr9+t7KNOZ6krXaG0ZcXOKzPdxY/T
-   A==;
-X-CSE-ConnectionGUID: VevAol2DTjKpWEvJkgfDTw==
-X-CSE-MsgGUID: 4hoaTFfwRY+Epg1rq0tgmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="56484267"
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56484267"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 08:52:05 -0700
-X-CSE-ConnectionGUID: UHnDombKSQSvfBNzQm2EPg==
-X-CSE-MsgGUID: 8xnVYjUrQn2+3UYh14ORrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="169500277"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.80])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 08:52:04 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E803C11FBEE;
-	Mon,  4 Aug 2025 18:52:00 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uixTk-001ca0-2z;
-	Mon, 04 Aug 2025 18:52:00 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com,
-	hans@jjverkuil.nl
-Subject: [v4l-utils PATCH v2 2/2] contrib/test/test-media: Probe the vimc device
-Date: Mon,  4 Aug 2025 18:52:00 +0300
-Message-Id: <20250804155200.386609-3-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250804155200.386609-1-sakari.ailus@linux.intel.com>
-References: <20250804155200.386609-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1754329751; c=relaxed/simple;
+	bh=v4pUmsqMa6OFko8oVu9RDVTG4nJaK5RpK2KGBLtv8XY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OnIltGy+KqFTKPBFiX1oQ7L5Xd5a21CuM/i3c3szA/8J/kAJh9mVfwvb8r3PcjFqmDNVpskkJnf0CmMHFi5RSyrNuwJpef4iohuiMWcFO7L+5KUVk5OGpOSTtscrSo5Jaqc9+DrBvXZquXiZSS9RRd0b8pHlBv//xcrtll/yL2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OAMEhejm; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-458ba079338so16421615e9.1;
+        Mon, 04 Aug 2025 10:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754329748; x=1754934548; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0PNg9gSDjOiob/s8QaN8PpDUNVskdCO9RYGBdtiZaAo=;
+        b=OAMEhejmVmuFQFq38lk8jDjtqevsjHWzfNxs91/CvJmewbGqK5yJJYj3GTeWjmJTvk
+         QoPo00rInxoeRc5wJJnAnenR6nmsW6ROESB1K5jC3/4Yl8hDH0/AwMh42zAwxeP81V6J
+         HWF+TBogtQC4+LLClaerjkkAjrfXW7r7TII/ei5QCcyiPTyks41uT3kAj6lQYjGDgJ5r
+         a7loaHCU2+by9ceG39jzbvYPPs8j0FNgS3Xk+1FZMjHNQzh5kjYoyyFbhCz+KhgsGWBo
+         bwbLhF0a4BcdYp84YH4Y8iuDsTrErpPEs4LCKkBQZiQaZRMSD8ShoPRZPP0RI3u3zz+3
+         +FnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754329748; x=1754934548;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0PNg9gSDjOiob/s8QaN8PpDUNVskdCO9RYGBdtiZaAo=;
+        b=hi9HKIuGbWyZF1sEIFdFEEMgAb2NyU8r74kuxmVIXYeW+7ODW+JBTp25J+mT1EyrEe
+         t4lEfz8fieu4jcaEwSyhLC1tyw6V3vE8v88PqgLO0ZsIwgQ+Oah5/MTdZR9yp9hxsgrh
+         cnIMvS7aw+Jx6qwL8sbS7pynfYFvCKS0/C9MlBCzrLzGheDbKAgzIEOcpJa8u6GOhW2n
+         vmX3vl9PT0i++w3HDcpT3bNblavi61+WtgnyVElkUEN21klaKa8SGOu711J4sBGelFl7
+         IISCcQ+PFD/XalidMe2usgYNG8gpo1yQOigCFJrgfv/Y2y6KBkW5WWCZ+KM1pkI4JgHJ
+         hDDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVX6IWuuK3A7qpYCAy6QZ34WK+ukM9wJCLu3ZzUu89i9KdWJw4/Xzuht5sVhlsjxptsf3W9toIIbFYdg1A=@vger.kernel.org, AJvYcCVsRer8BKgL13oSlEh1i1Mu4SUvl+FLwXQAJH+0B2gyBHcTclzHIOQ5GymtOManCLulO1LeORJ97g1J2dw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9eu1Zo3BshDaPAJuUhh6jcU44YyXTJzOU7DgX21piUgLl9oXT
+	PO4yXUMhwN+fQH1bI5OBcsHkwqVCXJmIEFma+RFLqXU+AT0VpQLk/1tJ
+X-Gm-Gg: ASbGncuBKiUa30888WqxsERDa0laC8dW3jhTcIcxUq+R6lFiRWF9ZiyUffh57XmVEbb
+	ezwEgQRXtiiYvDlgzB0kOqhFoU0w7c+qPIF8GI8yNwj9df7Dp1ZH1JDepV5dVztPrc2/pk11Wd3
+	kojrSZyipC9jJtUGIHHoNQmYgDgBZtmyz/GmVRmZhY0nHkYi4R8RxFOX7bcZaq1FrunLTfGmpyE
+	+YNfWfBfh6INDTBodj+4MBNC9s4NrAjJrBRi0XQY/URSyTs+iOfAHciLvmRlrX+BleQDgNzoL8g
+	mKMrPngmF+X/VFeuVFjpBmSAw3HIx0yrxbzd2YrQWmhpGv/WL3OdlupGRYQq7Rc5lhXvJ1Y90GG
+	wPN+uaELBqbSnsYy01O+x5oEENf+v4MmwEPWho3zxSXjs/+opgpO0i9M=
+X-Google-Smtp-Source: AGHT+IFOOE3AXvqzuEIjTYw9u2iDlmZZpzl0a6bpUDI2FU8kwx1CCcCcT3KRIH5cRtf3YuJwjOSfuQ==
+X-Received: by 2002:a05:600c:c119:b0:456:15be:d113 with SMTP id 5b1f17b1804b1-459e0cbf682mr3528715e9.1.1754329747710;
+        Mon, 04 Aug 2025 10:49:07 -0700 (PDT)
+Received: from localhost.localdomain ([2001:16a2:6713:7d00:3d48:427d:c564:e107])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4595cffdb28sm76021935e9.32.2025.08.04.10.49.06
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 04 Aug 2025 10:49:07 -0700 (PDT)
+From: Osama Albahrani <osalbahr@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Osama Albahrani <osalbahr@gmail.com>
+Subject: [PATCH] media: av7110: Fix warning 'unsigned' -> 'unsigned int'
+Date: Mon,  4 Aug 2025 20:48:59 +0300
+Message-Id: <20250804174859.9419-1-osalbahr@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,107 +90,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vimc platform device is called platform:vimc.0 after kernel patch
-"media: vimc: Don't explicitly set bus_info". Adapt to possible different
-naming of the vimc device.
+Fix the following checkpatch warning:
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+av7110_ca.c:29: WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+
+Signed-off-by: Osama Albahrani <osalbahr@gmail.com>
 ---
- contrib/test/test-media | 51 +++++++++++++++++++++++++----------------
- 1 file changed, 31 insertions(+), 20 deletions(-)
+ drivers/staging/media/av7110/av7110_ca.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/test/test-media b/contrib/test/test-media
-index 87f5a0544b84..0bb4844a58ad 100755
---- a/contrib/test/test-media
-+++ b/contrib/test/test-media
-@@ -535,7 +535,18 @@ fi
- if [ $vimc -eq 1 ]; then
- 	run_modprobe -r vimc
+diff --git a/drivers/staging/media/av7110/av7110_ca.c b/drivers/staging/media/av7110/av7110_ca.c
+index fce4023c9dea..63d9c97a5190 100644
+--- a/drivers/staging/media/av7110/av7110_ca.c
++++ b/drivers/staging/media/av7110/av7110_ca.c
+@@ -26,7 +26,7 @@
  
--	if ! $v4l2_ctl -z platform:vimc -d "Sensor A" ; then
-+	for i in vimc vimc.0; do
-+		if media-ctl -d platform:$i > /dev/null; then
-+			vimc_device=platform:$i
-+		fi
-+	done
-+	if [ "$vimc_device" -eq "" ]; then
-+		echo "FAIL: can't find vimc device" | tee -a $tmp
-+		unload_modules
-+		exit 0
-+	fi
-+
-+	if ! $v4l2_ctl -z $vimc_device -d "Sensor A" ; then
- 		echo "FAIL: the vimc module failed to load" | tee -a $tmp
- 		echo "Grand Total for vimc: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
- 		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
-@@ -543,14 +554,14 @@ if [ $vimc -eq 1 ]; then
- 		exit 0
- 	fi
+ void CI_handle(struct av7110 *av7110, u8 *data, u16 len)
+ {
+-	unsigned slot_num;
++	unsigned int slot_num;
  
--	media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Scaler":1[fmt:RGB888_1X24/1920x1440]'
--	$v4l2_ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
--	$v4l2_ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
--	$v4l2_ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
-+	media-ctl -d $vimc_device -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Scaler":1[fmt:RGB888_1X24/1920x1440]'
-+	$v4l2_ctl -z $vimc_device -d "RGB/YUV Capture" -v width=1920,height=1440
-+	$v4l2_ctl -z $vimc_device -d "Raw Capture 0" -v pixelformat=BA81
-+	$v4l2_ctl -z $vimc_device -d "Raw Capture 1" -v pixelformat=BA81
- fi
+ 	dprintk(8, "av7110:%p\n", av7110);
  
- if [ $vimc -eq 1 -a $setup -eq 0 ]; then
-@@ -559,7 +570,7 @@ if [ $vimc -eq 1 -a $setup -eq 0 ]; then
- 	echo vimc compliance tests | tee /dev/kmsg
- 	echo
- 	date
--	stdbuf -oL $v4l2_compliance -m platform:vimc -z platform:vivid-002 -e vivid-002-vid-cap -s10 -P -a 2>&1 | tee -a $tmp
-+	stdbuf -oL $v4l2_compliance -m $vimc_device -z platform:vivid-002 -e vivid-002-vid-cap -s10 -P -a 2>&1 | tee -a $tmp
- 	echo
- 	echo
- 	echo
-@@ -579,24 +590,24 @@ if [ $vimc -eq 1 -a $setup -eq 0 ]; then
- 	echo
- 	echo -n vimc.0 >/sys/bus/platform/drivers/vimc/bind
- 	sleep 1
--	media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
--	media-ctl -d platform:vimc -V '"Scaler":1[fmt:RGB888_1X24/1920x1440]'
--	$v4l2_ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
--	$v4l2_ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
--	$v4l2_ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
-+	media-ctl -d $vimc_device -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
-+	media-ctl -d $vimc_device -V '"Scaler":1[fmt:RGB888_1X24/1920x1440]'
-+	$v4l2_ctl -z $vimc_device -d "RGB/YUV Capture" -v width=1920,height=1440
-+	$v4l2_ctl -z $vimc_device -d "Raw Capture 0" -v pixelformat=BA81
-+	$v4l2_ctl -z $vimc_device -d "Raw Capture 1" -v pixelformat=BA81
- 	echo
- 	echo second unbind vimc | tee /dev/kmsg
- 	echo
- 	# Max sleep time is 6 + 8 = 14s
--	for i in `$v4l2_ctl -z platform:vimc --list-devices`; do
-+	for i in `$v4l2_ctl -z $vimc_device --list-devices`; do
- 		let "t = 6 + $RANDOM / 4096"
- 		echo $i: sleep ${t}s
- 		sleep $t <$i &
- 	done
--	$v4l2_ctl -z platform:vimc -d "Raw Capture 0" --stream-mmap --sleep 5 &
-+	$v4l2_ctl -z $vimc_device -d "Raw Capture 0" --stream-mmap --sleep 5 &
- 	sleep 1
- 	echo -n vimc.0 >/sys/bus/platform/drivers/vimc/unbind
- 	sleep 14
 -- 
-2.39.5
+2.39.5 (Apple Git-154)
 
 
