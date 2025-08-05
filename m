@@ -1,59 +1,58 @@
-Return-Path: <linux-media+bounces-38929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD0BB1B429
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:10:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D19C9B1B433
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:11:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AC22182A6F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:10:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CEAAE167523
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:11:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CEF0273D6C;
-	Tue,  5 Aug 2025 13:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66099274FF2;
+	Tue,  5 Aug 2025 13:10:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZobDmXg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B1sQnzqA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8444A2749DA;
-	Tue,  5 Aug 2025 13:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE000271A9A;
+	Tue,  5 Aug 2025 13:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754399407; cv=none; b=iOqEu5Qy5hQxOZACjyqtUFD1k3sikDOa1U3/QIQW5EMBIR3lCHPeJmh5cdw0jKMjlm9HKT6QlN4sbnJB+oDbLC8r4lCYS6yP66Wd6gkA5zxkpRwvnyJLGh7bG/DRARHvPMIDcSyiNtrxz2Y46YSiCqI60XEnXcqBMYdvrpRBtv0=
+	t=1754399416; cv=none; b=VAYmeZfQwtC9tJmF/FhA+hhmWYOBjkbB7l17qbA/mZzmxyvJR8t4KmxY1dmwSLVm+04UXt4FMIYqXSZksVXUYDwuQDCIHl4FtKGev+kt843KbYL7nLmu1m0Cm1AGaJo21789bTz27Mz0wMphhCLXItzpWnkJP98foIcLEldp9D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754399407; c=relaxed/simple;
-	bh=mM1PN7qys62gLBy3sxKygh7hbsoeeNkZqeyBgBr51CY=;
+	s=arc-20240116; t=1754399416; c=relaxed/simple;
+	bh=nLR2nKCPs3giCPKRnM4kPEs7iA3ItISXiBbVh3su7hQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kGhffHtNHZM8U9hjoCuC0+Z92ZFDG15BTLr/ks0/f0Br1pLVf3Em/kL7aHudKEZ7kzOrgwgW6yl1t/Zlgmd3Pi7s4Uq519O7vJ90zrZCXlL4o6O942w9M1JXxYsObGVOai0wc6FXtdU5jCXzafGQb+sR5k6Pf9Y61h9eyDRhpG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZobDmXg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 948C5C4CEF0;
-	Tue,  5 Aug 2025 13:10:05 +0000 (UTC)
+	 MIME-Version; b=OubJ6D2h5GSqqdIZ/cTYirKSKJNmcn04ZT/URX+QVGt9SclIJRzbZgHlpS9Xm/yZpYyiqQMgOIX5LPGSRPc38VTw9W0ZwqnKPb20o8d2NEIp8pUaM4SEaNNCVO8d9GmNmyjRXxO8neJevc/QqZtctqEUMfyxWyzJxvt+q/MSDXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B1sQnzqA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0F8C4CEFC;
+	Tue,  5 Aug 2025 13:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754399407;
-	bh=mM1PN7qys62gLBy3sxKygh7hbsoeeNkZqeyBgBr51CY=;
+	s=k20201202; t=1754399416;
+	bh=nLR2nKCPs3giCPKRnM4kPEs7iA3ItISXiBbVh3su7hQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aZobDmXg83uj4dBvBBNpUvOQ7oTFWsMsFOvC2hr6iGJttmw/gC5emVKO4+Z9B7We4
-	 pXLAM69Pu40dmhahfKoXNBIFr3vJlFajPhM9M7tJvFrBBdu5dwcsm7xzCtvkIgPx8A
-	 /CgWjkBMXOaf/EQk+rYWVXMf7CnISOMkaqAV/9HvmqRFMf5bNDGArD1KTP57zpvvl7
-	 tqRzTpz5vtcqDa6OHc+xJvQtt/GYSD/Ddwl9DMTfJeMigWpM9HB0GFHdbrqtWS9YWs
-	 N44lXf8GpdU688/Of+nU0W0mKs3fd84nmwFdm8mTuZL8cX9LAHAxr561oKgmePp2HC
-	 /SwutT36fM7IQ==
+	b=B1sQnzqAxxCWV7szqLxlwQcDkc+1agza8PNvd7M42TcsL6E59qjDeyAYUCQpWX96y
+	 NLGX6zMJylR5W2KG+bVhhW8nXwLsgF/zUEOQUe21ZS1zww2oxigz60KMUWVRs0+yYk
+	 NYJKiipa1xEW53HyQJfEKaze9SebtlccnfRBrqLAnZek21GsJ/zt+Ymkzuwgg71ANh
+	 +5zXZENxrNAb8U0+prcBOVl7Ef/ylbfDoKh31s4t6qru/V5ACOHYjxymIEyDCnptJv
+	 znXmkG86L8FnD9xub4nt2MkLAzlRJujD3mFw7feHeA4qJ9QxNT+8TU8UurvXAjLFYx
+	 XoqKhLSLhHCWg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: chenchangcheng <chenchangcheng@kylinos.cn>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	hansg@kernel.org,
+	sylvain.petinot@foss.st.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-5.4] media: uvcvideo: Fix bandwidth issue for Alcor camera
-Date: Tue,  5 Aug 2025 09:08:44 -0400
-Message-Id: <20250805130945.471732-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.16] media: i2c: vd55g1: Fix RATE macros not being expressed in bps
+Date: Tue,  5 Aug 2025 09:08:49 -0400
+Message-Id: <20250805130945.471732-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
 References: <20250805130945.471732-1-sashal@kernel.org>
@@ -68,109 +67,98 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16
 Content-Transfer-Encoding: 8bit
 
-From: chenchangcheng <chenchangcheng@kylinos.cn>
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
-[ Upstream commit 9764401bf6f8a20eb11c2e78470f20fee91a9ea7 ]
+[ Upstream commit 5b69a84005b686365e9cacb2ca942271ed74867a ]
 
-Some broken device return wrong dwMaxPayloadTransferSize fields as
-follows:
+As a bit rate is expressed in bps, use MEGA instead of HZ_PER_MHZ.
 
-[  218.632537] uvcvideo: Device requested 2752512 B/frame bandwidth.
-[  218.632598] uvcvideo: No fast enough alt setting for requested bandwidth.
-
-When dwMaxPayloadTransferSize is greater than maxpsize, it will prevent
-the camera from starting. So use the bandwidth of maxpsize.
-
-Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Link: https://lore.kernel.org/r/20250510061803.811433-1-ccc194101@163.com
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Based on my analysis of the commit and the surrounding code context,
-here is my determination:
+**Backport Status: YES**
 
-**YES**
+This commit should be backported to stable kernel trees. Here's the
+extensive analysis:
 
-This commit should be backported to stable kernel trees for the
-following reasons:
+## Bug Analysis
 
-1. **Fixes a real user-impacting bug**: The commit fixes a bandwidth
-   issue that prevents certain USB cameras (specifically Alcor cameras)
-   from starting. As shown in the commit message, devices can request
-   unrealistic bandwidth values (2752512 B/frame), which causes the "No
-   fast enough alt setting for requested bandwidth" error at line 2080
-   in uvc_video.c, preventing the camera from functioning.
+The commit fixes a unit confusion bug in the vd55g1 camera sensor
+driver. The macros `VD55G1_MIPI_RATE_MIN` and `VD55G1_MIPI_RATE_MAX` are
+incorrectly defined using `HZ_PER_MHZ` when they should use `MEGA`:
 
-2. **Small and contained fix**: The change is minimal - it adds only 8
-   lines of code that perform a simple bounds check. When
-   `dwMaxPayloadTransferSize` exceeds `stream->maxpsize`, it caps the
-   value to the maximum packet size. This is a defensive programming
-   approach that doesn't change any core functionality.
+```c
+// Before (incorrect):
+#define VD55G1_MIPI_RATE_MIN    (250 * HZ_PER_MHZ)   // 250 MHz
+#define VD55G1_MIPI_RATE_MAX    (1200 * HZ_PER_MHZ)  // 1200 MHz
 
-3. **Low regression risk**: The fix is conservative and only triggers
-   when:
-   - The interface has multiple alternate settings
-     (`stream->intf->num_altsetting > 1`)
-   - The requested payload size exceeds the endpoint's maximum packet
-     size
-   - It simply clamps the value rather than rejecting it, allowing the
-     device to work with reduced bandwidth
+// After (correct):
+#define VD55G1_MIPI_RATE_MIN    (250 * MEGA)         // 250 Mbps
+#define VD55G1_MIPI_RATE_MAX    (1200 * MEGA)        // 1200 Mbps
+```
 
-4. **Follows established pattern**: The code already has similar
-   workarounds for broken devices (e.g., the Chicony device fix at lines
-   226-227 that masks invalid bandwidth values). This fix follows the
-   same philosophy of working around non-compliant hardware.
+Both `HZ_PER_MHZ` and `MEGA` are defined as `1000000UL` in
+`/home/sasha/linux/include/linux/units.h`, so numerically they're the
+same. However, semantically they represent different units:
+- `HZ_PER_MHZ` is for frequency conversion (Hz)
+- `MEGA` is a generic multiplier for mega units, appropriate for bit
+  rates (bps)
 
-5. **Hardware compatibility issue**: This fixes compatibility with
-   specific hardware (Alcor cameras) that would otherwise be completely
-   non-functional. Hardware compatibility fixes are typically good
-   candidates for stable backports as they enable users to use their
-   existing hardware.
+## Impact Assessment
 
-6. **Clear problem and solution**: The issue is well-defined (devices
-   returning wrong `dwMaxPayloadTransferSize`), and the solution is
-   straightforward (cap to the actual maximum packet size). The warning
-   message also provides visibility into when this workaround is
-   applied.
+1. **Functional Impact**: While numerically identical, this is a
+   semantic bug that affects code clarity and correctness. The driver
+   uses these macros to validate MIPI data rates:
+   - Lines 712-713: Range validation of `sensor->mipi_rate`
+   - Lines 716-717: Error messages that explicitly show rates in Mbps
+     using `/ MEGA`
 
-7. **No architectural changes**: The fix doesn't introduce new features
-   or change the driver architecture. It's purely a workaround for non-
-   compliant hardware, similar to other quirks already present in the
-   UVC driver.
+2. **User-Facing Bug**: Yes - incorrect unit semantics could lead to
+   confusion when debugging or maintaining the driver. The error
+   messages explicitly show "MIPI rates must be in the range [%u - %u]
+   Mbps", proving these are bit rates, not frequencies.
 
-The commit meets the stable kernel criteria of fixing an important bug
-(camera not working) with minimal risk and without introducing new
-features or architectural changes.
+3. **Regression Risk**: Minimal - since both macros have the same
+   numerical value, there's no functional change, only semantic
+   correctness.
 
- drivers/media/usb/uvc/uvc_video.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+## Stable Tree Criteria
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index e3567aeb0007..11769a1832d2 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -262,6 +262,15 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+This commit meets stable tree requirements:
+1. **Fixes a real bug**: Semantic incorrectness in unit usage
+2. **Small and contained**: Only changes 2 lines
+3. **No side effects**: Purely a semantic fix with no functional changes
+4. **No architectural changes**: Simple macro definition update
+5. **Subsystem impact**: Limited to a single media driver (vd55g1)
+6. **Clear fix**: The commit message clearly explains what's being fixed
+
+The fix ensures proper semantic meaning for MIPI data rate validation,
+which is important for code maintainability and prevents potential
+future bugs if the macro values ever diverge.
+
+ drivers/media/i2c/vd55g1.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
+index 8552ce75e1aa..d00daf89be96 100644
+--- a/drivers/media/i2c/vd55g1.c
++++ b/drivers/media/i2c/vd55g1.c
+@@ -129,8 +129,8 @@
+ #define VD55G1_FWPATCH_REVISION_MINOR			9
+ #define VD55G1_XCLK_FREQ_MIN				(6 * HZ_PER_MHZ)
+ #define VD55G1_XCLK_FREQ_MAX				(27 * HZ_PER_MHZ)
+-#define VD55G1_MIPI_RATE_MIN				(250 * HZ_PER_MHZ)
+-#define VD55G1_MIPI_RATE_MAX				(1200 * HZ_PER_MHZ)
++#define VD55G1_MIPI_RATE_MIN				(250 * MEGA)
++#define VD55G1_MIPI_RATE_MAX				(1200 * MEGA)
  
- 		ctrl->dwMaxPayloadTransferSize = bandwidth;
- 	}
-+
-+	if (stream->intf->num_altsetting > 1 &&
-+	    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
-+		dev_warn_ratelimited(&stream->intf->dev,
-+				     "UVC non compliance: the max payload transmission size (%u) exceeds the size of the ep max packet (%u). Using the max size.\n",
-+				     ctrl->dwMaxPayloadTransferSize,
-+				     stream->maxpsize);
-+		ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
-+	}
- }
- 
- static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+ static const u8 patch_array[] = {
+ 	0x44, 0x03, 0x09, 0x02, 0xe6, 0x01, 0x42, 0x00, 0xea, 0x01, 0x42, 0x00,
 -- 
 2.39.5
 
