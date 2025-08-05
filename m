@@ -1,56 +1,57 @@
-Return-Path: <linux-media+bounces-38937-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38938-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C92B1B472
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:13:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0217B1B494
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:14:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20A3E3A7A4F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:13:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 675D5189009D
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:15:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F184279780;
-	Tue,  5 Aug 2025 13:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB0F2279DB2;
+	Tue,  5 Aug 2025 13:12:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4dpR8h9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IssPLLXi"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C612275AE6;
-	Tue,  5 Aug 2025 13:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E73E55B;
+	Tue,  5 Aug 2025 13:12:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754399494; cv=none; b=W8KUbrD0UgxsLZtVcnA2X2ioM018lWVqomDI6HdKt7Kud3CyLfQsXlf+McgWV+rP4y+GWxWrPe32bqs9Fl+yzdYCSNj0qDHLjZ1TOTZtxnikYwdcNGqoytJEdebC9/Bfz+lF2wmvcR1OYkXj3+dZbBokB2lQcc1LUbI1sbgRNvg=
+	t=1754399539; cv=none; b=q0UZIYKLX3eO26ELRX2/ERb3WNExfD8s74x9LFL/53i0v1usERnZ6+rakXeIFvmuhOsBJQGY5oEgIy83ZmHo3HK1BuaLnqdS0flVijpAFbfzKqfrbSVeFjp9gWEvUIAq9GqtTQ8/90F2umTjeEnIj704cAcXqLQ8hbjcXvn/oC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754399494; c=relaxed/simple;
-	bh=9H17uJLfuVnidCS+gWRXYJKkHr1eMHymYRNlRa11BOg=;
+	s=arc-20240116; t=1754399539; c=relaxed/simple;
+	bh=8e1gwNPqga90z0UONejDocvKxDOeqc1OeIg4FdgdU2A=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Nlsj3Tt925EiWCKuSd5AJrBDPaU4VOI+TQVaVHjJKhT4/0+xoOcGOWbN5deTjTlx3ZxbiEiSbSyCKJx55yOeL6fdM20ONrQqsKeJskBe5FQsbAJnLR9BLgYgf5V9nhjSMrdCgzlwPgcF8YwqBJAG3gFrm5Lpauo5hG8YhVPKmzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4dpR8h9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A710C4CEF0;
-	Tue,  5 Aug 2025 13:11:33 +0000 (UTC)
+	 MIME-Version; b=goJSfVFECOV6VAOHjMVl1m2X7eob68hfPyx+gIG7YTobQTX64/6OAVUERAHPqaQJg/hxtd6S8JfPubC7tGBit5S0Dbi/DPAGHzIz7Mc2OH/Zg8Q85xBbVVFraLb5c+w3LfszC8xAhFwGFU091XOgZiuHKVZ9vsvpwIuM8nByR00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IssPLLXi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75DEC4CEF4;
+	Tue,  5 Aug 2025 13:12:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754399494;
-	bh=9H17uJLfuVnidCS+gWRXYJKkHr1eMHymYRNlRa11BOg=;
+	s=k20201202; t=1754399539;
+	bh=8e1gwNPqga90z0UONejDocvKxDOeqc1OeIg4FdgdU2A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a4dpR8h91NEfQjjTthyqk6j2sBw3TGNdfoMFsJNfJrQ2aatuG61Wr7osj49M9A2tS
-	 HQAkwESAulLCYd88kCZtXmjWsEIcb5Py/fXoYW8tpqfQWnzDNJ4fVCxBvIMx/tMnzW
-	 D6jJILjsnkvIr7Rhe9Q+YjOAFrIY2CRVzdPVuEZ7PTiKf0FxhBCqE3WKE0qhJqkIp/
-	 YKNeqMhpnYC4pIW6Sip4WqLzmCtmiA07R2zBIjJ8ZOrgc5JxUZAnxRXsTCLgGMLCp0
-	 9bwWJYqq65DmbydcXYBmAWqccE2tamb7OGSHZUhNKhYeBCZtVi3ymHFKz6/bkfBWKm
-	 ss0mHR0YkB1FQ==
+	b=IssPLLXibfZwK5cUiHehNMIud8TGsXMPDnXYcojge3gmh9J1x+Kqat620aZTbHX3R
+	 FzsMI//OIPw3SqX1nc5an2dDNdH6r3ses3YmqgvhF32HaTlyUZQ8V+tHu89VSPcbpT
+	 NfozBKL7IaJcUAirtdfpRPOIK9KwQnv0chwH9D855PeZTJavkYYcTjwboLxGMd8eAP
+	 vWZChHhcIED06aoLJhlx76As4LkDEjDE1vMDI7WT5zfDJyPwjXyH2Fgh6j6/UGvDAc
+	 QMa4mOhNAvjzwC47C5inVxEsg9f5spxKHPhIY5z8O+z/tAKUfT/H9gijsmPS1v49o9
+	 hybp4Jt7X5vEQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-5.4] media: tc358743: Increase FIFO trigger level to 374
-Date: Tue,  5 Aug 2025 09:09:24 -0400
-Message-Id: <20250805130945.471732-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.16-6.12] media: hi556: Fix reset GPIO timings
+Date: Tue,  5 Aug 2025 09:09:41 -0400
+Message-Id: <20250805130945.471732-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
 References: <20250805130945.471732-1-sashal@kernel.org>
@@ -65,111 +66,108 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16
 Content-Transfer-Encoding: 8bit
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 86addd25314a1e77dbdcfddfeed0bab2f27da0e2 ]
+[ Upstream commit 99f2211a9d89fe34b3fa847fd7a4475171406cd0 ]
 
-The existing fixed value of 16 worked for UYVY 720P60 over
-2 lanes at 594MHz, or UYVY 1080P60 over 4 lanes. (RGB888
-1080P60 needs 6 lanes at 594MHz).
-It doesn't allow for lower resolutions to work as the FIFO
-underflows.
+probe() requests the reset GPIO to be set to high when getting it.
+Immeditately after this hi556_resume() is called and sets the GPIO low.
 
-374 is required for 1080P24 or 1080P30 UYVY over 2 lanes @
-972Mbit/s, but >374 means that the FIFO underflows on 1080P50
-UYVY over 2 lanes @ 972Mbit/s.
+If the GPIO was low before requesting it this will result in the GPIO
+only very briefly spiking high and the sensor not being properly reset.
+The same problem also happens on back to back runtime suspend + resume.
 
-Whilst it would be nice to compute it, the required information
-isn't published by Toshiba.
+Fix this by adding a sleep of 2 ms in hi556_resume() before setting
+the GPIO low (if there is a reset GPIO).
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+The final sleep is kept unconditional, because if there is e.g. no reset
+GPIO but a controllable clock then the sensor also needs some time after
+enabling the clock.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Based on my analysis of the commit and the kernel repository, here is my
-assessment:
+## Analysis
 
 **Backport Status: YES**
 
 This commit should be backported to stable kernel trees for the
 following reasons:
 
-1. **Bug Fix for Real Hardware Issues**: The commit fixes a concrete bug
-   where the tc358743 HDMI-to-CSI2 bridge experiences FIFO underflows
-   with certain video resolutions. The old hardcoded value of 16 causes
-   failures with lower resolutions (1080P24, 1080P30) and different lane
-   configurations, making the hardware unusable in these modes.
+### 1. **Fixes a Real Hardware Initialization Bug**
+The commit addresses a timing race condition in the hi556 camera sensor
+driver where:
+- In `hi556_probe()`, the reset GPIO is requested with `GPIOD_OUT_HIGH`
+  (line 1352-1353)
+- Immediately after, `hi556_resume()` is called (line 1376) which sets
+  the GPIO low
+- This results in the GPIO only briefly spiking high, preventing proper
+  sensor reset
 
-2. **Small and Contained Change**: The fix is minimal - it only changes
-   a single value from 16 to 374 and adds explanatory comments. The
-   change is confined to the probe function's initialization code and
-   doesn't modify any complex logic or introduce new features.
+### 2. **Clear User-Visible Impact**
+The bug causes:
+- Sensor initialization failures when the GPIO was previously low
+- Runtime suspend/resume failures on back-to-back operations
+- Camera sensor not working properly due to inadequate reset timing
 
-3. **No Architectural Changes**: This is a simple parameter adjustment
-   that doesn't alter the driver's architecture or introduce new
-   subsystems. It only modifies the FIFO trigger threshold value written
-   to the hardware register (FIFOCTL).
+### 3. **Small and Contained Fix**
+The change is minimal and surgical:
+- Adds only 3 lines of code (a conditional check and a 2ms delay)
+- Changes are confined to the `hi556_resume()` function
+- No architectural changes or new features introduced
 
-4. **Clear Problem and Solution**: The commit message clearly explains:
-   - The old value (16) worked only for specific configurations (720P60
-     2-lane, 1080P60 4-lane at 594MHz)
-   - It failed for lower resolutions due to FIFO underflows
-   - The new value (374) fixes these issues while maintaining
-     compatibility with the original working modes
+### 4. **Low Risk of Regression**
+- The fix only adds a delay when a reset GPIO is present
+- The unconditional 5ms delay at the end is preserved
+- The change follows standard practice for hardware reset timing
+  requirements
+- Only affects systems with the hi556 sensor that have a reset GPIO
+  configured
 
-5. **Hardware Compatibility Fix**: This is a hardware compatibility fix
-   for the Toshiba TC358743 HDMI-to-CSI2 bridge chip. Users with this
-   hardware trying to use affected video modes would experience failures
-   without this fix.
+### 5. **Affects Recently Added Functionality**
+The reset GPIO support was added relatively recently (commit
+860f262dd0dd from April 2024), and this fix corrects a bug in that
+implementation. Systems using this feature would benefit from the fix.
 
-6. **Low Risk of Regression**: The change increases the FIFO threshold
-   from a very conservative value (16) to a more appropriate one (374).
-   The commit message indicates this value was tested with multiple
-   configurations and represents a sweet spot that works for both low
-   and high resolution modes.
+### 6. **Follows Stable Kernel Rules**
+The commit:
+- Fixes a real bug that affects users
+- Is small (under 100 lines)
+- Has been tested (signed off by multiple maintainers)
+- Doesn't add new features
+- Has minimal risk of causing new issues
 
-7. **Affects End Users**: Without this fix, users cannot use certain
-   common video formats (1080P24/30) with this hardware, which directly
-   impacts functionality.
+The timing issue this fixes is a classic hardware initialization race
+condition that would cause sporadic camera failures, making it an
+important fix for systems using the hi556 sensor with GPIO reset
+control.
 
-The commit follows stable tree rules by being a minimal bugfix that
-resolves a real hardware issue without introducing new features or
-making risky changes. The fact that it's simply adjusting a hardware
-register value to fix FIFO underflow issues makes it an ideal candidate
-for stable backporting.
+ drivers/media/i2c/hi556.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- drivers/media/i2c/tc358743.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 0bf6481dd0d9..1c7546d2ada4 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -1979,8 +1979,19 @@ static int tc358743_probe_of(struct tc358743_state *state)
- 	state->pdata.refclk_hz = clk_get_rate(refclk);
- 	state->pdata.ddc5v_delay = DDC5V_DELAY_100_MS;
- 	state->pdata.enable_hdcp = false;
--	/* A FIFO level of 16 should be enough for 2-lane 720p60 at 594 MHz. */
--	state->pdata.fifo_level = 16;
-+	/*
-+	 * Ideally the FIFO trigger level should be set based on the input and
-+	 * output data rates, but the calculations required are buried in
-+	 * Toshiba's register settings spreadsheet.
-+	 * A value of 16 works with a 594Mbps data rate for 720p60 (using 2
-+	 * lanes) and 1080p60 (using 4 lanes), but fails when the data rate
-+	 * is increased, or a lower pixel clock is used that result in CSI
-+	 * reading out faster than the data is arriving.
-+	 *
-+	 * A value of 374 works with both those modes at 594Mbps, and with most
-+	 * modes on 972Mbps.
-+	 */
-+	state->pdata.fifo_level = 374;
- 	/*
- 	 * The PLL input clock is obtained by dividing refclk by pll_prd.
- 	 * It must be between 6 MHz and 40 MHz, lower frequency is better.
+diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
+index aed258211b8a..d3cc65b67855 100644
+--- a/drivers/media/i2c/hi556.c
++++ b/drivers/media/i2c/hi556.c
+@@ -1321,7 +1321,12 @@ static int hi556_resume(struct device *dev)
+ 		return ret;
+ 	}
+ 
+-	gpiod_set_value_cansleep(hi556->reset_gpio, 0);
++	if (hi556->reset_gpio) {
++		/* Assert reset for at least 2ms on back to back off-on */
++		usleep_range(2000, 2200);
++		gpiod_set_value_cansleep(hi556->reset_gpio, 0);
++	}
++
+ 	usleep_range(5000, 5500);
+ 	return 0;
+ }
 -- 
 2.39.5
 
