@@ -1,58 +1,69 @@
-Return-Path: <linux-media+bounces-38878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38879-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494B4B1ABC8
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 02:45:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14381B1ABEA
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 03:08:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E12083BE1E1
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 00:45:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB87A18A1E6D
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 01:09:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B33318A6A5;
-	Tue,  5 Aug 2025 00:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27EA51922C4;
+	Tue,  5 Aug 2025 01:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sR7bGovM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OCj9KBCa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61D8FBF6;
-	Tue,  5 Aug 2025 00:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E4F341AA;
+	Tue,  5 Aug 2025 01:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754354740; cv=none; b=jU13FWDuHhsrpbL1xh1V6wE6C6kIk+6WJQdLFJUtCAyy1qF7Vo+81tT1RkGdO4IjX7c5kLdZAZMBuiCQ0jTislYWuYPwsdYkGD3RFvaGu/HOYXtLJOexyXeaE7TyggjaM+FkzGxt6M+hgGV32YGa5QEh86VGFvau2CMctuxUVLE=
+	t=1754356119; cv=none; b=SAGJLrfncqhISXD08GaJubcr4KWtP5+HjXhWxmmcNUF9rXGqpiLWFKJd7NxGStTJYWqph9kjLMWQyByN82WF7cKGRP0Zc5+nOP/wipkpUl+fGm900vmcMAz6H1VPu9B0yeERG34Wz0pwkF/6N0Q4ezF+mpNRcHi2FlEKneyRUC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754354740; c=relaxed/simple;
-	bh=jJ2HdpSRn3L0bjsPQAigHcB0H8EMFzqi56r1nk4Dxso=;
+	s=arc-20240116; t=1754356119; c=relaxed/simple;
+	bh=HRK77S8jj98fxjdYajHbsWPldKElX/RjHec2I/UjYD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kptZRR6SKx577V6Cb3sSgvVosZ4ArFj6R6bafzWozPl/87hvepEZ51gdw2TfALl1UI/NE1Yuf/GAhHt1pA9w4nZ0kOh3bMZqQ2vu83CG2oyg0+MWM7NjRVjv21AeNoHx6ca7zSPcUnlKhjel71qBiefWTjN3XK0jf8ViI+26wng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sR7bGovM; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=RTD1KqpnREIXFI+7tiainN1HWCqeEbccgwIUZC6hUYtct2acX2VRJzU4WlFq3T+wqanwpiSlerS9cmIjM/U0pYABg2IrrjXQQi98gAOilBv4IGL1XQ/RfK4oQBjC7Jl7T7x0KGKxcAnsdsipNvDyrB/kUVVcyEsBRF5acyBUPnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OCj9KBCa; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D8E7B1FE4;
-	Tue,  5 Aug 2025 02:44:48 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8AEC31775;
+	Tue,  5 Aug 2025 03:07:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754354689;
-	bh=jJ2HdpSRn3L0bjsPQAigHcB0H8EMFzqi56r1nk4Dxso=;
+	s=mail; t=1754356068;
+	bh=HRK77S8jj98fxjdYajHbsWPldKElX/RjHec2I/UjYD8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sR7bGovMJnIVXgczy+KOr7tbpkeKXVhH5srHSpD3nLcQqSIC2hhbeRvfD18AN0DVq
-	 tQDo9oTuvOcLTsmxc2s5yFc1DqWUBk5kq8/wRk6uIlEs4uGStjt23a+lWoghHrHvXM
-	 rOp0GlksT9JnNFbhLK1VageL08rvUDxQUiI10mZ0=
-Date: Tue, 5 Aug 2025 03:45:22 +0300
+	b=OCj9KBCayppPj1P1bSZyw8bSVTMcSmTyEs7pPkLC/y9oSKN/RiCxM8DHX8xHF9DT1
+	 ntGfR6Rm6AFub/qKEuhdfR5QYghYPJ8KWEhDSF0ISH5hAgdzYKN8xJvh/layVF1/l/
+	 Gr39JmEt0BsUqq/TJQI/06JcyIwuTYunZ8StyC3I=
+Date: Tue, 5 Aug 2025 04:08:22 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] media: starfive: camss: Use common dma-contig dma addr
- helper
-Message-ID: <20250805004522.GA24627@pendragon.ideasonboard.com>
-References: <20250801082149.591192-1-paulk@sys-base.io>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Alice Yuan <alice.yuan@nxp.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Robert Chiras <robert.chiras@nxp.com>,
+	Zhipeng Wang <zhipeng.wang_1@nxp.com>
+Subject: Re: [PATCH v4 0/5] media: imx8qxp: add parallel camera support
+Message-ID: <20250805010822.GC24627@pendragon.ideasonboard.com>
+References: <20250729-imx8qxp_pcam-v4-0-4dfca4ed2f87@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,50 +72,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250801082149.591192-1-paulk@sys-base.io>
+In-Reply-To: <20250729-imx8qxp_pcam-v4-0-4dfca4ed2f87@nxp.com>
 
-Hi Paul,
+Hi Frank,
 
-Thank you for the patch.
+Thank you for the patches.
 
-On Fri, Aug 01, 2025 at 10:21:49AM +0200, Paul Kocialkowski wrote:
-> The vb2_plane_cookie helpers is not meant to be used directly by
-> drivers using the generic dma-contig allocator.
+I've quite busy these days, and I don't believe I will have time to
+review this series before coming back from OSS Europe at the beginning
+of September. Let's see if anyone on CC could volunteer.
+
+On Tue, Jul 29, 2025 at 12:06:21PM -0400, Frank Li wrote:
+> Add parallel camera support for i.MX8 chips.
 > 
-> Use the common helper to retrieve the plane dma address instead.
+> The below patch to add new format support to test ov5640 sensor
+>    media: nxp: isi: add support for UYVY8_2X8 and YUYV8_2X8 bus codes
 > 
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> The bindings and driver for parallel CSI
+>    dt-bindings: media: add i.MX parallel csi support
+>    media: nxp: add V4L2 subdev driver for parallel CSI
+> 
+> DTS part need depend on previous MIPI CSI patches.
+>   https://lore.kernel.org/imx/20250522-8qxp_camera-v5-13-d4be869fdb7e@nxp.com/
+> 
+>   arm64: dts: imx8: add parellel csi nodes
+>   arm64: dts: imx8qxp-mek: add parallel ov5640 camera support
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  drivers/staging/media/starfive/camss/stf-video.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> Changes in v4:
+> - remove imx93 driver support since have not camera sensor module to do test now.
+>   Add it later
+> - Add new patch
+>   media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
+> - See each patche's change log for detail.
+> - Link to v3: https://lore.kernel.org/r/20250708-imx8qxp_pcam-v3-0-c8533e405df1@nxp.com
 > 
-> diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-> index a0420eb6a0aa..b0b9b70b9641 100644
-> --- a/drivers/staging/media/starfive/camss/stf-video.c
-> +++ b/drivers/staging/media/starfive/camss/stf-video.c
-> @@ -167,10 +167,8 @@ static int video_buf_init(struct vb2_buffer *vb)
->  	struct stfcamss_video *video = vb2_get_drv_priv(vb->vb2_queue);
->  	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
->  	const struct v4l2_pix_format *fmt = &video->active_fmt.fmt.pix;
-> -	dma_addr_t *paddr;
->  
-> -	paddr = vb2_plane_cookie(vb, 0);
-> -	buffer->addr[0] = *paddr;
-> +	buffer->addr[0] = vb2_dma_contig_plane_dma_addr(vb, 0);
-
-That looks good,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-However, I think the driver should be dropped from the kernel. It has
-been merged in staging because it wasn't complete, and startfive made it
-clear they don't plan to work on it anymore.
-
-Would you like to submit a patch to drop the driver instead ?
-
->  
->  	if (fmt->pixelformat == V4L2_PIX_FMT_NV12)
->  		buffer->addr[1] =
+> Changes in v3:
+> - replace CSI with CPI.
+> - detail change see each patch's change logs
+> - Link to v2: https://lore.kernel.org/r/20250703-imx8qxp_pcam-v2-0-188be85f06f1@nxp.com
+> 
+> Changes in v2:
+> - remove patch media: nxp: isi: add support for UYVY8_2X8 and YUYV8_2X8 bus codes
+>   because pcif controller convert 2x8 to 1x16 to match isi's input
+> - rename comaptible string to fsl,imx8qxp-pcif
+> - See each patches's change log for detail
+> - Link to v1: https://lore.kernel.org/r/20250630-imx8qxp_pcam-v1-0-eccd38d99201@nxp.com
+> 
+> ---
+> Alice Yuan (2):
+>       dt-bindings: media: add i.MX parallel CPI support
+>       media: nxp: add V4L2 subdev driver for camera parallel interface (CPI)
+> 
+> Frank Li (3):
+>       media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
+>       arm64: dts: imx8: add camera parallel interface (CPI) node
+>       arm64: dts: imx8qxp-mek: add parallel ov5640 camera support
+> 
+>  .../devicetree/bindings/media/fsl,imx93-pcif.yaml  | 126 ++++
+>  MAINTAINERS                                        |   2 +
+>  arch/arm64/boot/dts/freescale/Makefile             |   3 +
+>  arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi     |  13 +
+>  .../boot/dts/freescale/imx8qxp-mek-ov5640-cpi.dtso |  83 +++
+>  arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi  |  27 +
+>  drivers/media/platform/nxp/Kconfig                 |  11 +
+>  drivers/media/platform/nxp/Makefile                |   1 +
+>  drivers/media/platform/nxp/imx-parallel-cpi.c      | 728 +++++++++++++++++++++
+>  include/media/v4l2-common.h                        |  30 +
+>  10 files changed, 1024 insertions(+)
+> ---
+> base-commit: 37a294c6211bea9deb14bedd2dcce498935cbd4e
+> change-id: 20250626-imx8qxp_pcam-d851238343c3
 
 -- 
 Regards,
