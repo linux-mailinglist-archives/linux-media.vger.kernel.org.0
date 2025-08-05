@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-38936-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38937-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA7BB1B477
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:13:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C92B1B472
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:13:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B01F175435
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:13:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20A3E3A7A4F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:13:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61ED4279358;
-	Tue,  5 Aug 2025 13:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F184279780;
+	Tue,  5 Aug 2025 13:11:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PuiTd3RY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4dpR8h9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED72275113;
-	Tue,  5 Aug 2025 13:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C612275AE6;
+	Tue,  5 Aug 2025 13:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754399489; cv=none; b=m3pmnLBxkGlXHRPOsGc2Z6BpFi3xU+3JwL7ugEW45HQIf8ICM8eHYaoVtw/fBfq0XbHH95WEmVgrQbfkqCB1gSqj6WGjUvsguRIRhwWQAl7B704xi2ryoFs5QSu1S+8qKA3TJM14anE8rpEFD4beRFEXOUOS0ZevJ7e29b4MvGQ=
+	t=1754399494; cv=none; b=W8KUbrD0UgxsLZtVcnA2X2ioM018lWVqomDI6HdKt7Kud3CyLfQsXlf+McgWV+rP4y+GWxWrPe32bqs9Fl+yzdYCSNj0qDHLjZ1TOTZtxnikYwdcNGqoytJEdebC9/Bfz+lF2wmvcR1OYkXj3+dZbBokB2lQcc1LUbI1sbgRNvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754399489; c=relaxed/simple;
-	bh=KMS29EiNpnbCgqRgh25+DaqhzCFR2obHthy2cidYnWE=;
+	s=arc-20240116; t=1754399494; c=relaxed/simple;
+	bh=9H17uJLfuVnidCS+gWRXYJKkHr1eMHymYRNlRa11BOg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=txorKgPgN6nk2MBvfcRjFQVNM2zf7DA4Ps7qBkY9Gr58/4RfM6nfY3kIIl3WE5c92r7U8yiZHrfnIDSSc80vqWZcHZSpVrYgt/4F0qsLIc+AezBSp6Emx6CYwdMfPeCRfEUf5ND1/oba5aDqdjOUwPrKCi2ULMqrWGOiIIBZJZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PuiTd3RY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97A2DC4CEF0;
-	Tue,  5 Aug 2025 13:11:28 +0000 (UTC)
+	 MIME-Version; b=Nlsj3Tt925EiWCKuSd5AJrBDPaU4VOI+TQVaVHjJKhT4/0+xoOcGOWbN5deTjTlx3ZxbiEiSbSyCKJx55yOeL6fdM20ONrQqsKeJskBe5FQsbAJnLR9BLgYgf5V9nhjSMrdCgzlwPgcF8YwqBJAG3gFrm5Lpauo5hG8YhVPKmzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4dpR8h9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A710C4CEF0;
+	Tue,  5 Aug 2025 13:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754399489;
-	bh=KMS29EiNpnbCgqRgh25+DaqhzCFR2obHthy2cidYnWE=;
+	s=k20201202; t=1754399494;
+	bh=9H17uJLfuVnidCS+gWRXYJKkHr1eMHymYRNlRa11BOg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PuiTd3RYI0pZJ99nnhxkHHHfLe+GWN6mbF28059plJBcJ1VgQSKNn7YAB9UVnQSgX
-	 XURN0qP7SJeaZx8LDm7sbNtaiH6oeLTTfhDkBo4FmQn+ym+jJIXpoTlM4sSjkK/K2q
-	 C3vICUybb55sg1FPWuxypdGVVnem00HuYxlhe5wqAkt/O1ps/IfqoBTRi8d5OmUy8U
-	 UkSGKu1YotqoE9S13AOUD/TlJq4SLNjmZMJk4ZSYxl2K3e4hQDcgLhGcQytxgOJC/3
-	 Uu9+6rvWPqcmetM36b72uvlOPU8SRqnlRKc9KPJeu3KzqhpMs5epinhw+iqkRBzNRj
-	 MKLWgmS92guhQ==
+	b=a4dpR8h91NEfQjjTthyqk6j2sBw3TGNdfoMFsJNfJrQ2aatuG61Wr7osj49M9A2tS
+	 HQAkwESAulLCYd88kCZtXmjWsEIcb5Py/fXoYW8tpqfQWnzDNJ4fVCxBvIMx/tMnzW
+	 D6jJILjsnkvIr7Rhe9Q+YjOAFrIY2CRVzdPVuEZ7PTiKf0FxhBCqE3WKE0qhJqkIp/
+	 YKNeqMhpnYC4pIW6Sip4WqLzmCtmiA07R2zBIjJ8ZOrgc5JxUZAnxRXsTCLgGMLCp0
+	 9bwWJYqq65DmbydcXYBmAWqccE2tamb7OGSHZUhNKhYeBCZtVi3ymHFKz6/bkfBWKm
+	 ss0mHR0YkB1FQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -48,9 +48,9 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-5.4] media: tc358743: Return an appropriate colorspace from tc358743_set_fmt
-Date: Tue,  5 Aug 2025 09:09:22 -0400
-Message-Id: <20250805130945.471732-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.16-5.4] media: tc358743: Increase FIFO trigger level to 374
+Date: Tue,  5 Aug 2025 09:09:24 -0400
+Message-Id: <20250805130945.471732-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
 References: <20250805130945.471732-1-sashal@kernel.org>
@@ -63,27 +63,24 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-[ Upstream commit 377cc006a364dfdab2f3f221cfad63a9265200b8 ]
+[ Upstream commit 86addd25314a1e77dbdcfddfeed0bab2f27da0e2 ]
 
-When calling tc358743_set_fmt, the code was calling tc358743_get_fmt
-to choose a valid format. However that sets the colorspace
-based on information read back from the chip, not the colour
-format requested.
+The existing fixed value of 16 worked for UYVY 720P60 over
+2 lanes at 594MHz, or UYVY 1080P60 over 4 lanes. (RGB888
+1080P60 needs 6 lanes at 594MHz).
+It doesn't allow for lower resolutions to work as the FIFO
+underflows.
 
-The result was that if you called try or set format for UYVY
-when the current format was RGB3 then you would get told SRGB,
-and try RGB3 when current was UYVY and you would get told
-SMPTE170M.
+374 is required for 1080P24 or 1080P30 UYVY over 2 lanes @
+972Mbit/s, but >374 means that the FIFO underflows on 1080P50
+UYVY over 2 lanes @ 972Mbit/s.
 
-The value programmed in the VI_REP register for the colorspace
-is always set by this driver, therefore there is no need to read
-back the value, and never set to REC709.
-Return the colorspace based on the format set/tried instead.
+Whilst it would be nice to compute it, the required information
+isn't published by Toshiba.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
@@ -92,149 +89,87 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
+Based on my analysis of the commit and the kernel repository, here is my
+assessment:
+
 **Backport Status: YES**
 
-This commit is a good candidate for backporting to stable kernel trees
-for the following reasons:
+This commit should be backported to stable kernel trees for the
+following reasons:
 
-## Bug Fix Analysis
+1. **Bug Fix for Real Hardware Issues**: The commit fixes a concrete bug
+   where the tc358743 HDMI-to-CSI2 bridge experiences FIFO underflows
+   with certain video resolutions. The old hardcoded value of 16 causes
+   failures with lower resolutions (1080P24, 1080P30) and different lane
+   configurations, making the hardware unusable in these modes.
 
-1. **Clear Bug Being Fixed**: The commit fixes an incorrect colorspace
-   reporting bug in the tc358743 HDMI-to-CSI bridge driver. When calling
-   `tc358743_set_fmt()` to set/try a format, the function was
-   incorrectly returning the colorspace based on the *current* hardware
-   state (read from VI_REP register) rather than the colorspace
-   appropriate for the *requested* format.
+2. **Small and Contained Change**: The fix is minimal - it only changes
+   a single value from 16 to 374 and adds explanatory comments. The
+   change is confined to the probe function's initialization code and
+   doesn't modify any complex logic or introduce new features.
 
-2. **User-Visible Impact**: This bug causes incorrect colorspace
-   metadata to be reported to userspace applications:
-   - Requesting UYVY format when current is RGB would incorrectly report
-     SRGB colorspace
-   - Requesting RGB format when current is UYVY would incorrectly report
-     SMPTE170M colorspace
-   - This affects video capture applications that rely on correct
-     colorspace information for proper color processing
+3. **No Architectural Changes**: This is a simple parameter adjustment
+   that doesn't alter the driver's architecture or introduce new
+   subsystems. It only modifies the FIFO trigger threshold value written
+   to the hardware register (FIFOCTL).
 
-## Code Analysis
+4. **Clear Problem and Solution**: The commit message clearly explains:
+   - The old value (16) worked only for specific configurations (720P60
+     2-lane, 1080P60 4-lane at 594MHz)
+   - It failed for lower resolutions due to FIFO underflows
+   - The new value (374) fixes these issues while maintaining
+     compatibility with the original working modes
 
-3. **Small and Contained Fix**: The change is minimal and well-
-   contained:
-   - Adds a simple helper function `tc358743_g_colorspace()` that maps
-     format codes to appropriate colorspaces
-   - Removes the problematic register read (`i2c_rd8(sd, VI_REP)`) from
-     `tc358743_get_fmt()`
-   - Updates both `tc358743_get_fmt()` and `tc358743_set_fmt()` to use
-     the helper function
-   - Total change is about 40 lines with clear logic
+5. **Hardware Compatibility Fix**: This is a hardware compatibility fix
+   for the Toshiba TC358743 HDMI-to-CSI2 bridge chip. Users with this
+   hardware trying to use affected video modes would experience failures
+   without this fix.
 
-4. **No Architectural Changes**: The fix doesn't introduce any new
-   features or change the driver architecture - it simply corrects the
-   colorspace reporting logic to be consistent and predictable.
+6. **Low Risk of Regression**: The change increases the FIFO threshold
+   from a very conservative value (16) to a more appropriate one (374).
+   The commit message indicates this value was tested with multiple
+   configurations and represents a sweet spot that works for both low
+   and high resolution modes.
 
-5. **Low Risk of Regression**:
-   - The driver always writes the VI_REP register value itself in
-     `tc358743_set_csi_color_space()` (lines 690-691 for UYVY, 702-703
-     for RGB)
-   - The commit message correctly notes "The value programmed in the
-     VI_REP register for the colorspace is always set by this driver"
-   - The new implementation is simpler and more predictable than reading
-     back hardware state
-   - The colorspace mapping (RGB→SRGB, UYVY→SMPTE170M) is standard and
-     correct
+7. **Affects End Users**: Without this fix, users cannot use certain
+   common video formats (1080P24/30) with this hardware, which directly
+   impacts functionality.
 
-6. **No Side Effects**: The change only affects the colorspace field
-   reporting and doesn't modify any hardware programming, timing
-   configuration, or data flow.
+The commit follows stable tree rules by being a minimal bugfix that
+resolves a real hardware issue without introducing new features or
+making risky changes. The fact that it's simply adjusting a hardware
+register value to fix FIFO underflow issues makes it an ideal candidate
+for stable backporting.
 
-7. **Subsystem Isolation**: The tc358743 is a specific HDMI-to-CSI
-   bridge chip driver that's relatively isolated from core kernel
-   functionality. Changes here won't affect system stability.
-
-The commit meets stable kernel criteria as it fixes a real bug that
-affects userspace applications without introducing new features or risky
-changes. The fix is simple, correct, and unlikely to cause regressions.
-
- drivers/media/i2c/tc358743.c | 44 ++++++++++++++----------------------
- 1 file changed, 17 insertions(+), 27 deletions(-)
+ drivers/media/i2c/tc358743.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 8c269e28fd5f..0bf6481dd0d9 100644
+index 0bf6481dd0d9..1c7546d2ada4 100644
 --- a/drivers/media/i2c/tc358743.c
 +++ b/drivers/media/i2c/tc358743.c
-@@ -1708,12 +1708,23 @@ static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static u32 tc358743_g_colorspace(u32 code)
-+{
-+	switch (code) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+		return V4L2_COLORSPACE_SRGB;
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+		return V4L2_COLORSPACE_SMPTE170M;
-+	default:
-+		return 0;
-+	}
-+}
-+
- static int tc358743_get_fmt(struct v4l2_subdev *sd,
- 		struct v4l2_subdev_state *sd_state,
- 		struct v4l2_subdev_format *format)
- {
- 	struct tc358743_state *state = to_state(sd);
--	u8 vi_rep = i2c_rd8(sd, VI_REP);
- 
- 	if (format->pad != 0)
- 		return -EINVAL;
-@@ -1723,23 +1734,7 @@ static int tc358743_get_fmt(struct v4l2_subdev *sd,
- 	format->format.height = state->timings.bt.height;
- 	format->format.field = V4L2_FIELD_NONE;
- 
--	switch (vi_rep & MASK_VOUT_COLOR_SEL) {
--	case MASK_VOUT_COLOR_RGB_FULL:
--	case MASK_VOUT_COLOR_RGB_LIMITED:
--		format->format.colorspace = V4L2_COLORSPACE_SRGB;
--		break;
--	case MASK_VOUT_COLOR_601_YCBCR_LIMITED:
--	case MASK_VOUT_COLOR_601_YCBCR_FULL:
--		format->format.colorspace = V4L2_COLORSPACE_SMPTE170M;
--		break;
--	case MASK_VOUT_COLOR_709_YCBCR_FULL:
--	case MASK_VOUT_COLOR_709_YCBCR_LIMITED:
--		format->format.colorspace = V4L2_COLORSPACE_REC709;
--		break;
--	default:
--		format->format.colorspace = 0;
--		break;
--	}
-+	format->format.colorspace = tc358743_g_colorspace(format->format.code);
- 
- 	return 0;
- }
-@@ -1753,19 +1748,14 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
- 	u32 code = format->format.code; /* is overwritten by get_fmt */
- 	int ret = tc358743_get_fmt(sd, sd_state, format);
- 
--	format->format.code = code;
-+	if (code == MEDIA_BUS_FMT_RGB888_1X24 ||
-+	    code == MEDIA_BUS_FMT_UYVY8_1X16)
-+		format->format.code = code;
-+	format->format.colorspace = tc358743_g_colorspace(format->format.code);
- 
- 	if (ret)
- 		return ret;
- 
--	switch (code) {
--	case MEDIA_BUS_FMT_RGB888_1X24:
--	case MEDIA_BUS_FMT_UYVY8_1X16:
--		break;
--	default:
--		return -EINVAL;
--	}
--
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
- 		return 0;
- 
+@@ -1979,8 +1979,19 @@ static int tc358743_probe_of(struct tc358743_state *state)
+ 	state->pdata.refclk_hz = clk_get_rate(refclk);
+ 	state->pdata.ddc5v_delay = DDC5V_DELAY_100_MS;
+ 	state->pdata.enable_hdcp = false;
+-	/* A FIFO level of 16 should be enough for 2-lane 720p60 at 594 MHz. */
+-	state->pdata.fifo_level = 16;
++	/*
++	 * Ideally the FIFO trigger level should be set based on the input and
++	 * output data rates, but the calculations required are buried in
++	 * Toshiba's register settings spreadsheet.
++	 * A value of 16 works with a 594Mbps data rate for 720p60 (using 2
++	 * lanes) and 1080p60 (using 4 lanes), but fails when the data rate
++	 * is increased, or a lower pixel clock is used that result in CSI
++	 * reading out faster than the data is arriving.
++	 *
++	 * A value of 374 works with both those modes at 594Mbps, and with most
++	 * modes on 972Mbps.
++	 */
++	state->pdata.fifo_level = 374;
+ 	/*
+ 	 * The PLL input clock is obtained by dividing refclk by pll_prd.
+ 	 * It must be between 6 MHz and 40 MHz, lower frequency is better.
 -- 
 2.39.5
 
