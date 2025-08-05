@@ -1,302 +1,194 @@
-Return-Path: <linux-media+bounces-38939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8958BB1B497
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:15:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9AFB1B4AA
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:17:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E8C818A4833
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:15:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E06F16981B
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:17:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F597274FCE;
-	Tue,  5 Aug 2025 13:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC94C2749F1;
+	Tue,  5 Aug 2025 13:17:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibN7amyM"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="HTdRk0Oa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012070.outbound.protection.outlook.com [40.107.75.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1612749C0;
-	Tue,  5 Aug 2025 13:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754399543; cv=none; b=ATYGCMwx+b76JebUZ+fHFg+lDNtBZ8NIjh6uCIjCLdSg+gGgl3qx+56D2lqxAuLYdkhYvzDJskOVEzeW0meXH95nG8N9LmRzsoIEfMk936L2wcGyKoOiLSwQ+7bDAM7hLh2kK0EjdGwCwW1e/kCed4DDAiiTFE68q3pOk7TTHyY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754399543; c=relaxed/simple;
-	bh=giQehz2V1tSGz7SKdt2XvMq2SRfdN5AAyc40ALPNpxQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BjznJM9koU3nQVYRKOF01NakjqNVNqavpYCLKL0NT+Pg+Qy5Q+QEnJ87SfgDZJOa8qGppId8geh180tF3aFbOp0c+Pe4VoW1F4MV+GKef+IBCr10SZO8NBcHaXXCQDJMeb2CE4JR9lNAJczczTngIntFZ/EcqwieIu9BOcCPpkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibN7amyM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C28C4CEF0;
-	Tue,  5 Aug 2025 13:12:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754399543;
-	bh=giQehz2V1tSGz7SKdt2XvMq2SRfdN5AAyc40ALPNpxQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ibN7amyM/Gq/hCWQrUI116oB4NwoQV9eAFzBrY8TZHsTW1B3HQK+hxzNPQIwD99X3
-	 ozJ9XWooYbFG18Yh3r3ZInrNUkqPC+TvQzqmTL7eDs7sYBnr8WdGdCnh7gPX1P0uhp
-	 qdNEUTdAxDt6xcQ3iJNyy+QW/2RFAR8q7HeCFWOFJLzkle1w710vaMGmOTiARTMqdq
-	 aQWE47M1If3iLB7THIqQnFFx85s8I0Vr6Lpc/Cgx3FJ1bJWaz0pjCMxSUqIpLUgc0Q
-	 Va0IZZO9hMpjNZUbfaPn5NoGx3RqRTt3xZ03eViWTAFzVSg/3+xepV/vAo91LeEEnt
-	 gaU2ja5DZnCow==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-6.15] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during queryctrl errors
-Date: Tue,  5 Aug 2025 09:09:43 -0400
-Message-Id: <20250805130945.471732-68-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
-References: <20250805130945.471732-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5CF1400C;
+	Tue,  5 Aug 2025 13:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754399835; cv=fail; b=SdXjDGnkd9Rp6iVSXk4b3hxy2ceqTwC0Ixhm52UzawuBmRbpDkmu7lF+BwcsZmf8oc0YzrZi5IHm0wAGDAnjgsAZj4/L0o7Sx09d4fwVEWQDw7y/i7Qs2OOug7h9wYRC61zd6bBNfmZR9OwNTjjRLBRtfiaW00YjtxtbpOjknnY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754399835; c=relaxed/simple;
+	bh=eeedgtv1dC1bIV8UKXj1VzBZvA/o9YwGm9ukXI50YzQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CHue0hF9qCkvrtJb+UAi9F7n4VtOL3SRPUHIxU3GVywNFufCEb7bGx/71oUNn74kSpBAncYuvTyo6bDswl+qN/aeA4ABrWyoS0wi4voy7fv7+XvLrPzvNY2h/fZO9ZY1ThFOWj5cNIQ7ObG9wuKbioCFYA7UAO7YM8iVZc50ZoI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=HTdRk0Oa; arc=fail smtp.client-ip=40.107.75.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PGIlYnvFY0WX6x0fBLKRLe07pUbmfyGIqtHykhswZ2lq6Eru/rE7wZahc+3HMR4Qx6ijLsC+Tgr6AS10vM3wEZB5nLiL3I/fj1k8yx56UC65qkfCVAtpyOmEv1g/Z33uFECxNbT3ZTtOWued2lC/TQuYLl0+y5UPvZ4/ab4j4RNHH74TpH0f5QbETqEz8ir5se2FE3hdo1ySC/alhcXstdQ4VrZCUVjdmXrAo1QakUVU6+fei2X3KzybF5Q55hhjfzKNNqCqQFIzNDpUqqQKwfvLN47QUq34eKZNr8o6dzcb0OJZonmVUnR+PevqlEFvylvPpSfAU6Lq+ExpReiHWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eeedgtv1dC1bIV8UKXj1VzBZvA/o9YwGm9ukXI50YzQ=;
+ b=nZlULF8jVRFCk0jlPvYOAqEhW+3w/RUDPbCU+CNTgLJ51LYZ++VW3gbavMSfgMH6owxSzAh6Ll/SVnDrUw0FgEZ4NHwXFbvIpc2I8Hb6isiiYk/p1Xo67LZf2om6E8Ig6GkF1dN2HNyBBUJTfCtS1okMqliEz58OeszB84x2uRDjL1yjh1+Pytr0E9xNrthrllJm/OvqRrJjN+6WV7Jb1ss8axOeVEGMyVodiZZfwplJBHuGx5PfLiAvRltxSy8ecYcyJcFmX8gCQPZlWdtQlKOliO5xqruoTveRXJRc6hH+1576zO4Kq7+gRftgti9fBeQR1L7U2f+b/tY2SWuStA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eeedgtv1dC1bIV8UKXj1VzBZvA/o9YwGm9ukXI50YzQ=;
+ b=HTdRk0OaKM9NbBuQI7y5ej57O98AqbwAGtnYg5phnGHvaGQQ8IjNVcDKelQAflUiGcoSck3ldqNnZAPtz3lglHOKJ+eX/GqVaV3jLem7cgfQ795stMldXqhUpKB5+1S1Et9AFhrtz7gbbJ5ogPGZTuNU8pkzR651LyZPibSqpUCL3TFlHOhJivRIwjy5912V3W2cONqNnHHEcqk9cwu0gWCCwgdSV0ba1Q+2axHQgLCOxzki2FZeQUWvXAr1m4RCj8WziRarBmGjWjWBMBGVtI/uwp3YDGGZUcUGmGNWL6XzpyvbbKFf1epLlE3gPw0TTMHA5HA7I56jZt+Pc0rsAg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ KL1PR0601MB5774.apcprd06.prod.outlook.com (2603:1096:820:b2::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.19; Tue, 5 Aug
+ 2025 13:17:10 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%4]) with mapi id 15.20.8989.018; Tue, 5 Aug 2025
+ 13:17:10 +0000
+Message-ID: <e3903e95-3659-4d68-86ef-0f3d6b2c8d90@vivo.com>
+Date: Tue, 5 Aug 2025 21:17:04 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: mediatek: vcodec: use = { } instead of memset()
+Content-Language: en-US
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans Verkuil <hverkuil@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <20250803135514.118892-1-rongqianfeng@vivo.com>
+ <9f0b868c-47f9-4c98-ac99-86bfbc6a432d@web.de>
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+In-Reply-To: <9f0b868c-47f9-4c98-ac99-86bfbc6a432d@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYAPR01CA0085.jpnprd01.prod.outlook.com
+ (2603:1096:404:2c::25) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.16
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|KL1PR0601MB5774:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9c94d54-9d85-4520-c154-08ddd4226271
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YXdCQkE1YlQzdTdOdGJZYk1CQ3c5UWpvRG9weE9Fak16bmliRU1YdlQ2WFBV?=
+ =?utf-8?B?aTQ1a3ZVc3FpYk1VMW5hR1J4bmx6eTRrckJZNXhYMTc4UmpjQ1AzNWZyRThN?=
+ =?utf-8?B?LzQzSmxyeU5kTmszMi8wVm82RHFKbk5WWENRQ3U1Nm9VUzhzYk0xYjNpR2Jj?=
+ =?utf-8?B?R3VmR2dYTzNiZk5vTGVxcWNPMHNZYnlvcEx2dDVLQ3lWZGxJMkdqRFB6akds?=
+ =?utf-8?B?ZlZmVHFFckZSTG5pWk83YkdNK0xSY0tYa3B0enhDQXpKaDdzMEdtWjJHT3NL?=
+ =?utf-8?B?ZmNtRzNONzgyaUxoSkFIVzlBTkpBU1lNYVlDTGN4RStJQjBZSzVEL09YVStN?=
+ =?utf-8?B?b3hTSUY4U2J0bm42bEhmZjh1bXZ4MlRuM3BuYWJTY0JGZG1TVEtDQkxRVW1B?=
+ =?utf-8?B?S0ljMThWV2RteTAzaXA3R0tuK2ZaN0NHTGZZclZpQ05qbTQ2VHVOYUg0SXJy?=
+ =?utf-8?B?MGUyT1lnakdZQlVrWWhwcU9jT2FXdzVFRjN3emdWWFlwcFRDWXNmSVJqdjZW?=
+ =?utf-8?B?WU1HMm5oVEh1Y3VpWWJNZFYyMTVMN2g2c1daT25zTEZqSUJXYS9ic3BrQVlv?=
+ =?utf-8?B?YTRmSUUvanNTeldoY0hrTkdkYXYrZHpOYVozZXlidFNJcVd3WHpKVFU1SFZO?=
+ =?utf-8?B?YkNNa1ZEbVdsUTBFU3FKdkpBSUlpQTl3QWRDeHp2MTc1ZTVESWk1aldrN2xp?=
+ =?utf-8?B?dVBWYTZaNEdWc3RSN1UzcnlKbEpMelBaZm9ud01WblZZWGpBZDgrOGtYTHB4?=
+ =?utf-8?B?bXFXWUN4SGRpMFBMTHkvVDlDemgyWnc3bWpWbnViaDJYYXhvUTdwME45UG1x?=
+ =?utf-8?B?YXBqSUtBcUlycmEyWXFDVjRQRXk3TnRreENUVVZHWmZDNVVzQ0ZYYVYvT1h0?=
+ =?utf-8?B?a3ZSdktmWkVqb283NzVQN3NiSzdzYzI2OEs2bDA1QkdjcDlmNk5USzFqbDFM?=
+ =?utf-8?B?d01kQlFJRUlWZ3h3dURJeExhNzlpS0owYzdsclR2L3AxbUxjMzdYSHViQ0Yy?=
+ =?utf-8?B?QVpDTzRSb1Y5R3hSbjhFeW5iVnE0RjM4aFlPMlgwTHcxK2lhbmRINFhkYjFi?=
+ =?utf-8?B?MGZmcnV0NTBkNVZWcXF2Z21KSVdxSHFVUEhRRkxSTGltQmg2TkxBMDRPbjdl?=
+ =?utf-8?B?M0lVSXNteE1nZVlXMk1ObFF2c1M4c1NKWFQ1SWh2cVZZdGZPaWpraExNNlcv?=
+ =?utf-8?B?cTNyQzNTZFlCTVR3eVlNenhxVm5hNkVBWEM5MldsZWp1eis5UEV4aXdsbHZ4?=
+ =?utf-8?B?SGlRbmFmZ1lSY1JhRmtseWo0VFRYcVpaaVg2c1I3R0lGdy9kVjVqN1hWRVFU?=
+ =?utf-8?B?aE82czBucE84TCtNWmZzT0JYQlFZRDBoWUpLOFlKWW1EbHRhYmFpUG9qVjJt?=
+ =?utf-8?B?NFI3QWdxZE9lTm5ad0hYb2FaZ1EzRklwWDcreklTWTdhcUxjUzNQSjkzNnN3?=
+ =?utf-8?B?WDhDWEFuR3dSb2t3ZFpGQWVOYkxFNnRrMDlQU1FhQ3V4WTBycnpaeTFndzJV?=
+ =?utf-8?B?TU03WXRndlNXdDZtV25zOVpycW9CdmdWYS91Y0xhY0VseDErbC9SNTFpbmpy?=
+ =?utf-8?B?c1RjTUNJSGFVa1BuMHk5SWZTU0YrM3MwQzQ1N2pUTzFueUxCeks1c1cwN2d6?=
+ =?utf-8?B?MXBCVTI5VzNPa1FUYVVva0lDTWg3RnZVVXhiaUJPaGgxRUFFc3Q2cXNML2Rs?=
+ =?utf-8?B?bEdGMk0zNXVVQVdXazVFaFRqT3Nxbkl0RlpHZmZBUVE2ektVanQ4QlNWL1Za?=
+ =?utf-8?B?cDdDQloxMzZLMzVObXdjWkhkUzBheU96NHBpMWJEUGJ5akVoNnUyTW9id0I4?=
+ =?utf-8?B?ZzBCQ3ZkT0VoV29OWkQ2a0cxOXVsdDVDYWllZHByNGcvcStoMnVramc0aWFV?=
+ =?utf-8?B?YTI2VlpDeVNQbHJ6NGlHckdGbzFZbVFHMmMweCtoOUw1Z2szU1pMOHBUWWh2?=
+ =?utf-8?Q?k09DT8SCUDs=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WnZKN3Q2ZkNKQTZiR1hwYXl0U0FCSWkxeFA5cVgyVnFLVzBiRmZ6cXZmZzRB?=
+ =?utf-8?B?azlzM1BJTldTeWVPbVUzMktacmo2bEZ2TnFtT2pRZG4zWnBRM0w1eE1ESytk?=
+ =?utf-8?B?ZHU0ZlpUZ0prUnNBZnNLNnlpOGRMR0YwNGxnQTRTUG50QVhWZ3NpV1d4WGZy?=
+ =?utf-8?B?MU02L0FjWjlmQWw1dlhBc1BFdlViZGNrT0l3UzBIU0xrSHUrTVYzWUsrUHND?=
+ =?utf-8?B?RXR4MWV6L2M4bHR3U3RGVXQwZjhRUFcyNG9VUWVpMGRuZ29EemhNNEtqdmdP?=
+ =?utf-8?B?TDg2RGYwQ0xMalEzZ01QZGZSR2tGSURQWElZNDNpTDdwdTE0dmdQNUQ2YmUx?=
+ =?utf-8?B?WVF1MnFWR0s0UGM4c2Ntc3F6b3RaRGZQblVnYXlHQ01TRVVwOEV6Y2RSdTdO?=
+ =?utf-8?B?MHRjOHd5TC9rWFpqTVo0U3hGcForWWxnZU9OTkdrQjdJbStvbUwwSys5ZWNz?=
+ =?utf-8?B?NEVvSG9vZ1V1TzRRWUp2SlVrVCtSR0hUcUI3U01PbFNPWS9GNTNMRGtyYStK?=
+ =?utf-8?B?V0ZOaDFjQ0hIU0N5TzhKOUUycG40VGpCM3RQMytnR0ZidFJxL21wdDlQY0dM?=
+ =?utf-8?B?TkMvMFVuNXBXQUFuMmxOYzgrMTBBMmJFTTVOSC9SSGFBSklnMnZWUFJpeVdk?=
+ =?utf-8?B?TTB0c29MazZGbGx0N3FZWGRLN1BndkFqR1RCTUZidEZtdjlDcUljZlg1Wi9U?=
+ =?utf-8?B?VU9sS0R0bmgrWlM4Wk9nSldrcnNuSXhMUS9QWGttTS94SmU1aGpOTjN6NFor?=
+ =?utf-8?B?eFFDN0VvWm9YdHllNVdKR0VHOVNoRTZ3eXB4c1lQRHVPNzAzdnQxN3ZZRFB1?=
+ =?utf-8?B?VStRWENuVFVkbytzQkdQWU9hdXJ5cVFPWUd5NGVsR29DWFFWOWx5czZ3TVh6?=
+ =?utf-8?B?KzUvZkhVWEdmejdJSHhDcTIrVUtnbm9JTTQ2SlFoVXFIQjZNNzEvbVR3RS9S?=
+ =?utf-8?B?QllydkEzUGVSUGVRa0h3ZWFJTHhCNnJ5a0RJZStXRlJMdWkydVNReS9neVM1?=
+ =?utf-8?B?T3dkTXdKV2ZqU2tqU2dPUzBhZFhwUEpHVDMyZVlHTSt2aGdIa2ovRWYyVExj?=
+ =?utf-8?B?MlA2R0dEOXdJVTNmbEpWV25LcXUzNTZ3WFIxR3R6bFAzM2pGUm9YY0kvR0ha?=
+ =?utf-8?B?dEwwSjBJZDUxaXIrMUF5TU84QktSdzc1QjRvdmJlQ3d3Y0RiMEJKWkdRTHdY?=
+ =?utf-8?B?L0hGMGsxRENKNnYydi80RE9QMUZ1T0ZJcUNxU2hJakVVUXdkV3V1NXl2djNx?=
+ =?utf-8?B?TExrdHlPMGtCV1BYOWc1aDJUczFyYjcrQkEwRGFQaGpLcDRtLzJRd1BGSUtk?=
+ =?utf-8?B?U2JZSzd1MTB4SmdnWGxUd1ZMYWMyTVRVMEpoZlNkdE5YQjBlTG5qcGNaWkdY?=
+ =?utf-8?B?M2ZGSFpoNkFCemU1am9tT1hSN2l0Vk9GRTJ6T29XRFN5Z05QVjNYSlVtSy95?=
+ =?utf-8?B?ZmZqdHo0YWFSMzhKeU9pSmxNYk4xOVdJM1VBOWJ3S28vRTdNSjlUU0dKb3FO?=
+ =?utf-8?B?MkRGRXViQ29qTHlOUU54eExWMDY5cHRUbHFLbHMyRWdIcFkzeVNYWlpYYS9x?=
+ =?utf-8?B?L0x3cFBTckM4S0NKK2dzQ2VOdjU1OGpMN2FZR1B0VEFYWWx2QUhFQ05rNGVE?=
+ =?utf-8?B?Si9ya0lRT1VPQkJNeWNYcU9razZKcnByMXdvNHlSdm9qb0lLaXJtY01zSUpa?=
+ =?utf-8?B?NEtqTStkRnUwdk91d3cvb2JrQ3lPdnpyTThia2NUMzgvTzV5NTJnZTdIVUEy?=
+ =?utf-8?B?OUxEWGxCN0ltNE1YVzhYay9pOFp6TU5sY1dLZjlVcjFrRytMd25IWDFlRWZO?=
+ =?utf-8?B?Q1NyNGdCOXluSk1Fa2hqWTFadituK004MDdzeWVvSUtDaVlQMWp1b3I2SlRT?=
+ =?utf-8?B?eWkxWStGZ3JOYkhVOWF0VTJVcTdRanNrVGRTQXNqOW1tOU5oQ2plTnFvVWpO?=
+ =?utf-8?B?Q1VQNHcyOUloZDF0Ulo4bzgwQkxWbjJkWE5iMWdjazBZSTJFcjlBb2dBUi9P?=
+ =?utf-8?B?M0QvdjdoRGRPWm8xS2dBSWJpT000VzZEcVFVRkZRUVBUMEN6SVcwR0tQM0Ni?=
+ =?utf-8?B?bTFuZWRxZ3grYjVMRkhGMFlsaitydmRoR3dvOU1wWVhNbGphL1dnWjZFeEtO?=
+ =?utf-8?Q?dgpT6iQbeSgv3kvI8NrVpa2MR?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9c94d54-9d85-4520-c154-08ddd4226271
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2025 13:17:10.4014
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1pZS4Yt2mOfhF/tyC6varRsvqUjeZrTZse1UM8s4ZokICrzQOqH+rLiBbrLY8oi8zKokGNdUHD6nJhcf9oscEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5774
 
-From: Ricardo Ribalda <ribalda@chromium.org>
 
-[ Upstream commit 649c033711d7fd6e1d5d69e4cfc3fceca7de2867 ]
+在 2025/8/5 21:06, Markus Elfring 写道:
+> …
+>> This patch converts …
+> See also once more:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.16#n94
+I don't think your point is a problem here. Please focus more on the code
+itself. If you have better suggestions for the code in my patch, please
+let me know.
 
-To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
-step and flags of the control. For some of the controls, this involves
-querying the actual hardware.
-
-Some non-compliant cameras produce errors when we query them. These
-error can be triggered every time, sometimes, or when other controls do
-not have the "right value". Right now, we populate that error to userspace.
-When an error happens, the v4l2 framework does not copy the v4l2_queryctrl
-struct to userspace. Also, userspace apps are not ready to handle any
-other error than -EINVAL.
-
-One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
-of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
-that usecase, a non-compliant control will make it almost impossible to
-enumerate all controls of the device.
-
-A control with an invalid max/min/step/flags is better than non being
-able to enumerate the rest of the controls.
-
-This patch:
-- Retries for an extra attempt to read the control, to avoid spurious
-  errors. More attempts do not seem to produce better results in the
-  tested hardware.
-- Makes VIDIOC_QUERYCTRL return 0 for -EIO errors.
-- Introduces a warning in dmesg so we can have a trace of what has happened
-  and sets the V4L2_CTRL_FLAG_DISABLED.
-- Makes sure we keep returning V4L2_CTRL_FLAG_DISABLED for all the next
-  attempts to query that control (other operations have the same
-  functionality as now).
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Link: https://lore.kernel.org/r/20250502-uvc-eaccess-v8-1-0b8b58ac1142@chromium.org
-Signed-off-by: Hans de Goede <hansg@kernel.org>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-**Backport Status: YES**
-
-This commit should be backported to stable kernel trees for the
-following reasons:
-
-## Bug Fix for Real-World Hardware Issues
-
-The commit addresses a **critical usability bug** where non-compliant
-USB cameras can prevent enumeration of all device controls through
-`VIDIOC_QUERYCTRL`. This is not a feature addition but a fix for
-existing functionality that fails with certain hardware.
-
-## Key Evidence from Code Analysis:
-
-1. **Fixes Control Enumeration Breakage**: The commit message explicitly
-   states that "a non-compliant control will make it almost impossible
-   to enumerate all controls of the device." This prevents userspace
-   applications from discovering and using device capabilities.
-
-2. **Handles Hardware Non-Compliance Gracefully**: The changes add retry
-   logic (MAX_QUERY_RETRIES=2) and error tolerance for -EIO errors,
-   converting them to disabled controls rather than propagating errors:
-  ```c
-  + for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
-  +     ret = uvc_ctrl_populate_cache(chain, ctrl);
-  +     if (ret != -EIO)
-  +         break;
-  + }
-  ```
-
-3. **Minimal and Contained Changes**: The fix is localized to the UVC
-   driver's control handling:
-   - Adds a `bool disabled` field to `uvc_control_mapping` structure
-   - Modifies error handling in `__uvc_queryctrl_boundaries()` and
-     `__uvc_query_v4l2_ctrl()`
-   - Returns success (0) instead of error for problematic controls,
-     marking them as disabled
-
-4. **Preserves Existing Behavior for Compliant Hardware**: The changes
-   only affect error paths - compliant hardware continues to work
-   exactly as before. The V4L2_CTRL_FLAG_DISABLED flag is only set when
-   errors occur.
-
-5. **Critical for User Experience**: Without this fix, users with
-   affected cameras cannot properly use their devices with standard V4L2
-   applications. The commit message notes "userspace apps are not ready
-   to handle any other error than -EINVAL."
-
-## Stable Tree Criteria Met:
-
-✓ **Fixes a real bug**: Non-compliant cameras fail to enumerate controls
-✓ **Small and self-contained**: ~100 lines of targeted changes
-✓ **Already tested**: Has review from Hans de Goede and sign-offs from
-multiple maintainers
-✓ **No new features**: Only improves error handling for existing
-functionality
-✓ **Low regression risk**: Only modifies error paths, preserves working
-behavior
-
-The commit follows the stable kernel rules by fixing an important bug
-that affects real users while keeping changes minimal and focused on the
-specific problem. The retry mechanism and disabled flag approach is a
-conservative solution that maintains compatibility while improving
-robustness.
-
- drivers/media/usb/uvc/uvc_ctrl.c | 55 +++++++++++++++++++++++++++-----
- drivers/media/usb/uvc/uvcvideo.h |  2 ++
- 2 files changed, 49 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 44b6513c5264..f24272d483a2 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1483,14 +1483,28 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
- 	return ~0;
- }
- 
-+/*
-+ * Maximum retry count to avoid spurious errors with controls. Increasing this
-+ * value does no seem to produce better results in the tested hardware.
-+ */
-+#define MAX_QUERY_RETRIES 2
-+
- static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
- 				      struct uvc_control *ctrl,
- 				      struct uvc_control_mapping *mapping,
- 				      struct v4l2_query_ext_ctrl *v4l2_ctrl)
- {
- 	if (!ctrl->cached) {
--		int ret = uvc_ctrl_populate_cache(chain, ctrl);
--		if (ret < 0)
-+		unsigned int retries;
-+		int ret;
-+
-+		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
-+			ret = uvc_ctrl_populate_cache(chain, ctrl);
-+			if (ret != -EIO)
-+				break;
-+		}
-+
-+		if (ret)
- 			return ret;
- 	}
- 
-@@ -1567,6 +1581,7 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- {
- 	struct uvc_control_mapping *master_map = NULL;
- 	struct uvc_control *master_ctrl = NULL;
-+	int ret;
- 
- 	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
- 	v4l2_ctrl->id = mapping->id;
-@@ -1587,18 +1602,31 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		__uvc_find_control(ctrl->entity, mapping->master_id,
- 				   &master_map, &master_ctrl, 0, 0);
- 	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
-+		unsigned int retries;
- 		s32 val;
- 		int ret;
- 
- 		if (WARN_ON(uvc_ctrl_mapping_is_compound(master_map)))
- 			return -EIO;
- 
--		ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
--		if (ret < 0)
--			return ret;
-+		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
-+			ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
-+					     &val);
-+			if (!ret)
-+				break;
-+			if (ret < 0 && ret != -EIO)
-+				return ret;
-+		}
- 
--		if (val != mapping->master_manual)
--			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-+		if (ret == -EIO) {
-+			dev_warn_ratelimited(&chain->dev->udev->dev,
-+					     "UVC non compliance: Error %d querying master control %x (%s)\n",
-+					     ret, master_map->id,
-+					     uvc_map_get_name(master_map));
-+		} else {
-+			if (val != mapping->master_manual)
-+				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-+		}
- 	}
- 
- 	v4l2_ctrl->elem_size = uvc_mapping_v4l2_size(mapping);
-@@ -1613,7 +1641,18 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		return 0;
- 	}
- 
--	return __uvc_queryctrl_boundaries(chain, ctrl, mapping, v4l2_ctrl);
-+	ret = __uvc_queryctrl_boundaries(chain, ctrl, mapping, v4l2_ctrl);
-+	if (ret && !mapping->disabled) {
-+		dev_warn(&chain->dev->udev->dev,
-+			 "UVC non compliance: permanently disabling control %x (%s), due to error %d\n",
-+			 mapping->id, uvc_map_get_name(mapping), ret);
-+		mapping->disabled = true;
-+	}
-+
-+	if (mapping->disabled)
-+		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
-+
-+	return 0;
- }
- 
- int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index b9f8eb62ba1d..11d6e3c2ebdf 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -134,6 +134,8 @@ struct uvc_control_mapping {
- 	s32 master_manual;
- 	u32 slave_ids[2];
- 
-+	bool disabled;
-+
- 	const struct uvc_control_mapping *(*filter_mapping)
- 				(struct uvc_video_chain *chain,
- 				struct uvc_control *ctrl);
--- 
-2.39.5
-
+Best regards,
+Qianfeng
 
