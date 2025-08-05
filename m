@@ -1,58 +1,56 @@
-Return-Path: <linux-media+bounces-38930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19C9B1B433
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:11:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 825E8B1B434
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 15:11:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CEAAE167523
-	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:11:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 31862622AD2
+	for <lists+linux-media@lfdr.de>; Tue,  5 Aug 2025 13:11:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66099274FF2;
-	Tue,  5 Aug 2025 13:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03712750E3;
+	Tue,  5 Aug 2025 13:10:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B1sQnzqA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="elMe3RGs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE000271A9A;
-	Tue,  5 Aug 2025 13:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99C8272E7E;
+	Tue,  5 Aug 2025 13:10:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754399416; cv=none; b=VAYmeZfQwtC9tJmF/FhA+hhmWYOBjkbB7l17qbA/mZzmxyvJR8t4KmxY1dmwSLVm+04UXt4FMIYqXSZksVXUYDwuQDCIHl4FtKGev+kt843KbYL7nLmu1m0Cm1AGaJo21789bTz27Mz0wMphhCLXItzpWnkJP98foIcLEldp9D8=
+	t=1754399420; cv=none; b=TtoCuNuhOlbywtBFlMFE9MfNqpUhMW9x+5nBT96dF/NewoRC0jdEL/K+GCt1k1YGMZNqZp/Jz+uCE5nI44BoOhmMUbHbnCyq8O8rStB1m6BCEpJg4oztVJOR+hgtNKMO0Nx93FXab3V51iF3PYm7aCtuAlbApFm+ysuIgAvRrPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754399416; c=relaxed/simple;
-	bh=nLR2nKCPs3giCPKRnM4kPEs7iA3ItISXiBbVh3su7hQ=;
+	s=arc-20240116; t=1754399420; c=relaxed/simple;
+	bh=aFM77PO7HHy7VDzh5vwun+TX8SVe/5/ToPZlsE7RqyY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OubJ6D2h5GSqqdIZ/cTYirKSKJNmcn04ZT/URX+QVGt9SclIJRzbZgHlpS9Xm/yZpYyiqQMgOIX5LPGSRPc38VTw9W0ZwqnKPb20o8d2NEIp8pUaM4SEaNNCVO8d9GmNmyjRXxO8neJevc/QqZtctqEUMfyxWyzJxvt+q/MSDXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B1sQnzqA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0F8C4CEFC;
-	Tue,  5 Aug 2025 13:10:15 +0000 (UTC)
+	 MIME-Version; b=kbwu7OB/CmiHpxqvkMeYWul9/gXQ8MxzP16NZSAqa7BFkiefISTezgZSnqJYc3bt+2446mmyHrDQqrJWSyQ+nUfU0XaFGc7Th5z3cJgOkGO22F4GuAWl5ZZYqG1+qXNkucNeSAUWnhOvD/yVsIr3TXSbWEe+Va/TGT9DjtYabHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=elMe3RGs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552F0C4CEF4;
+	Tue,  5 Aug 2025 13:10:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754399416;
-	bh=nLR2nKCPs3giCPKRnM4kPEs7iA3ItISXiBbVh3su7hQ=;
+	s=k20201202; t=1754399419;
+	bh=aFM77PO7HHy7VDzh5vwun+TX8SVe/5/ToPZlsE7RqyY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B1sQnzqAxxCWV7szqLxlwQcDkc+1agza8PNvd7M42TcsL6E59qjDeyAYUCQpWX96y
-	 NLGX6zMJylR5W2KG+bVhhW8nXwLsgF/zUEOQUe21ZS1zww2oxigz60KMUWVRs0+yYk
-	 NYJKiipa1xEW53HyQJfEKaze9SebtlccnfRBrqLAnZek21GsJ/zt+Ymkzuwgg71ANh
-	 +5zXZENxrNAb8U0+prcBOVl7Ef/ylbfDoKh31s4t6qru/V5ACOHYjxymIEyDCnptJv
-	 znXmkG86L8FnD9xub4nt2MkLAzlRJujD3mFw7feHeA4qJ9QxNT+8TU8UurvXAjLFYx
-	 XoqKhLSLhHCWg==
+	b=elMe3RGsiHHsxpfy3yVmwV2/0KEE98x5uV5qRiWZtOgrpx38w4wTYrONubNZaxEkQ
+	 n+GybAPzJ+mmpZsu+7iNbsthdcPsUxcHnNHnzflx282PJ0P56HO63A7MT0Fy/8TXH8
+	 etvZ/ql4nmUNojRlx5okr1yakmf2mq5FP/mi72vcc+GLULqxRN7gPX7ragyakVCfPD
+	 M/QegimD3sB/Fyd4hqV9zfNeiMds7t59d17niP1r8QP6f7zbmhySXOnHMdv72LXrj6
+	 BaQt3igyhP3YOZa57BjEA5Shz5XJ17Uwhov34SRf0UqCUGavQWLFfJwHojbhfk3303
+	 wd1uaZSHy8IrQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	sylvain.petinot@foss.st.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16] media: i2c: vd55g1: Fix RATE macros not being expressed in bps
-Date: Tue,  5 Aug 2025 09:08:49 -0400
-Message-Id: <20250805130945.471732-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.16-5.4] media: usb: hdpvr: disable zero-length read messages
+Date: Tue,  5 Aug 2025 09:08:50 -0400
+Message-Id: <20250805130945.471732-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
 References: <20250805130945.471732-1-sashal@kernel.org>
@@ -67,98 +65,121 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16
 Content-Transfer-Encoding: 8bit
 
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-[ Upstream commit 5b69a84005b686365e9cacb2ca942271ed74867a ]
+[ Upstream commit b5ae5a79825ba8037b0be3ef677a24de8c063abf ]
 
-As a bit rate is expressed in bps, use MEGA instead of HZ_PER_MHZ.
+This driver passes the length of an i2c_msg directly to
+usb_control_msg(). If the message is now a read and of length 0, it
+violates the USB protocol and a warning will be printed. Enable the
+I2C_AQ_NO_ZERO_LEN_READ quirk for this adapter thus forbidding 0-length
+read messages altogether.
 
-Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-**Backport Status: YES**
+Now I have enough information to provide a comprehensive analysis:
 
-This commit should be backported to stable kernel trees. Here's the
+## Backport Status: YES
+
+This commit should be backported to stable kernel trees. Here's my
 extensive analysis:
 
-## Bug Analysis
-
-The commit fixes a unit confusion bug in the vd55g1 camera sensor
-driver. The macros `VD55G1_MIPI_RATE_MIN` and `VD55G1_MIPI_RATE_MAX` are
-incorrectly defined using `HZ_PER_MHZ` when they should use `MEGA`:
-
+### 1. Bug Fix Nature
+The commit fixes a **protocol violation bug** where the hdpvr driver
+passes zero-length read messages directly to `usb_control_msg()`.
+Looking at line 122-123 in `hdpvr_transfer()`:
 ```c
-// Before (incorrect):
-#define VD55G1_MIPI_RATE_MIN    (250 * HZ_PER_MHZ)   // 250 MHz
-#define VD55G1_MIPI_RATE_MAX    (1200 * HZ_PER_MHZ)  // 1200 MHz
-
-// After (correct):
-#define VD55G1_MIPI_RATE_MIN    (250 * MEGA)         // 250 Mbps
-#define VD55G1_MIPI_RATE_MAX    (1200 * MEGA)        // 1200 Mbps
+retval = hdpvr_i2c_read(dev, 1, addr, NULL, 0,
+                        msgs[0].buf, msgs[0].len);
+```
+When `msgs[0].len` is 0, this results in a zero-length USB control
+message being sent at line 71 in `hdpvr_i2c_read()`:
+```c
+ret = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
+                      REQTYPE_I2C_READ, CTRL_READ_REQUEST,
+                      (bus << 8) | addr, 0, dev->i2c_buf, len, 1000);
 ```
 
-Both `HZ_PER_MHZ` and `MEGA` are defined as `1000000UL` in
-`/home/sasha/linux/include/linux/units.h`, so numerically they're the
-same. However, semantically they represent different units:
-- `HZ_PER_MHZ` is for frequency conversion (Hz)
-- `MEGA` is a generic multiplier for mega units, appropriate for bit
-  rates (bps)
+### 2. USB Protocol Violation
+Zero-length read control messages violate the USB protocol
+specification. This isn't just a theoretical issue - the kernel now
+warns about these violations, and they can cause actual communication
+problems with USB devices.
 
-## Impact Assessment
+### 3. Similar Stable Backports
+The pattern of this fix is identical to other drivers that have already
+been backported to stable:
+- `i2c: robotfuzz-osif: disable zero-length read messages` (commit
+  8bc5879c038f)
+- `i2c: tiny-usb: disable zero-length read messages` (commit
+  4e093e67e5a9)
 
-1. **Functional Impact**: While numerically identical, this is a
-   semantic bug that affects code clarity and correctness. The driver
-   uses these macros to validate MIPI data rates:
-   - Lines 712-713: Range validation of `sensor->mipi_rate`
-   - Lines 716-717: Error messages that explicitly show rates in Mbps
-     using `/ MEGA`
+Both of these commits explicitly included `Cc: <stable@vger.kernel.org>`
+tags and have been backported to stable trees.
 
-2. **User-Facing Bug**: Yes - incorrect unit semantics could lead to
-   confusion when debugging or maintaining the driver. The error
-   messages explicitly show "MIPI rates must be in the range [%u - %u]
-   Mbps", proving these are bit rates, not frequencies.
+### 4. Small and Contained Fix
+The fix is minimal and safe:
+- Adds a simple quirks structure with `I2C_AQ_NO_ZERO_LEN_READ` flag
+- Only adds 6 lines of code (quirks structure definition and reference)
+- Doesn't change any logic flow or introduce new features
+- The I2C subsystem respects this quirk and prevents zero-length reads
+  from reaching the driver
 
-3. **Regression Risk**: Minimal - since both macros have the same
-   numerical value, there's no functional change, only semantic
-   correctness.
+### 5. Real User Impact
+This bug can cause:
+- Warning messages in kernel logs that alarm users
+- Potential USB communication errors
+- Incorrect behavior when I2C devices attempt zero-length reads
 
-## Stable Tree Criteria
+### 6. No Architectural Changes
+The commit:
+- Doesn't introduce new features
+- Doesn't change existing APIs
+- Doesn't modify core kernel infrastructure
+- Only adds a defensive measure using existing I2C quirk infrastructure
 
-This commit meets stable tree requirements:
-1. **Fixes a real bug**: Semantic incorrectness in unit usage
-2. **Small and contained**: Only changes 2 lines
-3. **No side effects**: Purely a semantic fix with no functional changes
-4. **No architectural changes**: Simple macro definition update
-5. **Subsystem impact**: Limited to a single media driver (vd55g1)
-6. **Clear fix**: The commit message clearly explains what's being fixed
+### 7. Clear Backport Criteria Match
+The commit meets stable kernel rules:
+- **Fixes a real bug**: USB protocol violation
+- **Already causing problems**: Warnings are being printed
+- **Obviously correct**: Uses standard I2C quirk mechanism
+- **Small change**: Only 6 lines added
+- **Tested solution**: Same fix pattern already in stable for other
+  drivers
 
-The fix ensures proper semantic meaning for MIPI data rate validation,
-which is important for code maintainability and prevents potential
-future bugs if the macro values ever diverge.
+The commit should be backported to all stable kernels that include the
+hdpvr driver, particularly those where USB core started warning about
+zero-length control messages.
 
- drivers/media/i2c/vd55g1.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/usb/hdpvr/hdpvr-i2c.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
-index 8552ce75e1aa..d00daf89be96 100644
---- a/drivers/media/i2c/vd55g1.c
-+++ b/drivers/media/i2c/vd55g1.c
-@@ -129,8 +129,8 @@
- #define VD55G1_FWPATCH_REVISION_MINOR			9
- #define VD55G1_XCLK_FREQ_MIN				(6 * HZ_PER_MHZ)
- #define VD55G1_XCLK_FREQ_MAX				(27 * HZ_PER_MHZ)
--#define VD55G1_MIPI_RATE_MIN				(250 * HZ_PER_MHZ)
--#define VD55G1_MIPI_RATE_MAX				(1200 * HZ_PER_MHZ)
-+#define VD55G1_MIPI_RATE_MIN				(250 * MEGA)
-+#define VD55G1_MIPI_RATE_MAX				(1200 * MEGA)
+diff --git a/drivers/media/usb/hdpvr/hdpvr-i2c.c b/drivers/media/usb/hdpvr/hdpvr-i2c.c
+index 070559b01b01..54956a8ff15e 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-i2c.c
++++ b/drivers/media/usb/hdpvr/hdpvr-i2c.c
+@@ -165,10 +165,16 @@ static const struct i2c_algorithm hdpvr_algo = {
+ 	.functionality = hdpvr_functionality,
+ };
  
- static const u8 patch_array[] = {
- 	0x44, 0x03, 0x09, 0x02, 0xe6, 0x01, 0x42, 0x00, 0xea, 0x01, 0x42, 0x00,
++/* prevent invalid 0-length usb_control_msg */
++static const struct i2c_adapter_quirks hdpvr_quirks = {
++	.flags = I2C_AQ_NO_ZERO_LEN_READ,
++};
++
+ static const struct i2c_adapter hdpvr_i2c_adapter_template = {
+ 	.name   = "Hauppauge HD PVR I2C",
+ 	.owner  = THIS_MODULE,
+ 	.algo   = &hdpvr_algo,
++	.quirks = &hdpvr_quirks,
+ };
+ 
+ static int hdpvr_activate_ir(struct hdpvr_device *dev)
 -- 
 2.39.5
 
