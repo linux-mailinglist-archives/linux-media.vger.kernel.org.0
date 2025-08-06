@@ -1,232 +1,161 @@
-Return-Path: <linux-media+bounces-38952-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38953-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C58EB1C053
-	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 08:09:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9CDB1C14A
+	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 09:26:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D1337A2936
-	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 06:08:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBA25167D21
+	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 07:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7931820468E;
-	Wed,  6 Aug 2025 06:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5F53218ABD;
+	Wed,  6 Aug 2025 07:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Cdb9xuXb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021086.outbound.protection.outlook.com [40.107.57.86])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260FF2BCF5;
-	Wed,  6 Aug 2025 06:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754460579; cv=fail; b=u4LPWgiUw1OlrZD/coCSu+zd/Vizq2s57XebzhPVftxDKQdXlI/Mjyvnx1vTRYqRxv4eobd0vc5adCO3Pt1/gbkxp91A8Sp++2GV6bgD7ifhgxTGG4SHOaPcuPUQYkw4PyPfFbxZCbRryp2yr6gAPgv7M/a/pbJtsCJukE/ETvs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754460579; c=relaxed/simple;
-	bh=iTagbxKLk6EBhd24efx8F1lcHVaOQMphHGQowgFrA3E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=I4hOwnrzRA6uqYRgjfxL7A+05LVzTV/gWloIY/HXwAz7lJp9+GO77uXKFwiWRIhXJjZUCkL0Gr//awK/BdI1PGy26OcmbXW2Cj7QcJcaS6auQFv4j0TRAN0+VnLg/6P1oO9Hw5jea760Rem/L0h/yN+DsOYteK/JVRZ+/ktmdg8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M7ozQUc3BYUmlmvu8qYQi5o2gbsoCnEdwccsbJwvZkbEwPz7x9bInOy7rbQhZdjPiBzuyr6keHFCifSOPgbHlA/M7Zsfy6QQjgeX75rxdCNHHKu+2PdVTmSI4C8KO3B9kvqiP/FR1fnTDxBWEHguUl9Sh1SnmHcGi8xcN0zrtNRwmeonH6yKKx1pMBPKxOoY+OI0JMLqtKDkBSVxJ8EBBGpsZPerHh1/d9Jdrlh8O1q0hH0NoO5IvfrQsbDN+BBfskLJ/aP6ucYKxhDpxrdb/yZyYDJP6Ej55t0OZQUTtw+U1VMsuZRL+ECsZ/JQE4+4EM6683HhPFqaw1P1zoFKxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iTagbxKLk6EBhd24efx8F1lcHVaOQMphHGQowgFrA3E=;
- b=g9qcnTLN0U4JdqVUjaktLMwbtei4SuaicabFjNI6Hep9IQNAxC9MpyZURY7kmXnPmNR07KlImYw8Cu6HvRYXegQ//2EsB+UxtJnY1bYWYyhv+75ENQveaREznKyba467YyK+nJCLvsnFxgw5+fdlyDKJFyFO28Z6+JCu28QA9uSfvGo0q9O2VrIH2bBD09DBsTXuQE7WS67BJgcIpOpxCAb//e+kV+vd3r8EaIL+eDEQEf4zL/bH2kC/cPg18dJbUQChnBuVaRDOFX+33hrkaziMqpVX5jZNduNk9CkiMhOrdKDGfJDEywcTpf7Lc+3JGySIz3KMHd9wYcF5XE/BaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:229::21)
- by PN3PPF829F3F944.INDP287.PROD.OUTLOOK.COM (2603:1096:c04:1::ba) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Wed, 6 Aug
- 2025 06:09:31 +0000
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418]) by PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418%6]) with mapi id 15.20.9009.013; Wed, 6 Aug 2025
- 06:09:30 +0000
-From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>, Himanshu
- Bhavani <himanshu.bhavani@siliconsignals.io>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Hans Verkuil
-	<hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>, Hans de Goede
-	<hansg@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	=?Windows-1252?Q?Andr=E9_Apitzsch?= <git@apitzsch.eu>, Arnd Bergmann
-	<arnd@arndb.de>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Dongcheng Yan
-	<dongcheng.yan@intel.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>, Matthias Fend
-	<matthias.fend@emfend.at>, Heimir Thor Sverrisson
-	<heimir.sverrisson@gmail.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 2/2] media: i2c: add ov2735 image sensor driver
-Thread-Topic: [PATCH v6 2/2] media: i2c: add ov2735 image sensor driver
-Thread-Index: AQHcAeHiVCljdpdLHE+nzjgq9sz23bRUsgcAgAB7Obk=
-Date: Wed, 6 Aug 2025 06:09:30 +0000
-Message-ID:
- <PN3P287MB35196F4C68AF1E0B69EED511FF2DA@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
-References: <20250731061004.5447-1-hardevsinh.palaniya@siliconsignals.io>
- <20250731061004.5447-3-hardevsinh.palaniya@siliconsignals.io>
- <aJKJ9l_j2VJFEcHe@smile.fi.intel.com>
-In-Reply-To: <aJKJ9l_j2VJFEcHe@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB3519:EE_|PN3PPF829F3F944:EE_
-x-ms-office365-filtering-correlation-id: 4f96798e-3778-44f3-269d-08ddd4afce75
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?Windows-1252?Q?BPymQ6Q0DgN8KDu3M8N7ZNT57UWLPFxO0rR1Zq85JEVJk8lE0eAVXHHP?=
- =?Windows-1252?Q?RJpLwwwmosYOZjfCyV5GzDGXM03AGJBFQP4vxkM2gn3RMimju4WikolU?=
- =?Windows-1252?Q?ptyZ2BOzikcWWQWLu/UVjPyooggUg/BIMX/cO1n7ZA29EqOLW5nmfbCb?=
- =?Windows-1252?Q?xaGz/PnlVGLB92wg7rGNLDtB/gFY+gJEta6dHr+cfKDmF+BzvrE8X858?=
- =?Windows-1252?Q?mES9BjVa/kJfKVYqKuA6gd9M9IZxhI7uWh8BjdUNdN4LhVtRPxpTh6kl?=
- =?Windows-1252?Q?fRj29r5JGq5wimWn8wbFtHmYWvYNFw8TMahbQEtXASsvi20inOu+Af7y?=
- =?Windows-1252?Q?waZmPmRJ7jqIdgiDVhXiAXPbxIOvztF8Sn5j0AneD4ATfRm7U6BMOjKS?=
- =?Windows-1252?Q?obvEdYs5Q3ebVduBOHt3hoQsaU9jjLMXrp6yAQr7TF1o3/a5vHUGE3MI?=
- =?Windows-1252?Q?Ftx8fJ7pqf9TwfRw5jF2KgX6Bl6nNbfkREKYmbQyhuWQl+rPNbJm8LNZ?=
- =?Windows-1252?Q?KG4hmwWYOhYuY56VxRLqnAzIBoELEavE8e+SZpncOwWSY1aUyDmSHhVb?=
- =?Windows-1252?Q?XjRWEum+Z60yopCxG9QxYWqPsTTFUyq8Rhwi16dVb8cNy2yHGpMWSCyX?=
- =?Windows-1252?Q?R2W2WPqGzM6WevlyQKZG4OvH24gaPfeZl0oLdPMAp/127ruoQ/rF4ZUl?=
- =?Windows-1252?Q?brJd1ID0oJm0oZOHs7bsJNSEWmqR5oDj8PfNfTw00b9JjVmKzkCWjMQZ?=
- =?Windows-1252?Q?LYbiRmUBbY+MVixBrLMJvWp+QH5+1/r6bKNKtR53FYwcWD68e7j4LyLg?=
- =?Windows-1252?Q?chHhXNp8+nJAyu71kseQ1dk1O4qI8QhNaOOXDPg1aUDXyM+DHrHnC82p?=
- =?Windows-1252?Q?VD8Qxsa8QefqV3n6Q8EAxRG60eN7fjbdZOMAH+VA7ot1MPp05jkILtfG?=
- =?Windows-1252?Q?B4u6NWfDTNawITl8W0DgO0Rv6LYvqvCErAvMQztu5LJlU6iuJ6mW5EL1?=
- =?Windows-1252?Q?aB7NIOydLcDJrIGC7BT4UkCcCdSEQMXbPB4waOOHZptV2OKlBfVFYrbV?=
- =?Windows-1252?Q?xTG420uzJC5bXcIHx8MFHo39jlzahmhFkfCiZuX/bW4faL5ZlkCYxEcp?=
- =?Windows-1252?Q?MpO4Oi0Fjk2+keEx7z2Wfm/ostJL3iW3ZB5KumfSCy3qzsBkTw+fXK4/?=
- =?Windows-1252?Q?qLHeUGWG8JSr5gzanmSzRcDh03YQMC4Uk15yu4awTqe/wbPhsYbZtmAm?=
- =?Windows-1252?Q?ItZiAhEhO5x2yhpZNfXoLdajuRBOL+G+HPjzU9BesjUQy8cLeFmrvKBO?=
- =?Windows-1252?Q?DGoBS3T4VjY52Gv5jVeWW4WFhugdZA4fqw8ZSzxNriZCURczT4N3DLwE?=
- =?Windows-1252?Q?qM6tA1ALu1+kWQzLHlRxUY+Fwkv0Jem/i2jmHZCkcFC3ZT4OXx0XokrQ?=
- =?Windows-1252?Q?aD4LKoKUkuEyswBGIt9ufD7ZavwRVeSEusFWAlkGKBoIQDVlQLv/im0L?=
- =?Windows-1252?Q?5t2lfnKGMh5itiVIpXmPbg2FtKCKdc6rzNUZQMpacIYI6cHSz1BdEKk4?=
- =?Windows-1252?Q?g0qXTb1aUH8B/QfmVsiSoZyPVZmZnO6a/FzEXg=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3519.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?Windows-1252?Q?6xHsJN3snYBNQpDYmnCLHURyUsux7KpAuiYtgRYM9dGIqQDY+IbVaGdM?=
- =?Windows-1252?Q?vTvWxvlg+Za/vNIskh8+qwLDGSgGMcxNDz5ONUVqXqwqI0fEc/RjZ0gM?=
- =?Windows-1252?Q?erbVA6OaagBwFDGwdBEf/VGmaQTRGaUysCYKMI4iKP01QeSJEpAevH2S?=
- =?Windows-1252?Q?H2xJyDUBrBpEv0HkaEYJ/JItvy9RNyu4dFqYhTZVlFUByWWsCHcqN3YX?=
- =?Windows-1252?Q?tuWxnqh3TZau5un3okClksd63H2A7NFCR6EViQn2JSmHgTTGqroly43Q?=
- =?Windows-1252?Q?TmvbZw6qwmSRVx12wlyK7NRhBfWlJAhnI0C2sExwS3veepu6LtMRSxEM?=
- =?Windows-1252?Q?dSI/H1j0daQN3I1JISnx97kQpNk7TIRtuOsrCzE2Fs7nL8rJLHuL7ioT?=
- =?Windows-1252?Q?tq8NkzbglN9f2pqMOn9tDdMfNzTlp331ar8OX0F4+8TooK2rbHq8EaKP?=
- =?Windows-1252?Q?XkhRnnJgPdWS4nsbUAAnMA111Rr+U3qr5FGhojk03IggTRv2nT2Orf/8?=
- =?Windows-1252?Q?WK5LHZhDJ/bmjPHUYZFwKPUBEgDiA1VDHgatnHH/0xhRRT8w2hfAGl7U?=
- =?Windows-1252?Q?/+HT6HVubj85xPbPaB1MlXZoP2adAXP79iWNURjNFfoZIIYu0cZZOoAq?=
- =?Windows-1252?Q?bg2i5NkCsK8P01iLFT/sueoyJHQxhYD5ztPgKqbnHGDiecf8UttGUBAw?=
- =?Windows-1252?Q?0NqJtlFKDRgx9hap9PlZstcLdkuBYz/IZCcU5/PBnj/CusoQjW93duvm?=
- =?Windows-1252?Q?/A0YdpkH3z5tb6kLoRHRe4xCz89GhuElN9q/tCq7UxmT6gVeOVkGMnWt?=
- =?Windows-1252?Q?fBCUn945BR1rPQfCHTc7lehG+47gUZ/LDlPa+0hJ/vSWALEpGubBTmTF?=
- =?Windows-1252?Q?+Mda/wHmzKEYsTPdfhrYiqeWffgQJOf7qxaY9HkuJ9ZSiCsUZbHyErOU?=
- =?Windows-1252?Q?HKH6L1xHIukamDxU6kVGmElV5aoVxNsh8mPHBeRWqLoH7KHYpE41biC4?=
- =?Windows-1252?Q?3n5APh1UPBjbjBfjrU8o8BWgmtqtwq623mcCZnk10vxu1YrkJlB09l2a?=
- =?Windows-1252?Q?RbvDA0WqiRxvQBTQ5dY88H+O8uQZhtknCanxkFmpHXPQZ/xQRHX9s++W?=
- =?Windows-1252?Q?fnlKMYmWkK4YC3x79cS4pNEvvnF+v/5TZ+KuzAG8+iAkTjNXKIiZvzkF?=
- =?Windows-1252?Q?fsc0r5RZ0HfNzylY+qm08nsCI9sQ07Q6j5fHxNaMatWFTvJqzMVOJHcb?=
- =?Windows-1252?Q?F2i6ITwtUNSUabeonSW37jWSDE2bjMUxsEtTN5zk/uHiLa9kwFtjy4cF?=
- =?Windows-1252?Q?bjPgIR9UY1s4BIIYdvU2wVgWUcRXJLUlNoJmqqd0iqCPc0Rnqu0M0A3q?=
- =?Windows-1252?Q?j2ZuL+1h/YTqxSHdQ453AGzWEBYC0jhlL+VZZhQSZ0vkVr7FzZnxaKuy?=
- =?Windows-1252?Q?Z9kTazpHFO64dsmqdgekD1jY8RdQkpQJvlz8CL4DkOONde0gfZ8/F4MG?=
- =?Windows-1252?Q?LRdqgas58m7h9G2A/RlYzt8ApWGLIHKger2KZtkqNXCS6KSIG1HMQgGC?=
- =?Windows-1252?Q?LX80lMfMIpB1hjZ4LTzsRgKMWrMqGTCjWMsMPhZ8YGkhV84QEF37IO/V?=
- =?Windows-1252?Q?xVnfIJPBjlYgyh8BmPcSY5K1MAo7veukECqbXlz1a5siMtZ5u6EyKKa8?=
- =?Windows-1252?Q?tATYicAwMlXmjFm48lGSto6Dq9fgvwKxS2ciHXBkbQUGmWs11TI+w5v+?=
- =?Windows-1252?Q?rAS1rPw/u3eL69VdTyI=3D?=
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E62219311;
+	Wed,  6 Aug 2025 07:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754465148; cv=none; b=qg/a8WsguTBXuHWNNTsQSibpXFK1cRc0wq8s2c9XIB7iNX09HuM3xnhrZdgcFH6UgDmOXfc89aH3kzXNk1bhs+t4JbgJhAi+Bb/hGMjdvAb5X/lXcb7yvKw5R+ll6yoAw08752eftbiXbthpHaw/fxHi1WCFU0eurV0cBwOaO1Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754465148; c=relaxed/simple;
+	bh=3q3CjfbHSWlzB+JVF2qlhl+e9zHvaojcn0S6SvoA5Jk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=gL3BuLaVqgCNZXDfr6gDekX76U/2YRAMPBemIdAUGJSC0DxipfeK2Rpxmzi+4UoDkLSWxl9MRiRGvBZG00RyOGVVI08+jdgfOklZpCRD/+LHhKq4T3112nzPlXyV9HohG07OUBEs09vwz3SlnZDi/cFEB1Ra4c3ii92nmKSMzIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Cdb9xuXb; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5766PgmD022277;
+	Wed, 6 Aug 2025 07:25:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2nqQ0K0cV3yjbvs90QWBSQ0QBNQ/gxQbHXc2pXA4sAo=; b=Cdb9xuXbEqfoUEj2
+	tdCBIe/nh8BUqzavgGsUib2caarmcLxi7GPshpciioGfvUiWvYSlr9rQitTH72j8
+	6i4f7C/az29HPUJt6toCTrmeL3vNthFwaB6XwKdjMceg1RXfKGAQTPtzoNusyeEf
+	nv5B8F+6hqJzRPjePal2EIWruYXVlwcYtC6hXreLLjOdaxZ5L3scloXZbf074oKx
+	9HEk0skE/q8uYFEYgwTaw1055r/X4Y9tC7G8GyAcqL8S3ptP1LPJKd483u72qvrq
+	13n1MhRfo34Xtw+/xwv7sTFIlS1G0nEYa16F0lpxTIKe2ejXmqilCLs5roe+O9cu
+	7Tk8RA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy89q7v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Aug 2025 07:25:37 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5767PaYX002896
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 6 Aug 2025 07:25:36 GMT
+Received: from [10.50.25.73] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 6 Aug
+ 2025 00:25:31 -0700
+Message-ID: <ac14b632-91ec-58a7-26cc-23d0056222b9@quicinc.com>
+Date: Wed, 6 Aug 2025 12:55:19 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f96798e-3778-44f3-269d-08ddd4afce75
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2025 06:09:30.4344
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sSFu1v7mn72gk4aoVeu88gE2oAevmumfNsoIQ5wz50rFnELAV0leW1dEqHyK9vSenxPGSUZVS1I2pk/2a/Aj+cFKCUj896SjziFr4fwlOpcwOm1Z9IGUHHmMCXDWiJD2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PPF829F3F944
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/3] soc: qcom: mdt_loader: Remove pas id parameter
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        "Vikash
+ Garodia" <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Mathieu Poirier
+	<mathieu.poirier@linaro.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
+        <ath12k@lists.infradead.org>, <linux-remoteproc@vger.kernel.org>,
+        "Bjorn
+ Andersson" <bjorn.andersson@oss.qualcomm.com>
+References: <20250804-mdtloader-changes-v1-0-5e74629a2241@oss.qualcomm.com>
+ <20250804-mdtloader-changes-v1-2-5e74629a2241@oss.qualcomm.com>
+Content-Language: en-US
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250804-mdtloader-changes-v1-2-5e74629a2241@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: KOi4YqLNCKZAqLXV9R7gOyrdCUchfY9H
+X-Proofpoint-ORIG-GUID: KOi4YqLNCKZAqLXV9R7gOyrdCUchfY9H
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX0TQ9K+31ta3c
+ t63cut98vJ4sgHPI43G//saEJRq/ZyO5GPLiLgBOwUW09EuKlJTiihKQW+cUcPbDRLCpia7+f5K
+ kJDAcAv3J9UapI+be22L40HnaJQl3OzsoKb0LrgPCJADMXOQl4GnSKR4CmEdPtfldS8E85t03uS
+ OOL2Y+bS0GyPYpHivZnkCDFgs6po2qzp8vL5TAYtG00plNETpXrehVi8cPOth+U7YC1oE4NLVU6
+ ucUP/75CScU0FnOdDlrEdZ2GFa+w1GcuOCVQ6RecHh2nXDk7LOIk4CJxRKo7Pj1cPEVtEM03vRs
+ UKHU5NbWCV64q1KXjbklPJ/4kYX0kFQ3smV2F2xWzM9BC5PHZXsApD3oQz+WcYP478vXczV3sS6
+ 6WgiEJTJ
+X-Authority-Analysis: v=2.4 cv=GrlC+l1C c=1 sm=1 tr=0 ts=68930371 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=iBbKO0qNdUk1ZPghfYAA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-06_01,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1011 suspectscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 
-> On Thu, Jul 31, 2025 at 11:39:58AM +0530, Hardevsinh Palaniya wrote:=0A=
-> > Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.=0A=
-> >=0A=
-> > The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an=0A=
-> > active array size of 1920 x 1080.=0A=
-> >=0A=
-> > The following features are supported:=0A=
-> > - Manual exposure an gain control support=0A=
-> > - vblank/hblank control support=0A=
-> > - Test pattern support control=0A=
-> > - Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)=0A=
-> =0A=
-> ...=0A=
-> =0A=
-> > +#define OV2735_REG_LONG_EXPOSURE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 O=
-V2735_PAGE_REG16(0x01, 0x03)=0A=
-> > +#define=A0=A0=A0=A0=A0 OV2735_EXPOSURE_MIN=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 4=0A=
-> > +#define=A0=A0=A0=A0=A0 OV2735_EXPOSURE_STEP=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 1=0A=
-> > +=0A=
-> > +#define OV2735_REG_ANALOG_GAIN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0 OV2735_PAGE_REG8(0x01, 0x24)=0A=
-> > +#define=A0=A0=A0=A0=A0 OV2735_ANALOG_GAIN_MIN=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x10=0A=
-> > +#define=A0=A0=A0=A0=A0 OV2735_ANALOG_GAIN_MAX=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 0xff=0A=
-> > +#define=A0=A0=A0=A0=A0 OV2735_ANALOG_GAIN_STEP=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 1=0A=
-> > +#define=A0=A0=A0=A0=A0 OV2735_ANALOG_GAIN_DEFAULT=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 0x10=0A=
-> =0A=
-> I dunno if the TAB after #define is something being required here, to me =
-sounds=0A=
-> like a misplacement.=0A=
- =0A=
-When I applied the patch, I didn=92t see those tabs either.=0A=
-I'm not sure how they appeared in the patch, but I will correct them.=0A=
- =0A=
-> > +static int ov2735_page_access(struct ov2735 *ov2735, u32 reg, int *err=
-)=0A=
-> > +{=0A=
-> > +=A0=A0=A0=A0 u8 page =3D reg >> CCI_REG_PRIVATE_SHIFT;=0A=
-> > +=A0=A0=A0=A0 int ret =3D 0;=0A=
-> > +=0A=
-> > +=A0=A0=A0=A0 if (err && *err)=0A=
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return *err;=0A=
-> =0A=
-> > +=A0=A0=A0=A0 mutex_lock(&ov2735->page_lock);=0A=
-> =0A=
-> Since you have cleanup.h, why not use guard() here?=0A=
-=0A=
-will update=0A=
-=0A=
-Best Regards,=0A=
-Hardev=
+
+
+On 8/4/2025 6:11 PM, Mukesh Ojha wrote:
+> pas id is not used in qcom_mdt_load_no_init() and it should not
+> be used as it is non-PAS specific function and has no relation
+> to PAS specific mechanism.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  drivers/media/platform/qcom/venus/firmware.c |  4 ++--
+>  drivers/net/wireless/ath/ath12k/ahb.c        |  2 +-
+>  drivers/remoteproc/qcom_q6v5_adsp.c          |  2 +-
+>  drivers/remoteproc/qcom_q6v5_pas.c           |  7 +++----
+>  drivers/remoteproc/qcom_q6v5_wcss.c          |  2 +-
+>  drivers/soc/qcom/mdt_loader.c                | 14 ++++++--------
+>  include/linux/soc/qcom/mdt_loader.h          |  7 +++----
+>  7 files changed, 17 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> index 66a18830e66d..862d0718f694 100644
+> --- a/drivers/media/platform/qcom/venus/firmware.c
+> +++ b/drivers/media/platform/qcom/venus/firmware.c
+> @@ -136,8 +136,8 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+>  		ret = qcom_mdt_load(dev, mdt, fwname, VENUS_PAS_ID,
+>  				    mem_va, *mem_phys, *mem_size, NULL);
+>  	else
+> -		ret = qcom_mdt_load_no_init(dev, mdt, fwname, VENUS_PAS_ID,
+> -					    mem_va, *mem_phys, *mem_size, NULL);
+> +		ret = qcom_mdt_load_no_init(dev, mdt, fwname, mem_va,
+> +					    *mem_phys, *mem_size, NULL);
+>  
+>  	memunmap(mem_va);
+>  err_release_fw:
+
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+
+Thanks,
+Dikshita
 
