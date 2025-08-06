@@ -1,48 +1,88 @@
-Return-Path: <linux-media+bounces-38957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFDFB1C1FD
-	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 10:17:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38429B1C2AD
+	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 11:02:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78B8B3AC369
-	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 08:17:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67CC018C1068
+	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 09:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27288221F32;
-	Wed,  6 Aug 2025 08:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C975289816;
+	Wed,  6 Aug 2025 09:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBlcnILQ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LmWZchVg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD7E1FB3;
-	Wed,  6 Aug 2025 08:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C574928A1CC
+	for <linux-media@vger.kernel.org>; Wed,  6 Aug 2025 09:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754468220; cv=none; b=WMGSlCIoh2/1YRIVrUF4Y/3KghnUoIPT2idOOE0XrFCZNbFEKkd+cXtwp6WOvGoudMEAOSMRPNApywMe4RSrnu+xr8034CQPfCNk+TKhS3IvM+1IR+Abc0Ad9Fx4tgWABGUzG0h7di2Xfl/IJ3f6mp3nKcY4JhOzzBhxKnyKak8=
+	t=1754470887; cv=none; b=S6ddoMI4BW5NmfUd/E4SMGn6rwhqtOA1iNlKMpWr7brkFDq69UvuEFsC2lQlqL6pJv3lCHI+su1wSyXF0uzNhfemoeTrEWKv20pFC3H1uSTh/tjFvS6T6jNjz28Wpeogld1tD7YQbV4v/NaOisBjmNZWbwBeOK1HG7pJywZPuTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754468220; c=relaxed/simple;
-	bh=mSezG6NRkxDtJlYf/ZFsHjMGCJmUaCUPnrgkbL+HJRE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RTXgsgHZ1CuANGhJNBsFqVrWzfv86fjk9NEgUHPbakFNa6NnuSZnDQ6BogoIEG0M+fK2HRAvB564Pqj3s91C4sdO09lStQ9+XvvErS8BlGKhHy394ngx6LiRuCLQnfNzFyYx1Bn1xJxfy/Nv5OoTrJjUiqqNkpBlAEGxkzODrXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBlcnILQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 657BBC4CEE7;
-	Wed,  6 Aug 2025 08:16:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754468219;
-	bh=mSezG6NRkxDtJlYf/ZFsHjMGCJmUaCUPnrgkbL+HJRE=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=mBlcnILQJQ8itwowSPTjPYWtbmq0X3J4O4tViHMM3acfOo0gkxWlN1i8bih8TRk/D
-	 QEK88TYFCCAgRdFf8N2vcHquOSOUzegVf8WhW/Lsok7t83wbntVOKbt/9YhJ0whgx3
-	 5Pw9TjucRRgCke06GxlfRg3jM6WSnxmB2mHB5KAF2EmEO8hgceOt4Z1OmiUmUg2AaV
-	 FwUr0faqAjE7o5R8MImS6WtgvVuPDjdbXIJiJkaVw/SZsYXDBQgOf6d9ctuBZbPmCU
-	 dj5qL0frPJSAHC86jkv/ZZcGOlf7y8hBVfvg5g40mjFEZISVqZUlox2uPFHVojc+hd
-	 jTKUIqp5zZJRg==
-Message-ID: <49e753f4-f626-49ae-bf23-d2aecfcc6282@kernel.org>
-Date: Wed, 6 Aug 2025 10:16:37 +0200
+	s=arc-20240116; t=1754470887; c=relaxed/simple;
+	bh=eXeFflPzyYElNM7RCdEcYbzkvkU93X8aeiBdOj0Htg8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jFSs6j2dVoT1nvJ3SNBO0u7YYGHBxtSRkLFvSBC92kCif3xdC7so11kbcUPJUeQm9jnJZTIeBPpdnpoFiwHOaNsTLpJhx2ymPsg2Ga/mslSP16zAdw3rQJVtkJsqQyjstNsFeiXLEII/Ne42wMvWWs8D1l7/ddJJbcaO2gxwBUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LmWZchVg; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5765fh2H031614
+	for <linux-media@vger.kernel.org>; Wed, 6 Aug 2025 09:01:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	6D+xwxfaNPC764NxYBxFtb97mFQ1jkjyZhyg4hVCh4U=; b=LmWZchVg8NuIE4jQ
+	rM42U7p52Jc28Jo3fLE3S84DQLS8UD3F/D06WIwMjPM69EXfsNbaNlGjI+uB0ugk
+	MOWJPyZpWL7YEVLSoeF+6e0/CchKFvX7n8IpWij3pYFuignp0xwgJc4iMGzOcWa4
+	hVazFSaNR9dT06CaZAaN9lz3odHtq/Aa27D+M49rn83mS0PA77pSqn7qI0MaIFgT
+	hbauKmydFUSt70hbO98EsPp6S1Iwo04geC8KitENwE4xLkefnSA2M6nIGK4rBSP0
+	mKzOJe1qgw2vfl/c6YgOf4RWNZfagMd6XqPVpdIywTH7LI2Ec5SmMsLqTNpiZvZn
+	1FGS0A==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpyba5tk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 06 Aug 2025 09:01:13 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70730da0f40so3102916d6.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Aug 2025 02:01:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754470873; x=1755075673;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6D+xwxfaNPC764NxYBxFtb97mFQ1jkjyZhyg4hVCh4U=;
+        b=Kg0ckvOoi9V+ne4MYKXm7a/NR5cyG0hhFd3q5ul3MLk2T72aC+O1xYFZ7HxXMW7uqF
+         m5J03toj0mro3lJ36QmLhJBw0i4i24jkEi5anGnpHQr0/oyRMXvqx0hH5WMK+fx5Eqo9
+         VN2fsSJLA5/AMIZTQAF8Cr+ecQ8joeoLWEf5lLAbIDXj50lqulECBCffHkOR00o+kQNh
+         aArXGQkb/ppCYBKHtmRJdMNgOJqo3p7EoA+T79gBwfLY3yAfMZ8jD97nSkHLwAUSAQWG
+         MlHibAtY0wB/YyD+GoPXjCcYDxv6UALOEDnmjpyafvEYVcu2xuzj5qGcv39cdoqwTkRM
+         ceWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUrViyP98im6rmdvZA2hbQUZYVGXm9Bc9rD2atWPXUxAQRzP+jGOtA/dY/+x56lmx4lHhT0CFCPZQrnPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcmCzkFsYDrNnioh6T+iHXr5T4vQAc6O1E85Ham+r7WVCAP2ZS
+	6LE+eahigkXsTDi0ubQlCQqN3o9SwQlNFZkM3LyEwCBuYd+6KUlkJWfVj4Ra4qQ1wglpzVUgcI5
+	CE/cELNlQuVHWQZgjiKQe7veo/iYDrokWM9SaUgjVvbQAjpfH8Hd9GXvyMGAOjxXMBw==
+X-Gm-Gg: ASbGncuBLJvTqESzz73qM5uci9jBF/ZYYHatzMhmvo+86dODMr71FmFWuoNKxsjT5iw
+	B+OyK0pqEECHP5cLNgZ2k2vcBq6uOtVU9Ar1+4UX20+Uf1dg2c0xCk+/3cv0HvlKcA58jwiMBkf
+	wp7f8Elxr4aw9AakJIh1zc6TR4VvZQydRkxf2Ciw817z+Sx/pQJj1neonQgb+ePQJW0Huer5L3o
+	TnoN8uzU54fKryKvOJCATl+tzvmSytD6xGKgvIBrPHvgCgLk2xZHCTxDXtECNsctJeQEjuyV4tu
+	q7bMHgC9JVCVatp5xjZevEvagkbVMuMW2MWFm+w2QzeU+IszxnUKp10DZ0FOjWNUMYiXV2799bA
+	Rq0VF1G3l78GYRmXLpQ==
+X-Received: by 2002:ac8:5d08:0:b0:4ab:701c:aa54 with SMTP id d75a77b69052e-4b0913f27a6mr15927951cf.4.1754470872844;
+        Wed, 06 Aug 2025 02:01:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFQfhvBz/y7VBf77xH41t0vN0JNTEXgDYwxJcvoC4l/blB8yRe/xKAvpfQqePz0oZyARObcPw==
+X-Received: by 2002:ac8:5d08:0:b0:4ab:701c:aa54 with SMTP id d75a77b69052e-4b0913f27a6mr15927561cf.4.1754470872234;
+        Wed, 06 Aug 2025 02:01:12 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a078cbasm1067576766b.5.2025.08.06.02.01.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Aug 2025 02:01:11 -0700 (PDT)
+Message-ID: <0248afed-b82d-4555-8277-e84aacf153fd@oss.qualcomm.com>
+Date: Wed, 6 Aug 2025 11:01:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,235 +90,130 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 11/65] media: Replace file->private_data access with
- custom functions
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
- <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
- Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
- Tomasz Figa <tfiga@chromium.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Andy Walls <awalls@md.metrocast.net>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
- <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Jacob Chen <jacob-chen@iotwrt.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Corentin Labbe <clabbe@baylibre.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-11-eb140ddd6a9d@ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250802-media-private-data-v1-11-eb140ddd6a9d@ideasonboard.com>
+Subject: Re: [PATCH v8 5/7] media: venus: core: Add qcm2290 DT compatible and
+ resource data
+To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: bryan.odonoghue@linaro.org, quic_dikshita@quicinc.com,
+        quic_vgarodia@quicinc.com, konradybcio@kernel.org, krzk+dt@kernel.org,
+        mchehab@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250805064430.782201-1-jorge.ramirez@oss.qualcomm.com>
+ <20250805064430.782201-6-jorge.ramirez@oss.qualcomm.com>
+ <4chbcvub4scnv4jxjaagbswl74tz4ygovn3vhktfodakysbgy3@kukktkwd2zsr>
+ <aJHgh8mon9auOHzi@trex> <aJHqpiqvulGY2BYH@trex>
+ <to2hrxml3um6iep4fcxhkq7pbibuimfnv4kfwqzlwdkh4osk5f@orjzbuawwgko>
+ <aJMMhIqNupwPjCN+@trex>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <aJMMhIqNupwPjCN+@trex>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX+ZMkV2qAJA6L
+ ZMVB3prUmZ2b95kiXfwbmFyPr1rs74VRhhuwDnh50G5qatF1npeXJxcpASQvjpjahVl4P3cfyZB
+ qdos/gAN0PxS2tBF7L/Q6izCrzdfGxL+9UuA3SERYzaXhlT9Ywjt0+Lst6+il8UwDJiWjuwMlDv
+ in8S398zY1QrGNsUffxGADFDUliHU8p6UTLYoPTUwUAcA0E+O/sCzHH2M/TKk51PnnSwQkjbHaK
+ 1kLBHIV9pgiDejfOfJv/KhrOdWmWyq6Pt00TWZ/x1xTn4JzTVEPbHGiV1kJY8D9GTuopNs5yWFJ
+ aJcPYScgjGbjessekO2zxlLVbn+WZ+EAf6jGK4BM83vXK6N+4clGTNc2zmM1YeNl1Qpny5SS2Ff
+ vWqzbUoR
+X-Proofpoint-GUID: FmoKNszBWIfYzD3vRVkrPtAhBRFe_uA9
+X-Authority-Analysis: v=2.4 cv=EavIQOmC c=1 sm=1 tr=0 ts=689319d9 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=COk6AnOGAAAA:8 a=JpaEw4Cn0_AnavUb80UA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: FmoKNszBWIfYzD3vRVkrPtAhBRFe_uA9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-06_02,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0
+ phishscore=0 spamscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 
-On 02/08/2025 11:22, Jacopo Mondi wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On 8/6/25 10:04 AM, Jorge Ramirez wrote:
+> On 06/08/25 04:37:05, Dmitry Baryshkov wrote:
+>> On Tue, Aug 05, 2025 at 01:27:34PM +0200, Jorge Ramirez wrote:
+>>> On 05/08/25 12:44:23, Jorge Ramirez wrote:
+>>>> On 05/08/25 13:04:50, Dmitry Baryshkov wrote:
+>>>>> On Tue, Aug 05, 2025 at 08:44:28AM +0200, Jorge Ramirez-Ortiz wrote:
+>>>>>> Add a qcm2290 compatible binding to the Cenus core.
+>>>>>>
+>>>>>> The maximum concurrency is video decode at 1920x1080 (FullHD) with video
+>>>>>> encode at 1280x720 (HD).
+>>>>>>
+>>>>>> The driver is not available to firmware versions below 6.0.55 due to an
+>>>>>> internal requirement for secure buffers.
+>>>>>>
+>>>>>> The bandwidth tables incorporate a conservative safety margin to ensure
+>>>>>> stability under peak DDR and interconnect load conditions.
+>>>>>>
+>>>>>> Co-developed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+>>>>>> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+>>>>>> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+>>>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>>>>> Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>>>> ---
+>>>>>>  drivers/media/platform/qcom/venus/core.c | 50 ++++++++++++++++++++++++
+>>>>>>  1 file changed, 50 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>>>>>> index adc38fbc9d79..753a16f53622 100644
+>>>>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>>>>> +++ b/drivers/media/platform/qcom/venus/core.c
+>>>>>> @@ -1070,6 +1070,55 @@ static const struct venus_resources sc7280_res = {
+>>>>>>  	.enc_nodename = "video-encoder",
+>>>>>>  };
+>>>>>>  
+>>>>>> +static const struct bw_tbl qcm2290_bw_table_dec[] = {
+>>>>>> +	{ 352800, 597000, 0, 746000, 0 }, /* 1080p@30 + 720p@30 */
+>>>>>> +	{ 244800, 413000, 0, 516000, 0 }, /* 1080p@30 */
+>>>>>> +	{ 216000, 364000, 0, 454000, 0 }, /* 720p@60  */
+>>>>>> +	{ 108000, 182000, 0, 227000, 0 }, /* 720p@30  */
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct bw_tbl qcm2290_bw_table_enc[] = {
+>>>>>> +	{ 352800, 396000, 0, 0, 0 }, /* 1080p@30 + 720p@30 */
+>>>>>> +	{ 244800, 275000, 0, 0, 0 }, /* 1080p@30 */
+>>>>>> +	{ 216000, 242000, 0, 0, 0 }, /* 720p@60  */
+>>>>>> +	{ 108000, 121000, 0, 0, 0 }, /* 720p@30  */
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct firmware_version min_fw = {
+>>>>>> +	.major = 6, .minor = 0, .rev = 55,
+>>>>>> +};
+>>>>>
+>>>>> This will make venus driver error out with the firmware which is
+>>>>> available in Debian trixie (and possibly other distributions). If I
+>>>>> remember correctly, the driver can work with that firmware with the
+>>>>> limited functionality. Can we please support that instead of erroring
+>>>>> out completely?
+>>>>
+>>>> yes, in V7 I did implement this functionality plus a fix for EOS
+>>>> handling (broken in pre 6.0.55 firmwares).
+>>>
+>>> just re-reading your note, in case this was not clear, the _current_
+>>> driver upstream will never work with the current firmware if that is
+>>> what you were thinking (it would need v7 of this series to enable video
+>>> decoding).
+>>
+>> I'd really prefer if we could support firmware that is present in Debian
+>> trixie and that has been upstreamed more than a year ago.
 > 
-> Accessing file->private_data manually to retrieve the v4l2_fh pointer is
-> error-prone, as the field is a void * and will happily cast implicitly
-> to any pointer type.
 > 
-> Replace all remaining locations that read the v4l2_fh pointer directly
-> from file->private_data and cast it to driver-specific file handle
-> structures with driver-specific functions that use file_to_v4l2_fh() and
-> perform the same cast.
-> 
-> No functional change is intended, this only paves the way to remove
-> direct accesses to file->private_data and make V4L2 drivers safer.
-> Other accesses to the field will be addressed separately.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/pci/ivtv/ivtv-driver.h               |  5 ++++
->  drivers/media/pci/ivtv/ivtv-fileops.c              | 10 +++----
->  drivers/media/pci/ivtv/ivtv-ioctl.c                |  8 +++---
->  drivers/media/platform/allegro-dvt/allegro-core.c  |  7 ++++-
->  drivers/media/platform/amlogic/meson-ge2d/ge2d.c   |  8 ++++--
->  .../media/platform/chips-media/coda/coda-common.c  |  7 ++++-
->  .../platform/chips-media/wave5/wave5-helper.c      |  2 +-
->  .../media/platform/chips-media/wave5/wave5-vpu.h   |  5 ++++
->  drivers/media/platform/m2m-deinterlace.c           |  7 ++++-
->  .../media/platform/mediatek/jpeg/mtk_jpeg_core.c   |  7 ++++-
->  drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c  |  7 ++++-
->  .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  7 ++++-
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c   |  2 +-
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h   |  5 ++++
->  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c   |  2 +-
->  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h   |  5 ++++
->  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c     |  7 ++++-
->  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c |  7 ++++-
->  drivers/media/platform/nxp/mx2_emmaprp.c           |  7 ++++-
->  drivers/media/platform/renesas/rcar_fdp1.c         |  7 ++++-
->  drivers/media/platform/renesas/rcar_jpu.c          |  7 ++++-
->  drivers/media/platform/rockchip/rga/rga.c          |  3 +--
->  drivers/media/platform/rockchip/rga/rga.h          |  5 ++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec.c    |  2 +-
->  drivers/media/platform/rockchip/rkvdec/rkvdec.h    |  5 ++++
->  .../media/platform/samsung/exynos-gsc/gsc-core.h   |  6 +++++
->  .../media/platform/samsung/exynos-gsc/gsc-m2m.c    |  6 ++---
->  .../media/platform/samsung/exynos4-is/fimc-core.h  |  5 ++++
->  .../media/platform/samsung/exynos4-is/fimc-m2m.c   |  2 +-
->  drivers/media/platform/samsung/s5p-g2d/g2d.c       |  7 +++--
->  .../media/platform/samsung/s5p-jpeg/jpeg-core.c    |  9 +++++--
->  drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c   |  6 ++---
->  .../platform/samsung/s5p-mfc/s5p_mfc_common.h      |  6 +++++
->  drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c   |  7 ++++-
->  drivers/media/platform/st/sti/delta/delta-v4l2.c   | 26 +++++++++++-------
->  drivers/media/platform/st/sti/hva/hva-v4l2.c       | 31 ++++++++++++----------
->  drivers/media/platform/st/sti/hva/hva.h            |  2 --
->  drivers/media/platform/st/stm32/dma2d/dma2d.c      |  7 +++--
->  drivers/media/platform/sunxi/sun8i-di/sun8i-di.c   |  3 +--
->  .../platform/sunxi/sun8i-rotate/sun8i_rotate.c     |  3 +--
->  drivers/media/platform/ti/omap3isp/ispvideo.c      |  4 +--
->  drivers/media/platform/ti/omap3isp/ispvideo.h      |  6 +++++
->  drivers/media/platform/verisilicon/hantro.h        |  5 ++++
->  drivers/media/platform/verisilicon/hantro_drv.c    |  3 +--
->  drivers/staging/media/imx/imx-media-csc-scaler.c   |  7 ++++-
->  drivers/staging/media/meson/vdec/vdec.c            | 24 ++++++-----------
->  drivers/staging/media/meson/vdec/vdec.h            |  5 ++++
->  drivers/staging/media/sunxi/cedrus/cedrus.c        |  3 +--
->  drivers/staging/media/sunxi/cedrus/cedrus.h        |  5 ++++
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c  |  5 ----
->  50 files changed, 237 insertions(+), 100 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtv-driver.h b/drivers/media/pci/ivtv/ivtv-driver.h
-> index a6ffa99e16bc64a5b7d3e48c1ab32b49a7989242..cad548b28e360ecfe2bcb9fcb5d12cd8823c3727 100644
-> --- a/drivers/media/pci/ivtv/ivtv-driver.h
-> +++ b/drivers/media/pci/ivtv/ivtv-driver.h
-> @@ -388,6 +388,11 @@ static inline struct ivtv_open_id *fh2id(struct v4l2_fh *fh)
->  	return container_of(fh, struct ivtv_open_id, fh);
->  }
->  
-> +static inline struct ivtv_open_id *file2id(struct file *filp)
-> +{
-> +	return container_of(file_to_v4l2_fh(filp), struct ivtv_open_id, fh);
+> I share your view — which is why I put the effort into v7 — but I also
+> understand that maintaining the extra code and EOS workaround for
+> decoding needs to be justifiable. So I chose to align with the
+> maintainers' perspective on this and removed it on v8 (partially also
+> because I wanted to unblock the current EOS discussion).
 
-Why not write:
++$0.05
 
-	return fh2id(file_to_v4l2_fh(filp));
+I thought we were going to eventually relax/drop the fw requirement
+when the driver learns some new cool tricks, but are we now straying
+away from that? (particularly thinking about the EOS part)
 
-Same for all other drivers that do this. I prefer to have the contained_of()
-in just one place.
-
-> +}
-> +
->  struct yuv_frame_info
->  {
->  	u32 update;
-
-<snip>
-
-> diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-> index 1f134e08923a528cc676f825da68951c97ac2f25..74977f3ae4844022c04de877f31b4fc6aaac0749 100644
-> --- a/drivers/media/platform/allegro-dvt/allegro-core.c
-> +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-> @@ -302,6 +302,11 @@ struct allegro_channel {
->  	unsigned int error;
->  };
->  
-> +static inline struct allegro_channel *file_to_channel(struct file *filp)
-> +{
-> +	return container_of(file_to_v4l2_fh(filp), struct allegro_channel, fh);
-> +}
-> +
->  static inline int
->  allegro_channel_get_i_frame_qp(struct allegro_channel *channel)
->  {
-> @@ -3229,7 +3234,7 @@ static int allegro_open(struct file *file)
->  
->  static int allegro_release(struct file *file)
->  {
-> -	struct allegro_channel *channel = fh_to_channel(file->private_data);
-> +	struct allegro_channel *channel = file_to_channel(file);
-
-So a file_to_channel inline function was added, but it is used in just one
-place.
-
-I would prefer to just drop the inline function and instead write:
-
-	struct allegro_channel *channel = fh_to_channel(file_to_v4l2_fh(file));
-
-If this is needed in two or more places, then the extra inline makes sense,
-but it is a fairly common pattern that it is only needed in the release function.
-
-Adding a new inline just for that seems overkill to me.
-
->  
->  	v4l2_m2m_ctx_release(channel->fh.m2m_ctx);
->  
-
-Regards,
-
-	Hans
+Konrad
 
