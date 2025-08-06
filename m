@@ -1,191 +1,176 @@
-Return-Path: <linux-media+bounces-38979-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38980-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54AC5B1CE20
-	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 22:58:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6FBB1CE44
+	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 23:10:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A095E627C2F
-	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 20:58:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE8807A3094
+	for <lists+linux-media@lfdr.de>; Wed,  6 Aug 2025 21:08:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4658C21FF26;
-	Wed,  6 Aug 2025 20:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mjn/KwJD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD92B2248B8;
+	Wed,  6 Aug 2025 21:09:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D18204583
-	for <linux-media@vger.kernel.org>; Wed,  6 Aug 2025 20:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E768821FF24
+	for <linux-media@vger.kernel.org>; Wed,  6 Aug 2025 21:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754513913; cv=none; b=TuglT93srHN1ARWFAzx7erOnLBXVHEgZoSd8iJunatajrU71WzU/ehEIY7W/WQYyz1vvoPjawWzlVvpErlVliZya1bsskQ+uv7Wx4rora4/LraSCAU1rVTJoXWwSaONtYT4JckPZPESzGJW7CGp3ERMMnSHfc2lnvVj8T6uF/+M=
+	t=1754514593; cv=none; b=YxR1UCgfABEAypZ0DEQ3CJDOCZxA8KTnEWu6E238iQXbl/j5PzheqTnsqFM0dUcWKFZye75gmvUXYfUX+eBLsJoC9/Cgqvb9UJgAzOp1U/X/arj2mobDt11urE5yFx6p+3PhSB5qzbzEcIhOsqkZIVuNviKJ16wtT9vlRNRIuWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754513913; c=relaxed/simple;
-	bh=U1FeQRtLiG+q4sfmdpJ9bCgp5uUUcwrffLKyNe3Rxms=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cuPyF32K0X8YMZbRsh8mUvFV+GfECTrGX+/K/IE5z1oDD7B32wWSa9mBk2KEnHTPgqmQBgNyhCsgWcW3+3rYGorXv8zhVmGWiQdAtkXV9ywG9hyPeHxn/dBpeAaoi+eAy0LV1pG0qLXiJ4YOC8t5Jlw1eDW13Tv1qfApB1GTXCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mjn/KwJD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754513911;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XL3JtSDnypcZCdbt3A90Mr99TpavO/k4/VrpLyiBez8=;
-	b=Mjn/KwJDx4NWLHwmUop1Nqv4WAyrfRGGPQ6VLWLppjTzE2fHxEDvXhWKsDEjLYkfuCFLbn
-	AjIl1GJZS0YnG13/Xqcrhdvw0jy+6kR8Pn5RnfUDpi25BypfqRn7oCyHUidd0u0p1gFlYn
-	ROE/bZzCah4n6hvqXHras3zGrMdDY0Q=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-425-5srO-zKOOwOiHhUMbddl1Q-1; Wed, 06 Aug 2025 16:58:29 -0400
-X-MC-Unique: 5srO-zKOOwOiHhUMbddl1Q-1
-X-Mimecast-MFC-AGG-ID: 5srO-zKOOwOiHhUMbddl1Q_1754513909
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3e3fdfa4b39so512575ab.2
-        for <linux-media@vger.kernel.org>; Wed, 06 Aug 2025 13:58:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754513909; x=1755118709;
-        h=content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XL3JtSDnypcZCdbt3A90Mr99TpavO/k4/VrpLyiBez8=;
-        b=H3EhS6QG8WPCI7Bi/qqNwiEgwjprDbAQcnuAXbzRVUaajBKQ9uaNMBOn7IkW9Ikmae
-         nEHQPlXBqzdX2hGwNgPsRRLN5aiQ9Fnr/fEWQkNj0odnvJR4WJKYIU+j3rOCYupKA+KE
-         qFWtkyC2qLOCRSRQyNMxcQI5q+JdLpTzm1hpc5BRzmJEhZn3mCunCCU2Tw8lwkVB13SB
-         /Kc21PM6hQA4VMNpmAwly8MJhSE15ff4yvil80MLmSXI0mkb9rv5DlJP2qzq6dv0DRz1
-         SLh2AChny6GoFZoMZl/oTywnWUY+8hOWZQtycvka10OwJpguCNMurjXZBHz+uX/WuMoU
-         zB3A==
-X-Forwarded-Encrypted: i=1; AJvYcCXZRP/j2fdh6zozaCoCEHLOODjEG8sPy3kigZ1MwNuq4PcI0Fvm6aOOGSU1WmGDcCJSBNnZ5Xk3Lnzujw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIQg74kGX8S8twwmm9dKcEE4S0IQR2kuOjbsWYqTN/zEjLJ81u
-	Uur62NaKNJ0Mn9GqvGrLR8JKIJq0Ze5iYIlzj5hbninPq1LY266Zg4R3wkt/OVwoaogsbzRbC23
-	d2l9mJn/qQSV79JscC0FpFfUCu+C2k2BSQnYNQq5CympZVF0+37FP3v/4gjHMzyDe
-X-Gm-Gg: ASbGncsXcVsjDrDq+8fsHkSmnS4Sb0GSBOSXro5cgoV3VU8jcxr0RXLa1WZWJzeqizZ
-	0qxFueLONscQyKHeBGtTGBH7V3NK0Kxug6aMf7iUEgBX58LOoBnqBXEz7P8BOXhDrk2422wvvje
-	y3Zm9iJrxBpVZNC4cTV8/x7FvfZ8xVAYzMK7Liwz3t3T3oEtYCV/3GO/lm1NUA847evWSCnv+9J
-	WQg3zJ1zIbhRGxOEyKVlc9ROlwS8UII9LZpzRTDzXODrK/v8vTS3jyReKliz5EAy8cJnY9Yb4Jb
-	uj9Cy695cuuPu1N+NXB5GbwiFmp8siAhg8pLOS4SqQg=
-X-Received: by 2002:a05:6e02:152e:b0:3e3:d2eb:52db with SMTP id e9e14a558f8ab-3e51b79eae2mr20687235ab.0.1754513909048;
-        Wed, 06 Aug 2025 13:58:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEvMHObcGautLtJ7984K/wyyriLvMdPXmyUUT5V0nwJ7vFbNm7fOcxZIXtiLyBYuGHd6raZZQ==
-X-Received: by 2002:a05:6e02:152e:b0:3e3:d2eb:52db with SMTP id e9e14a558f8ab-3e51b79eae2mr20686945ab.0.1754513908609;
-        Wed, 06 Aug 2025 13:58:28 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50ab01e84desm2049992173.51.2025.08.06.13.58.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 13:58:27 -0700 (PDT)
-Date: Wed, 6 Aug 2025 14:58:25 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Christoph Hellwig <hch@lst.de>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, Jens Axboe
- <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org, Logan Gunthorpe
- <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin
- Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v1 01/10] PCI/P2PDMA: Remove redundant bus_offset from
- map state
-Message-ID: <20250806145825.2654ee59.alex.williamson@redhat.com>
-In-Reply-To: <c9b6237964b9606418af400bb6bec5178fcffff2.1754311439.git.leon@kernel.org>
-References: <cover.1754311439.git.leon@kernel.org>
-	<c9b6237964b9606418af400bb6bec5178fcffff2.1754311439.git.leon@kernel.org>
-Organization: Red Hat
+	s=arc-20240116; t=1754514593; c=relaxed/simple;
+	bh=sKHY4F9olfk7KN/7Ro9gMf4O20t37mefSlqpuVxU44A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pcTkoeHixP4IUFQWkfvz1YZ45/ZSU+Lw57/iRbQ51Cx9RTZafeuTmGrsecdWqLRBPb++3ei3GuMEsJ64XcLtIc57kUorrDGvgbaSQH/mxUnqlgt2rohLYAvTnQUd2QdUZ4hP61zgikQOn38voADPd/IppwIDkspjVXiq7qgEtZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from mop.sam.mop (unknown [82.8.138.118])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sam)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 95F86340EE5;
+	Wed, 06 Aug 2025 21:09:50 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: Sean Young <sean@mess.org>
+Cc: James Le Cuirot <chewi@gentoo.org>,  linux-media@vger.kernel.org
+Subject: Re: [PATCH] meson: Allow BPF code to be built with GCC
+In-Reply-To: <aJPAsYVyCqxmwxDg@gofer.mess.org>
+Organization: Gentoo
+References: <20250803081759.13952-1-chewi@gentoo.org>
+	<aJB5rmwRfiYv7sJb@gofer.mess.org> <aJHr3EZj22gDDIAH@gofer.mess.org>
+	<87y0rxyfnj.fsf@gentoo.org> <8734a54cx5.fsf@gentoo.org>
+	<aJPAsYVyCqxmwxDg@gofer.mess.org>
+User-Agent: mu4e 1.12.12; emacs 31.0.50
+Date: Wed, 06 Aug 2025 22:09:47 +0100
+Message-ID: <87bjos17j8.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon,  4 Aug 2025 16:00:36 +0300
-Leon Romanovsky <leon@kernel.org> wrote:
+Sean Young <sean@mess.org> writes:
 
-> From: Leon Romanovsky <leonro@nvidia.com>
->=20
-> Remove the bus_off field from pci_p2pdma_map_state since it duplicates
-> information already available in the pgmap structure. The bus_offset
-> is only used in one location (pci_p2pdma_bus_addr_map) and is always
-> identical to pgmap->bus_offset.
->=20
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/pci/p2pdma.c       | 1 -
->  include/linux/pci-p2pdma.h | 3 +--
->  2 files changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index da5657a020074..274bb7bcc0bc5 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -1009,7 +1009,6 @@ void __pci_p2pdma_update_state(struct pci_p2pdma_ma=
-p_state *state,
->  {
->  	state->pgmap =3D page_pgmap(page);
->  	state->map =3D pci_p2pdma_map_type(state->pgmap, dev);
-> -	state->bus_off =3D to_p2p_pgmap(state->pgmap)->bus_offset;
->  }
-> =20
->  /**
-> diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-> index 075c20b161d98..b502fc8b49bf9 100644
-> --- a/include/linux/pci-p2pdma.h
-> +++ b/include/linux/pci-p2pdma.h
-> @@ -146,7 +146,6 @@ enum pci_p2pdma_map_type {
->  struct pci_p2pdma_map_state {
->  	struct dev_pagemap *pgmap;
->  	enum pci_p2pdma_map_type map;
-> -	u64 bus_off;
->  };
-> =20
->  /* helper for pci_p2pdma_state(), do not use directly */
-> @@ -186,7 +185,7 @@ static inline dma_addr_t
->  pci_p2pdma_bus_addr_map(struct pci_p2pdma_map_state *state, phys_addr_t =
-paddr)
->  {
->  	WARN_ON_ONCE(state->map !=3D PCI_P2PDMA_MAP_BUS_ADDR);
-> -	return paddr + state->bus_off;
-> +	return paddr + to_p2p_pgmap(state->pgmap)->bus_offsetf;
->  }
-> =20
->  #endif /* _LINUX_PCI_P2P_H */
+> On Tue, Aug 05, 2025 at 11:32:54PM +0100, Sam James wrote:
+>> Sam James <sam@gentoo.org> writes:
+>> 
+>> > Sean Young <sean@mess.org> writes:
+>> >
+>> >> On Mon, Aug 04, 2025 at 10:13:18AM +0100, Sean Young wrote:
+>> >>> On Sun, Aug 03, 2025 at 09:17:59AM +0100, James Le Cuirot wrote:
+>> >>> > Disclaimer: I haven't actually tested the result of the GCC build.
+>> >>> 
+>> >>> Let me test this.
+>> >>
+>> >> It doesn't work:
+>> >>
+>> >> # ir-keytable -p ./imon_rsc.o 
+>> >> Protocols changed to 
+>> >> symbol  has unknown section 6
+>> >> bpf_load_program() err=Permission denied
+>> >> 0: R1=ctx() R10=fp0
+>> >> 0: (bf) r6 = r1                       ; R1=ctx() R6_w=ctx()
+>> >> 1: (62) *(u32 *)(r10 -4) = 0          ; R10=fp0 fp-8=0000????
+>> >> 2: (bf) r2 = r10                      ; R2_w=fp0 R10=fp0
+>> >> 3: (18) r1 = 0xffff89ed1318f800       ; R1_w=map_ptr(ks=4,vs=16)
+>> >> 5: (07) r2 += -4                      ; R2_w=fp-4
+>> >> 6: (85) call bpf_map_lookup_elem#1    ; R0_w=map_value(ks=4,vs=16)
+>> >> 7: (bf) r4 = r0                       ; R0_w=map_value(ks=4,vs=16) R4_w=map_value(ks=4,vs=16)
+>> >> 8: (15) if r0 == 0x0 goto pc+7        ; R0_w=map_value(ks=4,vs=16)
+>> >> 9: (61) r0 = *(u32 *)(r6 +0)          ; R0_w=scalar(smin=0,smax=umax=0xffffffff,var_off=(0x0; 0xffffffff)) R6_w=ctx()
+>> >> 10: (bf) r1 = r0 ;
+>> >> R0_w=scalar(id=1,smin=0,smax=umax=0xffffffff,var_off=(0x0;
+>> >> 0xffffffff))
+>> >> R1_w=scalar(id=1,smin=0,smax=umax=0xffffffff,var_off=(0x0;
+>> >> 0xffffffff))
+>> >> 11: (bf) r2 = r0 ;
+>> >> R0_w=scalar(id=1,smin=0,smax=umax=0xffffffff,var_off=(0x0;
+>> >> 0xffffffff))
+>> >> R2_w=scalar(id=1,smin=0,smax=umax=0xffffffff,var_off=(0x0;
+>> >> 0xffffffff))
+>> >> 12: (54) w1 &= -16777216              ; R1_w=scalar(smin=0,smax=umax=umax32=0xff000000,smax32=0x7f000000,var_off=(0x0; 0xff000000))
+>> >> 13: (54) w2 &= -33554432              ; R2=scalar(smin=0,smax=umax=umax32=0xfe000000,smax32=0x7e000000,var_off=(0x0; 0xfe000000))
+>> >> 14: (16) if w2 == 0x0 goto pc+3       ; R2=scalar(smin=umin=umin32=1,smax=umax=umax32=0xfe000000,smax32=0x7e000000,var_off=(0x0; 0xfe000000))
+>> >> 15: (16) if w1 == 0x3000000 goto pc+31 47:
+>> >> R0=scalar(id=1,smin=0,smax=umax=0xffffffff,var_off=(0x0; 0xffffffff))
+>> >> R1=0x3000000
+>> >> R2=scalar(smin=umin=umin32=1,smax=umax=umax32=0xfe000000,smax32=0x7e000000,var_off=(0x0;
+>> >> 0xfe000000)) R4=map_value(ks=4,vs=16) R6=ctx() R10=fp0 fp-8=0000????
+>> >> 47: (61) r5 = *(u32 *)(r4 +8)         ; R4=map_value(ks=4,vs=16) R5_w=scalar(smin=0,smax=umax=0xffffffff,var_off=(0x0; 0xffffffff))
+>> >> 48: (16) if w5 == 0x1 goto pc+7 56:
+>> >> R0=scalar(id=1,smin=0,smax=umax=0xffffffff,var_off=(0x0; 0xffffffff))
+>> >> R1=0x3000000
+>> >> R2=scalar(smin=umin=umin32=1,smax=umax=umax32=0xfe000000,smax32=0x7e000000,var_off=(0x0;
+>> >> 0xfe000000)) R4=map_value(ks=4,vs=16) R5_w=1 R6=ctx() R10=fp0
+>> >> fp-8=0000????
+>> >> 56: (57) r0 &= 16777215               ; R0_w=scalar(smin=smin32=0,smax=umax=smax32=umax32=0xffffff,var_off=(0x0; 0xffffff))
+>> >> 57: (b6) if w0 <= 0x960 goto pc+22    ; R0_w=scalar(smin=umin=smin32=umin32=2401,smax=umax=smax32=umax32=0xffffff,var_off=(0x0; 0xffffff))
+>> >> 58: (61) r1 = *(u32 *)(r4 +12)        ; R1_w=scalar(smin=0,smax=umax=0xffffffff,var_off=(0x0; 0xffffffff)) R4=map_value(ks=4,vs=16)
+>> >> 59: (04) w1 += -4                     ; R1=scalar(smin=0,smax=umax=0xffffffff,var_off=(0x0; 0xffffffff))
+>> >> 60: (26) if w1 > 0x1 goto pc-11       ; R1=scalar(smin=smin32=0,smax=umax=smax32=umax32=1,var_off=(0x0; 0x1))
+>> >> 61: (79) r3 = *(u64 *)(r4 +0)         ; R3_w=scalar() R4=map_value(ks=4,vs=16)
+>> >> 62: (57) r3 &= 15                     ; R3_w=scalar(smin=smin32=0,smax=umax=smax32=umax32=15,var_off=(0x0; 0xf))
+>> >> 63: (07) r3 += -1                     ; R3_w=scalar(smin=smin32=-1,smax=smax32=14)
+>> >> 64: (25) if r3 > 0xe goto pc+46       ; R3_w=scalar(smin=smin32=0,smax=umax=smax32=umax32=14,var_off=(0x0; 0xf))
+>> >> 65: (67) r3 <<= 2                     ; R3_w=scalar(smin=smin32=0,smax=umax=smax32=umax32=56,var_off=(0x0; 0x3c))
+>> >> 66: (18) r2 = 0x3c                    ; R2_w=60
+>> >> 68: (18) r9 = 0x0                     ; R9_w=0
+>> >> 70: (0f) r2 += r3 ;
+>> >> R2_w=scalar(smin=umin=smin32=umin32=60,smax=umax=smax32=umax32=116,var_off=(0x0;
+>> >> 0x7c))
+>> >> R3_w=scalar(smin=smin32=0,smax=umax=smax32=umax32=56,var_off=(0x0;
+>> >> 0x3c))
+>> >> 71: (0f) r9 += r3 ;
+>> >> R3_w=scalar(smin=smin32=0,smax=umax=smax32=umax32=56,var_off=(0x0;
+>> >> 0x3c))
+>> >> R9_w=scalar(smin=smin32=0,smax=umax=smax32=umax32=56,var_off=(0x0;
+>> >> 0x3c))
+>> >> 72: (81) r2 = *(s32 *)(r2 +0)
+>> >> R2 invalid mem access 'scalar'
+>> >> processed 40 insns (limit 1000000) max_states_per_insn 0 total_states 3 peak_states 3 mark_read 1
+>> >
+>> > I'll have a look. Thanks.
+>> 
+>> OK, I can't reproduce it yet because I don't have the hardware (using
+>> loopback doesn't seem to be sufficient, even with Clang).
+>> 
+>> Could you get the full bpf-* gcc invocation with `ninja --verbose`, and
+>> then append -save-temps to it, and attach the .i it makes?
+>
+> Works fine with rc-loopback.
+>
 
-Looks like you're relying on this bogus code getting resolved in the
-next patch...
+Huh, okay. I couldn't get the verify failure to spit out.
 
-In file included from kernel/dma/direct.c:16:
-./include/linux/pci-p2pdma.h: In function =E2=80=98pci_p2pdma_bus_addr_map=
-=E2=80=99:
-./include/linux/pci-p2pdma.h:188:24: error: implicit declaration of functio=
-n =E2=80=98to_p2p_pgmap=E2=80=99 [-Wimplicit-function-declaration]
-  188 |         return paddr + to_p2p_pgmap(state->pgmap)->bus_offsetf;
-      |                        ^~~~~~~~~~~~
-./include/linux/pci-p2pdma.h:188:50: error: invalid type argument of =E2=80=
-=98->=E2=80=99 (have =E2=80=98int=E2=80=99)
-  188 |         return paddr + to_p2p_pgmap(state->pgmap)->bus_offsetf;
-      |                                                  ^~
-./include/linux/pci-p2pdma.h:189:1: error: control reaches end of non-void =
-function [-Werror=3Dreturn-type]
-  189 | }
-      | ^
+> The problem is that gcc compiles this down to a lookup table which is then
+> stored in the .rodata section.
+>
+> https://git.linuxtv.org/v4l-utils.git/tree/utils/keytable/bpf_protocols/imon_rsc.c#n97
+>
+> Then ir-keytable fails to load and relocate the rodata section. Note the 
+> error:
+>
+> symbol  has unknown section 6
+>
+> section 6 is the rodata section.
+>
+> ir-keytable simply has no handling for .rodata right now. I am not sure how
+> bpf handles .rodata (if at all), needs more investigation.
 
-to_p2p_pgmap() is a static function and struct pci_p2pdma_pagemap
-doesn't have a bus_offsetf member.  Thanks,
+I'd spotted that and naively assumed it was unrelated given I couldn't
+get the verify failure even with Clang. Mea culpa!
 
-Alex
+>  
+>
+> Sean
 
+sam
 
