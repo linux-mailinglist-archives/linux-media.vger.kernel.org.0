@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-39018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB43AB1D5F5
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 12:50:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3FFB1D5FC
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 12:51:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5F4C62735F
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 10:50:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6F65174941
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 10:51:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 581B7221F31;
-	Thu,  7 Aug 2025 10:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D46C277CAE;
+	Thu,  7 Aug 2025 10:50:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ppYXl6BU"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="LP/OfGQx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F37E21FF49
-	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 10:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC59277814
+	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 10:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754563849; cv=none; b=OmvI7ruVQZiJ5fl4pjhJQ8yCinkVOZafSFS0cIGhiKRU26kdTVSW7kVrR4dKAZEE9HyU0vvjd3Xr6V43NlhY/9Pd2cuZ9TSt26H2xxlRJVhk/pV1AhQr5areqPAiXPQxbWnww8fzh+aCAE09POedtl+4V0qb1gcXivmDcoIztWU=
+	t=1754563856; cv=none; b=W4CjSNBkkk285VTnuq/y92qlHiBS7HEYQ4jq7xvdqQwTdlKODfIjSbIhaJ0dB+XABc+ONTC93jKXBoPgBRy86KQEb+g7/EvUj4qqw0nxQHPu8Wfb/vzusyQDppCdkocpwww5bNletFc1MjyIcv+sv285l1RAlBixRi6CosTjb+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754563849; c=relaxed/simple;
-	bh=5N0sCYf2Cs1KmNgBKMto4VeDsYyl1/Ny7xhHxwxRX48=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 References; b=CDis3VDpHhjzhg6I/n7iKqPk65IipH0dZryoCh2avbID/oZ07/SceGhK3fy+yH9qxXHWEknBGmiEDrd6XGcYOHcPLMQJaBoADvWOxosnfBtTeeVQjIosRja3jOQpNmYFUqi36q1Jy6OgV8O5SjsGGWQAjXFMgquQO3GXf8Amun0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ppYXl6BU; arc=none smtp.client-ip=203.254.224.25
+	s=arc-20240116; t=1754563856; c=relaxed/simple;
+	bh=wXE91ROm09nMoiUCQ9df38UxUtCuWUpU+EghIvyXKR0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:MIME-Version:
+	 Content-Type:References; b=uEmQs3dirtwmdtsblVcNOJ8QJ5R0+hoHgJEgf9kuaic4kBn1P84v227/J7Eq3mFPdvsM6llhp1BgaU43lCLrJHF0Kd439ePUBB7LQbrex74kjU9LXQd5a3+RTq38VLMD7ToXwCdO9uxXHWPiNYWmuoQ1a48SXV63C5nzqLOTXxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=LP/OfGQx; arc=none smtp.client-ip=203.254.224.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250807105046epoutp024830dca0ab01548310d32f9dc5664217~ZdoWtWzEA1759417594epoutp02V
-	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 10:50:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250807105046epoutp024830dca0ab01548310d32f9dc5664217~ZdoWtWzEA1759417594epoutp02V
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250807105052epoutp01b04792e75c216df5a3e481203b6a7594~ZdocTbVBM1038010380epoutp01Z
+	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 10:50:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250807105052epoutp01b04792e75c216df5a3e481203b6a7594~ZdocTbVBM1038010380epoutp01Z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1754563846;
-	bh=9EFIJet6GwguCOgHXt373HO19RdNPt1XWJDM2bajplk=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=ppYXl6BUAVAeVZr16oTAuTzCiqe7yhCZS+FFgZzvF4nkidEBipqlnZylkV4VUzezu
-	 CB2MBnBBTia4sRLvv5W4Z5g3ZJs3fIBqTRcepasnE5PQZyLIRAwSA7oHHnQdsqBTIM
-	 W4HRgZNEHXl+bbwWKiLK/xzlWe3vfYCA3lEUb/6E=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20250807105045epcas5p200483d0bdac63cb3b323ff857f67fdc1~ZdoWNaOIH1874618746epcas5p2P;
-	Thu,  7 Aug 2025 10:50:45 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.88]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4byP8P11ymz2SSKf; Thu,  7 Aug
-	2025 10:50:45 +0000 (GMT)
+	s=mail20170921; t=1754563852;
+	bh=ioc6BaEAneSnl+Cdv2fwifMYhZKSVyPMsPMvf293bv4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LP/OfGQxcXE2D4Qns7gmK8vdu7x64LFH1trgS4uByFWqnsBt7oUCjaX30kJ4YgcCk
+	 8eX376fABstAVms/EpvoED2P6OHWA/GLWpHshmRDYhJbZ9BMEGF4TUDwPWhh2mrZRX
+	 51ILpTWyZ8tC0N83ZZ8p/eRXuXnjIyGgNXgRQ+Pc=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20250807105051epcas5p42b0c95f525547338291284002c134f6c~Zdob1frPR3070930709epcas5p4q;
+	Thu,  7 Aug 2025 10:50:51 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.94]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4byP8V5RdKz6B9m4; Thu,  7 Aug
+	2025 10:50:50 +0000 (GMT)
 Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22~ZXjJEevMZ2629026290epcas5p1A;
-	Thu,  7 Aug 2025 03:24:59 +0000 (GMT)
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20250807032506epcas5p3a05a916da73778cce6a310bafbe1ebba~ZXjPWFEUQ0696906969epcas5p3B;
+	Thu,  7 Aug 2025 03:25:06 +0000 (GMT)
 Received: from cheetah.samsungds.net (unknown [107.109.115.53]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250807032457epsmtip217c0a672ffd1a22f97b647b84be6597d~ZXjHGrzJG1346113461epsmtip29;
-	Thu,  7 Aug 2025 03:24:57 +0000 (GMT)
+	20250807032504epsmtip2ff987802e05ceff0bc5f5af8cdfaa31e~ZXjNXG3TE1491114911epsmtip2V;
+	Thu,  7 Aug 2025 03:25:04 +0000 (GMT)
 From: Aakarsh Jain <aakarsh.jain@samsung.com>
 To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org, m.szyprowski@samsung.com,
@@ -65,10 +65,12 @@ To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
 Cc: linux-samsung-soc@vger.kernel.org, aswani.reddy@samsung.com,
 	anindya.sg@samsung.com, Aakarsh Jain <aakarsh.jain@samsung.com>
-Subject: [PATCH 00/10] Use SoC-specific compatible string for Samsung MFC
-Date: Thu,  7 Aug 2025 08:54:39 +0530
-Message-ID: <20250807032449.92770-1-aakarsh.jain@samsung.com>
+Subject: [PATCH 01/10] ARM: dts: samsung: exynos3250: Use SoC-specific
+ compatible string for MFC
+Date: Thu,  7 Aug 2025 08:54:40 +0530
+Message-ID: <20250807032449.92770-2-aakarsh.jain@samsung.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250807032449.92770-1-aakarsh.jain@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,48 +78,38 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22
+X-CMS-MailID: 20250807032506epcas5p3a05a916da73778cce6a310bafbe1ebba
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-541,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22
-References: <CGME20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22@epcas5p1.samsung.com>
+X-CMS-RootMailID: 20250807032506epcas5p3a05a916da73778cce6a310bafbe1ebba
+References: <20250807032449.92770-1-aakarsh.jain@samsung.com>
+	<CGME20250807032506epcas5p3a05a916da73778cce6a310bafbe1ebba@epcas5p3.samsung.com>
 
-This patch series modifies the samsung MFC version compatible to
-SoC-specific compatible.
+Modify the MFC device tree node to use a SoC-specific
+compatible string instead of a generic one.
 
-Aakarsh Jain (10):
-  ARM: dts: samsung: exynos3250: Use SoC-specific compatible string for
-    MFC
-  ARM: dts: samsung: exynos4: Use SoC-specific compatible string for MFC
-  ARM: dts: samsung: exynos5250: Use SoC-specific compatible string for
-    MFC
-  ARM: dts: samsung: exynos5420: Use SoC-specific compatible string for
-    MFC
-  ARM: dts: samsung: exynos5800: Use SoC-specific compatible string for
-    MFC
-  ARM: dts: samsung: s5pv210: Use SoC-specific compatible string for MFC
-  media: s5p-mfc: Modify compatible string check for SoC-specific
-    support
-  media: s5p-mfc: Add new compatible string corresponding to S5pv210 SoC
-  dt-bindings: media: s5p-mfc: Modify compatible string check for
-    SoC-specific support
-  dt-bindings: media: s5p-mfc: Add SoC-specific compatible for
-    'samsung,mfc-v5'
+Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+---
+ arch/arm/boot/dts/samsung/exynos3250.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../bindings/media/samsung,s5p-mfc.yaml       | 24 ++++++++++---------
- arch/arm/boot/dts/samsung/exynos3250.dtsi     |  2 +-
- arch/arm/boot/dts/samsung/exynos4.dtsi        |  2 +-
- arch/arm/boot/dts/samsung/exynos5250.dtsi     |  2 +-
- arch/arm/boot/dts/samsung/exynos5420.dtsi     |  2 +-
- arch/arm/boot/dts/samsung/exynos5800.dtsi     |  2 +-
- arch/arm/boot/dts/samsung/s5pv210.dtsi        |  2 +-
- .../media/platform/samsung/s5p-mfc/s5p_mfc.c  | 13 ++++++----
- 8 files changed, 27 insertions(+), 22 deletions(-)
-
+diff --git a/arch/arm/boot/dts/samsung/exynos3250.dtsi b/arch/arm/boot/dts/samsung/exynos3250.dtsi
+index b6c3826a9424..1fd99c4ccca8 100644
+--- a/arch/arm/boot/dts/samsung/exynos3250.dtsi
++++ b/arch/arm/boot/dts/samsung/exynos3250.dtsi
+@@ -657,7 +657,7 @@ gpu: gpu@13000000 {
+ 		};
+ 
+ 		mfc: codec@13400000 {
+-			compatible = "samsung,exynos3250-mfc", "samsung,mfc-v7";
++			compatible = "samsung,exynos3250-mfc", "samsung,exynos5420-mfc";
+ 			reg = <0x13400000 0x10000>;
+ 			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
+ 			clock-names = "mfc", "sclk_mfc";
 -- 
 2.49.0
 
