@@ -1,200 +1,124 @@
-Return-Path: <linux-media+bounces-38986-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E720B1CF9E
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 02:02:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB43AB1D5F5
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 12:50:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9FD65626F2
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 00:02:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5F4C62735F
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 10:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A91681CAB3;
-	Thu,  7 Aug 2025 00:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 581B7221F31;
+	Thu,  7 Aug 2025 10:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LCS9QAOa"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ppYXl6BU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2059.outbound.protection.outlook.com [40.107.236.59])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7855F14F98;
-	Thu,  7 Aug 2025 00:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754524934; cv=fail; b=dwROTPckFpkVpk+deS6C8MtqU3kzImDqTa7hwY5fq8sYfqWaoSuUMXpMfO7jUKiBsuKn0X8oWmN6c4sV61sWu3hnk5ooEHw79r6FZJ6wp3d0fI180HkAzo2gmHo9kMqPyvN0FNsmLhDe4wLNBGUgyAhx79ZLPPeFhOEn6VhYXds=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754524934; c=relaxed/simple;
-	bh=KBE8b6MiWrRjf/kqJz9zAo5DPJO02Y0532SBF5S68cc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=TBFbOCaz3v85vtFmWlxLe3N5X5G+A0AEpVUX8QTuuvRMOT2bqsoCeTOn+YLImWnoq4hOIYKtiOaINyB2wRH0Bef09y8frV2wsB7H/elHiFpBTboONphUjwMQaJuBT3lIJ4y/M9i+nro6ZW+XyEFfjDC0DJrbP89PsZSvMyuYvE8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LCS9QAOa; arc=fail smtp.client-ip=40.107.236.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bzJRsSkuSdwpBC20tXnUgAgWhhCanWNP72ggyGsKCGwjehvFHzKcsNA//8dX8gI+U+Rl1zNzDGVmKwCudCC8cD0HMJ2oxwHfZ4hzsSdMplHno/c0qZEnDLbT1WfY+Gq2IE5i+wOi3TqL6AzxCEUnD+TtHTlDcGuU0wpmaOrZGA/Y4RRHcZwFBb+HQTw0k6azOKoFSlF1qXTICFvoLzEtBX9ELgkpLf6X54xUzT3wSFqUZgh5b+UKCyezd9upAzGt+FFE85e/ttIcnadheSqm2uc3zCRvQgyRv59NFEUQnC2ucBduNiMhaHCnw0HnXXVKSxNn67R+hkXV4+G8uZrcaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x9BpYJU1q1VVVp9RyKtd/Sa713iezlK0JgA40wwO0EY=;
- b=XeVduyeeJn3nmTcgJIgHp6vOUWPFfvr2nZ+HwaQ/+uE1lRXn3JUenefUHx/3hzOvzAiIHpyQ+6iBEIggn0kXI/C28PlkB7BSLwZ/+4QuuqTCGELmGjUcEvhqlhAz8LvJOwjfkBZyQz9lJEp/Jq+aa9oqSOPVGsqsH3P2Fx/p4f5o9iruxF9cHFKi6rX9Dyh5pIdr5/rCr0GtzPfrDtjE+hrcJK4NQoHE/mN3vwnd1g8gVc5Vjp7HoBvHlKUK45vfTrNVflltSL2sjSkoSKuQIin/yraUu3bzfbCzLY+Zyi5Fyo89s9b9HpDHj3UI9TpVP4lfOZl/tYOiF73MaQr4pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x9BpYJU1q1VVVp9RyKtd/Sa713iezlK0JgA40wwO0EY=;
- b=LCS9QAOaqsmvX1iJ8MKZO5jDfkc1pQLnHo1RLUgkoN4Ybu39ZRweFejEhOlbCt0txkm3lDPD6QaUcgBDY1tgiE/VEAOtzKG6rQP8anjP17ByEXCsh2pWkcMA+OwRYEEsTKPbA0IoA9WrG7d2bZJ7ZDCVLD3A6sUqdFv/RLOfMtZcnyUqZjgFgWCbKvtGfNFKizvDH8+xPFZHgX15zqZF5JHyHdNMm6T5ABsmAIlwgwNqEO1YIzInCmpR9RVgfcNHEcyGyOdC42bZJtAxXLI2eV81LBJpK9Od8bISlqYB9GholBZv33FAXbw6yOE2RfPA+cnsB4sAsqb9IYpdhv+Eqw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by LV8PR12MB9109.namprd12.prod.outlook.com (2603:10b6:408:18a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.15; Thu, 7 Aug
- 2025 00:02:09 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.013; Thu, 7 Aug 2025
- 00:02:08 +0000
-Date: Wed, 6 Aug 2025 21:02:07 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
-	iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v1 04/10] PCI/P2PDMA: Refactor to separate core P2P
- functionality from memory allocation
-Message-ID: <20250807000207.GE184255@nvidia.com>
-References: <cover.1754311439.git.leon@kernel.org>
- <cab5f1bfd64becafcc887107bb4386f2c8630ef3.1754311439.git.leon@kernel.org>
- <20250806154214.1c2618e8.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250806154214.1c2618e8.alex.williamson@redhat.com>
-X-ClientProxiedBy: YT3PR01CA0121.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:83::27) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F37E21FF49
+	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 10:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754563849; cv=none; b=OmvI7ruVQZiJ5fl4pjhJQ8yCinkVOZafSFS0cIGhiKRU26kdTVSW7kVrR4dKAZEE9HyU0vvjd3Xr6V43NlhY/9Pd2cuZ9TSt26H2xxlRJVhk/pV1AhQr5areqPAiXPQxbWnww8fzh+aCAE09POedtl+4V0qb1gcXivmDcoIztWU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754563849; c=relaxed/simple;
+	bh=5N0sCYf2Cs1KmNgBKMto4VeDsYyl1/Ny7xhHxwxRX48=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=CDis3VDpHhjzhg6I/n7iKqPk65IipH0dZryoCh2avbID/oZ07/SceGhK3fy+yH9qxXHWEknBGmiEDrd6XGcYOHcPLMQJaBoADvWOxosnfBtTeeVQjIosRja3jOQpNmYFUqi36q1Jy6OgV8O5SjsGGWQAjXFMgquQO3GXf8Amun0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ppYXl6BU; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250807105046epoutp024830dca0ab01548310d32f9dc5664217~ZdoWtWzEA1759417594epoutp02V
+	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 10:50:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250807105046epoutp024830dca0ab01548310d32f9dc5664217~ZdoWtWzEA1759417594epoutp02V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1754563846;
+	bh=9EFIJet6GwguCOgHXt373HO19RdNPt1XWJDM2bajplk=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=ppYXl6BUAVAeVZr16oTAuTzCiqe7yhCZS+FFgZzvF4nkidEBipqlnZylkV4VUzezu
+	 CB2MBnBBTia4sRLvv5W4Z5g3ZJs3fIBqTRcepasnE5PQZyLIRAwSA7oHHnQdsqBTIM
+	 W4HRgZNEHXl+bbwWKiLK/xzlWe3vfYCA3lEUb/6E=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20250807105045epcas5p200483d0bdac63cb3b323ff857f67fdc1~ZdoWNaOIH1874618746epcas5p2P;
+	Thu,  7 Aug 2025 10:50:45 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.88]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4byP8P11ymz2SSKf; Thu,  7 Aug
+	2025 10:50:45 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22~ZXjJEevMZ2629026290epcas5p1A;
+	Thu,  7 Aug 2025 03:24:59 +0000 (GMT)
+Received: from cheetah.samsungds.net (unknown [107.109.115.53]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250807032457epsmtip217c0a672ffd1a22f97b647b84be6597d~ZXjHGrzJG1346113461epsmtip29;
+	Thu,  7 Aug 2025 03:24:57 +0000 (GMT)
+From: Aakarsh Jain <aakarsh.jain@samsung.com>
+To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, m.szyprowski@samsung.com,
+	andrzej.hajda@intel.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	alim.akhtar@samsung.com, robh@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc: linux-samsung-soc@vger.kernel.org, aswani.reddy@samsung.com,
+	anindya.sg@samsung.com, Aakarsh Jain <aakarsh.jain@samsung.com>
+Subject: [PATCH 00/10] Use SoC-specific compatible string for Samsung MFC
+Date: Thu,  7 Aug 2025 08:54:39 +0530
+Message-ID: <20250807032449.92770-1-aakarsh.jain@samsung.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV8PR12MB9109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cbc89e3-d490-4494-247e-08ddd545a6f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?OXo7GkDC2PvcuLcpWxpUmMCBklvVDMllEtIh6M/0IaVrAKwpnqkItAHSyNnQ?=
- =?us-ascii?Q?qOb1RJubV1NApWhapU5C5BWLmniml+DljGBCTcnS/b7mRruB+mi1kDbapZT1?=
- =?us-ascii?Q?QrfTZeNkp5CaZfH0tSbq/sHTIahh+LbYR8UaMYWceSTjVWRM/BzM8jPShMwF?=
- =?us-ascii?Q?Q9c/W4su5xZh37TcCXox7ixpjADCQd8ggawHRiFVXrH/xnyc7QIB6qqF7tDS?=
- =?us-ascii?Q?YoL+ht9BSM/aQtAf3f0WGwZIrExlP8sXXQ+E4hKO7l9g3kvv97IuUl0Ijgxq?=
- =?us-ascii?Q?5Ui/Pqa7zlyIInRGGvW4GQi6W3zLKj+pn2htg7spmHFdqL9Ho0cb4hDDP6xq?=
- =?us-ascii?Q?QQ6YcsPHoYTAMENXSK2429GmGUL53iMiA3zDf7zLllDMu6vH/CQtPLjz8si8?=
- =?us-ascii?Q?greSqlMhHacl7KDGHpwbnJNOkf2hcwVlAsFmC9VGreG4l3tRo25eJB7vghVh?=
- =?us-ascii?Q?aXEeiC/9PBpjHVPHD0ZBkrP7Vg0SDweSkyeOpi//CtQH2exjTj6OjDa8l8gy?=
- =?us-ascii?Q?po8nF41aYjo+I7FizxXhRslbnsDST0wAr1KgEPFlV+GB72R67CkGAU4WmC9+?=
- =?us-ascii?Q?G8Tf1M705ue/VvgAl/BD/XxhkBA7YiSli8YRgDLUXvpc0wM5sjC17wUp69fP?=
- =?us-ascii?Q?Bqih7+N4oh6Q7A8TA2SPVWvdnwcfbjdzDW+fpSbH2wweR0sEGD+jGzQZSJeS?=
- =?us-ascii?Q?HaZSqkP0pMRCPKdUp4ukytQvN+BqBIFNNd0udhpNHjsLxYSN/ZomnIdoXrU6?=
- =?us-ascii?Q?AY6hoxwWXuaic8eOuMtAy+hV7x5STwo+htv0JGvIs7KThkfFYxg2GXAP3Byj?=
- =?us-ascii?Q?8UdSvk2wDzzk6Mty/zyoV50zyRuZbCLuic0T09yuq4pXdzFSX8RL11vjloO7?=
- =?us-ascii?Q?9ZOEkB43sSHKJFszxhQLEhjRcw7oLckcP9bxEQBcxWgsrMvctKhiRwVNxKX6?=
- =?us-ascii?Q?FxZHu5i3WcjbHHPu8WDfsIGw5AYPbSaprmRw+Mm6qEUyCu/HVrQC66idI+lr?=
- =?us-ascii?Q?+rLn2iMeyf5RypJOhsGMU4n3tUsgKcfCVSEL3+vuGswzzPw3OtTzC9/bHV10?=
- =?us-ascii?Q?a8bebS3hbI1aOJED0+uefHYi4q6FHjt0PxQQdH6oA1+FXFTGSdCnR1ueWejv?=
- =?us-ascii?Q?+gSQl7GdFMsHtshQXyYW32kpBP53Cz+J75KsypctnIoV7fsgHxmufk+JMQS7?=
- =?us-ascii?Q?xYLXLmP9RABgbw9Q3vwZD1tU6YASAaYcUtsVvx9hwetbvH3G0lPAPtPTjz9C?=
- =?us-ascii?Q?EcjraV0OWUBHAzxnR6S5j2djTi+HOLwODy5IpYkRU4/tnPvz+HwjW4znMHe7?=
- =?us-ascii?Q?XB54W0tJZjCNEPpoRpIWlD2tSc7fgeAbbwq5HLiJEAXQ9kg3UgldzYcgrdCR?=
- =?us-ascii?Q?kHQbL2wAEy5OMF3iXPmDJIrrxLFx/El6hFRoGHlL5D5O/nFbFQQ1Chd7OgQ0?=
- =?us-ascii?Q?We/D5Enm1SU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?07yU9u29SbbgDgbaa0s0BYhIsGM65Ty9jp+rLP6Nr4LfE9StweDQ5iuoOx38?=
- =?us-ascii?Q?V3oKnFAXmpcw4PTSreyAi0DJFyu/th2tyA9Vh1rWmr//C1Btw2xWJ4nPJmQr?=
- =?us-ascii?Q?CCeXvMUWN+xmda4p7cAh7IZhMg5aSkz2GYZpwKs9JqSlYXASDLS7xcW6Lwdq?=
- =?us-ascii?Q?xnsxAq3MoG7FOhqUhU3htJMyMl0jN+CeDkP7RzjaLnPXMTZPHH/8JQvpyr1k?=
- =?us-ascii?Q?gJL03/fKQdYY4mTZPx0z8CF1YFLD2AhLDMdM3aR2ATNyizdNRaSr9WgWDskr?=
- =?us-ascii?Q?EAATlkLmB8wBXjkSXABpKgoSvCugeJI8WgH7DJ2TXWmLUQm9YNqs4t+/0ov0?=
- =?us-ascii?Q?azEE7C6d05ioj9Ch4drJ0aZac8ApxMKk3CmVfPY3awh0bk/AtWpt4dKN00uP?=
- =?us-ascii?Q?ioeOxsPAR5ZVcV/3STEptQ5tI87uwbhM2Vhqi5qfXEAVdLnHhcl/MMBSpjs9?=
- =?us-ascii?Q?DaCxMOPKb7Zw2MXR9TR7Ku591wYPNKFO8lzeHXUtlyZCq4b4Q5Ed1vlpUFwl?=
- =?us-ascii?Q?QNu0LgXYZ70sz5PUF4GdElCxJLMbLhQIS7SVZeYWt25oAqsgeGWhZADUGIK3?=
- =?us-ascii?Q?Q/BND8jrZQfZJS0pAv3cSEjGCmRgKPXec10y/2dtms/+aWbP0H+gYMjQbMM/?=
- =?us-ascii?Q?A/nJc/1UPVLK8L4urgQj6g3huFXUJnmL1u9rtIuDjA+2TBgDwxtZxvU6bAkw?=
- =?us-ascii?Q?h5ijcVTBTvwvKwrddj+j2W+U90FzQVxmoZE+4mUP6Vo+ApRfAXGVH1po9lmN?=
- =?us-ascii?Q?RTJe4Ihu32la0UGEDJoicfMSB9oSL60hHFmzgNnxLYChOM/jlIau/jfdUlFt?=
- =?us-ascii?Q?ivXwAw8vBciUoHuxGAEW9ajI0RqD8G9QwsEo7Q5glvqwFyQ3JM6G3r5Tj8kZ?=
- =?us-ascii?Q?MTKOKMf/jx9R9sls5xuPnwHeMUzNhshlhVAqUk0U4iwNhxg2QbCNSE1AwrJS?=
- =?us-ascii?Q?fIQ5VjI5m5R19b/YVhbTSWS+3q+JvwJZm/aeMYeXu1tqoYVW5d3JAw1UqUQh?=
- =?us-ascii?Q?lcxsPZTcV9H+8gYmeJGVtp+RgppGkMbAjEGJq/ZMGUfqn6pNrj1S/2SgvJMD?=
- =?us-ascii?Q?aIUyvvQRcdtfUgjMACmloXk9udLoKSCsJY33pi69iIpg+9JFPw1N9lPKo8ZY?=
- =?us-ascii?Q?b8Z/dSOIepgcXBf4KMzRvapkh5VUpFVi42jnBGbLhEQMeNHFQL/YLLsGAsj/?=
- =?us-ascii?Q?BownYATT+Re7AIQDYpPu8GN/9upzHedV/uqq8uhkZMebaFS1S6q5SSTT0URf?=
- =?us-ascii?Q?dEumJ5bmYm2cZ6C4XyQfeyAFO+f4PPqoRFGnRUx6WuGDNu/ytEE+o8DVNZ1k?=
- =?us-ascii?Q?x64T2xlIckT+WVHxPcXI83eANxCZ41CJOlnYmntwtGATHKnE4rUwj9XWj8tv?=
- =?us-ascii?Q?OA4HZiGvYtDWSKLe+ZYSYp3dgA2UEbOgHQ2fdvDmI1n5SmH7r8GVsbpBcL/C?=
- =?us-ascii?Q?p3SsKfT7XLfNXnsHOX5t5o+JTeMpAUKy7ktXxvmVrX+wppGawroV8c+QMHT0?=
- =?us-ascii?Q?e/4ZTOK5zDqVl2Ha/2Zhuq5KeoO6laKtnAD/KCnR5ne7WJj9qpH12eMWcTOv?=
- =?us-ascii?Q?TV6xg+1MVqF+Y79Kujk=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cbc89e3-d490-4494-247e-08ddd545a6f0
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 00:02:08.8420
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2bhw1jjqSaLhKRrNCTkgHjJXt5dzSnnelSSf7LezGHuUX7YA071SoA1P6o+3ExZQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9109
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-541,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22
+References: <CGME20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22@epcas5p1.samsung.com>
 
-On Wed, Aug 06, 2025 at 03:42:14PM -0600, Alex Williamson wrote:
-> > +	p2p->mem.owner = &pdev->dev;
-> > +	/* On all p2p platforms bus_offset is the same for all BARs */
-> > +	p2p->mem.bus_offset =
-> > +		pci_bus_address(pdev, 0) - pci_resource_start(pdev, 0);
-> 
-> But not all devices implement BAR0, nor is BAR0 necessarily in the
-> memory space, wouldn't this calculation be wrong if BAR0 were
-> unimplemented or an IO BAR?  
+This patch series modifies the samsung MFC version compatible to
+SoC-specific compatible.
 
-I think you are correct about this.
+Aakarsh Jain (10):
+  ARM: dts: samsung: exynos3250: Use SoC-specific compatible string for
+    MFC
+  ARM: dts: samsung: exynos4: Use SoC-specific compatible string for MFC
+  ARM: dts: samsung: exynos5250: Use SoC-specific compatible string for
+    MFC
+  ARM: dts: samsung: exynos5420: Use SoC-specific compatible string for
+    MFC
+  ARM: dts: samsung: exynos5800: Use SoC-specific compatible string for
+    MFC
+  ARM: dts: samsung: s5pv210: Use SoC-specific compatible string for MFC
+  media: s5p-mfc: Modify compatible string check for SoC-specific
+    support
+  media: s5p-mfc: Add new compatible string corresponding to S5pv210 SoC
+  dt-bindings: media: s5p-mfc: Modify compatible string check for
+    SoC-specific support
+  dt-bindings: media: s5p-mfc: Add SoC-specific compatible for
+    'samsung,mfc-v5'
 
-> Even within memory BARs I can imagine different translations for 32
-> vs 64 bit, prefetch vs non-prefetch, but per the comment I guess
-> we're excluding those.  Thanks,
+ .../bindings/media/samsung,s5p-mfc.yaml       | 24 ++++++++++---------
+ arch/arm/boot/dts/samsung/exynos3250.dtsi     |  2 +-
+ arch/arm/boot/dts/samsung/exynos4.dtsi        |  2 +-
+ arch/arm/boot/dts/samsung/exynos5250.dtsi     |  2 +-
+ arch/arm/boot/dts/samsung/exynos5420.dtsi     |  2 +-
+ arch/arm/boot/dts/samsung/exynos5800.dtsi     |  2 +-
+ arch/arm/boot/dts/samsung/s5pv210.dtsi        |  2 +-
+ .../media/platform/samsung/s5p-mfc/s5p_mfc.c  | 13 ++++++----
+ 8 files changed, 27 insertions(+), 22 deletions(-)
 
-Humm, I had thought it was consistent for the device, but I guess not:
+-- 
+2.49.0
 
-	resource_list_for_each_entry(window, &bridge->windows) {
-		if (resource_contains(window->res, res)) {
-			offset = window->offset;
-
-Seems like each window can have its own offset.
-
-So the p2p should be made per-bar, and hold the bar index from the
-constructor..
-
-Jason
 
