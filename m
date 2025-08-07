@@ -1,150 +1,203 @@
-Return-Path: <linux-media+bounces-39037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DE1B1D70C
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 13:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26149B1D74A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 14:11:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B72F91896D57
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 11:54:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E00B418C7ADD
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 12:12:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0AC623BF8F;
-	Thu,  7 Aug 2025 11:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C95245006;
+	Thu,  7 Aug 2025 12:11:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fDzMOl7x"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bXhySOjA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DB4233701
-	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 11:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1795C43AA4;
+	Thu,  7 Aug 2025 12:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754567645; cv=none; b=nSOOTu9YhgYjgMJ2uQJXDp11FCAV+Gi059StfruFOUKFlc3Z36Gkv3CLlHIpM5fEIC76rEoszpi3sBdnNRdf+XA1Gltyxe1zBLNcrGR7mhUSOyxqDdvp2SHqOa3uck/2a7rZZG060aEiiLwKm4/rdY13mA97erucpywY5Qw49YY=
+	t=1754568700; cv=none; b=RP/+XV4aIHUIPv8zzvE447IXeRlUMrrqPgNroFosK3sgR4H98wuH5MhkeN4UFN0gFKBIQGmuxGrS16zyEGCBXvBaVlCEkLIKniY0pXZnBcpZhsEo3wJML/z7IfGYCgITrnR/g/cxfjENqngx+L5pPnc1j3ghuYFjstCu+JBnXdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754567645; c=relaxed/simple;
-	bh=ZZJ+58v5xVPIVDkFEIoUq75jX+V+PSTGi4Gi+0x9868=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NnTg+1/Ueb9+yaE1LKwy0AmBg7+e8Iw/5fyp4D1s3+zIURYf7XZkblOEfMsTPVN2GMQPfgIr6KQjPYmLgAD0XeLQ8vhnDMLa+G8nqedT7wqz36gU5d2NTokctoPfgPLa3L0EVk6JdM9IPen5EhS/Ba0nRcDgC7Tbv4RaLXSAA3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fDzMOl7x; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5779DDXP022732
-	for <linux-media@vger.kernel.org>; Thu, 7 Aug 2025 11:54:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=JmsYXKB6unnEWfBMH3uLtxy/
-	JZx2U35Fps5OvfGfeC8=; b=fDzMOl7xqzlv7RYzExEPyE1icsp+4hkb+9Whd0jU
-	e7PGg2yS3ezCbYrHaKmmIC4RapiJMwvGHJ5IywhH1TeZ9lXiprHRHKLmXUiuqVZt
-	dcShI5rNTAMeVPpcJVFpNtD3P/KvQuhvxkoB38huTwb92DG5+kmF+0cS9bthmtsV
-	MGga/q16G77lPAW1UAncjlUI3S+OhgWXBbJWzUBOozYVO8uLeL8faIA8tCME28X5
-	1S8AXB6QyRH0DmhhN40mQekaOH7eL8FNCld5VP1Qut0+j1gCAM76O9oZFmuuZlbv
-	CXoBPsY74I8oxMOfE9UD7Hm8wxTjkazXrLNqSTjk7mZ8tA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48cs5n8e5g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 11:54:03 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b08d73cc8cso23560021cf.0
-        for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 04:54:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754567642; x=1755172442;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JmsYXKB6unnEWfBMH3uLtxy/JZx2U35Fps5OvfGfeC8=;
-        b=syGf8THquDv+hV/eccSVzELvyyUYj1CtFawVJVXhBayo4OQEGWM7mo1TxXBDiZ6YwF
-         vKF8kidyhNB3v7BGXHQSLZDAi3fQ+JMGuR1S6w5v52UkfkfAxYD5iwRuyko0PMYTVZYv
-         qkw3bwQGJTPF08H2iYdblCT3IUjMgtZESY7rSrIkNp7xILrmuIZHZSQmiZsy3pVfnyw4
-         txADR14tAhg2eIvJdcydM1dn+HDpB/oktfR3KNrUW64dpdCOJV1ef0xfFKVYY+C+jgPX
-         TCeYlLLZ1GY+fh2yTHDqK1CtthWrI+B6ETSsaBhwmlISFOlVKC+x7GTuREbZajjNawWg
-         cb0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVB4Gi4OQOnfKXXdUI1Yx2uo3nLEzMo7t2TSPJ8JQKVlQQRWhzw8xElqy5Qn3RzKfIjEeZx0APUOsCFWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbBQU5rlYgVxV2jxfu1cJ+mS4OWkX8dCiI1iMd6JdGa8CB14g8
-	GB5hTXBlDLGVJYsldfHtRMSBPihj3OSu6ihjgzcjUbhNuNhMYpqdCSWpYTLxavQmDKPY4VqfcP/
-	IchjfezAX4Jm1wlS9ePRLN0KZ1lzuFpBHxKGvQWldHxjCIozfOPhvFl+873OiIkBBpw==
-X-Gm-Gg: ASbGncvFmO9zYLnRDoQMmV0Hpw8qna0gCpm1VtDqevKuCOJWr7n3Iq240//vK6zPIVO
-	6dA3c6ixqKJBNUbRo8MmDhdnJ4LTTDcQei4jkhPL2fVqpP3CS95DOmh4woj9ufp0FrKKC2HHnH0
-	YN7G4nrZHszTopfLEI0LQYJP8rRw0OnssOsXfByL03I25A6UIiGtsoUSDFmMtBOSVm1WBqcPgh/
-	DEmg23a89waY3RF4jshzSdqC/puZ+zBrUxYUP2Zxvq2XaOLTijyrCQccVbC70ibAjf+mlmUr+zB
-	whRPygOxp9y3wVL1rwWHgHWtsolDewUKaDFlSkoXZ2Oi1RqOhGYS7dN+u6CVpUx1V+onKbbOBSN
-	CtpTamwq/EIoOSzLD8ICv0tpKls3OhmR5BtZfR681Dh1IF266IFKP
-X-Received: by 2002:ac8:5a12:0:b0:4b0:7170:8559 with SMTP id d75a77b69052e-4b0915a001cmr123089091cf.40.1754567641719;
-        Thu, 07 Aug 2025 04:54:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGa8xjZrgk7JKGa+kcJ7fkcp9cBxJaas2DISbCOZ14pSOMtXEioAO7a/COluo9VEZGCXO56jg==
-X-Received: by 2002:ac8:5a12:0:b0:4b0:7170:8559 with SMTP id d75a77b69052e-4b0915a001cmr123088521cf.40.1754567641205;
-        Thu, 07 Aug 2025 04:54:01 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b8899ebd2sm2602768e87.42.2025.08.07.04.54.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 04:54:00 -0700 (PDT)
-Date: Thu, 7 Aug 2025 14:53:58 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>, quic_dikshita@quicinc.com,
-        quic_vgarodia@quicinc.com, konradybcio@kernel.org, krzk+dt@kernel.org,
-        mchehab@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 5/7] media: venus: core: Add qcm2290 DT compatible and
- resource data
-Message-ID: <pt7dlwbxcipukwc734ftspj6ekehtnzfwndb7rqx2ihpxqwyzn@m2pyqy6nugdd>
-References: <20250805064430.782201-1-jorge.ramirez@oss.qualcomm.com>
- <20250805064430.782201-6-jorge.ramirez@oss.qualcomm.com>
- <4chbcvub4scnv4jxjaagbswl74tz4ygovn3vhktfodakysbgy3@kukktkwd2zsr>
- <aJHgh8mon9auOHzi@trex>
- <ce9cf017-5447-457c-9579-700782f9f0c2@linaro.org>
- <aJRMUzF0GN2LFIZd@trex>
- <40d543e4-e53d-4289-9b87-5ca8c0139bbb@linaro.org>
+	s=arc-20240116; t=1754568700; c=relaxed/simple;
+	bh=mAhgBynmJnocllLCHJ6doVOLTHWJz4kK52Xulssrbe4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OhkBUxN5hGBWH9ONkZId7LzOvFNJ/abJaBPjWg/46AHrr/xwoi/9h5VJoyFHkZYtdUPBWkbjzKbEPkbpJ4E717kCp3MOc31Jt4rrMd64hQLwiAjMKhqphGullKC+61IERrCVdsfTeC3T+TyA8Mk6U4yQRdQ5d6kTXgsrsz6f7e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bXhySOjA; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5779DDjf003806;
+	Thu, 7 Aug 2025 12:11:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=na4kuzAX6zdMPU6c5/HpDL
+	h29ZK+3d1BAZN1gqDo8kQ=; b=bXhySOjA512a2aJuYjwBaXhAYi9ScN1j+2/UAf
+	LUppPR93k8UQLWJCiel/6h53Is2dXWirEeGFBQkCCXbeQ1friUBrX3ugN1oQ2HCc
+	vVhNZ6lUblHLATw9Ispzu28UjQ9pnPDrzD5SOiPawtCITEZlyHZQrlxQie24dvyK
+	X6uCbg520pji6XPT4CmR5Diybr2dJJ1DF82hL8NivP3fO7B0mm6l+SXC6Q6jJRIs
+	87lE/7MGUeuZNGQvri/m5E6NJiyXs8FT+U8jW7QKR5nYPSGWblzKhtv0Tj52CCob
+	5FrXk6xDL0I5x30aZKyASkqXGmuLCKtB0tYuJhJL70IqPawg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpyae66q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Aug 2025 12:11:26 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 577CBPim023968
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 7 Aug 2025 12:11:25 GMT
+Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Thu, 7 Aug 2025 05:11:20 -0700
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <andersson@kernel.org>,
+        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <quic_svankada@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 0/9] Add sa8775p camss support
+Date: Thu, 7 Aug 2025 17:40:56 +0530
+Message-ID: <20250807121105.710072-1-quic_vikramsa@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <40d543e4-e53d-4289-9b87-5ca8c0139bbb@linaro.org>
-X-Authority-Analysis: v=2.4 cv=Q+XS452a c=1 sm=1 tr=0 ts=689493db cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=7TY_VEaP9L5SwCdglBoA:9 a=CjuIK1q_8ugA:10
- a=ZXulRonScM0A:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-GUID: 0NNL_HY33lGjSn4fEF8M3TVl6OXgoq_u
-X-Proofpoint-ORIG-GUID: 0NNL_HY33lGjSn4fEF8M3TVl6OXgoq_u
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA3MDA2OSBTYWx0ZWRfX+AB6HfxM3plQ
- 3lZMKqoK3VYqunkFxOy1QIh5xYDxFbmtmKkAvuD4AMmLQLn3GNms8WVo4/GcY5q+YsMxpm3mvmE
- Gq4FDbjFMQce2iqmpCLNUlMOjVkZJna+NDlGwtrs8HKqZHA6IlM1KqB0M3HjvujvZCttQZrLubc
- urZmu/rHm0PEpRzi7XuQGjhM1qw2z+VBGmxiybCFqrKg+zQqOJ+LU/jSuF+QJWc9IcrTAojs2RR
- dYZ3+iHTW8Kk8Y7AhZHkmuzdHFiIvc/JhSEkDm7SsYwCtDgp6IdRWb92occu49SwXK/7kldglPu
- 34Jx3n8EVMZVTFzzlhhSgumgMVZ9YGo2eotdUfoTiba4zkOYLDCcCggo3T0bHBltvLFga5FtoRE
- yRSb1msR
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 9HFhudJ_i4ZFKKJjesvQWRxLT7UqqYFg
+X-Authority-Analysis: v=2.4 cv=MrlS63ae c=1 sm=1 tr=0 ts=689497ee cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=4pAsuTqdjomlMBfRpP0A:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX7OIc0z45hxZ2
+ 6b9GEecwFLpdu7nBRb1hIHvmVbx73XpWyo5v5wLfKssacLLYIjt3aqlRpWQMegK/0K1B6bKAmuM
+ KDCUfKn5SVxMLmoZ+47HIG0Zz/cDS2/ChWT0BnR9xwAePFiGoT4kvoyMEmG+5zz+R84OgAz+VSc
+ Z+IQ0xdjMKTUgg9s9u+VsRjgRvcA6gE2CByJw0EZ51DW1K6qKw+FIiH5XuHkdJL77eTUXQYWUug
+ Dx2mNKvmgV5ybMMZuOQT+y078Yp6X8VjNrPGq4N3rWLq4UGfjHdc4c8mGmK5EvmqzwC0fiW3/i+
+ it8BmFUNlgm4AhDWbpax2RnqV8Ow5buPUkSXDTXqpyIPkYdkil5Uux5/5HusYlE0RfGygkXFeSj
+ 9Smy7CJi
+X-Proofpoint-GUID: 9HFhudJ_i4ZFKKJjesvQWRxLT7UqqYFg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-07_02,2025-08-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0
- impostorscore=0 phishscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508070069
+ impostorscore=0 suspectscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ spamscore=0 bulkscore=0 clxscore=1015 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 
-On Thu, Aug 07, 2025 at 11:11:31AM +0100, Bryan O'Donoghue wrote:
-> On 07/08/2025 07:48, Jorge Ramirez wrote:
-> > > There's not alot of value to the user in that configuration.
-> > I dont know the user base but when I originally did the code (v7) I was
-> > thinking about security conscious users (signed firmwares) who might not
-> > be able to switch to the new fw release so easily (unnaccessible key
-> > management and updates).
-> 
-> Since the driver for the LITE hasn't been upstreamed the # of users must be
-> ... zero
+From: Vikram Sharma <vikramsa@qti.qualcomm.com>
 
-The question is about the firmware side: if we support decoder for
-6.0.55, users can get video decoding using existing distro firmware (and
-just update the kernel).
+SA8775P is a Qualcomm SoC. This series adds bindings and devicetree to bring
+up CSIPHY, TPG, CSID, VFE/RDI interfaces in SA8775P.
 
+SA8775P provides
+- 2 x VFE, 3 RDI per VFE
+- 5 x VFE Lite, 6 RDI per VFE
+- 2 x CSID
+- 5 x CSID Lite
+- 3 x TPG
+- 4 x CSIPHY
+   
+Changes in v4 compared to v3:
+- Bindings and Device Tree: Reordered the csid_wrapper to be the first
+  entry in the register list. (Suggested by Bryan)
+- CSIPHY Driver: Added comments indicating the CSIPHY process node number.
+- VFE Configuration: Defined bit fields for vfe_top_core_cfg.
+- Clock Optimization: Trimmed down the clock list for VFE.
+- Cleanup: Removed newly added deadlines from the CSIPHY, CSID, and VFE
+  files.
+- Link to v3:
+  https://lore.kernel.org/all/20250703171938.3606998-1-quic_vikramsa@quicinc.com/
+
+Changes compared to v2:
+- Renaming camss-vfe-780.c to camss-vfe-gen3.c and camss-csid-780 to
+  camss-csid-gen3 to avoid code duplication for SA8775P.SA877P have csid
+  690 and vfe 690 which is almost same as csid/vfe 780 with very minor
+  change in register bitfield.
+- Restructure vfe and csid addition to reuse existing files.
+- Updated commit text for Bindings patch.
+- renamed cpas_ife_lite clock to cpas_vfe_lite. 
+- added voltage rails for csiphy in documentation.
+- removed sf and icp clocks.
+- removed sf_0 interconnect.
+- Link to v2:
+  https://lore.kernel.org/linux-arm-msm/20250427070135.884623-1-quic_vikramsa@quicinc.com/
+
+Changes compared to v1:
+- Renaming camss-vfe-780.c to camss-vfe-gen2.c and camss-csid-780 to
+  camss-csid-gen3 to avoid code duplication for SA8775P.SA877P have csid
+  690 and vfe 690 which is almost same as csid/vfe 780 with very minor
+  change in register bitfield.
+- Restructure vfe and csid addition to reuse existing files.
+- Updated cisd-lite and vfe-lite interuppt names.
+- add enumeration changes as seprate patch. 
+- Update required fileds in bindings.
+- Link to v1:
+  DT: https://lore.kernel.org/linux-arm-msm/20250210155605.575367-1-quic_vikramsa@quicinc.com/
+  Driver: https://lore.kernel.org/linux-media/20250210162843.609337-1-quic_vikramsa@quicinc.com/
+
+Sanity check for these patches:
+- make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,sa8775p-camss.yaml
+- make DT_CHECKER_FLAGS=-m W=1
+  DT_SCHEMA_FILES=media/qcom,sa8775p-camss.yaml dt_binding_check
+- checkpatch.pl
+- Smatch: make CHECK="smatch --full-path" M=drivers/media/platform/qcom/camss/
+- make -j32 W=1
+
+We have tested this on qcs9100-ride board with 'Test Pattern Generator'
+https://lore.kernel.org/all/20250717-lemans_tpg-v2-0-a2538659349c@quicinc.com/
+
+A rebased version of the TPG driver, built on top of this series, will be
+shared as v3 in a follow-up post.
+
+Vikram Sharma (9):
+  media: qcom: camss: Rename camss-csid-780.c to camss-csid-gen3.c
+  media: qcom: camss: Rename camss-vfe-780.c to camss-vfe-gen3.c
+  media: dt-bindings: Add qcom,sa8775p-camss compatible
+  media: qcom: camss: Add sa8775p compatible
+  media: qcom: camss: Add support for CSIPHY 690
+  media: qcom: camss: Add support for CSID for sa8775p
+  media: qcom: camss: Add support for VFE 690
+  media: qcom: camss: Enumerate resources for SA8775P
+  arm64: dts: qcom: sa8775p: Add support for camss
+
+ .../bindings/media/qcom,sa8775p-camss.yaml    | 361 +++++++++++++++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi         | 185 ++++++++
+ drivers/media/platform/qcom/camss/Makefile    |   4 +-
+ .../{camss-csid-780.c => camss-csid-gen3.c}   |  33 +-
+ .../{camss-csid-780.h => camss-csid-gen3.h}   |   8 +-
+ .../media/platform/qcom/camss/camss-csid.h    |   2 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |  84 ++++
+ .../{camss-vfe-780.c => camss-vfe-gen3.c}     |  75 ++-
+ drivers/media/platform/qcom/camss/camss-vfe.c |   5 +-
+ drivers/media/platform/qcom/camss/camss-vfe.h |   2 +-
+ drivers/media/platform/qcom/camss/camss.c     | 428 +++++++++++++++++-
+ drivers/media/platform/qcom/camss/camss.h     |   1 +
+ 12 files changed, 1138 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+ rename drivers/media/platform/qcom/camss/{camss-csid-780.c => camss-csid-gen3.c} (89%)
+ rename drivers/media/platform/qcom/camss/{camss-csid-780.h => camss-csid-gen3.h} (84%)
+ rename drivers/media/platform/qcom/camss/{camss-vfe-780.c => camss-vfe-gen3.c} (70%)
+
+Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 -- 
-With best wishes
-Dmitry
+2.25.1
+
 
