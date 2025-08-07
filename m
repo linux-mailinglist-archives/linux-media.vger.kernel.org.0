@@ -1,88 +1,77 @@
-Return-Path: <linux-media+bounces-39069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60562B1DC5C
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 19:18:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78B8B1DD30
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 20:41:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D914584F55
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 17:18:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 934A318913CA
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 18:41:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 334BD25DB1C;
-	Thu,  7 Aug 2025 17:18:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E36219A8A;
+	Thu,  7 Aug 2025 18:40:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bz6yMIvr"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YR7JxWEy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F8D1DFE26
-	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 17:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A961C258A
+	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 18:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754587119; cv=none; b=rUikkhP2DFyS1a75sV4bI4Qqiyea92ntnOSXhqZyRKz99hBqbZ8EB0gv5hdG9tQ6tUAB5bKJSOfJD7tMCmkCKBq42CF2djKKhZrDwtKQ8zol5yvrb+XkKMmGkeqwG7kH/WP2gqNBNfXxo3nU5R5uC4HTt9a9jRGeUrQwga/SD2M=
+	t=1754592052; cv=none; b=B3JUov737icPp7W39rWoq3atzNJ8mOon0bdv7c88TNMDCl6hF+EXeTc1r7kIQ9JMvHAZqIZzyyK+GT6UEYNxCw3u5ef7ny2yjmniKNGAB48JJWjHgRvZu18uygFgi8ecZi3YnbV7MQTAEBs8I6FMNCRndFrdSYhdW+nyI5AAv2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754587119; c=relaxed/simple;
-	bh=ix4wfzIRuANwVsXaP/80+i/iUtqcmQAOhg9cFDtjiV8=;
+	s=arc-20240116; t=1754592052; c=relaxed/simple;
+	bh=i3aP6A/MxuAB3Zt7C+xzxPLkUUuAStt1/hot+djOP8k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d1V4WxZCRIhv85531OfTNdCINbvIcV6NtIownnoy6IPTDtoD0sgUZWjrGzLCFffsbvlOF8fM0tC+eJj6EB55KghyM4c0m4DEkSkkMse9uNaHAYBkVPZsy/9lO6yslDYqZB1GOb+83zuxvKQ36tJIBd9W9mI0wAOXZ3hFz3snyjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bz6yMIvr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5779DBZe020477
-	for <linux-media@vger.kernel.org>; Thu, 7 Aug 2025 17:18:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nLC8GBJ52JS4DT8cnivnM/XJofTs0u4QYcTbqVdpwM0=; b=bz6yMIvrF9kz4XD5
-	JXh1ZKRAyPHsw7ms/x/AUct7v/ZICwoDIGWBEoXLH+y3rHmxk0r2ynysiQgGvbK5
-	M1NeeLuLYhvy6mhM3394k5ccr3MZ6tgu54fwlz1o+LVJbRoRdvMbRq4zz2hqrQXc
-	Klmc41t1EACwREobXBIWgMsIqpIb2TI4id8u3aWiwszLy8ISiEzfp3e2gSL2xCN1
-	SlryyDV+M26I+zlwStMSAxdGM4AG8wsFy8c9HS18M+Z4ZGYqD/xyoMy0z0TQ+j7o
-	mhIRzysGp+bw0kpmFtT5fTjzrl5jsOVQvzLOOdXJIzeEYIkATxpAVsyK9rYrtHr2
-	ij5G1w==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy8f2u8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 17:18:37 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-32129c65bf8so1442094a91.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 10:18:37 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=sX5EhahIshrkK1/mI6SoG17dgLgbpPZh+k+zep/lNTQfbqHGaoc5C5oMYhc3bAw7nJMA6lZ2hqFzL55Pfj8F9td3kVM2VVYNLsHHlFlMJsgclgcH80GyTK4zFVGa1/idX04BJBLsjwzkARHzD6++W01L7ibWNWpL8DJ9Kv7Z0aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YR7JxWEy; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3e3ef0024acso11576805ab.0
+        for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 11:40:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1754592049; x=1755196849; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XERiuoNAWPSGK7EG1EKcaSMoPUBK2/kua/o26DD/qk4=;
+        b=YR7JxWEy1FbbD2lJIAfRulKLjaT90Lb4ClG3h4D8XA60hhq6jHiPDCceB0ndcFfAuT
+         JbF8YiWpbavSbfFzscHQn7tURqjKNrBNzs3i7JwMpLGWHBYBA0bQGlRVOyFsGhpOZXZm
+         QNa6A83NJYWS6RjjgJZnUh+yzzcvNeHtVrLXg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754587117; x=1755191917;
-        h=content-transfer-encoding:in-reply-to:content-language:from
+        d=1e100.net; s=20230601; t=1754592049; x=1755196849;
+        h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nLC8GBJ52JS4DT8cnivnM/XJofTs0u4QYcTbqVdpwM0=;
-        b=igJXJvgC5h6Yn3V5yi7tKPNNa0KNo2CXna1kYmni4ioFKZWBz5ilKLIxabJNQ2zFWe
-         NKxORlhHdKfWZm+pykxbJsRqpVABOyoqvNQ/5D/vR570oegkeAzP/jnyMbThY1uIcmVy
-         fJ4mXLcfn5PFXBxz2kFcs/SFX5Z4XDheahBtd6aG1zLhXLdWYJCZHwbiiWlYgKAC0D5q
-         3l1Ia4V9V73bHk7lEI8tULvybmY/AewhBFWCb6INUq3PaM+G0BGxHOvluuk5yJzocXeP
-         eC2PnzxC4yJffLvGRXm+6hic27+pZ/7Ame0dfXHulwjxf51zM043UVB9F5U0GZ7WiFuu
-         zBog==
-X-Forwarded-Encrypted: i=1; AJvYcCXJVYkE9mQMNnj2YlcCpiollt82aYWy1ed/5eUWHbktvtuXHk495Y20qbN5x7sK7OM2oeiss0VyEkVdZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEw0YloBRq321k2MS/NX1f7JfayHQdpMecv2kvx6QIMJNQTB3f
-	yo980145mmdjlrcjCXY9ZvUCTfEGQczElreTaN+LWRIr7UYR7HSe+dQoHrDmtjSMlgbaCGDoRXB
-	IPxapuM3pq53wYwk0Ez/96NrvNp+75UxIBd6G8+7lL2xFXltH9mw/CrBGYVZEEr96Yw==
-X-Gm-Gg: ASbGncv8jmkkIeiJi+UjyGATSMDKApV/SWWNzSu3gbfSIDrMfROQtN4u7Sk8hJannzw
-	JKBgE3hkXkBluGVjnna/14OsR2bxoeOkGZybvjZvHGRgoUwySF5B4+Mgu3EQQ9ccjvF1MMRhTHh
-	hM2Eh7fZuLmu0hfDGAymLk5PKS5h4Iju0vB2Bb6QJQBtj7hIFN14QhVGYeJ6t8z6+GVvl8wV5TN
-	riX2BCjzvcyEHMu5RuoJFnMVmCkxuGgd6j406k/mG6z2tqBsxpXu6bxw0UCNuvR+867emE0q1MO
-	KXKm6RgLV3qBFDz8JCFPiHkPowyOdTGNr5EjnC6/wFVYGwYDomq3p1tEZYOhjzn6YstWiD5R4P4
-	/eZrjntsHqUJGO72K0IQ=
-X-Received: by 2002:a17:90b:3806:b0:311:d05c:936 with SMTP id 98e67ed59e1d1-32166ca78dbmr12228082a91.17.1754587116447;
-        Thu, 07 Aug 2025 10:18:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDSBIxZMtyLHjJ8ZZPSYmQQchctU93wo3YtjIAb6ci0mllkfGZXT4TLleL1LzuppQ6KSZiwg==
-X-Received: by 2002:a17:90b:3806:b0:311:d05c:936 with SMTP id 98e67ed59e1d1-32166ca78dbmr12228044a91.17.1754587116004;
-        Thu, 07 Aug 2025 10:18:36 -0700 (PDT)
-Received: from [10.227.110.203] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3216129c8cfsm6088656a91.34.2025.08.07.10.18.34
+        bh=XERiuoNAWPSGK7EG1EKcaSMoPUBK2/kua/o26DD/qk4=;
+        b=tdN6eGzNEBCHT08gjvYhj+L8Klt6lwVzeH5hyi+V+tRJ1yw6fXXRLzCV+7/ZGdkiK+
+         EWtkdsj9MAe+lRznSXvgJL7vQUQVLLsxWWUciJ/POKs2Vrr6D03j7S2sC+lbHkQInePk
+         c/jreT9b1Y8xfe8vDupf9+Ut2GZpeY30gjwQxp/X3b0kyxg6vQulPFVzJxE37k45u3fh
+         TKjHpPUTUWTRaOxloR0n7cQuiLL+OGlR6/Hoz2b58azU8OpEKwiaGjjQEXFOZklyChVf
+         VKIy61StIVOuEY14WBIv3BhiRqpWhR5QMq5UJtZp6GtbUEVIkiOwC6f5gZwZ9fPTSx0j
+         vS7w==
+X-Forwarded-Encrypted: i=1; AJvYcCW4ElFE7vbHVY/qmpq7xbUGdGA7CiIhig0Mjy7yC3oYkHQZIxitn81mRe9WjfSALZUDLA6jR4tYuBA9Qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvLLeqJYI2jCxYebrApUKf/ppnkld4oL9URde1JW7JCNWHJYNd
+	PkHahIjWMRcU/VbcNvBEuyT2DQK7fK5QVgaPJPXNO4hVkCkftMlHKG2u9drsQW1ytJo=
+X-Gm-Gg: ASbGncvES++YrumPWV1AhEVUccik1pkd5FdXOJsD99/7fTzPyKFXPxjZUQX4MVkSDuh
+	2aRDH6pCCgEBp91Y7dzAssMyyZ59FMQuPtbUVOzDqp+I9oeNrKX+0L6oPiO0LfTIlZ7WWJSZUr7
+	h51yCiQlAvYob6IUwiZ3vfjIZ/MwN9dg9ooR4aksdF4GY6ixaOr/Y8WHiV6cDkWADCKa5uOmWDL
+	eZXFM4fyp3z7WVYopEcbN9Jx/tHLmUZ3ERTKPWwms/MFj3gHEmYT5HjYr1ZU49YnE1IRxnCin6i
+	5kK+4qbZLNklhR9A0PqyvqPNvo0yWTZ9r4DYiKfFAkwzJ5NxXLVQs7kwMXYiicBtHzitEGcRDYM
+	W5mnmiBCgG0YgUjXNvfIP9gsveenrUQHVyQ==
+X-Google-Smtp-Source: AGHT+IEoPUIs8QXxDDX65uueSQcuOznUJ1A7kJhXS34684tBvm94g8joM6RL35rGIzOjEg7hyzRFAQ==
+X-Received: by 2002:a05:6e02:198e:b0:3e2:c5ff:382 with SMTP id e9e14a558f8ab-3e5249ab86bmr68723065ab.5.1754592049349;
+        Thu, 07 Aug 2025 11:40:49 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3e402acacf1sm73867425ab.39.2025.08.07.11.40.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Aug 2025 10:18:35 -0700 (PDT)
-Message-ID: <9b1f4ea5-2948-4807-a4d2-0efe7b672a4d@oss.qualcomm.com>
-Date: Thu, 7 Aug 2025 10:18:33 -0700
+        Thu, 07 Aug 2025 11:40:48 -0700 (PDT)
+Message-ID: <b2430686-3da9-4fb9-8f91-5bb7da1920b0@linuxfoundation.org>
+Date: Thu, 7 Aug 2025 12:40:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,55 +79,98 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v3 3/3] soc: qcom: mdt_loader: Remove unused parameter
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org
-References: <20250807074311.2381713-1-mukesh.ojha@oss.qualcomm.com>
- <20250807074311.2381713-3-mukesh.ojha@oss.qualcomm.com>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Subject: Re: [PATCH] media: uvcvideo: Log driver load in uvc_probe function
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc: Imene Jaziri <imenjazirii18@gmail.com>, linux-media@vger.kernel.org,
+ hansg@kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20250801145326.28560-1-imenjazirii18@gmail.com>
+ <20250801150430.GC4906@pendragon.ideasonboard.com>
+ <452a1263-2ec3-4174-9082-078445e67637@foss.st.com>
+ <20250807081408.GB11583@pendragon.ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <20250807074311.2381713-3-mukesh.ojha@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: zw1C5jqnkzgVma6br5HVwHoMhMhlrXt8
-X-Proofpoint-ORIG-GUID: zw1C5jqnkzgVma6br5HVwHoMhMhlrXt8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX/4ENnELTDJOn
- efqihtd8QE7hBIeXmlub1c2Kyap/vw06LfU9HybxApM5STmDeeWc28DdMv781+A0E5KUxKkopI7
- QCi7d17SRgPMLCMjaDb9o+OqiJ6xPGgvCsvLDSneQ2Kmaefr7e8zOD/zs0Xxq+4549mQSv919Gy
- IN/A1J9PtFcVw+olmaKcL8+0HMwuLEsbSd/r+ct+/mlGjNe6nQcMDafG6qmT/cbKFSBvmkIaT/u
- 8nJ5FnYxXcFO//7IlhW6bUm7Ci4/IHiET9/uFdMyEkdYPi+m9jHPr4W/5y+UzAsj04ssqXdzt2H
- OOwpVZPQq5U0Ocxp77S0T+5BPkZggTJ9FZJanZYKMks6QunRJPhe+DJhESZwJ5FsqNbJ05rOiC5
- 0f99FFPX
-X-Authority-Analysis: v=2.4 cv=GrlC+l1C c=1 sm=1 tr=0 ts=6894dfed cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=NyTICe1PHtTOfF-B13wA:9
- a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-07_03,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
- phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508060009
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20250807081408.GB11583@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 8/7/2025 12:43 AM, Mukesh Ojha wrote:
-> fw_name in qcom_mdt_bins_are_split() seems unused now, it may have
-> used in the past for logging it but due to code refactor this parameter
-> is unused now.
+On 8/7/25 02:14, Laurent Pinchart wrote:
+> Hi Benjamin,
 > 
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> (CC'ing Shuah)
+> 
+> On Thu, Aug 07, 2025 at 09:53:41AM +0200, Benjamin Mugnier wrote:
+>> On 8/1/25 17:04, Laurent Pinchart wrote:
+>>> On Fri, Aug 01, 2025 at 03:53:26PM +0100, Imene Jaziri wrote:
+>>>> Add a pr_info() in the uvc_probe function to trace when the
+>>>> uvcvideo driver is loaded. This is for learning purposes.
+>>>
+>>> What part of the learning instructions you are following instructed you
+>>> to submit this patch to kernel mailing lists ? We are regularly spammed
+>>> by similar patches, which indicates the instructions are not clear
+>>> enough.
+>>>
+>>
+>> I got curious too. It comes from the Linux Foundation training LFD103
+>> [1]. Chapter 8 describes this patch pretty much, and chapter 9 describes
+>> how to send the patch, but with a warning not to do so :
+>>
+>>    [...]
+>>    At this time, you can run:
+>>
+>>    git format-patch -1 <commit ID> --to=maintainer1 --to=maintainer2
+>> --cc=maillist1 --cc=maillist2
+>>
+>>    This will generate a patch.
+>>
+>>    Important Note:
+>>    Please note that this is just an example. Don’t send this patch upstream.
+>>
+>>    You can revert this commit now.
+>>
+>>    Please refer to the Select the recipients for your patch section in
+>> the Submitting patches: the essential guide to getting your code into
+>> the kernel document.
+>>
+>>    When you have your own patch ready for submittal, you can follow this
+>> example process to generate the patch and send it upstream using the
+>> following command:
+>>
+>>    git send-email <patch_file>
+>>    [...]
+> 
+> Imene provided me with that information in private.
+> 
+>> Looking at it I guess it's pretty easy to miss the note.
+> 
+> Yes, reading the text, I really can't blame the people training the
+> course for missing it. It's a bit like if a mushroom foraging book said
+> 
+> - go pick those red mushrooms with white dots on the cap in the forest
+> - cut them in pieces, pan-fry them with butter
+> - add a couple of eggs, salt and pepper to make an omelette
+> - the dish is ready ! enjoy your meal !
+> - you won't be eating that, it's poisonous. throw it away
+> 
+> :-)
+> 
+>> Maybe
+>> requesting to add '--dry-run' to the git send-email command could be a
+>> simple fix to prevent from copy/pasting ?
 
-Reviewed-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+No question that the material is confusing. The material is in
+a publicly available fee course.
 
+> 
+> I've contacted Shuah, who told me she updated the training material.
+> Hopefully we'll soon stop getting such patches.
+
+It is fixed now and the spam should stop. This course has been in
+use for 6 years, this is the first time we are seeing spam.
+
+Sorry for the oversight that resulted in spam.
+
+thanks,
+-- Shuah
 
