@@ -1,153 +1,112 @@
-Return-Path: <linux-media+bounces-39071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39072-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F6DB1DD4E
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 21:05:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34157B1DDA1
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 21:43:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B7F3163B75
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 19:05:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BBE67AA287
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 19:42:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFCCC273814;
-	Thu,  7 Aug 2025 19:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBBB522DFA4;
+	Thu,  7 Aug 2025 19:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vc+UWihr"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="X6HfJndc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AA421CC6A;
-	Thu,  7 Aug 2025 19:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA2320A5EC;
+	Thu,  7 Aug 2025 19:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754593545; cv=none; b=EA2cLtNGo1oLIAfHPlyKpI9eF5dZ4yZ2dYw9PeIJ7+caLzVX30rFezF/9Dz5kOHsSWDHqiSmj/Sbzi+QEJ1jJBuTuVZmqwM3xb7Btvqg2DH01Aivy8srxwXXZIFLVExSCYO6MFwnCfjczEq1kPtYi8sZfjnr3OpWGaVsyvJZ45U=
+	t=1754595826; cv=none; b=P9bWhDWv1+NjxKsw3OKlzuJsT3nqzA0bCE6LvOmq2Z4Gv17JDG2gR7xrgH3ha0b2DWPRHXrQTx/jn1DoHMhxbdpM2K0B0uhi30e1/QVxEatjJbOs0+Dm1SQJ288DqCj6iT3Mla2/fBtLSTy1X6JzRmj52AkAL03PtI7bSeoUFDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754593545; c=relaxed/simple;
-	bh=spQm+jymAJIrxauFHn6s78s0XVcdc+wTlMWHYLFpyF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D4xCNgbQ7I0em/JZm1eQ/cq6LiWHfuCVf8+5UCt1T+s6XeBrXSzZG3mt7/rl25SwcPjBDEDflRoBGEITrQDmVD0xqeOg3StuDo4eweqxXmD09OyV3TMA2wgIRnZh40hUQ+pSP+VmvOCDvyw3neeCZP2h1I88mvCw/qcTUpsOxqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vc+UWihr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B7308C75;
-	Thu,  7 Aug 2025 21:04:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754593490;
-	bh=spQm+jymAJIrxauFHn6s78s0XVcdc+wTlMWHYLFpyF4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vc+UWihrd+yDV7Srt1sBKV/ODWHGIi9ayiUX2rIfLG6cSov24CkzJWo36Tb6LwfXh
-	 Ec+5vWZiMY1rsZ4D3Y8OqOl4zJiW1PTZiSrXnw5obRFxeU7cXEVUNQ3eAcmg9A1qCv
-	 b9PiYgyk1uE6BgDleHl9YIPCjh5PhGtr6hlprgf0=
-Date: Thu, 7 Aug 2025 22:05:25 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Imene Jaziri <imenjazirii18@gmail.com>, linux-media@vger.kernel.org,
-	hansg@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Log driver load in uvc_probe function
-Message-ID: <20250807190525.GA28610@pendragon.ideasonboard.com>
-References: <20250801145326.28560-1-imenjazirii18@gmail.com>
- <20250801150430.GC4906@pendragon.ideasonboard.com>
- <452a1263-2ec3-4174-9082-078445e67637@foss.st.com>
- <20250807081408.GB11583@pendragon.ideasonboard.com>
- <b2430686-3da9-4fb9-8f91-5bb7da1920b0@linuxfoundation.org>
+	s=arc-20240116; t=1754595826; c=relaxed/simple;
+	bh=ZRIzuEh4ff2QtBc07LdqKUp7iG373pjthqroU94ucJ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tkKHlVjCpXpyK3HzLIFv3uytZnCt6DG1JYk3Wd8TLbuCN703Wdl3HtrqQyYEBzkcc8+g0q3tw+x1NgyjdRVrpWo4blOdKyscAHuJfQRpRFppQ3Z3qxMEE6+8M/5o8taRdXoSl4MtqvVlvBdXYpyGURg+CG27Jbe9HHwBjAygkcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=X6HfJndc; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1754595814;
+	bh=ZRIzuEh4ff2QtBc07LdqKUp7iG373pjthqroU94ucJ8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=X6HfJndcDMBBECWzqaVrFOLcIIhy9Tju29bNFklNHhl2Np2Y6W00Ux9pASm4/4rmU
+	 JF5E6YTfmmLVWT71rqTVxA9QlnLTE5sd1ydxZLtSoPUZNYcHkF+A3W1gGIQYq6RanQ
+	 9lBFEYsNlzLm+om97986f4XaHnLgsSaoX69B5KxydKRpXS0Vs7Ihal2xKj9o5ngm2U
+	 DBX5sFRKqvIq/UWdC/IDJJAqbYxXe4Jq84PR9GInVbAMxjh7SLKXeT/xV/x5BXlF5m
+	 rmUXU6WVEfS9dls59o89UoT9A+WAIGYyViI+9oKyN7wa86j7v5os2JgMGtU2RmPtnn
+	 olUIUQrFW0yQQ==
+Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E633917E10C5;
+	Thu,  7 Aug 2025 21:43:32 +0200 (CEST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Yunke Cao <yunkec@google.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	James Cowgill <james.cowgill@blaize.com>,
+	linux-media@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v3 0/2] media: Add HEVC long and short term ref pic sets controls
+Date: Thu,  7 Aug 2025 15:43:25 -0400
+Message-ID: <20250807194327.69900-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b2430686-3da9-4fb9-8f91-5bb7da1920b0@linuxfoundation.org>
 
-On Thu, Aug 07, 2025 at 12:40:48PM -0600, Shuah Khan wrote:
-> On 8/7/25 02:14, Laurent Pinchart wrote:
-> > Hi Benjamin,
-> > 
-> > (CC'ing Shuah)
-> > 
-> > On Thu, Aug 07, 2025 at 09:53:41AM +0200, Benjamin Mugnier wrote:
-> >> On 8/1/25 17:04, Laurent Pinchart wrote:
-> >>> On Fri, Aug 01, 2025 at 03:53:26PM +0100, Imene Jaziri wrote:
-> >>>> Add a pr_info() in the uvc_probe function to trace when the
-> >>>> uvcvideo driver is loaded. This is for learning purposes.
-> >>>
-> >>> What part of the learning instructions you are following instructed you
-> >>> to submit this patch to kernel mailing lists ? We are regularly spammed
-> >>> by similar patches, which indicates the instructions are not clear
-> >>> enough.
-> >>>
-> >>
-> >> I got curious too. It comes from the Linux Foundation training LFD103
-> >> [1]. Chapter 8 describes this patch pretty much, and chapter 9 describes
-> >> how to send the patch, but with a warning not to do so :
-> >>
-> >>    [...]
-> >>    At this time, you can run:
-> >>
-> >>    git format-patch -1 <commit ID> --to=maintainer1 --to=maintainer2
-> >> --cc=maillist1 --cc=maillist2
-> >>
-> >>    This will generate a patch.
-> >>
-> >>    Important Note:
-> >>    Please note that this is just an example. Don’t send this patch upstream.
-> >>
-> >>    You can revert this commit now.
-> >>
-> >>    Please refer to the Select the recipients for your patch section in
-> >> the Submitting patches: the essential guide to getting your code into
-> >> the kernel document.
-> >>
-> >>    When you have your own patch ready for submittal, you can follow this
-> >> example process to generate the patch and send it upstream using the
-> >> following command:
-> >>
-> >>    git send-email <patch_file>
-> >>    [...]
-> > 
-> > Imene provided me with that information in private.
-> > 
-> >> Looking at it I guess it's pretty easy to miss the note.
-> > 
-> > Yes, reading the text, I really can't blame the people training the
-> > course for missing it. It's a bit like if a mushroom foraging book said
-> > 
-> > - go pick those red mushrooms with white dots on the cap in the forest
-> > - cut them in pieces, pan-fry them with butter
-> > - add a couple of eggs, salt and pepper to make an omelette
-> > - the dish is ready ! enjoy your meal !
-> > - you won't be eating that, it's poisonous. throw it away
-> > 
-> > :-)
-> > 
-> >> Maybe
-> >> requesting to add '--dry-run' to the git send-email command could be a
-> >> simple fix to prevent from copy/pasting ?
-> 
-> No question that the material is confusing. The material is in
-> a publicly available fee course.
-> 
-> > I've contacted Shuah, who told me she updated the training material.
-> > Hopefully we'll soon stop getting such patches.
-> 
-> It is fixed now and the spam should stop. This course has been in
-> use for 6 years, this is the first time we are seeing spam.
+New v4l2 controls for HEVC are added to be able to send the missing long
+and short term RPS information to the driver.
 
-Just to be clear, I'm not blameing Imene here. I've received quite a few
-similar patches over the last years.
+Both controls have a dynamic size to send up to 65 sets each.
 
-> Sorry for the oversight that resulted in spam.
+The controls take raw data as they are read from the video stream.
 
-No worries, it happens.
+Changes since v2:
+ - Fix long lines
+ - Add videodev2.h.rst.exceptions entries
+ - Add v1 changes
+
+Changes since v1:
+ - Separate long and short term in different controls
+ - Use raw data to let drivers format the data how they want
+ - doc: Add array information
+
+Detlev Casanova (2):
+  media: uapi: HEVC: Add v4l2_ctrl_hevc_ext_sps_[ls]t_rps controls
+  media: v4l2-ctrls: Add hevc_ext_sps_[ls]t_rps controls
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 114 ++++++++++++++++++
+ .../media/v4l/vidioc-queryctrl.rst            |  12 ++
+ .../media/videodev2.h.rst.exceptions          |   2 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |  18 +++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  10 ++
+ include/uapi/linux/v4l2-controls.h            |  61 ++++++++++
+ include/uapi/linux/videodev2.h                |   2 +
+ 7 files changed, 219 insertions(+)
 
 -- 
-Regards,
+2.50.1
 
-Laurent Pinchart
 
