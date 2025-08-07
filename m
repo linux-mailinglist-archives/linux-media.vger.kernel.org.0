@@ -1,285 +1,213 @@
-Return-Path: <linux-media+bounces-39057-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39058-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA37B1D9C6
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 16:15:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FC4B1D9CA
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 16:17:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 323DF1898C17
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 14:15:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5136584A42
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 14:17:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 708F0263F5B;
-	Thu,  7 Aug 2025 14:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 679C41A2390;
+	Thu,  7 Aug 2025 14:17:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NGZNk1gg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a3JgVtHg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2056.outbound.protection.outlook.com [40.107.236.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC7C14884C;
-	Thu,  7 Aug 2025 14:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754576118; cv=fail; b=GkwxI52ohO8wYp92eSR8srpgtsiq7pJ1o+PabcAtZonF8o8sB9Z7VOmBFd5ectZmnjhmKvZjGwNQjr1kPQghuHpCjo33ooKAGzW88rwEXtsYJyJ5rCqSmuPTKfopH3Zuck3us4P+lWYJs0ojwqxVzbmA981tT3jiyQTMhHS8A4Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754576118; c=relaxed/simple;
-	bh=mJMncq3c9MwMeDG+izr/JUk0peZ8l+Q5CdjbcO3V6cE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=G4xGJ8Y3ZD/RmfB03LCqBpAKvdNDHHEdHL2c9iUHWyh0ESShFSCxtzd0p3io0wu1iaAHv7HwacWGFjxQ4eyEZ04Q6rY1rV/86zJY9Yo9wUlHacD95HeqpTWLvKuvMCN3l3ttGpu9IN+uWesno4jrvIwS/qqUX8mze2HsbZCQptg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NGZNk1gg; arc=fail smtp.client-ip=40.107.236.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xlG/jX9gTgrFCODU7utU9EhetrTfzLYpP1HnsuEl03KbKlu+YvOP5jXj4w9gpaR/0SlDlZut8bgIOnwQ/dmp3Xz8cAYpzXS+duLj7WG5IkaCGZOFdPDozVxu3C2QIXO9s1uAb17MeKUUtrEMRQjZu4MaUn7poUwcrsjdmaKTs0SZhyKs0FDtJlFG1hwsz1EAkJHsST6DqRnH4ijd7d4j+2PbKZdP9G6HLD7kPghYtP5JJ5/Cm4GbumIPdcUs/9vQvc6kIfkI913REINzYqkS3SjX5s7+RiFZSCPe3rSWeiQOlCxDHUwVgKv5+j1nPQRVOH0BNHhXgqBWugImLLgonQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=myy4H46A2jJHcM50tCJLGXaElsSzqN33PGdnzskVQAI=;
- b=DudT/COE7oq/q8blqBufLIy8ycoK1RGrYjde5X17Fjeq56Wgk/15s48PoAHi1wuwjINSgBXdaam4kqSQJbtsEl5zalzp2hKWcwCZB3vqVSw8BnXgPSp3YMGLgjTQ2DHdYiay327KUscNNGqCZEwfQhzk/iHrE868yWSgnrr4+eANstmnyULE1ti8o1ElF2imEKRPtt6fbOWz/ZogmizFO4LJC8tsYRyk8rZGWyrlnQdVa54r5IloVYhnp7y7pEinsUjMyzX25Fkg4kTNem+lAx2oR1JnkAzT8d7i0Dehxwi/tRi/x79Tj9913RcL/ZijyM/y38fLPHEIbc2WxP4NPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=myy4H46A2jJHcM50tCJLGXaElsSzqN33PGdnzskVQAI=;
- b=NGZNk1ggRhlfi3u2aoOmcLUjg8PEG1obXzRttKXcKqtioBfUbVZsskW4jbNMjOie4b5ch4KZ9HR8T1IBoIfQbsFbMusiV4oV3tWCNBIX8Mec/2/CSKcnkAm8M8Kp7ucXdfQn770Sm/fkVQ/c8U9eOPvbMX9IlFP5fXvM36IiSbQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH2PR12MB4325.namprd12.prod.outlook.com (2603:10b6:610:a9::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Thu, 7 Aug
- 2025 14:15:14 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8989.018; Thu, 7 Aug 2025
- 14:15:13 +0000
-Message-ID: <9caf8709-91ef-445a-aa4e-aede1899f364@amd.com>
-Date: Thu, 7 Aug 2025 16:15:06 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Extend and update documentation
-To: Philipp Stanner <pstanner@redhat.com>, Philipp Stanner
- <phasta@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250724140121.70873-2-phasta@kernel.org>
- <f064a8c305bd2f2c0684251d3cd2470699c28d5e.camel@redhat.com>
- <5fb872d0-9b0a-4398-9472-eea3fdf61940@amd.com>
- <c1f7c4adaa0ac8d1994046436da8eb64bba5e06e.camel@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <c1f7c4adaa0ac8d1994046436da8eb64bba5e06e.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0053.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136402B2DA
+	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 14:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754576238; cv=none; b=lx1PLrbG6MnlJNZvugJ/RHDYXxSY3SJSiXBvgAZ0eXDK27vUNPwxtShmd9vx3UM/5aFajfurCm8RA1Z+xsGjp3SkKRqgTZ0iMWEYsTgyZ2g/2gYcVsK9MJlmtdi0HFBv6rdRk3LSYbQHhiC6Qe0FhYfSIsxSI2HAHbsus4ZYljg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754576238; c=relaxed/simple;
+	bh=J8ImUBo6k11PmLTRi9ueapBPrpFIObd3Z5925Bgdke4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bccxuKu+YRwDh0N5qGRFkaIsyMV7G9BB0hRe85BIFV2dN5eZW5bOxWui9zLfa6xUZ9fnfNEHmA9uWr0BTzZUsZSichFDTOeVGWsC0FfIDqjmnWQlitMian3yx10236TUw26s2S8FmuAnILs6wh570GUcL/MwwiOeSGmpGxjoikg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a3JgVtHg; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b7862bd22bso1076288f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 07:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754576234; x=1755181034; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5DMkxCmKEcDzAQwWDeiQkackfhplB7h7dFl1ES31WYs=;
+        b=a3JgVtHgE05Y2/8YHSse7V//BxupdCTBLBfdsfzeI1lkH5JZUfqonEW0R4JsXf/2pv
+         vH4bLPWFzjLESKdX1V27RQQ4MTku9zSymn8vEkjDL3TlQNajfDtuOVapYjscWTduJcpU
+         twCjDK1GGCp3eRjHJIseylLAJdhYmS800vise2j6mi84pxJBCHNVToRnilqc8ZxsXssX
+         JHfyJSArrbciZ715J4vA9po8XG39h4XB0YYvo6ouqo7kB2nALeCFQJj5pAl9wgJhgwz0
+         wLMoU3WjS1XrNsLQNMp/rbMqDa0gIyscU/ch8IbjJCIz+4y2G6DuFAJg/tSmyJDZR0LH
+         oY8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754576234; x=1755181034;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5DMkxCmKEcDzAQwWDeiQkackfhplB7h7dFl1ES31WYs=;
+        b=rnoAYAyTBli7kQMOjpOqHTwqlrrPUBOorf013Rb4331etk/g2hKgoFjHpWIXroy6GJ
+         7pG9hU6tRdWM06Lg6tz87x9pyCIx0RzgJTeOx/FFCp+01xpNPpdgYPQYftMH0skIgxWJ
+         tMQs0o85ujGemjMZT49yNFMaynmLOxkAYzZtW9wS69pDwnkaovqdodvovPLDFaNOU9s6
+         Jdv67anxnSPDRkSYWD3lD/4qLezqKEFGjH6MvDNsftubOW7DuPg7j6e2YECM9XG389vg
+         1fVSu1vnSKEi6oUxv4eZdO7eIj254HpFUNCgYQTe38+7QATD6gPbGPp1XBxdGb6tU2ne
+         cXdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpEM4rif9feErrWG68cbwchgn7cpz8sPqlKyvEowr+/pnr6LjjIJeSPbSEgi7zTbr9Zb2IAlEV7u8wyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvK5JiaajYQxsG3Ci5lpOqdq5VBP/m6ABVTHSDeSv1Tki3Nh9V
+	hPFzS3Kk98LS34Todhbgu9Tfi+iIPJTdeKu8avx7vwsPyy8xy9mvKaADT84tLsCFUrE=
+X-Gm-Gg: ASbGncu06rtAPaJym/vt5kMi+/lHxeDZkspy9kqJIUK1MlyoEYSOLcJo9tOojWZaeA8
+	ybHUMT4YtD1HqLxvp/LfJZKlmv5/JnLMpVP/VYW8T8nzsBnAwLqzfbLz52F+JJQ4Oh+XtG26UL2
+	SATo7EV2LBaO1hrznhlzRdE6JEuwxVaA6KD1Gy3LAT+SkWUa8YyFr9DQK2Om7ThyO5wBWOSvxme
+	f/TImQ93aSXkyHbKv0RoI/4LkBTU7s/kJ9oLU6Fhy1Oebrsvzqd8YYC/wTrOLIehyeell5bJNTV
+	dGQUbP6UAIaSrYef59OEj3oSR2FkAaHtSlZ1PaD3xrq9FNMMb5J0kqCbH27YP3eVppnpN+60Skq
+	oU2A+H+6QMPp+KZIx3urCGz23O46SW6mbztyXcqd2ktzZbROzwf/hXQH/b5PMtBfaJUfYSpWQgC
+	U=
+X-Google-Smtp-Source: AGHT+IFz6uCC0YYRe9nWXy3/iGewWRQEgH33Nf36nFwo6jhM8HFNPyL4Wp6EentkfsIY4v5Ki9fvjg==
+X-Received: by 2002:a05:6000:2c01:b0:3a5:8991:64b7 with SMTP id ffacd0b85a97d-3b8f97f50c7mr3782203f8f.26.1754576234128;
+        Thu, 07 Aug 2025 07:17:14 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:5bf9:b40c:d741:ea95? ([2a01:e0a:3d9:2080:5bf9:b40c:d741:ea95])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c4533f1sm27292199f8f.42.2025.08.07.07.17.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Aug 2025 07:17:13 -0700 (PDT)
+Message-ID: <eb42d052-1fe0-49a2-9a83-05c5a5b7394e@linaro.org>
+Date: Thu, 7 Aug 2025 16:17:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH2PR12MB4325:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f8a2182-bab2-4a5a-af04-08ddd5bcd317
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bFZBYUtxODNhZW52YUxVbUhiY1oveTZUTmFwOW9ZbUEycWxzNWNkUU9NZW1t?=
- =?utf-8?B?M1RXWnlvelg5WlB5b2oxb2NEcGtnMW9tZDFMVjZnYjE4WnRzZXFDUit0bkNx?=
- =?utf-8?B?b1JpbElDektlN2ZqTU9pTFRHVXJmNW1nSFZ3bjVzdUVyTmNlRDZXd1pad2NB?=
- =?utf-8?B?Nkh2MVZrTVBIb2hQZ3Q4YXYxRjA2QXRNQ2lWaHBselRlNTl5NWpzWmgxaXFC?=
- =?utf-8?B?bExPa1F0b1RXSkJXdGNmWmEweExDMG1QMlRUbHdZNlVnU2FXV1VlUFVUZFoz?=
- =?utf-8?B?VGxpMnNXZkJzMzBwbksyNnQvNHNITUhYVmI1cVVCSTVXczJFdm85VUViNDN2?=
- =?utf-8?B?eTJkNDlmVFUxZ0djUDRlUlVxMk8wayt0WVFwMlVIM2VvVFl5MGorL0hQY2Vi?=
- =?utf-8?B?WTVoS0tkVDNMdFFBa0RkOTdjOFMvZUZrYThFb0drNmlkbEROR3JiM2phdG0r?=
- =?utf-8?B?Tk82QUNtT0VtRGtYaWFQVkREb2hVZ3ZhSTUxTzN6K0pTVmZGZTRvNnMybjJr?=
- =?utf-8?B?RjlvMDBMNmluOUNpdlhndi8vWmF3SGkrc0FBa3NFL1NzM0t4WlZyUHAwUHc5?=
- =?utf-8?B?eG1ESjl3TlE5aVNYUWFVV0lSYUFYOTlNK2RGeCtMejNiMVVoaTVNT2hhVTRz?=
- =?utf-8?B?TVp0TzZUTHl2UDJaeHRrRFdEdm00VEFvMm9FeEVWdzVqblAxMElJelNWUzRB?=
- =?utf-8?B?d0hDb2ZrUW9mdVIvM0RnNWo0d2MxaTFoSHlkNWJldWpUbElQa05RSEcyRXM0?=
- =?utf-8?B?Vm1lY3RpbXJleDJPM3dVNnpJc3RONVI5R1FTUjdGbFVCRkNOM2dndm90Rmxy?=
- =?utf-8?B?OEhYTVBVUUgzNHBYK3pieVhhYXQ1NzBuY3kvcDRLMk50TzVsd3VqSmZNVFk2?=
- =?utf-8?B?UTJDa05lK2RGNTNPVHVmaGtiakQrMThXTU0wdmhsSWFXdWZoODZ1cUkyZlJW?=
- =?utf-8?B?ZDFhWVp4Yjh4S0E4Tlh5dWEzd3VYcGlhRDNSeW1hQzNOUUZ0OGZvUVVxeDdl?=
- =?utf-8?B?OG1iczFxSE5QV1hKdUtnNmNZdStGLzdDZ1RkVXJBWGY3YjZhMmZ4SFBHWTM1?=
- =?utf-8?B?T2xVS2w4SW0xcjcyY25wZ3JKNTZTRmg4UytSZTVYRzMvc3VVb1Rnd2xSRHVn?=
- =?utf-8?B?dUJKaURUbjdoYXNnMXpqM3VBUGZwTkp6dmlwSVpMRTd3SEJwWkNjMjFHU2Fw?=
- =?utf-8?B?ckhNUDFyR1NmS3ppbnBjYm1pMlNNcUlRbGovNktJNC93bjFQalI5VjdZT2l1?=
- =?utf-8?B?MXhyMXc4VlcybUk4ejdIYnYrSmoyTkIveHVjNG9OSjQxQVRrUjRzZGhwcHlE?=
- =?utf-8?B?L0JqZ0pDUVhpVmYyR3lyVXlNTHZ0TVdQeittRzFvc0t5K1ZWS2xXY1E1WkFD?=
- =?utf-8?B?RlF0bnpTb3hKRkc4TVZMWDcrMnNjQThmWHdwRU5Rb1dneURvVnFpK1F3Q1pr?=
- =?utf-8?B?YTNpTWl1b1hUSlJHSnpZUzh1RlBIeWRRc2NVVmxSR3pPT0IxdHExUEFTTk9z?=
- =?utf-8?B?blR3OXBVc3BSMVVUTGYzME9lSzZRRHZrRUkvdlBXVk8xamw0bDhNUGQyZkxk?=
- =?utf-8?B?WkxWM2x1YkNNWEp0VDdnUGdOeGlYc2pad3J4eS9UQ2RmN3ZjblNqbVdEN2pm?=
- =?utf-8?B?R1I1VEx5WE02azdzeGp2VGlySUkrSklmRnpjdmtxWUFLRlN6Mm9tZ3VsZzF4?=
- =?utf-8?B?TVNzRXVsZ2lUckNjTlNacVZOSXF3SG1GcWRFRldtMXJXeGpjZGY3Nm9UZHZ3?=
- =?utf-8?B?YzRLUVR4NDlUcTBVRkNzOWFnV3grWmNieGVaSUdqMVBkVUpRQ2h4T2c2VUFU?=
- =?utf-8?B?Ni84WWxnQVhQSUZyM012amx0OVFRY2g0NUgwQkI4UlYydXFwZ0NnQ0JyYWN5?=
- =?utf-8?B?TUtKbm9vT1J4ZVdabE5sM0Vnc2piTENHbmxTL2h0RXZTT3dZamlWNURxZmpr?=
- =?utf-8?B?NWFCSWZrSGx3bXI2bHRWYWtPRE9kemVBSGYwTFRxZjQwV292eVpOQkRycE1x?=
- =?utf-8?B?NjhHQkI5dWZ3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QTFNaFpMTU1uV2Nmb1RYem4ySUZtUXhVNGE3YnNlZnhtV0NSeURyVTR4WXRT?=
- =?utf-8?B?NVdRWXpPQmk2czRzZjFMbVVDL3BYZUltVnJ0eE4rNy9ocW5wY2JhM0lCa0wx?=
- =?utf-8?B?VDMxRlptYVZGOGZabC9YWXNHRWVBdGd6L0tkYVVKa29zZlVkdHFLM2NOaUxS?=
- =?utf-8?B?aXRZU0tDWndob0Vyb1hhMmhBbWxmdWk4UFFTTC9kS05MN3RvbTJiaUVsaVZz?=
- =?utf-8?B?Vk52L0tBaThqRWdyUVlOampFZkdDVUdzL2VTU3FUYlNYcDZEUE1rMmJPRUZn?=
- =?utf-8?B?WC9QRXBsblY2ZlBDT0xWcTBRdGk4WXN3WDZrbGdPMzZjR1FEbUNyelVHUXlK?=
- =?utf-8?B?b05mSzFtWjJ5ZGZ3N09MdGdGcjdsZDI0U0pGQTQ0ckNLcjJmc2tFdW5YV1VS?=
- =?utf-8?B?ZFB6TkgybzFlREJOMlgrK2ViYUhVSUpwYldLM1ljQ2YzdmdYL2tDL3dwaW8x?=
- =?utf-8?B?dktYOUZnQnVJVnBMU0FPY0JqeGIzWU95Qmw1OUVsTHQyeVdwdGJ5OWMyRjR6?=
- =?utf-8?B?OHdzQ003YnhwUWhxY3dIUngvWVg0S3Mvb1lleXdaUkRUZnloYmdDNlJFdmRo?=
- =?utf-8?B?L3YwL25MdjJqVlZMZWd5NTNqemVzK012N1pER0tOUGFodnEvRU16ZXB5NHZD?=
- =?utf-8?B?YUhCWlg2UHA1UXUrZXJzdzlnZW9UY1Rtbmo0cVhlR2N1aFRJR0Q3cDZDcThN?=
- =?utf-8?B?WVpwaWwxZTNCWi93MHBPZzA3MkdRekJoM3QvNFVoRWhKcWczRG5OUFY5RWNV?=
- =?utf-8?B?YkxZNlVtS01od1lGdVZaN3NsajR1QTBNSUpNK2hQamdHdTMvdTllcGNPS0I1?=
- =?utf-8?B?NWNRajVnYzlyZWZUeE9TZEdMUk1rUzJyYllRSHFSNWlNRS9tVUxnWDhhcFlv?=
- =?utf-8?B?dlFrelVEOGJQY01CRFVpYlllQldrKzF4ZUR4OVVOeXNMbXNxS2dLSUJ3L0Fr?=
- =?utf-8?B?Q2hEQlc5L2RkaE1DcTU0Mkw5b0hVV3ZyODVBektqMzdHbEJVQ1BNRE5vSGor?=
- =?utf-8?B?VzNZWTU0YW91akRCL3A4U1ZNZmp4NUlacU9uOWNTMlRTWWpvR0xVaHNQcmpP?=
- =?utf-8?B?TEJQNlRKRWx1aVFOcnB5eEpPZ3REZXJkVk44bExQWGhLSDRLYndrMnB4VGRB?=
- =?utf-8?B?TmVZTmRQbE9qTFkxWjhBQ0JGNERvWTNXY3AwTVVNRWN5VmdoUFRxTEU3b2ZY?=
- =?utf-8?B?emtSN25pV3YyQTlXem5Wci9MYmFVR2N0S2JlWDd0Mnd6UzhOYWNzSjA0Y2J5?=
- =?utf-8?B?SEhtUlJjdVRySS81cVRxRjRNdnIvOXNBeFZSY2taVGRNMERmcDZvaXloWXgy?=
- =?utf-8?B?bVRobDBpZEt6M0l6WnhyUkNLR2pIVGU5c1gzWUlDRkJJeDRJNmp2VFIvNXlW?=
- =?utf-8?B?OERGU1l6ZC83cGFxT0Rab2ptWDZoQkpDWi8waGhpdHd5Mk92NUQzdlRzdktV?=
- =?utf-8?B?V3pPKzlRdldZS05hYzF0Ny9UZVR2VC9oYjdmT1dPcEFFQXlUWjM2aE54ZGVo?=
- =?utf-8?B?SHpZT0VzUHd2MkFUNDFncTJXdTl4Yy9BbVZucTcrRkVPT2w4d0JUaHVqRHBa?=
- =?utf-8?B?dFdRRmlwS1NBWVhVQ0s5VWhLTTMyd2tXaUNXUi93cTU3U2FvS2RocDFmb2k0?=
- =?utf-8?B?dmtQUzdibk5RamZWa09sc2txNVV4Zm9ObkFvMHhJR3pkSS9VcGJERVNKYWxw?=
- =?utf-8?B?eTVBWFZ6bXBmQVdaQkUxdGFJN2NBWS9acUl4VjZUU3RJb1Y5czlYczY3bXRQ?=
- =?utf-8?B?dndIYWNBT1liMCtnay8rMWllOWZaejNyTDhvS21lZ1dNeFhUNEhJUnhEZCsx?=
- =?utf-8?B?U01wNWllcWpaMUxnZWVVS2c5Nml6TEErZ2FjRjdHQ0JZSG9TNkZ4clU5djln?=
- =?utf-8?B?dXRGbHc4RlFzSGRFb3B3ZnBTU3lwaUQ5ZzV0dHgyTnc3aStBS1p0K1JXZ0hS?=
- =?utf-8?B?UDVaakJLM0oyM01QSFZOck9mTUZTKzJnV2YxMHlESzJSYkgxbGNZOVNiNlBi?=
- =?utf-8?B?NGwvbUp0aW9oUmZlQmdCZnpFcENLVDZ2N1VzS3FXRE5sUG5BalFubC9oYjhG?=
- =?utf-8?B?WWhKSkNxdmgySkJlV3p1YWtNVVZGaDRkRGQxeGozSCtONzFCbFhPU3dXR21n?=
- =?utf-8?Q?hZ1V86wqf5DEGKtzrPK1qidcp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f8a2182-bab2-4a5a-af04-08ddd5bcd317
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 14:15:13.2318
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iQI5zHHYr0KMCk7zUt5c28VSdUEYGI5zx5+SoHrqagh0v8pDXmjyZl/tdm2LYE5J
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4325
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 09/10] [RFT] arm64: dts: qcom: sm8250: extend CAMSS with
+ new CSIPHY subdevices
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
+ <20250612011531.2923701-10-vladimir.zapolskiy@linaro.org>
+ <dcc33f04-1b19-47d7-aca2-03d38173b6b6@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <dcc33f04-1b19-47d7-aca2-03d38173b6b6@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 05.08.25 12:22, Philipp Stanner wrote:
-> On Tue, 2025-08-05 at 11:05 +0200, Christian König wrote:
->> On 24.07.25 17:07, Philipp Stanner wrote:
->>>> +/**
->>>> + * DOC: Scheduler Fence Object
->>>> + *
->>>> + * The scheduler fence object (&struct drm_sched_fence) encapsulates the whole
->>>> + * time from pushing the job into the scheduler until the hardware has finished
->>>> + * processing it. It is managed by the scheduler. The implementation provides
->>>> + * dma_fence interfaces for signaling both scheduling of a command submission
->>>> + * as well as finishing of processing.
->>>> + *
->>>> + * The lifetime of this object also follows normal dma_fence refcounting rules.
->>>> + */
->>>
->>> The relict I'm most unsure about is this docu for the scheduler fence.
->>> I know that some drivers are accessing the s_fence, but I strongly
->>> suspect that this is a) unncessary and b) dangerous.
+On 07/08/2025 14:37, Bryan O'Donoghue wrote:
+> On 12/06/2025 02:15, Vladimir Zapolskiy wrote:
+>> Following the new device tree bindings for CAMSS IPs introduce csiphy2
+>> device tree node under SM8250 CAMSS, which allows to perform camera
+>> tests of the model on an RB5 board with an attached vision mezzanine.
 >>
->> Which s_fence member do you mean? The one in the job? That should be harmless as far as I can see.
+>> Note that the optional 'phys' property is deliberately not added.
+>>
+>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>> ---
+>> For testing only, do not merge.
+>>
+>>   arch/arm64/boot/dts/qcom/sm8250.dtsi | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> index f0d18fd37aaf..401a32679580 100644
+>> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+>> @@ -4613,6 +4613,10 @@ camss: camss@ac6a000 {
+>>                            "cam_sf_0_mnoc",
+>>                            "cam_sf_icp_mnoc";
+>> +            #address-cells = <2>;
+>> +            #size-cells = <2>;
+>> +            ranges;
+>> +
+>>               ports {
+>>                   #address-cells = <1>;
+>>                   #size-cells = <0>;
+>> @@ -4641,6 +4645,16 @@ port@5 {
+>>                       reg = <5>;
+>>                   };
+>>               };
+>> +
+>> +            csiphy2: phy@ac6e000 {
+>> +                compatible = "qcom,csiphy";
+>> +                reg = <0 0x0ac6e000 0 0x1000>;
+>> +                clocks = <&camcc CAM_CC_CSIPHY2_CLK>,
+>> +                     <&camcc CAM_CC_CSI2PHYTIMER_CLK>;
+>> +                clock-names = "csiphy", "csiphy_timer";
+>> +                interrupts = <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>;
+>> +                #phy-cells = <0>;
+>> +            };
+>>           };
+> I don't think we should make this change, for CAMSS in general and specifically for sm8250.
 > 
-> I'm talking about struct drm_sched_fence.
-
-Yeah that is necessary for the drivers to know about. We could potentially abstract it better but we can't really hide it completely.
-
->>
->>> But the original draft from Christian hinted at that. So, @Christian,
->>> this would be an opportunity to discuss this matter.
->>>
->>> Otherwise I'd drop this docu section in v2. What users don't know, they
->>> cannot misuse.
->>
->> I would rather like to keep that to avoid misusing the job as the object for tracking the submission lifetime.
+> Instead I think we should go this way:
 > 
-> Why would a driver ever want to access struct drm_sched_fence? The
-> driver knows when it signaled the hardware fence, and it knows when its
-> callbacks run_job() and free_job() were invoked.
+> https://lore.kernel.org/linux-media/20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org/
 > 
-> I'm open to learn what amdgpu does there and why.
-
-The simplest use case is performance optimization. You sometimes have submissions which ideally run with others at the same time.
-
-So we have AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES which basically tries to cast a fence to a scheduler fence and then only waits for the dependency to be pushed to the HW instead of waiting for it to finish (see amdgpu_cs.c).
-
-Another example are gang submissions (where I still have the TODO to actually fix the code to not crash in an OOM situation).
-
-Here we have a gang leader and gang members which are guaranteed to run together on the HW at the same time.
-
-This works by adding scheduled dependencies to the gang leader so that the scheduler pushes it to the HW only after all gang members have been pushed.
-
-The first gang member pushed now triggers a dependency handling which makes sure that no other gang can be pushed until gang leader is pushed as well.
-
->>>> +/**
->>>> + * DOC: Error and Timeout handling
->>>> + *
->>>> + * Errors are signaled by using dma_fence_set_error() on the hardware fence
->>>> + * object before signaling it with dma_fence_signal(). Errors are then bubbled
->>>> + * up from the hardware fence to the scheduler fence.
->>>> + *
->>>> + * The entity allows querying errors on the last run submission using the
->>>> + * drm_sched_entity_error() function which can be used to cancel queued
->>>> + * submissions in &struct drm_sched_backend_ops.run_job as well as preventing
->>>> + * pushing further ones into the entity in the driver's submission function.
->>>> + *
->>>> + * When the hardware fence doesn't signal within a configurable amount of time
->>>> + * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver should
->>>> + * then follow the procedure described in that callback's documentation.
->>>> + *
->>>> + * (TODO: The timeout handler should probably switch to using the hardware
->>>> + * fence as parameter instead of the job. Otherwise the handling will always
->>>> + * race between timing out and signaling the fence).
->>>
->>> This TODO can probably removed, too. The recently merged
->>> DRM_GPU_SCHED_STAT_NO_HANG has solved this issue.
->>
->> No, it only scratched on the surface of problems here.
->>
->> I'm seriously considering sending a RFC patch to cleanup the job lifetime and implementing this change.
->>
->> Not necessarily giving the HW fence as parameter to the timeout callback, but more generally not letting the scheduler depend on driver behavior.
+> With separate standalone nodes, and reuse of the upstream PHY API.
 > 
-> That's rather vague. Regarding this TODO, "racing between timing out
-> and signaling the fence" can now be corrected by the driver. Are there
-> more issues? If so, we want to add a new FIXME for them.
+> I believe you have a series for the 8650, please rebase on
+> 
+> https://lore.kernel.org/linux-media/20250710-x1e-csi2-phy-v1-1-74acbb5b162b@linaro.org/
+> 
+> and
+> 
+> https://lore.kernel.org/linux-media/20250711-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-0bc5da82f526@linaro.org
+> 
+> V2 of the CSIPHY above will incorporate feedback from Neil and yourself on adding endpoint@ to the PHY however I think we need to have a conversation about standards compliance at attaching two sensors to one CSIPHY without VCs or TDM.
 
-Yeah good point. We basically worked around all those issues now.
+The PHY is able to setup 2 lanes as clock and connect 2 sensors over the 5 lanes available, like for example:
+- lane0: cam0 data0
+- lane1: cam0 data1
+- lane2: cam1 data0
+- lane3: cam1 clk
+- lane4: cam0 clk
 
-It's just that I still see that we are missing a general concept. E.g. we applied workaround on top of workaround until it didn't crashed any more instead of saying ok that is the design does that work? Is it valid? etc...
+Any lane mapping is compliant. There some Meta slides about that at:
+https://www.edge-ai-vision.com/wp-content/uploads/2024/09/T2R10_Kumaran-Ayyalluseshagiri-Viswanathan_Meta_2024.pdf slide 13
 
-> That said, such an RFC would obviously be great. We can discuss the
-> paragraph above there, if you want.
-
-I will try to hack something together. Not necessarily complete but it should show the direction.
-
-Christian.
+Neil
 
 > 
-> 
-> Regards
-> P.
+> ---
+> bod
+
 
