@@ -1,168 +1,174 @@
-Return-Path: <linux-media+bounces-38988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-38989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4C6B1D213
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 07:36:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E8BB1D22A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 07:54:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3424A72517B
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 05:36:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50C5F580173
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 05:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7A01214A6A;
-	Thu,  7 Aug 2025 05:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8675B215F4A;
+	Thu,  7 Aug 2025 05:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ED7htlSd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIu1Vazf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7941F8ADD
-	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 05:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BB533F3;
+	Thu,  7 Aug 2025 05:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754544982; cv=none; b=JKa2ua95L7NOFkS1DoIqTNqSWJW6VDwfrWSEmpP/DZ+up9hIbT7QSfUt0UsIRTHAXenNIj5HVImPinSG8JhEyfv0tJnpOt8c8NwxotmhwW8/87ThjbDRvSsMM4M2BTaaMA4UYyzOmLxF5MlyjkWE7O5pMSQo9LPx9e/3aWqJIVw=
+	t=1754546043; cv=none; b=d6W8s/2a4GDObbesZoGZpeaO3ehT5kuOGSsy1qyJVsjEO8onJHGWZmkCKv1R0U3VUJMWggJkpj+KmD8rxU1+hE0IpKkOHeqABF2o5ur9kVSENVPWG5C2lQ9TjkKoUykwFv/5WzpqbjVe8JDH98eFVC1XXeQjYxQIKpzpz/pXwaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754544982; c=relaxed/simple;
-	bh=hBdkyxc+SMi+zWG2hEQIQ7ioQV7w1x6uk/Zx2DS+uKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tq7z4s8qPfQkPDPzzCYAi36NUvzIhJCcPsVHouZD2u4dnR9FaNtRAddk5ZXDRKXdwsMSWaqYgjtZvQSiDjHsyo1LdvvPni0VFuXztry2ckVIOe2cjA2PxU3KRe6n7GQjg+0+CJJxba8o/G5ewSaa2GuLKUpBvV8nZrej3UfmddU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ED7htlSd; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5772VGRi013189
-	for <linux-media@vger.kernel.org>; Thu, 7 Aug 2025 05:36:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=UxZeQQVAmBavdpLJSCBxurMh
-	Vns7iRlr3w0iJRJhDDw=; b=ED7htlSddzgYdLewfK9+dghQeRB9D2fcgN5QpsGR
-	7itCFpfsule34dfad4JJ4K6XQOHfQkq2xltTUXrvZPnwFbSF4DF0drY4xKt1UoK2
-	H/dkcBBV0uBQqOn2hxkHb8cloOFvHIVZXODYG5BnlK2lwfawPpAk65IZ8+gW4HBx
-	IV1wenqR57x1BMujGnfZATPk+SLkF0T2+7CGEUM9Y4MH4l3osJ23YZBd4Eihmmjc
-	fPo4AW+xNOW2JwplaUPzHgRvAVwPRbxMxe8n42baslouNkaD0ODlbfwlTSCW9r4B
-	6WwVnVqM5NHa7fFKiVeQq2eHqeQk1S/Y4Oj33Y+1byatSA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpyad2tk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 05:36:19 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-24249098fd0so8112175ad.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Aug 2025 22:36:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754544979; x=1755149779;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxZeQQVAmBavdpLJSCBxurMhVns7iRlr3w0iJRJhDDw=;
-        b=ogBkvXCPzoucEzHTuFec0HPQV8DT+s4vlKa3iG9SPPU24ICzi3Hq2BctuFJy6rxgkU
-         TlpUL/m5LtN8KusyCF96s1U90LiKrdJzUBkldznNcM20NdgPSwt8NRdhTIIfoulzPmNK
-         /NgKc1oFOBzSwv5orppNRYY5zYYZemBz3w2XwnWE7hzua4RPhMJRHdtPz358W+u1qujO
-         2+mVDT1Ue1L8KM0gGrqVZzYxtyBHk6y2/dZJa5cmX2n/7PMPajNVHImoYCyUm/DmCV5c
-         7XuAnSBSE00ovq1D6U3gNCELjax7ijyA1HT+ubs9l+GK34+5JXCCF6U7HtSruOggnXsQ
-         mOyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmtifbar5VQXaW9wuAGc3MR8xEho80pCCVehc6r3nG4DTdUGNbiCpWcv2GVdf5ZHDJfTme9ISFAsmWSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMct/UudTg+gJ0/numeDaH9zcyvRhPf0c5mKAl1DzuHi2sXzE6
-	WyTLXpaKrua2SmHMCYfmpfeI5di74R0KEQjXYkaXbhAWh8jfSM2nAtAvZbANgAjFtq1W4RHvd8U
-	tNUIP4We1o/xTb1GCr//5kl1jTGZVIzpMiuz8QdPUm4B4JHNcyDvvYDoHxAPopFhW2g==
-X-Gm-Gg: ASbGncvjMWjNo2dIKFfN0MaO0SIINbQbPh2nA/3Gp/bgGaWq2vBw9pFNeI6BYoVwf11
-	gQXdQDeS2+DRfoAwEB/m6y1u76r57PKuXRrUSoSpqkegmRqN6FBEmGN19tgHOHIx4GW9v9TkE/p
-	+z67Iwkyblx7++G9nBIHnM+aCs7t6vW53ashUyY6yOmsjUd9e5DQklWFBRvhyrZ/OujTlCle5dW
-	tCIVu9ShO5kBJGRF97ffVesTq4droeeSHJPVyqGoOEdtMXCckEzn6aDg+Mb6DATvv4Ozn/EqTxP
-	zjOHaGNNp+20yP24r86wg5k3TURX/KIRuynGPex8QYoKjr8Gws+q0G5HUmhxFhyWPFc=
-X-Received: by 2002:a17:902:cecf:b0:240:3dbb:761c with SMTP id d9443c01a7336-2429f6256acmr95522335ad.32.1754544978889;
-        Wed, 06 Aug 2025 22:36:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNnNfGxhuNTArtU5/L07BRaCZPrejbjIclynuCefSVipf8dv9sFPtvjvfNzygxX8GedWQ6Nw==
-X-Received: by 2002:a17:902:cecf:b0:240:3dbb:761c with SMTP id d9443c01a7336-2429f6256acmr95521815ad.32.1754544978443;
-        Wed, 06 Aug 2025 22:36:18 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e89768fcsm175372765ad.82.2025.08.06.22.36.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 22:36:18 -0700 (PDT)
-Date: Thu, 7 Aug 2025 11:06:10 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] soc: qcom: mdt_loader: Remove pas id parameter
-Message-ID: <20250807053610.siel2gsvl2igc3ga@hu-mojha-hyd.qualcomm.com>
-Mail-Followup-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org
-References: <20250806172531.1865088-1-mukesh.ojha@oss.qualcomm.com>
- <20250806172531.1865088-3-mukesh.ojha@oss.qualcomm.com>
- <c9d761a2-7121-4ce6-84c7-232a6c4ce976@oss.qualcomm.com>
+	s=arc-20240116; t=1754546043; c=relaxed/simple;
+	bh=9vRDJpzi0FgQ87IUMfc7e15hXrGzZ1xK575lzX1D3eY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=K511euR05DXS1/mCNFrjHm29tr2gawbFAw5E022Nmut7Wp8ohrbt74AiplLPksYEgbAe/O29DW9gtdnqOA6eH9AcOmIzdELhIP5KHJfnRZA5DTEHfXK5bN4mqKPlTqK3o/1DzFa6h60yOEGt/V7SST6yhwN62pEMRBmNWLL37X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIu1Vazf; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754546041; x=1786082041;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9vRDJpzi0FgQ87IUMfc7e15hXrGzZ1xK575lzX1D3eY=;
+  b=IIu1VazfHJed1HSUdTwDJxZ9eQ+TMbS7Iumeqb5pb+FVYBeIug5DTz4X
+   mz3U4nXU5XZv/MiWFLA42DehbHDhUD1viyovSrPkERlpDkpu2Ru6PmZbH
+   tVODUhVoaRxDBieKm7BdhHkTWQQ9/4xnvZGmpVNZ/MabALhbpCee5jQR+
+   WLtfV4IcXk4mhIrCGgHRCzr7K376+mU4NnBkCOAXMusP8fR/uWprg1KUl
+   NMlneheu2MwOK+QSXyrr2LTj+t+QfOE0cKWXq9Sa4M8Z2xTGAsJaSdqs/
+   bCu4wnNsWWS/GSvq+xJ3yJezNourOvJZ5/Dz5Z5KlxY5S81WPvela/JTn
+   Q==;
+X-CSE-ConnectionGUID: /BOySTyXRE6hz0htQndytg==
+X-CSE-MsgGUID: BCwG2ru0ReuHCsTZ/UfgMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60501928"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="60501928"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 22:54:00 -0700
+X-CSE-ConnectionGUID: HVl1+M9QTcGIQlEzzjUbEQ==
+X-CSE-MsgGUID: TIi/4F/cQGqAqUxfJW2uHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="202144604"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.255])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 22:53:58 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3484C11FC45;
+	Thu,  7 Aug 2025 08:53:55 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1ujtZc-005H0z-0W;
+	Thu, 07 Aug 2025 08:53:56 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: linux-media@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	laurent.pinchart@ideasonboard.com,
+	hdegoede@redhat.com,
+	Thinh.Nguyen@synopsys.com,
+	Amardeep Rai <amardeep.rai@intel.com>,
+	Kannappan R <r.kannappan@intel.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v3 0/4] eUSB2 Double Isochronous IN Bandwidth support
+Date: Thu,  7 Aug 2025 08:53:51 +0300
+Message-Id: <20250807055355.1257029-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9d761a2-7121-4ce6-84c7-232a6c4ce976@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: tDYCago3cYoj4SfbVmMD5wOfUM3FWBbH
-X-Authority-Analysis: v=2.4 cv=MrlS63ae c=1 sm=1 tr=0 ts=68943b53 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=6krb5mtG3PrLwc7-ycAA:9
- a=CjuIK1q_8ugA:10 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX8khTYKagiFac
- 7atxiigdnEHv8z/U6VgKUDAJBlj9uaPt9aLxzBJCVSkG/GEFx/vyONE1hHqlreZg4bFdwf1J+aX
- PB0FIFRGQsXk26jF/glMoP9FV9BYf/Jv6f5I9d8xtj7UiQyg8l1/Uf7Fn6B1vD4sfPVQPbfa4lE
- 8VQIokfs50r51mN8AWCX93NocyDQ933Vrcqh93WkiDnqWtb5jAo1QL33A8xWDTQogoIQWE5de1t
- DY9FPlLga/NlYlAAdoRzZ7LGFnxyEvjE3NlWFPodco4hiomgxR5VChbK2T92t/BLPar+yb4i9Of
- 9Yqg1aWuwfklgN+yT1I+Oizw1R69HfO61yHYNX8k2/wx6ZNEZHMlARCFa6N/2ZG+rCEfYLyDEXR
- VE2847Im
-X-Proofpoint-GUID: tDYCago3cYoj4SfbVmMD5wOfUM3FWBbH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-06_05,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 adultscore=0 priorityscore=1501 phishscore=0
- spamscore=0 bulkscore=0 clxscore=1015 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508060009
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 06, 2025 at 12:07:05PM -0700, Jeff Johnson wrote:
-> On 8/6/2025 10:25 AM, Mukesh Ojha wrote:
-> > pas id is not used in qcom_mdt_load_no_init() and it should not
-> > be used as it is non-PAS specific function and has no relation
-> > to PAS specific mechanism.
-> ...> @@ -353,7 +353,7 @@ static int __qcom_mdt_load(struct device *dev, const
-> struct firmware *fw,
-> >  	if (!mdt_header_valid(fw))
-> >  		return -EINVAL;
-> >  
-> > -	is_split = qcom_mdt_bins_are_split(fw, fw_name);
-> > +	is_split = qcom_mdt_bins_are_split(fw);
-> 
-> this should be in the 4/4 patch
-> 
+Hi all,
 
-Rush to send patches!!
+This series enables support for eUSB2 Double Isochronous IN Bandwidth UVC
+devices specified in 'USB 2.0 Double Isochronous IN Bandwidth' ECN. In
+short, it adds support for new integrated USB2 webcams that can send twice
+the data compared to conventional USB2 webcams.
+
+These devices are identified by the device descriptor bcdUSB 0x0220 value.
+They have an additional eUSB2 Isochronous Endpoint Companion Descriptor,
+and a zero max packet size in regular isoc endpoint descriptor. Support
+for parsing that new descriptor was added in commit
+
+c749f058b437 ("USB: core: Add eUSB2 descriptor and parsing in USB core")
+
+This series adds support to UVC, USB core, and xHCI to identify eUSB2
+double isoc devices, and allow and set proper max packet, iso frame desc
+sizes, bytes per interval, and other values in URBs and xHCI endpoint
+contexts needed to support the double data rates for eUSB2 double isoc
+devices.
+
+v1 can be found here
+<URL:https://lore.kernel.org/linux-usb/20250616093730.2569328-2-mathias.nyman@linux.intel.com/>.
+
+v2 can be found here
+<URL:https://lore.kernel.org/linux-usb/20250711083413.1552423-1-sakari.ailus@linux.intel.com/>.
+
+since v2:
+
+- Use ep->eusb2_isoc_ep_comp.bDescriptorType to determined whether the
+  eUSB2 isochronous endpoint companion descriptor exists.
+
+- Clean up eUSB2 double isoc bw maxp calculation.
+
+- Drop le16_to_cpu(udev->descriptor.bcdUSB) == 0x220 check from
+  xhci_eusb2_is_isoc_bw_double() -- it's redundant as
+  ep->eusb2_isoc_ep_comp.dwBytesPerInterval will be zero otherwise.
+
+- Add kernel-doc documentation for usb_endpoint_max_isoc_bpi().
+
+- Check the endpoint has IN direction in usb_endpoint_max_isoc_bpi() and
+  usb_submit_urb() as a condition for eUSB2 isoc double bw.
+
+since v1:
+
+- Introduce uvc_endpoint_max_isoc_bpi() to obtain maximum bytes per
+  interval value for an endpoint, in a new patch (3rd). This code has been
+  slightly reworked from the instance in the UVC driver, including support
+  for SuperSpeedPlus Isochronous Endpoint Companion.
+
+- Use usb_endpoint_max_isoc_bpi() in the UVC driver instead of open-coding
+  eUSB2 support there, also drop now-redundant uvc_endpoint_max_bpi().
+
+- Use u32 for maximum bpi and related information in the UVC driver -- the
+  value could be larger than a 16-bit type can hold.
+
+- Assume max in usb_submit_urb() is a natural number as
+  usb_endpoint_maxp() returns only natural numbers (2nd patch).
+
+Rai, Amardeep (3):
+  xhci: Add host support for eUSB2 double isochronous bandwidth devices
+  USB: core: support eUSB2 double bandwidth large isoc URB frames
+  USB: Add a function to obtain USB version independent maximum bpi
+    value
+
+Tao Q Tao (1):
+  media: uvcvideo: eUSB2 double isochronous bandwidth support
+
+ drivers/media/usb/uvc/uvc_driver.c |  4 +-
+ drivers/media/usb/uvc/uvc_video.c  | 24 ++----------
+ drivers/media/usb/uvc/uvcvideo.h   |  4 +-
+ drivers/usb/core/urb.c             | 17 +++++++--
+ drivers/usb/host/xhci-caps.h       |  2 +
+ drivers/usb/host/xhci-mem.c        | 60 ++++++++++++++++++++++++------
+ drivers/usb/host/xhci-ring.c       |  6 +--
+ drivers/usb/host/xhci.c            | 16 +++++++-
+ drivers/usb/host/xhci.h            | 19 ++++++++++
+ include/linux/usb.h                | 31 +++++++++++++++
+ 10 files changed, 137 insertions(+), 46 deletions(-)
 
 -- 
--Mukesh
+2.39.5
+
 
