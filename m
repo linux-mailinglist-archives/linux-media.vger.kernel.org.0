@@ -1,161 +1,237 @@
-Return-Path: <linux-media+bounces-39033-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39034-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B30B1D650
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 13:05:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94159B1D656
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 13:07:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10F771887DB2
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 11:06:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5344A18A2504
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 11:07:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81AED26B2CE;
-	Thu,  7 Aug 2025 11:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4259F26FD91;
+	Thu,  7 Aug 2025 11:07:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KvkJJYre"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aNLVsFCi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542BC21FF48
-	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 11:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1780221FF48;
+	Thu,  7 Aug 2025 11:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754564737; cv=none; b=AMpLgsKSnZlZhpHpZ1/VI/kBLJ6Cy+09Ps683/knfT+7qPouT6UDQjnGG0rAIu/IgmgPQqyWxEVTij3wO9w017E5qYW3PgGR8SNzt8X14ZKAZJQimcJyqU7gMwgsMPfcTQ7g5POzVrWdFFSSjHMDgP+88907TdhGZ8BNmKe315w=
+	t=1754564836; cv=none; b=EIMPWi3P6k+QB+cf9GjGtjLi68/XcTZjzz7mDsw9oNpw09NvBAfQbQWlvjOrSw0TrIJmZ5JSeH9LyXtvq0DLErdA7apxb1WXtfk/zmvGJNtly3A7KJyO73jzSK3LermRykCAUUG92x9ydycm6UHwjb8fpmlXRXj42rRQdxvUFWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754564737; c=relaxed/simple;
-	bh=LFyGmIQMR58Rs4TZaKfP31Tc+fGtMZOG3Ql12fY9lU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RFA8dO7sbdwsZDLcqXnvPYbda4Pb3DHbaHU8uGeu3fwDvx5aq4SeKLJWlDTZzDDfxMKe6BdJ+I3NRyIpTkQ/Ol06dChs6SFon+03dDx/g/8y66Hxsks1lqtQIeRlpgmGe1SsIIyiNT1WYObbeKDQbHvIYoNrrL7hxcImRZ0a6aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KvkJJYre; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-adb2bd27d8bso13391766b.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 04:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754564734; x=1755169534; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=LFyGmIQMR58Rs4TZaKfP31Tc+fGtMZOG3Ql12fY9lU8=;
-        b=KvkJJYreQi1u/SFeE9Y+N4jPqPUvpXdB6tKavDpAXKFOH99zX2r0iae2f0N03mj6Vt
-         UFYy0D4PaxuS49NyzAskKa8Gtvmg9saDs3fFsviuE9p8XVQDjFRIr25lchHQGkpb3uhy
-         kS8F4ZWaJEbGAbnDsp9JrnbMpo4DJJqHWn7XPXdtukiiPc+ttfLV7S6QGG779pyxbGjX
-         uZtNpumIcB7eZv+m9KYaJoUbBkDVDWvqefQj1iaV/LEB+Tznoi1h3WZW/j4Epkuj0hhL
-         4L1/kirrzMjtrHnF2c8VSrmo2vYcSm731a2w7nDzQj8WcBzwLS4UtoPhG2/6M6jcWpZF
-         R8zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754564734; x=1755169534;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LFyGmIQMR58Rs4TZaKfP31Tc+fGtMZOG3Ql12fY9lU8=;
-        b=b7s5FICvaqoMecOFExBOnluJuU+6SkMZeDeJeklH9PzXQfY3H8i6xE9NOBqlpGSH5J
-         xf0Y6xX5PP+CshLxYFFQTnQwwslT/KTXAFGm3OYysr7oIqQLDF5PCG6Xj7q1aRHywonu
-         PLaZldBDFCtYzVH8JqKvUuOqwwyHH2AU8S4t3J3HcI0x0ACeuOuOSHS13Ygu67TBvKYn
-         6d46bliT+XuVyGiGX2iJ1B/aQ93TqziBjLzjxLp8d24C9FNgQdMoFJx0Ned8g3CYZT42
-         Njs5QeqVZnK3IQWGgQUsnKPcqAZx2RBnsm8qS66A2zBkNbBM0j0oQVtMQBPTP70HTgK8
-         ++bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVR1rIJTd5jONz0x3tMaXo0h3zXEKBQFjTSYS8TDS9UsPFV4nCPrKh4+o5+izTqYD1vrC2cbPANr4o7Og==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl7Heri8H9qgrGUOoGfI/Q3xu6XI4o3bgETOwgHxS0bjbrCHSi
-	0GjWQ88MbcpTdpu8zEJcHBlPjdl6EdScxTTc4yWjBfjwLukv6uwNvskmLnjAKptk6KI=
-X-Gm-Gg: ASbGncsDNcpn0NBGO5mkJkfWJ1umiNuP5Y25yXPDEl8LL9urMt5mrWDd+rhd1A/A8YV
-	sERM75atCOF+Z9dBhR+0+QIDtrkbXpilnhYmPG2c31AMluahHNkgPTWEUoyffvg6kG9+O3I4FjF
-	b5kYvCOK5NR8XGx94hp4xhmlZpaxCDTSIyKl7mFike9lMtB/Thk5tPEBYbUULHk2wq4aXmrjZxD
-	V+LnziziQ+tSgrHmi4DpRQyedn0rG0e4ma30wm/Nbrv+Ix4ceHBgPNswcPXYJe0tWtiDfIp+Vy9
-	FHs879k0JN1szTCH2gYZ6kpurKrMx7RfWQqEz+XabqB5hvDiN8xTzzRI3T2JFIRsSMvxfk332ZH
-	4BGOlGGjdEEzgxDC+e+iuURuzOqidU6lAOaXZSMqv/bU=
-X-Google-Smtp-Source: AGHT+IG0MGxUcNNzxqOIwu8lt3gGqI/Kl3a4dy5p1ccfcQ+CYryVnARUENcRNCNP8MHLSG+XfQEzYw==
-X-Received: by 2002:a17:907:1c89:b0:af9:3397:ee9d with SMTP id a640c23a62f3a-af9902f5784mr239225166b.3.1754564733615;
-        Thu, 07 Aug 2025 04:05:33 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.218.223])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af986a477c4sm439667766b.56.2025.08.07.04.05.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Aug 2025 04:05:32 -0700 (PDT)
-Message-ID: <37294484-a0d9-4b88-bdc2-0bf950cb1608@linaro.org>
-Date: Thu, 7 Aug 2025 13:05:31 +0200
+	s=arc-20240116; t=1754564836; c=relaxed/simple;
+	bh=niUySpeViHXZwkORBV1VYWpO024HSc6/+OHc1WetGYQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HaCkzK/DO5FKKNPJtohFyBRPBumzD61vPfqtaVHmbHp2+m1s0roY5j/H0vPDTYWLU0wNm7ExfYbvMjz8bXNTuWN2yuiktWjf4033CpT4szvJrW4bXNZNvUMKo01UOM/0BJyusGxcn5kBjToabJxS7DsAc87zvPYt8TtFRHEm8Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aNLVsFCi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5779DACW020466;
+	Thu, 7 Aug 2025 11:07:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	n34wNpSLzSEuog7FdguerPp4QK02qfMycIMwdnfFlG8=; b=aNLVsFCicSDCiyvh
+	XmgID13we+JrBZ6awF9pmc2P5rnOYx2V0fQ+FMQXAWAlfC0Yaak1IS3SzAMY9VJF
+	82sAzy9pge98mcSsee7Dpuv0I79gv7iyWpXrHMNrPX+ev56Djm+pAbhLJA7qm4CX
+	q/K4SUanADJAlC+NLKalA4lQ6Gp53qB/TG7v2VpnrrMeJl0jOs+I3IJhzQgb7bx9
+	Z1dnHh6QQunYchE+K0l8chHjWqQtUKZmdiiy/mNDWbvBGnv+A21UgPyurZf/w6t7
+	TsysmoUS3tHhU6ZNiOPbiFMkZvCKm1MzF8L35XCPh8gxtqS/pfn9njR3qQ3Vg8vN
+	1g7b/g==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy8e1wf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Aug 2025 11:07:10 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 577B79jk021319
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 7 Aug 2025 11:07:09 GMT
+Received: from [10.216.27.221] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 7 Aug
+ 2025 04:07:05 -0700
+Message-ID: <fcdd9534-d494-3fdb-dfa7-1d15da6f697a@quicinc.com>
+Date: Thu, 7 Aug 2025 16:36:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] Use SoC-specific compatible string for Samsung MFC
-To: Aakarsh Jain <aakarsh.jain@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, m.szyprowski@samsung.com,
- andrzej.hajda@intel.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- alim.akhtar@samsung.com, robh@kernel.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc: linux-samsung-soc@vger.kernel.org, aswani.reddy@samsung.com,
- anindya.sg@samsung.com
-References: <CGME20250807032459epcas5p1d6bd796f5b654c92372bdcc8a7926c22@epcas5p1.samsung.com>
- <20250807032449.92770-1-aakarsh.jain@samsung.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v8 5/7] media: venus: core: Add qcm2290 DT compatible and
+ resource data
+To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
+        Konrad Dybcio
+	<konrad.dybcio@oss.qualcomm.com>
+CC: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        <bryan.odonoghue@linaro.org>, <quic_dikshita@quicinc.com>,
+        <konradybcio@kernel.org>, <krzk+dt@kernel.org>, <mchehab@kernel.org>,
+        <conor+dt@kernel.org>, <andersson@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250805064430.782201-1-jorge.ramirez@oss.qualcomm.com>
+ <20250805064430.782201-6-jorge.ramirez@oss.qualcomm.com>
+ <4chbcvub4scnv4jxjaagbswl74tz4ygovn3vhktfodakysbgy3@kukktkwd2zsr>
+ <aJHgh8mon9auOHzi@trex> <aJHqpiqvulGY2BYH@trex>
+ <to2hrxml3um6iep4fcxhkq7pbibuimfnv4kfwqzlwdkh4osk5f@orjzbuawwgko>
+ <aJMMhIqNupwPjCN+@trex>
+ <0248afed-b82d-4555-8277-e84aacf153fd@oss.qualcomm.com>
+ <aJNTigOMy1JFOxot@trex>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250807032449.92770-1-aakarsh.jain@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <aJNTigOMy1JFOxot@trex>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: f9lgsuntnj7oh15903fYDQ8xhSK_NNLc
+X-Proofpoint-ORIG-GUID: f9lgsuntnj7oh15903fYDQ8xhSK_NNLc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfXwkXqWkSuKUbw
+ nw9qFBjS2LBW1mWu5JbqfxlvRxTbRyWL0H14s+3x9OFSPWmf3f62DzUhLyWkVw+ZYf5y87PwT8c
+ IPwDoea4JUm/b8xtwQn6XS7LkStW5l6xbVss+NFsqiPkJ6NwaPbAW/TtxX+13VV4q7qnwjTmOZF
+ FFC+9SQNy7HXfvo4mrj1ZYKrtsuPo7+4NfHx/wrXtAQXG+otm0zMn0QELk0yLEoIABBzbYyM1O0
+ +N7Ho3O8QgFQSd7ij9ISyMC0Uaw70jBohcnQhKRQGGuP2GnqRjBWUNTKPz9gyjDXnH/1Zg1ph0e
+ 5kV9FpREtvWsYInAS9AB4G24OgDUNcLdRz/CNZDcj6FPenqdOZqCuCv8PsDQhlLEFOhq6D2CW8h
+ Nto7UdhO
+X-Authority-Analysis: v=2.4 cv=GrlC+l1C c=1 sm=1 tr=0 ts=689488de cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8
+ a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=mAuLG1Zk4bF_eBP2NYYA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-07_02,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 
-On 07/08/2025 05:24, Aakarsh Jain wrote:
-> This patch series modifies the samsung MFC version compatible to
-> SoC-specific compatible.
 
-You CC-ed an address, which suggests you do not work on mainline kernel
-or you do not use get_maintainers.pl/b4/patman. Please rebase and always
-work on mainline or start using mentioned tools, so correct addresses
-will be used.
+On 8/6/2025 6:37 PM, Jorge Ramirez wrote:
+> On 06/08/25 11:01:09, Konrad Dybcio wrote:
+>> On 8/6/25 10:04 AM, Jorge Ramirez wrote:
+>>> On 06/08/25 04:37:05, Dmitry Baryshkov wrote:
+>>>> On Tue, Aug 05, 2025 at 01:27:34PM +0200, Jorge Ramirez wrote:
+>>>>> On 05/08/25 12:44:23, Jorge Ramirez wrote:
+>>>>>> On 05/08/25 13:04:50, Dmitry Baryshkov wrote:
+>>>>>>> On Tue, Aug 05, 2025 at 08:44:28AM +0200, Jorge Ramirez-Ortiz wrote:
+>>>>>>>> Add a qcm2290 compatible binding to the Cenus core.
+>>>>>>>>
+>>>>>>>> The maximum concurrency is video decode at 1920x1080 (FullHD) with video
+>>>>>>>> encode at 1280x720 (HD).
+>>>>>>>>
+>>>>>>>> The driver is not available to firmware versions below 6.0.55 due to an
+>>>>>>>> internal requirement for secure buffers.
+>>>>>>>>
+>>>>>>>> The bandwidth tables incorporate a conservative safety margin to ensure
+>>>>>>>> stability under peak DDR and interconnect load conditions.
+>>>>>>>>
+>>>>>>>> Co-developed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+>>>>>>>> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+>>>>>>>> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+>>>>>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>>>>>>> Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>>>>>> ---
+>>>>>>>>  drivers/media/platform/qcom/venus/core.c | 50 ++++++++++++++++++++++++
+>>>>>>>>  1 file changed, 50 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>>>>>>>> index adc38fbc9d79..753a16f53622 100644
+>>>>>>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>>>>>>> +++ b/drivers/media/platform/qcom/venus/core.c
+>>>>>>>> @@ -1070,6 +1070,55 @@ static const struct venus_resources sc7280_res = {
+>>>>>>>>  	.enc_nodename = "video-encoder",
+>>>>>>>>  };
+>>>>>>>>  
+>>>>>>>> +static const struct bw_tbl qcm2290_bw_table_dec[] = {
+>>>>>>>> +	{ 352800, 597000, 0, 746000, 0 }, /* 1080p@30 + 720p@30 */
+>>>>>>>> +	{ 244800, 413000, 0, 516000, 0 }, /* 1080p@30 */
+>>>>>>>> +	{ 216000, 364000, 0, 454000, 0 }, /* 720p@60  */
+>>>>>>>> +	{ 108000, 182000, 0, 227000, 0 }, /* 720p@30  */
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +static const struct bw_tbl qcm2290_bw_table_enc[] = {
+>>>>>>>> +	{ 352800, 396000, 0, 0, 0 }, /* 1080p@30 + 720p@30 */
+>>>>>>>> +	{ 244800, 275000, 0, 0, 0 }, /* 1080p@30 */
+>>>>>>>> +	{ 216000, 242000, 0, 0, 0 }, /* 720p@60  */
+>>>>>>>> +	{ 108000, 121000, 0, 0, 0 }, /* 720p@30  */
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +static const struct firmware_version min_fw = {
+>>>>>>>> +	.major = 6, .minor = 0, .rev = 55,
+>>>>>>>> +};
+>>>>>>>
+>>>>>>> This will make venus driver error out with the firmware which is
+>>>>>>> available in Debian trixie (and possibly other distributions). If I
+>>>>>>> remember correctly, the driver can work with that firmware with the
+>>>>>>> limited functionality. Can we please support that instead of erroring
+>>>>>>> out completely?
+>>>>>>
+>>>>>> yes, in V7 I did implement this functionality plus a fix for EOS
+>>>>>> handling (broken in pre 6.0.55 firmwares).
+>>>>>
+>>>>> just re-reading your note, in case this was not clear, the _current_
+>>>>> driver upstream will never work with the current firmware if that is
+>>>>> what you were thinking (it would need v7 of this series to enable video
+>>>>> decoding).
+>>>>
+>>>> I'd really prefer if we could support firmware that is present in Debian
+>>>> trixie and that has been upstreamed more than a year ago.
+>>>
+>>>
+>>> I share your view — which is why I put the effort into v7 — but I also
+>>> understand that maintaining the extra code and EOS workaround for
+>>> decoding needs to be justifiable. So I chose to align with the
+>>> maintainers' perspective on this and removed it on v8 (partially also
+>>> because I wanted to unblock the current EOS discussion).
+>>
+>> +$0.05
+>>
+>> I thought we were going to eventually relax/drop the fw requirement
+>> when the driver learns some new cool tricks, but are we now straying
+>> away from that? (particularly thinking about the EOS part)
+>>
+> 
+> um, no not really: the decision was to simply drop support for pre
+> 6.0.55 firmwares for the AR50_LITE.
+> 
+> Pre 6.0.55:
+> 
+> -  has a requirement for secure buffers to support encoding
+> -  requires a driver workaround for EOS (providing a dummy length)
+> -  during video encoding.
+> 
+> To support < 6.0.55, v7 of the driver patchset:
+> 
+> - uses the version to disable the encode node
+> - enables the video decode node
+> - implements the EOS workaround.
+> 
+> It was agreed that this complexity was not necessary and that we should
+> just drop <6.0.55 firmware support (which would in any case only include
+> video decode).
+> 
+> And so on v8, I removed the above.
+> 
+> Now I have v9 ready to post it, but Dmitry is asking why cant we have
+> the v7 functionality so I am waiting for direction.
 
-This also might explain why you could not read current kernel
-practices/docs?
+the issue is in firmware for both encoder and decoder. Didn't like the idea of
+driver carrying the hack for a firmware issue. Just because, for encoder, we are
+unable to hack it in driver, we are ok to have it enabled in a newer version of
+the firmware, we can follow the same for decoders as well.
 
-Best regards,
-Krzysztof
+Regards,
+Vikash
 
