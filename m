@@ -1,149 +1,152 @@
-Return-Path: <linux-media+bounces-39051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39052-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69870B1D858
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 14:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B65B1D897
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 15:08:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13CBC722F94
-	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 12:56:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EC893B97FC
+	for <lists+linux-media@lfdr.de>; Thu,  7 Aug 2025 13:08:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9152571A1;
-	Thu,  7 Aug 2025 12:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B48725A2DA;
+	Thu,  7 Aug 2025 13:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XZ5kBhJB"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="A3HO4KpX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365F1255F2D
-	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 12:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1193A258CD0
+	for <linux-media@vger.kernel.org>; Thu,  7 Aug 2025 13:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754571359; cv=none; b=rry/FrpDlWCeeMaIoUaeS8EnfninDYMS/+2tUJ4U66FW0ymgdinLGFGQ/swteiQmZ079R49B3E5kJuD9l4FXFXr0ItMSAGQOjciOyoyXL29o/c4jdSZlcwr/NYHne/Cf2B1BrfocTqm1U6IOTp3vjsR4T2YSe39UmuRTNGk1tjE=
+	t=1754572111; cv=none; b=Whakbs4pKbSZXr8Wdc1hR4A5MDoDZGfbyCumYzihu82OW1WS1jzw1mhbF//bIb5wGXT4kHKfhfnxguWX7GBWftJ7SbtXByql9J9UaXY9HA2P7ZpPzNjsCAriczIoIPZgU64GyhlNkbgbTmbAq6Rj9NSnK/t2YwKGgrdpBPiTVOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754571359; c=relaxed/simple;
-	bh=cmLTJCu08IZdkIuuU/IBxWNBdqB/J5DZTkvRxpPHoTU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j5AgJxDi/DgaSNNPOW6ttVsyo49Z4F/Ry8bNdK03ds74EFboNOly9TSnW92kc6xu+fW2T+j6yEvQj+5xPMIroEwgQ8yWqRZaItbbXqz1+lEH+vwXA20Q4e4RRZ8nnwcLt91rME5eyaYQ9oTxuNPrZrgtVqhmzp6AigGy+KAxao0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XZ5kBhJB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5779Cv2I003588
-	for <linux-media@vger.kernel.org>; Thu, 7 Aug 2025 12:55:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	D4bMHXUEWO9j3LsN7dUEww8s9G0HlpeNdFt7tEVo1/4=; b=XZ5kBhJBZCEgPH7H
-	gzINhwRyPPxJbU7Yw1GDvZN1Puxr6n2Pe7YVYSr2JdeBee2FkZugEuQLwjZXBKax
-	u8LoQ8Lulo2l+7gPreA7Jw8hhyY3dOaP1F++R+jQJKZWGHapg9p8uvayZoo9x8TK
-	9tRWYPFfz4jZhlbe5heY6sg/BhURBbvPL0WjlVJNeumEa54aq6qlN5HWLt99bhra
-	Ref7HJ52p5OkSb7wpZ2p2ZgZgElLIaggwfEmqq7Hv2Zgnpz46GLiYaKmigC5q1/t
-	Y/Ek0jhNN2PKwd/gqITedJLJVqwp+JeVVjj//SUAg/R4xxzUDpkgjzash2QNRtnT
-	mWtjbA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpyae9k8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 12:55:57 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4b071271e3eso2671341cf.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 05:55:57 -0700 (PDT)
+	s=arc-20240116; t=1754572111; c=relaxed/simple;
+	bh=8w8yPFnkgU36+XtrdOCZHK/xGSd3mLnvZaUMM/N9K/M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cUQ2HKJ79LhXfi1M+xFAVjD2scvHtyIMs5fKtomQuVEjm9+OrFT2Uu02ERftjMVJ56bpkK0mZrP9BqD9QVuCJIE/c5Ng7LPl1Y32P7bTw4nPQs6WJ9GUU806j0khIebhHM1GZkHezO9Zhjwd+2JgOXG+FN4p4RrWH8jaeES+Noo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=A3HO4KpX; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-70875cc3423so10593176d6.0
+        for <linux-media@vger.kernel.org>; Thu, 07 Aug 2025 06:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1754572109; x=1755176909; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=8w8yPFnkgU36+XtrdOCZHK/xGSd3mLnvZaUMM/N9K/M=;
+        b=A3HO4KpXG1hAU2Fo7qsMEO7U1EB3t/aUL9HDNyQSWm8tsP2ziMgXb0pa1v5duMcVUl
+         XRjXPWzCJu+Hpw7RJJm4i26UfCpYee4mX1wjSoYhBF7pQKeHNRBXmXz1FG+68Ws2jI6N
+         h86LhIjTRA8G2XO3ZpxXHQ6YW+86+dpT3ayF/drRLDdXdM30OvBGVqUSo+xYKmgAh8H9
+         VojRWzYAlCNx4ezs2SZt/RMTlH1bd7/F9DBn9XxGfHUsTiqVYs0DrmCnfKr9Fmx5Qxk/
+         U/QUpf6myfKoK1jjrzIDjitXN4VF/pEliDARZYGvCYzOpetulR19/Br4N5LMKm6omksg
+         jLqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754571356; x=1755176156;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D4bMHXUEWO9j3LsN7dUEww8s9G0HlpeNdFt7tEVo1/4=;
-        b=ccVAAhc6DBqh0zAuzdiBzAZza1GwRYIvEu4NxnnqVVUB45mdGtDM9FNRuLKBVxeZUc
-         VnrVIjtp5kovPnO8oUoG3YXne4Aui+vSGiTZTxgyz1kNBNZeTK59iQ92JWfcarfByYw0
-         67kU3xEK3SHVz7+eAtHNhyNHInMrdJh994MS+xfd2RxcQZR8drYBSnE9Fzjbokc3vG3C
-         iSKztQU6ceHpghO5+chfpM3u5rRkigOWjdTWN3viuexanS8Rd2ix/msN/5NIfJ3zOoje
-         6SgDlNvwpRTc7SCuKf3xhpmzTGfVvje9itiOu1DA2umHLWiDo1jBqRofxcO1MXOSjjCs
-         ZqBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVORFrKJBUt+dtd8Jas6N/+MmWWxeJTqyM2DbiuHdkhi1gXH6TN0+46BJXMcE52rH5vzboDOLoOBV47gQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8l7yIDC0FaIKZJqzmzpuZ7hqXEeNjht7bB839bL6QHrTf4Xl0
-	IstnfrUmnYEO9HMfRjwaqBiifZ84uhcRg7r3W/1/SZuJn0szP759501xHLJXpRCUKk0xu9QeLZM
-	JDG3qdF7P8R6gKAqsDYRLdYCyrdDqRf8Qp1zdl2lnB0FFuPekQZeL12YzEL+yw2p6Rg==
-X-Gm-Gg: ASbGncuGGnOfdV4N1uJJjyZEYvE0h4bQKwMbI7ZTxAGyc8BO5wOQGyMikrJ0MClC1nb
-	3/U9axdazjcHemfYM85H+ev/Vr/tQZVmckl1jxsfMKQYVN8H1xF+Nj1QQRRcY8E0dya0FI0rxH4
-	1o+vWyWLovAQ9ZzlRTs7+GzTSCJzyB83i9aJODy7nmSBEaPY0Nepu8zGyLTONF5wkYLnSu5bgWC
-	gF8rinnYtYNzlXK8reXPwprrcU+G5CJv9Of/aNcfJcvVnc9bGw0/MvBVlgI/0L1QP7ofQxPrY5A
-	hOR9QCgtcphOWHpI/WDKb6lLNJHbKB+2sCjjYHCh9G6TYABhlbjU1E8cTYqKszHr9vMtdwLxfA0
-	weIjXWNW/OMK6lPFagw==
-X-Received: by 2002:a05:622a:1aa3:b0:4ae:73dc:3896 with SMTP id d75a77b69052e-4b0915d7c31mr41550061cf.12.1754571356130;
-        Thu, 07 Aug 2025 05:55:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwbcsceg5/p61lAf2t1TB1KGC8pzQd5z817hJbPD8siowrxZQPY7hCXLhIuHIXx+wUv8hceQ==
-X-Received: by 2002:a05:622a:1aa3:b0:4ae:73dc:3896 with SMTP id d75a77b69052e-4b0915d7c31mr41549941cf.12.1754571355647;
-        Thu, 07 Aug 2025 05:55:55 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c0afsm1298236866b.117.2025.08.07.05.55.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Aug 2025 05:55:55 -0700 (PDT)
-Message-ID: <38534c32-7e37-445c-893d-3624bb59981b@oss.qualcomm.com>
-Date: Thu, 7 Aug 2025 14:55:52 +0200
+        d=1e100.net; s=20230601; t=1754572109; x=1755176909;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8w8yPFnkgU36+XtrdOCZHK/xGSd3mLnvZaUMM/N9K/M=;
+        b=wjTQ2QQrItvQRpxKbrpT0NA9xDev/0HYUt+HBEFQlfq1dJOS8BUjrk7psE0dJ1Rfsc
+         rumGHISixQHD3sXaFrjsWzMuiJjyLlkcruhp/h4JhAy3QB/sNN/azDrRmVSjphnDUCrO
+         WA4B+I7yO0R2yChAgPHr4MOxN5Sqgw3BexTyYR4WrxI2ESb50zPfPrJXy8DIHLO8RYps
+         rKwsS55dAMqjaw1bY7Pwyes1QdXb9lESDhMYEULIFZzteugt9cEhmV9+FbFRcwwzkLvF
+         tM4rxRv/JLMzjiCDHOI48H9Jjo0Y3LYn2RJucxn99r2DLVsiEKkKqgHkkEaf5fN5Rx1U
+         FHgw==
+X-Forwarded-Encrypted: i=1; AJvYcCXuHWRQMoIHzXIfJA9zU3eA4jK2yhQDitA98YveZPhQGoYJxz8n4YWfFk40d+FeqKnqBQjlpXVrI55H5A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1eIYrnhgB+fTRElxy/Iq5HfDQIRVIQtQUUwiKNo/wGvyIVsA0
+	cTcWRGxGfsgkG07JBvGZp/3fNnDHCoF6+Msojj41gxeUulOmryqrLXfmTgOHL8YxdEA=
+X-Gm-Gg: ASbGnctofHmCBNZGq8gt4aF8QzzyDSl4tAGdmlYrEDTXGYuw3cLRuxG9LDroILSp4D3
+	S4RyrPH9NZ/UTz+a1wPvQdCK4ZiPYNxyUfFI4yzGHCDLfJc2l9DlzM0nYVd+6TgVw2SXZ+lryZv
+	f8pbiZUD/N1sBsjFJWWFTUX6dYzHj4m2fZZtDeXlRhbfBpiolCtxE/FqJZB0PNjrKsPqnkvIrvP
+	kNFukX1ctbZu9Xhb9mYpCEBfToULUdGZxUV+XRLtua9nyzMA1FarZ2aVBOEkP9FrDNCnDqTlGjC
+	TdfXM5hJaaJU3VE/1vQpaitZUZ1i++wPygvdUQ+wY2j3cuwYasRC8KwpSYe4rr/YuW+mED9IRO8
+	d21Vq5h7tPKYNk5PcI63pYHrqTJQ=
+X-Google-Smtp-Source: AGHT+IH6e08dKUtjiZTNdxPWxqnHGFaNEPekKg/nzHQYuJs3fq2137smmdHiE6UIgf3GqH/z8l6Law==
+X-Received: by 2002:ad4:5fcd:0:b0:707:24af:a738 with SMTP id 6a1803df08f44-709893c6f3cmr51967096d6.16.1754572108574;
+        Thu, 07 Aug 2025 06:08:28 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:5a76::5ac? ([2606:6d00:11:5a76::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077ca073f9sm97547666d6.20.2025.08.07.06.08.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Aug 2025 06:08:27 -0700 (PDT)
+Message-ID: <c22e2fdb669f0f1558c74d446a98c755fae1bf03.camel@ndufresne.ca>
+Subject: Re: [PATCH RFC 1/3] media: v4l2-core: Add support for video device
+ state
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Jai Luthra <jai.luthra@ideasonboard.com>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, Heiko Stuebner <heiko@sntech.de>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Dafna Hirschfeld
+ <dafna@fastmail.com>, linux-media@vger.kernel.org
+Date: Thu, 07 Aug 2025 09:08:26 -0400
+In-Reply-To: <175454978334.269012.560122713345103297@freya>
+References: <20250703-vdev-state-v1-0-d647a5e4986d@ideasonboard.com>
+	 <20250703-vdev-state-v1-1-d647a5e4986d@ideasonboard.com>
+	 <3yifjhhqjrryg2fnfep6yqpxlvc3y5drh54smwajptfzy75tuu@dfsl6g5ktxbw>
+	 <175227804873.3930831.3557651361410884449@freya>
+	 <20250714171632.GA13846@pendragon.ideasonboard.com>
+	 <175454978334.269012.560122713345103297@freya>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
+ oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
+ oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
+ AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
+ 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
+ TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
+ cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-x6Vzp6vEe7h3PIVIrH8n"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v3 2/3] soc: qcom: mdt_loader: Remove pas id parameter
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org
-References: <20250807074311.2381713-1-mukesh.ojha@oss.qualcomm.com>
- <20250807074311.2381713-2-mukesh.ojha@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250807074311.2381713-2-mukesh.ojha@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: cqSYVsmlY7YER_cWi1AzljkXTYb6S0_Q
-X-Authority-Analysis: v=2.4 cv=MrlS63ae c=1 sm=1 tr=0 ts=6894a25d cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=IDvrs2r2PCma8_SM7s4A:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX0iOsNL3+aje3
- 3/Z1IBqew2M4H2FBVFwIcNQ+fyPryuYldBxMt8fIwReYnRAnRLxUhl1sBgUIUfuL796VgKNQUY1
- 4xaoK+/YRRz8LBlWlA9s1VUcndRrbfA1YG6o/1nORHvzBcrOKzJa7l3qYnqsdTAEqu6O6/AIqch
- a5yhiPFUIlfzIlwA4aHf3sPDhFQsA7SQQPdhkXvN5mnmrGVXq0I3ui+3OORBV5NfSkWiqEFT/t3
- 9Lc6bnirzllyQH9PASoEb9FkiMvWINNW065sk2JeHTpRnfBRo6iPlqeJaQLnJ9VVs87f1bCOOhX
- e7OrLvGpii8JR8ZauRfxYRtAXZawzeOvxKQn3zISLQP0aEweCcj1h35XEMeMvcPp2isfyW5tYhK
- naDppA2q
-X-Proofpoint-GUID: cqSYVsmlY7YER_cWi1AzljkXTYb6S0_Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-07_02,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 adultscore=0 priorityscore=1501 phishscore=0
- spamscore=0 bulkscore=0 clxscore=1015 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508060009
 
-On 8/7/25 9:43 AM, Mukesh Ojha wrote:
-> pas id is not used in qcom_mdt_load_no_init() and it should not
-> be used as it is non-PAS specific function and has no relation
-> to PAS specific mechanism.
-> 
-> Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Acked-by: Jeff Johnson <jjohnson@kernel.org> # drivers/net/wireless/ath/ath12k/ahb.c
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> ---
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+--=-x6Vzp6vEe7h3PIVIrH8n
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Konrad
+Hi Jai,
+
+Le jeudi 07 ao=C3=BBt 2025 =C3=A0 12:26 +0530, Jai Luthra a =C3=A9crit=C2=
+=A0:
+> Quite a few of those are VBI or test drivers. But some relevant cases are
+> encoders/decoders or ISP drivers that may allow changing resolution or
+> format mid stream.
+
+I checked up a subset of the reported codec, and they pretty much all seem =
+false
+positive. They simply use a different state to fixate the format at a certa=
+in
+point in time. Sateful decoder do that once the stream header have been
+received, and most of them don't allow any change of capture queues.
+
+That being said, we don't want to return EBUSY while streaming on stateless
+decoders. Hantro supports changing resolution without flushing the referenc=
+e
+frames (heteronegeous reference frame, used in VP9 and AV1).
+
+Nicolas
+
+--=-x6Vzp6vEe7h3PIVIrH8n
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaJSlSgAKCRDZQZRRKWBy
+9LxtAQCsJaf9gyTaskKM6yASMIlAAKmeJzE7ucVF+kR/cJ/kuAEAqutw8SQDQbto
+hhh5eHHRN0lKBF311OOuKmeBnenMXwA=
+=OIWq
+-----END PGP SIGNATURE-----
+
+--=-x6Vzp6vEe7h3PIVIrH8n--
 
