@@ -1,169 +1,102 @@
-Return-Path: <linux-media+bounces-39119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BFAB1E7DF
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 14:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599E8B1E85D
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 14:29:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B249E5612E3
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 12:03:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79406584FB3
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 12:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EE7025D1E6;
-	Fri,  8 Aug 2025 12:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFAB627A47E;
+	Fri,  8 Aug 2025 12:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i++harGg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lTzC9hDp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109561CAB3
-	for <linux-media@vger.kernel.org>; Fri,  8 Aug 2025 12:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFDA27A455
+	for <linux-media@vger.kernel.org>; Fri,  8 Aug 2025 12:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754654585; cv=none; b=mxVSvDtWn1Ri/3/D+2mwEXJbnRgyjv/xeNwUMNkEnxWgBJ/3Z2c4EIhl4ZWQIq7m3lXMZOF0VnfmMkYGGmszM6hr4urBeQ5hjcz+Yp80qb6rag1otjHzXV7Klj+UQ3WXdQG3/Kuw/ZvkyVe2SNB3rNSgjp+4FvMaFEYGTxnjfw8=
+	t=1754656093; cv=none; b=Fd9Wl0h43GmetTPDOjODOYUUbN2wDMOqqLg14i3z+NdHa+J+hxioISF9DKre81HzlA+YCGZTVi0sM0j1yfhxDQtD+kMD4L66VM+vh4zco/My4l6Ykb3Rxje4hVGYOJUsUpbPov0UGoeVrr8iAh1qCxL+Vq2rc/ro46JF66MOSdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754654585; c=relaxed/simple;
-	bh=cUITcdE7RK60lfECMr0illf/GsVKN3pLzr8LO8L44wg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a5/NxxK3HQZ0Ni+Y7ixkJ/8ObS3bnoyBXPBZ/4y3c3CIFOB1nv3NOROLhGKbFCMTSN12oCZ4NPwBy6Jr4HdeNPj8+ci++vstSkSLQhD67kgjstuX47obGJ8+0avi8fUbvmhaja6sdRE1nt5twENtmtQI4iugxgijwzCdceec4xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i++harGg; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754654584; x=1786190584;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cUITcdE7RK60lfECMr0illf/GsVKN3pLzr8LO8L44wg=;
-  b=i++harGg5kQI5fYQ25h0H3djvrpJr1r9jiKLEg6lhKTzKZvGbqp8bo2Y
-   xz67sTZbJQA8l3Vanm9QDxETdL1fYYSJV2nFyH3lisNgVKjYgwHdQdiG/
-   m3WeWKoLDEJDCzR5lkom7eE5ZS4SoLTPgUKtDEUWEO43ogA7w/iMCP+e0
-   78zkoVuc4NHbrjMr9++kTbJQdb4oC/heVmCroXB83tSk6zH0KTJYh2v7N
-   TwgUlI4Tkg661O3jtCcqqJhU52/dQ6ZOHmk58PADo9MO9q+siwBigiyyR
-   dwmeoADImTYOh0TPP+Px5uRkzIxrcRL1o9YhSrHIrEBU8dxdlpoFHvJuK
-   Q==;
-X-CSE-ConnectionGUID: icYaVrBDQ3CLNCj5R/SGHw==
-X-CSE-MsgGUID: oF4Me4AnQ5Wmlhr0I9C93A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="59615481"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="59615481"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 05:03:03 -0700
-X-CSE-ConnectionGUID: UBSHv8XvQyGHTc7y5zlAcQ==
-X-CSE-MsgGUID: EapcKZVKQR6jojFwEVC0BQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="170692589"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.151])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 05:03:03 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id C857611F87B;
-	Fri,  8 Aug 2025 15:02:59 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1ukLoJ-008s61-2F;
-	Fri, 08 Aug 2025 15:02:59 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl
-Subject: [PATCH 1/1] media: vim2m: Remove compilation conditional to CONFIG_MEDIA_CONTROLLER
-Date: Fri,  8 Aug 2025 15:02:59 +0300
-Message-Id: <20250808120259.2114561-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1754656093; c=relaxed/simple;
+	bh=UlmptQ1Xf2x9W2byEl+LcIcI+LNH6hxYeYwGq69Jlck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UOj6W+ivCfgqdWF1dHFWkI59O5SlD/elhmsKjt7AqAy3XZLRp7V1bQOdX22yJkPZ2gUh86sbPxV2MPw+jQPr+jXNrY05wmQRWyq9BVmt7NZr3LFw088zU9QpWyUYfB4QI8d1iuCm3uAetz1k6vSY76J72PGHtErr4exumS1f8fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lTzC9hDp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0A3FA185B;
+	Fri,  8 Aug 2025 14:19:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754655577;
+	bh=UlmptQ1Xf2x9W2byEl+LcIcI+LNH6hxYeYwGq69Jlck=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lTzC9hDp2X12e8tvv5tXon9tGjlHLYSZBug9Y6zOyOko3tzJXpmDstg+og4o+u8Cw
+	 K/4WJw/vJenLG59qoZGiPMwejB/bt64Wt7jEJLcKtALo8WRry4/PGBu0VlFgIUP+OT
+	 kPV0up6NbfwpyJR0rrhjG3I+l5MeIgpcoZV0m/hQ=
+Date: Fri, 8 Aug 2025 15:20:11 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH 1/1] media: MAINTAINERS: Orphan the rcar_jpu driver
+Message-ID: <20250808122011.GB7299@pendragon.ideasonboard.com>
+References: <20250808083021.2113627-1-sakari.ailus@linux.intel.com>
+ <20250808084738.GA7299@pendragon.ideasonboard.com>
+ <aJXGrpbFbyxRN38u@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aJXGrpbFbyxRN38u@kekkonen.localdomain>
 
-MEDIA_CONTROLLER is selected for vim2m already since commit 016baa59bf9f
-("media: Kconfig: Don't expose the Request API option"). Also remove the
-related #ifdefs.
+On Fri, Aug 08, 2025 at 09:43:10AM +0000, Sakari Ailus wrote:
+> On Fri, Aug 08, 2025 at 11:47:38AM +0300, Laurent Pinchart wrote:
+> > On Fri, Aug 08, 2025 at 11:30:21AM +0300, Sakari Ailus wrote:
+> > > Mikhail's e-mail is bouncing:
+> > > 
+> > > ===========8<-----------
+> > > The following message to <mikhail.ulyanov@cogentembedded.com> was undeliverable.
+> > > The reason for the problem:
+> > > 5.1.0 - Unknown address error 550-"5.1.1 The email account that you tried to
+> > > reach does not exist. Please try\n5.1.1 double-checking the recipient's email
+> > > address for typos or\n5.1.1 unnecessary spaces. For more information, go
+> > > to\n5.1.1  https://support.google.com/mail/?p=NoSuchUser
+> > > d75a77b69052e-4b07f8ba752si46048731cf.823 - gsmtp"
+> > > ===========8<-----------
+> > > 
+> > > Assign the driver to Laurent with "Odd Fixes" status.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > 
+> > I'm fine maintaining the driver (for odd fixes at least, as I don't
+> > think I could even test the code), but Cogent Embedded should be
+> > contacted to see if there's an issue with Mikhail's e-mail address, if
+> > he moved somewhere else and would like to keep being the driver's
+> > maintainer, or if someone else from Cogent would step up.
+> 
+> I don't have contacts there. The last indication of Mikhail is from 2018 in
+> form of an ack so I don't think his maintenance has been very active lately
+> in any case, effetively the driver is abandoned independently of the status
+> of the e-mail account.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/test-drivers/vim2m.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+There are more recent contributions from Cogent Embedded to the kernel,
+how about CC'ing those developers ?
 
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 1d1a9e768505..80ffd8e3dd62 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -191,9 +191,7 @@ static void get_alignment(u32 fourcc,
- struct vim2m_dev {
- 	struct v4l2_device	v4l2_dev;
- 	struct video_device	vfd;
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	struct media_device	mdev;
--#endif
- 
- 	atomic_t		num_inst;
- 	struct mutex		dev_mutex;
-@@ -1470,9 +1468,7 @@ static void vim2m_device_release(struct video_device *vdev)
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
- 	v4l2_m2m_release(dev->m2m_dev);
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	media_device_cleanup(&dev->mdev);
--#endif
- 	kfree(dev);
- }
- 
-@@ -1543,7 +1539,6 @@ static int vim2m_probe(struct platform_device *pdev)
- 		goto error_dev;
- 	}
- 
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	dev->mdev.dev = &pdev->dev;
- 	strscpy(dev->mdev.model, "vim2m", sizeof(dev->mdev.model));
- 	strscpy(dev->mdev.bus_info, "platform:vim2m",
-@@ -1551,7 +1546,6 @@ static int vim2m_probe(struct platform_device *pdev)
- 	media_device_init(&dev->mdev);
- 	dev->mdev.ops = &m2m_media_ops;
- 	dev->v4l2_dev.mdev = &dev->mdev;
--#endif
- 
- 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
- 	if (ret) {
-@@ -1562,7 +1556,6 @@ static int vim2m_probe(struct platform_device *pdev)
- 	v4l2_info(&dev->v4l2_dev,
- 		  "Device registered as /dev/video%d\n", vfd->num);
- 
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	ret = v4l2_m2m_register_media_controller(dev->m2m_dev, vfd,
- 						 MEDIA_ENT_F_PROC_VIDEO_SCALER);
- 	if (ret) {
-@@ -1575,13 +1568,11 @@ static int vim2m_probe(struct platform_device *pdev)
- 		v4l2_err(&dev->v4l2_dev, "Failed to register mem2mem media device\n");
- 		goto error_m2m_mc;
- 	}
--#endif
-+
- 	return 0;
- 
--#ifdef CONFIG_MEDIA_CONTROLLER
- error_m2m_mc:
- 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
--#endif
- error_v4l2:
- 	video_unregister_device(&dev->vfd);
- 	/* vim2m_device_release called by video_unregister_device to release various objects */
-@@ -1602,10 +1593,8 @@ static void vim2m_remove(struct platform_device *pdev)
- 
- 	v4l2_info(&dev->v4l2_dev, "Removing " MEM2MEM_NAME);
- 
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	media_device_unregister(&dev->mdev);
- 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
--#endif
- 	video_unregister_device(&dev->vfd);
- }
- 
 -- 
-2.39.5
+Regards,
 
+Laurent Pinchart
 
