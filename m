@@ -1,120 +1,124 @@
-Return-Path: <linux-media+bounces-39110-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39111-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0FAFB1E5A4
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 11:33:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BCEB1E5C6
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 11:43:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA21D3A3FD5
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 09:33:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E1F26565D13
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 09:43:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B69B626AAB2;
-	Fri,  8 Aug 2025 09:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8317526AAB2;
+	Fri,  8 Aug 2025 09:43:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AoYYPuK8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9ZaQcsr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2AC21B9D2;
-	Fri,  8 Aug 2025 09:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38493234964
+	for <linux-media@vger.kernel.org>; Fri,  8 Aug 2025 09:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754645621; cv=none; b=UcXArCvKzvVZiPOv/Axv8jYUzJ6OBfo8v2uwSyYMsWy+/mE4+SfeJ/hbFJ3Pem/vfQ9C5TtCo4IcmEbOJSQzQAHjUp2hM98t/g4P7NfFH58VQdQfvus9Ev3VxXSMaEbTm4y9UartdhFdmneHDDCRIzXixBoAOxx7XrvcFBHrQrU=
+	t=1754646197; cv=none; b=KV8TkxoJVo3BoJeUppafgkB22Vx3AsHOe/eu+7L1DSJgkq4DKxTeoTGj0lzIUTNOtA06vZpeNR6z4Cbv8e+B6vIEQ/s7ihD2zrqtuy1pSRTeDTNU6IF00pbvgBHSQ3u9P1y/Y/wqV2WSLyUxzffudv0LBYo6e4uHhZ2T2ioskOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754645621; c=relaxed/simple;
-	bh=v5nJw7pW9NldiMiDVu4gHWSXUhRzC6alfq7kyL5LQlU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=LBmuYy6XfWzsMDq1j2NqOGdsJliBcXAXKW7FlNfWl2x5igIK3F3r35VePNdJTZm1ZfZKdBHHwx4/zOva+OtgOr0spJ5Rdp4S6as57e0QB4YUTRrmD3Wz+CDaU5ksZF3riQLu0UpPiMU8CSgQnqKgED+46sl3Gze1SDmQyyq0w5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AoYYPuK8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F50AC4CEED;
-	Fri,  8 Aug 2025 09:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754645620;
-	bh=v5nJw7pW9NldiMiDVu4gHWSXUhRzC6alfq7kyL5LQlU=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=AoYYPuK8P1uFQHbW4CjoOxTwUU9NZYEYOpTLEtcLOclUFUclqihkeTB0E9hYFeLlQ
-	 JCfha16Eiop3urr9hw4OwPqXx5w9BgLIoogl4HT+2EcXhpx5UViol+gqEwbCgI7OTF
-	 wlZa5gFAFPm15eLMwXi6LjuqGaEC2rmsE5tPTdkxDtfMo0ENfe1BjKdlyCeUs7Sgsf
-	 UikHmzSQpA7fIeTOaNAnwO/mptFMnwsPJcyakaM1+I/eJn0FCUoBIspJwJfzc9zMOP
-	 F+jhPOAhil6J7m2wPVXE2Ew1YuaxaO+3bOGhUw3z/PL9xS6qCmhZbJfDSdViLZHejJ
-	 b5t/bCOr62hWg==
-Message-ID: <bf53e762-883d-4e14-bf84-355ec9ed7ad3@kernel.org>
-Date: Fri, 8 Aug 2025 10:33:37 +0100
+	s=arc-20240116; t=1754646197; c=relaxed/simple;
+	bh=jWSPyH9sdFl63ylsmmyhaJx5LKoD8x5eaweef7AmsKs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JN2jDEe3kwats7jyO5cfDRZks2QwFIhcaW3I97kwxF/aAlI8AW+bY6V7Gt93T9eqomTomldqqcErrL+rligGuhJep2VWs66KfRRGb9LHHhSK8rj+Mhw8lkmOj8hCOAOrbuU6azSO2R/nwwRooBA+QJCplC1hN4mcPfp4bXBVBX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9ZaQcsr; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754646195; x=1786182195;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jWSPyH9sdFl63ylsmmyhaJx5LKoD8x5eaweef7AmsKs=;
+  b=Z9ZaQcsrB4dIs7laRtt65JIzp8C+O3qEWR/WdWVU3UZnOWvaIktYL9B/
+   hxzl3/afEATcfm2GslbOoKTiIkg4Lk9jW3ec2NrHg1UrcOdxtAf4lkf6q
+   q8c/w73TtI5AC8jbPz6YUIBGK5Y6UjcfSEjO4BZ8c9GZBdwFxx2e6BpCL
+   blWJhcd80O6Grz0veBMzsZvgVDqycaAZ8NT2hw1TZ6tpVHxzgsu+r/Dl6
+   eeByjMu5ElJ5XMtSUK6vGyCe+OEy2+t8+yKtq27KHTYspsU0DvQYv+FOz
+   QUnO3OOt5tEoUwyJJ5iWBUP8haADO/X0gVfSyXALyDd1PAA67o6EyrrtT
+   A==;
+X-CSE-ConnectionGUID: Gmkz2RpgQymdbJPHffBhxQ==
+X-CSE-MsgGUID: HxAXJjk+T9Wathek3T4K2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="74569351"
+X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
+   d="scan'208";a="74569351"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 02:43:15 -0700
+X-CSE-ConnectionGUID: wMGCW6xISUihdolEEntJrw==
+X-CSE-MsgGUID: 1v9b6om1SXqSpj47QT+WXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
+   d="scan'208";a="165192554"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.151])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 02:43:13 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D92B411FC45;
+	Fri,  8 Aug 2025 12:43:10 +0300 (EEST)
+Date: Fri, 8 Aug 2025 09:43:10 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH 1/1] media: MAINTAINERS: Orphan the rcar_jpu driver
+Message-ID: <aJXGrpbFbyxRN38u@kekkonen.localdomain>
+References: <20250808083021.2113627-1-sakari.ailus@linux.intel.com>
+ <20250808084738.GA7299@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] OV02C10: image upside down in kernel 6.16
-From: Bryan O'Donoghue <bod@kernel.org>
-To: Frederic Stuyk <fstuyk@runbox.com>, hansg@kernel.org
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <7d38cf46-670e-462e-b7c2-78f9aaa9eb43@runbox.com>
- <4d193kdY6jzaUWpsKVleAVgwUkBkmgx2garx3qWBKFjDuJU0LxENQpBpuvRIXGVoTLPiswDorAZVEG2wy-qjRA==@protonmail.internalid>
- <b6df9ae7-ea9f-4e5a-8065-5b130f534f37@runbox.com>
- <fb156b5c-c83c-4d33-86bb-f3cc4cf39ada@kernel.org>
-Content-Language: en-US
-In-Reply-To: <fb156b5c-c83c-4d33-86bb-f3cc4cf39ada@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250808084738.GA7299@pendragon.ideasonboard.com>
 
-On 08/08/2025 10:27, Bryan O'Donoghue wrote:
-> On 08/08/2025 10:03, Frederic Stuyk wrote:
->> Querying the sensor orientation metadata shows:
->>
->>       $ v4l2-ctl -d /dev/v4l-subdev6 -C camera_sensor_rotation
->>       camera_sensor_rotation: 0
->>
->> This control is read-only and cannot be changed.
-> 
-> Register is defined but not used.
-> 
-> deckard$ grep ROT drivers/media/i2c/ov02c10.c
-> #define OV02C10_ROTATE_CONTROL        CCI_REG8(0x3820)
-> #define OV02C10_CONFIG_ROTATE        0x18
-> 
-> ::set_ctrl()
-> case V4L2_CID_HFLIP:
-> case V4L2_CID_VFLIP:
-> cci_write(ov02c10->regmap, OV02C10_ROTATE_CONTROL,
->            ov02c10->hflip->val | ov02c10->vflip->val << 1, &ret);
-> 
-> ::init_controls()
-> 
-> ov02c10->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
->                                     V4L2_CID_HFLIP, 0, 1, 1, 0);
-> if (ov02e10->hflip)
->          ov02e10->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-> 
-> ov02c10->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
->                                     V4L2_CID_VFLIP, 0, 1, 1, 0);
-> if (ov02c10->vflip)
->          ov02c10->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-> 
-> Something like that should work.
-> 
-> I think Hans said the ACPI tables provide the orientation for the sensor.
-> 
-> ---
-> bod
+Hi Laurent,
 
-0x3820: default 0xa0
+On Fri, Aug 08, 2025 at 11:47:38AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Aug 08, 2025 at 11:30:21AM +0300, Sakari Ailus wrote:
+> > Mikhail's e-mail is bouncing:
+> > 
+> > ===========8<-----------
+> > The following message to <mikhail.ulyanov@cogentembedded.com> was undeliverable.
+> > The reason for the problem:
+> > 5.1.0 - Unknown address error 550-"5.1.1 The email account that you tried to
+> > reach does not exist. Please try\n5.1.1 double-checking the recipient's email
+> > address for typos or\n5.1.1 unnecessary spaces. For more information, go
+> > to\n5.1.1  https://support.google.com/mail/?p=NoSuchUser
+> > d75a77b69052e-4b07f8ba752si46048731cf.823 - gsmtp"
+> > ===========8<-----------
+> > 
+> > Assign the driver to Laurent with "Odd Fixes" status.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> I'm fine maintaining the driver (for odd fixes at least, as I don't
+> think I could even test the code), but Cogent Embedded should be
+> contacted to see if there's an issue with Mikhail's e-mail address, if
+> he moved somewhere else and would like to keep being the driver's
+> maintainer, or if someone else from Cogent would step up.
 
-bit5: vflip_blc_0
-bit4: vflip_0
-bit3: hmirror_0
-bit2: hbin4_0
-bit1: hbin2_0
-bit0: vbinf_0
+I don't have contacts there. The last indication of Mikhail is from 2018 in
+form of an ack so I don't think his maintenance has been very active lately
+in any case, effetively the driver is abandoned independently of the status
+of the e-mail account.
 
-So you want to set bit3 = 0x08
+-- 
+Regards,
 
----
-bod
+Sakari Ailus
 
