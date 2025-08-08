@@ -1,119 +1,153 @@
-Return-Path: <linux-media+bounces-39124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39125-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F75BB1E9A3
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 15:54:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E79B1E9F0
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 16:05:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4315AA063F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 13:54:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 686B01899A01
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 14:05:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9D0314B086;
-	Fri,  8 Aug 2025 13:54:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50BE227EFEB;
+	Fri,  8 Aug 2025 14:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GcQRiSTS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="I614nTTp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819CC12CDA5
-	for <linux-media@vger.kernel.org>; Fri,  8 Aug 2025 13:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB5227EC99
+	for <linux-media@vger.kernel.org>; Fri,  8 Aug 2025 14:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754661284; cv=none; b=iLsSobM74bZH+6dGhdK5/CUcY/9Ze8yllVwNTrBHvyRH/SPUFYimEAuL/eU2YCOhCBEfJQjYp3p51XEf/1rHbYhioa3MFix8jmoAfKVvggD+0aSOspKaAqXgk8Ufj/iC656IySiZfBnQKc6S2IsecXafIHP9vVZO996sxBdrnDM=
+	t=1754661863; cv=none; b=k1vI0h1aYJ7FQwZXNgnYthq3/OwNEih2JtsNssoznUNroNZWatXEbS5vAOitrge4+Z/5sfjIP6kr5yqt9huJs5+s0/QbRMRI+21Ri7F+M/ad7Xp7FTBM692PqKPU14/CvKJb7JLd2HW4VNLnm053LjTmPib/hZGtMdG6D0DHbzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754661284; c=relaxed/simple;
-	bh=o+KLbLYuZJ7+bIILdO9pY6vQHMLbC/SzrM/4WRI7UUY=;
+	s=arc-20240116; t=1754661863; c=relaxed/simple;
+	bh=JUEZvxhDhkfFvtiJYesW2dn/PmSv3t5cgf3JZlQFtUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PAn6Bkl0GczV2AnLeZK1sfnjfiFJHn4wnK06LzcBlRetS7um7MXmHR23elgN8/kT73xWNQiomZS8oYND9F2ZM8rwXe3Zydyz7x29rlyQbJRyoavbAApZ1rrnSqh4JoTpRFurvpWkKAlJiHkw/iXBZp7CPem6LxHkwHm2fwI7bDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GcQRiSTS; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-458c063baeaso12557995e9.1
-        for <linux-media@vger.kernel.org>; Fri, 08 Aug 2025 06:54:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754661281; x=1755266081; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=moUCs0yDM2TAbGC1DYve6KzheacI5lUjhzwM2sT6dYU=;
-        b=GcQRiSTSSUwX9NrIOElnIdAiYUb5WJ/VgSgAgwgr4HnXYqKhsR+s3o3rKeeJ/Y5frd
-         NepFW331OYJGPCf97buQ4I+UZhZxUunLKBxqRBi/5VEFbXuHAhM2fwn7PAooNW9cHju9
-         zBl57mIDspWVKeHZAuOrOf5XIYvGxf+orvb7AkdvRzbjFvDfsqW+swpNqpMfdnoLqd05
-         jz6z761K2U0yH5pS1qX1qC+IDJpUZE5BP/9PcmBCb+KO6hKHfsBJfJ+IGXkZh7rfCdXZ
-         dZtK7XRcNnGY37Wz59l/82CjRinhNBA2eRo9O8KrV9mmDmpK1zBa4xejaA7tYFDhFa4f
-         ENxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754661281; x=1755266081;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=moUCs0yDM2TAbGC1DYve6KzheacI5lUjhzwM2sT6dYU=;
-        b=YT6lmTd+uLiL8BLAFFNu/YNbgncOHFbQ1zu0UPKSQwBjtVn6tiRbt64G38qz4H53nN
-         hB9lCJQqUrAN7l3CmP7K6NeYggvb2rZ8DWIOtPVUbnKMZCbzrSliyhJAkSRiH5Kdt0oy
-         KBfJJ5YzIggIxOaDdHUQrAauNM3OvWRP/EISKaLbB3VbqQRV/9FwKrZ49Uu7X2+JD3XZ
-         3mRzcquxvD9yWm9ejn/H9jNe1WR9AEivGBTO50FiZ979vPPPYFjRUWQgHM/RA07cbe19
-         lyPr+ppCCF++qhc4OzmD12dGiJqvqZrIWidRGmYDkqDpwzRWE82nSFC8t32OLhC3a5+g
-         WOKA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVuFl48s7XW1WouOjZRBPQuKHxy/dPB+an5QYviImgvq7JUR7IwQ7WK6DKKOaTXCzXZLeYGlJf7XcD9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxwo+nr6J7BGGmJ8vyn/qZ9Ywd+Qru0O9N8gD/BX6es2Dakrzqk
-	mFRvHQRAWMyJXR+JEs2CbSi/ja8YM/OTbAcvFW9Bq0y5UlPKQxxwDno2zBbyKliavk4=
-X-Gm-Gg: ASbGnct/19j9xf/neHOD6bE7pfMiOTtVMQH/q//ON/5ginT2aN9N/8maX0Owb5ugPaV
-	Zvz3sop7kO/F2GKq2afN5Y28G6ou6CjKIQvMJfWLg33Z35OHZa/Kdrd1PE+avDR+IL5MO+anBa9
-	ZWENUyU1fhZNthv1Wus+AO5gnjsSRWAaElXI4RKiOqsj3yYsYG6q8k+FASNLlJx7PUp7FmpBEhZ
-	19awTm17XQeTkEsjxGK8fCLqi0bG+fmR1NlilHiLNABjmFAVWPa7wSxBh5W/pAjkn8zlnSnfH+M
-	JG44X3ekkeoA2L14gACg2oSR+ba4wuobArNwT7Kt6dhtdVIXmkYii2tBGXn/D6K2knFAxs1i7jT
-	TL1h5HqdWpoIsw5Fcf5fviss/xUw=
-X-Google-Smtp-Source: AGHT+IHVsSJcpEnemEjHp7IGPVJBlggfM4sjR5uv5Ni77q0DabV1OzZ+8lZwWPntSJgVoUciTeN9AA==
-X-Received: by 2002:a05:6000:1445:b0:3b7:8412:4540 with SMTP id ffacd0b85a97d-3b900b72d33mr2075950f8f.27.1754661280768;
-        Fri, 08 Aug 2025 06:54:40 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b8e0846777sm20539318f8f.48.2025.08.08.06.54.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 06:54:40 -0700 (PDT)
-Date: Fri, 8 Aug 2025 16:54:36 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-subdev: Fix alloc failure check in
- v4l2_subdev_call_state_try()
-Message-ID: <aJYBnGXMYOzhgRPh@stanley.mountain>
-References: <20250808-fix-subdev-call-state-try-v1-1-000676e46754@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=oJoK1Zc1+EQWfsT8lN7oYoksN/foS9Rxt+aDxZzpS6KHmPsn6jHPF0A7NWuC+z9k6lKRgg2UtPwVpuzQ6RcnCTZobPGbf+0lPBg85GDl+j09FcFrdM/D44ripn00w8squESAh4waVBGMD0S0IE6SBvEvhzdCrjPylk18cK1pJ4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=I614nTTp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 04C40185B;
+	Fri,  8 Aug 2025 16:03:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754661807;
+	bh=JUEZvxhDhkfFvtiJYesW2dn/PmSv3t5cgf3JZlQFtUQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I614nTTpYDPIuAFmdi3LImsBQLV5tO+p7JZ0YF52HDL4UhJjHryHeyCEyAy4AecTL
+	 b4GqGyHUWhW8xPbRSq+HVUtODdUG10ff8JIjfOhyziN3P9Up2370eggBUC5jO9J08H
+	 nnYrauIUYyyhGBwT8+fDFLkPUSdCxFoz6c/BvBtc=
+Date: Fri, 8 Aug 2025 17:04:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [0/4] Remove the wl1273 FM Radio
+Message-ID: <20250808140400.GA23187@pendragon.ideasonboard.com>
+References: <20250625133258.78133-1-linux@treblig.org>
+ <685c08d5.050a0220.350bff.01b0@mx.google.com>
+ <aF1CCjVmRruMORto@gallifrey>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250808-fix-subdev-call-state-try-v1-1-000676e46754@ideasonboard.com>
+In-Reply-To: <aF1CCjVmRruMORto@gallifrey>
 
-On Fri, Aug 08, 2025 at 11:59:15AM +0300, Tomi Valkeinen wrote:
-> v4l2_subdev_call_state_try() macro allocates a subdev state with
-> __v4l2_subdev_state_alloc(), but does not check the returned value. If
-> __v4l2_subdev_state_alloc fails, it returns an ERR_PTR, and that would
-> cause v4l2_subdev_call_state_try() to crash.
+On Thu, Jun 26, 2025 at 12:50:18PM +0000, Dr. David Alan Gilbert wrote:
+> * Patchwork Integration (patchwork@media-ci.org) wrote:
+> > Dear Dr. David Alan Gilbert:
+> > 
+> > Thanks for your patches! Unfortunately the Media CI robot detected some
+> > issues:
+> > 
+> > # Test checkpatch:./0001-media-radio-wl1273-Remove.patch checkpatch
+> > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > #7: 
+> >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > 
+> > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > #61: 
+> > deleted file mode 100644
+> > 
+> > total: 0 errors, 2 warnings, 0 checks, 30 lines checked
 > 
-> Add proper error handling to v4l2_subdev_call_state_try().
+> I did check that, couldn't find any appropriate MAINTAINERS entry anyway
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Fixes: 982c0487185b ("media: subdev: Add v4l2_subdev_call_state_try() macro")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/all/aJTNtpDUbTz7eyJc%40stanley.mountain/
-> Cc: stable@vger.kernel.org
+> > # Test checkpatch:./0002-ASoC-wl1273-Remove.patch checkpatch
+> > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > #7: 
+> >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> 
+> Yep, said that in my cover letter; suggestions on how to refer to that URL
+> in a better way are welcome.
 
-Looks good.  Thanks!
+You can ignore those two warnings.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > #71: 
+> > deleted file mode 100644
+> > 
+> > total: 0 errors, 2 warnings, 0 checks, 36 lines checked
+> > 
+> > # Test checkpatch:./0003-mfd-wl1273-core-Remove.patch checkpatch
+> > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > #8: 
+> >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > 
+> > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > #55: 
+> > deleted file mode 100644
+> > 
+> > total: 0 errors, 2 warnings, 0 checks, 23 lines checked
+> > 
+> > # Test checkpatch:./0004-mfd-wl1273-core-Remove-the-header.patch checkpatch
+> > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > #7: 
+> >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > 
+> > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > #35: 
+> > deleted file mode 100644
+> > 
+> > total: 0 errors, 2 warnings, 0 checks, 7 lines checked
+> > 
+> > 
+> > 
+> > Please fix your series, and upload a new version. If you have a patchwork
+> > account, do not forget to mark the current series as Superseded.
+> > 
+> > For more details, check the full report at:
+> > https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/79088843/artifacts/report.htm .
+> > 
+> > 
+> > 
+> > Best regards, and Happy Hacking!
+> > Media CI robot on behalf of the linux-media community.
+> > 
+> > ---
+> > Check the latest rules for contributing your patches at:
+> > https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
+> > 
+> > If you believe that the CI is wrong, kindly open an issue at
+> > https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
+> > to this message.
+> > 
+> -- 
+>  -----Open up your eyes, open up your mind, open up your code -------   
+> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+> \        dave @ treblig.org |                               | In Hex /
+>  \ _________________________|_____ http://www.treblig.org   |_______/
+> 
 
-regards,
-dan carpenter
+-- 
+Regards,
 
+Laurent Pinchart
 
