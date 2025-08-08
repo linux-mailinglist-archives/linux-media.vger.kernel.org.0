@@ -1,152 +1,152 @@
-Return-Path: <linux-media+bounces-39100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15FBB1E4FD
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 10:55:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63163B1E529
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 11:00:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10E4D7A4C1A
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 08:53:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 046911651EE
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 09:00:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64B3B2749E8;
-	Fri,  8 Aug 2025 08:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D67E267F57;
+	Fri,  8 Aug 2025 08:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SmBYrewt"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bPBFEZpL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFB9273D8E
-	for <linux-media@vger.kernel.org>; Fri,  8 Aug 2025 08:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A352144C9;
+	Fri,  8 Aug 2025 08:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754643201; cv=none; b=XYtP9jgdf+QWA/nHH/c/6DHkOCKlVECKAeBhLGHEyMS02kuzDrstKQaDCChgsikzEBY+zS1De2beeL2HeIvcs6Fv/jGWKVfN5E/CyZtx7wBAKpJYt2x9NX49NM/rR+2WThp2rYyrIO8crvxesXeS9Y8+8GgPiC3f9V1Xd55au7Q=
+	t=1754643598; cv=none; b=X8R7hYR3of2FDKwC0yLNqRdesQq3FxpHvbICZpQuzn4sWdHvG/JEoZOJtbAzshswaQU1UDxfBtd83dDP+l37LBIiYGbmc2KbPPopWFeuQ37z6RcEjXykFzk62QCunarTKPCq2Q9Q5B8/Wxk4j5rx/KPw3YUuaXuGeT8Kof38XHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754643201; c=relaxed/simple;
-	bh=xLcisQUmX1kKWJaAAGMAi99CaZ3yNW/4jd6IUN4d/Tc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=B18Ws5GC+rTsR237vt0gEJHR2sO94LnVNLRybToQ56e7XE4B14q4uuANPoLfs7tb/IjWZPeU+xtAfPVa6kmFtSazeCIrGJl60vc5rosMHD5mX0dvYOlG2CX8oYOU3czuSMLHySGZ7EHDeq0w4eUlBfOU7M/ToaZ1zT8802rdRS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SmBYrewt; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5787LeCj018565
-	for <linux-media@vger.kernel.org>; Fri, 8 Aug 2025 08:53:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=XAMShpBw6gl
-	5ZzER3GWo8lF+QTIMlJwqOkE02a/mRys=; b=SmBYrewto+jNpsi4mCt3DQSMm8s
-	yyWJMBkdy7sYhTSI4EFHOId4KZhIezx18DuJfacTiZI76cgvob5NnPVDSOves4Am
-	8bF7BfkiJhIB4Ul4yAjnLk8jmCBL/PlU/oN98Zu4HskcRTu7qtZAVeiJrO7crsCj
-	Bs5+wJDgbVYVjXyqqgOBN10fIlsT3t7E95FSsykffNmCLwcppshrZTN3fuFj4v9d
-	/++nJXyXw1D6GhB1dzt0AB7oq2XKqFTyJP7jdcy4LZQ5io1qI4cpctS5iKhltfGT
-	kNdktzesb29biz17JE5DvVPaPgKHBKcRoHjr7Bk/bn+eSmdyLyyls46uxgg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48c586eyc3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 08 Aug 2025 08:53:18 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4af1a20cbcfso47306571cf.3
-        for <linux-media@vger.kernel.org>; Fri, 08 Aug 2025 01:53:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754643197; x=1755247997;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XAMShpBw6gl5ZzER3GWo8lF+QTIMlJwqOkE02a/mRys=;
-        b=JUE3A+2NQDOA8k60eeI4rs1b+eHTRh6t/h1szoiVHr8DjrOrsSXw2kn3sgqAGdFAiw
-         Uwzer40SNILaX+YY5MpV2tBLm1hKN0BMJ2zbsDVhJp2Pmfrh3VhDUgwZrUiIO5uOOL4C
-         /HObkSZ40d2rnvSnKA2HSayUmtxklue0EIdD9L6BTHdy4IbmtTGbzEkKcKsqw/nNtA5d
-         9EEU5Kv6zYN2YmNRWjLZdWer4XHzmrBPsQI4fgMSAdC2pPEdE4Iuuw4T2Li+w0P2TVXs
-         X2HyqQT2xeTAz41aJ1ksvpARUtW5eQR5zTBJx7wxoPtFb2WlUiUDVyu3npZgP2nVZXiu
-         og4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWkkF/uqBY03p4tmrw1vqbUSiGjE4EwqYqWiblhZbxfJxWbPG7RsFq7ZpOrJBLB/+QeLbnpMcgWkfuIig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBctIWrJbe0qOVcdWE2D5QVssJRLTGx+vSCh6L2SdW7x5TKWxF
-	9xemtuvAhlt44C+abHpiwMdjm+r1MOxHAaJPiKbqsk2ZGPYBTd5D/HIg7Mjju1axSStEY8cwj6b
-	bM96QdJcFSddEPfIvSDDF3lKE34CtdmJ+xvYlV8sQ2pMTeD9NQpB+qjOEyup4mDolbg==
-X-Gm-Gg: ASbGncvmLZ06Sw9nAS5EUPOAzV9CFUydzWtcbSajcZS3955af2LgP/IknwNJxfpEz5T
-	+3VpuZmQtU0xraGqoDjiKijv94A3AN6rydecLtpWK2hoSaVqglbSm33NIKIsIBrRA0TiKfxerTj
-	EFY0cEDrLUqYnHOM+506XWerKWrFmZF4JgIDfYch8TGMFoZKgglNH474gJM8/mkM8P/azCfhv0t
-	X2Ab+gNUA9nlLzc1YopYFaizuk1lxyy+EwvfSzSUTf9VMSBbJr+WVZBiKc6GEe8RifKa2vnWFCB
-	+8+eZvVxnI891zk/GflIFsCcJbooylyCNWWRUaZnQp+MKYNyTA/gTXJexg01IP+9PTwBZgD5XZV
-	vCZcblcwvcNid
-X-Received: by 2002:a05:622a:248:b0:4ab:41a7:847 with SMTP id d75a77b69052e-4b0aedc95c1mr30198081cf.31.1754643197261;
-        Fri, 08 Aug 2025 01:53:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJP2aWj+S7AivPnjl0T9O7ur4HP90mdxQ0hwDryC5Qx7SHbXMaFhvERCN4XIMhJujoabrZNQ==
-X-Received: by 2002:a05:622a:248:b0:4ab:41a7:847 with SMTP id d75a77b69052e-4b0aedc95c1mr30197871cf.31.1754643196868;
-        Fri, 08 Aug 2025 01:53:16 -0700 (PDT)
-Received: from trex.. (205.red-83-60-94.dynamicip.rima-tde.net. [83.60.94.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e5e99e04sm123818745e9.11.2025.08.08.01.53.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 01:53:16 -0700 (PDT)
-From: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-To: jorge.ramirez@oss.qualcomm.com, quic_vgarodia@quicinc.com,
-        quic_dikshita@quicinc.com, bryan.odonoghue@linaro.org,
-        krzk+dt@kernel.org, konradybcio@kernel.org,
-        dmitry.baryshkov@oss.qualcomm.com, mchehab@kernel.org, robh@kernel.org,
-        andersson@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 8/8] arm64: dts: qcom: qrb2210-rb1: Enable Venus
-Date: Fri,  8 Aug 2025 10:53:00 +0200
-Message-Id: <20250808085300.1403570-9-jorge.ramirez@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250808085300.1403570-1-jorge.ramirez@oss.qualcomm.com>
-References: <20250808085300.1403570-1-jorge.ramirez@oss.qualcomm.com>
+	s=arc-20240116; t=1754643598; c=relaxed/simple;
+	bh=4fCWUkIynqky7/IZe7jOrYoP938ZySdZp8AKbSR4F0w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Qq6gQtQEDAK6osclp2PkPFaFkAYYYTHxY8e5HR33qnvq6XOoBWH6bqB4+DYHmkgTltfZl71qjLQUxmlnoW/ZO5CeatrPboicU69TabZdLTkCmKQwwslMLjmetX3sQPCZqG7if3VcxH9u53KUQwEs+QNRmntXBuh/flIqXoUnvaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bPBFEZpL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4776185B;
+	Fri,  8 Aug 2025 10:59:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754643545;
+	bh=4fCWUkIynqky7/IZe7jOrYoP938ZySdZp8AKbSR4F0w=;
+	h=From:Date:Subject:To:Cc:From;
+	b=bPBFEZpLQVUMHbT7/IV8F5QjduXs2N5/+jPslm+TrmHuAZQkXHWjAKTSgT5eJGEyH
+	 XBGsTOWXr1KL7B/KZtOwB1+B/dh5ZhVO6NTY5/cOtRtHUChgYV5H1RcvTmy2eZOMEb
+	 /+mZDj7MnAu22RwwSnrVm9ZgROVd3ZgKLMN8KPNo=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Fri, 08 Aug 2025 11:59:15 +0300
+Subject: [PATCH] media: v4l2-subdev: Fix alloc failure check in
+ v4l2_subdev_call_state_try()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: wZPoaOZoB7Vgh8wOdS1-U0yug9_NFzof
-X-Authority-Analysis: v=2.4 cv=MZpsu4/f c=1 sm=1 tr=0 ts=6895bafe cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=Rr2dNH5/fcnoRoBmcVUeRg==:17
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=Qms5JgQ9tnEuTiNUcoUA:9
- a=uxP6HrT_eTzRwkO_Te1X:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: wZPoaOZoB7Vgh8wOdS1-U0yug9_NFzof
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDA2NCBTYWx0ZWRfX5BEQGRS5rEPe
- G5ShFB1naINRaKQhBb6BGg73akiBhxahb+0jtW+7hAN+7L5+odrulCjk3vpnufTBlJYx3tK6iyL
- kc9WVxTnvQJx3x/obEkXSgCGSxcI5U8wnuvxD3DFjh4gLxZeRsE1tIbdihl3+H8gHzEIl5wdz7u
- 44yyO/GG8Xvhj3dxV96SYg4rrKzU5bx5Doo3ClCxA31gCU2hS36R9YQ2b0TtDr8qjS1iC/oZjz1
- rL3jjQxUoU0RgERL8x+0lq+aVjwQ/6s0zNOfBkYYADB4uSmiiX6areiO8PoyoauN1LZi4uYBuHi
- jTEWXb4d2KFACiknYzqJ0a8iphpSz7iI2HAoSED3WlWyPQ7jyDiIJzqlki4spzSOWH3qpmqeP8P
- I3eW5jUu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-08_02,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 clxscore=1015 bulkscore=0
- adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508060064
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250808-fix-subdev-call-state-try-v1-1-000676e46754@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAGK8lWgC/x2MWw5AMBAAryL7bZNqPMpVxEexZRNBuiVE3F3jc
+ 5KZeUDIMwk0yQOeThbe1ghZmsAw23Ui5DEyaKULZZRBxxfK0Y904mCXBSXYQBj8jVTp3NmyVpU
+ zEPvdU5T/d9u97wctnq6nawAAAA==
+X-Change-ID: 20250808-fix-subdev-call-state-try-e724fa6907f8
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3211;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=4fCWUkIynqky7/IZe7jOrYoP938ZySdZp8AKbSR4F0w=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBolbyGy5gj2CEMIYLaIIneZPvWty7PrB6F1K1GM
+ HNJf6afbkSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaJW8hgAKCRD6PaqMvJYe
+ 9W/nD/4jxkXAnL6VQ86cruGO8+2UpGllyKWQbhTQqGzm/SFNj6qWmNoLfXKKJPkEe/qrdqWopva
+ rLF6e5p7pCQM3wsbeO/1TTNQT34Hk4Kmjiox3HSrvyonFjwo6neXk+KPDQI+LE/1O9Svl0DlARJ
+ ZYwVKT4LCx+yLTvSS+2b+LHcpvsZgpyCmqfO3JS+d+9b67gFtimjEkOgzRD5bt7f4Q8ranK/Xw2
+ Pd3MvnNYUjQt4Lt2TsT3aUjRgeTltIVG/xVadQQnZVyeRBnCFqMaAaYZLP0tNW2P002IGJJWFSZ
+ vm5VgKK4dOwfDXQFJ0l6e442MQvfgYxVSZ29VJ+vTPm8sRgqfZlK/ZY2UxrPittFFbHJ1jG+jLO
+ DImFYxolMP8Bp5C1bDNR7cwNOldrWbFbt2OjtH6PfpQDHbkhe9PIPYFdovhfc1KQ5Aj6h/pHDR4
+ yVw04kh40O8WeIkEtqfRkMRE9CK+1n59XIF6FFt0japOf8g05bDqele5ygiwREQI/3ZYblDfUPO
+ 7g53wwSsXsO/CJ6PBWkEy+68uo3IQhrr2TyuTWqXjN8JM3VfnAUE3gktP39iArl55MdPZdQajb9
+ jsvIOSjcaiKft0wWUKXs+AjDxmuK0V5GEADpoHZ2nLmQs3iGU7Eml6ikRxpgw+ECdPi4C+0t2dB
+ JySqKV0nTKFyG5A==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Enable Venus on the QRB2210 RB1 development board.
+v4l2_subdev_call_state_try() macro allocates a subdev state with
+__v4l2_subdev_state_alloc(), but does not check the returned value. If
+__v4l2_subdev_state_alloc fails, it returns an ERR_PTR, and that would
+cause v4l2_subdev_call_state_try() to crash.
 
-Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Add proper error handling to v4l2_subdev_call_state_try().
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Fixes: 982c0487185b ("media: subdev: Add v4l2_subdev_call_state_try() macro")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/all/aJTNtpDUbTz7eyJc%40stanley.mountain/
+Cc: stable@vger.kernel.org
 ---
- arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/media/v4l2-subdev.h | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-index b2e0fc5501c1..e92d0d6ad1b8 100644
---- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-+++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-@@ -698,6 +698,10 @@ &usb_qmpphy_out {
- 	remote-endpoint = <&pm4125_ss_in>;
- };
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 5dcf4065708f..398b57461677 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1962,19 +1962,23 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+  *
+  * Note: only legacy non-MC drivers may need this macro.
+  */
+-#define v4l2_subdev_call_state_try(sd, o, f, args...)                 \
+-	({                                                            \
+-		int __result;                                         \
+-		static struct lock_class_key __key;                   \
+-		const char *name = KBUILD_BASENAME                    \
+-			":" __stringify(__LINE__) ":state->lock";     \
+-		struct v4l2_subdev_state *state =                     \
+-			__v4l2_subdev_state_alloc(sd, name, &__key);  \
+-		v4l2_subdev_lock_state(state);                        \
+-		__result = v4l2_subdev_call(sd, o, f, state, ##args); \
+-		v4l2_subdev_unlock_state(state);                      \
+-		__v4l2_subdev_state_free(state);                      \
+-		__result;                                             \
++#define v4l2_subdev_call_state_try(sd, o, f, args...)                         \
++	({                                                                    \
++		int __result;                                                 \
++		static struct lock_class_key __key;                           \
++		const char *name = KBUILD_BASENAME                            \
++			":" __stringify(__LINE__) ":state->lock";             \
++		struct v4l2_subdev_state *state =                             \
++			__v4l2_subdev_state_alloc(sd, name, &__key);          \
++		if (IS_ERR(state)) {                                          \
++			__result = PTR_ERR(state);                            \
++		} else {                                                      \
++			v4l2_subdev_lock_state(state);                        \
++			__result = v4l2_subdev_call(sd, o, f, state, ##args); \
++			v4l2_subdev_unlock_state(state);                      \
++			__v4l2_subdev_state_free(state);                      \
++		}                                                             \
++		__result;                                                     \
+ 	})
  
-+&venus {
-+	status = "okay";
-+};
-+
- &wifi {
- 	vdd-0.8-cx-mx-supply = <&pm4125_l7>;
- 	vdd-1.8-xo-supply = <&pm4125_l13>;
+ /**
+
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20250808-fix-subdev-call-state-try-e724fa6907f8
+
+Best regards,
 -- 
-2.34.1
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 
