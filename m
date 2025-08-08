@@ -1,118 +1,115 @@
-Return-Path: <linux-media+bounces-39131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31402B1EBCF
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 17:27:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CD7B1EC57
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 17:49:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 416B15A4EEF
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 15:24:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA81A3AF89D
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 15:49:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 032D028504C;
-	Fri,  8 Aug 2025 15:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9F7285068;
+	Fri,  8 Aug 2025 15:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y6MVeCi2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JgFSxP5u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDA6285417;
-	Fri,  8 Aug 2025 15:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE0E27FD5D;
+	Fri,  8 Aug 2025 15:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754666550; cv=none; b=jzkf2KpiCyRWYPHnW7QF45BHqePmKioI9AGYZf4F+WvDh+CFOd+dnmMzp35KtgZ0tbjqcERjs/N4ZinQLAwFDz2ICPYWcuN9jRZGXkSsV8orsJ9hd6KxRdLfoXD8GAN83kWhs/Fse07h7ljMyf+ECclpDKjKnT4vkhX+l/OPptU=
+	t=1754668162; cv=none; b=g77DNfOL5zQRYw0RuTiNHtqVjjXlcPG5g8dB2nCYie2tqmPG6dn83P2xULR6Le92sBLqmn0DfzrB25movTfZ6CkUKpNmVhpMkbO3yQ0KZet8nSvUOCqftNY6aKRK7bMvuOzQ3vy4zRucOXqqraKL61LPcSQKFP3k+tH4Q/RvVNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754666550; c=relaxed/simple;
-	bh=76MpyQgmZefPDK6A+dtSLh6pRCK3T1QGcQVGiHd0WN4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ab5auPOwjrOvmrMyP6045eqUPJ6L0mwuR9EJFxcjjynBDI0hd/u8IUuJvt+vlypOmgrO7jv96IdBkILaE+4jaaK+BTPLlXDsL4O2q2e8si/mhQCAhXqjV5GPvqcZmp1tjeAANpZwdUL72Tdj79COC0nWqGSXgdxWwiAKiVdTPlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y6MVeCi2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AA8CC4CEF4;
-	Fri,  8 Aug 2025 15:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754666550;
-	bh=76MpyQgmZefPDK6A+dtSLh6pRCK3T1QGcQVGiHd0WN4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y6MVeCi2p+89sktC3Hd+gd36a4WmsiSoctBr7nropIwhx3JsxONcVsUb27Twlj2ad
-	 6513Z6xGJT7mmKhOfnlhcw78otf/eSI9YUq5J4wKQ7ZSxHaiVB7n5ZgQ4Laz0XhdXe
-	 OvSddarraZ76jsZjjVS7NA7i247P5MlbzUl1wavs//p/IapWxWCO4eSdlygopN5/U7
-	 IJRbgretxjSIAQGKCOHE1LNYldK++10EkVV5cMadQOc2aemMm/O1cdveMGVFkna2yJ
-	 NkKVD/VCjTYelzD/qBkHuzhjY6hORA1Hy33sYDfMYEJ2L5juYpuMJq4hZXUuhkFfDN
-	 xD1qMCj0XebnA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	linux-media@vger.kernel.org,
+	s=arc-20240116; t=1754668162; c=relaxed/simple;
+	bh=pIQ6vU9w4UeLwbTT6Kv7fzi6LGvzo6PScYYE6GGKNHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QECY9oIsAg3ju77n2OGufI9ZtagL/SogX7nJa0QrinPjSFCRCjIb5jeNBvGgJN15LNBNOJX57ta69F94KYDIEL7OOSDRBrD1SjtVKSLDbktdi1YvMB0N8I+K8l0I7GAR4Aa5NxCZ9nHpQ5K9u0gF+WecX3Ap8N7li5sQ4U2PgfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JgFSxP5u; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 735471920;
+	Fri,  8 Aug 2025 17:48:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754668108;
+	bh=pIQ6vU9w4UeLwbTT6Kv7fzi6LGvzo6PScYYE6GGKNHI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JgFSxP5u0D5a7n575+BtZgqmGSG/DS7CroG5hZjniD9UY5xdum3+cwmoKt7/AnutS
+	 51hMn7kk9za5whdbDm2R6wxCcKcQ5W7vbVb+xOonf4tYuYdJAROac2qMx3A+dbHFBJ
+	 zOSj8waUlLUV7Y3hjZy7qULUfEZx+ljUNucDQets=
+Date: Fri, 8 Aug 2025 18:49:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux@treblig.org
+Cc: arnd@arndb.de, lee@kernel.org, mchehab@kernel.org, lgirdwood@gmail.com,
+	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/21] media: em28xx: add special case for legacy gpiolib interface
-Date: Fri,  8 Aug 2025 17:17:55 +0200
-Message-Id: <20250808151822.536879-12-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
-References: <20250808151822.536879-1-arnd@kernel.org>
+Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
+Message-ID: <20250808154903.GB23187@pendragon.ideasonboard.com>
+References: <20250625133258.78133-1-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250625133258.78133-1-linux@treblig.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Jun 25, 2025 at 02:32:54PM +0100, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> I noticed that the wl1273 radio had an unused symbol, but then noticed
+> it is on Arnd's unused driver list:
+>   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> 
+> So, delete it.
+> The components seem pretty separable, except for Kconfig dependencies.
+> 
+> That lore URL is over 75 chars, which checkpatch warns about,
+> suggestions welcome.
+> 
+> Dave
+> 
+> Dr. David Alan Gilbert (4):
+>   media: radio-wl1273: Remove
+>   ASoC: wl1273: Remove
+>   mfd: wl1273-core: Remove
+>   mfd: wl1273-core: Remove the header
 
-The em28xx driver uses the old-style gpio_request_one() inteface to
-switch the lna on the PCTV 290E card.
+Mark, Lee, how would you like this to be merged ? I have a large patch
+series targetting v6.18 that depends on 1/4, and I would like to merge
+it in the media tree as soon as possible after -rc1 gets released.
+Patches 1/4, 2/4 and 3/4 are independent of each other, but patch 4/4
+depends on the first three. Can we merge 1/4 in the media tree and
+provide a stable branch right on top of -rc1 ?
 
-This interface is becoming optional and should no longer be called by
-portable drivers. As I could not figure out an obvious replacement,
-select the new GPIOLIB_LEGACY symbol as a workaround.
+>  .../admin-guide/media/radio-cardlist.rst      |    1 -
+>  drivers/media/radio/Kconfig                   |   17 -
+>  drivers/media/radio/Makefile                  |    1 -
+>  drivers/media/radio/radio-wl1273.c            | 2159 -----------------
+>  drivers/mfd/Kconfig                           |   10 -
+>  drivers/mfd/Makefile                          |    1 -
+>  drivers/mfd/wl1273-core.c                     |  262 --
+>  include/linux/mfd/wl1273-core.h               |  277 ---
+>  sound/soc/codecs/Kconfig                      |    4 -
+>  sound/soc/codecs/Makefile                     |    4 +-
+>  sound/soc/codecs/wl1273.c                     |  500 ----
+>  sound/soc/codecs/wl1273.h                     |   16 -
+>  12 files changed, 1 insertion(+), 3251 deletions(-)
+>  delete mode 100644 drivers/media/radio/radio-wl1273.c
+>  delete mode 100644 drivers/mfd/wl1273-core.c
+>  delete mode 100644 include/linux/mfd/wl1273-core.h
+>  delete mode 100644 sound/soc/codecs/wl1273.c
+>  delete mode 100644 sound/soc/codecs/wl1273.h
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/usb/em28xx/Kconfig      | 1 +
- drivers/media/usb/em28xx/em28xx-dvb.c | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/usb/em28xx/Kconfig b/drivers/media/usb/em28xx/Kconfig
-index cb61fd6cc6c6..3122d4bdfc59 100644
---- a/drivers/media/usb/em28xx/Kconfig
-+++ b/drivers/media/usb/em28xx/Kconfig
-@@ -68,6 +68,7 @@ config VIDEO_EM28XX_DVB
- 	select MEDIA_TUNER_XC5000 if MEDIA_SUBDRV_AUTOSELECT
- 	select MEDIA_TUNER_MT2060 if MEDIA_SUBDRV_AUTOSELECT
- 	select DVB_MXL692 if MEDIA_SUBDRV_AUTOSELECT
-+	select GPIOLIB_LEGACY if GPIOLIB && DVB_CXD2820R
- 	help
- 	  This adds support for DVB cards based on the
- 	  Empiatech em28xx chips.
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index 9fce59979e3b..b94f5c70ab75 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -727,7 +727,7 @@ static int em28xx_pctv_290e_set_lna(struct dvb_frontend *fe)
- 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
- 	struct em28xx_i2c_bus *i2c_bus = fe->dvb->priv;
- 	struct em28xx *dev = i2c_bus->dev;
--#ifdef CONFIG_GPIOLIB
-+#ifdef CONFIG_GPIOLIB_LEGACY
- 	struct em28xx_dvb *dvb = dev->dvb;
- 	int ret;
- 	unsigned long flags;
-@@ -1705,7 +1705,7 @@ static int em28xx_dvb_init(struct em28xx *dev)
- 				goto out_free;
- 			}
- 
--#ifdef CONFIG_GPIOLIB
-+#ifdef CONFIG_GPIOLIB_LEGACY
- 			/* enable LNA for DVB-T, DVB-T2 and DVB-C */
- 			result = gpio_request_one(dvb->lna_gpio,
- 						  GPIOF_OUT_INIT_LOW, NULL);
 -- 
-2.39.5
+Regards,
 
+Laurent Pinchart
 
