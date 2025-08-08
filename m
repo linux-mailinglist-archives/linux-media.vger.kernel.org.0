@@ -1,168 +1,82 @@
-Return-Path: <linux-media+bounces-39086-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39087-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A566BB1E353
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 09:32:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE842B1E3EE
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 09:56:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 191B458268F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 07:31:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90C353A8746
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 07:56:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D957C26A0A7;
-	Fri,  8 Aug 2025 07:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF42D24BD03;
+	Fri,  8 Aug 2025 07:56:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LZyDbp83"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpxMPIET"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB120246BD5;
-	Fri,  8 Aug 2025 07:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39F678F39;
+	Fri,  8 Aug 2025 07:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754637758; cv=none; b=TZ8NvZWe1Kxu4EXDyE9Gd4/6pROkttzRui8rixWHbzN27qMrCT5txs0XGM0nH/22BKTjgpMqUBwQbNMZIULY51jTgazetZOArt/yQZyCuFof7Z3UX7fnJgZYB7guzFkWXQhYOTEr7xHHRFEOPOcUG5uYlumTqDDcRgDnv9O+N3k=
+	t=1754639764; cv=none; b=i3dnOFb1Ni8qF68GbKU/Cdmjcjxk1kqjyez0zRV23BEKaqj/w/WUY+BhlwCpg+3Ws8DGrf6zstBNGxsYVwB7r56+pNOvgc3IVCgabl5m12GpVSobcLqRGI/C820vy3+g0OEEHsJkwVhPKMlNvDb2lg4z26C6lGcyK8joGmeZVEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754637758; c=relaxed/simple;
-	bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
+	s=arc-20240116; t=1754639764; c=relaxed/simple;
+	bh=tenxd8OwrXEyBfSoBd/ukFa795p3YM0tkYWXlKKB8Cg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8iyTx+7cEmRwcWupZmd1iQd1/LY0ZnfAJzoNhSVHEAG9k4frHlZ/miICFejPsBXEHQU5n+gOuH5/bJpDlk7/616LKLXAHyzhXmDPUIJYyF68ZhKLHhba2l5I7l/oeHH/EH0sB6dU9TDzvFdl0L+8Fp7ilS42KVBCejA3su8fGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LZyDbp83; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1yXXLDK5TVSXueDQXl/V51cUfGhMbWuKoWiFTcml+isaK7oOZYajOOYRZPaF53zOjovBi8Tip/G7+UBTHS2wh4a3LbsIfIYzkxnAevZwRbMWYWNR9BEs0V/M1I6ab0Hgda18VgZ8g1dxhshatKvDuAzxI1jnvfNZ5Nx04MwwbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpxMPIET; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754637757; x=1786173757;
+  t=1754639763; x=1786175763;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
-  b=LZyDbp8308W23nZhpDlqnPjcGKLTspL+l+YQGjiQtSTzpSI1Jwf5izRT
-   7Z+2zhqAkpxQL/dBOw8ncfU/0NHe1ypIjOHAKSGB7kcor5vxrbbMSdRHW
-   2hYqvDyapji4PCy67PeuNCcSC0H/Rqu8DyUIj7zwbhkdaroHx65hkj5tl
-   St3e2d9n44sKj/YtQOE474jD/OlVohvj49A4b+2p3MuD7hb48IhpFF65c
-   oHf7nayLb0ZsXKOQcPFhNMMiwkCSqGLq2MFumKQTQ/HT75DbKwHHy8jS8
-   XCbDKaKKpkgYVZDSNeczb7FOIrH1bfkoPPOq5cx9UIIHhweRymtQBEx9Y
+  bh=tenxd8OwrXEyBfSoBd/ukFa795p3YM0tkYWXlKKB8Cg=;
+  b=hpxMPIETWFTaObSm0GXY69MAMwGF0ay1xz0xVus9yWdIGXeMeMaSE6c5
+   alFpUy6LIa9rR1TEB22tg9bIi4A5S4Tr50PrgK1UXpvAkMq+Ehwuuah1E
+   7VyIFrT0PLuIPXmIGrARG7jrMMHG/4Rh0b+BO51fYXL8M12t2iHft+Vi2
+   nF2jpDeqIHag91ot9u0Ihp/3tiuJrOBFdwLf6UcSfT7juv7c6bolQySS0
+   BxbBSr9x46M6FIZZ+JC5x6gvFoIZLCXLqqIJqgZ1VrjSlbVdp8Jb934PH
+   xovkHdGIlhaIVzPPNbrmmafo9iUxbuDBzmoeK6mrC2PK0VxSVNTuvYckN
    w==;
-X-CSE-ConnectionGUID: h3mAh/WWRtKeNa4tONUVaQ==
-X-CSE-MsgGUID: Htes8MdmRfCzJy/5itKGOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="82427431"
+X-CSE-ConnectionGUID: nKn8xgXlRUWOPpHCzlTKNQ==
+X-CSE-MsgGUID: rLQqcN1+R4idyE3JcIAurQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="79542194"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="82427431"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:35 -0700
-X-CSE-ConnectionGUID: /7IVcpDgQ9qpoWqkKm2wXg==
-X-CSE-MsgGUID: iyK3MnEqR96jQ4z4ReFADA==
+   d="scan'208";a="79542194"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:56:02 -0700
+X-CSE-ConnectionGUID: zgz0oXI+SMqHdysIwaMfhA==
+X-CSE-MsgGUID: 7196ErupQ42DCXj7QXflPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="188944169"
+   d="scan'208";a="165681202"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.151])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:33 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:56:00 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7FB8211FC97;
-	Fri,  8 Aug 2025 10:22:31 +0300 (EEST)
-Date: Fri, 8 Aug 2025 07:22:31 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 7D4C211FC45;
+	Fri,  8 Aug 2025 10:55:57 +0300 (EEST)
+Date: Fri, 8 Aug 2025 07:55:57 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <aJWltxB6NfXg53KI@kekkonen.localdomain>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
- <aJRswZIVKCuzqCpr@kekkonen.localdomain>
- <20250807170135.GH11583@pendragon.ideasonboard.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
+	Thinh.Nguyen@synopsys.com, Amardeep Rai <amardeep.rai@intel.com>,
+	Kannappan R <r.kannappan@intel.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [PATCH v3 1/4] xhci: Add host support for eUSB2 double
+ isochronous bandwidth devices
+Message-ID: <aJWtjdD5TAjDkCgH@kekkonen.localdomain>
+References: <20250807055355.1257029-1-sakari.ailus@linux.intel.com>
+ <20250807055355.1257029-2-sakari.ailus@linux.intel.com>
+ <2025080747-stays-snuff-86cc@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -171,29 +85,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250807170135.GH11583@pendragon.ideasonboard.com>
+In-Reply-To: <2025080747-stays-snuff-86cc@gregkh>
 
-On Thu, Aug 07, 2025 at 08:01:35PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Thu, Aug 07, 2025 at 09:07:13AM +0000, Sakari Ailus wrote:
-> > On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> > > to be set manually by drivers. Drop it from the ipu7-isys driver.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Hi Greg,
+
+On Thu, Aug 07, 2025 at 04:25:05PM +0100, Greg KH wrote:
+> On Thu, Aug 07, 2025 at 08:53:52AM +0300, Sakari Ailus wrote:
+> > From: "Rai, Amardeep" <amardeep.rai@intel.com>
 > > 
-> > Thanks, Jacopo!
+> > Detect eUSB2 double isoc bw capable hosts and devices, and set the proper
+> > xhci endpoint context values such as 'Mult', 'Max Burst Size', and 'Max
+> > ESIT Payload' to enable the double isochronous bandwidth endpoints.
 > > 
+> > Intel xHC uses the endpoint context 'Mult' field for eUSB2 isoc
+> > endpoints even if hosts supporting Large ESIT Payload Capability should
+> > normally ignore the mult field.
+> > 
+> > Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
+> > Co-developed-by: Kannappan R <r.kannappan@intel.com>
+> > Signed-off-by: Kannappan R <r.kannappan@intel.com>
 > > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Co-developed-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/usb/host/xhci-caps.h |  2 ++
+> >  drivers/usb/host/xhci-mem.c  | 60 ++++++++++++++++++++++++++++--------
+> >  drivers/usb/host/xhci-ring.c |  6 ++--
+> >  drivers/usb/host/xhci.c      | 16 +++++++++-
+> >  drivers/usb/host/xhci.h      | 19 ++++++++++++
+> >  5 files changed, 87 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/usb/host/xhci-caps.h b/drivers/usb/host/xhci-caps.h
+> > index 4b8ff4815644..723a56052439 100644
+> > --- a/drivers/usb/host/xhci-caps.h
+> > +++ b/drivers/usb/host/xhci-caps.h
+> > @@ -89,3 +89,5 @@
+> >  #define HCC2_GSC(p)             ((p) & (1 << 8))
+> >  /* true: HC support Virtualization Based Trusted I/O Capability */
+> >  #define HCC2_VTC(p)             ((p) & (1 << 9))
+> > +/* true: HC support Double BW on a eUSB2 HS ISOC EP */
+> > +#define HCC2_EUSB2_DIC(p)	((p) & (1 << 11))
 > 
-> Can we get you review on patch 63/65 too (for the IPU6 driver) too ?
+> Why tabs when the ones above it were not using tabs?
 
-Done.
+I'll use spaces for v4 so the macro bodies are aligned.
+
+These macros should be cleaned up but that's for another set I think.
 
 -- 
+Regards,
+
 Sakari Ailus
 
