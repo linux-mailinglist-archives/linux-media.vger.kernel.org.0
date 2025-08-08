@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-39167-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39168-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B65AB1F0E5
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 00:44:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B65B1F0E8
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 00:44:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 401B017566C
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 22:44:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AA671889521
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 22:45:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B40128BA88;
-	Fri,  8 Aug 2025 22:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E51D2951D2;
+	Fri,  8 Aug 2025 22:41:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="BoJ4tWFm"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Ke1wn1F3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013054.outbound.protection.outlook.com [52.101.72.54])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013044.outbound.protection.outlook.com [40.107.159.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E80293C59;
-	Fri,  8 Aug 2025 22:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48C4294A11;
+	Fri,  8 Aug 2025 22:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754692890; cv=fail; b=EtVyj2OXQlFqSaBAb3/27UDQ14n2He8O56Vq5DrRlKVT0bjJV7WL+nYY4yeH7/mRMM24lzVAWgoCtgvJfGFTgvj3eFWwAqaZd41hAqSFLNVwCCWXV7Ia51lqynSq5Js1JygsBQZrrT1CCTz3Chwkaw3CiJIuMmFhbBtX0MOh6rs=
+	t=1754692897; cv=fail; b=fDYr59TmgWHT5CfRFoAmwnfxBPe9NVMPlsuqLdt2Q+9aPZTVpAEOs8H7/24IOzQ5ofjixioKFnz4FPwtVfzZqysVh2F+V0f4ud6cnPlky858XtHcKZE76Oo8lVVcDcM8WWFKv1VuPyFXgKMkXpcnfkXOpxYHVsY0d6UZPsiEzs4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754692890; c=relaxed/simple;
-	bh=BoULEVc2I23WTYELp0mIHfk6O6OkSkEprKcOc5ev0jY=;
+	s=arc-20240116; t=1754692897; c=relaxed/simple;
+	bh=p4AYfhE2ptMllargI04A+qOF+ZtCNnGyzlaT8su4z7Q=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=TTJPo3A+sk+se2l76Cn+906Kvk50Pq4fv6aLvgTK1+2+kE0kahliPGzDFP369nPiUp/vygzy1FSd+bmoWMbi5xNDL7bjciMcE/Ytk+sffdL9NO1qG5eqiJZnAgwLVe+wArf6lELo4MOQblw9mQ992BDcQAPZj0VZNmGUCBaFa4U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=BoJ4tWFm; arc=fail smtp.client-ip=52.101.72.54
+	 To:Cc:MIME-Version; b=Tc3hx+gekEYPFUUD//RUvKz9ZfRuBVMHIZXxTJEo94PRF2nQT3Esd7RII4S6qf0+ZY98XodPoQwCWRS2v6U9JJult7m4IxMU0ZisPpDlTCag7g5utjcKaLqsDvTLDkVnEdd5Qy+YWDaGeA1ssBP+HyXIu+sDZ4bNVMEylp/fkXk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Ke1wn1F3; arc=fail smtp.client-ip=40.107.159.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CK7sLp0FuOJ5khUIbmdmprePYR3M1rbKfJIuV7+WvFOPg7hvt72TzzLgi3HDVhLeSs4JAxv68WANFYZLruaPQLBMNROUSIflb0S7Vgoa2sd8rK9eqX1+A6h/yobOhWf3wXWSYoA44L+B/DzZdcQ1yP2nh/YCv1QHBNUFlIDdLJpxbdkzijLXO6xZoG8iTc8YJaichwvf42XwecWPfZTyW4SCL0C040/XGuHzLerifnArJEyIipPlIXofMen9BpU/ZBC61EXMrCiHGCsWJ6nFcjZBk5x3V319DbC2ak7/stQPY8MRmrHpx40uJzS0HgFBZrguVgeJ/Cd2QqYFU9awMQ==
+ b=EJmayhLSxgs/AewK072vDJShqlVtLMslmyCFoBlvGXyj2mTZvK4gF/DKnt8Hy1nR1sHu00Fu3zJL4gnoCSEzYkrDT0I6Z13yRpvF9d/Y8vuxCOY/K/1ecOGYO1PcNwzrF8EUGpDSEtKHAkUBYdAjFIiKSFBG8EIFenNG1VnD3mK6GdjYY0lFi76aT/feGA5Mu7zJ1lbnW8ByVt3XtJJD6OJ9+YpWU3jJJMDWPXxm/DICYkowZ1unTKj+w6k3GvBfe2heVYJnnH+4jThSWHOXxrmFwbc4o0s7ALMcFs/umYyOmtQAWrANrh2JSyIW44plxeisZffYQXmfwlqoEvptCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5gJwsbOiexhMy6CDHzvPsz5o/xaP6D/Le8KAZo8WXWE=;
- b=e+HPEhoVEjlPzcL2E9Fm4LtOqcKerO/5ZP8bUZI2BUrwS4o+cdT4jD8yzD0kI5haXn29XeNzfAM7mSw2tIUC7Z9iVaidrd9M3Srh4FyzrYmkUF5/1ItSPVyh/K2Tdm+A1K4eA8Kylj26wpKfDUamgNPZU9GIb3/tWWGdiXFc9hNg0adkW16QAalF7X7ObsIvrhydoaGVeIEUa79k1UB2bxxQ/IMidF93W0CL5AaJmIZBuYnXW2WJn+waUvbN3z+3UvkqbzOtHJRSgsuHcDqK2rk3WXBs8PbEczJbL5Ctj6R5yOVdHiY5Jn/dM2f7p4LZHEZhqHKJKiPzkmMUg8RESg==
+ bh=clxcZoMur1rOtd/zHHVs2FdXClj+6RC3TIZWxgXe/sc=;
+ b=NLtQCkO+rbYtt2FXDUEPDme2fUVgvjGpwCV+OYsiMDd4mgvQoPl9JRSFLN29fY46V1XJYgXnVWh7SqEcgCqtj81Kri1sUW7HKRoHZIgWV2dl/zQBwPtPSSKwrrakefWCWteM2hASeGDPIwsLmfzn/+fFQ4Mn0QraRpq5LwEt5qZIMQqo6R3O9eygSl75q/IEybNt2uIw6/p7cm9EM4Z/NzMviTLx30QWy1TsLfYPRcb6rU/ZoLe/FhcYVZvTZWtwhme8pRkrJ4wEKIcBSNf6V0zCStY70RaU5kBl1wUqsjIZOtEzdgSZ8x/Pw3nyVVOcK6rIAHDKQKWLwTacDX7G9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5gJwsbOiexhMy6CDHzvPsz5o/xaP6D/Le8KAZo8WXWE=;
- b=BoJ4tWFmL9XOEObc9H0XBKKoDyC2YsNnM+kVoHAWDM5AzV+gENBTlvc7NxtUGhXIwyUob3Ixl0gUc9vTjUEPAmQx/JwhcvHBEg91DMWgXzJHOZmwQ/5VqSlFhfPQ6Oe4Pu5jtO2ulxLCKxkos5P+lVZBbEuhbBkx5/W1kJ5Dj7U2L2C0mquvsVQCsmTKfXfgPtM6gHcz+bgKKDgouTP/DIndzgiufCUdssd9vIOw4ru6c02+JKDgWeIoZmC1bLjgz7IS6MGnTLt37HwBMlh3PMlr/Fh7pM3ntSk4mKjJEWiUhGhlPn9DeiAjMM844IPwx5YwsyA1QatzjZLnIXDVgA==
+ bh=clxcZoMur1rOtd/zHHVs2FdXClj+6RC3TIZWxgXe/sc=;
+ b=Ke1wn1F3uZl+W8tH7AAbDWuPU6iVP5Y/Ss8mv6k2NHQK4cg5BNenDxTnFbjWPY3iMX9WlYPSUie7a0quIQW+VBd9LahxK6W18lDOFT6aRX5pARB6hGWqLnkSj9zVfuMEg9KSVtOZrNnykx+3g7oeOb5ussH7qD7vpZW3l4+g55xNfOU/CmXlLfp+gJLXDmpBWgixugMI/kUHKVzNJvL0Q2HR+qH7tMCKQPq6ri99rPJZ3Vu+KfuYBaLJtzcqTIDj8scBTHdIzdQgm01uJUVQO6Gkw9Hj0ukoISedw6AKRcHzS/32I3kzCwAxr4BXa+q6jW9fcR4iS7NOIqGjmZ3wFQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
  by PA1PR04MB10528.eurprd04.prod.outlook.com (2603:10a6:102:445::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.18; Fri, 8 Aug
- 2025 22:41:26 +0000
+ 2025 22:41:32 +0000
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.9031.008; Fri, 8 Aug 2025
- 22:41:26 +0000
+ 22:41:32 +0000
 From: Frank Li <Frank.Li@nxp.com>
-Date: Fri, 08 Aug 2025 18:39:18 -0400
-Subject: [PATCH v2 15/32] media: staging: media: imx6-mipi-csi2: move
- number pad macro define into imx6-csi2.c
+Date: Fri, 08 Aug 2025 18:39:19 -0400
+Subject: [PATCH v2 16/32] media: staging: media: imx6-mipi-csi2: move dphy
+ init part to imx6-csi2.c
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250808-95_cam-v2-15-4b29fa6919a7@nxp.com>
+Message-Id: <20250808-95_cam-v2-16-4b29fa6919a7@nxp.com>
 References: <20250808-95_cam-v2-0-4b29fa6919a7@nxp.com>
 In-Reply-To: <20250808-95_cam-v2-0-4b29fa6919a7@nxp.com>
 To: Rui Miguel Silva <rmfrfs@gmail.com>, 
@@ -85,11 +85,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
  linux-staging@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754692792; l=5799;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754692792; l=7975;
  i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=BoULEVc2I23WTYELp0mIHfk6O6OkSkEprKcOc5ev0jY=;
- b=+35xYEe+1YGGEhUdf3z3kimjYsZiC7icY2RiKeub6wc4EytCmCPa9jKCZPkd8q+dNtYQAm/Os
- HVMmxWyWBOCBKY7kj1IOBCffUYjyvkbqwv7IXkUCuP7h//RkASQOFxv
+ bh=p4AYfhE2ptMllargI04A+qOF+ZtCNnGyzlaT8su4z7Q=;
+ b=oFnvPALDV1/+WcfkJPhoIOoYP71r0XNJOU3z090+1bA9Ree5rIDFzpkKR19r2oE0/hwdolOmI
+ uXZSwzkq2//AZspIjuTp5cyXTLBIHYjOmEHu06ZtV6LNs7Okx/XIC4s
 X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
  pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
 X-ClientProxiedBy: PH7PR03CA0024.namprd03.prod.outlook.com
@@ -103,272 +103,357 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA1PR04MB10528:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9e6e173-87c7-4469-474d-08ddd6ccb549
+X-MS-Office365-Filtering-Correlation-Id: 7dc81507-cca8-40d9-5c7a-08ddd6ccb8c7
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
  BCL:0;ARA:13230040|52116014|376014|7416014|19092799006|1800799024|366016|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?cXZsQy83NDhFRmE4MzRDb3JQbzNPTnZGcTEzTnFjd0NEeTN2OVBIeHI1NmlL?=
- =?utf-8?B?clNURkZkdDFIQ0pXeS9zQVNJVzFFakI0QW9VZFNKd2ZCUXJsUjhDd21oYi80?=
- =?utf-8?B?T1JVTUJJc3g0SFNza1phYi9aUGJXZlhsYkd2QTZjVHl4bjZjS3RLTEFnVzFU?=
- =?utf-8?B?QVZ0UEFJN2puUlNsQlVXUVIwcmdaTTE1aURKNDEzbzU5RWV0bGZhOE80OHE4?=
- =?utf-8?B?UDRQU3hZWERnRTFNZzNYTlNYV1hORjIzMzh2MStiaFBMbEp4WVBLK01LRkdX?=
- =?utf-8?B?TnVVNzU4R3A4VkFWK2pYUVZsWDUvMERCQ01ab05YbzFOS1NGb3BJUWExS2Zo?=
- =?utf-8?B?bmp6a0w4WUZIK0llU1I1ZmtGYU1sd1JiT3BKdEVla2NwWkgzNGtTcndLMGpS?=
- =?utf-8?B?eHB4eWNnZUYva01rRzNHcGh3RG5aTmtDYm84SE5XcnFCU0o0NUxIZ3ZDRTlt?=
- =?utf-8?B?aTQ4aXNEbGlodkpJODVMS3RBcm1LRCtLTUtrOVdGUXdQR2IyU1p1THpTb1Ur?=
- =?utf-8?B?VHNsRm13MjNxdUlzK2ZBS3l2bjAwb1FST2FMNWc2Z0kwTHpkbEhka25wcU9J?=
- =?utf-8?B?OUdRQjJ6U1p2S2JXWEVRWXpGTm0zSTdYUHpvL3Q5SnlrM0JSelJZUUNxakhV?=
- =?utf-8?B?bjZQYUozMGZMM2NjcG81bkcxWC9lVmszODc3WndsWGZONlJSLzQ1b2Z6ZmxO?=
- =?utf-8?B?cVB4WTAyUUh3M1FzU0FQU0ZzcGtDL1lSbW5YODRMbW1lRkRwa1BEL1dQODd4?=
- =?utf-8?B?bXJ6bG55SUNJYW5MVm9PL0R6Z21MNDhvdHRMVFhTcURPc0hnR0pNeVkyMWlB?=
- =?utf-8?B?U010UnZQOUNLVkJYV1h1M1drd09kM0ZMdlkrb3MxQTZ3QmQycnR0djBXVWlv?=
- =?utf-8?B?VjZQRzVTUGxzdG5aSHVSRi9VRHBQWHRSbVkvY0V6aXVZaGhhTktIZ3hnN25M?=
- =?utf-8?B?S0txblMwNVdENWxYUlAzY1ZoRm9IZ1dxVEQ5NnRQSCtTbkpQQXpBQlp2SU1i?=
- =?utf-8?B?dVRlYUZmZnBMMEZQcXpxVDJNVzBBK3V5a3lJa3hPTDM4R0p6WDYyZVB1NkJS?=
- =?utf-8?B?VkhSMWI3bjJrODBXNDVMOTFJRE4wbU9FODZ1YVpTdG5YK0Q2RFQ2QW9BRDRP?=
- =?utf-8?B?V1dCcjFRTC9pYi9FNkQ4b29namU3UE41MFd4WTBjMit6M0x1SjBlcjI5T3Vn?=
- =?utf-8?B?VDFXYWxSTHF4VWJyMVg5V0xCa2tGeE1JVGFlV1J0U28rMitDcm4yK2E2bmNQ?=
- =?utf-8?B?a0JDWnFkc203UG9uL1BGSy9mSHVETkg4R2d1Q2hZUEJWampyVk82a3ZUeExa?=
- =?utf-8?B?RENzbklNbXFqMkVsTGU1K0VLdG43VENNazMzL2pXdUc5NXJhWmJyQUJJMkdj?=
- =?utf-8?B?ZE9rL2RRaFFtNnRzeXBybG9OYXNzZGFRTDE3ZWJra1NVVFliaFpJMnRKVDhN?=
- =?utf-8?B?c2RLRTJLUittWjdNTkQ2eEdwekdIaG02eDFjUnNsVTlkcFNhczA1ZUtVcjR3?=
- =?utf-8?B?YkpWM0dnUVdRRnNEVi9lbXM3VW5MTnZFaFhWWmQvVWVsdk15YVZZcVk1N20x?=
- =?utf-8?B?Yk5wRmhERkFCa1didHJLRUFBSk9VelBJcHR6NzRkaFEzN0xqYytuUWYyaVg2?=
- =?utf-8?B?TjhLbk02Y1NVcHNnN3p5THJDRWQwWlVOSXNTKy9hWVhMNTN1MHRETkVKZzZD?=
- =?utf-8?B?OURiVUdMNDU0Z3hEYzFzU1h6U25QbXh4N3lWRVdxM0hMM3Jhd083d0tTQTBH?=
- =?utf-8?B?b21iNVFiMlh3dW1BbkgzaXZJV0V6ditPOC91aVl4M0NFeXdDR0ZtTmFKZGo1?=
- =?utf-8?B?OWFYbzU0WEJPOTlxbDVGT2U5K1hGeXFnbjNIc2JNOWJabHNIbTk5ZGh3RTNa?=
- =?utf-8?B?U1NkQjNqUVRyMjBFYlNpMzZjcjA2NmxlWTBCSXE5cEF4a2JnK25xVk1lZm5u?=
- =?utf-8?B?Qmp0VDF6clZaZXRCOFd2aE9ibmxrS2lFL2VTNE41ZHJ3VFowb1Q1RUorZVBO?=
- =?utf-8?Q?nW6T6gvnGjl3eqjRuls4aDfrWdaOl8=3D?=
+ =?utf-8?B?bjRkczFzUFI1eHVYc1FHZHZQRnl3NTRGNlVPdGp0RkRMQ29kUlNVaFhXOVBV?=
+ =?utf-8?B?Snp4SkQ3SWljN2lZcDU4RnFFbm5TSFBVajNQc1BMYjBpOVNQSlBDS2NrcHY1?=
+ =?utf-8?B?YlQ5UStmaTI5VXlYWSthZnZNaml3OFlFc1dnSWwxa01vWVJJNDNVbVFqV0M2?=
+ =?utf-8?B?NjhpdE1VdndubzBGZDJQNEFaMHhJaFhBZm1uOEs0YitYcE9lZDM4SlJZblYr?=
+ =?utf-8?B?VldwM1g3QXlWUHZsQWRKTnFQelF0R1N0WmRoV3VUQWx2eWlCYld4aFVGYVdH?=
+ =?utf-8?B?YmZOYjFUa1ZDVG9qdnU1Q25qSUVMTmE2Y0dmSXpZWEI4cHBUSTcvRndTQ1ZF?=
+ =?utf-8?B?WUhQSy9TQ1h3NlVFbzZxcEFibmgwQWlqT2l5V2tPMEtTY0VvNGtoVC9jdnBk?=
+ =?utf-8?B?ZVhmMVJLenZiUGNscWdxMVowT01YVlc0QWxHRzYxb3l6T1RlQ1VqUDhLOTJZ?=
+ =?utf-8?B?WmJyYUZQYlQ3Nk1HQTJVeDRScHZHZGVkb2sxazJ6TFNXMVZTcmozOFNoeEkv?=
+ =?utf-8?B?WHFMTnl2aUZ2Y0oyOWcrYkJoY3FmWjhXZmxOdlFRSXpXTnA5RjBwRURJOTRI?=
+ =?utf-8?B?NjVqM1d1Vm4xVjJWWGJHRkNMV24wWHNBWVJOZmZLanNKdHdjdkZzb3dWY01o?=
+ =?utf-8?B?aDkyN21FUHczeWRmdFFmN2tkSHJHQldKTmdQNUdzSVZPM1kzRVlwZ0FsWW0z?=
+ =?utf-8?B?NW4xOTFlcFAwRnVEUk1KaFVYMlpwOVlUTTBYdmZmNTA1U0xZMmo1bVo5TlNB?=
+ =?utf-8?B?eWREbWFaWGU1UkxyMU9raUN0cGNjSm5SUXI3Z0FKZFdib3lsNWtlR3VhaEpL?=
+ =?utf-8?B?MjNLLzZJRFUxRGhtNis5ODRTdzBkcjlnUE5UQ0VMNjJPL3NuelBFTVM2Um94?=
+ =?utf-8?B?MUMyR2lqcG1MdTVLRFUyaFBzblROZjRQelpvY1NMaTkranA0Z3dqWFlBK2hI?=
+ =?utf-8?B?M0lkYTNCdzdjNy9HWTMzNzRaSWx1eUppc2lLejhpQU5KL2JrSjJNMU1KMFVJ?=
+ =?utf-8?B?UG5kSmVmSDNPaURxSUloWVlyQ3cyck85R2p1SzN1OE5NRW5ROThKVmRxVkZV?=
+ =?utf-8?B?YUdzbnpTTlQyU1pjWWFTcTg1RVhlWkFwcGJyQVRpTnZ0OW1LaG9lWWk0UjA2?=
+ =?utf-8?B?VUJYaWgzWDk5MFlOUUN6R1ZDMTE3T0lmWkkyQ3V5ZDJaeURHWmRjVDRHMTA4?=
+ =?utf-8?B?RGJvcjIrVTBuOXpLa01ibTJLRzVQWHAxZzcvNzVnbkIvMXR2RDFiamM0MDBW?=
+ =?utf-8?B?YWtUSkVRQjk5bXBGUEQxbUVxUXBYeWU5VFVTY3FtWDgyb3Y4Q0xmZm5kUnBk?=
+ =?utf-8?B?akpTbkNOZHVxSkx1R1ZnejdFNnFndmZsMmVVNUxVbURPNGdjdTBXRHkxQ1J0?=
+ =?utf-8?B?UjdhdlhYdWNDaEt6TXlRZkRGSXNXZzhCQnpQOHFLdTNpeVZ1Vk8vekh5YURu?=
+ =?utf-8?B?QlhvY3NqekFkcFNwZEdsTm5aSURFT2FvWDRVeklETDhrYVIyQmhzdng0TFF6?=
+ =?utf-8?B?Y1o4dDk5N3phcmgyaXFySUliOTA5SWxMbXVoUlMyaUVVeHNVL2VZSlhvSCtP?=
+ =?utf-8?B?ZDV6cTVzNnBhSDJCMFhaU1U0UnowQVN1NWJpNmovcEVnajZycnlOQStnNDFD?=
+ =?utf-8?B?dUFuQUtDR1R1dGxudTZudmE1MUl0K1pBR0duM2ZIN1B3ZW9mVUc0czkrU0dN?=
+ =?utf-8?B?MUxQOE5qNk5vY2NSOEdST3hBWkFaL0VNaGZzQUhreWgrOFZ6ckFBR1ZmS0Vp?=
+ =?utf-8?B?TTFWc2FYK1pua2YzVUljY1FoajFSSVVoVHpFd1BSY1JJd1lXZXVqV1B5S1lX?=
+ =?utf-8?B?N1lUbDNWd1RvcTVURU9ZeEJwWUE5TDIrV2VuWHM1aHVrZzVucnZWbC9iczRS?=
+ =?utf-8?B?WkJSS2piR3NJd3NvS1ZHU1FMeTAybGlOU2V1em4yOU4xcWtMUVY2L20vWTZC?=
+ =?utf-8?B?RjRDUWhmcXI3WUQ4T3RVOUJ0MFR4cVJiSXZ2UmZkNHcrVUIzNGxvVjR6cy9H?=
+ =?utf-8?Q?r1yzhvkfkrZ4FsMCKR+0TFmhpz0oP8=3D?=
 X-Forefront-Antispam-Report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(19092799006)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?TG1jcEljTjA0VlNmaXI3aFVTSTJnVk1VdGZmUEdveTFMOWNPNjg3elJuWG9r?=
- =?utf-8?B?L0RnZTI0eEM0eVF4bWVNZm54YmpwclZia1JRbFcrQjlwOTRSTE5aV0M1a21K?=
- =?utf-8?B?RFNtRHpBbWdPKzJUYzFtU0FLeUducmNmRDRxTThqYUJHRkErVXNhdmlMdTVi?=
- =?utf-8?B?SE5VMmcrWlEwR0JyQngweU9aNnFPVDJFVjdjcGw2bllZTVg0R3ZtUTA2dWpI?=
- =?utf-8?B?TG5SZlkxWVRGT29pNnJqNklySldUUGZKZlJxbXphRzJ1UklGdnB5dC9YYXAv?=
- =?utf-8?B?YUFtNFRLWmFjS3Z4Y0xuTGNRU1dJZHRRT244dHVkU2dDQTh2Y1BnNXNZaXlZ?=
- =?utf-8?B?dXpCL01wYjBmZ0NMM1Btc21MODVpT0c2Unk3ZDlTRjlGU2RXcDdoaDNNWHIw?=
- =?utf-8?B?cXBaMTZPeDdnT2ZiYnM0Z1YwRWhzOEY3bVlmd2U3ekVxbmRFc1VvNHpvN3Yx?=
- =?utf-8?B?aUU4U0FzSE1aQTRyMFNpQmRkUU5sUllTV3F6NzE3WmdZT1k5T0ZkMVg4ZlZM?=
- =?utf-8?B?dm92SU5Kd054a3Q3WWpzaHY4dmdPZzlnRXFhcWxUeEZYMFpHTXM1WTR1UTBF?=
- =?utf-8?B?VU5RNkJQMXZCUjEvZkQ2Z2FZR1lDbHNZWGVpQWNzMnlsaWpPMmtDeTRJNExY?=
- =?utf-8?B?bG5BUWNSUms0YlZORHNCalhtRndrckRZNTIzcy85UjJRbEowUGxVN2Q0Skpn?=
- =?utf-8?B?VHQvUm05N2dHUGNmcUJJakw3eGI1bk1GQURjeUF1WUlPNDJIMG1XU2gzR2hK?=
- =?utf-8?B?L0tYZ2k3YkY1cFBKNTdBNm14d1dWV0FJMTJJSDIwVmFETTFDSDBYdCs3RXp0?=
- =?utf-8?B?SkNQWWFBS0g3QnFESlJZZGpxdHBvNWdudHdEU095N2svYUc3THo3Q1VnVFhu?=
- =?utf-8?B?cGFFZmtWRkE2eWZjc21ROU1QNWwrME5QbnhDeG01dXd4a2w2Vjd3TFFKSXVx?=
- =?utf-8?B?Q2l4QWEwVmsySnA5OUx4UFlEd2tTcTFnQmppS3hRdStQSDBobmJLR3I2bmts?=
- =?utf-8?B?dS9udHN4dHNEc3lVYndTODhoLzBWZUxHVjdVOUZhNVNhVlEzME1Kc2l1aXI5?=
- =?utf-8?B?czlmTGpFRS9ncW5HRzA0c2FVeSt2VEIvUDAvbG14TmpIN1JWRW1wWm5nakV3?=
- =?utf-8?B?U2dXbG9JN0g0Szd3MTJXRUpmL2EweFBnTlVhZ3FxM1RTK0NRQVJvaXd0bXhv?=
- =?utf-8?B?WTVENUVoWDEvZUlqWXpjMWk3NTRzbDZoV2k3RTBScGdoSmtjOU1zbjlIYjNq?=
- =?utf-8?B?bVhRVTdIaGlJK29ObnJNaWx1OFdiVmI2L01NVmRScWUrRkxyN08wODBEU0U1?=
- =?utf-8?B?cU51NjhuZXF4dzVzOEZYQzR3WXpoLzVOWUprTHlkVjBYZTlXSXNOT1RrWUhW?=
- =?utf-8?B?R1FySXg4SnY4bWtFakp5SUtQRDFOY2Z0bVlHUmdGRVFjd2RrdEdzNmdOUEpG?=
- =?utf-8?B?UnJqUlViY3cwMVgyYjQ4VDVyaEYxTzk5dG51VFdjWU9mY3VPdEovVGFkT1hz?=
- =?utf-8?B?cFFwancxWkRmSEdyT0RMMlM5QW96b013Z2k2UlZpQWNUWHora2h3UllseUxl?=
- =?utf-8?B?aWJZVEtjZHlvbjVNa092RUlXZUFaYmJ4cFVsMmhsZ3lxUnR4NDNnUG5DZjRV?=
- =?utf-8?B?VXVuclgwYm5WN0QrZzdRNE0yNkRyMHMyRzNKVVRxdkdESWM5M2w5bkJkRFdi?=
- =?utf-8?B?MmNlZEJYWHdlNHBiUE9UN1U1aTk3UTRPQ1kxOFRGNy92WVEwM2lGQU5BcUE2?=
- =?utf-8?B?Zm4xbXQvemRyOE5GNGFSYzFpSTgwNGxreU1YVHVJRTZwMGs4S25tZFlHbmw1?=
- =?utf-8?B?alpmMjN5WjhuMnZ4VzVRRkNUNEZRMllNUHRRMHdacHlCUWh3RkFRa2VObE1W?=
- =?utf-8?B?RFM4ZnVGZDNyT0F2SGJpRzdOM3A3WStyR2M1NDhKWlZPdktOVDVsWEZGNjNH?=
- =?utf-8?B?aTdrMWNPWTAzYUdhT043emJHRldmUUIvMTIwZGR4aFZoMGJVQXliVWpyZXE0?=
- =?utf-8?B?R21ORFluUXp3K0x3VVUwVFl4dWtGSUxaZVRRY0NSWEtEckt3M1o3VWJFMDRh?=
- =?utf-8?B?V2ZyL2tjVGl5amNoQTlOQVVXcjQvSzZQY2JSc1ViUFZEQVM1eXlJS29IRWRs?=
- =?utf-8?Q?uBGrlSLskVjzjNzsBQpQfxumi?=
+ =?utf-8?B?NGhPeU5Ub2sxN0E1c3FrVUI0WUkwTEhFNTQ4UTR6VzRWRHVMYXQ1bzR5VURB?=
+ =?utf-8?B?bUdaRkJPTWhaQjB3S2s0OUx0YXJrcjVCczdxOUFVeXN5ckpEOEZMWWlZNW5s?=
+ =?utf-8?B?QXlXUURiWFB0L3JxU016UHM1L0NxankxekhST0RUUGtFUUx6c1psRWRJWTgy?=
+ =?utf-8?B?UkMyYVhUYTVEcmUrWUlFZUdIc2U0YS9CMzZCSTRabklCYzRyUFMvcGZHTjRm?=
+ =?utf-8?B?RndNSGZWVW1XbkpSQ3YyZWYrR2RqWWJVVUx2cmZ6Ym1EQkdJbUcwaW1STVNY?=
+ =?utf-8?B?SkNXNWlBRlM5WG5tQzZFcmJaa0NTcG9RUTBCRERHWER5VWhXWUpWVisyUGk2?=
+ =?utf-8?B?cDlEWDN6ZUQzUEFCcEhDbkxJb0ovT2s1aGNPaXBtajhSczBKSnlxWlBkaE1X?=
+ =?utf-8?B?RFlnbXJEcmhuaVFzb0YrVDl1di9KM0VMRVphN3Q2UlIyU1VMeDM1ZnRnL0JL?=
+ =?utf-8?B?eG8wRFp2WDNpVFUrRi9jb1FFMlBxNktGUkdLbkFWUGwzVFFXMStibnZRV2xU?=
+ =?utf-8?B?OGdSUjJMZkc3TUNFMEF3QVFqcGFhVWxxeDlXeFdIN2xTSVNoQ2NsQUdhNmVR?=
+ =?utf-8?B?ZXorQnBaOXM4Y1pZVzExM2FtOGgwRm9hQ3o0a1lkaTdieDhEcUZxTkEvV3lp?=
+ =?utf-8?B?WFdsa0xMTzRncDZybDhKSHNRY0tvSktlc3lmUVI5Z3loUjRNSjJObHk3Rk5U?=
+ =?utf-8?B?ZUNxYnpkMTJESVBYdVB3RjdTKzdjTjVFczd6MUkvU2NFYzFudlNRY0FtUlZ3?=
+ =?utf-8?B?amtrMm1IdUhrc1ZzbGJkK0J1ZmdGWFRIdE0yUHYrOWhZMWhMaDFLdTUxNmgy?=
+ =?utf-8?B?UGxrYkhFdGw0dGFWKzZDMVZBbXBzVWlvRktJdExBeHZQMjlIV0ttUmtOOU1E?=
+ =?utf-8?B?UVVZVHBLUnlOeGdHWVQrdVh1MHVid01hWmJzZFUzdCtlTFY0NVllQTFCUU9J?=
+ =?utf-8?B?UHRUeklBdUpzMG5tVjJzTldTVTFSc1hDNmFyRU1CMXl3aCsxZU54V3JSM0pC?=
+ =?utf-8?B?a3BVUkY2end2UUVuMjJZZU1qLy95QjFkSUZBSWx1NUt0T0F1M0pOYnJhejBw?=
+ =?utf-8?B?QWZmeGVzVHpPdW5MUlJOZVNWQXFxang0emZlSXR2NE5zYldHcVFvZXREUlF0?=
+ =?utf-8?B?c0ZGbFQyK2U1MzM3cVB0S2JkdmVqMVBld3RaNElMMlg4aVZZdDZPb0dHTkIy?=
+ =?utf-8?B?aGRyZXJsaGtidDROcWZ2VkxQdS9wTklydmRyUXlwRkJaQmFJcHFUUDVxYzBh?=
+ =?utf-8?B?R2Q0RUcvSnlXeXE3bGFIL2lPV1d2Q1VNKzh4NzFUSTdEWk0wWVZPUXUyM3d5?=
+ =?utf-8?B?cmthS2I1Y1V5bDhPbDdmVGExTzYrRHcwbzZ4ZlVkWlN4M0JUdXBMaXp1aGFY?=
+ =?utf-8?B?a3dMTEs2cVp6ZlVVWTFzUWl6UUcxcGxSbUEvaFZ3aVJaQmt6TDlhMC9NcGR3?=
+ =?utf-8?B?dThXS1JBWTRwRXVNVElOUHFJTzBkZERCUUd6KzZ3UTF4S3plU09hdkl5c1Mx?=
+ =?utf-8?B?K2g3MXZ1V0JPQWVBOENVNUNjOSs0bXNhK2ZmbGtBMlJKQ21xMWN0ZldBZVpl?=
+ =?utf-8?B?S3hFUk9xVXFhRXd0cXlPb1JmTWJQT2RtOEd4UlE3UmdZVU9OU1BXbWg0QzRp?=
+ =?utf-8?B?c0JhMjFubllkTXBFaFpIY05ZZzg5RjlJVTc1NzhpUU1RdC9mQjFCUi9jeU5k?=
+ =?utf-8?B?L2JxdHNnY0pKM2JLMEdlZERkUUpYeWtoNEMzZFpWK2tFSjBKQVRyNlBCdG5K?=
+ =?utf-8?B?QVcreUN6RU4yTmtXWmVkdklzSWprek9MUFcxSmpEWW1xOHM3Z0h0cXNxc1Qx?=
+ =?utf-8?B?NklNa0ZFNDJKNGkvczZFM0kxNHZTM21kTlZ1cHNldUJlcXI2d0NLUWVORGlY?=
+ =?utf-8?B?cWZ3YkNQVi94Vkw1ODZOemhwa1UwQWw0YUFFSUlTbWowWnhGdjJNcTVObE1K?=
+ =?utf-8?B?enZhTGdReXl6ZUxkaTBUd2tGUklPbkI1NGhKQjdhemRXcjVNWGJwamY5T3pw?=
+ =?utf-8?B?b1NEMkNlNitxNTNsNG4wT1FBSjlpMHMva2ZQMElVTUZPVVNROHJ3U0lkZVZZ?=
+ =?utf-8?B?Z2o5dUZ5aldKMFE0UXFYS3FEYXU1L21FM2EvU2UwRnRoKzNIa001b2ZLdTc4?=
+ =?utf-8?Q?HQtmas/75c8z1FAdywI5/SLN9?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9e6e173-87c7-4469-474d-08ddd6ccb549
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7dc81507-cca8-40d9-5c7a-08ddd6ccb8c7
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2025 22:41:26.1955
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2025 22:41:32.0863
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U8hRZyj1GFUDdfKAoLO1U3lNETANNCpKR/PTMKwyvsWlXgXJRL15L0Ere1Us6o1/4M70So2qZzVqntpjZWgOrQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q2Gq5J2mHmoiDaHej5C0O/zdTa9sqMcyko4pGhDry5BPFTUBPnk2ZYmQh5sIoy7nukslDQyX2nUfRKEVhhCmMQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10528
 
-Move number of pad macro to imx6-csi2.c. The number of pads is platform
-related feature.
+Move dphy init part to imx6-csi.c.
 
-This version just support maximum 32 pads.
+Prepare create common library for dw MIPI CSI2 controller.
 
-Prepare to create common library for dw MIPI CSI2 controller.
+Add callback for dphy_init in struct dw_mipi_csi2_config. New driver should
+use phy interface.
 
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- drivers/staging/media/imx/imx6-csi2.c      | 12 ++++++++++++
- drivers/staging/media/imx/imx6-mipi-csi2.c | 27 ++++++++++++++++++---------
- include/media/dw-mipi-csi2.h               | 21 +++++++++------------
- 3 files changed, 39 insertions(+), 21 deletions(-)
+ drivers/staging/media/imx/imx6-csi2.c      | 55 +++++++++++++++++++++++
+ drivers/staging/media/imx/imx6-mipi-csi2.c | 72 ++++++------------------------
+ include/media/dw-mipi-csi2.h               | 21 +++++++++
+ 3 files changed, 89 insertions(+), 59 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx6-csi2.c b/drivers/staging/media/imx/imx6-csi2.c
-index b7ea710df07cba33465d79ef57be4792c503958a..062db72a36ef294566272d9f39d82e9414640e9a 100644
+index 062db72a36ef294566272d9f39d82e9414640e9a..696644aa04c83b1f2877b2b2315202627d927e96 100644
 --- a/drivers/staging/media/imx/imx6-csi2.c
 +++ b/drivers/staging/media/imx/imx6-csi2.c
-@@ -4,6 +4,7 @@
-  *
-  * Copyright (c) 2012-2017 Mentor Graphics Inc.
-  */
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-@@ -60,12 +61,23 @@ static const struct v4l2_subdev_internal_ops csi2_internal_ops = {
- 	.registered = csi2_registered,
- };
+@@ -16,6 +16,12 @@
+ #include <media/dw-mipi-csi2.h>
+ #include "imx-media.h"
  
 +/*
-+ * there must be 5 pads: 1 input pad from sensor, and
-+ * the 4 virtual channel output pads
++ * The default maximum bit-rate per lane in Mbps, if the
++ * source subdev does not provide V4L2_CID_LINK_FREQ.
 + */
-+#define CSI2_SINK_PAD		0
-+#define CSI2_NUM_SINK_PADS	1
-+#define CSI2_NUM_SRC_PADS	4
-+#define CSI2_NUM_PADS		5
++#define CSI2_DEFAULT_MAX_MBPS	849
 +
- static const struct dw_mipi_csi2_config imx6_config = {
+ /*
+  * i.MX CSI2IPU Gasket registers follow. The CSI2IPU gasket is
+  * not part of the MIPI CSI-2 core, but its registers fall in the
+@@ -28,6 +34,54 @@ struct imx6_csi2 {
+ 	struct dw_mipi_csi2_dev dw;
+ };
+ 
++static const struct {
++	u32 max_mbps;
++	u32 hsfreqrange_sel;
++} hsfreq_map[] = {
++	{ 90, 0x00}, {100, 0x20}, {110, 0x40}, {125, 0x02},
++	{140, 0x22}, {150, 0x42}, {160, 0x04}, {180, 0x24},
++	{200, 0x44}, {210, 0x06}, {240, 0x26}, {250, 0x46},
++	{270, 0x08}, {300, 0x28}, {330, 0x48}, {360, 0x2a},
++	{400, 0x4a}, {450, 0x0c}, {500, 0x2c}, {550, 0x0e},
++	{600, 0x2e}, {650, 0x10}, {700, 0x30}, {750, 0x12},
++	{800, 0x32}, {850, 0x14}, {900, 0x34}, {950, 0x54},
++	{1000, 0x74},
++};
++
++static int max_mbps_to_hsfreqrange_sel(u32 max_mbps)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(hsfreq_map); i++)
++		if (hsfreq_map[i].max_mbps > max_mbps)
++			return hsfreq_map[i].hsfreqrange_sel;
++
++	return -EINVAL;
++}
++
++static int csi2_dphy_init(struct dw_mipi_csi2_dev *csi2)
++{
++	struct v4l2_ctrl *ctrl;
++	u32 mbps_per_lane;
++	int sel;
++
++	ctrl = v4l2_ctrl_find(csi2->src_sd->ctrl_handler,
++			      V4L2_CID_LINK_FREQ);
++	if (!ctrl)
++		mbps_per_lane = CSI2_DEFAULT_MAX_MBPS;
++	else
++		mbps_per_lane = DIV_ROUND_UP_ULL(2 * ctrl->qmenu_int[ctrl->val],
++						 USEC_PER_SEC);
++
++	sel = max_mbps_to_hsfreqrange_sel(mbps_per_lane);
++	if (sel < 0)
++		return sel;
++
++	dw_mipi_csi2_tstif_write(csi2, 0x44, sel);
++
++	return 0;
++}
++
+ /* Setup the i.MX CSI2IPU Gasket */
+ static void csi2ipu_gasket_init(struct dw_mipi_csi2_dev *csi2)
+ {
+@@ -74,6 +128,7 @@ static const struct dw_mipi_csi2_config imx6_config = {
  	.module = THIS_MODULE,
  	.name = "imx6-mipi-csi2",
  	.internal_ops = &csi2_internal_ops,
++	.dphy_init = csi2_dphy_init,
  	.grp_id = IMX_MEDIA_GRP_ID_CSI2,
  	.gasket_init = csi2ipu_gasket_init,
-+	.num_pads = CSI2_NUM_PADS,
-+	.sink_pad_mask = BIT(CSI2_NUM_SINK_PADS),
- };
- 
- static int csi2_probe(struct platform_device *pdev)
+ 	.num_pads = CSI2_NUM_PADS,
 diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index 4127b927a73aaf2eada1636fcc6101155f41b334..546c6e7c5d13f3be618fc3eeca780695ead6bfe5 100644
+index 546c6e7c5d13f3be618fc3eeca780695ead6bfe5..23656291d808ccdfc47f36d1f7f5104698812eba 100644
 --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
 +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -399,11 +399,11 @@ static int csi2_s_stream(struct v4l2_subdev *sd, int enable)
- 	if (!csi2->src_sd)
- 		return -EPIPE;
+@@ -21,12 +21,6 @@
+ #include <media/v4l2-mc.h>
+ #include <media/v4l2-subdev.h>
  
--	for (i = 0; i < CSI2_NUM_SRC_PADS; i++) {
-+	for (i = 0; i < csi2->num_sink_pads; i++) {
- 		if (csi2->sink_linked[i])
- 			break;
- 	}
--	if (i >= CSI2_NUM_SRC_PADS)
-+	if (i >= csi2->num_sink_pads)
- 		return -EPIPE;
+-/*
+- * The default maximum bit-rate per lane in Mbps, if the
+- * source subdev does not provide V4L2_CID_LINK_FREQ.
+- */
+-#define CSI2_DEFAULT_MAX_MBPS	849
+-
+ struct dw_csi2_regs {
+ 	u32	version;
+ 	u32	n_lanes;
+@@ -146,9 +140,11 @@ static void csi2_set_lanes(struct dw_mipi_csi2_dev *csi2, unsigned int lanes)
+ 	dw_writel(csi2, lanes - 1, n_lanes);
+ }
  
- 	/*
-@@ -500,7 +500,7 @@ static int csi2_set_fmt(struct v4l2_subdev *sd,
- 	struct dw_mipi_csi2_dev *csi2 = sd_to_dev(sd);
- 	struct v4l2_mbus_framefmt *fmt;
- 
--	if (sdformat->pad >= CSI2_NUM_PADS)
-+	if (sdformat->pad >= (csi2->num_src_pads + csi2->num_sink_pads))
- 		return -EINVAL;
- 
- 	guard(mutex)(&csi2->lock);
-@@ -509,7 +509,7 @@ static int csi2_set_fmt(struct v4l2_subdev *sd,
- 		return -EBUSY;
- 
- 	/* Output pads mirror active input pad, no limits on input pads */
--	if (sdformat->pad != CSI2_SINK_PAD)
-+	if (!(csi2->config->sink_pad_mask & BIT(sdformat->pad)))
- 		sdformat->format = csi2->format_mbus;
- 
- 	fmt = __csi2_get_fmt(csi2, sd_state, sdformat->pad, sdformat->which);
-@@ -574,7 +574,8 @@ static int csi2_notify_bound(struct v4l2_async_notifier *notifier,
- 			     struct v4l2_async_connection *asd)
+-static void dw_mipi_csi2_phy_write(struct dw_mipi_csi2_dev *csi2,
+-				   u32 test_code, u32 test_data)
++static int dw_mipi_csi2_phy_write(struct dw_mipi_tstif *tstif,
++				  u32 test_code, u32 test_data)
  {
- 	struct dw_mipi_csi2_dev *csi2 = notifier_to_dev(notifier);
--	struct media_pad *sink = &csi2->sd.entity.pads[CSI2_SINK_PAD];
-+	int sink_index = ffs(csi2->config->sink_pad_mask) - 1;
-+	struct media_pad *sink = &csi2->sd.entity.pads[sink_index];
- 	int pad;
++	struct dw_mipi_csi2_dev *csi2 = container_of(tstif, struct dw_mipi_csi2_dev, tstif);
++
+ 	/* Clear PHY test interface */
+ 	dw_writel(csi2, PHY_TESTCLR, phy_tst_ctrl0);
+ 	dw_writel(csi2, 0x0, phy_tst_ctrl1);
+@@ -167,6 +163,8 @@ static void dw_mipi_csi2_phy_write(struct dw_mipi_csi2_dev *csi2,
  
- 	pad = media_entity_get_fwnode_pad(&sd->entity, asd->match.fwnode,
-@@ -679,12 +680,20 @@ int dw_mipi_csi2_init(struct platform_device *pdev, struct dw_mipi_csi2_dev *csi
+ 	/* Clear strobe signal */
+ 	dw_writel(csi2, 0x0, phy_tst_ctrl0);
++
++	return 0;
+ }
+ 
+ /*
+@@ -174,54 +172,6 @@ static void dw_mipi_csi2_phy_write(struct dw_mipi_csi2_dev *csi2,
+  * https://community.nxp.com/docs/DOC-94312. It assumes
+  * a 27MHz D-PHY pll reference clock.
+  */
+-static const struct {
+-	u32 max_mbps;
+-	u32 hsfreqrange_sel;
+-} hsfreq_map[] = {
+-	{ 90, 0x00}, {100, 0x20}, {110, 0x40}, {125, 0x02},
+-	{140, 0x22}, {150, 0x42}, {160, 0x04}, {180, 0x24},
+-	{200, 0x44}, {210, 0x06}, {240, 0x26}, {250, 0x46},
+-	{270, 0x08}, {300, 0x28}, {330, 0x48}, {360, 0x2a},
+-	{400, 0x4a}, {450, 0x0c}, {500, 0x2c}, {550, 0x0e},
+-	{600, 0x2e}, {650, 0x10}, {700, 0x30}, {750, 0x12},
+-	{800, 0x32}, {850, 0x14}, {900, 0x34}, {950, 0x54},
+-	{1000, 0x74},
+-};
+-
+-static int max_mbps_to_hsfreqrange_sel(u32 max_mbps)
+-{
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(hsfreq_map); i++)
+-		if (hsfreq_map[i].max_mbps > max_mbps)
+-			return hsfreq_map[i].hsfreqrange_sel;
+-
+-	return -EINVAL;
+-}
+-
+-static int csi2_dphy_init(struct dw_mipi_csi2_dev *csi2)
+-{
+-	struct v4l2_ctrl *ctrl;
+-	u32 mbps_per_lane;
+-	int sel;
+-
+-	ctrl = v4l2_ctrl_find(csi2->src_sd->ctrl_handler,
+-			      V4L2_CID_LINK_FREQ);
+-	if (!ctrl)
+-		mbps_per_lane = CSI2_DEFAULT_MAX_MBPS;
+-	else
+-		mbps_per_lane = DIV_ROUND_UP_ULL(2 * ctrl->qmenu_int[ctrl->val],
+-						 USEC_PER_SEC);
+-
+-	sel = max_mbps_to_hsfreqrange_sel(mbps_per_lane);
+-	if (sel < 0)
+-		return sel;
+-
+-	dw_mipi_csi2_phy_write(csi2, 0x44, sel);
+-
+-	return 0;
+-}
+-
+ /*
+  * Waits for ultra-low-power state on D-PHY clock lane. This is currently
+  * unused and may not be needed at all, but keep around just in case.
+@@ -332,9 +282,11 @@ static int csi2_start(struct dw_mipi_csi2_dev *csi2)
+ 		csi2->config->gasket_init(csi2);
+ 
+ 	/* Step 3 */
+-	ret = csi2_dphy_init(csi2);
+-	if (ret)
+-		goto err_disable_clk;
++	if (csi2->config && csi2->config->dphy_init) {
++		ret = csi2->config->dphy_init(csi2);
++		if (ret)
++			goto err_disable_clk;
++	}
+ 
+ 	ret = csi2_get_active_lanes(csi2, &lanes);
+ 	if (ret)
+@@ -680,6 +632,8 @@ int dw_mipi_csi2_init(struct platform_device *pdev, struct dw_mipi_csi2_dev *csi
  	csi2->sd.grp_id = config->grp_id;
  	csi2->config = config;
  
--	for (i = 0; i < CSI2_NUM_PADS; i++) {
--		csi2->pad[i].flags = (i == CSI2_SINK_PAD) ?
--		MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
-+	if (!config)
-+		return -EINVAL;
++	csi2->tstif.write = dw_mipi_csi2_phy_write;
 +
-+	for (i = 0; i < config->num_pads; i++) {
-+		if (config->sink_pad_mask & BIT(i)) {
-+			csi2->pad[i].flags = MEDIA_PAD_FL_SINK;
-+			csi2->num_sink_pads++;
-+		} else {
-+			csi2->pad[i].flags = MEDIA_PAD_FL_SOURCE;
-+			csi2->num_src_pads++;
-+		}
- 	}
+ 	if (!config)
+ 		return -EINVAL;
  
--	ret = media_entity_pads_init(&csi2->sd.entity, CSI2_NUM_PADS,
-+	ret = media_entity_pads_init(&csi2->sd.entity, config->num_pads,
- 				     csi2->pad);
- 	if (ret)
- 		return ret;
 diff --git a/include/media/dw-mipi-csi2.h b/include/media/dw-mipi-csi2.h
-index d3e1c334df692c5dff10b467d759fe4da45b7b5f..12e1db1d149513fcd0db8c191c801cb144d18143 100644
+index 12e1db1d149513fcd0db8c191c801cb144d18143..935c664440aae82d69f0253a551b91ec4ff2724e 100644
 --- a/include/media/dw-mipi-csi2.h
 +++ b/include/media/dw-mipi-csi2.h
-@@ -11,6 +11,8 @@
- 
- struct dw_mipi_csi2_dev;
- 
-+#define DW_MAX_PAD_NUM		32
-+
- struct dw_mipi_csi2_config {
- 	struct module *module;
- 	const char *name;
-@@ -18,22 +20,18 @@ struct dw_mipi_csi2_config {
+@@ -20,10 +20,26 @@ struct dw_mipi_csi2_config {
  	const struct v4l2_subdev_internal_ops *internal_ops;
  	/* Deprecated, should go through phy interface */
  	void (*gasket_init)(struct dw_mipi_csi2_dev *dev);
-+	u32	num_pads;	/* Max 64 pad now */
-+	u32	sink_pad_mask;
++	int (*dphy_init)(struct dw_mipi_csi2_dev *dev);
+ 	u32	num_pads;	/* Max 64 pad now */
+ 	u32	sink_pad_mask;
  };
  
--/*
-- * there must be 5 pads: 1 input pad from sensor, and
-- * the 4 virtual channel output pads
-- */
--#define CSI2_SINK_PAD		0
--#define CSI2_NUM_SINK_PADS	1
--#define CSI2_NUM_SRC_PADS	4
--#define CSI2_NUM_PADS		5
--
++struct dw_mipi_tstif {
++	int (*write)(struct dw_mipi_tstif *tstif, u32 indice, u32 data);
++};
++
++static inline int dw_mipi_tstif_write(struct dw_mipi_tstif *tstif, u32 indice, u32 data)
++{
++	if (!tstif)
++		return -EINVAL;
++
++	if (!tstif->write)
++		return -EINVAL;
++
++	return  tstif->write(tstif, indice, data);
++}
++
  struct dw_mipi_csi2_dev {
  	struct device			*dev;
  	struct v4l2_subdev		sd;
- 	struct v4l2_async_notifier	notifier;
--	struct media_pad		pad[CSI2_NUM_PADS];
-+	struct media_pad		pad[DW_MAX_PAD_NUM];
-+	int				num_src_pads;
-+	int				num_sink_pads;
-+
- 	void __iomem			*base;
- 	const struct dw_csi2_regs	*regs;
- 
-@@ -51,8 +49,7 @@ struct dw_mipi_csi2_dev {
- 
- 	int				stream_count;
+@@ -51,8 +67,13 @@ struct dw_mipi_csi2_dev {
  	struct v4l2_subdev		*src_sd;
--	bool				sink_linked[CSI2_NUM_SRC_PADS];
--
-+	bool				sink_linked[DW_MAX_PAD_NUM];
+ 	bool				sink_linked[DW_MAX_PAD_NUM];
  	const struct dw_mipi_csi2_config *config;
++
++	struct dw_mipi_tstif		tstif;
  };
  
++#define dw_mipi_csi2_tstif_write(csi2, indice, data)		\
++dw_mipi_tstif_write(&(csi2)->tstif, indice, data)
++
+ static inline struct dw_mipi_csi2_dev *
+ sd_to_dw_mipi_csi2_dev(struct v4l2_subdev *sd)
+ {
 
 -- 
 2.34.1
