@@ -1,243 +1,142 @@
-Return-Path: <linux-media+bounces-39150-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A227B1EF61
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 22:22:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E758BB1EF7F
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 22:28:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02EEC7AEB3B
-	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 20:20:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C2985A50A8
+	for <lists+linux-media@lfdr.de>; Fri,  8 Aug 2025 20:28:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C59B4233721;
-	Fri,  8 Aug 2025 20:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90916234984;
+	Fri,  8 Aug 2025 20:28:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfHta0Vi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSZkMsO+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52618186E2D;
-	Fri,  8 Aug 2025 20:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996C1198A2F
+	for <linux-media@vger.kernel.org>; Fri,  8 Aug 2025 20:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754684511; cv=none; b=twWXS9giGFb5KbXbnVjSnoW/25wOnohej0prldqFLNMN5VDFYybZtxyO4/fwr2AKrbEZZAj4jMG+pQYVr/fbpXuLk/ZCyhVFKDV2rYMTLXarcPuczTSBeZ/13hbMZ40wZ0wuvh8B/b8wmaLzDx4W0BM4N8eElUjJdSyAesjyzQE=
+	t=1754684916; cv=none; b=o4eFydYJCPhjjEt0DFC/BjpADkzYlV5aMhNxtLXLOkntKneGbMW0P4ieKXHZkR9UrA9VsibVBaWUWJ7r9Qn+8dmw9SBOpBJbKdH4kn55EfSbBlDMrGA3fTAenCnPk7g9ulBYfwGYmYIEXoqNmfGGTxEndGq23uxLPaIrLGArLL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754684511; c=relaxed/simple;
-	bh=3+hUUSK4szO4LRjW3BmXqFzHM8zR8c039TUXffU8WGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RYbycOjR4DyIZ7hJlI2XX+eGeO30HmdSPW1xvcsH/zp0dGzf/1m3Mt8U7LXyzMpVFfP2ZWh2oEB15E5OfokXVLdjrn2Fs0Ih37x6tySohErNIpW4X76Oa8MmRyPy3Z6FMCEqqcbU9A5aD3/XQEU1h59onwTdL+t09jHNZtgEYUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfHta0Vi; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1754684916; c=relaxed/simple;
+	bh=wnmK1It3BBsZtEm9sIFhpkKZN7oVKyBcLPT3L2J6gMI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aSafr9ojVVl8UQI90CKLFT9GBrBNej10clb2/q2lyxEnlN2XN8QoOoHgX1cMFuS5WjeML6SXsWmq2Kwx9y3Alt7PgNQm0vLFoT2D1kKxKDajyaOTdH/X8PxfWxuHLzhn/wce/n1XyVjTpQyPwLwsPRxWAdepWEQmoZySxui7Dyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSZkMsO+; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754684510; x=1786220510;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=3+hUUSK4szO4LRjW3BmXqFzHM8zR8c039TUXffU8WGw=;
-  b=NfHta0VilwM1+KZGFFqX6xf/pCytTVwxhi+cU17JWLWre5Msc9fVxJjg
-   3YcVL9yIC54oScb+Qw1WOkVclVKxNIteK7B8eam/MhHbnH6bR3CmpkJHf
-   BcizMGhTqdqi4mRiClAnQGThkIdYPlUWk1Fwv7wL3xZ7CJDuMSeYud+jG
-   9oH5m8qnJuMT9Q575LppZgtEgt5tdStAWxktOkmLkpMHkqlIQBfW6Xw9c
-   Ic7q82SuPipYUWIyRdm5dEb1hGMbsQZXsgrPA3hxWqf9bYK+4U2kcfy/h
-   a4qVFmsYe+eP57HoRkpK2B+qiSccEsaumL3ce6JUiLjHnY0Raudbm1QSI
-   w==;
-X-CSE-ConnectionGUID: 1T3QzIaETbe+6jVMgwPHQw==
-X-CSE-MsgGUID: 4cQ3Iz4pQuSKTGVVRoSCDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="57104540"
+  t=1754684915; x=1786220915;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wnmK1It3BBsZtEm9sIFhpkKZN7oVKyBcLPT3L2J6gMI=;
+  b=hSZkMsO+CkjI3mM50+9eDjE5rs3H2l6Dvw6YKq8BNpgaGmvL8dTNX+gs
+   2yfkBrdEFsHOtm4UuIfz3scX8LDiuFpo/88POcFcyX8ceUdrbbiJWlclh
+   dlpG9EQyzsGTcXXqeGylOyJ7ldAyNUOrFLn7zEjOFw11Z2dG5fNtFyr3y
+   2+AwoWnE2AKNL18ZKPxCfT4I83n81Q6um1d21tcPzoo6zuHYp+Um21MIs
+   n1Vts5w/X8W2sj2mIL49lUICrZiZ6B3S+MM0UVR8cX/J1bNpL/TlSVQOY
+   UGzQ7Yvkka50e0cRK1G0GbJim3gS38lfeNjf5mQhXsjiSDZq17gD80gC/
+   Q==;
+X-CSE-ConnectionGUID: QUtrD0ttT0uD78T9HAS5vw==
+X-CSE-MsgGUID: Cg97jESFRXu4t7VtUZAhng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="59650693"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="57104540"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 13:21:48 -0700
-X-CSE-ConnectionGUID: cEeZHyF9S+m460omcQ77VQ==
-X-CSE-MsgGUID: +d77WPPuSpusqcyKdFfPFw==
+   d="scan'208";a="59650693"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 13:28:34 -0700
+X-CSE-ConnectionGUID: 6MrYt6A3Q7OKzPPJTwIhCg==
+X-CSE-MsgGUID: H2j6xe21TnecA7cXVLSAnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="165778904"
+   d="scan'208";a="169530507"
 Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.17])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 13:21:43 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B545611FC4F;
-	Fri,  8 Aug 2025 23:21:40 +0300 (EEST)
-Date: Fri, 8 Aug 2025 20:21:40 +0000
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 13:28:32 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id BD74911FC4F;
+	Fri,  8 Aug 2025 23:28:29 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1ukThV-008sPf-2E;
+	Fri, 08 Aug 2025 23:28:29 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 2/2] media: i2c: add ov2735 image sensor driver
-Message-ID: <aJZcVINHciYABUOk@kekkonen.localdomain>
-References: <20250731061004.5447-1-hardevsinh.palaniya@siliconsignals.io>
- <20250731061004.5447-3-hardevsinh.palaniya@siliconsignals.io>
- <aJXiv3VeoIhpNBhB@kekkonen.localdomain>
- <PN3P287MB351940E03B0D0AD1A933E99AFF2FA@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
+To: linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+	Valentine Barshak <valentine.barshak@cogentembedded.com>,
+	Andrey Dolnikov <andrey.dolnikov@cogentembedded.com>
+Subject: [RESEND PATCH 1/1] media: MAINTAINERS: Orphan the rcar_jpu driver
+Date: Fri,  8 Aug 2025 23:28:29 +0300
+Message-Id: <20250808202829.2115779-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB351940E03B0D0AD1A933E99AFF2FA@PN3P287MB3519.INDP287.PROD.OUTLOOK.COM>
 
-Hi Hardev,
+Mikhail's e-mail is bouncing:
 
-On Fri, Aug 08, 2025 at 12:34:33PM +0000, Hardevsinh Palaniya wrote:
-> Hi Sakari,
-> 
-> Thanks for the review.
-> 
-> > Hi Hardev,
-> > 
-> > Thanks for the update. A few more minor comments below.
-> > 
-> > On Thu, Jul 31, 2025 at 11:39:58AM +0530, Hardevsinh Palaniya wrote:
-> > > Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.
-> > >
-> > > The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an
-> > > active array size of 1920 x 1080.
-> > >
-> > > The following features are supported:
-> > > - Manual exposure an gain control support
-> > > - vblank/hblank control support
-> > > - Test pattern support control
-> > > - Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)
-> > >
-> > > Co-developed-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> > > Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> > > Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-> > > ---
-> > >  MAINTAINERS                |    1 +
-> > >  drivers/media/i2c/Kconfig  |   10 +
-> > >  drivers/media/i2c/Makefile |    1 +
-> > >  drivers/media/i2c/ov2735.c | 1071 ++++++++++++++++++++++++++++++++++++
-> > >  4 files changed, 1083 insertions(+)
-> > >  create mode 100644 drivers/media/i2c/ov2735.c
-> > >
-> 
-> ...
-> 
-> > > +#define OV2735_XCLK_FREQ                     (24 * HZ_PER_MHZ)
-> > > +
-> > > +/* Add page number in CCI private bits [31:28] of the register address */
-> > > +#define OV2735_PAGE_REG8(p, x)                       (((p) << CCI_REG_PRIVATE_SHIFT) | CCI_REG8(x))
-> > > +#define OV2735_PAGE_REG16(p, x)                      (((p) << CCI_REG_PRIVATE_SHIFT) | CCI_REG16(x))
-> > > +
-> > > +#define OV2735_REG_PAGE_SELECT                       CCI_REG8(0xfd)
-> > > +
-> > > +/* Page 0 */
-> > > +#define OV2735_REG_CHIPID                    OV2735_PAGE_REG16(0x00, 0x02)
-> > > +#define OV2735_CHIPID                                0x2735
-> > > +
-> > > +#define OV2735_REG_SOFT_REST                 OV2735_PAGE_REG8(0x00, 0x20)
-> > > +
-> > > +/* Clock Settings */
-> > > +#define OV2735_REG_PLL_CTRL                  OV2735_PAGE_REG8(0x00, 0x2f)
-> > > +#define OV2735_REG_PLL_ENABLE                        0x7f
-> > 
-> > This register address doesn't use the macro to define one. Why?
-> 
-> This is not a register address but a register value. 
-> I will correct the naming to OV2735_PLL_ENABLE to make that clear.
+===========8<-----------
+The following message to <mikhail.ulyanov@cogentembedded.com> was undeliverable.
+The reason for the problem:
+5.1.0 - Unknown address error 550-"5.1.1 The email account that you tried to
+reach does not exist. Please try\n5.1.1 double-checking the recipient's email
+address for typos or\n5.1.1 unnecessary spaces. For more information, go
+to\n5.1.1  https://support.google.com/mail/?p=NoSuchUser
+d75a77b69052e-4b07f8ba752si46048731cf.823 - gsmtp"
+===========8<-----------
 
-How about OV2735_PLL_CTRL_ENABLE?
+Assign the driver to Laurent with "Odd Fixes" status.
 
->  
-> > > +#define OV2735_REG_PLL_OUTDIV                        OV2735_PAGE_REG8(0x00, 0x34)
-> > > +#define OV2735_REG_CLK_MODE                  OV2735_PAGE_REG8(0x00, 0x30)
-> > > +#define OV2735_REG_CLOCK_REG1                        OV2735_PAGE_REG8(0x00, 0x33)
-> > > +#define OV2735_REG_CLOCK_REG2                        OV2735_PAGE_REG8(0x00, 0x35)
-> > > +
-> > > +/* Page 1 */
-> > > +#define OV2735_REG_STREAM_CTRL                       OV2735_PAGE_REG8(0x01, 0xa0)
-> > > +#define OV2735_STREAM_ON                     0x01
-> > > +#define OV2735_STREAM_OFF                    0x00
-> > 
-> > It's a good practice to name register values with the register macro as a
-> > prefix, with "REG_" removed.
-> 
-> This is not a register address but a register value. 
-> 
-> > > +
-> > > +#define OV2735_REG_UPDOWN_MIRROR             OV2735_PAGE_REG8(0x01, 0x3f)
-> > > +#define OV2735_REG_BINNING_DAC_CODE_MODE     OV2735_PAGE_REG8(0x01, 0x30)
-> > > +#define OV2735_REG_FRAME_LENGTH                      OV2735_PAGE_REG16(0x01, 0x0e)
-> > > +#define OV2735_VTS_MAX                               0x0fff
-> > > +#define OV2735_REG_FRAME_EXP_SEPERATE_EN     OV2735_PAGE_REG8(0x01, 0x0d)
-> > > +#define OV2735_FRAME_EXP_SEPERATE_EN         0x10
-> > > +#define OV2735_REG_FRAME_SYNC                        OV2735_PAGE_REG8(0x01, 0x01)
-> > > +
-> 
-> ...
-> 
-> > > +static int ov2735_init_controls(struct ov2735 *ov2735)
-> > > +{
-> > > +     struct v4l2_ctrl_handler *ctrl_hdlr;
-> > > +     struct v4l2_fwnode_device_properties props;
-> > > +     const struct ov2735_mode *mode = &supported_modes[0];
-> > > +     u64 hblank_def, vblank_def, exp_max;
-> > > +     int ret;
-> > > +
-> > > +     ctrl_hdlr = &ov2735->handler;
-> > > +     ret = v4l2_ctrl_handler_init(ctrl_hdlr, 9);
-> > > +     if (ret)
-> > > +             return ret;
-> > 
-> > No need to check this here explicitly.
-> > 
-> > > +
-> > > +     ov2735->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
-> > > +                                            V4L2_CID_PIXEL_RATE, 0, OV2735_PIXEL_RATE,
-> > > +                                            1, OV2735_PIXEL_RATE);
-> > > +
-> > > +     ov2735->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2735_ctrl_ops,
-> > > +                                                V4L2_CID_LINK_FREQ,
-> > > +                                                ov2735->link_freq_index,
-> > > +                                                0, link_freq_menu_items);
-> > > +     if (ov2735->link_freq)
-> > > +             ov2735->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +
-> > > +     hblank_def = mode->hts_def - mode->width;
-> > > +     ov2735->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops, V4L2_CID_HBLANK,
-> > > +                                        hblank_def, hblank_def, 1, hblank_def);
-> > 
-> > Can you run:
-> > 
-> >         $ ./scripts/checkpatch.pl --strict --max-line-length=80
-> > 
-> > on the patch, please?
-> 
-> I tried to keep lines within 80 columns, but in some cases a slightly longer line 
-> improves readability. I’ll revisit these and fix where possible to follow the style
-> guide more closely. 
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+Cc'ing others from Cogent Embedded.
 
+ MAINTAINERS                               | 4 ++--
+ drivers/media/platform/renesas/rcar_jpu.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fad6cb025a19..674f00159011 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12944,10 +12944,10 @@ F:	fs/jbd2/
+ F:	include/linux/jbd2.h
+ 
+ JPU V4L2 MEM2MEM DRIVER FOR RENESAS
+-M:	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
++M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ L:	linux-media@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+-S:	Maintained
++S:	Odd Fixes
+ F:	drivers/media/platform/renesas/rcar_jpu.c
+ 
+ JSM Neo PCI based serial card
+diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
+index 81038df71bb5..6cf1fef42617 100644
+--- a/drivers/media/platform/renesas/rcar_jpu.c
++++ b/drivers/media/platform/renesas/rcar_jpu.c
+@@ -1745,6 +1745,6 @@ static struct platform_driver jpu_driver = {
+ module_platform_driver(jpu_driver);
+ 
+ MODULE_ALIAS("platform:" DRV_NAME);
+-MODULE_AUTHOR("Mikhail Ulianov <mikhail.ulyanov@cogentembedded.com>");
++MODULE_AUTHOR("Mikhail Ulianov");
+ MODULE_DESCRIPTION("Renesas R-Car JPEG processing unit driver");
+ MODULE_LICENSE("GPL v2");
 -- 
-Regards,
+2.39.5
 
-Sakari Ailus
 
