@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-39227-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39228-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1044B1F687
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B855DB1F689
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:19:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C97A189BE31
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:19:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C643A189B9FA
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:19:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 298BC29DB68;
-	Sat,  9 Aug 2025 21:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A4622BD033;
+	Sat,  9 Aug 2025 21:18:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PF8b6oDI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NGOgkeG7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FAC27B4FA
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F165927AC59
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774295; cv=none; b=uZS3ugoKQbY0O2pUFsyse99Nm2ZDd2g7BnUdbdfBxAomtZpvD8iECW4i1YjBxU3CDzKTO4hOTGROors/4VrBZodGINm0jpkGJVfsJludIR33qZQI7YGaw/+4UntxjwhormxtAAJL+5OjZMQA2Wjg50+JVTwyq0X85lqCmviQkuw=
+	t=1754774298; cv=none; b=hOb9MiEtpKbeoOhZj8+7V+4mNOdv9jKzyfKPvf0jJA66l5Wd2uaLtLBKV5nCG1m9PzqVCoYQ1XcX0csaeyQ50S2JGCOD68aoMdruNDyIrvlMqVtWIv740xUGYnTNcShddi3C4UdEtyEwllgfDcFZmTvcS6crSKN5NBTC5lg7PJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774295; c=relaxed/simple;
-	bh=PVOG6t05aGPjNpP/2Go5tsV5hhONfrl+BwAPe+jc7m0=;
+	s=arc-20240116; t=1754774298; c=relaxed/simple;
+	bh=LyApBwP8iu9HM7o+rRN6lzNhAEGg3thmbWLCtmu7LcM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jagyiAP8+tsUupeyv3+7Lx7+Oi/BG03LUqZ7Y8OVFDO3TB0Q5c0W/iiGfiU7MrIOEQM7H4yFbizCFmoVdiWVFNrl0tpLsUJoudDJhpIUuwhl7NNODOtGcAuWev0JvC1U4ojlXtJEY3zS8Sxf4jDrsAWqnMHuh4PEr1y+54iRDAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PF8b6oDI; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=g7AUqLRUcxD1KlQ4ogocLM8G5XoCGOTFoyaNkvAJT63T2RChjL+PbiXMlrC9wxljvvAqPoghSrgKKuVKmZoJCKdJyS/hQ266k8Qol6dC4pGK8D7iWjTc7gtDaC3o8fxR8Tqd42mgpvAtiBbJL65IeyBBumr6TDbRxt1LJf83kEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NGOgkeG7; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AE75BEFE;
-	Sat,  9 Aug 2025 23:17:18 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 687921440;
+	Sat,  9 Aug 2025 23:17:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774238;
-	bh=PVOG6t05aGPjNpP/2Go5tsV5hhONfrl+BwAPe+jc7m0=;
+	s=mail; t=1754774240;
+	bh=LyApBwP8iu9HM7o+rRN6lzNhAEGg3thmbWLCtmu7LcM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PF8b6oDIgZ+ykiSDOCov1UA2XGpmgE0TXzijBzr2gRr5dsuqhPFFEWzRHQO/gYcoJ
-	 jkCmsO1LGHJT4+1W/4s3Jd0gqH6jXIefS0MYpXm5Grz/EUi4IZn0gfsrTYsi2qluP+
-	 Z0KSDtVjozGf0O4ASBg52YI0Otda+Aj1AmEalFoE=
+	b=NGOgkeG7G3c+BT8deANwNugEQjEWS6xwUsY5306IZWTKNzdRoVtJECXwPr4xd3HgP
+	 2uJM7qHs+khhrf2JfDxMf7cdubxxcQUHCQOc8+AS0tzozbIpDHZrLxtWeoUfwgWFv5
+	 q0yVbF3sm9dDl1lLvvgV5xWcO6p18MAl+7e81Fh8=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v2 35/76] media: v4l2-ioctl: Access v4l2_fh from private_data
-Date: Sun, 10 Aug 2025 00:16:12 +0300
-Message-ID: <20250809211654.28887-36-laurent.pinchart@ideasonboard.com>
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: [PATCH v2 36/76] media: allegro: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 00:16:13 +0300
+Message-ID: <20250809211654.28887-37-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -63,160 +63,120 @@ Content-Transfer-Encoding: 8bit
 
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Now that it is guaranteed that file->private_data is set to point to the
-'struct v4l2_fh' initialised by v4l2_fh_add() the v4l2-ioctl layer can
-be modified to retrieve the v4l2_fh pointer from the file *.
+The v4l2_fh associated with an open file handle is now guaranteed
+to be available in file->private_data, initialised by v4l2_fh_add().
 
-As the __video_do_ioctl() function, that calls all the handlers modified
-by this patch goes as:
+Access the v4l2_fh, and from there the driver-specific structure,
+from the file * in all ioctl handlers.
 
-static long __video_do_ioctl(struct file *file,
-		unsigned int cmd, void *arg)
-{
-	void *fh = file->private_data;
-
-	...
-
-	ret = info->func(ops, file, fh, arg);
-
-}
-
-This patch introduces no functional changes and makes it possible to
-remove in future the 'fh' argument to all ioctl handlers.
+While at it remove the only left user of fh_to_channel() and remove
+the macro completely.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
+Co-developed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 33 ++++++++++++++++------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+Changes since v1:
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 6c684884873e..378a2a149fec 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -2295,7 +2295,7 @@ static int v4l_queryctrl(const struct v4l2_ioctl_ops *ops,
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_query_ext_ctrl qec = {};
- 	struct v4l2_queryctrl *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
- 	int ret;
+- Use channel->fh.m2m_ctx in allegro_ioctl_streamon()
+---
+ .../media/platform/allegro-dvt/allegro-core.c | 21 ++++++++-----------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+index 5e3b1f5d7206..510c3c9661d9 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-core.c
++++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+@@ -197,8 +197,6 @@ static const struct regmap_config allegro_sram_config = {
+ 	.cache_type = REGCACHE_NONE,
+ };
  
- 	if (vfh && vfh->ctrl_handler)
-@@ -2319,7 +2319,7 @@ static int v4l_query_ext_ctrl(const struct v4l2_ioctl_ops *ops,
+-#define fh_to_channel(__fh) container_of(__fh, struct allegro_channel, fh)
+-
+ struct allegro_channel {
+ 	struct allegro_dev *dev;
+ 	struct v4l2_fh fh;
+@@ -3284,7 +3282,7 @@ static int allegro_enum_fmt_vid(struct file *file, void *fh,
+ static int allegro_g_fmt_vid_cap(struct file *file, void *fh,
+ 				 struct v4l2_format *f)
  {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_query_ext_ctrl *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
  
- 	if (vfh && vfh->ctrl_handler)
- 		return v4l2_query_ext_ctrl(vfh->ctrl_handler, p);
-@@ -2335,7 +2335,7 @@ static int v4l_querymenu(const struct v4l2_ioctl_ops *ops,
+ 	f->fmt.pix.field = V4L2_FIELD_NONE;
+ 	f->fmt.pix.width = channel->width;
+@@ -3326,7 +3324,7 @@ static int allegro_try_fmt_vid_cap(struct file *file, void *fh,
+ static int allegro_s_fmt_vid_cap(struct file *file, void *fh,
+ 				 struct v4l2_format *f)
  {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_querymenu *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
+ 	struct vb2_queue *vq;
+ 	int err;
  
- 	if (vfh && vfh->ctrl_handler)
- 		return v4l2_querymenu(vfh->ctrl_handler, p);
-@@ -2351,7 +2351,7 @@ static int v4l_g_ctrl(const struct v4l2_ioctl_ops *ops,
+@@ -3350,7 +3348,7 @@ static int allegro_s_fmt_vid_cap(struct file *file, void *fh,
+ static int allegro_g_fmt_vid_out(struct file *file, void *fh,
+ 				 struct v4l2_format *f)
  {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_control *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
- 	struct v4l2_ext_controls ctrls;
- 	struct v4l2_ext_control ctrl;
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
  
-@@ -2382,7 +2382,7 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
+ 	f->fmt.pix.field = V4L2_FIELD_NONE;
+ 
+@@ -3397,7 +3395,7 @@ static int allegro_try_fmt_vid_out(struct file *file, void *fh,
+ static int allegro_s_fmt_vid_out(struct file *file, void *fh,
+ 				 struct v4l2_format *f)
  {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_control *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
- 	struct v4l2_ext_controls ctrls;
- 	struct v4l2_ext_control ctrl;
- 	int ret;
-@@ -2411,7 +2411,7 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
+ 	int err;
+ 
+ 	err = allegro_try_fmt_vid_out(file, fh, f);
+@@ -3438,7 +3436,7 @@ static int allegro_channel_cmd_start(struct allegro_channel *channel)
+ static int allegro_encoder_cmd(struct file *file, void *fh,
+ 			       struct v4l2_encoder_cmd *cmd)
  {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_ext_controls *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
+ 	int err;
  
- 	p->error_idx = p->count;
- 	if (vfh && vfh->ctrl_handler)
-@@ -2431,7 +2431,7 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
+ 	err = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
+@@ -3487,8 +3485,7 @@ static int allegro_enum_framesizes(struct file *file, void *fh,
+ static int allegro_ioctl_streamon(struct file *file, void *priv,
+ 				  enum v4l2_buf_type type)
  {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_ext_controls *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
+-	struct v4l2_fh *fh = file_to_v4l2_fh(file);
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
+ 	int err;
  
- 	p->error_idx = p->count;
- 	if (vfh && vfh->ctrl_handler)
-@@ -2451,7 +2451,7 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
- {
- 	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_ext_controls *p = arg;
--	struct v4l2_fh *vfh = fh;
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
- 
- 	p->error_idx = p->count;
- 	if (vfh && vfh->ctrl_handler)
-@@ -2746,19 +2746,25 @@ static int v4l_dbg_g_chip_info(const struct v4l2_ioctl_ops *ops,
- static int v4l_dqevent(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
--	return v4l2_event_dequeue(fh, arg, file->f_flags & O_NONBLOCK);
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
-+
-+	return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
- }
- 
- static int v4l_subscribe_event(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
--	return ops->vidioc_subscribe_event(fh, arg);
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
-+
-+	return ops->vidioc_subscribe_event(vfh, arg);
- }
- 
- static int v4l_unsubscribe_event(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
--	return ops->vidioc_unsubscribe_event(fh, arg);
-+	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
-+
-+	return ops->vidioc_unsubscribe_event(vfh, arg);
- }
- 
- static int v4l_g_sliced_vbi_cap(const struct v4l2_ioctl_ops *ops,
-@@ -3062,7 +3068,6 @@ static long __video_do_ioctl(struct file *file,
- 	bool write_only = false;
- 	struct v4l2_ioctl_info default_info;
- 	const struct v4l2_ioctl_info *info;
--	void *fh = file->private_data;
- 	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
- 	int dev_debug = vfd->dev_debug;
- 	long ret = -ENOTTY;
-@@ -3121,11 +3126,11 @@ static long __video_do_ioctl(struct file *file,
- 
- 	write_only = _IOC_DIR(cmd) == _IOC_WRITE;
- 	if (info != &default_info) {
--		ret = info->func(ops, file, fh, arg);
-+		ret = info->func(ops, file, vfh, arg);
- 	} else if (!ops->vidioc_default) {
- 		ret = -ENOTTY;
- 	} else {
--		ret = ops->vidioc_default(file, fh,
-+		ret = ops->vidioc_default(file, vfh,
- 			v4l2_prio_check(vfd->prio, vfh->prio) >= 0,
- 			cmd, arg);
+ 	if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+@@ -3497,13 +3494,13 @@ static int allegro_ioctl_streamon(struct file *file, void *priv,
+ 			return err;
  	}
+ 
+-	return v4l2_m2m_streamon(file, fh->m2m_ctx, type);
++	return v4l2_m2m_streamon(file, channel->fh.m2m_ctx, type);
+ }
+ 
+ static int allegro_g_parm(struct file *file, void *fh,
+ 			  struct v4l2_streamparm *a)
+ {
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
+ 	struct v4l2_fract *timeperframe;
+ 
+ 	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+@@ -3520,7 +3517,7 @@ static int allegro_g_parm(struct file *file, void *fh,
+ static int allegro_s_parm(struct file *file, void *fh,
+ 			  struct v4l2_streamparm *a)
+ {
+-	struct allegro_channel *channel = fh_to_channel(fh);
++	struct allegro_channel *channel = file_to_channel(file);
+ 	struct v4l2_fract *timeperframe;
+ 	int div;
+ 
 -- 
 Regards,
 
