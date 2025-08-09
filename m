@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-39244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39245-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC86B1F6A7
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB054B1F6A8
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 647251886C3A
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:20:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7D9F17F6CA
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:20:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46DBB2C3255;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D86592C325F;
 	Sat,  9 Aug 2025 21:18:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GImPkPys"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kOV5Me+d"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9C82C3251;
-	Sat,  9 Aug 2025 21:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E761B279915
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774323; cv=none; b=mnJ2EEaV3de3WCwknIObR3yAO/SdF03hIcvWTi1nUklRxm5UzZFPwskphT1zJetmUum2qViC+/Elk5oBpCToohNlnShqMlYcoDoYUS1ZQuFQ66/UL7UwDhN1kRbmS6RMnRVqoBAbhqX4GgnkVAbOLhqH9ol9tZD/ojvQoZRz3Yw=
+	t=1754774324; cv=none; b=ZX7RAGshykmYyp8x1Vo93Mk6LFv9GWPr3g07Vu7XzJyVZQs7oS939Lt58ICAar4EwCJqt4upgljGN7F3vaSQsXoGR1qi1ptkIcPeIXdCgZffW5PQA9Fi0QFrnA6BOxPT3elWaiEuWCMad/lHNTH4milD1wzi9ZmSEXPvmBbXGpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774323; c=relaxed/simple;
-	bh=RTuU5gF+Pnv7QFPYmzxAZueyLDTQrkoFY0RSxOFOOCU=;
+	s=arc-20240116; t=1754774324; c=relaxed/simple;
+	bh=E2YsTuLzac0tzRZQUeUKAToChu69AO8ArXm4ynIHL2k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rsrvqyjmb+/LnOJpCSkfEcaFNTglpmyDTNUYeKf8EpvAPeB9HEvb7dDHtTN+ZQdT0+ZMsmfTsI1Cy+BkeZcO2Bwx76prkMOUMPuzIluQKRYW4So6xYs8ykgC2LpS/A42XzE9grfAzRBhXR9s/SJ4PE7Xh+ZVYesQqeUHYl7saYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GImPkPys; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Vo1b72FPu+tBRXfe6ACWTPHFRRu8UmQwiXQW8oMR7ZNVFq6ZQ6DgZKmQSD1OXtm+j54swxvxGp0/jxauyy+DnfhfJR42zLI744uMreytq6gNshtfyKDx75iDhkAEOMw9oCc1dvWGzeEf44q0qRMLVLj07oDx4DZ/MkqHFBFr8jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kOV5Me+d; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7D81E1440;
-	Sat,  9 Aug 2025 23:17:42 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 05D15165B;
+	Sat,  9 Aug 2025 23:17:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774262;
-	bh=RTuU5gF+Pnv7QFPYmzxAZueyLDTQrkoFY0RSxOFOOCU=;
+	s=mail; t=1754774264;
+	bh=E2YsTuLzac0tzRZQUeUKAToChu69AO8ArXm4ynIHL2k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GImPkPys4VzekcKtzPUUC/KesUmhWqTlTQ4tuPiXbrscvMB24Akln/DFXDGVV4I2w
-	 oBft9yWXNpUAqKN23WTZRI794AW6NWO8dkP9fOtKswV9LdMYDQRmiCVyZSsyNygNVk
-	 hbjNzaSu05vPxggR7tWp4lmtwBf6OfTgkwwGnzck=
+	b=kOV5Me+dLUdriEWiPFdked+NZxD2X3aMI+zMdJDqFlRBtlRCWJchZd5gguvr8UQ5U
+	 knuwhjfwex9EJKKfkCRLQtCWwPgIsscAyZvt6c5W0PRGDoqboBzrkJDmW2l+LoHv4l
+	 UljzMUN2QZi3ak0o3VCmTfY2R+0KcRZd+Vbexi2U=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 49/76] media: renesas: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 00:16:26 +0300
-Message-ID: <20250809211654.28887-50-laurent.pinchart@ideasonboard.com>
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 50/76] media: rockhip: rga: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 00:16:27 +0300
+Message-ID: <20250809211654.28887-51-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 The v4l2_fh associated with an open file handle is now guaranteed
 to be available in file->private_data, initialised by v4l2_fh_add().
@@ -72,162 +72,51 @@ to be available in file->private_data, initialised by v4l2_fh_add().
 Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Changes since v1:
+ drivers/media/platform/rockchip/rga/rga.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-- Update file-to-ctx macro due to removal of fh-to-ctx macro
----
- drivers/media/platform/renesas/rcar_fdp1.c | 13 ++++--------
- drivers/media/platform/renesas/rcar_jpu.c  | 23 +++++++++-------------
- 2 files changed, 13 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
-index e2dba0e4f315..84c3901a2e5d 100644
---- a/drivers/media/platform/renesas/rcar_fdp1.c
-+++ b/drivers/media/platform/renesas/rcar_fdp1.c
-@@ -630,14 +630,9 @@ struct fdp1_ctx {
- 	struct fdp1_field_buffer	*previous;
- };
- 
--static inline struct fdp1_ctx *fh_to_ctx(struct v4l2_fh *fh)
--{
--	return container_of(fh, struct fdp1_ctx, fh);
--}
--
- static inline struct fdp1_ctx *file_to_ctx(struct file *filp)
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index 45c42c7ad846..7c657df623f2 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -462,7 +462,7 @@ static int vidioc_enum_fmt(struct file *file, void *prv, struct v4l2_fmtdesc *f)
+ static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
  {
--	return fh_to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct fdp1_ctx, fh);
- }
- 
- static struct fdp1_q_data *get_q_data(struct fdp1_ctx *ctx,
-@@ -1411,8 +1406,8 @@ static int fdp1_enum_fmt_vid_out(struct file *file, void *priv,
- 
- static int fdp1_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
-+	struct fdp1_ctx *ctx = file_to_ctx(file);
- 	struct fdp1_q_data *q_data;
--	struct fdp1_ctx *ctx = fh_to_ctx(priv);
- 
- 	if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
- 		return -EINVAL;
-@@ -1589,7 +1584,7 @@ static void fdp1_try_fmt_capture(struct fdp1_ctx *ctx,
- 
- static int fdp1_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
--	struct fdp1_ctx *ctx = fh_to_ctx(priv);
-+	struct fdp1_ctx *ctx = file_to_ctx(file);
- 
- 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
- 		fdp1_try_fmt_output(ctx, NULL, &f->fmt.pix_mp);
-@@ -1660,7 +1655,7 @@ static void fdp1_set_format(struct fdp1_ctx *ctx,
- 
- static int fdp1_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
--	struct fdp1_ctx *ctx = fh_to_ctx(priv);
-+	struct fdp1_ctx *ctx = file_to_ctx(file);
- 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
- 	struct vb2_queue *vq = v4l2_m2m_get_vq(m2m_ctx, f->type);
- 
-diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-index 0b479dfa2917..9c70a74a2969 100644
---- a/drivers/media/platform/renesas/rcar_jpu.c
-+++ b/drivers/media/platform/renesas/rcar_jpu.c
-@@ -480,14 +480,9 @@ static struct jpu_ctx *ctrl_to_ctx(struct v4l2_ctrl *c)
- 	return container_of(c->handler, struct jpu_ctx, ctrl_handler);
- }
- 
--static struct jpu_ctx *fh_to_ctx(struct v4l2_fh *fh)
--{
--	return container_of(fh, struct jpu_ctx, fh);
--}
--
- static struct jpu_ctx *file_to_ctx(struct file *filp)
- {
--	return fh_to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct jpu_ctx, fh);
- }
- 
- static void jpu_set_tbl(struct jpu *jpu, u32 reg, const unsigned int *tbl,
-@@ -661,7 +656,7 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
- static int jpu_querycap(struct file *file, void *priv,
- 			struct v4l2_capability *cap)
- {
--	struct jpu_ctx *ctx = fh_to_ctx(priv);
-+	struct jpu_ctx *ctx = file_to_ctx(file);
- 
- 	if (ctx->encoder)
- 		strscpy(cap->card, DRV_NAME " encoder", sizeof(cap->card));
-@@ -719,7 +714,7 @@ static int jpu_enum_fmt(struct v4l2_fmtdesc *f, u32 type)
- static int jpu_enum_fmt_cap(struct file *file, void *priv,
- 			    struct v4l2_fmtdesc *f)
- {
--	struct jpu_ctx *ctx = fh_to_ctx(priv);
-+	struct jpu_ctx *ctx = file_to_ctx(file);
- 
- 	return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_CAPTURE :
- 			    JPU_DEC_CAPTURE);
-@@ -728,7 +723,7 @@ static int jpu_enum_fmt_cap(struct file *file, void *priv,
- static int jpu_enum_fmt_out(struct file *file, void *priv,
- 			    struct v4l2_fmtdesc *f)
- {
--	struct jpu_ctx *ctx = fh_to_ctx(priv);
-+	struct jpu_ctx *ctx = file_to_ctx(file);
- 
- 	return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_OUTPUT : JPU_DEC_OUTPUT);
- }
-@@ -828,7 +823,7 @@ static int __jpu_try_fmt(struct jpu_ctx *ctx, struct jpu_fmt **fmtinfo,
- 
- static int jpu_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
--	struct jpu_ctx *ctx = fh_to_ctx(priv);
-+	struct jpu_ctx *ctx = file_to_ctx(file);
- 
- 	if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
- 		return -EINVAL;
-@@ -839,7 +834,7 @@ static int jpu_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
- static int jpu_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
- {
+ 	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
+-	struct rga_ctx *ctx = prv;
++	struct rga_ctx *ctx = file_to_rga_ctx(file);
  	struct vb2_queue *vq;
--	struct jpu_ctx *ctx = fh_to_ctx(priv);
-+	struct jpu_ctx *ctx = file_to_ctx(file);
- 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
- 	struct jpu_fmt *fmtinfo;
- 	struct jpu_q_data *q_data;
-@@ -868,8 +863,8 @@ static int jpu_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ 	struct rga_frame *frm;
  
- static int jpu_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+@@ -504,7 +504,7 @@ static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
  {
-+	struct jpu_ctx *ctx = file_to_ctx(file);
- 	struct jpu_q_data *q_data;
--	struct jpu_ctx *ctx = fh_to_ctx(priv);
- 
- 	if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
- 		return -EINVAL;
-@@ -902,8 +897,8 @@ static const struct v4l2_ctrl_ops jpu_ctrl_ops = {
- 
- static int jpu_streamon(struct file *file, void *priv, enum v4l2_buf_type type)
+ 	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
+-	struct rga_ctx *ctx = prv;
++	struct rga_ctx *ctx = file_to_rga_ctx(file);
+ 	struct rockchip_rga *rga = ctx->rga;
+ 	struct vb2_queue *vq;
+ 	struct rga_frame *frm;
+@@ -561,7 +561,7 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ static int vidioc_g_selection(struct file *file, void *prv,
+ 			      struct v4l2_selection *s)
  {
--	struct jpu_ctx *ctx = fh_to_ctx(priv);
- 	struct jpu_q_data *src_q_data, *dst_q_data, *orig, adj, *ref;
-+	struct jpu_ctx *ctx = file_to_ctx(file);
- 	enum v4l2_buf_type adj_type;
+-	struct rga_ctx *ctx = prv;
++	struct rga_ctx *ctx = file_to_rga_ctx(file);
+ 	struct rga_frame *f;
+ 	bool use_frame = false;
  
- 	src_q_data = jpu_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-@@ -1284,8 +1279,8 @@ static int jpu_open(struct file *file)
- 
- static int jpu_release(struct file *file)
+@@ -609,7 +609,7 @@ static int vidioc_g_selection(struct file *file, void *prv,
+ static int vidioc_s_selection(struct file *file, void *prv,
+ 			      struct v4l2_selection *s)
  {
--	struct jpu *jpu = video_drvdata(file);
- 	struct jpu_ctx *ctx = file_to_ctx(file);
-+	struct jpu *jpu = video_drvdata(file);
- 
- 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
- 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+-	struct rga_ctx *ctx = prv;
++	struct rga_ctx *ctx = file_to_rga_ctx(file);
+ 	struct rockchip_rga *rga = ctx->rga;
+ 	struct rga_frame *f;
+ 	int ret = 0;
 -- 
 Regards,
 
