@@ -1,135 +1,145 @@
-Return-Path: <linux-media+bounces-39191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39192-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35888B1F473
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 13:51:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB775B1F474
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 13:54:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53C1116A745
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 11:51:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 933BE622BAC
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 11:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1CA27FB1E;
-	Sat,  9 Aug 2025 11:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 986DD27FB10;
+	Sat,  9 Aug 2025 11:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lWyP8IBi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQKBrBuU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A20627CB04
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 11:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E77A18FC92;
+	Sat,  9 Aug 2025 11:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754740294; cv=none; b=Vxc/gXB1N/5xMwsYYSSrnlvumpWufF4CbCV/654zn3Zgcevbl8rRIP8sH7yE3UZW9EV63mzjlOhM3Br8nYr5ugVaxfx0WLs/zGs2Oi8KAYa5cNt0ZtPG6QPgF8UDy5zbnadbPqMuDwrrwIJ8jzof+LX/5C1oLYmO26TQNIeqT+k=
+	t=1754740449; cv=none; b=cswidOkO735nDiD/3bUDxlzQKDEMTgyMczQq9nCe01Dfy0OnWiBRu6FNQUs7T399nl7KjcS4AEWf+NqlKq/c5ldgFgMhiySD22tsTzXe1m2xin1mzJUfAYku/bhhDix3J8q43fFYhBg6Rcg/rMcLYiioYLASWrwg5D2tBRFz1/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754740294; c=relaxed/simple;
-	bh=uJhqt4WZm6zbKgUtI3s+WwMuCbXej23iFVq2PvOrM1M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QAeRS/EsH2PHxqxKtqnn2up+wmvM4N1zq8aEoAzOA3ZRSCSti0Tdkemo5Ca3o+KS02nwC8Ys1tg50yL0Q2mOUfqMCrx/nPb+EJ9xI/TZbYVgCiTLOa5YFcUL69/eEQhoTO1R+W3tJeah6pq/vFpPUhongA2zcVMdsYNisaP8YPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lWyP8IBi; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3b8de193b60so1729744f8f.0
-        for <linux-media@vger.kernel.org>; Sat, 09 Aug 2025 04:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754740290; x=1755345090; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EYbjCB4xV+1M1pw33WasqXN1dpWvlUReQjDjyIDAOO4=;
-        b=lWyP8IBiHmaOtA9wzXdEm8Wy6jrTySBKcv2NsojSibdr51UZd7ECwlcMSvYPRlhA+D
-         S9/6fazsn5PxeCnRQZ+Bi/9dy4wdrqVkinPNFI/9tqY7m+nD6g1nW169doD2dJbhsQes
-         k+dBHrdRrcvaIlN0brRvy2x03HzWd9wY1BO0iopAd7oN/fnbTUCmFv4sz8AwAkPDmRiD
-         p1bUj4g/Mt7CKUHO1Pd5iw/TnEf3s2W8F/w2Qo6rWsv/zsjPJJ7SUf7uJYfOYUjdAkap
-         Nt/Z1rN2N3zPW6710UAQ1LuVdOR1SNyvYP3AeXFey4wKmuOZ3AaT0cHCUBjDZyf5sk2u
-         H1gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754740290; x=1755345090;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EYbjCB4xV+1M1pw33WasqXN1dpWvlUReQjDjyIDAOO4=;
-        b=ifNhMnvKa9dGhUPPJe5k0ocW+4y6HJdxcGYPm3G4cX0MmEZ2VJoZz95Ncrt33dXw2E
-         /jnTGRMpUhTVHWTwuT9lJLVsFa2tlGuOqe8wbd31LFgqAP0+UEiaEc3O2ve+SkIBevxD
-         PB5eMCl/ExthMTxK4zPaU37JExleSH5BszbRg95pNvoiWmHvh6OzWzLlo82QoWn5+dZW
-         BHjLI1StLWuCcEuEWg6ye+JaEDGlZC7JlhfuJtQDxWvYmXZyhRJZezAIR6PbxHU8RpPn
-         twCi1hp6meiK3jr3L2qzxN2RLW+MHI0Vn7aGdpX/mNfrxlJGH4OPdNQCh/+Ml/XQrdn4
-         V13w==
-X-Forwarded-Encrypted: i=1; AJvYcCWPvY8ZvhlHXa9W8uebFZiUOadWdlwMi9vOKFPOuqXLI0fc/FsajkyO2qqghQamAySpGAIcyJr8PL+fUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBtDyGO3B9aeex+zVUhXSRux8jC9r3zGnUiUzpaPA7e7VruUke
-	LMG6mWXbsvQpOWIYoOchVPlkuwVA/mQg0q3wzCi1Zkuy9S0K96cjUQRVyk7+XzQQ38I=
-X-Gm-Gg: ASbGncsVR0oCmjWi6z/HIi9/PLSuRe8u/ZFiVIIY1pkNQZ3lp6byQituQG5H8kql7xf
-	g4B29SMc6rG+9CfVOG1WwmiJwVIlbGJrs7Xmk6DWM/tZaMQ8vb8XrzKnkE/7k/olrJO0kQm2ZGh
-	F+CMTt1grj1eau49ho1l7uxTg3CBzlbG3wLeh918NikBT1t6WQcjuPGDzkZhgSbYZa5mRkkchxU
-	vh8xQTqZ9CgKfAsQn0drwXzVAePsTIsfgryWOFqCoIg3mx8fnSIUHL+seRiYIqRefft0I95N86N
-	92ZNjh3WK1RzY3RALh+wQdln3aZLAmMayjgAWmytWoOLZZxAOHCYxFvyt+muEsusWe16gRz5qMB
-	AC0DW0Zy8XjVvwS5yOg5DTbHJpoGXcf0OnHfeQ1eUXQLWFjlc8I2xp8YL2ggRcFBJ
-X-Google-Smtp-Source: AGHT+IE0Rtj5L91NaP0jrX0E/ptkxI8Ma3OVqNKK+/Itrgx5VDSb2ifujnM8t600+LIWY6n/PhpZxg==
-X-Received: by 2002:a5d:64c7:0:b0:3a8:38b4:1d55 with SMTP id ffacd0b85a97d-3b900b4b71cmr5229667f8f.28.1754740290375;
-        Sat, 09 Aug 2025 04:51:30 -0700 (PDT)
-Received: from [192.168.0.13] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458bb04c612sm295058305e9.0.2025.08.09.04.51.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Aug 2025 04:51:29 -0700 (PDT)
-Message-ID: <ef236f1f-0b54-4b46-b509-2a4a181100a4@linaro.org>
-Date: Sat, 9 Aug 2025 12:51:28 +0100
+	s=arc-20240116; t=1754740449; c=relaxed/simple;
+	bh=mnV+jg9VSYFDZGvhdpkSY2iW8ke8agEGlUQFaLp0wdY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UcaBhtNAajpvXfHoi4/GmngXJjCqkw1wmt3wZM6SCs2ZxtCQPrjYWF/4N8b2oa8XfxqnV0d8G2bFvuYEG5tfe4SnIqe1CZgkobD33JeMftr/Fz8XOSYapTAl7i9Zim62UCND/L2JSiYf3zzjfGOzF+BUEZSivt3q+gtNx2AYWhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQKBrBuU; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754740447; x=1786276447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mnV+jg9VSYFDZGvhdpkSY2iW8ke8agEGlUQFaLp0wdY=;
+  b=UQKBrBuUhSUkheJjlr+WOMyeY926+hY/9ACw7YQ28QtUrDSvIUzaeMsh
+   7V02QqCFw5jZibS9trG3pEniFXtpCsGSTUy/U0k+8gpUt4hQLRbwHKB/O
+   HPDyDxVvdAjun22gbj0IjFQ15Kh49uWW0wmjM293V3oVUUPEyhQ7NXIvB
+   zcKO+J82mI9naPmhoi5epyy9zcF0ZybkH482sRRAF5srhGb91S+c2VGKH
+   I5j85J8Bp+43vhj7MR/J+QSgq+yp7oU2uZ2BhJs66PtaQTA47AjYbdQsH
+   P/N2HY8j4MffzFGx+Nmjk0IMr7+JWT9K9HxnWCHGqiR5WkbyTq9lp2Xfd
+   Q==;
+X-CSE-ConnectionGUID: 23Bv7p+ARGKgQt2T6N8d4w==
+X-CSE-MsgGUID: oYiChTHtRcWMfdLYVn3ZyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="60868941"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="60868941"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 04:54:07 -0700
+X-CSE-ConnectionGUID: f2pAyptXQOu+WoNR8wp0bQ==
+X-CSE-MsgGUID: 6WPcD7jSQQ67d4c9XhBHRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="164753875"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 09 Aug 2025 04:54:05 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uki9B-0004m8-2g;
+	Sat, 09 Aug 2025 11:54:01 +0000
+Date: Sat, 9 Aug 2025 19:53:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 10/12] media: rkvdec: Add H264 support for the VDPU383
+ variant
+Message-ID: <202508091909.RNcoZmVb-lkp@intel.com>
+References: <20250808200340.156393-11-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] [RFT] arm64: dts: qcom: sm8250: extend CAMSS with
- new CSIPHY subdevices
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250612011531.2923701-1-vladimir.zapolskiy@linaro.org>
- <20250612011531.2923701-10-vladimir.zapolskiy@linaro.org>
- <dcc33f04-1b19-47d7-aca2-03d38173b6b6@linaro.org>
- <eb42d052-1fe0-49a2-9a83-05c5a5b7394e@linaro.org>
- <63ce3c8b-51a3-45a7-a40e-330839d7dbf3@linaro.org>
- <upuv35iaf27dbpr7dwxmmw7qd3ykszh62bbwxltwfexpwzgfvm@qpxeeoiv4zsg>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <upuv35iaf27dbpr7dwxmmw7qd3ykszh62bbwxltwfexpwzgfvm@qpxeeoiv4zsg>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250808200340.156393-11-detlev.casanova@collabora.com>
 
-On 09/08/2025 10:26, Dmitry Baryshkov wrote:
->> Hmm so that would require splitting the CSIPHY between two CSI decoders
->> which I'm not sure would work on our hardware, perhaps yes, perhaps no, or
->> routing both sensors into the one CSI decoder and then separating the
->> data-streams either in the driver or in user-space.
-> The RB5 board provides exactly this setup on the CSI0. It can be
-> switched between 4 lanes going to CSI0A and 2 (data) lanes going to
-> the CSI0A and 1 (data) lane going to the CSI0B connector.
+Hi Detlev,
 
-Yes I see that.
+kernel test robot noticed the following build errors:
 
-I see the CSID can select which lanes it maps. So you could have one 
-CSID map lanes 1-2 and another CSID map lane 4.
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on linus/master next-20250808]
+[cannot apply to rockchip/for-next sailus-media-tree/master sailus-media-tree/streams v6.16]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Still I don't see how you could have two sensors at different data-rates 
-in this setup since what type of frame would the PHY present on the 
-internal bus..
+url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-rkvdec-Switch-to-using-structs-instead-of-writel/20250809-041049
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250808200340.156393-11-detlev.casanova%40collabora.com
+patch subject: [PATCH v2 10/12] media: rkvdec: Add H264 support for the VDPU383 variant
+config: i386-buildonly-randconfig-005-20250809 (https://download.01.org/0day-ci/archive/20250809/202508091909.RNcoZmVb-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508091909.RNcoZmVb-lkp@intel.com/reproduce)
 
-It doesn't really matter if its a standards compliant setup if the 
-hardware supports it either.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508091909.RNcoZmVb-lkp@intel.com/
 
-Still though there's no reason to have a custom PHY driver continue to 
-live in CAMSS.
+All errors (new ones prefixed by >>):
 
----
-bod
+>> drivers/media/platform/rockchip/rkvdec/rkvdec.c:12:10: fatal error: 'linux/hw_bitfield.h' file not found
+      12 | #include <linux/hw_bitfield.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +12 drivers/media/platform/rockchip/rkvdec/rkvdec.c
+
+  > 12	#include <linux/hw_bitfield.h>
+    13	#include <linux/clk.h>
+    14	#include <linux/genalloc.h>
+    15	#include <linux/interrupt.h>
+    16	#include <linux/iommu.h>
+    17	#include <linux/module.h>
+    18	#include <linux/of.h>
+    19	#include <linux/platform_device.h>
+    20	#include <linux/pm.h>
+    21	#include <linux/pm_runtime.h>
+    22	#include <linux/slab.h>
+    23	#include <linux/videodev2.h>
+    24	#include <linux/workqueue.h>
+    25	#include <media/v4l2-event.h>
+    26	#include <media/v4l2-mem2mem.h>
+    27	#include <media/videobuf2-core.h>
+    28	#include <media/videobuf2-vmalloc.h>
+    29	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
