@@ -1,55 +1,59 @@
-Return-Path: <linux-media+bounces-39228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39232-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B855DB1F689
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:19:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6960AB1F693
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:19:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C643A189B9FA
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:19:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 810D617F439
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:19:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A4622BD033;
-	Sat,  9 Aug 2025 21:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56AC52C159F;
+	Sat,  9 Aug 2025 21:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NGOgkeG7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TLh6kOS3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F165927AC59
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559D127A11B
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774298; cv=none; b=hOb9MiEtpKbeoOhZj8+7V+4mNOdv9jKzyfKPvf0jJA66l5Wd2uaLtLBKV5nCG1m9PzqVCoYQ1XcX0csaeyQ50S2JGCOD68aoMdruNDyIrvlMqVtWIv740xUGYnTNcShddi3C4UdEtyEwllgfDcFZmTvcS6crSKN5NBTC5lg7PJw=
+	t=1754774304; cv=none; b=ZuKN9rQCC0dO1r5m0NMV6vpPzOKVQlLEVX3mA25fG4RMuOwsr6JjU1hqeYKFIR9tfzDZest5GW3BCXWm6esxrhHhiR7yDlx3q2/Gr9XgJgP3z9cBrzpR//dlZrP+KFVoqZ07TO21w/BBAXUALrCagv0qnP6YpTZaIkhr8ojCs4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774298; c=relaxed/simple;
-	bh=LyApBwP8iu9HM7o+rRN6lzNhAEGg3thmbWLCtmu7LcM=;
+	s=arc-20240116; t=1754774304; c=relaxed/simple;
+	bh=SCnMn609VAUM2KKbbQUq8jpo/bDnKWvrBzI4LeCjjl4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g7AUqLRUcxD1KlQ4ogocLM8G5XoCGOTFoyaNkvAJT63T2RChjL+PbiXMlrC9wxljvvAqPoghSrgKKuVKmZoJCKdJyS/hQ266k8Qol6dC4pGK8D7iWjTc7gtDaC3o8fxR8Tqd42mgpvAtiBbJL65IeyBBumr6TDbRxt1LJf83kEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NGOgkeG7; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=FPyXGrt1yBOjf5tqfeH0nOwJPGJIKyC1D7eM7G+D765y2XedUGUkz3B5w/eCI86DtsMe5Sx9RRkUxollRNwM8xKvNse/HsfMmMvG2Dwr37RAmkVg+llzP+gkiJYyocHZV1doMOTGNeQMVXVGHUCbejb+L4Kw0lREINDvHpmB8Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TLh6kOS3; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 687921440;
-	Sat,  9 Aug 2025 23:17:20 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 224A1502;
+	Sat,  9 Aug 2025 23:17:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774240;
-	bh=LyApBwP8iu9HM7o+rRN6lzNhAEGg3thmbWLCtmu7LcM=;
+	s=mail; t=1754774242;
+	bh=SCnMn609VAUM2KKbbQUq8jpo/bDnKWvrBzI4LeCjjl4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NGOgkeG7G3c+BT8deANwNugEQjEWS6xwUsY5306IZWTKNzdRoVtJECXwPr4xd3HgP
-	 2uJM7qHs+khhrf2JfDxMf7cdubxxcQUHCQOc8+AS0tzozbIpDHZrLxtWeoUfwgWFv5
-	 q0yVbF3sm9dDl1lLvvgV5xWcO6p18MAl+7e81Fh8=
+	b=TLh6kOS3eulgwUUuo7+SnXvHDqTnp0MOCXrrBPUGrMOsYjv1GkIoVL9Ix+q8UUX33
+	 DA7dXD88lQhbp3JUhtRERqD5ob02R8yY75MUq9zr9D9aJt2b2yEUreI99NxPqU4mo6
+	 XuEzCbOqQANcEzeH9XEh20GlhAM1ehykuAoHyqOg=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: [PATCH v2 36/76] media: allegro: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 00:16:13 +0300
-Message-ID: <20250809211654.28887-37-laurent.pinchart@ideasonboard.com>
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 37/76] media: meson-ge2d: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 00:16:14 +0300
+Message-ID: <20250809211654.28887-38-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -69,114 +73,70 @@ to be available in file->private_data, initialised by v4l2_fh_add().
 Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
-While at it remove the only left user of fh_to_channel() and remove
-the macro completely.
-
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
-Co-developed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Changes since v1:
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-- Use channel->fh.m2m_ctx in allegro_ioctl_streamon()
----
- .../media/platform/allegro-dvt/allegro-core.c | 21 ++++++++-----------
- 1 file changed, 9 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-index 5e3b1f5d7206..510c3c9661d9 100644
---- a/drivers/media/platform/allegro-dvt/allegro-core.c
-+++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-@@ -197,8 +197,6 @@ static const struct regmap_config allegro_sram_config = {
- 	.cache_type = REGCACHE_NONE,
- };
- 
--#define fh_to_channel(__fh) container_of(__fh, struct allegro_channel, fh)
--
- struct allegro_channel {
- 	struct allegro_dev *dev;
- 	struct v4l2_fh fh;
-@@ -3284,7 +3282,7 @@ static int allegro_enum_fmt_vid(struct file *file, void *fh,
- static int allegro_g_fmt_vid_cap(struct file *file, void *fh,
- 				 struct v4l2_format *f)
+diff --git a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+index b1b0b6535fb1..5744853a4003 100644
+--- a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
++++ b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+@@ -457,7 +457,7 @@ static int vidioc_enum_fmt(struct file *file, void *priv, struct v4l2_fmtdesc *f
+ static int vidioc_g_selection(struct file *file, void *priv,
+ 			      struct v4l2_selection *s)
  {
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
+-	struct ge2d_ctx *ctx = priv;
++	struct ge2d_ctx *ctx = file_to_ge2d_ctx(file);
+ 	struct ge2d_frame *f;
+ 	bool use_frame = false;
  
- 	f->fmt.pix.field = V4L2_FIELD_NONE;
- 	f->fmt.pix.width = channel->width;
-@@ -3326,7 +3324,7 @@ static int allegro_try_fmt_vid_cap(struct file *file, void *fh,
- static int allegro_s_fmt_vid_cap(struct file *file, void *fh,
- 				 struct v4l2_format *f)
+@@ -507,7 +507,7 @@ static int vidioc_g_selection(struct file *file, void *priv,
+ static int vidioc_s_selection(struct file *file, void *priv,
+ 			      struct v4l2_selection *s)
  {
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
+-	struct ge2d_ctx *ctx = priv;
++	struct ge2d_ctx *ctx = file_to_ge2d_ctx(file);
+ 	struct meson_ge2d *ge2d = ctx->ge2d;
+ 	struct ge2d_frame *f;
+ 	int ret = 0;
+@@ -574,8 +574,8 @@ static void vidioc_setup_cap_fmt(struct ge2d_ctx *ctx, struct v4l2_pix_format *f
+ 
+ static int vidioc_try_fmt_cap(struct file *file, void *priv, struct v4l2_format *f)
+ {
++	struct ge2d_ctx *ctx = file_to_ge2d_ctx(file);
+ 	const struct ge2d_fmt *fmt = find_fmt(f);
+-	struct ge2d_ctx *ctx = priv;
+ 	struct v4l2_pix_format fmt_cap;
+ 
+ 	vidioc_setup_cap_fmt(ctx, &fmt_cap);
+@@ -595,7 +595,7 @@ static int vidioc_try_fmt_cap(struct file *file, void *priv, struct v4l2_format
+ 
+ static int vidioc_s_fmt_cap(struct file *file, void *priv, struct v4l2_format *f)
+ {
+-	struct ge2d_ctx *ctx = priv;
++	struct ge2d_ctx *ctx = file_to_ge2d_ctx(file);
+ 	struct meson_ge2d *ge2d = ctx->ge2d;
  	struct vb2_queue *vq;
- 	int err;
+ 	struct ge2d_frame *frm;
+@@ -631,7 +631,7 @@ static int vidioc_s_fmt_cap(struct file *file, void *priv, struct v4l2_format *f
  
-@@ -3350,7 +3348,7 @@ static int allegro_s_fmt_vid_cap(struct file *file, void *fh,
- static int allegro_g_fmt_vid_out(struct file *file, void *fh,
- 				 struct v4l2_format *f)
+ static int vidioc_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
  {
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
+-	struct ge2d_ctx *ctx = priv;
++	struct ge2d_ctx *ctx = file_to_ge2d_ctx(file);
+ 	struct vb2_queue *vq;
+ 	struct ge2d_frame *frm;
  
- 	f->fmt.pix.field = V4L2_FIELD_NONE;
+@@ -670,7 +670,7 @@ static int vidioc_try_fmt_out(struct file *file, void *priv, struct v4l2_format
  
-@@ -3397,7 +3395,7 @@ static int allegro_try_fmt_vid_out(struct file *file, void *fh,
- static int allegro_s_fmt_vid_out(struct file *file, void *fh,
- 				 struct v4l2_format *f)
+ static int vidioc_s_fmt_out(struct file *file, void *priv, struct v4l2_format *f)
  {
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
- 	int err;
- 
- 	err = allegro_try_fmt_vid_out(file, fh, f);
-@@ -3438,7 +3436,7 @@ static int allegro_channel_cmd_start(struct allegro_channel *channel)
- static int allegro_encoder_cmd(struct file *file, void *fh,
- 			       struct v4l2_encoder_cmd *cmd)
- {
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
- 	int err;
- 
- 	err = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
-@@ -3487,8 +3485,7 @@ static int allegro_enum_framesizes(struct file *file, void *fh,
- static int allegro_ioctl_streamon(struct file *file, void *priv,
- 				  enum v4l2_buf_type type)
- {
--	struct v4l2_fh *fh = file_to_v4l2_fh(file);
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
- 	int err;
- 
- 	if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
-@@ -3497,13 +3494,13 @@ static int allegro_ioctl_streamon(struct file *file, void *priv,
- 			return err;
- 	}
- 
--	return v4l2_m2m_streamon(file, fh->m2m_ctx, type);
-+	return v4l2_m2m_streamon(file, channel->fh.m2m_ctx, type);
- }
- 
- static int allegro_g_parm(struct file *file, void *fh,
- 			  struct v4l2_streamparm *a)
- {
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
- 	struct v4l2_fract *timeperframe;
- 
- 	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-@@ -3520,7 +3517,7 @@ static int allegro_g_parm(struct file *file, void *fh,
- static int allegro_s_parm(struct file *file, void *fh,
- 			  struct v4l2_streamparm *a)
- {
--	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct allegro_channel *channel = file_to_channel(file);
- 	struct v4l2_fract *timeperframe;
- 	int div;
- 
+-	struct ge2d_ctx *ctx = priv;
++	struct ge2d_ctx *ctx = file_to_ge2d_ctx(file);
+ 	struct meson_ge2d *ge2d = ctx->ge2d;
+ 	struct vb2_queue *vq;
+ 	struct ge2d_frame *frm, *frm_cap;
 -- 
 Regards,
 
