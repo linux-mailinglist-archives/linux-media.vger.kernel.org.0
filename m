@@ -1,59 +1,55 @@
-Return-Path: <linux-media+bounces-39248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39249-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7148B1F6AD
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E68CB1F6AF
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B6C43B03AC
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:20:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B41A3B3911
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1529F2BEFE0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8812C327C;
 	Sat,  9 Aug 2025 21:18:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CYDd6m/R"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U6zjXtlR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1196A2C326A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D72827EFE3;
 	Sat,  9 Aug 2025 21:18:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774329; cv=none; b=XAazB2qxyXmhopBgbwIMf4rQDs0UQG7Xx92m8/dgWE2GHYyl2JoVRtHXXHGdogz4j1vRlALWKlr78HLz9C8i5YKQy7ExGksPEFJRuohhElhQV8bRMYiTyrz/S26SLF+Txi/rVUiu01sm9YXSWyPeUewUN0NNnn+JFMp3Cnbn98Y=
+	t=1754774330; cv=none; b=ZzzpW3rK/JNLJ8MtE/9bHVZ0GQgKSPizRgk43+XxZB2eLTU201wW2PBeu+rK608eY73f1kkcM5rdguU1Q4jWzcK9cbn4uDjQ/EycQTek9Qm7J3KDLd8kmZ9N30BoAzetCT0mvolv21BJ6P6vfWX7mZyjHxzVeSD2u9Wb8yqgo68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774329; c=relaxed/simple;
-	bh=9KV6Si1pe8am7DLCLDzlI0SEPb8bsZoYOfEmMeSymXk=;
+	s=arc-20240116; t=1754774330; c=relaxed/simple;
+	bh=Jsn+YquA5csQGU9Ci5rSo9Jyfo9qGTFwJulolC06ZgU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mwtQ51uKtEPewuOCqXyW+zxDwQXWk+pdJwBDEQuLhuGidL6vYpeoTZ6vZpz08nKbzRGOCG3xtd6XkgTK8kdk4j2g7P0Oo8NrMaldJCP+75ChY+3Z5/VJM3Ko0Nu/pD9/IrobK0ks6ebOCD4XNK9hswTeMQ6W600j6wJCnqREoFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CYDd6m/R; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=kbedGIdZOkWDtsY/l5J4BMFzRetihVONjdh5Hfmrf9YoSV+VNSZNHml7l61S9blp5lPgFhV4q9I/nCOdmJkwAY38BdVEGWaeoTVye+aLknFSMJsjElGlyo4u5U/EXp16wZfaatZC4Pa8Jmt6eURh24Gu9PqETQTZoRzS4nw5qf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=U6zjXtlR; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 04E18EFE;
-	Sat,  9 Aug 2025 23:17:48 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9A0C989A;
+	Sat,  9 Aug 2025 23:17:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774269;
-	bh=9KV6Si1pe8am7DLCLDzlI0SEPb8bsZoYOfEmMeSymXk=;
+	s=mail; t=1754774270;
+	bh=Jsn+YquA5csQGU9Ci5rSo9Jyfo9qGTFwJulolC06ZgU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CYDd6m/Rl46TVzLrEevTs5p3gWP04+ehDseFDcUisW8pTJS+1+I1T47ZW0Gd9uL6u
-	 0Fl/xEd3M2GOhDjML+Mh/vQP65x/jIPxWXwu+DPTsCjK0mf/c3Ot9X/5dWBSSwHJRk
-	 ppwlTG83a0pc0kNcTSrozDQ3yJ9Qp4iRdHs55e0k=
+	b=U6zjXtlRLmgxeaCPGWN367gh232C40g8CWagv0LKXADNtYbnMdT33JW02Aan34Prl
+	 xMQjfrj/nwl4tBV6NLZe9MU/H24HXjxCt4/HUwjH9YS7xT/oQRhFdt2R6LBsVR8mAi
+	 2jlmYNjiDYiph2I0UzFaLLukugj+B0lmPVmsNs1M=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-arm-kernel@lists.infradead.org,
+	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
 	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 53/76] media: exynos4-is: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 00:16:30 +0300
-Message-ID: <20250809211654.28887-54-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 54/76] media: s3c-camif: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 00:16:31 +0300
+Message-ID: <20250809211654.28887-55-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -65,92 +61,106 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 The v4l2_fh associated with an open file handle is now guaranteed
 to be available in file->private_data, initialised by v4l2_fh_add().
 
-Access the v4l2_fh, and from there the driver-specific structure,
-from the file * in all ioctl handlers.
+Access the v4l2_fh from the file * in all ioctl handlers. The v4l2_fh
+pointer is used to keep track of which user owns the streaming queue.
 
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Changes since v1:
+ .../samsung/s3c-camif/camif-capture.c         | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-- Update file-to-ctx macro due to removal of fh-to-ctx macro
----
- drivers/media/platform/samsung/exynos4-is/fimc-core.h |  4 +---
- drivers/media/platform/samsung/exynos4-is/fimc-m2m.c  | 10 +++++-----
- 2 files changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-core.h b/drivers/media/platform/samsung/exynos4-is/fimc-core.h
-index 2b6c72d9442c..c23cbdee7afc 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-core.h
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-core.h
-@@ -496,11 +496,9 @@ struct fimc_ctx {
- 	struct fimc_ctrls	ctrls;
- };
+diff --git a/drivers/media/platform/samsung/s3c-camif/camif-capture.c b/drivers/media/platform/samsung/s3c-camif/camif-capture.c
+index cae15a4ce5fd..ed1a1d693293 100644
+--- a/drivers/media/platform/samsung/s3c-camif/camif-capture.c
++++ b/drivers/media/platform/samsung/s3c-camif/camif-capture.c
+@@ -791,7 +791,7 @@ static int s3c_camif_vidioc_s_fmt(struct file *file, void *priv,
+ 	out_frame->rect.top = 0;
  
--#define fh_to_ctx(__fh) container_of(__fh, struct fimc_ctx, fh)
--
- static inline struct fimc_ctx *file_to_ctx(struct file *filp)
- {
--	return fh_to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct fimc_ctx, fh);
- }
+ 	if (vp->owner == NULL)
+-		vp->owner = priv;
++		vp->owner = file_to_v4l2_fh(file);
  
- static inline void set_frame_bounds(struct fimc_frame *f, u32 width, u32 height)
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c b/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
-index 609fd84f89d4..562c57f186c6 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-m2m.c
-@@ -249,7 +249,7 @@ static int fimc_m2m_enum_fmt(struct file *file, void *priv,
- static int fimc_m2m_g_fmt_mplane(struct file *file, void *fh,
- 				 struct v4l2_format *f)
- {
--	struct fimc_ctx *ctx = fh_to_ctx(fh);
-+	struct fimc_ctx *ctx = file_to_ctx(file);
- 	const struct fimc_frame *frame = ctx_get_frame(ctx, f->type);
+ 	pr_debug("%ux%u. payload: %u. fmt: 0x%08x. %d %d. sizeimage: %d. bpl: %d\n",
+ 		 out_frame->f_width, out_frame->f_height, vp->payload,
+@@ -841,7 +841,7 @@ static int s3c_camif_streamon(struct file *file, void *priv,
+ 	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
  
- 	if (IS_ERR(frame))
-@@ -308,7 +308,7 @@ static int fimc_try_fmt_mplane(struct fimc_ctx *ctx, struct v4l2_format *f)
- static int fimc_m2m_try_fmt_mplane(struct file *file, void *fh,
- 				   struct v4l2_format *f)
- {
--	struct fimc_ctx *ctx = fh_to_ctx(fh);
-+	struct fimc_ctx *ctx = file_to_ctx(file);
- 	return fimc_try_fmt_mplane(ctx, f);
- }
+-	if (vp->owner && vp->owner != priv)
++	if (vp->owner && vp->owner != file_to_v4l2_fh(file))
+ 		return -EBUSY;
  
-@@ -337,7 +337,7 @@ static void __set_frame_format(struct fimc_frame *frame,
- static int fimc_m2m_s_fmt_mplane(struct file *file, void *fh,
- 				 struct v4l2_format *f)
- {
--	struct fimc_ctx *ctx = fh_to_ctx(fh);
-+	struct fimc_ctx *ctx = file_to_ctx(file);
- 	struct fimc_dev *fimc = ctx->fimc_dev;
- 	const struct fimc_fmt *fmt;
- 	struct vb2_queue *vq;
-@@ -376,7 +376,7 @@ static int fimc_m2m_s_fmt_mplane(struct file *file, void *fh,
- static int fimc_m2m_g_selection(struct file *file, void *fh,
- 				struct v4l2_selection *s)
- {
--	struct fimc_ctx *ctx = fh_to_ctx(fh);
-+	struct fimc_ctx *ctx = file_to_ctx(file);
- 	const struct fimc_frame *frame;
+ 	if (s3c_vp_active(vp))
+@@ -872,7 +872,7 @@ static int s3c_camif_streamoff(struct file *file, void *priv,
+ 	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
  
- 	frame = ctx_get_frame(ctx, s->type);
-@@ -484,7 +484,7 @@ static int fimc_m2m_try_selection(struct fimc_ctx *ctx,
- static int fimc_m2m_s_selection(struct file *file, void *fh,
- 				struct v4l2_selection *s)
- {
--	struct fimc_ctx *ctx = fh_to_ctx(fh);
-+	struct fimc_ctx *ctx = file_to_ctx(file);
- 	struct fimc_dev *fimc = ctx->fimc_dev;
- 	struct fimc_frame *f;
+-	if (vp->owner && vp->owner != priv)
++	if (vp->owner && vp->owner != file_to_v4l2_fh(file))
+ 		return -EBUSY;
+ 
+ 	ret = vb2_streamoff(&vp->vb_queue, type);
+@@ -888,9 +888,9 @@ static int s3c_camif_reqbufs(struct file *file, void *priv,
  	int ret;
+ 
+ 	pr_debug("[vp%d] rb count: %d, owner: %p, priv: %p\n",
+-		 vp->id, rb->count, vp->owner, priv);
++		 vp->id, rb->count, vp->owner, file_to_v4l2_fh(file));
+ 
+-	if (vp->owner && vp->owner != priv)
++	if (vp->owner && vp->owner != file_to_v4l2_fh(file))
+ 		return -EBUSY;
+ 
+ 	if (rb->count)
+@@ -910,7 +910,7 @@ static int s3c_camif_reqbufs(struct file *file, void *priv,
+ 
+ 	vp->reqbufs_count = rb->count;
+ 	if (vp->owner == NULL && rb->count > 0)
+-		vp->owner = priv;
++		vp->owner = file_to_v4l2_fh(file);
+ 
+ 	return ret;
+ }
+@@ -929,7 +929,7 @@ static int s3c_camif_qbuf(struct file *file, void *priv,
+ 
+ 	pr_debug("[vp%d]\n", vp->id);
+ 
+-	if (vp->owner && vp->owner != priv)
++	if (vp->owner && vp->owner != file_to_v4l2_fh(file))
+ 		return -EBUSY;
+ 
+ 	return vb2_qbuf(&vp->vb_queue, vp->vdev.v4l2_dev->mdev, buf);
+@@ -942,7 +942,7 @@ static int s3c_camif_dqbuf(struct file *file, void *priv,
+ 
+ 	pr_debug("[vp%d] sequence: %d\n", vp->id, vp->frame_sequence);
+ 
+-	if (vp->owner && vp->owner != priv)
++	if (vp->owner && vp->owner != file_to_v4l2_fh(file))
+ 		return -EBUSY;
+ 
+ 	return vb2_dqbuf(&vp->vb_queue, buf, file->f_flags & O_NONBLOCK);
+@@ -954,14 +954,14 @@ static int s3c_camif_create_bufs(struct file *file, void *priv,
+ 	struct camif_vp *vp = video_drvdata(file);
+ 	int ret;
+ 
+-	if (vp->owner && vp->owner != priv)
++	if (vp->owner && vp->owner != file_to_v4l2_fh(file))
+ 		return -EBUSY;
+ 
+ 	create->count = max_t(u32, 1, create->count);
+ 	ret = vb2_create_bufs(&vp->vb_queue, create);
+ 
+ 	if (!ret && vp->owner == NULL)
+-		vp->owner = priv;
++		vp->owner = file_to_v4l2_fh(file);
+ 
+ 	return ret;
+ }
 -- 
 Regards,
 
