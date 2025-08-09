@@ -1,184 +1,178 @@
-Return-Path: <linux-media+bounces-39185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39186-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B2CB1F174
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 02:24:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A92CB1F339
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 10:18:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6F5D1C81B9D
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 00:24:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABA1B626C07
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 08:18:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BBA420D51A;
-	Sat,  9 Aug 2025 00:24:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B43B27E1B1;
+	Sat,  9 Aug 2025 08:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="oY7atmAm"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lKqp4e5K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9CF1FC7CB
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 00:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C43223DF5
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 08:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754699043; cv=none; b=RajCNZit7DwEPfgphVINldh1ErJqBwb84zgpNn5j0e5T6WNvbPEx1xSIRjrK3iNNgJEg1k1rOVoVjLYH48VwI8Rbk26CUH/a/0KlcYjpOeZa5ki1dFBIFOjFMgfbv+A90He/a25eluvS863haa9xTXsqvzWUI7kVK8JM4uMwKKg=
+	t=1754727508; cv=none; b=qMVlJS0RhHC4UbmkKjZAGDHTmIUXswfV4aaCb40hVrNghz0s84A/bm5UB9F2+Uvh65fec/BOn3EXKImrGJqz0pFYWFHK/1sCOl+azfa+gzFFGpKb6qV0IFd/U0u5wQHZfFB4nYSk6mN4JkSN53lkhBnVOfeOcdXA7v8kPxmKDb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754699043; c=relaxed/simple;
-	bh=sXKvzDbi2KG0bh4L+vDqs0vn5iZIdafW4aQGFdzJKtc=;
+	s=arc-20240116; t=1754727508; c=relaxed/simple;
+	bh=shwEQ8cryFUWL0UFeuLAJhf/97dqnkWgW2nUhwyC+ck=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U/ZibqK7DgE6IA+j9/Mwv4Na5/YVSNarws8LOs3ZjWJ3+oNC/ey47ZY74VmwNZTbsLyf940MuqkYW9vOxBBh2BNE0Jxf4ohCvTdgJ7vIjjngNMkAAs3phA2NI4KtGLUkqOmBEF2NqRQxlsHLOA7KlNshqHHgneQjuScLE6ZsDng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=oY7atmAm; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=8ABOe7cm/pk+yLZ7VIriJHl3XyfNvydrZ1iKOlkR9tI=; b=oY7atmAm8WYY1qjZ
-	TtnyC6+3Ypt7+aokeSx1nxbuMcHTeMzhkL5/ahUAh05ih+SUDM5PE53o+erF75fbr4PIBMc2TKiya
-	FMkkBXU0B6m/p7aaQp6Ekwq5wvTLvtes1/GY56teMnB4N22lUnGK51NW9drnyMMWbR5n4akTWLWS1
-	Y6ROzZQijcZq/vKl6o6MpCSHv0BHNuC92YrwXe0Asub4D4Se8Y1eoSyFpZGS/UEyATMT+iAomYjSo
-	AIrf44DHcVntS6nnI1Ui0D0b5HpoRHu5UlyLTUwd9xhz6/6A0AzPo50aK5lp3HG7IrJHH2HCCCJKj
-	7SFZbw7XVSyB8rrmRg==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1ukXNP-002pdV-0z;
-	Sat, 09 Aug 2025 00:23:59 +0000
-Date: Sat, 9 Aug 2025 00:23:59 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [0/4] Remove the wl1273 FM Radio
-Message-ID: <aJaVH5eCDhLutPSn@gallifrey>
-References: <20250625133258.78133-1-linux@treblig.org>
- <685c08d5.050a0220.350bff.01b0@mx.google.com>
- <aF1CCjVmRruMORto@gallifrey>
- <20250808140400.GA23187@pendragon.ideasonboard.com>
- <aJYFNMO4W4dv2i6U@gallifrey>
- <20250808160123.GE23187@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MzUGNvNNSCz6eetIUvPhPbXk/6Nm9GEa4onDQT88PObUsYDCHeEydD/hKEV5Ao1xcSdWdTKMcqtMkDzdY0pI5DaYTMUsPA9geMKP1ceNe2T4F8IFXR9YQG7j2whwoc40VrAq3I5IIgHV2PxRBi6p+OYonxu5HYloLOJ8YLF+VCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lKqp4e5K; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5794CRYn030314
+	for <linux-media@vger.kernel.org>; Sat, 9 Aug 2025 08:18:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Ny0ExIjmg6qzhNtxQ2+NGDBI
+	d6ex3O2Y+9L9qqEXCZA=; b=lKqp4e5KibukTe+TfdXl1Jn8kHMjawSUZYlTwpQT
+	sna12QTbLZYCVB+/dGFgjcZP6JJRbF1VIghOCW9SAsqgPfBzux0zeSU8A8wOyTcs
+	zWwE5PTIA/ljxpmtWmEIZF5iefyj0vAmNzV/Evgk17RafpMGpRz8bKd5t+n4XCEe
+	KAvjbKITY7uIgiEQdl6DpoeUH/gCtz0TvcSL6IaHs6/k4OxcOe+Lit4rlp4qNC9n
+	bgm5Li/Jv9nv02R8QvZEkH1TnIY7N0UV7z1fieDbdXJO4DoiMfhFAActGGjg7HXY
+	uIhM1SeZ1TdY9i+Z6rkxkGZJ/6r9N3Ec0W7slSZAlfnSVg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dy3g095k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Sat, 09 Aug 2025 08:18:26 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4af2237e4beso70375671cf.0
+        for <linux-media@vger.kernel.org>; Sat, 09 Aug 2025 01:18:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754727505; x=1755332305;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ny0ExIjmg6qzhNtxQ2+NGDBId6ex3O2Y+9L9qqEXCZA=;
+        b=IRHw2tWQdvoA2tVubohHIsdovzUdWgLaZ/XocHjL26kWAIGXeBqifyjfdXOxUZC0E1
+         Wt3Fdbjs6rO1Tl0h+jT6Qhqv5MDQ7l952H1kmZxrVo+Ym8xDvpBhcTzQfjBYKwePyK0z
+         lHbTeau1cofvpYeChNshyMX4LVqGE5PkG5gShY77RI4n+Oh9lH2377XO1KOsDfaTudfw
+         wwlSzXrr0jZcD6oAvmWT3v+A5aDgTasWJGOgUzwpd/Bi4In8jnjBQ4FfsW+VQ0xRQXTh
+         5KzPeFNDKaKl5xlgEkvj1Z/53U7EdHuAxXLYEgaDwsYEsvUQzDtR5R/zGTszMZFSL6mi
+         fZcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSeR1O7wzuZu0ryBk3D3c8tU319M5srsn37Nhz+TQRmLOmvYlGC+owQzzlW+oHnxaXsDsAuOAVlb5aZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfZtN83GX3W4LyK5qTOri1Kjs2SB6p9d0yOT4UC6cY3Q9QECIq
+	xd4HsDNHpIo4jxlYXrd9OQZHw1eT3FhVvLzh6+T1K22f/M5BFiFAvghmskGw/WmoGHUDma9o/YA
+	7aiAVDCqCTSuiTwHjK5WyiYU6UB85yQSQCuLl2QHE/hEYUdk2wl1HGDNMYzP6f3LPWg==
+X-Gm-Gg: ASbGncvilF2OFqOlUEWdejVuKXMcSfKJ8HE6hsg7m6mg7OW50SeA9yCxFQW5uJzfd0f
+	DEuIBELS6K/ErSmQXn5uN+B6Kc1q9FTkMwa4nBJ0ZjFrYNdyVph26aWFfJEFy0E/gctogYz7I5g
+	lzs4HyOjmOXdvVumxqmnkTFabqDbcZ9JXm0TAmQvQ29UYjRaWjJpkBfGyog18Gv6Gp1X2Dag6B2
+	tGRC8vY3wP6IbZOjQOJQuUdAtHsOgUZ/h8OcD5EcUQfJpqMQWX19cBYkhu6qI3RK12c5jqO04T8
+	JuncnCnHOR2aId/9HOKVl7uZbnqs5DToVpqA82B7eukF1j+TfH5RxY2922O+ZYt8Guj5BDYirxH
+	6tSRhjO4PLpMkW58Z8Np3GLSI5RyTEmaLhx6pmk65tk1xxEc2NDVd
+X-Received: by 2002:a05:622a:251:b0:4ab:958a:6003 with SMTP id d75a77b69052e-4b0a086e388mr127655271cf.27.1754727505206;
+        Sat, 09 Aug 2025 01:18:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFSNNSwL+bCDNYNcUfGi9ivlMMSKYd4DhhWVIoEL/gBQIOysZIci5grnnKj6yg9ZFWbXw3i2A==
+X-Received: by 2002:a05:622a:251:b0:4ab:958a:6003 with SMTP id d75a77b69052e-4b0a086e388mr127655041cf.27.1754727504698;
+        Sat, 09 Aug 2025 01:18:24 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b889ac575sm3298027e87.69.2025.08.09.01.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Aug 2025 01:18:23 -0700 (PDT)
+Date: Sat, 9 Aug 2025 11:18:21 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        bryan.odonoghue@linaro.org, quic_dikshita@quicinc.com,
+        konradybcio@kernel.org, krzk+dt@kernel.org, mchehab@kernel.org,
+        conor+dt@kernel.org, andersson@kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 5/7] media: venus: core: Add qcm2290 DT compatible and
+ resource data
+Message-ID: <2yj3er5j72yoa2ltboopx5gvquur7jl3viqnq5qsci2fxjf4ix@7t63vgizfknb>
+References: <4chbcvub4scnv4jxjaagbswl74tz4ygovn3vhktfodakysbgy3@kukktkwd2zsr>
+ <aJHgh8mon9auOHzi@trex>
+ <aJHqpiqvulGY2BYH@trex>
+ <to2hrxml3um6iep4fcxhkq7pbibuimfnv4kfwqzlwdkh4osk5f@orjzbuawwgko>
+ <aJMMhIqNupwPjCN+@trex>
+ <0248afed-b82d-4555-8277-e84aacf153fd@oss.qualcomm.com>
+ <aJNTigOMy1JFOxot@trex>
+ <fcdd9534-d494-3fdb-dfa7-1d15da6f697a@quicinc.com>
+ <aJSvjqfQw3kNrVVH@trex>
+ <447caa6d-13d2-2e75-5f33-6df9b2fd6d69@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250808160123.GE23187@pendragon.ideasonboard.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 00:18:07 up 103 days,  8:31,  1 user,  load average: 0.00, 0.00,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <447caa6d-13d2-2e75-5f33-6df9b2fd6d69@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=X4lSKHTe c=1 sm=1 tr=0 ts=68970452 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=1p08hUWWfcFRm61_9koA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzMSBTYWx0ZWRfX2BYE8f/qVsjr
+ p4wctyojNcwxAECQu0BzDTCBFYGp0HDtvAFoDyxCB+lyevHSQ9Y7qalJMLAcrRpQCX8l52ZQOh/
+ I6KgcNZ0MOB3xopkzb54GuJPHPe19cJ3+PIFtdf1CeNBWO4ZDNTIFFrLRaKKP9cxyxNU2fNGXTZ
+ +WTlUag23SsFY0eduWPSdyGMRAWjwEW3VS7Xn4twbj1jlbhRLiDMpk1TwbqG6jIU9hOAe9AqkTf
+ ZTL73rTra25lSQ7eS0SJXMRyAFl6gvFYACrib2qP3bbF5wkg6IazZGt7xLi0R9YNW8LVQBoibo7
+ IBFR+ESfrra778JBZgLXX30I4V95uOaaoHYc9N30TqFFSjjASbx5yE91FHX0e/mRQMEiGTXinKE
+ flBGa76W
+X-Proofpoint-GUID: njIJk7t3rJctweU_XoG9sVNTxDugAkSP
+X-Proofpoint-ORIG-GUID: njIJk7t3rJctweU_XoG9sVNTxDugAkSP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-09_02,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090031
 
-* Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> On Fri, Aug 08, 2025 at 02:09:56PM +0000, Dr. David Alan Gilbert wrote:
-> > * Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> > > On Thu, Jun 26, 2025 at 12:50:18PM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Patchwork Integration (patchwork@media-ci.org) wrote:
-> > > > > Dear Dr. David Alan Gilbert:
-> > > > > 
-> > > > > Thanks for your patches! Unfortunately the Media CI robot detected some
-> > > > > issues:
-> > > > > 
-> > > > > # Test checkpatch:./0001-media-radio-wl1273-Remove.patch checkpatch
-> > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-> > > > > #7: 
-> > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
-> > > > > 
-> > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > > > > #61: 
-> > > > > deleted file mode 100644
-> > > > > 
-> > > > > total: 0 errors, 2 warnings, 0 checks, 30 lines checked
-> > > > 
-> > > > I did check that, couldn't find any appropriate MAINTAINERS entry anyway
-> > > > 
-> > > > > # Test checkpatch:./0002-ASoC-wl1273-Remove.patch checkpatch
-> > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-> > > > > #7: 
-> > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
-> > > > 
-> > > > Yep, said that in my cover letter; suggestions on how to refer to that URL
-> > > > in a better way are welcome.
-> > > 
-> > > You can ignore those two warnings.
+On Thu, Aug 07, 2025 at 10:05:10PM +0530, Vikash Garodia wrote:
+> 
+> 
+> On 8/7/2025 7:22 PM, Jorge Ramirez wrote:
+> > On 07/08/25 16:36:41, Vikash Garodia wrote:
+> >>
+> >>> It was agreed that this complexity was not necessary and that we should
+> >>> just drop <6.0.55 firmware support (which would in any case only include
+> >>> video decode).
+> >>>
+> >>> And so on v8, I removed the above.
+> >>>
+> >>> Now I have v9 ready to post it, but Dmitry is asking why cant we have
+> >>> the v7 functionality so I am waiting for direction.
+> >>
+> >> the issue is in firmware for both encoder and decoder. Didn't like the idea of
+> >> driver carrying the hack for a firmware issue. Just because, for encoder, we are
+> >> unable to hack it in driver, we are ok to have it enabled in a newer version of
+> >> the firmware, we can follow the same for decoders as well.
 > > 
-> > Thanks for confirming that.
-> > Could you (or some other -media maintainer) pick 1/4 for linux-media please;
-> > Generally I think Lee tends only to pick the mfd specific bit up, so I need
-> > to get the specifics in through the other trees.
+> > if that is the only reason please do explain what do you mean by hack.
 > 
-> We can take patch 1/4 in the media tree, but merging the different
-> pieces in an uncoordinated fashion will result in breakages in
-> linux-next :-/
+> I meant that the EOS handling was not needed in driver after fixing it in
+> firmware, isn't it ? Was trying to avoid carrying this in driver.
+> 
+> I tend to agree with the comment made by Dmitry in another thread to have decode
+> enabled with existing firmware, no option but to support the *already* published
+> bins.
+> 
+> Having said that, these limitation of having a separate EOS dummy buffer is well
+> sorted out in gen2 HFI which have an explicit DRAIN cmd for it. Hope this
+> motivates you to migrate to iris soon for AR50LITE variants :)
 
-It should be safe to go in order; so you taking patch 1/4 should move
-things forward.
+Migrating to Iris won't bring gen2 HFI. Think about users which have
+OEM-fused hardware. For them it's not possible to switch firmware from
+gen1 to gen2. Thus, if the SoC has been released using gen1 HFI, we
+should think twice before upgrading it to gen2.
 
-Dave
-
-> I think the simplest option would be to create a branch on top of v6.16
-> (or v6.17-rc1) with the 4 patches applied, and merge it in the media,
-> mfd and sound trees. That would require Lee to drop patches 3/4 and 4/4
-> that he already applied to the mfd tree though.
-> 
-> > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > > > > #71: 
-> > > > > deleted file mode 100644
-> > > > > 
-> > > > > total: 0 errors, 2 warnings, 0 checks, 36 lines checked
-> > > > > 
-> > > > > # Test checkpatch:./0003-mfd-wl1273-core-Remove.patch checkpatch
-> > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-> > > > > #8: 
-> > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
-> > > > > 
-> > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > > > > #55: 
-> > > > > deleted file mode 100644
-> > > > > 
-> > > > > total: 0 errors, 2 warnings, 0 checks, 23 lines checked
-> > > > > 
-> > > > > # Test checkpatch:./0004-mfd-wl1273-core-Remove-the-header.patch checkpatch
-> > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-> > > > > #7: 
-> > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
-> > > > > 
-> > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > > > > #35: 
-> > > > > deleted file mode 100644
-> > > > > 
-> > > > > total: 0 errors, 2 warnings, 0 checks, 7 lines checked
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > Please fix your series, and upload a new version. If you have a patchwork
-> > > > > account, do not forget to mark the current series as Superseded.
-> > > > > 
-> > > > > For more details, check the full report at:
-> > > > > https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/79088843/artifacts/report.htm .
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > Best regards, and Happy Hacking!
-> > > > > Media CI robot on behalf of the linux-media community.
-> > > > > 
-> > > > > ---
-> > > > > Check the latest rules for contributing your patches at:
-> > > > > https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
-> > > > > 
-> > > > > If you believe that the CI is wrong, kindly open an issue at
-> > > > > https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> > > > > to this message.
-> > > > > 
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+With best wishes
+Dmitry
 
