@@ -1,56 +1,55 @@
-Return-Path: <linux-media+bounces-39211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39208-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B144CB1F66E
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:18:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F87B1F66A
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:18:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAFC617DDC4
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:18:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DFB91624E0A
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:18:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9D427D77D;
-	Sat,  9 Aug 2025 21:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97C4B27C879;
+	Sat,  9 Aug 2025 21:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c9XU7DY/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZfM46CwY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB342BE05A
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA05927C152
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774272; cv=none; b=BXaj8os2aAmG9CVo0PKX7O798Hv5cNr5BOYvqMQ2/LsE5eRYZWAdApPy0tNypIXBqNX9rBjf0o/302Be/ETdOPXWXKw+2Mbfd9cetcKdzXpGsNhk1JPVVbFxMQ7nTjo6E2ikSGp/pRwGfEWPuQy8RIeqpTyCvR9ojqhl4ygMzLI=
+	t=1754774268; cv=none; b=Sx/Es7cKdOLlt6m/RjOgrFrfyDtYLRcnEsp6nwzqTmCfvh9HWzZ/F3mh4Qj/dg+1kjXsu611IK3COfeYdgB8jDvDtIeArEks9QEXovY+03iXSBtFGEtJ8O9LJcNJJ6j3P39IeVVp5kP1rChilYpgo6vAmYtVIgPU79vLjK6mQ6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774272; c=relaxed/simple;
-	bh=52V6cQw4cIwuXK3NZiM2vGR+S1i0DfcVfqXUlYQGe8M=;
+	s=arc-20240116; t=1754774268; c=relaxed/simple;
+	bh=i3ncbeaUP5md0qw5nE3d+UOD6ybSR/3a8bLfT5+D2oQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nytXSDyu7KtUVUaRLWwsTDVqf/MtTsUvNIozm8EfGviiZsT1PL0lDIFbOmT6RnLyLuL383hA2R0TdIyMUA1fSnBH1QctTztjWzx/dToT129vrfG+MGXd4IT+qxeRNXwJIw8RS5L7/yPXRhsIITFkYhkf/dBjvIeh4QC/4lLp7FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c9XU7DY/; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=rt1suMlnXPL83qK3Nr5SdLjSpSRPc0BEKa8foG0jVYw9w1XVqpfILGTax778mmYdTECcjviiQTHmWHCoYXot7yjDNw9y6P9cqpBrGod6hefb8Tp8B/CtEuYOESTfbKL8XiV6qkIXkOoUOAVaXq0KIJ9HOllEddFn6+C319Dc2iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZfM46CwY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D705789A;
-	Sat,  9 Aug 2025 23:16:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9AFF7156F;
+	Sat,  9 Aug 2025 23:16:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774202;
-	bh=52V6cQw4cIwuXK3NZiM2vGR+S1i0DfcVfqXUlYQGe8M=;
+	s=mail; t=1754774203;
+	bh=i3ncbeaUP5md0qw5nE3d+UOD6ybSR/3a8bLfT5+D2oQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=c9XU7DY/Uz2rkYQx9H/O59z24Z/rLn7qISzD92Z6J/GVnsOtkhClvRZ60O5I+MMre
-	 YML2vmHAJ6ksIzmJ0AwHA3jZI3o+dLJ2zNFsRXchkE2P0UE/ryCGF8VwZCnGNgzkWY
-	 TVO+hj8HIVeSwAn9WKM5M/CHiUvtyB0eIGGu+6RM=
+	b=ZfM46CwY00F6bDr8CAZlplnGiCSNa0Dx3kVjnVU/+iCDAT7Z01Q+ROEGJhAHq0eA5
+	 fzFoJRWkmvD+T7nwbw4pjocgDAn0YWWC2JywMuCU2z5GC5QVoyYv4C/doAKfeMb4fr
+	 Q+PvJiL+dmJHl+qKbz8W/WmhU0K/njiBUaxb1Olo=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>
-Subject: [PATCH v2 14/76] media: amphion: Delete v4l2_fh synchronously in .release()
-Date: Sun, 10 Aug 2025 00:15:51 +0300
-Message-ID: <20250809211654.28887-15-laurent.pinchart@ideasonboard.com>
+	Daniel Almeida <daniel.almeida@collabora.com>
+Subject: [PATCH v2 15/76] media: visl: Drop visl_v4l2fh_to_ctx() function
+Date: Sun, 10 Aug 2025 00:15:52 +0300
+Message-ID: <20250809211654.28887-16-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -64,83 +63,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-The v4l2_fh initialized and added in vpu_v4l2_open() is delete and
-cleaned up when the last reference to the vpu_inst is released. This may
-happen later than at vpu_v4l2_close() time.
-
-Not deleting and cleaning up the v4l2_fh when closing the file handle to
-the video device is not ideal, as the v4l2_fh will still be present in
-the video device's fh_list, and will store a copy of events queued to
-the video device. There may also be other side effects of keeping alive
-an object that represents an open file handle after the file handle is
-closed.
-
-The v4l2_fh instance is embedded in the vpu_inst structure, and is
-accessed in two different ways:
-
-- in vpu_notify_eos() and vpu_notify_source_change(), to queue V4L2
-  events to the file handle ; and
-
-- through the driver to access the v4l2_fh.m2m_ctx pointer.
-
-The v4l2_fh.m2m_ctx pointer is not touched by v4l2_fh_del() and
-v4l2_fh_exit(). It is set to NULL by the driver when closing the file
-handle, in vpu_v4l2_close().
-
-The vpu_notify_eos() and vpu_notify_source_change() functions are called
-in vpu_set_last_buffer_dequeued() and vdec_handle_resolution_change()
-respectively, only if the v4l2_fh.m2m_ctx pointer is not NULL. There is
-therefore a guarantee that no new event will be queued to the v4l2_fh
-after vpu_v4l2_close() destroys the m2m_ctx.
-
-The vpu_notify_eos() function is also called from vpu_vb2_buf_finish(),
-which is guaranteed to be called for all queued buffers when
-vpu_v4l2_close() calls v4l2_m2m_ctx_release(), and will not be called
-later.
-
-It is therefore safe to assume that the driver will not touch the
-v4l2_fh, except to check the m2m_ctx pointer, after vpu_v4l2_close()
-destroys the m2m_ctx. We can safely delete and cleanup the v4l2_fh
-synchronously in vpu_v4l2_close().
+The visl_v4l2fh_to_ctx() function is unused. Drop it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Ming Qian <ming.qian@oss.nxp.com>
 ---
- drivers/media/platform/amphion/vpu_v4l2.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/media/test-drivers/visl/visl.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-index 306d94e0f8e7..57ca6262bb04 100644
---- a/drivers/media/platform/amphion/vpu_v4l2.c
-+++ b/drivers/media/platform/amphion/vpu_v4l2.c
-@@ -724,8 +724,6 @@ static int vpu_v4l2_release(struct vpu_inst *inst)
- 
- 	v4l2_ctrl_handler_free(&inst->ctrl_handler);
- 	mutex_destroy(&inst->lock);
--	v4l2_fh_del(&inst->fh);
--	v4l2_fh_exit(&inst->fh);
- 
- 	call_void_vop(inst, cleanup);
- 
-@@ -794,6 +792,8 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
- 
- 	return 0;
- error:
-+	v4l2_fh_del(&inst->fh);
-+	v4l2_fh_exit(&inst->fh);
- 	vpu_inst_put(inst);
- 	return ret;
+diff --git a/drivers/media/test-drivers/visl/visl.h b/drivers/media/test-drivers/visl/visl.h
+index ad3d0ab791d6..2971e8b37ff6 100644
+--- a/drivers/media/test-drivers/visl/visl.h
++++ b/drivers/media/test-drivers/visl/visl.h
+@@ -166,11 +166,6 @@ static inline struct visl_ctx *visl_file_to_ctx(struct file *file)
+ 	return container_of(file_to_v4l2_fh(file), struct visl_ctx, fh);
  }
-@@ -813,6 +813,9 @@ int vpu_v4l2_close(struct file *file)
- 	call_void_vop(inst, release);
- 	vpu_inst_unlock(inst);
  
-+	v4l2_fh_del(&inst->fh);
-+	v4l2_fh_exit(&inst->fh);
-+
- 	vpu_inst_unregister(inst);
- 	vpu_inst_put(inst);
- 
+-static inline struct visl_ctx *visl_v4l2fh_to_ctx(struct v4l2_fh *v4l2_fh)
+-{
+-	return container_of(v4l2_fh, struct visl_ctx, fh);
+-}
+-
+ void *visl_find_control_data(struct visl_ctx *ctx, u32 id);
+ struct v4l2_ctrl *visl_find_control(struct visl_ctx *ctx, u32 id);
+ u32 visl_control_num_elems(struct visl_ctx *ctx, u32 id);
 -- 
 Regards,
 
