@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-39245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB054B1F6A8
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0128BB1F6A9
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7D9F17F6CA
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:20:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C76F3AF32D
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:20:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D86592C325F;
-	Sat,  9 Aug 2025 21:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3966427EC99;
+	Sat,  9 Aug 2025 21:18:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kOV5Me+d"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Eysm6Qrd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E761B279915
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2404A2C3260
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774324; cv=none; b=ZX7RAGshykmYyp8x1Vo93Mk6LFv9GWPr3g07Vu7XzJyVZQs7oS939Lt58ICAar4EwCJqt4upgljGN7F3vaSQsXoGR1qi1ptkIcPeIXdCgZffW5PQA9Fi0QFrnA6BOxPT3elWaiEuWCMad/lHNTH4milD1wzi9ZmSEXPvmBbXGpo=
+	t=1754774326; cv=none; b=g6FO5V0vIJ2ItU5Q3ztH6/FPbPeyMNhpUvvz+uEODsOjkDyeDYzApIMDRlAByzYa2YQSNarnKD0PxykxWHQ01yhFnEFhX67afbtDPoDAC1iz8020vbh1di6oqyRHkCznQ20xFjCSypEQJ+eAI3LFGL4Be5NUyfWCXOo1IkJufnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774324; c=relaxed/simple;
-	bh=E2YsTuLzac0tzRZQUeUKAToChu69AO8ArXm4ynIHL2k=;
+	s=arc-20240116; t=1754774326; c=relaxed/simple;
+	bh=uWWtrhvYU2EEvPxj8g8G/xSlAx0/xw2bGYq2TdQvdu8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vo1b72FPu+tBRXfe6ACWTPHFRRu8UmQwiXQW8oMR7ZNVFq6ZQ6DgZKmQSD1OXtm+j54swxvxGp0/jxauyy+DnfhfJR42zLI744uMreytq6gNshtfyKDx75iDhkAEOMw9oCc1dvWGzeEf44q0qRMLVLj07oDx4DZ/MkqHFBFr8jY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kOV5Me+d; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=R7xYXTFRjBRVwrEADSIRP4kl6M4bLdwkUVuZN/gYdWy7DKsKgB2C2qMxZ4iI2LNbpQxOz5YQsuLnE/bCf7CM4ioOiAJOlZ/tVRvhFBZeNBxpZL0k4CpbMzJV9Z/GxrU0PRZqj3zpx4lmaWax/TZqSokEc/C7H4IQAo0g9OnPGWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Eysm6Qrd; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 05D15165B;
-	Sat,  9 Aug 2025 23:17:43 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AED0615B5;
+	Sat,  9 Aug 2025 23:17:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774264;
-	bh=E2YsTuLzac0tzRZQUeUKAToChu69AO8ArXm4ynIHL2k=;
+	s=mail; t=1754774265;
+	bh=uWWtrhvYU2EEvPxj8g8G/xSlAx0/xw2bGYq2TdQvdu8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kOV5Me+dLUdriEWiPFdked+NZxD2X3aMI+zMdJDqFlRBtlRCWJchZd5gguvr8UQ5U
-	 knuwhjfwex9EJKKfkCRLQtCWwPgIsscAyZvt6c5W0PRGDoqboBzrkJDmW2l+LoHv4l
-	 UljzMUN2QZi3ak0o3VCmTfY2R+0KcRZd+Vbexi2U=
+	b=Eysm6QrdIxQkXyNAdHU8a6JL6pMOB6qi6DM19OPdtYHZqZ7BkD9MWzNuXW1sizdGe
+	 N4FqjyV9qjaeMCMV9jUMl4Q0D6d9ywubE77nAHy98gnjMI9XEH4yU7tv9LWMnGbzM6
+	 Nxi48FVl9+o5EpzFwtSminUdI1q3u+4Q/I61QIZg=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
 	Heiko Stuebner <heiko@sntech.de>,
 	linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 50/76] media: rockhip: rga: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 00:16:27 +0300
-Message-ID: <20250809211654.28887-51-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 51/76] media: rockchip: rkvdec: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 00:16:28 +0300
+Message-ID: <20250809211654.28887-52-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 The v4l2_fh associated with an open file handle is now guaranteed
 to be available in file->private_data, initialised by v4l2_fh_add().
@@ -72,51 +72,106 @@ to be available in file->private_data, initialised by v4l2_fh_add().
 Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
+Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Detlev Casanova <detlev.casanova@collabora.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/platform/rockchip/rga/rga.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Changes since v1:
 
-diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index 45c42c7ad846..7c657df623f2 100644
---- a/drivers/media/platform/rockchip/rga/rga.c
-+++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -462,7 +462,7 @@ static int vidioc_enum_fmt(struct file *file, void *prv, struct v4l2_fmtdesc *f)
- static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
+- Update file-to-ctx macro due to removal of fh-to-ctx macro
+---
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c | 14 +++++++-------
+ drivers/media/platform/rockchip/rkvdec/rkvdec.h |  7 +------
+ 2 files changed, 8 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index 481c2488f9ac..9fa80ab3c62b 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -354,7 +354,7 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
+ 				  struct v4l2_format *f)
  {
- 	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
--	struct rga_ctx *ctx = prv;
-+	struct rga_ctx *ctx = file_to_rga_ctx(file);
- 	struct vb2_queue *vq;
- 	struct rga_frame *frm;
+ 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+-	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
++	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
+ 	const struct rkvdec_coded_fmt_desc *coded_desc;
  
-@@ -504,7 +504,7 @@ static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
- static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ 	/*
+@@ -387,7 +387,7 @@ static int rkvdec_try_output_fmt(struct file *file, void *priv,
+ 				 struct v4l2_format *f)
  {
- 	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
--	struct rga_ctx *ctx = prv;
-+	struct rga_ctx *ctx = file_to_rga_ctx(file);
- 	struct rockchip_rga *rga = ctx->rga;
- 	struct vb2_queue *vq;
- 	struct rga_frame *frm;
-@@ -561,7 +561,7 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- static int vidioc_g_selection(struct file *file, void *prv,
- 			      struct v4l2_selection *s)
- {
--	struct rga_ctx *ctx = prv;
-+	struct rga_ctx *ctx = file_to_rga_ctx(file);
- 	struct rga_frame *f;
- 	bool use_frame = false;
+ 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+-	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
++	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
+ 	const struct rkvdec_coded_fmt_desc *desc;
  
-@@ -609,7 +609,7 @@ static int vidioc_g_selection(struct file *file, void *prv,
- static int vidioc_s_selection(struct file *file, void *prv,
- 			      struct v4l2_selection *s)
+ 	desc = rkvdec_find_coded_fmt_desc(pix_mp->pixelformat);
+@@ -418,7 +418,7 @@ static int rkvdec_try_output_fmt(struct file *file, void *priv,
+ static int rkvdec_s_capture_fmt(struct file *file, void *priv,
+ 				struct v4l2_format *f)
  {
--	struct rga_ctx *ctx = prv;
-+	struct rga_ctx *ctx = file_to_rga_ctx(file);
- 	struct rockchip_rga *rga = ctx->rga;
- 	struct rga_frame *f;
- 	int ret = 0;
+-	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
++	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
+ 	struct vb2_queue *vq;
+ 	int ret;
+ 
+@@ -439,7 +439,7 @@ static int rkvdec_s_capture_fmt(struct file *file, void *priv,
+ static int rkvdec_s_output_fmt(struct file *file, void *priv,
+ 			       struct v4l2_format *f)
+ {
+-	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
++	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
+ 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+ 	const struct rkvdec_coded_fmt_desc *desc;
+ 	struct v4l2_format *cap_fmt;
+@@ -504,7 +504,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
+ static int rkvdec_g_output_fmt(struct file *file, void *priv,
+ 			       struct v4l2_format *f)
+ {
+-	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
++	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
+ 
+ 	*f = ctx->coded_fmt;
+ 	return 0;
+@@ -513,7 +513,7 @@ static int rkvdec_g_output_fmt(struct file *file, void *priv,
+ static int rkvdec_g_capture_fmt(struct file *file, void *priv,
+ 				struct v4l2_format *f)
+ {
+-	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
++	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
+ 
+ 	*f = ctx->decoded_fmt;
+ 	return 0;
+@@ -532,7 +532,7 @@ static int rkvdec_enum_output_fmt(struct file *file, void *priv,
+ static int rkvdec_enum_capture_fmt(struct file *file, void *priv,
+ 				   struct v4l2_fmtdesc *f)
+ {
+-	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
++	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
+ 	u32 fourcc;
+ 
+ 	fourcc = rkvdec_enum_decoded_fmt(ctx, f->index, ctx->image_fmt);
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+index 3a6322d42b26..481aaa4bffe9 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+@@ -124,14 +124,9 @@ struct rkvdec_ctx {
+ 	void *priv;
+ };
+ 
+-static inline struct rkvdec_ctx *fh_to_rkvdec_ctx(struct v4l2_fh *fh)
+-{
+-	return container_of(fh, struct rkvdec_ctx, fh);
+-}
+-
+ static inline struct rkvdec_ctx *file_to_rkvdec_ctx(struct file *filp)
+ {
+-	return fh_to_rkvdec_ctx(file_to_v4l2_fh(filp));
++	return container_of(file_to_v4l2_fh(filp), struct rkvdec_ctx, fh);
+ }
+ 
+ struct rkvdec_aux_buf {
 -- 
 Regards,
 
