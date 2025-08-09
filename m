@@ -1,58 +1,57 @@
-Return-Path: <linux-media+bounces-39251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39252-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B6EB1F6B1
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5F3B1F6B2
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:20:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A70E7B1A84
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:19:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71ECF3B7B02
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:20:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE4B72BF3CC;
-	Sat,  9 Aug 2025 21:18:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC4F2C375E;
+	Sat,  9 Aug 2025 21:18:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kw3waXLO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CtZvurcq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2CB27EFE3
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A6F27875C
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774334; cv=none; b=CrtGlVY/EmiYEEhY4jxydrXGkxRZft1Cz269G5jD+83KnCLmDEMvb4vOxMsE8Zp4aHvEoiV21vCThK9j3UX0oMTKW4WNQnJ0aB+P7/ed7BJAC9BtxexSMF8VbyMMaQZgEZsmBEbpZVsGB7GvJYyTpP2RMyndh8WY8R5pknJkdP4=
+	t=1754774335; cv=none; b=riXYt5kE6ArDDV7+hXioTk0XX2KMj9qUd33iN9Kw/ILuKa+FLPiyPV3tdRqLfdEd01+GzZQYgHotycB0SmaQSmqFMGl4aeTVvWKWPy3tv3NOtUHZl33XWOR6wovu+3AzGu1RQ1DgX9o1QD/Ay/PCqO0nDDwV26GSwjkPMNUaq+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774334; c=relaxed/simple;
-	bh=wo5NKGaetHKlFIyopd6naw1ltpha/XckyBihK5e7a2I=;
+	s=arc-20240116; t=1754774335; c=relaxed/simple;
+	bh=Mxd2mSbeF4bs69HYy7o/QbBRt6eGtBubrq/fYOZXaVM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oWrSojezAWon6x4IjafeMpbNfcL+YAPtBRDxunqGpQVeS8sjK/kxBhmMQC5bVPLvE4JQTnPkJFvHR+y+L1wEo5EI9ctdad7M1y/uweYhusHoTDbX1wEI64m0QMegklrNjfe6ZhujFleuEyKfkHfcEn1kbqeWNGOiGZxUE/fjDmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Kw3waXLO; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=aj+ybrlKq69B4YsWdTvRpEwDEoez6cOtGYs9w0PXQiz59XmcytLbdWWJK1YMVAg0DANueQ9rh+a5YUEWxQbYPeXDK6WXyFM/7dXF1FMz/6NeoVrymfThvl1vDnsogw3lVQcbANXei103rEpxJeFFuQcsBq8Rdbw2v0oYnf15fxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CtZvurcq; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 27946502;
-	Sat,  9 Aug 2025 23:17:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B91A6162B;
+	Sat,  9 Aug 2025 23:17:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774274;
-	bh=wo5NKGaetHKlFIyopd6naw1ltpha/XckyBihK5e7a2I=;
+	s=mail; t=1754774275;
+	bh=Mxd2mSbeF4bs69HYy7o/QbBRt6eGtBubrq/fYOZXaVM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Kw3waXLOGNj76PNveWGPyPxKByAfWkx/AsizDNDZE6VIBcC6eSRiRBZqPaItTVZwq
-	 kIF5uUqnRh69MHnWwEeQQc7Mp+7ahKa436oPMBtr1S7UY81Jyz6K+ibsrgV9vYhLNr
-	 81tunb/LzieweRLb0jncX6RajVoDxLdH1jQ41bmA=
+	b=CtZvurcqwrNKYtTyjpXBysvAcwe87jUZKJjeCNG/Q6IOpUAGa0mWKUcSnztwQ6fPx
+	 Ey20WP5ZEaUJqcPa6pTKeNPpFm9T4mCRtobGLtx047QWK1ZzdaoHzCLK4jsJ0FCgmw
+	 3T2wL7eyil+SN5d06969Oi8DdyrXgdx4lPRtIRO0=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 56/76] media: s5p-jpeg: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 00:16:33 +0300
-Message-ID: <20250809211654.28887-57-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 57/76] media: s5p-mfc: Store s5p_mfc_ctx in vb2_queue.drv_priv
+Date: Sun, 10 Aug 2025 00:16:34 +0300
+Message-ID: <20250809211654.28887-58-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -66,135 +65,148 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-The v4l2_fh associated with an open file handle is now guaranteed
-to be available in file->private_data, initialised by v4l2_fh_add().
+The driver stores a pointer to a v4l2_fh in the vb2_queue.drv_priv,
+which it then has to cast to a s5p_mfc_ctx pointer in all vb2 queue
+operations. Store the pointer to the s5p_mfc_ctx instead to avoid the
+cast. While at it, use the vb2_get_drv_priv() helper to access the
+field.
 
-Access the v4l2_fh, and from there the driver-specific structure,
-from the file * in all ioctl handlers.
-
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Changes since v1:
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c     |  4 ++--
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c | 10 +++++-----
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c | 12 ++++++------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-- Update file-to-ctx macro due to removal of fh-to-ctx macro
----
- .../platform/samsung/s5p-jpeg/jpeg-core.c     | 27 ++++++++-----------
- 1 file changed, 11 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-index 65f256db4c76..81792f7f8b16 100644
---- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-@@ -580,14 +580,9 @@ static inline struct s5p_jpeg_ctx *ctrl_to_ctx(struct v4l2_ctrl *c)
- 	return container_of(c->handler, struct s5p_jpeg_ctx, ctrl_handler);
- }
- 
--static inline struct s5p_jpeg_ctx *fh_to_ctx(struct v4l2_fh *fh)
--{
--	return container_of(fh, struct s5p_jpeg_ctx, fh);
--}
--
- static inline struct s5p_jpeg_ctx *file_to_ctx(struct file *filp)
+diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+index a5e756049620..4948d734eb02 100644
+--- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
++++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+@@ -876,7 +876,7 @@ static int s5p_mfc_open(struct file *file)
+ 	/* Init videobuf2 queue for CAPTURE */
+ 	q = &ctx->vq_dst;
+ 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+-	q->drv_priv = &ctx->fh;
++	q->drv_priv = ctx;
+ 	q->lock = &dev->mfc_mutex;
+ 	if (vdev == dev->vfd_dec) {
+ 		q->io_modes = VB2_MMAP;
+@@ -903,7 +903,7 @@ static int s5p_mfc_open(struct file *file)
+ 	/* Init videobuf2 queue for OUTPUT */
+ 	q = &ctx->vq_src;
+ 	q->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+-	q->drv_priv = &ctx->fh;
++	q->drv_priv = ctx;
+ 	q->lock = &dev->mfc_mutex;
+ 	if (vdev == dev->vfd_dec) {
+ 		q->io_modes = VB2_MMAP;
+diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
+index 3efbc3367906..aefa6da5c609 100644
+--- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
++++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
+@@ -937,7 +937,7 @@ static int s5p_mfc_queue_setup(struct vb2_queue *vq,
+ 			unsigned int *plane_count, unsigned int psize[],
+ 			struct device *alloc_devs[])
  {
--	return fh_to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct s5p_jpeg_ctx, fh);
- }
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(vq->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(vq);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
+ 	const struct v4l2_format_info *format;
  
- static int s5p_jpeg_to_user_subsampling(struct s5p_jpeg_ctx *ctx)
-@@ -1015,8 +1010,8 @@ static int s5p_jpeg_open(struct file *file)
- 
- static int s5p_jpeg_release(struct file *file)
+@@ -1006,7 +1006,7 @@ static int s5p_mfc_buf_init(struct vb2_buffer *vb)
  {
--	struct s5p_jpeg *jpeg = video_drvdata(file);
- 	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
-+	struct s5p_jpeg *jpeg = video_drvdata(file);
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ 	struct vb2_queue *vq = vb->vb2_queue;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(vq->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(vq);
+ 	unsigned int i;
  
- 	mutex_lock(&jpeg->lock);
- 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
-@@ -1253,7 +1248,7 @@ static bool s5p_jpeg_parse_hdr(struct s5p_jpeg_q_data *result,
- static int s5p_jpeg_querycap(struct file *file, void *priv,
- 			   struct v4l2_capability *cap)
+ 	if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+@@ -1068,7 +1068,7 @@ static int s5p_mfc_buf_init(struct vb2_buffer *vb)
+ 
+ static int s5p_mfc_start_streaming(struct vb2_queue *q, unsigned int count)
  {
--	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
-+	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(q->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(q);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
  
- 	if (ctx->mode == S5P_JPEG_ENCODE) {
- 		strscpy(cap->driver, S5P_JPEG_M2M_NAME,
-@@ -1301,7 +1296,7 @@ static int enum_fmt(struct s5p_jpeg_ctx *ctx,
- static int s5p_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
- 				   struct v4l2_fmtdesc *f)
+ 	v4l2_ctrl_handler_setup(&ctx->ctrl_handler);
+@@ -1085,7 +1085,7 @@ static int s5p_mfc_start_streaming(struct vb2_queue *q, unsigned int count)
+ static void s5p_mfc_stop_streaming(struct vb2_queue *q)
  {
--	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
-+	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+ 	unsigned long flags;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(q->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(q);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
+ 	int aborted = 0;
  
- 	if (ctx->mode == S5P_JPEG_ENCODE)
- 		return enum_fmt(ctx, sjpeg_formats, SJPEG_NUM_FORMATS, f,
-@@ -1314,7 +1309,7 @@ static int s5p_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
- static int s5p_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
- 				   struct v4l2_fmtdesc *f)
+@@ -1130,7 +1130,7 @@ static void s5p_mfc_stop_streaming(struct vb2_queue *q)
+ static void s5p_mfc_buf_queue(struct vb2_buffer *vb)
  {
--	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
-+	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
- 
- 	if (ctx->mode == S5P_JPEG_ENCODE)
- 		return enum_fmt(ctx, sjpeg_formats, SJPEG_NUM_FORMATS, f,
-@@ -1340,7 +1335,7 @@ static int s5p_jpeg_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
- 	struct vb2_queue *vq;
- 	struct s5p_jpeg_q_data *q_data = NULL;
- 	struct v4l2_pix_format *pix = &f->fmt.pix;
--	struct s5p_jpeg_ctx *ct = fh_to_ctx(priv);
-+	struct s5p_jpeg_ctx *ct = file_to_ctx(file);
- 
- 	vq = v4l2_m2m_get_vq(ct->fh.m2m_ctx, f->type);
- 	if (!vq)
-@@ -1480,7 +1475,7 @@ static int vidioc_try_fmt(struct v4l2_format *f, struct s5p_jpeg_fmt *fmt,
- static int s5p_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
- 				  struct v4l2_format *f)
+ 	struct vb2_queue *vq = vb->vb2_queue;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(vq->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(vq);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
+ 	unsigned long flags;
+ 	struct s5p_mfc_buf *mfc_buf;
+diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
+index 6c603dcd5664..9b77dbd856e7 100644
+--- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
++++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
+@@ -2418,7 +2418,7 @@ static int s5p_mfc_queue_setup(struct vb2_queue *vq,
+ 			unsigned int *buf_count, unsigned int *plane_count,
+ 			unsigned int psize[], struct device *alloc_devs[])
  {
--	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
-+	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
- 	struct v4l2_pix_format *pix = &f->fmt.pix;
- 	struct s5p_jpeg_fmt *fmt;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(vq->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(vq);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
+ 
+ 	if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+@@ -2477,7 +2477,7 @@ static int s5p_mfc_buf_init(struct vb2_buffer *vb)
+ {
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ 	struct vb2_queue *vq = vb->vb2_queue;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(vq->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(vq);
+ 	unsigned int i;
  	int ret;
-@@ -1539,7 +1534,7 @@ static int s5p_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
- static int s5p_jpeg_try_fmt_vid_out(struct file *file, void *priv,
- 				  struct v4l2_format *f)
+ 
+@@ -2516,7 +2516,7 @@ static int s5p_mfc_buf_init(struct vb2_buffer *vb)
+ static int s5p_mfc_buf_prepare(struct vb2_buffer *vb)
  {
--	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
-+	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
- 	struct s5p_jpeg_fmt *fmt;
+ 	struct vb2_queue *vq = vb->vb2_queue;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(vq->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(vq);
+ 	int ret;
  
- 	fmt = s5p_jpeg_find_format(ctx, f->fmt.pix.pixelformat,
-@@ -1686,7 +1681,7 @@ static int s5p_jpeg_s_fmt_vid_cap(struct file *file, void *priv,
- 	if (ret)
- 		return ret;
+ 	if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+@@ -2557,7 +2557,7 @@ static int s5p_mfc_buf_prepare(struct vb2_buffer *vb)
  
--	return s5p_jpeg_s_fmt(fh_to_ctx(priv), f);
-+	return s5p_jpeg_s_fmt(file_to_ctx(file), f);
- }
- 
- static int s5p_jpeg_s_fmt_vid_out(struct file *file, void *priv,
-@@ -1698,7 +1693,7 @@ static int s5p_jpeg_s_fmt_vid_out(struct file *file, void *priv,
- 	if (ret)
- 		return ret;
- 
--	return s5p_jpeg_s_fmt(fh_to_ctx(priv), f);
-+	return s5p_jpeg_s_fmt(file_to_ctx(file), f);
- }
- 
- static int s5p_jpeg_subscribe_event(struct v4l2_fh *fh,
-@@ -1795,7 +1790,7 @@ static int exynos3250_jpeg_try_crop(struct s5p_jpeg_ctx *ctx,
- static int s5p_jpeg_g_selection(struct file *file, void *priv,
- 			 struct v4l2_selection *s)
+ static int s5p_mfc_start_streaming(struct vb2_queue *q, unsigned int count)
  {
--	struct s5p_jpeg_ctx *ctx = fh_to_ctx(priv);
-+	struct s5p_jpeg_ctx *ctx = file_to_ctx(file);
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(q->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(q);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
  
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
- 	    s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 	if (IS_MFCV6_PLUS(dev) &&
+@@ -2588,7 +2588,7 @@ static int s5p_mfc_start_streaming(struct vb2_queue *q, unsigned int count)
+ static void s5p_mfc_stop_streaming(struct vb2_queue *q)
+ {
+ 	unsigned long flags;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(q->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(q);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
+ 
+ 	if ((ctx->state == MFCINST_FINISHING ||
+@@ -2617,7 +2617,7 @@ static void s5p_mfc_stop_streaming(struct vb2_queue *q)
+ static void s5p_mfc_buf_queue(struct vb2_buffer *vb)
+ {
+ 	struct vb2_queue *vq = vb->vb2_queue;
+-	struct s5p_mfc_ctx *ctx = fh_to_ctx(vq->drv_priv);
++	struct s5p_mfc_ctx *ctx = vb2_get_drv_priv(vq);
+ 	struct s5p_mfc_dev *dev = ctx->dev;
+ 	unsigned long flags;
+ 	struct s5p_mfc_buf *mfc_buf;
 -- 
 Regards,
 
