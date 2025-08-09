@@ -1,58 +1,56 @@
-Return-Path: <linux-media+bounces-39258-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5644B1F6B8
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DD0B1F6B7
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 23:21:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBE463BCDCD
-	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:21:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09F703BCDCD
+	for <lists+linux-media@lfdr.de>; Sat,  9 Aug 2025 21:21:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B50E2D0C64;
-	Sat,  9 Aug 2025 21:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BB742C031E;
+	Sat,  9 Aug 2025 21:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="waWZH0K3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="foO6OuwV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C392D028F
-	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447F927E1C3
+	for <linux-media@vger.kernel.org>; Sat,  9 Aug 2025 21:19:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774344; cv=none; b=cfVTUysD+x12/SQtAutvMJ5rJDfOdMnOcHcxNYHGhTA1X+PNOKxCvbwMaOGMZi+N8wS1DpyJ/+njFpqPCFBu2RGWr6jHx9JE0Y84TCty5QmwKvqGs3QDm+svJeGOalK67m7Rna8PngQcn0PJiZIpb3hZE8u+mzk0B5sqXU586MY=
+	t=1754774343; cv=none; b=NfHzYXfscT4fb3nahSbfQmFuJ0tO4Qert7JES6+8g7LGgDL9xZHOGJOUePX+m1Kz3IphueIUghHU02b8FaGGbh2Xa46ux/+aYOYkWQeuDnyN7axnO/tuDVGhR/Gn1zXpniyz3czh5tenvz//bO4G1YEikP9jnzrVvqumos7pUL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774344; c=relaxed/simple;
-	bh=ZZfERwHvku2qrCiMt+5gsXxNo5bb9wTUeX2X/69zwso=;
+	s=arc-20240116; t=1754774343; c=relaxed/simple;
+	bh=XK0RVIX0Mv/c4MUjl7M++g7vwybd8yhFJt+iL4GwY8o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sq9N/VxYn8QOIWzWjBOAsyyZS9sFAhYkBQWALSYACBCsq3MnAmHJnQqARYlYDAyZNwbRHRZtht/Hp0QicAlWYWzhs96HsIMH7scBLK17QYhzscknNpkQbq8ZNzF7YDWv6qNnpKwkKh2ftZftS8+6o+9NoJYN3SkaJZjcfX88C9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=waWZH0K3; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=gEJRhDS2gJC8yTA5w6sk6nVUYTGSGatWDdfXB6hznQLfYA8cHl+axAeZ33C06O1Ycgg/cb1TezjIE0rQKSQg785ZDsG4xoocoo1z5WTDIPG7O3FtKTd1hCYp3rSyKz+9bkz56vyUexXO4nz48xRRJU1qtpU3bES1rGoB0Krz2/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=foO6OuwV; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 22ABE502;
-	Sat,  9 Aug 2025 23:18:04 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DBC4E165B;
+	Sat,  9 Aug 2025 23:18:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774284;
-	bh=ZZfERwHvku2qrCiMt+5gsXxNo5bb9wTUeX2X/69zwso=;
+	s=mail; t=1754774286;
+	bh=XK0RVIX0Mv/c4MUjl7M++g7vwybd8yhFJt+iL4GwY8o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=waWZH0K3qElbeGS5UVsU5HhQykxLceLX64wbDzJ589j9FcohtKTYkkxTiCvBCZWxk
-	 kmL8Ek5/gdjomcdjAy7hXWJMK24sMh91DytVXV+2M+KhKCSLtlet+jrbZy/PLjphoj
-	 9z9gbWw7S1K5v+152xR33EEHczDWVbGHAe2Coexc=
+	b=foO6OuwV+L/fZqPmBqIXwZU1Fr07juR24xq0tqIBYUENbZxZgzAk+dVjLbAC6o60K
+	 egPGgfB69LjTvfoxEhM8zL43/OzaR52u31etMJCUp3xD9LnXZnncCzJWsWodkNouKK
+	 2MVCMNWuiT/WCaaH1qdnLOQOSSj81zEDXYvJjfCk=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-rockchip@lists.infradead.org
-Subject: [PATCH v2 62/76] media: hantro: Access v4l2_fh from file->private_data
-Date: Sun, 10 Aug 2025 00:16:39 +0300
-Message-ID: <20250809211654.28887-63-laurent.pinchart@ideasonboard.com>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>
+Subject: [PATCH v2 63/76] media: omap3isp: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 00:16:40 +0300
+Message-ID: <20250809211654.28887-64-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -66,142 +64,147 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-To prepare for the introduction of video_device_state as second argument
-of the v4l2_ioctl_ops handler, access the v4l2_fh from
-file->private_data instead of using void *priv.
+The v4l2_fh associated with an open file handle is now guaranteed
+to be available in file->private_data, initialised by v4l2_fh_add().
 
-The file->private_data is initialized to point to the v4l2_fh
-by the usage of v4l2_fh_init() in the v4l2_file_operations.open()
-handler.
+Access the v4l2_fh, and from there the driver-specific structure,
+from the file * in all ioctl handlers.
 
+While at it remove the only left user of to_isp_video_fh() and remove
+the macro completely.
+
+Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
 Changes since v1:
 
 - Update file-to-ctx macro due to removal of fh-to-ctx macro
 ---
- drivers/media/platform/verisilicon/hantro.h   |  7 +-----
- .../media/platform/verisilicon/hantro_v4l2.c  | 22 +++++++++----------
- 2 files changed, 12 insertions(+), 17 deletions(-)
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 22 +++++++++----------
+ drivers/media/platform/ti/omap3isp/ispvideo.h |  4 +---
+ 2 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index 5b85c8a44706..e0fdc4535b2d 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -382,14 +382,9 @@ extern int hantro_debug;
- 	pr_err("%s:%d: " fmt, __func__, __LINE__, ##args)
- 
- /* Structure access helpers. */
--static __always_inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
--{
--	return container_of(fh, struct hantro_ctx, fh);
--}
--
- static __always_inline struct hantro_ctx *file_to_ctx(struct file *filp)
- {
--	return fh_to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct hantro_ctx, fh);
- }
- 
- /* Register accessors. */
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 7c3515cf7d64..6bcd892e7bb4 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -185,7 +185,7 @@ static int vidioc_querycap(struct file *file, void *priv,
- static int vidioc_enum_framesizes(struct file *file, void *priv,
- 				  struct v4l2_frmsizeenum *fsize)
- {
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	struct hantro_ctx *ctx = file_to_ctx(file);
- 	const struct hantro_fmt *fmt;
- 
- 	fmt = hantro_find_format(ctx, fsize->pixel_format);
-@@ -217,7 +217,7 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 			   struct v4l2_fmtdesc *f, bool capture)
- 
- {
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	struct hantro_ctx *ctx = file_to_ctx(file);
- 	const struct hantro_fmt *fmt, *formats;
- 	unsigned int num_fmts, i, j = 0;
- 	bool skip_mode_none, enum_all_formats;
-@@ -297,7 +297,7 @@ static int vidioc_g_fmt_out_mplane(struct file *file, void *priv,
- 				   struct v4l2_format *f)
- {
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	struct hantro_ctx *ctx = file_to_ctx(file);
- 
- 	vpu_debug(4, "f->type = %d\n", f->type);
- 
-@@ -310,7 +310,7 @@ static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
- 				   struct v4l2_format *f)
- {
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	struct hantro_ctx *ctx = file_to_ctx(file);
- 
- 	vpu_debug(4, "f->type = %d\n", f->type);
- 
-@@ -398,13 +398,13 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
- static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
- 				     struct v4l2_format *f)
- {
--	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
-+	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
- }
- 
- static int vidioc_try_fmt_out_mplane(struct file *file, void *priv,
- 				     struct v4l2_format *f)
- {
--	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
-+	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
- }
- 
- static void
-@@ -648,19 +648,19 @@ static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+index 2c0008444b7e..0e7f0bf2b346 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.c
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+@@ -657,7 +657,7 @@ isp_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
  static int
- vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+ isp_video_get_format(struct file *file, void *fh, struct v4l2_format *format)
  {
--	return hantro_set_fmt_out(fh_to_ctx(priv), &f->fmt.pix_mp, HANTRO_AUTO_POSTPROC);
-+	return hantro_set_fmt_out(file_to_ctx(file), &f->fmt.pix_mp, HANTRO_AUTO_POSTPROC);
- }
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
  
+ 	if (format->type != video->type)
+@@ -673,7 +673,7 @@ isp_video_get_format(struct file *file, void *fh, struct v4l2_format *format)
  static int
- vidioc_s_fmt_cap_mplane(struct file *file, void *priv, struct v4l2_format *f)
+ isp_video_set_format(struct file *file, void *fh, struct v4l2_format *format)
  {
--	return hantro_set_fmt_cap(fh_to_ctx(priv), &f->fmt.pix_mp);
-+	return hantro_set_fmt_cap(file_to_ctx(file), &f->fmt.pix_mp);
- }
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
+ 	struct v4l2_mbus_framefmt fmt;
  
- static int vidioc_g_selection(struct file *file, void *priv,
- 			      struct v4l2_selection *sel)
+@@ -858,7 +858,7 @@ isp_video_set_selection(struct file *file, void *fh, struct v4l2_selection *sel)
+ static int
+ isp_video_get_param(struct file *file, void *fh, struct v4l2_streamparm *a)
  {
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	struct hantro_ctx *ctx = file_to_ctx(file);
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
  
- 	/* Crop only supported on source. */
- 	if (!ctx->is_encoder ||
-@@ -691,7 +691,7 @@ static int vidioc_g_selection(struct file *file, void *priv,
- static int vidioc_s_selection(struct file *file, void *priv,
- 			      struct v4l2_selection *sel)
+ 	if (video->type != V4L2_BUF_TYPE_VIDEO_OUTPUT ||
+@@ -876,7 +876,7 @@ isp_video_get_param(struct file *file, void *fh, struct v4l2_streamparm *a)
+ static int
+ isp_video_set_param(struct file *file, void *fh, struct v4l2_streamparm *a)
  {
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	struct hantro_ctx *ctx = file_to_ctx(file);
- 	struct v4l2_rect *rect = &sel->r;
- 	struct vb2_queue *vq;
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
  
-@@ -738,7 +738,7 @@ static const struct v4l2_event hantro_eos_event = {
- static int vidioc_encoder_cmd(struct file *file, void *priv,
- 			      struct v4l2_encoder_cmd *ec)
+ 	if (video->type != V4L2_BUF_TYPE_VIDEO_OUTPUT ||
+@@ -894,7 +894,7 @@ isp_video_set_param(struct file *file, void *fh, struct v4l2_streamparm *a)
+ static int
+ isp_video_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *rb)
  {
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	struct hantro_ctx *ctx = file_to_ctx(file);
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
  	int ret;
  
- 	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
+@@ -908,7 +908,7 @@ isp_video_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *rb)
+ static int
+ isp_video_querybuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ {
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
+ 	int ret;
+ 
+@@ -922,7 +922,7 @@ isp_video_querybuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ static int
+ isp_video_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ {
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
+ 	int ret;
+ 
+@@ -936,7 +936,7 @@ isp_video_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ static int
+ isp_video_dqbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ {
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
+ 	int ret;
+ 
+@@ -1074,7 +1074,7 @@ static int isp_video_check_external_subdevs(struct isp_video *video,
+ static int
+ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+ {
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
+ 	enum isp_pipeline_state state;
+ 	struct isp_pipeline *pipe;
+@@ -1180,7 +1180,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+ static int
+ isp_video_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+ {
+-	struct isp_video_fh *vfh = to_isp_video_fh(fh);
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
+ 	struct isp_video *video = video_drvdata(file);
+ 	struct isp_pipeline *pipe = to_isp_pipeline(&video->video.entity);
+ 	enum isp_pipeline_state state;
+@@ -1348,7 +1348,7 @@ static int isp_video_release(struct file *file)
+ {
+ 	struct isp_video *video = video_drvdata(file);
+ 	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
+-	struct isp_video_fh *handle = to_isp_video_fh(vfh);
++	struct isp_video_fh *handle = file_to_isp_video_fh(file);
+ 
+ 	/* Disable streaming and free the buffers queue resources. */
+ 	isp_video_streamoff(file, vfh, video->type);
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.h b/drivers/media/platform/ti/omap3isp/ispvideo.h
+index 4364b4b14fb4..537da59cff62 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.h
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.h
+@@ -194,11 +194,9 @@ struct isp_video_fh {
+ 	struct v4l2_fract timeperframe;
+ };
+ 
+-#define to_isp_video_fh(fh)	container_of(fh, struct isp_video_fh, vfh)
+-
+ static inline struct isp_video_fh *file_to_isp_video_fh(struct file *filp)
+ {
+-	return to_isp_video_fh(file_to_v4l2_fh(filp));
++	return container_of(file_to_v4l2_fh(filp), struct isp_video_fh, vfh);
+ }
+ 
+ #define isp_video_queue_to_isp_video_fh(q) \
 -- 
 Regards,
 
