@@ -1,55 +1,63 @@
-Return-Path: <linux-media+bounces-39333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39334-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049BBB1F7E2
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:35:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68238B1F7E4
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:35:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20E8717D3DA
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:35:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 844E417D14A
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:35:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB560202C30;
-	Sun, 10 Aug 2025 01:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8852917C220;
+	Sun, 10 Aug 2025 01:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EN79+nRn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="t+wO5tN/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A465E1C3BE0
-	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968FA208961
+	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:33:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754789583; cv=none; b=mqclP1xiW/BkU0FCBdEM5ZCVLn2uo51/BCrw6HFXIuAVHBXW4XqhhW1m7n6zcS4ZklH8G1DJuOfg+rj8eRR7AAjv9UNiMnUakCy+ChwjDMDjwjqueyKpalbreOR3rUDX0ALynOPSgahS3NhtcA/NCRUgE+NYbWkZYPs5tJvJZr8=
+	t=1754789585; cv=none; b=cOmgtsi6fnhWBmt/ojQp++qGVb0ooXb8YElRYLgsiZHLdtYaRbwWMazVKJidVfR3evByVX/TyPCkl5m+8MGhq7hOILbZBK7aPLEpb3gRNQIN9lWolmgmMkpKQaglaApaUbwf5ybVENCduDwymZgkhCYtxvZz8VKel8mkosdzhwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754789583; c=relaxed/simple;
-	bh=AbaiTxyIYXP8jNzNeoFYbmsk9iNyhOHOEEeEpUP7aiY=;
+	s=arc-20240116; t=1754789585; c=relaxed/simple;
+	bh=HYs8+7Grwk4gchGGIHTU1tAZKtiyXyexiIuD+bI6WZE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c5huxV/pw8r+51CagRu/SxPmpsenzVuT0rdR3F4Ikn/r5XCJ6VhdVQaoe21qRR2qwGIAWm4J57iT9K+tTocY6Qtv+6Lt1P147ckeQgJoSzksG39csavrxGpkL38h08wAOTRIkz9jX+EhmZYplPMqSy+o6dgX3ER8dPk8aK3EHVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EN79+nRn; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Cd90p1tH6SqqgGaeZFtXHlZJ87z2djQscRI/YXBfkQpvBioXIngra8TPRerdhupEzMFbCfjmhuK/LSh4hhmSU4Ss8zByIIf/f3gaOBUrLOHwHHdp7KN5Ls092R4yMpvoPNKSX+3UMpWAXHXDR0jwbUMK90p7fNcaACnuguJwEH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=t+wO5tN/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 721D618B9;
-	Sun, 10 Aug 2025 03:32:09 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id F32907E6;
+	Sun, 10 Aug 2025 03:32:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754789529;
-	bh=AbaiTxyIYXP8jNzNeoFYbmsk9iNyhOHOEEeEpUP7aiY=;
+	s=mail; t=1754789531;
+	bh=HYs8+7Grwk4gchGGIHTU1tAZKtiyXyexiIuD+bI6WZE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EN79+nRnrcbCRx4sBe/vGN5tBgzi8FlNzpnA6wR3yzAuKLbGRoLIn6+fz5nx68cKK
-	 WNuPmGwzBSuHwXlvhTTJivcvmbeh7k2QdEMIawMT6OlkJYmHMHymcGNSvfr3b3t2o5
-	 21TNa84glnqDNt9JX2vehjLlTVf61hThoG9f8gGM=
+	b=t+wO5tN/lYNK2t2WUENECger9qKtpjRq5Jtl/jtI3SuE/GLnB1sYliOZZehre5JBF
+	 9D21RzYU9QEs+0yQJGDOpbhrleawqCttzwlQiK8rnwfb4u0qFwsgCQt6uJBY0/9eb0
+	 PoLjs+uL05f7ayU8SnFc/LeXF1+krmfGxe/youzE=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Hans Verkuil <hans@jjverkuil.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>
-Subject: [PATCH v3 60/76] media: st: delta: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 04:30:42 +0300
-Message-ID: <20250810013100.29776-61-laurent.pinchart+renesas@ideasonboard.com>
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v3 61/76] media: stm32: dma2d: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 04:30:43 +0300
+Message-ID: <20250810013100.29776-62-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -70,68 +78,41 @@ Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Co-developed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Changes since v1:
+ drivers/media/platform/st/stm32/dma2d/dma2d.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-- Update file-to-ctx macro due to removal of fh-to-ctx macro
----
- drivers/media/platform/st/sti/delta/delta-v4l2.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/media/platform/st/sti/delta/delta-v4l2.c b/drivers/media/platform/st/sti/delta/delta-v4l2.c
-index 385b26d21408..6c1a53c771f7 100644
---- a/drivers/media/platform/st/sti/delta/delta-v4l2.c
-+++ b/drivers/media/platform/st/sti/delta/delta-v4l2.c
-@@ -24,11 +24,9 @@
+diff --git a/drivers/media/platform/st/stm32/dma2d/dma2d.c b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+index bc0f81e78018..a22f587a5f83 100644
+--- a/drivers/media/platform/st/stm32/dma2d/dma2d.c
++++ b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+@@ -354,7 +354,7 @@ static int vidioc_enum_fmt(struct file *file, void *prv, struct v4l2_fmtdesc *f)
  
- #define DELTA_PREFIX "[---:----]"
- 
--#define to_ctx(__fh) container_of(__fh, struct delta_ctx, fh)
--
- static inline struct delta_ctx *file_to_ctx(struct file *filp)
+ static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
  {
--	return to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct delta_ctx, fh);
- }
+-	struct dma2d_ctx *ctx = prv;
++	struct dma2d_ctx *ctx = file2ctx(file);
+ 	struct vb2_queue *vq;
+ 	struct dma2d_frame *frm;
  
- #define to_au(__vbuf) container_of(__vbuf, struct delta_au, vbuf)
-@@ -727,7 +725,7 @@ static int delta_s_fmt_frame(struct file *file, void *fh, struct v4l2_format *f)
- static int delta_g_selection(struct file *file, void *fh,
- 			     struct v4l2_selection *s)
+@@ -379,7 +379,7 @@ static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ 
+ static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
  {
--	struct delta_ctx *ctx = to_ctx(fh);
-+	struct delta_ctx *ctx = file_to_ctx(file);
- 	struct delta_frameinfo *frameinfo = &ctx->frameinfo;
- 	struct v4l2_rect crop;
+-	struct dma2d_ctx *ctx = prv;
++	struct dma2d_ctx *ctx = file2ctx(file);
+ 	struct dma2d_fmt *fmt;
+ 	enum v4l2_field *field;
+ 	u32 fourcc = f->fmt.pix.pixelformat;
+@@ -422,7 +422,7 @@ static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
  
-@@ -809,7 +807,7 @@ static int delta_try_decoder_cmd(struct file *file, void *fh,
- 	return 0;
- }
- 
--static int delta_decoder_stop_cmd(struct delta_ctx *ctx, void *fh)
-+static int delta_decoder_stop_cmd(struct delta_ctx *ctx)
+ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
  {
- 	const struct delta_dec *dec = ctx->dec;
- 	struct delta_dev *delta = ctx->dev;
-@@ -872,14 +870,14 @@ static int delta_decoder_stop_cmd(struct delta_ctx *ctx, void *fh)
- static int delta_decoder_cmd(struct file *file, void *fh,
- 			     struct v4l2_decoder_cmd *cmd)
- {
--	struct delta_ctx *ctx = to_ctx(fh);
-+	struct delta_ctx *ctx = file_to_ctx(file);
- 	int ret = 0;
- 
- 	ret = delta_try_decoder_cmd(file, fh, cmd);
- 	if (ret)
- 		return ret;
- 
--	return delta_decoder_stop_cmd(ctx, fh);
-+	return delta_decoder_stop_cmd(ctx);
- }
- 
- static int delta_subscribe_event(struct v4l2_fh *fh,
+-	struct dma2d_ctx *ctx = prv;
++	struct dma2d_ctx *ctx = file2ctx(file);
+ 	struct vb2_queue *vq;
+ 	struct dma2d_frame *frm;
+ 	struct dma2d_fmt *fmt;
 -- 
 Regards,
 
