@@ -1,55 +1,57 @@
-Return-Path: <linux-media+bounces-39346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA379B1F7F0
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:35:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF33B1F7F1
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:35:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2CFA17D4FF
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:35:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CB883B075E
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:35:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 352811DED53;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD35121638A;
 	Sun, 10 Aug 2025 01:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SbW11P5R"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pgENzDds"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3F618C02E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A22E189902
 	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:33:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754789606; cv=none; b=EiJMIM4NhrF7Gnale0L57fpHknUGF/Jnqrgzytktbcsx9ldi6+Q/tWnwpm8Z7AS6rBdqnsZBK+LiaxgelohiS5K0WF1hsgffNWs51vxAz8cHZYMwdN6oImhtSeI5dwIxZPZVdM2L96LT7E2zbvC3n3vrsrqy2C1deRJYWXNlhNw=
+	t=1754789607; cv=none; b=c5bWxXrAJQIcf2qmFeUVgT/R3bAfcIHwa47gmS87KyNtaR05BI1zSGeMBl1fqwzwpahkIRk8LFoSvOuh8cNESEAfjA26FLoOCRsvAvJpHT94js+UxabAxO/fP6nM9rdNo5atO2lUDT7bQRyJhNQh0SApSjAc4zrufGTUKZkb3Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754789606; c=relaxed/simple;
-	bh=z6ckcRlS4aI+68Vt5QBmnaAGj1a8kv3hSRAwwv4O8Po=;
+	s=arc-20240116; t=1754789607; c=relaxed/simple;
+	bh=TUsWG1D+aU2pkcWeFGlJM2FHVtMbQksKxYxc9BHPS+g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xri3A/tDNZhPHCSoKWFgeGSC4skwk9pJzsrCFu8CN4sTuVnFDPuLRMNgqTj0/XDDSXChiqWd4UfTbCCSHFXii+popyyAmiSp/hNQ+Q2rrbL5WZ1mdaCCSIE5M1vqtCExZv8G9PJi4zUpkBCXiXGtApvM7jCU2rWxtj2JzWDjC/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SbW11P5R; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=IzX9M+2dVSuumG98X/S9jOZAFPVTIQIxaJkS3qWdSongWfvV6vkGrF/VPDJ8EzX7CH96DHhqFd3v2govfR09hWr6RVPmXAsbeJ+1jNi6Ygy+gFUG+51Fn8G5q0YdMemvNoKAKnamfA08nkgIuq0OSGlh5O9QvwgDqRtV3BLVWj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pgENzDds; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AACA67E6;
-	Sun, 10 Aug 2025 03:32:30 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 584E919C6;
+	Sun, 10 Aug 2025 03:32:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754789550;
-	bh=z6ckcRlS4aI+68Vt5QBmnaAGj1a8kv3hSRAwwv4O8Po=;
+	s=mail; t=1754789552;
+	bh=TUsWG1D+aU2pkcWeFGlJM2FHVtMbQksKxYxc9BHPS+g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SbW11P5RiOmNCypkhEMley7O4/mq38MAVzwvJlLlLWhNYjYBUNQT9iCQ7a4zxUl24
-	 jCPK1nb0StVzl1WseEXarwOvWTqonauRnXYvoQfO7UToQ5EeeEfx4t/so2w9tG5mwQ
-	 GLa460sdm6yIpCmp02OBRqGZ2leLmJa1IAZdph0M=
+	b=pgENzDdsoMB9JYPDvIGMvtXjHluAerCETeY34XS6Q1f53qT+rMv9gD2DdcaHZPjyx
+	 IOtPPgV619gEVBc1MhQmuyuA4AV0gNjQC59vR6Ny2sP22vLyLIF33nIaUwwO8sLvib
+	 2w1D1jPSoqTo9KglouCdTgZ0CCIcK34HRRvOeKbk=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Hans Verkuil <hans@jjverkuil.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Subject: [PATCH v3 73/76] media: v4l2-pci-skeleton: Rename second ioctl handlers argument to 'void *priv'
-Date: Sun, 10 Aug 2025 04:30:55 +0300
-Message-ID: <20250810013100.29776-74-laurent.pinchart+renesas@ideasonboard.com>
+	Hans Verkuil <hverkuil@kernel.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans de Goede <hansg@kernel.org>
+Subject: [PATCH v3 74/76] media: v4l2-core: Rename second ioctl handlers argument to 'void *priv'
+Date: Sun, 10 Aug 2025 04:30:56 +0300
+Message-ID: <20250810013100.29776-75-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -62,64 +64,143 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 The second argument to the ioctl handlers is not a file handle any more.
-Rename it to 'void *priv', to avoid misconceptions. This is particularly
-important in the v4l2-pci-skeleton driver, as it is meant to be a base
-for new drivers.
+Rename it from 'void *fh' to 'void *priv' in the V4L2 core, to avoid
+misconceptions.
+
+While at it, align function arguments in include/media/v4l2-mem2mem.h.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- samples/v4l/v4l2-pci-skeleton.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/v4l2-core/v4l2-ctrls-api.c |  2 +-
+ drivers/media/v4l2-core/v4l2-mem2mem.c   |  6 ++--
+ include/media/v4l2-ctrls.h               |  4 +--
+ include/media/v4l2-mem2mem.h             | 42 ++++++++++++------------
+ 4 files changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
-index d709d82800cd..69925d30329e 100644
---- a/samples/v4l/v4l2-pci-skeleton.c
-+++ b/samples/v4l/v4l2-pci-skeleton.c
-@@ -470,7 +470,7 @@ static int skeleton_querystd(struct file *file, void *priv, v4l2_std_id *std)
- 	return 0;
- }
- 
--static int skeleton_s_dv_timings(struct file *file, void *_fh,
-+static int skeleton_s_dv_timings(struct file *file, void *priv,
- 				 struct v4l2_dv_timings *timings)
- {
- 	struct skeleton *skel = video_drvdata(file);
-@@ -509,7 +509,7 @@ static int skeleton_s_dv_timings(struct file *file, void *_fh,
- 	return 0;
- }
- 
--static int skeleton_g_dv_timings(struct file *file, void *_fh,
-+static int skeleton_g_dv_timings(struct file *file, void *priv,
- 				 struct v4l2_dv_timings *timings)
- {
- 	struct skeleton *skel = video_drvdata(file);
-@@ -522,7 +522,7 @@ static int skeleton_g_dv_timings(struct file *file, void *_fh,
- 	return 0;
- }
- 
--static int skeleton_enum_dv_timings(struct file *file, void *_fh,
-+static int skeleton_enum_dv_timings(struct file *file, void *priv,
- 				    struct v4l2_enum_dv_timings *timings)
- {
- 	struct skeleton *skel = video_drvdata(file);
-@@ -544,7 +544,7 @@ static int skeleton_enum_dv_timings(struct file *file, void *_fh,
-  * can lock but that the DMA engine it is connected to cannot handle
-  * pixelclocks above a certain frequency), then -ERANGE is returned.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+index afb4e5581b90..49a5c7538a09 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+@@ -1250,7 +1250,7 @@ EXPORT_SYMBOL(v4l2_querymenu);
+  * VIDIOC_LOG_STATUS helpers
   */
--static int skeleton_query_dv_timings(struct file *file, void *_fh,
-+static int skeleton_query_dv_timings(struct file *file, void *priv,
- 				     struct v4l2_dv_timings *timings)
- {
- 	struct skeleton *skel = video_drvdata(file);
-@@ -573,7 +573,7 @@ static int skeleton_query_dv_timings(struct file *file, void *_fh,
- 	return 0;
- }
  
--static int skeleton_dv_timings_cap(struct file *file, void *fh,
-+static int skeleton_dv_timings_cap(struct file *file, void *priv,
- 				   struct v4l2_dv_timings_cap *cap)
+-int v4l2_ctrl_log_status(struct file *file, void *fh)
++int v4l2_ctrl_log_status(struct file *file, void *priv)
  {
- 	struct skeleton *skel = video_drvdata(file);
+ 	struct video_device *vfd = video_devdata(file);
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+index 7678b8dbedbd..21acd9bc8607 100644
+--- a/drivers/media/v4l2-core/v4l2-mem2mem.c
++++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+@@ -1460,7 +1460,7 @@ int v4l2_m2m_ioctl_streamoff(struct file *file, void *priv,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_streamoff);
+ 
+-int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file, void *priv,
+ 				   struct v4l2_encoder_cmd *ec)
+ {
+ 	if (ec->cmd != V4L2_ENC_CMD_STOP && ec->cmd != V4L2_ENC_CMD_START)
+@@ -1471,7 +1471,7 @@ int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file, void *fh,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_try_encoder_cmd);
+ 
+-int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *priv,
+ 				   struct v4l2_decoder_cmd *dc)
+ {
+ 	if (dc->cmd != V4L2_DEC_CMD_STOP && dc->cmd != V4L2_DEC_CMD_START)
+@@ -1553,7 +1553,7 @@ int v4l2_m2m_ioctl_decoder_cmd(struct file *file, void *priv,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_decoder_cmd);
+ 
+-int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *priv,
+ 					     struct v4l2_decoder_cmd *dc)
+ {
+ 	if (dc->cmd != V4L2_DEC_CMD_FLUSH)
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index c32c46286441..4a294a5c7bdd 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -1313,13 +1313,13 @@ void v4l2_ctrl_merge(const struct v4l2_event *old, struct v4l2_event *new);
+  * v4l2_ctrl_log_status - helper function to implement %VIDIOC_LOG_STATUS ioctl
+  *
+  * @file: pointer to struct file
+- * @fh: unused. Kept just to be compatible to the arguments expected by
++ * @priv: unused. Kept just to be compatible to the arguments expected by
+  *	&struct v4l2_ioctl_ops.vidioc_log_status.
+  *
+  * Can be used as a vidioc_log_status function that just dumps all controls
+  * associated with the filehandle.
+  */
+-int v4l2_ctrl_log_status(struct file *file, void *fh);
++int v4l2_ctrl_log_status(struct file *file, void *priv);
+ 
+ /**
+  * v4l2_ctrl_subscribe_event - Subscribes to an event
+diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+index 0af330cf91c3..09c6164577cc 100644
+--- a/include/media/v4l2-mem2mem.h
++++ b/include/media/v4l2-mem2mem.h
+@@ -864,34 +864,34 @@ void v4l2_m2m_request_queue(struct media_request *req);
+ /* v4l2 ioctl helpers */
+ 
+ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
+-				struct v4l2_requestbuffers *rb);
+-int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
+-				struct v4l2_create_buffers *create);
++			   struct v4l2_requestbuffers *rb);
++int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
++			       struct v4l2_create_buffers *create);
+ int v4l2_m2m_ioctl_remove_bufs(struct file *file, void *priv,
+ 			       struct v4l2_remove_buffers *d);
+-int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
+-				struct v4l2_buffer *buf);
+-int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
+-				struct v4l2_exportbuffer *eb);
+-int v4l2_m2m_ioctl_qbuf(struct file *file, void *fh,
+-				struct v4l2_buffer *buf);
+-int v4l2_m2m_ioctl_dqbuf(struct file *file, void *fh,
+-				struct v4l2_buffer *buf);
+-int v4l2_m2m_ioctl_prepare_buf(struct file *file, void *fh,
++int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
++			    struct v4l2_buffer *buf);
++int v4l2_m2m_ioctl_expbuf(struct file *file, void *priv,
++			  struct v4l2_exportbuffer *eb);
++int v4l2_m2m_ioctl_qbuf(struct file *file, void *priv,
++			struct v4l2_buffer *buf);
++int v4l2_m2m_ioctl_dqbuf(struct file *file, void *priv,
++			 struct v4l2_buffer *buf);
++int v4l2_m2m_ioctl_prepare_buf(struct file *file, void *priv,
+ 			       struct v4l2_buffer *buf);
+-int v4l2_m2m_ioctl_streamon(struct file *file, void *fh,
+-				enum v4l2_buf_type type);
+-int v4l2_m2m_ioctl_streamoff(struct file *file, void *fh,
+-				enum v4l2_buf_type type);
+-int v4l2_m2m_ioctl_encoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_streamon(struct file *file, void *priv,
++			    enum v4l2_buf_type type);
++int v4l2_m2m_ioctl_streamoff(struct file *file, void *priv,
++			     enum v4l2_buf_type type);
++int v4l2_m2m_ioctl_encoder_cmd(struct file *file, void *priv,
+ 			       struct v4l2_encoder_cmd *ec);
+-int v4l2_m2m_ioctl_decoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_decoder_cmd(struct file *file, void *priv,
+ 			       struct v4l2_decoder_cmd *dc);
+-int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file, void *priv,
+ 				   struct v4l2_encoder_cmd *ec);
+-int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *priv,
+ 				   struct v4l2_decoder_cmd *dc);
+-int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
++int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *priv,
+ 					     struct v4l2_decoder_cmd *dc);
+ int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
+ 					 struct v4l2_decoder_cmd *dc);
 -- 
 Regards,
 
