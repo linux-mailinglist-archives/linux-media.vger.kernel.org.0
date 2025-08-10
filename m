@@ -1,63 +1,64 @@
-Return-Path: <linux-media+bounces-39363-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39364-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C99B1FC95
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 00:10:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 077B4B1FC98
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 00:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3C453B89D6
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 22:10:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E88DE189502D
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 22:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 629D12BD03F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F6F2BD59C;
 	Sun, 10 Aug 2025 22:10:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F5E262FC5;
-	Sun, 10 Aug 2025 22:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3E0262FE7;
+	Sun, 10 Aug 2025 22:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754863812; cv=none; b=ZZN9dtkUUsAALj5NWeFT4CinivjwXtnJtehHGZS0URGZjJ+M5oB1o7PVTB7K77QjroGUgSX4yDY8tVMR1xFIWm3O0x0sWjydDBzNg0wm3UMVcAWTY45QfPdEPwEhez+RnGAKDn8wPSdkOAsAV2G7VAiChilF0M/rt4IGc8nqJpU=
+	t=1754863813; cv=none; b=qLj6CEwIJkmTDXVYP8K6rZwP2agxVpuV5JbCE7llIicyhdqUDztQmSOKnmrUo0S5L6TWMNYxIdDQNaT7IXjbRJwGiqk18gjT5lVcphfMNXKvZ63JdYMHqMarQqPiTO3Xe1LjN8Wr9xe4OYWL0onv7UurqDpu0be/dBCZrs7szT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754863812; c=relaxed/simple;
-	bh=N8fBcBXmtwQEhSoTEhd14xL4MKGzTEpsEM4hoyFwqe4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NMjOfnzov0Ytrh5g51GbWIDZBetifL7cHKzMyq2u5BNYyVyu4fcLuLKzObt1Tvp3ZRB4yrvSUsg40rNiog505pUTAzOGtDKIzolEpti2X37oAbWemLTx6Bqh2OhPuCpi7amkOkoa0KAxQovRRFn9a40tCv8RKjvl9Qr1bQwWI7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1754863813; c=relaxed/simple;
+	bh=LHPFferjbDH9T0kN0a6xyFMEkYkvwnWXhtJdQjKXzyM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tg43VmQvvhbdd2AXFTeGeCkUq2a8Gl2CwvX9VqEqW4ojgjcV9p3iDzQeAAEIQBuBYaWnc3aseudPj3ljNJcQZXyFviFLVlEMoP4CHaJUWQQrWK+5T98Pt3vhNJnHLzM2iOMEj8b95Xm5mLhiT7/Kj0jqFcDLE2VTBVEK9wcstO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-31f325c1bc1so3281864a91.1;
-        Sun, 10 Aug 2025 15:10:10 -0700 (PDT)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-31efc10bb03so3125910a91.0;
+        Sun, 10 Aug 2025 15:10:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754863810; x=1755468610;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uTvufXihPkQWxsCzNlViO5S18/a/xN0mVbfR50DxXrg=;
-        b=AzuaoT6QD9mG0GyBqaOrFnSAW87MYA3kDB/9BqIbp9rk7LefnCsuk4XC0gNSiVjceH
-         7ixVeGus2leJKBH1xIR239KF5NVzmenfYdUvreVuAMDARN/A4DTPpqHmWNH/+MYPMkXC
-         fcbhlD9TuXxOgsm11izlYGKRGGY7c+CtCxKoBA7GXfHF2ca+BUiuWo7vKzhYigq7XYYc
-         aJFOQ49QFdK+X9x1HmX4XLmAU8b+mHTiQXLDsmpmi9YbaWl8kSs0n7ZW2fLKrsbmZ07n
-         qv71M+koN7livI/4+FKj2uVp6zZq7ucrji/I88qA6z+ZaDPRJkOyHtlCOlsgZcLSzg8y
-         CX/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUkP9xYyMUL3aIVahMhGaVD2dK7QDuA7TGEQIVItcHR9IgsRXDzMcSMV9AIYxqcW4qSuA/VHHJcOhjY@vger.kernel.org, AJvYcCV5ZH1B9lxmFR8V6NNWLtrd79r+/WRj1dKV3o19HkU6qvYg//sdZofLmFKLGc+8TG0tcxnx0uCEyUeZcPgo@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxWy9qnSHS/KkHoI9ldjjOnlAS2uofPZAUO3bAAfBPRbl4Ntyn
-	64UuMeciG7QUfG9x8xraEI5N2VobIrR7/vA2CfjLcj6lLRlzlj7cRF0m
-X-Gm-Gg: ASbGncsEiCSvJ2RJxeyKNzBwdUUKnbKPON0gmL+byZi51F2FBapOONav8YSTMslfCnk
-	DN/5j9qkgDAqbz6oTysOzWxX9jM5l5vr9QvAwwA8Q0xqWYvq8MSpKJ+jICZiP+LZL0kYWiCdVXc
-	+OiNRs8a8fd16VApCp8awCtyLUUtNBwe8/7aMExqTZSeenj7FpydNbTdGnn9iwR97dZuOmsJqeg
-	kOxFvxCkS7MCtlxIs4dseLuA00sHoz1PtBawalNRc2GNFWaG1dCpACBL1H74XkVT6lWsxpgVpNK
-	3WsXjTz1m8oTeuktNe7L65LxXn6zi9SYFfT1DLYxcCHUAOJVpY057jeFcj+fjMz8Src2rl42sgV
-	2NUFecWKoXGckDFNIrz3PhySni2oBznNojffBZBFU6W3Zza3ybd/jUhosxiFEhQ2RFHE=
-X-Google-Smtp-Source: AGHT+IFazFKcYUWG6jSvxekQQq+aNyqACCfmdDeYCyWCL/tzLKLiOHWFEewxmiV48lSL8BmFoshC3Q==
-X-Received: by 2002:a17:90b:4f47:b0:31e:f351:bfec with SMTP id 98e67ed59e1d1-321838a61fdmr17485662a91.0.1754863809549;
-        Sun, 10 Aug 2025 15:10:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754863811; x=1755468611;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f+k5QpSf7/m1CpBtqnc0T1oblUwlFDKuqZ/ZF6inHpI=;
+        b=SiqpF2yOE5R2u1mjLuibRTw84JAzo2q4wirrWvI1BN8vZQWMrs7TtKuljV5NiFOMhf
+         b9a0GE0xlc+tUZJXEPywCJKLE+qJGFMNF7HXVLk2Pam/CfVCRI0qIjyWWMXnKGs/j8kC
+         PJitwc6nCpXPsUELykzdvQFHfes1SBsM14C14Nc6iHPAwq9GMyHHa7eSJ65UMAy9YaAX
+         fuTcgnRAhwAs6AWxh8VXRgG/KNW6ZVbl0sJwLc4soyrrzH+X45vVpAV65CjJmlmd+RHt
+         iB3w+g3BfaV1tzJtyOJx7y/5y1QHEEQq0cweWtPN/wNENJDwPGX1eYm3zgT9QWEE4T24
+         T/5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVPwv/JYFP7SPcvFY8M6vsJ6DMdCJFN0sqFOSRqM754qIkRCJH8v0pj+0NmOmn1x01t6omK5Hv9XSt4@vger.kernel.org, AJvYcCXvR4wV7GccjhrAXev6LyYFKHn0ze8qp5dCItafZT9rDg4UOFnOHJJs/pakdtl4xGUC26Mtone6YsTerRBn@vger.kernel.org
+X-Gm-Message-State: AOJu0YypKgJbYwt7q3vjj3L76o1JGyo1E+vLiyHQNqiSyvG+7nW00z3p
+	eeW9RfBK71G465TrAJyB5T0DnPgjUrb5yNGMCxnF45PNuPDdRqRc4hp5isG1IDfG+Eg=
+X-Gm-Gg: ASbGncvMtAz+A12RIy+LmAoiph/Ma/8Y80Bl41sW9RK7Bfu4XLR9KptbnzKmTwKD3x8
+	DgJqG0N5l4boOcKvsz4wZvQIJpnIvk8O1ymw4sbC9ZvYMJ4OzExjjCrs4hAfbgK6bLSSBRGVFlS
+	3+A28IdzgHpqNj4WK6Iz0jlhe5OuoCn5wJIhD3DnKl2yJcZz/rg+4tDbwiAwhdVmKYRWWZr0Mur
+	vkkaH2Dw3/oaLFHiB+M41OfRHt/JMUlV4sl0UhVi7cw01XVKmbQ8o/NBpqppK0nuRdMDwG7+05e
+	cUmeA9HXe5d1sDyMUin2Q0J/YTRYFpZ2wscDHiE1TItoDpBVk2MF+bsXevSjdvw5lU+CWSzOsZY
+	4ETYwQWfDNKlznn4GUHSoR22NodfeoTELWQ3IJGIFIKFCgIonVBj6LpVE8bcVnmXotzM=
+X-Google-Smtp-Source: AGHT+IGVl8CJiFWkklO6I5zI6wCxzAAtwQhz9tZ2vrCBq6WZrDk7LnhtS7MG6Mvb11mL11vcwI6Hpw==
+X-Received: by 2002:a17:90b:2890:b0:321:38e0:d591 with SMTP id 98e67ed59e1d1-32183b3a218mr18565757a91.17.1754863810932;
+        Sun, 10 Aug 2025 15:10:10 -0700 (PDT)
 Received: from localhost.localdomain (c-24-4-34-163.hsd1.ca.comcast.net. [24.4.34.163])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-321611d6eeesm13150118a91.6.2025.08.10.15.10.08
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-321611d6eeesm13150118a91.6.2025.08.10.15.10.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Aug 2025 15:10:09 -0700 (PDT)
+        Sun, 10 Aug 2025 15:10:10 -0700 (PDT)
 From: Will Whang <will@willwhang.com>
 To: Will Whang <will@willwhang.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -74,10 +75,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 0/4] media: Add Sony IMX585 image sensor support
-Date: Sun, 10 Aug 2025 23:09:17 +0100
-Message-Id: <20250810220921.14307-1-will@willwhang.com>
+Subject: [PATCH v2 1/4] dt-bindings: media: Add Sony IMX585 CMOS image sensor
+Date: Sun, 10 Aug 2025 23:09:18 +0100
+Message-Id: <20250810220921.14307-2-will@willwhang.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250810220921.14307-1-will@willwhang.com>
+References: <20250810220921.14307-1-will@willwhang.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,73 +90,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi all,
-
-This is v2 of the IMX585 series. It adds ClearHDR controls, fixes mono
-format handling, and ensures HCG can’t be enabled while HDR is active.
-
-Changes in v2:
-  - Move to V4L2 active State API.
-  - Shift the I2C registers read/write to v4l2-cci.
-  - Remove IR Filter switch support.
-  - Various log/trace noise trimmed or moved to debug print.
-  - Lock/ignore HCG when HDR is enabled; mark control inactive.
-  - Using compatible string for mono sensor.
-  - dt-bindings: drop redundant maxItems/minItems/names,
-    add "sony,imx585-mono", fix quoted string lint.
-
-Features
-==========
-  * 4-lane or 2-lane MIPI-CSI-2 up to 2079 Mbps/lane
-  * 4 K @ 60 fps 12-bit linear, 4 K @ 30 fps 16-bit Clear-HDR,
-    4 K @ 30 fps 12-bit gradient compression Clear-HDR
-    1080p binning mode, mono hardware variant, HCG support.
-  * New Sensor Dependent V4L2 controls for
-    HDR blending, grad-compression, HCG enable and Enable ClearHDR.
-  * Blacklevel adjustments through V4L2_CID_BRIGHTNESS.
-  * Multi Camera synchronization mode support.
-
-Testing
-==========
-  - Platform: Raspberry Pi 5, 4 lanes
-  - Formats: Y12/Y16 (mono), SRGGB12/SRGGB16 (color)
-  - Verified HDR on/off toggling updates ranges (exposure/gain/HMAX/VMAX)
-  - HCG is inactive and ignored when HDR=1; active in normal mode
-
-Series layout
-=============
-  1. **dt-bindings: media: Add Sony IMX585 CMOS image sensor**
-  2. **media: uapi: Add custom IMX585 control IDs**
-  3. **media: i2c: imx585: Add Sony IMX585 image-sensor driver**
-  4. **media: docs: Add userspace-API guide for the IMX585 driver**
-
-Link to v1: https://lore.kernel.org/linux-media/20250702063836.3984-1-will@willwhang.com/
-
-Thanks for reviewing!
+Document the devicetree binding for the Sony IMX585.  The schema
+covers the CSI-2 data-lanes, the optional 'mono-mode' flag,
+and the internal-sync properties used by the driver.
 
 Signed-off-by: Will Whang <will@willwhang.com>
-
-Will Whang (4):
-  dt-bindings: media: Add Sony IMX585 CMOS image sensor
-  media: uapi: Add custom IMX585 control IDs
-  media: i2c: imx585: Add Sony IMX585 image-sensor driver
-  media: docs: Add userspace-API guide for the IMX585 driver
-
- .../bindings/media/i2c/sony,imx585.yaml       |  116 ++
- .../userspace-api/media/drivers/imx585.rst    |  122 ++
- .../userspace-api/media/drivers/index.rst     |    1 +
- MAINTAINERS                                   |    9 +
- drivers/media/i2c/Kconfig                     |    9 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/imx585.c                    | 1768 +++++++++++++++++
- include/uapi/linux/imx585.h                   |   20 +
- include/uapi/linux/v4l2-controls.h            |    6 +
- 9 files changed, 2052 insertions(+)
+---
+ .../bindings/media/i2c/sony,imx585.yaml       | 116 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ 2 files changed, 122 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml
- create mode 100644 Documentation/userspace-api/media/drivers/imx585.rst
- create mode 100644 drivers/media/i2c/imx585.c
- create mode 100644 include/uapi/linux/imx585.h
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml
+new file mode 100644
+index 000000000..020b7cfb9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml
+@@ -0,0 +1,116 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/sony,imx585.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony IMX585 CMOS image sensor
++
++maintainers:
++  - Will Whang <will@willwhang.com>
++
++description:
++  IMX585 sensor is a Sony CMOS sensor with 4K and FHD outputs.
++
++properties:
++  compatible:
++    enum:
++      - sony,imx585
++      - sony,imx585-mono
++
++  reg:
++    maxItems: 1
++
++  assigned-clocks: true
++  assigned-clock-parents: true
++  assigned-clock-rates: true
++
++  clocks:
++    description: Clock frequency 74.25MHz, 37.125MHz, 72MHz, 27MHz, 24MHz
++    maxItems: 1
++
++  vana-supply:
++    description: Analog power supply (3.3V)
++
++  vddl-supply:
++    description: Interface power supply (1.8V)
++
++  vdig-supply:
++    description: Digital power supply (1.1V)
++
++  reset-gpios:
++    description: Sensor reset (XCLR) GPIO
++    maxItems: 1
++
++  sony,sync-mode:
++    description: |
++      Select the synchronisation mode of the sensor
++        0 – internal sync, leader (default)
++        1 – internal sync, follower
++        2 – external sync
++    $ref: /schemas/types.yaml#/definitions/uint8
++    enum: [ 0, 1, 2 ]
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            oneOf:
++              - items:
++                  - const: 1
++                  - const: 2
++              - items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++
++          link-frequencies: true
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        imx585@1a {
++            compatible = "sony,imx585";
++            reg = <0x1a>;
++            clocks = <&imx585_clk>;
++
++            assigned-clocks = <&imx585_clk>;
++            assigned-clock-rates = <24000000>;
++
++            vana-supply = <&camera_vadd_3v3>;
++            vdig-supply = <&camera_vdd1_1v8>;
++            vddl-supply = <&camera_vdd2_1v1>;
++
++            port {
++                imx585: endpoint {
++                    remote-endpoint = <&cam>;
++                    data-lanes = <1 2 3 4>;
++                    link-frequencies = /bits/ 64 <720000000>;
++                };
++            };
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 24c557ee0..ef04ee4ec 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23178,6 +23178,12 @@ T:	git git://linuxtv.org/media.git
+ F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+ F:	drivers/media/i2c/imx415.c
+ 
++SONY IMX585 SENSOR DRIVER
++M:	Will Whang <will@willwhang.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml
++
+ SONY MEMORYSTICK SUBSYSTEM
+ M:	Maxim Levitsky <maximlevitsky@gmail.com>
+ M:	Alex Dubov <oakad@yahoo.com>
 -- 
 2.39.5
 
