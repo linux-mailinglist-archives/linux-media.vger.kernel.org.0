@@ -1,134 +1,132 @@
-Return-Path: <linux-media+bounces-39361-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39362-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBB6B1FC6D
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 23:27:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC76B1FC92
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 00:08:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F02E165E79
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 21:27:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 697313B896C
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 22:07:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD73E2868BA;
-	Sun, 10 Aug 2025 21:26:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC9929E110;
+	Sun, 10 Aug 2025 22:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="Er6MjEwA"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="K/ocHRIU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483BC2877F3
-	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 21:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9957B1B0F19;
+	Sun, 10 Aug 2025 22:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754861178; cv=none; b=T/zQ5QhScGhK/FzVCq9qhmzQ5xa3EUclbpSd2eY5U+DhrBN48mHdTm2qGB/QCmh+KBP9M8Neaopw4XAF8ksmlqCCDqkvXsHEIZjbEcpiZx4ApV/Lh7UO6tmBU9A9/byhKVMXDELYVFfttec1cL8XDajzEBlFvN+I5aPgRUqeP/s=
+	t=1754863672; cv=none; b=Ivx8gUTDBHO9TnCH0R4APAdQvzHgEfEt1bHqpDnYSXkUxZPeFIy+p9umi4qUS2oIQCe8JnvYaRAJ+1Kxr1tYt7+ZFSAQpOpD2ec3+hSd8pW+zFFffEFwZ1lo8T/1+p20J+S5Vs9lwMMUcDonDGdN7yJDuG9f3Kp0MmggEO6uViI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754861178; c=relaxed/simple;
-	bh=j/0HUCC9UQO2b5hmneXIzzL1sJVjj+vQaO3XQEYR95A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FdDG0MOLZREf/bnBQLJRbrDMgOuNigc6+Orghr6YHgu2O0pIb0b80yf9N/nSVxdhkD2CAerqRJMy2ornGemjYhWy85bv3owWYi25GLTf06Hot/OfZ3sh+o2KRSvD00Qhw/o750rAC4g/6RmKYlS6Rxw+zU6PfKs9CegN7pJg85E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=Er6MjEwA; arc=none smtp.client-ip=121.127.44.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1754861175; bh=+VzcJ1IEVCXH+ZaLujNTdec9bYkNu+r+vgyiKcJcdgY=;
- b=Er6MjEwAK7RkMn+vP8dCCsgDjVUJd6DnIxKKPwXrYS+B9qlJmK0YKP22bxTiz7NyShmqHsA76
- PjOtwpe2XWS+wxtSYk6w2pV/ZAx7qn8coV42L+sHgQ50HNv5KIZwnvSLz7Dl0TKKe5u/McGrWmN
- bDhjpueRtTruF6d+nG7KYV4exP5AtEmiRbbTPmlryhI5BPrSBbKktyuAIWh+gi1xhUdelKaWHZ5
- OrEMyoMnWOWY3I6nmUYfCIYtPxtylYxMSKz0U0G1/dBej4ZTFuF9iE3uHu6nrnfNDdaIIjiMP5P
- KWDRU23ND87SPslKVcRE4Yg4GCfDw+F6NlEFyFfraHbA==
-X-Forward-Email-ID: 68990e74797ab89627792492
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 1.2.4
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-From: Jonas Karlman <jonas@kwiboo.se>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: Alex Bee <knaerzche@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v2 7/7] ARM: dts: rockchip: Add vdec node for RK3288
-Date: Sun, 10 Aug 2025 21:24:37 +0000
-Message-ID: <20250810212454.3237486-8-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250810212454.3237486-1-jonas@kwiboo.se>
-References: <20250810212454.3237486-1-jonas@kwiboo.se>
+	s=arc-20240116; t=1754863672; c=relaxed/simple;
+	bh=CDN90bCC1qPfKH3VcQqpxLM8FpV2+jQZduZTlVhDc5o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=sdgPCg2nZFeCfK7ApGEeaPS2sTrpTnGChLg5M1OBk4ZU2RPPOyuVYJyWTr4A42+jsQYq5+TrgL98d6WUepVAf1pzwpixogSZy+dJQ029HzUxfaOus5K+PKrgIDMN8Mn7HWNDr5IweyXNQH0ILczHSBqZt8ZegKheAKIQ4whk4Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=K/ocHRIU; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=CDN90bCC1qPfKH3VcQqpxLM8FpV2+jQZduZTlVhDc5o=; b=K/ocHRIUCZ+l4jxIc3Ysa0aIn1
+	1klUPbwn35szYJXKCEt2g1ewWgZaxp3M67vuB8afvqYSUgk7ouwboV4I5kasRw5WdVBoURphSB8Gr
+	AVYXhwN+BTy5q8bt0BN3YwGsjnoxy7KB5HTsW9PKhqekqFoIu1Q6lklyEL6U4f3LJ2R2cRSjhhUTH
+	gEfQ7YsyrPTnpBWNIhkO6Ekg+53x0uSdGe6B0F5cZjYd/tKZgsP90QEzskkfTl6KXsDbFVfxnfs+T
+	d3fRURu1z4hSeQqp6Bk68v2diKnoueZMKRpzMgan9IIBtyo6lCxVo4pP2/5gEplUDHyDKLkUs0at8
+	OtaSenog==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1ulDto-0001jP-1N;
+	Sun, 10 Aug 2025 23:48:16 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1ulDtn-0000cY-34;
+	Sun, 10 Aug 2025 23:48:15 +0200
+Message-ID: <3a12312d37abe53cbd1a374d9cda81801f3f37e8.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 0/5] media: i2c: imx214: Add some style improvements
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Ricardo Ribalda
+	 <ribalda@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Sun, 10 Aug 2025 23:48:14 +0200
+In-Reply-To: <20250630-imx214_fixes-v2-0-cd1a76c412c0@apitzsch.eu>
+References: <20250630-imx214_fixes-v2-0-cd1a76c412c0@apitzsch.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27728/Sun Aug 10 10:32:45 2025)
 
-From: Alex Bee <knaerzche@gmail.com>
+Am Montag, dem 30.06.2025 um 21:05 +0200 schrieb Andr=C3=A9 Apitzsch via B4
+Relay:
+> The following changes have be suggested by Laurent in [1]. But the
+> related series had already be applied. That's why they are addressed
+> in this series.
+>=20
+> [1]
+> https://lore.kernel.org/linux-media/20250621181751.GA9125@pendragon.ideas=
+onboard.com/
+>=20
+> Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> ---
+> Changes in v2:
+> - Drop unnecessary sentence from commit message (patch 3/5)
+> - Fix typo in summary (patch 5/5)
+> - Use imperative mood for commit message (patch 5/5)
+> - Add R-b tags
+> - Link to v1:
+> https://lore.kernel.org/r/20250629-imx214_fixes-v1-0-873eb94ad635@apitzsc=
+h.eu
+>=20
+> ---
+> Andr=C3=A9 Apitzsch (5):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Remove unneeded parent=
+heses
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Drop dev argument from
+> imx214_parse_fwnode()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Use __free(fwnode_hand=
+le)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Move imx214_pll_update=
+ to imx214_ctrls_init
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Separate legacy link f=
+requency check from
+> PLL calculation
+>=20
+> =C2=A0drivers/media/i2c/imx214.c | 245 ++++++++++++++++++++++------------=
+-
+> ----------
+> =C2=A01 file changed, 121 insertions(+), 124 deletions(-)
+> ---
+> base-commit: 5e2562c1e46d3623fbdef77693f374eade075840
+> change-id: 20250623-imx214_fixes-123f285f5b62
+>=20
+> Best regards,
 
-RK3288 contains a Rockchip VDEC block that only support HEVC
-decoding. Add a vdec node for this.
+Hi Sakari,
 
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-Changes in v2:
-- No change
----
- arch/arm/boot/dts/rockchip/rk3288.dtsi | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+kind reminder, that this series is still pending.
 
-diff --git a/arch/arm/boot/dts/rockchip/rk3288.dtsi b/arch/arm/boot/dts/rockchip/rk3288.dtsi
-index 42d705b544ec..eab0c9a2d482 100644
---- a/arch/arm/boot/dts/rockchip/rk3288.dtsi
-+++ b/arch/arm/boot/dts/rockchip/rk3288.dtsi
-@@ -1293,6 +1293,21 @@ vpu_mmu: iommu@ff9a0800 {
- 		power-domains = <&power RK3288_PD_VIDEO>;
- 	};
- 
-+	hevc: video-codec@ff9c0000 {
-+		compatible = "rockchip,rk3288-vdec";
-+		reg = <0x0 0xff9c0000 0x0 0x440>;
-+		interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_HEVC>, <&cru HCLK_HEVC>,
-+			 <&cru SCLK_HEVC_CABAC>, <&cru SCLK_HEVC_CORE>;
-+		clock-names = "axi", "ahb", "cabac", "core";
-+		assigned-clocks = <&cru ACLK_HEVC>, <&cru HCLK_HEVC>,
-+				  <&cru SCLK_HEVC_CABAC>, <&cru SCLK_HEVC_CORE>;
-+		assigned-clock-rates = <400000000>, <100000000>,
-+				       <300000000>, <300000000>;
-+		iommus = <&hevc_mmu>;
-+		power-domains = <&power RK3288_PD_HEVC>;
-+	};
-+
- 	hevc_mmu: iommu@ff9c0440 {
- 		compatible = "rockchip,iommu";
- 		reg = <0x0 0xff9c0440 0x0 0x40>, <0x0 0xff9c0480 0x0 0x40>;
-@@ -1300,7 +1315,7 @@ hevc_mmu: iommu@ff9c0440 {
- 		clocks = <&cru ACLK_HEVC>, <&cru HCLK_HEVC>;
- 		clock-names = "aclk", "iface";
- 		#iommu-cells = <0>;
--		status = "disabled";
-+		power-domains = <&power RK3288_PD_HEVC>;
- 	};
- 
- 	gpu: gpu@ffa30000 {
--- 
-2.50.1
+Is there anything left to do from my side?
 
+Best regards,
+Andr=C3=A9
 
