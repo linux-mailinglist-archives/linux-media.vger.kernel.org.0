@@ -1,55 +1,56 @@
-Return-Path: <linux-media+bounces-39285-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39286-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C3DB1F79A
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:32:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B24E4B1F79B
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:32:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4491B177779
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:32:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 116C63B7F71
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:32:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1E219C560;
-	Sun, 10 Aug 2025 01:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDED419CD13;
+	Sun, 10 Aug 2025 01:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aLmTHuzD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rg4M96wC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4FE14F9D6
-	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9DB27456
+	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754789503; cv=none; b=iZFI3lpTrwTCFo2yCN+vbzEzyNYpmWcjwSI3FV2v3SnhlhqFjXnSUFpbr5RK+1Z4QzNNPA3rhn3CBxuThkSKCjTnIc5Og+na/tejjHrNO3VZVl+XYuRtNn8OQ8XUUXlUsZncf/UmT3L5GlnuAi2vZ02GtcVrG9DCssVQU5m9S5Q=
+	t=1754789506; cv=none; b=d/mUgp/WDQIxSWSg01iElgI4/n/CoOE5NOtILZxE+Y3I8sHfaSAu6XxJqHgKpIsP37nIN8HzU5Ss4X3FomHSDSLRDTJjmlvdT5zDQ9YwDXViKkuCzLV8xe+Fu0Q8dfFEuUmBIQk+HiRu++ugt7T3bWT5RQzzscZuHX07MfKbQ9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754789503; c=relaxed/simple;
-	bh=Gytsqx5tfTNsz+fqCWhNac4gczsBN4tbjOUAAK5M9JI=;
+	s=arc-20240116; t=1754789506; c=relaxed/simple;
+	bh=lIRvJRw6ykNTSwOKw7gfMb6X2wjEGZWfU1OFJKWTJJw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H1zvecexTotRZbRFTxDZAuro/ZTzyzToMxAwl10n7KNPKHhWpKN6m5PUwLtG+5edYU767DRW22tOUIPER3OwFi531l/jwPphHsgu2wbdRVRbpPBMfdp30VLosGcXqnG38n8xec+Dw56k7tbcdMVZwEqe/hvZDE7FyV/pyfa+crk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aLmTHuzD; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=IPeewTHmo4D6fioaej/BUirSADRcNGU9jFGTEJLlIfM9VigbcwfnlhPxupMEwTe0nwi6Rxh+w4zrNL/Og6uCum6niP6EwCKNt8oeOuFIBT2QvjJ24/kRYBTQigRlYr3RK3tY5SPyA9wP69Qpm012y/euPqMpepJUn6bRWvhddFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rg4M96wC; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CA1ED99F;
-	Sun, 10 Aug 2025 03:30:48 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 98C9F1B3C;
+	Sun, 10 Aug 2025 03:30:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754789448;
-	bh=Gytsqx5tfTNsz+fqCWhNac4gczsBN4tbjOUAAK5M9JI=;
+	s=mail; t=1754789450;
+	bh=lIRvJRw6ykNTSwOKw7gfMb6X2wjEGZWfU1OFJKWTJJw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aLmTHuzD5eu6KAdQhU9wbB5NmI6gk4WqcMmrFK05SeA9gcsRS/Wm7DMQ/C8V9s6Di
-	 m+XvSAyBcKJEb/u1ENnQ8stf5Lvg2ARrA4oWS8VFz3QJU0d8qjvvzsfB7d9un4oQxP
-	 2jzTin1WyRfYSTH+qRxeGwGEfMQkj61DO1KcNIwM=
+	b=rg4M96wCoU8ysM4Oa/cl0ZOcvNDs5174jXts6u2MftVgDm0Qgb/NDs8aAs12gQMgI
+	 hFwCASjkzHcUwonBr0mMsksvYxwlI/2RvGzRqqD0d10wnKQqdscAcFYi+mg3fjidBd
+	 O71Y6l90f7tY5TToa8ibBqbqhnoQPuMWNH2dzE7g=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Hans Verkuil <hans@jjverkuil.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Walls <awalls@md.metrocast.net>
-Subject: [PATCH v3 12/76] media: pci: ivtv: Don't create fake v4l2_fh
-Date: Sun, 10 Aug 2025 04:29:54 +0300
-Message-ID: <20250810013100.29776-13-laurent.pinchart+renesas@ideasonboard.com>
+	Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>
+Subject: [PATCH v3 13/76] media: amphion: Make some vpu_v4l2 functions static
+Date: Sun, 10 Aug 2025 04:29:55 +0300
+Message-ID: <20250810013100.29776-14-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -61,172 +62,92 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The ivtv driver has a structure named ivtv_open_id that models an open
-file handle for the device. It embeds a v4l2_fh instance for file
-handles that correspond to a V4L2 video device, and stores a pointer to
-that v4l2_fh in struct ivtv_stream to identify which open file handle
-owns a particular stream.
-
-In addition to video devices, streams can be owned by ALSA PCM devices.
-Those devices do not make use of the v4l2_fh instance for obvious
-reasons, but the snd_ivtv_pcm_capture_open() function still initializes
-a "fake" v4l2_fh for the sole purpose of using it as an open file handle
-identifier. The v4l2_fh is not properly destroyed when the ALSA PCM
-device is closed, leading to possible resource leaks.
-
-Fortunately, the v4l2_fh instance pointed to by ivtv_stream is not
-accessed, only the pointer value is used for comparison. Replace it with
-a pointer to the ivtv_open_id structure that embeds the v4l2_fh, and
-don't initialize the v4l2_fh for ALSA PCM devices.
+Some functions defined in vpu_v4l2.c are never used outside of that
+compilation unit. Make them static.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Ming Qian <ming.qian@oss.nxp.com>
 ---
- drivers/media/pci/ivtv/ivtv-alsa-pcm.c |  2 --
- drivers/media/pci/ivtv/ivtv-driver.h   |  3 ++-
- drivers/media/pci/ivtv/ivtv-fileops.c  | 18 +++++++++---------
- drivers/media/pci/ivtv/ivtv-irq.c      |  4 ++--
- 4 files changed, 13 insertions(+), 14 deletions(-)
+ drivers/media/platform/amphion/vpu_v4l2.c | 12 +++++++++---
+ drivers/media/platform/amphion/vpu_v4l2.h |  8 --------
+ 2 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/pci/ivtv/ivtv-alsa-pcm.c b/drivers/media/pci/ivtv/ivtv-alsa-pcm.c
-index 8f346d7da9c8..269a799ec046 100644
---- a/drivers/media/pci/ivtv/ivtv-alsa-pcm.c
-+++ b/drivers/media/pci/ivtv/ivtv-alsa-pcm.c
-@@ -148,14 +148,12 @@ static int snd_ivtv_pcm_capture_open(struct snd_pcm_substream *substream)
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 74668fa362e2..306d94e0f8e7 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -24,6 +24,11 @@
+ #include "vpu_msgs.h"
+ #include "vpu_helpers.h"
  
- 	s = &itv->streams[IVTV_ENC_STREAM_TYPE_PCM];
- 
--	v4l2_fh_init(&item.fh, &s->vdev);
- 	item.itv = itv;
- 	item.type = s->type;
- 
- 	/* See if the stream is available */
- 	if (ivtv_claim_stream(&item, item.type)) {
- 		/* No, it's already in use */
--		v4l2_fh_exit(&item.fh);
- 		snd_ivtv_unlock(itvsc);
- 		return -EBUSY;
- 	}
-diff --git a/drivers/media/pci/ivtv/ivtv-driver.h b/drivers/media/pci/ivtv/ivtv-driver.h
-index e4033c2bee5c..3d84004d4e90 100644
---- a/drivers/media/pci/ivtv/ivtv-driver.h
-+++ b/drivers/media/pci/ivtv/ivtv-driver.h
-@@ -322,6 +322,7 @@ struct ivtv_queue {
- };
- 
- struct ivtv;				/* forward reference */
-+struct ivtv_open_id;
- 
- struct ivtv_stream {
- 	/* These first four fields are always set, even if the stream
-@@ -331,7 +332,7 @@ struct ivtv_stream {
- 	const char *name;		/* name of the stream */
- 	int type;			/* stream type */
- 
--	struct v4l2_fh *fh;		/* pointer to the streaming filehandle */
-+	struct ivtv_open_id *id;	/* pointer to the streaming ivtv_open_id */
- 	spinlock_t qlock;		/* locks access to the queues */
- 	unsigned long s_flags;		/* status flags, see above */
- 	int dma;			/* can be PCI_DMA_TODEVICE, PCI_DMA_FROMDEVICE or PCI_DMA_NONE */
-diff --git a/drivers/media/pci/ivtv/ivtv-fileops.c b/drivers/media/pci/ivtv/ivtv-fileops.c
-index cc91695a5b76..67964a3c382c 100644
---- a/drivers/media/pci/ivtv/ivtv-fileops.c
-+++ b/drivers/media/pci/ivtv/ivtv-fileops.c
-@@ -39,16 +39,16 @@ int ivtv_claim_stream(struct ivtv_open_id *id, int type)
- 
- 	if (test_and_set_bit(IVTV_F_S_CLAIMED, &s->s_flags)) {
- 		/* someone already claimed this stream */
--		if (s->fh == &id->fh) {
-+		if (s->id == id) {
- 			/* yes, this file descriptor did. So that's OK. */
- 			return 0;
- 		}
--		if (s->fh == NULL && (type == IVTV_DEC_STREAM_TYPE_VBI ||
-+		if (s->id == NULL && (type == IVTV_DEC_STREAM_TYPE_VBI ||
- 					 type == IVTV_ENC_STREAM_TYPE_VBI)) {
- 			/* VBI is handled already internally, now also assign
- 			   the file descriptor to this stream for external
- 			   reading of the stream. */
--			s->fh = &id->fh;
-+			s->id = id;
- 			IVTV_DEBUG_INFO("Start Read VBI\n");
- 			return 0;
- 		}
-@@ -56,7 +56,7 @@ int ivtv_claim_stream(struct ivtv_open_id *id, int type)
- 		IVTV_DEBUG_INFO("Stream %d is busy\n", type);
- 		return -EBUSY;
- 	}
--	s->fh = &id->fh;
-+	s->id = id;
- 	if (type == IVTV_DEC_STREAM_TYPE_VBI) {
- 		/* Enable reinsertion interrupt */
- 		ivtv_clear_irq_mask(itv, IVTV_IRQ_DEC_VBI_RE_INSERT);
-@@ -94,7 +94,7 @@ void ivtv_release_stream(struct ivtv_stream *s)
- 	struct ivtv *itv = s->itv;
- 	struct ivtv_stream *s_vbi;
- 
--	s->fh = NULL;
-+	s->id = NULL;
- 	if ((s->type == IVTV_DEC_STREAM_TYPE_VBI || s->type == IVTV_ENC_STREAM_TYPE_VBI) &&
- 		test_bit(IVTV_F_S_INTERNAL_USE, &s->s_flags)) {
- 		/* this stream is still in use internally */
-@@ -126,7 +126,7 @@ void ivtv_release_stream(struct ivtv_stream *s)
- 		/* was already cleared */
- 		return;
- 	}
--	if (s_vbi->fh) {
-+	if (s_vbi->id) {
- 		/* VBI stream still claimed by a file descriptor */
- 		return;
- 	}
-@@ -359,7 +359,7 @@ static ssize_t ivtv_read(struct ivtv_stream *s, char __user *ubuf, size_t tot_co
- 	size_t tot_written = 0;
- 	int single_frame = 0;
- 
--	if (atomic_read(&itv->capturing) == 0 && s->fh == NULL) {
-+	if (atomic_read(&itv->capturing) == 0 && s->id == NULL) {
- 		/* shouldn't happen */
- 		IVTV_DEBUG_WARN("Stream %s not initialized before read\n", s->name);
- 		return -EIO;
-@@ -831,7 +831,7 @@ void ivtv_stop_capture(struct ivtv_open_id *id, int gop_end)
- 		     id->type == IVTV_ENC_STREAM_TYPE_VBI) &&
- 		    test_bit(IVTV_F_S_INTERNAL_USE, &s->s_flags)) {
- 			/* Also used internally, don't stop capturing */
--			s->fh = NULL;
-+			s->id = NULL;
- 		}
- 		else {
- 			ivtv_stop_v4l2_encode_stream(s, gop_end);
-@@ -915,7 +915,7 @@ int ivtv_v4l2_close(struct file *filp)
- 	v4l2_fh_exit(fh);
- 
- 	/* Easy case first: this stream was never claimed by us */
--	if (s->fh != &id->fh)
-+	if (s->id != id)
- 		goto close_done;
- 
- 	/* 'Unclaim' this stream */
-diff --git a/drivers/media/pci/ivtv/ivtv-irq.c b/drivers/media/pci/ivtv/ivtv-irq.c
-index 748c14e87963..20ba5ae9c6d1 100644
---- a/drivers/media/pci/ivtv/ivtv-irq.c
-+++ b/drivers/media/pci/ivtv/ivtv-irq.c
-@@ -305,7 +305,7 @@ static void dma_post(struct ivtv_stream *s)
- 			ivtv_process_vbi_data(itv, buf, 0, s->type);
- 			s->q_dma.bytesused += buf->bytesused;
- 		}
--		if (s->fh == NULL) {
-+		if (s->id == NULL) {
- 			ivtv_queue_move(s, &s->q_dma, NULL, &s->q_free, 0);
- 			return;
- 		}
-@@ -330,7 +330,7 @@ static void dma_post(struct ivtv_stream *s)
- 		set_bit(IVTV_F_I_HAVE_WORK, &itv->i_flags);
- 	}
- 
--	if (s->fh)
-+	if (s->id)
- 		wake_up(&s->waitq);
++static char *vpu_type_name(u32 type)
++{
++	return V4L2_TYPE_IS_OUTPUT(type) ? "output" : "capture";
++}
++
+ void vpu_inst_lock(struct vpu_inst *inst)
+ {
+ 	mutex_lock(&inst->lock);
+@@ -42,7 +47,7 @@ dma_addr_t vpu_get_vb_phy_addr(struct vb2_buffer *vb, u32 plane_no)
+ 			vb->planes[plane_no].data_offset;
  }
  
+-unsigned int vpu_get_vb_length(struct vb2_buffer *vb, u32 plane_no)
++static unsigned int vpu_get_vb_length(struct vb2_buffer *vb, u32 plane_no)
+ {
+ 	if (plane_no >= vb->num_planes)
+ 		return 0;
+@@ -81,7 +86,7 @@ void vpu_v4l2_set_error(struct vpu_inst *inst)
+ 	vpu_inst_unlock(inst);
+ }
+ 
+-int vpu_notify_eos(struct vpu_inst *inst)
++static int vpu_notify_eos(struct vpu_inst *inst)
+ {
+ 	static const struct v4l2_event ev = {
+ 		.id = 0,
+@@ -573,7 +578,8 @@ static void vpu_vb2_buf_finish(struct vb2_buffer *vb)
+ 		call_void_vop(inst, on_queue_empty, q->type);
+ }
+ 
+-void vpu_vb2_buffers_return(struct vpu_inst *inst, unsigned int type, enum vb2_buffer_state state)
++static void vpu_vb2_buffers_return(struct vpu_inst *inst, unsigned int type,
++				   enum vb2_buffer_state state)
+ {
+ 	struct vb2_v4l2_buffer *buf;
+ 
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.h b/drivers/media/platform/amphion/vpu_v4l2.h
+index 56f2939fa84d..4a87b06ae520 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.h
++++ b/drivers/media/platform/amphion/vpu_v4l2.h
+@@ -26,15 +26,12 @@ void vpu_skip_frame(struct vpu_inst *inst, int count);
+ struct vb2_v4l2_buffer *vpu_find_buf_by_sequence(struct vpu_inst *inst, u32 type, u32 sequence);
+ struct vb2_v4l2_buffer *vpu_find_buf_by_idx(struct vpu_inst *inst, u32 type, u32 idx);
+ void vpu_v4l2_set_error(struct vpu_inst *inst);
+-int vpu_notify_eos(struct vpu_inst *inst);
+ int vpu_notify_source_change(struct vpu_inst *inst);
+ int vpu_set_last_buffer_dequeued(struct vpu_inst *inst, bool eos);
+-void vpu_vb2_buffers_return(struct vpu_inst *inst, unsigned int type, enum vb2_buffer_state state);
+ int vpu_get_num_buffers(struct vpu_inst *inst, u32 type);
+ bool vpu_is_source_empty(struct vpu_inst *inst);
+ 
+ dma_addr_t vpu_get_vb_phy_addr(struct vb2_buffer *vb, u32 plane_no);
+-unsigned int vpu_get_vb_length(struct vb2_buffer *vb, u32 plane_no);
+ static inline struct vpu_format *vpu_get_format(struct vpu_inst *inst, u32 type)
+ {
+ 	if (V4L2_TYPE_IS_OUTPUT(type))
+@@ -43,11 +40,6 @@ static inline struct vpu_format *vpu_get_format(struct vpu_inst *inst, u32 type)
+ 		return &inst->cap_format;
+ }
+ 
+-static inline char *vpu_type_name(u32 type)
+-{
+-	return V4L2_TYPE_IS_OUTPUT(type) ? "output" : "capture";
+-}
+-
+ static inline int vpu_vb_is_codecconfig(struct vb2_v4l2_buffer *vbuf)
+ {
+ #ifdef V4L2_BUF_FLAG_CODECCONFIG
 -- 
 Regards,
 
