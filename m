@@ -1,51 +1,83 @@
-Return-Path: <linux-media+bounces-39350-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB230B1FA65
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 16:22:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 003BFB1FBE5
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 21:27:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78652177901
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 14:22:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5DCD3AB2A9
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 19:27:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58D58265CD8;
-	Sun, 10 Aug 2025 14:22:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DECF20B7F9;
+	Sun, 10 Aug 2025 19:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=pinefeat.co.uk header.i=@pinefeat.co.uk header.b="Ga6zuduq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFC326529E
-	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 14:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B86413790B
+	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 19:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754835745; cv=none; b=CTTBWOJnE3L7KfM4GY05mroC6yH77+N3KFQPJEMLwnDgcrsAuxSAnZ0LaCJ5eDGnuRsKCfAi/7FBUhu7XNjvDH9OmXrL3wfs96jT8emfHkdlUon+NrXgr3+Rf4feJk1CMit3DTNusdMp31G/fRPVcZHm4LnK/WvpdTDSPQ43vfI=
+	t=1754854042; cv=none; b=Aq/qJYeLqaCbIv50BqndyQVmOeELucS4SRKrW5lgkKDBVUouB12dWnUV/IVrDfe8Ld3n+8h4ed5TbsOmEab7L6XchgzlV00Du8EKa2Ew0VFyjSb27KUL50ZOR5PbslyD8LM+9l0gzjwOHMaM4r0iZ2jEa0Y8kXAyai5eKETvzjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754835745; c=relaxed/simple;
-	bh=TauP+lDGacxqjx3rlv1l3d7IUZQzoAEl60Klvgvg1So=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YM0yBe+INVmRf1vmMnX3i+x7aaiijHi50ghqAkS8DBbI5faxaaQrJxg9Xl/6h0OmaKdH8xCy+5ZSJJw4+qKx85ESlpIvoiy7C5yejZsjbAPK4BCToc/+ODAxDzfh+hRAdkqB6SjQzagghY8lK+6H/EhbDYOzUOt2cgvqResBDRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from symphony.aura.home.arpa (0.4.3.c.c.4.1.f.4.f.8.4.c.f.3.f.c.6.e.0.c.6.2.0.0.b.8.0.1.0.0.2.ip6.arpa [IPv6:2001:8b0:26c:e6c:f3fc:48f4:f14c:c340])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: chewi)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 2DBC53410A2;
-	Sun, 10 Aug 2025 14:22:23 +0000 (UTC)
-From: James Le Cuirot <chewi@gentoo.org>
-To: linux-media@vger.kernel.org
-Cc: Sam James <sam@gentoo.org>,
-	James Le Cuirot <chewi@gentoo.org>
-Subject: [PATCH v2] meson: Allow BPF code to be built with GCC
-Date: Sun, 10 Aug 2025 15:20:06 +0100
-Message-ID: <20250810142005.29811-2-chewi@gentoo.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250803081759.13952-1-chewi@gentoo.org>
-References: <20250803081759.13952-1-chewi@gentoo.org>
+	s=arc-20240116; t=1754854042; c=relaxed/simple;
+	bh=Px3DZRklB2oXIv7JRoEDl+7ABYhIzjIVytgkdD8WRLc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jhcIdG7Ku5OsN5qiFkHnXj4S51gTB8tUB4La05+7YRgk4sH5g7dPirIw58QJf00vL2Ul63baiSPR9INyc0+5HCBITBQeCXSZRlUpaSAJ3y3UllxUhb1k5szSm8okPHskNj4mz10V46hIxyQ2bzTk+auf4b9hyn82RQGAuAlK7Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pinefeat.co.uk; spf=pass smtp.mailfrom=pinefeat.co.uk; dkim=pass (2048-bit key) header.d=pinefeat.co.uk header.i=@pinefeat.co.uk header.b=Ga6zuduq; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pinefeat.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pinefeat.co.uk
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so25058575e9.1
+        for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 12:27:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pinefeat.co.uk; s=google; t=1754854036; x=1755458836; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xWYXXDbw++hefcSCW7VPfxxIpBDi6aZwun0MbeORMtI=;
+        b=Ga6zuduqeWZcuZTpHnxSp/20/tSd8zJDuUkeRo5rdGYQqkFV8x8UQKXxE4VG8UKABj
+         oqk96pPsOH+SrmYEyB7Zh8kVuJ7GgNDEeNPYX76zHeUzasm+WT/9cy7pgNvf7T4QGCl4
+         7Ee4ckMZN4ziIfGJ6t7rqV2TRL6uXO/jx+dIexm1+knLC9xyCG9W2H1iSRBZtuD/6lSO
+         ZSKSjapxGHzEdW/t9k/U/Qdkarl7hH5ezxL/dBbOMLfeyYcJs4fqPL63SwmhXiEc5XJz
+         bFeu3Y57AJ/5buYnaMgOr8uQY4zZi0wd5M39b0PAoWtNe1Vmfd2S3Agk6Qm8NMqoTsqO
+         5qNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754854036; x=1755458836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xWYXXDbw++hefcSCW7VPfxxIpBDi6aZwun0MbeORMtI=;
+        b=ETXNxx2KsMUGRLpwmpqysae+ebU75oFlGGXdXt3mCQoChyyjJ5PkBIKYxmG16FnKhh
+         G7QpQkJrIXycac2LxuL5cOkDblBpnYfqpaOmPE0+1R9mJYzx97XU2ihyTmH7GtcRoIEe
+         YhiTptkCoKrylZ73Iq8rmjnxXAHSrWp7FsqWhoWtdlfMM8byriFbqlUH1ZgGgY3Zp72b
+         mQf7F8HFKru+hPjIyYT86BcglMdsoLN2GfE3lVscrM1hl2UuuD8d3oV4ck+/kL7kZnku
+         lWGCF0zDpXIa5PzT09V6cwDlYJji2MuX/vBwPiS5c4Xb0Rwd07BTArh3FjSlbSmehc5V
+         jiLQ==
+X-Gm-Message-State: AOJu0YwyTAS6NTQTVYXD0k9oKpNc5r6OZNSju1vqWRQ8Lk8WsyQnKLYZ
+	fUxKA7+8gM8EvILgVfT1GW9OR6MB99cn6vyVNBdSKBO/8ZvTwtbR/JEY318Xb2msDuE=
+X-Gm-Gg: ASbGnct05hlDC+KcxiJbKciQLKOx4mrdoimB6q7YEn0WsCpmMbBJaIDEu+q2+vx7MSI
+	Me3ZQIZEeBeofr3GCPd+3j2nfPC3nxidBrjIobCiIa1e4f46UWHpUVnpvDVgdFwG3+jXYM78U0X
+	Ep51hOVAuTozIDBZu/fv2AzqQI7FEKYUYihTwZifB0w2wp9QfBR8+MjzEvphCBN9M80MkMJoEcq
+	ivrmO/wMUpWHniNem9+/OE5wfJlhEGS3dlW2M0EQnYFaYciLoJQYMSNxu5EeYiayQomLWf7tISE
+	gxxZmb+eegF/j64bQ357520zGBhRF3WmZqBoI3kuXBqYdTqN2sYGdYtviYXVWo314vSUZRhdGTM
+	1o9n94qevmVnDJTjp/Z4JfRmp3D41pPTZxBPuqg==
+X-Google-Smtp-Source: AGHT+IHmMtcSJS1vesoWL7Q0hPKqj9Q+4q8sWivm0l5v/KxfrPJ5ryZ8BG1X2Y/X3wtMhTWMSjeQbw==
+X-Received: by 2002:a05:600c:19ce:b0:455:bd8a:7e7 with SMTP id 5b1f17b1804b1-459f4f528b5mr89129575e9.9.1754854036411;
+        Sun, 10 Aug 2025 12:27:16 -0700 (PDT)
+Received: from asmirnov-G751JM.Home ([2a02:c7c:b28c:1f00:d8d1:2f6:48b:1545])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c4530a8sm37890947f8f.38.2025.08.10.12.27.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 12:27:16 -0700 (PDT)
+From: Aliaksandr Smirnou <support@pinefeat.co.uk>
+To: devicetree@vger.kernel.org
+Cc: linux-media@vger.kernel.org,
+	Aliaksandr Smirnou <support@pinefeat.co.uk>
+Subject: [PATCH 0/2] Pinefeat cef168 lens control board driver
+Date: Sun, 10 Aug 2025 20:26:07 +0100
+Message-Id: <20250810192609.11966-1-support@pinefeat.co.uk>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,149 +86,33 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-GCC can also target BPF, but it does not understand the "-target bpf"
-arguments passed to Clang.
+This patch series adds support for the Pinefeat adapter, which interfaces
+Canon EF and EF-S lenses to non-Canon camera bodies. The cef168 circuit
+control board provides an I2C interface for electronic focus and aperture
+control. The driver integrates with the V4L2 sub-device API.
 
-Detect it as either bpf-gcc, bpf-none-gcc, or bpf-unknown-none-gcc, the
-same as systemd does.
+For more information about the product, see:
+https://github.com/pinefeat/cef168
 
-Determine the include paths with the compiler used by the rest of the
-build rather than Clang, which might not be installed or might not give
-the right answer, especially when cross-compiling.
+Patches:
+  dt-bindings: Pinefeat cef168 lens control board
+  media/i2c: Pinefeat cef168 lens control board driver
 
-Check whether Clang actually supports the BPF target so that
-auto-detection doesn't cause the build to fail when it doesn't.
+ .../bindings/media/i2c/pinefeat,cef168.yaml   |  48 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   9 +
+ drivers/media/i2c/Kconfig                     |   8 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/cef168.c                    | 342 ++++++++++++++++++
+ drivers/media/i2c/cef168.h                    |  51 +++
+ 7 files changed, 461 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/pinefeat,cef168.yaml
+ create mode 100644 drivers/media/i2c/cef168.c
+ create mode 100644 drivers/media/i2c/cef168.h
 
-Signed-off-by: James Le Cuirot <chewi@gentoo.org>
----
- meson.build                                   | 25 ++++++++++++++++++-
- .../keytable/bpf_protocols/cc_sys_includes.sh | 10 ++++++++
- .../bpf_protocols/clang_sys_includes.sh       |  9 -------
- utils/keytable/bpf_protocols/meson.build      | 12 ++++-----
- utils/keytable/meson.build                    |  2 +-
- 5 files changed, 41 insertions(+), 17 deletions(-)
- create mode 100755 utils/keytable/bpf_protocols/cc_sys_includes.sh
- delete mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
 
-This revision adds the -ftree-switch-conversion flag for GCC, which
-reportedly fixes the "invalid mem access" error. I couldn't figure out
-how to test without any hardware, so I wasn't able to reproduce the
-issue myself, but I trust that it works now.
+base-commit: 2b38afce25c4e1b8f943ff4f0a2b51d6c40f2ed2
+-- 
+2.34.1
 
-diff --git a/meson.build b/meson.build
-index 88781e59..62d271b4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -83,11 +83,34 @@ endif
- v4l2_utils_incdir = include_directories(v4l2_utils_incdir_arr)
-
- prog_bash = find_program('bash')
--prog_clang = find_program('clang', required : get_option('bpf'))
- prog_doxygen = find_program('doxygen', required : get_option('doxygen-doc'))
- prog_grep = find_program('grep')
- prog_perl = find_program('perl')
-
-+if get_option('bpf').allowed()
-+    bpf_args = []
-+    prog_bpf = find_program('bpf-gcc',
-+                            'bpf-none-gcc',
-+                            'bpf-unknown-none-gcc',
-+                            required : false)
-+
-+    if prog_bpf.found()
-+        bpf_args += ['-fno-tree-switch-conversion']
-+    else
-+        prog_bpf = find_program('clang', required : get_option('bpf'))
-+        if prog_bpf.found()
-+            target_bpf = run_command(prog_bpf, '-target', 'bpf', '--print-supported-cpus', check : get_option('bpf').enabled())
-+            if target_bpf.returncode() == 0
-+                bpf_args += ['-target', 'bpf']
-+            else
-+                prog_bpf = disabler()
-+            endif
-+        endif
-+    endif
-+else
-+    prog_bpf = disabler()
-+endif
-+
- dep_alsa = dependency('alsa', required : false)
- if dep_alsa.found()
-     conf.set('HAVE_ALSA', 1)
-diff --git a/utils/keytable/bpf_protocols/cc_sys_includes.sh b/utils/keytable/bpf_protocols/cc_sys_includes.sh
-new file mode 100755
-index 00000000..0a8fa277
---- /dev/null
-+++ b/utils/keytable/bpf_protocols/cc_sys_includes.sh
-@@ -0,0 +1,10 @@
-+#!/bin/sh
-+# Get C compiler's default includes on this system, as the BPF toolchain
-+# generally doesn't see the Linux headers. This fixes "missing" files on some
-+# architectures/distros, such as asm/byteorder.h, asm/socket.h, asm/sockios.h,
-+# sys/cdefs.h etc.
-+#
-+# Use '-idirafter': Don't interfere with include mechanics except where the
-+# build would have failed anyways.
-+"$@" -v -E - </dev/null 2>&1 \
-+	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
-diff --git a/utils/keytable/bpf_protocols/clang_sys_includes.sh b/utils/keytable/bpf_protocols/clang_sys_includes.sh
-deleted file mode 100755
-index 9dc4af12..00000000
---- a/utils/keytable/bpf_protocols/clang_sys_includes.sh
-+++ /dev/null
-@@ -1,9 +0,0 @@
--#!/bin/sh
--# Get Clang's default includes on this system, as opposed to those seen by
--# '-target bpf'. This fixes "missing" files on some architectures/distros,
--# such as asm/byteorder.h, asm/socket.h, asm/sockios.h, sys/cdefs.h etc.
--#
--# Use '-idirafter': Don't interfere with include mechanics except where the
--# build would have failed anyways.
--$CLANG -v -E - </dev/null 2>&1 \
--	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
-diff --git a/utils/keytable/bpf_protocols/meson.build b/utils/keytable/bpf_protocols/meson.build
-index 1e4f0064..dbb926c4 100644
---- a/utils/keytable/bpf_protocols/meson.build
-+++ b/utils/keytable/bpf_protocols/meson.build
-@@ -10,9 +10,9 @@ bpf_protocols_files = [
-     'xbox-dvd',
- ]
-
--clang_sys_includes = run_command('clang_sys_includes.sh',
--                                 check : true,
--                                 env : ['CLANG=' + prog_clang.full_path()])
-+bpf_args += run_command('cc_sys_includes.sh',
-+                        cc.cmd_array(),
-+                        check : true).stdout().split()
-
- foreach file : bpf_protocols_files
-     output = file + '.o'
-@@ -21,9 +21,9 @@ foreach file : bpf_protocols_files
-                   output : output,
-                   input : input,
-                   command : [
--                      prog_clang,
--                      clang_sys_includes.stdout().split(),
--                      '-D__linux__', '-fno-stack-protector', '-target', 'bpf',
-+                      prog_bpf,
-+                      bpf_args,
-+                      '-D__linux__', '-fno-stack-protector',
-                       '-O2', '-c', '@INPUT@', '-o', '@OUTPUT@',
-                   ],
-                   install : true,
-diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
-index e214e0b5..56e61a79 100644
---- a/utils/keytable/meson.build
-+++ b/utils/keytable/meson.build
-@@ -22,7 +22,7 @@ ir_keytable_c_args = [
-     '-DIR_KEYTABLE_USER_DIR="@0@"'.format(ir_keytable_user_dir),
- ]
-
--ir_bpf_enabled = prog_clang.found() and dep_libbpf.found() and dep_libelf.found()
-+ir_bpf_enabled = prog_bpf.found() and dep_libbpf.found() and dep_libelf.found()
-
- if ir_bpf_enabled
-     ir_keytable_sources += files(
---
-2.50.1
 
