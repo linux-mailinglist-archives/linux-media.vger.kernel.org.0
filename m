@@ -1,55 +1,54 @@
-Return-Path: <linux-media+bounces-39288-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39289-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F921B1F79C
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:32:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A11B1F79F
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:32:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 231421899DEC
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:32:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30CD83BB128
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:32:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1491A08CA;
-	Sun, 10 Aug 2025 01:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EC541A2C25;
+	Sun, 10 Aug 2025 01:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OoCIH1IJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MUfoJTKs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA76154BE2
-	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:31:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7C342065
+	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754789509; cv=none; b=j3XNfK+ZXrYKApBdAY/3cUchoXIEI8YLj+zUOjDPw+R/oNFLffRd4CdZrgXq5vM2jefR5IlE6OmRCxH8i3i5pebCkJ/aEFK9pa2jbIL2I8Gm73/I8ubSrADkHP703lheCWC2bJVxAXScaKtPAQ37a6E3wO+JBm8NTs50ZxOqUpA=
+	t=1754789510; cv=none; b=RN3e4pGp3usGzWAfrE7E+YhZVZDOoJpUa2tQGbQPvoV0euEbovb33YnGPDazR0Yb9MpCLBC6bjbdivZ9+GfnMyrRTjvvsHoTjk/FGcNRLvIQr8sAJbFkVh7JnBSQx02f1RMlTqX4csupUDBN7k+HLAlv6AVovpdoazJumA6t6bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754789509; c=relaxed/simple;
-	bh=CIrhkfiOJPLNv5SFgycTlKTklrX6gviwQm2kzkmh2gw=;
+	s=arc-20240116; t=1754789510; c=relaxed/simple;
+	bh=61t0JN0XY056moGHrQi6Ap1aKAMnc6nPr0SJj4Lkds0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q9iavfZRXxk3rpAczU6hEGPfpmlusFPM9GeGcxhsMvUfGzdkEvc5MUoOt4bFm8v2vxBE/I/Co+P5ykI5h82uoZsmTQnxmyE6EAoZbsyv7sqSnffSA4+sOzd9QFHFowp9dVN+owWIsTxCrjAJ1i4408ODAVvY+2DmXSF7Ajd40pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OoCIH1IJ; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=H5tIdFNp3CgI3u6fP46yh2dPKG/Y9qtFivv/RSFquUTlxbO1NA0huniik7E0ixj/1x595Vy2NiYJXeX6C4wLVid8994Hjs6jtdmjM9kQ8y6PL/MeQLxPgb1g3/z7Sbva9JUI5Dd1vHwFuQsCa8ZsUd4VJOSzHi4FyNXWQ4j2LqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MUfoJTKs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2F1C88CB;
-	Sun, 10 Aug 2025 03:30:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2891B1B3C;
+	Sun, 10 Aug 2025 03:30:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754789454;
-	bh=CIrhkfiOJPLNv5SFgycTlKTklrX6gviwQm2kzkmh2gw=;
+	s=mail; t=1754789456;
+	bh=61t0JN0XY056moGHrQi6Ap1aKAMnc6nPr0SJj4Lkds0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OoCIH1IJ+xYIYQs1TMcP2InvtL+m0MuRzZMrh/rEIvONS7MtN6xhLZJWusZJ2GsMu
-	 gzTlcY1NFPHRxUS6qP+is+zjYw894Vye4kd52CSc4oY3wCKHkj82EK/V1DNM/5aQBD
-	 Ji2h43BBLIYgTqeOduv4rUIF5AnpuE0oMf73uDlo=
+	b=MUfoJTKssr8u0VJDx1Pkm/sjXir4bgShsCWgqLN8QmDentYebR3c1Tp8MijtH4AjT
+	 aarZKP/UR6WldUgyxxhh0n11AaP0UQpf9cFFp3grMQnQedL9+yH6TN425LZHEwmiTH
+	 JErrQNKeoKQf+rFBxAnfg4unG6bY73mbtfaET/sA=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Hans Verkuil <hans@jjverkuil.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-Subject: [PATCH v3 15/76] media: visl: Drop visl_v4l2fh_to_ctx() function
-Date: Sun, 10 Aug 2025 04:29:57 +0300
-Message-ID: <20250810013100.29776-16-laurent.pinchart+renesas@ideasonboard.com>
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v3 16/76] media: v4l2-fh: Move piece of documentation to correct function
+Date: Sun, 10 Aug 2025 04:29:58 +0300
+Message-ID: <20250810013100.29776-17-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -61,29 +60,39 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The visl_v4l2fh_to_ctx() function is unused. Drop it.
+The paragraph in the v4l2_fh_del() documentation that indicates the
+function sets filp->private_data was added in the wrong place. It is
+meant for v4l2_fh_open(). Move it to where it belongs.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/test-drivers/visl/visl.h | 5 -----
- 1 file changed, 5 deletions(-)
+ include/media/v4l2-fh.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/test-drivers/visl/visl.h b/drivers/media/test-drivers/visl/visl.h
-index ad3d0ab791d6..2971e8b37ff6 100644
---- a/drivers/media/test-drivers/visl/visl.h
-+++ b/drivers/media/test-drivers/visl/visl.h
-@@ -166,11 +166,6 @@ static inline struct visl_ctx *visl_file_to_ctx(struct file *file)
- 	return container_of(file_to_v4l2_fh(file), struct visl_ctx, fh);
- }
+diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+index 823fa8ebeb8f..14e7136e693f 100644
+--- a/include/media/v4l2-fh.h
++++ b/include/media/v4l2-fh.h
+@@ -101,6 +101,9 @@ void v4l2_fh_add(struct v4l2_fh *fh);
+  *
+  * It allocates a v4l2_fh and inits and adds it to the &struct video_device
+  * associated with the file pointer.
++ *
++ * On error filp->private_data will be %NULL, otherwise it will point to
++ * the &struct v4l2_fh.
+  */
+ int v4l2_fh_open(struct file *filp);
  
--static inline struct visl_ctx *visl_v4l2fh_to_ctx(struct v4l2_fh *v4l2_fh)
--{
--	return container_of(v4l2_fh, struct visl_ctx, fh);
--}
--
- void *visl_find_control_data(struct visl_ctx *ctx, u32 id);
- struct v4l2_ctrl *visl_find_control(struct visl_ctx *ctx, u32 id);
- u32 visl_control_num_elems(struct visl_ctx *ctx, u32 id);
+@@ -109,9 +112,6 @@ int v4l2_fh_open(struct file *filp);
+  *
+  * @fh: pointer to &struct v4l2_fh
+  *
+- * On error filp->private_data will be %NULL, otherwise it will point to
+- * the &struct v4l2_fh.
+- *
+  * .. note::
+  *    Must be called in v4l2_file_operations->release\(\) handler if the driver
+  *    uses &struct v4l2_fh.
 -- 
 Regards,
 
