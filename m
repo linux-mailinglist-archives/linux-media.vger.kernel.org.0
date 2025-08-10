@@ -1,57 +1,56 @@
-Return-Path: <linux-media+bounces-39306-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39307-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BCCB1F7C3
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:33:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E71B1F7C4
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:33:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87A0417C38B
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:33:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B21F3B94E9
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:33:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1171F18FDD2;
-	Sun, 10 Aug 2025 01:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD00199FAC;
+	Sun, 10 Aug 2025 01:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Xt/UQAmP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Zz7ekGCp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DE417AE11
-	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3751531C8
+	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:32:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754789539; cv=none; b=pQESfoMMysv6mcR7FDNR5jCTgz3vOsIQePGQKJDmEsVMWtH55o6LTUPpG6/JqCdY4mESbaCguEZUxSH4eVrH/mb3LDzo5Oqxuea+b/IFjKLhPeuC/w9//Iiik/dUdVnr3JVfMje4zWpKUeBGBn1c5Kwah9UAjW7PteorJUOH0kU=
+	t=1754789542; cv=none; b=a5h9NTGLMhTej06aoMzdnDb3/p8OCVrqwb/CHYKSbGb+GacvPERkrAuESZ8d02VMMK50ONi3DgwpS1C6hmd0tHCV1ftzvrGwNbK0o5kwOm4gB9N3581WKYuXZJgSFSb1EfzUhFJdOONw2YcsfIPjqndkHIvi7bvuoaDdNJ4fTNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754789539; c=relaxed/simple;
-	bh=b/s6aKT9/8bORLj9dutuxHP5fXWPBse8crgXh2bS11w=;
+	s=arc-20240116; t=1754789542; c=relaxed/simple;
+	bh=BpxI7mNvQw/gDeFWhykRnMPjMlpPL9WWtkPLJlAhIdE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K6jQkz/3jRlYI35TFGDclr5jEmM12WnYBEqVM2Hh06D7g092mJRv+N1mvpsVJwhKKyW+W1cpmCovWyueMuRd0fmkaIjJbHEhCx0vhucQES4LwNj99R09v+vD+3t2gNX7Eqfz1TQRCViZO1hYmEMay0tD4IRqscufXluNeV7aGXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Xt/UQAmP; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=HoVlqXFPsZl1iMFcXgVs7aWyydIdKGTIsUVQDM1esyoOGyENnvAEyWWw4DnWGGEaMzINFSnbdvRzunqG0oKLkkLShJuPsR0V9XONve+dRpteZlAM0FRdU+IR0Qu/DnnFNvYlWjEjpa7u1Ys7N6DdRJRoHIi+IW59l+1PGQl/c5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Zz7ekGCp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ACEF119C6;
-	Sun, 10 Aug 2025 03:31:24 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5AEA019C8;
+	Sun, 10 Aug 2025 03:31:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754789484;
-	bh=b/s6aKT9/8bORLj9dutuxHP5fXWPBse8crgXh2bS11w=;
+	s=mail; t=1754789486;
+	bh=BpxI7mNvQw/gDeFWhykRnMPjMlpPL9WWtkPLJlAhIdE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xt/UQAmPPnYjNavA54JWg41s3WnYl8kMqbY0lQGd8OKnJeRRr0fpWP4VwS5pO8Ng3
-	 fR2Dgl66d2/B6jaNE4YSb7jEptwocldNogpvld/PIrHqO4vpbbc5gnUN11KuTgnlok
-	 0H2Mn/JqwS1sVC9dV/bxmG2RA4NBDBFeSAFHwrVs=
+	b=Zz7ekGCp37HJyAPNUl77945PaWxKt05mkYI4DQe9RmxcdY6N/5zNmm+rqqsc5ozbk
+	 rPr9ODezyy+Kgo90OMVwjD59UDAPa/FcLAjGF/4YNvo37/6n+ahwp8n3a+gAk43Qup
+	 wxbCSm9XRC325NDU4ctVlO3z00slqEpNBiNLpuDs=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Hans Verkuil <hans@jjverkuil.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Corentin Labbe <clabbe@baylibre.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
 	mjpeg-users@lists.sourceforge.net
-Subject: [PATCH v3 33/76] media: zoran: Remove zoran_fh structure
-Date: Sun, 10 Aug 2025 04:30:15 +0300
-Message-ID: <20250810013100.29776-34-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v3 34/76] media: zoran: Rename __fh to fh
+Date: Sun, 10 Aug 2025 04:30:16 +0300
+Message-ID: <20250810013100.29776-35-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -65,55 +64,181 @@ Content-Transfer-Encoding: 8bit
 
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-The zoran_fh structure is a wrapper around v4l2_fh. Its usage has been
-mostly removed by commit 83f89a8bcbc3 ("media: zoran: convert to vb2"),
-but the structure stayed by mistake. It is now used in a single
-location, assigned from a void pointer and then recast to a void
-pointer, without being every accessed. Drop it.
+Unless there is a good reason to do so, naming variable with double
+underscore is generally not a good idea.
 
-Fixes: 83f89a8bcbc3 ("media: zoran: convert to vb2")
+Rename the (mostly unused) __fh argument to ioctl handlers to fh.
+
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/pci/zoran/zoran.h        | 6 ------
- drivers/media/pci/zoran/zoran_driver.c | 3 +--
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ drivers/media/pci/zoran/zoran_driver.c | 36 +++++++++++++-------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/media/pci/zoran/zoran.h b/drivers/media/pci/zoran/zoran.h
-index 1cd990468d3d..d05e222b3921 100644
---- a/drivers/media/pci/zoran/zoran.h
-+++ b/drivers/media/pci/zoran/zoran.h
-@@ -154,12 +154,6 @@ struct zoran_jpg_settings {
- 
- struct zoran;
- 
--/* zoran_fh contains per-open() settings */
--struct zoran_fh {
--	struct v4l2_fh fh;
--	struct zoran *zr;
--};
--
- struct card_info {
- 	enum card_type type;
- 	char name[32];
 diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
-index f42f596d3e62..ec7fc1da4cc0 100644
+index ec7fc1da4cc0..5b4d5dd06edb 100644
 --- a/drivers/media/pci/zoran/zoran_driver.c
 +++ b/drivers/media/pci/zoran/zoran_driver.c
-@@ -511,12 +511,11 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
+@@ -245,7 +245,7 @@ static int zoran_set_input(struct zoran *zr, int input)
+  *   ioctl routine
+  */
+ 
+-static int zoran_querycap(struct file *file, void *__fh, struct v4l2_capability *cap)
++static int zoran_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 
+@@ -278,7 +278,7 @@ static int zoran_enum_fmt(struct zoran *zr, struct v4l2_fmtdesc *fmt, int flag)
+ 	return -EINVAL;
+ }
+ 
+-static int zoran_enum_fmt_vid_cap(struct file *file, void *__fh,
++static int zoran_enum_fmt_vid_cap(struct file *file, void *fh,
+ 				  struct v4l2_fmtdesc *f)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+@@ -286,7 +286,7 @@ static int zoran_enum_fmt_vid_cap(struct file *file, void *__fh,
+ 	return zoran_enum_fmt(zr, f, ZORAN_FORMAT_CAPTURE);
+ }
+ 
+-static int zoran_g_fmt_vid_out(struct file *file, void *__fh,
++static int zoran_g_fmt_vid_out(struct file *file, void *fh,
  			       struct v4l2_format *fmt)
  {
  	struct zoran *zr = video_drvdata(file);
--	struct zoran_fh *fh = __fh;
+@@ -308,13 +308,13 @@ static int zoran_g_fmt_vid_out(struct file *file, void *__fh,
+ 	return 0;
+ }
+ 
+-static int zoran_g_fmt_vid_cap(struct file *file, void *__fh,
++static int zoran_g_fmt_vid_cap(struct file *file, void *fh,
+ 			       struct v4l2_format *fmt)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 
+ 	if (zr->map_mode != ZORAN_MAP_MODE_RAW)
+-		return zoran_g_fmt_vid_out(file, __fh, fmt);
++		return zoran_g_fmt_vid_out(file, fh, fmt);
+ 	fmt->fmt.pix.width = zr->v4l_settings.width;
+ 	fmt->fmt.pix.height = zr->v4l_settings.height;
+ 	fmt->fmt.pix.sizeimage = zr->buffer_size;
+@@ -328,7 +328,7 @@ static int zoran_g_fmt_vid_cap(struct file *file, void *__fh,
+ 	return 0;
+ }
+ 
+-static int zoran_try_fmt_vid_out(struct file *file, void *__fh,
++static int zoran_try_fmt_vid_out(struct file *file, void *fh,
+ 				 struct v4l2_format *fmt)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+@@ -391,7 +391,7 @@ static int zoran_try_fmt_vid_out(struct file *file, void *__fh,
+ 	return res;
+ }
+ 
+-static int zoran_try_fmt_vid_cap(struct file *file, void *__fh,
++static int zoran_try_fmt_vid_cap(struct file *file, void *fh,
+ 				 struct v4l2_format *fmt)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+@@ -399,7 +399,7 @@ static int zoran_try_fmt_vid_cap(struct file *file, void *__fh,
  	int i;
+ 
+ 	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
+-		return zoran_try_fmt_vid_out(file, __fh, fmt);
++		return zoran_try_fmt_vid_out(file, fh, fmt);
+ 
+ 	for (i = 0; i < NUM_FORMATS; i++)
+ 		if (zoran_formats[i].fourcc == fmt->fmt.pix.pixelformat)
+@@ -427,7 +427,7 @@ static int zoran_try_fmt_vid_cap(struct file *file, void *__fh,
+ 	return 0;
+ }
+ 
+-static int zoran_s_fmt_vid_out(struct file *file, void *__fh,
++static int zoran_s_fmt_vid_out(struct file *file, void *fh,
+ 			       struct v4l2_format *fmt)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+@@ -507,7 +507,7 @@ static int zoran_s_fmt_vid_out(struct file *file, void *__fh,
+ 	return res;
+ }
+ 
+-static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
++static int zoran_s_fmt_vid_cap(struct file *file, void *fh,
+ 			       struct v4l2_format *fmt)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+@@ -515,7 +515,7 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
  	int res = 0;
  
  	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
--		return zoran_s_fmt_vid_out(file, fh, fmt);
-+		return zoran_s_fmt_vid_out(file, __fh, fmt);
+-		return zoran_s_fmt_vid_out(file, __fh, fmt);
++		return zoran_s_fmt_vid_out(file, fh, fmt);
  
  	for (i = 0; i < NUM_FORMATS; i++)
  		if (fmt->fmt.pix.pixelformat == zoran_formats[i].fourcc)
+@@ -555,7 +555,7 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
+ 	return res;
+ }
+ 
+-static int zoran_g_std(struct file *file, void *__fh, v4l2_std_id *std)
++static int zoran_g_std(struct file *file, void *fh, v4l2_std_id *std)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 
+@@ -563,7 +563,7 @@ static int zoran_g_std(struct file *file, void *__fh, v4l2_std_id *std)
+ 	return 0;
+ }
+ 
+-static int zoran_s_std(struct file *file, void *__fh, v4l2_std_id std)
++static int zoran_s_std(struct file *file, void *fh, v4l2_std_id std)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 	int res = 0;
+@@ -578,7 +578,7 @@ static int zoran_s_std(struct file *file, void *__fh, v4l2_std_id std)
+ 	return res;
+ }
+ 
+-static int zoran_enum_input(struct file *file, void *__fh,
++static int zoran_enum_input(struct file *file, void *fh,
+ 			    struct v4l2_input *inp)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+@@ -595,7 +595,7 @@ static int zoran_enum_input(struct file *file, void *__fh,
+ 	return 0;
+ }
+ 
+-static int zoran_g_input(struct file *file, void *__fh, unsigned int *input)
++static int zoran_g_input(struct file *file, void *fh, unsigned int *input)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 
+@@ -604,7 +604,7 @@ static int zoran_g_input(struct file *file, void *__fh, unsigned int *input)
+ 	return 0;
+ }
+ 
+-static int zoran_s_input(struct file *file, void *__fh, unsigned int input)
++static int zoran_s_input(struct file *file, void *fh, unsigned int input)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 	int res;
+@@ -617,7 +617,7 @@ static int zoran_s_input(struct file *file, void *__fh, unsigned int input)
+ }
+ 
+ /* cropping (sub-frame capture) */
+-static int zoran_g_selection(struct file *file, void *__fh, struct v4l2_selection *sel)
++static int zoran_g_selection(struct file *file, void *fh, struct v4l2_selection *sel)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 
+@@ -652,7 +652,7 @@ static int zoran_g_selection(struct file *file, void *__fh, struct v4l2_selectio
+ 	return 0;
+ }
+ 
+-static int zoran_s_selection(struct file *file, void *__fh, struct v4l2_selection *sel)
++static int zoran_s_selection(struct file *file, void *fh, struct v4l2_selection *sel)
+ {
+ 	struct zoran *zr = video_drvdata(file);
+ 	struct zoran_jpg_settings settings;
 -- 
 Regards,
 
