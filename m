@@ -1,61 +1,60 @@
-Return-Path: <linux-media+bounces-39319-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39320-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA34DB1F7D1
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:34:32 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B25DB1F7D2
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 03:34:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 656093A7DC5
-	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:34:31 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0448E4E12A0
+	for <lists+linux-media@lfdr.de>; Sun, 10 Aug 2025 01:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B52C1A7264;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE139188A0C;
 	Sun, 10 Aug 2025 01:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lc7PXKy0"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g0v/Fws3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5550A188A0C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B280F487BE
 	for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 01:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754789561; cv=none; b=tD7NUKLc2F5HoVB24zxtrjbGLx/MoP0PLhKKOEuEegkIngr/uxdQ4Lm9kuWUICbLG72RRfT16ksHPzpDKNmkiXrfkz1oCzhKXgLOTy2/7EC0LCuU4/LWttnaCuurVy8FbkWlS7yHrorh/lToBGtZ121Wq7Sna37S0nhTZb2wv+4=
+	t=1754789562; cv=none; b=VyWvEjK3heJC6LqRvsOHombyQotUL5B1M5CAbpTlnzDi4vefi4CBHDqsEv4xeVp8cb0Y8PpM5hOpmxlankTxbJRdujwE8+TsNkvM8dA/7I5/7Bm7OlJRMEh6wGaDCsH93AEdcWf7grHrvBOE0ScgBz7EQ4epWVfew0WkO1eyDzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754789561; c=relaxed/simple;
-	bh=eYpl3VPRVVHFrLllpso+ngxALAeAFPyLumFsOQDdL6M=;
+	s=arc-20240116; t=1754789562; c=relaxed/simple;
+	bh=+PbuaC8xIvQc2lZuS6NyqvYPmav84Z8vJv9xYpgkwv4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KRtFyBFNTehkp/6m4R3q+tj5nw6sNOZEgxYIjX/KFmA/s1g5fbDH1f0eU33E5hIgI9vzOafEF5H7MDOhEIVjiXr2apc5J6RI3tvxdwxioQhYdHKaPuEp9+ci6BC7SZ3WiDwI/rh3q3yTkfksxQ/NXVZ2uoGHJJ+5pa6+O0YmGe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lc7PXKy0; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=l44fxPmFb5tDksqIiKnwy6RBYMW8mNFPoEzfd/mDYcBpjY3U6DIsgjzmwSCcGycyr8svdLenun/ZELm/mSgXOH4S0F8X2OGQJDQQxNgUDmgFltuQ385JsnT5gIqapkIj/Jjr6IkObXrdT08WHU7qDS11wmVJ79GGphV6GnWamss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g0v/Fws3; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E289518B9;
-	Sun, 10 Aug 2025 03:31:46 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 87ACE104D;
+	Sun, 10 Aug 2025 03:31:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754789507;
-	bh=eYpl3VPRVVHFrLllpso+ngxALAeAFPyLumFsOQDdL6M=;
+	s=mail; t=1754789508;
+	bh=+PbuaC8xIvQc2lZuS6NyqvYPmav84Z8vJv9xYpgkwv4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lc7PXKy0O7NvPwP8QdnOkBbNND9InbGjlF3AdfnlFsSI+eekk9HgAU0bzp1A5N7In
-	 67wo8LIkFZXZp8g7QD5KXcC1ISk+Gczk8yS05JLnZwEPGSEORblmKYDYr0wslB9I/N
-	 9v5HmQM75A0i1QYD0pMQs2O2Qpw+WiEMi9UHtxUk=
+	b=g0v/Fws3rohFyfNqCRyDl5W620VC6eInsoYMhvIewceLd9CpZwf7rnsj7dLk7jGW5
+	 0kswRxAdKJEU673NR/v1cSelR2FQk5cXFsPQUQZxwy8bN1d3bhZMgrZenwieGSfpXU
+	 54auMP5Wiaw/Bf+PheMInPXn9+NgBAuaR5KNEEUw=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Hans Verkuil <hans@jjverkuil.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 46/76] media: imx-jpeg: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 04:30:28 +0300
-Message-ID: <20250810013100.29776-47-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v3 47/76] media: imx-isi: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 04:30:29 +0300
+Message-ID: <20250810013100.29776-48-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -76,7 +75,6 @@ Access the v4l2_fh, and from there the driver-specific structure,
 from the file * in all ioctl handlers.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Ming Qian <ming.qian@oss.nxp.com>
 Co-developed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
@@ -84,152 +82,74 @@ Changes since v1:
 
 - Update file-to-ctx macro due to removal of fh-to-ctx macro
 ---
- .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 35 ++++++++-----------
- 1 file changed, 15 insertions(+), 20 deletions(-)
+ .../media/platform/nxp/imx8-isi/imx8-isi-m2m.c  | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index a34e644b2cb1..df3ccdf767ba 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -644,14 +644,9 @@ static void print_mxc_buf(struct mxc_jpeg_dev *jpeg, struct vb2_buffer *buf,
- 	}
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+index 31298307c672..5501214cc6c0 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+@@ -74,14 +74,9 @@ to_isi_m2m_buffer(struct vb2_v4l2_buffer *buf)
+ 	return container_of(buf, struct mxc_isi_m2m_buffer, buf.vb);
  }
  
--static inline struct mxc_jpeg_ctx *mxc_jpeg_fh_to_ctx(struct v4l2_fh *fh)
+-static inline struct mxc_isi_m2m_ctx *to_isi_m2m_ctx(struct v4l2_fh *fh)
 -{
--	return container_of(fh, struct mxc_jpeg_ctx, fh);
+-	return container_of(fh, struct mxc_isi_m2m_ctx, fh);
 -}
 -
- static inline struct mxc_jpeg_ctx *mxc_jpeg_file_to_ctx(struct file *filp)
+ static inline struct mxc_isi_m2m_ctx *file_to_isi_m2m_ctx(struct file *filp)
  {
--	return mxc_jpeg_fh_to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct mxc_jpeg_ctx, fh);
+-	return to_isi_m2m_ctx(file_to_v4l2_fh(filp));
++	return container_of(file_to_v4l2_fh(filp), struct mxc_isi_m2m_ctx, fh);
  }
  
- static int enum_fmt(const struct mxc_jpeg_fmt *mxc_formats, int n,
-@@ -1610,7 +1605,7 @@ static int mxc_jpeg_decoder_cmd(struct file *file, void *priv,
- 				struct v4l2_decoder_cmd *cmd)
+ static inline struct mxc_isi_m2m_ctx_queue_data *
+@@ -432,7 +427,7 @@ static int mxc_isi_m2m_try_fmt_vid(struct file *file, void *fh,
+ 	const enum mxc_isi_video_type type =
+ 		f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ?
+ 		MXC_ISI_VIDEO_M2M_OUT : MXC_ISI_VIDEO_M2M_CAP;
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 
+ 	__mxc_isi_m2m_try_fmt_vid(ctx, &f->fmt.pix_mp, type);
+ 
+@@ -442,7 +437,7 @@ static int mxc_isi_m2m_try_fmt_vid(struct file *file, void *fh,
+ static int mxc_isi_m2m_g_fmt_vid(struct file *file, void *fh,
+ 				 struct v4l2_format *f)
  {
- 	struct v4l2_fh *fh = file_to_v4l2_fh(file);
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	unsigned long flags;
- 	int ret;
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	const struct mxc_isi_m2m_ctx_queue_data *qdata =
+ 		mxc_isi_m2m_ctx_qdata(ctx, f->type);
  
-@@ -1643,7 +1638,7 @@ static int mxc_jpeg_encoder_cmd(struct file *file, void *priv,
- 				struct v4l2_encoder_cmd *cmd)
+@@ -457,7 +452,7 @@ static int mxc_isi_m2m_s_fmt_vid(struct file *file, void *fh,
+ 	const enum mxc_isi_video_type type =
+ 		f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ?
+ 		MXC_ISI_VIDEO_M2M_OUT : MXC_ISI_VIDEO_M2M_CAP;
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
+ 	const struct mxc_isi_format_info *info;
+ 	struct vb2_queue *vq;
+@@ -489,7 +484,7 @@ static int mxc_isi_m2m_s_fmt_vid(struct file *file, void *fh,
+ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ 				enum v4l2_buf_type type)
  {
- 	struct v4l2_fh *fh = file_to_v4l2_fh(file);
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	unsigned long flags;
- 	int ret;
- 
-@@ -2260,7 +2255,7 @@ static int mxc_jpeg_querycap(struct file *file, void *priv,
- static int mxc_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
- 				     struct v4l2_fmtdesc *f)
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
+ 	const struct v4l2_pix_format_mplane *out_pix = &ctx->queues.out.format;
+ 	const struct v4l2_pix_format_mplane *cap_pix = &ctx->queues.cap.format;
+@@ -577,7 +572,7 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+ 				 enum v4l2_buf_type type)
  {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data = mxc_jpeg_get_q_data(ctx, f->type);
+-	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
++	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+ 	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
+ 	struct mxc_isi_m2m *m2m = ctx->m2m;
  
- 	if (ctx->mxc_jpeg->mode == MXC_JPEG_ENCODE) {
-@@ -2300,7 +2295,7 @@ static int mxc_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
- static int mxc_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
- 				     struct v4l2_fmtdesc *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	u32 type = ctx->mxc_jpeg->mode == MXC_JPEG_DECODE ?  MXC_JPEG_FMT_TYPE_ENC :
- 							     MXC_JPEG_FMT_TYPE_RAW;
- 	int ret;
-@@ -2441,7 +2436,7 @@ static int mxc_jpeg_try_fmt(struct v4l2_format *f,
- static int mxc_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
- 				    struct v4l2_format *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
- 	struct mxc_jpeg_q_data tmp_q;
-@@ -2460,7 +2455,7 @@ static int mxc_jpeg_try_fmt_vid_cap(struct file *file, void *priv,
- static int mxc_jpeg_try_fmt_vid_out(struct file *file, void *priv,
- 				    struct v4l2_format *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
- 	struct mxc_jpeg_q_data tmp_q;
-@@ -2512,20 +2507,20 @@ static int mxc_jpeg_s_fmt(struct mxc_jpeg_ctx *ctx,
- static int mxc_jpeg_s_fmt_vid_cap(struct file *file, void *priv,
- 				  struct v4l2_format *f)
- {
--	return mxc_jpeg_s_fmt(mxc_jpeg_fh_to_ctx(priv), f);
-+	return mxc_jpeg_s_fmt(mxc_jpeg_file_to_ctx(file), f);
- }
- 
- static int mxc_jpeg_s_fmt_vid_out(struct file *file, void *priv,
- 				  struct v4l2_format *f)
- {
- 	int ret;
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct vb2_queue *dst_vq;
- 	struct mxc_jpeg_q_data *q_data_cap;
- 	enum v4l2_buf_type cap_type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 	struct v4l2_format fc;
- 
--	ret = mxc_jpeg_s_fmt(mxc_jpeg_fh_to_ctx(priv), f);
-+	ret = mxc_jpeg_s_fmt(ctx, f);
- 	if (ret)
- 		return ret;
- 
-@@ -2554,7 +2549,7 @@ static int mxc_jpeg_s_fmt_vid_out(struct file *file, void *priv,
- static int mxc_jpeg_g_fmt_vid(struct file *file, void *priv,
- 			      struct v4l2_format *f)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
- 	struct device *dev = jpeg->dev;
- 	struct v4l2_pix_format_mplane   *pix_mp = &f->fmt.pix_mp;
-@@ -2592,7 +2587,7 @@ static int mxc_jpeg_g_fmt_vid(struct file *file, void *priv,
- 
- static int mxc_jpeg_dec_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data_cap;
- 
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE && s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-@@ -2621,7 +2616,7 @@ static int mxc_jpeg_dec_g_selection(struct file *file, void *fh, struct v4l2_sel
- 
- static int mxc_jpeg_enc_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data_out;
- 
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT && s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-@@ -2649,7 +2644,7 @@ static int mxc_jpeg_enc_g_selection(struct file *file, void *fh, struct v4l2_sel
- 
- static int mxc_jpeg_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 
- 	if (ctx->mxc_jpeg->mode == MXC_JPEG_DECODE)
- 		return mxc_jpeg_dec_g_selection(file, fh, s);
-@@ -2659,7 +2654,7 @@ static int mxc_jpeg_g_selection(struct file *file, void *fh, struct v4l2_selecti
- 
- static int mxc_jpeg_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
--	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(fh);
-+	struct mxc_jpeg_ctx *ctx = mxc_jpeg_file_to_ctx(file);
- 	struct mxc_jpeg_q_data *q_data_out;
- 
- 	if (ctx->mxc_jpeg->mode != MXC_JPEG_ENCODE)
 -- 
 Regards,
 
