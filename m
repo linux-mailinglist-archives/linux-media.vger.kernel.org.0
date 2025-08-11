@@ -1,291 +1,553 @@
-Return-Path: <linux-media+bounces-39474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305C8B217AC
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 23:52:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29520B21839
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 00:19:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BB6519061E9
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 21:53:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA08D627991
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 22:19:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303222E3AFD;
-	Mon, 11 Aug 2025 21:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E56852E5418;
+	Mon, 11 Aug 2025 22:18:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZpddCZ9E"
+	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="AfTdqwGv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B57D311C2E;
-	Mon, 11 Aug 2025 21:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62E4221FC9
+	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 22:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754949170; cv=none; b=H+Ujz4aYC9jHodiSO3z+MAiRlvSSDXEpY7zr4uv8QuDvU2IOmHjZypJMxi5j2KxjGAo+VTejnj77d1w0UOMGD4iXm64kR709VvQB3F2j0yo3lAMER1xs42kMxOncMlwaTOZz4FNVqa95WLrBsBOBDBh3T15yUcOA11FObOyLLPM=
+	t=1754950694; cv=none; b=skq4XDf6CTqoFu7wqb0FZE+uCpQkbmPN6UaM4L/9dNK6zQDHqq94aeQ3c6siemMoGscnVZKurTsM+2oyg811gvBnAxSbMdOQNiLn8C8cLLyTTu2HKqPV4NqCzjj0haUKzI6J1ZlZVkjy8X/yXA66g0nHf69kIpGv4VL5m2eC/aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754949170; c=relaxed/simple;
-	bh=SPlaGimm4OduzdBnXC3TkfH6GzXgsNxTdn5PXq/afAI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ntw41PNymN6Ie+UwtAqeH5A5Qf8czrlIjYwkElq6vOnPZ4jEvQIeJ9veEFsVRUEZyjs15o+xNW8kEycRif2gB+WViLwUjTJKZAcExj4uPcuRW2/JR38vSh+UoK6ZhsAQLs2p7CUOe2Dt4bsOy/zE6Ana9bsSKNhhY7DE0Ar3oac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZpddCZ9E; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1754949166;
-	bh=SPlaGimm4OduzdBnXC3TkfH6GzXgsNxTdn5PXq/afAI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ZpddCZ9EzgHZdpBs63f/A3PN2rNaLZiUaW3sqW0iKkf6WYmOmbvj3en8buacqhwh3
-	 aprSlmQX5DMQ4UZwHEVEdKfR5J4wNe427zYUjwJn2WGIJVvnp9Eay/cmujg5z6tgDl
-	 PuT2jvj/ZeNQ0J4pPuidlUzxgLQJcrqQP/Eu0NVhO7JyypGCM4oOH7KP8vNJOwGk/J
-	 5vJ/yDnz699pvsNyObUS2Pdj8+40DKLOKg4H3j8ZLIaLXHtL17sM7n5qNdT4RJqN3r
-	 GyyPkUmTPVp2/8QXF4898F2GeSSDADB0uxUfB+LcaF1ynjiwZG47RIa/mCaCDrtRxi
-	 R6JHNq1rmqjbA==
-Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id DD69717E0286;
-	Mon, 11 Aug 2025 23:52:44 +0200 (CEST)
-Message-ID: <50162371fd54fc976a84fcf57c9b69112a892c46.camel@collabora.com>
-Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia	
- <ezequiel@vanguardiasur.com.ar>, Detlev Casanova
- <detlev.casanova@collabora.com>,  Mauro Carvalho Chehab	
- <mchehab@kernel.org>
-Cc: Alex Bee <knaerzche@gmail.com>, Sebastian Fricke
-	 <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Mon, 11 Aug 2025 17:52:42 -0400
-In-Reply-To: <20250810212454.3237486-1-jonas@kwiboo.se>
-References: <20250810212454.3237486-1-jonas@kwiboo.se>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-9rHoaNyNACYag69RQWES"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1754950694; c=relaxed/simple;
+	bh=t7ZbDxGlYZ9EUjcH2soHjztGn98u6aoqmRPredz0uNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZQH6aFJpkG0W4YNvJbQpsKJ0tzPO3uZ3MpHr/ATTwD8FlJvfMvLQWj0f7AH/n9arIqCZ7DDLo8hJeCs3lpwZ0NeIvzxQEI7OO7hr0P917LoDTOS22yMucz9p8yC+JMQtzWClkYD1NaiU19Pi0FDWYLtolMACRtCFb6DKQN9tA4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=AfTdqwGv; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-24014cd385bso52497875ad.0
+        for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 15:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kerneltoast.com; s=google; t=1754950690; x=1755555490; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gVIxFgIahrSzQnVFQgUo0sbORBScLXcn3D4uWDylD+o=;
+        b=AfTdqwGvcar21S6NL8hGbtFVLNHjmsrkzNplGFo3kwklioLSAl49YPQorh+x7dRVO2
+         T4UsJ63RFtDV7+DTFfxBC7L0JcT3I+QyDRjVOu6+vpA0RyxAuv8lQzRcuFjZc4nNZzlB
+         sR4foDZtfObLGmUNRV3eY4ZwChM5Tzjq4mGtLX5LsFrKqOTH1OQtSn6okLnhBuizSx6L
+         6G9/ZMY/PgaagXYfZ8Sc/2dheXgBVFU7xhzdtndLJz6m33Rvir6lFtza0dAETiPyAp6J
+         0KjxB7oylL+nqcgWcnLJVaR0fAjUmr4JfaGoVbtSsV7L0mJIKEECa3cTHZtr2kiDBRb8
+         vT7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754950690; x=1755555490;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gVIxFgIahrSzQnVFQgUo0sbORBScLXcn3D4uWDylD+o=;
+        b=irpdWvCyc/oSX4Uquxdo0Y0HXb5PQynB7f5ozKlsp31J+gzcwc2JO1V+pv6tiskNTS
+         OT8U7qu4aQG2gFYGXZKKceKas6R7w1c2waKcfj1h7o6lWH72WEMfWXJbekHB+7fFxPWN
+         gx9Spn3pzNi9VR00bGEuzj/ksH4M22jE3R3i5lIGK9quLHkCSzJvkdwD4DDatAlovmDA
+         S4srgdTBSjA5rSpZJ+BCzhV/Pp91PluUgv6sYrrAHhkDIg/k7x9YUSH7zcGcXiCXvpWW
+         Q2INsW0XvZzcYSF7Fe1VL8pJ/pBRIla6T9OnMQFl4+9sPFZvVOsHVESoz1j3iA+UI5+Q
+         9p1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXAtX97D1V2zUa1l8fjpDnKiQ5T0wlQoRz8r0lnvgcRVzpEwaavqobL6wzmcJ1/aKBKGSreyAQ+nYwPsg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYNcoIbmbJjWJnjmPbJYqdr/m2vR9rPQxNikS7GSj9HdWCbajm
+	i+aCiCO39Y88Ai3tZ3PFpFssoauYl0Tu7vi5rEow/XpZbNbnbQOjJ0cd/ZwJzzC0UzSz
+X-Gm-Gg: ASbGnctlLSbTWEI5aaM71pbY9QZUvdf8eZKxNITrxFcfPuFSMiaekK7OdcsTrYCS3Hs
+	tnZ8xtqOlvPi8/fRdJKS7WLbAgctuGCbMGQxAtb6EdDt0oD00CXYXrmD/5FsZk0a1eBrNJe9js8
+	AcU0JH3N1IdePFZ20mzBq1gKECpAx1awKon5/rEm2PNnUrON31IveWMuzOc+k3asw/vViKCQ9dH
+	QGSfMYrOS3dQ3G7NCOa/iI9ZsomsKnghdfP+ZsMJy5fWBXE7a+8yaxxinDCClbRNitKGhcSLoc6
+	0fPOoeMcjmV0QQMFJ9QFXFeooDQ2SYHliUivqHIb6T9M4VgMWlNB7pXfUxpQVDiqliFzigxxA9u
+	+GaXKe55t5p8NlBooSFrfoF2Hjic=
+X-Google-Smtp-Source: AGHT+IHOAEL6L+Y4tAq59QnA686FQQSzagY3or/Ib9mVZHAT2/gvr9siWDq+LLfs8tyOVcObtSLyWg==
+X-Received: by 2002:a17:902:f708:b0:240:2bb6:d4ae with SMTP id d9443c01a7336-242c21fd174mr164142085ad.30.1754950689946;
+        Mon, 11 Aug 2025 15:18:09 -0700 (PDT)
+Received: from sultan-box ([2603:3006:1034:c100:c50:2c2b:96b5:524f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8aaaf1bsm285686575ad.159.2025.08.11.15.17.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 15:18:09 -0700 (PDT)
+Date: Mon, 11 Aug 2025 15:17:55 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart+renesas@ideasonboard.com,
+	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com
+Subject: Re: [PATCH v2 0/8] Add AMD ISP4 driver
+Message-ID: <aJpsEwdZ945jEZqi@sultan-box>
+References: <aImvvC9JEgQ2xBki@sultan-box>
+ <a3272335-1813-4706-813e-a79a9cabc659@amd.com>
+ <aIq5EyQ_uuO63dJb@sultan-box>
+ <1a9a4beb-97ab-4853-8201-bf08f1a030ab@amd.com>
+ <d8c99b00-e8f2-49bb-8c72-ebc4e783e51d@amd.com>
+ <aJA2S0EY7HhVSSzc@sultan-box>
+ <17464bff-6b3e-4962-8b83-132cd7367d1d@amd.com>
+ <aJmEaXkXDtfkVQiR@sultan-box>
+ <f85fce70-64d6-4d33-9483-c8e6dc8a79bc@amd.com>
+ <aJplOgN9BSbElDfi@sultan-box>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aJplOgN9BSbElDfi@sultan-box>
 
+On Mon, Aug 11, 2025 at 02:48:42PM -0700, Sultan Alsawaf wrote:
+> On Mon, Aug 11, 2025 at 04:35:10PM +0800, Du, Bin wrote:
+> > On 8/11/2025 1:49 PM, Sultan Alsawaf wrote:
+> > > On Fri, Aug 08, 2025 at 05:11:39PM +0800, Du, Bin wrote:
+> > > > On 8/4/2025 12:25 PM, Sultan Alsawaf wrote:
+> > > > > On Mon, Aug 04, 2025 at 11:32:11AM +0800, Du, Bin wrote:
+> > > > > > On 7/31/2025 6:04 PM, Du, Bin wrote:
+> > > > > > > Thanks Sultan for your test
+> > > > > > > 
+> > > > > > > On 7/31/2025 8:30 AM, Sultan Alsawaf wrote:
+> > > > > > > > On Wed, Jul 30, 2025 at 05:53:58PM +0800, Du, Bin wrote:
+> > > > > > > > > On 7/30/2025 1:38 PM, Sultan Alsawaf wrote:
+> > > > > > > > > > On Tue, Jul 29, 2025 at 06:13:50PM +0800, Du, Bin wrote:
+> > > > > > > > > > > On 7/29/2025 3:45 PM, Sultan Alsawaf wrote:
+> > > > > > > > > > > > On Tue, Jul 29, 2025 at 12:42:16AM -0700, Sultan Alsawaf wrote:
+> > > > > > > > > > > > > On Tue, Jul 29, 2025 at 11:32:23AM +0800, Du, Bin wrote:
+> > > > > > > > > > > > > > Thanks Sultan, please see my comments
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > On 7/27/2025 6:31 AM, Sultan Alsawaf wrote:
+> > > > > > > > > > > > > > > On Fri, Jul 25, 2025 at 06:22:03PM +0800, Du, Bin wrote:
+> > > > > > > > > > > > > > > > > I have the Ryzen AI MAX+ 395 SKU of the HP ZBook Ultra G1a 14.
+> > > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > > I cannot for the life of me get
+> > > > > > > > > > > > > > > > > the webcam working under Linux.
+> > > > > > > > > > > > > > > > > The webcam works
+> > > > > > > > > > > > > > > > > under Windows so it's not a hardware issue.
+> > > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > > With this patchset and all of
+> > > > > > > > > > > > > > > > > the patches you link here
+> > > > > > > > > > > > > > > > > applied to 6.15, I get
+> > > > > > > > > > > > > > > > > the following errors:
+> > > > > > > > > > > > > > > > >          [   11.970038]
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware: Unknown
+> > > > > > > > > > > > > > > > > Synopsys component type:
+> > > > > > > > > > > > > > > > > 0xffffffff
+> > > > > > > > > > > > > > > > >          [   11.973162]
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware: error
+> > > > > > > > > > > > > > > > > -19: i2c_dw_probe failed
+> > > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > > With the old ispkernel code from
+> > > > > > > > > > > > > > > > > February [1] applied on 6.15,
+> > > > > > > > > > > > > > > > > the webcam
+> > > > > > > > > > > > > > > > > indicator LED lights up but
+> > > > > > > > > > > > > > > > > there's no image. I see these
+> > > > > > > > > > > > > > > > > messages at boot:
+> > > > > > > > > > > > > > > > >          [    9.449005]
+> > > > > > > > > > > > > > > > > amd_isp_capture
+> > > > > > > > > > > > > > > > > amd_isp_capture.1.auto: amdgpu:
+> > > > > > > > > > > > > > > > > AMD ISP v4l2 device registered
+> > > > > > > > > > > > > > > > >          [    9.489005]
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > > > > The OV05 sensor device is added
+> > > > > > > > > > > > > > > > > to the ISP I2C bus
+> > > > > > > > > > > > > > > > >          [    9.529012]
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > > > > timeout while trying to abort
+> > > > > > > > > > > > > > > > > current transfer
+> > > > > > > > > > > > > > > > >          [    9.554046]
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > > > > timeout in disabling adapter
+> > > > > > > > > > > > > > > > >          [    9.554174]
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > > > > timeout while trying to abort
+> > > > > > > > > > > > > > > > > current transfer
+> > > > > > > > > > > > > > > > >          [    9.580022]
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > > > > timeout in disabling adapter
+> > > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > > And then the kernel crashes due
+> > > > > > > > > > > > > > > > > to the same use-after-free
+> > > > > > > > > > > > > > > > > issues I pointed out
+> > > > > > > > > > > > > > > > > in my other email [2].
+> > > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > > Any idea what's going on?
+> > > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > > [1]
+> > > > > > > > > > > > > > > > > https://github.com/amd/Linux_ISP_Kernel/commit/
+> > > > > > > > > > > > > > > > > c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4
+> > > > > > > > > > > > > > > > > [2] https://lore.kernel.org/r/aIEiJL83pOYO8lUJ@sultan-box
+> > > > > > > > > > > > > > > > Hi Sultan,
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > [1] is for kernel 6.8, believe it
+> > > > > > > > > > > > > > > > can't be applied to 6.15. We didn't
+> > > > > > > > > > > > > > > > verify
+> > > > > > > > > > > > > > > > on 6.15 but we are really glad to
+> > > > > > > > > > > > > > > > help, would you please provide some
+> > > > > > > > > > > > > > > > info,
+> > > > > > > > > > > > > > > > 1. Suppose you are using Ubuntu, right? What's the version?
+> > > > > > > > > > > > > > > > 2. 6.15, do you mean
+> > > > > > > > > > > > > > > > https://github.com/torvalds/linux/tree/
+> > > > > > > > > > > > > > > > v6.15 ?
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > After your confirmation, we'll see
+> > > > > > > > > > > > > > > > what we can do to enable your camera
+> > > > > > > > > > > > > > > > quickly and easily
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > Regards,
+> > > > > > > > > > > > > > > > Bin
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > Thank you, Bin!
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > 1. I'm using Arch Linux with the ISP4-patched libcamera [1].
+> > > > > > > > > > > > > > > 2. Yes, here is my kernel source [2].
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > I have some more findings:
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > Currently, the first blocking issue is
+> > > > > > > > > > > > > > > that the I2C adapter fails to
+> > > > > > > > > > > > > > > initialize.
+> > > > > > > > > > > > > > > This is because the ISP tile isn't powered on.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > I noticed that in the old version of
+> > > > > > > > > > > > > > > amd_isp_i2c_designware [3], there were
+> > > > > > > > > > > > > > > calls to isp_power_set(), which is
+> > > > > > > > > > > > > > > available in the old ISP4 sources [4].
+> > > > > > > > > > > > > > > Without isp_power_set(), the I2C adapter
+> > > > > > > > > > > > > > > always fails to initialize for me.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > How is the ISP tile supposed to get
+> > > > > > > > > > > > > > > powered on in the current ISP4 code?
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > You are correct, yes, i believe the I2C
+> > > > > > > > > > > > > > adapter failure is caused by ISP not
+> > > > > > > > > > > > > > being powered up. Currently in latest code,
+> > > > > > > > > > > > > > isp_power_set is no longer
+> > > > > > > > > > > > > > available, instead, we implemented genPD for ISP in amdgpu
+> > > > > > > > > > > > > > https://lore.kernel.org/all/20250618221923.3944751-1-
+> > > > > > > > > > > > > > pratap.nirujogi@amd.com/
+> > > > > > > > > > > > > > Both amd_isp_i2c and amd_isp_capture are in
+> > > > > > > > > > > > > > the power domain and use the
+> > > > > > > > > > > > > > standard runtime PM API to do the power control
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Thanks for that link, I found it along with
+> > > > > > > > > > > > > another patch on the list to make
+> > > > > > > > > > > > > the fwnode work ("drm/amd/amdgpu: Initialize
+> > > > > > > > > > > > > swnode for ISP MFD device").
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > Also, I noticed that the driver init
+> > > > > > > > > > > > > > > ordering matters between all of the
+> > > > > > > > > > > > > > > drivers
+> > > > > > > > > > > > > > > needed for the ISP4 camera. In
+> > > > > > > > > > > > > > > particular, amd_isp_i2c_designware and
+> > > > > > > > > > > > > > > amd_isp4
+> > > > > > > > > > > > > > > must be initialized before amd_capture,
+> > > > > > > > > > > > > > > otherwise amd_capture will fail to find
+> > > > > > > > > > > > > > > the fwnode properties for the OV05C10
+> > > > > > > > > > > > > > > device attached to the I2C bus.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > But there is no driver init ordering
+> > > > > > > > > > > > > > > enforced, which also caused some issues
+> > > > > > > > > > > > > > > for
+> > > > > > > > > > > > > > > me until I figured it out. Maybe probe
+> > > > > > > > > > > > > > > deferral (-EPROBE_DEFER) should be used
+> > > > > > > > > > > > > > > to ensure each driver waits for its dependencies to init first?
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > amd_isp_capture only has dependency on
+> > > > > > > > > > > > > > amd_isp4 which is the ACPI platform
+> > > > > > > > > > > > > > driver, it is init before amd_isp_catpure.
+> > > > > > > > > > > > > > Do you see in your side the amd_capture
+> > > > > > > > > > > > > > probe failure caused by failing to
+> > > > > > > > > > > > > > read fwnode properties? If that's the case
+> > > > > > > > > > > > > > please help to check if amd_isp4
+> > > > > > > > > > > > > > is loaded successfully
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > I got much further now: there aren't any driver
+> > > > > > > > > > > > > initialization errors, but when
+> > > > > > > > > > > > > I open the camera, there's no image. The camera
+> > > > > > > > > > > > > LED turns on so it's active.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > And then shortly afterwards, amdgpu dies and the
+> > > > > > > > > > > > > entire system freezes.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > I've attached my full dmesg, please let me know
+> > > > > > > > > > > > > what you think. Thanks!
+> > > > > > > > > > > > 
+> > > > > > > > > > > > I almost forgot, here is my current kernel tree:
+> > > > > > > > > > > > https://github.com/kerneltoast/kernel_x86_laptop/tree/v6.16-
+> > > > > > > > > > > > sultan-isp4
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Sultan
+> > > > > > > > > > > 
+> > > > > > > > > > > Thanks Sultan, yes, seems much close to the final
+> > > > > > > > > > > success. Will have some
+> > > > > > > > > > > internal discussion.
+> > > > > > > > > > 
+> > > > > > > > > > I got the webcam working. The same bug happened when I tried
+> > > > > > > > > > Ubuntu's linux-oem
+> > > > > > > > > > kernel, which made me think that the issue was firmware.
+> > > > > > > > > > 
+> > > > > > > > > > And indeed, the culprit was a firmware update from February. I bisected
+> > > > > > > > > > linux-firmware and found the commit which broke the webcam for me:
+> > > > > > > > > > 
+> > > > > > > > > >       commit 1cc8c1bfa11251ce8bfcc97d1f15e312f7fe4df0 (HEAD)
+> > > > > > > > > >       Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > > > > > >       Date:   Wed Feb 19 12:16:51 2025 -0500
+> > > > > > > > > > 
+> > > > > > > > > >           amdgpu: Update ISP FW for isp v4.1.1
+> > > > > > > > > > 
+> > > > > > > > > >           From internal git commit:
+> > > > > > > > > >           5058202443e08a673b6772ea6339efb50853be28
+> > > > > > > > > > 
+> > > > > > > > > >           Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > > > > > > 
+> > > > > > > > > >        amdgpu/isp_4_1_1.bin | Bin 4543184 -> 6083536 bytes
+> > > > > > > > > >        1 file changed, 0 insertions(+), 0 deletions(-)
+> > > > > > > > > > 
+> > > > > > > > > > Downgrading firmware to before that commit fixes the webcam.
+> > > > > > > > > > Any idea why?
+> > > > > > > > > > 
+> > > > > > > > > > Thanks,
+> > > > > > > > > > Sultan
+> > > > > > > > > 
+> > > > > > > > > So, can i say the working firmware binary is this one?
+> > > > > > > > > 
+> > > > > > > > > Commit 8f070131
+> > > > > > > > > amdgpu: Update ISP FW for isp v4.1.1
+> > > > > > > > > 
+> > > > > > > > >    From internal git commit:
+> > > > > > > > > 39b007366cc76ef8c65e3bc6220ccb213f4861fb
+> > > > > > > > > 
+> > > > > > > > > Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > > > > 
+> > > > > > > > Correct.
+> > > > > > > > 
+> > > > > > > > > There are too many changes between them, so i can't tell exactly which
+> > > > > > > > > change caused this. So, from my side
+> > > > > > > > > 1. Will try these two firmware to see if we have the same issue.
+> > > > > > > > > 2. It has been quite a long time since last release, will see if need to
+> > > > > > > > > release a latest one.
+> > > > > > > > 
+> > > > > > > > Thanks. It was a quick bisect for me, so I'm happy to help test if a
+> > > > > > > > bisect
+> > > > > > > > between those two internal git commits is needed.
+> > > > > > > > 
+> > > > > > > Really appreciate your test.
+> > > > > > > > In case it makes a difference, I have the laptop with the 2.8K OLED
+> > > > > > > > display. I'm
+> > > > > > > > aware there is one other display variant on other SKUs, which is a
+> > > > > > > > WUXGA IPS.
+> > > > > > > > 
+> > > > > > > Good to know, I believe it won't make any difference for ISP
+> > > > > > > 
+> > > > > > > > Also, with that old firmware, my camera only works with the old isp4
+> > > > > > > > driver from
+> > > > > > > > that Linux_ISP_Kernel repo (which is the same isp4 driver used in
+> > > > > > > > Ubuntu's
+> > > > > > > > linux-oem kernel). Does the new isp4 driver you've submitted here
+> > > > > > > > require newer
+> > > > > > > > firmware than the old driver located in Linux_ISP_Kernel?
+> > > > > > > > 
+> > > > > > > > Sultan
+> > > > > > > 
+> > > > > > > We had a try, yes, both of the old FW can't work on the new ISP4 driver,
+> > > > > > > as you know, for the last months, we did lots of driver modifications
+> > > > > > > for upstream and cause it incompatible with old FW.
+> > > > > > > Now, under internal discussion to upstream a new FW to support the new
+> > > > > > > ISP driver
+> > > > > > > 
+> > > > > > > Regards,
+> > > > > > > Bin
+> > > > > > > 
+> > > > > > > Hi Sultan,
+> > > > > > 
+> > > > > > This is the conclusion of your test,
+> > > > > > Driver: https://github.com/amd/Linux_ISP_Kernel/commit/c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4
+> > > > > > [1] It works on FW      8f070131(ext):39b00736(int)
+> > > > > > [2] It can't work on FW 1cc8c1bf(ext):50582024(int)
+> > > > > 
+> > > > > Correct.
+> > > > > 
+> > > > > > Would you please help to check if CONFIG_VIDEO_OV05C is defined not in the
+> > > > > > .config file when building the kernel? Our assumption is to make [1] work,
+> > > > > > CONFIG_VIDEO_OV05C shouldn't be defined. to make [2] work,
+> > > > > > CONFIG_VIDEO_OV05C should be defined.
+> > > > > 
+> > > > > Yes, it is enabled and I have only tested with it enabled:
+> > > > > 
+> > > > >       $ rg CONFIG_VIDEO_OV05C linux-oem-6.14/.config
+> > > > >       CONFIG_VIDEO_OV05C=m
+> > > > > 
+> > > > > That's the Ubuntu linux-oem-6.14 kernel. You can get the full source and .config
+> > > > > I tested by running the following commands:
+> > > > > 
+> > > > >       git clone https://git.launchpad.net/ubuntu/+source/linux-oem-6.14 -b applied/6.14.0-1006.6
+> > > > >       cd linux-oem-6.14
+> > > > >       python debian/scripts/misc/annotations -e --arch amd64 > .config
+> > > > >       make olddefconfig
+> > > > > 
+> > > > > Let me know if that works.
+> > > > > 
+> > > > > Sultan
+> > > > 
+> > > > Thanks Sultan for the details, yes, we can reproduce the same issue on old
+> > > > isp driver 4.0 release on FW 1cc8c1bf(ext):50582024(int), after debug, the
+> > > > cause is
+> > > >    - ov05c sensor device is added by amd i2c driver
+> > > >    - When ov05c sensor driver probes, it will try to get gpio description but
+> > > > it will fail because the amd-pinctl driver which creates the gpio resource
+> > > > hasn't been loaded yet.
+> > > >    - the ov05c sensor driver probe failure will finally make sensor not able
+> > > > to work when start streaming
+> > > > 
+> > > > Add following patch is supposed to fix this issue to make it work on FW
+> > > > 1cc8c1bf(ext):50582024(int) when CONFIG_VIDEO_OV05C is defined.
+> > > > 
+> > > > @@ -1121,6 +1129,7 @@ static struct i2c_driver ov05_i2c_driver = {
+> > > > 
+> > > > module_i2c_driver(ov05_i2c_driver);
+> > > > 
+> > > > +MODULE_SOFTDEP("pre: pinctrl-amdisp");
+> > > > MODULE_ALIAS("ov05");
+> > > > MODULE_DESCRIPTION("OmniVision OV05 sensor driver");
+> > > > MODULE_LICENSE("GPL and additional rights");
+> > > > 
+> > > > Please help to see if it works if you get time.
+> > > 
+> > > There is no difference I'm afraid. I applied the patch and tested with FW
+> > > 1cc8c1bf(ext):50582024(int) and the webcam is still broken on that FW:
+> > > 
+> > >    [   19.523006] amd_isp_capture amd_isp_capture.1.auto: amdgpu: Preview(fw_run:0)|start_streaming
+> > >    [   19.537000] amd_isp_capture amd_isp_capture.1.auto: ISP FW boot suc!
+> > >    [   19.537009] amd_isp_capture amd_isp_capture.1.auto: amdgpu: starting Phy
+> > >    [   19.537050] PHY register access test success!
+> > >    [   19.537901] Termination calibration observability: 0x0
+> > >    [   19.539926] Wait for phyReady: 0x0
+> > >    [   19.541932] Wait for phyReady: 0x1
+> > >    [   20.901654] amd_isp_capture amd_isp_capture.1.auto: -><- fail respid Unknown respid(0x30002)
+> > >    [   22.070676] amd_isp_capture amd_isp_capture.1.auto: -><- fail respid Unknown respid(0x30002)
+> > >    ...
+> > >    [   28.769372] amd_isp_capture amd_isp_capture.1.auto: amdgpu: Preview(fw_run:1)|stop_streaming
+> > >    [   28.769388] amd_isp_capture amd_isp_capture.1.auto: amdgpu: stopping Phy
+> > >    [   28.769868] amd_isp_capture amd_isp_capture.1.auto: isp_rm_cmd_from_cmdq_by_stream: fail empty cmd q, stream[1]
+> > >    [   28.771799] amd_isp_capture amd_isp_capture.1.auto: isp_rm_cmd_from_cmdq_by_stream: fail empty cmd q, stream[0]
+> > > 
+> > > Sultan
+> > 
+> > That's really weird, I tested kernel built from
+> > https://github.com/amd/Linux_ISP_Kernel/tree/4.0 with CONFIG_VIDEO_OV05C=m
+> > and above sensor driver probe failure patch on FW c8c1bf(ext):50582024(int),
+> > camera APPs like cheese, qv4l2, Camera all work well.
+> > 
+> > Your failure still looks like sensor related, Would you help to add log to
+> > sensor driver drivers/media/i2c/ov05c.c to see if its probe function gets
+> > called and succeeds? Here is the log in success case,
+> > 
+> > amd_isp_capture amd_isp_capture.1.auto: amdgpu: starting Phy
+> > PHY register access test success!
+> > Termination calibration observability: 0x0
+> > Wait for phyReady: 0x0
+> > Wait for phyReady: 0x1
+> > amd_isp_capture amd_isp_capture.1.auto: amdgpu: starting camera sensor
+> > amd_isp_capture amd_isp_capture.1.auto: isp_intf_start_stream,cid:0,sid:0
+> 
+> Debug log output:
+> 
+> $ dmesg | rg SARU
+> [    4.565697] amd-isp4 OMNI5C10:00: SARU: amd_isp_probe started...
+> [    4.565753] amd-isp4 OMNI5C10:00: SARU: amd_isp_probe completed successfully
+> [    6.937077] amd_isp_i2c_designware amd_isp_i2c_designware: SARU: amd_isp_dw_i2c_plat_probe started...
+> [    6.937522] amdisp-pinctrl amdisp-pinctrl: SARU: amdisp_pinctrl_probe started...
+> [    6.941264] amdisp-pinctrl amdisp-pinctrl: SARU: amdisp_pinctrl_probe completed successfully
+> [    6.951967] amd_isp_i2c_designware amd_isp_i2c_designware: SARU: amd_isp_dw_i2c_plat_probe completed successfully
+> 
+> Log output when opening cheese:
+> 
+> [   46.957925] amd_isp_capture amd_isp_capture.1.auto: amdgpu: Preview(fw_run:0)|start_streaming
+> [   46.979797] amd_isp_capture amd_isp_capture.1.auto: ISP FW boot suc!
+> [   46.979812] amd_isp_capture amd_isp_capture.1.auto: amdgpu: starting Phy
+> [   46.979860] PHY register access test success!
+> [   46.980565] Termination calibration observability: 0x0
+> [   46.982598] Wait for phyReady: 0x0
+> [   46.984634] Wait for phyReady: 0x1
+> [   48.340154] amd_isp_capture amd_isp_capture.1.auto: -><- fail respid Unknown respid(0x30002)
+> [   49.509505] amd_isp_capture amd_isp_capture.1.auto: -><- fail respid Unknown respid(0x30002)
+> [   51.823498] amd_isp_capture amd_isp_capture.1.auto: amdgpu: Preview(fw_run:1)|stop_streaming
+> [   51.823513] amd_isp_capture amd_isp_capture.1.auto: amdgpu: stopping Phy
+> [   51.823962] amd_isp_capture amd_isp_capture.1.auto: isp_rm_cmd_from_cmdq_by_stream: fail empty cmd q, stream[1]
+> [   51.825358] amd_isp_capture amd_isp_capture.1.auto: isp_rm_cmd_from_cmdq_by_stream: fail empty cmd q, stream[0]
+> 
+> Patch applied to tree:
+> 
+> --- a/drivers/i2c/busses/i2c-designware-amdisp.c
+> +++ b/drivers/i2c/busses/i2c-designware-amdisp.c
+> @@ -42,2 +42,3 @@ static int amd_isp_dw_i2c_plat_probe(struct platform_device *pdev)
+>  	pdev->dev.init_name = DRV_NAME;
+> +	dev_info(&pdev->dev, "SARU: %s started...", __func__);
+>  
+> @@ -95,2 +96,3 @@ static int amd_isp_dw_i2c_plat_probe(struct platform_device *pdev)
+>  
+> +	dev_info(&pdev->dev, "SARU: %s completed successfully", __func__);
+>  	return 0;
+> --- a/drivers/media/i2c/ov05c.c
+> +++ b/drivers/media/i2c/ov05c.c
+> @@ -1031,2 +1031,3 @@ static int ov05_probe(struct i2c_client *client)
+>  
+> +	dev_info(&client->dev, "SARU: %s started...", __func__);
+>  	ov05c = devm_kzalloc(&client->dev, sizeof(*ov05c), GFP_KERNEL);
+> @@ -1081,2 +1082,3 @@ static int ov05_probe(struct i2c_client *client)
+>  
+> +	dev_info(&client->dev, "SARU: %s completed successfully", __func__);
+>  	return 0;
+> @@ -1123,2 +1125,3 @@ module_i2c_driver(ov05_i2c_driver);
+>  
+> +MODULE_SOFTDEP("pre: pinctrl-amdisp");
+>  MODULE_ALIAS("ov05");
+> --- a/drivers/pinctrl/pinctrl-amdisp.c
+> +++ b/drivers/pinctrl/pinctrl-amdisp.c
+> @@ -183,2 +183,3 @@ static int amdisp_pinctrl_probe(struct platform_device *pdev)
+>  	pdev->dev.init_name = DRV_NAME;
+> +	dev_info(&pdev->dev, "SARU: %s started...", __func__);
+>  
+> @@ -215,2 +216,3 @@ static int amdisp_pinctrl_probe(struct platform_device *pdev)
+>  
+> +	dev_info(&pdev->dev, "SARU: %s completed successfully", __func__);
+>  	return 0;
+> --- a/drivers/platform/x86/amd/amd_isp4.c
+> +++ b/drivers/platform/x86/amd/amd_isp4.c
+> @@ -365,2 +365,3 @@ static int amd_isp_probe(struct platform_device *pdev)
+>  
+> +	dev_info(&pdev->dev, "SARU: %s started...", __func__);
+>  	pinfo = device_get_match_data(&pdev->dev);
+> @@ -388,2 +389,3 @@ static int amd_isp_probe(struct platform_device *pdev)
+>  	platform_set_drvdata(pdev, isp4_platform);
+> +	dev_info(&pdev->dev, "SARU: %s completed successfully", __func__);
+>  	return 0;
 
---=-9rHoaNyNACYag69RQWES
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sorry, please disregard my last two emails, as I was testing on the wrong
+kernel. :(
 
-Le dimanche 10 ao=C3=BBt 2025 =C3=A0 21:24 +0000, Jonas Karlman a =C3=A9cri=
-t=C2=A0:
-> This series add a HEVC backend to the Rockchip Video Decoder driver.
->=20
-> With the dependent H.264 High 10 and 4:2:2 profile support series
-> finally merged there is finally time to send a v2 with minor changes and
-> a suggested code style fix of this series. v1 of this series has been
-> fully functional up until recent unstaging of the rkvdec driver.
->=20
-> A version of this HEVC backend has been in use by the LibreELEC distro
-> for the past 5+ years [1]. It was initially created based on a copy of
-> the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
-> matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
->=20
-> It has since then been extended to use the stable HEVC uAPI controls and
-> improved opon e.g. to include support for rk3288 and fix decoding issues
-> by Alex Bee and Nicolas Dufresne.
->=20
-> The version submitted in this series is based on the code currently used
-> by the LibreELEC distro, excluding hard/soft reset, and with cabac table
-> and scaling matrix functions picked from Sebastian Fricke prior series
-> to add a HEVC backend [2].
->=20
-> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
-> this series possible!
->=20
-> Patch 1 add the new HEVC backend.
-> Patch 2-3 add variants support to the driver.
-> Patch 4 add support for a rk3288 variant.
-> Patch 5 add a rk3328 variant to work around hw quirks.
-> Patch 6-7 add device tree node for rk3288.
->=20
-> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
->=20
-> =C2=A0 v4l2-compliance 1.30.1, 64 bits, 64-bit time_t
-> =C2=A0 ...
-> =C2=A0 Total for rkvdec device /dev/video1: 49, Succeeded: 49, Failed: 0,=
- Warnings:
-> 0
->=20
-> =C2=A0 Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-v4l2re=
-quest
-> =C2=A0 ...
-> =C2=A0 Ran 137/147 tests successfully
+I've confirmed that the MODULE_SOFTDEP("pre: pinctrl-amdisp") change indeed
+fixes the newer firmware on the old isp driver 4.0 release. Without that change,
+it is as you say: the ov05c sensor probe fails.
 
-I've also tested RK3399 using Renegade Elite from Libre Computer, though wi=
-th
-GStreamer. My results for this suite is 134/147, with failing tests being:
+So now I can use FW 1cc8c1bf(ext):50582024(int).
 
-- DBLK_D_VIXS_2
-- DSLICE_A_HHI_5
-- DELTAQP_A_BRCM_4
-- EXT_A_ericsson_4
-- PICSIZE_A_Bossen_1 (expected)
-- PICSIZE_B_Bossen_1 (expected)
-- PICSIZE_C_Bossen_1 (expected)
-- PICSIZE_D_Bossen_1 (expected)
-- SAODBLK_A_MainConcept_4
-- SAODBLK_B_MainConcept_4
-- TSUNEQBD_A_MAIN10_Technicolor_2 (expected)
-- WPP_D_ericsson_MAIN10_2
-- WPP_D_ericsson_MAIN_2
-
-Please share your list, this seems big enough difference to be worth making=
- sure
-we did not diverge somewhere between both interpretation of the V4L2 spec.
-GStreamer has been mostly tested with MTK driver so far. Can you also share=
- a
-link to the latest ffmpeg tree you are using (since its not upstream FFMPEG=
-) ?
-
-Detlev reports 146/147 on newer hardware using GStreamer, failing
-TSUNEQBD_A_MAIN10_Technicolor_2 (9bit chroma) only. On Detlev side, it will=
- we
-important to check why 8K videos (PICSIZE*) passes with a single core, perh=
-aps
-we accidently use both cores ?
-
-Note, also expected, we failt JCT-VC-SCC, JCT-VC-MV-HEVC, and JCT-VC-RExt p=
-asses
-2/49. This last suite is pretty new in fluster.
-
-regards,
-Nicolas
-
->=20
-> =C2=A0 Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-v4l2re=
-quest
-> =C2=A0 ...
-> =C2=A0 Ran 9/9 tests successfully
->=20
-> And on a TinkerBoard (RK3288):
->=20
-> =C2=A0 v4l2-compliance 1.30.1, 32 bits, 32-bit time_t
-> =C2=A0 ...
-> =C2=A0 Total for rkvdec device /dev/video3: 49, Succeeded: 49, Failed: 0,=
- Warnings:
-> 0
->=20
-> =C2=A0 Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-v4l2re=
-quest
-> =C2=A0 ...
-> =C2=A0 Ran 137/147 tests successfully
->=20
-> =C2=A0 Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-v4l2re=
-quest
-> =C2=A0 ...
-> =C2=A0 Ran 9/9 tests successfully
->=20
-> The WPP_x_ericsson tests from test suite JCT-VC-HEVC_V1 has been showing
-> a mix of both Success and/or Fail result for FFmpeg-H.265-v4l2request.
->=20
-> Full summary of fluster run can be found at [3].
->=20
-> Please note that there is a known issue with concurrent decoding,
-> decoding errors in one decode session may affect a separate session.
-> The only known mitigation to this is to pause decoding for some time
-> and/or do a full HW reset, something to handle in future series.
->=20
-> Changes in v2:
-> - Rabase after h264 high10/422 merge and unstaging of rkvdec driver
-> - Use new_value in transpose_and_flatten_matrices()
-> - Add NULL check for ctrl->new_elems in rkvdec_hevc_run_preamble()
-> - Set RKVDEC_WR_DDR_ALIGN_EN for RK3328
-> - Adjust code style in rkvdec_enum_coded_fmt_desc()
-> - Collect a-b tag
-> - Drop merged vdec node reg size patches
-> Link to v1:
-> https://lore.kernel.org/linux-media/20231105233630.3927502-1-jonas@kwiboo=
-.se
->=20
-> [1]
-> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/p=
-atches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
-> [2]
-> https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-rc1-v2-0=
--fa1897efac14@collabora.com/
-> [3] https://gist.github.com/Kwiboo/bedf1f447b50921ffbe26cb99579582d
->=20
-> Alex Bee (4):
-> =C2=A0 media: rkvdec: Add variants support
-> =C2=A0 media: rkvdec: Add RK3288 variant
-> =C2=A0 media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
-> =C2=A0 ARM: dts: rockchip: Add vdec node for RK3288
->=20
-> Jonas Karlman (3):
-> =C2=A0 media: rkvdec: Add HEVC backend
-> =C2=A0 media: rkvdec: Implement capability filtering
-> =C2=A0 media: dt-bindings: rockchip,vdec: Add RK3288 compatible
->=20
-> =C2=A0.../bindings/media/rockchip,vdec.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
-> =C2=A0arch/arm/boot/dts/rockchip/rk3288.dtsi=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 17 +-
-> =C2=A0.../media/platform/rockchip/rkvdec/Makefile=C2=A0=C2=A0 |=C2=A0=C2=
-=A0=C2=A0 2 +-
-> =C2=A0.../rockchip/rkvdec/rkvdec-hevc-data.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 1848 +++++++++++++++++
-> =C2=A0.../platform/rockchip/rkvdec/rkvdec-hevc.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 826 ++++++++
-> =C2=A0.../platform/rockchip/rkvdec/rkvdec-regs.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0=C2=A0 4 +
-> =C2=A0.../platform/rockchip/rkvdec/rkvdec-vp9.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 10 +
-> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0 |=C2=A0 184=
- +-
-> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.h=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 15 +
-> =C2=A09 files changed, 2886 insertions(+), 21 deletions(-)
-> =C2=A0create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-he=
-vc-data.c
-> =C2=A0create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-he=
-vc.c
-
---=-9rHoaNyNACYag69RQWES
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJpmKgAKCRBxUwItrAao
-HG8lAJ4602CSHQ1YZnGfNkgIvp7n1cgBQgCfafRmb71rNsF9qjZayYW+wxvbOlg=
-=vlVd
------END PGP SIGNATURE-----
-
---=-9rHoaNyNACYag69RQWES--
+Sultan
 
