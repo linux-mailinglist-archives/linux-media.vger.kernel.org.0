@@ -1,141 +1,160 @@
-Return-Path: <linux-media+bounces-39439-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39442-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6180FB20BEA
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 16:32:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F60B20C81
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 16:49:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 994A21886BF6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 14:30:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C85A160B5A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 14:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C158224A057;
-	Mon, 11 Aug 2025 14:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47632E174C;
+	Mon, 11 Aug 2025 14:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="qXCmBZUi"
+	dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b="fRYW9HR9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mailo.com (msg-3.mailo.com [213.182.54.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F282E3701;
-	Mon, 11 Aug 2025 14:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8832E0B79;
+	Mon, 11 Aug 2025 14:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.182.54.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754922629; cv=none; b=dOm1oiRfFGA7KkVkwkGWtfNdcEpoTJHFXPcFJ9Ylgh6p1lvjo4BYcf1vbECvob22E5xzWro4+nuiww9j7DwPX3Fh1l7eV91eTb5/Q3hYe0CXGfmyP88WJ3nPv2U0z04wxv5Elvy7HXszQjPt4qxZKff0bhidrZ7X8jizJmVmwnw=
+	t=1754923262; cv=none; b=RNVZtBe7AMPm7U9DW5uEL193t9RIxaZfjp7MdUSjF0eGiCOYDnj9u7WmAEOnTINEKeBY4Sqcpyb5tlzWm2DzkA/xdZIOSAWZ85og9nzKGprAHbfRKiQFvgENBBnI7KnLmk0YPWSY+Hmr8lOE2GCTlHcG4jOd04giSshUuq/xq/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754922629; c=relaxed/simple;
-	bh=qncw7yxViaLIjgYRg+kCOYng6WevPU9RpyGML2QyKC0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=B4pOrWHlKfVK7CltLRrUvPeP3/S/4k/I8pEK0xRSpgiljgDNHApzOyPnZUU7xESwfw0W05n/s3qYnWhWIRjarVpgdXGtD6PFu/I+bVmVSAJ6z3GayI0oKML7cubBGQuTVRo4qLcJrRaHnceuqb2bcavcxiz7HzEGtlbGB4F9s3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=qXCmBZUi; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1754922611; x=1755527411; i=markus.elfring@web.de;
-	bh=S3ZlfFUOqraazFG4jozDKg8aCMSU0LqJMYEvzx4osOM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=qXCmBZUiZpHKaK+YPtNtm8bDTidZfV5U5ktroQoYU2Bzel3CwgadautwMCNrCl9q
-	 R2tmHW1NEUIj9eIi7w8qwIi9ptAKLnKOjgCFraX0Jmt+XO3qMPvPktgC/gJYjME9a
-	 Ot8goTAL0YC0GvNLiHn1E1wEdCJHXim9TcYUSET5mgoggobBWbtppxlqzC5f7nj9g
-	 YasRZE6qFu4dg4AfzEq5Ys8Z+7sWgeWF9inJYnyDPUTCGJkc8sCY0RtnnbVvU/k9H
-	 CVKqLESfU4009k0a0G6qWbt0Z/ON9vx+ABiNiR5hraMPaOkrclVyUGre9fnjps/Nk
-	 Af7ZnYD1d5olwnsZJA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.213]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MTvvy-1vCJmK3qZm-00KmlN; Mon, 11
- Aug 2025 16:30:10 +0200
-Message-ID: <50529d2c-a0a5-4c04-a562-78e4edadabbd@web.de>
-Date: Mon, 11 Aug 2025 16:30:08 +0200
+	s=arc-20240116; t=1754923262; c=relaxed/simple;
+	bh=WcbLtLQBy91cBUeeDQnn5F397N+v9eItLBsxZhKw2/A=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bNjkGENJ/HW7q9Ksev+PwJgFoAHdU+plhalAKLsvpSvE6J+OW55r2fAEU9Vl71YHQEI26GLfIgP8f0w6XIqB+cJczdZjXe9LA2rjEGej8OQ0mB+9wY5mXj4xysLaZLRBsp7RNo3o/pzJyDE546a3BFVfBbm0HGZAEklRNaOo3ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mailoo.org; spf=pass smtp.mailfrom=mailoo.org; dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b=fRYW9HR9; arc=none smtp.client-ip=213.182.54.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mailoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailoo.org
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+	t=1754922631; bh=WcbLtLQBy91cBUeeDQnn5F397N+v9eItLBsxZhKw2/A=;
+	h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=fRYW9HR9yCyYZB8EAkEWKgb2fGUrajHuXntl6PB9kwHOCW+NTyKiOHot+bu8FVi+Z
+	 uM6FZzrOv3VOPv53jOGriUjMyEk0VHFcY+xNV1lX5IGsS/IT+53AnTgllzi3TG3bEd
+	 4EV1pHsvmRlerk2o4/ZzW/IL4nmqW4Kwku08tFss=
+Received: by b221-5.in.mailobj.net [192.168.90.25] with ESMTP
+	via ip-22.mailoo.org [213.182.54.22]
+	Mon, 11 Aug 2025 16:30:31 +0200 (CEST)
+X-EA-Auth: Hg/exFp/+pX8QNqmfMA6P7RGU73U9i67bK+qYwUzVyHuqb3BttX1KbhCvRFdjjtEi5ZZJghPIEtv0vvHIQJLHDWolXoFlwutM0PrVXB5LYk=
+Message-ID: <bd5aec71222a98e51e6f0602b85d04d6ff3d6885.camel@mailoo.org>
+Subject: Re: [PATCH] media: i2c: ov8858: Add sensor's pixel matrix size
+From: Vincent Knecht <vincent.knecht@mailoo.org>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Nicholas Roth	
+ <nicholas@rothemail.net>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	phone-devel@vger.kernel.org
+Date: Mon, 11 Aug 2025 16:30:30 +0200
+In-Reply-To: <20250509-ov8858-crop-v1-1-403a0993c1de@mailoo.org>
+References: <20250509-ov8858-crop-v1-1-403a0993c1de@mailoo.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42app2) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Detlev Casanova <detlev.casanova@collabora.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20250811-rkvdec-redundant-pm-rebase-v2-1-90c47213fbbe@collabora.com>
-Subject: Re: [PATCH v2] media: rkvdec: Remove redundant
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250811-rkvdec-redundant-pm-rebase-v2-1-90c47213fbbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MBeF5ls0UmFpbxTc6iMeAbb1gGvRwMD3xWbHVAvJIHN5JYINNUr
- 9UwZfStzjKDgLDGnfZO6eaDprq6yocz/iQDtajJj5naTbtZ5JpqX5r9atenkGkFCyWN3xgi
- mmcU9jFKTHPSL3k/t3aRvaW5fBq1f8NeNaVkt9C8xtqOeIGVyfjJUTeCfU8+LtKDVxrOIoK
- 9W3cQeHKlr98Xx/LK2IzA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ew2c845iv3k=;kMQ3r4KKg/X9g/ThaHEG0O4PNJ/
- 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
 
->                               =E2=80=A6 Remove the now-reduntant explici=
-t call to
+Le vendredi 09 mai 2025 =C3=A0 09:33 +0200, Vincent Knecht via B4 Relay a =
+=C3=A9crit=C2=A0:
+> From: Vincent Knecht <vincent.knecht@mailoo.org>
+>=20
+> The OV8858 pixel array is composed as:
+> - vertically: 16 dummy columns, 3264 valid ones and 16 dummy columns for
+> =C2=A0 a total of 3296 columns
+> - horizontally: 24 optical black lines, 16 dummy ones, 2448 valid, 16
+> =C2=A0 dummies and 24 optical black lines for a total of 2528 lines
+>=20
+> Set native and active sensor pixel sizes.
+>=20
+> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> ---
+> =C2=A0drivers/media/i2c/ov8858.c | 37 +++++++++++++++++++++++++++++++++++=
+++
+> =C2=A01 file changed, 37 insertions(+)
+>=20
+> diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
+> index 95f9ae7948463e95ce0b2cb58195de02ee72c02a..9a86aa46e20b48ef4bae7d70c=
+e485985c1ba886a 100644
+> --- a/drivers/media/i2c/ov8858.c
+> +++ b/drivers/media/i2c/ov8858.c
+> @@ -77,6 +77,14 @@
+> =C2=A0
+> =C2=A0#define REG_NULL			0xffff
+> =C2=A0
+> +/* OV8858 native and active pixel array size */
+> +#define OV8858_NATIVE_WIDTH		3296U
+> +#define OV8858_NATIVE_HEIGHT		2528U
+> +#define OV8858_PIXEL_ARRAY_LEFT		16U
+> +#define OV8858_PIXEL_ARRAY_TOP		40U
+> +#define OV8858_PIXEL_ARRAY_WIDTH	3264U
+> +#define OV8858_PIXEL_ARRAY_HEIGHT	2448U
+> +
+> =C2=A0static const char * const ov8858_supply_names[] =3D {
+> =C2=A0	"avdd",		/* Analog power */
+> =C2=A0	"dovdd",	/* Digital I/O power */
+> @@ -1492,11 +1500,40 @@ static int ov8858_init_state(struct v4l2_subdev *=
+sd,
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0
+> +static int ov8858_get_selection(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *sd_state,
+> +				struct v4l2_subdev_selection *sel)
+> +{
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_CROP:
+> +		sel->r =3D *v4l2_subdev_state_get_crop(sd_state, 0);
+> +		return 0;
+> +
+> +	case V4L2_SEL_TGT_NATIVE_SIZE:
+> +		sel->r.top =3D 0;
+> +		sel->r.left =3D 0;
+> +		sel->r.width =3D OV8858_NATIVE_WIDTH;
+> +		sel->r.height =3D OV8858_NATIVE_HEIGHT;
+> +		return 0;
+> +
+> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> +		sel->r.top =3D OV8858_PIXEL_ARRAY_TOP;
+> +		sel->r.left =3D OV8858_PIXEL_ARRAY_LEFT;
+> +		sel->r.width =3D OV8858_PIXEL_ARRAY_WIDTH;
+> +		sel->r.height =3D OV8858_PIXEL_ARRAY_HEIGHT;
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> =C2=A0static const struct v4l2_subdev_pad_ops ov8858_pad_ops =3D {
+> =C2=A0	.enum_mbus_code =3D ov8858_enum_mbus_code,
+> =C2=A0	.enum_frame_size =3D ov8858_enum_frame_sizes,
+> =C2=A0	.get_fmt =3D v4l2_subdev_get_fmt,
+> =C2=A0	.set_fmt =3D ov8858_set_fmt,
+> +	.get_selection =3D ov8858_get_selection,
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct v4l2_subdev_ops ov8858_subdev_ops =3D {
+>=20
+> ---
+> base-commit: 37ff6e9a2ce321b7932d3987701757fb4d87b0e6
+> change-id: 20250509-ov8858-crop-9c307bc9d5b6
+>=20
+> Best regards,
 
-                                                 redundant?
+Hi Sakari,
+
+I got no feedback about this patch, is it okay ?
+
+Thank you
 
 
-> pm_runtime_mark_last_busy().
-
-Is the summary phrase incomplete?
-
-Regards,
-Markus
 
