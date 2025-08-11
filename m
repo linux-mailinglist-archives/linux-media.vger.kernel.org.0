@@ -1,58 +1,89 @@
-Return-Path: <linux-media+bounces-39399-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39400-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9A5B20098
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 09:47:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D07B200E7
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 09:54:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AACCD174DDF
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 07:47:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19604188A647
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 07:54:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C780285078;
-	Mon, 11 Aug 2025 07:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436C32DAFA3;
+	Mon, 11 Aug 2025 07:52:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="D7gy0hIM";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n17P2/fi"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="SxXGZdtQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306B21F582B;
-	Mon, 11 Aug 2025 07:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324A92DA768;
+	Mon, 11 Aug 2025 07:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754898416; cv=none; b=MRIJU1yfZZlfIfdxpBM7ETeTCMJDs5MNyvzce/UU0QHLZIUvwjGc7F5i/ak0BxXM5iAv+JTF26or7Xuv/4VV3numPyZbCP2Yl/uapcOkwyCmtZ1tLNgqPo/hIggTmvpLaYzdJ4nrx9seZ6+ibd9O0hSiCpVzAvs8Y+OpYG6ekn0=
+	t=1754898768; cv=none; b=S/nKp36D2xQXGVcXIRruQFC/RdQ/xUurjx/ln4w8Kfd/4O7PKN+wjSD7RVUZhbrphzDE0TSTTroChbWUDO48K43Jkppz2ZsxFBMTvzyrqwkvp87oSe8qacz3qdXTPUYpOLkffYOfSFC+FMmWCkSLZ25s+SFkbHuaU/eLfwh9vf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754898416; c=relaxed/simple;
-	bh=4MMgbTyUJWGMqEvl8cpxSSQkajFSIFS92Abs4DfMrsg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=f0ncEKyANLtP0bX4Ybcv8mGQUZ+WmBLRq433dk8NjAGCLQgSOY7PkGOHa11eQIyLDa8iI8NMueNIsGiSuo2/PyeEoYSulUJl99dQ0Dvx+n7/B56fkL/GOVy3PwQXWssxNM5iwjhxkAFKXCJyP31QBmSGZ3aOWMOeTrvC3tF3AsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=D7gy0hIM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n17P2/fi; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754898413;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oW6XItzS3RhCClczZNyaDVU2qBVnd8oWUKJM2XLF3U0=;
-	b=D7gy0hIMV9tB4JSDXb0uCHwL5gaG18Lk2pQOD3YSLW9as31Yhw8YmISxYfvU/IrfrXqUBS
-	nbowDfp+MVLNNbrDnUscxWIriOdjpSNq2kMtL5hOe5SS2x/a6g1OXqR427CkC5Vco7VUkC
-	DUvD8KxL92ZZOsaaIwe6OIEVO5Bws2AtoSOL6M9y0xUmGBMXpX/2Uppaec1aCcHNXDa2mm
-	IlF/VcvhuWWtGM46hC0WJEy+zwW7WoXgk3tK2PJAtu8UxDc0Vhj08+hGRxNAz5k08BBeWo
-	MNlVAI6Xzt0yzSHEUTm+1b3g7ozNaExmDWolCJh2FXtZHosV3XCVR1Lc4WvV9g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754898413;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oW6XItzS3RhCClczZNyaDVU2qBVnd8oWUKJM2XLF3U0=;
-	b=n17P2/fiJG53D5pwyp7NZbW+XMU+NFAGp5OpB3RNIwEkGKA2z6sAG7oYV/2nMctIN1W1Dl
-	zIlYq2zkB4+4Q/Dg==
-Date: Mon, 11 Aug 2025 09:46:49 +0200
-Subject: [PATCH v2] media: platform: mtk-mdp3: don't use %pK through printk
+	s=arc-20240116; t=1754898768; c=relaxed/simple;
+	bh=95e3CuUQTrqy45zqcyWItFZG1H12fFfOzG5f9CveAYY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EPgDTp4NuiSs0aVsX58rm1MuhnAG3XrC/jTTCTFihjMODzy43kVaN1aJ8hXj1X4GPyWUWh2MbsmBQQvwYvWzmpEpbtUCNOxNGHMGhgGl4AsErpcdONFClz7wL9g2pJ739BIX1M+QyUTkACJgVvEieDxOkNQ4pzV7Ef78jhHHWt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=SxXGZdtQ; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=o/TAwYgz0ngg4OZwy8ia8COP26JschOwB0HVHE21DAo=; b=SxXGZdtQyMxVwztNjnje48NwIx
+	XaQaPQlAFvFfiS6IlDPIeQMvlKPgHgQqqLGrZ4R2g0IitbB6dbDHTto16Pp1ddSAobTmniULWRNzl
+	BexPQ0ZFnRcOgjUSdki0l99Lr2pnWuqHmy52zl621XqRWKy5viH8Pb3fPt9GmlblgoAPAVVylH243
+	4zzixJvbmlYB36lFr1prCfqgUkJigDVR9cKjV/8UGaSsEwVXzVrBSmJMLXxGRzYyQdsFWmoFJ4gon
+	Q6FJhthMt6ar6kMBaIY3TKu5dpzbnVRwS2Wzsgj5njlP2DWDzHN1ihnT0+sLBay9pqGWozkbvqrSu
+	xB0lx96A==;
+Received: from i53875a0c.versanet.de ([83.135.90.12] helo=localhost.localdomain)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1ulNKN-0007Ro-TK; Mon, 11 Aug 2025 09:52:19 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Daniel Stone <daniel@fooishbar.org>,
+	Da Xue <da@libre.computer>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	Robert Foss <rfoss@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH v9 00/10] New DRM accel driver for Rockchip's RKNN NPU
+Date: Mon, 11 Aug 2025 09:52:06 +0200
+Message-ID: <175489870472.808197.2800921191556391028.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,80 +92,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250811-restricted-pointers-mtk-mdp3-v2-1-d76e5e6d5299@linutronix.de>
-X-B4-Tracking: v=1; b=H4sIAOifmWgC/43NQQ6CMBCF4auQWTumrSLEFfcwLJp2lInSkmklG
- MLdrZzA5f8W31shkTAluFYrCM2cOIYS5lCBG2x4ELIvDUaZWjW6RaGUhV0mj1PkkEkSjvmJo59
- O2Li2tladlW4dFGISuvOy87e+9MApR/nsb7P+rX/Cs0aNrvG+6BdtyHYvDu8sMfBy9AT9tm1fi
- r5llMwAAAA=
-X-Change-ID: 20250718-restricted-pointers-mtk-mdp3-7c85aa04018c
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754898413; l=2558;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=4MMgbTyUJWGMqEvl8cpxSSQkajFSIFS92Abs4DfMrsg=;
- b=n1Jerr5rl9LAlwvxTZyKzlziPXqsX797vW1petW8HJJp/SY8O5gNi275PdXyjN02ZDrVitc4K
- Oa9s5IvBC2wBP6nLh/xuazfOJdCXOC8hU58Av291JSfTAqT8CfuBUc0
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-In the past %pK was preferable to %p as it would not leak raw pointer
-values into the kernel log.
-Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
-the regular %p has been improved to avoid this issue.
-Furthermore, restricted pointers ("%pK") were never meant to be used
-through printk(). They can still unintentionally leak raw pointers or
-acquire sleeping locks in atomic contexts.
 
-Switch to the regular pointer formatting which is safer and
-easier to reason about.
+On Mon, 21 Jul 2025 11:17:27 +0200, Tomeu Vizoso wrote:
+> This series adds a new driver for the NPU that Rockchip includes in its
+> newer SoCs, developed by them on the NVDLA base.
+> 
+> In its current form, it supports the specific NPU in the RK3588 SoC.
+> 
+> The userspace driver is part of Mesa and an initial draft can be found at:
+> 
+> [...]
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
-Changes in v2:
-- Rebase on v6.17-rc1
-- Link to v1: https://lore.kernel.org/r/20250718-restricted-pointers-mtk-mdp3-v1-1-c7ddaa0612ea@linutronix.de
----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 2 +-
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-index 8de2c8e4d333a8f92684f1590a3dd0d13bdadcc6..6559d72d5d4278071bcec0c5c9be398d1639ba5c 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-@@ -282,7 +282,7 @@ static int mdp_probe(struct platform_device *pdev)
- 	}
- 
- 	mdp->rproc_handle = scp_get_rproc(mdp->scp);
--	dev_dbg(&pdev->dev, "MDP rproc_handle: %pK", mdp->rproc_handle);
-+	dev_dbg(&pdev->dev, "MDP rproc_handle: %p", mdp->rproc_handle);
- 
- 	mutex_init(&mdp->vpu_lock);
- 	mutex_init(&mdp->m2m_lock);
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
-index da3a892ad867eedb4898509da8790981475e9a62..fae3e1ad2df758a50bd175479dbaf7a9eb859222 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
-@@ -221,7 +221,7 @@ int mdp_vpu_dev_init(struct mdp_vpu_dev *vpu, struct mtk_scp *scp,
- 	}
- 
- 	dev_dbg(&mdp->pdev->dev,
--		"VPU param:%pK pa:%pad sz:%zx, work:%pK pa:%pad sz:%zx, config:%pK pa:%pad sz:%zx",
-+		"VPU param:%p pa:%pad sz:%zx, work:%p pa:%pad sz:%zx, config:%p pa:%pad sz:%zx",
- 		vpu->param, &vpu->param_addr, vpu->param_size,
- 		vpu->work, &vpu->work_addr, vpu->work_size,
- 		vpu->config, &vpu->config_addr, vpu->config_size);
-
----
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250718-restricted-pointers-mtk-mdp3-7c85aa04018c
+[07/10] arm64: dts: rockchip: add pd_npu label for RK3588 power domains
+        commit: 6d64bceb97a1c93b3cc2131f7e023ef2f9cf33f2
+[08/10] arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588-base
+        commit: a31dfc060a747f08705ace36d8de006bc13318fa
+[09/10] arm64: dts: rockchip: Enable the NPU on quartzpro64
+        commit: 640366d644b1e282771a09c72be37162b6eda438
+[10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+        commit: 3af6a83fc85033e44ce5cd0e1de54dc20b7e15af
 
 Best regards,
 -- 
-Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-
+Heiko Stuebner <heiko@sntech.de>
 
