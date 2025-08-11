@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-39393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39394-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2492CB1FF10
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 08:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DEECB1FF14
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 08:13:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1CCF7AC806
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 06:11:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47CD47AC9C0
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 06:11:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 689E4299A9E;
-	Mon, 11 Aug 2025 06:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C6B0284687;
+	Mon, 11 Aug 2025 06:13:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j7BQz5vc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVYRj0qQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62A32857CB;
-	Mon, 11 Aug 2025 06:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A9227F198;
+	Mon, 11 Aug 2025 06:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754892702; cv=none; b=IzbfGQEogtq+22kIsv3GH+gM6e9NO8M7NW9IvVu2Pv5UduB8lQOM2eskwl9WwQuCw2Ue+qi/FI33UhAw13h+shLV8L5y3kubTij2+d7iVXX31sXn8/Ff2Q2l+siGZsDStSh4fc+lxRGHTwh++HVXymD09plR2k66af2PaIy2WM0=
+	t=1754892788; cv=none; b=qL8fxj7ik5zQkBZNn71fwVUOAgDLeKEV4sFBNLdnwH9+NolsCp5/3ITJ7vh/s5qpCuNc13QoDfVnqUgfWVYpeC9Wg3w2pAOTMTmKNDKpmHN6l+MsJRek8gqYVyn1/aNpAlg2hhRdlQXSlnsE5hcBKyu+kPQnNzlQkp97m2FUrUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754892702; c=relaxed/simple;
-	bh=2pYYuFNQ9ccI34BQZgIcHr6fIRBbkyYN8gmMmukqM4c=;
+	s=arc-20240116; t=1754892788; c=relaxed/simple;
+	bh=y5gFofC4QUclprRrC5gwH9xbLOd7/g1RieFQkQ65L3k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pm7KquSKkDzVMnDONANujRSm/ccqO8nUTtFYT3MpJZCuiXALl627LMwCI/th8VscALjU3qPt7INulTcMHlMRht7uZwwDa0MDQn0OcF//8Szzro4JshDdl3aA1FCD+qQir+tU5LqGSfTMnEwDCnX7s0UeG+RnqkzB4g9lDnB6SCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j7BQz5vc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71616C4CEF5;
-	Mon, 11 Aug 2025 06:11:41 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=MdeKUy9tdqeet5dSAoM4JuwVz1JAc9uwBHGu36/9Z/NKuA0oLZUxs3n31hAQGziGo/N9PqHJvirtBslmySmLj6xYoDBAGUWZeTHUCZHuSMgu5lIegUfSug0cjTfFLI73pKaN9msA92Id0CqPBqGlpVSagdifXUgNDKQSts1zKWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVYRj0qQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2804DC4CEED;
+	Mon, 11 Aug 2025 06:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754892702;
-	bh=2pYYuFNQ9ccI34BQZgIcHr6fIRBbkyYN8gmMmukqM4c=;
+	s=k20201202; t=1754892788;
+	bh=y5gFofC4QUclprRrC5gwH9xbLOd7/g1RieFQkQ65L3k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j7BQz5vco131ko2fycyjCvlPlsYEGGmG29qUXfj5j/VAOPU+XszEm+k3jUPdOABF5
-	 /5vuRNMvQ+Yqd/fGCQ3uF8ws25bufVFZWPKVq5AFtOWEq6eRe3FEvcnYUqYIfEuaZi
-	 rQDIjX07e1ovtBvPHpC/y5DNGexHoj7RdzsYP85+LERSYJ2sB/rdQV8+733uV9DFjl
-	 EApS0xx12dRb0aRwwLQAKC46b114iQVZkrhJ3jAIydNDQLRueskKHaB1ibeqkBHxen
-	 o+uj4p+slmqVBdnYHqLuv8IbKaDQe0fq0zeZX5JrpklgtVAYZ1x7WMKaVgLa8OsSTV
-	 7WaWSvtjesN9g==
-Message-ID: <1d71f9ed-5d77-4f5f-a4f8-6ef3834155d1@kernel.org>
-Date: Mon, 11 Aug 2025 08:11:39 +0200
+	b=NVYRj0qQJieC5vk1H8c6l+sHRdpaXBz6F9qFd8owxaqMocLlH76po2dzWafdVTIK4
+	 bmItLFMtpUAm4BpmlV9ukgK/56q2wbl9rkwpXCBYTAOMNGvJEybI7HOzkMBdHSBBao
+	 ho2eOCtqHbltz/ZEbOcirTu5v/f082wNasFPtMhLiNcD2j9b7qPhdO2uywKdLLXIas
+	 LFvnof4aoPhJlR1t71ULZkZNR501D/iLRq7I6XguMl/NPCeREZyM4UgjGXMcjIPd9w
+	 SfQ1nnqFwqmcWn2cnbnXiRvCbqS91llVgBAF0s6U7hMjSIfx4MUUb0itrxNzDG38kq
+	 eNbgyeW0rkB1A==
+Message-ID: <9fbc63d4-a12b-420e-8c99-f2f5fca5a9eb@kernel.org>
+Date: Mon, 11 Aug 2025 08:13:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,11 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media/i2c: Pinefeat cef168 lens control board driver
-To: Aliaksandr Smirnou <support@pinefeat.co.uk>, devicetree@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-References: <20250810192609.11966-1-support@pinefeat.co.uk>
- <20250810192609.11966-3-support@pinefeat.co.uk>
+Subject: Re: [PATCH v2 05/12] media: rkvdec: Add per variant configuration
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com
+References: <20250808200340.156393-1-detlev.casanova@collabora.com>
+ <20250808200340.156393-6-detlev.casanova@collabora.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,80 +104,70 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250810192609.11966-3-support@pinefeat.co.uk>
+In-Reply-To: <20250808200340.156393-6-detlev.casanova@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/08/2025 21:26, Aliaksandr Smirnou wrote:
-> +static int cef168_probe(struct i2c_client *client)
-> +{
-> +	struct cef168_device *cef168_dev;
-> +	int rval;
-> +
-> +	cef168_dev =
-> +		devm_kzalloc(&client->dev, sizeof(*cef168_dev), GFP_KERNEL);
+On 08/08/2025 22:03, Detlev Casanova wrote:
+> This is to prepare for adding different variants of the decoder and
 
-Wrap according to Linux coding style. Not clang.
+Prepare for...
 
-> +	if (cef168_dev == NULL)
-> +		return -ENOMEM;
-> +
-> +	v4l2_i2c_subdev_init(&cef168_dev->sd, client, &cef168_ops);
-> +	cef168_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> +				V4L2_SUBDEV_FL_HAS_EVENTS;
-> +	cef168_dev->sd.internal_ops = &cef168_int_ops;
-> +
-> +	rval = cef168_init_controls(cef168_dev);
-> +	if (rval)
-> +		goto err_cleanup;
-> +
-> +	rval = media_entity_pads_init(&cef168_dev->sd.entity, 0, NULL);
-> +	if (rval < 0)
-> +		goto err_cleanup;
-> +
-> +	cef168_dev->sd.entity.function = MEDIA_ENT_F_LENS;
-> +
-> +	rval = v4l2_async_register_subdev(&cef168_dev->sd);
-> +	if (rval < 0)
-> +		goto err_cleanup;
-> +
-> +	crc8_populate_msb(cef168_crc8_table, CEF_CRC8_POLYNOMIAL);
-> +
-> +	pm_runtime_set_active(&client->dev);
-> +	pm_runtime_enable(&client->dev);
-> +	pm_runtime_idle(&client->dev);
-> +
-> +	return 0;
-> +
-> +err_cleanup:
-> +	v4l2_ctrl_handler_free(&cef168_dev->ctrls);
-> +	media_entity_cleanup(&cef168_dev->sd.entity);
-> +
-> +	return rval;
-> +}
-> +
-> +static void cef168_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct cef168_device *cef168_dev = sd_to_cef168(sd);
-> +
-> +	pm_runtime_disable(&client->dev);
-> +	pm_runtime_set_suspended(&client->dev);
-> +	cef168_subdev_cleanup(cef168_dev);
-> +}
-> +
-> +static const struct i2c_device_id cef168_id_table[] = { { CEF168_NAME, 0 },
-> +							{ { 0 } } };
+> support specific formats and ops.
+> 
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
 
-This is some oddly formed style. You need to use Linux coding style.
 
-> +MODULE_DEVICE_TABLE(i2c, cef168_id_table);
+...
+
+
+>  static int rkvdec_init_ctrls(struct rkvdec_ctx *ctx)
+>  {
+> +	struct rkvdec_config *cfg = ctx->dev->config;
+>  	unsigned int i, nctrls = 0;
+>  	int ret;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++)
+> -		nctrls += rkvdec_coded_fmts[i].ctrls->num_ctrls;
+> +	for (i = 0; i < cfg->coded_fmts_num; i++)
+> +		nctrls += cfg->coded_fmts[i].ctrls->num_ctrls;
+>  
+>  	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, nctrls);
+>  
+> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
+> -		ret = rkvdec_add_ctrls(ctx, rkvdec_coded_fmts[i].ctrls);
+> +	for (i = 0; i < cfg->coded_fmts_num; i++) {
+> +		ret = rkvdec_add_ctrls(ctx, cfg->coded_fmts[i].ctrls);
+>  		if (ret)
+>  			goto err_free_handler;
+>  	}
+> @@ -1119,8 +1127,13 @@ static void rkvdec_watchdog_func(struct work_struct *work)
+>  	}
+>  }
+>  
+> +const struct rkvdec_config config_rkvdec = {
+
+Why isn't this static?
+
+> +	.coded_fmts = (struct rkvdec_coded_fmt_desc *)rkvdec_coded_fmts,
+> +	.coded_fmts_num = ARRAY_SIZE(rkvdec_coded_fmts),
+> +};
 > +
-> +static const struct of_device_id cef168_of_table[] = {
-> +	{ .compatible = "pinefeat,cef168" },
-> +	{ { 0 } }
+>  static const struct of_device_id of_rkvdec_match[] = {
+> -	{ .compatible = "rockchip,rk3399-vdec" },
+> +	{ .compatible = "rockchip,rk3399-vdec", .data = &config_rkvdec },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, of_rkvdec_match);
+> @@ -1144,6 +1157,9 @@ static int rkvdec_probe(struct platform_device *pdev)
+>  	mutex_init(&rkvdec->vdev_lock);
+>  	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
+>  
+> +	rkvdec->config =
+> +		(struct rkvdec_config *)of_device_get_match_data(rkvdec->dev);
 
-Also here, there is no such style in the kernel. It's just {}
+If you need a cast, your code is wrong.
 
 
 Best regards,
