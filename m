@@ -1,134 +1,108 @@
-Return-Path: <linux-media+bounces-39451-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39452-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22021B21380
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 19:40:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B3BB213BB
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 19:55:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 503D71A20DB1
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 17:41:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECEEE1A21EDA
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 17:55:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2E3F2D4818;
-	Mon, 11 Aug 2025 17:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F098F2D4811;
+	Mon, 11 Aug 2025 17:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UstHmftV"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="3VF74/6t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B4D21771B;
-	Mon, 11 Aug 2025 17:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C507296BDC
+	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 17:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754934041; cv=none; b=Z/kEvRY2FLBMXdFSKOQb9pwLqmg73sw0p/xatF6UymyirhWB+DMylRvl5yyfOfgdoykYJJ7b1xvzeGfnax26bgJ7/G/n40+GQHbSVdLrFfYuVIFS7x1JNtIQAuXUYmRsYlPBLMG4viv7LaUmgcIm9fvKBqVZdLmzBodifoh24fs=
+	t=1754934911; cv=none; b=K2LSggMYZzhRFxuY/xKmXPze/s6L+7Erzk5ajyM6ABThTFVyWLhYn2+kwQr6/PDg10eC918H5tex6asVr5yK17Luxw+MKCJn7WbIEOVgGAp/3iifwXLGHKMFHflOlsbpF62DH20+N2wCcs2jT1ZPUm4QguZZX9yQBkLZdK0UlYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754934041; c=relaxed/simple;
-	bh=vNeEGZtQOxuFBJ03hCHxJ0zqee0UqgJZnTvwQUQSHrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HzgBvwaPU8AY9k1VOWqt7pOEsq9FYH26Za9bEV5h7PqxsTSIjMqRZlpqdxQoa3QkWhd+V9MNcWRu82upWgUr7Y878K1VB4bRK9eTShMQy755+8IMe11a5aD52fwG0rsezqN/Ka/kwl0onDJ9rYC67NuYOQYVUg9gJFz5ZJvb/y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UstHmftV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853A5C4CEED;
-	Mon, 11 Aug 2025 17:40:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754934040;
-	bh=vNeEGZtQOxuFBJ03hCHxJ0zqee0UqgJZnTvwQUQSHrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UstHmftVxCQTMDVIZqfzPXOXwi8NsvUVZuh7gnMbMAJO75iNtUapyN9pt3lojXddG
-	 2JFtVrEKDxONVM+YH8C2IvIIA7hW9k5x3y+nGBYfkkHsZivSgcckFrYyrVvKG794QY
-	 d0LyZfmVRfv+7aJfjat6kooL3o32XbPKKfYad6koOc1zZFJ2NmE/n9yhm6hJx68cX6
-	 svvQSl1PR4JA1TF76TO0BNZLm7vS2M/gL0QirKfeX5ZQ5DFqSd15GwcwnI9ZX51jTQ
-	 +gGpSQCL4epXTgu32ZuurDjucscXI+fHhDm4gWOzEAkYGWOdBkaU6vkk42hgZU0bAO
-	 ome+ZBHH2RKAA==
-Date: Mon, 11 Aug 2025 23:10:35 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <aJorE6bL2d8se6E4@vaman>
-References: <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
- <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
- <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
- <CAO9ioeXBwFYL8q7x7_fHvx5YO+qyAXk4wpnfPrku4iY9yBsk0Q@mail.gmail.com>
- <cac5e84b-fbdb-47a9-860d-16a7fa4dc773@quicinc.com>
- <4q3vlydi5xgltd3pcez54alxgrehhfn4pppg47ngwp6y5k7n33@d4d4htntj64k>
- <53dd18ec-9a65-4bf7-8490-ca3eb56ce2a5@quicinc.com>
- <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
- <aICMDROkyjzBZFHo@vaman>
- <8a149580-5044-4744-b432-9f0eef0a0d31@quicinc.com>
+	s=arc-20240116; t=1754934911; c=relaxed/simple;
+	bh=qntbOLfG6VEAmFko0KNsbq9TFR7GjoHzxuIN+2pcuyE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Lw/D/P6jqzy5F94+U/uhOfGA4KzIxPrvQfbpsOm2nlzf8Lb0X48K51Ttv6avPrOkEZ1mCSGgyBnmU2acT03Uhhwc1KcV6kWs71OnC9iyLkJgHxhPDjZwTBoYzrpfBksx9PyhnVeiQoqcJ9xV9yRky3Hu3RamTDaH4TlZ68DQ/J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=3VF74/6t; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-af9611d8ff7so826274766b.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 10:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1754934908; x=1755539708; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qntbOLfG6VEAmFko0KNsbq9TFR7GjoHzxuIN+2pcuyE=;
+        b=3VF74/6trL3Cq5K8nBI/QHHtKFay3XdSA2iHS5NUtzhKwFb+40RY8J0469xQT7CKbp
+         N3XmrXkj0MgNATsQ2UgDIaewFHWMQddOG1e2YfkPrOVkh6sefk4EC3SbfLRXpGnQWaRX
+         6jINLpiid6gB4egzgml9J/wq5OEn2JYSqWeIa2pyOoVdAL4NXQ4t+lUlbCgr0vze8FLj
+         ltzfR74fIp3jropHS4/LaV8jadv2ksQsbUC+YxLcYtEXbogjrgSXrTvD0IkREP9YkuUw
+         LQou7SLBuuNDx3IMfPDxYDtMiQGYrlZMnjYk3GCfn3Jh5LGwmGXgGWYeSlcWCgbwKIqZ
+         AR2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754934908; x=1755539708;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qntbOLfG6VEAmFko0KNsbq9TFR7GjoHzxuIN+2pcuyE=;
+        b=pEYPYkT3BsPkuTYI1VFFmdmin88FMIVKA5IlRzmBSfeBCh3omypGONxsxQLWQu2ZB6
+         02J07UznMPyaecDhOfrFiIDIhY6aFSy/Zui7wop09b/5/WJn2wzA1/gZ+yvFlXcKVgrQ
+         c3RPX+1CLy7zmQWFFZuAhg+LbyiOvA3wF71HBJlG/YrAin1Irip6mWZAEBHVfjgChcll
+         b7nBQDtOSy3rv4yGmnk1RU4mSNAK7fBBgrtFLoqWClooIVZMYe/efyXi2H0F7jiPQC7x
+         eWJL3QjFRvf8MzYHgZKknZvu5mzgxgtShYfc15+JqDZp7WKn0cXXbbsoKCZhAeAVjgHQ
+         iMrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKvXcStX2qP/1E8DeLuANFYVmCoGVFRkp2fep6vnJ98r8dBwR8MkKma3DcXUHOkySsUaA3bEP+ozfakw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2hdO+8w5ihD41nJPZJwO8As8mmTlbhTJHFPYjk8JUNNGvJp3h
+	vqDVzRl4l3Kf1tk1VgqtY3/h8HBTUeW713ZzdsKvsqFEyesiOZq6zRJFrLAvPY57ONs=
+X-Gm-Gg: ASbGncszuwxR37wTMAJklyr8fWhE2r/XYrdQvC/YDQI0rD1KsDXUytCKTdz9cr6/Pk+
+	GI+Rn+fbRpRshxs2M2OagO5RSLxN4Ea9DqzSe+5BwSe6IgGXbnKOG1Bv9cOlK5wd6TrObcEDVPn
+	rBy6Bs8SBZFgkruR17DVYLEJVanZBOD1SK/HliRBhqGv4MmpM2kC8YDs/UzLxCBsg7vWUYiSkuH
+	crFHvRD0gBsV1U76TBefygR3a+mJ6TBGpuG/WP/o1RBEmh/TL86C7LOwTTGONoSw4dfVkcJKQoz
+	f/GWmCGHL9j/VA5S5er5Q1FAm/Fg7vj5DMdvoJ2l5vL+2ehOTOCMS43Gd0yr7HLYJx8JhC206Wd
+	R+x1ijVOEyC/rJh+5QaszfQhCsiFnKu5q6bShwRecxarE6qwc
+X-Google-Smtp-Source: AGHT+IGnqPmxosOsQmukAJcqgqtVlMMjnQhRi3F09bNTgvKZKkuT4+VEVWgow3RRal7GL6Bm2Japiw==
+X-Received: by 2002:a17:907:7ba7:b0:af9:b612:6868 with SMTP id a640c23a62f3a-afa1d618070mr52086066b.3.1754934907787;
+        Mon, 11 Aug 2025 10:55:07 -0700 (PDT)
+Received: from ?IPV6:2a02:810a:b98:a000::503d? ([2a02:810a:b98:a000::503d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21ac0asm2053023566b.99.2025.08.11.10.55.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Aug 2025 10:55:07 -0700 (PDT)
+Message-ID: <c8b7c8d3-d016-4ffc-8f33-fe37fead0048@cogentembedded.com>
+Date: Mon, 11 Aug 2025 19:55:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8a149580-5044-4744-b432-9f0eef0a0d31@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH 1/1] media: MAINTAINERS: Orphan the rcar_jpu driver
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Valentine Barshak <valentine.barshak@cogentembedded.com>,
+ Andrey Dolnikov <andrey.dolnikov@cogentembedded.com>
+References: <20250808202829.2115779-1-sakari.ailus@linux.intel.com>
+Content-Language: en-US, ru-RU
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <20250808202829.2115779-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 25-07-25, 16:20, Jyothi Kumar Seerapu wrote:
-> 
-> 
-> On 7/23/2025 12:45 PM, Vinod Koul wrote:
-> > On 22-07-25, 15:46, Dmitry Baryshkov wrote:
-> > > On Tue, Jul 22, 2025 at 05:50:08PM +0530, Jyothi Kumar Seerapu wrote:
-> > > > On 7/19/2025 3:27 PM, Dmitry Baryshkov wrote:
-> > > > > On Mon, Jul 07, 2025 at 09:58:30PM +0530, Jyothi Kumar Seerapu wrote:
-> > > > > > On 7/4/2025 1:11 AM, Dmitry Baryshkov wrote:
-> > > > > > > On Thu, 3 Jul 2025 at 15:51, Jyothi Kumar Seerapu
-> > 
-> > [Folks, would be nice to trim replies]
-> > 
-> > > > > > Could you please confirm if can go with the similar approach of unmap the
-> > > > > > processed TREs based on a fixed threshold or constant value, instead of
-> > > > > > unmapping them all at once?
-> > > > > 
-> > > > > I'd still say, that's a bad idea. Please stay within the boundaries of
-> > > > > the DMA API.
-> > > > > 
-> > > > I agree with the approach you suggested—it's the GPI's responsibility to
-> > > > manage the available TREs.
-> > > > 
-> > > > However, I'm curious whether can we set a dynamic watermark value perhaps
-> > > > half the available TREs) to trigger unmapping of processed TREs ? This would
-> > > > allow the software to prepare the next set of TREs while the hardware
-> > > > continues processing the remaining ones, enabling better parallelism and
-> > > > throughput.
-> > > 
-> > > Let's land the simple implementation first, which can then be improved.
-> > > However I don't see any way to return 'above the watermark' from the DMA
-> > > controller. You might need to enhance the API.
-> > 
-> > Traditionally, we set the dma transfers for watermark level and we get a
-> > interrupt. So you might want to set the callback for watermark level
-> > and then do mapping/unmapping etc in the callback. This is typical model
-> > for dmaengines, we should follow that well
-> > 
-> > BR
-> 
-> Thanks Dmitry and Vinod, I will work on V7 patch for submitting the I2C
-> messages until they fit and and unmap all processed messages together for
-> now.
-> 
-> Regarding the watermark mechanism, looks GENI SE DMA supports watermark
-> interrupts but it appears that GPI DMA doesn't have such provision of
-> watermark.
+ > Mikhail's e-mail is bouncing:
+ > ...
+ > Assign the driver to Laurent with "Odd Fixes" status.
+Indeed Mikhail is no longer available at Cogent.
 
-What is the mechanism to get interrupts from the GPI? If you submit 10
-txn, can you ask it to interrupt when half of them are done?
+Maybe my address could be used instead, I think I'm the most kernel oriented person at Cogent these days.
 
--- 
-~Vinod
+WBR,
+Nikita Yushchenko
 
