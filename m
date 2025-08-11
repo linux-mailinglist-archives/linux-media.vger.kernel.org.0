@@ -1,147 +1,173 @@
-Return-Path: <linux-media+bounces-39429-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39430-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86328B209B5
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 15:11:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F55B20AA8
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 15:49:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23495426556
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 13:11:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B533C18C07C8
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 13:49:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B87F2DCF6C;
-	Mon, 11 Aug 2025 13:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79D091A5B8F;
+	Mon, 11 Aug 2025 13:48:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ojjnhV8s"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="KxR+jFMl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED5C2D8379
-	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 13:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B083192D8A
+	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 13:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754917840; cv=none; b=HzH9+FaKnIct3VupysKDeVoDjxwlJqOfydHv3pvMPxmR3hEqaf/p1Mjef38l+aPI8f58ARt1KthO+2gyueZReGNjIjK99Ta/cW5DweedafVI82ijXaYYDx4ofd8V7vLlW/t8clt6mVdDyUADOZYDYBmKix6J5wYzv1F28PJyB/c=
+	t=1754920135; cv=none; b=jJAAXVtXUqMGxbv+6tyPvYutKdYjI60hxzfJgNFNCNVf/YDLGCucflKGBujFJT6YNbzQN7Q5d1hxrbOhHaBacGWEaLxPpwnG8C3xmQ1ljyyTTQ6HgHHL0eWgFk+ZCaUxPFZco0j+yMLuvSEhykI0kpTaOsFmawj8BpG/z73iTFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754917840; c=relaxed/simple;
-	bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AqOT7HU0VumjmdCQaM+EM6ACssesCkWsNTQS7GnDAk8drgTHw0iUCP/pQEIbi5Odpb1c3OocF2z/Bx8ZbVrxMg8etiXQayis6mSlcVg9BJX140yP2vnpqaOH+RTdX+Dm7/+fw8YBXVsIDQtASUfLWXtg4yf4fQw1yGCB4ZOhgkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ojjnhV8s; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76b36e6b9ddso3644413b3a.1
-        for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 06:10:37 -0700 (PDT)
+	s=arc-20240116; t=1754920135; c=relaxed/simple;
+	bh=UKSmwahiogqW1pXeYgXf8Eygszt2u88JnqRx0xZfhNE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ItHxu/PjnSyeOKidE21OfOJjxN1ZMz+VAo1X0SO5w1VKoWb5jxseIQE0HTdRcdYQA3w0VGMQt6Hvaa33wWAdVwfulKG6LtkhoGoyXv23m2g6QdIUOze95UHSk8hxdjCeeMiblR3OfDRhc+mM821Re9VowidTkUkubgAKC6e5oGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=KxR+jFMl; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-7074bad055eso26646206d6.3
+        for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 06:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1754917837; x=1755522637; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
-        b=ojjnhV8sG5RePBCOlfNn+HKKrpovehYP/8l1sr0vNYpFHhYyNj9xWMV43bJeaTo+kp
-         pGJmmwo0JTwJGp+EMoH+TiRmSHHwCWtSKYf/ADQ+n41Fq7MLbvF4puoYKzMZIfAb5Yr5
-         rfyUeS8+hBywvWWe45et8EVilsYHrox7Ct03tWZtWfpes3F5MB7MSmpvGYu3l/KMy0Lm
-         Xz5nZcHYvM5pMpkmNGOifNAmrO7N485x8Dy3qu1/BQr+p2mpzG31DunBz5mKNnrnKK8W
-         RdKVIPz8XNIoKoiGQOe1wq9OXTmtM2HvY5MHwnIuZgNfLGAMI4k+PY6m2DfBQiYd+C7+
-         Xhsg==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1754920133; x=1755524933; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=VWV2hjLplr0Slgw9ppK6HuD7SF+ufb5rfXPdExiThcw=;
+        b=KxR+jFMl7g9MOP7OQkT8K39aZxS38oEgAzwBVrLJNvPwl5RvbiOGs3D2XdlcsNyrvo
+         Sa8g5Xo5r3TTYHbzAXqHhb/Pqtb97nTgnS+c4LGQYvg3yf0r88cmVIwDswJhHIviesyo
+         7TGALZ3txQEhwxQbMDwirB3hN9cq0599NfVQ+8oNTWMIjgux+r+2qBOsAphNxZJULfyc
+         yQonSR2JKLgn6OCsznmzfi6QnctjKhjyAfvpXM0Qw+rB5ix+xpHrjO7b5fBvbN46Nwc2
+         ZatVxIap0aatIEmpcrEpRTWmGYZfMls+4mE5otYq6FYzWGbqRFOracjGD9mulyWH0vGs
+         g6CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754917837; x=1755522637;
-        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
-        b=SihHmuVpRVbD5aJ9sdAPTZ4h+tPm9knlEShV3S9E2DVLa9EkdjxBDzHgu/eWB5Thyh
-         HA/e1KdppDLM8Z+t3wl977nZy03uVOCmb2pzJkKNqJEvc7bs3hFAdSuYriWmy3dgnb14
-         RQ+Q1mGU+yWnXY65QsPLAxKCi2zBBdS64lMxVqTgqBoCsGZGDO96n6FvIrCIA59lj5HZ
-         5XJW51VYHgVhjQwyKjg1m1rGDXPH+22FXu1wSHFzcjmhorGsS6z/da5KwLzMAAlrrJy3
-         GvWjHF9aqbm6tIuFTgmhPlLJg03Ez8rZ0Oed0RUCG+eCG1mUmUetPnIR53mjlpZLEv/k
-         +03g==
-X-Forwarded-Encrypted: i=1; AJvYcCWzxVjDUnSduaBe/oU4VjXf14Pk0A4j284xw7ejrB85GCJaMBhLs8QJHYK9UbSvY3opR09RpIU1mmFwrw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0+dEtdYhi2L3DlzaPxRnjZtmgblwEbSBfRwAn8tTZ8FXOPLuP
-	bEJxX3MtOzWRW4xUH0OXPBO+dbPVWOTRPagBZoWvyc2m9b3YJD/T4kSANK64M6kKrlHlspuyUvF
-	qLNBCN/ZSw3NHzLYLdzUBbMQMyiAK5wMbMC4uOjsBDg==
-X-Gm-Gg: ASbGncuhzhTJjEXQ3FCIR6Ijosrb2+rPRfP8Rt/Tx3uN1UDkJg1K1COWFMrsf4Mo/Io
-	Al5e4enyFnpYoeG+Ubnr6GJ72BH6D2c0jzUMlOq6x1OQBzs7s/07SqZkDncZMyhw9lTo7UewI5U
-	IeTqVXGIZ6x71UiathAtxgVYfDpZGBp8IkamaWyTAp5werYSPcbtFp4P9FuHBoH72z7C0oXNL5S
-	jDyvdLqiU+vdGnPm2OrmyQhj3EC0U1z0fPQAi0=
-X-Google-Smtp-Source: AGHT+IEgMvtsNpCEbzm+bQO3Dq6oVeggGu7qnt+f1HYUPfLnzNmxpfjIx2ohdBUK5XJ+fhQGIjFsq0lNMPvywZaOZwE=
-X-Received: by 2002:a17:903:32cb:b0:240:96a:b812 with SMTP id
- d9443c01a7336-242c203d030mr203994295ad.24.1754917837398; Mon, 11 Aug 2025
- 06:10:37 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
+        d=1e100.net; s=20230601; t=1754920133; x=1755524933;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VWV2hjLplr0Slgw9ppK6HuD7SF+ufb5rfXPdExiThcw=;
+        b=YcOgz5mYkdf2RkKPcmWV2oIs/pERUmGDd6himxv+xR6WGeBKWy9dqpXLDvzrz2G7Vk
+         6xlM2rpRGlBmFAeX3UCwtoJn60Dw/CU6TBIh1J2bithHV1esXNdw3wiimoYPWY0vBrwI
+         FcwtykP0vBIOwHHmkSDr81pjhSOOovVy8kPuxteq/BvXBeQVZTSYsPfceTEwxlJLrQO8
+         WyrA/3BPqm9A94RZVINfuhBcYGnLRiNHXjjdR+bK0Dz5GlZkofriTbNpcyJAUOLozPUn
+         8Y0o9jgeO3c0mdcg8xb2f9U29eQvftcN3nd8FxEzF5o9oKSeYUjc/tOD9CGDPfeQYYtR
+         ndmQ==
+X-Gm-Message-State: AOJu0YzZLPO+1hcjykPj2xgmG72VsxwaACqax6RGaWiOyH3N23uqtJSV
+	Hn6/F2josofBkQyk+PfhRDRLrQVxm/59cWUk/59oe3+Lbzt9wA0OYRZMy8r/2Lr6J6k=
+X-Gm-Gg: ASbGnctv3WkUP+/fSl6K3zzMzwlWmx4BSJq1QRGPSJkM65xspuzLVntbrhi0dXwZq/V
+	sQJd8rW3s5dMQqsqVg8n6l7/+PHkqVn9lwEGM8jpmmB1BMsk2nKVsqlyHdc0yTWVf0jk17VpVDp
+	Xdo78wcodB5sf7v8NWoK1afTyOqLC7S+qFkjcHYZJxb1VaZxQ0UsSnqoGgHz/w4jbkVZi3v5v3g
+	oRHJ7sfyLLYTzr2c5mvJ0hl1lCAU/38cb+fvJUUuCEQIueTqWQZm4rwYw2KlzZMeORVLnJKuOH7
+	ojAtpJqJBCZwLwrJ2a0PLtjjp1SAsIOFjUrqEb8Yl3g2Fay4S+y6XadWUV5lCQ3qOGv10qAZ9v6
+	NISIVlCNLU7Jbap7WkJpVs20lZp4=
+X-Google-Smtp-Source: AGHT+IGWo1UxGtBJWVYSzxpvE5ZF5/dBz2Is5MsjfG1C/pxYl+/rzztidkfAyi1zkWZdsKT8xJCVpw==
+X-Received: by 2002:a05:6214:2466:b0:6fb:1c3:f527 with SMTP id 6a1803df08f44-7099a4833a2mr205043136d6.39.1754920132919;
+        Mon, 11 Aug 2025 06:48:52 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:5a76::c41? ([2606:6d00:11:5a76::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cd89d8dsm156083316d6.53.2025.08.11.06.48.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 06:48:51 -0700 (PDT)
+Message-ID: <9b86fb9ac5b9cfdb773fef2db33fc13d011f53f4.camel@ndufresne.ca>
+Subject: Re: [PATCH 64/80] media: rkvdec: Remove redundant
+ pm_runtime_mark_last_busy() calls
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Ezequiel Garcia	
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Mon, 11 Aug 2025 09:48:50 -0400
+In-Reply-To: <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+	 <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
+ oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
+ oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
+ AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
+ 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
+ TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
+ cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-mWE7/NTeJOJLJAFXEhhw"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250808151822.536879-1-arnd@kernel.org>
-Date: Mon, 11 Aug 2025 06:10:31 -0700
-X-Gm-Features: Ac12FXxi-t7kK_6HIDwsxWJsHZcp5BcOM26Y8X32Zi2av6pcVu6UuipKim4OtEQ
-Message-ID: <CAMRc=MeyW8gtG_hsLWytCpufQRmg3s5QZenxCvP3MNGmaoo2cA@mail.gmail.com>
-Subject: Re: [PATCH 00/21] gpiolib: fence off legacy interfaces
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Russell King <linux@armlinux.org.uk>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Jeff Johnson <jjohnson@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	"Dr. David Alan Gilbert" <linux@treblig.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
-	patches@opensource.cirrus.com, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
-	platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-sound@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org
+
+
+--=-mWE7/NTeJOJLJAFXEhhw
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 8 Aug 2025 17:17:44 +0200, Arnd Bergmann <arnd@kernel.org> said:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
-> merged for linux-6.17, so now it is possible to use the legacy interfaces
-> conditionally and eventually have the support left out of the kernel
-> whenever it is not needed.
->
-> I created six patches to force-enable CONFIG_GPIOLIB_LEGACY on the
-> few (mostly ancient) platforms that still require this, plus a set of
-> patches to either add the corresponding Kconfig dependencies that make
-> the device drivers conditional on that symbol, or change them to no
-> longer require it.
->
-> The final patch ends up turning the Kconfig symbol off by default,
-> which of course depends on everything else getting merged first to avoid
-> build errors.
->
-> I would suggest that patches 1-20 can just get merged through the
-> respective maintainer trees independently when they are deemed ready,
-> and the final patch can wait another merge window.
->
+Hi Sakari,
 
-Oh, not at all, I'm fine sending a second PR late into the merge window to
-get that done in a single cycle.
+Le vendredi 04 juillet 2025 =C3=A0 10:54 +0300, Sakari Ailus a =C3=A9crit=
+=C2=A0:
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
+>=20
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> The cover letter of the set can be found here
+> <URL:
+> https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@li=
+nux.i
+> ntel.com>.
+>=20
+> In brief, this patch depends on PM runtime patches adding marking the las=
+t
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git://git.kernel.org/pub/scm/l=
+inux/kernel/git/rafael/linux-pm.git \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 pm-runtime-6.17-rc1
+>=20
+> =C2=A0drivers/staging/media/rkvdec/rkvdec.c | 1 -
 
-Thanks for doing this, awesome work!
+This driver was de-stage during 6.17, I will port it, no action required.
 
-Bartosz
+Nicolas
+
+> =C2=A01 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
+> b/drivers/staging/media/rkvdec/rkvdec.c
+> index d707088ec0dc..445f7c92eee3 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -765,7 +765,6 @@ static void rkvdec_job_finish(struct rkvdec_ctx *ctx,
+> =C2=A0{
+> =C2=A0	struct rkvdec_dev *rkvdec =3D ctx->dev;
+> =C2=A0
+> -	pm_runtime_mark_last_busy(rkvdec->dev);
+> =C2=A0	pm_runtime_put_autosuspend(rkvdec->dev);
+> =C2=A0	rkvdec_job_finish_no_pm(ctx, result);
+> =C2=A0}
+
+--=-mWE7/NTeJOJLJAFXEhhw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaJn0wgAKCRDZQZRRKWBy
+9DLPAQCqPt0lXZfnbdVvPntu1sqxcp/kkdwbjcqoHkgLxA145AD+NS/iRHqsrNt9
+OFMoxaM4XZImGCGuuAnhiF3H/IWu/AM=
+=SIv5
+-----END PGP SIGNATURE-----
+
+--=-mWE7/NTeJOJLJAFXEhhw--
 
