@@ -1,285 +1,160 @@
-Return-Path: <linux-media+bounces-39436-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39437-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4254B20BA8
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 16:21:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2865B20BB6
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 16:23:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12A5F3AE56C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 14:17:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C60E916D7A4
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 14:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546062264DE;
-	Mon, 11 Aug 2025 14:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BCFA22DFA6;
+	Mon, 11 Aug 2025 14:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ac+O51fg"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Dt+boeMR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2050.outbound.protection.outlook.com [40.107.237.50])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20480217736;
-	Mon, 11 Aug 2025 14:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754921852; cv=fail; b=PjccAjgjGH47AGG8SysED+2mYidfLUqNdckEhE+oc6ybgSBTR1K5/MitswZ9D7pkMgumCQo28AgZdhVVn5PcQjr6Rf+2yngIRtBpgrG00GrZbJ2hXzCYsIUB4V+TcOMZrmOydhzaw2LxQnD6qsRBTn0Ba+bm4gYskhrtF4+33TA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754921852; c=relaxed/simple;
-	bh=n9zWuPvQ50tLMrgGSfTR5lMFM870zzksCCvPrQA4nMo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VZ60kUCY7mIg3Wl4hVU60V+HWw0mTqUXgQzgT/x2RyhFdjvUuqisVLy1xNXxWR8LhXzLDfdlO7Ezw+Sg9GQrKLXjTbPrWfR7puXeVrpct3ryhJMmlS9kyTDBMCGOF7Ja+M1H3EEkiynQQc8/r37n/3KCnHe8cCIDzIuwnaEylq4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ac+O51fg; arc=fail smtp.client-ip=40.107.237.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yPVdmo77eXROtDXdIsgktBHVkjorf9W18maOoh37Y657PBCwmsLJO4d9Vw4WbTBU3RV8ssmnoI/J11+d7yf+rQPU/ollG4mzToeeM4EqByh6CZ3unWSZcVhFDMQQRR8VFFUYCi8pDtpBkfIpqyD5wFdid5o0oEW+6r//k1aMwzzWcvckTfcZZK5vci9wKPO20aJkraIwPXmjOyn9WIyDAgXG8j4B/SlODXcFNeFH6Eyr8Dg3ZzrNSaYJHMu25WBDObSGYQaSTpA7URmoAsgNRh6xeutl0B6Sx8rce0u81oZjp/dz/KIRFXZbupmtA7OC92RMWT/UL+J/CkO0z2U4Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vVCyrdzB+v4Nqfujm55AStG4VeaO73NeksVisw6rzzY=;
- b=SL1wNd8zxT+Njb0MHqf76wvd/Sc2WrWJu+KlgOGzDF0WRcZyGBHMR7PYcizMaDodJLc1o2NExAJNgReHoWrWkFdNeJZLAlcG7KdaPFesQiPByrDCPmWIvD8Z2ov/w38WZzNZBCnHudRkrvkmgoWzD3a+ekfS2JF4D5AxhmvC50rHLaK9oMHMWDPiwT7bHXOZEZAM6FqS+XyaffENZ3hnlGMnQsXaBfSzqV8vFPATNsNL8FAUn+TI41sFtpS5GRwUdIJmguK8nRt7kHPbWnbd9C1cfbgU1TlK9CI3UIFTPteGwzg/SokEjEXk6/Zu3h8LImxwK+ok7T+WbcuwXU/H0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vVCyrdzB+v4Nqfujm55AStG4VeaO73NeksVisw6rzzY=;
- b=Ac+O51fgQ3CWZjWNtpWPfEXaU2OWuLbRC+VTQAO1GgcMax5teC55nDzbSJ3sVvHLInAwiBRT0NURIHb52smrxYq3J8+t+5+/hgWTyI7QT6TzLNKAShtGRe6E2kbxi1Bp8M3IO1BYz11xZ3bFu5y5tPyL9fWf2M9qIB7xausuLoM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB6586.namprd12.prod.outlook.com (2603:10b6:510:212::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Mon, 11 Aug
- 2025 14:17:27 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9009.018; Mon, 11 Aug 2025
- 14:17:27 +0000
-Message-ID: <7f620860-bd4d-4b14-9832-2fa25fd4b086@amd.com>
-Date: Mon, 11 Aug 2025 16:17:20 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Extend and update documentation
-To: phasta@kernel.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250724140121.70873-2-phasta@kernel.org>
- <f064a8c305bd2f2c0684251d3cd2470699c28d5e.camel@redhat.com>
- <5fb872d0-9b0a-4398-9472-eea3fdf61940@amd.com>
- <c1f7c4adaa0ac8d1994046436da8eb64bba5e06e.camel@redhat.com>
- <9caf8709-91ef-445a-aa4e-aede1899f364@amd.com>
- <90c89caeb8ec3ac0fcae583df722bad20fa72827.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <90c89caeb8ec3ac0fcae583df722bad20fa72827.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL0PR02CA0069.namprd02.prod.outlook.com
- (2603:10b6:207:3d::46) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A74F1BF33F;
+	Mon, 11 Aug 2025 14:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754922038; cv=none; b=burMYviDFUDQTpGPzFX1PZLNG4cA4mipulrpqQ8fEklLqgxLIDs812aEwf/3sWkP5ZO89agKubGxomCve7dfZ/ErEoKD7+9VQWv2yXIdZLGPK54FTMWKUo/wqyhk4sjYXQiuNif/o9i8LnKMPiURsGuKt0fb0FuWfL04nKaU7hY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754922038; c=relaxed/simple;
+	bh=vEIDG6maACRIeiu15+qMeYtnTf+etWbiNRijwscZcks=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gQtwr+8bLMPPWwHOnY0p8q/yKDvuh3uzVKYJSxkV3ybTP4B9cZbrXU7R8AE5q5sRSkqr0ch+j1EyIf9aFz4u983WiadjMVhYPqCrHuRZMy0WOYukr3k+/m6BwngxZu46mL8srxTMXLBfZIyluiG47t+eeUpdqa0ZyMZxeJHJOcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Dt+boeMR; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1754922034;
+	bh=vEIDG6maACRIeiu15+qMeYtnTf+etWbiNRijwscZcks=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Dt+boeMRuEDjhLpS6TPx5pKodwyAD8lvIjdJ4FjrvbyC4WEp4qbN8o7qNGNX+8faf
+	 ZNsDPw5VQJx40hnZcUAn9BaBGiwYIy+vnUeqXq8rsIej4T5RTmHZoTNnqp3K5b/F+E
+	 gVtYKR0GGVkB0chU/DbAXvfZveSA0eoUTKIV3yxQJvhEnUSkPoOBAmdrJ+2f7ba+Gp
+	 c1b7x+GTWYp8Mfg7Fp1KcOwKpVxpq8vQz8DGUTJ5oxD1jn3gL0JO4rNHsVlG/11eD1
+	 adF+OOGxDQordLntdCafZAYXn+5XE+o3HJayKFM19+ZS774YKEnQOpcHQu/D1C9tYm
+	 RO2hg9Up98F0w==
+Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0636317E090E;
+	Mon, 11 Aug 2025 16:20:32 +0200 (CEST)
+Message-ID: <0a0834d23f3d6d339bc26b73e2af6fe038e7deab.camel@collabora.com>
+Subject: Re: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Ezequiel Garcia
+	 <ezequiel@vanguardiasur.com.ar>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@xs4all.nl>, Detlev
+ Casanova <detlev.casanova@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Date: Mon, 11 Aug 2025 10:20:31 -0400
+In-Reply-To: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
+References: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+	boundary="=-zVq3E96LLIkOM0QvJy4y"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6586:EE_
-X-MS-Office365-Filtering-Correlation-Id: 067a79d9-bbde-4c2f-3f31-08ddd8e1cccb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UnJteFlrY1dkeWFYSEIrTkg2akNMRFhTalYveExXbXJINW5lbXMrR0lhcVBp?=
- =?utf-8?B?a2llald5WkxMRHhKYnFERUlySDNVT2IvdkZPMEg0RklIdUlVVm55L1IyS0Q5?=
- =?utf-8?B?SzJ2WGhNSldiU2w1UjFrNmpLRWRFV3p4YjVBTkxhZDBMV2RCSDVFNUNjK3M4?=
- =?utf-8?B?MFR6RWNsdStWZkVmVnhpeGo4NzZHZDg4cExnTDQ1WDAvTVZaWUc5RXRQTEcr?=
- =?utf-8?B?MmJTZWpFdXBUbEtrdGx5SFVkMEdydXdjN0JBY2RxTVJETWEyRk1Xbmo3eFBF?=
- =?utf-8?B?ZlBrelhQM1BsM1J4ZmorWWYwVGFpYkpDV09hWEtZQnN5SWVhU3FMaHh6cVdP?=
- =?utf-8?B?Uzk5c0R6TDBCUlliZElxd09KRFJRNjY5RVd3YTNBM3pWdmtFTy9ZakNtdEE4?=
- =?utf-8?B?c0lCZmhjOXdDems2cjN2ZU9xYnBkU0NKTXdEMWtLUHozSlo4VXlpeGJpNkxB?=
- =?utf-8?B?MlVJY3JFTzJxUjhIK1hHSE5qbVcrRWNKeVprQmtQUnU1UGFsd0xOYWI3WEtQ?=
- =?utf-8?B?d3dYbTJOc2lGTGhXV0g1dTlQWmdURlI4cjdTVlF4OHdoTHZmZzBQKzBFN1VM?=
- =?utf-8?B?emc0QXBwVHVRMmg3UDk2c2tFaitvWU5XeFdKZDBrT0t3dUZMTnlWOHIvN1hi?=
- =?utf-8?B?NlYzaWlJSVhxZW14S2xSd2hIeHo0U2xjTU1ZSHRtekQvWXNwNmgwUVkwUDNa?=
- =?utf-8?B?VzBhRk5McmRBUXZKeEdnTWo3MkMwd0hlT1RvVFVXUGgxVGpHdTFJbUdkeDNI?=
- =?utf-8?B?blp6eElaZzl3WTJBdTNpK28yR1ZqcTQ3dHVtS1pCcVF2RXFROTREbE4yUlFD?=
- =?utf-8?B?TjZjZ3p3Z3JNUmMyKzU0Z3Vwc3BuQS8ySnNFTTdCbTVWVG01VUkzMVNOS0dG?=
- =?utf-8?B?MDFBQlR0NVRxeG8rWk9OTmZDUElNdUl3OGpVbEF3M25TcWZBYzFoSmN5UkJw?=
- =?utf-8?B?UkQ2VXdKajhoSzlaL3ZLbkE0Skpub2VkbitTdWs0OHQzemhKQTlSMEVIVjd4?=
- =?utf-8?B?azB1dm12UExRMVd0STdPU1pYeDgvR0dyb1p5cnFvYzJHUU55WTNxMTVORzF2?=
- =?utf-8?B?UUJob0tHQkhYRDE5T1NLcmd0Wnltd2lzanQ5cVV5YmxIOGU5WDhWYWhTd2Q2?=
- =?utf-8?B?TWpoUkR3cTJ6RFdudDJRRmdSTEFrQWRvZ1hvQXZXYUpHelpIOGdzNXNaOUU5?=
- =?utf-8?B?bjI0dXk0L3dsT1VmaE53T0FzNnZvYi9jMC9EZFlacE5zdDYvRERlY1oyVkJy?=
- =?utf-8?B?bUlIQUUydzBQOHVBaHArVkU2bWN4Y1hjMlEzM2x3MkY4QnRRMW1SR0w2NGRq?=
- =?utf-8?B?N3AzWHprOWZrbnliV0pkZEJmdlBYOEx2ZXNVN3NZa1JqaURNUDlZbzlIa0Fn?=
- =?utf-8?B?R3BHVUZ0NzdOOVdtaU50ZitJeENoODZGSWRkS3Y1eWlybEIxdFIrQUI4N0FY?=
- =?utf-8?B?NXFCLy90ZDdhU1YxaEJWdllXYkM0SWcwaExURGsycVhRWERvR29JQVM2bjFK?=
- =?utf-8?B?ckQvRENKQVRtek9LM0FSSjVybGQxTWZLNy8zQk1iOUliaHI3NVBtOWRpdDlG?=
- =?utf-8?B?K1ZFQUpuK1BLTmlKeFFSeWtOVkxjZG9xZGFRdmI3TEYzcjVFWjBnc1dDOTdo?=
- =?utf-8?B?UmZsdzBIK2dzQWhYRVE5NW4ybjNtTGtVMmFobHJMYzNRVWlMN2lJa0gxSkQ2?=
- =?utf-8?B?cHZnSitBaE8vc28zbzd1WUVNcVdYYU1aelp2V08rQ0dSRHJ2MkFPQlpITWZ1?=
- =?utf-8?B?Z21yQUJYNmxTdk5PaEFWcXU2OXJ6T1hqTkt6bFlXZk5jUjhpYU5ZOFFIVjIv?=
- =?utf-8?B?TWk5RHpObWU1djJCSVp6N3BEWDNJck02bFAraVJ2MjEvOUl4Y2k3L2ZJYlda?=
- =?utf-8?B?REd2UHFjVGdyU09sYUFHQkkzZlh2NEZmQWtwckhTWjFxc3UxTzVhTmY3VVNh?=
- =?utf-8?B?Wld0eStxdjRySzFGTkt0K2JoVWtTVFpWaW4zVEpGemx4N0wwdjlpaGZoazQ4?=
- =?utf-8?B?MllxM2dxc3NnPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dWNwMDJiZzUyb2w0OTd5Sk1YekViQ1pSSlVyRTB4NXN0MlFJcG9aOU1idXc4?=
- =?utf-8?B?VFU3c2xZRGNPS2YrcWdxeHpZcGpST1ZtU1JQNGhFNGlhcm5wQkJQNzVidXhE?=
- =?utf-8?B?SHM5RTEvTXFnNWkvUmVIbm5pNUEwalV4dHZIb2NoVmM2eFRXekVCOGNzaEpZ?=
- =?utf-8?B?RlRRZldva3RNbGdVYktHbjZ3QWVWRTh6Z21ZeE1sL1FkeTBlOWoxdmROd1Iv?=
- =?utf-8?B?d0twV3ZnMTVXMU5XZXN1ZjhneE9mWXRWVTNKLzNlTDM1WmdCNEZxNVFQYUlK?=
- =?utf-8?B?bDJpdW8zcDhvd3dkUURKbU1nSDlBNGZnRlFqNVpLT05ZWUVDMkZ2SGN0YlVr?=
- =?utf-8?B?Sm92b0FpYmRBNFljTUhrcmFSOGpJNkJZZmduTDZscHdXTHdYTUNRTnVKYU1Q?=
- =?utf-8?B?Y3FURHZuck9lV21FUkRTLzJ4b3FCSy9SL1U5UkdsWHMza0x4YW1Gbm1PSWZD?=
- =?utf-8?B?bWhaU2VOdG9xdU5xOUdjeEU1d05yNnZDU2xUTUNjOTBCQmU1eElJV1FKdTlj?=
- =?utf-8?B?bzNtYVo5MWNyU2pQemQxaExtVWNyZGtCODZwU2pGcEZwdElmWWF6bmdUUExL?=
- =?utf-8?B?Qlp4UjErcG9CUmY3aFhZUW5oUnhFZnhtYnlqdG95d3duSVovQlNMMTV1VFdn?=
- =?utf-8?B?Q3FuUks0OVBwV1EwRzl4TElQbFFqNnBMZW1yVFNwUGtpdTd5NFh1cGtLVG5x?=
- =?utf-8?B?Mno5K01tbWowVDhndzkzVVU1dVpHWHBjUXBpejFZMnRla0VYYzZiVzJrb2RL?=
- =?utf-8?B?YVdJQVFQUmZPU3ZJb2JsRmxoV0V0Umo0THA0dUZWYlZCM1c1cXcvRmYyUVhz?=
- =?utf-8?B?UlB0VFFjMUNFWjU0V0tjTGJ5VFMyNWVHeGZOU1RhamZFLzk0M0Rzd2pYQzBS?=
- =?utf-8?B?R2FIR2Y4TmZ6L0N0dWg4aWFUY3RJQkxkOFM5V1FIdktvdDFOZjdPZFB0STRZ?=
- =?utf-8?B?aXkvZmVOTWh4enU2TVgrWEhhYnFYTEZjL3FHa3FsOEdOMXA1ZTFpT2dIK054?=
- =?utf-8?B?RXlNZ1RvSno3U21Da09SUVpqYWVDbUJ6UGcvUXVQWUtqcVN2d0lPcUtQcmNi?=
- =?utf-8?B?WE80OGE3WEpPSkdHdVVFa3h5VXVva1Z2bkExTnNDOEN4VTNraVZiN1p0TG85?=
- =?utf-8?B?blJKMjNwQ1Nya0Y1cStTYm5TUXJXT1dVcm1qWnJVK0VXd21rQm5xZzR6cDhK?=
- =?utf-8?B?YTNqejg4RGgxL0prMmFIaGtrSmxSSlFNVjVzb0lmZ2czVnl1cUJmQm1YM0Fx?=
- =?utf-8?B?Q0NrbTRNK3AyUFhPeUM2aUN3QTFnVmYwUkw5UmlvbEJ1R0JrYmFNOGIzVGw4?=
- =?utf-8?B?dG9lWkljN092UkhoRHFvMUIyampuaWY5RTlhb2hsdnF2ZFdicEo4bHJQZWE0?=
- =?utf-8?B?eTZxaDFrV0xxT0NoTWpscmZyWjcrTnFJMVZSN0hhZ09zamNPNDRTTk1EdnhF?=
- =?utf-8?B?V1h4aWJtam5ZUFJiZysxTFJQZEF5TnNrYWhhK1RJOCtVU1J5U3R5azloNnZJ?=
- =?utf-8?B?ZVZsbTRvN0FSSkJSRmE2eFdlL0VRV2NoV2tkTkFzdmpZTGJZMDF6YkZhMXJu?=
- =?utf-8?B?NUhHdGZaUDZYL3ZKYlBCb01WOG5oTElpekN1bVM5Rlh3cldBa3VsUVk0d0FT?=
- =?utf-8?B?TEdPNlNRQTNFQi9KSjZIcGNtcmd2ZnNMLyttQ0F3YnJpRDB2NitDL2QwaVFu?=
- =?utf-8?B?bWJmS05vVmd4UlRVbXBMbkJvNW5UR3VQQ2RQT0t6ZUFLUHIvYTV1YUxFZU84?=
- =?utf-8?B?RHIzUU9Nd1Y3eTA1czd0T0VBTWt4N29XTHZIMnRWSEVCYjh2dmRLaDdoaHdC?=
- =?utf-8?B?bHFEb01IWUc3Ry80azJVWlQ3dDdCb1liN09XVGdic0dZNExqQkJ0QXZXRnpl?=
- =?utf-8?B?WVQ5YWNqR3o2c2tCYk5ZcitPMUNxNU5RS1k5ZXR4UnhhRUY3RDRUNTdscG5t?=
- =?utf-8?B?RmZhMFlvQ04wbEdRVmk3UVZXYUZxUHlJZmFpTkRiMFFmVW1PSkNkVk1Hdk9z?=
- =?utf-8?B?d2JkOUpHT1pyaTF6UE9JaEZFbmNwaWJsb3QrREJlbzFvcmFuczcvK25kcUpD?=
- =?utf-8?B?Y0hONk5GZm9TY0k2djlaaEpRVGRBSW9IU2dGeW9UUi9XYXZPWEQ5NGZLREF3?=
- =?utf-8?Q?BDUZmfkQb8a7Bt65nhCOx9mZ3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 067a79d9-bbde-4c2f-3f31-08ddd8e1cccb
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 14:17:27.4246
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ku5pwWtcEivmERCsRO3i/aqqkIcdppkdmYXAkkNFj2ttvMHG3H2T9zXRisM+Tmke
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6586
 
-On 11.08.25 11:50, Philipp Stanner wrote:
->>>>
->>>>> But the original draft from Christian hinted at that. So, @Christian,
->>>>> this would be an opportunity to discuss this matter.
->>>>>
->>>>> Otherwise I'd drop this docu section in v2. What users don't know, they
->>>>> cannot misuse.
->>>>
->>>> I would rather like to keep that to avoid misusing the job as the object for tracking the submission lifetime.
->>>
->>> Why would a driver ever want to access struct drm_sched_fence? The
->>> driver knows when it signaled the hardware fence, and it knows when its
->>> callbacks run_job() and free_job() were invoked.
->>>
->>> I'm open to learn what amdgpu does there and why.
->>
->> The simplest use case is performance optimization. You sometimes have submissions which ideally run with others at the same time.
->>
->> So we have AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES which basically tries to cast a fence to a scheduler fence and then only waits for the dependency to be pushed to the HW instead of waiting for it to finish (see amdgpu_cs.c).
-> 
-> But the driver recognizes that a certain fence got / gets pushed right
-> now through backend_ops.run_job(), doesn't it?
 
-Yeah, but how does that helps?
+--=-zVq3E96LLIkOM0QvJy4y
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->>
->> Another example are gang submissions (where I still have the TODO to actually fix the code to not crash in an OOM situation).
->>
->> Here we have a gang leader and gang members which are guaranteed to run together on the HW at the same time.
->>
->> This works by adding scheduled dependencies to the gang leader so that the scheduler pushes it to the HW only after all gang members have been pushed.
->>
->> The first gang member pushed now triggers a dependency handling which makes sure that no other gang can be pushed until gang leader is pushed as well.
-> 
-> You mean amdgpu registers callbacks to drm_sched_fence?
+Hi Dan,
 
-No, we give it as dependency to drm_sched_job_add_dependency().
+Le mercredi 25 juin 2025 =C3=A0 10:23 -0500, Dan Carpenter a =C3=A9crit=C2=
+=A0:
+> The iommu_paging_domain_alloc() function doesn't return NULL on error it
+> returns error pointers.=C2=A0 Update the check and then set ->empty_domai=
+n to
+> NULL because the rest of the driver assumes it can be NULL.
+>=20
+> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> =C2=A0drivers/staging/media/rkvdec/rkvdec.c | 4 +++-
 
->>> That's rather vague. Regarding this TODO, "racing between timing out
->>> and signaling the fence" can now be corrected by the driver. Are there
->>> more issues? If so, we want to add a new FIXME for them.
->>
->> Yeah good point. We basically worked around all those issues now.
->>
->> It's just that I still see that we are missing a general concept. E.g. we applied workaround on top of workaround until it didn't crashed any more instead of saying ok that is the design does that work? Is it valid? etc...
-> 
-> Yes, that seems to have been our destiny for a while now :) :(
-> 
-> What I'm afraid of right now is that with the callbacks vs.
-> drm_sched_fence we now potentially have several distinct mechanisms for
-> doing things. The hardware fence is clearly the relevant
-> synchronization object for telling when a job is completed; yet, we
-> also have s_fence->finished.
+I've re-applied to the now de-staged driver, and will send that as fixes fo=
+r
+6.17.
 
-Not quite, the s_fence->finished is what is relevant to the outside. The HW fence is only relevant to the inside of the scheduler.
+thanks,
+Nicolas
 
-> Using it (for what?) is even encouraged by the docu:
-> 
->         /**
->          * @finished: this fence is what will be signaled by the scheduler
->          * when the job is completed.
->          *
->          * When setting up an out fence for the job, you should use
->          * this, since it's available immediately upon
->          * drm_sched_job_init(), and the fence returned by the driver
->          * from run_job() won't be created until the dependencies have
->          * resolved.
->          */
+> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
+> b/drivers/staging/media/rkvdec/rkvdec.c
+> index d707088ec0dc..1b7f27e4d961 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -1162,8 +1162,10 @@ static int rkvdec_probe(struct platform_device *pd=
+ev)
+> =C2=A0	if (iommu_get_domain_for_dev(&pdev->dev)) {
+> =C2=A0		rkvdec->empty_domain =3D iommu_paging_domain_alloc(rkvdec-
+> >dev);
+> =C2=A0
+> -		if (!rkvdec->empty_domain)
+> +		if (IS_ERR(rkvdec->empty_domain)) {
+> +			rkvdec->empty_domain =3D NULL;
+> =C2=A0			dev_warn(rkvdec->dev, "cannot alloc new empty
+> domain\n");
+> +		}
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
 
-That comment sounds correct to me. Drivers should mostly use s_fence->finished and not the HW fence to determine if something is done.
+--=-zVq3E96LLIkOM0QvJy4y
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-> Anyways.
-> I think this is a big topic very suitable for our work shop at XDC. I
-> also have some ideas about paths forward that I want to present.
+-----BEGIN PGP SIGNATURE-----
 
-Sounds good.
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJn8LwAKCRBxUwItrAao
+HJkYAKCtvUQZ5z1RoybjCWS8gUg8D6MFYgCgljilOqw9QLf/xqvyixDpZsUTlyk=
+=K30S
+-----END PGP SIGNATURE-----
 
-Halve a year ago I was more or less ready to suggest to rip out the scheduler and start from scratch again, but now it more and more looks like we have light at the end of the tunnel.
-
-Christian.
-
-> 
-> 
-> P.
-> 
->>
->>> That said, such an RFC would obviously be great. We can discuss the
->>> paragraph above there, if you want.
->>
->> I will try to hack something together. Not necessarily complete but it should show the direction.
->>
->> Christian.
->>
->>>
->>>
->>> Regards
->>> P.
-> 
-
+--=-zVq3E96LLIkOM0QvJy4y--
 
