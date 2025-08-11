@@ -1,61 +1,95 @@
-Return-Path: <linux-media+bounces-39442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39440-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F60B20C81
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 16:49:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62707B20C26
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 16:38:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C85A160B5A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 14:43:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43254190331D
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 14:37:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47632E174C;
-	Mon, 11 Aug 2025 14:41:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2451A25742F;
+	Mon, 11 Aug 2025 14:36:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b="fRYW9HR9"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qejlhNE+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailo.com (msg-3.mailo.com [213.182.54.8])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8832E0B79;
-	Mon, 11 Aug 2025 14:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.182.54.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2223B23A99D
+	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 14:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754923262; cv=none; b=RNVZtBe7AMPm7U9DW5uEL193t9RIxaZfjp7MdUSjF0eGiCOYDnj9u7WmAEOnTINEKeBY4Sqcpyb5tlzWm2DzkA/xdZIOSAWZ85og9nzKGprAHbfRKiQFvgENBBnI7KnLmk0YPWSY+Hmr8lOE2GCTlHcG4jOd04giSshUuq/xq/c=
+	t=1754923010; cv=none; b=UqB56eYpUh49Kj+65WQh8inkWwACGt++KuIhxkjR/2k9M/3mPpFRLersJOxNyBCtnPjPGWOjG4ZQu9+4oHL/iMg00+x7fLI7VTxIgaf9gKldrzbNDfYJXKBxtfdcuCga2doWzhV7vhR9a7qM32c0OA/Q2e0hb57M/V9zicFHnqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754923262; c=relaxed/simple;
-	bh=WcbLtLQBy91cBUeeDQnn5F397N+v9eItLBsxZhKw2/A=;
+	s=arc-20240116; t=1754923010; c=relaxed/simple;
+	bh=76iwY8ZuIgwxFmVF2Z9+bPEyNiUKqcaNH5/RH6UKYug=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bNjkGENJ/HW7q9Ksev+PwJgFoAHdU+plhalAKLsvpSvE6J+OW55r2fAEU9Vl71YHQEI26GLfIgP8f0w6XIqB+cJczdZjXe9LA2rjEGej8OQ0mB+9wY5mXj4xysLaZLRBsp7RNo3o/pzJyDE546a3BFVfBbm0HGZAEklRNaOo3ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mailoo.org; spf=pass smtp.mailfrom=mailoo.org; dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b=fRYW9HR9; arc=none smtp.client-ip=213.182.54.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mailoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailoo.org
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-	t=1754922631; bh=WcbLtLQBy91cBUeeDQnn5F397N+v9eItLBsxZhKw2/A=;
-	h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=fRYW9HR9yCyYZB8EAkEWKgb2fGUrajHuXntl6PB9kwHOCW+NTyKiOHot+bu8FVi+Z
-	 uM6FZzrOv3VOPv53jOGriUjMyEk0VHFcY+xNV1lX5IGsS/IT+53AnTgllzi3TG3bEd
-	 4EV1pHsvmRlerk2o4/ZzW/IL4nmqW4Kwku08tFss=
-Received: by b221-5.in.mailobj.net [192.168.90.25] with ESMTP
-	via ip-22.mailoo.org [213.182.54.22]
-	Mon, 11 Aug 2025 16:30:31 +0200 (CEST)
-X-EA-Auth: Hg/exFp/+pX8QNqmfMA6P7RGU73U9i67bK+qYwUzVyHuqb3BttX1KbhCvRFdjjtEi5ZZJghPIEtv0vvHIQJLHDWolXoFlwutM0PrVXB5LYk=
-Message-ID: <bd5aec71222a98e51e6f0602b85d04d6ff3d6885.camel@mailoo.org>
-Subject: Re: [PATCH] media: i2c: ov8858: Add sensor's pixel matrix size
-From: Vincent Knecht <vincent.knecht@mailoo.org>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Nicholas Roth	
- <nicholas@rothemail.net>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	phone-devel@vger.kernel.org
-Date: Mon, 11 Aug 2025 16:30:30 +0200
-In-Reply-To: <20250509-ov8858-crop-v1-1-403a0993c1de@mailoo.org>
-References: <20250509-ov8858-crop-v1-1-403a0993c1de@mailoo.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42app2) 
+	 Content-Type:MIME-Version; b=XZRuqSHK9++vo1Odvk2JMQnCp8agFfp2a1unY3pB9YNXz2mxeLv5lYdnnsZiCixxePENOvAGdB3PyhXn0CU5s3P393X5XoB6FfAgF5hQr1JlPOSiMFJaMd21BTTduM9CyLe5FBv8BruyxUe3d/w56Exko7Mj8c8+/ncZ1cyCf2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qejlhNE+; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1754923005;
+	bh=76iwY8ZuIgwxFmVF2Z9+bPEyNiUKqcaNH5/RH6UKYug=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=qejlhNE+RoBfYnA+8m4TKo3/rc7kBrqMUfSLeIPFYyd1fCE8lE9h4NBYPa/50TJQw
+	 VOlnrcN9BITvUCmUTZpK84IgXf291DpJkpf3c1JOMPWAn9PBO0kKjhXLIFym9ftIM6
+	 556f5yXc411dNnqIAL1jyPm1zOl/Fb2GpS9GEmYvCjEKlnfHAo/5Z8FM1+OpszE7G/
+	 J9P43a0X1ZwI7NdK6z3oY8ZRIZV/2SJnEUdUm9DdhoJJL4k7naeVwEs1KwwAwgughg
+	 lEjRteox28w6FlU6UgNrFhMHVYyNYxAMEnCQOjQ9d3jmSWypHkvY+dqFBOlyjT7edy
+	 jkOk+vp2E7H6w==
+Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4689417E0C87;
+	Mon, 11 Aug 2025 16:36:44 +0200 (CEST)
+Message-ID: <ab8d8470e9bcc9532d48ccd3287cf242e790dcad.camel@collabora.com>
+Subject: Re: [PATCH v3 62/76] media: hantro: Access v4l2_fh from
+ file->private_data
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	linux-media@vger.kernel.org
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Hans Verkuil	
+ <hans@jjverkuil.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, Benjamin
+ Gaignard <benjamin.gaignard@collabora.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, 	linux-rockchip@lists.infradead.org
+Date: Mon, 11 Aug 2025 10:36:43 -0400
+In-Reply-To: <20250810013100.29776-63-laurent.pinchart+renesas@ideasonboard.com>
+References: 
+	<20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
+	 <20250810013100.29776-63-laurent.pinchart+renesas@ideasonboard.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+	boundary="=-OXBfOomi8BZGUmxwnrx0"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,98 +97,184 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Le vendredi 09 mai 2025 =C3=A0 09:33 +0200, Vincent Knecht via B4 Relay a =
-=C3=A9crit=C2=A0:
-> From: Vincent Knecht <vincent.knecht@mailoo.org>
+
+--=-OXBfOomi8BZGUmxwnrx0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le dimanche 10 ao=C3=BBt 2025 =C3=A0 04:30 +0300, Laurent Pinchart a =C3=A9=
+crit=C2=A0:
+> To prepare for the introduction of video_device_state as second argument
+> of the v4l2_ioctl_ops handler, access the v4l2_fh from
+> file->private_data instead of using void *priv.
 >=20
-> The OV8858 pixel array is composed as:
-> - vertically: 16 dummy columns, 3264 valid ones and 16 dummy columns for
-> =C2=A0 a total of 3296 columns
-> - horizontally: 24 optical black lines, 16 dummy ones, 2448 valid, 16
-> =C2=A0 dummies and 24 optical black lines for a total of 2528 lines
+> The file->private_data is initialized to point to the v4l2_fh
+> by the usage of v4l2_fh_init() in the v4l2_file_operations.open()
+> handler.
 >=20
-> Set native and active sensor pixel sizes.
->=20
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+
 > ---
-> =C2=A0drivers/media/i2c/ov8858.c | 37 +++++++++++++++++++++++++++++++++++=
-++
-> =C2=A01 file changed, 37 insertions(+)
+> Changes since v1:
 >=20
-> diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
-> index 95f9ae7948463e95ce0b2cb58195de02ee72c02a..9a86aa46e20b48ef4bae7d70c=
-e485985c1ba886a 100644
-> --- a/drivers/media/i2c/ov8858.c
-> +++ b/drivers/media/i2c/ov8858.c
-> @@ -77,6 +77,14 @@
+> - Update file-to-ctx macro due to removal of fh-to-ctx macro
+> ---
+> =C2=A0drivers/media/platform/verisilicon/hantro.h=C2=A0=C2=A0 |=C2=A0 7 +=
+-----
+> =C2=A0.../media/platform/verisilicon/hantro_v4l2.c=C2=A0 | 22 +++++++++--=
+--------
+> =C2=A02 files changed, 12 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro.h
+> b/drivers/media/platform/verisilicon/hantro.h
+> index 5b85c8a44706..e0fdc4535b2d 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -382,14 +382,9 @@ extern int hantro_debug;
+> =C2=A0	pr_err("%s:%d: " fmt, __func__, __LINE__, ##args)
 > =C2=A0
-> =C2=A0#define REG_NULL			0xffff
-> =C2=A0
-> +/* OV8858 native and active pixel array size */
-> +#define OV8858_NATIVE_WIDTH		3296U
-> +#define OV8858_NATIVE_HEIGHT		2528U
-> +#define OV8858_PIXEL_ARRAY_LEFT		16U
-> +#define OV8858_PIXEL_ARRAY_TOP		40U
-> +#define OV8858_PIXEL_ARRAY_WIDTH	3264U
-> +#define OV8858_PIXEL_ARRAY_HEIGHT	2448U
-> +
-> =C2=A0static const char * const ov8858_supply_names[] =3D {
-> =C2=A0	"avdd",		/* Analog power */
-> =C2=A0	"dovdd",	/* Digital I/O power */
-> @@ -1492,11 +1500,40 @@ static int ov8858_init_state(struct v4l2_subdev *=
-sd,
-> =C2=A0	return 0;
+> =C2=A0/* Structure access helpers. */
+> -static __always_inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
+> -{
+> -	return container_of(fh, struct hantro_ctx, fh);
+> -}
+> -
+> =C2=A0static __always_inline struct hantro_ctx *file_to_ctx(struct file *=
+filp)
+> =C2=A0{
+> -	return fh_to_ctx(file_to_v4l2_fh(filp));
+> +	return container_of(file_to_v4l2_fh(filp), struct hantro_ctx, fh);
 > =C2=A0}
 > =C2=A0
-> +static int ov8858_get_selection(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_selection *sel)
-> +{
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_CROP:
-> +		sel->r =3D *v4l2_subdev_state_get_crop(sd_state, 0);
-> +		return 0;
-> +
-> +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> +		sel->r.top =3D 0;
-> +		sel->r.left =3D 0;
-> +		sel->r.width =3D OV8858_NATIVE_WIDTH;
-> +		sel->r.height =3D OV8858_NATIVE_HEIGHT;
-> +		return 0;
-> +
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		sel->r.top =3D OV8858_PIXEL_ARRAY_TOP;
-> +		sel->r.left =3D OV8858_PIXEL_ARRAY_LEFT;
-> +		sel->r.width =3D OV8858_PIXEL_ARRAY_WIDTH;
-> +		sel->r.height =3D OV8858_PIXEL_ARRAY_HEIGHT;
-> +		return 0;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> =C2=A0static const struct v4l2_subdev_pad_ops ov8858_pad_ops =3D {
-> =C2=A0	.enum_mbus_code =3D ov8858_enum_mbus_code,
-> =C2=A0	.enum_frame_size =3D ov8858_enum_frame_sizes,
-> =C2=A0	.get_fmt =3D v4l2_subdev_get_fmt,
-> =C2=A0	.set_fmt =3D ov8858_set_fmt,
-> +	.get_selection =3D ov8858_get_selection,
-> =C2=A0};
+> =C2=A0/* Register accessors. */
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index 7c3515cf7d64..6bcd892e7bb4 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -185,7 +185,7 @@ static int vidioc_querycap(struct file *file, void *p=
+riv,
+> =C2=A0static int vidioc_enum_framesizes(struct file *file, void *priv,
+> =C2=A0				=C2=A0 struct v4l2_frmsizeenum *fsize)
+> =C2=A0{
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =C2=A0	const struct hantro_fmt *fmt;
 > =C2=A0
-> =C2=A0static const struct v4l2_subdev_ops ov8858_subdev_ops =3D {
->=20
-> ---
-> base-commit: 37ff6e9a2ce321b7932d3987701757fb4d87b0e6
-> change-id: 20250509-ov8858-crop-9c307bc9d5b6
->=20
-> Best regards,
+> =C2=A0	fmt =3D hantro_find_format(ctx, fsize->pixel_format);
+> @@ -217,7 +217,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
+riv,
+> =C2=A0			=C2=A0=C2=A0 struct v4l2_fmtdesc *f, bool capture)
+> =C2=A0
+> =C2=A0{
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =C2=A0	const struct hantro_fmt *fmt, *formats;
+> =C2=A0	unsigned int num_fmts, i, j =3D 0;
+> =C2=A0	bool skip_mode_none, enum_all_formats;
+> @@ -297,7 +297,7 @@ static int vidioc_g_fmt_out_mplane(struct file *file,=
+ void
+> *priv,
+> =C2=A0				=C2=A0=C2=A0 struct v4l2_format *f)
+> =C2=A0{
+> =C2=A0	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =C2=A0
+> =C2=A0	vpu_debug(4, "f->type =3D %d\n", f->type);
+> =C2=A0
+> @@ -310,7 +310,7 @@ static int vidioc_g_fmt_cap_mplane(struct file *file,=
+ void
+> *priv,
+> =C2=A0				=C2=A0=C2=A0 struct v4l2_format *f)
+> =C2=A0{
+> =C2=A0	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =C2=A0
+> =C2=A0	vpu_debug(4, "f->type =3D %d\n", f->type);
+> =C2=A0
+> @@ -398,13 +398,13 @@ static int hantro_try_fmt(const struct hantro_ctx *=
+ctx,
+> =C2=A0static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *f)
+> =C2=A0{
+> -	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
+> +	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int vidioc_try_fmt_out_mplane(struct file *file, void *priv,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *f)
+> =C2=A0{
+> -	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
+> +	return hantro_try_fmt(file_to_ctx(file), &f->fmt.pix_mp, f->type);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void
+> @@ -648,19 +648,19 @@ static int hantro_set_fmt_cap(struct hantro_ctx *ct=
+x,
+> =C2=A0static int
+> =C2=A0vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_=
+format *f)
+> =C2=A0{
+> -	return hantro_set_fmt_out(fh_to_ctx(priv), &f->fmt.pix_mp,
+> HANTRO_AUTO_POSTPROC);
+> +	return hantro_set_fmt_out(file_to_ctx(file), &f->fmt.pix_mp,
+> HANTRO_AUTO_POSTPROC);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int
+> =C2=A0vidioc_s_fmt_cap_mplane(struct file *file, void *priv, struct v4l2_=
+format *f)
+> =C2=A0{
+> -	return hantro_set_fmt_cap(fh_to_ctx(priv), &f->fmt.pix_mp);
+> +	return hantro_set_fmt_cap(file_to_ctx(file), &f->fmt.pix_mp);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int vidioc_g_selection(struct file *file, void *priv,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_selection *sel)
+> =C2=A0{
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =C2=A0
+> =C2=A0	/* Crop only supported on source. */
+> =C2=A0	if (!ctx->is_encoder ||
+> @@ -691,7 +691,7 @@ static int vidioc_g_selection(struct file *file, void
+> *priv,
+> =C2=A0static int vidioc_s_selection(struct file *file, void *priv,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_selection *sel)
+> =C2=A0{
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =C2=A0	struct v4l2_rect *rect =3D &sel->r;
+> =C2=A0	struct vb2_queue *vq;
+> =C2=A0
+> @@ -738,7 +738,7 @@ static const struct v4l2_event hantro_eos_event =3D {
+> =C2=A0static int vidioc_encoder_cmd(struct file *file, void *priv,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_encoder_cmd *ec)
+> =C2=A0{
+> -	struct hantro_ctx *ctx =3D fh_to_ctx(priv);
+> +	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> =C2=A0	int ret;
+> =C2=A0
+> =C2=A0	ret =3D v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
 
-Hi Sakari,
+--=-OXBfOomi8BZGUmxwnrx0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-I got no feedback about this patch, is it okay ?
+-----BEGIN PGP SIGNATURE-----
 
-Thank you
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJn/+wAKCRBxUwItrAao
+HEv2AJ0WNpp8XKQutm5U36TvGiQp1CyIvQCgonsta1h8f3lgUQ3RZ/9DLy0ob5E=
+=P6MX
+-----END PGP SIGNATURE-----
 
-
+--=-OXBfOomi8BZGUmxwnrx0--
 
