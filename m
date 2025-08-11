@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-39467-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39468-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465A1B21731
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 23:17:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AF7B21733
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 23:18:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 828E37B2CCC
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 21:15:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F32C746308F
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 21:18:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6266C2E2DFA;
-	Mon, 11 Aug 2025 21:17:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BD562E2DFA;
+	Mon, 11 Aug 2025 21:18:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Qr9AdoN8"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QFyf1QcC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2010285078;
-	Mon, 11 Aug 2025 21:17:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03317213E90;
+	Mon, 11 Aug 2025 21:17:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754947039; cv=none; b=u575jJyKYDOltnC2nr5KSWTo4ZsOhTa21pnA5bND0Q6CJULL+dJBmu2qr+iMgMgeIk+wAwwKD1RpBzNfqn9cI+SDBwW6vw1+Og4F7yGiGsgHNfY5TB3XRv0iZq03zVqKoo2G7fb39nkIhFfeEwUJHxAFhjVnwaxnIxySOsdX9oA=
+	t=1754947079; cv=none; b=JuG3gh4ZsunWY2PVKBbAiyHfcEljPPn0hsJyQeK+2EZnPnQTY4jKjh6nbryJnR4Bqms8RqlIc7EQYIWggUARIu73mAWeWJyz1TxyjAC6LRfyRWDBm0SJZKnC2epQzMUPTqqNSmBR1Vs5Uf2K8TXf2k+HEOPcCV30HbN5QiLTiQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754947039; c=relaxed/simple;
-	bh=raW5g/LV8GRTMwkoKNboyFHz5L/VYuTT0dEoV8anao8=;
+	s=arc-20240116; t=1754947079; c=relaxed/simple;
+	bh=xUaflROsz9leLWydph7UroXjMybZOGbQzkhVdycrZXI=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JwYMeub8jI/MSFBByxq1fi33HJd5BntjFviyaXUQv7i2qyHxR6jXVH1Kii7aFKfJI6RAfQgXDzFXbi0pNDK0b7fbcq52AtlJLWGN6cLFSlAJnzx6dpBbRDjyIg9OObyWtBbdr3hiK1tIZA3mODWj/7v2GhIlXuo4R7VzegNBpes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Qr9AdoN8; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=kZ5gNtE/qukKU0amhlEaZpEEK315m46Mv0H/ymbXWLUkrtfTDixsherKn+j9M4TE7kUPEAePl+g5E4TWC8oPDFh7KbtFqSzcXATkgHV49D3g+tDNPyNPkDACq0sK/yZax1BvF6lKcR+kcM+kzf+k5Jxtk++iIN6u2yTfmm1aoag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QFyf1QcC; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1754947035;
-	bh=raW5g/LV8GRTMwkoKNboyFHz5L/VYuTT0dEoV8anao8=;
+	s=mail; t=1754947076;
+	bh=xUaflROsz9leLWydph7UroXjMybZOGbQzkhVdycrZXI=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Qr9AdoN8zECuc23K+vkrLvUlmvybTlzWqs1bZrqXrfvPtamis/qCY9KkBvjLNyA54
-	 pD1gToT97PtdLTJAxpTzKifthtpY/wSQ/H/j1+KiRYzDkfH00wWJQArPXNVr8tlIJu
-	 0pd9Yf8WtC37EMcvQ1t6jv9ySRaC9zpJvgXcyk7Ge2BtO1pQwvB4jxon2KuyJ5fgjj
-	 GlkrW6IFhk9Gv2rY9hNMi+DiktckEHN6t4d0g4d6Ishh/1X9dAQkSr7IMefoWg3E22
-	 hzq5kanEdfaOE392Ry3OULmWQ/bdm3RMm6pJO4fbZaeGfLGIpTWzK7JOkENSoROg8Q
-	 9Wr6TKN3g6ElA==
+	b=QFyf1QcCoN388xxYJGsxsMIPtPFH7gTtFQXSyplveeUgph7Fq/+SQRcRHbt6WGmwR
+	 3+kGVWIOGBdQN6FB8VVuerXUSQ2jPsYqunWOXcl8jPnAscnjk0eMaQmW1XWqf/sPOu
+	 Vr5myMJtBJ4IMCs3R0vD2NOAhtIem1aDizpn7+hz3u6y/o045lRzTVyQTrooqlDLjg
+	 /1NYUlQNSohnlpnFx5t/O9BaMqexEjad5F6zLaEin4h7QV4oLDw4TQSf8f1L7Ci5JR
+	 dcf7dzj3nqK1UepA+CPgDjgIbb3i8F5eZqogk9VKfKQWKbnupVTtMyB4LTjwJgf3uM
+	 R86dQfioNeunA==
 Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4D79C17E0286;
-	Mon, 11 Aug 2025 23:17:14 +0200 (CEST)
-Message-ID: <a08b45fe17a0374230f300f30d344252b6d597da.camel@collabora.com>
-Subject: Re: [PATCH v2 3/7] media: rkvdec: Implement capability filtering
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D284217E05F0;
+	Mon, 11 Aug 2025 23:17:54 +0200 (CEST)
+Message-ID: <d1c879392bde10319d9e142db385bb306724b8f4.camel@collabora.com>
+Subject: Re: [PATCH v2 4/7] media: rkvdec: Add RK3288 variant
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia	
  <ezequiel@vanguardiasur.com.ar>, Detlev Casanova
@@ -59,10 +59,10 @@ Cc: Alex Bee <knaerzche@gmail.com>, Sebastian Fricke
 	 <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
 	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Mon, 11 Aug 2025 17:17:12 -0400
-In-Reply-To: <20250810212454.3237486-4-jonas@kwiboo.se>
+Date: Mon, 11 Aug 2025 17:17:53 -0400
+In-Reply-To: <20250810212454.3237486-5-jonas@kwiboo.se>
 References: <20250810212454.3237486-1-jonas@kwiboo.se>
-	 <20250810212454.3237486-4-jonas@kwiboo.se>
+	 <20250810212454.3237486-5-jonas@kwiboo.se>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
  oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
@@ -88,7 +88,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  +E7ItOqZEHAs+xabBgknYZIFPU=
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-+plCxMyBS08v/1oHFlUB"
+	boundary="=-HHgd+y65iENbtYowP/1d"
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -98,193 +98,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-+plCxMyBS08v/1oHFlUB
+--=-HHgd+y65iENbtYowP/1d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le dimanche 10 ao=C3=BBt 2025 =C3=A0 21:24 +0000, Jonas Karlman a =C3=A9cri=
 t=C2=A0:
-> Add filtering of coded formats and controls depending on a variant
-> capabilities.
+> From: Alex Bee <knaerzche@gmail.com>
+>=20
+> Add a RK3288 variant, a version of the Rockchip VDEC IP that only
+> support HEVC decoding.
 >=20
 > Signed-off-by: Alex Bee <knaerzche@gmail.com>
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
-> Changes in v2:
-> - Adjust code style in rkvdec_enum_coded_fmt_desc()
-> ---
-> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0 | 67 ++++++=
-++++++++-----
-> =C2=A01 file changed, 49 insertions(+), 18 deletions(-)
->=20
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
-dia/platform/rockchip/rkvdec/rkvdec.c
-> index e7b9dfc2d1ab..56807122720e 100644
-> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> @@ -365,13 +365,36 @@ static const struct rkvdec_coded_fmt_desc rkvdec_co=
-ded_fmts[] =3D {
-> =C2=A0	}
-> =C2=A0};
-> =C2=A0
-> +static bool rkvdec_is_capable(struct rkvdec_ctx *ctx, unsigned int capab=
-ility)
-> +{
-> +	return (ctx->dev->capabilities & capability) =3D=3D capability;
-> +}
-> +
-> =C2=A0static const struct rkvdec_coded_fmt_desc *
-> -rkvdec_find_coded_fmt_desc(u32 fourcc)
-> +rkvdec_enum_coded_fmt_desc(struct rkvdec_ctx *ctx, int index)
-> =C2=A0{
-> +	int fmt_idx =3D -1;
-> =C2=A0	unsigned int i;
-> =C2=A0
-> =C2=A0	for (i =3D 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
-> -		if (rkvdec_coded_fmts[i].fourcc =3D=3D fourcc)
-> +		if (!rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability))
-> +			continue;
-> +		fmt_idx++;
-> +		if (index =3D=3D fmt_idx)
-> +			return &rkvdec_coded_fmts[i];
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static const struct rkvdec_coded_fmt_desc *
-> +rkvdec_find_coded_fmt_desc(struct rkvdec_ctx *ctx, u32 fourcc)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
-> +		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability) &&
-> +		=C2=A0=C2=A0=C2=A0 rkvdec_coded_fmts[i].fourcc =3D=3D fourcc)
-> =C2=A0			return &rkvdec_coded_fmts[i];
-> =C2=A0	}
-> =C2=A0
-> @@ -382,7 +405,7 @@ static void rkvdec_reset_coded_fmt(struct rkvdec_ctx =
-*ctx)
-> =C2=A0{
-> =C2=A0	struct v4l2_format *f =3D &ctx->coded_fmt;
-> =C2=A0
-> -	ctx->coded_fmt_desc =3D &rkvdec_coded_fmts[0];
-> +	ctx->coded_fmt_desc =3D rkvdec_enum_coded_fmt_desc(ctx, 0);
-> =C2=A0	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->fourcc);
-> =C2=A0
-> =C2=A0	f->type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> @@ -396,21 +419,22 @@ static void rkvdec_reset_coded_fmt(struct rkvdec_ct=
-x *ctx)
-> =C2=A0static int rkvdec_enum_framesizes(struct file *file, void *priv,
-> =C2=A0				=C2=A0 struct v4l2_frmsizeenum *fsize)
-> =C2=A0{
-> -	const struct rkvdec_coded_fmt_desc *fmt;
-> +	struct rkvdec_ctx *ctx =3D fh_to_rkvdec_ctx(priv);
-> +	const struct rkvdec_coded_fmt_desc *desc;
-> =C2=A0
-> =C2=A0	if (fsize->index !=3D 0)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> -	fmt =3D rkvdec_find_coded_fmt_desc(fsize->pixel_format);
-> -	if (!fmt)
-> +	desc =3D rkvdec_find_coded_fmt_desc(ctx, fsize->pixel_format);
-> +	if (!desc)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> =C2=A0	fsize->type =3D V4L2_FRMSIZE_TYPE_CONTINUOUS;
-> =C2=A0	fsize->stepwise.min_width =3D 1;
-> -	fsize->stepwise.max_width =3D fmt->frmsize.max_width;
-> +	fsize->stepwise.max_width =3D desc->frmsize.max_width;
-> =C2=A0	fsize->stepwise.step_width =3D 1;
-> =C2=A0	fsize->stepwise.min_height =3D 1;
-> -	fsize->stepwise.max_height =3D fmt->frmsize.max_height;
-> +	fsize->stepwise.max_height =3D desc->frmsize.max_height;
-> =C2=A0	fsize->stepwise.step_height =3D 1;
-> =C2=A0
-> =C2=A0	return 0;
-> @@ -470,10 +494,10 @@ static int rkvdec_try_output_fmt(struct file *file,=
- void *priv,
-> =C2=A0	struct rkvdec_ctx *ctx =3D fh_to_rkvdec_ctx(priv);
-> =C2=A0	const struct rkvdec_coded_fmt_desc *desc;
-> =C2=A0
-> -	desc =3D rkvdec_find_coded_fmt_desc(pix_mp->pixelformat);
-> +	desc =3D rkvdec_find_coded_fmt_desc(ctx, pix_mp->pixelformat);
-> =C2=A0	if (!desc) {
-> -		pix_mp->pixelformat =3D rkvdec_coded_fmts[0].fourcc;
-> -		desc =3D &rkvdec_coded_fmts[0];
-> +		desc =3D rkvdec_enum_coded_fmt_desc(ctx, 0);
-> +		pix_mp->pixelformat =3D desc->fourcc;
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	v4l2_apply_frmsize_constraints(&pix_mp->width,
-> @@ -550,7 +574,7 @@ static int rkvdec_s_output_fmt(struct file *file, voi=
-d *priv,
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> =C2=A0
-> -	desc =3D rkvdec_find_coded_fmt_desc(f->fmt.pix_mp.pixelformat);
-> +	desc =3D rkvdec_find_coded_fmt_desc(ctx, f->fmt.pix_mp.pixelformat);
-> =C2=A0	if (!desc)
-> =C2=A0		return -EINVAL;
-> =C2=A0	ctx->coded_fmt_desc =3D desc;
-> @@ -602,10 +626,14 @@ static int rkvdec_g_capture_fmt(struct file *file, =
-void *priv,
-> =C2=A0static int rkvdec_enum_output_fmt(struct file *file, void *priv,
-> =C2=A0				=C2=A0 struct v4l2_fmtdesc *f)
-> =C2=A0{
-> -	if (f->index >=3D ARRAY_SIZE(rkvdec_coded_fmts))
-> +	struct rkvdec_ctx *ctx =3D fh_to_rkvdec_ctx(priv);
-> +	const struct rkvdec_coded_fmt_desc *desc;
-> +
-> +	desc =3D rkvdec_enum_coded_fmt_desc(ctx, f->index);
-> +	if (!desc)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> -	f->pixelformat =3D rkvdec_coded_fmts[f->index].fourcc;
-> +	f->pixelformat =3D desc->fourcc;
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> @@ -970,14 +998,17 @@ static int rkvdec_init_ctrls(struct rkvdec_ctx *ctx=
-)
-> =C2=A0	int ret;
-> =C2=A0
-> =C2=A0	for (i =3D 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++)
-> -		nctrls +=3D rkvdec_coded_fmts[i].ctrls->num_ctrls;
-> +		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability))
-> +			nctrls +=3D rkvdec_coded_fmts[i].ctrls->num_ctrls;
-> =C2=A0
-> =C2=A0	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, nctrls);
-> =C2=A0
-> =C2=A0	for (i =3D 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
-> -		ret =3D rkvdec_add_ctrls(ctx, rkvdec_coded_fmts[i].ctrls);
-> -		if (ret)
-> -			goto err_free_handler;
-> +		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability)) {
-> +			ret =3D rkvdec_add_ctrls(ctx, rkvdec_coded_fmts[i].ctrls);
-> +			if (ret)
-> +				goto err_free_handler;
-> +		}
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	ret =3D v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-cheers,
-Nicolas
+> ---
+> Changes in v2:
+> - No change
+> ---
+> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.c | 8 ++++++++
+> =C2=A01 file changed, 8 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
+dia/platform/rockchip/rkvdec/rkvdec.c
+> index 56807122720e..c20e046205fe 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -1222,6 +1222,10 @@ static void rkvdec_watchdog_func(struct work_struc=
+t *work)
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> +static const struct rkvdec_variant rk3288_rkvdec_variant =3D {
+> +	.capabilities =3D RKVDEC_CAPABILITY_HEVC,
+> +};
+> +
+> =C2=A0static const struct rkvdec_variant rk3399_rkvdec_variant =3D {
+> =C2=A0	.capabilities =3D RKVDEC_CAPABILITY_HEVC |
+> =C2=A0			RKVDEC_CAPABILITY_H264 |
+> @@ -1229,6 +1233,10 @@ static const struct rkvdec_variant rk3399_rkvdec_v=
+ariant =3D {
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct of_device_id of_rkvdec_match[] =3D {
+> +	{
+> +		.compatible =3D "rockchip,rk3288-vdec",
+> +		.data =3D &rk3288_rkvdec_variant,
+> +	},
+> =C2=A0	{
+> =C2=A0		.compatible =3D "rockchip,rk3399-vdec",
+> =C2=A0		.data =3D &rk3399_rkvdec_variant,
 
---=-+plCxMyBS08v/1oHFlUB
+--=-HHgd+y65iENbtYowP/1d
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJpd2AAKCRBxUwItrAao
-HFagAJ9kpySvBjaNAzNBLEMtnAbxTfaYngCfcZh2egLoFBDVztkKTSFbUTpixT8=
-=akP1
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJpeAQAKCRBxUwItrAao
+HCTRAJ4r5AHu+Y2H4Y+OzFJHwnqKI0fFxQCeP1nr/fgDXz45J/yOzhLRppWx4sk=
+=14fs
 -----END PGP SIGNATURE-----
 
---=-+plCxMyBS08v/1oHFlUB--
+--=-HHgd+y65iENbtYowP/1d--
 
