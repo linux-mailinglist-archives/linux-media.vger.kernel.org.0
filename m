@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-39392-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39393-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B14B1FEFC
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 08:10:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2492CB1FF10
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 08:13:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9940A3BD602
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 06:10:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1CCF7AC806
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 06:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 028E427E052;
-	Mon, 11 Aug 2025 06:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 689E4299A9E;
+	Mon, 11 Aug 2025 06:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HRoDo3Ml"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j7BQz5vc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2F44A1E;
-	Mon, 11 Aug 2025 06:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62A32857CB;
+	Mon, 11 Aug 2025 06:11:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754892599; cv=none; b=k+MRxk5mARf7I1tLy+pN4rwmXbyGlJgvX61X6/anH/dQ/plfpXC1kfwLwtwXlWkjngQ2xFny9qQShFPgQDnKSq58WwdR0Kdcq3BlBcwPtAwe4x2OGRg+H8NggR9PYznJmusIstuLzzZFzci64euiSCk6GVH4j1LWF/ZQjjmUEDw=
+	t=1754892702; cv=none; b=IzbfGQEogtq+22kIsv3GH+gM6e9NO8M7NW9IvVu2Pv5UduB8lQOM2eskwl9WwQuCw2Ue+qi/FI33UhAw13h+shLV8L5y3kubTij2+d7iVXX31sXn8/Ff2Q2l+siGZsDStSh4fc+lxRGHTwh++HVXymD09plR2k66af2PaIy2WM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754892599; c=relaxed/simple;
-	bh=YImJWo73EIDALzqv/DWR/rvJ8iwLwHxanbsRSC5tTx8=;
+	s=arc-20240116; t=1754892702; c=relaxed/simple;
+	bh=2pYYuFNQ9ccI34BQZgIcHr6fIRBbkyYN8gmMmukqM4c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XN3ITtt/+/ciKpU5ZCDMJhOBxXPmn8LU6/pb+F6lN99fTx/LCCtLr3DUegNz7kVfqTPpKGGAg6nP6LwgV7wZywSrH9RrRRYxFbZU4qpfuNA9W2ONcA5FhEYCnJ7AlSDPRuvxBBPjU5wxjCwy8V+idXF8eQUMGilYhiORMQFoB1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HRoDo3Ml; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8C2CC4CEED;
-	Mon, 11 Aug 2025 06:09:57 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Pm7KquSKkDzVMnDONANujRSm/ccqO8nUTtFYT3MpJZCuiXALl627LMwCI/th8VscALjU3qPt7INulTcMHlMRht7uZwwDa0MDQn0OcF//8Szzro4JshDdl3aA1FCD+qQir+tU5LqGSfTMnEwDCnX7s0UeG+RnqkzB4g9lDnB6SCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j7BQz5vc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71616C4CEF5;
+	Mon, 11 Aug 2025 06:11:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754892598;
-	bh=YImJWo73EIDALzqv/DWR/rvJ8iwLwHxanbsRSC5tTx8=;
+	s=k20201202; t=1754892702;
+	bh=2pYYuFNQ9ccI34BQZgIcHr6fIRBbkyYN8gmMmukqM4c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HRoDo3MlPxIn0S2fa7cLKOkZ5dGSRWLr+RmHV94i1tatY0RfF9UquROk01qMgh4w1
-	 GNsNS+wFUfffmCbrBvBGlcwJqccQXgiMW+yLY6xK4BlnqdNJ0ZDkBZfBlaJtbE4MDO
-	 49jm4FPff9mHypKDDX8KHX4fOdPFoh7fsawepGUfl8J2waMyaB9gaR08HE4MDt4999
-	 7GGDmDyULPBeFXeK9OzO4CWW+HgMczkIEPNbLWwf+PRNlI2NIBuJ2D4dfdkxWB/KlI
-	 nl8E236JwzGbcV8NqlAy9xI2XGvJspc7fJE69rdzVexJdBJhYlAtN8mQWqWhRKojyz
-	 SQhSlJkQfR/7A==
-Message-ID: <cbce029f-6a0e-4df6-ba6e-1e0aab4d77b1@kernel.org>
-Date: Mon, 11 Aug 2025 08:09:55 +0200
+	b=j7BQz5vco131ko2fycyjCvlPlsYEGGmG29qUXfj5j/VAOPU+XszEm+k3jUPdOABF5
+	 /5vuRNMvQ+Yqd/fGCQ3uF8ws25bufVFZWPKVq5AFtOWEq6eRe3FEvcnYUqYIfEuaZi
+	 rQDIjX07e1ovtBvPHpC/y5DNGexHoj7RdzsYP85+LERSYJ2sB/rdQV8+733uV9DFjl
+	 EApS0xx12dRb0aRwwLQAKC46b114iQVZkrhJ3jAIydNDQLRueskKHaB1ibeqkBHxen
+	 o+uj4p+slmqVBdnYHqLuv8IbKaDQe0fq0zeZX5JrpklgtVAYZ1x7WMKaVgLa8OsSTV
+	 7WaWSvtjesN9g==
+Message-ID: <1d71f9ed-5d77-4f5f-a4f8-6ef3834155d1@kernel.org>
+Date: Mon, 11 Aug 2025 08:11:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,11 +50,11 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: Pinefeat cef168 lens control board
+Subject: Re: [PATCH 2/2] media/i2c: Pinefeat cef168 lens control board driver
 To: Aliaksandr Smirnou <support@pinefeat.co.uk>, devicetree@vger.kernel.org
 Cc: linux-media@vger.kernel.org
 References: <20250810192609.11966-1-support@pinefeat.co.uk>
- <20250810192609.11966-2-support@pinefeat.co.uk>
+ <20250810192609.11966-3-support@pinefeat.co.uk>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,135 +100,80 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250810192609.11966-2-support@pinefeat.co.uk>
+In-Reply-To: <20250810192609.11966-3-support@pinefeat.co.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/08/2025 21:26, Aliaksandr Smirnou wrote:
-> Add the Device Tree schema and examples for the Pinefeat cef168 lens
->  control board. This board interfaces Canon EF & EF-S lenses with
->  non-Canon camera bodies, enabling electronic control of focus and
->  aperture via V4L2.
-> 
-> Signed-off-by: Aliaksandr Smirnou <support@pinefeat.co.uk>
-
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC (and consider --no-git-fallback argument, so you will
-not CC people just because they made one commit years ago). It might
-happen, that command when run on an older kernel, gives you outdated
-entries. Therefore please be sure you base your patches on recent Linux
-kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-</form letter>
-
-> ---
->  .../bindings/media/i2c/pinefeat,cef168.yaml   | 48 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  MAINTAINERS                                   |  7 +++
->  3 files changed, 57 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/pinefeat,cef168.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/pinefeat,cef168.yaml b/Documentation/devicetree/bindings/media/i2c/pinefeat,cef168.yaml
-> new file mode 100644
-> index 000000000000..ae0c77de5cb4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/pinefeat,cef168.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2025 Pinefeat LLP
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/pinefeat,cef168.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +static int cef168_probe(struct i2c_client *client)
+> +{
+> +	struct cef168_device *cef168_dev;
+> +	int rval;
 > +
-> +title: Pinefeat cef168 lens driver
-> +
-> +maintainers:
-> +  - Aliaksandr Smirnou <support@pinefeat.co.uk>
-> +
-> +description: |
-> +  Pinefeat produces an adapter designed to interface between
-> +  Canon EF & EF-S lenses and non-Canon camera bodies, incorporating
-> +  features for electronic focus and aperture adjustment. The cef168
-> +  circuit board, included with the adapter, provides a software
-> +  programming interface that allows control of lens focus and
-> +  aperture positions. This driver enables controlling the lens
-> +  focus and aperture via the V4L2 (Video4Linux2) API.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - pinefeat,cef168
-> +
-> +  reg:
-> +    maxItems: 1
+> +	cef168_dev =
+> +		devm_kzalloc(&client->dev, sizeof(*cef168_dev), GFP_KERNEL);
 
-Missing supply
+Wrap according to Linux coding style. Not clang.
 
+> +	if (cef168_dev == NULL)
+> +		return -ENOMEM;
 > +
-> +required:
-> +  - compatible
-> +  - reg
-
-Also here
-
+> +	v4l2_i2c_subdev_init(&cef168_dev->sd, client, &cef168_ops);
+> +	cef168_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +				V4L2_SUBDEV_FL_HAS_EVENTS;
+> +	cef168_dev->sd.internal_ops = &cef168_int_ops;
 > +
-> +additionalProperties: false
+> +	rval = cef168_init_controls(cef168_dev);
+> +	if (rval)
+> +		goto err_cleanup;
 > +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
+> +	rval = media_entity_pads_init(&cef168_dev->sd.entity, 0, NULL);
+> +	if (rval < 0)
+> +		goto err_cleanup;
 > +
-> +        lens_node: cef168@d {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-> +            compatible = "pinefeat,cef168";
-> +            reg = <0x0d>;
-> +        };
-> +    };
+> +	cef168_dev->sd.entity.function = MEDIA_ENT_F_LENS;
 > +
-> +...
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 77160cd47f54..dab27f769b0a 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1195,6 +1195,8 @@ patternProperties:
->      description: Picochip Ltd
->    "^pine64,.*":
->      description: Pine64
-> +  "^pinefeat,.*":
-> +    description: Pinefeat LLP
->    "^pineriver,.*":
->      description: Shenzhen PineRiver Designs Co., Ltd.
->    "^pixcir,.*":
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fe168477caa4..50dbe343ffc2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19985,6 +19985,13 @@ S:	Supported
->  F:	Documentation/devicetree/bindings/input/pine64,pinephone-keyboard.yaml
->  F:	drivers/input/keyboard/pinephone-keyboard.c
->  
-> +PINEFEAT CEF168 LENS DRIVER
-> +M:	Aliaksandr Smirnou <support@pinefeat.co.uk>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +T:	git git://linuxtv.org/media.git
+> +	rval = v4l2_async_register_subdev(&cef168_dev->sd);
+> +	if (rval < 0)
+> +		goto err_cleanup;
+> +
+> +	crc8_populate_msb(cef168_crc8_table, CEF_CRC8_POLYNOMIAL);
+> +
+> +	pm_runtime_set_active(&client->dev);
+> +	pm_runtime_enable(&client->dev);
+> +	pm_runtime_idle(&client->dev);
+> +
+> +	return 0;
+> +
+> +err_cleanup:
+> +	v4l2_ctrl_handler_free(&cef168_dev->ctrls);
+> +	media_entity_cleanup(&cef168_dev->sd.entity);
+> +
+> +	return rval;
+> +}
+> +
+> +static void cef168_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct cef168_device *cef168_dev = sd_to_cef168(sd);
+> +
+> +	pm_runtime_disable(&client->dev);
+> +	pm_runtime_set_suspended(&client->dev);
+> +	cef168_subdev_cleanup(cef168_dev);
+> +}
+> +
+> +static const struct i2c_device_id cef168_id_table[] = { { CEF168_NAME, 0 },
+> +							{ { 0 } } };
 
-Drop, unless you have commit rights there.
+This is some oddly formed style. You need to use Linux coding style.
+
+> +MODULE_DEVICE_TABLE(i2c, cef168_id_table);
+> +
+> +static const struct of_device_id cef168_of_table[] = {
+> +	{ .compatible = "pinefeat,cef168" },
+> +	{ { 0 } }
+
+Also here, there is no such style in the kernel. It's just {}
 
 
 Best regards,
