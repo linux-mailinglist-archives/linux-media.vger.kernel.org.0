@@ -1,202 +1,147 @@
-Return-Path: <linux-media+bounces-39428-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39429-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A0DB208C9
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 14:31:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86328B209B5
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 15:11:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B108F18A29A9
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 12:31:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23495426556
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 13:11:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6244E2BDC38;
-	Mon, 11 Aug 2025 12:31:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B87F2DCF6C;
+	Mon, 11 Aug 2025 13:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A5TjlTCW"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ojjnhV8s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A311017578;
-	Mon, 11 Aug 2025 12:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED5C2D8379
+	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 13:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754915484; cv=none; b=fbUT06WHsRVSYMz5SkIHkLO9su2pd5B/jOWZtnRR0Ajk3eJKInSffPSfpnBlMtOTZRacpOJRbnYBS57NvVFKLd9RV3CIzyUoJjrhVs1Q1sneka3cIN+VP8MrWQc68ooSWGHH+cgvMF5sLgcbBF2YDEAfnB29l6yaKU4GLmCR8oc=
+	t=1754917840; cv=none; b=HzH9+FaKnIct3VupysKDeVoDjxwlJqOfydHv3pvMPxmR3hEqaf/p1Mjef38l+aPI8f58ARt1KthO+2gyueZReGNjIjK99Ta/cW5DweedafVI82ijXaYYDx4ofd8V7vLlW/t8clt6mVdDyUADOZYDYBmKix6J5wYzv1F28PJyB/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754915484; c=relaxed/simple;
-	bh=D8uBtwSRhl3sF0B7mOJUUtLl5LI4xWkEGITTeMcDlSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dMXwZFqiJEWSkF2uveTuH7ayGlea1eoKvPOaGu/ivP9W280RYyCLOxvHCHfNgy9LMsYO2/mkw89Rf5kS7oZQiqpe9WNqaewa3HDTcEv2L1HBJgzUAXdayJ5EacODSdijS5kdoJ2AQoUDyunuzmmy2aUpALgCx4z468lXF4j7CMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=A5TjlTCW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 845374A4;
-	Mon, 11 Aug 2025 14:30:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754915428;
-	bh=D8uBtwSRhl3sF0B7mOJUUtLl5LI4xWkEGITTeMcDlSY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A5TjlTCW4+k0jxTR1BUHwVSo8nso/3uq7KnMDB6S8RJN73GYZK5NHLTv+FoFpSRit
-	 zPIlYCCe/K0ei3mO9A07xuE8FCXQo0OAykNh9Lb1FJx+CrPh1l5L75ZNxmQs0rlolS
-	 yo1q0bZJEFBIQ4IhmSWbBWj9HGwnUE7i8yK1sRO4=
-Date: Mon, 11 Aug 2025 15:31:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: "Du, Bin" <bin.du@amd.com>, mchehab@kernel.org, hverkuil@xs4all.nl,
-	bryan.odonoghue@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com
-Subject: Re: [PATCH v2 4/8] media: platform: amd: Add isp4 fw and hw interface
-Message-ID: <20250811123102.GC30760@pendragon.ideasonboard.com>
-References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-5-Bin.Du@amd.com>
- <aIclcwRep3F_z7PF@kekkonen.localdomain>
- <b033bf6c-c824-4f6d-8025-b6542ea8f35f@amd.com>
- <aJnYE2Z7F-PK1VHL@kekkonen.localdomain>
+	s=arc-20240116; t=1754917840; c=relaxed/simple;
+	bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AqOT7HU0VumjmdCQaM+EM6ACssesCkWsNTQS7GnDAk8drgTHw0iUCP/pQEIbi5Odpb1c3OocF2z/Bx8ZbVrxMg8etiXQayis6mSlcVg9BJX140yP2vnpqaOH+RTdX+Dm7/+fw8YBXVsIDQtASUfLWXtg4yf4fQw1yGCB4ZOhgkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ojjnhV8s; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76b36e6b9ddso3644413b3a.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 06:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1754917837; x=1755522637; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+        b=ojjnhV8sG5RePBCOlfNn+HKKrpovehYP/8l1sr0vNYpFHhYyNj9xWMV43bJeaTo+kp
+         pGJmmwo0JTwJGp+EMoH+TiRmSHHwCWtSKYf/ADQ+n41Fq7MLbvF4puoYKzMZIfAb5Yr5
+         rfyUeS8+hBywvWWe45et8EVilsYHrox7Ct03tWZtWfpes3F5MB7MSmpvGYu3l/KMy0Lm
+         Xz5nZcHYvM5pMpkmNGOifNAmrO7N485x8Dy3qu1/BQr+p2mpzG31DunBz5mKNnrnKK8W
+         RdKVIPz8XNIoKoiGQOe1wq9OXTmtM2HvY5MHwnIuZgNfLGAMI4k+PY6m2DfBQiYd+C7+
+         Xhsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754917837; x=1755522637;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YdcvZYKwitUcECgcbI2UhLZ6metpTwEak9n/5y6m0SA=;
+        b=SihHmuVpRVbD5aJ9sdAPTZ4h+tPm9knlEShV3S9E2DVLa9EkdjxBDzHgu/eWB5Thyh
+         HA/e1KdppDLM8Z+t3wl977nZy03uVOCmb2pzJkKNqJEvc7bs3hFAdSuYriWmy3dgnb14
+         RQ+Q1mGU+yWnXY65QsPLAxKCi2zBBdS64lMxVqTgqBoCsGZGDO96n6FvIrCIA59lj5HZ
+         5XJW51VYHgVhjQwyKjg1m1rGDXPH+22FXu1wSHFzcjmhorGsS6z/da5KwLzMAAlrrJy3
+         GvWjHF9aqbm6tIuFTgmhPlLJg03Ez8rZ0Oed0RUCG+eCG1mUmUetPnIR53mjlpZLEv/k
+         +03g==
+X-Forwarded-Encrypted: i=1; AJvYcCWzxVjDUnSduaBe/oU4VjXf14Pk0A4j284xw7ejrB85GCJaMBhLs8QJHYK9UbSvY3opR09RpIU1mmFwrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0+dEtdYhi2L3DlzaPxRnjZtmgblwEbSBfRwAn8tTZ8FXOPLuP
+	bEJxX3MtOzWRW4xUH0OXPBO+dbPVWOTRPagBZoWvyc2m9b3YJD/T4kSANK64M6kKrlHlspuyUvF
+	qLNBCN/ZSw3NHzLYLdzUBbMQMyiAK5wMbMC4uOjsBDg==
+X-Gm-Gg: ASbGncuhzhTJjEXQ3FCIR6Ijosrb2+rPRfP8Rt/Tx3uN1UDkJg1K1COWFMrsf4Mo/Io
+	Al5e4enyFnpYoeG+Ubnr6GJ72BH6D2c0jzUMlOq6x1OQBzs7s/07SqZkDncZMyhw9lTo7UewI5U
+	IeTqVXGIZ6x71UiathAtxgVYfDpZGBp8IkamaWyTAp5werYSPcbtFp4P9FuHBoH72z7C0oXNL5S
+	jDyvdLqiU+vdGnPm2OrmyQhj3EC0U1z0fPQAi0=
+X-Google-Smtp-Source: AGHT+IEgMvtsNpCEbzm+bQO3Dq6oVeggGu7qnt+f1HYUPfLnzNmxpfjIx2ohdBUK5XJ+fhQGIjFsq0lNMPvywZaOZwE=
+X-Received: by 2002:a17:903:32cb:b0:240:96a:b812 with SMTP id
+ d9443c01a7336-242c203d030mr203994295ad.24.1754917837398; Mon, 11 Aug 2025
+ 06:10:37 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 Aug 2025 06:10:31 -0700
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aJnYE2Z7F-PK1VHL@kekkonen.localdomain>
+References: <20250808151822.536879-1-arnd@kernel.org>
+Date: Mon, 11 Aug 2025 06:10:31 -0700
+X-Gm-Features: Ac12FXxi-t7kK_6HIDwsxWJsHZcp5BcOM26Y8X32Zi2av6pcVu6UuipKim4OtEQ
+Message-ID: <CAMRc=MeyW8gtG_hsLWytCpufQRmg3s5QZenxCvP3MNGmaoo2cA@mail.gmail.com>
+Subject: Re: [PATCH 00/21] gpiolib: fence off legacy interfaces
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Russell King <linux@armlinux.org.uk>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Matti Vaittinen <mazziesaccount@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Jeff Johnson <jjohnson@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
+	patches@opensource.cirrus.com, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 11, 2025 at 11:46:27AM +0000, Sakari Ailus wrote:
-> On Tue, Jul 29, 2025 at 05:12:03PM +0800, Du, Bin wrote:
-> > On 7/28/2025 3:23 PM, Sakari Ailus wrote:
-> > > On Wed, Jun 18, 2025 at 05:19:55PM +0800, Bin Du wrote:
-> > > > ISP firmware controls ISP HW pipeline using dedicated embedded processor
-> > > > called ccpu.
-> > > > The communication between ISP FW and driver is using commands and
-> > > > response messages sent through the ring buffer. Command buffers support
-> > > > either global setting that is not specific to the steam and support stream
-> > > > specific parameters. Response buffers contains ISP FW notification
-> > > > information such as frame buffer done and command done. IRQ is used for
-> > > > receiving response buffer from ISP firmware, which is handled in the main
-> > > > isp4 media device. ISP ccpu is booted up through the firmware loading
-> > > > helper function prior to stream start.
-> > > > Memory used for command buffer and response buffer needs to be allocated
-> > > > from amdgpu buffer manager because isp4 is a child device of amdgpu.
-> > > 
-> > > Please rewrap this, some lines above are quite short.
-> > > 
-> > Thanks, the line after the short line is supposed to be a new paragraph?
-> > Should we put all the description in one paragraph?
-> 
-> One or more paragraphs work fine, but a new paragraph is separated from the
-> previous one by another newline.
-> 
-> ...
+On Fri, 8 Aug 2025 17:17:44 +0200, Arnd Bergmann <arnd@kernel.org> said:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
+> merged for linux-6.17, so now it is possible to use the legacy interfaces
+> conditionally and eventually have the support left out of the kernel
+> whenever it is not needed.
+>
+> I created six patches to force-enable CONFIG_GPIOLIB_LEGACY on the
+> few (mostly ancient) platforms that still require this, plus a set of
+> patches to either add the corresponding Kconfig dependencies that make
+> the device drivers conditional on that symbol, or change them to no
+> longer require it.
+>
+> The final patch ends up turning the Kconfig symbol off by default,
+> which of course depends on everything else getting merged first to avoid
+> build errors.
+>
+> I would suggest that patches 1-20 can just get merged through the
+> respective maintainer trees independently when they are deemed ready,
+> and the final patch can wait another merge window.
+>
 
-Paragraphs are defined as a block of text that convey one idea. They
-should be visually separated by a space. As we can't have fractional
-line spacing in plain text, paragraphs need to be separated by a blank
-line. This is a typography rule that maximizes readability. There should
-be no line break between sentences in a single paragraph.
+Oh, not at all, I'm fine sending a second PR late into the merge window to
+get that done in a single cycle.
 
-Whether you write commit messages, formal documentation or comments in
-code, typography is important to give the best experience to readers.
-After all, a block of text that wouldn't focus on the readers would have
-no reason to exist.
+Thanks for doing this, awesome work!
 
-
-Now compare the above with
-
-
-Paragraphs are defined as a block of text that convey one idea. They
-should be visually separated by a space.
-As we can't have fractional line spacing in plain text, paragraphs need
-to be separated by a blank line.
-This is a typography rule that maximizes readability. There should be no
-line break between sentences in a single paragraph. Whether you write
-commit messages, formal documentation or comments in code, typography is
-important to give the best experience to readers.
-After all, a block of text that wouldn't focus on the readers would have
-no reason to exist.
-
-> > > > +	void *cpu_ptr;
-> > > > +	u64 gpu_addr;
-> > > > +	u32 ret;
-> > > > +
-> > > > +	dev = ispif->dev;
-> > > > +
-> > > > +	if (!mem_size)
-> > > > +		return NULL;
-> > > > +
-> > > > +	mem_info = kzalloc(sizeof(*mem_info), GFP_KERNEL);
-> > > > +	if (!mem_info)
-> > > > +		return NULL;
-> > > > +
-> > > > +	adev = (struct amdgpu_device *)ispif->adev;
-> > > 
-> > > Why the cast?
-> > > 
-> > > adev isn't a great name here as it's usually used for struct acpi_devices.
-> > > 
-> > In the next patch, will use new helper function for this and will no longer
-> > use amdgpu_device
-> 
-> Use correct types when you can; either way this doesn't seem to be changed
-> by the further patches in the set.
-> 
-> ...
-> 
-> > > > +static int isp4if_gpu_mem_free(struct isp4_interface *ispif,
-> > > > +			       struct isp4if_gpu_mem_info *mem_info)
-> > > > +{
-> > > > +	struct device *dev = ispif->dev;
-> > > > +	struct amdgpu_bo *bo;
-> > > > +
-> > > > +	if (!mem_info) {
-> > > > +		dev_err(dev, "invalid mem_info\n");
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	bo = (struct amdgpu_bo *)mem_info->mem_handle;
-> > > 
-> > > Why do you need to cast here?
-> > > 
-> > In the next patch, will use new helper function for this and will no longer
-> > use amdgpu_bo
-> 
-> Not quite, on top of this patch number 6 adds more of the same.
-> 
-> ...
-> 
-> > > > +static struct isp4if_cmd_element *
-> > > > +isp4if_append_cmd_2_cmdq(struct isp4_interface *ispif,
-> > > > +			 struct isp4if_cmd_element *cmd_ele)
-> > > > +{
-> > > > +	struct isp4if_cmd_element *copy_command = NULL;
-> > > > +
-> > > > +	copy_command = kmalloc(sizeof(*copy_command), GFP_KERNEL);
-> > > > +	if (!copy_command)
-> > > > +		return NULL;
-> > > > +
-> > > > +	memcpy(copy_command, cmd_ele, sizeof(*copy_command));
-> > > 
-> > > kmemdup()?
-> > > 
-> > Kmemdup is to allocate memory and copy, can't be used here.
-> 
-> Isn't that what you're doing above?
-> 
-> > > > +
-> > > > +	guard(mutex)(&ispif->cmdq_mutex);
-> > > > +
-> > > > +	list_add_tail(&copy_command->list, &ispif->cmdq);
-> > > > +
-> > > > +	return copy_command;
-> > > > +}
-
--- 
-Regards,
-
-Laurent Pinchart
+Bartosz
 
