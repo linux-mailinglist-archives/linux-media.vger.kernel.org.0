@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-39476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367FDB21850
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 00:23:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44035B218F2
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 01:09:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A1A146313E
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 22:23:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39AC51A227E9
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 23:09:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4787B2DC32B;
-	Mon, 11 Aug 2025 22:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF97023B632;
+	Mon, 11 Aug 2025 23:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="Qwu8/6nc"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="zUXEY+ZF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA8A22425B
-	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 22:23:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F151F4289
+	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 23:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754951015; cv=none; b=izTLJHKnZ2Uog4bwtFN+06XiF6cec3uk00OrQYes61vePVXTuc7kkURa7fFGzagIciy3rjbBhkI7gEsg+I28vjMWGplCUcHj+N/o32310as/UEDugk7g1M1YE29zuW4qFWn6vYR7iPkmvfP/0dreJbuMa3d6hge7fVCYLVOM3F8=
+	t=1754953738; cv=none; b=uimMIbjdYjm0f0YA/YBskVu74g5pfFEDrGZZZ1mIkjC7E5qVkFDTYntTWJ7TNOVXMKrQ8U+nnV4MRqCmXHJK5wgZ/X2Q3TCHDZUdMrf6ags43aIzx+wt4uT5B4fQCyfr2L1v2wsIr5xPixo3TFfWSTdzEWrloypXM3hPkKalgyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754951015; c=relaxed/simple;
-	bh=1zNdvvcHZP6R5JJ23etj6t+b+hZpTABX3/TkZ7lxdJs=;
+	s=arc-20240116; t=1754953738; c=relaxed/simple;
+	bh=kU7IxxrdJl9R9nSh1DSGm7hKbANjSWWwLmegZb/kWBs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O3B8FxnDt9HY/cHW+u66R3YvYqpJsf9vKHYNiVw+I7vlhQoi1OJK5MBqKw+q1JussUj/AIMjW+lQeX21AJ/AJuA4nBqL16b1u23tsBBGqwv8ldnX/KNZHsjHLtJfao0exXoVmOPLyBelDNRToF+SMy9KeUCWhkHxWimsMryJz7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=Qwu8/6nc; arc=none smtp.client-ip=121.127.44.73
+	 In-Reply-To:Content-Type; b=hWpvTmyJNptsNf8SituRyRIzE8AXQScA3TNsbimO/8kptgCik/GHDiXkTKD18DlRv0k5IQBun+uMZdfUORjFzidFVT9CFECO/DJSE7uPILAvfTTyblV7gnryN7zP0RfWtTjLI+0CPFydEwDc8+VGxbhZCSrRMhwf3KoNGL3dAYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=zUXEY+ZF; arc=none smtp.client-ip=121.127.44.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
  Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1754951008;
- bh=g2RgxYyMc9YCrvR3tGO7/rfnt+jgDsWOgP4l8MdW5ZM=;
- b=Qwu8/6ncUS0+jpQiWzXuU7AHFbDBlunBv8DQ7G/BKN/1xsDf44SQaes0cAjdiARMMAhqMtE48
- bpF7QKSCi9Y78Rsrca+kiTU4dUzr4bl0gr2x6BYVFKMuCXDIhmyafNig1f2O5HhL63rTWzBym/8
- kbgWWWB//Gb0NB39foz/5zQksxXZ3deqTH9MkSP5JB7/qyBdbrsTR65/YtXUmIcYBQfm4w0Skdi
- jttA7LsliIv2ysyx5vzFdYTMly8aa0fUvnSiJUs0/zigyyIu2W0cCukbd/EbfvjHzz+7ywTB7At
- pxYfvwfZHf7P3T33bujqw3qaisgrKykgoTGGY08YC/xA==
-X-Forward-Email-ID: 689a6d18de615f3104e089a6
+ s=fe-e1b5cab7be; t=1754953735;
+ bh=4WOQQytnvdG+ExQxM0wRnwxWgx7TDMfbUEkljON2sWA=;
+ b=zUXEY+ZFYUR2qx4RF1eElcECWM8xX2Q9sevnHk/fjgGVFYQlFKhYBJADeISQPYkSF7gamvZsG
+ 65Wdg0VfxHg8/mLOjrTBobKGCh2jSqqPH0mJv2Mt4IRsdWy+4sbbuQBXfZX4qRq0eP+6hMutqru
+ tMC3dMhNBaA4kk3XxLd/PLC8QmT1otW/xWvMFPkSLZv/RlCSqAjtxzQXQfaavIBxkPKeeDzJamV
+ bdqpSNsQ3P9rYV4pS1+tkLoiHXzWpGdR8u/NUHUjG2JMmijr5Pn9kIM8OQiFpVV5nBQLtCImBF/
+ cuOGGkvE9PyGYGP0shpJM/DRMqk0CENXX1LmuDFkPk8w==
+X-Forward-Email-ID: 689a77d9de615f3104e098e6
 X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  121.127.44.73
 X-Forward-Email-Version: 1.2.4
@@ -49,8 +49,8 @@ X-Forward-Email-Website: https://forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-Report-Abuse: abuse@forwardemail.net
 X-Report-Abuse-To: abuse@forwardemail.net
-Message-ID: <16b67aec-8675-45a2-b6df-380bd5f3bf4c@kwiboo.se>
-Date: Tue, 12 Aug 2025 00:22:11 +0200
+Message-ID: <9dce97a9-92e6-4803-9e06-b2938e3c4999@kwiboo.se>
+Date: Tue, 12 Aug 2025 01:08:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,6 +79,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hi Nicolas,
+
+Missed some comments in my last mail.
 
 On 8/11/2025 11:25 PM, Nicolas Dufresne wrote:
 > Le dimanche 10 août 2025 à 21:24 +0000, Jonas Karlman a écrit :
@@ -123,6 +125,36 @@ On 8/11/2025 11:25 PM, Nicolas Dufresne wrote:
 > readers would be nice. If read it will, we keep the upper 16bit, and replaced
 > the lower bits with 0xEFFF (all bits set except 12) ? I'd rather not spend time
 > thinking if I walk by this code again.
+
+Vendor kernel use following comment to describe the purpose of this [1]:
+
+  HW defeat workaround: VP9 and H.265 power save optimization cause
+  decoding corruption, disable optimization here.
+
+From the TRM we can see following for rkvdec_swreg99_qos_ctrl:
+
+  27:26 sw_axi_wr_hurry_level
+    00: hurry off 
+    01~11: hurry level 
+  25:24 sw_axi_rd_hurry_level
+    00: hurry off 
+    01~11: hurry level 
+  23:16 sw_bus2mc_buffer_qos_level
+    range is: 0~255
+    the value is means that left space <=
+    sw_bus2mc_buffer_qos_level, it will give hurry
+  15:0 swreg_block_gating_e
+
+So yes this set swreg_block_gating_e to 0xEFFF. Possible this configure
+hw to not auto gate most internal clocks?
+
+Could add a comment and possible use something like following:
+
+  reg &= GENMASK(31, 16);
+  reg |= 0xEFFF;
+
+[1] https://github.com/Kwiboo/linux-rockchip/blob/linux-6.1-stan-rkr6.1/drivers/video/rockchip/mpp/mpp_rkvdec.c#L857-L867
+
 > 
 >> +		writel(reg, rkvdec->regs + RKVDEC_REG_QOS_CTRL);
 >> +	}
@@ -163,95 +195,20 @@ On 8/11/2025 11:25 PM, Nicolas Dufresne wrote:
 >> +		writel(reg, rkvdec->regs + RKVDEC_REG_QOS_CTRL);
 > 
 > Can we deduplicate that ?
+
+Guess so, any suggestion on how to best do that?
+
+One possible way that comes to mind:
+
+  if (rkvdec->quirks & RKVDEC_QUIRK_DISABLE_QOS)
+	rkvdec_quirk_disable_qos(rkvdec);
+
 > 
 >> +	}
 >> +
 >>  	/* Start decoding! */
 >>  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
 >>  	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
->> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
->> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
->> index c20e046205fe..d61d4c419992 100644
->> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
->> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
->> @@ -1226,6 +1226,13 @@ static const struct rkvdec_variant
->> rk3288_rkvdec_variant = {
->>  	.capabilities = RKVDEC_CAPABILITY_HEVC,
->>  };
->>  
->> +static const struct rkvdec_variant rk3328_rkvdec_variant = {
->> +	.capabilities = RKVDEC_CAPABILITY_HEVC |
->> +			RKVDEC_CAPABILITY_H264 |
->> +			RKVDEC_CAPABILITY_VP9,
->> +	.quirks = RKVDEC_QUIRK_DISABLE_QOS,
->> +};
->> +
->>  static const struct rkvdec_variant rk3399_rkvdec_variant = {
->>  	.capabilities = RKVDEC_CAPABILITY_HEVC |
->>  			RKVDEC_CAPABILITY_H264 |
->> @@ -1237,6 +1244,10 @@ static const struct of_device_id of_rkvdec_match[] = {
->>  		.compatible = "rockchip,rk3288-vdec",
->>  		.data = &rk3288_rkvdec_variant,
->>  	},
->> +	{
->> +		.compatible = "rockchip,rk3328-vdec",
->> +		.data = &rk3328_rkvdec_variant,
->> +	},
->>  	{
->>  		.compatible = "rockchip,rk3399-vdec",
->>  		.data = &rk3399_rkvdec_variant,
->> @@ -1267,6 +1278,7 @@ static int rkvdec_probe(struct platform_device *pdev)
->>  	platform_set_drvdata(pdev, rkvdec);
->>  	rkvdec->dev = &pdev->dev;
->>  	rkvdec->capabilities = variant->capabilities;
->> +	rkvdec->quirks = variant->quirks;
->>  	mutex_init(&rkvdec->vdev_lock);
->>  	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
->>  
->> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
->> b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
->> index 8e1f8548eae4..e633a879e9bf 100644
->> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
->> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
->> @@ -26,6 +26,8 @@
->>  #define RKVDEC_CAPABILITY_H264		BIT(1)
->>  #define RKVDEC_CAPABILITY_VP9		BIT(2)
->>  
->> +#define RKVDEC_QUIRK_DISABLE_QOS	BIT(0)
-> 
-> Can you go back in the series, get H264 into bit 0, VP9 into bit 1, and set
-> quirks from bit 16 ? Just worried the whole finding can becomes a mess in many
-> years from now.
 
-The reason for HEVC in bit 0 is mainly because the first generation was
-HEVC only, this also matches the mode reg values (0=hevc, 1=h264, 2=vp9).
-
-I can start quirk at bit 16 if you like, not really sure I understand
-why? Do you want to combine capabilities and quirks into one?
-
-Regards,
-Jonas
-
-> 
->> +
->>  struct rkvdec_ctx;
->>  
->>  struct rkvdec_ctrl_desc {
->> @@ -69,6 +71,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
->>  
->>  struct rkvdec_variant {
->>  	unsigned int capabilities;
->> +	unsigned int quirks;
->>  };
->>  
->>  struct rkvdec_coded_fmt_ops {
->> @@ -121,6 +124,7 @@ struct rkvdec_dev {
->>  	struct delayed_work watchdog_work;
->>  	struct iommu_domain *empty_domain;
->>  	unsigned int capabilities;
->> +	unsigned int quirks;
->>  };
->>  
->>  struct rkvdec_ctx {
-
+[snip]
 
