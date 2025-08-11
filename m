@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-39394-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEECB1FF14
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 08:13:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F94B1FF18
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 08:13:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47CD47AC9C0
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 06:11:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9168216A462
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 06:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C6B0284687;
-	Mon, 11 Aug 2025 06:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4110F285050;
+	Mon, 11 Aug 2025 06:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVYRj0qQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRKGd1Yf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A9227F198;
-	Mon, 11 Aug 2025 06:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB5827F198;
+	Mon, 11 Aug 2025 06:13:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754892788; cv=none; b=qL8fxj7ik5zQkBZNn71fwVUOAgDLeKEV4sFBNLdnwH9+NolsCp5/3ITJ7vh/s5qpCuNc13QoDfVnqUgfWVYpeC9Wg3w2pAOTMTmKNDKpmHN6l+MsJRek8gqYVyn1/aNpAlg2hhRdlQXSlnsE5hcBKyu+kPQnNzlQkp97m2FUrUQ=
+	t=1754892826; cv=none; b=Mh1t79IqZSlvAemZD4tW7tnlbk2xfa31cwtdgJ0Eu3lmCIfHW2cr9AwSnXKSkS8poRrD+7jxR3P1ImMntsPPo8D1XmhVqasvsHnaIPc40kLWbjgLUD9+NzHZePy1PEp3bueBDM7armOSojhm00Any2xrykhzAecz+PSLQbOs/Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754892788; c=relaxed/simple;
-	bh=y5gFofC4QUclprRrC5gwH9xbLOd7/g1RieFQkQ65L3k=;
+	s=arc-20240116; t=1754892826; c=relaxed/simple;
+	bh=5ELLr1VGJj6bpVBWn7xcvf7Y0tmBtRT/+3YCnwhB1TI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MdeKUy9tdqeet5dSAoM4JuwVz1JAc9uwBHGu36/9Z/NKuA0oLZUxs3n31hAQGziGo/N9PqHJvirtBslmySmLj6xYoDBAGUWZeTHUCZHuSMgu5lIegUfSug0cjTfFLI73pKaN9msA92Id0CqPBqGlpVSagdifXUgNDKQSts1zKWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVYRj0qQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2804DC4CEED;
-	Mon, 11 Aug 2025 06:13:05 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=CmyFfFnshOd8SocZFq+pHluzypgFJ6SQOAkkBeZdx3JCK8eMdhL7qFPkss8utSpOm9rHSrcm3h2llSQpGgPoOVP4KVzi3txYS6FIw8PsZXHPTlhlWlbvCTiL2HW/vrISng7dw270Vnz6QPoqVp7gLTmiE3KzJwXH2z9gafzn9mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRKGd1Yf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19427C4CEF5;
+	Mon, 11 Aug 2025 06:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754892788;
-	bh=y5gFofC4QUclprRrC5gwH9xbLOd7/g1RieFQkQ65L3k=;
+	s=k20201202; t=1754892826;
+	bh=5ELLr1VGJj6bpVBWn7xcvf7Y0tmBtRT/+3YCnwhB1TI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NVYRj0qQJieC5vk1H8c6l+sHRdpaXBz6F9qFd8owxaqMocLlH76po2dzWafdVTIK4
-	 bmItLFMtpUAm4BpmlV9ukgK/56q2wbl9rkwpXCBYTAOMNGvJEybI7HOzkMBdHSBBao
-	 ho2eOCtqHbltz/ZEbOcirTu5v/f082wNasFPtMhLiNcD2j9b7qPhdO2uywKdLLXIas
-	 LFvnof4aoPhJlR1t71ULZkZNR501D/iLRq7I6XguMl/NPCeREZyM4UgjGXMcjIPd9w
-	 SfQ1nnqFwqmcWn2cnbnXiRvCbqS91llVgBAF0s6U7hMjSIfx4MUUb0itrxNzDG38kq
-	 eNbgyeW0rkB1A==
-Message-ID: <9fbc63d4-a12b-420e-8c99-f2f5fca5a9eb@kernel.org>
-Date: Mon, 11 Aug 2025 08:13:04 +0200
+	b=CRKGd1YfV7GBjcJIRNMPRyy/zwvw00Wf4oo+yd0iJZv2TENSbbMzTPjFo06Snow8C
+	 xZ+ceLq5DN8BLUXMrvGxJbv5+lm4T9jmQ50yt2pmeDOc3bF4/uN9njZ6+UqqtE/zFW
+	 887yWqMq/79Cj8xDp0yNXEF4/T8cMEz6GLKipIeI3zTQ/oNEf+g6sCeB7UkKaw+7Fk
+	 tWrtJEQEp3yR0jH2uEWmbBfdCs7cIXhyJFK/OSxzbheiYU9Jezk5JnqgwQF/ZyIx+9
+	 9o4WQzsPoRFzql1LkJLueFBWZKgkTZoArArkbRoy2yb5JNsu3CGf2RsTE1IfbaEgwo
+	 Ke5WWrncErXjA==
+Message-ID: <5c7767d1-1f28-48e0-bf8b-a224151fb007@kernel.org>
+Date: Mon, 11 Aug 2025 08:13:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/12] media: rkvdec: Add per variant configuration
+Subject: Re: [PATCH v2 06/12] media: rkvdec: Add RCB and SRAM support
 To: Detlev Casanova <detlev.casanova@collabora.com>,
  linux-kernel@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -58,7 +58,7 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com
 References: <20250808200340.156393-1-detlev.casanova@collabora.com>
- <20250808200340.156393-6-detlev.casanova@collabora.com>
+ <20250808200340.156393-7-detlev.casanova@collabora.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,70 +104,29 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250808200340.156393-6-detlev.casanova@collabora.com>
+In-Reply-To: <20250808200340.156393-7-detlev.casanova@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 08/08/2025 22:03, Detlev Casanova wrote:
-> This is to prepare for adding different variants of the decoder and
-
-Prepare for...
-
-> support specific formats and ops.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
-
-
-...
-
-
->  static int rkvdec_init_ctrls(struct rkvdec_ctx *ctx)
->  {
-> +	struct rkvdec_config *cfg = ctx->dev->config;
->  	unsigned int i, nctrls = 0;
->  	int ret;
 >  
-> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++)
-> -		nctrls += rkvdec_coded_fmts[i].ctrls->num_ctrls;
-> +	for (i = 0; i < cfg->coded_fmts_num; i++)
-> +		nctrls += cfg->coded_fmts[i].ctrls->num_ctrls;
->  
->  	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, nctrls);
->  
-> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
-> -		ret = rkvdec_add_ctrls(ctx, rkvdec_coded_fmts[i].ctrls);
-> +	for (i = 0; i < cfg->coded_fmts_num; i++) {
-> +		ret = rkvdec_add_ctrls(ctx, cfg->coded_fmts[i].ctrls);
->  		if (ret)
->  			goto err_free_handler;
+> -	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> -
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq <= 0)
+>  		return -ENXIO;
+> @@ -1204,6 +1217,10 @@ static int rkvdec_probe(struct platform_device *pdev)
+>  		return ret;
 >  	}
-> @@ -1119,8 +1127,13 @@ static void rkvdec_watchdog_func(struct work_struct *work)
->  	}
->  }
 >  
-> +const struct rkvdec_config config_rkvdec = {
+> +	rkvdec->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
 
-Why isn't this static?
+Didn't you just add new ABI?
 
-> +	.coded_fmts = (struct rkvdec_coded_fmt_desc *)rkvdec_coded_fmts,
-> +	.coded_fmts_num = ARRAY_SIZE(rkvdec_coded_fmts),
-> +};
+> +	if (!rkvdec->sram_pool && rkvdec->config->rcb_num > 0)
+> +		dev_info(&pdev->dev, "No sram node, RCB will be stored in RAM\n");
 > +
->  static const struct of_device_id of_rkvdec_match[] = {
-> -	{ .compatible = "rockchip,rk3399-vdec" },
-> +	{ .compatible = "rockchip,rk3399-vdec", .data = &config_rkvdec },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, of_rkvdec_match);
-> @@ -1144,6 +1157,9 @@ static int rkvdec_probe(struct platform_device *pdev)
->  	mutex_init(&rkvdec->vdev_lock);
->  	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
->  
-> +	rkvdec->config =
-> +		(struct rkvdec_config *)of_device_get_match_data(rkvdec->dev);
 
-If you need a cast, your code is wrong.
 
 
 Best regards,
