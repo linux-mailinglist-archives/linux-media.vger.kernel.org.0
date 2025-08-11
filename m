@@ -1,121 +1,180 @@
-Return-Path: <linux-media+bounces-39400-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D07B200E7
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 09:54:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25415B20114
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 10:01:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19604188A647
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 07:54:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97C951663AC
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 08:01:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436C32DAFA3;
-	Mon, 11 Aug 2025 07:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA51C2DAFAE;
+	Mon, 11 Aug 2025 08:01:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="SxXGZdtQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BST4RaTp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324A92DA768;
-	Mon, 11 Aug 2025 07:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EDA20B7F9;
+	Mon, 11 Aug 2025 08:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754898768; cv=none; b=S/nKp36D2xQXGVcXIRruQFC/RdQ/xUurjx/ln4w8Kfd/4O7PKN+wjSD7RVUZhbrphzDE0TSTTroChbWUDO48K43Jkppz2ZsxFBMTvzyrqwkvp87oSe8qacz3qdXTPUYpOLkffYOfSFC+FMmWCkSLZ25s+SFkbHuaU/eLfwh9vf8=
+	t=1754899260; cv=none; b=bXR6mb7d6CWIJ3+VQ1dFwCIGYUdKRFV3Hw0Pt1VjkD18f7QkdLwaaR5vWowQg9DHP6V7jsZhoB9bmiynvNxzXvQmSiaOdynu8J33TOQR9iEsl4joKD94qLqAa2JoPIZ1UO4stm61P/sMGBhHOTwdth2nhEzL3e7kV8nH3qDa3D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754898768; c=relaxed/simple;
-	bh=95e3CuUQTrqy45zqcyWItFZG1H12fFfOzG5f9CveAYY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EPgDTp4NuiSs0aVsX58rm1MuhnAG3XrC/jTTCTFihjMODzy43kVaN1aJ8hXj1X4GPyWUWh2MbsmBQQvwYvWzmpEpbtUCNOxNGHMGhgGl4AsErpcdONFClz7wL9g2pJ739BIX1M+QyUTkACJgVvEieDxOkNQ4pzV7Ef78jhHHWt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=SxXGZdtQ; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=o/TAwYgz0ngg4OZwy8ia8COP26JschOwB0HVHE21DAo=; b=SxXGZdtQyMxVwztNjnje48NwIx
-	XaQaPQlAFvFfiS6IlDPIeQMvlKPgHgQqqLGrZ4R2g0IitbB6dbDHTto16Pp1ddSAobTmniULWRNzl
-	BexPQ0ZFnRcOgjUSdki0l99Lr2pnWuqHmy52zl621XqRWKy5viH8Pb3fPt9GmlblgoAPAVVylH243
-	4zzixJvbmlYB36lFr1prCfqgUkJigDVR9cKjV/8UGaSsEwVXzVrBSmJMLXxGRzYyQdsFWmoFJ4gon
-	Q6FJhthMt6ar6kMBaIY3TKu5dpzbnVRwS2Wzsgj5njlP2DWDzHN1ihnT0+sLBay9pqGWozkbvqrSu
-	xB0lx96A==;
-Received: from i53875a0c.versanet.de ([83.135.90.12] helo=localhost.localdomain)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1ulNKN-0007Ro-TK; Mon, 11 Aug 2025 09:52:19 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Daniel Stone <daniel@fooishbar.org>,
-	Da Xue <da@libre.computer>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Robert Foss <rfoss@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: (subset) [PATCH v9 00/10] New DRM accel driver for Rockchip's RKNN NPU
-Date: Mon, 11 Aug 2025 09:52:06 +0200
-Message-ID: <175489870472.808197.2800921191556391028.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
-References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+	s=arc-20240116; t=1754899260; c=relaxed/simple;
+	bh=srkUTP+YUtpEUUTBY0f0QKZb5Nq7ktoTvVw8gPJrI4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q1NS7tiCT6ow5OXelFcyuVNwyGcoIIjWdvu7yECHFhStExnVr+3MYVerm/H3HHmtVOmhkfmHyJSrPCvmLhaAk/hrJJuBAkNgnGu8pdolNygJ2NdPhj1mr/7wRNVxhdpDaOWIrE5B2TQYR08TVz4xNIwixlLDtVZ8Pj6GtkXFQZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BST4RaTp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9DEC4CEED;
+	Mon, 11 Aug 2025 08:00:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754899259;
+	bh=srkUTP+YUtpEUUTBY0f0QKZb5Nq7ktoTvVw8gPJrI4w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BST4RaTpjHP8ItttfIowfKeh0pqkoeEBV4Vnoq4Oz8gDhVzuBRcgJBFGNzis6dgHl
+	 vCfir7NSUpdKq4mzd6cQSwrZGWqE5AaaYDDuHDgnNYOxNDwVXdfNAXTgwv9h4iRfsZ
+	 aekPgle3MI50jEWQDSwU5jkM9WbycrPYMz515EKHUhLn9+wTYlegpIHoo9DqA8uDd+
+	 QiyfZ9cYMweQqLL5ZnMOMM5yvg6bGVaqk3rN4NH/2Es9hBN4wQnEpEM+PMJokbOc65
+	 h3vt3mqHMpp/yt6iwv8cbimBerBEyTPQ4TIvSgeY3szdTCTr13VSuHS0eHmETKi0DW
+	 Z0OAUMX99h0Pw==
+Date: Mon, 11 Aug 2025 10:00:56 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Will Whang <will@willwhang.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: Add Sony IMX585 CMOS image
+ sensor
+Message-ID: <20250811-successful-military-dragon-d72486@kuoka>
+References: <20250810220921.14307-1-will@willwhang.com>
+ <20250810220921.14307-2-will@willwhang.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250810220921.14307-2-will@willwhang.com>
 
+On Sun, Aug 10, 2025 at 11:09:18PM +0100, Will Whang wrote:
+> +description:
+> +  IMX585 sensor is a Sony CMOS sensor with 4K and FHD outputs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - sony,imx585
+> +      - sony,imx585-mono
 
-On Mon, 21 Jul 2025 11:17:27 +0200, Tomeu Vizoso wrote:
-> This series adds a new driver for the NPU that Rockchip includes in its
-> newer SoCs, developed by them on the NVDLA base.
-> 
-> In its current form, it supports the specific NPU in the RK3588 SoC.
-> 
-> The userspace driver is part of Mesa and an initial draft can be found at:
-> 
-> [...]
+I don't understand this second compatible. Is this different hardware?
+Can you point me to "mono" datasheet?
 
-Applied, thanks!
+Your description should explain this. Commit msg as well, instead of
+speaking about driver (in fact drop all driver related comments).
 
-[07/10] arm64: dts: rockchip: add pd_npu label for RK3588 power domains
-        commit: 6d64bceb97a1c93b3cc2131f7e023ef2f9cf33f2
-[08/10] arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588-base
-        commit: a31dfc060a747f08705ace36d8de006bc13318fa
-[09/10] arm64: dts: rockchip: Enable the NPU on quartzpro64
-        commit: 640366d644b1e282771a09c72be37162b6eda438
-[10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
-        commit: 3af6a83fc85033e44ce5cd0e1de54dc20b7e15af
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-parents: true
+> +  assigned-clock-rates: true
+
+Drop all three.
+
+> +
+> +  clocks:
+> +    description: Clock frequency 74.25MHz, 37.125MHz, 72MHz, 27MHz, 24MHz
+> +    maxItems: 1
+> +
+> +  vana-supply:
+> +    description: Analog power supply (3.3V)
+> +
+> +  vddl-supply:
+> +    description: Interface power supply (1.8V)
+> +
+> +  vdig-supply:
+> +    description: Digital power supply (1.1V)
+> +
+> +  reset-gpios:
+> +    description: Sensor reset (XCLR) GPIO
+> +    maxItems: 1
+> +
+> +  sony,sync-mode:
+> +    description: |
+> +      Select the synchronisation mode of the sensor
+> +        0 =E2=80=93 internal sync, leader (default)
+> +        1 =E2=80=93 internal sync, follower
+> +        2 =E2=80=93 external sync
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    enum: [ 0, 1, 2 ]
+
+Previous comments not applied.
+
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +
+> +          link-frequencies: true
+
+Drop
+
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        imx585@1a {
+
+Nothing improved.
+
+You replied that you applied comment, but send the same.
+
 
 Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+Krzysztof
+
 
