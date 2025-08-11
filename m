@@ -1,98 +1,113 @@
-Return-Path: <linux-media+bounces-39454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39455-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91717B214B2
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 20:44:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0946EB214CC
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 20:47:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A32063E469C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 18:44:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B1F04606A4
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 18:47:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B7C72E62C3;
-	Mon, 11 Aug 2025 18:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8778D2E336C;
+	Mon, 11 Aug 2025 18:45:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5myT04U"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="H9zwuiMx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30812E6137;
-	Mon, 11 Aug 2025 18:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754937685; cv=none; b=DoKrtFCUQkOphZHkdY8DcnzixckoBBeWarY0dZQZasq6AVHhkIsmGQ5L6in52XEN5/DfuUtfGYmHrA/2fIZu8VpYZ0OX9k9JFFl6BUOotlebSBGaDsmNaVTk19xvxwPC4YR5jmmuGF5LXSNiRkcVyfMvRIvVoy7R+atYt7yRXKE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754937685; c=relaxed/simple;
-	bh=EOfgba50+6CeVpleSRv0Q0EMWfqPtmAaWwa0kISde2A=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DB2442C;
+	Mon, 11 Aug 2025 18:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754937916; cv=pass; b=ezOCmwM1bCp2Ee3rIkQTI7yH3s4x3WZ8V1VfZfw3zkQNZA2zp9M1HEmh3Lbbgi+v2cnKQnMHYDjQB+5vYyT9WOWkHs3AJelhskwX1Gsmf2ngY30SkLBKMW3q+vIDfnw3i0pJJ5+Za7Upqk4BL3YqiiveNggXHV6VCTA7XWQHoow=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754937916; c=relaxed/simple;
+	bh=dy5iWcVJvtx3XYGrqjG/DvBAnlygnGnvt0S98w1D16g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hxSyp9nt3kGk0JS3MvIHxw4Au1QYBjQ9Xn53P6fiLrYD0tjonb2/Gq1IlJJTggOzIAS0+GpDISAEUOG4+7zA3a+PMPnQohp/8KvTEF8YzNrtKQleQXcD9Dj5h21EzxP+Rq3yt8/4WieogNvCB86R8SpG+poVZTQejO51lsVBmr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5myT04U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C270C4CEF5;
-	Mon, 11 Aug 2025 18:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754937685;
-	bh=EOfgba50+6CeVpleSRv0Q0EMWfqPtmAaWwa0kISde2A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y5myT04UfdY3QhEahpjI/jHBtn5TUMkfoDIpwAjD3Xo84YxlpgG0/faw5XzNJMD3M
-	 oWvo2pWrcU/lzXWFgJmEjxjoizDmKBkYSd/ZPm7Qh6hWn8j/S80sCkH3KWlw1grrz9
-	 WLgZZksjUgUcApM9NZgWjGPuPvMCHk3Y5uIB+AqNqGd3HZFkmCmh7p3qc9nyHdKAeT
-	 0i88rOc39yEjibU/Soct7g6m8+pLz7RAQ/HB3qQdl96tXPAbK1o0Rq85Z7cuzYqViW
-	 hV3Z5OLziqJL2ojO54GRbREcwxzeUGzjygg055bAdOld6Pp/1DcMFZnO5bhERiuAwY
-	 IHBoSQOVspinw==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ath12k@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [Patch v3 1/3] soc: qcom: mdt_loader: Remove unused parameter
-Date: Mon, 11 Aug 2025 13:41:04 -0500
-Message-ID: <175493766087.138281.3100955082494803844.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250807074311.2381713-1-mukesh.ojha@oss.qualcomm.com>
-References: <20250807074311.2381713-1-mukesh.ojha@oss.qualcomm.com>
+	 MIME-Version:Content-Type; b=YuA5oTjgg8Yb9pmHZZmrW5z9Ejtq6hMsMlB9eUO0UJS23HGMpldyLZHfackmtC76WFyjrbPDlXjMNTFPiEyZp8noYlICM+AFpfJAxeUGuS8A94v83LBn9oINH7j5MoF5/bwFL4HM0f5tqwf5a/goM0wj5Xa43aAfJ6aKL6I5dKs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=H9zwuiMx; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1754937896; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=lmbspXf8oivJUf301TY1GyvEouLfOMCKKQgvbhX2bM1ZH3Q5JlLq/LddWrZayuJBebcXkVl/B2H2tSgyxbLc0Ttq8KqRkiUdDD3gJt9f4SB0mEs2wQFWqkCo3MXZjM0qAjrqtdqxQbLrIbmODstr4iuqOYsZbvRBX408kTlmz6s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1754937896; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=asPcu0HFDOpbe01/M/JtJ/Ahm+2yhurMQ/9pz+Kce3g=; 
+	b=Qe74IdKuu2TsIVQ7Uhl1dlnJ9WcEt2MEuQakSScpSSjKpbc/TNM8ej74dkeRxPqJ/L7Yge4tQq0VnL43qRCHLO8xHmBHl54scq9UI2KGoEW7UtYtTX2Z7AbA8T9L41y280n0u+mSta0zQlHOsZeJRZUtYlu2vt4rJhj7YgkOpkY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754937896;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=asPcu0HFDOpbe01/M/JtJ/Ahm+2yhurMQ/9pz+Kce3g=;
+	b=H9zwuiMxTQhnInn+t5Gkc5DdPKCp99oq/fNsSfV2zWWKWtH/89o3VYQXpwOKaejK
+	2sDIPJrzVdtAGukLnmVMTJV0jBjPqniojX6pVY2Iz//ChFUFBxI6ZVKo7xviFawVhZT
+	C5/YgmjuGtTn/unfZ2LQIgPUeSmVrOb2bw1h6HuU=
+Received: by mx.zohomail.com with SMTPS id 1754937893088844.0326429284914;
+	Mon, 11 Aug 2025 11:44:53 -0700 (PDT)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v2 06/12] media: rkvdec: Add RCB and SRAM support
+Date: Mon, 11 Aug 2025 14:44:51 -0400
+Message-ID: <13821567.uLZWGnKmhe@trenzalore>
+In-Reply-To: <ae6a9c48-85d5-479f-b230-187a06995553@kernel.org>
+References:
+ <20250808200340.156393-1-detlev.casanova@collabora.com>
+ <5031584.31r3eYUQgx@trenzalore>
+ <ae6a9c48-85d5-479f-b230-187a06995553@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+
+On Monday, 11 August 2025 10:01:59 EDT Krzysztof Kozlowski wrote:
+> On 11/08/2025 15:54, Detlev Casanova wrote:
+> > On Monday, 11 August 2025 02:13:42 EDT Krzysztof Kozlowski wrote:
+> >> On 08/08/2025 22:03, Detlev Casanova wrote:
+> >>> -	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> >>> -
+> >>> 
+> >>>  	irq = platform_get_irq(pdev, 0);
+> >>>  	if (irq <= 0)
+> >>>  	
+> >>>  		return -ENXIO;
+> >>> 
+> >>> @@ -1204,6 +1217,10 @@ static int rkvdec_probe(struct platform_device
+> >>> *pdev)>
+> >>> 
+> >>>  		return ret;
+> >>>  	
+> >>>  	}
+> >>> 
+> >>> +	rkvdec->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
+> >> 
+> >> Didn't you just add new ABI?
+> > 
+> > Oh do you mean rkvdec_rcb_buf_count() ? I could indeed use that instead
+> > here.
+> No, I meant DT/OF ABI for "sram".
+
+Yes, the sram Documentation was added in commit c6ffb7e1fb90 "media: dt-
+bindings: rockchip: Document RK3588 Video Decoder bindings".
+
+Is that not how it is supposed to be used ?
+
+Detlev.
 
 
-On Thu, 07 Aug 2025 13:13:09 +0530, Mukesh Ojha wrote:
-> commit f4e526ff7e38e ("soc: qcom: mdt_loader: Extract PAS
->  operations") move pas specific code from __qcom_mdt_load()
-> to a separate function qcom_mdt_pas_init() after which the
-> pas_init variable became unused in __qcom_mdt_load().
-> 
-> Remove pas_init argument from __qcom_mdt_load().
-> 
-> [...]
-
-Applied, thanks!
-
-[1/3] soc: qcom: mdt_loader: Remove unused parameter
-      commit: 3bf7097bfdd4cf43874d7d41689957bc0d581d47
-[2/3] soc: qcom: mdt_loader: Remove pas id parameter
-      commit: 0daf35da397b083ea0ea5407196bb6bd210530ec
-[3/3] soc: qcom: mdt_loader: Remove unused parameter
-      commit: 3bf7097bfdd4cf43874d7d41689957bc0d581d47
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
 
