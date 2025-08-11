@@ -1,137 +1,449 @@
-Return-Path: <linux-media+bounces-39388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F2AB1FE2A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 05:28:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AB2B1FEC4
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 07:49:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 568EE1898CB6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 03:28:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 312EC172B7D
+	for <lists+linux-media@lfdr.de>; Mon, 11 Aug 2025 05:49:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B0202BCF47;
-	Mon, 11 Aug 2025 03:26:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCD6A26E6F0;
+	Mon, 11 Aug 2025 05:49:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="LPXkXzj+"
+	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="feH9vU1M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBEF2D661D;
-	Mon, 11 Aug 2025 03:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C55260583
+	for <linux-media@vger.kernel.org>; Mon, 11 Aug 2025 05:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754882801; cv=none; b=G2G6ROJUAmGc8+gSpKEAfJJwAmBIWdOx2idDN+hnMQGLMk/O6f+LOzHM87hGMpxowdZYQGk1Tr7FeXfLZ6sn787ish9P/5jHR/cVRTDQCv5mVFrt48yWkG8yXx1eJni21F6XGpPXk9uzLfaWY1TGD+AepFDc5YjPb08wITIIHDs=
+	t=1754891377; cv=none; b=iQWMRH6AuDXdJswiRKt1+PECW6Bjxo7OttIIBPOka/wXErzkD7p/EqiSBawyuJYKLJ2iITd28Vcm6GOmasQxx8f653aatngWAi3MPK2X3EBivlzCH189H6HcuJ2StdxDYH5mcan6CpXQdULO3vPef2VmFTi5fxvPijImHCWEd6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754882801; c=relaxed/simple;
-	bh=VkvH6Buso6lrWIYra616eiCuQkUS05CN7ivD1UTUDL4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MgDvp92IyEM2Flm/hJR6S0ZVnXgSqCOEBUTxkli3grlRQox6jbyzpkM/t34KTSxFbdF10rPOiyrsRhCJq4toBcYEodDRupUFqFXH4FdQss4hWuCKsQbgDAX3a7X6GT+OtGW/vlBKlVouqIOJHccVAM9mfUx8GoJz+WNYsO7fsa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=LPXkXzj+; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: fb6bd0b6766211f08871991801538c65-20250811
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=cn3htOReln+vOcAcfeE1LgSCT/Ev3OONSHgeMyS579U=;
-	b=LPXkXzj+SYCfBTtp62gA8MVwjVD6P7IPcmD6nCTzmjBnfHCoVFyjgQgcpWJAqtVPhl/5YBLVUsJQbhnxoWN59EibZDuRWkwnKkMacpk0Up11SBqRmSKpFjQyUKSXd3fdabG/sTBNxpp2tyhR1zK+tK8Dl5QKjCP20tJp+FhI7cU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3,REQID:afdb011c-f104-4450-b10e-522252842a3a,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:f1326cf,CLOUDID:08dd4aa1-1800-4e4f-b665-a3d622db32cf,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:-5,Content:0|15|50,EDM:
-	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fb6bd0b6766211f08871991801538c65-20250811
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
-	(envelope-from <kyrie.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 987492242; Mon, 11 Aug 2025 11:26:34 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Mon, 11 Aug 2025 11:26:27 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Mon, 11 Aug 2025 11:26:26 +0800
-From: Kyrie Wu <kyrie.wu@mediatek.com>
-To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
-	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>, Sebastian Fricke
-	<sebastian.fricke@collabora.com>, Nathan Hebert <nhebert@chromium.org>, "Arnd
- Bergmann" <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>, George Sun
-	<george.sun@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-CC: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
-	<andrzejtp2010@gmail.com>
-Subject: [PATCH v2 8/8] media: mediatek: encoder: Add MT8189 encoder compatible data
-Date: Mon, 11 Aug 2025 11:26:15 +0800
-Message-ID: <20250811032616.1385-9-kyrie.wu@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250811032616.1385-1-kyrie.wu@mediatek.com>
-References: <20250811032616.1385-1-kyrie.wu@mediatek.com>
+	s=arc-20240116; t=1754891377; c=relaxed/simple;
+	bh=O9BgS9gz8J+Z6LZ1T1jm6w2FqkbS6XVCzuBLUOv0A68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=if9Sw8uIV/iHbkWIlr9fVluPJJlCcYHOZCpU19O9+H+Q0CuPKFzxIFH+wr+mL7GNS3Gn4rCl3pFf9KFFV/MK/aiASp6gUOkbK0s5GPOBUx7nPyo6aT660PAElilkJClVRxHHDypoTYPZ6hEEZZKyuFqdU2XaSErwUbMepcjTPtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=feH9vU1M; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-31efc10bb03so3306230a91.0
+        for <linux-media@vger.kernel.org>; Sun, 10 Aug 2025 22:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kerneltoast.com; s=google; t=1754891374; x=1755496174; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uEGAHrYVe1gAUnQLZOuIWwtfyL03cfS9xBCDY8+105I=;
+        b=feH9vU1MU7mmpN30vKcY9jAsY+7mZXlr/XgTK0OBrdB0j3UnedAWq5OER8Rmt7jGz2
+         JzFcXWmT1CuzA3j6qjMBEy5uGsRiiZwiRLmHhrWveX6tlcZzBGeaV5z82onTk2Ov+XZa
+         rnw9tVde9UWHpI3MM3hEhvNDqWTH5x0SM7RMit3A0rJ77sJhYDWhJScFo+IRQv8fLtlW
+         fwXdwOKkhUMLUVcVg14XZqnfEhq+9ex1sGgkqJnYUb8Nt+H90oFRH4Ow8OM8NWmmHeqo
+         cVNljIT+/0Q0HOiv40w4tC8BQX55QwEQi86cohoJEWEuNKqTJ1r2P6vHook7rUk2Q/AR
+         4IoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754891374; x=1755496174;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uEGAHrYVe1gAUnQLZOuIWwtfyL03cfS9xBCDY8+105I=;
+        b=laPzDgG9v8dW3MiTzsZQ9DMBoS6BIbF465JKcrswqapgZxrrQvc9L/O7qvrbpADcZk
+         os2aRcwMZ0W1yKUenaXLTHenJoXxp+eq/CpRea8zcz9KHtuxSFDOqfDSzLRL4n5qqNBD
+         w9rp6jDA/5zgHjk22ETP3fIUDS+L67Tj4bcp5+Jhaks+yqFlXHkLsuzFOGomQcXpOaZh
+         4MEwIgBkreGMQb8LNKmH018YuogoMPAbwfKXtJUAeSvF1TUWaSBoy0+TTWhnHSYCmjW/
+         ceMBMb5Ki8PcJYfA2Qpqmt+Ra8Z3sZtJZ8gsV4AHI53171h3f3Y9GICPEsvd1SCIuxSF
+         7rZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPXktP7XCNSmrhtO9Pimd02dlpdA6Ny+2MGmPMA/+d+V/tOLlAFV0K1SO7+1LE41TqX1bu5Af67aVdnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOV9qOkB1drT+hbSHcnznEdrjwP8yUYw48X1GMvuXFKmbYW/CT
+	seMUMzHCMBrN1ixFx3N1URehMMjaBg1c3/flgeJj9s0ywJR6SqFcW5kVYxspE5PO4aoF
+X-Gm-Gg: ASbGncu2hbto3+M5FFHPBIay+9ZojFFMurdjVTfCj2OKHc3T2J+Rg3ZkKw9EMQZrwwe
+	cBE+eEu//6DLG5DnYuKFdzYzXlr4DM+naRep6S23jPUvVXN4mKJpORYnNdKWGKahrdpq0ujItZJ
+	Tjgv15R9PCiHfl59CQm2rayi2VwceWSlO9oaloyoT8lHnbBAefEYbuN6vFsNivjRLAVj70pFWk9
+	pA98lNxIaZav1m45Fg9O4FwbNQzk0wp9bbrTwDyh1tG3XlPTWhR8uXZYu8HaB/LwM58kp2EJKR1
+	I/omCR2E/9zF2Zge3pSMOIvW1/TlzgUsqQbgfp6GaHBGktC2g7fn4xqFcfCyzEG6ACemNGlHuIq
+	CwzC6SHCTAZROp4u3LMv6qtjCEA==
+X-Google-Smtp-Source: AGHT+IEYiCrr8AGn4PETcwc/VAxtBG01ghiNfMqYlahUbCz6Oh/XoX1YeCQgHSixjvxCs8zU+tw4Hg==
+X-Received: by 2002:a17:90a:dfc4:b0:321:15f7:3328 with SMTP id 98e67ed59e1d1-32183b3a1ffmr19756136a91.18.1754891373672;
+        Sun, 10 Aug 2025 22:49:33 -0700 (PDT)
+Received: from sultan-box ([142.147.89.218])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b428e6244a5sm8355406a12.23.2025.08.10.22.49.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 22:49:33 -0700 (PDT)
+Date: Sun, 10 Aug 2025 22:49:29 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart+renesas@ideasonboard.com,
+	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com
+Subject: Re: [PATCH v2 0/8] Add AMD ISP4 driver
+Message-ID: <aJmEaXkXDtfkVQiR@sultan-box>
+References: <aIh7WB0TGNU15Zm1@sultan-box>
+ <aIh8JPTv9Z5lphRQ@sultan-box>
+ <751e9265-889f-4fbf-acf8-7374311a6b6f@amd.com>
+ <aImvvC9JEgQ2xBki@sultan-box>
+ <a3272335-1813-4706-813e-a79a9cabc659@amd.com>
+ <aIq5EyQ_uuO63dJb@sultan-box>
+ <1a9a4beb-97ab-4853-8201-bf08f1a030ab@amd.com>
+ <d8c99b00-e8f2-49bb-8c72-ebc4e783e51d@amd.com>
+ <aJA2S0EY7HhVSSzc@sultan-box>
+ <17464bff-6b3e-4962-8b83-132cd7367d1d@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <17464bff-6b3e-4962-8b83-132cd7367d1d@amd.com>
 
-add compatible data to support MT8189 encoding.
+On Fri, Aug 08, 2025 at 05:11:39PM +0800, Du, Bin wrote:
+> On 8/4/2025 12:25 PM, Sultan Alsawaf wrote:
+> > On Mon, Aug 04, 2025 at 11:32:11AM +0800, Du, Bin wrote:
+> > > On 7/31/2025 6:04 PM, Du, Bin wrote:
+> > > > Thanks Sultan for your test
+> > > > 
+> > > > On 7/31/2025 8:30 AM, Sultan Alsawaf wrote:
+> > > > > On Wed, Jul 30, 2025 at 05:53:58PM +0800, Du, Bin wrote:
+> > > > > > On 7/30/2025 1:38 PM, Sultan Alsawaf wrote:
+> > > > > > > On Tue, Jul 29, 2025 at 06:13:50PM +0800, Du, Bin wrote:
+> > > > > > > > On 7/29/2025 3:45 PM, Sultan Alsawaf wrote:
+> > > > > > > > > On Tue, Jul 29, 2025 at 12:42:16AM -0700, Sultan Alsawaf wrote:
+> > > > > > > > > > On Tue, Jul 29, 2025 at 11:32:23AM +0800, Du, Bin wrote:
+> > > > > > > > > > > Thanks Sultan, please see my comments
+> > > > > > > > > > > 
+> > > > > > > > > > > On 7/27/2025 6:31 AM, Sultan Alsawaf wrote:
+> > > > > > > > > > > > On Fri, Jul 25, 2025 at 06:22:03PM +0800, Du, Bin wrote:
+> > > > > > > > > > > > > > I have the Ryzen AI MAX+ 395 SKU of the HP ZBook Ultra G1a 14.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > I cannot for the life of me get
+> > > > > > > > > > > > > > the webcam working under Linux.
+> > > > > > > > > > > > > > The webcam works
+> > > > > > > > > > > > > > under Windows so it's not a hardware issue.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > With this patchset and all of
+> > > > > > > > > > > > > > the patches you link here
+> > > > > > > > > > > > > > applied to 6.15, I get
+> > > > > > > > > > > > > > the following errors:
+> > > > > > > > > > > > > >         [   11.970038]
+> > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > amd_isp_i2c_designware: Unknown
+> > > > > > > > > > > > > > Synopsys component type:
+> > > > > > > > > > > > > > 0xffffffff
+> > > > > > > > > > > > > >         [   11.973162]
+> > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > amd_isp_i2c_designware: error
+> > > > > > > > > > > > > > -19: i2c_dw_probe failed
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > With the old ispkernel code from
+> > > > > > > > > > > > > > February [1] applied on 6.15,
+> > > > > > > > > > > > > > the webcam
+> > > > > > > > > > > > > > indicator LED lights up but
+> > > > > > > > > > > > > > there's no image. I see these
+> > > > > > > > > > > > > > messages at boot:
+> > > > > > > > > > > > > >         [    9.449005]
+> > > > > > > > > > > > > > amd_isp_capture
+> > > > > > > > > > > > > > amd_isp_capture.1.auto: amdgpu:
+> > > > > > > > > > > > > > AMD ISP v4l2 device registered
+> > > > > > > > > > > > > >         [    9.489005]
+> > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > The OV05 sensor device is added
+> > > > > > > > > > > > > > to the ISP I2C bus
+> > > > > > > > > > > > > >         [    9.529012]
+> > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > timeout while trying to abort
+> > > > > > > > > > > > > > current transfer
+> > > > > > > > > > > > > >         [    9.554046]
+> > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > timeout in disabling adapter
+> > > > > > > > > > > > > >         [    9.554174]
+> > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > timeout while trying to abort
+> > > > > > > > > > > > > > current transfer
+> > > > > > > > > > > > > >         [    9.580022]
+> > > > > > > > > > > > > > amd_isp_i2c_designware
+> > > > > > > > > > > > > > amd_isp_i2c_designware.2.auto:
+> > > > > > > > > > > > > > timeout in disabling adapter
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > And then the kernel crashes due
+> > > > > > > > > > > > > > to the same use-after-free
+> > > > > > > > > > > > > > issues I pointed out
+> > > > > > > > > > > > > > in my other email [2].
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Any idea what's going on?
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > [1]
+> > > > > > > > > > > > > > https://github.com/amd/Linux_ISP_Kernel/commit/
+> > > > > > > > > > > > > > c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4
+> > > > > > > > > > > > > > [2] https://lore.kernel.org/r/aIEiJL83pOYO8lUJ@sultan-box
+> > > > > > > > > > > > > Hi Sultan,
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > [1] is for kernel 6.8, believe it
+> > > > > > > > > > > > > can't be applied to 6.15. We didn't
+> > > > > > > > > > > > > verify
+> > > > > > > > > > > > > on 6.15 but we are really glad to
+> > > > > > > > > > > > > help, would you please provide some
+> > > > > > > > > > > > > info,
+> > > > > > > > > > > > > 1. Suppose you are using Ubuntu, right? What's the version?
+> > > > > > > > > > > > > 2. 6.15, do you mean
+> > > > > > > > > > > > > https://github.com/torvalds/linux/tree/
+> > > > > > > > > > > > > v6.15 ?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > After your confirmation, we'll see
+> > > > > > > > > > > > > what we can do to enable your camera
+> > > > > > > > > > > > > quickly and easily
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Regards,
+> > > > > > > > > > > > > Bin
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Thank you, Bin!
+> > > > > > > > > > > > 
+> > > > > > > > > > > > 1. I'm using Arch Linux with the ISP4-patched libcamera [1].
+> > > > > > > > > > > > 2. Yes, here is my kernel source [2].
+> > > > > > > > > > > > 
+> > > > > > > > > > > > I have some more findings:
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Currently, the first blocking issue is
+> > > > > > > > > > > > that the I2C adapter fails to
+> > > > > > > > > > > > initialize.
+> > > > > > > > > > > > This is because the ISP tile isn't powered on.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > I noticed that in the old version of
+> > > > > > > > > > > > amd_isp_i2c_designware [3], there were
+> > > > > > > > > > > > calls to isp_power_set(), which is
+> > > > > > > > > > > > available in the old ISP4 sources [4].
+> > > > > > > > > > > > Without isp_power_set(), the I2C adapter
+> > > > > > > > > > > > always fails to initialize for me.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > How is the ISP tile supposed to get
+> > > > > > > > > > > > powered on in the current ISP4 code?
+> > > > > > > > > > > > 
+> > > > > > > > > > > You are correct, yes, i believe the I2C
+> > > > > > > > > > > adapter failure is caused by ISP not
+> > > > > > > > > > > being powered up. Currently in latest code,
+> > > > > > > > > > > isp_power_set is no longer
+> > > > > > > > > > > available, instead, we implemented genPD for ISP in amdgpu
+> > > > > > > > > > > https://lore.kernel.org/all/20250618221923.3944751-1-
+> > > > > > > > > > > pratap.nirujogi@amd.com/
+> > > > > > > > > > > Both amd_isp_i2c and amd_isp_capture are in
+> > > > > > > > > > > the power domain and use the
+> > > > > > > > > > > standard runtime PM API to do the power control
+> > > > > > > > > > 
+> > > > > > > > > > Thanks for that link, I found it along with
+> > > > > > > > > > another patch on the list to make
+> > > > > > > > > > the fwnode work ("drm/amd/amdgpu: Initialize
+> > > > > > > > > > swnode for ISP MFD device").
+> > > > > > > > > > 
+> > > > > > > > > > > > Also, I noticed that the driver init
+> > > > > > > > > > > > ordering matters between all of the
+> > > > > > > > > > > > drivers
+> > > > > > > > > > > > needed for the ISP4 camera. In
+> > > > > > > > > > > > particular, amd_isp_i2c_designware and
+> > > > > > > > > > > > amd_isp4
+> > > > > > > > > > > > must be initialized before amd_capture,
+> > > > > > > > > > > > otherwise amd_capture will fail to find
+> > > > > > > > > > > > the fwnode properties for the OV05C10
+> > > > > > > > > > > > device attached to the I2C bus.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > But there is no driver init ordering
+> > > > > > > > > > > > enforced, which also caused some issues
+> > > > > > > > > > > > for
+> > > > > > > > > > > > me until I figured it out. Maybe probe
+> > > > > > > > > > > > deferral (-EPROBE_DEFER) should be used
+> > > > > > > > > > > > to ensure each driver waits for its dependencies to init first?
+> > > > > > > > > > > > 
+> > > > > > > > > > > amd_isp_capture only has dependency on
+> > > > > > > > > > > amd_isp4 which is the ACPI platform
+> > > > > > > > > > > driver, it is init before amd_isp_catpure.
+> > > > > > > > > > > Do you see in your side the amd_capture
+> > > > > > > > > > > probe failure caused by failing to
+> > > > > > > > > > > read fwnode properties? If that's the case
+> > > > > > > > > > > please help to check if amd_isp4
+> > > > > > > > > > > is loaded successfully
+> > > > > > > > > > 
+> > > > > > > > > > I got much further now: there aren't any driver
+> > > > > > > > > > initialization errors, but when
+> > > > > > > > > > I open the camera, there's no image. The camera
+> > > > > > > > > > LED turns on so it's active.
+> > > > > > > > > > 
+> > > > > > > > > > And then shortly afterwards, amdgpu dies and the
+> > > > > > > > > > entire system freezes.
+> > > > > > > > > > 
+> > > > > > > > > > I've attached my full dmesg, please let me know
+> > > > > > > > > > what you think. Thanks!
+> > > > > > > > > 
+> > > > > > > > > I almost forgot, here is my current kernel tree:
+> > > > > > > > > https://github.com/kerneltoast/kernel_x86_laptop/tree/v6.16-
+> > > > > > > > > sultan-isp4
+> > > > > > > > > 
+> > > > > > > > > Sultan
+> > > > > > > > 
+> > > > > > > > Thanks Sultan, yes, seems much close to the final
+> > > > > > > > success. Will have some
+> > > > > > > > internal discussion.
+> > > > > > > 
+> > > > > > > I got the webcam working. The same bug happened when I tried
+> > > > > > > Ubuntu's linux-oem
+> > > > > > > kernel, which made me think that the issue was firmware.
+> > > > > > > 
+> > > > > > > And indeed, the culprit was a firmware update from February. I bisected
+> > > > > > > linux-firmware and found the commit which broke the webcam for me:
+> > > > > > > 
+> > > > > > >      commit 1cc8c1bfa11251ce8bfcc97d1f15e312f7fe4df0 (HEAD)
+> > > > > > >      Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > > >      Date:   Wed Feb 19 12:16:51 2025 -0500
+> > > > > > > 
+> > > > > > >          amdgpu: Update ISP FW for isp v4.1.1
+> > > > > > > 
+> > > > > > >          From internal git commit:
+> > > > > > >          5058202443e08a673b6772ea6339efb50853be28
+> > > > > > > 
+> > > > > > >          Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > > > 
+> > > > > > >       amdgpu/isp_4_1_1.bin | Bin 4543184 -> 6083536 bytes
+> > > > > > >       1 file changed, 0 insertions(+), 0 deletions(-)
+> > > > > > > 
+> > > > > > > Downgrading firmware to before that commit fixes the webcam.
+> > > > > > > Any idea why?
+> > > > > > > 
+> > > > > > > Thanks,
+> > > > > > > Sultan
+> > > > > > 
+> > > > > > So, can i say the working firmware binary is this one?
+> > > > > > 
+> > > > > > Commit 8f070131
+> > > > > > amdgpu: Update ISP FW for isp v4.1.1
+> > > > > > 
+> > > > > >   From internal git commit:
+> > > > > > 39b007366cc76ef8c65e3bc6220ccb213f4861fb
+> > > > > > 
+> > > > > > Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > 
+> > > > > Correct.
+> > > > > 
+> > > > > > There are too many changes between them, so i can't tell exactly which
+> > > > > > change caused this. So, from my side
+> > > > > > 1. Will try these two firmware to see if we have the same issue.
+> > > > > > 2. It has been quite a long time since last release, will see if need to
+> > > > > > release a latest one.
+> > > > > 
+> > > > > Thanks. It was a quick bisect for me, so I'm happy to help test if a
+> > > > > bisect
+> > > > > between those two internal git commits is needed.
+> > > > > 
+> > > > Really appreciate your test.
+> > > > > In case it makes a difference, I have the laptop with the 2.8K OLED
+> > > > > display. I'm
+> > > > > aware there is one other display variant on other SKUs, which is a
+> > > > > WUXGA IPS.
+> > > > > 
+> > > > Good to know, I believe it won't make any difference for ISP
+> > > > 
+> > > > > Also, with that old firmware, my camera only works with the old isp4
+> > > > > driver from
+> > > > > that Linux_ISP_Kernel repo (which is the same isp4 driver used in
+> > > > > Ubuntu's
+> > > > > linux-oem kernel). Does the new isp4 driver you've submitted here
+> > > > > require newer
+> > > > > firmware than the old driver located in Linux_ISP_Kernel?
+> > > > > 
+> > > > > Sultan
+> > > > 
+> > > > We had a try, yes, both of the old FW can't work on the new ISP4 driver,
+> > > > as you know, for the last months, we did lots of driver modifications
+> > > > for upstream and cause it incompatible with old FW.
+> > > > Now, under internal discussion to upstream a new FW to support the new
+> > > > ISP driver
+> > > > 
+> > > > Regards,
+> > > > Bin
+> > > > 
+> > > > Hi Sultan,
+> > > 
+> > > This is the conclusion of your test,
+> > > Driver: https://github.com/amd/Linux_ISP_Kernel/commit/c6d42584fbd0aa42cc91ecf16dc5c4f3dfea0bb4
+> > > [1] It works on FW      8f070131(ext):39b00736(int)
+> > > [2] It can't work on FW 1cc8c1bf(ext):50582024(int)
+> > 
+> > Correct.
+> > 
+> > > Would you please help to check if CONFIG_VIDEO_OV05C is defined not in the
+> > > .config file when building the kernel? Our assumption is to make [1] work,
+> > > CONFIG_VIDEO_OV05C shouldn't be defined. to make [2] work,
+> > > CONFIG_VIDEO_OV05C should be defined.
+> > 
+> > Yes, it is enabled and I have only tested with it enabled:
+> > 
+> >      $ rg CONFIG_VIDEO_OV05C linux-oem-6.14/.config
+> >      CONFIG_VIDEO_OV05C=m
+> > 
+> > That's the Ubuntu linux-oem-6.14 kernel. You can get the full source and .config
+> > I tested by running the following commands:
+> > 
+> >      git clone https://git.launchpad.net/ubuntu/+source/linux-oem-6.14 -b applied/6.14.0-1006.6
+> >      cd linux-oem-6.14
+> >      python debian/scripts/misc/annotations -e --arch amd64 > .config
+> >      make olddefconfig
+> > 
+> > Let me know if that works.
+> > 
+> > Sultan
+> 
+> Thanks Sultan for the details, yes, we can reproduce the same issue on old
+> isp driver 4.0 release on FW 1cc8c1bf(ext):50582024(int), after debug, the
+> cause is
+>   - ov05c sensor device is added by amd i2c driver
+>   - When ov05c sensor driver probes, it will try to get gpio description but
+> it will fail because the amd-pinctl driver which creates the gpio resource
+> hasn't been loaded yet.
+>   - the ov05c sensor driver probe failure will finally make sensor not able
+> to work when start streaming
+> 
+> Add following patch is supposed to fix this issue to make it work on FW
+> 1cc8c1bf(ext):50582024(int) when CONFIG_VIDEO_OV05C is defined.
+> 
+> @@ -1121,6 +1129,7 @@ static struct i2c_driver ov05_i2c_driver = {
+> 
+> module_i2c_driver(ov05_i2c_driver);
+> 
+> +MODULE_SOFTDEP("pre: pinctrl-amdisp");
+> MODULE_ALIAS("ov05");
+> MODULE_DESCRIPTION("OmniVision OV05 sensor driver");
+> MODULE_LICENSE("GPL and additional rights");
+> 
+> Please help to see if it works if you get time.
 
-Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
----
- .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c   | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+There is no difference I'm afraid. I applied the patch and tested with FW
+1cc8c1bf(ext):50582024(int) and the webcam is still broken on that FW:
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-index c869c4245ebc..4f5c2d8d2855 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-@@ -468,6 +468,19 @@ static const struct mtk_vcodec_enc_pdata mt8196_pdata = {
- 	.set_dma_bit_mask = true,
- };
- 
-+static const struct mtk_vcodec_enc_pdata mt8189_pdata = {
-+	.venc_model_num = 8189,
-+	.capture_formats = mtk_video_formats_capture_h264,
-+	.num_capture_formats = ARRAY_SIZE(mtk_video_formats_capture_h264),
-+	.output_formats = mtk_video_formats_output,
-+	.num_output_formats = ARRAY_SIZE(mtk_video_formats_output),
-+	.min_bitrate = 64,
-+	.max_bitrate = 100000000,
-+	.core_id = VENC_SYS,
-+	.uses_common_fw_iface = true,
-+	.set_dma_bit_mask = true,
-+};
-+
- static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8173-vcodec-enc",
- 			.data = &mt8173_avc_pdata},
-@@ -478,6 +491,7 @@ static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8192-vcodec-enc", .data = &mt8192_pdata},
- 	{.compatible = "mediatek,mt8195-vcodec-enc", .data = &mt8195_pdata},
- 	{.compatible = "mediatek,mt8196-vcodec-enc", .data = &mt8196_pdata},
-+	{.compatible = "mediatek,mt8189-vcodec-enc", .data = &mt8189_pdata},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
--- 
-2.46.0
+  [   19.523006] amd_isp_capture amd_isp_capture.1.auto: amdgpu: Preview(fw_run:0)|start_streaming
+  [   19.537000] amd_isp_capture amd_isp_capture.1.auto: ISP FW boot suc!
+  [   19.537009] amd_isp_capture amd_isp_capture.1.auto: amdgpu: starting Phy
+  [   19.537050] PHY register access test success!
+  [   19.537901] Termination calibration observability: 0x0
+  [   19.539926] Wait for phyReady: 0x0
+  [   19.541932] Wait for phyReady: 0x1
+  [   20.901654] amd_isp_capture amd_isp_capture.1.auto: -><- fail respid Unknown respid(0x30002)
+  [   22.070676] amd_isp_capture amd_isp_capture.1.auto: -><- fail respid Unknown respid(0x30002)
+  ...
+  [   28.769372] amd_isp_capture amd_isp_capture.1.auto: amdgpu: Preview(fw_run:1)|stop_streaming
+  [   28.769388] amd_isp_capture amd_isp_capture.1.auto: amdgpu: stopping Phy
+  [   28.769868] amd_isp_capture amd_isp_capture.1.auto: isp_rm_cmd_from_cmdq_by_stream: fail empty cmd q, stream[1]
+  [   28.771799] amd_isp_capture amd_isp_capture.1.auto: isp_rm_cmd_from_cmdq_by_stream: fail empty cmd q, stream[0]
 
+Sultan
 
