@@ -1,156 +1,215 @@
-Return-Path: <linux-media+bounces-39603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39604-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45305B22A0D
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 16:20:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A59B22ACB
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 16:39:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD2053A77B0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 14:10:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A68953AB57A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 14:34:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3429C2DEA60;
-	Tue, 12 Aug 2025 14:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2866E2EB5DB;
+	Tue, 12 Aug 2025 14:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="xunq7241"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vi9mkfpb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352912DC320
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 14:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D3122069A
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 14:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755007815; cv=none; b=L9+moWir9CNS3WqMMiNRXMDj+J+7fpXFbxYxgFbxlGPp1cszh+8v3EpihTUbIxYm4Bh+nyYeOe9h4CXSVsKhIekFQCbAP070C04+3V5eCuudgGrx2o2ODsht+klnWiJpTYyuxAjoqG10j5BgH5YGQIQEJoPdyl+AlLsF3a54538=
+	t=1755009249; cv=none; b=fOX3mW4LnAtmCLXlTAsu0eEXlXl+FDcSVXdzJMsdcbwqHo1JduPs4IToTezGXm1ZYHudMdEuMtfOW69DT/6+Hr5vGQ/uWmQM5UPpo7vfZuz8Ln95xCh2RZwvfK1CjSd5JLSCO+n1yUp8fHfneyjf5nJi+ZoYtl6obMJi5jMYxO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755007815; c=relaxed/simple;
-	bh=8LfjAJHW+mfgXBUXql5OobxymMq4p4kqJvNiBeMWw4w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=sbd43NvaIfoUgvxe6RieunKfeCbTIwRfoTWNR4h3JkQ9rOIaQGUF7OWIR5vVff3cmFsF5u05Ct0S0AkasQ4zb18T2aS7gghVSGNoVkv8nFfQf7xGZ8xpr+m69P4JcQv2fvRWEjjjoMpumsCLb0MBRARt+dez0wgPoiE0AOWpCow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=xunq7241; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1755009249; c=relaxed/simple;
+	bh=tGct3kCdEi+jZQTK2YLbkv4GKiwMNxja3GiEvZGa5Fg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WJHHeHyBmoITwhM/Xuw1zEWZiA/FnIOsdSnj3Kc5+4ZYP1S5lydG/DFqcLXWXbdgZC5xI7UBWReA2a5UsTxajStmrJqdHJUC66Zf3oxKCzgWlRPPe/dgotQlPmvcewsd7+qBLGaolY8Trb3eAZlpoBSZRqn+kuz3CF5plR2p06M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vi9mkfpb; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b79bddd604so3273346f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 07:34:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755009244; x=1755614044; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d0Fxdv3cPozgk8mT38gBZEwehheZnULsN2Yve87rnLU=;
+        b=Vi9mkfpbHG1PGx6dUQFfe98IepzrqrU/ltPb1k8GguALCKT3FmDJWlidtnZy6E+Pm/
+         QFlVk9tvWB6eyLYH6MPqH1Gf52TBK5Otf5BB2usvnryQw80x7iKYHehwixPaaEanc1FC
+         kYvAM9r8CwZWMxJ7UCLgiLTieQkw//jnL8Dxfj4gA0thCG8azm4zz/2Wa56vGLfTGmo/
+         E7kQzYj97F/22iCZntKXyz5dUdxsUDNEGRiEHusLoyRyhgrQI6zGVHBgyLDvYjIykRh9
+         tlKyGapCMEen8AfopkmseGkrXbtkIjxevze0zXqlkxMywTjvpZ0KV5YykzfQVTTUCdmN
+         a8Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755009244; x=1755614044;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d0Fxdv3cPozgk8mT38gBZEwehheZnULsN2Yve87rnLU=;
+        b=HbydY50aQeH1PWaU6k+YfF4+bHwOmWHmi3Raqu8B3PwPEWDKZ10M3izQlbRh55tjSg
+         i7Ri0MbZrEo8giffB/cF3nDi/i1kYvSUBbFGcx/mFq/olyf8PMJKmRHYUCE/QhmxjB9J
+         sTMZVvepvB+6ceuuDgCvBSqzMUqbT9UH9aTm+V6OnFldKwVNv1WNtW6EBmHnsjLzcVJo
+         9WrM0b62xtrCJSLeJTWBX8rE+k86DTbCxOPMK9/VVUeLrwXlNlWDGb7LOsshnyKxBgTJ
+         y083Pvmv7txC1oQtGJm7HXWQG7VSD44dLWPqWBKmPzyOyUzfP5pvMUdq58clrMEyrH3a
+         dGtg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCzcDGbkiaPeLuOTmGbrQwpFoP7/vRZodFzJyBTNeH2ztsp0hgqZZVVdk2uP3txnJBOOTwfUdhgRxl3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMKcP/p7WWTlHB/e5BSmiKU6Nb0TuCa//8rl6JrbxGprZIlv2C
+	qOUnMOO7148SchsWjnFOLwgSV30F3wPoGU3jjZwqfcQC+WESRfGWJX73
+X-Gm-Gg: ASbGnctcdfYzOvZcsgZ5Sw6f03/7qIon/7Wwex1gwBvLTkmedn3Jd+2mCwFhhJzp8cS
+	+ypaFtXkYKPlZqdrW43EHH/Su+skBpm2z485V3wM8eBPlyqvl99+lEZEQn7OcS+fR+48GuEnwQ6
+	aFET4Z6StWXn0SSB25zVrlZTQ9Og7KtWngfpbF9BQUPQa9ABoMxRFmqwk4oZ6A4WLdmvHEKnRZl
+	8V2YHdQCmC0Hoffpw6hHPsSI9nrZOGXNeXNsfXT+oeDCtckFGuBPIlMr+RBq6bqM+y5S4/jSgjg
+	oiMOFetoNY78VNduH37RODIlU5+g50iUP2KV72dF5Wm+UtZpkY+4BlxXS6BILyXjFBoppc7PPq2
+	WBzih4ISqU/+L16gbOlWo7F186VUpiMCOr5rBq5QqzCB8
+X-Google-Smtp-Source: AGHT+IEN9W8QIdjCjiyzj5kO8EChyogAi2IS3EBC+8vieKm0sHbNVlz5nlzonsC8fWTgKgppdzS8kg==
+X-Received: by 2002:a05:6000:178d:b0:3b7:8d2a:b33c with SMTP id ffacd0b85a97d-3b910fdb1a8mr2720033f8f.18.1755009243725;
+        Tue, 12 Aug 2025 07:34:03 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:15a5:9b00:5e00:c21:21a:c15b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b8f5d7deaasm23714363f8f.65.2025.08.12.07.34.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Aug 2025 07:34:03 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To: simona.vetter@ffwll.ch,
+	tvrtko.ursulin@igalia.com,
+	phasta@mailbox.org,
+	airlied@gmail.com,
+	dakr@kernel.org,
+	sumit.semwal@linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH 1/2] dma-buf/sw_sync: put fence signaling into work item
+Date: Tue, 12 Aug 2025 16:34:01 +0200
+Message-ID: <20250812143402.8619-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1755007809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8au1BkNQCBnNySZYfiMEj46zoU7WWHs+Ju163gDFc6o=;
-	b=xunq7241M6hc19Bn3WAarEymwrckCDjykmgAvQZ4VQbsrTAClXRwweHiQoupA3SOzTdnI8
-	FZanaU4w22jwRoeytpngU5w8uLV7rdvFGZYDsZxbTUn3IaHEez09tTu1MiNOYtU4/+okcV
-	hAxO9R4FzzqnRUmgcOI+bHjHjcVFGMhusj8cgNFM6lW7fU/p5k2EztxCZ8RymMhPxPpI5f
-	lphtG9rMtLYs4vFZLko7nQWNTfLwpXVtY3z8P9Lz3ERwf/7JXkNzWAf1ENoXmhLmw2/qG6
-	7yoFHtpTcnm+XlsGz6oWcZSxY0CV916mhxpnQhUZFTZdoZBBfqtaf1sxz3e7rQ==
-Content-Type: multipart/signed;
- boundary=2acb74a24eb3823e8a8b290ffe7c02819ac18ce13497a3a8eecc3891ed83;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 12 Aug 2025 16:09:56 +0200
-Message-Id: <DC0ICB8ESISQ.1111XINSCI29S@cknow.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Nicolas Dufresne" <nicolas.dufresne@collabora.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
- "Detlev Casanova" <detlev.casanova@collabora.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>
-Cc: "Alex Bee" <knaerzche@gmail.com>, <linux-media@vger.kernel.org>,
- <linux-rockchip@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
-References: <20250810212454.3237486-1-jonas@kwiboo.se>
- <DC0FTXJNW0KB.3I8DLNHJVL21O@cknow.org>
- <DC0GRKB9V014.1J7A2PO1B7U8H@cknow.org>
- <816fa42715e8bc4bf538371975f97b6d102a74f5.camel@collabora.com>
-In-Reply-To: <816fa42715e8bc4bf538371975f97b6d102a74f5.camel@collabora.com>
-X-Migadu-Flow: FLOW_OUT
-
---2acb74a24eb3823e8a8b290ffe7c02819ac18ce13497a3a8eecc3891ed83
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue Aug 12, 2025 at 3:27 PM CEST, Nicolas Dufresne wrote:
-> Le mardi 12 ao=C3=BBt 2025 =C3=A0 14:55 +0200, Diederik de Haas a =C3=A9c=
-rit=C2=A0:
->> On Tue Aug 12, 2025 at 2:11 PM CEST, Diederik de Haas wrote:
->> > On Sun Aug 10, 2025 at 11:24 PM CEST, Jonas Karlman wrote:
->> > > This series add a HEVC backend to the Rockchip Video Decoder driver.
->> > >=20
->> > > Patch 1 add the new HEVC backend.
->> > > Patch 2-3 add variants support to the driver.
->> > > Patch 4 add support for a rk3288 variant.
->> > > Patch 5 add a rk3328 variant to work around hw quirks.
->> > > Patch 6-7 add device tree node for rk3288.
->> >=20
->> > It looks like I had a previous version of linuxtv-rkvdec-hevc-v2 branc=
-h
->> > locally and that also had this commit:
->> > - media: rkvdec: Keep decoder clocks gated
->> >=20
->> > Is that one no longer needed/useful/etc ?
->> >=20
->> > And 'chewitt' also had a commit to fix 8/10-bit selection:
->> > https://github.com/chewitt/linux/commit/4b93b05d2ca608bc23f1d52bcc32df=
-926d435c7c
->> > "WIP: media: rkvdec: fix 8-bit/10-bit format selection"
->> >=20
->> > I haven't tried that one (yet), but did=C2=A0 try an other variant wit=
-h
->> > changing the ordering in rkvdec_hevc_decoded_fmts but that didn't work
->> > in my tests. (Can ofc be PEBKAC)
->> >=20
->> > Would that be useful? I do/did have consistent problems with playing
->> > 10-bit encoded video files.
->>=20
->> nvm about the 10-bit problem. It exists, but it's not restricted to HEVC
->> as it also exists with with H.264 files.
->
-> The referred patch is against some out-dated kernel. In mainline linux wi=
-th
-> have:
->
-> 	if (sps->bit_depth_luma_minus8 =3D=3D 0) {
-> 		if (sps->chroma_format_idc =3D=3D 2)
-> 			return RKVDEC_IMG_FMT_422_8BIT;
-> 		else
-> 			return RKVDEC_IMG_FMT_420_8BIT;
-> 	} else if (sps->bit_depth_luma_minus8 =3D=3D 2) {
-> 		if (sps->chroma_format_idc =3D=3D 2)
-> 			return RKVDEC_IMG_FMT_422_10BIT;
-> 		else
-> 			return RKVDEC_IMG_FMT_420_10BIT;
-> 	}
+From: Christian König <ckoenig@able.fritz.box>
 
-That's indeed the code for H.264.
+Offload signaling fence in the sw_sync component into a work item to
+improve testing the real world signaling conditions.
 
-> Which covers all cases supporte by the hardware. Chewitt seem to add a
-> previously missing 10bit case, and forcing downconversion from 422 to 420=
-. A
-> downconversion is something to be chosen and applied by userspace, the ke=
-rnel
-> should pick a non-destructive format by default.
+Needs more testing before pushing it upstream!
 
-It's based on the 6.16 mainline kernel, but that patch is a 'fix' on a
-not (yet) accepted patch he added on top of that for HEVC. So it not
-working for me on H.264 must be from somewhere else in the/my stack.
+Signed-off-by: Christian König <ckoenig@able.fritz.box>
+---
+ drivers/dma-buf/sw_sync.c    | 25 ++++++++++++++-----------
+ drivers/dma-buf/sync_debug.h |  2 ++
+ 2 files changed, 16 insertions(+), 11 deletions(-)
 
-Sorry for the noise.
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index 3c20f1d31cf5..43b8ac32482d 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -80,6 +80,7 @@ struct sw_sync_get_deadline {
+ 
+ #define SW_SYNC_HAS_DEADLINE_BIT	DMA_FENCE_FLAG_USER_BITS
+ 
++static void sync_timeline_signal(struct work_struct *work);
+ static const struct dma_fence_ops timeline_fence_ops;
+ 
+ static inline struct sync_pt *dma_fence_to_sync_pt(struct dma_fence *fence)
+@@ -110,6 +111,7 @@ static struct sync_timeline *sync_timeline_create(const char *name)
+ 
+ 	obj->pt_tree = RB_ROOT;
+ 	INIT_LIST_HEAD(&obj->pt_list);
++	INIT_WORK(&obj->signal_work, sync_timeline_signal);
+ 	spin_lock_init(&obj->lock);
+ 
+ 	sync_timeline_debug_add(obj);
+@@ -123,6 +125,7 @@ static void sync_timeline_free(struct kref *kref)
+ 		container_of(kref, struct sync_timeline, kref);
+ 
+ 	sync_timeline_debug_remove(obj);
++	flush_work(&obj->signal_work);
+ 
+ 	kfree(obj);
+ }
+@@ -199,23 +202,20 @@ static const struct dma_fence_ops timeline_fence_ops = {
+ 
+ /**
+  * sync_timeline_signal() - signal a status change on a sync_timeline
+- * @obj:	sync_timeline to signal
+- * @inc:	num to increment on timeline->value
++ * @work: the work item
+  *
+- * A sync implementation should call this any time one of it's fences
+- * has signaled or has an error condition.
++ * Signal all fences where the sequence number indicate to do so.
+  */
+-static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
++static void sync_timeline_signal(struct work_struct *work)
+ {
++	struct sync_timeline *obj = container_of(work, typeof(*obj),
++						 signal_work);
+ 	LIST_HEAD(signalled);
+ 	struct sync_pt *pt, *next;
+ 
+ 	trace_sync_timeline(obj);
+ 
+ 	spin_lock_irq(&obj->lock);
+-
+-	obj->value += inc;
+-
+ 	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+ 		if (!timeline_fence_signaled(&pt->base))
+ 			break;
+@@ -227,7 +227,6 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+ 
+ 		dma_fence_signal_locked(&pt->base);
+ 	}
+-
+ 	spin_unlock_irq(&obj->lock);
+ 
+ 	list_for_each_entry_safe(pt, next, &signalled, link) {
+@@ -394,11 +393,15 @@ static long sw_sync_ioctl_inc(struct sync_timeline *obj, unsigned long arg)
+ 		return -EFAULT;
+ 
+ 	while (value > INT_MAX)  {
+-		sync_timeline_signal(obj, INT_MAX);
++		obj->value += INT_MAX;
++
++		schedule_work(&obj->signal_work);
++		flush_work(&obj->signal_work);
+ 		value -= INT_MAX;
+ 	}
+ 
+-	sync_timeline_signal(obj, value);
++	obj->value += value;
++	schedule_work(&obj->signal_work);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
+index 02af347293d0..a1b03c48d82a 100644
+--- a/drivers/dma-buf/sync_debug.h
++++ b/drivers/dma-buf/sync_debug.h
+@@ -17,6 +17,7 @@
+ #include <linux/rbtree.h>
+ #include <linux/spinlock.h>
+ #include <linux/dma-fence.h>
++#include <linux/workqueue.h>
+ 
+ #include <linux/sync_file.h>
+ #include <uapi/linux/sync_file.h>
+@@ -40,6 +41,7 @@ struct sync_timeline {
+ 
+ 	struct rb_root		pt_tree;
+ 	struct list_head	pt_list;
++	struct work_struct	signal_work;
+ 	spinlock_t		lock;
+ 
+ 	struct list_head	sync_timeline_list;
+-- 
+2.43.0
 
---2acb74a24eb3823e8a8b290ffe7c02819ac18ce13497a3a8eecc3891ed83
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaJtLOQAKCRDXblvOeH7b
-bs3HAQCxT5YbN/2lR7MNLL4Ut6pvl9wf/Pgc1qE3anE5JNfU7wEA9hiJInBMZsPp
-WQpNfZk10b6mmxacnf912uguESmwRgU=
-=rf9k
------END PGP SIGNATURE-----
-
---2acb74a24eb3823e8a8b290ffe7c02819ac18ce13497a3a8eecc3891ed83--
 
