@@ -1,52 +1,55 @@
-Return-Path: <linux-media+bounces-39667-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39668-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEEA0B23B1F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:50:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BBDB23B17
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:50:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEA496E3B9B
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:48:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96433584FFF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:48:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A79B12D73BC;
-	Tue, 12 Aug 2025 21:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A19A72E4246;
+	Tue, 12 Aug 2025 21:47:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TVERxO53"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QxU+nies"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A495C2D8DA9
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B442D73AD
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:47:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035254; cv=none; b=IW6LQwfbxulU6kDS4lnrfJxntkgAM/oWRM6oqNoPDapTtuf5KpSFaMKHWm6uNOHEmodAbD0uDg8sn9eGk0gQihp1HXkprGDVjJfLodoa1uKLs8L72eJz+RWYlVukK8YTLPELsup6pPcqAA/cKxonGpM3tDNDDcRf0hLTc/4f3eg=
+	t=1755035256; cv=none; b=hixorvUGHoxrIOpw8BBPp9XGcLfvqdisPCzf5KF7G4iWos4yV8mKpY4nn/STcXiaEhIHqoOSLcD3iSYc6FQR07Q2qzxHR+yEKWpA5K7kd6vpL7UW0fZiQxy87L9/hb9hXCptZi8O01Xaovql8+RlaTzcdygRowYx9yfWK7E9Srs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035254; c=relaxed/simple;
-	bh=tbrSSGjnSfPI5cASX2Kn8hhbCZGf8m4UrMA9s18TOvI=;
+	s=arc-20240116; t=1755035256; c=relaxed/simple;
+	bh=iImIYfXnhGJXo2w8jGCymyqixjLNmVHNoj36uGsxSDM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=btls/+RxCAwqZFWEqDpJMrC4jf8bP6MhoRbhU11okMY4d9SPp/bnTrYjnMBjPcDVoRU+8e+LC5JKSkjppBeB9HOxhDhyMXn2f0ZUMuqmLvLW92Le6L1XY62G9sotsC6hqJyQbRH9IVwM5GuyNGi1Y8TjQCPrOS4g/AZOGQ6l8oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TVERxO53; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=kO9Zi7kts3++TScfiQCuMN9juU2jq0Q61bOPpNraKRzXnewsnQO3bneBDrsfEDkLWDjhSBJjU5LJ2TqiPcK2JowLllNl5rjkDdvzJiXvGAKzPkvNY9AAFyWJNcY2PlKhOZOJTiOdHU/talWGeCgq9RhbnplhcGRZIEZAVMbzn20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QxU+nies; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 72DCD4A4;
-	Tue, 12 Aug 2025 23:46:38 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 21AFF10D4;
+	Tue, 12 Aug 2025 23:46:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035198;
-	bh=tbrSSGjnSfPI5cASX2Kn8hhbCZGf8m4UrMA9s18TOvI=;
+	s=mail; t=1755035200;
+	bh=iImIYfXnhGJXo2w8jGCymyqixjLNmVHNoj36uGsxSDM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TVERxO53BD1QxqxEe0srQJ3Lrg8ShJL/9hC2/1Z4ALdvQSHLwUS0sUxkXuqjDiLgj
-	 BFbh11/kAn7v51GPQl5iI7riaJ0YYO/U4ZZE0G46mp/kMVWqyEiMDhdZ6rihBvq5k4
-	 gbMtke2ajNwK7EKv5Bw9mrySdcLuQRR9wi01lfVE=
+	b=QxU+niesoBhzHW6YnbYFklFe5e+fAlgNE3c9xztCIjkv6YTna2UXVJkGyjjm2Y/4C
+	 h6eU6i0eZUy1t2dyzp7DDFyZb1L9ghnV/+nAjBpC1I9ogzxgFafgXs7jh4WPDhRkjZ
+	 PyRbkl95U73S68eeqOc65kbIrhq0KXluueIVWeAw=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v2 31/72] media: i2c: ov13858: Use V4L2 sensor clock helper
-Date: Wed, 13 Aug 2025 00:45:39 +0300
-Message-ID: <20250812214620.30425-32-laurent.pinchart@ideasonboard.com>
+Cc: Arec Kao <arec.kao@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Subject: [PATCH v2 32/72] media: i2c: ov13b10: Replace client->dev usage
+Date: Wed, 13 Aug 2025 00:45:40 +0300
+Message-ID: <20250812214620.30425-33-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -58,86 +61,333 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several camera sensor drivers access the "clock-frequency" property
-directly to retrieve the external clock rate, or modify the clock rate
-of the external clock programmatically. Both behaviours are valid on
-a subset of ACPI platforms, but are considered deprecated on OF
-platforms, and do not support ACPI platforms that implement MIPI DisCo
-for Imaging. Implementing them manually in drivers is deprecated, as
-that can encourage cargo-cult and lead to differences in behaviour
-between drivers. Instead, drivers should use the
-devm_v4l2_sensor_clk_get() helper.
-
-This driver supports ACPI platforms only. It retrieves the clock rate
-from the "clock-frequency" property. If the rate does not match the
-expected rate, the driver prints a warning. This is correct behaviour
-for ACPI.
-
-Switch to using the devm_v4l2_sensor_clk_get() helper. This does not
-change the behaviour on ACPI platforms that specify a clock-frequency
-property and don't provide a clock. On ACPI platforms that provide a
-clock, the clock rate will be set to the value of the clock-frequency
-property. This should not change the behaviour either as this driver
-expects the clock to be set to that rate, and wouldn't operate correctly
-otherwise.
+The driver needs to access the struct device in many places, and
+retrieves it from the i2c_client itself retrieved with
+v4l2_get_subdevdata(). Store it as a pointer in struct ov13b10 and
+access it from there instead, to simplify the driver.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov13858.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ drivers/media/i2c/ov13b10.c | 89 ++++++++++++++++++-------------------
+ 1 file changed, 43 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-index d93ad730d633..162b49046990 100644
---- a/drivers/media/i2c/ov13858.c
-+++ b/drivers/media/i2c/ov13858.c
-@@ -2,6 +2,7 @@
- // Copyright (c) 2017 Intel Corporation.
+diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+index e85c7d33a670..3f17cdd9f42c 100644
+--- a/drivers/media/i2c/ov13b10.c
++++ b/drivers/media/i2c/ov13b10.c
+@@ -700,6 +700,8 @@ static const struct ov13b10_mode supported_2_lanes_modes[] = {
+ };
  
- #include <linux/acpi.h>
-+#include <linux/clk.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-@@ -1029,6 +1030,7 @@ static const struct ov13858_mode supported_modes[] = {
- 
- struct ov13858 {
- 	struct device *dev;
-+	struct clk *clk;
- 
+ struct ov13b10 {
++	struct device *dev;
++
  	struct v4l2_subdev sd;
  	struct media_pad pad;
-@@ -1656,12 +1658,8 @@ static void ov13858_free_controls(struct ov13858 *ov13858)
- static int ov13858_probe(struct i2c_client *client)
+ 
+@@ -805,7 +807,6 @@ static int ov13b10_write_reg(struct ov13b10 *ov13b,
+ static int ov13b10_write_regs(struct ov13b10 *ov13b,
+ 			      const struct ov13b10_reg *regs, u32 len)
  {
- 	struct ov13858 *ov13858;
-+	unsigned long freq;
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
  	int ret;
--	u32 val = 0;
--
--	device_property_read_u32(&client->dev, "clock-frequency", &val);
--	if (val != 19200000)
--		return -EINVAL;
+ 	u32 i;
  
- 	ov13858 = devm_kzalloc(&client->dev, sizeof(*ov13858), GFP_KERNEL);
- 	if (!ov13858)
-@@ -1669,6 +1667,17 @@ static int ov13858_probe(struct i2c_client *client)
+@@ -813,7 +814,7 @@ static int ov13b10_write_regs(struct ov13b10 *ov13b,
+ 		ret = ov13b10_write_reg(ov13b, regs[i].address, 1,
+ 					regs[i].val);
+ 		if (ret) {
+-			dev_err_ratelimited(&client->dev,
++			dev_err_ratelimited(ov13b->dev,
+ 					    "Failed to write reg 0x%4.4x. error = %d\n",
+ 					    regs[i].address, ret);
  
- 	ov13858->dev = &client->dev;
+@@ -968,7 +969,6 @@ static int ov13b10_set_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct ov13b10 *ov13b = container_of(ctrl->handler,
+ 					     struct ov13b10, ctrl_handler);
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
+ 	s64 max;
+ 	int ret;
  
-+	ov13858->clk = devm_v4l2_sensor_clk_get(ov13858->dev, NULL);
-+	if (IS_ERR(ov13858->clk))
-+		return dev_err_probe(ov13858->dev, PTR_ERR(ov13858->clk),
-+				     "failed to get clock\n");
+@@ -987,7 +987,7 @@ static int ov13b10_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	 * Applying V4L2 control value only happens
+ 	 * when power is up for streaming
+ 	 */
+-	if (!pm_runtime_get_if_in_use(&client->dev))
++	if (!pm_runtime_get_if_in_use(ov13b->dev))
+ 		return 0;
+ 
+ 	ret = 0;
+@@ -1021,13 +1021,13 @@ static int ov13b10_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		ov13b10_set_ctrl_vflip(ov13b, ctrl->val);
+ 		break;
+ 	default:
+-		dev_info(&client->dev,
++		dev_info(ov13b->dev,
+ 			 "ctrl(id:0x%x,val:0x%x) is not handled\n",
+ 			 ctrl->id, ctrl->val);
+ 		break;
+ 	}
+ 
+-	pm_runtime_put(&client->dev);
++	pm_runtime_put(ov13b->dev);
+ 
+ 	return ret;
+ }
+@@ -1166,7 +1166,6 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+ /* Verify chip ID */
+ static int ov13b10_identify_module(struct ov13b10 *ov13b)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
+ 	int ret;
+ 	u32 val;
+ 
+@@ -1179,7 +1178,7 @@ static int ov13b10_identify_module(struct ov13b10 *ov13b)
+ 		return ret;
+ 
+ 	if (val != OV13B10_CHIP_ID) {
+-		dev_err(&client->dev, "chip id mismatch: %x!=%x\n",
++		dev_err(ov13b->dev, "chip id mismatch: %x!=%x\n",
+ 			OV13B10_CHIP_ID, val);
+ 		return -EIO;
+ 	}
+@@ -1234,7 +1233,6 @@ static int ov13b10_power_on(struct device *dev)
+ 
+ static int ov13b10_start_streaming(struct ov13b10 *ov13b)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
+ 	const struct ov13b10_reg_list *reg_list;
+ 	int ret, link_freq_index;
+ 
+@@ -1246,7 +1244,7 @@ static int ov13b10_start_streaming(struct ov13b10 *ov13b)
+ 	ret = ov13b10_write_reg(ov13b, OV13B10_REG_SOFTWARE_RST,
+ 				OV13B10_REG_VALUE_08BIT, OV13B10_SOFTWARE_RST);
+ 	if (ret) {
+-		dev_err(&client->dev, "%s failed to set powerup registers\n",
++		dev_err(ov13b->dev, "%s failed to set powerup registers\n",
+ 			__func__);
+ 		return ret;
+ 	}
+@@ -1255,7 +1253,7 @@ static int ov13b10_start_streaming(struct ov13b10 *ov13b)
+ 	reg_list = &link_freq_configs[link_freq_index].reg_list;
+ 	ret = ov13b10_write_reg_list(ov13b, reg_list);
+ 	if (ret) {
+-		dev_err(&client->dev, "%s failed to set plls\n", __func__);
++		dev_err(ov13b->dev, "%s failed to set plls\n", __func__);
+ 		return ret;
+ 	}
+ 
+@@ -1263,7 +1261,7 @@ static int ov13b10_start_streaming(struct ov13b10 *ov13b)
+ 	reg_list = &ov13b->cur_mode->reg_list;
+ 	ret = ov13b10_write_reg_list(ov13b, reg_list);
+ 	if (ret) {
+-		dev_err(&client->dev, "%s failed to set mode\n", __func__);
++		dev_err(ov13b->dev, "%s failed to set mode\n", __func__);
+ 		return ret;
+ 	}
+ 
+@@ -1287,13 +1285,12 @@ static int ov13b10_stop_streaming(struct ov13b10 *ov13b)
+ static int ov13b10_set_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct ov13b10 *ov13b = to_ov13b10(sd);
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret = 0;
+ 
+ 	mutex_lock(&ov13b->mutex);
+ 
+ 	if (enable) {
+-		ret = pm_runtime_resume_and_get(&client->dev);
++		ret = pm_runtime_resume_and_get(ov13b->dev);
+ 		if (ret < 0)
+ 			goto err_unlock;
+ 
+@@ -1306,7 +1303,7 @@ static int ov13b10_set_stream(struct v4l2_subdev *sd, int enable)
+ 			goto err_rpm_put;
+ 	} else {
+ 		ov13b10_stop_streaming(ov13b);
+-		pm_runtime_put(&client->dev);
++		pm_runtime_put(ov13b->dev);
+ 	}
+ 
+ 	mutex_unlock(&ov13b->mutex);
+@@ -1314,7 +1311,7 @@ static int ov13b10_set_stream(struct v4l2_subdev *sd, int enable)
+ 	return ret;
+ 
+ err_rpm_put:
+-	pm_runtime_put(&client->dev);
++	pm_runtime_put(ov13b->dev);
+ err_unlock:
+ 	mutex_unlock(&ov13b->mutex);
+ 
+@@ -1360,7 +1357,6 @@ static const struct v4l2_subdev_internal_ops ov13b10_internal_ops = {
+ /* Initialize control handlers */
+ static int ov13b10_init_controls(struct ov13b10 *ov13b)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
+ 	struct v4l2_fwnode_device_properties props;
+ 	struct v4l2_ctrl_handler *ctrl_hdlr;
+ 	s64 exposure_max;
+@@ -1443,12 +1439,12 @@ static int ov13b10_init_controls(struct ov13b10 *ov13b)
+ 
+ 	if (ctrl_hdlr->error) {
+ 		ret = ctrl_hdlr->error;
+-		dev_err(&client->dev, "%s control init failed (%d)\n",
++		dev_err(ov13b->dev, "%s control init failed (%d)\n",
+ 			__func__, ret);
+ 		goto error;
+ 	}
+ 
+-	ret = v4l2_fwnode_device_parse(&client->dev, &props);
++	ret = v4l2_fwnode_device_parse(ov13b->dev, &props);
+ 	if (ret)
+ 		goto error;
+ 
+@@ -1474,39 +1470,38 @@ static void ov13b10_free_controls(struct ov13b10 *ov13b)
+ 	mutex_destroy(&ov13b->mutex);
+ }
+ 
+-static int ov13b10_get_pm_resources(struct device *dev)
++static int ov13b10_get_pm_resources(struct ov13b10 *ov13b)
+ {
+-	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct ov13b10 *ov13b = to_ov13b10(sd);
+ 	int ret;
+ 
+-	ov13b->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++	ov13b->reset = devm_gpiod_get_optional(ov13b->dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(ov13b->reset))
+-		return dev_err_probe(dev, PTR_ERR(ov13b->reset),
++		return dev_err_probe(ov13b->dev, PTR_ERR(ov13b->reset),
+ 				     "failed to get reset gpio\n");
+ 
+-	ov13b->img_clk = devm_clk_get_optional(dev, NULL);
++	ov13b->img_clk = devm_clk_get_optional(ov13b->dev, NULL);
+ 	if (IS_ERR(ov13b->img_clk))
+-		return dev_err_probe(dev, PTR_ERR(ov13b->img_clk),
++		return dev_err_probe(ov13b->dev, PTR_ERR(ov13b->img_clk),
+ 				     "failed to get imaging clock\n");
+ 
+-	ov13b->avdd = devm_regulator_get_optional(dev, "avdd");
++	ov13b->avdd = devm_regulator_get_optional(ov13b->dev, "avdd");
+ 	if (IS_ERR(ov13b->avdd)) {
+ 		ret = PTR_ERR(ov13b->avdd);
+ 		ov13b->avdd = NULL;
+ 		if (ret != -ENODEV)
+-			return dev_err_probe(dev, ret,
++			return dev_err_probe(ov13b->dev, ret,
+ 					     "failed to get avdd regulator\n");
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static int ov13b10_check_hwcfg(struct device *dev, struct ov13b10 *ov13b)
++static int ov13b10_check_hwcfg(struct ov13b10 *ov13b)
+ {
+ 	struct v4l2_fwnode_endpoint bus_cfg = {
+ 		.bus_type = V4L2_MBUS_CSI2_DPHY
+ 	};
++	struct device *dev = ov13b->dev;
+ 	struct fwnode_handle *ep;
+ 	struct fwnode_handle *fwnode = dev_fwnode(dev);
+ 	unsigned int i, j;
+@@ -1602,32 +1597,34 @@ static int ov13b10_probe(struct i2c_client *client)
+ 	if (!ov13b)
+ 		return -ENOMEM;
+ 
++	ov13b->dev = &client->dev;
 +
-+	freq = clk_get_rate(ov13858->clk);
-+	if (freq != 19200000)
-+		return dev_err_probe(ov13858->dev, -EINVAL,
-+				     "external clock %lu is not supported\n",
-+				     freq);
-+
+ 	/* Check HW config */
+-	ret = ov13b10_check_hwcfg(&client->dev, ov13b);
++	ret = ov13b10_check_hwcfg(ov13b);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to check hwcfg: %d", ret);
++		dev_err(ov13b->dev, "failed to check hwcfg: %d", ret);
+ 		return ret;
+ 	}
+ 
  	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&ov13858->sd, client, &ov13858_subdev_ops);
+ 	v4l2_i2c_subdev_init(&ov13b->sd, client, &ov13b10_subdev_ops);
  
+-	ret = ov13b10_get_pm_resources(&client->dev);
++	ret = ov13b10_get_pm_resources(ov13b);
+ 	if (ret)
+ 		return ret;
+ 
+-	full_power = acpi_dev_state_d0(&client->dev);
++	full_power = acpi_dev_state_d0(ov13b->dev);
+ 	if (full_power) {
+-		ret = ov13b10_power_on(&client->dev);
++		ret = ov13b10_power_on(ov13b->dev);
+ 		if (ret) {
+-			dev_err(&client->dev, "failed to power on\n");
++			dev_err(ov13b->dev, "failed to power on\n");
+ 			return ret;
+ 		}
+ 
+ 		/* Check module identity */
+ 		ret = ov13b10_identify_module(ov13b);
+ 		if (ret) {
+-			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
++			dev_err(ov13b->dev, "failed to find sensor: %d\n", ret);
+ 			goto error_power_off;
+ 		}
+ 	}
+@@ -1646,7 +1643,7 @@ static int ov13b10_probe(struct i2c_client *client)
+ 	ov13b->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ret = media_entity_pads_init(&ov13b->sd.entity, 1, &ov13b->pad);
+ 	if (ret) {
+-		dev_err(&client->dev, "%s failed:%d\n", __func__, ret);
++		dev_err(ov13b->dev, "%s failed:%d\n", __func__, ret);
+ 		goto error_handler_free;
+ 	}
+ 
+@@ -1657,9 +1654,9 @@ static int ov13b10_probe(struct i2c_client *client)
+ 	 */
+ 	/* Set the device's state to active if it's in D0 state. */
+ 	if (full_power)
+-		pm_runtime_set_active(&client->dev);
+-	pm_runtime_enable(&client->dev);
+-	pm_runtime_idle(&client->dev);
++		pm_runtime_set_active(ov13b->dev);
++	pm_runtime_enable(ov13b->dev);
++	pm_runtime_idle(ov13b->dev);
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&ov13b->sd);
+ 	if (ret < 0)
+@@ -1668,17 +1665,17 @@ static int ov13b10_probe(struct i2c_client *client)
+ 	return 0;
+ 
+ error_media_entity_runtime_pm:
+-	pm_runtime_disable(&client->dev);
++	pm_runtime_disable(ov13b->dev);
+ 	if (full_power)
+-		pm_runtime_set_suspended(&client->dev);
++		pm_runtime_set_suspended(ov13b->dev);
+ 	media_entity_cleanup(&ov13b->sd.entity);
+ 
+ error_handler_free:
+ 	ov13b10_free_controls(ov13b);
+-	dev_err(&client->dev, "%s failed:%d\n", __func__, ret);
++	dev_err(ov13b->dev, "%s failed:%d\n", __func__, ret);
+ 
+ error_power_off:
+-	ov13b10_power_off(&client->dev);
++	ov13b10_power_off(ov13b->dev);
+ 
+ 	return ret;
+ }
+@@ -1692,8 +1689,8 @@ static void ov13b10_remove(struct i2c_client *client)
+ 	media_entity_cleanup(&sd->entity);
+ 	ov13b10_free_controls(ov13b);
+ 
+-	pm_runtime_disable(&client->dev);
+-	pm_runtime_set_suspended(&client->dev);
++	pm_runtime_disable(ov13b->dev);
++	pm_runtime_set_suspended(ov13b->dev);
+ }
+ 
+ static DEFINE_RUNTIME_DEV_PM_OPS(ov13b10_pm_ops, ov13b10_suspend,
 -- 
 Regards,
 
