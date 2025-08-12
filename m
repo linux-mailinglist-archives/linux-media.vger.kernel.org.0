@@ -1,61 +1,68 @@
-Return-Path: <linux-media+bounces-39631-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39632-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4943B23A5C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E44B23A63
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:11:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 08A9A7AED50
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:06:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0FC1B7A8287
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:09:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 827E0253B42;
-	Tue, 12 Aug 2025 21:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AD572BDC1B;
+	Tue, 12 Aug 2025 21:11:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gCDUe51M"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iPMgSUEk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3CF20C469
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BE2197A76;
+	Tue, 12 Aug 2025 21:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755032900; cv=none; b=QqkZXta7LbkzAJ93lSyQn6mFoW/rFwrbFa6d+x1Y46Cl3xeTF6PIvG8mH3vFgH1T0/mhLgCEh1PFvzU474Fc8oDJKdPnkPGYz6+1J34tFdCF8ZVhvOejhRnueI9NoTYNMvqLbDcmzDjDy4juwbZ/XVoFv3TP6WefGbKNxUqI4s0=
+	t=1755033079; cv=none; b=tvtFLDxN+KOalvXA/SHjCYkFu3FMDlNLYjlBmHdGa3dBL1Xvm36nH/ReoiZWXkg8tVJq+ROJcvlXMW/wZv4TMFRa0Vjdbahu6Zg0MAMQDhikh0jl3M5uodXZA2xJkfvHzn8j1NPnK7F1bCbSAZ5tTZICq5AiCe+/e0krynuZZVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755032900; c=relaxed/simple;
-	bh=N17IGLs3rddoOp7pi0iktM19DtxTbLMk5VcaZSd3U1c=;
+	s=arc-20240116; t=1755033079; c=relaxed/simple;
+	bh=ptw9LWjwcshgBavY2yDU/Ee+H+KyvQTD0coZYZFxVfw=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=V9w8NF2Ea2ZWHPXLGVas7oe0fCdyI7677RToTsIIsHY0iUFjtgzSsX58Gvj08sn2k9Z72TjOcDzrk3nLxr0hmhmZw/guZWBsXIhmP8oy71s+0E3aHKSKbqpZrNTnJSNnCrbM9M3rQjFM1O8bUzUH+baEgr4q//ytsI+Nx5DxLCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gCDUe51M; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=ULmDe/Bzm/M1UBRgPmwPE049MDBJmQLcBowAYMqjp+7AP1VLOVf6J9MUI02NDzm/1atlmJ1EbyGStqsG/+9sbhIh/bdA7JS5HOI7mnzkZEy56FedcTaZL6NoAYaoI7ur40aszCqg9Tq59EBavEPIx6NTBIS4ZG5MWzUsmXYY2RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iPMgSUEk; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1755032895;
-	bh=N17IGLs3rddoOp7pi0iktM19DtxTbLMk5VcaZSd3U1c=;
+	s=mail; t=1755033076;
+	bh=ptw9LWjwcshgBavY2yDU/Ee+H+KyvQTD0coZYZFxVfw=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=gCDUe51MZ/9cFBD3RUUEfBb9wA4POFTcn2CvG+SNeHIm21VrZjayBKbEr4Qp/8Va4
-	 vAJW/gre0YY8SjMMKfWfHP2t9mQIRb5B92DywKgTv/spCRtmVA9qVnLMKOquo6blpp
-	 RLmakdGWvK8QVNk3tbwn/kz1qmoTFftJuNxjPT61uY63DgPOl4FDbcfx1gO8Qp/Yse
-	 oEF//urKW6AZVH48a7KfsG0d83OWMzTMqHhipo1jPcJvwwNBuj7D0eVKDpogerwN/V
-	 EkB9px0xiLAkjnED00BcrRkARNRqFgCUcnRtkYg/OKosnD8Q6mzsmA3WejQIvUEPEc
-	 NFayuqlDc9BTw==
+	b=iPMgSUEkfNJiAjaNCg4fHebUfF9p4iwEMZYSQwgT3Wag8oCvrrorR82Bq+flfOcAA
+	 tJE/Yoicrzw8NxpJCIWPPwA8lhSY3QDThCFfZS0af2JKOocxNwJNPGGFvi52DpWIPR
+	 rfp96b9bk+frqd/JoscI7HeslPOnw24WS16oaArSS9knnpRp6StIjNe34jMttiQ/N2
+	 PwrCFWxH28cc2bJhESkMhUuieD/1bwztCE2rL1oY3n/B+JDdgpUVuXdnVPPctJe1Nr
+	 ggH7Sftmy6AqFFgE9khGPbHMDitLVejnKoL1yJUUDLXdN1bGzQpQ754p+334Mxdt/W
+	 JLqzujFi6Sk4A==
 Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6131F17E011A;
-	Tue, 12 Aug 2025 23:08:15 +0200 (CEST)
-Message-ID: <abb9e9c2ebaedb657d50afcba5e1dfba8a39d34d.camel@collabora.com>
-Subject: Re: [GIT PULL FOR 6.17]  Media Codec Fixes 2025-08-12
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A839717E0237;
+	Tue, 12 Aug 2025 23:11:14 +0200 (CEST)
+Message-ID: <d4f53de2dabce333e9f24fe0036d91b8d60af628.camel@collabora.com>
+Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Tue, 12 Aug 2025 17:08:13 -0400
-In-Reply-To: <d5a7552c0c19902259931fa5002eda09b5e88dbb.camel@collabora.com>
-References: <d5a7552c0c19902259931fa5002eda09b5e88dbb.camel@collabora.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>, Jonas Karlman
+	 <jonas@kwiboo.se>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Cc: Alex Bee <knaerzche@gmail.com>, Sebastian Fricke
+	 <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Tue, 12 Aug 2025 17:11:12 -0400
+In-Reply-To: <3547812.44csPzL39Z@earth>
+References: <20250810212454.3237486-1-jonas@kwiboo.se>
+	 <50162371fd54fc976a84fcf57c9b69112a892c46.camel@collabora.com>
+	 <3547812.44csPzL39Z@earth>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoiZBBMWCgBBAhsDBQsJCA
@@ -71,7 +78,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-+7QnZIR8rdL06QTkgXau"
+	protocol="application/pgp-signature"; boundary="=-3mQpTUvxe3+s5ASJnZMy"
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -81,83 +88,48 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-+7QnZIR8rdL06QTkgXau
+--=-3mQpTUvxe3+s5ASJnZMy
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mauro,
+Hi,
 
-Le mardi 12 ao=C3=BBt 2025 =C3=A0 16:31 -0400, Nicolas Dufresne a =C3=A9cri=
-t=C2=A0:
-> Hey Mauro,
+Le mardi 12 ao=C3=BBt 2025 =C3=A0 15:57 -0400, Detlev Casanova a =C3=A9crit=
+=C2=A0:
+> > Detlev reports 146/147 on newer hardware using GStreamer, failing
+> > TSUNEQBD_A_MAIN10_Technicolor_2 (9bit chroma) only. On Detlev side, it =
+will
+> > we important to check why 8K videos (PICSIZE*) passes with a single cor=
+e,
+> > perhaps we accidently use both cores ?
 >=20
-> This includes two fixes for issues reported against in 6.17-rc1 in rkvdec=
- driver
-> along with a removal of pm_runtime_mark_last_busy() requested by Sakari. =
-This is
-> my first pull request against "fixes", let me know if this is appropriate=
-.
+> 1 core can do 8K. In theory, it can do up to close to 65535x65535... It i=
+s=20
+> only a speed issue, so you can do 8K but you won't be able to get to 8K@6=
+0=20
+> with only one core on rk3588.
 
-Just confirming this is correct, despite me having sent the email with the =
-old
-RSA 1024 key while tagging with the new key.
+now that makes me wonder if that means we can reach speed such as 240Hz 4K =
+by
+slaving the cores, of if that only works for 8K. If this is the case, perha=
+ps
+the decoder will need to be target performance aware to make the best
+scheduling.
 
-cheers,
 Nicolas
 
->=20
-> cheers,
-> Nicolas
->=20
-> ---
->=20
-> The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d5=
-85:
->=20
-> =C2=A0 Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
->=20
-> are available in the Git repository at:
->=20
-> =C2=A0 https://gitlab.freedesktop.org/linux-media/users/ndufresne.git=C2=
-=A0tags/fixes-for-6.17-media-codecs-2025-08-12
->=20
-> for you to fetch changes up to 85cb7dc3d2415685a4372f637cf26e5f077e6842:
->=20
-> =C2=A0 media: rkvdec: Remove redundant pm_runtime_mark_last_busy() calls =
-(2025-08-11 16:32:26 -0400)
->=20
-> ----------------------------------------------------------------
-> rkvdec 6.17-rc1 introduced bugs and PM runtime cleanup
->=20
-> ----------------------------------------------------------------
-> Christophe JAILLET (1):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rkvdec: Fix an error handling path =
-in rkvdec_probe()
->=20
-> Dan Carpenter (1):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rkvdec: Fix a NULL vs IS_ERR() bug =
-in probe()
->=20
-> Sakari Ailus (1):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rkvdec: Remove redundant pm_runtime=
-_mark_last_busy() calls
->=20
-> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.c | 17 +++++++++-----=
----
-> =C2=A01 file changed, 9 insertions(+), 8 deletions(-)
-
---=-+7QnZIR8rdL06QTkgXau
+--=-3mQpTUvxe3+s5ASJnZMy
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaJutPQAKCRDZQZRRKWBy
-9HUYAP9myGkcGAGyCnfxoPj+pbDNhUlu9yy1fuE5Uu5MTwtXlgD9Hyl7dKI7gxvf
-/7xSIVadMHEoWOibqzqH2cxtaaoJMAA=
-=ds/f
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaJut8AAKCRDZQZRRKWBy
+9Ih8AQDKyfk0G5x1w5UjIb06h+rwgbK7YR0Lu+0CgbaCFrUrCwEAtl6TV9GOaFhe
+Ubqzqi3x44DC0qxKWNjsJ9wdHUCpbAM=
+=ANNJ
 -----END PGP SIGNATURE-----
 
---=-+7QnZIR8rdL06QTkgXau--
+--=-3mQpTUvxe3+s5ASJnZMy--
 
