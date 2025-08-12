@@ -1,62 +1,52 @@
-Return-Path: <linux-media+bounces-39645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39646-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5784B23B03
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:48:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FD9B23B04
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:48:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE4F0580F0D
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:47:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DBA5585FB4
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85FD32E0914;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF9B52E093A;
 	Tue, 12 Aug 2025 21:47:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eARhbgtG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fDR1qu7B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307052E06EC
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9AD2D739D
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:46:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035220; cv=none; b=jpOoU9oBRgFl1jgBffPbUZ5B8GcG0BwSNY37o/FTDKXX5+i1LXuyNrZdkZsSbs5ByYIGRFsAHtzysaPlhKXyZfbFZstVebRRl6JBphBLV+kGkJ+6LvGA+t/ZPcsNdRqImC6Z3Ilag/cdkgxhqxjinYmbkF+2YQXYa1pYco4XGYc=
+	t=1755035220; cv=none; b=TZSSPfT8ugE16lTlG/TQiXC6XIIk2hwt7ltelCwW+mlq6XXbBeLBCp0TauaUaNVE+pgFL3JJqPTGybwZMJW81eEtON+tr6WKcbWgFCHGdMoIyL7FdHl9BN0li/9WBrsSgHnzWb6Pecjq+4noQx0/MX3xl47Znev0mJQlGpL/1zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755035220; c=relaxed/simple;
-	bh=ZcFnUdG3etMCJyZrlaKOrMNTqaTdUAk69ltk2RwoHEk=;
+	bh=jyZ1tQHnWkNkVUp6c2PDxnFUTN50sQdaMi3rWoS/bY8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cfUvt2LD0Dn3wgYksNfXrn8UmTFQdmpr3y41ctNtPldHbmwkLpmqUsA5IUOsJzU6YwCuNZaP4L+GbIuwIFqWDecM9MmvH4mPrKO/zEldP28y8i1l3Wwaxak2poGptf8ECzakvN3XoP1BhQj93O+NIMC18NzYXFegwnrctDCS+7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eARhbgtG; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Q212nL2ZRizWyXUrr6WhEEocFyL6x5SS2ZEV3DgymqDCEUyguxjAwrGjVU/zk10hGHe3O2DSvTSTcRASmk0MMfMklLU0lQ3V4T6N4/jptG02Knv1hltp7UlTjF5COl6TTRIuE4OgRH5okcW+vTAlnHVM3euqDVfPBIsQeh7B008=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fDR1qu7B; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E9A7E15BF;
-	Tue, 12 Aug 2025 23:46:00 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A129D1738;
+	Tue, 12 Aug 2025 23:46:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035161;
-	bh=ZcFnUdG3etMCJyZrlaKOrMNTqaTdUAk69ltk2RwoHEk=;
+	s=mail; t=1755035162;
+	bh=jyZ1tQHnWkNkVUp6c2PDxnFUTN50sQdaMi3rWoS/bY8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eARhbgtGun2mhzDVonOExjb5YK9i4Nj1Zpp5i2wt1GK29B9FjEz6UhB4r8J2E3GTx
-	 y2XwyZCZqa+yt/+twx585vz8GSUK5yiOqoBT6w8HNxL8+6NiIJn1bGULc2NI8LdWb6
-	 QRSQQ/nYU+sJd0PUVWGORd2V4vHkDsbF04zzYjmU=
+	b=fDR1qu7BMXZXn8GCwo2PPLe0wDP7s/yJSENCCoAvdT2HieUohcKktugUU3L5b5ped
+	 3GxKosRiSOBJexzsTDmjiMsxlo2oLkofDzYdIoGahSi+0nQ8ZXNUYP1Pv8YeeQK7tx
+	 zZyzJZXiT/ahsQqfeAXLhNplRMX4lFNrjALFWuok=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Jingjing Xiong <jingjing.xiong@intel.com>
-Subject: [PATCH v2 09/72] media: i2c: ov6650: Drop unused driver
-Date: Wed, 13 Aug 2025 00:45:17 +0300
-Message-ID: <20250812214620.30425-10-laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 10/72] media: i2c: hi556: Replace client->dev usage
+Date: Wed, 13 Aug 2025 00:45:18 +0300
+Message-ID: <20250812214620.30425-11-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -68,1224 +58,289 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The ov6650 driver was introduced in v2.6.37 to support the OMAP1-based
-Amstrad Delta video phone. The platform still has a board file in the
-kernel, but support for the camera was dropped in commit ce548396a433
-("media: mach-omap1: board-ams-delta.c: remove soc_camera dependencies")
-in v5.9. The driver has been unused since as it has received neither
-ACPI nor DT support.
+The driver needs to access the struct device in many places, and
+retrieves it from the i2c_client itself retrieved with
+v4l2_get_subdevdata(). Store it as a pointer in struct hi556 and access
+it from there instead, to simplify the driver.
 
-The ov6650 driver is one of the last sensor drivers calling
-clk_set_rate(). This is deprecated, and calls to the function are being
-removed to avoid cargo-cult. As the driver is unlikely to ever be used
-again, drop it instead of trying to avoid call clk_set_rate().
+While at it, fix a mistake in the sort order of include statements.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../admin-guide/media/i2c-cardlist.rst        |    1 -
- drivers/media/i2c/Kconfig                     |    9 -
- drivers/media/i2c/Makefile                    |    1 -
- drivers/media/i2c/ov6650.c                    | 1147 -----------------
- 4 files changed, 1158 deletions(-)
- delete mode 100644 drivers/media/i2c/ov6650.c
+ drivers/media/i2c/hi556.c | 72 +++++++++++++++++++--------------------
+ 1 file changed, 35 insertions(+), 37 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/i2c-cardlist.rst b/Documentation/admin-guide/media/i2c-cardlist.rst
-index 1825a0bb47bd..fff962558cd5 100644
---- a/Documentation/admin-guide/media/i2c-cardlist.rst
-+++ b/Documentation/admin-guide/media/i2c-cardlist.rst
-@@ -91,7 +91,6 @@ ov5647        OmniVision OV5647 sensor
- ov5670        OmniVision OV5670 sensor
- ov5675        OmniVision OV5675 sensor
- ov5695        OmniVision OV5695 sensor
--ov6650        OmniVision OV6650 sensor
- ov7251        OmniVision OV7251 sensor
- ov7640        OmniVision OV7640 sensor
- ov7670        OmniVision OV7670 sensor
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index cf7d1e2ab3bc..01f348cc3b27 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -553,15 +553,6 @@ config VIDEO_OV64A40
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ov64a40.
+diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
+index 076c19fcf99c..cd7c3e4fd39c 100644
+--- a/drivers/media/i2c/hi556.c
++++ b/drivers/media/i2c/hi556.c
+@@ -1,7 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ // Copyright (c) 2019 Intel Corporation.
  
--config VIDEO_OV6650
--	tristate "OmniVision OV6650 sensor support"
--	help
--	  This is a Video4Linux2 sensor driver for the OmniVision
--	  OV6650 camera.
+-#include <linux/unaligned.h>
+ #include <linux/acpi.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+@@ -10,6 +9,8 @@
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/unaligned.h>
++
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
+@@ -631,6 +632,8 @@ static const char * const hi556_supply_names[] = {
+ };
+ 
+ struct hi556 {
++	struct device *dev;
++
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+@@ -715,7 +718,6 @@ static int hi556_write_reg(struct hi556 *hi556, u16 reg, u16 len, u32 val)
+ static int hi556_write_reg_list(struct hi556 *hi556,
+ 				const struct hi556_reg_list *r_list)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -724,7 +726,7 @@ static int hi556_write_reg_list(struct hi556 *hi556,
+ 				      HI556_REG_VALUE_16BIT,
+ 				      r_list->regs[i].val);
+ 		if (ret) {
+-			dev_err_ratelimited(&client->dev,
++			dev_err_ratelimited(hi556->dev,
+ 					    "failed to write reg 0x%4.4x. error = %d\n",
+ 					    r_list->regs[i].address, ret);
+ 			return ret;
+@@ -785,7 +787,6 @@ static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct hi556 *hi556 = container_of(ctrl->handler,
+ 					     struct hi556, ctrl_handler);
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
+ 	s64 exposure_max;
+ 	int ret = 0;
+ 
+@@ -801,7 +802,7 @@ static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	}
+ 
+ 	/* V4L2 controls values will be applied only when power is already up */
+-	if (!pm_runtime_get_if_in_use(&client->dev))
++	if (!pm_runtime_get_if_in_use(hi556->dev))
+ 		return 0;
+ 
+ 	switch (ctrl->id) {
+@@ -835,7 +836,7 @@ static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		break;
+ 	}
+ 
+-	pm_runtime_put(&client->dev);
++	pm_runtime_put(hi556->dev);
+ 
+ 	return ret;
+ }
+@@ -921,7 +922,6 @@ static void hi556_assign_pad_format(const struct hi556_mode *mode,
+ 
+ static int hi556_identify_module(struct hi556 *hi556)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
+ 	int ret;
+ 	u32 val;
+ 
+@@ -934,7 +934,7 @@ static int hi556_identify_module(struct hi556 *hi556)
+ 		return ret;
+ 
+ 	if (val != HI556_CHIP_ID) {
+-		dev_err(&client->dev, "chip id mismatch: %x!=%x\n",
++		dev_err(hi556->dev, "chip id mismatch: %x!=%x\n",
+ 			HI556_CHIP_ID, val);
+ 		return -ENXIO;
+ 	}
+@@ -998,7 +998,6 @@ static int hi556_get_selection(struct v4l2_subdev *sd,
+ 
+ static int hi556_start_streaming(struct hi556 *hi556)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
+ 	const struct hi556_reg_list *reg_list;
+ 	int link_freq_index, ret;
+ 
+@@ -1010,14 +1009,14 @@ static int hi556_start_streaming(struct hi556 *hi556)
+ 	reg_list = &link_freq_configs[link_freq_index].reg_list;
+ 	ret = hi556_write_reg_list(hi556, reg_list);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to set plls\n");
++		dev_err(hi556->dev, "failed to set plls\n");
+ 		return ret;
+ 	}
+ 
+ 	reg_list = &hi556->cur_mode->reg_list;
+ 	ret = hi556_write_reg_list(hi556, reg_list);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to set mode\n");
++		dev_err(hi556->dev, "failed to set mode\n");
+ 		return ret;
+ 	}
+ 
+@@ -1029,7 +1028,7 @@ static int hi556_start_streaming(struct hi556 *hi556)
+ 			      HI556_REG_VALUE_16BIT, HI556_MODE_STREAMING);
+ 
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to set stream\n");
++		dev_err(hi556->dev, "failed to set stream\n");
+ 		return ret;
+ 	}
+ 
+@@ -1038,22 +1037,19 @@ static int hi556_start_streaming(struct hi556 *hi556)
+ 
+ static void hi556_stop_streaming(struct hi556 *hi556)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
 -
--	  To compile this driver as a module, choose M here: the
--	  module will be called ov6650.
--
- config VIDEO_OV7251
- 	tristate "OmniVision OV7251 sensor support"
- 	help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 5873d29433ee..59b4b150998b 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -104,7 +104,6 @@ obj-$(CONFIG_VIDEO_OV5675) += ov5675.o
- obj-$(CONFIG_VIDEO_OV5693) += ov5693.o
- obj-$(CONFIG_VIDEO_OV5695) += ov5695.o
- obj-$(CONFIG_VIDEO_OV64A40) += ov64a40.o
--obj-$(CONFIG_VIDEO_OV6650) += ov6650.o
- obj-$(CONFIG_VIDEO_OV7251) += ov7251.o
- obj-$(CONFIG_VIDEO_OV7640) += ov7640.o
- obj-$(CONFIG_VIDEO_OV7670) += ov7670.o
-diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-deleted file mode 100644
-index 3e37a6436aeb..000000000000
---- a/drivers/media/i2c/ov6650.c
-+++ /dev/null
-@@ -1,1147 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * V4L2 subdevice driver for OmniVision OV6650 Camera Sensor
-- *
-- * Copyright (C) 2010 Janusz Krzysztofik <jkrzyszt@tis.icnet.pl>
-- *
-- * Based on OmniVision OV96xx Camera Driver
-- * Copyright (C) 2009 Marek Vasut <marek.vasut@gmail.com>
-- *
-- * Based on ov772x camera driver:
-- * Copyright (C) 2008 Renesas Solutions Corp.
-- * Kuninori Morimoto <morimoto.kuninori@renesas.com>
-- *
-- * Based on ov7670 and soc_camera_platform driver,
-- * Copyright 2006-7 Jonathan Corbet <corbet@lwn.net>
-- * Copyright (C) 2008 Magnus Damm
-- * Copyright (C) 2008, Guennadi Liakhovetski <kernel@pengutronix.de>
-- *
-- * Hardware specific bits initially based on former work by Matt Callow
-- * drivers/media/video/omap/sensor_ov6650.c
-- * Copyright (C) 2006 Matt Callow
-- */
--
--#include <linux/bitops.h>
--#include <linux/clk.h>
--#include <linux/delay.h>
--#include <linux/i2c.h>
--#include <linux/slab.h>
--#include <linux/v4l2-mediabus.h>
--#include <linux/module.h>
--
--#include <media/v4l2-ctrls.h>
--#include <media/v4l2-device.h>
--
--/* Register definitions */
--#define REG_GAIN		0x00	/* range 00 - 3F */
--#define REG_BLUE		0x01
--#define REG_RED			0x02
--#define REG_SAT			0x03	/* [7:4] saturation [0:3] reserved */
--#define REG_HUE			0x04	/* [7:6] rsrvd [5] hue en [4:0] hue */
--
--#define REG_BRT			0x06
--
--#define REG_PIDH		0x0a
--#define REG_PIDL		0x0b
--
--#define REG_AECH		0x10
--#define REG_CLKRC		0x11	/* Data Format and Internal Clock */
--					/* [7:6] Input system clock (MHz)*/
--					/*   00=8, 01=12, 10=16, 11=24 */
--					/* [5:0]: Internal Clock Pre-Scaler */
--#define REG_COMA		0x12	/* [7] Reset */
--#define REG_COMB		0x13
--#define REG_COMC		0x14
--#define REG_COMD		0x15
--#define REG_COML		0x16
--#define REG_HSTRT		0x17
--#define REG_HSTOP		0x18
--#define REG_VSTRT		0x19
--#define REG_VSTOP		0x1a
--#define REG_PSHFT		0x1b
--#define REG_MIDH		0x1c
--#define REG_MIDL		0x1d
--#define REG_HSYNS		0x1e
--#define REG_HSYNE		0x1f
--#define REG_COME		0x20
--#define REG_YOFF		0x21
--#define REG_UOFF		0x22
--#define REG_VOFF		0x23
--#define REG_AEW			0x24
--#define REG_AEB			0x25
--#define REG_COMF		0x26
--#define REG_COMG		0x27
--#define REG_COMH		0x28
--#define REG_COMI		0x29
--
--#define REG_FRARL		0x2b
--#define REG_COMJ		0x2c
--#define REG_COMK		0x2d
--#define REG_AVGY		0x2e
--#define REG_REF0		0x2f
--#define REG_REF1		0x30
--#define REG_REF2		0x31
--#define REG_FRAJH		0x32
--#define REG_FRAJL		0x33
--#define REG_FACT		0x34
--#define REG_L1AEC		0x35
--#define REG_AVGU		0x36
--#define REG_AVGV		0x37
--
--#define REG_SPCB		0x60
--#define REG_SPCC		0x61
--#define REG_GAM1		0x62
--#define REG_GAM2		0x63
--#define REG_GAM3		0x64
--#define REG_SPCD		0x65
--
--#define REG_SPCE		0x68
--#define REG_ADCL		0x69
--
--#define REG_RMCO		0x6c
--#define REG_GMCO		0x6d
--#define REG_BMCO		0x6e
--
--
--/* Register bits, values, etc. */
--#define OV6650_PIDH		0x66	/* high byte of product ID number */
--#define OV6650_PIDL		0x50	/* low byte of product ID number */
--#define OV6650_MIDH		0x7F	/* high byte of mfg ID */
--#define OV6650_MIDL		0xA2	/* low byte of mfg ID */
--
--#define DEF_GAIN		0x00
--#define DEF_BLUE		0x80
--#define DEF_RED			0x80
--
--#define SAT_SHIFT		4
--#define SAT_MASK		(0xf << SAT_SHIFT)
--#define SET_SAT(x)		(((x) << SAT_SHIFT) & SAT_MASK)
--
--#define HUE_EN			BIT(5)
--#define HUE_MASK		0x1f
--#define DEF_HUE			0x10
--#define SET_HUE(x)		(HUE_EN | ((x) & HUE_MASK))
--
--#define DEF_AECH		0x4D
--
--#define CLKRC_8MHz		0x00
--#define CLKRC_12MHz		0x40
--#define CLKRC_16MHz		0x80
--#define CLKRC_24MHz		0xc0
--#define CLKRC_DIV_MASK		0x3f
--#define GET_CLKRC_DIV(x)	(((x) & CLKRC_DIV_MASK) + 1)
--#define DEF_CLKRC		0x00
--
--#define COMA_RESET		BIT(7)
--#define COMA_QCIF		BIT(5)
--#define COMA_RAW_RGB		BIT(4)
--#define COMA_RGB		BIT(3)
--#define COMA_BW			BIT(2)
--#define COMA_WORD_SWAP		BIT(1)
--#define COMA_BYTE_SWAP		BIT(0)
--#define DEF_COMA		0x00
--
--#define COMB_FLIP_V		BIT(7)
--#define COMB_FLIP_H		BIT(5)
--#define COMB_BAND_FILTER	BIT(4)
--#define COMB_AWB		BIT(2)
--#define COMB_AGC		BIT(1)
--#define COMB_AEC		BIT(0)
--#define DEF_COMB		0x5f
--
--#define COML_ONE_CHANNEL	BIT(7)
--
--#define DEF_HSTRT		0x24
--#define DEF_HSTOP		0xd4
--#define DEF_VSTRT		0x04
--#define DEF_VSTOP		0x94
--
--#define COMF_HREF_LOW		BIT(4)
--
--#define COMJ_PCLK_RISING	BIT(4)
--#define COMJ_VSYNC_HIGH		BIT(0)
--
--/* supported resolutions */
--#define W_QCIF			(DEF_HSTOP - DEF_HSTRT)
--#define W_CIF			(W_QCIF << 1)
--#define H_QCIF			(DEF_VSTOP - DEF_VSTRT)
--#define H_CIF			(H_QCIF << 1)
--
--#define FRAME_RATE_MAX		30
--
--
--struct ov6650_reg {
--	u8	reg;
--	u8	val;
--};
--
--struct ov6650 {
--	struct v4l2_subdev	subdev;
--	struct v4l2_ctrl_handler hdl;
--	struct {
--		/* exposure/autoexposure cluster */
--		struct v4l2_ctrl *autoexposure;
--		struct v4l2_ctrl *exposure;
--	};
--	struct {
--		/* gain/autogain cluster */
--		struct v4l2_ctrl *autogain;
--		struct v4l2_ctrl *gain;
--	};
--	struct {
--		/* blue/red/autowhitebalance cluster */
--		struct v4l2_ctrl *autowb;
--		struct v4l2_ctrl *blue;
--		struct v4l2_ctrl *red;
--	};
--	struct clk		*clk;
--	bool			half_scale;	/* scale down output by 2 */
--	struct v4l2_rect	rect;		/* sensor cropping window */
--	struct v4l2_fract	tpf;		/* as requested with set_frame_interval */
--	u32 code;
--};
--
--struct ov6650_xclk {
--	unsigned long	rate;
--	u8		clkrc;
--};
--
--static const struct ov6650_xclk ov6650_xclk[] = {
--{
--	.rate	= 8000000,
--	.clkrc	= CLKRC_8MHz,
--},
--{
--	.rate	= 12000000,
--	.clkrc	= CLKRC_12MHz,
--},
--{
--	.rate	= 16000000,
--	.clkrc	= CLKRC_16MHz,
--},
--{
--	.rate	= 24000000,
--	.clkrc	= CLKRC_24MHz,
--},
--};
--
--static u32 ov6650_codes[] = {
--	MEDIA_BUS_FMT_YUYV8_2X8,
--	MEDIA_BUS_FMT_UYVY8_2X8,
--	MEDIA_BUS_FMT_YVYU8_2X8,
--	MEDIA_BUS_FMT_VYUY8_2X8,
--	MEDIA_BUS_FMT_SBGGR8_1X8,
--	MEDIA_BUS_FMT_Y8_1X8,
--};
--
--static const struct v4l2_mbus_framefmt ov6650_def_fmt = {
--	.width		= W_CIF,
--	.height		= H_CIF,
--	.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
--	.colorspace	= V4L2_COLORSPACE_SRGB,
--	.field		= V4L2_FIELD_NONE,
--	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
--	.quantization	= V4L2_QUANTIZATION_DEFAULT,
--	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
--};
--
--/* read a register */
--static int ov6650_reg_read(struct i2c_client *client, u8 reg, u8 *val)
--{
--	int ret;
--	u8 data = reg;
--	struct i2c_msg msg = {
--		.addr	= client->addr,
--		.flags	= 0,
--		.len	= 1,
--		.buf	= &data,
--	};
--
--	ret = i2c_transfer(client->adapter, &msg, 1);
--	if (ret < 0)
--		goto err;
--
--	msg.flags = I2C_M_RD;
--	ret = i2c_transfer(client->adapter, &msg, 1);
--	if (ret < 0)
--		goto err;
--
--	*val = data;
--	return 0;
--
--err:
--	dev_err(&client->dev, "Failed reading register 0x%02x!\n", reg);
--	return ret;
--}
--
--/* write a register */
--static int ov6650_reg_write(struct i2c_client *client, u8 reg, u8 val)
--{
--	int ret;
--	unsigned char data[2] = { reg, val };
--	struct i2c_msg msg = {
--		.addr	= client->addr,
--		.flags	= 0,
--		.len	= 2,
--		.buf	= data,
--	};
--
--	ret = i2c_transfer(client->adapter, &msg, 1);
--	udelay(100);
--
--	if (ret < 0) {
--		dev_err(&client->dev, "Failed writing register 0x%02x!\n", reg);
--		return ret;
--	}
--	return 0;
--}
--
--
--/* Read a register, alter its bits, write it back */
--static int ov6650_reg_rmw(struct i2c_client *client, u8 reg, u8 set, u8 mask)
--{
--	u8 val;
--	int ret;
--
--	ret = ov6650_reg_read(client, reg, &val);
--	if (ret) {
--		dev_err(&client->dev,
--			"[Read]-Modify-Write of register 0x%02x failed!\n",
--			reg);
--		return ret;
--	}
--
--	val &= ~mask;
--	val |= set;
--
--	ret = ov6650_reg_write(client, reg, val);
--	if (ret)
--		dev_err(&client->dev,
--			"Read-Modify-[Write] of register 0x%02x failed!\n",
--			reg);
--
--	return ret;
--}
--
--static struct ov6650 *to_ov6650(const struct i2c_client *client)
--{
--	return container_of(i2c_get_clientdata(client), struct ov6650, subdev);
--}
--
--/* Start/Stop streaming from the device */
--static int ov6650_s_stream(struct v4l2_subdev *sd, int enable)
--{
--	return 0;
--}
--
--/* Get status of additional camera capabilities */
--static int ov6550_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
--{
--	struct ov6650 *priv = container_of(ctrl->handler, struct ov6650, hdl);
--	struct v4l2_subdev *sd = &priv->subdev;
+ 	if (hi556_write_reg(hi556, HI556_REG_MODE_SELECT,
+ 			    HI556_REG_VALUE_16BIT, HI556_MODE_STANDBY))
+-		dev_err(&client->dev, "failed to set stream\n");
++		dev_err(hi556->dev, "failed to set stream\n");
+ }
+ 
+ static int hi556_set_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct hi556 *hi556 = to_hi556(sd);
 -	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	uint8_t reg, reg2;
--	int ret;
--
--	switch (ctrl->id) {
--	case V4L2_CID_AUTOGAIN:
--		ret = ov6650_reg_read(client, REG_GAIN, &reg);
--		if (!ret)
--			priv->gain->val = reg;
--		return ret;
--	case V4L2_CID_AUTO_WHITE_BALANCE:
--		ret = ov6650_reg_read(client, REG_BLUE, &reg);
--		if (!ret)
--			ret = ov6650_reg_read(client, REG_RED, &reg2);
--		if (!ret) {
--			priv->blue->val = reg;
--			priv->red->val = reg2;
--		}
--		return ret;
--	case V4L2_CID_EXPOSURE_AUTO:
--		ret = ov6650_reg_read(client, REG_AECH, &reg);
--		if (!ret)
--			priv->exposure->val = reg;
--		return ret;
--	}
--	return -EINVAL;
--}
--
--/* Set status of additional camera capabilities */
--static int ov6550_s_ctrl(struct v4l2_ctrl *ctrl)
--{
--	struct ov6650 *priv = container_of(ctrl->handler, struct ov6650, hdl);
--	struct v4l2_subdev *sd = &priv->subdev;
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	int ret;
--
--	switch (ctrl->id) {
--	case V4L2_CID_AUTOGAIN:
--		ret = ov6650_reg_rmw(client, REG_COMB,
--				ctrl->val ? COMB_AGC : 0, COMB_AGC);
--		if (!ret && !ctrl->val)
--			ret = ov6650_reg_write(client, REG_GAIN, priv->gain->val);
--		return ret;
--	case V4L2_CID_AUTO_WHITE_BALANCE:
--		ret = ov6650_reg_rmw(client, REG_COMB,
--				ctrl->val ? COMB_AWB : 0, COMB_AWB);
--		if (!ret && !ctrl->val) {
--			ret = ov6650_reg_write(client, REG_BLUE, priv->blue->val);
--			if (!ret)
--				ret = ov6650_reg_write(client, REG_RED,
--							priv->red->val);
--		}
--		return ret;
--	case V4L2_CID_SATURATION:
--		return ov6650_reg_rmw(client, REG_SAT, SET_SAT(ctrl->val),
--				SAT_MASK);
--	case V4L2_CID_HUE:
--		return ov6650_reg_rmw(client, REG_HUE, SET_HUE(ctrl->val),
--				HUE_MASK);
--	case V4L2_CID_BRIGHTNESS:
--		return ov6650_reg_write(client, REG_BRT, ctrl->val);
--	case V4L2_CID_EXPOSURE_AUTO:
--		ret = ov6650_reg_rmw(client, REG_COMB, ctrl->val ==
--				V4L2_EXPOSURE_AUTO ? COMB_AEC : 0, COMB_AEC);
--		if (!ret && ctrl->val == V4L2_EXPOSURE_MANUAL)
--			ret = ov6650_reg_write(client, REG_AECH,
--						priv->exposure->val);
--		return ret;
--	case V4L2_CID_GAMMA:
--		return ov6650_reg_write(client, REG_GAM1, ctrl->val);
--	case V4L2_CID_VFLIP:
--		return ov6650_reg_rmw(client, REG_COMB,
--				ctrl->val ? COMB_FLIP_V : 0, COMB_FLIP_V);
--	case V4L2_CID_HFLIP:
--		return ov6650_reg_rmw(client, REG_COMB,
--				ctrl->val ? COMB_FLIP_H : 0, COMB_FLIP_H);
--	}
--
--	return -EINVAL;
--}
--
--#ifdef CONFIG_VIDEO_ADV_DEBUG
--static int ov6650_get_register(struct v4l2_subdev *sd,
--				struct v4l2_dbg_register *reg)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	int ret;
--	u8 val;
--
--	if (reg->reg & ~0xff)
--		return -EINVAL;
--
--	reg->size = 1;
--
--	ret = ov6650_reg_read(client, reg->reg, &val);
--	if (!ret)
--		reg->val = (__u64)val;
--
--	return ret;
--}
--
--static int ov6650_set_register(struct v4l2_subdev *sd,
--				const struct v4l2_dbg_register *reg)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--
--	if (reg->reg & ~0xff || reg->val & ~0xff)
--		return -EINVAL;
--
--	return ov6650_reg_write(client, reg->reg, reg->val);
--}
--#endif
--
--static int ov6650_s_power(struct v4l2_subdev *sd, int on)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--	int ret = 0;
--
--	if (on)
--		ret = clk_prepare_enable(priv->clk);
--	else
--		clk_disable_unprepare(priv->clk);
--
--	return ret;
--}
--
--static int ov6650_get_selection(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_selection *sel)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--	struct v4l2_rect *rect;
--
--	if (sel->which == V4L2_SUBDEV_FORMAT_TRY) {
--		/* pre-select try crop rectangle */
--		rect = v4l2_subdev_state_get_crop(sd_state, 0);
--
--	} else {
--		/* pre-select active crop rectangle */
--		rect = &priv->rect;
--	}
--
--	switch (sel->target) {
--	case V4L2_SEL_TGT_CROP_BOUNDS:
--		sel->r.left = DEF_HSTRT << 1;
--		sel->r.top = DEF_VSTRT << 1;
--		sel->r.width = W_CIF;
--		sel->r.height = H_CIF;
--		return 0;
--
--	case V4L2_SEL_TGT_CROP:
--		/* use selected crop rectangle */
--		sel->r = *rect;
--		return 0;
--
--	default:
--		return -EINVAL;
--	}
--}
--
--static bool is_unscaled_ok(int width, int height, struct v4l2_rect *rect)
--{
--	return width > rect->width >> 1 || height > rect->height >> 1;
--}
--
--static void ov6650_bind_align_crop_rectangle(struct v4l2_rect *rect)
--{
--	v4l_bound_align_image(&rect->width, 2, W_CIF, 1,
--			      &rect->height, 2, H_CIF, 1, 0);
--	v4l_bound_align_image(&rect->left, DEF_HSTRT << 1,
--			      (DEF_HSTRT << 1) + W_CIF - (__s32)rect->width, 1,
--			      &rect->top, DEF_VSTRT << 1,
--			      (DEF_VSTRT << 1) + H_CIF - (__s32)rect->height,
--			      1, 0);
--}
--
--static int ov6650_set_selection(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_selection *sel)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--	int ret;
--
--	if (sel->target != V4L2_SEL_TGT_CROP)
--		return -EINVAL;
--
--	ov6650_bind_align_crop_rectangle(&sel->r);
--
--	if (sel->which == V4L2_SUBDEV_FORMAT_TRY) {
--		struct v4l2_rect *crop =
--			v4l2_subdev_state_get_crop(sd_state, 0);
--		struct v4l2_mbus_framefmt *mf =
--			v4l2_subdev_state_get_format(sd_state, 0);
--		/* detect current pad config scaling factor */
--		bool half_scale = !is_unscaled_ok(mf->width, mf->height, crop);
--
--		/* store new crop rectangle */
--		*crop = sel->r;
--
--		/* adjust frame size */
--		mf->width = crop->width >> half_scale;
--		mf->height = crop->height >> half_scale;
--
--		return 0;
--	}
--
--	/* V4L2_SUBDEV_FORMAT_ACTIVE */
--
--	/* apply new crop rectangle */
--	ret = ov6650_reg_write(client, REG_HSTRT, sel->r.left >> 1);
--	if (!ret) {
--		priv->rect.width += priv->rect.left - sel->r.left;
--		priv->rect.left = sel->r.left;
--		ret = ov6650_reg_write(client, REG_HSTOP,
--				       (sel->r.left + sel->r.width) >> 1);
--	}
--	if (!ret) {
--		priv->rect.width = sel->r.width;
--		ret = ov6650_reg_write(client, REG_VSTRT, sel->r.top >> 1);
--	}
--	if (!ret) {
--		priv->rect.height += priv->rect.top - sel->r.top;
--		priv->rect.top = sel->r.top;
--		ret = ov6650_reg_write(client, REG_VSTOP,
--				       (sel->r.top + sel->r.height) >> 1);
--	}
--	if (!ret)
--		priv->rect.height = sel->r.height;
--
--	return ret;
--}
--
--static int ov6650_get_fmt(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_format *format)
--{
--	struct v4l2_mbus_framefmt *mf = &format->format;
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--
--	if (format->pad)
--		return -EINVAL;
--
--	/* initialize response with default media bus frame format */
--	*mf = ov6650_def_fmt;
--
--	/* update media bus format code and frame size */
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--		struct v4l2_mbus_framefmt *try_fmt =
--			v4l2_subdev_state_get_format(sd_state, 0);
--
--		mf->width = try_fmt->width;
--		mf->height = try_fmt->height;
--		mf->code = try_fmt->code;
--
--	} else {
--		mf->width = priv->rect.width >> priv->half_scale;
--		mf->height = priv->rect.height >> priv->half_scale;
--		mf->code = priv->code;
--	}
--	return 0;
--}
--
--#define to_clkrc(div)	((div) - 1)
--
--/* set the format we will capture in */
--static int ov6650_s_fmt(struct v4l2_subdev *sd, u32 code, bool half_scale)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--	u8 coma_set = 0, coma_mask = 0, coml_set, coml_mask;
--	int ret;
--
--	/* select color matrix configuration for given color encoding */
--	switch (code) {
--	case MEDIA_BUS_FMT_Y8_1X8:
--		dev_dbg(&client->dev, "pixel format GREY8_1X8\n");
--		coma_mask |= COMA_RGB | COMA_WORD_SWAP | COMA_BYTE_SWAP;
--		coma_set |= COMA_BW;
--		break;
--	case MEDIA_BUS_FMT_YUYV8_2X8:
--		dev_dbg(&client->dev, "pixel format YUYV8_2X8_LE\n");
--		coma_mask |= COMA_RGB | COMA_BW | COMA_BYTE_SWAP;
--		coma_set |= COMA_WORD_SWAP;
--		break;
--	case MEDIA_BUS_FMT_YVYU8_2X8:
--		dev_dbg(&client->dev, "pixel format YVYU8_2X8_LE (untested)\n");
--		coma_mask |= COMA_RGB | COMA_BW | COMA_WORD_SWAP |
--				COMA_BYTE_SWAP;
--		break;
--	case MEDIA_BUS_FMT_UYVY8_2X8:
--		dev_dbg(&client->dev, "pixel format YUYV8_2X8_BE\n");
--		if (half_scale) {
--			coma_mask |= COMA_RGB | COMA_BW | COMA_WORD_SWAP;
--			coma_set |= COMA_BYTE_SWAP;
--		} else {
--			coma_mask |= COMA_RGB | COMA_BW;
--			coma_set |= COMA_BYTE_SWAP | COMA_WORD_SWAP;
--		}
--		break;
--	case MEDIA_BUS_FMT_VYUY8_2X8:
--		dev_dbg(&client->dev, "pixel format YVYU8_2X8_BE (untested)\n");
--		if (half_scale) {
--			coma_mask |= COMA_RGB | COMA_BW;
--			coma_set |= COMA_BYTE_SWAP | COMA_WORD_SWAP;
--		} else {
--			coma_mask |= COMA_RGB | COMA_BW | COMA_WORD_SWAP;
--			coma_set |= COMA_BYTE_SWAP;
--		}
--		break;
--	case MEDIA_BUS_FMT_SBGGR8_1X8:
--		dev_dbg(&client->dev, "pixel format SBGGR8_1X8 (untested)\n");
--		coma_mask |= COMA_BW | COMA_BYTE_SWAP | COMA_WORD_SWAP;
--		coma_set |= COMA_RAW_RGB | COMA_RGB;
--		break;
--	default:
--		dev_err(&client->dev, "Pixel format not handled: 0x%x\n", code);
--		return -EINVAL;
--	}
--
--	if (code == MEDIA_BUS_FMT_Y8_1X8 ||
--			code == MEDIA_BUS_FMT_SBGGR8_1X8) {
--		coml_mask = COML_ONE_CHANNEL;
--		coml_set = 0;
--	} else {
--		coml_mask = 0;
--		coml_set = COML_ONE_CHANNEL;
--	}
--
--	if (half_scale) {
--		dev_dbg(&client->dev, "max resolution: QCIF\n");
--		coma_set |= COMA_QCIF;
--	} else {
--		dev_dbg(&client->dev, "max resolution: CIF\n");
--		coma_mask |= COMA_QCIF;
--	}
--
--	ret = ov6650_reg_rmw(client, REG_COMA, coma_set, coma_mask);
--	if (!ret) {
--		priv->half_scale = half_scale;
--
--		ret = ov6650_reg_rmw(client, REG_COML, coml_set, coml_mask);
--	}
--	if (!ret)
--		priv->code = code;
--
--	return ret;
--}
--
--static int ov6650_set_fmt(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_format *format)
--{
--	struct v4l2_mbus_framefmt *mf = &format->format;
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--	struct v4l2_rect *crop;
--	bool half_scale;
--
--	if (format->pad)
--		return -EINVAL;
--
--	switch (mf->code) {
--	case MEDIA_BUS_FMT_Y10_1X10:
--		mf->code = MEDIA_BUS_FMT_Y8_1X8;
--		fallthrough;
--	case MEDIA_BUS_FMT_Y8_1X8:
--	case MEDIA_BUS_FMT_YVYU8_2X8:
--	case MEDIA_BUS_FMT_YUYV8_2X8:
--	case MEDIA_BUS_FMT_VYUY8_2X8:
--	case MEDIA_BUS_FMT_UYVY8_2X8:
--		break;
--	default:
--		mf->code = MEDIA_BUS_FMT_SBGGR8_1X8;
--		fallthrough;
--	case MEDIA_BUS_FMT_SBGGR8_1X8:
--		break;
--	}
--
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
--		crop = v4l2_subdev_state_get_crop(sd_state, 0);
--	else
--		crop = &priv->rect;
--
--	half_scale = !is_unscaled_ok(mf->width, mf->height, crop);
--
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--		struct v4l2_mbus_framefmt *try_fmt =
--			v4l2_subdev_state_get_format(sd_state, 0);
--
--		/* store new mbus frame format code and size in pad config */
--		try_fmt->width = crop->width >> half_scale;
--		try_fmt->height = crop->height >> half_scale;
--		try_fmt->code = mf->code;
--
--		/* return default mbus frame format updated with pad config */
--		*mf = ov6650_def_fmt;
--		mf->width = try_fmt->width;
--		mf->height = try_fmt->height;
--		mf->code = try_fmt->code;
--
--	} else {
--		int ret = 0;
--
--		/* apply new media bus frame format and scaling if changed */
--		if (mf->code != priv->code || half_scale != priv->half_scale)
--			ret = ov6650_s_fmt(sd, mf->code, half_scale);
--		if (ret)
--			return ret;
--
--		/* return default format updated with active size and code */
--		*mf = ov6650_def_fmt;
--		mf->width = priv->rect.width >> priv->half_scale;
--		mf->height = priv->rect.height >> priv->half_scale;
--		mf->code = priv->code;
--	}
--	return 0;
--}
--
--static int ov6650_enum_mbus_code(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_mbus_code_enum *code)
--{
--	if (code->pad || code->index >= ARRAY_SIZE(ov6650_codes))
--		return -EINVAL;
--
--	code->code = ov6650_codes[code->index];
--	return 0;
--}
--
--static int ov6650_enum_frame_interval(struct v4l2_subdev *sd,
--				    struct v4l2_subdev_state *sd_state,
--				    struct v4l2_subdev_frame_interval_enum *fie)
--{
--	int i;
--
--	/* enumerate supported frame intervals not exceeding 1 second */
--	if (fie->index > CLKRC_DIV_MASK ||
--	    GET_CLKRC_DIV(fie->index) > FRAME_RATE_MAX)
--		return -EINVAL;
--
--	for (i = 0; i < ARRAY_SIZE(ov6650_codes); i++)
--		if (fie->code == ov6650_codes[i])
--			break;
--	if (i == ARRAY_SIZE(ov6650_codes))
--		return -EINVAL;
--
--	if (!fie->width || fie->width > W_CIF ||
--	    !fie->height || fie->height > H_CIF)
--		return -EINVAL;
--
--	fie->interval.numerator = GET_CLKRC_DIV(fie->index);
--	fie->interval.denominator = FRAME_RATE_MAX;
--
--	return 0;
--}
--
--static int ov6650_get_frame_interval(struct v4l2_subdev *sd,
--				     struct v4l2_subdev_state *sd_state,
--				     struct v4l2_subdev_frame_interval *ival)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--
--	/*
--	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
--	 * subdev active state API.
--	 */
--	if (ival->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
--	ival->interval = priv->tpf;
--
--	dev_dbg(&client->dev, "Frame interval: %u/%u s\n",
--		ival->interval.numerator, ival->interval.denominator);
--
--	return 0;
--}
--
--static int ov6650_set_frame_interval(struct v4l2_subdev *sd,
--				     struct v4l2_subdev_state *sd_state,
--				     struct v4l2_subdev_frame_interval *ival)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--	struct v4l2_fract *tpf = &ival->interval;
--	int div, ret;
--
--	/*
--	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
--	 * subdev active state API.
--	 */
--	if (ival->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
--	if (tpf->numerator == 0 || tpf->denominator == 0)
--		div = 1;  /* Reset to full rate */
--	else
--		div = (tpf->numerator * FRAME_RATE_MAX) / tpf->denominator;
--
--	if (div == 0)
--		div = 1;
--	else if (div > GET_CLKRC_DIV(CLKRC_DIV_MASK))
--		div = GET_CLKRC_DIV(CLKRC_DIV_MASK);
--
--	ret = ov6650_reg_rmw(client, REG_CLKRC, to_clkrc(div), CLKRC_DIV_MASK);
--	if (!ret) {
--		priv->tpf.numerator = div;
--		priv->tpf.denominator = FRAME_RATE_MAX;
--
--		*tpf = priv->tpf;
--	}
--
--	return ret;
--}
--
--/* Soft reset the camera. This has nothing to do with the RESET pin! */
--static int ov6650_reset(struct i2c_client *client)
--{
--	int ret;
--
--	dev_dbg(&client->dev, "reset\n");
--
--	ret = ov6650_reg_rmw(client, REG_COMA, COMA_RESET, 0);
--	if (ret)
--		dev_err(&client->dev,
--			"An error occurred while entering soft reset!\n");
--
--	return ret;
--}
--
--/* program default register values */
--static int ov6650_prog_dflt(struct i2c_client *client, u8 clkrc)
--{
--	int ret;
--
--	dev_dbg(&client->dev, "initializing\n");
--
--	ret = ov6650_reg_write(client, REG_COMA, 0);	/* ~COMA_RESET */
--	if (!ret)
--		ret = ov6650_reg_write(client, REG_CLKRC, clkrc);
--	if (!ret)
--		ret = ov6650_reg_rmw(client, REG_COMB, 0, COMB_BAND_FILTER);
--
--	return ret;
--}
--
--static int ov6650_video_probe(struct v4l2_subdev *sd)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov6650 *priv = to_ov6650(client);
--	const struct ov6650_xclk *xclk = NULL;
--	unsigned long rate;
--	u8 pidh, pidl, midh, midl;
--	int i, ret = 0;
--
--	priv->clk = devm_v4l2_sensor_clk_get(&client->dev, NULL);
--	if (IS_ERR(priv->clk))
--		return dev_err_probe(&client->dev, PTR_ERR(priv->clk),
--				     "clk request err\n");
--
--	rate = clk_get_rate(priv->clk);
--	for (i = 0; rate && i < ARRAY_SIZE(ov6650_xclk); i++) {
--		if (rate != ov6650_xclk[i].rate)
--			continue;
--
--		xclk = &ov6650_xclk[i];
--		dev_info(&client->dev, "using host default clock rate %lukHz\n",
--			 rate / 1000);
--		break;
--	}
--	for (i = 0; !xclk && i < ARRAY_SIZE(ov6650_xclk); i++) {
--		ret = clk_set_rate(priv->clk, ov6650_xclk[i].rate);
--		if (ret || clk_get_rate(priv->clk) != ov6650_xclk[i].rate)
--			continue;
--
--		xclk = &ov6650_xclk[i];
--		dev_info(&client->dev, "using negotiated clock rate %lukHz\n",
--			 xclk->rate / 1000);
--		break;
--	}
--	if (!xclk) {
--		dev_err(&client->dev, "unable to get supported clock rate\n");
--		if (!ret)
--			ret = -EINVAL;
--		return ret;
--	}
--
--	ret = ov6650_s_power(sd, 1);
--	if (ret < 0)
--		return ret;
--
--	msleep(20);
--
--	/*
--	 * check and show product ID and manufacturer ID
--	 */
--	ret = ov6650_reg_read(client, REG_PIDH, &pidh);
--	if (!ret)
--		ret = ov6650_reg_read(client, REG_PIDL, &pidl);
--	if (!ret)
--		ret = ov6650_reg_read(client, REG_MIDH, &midh);
--	if (!ret)
--		ret = ov6650_reg_read(client, REG_MIDL, &midl);
--
--	if (ret)
--		goto done;
--
--	if ((pidh != OV6650_PIDH) || (pidl != OV6650_PIDL)) {
--		dev_err(&client->dev, "Product ID error 0x%02x:0x%02x\n",
--				pidh, pidl);
--		ret = -ENODEV;
--		goto done;
--	}
--
--	dev_info(&client->dev,
--		"ov6650 Product ID 0x%02x:0x%02x Manufacturer ID 0x%02x:0x%02x\n",
--		pidh, pidl, midh, midl);
--
--	ret = ov6650_reset(client);
--	if (!ret)
--		ret = ov6650_prog_dflt(client, xclk->clkrc);
--	if (!ret) {
--		/* driver default frame format, no scaling */
--		ret = ov6650_s_fmt(sd, ov6650_def_fmt.code, false);
--	}
--	if (!ret)
--		ret = v4l2_ctrl_handler_setup(&priv->hdl);
--
--done:
--	ov6650_s_power(sd, 0);
--	return ret;
--}
--
--static const struct v4l2_ctrl_ops ov6550_ctrl_ops = {
--	.g_volatile_ctrl = ov6550_g_volatile_ctrl,
--	.s_ctrl = ov6550_s_ctrl,
--};
--
--static const struct v4l2_subdev_core_ops ov6650_core_ops = {
--#ifdef CONFIG_VIDEO_ADV_DEBUG
--	.g_register		= ov6650_get_register,
--	.s_register		= ov6650_set_register,
--#endif
--	.s_power		= ov6650_s_power,
--};
--
--/* Request bus settings on camera side */
--static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
--				  unsigned int pad,
--				  struct v4l2_mbus_config *cfg)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u8 comj, comf;
--	int ret;
--
--	ret = ov6650_reg_read(client, REG_COMJ, &comj);
--	if (ret)
--		return ret;
--
--	ret = ov6650_reg_read(client, REG_COMF, &comf);
--	if (ret)
--		return ret;
--
--	cfg->type = V4L2_MBUS_PARALLEL;
--
--	cfg->bus.parallel.flags = V4L2_MBUS_MASTER | V4L2_MBUS_DATA_ACTIVE_HIGH
--		| ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
--					     : V4L2_MBUS_VSYNC_ACTIVE_LOW)
--		| ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
--					     : V4L2_MBUS_HSYNC_ACTIVE_HIGH)
--		| ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
--					     : V4L2_MBUS_PCLK_SAMPLE_FALLING);
--	return 0;
--}
--
--static const struct v4l2_subdev_video_ops ov6650_video_ops = {
--	.s_stream	= ov6650_s_stream,
--};
--
--static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
--	.enum_mbus_code		= ov6650_enum_mbus_code,
--	.enum_frame_interval	= ov6650_enum_frame_interval,
--	.get_selection		= ov6650_get_selection,
--	.set_selection		= ov6650_set_selection,
--	.get_fmt		= ov6650_get_fmt,
--	.set_fmt		= ov6650_set_fmt,
--	.get_frame_interval	= ov6650_get_frame_interval,
--	.set_frame_interval	= ov6650_set_frame_interval,
--	.get_mbus_config	= ov6650_get_mbus_config,
--};
--
--static const struct v4l2_subdev_ops ov6650_subdev_ops = {
--	.core	= &ov6650_core_ops,
--	.video	= &ov6650_video_ops,
--	.pad	= &ov6650_pad_ops,
--};
--
--static const struct v4l2_subdev_internal_ops ov6650_internal_ops = {
--	.registered = ov6650_video_probe,
--};
--
--/*
-- * i2c_driver function
-- */
--static int ov6650_probe(struct i2c_client *client)
--{
--	struct ov6650 *priv;
--	int ret;
--
--	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
--	if (!priv)
--		return -ENOMEM;
--
--	v4l2_i2c_subdev_init(&priv->subdev, client, &ov6650_subdev_ops);
--	v4l2_ctrl_handler_init(&priv->hdl, 13);
--	v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_VFLIP, 0, 1, 1, 0);
--	v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_HFLIP, 0, 1, 1, 0);
--	priv->autogain = v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_AUTOGAIN, 0, 1, 1, 1);
--	priv->gain = v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_GAIN, 0, 0x3f, 1, DEF_GAIN);
--	priv->autowb = v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_AUTO_WHITE_BALANCE, 0, 1, 1, 1);
--	priv->blue = v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_BLUE_BALANCE, 0, 0xff, 1, DEF_BLUE);
--	priv->red = v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_RED_BALANCE, 0, 0xff, 1, DEF_RED);
--	v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_SATURATION, 0, 0xf, 1, 0x8);
--	v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_HUE, 0, HUE_MASK, 1, DEF_HUE);
--	v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_BRIGHTNESS, 0, 0xff, 1, 0x80);
--	priv->autoexposure = v4l2_ctrl_new_std_menu(&priv->hdl,
--			&ov6550_ctrl_ops, V4L2_CID_EXPOSURE_AUTO,
--			V4L2_EXPOSURE_MANUAL, 0, V4L2_EXPOSURE_AUTO);
--	priv->exposure = v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_EXPOSURE, 0, 0xff, 1, DEF_AECH);
--	v4l2_ctrl_new_std(&priv->hdl, &ov6550_ctrl_ops,
--			V4L2_CID_GAMMA, 0, 0xff, 1, 0x12);
--
--	priv->subdev.ctrl_handler = &priv->hdl;
--	if (priv->hdl.error) {
--		ret = priv->hdl.error;
--		goto ectlhdlfree;
--	}
--
--	v4l2_ctrl_auto_cluster(2, &priv->autogain, 0, true);
--	v4l2_ctrl_auto_cluster(3, &priv->autowb, 0, true);
--	v4l2_ctrl_auto_cluster(2, &priv->autoexposure,
--				V4L2_EXPOSURE_MANUAL, true);
--
--	priv->rect.left	  = DEF_HSTRT << 1;
--	priv->rect.top	  = DEF_VSTRT << 1;
--	priv->rect.width  = W_CIF;
--	priv->rect.height = H_CIF;
--
--	/* Hardware default frame interval */
--	priv->tpf.numerator   = GET_CLKRC_DIV(DEF_CLKRC);
--	priv->tpf.denominator = FRAME_RATE_MAX;
--
--	priv->subdev.internal_ops = &ov6650_internal_ops;
--
--	ret = v4l2_async_register_subdev(&priv->subdev);
--	if (!ret)
--		return 0;
--ectlhdlfree:
--	v4l2_ctrl_handler_free(&priv->hdl);
--
--	return ret;
--}
--
--static void ov6650_remove(struct i2c_client *client)
--{
--	struct ov6650 *priv = to_ov6650(client);
--
--	v4l2_async_unregister_subdev(&priv->subdev);
--	v4l2_ctrl_handler_free(&priv->hdl);
--}
--
--static const struct i2c_device_id ov6650_id[] = {
--	{ "ov6650" },
--	{ }
--};
--MODULE_DEVICE_TABLE(i2c, ov6650_id);
--
--static struct i2c_driver ov6650_i2c_driver = {
--	.driver = {
--		.name = "ov6650",
--	},
--	.probe    = ov6650_probe,
--	.remove   = ov6650_remove,
--	.id_table = ov6650_id,
--};
--
--module_i2c_driver(ov6650_i2c_driver);
--
--MODULE_DESCRIPTION("V4L2 subdevice driver for OmniVision OV6650 camera sensor");
--MODULE_AUTHOR("Janusz Krzysztofik <jmkrzyszt@gmail.com");
--MODULE_LICENSE("GPL v2");
+ 	int ret = 0;
+ 
+ 	mutex_lock(&hi556->mutex);
+ 	if (enable) {
+-		ret = pm_runtime_resume_and_get(&client->dev);
++		ret = pm_runtime_resume_and_get(hi556->dev);
+ 		if (ret < 0) {
+ 			mutex_unlock(&hi556->mutex);
+ 			return ret;
+@@ -1062,11 +1058,11 @@ static int hi556_set_stream(struct v4l2_subdev *sd, int enable)
+ 		ret = hi556_start_streaming(hi556);
+ 		if (ret) {
+ 			hi556_stop_streaming(hi556);
+-			pm_runtime_put(&client->dev);
++			pm_runtime_put(hi556->dev);
+ 		}
+ 	} else {
+ 		hi556_stop_streaming(hi556);
+-		pm_runtime_put(&client->dev);
++		pm_runtime_put(hi556->dev);
+ 	}
+ 
+ 	mutex_unlock(&hi556->mutex);
+@@ -1289,7 +1285,7 @@ static void hi556_remove(struct i2c_client *client)
+ 	v4l2_async_unregister_subdev(sd);
+ 	media_entity_cleanup(&sd->entity);
+ 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+-	pm_runtime_disable(&client->dev);
++	pm_runtime_disable(hi556->dev);
+ 	mutex_destroy(&hi556->mutex);
+ }
+ 
+@@ -1347,40 +1343,42 @@ static int hi556_probe(struct i2c_client *client)
+ 	if (!hi556)
+ 		return -ENOMEM;
+ 
++	hi556->dev = &client->dev;
++
+ 	v4l2_i2c_subdev_init(&hi556->sd, client, &hi556_subdev_ops);
+ 
+-	hi556->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
++	hi556->reset_gpio = devm_gpiod_get_optional(hi556->dev, "reset",
+ 						    GPIOD_OUT_HIGH);
+ 	if (IS_ERR(hi556->reset_gpio))
+-		return dev_err_probe(&client->dev, PTR_ERR(hi556->reset_gpio),
++		return dev_err_probe(hi556->dev, PTR_ERR(hi556->reset_gpio),
+ 				     "failed to get reset GPIO\n");
+ 
+-	hi556->clk = devm_clk_get_optional(&client->dev, "clk");
++	hi556->clk = devm_clk_get_optional(hi556->dev, "clk");
+ 	if (IS_ERR(hi556->clk))
+-		return dev_err_probe(&client->dev, PTR_ERR(hi556->clk),
++		return dev_err_probe(hi556->dev, PTR_ERR(hi556->clk),
+ 				     "failed to get clock\n");
+ 
+ 	for (i = 0; i < ARRAY_SIZE(hi556_supply_names); i++)
+ 		hi556->supplies[i].supply = hi556_supply_names[i];
+ 
+-	ret = devm_regulator_bulk_get(&client->dev,
++	ret = devm_regulator_bulk_get(hi556->dev,
+ 				      ARRAY_SIZE(hi556_supply_names),
+ 				      hi556->supplies);
+ 	if (ret)
+-		return dev_err_probe(&client->dev, ret,
++		return dev_err_probe(hi556->dev, ret,
+ 				     "failed to get regulators\n");
+ 
+-	full_power = acpi_dev_state_d0(&client->dev);
++	full_power = acpi_dev_state_d0(hi556->dev);
+ 	if (full_power) {
+ 		/* Ensure non ACPI managed resources are enabled */
+-		ret = hi556_resume(&client->dev);
++		ret = hi556_resume(hi556->dev);
+ 		if (ret)
+-			return dev_err_probe(&client->dev, ret,
++			return dev_err_probe(hi556->dev, ret,
+ 					     "failed to power on sensor\n");
+ 
+ 		ret = hi556_identify_module(hi556);
+ 		if (ret) {
+-			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
++			dev_err(hi556->dev, "failed to find sensor: %d\n", ret);
+ 			goto probe_error_power_off;
+ 		}
+ 	}
+@@ -1389,7 +1387,7 @@ static int hi556_probe(struct i2c_client *client)
+ 	hi556->cur_mode = &supported_modes[0];
+ 	ret = hi556_init_controls(hi556);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to init controls: %d\n", ret);
++		dev_err(hi556->dev, "failed to init controls: %d\n", ret);
+ 		goto probe_error_v4l2_ctrl_handler_free;
+ 	}
+ 
+@@ -1400,22 +1398,22 @@ static int hi556_probe(struct i2c_client *client)
+ 	hi556->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ret = media_entity_pads_init(&hi556->sd.entity, 1, &hi556->pad);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to init entity pads: %d\n", ret);
++		dev_err(hi556->dev, "failed to init entity pads: %d\n", ret);
+ 		goto probe_error_v4l2_ctrl_handler_free;
+ 	}
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&hi556->sd);
+ 	if (ret < 0) {
+-		dev_err(&client->dev, "failed to register V4L2 subdev: %d\n",
++		dev_err(hi556->dev, "failed to register V4L2 subdev: %d\n",
+ 			ret);
+ 		goto probe_error_media_entity_cleanup;
+ 	}
+ 
+ 	/* Set the device's state to active if it's in D0 state. */
+ 	if (full_power)
+-		pm_runtime_set_active(&client->dev);
+-	pm_runtime_enable(&client->dev);
+-	pm_runtime_idle(&client->dev);
++		pm_runtime_set_active(hi556->dev);
++	pm_runtime_enable(hi556->dev);
++	pm_runtime_idle(hi556->dev);
+ 
+ 	return 0;
+ 
+@@ -1428,7 +1426,7 @@ static int hi556_probe(struct i2c_client *client)
+ 
+ probe_error_power_off:
+ 	if (full_power)
+-		hi556_suspend(&client->dev);
++		hi556_suspend(hi556->dev);
+ 
+ 	return ret;
+ }
 -- 
 Regards,
 
