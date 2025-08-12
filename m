@@ -1,202 +1,236 @@
-Return-Path: <linux-media+bounces-39516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7CBB21F5D
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 09:21:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0299B21FA5
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 09:35:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BEF02A1F08
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 07:21:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 150581AA6224
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 07:35:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A632DAFCE;
-	Tue, 12 Aug 2025 07:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7A82D323D;
+	Tue, 12 Aug 2025 07:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HaHquvz5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IeP8YUI8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAF127462;
-	Tue, 12 Aug 2025 07:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C831A9F99;
+	Tue, 12 Aug 2025 07:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754983267; cv=none; b=BQO/fplBBFUwQzUuMRszHTR+b/QvBl6HdtneIOUE+lxpxIQ5iFCpvopMaDEINEr4zPWWhSuzMivdfZGWXHvf9d0M43PKt5cWOSxpwbLMx4prNBPuv5DpL+5Qf4MBuCWxoL72/bPseQkaJ0+ms/bP3xDN/TFckmJ1jnE5eND+iw0=
+	t=1754984094; cv=none; b=VIWNvkM/dstEDRgpeQlYU8tS9vaNM114fKsnDtyivVSyDDJ+4xP4NTnuXesq1OPyxmgzoDzO3W/sIczG+GsqT9AP5/6KwzdesHlLmMTncUifLU47+F8gqT+rK+r4PqQG+ggp7yZ7xQ2+55QyujMQmpQbDAOUs4SzCdquH/RS8qY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754983267; c=relaxed/simple;
-	bh=tigkppWCWYMCvNyNEubqAvylnX60Uy4UDRVtMpltcMs=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=MOpR2wMMo+QiVKUOica7Zu3HxQ7KTmW0AlY2ot6F5B/16IBohxvHmwIjGKnSlCDuKALOdptBjrO+vzc8nR/YZCB1Ei1tg64MbwMP8y6AYYlkOmWPvdvm4Eadqc7Jfgjb0J+cqUAEpjcTvz6D/nG1PGuqrBGaAJNFaJ3bGIUyFBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HaHquvz5; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-af96524c5a9so669592366b.1;
-        Tue, 12 Aug 2025 00:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754983264; x=1755588064; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KdvN3hos4ZfIVGUNdDwdDNs5CgvOMtRQ9WBj592DhBk=;
-        b=HaHquvz5iuqC4hkDhnyicai3AsN9SFtkMvGz5217jSd7YLvHECCRZGbWV/zXcXFd2t
-         JH+PCmbCxUMVCBXWFEs8fjHLkWUOFoV+UnBmMzUiZg2Z0VofS3V0l14PcQRmBEnxmVsL
-         fwREbMp6P+vSnNzkcognLGkABFBPxdO3/47e8aGzVgWnjYuXGmjUIuGL7IFO5SfpHxRG
-         +h5khV7fbMAr/saYXzTRjWHhlbJKjFfxUjfcgGZcSLnhse8T4c8a7jcloJZ3ruAd+rYw
-         f478FAGf0IAMznv54HdlCrW2/TTH0K8teAF81QOa5/dFqmxM7D3XZ0Dn5iCzeValGoNR
-         Ugxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754983264; x=1755588064;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KdvN3hos4ZfIVGUNdDwdDNs5CgvOMtRQ9WBj592DhBk=;
-        b=GSMh+yL98KvQXW8WMJ4hDHCQfStr9KjWxvvQss1wZ6hVn8MfZej4QZU+RTZN9MR/13
-         6EAUj7ba83EZopYt8puZIU7hfj9EfTsSwfpNLl/TsAJM+8BstaygjgKSSloHwRgkWYPE
-         kMcdkdVnwse+nPNuSDYcIY7Fcl4GMN+IFdkHnAJ6OsBwy0lrbwiXbkAS6+ucy8EY/3Qc
-         wXN0IaGWq1xiRR3fb+jEeCzy6Xl1/Nqxm+ulTw+Ec7WlpPSkl2NC2YGJZhPm1raKzMjO
-         UtN64Zgfc/D6VsUPv8hIQRnjVx3J8CgeKl4Z9zAmFaQ9FkxWV4jaXLYQRbFYW3yAj0VF
-         Xu6A==
-X-Forwarded-Encrypted: i=1; AJvYcCVSLHcExocSYz8zNvwOBBj2HJTQHPMy7uzhR59il+tGyqj+eC+FoutK/k0IQDrQjaWzgG8v6/G4d7wYvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWe2017FNzqHW5Otw+bR6tVnLxSGCX/kRaL+eRMUgBRAXiCr9Q
-	Qs7pGAEdR6ohLFCsxfY1PZQ6WBncNVfDEhzYKxYggZKTDZShGlJndtCl
-X-Gm-Gg: ASbGncu0b4tSO5JCtdP775smzar3p2Svl67protRXbyjIZk5hdTFt0LwAUimpx4iyHc
-	wDrgHJ7kYV5QNKwL5OKpJz4bUtxwjtVRrJF5RXDc6qRmSv0iSPPXkv/K9XD3HXSEpxN5qT8VDho
-	EJwo2mG7aPjJJINnMSFUTYLdXQDHqXPo5MYlvEOIVTZnDwrDffqa7j25+iGoyzdiuspz6RVtx8R
-	3mLLmYb1jSmbGcS9mS7C3clWB7LEJi5Wi99BMJDVCHmzc7LJ8keKZSO8TSXC22a04whjURjdmiY
-	8YvA4C05NAsWbxuxeB2Kmy6BEZkwbQXILrNVLfXqHnSqvP+JYorLjN+wZ56AVOYfTjIwaXScV7x
-	x8IL1QMl74oVymWRHmlKc3nK+ajkFlFYpnKJrLfP6c6ceApJNuUqSg3gNdx5asnUSM10S9KKDA1
-	HWQybP5ruaUg0=
-X-Google-Smtp-Source: AGHT+IEEEuwo1oGl7QN9YdJIWFLJDjjJKJXuGCx345I6XSM6Vd9H1McXJijKZIxcZ5MMMWp2gsEhrQ==
-X-Received: by 2002:a17:907:787:b0:af9:2e2a:64a8 with SMTP id a640c23a62f3a-af9c6403ac8mr1625756866b.25.1754983263453;
-        Tue, 12 Aug 2025 00:21:03 -0700 (PDT)
-Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl. [89.66.237.154])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c081sm2131936566b.97.2025.08.12.00.21.02
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 12 Aug 2025 00:21:02 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1754984094; c=relaxed/simple;
+	bh=/ALrOFJ9/fMeB0jkp0E7drCOhw3pyhpTTvvoWjCfuVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IbNgMnEczvnqM3nwypimE22IFsBuT9ZkcQwK6SSo03UKJd7dMciks88pBEhZiDfPdy1g4LNaOT7Y0QIl27uwWDSuK6JyeyjrnET+xLyaccVYkzOsPnuGx9mPQfB/ENOm3aWM0J9jsdWHOObx7M2zZ7FFl5FMoYADL+Ae+u/dsfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IeP8YUI8; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 790394A4;
+	Tue, 12 Aug 2025 09:33:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754984037;
+	bh=/ALrOFJ9/fMeB0jkp0E7drCOhw3pyhpTTvvoWjCfuVE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IeP8YUI8zgsuCV6UGHT3iw7SXYrZ3/rdeK4Nn4Sy8FxP5bVAoigxS+M69I2QAuShc
+	 eBNGcJqkGQVwYZe9vWfZIss60nqfofdfLdZihwyw6+8mnKaPmppIPpy4Vq9kpmvTi8
+	 1wTTdt7HAONtf6U5HNDpqMQ4+DIBTI58ugJEoLWw=
+Date: Tue, 12 Aug 2025 10:34:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, mchehab@kernel.org,
+	hverkuil@xs4all.nl, bryan.odonoghue@linaro.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com,
+	Mario Limonciello <mario.limonciello@amd.com>, Richard.Gong@amd.com,
+	anson.tsao@amd.com
+Subject: Re: [PATCH v2 4/8] media: platform: amd: Add isp4 fw and hw interface
+Message-ID: <20250812073432.GF30054@pendragon.ideasonboard.com>
+References: <20250618091959.68293-1-Bin.Du@amd.com>
+ <20250618091959.68293-5-Bin.Du@amd.com>
+ <aIclcwRep3F_z7PF@kekkonen.localdomain>
+ <b033bf6c-c824-4f6d-8025-b6542ea8f35f@amd.com>
+ <aJnYE2Z7F-PK1VHL@kekkonen.localdomain>
+ <20250811123102.GC30760@pendragon.ideasonboard.com>
+ <50f0958b-5234-4a89-a57e-5d330cca13af@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v2 00/12] media: rkvdec: Add support for VDPU381 and
- VDPU383
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <20250808200340.156393-1-detlev.casanova@collabora.com>
-Date: Tue, 12 Aug 2025 09:20:51 +0200
-Cc: linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3786B8EA-9796-40A9-8EEF-16CFAEE27766@gmail.com>
-References: <20250808200340.156393-1-detlev.casanova@collabora.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-X-Mailer: Apple Mail (2.3826.700.81)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <50f0958b-5234-4a89-a57e-5d330cca13af@amd.com>
 
+On Tue, Aug 12, 2025 at 11:36:23AM +0800, Du, Bin wrote:
+> Many thanks Laurent Pinchart for the comments.
+> 
+> On 8/11/2025 8:31 PM, Laurent Pinchart wrote:
+> > On Mon, Aug 11, 2025 at 11:46:27AM +0000, Sakari Ailus wrote:
+> >> On Tue, Jul 29, 2025 at 05:12:03PM +0800, Du, Bin wrote:
+> >>> On 7/28/2025 3:23 PM, Sakari Ailus wrote:
+> >>>> On Wed, Jun 18, 2025 at 05:19:55PM +0800, Bin Du wrote:
+> >>>>> ISP firmware controls ISP HW pipeline using dedicated embedded processor
+> >>>>> called ccpu.
+> >>>>> The communication between ISP FW and driver is using commands and
+> >>>>> response messages sent through the ring buffer. Command buffers support
+> >>>>> either global setting that is not specific to the steam and support stream
+> >>>>> specific parameters. Response buffers contains ISP FW notification
+> >>>>> information such as frame buffer done and command done. IRQ is used for
+> >>>>> receiving response buffer from ISP firmware, which is handled in the main
+> >>>>> isp4 media device. ISP ccpu is booted up through the firmware loading
+> >>>>> helper function prior to stream start.
+> >>>>> Memory used for command buffer and response buffer needs to be allocated
+> >>>>> from amdgpu buffer manager because isp4 is a child device of amdgpu.
+> >>>>
+> >>>> Please rewrap this, some lines above are quite short.
+> >>>>
+> >>> Thanks, the line after the short line is supposed to be a new paragraph?
+> >>> Should we put all the description in one paragraph?
+> >>
+> >> One or more paragraphs work fine, but a new paragraph is separated from the
+> >> previous one by another newline.
+> >>
+> >> ...
+> > 
+> > Paragraphs are defined as a block of text that convey one idea. They
+> > should be visually separated by a space. As we can't have fractional
+> > line spacing in plain text, paragraphs need to be separated by a blank
+> > line. This is a typography rule that maximizes readability. There should
+> > be no line break between sentences in a single paragraph.
+> > 
+> > Whether you write commit messages, formal documentation or comments in
+> > code, typography is important to give the best experience to readers.
+> > After all, a block of text that wouldn't focus on the readers would have
+> > no reason to exist.
+> > 
+> > 
+> > Now compare the above with
+> > 
+> > 
+> > Paragraphs are defined as a block of text that convey one idea. They
+> > should be visually separated by a space.
+> > As we can't have fractional line spacing in plain text, paragraphs need
+> > to be separated by a blank line.
+> > This is a typography rule that maximizes readability. There should be no
+> > line break between sentences in a single paragraph. Whether you write
+> > commit messages, formal documentation or comments in code, typography is
+> > important to give the best experience to readers.
+> > After all, a block of text that wouldn't focus on the readers would have
+> > no reason to exist.
+> 
+> Really appreciate the detailed guide, will follow it. May I summarize 
+> like this? 1 Separate paragraphs by a blank line. 2 Don't add line break 
+> between sentences in a single paragraph, an exception to this is commit 
+> message, because of the 75-character patch check limit, line break can 
+> be added, but it should at the 75-character limit boundary
 
+When I wrote "line break", I meant breaking the line after a sentence,
+before the 75 columns limits. Text blocks should always be wrapped (at
+75 columns in commit messages, or 80 in kernel code). What you should
+avoid is line breaks not related to the columns limit.
 
-> Wiadomo=C5=9B=C4=87 napisana przez Detlev Casanova =
-<detlev.casanova@collabora.com> w dniu 8 sie 2025, o godz. 22:03:
->=20
-> These variants are found respectively in the RK3588 and RK3576 SoCs.
-> This patch only adds support for H264 and H265 in both variants.
->=20
-> As there is a considerable part of the code that can be shared with =
-the
-> already supported rkvdec decoder driver, the support for these =
-variants
-> is added here rather than writing a new driver.
->=20
-> This patch set uses the newly introduced hevc_ext_sps_[ls]t_rps v4l2
-> controls for HEVC [1].
-> Therefore, a patched version of userpace tools is needed for HEVC
-> support (added for GStreamer[2] and in an early stage for FFmpeg[3]).
->=20
-> This patch set also depends on the preparation patch set sent earlier =
-[4]
-> as well as the iommu restore fix [5] (already merged in linux-media) =
-and
-> Nicolas Frattaroli's bitmap patch [6] to support setting registers =
-that
-> uses upper 16 bits as masks.
->=20
-> [1]: =
-https://lore.kernel.org/all/20250807194327.69900-1-detlev.casanova@collabo=
-ra.com/
-> [2]: =
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9355
-> [3]: https://gitlab.collabora.com/detlev/ffmpeg
-> [4]: =
-https://lore.kernel.org/all/20250623160722.55938-1-detlev.casanova@collabo=
-ra.com/
-> [5]: =
-https://lore.kernel.org/all/20250508-rkvdec-iommu-reset-v1-1-c46b6efa6e9b@=
-collabora.com/
-> [6]: =
-https://lore.kernel.org/all/20250623-byeword-update-v2-1-cf1fc08a2e1f@coll=
-abora.com/
->=20
-> Changes since v1:
-> - Add parsing of the short and long term ref frame sets from the new =
-v4l2
->   controls
-> - Add RPS cache to avoid parsing the same data again
-> - Fix HEVC pixel formats selection
-> - Fix multiple indentation errors
->=20
-> Detlev Casanova (12):
->  media: rkvdec: Switch to using structs instead of writel
->  media: rkvdec: Move cabac table to its own source file
->  media: rkvdec: Use structs to represent the HW RPS
->  media: rkvdec: Move h264 functions to common file
->  media: rkvdec: Add per variant configuration
->  media: rkvdec: Add RCB and SRAM support
->  media: rkvdec: Support per-variant interrupt handler
->  media: rkvdec: Enable all clocks without naming them
->  media: rkvdec: Add H264 support for the VDPU381 variant
->  media: rkvdec: Add H264 support for the VDPU383 variant
->  media: rkvdec: Add HEVC support for the VDPU381 variant
->  media: rkvdec: Add HEVC support for the VDPU383 variant
->=20
-> ..
+This is fine:
 
-Detlev,
+This paragraph has a long sentence that does not hold on a single line
+of 72 characters and therefore needs to be wrapped. There is no line
+break otherwise, for instance between the first and second sentence, or
+within a sentence.
 
-I give run for this series on rk3576 and rk3588 devices (various SBC =
-boards) on mainline 6.16 kernel.
-Userspace was: KODI, MythTV and mpv.
-All are using ffmpeg - but without [3] applied*.
-Tested video rendering pipelines was: EGL DAMBuf and DRM direct to plane
+This is not right:
 
-Happy to report:
--all h264 content** i tested was decoded ok.
--on some rk3576 h264 rendering manifest known "green lines" issue*** =20
--hevc content**** was also decoded ok except samples requiring long =
-sps/rps hinting from userspace (from ffmpeg in my case)
+This paragraph has a long sentence that does not hold on a single line
+of 72 characters and therefore needs to be wrapped.
+There is a line break between the first and second sentence,
+and also a line break in the second sentence, which are not fine.
 
+> >>>>> +	void *cpu_ptr;
+> >>>>> +	u64 gpu_addr;
+> >>>>> +	u32 ret;
+> >>>>> +
+> >>>>> +	dev = ispif->dev;
+> >>>>> +
+> >>>>> +	if (!mem_size)
+> >>>>> +		return NULL;
+> >>>>> +
+> >>>>> +	mem_info = kzalloc(sizeof(*mem_info), GFP_KERNEL);
+> >>>>> +	if (!mem_info)
+> >>>>> +		return NULL;
+> >>>>> +
+> >>>>> +	adev = (struct amdgpu_device *)ispif->adev;
+> >>>>
+> >>>> Why the cast?
+> >>>>
+> >>>> adev isn't a great name here as it's usually used for struct acpi_devices.
+> >>>>
+> >>> In the next patch, will use new helper function for this and will no longer
+> >>> use amdgpu_device
+> >>
+> >> Use correct types when you can; either way this doesn't seem to be changed
+> >> by the further patches in the set.
+> >>
+> >> ...
+> >>
+> >>>>> +static int isp4if_gpu_mem_free(struct isp4_interface *ispif,
+> >>>>> +			       struct isp4if_gpu_mem_info *mem_info)
+> >>>>> +{
+> >>>>> +	struct device *dev = ispif->dev;
+> >>>>> +	struct amdgpu_bo *bo;
+> >>>>> +
+> >>>>> +	if (!mem_info) {
+> >>>>> +		dev_err(dev, "invalid mem_info\n");
+> >>>>> +		return -EINVAL;
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	bo = (struct amdgpu_bo *)mem_info->mem_handle;
+> >>>>
+> >>>> Why do you need to cast here?
+> >>>>
+> >>> In the next patch, will use new helper function for this and will no longer
+> >>> use amdgpu_bo
+> >>
+> >> Not quite, on top of this patch number 6 adds more of the same.
+> >>
+> >> ...
+> >>
+> >>>>> +static struct isp4if_cmd_element *
+> >>>>> +isp4if_append_cmd_2_cmdq(struct isp4_interface *ispif,
+> >>>>> +			 struct isp4if_cmd_element *cmd_ele)
+> >>>>> +{
+> >>>>> +	struct isp4if_cmd_element *copy_command = NULL;
+> >>>>> +
+> >>>>> +	copy_command = kmalloc(sizeof(*copy_command), GFP_KERNEL);
+> >>>>> +	if (!copy_command)
+> >>>>> +		return NULL;
+> >>>>> +
+> >>>>> +	memcpy(copy_command, cmd_ele, sizeof(*copy_command));
+> >>>>
+> >>>> kmemdup()?
+> >>>>
+> >>> Kmemdup is to allocate memory and copy, can't be used here.
+> >>
+> >> Isn't that what you're doing above?
+> >>
+> >>>>> +
+> >>>>> +	guard(mutex)(&ispif->cmdq_mutex);
+> >>>>> +
+> >>>>> +	list_add_tail(&copy_command->list, &ispif->cmdq);
+> >>>>> +
+> >>>>> +	return copy_command;
+> >>>>> +}
 
-* - it looks (to me) your's ffmpeg branch changes are incompatible with =
-yours rkvdec code (i.e. ffmpeg refers to =
-V4L2_HEVC_EXT_SPS_RPS_FLAG_INTER_REF_PIC_SET_PRED but kernel v2 driver =
-don't have it)
+-- 
+Regards,
 
-**  - i'm referring to multiple h.264 movies and TV HD channels
-
-*** - issue of thin green lines we discussed on rockchip IRC channel
-
-**** - as my ffmpeg7.1 has not applied newly introduced =
-hevc_ext_sps_[ls]t_rps v4l2
-controls for HEVC (due *) - some content is not decoded properly.
-
-If any extra tests can be helpful - i'' be more that happy to do so!
-
-br=20
-
+Laurent Pinchart
 
