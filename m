@@ -1,202 +1,122 @@
-Return-Path: <linux-media+bounces-39572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39573-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126C0B22499
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:28:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 310E4B224A6
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:33:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 266DC189D18F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:29:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 686603BDDCF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F81F2EB5CE;
-	Tue, 12 Aug 2025 10:28:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CBFF2EBB90;
+	Tue, 12 Aug 2025 10:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUwSbtti"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n9NDDkgg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620702E2F01;
-	Tue, 12 Aug 2025 10:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A90311C27;
+	Tue, 12 Aug 2025 10:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754994523; cv=none; b=pgb0sLXGRJTPUltpI2SImPpRHT/yS5HmPi9jRegWZYoq9Gk1rlCXC0Y/jRegfrGjV8T1j9Uaa6Y/PgTCM8HSrviPRB8e9mtaOz0wvcv4igllD4zm9ggqMbx5/ZVmMK00q4rKsu8/jH0TW8Q9likCHrWZaHt75kWoUe/XpliKeZQ=
+	t=1754994785; cv=none; b=luFgmpGwOUm84QnF1cxGrWE3vxnxheV5yR9u0UujDlPmGhV11NCJWxosT1A7QNQ7Lqh54X1B/4Rg/g/3ax/431CuPz2lg16hHMmybJ0O5Jrv+OIlLhROVS3t8r/kcOtH12WpobVfdbtTtYKMHuTnMCxbedcmbD+ReRTANFzAbVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754994523; c=relaxed/simple;
-	bh=UYfIb3p1Vm82p1tWRc07r1qQJo2LPLgYKqInhDrFQE8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=islXq80clqgpWJgwBvv9IGrvpkjPUJVzeuqPD7AiIf26j5wXNJ6Ku47a3N9V3had2c9O0Qd4dtOAg5cB5fk263NrABd34HmBioq2w6I2rt6RhIqSGoa6UE9OoJFFaTil1rGYqJwcEbPqHEFdRi5YcT9HewEIKKkY0sFh6oJGPW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUwSbtti; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E49EFC4CEF0;
-	Tue, 12 Aug 2025 10:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754994522;
-	bh=UYfIb3p1Vm82p1tWRc07r1qQJo2LPLgYKqInhDrFQE8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mUwSbttileiBGGJeo2548tdI7H8pyN6AOfdEUL0FdRHYDi/LiZCNLUVY43qzFXI23
-	 cwg6571ZqRM589Jyq68QXneM3m38I8rlPnqQN3ZcfFB7ctLjJcCOJEUU0b8h68gCGi
-	 A9uOSr/h6XwG0Ef2I5gx5y/I5O/w7PiChU7qQKt6mymOi4WjOFS4l7cPkzascgI5kG
-	 EV2aOObMn39Eb2eeTlKspyfwGBsqGPMjyGxCkBNkGxQeIefEM1JTdeK7v99J6yPy8W
-	 Syxflka5G70e7kTUs81PfLJbS28NkRzk+VEz7v+YSWRblSIMYkUxms0dPniz0ZhQSu
-	 zfsp04ak+NHJg==
-Message-ID: <e91ed87c-7e2c-4c43-b405-ce3470697a2a@kernel.org>
-Date: Tue, 12 Aug 2025 12:28:28 +0200
+	s=arc-20240116; t=1754994785; c=relaxed/simple;
+	bh=N/zIXxDe3G/XcFSJ5iLcD4wYwc9bg47M5HzamE2Ado8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VO1Lpv5z3FK7JgtExKSZ90PGVC4GL87VR49L1lTaV4omX/N3HrNLNTLIO7y7qAPr84aRiSh5x9N3CYYDZ0AS5OLhrf/EwgyleVxSwyOQv62XWltS9tn6tFoEFa1K6LwU8Nlo1hlkbK7yL2G2TlMH3+AH3qp9TPuizd22z8ChB8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n9NDDkgg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 49A983D5;
+	Tue, 12 Aug 2025 12:32:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754994728;
+	bh=N/zIXxDe3G/XcFSJ5iLcD4wYwc9bg47M5HzamE2Ado8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n9NDDkggCX2zZjc9kd+xyESuqoBhnKN+B6QOO6dCfmIcyIPR8dsmG02S9uS6Gacky
+	 XsvwDKo2NU2ZdfNIZc2pUokrqIX4arAHMesCPqh7Y6EtJHfu3bKP9D9VQinWU0TDde
+	 cxSl6WM2Xv6aJ9OPGJ5YW1miOGdCXHCl2cQiKFBU=
+Date: Tue, 12 Aug 2025 13:32:43 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Ondrej Jirman <megi@xff.cz>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption: resolved
+Message-ID: <20250812103243.GK30054@pendragon.ideasonboard.com>
+References: <175308758352.3134829.9472501038683860006@localhost>
+ <m31pq9y98z.fsf@t19.piap.pl>
+ <175326599663.2811177.16620980968274114885@localhost>
+ <m3h5z2vw12.fsf@t19.piap.pl>
+ <175344176070.2811177.10693943493658922992@localhost>
+ <m3qzxyug1s.fsf@t19.piap.pl>
+ <m3cy9futcj.fsf@t19.piap.pl>
+ <m34iumujcs.fsf@t19.piap.pl>
+ <m3zfcet41n.fsf@t19.piap.pl>
+ <m3a545t789.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH 00/72] media: i2c: Reduce cargo-cult
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
- <git@apitzsch.eu>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Arec Kao <arec.kao@intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Bryan O'Donoghue <bod@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Dongcheng Yan <dongcheng.yan@intel.com>,
- Dongchun Zhu <dongchun.zhu@mediatek.com>, Fabio Estevam
- <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
- Hao Yao <hao.yao@intel.com>,
- Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Jason Chen <jason.z.chen@intel.com>,
- Jimmy Su <jimmy.su@intel.com>, Jingjing Xiong <jingjing.xiong@intel.com>,
- Jonas Karlman <jonas@kwiboo.se>, Konrad Dybcio <konradybcio@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Leon Luo <leonl@leopardimaging.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
- <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
- Matthew Majewski <mattwmajewski@gmail.com>,
- Matthias Fend <matthias.fend@emfend.at>,
- Mikhail Rudenko <mike.rudenko@gmail.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Pavel Machek <pavel@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Ricardo Ribalda <ribalda@chromium.org>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shunqian Zheng <zhengsq@rock-chips.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Tarang Raval <tarang.raval@siliconsignals.io>,
- Tianshu Qiu <tian.shu.qiu@intel.com>, Todor Tomov <todor.too@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Tony Lindgren <tony@atomide.com>, Zhi Mao <zhi.mao@mediatek.com>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org
-References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
- <175495482477.157244.17354544707184168458.b4-ty@kernel.org>
- <20250812085112.GH30054@pendragon.ideasonboard.com>
- <ca1f08c9-244d-482b-b719-c7997913f56e@kernel.org>
- <20250812093915.GI30054@pendragon.ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250812093915.GI30054@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <m3a545t789.fsf@t19.piap.pl>
 
-On 12/08/2025 11:39, Laurent Pinchart wrote:
->>>>
->>>> [12/72] arm64: dts: qcom: sdm845-db845c-navigation-mezzanine: Replace clock-frequency in camera sensor node
->>>>         commit: 5433560caa5e7e677a8d4310bbec08312be765b4
->>>
->>> I'm afraid that's too soon. This will introduce a breakage without a
->>> corresponding change to the camera sensor driver.
->>>
->>> I will post a v2 with the patches reordered. We could merge the V4L2
->>> side in a rc1-based stable branch and merge than in the arm-soc tree as
->>
->> You cannot ("cannot" as not following the process) merge drivers into
->> DTS branch.
+Hi Krzysztof,
+
+On Tue, Aug 12, 2025 at 07:54:46AM +0200, Krzysztof Hałasa wrote:
+> Hi Stefan et al,
 > 
-> Ah, I wasn't aware of that. DTS trees don't allow merging stable
-> branches shared with other subsystems ? Does it mean that a DTS change
-
-Not with driver subsystems. Why? Because it breaks encapsulation of
-hardware description being entirely independent of given Linux driver
-implementation.
-
-BTW, it is already documented in maintainer-soc in ABI stability (I will
-fix "devicetree" ambiguity to DTS) and driver branch dependencies.
-
-> that depends on a driver change always need to be delayed by one kernel
-> version ?
-
-This is one solution, although as I mentioned later it still affects all
-other users of DTS, so it has its own drawbacks.
-
-Other solution is to keep both properties for more than one cycle.
-
-
+> BTW I've added Lucas Stach and Shawn Guo to "Cc" list.
 > 
->>> well, but I think we can also delay the .dts changes to the next kernel
->>
->> All users of DTS will be anyway affected and commit msg should address that.
+> The problem is the CPU core power supply voltage :-)
+
+Ah, the dreadful overdrive mode.
+
+> - while the reference manual specifies the max ISP and MEDIA clocks at
+>   500 MHz, the datasheets show this requires the "overdrive" mode =
+>   increased CPU power supply voltage. In "normal" mode the ISPs are
+>   limited to 400 MHz (there are other limits, too).
 > 
-> Which commit message, the one for the driver changes or the one for the
-> DTS changes ? I plan in the next version to indicate that the DT changes
-> depend on the driver changes.
+> - I've tried lowering the clock rate after booting the systems (with
+>   a CCM register write), but it didn't fix the problem. I guess some
+>   reset logic is affected here, and the (lower) clock rate must be set
+>   right from the start, in the DT.
 
+That's interesting. I wouldn't have expected that.
 
-DTS changes, so the soc maintainers can judge whether they care about
-other DTS users or they do not.
+> - anyway, lowering the frequencies of ISP and MEDIA root clocks fixes
+>   the ISP2 MI corruption. I'm currently investigating PMIC settings
+>   (both my Compulab and SolidRun modules use PCA9450C PMICs), so perhaps
+>   I'll be able to use the higher 500 MHz clocks. It doesn't matter much,
+>   though.
+> 
+> - the question is if we should lower the clocks in the main imx8mp.dtsi
+>   DT file, or the overdrive mode should stay there, and the changes
+>   should be made to the individual board files, or maybe the U-Boot
+>   configs (PMIC output voltages) should be changed etc.
 
+I think it would make sense to lower the default clock frequencies, and
+provide an overlay to enable overdrive mode.
 
-Best regards,
-Krzysztof
+It's also interesting that the issue only affected the second ISP, as
+the first one should also be limited to 400 MHz in normal mode.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
