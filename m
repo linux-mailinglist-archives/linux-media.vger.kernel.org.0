@@ -1,61 +1,62 @@
-Return-Path: <linux-media+bounces-39500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703E4B21DF4
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:09:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9A3B21DF6
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:09:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EF161905062
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 06:09:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7238A190512B
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 06:09:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACB6B2E5411;
-	Tue, 12 Aug 2025 06:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6FC2E54A6;
+	Tue, 12 Aug 2025 06:08:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VPQV7qAL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bzNzbqCH"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CDIzxiaC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="x45lZa31"
 X-Original-To: linux-media@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA162D948C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E1B2E264F;
 	Tue, 12 Aug 2025 06:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754978895; cv=none; b=kTcMRjG5tARqJWo/zxwZaIDWOnM4z3P2naU8jEDlDP+yV4o3pzO0ajelvhzV/xpJ0QWh9E4JFav5+blRZGhTo5/CClvCy7fwYrNgnRWfvm1qQISotLKHhtTFGgv3+ENfXpnaCgKc7Y5fOu5jy4+ykCC+jrL9Q6Gh8Zd1DvBvfE8=
+	t=1754978896; cv=none; b=P/jayjQI9GSVgY8vAtKfhMM0nysLA6iA2T/Tafd57WChsUztuM+8cu/94SufgsoSdxe5h0b+sp1fjNaYywFmW/Ep09qs4xAH7UjN/bZsDv/JfyXBYWMc1p6HpykRavXXGnYMI6oebbzJh247gZNWxYlLTFGiAp+d37h867/SDoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754978895; c=relaxed/simple;
-	bh=z3HQR43UqG3JSyrM06mxtW8lA1cmGVnE5uffmTfAQFI=;
+	s=arc-20240116; t=1754978896; c=relaxed/simple;
+	bh=Xv7KxTjtEi5jAVg89oMqNhQ5UjlFaArcAsRKTAMGvUI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MlGRJWO1b4WuB5FKhTOboFBX8ndyAdgKWsk8JQ7nwrqkIYZJpemfeLZrbbzfqiRqD0ksNDDj3ZVC+24SJ1m8F9JYzirU/tPsU2dnLot/8HlaAPznvwonQ7OY0QQiCl7yAzJgvSDkM3C2bYxc5d6j6Lxk0ySyQ+wh4dKdSb745nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VPQV7qAL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bzNzbqCH; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=pdpj8OgBxTanhel7tnF2q2DhRY9mUKfeYmUZbKmSBx0AGYsi5Q/fbTod3lX4XIx2nXYfVV0T1a4vsvTrV6EVhB+4kGJveKr/XpwrcbE2XAsfQk6dXi4GNU3HvPiXNTVaVbdvH/yApwZjPvPq7lxvU6pS8AjTe1BgpDG8d8lDe14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CDIzxiaC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=x45lZa31; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754978892;
+	s=2020; t=1754978893;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tey58V1tUmxjEhIxGwXATPrEYoF8tOxa4AE85TvKXZc=;
-	b=VPQV7qALVu83oSqawIsSv29GXoM5sJKIog0ekvKdLeSxDpYJ0omFMzGl966uvIDtYQPJ9E
-	lfCTulTtiwQnekMH+zGB/vHaXy9F2dGwKI1jduHdON2V+eFl0Q/S09YyyHua37+u1lYmi3
-	UjXTzHnGCHVtxjleQrD6N++li6erqrxxP5YTHzhwtkRGNeS5/5Pak4u1kyXTcee+vX2D3Y
-	1qSeGQ/braKkXW1DsmekYvkKcmRESotaifcCK3/egYUdF8U6UHLAaa1eRdRVZG81tGsaOP
-	EAcYCHt3AJTUgb9H4EfR//TXHeVjxmEa+4cGb6QPWZetQ7uiLd4Dc3EhRiXR5A==
+	bh=q15Z5Z9Yrtaw3ZAMBw9L5KUC8aL4gmWi8MTTjpGkzXw=;
+	b=CDIzxiaCEf+ao46FYkLERcceUjVZCaXlpt21RKLfbTPVFImrfgN0NArwm/ChdJxtSS/iNF
+	rFQomYKf5oeTmXTBucrCUFdwEHoEzlkQTrgIcwdPaqNmzOxqJJJunS0kC+/tBX/iFhbj5K
+	xxKFdijteRw1/Nrf2cCXH/f+TwK86Br3r8JUTzTsm4AjCafLfwRDdNMOn7O7CKEur1QZfq
+	+K+8dLWmo/PC+7h7LjHcR8l89tVJ4Vm+HD2gG3qd3bOoEfw48gGC3KZeg4eYKpAILJprPE
+	H/98u23oVFTjmV8A4HJhDGql07PXkh5gjZ/T7mS9jPwxYpwVE3Ra7EyXKfAZgg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754978892;
+	s=2020e; t=1754978893;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tey58V1tUmxjEhIxGwXATPrEYoF8tOxa4AE85TvKXZc=;
-	b=bzNzbqCHQMOzvVEs5qkzK19tnbkGnPI4yBGtIIi0Pgp+LPwWzRWJVMVEuhF8e8VBJf7NBz
-	oj/yMg95U6JhIpAQ==
-Date: Tue, 12 Aug 2025 08:08:11 +0200
-Subject: [PATCH 3/8] sched/core: Avoid direct access to hrtimer clockbase
+	bh=q15Z5Z9Yrtaw3ZAMBw9L5KUC8aL4gmWi8MTTjpGkzXw=;
+	b=x45lZa31zk/v1QnEJAGHTK45QEWt/iN+ywHr632eu+MQahdOcASD2awpkQSahzC8mmZEke
+	1HKBPQ7tX4Q9DJCg==
+Date: Tue, 12 Aug 2025 08:08:12 +0200
+Subject: [PATCH 4/8] lib: test_objpool: Avoid direct access to hrtimer
+ clockbase
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,7 +65,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250812-hrtimer-cleanup-get_time-v1-3-b962cd9d9385@linutronix.de>
+Message-Id: <20250812-hrtimer-cleanup-get_time-v1-4-b962cd9d9385@linutronix.de>
 References: <20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de>
 In-Reply-To: <20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de>
 To: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
@@ -83,11 +84,11 @@ To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
 Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
  linux-media@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754978890; l=888;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754978890; l=840;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=z3HQR43UqG3JSyrM06mxtW8lA1cmGVnE5uffmTfAQFI=;
- b=N7rZSEcP/IydxFGDv1sBDbMbv9+D8TqlAZly0Gxy2T9Z4PBM6cdTTdUZyGEpNiR14FmFWWjkI
- IyYLu1gRm8/C7+wcuiabeeXjJkbYjHx0EsTuce5pnkRjCHo25COhse/
+ bh=Xv7KxTjtEi5jAVg89oMqNhQ5UjlFaArcAsRKTAMGvUI=;
+ b=s/k1F9athEdznY1/7XY+BjuKK+B9LsmJOfnQ5Z+93eK1CWBZt+5/V7rSfhJzlS4c0S3lPoc3I
+ IHv/uXwRUnXCdyX7aTb4qkzYcxqSiAVp5WmlmLDMczOEcgaQXU+o5DU
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
@@ -98,22 +99,22 @@ Switch to the equivalent helper.
 
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- kernel/sched/core.c | 2 +-
+ lib/test_objpool.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index be00629f0ba4cc5832189c0052b0b632deb4ea2e..4dc12838ad4fdf086b3f3f1168072d6301f51aa3 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -917,7 +917,7 @@ void hrtick_start(struct rq *rq, u64 delay)
- 	 * doesn't make sense and can cause timer DoS.
- 	 */
- 	delta = max_t(s64, delay, 10000LL);
--	rq->hrtick_time = ktime_add_ns(timer->base->get_time(), delta);
-+	rq->hrtick_time = ktime_add_ns(hrtimer_cb_get_time(timer), delta);
+diff --git a/lib/test_objpool.c b/lib/test_objpool.c
+index 8f688187fa8727e26d2d065c46e789ee15fd55b5..6a34a7582fdbf50b5632043ec19e77c8fd4dad78 100644
+--- a/lib/test_objpool.c
++++ b/lib/test_objpool.c
+@@ -164,7 +164,7 @@ static enum hrtimer_restart ot_hrtimer_handler(struct hrtimer *hrt)
+ 	/* do bulk-testings for objects pop/push */
+ 	item->worker(item, 1);
  
- 	if (rq == this_rq())
- 		__hrtick_restart(rq);
+-	hrtimer_forward(hrt, hrt->base->get_time(), item->hrtcycle);
++	hrtimer_forward_now(hrt, item->hrtcycle);
+ 	return HRTIMER_RESTART;
+ }
+ 
 
 -- 
 2.50.1
