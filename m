@@ -1,69 +1,71 @@
-Return-Path: <linux-media+bounces-39584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39585-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F8DB22740
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 14:45:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74F0B2274D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 14:48:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3B7D16A117
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:44:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E05D1765F4
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:47:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E087822DA08;
-	Tue, 12 Aug 2025 12:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31AC243399;
+	Tue, 12 Aug 2025 12:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VYlGXz1h"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="A4PqcADt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E333C2F;
-	Tue, 12 Aug 2025 12:44:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1C9AD51;
+	Tue, 12 Aug 2025 12:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755002693; cv=none; b=TMqwr/mV/fwY6/CFxksA7gbdXpw/8mytaWDSpB7vYI70vpRwBFnWoP5pCaV7vmmvl8fDblztg08qJyAuD2GWwwtwEjZrzbX7OuIkYSfnWjStM/xrgM3YFkcyWvczEybBIbEhQasOMguBuau5RZOQN5h9UfP606bj7xPt6r3GowY=
+	t=1755002833; cv=none; b=JuvqWtFByS+mvEY5XRghxxEiZrztxJOOEND555oyeox+0GDqnBwG/kPssb4JoA8Qk6jwcNQT+M07LRKjcRxY2yrHUd+iohnmLsgscTEx6Id85E0wGeIpDJqJDAxvPdpCYGoZtDk6n6ZZkHzHKc424/yB4Fp1Md7G7v13vk3Tn3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755002693; c=relaxed/simple;
-	bh=zMiRV+p+DUcdpzuTRwPcyJNdY52FdWHiETIA/GgW848=;
+	s=arc-20240116; t=1755002833; c=relaxed/simple;
+	bh=ERWKORs2n46stDicTaXrMgAPtBSFdyQVArt3xOQkj04=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TKfGLPaibjLJSowvP+oiRFd8cJo/Q9i90b5gjh026DuKreeZkWhI+l/33ePL9I6kbhknwcMnJRUPd6DWv6U2v9o9U5loAqpdgQDlvcY7A7AY4iXOoi99AifHRzLGhts/EBLzfK2Xr5GCNIxbMDhFXstIMXsDR7yyQXRfZz1slHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VYlGXz1h; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=EpNX4qJvdnTmOBm3C4IFSUbP7Suj0Qg8PsXALPfF+VkB1gqt9++gYijdtfKfZf3NrERfGd/Y8NJ2Dat3PinilSbhQNolFCBLbnen4q98OnGWutIKONPzBof/eD4PO7vnGkbT2fiFdiHl/jK8Mal559t2hQNMkrRO76Rx35PuZE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=A4PqcADt; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1755002689;
-	bh=zMiRV+p+DUcdpzuTRwPcyJNdY52FdWHiETIA/GgW848=;
+	s=mail; t=1755002829;
+	bh=ERWKORs2n46stDicTaXrMgAPtBSFdyQVArt3xOQkj04=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VYlGXz1hiPGGu1TBTb2QI72OdiYPHXlCYWNxCdy6xpdu/HKnD74CDfQgSt9VgmyYf
-	 TylHrl3NC+EFCO4C9GoOVmibBiaDdwiN2rzbgC9ENXuEGN5V4/Yl5lMV2QFV3BtLiE
-	 X7N+Ff+Fd0GdMm3zSzN/1GTAfgF/wYBOiLXbTZQV1ZnrcVrUllN80vH61by23Y9x+O
-	 fqn7yJvwm/Xfgi1+7qgJNif1EzpVB7LIPAWnjEUfb9uVYHbeAZXd9joP4nipfLn1Cb
-	 cLs1aFozax3A9mbZo1gx4Zpd2IIn51u+/zJEKW20JYvGHXl1OsqHCj6CMODtxu3JSu
-	 WENTFidEoBo9Q==
+	b=A4PqcADtUyRQOuNi7uq97iSKyBEk1BNe2ThYZkA4gDMwAAx0iWkRJg7KP5m9V9FHn
+	 b0hdlt7cqYvGzeIQH7MDWEIvT003uysYrYPw42EMKMUksCkCeGhuAqCT9jgOV8v1Uh
+	 4uwQIIOlGn+u1zu4py3/+ZfdM7lRXo4RWN7zt/hXgHEYNx2fa0fKrCkxsjYki7ZgVr
+	 3IherwPBDosyzslFkHaHREZf2JvbZSVjxH/sWk4tLxelPIZzI157CxSMHf+pmBoc4H
+	 ZnP9XoOSL457sxhsK/R/ziJQNGZiDTE/HTmYDMPJ5cAO+OQwL8VMgB6hnXZvYEUvpg
+	 rXgU8bLGhfKgQ==
 Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5B8BB17E107A;
-	Tue, 12 Aug 2025 14:44:48 +0200 (CEST)
-Message-ID: <a66feb89fa02f05b187e5603ffc3b1501ef3cbd5.camel@collabora.com>
-Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 23E5A17E00AC;
+	Tue, 12 Aug 2025 14:47:08 +0200 (CEST)
+Message-ID: <dc95a2e6283badfd03bc9b0cb1b1f4ff2a0558dc.camel@collabora.com>
+Subject: Re: [PATCH v2 5/7] media: rkvdec: Disable QoS for HEVC and VP9 on
+ RK3328
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Jonas Karlman <jonas@kwiboo.se>
 Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Detlev Casanova	
  <detlev.casanova@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Alex Bee <knaerzche@gmail.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, 	linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, 	devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 	linux-kernel@vger.kernel.org
-Date: Tue, 12 Aug 2025 08:44:46 -0400
-In-Reply-To: <91864a1c047d2bdfce202b070716a694ede47d5e.camel@collabora.com>
+ <mchehab@kernel.org>,  Heiko Stuebner	 <heiko@sntech.de>, Alex Bee
+ <knaerzche@gmail.com>, Sebastian Fricke	 <sebastian.fricke@collabora.com>,
+ linux-media@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Date: Tue, 12 Aug 2025 08:47:07 -0400
+In-Reply-To: <16b67aec-8675-45a2-b6df-380bd5f3bf4c@kwiboo.se>
 References: <20250810212454.3237486-1-jonas@kwiboo.se>
-		 <50162371fd54fc976a84fcf57c9b69112a892c46.camel@collabora.com>
-		 <1dd29158-0660-4254-ac00-1316768d9b82@kwiboo.se>
-	 <91864a1c047d2bdfce202b070716a694ede47d5e.camel@collabora.com>
+	 <20250810212454.3237486-6-jonas@kwiboo.se>
+	 <3cf31d3b89a66b1bec57486c54c3df31393335e5.camel@collabora.com>
+	 <16b67aec-8675-45a2-b6df-380bd5f3bf4c@kwiboo.se>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
  oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
@@ -89,7 +91,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  +E7ItOqZEHAs+xabBgknYZIFPU=
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-Y2sl7uZiPmx/2tINlSGb"
+	boundary="=-JkhzomEQU9Ai9eDvywYJ"
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -99,47 +101,49 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-Y2sl7uZiPmx/2tINlSGb
+--=-JkhzomEQU9Ai9eDvywYJ
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I forgot,=20
-
-Le mardi 12 ao=C3=BBt 2025 =C3=A0 08:38 -0400, Nicolas Dufresne a =C3=A9cri=
-t=C2=A0:
-> > JCT-VC-HEVC_V1 on GStreamer-H.265-V4L2SL-Gst1.0:
+Le mardi 12 ao=C3=BBt 2025 =C3=A0 00:22 +0200, Jonas Karlman a =C3=A9crit=
+=C2=A0:
+> > > =C2=A0#define RKVDEC_CAPABILITY_H264		BIT(1)
+> > > =C2=A0#define RKVDEC_CAPABILITY_VP9		BIT(2)
+> > > =C2=A0
+> > > +#define RKVDEC_QUIRK_DISABLE_QOS	BIT(0)
 > >=20
-> > - DBLK_D_VIXS_2 (fail)
-> > - DSLICE_A_HHI_5 (fail)
-> > - EXT_A_ericsson_4 (fail)
-> > - PICSIZE_A_Bossen_1 (error)
-> > - PICSIZE_B_Bossen_1 (error)
-> > - PICSIZE_C_Bossen_1 (error)
-> > - PICSIZE_D_Bossen_1 (error)
-> > - SAODBLK_A_MainConcept_4 (fail)
-> > - SAODBLK_B_MainConcept_4 (fail)
-> > - TSUNEQBD_A_MAIN10_Technicolor_2 (error)
+> > Can you go back in the series, get H264 into bit 0, VP9 into bit 1, and=
+ set
+> > quirks from bit 16 ? Just worried the whole finding can becomes a mess =
+in
+> > many
+> > years from now.
+>=20
+> The reason for HEVC in bit 0 is mainly because the first generation was
+> HEVC only, this also matches the mode reg values (0=3Dhevc, 1=3Dh264, 2=
+=3Dvp9).
+>=20
+> I can start quirk at bit 16 if you like, not really sure I understand
+> why? Do you want to combine capabilities and quirks into one?
 
-I'me getting the same result if I force a single job in fluster. The test I
-posted was with 2 jobs. Detlev found that the iommu reset is required in mo=
-re
-cases on RK3588/3576, perhaps the HEVC decoder in older hardware needs the =
-same,
-I will try and report.
+My bad, I miss-understood the code. The Quirk bits are seperate, not fillin=
+g a
+gap.
 
+cheers,
 Nicolas
 
---=-Y2sl7uZiPmx/2tINlSGb
+--=-JkhzomEQU9Ai9eDvywYJ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJs3PwAKCRBxUwItrAao
-HF5IAJ9I+Gxb7MlBwyEmKIXw1+qOngNv3QCgtFeTxOPKSG0sAWm3UYeR1QhlsMQ=
-=9ofb
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJs3ywAKCRBxUwItrAao
+HOD9AJ9FLMLZr+wAyTdVnuLBxPgipVjrBgCeMkq4dW74TDzq3fyI7bQkjfme3Ug=
+=uAZK
 -----END PGP SIGNATURE-----
 
---=-Y2sl7uZiPmx/2tINlSGb--
+--=-JkhzomEQU9Ai9eDvywYJ--
 
