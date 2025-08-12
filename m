@@ -1,180 +1,119 @@
-Return-Path: <linux-media+bounces-39581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39582-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABE6B22669
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 14:12:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F67B226BB
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 14:28:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D50661B62F94
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:12:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F86A507B1C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:28:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D5B2EF66D;
-	Tue, 12 Aug 2025 12:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="GWG+XfFZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10B01E3DDE;
+	Tue, 12 Aug 2025 12:28:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5A12EF656
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 12:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D631C4A10;
+	Tue, 12 Aug 2025 12:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755000738; cv=none; b=EtSeOjeS7bJv2T9hAk5RgmH86xOEGEvAswY9+ShsrxUCAkr0NW/iiIFnaIcwAj4pKt0AwWvFlkcm0G/DZ9Q3/TJno6zHoLyYMDlGWSJ0FxKyzl23zCU7iB5mNsOL70BZFIzdXCZGNmOxg9BxfsOKg3s8RsGSuNESdKFnFnth6II=
+	t=1755001696; cv=none; b=ayNy+yb0eLJCgXOvj0LHdwmbkzn/43+mT2D1xklY9XyZID29g0HdxJ4BVkt9gNBSAKm3iFa2hcX4u8JsHGRY2296xuht1A5TGBNNJfmqfRT3f9sBnrryRbjWcV13kshjpkoOZgf0kbz+nh2WXT7Y+tA9uqbwHZR/mZMB2t/6Rv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755000738; c=relaxed/simple;
-	bh=lTFMuIsIiVGrB+qx7GRFSZvlsXysj2NYfX6z01P1fFk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=Da2kJgTVdArL1I/9B01rBo7szFQqceJ/ACDnpjamDeRTLpKeyj2ftTCjb7iN7STWlX26wcQ9FKutJZTadYMCs4UZf0FvDxht24Bef5ybx7cZRRdayA3vStUoxZHhIOXdFw2nqU+BZ8FceeI9/ScP8SDaqfhMOO55UbNFAXFZtiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=GWG+XfFZ; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1755001696; c=relaxed/simple;
+	bh=aCapHEFzP/x+8RzVAPXuctN9CS/vBYFU8mNYPoidw4M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DJFTw1iT4doAmv7GE7wxpq9//xPHlFZMgoC8P5TYH8DWP0PrbbnhE0B13M9C4JmDrl6X4KTBqJHfZwXG8eZOIt2TOQklY2kDzwS50onfxVLL8fJHRAZdLP5gTTw58eTnhPF4E+7PoXUAxIUeYUgcqt3UZHpdcTHHxMK07ASRSiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id 2EB4CC3E4DE9;
+	Tue, 12 Aug 2025 14:28:08 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 2EB4CC3E4DE9
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,  Dafna Hirschfeld
+ <dafna@fastmail.com>,  Heiko Stuebner <heiko@sntech.de>,  Paul Elder
+ <paul.elder@ideasonboard.com>,  Jacopo Mondi
+ <jacopo.mondi@ideasonboard.com>,  Ondrej Jirman <megi@xff.cz>,
+  linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption: resolved
+In-Reply-To: <20250812103243.GK30054@pendragon.ideasonboard.com> (Laurent
+	Pinchart's message of "Tue, 12 Aug 2025 13:32:43 +0300")
+References: <175308758352.3134829.9472501038683860006@localhost>
+	<m31pq9y98z.fsf@t19.piap.pl>
+	<175326599663.2811177.16620980968274114885@localhost>
+	<m3h5z2vw12.fsf@t19.piap.pl>
+	<175344176070.2811177.10693943493658922992@localhost>
+	<m3qzxyug1s.fsf@t19.piap.pl> <m3cy9futcj.fsf@t19.piap.pl>
+	<m34iumujcs.fsf@t19.piap.pl> <m3zfcet41n.fsf@t19.piap.pl>
+	<m3a545t789.fsf@t19.piap.pl>
+	<20250812103243.GK30054@pendragon.ideasonboard.com>
+Sender: khalasa@piap.pl
+Date: Tue, 12 Aug 2025 14:28:07 +0200
+Message-ID: <m3zfc4sp0o.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1755000733;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=scirrqqI4lOboEI3/AWvPAjONsAeNM4rjx3UmgFrhBA=;
-	b=GWG+XfFZJGWUBXR2DfX9RM0RidgE3PuHgnxhkGyBvKors9KleZT7/IFPmBWTCyAYyO1h7Z
-	tFXdiAm9r0QWnc1NIsiCMGGvSlmXhznINjn0zezrvbNJsZfL1/xQBcNDPtZlFryDOBZrt6
-	XNGW7qqjaYw44iIX1jduDbF/B+CMkLl9RrjYQXpIC3bbgDQA4ihegz1XfJ7BvLhEfMgT4O
-	fH7O7CjZDiklMuprfB+uvjJYxaPBONP/Si4D8AXmDl+JPzIk7LqLf0oMEgULu9Nsula/L1
-	Nkt4akKX5hcwlK0S9arlLblv1EpoVuzUPkuHNSWPdaZDQ+0pok8FCMpwfe04Tg==
-Content-Type: multipart/signed;
- boundary=6590abcb8affc04b8dd77226ffd5bce0d727acb00dbbc61bdd0f9c164e53;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 12 Aug 2025 14:11:53 +0200
-Message-Id: <DC0FTXJNW0KB.3I8DLNHJVL21O@cknow.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Jonas Karlman" <jonas@kwiboo.se>, "Ezequiel Garcia"
- <ezequiel@vanguardiasur.com.ar>, "Detlev Casanova"
- <detlev.casanova@collabora.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>
-Cc: "Alex Bee" <knaerzche@gmail.com>, "Nicolas Dufresne"
- <nicolas.dufresne@collabora.com>, "Sebastian Fricke"
- <sebastian.fricke@collabora.com>, <linux-media@vger.kernel.org>,
- <linux-rockchip@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
-References: <20250810212454.3237486-1-jonas@kwiboo.se>
-In-Reply-To: <20250810212454.3237486-1-jonas@kwiboo.se>
-X-Migadu-Flow: FLOW_OUT
-
---6590abcb8affc04b8dd77226ffd5bce0d727acb00dbbc61bdd0f9c164e53
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
 
-Hi Jonas,
+Hi Laurent,
 
-On Sun Aug 10, 2025 at 11:24 PM CEST, Jonas Karlman wrote:
-> This series add a HEVC backend to the Rockchip Video Decoder driver.
+>> - anyway, lowering the frequencies of ISP and MEDIA root clocks fixes
+>>   the ISP2 MI corruption. I'm currently investigating PMIC settings
+>>   (both my Compulab and SolidRun modules use PCA9450C PMICs), so perhaps
+>>   I'll be able to use the higher 500 MHz clocks. It doesn't matter much,
+>>   though.
+
+Well, apparently my Compulab UCM module provides overdrive power. At
+least the PMIC driver says so (in /sys pseudofiles). I guess SolidRun
+won't be different.
+
+1. At least two different designs are affected (Compulab and SolidRun),
+2. the PCA9450C is THE i.MX8MP PMIC, most probably connected to the CPU
+   exactly as in the datasheet (at least WRT VDD_SOC power lines),
+3. NXP people experienced the problem on their (which ones?) boards, too
+
+Well... They specify (IMX8MPIEC =3D the datasheet):
+
+"Two instances of 4-lane MIPI CSI interface and HDR ISP
+=E2=80=A2 For single Camera, MIPI CSI 1 can support up to 400/500 MHz pixel
+  clock in the Nominal/Overdrive mode.
+=E2=80=A2 For single Camera, MIPI CSI 2 can support up to 277 MHz pixel clo=
+ck.
+=E2=80=A2 For dual Camera, both MIPI CSI can support up to 266 MHz pixel cl=
+ock.
+=E2=80=A2 2x ISP supporting 375 Mpixel/s aggregate performance and up to
+  3-exposure HDR processing.
+    =E2=80=A2When one camera is used, support up to 12MP@30fps or 4kp45
+    =E2=80=A2When two cameras are used, each supports up to 1080p80"
+
+So, while ISP clock is not exactly pixel clock, perhaps they mean that
+the ISP clock is to be limited as well.
+
+ISP2 at 400 MHz (single camera) works for me (with a 1080p60 12-bit
+IMX462 sensor), but I haven't tested in extreme conditions etc.
+
+> I think it would make sense to lower the default clock frequencies, and
+> provide an overlay to enable overdrive mode.
 >
-> With the dependent H.264 High 10 and 4:2:2 profile support series
-> finally merged there is finally time to send a v2 with minor changes and
-> a suggested code style fix of this series. v1 of this series has been
-> fully functional up until recent unstaging of the rkvdec driver.
->
-> A version of this HEVC backend has been in use by the LibreELEC distro
-> for the past 5+ years [1]. It was initially created based on a copy of
-> the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
-> matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
->
-> It has since then been extended to use the stable HEVC uAPI controls and
-> improved opon e.g. to include support for rk3288 and fix decoding issues
-> by Alex Bee and Nicolas Dufresne.
->
-> The version submitted in this series is based on the code currently used
-> by the LibreELEC distro, excluding hard/soft reset, and with cabac table
-> and scaling matrix functions picked from Sebastian Fricke prior series
-> to add a HEVC backend [2].
->
-> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
-> this series possible!
->
-> Patch 1 add the new HEVC backend.
-> Patch 2-3 add variants support to the driver.
-> Patch 4 add support for a rk3288 variant.
-> Patch 5 add a rk3328 variant to work around hw quirks.
-> Patch 6-7 add device tree node for rk3288.
+> It's also interesting that the issue only affected the second ISP, as
+> the first one should also be limited to 400 MHz in normal mode.
 
-It looks like I had a previous version of linuxtv-rkvdec-hevc-v2 branch
-locally and that also had this commit:
-- media: rkvdec: Keep decoder clocks gated
+Right. Maybe it's not the overdrive mode after all. I will do more tests
+soon.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
 
-Is that one no longer needed/useful/etc ?
-
-And 'chewitt' also had a commit to fix 8/10-bit selection:
-https://github.com/chewitt/linux/commit/4b93b05d2ca608bc23f1d52bcc32df926d4=
-35c7c
-"WIP: media: rkvdec: fix 8-bit/10-bit format selection"
-
-I haven't tried that one (yet), but did  try an other variant with
-changing the ordering in rkvdec_hevc_decoded_fmts but that didn't work
-in my tests. (Can ofc be PEBKAC)
-
-Would that be useful? I do/did have consistent problems with playing
-10-bit encoded video files.
-
-> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
-> <snip>
->
-> Please note that there is a known issue with concurrent decoding,
-> decoding errors in one decode session may affect a separate session.
-> The only known mitigation to this is to pause decoding for some time
-> and/or do a full HW reset, something to handle in future series.
-
-Or would that be (potential) material for a future series as well?
-
-Cheers,
-  Diederik
->
-> <snip>
->
-> Alex Bee (4):
->   media: rkvdec: Add variants support
->   media: rkvdec: Add RK3288 variant
->   media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
->   ARM: dts: rockchip: Add vdec node for RK3288
->
-> Jonas Karlman (3):
->   media: rkvdec: Add HEVC backend
->   media: rkvdec: Implement capability filtering
->   media: dt-bindings: rockchip,vdec: Add RK3288 compatible
->
->  .../bindings/media/rockchip,vdec.yaml         |    1 +
->  arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
->  .../media/platform/rockchip/rkvdec/Makefile   |    2 +-
->  .../rockchip/rkvdec/rkvdec-hevc-data.c        | 1848 +++++++++++++++++
->  .../platform/rockchip/rkvdec/rkvdec-hevc.c    |  826 ++++++++
->  .../platform/rockchip/rkvdec/rkvdec-regs.h    |    4 +
->  .../platform/rockchip/rkvdec/rkvdec-vp9.c     |   10 +
->  .../media/platform/rockchip/rkvdec/rkvdec.c   |  184 +-
->  .../media/platform/rockchip/rkvdec/rkvdec.h   |   15 +
->  9 files changed, 2886 insertions(+), 21 deletions(-)
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-da=
-ta.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
-
-
---6590abcb8affc04b8dd77226ffd5bce0d727acb00dbbc61bdd0f9c164e53
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaJsvjAAKCRDXblvOeH7b
-bhf6AP0cQaPbNeNKgdBGzdSYqHMMSX3Ix/IZm7QpHlM11Q7PWgEAw2HCwp3ojWFd
-ALwV+Z8FasxZfkOfjYJmcHhJyZdW3gk=
-=zJRQ
------END PGP SIGNATURE-----
-
---6590abcb8affc04b8dd77226ffd5bce0d727acb00dbbc61bdd0f9c164e53--
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
