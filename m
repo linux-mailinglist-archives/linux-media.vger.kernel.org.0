@@ -1,181 +1,226 @@
-Return-Path: <linux-media+bounces-39597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CAEB228B3
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:37:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D45B22941
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:52:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0AF11882E74
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:30:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 012653B97BE
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:40:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146FB286887;
-	Tue, 12 Aug 2025 13:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41A02853ED;
+	Tue, 12 Aug 2025 13:39:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DkSpnPUo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zA1Yx7Uu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EDA27FB2D;
-	Tue, 12 Aug 2025 13:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79078280A5A
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 13:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755005285; cv=none; b=eUWAF7iE82x6aiPYKaUc+TWyeAZwwgKR12yuaGRo+bvG0eZHC55IcXNnmhPlwtsHNhMKAjwO9VhlXMLbIrdf4Ddngib+OHjWhDDo8vqf0X0irYUCihRsPUCEU6RIr8+bClVB8ttzx4k53N+8KsUB8d7seWapnig0kBflm4sBrtg=
+	t=1755005946; cv=none; b=gfQhbZVAR48TXjQeHnMJ9xWEfskv2Zp8H/qZv79rfG0bDTlzVeB7S3mqM5JeRNJkSL01z/yfd5pecVR6LQvvaG3G5m+y02vBP/2Hy6DgFnE035VH3clhfCEPfDWtv8fmK2dh47J64j+Ax4TT8hkg1Yh/T1e9HhK+31k8uCqGFGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755005285; c=relaxed/simple;
-	bh=g3otUup9kO008DlL0tacLfTuaxcw61h+bB/1db3wKbg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rwx8JTzWgmdiJSU8jXQiQVtppRLlaM3DwsaGLxOcAIdiFC8rF4q44ho04m+UQR/MNAqH0rYhv77+sFTgkBcnudpS94oxAFcHm0R2eDcJ1JNu2F6HtbRI8bFZqT4hz8YxWb/ua1fzBZYHp9JyJVVJ+cRdpiZ+75i4W9Ek76sTwWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DkSpnPUo; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1755005281;
-	bh=g3otUup9kO008DlL0tacLfTuaxcw61h+bB/1db3wKbg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=DkSpnPUoDCdco5aUhPsyAHYZsWtqpTCCBerRVa4n9Cm1LUl/7KoG+6tLw0c8HnXta
-	 Krma+SYAcgt/Rj/xNPEamTNF3J9xyCJFK1fC/DTo8WOmayG6o0+JFwVCye7qXpejAU
-	 8EbgURrdjek3FqpOExmpczXWW6Ibqx9ybrIHSBdUBAHWMNI4myLBfAMTfaI6otuiGV
-	 toR28gcJz68wWlxtucbhNuLe6JV5ni94LD/ip5h1rdbRKMZY5zcxC6jUjXAE5uFCax
-	 NYH3ykz0O3/QpklHGf8PVcu6SdwDaL+v4Vn6aR0CtH4R+yLlJiG9HN8gak3cD1bB/H
-	 A3aSrk+gTcxBg==
-Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 34F4617E00AC;
-	Tue, 12 Aug 2025 15:28:00 +0200 (CEST)
-Message-ID: <816fa42715e8bc4bf538371975f97b6d102a74f5.camel@collabora.com>
-Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Diederik de Haas <didi.debian@cknow.org>, Jonas Karlman
- <jonas@kwiboo.se>,  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Detlev
- Casanova <detlev.casanova@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Alex Bee <knaerzche@gmail.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Tue, 12 Aug 2025 09:27:58 -0400
-In-Reply-To: <DC0GRKB9V014.1J7A2PO1B7U8H@cknow.org>
-References: <20250810212454.3237486-1-jonas@kwiboo.se>
-	 <DC0FTXJNW0KB.3I8DLNHJVL21O@cknow.org>
-	 <DC0GRKB9V014.1J7A2PO1B7U8H@cknow.org>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-M1vrzmGsMYWQLNfBKIxn"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1755005946; c=relaxed/simple;
+	bh=vFn0jCSKE1KpsbrkuboVpZfoRk4S06SCDMiRDBC4J8s=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=DJCmbW1HZz4Vga2a/6UK/k2MJRXQ0DG/1WKaPf1jT7v+hrEImQ6GPYA8lDELh95C1JkqMW3Mrf9SXwBVkhg8wpCSs5GNBkjmHtfz+0pv16sPqYBDAteKZ2/UhEu3anLx6M0ulahVWHK72rewsVZ39mm6FXZoENXhMH+MBGw1OJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zA1Yx7Uu; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-459e7ea3ebeso21186145e9.0
+        for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 06:39:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755005942; x=1755610742; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r+F6T7liCG9gadSn68AjZAZfIPgOb+DpRS8VT8i0DD8=;
+        b=zA1Yx7Uu9KkqgEWh81jEvm4UFjXOkrFs2/PzPMFzDupuH+dxU1nksi4rB9I/7ut00J
+         Kk5n0RIHJo8v96XnE0Xf4HqnGwoGy8e0y5Lihhq0Wn/svxMnfYFsAEP1nJllm/sCaamf
+         pJCOUlhrbT6vfccsSIumFBE6MTvqXw6J4QfRhMkjsO/hB/05ml1/emgZwnUHpMf4Bh1V
+         pB0CEDbcQaN57mZy+Q/LaQsX6oDR3AGqn6TVwG6ST7KAn58iXp2kPRTz62/Wzt9rlXKJ
+         Pg3EjdYxGK/PtWOlM5ziPyYpbtDXTis2xiX2XXiJa5Yorv+b4Im+EPrvjan4fHxN3RZl
+         e3Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755005942; x=1755610742;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=r+F6T7liCG9gadSn68AjZAZfIPgOb+DpRS8VT8i0DD8=;
+        b=A8cwn/kwUzCkDmWJeB+zMpeuxsiSW7FfTqqh68dTbbrWP6IVdHL662xVY4k3Ztzjvk
+         i/w6vo/T8AEQXmciRNj2ZSFRlt4BgYh+GO3MNFf8AYaXzWY1F8TFmub85IPwUNiZ+a+O
+         zMEoQdINfRme0tSzIVB64aRInoCaKQMS5PLukGESxBQ8muAA2AsRccOntmOI67/QtdZE
+         5Mi+FoBv8mnrpouO4cg3p9BQSf/Adb4me2Q6rJ5OjGayPK7GRipXHONXqcl9gVketvPK
+         yDtBGxUVrz+XXYk9DmSFO3r2ERBmrBtck34MiTiIjBRaVICkZ5XmSIgyEFA9alRx3y7I
+         8YwA==
+X-Forwarded-Encrypted: i=1; AJvYcCV8kuCfE+dcQFyLBpQd9IB75TPjs4OC2TK6NFaGUYT9of+YwFOxOmzEBGJ2g4hzB3PP3vlQ4X2NNc+ENQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYWNXkeorvywhrkGhBhMqj+AGOR2avZXB+en48sJ7r5Vngvt9U
+	tJ7NMuedJc3l6TegzfybJskrxUGrWh1dZo3FljVQSSLStDDYT4XRmIGJH7eHYpbI6AI=
+X-Gm-Gg: ASbGncth/7AYbELEy8OWVpQ9IkrzM4+i++BsEQms+AaJrCnxM+elLTz6YKiwMTDnCL+
+	MN2akPq4ihCGV+8AFbqqDAcsleDNZybp2mor2uZzixLNFPK93Oi6PeAebcDWSVjkf2pcSBT58NM
+	dZZexNNvxG5e4Jp7cB0nzhm7JQrn5tPGw+75Vqp8VCTT/uji7IPa0vzTYdqGR5Kl9Jbuii9JwXP
+	KK35xkcgOriTs32cuH7kN1MXVPkZKFZ9NFnvlXEOX5RgpUTbFDsqAzqFiCUJjEMv2ahEFs6kmKG
+	GKKfSmhgi61kYslrGHN89L7O4z5yXeRWdNpewpcdRhlzvxTDXFM8/XXRtcAT38S0LbgjE7fabj4
+	g6RMvi29JD1/cm7t4u6dBLQKYazXqP9tlhYZjb9TWZDocsHWeMD7ntib3jEsEgZ8JgWiArs0MFH
+	/aP3w2TvRXww==
+X-Google-Smtp-Source: AGHT+IG68k5KkLHuUBSjtpxGcS06gQVZPGCBg//jo/LZq9FzGZ01MFCnek+ggsr/rWGxjSd/2rnI0Q==
+X-Received: by 2002:a05:600c:8b35:b0:43c:ea1a:720a with SMTP id 5b1f17b1804b1-45a10b9ae9emr27765545e9.1.1755005941590;
+        Tue, 12 Aug 2025 06:39:01 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:9086:bd36:16a7:1f8b? ([2a01:e0a:3d9:2080:9086:bd36:16a7:1f8b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c489e81sm44885723f8f.68.2025.08.12.06.39.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Aug 2025 06:39:00 -0700 (PDT)
+Message-ID: <d7949778-73c4-4575-8db3-a3724f75eb38@linaro.org>
+Date: Tue, 12 Aug 2025 15:39:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-M1vrzmGsMYWQLNfBKIxn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le mardi 12 ao=C3=BBt 2025 =C3=A0 14:55 +0200, Diederik de Haas a =C3=A9cri=
-t=C2=A0:
-> Hi again,
->=20
-> On Tue Aug 12, 2025 at 2:11 PM CEST, Diederik de Haas wrote:
-> > On Sun Aug 10, 2025 at 11:24 PM CEST, Jonas Karlman wrote:
-> > > This series add a HEVC backend to the Rockchip Video Decoder driver.
-> > >=20
-> > > Patch 1 add the new HEVC backend.
-> > > Patch 2-3 add variants support to the driver.
-> > > Patch 4 add support for a rk3288 variant.
-> > > Patch 5 add a rk3328 variant to work around hw quirks.
-> > > Patch 6-7 add device tree node for rk3288.
-> >=20
-> > It looks like I had a previous version of linuxtv-rkvdec-hevc-v2 branch
-> > locally and that also had this commit:
-> > - media: rkvdec: Keep decoder clocks gated
-> >=20
-> > Is that one no longer needed/useful/etc ?
-> >=20
-> > And 'chewitt' also had a commit to fix 8/10-bit selection:
-> > https://github.com/chewitt/linux/commit/4b93b05d2ca608bc23f1d52bcc32df9=
-26d435c7c
-> > "WIP: media: rkvdec: fix 8-bit/10-bit format selection"
-> >=20
-> > I haven't tried that one (yet), but did=C2=A0 try an other variant with
-> > changing the ordering in rkvdec_hevc_decoded_fmts but that didn't work
-> > in my tests. (Can ofc be PEBKAC)
-> >=20
-> > Would that be useful? I do/did have consistent problems with playing
-> > 10-bit encoded video files.
->=20
-> nvm about the 10-bit problem. It exists, but it's not restricted to HEVC
-> as it also exists with with H.264 files.
-
-The referred patch is against some out-dated kernel. In mainline linux with
-have:
-
-	if (sps->bit_depth_luma_minus8 =3D=3D 0) {
-		if (sps->chroma_format_idc =3D=3D 2)
-			return RKVDEC_IMG_FMT_422_8BIT;
-		else
-			return RKVDEC_IMG_FMT_420_8BIT;
-	} else if (sps->bit_depth_luma_minus8 =3D=3D 2) {
-		if (sps->chroma_format_idc =3D=3D 2)
-			return RKVDEC_IMG_FMT_422_10BIT;
-		else
-			return RKVDEC_IMG_FMT_420_10BIT;
-	}
-
-Which covers all cases supporte by the hardware. Chewitt seem to add a
-previously missing 10bit case, and forcing downconversion from 422 to 420. =
-A
-downconversion is something to be chosen and applied by userspace, the kern=
-el
-should pick a non-destructive format by default.
-
-Nicolas
-
->=20
-> Cheers,
-> =C2=A0 Diederik
-
---=-M1vrzmGsMYWQLNfBKIxn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI D-PHY driver
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250710-x1e-csi2-phy-v1-0-74acbb5b162b@linaro.org>
+ <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250710-x1e-csi2-phy-v1-2-74acbb5b162b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
+On 10/07/2025 18:16, Bryan O'Donoghue wrote:
+> Add a new MIPI CSI2 driver in D-PHY mode initially. The entire set of
+> existing CAMSS CSI PHY init sequences are imported in order to save time
+> and effort in later patches.
+> 
+> In-line with other PHY drivers the process node name is omitted from the
+> compat string while the soc name is included.
+> 
+> At the moment we follow the assignment of lane positions - the bitmap of
+> physical input lanes to logical lane numbers as a linear list per the
+> existing DPHY @lanes data-member.
+> 
+> This is fine for us in upstream since we also map the lanes contiguously
+> but, our hardware can support different lane mappings so we should in the
+> future extend out the DPHY structure to capture the mapping.
+> 
+> The Qualcomm 3PH class of PHYs can do both D-PHY and C-PHY mode. For now only
+> D-PHY is supported.
+> 
+> In porting some of the logic over from camss-csiphy*.c to here its also
+> possible to rationalise some of the code.
+> 
+> In particular use of regulator_bulk and clk_bulk as well as dropping the
+> seemingly useless and unused interrupt handler.
+> 
+> The PHY sequences and a lot of the logic that goes with them are well proven
+> in CAMSS and mature so the main thing to watch out for here is how to get
+> the right sequencing of regulators, clocks and register-writes.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   MAINTAINERS                                        |  11 +
+>   drivers/phy/qualcomm/Kconfig                       |  11 +
+>   drivers/phy/qualcomm/Makefile                      |   6 +
+>   drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c | 491 +++++++++++++++++++++
+>   drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c     | 281 ++++++++++++
+>   drivers/phy/qualcomm/phy-qcom-mipi-csi2.h          | 101 +++++
+>   6 files changed, 901 insertions(+)
+> 
+>
+<snip>
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJtBXgAKCRBxUwItrAao
-HGf2AKClbtPSLT0SZplwD51rU8+FwEw49gCgmVjM5AXAgVHmxBV92M/L0ury2nA=
-=+GGj
------END PGP SIGNATURE-----
+> +const struct mipi_csi2phy_clk_freq zero = { 0 };
+> +
+> +const struct mipi_csi2phy_clk_freq dphy_4nm_x1e_csiphy = {
+> +	.freq = {
+> +		300000000, 400000000, 480000000
+> +	},
+> +	.num_freq = 3,
+> +};
+> +
+> +const struct mipi_csi2phy_clk_freq dphy_4nm_x1e_csiphy_timer = {
+> +	.freq = {
+> +		266666667, 400000000
+> +	},
+> +	.num_freq = 2,
+> +};
+> +
+> +const struct mipi_csi2phy_soc_cfg mipi_csi2_dphy_4nm_x1e = {
+> +	.ops = &phy_qcom_mipi_csi2_ops_3ph_1_0,
+> +	.reg_info = {
+> +		.init_seq = lane_regs_x1e80100,
+> +		.lane_array_size = ARRAY_SIZE(lane_regs_x1e80100),
+> +		.offset = 0x1000,
+> +		.generation = GEN2,
+> +	},
+> +	.supply_names = (const char *[]){
+> +		"vdda-0p8",
+> +		"vdda-1p2"
+> +	},
+> +	.num_supplies = 2,
+> +	.clk_names = (const char *[]) {
+> +		"camnoc_axi",
+> +		"cpas_ahb",
+> +		"csiphy",
+> +		"csiphy_timer"
+> +	},
+> +	.num_clk = 4,
+> +	.clk_freq = {
+> +		zero,
 
---=-M1vrzmGsMYWQLNfBKIxn--
+It seems clang doesn't like this at all:
+drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c:486:3: error: initializer element is not a compile-time constant
+                 zero,
+                 ^~~~
+1 error generated.
+
+> +		zero,
+> +		dphy_4nm_x1e_csiphy,
+> +		dphy_4nm_x1e_csiphy_timer,
+> +	},
+> +};
+<snip>
+
 
