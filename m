@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-39676-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39677-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D826B23B21
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:50:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E578B23B2E
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:51:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 44CB9588312
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:49:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76C087202CF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDC292E172C;
-	Tue, 12 Aug 2025 21:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4FD02E5B05;
+	Tue, 12 Aug 2025 21:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SeusJiE6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E/j3GrL8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EAA2D59F7
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B767C2E54D9
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035268; cv=none; b=l1uOCEXfJJmu4WtaqdLjk/IXJ/leIROlLJGVI7SbUElU3ym2vd73uS9S022ZW0lqlJPDnZM0fERHdZgQviQlehaT/g3ImWMwNW+MLQW1QGOxM9bgxuM9I77wH01wPbvxEi8oOIruKZD8N6lPXyRcrJTIASKDS0N7EZxJ+T6QGxs=
+	t=1755035270; cv=none; b=U0zKbuAoMXjYpYxq04h0eyk4/IH+mPw9jeGNdozWrNfgYdinC/G7z7PwAdXLWDm4zdPp9T4pUSy47CaqpCPR82lIc4n1WqevhpOI+i7j6dMZuF3vss6K22t9e3mPuaznLfiR4wLjh9HAA5wPbPGXvEC71hJqfoAUsfGsxLln3Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035268; c=relaxed/simple;
-	bh=0Emh3Cpo+C9pyACDF1KD20v1htDcU1oE6frumMCZAPI=;
+	s=arc-20240116; t=1755035270; c=relaxed/simple;
+	bh=CF28i01Vg6DXTnN/N+zeoG6l9F7zswZ7/w/BeTmpqVw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DsMxahhlmxSXQsdIJRNIbM5ubhXvIOVTC3jeZRV/msqsyZLqI3+3+OFU56gWNgjvbf4OGA4jwubj/RV0AF/E5xbODrZIxZmbEUPuDHvPgLHF78wVbKWdPwfKN08RFrvo0yd46E4eIbJw4NWmFK/TfUwGH0jC7Omzw1IZnSky7Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SeusJiE6; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=bj976z0Q76NI0tzI/+JqAf73wsLMTV5C5yGnE49D1CqpINd/UQufrC+QjuHi87i3wgvOb/kLWtYMFCRWu7h7+ia0Q01R/RQIfmBwnXFWrcKNH7In8nZYfOjW6Fla5iCb/0eaYqR9eL7ZABHmZt1K+KJSNFf0sC2R93LnP8nHMC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E/j3GrL8; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AB8314A4;
-	Tue, 12 Aug 2025 23:46:52 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3EFF415BF;
+	Tue, 12 Aug 2025 23:46:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035212;
-	bh=0Emh3Cpo+C9pyACDF1KD20v1htDcU1oE6frumMCZAPI=;
+	s=mail; t=1755035214;
+	bh=CF28i01Vg6DXTnN/N+zeoG6l9F7zswZ7/w/BeTmpqVw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SeusJiE6Hp+81j9G9p8Ww387lmtahJqwuf/i0D44XKlQGfcdczgeEZtmUDZCd0E7X
-	 7JAMOU2QFpsmT2NwGwjWwY7qF6gxKo0K0wff3jN8uEtetZeVDUgN/waQU2YltBrjgv
-	 cMJsy/EvxnGzBoLLt5V+aCa/IWGZ1aSgGU3TenuE=
+	b=E/j3GrL8vwTs9Lq2FHwcgWNvudXIJHC9IdmnWqMDvpHYax16aELXKjTBftop+HxH6
+	 skZYZd9mZbA8CBw8kUzvtlDn3noIPUJag3Gp5qRy6e63wHawUy30aLrXXyP4zkoOoB
+	 N8H9Tu1d33EHE5LnpgIq2gjMiJDDA05ofHhwBJyo=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v2 40/72] media: i2c: ov5675: Use V4L2 sensor clock helper
-Date: Wed, 13 Aug 2025 00:45:48 +0300
-Message-ID: <20250812214620.30425-41-laurent.pinchart@ideasonboard.com>
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 41/72] media: i2c: ov5693: Use V4L2 sensor clock helper
+Date: Wed, 13 Aug 2025 00:45:49 +0300
+Message-ID: <20250812214620.30425-42-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -93,40 +94,41 @@ non-compliant behaviour.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5675.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+ drivers/media/i2c/ov5693.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-index fe16d5439e39..30e27d39ee44 100644
---- a/drivers/media/i2c/ov5675.c
-+++ b/drivers/media/i2c/ov5675.c
-@@ -1181,24 +1181,13 @@ static int ov5675_get_hwcfg(struct ov5675 *ov5675)
- 	if (!fwnode)
- 		return -ENXIO;
+diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+index 485efd15257e..d294477f9dd3 100644
+--- a/drivers/media/i2c/ov5693.c
++++ b/drivers/media/i2c/ov5693.c
+@@ -1289,25 +1289,13 @@ static int ov5693_probe(struct i2c_client *client)
  
--	ov5675->xvclk = devm_clk_get_optional(dev, NULL);
-+	ov5675->xvclk = devm_v4l2_sensor_clk_get(dev, NULL);
- 	if (IS_ERR(ov5675->xvclk))
- 		return dev_err_probe(dev, PTR_ERR(ov5675->xvclk),
+ 	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
+ 
+-	ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
++	ov5693->xvclk = devm_v4l2_sensor_clk_get(&client->dev, "xvclk");
+ 	if (IS_ERR(ov5693->xvclk))
+ 		return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
  				     "failed to get xvclk: %ld\n",
- 				     PTR_ERR(ov5675->xvclk));
+ 				     PTR_ERR(ov5693->xvclk));
  
--	if (ov5675->xvclk) {
--		xvclk_rate = clk_get_rate(ov5675->xvclk);
+-	if (ov5693->xvclk) {
+-		xvclk_rate = clk_get_rate(ov5693->xvclk);
 -	} else {
--		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
--					       &xvclk_rate);
+-		ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
+-				     "clock-frequency",
+-				     &xvclk_rate);
 -
 -		if (ret) {
--			dev_err(dev, "can't get clock frequency");
+-			dev_err(&client->dev, "can't get clock frequency");
 -			return ret;
 -		}
 -	}
 -
-+	xvclk_rate = clk_get_rate(ov5675->xvclk);
- 	if (xvclk_rate != OV5675_XVCLK_19_2) {
- 		dev_err(dev, "external clock rate %u is unsupported",
- 			xvclk_rate);
++	xvclk_rate = clk_get_rate(ov5693->xvclk);
+ 	if (xvclk_rate != OV5693_XVCLK_FREQ)
+ 		dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
+ 			 xvclk_rate, OV5693_XVCLK_FREQ);
 -- 
 Regards,
 
