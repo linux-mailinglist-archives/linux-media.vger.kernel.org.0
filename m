@@ -1,238 +1,214 @@
-Return-Path: <linux-media+bounces-39599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A17B228EE
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:44:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC14B2297D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 16:01:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4CC827AD754
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:42:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF49A581221
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:49:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E32A280CE5;
-	Tue, 12 Aug 2025 13:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 551222857C7;
+	Tue, 12 Aug 2025 13:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aevNF6kd"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="RSGybRpm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E221261574;
-	Tue, 12 Aug 2025 13:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0912280CD3
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 13:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755006164; cv=none; b=k6erurXdqHLASCaQ9Lp5crVrjXnQot4NSTUrFmiQ90Q2TYBYy47uc6XY0zYQ0JRw42+3IPAOc/bdWG1t0BQKQg9RoZ5tS/2jLOY5EeVA24+MR9pdr2cxNNQ+bAHKdYl92RQwd9g0rcj2IZfEnbHMsVI+5kwWsKIy3QWvyS+DzhM=
+	t=1755006514; cv=none; b=Lm56lwL0NAig18VNB73lbO6/8O5coRRMk5Q6rbiDxgYIFhwDy51tuYcb0q6gD55Xjy/xY7LdvsiZlYCE0py+3PdFDXnQOU4Nhy70rBeZVowcDBpi0SBSWWIFRlIXhHLV7QDNYjAri2HULImH9Z2Ty3tAeVtPEOvmGOGImT8TMro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755006164; c=relaxed/simple;
-	bh=dTqfOE3taa146pHzT0qdFCm8Pv3s+7unaUxH0yLl0SQ=;
+	s=arc-20240116; t=1755006514; c=relaxed/simple;
+	bh=RB5Dyg0hpUogRLPTKLCdqKUFcrsgH6zQi3Vr17ro+OU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H/cTcasnG0L+xPrLQl6okCkO73IccczWi40qqNSrXM+cYgO3NsdOlsj8i/LcwPCzTLIMxcvyRq49UhY3qM5xedwt9loMa5t0P80wRj3Ad1m3Slvet9d0WFF+qw4RSBS3d6kHcZsuV9rNhkaOl8FELdKjmvvw+TFawCNDgvm5UY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aevNF6kd; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7E835446;
-	Tue, 12 Aug 2025 15:41:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755006107;
-	bh=dTqfOE3taa146pHzT0qdFCm8Pv3s+7unaUxH0yLl0SQ=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z51GOI6tf++RrxZvPW4pSoo2cUurB9m9QsICM3BtQvDweejJ/RkTT1OPjTjAHqTnqqvnhnlzQ14y8ACx7Jje/FtaoGWVQmhu6Go1Si0i0vpftgdl99cwfLLJS5GGv3KNVDXY/5VxdAhwxGo2EKmyjz1gwZeFU0kpt1HUMFdZ4P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=RSGybRpm; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1755006510; bh=RB5Dyg0hpUogRLPTKLCdqKUFcrsgH6zQi3Vr17ro+OU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aevNF6kdEgyklGFKKUm+zWbNPofdOjHEGTzHIHphHVT2tvBIbFRriP/NlhXjXCzTE
-	 dROlzVpy7OWL/nbf+kKj/9PFpefAdaZ7BR34Bgwwx29/hYlzU4mFh+Kds+5sEMEydk
-	 PbAh6lFVNNck2T8DiMHNVn4GIBEy7/F72OTLBmgQ=
-Date: Tue, 12 Aug 2025 16:42:22 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Du, Bin" <bin.du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org,
-	sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, Svetoslav.Stoilov@amd.com
-Subject: Re: [PATCH v2 8/8] Documentation: add documentation of AMD isp 4
- driver
-Message-ID: <20250812134222.GN30054@pendragon.ideasonboard.com>
-References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-9-Bin.Du@amd.com>
- <20250805113719.GF24627@pendragon.ideasonboard.com>
- <e614b565-81e0-49c0-93dc-af1936462728@amd.com>
+	b=RSGybRpm6FQtu1n7N3OqMip9IS+zICbiMQu6hWzbBW9Y3GAoVbKsIg6wsM3btVZiF
+	 p7/01wYMSiNy2rBaPV8ht/TyHnr4Lx0V3+v6waxC2wNzYmTPbEzCbjRp8iCztZqfLT
+	 OT/isVRcWwEOl5g74ahU1sRQZMf4dsSbOwo2AzSFrUlI4FrQRJ+uTcMPi8A5xp6xry
+	 iMaRGgvw3dez5mWiAnoOVuqOJbMGQbcyaW4eJ6y7GGihOdWJf+7M5qTdt60CIpt5YK
+	 pR6lj10D1JInK3uCaku1agKsqSZ0pMKiJKOi3WFR82UJPT3ZJpSk5mHuqcck8jX9R6
+	 qb/g14TAitvug==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id BD89F1000D4; Tue, 12 Aug 2025 14:48:30 +0100 (BST)
+Date: Tue, 12 Aug 2025 14:48:30 +0100
+From: Sean Young <sean@mess.org>
+To: James Le Cuirot <chewi@gentoo.org>
+Cc: linux-media@vger.kernel.org, Sam James <sam@gentoo.org>
+Subject: Re: [PATCH v2] meson: Allow BPF code to be built with GCC
+Message-ID: <aJtGLpNHqsWTX6SY@gofer.mess.org>
+References: <20250803081759.13952-1-chewi@gentoo.org>
+ <20250810142005.29811-2-chewi@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e614b565-81e0-49c0-93dc-af1936462728@amd.com>
+In-Reply-To: <20250810142005.29811-2-chewi@gentoo.org>
 
-On Tue, Aug 12, 2025 at 09:36:04AM +0800, Du, Bin wrote:
-> On 8/5/2025 7:37 PM, Laurent Pinchart wrote:
-> > On Wed, Jun 18, 2025 at 05:19:59PM +0800, Bin Du wrote:
-> >> Add documentation for AMD isp 4 and describe the main components
-> >>
-> >> Signed-off-by: Bin Du <Bin.Du@amd.com>
-> >> Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-> >> ---
-> >>   Documentation/admin-guide/media/amdisp4-1.rst | 64 +++++++++++++++++++
-> >>   Documentation/admin-guide/media/amdisp4.dot   |  8 +++
-> >>   MAINTAINERS                                   |  2 +
-> >>   3 files changed, 74 insertions(+)
-> >>   create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
-> >>   create mode 100644 Documentation/admin-guide/media/amdisp4.dot
-> >>
-> >> diff --git a/Documentation/admin-guide/media/amdisp4-1.rst b/Documentation/admin-guide/media/amdisp4-1.rst
-> >> new file mode 100644
-> >> index 000000000000..417b15af689a
-> >> --- /dev/null
-> >> +++ b/Documentation/admin-guide/media/amdisp4-1.rst
-> >> @@ -0,0 +1,64 @@
-> >> +.. SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +.. include:: <isonum.txt>
-> >> +
-> >> +====================================
-> >> +AMD Image Signal Processor (amdisp4)
-> >> +====================================
-> >> +
-> >> +Introduction
-> >> +============
-> >> +
-> >> +This file documents the driver for the AMD ISP4 that is part of
-> >> +AMD Ryzen AI Max 385 SoC.
-> >> +
-> >> +The driver is located under drivers/media/platform/amd/isp4 and uses
-> >> +the Media-Controller API.
-> >> +
-> >> +Topology
-> >> +========
-> >> +
-> >> +.. _amdisp4_topology_graph:
-> >> +
-> >> +.. kernel-figure:: amdisp4.dot
-> >> +     :alt:   Diagram of the media pipeline topology
-> >> +     :align: center
-> >> +
-> >> +
-> >> +
-> >> +The driver has 1 sub-device:
-> >> +
-> >> +- isp: used to resize and process bayer raw frames in to yuv.
-> >> +
-> >> +The driver has 1 video device:
-> >> +
-> >> +- <capture video device: capture device for retrieving images.
-> >> +
-> >> +
-> >> +  - ISP4 Image Signal Processing Subdevice Node
-> >> +-----------------------------------------------
-> >> +
-> >> +The isp4 is represented as a single V4L2 subdev, the sub-device does not
-> >> +provide interface to the user space.
-> > 
-> > Doesn't it ? The driver sets the V4L2_SUBDEV_FL_HAS_DEVNODE flag for the
-> > subdev, and calls v4l2_device_register_subdev_nodes().
+On Sun, Aug 10, 2025 at 03:20:06PM +0100, James Le Cuirot wrote:
+> GCC can also target BPF, but it does not understand the "-target bpf"
+> arguments passed to Clang.
 > 
-> We have exported subdev device to user space during the testing with 
-> libcamera sample pipeline.
-
-But it's not needed anymore ? If not, you could stop exposing the subdev
-to userspace for the time being.
-
-> > As far as I understand, the camera is exposed by the firmware with a
-> > webcam-like interface. We need to better understand your plans with this
-> > driver. If everything is handled by the firmware, why are the sensor and
-> > subdev exposed to userspace ? Why can't you expose a single video
-> > capture device, with a media device, and handle everything behind the
-> > scene ? I assume there may be more features coming later. Please
-> > document the plan, we can't provide feedback on the architecture
-> > otherwise.
+> Detect it as either bpf-gcc, bpf-none-gcc, or bpf-unknown-none-gcc, the
+> same as systemd does.
 > 
-> Currently, isp fw is controlling the sensor to update just the exposure 
-> and gain, since the 3A algorithms run on ISP HW rather than on x86.
-
-This design decision makes my hair stand on end :-( Exposing the camera
-sensor to both the firmware and the host concurrently is asking for
-trouble. If you really want to abstract the camera behind a firmware and
-only expose a webcam-like API (or not even that in this version, as the
-driver exposes no control as far as I can see), then you should push the
-whole sensor handling to the firmware too. In my opinion that would not
-be a good solution compared to exposing the ISP to the host, but it
-would be better than this hybrid model.
-
-> In a 
-> future version, we plan to introduce raw output support in the ISP 
-> driver, allowing users to choose between AMD’s 3A running on ISP 
-> hardware or a custom 3A running on x86. If the user opts for the 
-> x86-based 3A, the firmware will relinquish control of the sensor, and 
-> hands over full control to the x86 system.
-
-Will the firmware at that point expose to Linux all the ISP statistics
-needed to implement auto-exposure ? What if I want to also set digital
-gain ? Or have manual white balance (requiring statistics), and manual
-CCM ?
-
-> >> The sub-device is connected to one video node
-> >> +(isp4_capture) with immutable active link. The isp entity is connected
-> >> +to sensor pad 0 and receives the frames using CSI-2 protocol. The sub-device is
-> >> +also responsible to configure CSI2-2 receiver.
-> >> +The sub-device processes bayer raw data from the connected sensor and output
-> >> +them to different YUV formats. The isp also has scaling capabilities.
-> >> +
-> >> +  - isp4_capture - Frames Capture Video Node
-> >> +--------------------------------------------
-> >> +
-> >> +Isp4_capture is a capture device to capture frames to memory.
-> >> +This entity is the DMA engine that write the frames to memory.
-> >> +The entity is connected to isp4 sub-device.
-> >> +
-> >> +Capturing Video Frames Example
-> >> +==============================
-> >> +
-> >> +.. code-block:: bash
-> >> +
-> >> +         # set the links
-> > 
-> > This seems very under-documented.
+> Determine the include paths with the compiler used by the rest of the
+> build rather than Clang, which might not be installed or might not give
+> the right answer, especially when cross-compiling.
 > 
-> Yes, documentation needs to be updated.
+> Check whether Clang actually supports the BPF target so that
+> auto-detection doesn't cause the build to fail when it doesn't.
 > 
-> >> +
-> >> +         # start streaming:
-> >> +         v4l2-ctl "-d" "/dev/video0" "--set-fmt-video=width=1920,height=1080,pixelformat=NV12" "--stream-mmap" "--stream-count=10"
-> >> diff --git a/Documentation/admin-guide/media/amdisp4.dot b/Documentation/admin-guide/media/amdisp4.dot
-> >> new file mode 100644
-> >> index 000000000000..a4c2f0cceb30
-> >> --- /dev/null
-> >> +++ b/Documentation/admin-guide/media/amdisp4.dot
-> >> @@ -0,0 +1,8 @@
-> >> +digraph board {
-> >> +	rankdir=TB
-> >> +	n00000001 [label="{{<port0> 0} | amd isp4\n | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >> +	n00000001:port1 -> n00000004 [style=bold]
-> >> +	n00000004 [label="Preview\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-> >> +	n0000000a [label="{{} | ov05c10 22-0010\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> >> +	n0000000a:port0 -> n00000001:port0 [style=bold]
-> >> +}
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index 15070afb14b5..e4455bde376f 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -1113,6 +1113,8 @@ M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
-> >>   L:	linux-media@vger.kernel.org
-> >>   S:	Maintained
-> >>   T:	git git://linuxtv.org/media.git
-> >> +F:	Documentation/admin-guide/media/amdisp4-1.rst
-> >> +F:	Documentation/admin-guide/media/amdisp4.dot
-> >>   F:	drivers/media/platform/amd/Kconfig
-> >>   F:	drivers/media/platform/amd/Makefile
-> >>   F:	drivers/media/platform/amd/isp4/*
+> Signed-off-by: James Le Cuirot <chewi@gentoo.org>
 
--- 
-Regards,
+Applied. Thank you very much!
 
-Laurent Pinchart
+Sean
+
+> ---
+>  meson.build                                   | 25 ++++++++++++++++++-
+>  .../keytable/bpf_protocols/cc_sys_includes.sh | 10 ++++++++
+>  .../bpf_protocols/clang_sys_includes.sh       |  9 -------
+>  utils/keytable/bpf_protocols/meson.build      | 12 ++++-----
+>  utils/keytable/meson.build                    |  2 +-
+>  5 files changed, 41 insertions(+), 17 deletions(-)
+>  create mode 100755 utils/keytable/bpf_protocols/cc_sys_includes.sh
+>  delete mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+> 
+> This revision adds the -ftree-switch-conversion flag for GCC, which
+> reportedly fixes the "invalid mem access" error. I couldn't figure out
+> how to test without any hardware, so I wasn't able to reproduce the
+> issue myself, but I trust that it works now.
+> 
+> diff --git a/meson.build b/meson.build
+> index 88781e59..62d271b4 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -83,11 +83,34 @@ endif
+>  v4l2_utils_incdir = include_directories(v4l2_utils_incdir_arr)
+> 
+>  prog_bash = find_program('bash')
+> -prog_clang = find_program('clang', required : get_option('bpf'))
+>  prog_doxygen = find_program('doxygen', required : get_option('doxygen-doc'))
+>  prog_grep = find_program('grep')
+>  prog_perl = find_program('perl')
+> 
+> +if get_option('bpf').allowed()
+> +    bpf_args = []
+> +    prog_bpf = find_program('bpf-gcc',
+> +                            'bpf-none-gcc',
+> +                            'bpf-unknown-none-gcc',
+> +                            required : false)
+> +
+> +    if prog_bpf.found()
+> +        bpf_args += ['-fno-tree-switch-conversion']
+> +    else
+> +        prog_bpf = find_program('clang', required : get_option('bpf'))
+> +        if prog_bpf.found()
+> +            target_bpf = run_command(prog_bpf, '-target', 'bpf', '--print-supported-cpus', check : get_option('bpf').enabled())
+> +            if target_bpf.returncode() == 0
+> +                bpf_args += ['-target', 'bpf']
+> +            else
+> +                prog_bpf = disabler()
+> +            endif
+> +        endif
+> +    endif
+> +else
+> +    prog_bpf = disabler()
+> +endif
+> +
+>  dep_alsa = dependency('alsa', required : false)
+>  if dep_alsa.found()
+>      conf.set('HAVE_ALSA', 1)
+> diff --git a/utils/keytable/bpf_protocols/cc_sys_includes.sh b/utils/keytable/bpf_protocols/cc_sys_includes.sh
+> new file mode 100755
+> index 00000000..0a8fa277
+> --- /dev/null
+> +++ b/utils/keytable/bpf_protocols/cc_sys_includes.sh
+> @@ -0,0 +1,10 @@
+> +#!/bin/sh
+> +# Get C compiler's default includes on this system, as the BPF toolchain
+> +# generally doesn't see the Linux headers. This fixes "missing" files on some
+> +# architectures/distros, such as asm/byteorder.h, asm/socket.h, asm/sockios.h,
+> +# sys/cdefs.h etc.
+> +#
+> +# Use '-idirafter': Don't interfere with include mechanics except where the
+> +# build would have failed anyways.
+> +"$@" -v -E - </dev/null 2>&1 \
+> +	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
+> diff --git a/utils/keytable/bpf_protocols/clang_sys_includes.sh b/utils/keytable/bpf_protocols/clang_sys_includes.sh
+> deleted file mode 100755
+> index 9dc4af12..00000000
+> --- a/utils/keytable/bpf_protocols/clang_sys_includes.sh
+> +++ /dev/null
+> @@ -1,9 +0,0 @@
+> -#!/bin/sh
+> -# Get Clang's default includes on this system, as opposed to those seen by
+> -# '-target bpf'. This fixes "missing" files on some architectures/distros,
+> -# such as asm/byteorder.h, asm/socket.h, asm/sockios.h, sys/cdefs.h etc.
+> -#
+> -# Use '-idirafter': Don't interfere with include mechanics except where the
+> -# build would have failed anyways.
+> -$CLANG -v -E - </dev/null 2>&1 \
+> -	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
+> diff --git a/utils/keytable/bpf_protocols/meson.build b/utils/keytable/bpf_protocols/meson.build
+> index 1e4f0064..dbb926c4 100644
+> --- a/utils/keytable/bpf_protocols/meson.build
+> +++ b/utils/keytable/bpf_protocols/meson.build
+> @@ -10,9 +10,9 @@ bpf_protocols_files = [
+>      'xbox-dvd',
+>  ]
+> 
+> -clang_sys_includes = run_command('clang_sys_includes.sh',
+> -                                 check : true,
+> -                                 env : ['CLANG=' + prog_clang.full_path()])
+> +bpf_args += run_command('cc_sys_includes.sh',
+> +                        cc.cmd_array(),
+> +                        check : true).stdout().split()
+> 
+>  foreach file : bpf_protocols_files
+>      output = file + '.o'
+> @@ -21,9 +21,9 @@ foreach file : bpf_protocols_files
+>                    output : output,
+>                    input : input,
+>                    command : [
+> -                      prog_clang,
+> -                      clang_sys_includes.stdout().split(),
+> -                      '-D__linux__', '-fno-stack-protector', '-target', 'bpf',
+> +                      prog_bpf,
+> +                      bpf_args,
+> +                      '-D__linux__', '-fno-stack-protector',
+>                        '-O2', '-c', '@INPUT@', '-o', '@OUTPUT@',
+>                    ],
+>                    install : true,
+> diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
+> index e214e0b5..56e61a79 100644
+> --- a/utils/keytable/meson.build
+> +++ b/utils/keytable/meson.build
+> @@ -22,7 +22,7 @@ ir_keytable_c_args = [
+>      '-DIR_KEYTABLE_USER_DIR="@0@"'.format(ir_keytable_user_dir),
+>  ]
+> 
+> -ir_bpf_enabled = prog_clang.found() and dep_libbpf.found() and dep_libelf.found()
+> +ir_bpf_enabled = prog_bpf.found() and dep_libbpf.found() and dep_libelf.found()
+> 
+>  if ir_bpf_enabled
+>      ir_keytable_sources += files(
+> --
+> 2.50.1
 
