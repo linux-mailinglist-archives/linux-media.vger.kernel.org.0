@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-39527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03208B22019
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 09:59:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A477CB22028
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:03:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B0D916AB1C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 07:59:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93B921630EF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:01:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E1742E040B;
-	Tue, 12 Aug 2025 07:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE4E2E093E;
+	Tue, 12 Aug 2025 08:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vNLzLjum"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1NZAJHd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE9C1C2324;
-	Tue, 12 Aug 2025 07:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498F1311C3B;
+	Tue, 12 Aug 2025 08:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754985570; cv=none; b=kbsY51ZBLkIGAqij3Rtk4a0YCnqM2yoDwiOW+QCSU9U8nhSJDBS2hbZQPPADukxPwTP4KIjo8JbTtUa5OO0SCOFHdBZXSa8SebIPSMwhozE6MgFcTnOegLI0c59B4rSCHy1H0TqxGon2TZwcFyjKGUP/NKHk/1Cina+DBZT5B40=
+	t=1754985663; cv=none; b=aOwjerLQ9XOri8h9Lm2dlnAZwJoDqnGSwWxRcTLxXbvlSRV7fVpGtQ99fSH6Hw3iEuflRoU2tM8VCtrXclmlzXQf11jocTlQ3zHzqb8n/TL/ryvNwJnspjyZdOtDYbM/Ybz05lCnPMdkId3lT5Vn8Sn3rmqekPd/cwiVlky60vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754985570; c=relaxed/simple;
-	bh=pi/zwH9e/1Vj5iXsFJbVdreoKsnqU0oKEeoobGkv1XQ=;
+	s=arc-20240116; t=1754985663; c=relaxed/simple;
+	bh=Qz5rVNLv9JvrQB+FK58nkzEJzkYI9AFUBSjceIHbWTY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UEcJrfFcvhty4RON16/Os6ij/VCyKCOrP+u7B/flmB8mGC4sYkf7+PYjx9WjvP9YUwmlm493FovwIz2xS/c7vl1GyFFONQV0AEIST+NnZj4WRbGDRuon0DWeZcT1Yu6SJq9FTD+bDnRY37yFWAtJkWmMCk/iDAhAlgV6YYIUjeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vNLzLjum; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36B84C4CEF0;
-	Tue, 12 Aug 2025 07:59:27 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=UO5dYUnV5f3V+oepRA7jVFn4SDp3Ldp1v1khd8HoZwF5iM6e8Jdlxnjn9Jqlr8hc/eBPuTvqMNWFxv/Cxi9w+x0C6CirfQ8dQLLmTcwuilNRKUxrm0C/gQXcpgdz4BTew7zM6cUblJoXxnYta8082yBYqrNJrNFGTlPo6s7bSuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1NZAJHd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9E95C4CEF4;
+	Tue, 12 Aug 2025 08:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754985570;
-	bh=pi/zwH9e/1Vj5iXsFJbVdreoKsnqU0oKEeoobGkv1XQ=;
+	s=k20201202; t=1754985662;
+	bh=Qz5rVNLv9JvrQB+FK58nkzEJzkYI9AFUBSjceIHbWTY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vNLzLjumJEsPpBxCwNytL+8UYbMqlFM5TXpI5vaw9Gdj02te5XZaczr+LJvFMf/7c
-	 k2qQkQ/MM6QRkoOp3kTE39DV7I1HeCq0aSNg+9g455TRYxX7zMB3GRKHB63NafYB4z
-	 N2finrvpWSSL70mq00dKODlnjgvEKpztuyM/o672f2wswcFfy/MPUgUhp6Ylo522lv
-	 C/Ps08MgR3AdL6yTdGCbufT+Ine+AtylWak+06GVbnCy1v8rc3gmAYg8D0yrJ9+KwD
-	 0LhjV4t3/fUfRXKxNAGanyqHq+i19moXauunxODLu3KOaaFFY0GEMcDWn8S9Sx1Ml/
-	 ozuAv/2zuAP4g==
-Message-ID: <363cfc88-9664-483f-9503-9eca7c8e617c@kernel.org>
-Date: Tue, 12 Aug 2025 09:59:25 +0200
+	b=R1NZAJHdrQE8ELLxJtSEPOn5EJepDr1Pr6ive+2JtpZazE4JGXu8T/3RVijwhP9am
+	 jXSx6AvJOCXjp0Js0w/jkipA3dfKdRWNltbKL4+6MLHSwZ4pdtaRJcvMDuEoyyFSh6
+	 TVa1WukLM9tYO5bdbcKEF4RkfWntddCuWLSKxenTR2WwDwxfxkO1iWDaZ6XDtqsCea
+	 DuVnjoUQJOEdqIv5XMELAOFFRAqJHK5mdDjzJvxc5qBDmuXyZfrbXcPkj+btcRmGq+
+	 /NZrfyKCwHDvVNMRm+ScC9M+ciVj/nsd7bb1/HTWqNydVAO1mFGRQGq9DMTkzZVPGS
+	 vzCprcrrzeOkw==
+Message-ID: <8d8dcaef-eb96-4e7b-9a0a-8b3836cb284c@kernel.org>
+Date: Tue, 12 Aug 2025 10:00:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] media: iris: Add support for SM8750 (VPU v3.5)
+Subject: Re: [PATCH v2 1/3] media: dt-bindings: qcom,sm8550-iris: Add SM8750
+ video codec
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -62,7 +63,8 @@ To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250804-sm8750-iris-v2-0-6d78407f8078@linaro.org>
- <c009fe77-8590-c467-a0a4-76bd6ec7cba4@quicinc.com>
+ <20250804-sm8750-iris-v2-1-6d78407f8078@linaro.org>
+ <683024c7-3740-cb9a-6924-33816edd63f3@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,41 +110,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <c009fe77-8590-c467-a0a4-76bd6ec7cba4@quicinc.com>
+In-Reply-To: <683024c7-3740-cb9a-6924-33816edd63f3@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/08/2025 09:52, Dikshita Agarwal wrote:
+On 12/08/2025 09:54, Dikshita Agarwal wrote:
+> 
+> 
+> On 8/4/2025 7:07 PM, Krzysztof Kozlowski wrote:
+>> Add binding for Qualcom SM8750 Iris video codec, which comes with
+>> significantly different powering up sequence than previous SM8650, thus
+>> different clocks and resets.  For consistency keep existing clock and
+>> clock-names naming, so the list shares common part.
 >>
->> v4l2-compliance report:
->>
->> v4l2-compliance 1.26.1-5142, 64 bits, 64-bit time_t
->> v4l2-compliance SHA: 4aee01a02792 2023-12-12 21:40:38
+>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>  .../bindings/media/qcom,sm8750-iris.yaml           | 186 +++++++++++++++++++++
+>>  1 file changed, 186 insertions(+)
 >>
 > 
-> Thank you for running the v4l2 compliance tests with your patches. While
-> these tests are helpful for verifying API compliance, they do not cover the
-> actual functional aspects of the new SOC support being added.
-> 
-> Please run a decoder use-case using either v4l2-ctl or GStreamer (GST) and
-> add the results in this cover letter.
-You did not provide such details on your submission:
-https://lore.kernel.org/all/20250704-iris-video-encoder-v1-0-b6ce24e273cf@quicinc.com/
+> Query:
+> Can the additional reset and clocks be accommodated in existing 8550-iris
 
-so asking others of this is just unfair and unjustified obstacle. If you
-have technical comments, then share. If you are just making fake
-obstacles to stop some patchset then refrain from commenting.
-
-Unless you want statement like:
-
-
-All patches have been tested with v4l2-compliance, v4l2-ctl and
-Gstreamer on SM8750.
-
-Then I can give you such statement, just like you did for your patchset:
-
-All patches have been tested with v4l2-compliance, v4l2-ctl and
-Gstreamer on SM8750.
+No, different hardware. Although it is hardware from your domain and
+your company, so I would assume you know the answer.
 
 Best regards,
 Krzysztof
