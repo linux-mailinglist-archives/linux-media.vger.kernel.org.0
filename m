@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-39677-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39678-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E578B23B2E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:51:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FB7B23B22
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:50:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76C087202CF
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:49:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF2A5588606
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:49:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4FD02E5B05;
-	Tue, 12 Aug 2025 21:47:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC0B2E5B1C;
+	Tue, 12 Aug 2025 21:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E/j3GrL8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p0CmyF+I"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B767C2E54D9
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F822D59F7
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035270; cv=none; b=U0zKbuAoMXjYpYxq04h0eyk4/IH+mPw9jeGNdozWrNfgYdinC/G7z7PwAdXLWDm4zdPp9T4pUSy47CaqpCPR82lIc4n1WqevhpOI+i7j6dMZuF3vss6K22t9e3mPuaznLfiR4wLjh9HAA5wPbPGXvEC71hJqfoAUsfGsxLln3Dk=
+	t=1755035271; cv=none; b=OB6Z7KZPK9lDVNR19lQUVl8bHc9l8ZwfHQfmaj9T60z54SsUcBd8YD2oIv1oOZ9C4Ia59K5zHGmC5ppnvhf6fsmtkbOPiXGhq9GlA4yY913LDZULLQc0cQla3NlsTdgdLSr/1tqATHH8naz9n5umf86sO69F/cC5VkOjQPGO6nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035270; c=relaxed/simple;
-	bh=CF28i01Vg6DXTnN/N+zeoG6l9F7zswZ7/w/BeTmpqVw=;
+	s=arc-20240116; t=1755035271; c=relaxed/simple;
+	bh=KqUbD8TBG2yZkkwfm/sR8Q0GMdXn0W2gi/x8zpSPj3o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bj976z0Q76NI0tzI/+JqAf73wsLMTV5C5yGnE49D1CqpINd/UQufrC+QjuHi87i3wgvOb/kLWtYMFCRWu7h7+ia0Q01R/RQIfmBwnXFWrcKNH7In8nZYfOjW6Fla5iCb/0eaYqR9eL7ZABHmZt1K+KJSNFf0sC2R93LnP8nHMC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E/j3GrL8; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=jzbnvvQ5qvuMf/Iiy63rhzMJnh02uZv9pKWDru7Hs8PkqsTAj78puH1/wsg5Qv2cDXMLDobgY1oGgY0h2rzr4lVkb9DwrLRlei5JthtLyku6R4/Dyaz+ifZKQfSnvQ24XlQyxsU57AdE4dQKE55xFygX0zRVhUzBS77uKwPWxz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p0CmyF+I; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3EFF415BF;
-	Tue, 12 Aug 2025 23:46:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CBE9210D4;
+	Tue, 12 Aug 2025 23:46:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035214;
-	bh=CF28i01Vg6DXTnN/N+zeoG6l9F7zswZ7/w/BeTmpqVw=;
+	s=mail; t=1755035216;
+	bh=KqUbD8TBG2yZkkwfm/sR8Q0GMdXn0W2gi/x8zpSPj3o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E/j3GrL8vwTs9Lq2FHwcgWNvudXIJHC9IdmnWqMDvpHYax16aELXKjTBftop+HxH6
-	 skZYZd9mZbA8CBw8kUzvtlDn3noIPUJag3Gp5qRy6e63wHawUy30aLrXXyP4zkoOoB
-	 N8H9Tu1d33EHE5LnpgIq2gjMiJDDA05ofHhwBJyo=
+	b=p0CmyF+IG5wyTWpAbjo8yl64c04sbke7LYOq5bCU+DqlwjHDCNaxlNXOiQqsJjant
+	 7G7ftb5GmUn4lZQsADUTpUxodMUPcT7ubDYN/U8XbYZfwNqhugYOT9WMcb3K42rg1n
+	 KbO0uVa8tMXkvFUjz63Z+AdP+ODm5M7wgKNg9yTs=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Daniel Scally <djrscally@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v2 41/72] media: i2c: ov5693: Use V4L2 sensor clock helper
-Date: Wed, 13 Aug 2025 00:45:49 +0300
-Message-ID: <20250812214620.30425-42-laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 42/72] media: i2c: ov7251: Use V4L2 sensor clock helper
+Date: Wed, 13 Aug 2025 00:45:50 +0300
+Message-ID: <20250812214620.30425-43-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -61,22 +60,29 @@ Content-Transfer-Encoding: 8bit
 
 Several camera sensor drivers access the "clock-frequency" property
 directly to retrieve the external clock rate, or modify the clock rate
-of the external clock programmatically. Both behaviours are valid on
-a subset of ACPI platforms, but are considered deprecated on OF
-platforms, and do not support ACPI platforms that implement MIPI DisCo
-for Imaging. Implementing them manually in drivers is deprecated, as
-that can encourage cargo-cult and lead to differences in behaviour
-between drivers. Instead, drivers should use the
-devm_v4l2_sensor_clk_get() helper.
+of the external clock programmatically. Both behaviours are valid on a
+subset of ACPI platforms, but are considered deprecated on OF platforms,
+and do not support ACPI platforms that implement MIPI DisCo for Imaging.
+Implementing them manually in drivers is deprecated, as that can
+encourage cargo-cult and lead to differences in behaviour between
+drivers. Instead, drivers should use the devm_v4l2_sensor_clk_get()
+helper.
 
 This driver supports ACPI and OF platforms. The "clocks" property has
-always been specified as mandatory in the DT bindings, and the
-"clock-frequency" property has never been allowed. The driver retrieves
-the clock and its rate if present, and falls back to retrieving the rate
-from the "clock-frequency" property otherwise. If the rate does not
-match the expected rate, the driver fails probing. This is correct
-behaviour for ACPI, and for OF platforms that comply with the documented
-DT bindings.
+always been specified as mandatory in the DT bindings and the
+"clock-frequency" property has always been optional. The driver
+retrieves the clock and its rate if present, and falls back to
+retrieving the rate from the "clock-frequency" property otherwise. If
+the rate does not match one of the supported rates, the driver fails
+probing.
+
+If a clock is available and the "clock-frequency" property is set, the
+driver sets the rate of the clock to the value of the property. It does
+however use the rate initially retrieved from the clock for further
+calculations, which is a bug if the rates don't match, and would prevent
+the sensor from functioning properly. We can therefore assume that this
+case never occurs, and that the driver behaves correctly for ACPI, and
+for OF platforms that comply with the documented DT bindings.
 
 Switch to using the devm_v4l2_sensor_clk_get() helper. This does not
 change the behaviour on ACPI platforms that specify a clock-frequency
@@ -86,49 +92,59 @@ property. This should not change the behaviour either as this driver
 expects the clock to be set to that rate, and wouldn't operate correctly
 otherwise.
 
-The behaviour is also unchanged on OF platforms that comply with the DT
-bindings. Non-compliant platforms are not expected, but any regression
-could easily be handled by switching to the
-devm_v4l2_sensor_clk_get_legacy() helper designed to preserve
-non-compliant behaviour.
-
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5693.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ drivers/media/i2c/ov7251.c | 26 ++------------------------
+ 1 file changed, 2 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-index 485efd15257e..d294477f9dd3 100644
---- a/drivers/media/i2c/ov5693.c
-+++ b/drivers/media/i2c/ov5693.c
-@@ -1289,25 +1289,13 @@ static int ov5693_probe(struct i2c_client *client)
+diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+index 31a42d81e970..27afc3fc0175 100644
+--- a/drivers/media/i2c/ov7251.c
++++ b/drivers/media/i2c/ov7251.c
+@@ -1630,7 +1630,6 @@ static int ov7251_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct ov7251 *ov7251;
+-	unsigned int rate = 0, clk_rate = 0;
+ 	int ret;
+ 	int i;
  
- 	v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
+@@ -1646,33 +1645,12 @@ static int ov7251_probe(struct i2c_client *client)
+ 		return ret;
  
--	ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
-+	ov5693->xvclk = devm_v4l2_sensor_clk_get(&client->dev, "xvclk");
- 	if (IS_ERR(ov5693->xvclk))
- 		return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
- 				     "failed to get xvclk: %ld\n",
- 				     PTR_ERR(ov5693->xvclk));
+ 	/* get system clock (xclk) */
+-	ov7251->xclk = devm_clk_get_optional(dev, NULL);
++	ov7251->xclk = devm_v4l2_sensor_clk_get(dev, NULL);
+ 	if (IS_ERR(ov7251->xclk))
+ 		return dev_err_probe(dev, PTR_ERR(ov7251->xclk),
+ 				     "could not get xclk");
  
--	if (ov5693->xvclk) {
--		xvclk_rate = clk_get_rate(ov5693->xvclk);
--	} else {
--		ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
--				     "clock-frequency",
--				     &xvclk_rate);
+-	/*
+-	 * We could have either a 24MHz or 19.2MHz clock rate from either DT or
+-	 * ACPI. We also need to support the IPU3 case which will have both an
+-	 * external clock AND a clock-frequency property.
+-	 */
+-	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+-				       &rate);
+-	if (ret && !ov7251->xclk)
+-		return dev_err_probe(dev, ret, "invalid clock config\n");
 -
--		if (ret) {
--			dev_err(&client->dev, "can't get clock frequency");
--			return ret;
--		}
+-	clk_rate = clk_get_rate(ov7251->xclk);
+-	ov7251->xclk_freq = clk_rate ? clk_rate : rate;
+-
+-	if (ov7251->xclk_freq == 0)
+-		return dev_err_probe(dev, -EINVAL, "invalid clock frequency\n");
+-
+-	if (!ret && ov7251->xclk) {
+-		ret = clk_set_rate(ov7251->xclk, rate);
+-		if (ret)
+-			return dev_err_probe(dev, ret,
+-					     "failed to set clock rate\n");
 -	}
--
-+	xvclk_rate = clk_get_rate(ov5693->xvclk);
- 	if (xvclk_rate != OV5693_XVCLK_FREQ)
- 		dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
- 			 xvclk_rate, OV5693_XVCLK_FREQ);
++	ov7251->xclk_freq = clk_get_rate(ov7251->xclk);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(supported_xclk_rates); i++)
+ 		if (ov7251->xclk_freq == supported_xclk_rates[i])
 -- 
 Regards,
 
