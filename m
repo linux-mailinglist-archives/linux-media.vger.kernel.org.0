@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-39704-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39706-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04613B23B4C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:52:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 164F8B23B39
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:51:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63ADA6E7CF0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:50:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F3F918964E5
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:50:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B316A2E8DEC;
-	Tue, 12 Aug 2025 21:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 539292D0C75;
+	Tue, 12 Aug 2025 21:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wj6/L0GO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uQkn29Wr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF90C2E8899;
-	Tue, 12 Aug 2025 21:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9902E0928;
+	Tue, 12 Aug 2025 21:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035315; cv=none; b=c+PJ9PMflSjhoGejzky9lrKKAE+yX7OzW/T5ehBYvA3i87Z6cRkjRwZz/7s7Ah0LcEElsBanaSUU05BsAOH9DJI22kdWBF0WlPbabKsfr52dAr0q1HiYdRPlmLm8U6PNsSAXz6Bi+OoPY5mBg2pMj6+XOjDJUdHnkaQD3nYe3J8=
+	t=1755035318; cv=none; b=hEpSXniViNHBm47iM7bFELzoNiCtmW/dD7yM7MMObm5Se8S/uHEh9l+QQS98OK8l28P8eOTuxR3nSKWVfQDtuB9zcQ9PsnlN7ICgt5B+wKRWVCLnlsVU1bWJCV5CmtA+XjP0zaynCZnM/ILP5ia0F7DAiknZc4aHNiot6W5K/GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035315; c=relaxed/simple;
-	bh=AtdXIKua/INaYV+49Ae7n8dhujiaT3BXrg7Ye9V+l9Y=;
+	s=arc-20240116; t=1755035318; c=relaxed/simple;
+	bh=0OlaEea1lG0aXrKFQ1HpJxMDx/BmsqbsHAOsGw3c/AA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l1b+ivJ0YHZVbDIU5gvI4gKCT3CmopWUZ5X1fXwzDd0oFmMbDvP767UbLP305f0VN5j8LX/2wLiDeaUcQKcjJOKxf4R7rARLrZnJU+7uDfYreOc2Gr9WxDXyonVJpP0psiBnkHYZn0amvs+J5aojnCyux/MRPeGZ3I38oVsrVW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wj6/L0GO; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=guv6rUHxtzMySrqMcy8lVGTMxhy67EBwgDaODgdBjC1vBvw4D4MWwVnccr6owrJPmrrtGnYUhMgxc0hApY1dgTwhiHtJq9abqrsUflooHsCPLI5vA8IqRJAjVtpvHcQvr61uSXyXqN9NXeU2IqFPif5acun+TsalwYqF51ApotM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uQkn29Wr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5FD151123;
-	Tue, 12 Aug 2025 23:47:39 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E025D4A4;
+	Tue, 12 Aug 2025 23:47:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035259;
-	bh=AtdXIKua/INaYV+49Ae7n8dhujiaT3BXrg7Ye9V+l9Y=;
+	s=mail; t=1755035261;
+	bh=0OlaEea1lG0aXrKFQ1HpJxMDx/BmsqbsHAOsGw3c/AA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Wj6/L0GOkEIwXWXI0wmTY8NIJjxz5Tan2wtm2luLZ6o7ottttzZRdK0/NBVLkwaeQ
-	 N1cWJAYfEIiHx78ySSplpTrA9fC9W4UXOXc7FFX/6VyDyc3sqNZLzh2BbrVzFyu5Al
-	 2l5LmBqFQXwrW3nYTUUp+wJwUFqRqLrIyjFKv85s=
+	b=uQkn29WrJRVhFueRdwJrlUMGpo84xHYfqGjWPf5HQWai0GSk8WNcs8jWEnTtDb2+4
+	 kufuS1BI6b2UljF7cpTkswIX87D9oNLqSzLTu5hvHyMcRDHO/eSTla7coK8Kl0HnP1
+	 4lq3tHYsmhb46wK1VPXxg52HovzrERCXPR0+Mi5c=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>,
@@ -53,9 +53,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 68/72] ARM: dts: nxp: imx6qdl-pico: Replace clock-frequency in camera sensor node
-Date: Wed, 13 Aug 2025 00:46:16 +0300
-Message-ID: <20250812214620.30425-69-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 69/72] ARM: dts: nxp: imx6qdl-wandboard: Replace clock-frequency in camera sensor node
+Date: Wed, 13 Aug 2025 00:46:17 +0300
+Message-ID: <20250812214620.30425-70-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -81,14 +81,14 @@ Changes since v1:
 
 - Drop added blank line
 ---
- arch/arm/boot/dts/nxp/imx/imx6qdl-pico.dtsi | 4 +++-
+ arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-pico.dtsi b/arch/arm/boot/dts/nxp/imx/imx6qdl-pico.dtsi
-index c39a9ebdaba1..2ad1c030f51b 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-pico.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-pico.dtsi
-@@ -233,7 +233,9 @@ camera@3c {
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi b/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
+index 26489eccd5fb..f3aaca039953 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
+@@ -137,7 +137,9 @@ camera@3c {
  		pinctrl-0 = <&pinctrl_ov5645>;
  		reg = <0x3c>;
  		clocks = <&clks IMX6QDL_CLK_CKO2>;
