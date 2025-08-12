@@ -1,188 +1,206 @@
-Return-Path: <linux-media+bounces-39619-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A1BB23353
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 20:27:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F036AB233AF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 20:31:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E73493AB7F9
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 18:23:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E5923AD90C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 18:27:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14A932FD1C2;
-	Tue, 12 Aug 2025 18:23:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D0832FE587;
+	Tue, 12 Aug 2025 18:26:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R2A/Py0u"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="c6eBDRSG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DA21EF38C;
-	Tue, 12 Aug 2025 18:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA842FE57C;
+	Tue, 12 Aug 2025 18:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755022988; cv=none; b=R9aB7eUyYQC02yFwG9dptyOlNRspdKZpM6cEMfKZ335zunnJiQ798VgTloK1s+8L2J+cjrvaWrFyW4td19XMrDYhuHxMYO5NthNo7Eb6O1lkNrgswrgPJebHN3nJRA68j/ceR4qsOtY7nACv0Mkt4MmNAJ7eyUmq3LT9qfgH5Po=
+	t=1755023208; cv=none; b=icwjgxlOZj8j+AR6UbW82tM5K+lHVl6MK2bfc1XpfuJUBiSoJ5+WQBonlNcdYuayc0QcPGcAKRFmTewn6ccvJYpLJgoBZkzG5FvN6AnaVZNIxATcReITb5AYZ/muh2F9sdo7AZE09SX2CkIBeH5K8butv4t8bf9c3QjGQakFBis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755022988; c=relaxed/simple;
-	bh=+3/e5cIrN3ZIg7Q/XkiiWzgfGgeF/Y6e5OkSlLU191A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lZolcy/iZG6dDqFhyKU2dQ7/weCT9AYQR63TeexWWahd9ACdN+oOBbq3/IF6DMx47cCQFdTo5eHPm8YfyoC4hKK7DOv3i9eeeSdrTd1dfjpLImopqs9AFKNAwbpRfjbQYLaI74NYkeJLXqLSYlYqRFQAiOBdlBmZCFH/ESJmMFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R2A/Py0u; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-74264d1832eso7243005b3a.0;
-        Tue, 12 Aug 2025 11:23:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755022986; x=1755627786; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F+fE4qi+RcEuypAjW0Bd5U93e0N2So4i7NT1OnYWUSk=;
-        b=R2A/Py0uCPL8xZ3PcKpiSj1/D1HVk8sS1+t0lgKPzTa4Yi8qq75ZVjvdIFmAbeVMzL
-         CqWI/shBoX/jKO+Fhc585NY/tLPW0QhuUew6KWdpMD0iF5Hzu2sURfQ6ACK/Frc2m0tY
-         JTwNJqExFDbKKklOHRn7jkXAPzUOI/Kn5dmtPiZk98gMt1211sXnQ38Ih/aSpb5n50uP
-         CVcojmP5cAno/KVuzOpf4xE+zw7skgq0sRwuXDB1nwi9pHW7ncmYUUq6zAkpIM6bW93R
-         4mx/+KkY1/GAYt9g2mESAVvhlOtrJu+dOpWIHpIJem4b7C9gW6Kd7uZoKG0AIyLbfiyI
-         XZaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755022986; x=1755627786;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F+fE4qi+RcEuypAjW0Bd5U93e0N2So4i7NT1OnYWUSk=;
-        b=G18gp8Nlgq43qqPHR0jkrKJQ5tyyl7biEtOcaaDo8lBpzk58axhtjRgS2+O5dFxxo6
-         giiBpA+n0Ev6VJjDSg5Qziqh9IVjOIHc0pou6YmrIZY03431draVSxmaaRQag5ItCfIT
-         wGFk+GiCSE8+gz6qyGpY9XJ75M+LzeqkKXI+d7lkSWqaU5+wVFI450fwjoqANM4/1IC2
-         nmFmwCPkw14a+R6P+NgEL9Mu4Moaq/GwJg+7kVJotISWZ6zbUvjVtXlr4iX2lIt8DvpP
-         A0zDlH2yB+dBbQATr5uUosOK5JzteEGJM19QgwkT5fvRN67oB+e3/DGjvFhKhUfpGM67
-         vk+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUsJcsNQjURum3noaRE1F4nZRQwpNy33QYPF8zanJSfmEJdbvRzWHfQ2myn4U4z6T2KHZfRCeVOH/K9KwM=@vger.kernel.org, AJvYcCVbgWXafOFBYLFZkikZj2L70tnL7sBvG64s9RnpQ6PIcdGBJgIxv6ZsZsa5fdrvv4A8+GXQ54VCjMzL04Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqeoU+xi9L5usayzk+bpYlVQPBdic9esgxV+diesok5zW8Jpwi
-	XajddRJDBoGsqy+/QF51yBWqBCbDKoyga9trn6U61jvUqBtX7t32zsEpeTsc0t9kJBfhW3Qc9HE
-	F8XNI2LPrwMNvLMAGrP0COIloAnuFk2Q=
-X-Gm-Gg: ASbGnct2DxPWc5sQOvlO078JUwyluzCYGgJIn00ntrGTOodPGxboNd/+wI8HeRIy8wZ
-	fQyoqhULVeaGw5GUKAkubDVCAyuT7UBs6VRp2o5iLkfUlWn/ZMq5WiscWteIsuR4ptbIrmwhZtN
-	p9xpexQ1LgXNPtTyNdyye0xOc0+EJXgKbHVPPDRshVM7vVSY/Z5vfLt0zyDMHe+cLxFjYDqvb6K
-	NITYnA=
-X-Google-Smtp-Source: AGHT+IF1A81h6PBEtWt1slLi737ERxn8vSMYRw2gKSj0MQoOmspT2W2SwpWW3xVupvi6KHU+18JPG2LtGK88eiUCFBY=
-X-Received: by 2002:a17:902:f612:b0:240:10dc:b795 with SMTP id
- d9443c01a7336-2430d08b468mr3464675ad.1.1755022986134; Tue, 12 Aug 2025
- 11:23:06 -0700 (PDT)
+	s=arc-20240116; t=1755023208; c=relaxed/simple;
+	bh=69/IXjK3yV6/KOHFU1P3cPM9KgocQb+6h8pn3YliXQg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Eg3HqNHKxoNRxnRgsPKw5jZTMfsteFjM7jdh1Omu33E+wCwPme1STYLqpnPJsQx0vvyf4UAygFdfBN3rqA0C1SKGIumZCye6AhYIp+mF5vBI/whuQIj76a4j3PkYheSm9weEdWJOpp3IUWA6/1K0t/2bcjYpnenMUjXfopnpCEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=c6eBDRSG; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1755023204;
+	bh=69/IXjK3yV6/KOHFU1P3cPM9KgocQb+6h8pn3YliXQg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=c6eBDRSGAzq1MJtGpLaDtmEdS4kvrirKcJrrDOzzCPK4q+aJLTKgy8KMbqNO8Fffw
+	 0Bd80jew4vb/AOLCWZt3JjE0whNfBJFjnRPSEJZqWbz7Mr9q2mkoc2484kfYYeVBo+
+	 dnoGEHcIncM4IPzHv6gzKJuJ95Oe+HsFeh5+M5oHM5Kzn2xjXqsONUL1QxnjwLtWOP
+	 3ZzOkljxXqjr7Ufw/BSRTnvrSX7eainxdUioGObpcLfzmqc/LxYiu7dBiD5DJnj5BA
+	 1yC/zRsDvSPtwCRWtRRDvBV3L2v59T2Bba5ZenhVIi0UNagmWNq3RVjVcw25WYpKp0
+	 frHK2da8L1aGQ==
+Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4D2C717E011A;
+	Tue, 12 Aug 2025 20:26:43 +0200 (CEST)
+Message-ID: <25ce30446e8e8d038273fcdfb398c90995c242db.camel@collabora.com>
+Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Detlev Casanova	
+ <detlev.casanova@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Alex Bee <knaerzche@gmail.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 12 Aug 2025 14:26:41 -0400
+In-Reply-To: <efdf8c99-d166-4b78-afc5-d4a6eb5ac046@kwiboo.se>
+References: <20250810212454.3237486-1-jonas@kwiboo.se>
+	 <50162371fd54fc976a84fcf57c9b69112a892c46.camel@collabora.com>
+	 <1dd29158-0660-4254-ac00-1316768d9b82@kwiboo.se>
+	 <91864a1c047d2bdfce202b070716a694ede47d5e.camel@collabora.com>
+	 <a66feb89fa02f05b187e5603ffc3b1501ef3cbd5.camel@collabora.com>
+	 <efdf8c99-d166-4b78-afc5-d4a6eb5ac046@kwiboo.se>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPW0RE5pY29sYXMgRHVmcmVzbmUgKEIuIFNjLiBJbmZvcm1hdGlxdW
+ UpIDxuaWNvbGFzZEBibHVlc3RyZWFrdGVjaC5jb20+iGAEExECACAFAkZjGzoCGwMGCwkIBwMCBBU
+ CCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHBl7AJ0d2lrzshMmJaik/EaDEakzEwqgxQCg0JVZMZm9
+ gRfEou1FvinuZxwf/ms=
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+	boundary="=-1m44GyIlgc9M/VdWhbhx"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <175308758352.3134829.9472501038683860006@localhost>
- <175326599663.2811177.16620980968274114885@localhost> <m3h5z2vw12.fsf@t19.piap.pl>
- <175344176070.2811177.10693943493658922992@localhost> <m3qzxyug1s.fsf@t19.piap.pl>
- <m3cy9futcj.fsf@t19.piap.pl> <m34iumujcs.fsf@t19.piap.pl> <m3zfcet41n.fsf@t19.piap.pl>
- <m3a545t789.fsf@t19.piap.pl> <20250812103243.GK30054@pendragon.ideasonboard.com>
- <175501095338.74722.11604545949710100799@localhost>
-In-Reply-To: <175501095338.74722.11604545949710100799@localhost>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 12 Aug 2025 13:22:54 -0500
-X-Gm-Features: Ac12FXwjCPlZoDfcVHADfdJKsSiklxExi-nNGmkRvmvpKutlc9OII1WL40p-4DM
-Message-ID: <CAHCN7xKq_o_u7PhPMcZ2W9nzrFP8+CnhaYJOyxnjpKfbMTBCEw@mail.gmail.com>
-Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption: resolved
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Paul Elder <paul.elder@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ondrej Jirman <megi@xff.cz>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+
+
+--=-1m44GyIlgc9M/VdWhbhx
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 12, 2025 at 10:07=E2=80=AFAM Stefan Klug
-<stefan.klug@ideasonboard.com> wrote:
->
-> Hi Krzysztof, hi Laurent,
->
-> Quoting Laurent Pinchart (2025-08-12 12:32:43)
-> > Hi Krzysztof,
-> >
-> > On Tue, Aug 12, 2025 at 07:54:46AM +0200, Krzysztof Ha=C5=82asa wrote:
-> > > Hi Stefan et al,
-> > >
-> > > BTW I've added Lucas Stach and Shawn Guo to "Cc" list.
-> > >
-> > > The problem is the CPU core power supply voltage :-)
-> >
-> > Ah, the dreadful overdrive mode.
-> >
-> > > - while the reference manual specifies the max ISP and MEDIA clocks a=
-t
-> > >   500 MHz, the datasheets show this requires the "overdrive" mode =3D
-> > >   increased CPU power supply voltage. In "normal" mode the ISPs are
-> > >   limited to 400 MHz (there are other limits, too).
-> > >
-> > > - I've tried lowering the clock rate after booting the systems (with
-> > >   a CCM register write), but it didn't fix the problem. I guess some
-> > >   reset logic is affected here, and the (lower) clock rate must be se=
-t
-> > >   right from the start, in the DT.
-> >
-> > That's interesting. I wouldn't have expected that.
-> >
-> > > - anyway, lowering the frequencies of ISP and MEDIA root clocks fixes
-> > >   the ISP2 MI corruption. I'm currently investigating PMIC settings
-> > >   (both my Compulab and SolidRun modules use PCA9450C PMICs), so perh=
-aps
-> > >   I'll be able to use the higher 500 MHz clocks. It doesn't matter mu=
-ch,
-> > >   though.
+Hi Jonas,
 
-I was reading through the data sheet (not the reference manual), and
-it lists a few limitations for the clocks:
+Le mardi 12 ao=C3=BBt 2025 =C3=A0 19:31 +0200, Jonas Karlman a =C3=A9crit=
+=C2=A0:
+> On 8/12/2025 2:44 PM, Nicolas Dufresne wrote:
+> > I forgot,=20
+> >=20
+> > Le mardi 12 ao=C3=BBt 2025 =C3=A0 08:38 -0400, Nicolas Dufresne a =C3=
+=A9crit=C2=A0:
+> > > > JCT-VC-HEVC_V1 on GStreamer-H.265-V4L2SL-Gst1.0:
+> > > >=20
+> > > > - DBLK_D_VIXS_2 (fail)
+> > > > - DSLICE_A_HHI_5 (fail)
+> > > > - EXT_A_ericsson_4 (fail)
+> > > > - PICSIZE_A_Bossen_1 (error)
+> > > > - PICSIZE_B_Bossen_1 (error)
+> > > > - PICSIZE_C_Bossen_1 (error)
+> > > > - PICSIZE_D_Bossen_1 (error)
+> > > > - SAODBLK_A_MainConcept_4 (fail)
+> > > > - SAODBLK_B_MainConcept_4 (fail)
+> > > > - TSUNEQBD_A_MAIN10_Technicolor_2 (error)
+> >=20
+> > I'me getting the same result if I force a single job in fluster. The te=
+st I
+> > posted was with 2 jobs. Detlev found that the iommu reset is required i=
+n
+> > more
+> > cases on RK3588/3576, perhaps the HEVC decoder in older hardware needs =
+the
+> > same,
+> > I will try and report.
+>=20
+> Vendor kernel [1] check following bits from RKVDEC_REG_INTERRUPT reg to
+> decide if a full HW reset should be done.
+>=20
+> =C2=A0 err_mask =3D RKVDEC_BUF_EMPTY_STA
+> =C2=A0=C2=A0	=C2=A0=C2=A0 | RKVDEC_BUS_STA
+> =C2=A0=C2=A0	=C2=A0=C2=A0 | RKVDEC_COLMV_REF_ERR_STA
+> =C2=A0=C2=A0	=C2=A0=C2=A0 | RKVDEC_ERR_STA
+> =C2=A0=C2=A0	=C2=A0=C2=A0 | RKVDEC_TIMEOUT_STA;
+>=20
+> Adding proper reset support can be rather involved and main reason why
+> this series does not handle it, better suited for a separate future
+> series.
+>=20
+> Proper HW reset will require e.g. dt-bindings, DT updates, pmu idle
+> request integration and for rk3328 vendor even moved VPU reset to TF-A.
+>=20
+> Doing the iommu detach/attach dance not only on RKVDEC_SOFTRESET_RDY
+> could possible improve some cases, until full reset can be implemented.
 
-For single Camera, MIPI CSI 1 can support up to 400/500 MHz pixel
-clock in the Nominal/Overdrive mode.
-For single Camera, MIPI CSI 2 can support up to 277 MHz pixel clock.
-For dual Camera, both MIPI CSI can support up to 266 MHz pixel clock.
+Rockchip is following VSI design of "self reset" on error. But since the io=
+mmu
+is part of the device, it also gets reset, which imply having to reprogram =
+it.
+This showed to be very reliable logic, despite RK doing a hard reset.
 
-If you're running dual cameras, it sounds like you're capped at 266
-MHz regardless of whether or not you're in overdrive or nominal.
+Since self reset is documented for RKVDEC_BUS_STA, RKVDEC_ERR_STA,
+RKVDEC_TIMEOUT_STA, it would seem that RKVDEC_BUF_EMPTY_STA is redundant, u=
+nless
+its asynchronous operation that need to be polled. Possibly something to
+investigate. RKVDEC_BUF_EMPTY_STA and RKVDEC_COLMV_REF_ERR_STA are not
+documented a such, so its not quite logical to reprogram the iommu.
 
+I don't immediately trust reference software for these type of things, we s=
+hould
+find what works best and have a rationale for. The hard reset is every
+expensive, and hard to upstream.
 
+Nicolas
 
-> > >
-> > > - the question is if we should lower the clocks in the main imx8mp.dt=
-si
-> > >   DT file, or the overdrive mode should stay there, and the changes
-> > >   should be made to the individual board files, or maybe the U-Boot
-> > >   configs (PMIC output voltages) should be changed etc.
-> >
-> > I think it would make sense to lower the default clock frequencies, and
-> > provide an overlay to enable overdrive mode.
-> >
-> > It's also interesting that the issue only affected the second ISP, as
-> > the first one should also be limited to 400 MHz in normal mode.
->
-> I support that. As a side note, there is already imx8mp-nominal.dtsi
-> which is only used by one board. That dtsi also uses the
-> fsl,operating-mode property which enables additional clock checks. So I
-> ask myself if the default imx8mp.dtsi should specify overdrive mode, or
-> if we should add a imx8mp-overdrive.dtsi (then we should possibly rename
-> them to imx8mp-mode-xxx.dtsi so that they sit side by side) to make it
-> easier to create overlays for both cases.
+>=20
+> [1]
+> https://github.com/Kwiboo/linux-rockchip/blob/linux-6.1-stan-rkr6.1/drive=
+rs/video/rockchip/mpp/mpp_rkvdec.c#L924-L931
+>=20
+> Regards,
+> Jonas
+>=20
+> >=20
+> > Nicolas
 
-My understanding is that the imx8mp.dtsi is pre-configured for
-overdrive mode, so if you need to run the ISP in nominal, the clock
-updates should go into imx8mp-nominial.dtsi.
+--=-1m44GyIlgc9M/VdWhbhx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-adam
->
-> Best regards,
-> Stefan
->
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJuHYQAKCRBxUwItrAao
+HGFAAKCCjxsKHnwiBkJhZl1nzpBQCCMhtQCdHzRB3yV4I1LVEzFyzTbwZPxMo8A=
+=mrJE
+-----END PGP SIGNATURE-----
+
+--=-1m44GyIlgc9M/VdWhbhx--
 
