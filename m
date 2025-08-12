@@ -1,196 +1,350 @@
-Return-Path: <linux-media+bounces-39577-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39578-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A59AB22582
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:12:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 617DBB225DE
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:28:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 589711A26804
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 11:10:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4FE5B7A9528
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 11:27:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 401D02EF645;
-	Tue, 12 Aug 2025 11:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17C332ED84A;
+	Tue, 12 Aug 2025 11:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S8zR2e2K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="G0dToPMx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="134V7J77";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rd+o4RgY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T+ZEoERn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5DD2EE602
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 11:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FA22E2DE0;
+	Tue, 12 Aug 2025 11:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754996888; cv=none; b=iSp7iys0aFgxGz/f9HQn+9z0Yp4BZHzuVgRemC3bfI4d++FoNqK16X5QJ7m6pTYqg2Iujm7d9BYlVAog8T5Ug1KzFy7aUGia85Ic+GVHfFzcIfkPrnpY/poV5F5ncqFHyFczoLV7YFruwW/hk8olA7jzl1mRQrKjTXLPZwHBieQ=
+	t=1754998120; cv=none; b=MG/XPZA4fv8ean2jAJzk5AKjpMZHd6W8GVBqR+jvC7Bbp9gKUoZTpK+kfn9iKOEMLpHHnLCDFmrnUwUDFVB0102wvdzNrCprW0OmYh450gztuhSHrJ+TWeZxRD4VuPvwCIXENgx4Yl+xxK3O5OwmrrLkhvQGzcw2W7Glw56vdVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754996888; c=relaxed/simple;
-	bh=WnAXs8sUOKcPKdO7LQ8/9Ps9rFCgxNc9yrW+nYqSQkg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=soHXHjS5rhaFFrH35dj6Owk/7HTmOPKxK/s76P3J+EDJOpxmSCNYfrXBNok98YsABRGfhx32Led0SjXoYw93ABczM85fchOEE2LxHQIKQ/uSduZA5PO8QfVBBOODOiKuNWwgvnPbcJhVw55ak5N87iNwA6ShUqclkpMqhMnGKcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S8zR2e2K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=G0dToPMx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=134V7J77; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rd+o4RgY; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B983C21C5E;
-	Tue, 12 Aug 2025 11:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754996885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X+Pq+HWMOwp0lxxt7RjXumdt9oJHQterGtSmWXVf0m0=;
-	b=S8zR2e2Ky0Tl0AVVR7GRobH8pn04HJHoHsY++xsuJPudxP9vSzF6sgovK03TfxELq8WzBu
-	eNFcan5QhsBSPjhG7EKLQRJYev6ZMSP+RkOz81SEJq+rLRJIt91c3b+CjnNfCl4LPyw/eQ
-	OcLBmY0P+IoYPDAuza6Qa10GbTAlH8g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754996885;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X+Pq+HWMOwp0lxxt7RjXumdt9oJHQterGtSmWXVf0m0=;
-	b=G0dToPMxRl2Lfw0GnvagTFm9sUQ5deL6I8usuDxhuw9uRWkQ6CU5lZ5tCUHysIS8e/JJEF
-	f69J+HOdxqTb9iDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=134V7J77;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rd+o4RgY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754996883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X+Pq+HWMOwp0lxxt7RjXumdt9oJHQterGtSmWXVf0m0=;
-	b=134V7J77C+ndgiw+lL+WMR2wzokp1IR0YIjOL9uNNSMZjXkpIT5mM1MAxVjRUFF+FGj44r
-	BeLRbrJPnk+Ewrfot3DoEUGNx0TpvOTg1nomxVYQKKbHlWntffMedjxcObfbnjieMClcc8
-	fjUvEOPT1gCGhdp/CvPQbOW9gA+qqMs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754996883;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X+Pq+HWMOwp0lxxt7RjXumdt9oJHQterGtSmWXVf0m0=;
-	b=rd+o4RgY2c3kd9ui1kz8rf4ExHKD28a1Gdu06+3wUMo67EXkcFl2hfts+EhZyt5PXeobVQ
-	QJ79+7tSSMytUFAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 769111351A;
-	Tue, 12 Aug 2025 11:08:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DstoHJMgm2jJFAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 12 Aug 2025 11:08:03 +0000
-Date: Tue, 12 Aug 2025 13:07:57 +0200
-Message-ID: <87ectgztki.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Matt Wu <wuqiang.matt@bytedance.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sean Young <sean@mess.org>,
+	s=arc-20240116; t=1754998120; c=relaxed/simple;
+	bh=aucV3Sk1cFWXbwVP3m/8s6jEvha/U79mOmkbk6667gI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=duGnjDFPy1S7B9a3nDSXV74tc4FdyMRzE4qhS5+Y5mIf69x79z2RMcP98iVlb2/KhmOlWKC0rOUouGOzHFnS6cgbablLNGYlPeITvN604lZ/xZ3ie0XAQq0iCqzSzbzsBZSYDc7TmoF+hbdmYOsHdr40+1nruyrBcnrtFHmHT4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T+ZEoERn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8BDC4346;
+	Tue, 12 Aug 2025 13:27:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754998062;
+	bh=aucV3Sk1cFWXbwVP3m/8s6jEvha/U79mOmkbk6667gI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T+ZEoERn73hAtMcyzscX3cz4VPPafGKpTE2h2HjIZM2OpmAGVTFS8xPTF/20T/CN8
+	 Hn06axQhyd6SgqJRu+O7SuXSo87H0eCkXvGdSfcTezoPdQE6q4+qDvMBp8QaRrfzxL
+	 X1F0IqfF5lKbuFVsnlrU+aid6LeNCy4Rwq/U/R7A=
+Date: Tue, 12 Aug 2025 14:28:17 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Will Whang <will@willwhang.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 5/8] ALSA: hrtimer: Avoid direct access to hrtimer clockbase
-In-Reply-To: <20250812-hrtimer-cleanup-get_time-v1-5-b962cd9d9385@linutronix.de>
-References: <20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de>
-	<20250812-hrtimer-cleanup-get_time-v1-5-b962cd9d9385@linutronix.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 4/4] media: docs: Add userspace-API guide for the
+ IMX585 driver
+Message-ID: <20250812112817.GM30054@pendragon.ideasonboard.com>
+References: <20250810220921.14307-1-will@willwhang.com>
+ <20250810220921.14307-5-will@willwhang.com>
+ <CAPY8ntATfq=yqoYkpuD5Ga-7yUb8C-_k=wSZJBpz0p9PLjVk0w@mail.gmail.com>
+ <CAFoNnrzHhJVbR1yQrr6o1+1JhyDB6y0NNfyJkK=by9YOJRGusQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,linutronix.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: B983C21C5E
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+In-Reply-To: <CAFoNnrzHhJVbR1yQrr6o1+1JhyDB6y0NNfyJkK=by9YOJRGusQ@mail.gmail.com>
 
-On Tue, 12 Aug 2025 08:08:13 +0200,
-Thomas Wei�schuh wrote:
+Hi Will,
+
+On Mon, Aug 11, 2025 at 07:31:13PM -0700, Will Whang wrote:
+> On Mon, Aug 11, 2025 at 7:24 AM Dave Stevenson wrote:
+> > On Sun, 10 Aug 2025 at 23:11, Will Whang wrote:
+> > >
+> > > The new IMX585 V4L2 sub-device driver introduces several
+> > > driver-specific controls for configuring Clear-HDR blending,
+> > > gradation compression thresholds, and HCG enabling.  This patch adds
+> > > an rst document under Documentation/userspace-api/media/drivers/
+> > > that details each control, allowed values, and their effects.
+> > >
+> > > Signed-off-by: Will Whang <will@willwhang.com>
+> > > ---
+> > >  .../userspace-api/media/drivers/imx585.rst    | 122 ++++++++++++++++++
+> > >  .../userspace-api/media/drivers/index.rst     |   1 +
+> > >  MAINTAINERS                                   |   1 +
+> > >  3 files changed, 124 insertions(+)
+> > >  create mode 100644 Documentation/userspace-api/media/drivers/imx585.rst
+> > >
+> > > diff --git a/Documentation/userspace-api/media/drivers/imx585.rst b/Documentation/userspace-api/media/drivers/imx585.rst
+> > > new file mode 100644
+> > > index 000000000..9f7c16f30
+> > > --- /dev/null
+> > > +++ b/Documentation/userspace-api/media/drivers/imx585.rst
+> > > @@ -0,0 +1,122 @@
+> > > +.. SPDX-License-Identifier: GPL-2.0-only
+> > > +
+> > > +Sony IMX585 driver
+> > > +==================
+> > > +
+> > > +The IMX585 image-sensor driver provides the following *driver-specific*
+> > > +V4L2 controls.  They are visible only when the IMX585 driver is loaded
+> > > +and sit in the sensor-private control class.
+> > > +
+> > > +HDR data blending
+> > > +-----------------
+> > > +
+> > > +``V4L2_CID_IMX585_HDR_DATASEL_TH``  (``U16[2]``)
+> > > +    Lower/upper **thresholds** (0 – 4095) that decide which exposure is
+> > > +    chosen—or blended—for each pixel in Clear-HDR mode.
+> > > +
+> > > +``V4L2_CID_IMX585_HDR_DATASEL_BK``  (menu)
+> > > +    **Blending ratio** between the long-gain (LG) and
+> > > +    high-gain (HG) read-outs.
+> > > +
+> > > +    .. flat-table::
+> > > +       :stub-columns: 0
+> > > +       :widths: 1 5
+> > > +
+> > > +       * - ``0``
+> > > +         - HG ½, LG ½
+> > > +       * - ``1``
+> > > +         - HG ¾, LG ¼
+> > > +       * - ``2``     # duplicate ratio present in the datasheet
+> > > +         - HG ½, LG ½
+> > > +       * - ``3``
+> > > +         - HG ⅞, LG ⅛
+> > > +       * - ``4``
+> > > +         - HG 15⁄16, LG 1⁄16
+> > > +       * - ``5``     # second 50/50 entry as documented
+> > > +         - **2ⁿᵈ** HG ½, LG ½
+> > > +       * - ``6``
+> > > +         - HG 1⁄16, LG 15⁄16
+> > > +       * - ``7``
+> > > +         - HG ⅛, LG ⅞
+> > > +       * - ``8``
+> > > +         - HG ¼, LG ¾
+> > > +
+> > > +Gradation compression
+> > > +---------------------
+> > > +
+> > > +``V4L2_CID_IMX585_HDR_GRAD_TH``  (``U32[2]``)
+> > > +    17-bit **break-points** (0 – 0x1ffff) that shape the 16-bit
+> > > +    gradation-compression curve.
+> > > +
+> > > +``V4L2_CID_IMX585_HDR_GRAD_COMP_L``  (menu)
+> > > +    See V4L2_CID_IMX585_HDR_GRAD_COMP_H
+> > > +
+> > > +``V4L2_CID_IMX585_HDR_GRAD_COMP_H``  (menu)
+> > > +    **Compression ratios** below the first break-point and between the
+> > > +    two break-points, respectively.
+> > > +
+> > > +    .. flat-table::
+> > > +        :stub-columns: 0
+> > > +        :widths: 1 4
+> > > +
+> > > +        * - ``0``
+> > > +          - 1 : 1
+> > > +        * - ``1``
+> > > +          - 1 : 2
+> > > +        * - ``2``
+> > > +          - 1 : 4   *(default for COMP_L)*
+> > > +        * - ``3``
+> > > +          - 1 : 8
+> > > +        * - ``4``
+> > > +          - 1 : 16
+> > > +        * - ``5``
+> > > +          - 1 : 32
+> > > +        * - ``6``
+> > > +          - 1 : 64  *(default for COMP_H)*
+> > > +        * - ``7``
+> > > +          - 1 : 128
+> > > +        * - ``8``
+> > > +          - 1 : 256
+> > > +        * - ``9``
+> > > +          - 1 : 512
+> > > +        * - ``10``
+> > > +          - 1 : 1024
+> > > +        * - ``11``
+> > > +          - 1 : 2048
+> > > +
+> > > +Gain settings
+> > > +-------------
+> > > +
+> > > +``V4L2_CID_IMX585_HDR_GAIN``  (menu)
+> > > +    **Additional gain** (in dB) applied to the high-gain path when
+> > > +    Clear-HDR is active.
+> > > +
+> > > +    .. flat-table::
+> > > +        :stub-columns: 0
+> > > +        :widths: 1 3
+> > > +
+> > > +        * - ``0``
+> > > +          - +0 dB
+> > > +        * - ``1``
+> > > +          - +6 dB
+> > > +        * - ``2``
+> > > +          - +12 dB *(default)*
+> > > +        * - ``3``
+> > > +          - +18 dB
+> > > +        * - ``4``
+> > > +          - +24 dB
+> > > +        * - ``5``
+> > > +          - +29.1 dB
+> > > +
+> > > +``V4L2_CID_IMX585_HCG_GAIN``  (boolean)
+> >
+> > HCG stands for High Conversion Gain, so we've got Gain repeated in the name.
+> >
+> > Spell it out as V4L2_CID_IMX585_HIGH_CONV_GAIN, or call it
+> > CONVERSION_GAIN and use an enum control?
+> >
+> > > +    Toggle **High-Conversion-Gain** mode.
+> > > +
+> > > +    *0 = LCG (default), 1 = HCG.*
+> >
+> > An HCG / LCG control would also be applicable for IMX290 [1], so it
+> > would be nice if this could be a generic control instead of imx585
+> > specific.
+> >
+> > I never got a good description as to the benefit HCG was meant to
+> > give. The datasheet for IMX290 says the conversion efficiency ratio
+> > between HCG and LCG is 2, but not why that is any better than adding
+> > 6dB of analog gain.
 > 
-> The field timer->base->get_time is a private implementation detail and
-> should not be accessed outside of the hrtimer core.
+> What I've learned is that HCG is actually a 2nd stage amplifier, so
+> instead of using one for high gain, you can split it into two lower
+> gain stages that lower the noise.
+
+DCG as a term is a bit confusing. It was initially used to describe an
+inter-frame HDR technique, where two different conversion gains are
+applied to separate frames by switching on and off an extra capacitor on
+the pixel's floating diffusion node. I don't know how it evolved from
+there, but just adding a second amplifier doesn't seem to be a very
+effective way to lower noise.
+
+If anyone does some research on the topic and finds clear information,
+please share them.
+
+> This is also why ClearHDR and HCG have the conflict, because it is
+> basically sampling after the 1st gain stage and 2nd gain stage as
+> High/Low gain images.
 > 
-> Switch to the equivalent helper.
+> I have thought about making it more generic because IMX662 and IMX678
+> are going to be the next patch once this one passes that also has this
+> function (the two are basically stripped down versions from IMX585
+> that the driver can be adapted to easily). I intended for the upcoming
+> IMX662/IMX678 driver to use IMX585's V4L2 HCG control also.
 > 
-> Signed-off-by: Thomas Wei�schuh <thomas.weissschuh@linutronix.de>
-> ---
->  sound/core/hrtimer.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> But given that I'm new to Linux kernel developments, or more
+> specifically, V4L2, I really don't have an idea how to do so in a way
+> the patch will be accepted.
+> Or I can make this more generic name to replace IMX585 for STARVIS2,
+> for example: V4L2_CID_STARVIS2_HIGH_CONV_GAIN
+
+We should really try to standardize V4L2 controls for HDR support in
+sensors. See https://lore.kernel.org/linux-media/20250710220544.89066-1-mirela.rabulea@nxp.com
+for an attempt at doing so (for some of the controls at least). Could
+you share your feedback in that mail thread ?
+
+The proposal doesn't address the sensor-side blending controls. For
+those, I recommend considering how they should be handled from
+userspace. We don't want to have per-sensor code there if we can avoid
+it, and that should drive the API design.
+
+As for what you call gradation above, that's not strictly speaking
+limited to HDR, right ? If my understanding is right, this is about
+applying a compression curve to lower the bandwidth by lowering the
+number of bits per pixel while preserving more dynamic range in the
+lower and middle parts of the pixel value range. Is that correct ? If
+so, the term "companding" is also often used for this feature. I think
+we have three needs:
+
+- Enable/disable companding (which includes configuring the bit depth of
+  the output format)
+
+- Obtaining the companding curve applied by the sensor (as the host will
+  have to apply the inverse expansion curve)
+
+- Optionally, modifying the companing curve.
+
+I'd like standard controls for those.
+
+> > Sony's website [2] states
+> > "Sony’s Super High Conversion Gain technology is designed to amplify
+> > electrical signals immediately after the conversion from photons, when
+> > the noise levels are relatively low. In this way, it reduces the
+> > overall noise after amplification. As a result, lower-noise images,
+> > compared to conventional technology, can be captured even in a
+> > low-illuminance environment. Lower noise levels in images also help to
+> > enhance the accuracy in visual or AI-assisted image recognition."
+> > From that one would presume you'd always want it on (lower noise =
+> > good), unless needing the minimum exposure time and the image was
+> > already over-exposed.
+> > I'm guessing you have no additional information based on your description text.
+> >
+> >   Dave
+> >
+> > [1] Also IMX327, IMX462, and IMX662 which are in the same family,
+> > IMX678 (ratio of 2.6), and quite probably most of the Sony Starvis or
+> > Starvis 2 ranges.
+> > [2] https://www.sony-semicon.com/en/technology/security/index.html
 > 
-> diff --git a/sound/core/hrtimer.c b/sound/core/hrtimer.c
-> index c364bd126ac8b311e3ce899e226ff9fd82c4485f..2d5f4d47071f79d7db24c8f004f0f4154808fdd8 100644
-> --- a/sound/core/hrtimer.c
-> +++ b/sound/core/hrtimer.c
-> @@ -44,7 +44,7 @@ static enum hrtimer_restart snd_hrtimer_callback(struct hrtimer *hrt)
->  	}
->  
->  	/* calculate the drift */
-> -	delta = ktime_sub(hrt->base->get_time(), hrtimer_get_expires(hrt));
-> +	delta = ktime_sub(hrtimer_cb_get_time(hrt), hrtimer_get_expires(hrt));
->  	if (delta > 0)
->  		ticks += ktime_divns(delta, ticks * resolution);
+> Yeah I think Starvis 2 series all have this capability.
+> 
+> > > +
+> > > +Notes
+> > > +-----
+> > > +
+> > > +* Controls are writable while streaming; changes take effect from the
+> > > +  next frame.
+> > > +* HDR-specific controls are hidden when HDR is disabled.
+> > > +* Inter-control dependencies are enforced by the driver.
+> > > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> > > index d706cb47b..87912acfb 100644
+> > > --- a/Documentation/userspace-api/media/drivers/index.rst
+> > > +++ b/Documentation/userspace-api/media/drivers/index.rst
+> > > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
+> > >         cx2341x-uapi
+> > >         dw100
+> > >         imx-uapi
+> > > +       imx585
+> > >         max2175
+> > >         npcm-video
+> > >         omap3isp-uapi
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 175f5236a..42e32b6ba 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -23183,6 +23183,7 @@ M:      Will Whang <will@willwhang.com>
+> > >  L:     linux-media@vger.kernel.org
+> > >  S:     Maintained
+> > >  F:     Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml
+> > > +F:     Documentation/userspace-api/media/drivers/imx585.rst
+> > >  F:     drivers/media/i2c/imx585.c
+> > >  F:     include/uapi/linux/imx585.h
+> > >
 
-Acked-by: Takashi Iwai <tiwai@suse.de>
+-- 
+Regards,
 
-
-thanks,
-
-Takashi
+Laurent Pinchart
 
