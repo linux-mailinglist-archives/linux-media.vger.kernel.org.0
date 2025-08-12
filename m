@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-39707-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39708-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A09B23B3E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:52:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8A5B23B50
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:52:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C018E189832F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:51:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC74E587C26
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:50:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77F8E2E9EBC;
-	Tue, 12 Aug 2025 21:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB722EAB66;
+	Tue, 12 Aug 2025 21:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MkycFtPF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZjuSKZ1r"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BB22E9731;
-	Tue, 12 Aug 2025 21:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272812D73AC;
+	Tue, 12 Aug 2025 21:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035320; cv=none; b=a5qLrr3zz4qdXTmH/p025rv3+c3ZMYJoOfc66gouV73gd/hfA0ug/7CWxn3d0hDlYJCkr6ragcmBMadQUOyijnhdPWFMqAC84bbg78DyasOglEXBI36NbV1iuthu2s2Qf4egeAnaTrIRWOolV//6bqVkNOaigkcIpYV6WKYA1A0=
+	t=1755035321; cv=none; b=oE8ckkTC0LS91MMBt4RfkCPP5pgFSFB3pGKGreyyX+MtMWHxU/W+9Y5Oq82FJ9xhJEz93dZ/c/GSi7gyVT3C4VyA4wZpCzeVT54LVajqrqY5ynRU22GtvsrASeGfYIfpTLNEgtWPFSrrp2eagSTQJ4caYFdwLEh4QtCTqCC41cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035320; c=relaxed/simple;
-	bh=mDC1qaAWKXxn4GhY81d6CYkLb80ty3O7EgFsFZJdbNM=;
+	s=arc-20240116; t=1755035321; c=relaxed/simple;
+	bh=80rQPWmlu9tmKbKo+UTwIGr+ObjO6jsfeyRI+3DLmLE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dmpAwOqGeuu3/knTnHGSZPdQia+vu6r1YZdZvwldZ8Er7/A5qRv/GpunO7lrR13D7Rwr2FPm9Cg72H6O+3GsaO1fpm6sKkI5n5p9i5jbOSiTE3DisvRri38piddTuRYkU/wdWLbRxgaM9nw67trV7dXPqapIt4mkAf+/jid4JX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MkycFtPF; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=frvcRayzjTeqWSsoSqNeo/sROvtt/MifU7n/vtYoTtyrplvApoDdOA/wrFc1vsOmMjRv6zVjln0mLKYNHUHBm35QkrclqvEXLplD1fCq8yRar8B0thsAdHmT0XyIh/oT0fagL89BxoLND52hlOf42VoxelkovCSBRqaVNTjx0Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZjuSKZ1r; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 33B7A1738;
-	Tue, 12 Aug 2025 23:47:44 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CEF781123;
+	Tue, 12 Aug 2025 23:47:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035264;
-	bh=mDC1qaAWKXxn4GhY81d6CYkLb80ty3O7EgFsFZJdbNM=;
+	s=mail; t=1755035266;
+	bh=80rQPWmlu9tmKbKo+UTwIGr+ObjO6jsfeyRI+3DLmLE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MkycFtPFr61yXRJlDZw/+JAxKm1bE7ItFhPjzwWQGJXKC4337ZQ/+2xgSluVHcHBZ
-	 PTRt2K82vHHR/h9YvOMhSth9DF3sLj6xPOUOGzFmcPvbKXLJlyFSzEghZ7J2mkBsPx
-	 Bamytgdm1axSrL8Tp9Rb3Qxke1wBpKJA8YU4lChg=
+	b=ZjuSKZ1r7GmsC7usShNQ0ok9kae7BvCtQC27530Rl6P8ly26fkjppZIhNK38BQfny
+	 I/v3oRp+XpFTLpYSgWWyFxVVRfUzBrsjWZr026ZbvxpdRt0+RiTX3vMeHl0esCu5Q0
+	 jk/ICe+6XS9/TfD/Q/mDqjQtFLmSAxMnK8vS6QDY=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -50,9 +50,9 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Conor Dooley <conor+dt@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v2 71/72] arm64: dts: renesas: aistarvision-mipi-adapter-2.1: Drop clock-frequency from camera sensor node
-Date: Wed, 13 Aug 2025 00:46:19 +0300
-Message-ID: <20250812214620.30425-72-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 72/72] arm64: dts: renesas: rzg2l-smarc: Drop clock-frequency from camera sensor node
+Date: Wed, 13 Aug 2025 00:46:20 +0300
+Message-ID: <20250812214620.30425-73-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -76,17 +76,17 @@ This patch depends on "media: i2c: ov5645: Use V4L2 legacy sensor clock
 helper", which we tentatively plan to merge for v6.18. It should
 therefore be postponed to v6.19.
 ---
- arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi | 1 -
+ arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-index 7cb5c958aece..529388f6bf2b 100644
---- a/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-@@ -66,7 +66,6 @@ ov5645: ov5645@3c {
+diff --git a/arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi b/arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi
+index c5bb63c63b47..4d2b0655859a 100644
+--- a/arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi
++++ b/arch/arm64/boot/dts/renesas/rz-smarc-cru-csi-ov5645.dtsi
+@@ -64,7 +64,6 @@ ov5645: camera@3c {
  		compatible = "ovti,ov5645";
  		reg = <0x3c>;
- 		clocks = <&osc25250_clk>;
+ 		clocks = <&ov5645_fixed_clk>;
 -		clock-frequency = <24000000>;
  		vdddo-supply = <&ov5645_vdddo_1v8>;
  		vdda-supply = <&ov5645_vdda_2v8>;
