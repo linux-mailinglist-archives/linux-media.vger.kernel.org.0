@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-39595-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39593-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46A4B2287E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:31:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 646F1B22896
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:33:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AB1E4264FD
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:25:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B39F561002
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 992CD281357;
-	Tue, 12 Aug 2025 13:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AECE280339;
+	Tue, 12 Aug 2025 13:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zb0nJZ7c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UB0VZK8X"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9E027FB2D;
-	Tue, 12 Aug 2025 13:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C901527FD46;
+	Tue, 12 Aug 2025 13:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755005101; cv=none; b=Fpq6XfkrjkLjUb7OT0dUNtIBfGGgMRz3MVHtJJXcodnxqkOQ4isTNVfo+M9cK3eO34er5t6COOijgpIc83sIJbziaR5HJebEIvwpmfd7oOzzPTApvL5d6YRwftVLw8uuASz+1zSQt8xPAefPh+WwdTJHxecNsP1RdWNGTNYi1wg=
+	t=1755005099; cv=none; b=YkdxD09az0rUTUW68A1COnVB2rcGNQYnM9z2ISTOqAmOSRLgdvPsJCRcf9sUtccolYFfiAfmPSNROe/lc0oRFebxBbp/9IwEc1+tr9A6y7W9qPMaMq9aYktprhKsqlRjJIlc2LD3uHFRS0liPtyZvCprb5YGSEkjW1T9ey/AufA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755005101; c=relaxed/simple;
-	bh=xGAbYps5GPfkgb8ITBINxKpJM3S8sNZQ/8rXv2Y/pIk=;
+	s=arc-20240116; t=1755005099; c=relaxed/simple;
+	bh=mTuIX/LJJ66fnhlHiVPxMpengPtS8Rmim9PTaSfsWuI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BEgU5645t8hBf177GJm4cx9WfGpYbnqnG/I4Mx5vjYfAhWcJv8iY7yNVgLvGmFN8Iwxrl0yYsH6D133KMDimp+2R4vZmRgmUAiLdKWZ2k7nj0MTINqsmGwivb8CJRQYlA31fSYoEpxlNRHUx43forYxEZ7N9azImcJ5+haGDg5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zb0nJZ7c; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=pqMILj6KFs1pzwDdKCW6zF3fCBDZ9HHSCNIvBAhTicpg2tC9NU5mjMsH1BtcBFnUByyOprlfLszZeoC45uehFSpoJB3q5YtnMp6nnV6X7+Uze+m2lxtGXvu+zmMXk82kCM3EXPpA2yYVB3VEtfvegwwpXzMYQqo6oqFr03agLyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UB0VZK8X; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755005100; x=1786541100;
+  t=1755005098; x=1786541098;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xGAbYps5GPfkgb8ITBINxKpJM3S8sNZQ/8rXv2Y/pIk=;
-  b=Zb0nJZ7c67MVuvWMSqmr8n3i5Khi4q6x78MYXpodcBX0j1QxmJKSeYCN
-   ClqdStGL+j0uiPqeXOXa3bJD6bOvLilcBN9UNGUd8ntxnSItz3znM9nKx
-   sC3aR8gKF+Qkme8/yKrFO/+J7oIPGKU97/HPxgIWPF1CJNvWAS+53CMjP
-   CVzBLRYsI3IPDCoJhiwnq//SwmgJ5iJlIayGtJlinQnHY0aSajZSxoUEM
-   TWRyMWlU7dxlP/qaFLDtwurzYDq+hoUQCJDWWy9OAage+yDax3MegqP+b
-   O+/vovcIkCcsJ97QM582XRYxA49kW4IQRkUbBH9/+S1DoD6Jt9IdcrLwD
-   Q==;
-X-CSE-ConnectionGUID: MKPKNs1tRr2NXSVUh4eTRw==
-X-CSE-MsgGUID: dc3PQb9NT8OE+/sK0gNsfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68349681"
+  bh=mTuIX/LJJ66fnhlHiVPxMpengPtS8Rmim9PTaSfsWuI=;
+  b=UB0VZK8XN9AP8VHheu8Cq0MW7O48ihxMqebCQHNA8zaZ3l4O7Sz9FSlU
+   0C2bSQMj1VKzRsRQfmP9nAPbHejoIu5ebZC7ubtYyuIe4tldwviuJiJTc
+   z5TL2lF8YHlus7PTn7yB1vXgTDRU0J7g2iQcpHRKHHDWXAMl+dp8ibWEY
+   gI2a+MjH7IRIQuVJexQgsgNIR0P3ECh8fG5QXCpfM/XvvCWU0DvaDn89u
+   uljiSKYee2yL6UNx8hCokWTO4LkDTUtZb2axwsAW8AolE4FXtlLW+vHlj
+   1JBdINRacFeVzkF3Ed3tooTaDiUmWngFLTTMUNmJmYSHoW6bBtgtmiu6P
+   w==;
+X-CSE-ConnectionGUID: FPErh3VVRTeULr2G1QR+ZA==
+X-CSE-MsgGUID: 737TjNOYS6mpbXNGMC5XBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68349674"
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="68349681"
+   d="scan'208";a="68349674"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:24:53 -0700
-X-CSE-ConnectionGUID: U0qPYmJRS+a3mJJd+f1CAg==
-X-CSE-MsgGUID: WfJhdVhxSouybC9VRdIvQw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:24:52 -0700
+X-CSE-ConnectionGUID: COSzvyiCQ+a48nFDoXpINw==
+X-CSE-MsgGUID: k1nzq91UThCyfj0NohBCrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="166987268"
+   d="scan'208";a="166987269"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.110])
   by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:24:48 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2A80D11F91E;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2F65511FC4F;
 	Tue, 12 Aug 2025 16:24:46 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uloze-00DMZp-00;
+	id 1uloze-00DMZt-03;
 	Tue, 12 Aug 2025 16:24:46 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -77,9 +77,9 @@ Cc: linux-media@vger.kernel.org,
 	Kannappan R <r.kannappan@intel.com>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>,
 	Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v4 2/4] USB: core: support eUSB2 double bandwidth large isoc URB frames
-Date: Tue, 12 Aug 2025 16:24:43 +0300
-Message-Id: <20250812132445.3185026-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 3/4] USB: Add a function to obtain USB version independent maximum bpi value
+Date: Tue, 12 Aug 2025 16:24:44 +0300
+Message-Id: <20250812132445.3185026-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
 References: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
@@ -93,67 +93,76 @@ Content-Transfer-Encoding: 8bit
 
 From: "Rai, Amardeep" <amardeep.rai@intel.com>
 
-eUSB2 double isochronous in bandwidth devices support up to 6 transactions
-per microframe, and thus doubles the total bytes possible to receive per
-microframe.
-
-Support larger URB isoc frame sizes for eUSB2 double isoc in endpoints.
-
-Also usb_endpoint_maxp() returns a natural number so there's no need to
-assume it could be < 0.
+Add usb_endpoint_max_isoc_bpi() to obtain maximum bytes per interval for
+isochronous endpoints in a USB version independent way.
 
 Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Reviewed-by: Hans de Goede <hansg@kernel.org>
 ---
- drivers/usb/core/urb.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ drivers/usb/core/usb.c | 32 ++++++++++++++++++++++++++++++++
+ include/linux/usb.h    |  3 +++
+ 2 files changed, 35 insertions(+)
 
-diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
-index 7a76d5a62db1..6f8f3d751854 100644
---- a/drivers/usb/core/urb.c
-+++ b/drivers/usb/core/urb.c
-@@ -372,6 +372,7 @@ int usb_submit_urb(struct urb *urb, gfp_t mem_flags)
- 	struct usb_host_endpoint	*ep;
- 	int				is_out;
- 	unsigned int			allowed;
-+	bool				is_eusb2_isoch_double;
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index fca7735fc660..3e80a5b3e41b 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -1110,6 +1110,38 @@ void usb_free_noncoherent(struct usb_device *dev, size_t size,
+ }
+ EXPORT_SYMBOL_GPL(usb_free_noncoherent);
  
- 	if (!urb || !urb->complete)
- 		return -EINVAL;
-@@ -434,7 +435,11 @@ int usb_submit_urb(struct urb *urb, gfp_t mem_flags)
- 		return -ENODEV;
++/**
++ * usb_endpoint_max_isoc_bpi - Get maximum isochronous transfer bytes per interval
++ * @dev: The USB device
++ * @ep: The endpoint
++ *
++ * Returns: the maximum number of bytes isochronous endpoint @endpoint can
++ * transfer in during a service interval, or 0 for non-isochronous endpoints.
++ */
++u32 usb_endpoint_max_isoc_bpi(struct usb_device *dev,
++			      const struct usb_host_endpoint *ep)
++{
++	if (usb_endpoint_type(&ep->desc) != USB_ENDPOINT_XFER_ISOC)
++		return 0;
++
++	switch (dev->speed) {
++	case USB_SPEED_SUPER_PLUS:
++		if (USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes))
++			return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
++		fallthrough;
++	case USB_SPEED_SUPER:
++		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
++	case USB_SPEED_HIGH:
++		if (ep->eusb2_isoc_ep_comp.bDescriptorType &&
++		    !usb_endpoint_maxp(&ep->desc) && usb_endpoint_dir_in(&ep->desc))
++			return le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval);
++		fallthrough;
++	default:
++		return usb_endpoint_maxp(&ep->desc) * usb_endpoint_maxp_mult(&ep->desc);
++	}
++}
++EXPORT_SYMBOL_GPL(usb_endpoint_max_isoc_bpi);
++
+ /*
+  * Notifications of device and interface registration
+  */
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 535ac37198a1..b38978abc3d6 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -2049,6 +2049,9 @@ static inline int usb_translate_errors(int error_code)
+ 	}
+ }
  
- 	max = usb_endpoint_maxp(&ep->desc);
--	if (max <= 0) {
-+	is_eusb2_isoch_double = dev->speed == USB_SPEED_HIGH &&
-+				usb_endpoint_is_isoc_in(&ep->desc) &&
-+				ep->eusb2_isoc_ep_comp.bDescriptorType &&
-+				le16_to_cpu(ep->desc.wMaxPacketSize) == 0;
-+	if (!max && !is_eusb2_isoch_double) {
- 		dev_dbg(&dev->dev,
- 			"bogus endpoint ep%d%s in %s (bad maxpacket %d)\n",
- 			usb_endpoint_num(&ep->desc), is_out ? "out" : "in",
-@@ -467,9 +472,13 @@ int usb_submit_urb(struct urb *urb, gfp_t mem_flags)
- 			max = le32_to_cpu(isoc_ep_comp->dwBytesPerInterval);
- 		}
- 
--		/* "high bandwidth" mode, 1-3 packets/uframe? */
--		if (dev->speed == USB_SPEED_HIGH)
--			max *= usb_endpoint_maxp_mult(&ep->desc);
-+		/* High speed, 1-3 packets/uframe, max 6 for eUSB2 double bw */
-+		if (dev->speed == USB_SPEED_HIGH) {
-+			if (is_eusb2_isoch_double)
-+				max = le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval);
-+			else
-+				max *= usb_endpoint_maxp_mult(&ep->desc);
-+		}
- 
- 		if (urb->number_of_packets <= 0)
- 			return -EINVAL;
++u32 usb_endpoint_max_isoc_bpi(struct usb_device *dev,
++			      const struct usb_host_endpoint *ep);
++
+ /* Events from the usb core */
+ #define USB_DEVICE_ADD		0x0001
+ #define USB_DEVICE_REMOVE	0x0002
 -- 
 2.39.5
 
