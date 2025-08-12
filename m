@@ -1,346 +1,310 @@
-Return-Path: <linux-media+bounces-39483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AABE3B21AC8
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 04:31:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95349B21AEC
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 04:44:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D88A3ADC52
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 02:31:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 993391907299
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 02:44:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 705322D97BF;
-	Tue, 12 Aug 2025 02:31:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70AC92DE6FC;
+	Tue, 12 Aug 2025 02:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xcrHj/c8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2077.outbound.protection.outlook.com [40.107.236.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236CB311C02;
-	Tue, 12 Aug 2025 02:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754965889; cv=none; b=mVK8thlUFhpUncyAB2Hvps42na9FAtlvLkEs/Jc6wpYctzupZ+o2KNPhtDwU6mh9DQg9Se5RWHwkYvBPwPPokAgiC0YJFPJ3jJuMdupx4qOACadMgmSAAigyUeyDoOkvFf7NQKh3GHAhnfTCMTYltXAbeKM+/8u2tuy+jLcOeZI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754965889; c=relaxed/simple;
-	bh=QU3UBbRkyYoq2ff/+rRNJ/oHK1mbbzN5+5iXiBKolJk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QAKz9ccXXOQ/DbN1ltesNysaNJ/XNRzNIIHY7o6IwCwYaUWxHe1w1By/UVPwJehd3yGjZycQt/U5wUim3Gz0ntJk5TmuUbD6PeMimkaa0Wq9Lg4iVRSj6xPBJswxaXVTGsABSc7mNVI3a1c3EzFAAfa7N7BzvhL9tS+Ef8Q45/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-af925cbd73aso952141266b.1;
-        Mon, 11 Aug 2025 19:31:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754965885; x=1755570685;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=47wXFH/mF2GbpAeMoWSuZbZJWSqZQr2mIeTg2QUMF9Y=;
-        b=bIzS1ZE62mPA3N3NBdIIcpWwyJM+GnrsBAI0Ljr0bHfdkzehl1c9Q/ftjbCtyUc3Co
-         II0nu5a+5D2BMwqmfJDqmdHUfzx4I15yDQ7nc5lDp0MmX6Q9CZ4yW5QhfxLen0TvAxYI
-         BjbifvE+CHmQxnF/qjlhnQq31V/v78WqbxTdgVSt3n/sjMcvfHl/1xm7LvrCP9tgDkS9
-         geibWY+XWjSmUR7LASBxWB1X9b6typ3M1fLIUWBM9U3w0hbznaKGHzg/JmYMnwZ8zTqC
-         HMU7CvEtUbxDWZfrLPng3jXSruwGxEqkqK/pfrCZnMbbqe4SOryQatWcktSgZPvxm1oV
-         K7tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPUm2dj8fuhDTBH/JF4TBrIcbCUmYmrJEoIhyFVzyfjeHxpMu0ltuvOfXLKk2RsGkfJmil3IjZ0/LVA04R@vger.kernel.org, AJvYcCWW2zbDOn+JVurEptgrk20UGnRBFF0vLc5MrJ4ePyA6RijIiwiDVQBMLfIk4km/nH09yk6KpBAKDJQx@vger.kernel.org, AJvYcCXYbGJ59WznF+AJ3f8kWzFkHjnSnQo59gSpdYkXWypt7VvmXXyjU+vYcnGXEQXZp6vkXOFOoGENFTdXyMM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHprXI7JASFEnjcg51J1Sl50ZgCUc2qWR+jpxWnj5fS+iAcNx7
-	6BNzHFuWpEhcuPtTNdaOmTaoxrnLEJWElq3GSjknMuKveLlb7x69q+hnR9CRNQhd9jI=
-X-Gm-Gg: ASbGncsLLhUwY/r5drAzaWxsIJJeuVRtWbeZzOeVNx5IHJJrbrJjYrjL3kxotBmpHL3
-	AzGthQ0/la3RBBYMmazVa5Gssw2jszWx2UDyUeN8fe29m+AeSDxHDGv9NwIyn8r5vEKpnlDZEGg
-	qClKnKsDvXsAnXi8ETuZT44dXBVez4daoQ+GdzBQQJo7vYJcVlpujXtYqybiRLV4ZZ9TkNkrLDf
-	vlEqgmjz+wqbchjRiGaeSK3abvmLsm/02MK38cBcshklveorYim5VoygZlEsLSsnYrZTxGZrQdu
-	ThQ9wKT1/iaLjrCKx9sXx2nZsZ5OBPT/nOoNperdxN5+Yx8hRqyY2sSCHQCozeEGQ1NmW3wTMwR
-	NkwCdWregpcJFuw+g+mdNnXe1oBIh51vtyo+G42Ft2MY5wPd1mD4Z56DcyA==
-X-Google-Smtp-Source: AGHT+IHy0W+3ccYD/4YrvdOwFZrMDAzdKJ+XHFMzlM8W44MKHad5+bkX0bI8amnZquLuUlFQkJ2ilA==
-X-Received: by 2002:a17:906:6a0f:b0:af9:479b:8caf with SMTP id a640c23a62f3a-afa1e1fb747mr129941966b.51.1754965885106;
-        Mon, 11 Aug 2025 19:31:25 -0700 (PDT)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af92a2ec9cbsm2009413166b.79.2025.08.11.19.31.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Aug 2025 19:31:24 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-617b36cc489so9757814a12.0;
-        Mon, 11 Aug 2025 19:31:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUm6sViYYBJwDCcGURzuIhETj9Mfcc6LmZum8nAxjBErMbtS2DsMW0tWAtEO/QodyFxXSYT8OnCEPR2Owg=@vger.kernel.org, AJvYcCW3yN2hNA9LGMwLmpmcMhjZwjW2sF6DlHo28xlbVbEIan8PhKFizkWQ4qrAktdGcOR+QknJ8JaM+nLy89Ad@vger.kernel.org, AJvYcCXsYu5YOo46Re8QdyDwEgTzTIVO4izhPqOCvDhrQc/Zp9zKUSpDBLa9GhYFI69lMqp7x+GR6ObW/kmu@vger.kernel.org
-X-Received: by 2002:a05:6402:1d4a:b0:615:8ab1:9c92 with SMTP id
- 4fb4d7f45d1cf-6184ec7f671mr972927a12.21.1754965884455; Mon, 11 Aug 2025
- 19:31:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E02A311C17;
+	Tue, 12 Aug 2025 02:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754966666; cv=fail; b=nqV1Oxg8GM9W0MyS1KQmj1G2HPJkjsVIf/ARckBYrf789jIknz9Qtaq04x4Y74zklj98od1gibgjVV64nLJo2tIPtcqvmTqB4gOBu+74yFVR1+IRAnZXjyoNIonfiXxV+emfTCgiWbsGski33N0jHvnCprwNXP3/BzXa7WcuU3A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754966666; c=relaxed/simple;
+	bh=o7ZJt+mFuD5om6S7jSvVT24MAwsPOfm3O4HUgfWQzFo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XOM0/WK/PZh8Hmc07OQBNcsvMZjd+xL6yzHYIcUwTGxinBHse9ZmgIdrYRfCbuIlzfk+aAhWFvEWdWF1WCO0vZfHbRQG1Frre0jbBlBQUUkMkBhl50x54ehAC3y9FjxEd+XS/jNT+FhwMaLS3hPVqCBGBpJ4O1EBkrnovQwK23E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xcrHj/c8; arc=fail smtp.client-ip=40.107.236.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dII1S/CBCu75+gWFeT5ooMyEMMtpkO0Sd10/MUBVVSfPkA4rY8TSi27pjnuioPPZSfN+nAPoPtAtlBNIwWV4s6aV7MGJL/8ytOl3P57bUKtzWhikTkOrMtJZr2vZ3/+J6OPQNZK4yOS3WiDLy56Mh4r14nw4GfTYCv3pFjegulXiL4QaT3qZTkoOAseNIYB0mCSVQ//pRw8SkJC8hM7BdOyO+h3SqIaFVudsY1ji1rR6tOU8vpOuOFvJGBJAHun4u8PkYyTgMC68TrLI1wS28zdV+Av8Mm45qCcOHs9PIZzXCBSkdodbYDO/vwyryQDL2fDYEQE7GBnUw1oO9tSDXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vmh0IuUr4WnHTdQ/vTCQJi0wAZXKnOSn+bmQo6Ir4+c=;
+ b=JHALmCtOCACzme1IzoKwjBYkJlJALWENB/BhRNQc48i/kTGo5e50W/2yXoKsHHDUwdUbHurPqW5ux7Ee5nZt/pItZEADxpeFfz7bLE6gF8Et8kh8ii+e6snonAOHrGX+kIBwmZSLSXgNPvlSgHH7Gli9DOwCA6gKOQMFs2j3Ex+gyVCWsSUrGTaxS+qRAIpS974vI9oJYKF+WwRUmHCY7Yvjm7c4w49jFogouOfD8jWE5BXRfeYooMESruy1AFUBFgeD3Ls54k/apvJE2yYPNTw8WOyx7DK9fC3vnlTc7ZKS8IZigiSV+8DhnhjF+ya237Mwbtd6NlrX2w9jYP2EHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vmh0IuUr4WnHTdQ/vTCQJi0wAZXKnOSn+bmQo6Ir4+c=;
+ b=xcrHj/c8PHPNVMsUJj8CNusHqFOSGTbMOscVZCOnojxRXuTi90Oc+3kDiJEXy64ziuKDjIhFyuVn5k/NBoMz9oQu/3WDjHXH8X2GzXm+8cUWc7Xd4mXPqowhtWxpXhooeU+Ryqe5Iz/dCLl1gXGRCOKuORetr8XuumKFLyR3WVw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13)
+ by CH8PR12MB9814.namprd12.prod.outlook.com (2603:10b6:610:26b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Tue, 12 Aug
+ 2025 02:44:22 +0000
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7]) by PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7%4]) with mapi id 15.20.9009.016; Tue, 12 Aug 2025
+ 02:44:21 +0000
+Message-ID: <fe92044d-9c6c-4e1a-aeef-2804c50acd09@amd.com>
+Date: Tue, 12 Aug 2025 10:44:13 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/8] media: platform: amd: Add isp4 fw and hw interface
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, pratap.nirujogi@amd.com,
+ benjamin.chan@amd.com, king.li@amd.com, gjorgji.rosikopulos@amd.com,
+ Phil.Jawich@amd.com, Dominic.Antony@amd.com,
+ Mario Limonciello <mario.limonciello@amd.com>, Richard.Gong@amd.com,
+ anson.tsao@amd.com
+References: <20250618091959.68293-1-Bin.Du@amd.com>
+ <20250618091959.68293-5-Bin.Du@amd.com>
+ <aIclcwRep3F_z7PF@kekkonen.localdomain>
+ <b033bf6c-c824-4f6d-8025-b6542ea8f35f@amd.com>
+ <aJnYE2Z7F-PK1VHL@kekkonen.localdomain>
+Content-Language: en-US
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <aJnYE2Z7F-PK1VHL@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0053.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::8) To PH8PR12MB7446.namprd12.prod.outlook.com
+ (2603:10b6:510:216::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250810220921.14307-1-will@willwhang.com> <20250810220921.14307-5-will@willwhang.com>
- <CAPY8ntATfq=yqoYkpuD5Ga-7yUb8C-_k=wSZJBpz0p9PLjVk0w@mail.gmail.com>
-In-Reply-To: <CAPY8ntATfq=yqoYkpuD5Ga-7yUb8C-_k=wSZJBpz0p9PLjVk0w@mail.gmail.com>
-From: Will Whang <will@willwhang.com>
-Date: Mon, 11 Aug 2025 19:31:13 -0700
-X-Gmail-Original-Message-ID: <CAFoNnrzHhJVbR1yQrr6o1+1JhyDB6y0NNfyJkK=by9YOJRGusQ@mail.gmail.com>
-X-Gm-Features: Ac12FXxo2zIEu3DKLJ0MfSYHCGQBlJP-gsnvq9FZJ8JMtsN4IWIq_9lAHNai2po
-Message-ID: <CAFoNnrzHhJVbR1yQrr6o1+1JhyDB6y0NNfyJkK=by9YOJRGusQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] media: docs: Add userspace-API guide for the
- IMX585 driver
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7446:EE_|CH8PR12MB9814:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfd95dbd-1bf9-42e2-c9bb-08ddd94a2451
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bFJOWm95NkZDSDBLNEh0YjRLM3RWa0NKR1FxTkhWNGt6UGhtVHJNRnF0YlFV?=
+ =?utf-8?B?Um1SRUVmeFJqZ0lUQXZESFJNdEVydTA4TUl0LzVnOFh0WVkwclJMZTJ1dkh0?=
+ =?utf-8?B?RGtWbHRsT2dKQ0NCMGovUERPUkNZNFB4STZHQTRxL1FPbkNPRzVqSkUzSWt4?=
+ =?utf-8?B?NTVVbFI3VkdnanBQc2d5eFBCaVAyMWZkcTQyalRuR0plZXpJUmJpb0RxYWtO?=
+ =?utf-8?B?WVVQWDhaOWRVWVMwWC8xcW80bHNsM0EwRGU3YlBKRk1TbHNRSEJtMTlVT2tz?=
+ =?utf-8?B?UGdkMDU3RmMrcC9yRUJwWjdpZVk4eDM3dHUwN0h1emwwcGVpZkl6OHo2RlEv?=
+ =?utf-8?B?WjdscTNEQkNxTEt6YjJEUUdmYjZQQkpBcUpVRjAvcTFIcmtLM3k0NVJnaFlH?=
+ =?utf-8?B?R3FrWk5yOWNtUm43SzB3SThhaDYvc0l2WHNnVzI5UU5paE1EdHBRZ3UyUjdu?=
+ =?utf-8?B?bkNUa0sybWNVdmFmVVhTMGErYUhsSDhLdDFvYlE3Q05PbDRETzc4UWdWVnc4?=
+ =?utf-8?B?RG9yeWxndUpPc1h6M3JxTWlJYjA5UmpjbFltV240TlNuL2tnMUVORzZxRVJx?=
+ =?utf-8?B?c01mcTVpcHhwckxEdk9pSHFScERTNkVsSXpXMVV2ZllINm90ZEErMlRUWlpR?=
+ =?utf-8?B?VTV0ZjI0a21DZDB4eStMM0QyaFRZN3ZmRytDS0JpZjFHa0hwUFl2ZkhvcUZL?=
+ =?utf-8?B?TExNaUFkYjkxaVl1MjhGWDhIamdQZ0dXaUFYTzJuQVpuRnp0dkNyek1lb1A5?=
+ =?utf-8?B?SjZOUFk2RDNycGI2WmhVRVo4bGZUSUpKaFFvMHBVNFJEbmY4aHNCSU5PZCtO?=
+ =?utf-8?B?Qnh3cmFjWlozdForZDFsMW5KTTZwUjlKOUFmWlNsbTJudDg0Qi9PTDV2TVJB?=
+ =?utf-8?B?VWFpMG1lUVR3aDZHajlnR0FoM2tiSU1SalN3TGgxN3JJTzRDc3R0cnVKZzRD?=
+ =?utf-8?B?dThPcW1YTHVrSDM0T1dFN2JoeHc3TlNXbTd0VnhOTWtMK0hLTk9naitNN09n?=
+ =?utf-8?B?OCt0Ni9iNHpaV28rQ1lTbkZwSXZNanFXTUV1TlZLQ2pYSDJtZ0pUQnJXeGZ0?=
+ =?utf-8?B?R05TdlUzblRHRGlZUlR4cDZwUzVoK2EvYXNVWElzbTVObnMzeDBIL25RdUtD?=
+ =?utf-8?B?YytLcEVtQmVCOFpsOWlvNDZmdzdBUVNIM0lXZ0swbk9Bdk84N1d6WlE1MXZ1?=
+ =?utf-8?B?aFNiN3Y2TU1rRFNlRHM1VHc3RThrc3VJR0pHMGNlT2h0bGFGQVp5UWRUVmZq?=
+ =?utf-8?B?MUZla004QXVjbUZOaVFEckN2cktyVnB2Znc5S0hUQVpZaGJ5dmhjMjJ3azgw?=
+ =?utf-8?B?VHBTNXdjamhDeitvM21MQ3dyNWhsK1orR1hOVmcrN0l1aHRzeG9VaGs2cnly?=
+ =?utf-8?B?NDJ0ZCtlNHZCRGR6bmRGQ0tySW9aYytTaDY0ampOZDdvejVQTXo1ZGxaNnBz?=
+ =?utf-8?B?R1RrUlpueG9jWnJsVWo5K2N3ZGl3eW1TNTlxVk1hZnArY0w5UWtUZEIvVEw3?=
+ =?utf-8?B?a2w4VE5oZ3pqb3dXTE1RRzR4MnJDQkFoaW1GdFBCalZRbDM2dzJCelE0dURr?=
+ =?utf-8?B?Q0RmZmNUeG5DZmtPbG1FajZUblBiN3RrNW1wT0NwdjM3NGZ4ZjN6UnFSOFN4?=
+ =?utf-8?B?ZVlLaU9qb2srVkY0NXc5QnNIay9mTEVSeUxGdXlxM0ZDeFBtZExnNGxWT3FH?=
+ =?utf-8?B?azRnRzc3WlZ2cVdTNG8vRUw4RTRPYzVqWkc1eTg1akVIbSt6OXlqdWJpbTJJ?=
+ =?utf-8?B?bUpLVnp6b3pZcmhTUi9WeXdmRmgyWXI2VDJUVGNVRnVqUFZoNWk0ZzM0MDB5?=
+ =?utf-8?B?MXZZOElpTWZ4b1plUDl6WFhiV2Z1YUwwRnFzdXpDZlJvVDlRSFNHemxlazA3?=
+ =?utf-8?B?bkZrY0w1SUhmREZlbGlYZFZSbzFReFhyVkxTNFpZZ1RWQ2J4SmJQcU5peUtC?=
+ =?utf-8?Q?tjy4SPOYndk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7446.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ekJFdEkwT1pTUWIzZ2pnd21pMSsrMHhpTG5VKzUzT2t5VVZ2RHM4ZWtVUkoy?=
+ =?utf-8?B?MnNiM3lnNUxraFMvWG11c2gvWkE2elEzVVVydFlTK2VXSFl3bkZ5dXF0Kzh1?=
+ =?utf-8?B?b1ZFTDdVVW5rakd5dm1HTnpqSWNTNzExRGFFaUpBWHVVYWRaZWZaTkhJQVkz?=
+ =?utf-8?B?dGdvMzBHMDNTQ1Y3RWRzU1NscFJFTEtCcm45aW9xN2ZjbEhhOTFOYWNNbjQ5?=
+ =?utf-8?B?bng1K1F5Q3g0RCtYK3VkRGlOZ2t1RmVNSHFoRnVldTc4TkZOQnFja1Vzcmx0?=
+ =?utf-8?B?UVhEcTlVYzFsZ0dsa1kzTU9tZnM1cS9VNzAxZ2VYZEMyVTU0aDJXckF2N3p0?=
+ =?utf-8?B?ZDFqQTV6NWszYzBMUms2S1JCMllNV0dmRFk3TDJrK0JYRHlkcGNzSE05NHlE?=
+ =?utf-8?B?U21GN1JzaFJLUkpJL3JzaGVSZVQ2Sk1QWU9ILy9UVVBHWWhTVUw2U01zZEhR?=
+ =?utf-8?B?cVNaSGVDM2VXV3IwZkZ5SEw2Y09aQ0ZuWDVsTnNMYWYwdDVuYXJqQkwvQ3pl?=
+ =?utf-8?B?anMvWFIyaWZmZjFOM3hudDh6Ujhwek1TLzF4dDFHL0tVSHcvNWtiMmk4VC9p?=
+ =?utf-8?B?RDN2UTlzY2xGWWRkMXB0QUVSbExucURYRDR2anJMYXdUejNONGZSanQrNTdv?=
+ =?utf-8?B?UlZYVEl1NWJRU3dmbGMvN2hMUHlyK3ZraDJWL0dEWlkzUHlieTM3Zk5STXVu?=
+ =?utf-8?B?RUVOVkNBMytydVMyU25qMHhNdXcvMHlXUFdMRnpjbEd2YlRORGxjZnF5UnlN?=
+ =?utf-8?B?Z202K2IwSU1GWU1kVWV6eTgzalJkNjI5R2lGVHNlblA4RUNTYU5waXhIUmRn?=
+ =?utf-8?B?cGVWMFNHU1dydXhGWTZoWTkvaWJHem1KU09xU0tMWkhxcHRUZ2MvZkhsWkV4?=
+ =?utf-8?B?TnJMUGo4ckFWZW9CTE9zWVFGamE4bEdMaGdrMjltVjYxd3A0bW90VVJ1ZTFV?=
+ =?utf-8?B?ZmlmK1A2OHcvY0xvVWJlaFNzdmRzcUYxSWxpTmI5cFlqaTJEbCtYYkFvbzAv?=
+ =?utf-8?B?ZlM5UnhhZ1pMaEM1OGE0Vi8xNy9RVHZOUmFvNVd0eW1ldklveDQrWG1sSWZW?=
+ =?utf-8?B?SnRUU2d2VExtbU9lTkVveGhYV3o1M1ZPaDZXMnd3cVU0UE9MRy9nVEpoQ3U0?=
+ =?utf-8?B?cTBuVUUxMUlHWXZHcFgzV0h1aGVFUHFldnRMT0JsVGNBU1ZxU2p4WlhaODVT?=
+ =?utf-8?B?ZGtkUDRBZ0I2VjEvQXBJeUpTa2pBYTlLc09udG9LZUhObFpMQU5LK1lRS2ox?=
+ =?utf-8?B?WHE2Wm80WFlMZVVheE9EazExbndRK3dvWWliUVphOU5MOUxXU01DZjVFSzFQ?=
+ =?utf-8?B?WWdYbEZlVXJqaWxndlhkWFZzMzIyNWU5RUYxQjhRSU5oRnVzdmlxUzdPYTM2?=
+ =?utf-8?B?MWVhUXZYMVpvcnR3NkNQOE1tNnFoRDVmbHE1SFdoT2Nqd0RJLzRkQmZQTnlW?=
+ =?utf-8?B?R1VUaVRHem5BVWZjSGJpNzgxTFFlcnRyS3ZPUmhhTFJKU0MxMkFYdWMzOExV?=
+ =?utf-8?B?VjdSRVppWGx6STkraFc4MUoxQWJVZHRFUFE5dDhMd0UreGgyNXhobEt6Z2lZ?=
+ =?utf-8?B?NUVQdHUrMDNoY2hKdWJudS83N1BpeitYVDBkUU5abHBCMlN5RlptM0tlWktU?=
+ =?utf-8?B?MTZJQytOSXlFdG9leEJncDgvaldKUU9OSUtkakNEOEFSWkN1ZFU5UDQ1endD?=
+ =?utf-8?B?NzFtaWMrcEhhdnE3NFBsSXhqV3BuRHZrSldOeUlKUWg2STBaZ1l1YVF1TU13?=
+ =?utf-8?B?eElnZHNJQTlZc05OeWdJMWsrelF4TytGSllKWnIvVG5oaFNwMGs0RFRaWktM?=
+ =?utf-8?B?bEVPcHhVb09QcUp4L3RnSkJPcWE1V05DcFM3SzVXbEVFK28vOHJvMG5rV0FX?=
+ =?utf-8?B?UUhTSnpHdTlPSVF5eXp6UGhBbmVzdktOSTNDTmF2dUF3STU3WmFjWkFxd2Iz?=
+ =?utf-8?B?QndVSEVSVEJpQUR2ZUdTb2l4cGlma2dxYm1naXZBZzlFd09jbFVtbGswY3Iw?=
+ =?utf-8?B?aTNzNkxDbFR6eGYrYTZ3Und6Z1FiTDJqN2FFMU5SY3g4d1pEKzBoUnJvOWtw?=
+ =?utf-8?B?czRYcno2TGVMRnBUMmRTNGkzbkJtTGhhRWR4TSsvajB6V1c3eVFpZzJGUEoy?=
+ =?utf-8?Q?G3yE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfd95dbd-1bf9-42e2-c9bb-08ddd94a2451
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7446.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2025 02:44:21.8230
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /2DPgQ1Ddc4yeQvnTBVwxAGc/6dpX7yx82y/hTq2xGB/ssj7q9zSYfnTYKKCgqrv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9814
 
-Hi Dave,
-Reply inline.
-Thanks,
-Will Whang
+Thanks Sakari Ailus for the comments
 
-On Mon, Aug 11, 2025 at 7:24=E2=80=AFAM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Will
->
-> Thanks for the patches.
->
-> On Sun, 10 Aug 2025 at 23:11, Will Whang <will@willwhang.com> wrote:
-> >
-> > The new IMX585 V4L2 sub-device driver introduces several
-> > driver-specific controls for configuring Clear-HDR blending,
-> > gradation compression thresholds, and HCG enabling.  This patch adds
-> > an rst document under Documentation/userspace-api/media/drivers/
-> > that details each control, allowed values, and their effects.
-> >
-> > Signed-off-by: Will Whang <will@willwhang.com>
-> > ---
-> >  .../userspace-api/media/drivers/imx585.rst    | 122 ++++++++++++++++++
-> >  .../userspace-api/media/drivers/index.rst     |   1 +
-> >  MAINTAINERS                                   |   1 +
-> >  3 files changed, 124 insertions(+)
-> >  create mode 100644 Documentation/userspace-api/media/drivers/imx585.rs=
-t
-> >
-> > diff --git a/Documentation/userspace-api/media/drivers/imx585.rst b/Doc=
-umentation/userspace-api/media/drivers/imx585.rst
-> > new file mode 100644
-> > index 000000000..9f7c16f30
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/media/drivers/imx585.rst
-> > @@ -0,0 +1,122 @@
-> > +.. SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +Sony IMX585 driver
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +The IMX585 image-sensor driver provides the following *driver-specific=
-*
-> > +V4L2 controls.  They are visible only when the IMX585 driver is loaded
-> > +and sit in the sensor-private control class.
-> > +
-> > +HDR data blending
-> > +-----------------
-> > +
-> > +``V4L2_CID_IMX585_HDR_DATASEL_TH``  (``U16[2]``)
-> > +    Lower/upper **thresholds** (0 =E2=80=93 4095) that decide which ex=
-posure is
-> > +    chosen=E2=80=94or blended=E2=80=94for each pixel in Clear-HDR mode=
-.
-> > +
-> > +``V4L2_CID_IMX585_HDR_DATASEL_BK``  (menu)
-> > +    **Blending ratio** between the long-gain (LG) and
-> > +    high-gain (HG) read-outs.
-> > +
-> > +    .. flat-table::
-> > +       :stub-columns: 0
-> > +       :widths: 1 5
-> > +
-> > +       * - ``0``
-> > +         - HG =C2=BD, LG =C2=BD
-> > +       * - ``1``
-> > +         - HG =C2=BE, LG =C2=BC
-> > +       * - ``2``     # duplicate ratio present in the datasheet
-> > +         - HG =C2=BD, LG =C2=BD
-> > +       * - ``3``
-> > +         - HG =E2=85=9E, LG =E2=85=9B
-> > +       * - ``4``
-> > +         - HG 15=E2=81=8416, LG 1=E2=81=8416
-> > +       * - ``5``     # second 50/50 entry as documented
-> > +         - **2=E2=81=BF=E1=B5=88** HG =C2=BD, LG =C2=BD
-> > +       * - ``6``
-> > +         - HG 1=E2=81=8416, LG 15=E2=81=8416
-> > +       * - ``7``
-> > +         - HG =E2=85=9B, LG =E2=85=9E
-> > +       * - ``8``
-> > +         - HG =C2=BC, LG =C2=BE
-> > +
-> > +Gradation compression
-> > +---------------------
-> > +
-> > +``V4L2_CID_IMX585_HDR_GRAD_TH``  (``U32[2]``)
-> > +    17-bit **break-points** (0 =E2=80=93 0x1ffff) that shape the 16-bi=
-t
-> > +    gradation-compression curve.
-> > +
-> > +``V4L2_CID_IMX585_HDR_GRAD_COMP_L``  (menu)
-> > +    See V4L2_CID_IMX585_HDR_GRAD_COMP_H
-> > +
-> > +``V4L2_CID_IMX585_HDR_GRAD_COMP_H``  (menu)
-> > +    **Compression ratios** below the first break-point and between the
-> > +    two break-points, respectively.
-> > +
-> > +    .. flat-table::
-> > +        :stub-columns: 0
-> > +        :widths: 1 4
-> > +
-> > +        * - ``0``
-> > +          - 1 : 1
-> > +        * - ``1``
-> > +          - 1 : 2
-> > +        * - ``2``
-> > +          - 1 : 4   *(default for COMP_L)*
-> > +        * - ``3``
-> > +          - 1 : 8
-> > +        * - ``4``
-> > +          - 1 : 16
-> > +        * - ``5``
-> > +          - 1 : 32
-> > +        * - ``6``
-> > +          - 1 : 64  *(default for COMP_H)*
-> > +        * - ``7``
-> > +          - 1 : 128
-> > +        * - ``8``
-> > +          - 1 : 256
-> > +        * - ``9``
-> > +          - 1 : 512
-> > +        * - ``10``
-> > +          - 1 : 1024
-> > +        * - ``11``
-> > +          - 1 : 2048
-> > +
-> > +Gain settings
-> > +-------------
-> > +
-> > +``V4L2_CID_IMX585_HDR_GAIN``  (menu)
-> > +    **Additional gain** (in dB) applied to the high-gain path when
-> > +    Clear-HDR is active.
-> > +
-> > +    .. flat-table::
-> > +        :stub-columns: 0
-> > +        :widths: 1 3
-> > +
-> > +        * - ``0``
-> > +          - +0 dB
-> > +        * - ``1``
-> > +          - +6 dB
-> > +        * - ``2``
-> > +          - +12 dB *(default)*
-> > +        * - ``3``
-> > +          - +18 dB
-> > +        * - ``4``
-> > +          - +24 dB
-> > +        * - ``5``
-> > +          - +29.1 dB
-> > +
-> > +``V4L2_CID_IMX585_HCG_GAIN``  (boolean)
->
-> HCG stands for High Conversion Gain, so we've got Gain repeated in the na=
-me.
->
-> Spell it out as V4L2_CID_IMX585_HIGH_CONV_GAIN, or call it
-> CONVERSION_GAIN and use an enum control?
->
-> > +    Toggle **High-Conversion-Gain** mode.
-> > +
-> > +    *0 =3D LCG (default), 1 =3D HCG.*
->
-> An HCG / LCG control would also be applicable for IMX290 [1], so it
-> would be nice if this could be a generic control instead of imx585
-> specific.
->
-> I never got a good description as to the benefit HCG was meant to
-> give. The datasheet for IMX290 says the conversion efficiency ratio
-> between HCG and LCG is 2, but not why that is any better than adding
-> 6dB of analog gain.
->
-What I've learned is that HCG is actually a 2nd stage amplifier, so
-instead of using one for high gain, you can split it into two lower
-gain stages that lower the noise.
-This is also why ClearHDR and HCG have the conflict, because it is
-basically sampling after the 1st gain stage and 2nd gain stage as
-High/Low gain images.
+On 8/11/2025 7:46 PM, Sakari Ailus wrote:
+> Hi Bin,
+> 
+> On Tue, Jul 29, 2025 at 05:12:03PM +0800, Du, Bin wrote:
+>> Many thanks Askari Ailus for your careful review
+>>
+>> On 7/28/2025 3:23 PM, Sakari Ailus wrote:
+>>> Hi Bin,
+>>>
+>>> On Wed, Jun 18, 2025 at 05:19:55PM +0800, Bin Du wrote:
+>>>> ISP firmware controls ISP HW pipeline using dedicated embedded processor
+>>>> called ccpu.
+>>>> The communication between ISP FW and driver is using commands and
+>>>> response messages sent through the ring buffer. Command buffers support
+>>>> either global setting that is not specific to the steam and support stream
+>>>> specific parameters. Response buffers contains ISP FW notification
+>>>> information such as frame buffer done and command done. IRQ is used for
+>>>> receiving response buffer from ISP firmware, which is handled in the main
+>>>> isp4 media device. ISP ccpu is booted up through the firmware loading
+>>>> helper function prior to stream start.
+>>>> Memory used for command buffer and response buffer needs to be allocated
+>>>> from amdgpu buffer manager because isp4 is a child device of amdgpu.
+>>>
+>>> Please rewrap this, some lines above are quite short.
+>>>
+>> Thanks, the line after the short line is supposed to be a new paragraph?
+>> Should we put all the description in one paragraph?
+> 
+> One or more paragraphs work fine, but a new paragraph is separated from the
+> previous one by another newline.
+> 
+> ...
+> 
 
-I have thought about making it more generic because IMX662 and IMX678
-are going to be the next patch once this one passes that also has this
-function (the two are basically stripped down versions from IMX585
-that the driver can be adapted to easily). I intended for the upcoming
-IMX662/IMX678 driver to use IMX585's V4L2 HCG control also.
+Got it, thanks.
 
-But given that I'm new to Linux kernel developments, or more
-specifically, V4L2, I really don't have an idea how to do so in a way
-the patch will be accepted.
-Or I can make this more generic name to replace IMX585 for STARVIS2,
-for example: V4L2_CID_STARVIS2_HIGH_CONV_GAIN
+>>>> +	void *cpu_ptr;
+>>>> +	u64 gpu_addr;
+>>>> +	u32 ret;
+>>>> +
+>>>> +	dev = ispif->dev;
+>>>> +
+>>>> +	if (!mem_size)
+>>>> +		return NULL;
+>>>> +
+>>>> +	mem_info = kzalloc(sizeof(*mem_info), GFP_KERNEL);
+>>>> +	if (!mem_info)
+>>>> +		return NULL;
+>>>> +
+>>>> +	adev = (struct amdgpu_device *)ispif->adev;
+>>>
+>>> Why the cast?
+>>>
+>>> adev isn't a great name here as it's usually used for struct acpi_devices.
+>>>
+>> In the next patch, will use new helper function for this and will no longer
+>> use amdgpu_device
+> 
+> Use correct types when you can; either way this doesn't seem to be changed
+> by the further patches in the set.
+> 
+> ...
+> 
 
-> Sony's website [2] states
-> "Sony=E2=80=99s Super High Conversion Gain technology is designed to ampl=
-ify
-> electrical signals immediately after the conversion from photons, when
-> the noise levels are relatively low. In this way, it reduces the
-> overall noise after amplification. As a result, lower-noise images,
-> compared to conventional technology, can be captured even in a
-> low-illuminance environment. Lower noise levels in images also help to
-> enhance the accuracy in visual or AI-assisted image recognition."
-> From that one would presume you'd always want it on (lower noise =3D
-> good), unless needing the minimum exposure time and the image was
-> already over-exposed.
-> I'm guessing you have no additional information based on your description=
- text.
->
->   Dave
->
-> [1] Also IMX327, IMX462, and IMX662 which are in the same family,
-> IMX678 (ratio of 2.6), and quite probably most of the Sony Starvis or
-> Starvis 2 ranges.
-> [2] https://www.sony-semicon.com/en/technology/security/index.html
-Yeah I think Starvis 2 series all have this capability.
->
-> > +
-> > +Notes
-> > +-----
-> > +
-> > +* Controls are writable while streaming; changes take effect from the
-> > +  next frame.
-> > +* HDR-specific controls are hidden when HDR is disabled.
-> > +* Inter-control dependencies are enforced by the driver.
-> > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Docu=
-mentation/userspace-api/media/drivers/index.rst
-> > index d706cb47b..87912acfb 100644
-> > --- a/Documentation/userspace-api/media/drivers/index.rst
-> > +++ b/Documentation/userspace-api/media/drivers/index.rst
-> > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source d=
-istribution of Linux.
-> >         cx2341x-uapi
-> >         dw100
-> >         imx-uapi
-> > +       imx585
-> >         max2175
-> >         npcm-video
-> >         omap3isp-uapi
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 175f5236a..42e32b6ba 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -23183,6 +23183,7 @@ M:      Will Whang <will@willwhang.com>
-> >  L:     linux-media@vger.kernel.org
-> >  S:     Maintained
-> >  F:     Documentation/devicetree/bindings/media/i2c/sony,imx585.yaml
-> > +F:     Documentation/userspace-api/media/drivers/imx585.rst
-> >  F:     drivers/media/i2c/imx585.c
-> >  F:     include/uapi/linux/imx585.h
-> >
-> > --
-> > 2.39.5
-> >
-> >
+Yes, totally agree.
+
+>>>> +static int isp4if_gpu_mem_free(struct isp4_interface *ispif,
+>>>> +			       struct isp4if_gpu_mem_info *mem_info)
+>>>> +{
+>>>> +	struct device *dev = ispif->dev;
+>>>> +	struct amdgpu_bo *bo;
+>>>> +
+>>>> +	if (!mem_info) {
+>>>> +		dev_err(dev, "invalid mem_info\n");
+>>>> +		return -EINVAL;
+>>>> +	}
+>>>> +
+>>>> +	bo = (struct amdgpu_bo *)mem_info->mem_handle;
+>>>
+>>> Why do you need to cast here?
+>>>
+>> In the next patch, will use new helper function for this and will no longer
+>> use amdgpu_bo
+> 
+> Not quite, on top of this patch number 6 adds more of the same.
+> 
+> ...
+> 
+
+Thanks, will double check all new patches to avoid similar problem.
+
+>>>> +static struct isp4if_cmd_element *
+>>>> +isp4if_append_cmd_2_cmdq(struct isp4_interface *ispif,
+>>>> +			 struct isp4if_cmd_element *cmd_ele)
+>>>> +{
+>>>> +	struct isp4if_cmd_element *copy_command = NULL;
+>>>> +
+>>>> +	copy_command = kmalloc(sizeof(*copy_command), GFP_KERNEL);
+>>>> +	if (!copy_command)
+>>>> +		return NULL;
+>>>> +
+>>>> +	memcpy(copy_command, cmd_ele, sizeof(*copy_command));
+>>>
+>>> kmemdup()?
+>>>
+>> Kmemdup is to allocate memory and copy, can't be used here.
+> 
+> Isn't that what you're doing above?
+> 
+>>
+
+Yes, you are absolutely right. Sorry, missed the kmalloc before the 
+memcpy, will fix in the next patch.
+
+>>>> +
+>>>> +	guard(mutex)(&ispif->cmdq_mutex);
+>>>> +
+>>>> +	list_add_tail(&copy_command->list, &ispif->cmdq);
+>>>> +
+>>>> +	return copy_command;
+>>>> +}
+> 
+
+Regards,
+Bin
 
