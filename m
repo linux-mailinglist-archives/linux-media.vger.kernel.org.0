@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-39683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75547B23B16
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:49:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE3FB23B33
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:51:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BB781AA79F8
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:49:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBE45720774
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:49:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 787532E6108;
-	Tue, 12 Aug 2025 21:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929BE2E610E;
+	Tue, 12 Aug 2025 21:48:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uwR8RNy9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jXJPSiFf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7484C2E1C69
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925532E2640
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:48:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035280; cv=none; b=Jew6I2Jkqni66Vz4itoilrL2htJjMaH6Pj71I//lVk0tN70MxoA71Sr0NED/qmRmXYjy/oI9O3un4CGSnV3SIdds62SgzrW9zqltngpzsVlPQCo0/glid3sL1i7p/wbqhvOVMC59FFYbeoQnKywxZk/M/PhDciCNY5DYEvh04YY=
+	t=1755035283; cv=none; b=kHC1J3K+CUxlO2xWJ3GcbJA9UD83gbAmP2WI861vPZ0Ojb37FLGWCwCKfgY783M1jWW0dWcB2MNPC5RmiPLEi7eNBOZ9JN6rjue/88acU9PAM1pKiM1vfnOHubOcsn/xkdOdgVmEO2KcFqZ8fE2UhA+XQ+mYACxm4obwJRMUnIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035280; c=relaxed/simple;
-	bh=4M3cjpMtY3OEixT1axG/eU55H13m1p2hBvBROVHdp6g=;
+	s=arc-20240116; t=1755035283; c=relaxed/simple;
+	bh=enPy3nOpbJnqIlwJYkdoHvfbVXzCtykILoeh2j+eGxw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RoXGk1pkCGZl/hABTzrAp38tV5gFc2GYQDkM3XCnUHTNZx0oZyEiLR8VswGWTL0i58KBzOnXokXwTcLsa2srA7CpUwlVERXxUPSK9FY+wD0kWcZzz9FXGEpv6DiucKjM/ZevRGIyflLBPFJCzrMcWWwc0JtD+SE5cvlm9pkfYu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uwR8RNy9; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=nyq1KeiL8T8nwrzZkAS65VLnh4yJidOl5LdPum/iQkb1PdBm3kaxn6eZoVfE7BRNDY3oo9/oGyMUfODcbQgXFk7LL85+wtWfRKFrUncyapJArw6ognPMvuv4wOou0z8pQbN6ES0YApkA8j9uFDn9n18puRm5ahhVFmLlmPk80nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jXJPSiFf; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 13B054A4;
-	Tue, 12 Aug 2025 23:47:05 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6C3631738;
+	Tue, 12 Aug 2025 23:47:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035225;
-	bh=4M3cjpMtY3OEixT1axG/eU55H13m1p2hBvBROVHdp6g=;
+	s=mail; t=1755035227;
+	bh=enPy3nOpbJnqIlwJYkdoHvfbVXzCtykILoeh2j+eGxw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uwR8RNy99JEk4R1JICBTXk23c/DZ2kF/b7oedndp++8yyP7EPEOe/LQXDW9s1uSWV
-	 30YBMnzEdQbzollLztDM058Jp+nNX6AomhqNUodfD48ifmf5dfCMpjWzH4TPl52ijP
-	 hrTBLWGjwKw6DoVa0mSTciOkotThWXtWa7pEkUws=
+	b=jXJPSiFflQlnWaSyRY5Gwatt4MQWa0XaR6uyKvOxGxupBSnfESsfr9Pbe5hZi1HnZ
+	 /Zbh/Z7UOHWxJkbBU2wtaGKhSHOhqq+mjbAbhn9MJW5tphKz5IEKeVOT9/wsxCLx99
+	 qzrEZxvsAXwa8YGaMSpEpAF5yIj2KFuNFPs/KpmE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Pavel Machek <pavel@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v2 47/72] media: i2c: et8ek8: Use V4L2 legacy sensor clock helper
-Date: Wed, 13 Aug 2025 00:45:55 +0300
-Message-ID: <20250812214620.30425-48-laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Zhi Mao <zhi.mao@mediatek.com>
+Subject: [PATCH v2 48/72] media: i2c: gc05a2: Use V4L2 legacy sensor clock helper
+Date: Wed, 13 Aug 2025 00:45:56 +0300
+Message-ID: <20250812214620.30425-49-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -85,64 +85,32 @@ devm_v4l2_sensor_clk_get() without any other change.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/et8ek8/et8ek8_driver.c | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
+ drivers/media/i2c/gc05a2.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-index d46fe7a0eec2..2cb7b718782b 100644
---- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
-+++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-@@ -816,7 +816,6 @@ static int et8ek8_power_on(struct et8ek8_sensor *sensor)
- {
- 	struct v4l2_subdev *subdev = &sensor->subdev;
- 	struct i2c_client *client = v4l2_get_subdevdata(subdev);
--	unsigned int xclk_freq = 9600000;
- 	int val, rval;
+diff --git a/drivers/media/i2c/gc05a2.c b/drivers/media/i2c/gc05a2.c
+index 4dadd25e6c90..8ba17f80fffe 100644
+--- a/drivers/media/i2c/gc05a2.c
++++ b/drivers/media/i2c/gc05a2.c
+@@ -1235,16 +1235,12 @@ static int gc05a2_probe(struct i2c_client *client)
+ 		return dev_err_probe(dev, PTR_ERR(gc05a2->regmap),
+ 				     "failed to init CCI\n");
  
- 	rval = regulator_enable(sensor->vana);
-@@ -825,12 +824,6 @@ static int et8ek8_power_on(struct et8ek8_sensor *sensor)
- 		return rval;
- 	}
+-	gc05a2->xclk = devm_v4l2_sensor_clk_get(dev, NULL);
++	gc05a2->xclk = devm_v4l2_sensor_clk_get_legacy(dev, NULL, true,
++						       GC05A2_DEFAULT_CLK_FREQ);
+ 	if (IS_ERR(gc05a2->xclk))
+ 		return dev_err_probe(dev, PTR_ERR(gc05a2->xclk),
+ 				     "failed to get xclk\n");
  
--	rval = clk_set_rate(sensor->ext_clk, xclk_freq);
--	if (rval < 0) {
--		dev_err(&client->dev, "unable to set extclk clock freq to %u\n",
--			xclk_freq);
--		goto out;
--	}
- 	rval = clk_prepare_enable(sensor->ext_clk);
- 	if (rval < 0) {
- 		dev_err(&client->dev, "failed to enable extclk\n");
-@@ -844,7 +837,7 @@ static int et8ek8_power_on(struct et8ek8_sensor *sensor)
- 
- 	gpiod_set_value(sensor->reset, 1);
- 
--	msleep(5000 * 1000 / xclk_freq + 1); /* Wait 5000 cycles */
-+	msleep(5000 * 1000 / sensor->xclk_freq + 1); /* Wait 5000 cycles */
- 
- 	rval = et8ek8_i2c_reglist_find_write(client, &meta_reglist,
- 					     ET8EK8_REGLIST_POWERON);
-@@ -1425,17 +1418,13 @@ static int et8ek8_probe(struct i2c_client *client)
- 		return PTR_ERR(sensor->vana);
- 	}
- 
--	sensor->ext_clk = devm_v4l2_sensor_clk_get(dev, NULL);
-+	sensor->ext_clk = devm_v4l2_sensor_clk_get_legacy(dev, NULL, true,
-+							  9600000);
- 	if (IS_ERR(sensor->ext_clk))
- 		return dev_err_probe(&client->dev, PTR_ERR(sensor->ext_clk),
- 				     "could not get clock\n");
- 
--	ret = of_property_read_u32(dev->of_node, "clock-frequency",
--				   &sensor->xclk_freq);
--	if (ret) {
--		dev_warn(dev, "can't get clock-frequency\n");
--		return ret;
--	}
-+	sensor->xclk_freq = clk_get_rate(sensor->ext_clk);
- 
- 	mutex_init(&sensor->power_lock);
- 
+-	ret = clk_set_rate(gc05a2->xclk, GC05A2_DEFAULT_CLK_FREQ);
+-	if (ret)
+-		return dev_err_probe(dev, ret,
+-				     "failed to set xclk frequency\n");
+-
+ 	ret = gc05a2_get_regulators(dev, gc05a2);
+ 	if (ret < 0)
+ 		return dev_err_probe(dev, ret,
 -- 
 Regards,
 
