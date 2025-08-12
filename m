@@ -1,237 +1,184 @@
-Return-Path: <linux-media+bounces-39591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39592-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B66B2284E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:24:48 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2383B2284F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:25:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E01761887F13
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:19:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 35AD74E3FBD
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 13:25:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BDF227A92D;
-	Tue, 12 Aug 2025 13:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76B2227E1B1;
+	Tue, 12 Aug 2025 13:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UtgZG6G5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EA6BljAq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UtgZG6G5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EA6BljAq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c0x/W0fc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4E327605A
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 13:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169A127CCF2;
+	Tue, 12 Aug 2025 13:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755004729; cv=none; b=kKvBr67tIeUwT7w7+wru8lvPgRPQCDWYfua2n+5VrIC9yq3qW0FRbnwHid0k1WCLqv7Wnk/rW38Uv19pgrUGrd+zv0z6Tyq8B5gZna6vm3C93Xe0yAewf/bwFC5D9tCW9k3sJW1bpQ0P9cd2W855dxcSACn+Y4psFVbmzcbHv44=
+	t=1755005097; cv=none; b=tsthCgnMbETgsIpg5Aew8Na7eDoYZ09QrGItoMvz5O5mUqsmenq357Ex6clK+XK6Au1o/d/+c0S79IP/HmoIXaYEEeJZEShZZezXOFSAsoMpJv8GluYJMn6i5o0JbXvSCGxGwC07SWqWHLIOu7/UYiq6uqxiB+KJCM/CuYmuIQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755004729; c=relaxed/simple;
-	bh=7r5yJWSv8nIJo/KHCyiI1Nv92QtpWaQb9h6xnyk8548=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aeh6hMYJJOnm4993MFs7/SdWuzKfUIj3iZPpfc9XjC61gCLW0Z7OytNhOTUsKKxfwpfBRUwjr9bBjV+w6WW/9+jH+TdiDT7bl/WxbkysG7RMKiTImibANay4DfnhCB5bHAmS/hng8hxrh8jx4i8o97tkyL7jz3MjjJrsXBLavrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UtgZG6G5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EA6BljAq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UtgZG6G5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EA6BljAq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CC4501F45B;
-	Tue, 12 Aug 2025 13:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755004725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=QRs3Lbu/CyqX1NOfs/4bvgoB0mLNEji8vX3OaJ0mTX4=;
-	b=UtgZG6G5F8rqx8Eco59BNijBiVIzfrqtFnvstXMUCNL+8EFQbibfyUQ9pZRxJxcnxp59u2
-	aS5wl8OE2RrAvVXODJXnueVN1XstL9/3O9eMGqcdZb3ep4JMMJRZ14iDr5vgbTibmNL9He
-	Tsd4CeE998lnUXFTk6ZQU3cmCm9Q/pA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755004725;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=QRs3Lbu/CyqX1NOfs/4bvgoB0mLNEji8vX3OaJ0mTX4=;
-	b=EA6BljAqZc1barv1BCS9HXZcaH+ZI3vv7ku4o303GZb+vY9WXLnxZsjsvTVnoI+m8GbtsR
-	ODaMLDHlGkQI8+Bg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755004725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=QRs3Lbu/CyqX1NOfs/4bvgoB0mLNEji8vX3OaJ0mTX4=;
-	b=UtgZG6G5F8rqx8Eco59BNijBiVIzfrqtFnvstXMUCNL+8EFQbibfyUQ9pZRxJxcnxp59u2
-	aS5wl8OE2RrAvVXODJXnueVN1XstL9/3O9eMGqcdZb3ep4JMMJRZ14iDr5vgbTibmNL9He
-	Tsd4CeE998lnUXFTk6ZQU3cmCm9Q/pA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755004725;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=QRs3Lbu/CyqX1NOfs/4bvgoB0mLNEji8vX3OaJ0mTX4=;
-	b=EA6BljAqZc1barv1BCS9HXZcaH+ZI3vv7ku4o303GZb+vY9WXLnxZsjsvTVnoI+m8GbtsR
-	ODaMLDHlGkQI8+Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AC67136C7;
-	Tue, 12 Aug 2025 13:18:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nf37FDU/m2jgOgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 12 Aug 2025 13:18:45 +0000
-Message-ID: <3fad47e3-c1e7-4f37-8341-402d2756ea20@suse.de>
-Date: Tue, 12 Aug 2025 15:18:45 +0200
+	s=arc-20240116; t=1755005097; c=relaxed/simple;
+	bh=kjz+NIvqeefkaPF7vPeZmEqg4n6mM3fJnzRmgDcnC8o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=XDJRyqyrbG6MUxNxETBfcwJCn3wA6vUMBrL7i7AQ7NeByeNx1y0G47h2UNr84eSRA8y+IblLZwp0SeQJQhoEvrAWlFAFvraIvpTjtDL16LQ/2BCqqvOZwor4bU3nuri1r+kzvVpD/hU7iocuBeok8kjwM0xod2pC9MSZlpqpCUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c0x/W0fc; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755005097; x=1786541097;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kjz+NIvqeefkaPF7vPeZmEqg4n6mM3fJnzRmgDcnC8o=;
+  b=c0x/W0fc4P7qG7XHGeWkYl9cCV3aEnaTe5RLopuhBiNgmeh4Xxi2FiK1
+   vCAyOolWDDKIJH374LiT4zE38AIv/qGQnF3/bHJ/xd/0bFLZHhxhlLWav
+   kCLm8sN2L1U2MLba48IzgiKq8LcesMWsL4MJ9ivmKe7k+lNLXelumUAIM
+   6cvXFEMz87ma5AgWQFCz5JjJPx4sh3oAwbgt41Uu3DFlpRID0xQiJy0XJ
+   bt1CAVuC0DYPdK1Xtp9YaySY2mp9wcmzWvnozsX1JhSxMO9/0uasXNfpU
+   wFc/NreUhYq7Ujl8/iLAWzc8qF9fCz/unI4qJ5zqFoxUHoCtspTB+tNJP
+   g==;
+X-CSE-ConnectionGUID: HuFGX1CbTuWeDaSrYdkh3w==
+X-CSE-MsgGUID: 3SyLZ2iYSPCviGSTarEGeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68349664"
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="68349664"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:24:52 -0700
+X-CSE-ConnectionGUID: IyRH0Jo7QRyTK7bvoBSEQg==
+X-CSE-MsgGUID: cu1ryYDdSuaZsXcZedMjfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="166987270"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.110])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:24:48 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2970D11F832;
+	Tue, 12 Aug 2025 16:24:46 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1ulozd-00DMZi-31;
+	Tue, 12 Aug 2025 16:24:45 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: linux-media@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	laurent.pinchart@ideasonboard.com,
+	hdegoede@redhat.com,
+	Thinh.Nguyen@synopsys.com,
+	Amardeep Rai <amardeep.rai@intel.com>,
+	Kannappan R <r.kannappan@intel.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v4 0/4] eUSB2 Double Isochronous IN Bandwidth support
+Date: Tue, 12 Aug 2025 16:24:41 +0300
+Message-Id: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] accel: Add Arm Ethos-U NPU driver
-To: Rob Herring <robh@kernel.org>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250811-ethos-v2-0-a219fc52a95b@kernel.org>
- <20250811-ethos-v2-2-a219fc52a95b@kernel.org>
- <8a872e48-0743-43b0-8259-70d6b8e4c221@suse.de>
- <CAL_JsqJL5sy7Otzo7R8mYW_-7s+ajggjtuW7tYBnVxYPaJHs+w@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAL_JsqJL5sy7Otzo7R8mYW_-7s+ajggjtuW7tYBnVxYPaJHs+w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[tomeuvizoso.net,kernel.org,linux.intel.com,gmail.com,ffwll.ch,linaro.org,amd.com,arm.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
 
-Hi
+Hi all,
 
-Am 12.08.25 um 14:56 schrieb Rob Herring:
-> On Tue, Aug 12, 2025 at 6:01 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi
->>
->> Am 11.08.25 um 23:05 schrieb Rob Herring (Arm):
->>> Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
->>> relatively simple interface with single command stream to describe
->>> buffers, operation settings, and network operations. It supports up to 8
->>> memory regions (though no h/w bounds on a region). The Ethos NPUs
->>> are designed to use an SRAM for scratch memory. Region 2 is reserved
->>> for SRAM (like the downstream driver stack and compiler). Userspace
->>> doesn't need access to the SRAM.
->>>
->>> The h/w has no MMU nor external IOMMU and is a DMA engine which can
->>> read and write anywhere in memory without h/w bounds checks. The user
->>> submitted command streams must be validated against the bounds of the
->>> GEM BOs. This is similar to the VC4 design which validates shaders.
->>>
->>> The job submit is based on the rocket driver for the Rockchip NPU
->>> utilizing the GPU scheduler. It is simpler as there's only 1 core rather
->>> than 3.
->>>
->>> Tested on i.MX93 platform (U65) with WIP Mesa Teflon support.
->>>
->>> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
->> I've looked over this patch and it looks good to me. There's a
->> dev_info() in ethos_init() of which I think it should become drm_dbg().
->> Anyway
-> I prefer to print out what h/w we've discovered. That's a fairly
-> common pattern for drivers (and more useful than announcing drivers
-> that only loaded).
->
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Thanks!
->
->> Side note: I noticed that there's buffer-allocation code here that
->> reinvents dumb buffers. We've ocationally talked about creating a better
->> dumb-buffers ioctl interface and this drivers could be another use case.
-> Yeah. In the past I got told don't use dumb buffers APIs for anything
-> but dumb scanout buffers. I guess with enough copies opinions
-> change...
+This series enables support for eUSB2 Double Isochronous IN Bandwidth UVC
+devices specified in 'USB 2.0 Double Isochronous IN Bandwidth' ECN. In
+short, it adds support for new integrated USB2 webcams that can send twice
+the data compared to conventional USB2 webcams.
 
-That advice wasn't wrong. But the current dumb-buffer ioctls don't 
-support scanout buffers well either. If we build something new, we can 
-try to cover additional use cases as well.
+These devices are identified by the device descriptor bcdUSB 0x0220 value.
+They have an additional eUSB2 Isochronous Endpoint Companion Descriptor,
+and a zero max packet size in regular isoc endpoint descriptor. Support
+for parsing that new descriptor was added in commit
 
-Best regards
-Thomas
+c749f058b437 ("USB: core: Add eUSB2 descriptor and parsing in USB core")
 
->
-> Rob
+This series adds support to UVC, USB core, and xHCI to identify eUSB2
+double isoc devices, and allow and set proper max packet, iso frame desc
+sizes, bytes per interval, and other values in URBs and xHCI endpoint
+contexts needed to support the double data rates for eUSB2 double isoc
+devices.
+
+v1 can be found here
+<URL:https://lore.kernel.org/linux-usb/20250616093730.2569328-2-mathias.nyman@linux.intel.com/>.
+
+v2 can be found here
+<URL:https://lore.kernel.org/linux-usb/20250711083413.1552423-1-sakari.ailus@linux.intel.com/>.
+
+v3 can be found here
+<URL:https://lore.kernel.org/linux-usb/20250807055355.1257029-1-sakari.ailus@linux.intel.com/>.
+
+since v3:
+
+- Use spaces in aligning macro body for HCC2_EUSB2_DIC() (1st patch).
+
+- Move usb_endpoint_max_isoc_bpi() to drivers/usb/core/usb.c (3rd patch).
+
+since v2:
+
+- Use ep->eusb2_isoc_ep_comp.bDescriptorType to determined whether the
+  eUSB2 isochronous endpoint companion descriptor exists.
+
+- Clean up eUSB2 double isoc bw maxp calculation.
+
+- Drop le16_to_cpu(udev->descriptor.bcdUSB) == 0x220 check from
+  xhci_eusb2_is_isoc_bw_double() -- it's redundant as
+  ep->eusb2_isoc_ep_comp.dwBytesPerInterval will be zero otherwise.
+
+- Add kernel-doc documentation for usb_endpoint_max_isoc_bpi().
+
+- Check the endpoint has IN direction in usb_endpoint_max_isoc_bpi() and
+  usb_submit_urb() as a condition for eUSB2 isoc double bw.
+
+since v1:
+
+- Introduce uvc_endpoint_max_isoc_bpi() to obtain maximum bytes per
+  interval value for an endpoint, in a new patch (3rd). This code has been
+  slightly reworked from the instance in the UVC driver, including support
+  for SuperSpeedPlus Isochronous Endpoint Companion.
+
+- Use usb_endpoint_max_isoc_bpi() in the UVC driver instead of open-coding
+  eUSB2 support there, also drop now-redundant uvc_endpoint_max_bpi().
+
+- Use u32 for maximum bpi and related information in the UVC driver -- the
+  value could be larger than a 16-bit type can hold.
+
+- Assume max in usb_submit_urb() is a natural number as
+  usb_endpoint_maxp() returns only natural numbers (2nd patch).
+
+Rai, Amardeep (3):
+  xhci: Add host support for eUSB2 double isochronous bandwidth devices
+  USB: core: support eUSB2 double bandwidth large isoc URB frames
+  USB: Add a function to obtain USB version independent maximum bpi
+    value
+
+Tao Q Tao (1):
+  media: uvcvideo: eUSB2 double isochronous bandwidth support
+
+ drivers/media/usb/uvc/uvc_driver.c |  4 +-
+ drivers/media/usb/uvc/uvc_video.c  | 24 ++----------
+ drivers/media/usb/uvc/uvcvideo.h   |  4 +-
+ drivers/usb/core/urb.c             | 17 +++++++--
+ drivers/usb/core/usb.c             | 32 ++++++++++++++++
+ drivers/usb/host/xhci-caps.h       |  2 +
+ drivers/usb/host/xhci-mem.c        | 60 ++++++++++++++++++++++++------
+ drivers/usb/host/xhci-ring.c       |  6 +--
+ drivers/usb/host/xhci.c            | 16 +++++++-
+ drivers/usb/host/xhci.h            | 19 ++++++++++
+ include/linux/usb.h                |  3 ++
+ 11 files changed, 141 insertions(+), 46 deletions(-)
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+2.39.5
 
 
