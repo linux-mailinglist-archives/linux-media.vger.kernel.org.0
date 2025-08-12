@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-39699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79F3B23B3D
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:51:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C78BB23B49
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:52:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1FDE583B3C
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:50:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1403C720EB0
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:50:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D60072E7BBB;
-	Tue, 12 Aug 2025 21:48:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0E9B2E7BD2;
+	Tue, 12 Aug 2025 21:48:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JitiK6Ru"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SsCh++08"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43542E7653;
-	Tue, 12 Aug 2025 21:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD1F2E7BB8;
+	Tue, 12 Aug 2025 21:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035307; cv=none; b=KnFAxUPmfEEhOKhJGnmpUL6OrNVPBMsuafXaOVmen6CYGDCHY/CHTBYPcRNtOt/PRrq76uTDToxJlrqFk+7EDokGXPxAsVPodWrLbmySxZBsfnx6fuk8KacbjOcqyV4dx25qd7AwmHYJNt0thfO+GxyZZqI9zHytmCLJqIe35Yk=
+	t=1755035309; cv=none; b=trqCXjgYYAENdSxB3iHmdFBFj5j6/yrryYEXBSjNONitmZNtolskEVRUwFc3IQBy8J9JwYMC+CPQcJpl0FgQvhhqmvTiM9aEK3wk297fmvP+ZQiI4H/BGdZbv5qcQBt67L3o42ya+NxkIveSCgyQY6Tzl/SEJOj9zzOEcvBii+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035307; c=relaxed/simple;
-	bh=th+Tt+i8GHZE/TJ0BOOsHI2d+wou8zSZ8hqvcIg3cO8=;
+	s=arc-20240116; t=1755035309; c=relaxed/simple;
+	bh=w7k9w4ZekQGz6lOWcEWmQp+qbPKROd/tHGoFsIB/Jsk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cgRNKBtBOikLm0FvdpYRrjNvmzTkGZlXBkJvKGiJurDx+hCVpqjdovTSSoKz7Eq6Svlu012mBFz9MI9195bGBvKZuSzkSCW9I5H3UaO7316AOuQ3b1qyZbh09UIDaS5fLBgQ0RRE+/e6jciHJ2iWEUCRLzjevJ8eXoWrlAhcpkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JitiK6Ru; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=JAGyg4Xa62tKA7mVBY46n7JhZAio4m2YaXZZ59n6CrBUqtsDJ01DTpWDXI2n644JJ2jcPkyvBcMV/yc7D3hqk/JwyJiPK00kJT6XSc13B2sepHgvhSAcFnG9ECilvmqe9Hd5Ezg/D6IXYWCW+yGkULd8ZgPKVVkq5JX5T0usuMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SsCh++08; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9AAB24A4;
-	Tue, 12 Aug 2025 23:47:31 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3E2E31123;
+	Tue, 12 Aug 2025 23:47:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035251;
-	bh=th+Tt+i8GHZE/TJ0BOOsHI2d+wou8zSZ8hqvcIg3cO8=;
+	s=mail; t=1755035253;
+	bh=w7k9w4ZekQGz6lOWcEWmQp+qbPKROd/tHGoFsIB/Jsk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JitiK6RuAVuFt7rsxxZN2p8ABjDKKpn18Xj2iOMIcj5mIG3SBvpNM4vsNpWkTveS7
-	 OcWx1ZlWq5WNTVX/ruB7+8J/btpwhBpO8Eh5BMVIefeZ9BNF8zXCiMj+iNHmBOzNsS
-	 jvLk8RNnTjHTNBGsoetz8p2f7rwjGep8v3XPPJfU=
+	b=SsCh++08O1o5kx96gsqNPVtqlYmqp2b/p52qzPZxcfb6fidxJ+rps72JbvZRGzquw
+	 IcJroM4d9+8pyLy1U7fM8Te5UNkVaBLJ5YSrMcPPqWMh68ZpSUd4n7d2T1fZEkxMgc
+	 T+SlmcDCeKQ3WC6eOt/Njo6myOIdq988ZDAV2PmY=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Rob Herring <robh@kernel.org>,
@@ -50,9 +50,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 63/72] ARM: dts: samsung: exynos4210-i9100: Replace clock-frequency in camera sensor node
-Date: Wed, 13 Aug 2025 00:46:11 +0300
-Message-ID: <20250812214620.30425-64-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 64/72] ARM: dts: samsung: exynos4412-midas: Replace clock-frequency in camera sensor node
+Date: Wed, 13 Aug 2025 00:46:12 +0300
+Message-ID: <20250812214620.30425-65-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -71,36 +71,35 @@ the device tree.
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 This patch can be merged independently from the previous clock handling
-refactoring in the driver ("media: i2c: s5k5baf: Use V4L2 legacy sensor
+refactoring in the driver ("media: i2c: s5k6a3: Use V4L2 legacy sensor
 clock helper").
 
 Without the driver change, when the clock-frequency property is not set,
 the driver defaults to a fixed 24MHz value. That is the frequency set in
 DT for this board, so the resulting clock frequency does not change.
 ---
- arch/arm/boot/dts/samsung/exynos4210-i9100.dts | 5 ++++-
+ arch/arm/boot/dts/samsung/exynos4412-midas.dtsi | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/samsung/exynos4210-i9100.dts b/arch/arm/boot/dts/samsung/exynos4210-i9100.dts
-index df229fb8a16b..43cee5e26a9a 100644
---- a/arch/arm/boot/dts/samsung/exynos4210-i9100.dts
-+++ b/arch/arm/boot/dts/samsung/exynos4210-i9100.dts
-@@ -169,11 +169,14 @@ image-sensor@2d {
- 			vdda-supply = <&cam_io_en_reg>;
- 			vddreg-supply = <&vt_core_15v_reg>;
- 			vddio-supply = <&vtcam_reg>;
+diff --git a/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi b/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi
+index 05ddddb565ee..3cd027a99369 100644
+--- a/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi
++++ b/arch/arm/boot/dts/samsung/exynos4412-midas.dtsi
+@@ -638,10 +638,13 @@ image-sensor@10 {
+ 		svdda-supply = <&cam_io_reg>;
+ 		svddio-supply = <&ldo19_reg>;
+ 		afvdd-supply = <&ldo19_reg>;
+-		clock-frequency = <24000000>;
 +
- 			clocks = <&camera 0>;
- 			clock-names = "mclk";
-+			assigned-clocks = <&camera 0>;
-+			assigned-clock-rates = <24000000>;
+ 		/* CAM_B_CLKOUT */
+ 		clocks = <&camera 1>;
+ 		clock-names = "extclk";
++		assigned-clocks = <&camera 1>;
++		assigned-clock-rates = <24000000>;
 +
- 			stbyn-gpios = <&gpl2 0 GPIO_ACTIVE_LOW>;
- 			rstn-gpios = <&gpl2 1 GPIO_ACTIVE_LOW>;
--			clock-frequency = <24000000>;
+ 		gpios = <&gpm1 6 GPIO_ACTIVE_LOW>;
  
- 			port {
- 				s5k5bafx_ep: endpoint {
+ 		port {
 -- 
 Regards,
 
