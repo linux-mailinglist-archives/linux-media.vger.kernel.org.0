@@ -1,124 +1,129 @@
-Return-Path: <linux-media+bounces-39495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39497-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F41B21DE7
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:06:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68762B21DEE
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:08:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86A98190405E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 06:06:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BF5916610B
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 06:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CBA2DEA60;
-	Tue, 12 Aug 2025 06:06:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15F172E092F;
+	Tue, 12 Aug 2025 06:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtirKP8v"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2pJooUbg";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ocR4OZM9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80122D239A
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 06:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F7E2D3A68;
+	Tue, 12 Aug 2025 06:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754978782; cv=none; b=FkdJytt0yMQA092DH86xkQwy+AaYr1QXrs6dTt6QT3Nj3eT9OpAbi4VIpKVQr9mfGTnH2FlaILyYIWxtCmikgKOX69QFJkS+TEERsnmRI0wNHkUZNefK64vUENox9KkqkU117oSKtURGA2OhQOmawW88rxuGhCAqAVyblEGVg0A=
+	t=1754978894; cv=none; b=n4rwdqWDq0ZCJRD2tbgz9B3QkXlnGnceXAyewmoJ82i34J08Q4DY2w69kcHU3Xffg2XhPKh111dsUdPJZTRd++USXVNTtYfnthRJz5WrRL+tBsm8CbNQ3Y0daqu8if1HaPpZunqINC/gBftx189QjfiQ+9Dys6rYr5C5gyhjYaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754978782; c=relaxed/simple;
-	bh=76tSm83gCwBuT15SPasidQuO3TOuUiDDGZBeYlMBFC8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qidBk+VZZOaqAy7vIkpgyHoOTyCASE/VbUITDAPL3fNB6AfLcP5sounw6I32b20/23gAZduqLsw+FAzGfIrBTF4dhGQASELVn8jpvXyjKNE4UET+8Q8Uq47CQYg11wwcLBWFnR40jH/nqXgkyJeO+C6vcNad7OIvNEYXK4tQDAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CtirKP8v; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754978781; x=1786514781;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=76tSm83gCwBuT15SPasidQuO3TOuUiDDGZBeYlMBFC8=;
-  b=CtirKP8vcYdJyYqxciSDB3RmXpGYgNYNn7Kww4q8ApRG/u7YveYqzfgo
-   rkfGGntAnidhSN5wrt+aN7PNIhiUgxbVwKVKI3p31+O6ImHkue+9lJK2n
-   m8jD8GzQDyYTTdU5l8pkvM3K+mh8TxXNb/32stuxlpiS8KIcCvhsHk1uU
-   J9G3/JUqiBvK0ikKsed9NoOcuWXqItUQ2rKum0/iOLLpEXNeRj64wGtXs
-   TWHgwUwZun4OBJY+jxB1sTvbpoGa74pzrOntzRQS5gFpVUJw1o8DvpdTD
-   BXglKWUYvnrEjMAwfi5ha6qS/KMa+vg2xI+v9m7LFFWR+2TM6lb4YF6//
-   Q==;
-X-CSE-ConnectionGUID: ExFCIeBrTr+cii40k6zjpg==
-X-CSE-MsgGUID: x9Xu30i8T7+GMf1eIcSpww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="56455056"
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="56455056"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 23:06:17 -0700
-X-CSE-ConnectionGUID: zjrRCY14TrG7vuoN7Pt83A==
-X-CSE-MsgGUID: yTa8+M2aS+umG5wlzgy+ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="203298492"
-Received: from agladkov-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.28])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 23:06:15 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 94E4311F831;
-	Tue, 12 Aug 2025 09:06:11 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uli9E-008tbE-1q;
-	Tue, 12 Aug 2025 09:06:12 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	Valentine Barshak <valentine.barshak@cogentembedded.com>,
-	Andrey Dolnikov <andrey.dolnikov@cogentembedded.com>
-Subject: [PATCH v2 1/1] media: MAINTAINERS: Change rcar-jpu maintainer
-Date: Tue, 12 Aug 2025 09:06:12 +0300
-Message-Id: <20250812060612.2120340-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1754978894; c=relaxed/simple;
+	bh=v6PRUY/EWiM4Tr34JlSFzPEl3OtPAgSln11txRP3uNg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PZGjPB1jLQLCTfKY1m7W7gDEDVmB10sGOpSapq3akPJ3beI2G9phgYiiXEe+71C7QVwM8htLQtxqvYUkqYeh0OakZTeru2bP2W+K+sQ2Jljnejddd2iGHj/jb9nXk1w8jEMCq+UtC0vxS7625bDvSHfTZg9pIPmICqk8aAel0Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2pJooUbg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ocR4OZM9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1754978891;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Je8gkzG7Eor2r+8GZcQpEP39gztxfpRFZY2q3PykxXU=;
+	b=2pJooUbg0oeOqo8QFmZaGYGVuNJsGzaWTYkCInAxeOWdh8vwz7xy4bpYWMDAo4Om5AGmuD
+	i06yZo/ix5T5DHU4HUX1P7FX6HDuvRISn9BZhpzbAKr8BnVccau9YFUznEle/B3b8yuOAI
+	sBL94R/ADQMVuOwYcLC4RMVHNKzEIMZ9AtIYJsdxeu4feITTf8QiiQsCT5mj0iDrLIZa02
+	khwFP5zZ8V+zIPI1zRGM8/YEBVdR9fYbu8ADiD59uSK+PuZsByM2xgnoszUNImw4takeTB
+	9zKKmP15nto4rTzog/JregF9iPCqeyn1UPn2FO2J2ASTE7IVRpC84QCQ2Q9noQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1754978891;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Je8gkzG7Eor2r+8GZcQpEP39gztxfpRFZY2q3PykxXU=;
+	b=ocR4OZM9rec68zWYEFL9+TncK8avwTk7a7MRfyg42XtDWZrIy93QvgtIbny5RidJvOHfF1
+	TP0kYWjqQ+jiqLCg==
+Subject: [PATCH 0/8] hrtimer: Remove hrtimer_clock_base::get_time
+Date: Tue, 12 Aug 2025 08:08:08 +0200
+Message-Id: <20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAEjammgC/x2M0QpAQBAAf0X7bIsr7vgVSddZbHG0h5T8u+Nxp
+ mZuCCRMAerkBqGTA68+Qp4m4CbrR0LuI4PKVJFpZXCSnRcSdDNZf2w40t59Bo11Va8rbUtTQMw
+ 3oYGvf920z/MC5Vo0DmoAAAA=
+X-Change-ID: 20250728-hrtimer-cleanup-get_time-8ac9d797a685
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Matt Wu <wuqiang.matt@bytedance.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Sean Young <sean@mess.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-media@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754978890; l=1479;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=v6PRUY/EWiM4Tr34JlSFzPEl3OtPAgSln11txRP3uNg=;
+ b=3MnX7eG39ofA2sJ3hIr3xB1sTWMuQl6VLEZLaUfQJu8tSSf+K7geh/ALkwKVVjQaqEPPVOa97
+ XQoe4HKD08zBMepYXq14wMZD8LUFrbbCyzIorXr+/8O7Qzekny1EnWa
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Assign the driver to Nikita as discussed on LMML.
+The get_time() callbacks always need to match the bases clockid.
+Instead of maintaining that association twice in hrtimer_bases,
+use a helper.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- MAINTAINERS                               | 2 +-
- drivers/media/platform/renesas/rcar_jpu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thomas Weißschuh (8):
+      posix-timers: Avoid direct access to hrtimer clockbase
+      timers/itimer: Avoid direct access to hrtimer clockbase
+      sched/core: Avoid direct access to hrtimer clockbase
+      lib: test_objpool: Avoid direct access to hrtimer clockbase
+      ALSA: hrtimer: Avoid direct access to hrtimer clockbase
+      media: pwm-ir-tx: Avoid direct access to hrtimer clockbase
+      hrtimer: Use hrtimer_cb_get_time() helper
+      hrtimer: Remove hrtimer_clock_base::get_time
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f2bc83b96496..ae89671c70a7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13129,7 +13129,7 @@ F:	fs/jbd2/
- F:	include/linux/jbd2.h
- 
- JPU V4L2 MEM2MEM DRIVER FOR RENESAS
--M:	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
-+M:	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
- L:	linux-media@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Maintained
-diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/platform/renesas/rcar_jpu.c
-index 81038df71bb5..6cf1fef42617 100644
---- a/drivers/media/platform/renesas/rcar_jpu.c
-+++ b/drivers/media/platform/renesas/rcar_jpu.c
-@@ -1745,6 +1745,6 @@ static struct platform_driver jpu_driver = {
- module_platform_driver(jpu_driver);
- 
- MODULE_ALIAS("platform:" DRV_NAME);
--MODULE_AUTHOR("Mikhail Ulianov <mikhail.ulyanov@cogentembedded.com>");
-+MODULE_AUTHOR("Mikhail Ulianov");
- MODULE_DESCRIPTION("Renesas R-Car JPEG processing unit driver");
- MODULE_LICENSE("GPL v2");
+ drivers/media/rc/pwm-ir-tx.c   |  5 +----
+ include/linux/hrtimer.h        | 14 +++++---------
+ include/linux/hrtimer_defs.h   |  2 --
+ kernel/sched/core.c            |  2 +-
+ kernel/time/hrtimer.c          | 34 +++++++++++++++++++++++++---------
+ kernel/time/itimer.c           |  3 +--
+ kernel/time/posix-timers.c     |  5 ++---
+ kernel/time/timer_list.c       |  2 --
+ lib/test_objpool.c             |  2 +-
+ scripts/gdb/linux/timerlist.py |  2 --
+ sound/core/hrtimer.c           |  2 +-
+ 11 files changed, 37 insertions(+), 36 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250728-hrtimer-cleanup-get_time-8ac9d797a685
+
+Best regards,
 -- 
-2.39.5
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
 
