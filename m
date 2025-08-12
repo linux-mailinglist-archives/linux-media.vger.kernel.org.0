@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-39571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78069B22461
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126C0B22499
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:28:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7D711B66FBA
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:14:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 266DC189D18F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:29:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F3D2EB5CE;
-	Tue, 12 Aug 2025 10:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F81F2EB5CE;
+	Tue, 12 Aug 2025 10:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLYXDj/x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUwSbtti"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B582EACF9;
-	Tue, 12 Aug 2025 10:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620702E2F01;
+	Tue, 12 Aug 2025 10:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754993607; cv=none; b=bLx8zNEcN7FIJyHkjGg88NMdWPQBn4zLzDXOxHTUJdtq5hC6xdgKuRmCqoegrhLaJ5ZRaPbuuDpAckPSISJxrvXv17eDR0gP+hfIYm8gxRb0Z8Q+MzZFNkfUVBwVq0g7eDxU4COfTpHRZaQR6eksO5u6AybWQNgUdCArUq3GJbk=
+	t=1754994523; cv=none; b=pgb0sLXGRJTPUltpI2SImPpRHT/yS5HmPi9jRegWZYoq9Gk1rlCXC0Y/jRegfrGjV8T1j9Uaa6Y/PgTCM8HSrviPRB8e9mtaOz0wvcv4igllD4zm9ggqMbx5/ZVmMK00q4rKsu8/jH0TW8Q9likCHrWZaHt75kWoUe/XpliKeZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754993607; c=relaxed/simple;
-	bh=BSRg+8J5PmIMQFGn3bsuR4yy/D1eKIlCM6YV8z7Osl8=;
+	s=arc-20240116; t=1754994523; c=relaxed/simple;
+	bh=UYfIb3p1Vm82p1tWRc07r1qQJo2LPLgYKqInhDrFQE8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Eyo5D9160a5WH3gvT5jDyRZfU+M375as+dQDXswSnx+de/3UdrNi5p8y4ioadh5JkpNtc0+qw+F87YTVDB80k6NTQ7TZLOs8vYRs1NUhfTdK0DkQ6oOfM7509XvBeWIa6UXYIE+ytffubadxAIH8tuJb5huxXXC9Y+KEHeDEi1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLYXDj/x; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79B0C4CEF0;
-	Tue, 12 Aug 2025 10:13:24 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=islXq80clqgpWJgwBvv9IGrvpkjPUJVzeuqPD7AiIf26j5wXNJ6Ku47a3N9V3had2c9O0Qd4dtOAg5cB5fk263NrABd34HmBioq2w6I2rt6RhIqSGoa6UE9OoJFFaTil1rGYqJwcEbPqHEFdRi5YcT9HewEIKKkY0sFh6oJGPW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUwSbtti; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E49EFC4CEF0;
+	Tue, 12 Aug 2025 10:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754993607;
-	bh=BSRg+8J5PmIMQFGn3bsuR4yy/D1eKIlCM6YV8z7Osl8=;
+	s=k20201202; t=1754994522;
+	bh=UYfIb3p1Vm82p1tWRc07r1qQJo2LPLgYKqInhDrFQE8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DLYXDj/xTXBF79kXrhl/gTeKer6+8xlN5E3U1ka7woIVt1fYHqe+kW6sH+wzcxyvX
-	 jwWwiQF0RZeTk4mwzb0m7wg6b1Wu0+KkJbTl10PE7Q8o6CVjpIZ289hlK1c40IdyUT
-	 UzRTR/KI7K9NR78JQeZ/Gv9m4UVVDhtyXJ6Y3u5yNwHB8UdHL1joyhOZfftbUeLQdf
-	 bDfTdfR/jG6IYZWf+JGZE+3N5QNFEy/4BwEStwfoq5/Y414h3qpc3FDfgxXxFr5bVu
-	 6yPbiOpYu25aDodX3VrEir7dZzMfsEi/kvG9jWInbTfgpnfdGadW8ZdUcgEkcYr/19
-	 UyD3vAt7OOjSw==
-Message-ID: <0291cbad-a904-4df7-8875-244f5657a46e@kernel.org>
-Date: Tue, 12 Aug 2025 12:13:22 +0200
+	b=mUwSbttileiBGGJeo2548tdI7H8pyN6AOfdEUL0FdRHYDi/LiZCNLUVY43qzFXI23
+	 cwg6571ZqRM589Jyq68QXneM3m38I8rlPnqQN3ZcfFB7ctLjJcCOJEUU0b8h68gCGi
+	 A9uOSr/h6XwG0Ef2I5gx5y/I5O/w7PiChU7qQKt6mymOi4WjOFS4l7cPkzascgI5kG
+	 EV2aOObMn39Eb2eeTlKspyfwGBsqGPMjyGxCkBNkGxQeIefEM1JTdeK7v99J6yPy8W
+	 Syxflka5G70e7kTUs81PfLJbS28NkRzk+VEz7v+YSWRblSIMYkUxms0dPniz0ZhQSu
+	 zfsp04ak+NHJg==
+Message-ID: <e91ed87c-7e2c-4c43-b405-ce3470697a2a@kernel.org>
+Date: Tue, 12 Aug 2025 12:28:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,13 +50,57 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: platform: qcom: Add a media/platform/qcom
- MAINTAINERS entry
-To: bod@kernel.org, quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com,
- hverkuil@xs4all.nl, mchehab@kernel.org, abhinav.kumar@linux.dev
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, bryan.odonoghue@linaro.org
-References: <20250812094718.11378-1-bod@kernel.org>
+Subject: Re: (subset) [PATCH 00/72] media: i2c: Reduce cargo-cult
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Arec Kao <arec.kao@intel.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Bryan O'Donoghue <bod@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Scally <djrscally@gmail.com>,
+ Dongcheng Yan <dongcheng.yan@intel.com>,
+ Dongchun Zhu <dongchun.zhu@mediatek.com>, Fabio Estevam
+ <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
+ Hao Yao <hao.yao@intel.com>,
+ Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+ Jacopo Mondi <jacopo@jmondi.org>, Jason Chen <jason.z.chen@intel.com>,
+ Jimmy Su <jimmy.su@intel.com>, Jingjing Xiong <jingjing.xiong@intel.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Konrad Dybcio <konradybcio@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Leon Luo <leonl@leopardimaging.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam
+ <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Matthew Majewski <mattwmajewski@gmail.com>,
+ Matthias Fend <matthias.fend@emfend.at>,
+ Mikhail Rudenko <mike.rudenko@gmail.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Pavel Machek <pavel@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Ricardo Ribalda <ribalda@chromium.org>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shunqian Zheng <zhengsq@rock-chips.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Tarang Raval <tarang.raval@siliconsignals.io>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, Todor Tomov <todor.too@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Tony Lindgren <tony@atomide.com>, Zhi Mao <zhi.mao@mediatek.com>,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+References: <20250710174808.5361-1-laurent.pinchart@ideasonboard.com>
+ <175495482477.157244.17354544707184168458.b4-ty@kernel.org>
+ <20250812085112.GH30054@pendragon.ideasonboard.com>
+ <ca1f08c9-244d-482b-b719-c7997913f56e@kernel.org>
+ <20250812093915.GI30054@pendragon.ideasonboard.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,25 +146,57 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250812094718.11378-1-bod@kernel.org>
+In-Reply-To: <20250812093915.GI30054@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/08/2025 11:47, bod@kernel.org wrote:
-> From: Bryan O'Donoghue <bod@kernel.org>
+On 12/08/2025 11:39, Laurent Pinchart wrote:
+>>>>
+>>>> [12/72] arm64: dts: qcom: sdm845-db845c-navigation-mezzanine: Replace clock-frequency in camera sensor node
+>>>>         commit: 5433560caa5e7e677a8d4310bbec08312be765b4
+>>>
+>>> I'm afraid that's too soon. This will introduce a breakage without a
+>>> corresponding change to the camera sensor driver.
+>>>
+>>> I will post a v2 with the patches reordered. We could merge the V4L2
+>>> side in a rc1-based stable branch and merge than in the arm-soc tree as
+>>
+>> You cannot ("cannot" as not following the process) merge drivers into
+>> DTS branch.
 > 
-> Point the MAINTAINERS file to the linuxtv.org patchwork, to me for
-> merging media/platform/qcom and to the media-comitters gitlab.
-> 
-> Remove my +R from venus and iris so that get_maintainers.pl lists me for
-> drivers/media/platform/qcom as +M.
-> 
-> Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
-> ---
+> Ah, I wasn't aware of that. DTS trees don't allow merging stable
+> branches shared with other subsystems ? Does it mean that a DTS change
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Not with driver subsystems. Why? Because it breaks encapsulation of
+hardware description being entirely independent of given Linux driver
+implementation.
+
+BTW, it is already documented in maintainer-soc in ABI stability (I will
+fix "devicetree" ambiguity to DTS) and driver branch dependencies.
+
+> that depends on a driver change always need to be delayed by one kernel
+> version ?
+
+This is one solution, although as I mentioned later it still affects all
+other users of DTS, so it has its own drawbacks.
+
+Other solution is to keep both properties for more than one cycle.
+
+
+> 
+>>> well, but I think we can also delay the .dts changes to the next kernel
+>>
+>> All users of DTS will be anyway affected and commit msg should address that.
+> 
+> Which commit message, the one for the driver changes or the one for the
+> DTS changes ? I plan in the next version to indicate that the DT changes
+> depend on the driver changes.
+
+
+DTS changes, so the soc maintainers can judge whether they care about
+other DTS users or they do not.
+
 
 Best regards,
 Krzysztof
-
 
