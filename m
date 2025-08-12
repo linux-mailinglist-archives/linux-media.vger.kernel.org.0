@@ -1,130 +1,124 @@
-Return-Path: <linux-media+bounces-39586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39587-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E0DB2278D
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 14:58:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB11B227A5
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 15:02:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC5E6425776
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:55:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CC4217733A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 12:56:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856FD2727F3;
-	Tue, 12 Aug 2025 12:54:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA17B260578;
+	Tue, 12 Aug 2025 12:56:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="cKKw9t76"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="rM2CPcxk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B16A26980F
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 12:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9821A255C;
+	Tue, 12 Aug 2025 12:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755003251; cv=none; b=FSCRKqqqkymYSKlChDvpSCjr0Du7QLFvTeVJEL2vipFFBZSHqRl5yEGav/fpVMDSJ/lOGitO+CX5go+45jL9us5yaD588do4+arihUHx2dv58LUVgLDly1/LQNSTPn7xqbiok66k/j04Q2onQ1NdV3TxdIyGyRxPLw4BzIBLjuk=
+	t=1755003365; cv=none; b=gEgqENvc9eXyx5xOh3nVJgsnS0cRFnWt9zS2MlCVW9d2BcfZM7ARydsSt83pZUK1FnQrQEfuJkArPmv+36sS+z80NWIZH3J91A5ugaAAohKhSBYRnh6GVxkE6NbLmz1sg36hNF0KBGkU5v8tXVaYTx3D7F5X8Dt06zPSQQ00g8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755003251; c=relaxed/simple;
-	bh=kuFMJmU+9JWcojUuJvsQuwkddP22POkgDm8BHLJTRh4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eRbb/lWHp/FcaqeM+UZG3oSw5pAcZxiMSycLOjc+XF5zecvG8wrTYD/VDfB7BQDeQapjfQV6jvtk+Dw/mQ/29/JFHIsqxDQnIxA4MhHOjDqwHoDyoQVbC22BgahlZz209PbZK7i/D9eiTNxyDLZSgo2ov3adm8vtvrvzd0ue19k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=cKKw9t76; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7e806613af8so630173285a.2
-        for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 05:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1755003248; x=1755608048; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2WtksxPDLT/0y+3eZjc8hEFOkmY30/S+XOZ4ZbmRdMw=;
-        b=cKKw9t76vyDgJtFR+gCN5oEIOubX0QbmYB0n5PpLKNfKSp/bQznq4vRXQLLxZmTKTI
-         YpfBqKnO2OnQMTTQuMA7+fspjwam8MHCz1DMcoq9g0Zcew3KfXGtPSx9OKdi77E0aHqR
-         c3oPD6rQuf61C6etXR3yt9i2olVmC1gF7ZuFUmOQP3U76xKplICA0JdIj+35RavNwBCf
-         QVLusNQiijzlX5xVqKoHt2kSKKgIOqPajRwCJlWWoG+naxhljbZihUktkeZIMn/P/s4v
-         AyD2d7S8iLCjuf26NWyKxjHtZmFkWbBUk2Biw5cVWJYOZfhbZo9LcybzUmjidNiZZ/sd
-         4TZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755003248; x=1755608048;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2WtksxPDLT/0y+3eZjc8hEFOkmY30/S+XOZ4ZbmRdMw=;
-        b=G0/6KwA666mbcPJ9FIvuv9U69hD2SBVtGdWk7GH0CYrOJmGOpPXfqkgK4sGQFSGkqe
-         hthDMGIKy6eASa+NknpYXQ9ewQVaQCjvUMDUMZPYiAnmH8CQs0cZMbJU+YxcmB5GX1Y5
-         TRmpCH/v78khOWiH6uWt+pPpwp22hRDQ6Q9kuui4vYTeKU0c51rJYuc5SEkUf9DDqEaq
-         TW6lOqlpvx+ovd2MjZXxMBlhLod7yNYdccRKMT3Mrnkl0v/VtQllmxS4K3e2HA73t2h1
-         I9GNDHLwwkSMBK0nTjhNN7ohgf6/+2V9RAaxFxUruPvv9ofB8ygf/iKtYsczwxuuaXQr
-         Zoyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxkzerjI6+wfT5LVpSMGJy8xxipZ1ROC5w1eSKzN385bBJ7fHcLK0kXpzywvwGrAQAPKMGIUsz0K2RKA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKmRysx94IRgmMjhL9AJ1dDlwICXNQkhv/SVqVpKBxk40onKnT
-	DBVdMMEYlyyRUTrVHdfwrQzOR5e4Dw4IYXLhWblSM3ltEFyLvBOWW+txGIDzKMLvhrpktIasCUP
-	1yelx1aMLi1a6Bjl7HrjDH9YKfAHqQrQCa0Oc2OF9bf6YfuOkGQF0QYs=
-X-Gm-Gg: ASbGncselCotE4H32MEAgj8E0b/fMC0AQUZYwCrRQJDNGnbA6xbqcu0CRAYDVYMSEGb
-	QrFiRrzwMxMjImp9sbeCZpK+Jvgz6y5oZvasjgdXPgioajET6uKrQ7FWdLFgaeE6xBR5JBhCU9W
-	3njyL4s/RPZsajY5GsfbV+O1GC1DuDtjVXNIt24r2g/BzKB6soXk1jhV1tmuJmTZgBenR6OV1Gw
-	hkzTxw/ZCZ+YY9ELDj10roTx2XCBkcBH4V/vPIUwQ==
-X-Google-Smtp-Source: AGHT+IEigi3eT3slvsaqaQxfpzA5/X/BpBps7n3zcMZvnFhGp0J3xR5YD/W1WjO/6HkGh5ZjKB8p2S+Mbi6DGKsspO8=
-X-Received: by 2002:a05:620a:a117:b0:7e6:50f2:d62d with SMTP id
- af79cd13be357-7e82c616e28mr2406978785a.5.1755003248102; Tue, 12 Aug 2025
- 05:54:08 -0700 (PDT)
+	s=arc-20240116; t=1755003365; c=relaxed/simple;
+	bh=zJKsKHBoLA6OwRJ51uRdMlWZvRldd2N5rE/IXsJEWKM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=MWcGQlf1+DnVFhQSYy535O1ezj3j8eEYq8TpLPEwcM0zC0EKR1+Pl04VFrVWBKsyvGGg5f35ervnkZYB3UMWcEzvyHQ+78HEGn+7hgCQGGZAlOL/os8aE4tvrBOlL9GLp1979wqPQzkIKBJ1M+6zBYQeMhMMDRQBYqze1z+BNyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=rM2CPcxk; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250811-ethos-v2-0-a219fc52a95b@kernel.org> <20250811-ethos-v2-2-a219fc52a95b@kernel.org>
-In-Reply-To: <20250811-ethos-v2-2-a219fc52a95b@kernel.org>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 12 Aug 2025 13:53:56 +0100
-X-Gm-Features: Ac12FXy89rNxCKeR5zfeZeSe2T50SLXSk1IHDgjCBDBFp3HnioWFlDD6e2e-kGA
-Message-ID: <CAPj87rNG8gT-Wk+rQnFMsbCBqX6pL=qZY--_5=Z4XchLNsM5Ng@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] accel: Add Arm Ethos-U NPU driver
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1755003359;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2/K6Kmzeo0smswqH+INF7WIXwUm2J6GEj868GD/UacY=;
+	b=rM2CPcxknPD2SbRacMWMBVPBBCQsqxe9vhib0K7Ko9FjPHBdJCGtjs27Uf4U+77CUquUmP
+	rvGUkmHsQAPvPYxkLhE8EzUwvLWl52zW4IZViPkgTusRrjtBQAI6Q+ZvN/RDuSxlRiNbvI
+	m2u7o3GV+nJUg17UlbNMTOL/eoV5GhMccl0lqnmlJopNW6whQoYTLsHfTXWQ508wOqr81y
+	IVdCP+XPljYFGizwMvtlqGCBa5+QgHQTXVaTeESrk8Ih9u+HrCxvnkuM1B3VfmiBzToWTX
+	vZqBHP2hC37Ou5OGWDKd/tmvBJp6MUOTD9R3H0cJG1+qwpl8y9wBOtInoEVSDg==
+Content-Type: multipart/signed;
+ boundary=5eb61e0f6c0eadb653b8d59c45a8a0be8243b30f21a6b0198e575406c8d8;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 12 Aug 2025 14:55:49 +0200
+Message-Id: <DC0GRKB9V014.1J7A2PO1B7U8H@cknow.org>
+Cc: "Alex Bee" <knaerzche@gmail.com>, "Nicolas Dufresne"
+ <nicolas.dufresne@collabora.com>, <linux-media@vger.kernel.org>,
+ <linux-rockchip@lists.infradead.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Diederik de Haas" <didi.debian@cknow.org>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
+ "Detlev Casanova" <detlev.casanova@collabora.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>
+References: <20250810212454.3237486-1-jonas@kwiboo.se>
+ <DC0FTXJNW0KB.3I8DLNHJVL21O@cknow.org>
+In-Reply-To: <DC0FTXJNW0KB.3I8DLNHJVL21O@cknow.org>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Rob,
+--5eb61e0f6c0eadb653b8d59c45a8a0be8243b30f21a6b0198e575406c8d8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 11 Aug 2025 at 22:05, Rob Herring (Arm) <robh@kernel.org> wrote:
-> +static int ethos_ioctl_submit_job(struct drm_device *dev, struct drm_file *file,
-> +                                  struct drm_ethos_job *job)
-> +{
-> +       [...]
-> +       ejob->cmd_bo = drm_gem_object_lookup(file, job->cmd_bo);
-> +       cmd_info = to_ethos_bo(ejob->cmd_bo)->info;
-> +       if (!ejob->cmd_bo)
-> +               goto out_cleanup_job;
+Hi again,
 
-NULL deref here if this points to a non-command BO. Which is better
-than wild DMA, but hey.
+On Tue Aug 12, 2025 at 2:11 PM CEST, Diederik de Haas wrote:
+> On Sun Aug 10, 2025 at 11:24 PM CEST, Jonas Karlman wrote:
+>> This series add a HEVC backend to the Rockchip Video Decoder driver.
+>>
+>> Patch 1 add the new HEVC backend.
+>> Patch 2-3 add variants support to the driver.
+>> Patch 4 add support for a rk3288 variant.
+>> Patch 5 add a rk3328 variant to work around hw quirks.
+>> Patch 6-7 add device tree node for rk3288.
+>
+> It looks like I had a previous version of linuxtv-rkvdec-hevc-v2 branch
+> locally and that also had this commit:
+> - media: rkvdec: Keep decoder clocks gated
+>
+> Is that one no longer needed/useful/etc ?
+>
+> And 'chewitt' also had a commit to fix 8/10-bit selection:
+> https://github.com/chewitt/linux/commit/4b93b05d2ca608bc23f1d52bcc32df926=
+d435c7c
+> "WIP: media: rkvdec: fix 8-bit/10-bit format selection"
+>
+> I haven't tried that one (yet), but did  try an other variant with
+> changing the ordering in rkvdec_hevc_decoded_fmts but that didn't work
+> in my tests. (Can ofc be PEBKAC)
+>
+> Would that be useful? I do/did have consistent problems with playing
+> 10-bit encoded video files.
 
-> +       for (int i = 0; i < NPU_BASEP_REGION_MAX; i++) {
-> +               struct drm_gem_object *gem;
-> +
-> +               if (job->region_bo_handles[i] == 0)
-> +                       continue;
-> +
-> +               /* Don't allow a region to point to the cmd BO */
-> +               if (job->region_bo_handles[i] == job->cmd_bo) {
-> +                       ret = -EINVAL;
-> +                       goto out_cleanup_job;
-> +               }
-
-And here I suppose you want to check if the BO's info pointer is
-non-NULL, i.e. disallow use of _any_ command BO instead of only
-disallowing this job's own command BO.
-
-(There's also a NULL deref if an invalid GEM handle is specified.)
+nvm about the 10-bit problem. It exists, but it's not restricted to HEVC
+as it also exists with with H.264 files.
 
 Cheers,
-Daniel
+  Diederik
+
+--5eb61e0f6c0eadb653b8d59c45a8a0be8243b30f21a6b0198e575406c8d8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaJs51wAKCRDXblvOeH7b
+bjcHAP9PnLzGZY1YCKcprzz/K1OPRxwql59MG2CCmBYwRNgpggD/cJPqV7R+iPpd
+9qCnahBvk5X3jrA0jqxwYVblCkJpgAc=
+=bXI1
+-----END PGP SIGNATURE-----
+
+--5eb61e0f6c0eadb653b8d59c45a8a0be8243b30f21a6b0198e575406c8d8--
 
