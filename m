@@ -1,81 +1,48 @@
-Return-Path: <linux-media+bounces-39541-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39542-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB50EB220C1
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94E6B22161
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:40:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 05DFE1AA43D7
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:26:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2217B1B62899
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:36:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B40E2E1C78;
-	Tue, 12 Aug 2025 08:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BE492EAB68;
+	Tue, 12 Aug 2025 08:31:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HmphkC1x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZdy0gkL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ECE2E2647
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 08:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A80F2E92CA;
+	Tue, 12 Aug 2025 08:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754987186; cv=none; b=hhP4HveaUchJyC0a+1HeRSKDJmxqS3MJpGybUebUTvckUuXAfAVBTd8LRlNwFV+wE9ZdWoOwYxy+nvFWCBmg3nhXOeigluBtFrH9njdqEOMepbWIzbVTOE2lXgVKWjdAC1Poxo+tS+GWVZf7ehV/gil8rbQnBzh7o1Xe9mi5AD4=
+	t=1754987479; cv=none; b=PCzFPr9DzfYAxxSYofVg/oxjpABIve5Aqk9gI33yN87/t2ZKdu1GULadtTsk+8IkPOfN9g54nuLfKBozNJMLVSOvf/QCZrMYZmNjI7K/M+C4jMNLk/U9Y1bl0zolKDfvCgO6A0jcvAEjog6A0J7wRMf4R1xQ0OB3bVchYE/f8Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754987186; c=relaxed/simple;
-	bh=uJXZgdWwqNsCml5GugnFmVpZMgaHLxLQxUPE4ka6n5E=;
+	s=arc-20240116; t=1754987479; c=relaxed/simple;
+	bh=CJ0h3Ti2vfTbOwS2+jek4ZEJUoFC/JDENhC+9+8IKBk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JA6BYE9iad64mZPH9wvwzLwRFVDHUZQMrdp4yVXbSa/UfHlL2wUsn/NICl8PD0jfarzyI6VVsdUpEia9LXciQ3A6QbXfoLXNKBUz8+P4TdaJ+HTRV3TxlioYNEFsxY3EcJf4zhFU2FFEIscPgKwCkjtrPyZAvOQG9807JXNW9UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HmphkC1x; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-af92aa183bbso58796966b.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 01:26:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754987183; x=1755591983; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=QbLB+9qfEdTxn65XyJ4OVhRT/fNBH2lNTneYC+BHgMg=;
-        b=HmphkC1xiDg9kyMva5QrktudiPGMojG571WyMBhLYf/Oq0qXOvzC9amXnGzwEaIHH1
-         +hv3lmIwyPdXLWPS8OiGmijh0tfuNYkHR3W6OHx+cYuNQtjWEIzgO9TWxHtkkfhIimDo
-         s+ExZXEW8IFNjd8tm9R31ClVjCJfJFRsst22WRfiDYQ25QyQqRCDOYsnODEGkpaeZWUP
-         6lfiFLHi6XyI62qFNzmDs/YL46d0QWLNFKdHiVv1D5CQJ//fqbxF0el+hC1jOADBRy1z
-         lpMYsybWJwBdQbPGHgZGljyowvuu9zlK0Zlk+c8Q8ipfdvc0Guaqq44iqZiQ1NscXvvE
-         gT0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754987183; x=1755591983;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QbLB+9qfEdTxn65XyJ4OVhRT/fNBH2lNTneYC+BHgMg=;
-        b=m2MzMGBMYzW1cpSx0rfjdMY4IYplnWocR1BSGgCWL0jDNZtK0aUd5kKU7nYIVjrShD
-         PSZMLw2klqwr5V/lSq7v5V+oAf0Irfd6kHaSsT5d54EQuTV6g+bI3YAtw6dRjpdVrbdG
-         NLXV8D4ZZtKuvbz9OxiFbduSmGAef3puN1wWX2Vd2pTpSyq8mM51f+C6SjMYkPquC0dz
-         /a5kvrW/NJ9BBvwCPymEiMhyJdgO8vQ1DypRb1BaEC6n873ocFSOixKeX9pVABq2QV9u
-         AmztUl12HC+lc7j47+2rmK1l1ogkzHSRVYpX6PqiwbH8ReV2e7HGGp0Ll7LNQFYCwone
-         9McA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJMh9qMW+vp4KCw+yRAtoilc7VI/camSXz7n7KArriadwhzRpmNVMchq188peTpP7gpKIplGHf5TzIJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXmJEksNBu/Yk73Z7fj2SB5DcRHsuSMtTsEs3nNK+A/9DGwmz9
-	53u7WB4WigM1f3Mj5KBnj03GnAR5c5E27sH5qlIo1aa7wGZh3eCfPVfSw0q3oF8an8A=
-X-Gm-Gg: ASbGncv3e+g3NibEdhqH8RqKncspGv6tE9eenvJqgxCsub4zFqvMWvUcjOxeF4SptzC
-	CRwWFWFFDJ6hJOWV6Tsw2chpRHQPzUSOIid/jFxjF5cJDcdu6foElZt5sWTv5tFH0kI5bAYrxMF
-	ui0FmmRk7K4l8HyHeGygtMSfsXW2saK50kz9TKd5FywXE+IIx87U8nEOZusynUf/fRCHcjFGPRm
-	fqmYzkYS/m7Tv4ToVmHQckIYMC6ESXsuxwGiFSAojr8e5PfaMQPoQmMnopglaNac0hC6q7PvFEN
-	l7ft9uR8GF0Y3kWFcrELVa8JhiPWm1p0fF9VLMUYn8kctv5gU4p30ol5rpddt/0oOL2rVtMs4BC
-	tGVzyPyBoGU+0gOegpcsElhGJzxnLb5fK2CfsPMNNbzc=
-X-Google-Smtp-Source: AGHT+IGG8cHGIjKO75ABIG5UtKz1q0DmJJ3x+O/bjZqVJDeKgkzt6mbQSH+osZ+XM0xzd3+K67RjLw==
-X-Received: by 2002:a17:907:97ca:b0:ae0:c276:d90e with SMTP id a640c23a62f3a-afb6ce4144fmr13496766b.4.1754987182930;
-        Tue, 12 Aug 2025 01:26:22 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0a14a0sm2179264066b.33.2025.08.12.01.26.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Aug 2025 01:26:21 -0700 (PDT)
-Message-ID: <9c83e4d5-7192-4e02-baba-381bece513c2@linaro.org>
-Date: Tue, 12 Aug 2025 10:26:20 +0200
+	 In-Reply-To:Content-Type; b=JmM7cjLJyBBTTPa6pez2aWQfmSKgJL53YeaT2JkA4/Flcyx6fK6KBVzEpUlLJF1i9GaoYQOoxGp8FgzmrCQBAihRrGgMo8q7g8+UqxOHIdVK6UGd4oBsLAf5Mq0LDdd13t9U5HMfILxDylkq+fo8QqsUQsK58jtzpR6iQS1tVlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZdy0gkL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CEE0C4CEF0;
+	Tue, 12 Aug 2025 08:31:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754987478;
+	bh=CJ0h3Ti2vfTbOwS2+jek4ZEJUoFC/JDENhC+9+8IKBk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cZdy0gkLB2G+tITMO6laB0zsV1z+744MeHoXdqmfGkpW/u4o0attuOkceA9URyo2b
+	 1ISwv+mp4n7CxYQFgsECuuK/qARZd/H3Bxt1THcyAmCmWPtgQUfDrC0+pfF03pxIUB
+	 i1t7EuaaT1vypk8Byiyk10wnKjUlOJdXfN7VAZkthmRMouaZbsOeZPze1cHoXZmJFu
+	 SX1tqayvjG2GWRr92spyUxqiIxNMihi3sDnEO53mCEVeOdaxx0xF3WEMb9P6EmKCZZ
+	 C9yQPhlTZjxGRP7I6zxMfCB2CUMDJNJuAPkL0inhQqRoYvZ7YaS1Um3wKq62lPPXAy
+	 ojKUMix1erHow==
+Message-ID: <3bbd8fe7-2792-474b-ab5e-f458bcf13dc3@kernel.org>
+Date: Tue, 12 Aug 2025 10:31:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,25 +50,27 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: iris: MAINTAINERS: Document actual maintainership
- by Bryan O'Donoghue
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+Subject: Re: [PATCH 2/3] soc: qcom: mdt_loader: Remove pas id parameter
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-References: <20250714151609.354267-2-krzysztof.kozlowski@linaro.org>
- <8772c48f-348b-8a68-2099-562a29b9dd8d@quicinc.com>
- <b83cc20b-44d2-4635-a540-7a9c0d36cdb5@linaro.org>
- <a4dfc82b-79df-3e3c-0964-a99db222c6e6@quicinc.com>
- <4f79424f-0005-4978-8c6d-6b726ee7e4ab@linaro.org>
- <c70fd6c6-1a65-41ee-b0e1-f6c792867009@linaro.org>
- <2b5ececb-fbf7-4901-8efb-03744f740836@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+References: <20250804-mdtloader-changes-v1-0-5e74629a2241@oss.qualcomm.com>
+ <20250804-mdtloader-changes-v1-2-5e74629a2241@oss.qualcomm.com>
+ <ac14b632-91ec-58a7-26cc-23d0056222b9@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -111,101 +80,85 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  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
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <2b5ececb-fbf7-4901-8efb-03744f740836@linaro.org>
+ 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 a/A=
+In-Reply-To: <ac14b632-91ec-58a7-26cc-23d0056222b9@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 15/07/2025 13:03, Bryan O'Donoghue wrote:
->>>
->>> Reading too much? Bryan HANDLES THE PATCHES.
->>>
->>> That's it.
->>>
->>> There is nothing "too much here".
->>>
->>> Person handling the patches IS the maintainer. Full stop.
+On 06/08/2025 09:25, Dikshita Agarwal wrote:
+> 
+> 
+> On 8/4/2025 6:11 PM, Mukesh Ojha wrote:
+>> pas id is not used in qcom_mdt_load_no_init() and it should not
+>> be used as it is non-PAS specific function and has no relation
+>> to PAS specific mechanism.
 >>
->> Based on email you forwarded to me and some more feedback I got, I think
->> I understood what would be the solution to satisfy your point of not
->> changing existing entry and solve my problem of maintainer handling
->> patches not being listed anywhere as maintainer. I will solve it v2.
+>> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+>> ---
+>>  drivers/media/platform/qcom/venus/firmware.c |  4 ++--
+>>  drivers/net/wireless/ath/ath12k/ahb.c        |  2 +-
+>>  drivers/remoteproc/qcom_q6v5_adsp.c          |  2 +-
+>>  drivers/remoteproc/qcom_q6v5_pas.c           |  7 +++----
+>>  drivers/remoteproc/qcom_q6v5_wcss.c          |  2 +-
+>>  drivers/soc/qcom/mdt_loader.c                | 14 ++++++--------
+>>  include/linux/soc/qcom/mdt_loader.h          |  7 +++----
+>>  7 files changed, 17 insertions(+), 21 deletions(-)
 >>
->> Best regards,
->> Krzysztof
+>> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+>> index 66a18830e66d..862d0718f694 100644
+>> --- a/drivers/media/platform/qcom/venus/firmware.c
+>> +++ b/drivers/media/platform/qcom/venus/firmware.c
+>> @@ -136,8 +136,8 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+>>  		ret = qcom_mdt_load(dev, mdt, fwname, VENUS_PAS_ID,
+>>  				    mem_va, *mem_phys, *mem_size, NULL);
+>>  	else
+>> -		ret = qcom_mdt_load_no_init(dev, mdt, fwname, VENUS_PAS_ID,
+>> -					    mem_va, *mem_phys, *mem_size, NULL);
+>> +		ret = qcom_mdt_load_no_init(dev, mdt, fwname, mem_va,
+>> +					    *mem_phys, *mem_size, NULL);
+>>  
+>>  	memunmap(mem_va);
+>>  err_release_fw:
 > 
-> Doh, this is definitely my bad, I should have made a _new_ entry in 
-> MAINTAIENRS similar to this.
-> 
-> AIROHA PCIE PHY DRIVER
-> M:      Lorenzo Bianconi <lorenzo@kernel.org>
-> L:      linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> S:      Maintained
-> F:      Documentation/devicetree/bindings/phy/airoha,en7581-pcie-phy.yaml
-> F:      drivers/phy/phy-airoha-pcie-regs.h
-> F:      drivers/phy/phy-airoha-pcie.c
-> 
-> GENERIC PHY FRAMEWORK
-> M:      Vinod Koul <vkoul@kernel.org>
-> M:      Kishon Vijay Abraham I <kishon@kernel.org>
-> L:      linux-phy@lists.infradead.org
-> S:      Supported
-> Q:      https://patchwork.kernel.org/project/linux-phy/list/
-> T:      git git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git
-> F:      Documentation/devicetree/bindings/phy/
-> F:      drivers/phy/
-> F:      include/dt-bindings/phy/
-> F:      include/linux/phy/
-> 
-> scripts/get_maintainer.pl drivers/phy/phy-airoha-pcie.c
-> Lorenzo Bianconi <lorenzo@kernel.org> (maintainer:AIROHA PCIE PHY DRIVER)
-> Vinod Koul <vkoul@kernel.org> (maintainer:GENERIC PHY FRAMEWORK)
-> Kishon Vijay Abraham I <kishon@kernel.org> (maintainer:GENERIC PHY 
-> FRAMEWORK)
-> linux-arm-kernel@lists.infradead.org (moderated list:AIROHA PCIE PHY DRIVER)
-> linux-phy@lists.infradead.org (open list:GENERIC PHY FRAMEWORK)
-> linux-kernel@vger.kernel.org (open list)
-> GENERIC PHY FRAMEWORK status: Supported
-> 
-> Its 1:1 what we have for drivers/media/platform/qcom
-> 
-> I'll add that entry and leave the Iris/Venus entries as-is.
+> Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-Any progress on this? We agreed you will be sending that, but I think it
-did not happen, so maybe you want me to send it?
+You wanted Acked tag for reviewing that one, trivial line. Adding entire
+review for entire commit just after looking at trivial change is not
+really justified.
+
+See also submitting patches about reviewer's statement of oversight.
 
 Best regards,
 Krzysztof
