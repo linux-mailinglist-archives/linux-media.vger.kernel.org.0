@@ -1,61 +1,53 @@
-Return-Path: <linux-media+bounces-39643-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39644-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6448AB23B01
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0C4B23B02
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 23:48:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 204B0585D27
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:47:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B389D585DF0
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 21:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C492E040B;
-	Tue, 12 Aug 2025 21:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C5F2E0901;
+	Tue, 12 Aug 2025 21:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZLlI1AWy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g4L2GPly"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD502D73B0
-	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592842D0628
+	for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 21:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755035215; cv=none; b=lpiHbj1N4BY4X9YcYIzSSL7NL/HxdWM6RcGjRsOomAYCvV/c+LWMjYGahvb6n+rzH0qD6NLNaGbGK//UFWi7le92s+u5DHWmNIzjMvWkgyG1TUe+R3zCrj7ONvtV7FTpLHC3CRPIvVnMeB6w9TDvwmSjmm/ErdmInBrrFJgpVSI=
+	t=1755035216; cv=none; b=JO6lDm0pGisNMxLmgdAypvHUmYbCqafqHWzj/R0qVZuIHgelLLoNOELWgyNCAqcidAa5+1058LlhHzQzklVRYzav5UtpWDykRdiOp9FZcAXrJDxtDCJGsuxlOKX9GuQX+srxn5rHTkEFjxusQ9YDVuPW4McaO3NzS6TArtyYCqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755035215; c=relaxed/simple;
-	bh=P4llxayURF+Bzv8TMureClgGEUCnkca7JyVMimhVlus=;
+	s=arc-20240116; t=1755035216; c=relaxed/simple;
+	bh=1mWCpCcChIEq+ELmnVt9fiQcopEGJYjqYWI6wri//Xc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YjSNwDQL3uujBBhfcnetMT4vvvgUqoCgrm7SWBt08egaBJ+tuxw9dDhcBnx8t9zk2GVFgIyL/1mzIMHSFZKONxpr7V4vGWaojzWr6BeJTpnG6jsZi2h8goHqQ2roAnMYrViTDuNaeaAFnWj2TVB8qhbTwtWGJrJkC5kjhtDW54k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZLlI1AWy; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=bhc0V3jujEl20BeSzwhcL/tCpjXIUwIHYyRaoQm0hfp3vOr9BIJgYPMzd8P/+lm5QUEzHaFsrvkDeqo153ZAfjDtZYdQ5EHN0Q4Ptoi6YLXthcXGZ1m96ZgPKcfokrFHrReBhZzLAK2atUvhDD0qgIW4Kx2qW23mn0CM9Z/sjSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g4L2GPly; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 56AF04A4;
-	Tue, 12 Aug 2025 23:45:57 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 178231123;
+	Tue, 12 Aug 2025 23:45:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755035157;
-	bh=P4llxayURF+Bzv8TMureClgGEUCnkca7JyVMimhVlus=;
+	s=mail; t=1755035159;
+	bh=1mWCpCcChIEq+ELmnVt9fiQcopEGJYjqYWI6wri//Xc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZLlI1AWy6KG07xwp80dtDR0WnnDtvHcOBVjAyB7Eq3+Wm4qE4eEP7STIvLw0eDXpO
-	 B4SANcZhoZtMhnoQzVpnQ03zFHKpZ5hzN2afpO6+CxSWliVG/4u1cQ5Sfo27M55nKp
-	 xZ0IbPLMeHbtnGhPQR6hyywSgp6y4Pkk4MPvuNDY=
+	b=g4L2GPlywJ0WxULaGCLvr7eH+pomJ1UOE6AEAm52000DVeieNZNphIy+Lp8PM4wU/
+	 gf9whaAldNtgcU267EEmX39j7gTwF2whMk9XuLi2xaH7lztNGDcPCT4J6vGcYiyMak
+	 q/iIbqcosbXmy7SHDx5eYYbn4oVKpUiPKVRSUlME=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>
-Subject: [PATCH v2 07/72] media: i2c: mt9v032: Drop support for platform data
-Date: Wed, 13 Aug 2025 00:45:15 +0300
-Message-ID: <20250812214620.30425-8-laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo@jmondi.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 08/72] media: i2c: mt9v111: Do not set clock rate manually
+Date: Wed, 13 Aug 2025 00:45:16 +0300
+Message-ID: <20250812214620.30425-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
@@ -67,226 +59,28 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The last user of the mt9v032 driver through board files and platform
-data has long been removed. Drop support for platform data from the
-driver.
+The driver retrieves the rate of the external at probe time, and then
+reprograms that clock with the same rate when powering on the device.
+Setting the clock rate is not needed, drop it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- MAINTAINERS                 |  1 -
- drivers/media/i2c/Kconfig   |  1 +
- drivers/media/i2c/mt9v032.c | 66 +++++++++++++++----------------------
- include/media/i2c/mt9v032.h | 12 -------
- 4 files changed, 28 insertions(+), 52 deletions(-)
- delete mode 100644 include/media/i2c/mt9v032.h
+ drivers/media/i2c/mt9v111.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe168477caa4..9f9ffc8f66c8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17268,7 +17268,6 @@ S:	Maintained
- T:	git git://linuxtv.org/media.git
- F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v032.txt
- F:	drivers/media/i2c/mt9v032.c
--F:	include/media/i2c/mt9v032.h
- 
- MT9V111 APTINA CAMERA SENSOR
- M:	Jacopo Mondi <jacopo@jmondi.org>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 1f5a3082ead9..cf7d1e2ab3bc 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -317,6 +317,7 @@ config VIDEO_MT9V011
- 
- config VIDEO_MT9V032
- 	tristate "Micron MT9V032 sensor support"
-+	depends on OF
- 	select REGMAP_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the Micron
-diff --git a/drivers/media/i2c/mt9v032.c b/drivers/media/i2c/mt9v032.c
-index 888f3280378d..d4359d5b92bb 100644
---- a/drivers/media/i2c/mt9v032.c
-+++ b/drivers/media/i2c/mt9v032.c
-@@ -24,7 +24,6 @@
- #include <linux/v4l2-mediabus.h>
- #include <linux/videodev2.h>
- 
--#include <media/i2c/mt9v032.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-@@ -182,6 +181,13 @@ static const struct mt9v032_model_version mt9v032_versions[] = {
- 	{ MT9V034_CHIP_ID_REV1, "MT9V024/MT9V034 rev1" },
- };
- 
-+struct mt9v032_platform_data {
-+	unsigned int clk_pol:1;
-+
-+	const s64 *link_freqs;
-+	s64 link_def_freq;
-+};
-+
- struct mt9v032 {
- 	struct device *dev;
- 
-@@ -207,7 +213,7 @@ struct mt9v032 {
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *standby_gpio;
- 
--	struct mt9v032_platform_data *pdata;
-+	struct mt9v032_platform_data pdata;
- 	const struct mt9v032_model_info *model;
- 	const struct mt9v032_model_version *version;
- 
-@@ -332,7 +338,7 @@ static int __mt9v032_set_power(struct mt9v032 *mt9v032, bool on)
+diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
+index 6aa80b504168..cdcdc9896e1e 100644
+--- a/drivers/media/i2c/mt9v111.c
++++ b/drivers/media/i2c/mt9v111.c
+@@ -365,8 +365,6 @@ static int __mt9v111_power_on(struct v4l2_subdev *sd)
+ 	if (ret)
  		return ret;
  
- 	/* Configure the pixel clock polarity */
--	if (mt9v032->pdata && mt9v032->pdata->clk_pol) {
-+	if (mt9v032->pdata.clk_pol) {
- 		ret = regmap_write(map, mt9v032->model->data->pclk_reg,
- 				MT9V032_PIXEL_CLOCK_INV_PXL_CLK);
- 		if (ret < 0)
-@@ -683,7 +689,7 @@ static int mt9v032_s_ctrl(struct v4l2_ctrl *ctrl)
- 		if (mt9v032->link_freq == NULL)
- 			break;
- 
--		freq = mt9v032->pdata->link_freqs[mt9v032->link_freq->val];
-+		freq = mt9v032->pdata.link_freqs[mt9v032->link_freq->val];
- 		*mt9v032->pixel_rate->p_new.p_s64 = freq;
- 		mt9v032->sysclk = freq;
- 		break;
-@@ -996,26 +1002,19 @@ static const struct regmap_config mt9v032_regmap_config = {
-  * Driver initialization and probing
-  */
- 
--static struct mt9v032_platform_data *mt9v032_get_pdata(struct mt9v032 *mt9v032)
-+static int mt9v032_get_pdata(struct mt9v032 *mt9v032)
- {
--	struct mt9v032_platform_data *pdata = NULL;
-+	struct mt9v032_platform_data *pdata = &mt9v032->pdata;
- 	struct v4l2_fwnode_endpoint endpoint = { .bus_type = 0 };
--	struct device_node *np;
-+	struct device_node *np __free(device_node) = NULL;
- 	struct property *prop;
- 
--	if (!IS_ENABLED(CONFIG_OF) || !mt9v032->dev->of_node)
--		return mt9v032->dev->platform_data;
+-	clk_set_rate(mt9v111->clk, mt9v111->sysclk);
 -
- 	np = of_graph_get_endpoint_by_regs(mt9v032->dev->of_node, 0, -1);
- 	if (!np)
--		return NULL;
-+		return -EINVAL;
+ 	gpiod_set_value(mt9v111->standby, 0);
+ 	usleep_range(500, 1000);
  
- 	if (v4l2_fwnode_endpoint_parse(of_fwnode_handle(np), &endpoint) < 0)
--		goto done;
--
--	pdata = devm_kzalloc(mt9v032->dev, sizeof(*pdata), GFP_KERNEL);
--	if (!pdata)
--		goto done;
-+		return -EINVAL;
- 
- 	prop = of_find_property(np, "link-frequencies", NULL);
- 	if (prop) {
-@@ -1025,11 +1024,11 @@ static struct mt9v032_platform_data *mt9v032_get_pdata(struct mt9v032 *mt9v032)
- 		link_freqs = devm_kcalloc(mt9v032->dev, size,
- 					  sizeof(*link_freqs), GFP_KERNEL);
- 		if (!link_freqs)
--			goto done;
-+			return -EINVAL;
- 
- 		if (of_property_read_u64_array(np, "link-frequencies",
- 					       link_freqs, size) < 0)
--			goto done;
-+			return -EINVAL;
- 
- 		pdata->link_freqs = link_freqs;
- 		pdata->link_def_freq = link_freqs[0];
-@@ -1038,9 +1037,7 @@ static struct mt9v032_platform_data *mt9v032_get_pdata(struct mt9v032 *mt9v032)
- 	pdata->clk_pol = !!(endpoint.bus.parallel.flags &
- 			    V4L2_MBUS_PCLK_SAMPLE_RISING);
- 
--done:
--	of_node_put(np);
--	return pdata;
-+	return 0;
- }
- 
- static int mt9v032_probe(struct i2c_client *client)
-@@ -1075,8 +1072,13 @@ static int mt9v032_probe(struct i2c_client *client)
- 		return PTR_ERR(mt9v032->standby_gpio);
- 
- 	mutex_init(&mt9v032->power_lock);
--	mt9v032->pdata = mt9v032_get_pdata(mt9v032);
--	mt9v032->model = i2c_get_match_data(client);
-+
-+	ret = mt9v032_get_pdata(mt9v032);
-+	if (ret)
-+		return dev_err_probe(mt9v032->dev, -EINVAL,
-+				     "Failed to parse DT properties\n");
-+
-+	mt9v032->model = device_get_match_data(mt9v032->dev);
- 
- 	v4l2_ctrl_handler_init(&mt9v032->ctrls, 11 +
- 			       ARRAY_SIZE(mt9v032_aegc_controls));
-@@ -1121,8 +1123,8 @@ static int mt9v032_probe(struct i2c_client *client)
- 		v4l2_ctrl_new_std(&mt9v032->ctrls, &mt9v032_ctrl_ops,
- 				  V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
- 
--	if (mt9v032->pdata && mt9v032->pdata->link_freqs) {
--		const struct mt9v032_platform_data *pdata = mt9v032->pdata;
-+	if (mt9v032->pdata.link_freqs) {
-+		const struct mt9v032_platform_data *pdata = &mt9v032->pdata;
- 		unsigned int def = 0;
- 
- 		for (i = 0; pdata->link_freqs[i]; ++i) {
-@@ -1264,19 +1266,6 @@ static const struct mt9v032_model_info mt9v032_models[] = {
- 	},
- };
- 
--static const struct i2c_device_id mt9v032_id[] = {
--	{ "mt9v022", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V022_COLOR] },
--	{ "mt9v022m", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V022_MONO] },
--	{ "mt9v024", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V024_COLOR] },
--	{ "mt9v024m", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V024_MONO] },
--	{ "mt9v032", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V032_COLOR] },
--	{ "mt9v032m", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V032_MONO] },
--	{ "mt9v034", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V034_COLOR] },
--	{ "mt9v034m", (kernel_ulong_t)&mt9v032_models[MT9V032_MODEL_V034_MONO] },
--	{ /* Sentinel */ }
--};
--MODULE_DEVICE_TABLE(i2c, mt9v032_id);
--
- static const struct of_device_id mt9v032_of_match[] = {
- 	{ .compatible = "aptina,mt9v022", .data = &mt9v032_models[MT9V032_MODEL_V022_COLOR] },
- 	{ .compatible = "aptina,mt9v022m", .data = &mt9v032_models[MT9V032_MODEL_V022_MONO] },
-@@ -1297,7 +1286,6 @@ static struct i2c_driver mt9v032_driver = {
- 	},
- 	.probe		= mt9v032_probe,
- 	.remove		= mt9v032_remove,
--	.id_table	= mt9v032_id,
- };
- 
- module_i2c_driver(mt9v032_driver);
-diff --git a/include/media/i2c/mt9v032.h b/include/media/i2c/mt9v032.h
-deleted file mode 100644
-index 83a37ccfb649..000000000000
---- a/include/media/i2c/mt9v032.h
-+++ /dev/null
-@@ -1,12 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _MEDIA_MT9V032_H
--#define _MEDIA_MT9V032_H
--
--struct mt9v032_platform_data {
--	unsigned int clk_pol:1;
--
--	const s64 *link_freqs;
--	s64 link_def_freq;
--};
--
--#endif
 -- 
 Regards,
 
