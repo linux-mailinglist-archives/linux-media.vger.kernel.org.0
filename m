@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-39528-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39529-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A477CB22028
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:03:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D4FB2204A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 10:07:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93B921630EF
-	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:01:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC7CB3BE01F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Aug 2025 08:05:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE4E2E093E;
-	Tue, 12 Aug 2025 08:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86BB42E1737;
+	Tue, 12 Aug 2025 08:04:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1NZAJHd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BlaKB9kC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498F1311C3B;
-	Tue, 12 Aug 2025 08:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99D12D4808;
+	Tue, 12 Aug 2025 08:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754985663; cv=none; b=aOwjerLQ9XOri8h9Lm2dlnAZwJoDqnGSwWxRcTLxXbvlSRV7fVpGtQ99fSH6Hw3iEuflRoU2tM8VCtrXclmlzXQf11jocTlQ3zHzqb8n/TL/ryvNwJnspjyZdOtDYbM/Ybz05lCnPMdkId3lT5Vn8Sn3rmqekPd/cwiVlky60vg=
+	t=1754985895; cv=none; b=PiBB/5zwA5atmCgMzYd/c4GKErFG8EQDh+kt2bM1KlIjwRaUliLrlZmERkj5+EkJCjdxVyeRLYaSRzmMfvEsCa2Bq6Fo3kGu1OPi6zS5YcmcnINO4PrWpwRO7K2TSUPoU/Wzg7Z0mHD69qWjtUGMUZGJZa8Ma6XWX8jhQ2FJdj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754985663; c=relaxed/simple;
-	bh=Qz5rVNLv9JvrQB+FK58nkzEJzkYI9AFUBSjceIHbWTY=;
+	s=arc-20240116; t=1754985895; c=relaxed/simple;
+	bh=c73LO9Yk4slOIaSDIMJ469ieIfFhTA/dD9L7cByGet0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UO5dYUnV5f3V+oepRA7jVFn4SDp3Ldp1v1khd8HoZwF5iM6e8Jdlxnjn9Jqlr8hc/eBPuTvqMNWFxv/Cxi9w+x0C6CirfQ8dQLLmTcwuilNRKUxrm0C/gQXcpgdz4BTew7zM6cUblJoXxnYta8082yBYqrNJrNFGTlPo6s7bSuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1NZAJHd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9E95C4CEF4;
-	Tue, 12 Aug 2025 08:00:59 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=hLkF4WfahDtqcMIgNrvvb8Woam9kpipD+7G09Ju6c9D8/HxjeNjamSD32hjUCxp9kz88fqLoeBhLljmBPuCSQKj27m21xhN7P5g0cIHKj/PdGIiFAXtRFmQcyqbgnM86sncw1vyArUDfZGFtLu4q1OOnKt64pRUB13VsVuEVTp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BlaKB9kC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50EE8C4CEF7;
+	Tue, 12 Aug 2025 08:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754985662;
-	bh=Qz5rVNLv9JvrQB+FK58nkzEJzkYI9AFUBSjceIHbWTY=;
+	s=k20201202; t=1754985893;
+	bh=c73LO9Yk4slOIaSDIMJ469ieIfFhTA/dD9L7cByGet0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=R1NZAJHdrQE8ELLxJtSEPOn5EJepDr1Pr6ive+2JtpZazE4JGXu8T/3RVijwhP9am
-	 jXSx6AvJOCXjp0Js0w/jkipA3dfKdRWNltbKL4+6MLHSwZ4pdtaRJcvMDuEoyyFSh6
-	 TVa1WukLM9tYO5bdbcKEF4RkfWntddCuWLSKxenTR2WwDwxfxkO1iWDaZ6XDtqsCea
-	 DuVnjoUQJOEdqIv5XMELAOFFRAqJHK5mdDjzJvxc5qBDmuXyZfrbXcPkj+btcRmGq+
-	 /NZrfyKCwHDvVNMRm+ScC9M+ciVj/nsd7bb1/HTWqNydVAO1mFGRQGq9DMTkzZVPGS
-	 vzCprcrrzeOkw==
-Message-ID: <8d8dcaef-eb96-4e7b-9a0a-8b3836cb284c@kernel.org>
-Date: Tue, 12 Aug 2025 10:00:58 +0200
+	b=BlaKB9kCAMKI1fS0ZN4My4d+GOu0dnsQil8xrgEvKM9u2TRnAbtV5biV3D5PjDqq4
+	 eDFkLnozMX+y8aYe2+H7JpAcDSpZr1wJFmxu+nHNmUn/69JScsHXGh7+7UJfHhk4U0
+	 uEih9jtqqW2BIjr9SK/O2bLDHrBjKMMVuTgXG4jNLgLoCgwXDyipJxCmDdY4hbmCzc
+	 JEvWGlOL2XAPB5jlvSEyrt2LdxNMxtJjLTzED26kKa0a1naFi+LMZJ8xInH4d1JVXe
+	 CcdOOyKY/a80qCR9ZHlUgSxc8HzdJu2aqx5a5EZ2xIjTT49C/6IegJIQa3ECuoUelK
+	 /Rcg6pFg2Ei6Q==
+Message-ID: <e33a22ba-f82a-412a-b1fd-d1cd50f6b21d@kernel.org>
+Date: Tue, 12 Aug 2025 10:04:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,6 +65,7 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 References: <20250804-sm8750-iris-v2-0-6d78407f8078@linaro.org>
  <20250804-sm8750-iris-v2-1-6d78407f8078@linaro.org>
  <683024c7-3740-cb9a-6924-33816edd63f3@quicinc.com>
+ <8d8dcaef-eb96-4e7b-9a0a-8b3836cb284c@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,31 +111,37 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <683024c7-3740-cb9a-6924-33816edd63f3@quicinc.com>
+In-Reply-To: <8d8dcaef-eb96-4e7b-9a0a-8b3836cb284c@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/08/2025 09:54, Dikshita Agarwal wrote:
-> 
-> 
-> On 8/4/2025 7:07 PM, Krzysztof Kozlowski wrote:
->> Add binding for Qualcom SM8750 Iris video codec, which comes with
->> significantly different powering up sequence than previous SM8650, thus
->> different clocks and resets.  For consistency keep existing clock and
->> clock-names naming, so the list shares common part.
+On 12/08/2025 10:00, Krzysztof Kozlowski wrote:
+> On 12/08/2025 09:54, Dikshita Agarwal wrote:
 >>
->> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>  .../bindings/media/qcom,sm8750-iris.yaml           | 186 +++++++++++++++++++++
->>  1 file changed, 186 insertions(+)
 >>
+>> On 8/4/2025 7:07 PM, Krzysztof Kozlowski wrote:
+>>> Add binding for Qualcom SM8750 Iris video codec, which comes with
+>>> significantly different powering up sequence than previous SM8650, thus
+>>> different clocks and resets.  For consistency keep existing clock and
+>>> clock-names naming, so the list shares common part.
+>>>
+>>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> ---
+>>>  .../bindings/media/qcom,sm8750-iris.yaml           | 186 +++++++++++++++++++++
+>>>  1 file changed, 186 insertions(+)
+>>>
+>>
+>> Query:
+>> Can the additional reset and clocks be accommodated in existing 8550-iris
 > 
-> Query:
-> Can the additional reset and clocks be accommodated in existing 8550-iris
+> No, different hardware. Although it is hardware from your domain and
+> your company, so I would assume you know the answer.
+I guess I misread - I thought you want to re-use existing properties or
+something like that, but you just want to create one huge binding?
 
-No, different hardware. Although it is hardware from your domain and
-your company, so I would assume you know the answer.
+No. Don't grow these unmaintainable patterns. We have been changing this
+for some time already :/
 
 Best regards,
 Krzysztof
