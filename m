@@ -1,153 +1,365 @@
-Return-Path: <linux-media+bounces-39755-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39756-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40250B244EE
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 11:05:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049CCB2453C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 11:20:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F229E3AB079
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:05:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78668188A912
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:19:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A13552D0604;
-	Wed, 13 Aug 2025 09:05:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3285C2F0C5F;
+	Wed, 13 Aug 2025 09:18:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="u19ygZB0"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lLe9XJGR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2042.outbound.protection.outlook.com [40.107.243.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CA520EB
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 09:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF4D2F0C54
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 09:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755075923; cv=pass; b=k4hi0XRoJJdpE0dN0qW0kSabsNbgM3vSP2og2WR/opClkOOrjWVMtD7lnKmW1Bo//Pch1drIwEoD6ACbS7W9QvwO08QczNIhkN7FtkN9TCgohiV7KRdEVaYlP+lF/1SQSI80pNRW39KTfvT1eHCTvWolSmT2opHTL/FUk2mlWII=
+	t=1755076733; cv=fail; b=kvmcSljYrcPkPOXX+AKM1cWBzo4rwHDYNXFRyXoE0SPLJhMVlEx60Bfw9Pc1ZpvOHAFMQf7uPL4Vni7w9GI9SmP2CFOFR8I9b3p4GgF4UyglGIGGuQPuqsVVxf2tM5TaDX5QBuVShsH/F4ogh+xUiycMnKpHqz3+eaKhxxC4Zc4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755075923; c=relaxed/simple;
-	bh=uMW0eYY2hRvYKNM17Z7sMEAMlDn40+7NdRmw6q0QErw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NZDfH0+1h1Nn2gyIXtU0dTIxb/6sj+YwkZX3/z/ScUysxf7O3/CBzNhSf/oqMtjwHPEkaijkBjdqfqVEE6vxPEb9aZaSELLjMZ8Qu8zY35R5wAomA72YiAHapYygYVeNsiFsUiyHfcRKEdVgBl2MzcwN6YauNkW+WPtzoM5AYuI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=u19ygZB0; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4c22Wq6rWfzyQx;
-	Wed, 13 Aug 2025 12:05:11 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1755075912;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=OcjAxx9dW9jtmVXxBN+GuPeYeQW5O0Dr+qbn4TUFaDE=;
-	b=u19ygZB03IX3dClN1e0PgUuixa1OhCJngnYs5p6sXyjxsn6WaoRt0T3uPeOGGclBylN9UZ
-	2p1/E0yZ4qSPb+eT0hAW39ZxR5/jLkyqdIDFBRmuASYy3nFgDpi17K7nhwf5c+2B5QwrHE
-	xgeQsRj5SQjO5EeQxh1FXGJzJOnK5Ec=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1755075912; a=rsa-sha256; cv=none;
-	b=V34XM6PnS8+tD/zTc5OVSRQ2bdmXHO/xNCKqnQsRvxqpV7Df1zke9keLjydRbymjqVv/aw
-	MidzHky5aa1AKYgo1MtfgSp8gVJu09Rf++dozZ7kjaGy/NnCKXr0TmAmNQhZTGJaDOuf5u
-	3XZp0696rqSoLFxO725yEtuMuHzGrsg=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1755075912;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=OcjAxx9dW9jtmVXxBN+GuPeYeQW5O0Dr+qbn4TUFaDE=;
-	b=QJGdbOR5KTVhEB+yahpKY8ZqSQ28gfO0KjnX6gyh1SwG5KTqoSXraK7jQ0cPUUGhtBC6d5
-	4KKgNRWOvzle+ivGF0dZWrsSAcBAHRYBkStCcQgHuSZZSlLq3OPbQXOWcsyTrQlRjDvLVl
-	9Oj6h+3NPQmneXR5d0YEKYvqJZDhqwU=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D7F60634C93;
-	Wed, 13 Aug 2025 12:04:22 +0300 (EEST)
-Date: Wed, 13 Aug 2025 09:04:23 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl
-Subject: [GIT FIXE FOR 6.17] Drop redundant pm_runtime_mark_last_busy() and
- lt6911uxe fix
-Message-ID: <aJxVF0MpevVhsH0H@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1755076733; c=relaxed/simple;
+	bh=U1vSODuCxXsT+T38BnI/t1U64gq7Z2cdXj5eKNBSGXY=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hn/uijuAWOsZeEAUC1WAAxT/20uJ2phmdaC+tS02olFwYFHtQ5HMBUKAZhICd2z1MYmzA0Fb00IRPFtgtgU48AgwWhfL+M+E1ynkS0oHdb0fYeNptDCSP3JlGhej+4BH8qCiU4iUZNEtAc/FVVYvQy6ypYlp+xeBTdey5tTMRXo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lLe9XJGR; arc=fail smtp.client-ip=40.107.243.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aImSV3s0X/18UYXhHmL6NHxGOGPgYIy7xom6zsdZNoIafNCm9iqFeccmyGxxKPxX7xNzc4ZZPZSiAKtWA0RYx/wch4TsLgYKPkUed0zQN66TWpK6XwTKVgglvN2gkSH9mWK+hbKli2sXccsCUikubfuaJehOkJmrIaVBywLy/UHHgwPPUEiNKXPPjBFFenoyE0xah8Kw4spnlzt/Q/evtx7k/zA7Reb2RTQGdxyp6x2P0J6KJv4cFeGN/MxhaJ706WKIkqke0FI788Bygw2ERCYLarI6ao4g1PTlq8jm9TgWUOjeDCsWh1crzjDXlJY7BKaRF5gXzIEJnd2JDKFKkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v0Zjwm+QeRk4J6IraXchUqYn5sasvU2NbaWpB/ykn50=;
+ b=aLpVbiNIm0CSQClbmmcmMuZndYsG8i72b3D1SRwaXum8W5Z2H8QOlq9et2w0/JBk0IvhlpNFvldiDlM5vB3PhGoSRr48SPvwgFRmwCnxr3AqPjbCeYjh54qgntUvtp1Ln4qBgHN6k/au1fVmusZzuDk+wOH9rj8X3shHIPE3nac82c2C23AKZ3AkJeLN+DhJmP6NdjCDpGdwUZ7AiMGdqBKfSpqSRqnOl/FX86t3nwt50rlsWZBCbFWU9XWjqHe3xfrcZln4As1sBtO4LXXUFGkx1nNg4ajn0P9NkAKbF65IQpPPiXF8bGSkFlxPW5Ze2wCAgFRn1l6Otk6WJfYRsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v0Zjwm+QeRk4J6IraXchUqYn5sasvU2NbaWpB/ykn50=;
+ b=lLe9XJGRenLHZpAwVmlCizVZpxWtsW/SzkFKtqIKS5yzvk5UpxRLWlCKNf6buqi+D0cHzULNWgWYucL4WMncG0m2QiLKCLY/VaTiTnWmvSsksCWL8oABCuAR+y5j/evDWYOFhgU/UZ90/ooxvV1VYNlx9IuLeR6OdPKYI7KL+EI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY5PR12MB6384.namprd12.prod.outlook.com (2603:10b6:930:3c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Wed, 13 Aug
+ 2025 09:18:48 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
+ 09:18:48 +0000
+Message-ID: <1633e373-df36-4e80-bb0f-d30a21059ef6@amd.com>
+Date: Wed, 13 Aug 2025 11:18:43 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from
+ IOCTL
+To: phasta@kernel.org, simona.vetter@ffwll.ch, tvrtko.ursulin@igalia.com,
+ airlied@gmail.com, dakr@kernel.org, sumit.semwal@linaro.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20250812143402.8619-1-christian.koenig@amd.com>
+ <20250812143402.8619-2-christian.koenig@amd.com>
+ <76e9e1644fd9c9cb19b7da3626cd0a579ccf3d4a.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <76e9e1644fd9c9cb19b7da3626cd0a579ccf3d4a.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0375.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6384:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2af02201-d13e-4935-e8ae-08ddda4a68e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZlBtaDlEdllPb1hCZDVIc1lJbEJjR1ZZYTh1K0FrUWc1SHN3a3dsS3NFeXVl?=
+ =?utf-8?B?Z1RSakpMN29iS3RjNGprK0UvVUMxRjR1QTNwMkNPVXh4dDlkbWxUcWZFU3Q2?=
+ =?utf-8?B?THVXR2FGWTBBTFV6ek0za2Z1eXY0ampYdmhPenpuZk9XWVFUS3BFVTFjTDJs?=
+ =?utf-8?B?bmFOQ3pIV0RuOTZJZFBhV2dvSUQzdGl5LzdFeUhYMkJXYlpEMkQzNVFLQ2ht?=
+ =?utf-8?B?Z1RFZlByeUVsZjArYjVPZVRRMENESzlzNVdwemFidlE3U2U1eEtsVE1aOGF4?=
+ =?utf-8?B?WnpvZG0wL0JzUjBJOE5DYm1NZDU5a2FQTWYxaHMwZ1NBRm9KZVRWeFFBbkFF?=
+ =?utf-8?B?YUdiajRPSnVXNEozOUpSZFYySTd1a0g4UGd3OVc0L3N4cC8xNm5Qc1JrZHNV?=
+ =?utf-8?B?M21oRXQyNjB0MW45RUhxejlneXloNVQ2cVhabUdraXVaWmhLdVRtdkZHeG5E?=
+ =?utf-8?B?dVlXMkFwdFQweEVTbFMvbFFrS0EvTEF0R0FzVFFzVlQ1SU85M3pVZld2bHpB?=
+ =?utf-8?B?QW9NVWZqUmtsK2VOV01tRnFCeVpSZ1dJR1g5bkg3RGJ6cmE3ZkkrYVQ4VFc4?=
+ =?utf-8?B?elNCSTBEV2RuWEhMbEFuM1dRZ0hJRmtwV1ZnMnc3bTNma0JkRnZtUzB1QkpN?=
+ =?utf-8?B?ZDJDRUlqOXlveEVhQlpYdTdPcm5seXRrSDV6R0lmN1lqbWpXbmxMdzl5cnFY?=
+ =?utf-8?B?cHJqOHFBM3YwSW1qNWdLUUNxTExWdngwVC9ZaElTcTdEWFZYN3VvbHZ3dTVq?=
+ =?utf-8?B?c3JxNStYZEE2T3BNOEVFQzR0K2pQT01WT1h0a1hVZllNVkx4Q1pkaVZxUXhM?=
+ =?utf-8?B?ZVgrMDNQUjZVUkgzbDl1dUpoejYwVWgzZzFCMU40bVk2WWYwYWQ3L1A2bEx5?=
+ =?utf-8?B?UnFHVGpYdURwYStudVBzMU9BTkcrZHhHaXZrSW1kN2ZOQzhJRVVaRWI1YzRx?=
+ =?utf-8?B?TmkvQndjYkVjQWVhSzNoeXFQTDYvSTN5SlROR1NsNjYrVmd2Qk5aN1YzY3A3?=
+ =?utf-8?B?Um9NbEZaZjQ3STZJQ0x4c2EvRktieCsyYXRhcEk2NU5KZDFmYmhZVEhmT09x?=
+ =?utf-8?B?b2U0eWtiaEtQNVkremMyMTVGVy8zbW5CWmdMVm56MFRUWS9telljUzlzZkp3?=
+ =?utf-8?B?OG84OWtXVENJL1JrcjZsLytQV1ZTcU9hRTFyUzZOVGtaMWNlZ2lOK2xpcXRt?=
+ =?utf-8?B?Ym5qRDFvZjZwOVltZGo3UjJld01OU2k2TjVGYU1ucGovaGM3TUo4YXBNbGRp?=
+ =?utf-8?B?eEVnVzFmKzZ4TXoxMzVhNlBkRG5zV0xZblZxazU3ZmNzWjhKVTg0MTZZRElX?=
+ =?utf-8?B?VjMvK2dlSkZrOEUxYWdHNm55VStjVUQwUVFtWkpCcC9VNUVidlByTW83QUZu?=
+ =?utf-8?B?UWtiQ2YvSjVDNnZHUjlKZXYrQURpNGJtb0xMQzRPRTY4TWtRYmFXVUJPREZY?=
+ =?utf-8?B?SnFsUSsrdUtvKzJNSzdsUjRmdzRrek9taEtpbHpSZTU3Z2VRZ0NyUXRZekRN?=
+ =?utf-8?B?SG1YYm43NThaZkVGQ3NYS2pjclJCSlBEU0F0UzJxYkIxZWNOSVNqRlBQQVBG?=
+ =?utf-8?B?dld0NVJZVWxNbVJ3M2FJKzZmTUtLaTZYcCtSRk45ckx0dGE3dkJLTTBEMDY2?=
+ =?utf-8?B?TXd0K2hwbmx2QTlFKzdEaCtuK2hTdzB3Q1doaUVIbjd0Nk4xWTY1bkp6dUtD?=
+ =?utf-8?B?Sy9FSVBIdmpFeG9aemROeHNjUjlWUnM2RXB4cTNQSXlwYnlPN1J2SjZFZkNt?=
+ =?utf-8?B?WkhsMDBVL0ZuYVBOWnkwbG9jWjJRRnl6OElSMzZSeVNrLzVDa1BJSGJQUHVL?=
+ =?utf-8?B?WFZDRlhmT1hpL3FFM1dHK0N1VjFvd2RtaUxnaUZ6eVNOTnV5bW5vcklmeTNi?=
+ =?utf-8?B?VWdzaVVPeThRbUNueWNjNTBMM3ZESEFwb1lwUFFTcVgyN1RKbStuK21yK0gy?=
+ =?utf-8?Q?b4qI0OD2xhw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Z3hpZVBJd0U0ZEpKakVoWndlK3pteVdiblhrVUV0UTdsQkQ0aklSRzRDZFp2?=
+ =?utf-8?B?bjhkRWZOaUFSWFpvdVVPZkE0cllRd3dRSnh4TllaK0ErL2ZOUm9wdEk5bUg3?=
+ =?utf-8?B?WWFwdjk5WmdSejBlOEpxYXlNZHFJL1FFRis0K21Sd0cwUkFxaVlBUTlFR2FT?=
+ =?utf-8?B?RXR5eXc2cno2SVUvTVJ0WW9lY0s3cXp2Qkw3dUp2UDlIWmFNVk9ONkhiVWda?=
+ =?utf-8?B?L0ZXT3ltSElncWVuWUg2ZThsVXBVOVNFY0VBajhwSVhXWFVnNzdTNy9zZmVx?=
+ =?utf-8?B?aDBockh4MWphV3FCY2RhZVpDRnNSVDBVOENHTWxKd3JRWVIrejNjK2tTcEo4?=
+ =?utf-8?B?a0Jac0JyMGRqNXAxVUhZUEJHZ2xDYndLdUw5bjRGQUUweXhub1R5Z3NibVZp?=
+ =?utf-8?B?SWIveFlYbXRVbTkvVlFESFNEc2kxV3NGR3NHUUZDK2dUaE5XRVpYVGtPWHVB?=
+ =?utf-8?B?RGRVcTdTZVNmK2EzSGdCQ05HSHdIYm1Qa0RuUEVDSEc3NGd5MEhMblBzWW1P?=
+ =?utf-8?B?ZzBBWHFBNFdiNEF5Rmw1bGIxSDBXOHdTTHNVRWNET2ZQbEtkTG1EVnd3U0I0?=
+ =?utf-8?B?WG0xb0FqZENpQWl5Ynl3MURiNk1TbTlITG44emgzVGJZQ00ycVBRdkppa3k0?=
+ =?utf-8?B?N0JJSTladERLOE5XRWRFdU5qd0RTZXBjZmg1eW1Yd2h6ZUpjM1laUkpxaE9x?=
+ =?utf-8?B?MXBkU2JSak5GS0hVdm9MQjZnSHN5OW1OVXVtTEY0TFd3Z3NqN2RuOFpITlBq?=
+ =?utf-8?B?aDI5RC9leFVsa3BJVFUyMXA4SkVEckVEZnIxbktPNUxWWS81N2poZ25yc29t?=
+ =?utf-8?B?anRQUzhyUkJkY2lKajUxUmRFRE1LNFNlemtLOTNGVHRPMzNtRm0ycHZ4dW04?=
+ =?utf-8?B?ckZXUUNsVlBjQXFRUzAyRVFDRTdCNzlvVitBOE0ydjNuWkQvWCt6ZnlQeXlQ?=
+ =?utf-8?B?RzhRT2pvYlNNVUJJVDQvemJFc0FlZkZIS0F1RTdmdEJ1TVp3cmE4dzVPUVlG?=
+ =?utf-8?B?WG1XUXFjVXJyRlFHcTBvZXREMjAxU2FDaVc1RnIvOWFXekFwaEszOWVueFZK?=
+ =?utf-8?B?dlhHWTBQdFNaTElVcVB2N285S0Z3Q1VLL3F2b09VSUxRR3VhZWdweDF1aE1Y?=
+ =?utf-8?B?Qkp4eWlMVGNWRDN4cjV3MUV2YW90cTUrQWhRR0JzSXRKMHZYczB1WEdGbnFR?=
+ =?utf-8?B?TnVEOTRrb0RwVHBtaXZmRmVvQlJ0Y2RKSWdNTjRiZGswNVF6MlNjL013VkRD?=
+ =?utf-8?B?QmhncU0rcnRkSHdaTWlGa3c1ZjloMjlRdHQ5M25zZC9zT05ZVkxKb1ExbjY1?=
+ =?utf-8?B?V3pGMG1RZGpyeEplNkVVZS9FbVBFZjVQWmo2OEpmNTNqVkQ4TmlqcmVKUTZa?=
+ =?utf-8?B?UGpCbkhzZHlzNU5Damh5U3RaMXNQUGZoUysyN2ZSYkQ3RXViaTFvU1NYYXBT?=
+ =?utf-8?B?SVBXOEpEQWlybTZ6Rmh0VnQ3dEplS3pZYWZodGZUVU9LbnpKNTFDL2dTcmR0?=
+ =?utf-8?B?bWV6ZUlNVlRsbnpYcnVFckFhS1hGRVdtbGgyOUZqZ1Vsc2UxVFhnS3lvdTNi?=
+ =?utf-8?B?S0ZXNldSU3NSR0tlV1VYQnhtemRqbU0wdk92eDlxczRvOEppNnlwbFpDWGpE?=
+ =?utf-8?B?TDZDMzllWlBDYkRWazI1a3dBYjk3aHVEVnlWSklvZlBKb0p2dCtuU0dubkRM?=
+ =?utf-8?B?OWtRSTkxc3VEcWNiZG5TNk9qais4RGptaGo3ZzYyZkZlZVY2a0p6SDBCNFVQ?=
+ =?utf-8?B?UlNsbUZmSkV0WE8zTUdpRkxZNGdXd2RTVzcxSVZSQnkrUHRYWTdIYTltcHFm?=
+ =?utf-8?B?WUxXMzdGTjVMZFZtSjJGVHhVUEdpQ2wvRnRQa2RWVlFmMXdyOGlyUllDU3Fh?=
+ =?utf-8?B?dm9Cb1FwVFNkN2I4bWRrT0NDanZwSUY0QWJUdTRxNEEvY1g1SkFEbGtEaUZo?=
+ =?utf-8?B?d0FPOHFuWVg2aFdtblVRVU5MMWJrb0tlazZBSHVoRzVhc3lOWVdxbFRXeE9w?=
+ =?utf-8?B?WEZOMk1HbHZGOGE2U3ZmWS9wck5NaUx1OTBPOGFadURwSnNOSlZKcGphSWE3?=
+ =?utf-8?B?emhZajE3a01COFQxUzExV2NiTksrRjVyUmVjQ1pvam45U1JpWFBXeUdCVGE2?=
+ =?utf-8?Q?RKTTfup+a7pLYz9mSYthkCPCD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2af02201-d13e-4935-e8ae-08ddda4a68e9
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:18:48.1727
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SDAmQZw+2HUf1xsnIZ5pErCF2ROAPMLxA4U5qHp059/Sdhnj1tez+/LbreBnduQR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6384
 
-Hi Hans, Mauro,
+On 13.08.25 10:16, Philipp Stanner wrote:
+> On Tue, 2025-08-12 at 16:34 +0200, Christian König wrote:
+>> From: Christian König <ckoenig@able.fritz.box>
+> 
+> Is this the correct mail addr? :)
 
-Here are the patches to drop the redundant pm_runtime_mark_last_busy()
-calls in drivers and an lt6911uxe fix that should also be merged to 6.16.
+^^ No it isn't and how the heck did that happen?
 
-Please pull.
+Looks like my gitconfig is somehow changed, but I have no idea why.
 
+>>
+>> We have the re-occurring problem that people try to invent a
+>> DMA-fences implementation which signals fences based on an userspace
+>> IOCTL.
+>>
+>> This is well known as source of hard to track down crashes and is
+>> documented to be an invalid approach. The problem is that it seems
+>> to work during initial testing and only long term tests points out
+>> why this can never work correctly.
+>>
+>> So give at least a warning when people try to signal a fence from
+>> task context and not from interrupts or a work item. This check is
+>> certainly not perfect but better than nothing.
+>>
+>> Signed-off-by: Christian König <ckoenig@able.fritz.box>
+>> ---
+>>  drivers/dma-buf/dma-fence.c | 59 +++++++++++++++++++++++++++----------
+>>  include/linux/dma-fence.h   |  9 ++++--
+>>  2 files changed, 51 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index 3f78c56b58dc..2bce620eacac 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -345,33 +345,23 @@ void __dma_fence_might_wait(void)
+>>  }
+>>  #endif
+>>  
+>> -
+>>  /**
+>> - * dma_fence_signal_timestamp_locked - signal completion of a fence
+>> + * dma_fence_signal_internal - internal signal completion of a fence
+>>   * @fence: the fence to signal
+>>   * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
+>>   *
+>> - * Signal completion for software callbacks on a fence, this will unblock
+>> - * dma_fence_wait() calls and run all the callbacks added with
+>> - * dma_fence_add_callback(). Can be called multiple times, but since a fence
+>> - * can only go from the unsignaled to the signaled state and not back, it will
+>> - * only be effective the first time. Set the timestamp provided as the fence
+>> - * signal timestamp.
+>> - *
+>> - * Unlike dma_fence_signal_timestamp(), this function must be called with
+>> - * &dma_fence.lock held.
+>> + * Internal signal the dma_fence without error checking. Should *NEVER* be used
+>> + * by drivers or external code directly.
+> 
+> s/Internal/Internally
+> 
+>>   *
+>>   * Returns 0 on success and a negative error value when @fence has been
+>>   * signalled already.
+>>   */
+>> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>> -				      ktime_t timestamp)
+>> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp)
+>>  {
+>>  	struct dma_fence_cb *cur, *tmp;
+>>  	struct list_head cb_list;
+>>  
+>>  	lockdep_assert_held(fence->lock);
+>> -
+>>  	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>>  				      &fence->flags)))
+>>  		return -EINVAL;
+>> @@ -390,7 +380,46 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>  
+>>  	return 0;
+>>  }
+>> -EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
+>> +EXPORT_SYMBOL(dma_fence_signal_internal);
+> 
+> If it must only be used internally, can it be kept private, without
+> exporting the symbol?
 
-The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+I have gone back and force about that as well.
 
-  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+We would then need to uninline dma_fence_is_signaled().
 
-are available in the Git repository at:
+>> +
+>> +/**
+>> + * dma_fence_signal_timestamp_locked - signal completion of a fence
+>> + * @fence: the fence to signal
+>> + * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
+>> + *
+>> + * Signal completion for software callbacks on a fence, this will unblock
+>> + * dma_fence_wait() calls and run all the callbacks added with
+>> + * dma_fence_add_callback(). Can be called multiple times, but since a fence
+>> + * can only go from the unsignaled to the signaled state and not back, it will
+>> + * only be effective the first time. Set the timestamp provided as the fence
+>> + * signal timestamp.
+>> + *
+>> + * Unlike dma_fence_signal_timestamp(), this function must be called with
+>> + * &dma_fence.lock held.
+>> + *
+>> + * Returns 0 on success and a negative error value when @fence has been
+>> + * signalled already.
+>> + */
+>> +int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>> +				      ktime_t timestamp)
+>> +{
+>> +	/*
+>> +	 * We have the re-occurring problem that people try to invent a
+>> +	 * DMA-fences implementation which signals fences based on an userspace
+>> +	 * IOCTL.
+>> +	 *
+>> +	 * This is well known as source of hard to track down crashes and is
+>> +	 * documented to be an invalid approach. The problem is that it seems
+>> +	 * to work during initial testing and only long term tests points out
+>> +	 * why this can never work correctly.
+>> +	 *
+>> +	 * So give at least a warning when people try to signal a fence from
+>> +	 * task context and not from interrupts or a work item. This check is
+>> +	 * certainly not perfect but better than nothing.
+>> +	 */
+>> +	WARN_ON_ONCE(!in_interrupt() && !current_work());
+>> +	return dma_fence_signal_internal(fence, timestamp);
+>> +}
+> 
+> So this now is the point to decide what we want: do you want to *allow*
+> drivers to do it, or want to *prohibit* it?
+> 
+> If you want to prohibit it, then (additionally) returning an error code
+> here would make sense.
 
-  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.17-1-signed
+I'm actually trying to remove the return value for quite a while now.
 
-for you to fetch changes up to 7947309bafb07bc1b2eb63c69aae13003b53dad1:
+IIRC nobody is actually using it any more since it doesn't really signal an error condition.
 
-  media: Remove redundant pm_runtime_mark_last_busy() calls (2025-08-11 15:43:44 +0300)
+Thanks,
+Christian.
 
-----------------------------------------------------------------
-V4L2 fixes for 6.17
+> 
+> 
+> P.
+> 
+>>  
+>>  /**
+>>   * dma_fence_signal_timestamp - signal completion of a fence
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 64639e104110..8dbcd66989b8 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -369,6 +369,7 @@ int dma_fence_signal_locked(struct dma_fence *fence);
+>>  int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
+>>  int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>  				      ktime_t timestamp);
+>> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp);
+>>  signed long dma_fence_default_wait(struct dma_fence *fence,
+>>  				   bool intr, signed long timeout);
+>>  int dma_fence_add_callback(struct dma_fence *fence,
+>> @@ -422,7 +423,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>  		return true;
+>>  
+>>  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>> -		dma_fence_signal_locked(fence);
+>> +		dma_fence_signal_internal(fence, ktime_get());
+>>  		return true;
+>>  	}
+>>  
+>> @@ -448,11 +449,15 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>  static inline bool
+>>  dma_fence_is_signaled(struct dma_fence *fence)
+>>  {
+>> +	unsigned long flags;
+>> +
+>>  	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>  		return true;
+>>  
+>>  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>> -		dma_fence_signal(fence);
+>> +		spin_lock_irqsave(fence->lock, flags);
+>> +		dma_fence_signal_internal(fence, ktime_get());
+>> +		spin_unlock_irqrestore(fence->lock, flags);
+>>  		return true;
+>>  	}
+>>  
+> 
 
-----------------------------------------------------------------
-Dongcheng Yan (1):
-      platform/x86: int3472: add hpd pin support
-
-Sakari Ailus (1):
-      media: Remove redundant pm_runtime_mark_last_busy() calls
-
- drivers/media/i2c/alvium-csi2.c                          | 1 -
- drivers/media/i2c/ccs/ccs-core.c                         | 7 +------
- drivers/media/i2c/dw9768.c                               | 1 -
- drivers/media/i2c/gc0308.c                               | 3 ---
- drivers/media/i2c/gc2145.c                               | 3 ---
- drivers/media/i2c/imx219.c                               | 2 --
- drivers/media/i2c/imx283.c                               | 3 ---
- drivers/media/i2c/imx290.c                               | 3 ---
- drivers/media/i2c/imx296.c                               | 1 -
- drivers/media/i2c/imx415.c                               | 1 -
- drivers/media/i2c/mt9m114.c                              | 6 ------
- drivers/media/i2c/ov4689.c                               | 3 ---
- drivers/media/i2c/ov5640.c                               | 4 ----
- drivers/media/i2c/ov5645.c                               | 3 ---
- drivers/media/i2c/ov64a40.c                              | 7 +------
- drivers/media/i2c/ov8858.c                               | 2 --
- drivers/media/i2c/st-mipid02.c                           | 2 --
- drivers/media/i2c/tc358746.c                             | 5 -----
- drivers/media/i2c/thp7312.c                              | 4 ----
- drivers/media/i2c/vd55g1.c                               | 4 ----
- drivers/media/i2c/vd56g3.c                               | 4 ----
- drivers/media/i2c/video-i2c.c                            | 4 ----
- drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 4 ----
- drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 5 -----
- drivers/media/platform/nvidia/tegra-vde/h264.c           | 2 --
- drivers/media/platform/qcom/iris/iris_hfi_queue.c        | 1 -
- drivers/media/platform/raspberrypi/pisp_be/pisp_be.c     | 2 --
- drivers/media/platform/verisilicon/hantro_drv.c          | 1 -
- drivers/media/rc/gpio-ir-recv.c                          | 4 +---
- drivers/platform/x86/intel/int3472/discrete.c            | 6 ++++++
- include/linux/platform_data/x86/int3472.h                | 1 +
- 31 files changed, 10 insertions(+), 89 deletions(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
 
