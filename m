@@ -1,559 +1,230 @@
-Return-Path: <linux-media+bounces-39746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CFCB24283
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:24:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F4FB242DD
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:36:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 302AB1AA5AB1
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 07:23:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBB7C681859
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 07:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 491662DCF76;
-	Wed, 13 Aug 2025 07:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 882B52D948D;
+	Wed, 13 Aug 2025 07:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qr3nF6sp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IgS2znVO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBD42ECD1C;
-	Wed, 13 Aug 2025 07:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D289A225762;
+	Wed, 13 Aug 2025 07:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755069698; cv=none; b=g7yFh4wcjUigdk5vqNI6F/wMiYfg2i2jU1lKxwGWKw9AG8H1T3h1opqn2epn75omAj6qzfhT3jvhA7sdWRuwj8wJghYwky+DAJnE3oRq5J06sbL9ESN5Ku7hOKf6onNFpOjl5yzN8fr25dj72CKNuBMDwhlN++pWIN9K/Win42k=
+	t=1755070467; cv=none; b=cbWs90LIGOjNJHJkxmYTaBsrNcThLGDnnJxCMSA++wa9gawh7E+xr+xNYlj/YfjbtJqu8YeauclBkwI73TJTJw4JbyQVMCl+v0HWRbjEhn7RhgIuKZwsva5jmBoWhfADDXt0v9xTAPnGYJ2XNk6e+0BW/r/uFjFvBXyA6CayMVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755069698; c=relaxed/simple;
-	bh=M8va7BW6+IPfpHvpZxz9KvDHzlVb3pCGLbaCr7MlVGk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V3QrWoz//wAhqpYbqDRkv8LcgPgzm/s/oS4IL0QHxa4dzuYzGUKGsWx3Ck9coAEreHKc1UmjXLe4GlVntdhrk9O0mIX85otxjXvZkOXGLgBnr+djDi5JsjwiPFCagXk16B+6Srz3p79y7rXzqgZ8AdVqBeyD3b3lbC82yZm7EaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qr3nF6sp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:bd1a:669e:3dcb:5a6b:a905])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA716351;
-	Wed, 13 Aug 2025 09:20:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755069642;
-	bh=M8va7BW6+IPfpHvpZxz9KvDHzlVb3pCGLbaCr7MlVGk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qr3nF6spKNv2Y7NRMu9qMYqZmJpLg9q22lkLZj7vnq3rkqjfbP9/LQDoiL/hdOelG
-	 RlFWniWlXbU56KS/1hWkU+Isd2GqMbGLU5VnIDQLZWfK3hxuCyRpc5tsoQwJK0bZFR
-	 a6Bx5F93SLlZXOqZNL4zyM44a4qYbvr72UCGaxpk=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Wed, 13 Aug 2025 12:50:37 +0530
-Subject: [PATCH 6/6] media: imx335: Support 2x2 binning
+	s=arc-20240116; t=1755070467; c=relaxed/simple;
+	bh=LOw47lq3lTR3OffAqvYBcY7aTdLFREjOhrLME4xQV7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KtXKoR/J9vRHrb43o52ajG9ZJz71mCO4Nt+ZzKTxwMhGLzO++x6rKyhRiBPthoHkNoxWwprH9A8/b9Vp7HbcKmboxAMECq8nYeuFTdTDpgkpd33oeaWnm9czlAHdQOL4MnrVKreObaH9U6c9h6wvC/ejJu0SEmsgYK8JqqndIh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IgS2znVO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C75BC4CEEB;
+	Wed, 13 Aug 2025 07:34:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755070466;
+	bh=LOw47lq3lTR3OffAqvYBcY7aTdLFREjOhrLME4xQV7k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IgS2znVOJsb/2yQQhCk1/XOsk+ALrk5kbMtqU25i8vDD5NQrfftFwFA/g+YUx1Lxr
+	 xvpbUjzDsFRLNZSQe4fyJZqyN48QvKuMCUdc7QP2dtGDlRp0CG/1HR1i60+JmYwhau
+	 Ts0bXuajM4QBb8Ah2QcyXbkvUAJ3tl+9P+Sl6Km+ZX+j5lcr5emk38sKtv3XZS/ywp
+	 6UkQQnhQXq/vKbSpiZ61ozXwQR6AeA19ov4U1UMQJ7hDK0+kmbzh/HfRZbFD+oejTY
+	 OGDhVwHorYMpMamFr8MorTN+w2urXI4l6gxkmWctNhW2bGuR9NEmtzgee5mdd8hw/n
+	 zh1Lhefw+iyCQ==
+Message-ID: <faf398eb-2be4-43cd-a5bf-2c688dd7bc18@kernel.org>
+Date: Wed, 13 Aug 2025 09:34:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250813-imx335_binning-v1-6-a42b687d8541@ideasonboard.com>
-References: <20250813-imx335_binning-v1-0-a42b687d8541@ideasonboard.com>
-In-Reply-To: <20250813-imx335_binning-v1-0-a42b687d8541@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=15739;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=M8va7BW6+IPfpHvpZxz9KvDHzlVb3pCGLbaCr7MlVGk=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBonDza+4jyAA84fInaKDxX+ZjHgYrefRkN/HLcU
- YKfRz7OvRGJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaJw82gAKCRBD3pH5JJpx
- RQsAD/wMq5HNgeoDC3630SyW7JPWjcOjdXjM1BBF8ShBJhjYt3tOYEOHxyiifW0Epf9pWmHO8bO
- 1RopcKb/JUtTGuk4TypetmmB1sMSdG/3vL4YIVGlVu65VJzav6vvX1CwWVKVNcz6S13rBBOWWzf
- /Ok/Gm06u7AFTekwkHbls+NqKh8NjSkfXe2EZoGI6/gssA9QtNB0exwZER6M4zrgcCBoHMR5Q3h
- 2zNOK1b4CV4kWcUtlUblmbF1c6FIalyi9ellctEaYqYZU3gisHBdTTtV6RGe3J43MplqUj5jRzh
- txsUpoKF7PUlnrj70l4+ME+/MjlmQvQByPGE7OAYDW9/H3VXpMslYpEJJI4ElkPrj40OrbBhwcK
- ct4bPCsjLgV8lsW06xQdgVOmCve6etZ7UZ9Jrf1q47I2Jt3RLSd2XCr4jEMWm92IX+zv3xdbIWF
- kGhvQjrZdUHl2JEUkpLXN+ZOQ3nMxNMtdC6rV7xwLGPVwJt25lmFafkdjietIJVMcS7S+6NZVib
- co4JAwnS0d645aO0t//sIiYkU5Sn/JhQmSh3SL9rRuAsd5ThJaFODmD8UqO/CTZcSqvSd9vmXxD
- Vnl/g32Wb9g8/rcsTHZ59eMeYXHfE8Kj4XAxhvyFl73t3FlajL4EwOIos7+F9P7d9mxE6EVH6DQ
- BqDfxTnJcJluydg==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: Add Sony IMX585 CMOS image
+ sensor
+To: Will Whang <will@willwhang.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20250810220921.14307-1-will@willwhang.com>
+ <20250810220921.14307-2-will@willwhang.com>
+ <20250811-successful-military-dragon-d72486@kuoka>
+ <CAFoNnrxWwqT9WA-h2WOsUe6Q-qEoz2mTHLpDogAyMwiXXZ9MrA@mail.gmail.com>
+ <f12e6ff3-6ec3-487f-bf9c-0f8c06ee6444@kernel.org>
+ <CAFoNnrxhUof8BBrefm1L1peTxg==Koz72TY+54G_8QUy-rrT8g@mail.gmail.com>
+ <e695c61a-e183-4eea-a7f6-1b2861b2129f@kernel.org>
+ <20250812095543.GJ30054@pendragon.ideasonboard.com>
+ <CAFoNnrzWot_Bf=YZFac1GkZgOOnJycwpidvwL93p3p-C-zn8BA@mail.gmail.com>
+ <6d6dc9e6-751f-4079-b21e-2e3461885b03@kernel.org>
+ <CAFoNnrwoRbtvTHHnjarDTKEHnQMaMDERPKi_vnYym3n8tVpzOA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAFoNnrwoRbtvTHHnjarDTKEHnQMaMDERPKi_vnYym3n8tVpzOA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Introduce 2x2 binning mode (1312x972@60fps). Since there are multiple
-modes now, use v4l2_find_nearest_size() to select the appropriate mode
-in .set_fmt().
+On 13/08/2025 08:38, Will Whang wrote:
+> On Tue, Aug 12, 2025 at 11:08 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On 13/08/2025 06:30, Will Whang wrote:
+>>> On Tue, Aug 12, 2025 at 2:56 AM Laurent Pinchart
+>>> <laurent.pinchart@ideasonboard.com> wrote:
+>>>>
+>>>> On Tue, Aug 12, 2025 at 08:47:12AM +0200, Krzysztof Kozlowski wrote:
+>>>>> On 12/08/2025 08:31, Will Whang wrote:
+>>>>>> On Mon, Aug 11, 2025 at 11:23 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>>>> On 12/08/2025 04:47, Will Whang wrote:
+>>>>>>>> On Mon, Aug 11, 2025 at 1:01 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>>>>>> On Sun, Aug 10, 2025 at 11:09:18PM +0100, Will Whang wrote:
+>>>>>>>>>> +description:
+>>>>>>>>>> +  IMX585 sensor is a Sony CMOS sensor with 4K and FHD outputs.
+>>>>>>>>>> +
+>>>>>>>>>> +properties:
+>>>>>>>>>> +  compatible:
+>>>>>>>>>> +    enum:
+>>>>>>>>>> +      - sony,imx585
+>>>>>>>>>> +      - sony,imx585-mono
+>>>>>>>>>
+>>>>>>>>> I don't understand this second compatible. Is this different hardware?
+>>>>>>>>> Can you point me to "mono" datasheet?
+>>>>>>>>>
+>>>>>>>>> Your description should explain this. Commit msg as well, instead of
+>>>>>>>>> speaking about driver (in fact drop all driver related comments).
+>>>>>>>>>
+>>>>>>>> Mono version of this sensor is basically just removing the bayer
+>>>>>>>> filter, so the sensor itself actually doesn't know if it is color or
+>>>>>>>> mono and from my knowledge there are no registers programmed in the
+>>>>>>>> factory that will show the variant and model number. (That is why when
+>>>>>>>> the driver probing it only test blacklevel register because there are
+>>>>>>>> no ID registers)
+>>>>>>>> Originally in V1 patch I've made the switch between color and mono in
+>>>>>>>> dtoverlay config but reviewer comments is to move it to compatible
+>>>>>>>> string and not property.(https://lore.kernel.org/linux-media/20250703175121.GA17709@pendragon.ideasonboard.com/)
+>>>>>>>
+>>>>>>> You only partially answer and judging by mentioning driver below:
+>>>>>>>
+>>>>>>>> In this case, what would you recommend?
+>>>>>>>>
+>>>>>>>> compatible:
+>>>>>>>>   enum:
+>>>>>>>>     - sony,imx585
+>>>>>>>>     - sony,imx585-mono
+>>>>>>>>   description: IMX585 has two variants, color and mono which the
+>>>>>>>> driver supports both.
+>>>>>>>
+>>>>>>> ... I still have doubts that you really understand what I am asking. Is
+>>>>>>> this one device or two different devices?
+>>>>>>
+>>>>>> One device that has two variants: IMX585-AAMJ1 (Mono) and IMX585-AAQJ1
+>>>>>> (Color). Silicon-wise the difference is just with or without bayer
+>>>>>> filter.
+>>>>>
+>>>>> Then I would propose to use sony,imx585-aamj1 and -aaqj1 with short
+>>>>> explanation either in comment or description about difference in RGB
+>>>>> mosaic filter.
+>>>>
+>>>> Works for me. We could possibly omit the "j1" suffix too.
+>>>>
+>>> My thinking is that imx585 and imx585-mono are easier to comprehend
+>>> than IMX585-AAM and IMX585-AAQ.
+>>> Because in dtoverlay for the users/me they will have to know what is
+>>> the exact name instead of easy to remember name.
+>>>
+>>> dtoverlay=imx585-aam
+>>> is not as nice as
+>>> dtoverlay=imx585-mono
+>>
+>> I have datasheet for AAQ, so how above is easier for me to figure out
+>> which compatible I am using?
+>>
+> I propose this:
+> 
+> compatible:
+>   enum:
+>     - sony,imx585
+>     - sony,imx585-mono
+>     - sony,imx585-AAQJ1
+>     - sony,imx585-AAMJ1
+> 
+>   description: IMX585 has two variants, color (IMX585-AAQ) and mono
+> (IMX585-AAM) which
+> the driver supports both.
 
-For 2x2 binning the minimum shutter value supported is 17 instead of 9.
-This effects the maximum allowed exposure time, and if not enforced then
-the sensor produces very dark frames when the minimum shutter limit is
-violated.
+So why four compatibles? BTW, driver does not matter.
 
-Lastly, update the crop size reported to the userspace. When trying 2x2
-binning with the datasheet suggested pixel array size (i.e. 2592 / 2 =>
-1296), on some platforms (Raspberry Pi 5) artefacts are introduced on
-the right edge of the output image. Instead, using a higher width of
-1312 works fine on all platforms.
+> 
+> Description is there for a reason, dtoverlay has description also. See
+> sony,imx296.yaml as an example.
+> If you are looking at AAQ you know it is a color sensor and all the
+> color sensors from sony can be used with imx+three numbers in the
+> current list.
+> This is following the established convention.
+Which? Sorry, point me anywhere to convention that we do not use proper
+full model names but shortened version for some variant of a device?
+Such approach lead to many issues in the past, for example current
+Risc-v reset mess where contributor wants to remove completely
+incomplete compatible :/
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/i2c/imx335.c | 274 +++++++++++++++++++++++++++++++++++----------
- 1 file changed, 217 insertions(+), 57 deletions(-)
-
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index df1535927f481de3a0d043ac9be24b9336ea8f7f..24d26bc6260bf60ca73df81fe398121ac9371b42 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -35,6 +35,7 @@
- 
- /* Lines per frame */
- #define IMX335_REG_VMAX			CCI_REG24_LE(0x3030)
-+#define IMX335_REG_HMAX			CCI_REG16_LE(0x3034)
- 
- #define IMX335_REG_OPB_SIZE_V		CCI_REG8(0x304c)
- #define IMX335_REG_ADBIT		CCI_REG8(0x3050)
-@@ -42,10 +43,13 @@
- 
- #define IMX335_REG_SHUTTER		CCI_REG24_LE(0x3058)
- #define IMX335_EXPOSURE_MIN		1
--#define IMX335_EXPOSURE_OFFSET		9
-+#define IMX335_SHUTTER_MIN		9
-+#define IMX335_SHUTTER_MIN_BINNED	17
- #define IMX335_EXPOSURE_STEP		1
- #define IMX335_EXPOSURE_DEFAULT		0x0648
- 
-+#define IMX335_REG_AREA2_WIDTH_1	CCI_REG16_LE(0x3072)
-+
- #define IMX335_REG_AREA3_ST_ADR_1	CCI_REG16_LE(0x3074)
- #define IMX335_REG_AREA3_WIDTH_1	CCI_REG16_LE(0x3076)
- 
-@@ -126,9 +130,9 @@
- /* IMX335 native and active pixel array size. */
- #define IMX335_NATIVE_WIDTH		2696U
- #define IMX335_NATIVE_HEIGHT		2044U
--#define IMX335_PIXEL_ARRAY_LEFT		52U
-+#define IMX335_PIXEL_ARRAY_LEFT		36U
- #define IMX335_PIXEL_ARRAY_TOP		50U
--#define IMX335_PIXEL_ARRAY_WIDTH	2592U
-+#define IMX335_PIXEL_ARRAY_WIDTH	2624U
- #define IMX335_PIXEL_ARRAY_HEIGHT	1944U
- 
- /**
-@@ -147,8 +151,14 @@ static const char * const imx335_supply_name[] = {
- 	"dvdd", /* Digital Core (1.2V) supply */
- };
- 
-+enum imx335_scan_mode {
-+	IMX335_ALL_PIXEL,
-+	IMX335_2_2_BINNING,
-+};
-+
- /**
-  * struct imx335_mode - imx335 sensor mode structure
-+ * @scan_mode: Configuration scan mode (All pixel / 2x2Binning)
-  * @width: Frame width
-  * @height: Frame height
-  * @code: Format code
-@@ -162,6 +172,7 @@ static const char * const imx335_supply_name[] = {
-  * @vflip_inverted: Register list vflip (inverted readout)
-  */
- struct imx335_mode {
-+	enum imx335_scan_mode scan_mode;
- 	u32 width;
- 	u32 height;
- 	u32 code;
-@@ -263,12 +274,33 @@ static const struct cci_reg_sequence mode_2592x1944_regs[] = {
- 	{ IMX335_REG_MODE_SELECT, IMX335_MODE_STANDBY },
- 	{ IMX335_REG_MASTER_MODE, 0x00 },
- 	{ IMX335_REG_WINMODE, 0x04 },
-+	{ IMX335_REG_HMAX, 550 },
- 	{ IMX335_REG_HTRIMMING_START, 48 },
- 	{ IMX335_REG_HNUM, 2592 },
- 	{ IMX335_REG_Y_OUT_SIZE, 1944 },
-+	{ IMX335_REG_AREA2_WIDTH_1, 40 },
- 	{ IMX335_REG_AREA3_WIDTH_1, 3928 },
- 	{ IMX335_REG_OPB_SIZE_V, 0 },
- 	{ IMX335_REG_XVS_XHS_DRV, 0x00 },
-+};
-+
-+static const struct cci_reg_sequence mode_1312x972_regs[] = {
-+	{ IMX335_REG_MODE_SELECT, IMX335_MODE_STANDBY },
-+	{ IMX335_REG_MASTER_MODE, 0x00 },
-+	{ IMX335_REG_WINMODE, 0x01 },
-+	{ IMX335_REG_HMAX, 275 },
-+	{ IMX335_REG_HTRIMMING_START, 48 },
-+	{ IMX335_REG_HNUM, 2600 },
-+	{ IMX335_REG_Y_OUT_SIZE, 972 },
-+	{ IMX335_REG_AREA2_WIDTH_1, 48 },
-+	{ IMX335_REG_AREA3_WIDTH_1, 3936 },
-+	{ IMX335_REG_OPB_SIZE_V, 0 },
-+	{ IMX335_REG_XVS_XHS_DRV, 0x00 },
-+	{ CCI_REG8(0x3300), 1 }, /* TCYCLE */
-+	{ CCI_REG8(0x3199), 0x30 }, /* HADD/VADD */
-+};
-+
-+static const struct cci_reg_sequence imx335_common_regs[] = {
- 	{ CCI_REG8(0x3288), 0x21 },
- 	{ CCI_REG8(0x328a), 0x02 },
- 	{ CCI_REG8(0x3414), 0x05 },
-@@ -359,16 +391,72 @@ static const struct cci_reg_sequence mode_2592x1944_vflip_inverted[] = {
- 	{ CCI_REG16_LE(0x3116), 0x002 },
- };
- 
--static const struct cci_reg_sequence raw10_framefmt_regs[] = {
--	{ IMX335_REG_ADBIT, 0x00 },
--	{ IMX335_REG_MDBIT, 0x00 },
--	{ IMX335_REG_ADBIT1, 0x1ff },
-+static const struct cci_reg_sequence mode_1312x972_vflip_normal[] = {
-+	{ IMX335_REG_AREA3_ST_ADR_1, 176 },
-+
-+	/* Undocumented */
-+	{ CCI_REG8(0x3078), 0x04 },
-+	{ CCI_REG8(0x3079), 0xfd },
-+	{ CCI_REG8(0x307a), 0x04 },
-+	{ CCI_REG8(0x307b), 0xfe },
-+	{ CCI_REG8(0x307c), 0x04 },
-+	{ CCI_REG8(0x307d), 0xfb },
-+	{ CCI_REG8(0x307e), 0x04 },
-+	{ CCI_REG8(0x307f), 0x02 },
-+	{ CCI_REG8(0x3080), 0x04, },
-+	{ CCI_REG8(0x3081), 0xfd, },
-+	{ CCI_REG8(0x3082), 0x04, },
-+	{ CCI_REG8(0x3083), 0xfe, },
-+	{ CCI_REG8(0x3084), 0x04, },
-+	{ CCI_REG8(0x3085), 0xfb, },
-+	{ CCI_REG8(0x3086), 0x04, },
-+	{ CCI_REG8(0x3087), 0x02, },
-+	{ CCI_REG8(0x30a4), 0x77, },
-+	{ CCI_REG8(0x30a8), 0x20, },
-+	{ CCI_REG8(0x30a9), 0x00, },
-+	{ CCI_REG8(0x30ac), 0x08, },
-+	{ CCI_REG8(0x30ad), 0x08, },
-+	{ CCI_REG8(0x30b0), 0x20, },
-+	{ CCI_REG8(0x30b1), 0x00, },
-+	{ CCI_REG8(0x30b4), 0x10, },
-+	{ CCI_REG8(0x30b5), 0x10, },
-+	{ CCI_REG16_LE(0x30b6), 0x00 },
-+	{ CCI_REG16_LE(0x3112), 0x10 },
-+	{ CCI_REG16_LE(0x3116), 0x10 },
- };
- 
--static const struct cci_reg_sequence raw12_framefmt_regs[] = {
--	{ IMX335_REG_ADBIT, 0x01 },
--	{ IMX335_REG_MDBIT, 0x01 },
--	{ IMX335_REG_ADBIT1, 0x47 },
-+static const struct cci_reg_sequence mode_1312x972_vflip_inverted[] = {
-+	{ IMX335_REG_AREA3_ST_ADR_1, 4112 },
-+
-+	/* Undocumented */
-+	{ CCI_REG8(0x3078), 0x04 },
-+	{ CCI_REG8(0x3079), 0xfd },
-+	{ CCI_REG8(0x307a), 0x04 },
-+	{ CCI_REG8(0x307b), 0xfe },
-+	{ CCI_REG8(0x307c), 0x04 },
-+	{ CCI_REG8(0x307d), 0xfb },
-+	{ CCI_REG8(0x307e), 0x04 },
-+	{ CCI_REG8(0x307f), 0x02 },
-+	{ CCI_REG8(0x3080), 0xfc, },
-+	{ CCI_REG8(0x3081), 0x05, },
-+	{ CCI_REG8(0x3082), 0xfc, },
-+	{ CCI_REG8(0x3083), 0x02, },
-+	{ CCI_REG8(0x3084), 0xfc, },
-+	{ CCI_REG8(0x3085), 0x03, },
-+	{ CCI_REG8(0x3086), 0xfc, },
-+	{ CCI_REG8(0x3087), 0xfe, },
-+	{ CCI_REG8(0x30a4), 0x77, },
-+	{ CCI_REG8(0x30a8), 0x20, },
-+	{ CCI_REG8(0x30a9), 0x00, },
-+	{ CCI_REG8(0x30ac), 0x08, },
-+	{ CCI_REG8(0x30ad), 0x78, },
-+	{ CCI_REG8(0x30b0), 0x20, },
-+	{ CCI_REG8(0x30b1), 0x00, },
-+	{ CCI_REG8(0x30b4), 0x10, },
-+	{ CCI_REG8(0x30b5), 0x70, },
-+	{ CCI_REG16_LE(0x30b6), 0x01f2 },
-+	{ CCI_REG16_LE(0x3112), 0x10 },
-+	{ CCI_REG16_LE(0x3116), 0x02 },
- };
- 
- static const struct cci_reg_sequence mipi_data_rate_1188Mbps[] = {
-@@ -433,25 +521,49 @@ static const u32 imx335_mbus_codes[] = {
- };
- 
- /* Supported sensor mode configurations */
--static const struct imx335_mode supported_mode = {
--	.width = 2592,
--	.height = 1944,
--	.hblank = 342,
--	.vblank = 2556,
--	.vblank_min = 2556,
--	.vblank_max = 133060,
--	.pclk = 396000000,
--	.reg_list = {
--		.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
--		.regs = mode_2592x1944_regs,
--	},
--	.vflip_normal = {
--		.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_normal),
--		.regs = mode_2592x1944_vflip_normal,
--	},
--	.vflip_inverted = {
--		.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_inverted),
--		.regs = mode_2592x1944_vflip_inverted,
-+static const struct imx335_mode supported_modes[] = {
-+	{
-+		.scan_mode = IMX335_ALL_PIXEL,
-+		.width = 2592,
-+		.height = 1944,
-+		.hblank = 342,
-+		.vblank = 2556,
-+		.vblank_min = 2556,
-+		.vblank_max = 133060,
-+		.pclk = 396000000,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
-+			.regs = mode_2592x1944_regs,
-+		},
-+		.vflip_normal = {
-+			.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_normal),
-+			.regs = mode_2592x1944_vflip_normal,
-+		},
-+		.vflip_inverted = {
-+			.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_inverted),
-+			.regs = mode_2592x1944_vflip_inverted,
-+		}
-+	}, {
-+		.scan_mode = IMX335_2_2_BINNING,
-+		.width = 1312,
-+		.height = 972,
-+		.hblank = 155,
-+		.vblank = 3528,
-+		.vblank_min = 3528,
-+		.vblank_max = 133060,
-+		.pclk = 396000000,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1312x972_regs),
-+			.regs = mode_1312x972_regs,
-+		},
-+		.vflip_normal = {
-+			.num_of_regs = ARRAY_SIZE(mode_1312x972_vflip_normal),
-+			.regs = mode_1312x972_vflip_normal,
-+		},
-+		.vflip_inverted = {
-+			.num_of_regs = ARRAY_SIZE(mode_1312x972_vflip_inverted),
-+			.regs = mode_1312x972_vflip_inverted,
-+		},
- 	},
- };
- 
-@@ -608,18 +720,22 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	/* Propagate change of current control to all related controls */
- 	if (ctrl->id == V4L2_CID_VBLANK) {
-+		u32 shutter_min = IMX335_SHUTTER_MIN;
-+		u32 lpfr;
-+
- 		imx335->vblank = imx335->vblank_ctrl->val;
-+		lpfr = imx335->vblank + imx335->cur_mode->height;
- 
- 		dev_dbg(imx335->dev, "Received vblank %u, new lpfr %u\n",
--			imx335->vblank,
--			imx335->vblank + imx335->cur_mode->height);
-+			imx335->vblank, lpfr);
-+
-+		if (imx335->cur_mode->scan_mode == IMX335_2_2_BINNING)
-+			shutter_min = IMX335_SHUTTER_MIN_BINNED;
- 
- 		ret = __v4l2_ctrl_modify_range(imx335->exp_ctrl,
- 					       IMX335_EXPOSURE_MIN,
--					       imx335->vblank +
--					       imx335->cur_mode->height -
--					       IMX335_EXPOSURE_OFFSET,
--					       1, IMX335_EXPOSURE_DEFAULT);
-+					       lpfr - shutter_min, 1,
-+					       IMX335_EXPOSURE_DEFAULT);
- 		if (ret)
- 			return ret;
- 	}
-@@ -719,17 +835,16 @@ static int imx335_enum_frame_size(struct v4l2_subdev *sd,
- 	struct imx335 *imx335 = to_imx335(sd);
- 	u32 code;
- 
--	/* Only a single supported_mode available. */
--	if (fsize->index > 0)
-+	if (fsize->index >= ARRAY_SIZE(supported_modes))
- 		return -EINVAL;
- 
- 	code = imx335_get_format_code(imx335, fsize->code);
- 	if (fsize->code != code)
- 		return -EINVAL;
- 
--	fsize->min_width = supported_mode.width;
-+	fsize->min_width = supported_modes[fsize->index].width;
- 	fsize->max_width = fsize->min_width;
--	fsize->min_height = supported_mode.height;
-+	fsize->min_height = supported_modes[fsize->index].height;
- 	fsize->max_height = fsize->min_height;
- 
- 	return 0;
-@@ -771,9 +886,13 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
- 	struct imx335 *imx335 = to_imx335(sd);
- 	struct v4l2_mbus_framefmt *format;
- 	const struct imx335_mode *mode;
-+	struct v4l2_rect *crop;
- 	int i, ret = 0;
- 
--	mode = &supported_mode;
-+	mode = v4l2_find_nearest_size(supported_modes,
-+				      ARRAY_SIZE(supported_modes),
-+				      width, height,
-+				      fmt->format.width, fmt->format.height);
- 
- 	for (i = 0; i < ARRAY_SIZE(imx335_mbus_codes); i++) {
- 		if (imx335_mbus_codes[i] == fmt->format.code)
-@@ -785,6 +904,16 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
- 	format = v4l2_subdev_state_get_format(sd_state, fmt->pad);
- 	*format = fmt->format;
- 
-+	crop = v4l2_subdev_state_get_crop(sd_state, fmt->pad);
-+	crop->width = fmt->format.width;
-+	crop->height = fmt->format.height;
-+	if (mode->scan_mode == IMX335_2_2_BINNING) {
-+		crop->width *= 2;
-+		crop->height *= 2;
-+	}
-+	crop->left = (IMX335_NATIVE_WIDTH - crop->width) / 2;
-+	crop->top = (IMX335_NATIVE_HEIGHT - crop->height) / 2;
-+
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		ret = imx335_update_controls(imx335, mode);
- 		if (!ret)
-@@ -808,7 +937,7 @@ static int imx335_init_state(struct v4l2_subdev *sd,
- 	struct v4l2_subdev_format fmt = { 0 };
- 
- 	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
--	imx335_fill_pad_format(imx335, &supported_mode, &fmt);
-+	imx335_fill_pad_format(imx335, &supported_modes[0], &fmt);
- 
- 	__v4l2_ctrl_modify_range(imx335->link_freq_ctrl, 0,
- 				 __fls(imx335->link_freq_bitmap),
-@@ -831,6 +960,11 @@ static int imx335_get_selection(struct v4l2_subdev *sd,
- 				struct v4l2_subdev_selection *sel)
- {
- 	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
-+
-+		return 0;
-+
- 	case V4L2_SEL_TGT_NATIVE_SIZE:
- 		sel->r.top = 0;
- 		sel->r.left = 0;
-@@ -839,7 +973,6 @@ static int imx335_get_selection(struct v4l2_subdev *sd,
- 
- 		return 0;
- 
--	case V4L2_SEL_TGT_CROP:
- 	case V4L2_SEL_TGT_CROP_DEFAULT:
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
- 		sel->r.top = IMX335_PIXEL_ARRAY_TOP;
-@@ -855,19 +988,35 @@ static int imx335_get_selection(struct v4l2_subdev *sd,
- 
- static int imx335_set_framefmt(struct imx335 *imx335)
- {
--	switch (imx335->cur_mbus_code) {
--	case MEDIA_BUS_FMT_SRGGB10_1X10:
--		return cci_multi_reg_write(imx335->cci, raw10_framefmt_regs,
--					   ARRAY_SIZE(raw10_framefmt_regs),
--					   NULL);
--
--	case MEDIA_BUS_FMT_SRGGB12_1X12:
--		return cci_multi_reg_write(imx335->cci, raw12_framefmt_regs,
--					   ARRAY_SIZE(raw12_framefmt_regs),
--					   NULL);
-+	/*
-+	 * In the all-pixel scan mode the AD conversion shall match the output
-+	 * bit width requested.
-+	 *
-+	 * However, when 2/2 binning is enabled, the AD conversion is always
-+	 * 10-bit, so we ensure ADBIT is clear and ADBIT1 is assigned 0x1ff.
-+	 * That's as much as the documentation gives us...
-+	 */
-+	int ret = 0;
-+	u8 bpp = imx335->cur_mbus_code == MEDIA_BUS_FMT_SRGGB10_1X10 ? 10 : 12;
-+	u8 ad_conv = bpp;
-+
-+	/* Start with the output mode */
-+	cci_write(imx335->cci, IMX335_REG_MDBIT, bpp == 12, &ret);
-+
-+	/* Enforce 10 bit AD on binning modes */
-+	if (imx335->cur_mode->scan_mode == IMX335_2_2_BINNING)
-+		ad_conv = 10;
-+
-+	/* AD Conversion configuration */
-+	if (ad_conv == 10) {
-+		cci_write(imx335->cci, IMX335_REG_ADBIT, 0x00, &ret);
-+		cci_write(imx335->cci, IMX335_REG_ADBIT1, 0x1ff, &ret);
-+	} else { /* 12 bit AD Conversion */
-+		cci_write(imx335->cci, IMX335_REG_ADBIT, 0x01, &ret);
-+		cci_write(imx335->cci, IMX335_REG_ADBIT1, 0x47, &ret);
- 	}
- 
--	return -EINVAL;
-+	return ret;
- }
- 
- /**
-@@ -903,6 +1052,14 @@ static int imx335_start_streaming(struct imx335 *imx335)
- 		goto err_rpm_put;
- 	}
- 
-+	/* Write sensor common registers */
-+	ret = cci_multi_reg_write(imx335->cci, imx335_common_regs,
-+				  ARRAY_SIZE(imx335_common_regs), NULL);
-+	if (ret) {
-+		dev_err(imx335->dev, "fail to write initial registers\n");
-+		goto err_rpm_put;
-+	}
-+
- 	ret = imx335_set_framefmt(imx335);
- 	if (ret) {
- 		dev_err(imx335->dev, "%s failed to set frame format: %d\n",
-@@ -1186,7 +1343,7 @@ static int imx335_init_controls(struct imx335 *imx335)
- 	struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
- 	const struct imx335_mode *mode = imx335->cur_mode;
- 	struct v4l2_fwnode_device_properties props;
--	u32 lpfr;
-+	u32 lpfr, shutter_min;
- 	int ret;
- 
- 	ret = v4l2_fwnode_device_parse(imx335->dev, &props);
-@@ -1200,11 +1357,14 @@ static int imx335_init_controls(struct imx335 *imx335)
- 
- 	/* Initialize exposure and gain */
- 	lpfr = mode->vblank + mode->height;
-+	shutter_min = IMX335_SHUTTER_MIN;
-+	if (mode->scan_mode == IMX335_2_2_BINNING)
-+		shutter_min = IMX335_SHUTTER_MIN_BINNED;
- 	imx335->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
- 					     &imx335_ctrl_ops,
- 					     V4L2_CID_EXPOSURE,
- 					     IMX335_EXPOSURE_MIN,
--					     lpfr - IMX335_EXPOSURE_OFFSET,
-+					     lpfr - shutter_min,
- 					     IMX335_EXPOSURE_STEP,
- 					     IMX335_EXPOSURE_DEFAULT);
- 
-@@ -1331,7 +1491,7 @@ static int imx335_probe(struct i2c_client *client)
- 	}
- 
- 	/* Set default mode to max resolution */
--	imx335->cur_mode = &supported_mode;
-+	imx335->cur_mode = &supported_modes[0];
- 	imx335->cur_mbus_code = imx335_mbus_codes[0];
- 	imx335->vblank = imx335->cur_mode->vblank;
- 
-
--- 
-2.50.1
-
+Best regards,
+Krzysztof
 
