@@ -1,262 +1,161 @@
-Return-Path: <linux-media+bounces-39709-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39710-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0793BB23DB1
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 03:31:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C150B23DF5
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 03:52:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BE641B628A7
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 01:31:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8ACB617FE04
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 01:52:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B79719F12A;
-	Wed, 13 Aug 2025 01:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4B01AB6F1;
+	Wed, 13 Aug 2025 01:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEKnXw2T"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="B6K/66g3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBB72C0F8F;
-	Wed, 13 Aug 2025 01:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A5F189F43
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 01:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755048642; cv=none; b=IM7Rr/KcdRqqr05ti4ciMzy9+Y2pydFdiDbl0eKMo5zdBZ4iqL6bHmyJCzvkSo+XekBwjFCHmu+YJjtBK4t3xOPhJeoXuib/QqKjFXBAX9hQmKYC8QGKxuWa3qPOgRfWeopx850XkkhXzsOWNArRtYUfLLjEX6eNaAoxakSKnJs=
+	t=1755049934; cv=none; b=n/POha1/Ut2f5FLmmfNMULr3xwZZj28lNxnQ4bKhP+mPboGXqp78rvF+BRjR3CuC2r/MhybqiUlrPopr2kJUr3nvG91PBDmcmtk3LtbhOjbLrfBB5BDYjEn82U/lStH5PgHoXPQpYWfZJbsRrffLfqIMZmXtpysFXVhYTxOHrIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755048642; c=relaxed/simple;
-	bh=00kgvQ3E3mMUK4/2JuryhLdEXJ7T8Tc5ujqXa2qhFU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m6QYRypZdvQvFyP/+xXswPJgmT5r2Z69RaxhRAm+4I261MZbNka9e87gn/X0MX2IfUgCr1NbJmFjDwB6XS2oHpfGbBp0XjHyUlN7XesesPXoDnoqZUzr52kbxrpzoR5mHIGEGkkZmBZdnqXFZmyJVpFfEXrOfb5qgYRE7cnk5pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEKnXw2T; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755048641; x=1786584641;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=00kgvQ3E3mMUK4/2JuryhLdEXJ7T8Tc5ujqXa2qhFU8=;
-  b=nEKnXw2TI93l3pr2yxDJEd37GHrI+uaz4IiQPxcXCA7akMXe2et2pF1R
-   ggIey+02Q6+k30BTK71P4ABH9at7RBbuwPAyj1ifPYUjjTAOgrEdJxero
-   mbtU3r07i0HWluUiz3uwdD+z/iUxGFQscVu25rTDVDBj8nd0HrFyPpmv1
-   FnNeHjBBTu7dKqfMUsA1AWlEQ0gleR/kBc/vluvA9FiuZgqSRNfFt3gXp
-   GG2NOaM6ZZ3iC5QO5lJJ1fi8E7ybChzgGIGj4XQrn09eLvQk4zn+Dg1GY
-   pMh1bHdGydXetrbWD17tt2xNlFwHGF2PSG6PjzDZTXBiPc6vrv8Rl7eC7
-   w==;
-X-CSE-ConnectionGUID: kIbx9KLtT+uS65wPWPgtww==
-X-CSE-MsgGUID: /PAsk/T9QR2INrLM8QRUxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57397573"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="57397573"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 18:30:39 -0700
-X-CSE-ConnectionGUID: ZNLe2exQT++nQgiXoeHG6w==
-X-CSE-MsgGUID: iyl/+SfOTQKjgNISXYJB7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="170544406"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 12 Aug 2025 18:30:35 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1um0JS-0009RE-2C;
-	Wed, 13 Aug 2025 01:30:07 +0000
-Date: Wed, 13 Aug 2025 09:28:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Smirnov <asmirnou@pinefeat.co.uk>, mchehab@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Aliaksandr Smirnou <support@pinefeat.co.uk>
-Subject: Re: [PATCH v2 2/2] media/i2c: Pinefeat cef168 lens control board
- driver
-Message-ID: <202508130917.FKIv8K4Z-lkp@intel.com>
-References: <20250811213102.15703-3-aliaksandr.smirnou@gmail.com>
+	s=arc-20240116; t=1755049934; c=relaxed/simple;
+	bh=Ll38zC0TgNNSiE/fnE9zoGdtVW9LNB6w2+NMjU+NjC0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U0nk4aqlrAWLgTzwDfI7Cl0v37yIkTpDt8Td/8CL61qaGAqbIi17HjLXwpyVC6bySv+6J7Q7GwaCkLcjIkeHF+UOJ2nh965luH/7F5on7mDJy9B09r/fyKyKqWUnj/PePyFk2c1/v1U5NaqLMbbMD8PDxTwTvMCnwNOt7KrEKW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=B6K/66g3; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CJTBuE012901
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 01:52:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:to; s=
+	qcppdkim1; bh=azzIjnnFrhGZepf8cF63On31tVI6l+R0n7SE8DktVtY=; b=B6
+	K/66g3ltbZTioLlekcBRWaDkXKx5FaDf29+mwd6bhANi2CiCGfU/pSSR0t1FwC+p
+	/iEKACkRvSPcaiJVxDDu/SPP+qLBEp5+AMSbbXX4sldx6dqBLx/lgwIpVEcunWOQ
+	4Tti/eM8A9U/rqgDs9cBWNgzx4qvIVFYPlxWvZeOK6Ck1qfR/2Z/C72SPPNDJIl7
+	m5BVknnQhhKkwz+82zvQ3Bwmht0Yq3ci2NIIMJ/8RGgI6jgUJ4KtLUfGU2te+jha
+	YQ2161nV9Z1wFmmaSQpvez/7MQ6k3qgPbM+cdUedVBrdTtr1PNEqasPezSRk2hfr
+	f7UQIuTY4HYiHLgx/bMw==
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fjxbd86n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 01:52:12 +0000 (GMT)
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-742f52a4cc8so942653a34.3
+        for <linux-media@vger.kernel.org>; Tue, 12 Aug 2025 18:52:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755049932; x=1755654732;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=azzIjnnFrhGZepf8cF63On31tVI6l+R0n7SE8DktVtY=;
+        b=IjoCyBSJnh9snuKXQ4DziQzr5OHkacp9sLQJg68LfrXvlpPQfik/DVy2HQuSgrB53z
+         ve2M1NOnBVwgdJHyq4ZkBZfA2M5un3dD9Q0iIFYHpOqlLGbCmz4FIxibjtoFQBGc6tKC
+         G2E5Hkf2UOo9ZRbx7/imhuFZfyZGxHOKSL2fdOKYD8d2HqdhvUvCZBAFVLwBsPPmy/x2
+         NMZjihPHiooy8Y+ir7h3L1C424jrkn9bnDDGivv5eUQYgORxCXhmYZ9DutHPcW/iLCrN
+         dgIaW+C5AB6hCEvPIaOBiH1a2nEEkrJxWnGTn8BSGFL2vUR9wU0+rivTgN/yx79+nd0/
+         JffQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWewPKQh4oFnRI5e8W/znzynK1BQHpV1t0acWF1JhtjfuTNe6IG6J9+AjOme+3M1k4JrUxRpY+DRygNgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgA9f+wa631Ixtte1JAxVfSmogH74VfiS61lXyBZoPq+sJ69Um
+	8VAzb8dmAvwI71AJBiNGG15u5ZI13Bpek8GtM9pDLOO/72ikBCw2c8cVBcfMprwKnqSteGhaDe8
+	tIdhHimv1PjwlgePHMRF2yCtqHYFYB6ANRtYsxFf0EMKL6CF71+UZqznOFj5iBzmuTKwMIq3Ioy
+	bINK1GKDHdEkWzVOv76qZAmEB2mouAvTI7bzu8nRo1
+X-Gm-Gg: ASbGncuwu6L85a4dSPmCxV4s16zgDmdRZH8DgcMzdH54Zdv8X6EydE7nGyf5mOq3BKj
+	zcP9O9K2F0OoSWGCLp8Q6z3Lj2iC1HSrnQWa8KYp0PbxudqD1jFCqyI7himbDR3FdyEwzI3wwbk
+	j5mcEyqOV9T5IqBpllJdM=
+X-Received: by 2002:a05:6808:22a9:b0:435:7090:b652 with SMTP id 5614622812f47-435d42a2575mr1191303b6e.34.1755049931468;
+        Tue, 12 Aug 2025 18:52:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG+oxwqW5ocHWrqoj/uh9nhQTzkltL6bf5O3y495PvLUQY65I8XhC+SpjSkN+0X4azk5mUzEknXbe5Iorw4nT8=
+X-Received: by 2002:a05:6808:22a9:b0:435:7090:b652 with SMTP id
+ 5614622812f47-435d42a2575mr1191273b6e.34.1755049931074; Tue, 12 Aug 2025
+ 18:52:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250811213102.15703-3-aliaksandr.smirnou@gmail.com>
+References: <20250629201530.25775-1-robin.clark@oss.qualcomm.com>
+ <20250629201530.25775-15-robin.clark@oss.qualcomm.com> <b0a36f3d-706a-4622-89a1-f88c6255e4fb@dakr.org>
+In-Reply-To: <b0a36f3d-706a-4622-89a1-f88c6255e4fb@dakr.org>
+Reply-To: rob.clark@oss.qualcomm.com
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Tue, 12 Aug 2025 18:52:00 -0700
+X-Gm-Features: Ac12FXxxd6WCPyXXb8MbyAX1gkPmIUnWgdFOtYCj3v3CcVsNgXCk29Md82IFzps
+Message-ID: <CACSVV02+hE1j9vN_BU5pwz_4cnJjj==j-L5oPeFWCvEr+1HiFQ@mail.gmail.com>
+Subject: Re: [PATCH v9 14/42] drm/msm: Convert vm locking
+To: Danilo Krummrich <kernel@dakr.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, Connor Abbott <cwabbott0@gmail.com>,
+        Antonino Maniscalco <antomani103@gmail.com>,
+        Danilo Krummrich <dakr@redhat.com>, Rob Clark <robdclark@chromium.org>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=G6EcE8k5 c=1 sm=1 tr=0 ts=689befcc cx=c_pps
+ a=z9lCQkyTxNhZyzAvolXo/A==:117 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
+ a=P-IC7800AAAA:8 a=pbUkqq1XAAAA:8 a=Dc8E7AEoan46jiKjpnQA:9 a=QEXdDO2ut3YA:10
+ a=EyFUmsFV_t8cxB2kMr4A:22 a=d3PnA9EDa4IxuAV0gXij:22 a=F7rrpbw-2xKc1p48v2RB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA5NyBTYWx0ZWRfX7UTwW0mtsMBr
+ p4AHc2V9Z122unXIpRX9mDiZyTPwjOAvZmjRRtzLB0ATBfINUytGQV817Xufn57VFxwNGeka9Lt
+ nAXuXNZhXMFuAxeO1IvrPCxpWfM1hZ95JN0eUvJa+VYjxh92Irzxyaj0CjqxWjR1NNMd3/fsyQ/
+ iUxPkL6remcKeAvSXxrqoQSzNzQXMyN2WuuY/dQkccZBjKFwJXeWQ46pkI+CJhxJCHxcB5Rjw2Z
+ Lv7xXtrS3HQJ1VSxCiglq8+lPDUuLNBtP/1ilhwSX2/OWSlfUPQ+KvxvQlXpWchuPc2VZpBxgU9
+ qfbTT1uS+uZKsj2bkvwRstwq2oeg++RS9oQTwUBsDISArwXR/H4PRs1+9ulwF17RTE7Gnijq1OR
+ UfZ9HVKN
+X-Proofpoint-ORIG-GUID: aVPjyPaRdxeWS6BCUD1z21PLR-5N1bkt
+X-Proofpoint-GUID: aVPjyPaRdxeWS6BCUD1z21PLR-5N1bkt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0
+ malwarescore=0 adultscore=0 impostorscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508110097
 
-Hi Alexander,
+On Tue, Aug 12, 2025 at 1:58=E2=80=AFAM Danilo Krummrich <kernel@dakr.org> =
+wrote:
+>
+> On 6/29/25 10:12 PM, Rob Clark wrote:
+> > +     /*
+> > +      * We mostly want to use DRM_GPUVM_RESV_PROTECTED, except that
+> > +      * makes drm_gpuvm_bo_evict() a no-op for extobjs (ie. we loose
+> > +      * tracking that an extobj is evicted) :facepalm:
+> > +      */
+>
+> Yeah, it's a consequence of this locking scheme and I really hate it. How=
+ever,
+> you don't entirely loose tracking:
+>
+> The next time you call drm_gpuvm_prepare_objects() it will be added to th=
+e list
+> [1] and hence picked up by subsequent validation through drm_gpuvm_valida=
+te().
+>
+> [1] https://elixir.bootlin.com/linux/v6.16/source/drivers/gpu/drm/drm_gpu=
+vm.c#L1154
 
-kernel test robot noticed the following build warnings:
+Hmm, maybe the issue was with legacy (non-vm_bind) contexts, which use
+drm_exec directly for locking?  I guess I can try to revisit that..
 
-[auto build test WARNING on 2b38afce25c4e1b8f943ff4f0a2b51d6c40f2ed2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Smirnov/dt-bindings-Pinefeat-cef168-lens-control-board/20250812-053441
-base:   2b38afce25c4e1b8f943ff4f0a2b51d6c40f2ed2
-patch link:    https://lore.kernel.org/r/20250811213102.15703-3-aliaksandr.smirnou%40gmail.com
-patch subject: [PATCH v2 2/2] media/i2c: Pinefeat cef168 lens control board driver
-config: arm64-randconfig-r132-20250813 (https://download.01.org/0day-ci/archive/20250813/202508130917.FKIv8K4Z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250813/202508130917.FKIv8K4Z-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508130917.FKIv8K4Z-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/cef168.c:37:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] @@
-   drivers/media/i2c/cef168.c:37:13: sparse:     expected unsigned short [usertype] val
-   drivers/media/i2c/cef168.c:37:13: sparse:     got restricted __le16 [usertype]
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
-
-vim +37 drivers/media/i2c/cef168.c
-
-    31	
-    32	static int cef168_i2c_write(struct cef168_device *cef168_dev, u8 cmd, u16 val)
-    33	{
-    34		struct i2c_client *client = v4l2_get_subdevdata(&cef168_dev->sd);
-    35		int retry, ret;
-    36	
-  > 37		val = cpu_to_le16(val);
-    38		char tx_data[4] = { cmd, (val & 0xff), (val >> 8) };
-    39	
-    40		tx_data[3] = crc8(cef168_crc8_table, tx_data, 3, CRC8_INIT_VALUE);
-    41	
-    42		for (retry = 0; retry < 3; retry++) {
-    43			ret = i2c_master_send(client, tx_data, sizeof(tx_data));
-    44			if (ret == sizeof(tx_data))
-    45				return 0;
-    46			else if (ret != -EIO && ret != -EREMOTEIO)
-    47				break;
-    48		}
-    49	
-    50		dev_err(&client->dev, "I2C write fail after %d retries, ret=%d\n",
-    51			retry, ret);
-    52		return -EIO;
-    53	}
-    54	
-    55	static int cef168_i2c_read(struct cef168_device *cef168_dev,
-    56				   struct cef168_data *rx_data)
-    57	{
-    58		struct i2c_client *client = v4l2_get_subdevdata(&cef168_dev->sd);
-    59	
-    60		int ret = i2c_master_recv(client, (char *)rx_data,
-    61					  sizeof(struct cef168_data));
-    62		if (ret != sizeof(struct cef168_data)) {
-    63			dev_err(&client->dev, "I2C read fail, ret=%d\n", ret);
-    64			return -EIO;
-    65		}
-    66	
-    67		u8 computed_crc = crc8(cef168_crc8_table, (const u8 *)rx_data,
-    68				       sizeof(struct cef168_data) - 1, CRC8_INIT_VALUE);
-    69		if (computed_crc != rx_data->crc8) {
-    70			dev_err(&client->dev,
-    71				"CRC mismatch calculated=0x%02X read=0x%02X\n",
-    72				computed_crc, rx_data->crc8);
-    73			return -EIO;
-    74		}
-    75	
-  > 76		rx_data->moving_time = le16_to_cpu(rx_data->moving_time);
-    77		rx_data->focus_position_min = le16_to_cpu(rx_data->focus_position_min);
-    78		rx_data->focus_position_max = le16_to_cpu(rx_data->focus_position_max);
-    79		rx_data->focus_position_cur = le16_to_cpu(rx_data->focus_position_cur);
-    80		rx_data->focus_distance_min = le16_to_cpu(rx_data->focus_distance_min);
-    81		rx_data->focus_distance_max = le16_to_cpu(rx_data->focus_distance_max);
-    82	
-    83		return 0;
-    84	}
-    85	
-    86	static int cef168_set_ctrl(struct v4l2_ctrl *ctrl)
-    87	{
-    88		struct cef168_device *dev = to_cef168(ctrl);
-    89		u8 cmd;
-    90	
-    91		switch (ctrl->id) {
-    92		case V4L2_CID_FOCUS_ABSOLUTE:
-    93			return cef168_i2c_write(dev, INP_SET_FOCUS, ctrl->val);
-    94		case V4L2_CID_FOCUS_RELATIVE:
-    95			cmd = ctrl->val < 0 ? INP_SET_FOCUS_N : INP_SET_FOCUS_P;
-    96			return cef168_i2c_write(dev, cmd, abs(ctrl->val));
-    97		case V4L2_CID_IRIS_ABSOLUTE:
-    98			return cef168_i2c_write(dev, INP_SET_APERTURE, ctrl->val);
-    99		case V4L2_CID_IRIS_RELATIVE:
-   100			cmd = ctrl->val < 0 ? INP_SET_APERTURE_N : INP_SET_APERTURE_P;
-   101			return cef168_i2c_write(dev, cmd, abs(ctrl->val));
-   102		case CEF168_V4L2_CID_CUSTOM(calibrate):
-   103			return cef168_i2c_write(dev, INP_CALIBRATE, 0);
-   104			return 0;
-   105		}
-   106	
-   107		return -EINVAL;
-   108	}
-   109	
-   110	static int cef168_get_ctrl(struct v4l2_ctrl *ctrl)
-   111	{
-   112		struct cef168_device *dev = to_cef168(ctrl);
-   113		int rval;
-   114	
-   115		if (ctrl->id != V4L2_CID_FOCUS_ABSOLUTE &&
-   116		    ctrl->id != CEF168_V4L2_CID_CUSTOM(data) &&
-   117		    ctrl->id != CEF168_V4L2_CID_CUSTOM(focus_range) &&
-   118		    ctrl->id != CEF168_V4L2_CID_CUSTOM(lens_id))
-   119			return -EINVAL;
-   120	
-   121		struct cef168_data data;
-   122	
-   123		rval = cef168_i2c_read(dev, &data);
-   124		if (rval < 0)
-   125			return rval;
-   126	
-   127		switch (ctrl->id) {
-   128		case V4L2_CID_FOCUS_ABSOLUTE:
-   129			ctrl->val = data.focus_position_cur;
-   130			return 0;
-   131		case CEF168_V4L2_CID_CUSTOM(focus_range):
-   132			ctrl->p_new.p_u32[0] =
- > 133				(u32)le32_to_cpu(((u32)data.focus_position_min << 16) |
-   134						 data.focus_position_max);
-   135			return 0;
-   136		case CEF168_V4L2_CID_CUSTOM(lens_id):
-   137			ctrl->p_new.p_u8[0] = data.lens_id;
-   138			return 0;
-   139		case CEF168_V4L2_CID_CUSTOM(data):
-   140			memcpy(ctrl->p_new.p_u8, &data, sizeof(data));
-   141			return 0;
-   142		}
-   143	
-   144		return -EINVAL;
-   145	}
-   146	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+BR,
+-R
 
