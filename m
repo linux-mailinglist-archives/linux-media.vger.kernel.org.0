@@ -1,271 +1,223 @@
-Return-Path: <linux-media+bounces-39815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39816-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DF5B249DC
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 14:54:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FD0B24A12
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 15:02:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E978D176AB4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 12:53:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73230189317C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 13:01:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A234C2E3365;
-	Wed, 13 Aug 2025 12:53:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23C0A1487D1;
+	Wed, 13 Aug 2025 13:00:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="N2BHt8v+"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="pvVuYb8B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453B72DFF13
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 12:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755089610; cv=none; b=JJiFDdFkLZPBME3AiYSjy461R0OlSv6FoPGBZ6iiMRLk7UMeZ9K6RCv18eP5YVAkrEBNDCDq70qMSmT58dxX6YrcefE38HL8+ItbHPQhx4rVwIBJtJzoiDPpx+DN5Wj19zyPLQsPm69OZG47rYRgFjUr4rdM3Vu3nPJSCkfEHQw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755089610; c=relaxed/simple;
-	bh=wwfzFCvW20S3p/rgBk/ky6VRV/0gwFY0ZH8yC0ZVNKA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NWnUsD/cwLCOfL4Gt5hYXaTEO4Xt7+eAYHMfJHewbrZASzBMCNelCQv1VurP+kO/U05sklFYPhfrznOziibQLoYRLADFZqq+sowh83bdCOuhI8MCjBCvsqF2A0ZBIFwRwyzCwE/+IrhNsYBOF8QFD6iydMX7d7TKIruj6ur5IRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=N2BHt8v+; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBrqFk031681;
-	Wed, 13 Aug 2025 14:53:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	+gMnaOc4QMxROt5X8BGKtnJvw0sl11iyU6J9X3AKlYc=; b=N2BHt8v+s3IVIxhd
-	RqUpFrAFKyfOWV5ei7jQykHQ+5exyai5CGyHAsGZcQnXhGmQ1cL52I8yr4NAWJcp
-	h/JygOLKQ5C2paOh55rIBRx+aKovhELmrlm7/otsSTeuF8V8K8W6Iqaxrgq7TfPW
-	3wIx8fWltJS2qNFDTYfdp4d7QI0lVxpU3lChawcWB3gquYF3uY+vQckQBvQzZvLG
-	QSaAQSeMkZkIKRjQXOKZ1DV7c7cv0j9am92ffB2Dlbgg7x78JjDc+hOFqDmTWWAI
-	i7iueLfGXODI/m8FfQ3Umv8+upfXuFNJlLV4nO9nVFH/Ios7j12ikpwwfp8Lz9wT
-	Z1D5Dg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48eh9ncqtn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Aug 2025 14:53:22 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 11DA040052;
-	Wed, 13 Aug 2025 14:52:20 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 180B573F0D4;
-	Wed, 13 Aug 2025 14:51:46 +0200 (CEST)
-Received: from [10.130.78.67] (10.130.78.67) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 13 Aug
- 2025 14:51:45 +0200
-Message-ID: <4c292d56-2731-4d6f-b903-1c3c525b684d@foss.st.com>
-Date: Wed, 13 Aug 2025 14:51:43 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFD4F50F
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 13:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755090035; cv=pass; b=E+9zrkJpWK6BnfBBpeKr82KXJtmQ98BjIYvjz491Qsat8/YBOiND6Y2hloIVkIoi38q7jVWgSqpKix1E4+0GsfLlI00V9Pq1SYSN+UqK+b9AB372TxatLqV7+FYOAWxrgvpBDobAZE8v8DTWAF1o6D6IZI8WPEqyKKuLjt2NaF8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755090035; c=relaxed/simple;
+	bh=rNhp1zZ9LR8sUL0l+BEM7wVmzfbMlJ91o3y7oR232po=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mazGGgdZpH5pPo3KaW1PsmnSEUXNV97fGS9FJwBw6IiMK6Kv9gX+6PXsLmAj9PCKyE+ia5VMkaYS5J0m+mzV61dnNkSC0M9KA/3GUBT9tcDfYWQk5zv4+9E/OleMpAZh/4Zezg0fR9cqBs3zYbaEPv6aovgqHPbpeyPy0YHTWc8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=pvVuYb8B; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4c27lF4ZZvzyWK;
+	Wed, 13 Aug 2025 16:00:25 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1755090029;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CkKsj+JHSM7ioHyHFT2Lg0hOW4pBSWNl0RAJZmfM+DE=;
+	b=pvVuYb8BhhXbwKmqpVaAW45FgpHIpbY+uch7YZwAG/N4SyYTyCNWhdqUtx6F+MLm9wMLzO
+	4sS7xnL1ktoxDVy+ZJubgCfFxhe1o/sR6+wp+A7OvCMg7Bt+7M85vtpPCn8lcHGfkBESu7
+	U4+f3W4JxXOddLx1gXP7WUAw2yHagYQ=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1755090029; a=rsa-sha256; cv=none;
+	b=nlaRWtsUZbR58NLpQYAlOSWWP6BVYcUXpeQHvDwkNC8aMM4F7LSLiIQgUZPRMyTkQ0UP5k
+	Ryof60qxCqmB0e9xsgAjl9TID/SZBOE8H7TwikI2k0qgz+1vMjY7t7S0WwaXeP1Ia8Kr8V
+	fM7v6ObnXl/yTNq6q5gOz/RJNS5ZAao=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1755090029;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CkKsj+JHSM7ioHyHFT2Lg0hOW4pBSWNl0RAJZmfM+DE=;
+	b=Ux2G6V63OvJwQthV5cCPUab/G/Z/BtzCMyIZE2KNPwNrPX0EP/JlLbej6wbHgWCfM1OvIn
+	Iq0iEToF92LvcN7SWIpg8sDkLliq79YQIFiand3glyUl3pdZGMcm5zB5eAzUk+3LvtQCQt
+	omsFHBoKmovn6Mq7wDfGviLf2sTpgzE=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 800BB634C94;
+	Wed, 13 Aug 2025 15:59:35 +0300 (EEST)
+Date: Wed, 13 Aug 2025 12:59:36 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+	stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com,
+	arnd@arndb.de, alain.volmat@foss.st.com, andrzej.hajda@intel.com,
+	benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com,
+	hansg@kernel.org, hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com,
+	kieran.bingham@ideasonboard.com, khalasa@piap.pl, mani@kernel.org,
+	m.felsch@pengutronix.de, matthias.fend@emfend.at,
+	mchehab@kernel.org, michael.riesch@collabora.com,
+	naush@raspberrypi.com, nicholas@rothemail.net,
+	nicolas.dufresne@collabora.com, paul.elder@ideasonboard.com,
+	dan.scally@ideasonboard.com, pavel@kernel.org, rashanmu@gmail.com,
+	ribalda@chromium.org, slongerbeam@gmail.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 01/48] media: v4l2-common: Add a helper for obtaining
+ the clock producer
+Message-ID: <aJyMOEs9UeiudvXh@valkosipuli.retiisi.eu>
+References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
+ <8ecbcafbd91b25ad5e188dbe127b921a1643027e.1750942967.git.mehdi.djait@linux.intel.com>
+ <cd5ac9a7-ada2-4bdf-bc81-8290f0eb88d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4l-utils] v4l2-ctl: Fix failure on controls starting with
- a digit
-To: <linux-media@vger.kernel.org>
-CC: <hverkuil@kernel.org>
-References: <20250813-fix_3alock-v1-1-7396410bac0b@foss.st.com>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20250813-fix_3alock-v1-1-7396410bac0b@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd5ac9a7-ada2-4bdf-bc81-8290f0eb88d6@kernel.org>
 
+Hi Hans,
 
+On Wed, Aug 13, 2025 at 12:15:29PM +0200, Hans Verkuil wrote:
+> Hi Mehdi, Sakari, Laurent,
+> 
+> On 26/06/2025 15:33, Mehdi Djait wrote:
+> > Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
+> > platforms to retrieve a reference to the clock producer from firmware.
+> > 
+> > This helper behaves the same as devm_clk_get() except where there is
+> > no clock producer like in ACPI-based platforms.
+> > 
+> > For ACPI-based platforms the function will read the "clock-frequency"
+> > ACPI _DSD property and register a fixed frequency clock with the frequency
+> > indicated in the property.
+> > 
+> > This function also handles the special ACPI-based system case where:
+> > The clock-frequency _DSD property is present.
+> > A reference to the clock producer is present, where the clock is provided
+> > by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
+> > In this case try to set the clock-frequency value to the provided clock.
+> 
+> On irc I wondered about the name of the new function since it is sensor
+> specific, and if it can also be used for e.g. video receivers, then it
+> should be renamed to something more generic.
+> 
+> According to Laurent there is no ACPI standard for video receivers, so
+> that's the reason this is sensor specific.
+> 
+> I'd like to see that documented in this patch. Either in the commit log,
+> or, preferred, in the header in the function description.
 
-On 8/13/25 14:34, Benjamin Mugnier wrote:
-> Specifically querying the 3a_lock control from v4l2-ctl fails :
-> 
->   $ v4l2-ctl -C 3a_lock
->   VIDIOC_G_EXT_CTRLS: failed: Invalid argument
->   : 0
-> 
-> A similar issue occurs when setting the control :
-> 
->   $ v4l2-ctl -c 3a_lock=0
->   VIDIOC_S_EXT_CTRLS: failed: Invalid argument
->   Error setting controls: Invalid argument
-> 
-> This does not happen with other controls. Internally, v4l2-ctl parses
-> its arguments in order and differentiates a control name from a value
-> using this check :
-> 
->   if (isdigit(s[0]))
-> 
-> This means if the argument starts with a letter, it is a control
-> name; otherwise, it is a control value. This works well for all controls
-> except for 3a_lock, which starts with a digit and is wrongly detected as
-> a control value.
-> 
-> Currently, 3a_lock is the only control that starts with a digit.
-> 
-> Introduce is_digits() to check if a string contains only digits, and
-> therefore would return false when parsing '3a_lock'. Use is_digits() for
-> control get and set operations, and expand its use to all other relevant
-> cases.
-> 
-> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> ---
->  utils/v4l2-ctl/v4l2-ctl-common.cpp | 9 +++++----
->  utils/v4l2-ctl/v4l2-ctl-stds.cpp   | 2 +-
->  utils/v4l2-ctl/v4l2-ctl-vidcap.cpp | 4 ++--
->  utils/v4l2-ctl/v4l2-ctl.cpp        | 4 ++--
->  utils/v4l2-ctl/v4l2-ctl.h          | 9 +++++++++
->  5 files changed, 19 insertions(+), 9 deletions(-)
-> 
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> index 32dbe9de7162258ec19c49580bd36c0971fd7fe6..792f4c95266364a506f958d5544c6f06fa3b36b7 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> @@ -1000,7 +1000,7 @@ void common_process_controls(cv4l_fd &fd)
->  	find_controls(fd);
->  	for (const auto &get_ctrl : get_ctrls) {
->  		std::string s = get_ctrl;
-> -		if (isdigit(s[0])) {
-> +		if (is_digits(s)) {
->  			__u32 id = strtoul(s.c_str(), nullptr, 0);
->  			if (ctrl_id2str.find(id) != ctrl_id2str.end())
->  				s = ctrl_id2str[id];
-> @@ -1012,7 +1012,7 @@ void common_process_controls(cv4l_fd &fd)
->  	}
->  	for (const auto &set_ctrl : set_ctrls) {
->  		std::string s = set_ctrl.first;
-> -		if (isdigit(s[0])) {
-> +		if (is_digits(s)) {
->  			__u32 id = strtoul(s.c_str(), nullptr, 0);
->  			if (ctrl_id2str.find(id) != ctrl_id2str.end())
->  				s = ctrl_id2str[id];
-> @@ -1212,9 +1212,10 @@ void common_set(cv4l_fd &_fd)
->  		memset(&ctrls, 0, sizeof(ctrls));
->  		for (const auto &set_ctrl : set_ctrls) {
->  			std::string s = set_ctrl.first;
-> -			if (isdigit(s[0])) {
-> +			if (is_digits(s)) {
->  				__u32 id = strtoul(s.c_str(), nullptr, 0);
->  				s = ctrl_id2str[id];
-> +				printf("%s\n", s.c_str());
+Given this patch has been around for quite some time and I've sent a PR on
+it, I'd prefer to proceed with the current PR. I'm fine with adding more
+documentation though if you think we should do that.
 
-I obviously forgot to remove this line.
+> 
+> I made a suggestion below.
+> 
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-common.c | 52 +++++++++++++++++++++++++++
+> >  include/media/v4l2-common.h           | 27 ++++++++++++++
+> >  2 files changed, 79 insertions(+)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> 
+> <snip>
+> 
+> > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> > index 0a43f56578bc..1c79ca4d5c73 100644
+> > --- a/include/media/v4l2-common.h
+> > +++ b/include/media/v4l2-common.h
+> > @@ -100,6 +100,7 @@ int v4l2_ctrl_query_fill(struct v4l2_queryctrl *qctrl,
+> >  struct v4l2_device;
+> >  struct v4l2_subdev;
+> >  struct v4l2_subdev_ops;
+> > +struct clk;
+> >  
+> >  /* I2C Helper functions */
+> >  #include <linux/i2c.h>
+> > @@ -620,6 +621,32 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
+> >  			     unsigned int num_of_driver_link_freqs,
+> >  			     unsigned long *bitmap);
+> >  
+> > +/**
+> > + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to a clock producer
+> > + *	for a camera sensor.
+> > + *
+> > + * @dev: device for v4l2 sensor clock "consumer"
+> > + * @id: clock consumer ID
+> > + *
+> > + * This function behaves the same way as devm_clk_get() except where there
+> > + * is no clock producer like in ACPI-based platforms.
+> > + *
+> > + * For ACPI-based platforms, the function will read the "clock-frequency"
+> > + * ACPI _DSD property and register a fixed-clock with the frequency indicated
+> > + * in the property.
+> > + *
+> > + * This function also handles the special ACPI-based system case where:
+> > + *
+> > + * * The clock-frequency _DSD property is present.
+> > + * * A reference to the clock producer is present, where the clock is provided
+> > + *   by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
+> > + *
+> > + * In this case try to set the clock-frequency value to the provided clock.
+> 
+>     *
+>     * While ACPI has standardized sensor support, there is no standard support for
+>     * e.g. video receivers. So this function is specific to sensors, hence the
+>     * chosen function name.
+> 
+> Better suggestions are welcome.
 
->  			}
->  			struct v4l2_ext_control ctrl;
->  			struct v4l2_query_ext_ctrl &qc = ctrl_str2q[s];
-> @@ -1359,7 +1360,7 @@ void common_get(cv4l_fd &_fd)
->  		memset(&ctrls, 0, sizeof(ctrls));
->  		for (const auto &get_ctrl : get_ctrls) {
->  			std::string s = get_ctrl;
-> -			if (isdigit(s[0])) {
-> +			if (is_digits(s)) {
->  				__u32 id = strtoul(s.c_str(), nullptr, 0);
->  				s = ctrl_id2str[id];
->  			}
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-stds.cpp b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-> index 8c9abf5df687d3aeaf68089e702566854bd34bd0..5e23cc5708b7c33e4cc8562d2ec1d13c3efcd70c 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-> @@ -445,7 +445,7 @@ void stds_cmd(int ch, char *optarg)
->  			else
->  				standard = V4L2_STD_SECAM;
->  		}
-> -		else if (isdigit(optarg[0])) {
-> +		else if (is_digits(optarg)) {
->  			standard = strtol(optarg, nullptr, 0) | (1ULL << 63);
->  		} else {
->  			fprintf(stderr, "Unknown standard '%s'\n", optarg);
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-> index 498362217149df1b854f138fd642dc938e7a90fb..2384200248d567d14be0628aa2e1158b345fc57f 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-> @@ -133,7 +133,7 @@ void vidcap_cmd(int ch, char *optarg)
->  							   optarg[2], optarg[3]);
->  			if (be_pixfmt)
->  				frmsize.pixel_format |= 1U << 31;
-> -		} else if (isdigit(optarg[0])) {
-> +		} else if (is_digits(optarg)) {
->  			frmsize.pixel_format = strtol(optarg, nullptr, 0);
->  		} else {
->  			fprintf(stderr, "The pixelformat '%s' is invalid\n", optarg);
-> @@ -165,7 +165,7 @@ void vidcap_cmd(int ch, char *optarg)
->  							    value[2], value[3]);
->  					if (be_pixfmt)
->  						frmival.pixel_format |= 1U << 31;
-> -				} else if (isdigit(optarg[0])) {
-> +				} else if (is_digits(optarg)) {
->  					frmival.pixel_format = strtol(value, nullptr, 0);
->  				} else {
->  					fprintf(stderr, "The pixelformat '%s' is invalid\n", optarg);
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-> index 0eb4bb5c9200a32c1fa056d73d2c1f4e050e7e23..cfe33f32f52286a5b23421ad4222918feafe03d2 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-> @@ -812,7 +812,7 @@ int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
->  						    value[2], value[3]);
->  				if (be_pixfmt)
->  					pixelformat |= 1U << 31;
-> -			} else if (isdigit(value[0])) {
-> +			} else if (is_digits(value)) {
->  				pixelformat = strtol(value, nullptr, 0);
->  			} else {
->  				fprintf(stderr, "The pixelformat '%s' is invalid\n", value);
-> @@ -950,7 +950,7 @@ static __u32 parse_event(const char *e, const char **name)
->  	__u32 event = 0;
->  
->  	*name = "0";
-> -	if (isdigit(e[0])) {
-> +	if (is_digits(e)) {
->  		event = strtoul(e, nullptr, 0);
->  		if (event == V4L2_EVENT_CTRL) {
->  			fprintf(stderr, "Missing control name for ctrl event, use ctrl=<name>\n");
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-> index b0d42110ca0fbbf05dc3957a6fe08f426947b871..132ac64a35414a9be47997ca1b26319ce5adc664 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.h
-> +++ b/utils/v4l2-ctl/v4l2-ctl.h
-> @@ -1,9 +1,11 @@
->  #ifndef _V4L2_CTL_H
->  #define _V4L2_CTL_H
->  
-> +#include <algorithm>
->  #include <cstdint>
->  #include <linux/videodev2.h>
->  #include <linux/v4l2-subdev.h>
-> +#include <string>
->  #include <v4l-getsubopt.h>
->  
->  #include <v4l2-info.h>
-> @@ -331,6 +333,13 @@ static inline bool subscribe_event(cv4l_fd &fd, __u32 type)
->  	return !fd.subscribe_event(sub);
->  }
->  
-> +static inline bool is_digits(const std::string &str)
-> +{
-> +	if (str.empty())
-> +		return false;
-> +	return std::all_of(str.begin(), str.end(), isdigit);
-> +}
-> +
->  #define doioctl(n, r, p) doioctl_name(n, r, p, #r)
->  
->  #define info(fmt, args...) 			\
+ACPI itself does not standardise camera sensor support. What driver authors
+should know indeed is that this function provides a clock that can be at
+least queried for frequency, independently of how that clock is controlled
+or how its frequency is configured.
+
+How about:
+
+ * This function may be used in camera sensor drivers only.
+
 > 
-> ---
-> base-commit: 48316b8a20aac35f982991b617f84fb3c104e7b0
-> change-id: 20250813-fix_3alock-fdac270ae321
+> If it is just adding a paragraph, then I can just add that manually. If the change
+> is more involved, then a v2.1 for just this patch should be posted.
 > 
-> Best regards,
+> Other than this, the series looks good.
 
 -- 
-Regards,
-Benjamin
+Kind regards,
+
+Sakari Ailus
 
