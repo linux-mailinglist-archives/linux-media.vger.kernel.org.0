@@ -1,297 +1,116 @@
-Return-Path: <linux-media+bounces-39841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39842-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1521B255A9
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 23:39:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4A9B255E6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 23:50:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 708DE5617F4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:37:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 020751C87D2B
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E59A3009DC;
-	Wed, 13 Aug 2025 21:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E23762E716C;
+	Wed, 13 Aug 2025 21:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NOLbygg8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="l2/COFig"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAB63009C5
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 21:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21BA3009F0
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 21:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755121059; cv=none; b=IZZyHMWSyVr63TJ569ZD4MLz5g9wC4BYdldznlkmiOXkjdiqrtr7VcOVJw5EwWOI0UBiP4mSXXXEskWu6gHl6i+YhVKEfFGecCxFfPQdOgHOL0/rjmy/NRkp2hWNCAP/KB8yacK6kd7ovATmFdWTjyeKd+hC0qJsFvjbS4zMbZI=
+	t=1755121584; cv=none; b=KAUf/PNgYP81/fFMOaCmtCButBe0pP4K/lnjSfQzH3pzEQK1cD7pL20IhFBV4R4T7UDrsjmLECmtZRPbMguPM1rNffnYC+3NRkVoHfZ7Z1evgNKShaCBO1C0c6NcG5DCxiWcKD8xprPnbZvcURqbGwsXpWjBIGEj4oKK291921I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755121059; c=relaxed/simple;
-	bh=OIHFNFGpI3Nnr1laP8Tk/ZYcGpLTmB4+VLlc5+ifYaE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dt87BD06h4+PAlfeiWex+7OzdyKMAT2kPJ6W0eRBGbUEcsI20Y+sJYWcf+633MW6Pm9h/LRGN/B3b2M2gaVStPZPM86Ro9UjQsuA01wQiSyYxHjcxTU/8+ImkuAs+76QLWT4I9ETPlOp1t7zk1XR02fwjQkdEsx2q+0gpTYd8zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NOLbygg8; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b9ba300cb9so264689f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 14:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755121056; x=1755725856; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/R0PLr1UJ15LH0yUiipvHzrelupSAOLxlwfOAUkKpZE=;
-        b=NOLbygg8wCZ7xDS8sY6/8XVxhJIdZ/UyZHh5Rk+mxXuE2sGvyvcgxK4gSBj+gUJrNg
-         Mfy6CDfSnfDisC7Ay48wHY55NwBLsyN+LuEfZNJqyZtlNwBzyQhgN88KY6nzAHmjq/8Q
-         4TMmf3pmFu7Y7AzqpLhTS+PtvENEPjWnb2UN1Q9p7H3kLxQQmFW7dq3wwu+f9ShjwKxf
-         9l8xeFWW6SLzvOnHZgOhSzt7jAsCkEU60DfVtMpzNzzEBkD229b6LBUAwGTeIBkH2naJ
-         ah/Ejnf+gyZlBqTuK5fsJ9WX6rU/N094XaevnXaucRsuWP5NJsQMLLsmJxOrqKrCeMgW
-         vM7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755121056; x=1755725856;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/R0PLr1UJ15LH0yUiipvHzrelupSAOLxlwfOAUkKpZE=;
-        b=Qmbicsilvrs1o86ljuiqnUODJBiSofdk2HgomkZ4hwxy1qVTT/usP6YK4fd+FKPUZa
-         Xno7D76gXXkKEFGu55yNRM+WjP2iiDvNO2/ST4CmyrbxahMUI4TsvXmrGGfkp+ezt+P0
-         2QkwOxFFy0OcdWh+XgMeVt3HpXFxSYnQMMBd+iLqLf1tg8jr8XeX61TT0f9/89f+T4vQ
-         kDxFSVC/O7qCHh/6NtJF7jOmgCVWMm+QhqYnwA96WvSxdS0H4MAvHIBBioY5IUsLSnjO
-         mPQPxqxsyssyiJjWlthsRlYviGbSoMNf7ehuqB1DKBTADlonfR+XtV3qPCMs9IPj+kHW
-         Se9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV4F58WC9CMNHMrB97G9eb+ODQftY64n8GIYcMsdkO6LKcTCkmg8UpK4T8l4XwCbFgl1IbAtu2JuxBFyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySTVygWwWfzu+WECFvQJ5ilXq0hlOeBltqMm4CjmOgnZEKHO0r
-	K+DGIYrjXy+P6lNI7in6pn2oZhO6PVIuK9sOqb8usL+OdwsbJZ18fqplsd3xzCdAGb8=
-X-Gm-Gg: ASbGncse1GZJ5kb480Dt6sQ3kmUdqmC5868P272wT+mlLRQPBDctdLVwCYYkUmvHN3T
-	F6blMYtlDsGb7l/X16P98ncph90QhFQjMGUgxCZa67nsm8rFmOnXhms+br4Ts+1u20G/hy4TK2z
-	8B35Z0tePvL6mz69LWWMz+QqCJFB+6jm/1cuRLizjMhIaewNJa8RzR+lr1VrvojIq0BOTzyvq8s
-	xCxfOg9HKCYs+k+IZvfluaPVqByyMqBjtFlrdf9Dsho2fqs95SgJnXyQ+kMWv0dFNnOwwi5jb3L
-	m/HLQXGc4xB5f5Zt8Ucxuftu9wUScVGwhG923iGpdRdEOdho3vlHya2rg4wIzBjMNO6I25OqSW2
-	chLnicrJbkiqt5GNojhCLpfe92yVcqtZw/lhnVk3OzS94dW6rIDU4O0O0Y1HZ3Txx
-X-Google-Smtp-Source: AGHT+IHDgkAiDoUCfIGsD1JHcyl15RLIs40KyXWWTRPJ8npwc6pR4KZc9S2TTnaRFinIsu9wVY/smQ==
-X-Received: by 2002:a05:6000:400b:b0:3b7:775d:e923 with SMTP id ffacd0b85a97d-3ba506624edmr206323f8f.4.1755121056198;
-        Wed, 13 Aug 2025 14:37:36 -0700 (PDT)
-Received: from [192.168.0.13] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a540945sm15247815e9.26.2025.08.13.14.37.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 14:37:35 -0700 (PDT)
-Message-ID: <03947c1c-1d60-472b-883f-c9875df20245@linaro.org>
-Date: Wed, 13 Aug 2025 22:37:33 +0100
+	s=arc-20240116; t=1755121584; c=relaxed/simple;
+	bh=Y8ZT1omRWVh2D9pbGNUAIUVOIcYLDnqbxdj4q0qn92o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPllXAF2JlNd52LGP+mekZROj28SYUTMuCVY1q1zrpuDLMVEfNQHss+KyPQ61SEQ4rceDGFMxy9fIxXiXiBSMqWJetNUkM4oM47kSZS5LyxmrN0nmbppWPYJHH2ocAkWj7lTtXRnWAXFNXRTBHUK72ICpT8fBUXDLYeydgIXYik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=l2/COFig; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 13 Aug 2025 23:46:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1755121569;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5/DqFL26+UsS+8mNqc4oz88CmU86CRRwfKfxjUz3a3k=;
+	b=l2/COFigXLA1PcXRav9SSuBhtOpmcB4C3+TNzdqWZ85P8fhGNjusU+tWOaepjs787SYydf
+	JbhN0MMYtaMMk4D5j+BIOEjj0hN/a/g0XXvHv8ag9/oyQqCq4EfzibWxvJ1ApR/u7dqKCm
+	RogDvtQKVyqv7vCZbEjNT32hvzKsMsY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] media: nxp: imx8-isi: fix streaming cleanup on
+ release
+Message-ID: <5szbp7ae7sbfpzvfw73t2l5cwgd7i2hjmeljhmf4mxz32agwth@ycttzoi5ux46>
+References: <20250813212451.22140-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/7] arm64: dts: qcom: qcs8300: Add support for camss
-To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250813053724.232494-1-quic_vikramsa@quicinc.com>
- <20250813053724.232494-8-quic_vikramsa@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20250813053724.232494-8-quic_vikramsa@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813212451.22140-1-laurent.pinchart@ideasonboard.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 13/08/2025 06:37, Vikram Sharma wrote:
-> Add changes to support the camera subsystem on the QCS8300.
+Hi Laurent,
+
+On Thu, Aug 14, 2025 at 12:24:49AM +0300, Laurent Pinchart wrote:
+> Hello,
 > 
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> ---
->   arch/arm64/boot/dts/qcom/qcs8300.dtsi | 171 ++++++++++++++++++++++++++
->   1 file changed, 171 insertions(+)
+> This patch series fixes an issue initially reported by Richard in [1],
+> with a proposed fix. I've recommended an alternative approach, and gave
+> it a try.
+
+Thanks for reviewing that patch of mine [1].
+And thank you for providing this alternative approach. It looks way
+cleaner now :-) I previously tought of a similar approach as yours,
+but then opted for the "less invasive" one. So again what learned for
+me. Thanks!
+
+As I've never had such a situation and wasn't able to find something in
+the docs [2] about it: Do you need/want a Reviewed or Tested-By tag on
+patch 1/2 of this series? (Altough there's also a SoB from me before
+your Co-Developed tag)
+
+[2] https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+
+regards;rl
+
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-> index 3cf1d4bc7e4a..538b55a89f28 100644
-> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-> @@ -4641,6 +4641,177 @@ videocc: clock-controller@abf0000 {
->   			#power-domain-cells = <1>;
->   		};
->   
-> +		camss: isp@ac78000 {
-> +			compatible = "qcom,qcs8300-camss";
-> +
-> +			reg = <0x0 0xac78000 0x0 0x1000>,
-> +			      <0x0 0xac7a000 0x0 0x0f00>,
-> +			      <0x0 0xac7c000 0x0 0x0f00>,
-> +			      <0x0 0xac84000 0x0 0x0f00>,
-> +			      <0x0 0xac88000 0x0 0x0f00>,
-> +			      <0x0 0xac8c000 0x0 0x0f00>,
-> +			      <0x0 0xac90000 0x0 0x0f00>,
-> +			      <0x0 0xac94000 0x0 0x0f00>,
-> +			      <0x0 0xac9c000 0x0 0x2000>,
-> +			      <0x0 0xac9e000 0x0 0x2000>,
-> +			      <0x0 0xaca0000 0x0 0x2000>,
-> +			      <0x0 0xacac000 0x0 0x0400>,
-> +			      <0x0 0xacad000 0x0 0x0400>,
-> +			      <0x0 0xacae000 0x0 0x0400>,
-> +			      <0x0 0xac4d000 0x0 0xf000>,
-> +			      <0x0 0xac60000 0x0 0xf000>,
-> +			      <0x0 0xac85000 0x0 0x0d00>,
-> +			      <0x0 0xac89000 0x0 0x0d00>,
-> +			      <0x0 0xac8d000 0x0 0x0d00>,
-> +			      <0x0 0xac91000 0x0 0x0d00>,
-> +			      <0x0 0xac95000 0x0 0x0d00>;
-> +			reg-names = "csid_wrapper",
-> +				    "csid0",
-> +				    "csid1",
-> +				    "csid_lite0",
-> +				    "csid_lite1",
-> +				    "csid_lite2",
-> +				    "csid_lite3",
-> +				    "csid_lite4",
-> +				    "csiphy0",
-> +				    "csiphy1",
-> +				    "csiphy2",
-> +				    "tpg0",
-> +				    "tpg1",
-> +				    "tpg2",
-> +				    "vfe0",
-> +				    "vfe1",
-> +				    "vfe_lite0",
-> +				    "vfe_lite1",
-> +				    "vfe_lite2",
-> +				    "vfe_lite3",
-> +				    "vfe_lite4";
-> +
-> +			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
-> +				 <&camcc CAM_CC_CORE_AHB_CLK>,
-> +				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-> +				 <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
-> +				 <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
-> +				 <&camcc CAM_CC_CPAS_IFE_0_CLK>,
-> +				 <&camcc CAM_CC_CPAS_IFE_1_CLK>,
-> +				 <&camcc CAM_CC_CSID_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY0_CLK>,
-> +				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY1_CLK>,
-> +				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY2_CLK>,
-> +				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
-> +				 <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
-> +				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
-> +				 <&gcc GCC_CAMERA_SF_AXI_CLK>,
-> +				 <&camcc CAM_CC_ICP_AHB_CLK>,
-> +				 <&camcc CAM_CC_IFE_0_CLK>,
-> +				 <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
-> +				 <&camcc CAM_CC_IFE_1_CLK>,
-> +				 <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
-> +			clock-names = "camnoc_axi",
-> +				      "core_ahb",
-> +				      "cpas_ahb",
-> +				      "cpas_fast_ahb_clk",
-> +				      "cpas_vfe_lite",
-> +				      "cpas_vfe0",
-> +				      "cpas_vfe1",
-> +				      "csid",
-> +				      "csiphy0",
-> +				      "csiphy0_timer",
-> +				      "csiphy1",
-> +				      "csiphy1_timer",
-> +				      "csiphy2",
-> +				      "csiphy2_timer",
-> +				      "csiphy_rx",
-> +				      "gcc_axi_hf",
-> +				      "gcc_axi_sf",
-> +				      "icp_ahb",
-> +				      "vfe0",
-> +				      "vfe0_fast_ahb",
-> +				      "vfe1",
-> +				      "vfe1_fast_ahb",
-> +				      "vfe_lite",
-> +				      "vfe_lite_ahb",
-> +				      "vfe_lite_cphy_rx",
-> +				      "vfe_lite_csid";
-> +
-> +			interrupts = <GIC_SPI 565 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 564 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 759 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 758 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 604 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 545 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 546 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 547 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 761 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 760 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 605 IRQ_TYPE_EDGE_RISING>;
-> +			interrupt-names = "csid0",
-> +					  "csid1",
-> +					  "csid_lite0",
-> +					  "csid_lite1",
-> +					  "csid_lite2",
-> +					  "csid_lite3",
-> +					  "csid_lite4",
-> +					  "csiphy0",
-> +					  "csiphy1",
-> +					  "csiphy2",
-> +					  "tpg0",
-> +					  "tpg1",
-> +					  "tpg2",
-> +					  "vfe0",
-> +					  "vfe1",
-> +					  "vfe_lite0",
-> +					  "vfe_lite1",
-> +					  "vfe_lite2",
-> +					  "vfe_lite3",
-> +					  "vfe_lite4";
-> +
-> +			interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-> +					 &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
-> +					<&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
-> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-> +			interconnect-names = "ahb",
-> +					     "hf_0";
-> +
-> +			iommus = <&apps_smmu 0x2400 0x20>;
-> +
-> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
-> +			power-domain-names = "top";
-> +
-> +			status = "disabled";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +				port@0 {
-> +					reg = <0>;
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +				};
-> +
-> +				port@2 {
-> +					reg = <2>;
-> +				};
-> +			};
-> +		};
-> +
->   		camcc: clock-controller@ade0000 {
->   			compatible = "qcom,qcs8300-camcc";
->   			reg = <0x0 0x0ade0000 0x0 0x20000>;
-
-
-"Eat recycled food, it's good for the environment and okay for you"
-
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Patch 1/2 fixes streaming cleanup on release. Patch 2/2 then cleans up
+> the driver a bit by dropping an unneeded structure field.
+> 
+> The changes have been tested by opening and closing the video device
+> while streaming in another process. I have also tested suspend/resume
+> during streaming.
+> 
+> [1] https://lore.kernel.org/linux-media/20250709-imx8-isi-release-fix-v1-1-c47c659ce1a6@linux.dev/
+> 
+> Laurent Pinchart (1):
+>   media: nxp: imx8-isi: Drop mxc_isi_video.is_streaming field
+> 
+> Richard Leitner (1):
+>   media: nxp: imx8-isi: Fix streaming cleanup on release
+> 
+>  .../platform/nxp/imx8-isi/imx8-isi-core.h     |   3 +-
+>  .../platform/nxp/imx8-isi/imx8-isi-video.c    | 156 +++++++-----------
+>  2 files changed, 57 insertions(+), 102 deletions(-)
+> 
+> 
+> base-commit: 078f1a7eb48eef9b3cb78bcd2254356f3a332358
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
