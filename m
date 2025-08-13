@@ -1,210 +1,208 @@
-Return-Path: <linux-media+bounces-39748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39749-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF26B24358
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:56:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32713B243D0
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 10:11:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B550117FAFA
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 07:54:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A03ED18847C9
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 08:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07C62C3261;
-	Wed, 13 Aug 2025 07:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBF72D0C78;
+	Wed, 13 Aug 2025 08:11:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bpQP/MOo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDNzxUjV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A082E36F2;
-	Wed, 13 Aug 2025 07:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A0F23D287
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 08:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755071634; cv=none; b=hWVzXCSsExfXfN6NI8FTttYPY0NNWFO1Hx1l8oeLy32//5ZSxWdN/lGLvq6/LvdA3KcqN6Gj8msdwCK5sTksxXUoFR2UVphqsOqIwV7LvRWPFCGSbxmbeb7jeYSBrN/nEUIgjebQgxHrvyCSTuCApreyYgZgGOYD8X+EtpcgkmM=
+	t=1755072677; cv=none; b=RBAkmIT2lP2arHJHzc9enMgQi5BbrMi1zjZiWgOYead9g54cOaBYNnBmWmgw7y0dPqjmOXtpk8VDuH4ywri63aCrzC8T8O7fR1OSBa8EiTd6hyWtj6wYe0/gB/mJDKKrhbuCSoCFdqkhddVbsoLZo4Dovwdsk2ToQz/odOLFxgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755071634; c=relaxed/simple;
-	bh=+ZKe1BOixJ/T80IcjTZOqL2H41Ct+rhNJSOCcroFnaQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=WYtCNa7aoRa3eeAQ2Q6zE6tK6bWCR/NzGhC67l8C+XnPYkfycU9DM3GowIhAEJI3X1ptLuocpNaJoYkO4iuexy1hV8dMvJ39PfETFwg6PHB+1Z7YbWJXH4EDVTT+dDoZwGkHoUmmD45qSmuKdeH6S0A+A4g3PrVEUHGTQyi7oG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bpQP/MOo; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6mhwe026809;
-	Wed, 13 Aug 2025 07:53:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=GtVPQO0nwKFPcGiaywgQA/
-	p6ZJu1iypkJEIbQuuw4ZA=; b=bpQP/MOo3yRrMFA2A57jnkNuazsVFdemkPNiiQ
-	DyY1qjEp7xxHcY7UWjh3acPM8JCmZ/qCiErhrsEi+9L9fa/eIRxyoNZvp5rccceg
-	myM2FhV+PJXG9xnQDIsq3RdA6RH+ZSNZ/JP9mlknwjQZ9UPqDdeCo7BupUz+ze1t
-	AalbV24jLHCJXjcBLvuFt02/5Rd/+YRkvWvh1y+2RyMxH5xYcjb5QXUWu4z3QSzL
-	OGUSpLTYCycB9msqOZoic8OpuHDG3VgrcAtPoJ2KRKFDKm7GOXeNDaL+3kuWsWqc
-	cdOKNvvLSkdN7Exqdtoa8dP7i1Ljn//cx098NLf1D0Mfp/ow==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9su6da-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Aug 2025 07:53:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57D7rjCg002007
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Aug 2025 07:53:45 GMT
-Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Wed, 13 Aug 2025 00:53:42 -0700
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Wed, 13 Aug 2025 13:23:25 +0530
-Subject: [PATCH v2] media: iris: vpu3x: Add MNoC low power handshake during
- hardware power-off
+	s=arc-20240116; t=1755072677; c=relaxed/simple;
+	bh=lTWL7iTIp8UU/fA2pVXT8nKBkyLbstCLEBrTg9xbh1g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=k77tza++u+eUXE5S0NMwqmQvPB3V9hPoP/iwBJq7gSmCHdAhJHSgUz9G4HHfUxk/bY49q6vU+Hzg59kusF7eWm2K2HcYqOo5tYCXNmD20qGF4pVGr/hsETeRwLQjyCA/xkVb8DbdVZSjWleLtcfav4UctbPswRp4vIGBEnTfAIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDNzxUjV; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755072673; x=1786608673;
+  h=date:from:to:cc:subject:message-id;
+  bh=lTWL7iTIp8UU/fA2pVXT8nKBkyLbstCLEBrTg9xbh1g=;
+  b=KDNzxUjVedO444ESSYxhU7EJwBGOE9MEcfLElxU4PjPz6VfkerW3gVdu
+   jgYv7YhMskupvxaNOeFXSJdlKQjBR6cXUo894DA0Z8bKbFhVzdlkShV6r
+   kbkiPRAeLhSZXu/+y4kghG4Sxsa0hpqz083AmeTCJGaTHewqWt+9bnL4u
+   ottF1HoImrCkUI/ytnMYOGTaIJeoOkh5mBY+ifOHou6JaUo5c8Os78COX
+   mhHz0WA9fDgbEx04nWfP3Y6nlM8Q13SNCctHrqzYu37Ugh89EAw3xFE2t
+   Ovce5yydUmCk18PNcqCaQ1ng8zM/8zrI79t5NVdcURQdjv1wyrKzcaVB3
+   Q==;
+X-CSE-ConnectionGUID: JRc+xxrrTTKj3AVNusBeow==
+X-CSE-MsgGUID: 7gUWrK7pRLGHknl/YltUwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="44936992"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="44936992"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 01:11:12 -0700
+X-CSE-ConnectionGUID: N79KIV6sRl2VOmRZHfDYqA==
+X-CSE-MsgGUID: Ban1E/FERvKnxr/CXB4bIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="197408634"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2025 01:11:11 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1um6Zg-0009hO-2t;
+	Wed, 13 Aug 2025 08:11:08 +0000
+Date: Wed, 13 Aug 2025 16:10:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:eusb2] BUILD SUCCESS
+ 28a27399acacda6f2fc631096b9e74897d023c0c
+Message-ID: <202508131611.DqLfhhlC-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250813-sm8650-power-sequence-fix-v2-1-9ed0fc2c45cb@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAHREnGgC/42NQQ6CMBBFr0K6dkxbUqSuvIdhUcdBZkELraCG9
- O5WTuDyveS/v4lEkSmJc7WJSCsnDr6APlQCB+cfBHwvLLTURrZKQxrbxkiYwosiJJoX8kjQ8xt
- uzjqrpW11XYuynyIVvbevXeGB0zPEz361qp/9p7oqUOCMolNvLZoGL/PCyB6PGEbR5Zy/xsNZU
- cQAAAA=
-X-Change-ID: 20250812-sm8650-power-sequence-fix-ba9a92098233
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755071622; l=3451;
- i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=+ZKe1BOixJ/T80IcjTZOqL2H41Ct+rhNJSOCcroFnaQ=;
- b=1XtNOMWJVGhKN67HtmloY5f/5o+KsDu0KGsFBqpURMAXektsqzvA7SJGDFpRrPmIvoxPWf+ZB
- FjKyKXTGIWPAO2Rk6OajYyRoY/5dkQ03j1V3qVMzGRXUoJrgnPfpyiv
-X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
- pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=689c448a cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=4jNVkGc5x75itkM4wVYA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: cOs5ibgnVZPU0SXTbdp6-BV5lamZt2W-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX+1DKYAykTviI
- Le5qEokqnNow99GjvlBwPcHJDM+L3pc8LDuqaaSH3vYhNPdBbECVuFqd9dAl7x7PH74CrevaUut
- 21kjZBvVrNPV3x0xXa4fud00lwWjfLpTlZe0RkXVRHbx2+TiFRn1NSzeWRI3G/+NzAcKOFaY0Ga
- Ozv41fNtaEGPu3do7ywV1f6gCsTA5HLPlAZdo9RdjbM2XL8dMKpNbXXJBYt+NOxHTZ5sy2QhD1/
- J0SaeR24H3DPmVsF9fdSqyl54UfyB6OK9bf1DUXvpSm3lKfTKp4ZWQlITKV1Hh7IBiwhGVmd9i9
- SJl2QAcowKFITkUE9SZ5Q1Uafr1wuszjJc5uTRterNe1A5nL+5fMzKIrjX4WO/osT6idnf1iW8S
- Jc8DUdIX
-X-Proofpoint-GUID: cOs5ibgnVZPU0SXTbdp6-BV5lamZt2W-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090015
 
-Add the missing write to AON_WRAPPER_MVP_NOC_LPI_CONTROL before
-reading the LPI status register. Introduce a handshake loop to ensure
-MNoC enters low power mode reliably during VPU3 hardware power-off with
-timeout handling.
+tree/branch: git://linuxtv.org/sailus/media_tree.git eusb2
+branch HEAD: 28a27399acacda6f2fc631096b9e74897d023c0c  media: uvcvideo: eUSB2 double isochronous bandwidth support
 
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
----
-Changes in v2:
-- Restructured loop for readability (Jorge)
-- Used defines for bits (Konrad, Jorge)
-- Used udelay for short waits (Konrad)
-- Link to v1: https://lore.kernel.org/r/20250812-sm8650-power-sequence-fix-v1-1-a51e7f99c56c@quicinc.com
+elapsed time: 1453m
 
-Please note that I have not added "Tested-by" tag from Neil in this update,
-as the NOC handshake loop has been restructured.
----
- drivers/media/platform/qcom/iris/iris_vpu3x.c | 30 +++++++++++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
+configs tested: 115
+configs skipped: 5
 
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-index 9b7c9a1495ee2f51c60b1142b2ed4680ff798f0a..a621878f02f7196de29c9e290a6c5acea34eba8c 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
-+++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-@@ -19,6 +19,9 @@
- #define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
- #define REQ_POWER_DOWN_PREP			BIT(0)
- #define WRAPPER_IRIS_CPU_NOC_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x60)
-+#define NOC_LPI_STATUS_DONE			BIT(0) /* Indicates the NOC handshake is complete */
-+#define NOC_LPI_STATUS_DENY			BIT(1) /* Indicates the NOC handshake is denied */
-+#define NOC_LPI_STATUS_ACTIVE		BIT(2) /* Indicates the NOC is active */
- #define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
- #define CORE_CLK_RUN				0x0
- 
-@@ -109,7 +112,9 @@ static void iris_vpu3_power_off_hardware(struct iris_core *core)
- 
- static void iris_vpu33_power_off_hardware(struct iris_core *core)
- {
-+	bool handshake_done = false, handshake_busy = false;
- 	u32 reg_val = 0, value, i;
-+	u32 count = 0;
- 	int ret;
- 
- 	if (iris_vpu3x_hw_power_collapsed(core))
-@@ -128,13 +133,34 @@ static void iris_vpu33_power_off_hardware(struct iris_core *core)
- 			goto disable_power;
- 	}
- 
-+	/* set MNoC to low power */
-+	writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-+
-+	do {
-+		value = readl(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS);
-+
-+		handshake_done = value & NOC_LPI_STATUS_DONE;
-+		handshake_busy = value & (NOC_LPI_STATUS_DENY | NOC_LPI_STATUS_ACTIVE);
-+
-+		if (handshake_done || !handshake_busy)
-+			break;
-+
-+		writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-+
-+		udelay(15);
-+
-+		writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-+	} while (++count < 1000);
-+
-+	if (!handshake_done && handshake_busy)
-+		dev_err(core->dev, "LPI handshake timeout\n");
-+
- 	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
- 				 reg_val, reg_val & BIT(0), 200, 2000);
- 	if (ret)
- 		goto disable_power;
- 
--	/* set MNoC to low power, set PD_NOC_QREQ (bit 0) */
--	writel(BIT(0), core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-+	writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
- 
- 	writel(CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE,
- 	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
----
-base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
-change-id: 20250812-sm8650-power-sequence-fix-ba9a92098233
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250812    gcc-8.5.0
+arc                   randconfig-002-20250812    gcc-12.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                         assabet_defconfig    clang-18
+arm                            mps2_defconfig    clang-22
+arm                       multi_v4t_defconfig    clang-16
+arm                   randconfig-001-20250812    clang-22
+arm                   randconfig-002-20250812    clang-22
+arm                   randconfig-003-20250812    gcc-14.3.0
+arm                   randconfig-004-20250812    gcc-10.5.0
+arm                    vt8500_v6_v7_defconfig    gcc-15.1.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250812    gcc-8.5.0
+arm64                 randconfig-002-20250812    gcc-8.5.0
+arm64                 randconfig-003-20250812    gcc-14.3.0
+arm64                 randconfig-004-20250812    gcc-8.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250812    gcc-13.4.0
+csky                  randconfig-002-20250812    gcc-10.5.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250812    clang-22
+hexagon               randconfig-002-20250812    clang-22
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250812    gcc-12
+i386        buildonly-randconfig-002-20250812    gcc-12
+i386        buildonly-randconfig-003-20250812    gcc-12
+i386        buildonly-randconfig-004-20250812    clang-20
+i386        buildonly-randconfig-005-20250812    clang-20
+i386        buildonly-randconfig-006-20250812    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250812    gcc-15.1.0
+loongarch             randconfig-002-20250812    gcc-15.1.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250812    gcc-10.5.0
+nios2                 randconfig-002-20250812    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250812    gcc-10.5.0
+parisc                randconfig-002-20250812    gcc-14.3.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc               randconfig-001-20250812    clang-19
+powerpc               randconfig-002-20250812    clang-22
+powerpc               randconfig-003-20250812    gcc-12.5.0
+powerpc                     tqm8540_defconfig    gcc-15.1.0
+powerpc                     tqm8555_defconfig    gcc-15.1.0
+powerpc64             randconfig-001-20250812    clang-22
+powerpc64             randconfig-002-20250812    clang-16
+powerpc64             randconfig-003-20250812    clang-18
+riscv                             allnoconfig    gcc-15.1.0
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250812    gcc-9.5.0
+riscv                 randconfig-002-20250812    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250812    clang-18
+s390                  randconfig-002-20250812    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                    randconfig-001-20250812    gcc-15.1.0
+sh                    randconfig-002-20250812    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250812    gcc-8.5.0
+sparc                 randconfig-002-20250812    gcc-8.5.0
+sparc64               randconfig-001-20250812    clang-22
+sparc64               randconfig-002-20250812    clang-22
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250812    gcc-11
+um                    randconfig-002-20250812    gcc-12
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250812    clang-20
+x86_64      buildonly-randconfig-002-20250812    gcc-12
+x86_64      buildonly-randconfig-003-20250812    gcc-12
+x86_64      buildonly-randconfig-004-20250812    gcc-12
+x86_64      buildonly-randconfig-005-20250812    clang-20
+x86_64      buildonly-randconfig-006-20250812    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250812    gcc-10.5.0
+xtensa                randconfig-002-20250812    gcc-12.5.0
 
-Best regards,
--- 
-Dikshita Agarwal <quic_dikshita@quicinc.com>
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
