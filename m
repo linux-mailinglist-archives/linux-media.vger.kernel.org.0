@@ -1,365 +1,475 @@
-Return-Path: <linux-media+bounces-39756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049CCB2453C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 11:20:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73150B2458A
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 11:38:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78668188A912
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:19:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E7B61BC03E3
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3285C2F0C5F;
-	Wed, 13 Aug 2025 09:18:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269E22F0C74;
+	Wed, 13 Aug 2025 09:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lLe9XJGR"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QfN7p7cP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2042.outbound.protection.outlook.com [40.107.243.42])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF4D2F0C54
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 09:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755076733; cv=fail; b=kvmcSljYrcPkPOXX+AKM1cWBzo4rwHDYNXFRyXoE0SPLJhMVlEx60Bfw9Pc1ZpvOHAFMQf7uPL4Vni7w9GI9SmP2CFOFR8I9b3p4GgF4UyglGIGGuQPuqsVVxf2tM5TaDX5QBuVShsH/F4ogh+xUiycMnKpHqz3+eaKhxxC4Zc4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755076733; c=relaxed/simple;
-	bh=U1vSODuCxXsT+T38BnI/t1U64gq7Z2cdXj5eKNBSGXY=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=hn/uijuAWOsZeEAUC1WAAxT/20uJ2phmdaC+tS02olFwYFHtQ5HMBUKAZhICd2z1MYmzA0Fb00IRPFtgtgU48AgwWhfL+M+E1ynkS0oHdb0fYeNptDCSP3JlGhej+4BH8qCiU4iUZNEtAc/FVVYvQy6ypYlp+xeBTdey5tTMRXo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lLe9XJGR; arc=fail smtp.client-ip=40.107.243.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aImSV3s0X/18UYXhHmL6NHxGOGPgYIy7xom6zsdZNoIafNCm9iqFeccmyGxxKPxX7xNzc4ZZPZSiAKtWA0RYx/wch4TsLgYKPkUed0zQN66TWpK6XwTKVgglvN2gkSH9mWK+hbKli2sXccsCUikubfuaJehOkJmrIaVBywLy/UHHgwPPUEiNKXPPjBFFenoyE0xah8Kw4spnlzt/Q/evtx7k/zA7Reb2RTQGdxyp6x2P0J6KJv4cFeGN/MxhaJ706WKIkqke0FI788Bygw2ERCYLarI6ao4g1PTlq8jm9TgWUOjeDCsWh1crzjDXlJY7BKaRF5gXzIEJnd2JDKFKkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v0Zjwm+QeRk4J6IraXchUqYn5sasvU2NbaWpB/ykn50=;
- b=aLpVbiNIm0CSQClbmmcmMuZndYsG8i72b3D1SRwaXum8W5Z2H8QOlq9et2w0/JBk0IvhlpNFvldiDlM5vB3PhGoSRr48SPvwgFRmwCnxr3AqPjbCeYjh54qgntUvtp1Ln4qBgHN6k/au1fVmusZzuDk+wOH9rj8X3shHIPE3nac82c2C23AKZ3AkJeLN+DhJmP6NdjCDpGdwUZ7AiMGdqBKfSpqSRqnOl/FX86t3nwt50rlsWZBCbFWU9XWjqHe3xfrcZln4As1sBtO4LXXUFGkx1nNg4ajn0P9NkAKbF65IQpPPiXF8bGSkFlxPW5Ze2wCAgFRn1l6Otk6WJfYRsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v0Zjwm+QeRk4J6IraXchUqYn5sasvU2NbaWpB/ykn50=;
- b=lLe9XJGRenLHZpAwVmlCizVZpxWtsW/SzkFKtqIKS5yzvk5UpxRLWlCKNf6buqi+D0cHzULNWgWYucL4WMncG0m2QiLKCLY/VaTiTnWmvSsksCWL8oABCuAR+y5j/evDWYOFhgU/UZ90/ooxvV1VYNlx9IuLeR6OdPKYI7KL+EI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6384.namprd12.prod.outlook.com (2603:10b6:930:3c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Wed, 13 Aug
- 2025 09:18:48 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
- 09:18:48 +0000
-Message-ID: <1633e373-df36-4e80-bb0f-d30a21059ef6@amd.com>
-Date: Wed, 13 Aug 2025 11:18:43 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from
- IOCTL
-To: phasta@kernel.org, simona.vetter@ffwll.ch, tvrtko.ursulin@igalia.com,
- airlied@gmail.com, dakr@kernel.org, sumit.semwal@linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <20250812143402.8619-1-christian.koenig@amd.com>
- <20250812143402.8619-2-christian.koenig@amd.com>
- <76e9e1644fd9c9cb19b7da3626cd0a579ccf3d4a.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <76e9e1644fd9c9cb19b7da3626cd0a579ccf3d4a.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0375.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A281C2EA47D;
+	Wed, 13 Aug 2025 09:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755077911; cv=none; b=iols2RSaF3sP/z5l1W5PSYJ7LkOP5AIvUzJBmFw+M9quGn9SJofndlkF4PNZQ1LnHaWVPoJd5j0I7w+e+gSqNNeO3TWql5M4RHOR+4odgC6AOoU28rEea6A4DExp6IUxOdp2Hf39RxQyqp+9T7aXtzCjSdRU1zj5hgXwjZiaztk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755077911; c=relaxed/simple;
+	bh=YLCnAto9lxjlb1FleikPRuJwGtAi6hamTiM+hzHW6oU=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=VfK7WhjLfcdXvGwv9a5chPl8Y2pJS3tSi8TETfxwg9R0GO2/6EH+LPlBtOk/cQbspM918ZmqdEUE0/QfaaqvOUdVKaquszKAIEmZupkfkWs7KciOYtB/1voThBh4JA2HkPMMwoVkOMSB8FJiTIp88C+YnkiRqSm+TPS+PB3KHl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QfN7p7cP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6mNYU008768;
+	Wed, 13 Aug 2025 09:38:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=MyLTisPZIoCY2FLdMf6R8g
+	Iy3UGjR1zk3fhAFP5kIzE=; b=QfN7p7cPSLTmf4eTstfsHnlzvLtc8XIo8HNE0H
+	ivc3TQjOTAwHbykokrCllwW1+lHUtFGbVdRZ4MTh8TTN+APu8K5mwjInkbxBqVad
+	mm0w0bw/os6mGlztyYXm4Pc3CtWOtpdNAw9taHEuUps9jdumrDEWQl9xTySrog7+
+	gy/Df/Vba5iyLQYs1lpoCfQkmIUZrKnscklcUYsjuszxBYP13ExZJAv6VvgC0Sjd
+	j4NOzq6QhVosSnR8uHHEi22px+VwEFfKnootKOS+/oAOEZqiDbpJezfWO/aOCHSO
+	PwjLnrMuoCKk4mo2GaLJXU4yXske4ZMDruMXxG2ccjkh0TPw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fem4f85t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 09:38:22 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57D9cLuB019036
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 09:38:21 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Wed, 13 Aug 2025 02:38:17 -0700
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH v2 00/24] Enable H.264/H.265 encoder support and fixes in
+ common code
+Date: Wed, 13 Aug 2025 15:07:50 +0530
+Message-ID: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6384:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2af02201-d13e-4935-e8ae-08ddda4a68e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZlBtaDlEdllPb1hCZDVIc1lJbEJjR1ZZYTh1K0FrUWc1SHN3a3dsS3NFeXVl?=
- =?utf-8?B?Z1RSakpMN29iS3RjNGprK0UvVUMxRjR1QTNwMkNPVXh4dDlkbWxUcWZFU3Q2?=
- =?utf-8?B?THVXR2FGWTBBTFV6ek0za2Z1eXY0ampYdmhPenpuZk9XWVFUS3BFVTFjTDJs?=
- =?utf-8?B?bmFOQ3pIV0RuOTZJZFBhV2dvSUQzdGl5LzdFeUhYMkJXYlpEMkQzNVFLQ2ht?=
- =?utf-8?B?Z1RFZlByeUVsZjArYjVPZVRRMENESzlzNVdwemFidlE3U2U1eEtsVE1aOGF4?=
- =?utf-8?B?WnpvZG0wL0JzUjBJOE5DYm1NZDU5a2FQTWYxaHMwZ1NBRm9KZVRWeFFBbkFF?=
- =?utf-8?B?YUdiajRPSnVXNEozOUpSZFYySTd1a0g4UGd3OVc0L3N4cC8xNm5Qc1JrZHNV?=
- =?utf-8?B?M21oRXQyNjB0MW45RUhxejlneXloNVQ2cVhabUdraXVaWmhLdVRtdkZHeG5E?=
- =?utf-8?B?dVlXMkFwdFQweEVTbFMvbFFrS0EvTEF0R0FzVFFzVlQ1SU85M3pVZld2bHpB?=
- =?utf-8?B?QW9NVWZqUmtsK2VOV01tRnFCeVpSZ1dJR1g5bkg3RGJ6cmE3ZkkrYVQ4VFc4?=
- =?utf-8?B?elNCSTBEV2RuWEhMbEFuM1dRZ0hJRmtwV1ZnMnc3bTNma0JkRnZtUzB1QkpN?=
- =?utf-8?B?ZDJDRUlqOXlveEVhQlpYdTdPcm5seXRrSDV6R0lmN1lqbWpXbmxMdzl5cnFY?=
- =?utf-8?B?cHJqOHFBM3YwSW1qNWdLUUNxTExWdngwVC9ZaElTcTdEWFZYN3VvbHZ3dTVq?=
- =?utf-8?B?c3JxNStYZEE2T3BNOEVFQzR0K2pQT01WT1h0a1hVZllNVkx4Q1pkaVZxUXhM?=
- =?utf-8?B?ZVgrMDNQUjZVUkgzbDl1dUpoejYwVWgzZzFCMU40bVk2WWYwYWQ3L1A2bEx5?=
- =?utf-8?B?UnFHVGpYdURwYStudVBzMU9BTkcrZHhHaXZrSW1kN2ZOQzhJRVVaRWI1YzRx?=
- =?utf-8?B?TmkvQndjYkVjQWVhSzNoeXFQTDYvSTN5SlROR1NsNjYrVmd2Qk5aN1YzY3A3?=
- =?utf-8?B?Um9NbEZaZjQ3STZJQ0x4c2EvRktieCsyYXRhcEk2NU5KZDFmYmhZVEhmT09x?=
- =?utf-8?B?b2U0eWtiaEtQNVkremMyMTVGVy8zbW5CWmdMVm56MFRUWS9telljUzlzZkp3?=
- =?utf-8?B?OG84OWtXVENJL1JrcjZsLytQV1ZTcU9hRTFyUzZOVGtaMWNlZ2lOK2xpcXRt?=
- =?utf-8?B?Ym5qRDFvZjZwOVltZGo3UjJld01OU2k2TjVGYU1ucGovaGM3TUo4YXBNbGRp?=
- =?utf-8?B?eEVnVzFmKzZ4TXoxMzVhNlBkRG5zV0xZblZxazU3ZmNzWjhKVTg0MTZZRElX?=
- =?utf-8?B?VjMvK2dlSkZrOEUxYWdHNm55VStjVUQwUVFtWkpCcC9VNUVidlByTW83QUZu?=
- =?utf-8?B?UWtiQ2YvSjVDNnZHUjlKZXYrQURpNGJtb0xMQzRPRTY4TWtRYmFXVUJPREZY?=
- =?utf-8?B?SnFsUSsrdUtvKzJNSzdsUjRmdzRrek9taEtpbHpSZTU3Z2VRZ0NyUXRZekRN?=
- =?utf-8?B?SG1YYm43NThaZkVGQ3NYS2pjclJCSlBEU0F0UzJxYkIxZWNOSVNqRlBQQVBG?=
- =?utf-8?B?dld0NVJZVWxNbVJ3M2FJKzZmTUtLaTZYcCtSRk45ckx0dGE3dkJLTTBEMDY2?=
- =?utf-8?B?TXd0K2hwbmx2QTlFKzdEaCtuK2hTdzB3Q1doaUVIbjd0Nk4xWTY1bkp6dUtD?=
- =?utf-8?B?Sy9FSVBIdmpFeG9aemROeHNjUjlWUnM2RXB4cTNQSXlwYnlPN1J2SjZFZkNt?=
- =?utf-8?B?WkhsMDBVL0ZuYVBOWnkwbG9jWjJRRnl6OElSMzZSeVNrLzVDa1BJSGJQUHVL?=
- =?utf-8?B?WFZDRlhmT1hpL3FFM1dHK0N1VjFvd2RtaUxnaUZ6eVNOTnV5bW5vcklmeTNi?=
- =?utf-8?B?VWdzaVVPeThRbUNueWNjNTBMM3ZESEFwb1lwUFFTcVgyN1RKbStuK21yK0gy?=
- =?utf-8?Q?b4qI0OD2xhw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z3hpZVBJd0U0ZEpKakVoWndlK3pteVdiblhrVUV0UTdsQkQ0aklSRzRDZFp2?=
- =?utf-8?B?bjhkRWZOaUFSWFpvdVVPZkE0cllRd3dRSnh4TllaK0ErL2ZOUm9wdEk5bUg3?=
- =?utf-8?B?WWFwdjk5WmdSejBlOEpxYXlNZHFJL1FFRis0K21Sd0cwUkFxaVlBUTlFR2FT?=
- =?utf-8?B?RXR5eXc2cno2SVUvTVJ0WW9lY0s3cXp2Qkw3dUp2UDlIWmFNVk9ONkhiVWda?=
- =?utf-8?B?L0ZXT3ltSElncWVuWUg2ZThsVXBVOVNFY0VBajhwSVhXWFVnNzdTNy9zZmVx?=
- =?utf-8?B?aDBockh4MWphV3FCY2RhZVpDRnNSVDBVOENHTWxKd3JRWVIrejNjK2tTcEo4?=
- =?utf-8?B?a0Jac0JyMGRqNXAxVUhZUEJHZ2xDYndLdUw5bjRGQUUweXhub1R5Z3NibVZp?=
- =?utf-8?B?SWIveFlYbXRVbTkvVlFESFNEc2kxV3NGR3NHUUZDK2dUaE5XRVpYVGtPWHVB?=
- =?utf-8?B?RGRVcTdTZVNmK2EzSGdCQ05HSHdIYm1Qa0RuUEVDSEc3NGd5MEhMblBzWW1P?=
- =?utf-8?B?ZzBBWHFBNFdiNEF5Rmw1bGIxSDBXOHdTTHNVRWNET2ZQbEtkTG1EVnd3U0I0?=
- =?utf-8?B?WG0xb0FqZENpQWl5Ynl3MURiNk1TbTlITG44emgzVGJZQ00ycVBRdkppa3k0?=
- =?utf-8?B?N0JJSTladERLOE5XRWRFdU5qd0RTZXBjZmg1eW1Yd2h6ZUpjM1laUkpxaE9x?=
- =?utf-8?B?MXBkU2JSak5GS0hVdm9MQjZnSHN5OW1OVXVtTEY0TFd3Z3NqN2RuOFpITlBq?=
- =?utf-8?B?aDI5RC9leFVsa3BJVFUyMXA4SkVEckVEZnIxbktPNUxWWS81N2poZ25yc29t?=
- =?utf-8?B?anRQUzhyUkJkY2lKajUxUmRFRE1LNFNlemtLOTNGVHRPMzNtRm0ycHZ4dW04?=
- =?utf-8?B?ckZXUUNsVlBjQXFRUzAyRVFDRTdCNzlvVitBOE0ydjNuWkQvWCt6ZnlQeXlQ?=
- =?utf-8?B?RzhRT2pvYlNNVUJJVDQvemJFc0FlZkZIS0F1RTdmdEJ1TVp3cmE4dzVPUVlG?=
- =?utf-8?B?WG1XUXFjVXJyRlFHcTBvZXREMjAxU2FDaVc1RnIvOWFXekFwaEszOWVueFZK?=
- =?utf-8?B?dlhHWTBQdFNaTElVcVB2N285S0Z3Q1VLL3F2b09VSUxRR3VhZWdweDF1aE1Y?=
- =?utf-8?B?Qkp4eWlMVGNWRDN4cjV3MUV2YW90cTUrQWhRR0JzSXRKMHZYczB1WEdGbnFR?=
- =?utf-8?B?TnVEOTRrb0RwVHBtaXZmRmVvQlJ0Y2RKSWdNTjRiZGswNVF6MlNjL013VkRD?=
- =?utf-8?B?QmhncU0rcnRkSHdaTWlGa3c1ZjloMjlRdHQ5M25zZC9zT05ZVkxKb1ExbjY1?=
- =?utf-8?B?V3pGMG1RZGpyeEplNkVVZS9FbVBFZjVQWmo2OEpmNTNqVkQ4TmlqcmVKUTZa?=
- =?utf-8?B?UGpCbkhzZHlzNU5Damh5U3RaMXNQUGZoUysyN2ZSYkQ3RXViaTFvU1NYYXBT?=
- =?utf-8?B?SVBXOEpEQWlybTZ6Rmh0VnQ3dEplS3pZYWZodGZUVU9LbnpKNTFDL2dTcmR0?=
- =?utf-8?B?bWV6ZUlNVlRsbnpYcnVFckFhS1hGRVdtbGgyOUZqZ1Vsc2UxVFhnS3lvdTNi?=
- =?utf-8?B?S0ZXNldSU3NSR0tlV1VYQnhtemRqbU0wdk92eDlxczRvOEppNnlwbFpDWGpE?=
- =?utf-8?B?TDZDMzllWlBDYkRWazI1a3dBYjk3aHVEVnlWSklvZlBKb0p2dCtuU0dubkRM?=
- =?utf-8?B?OWtRSTkxc3VEcWNiZG5TNk9qais4RGptaGo3ZzYyZkZlZVY2a0p6SDBCNFVQ?=
- =?utf-8?B?UlNsbUZmSkV0WE8zTUdpRkxZNGdXd2RTVzcxSVZSQnkrUHRYWTdIYTltcHFm?=
- =?utf-8?B?WUxXMzdGTjVMZFZtSjJGVHhVUEdpQ2wvRnRQa2RWVlFmMXdyOGlyUllDU3Fh?=
- =?utf-8?B?dm9Cb1FwVFNkN2I4bWRrT0NDanZwSUY0QWJUdTRxNEEvY1g1SkFEbGtEaUZo?=
- =?utf-8?B?d0FPOHFuWVg2aFdtblVRVU5MMWJrb0tlazZBSHVoRzVhc3lOWVdxbFRXeE9w?=
- =?utf-8?B?WEZOMk1HbHZGOGE2U3ZmWS9wck5NaUx1OTBPOGFadURwSnNOSlZKcGphSWE3?=
- =?utf-8?B?emhZajE3a01COFQxUzExV2NiTksrRjVyUmVjQ1pvam45U1JpWFBXeUdCVGE2?=
- =?utf-8?Q?RKTTfup+a7pLYz9mSYthkCPCD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2af02201-d13e-4935-e8ae-08ddda4a68e9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:18:48.1727
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SDAmQZw+2HUf1xsnIZ5pErCF2ROAPMLxA4U5qHp059/Sdhnj1tez+/LbreBnduQR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6384
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO9cnGgC/32NQQ6CMBBFr0Jm7ZjSglVX3sOwoMMgs7DFVhsN4
+ e5WDuDyveS/v0DiKJzgXC0QOUuS4AvoXQU09f7GKENh0Eq3yqoGJUrCLAMHZE9h4IiuPhnTKtc
+ cbQ9lOEce5b1Fr13hSdIzxM/2keuf/ZvLNSp0B2LdsLaGxsvjJSSe9hTu0K3r+gVhDlTZtgAAA
+ A==
+X-Change-ID: 20250704-iris-video-encoder-b193350b487a
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar
+	<abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil
+	<hverkuil@xs4all.nl>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        "Vedang
+ Nagar" <quic_vnagar@quicinc.com>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Renjiang Han <quic_renjiang@quicinc.com>,
+        Wangao Wang <quic_wangaow@quicinc.com>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755077895; l=14921;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=YLCnAto9lxjlb1FleikPRuJwGtAi6hamTiM+hzHW6oU=;
+ b=YkMpNCqich5Y2Q3NRFGSqHlqgquLSoxhwbSDsc/oGeMisXgaHKomiO5I4A8G8I53M6neMYVUk
+ tf3z50SdG9uAhS0GXH7AOgbOuhTqaJH3qIe/NQu4Gtg/fk8bDsgn0dT
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: QRXMvNBoR8X-1R4ZFsLkVQDFOAUXJhrV
+X-Proofpoint-ORIG-GUID: QRXMvNBoR8X-1R4ZFsLkVQDFOAUXJhrV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA2OCBTYWx0ZWRfX6I7mkqNMcnKK
+ yFItbcBVVK8vlw9jxFU7RwArCvpMkDNu29cvT74BGQO40rYln3ENemL2oSfF9Xej3kP1QdBFmA2
+ elR67UvWGWyPdYbZizwQXVhYWNndm0t/XaSd1aVGVjeP9iWgHxfUu/t36Lp/Uky4uvyeQrGw97X
+ iU2uCbGtEJpD1KkVzHAvoT+eMSDYyRccNf2ufwOIxn75jigdDBnSpqjr+MOA6mb51Po4/MkhqKm
+ TJhDMcLcQcbgiO55HcnrG3yY016LORT/sqaEZPtGNY2p5nSh4DhJBzzYCC8zIUkWH9n50w4qmQH
+ lqDvQuf2Ol2HLeCE3QuKwFyxNB603Ug0mQIQxFEfRLRm1j7/rHsa48eEKzSTCPv4X75uSIAgpGK
+ ANNY/MQL
+X-Authority-Analysis: v=2.4 cv=YMafyQGx c=1 sm=1 tr=0 ts=689c5d0e cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=CDV9YodVZmp-j6WmXcwA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 priorityscore=1501 spamscore=0 suspectscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508110068
 
-On 13.08.25 10:16, Philipp Stanner wrote:
-> On Tue, 2025-08-12 at 16:34 +0200, Christian König wrote:
->> From: Christian König <ckoenig@able.fritz.box>
-> 
-> Is this the correct mail addr? :)
+Hi All,
 
-^^ No it isn't and how the heck did that happen?
+This patch series adds support for H.264 and H.265 encoder in iris 
+driver and includes a few fixes and cleanup in the common code that were 
+identified during encoder bring-up process.
 
-Looks like my gitconfig is somehow changed, but I have no idea why.
+The changes include:
+- Enabling support for H.264 and H.265 encoding.
+- Fixes and improvements in shared componenets used by both encoder and 
+decoder paths.
+- Ensuring compatibility and stability with the existing decoder flow.
 
->>
->> We have the re-occurring problem that people try to invent a
->> DMA-fences implementation which signals fences based on an userspace
->> IOCTL.
->>
->> This is well known as source of hard to track down crashes and is
->> documented to be an invalid approach. The problem is that it seems
->> to work during initial testing and only long term tests points out
->> why this can never work correctly.
->>
->> So give at least a warning when people try to signal a fence from
->> task context and not from interrupts or a work item. This check is
->> certainly not perfect but better than nothing.
->>
->> Signed-off-by: Christian König <ckoenig@able.fritz.box>
->> ---
->>  drivers/dma-buf/dma-fence.c | 59 +++++++++++++++++++++++++++----------
->>  include/linux/dma-fence.h   |  9 ++++--
->>  2 files changed, 51 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index 3f78c56b58dc..2bce620eacac 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -345,33 +345,23 @@ void __dma_fence_might_wait(void)
->>  }
->>  #endif
->>  
->> -
->>  /**
->> - * dma_fence_signal_timestamp_locked - signal completion of a fence
->> + * dma_fence_signal_internal - internal signal completion of a fence
->>   * @fence: the fence to signal
->>   * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
->>   *
->> - * Signal completion for software callbacks on a fence, this will unblock
->> - * dma_fence_wait() calls and run all the callbacks added with
->> - * dma_fence_add_callback(). Can be called multiple times, but since a fence
->> - * can only go from the unsignaled to the signaled state and not back, it will
->> - * only be effective the first time. Set the timestamp provided as the fence
->> - * signal timestamp.
->> - *
->> - * Unlike dma_fence_signal_timestamp(), this function must be called with
->> - * &dma_fence.lock held.
->> + * Internal signal the dma_fence without error checking. Should *NEVER* be used
->> + * by drivers or external code directly.
-> 
-> s/Internal/Internally
-> 
->>   *
->>   * Returns 0 on success and a negative error value when @fence has been
->>   * signalled already.
->>   */
->> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->> -				      ktime_t timestamp)
->> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp)
->>  {
->>  	struct dma_fence_cb *cur, *tmp;
->>  	struct list_head cb_list;
->>  
->>  	lockdep_assert_held(fence->lock);
->> -
->>  	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>  				      &fence->flags)))
->>  		return -EINVAL;
->> @@ -390,7 +380,46 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>  
->>  	return 0;
->>  }
->> -EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
->> +EXPORT_SYMBOL(dma_fence_signal_internal);
-> 
-> If it must only be used internally, can it be kept private, without
-> exporting the symbol?
+Changes in v2:
+- Fixed sparse/coccinnelle issues.
+- Fixed the kernel doc warning.
+- Removed unsupported PEAK_BITRATE property from SM8250.
+- Dropped patch 04/25 to fix quality issue with encoder.
+- Enhanced command handling for encoder to allow start/stop commands.
+- Expanded rate control condition checks to include additional rate
+  control types for HFI Gen2.
+- Updated default value to MAX_QP for all caps related to max QP settings.
+- Add support for INPUT/OUTPUT_BUF_HOST_MAX_COUNT caps for encoder.
+- Link to v1: https://lore.kernel.org/r/20250704-iris-video-encoder-v1-0-b6ce24e273cf@quicinc.com
 
-I have gone back and force about that as well.
+All patches have been tested with v4l2-compliance, v4l2-ctl and 
+Gstreamer on SM8250 and SM8550 for encoder, at the same time ensured 
+that the existing decoder functionality remains uneffected.
 
-We would then need to uninline dma_fence_is_signaled().
+Commands used for V4l2-ctl validation:
 
->> +
->> +/**
->> + * dma_fence_signal_timestamp_locked - signal completion of a fence
->> + * @fence: the fence to signal
->> + * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
->> + *
->> + * Signal completion for software callbacks on a fence, this will unblock
->> + * dma_fence_wait() calls and run all the callbacks added with
->> + * dma_fence_add_callback(). Can be called multiple times, but since a fence
->> + * can only go from the unsignaled to the signaled state and not back, it will
->> + * only be effective the first time. Set the timestamp provided as the fence
->> + * signal timestamp.
->> + *
->> + * Unlike dma_fence_signal_timestamp(), this function must be called with
->> + * &dma_fence.lock held.
->> + *
->> + * Returns 0 on success and a negative error value when @fence has been
->> + * signalled already.
->> + */
->> +int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->> +				      ktime_t timestamp)
->> +{
->> +	/*
->> +	 * We have the re-occurring problem that people try to invent a
->> +	 * DMA-fences implementation which signals fences based on an userspace
->> +	 * IOCTL.
->> +	 *
->> +	 * This is well known as source of hard to track down crashes and is
->> +	 * documented to be an invalid approach. The problem is that it seems
->> +	 * to work during initial testing and only long term tests points out
->> +	 * why this can never work correctly.
->> +	 *
->> +	 * So give at least a warning when people try to signal a fence from
->> +	 * task context and not from interrupts or a work item. This check is
->> +	 * certainly not perfect but better than nothing.
->> +	 */
->> +	WARN_ON_ONCE(!in_interrupt() && !current_work());
->> +	return dma_fence_signal_internal(fence, timestamp);
->> +}
-> 
-> So this now is the point to decide what we want: do you want to *allow*
-> drivers to do it, or want to *prohibit* it?
-> 
-> If you want to prohibit it, then (additionally) returning an error code
-> here would make sense.
+v4l2-ctl --verbose --set-fmt-video-out=width=1280,height=720,pixelformat=NV12
+--set-selection-output target=crop,top=0,left=0,width=1280,height=720
+--set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap
+--stream-from=/media/cyclists_1280x720_92frames.yuv
+--stream-to=/tmp/cyclists_1280x720_92frames.h264 -d /dev/video1
 
-I'm actually trying to remove the return value for quite a while now.
+v4l2-ctl --verbose --set-fmt-video-out=width=1280,height=720,pixelformat=NV12
+--set-selection-output target=crop,top=0,left=0,width=1280,height=720
+--set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap
+--stream-from=/media/cyclists_1280x720_92frames.yuv
+--stream-to=/tmp/cyclists_1280x720_92frames.hevc -d /dev/video1
 
-IIRC nobody is actually using it any more since it doesn't really signal an error condition.
+Commands used for GST validation:
+
+gst-launch-1.0 -v filesrc location=/media/cyclists_1280x720_92frames.yuv !
+rawvideoparse format=nv12 width=1280 height=720 framerate=30/1 ! v4l2h264enc
+capture-io-mode=4 output-io-mode=4 ! filesink sync=true
+location=/tmp/gst_cyclists_1280x720_92frames.h264
+
+gst-launch-1.0 -v filesrc location=/media/cyclists_1280x720_92frames.yuv !
+rawvideoparse format=nv12 width=1280 height=720 framerate=30/1 ! v4l2h265enc
+capture-io-mode=4 output-io-mode=4 ! filesink sync=true
+location=/tmp/gst_cyclists_1280x720_92frames.hevc
+
+The result of v4l2-compliance on SM8550:
+v4l2-compliance 1.29.0-5270, 64 bits, 64-bit time_t
+v4l2-compliance SHA: dc947661089e 2024-11-11 10:25:38
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Encoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.16.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 37 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, CREATE_BUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+The result of v4l2-compliance on SM8250:
+v4l2-compliance 1.29.0-5270, 64 bits, 64-bit time_t
+v4l2-compliance SHA: dc947661089e 2024-11-11 10:25:38
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Encoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.16.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 19 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, CREATE_BUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+Looking forward to your review and feedback.
 
 Thanks,
-Christian.
+Dikshita
 
-> 
-> 
-> P.
-> 
->>  
->>  /**
->>   * dma_fence_signal_timestamp - signal completion of a fence
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index 64639e104110..8dbcd66989b8 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -369,6 +369,7 @@ int dma_fence_signal_locked(struct dma_fence *fence);
->>  int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
->>  int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>  				      ktime_t timestamp);
->> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp);
->>  signed long dma_fence_default_wait(struct dma_fence *fence,
->>  				   bool intr, signed long timeout);
->>  int dma_fence_add_callback(struct dma_fence *fence,
->> @@ -422,7 +423,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->>  		return true;
->>  
->>  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
->> -		dma_fence_signal_locked(fence);
->> +		dma_fence_signal_internal(fence, ktime_get());
->>  		return true;
->>  	}
->>  
->> @@ -448,11 +449,15 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->>  static inline bool
->>  dma_fence_is_signaled(struct dma_fence *fence)
->>  {
->> +	unsigned long flags;
->> +
->>  	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>  		return true;
->>  
->>  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
->> -		dma_fence_signal(fence);
->> +		spin_lock_irqsave(fence->lock, flags);
->> +		dma_fence_signal_internal(fence, ktime_get());
->> +		spin_unlock_irqrestore(fence->lock, flags);
->>  		return true;
->>  	}
->>  
-> 
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Dikshita Agarwal (24):
+      media: iris: Fix buffer count reporting in internal buffer check
+      media: iris: Report unreleased PERSIST buffers on session close
+      media: iris: Fix memory leak by freeing untracked persist buffer
+      media: iris: Fix port streaming handling
+      media: iris: Allow substate transition to load resources during output streaming
+      media: iris: Always destroy internal buffers on firmware release response
+      media: iris: Update vbuf flags before v4l2_m2m_buf_done
+      media: iris: Allow stop on firmware only if start was issued.
+      media: iris: Send dummy buffer address for all codecs during drain
+      media: iris: Fix missing LAST flag handling during drain
+      media: iris: Add support for video encoder device
+      media: iris: Initialize and deinitialize encoder instance structure
+      media: iris: Add support for ENUM_FMT, S/G/TRY_FMT encoder
+      media: iris: Add support for ENUM_FRAMESIZES/FRAMEINTERVALS for encoder
+      media: iris: Add support for VIDIOC_QUERYCAP for encoder video device
+      media: iris: Add encoder support for V4L2 event subscription
+      media: iris: Add support for G/S_SELECTION for encoder video device
+      media: iris: Add support for G/S_PARM for encoder video device
+      media: iris: Add platform-specific capabilities for encoder video device
+      media: iris: Add V4L2 streaming support for encoder video device
+      media: iris: Set platform capabilities to firmware for encoder video device
+      media: iris: Allocate and queue internal buffers for encoder video device
+      media: iris: Add support for buffer management ioctls for encoder device
+      media: iris: Add support for drain sequence in encoder video device
+
+ drivers/media/platform/qcom/iris/Makefile          |   5 +-
+ drivers/media/platform/qcom/iris/iris_buffer.c     | 220 ++++--
+ drivers/media/platform/qcom/iris/iris_buffer.h     |   7 +-
+ drivers/media/platform/qcom/iris/iris_common.c     | 232 ++++++
+ drivers/media/platform/qcom/iris/iris_common.h     |  18 +
+ drivers/media/platform/qcom/iris/iris_core.h       |  20 +-
+ drivers/media/platform/qcom/iris/iris_ctrls.c      | 675 +++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_ctrls.h      |  15 +
+ drivers/media/platform/qcom/iris/iris_hfi_common.h |   2 +-
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     | 485 +++++++++---
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     | 112 ++-
+ .../platform/qcom/iris/iris_hfi_gen1_response.c    |  60 +-
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     | 357 ++++++---
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  44 +-
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    |  46 +-
+ drivers/media/platform/qcom/iris/iris_instance.h   |  24 +
+ .../platform/qcom/iris/iris_platform_common.h      |  74 +-
+ .../media/platform/qcom/iris/iris_platform_gen2.c  | 522 ++++++++++++-
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 352 ++++++++-
+ .../platform/qcom/iris/iris_platform_sm8250.c      | 234 +++++-
+ drivers/media/platform/qcom/iris/iris_probe.c      |  39 +-
+ drivers/media/platform/qcom/iris/iris_state.c      |   9 +-
+ drivers/media/platform/qcom/iris/iris_state.h      |   1 +
+ drivers/media/platform/qcom/iris/iris_utils.c      |  36 +
+ drivers/media/platform/qcom/iris/iris_utils.h      |   2 +
+ drivers/media/platform/qcom/iris/iris_vb2.c        |  58 +-
+ drivers/media/platform/qcom/iris/iris_vdec.c       | 249 +-----
+ drivers/media/platform/qcom/iris/iris_vdec.h       |  13 +-
+ drivers/media/platform/qcom/iris/iris_venc.c       | 579 ++++++++++++++
+ drivers/media/platform/qcom/iris/iris_venc.h       |  27 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       | 299 +++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 847 ++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  20 +
+ 33 files changed, 4970 insertions(+), 713 deletions(-)
+---
+base-commit: c26e8dcd9d4e86d788c5bf7a5dd0ea70a95ab067
+change-id: 20250704-iris-video-encoder-b193350b487a
+
+Best regards,
+-- 
+Dikshita Agarwal <quic_dikshita@quicinc.com>
 
 
