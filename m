@@ -1,59 +1,107 @@
-Return-Path: <linux-media+bounces-39827-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39828-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B79DB25400
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:35:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5DD3B2540F
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:46:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C85E56803A
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 19:35:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 321D21C28377
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 19:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C2201DF725;
-	Wed, 13 Aug 2025 19:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06CC584E07;
+	Wed, 13 Aug 2025 19:46:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wcq2HCjH"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="f9YHsGSx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7F42F99AD;
-	Wed, 13 Aug 2025 19:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755113744; cv=none; b=i9LHa7Ndk/22i742o57w+Q9AUlxYC3IKOQDdNdpsEfLsLO01HpNjaLn37d7KD2rv0zY9+g9LMaaHJRgaGuXdK/QAVTKoBsFrJO2ichKl7Ca0l/YWghqoqC5Rt+puvKb9PZDHbeV34l1n+Q/3Qd3dv0oW9wc4Mw68ipYbRFR+8AA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755113744; c=relaxed/simple;
-	bh=bMbVsAZq2NrrBqQmP/DM8qoB7Sl1vzylaZcuXmtKzE0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1FB2F9984
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 19:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755114369; cv=pass; b=hAMJKo8UdVq8+dqrbd9oqcgrUVwtrnJk26OucMvd09n/1Oxz/kP5HdSZ+/ajy2RBtjnVEYSo4Z9sKSuNw65KqzkMSEBqNo561CZbwpLZbntk0Y6ckA/mJIzujC2ECFiouEgfw6603krjKH2oCkOFNnjk4mlYJwlg+JlIyOumk6U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755114369; c=relaxed/simple;
+	bh=+KhYp1URurjTSWBb9BdbJUik6KSIdwJiwZAufDr5ZOU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SGRRaKKWCjgH3RbTvp4HPsmdyO3ZDCZUWBda5vTKa2FyKSa1OfRD1w9yc+tyle4iuhaZRd18gbRniKQXR067d9XzmuM7yoCyaKwfY2InjQRjQKVQREyFMPBwbMybp8cy0kRZhp6RkJU64fo1AHa1lCKdH2fqWwbk0WRMhV0B5ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wcq2HCjH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D67D97E0;
-	Wed, 13 Aug 2025 21:34:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755113685;
-	bh=bMbVsAZq2NrrBqQmP/DM8qoB7Sl1vzylaZcuXmtKzE0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wcq2HCjH9AWWCIS+E6EzXB2ch4JiYLkTpyJwgUciSK9fuyp7nr/j53W7XCAp4UvIw
-	 gc0M2Y+ZcVq8ocfsYz8f8CSBTMZj2QePzlJwcw0vfIFQG7GyHVSkWV6phpyYIXskPY
-	 ycmbykTLw3qFxtD3NHL+FNWYLQdfQr8YiNXMNwZE=
-Date: Wed, 13 Aug 2025 22:35:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: nxp: imx8-isi: fix streaming cleanup on release
-Message-ID: <20250813193519.GA5740@pendragon.ideasonboard.com>
-References: <20250709-imx8-isi-release-fix-v1-1-c47c659ce1a6@linux.dev>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ntQn0wP8D985G/iqQPHY4D218ICQ2JGe3EkK5SD/JesqLDSINxnQzHr9KGSinzUwEsAh0AElEnBBrqt2g/yU4LHHqd12xWOpJUj+dH6g8EuLjFhnGctu62TABYHTd2cdwgvBmOblL8sMcvYWzRxb4cAAjZmHdn+2MJZpE8ZS4wA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=f9YHsGSx; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4c2JlF6LVWzyQx;
+	Wed, 13 Aug 2025 22:46:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1755114363;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gAajVmweKJ6gWmyFn2Y+3h6ejiKMytJq+h7yu3wwKBY=;
+	b=f9YHsGSxCQOwMwGgYH/cfXQo2bZOeiyeTbmENCTNt+IpwVERVSpsQcab0j9mfy976br2gC
+	Y8RniI9VpMHjysMT/NuW40ewg1rWOjtzp3XDmBWt3XxFPZlZI9DEqR5RxA54nLFGCl2XO+
+	Fq9XrL3iGfrWNdvB+ChoM1PuA382Dtk=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1755114363; a=rsa-sha256; cv=none;
+	b=gkzgEe2aksV0vO34onLZB9MJFM4/RogqtDvDnFXJ9eCO0iCCWc2+67BJQVtpDqlnxeyYqZ
+	biRWOPQb3w4APUltLpHvBksFoyMoKGj7uSnCO3QIDrCUAoe+uMhz3FTm83VMsgDlUea8x1
+	3VvlIibPJjmz5wcp5ubeyT3C+teO0dE=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1755114363;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gAajVmweKJ6gWmyFn2Y+3h6ejiKMytJq+h7yu3wwKBY=;
+	b=pUK63Ah32MchOuAUYKD60LzEsuzd1ZkYMhkOqAkkAU4RejDtYiLjXuC95LYEa/17DAQ6jZ
+	tgAAfMbN8pGMFzynsA9ZHyMKlKaBUAsaPSHKrjAeQ7eL3web16Z1gUe2CARTpZ2GxHHDKi
+	kwRnR8yW4ZwrTUDprrCvdiYoJMuYlgY=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4F9B2634C93;
+	Wed, 13 Aug 2025 22:45:11 +0300 (EEST)
+Date: Wed, 13 Aug 2025 19:45:11 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com,
+	arnd@arndb.de, alain.volmat@foss.st.com, andrzej.hajda@intel.com,
+	benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com,
+	hansg@kernel.org, jacopo.mondi@ideasonboard.com,
+	kieran.bingham@ideasonboard.com, khalasa@piap.pl, mani@kernel.org,
+	m.felsch@pengutronix.de, matthias.fend@emfend.at,
+	mchehab@kernel.org, michael.riesch@collabora.com,
+	naush@raspberrypi.com, nicholas@rothemail.net,
+	nicolas.dufresne@collabora.com, paul.elder@ideasonboard.com,
+	dan.scally@ideasonboard.com, pavel@kernel.org, rashanmu@gmail.com,
+	ribalda@chromium.org, slongerbeam@gmail.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 01/48] media: v4l2-common: Add a helper for obtaining
+ the clock producer
+Message-ID: <aJzrR8Nwy9u7-6Yo@valkosipuli.retiisi.eu>
+References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
+ <8ecbcafbd91b25ad5e188dbe127b921a1643027e.1750942967.git.mehdi.djait@linux.intel.com>
+ <cd5ac9a7-ada2-4bdf-bc81-8290f0eb88d6@kernel.org>
+ <aJyMOEs9UeiudvXh@valkosipuli.retiisi.eu>
+ <20250813130831.GG20174@pendragon.ideasonboard.com>
+ <70ef88ba-b7b0-488c-a5d7-f90421a1bfda@kernel.org>
+ <aJymFgQQcIZVk2jX@kekkonen.localdomain>
+ <46b76530-023f-4f36-bec3-1d3ab79c682c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,126 +110,153 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250709-imx8-isi-release-fix-v1-1-c47c659ce1a6@linux.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <46b76530-023f-4f36-bec3-1d3ab79c682c@kernel.org>
 
-Hi Richard,
+Hi Hans,
 
-Thank you for the patch. I'm going through my imx8-isi backlog, sorry it
-took so long.
+On Wed, Aug 13, 2025 at 05:14:42PM +0200, Hans Verkuil wrote:
+> On 13/08/2025 16:49, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Wed, Aug 13, 2025 at 03:23:18PM +0200, Hans Verkuil wrote:
+> >> On 13/08/2025 15:08, Laurent Pinchart wrote:
+> >>> On Wed, Aug 13, 2025 at 12:59:36PM +0000, Sakari Ailus wrote:
+> >>>> On Wed, Aug 13, 2025 at 12:15:29PM +0200, Hans Verkuil wrote:
+> >>>>> On 26/06/2025 15:33, Mehdi Djait wrote:
+> >>>>>> Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
+> >>>>>> platforms to retrieve a reference to the clock producer from firmware.
+> >>>>>>
+> >>>>>> This helper behaves the same as devm_clk_get() except where there is
+> >>>>>> no clock producer like in ACPI-based platforms.
+> >>>>>>
+> >>>>>> For ACPI-based platforms the function will read the "clock-frequency"
+> >>>>>> ACPI _DSD property and register a fixed frequency clock with the frequency
+> >>>>>> indicated in the property.
+> >>>>>>
+> >>>>>> This function also handles the special ACPI-based system case where:
+> >>>>>> The clock-frequency _DSD property is present.
+> >>>>>> A reference to the clock producer is present, where the clock is provided
+> >>>>>> by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
+> >>>>>> In this case try to set the clock-frequency value to the provided clock.
+> >>>>>
+> >>>>> On irc I wondered about the name of the new function since it is sensor
+> >>>>> specific, and if it can also be used for e.g. video receivers, then it
+> >>>>> should be renamed to something more generic.
+> >>>>>
+> >>>>> According to Laurent there is no ACPI standard for video receivers, so
+> >>>>> that's the reason this is sensor specific.
+> >>>>>
+> >>>>> I'd like to see that documented in this patch. Either in the commit log,
+> >>>>> or, preferred, in the header in the function description.
+> >>>>
+> >>>> Given this patch has been around for quite some time and I've sent a PR on
+> >>>> it, I'd prefer to proceed with the current PR. I'm fine with adding more
+> >>>> documentation though if you think we should do that.
+> >>>
+> >>> How about a separate patch that Hans can merge just on top of your PR ?
+> >>> Could you send one ?
+> >>
+> >> I'd like to have the rationale of why this is a sensor-only function
+> >> documented. If I wondered about that, then someone else will likely have
+> >> the same question.
+> >>
+> >>>
+> >>>>> I made a suggestion below.
+> >>>>>
+> >>>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>>>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>>>> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> >>>>>> ---
+> >>>>>>  drivers/media/v4l2-core/v4l2-common.c | 52 +++++++++++++++++++++++++++
+> >>>>>>  include/media/v4l2-common.h           | 27 ++++++++++++++
+> >>>>>>  2 files changed, 79 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> >>>>>
+> >>>>> <snip>
+> >>>>>
+> >>>>>> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> >>>>>> index 0a43f56578bc..1c79ca4d5c73 100644
+> >>>>>> --- a/include/media/v4l2-common.h
+> >>>>>> +++ b/include/media/v4l2-common.h
+> >>>>>> @@ -100,6 +100,7 @@ int v4l2_ctrl_query_fill(struct v4l2_queryctrl *qctrl,
+> >>>>>>  struct v4l2_device;
+> >>>>>>  struct v4l2_subdev;
+> >>>>>>  struct v4l2_subdev_ops;
+> >>>>>> +struct clk;
+> >>>>>>  
+> >>>>>>  /* I2C Helper functions */
+> >>>>>>  #include <linux/i2c.h>
+> >>>>>> @@ -620,6 +621,32 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
+> >>>>>>  			     unsigned int num_of_driver_link_freqs,
+> >>>>>>  			     unsigned long *bitmap);
+> >>>>>>  
+> >>>>>> +/**
+> >>>>>> + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to a clock producer
+> >>>>>> + *	for a camera sensor.
+> >>>>>> + *
+> >>>>>> + * @dev: device for v4l2 sensor clock "consumer"
+> >>>>>> + * @id: clock consumer ID
+> >>>>>> + *
+> >>>>>> + * This function behaves the same way as devm_clk_get() except where there
+> >>>>>> + * is no clock producer like in ACPI-based platforms.
+> >>>>>> + *
+> >>>>>> + * For ACPI-based platforms, the function will read the "clock-frequency"
+> >>>>>> + * ACPI _DSD property and register a fixed-clock with the frequency indicated
+> >>>>>> + * in the property.
+> >>>>>> + *
+> >>>>>> + * This function also handles the special ACPI-based system case where:
+> >>>>>> + *
+> >>>>>> + * * The clock-frequency _DSD property is present.
+> >>>>>> + * * A reference to the clock producer is present, where the clock is provided
+> >>>>>> + *   by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
+> >>>>>> + *
+> >>>>>> + * In this case try to set the clock-frequency value to the provided clock.
+> >>>>>
+> >>>>>     *
+> >>>>>     * While ACPI has standardized sensor support, there is no standard support for
+> >>>>>     * e.g. video receivers. So this function is specific to sensors, hence the
+> >>>>>     * chosen function name.
+> >>>>>
+> >>>>> Better suggestions are welcome.
+> >>>>
+> >>>> ACPI itself does not standardise camera sensor support. What driver authors
+> >>>
+> >>> But there's a de facto standard that makes this helper function
+> >>> suitable, isn't there ?
+> >>>
+> >>>> should know indeed is that this function provides a clock that can be at
+> >>>> least queried for frequency, independently of how that clock is controlled
+> >>>> or how its frequency is configured.
+> >>>>
+> >>>> How about:
+> >>>>
+> >>>>  * This function may be used in camera sensor drivers only.
+> >>
+> >> That just restates what is also in the function name. It's the 'why' that I'd
+> >> like to know. Even if you simply don't know if this will work for non-sensor
+> >> driver, just stating that will help.
+> > 
+> > As I replied on #linux-media:
+> > 
+> > devm_v4l2_sensor_clk_get() in practice provides a clock to camera sensors
+> > which is what they need; other types of devices generally don't care much
+> > about clocks. Why camera sensors are special is that they have a PLL and a
+> > CSI-2 RX the configuration of which depend on the external clock.
+> > 
+> > Is something like this what you're looking for, or something more
+> > elaborate? There are different ways the clock can be obtained but I'm not
+> > sure we'll need to go to that in the function documentation.
+> > 
+> 
+> Yes, that's sufficient. If you can make a patch adding that, then I'll add it
+> to the PR. No need to make a new PR for this, I can just add it myself.
 
-On Wed, Jul 09, 2025 at 04:57:03PM +0200, Richard Leitner wrote:
-> The current implementation unconditionally calls
-> mxc_isi_video_cleanup_streaming() in mxc_isi_video_release(). This can
-> lead to situations where any release call (like from a simple
-> "v4l2-ctl -l") may release a currently streaming queue when called on
-> such a device.
-
-Oops.
-
-> Address this issue by calling mxc_isi_video_cleanup_streaming() only if
-> the queue owner is NULL (which is set by vb2_fop_release() when called
-> by the current owner).
-> 
-> This was reproducible on an i.MX8MP board by streaming from an ISI
-> capture device using gstreamer:
-> 
-> 	gst-launch-1.0 -v v4l2src device=/dev/videoX ! \
-> 	    video/x-raw,format=GRAY8,width=1280,height=800,framerate=1/120 ! \
-> 	    fakesink
-> 
-> While this stream is running, querying the caps of the same device
-> provokes the error state:
-> 
-> 	v4l2-ctl -l -d /dev/videoX
-> 
-> This resulted in the following trace:
-> 
-> [  155.452152] ------------[ cut here ]------------
-> [  155.452163] WARNING: CPU: 0 PID: 1708 at /drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c:713 mxc_isi_pipe_irq_handler+0x19c/0x1b0 [imx8_isi]
-> [  157.004248] Modules linked in: cfg80211 rpmsg_ctrl rpmsg_char rpmsg_tty virtio_rpmsg_bus rpmsg_ns rpmsg_core rfkill nft_ct nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables mcp251x6
-> [  157.053499] CPU: 0 UID: 0 PID: 1708 Comm: python3 Not tainted 6.15.4-00114-g1f61ca5cad76 #1 PREEMPT
-> [  157.064369] Hardware name: imx8mp_board_01 (DT)
-> [  157.068205] pstate: 400000c5 (nZcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  157.075169] pc : mxc_isi_pipe_irq_handler+0x19c/0x1b0 [imx8_isi]
-> [  157.081195] lr : mxc_isi_pipe_irq_handler+0x38/0x1b0 [imx8_isi]
-> [  157.087126] sp : ffff800080003ee0
-> [  157.090438] x29: ffff800080003ee0 x28: ffff0000c3688000 x27: 0000000000000000
-> [  157.097580] x26: 0000000000000000 x25: ffff0000c1e7ac00 x24: ffff800081b5ad50
-> [  157.104723] x23: 00000000000000d1 x22: 0000000000000000 x21: ffff0000c25e4000
-> [  157.111866] x20: 0000000060000200 x19: ffff80007a0608d0 x18: 0000000000000000
-> [  157.119008] x17: ffff80006a4e3000 x16: ffff800080000000 x15: 0000000000000000
-> [  157.126146] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-> [  157.133287] x11: 0000000000000040 x10: ffff0000c01445f0 x9 : ffff80007a053a38
-> [  157.140425] x8 : ffff0000c04004b8 x7 : 0000000000000000 x6 : 0000000000000000
-> [  157.147567] x5 : ffff0000c0400490 x4 : ffff80006a4e3000 x3 : ffff0000c25e4000
-> [  157.154706] x2 : 0000000000000000 x1 : ffff8000825c0014 x0 : 0000000060000200
-> [  157.161850] Call trace:
-> [  157.164296]  mxc_isi_pipe_irq_handler+0x19c/0x1b0 [imx8_isi] (P)
-> [  157.170319]  __handle_irq_event_percpu+0x58/0x218
-> [  157.175029]  handle_irq_event+0x54/0xb8
-> [  157.178867]  handle_fasteoi_irq+0xac/0x248
-> [  157.182968]  handle_irq_desc+0x48/0x68
-> [  157.186723]  generic_handle_domain_irq+0x24/0x38
-> [  157.191346]  gic_handle_irq+0x54/0x120
-> [  157.195098]  call_on_irq_stack+0x24/0x30
-> [  157.199027]  do_interrupt_handler+0x88/0x98
-> [  157.203212]  el0_interrupt+0x44/0xc0
-> [  157.206792]  __el0_irq_handler_common+0x18/0x28
-> [  157.211328]  el0t_64_irq_handler+0x10/0x20
-> [  157.215429]  el0t_64_irq+0x198/0x1a0
-> [  157.219009] ---[ end trace 0000000000000000 ]---
-> 
-> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> ---
->  drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> index 8654150728a8692b480cfbfebdc0f2596c172a00..bf1b6bd42ef77c98fdacba7bff3b5dd6c048883f 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> @@ -1207,6 +1207,11 @@ static int mxc_isi_video_streamon(struct file *file, void *priv,
->  	return ret;
->  }
->  
-> +/*
-> + * Stop streaming, discard buffers and release the pipeline without further
-> + * checking if we are or there is any queue owner. This function asserts the
-> + * &video->lock is held.
-> + */
->  static void mxc_isi_video_cleanup_streaming(struct mxc_isi_video *video)
->  {
->  	lockdep_assert_held(&video->lock);
-> @@ -1333,7 +1338,11 @@ static int mxc_isi_video_release(struct file *file)
->  		dev_err(video->pipe->isi->dev, "%s fail\n", __func__);
->  
->  	mutex_lock(&video->lock);
-> -	mxc_isi_video_cleanup_streaming(video);
-> +	/* cleanup streaming if there's no queue owner (if we were queue
-> +	 * owner this was cleaned already by vb2_fop_release())
-> +	 */
-> +	if (!video->vdev.queue->owner)
-> +		mxc_isi_video_cleanup_streaming(video);
-
-Wouldn't it be better to turn mxc_isi_video_cleanup_streaming() into a
-.unprepare_streaming() handler ? That would allow dropping the owner
-check here, vb2_fop_release() would do its job.
-
-Part of (or maybe the whole of) the streamon function should then be
-turned into a .prepare_streaming() handler.
-
-Could you give this a try ? If you have any trouble, I can help too.
-
->  	mutex_unlock(&video->lock);
->  
->  	pm_runtime_put(video->pipe->isi->dev);
-> 
-> ---
-> base-commit: 733923397fd95405a48f165c9b1fbc8c4b0a4681
-> change-id: 20250709-imx8-isi-release-fix-182edee8ae32
+Ack, Ḯ'll post the patch tomorrow.
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
 
