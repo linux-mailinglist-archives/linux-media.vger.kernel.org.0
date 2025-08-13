@@ -1,185 +1,167 @@
-Return-Path: <linux-media+bounces-39793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39794-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96BDB246E4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 12:15:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 285A3B246F9
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 12:18:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 599937A80C6
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 10:14:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99F591622C7
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 10:16:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB4372D6E4A;
-	Wed, 13 Aug 2025 10:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57BCF139D1B;
+	Wed, 13 Aug 2025 10:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YyIAA4Nk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c632ckEl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6DE23D7FB
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 10:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611672D6E4A;
+	Wed, 13 Aug 2025 10:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755080137; cv=none; b=QnFSog0IHnF9sLhdHVRru2z5MQJjkBBI4M8REfvKGOHBLUCeMGmTZQNQw4CYAlkvRGJ42jDX5gZiszo0AN8IdUVdp4Bhj33ugESpKFXHybZ3oQRuklw2TR5RgZgkTiQmhJ4BCU+wV4yJLmrkpKPea1sV+HBjTV0BrlLzdeJAlxQ=
+	t=1755080166; cv=none; b=YQRuDjmGBXXRnmjttyemZOiMQXzQ5VJtkw8G17XEy4qSmbWMeE3pyQGbRa1DUoIkcVyioV9EhFfHMVx3+krK7fRm+cQxiyT7xb7hddp6EgrMhpP1sSLnsKAg0oeGUJVMpe9HNeGkVU5wZ6RmOVnvgC6XNWdZccLNyiT564qWt9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755080137; c=relaxed/simple;
-	bh=mZbrRnj/TsVP1nfny16y0ycXMcOnbphtTRgYoszFtno=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=A+PES92JPfZ1Sbqw8g8nPCum6Urq9wzEjcleaXVzssMVF74k2UiwRVjnDH3Cs6esGh2Cd19VS/zTVwWbWFAB1T1C5pd5u5X5J79ijsAvKanH1XJOOaF3m1CzeDvAnjJ0JJpHO9Ko10UDkUHb70m1AOgdDRXwVwGdWGYnsMSC+eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YyIAA4Nk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E268C4CEEB;
-	Wed, 13 Aug 2025 10:15:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755080136;
-	bh=mZbrRnj/TsVP1nfny16y0ycXMcOnbphtTRgYoszFtno=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=YyIAA4NkxFpu1Y8rtBsWYuvatzolOfGUA4ZO5iIC0A6unBSRBSmSFqUeJh7jfXf5y
-	 lCug/tiee0SaIV4O0sOR+gzMAuidK0SXc5LleqKLwWQlaOeaODhrkddnNMpnAA/oTq
-	 AGTBvvsclbpCwuDUq4BAjB7qu57t31Vu7sm7E+BAwobxiaCGLMqnNIUwo9a6aT4prq
-	 qw9tYdvdCo1Dq3u6y59Ojr2E9Rc/lB2y5Eg5BPDq/0zn17/En6/SEOb7Ik96gM/esp
-	 lD1MpM3QTVVWdADkSH45toyF/kagR2jY/eWxNGuWZ98aSCt2CVn9tvFqpl4qUi8C8x
-	 +H/OMlGAmed8A==
-Message-ID: <cd5ac9a7-ada2-4bdf-bc81-8290f0eb88d6@kernel.org>
-Date: Wed, 13 Aug 2025 12:15:29 +0200
+	s=arc-20240116; t=1755080166; c=relaxed/simple;
+	bh=CfWL7rN1Qc5unQz3vGJmOT7xDk62DnANT+vxThseTQA=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=DQlOAfDZU4nolNhVTNX5LKC0LjmOLjuHcKZmDLQew71UzRU4oOkV598eZmTaQtyTmfuN3Riv2IiyOPY5C6k2vAPD2+wFNa5CUa6LUqTl42ExEQPNUNqGxyiVB0+nWnZH/9ATJD0on3Hq0TQPOK0hxW5Z2WTZx+ClkJtkpRCF5BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c632ckEl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 345252EC;
+	Wed, 13 Aug 2025 12:15:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755080109;
+	bh=CfWL7rN1Qc5unQz3vGJmOT7xDk62DnANT+vxThseTQA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=c632ckEl1nFq0XxeNqRyZP1st5GoEjYrFbhMLPp+9i28VHGmATzZGoVqh4cgp1e0b
+	 CEyI+R9T9Zd69uQKZmDWBCGY5dbyF9RMOyy+izeqME548PIBaKt8G08qHo8W55LCRa
+	 gsOPH/308FD2uJtmKYKkiJRlNhB9RTKbuHUVpt8c=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 01/48] media: v4l2-common: Add a helper for obtaining
- the clock producer
-To: Mehdi Djait <mehdi.djait@linux.intel.com>,
- laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
-Cc: stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com, arnd@arndb.de,
- alain.volmat@foss.st.com, andrzej.hajda@intel.com,
- benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com,
- hansg@kernel.org, hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com,
- kieran.bingham@ideasonboard.com, khalasa@piap.pl, mani@kernel.org,
- m.felsch@pengutronix.de, matthias.fend@emfend.at, mchehab@kernel.org,
- michael.riesch@collabora.com, naush@raspberrypi.com, nicholas@rothemail.net,
- nicolas.dufresne@collabora.com, paul.elder@ideasonboard.com,
- dan.scally@ideasonboard.com, pavel@kernel.org, rashanmu@gmail.com,
- ribalda@chromium.org, slongerbeam@gmail.com,
- tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
- linux-media@vger.kernel.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
- <8ecbcafbd91b25ad5e188dbe127b921a1643027e.1750942967.git.mehdi.djait@linux.intel.com>
-Content-Language: en-US, nl
-In-Reply-To: <8ecbcafbd91b25ad5e188dbe127b921a1643027e.1750942967.git.mehdi.djait@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250813-imx335_binning-v1-3-a42b687d8541@ideasonboard.com>
+References: <20250813-imx335_binning-v1-0-a42b687d8541@ideasonboard.com> <20250813-imx335_binning-v1-3-a42b687d8541@ideasonboard.com>
+Subject: Re: [PATCH 3/6] media: imx335: Update the native pixel array width
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Wed, 13 Aug 2025 11:15:59 +0100
+Message-ID: <175508015948.560048.7430206645162546917@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-Hi Mehdi, Sakari, Laurent,
+Quoting Jai Luthra (2025-08-13 08:20:34)
+> The sensor datasheet reports actual total number of pixels as 2696x2044.
 
-On 26/06/2025 15:33, Mehdi Djait wrote:
-> Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> platforms to retrieve a reference to the clock producer from firmware.
-> 
-> This helper behaves the same as devm_clk_get() except where there is
-> no clock producer like in ACPI-based platforms.
-> 
-> For ACPI-based platforms the function will read the "clock-frequency"
-> ACPI _DSD property and register a fixed frequency clock with the frequency
-> indicated in the property.
-> 
-> This function also handles the special ACPI-based system case where:
-> The clock-frequency _DSD property is present.
-> A reference to the clock producer is present, where the clock is provided
-> by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> In this case try to set the clock-frequency value to the provided clock.
+Err ...
 
-On irc I wondered about the name of the new function since it is sensor
-specific, and if it can also be used for e.g. video receivers, then it
-should be renamed to something more generic.
+Page 2 of the IMX335LQN-D datasheet I have says:
 
-According to Laurent there is no ACPI standard for video receivers, so
-that's the reason this is sensor specific.
+Total number of pixels: 2704 (H) x 2104 (V) approx 5.69 M pixels
+Number of Effective Pixels: 2616 (H) x 1964 (V) approx 5.14 M pixels
+Number of Active Pixels: 2616 (H) x 1964 (V) approx 5.04 M pixels
 
-I'd like to see that documented in this patch. Either in the commit log,
-or, preferred, in the header in the function description.
+Where does 2696x2044 come from ?
 
-I made a suggestion below.
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+Argh - then on page 8 - indeed it says
+Total Number of pixels 2696(H) x 2044(V) =3D 5.51M
+
+
+In imx283.c I've moved to defining these windows as a v4l2_rect. I find
+that's a nicer way to convey the rectangles specifically instead of
+through #defines and then they can be directly used to report crop
+rectangles:
+
+i.e.:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/dr=
+ivers/media/i2c/imx283.c:
+
+/* IMX283 native and active pixel array size. */
+static const struct v4l2_rect imx283_native_area =3D {
+	.top =3D 0,
+	.left =3D 0,
+	.width =3D 5592,
+	.height =3D 3710,
+};
+
+static const struct v4l2_rect imx283_active_area =3D {
+	.top =3D 40,
+	.left =3D 108,
+	.width =3D 5472,
+	.height =3D 3648,
+};
+
+Not required - but just an idea (that obviously I like :D)
+
+
+>=20
+> This becomes important for supporting 2x2 binning modes that can go
+> beyond the current maximum pixel array width set here.
+>=20
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 > ---
->  drivers/media/v4l2-core/v4l2-common.c | 52 +++++++++++++++++++++++++++
->  include/media/v4l2-common.h           | 27 ++++++++++++++
->  2 files changed, 79 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+>  drivers/media/i2c/imx335.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> index 6369bdbd2b09ba1f89c143cdf6be061820f2d051..dbf2db4bf9cbfd792ff586526=
+4c6f465eb79a43b 100644
+> --- a/drivers/media/i2c/imx335.c
+> +++ b/drivers/media/i2c/imx335.c
+> @@ -124,10 +124,10 @@
+>  #define IMX335_NUM_DATA_LANES  4
+> =20
+>  /* IMX335 native and active pixel array size. */
+> -#define IMX335_NATIVE_WIDTH            2616U
+> -#define IMX335_NATIVE_HEIGHT           1964U
+> -#define IMX335_PIXEL_ARRAY_LEFT                12U
+> -#define IMX335_PIXEL_ARRAY_TOP         12U
+> +#define IMX335_NATIVE_WIDTH            2696U
 
-<snip>
+The all scan mode on page 56 doesn't show these at all.
+Just 12 + 2592 + 12
 
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 0a43f56578bc..1c79ca4d5c73 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -100,6 +100,7 @@ int v4l2_ctrl_query_fill(struct v4l2_queryctrl *qctrl,
->  struct v4l2_device;
->  struct v4l2_subdev;
->  struct v4l2_subdev_ops;
-> +struct clk;
->  
->  /* I2C Helper functions */
->  #include <linux/i2c.h>
-> @@ -620,6 +621,32 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
->  			     unsigned int num_of_driver_link_freqs,
->  			     unsigned long *bitmap);
->  
-> +/**
-> + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to a clock producer
-> + *	for a camera sensor.
-> + *
-> + * @dev: device for v4l2 sensor clock "consumer"
-> + * @id: clock consumer ID
-> + *
-> + * This function behaves the same way as devm_clk_get() except where there
-> + * is no clock producer like in ACPI-based platforms.
-> + *
-> + * For ACPI-based platforms, the function will read the "clock-frequency"
-> + * ACPI _DSD property and register a fixed-clock with the frequency indicated
-> + * in the property.
-> + *
-> + * This function also handles the special ACPI-based system case where:
-> + *
-> + * * The clock-frequency _DSD property is present.
-> + * * A reference to the clock producer is present, where the clock is provided
-> + *   by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> + *
-> + * In this case try to set the clock-frequency value to the provided clock.
+But I think that's the datasheet being inconsistent/restrictive about
+what it says an all scan mode could be.
 
-    *
-    * While ACPI has standardized sensor support, there is no standard support for
-    * e.g. video receivers. So this function is specific to sensors, hence the
-    * chosen function name.
+It would be interesting to make a 'super resolution' output mode that
+can transmit every pixel possible but not required for this series
+development just for fun tests.
 
-Better suggestions are welcome.
+I'm torn here - as the datasheet changes it's points of reference to
+make it's "all scan mode" essentially start at 0 which is clearly not
+correct against the 'native' positions.
 
-If it is just adding a paragraph, then I can just add that manually. If the change
-is more involved, then a v2.1 for just this patch should be posted.
+So ... I think I'm just going to say I think we don't believe the
+datasheet as we *know* there are more pixels and we are using them so :
 
-Other than this, the series looks good.
 
-Regards,
+> +#define IMX335_NATIVE_HEIGHT           2044U
+> +#define IMX335_PIXEL_ARRAY_LEFT                52U
+> +#define IMX335_PIXEL_ARRAY_TOP         50U
 
-	Hans
+I see you have taken the '80' extra pixels on both width and height and
+divided half before and half after centering the window. I have no
+information to say if it's position is otherwise so I think this is all
+we can do:
 
-> + *
-> + * Returns a pointer to a struct clk on success or an error pointer on failure.
-> + */
-> +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
-> +
->  static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
->  {
->  	/*
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
+>  #define IMX335_PIXEL_ARRAY_WIDTH       2592U
+>  #define IMX335_PIXEL_ARRAY_HEIGHT      1944U
+> =20
+>=20
+> --=20
+> 2.50.1
+>
 
