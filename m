@@ -1,137 +1,116 @@
-Return-Path: <linux-media+bounces-39715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68A5B23FC2
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 06:44:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BD2B2400C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 07:10:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C8027B2050
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 04:43:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 675CC3BEDC4
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 05:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF2F28D850;
-	Wed, 13 Aug 2025 04:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WffvXXt2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 678BC2BE056;
+	Wed, 13 Aug 2025 05:10:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF42322E;
-	Wed, 13 Aug 2025 04:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21C818DF8D;
+	Wed, 13 Aug 2025 05:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755060284; cv=none; b=amq2smiGiL8e9ffbueFkxpFjRB9XUZ6B/NI8kx2zzNYApH8UNtoTlIit8gr7umyb3BqA8ImnfJ7fjfThBxpeanxd5iQL9B8jld59/YiYToY3Ncu1LzzoigCLJu++ph65hmrATeiMJ/TZgKRFcQBFjjSvaccXfgMNW4zg8xsnorQ=
+	t=1755061810; cv=none; b=IRiQKPQtL1/E4JAudX7MrH674CkQpfyhIcP1NmVvlextdU/rWd3KlyI23g6jS4/+LkpdhNFFXaCX1kCNNSfkNyVC3BuPuGtVa4nqTlZKjGQY6hzJ09qF7fdAiK6uqQVL4NtO3v4hnJ2bHGIrRilXR1J17GsDydWMuIA+58RYWmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755060284; c=relaxed/simple;
-	bh=mLumtAp+bbBtgP7qUvg6ku56O+DpRiPGVHcqO7y1glo=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=TRTtpogA3v/b8BinxuDqg4ZSdr+y1OJfvHech2yZ/6UO9T+gDV2wTAxYyrva6bcaS9EvDW0wfkDPt2UsQYgpO2Gv62MgkGBwCQhdRHXyXo1MTVySkQmbzG0B3iSzbgQa2nPHvr1Ipg5bzVD/QSN7Kx/1VpUNB4vtpXIY4TtDPKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WffvXXt2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEBC4C4CEEB;
-	Wed, 13 Aug 2025 04:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755060283;
-	bh=mLumtAp+bbBtgP7qUvg6ku56O+DpRiPGVHcqO7y1glo=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=WffvXXt28pnoVIhHLjWzUtfZCMtH4qYK5bBaPX4HWz5kB7T3MoapSkhW4wH40s4bG
-	 QJ/2350vbeL82pY0E5uF1s4YkpTE02LxibIdv/cecRDVWgnv/Xl9z553rzzD9/BtPP
-	 JEzZYZOxeXxVfFug9meWaJSPUOswUcrfseuM0oYrDOhSESMb//mpQMczfRBQQSt1hh
-	 ogJv1wv6YOXYHfoBWB7VvG/kLWHRdhZL8ZkmH967yBMxZ2X7scDnAOGp2nVTA3sQT2
-	 W0XPT6Wjcl1Ml4trN4AmYBqLWA/5kSy8oBiYjrmsJ4zxrbdNDhVd1j79DLTU6rjQAa
-	 0Pze0RK9bFLQQ==
-Date: Tue, 12 Aug 2025 23:44:42 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1755061810; c=relaxed/simple;
+	bh=78z1kuRSWutMg/Hy75bF++4O7lZJqDUQoV9YvjD+Wtw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=s7OIqG2m9NBi6MUIosjGuJ912Up25Adn3GpG98i6sN9ADtOVkF1R78o6P4bOFrINQtsxSryG96QlYgPBeV7sSe+1wfGzd0o1YrmfMwV4hu+i7yWu3Fe2oeQWMvCxPAr2qmF+eARU6KT6R/ko6wyqNmHTL6tbdQzY3LwmVFWgc18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+	by ni.piap.pl (Postfix) with ESMTPS id C17F5C3E4DE7;
+	Wed, 13 Aug 2025 07:10:03 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl C17F5C3E4DE7
+From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To: Adam Ford <aford173@gmail.com>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,  Dafna Hirschfeld
+ <dafna@fastmail.com>,  Heiko Stuebner <heiko@sntech.de>,  Paul Elder
+ <paul.elder@ideasonboard.com>,  Jacopo Mondi
+ <jacopo.mondi@ideasonboard.com>,  Ondrej Jirman <megi@xff.cz>,
+  linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption: resolved
+In-Reply-To: <CAHCN7xKq_o_u7PhPMcZ2W9nzrFP8+CnhaYJOyxnjpKfbMTBCEw@mail.gmail.com>
+	(Adam Ford's message of "Tue, 12 Aug 2025 13:22:54 -0500")
+References: <175308758352.3134829.9472501038683860006@localhost>
+	<175326599663.2811177.16620980968274114885@localhost>
+	<m3h5z2vw12.fsf@t19.piap.pl>
+	<175344176070.2811177.10693943493658922992@localhost>
+	<m3qzxyug1s.fsf@t19.piap.pl> <m3cy9futcj.fsf@t19.piap.pl>
+	<m34iumujcs.fsf@t19.piap.pl> <m3zfcet41n.fsf@t19.piap.pl>
+	<m3a545t789.fsf@t19.piap.pl>
+	<20250812103243.GK30054@pendragon.ideasonboard.com>
+	<175501095338.74722.11604545949710100799@localhost>
+	<CAHCN7xKq_o_u7PhPMcZ2W9nzrFP8+CnhaYJOyxnjpKfbMTBCEw@mail.gmail.com>
+Sender: khalasa@piap.pl
+Date: Wed, 13 Aug 2025 07:10:03 +0200
+Message-ID: <m3v7mrst78.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org, 
- Manivannan Sadhasivam <mani@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Todor Tomov <todor.too@gmail.com>, 
- Loic Poulain <loic.poulain@oss.qualcomm.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, linux-samsung-soc@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, Dongchun Zhu <dongchun.zhu@mediatek.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20250812214620.30425-2-laurent.pinchart@ideasonboard.com>
-References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
- <20250812214620.30425-2-laurent.pinchart@ideasonboard.com>
-Message-Id: <175506028291.2605875.11473205221167147078.robh@kernel.org>
-Subject: Re: [PATCH v2 01/72] dt-bindings: media: Deprecate clock-frequency
- property for camera sensors
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Hi Adam,
 
-On Wed, 13 Aug 2025 00:45:09 +0300, Laurent Pinchart wrote:
-> Usage of the clock-frequency property for camera sensors is discouraged
-> in favour of using assigned-clock-rates (and assigned-clock-parents
-> where needed). Mark the property as deprecated.
-> 
-> Update the examples accordingly. In DT examples where the sensor input
-> clock appears to come from a programmable clock generator, replace
-> clock-frequency by the assigned-clocks and assigned-clock-rates
-> properties. Otherwise, just drop clock-frequency.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
-> Changes since v1:
-> 
-> - Adapt examples in bindings that reference sensors
-> ---
->  Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml    | 6 ++++--
->  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml  | 7 +++++--
->  .../devicetree/bindings/media/i2c/ovti,ov02a10.yaml        | 3 +--
->  .../devicetree/bindings/media/i2c/ovti,ov5645.yaml         | 6 +++++-
->  .../devicetree/bindings/media/i2c/ovti,ov7251.yaml         | 6 +++++-
->  .../devicetree/bindings/media/i2c/ovti,ov8856.yaml         | 3 +--
->  .../devicetree/bindings/media/i2c/samsung,s5k5baf.yaml     | 6 +++++-
->  .../devicetree/bindings/media/i2c/samsung,s5k6a3.yaml      | 6 +++++-
->  .../devicetree/bindings/media/i2c/sony,imx290.yaml         | 5 +++--
->  .../bindings/media/samsung,exynos4212-fimc-is.yaml         | 4 ++--
->  Documentation/devicetree/bindings/media/samsung,fimc.yaml  | 3 ++-
->  11 files changed, 38 insertions(+), 17 deletions(-)
-> 
+Adam Ford <aford173@gmail.com> writes:
 
-My bot found errors running 'make dt_binding_check' on your patch:
+> I was reading through the data sheet (not the reference manual), and
+> it lists a few limitations for the clocks:
+>
+> For single Camera, MIPI CSI 1 can support up to 400/500 MHz pixel
+> clock in the Nominal/Overdrive mode.
+> For single Camera, MIPI CSI 2 can support up to 277 MHz pixel clock.
+> For dual Camera, both MIPI CSI can support up to 266 MHz pixel clock.
+>
+> If you're running dual cameras, it sounds like you're capped at 266
+> MHz regardless of whether or not you're in overdrive or nominal.
 
-yamllint warnings/errors:
+Right. But these are pixel clocks, not ISP clock. At least theoretically
+entirely different stuff.
+For example, I'm using (at most) two IMX290/462 1920x1080p60 sensors in
+12-bit (Bayer) mode, resulting in:
+- 148.5 MHz pixel clocks
+- 1782 Mb/s total bandwidth (for each sensor - 12 bits)
+- 445.5 Mb/s per lane (each sensor uses 4 MIPI lanes)
+- 222.75 MHz MIPI clocks (MIPI uses DDR, the double data rate)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.example.dtb: image-sensor@10 (samsung,s5k6a3): 'clocks' is a required property
-	from schema $id: http://devicetree.org/schemas/media/i2c/samsung,s5k6a3.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.example.dtb: image-sensor@10 (samsung,s5k6a3): 'clocks' is a dependency of 'clock-names'
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.example.dtb: image-sensor@10 (samsung,s5k6a3): 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'#clock-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+So I'm well within specs. Though I don't know if the people writing the
+datasheets did really mean what they wrote, or maybe they meant ISP core
+clocks as well. Why? Because ISP blocks (and all such logic blocks)
+require a certain number of their core clocks for a signal rate (in this
+case, a pixel rate). And maybe what they specified in the datasheets was
+a calculation of this (unpublished?) required pixel/ISP clock ratio and
+the max ISP clock rate (specified incorrectly at 400/500 MHz).
+Anyway, this is only a possibility. Another one is that ISP2 simply
+cannot reliably run at 500 MHz, for some "analog" reason, design bug
+etc.
 
-doc reference errors (make refcheckdocs):
+> My understanding is that the imx8mp.dtsi is pre-configured for
+> overdrive mode, so if you need to run the ISP in nominal, the clock
+> updates should go into imx8mp-nominial.dtsi.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250812214620.30425-2-laurent.pinchart@ideasonboard.com
+It seems my modules are setup for overdrive mode.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
 
