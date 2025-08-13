@@ -1,275 +1,171 @@
-Return-Path: <linux-media+bounces-39810-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39811-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11A5B248FD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 14:00:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CD0B24958
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 14:17:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 321CE2A40FD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 11:59:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9977E7A995F
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 12:15:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B562C1798;
-	Wed, 13 Aug 2025 11:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C7541ADFE4;
+	Wed, 13 Aug 2025 12:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ThEOiRFv"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JQYMQzt9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD5B2EFDAF
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 11:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F3E14386D;
+	Wed, 13 Aug 2025 12:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755086366; cv=none; b=s6ZK86gTM25RN75BKwykdbLPfDoSP4kPdcVnKR/nXR7XZpfiBONin3n1U8whyvhoYn99SOk1+/XYYus6loGdW0waOWnWu+WzpFfJfEuMCDZnxsZYAd8vL2FBUMCBc4Bl8j1AN8uElze22wh3UzD1BG+kc9MgtMNRWsEtsUjjrpM=
+	t=1755087415; cv=none; b=Ipmm0WeJzaPiLooh+fhtj0+zQclNul2r7culac0x/TMkpjcp+foI13Xb8NfT3gW4JOP4kJ7cIOykHJfS1gaYTqi33tPxS+ME6X8hHc0QCdxsMzNxHV7qrVrpRR5R1ODjvTakjT71S8UYiGaQvEwSWJKYbDZusIf71BPTx+ots1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755086366; c=relaxed/simple;
-	bh=fCTzPGPckDb9SJ9PEimwIiOCdJiYSdn5iBs3wpa/oWc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=B/OEfQ3JjJtw9dt7papBfrEPUD4xZ9XO7rIQlLBaZBgd4S9VC0JtsNoD1x8ZRwFNll0m6AtTNNbeb061eUdpwb2xxjaC3g226sH+4Xn4GTq1L7/DguPPa8uMGkZx53b5ZWi5z39GLbrQhA1V74ejwzf4RzGMEoLnD8PZlnxsJ0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ThEOiRFv; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=yujK29fYZljmgXx4rY1KPSYayYJ+LrVKrTgVjKACRoI=; b=ThEOiRFvy5ciiyY6L03sxe855P
-	AtqT7NHJn7g1XyeedLlEpPjf3MhUovNtohG6679uH3RUJABJ2AXNIokBKG5zJurdI4MmEfSXxnvip
-	qgQa0gmxwHqIvirlwUdRA9nmapZpSZDnkb68g5LkPJMU47uDt6eY4gwisyNxf5husoLKxOhhMZ617
-	bFKs7Oo38osLMo3qrieHw0lHSVlOLbTDwlHWqiIRkurJFDFKXz7AT/x20BA1Qr1B9aO0pzCjoEMqW
-	3tCZrLUr2T/cv/VlvuTXQzzzew3hzzH4ssMT2GxjquLmojeEie5RvWy0dlfAWrIiD+e885jdnZ5TC
-	l3qWTxog==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1umA8J-00DeQv-My; Wed, 13 Aug 2025 13:59:07 +0200
-Message-ID: <66e1e772-da61-4422-9f50-1dfeaf92282b@igalia.com>
-Date: Wed, 13 Aug 2025 12:59:06 +0100
+	s=arc-20240116; t=1755087415; c=relaxed/simple;
+	bh=Fv8eVEK31vJSE1lNjyb59YLvkth5ttFeEr1vDRsI+cY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Rn0FKfYhB/VLQC9020o/1otf3vjT14LzNbyVwJsLilsIM1lCYvv0TdKjh028s4oeBBUlVzvfQvepFwVNWlQfnjmwSKvk7RHLLoLhbpF31RyDr36qzwN1pLi1Du5fFyN/sOBkVdRZnIdFhvTQEQ3ul6PjiSpOg1IcKVoJqjtNrAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JQYMQzt9; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBLelP025656;
+	Wed, 13 Aug 2025 12:16:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2f/6WNrjEZSAYk7zWzIZMZXEj+9ZM56XoGtHZQ5EXNI=; b=JQYMQzt9LmUIkqjD
+	+ISCoNHseXjcJm/Zh1VfzaBzRnNs86fL4RbyDWIa7FKAj5D9EU1sGe84HphNhJKU
+	OjHOxlYmLC23HitR/gjGER1SwwexIa6nfC43S+0WrCxCB3DQCeCFiMtoz2eKTTfk
+	P5Zdh9AKfsaivheeKACD7MTb7xMf0ZUaRrFozXx5YUMVuqxgqwrhoXNimLUukJxS
+	XfwcvLvJATy1EAgWGOrpOnrUX3qzpjUnCuKT9EHPtX9YVUx9xzUDGPSZnJCAFesf
+	BMja5pJCrjo8ko7CXCgKKMIzRQRLU7d5gJLzj1HbFFLn+2gghZph9W4liuN8sFGC
+	lykJeg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dy3gbpfn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 12:16:46 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57DCGjmP026983
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 12:16:45 GMT
+Received: from [10.50.36.96] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 13 Aug
+ 2025 05:16:41 -0700
+Message-ID: <a482d0a3-92da-998a-97a7-ccb010aa6bf9@quicinc.com>
+Date: Wed, 13 Aug 2025 17:46:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from
- IOCTL
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- simona.vetter@ffwll.ch, phasta@mailbox.org, airlied@gmail.com,
- dakr@kernel.org, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-References: <20250812143402.8619-1-christian.koenig@amd.com>
- <20250812143402.8619-2-christian.koenig@amd.com>
- <125ecf34-4f9f-4310-8f87-586da9a78977@igalia.com>
- <0a381201-3a73-48e9-ad5b-550abf141022@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <0a381201-3a73-48e9-ad5b-550abf141022@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 02/24] media: iris: Report unreleased PERSIST buffers
+ on session close
+To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+CC: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar
+	<abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil
+	<hverkuil@xs4all.nl>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        "Vedang
+ Nagar" <quic_vnagar@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Renjiang Han
+	<quic_renjiang@quicinc.com>,
+        Wangao Wang <quic_wangaow@quicinc.com>
+References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
+ <20250813-iris-video-encoder-v2-2-c725ff673078@quicinc.com>
+ <aJxuvm456i1PWOIM@trex>
+Content-Language: en-US
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <aJxuvm456i1PWOIM@trex>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=X4lSKHTe c=1 sm=1 tr=0 ts=689c822e cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
+ a=_0ZXF2jA_ELrfagan30A:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzMSBTYWx0ZWRfX032HRh1GR0KF
+ zKphtYHH/M5UoezAQj+YBFFIYNn858auImCdl/Ijcu3IpW3I19MUn9f2sirbbQRTwUdvXbqDSz2
+ 2X0viBhbg2OZThj7awiPknMmvgM/eaTT7vOHr8Kvbwpo6oPfnzZ9bK+x8mrYApPYJ5v2Ty8MeQ+
+ Tr0xa5dxf1y6BrF+8EsIXIMTg6YWogTQ14v+CzV15IkxFQRKnXHmzyPPZAJLVnrxE3qee05XJQc
+ +6YjKwUeQPEq6+x3f+QGIJLcX8YvCfUd599rhmmMvJ6PfvE9RqQ2cVpUW+JFFQoYjLQ8v1eVukn
+ McC1E6dx4NMma3ZPWZpAuvbm5lmfARzhz94vJEQgGJKO5t65xDsc1yMK+GlWQHgAA+GnDU1c5Rg
+ X7Cqes9x
+X-Proofpoint-GUID: oRlwJ8V5lr4MA6sJu3kXmuDyXjXkSz6K
+X-Proofpoint-ORIG-GUID: oRlwJ8V5lr4MA6sJu3kXmuDyXjXkSz6K
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090031
 
 
-On 13/08/2025 12:10, Christian König wrote:
-> On 13.08.25 10:20, Tvrtko Ursulin wrote:
+
+On 8/13/2025 4:23 PM, Jorge Ramirez wrote:
+> On 13/08/25 15:07:52, Dikshita Agarwal wrote:
+>> Add error reporting for unreleased PERSIST internal buffers in
+>> iris_check_num_queued_internal_buffers(). This ensures all buffer types
+>> are checked and logged if not freed during session close, helping to
+>> detect memory leaks and improve driver robustness. No change to buffer
+>> lifecycle or allocation logic.
 >>
->> On 12/08/2025 15:34, Christian König wrote:
->>> From: Christian König <ckoenig@able.fritz.box>
->>>
->>> We have the re-occurring problem that people try to invent a
->>> DMA-fences implementation which signals fences based on an userspace
->>> IOCTL.
->>>
->>> This is well known as source of hard to track down crashes and is
->>> documented to be an invalid approach. The problem is that it seems
->>> to work during initial testing and only long term tests points out
->>> why this can never work correctly.
->>>
->>> So give at least a warning when people try to signal a fence from
->>> task context and not from interrupts or a work item. This check is
->>> certainly not perfect but better than nothing.
+>> Fixes: d2abb1ff5a3c ("media: iris: Verify internal buffer release on close")
+>> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>> Tested-by: Vikash Garodia <quic_vgarodia@quicinc.com> # X1E80100
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>  drivers/media/platform/qcom/iris/iris_vidc.c | 8 ++++++++
+>>  1 file changed, 8 insertions(+)
 >>
->> I lack context as to why this should be disallowed so strongly (maybe cover letter is missing to better explain it all?)
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+>> index 8285bdaf9466d4bea0f89a3b1943ed7d6c014b7d..96313856a026efaff40da97eaaa63e847172cd57 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+>> @@ -247,6 +247,14 @@ static void iris_check_num_queued_internal_buffers(struct iris_inst *inst, u32 p
+>>  			dev_err(inst->core->dev, "%d buffer of type %d not released",
+>>  				count, internal_buf_type[i]);
+>>  	}
+>> +
+>> +	buffers = &inst->buffers[BUF_PERSIST];
+>> +
+>> +	count = 0;
+>> +	list_for_each_entry_safe(buf, next, &buffers->list, list)
+>> +		count++;
 > 
-> See here https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefinite-dma-fences
+> I believe at this point is not safe to dereference buf
+You are right, I fixed it in later patch, but it should be fixed in this
+patch instead. Will make the change.
+
+Thanks,
+Dikshita
 > 
-> I was hoping that this problem is so well known by now that it doesn't need more explanation.
-> 
-> Going to expand the commit message a bit.
-
-I probably got thrown by the mention of crashes. But yes, expanding the 
-commit and clarifying it is about deadlocks and indefinite fences, or 
-adding the cover letter would be better thanks!
-
->> , but at least if feels overly restrictive to for example exclude threads and thread workers.
-> 
-> Good point. Could be that someone is using a pure kernel thread for fence signaling. Going to check for that instead of a worker.
-
-Ok, I am curious how to do it reliably. Non-null current and PF_KTHREAD 
-and PF_WQ_WORKER not set?
-
->> Even the fact opportunistic signalling needs to bypass the assert makes it sound like there isn't anything fundamentally wrong with signalling from task context.
+>> +	if (count)
+>> +		dev_err(inst->core->dev, "%d buffer of type %d not released", count, buf->type);
+>>  }
+>>  
+>>  int iris_close(struct file *filp)
 >>
-> 
-> Opportunistic signaling can happen from everywhere. But when an implementation tries to signal it from an IOCTL that is certainly invalid.
-> 
->> The first patch also feels a bit too much if it has no purpose apart from checking the new asserts would otherwise trigger.
-> 
-> The sw_sync code is is only used for testing and debugging. See the Kconfig of it:
-> 
->            A sync object driver that uses a 32bit counter to coordinate
->            synchronization.  Useful when there is no hardware primitive backing
->            the synchronization.
-> 
->            WARNING: improper use of this can result in deadlocking kernel
->            drivers from userspace. Intended for test and debug only.
-> 
-
-But it is adding kernel code for a questionable benefit.
-
-What about calling the non-asserting version instead of adding 
-complexity? It is kernel code so should be fine.
-
-Because even with the worker sw_sync can still create infinite fences. 
-Worker just defeats the asserts so I do not see the value in 
-complicating it.
-
-Regards,
-
-Tvrtko
-
+>> -- 
+>> 2.34.1
 >>
->>> Signed-off-by: Christian König <ckoenig@able.fritz.box>
->>> ---
->>>    drivers/dma-buf/dma-fence.c | 59 +++++++++++++++++++++++++++----------
->>>    include/linux/dma-fence.h   |  9 ++++--
->>>    2 files changed, 51 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>> index 3f78c56b58dc..2bce620eacac 100644
->>> --- a/drivers/dma-buf/dma-fence.c
->>> +++ b/drivers/dma-buf/dma-fence.c
->>> @@ -345,33 +345,23 @@ void __dma_fence_might_wait(void)
->>>    }
->>>    #endif
->>>    -
->>>    /**
->>> - * dma_fence_signal_timestamp_locked - signal completion of a fence
->>> + * dma_fence_signal_internal - internal signal completion of a fence
->>>     * @fence: the fence to signal
->>>     * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
->>>     *
->>> - * Signal completion for software callbacks on a fence, this will unblock
->>> - * dma_fence_wait() calls and run all the callbacks added with
->>> - * dma_fence_add_callback(). Can be called multiple times, but since a fence
->>> - * can only go from the unsignaled to the signaled state and not back, it will
->>> - * only be effective the first time. Set the timestamp provided as the fence
->>> - * signal timestamp.
->>> - *
->>> - * Unlike dma_fence_signal_timestamp(), this function must be called with
->>> - * &dma_fence.lock held.
->>> + * Internal signal the dma_fence without error checking. Should *NEVER* be used
->>> + * by drivers or external code directly.
->>>     *
->>>     * Returns 0 on success and a negative error value when @fence has been
->>>     * signalled already.
->>>     */
->>> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>> -                      ktime_t timestamp)
->>> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp)
->>>    {
->>>        struct dma_fence_cb *cur, *tmp;
->>>        struct list_head cb_list;
->>>          lockdep_assert_held(fence->lock);
->>> -
->>>        if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>>                          &fence->flags)))
->>>            return -EINVAL;
->>> @@ -390,7 +380,46 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>>          return 0;
->>>    }
->>> -EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
->>> +EXPORT_SYMBOL(dma_fence_signal_internal);
->>> +
->>> +/**
->>> + * dma_fence_signal_timestamp_locked - signal completion of a fence
->>> + * @fence: the fence to signal
->>> + * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
->>> + *
->>> + * Signal completion for software callbacks on a fence, this will unblock
->>> + * dma_fence_wait() calls and run all the callbacks added with
->>> + * dma_fence_add_callback(). Can be called multiple times, but since a fence
->>> + * can only go from the unsignaled to the signaled state and not back, it will
->>> + * only be effective the first time. Set the timestamp provided as the fence
->>> + * signal timestamp.
->>> + *
->>> + * Unlike dma_fence_signal_timestamp(), this function must be called with
->>> + * &dma_fence.lock held.
->>> + *
->>> + * Returns 0 on success and a negative error value when @fence has been
->>> + * signalled already.
->>> + */
->>> +int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>> +                      ktime_t timestamp)
->>> +{
->>> +    /*
->>> +     * We have the re-occurring problem that people try to invent a
->>> +     * DMA-fences implementation which signals fences based on an userspace
->>> +     * IOCTL.
->>> +     *
->>> +     * This is well known as source of hard to track down crashes and is
->>> +     * documented to be an invalid approach. The problem is that it seems
->>> +     * to work during initial testing and only long term tests points out
->>> +     * why this can never work correctly.
->>> +     *
->>> +     * So give at least a warning when people try to signal a fence from
->>> +     * task context and not from interrupts or a work item. This check is
->>> +     * certainly not perfect but better than nothing.
->>> +     */
->>> +    WARN_ON_ONCE(!in_interrupt() && !current_work());
->>> +    return dma_fence_signal_internal(fence, timestamp);
->>> +}
->>>      /**
->>>     * dma_fence_signal_timestamp - signal completion of a fence
->>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>> index 64639e104110..8dbcd66989b8 100644
->>> --- a/include/linux/dma-fence.h
->>> +++ b/include/linux/dma-fence.h
->>> @@ -369,6 +369,7 @@ int dma_fence_signal_locked(struct dma_fence *fence);
->>>    int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
->>>    int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>>                          ktime_t timestamp);
->>> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp);
->>>    signed long dma_fence_default_wait(struct dma_fence *fence,
->>>                       bool intr, signed long timeout);
->>>    int dma_fence_add_callback(struct dma_fence *fence,
->>> @@ -422,7 +423,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>            return true;
->>>          if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>> -        dma_fence_signal_locked(fence);
->>> +        dma_fence_signal_internal(fence, ktime_get());
->>>            return true;
->>>        }
->>>    @@ -448,11 +449,15 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>    static inline bool
->>>    dma_fence_is_signaled(struct dma_fence *fence)
->>>    {
->>> +    unsigned long flags;
->>> +
->>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>            return true;
->>>          if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>> -        dma_fence_signal(fence);
->>> +        spin_lock_irqsave(fence->lock, flags);
->>> +        dma_fence_signal_internal(fence, ktime_get());
->>> +        spin_unlock_irqrestore(fence->lock, flags);
->>>            return true;
->>>        }
->>>    
 >>
-> 
-
 
