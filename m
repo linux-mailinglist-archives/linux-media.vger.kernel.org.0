@@ -1,161 +1,178 @@
-Return-Path: <linux-media+bounces-39855-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39854-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17360B2570A
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 00:55:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15251B25706
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 00:55:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26F405A26E2
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 22:55:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C3E8C8863E6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 22:55:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07FE630E82C;
-	Wed, 13 Aug 2025 22:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1E542D738D;
+	Wed, 13 Aug 2025 22:55:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UUeD0BSA"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mlm+B7aE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE272FB992
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 22:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE8F2FB993
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 22:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755125724; cv=none; b=gyeL1cgJ9s2EUzuqhDZpcXQUi0nb8OEkvUtt1r/D0Nw49YSAYWb2rX8hG36qEkhd4gLKCJNKKKORTgeB+DdszVejXzooRDL+/H1031d5SzXGxuBOp3j6fRAArVDtcnB/1oCI8Q2BOEOSDJYYpl8Ue5krnFWIFjlPy9x+CiY02vA=
+	t=1755125719; cv=none; b=djR29VhYS6QRKWiu2dmeNw1N4BN/7SZorZKcBuj+Pqh94erBAghl96qdVZ0P2WnLn35BJ3KkxuR9aDIboJKLXG845qb5zYGJsXVtsQpEztPq9yJCrrmi2xAMIwc4Z0xS1AocM0nKDUZe2dFIP7HN8SE0LlI+eS0RNyuc3xEYwWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755125724; c=relaxed/simple;
-	bh=Bytdh1hz9XTOD39RFYGMkonImjmewvQdCnHqeFJXNqY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n3LcaV5u16CgOKPNLJ8t2Vk3PoIbGXS7hK9Ku20SSg4CJI6Qv3udx923P9wN8mtOgny8nr/vannDrZvdsbIn/PVXpwsERSHoG+r22pifQ7fVOBWqrLLMP8OaOs9Obi9As+43O6auVxwPsgW7zcqBAw4ELpNoZR8vlQ/b6G4llqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UUeD0BSA; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2AD7C7E0;
-	Thu, 14 Aug 2025 00:54:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755125667;
-	bh=Bytdh1hz9XTOD39RFYGMkonImjmewvQdCnHqeFJXNqY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UUeD0BSA84afD9aAQMAwwsA7iKP6dXZRwyRrGC4CllhmsZEwvx6p0ZWzEM4X6O3HQ
-	 mbND2UdwpPXlQhYfbWfdhHZBSjmHvXHNfozcX20/0X8qGj2FUfty9aNAsH2jgAp2gX
-	 DwFl/olvvRU8kTfLEv6xUFtQQyWrDZ7liZr0svqs=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Richard Leitner <richard.leitner@linux.dev>,
-	imx@lists.linux.dev
-Subject: [PATCH] media: nxp: imx8-isi: Drop unused argument to mxc_isi_channel_chain()
-Date: Thu, 14 Aug 2025 01:55:01 +0300
-Message-ID: <20250813225501.20762-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.49.1
+	s=arc-20240116; t=1755125719; c=relaxed/simple;
+	bh=IRDBklKokVrxIJWgP3cNp+cQqYoCCFC1419AdZuqIVE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DjTAxZQ+Koj7PbvTMrGVSSQaYLc454s40XkgCZQbaHIf4iZGxKuCQDefDP3ssFA9CF+Vni+qJfre/Wspt0JMT5aDXH9wuy23HA0N3WP4S27BOm7UGvTH7nbhJTUkcN/YjWuc7jtcjT5HrDTVN/nPGad7jDnfR3nOOdcxBsGroVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Mlm+B7aE; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DKixWS002790
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 22:55:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	15n6L+jgRmpWfdGPkRrYhdr4AzVdCA1CkGjZd9TinAk=; b=Mlm+B7aEgb/H2H/S
+	oDv3YBRw/IDZV4u3YHPb4tiivbTejs8GPnkna/krIBRVh/pIFY4rUu4grVJHgqxI
+	tyCk0xEe68+QpSiwZR/H93am6LkwTqizlc+IEMSmKTiw9CGfi4+oPMpZNlYMTDcC
+	pd+mGYXTRSEumRe9sesQrsP+thI5f9LQcAEfnWR9zB+3AfrBZEkCZ+pOFWCblIXy
+	KxHuGb2xwXHhuyFQmi/B8WSAq6nFS3P7E0aX6RdXF2OKpv9pIt8PMhFouaO200NX
+	oAuun39iIAzL4kWzThwUwVS9FFDlPiqdQ5Z7LtRvinBXV4kvryspzZ432NYi0cJe
+	6Ud24g==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxdv5fn7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 22:55:08 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7e87031ae5cso8755085a.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 15:55:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755125707; x=1755730507;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=15n6L+jgRmpWfdGPkRrYhdr4AzVdCA1CkGjZd9TinAk=;
+        b=IxP6En66gQ8GRJ4tXesVSSLNSb6sYlmqGtVi8Q99sazdmR6+pJLFoxnqptcWBAHaGD
+         SOgrJwvUqoMYm0Wl7K/cI82LSGaE6Y64zvYsYwhp/xTZXvmFI+suhdU8CgxgArxIDR80
+         gzEMdgs/89zs6vRrZS5C8/h3SXYHsVj+e2J3000TjO017uDWoqA9mi6Vw2PqVxCiEkUM
+         R04t014EzWYy/ldubeJh1ZoFtZ4E1bjMe5ljgFs8LgQy309FBIr0BNknr+9dbxrweKCz
+         jZ9TEdp989rAM7z11eMdD5h/6Y8yYP+LVq3wv2xyxycLFITuivGuk4VGbOF3M8/Z9b5Z
+         0IuQ==
+X-Gm-Message-State: AOJu0YzxMvWFwMU2/cpyocvS+NH/Hsg30HlAcBC/5si6BAYtpinj8jDK
+	xUFs1/d8xY9MnjRA1+R6UAauNiURRhc58uo/vlt8457SNcbnZYgG8Dg1Zx0g3Vv5oFuRbHmZCxe
+	U3T0HUhH/CbqOw2Sy83S0LaDsGaC0D6nZx4Kuv3sRBaWlYvGWYcxIXjeI4z5kGpAc+Q==
+X-Gm-Gg: ASbGncvhDSSNyp3wXbUvk6L0rSdw2GoKE9gTFiuqeAhvegQ4E/roZRJ8u2TLfwyvPfZ
+	5N+Wk1YYLvs9BTAYNcji/CnGzd488sv3kWmjnenwu+IC4CSruD+13nPH0Cx/Cg2oZRio9NTUIrZ
+	7Tdu4Ru8jKE9/enfa5hepe0YxGKUMZtas/45GGVzWcwpkiYn8yPST4WN0RTK5EpJ3fkXEwrkqDC
+	blsEQwZpSTPus6lnY91ydwm/Dm1Y8YZ7dwi1o+gYtbH3HpsDgLvuzpbS2RKfsEZ6MRXKoER7MTq
+	CUouZ5Npu2NKcgOryvE/uq1WbfetUf7AvFFW3Jo3ncmhFXz7zm7QVWXmm7b+W3vhzRwENa0asaG
+	g4DArlRRsHS5WKM9zMQ==
+X-Received: by 2002:a05:620a:7114:b0:7e8:deb:2b88 with SMTP id af79cd13be357-7e8652610cdmr341649085a.5.1755125707355;
+        Wed, 13 Aug 2025 15:55:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHL+JE0kMKFEu4kSodVCBMSDyNOEdDfPuoTQBCZSYXiPZDVvx1jvbqJkcBjR+WKF+Ba2gnIkA==
+X-Received: by 2002:a05:620a:7114:b0:7e8:deb:2b88 with SMTP id af79cd13be357-7e8652610cdmr341646185a.5.1755125706781;
+        Wed, 13 Aug 2025 15:55:06 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0a3cecsm2470000066b.53.2025.08.13.15.55.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Aug 2025 15:55:06 -0700 (PDT)
+Message-ID: <cd2ded3a-ab91-4199-9edf-8acc8d6d11ba@oss.qualcomm.com>
+Date: Thu, 14 Aug 2025 00:55:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/24] media: iris: Allow substate transition to load
+ resources during output streaming
+To: Bryan O'Donoghue <bod.linux@nxsw.ie>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil
+ <hverkuil@xs4all.nl>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Vedang Nagar <quic_vnagar@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Renjiang Han <quic_renjiang@quicinc.com>,
+        Wangao Wang <quic_wangaow@quicinc.com>
+References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
+ <20250813-iris-video-encoder-v2-5-c725ff673078@quicinc.com>
+ <24714b00-cc15-4c9b-b0d4-8c76d702fcc2@nxsw.ie>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <24714b00-cc15-4c9b-b0d4-8c76d702fcc2@nxsw.ie>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=IuYecK/g c=1 sm=1 tr=0 ts=689d17cc cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=rixuZvB9KV6YaslLPPsA:9
+ a=QEXdDO2ut3YA:10 a=1R1Xb7_w0-cA:10 a=OREKyDgYLcYA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: 2e5JbewWj9o2Y6EkBQAIIsVlbXIaTBHS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNSBTYWx0ZWRfX3t9vbSOQChq9
+ nHMGFU4YMBLdFjtgvPI0G1SECNurlgugUpI+fjCjsLXfz+L9vwkmUcby8CRKGGtqkh+PZvbU+9D
+ HBOjHU53RskcE/Q8OM7xeti4uIBC6ee9sU+smDeTShM45dbsxU5CWno8funcV4hYZrnGUfl5F//
+ lmQu4YmQHgfKq1o5UT9/inFaNYynMB2khzbK2Ktq3Pl9pEHEPyC3eAEaFCGE4R8Z+tR3BLxqbft
+ E6J9d3VE5MkKXTVB8FPG+nljQsr7CFRBooRzGXrVAAZ0fz3/cz1eXwqlJw2h6YGov/XEHKC40z9
+ BiCxZXsAJWErzB5fPz2AA1nxnSSdsaw5USf4dzyzu3JgznatAxVTNpzHKFl4L5bkyR6MGu1/lYX
+ 5l6IeCrk
+X-Proofpoint-GUID: 2e5JbewWj9o2Y6EkBQAIIsVlbXIaTBHS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090025
 
-The bypass argument to the mxc_isi_channel_chain() function is unused.
-Drop it.
+On 8/13/25 11:51 PM, Bryan O'Donoghue wrote:
+> On 13/08/2025 10:37, Dikshita Agarwal wrote:
+>> However, now after removing that restriction, the instance state can be
+>> OUTPUT_STREAMING when firmware start is triggered and substate needs to
+>> be moved to LOAD_RESOURCES.
+>>
+>> Fixes: 547f7b8c5090 ("media: iris: add check to allow sub states transitions")
+> 
+> If a restriction has been removed, has that restriction been marked as a 
+> Fixes: ?
+> 
+> If not then we can't actually backport this fix as the dependency - the 
+> restriction removal has not been marked for backport.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h |  2 +-
- drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c   |  2 +-
- drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c  | 11 +++++------
- drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c |  2 +-
- 4 files changed, 8 insertions(+), 9 deletions(-)
+Please stop confusing fixes and backports..
 
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-index d86f5ede0c0e..5789e54f9428 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-@@ -361,7 +361,7 @@ void mxc_isi_channel_get(struct mxc_isi_pipe *pipe);
- void mxc_isi_channel_put(struct mxc_isi_pipe *pipe);
- void mxc_isi_channel_enable(struct mxc_isi_pipe *pipe);
- void mxc_isi_channel_disable(struct mxc_isi_pipe *pipe);
--int mxc_isi_channel_chain(struct mxc_isi_pipe *pipe, bool bypass);
-+int mxc_isi_channel_chain(struct mxc_isi_pipe *pipe);
- void mxc_isi_channel_unchain(struct mxc_isi_pipe *pipe);
- 
- void mxc_isi_channel_config(struct mxc_isi_pipe *pipe,
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
-index 5623914f95e6..9225a7ac1c3e 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
-@@ -587,7 +587,7 @@ void mxc_isi_channel_release(struct mxc_isi_pipe *pipe)
-  *
-  * TODO: Support secondary line buffer for downscaling YUV420 images.
-  */
--int mxc_isi_channel_chain(struct mxc_isi_pipe *pipe, bool bypass)
-+int mxc_isi_channel_chain(struct mxc_isi_pipe *pipe)
- {
- 	/* Channel chaining requires both line and output buffer. */
- 	const u8 resources = MXC_ISI_CHANNEL_RES_OUTPUT_BUF
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-index 5501214cc6c0..e36781c5522e 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-@@ -491,7 +491,6 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
- 	const struct mxc_isi_format_info *cap_info = ctx->queues.cap.info;
- 	const struct mxc_isi_format_info *out_info = ctx->queues.out.info;
- 	struct mxc_isi_m2m *m2m = ctx->m2m;
--	bool bypass;
- 	int ret;
- 
- 	if (q->streaming)
-@@ -504,15 +503,15 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
- 		goto unlock;
- 	}
- 
--	bypass = cap_pix->width == out_pix->width &&
--		 cap_pix->height == out_pix->height &&
--		 cap_info->encoding == out_info->encoding;
--
- 	/*
- 	 * Acquire the pipe and initialize the channel with the first user of
- 	 * the M2M device.
- 	 */
- 	if (m2m->usage_count == 0) {
-+		bool bypass = cap_pix->width == out_pix->width &&
-+			      cap_pix->height == out_pix->height &&
-+			      cap_info->encoding == out_info->encoding;
-+
- 		ret = mxc_isi_channel_acquire(m2m->pipe,
- 					      &mxc_isi_m2m_frame_write_done,
- 					      bypass);
-@@ -529,7 +528,7 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
- 	 * buffer chaining.
- 	 */
- 	if (!ctx->chained && out_pix->width > MXC_ISI_MAX_WIDTH_UNCHAINED) {
--		ret = mxc_isi_channel_chain(m2m->pipe, bypass);
-+		ret = mxc_isi_channel_chain(m2m->pipe);
- 		if (ret)
- 			goto deinit;
- 
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-index d76eb58deb09..a41c51dd9ce0 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-@@ -855,7 +855,7 @@ int mxc_isi_pipe_acquire(struct mxc_isi_pipe *pipe,
- 
- 	/* Chain the channel if needed for wide resolutions. */
- 	if (sink_fmt->width > MXC_ISI_MAX_WIDTH_UNCHAINED) {
--		ret = mxc_isi_channel_chain(pipe, bypass);
-+		ret = mxc_isi_channel_chain(pipe);
- 		if (ret)
- 			mxc_isi_channel_release(pipe);
- 	}
+If you're really paranoid about this commit getting autoselected, see
+'noautosel' under this section:
 
-base-commit: 078f1a7eb48eef9b3cb78bcd2254356f3a332358
--- 
-Regards,
+https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-Laurent Pinchart
+Konrad
 
+> 
+> Please evaluate if the necessary change you have stipulated here has 
+> been marked for backport with Fixes: and if so mention the appropriate 
+> commit SHA in your commit log.
+> 
+> If you are referring to the commit immediately preceding this patch "Fix 
+> buffer count reporting in internal buffer check" then again you should 
+> mention that in the log so _which_ dependency you mean is clear.
+> 
+> If I were trying to follow this series on some kind of -stable kernel, I 
+> don't think this commit log would reasonably tell me which depends I 
+> need as an antecedent.
+> 
+> ---
+> bod
+> 
+> 
 
