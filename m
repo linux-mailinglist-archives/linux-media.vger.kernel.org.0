@@ -1,262 +1,168 @@
-Return-Path: <linux-media+bounces-39828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39829-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DD3B2540F
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:46:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D56FB25476
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 22:20:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 321D21C28377
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 19:46:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 048E37B69A2
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 20:19:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06CC584E07;
-	Wed, 13 Aug 2025 19:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24F102D4B7A;
+	Wed, 13 Aug 2025 20:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="f9YHsGSx"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pPr8ULQQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1FB2F9984
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 19:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755114369; cv=pass; b=hAMJKo8UdVq8+dqrbd9oqcgrUVwtrnJk26OucMvd09n/1Oxz/kP5HdSZ+/ajy2RBtjnVEYSo4Z9sKSuNw65KqzkMSEBqNo561CZbwpLZbntk0Y6ckA/mJIzujC2ECFiouEgfw6603krjKH2oCkOFNnjk4mlYJwlg+JlIyOumk6U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755114369; c=relaxed/simple;
-	bh=+KhYp1URurjTSWBb9BdbJUik6KSIdwJiwZAufDr5ZOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ntQn0wP8D985G/iqQPHY4D218ICQ2JGe3EkK5SD/JesqLDSINxnQzHr9KGSinzUwEsAh0AElEnBBrqt2g/yU4LHHqd12xWOpJUj+dH6g8EuLjFhnGctu62TABYHTd2cdwgvBmOblL8sMcvYWzRxb4cAAjZmHdn+2MJZpE8ZS4wA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=f9YHsGSx; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4c2JlF6LVWzyQx;
-	Wed, 13 Aug 2025 22:46:01 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1755114363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gAajVmweKJ6gWmyFn2Y+3h6ejiKMytJq+h7yu3wwKBY=;
-	b=f9YHsGSxCQOwMwGgYH/cfXQo2bZOeiyeTbmENCTNt+IpwVERVSpsQcab0j9mfy976br2gC
-	Y8RniI9VpMHjysMT/NuW40ewg1rWOjtzp3XDmBWt3XxFPZlZI9DEqR5RxA54nLFGCl2XO+
-	Fq9XrL3iGfrWNdvB+ChoM1PuA382Dtk=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1755114363; a=rsa-sha256; cv=none;
-	b=gkzgEe2aksV0vO34onLZB9MJFM4/RogqtDvDnFXJ9eCO0iCCWc2+67BJQVtpDqlnxeyYqZ
-	biRWOPQb3w4APUltLpHvBksFoyMoKGj7uSnCO3QIDrCUAoe+uMhz3FTm83VMsgDlUea8x1
-	3VvlIibPJjmz5wcp5ubeyT3C+teO0dE=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1755114363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gAajVmweKJ6gWmyFn2Y+3h6ejiKMytJq+h7yu3wwKBY=;
-	b=pUK63Ah32MchOuAUYKD60LzEsuzd1ZkYMhkOqAkkAU4RejDtYiLjXuC95LYEa/17DAQ6jZ
-	tgAAfMbN8pGMFzynsA9ZHyMKlKaBUAsaPSHKrjAeQ7eL3web16Z1gUe2CARTpZ2GxHHDKi
-	kwRnR8yW4ZwrTUDprrCvdiYoJMuYlgY=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4F9B2634C93;
-	Wed, 13 Aug 2025 22:45:11 +0300 (EEST)
-Date: Wed, 13 Aug 2025 19:45:11 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	stanislaw.gruszka@linux.intel.com, hdegoede@redhat.com,
-	arnd@arndb.de, alain.volmat@foss.st.com, andrzej.hajda@intel.com,
-	benjamin.mugnier@foss.st.com, dave.stevenson@raspberrypi.com,
-	hansg@kernel.org, jacopo.mondi@ideasonboard.com,
-	kieran.bingham@ideasonboard.com, khalasa@piap.pl, mani@kernel.org,
-	m.felsch@pengutronix.de, matthias.fend@emfend.at,
-	mchehab@kernel.org, michael.riesch@collabora.com,
-	naush@raspberrypi.com, nicholas@rothemail.net,
-	nicolas.dufresne@collabora.com, paul.elder@ideasonboard.com,
-	dan.scally@ideasonboard.com, pavel@kernel.org, rashanmu@gmail.com,
-	ribalda@chromium.org, slongerbeam@gmail.com,
-	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
-	linux-media@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 01/48] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <aJzrR8Nwy9u7-6Yo@valkosipuli.retiisi.eu>
-References: <cover.1750942967.git.mehdi.djait@linux.intel.com>
- <8ecbcafbd91b25ad5e188dbe127b921a1643027e.1750942967.git.mehdi.djait@linux.intel.com>
- <cd5ac9a7-ada2-4bdf-bc81-8290f0eb88d6@kernel.org>
- <aJyMOEs9UeiudvXh@valkosipuli.retiisi.eu>
- <20250813130831.GG20174@pendragon.ideasonboard.com>
- <70ef88ba-b7b0-488c-a5d7-f90421a1bfda@kernel.org>
- <aJymFgQQcIZVk2jX@kekkonen.localdomain>
- <46b76530-023f-4f36-bec3-1d3ab79c682c@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E683D994
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 20:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755116440; cv=none; b=jBDmKhWK03hKJoROizkpw6IVdXwC7x6PAmBd7lJphqQBQr+okb3HyGNb3GeLRnoq1PBFevNHGP9/yqLVjZSTM1/XR8v03/25iHijOyph2ZU8Aigajlg19QIEk9WSUhPXOcuH1t9qgiyQODiC7MvbfqLk8ZaxAx0DF5O6oK82/DI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755116440; c=relaxed/simple;
+	bh=rR+D3tBr5Y7TWuY2UOSpzkXUuslrs0FnyhVARRKHYQU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=quhwLKqv3uqpu+VvH0qG4foeeKkzoL/mx7L4g0hH4jApky5BaIZKa41dxe5nkuE9fHzsB53JKxaexHG+rzOJ+dfbO478oF8LzbkTU1z8sVTQAL0gLNTWYoEw6JFCKVhgWSgZZ023ix6h27dlOJShueUnq7+p2+Odlk1xa6OIKh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pPr8ULQQ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45a1abf5466so1871555e9.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 13:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755116437; x=1755721237; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F/1t3EFEgXHUBAHB72RnZ06wSpjDj+54/Frk/ThDsww=;
+        b=pPr8ULQQFQFl7vanrN6bHhHRWjrHy2Kga2slWZ+ikhD8zspOIiKIgD/6M8YEl29Tek
+         yjBNHJU7GqDsfpPU7gE/mKP5oZM3IZNkjm2w6M/APudhBp4qp61Fy6tLiddDdltFrL0Z
+         s2Z5z45BK0p2c3JYdv+CwwtAO8T3DO+VLVynnjUGI0trR0NvZvHDxymyfBrqjkS1nRhq
+         S3AeOMSca7UsNMV532vvEWOYzZX7XWbLPBuynyPC18J4VHFWV84G2P4G1Y/q4xm4pmp+
+         GKJSPFT9l9CsLwERm8+vsp6DVQmxVLU4RHy5eNTtJxBo1zNP3BmJJB1uhW1hm4gN6fAG
+         GVdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755116437; x=1755721237;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/1t3EFEgXHUBAHB72RnZ06wSpjDj+54/Frk/ThDsww=;
+        b=tSLN+gSG6jKYMDcj2MJ22r+WiSYVFiWHoJZxITHMxqxSj5lhtWy976E/FkvnxaKHMp
+         TfPr79GuloJFioZvZ+zpf6M+KUd+vv3G/43jMLAIUtjCJ6wEPd81oZlUVcr3ucTFDYU9
+         7GnsU6+frItMLOSAb7Nkn19MoDLQDBIFdbFPCv2/SjN8wh04ouRehyU23yqPWWON3i+T
+         awQGjy0DW8vnqAJESPz895xXI3iv4AanZ4QNhSQOMj9SmRpbzXPT49xePW1Gni+vZG+G
+         HF/+MiqiOZnyV7J4jJzNZHNUAoMMu/CFFFJNSKA3Rz1AHww4vE0xuIbl9Vm7WKwl4aaL
+         6cCA==
+X-Gm-Message-State: AOJu0YzXhTktT02sQ4RrMwGxYwhDfUfAoOjzjIKqH3fk9WQ3YbMHho9G
+	YOMLyidrEVtyAn2c9yeX+BtQtc+IXvoiNSeJam6lkqpXe53a03GpEK5RfmdAOnTiKamLKPPIik/
+	RFRY+x+s=
+X-Gm-Gg: ASbGncvMYYZfENRw9/F+UyDY1ETax25StW/0U+Dg+TdF2EHcfoIGzIESTIAd73y0EZ/
+	4DxII8TYFJKF2krYvTAjdJ9LUAcKjLiAGxiYGp5TE+yLUtv2w0bNYL2L3PNFxPgcoY2YuaT/+Sf
+	6vhWOZBAgWRewiKI3DdIecjtAKGjcq/K44qBS2B/aZYmyA0jbwFwFF3yiArHOZ179Bmo3OuuDf0
+	XW7PTb28WUDav0mNOeTDF8w+A6OhiJA+Gaiq8CM9jUyqpn4C6W9KGi8H13jKKcye2/cc5w2uag9
+	h6gZQbjvXN5bZB0I6yDW84yZTUBkc340vObkgylQEfI+EJAmB1M0+Nm66IgFTNUeiHscnhpifNb
+	BPwW4mt2fZHyWTiJ+Fi18Jf16zPwEFQOgTVQCxngn3QRK1f+9BLCmUk9RrbhrnVA=
+X-Google-Smtp-Source: AGHT+IElNKXelLAOHt8GQdvDS1nqHvpRfu2/IblCpP/yU0lQ3cWvxbEeQ3xIecHM4pnAO9YWIbdQzQ==
+X-Received: by 2002:a05:600c:8283:b0:459:d9d5:7f2b with SMTP id 5b1f17b1804b1-45a1b7bf687mr343085e9.16.1755116436947;
+        Wed, 13 Aug 2025 13:20:36 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b915deec6bsm4945531f8f.7.2025.08.13.13.20.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Aug 2025 13:20:36 -0700 (PDT)
+Message-ID: <bb919b4f-b51f-41c5-aed8-a3809316f7fb@linaro.org>
+Date: Wed, 13 Aug 2025 21:20:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <46b76530-023f-4f36-bec3-1d3ab79c682c@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: iris: vpu3x: Add MNoC low power handshake
+ during hardware power-off
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250813-sm8650-power-sequence-fix-v2-1-9ed0fc2c45cb@quicinc.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250813-sm8650-power-sequence-fix-v2-1-9ed0fc2c45cb@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+On 13/08/2025 08:53, Dikshita Agarwal wrote:
+> +	/* set MNoC to low power */
+> +	writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+> +
+> +	do {
+> +		value = readl(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS);
+> +
+> +		handshake_done = value & NOC_LPI_STATUS_DONE;
+> +		handshake_busy = value & (NOC_LPI_STATUS_DENY | NOC_LPI_STATUS_ACTIVE);
+> +
+> +		if (handshake_done || !handshake_busy)
+> +			break;
+> +
+> +		writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+> +
+> +		udelay(15);
+> +
+> +		writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+> +	} while (++count < 1000);
 
-On Wed, Aug 13, 2025 at 05:14:42PM +0200, Hans Verkuil wrote:
-> On 13/08/2025 16:49, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Wed, Aug 13, 2025 at 03:23:18PM +0200, Hans Verkuil wrote:
-> >> On 13/08/2025 15:08, Laurent Pinchart wrote:
-> >>> On Wed, Aug 13, 2025 at 12:59:36PM +0000, Sakari Ailus wrote:
-> >>>> On Wed, Aug 13, 2025 at 12:15:29PM +0200, Hans Verkuil wrote:
-> >>>>> On 26/06/2025 15:33, Mehdi Djait wrote:
-> >>>>>> Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> >>>>>> platforms to retrieve a reference to the clock producer from firmware.
-> >>>>>>
-> >>>>>> This helper behaves the same as devm_clk_get() except where there is
-> >>>>>> no clock producer like in ACPI-based platforms.
-> >>>>>>
-> >>>>>> For ACPI-based platforms the function will read the "clock-frequency"
-> >>>>>> ACPI _DSD property and register a fixed frequency clock with the frequency
-> >>>>>> indicated in the property.
-> >>>>>>
-> >>>>>> This function also handles the special ACPI-based system case where:
-> >>>>>> The clock-frequency _DSD property is present.
-> >>>>>> A reference to the clock producer is present, where the clock is provided
-> >>>>>> by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> >>>>>> In this case try to set the clock-frequency value to the provided clock.
-> >>>>>
-> >>>>> On irc I wondered about the name of the new function since it is sensor
-> >>>>> specific, and if it can also be used for e.g. video receivers, then it
-> >>>>> should be renamed to something more generic.
-> >>>>>
-> >>>>> According to Laurent there is no ACPI standard for video receivers, so
-> >>>>> that's the reason this is sensor specific.
-> >>>>>
-> >>>>> I'd like to see that documented in this patch. Either in the commit log,
-> >>>>> or, preferred, in the header in the function description.
-> >>>>
-> >>>> Given this patch has been around for quite some time and I've sent a PR on
-> >>>> it, I'd prefer to proceed with the current PR. I'm fine with adding more
-> >>>> documentation though if you think we should do that.
-> >>>
-> >>> How about a separate patch that Hans can merge just on top of your PR ?
-> >>> Could you send one ?
-> >>
-> >> I'd like to have the rationale of why this is a sensor-only function
-> >> documented. If I wondered about that, then someone else will likely have
-> >> the same question.
-> >>
-> >>>
-> >>>>> I made a suggestion below.
-> >>>>>
-> >>>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>>>> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>>>>> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> >>>>>> ---
-> >>>>>>  drivers/media/v4l2-core/v4l2-common.c | 52 +++++++++++++++++++++++++++
-> >>>>>>  include/media/v4l2-common.h           | 27 ++++++++++++++
-> >>>>>>  2 files changed, 79 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> >>>>>
-> >>>>> <snip>
-> >>>>>
-> >>>>>> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> >>>>>> index 0a43f56578bc..1c79ca4d5c73 100644
-> >>>>>> --- a/include/media/v4l2-common.h
-> >>>>>> +++ b/include/media/v4l2-common.h
-> >>>>>> @@ -100,6 +100,7 @@ int v4l2_ctrl_query_fill(struct v4l2_queryctrl *qctrl,
-> >>>>>>  struct v4l2_device;
-> >>>>>>  struct v4l2_subdev;
-> >>>>>>  struct v4l2_subdev_ops;
-> >>>>>> +struct clk;
-> >>>>>>  
-> >>>>>>  /* I2C Helper functions */
-> >>>>>>  #include <linux/i2c.h>
-> >>>>>> @@ -620,6 +621,32 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
-> >>>>>>  			     unsigned int num_of_driver_link_freqs,
-> >>>>>>  			     unsigned long *bitmap);
-> >>>>>>  
-> >>>>>> +/**
-> >>>>>> + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to a clock producer
-> >>>>>> + *	for a camera sensor.
-> >>>>>> + *
-> >>>>>> + * @dev: device for v4l2 sensor clock "consumer"
-> >>>>>> + * @id: clock consumer ID
-> >>>>>> + *
-> >>>>>> + * This function behaves the same way as devm_clk_get() except where there
-> >>>>>> + * is no clock producer like in ACPI-based platforms.
-> >>>>>> + *
-> >>>>>> + * For ACPI-based platforms, the function will read the "clock-frequency"
-> >>>>>> + * ACPI _DSD property and register a fixed-clock with the frequency indicated
-> >>>>>> + * in the property.
-> >>>>>> + *
-> >>>>>> + * This function also handles the special ACPI-based system case where:
-> >>>>>> + *
-> >>>>>> + * * The clock-frequency _DSD property is present.
-> >>>>>> + * * A reference to the clock producer is present, where the clock is provided
-> >>>>>> + *   by a camera sensor PMIC driver (e.g. int3472/tps68470.c)
-> >>>>>> + *
-> >>>>>> + * In this case try to set the clock-frequency value to the provided clock.
-> >>>>>
-> >>>>>     *
-> >>>>>     * While ACPI has standardized sensor support, there is no standard support for
-> >>>>>     * e.g. video receivers. So this function is specific to sensors, hence the
-> >>>>>     * chosen function name.
-> >>>>>
-> >>>>> Better suggestions are welcome.
-> >>>>
-> >>>> ACPI itself does not standardise camera sensor support. What driver authors
-> >>>
-> >>> But there's a de facto standard that makes this helper function
-> >>> suitable, isn't there ?
-> >>>
-> >>>> should know indeed is that this function provides a clock that can be at
-> >>>> least queried for frequency, independently of how that clock is controlled
-> >>>> or how its frequency is configured.
-> >>>>
-> >>>> How about:
-> >>>>
-> >>>>  * This function may be used in camera sensor drivers only.
-> >>
-> >> That just restates what is also in the function name. It's the 'why' that I'd
-> >> like to know. Even if you simply don't know if this will work for non-sensor
-> >> driver, just stating that will help.
-> > 
-> > As I replied on #linux-media:
-> > 
-> > devm_v4l2_sensor_clk_get() in practice provides a clock to camera sensors
-> > which is what they need; other types of devices generally don't care much
-> > about clocks. Why camera sensors are special is that they have a PLL and a
-> > CSI-2 RX the configuration of which depend on the external clock.
-> > 
-> > Is something like this what you're looking for, or something more
-> > elaborate? There are different ways the clock can be obtained but I'm not
-> > sure we'll need to go to that in the function documentation.
-> > 
-> 
-> Yes, that's sufficient. If you can make a patch adding that, then I'll add it
-> to the PR. No need to make a new PR for this, I can just add it myself.
+So if this loop executes 999 times but succeeds on the 1000th try, your 
+test would fail because your final write never gets evaluated in a 
+subsequent loop.
 
-Ack, Ḯ'll post the patch tomorrow.
+Wouldn't this be more logical like this
 
--- 
-Regards,
+do {
+	/* issue command */
+	writel(REQ_POWER_DOWN_PREP, core->reg_base +
+	       AON_WRAPPER_MVP_NOC_LPI_CONTROL);
 
-Sakari Ailus
+	/* wait for command to take effect */
+	udelay(15);
+
+	/* read back status */
+	value = readl(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS);
+
+	handshake_done = value & NOC_LPI_STATUS_DONE;
+	handshake_busy = value & (NOC_LPI_STATUS_DENY |
+				  NOC_LPI_STATUS_ACTIVE);
+
+	if (handshake_done || !handshake_busy)
+		break;
+
+	/* power down? the mnoc */
+	writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+
+	/* Let that command take effect ? */
+	udelay(15);
+
+} while (++count < 1000);
+
+That way you exit the loop with the mnoc state in a known state, instead 
+of as your loop currently is perhaps having succeeded but incorrectly 
+signalling failure.
+
+Also why 1000 ? Thats 1000 x 1.5 microseconds - 1.5 milliseconds 
+potentially in your submitted patch now nearly 3 milliseconds assuming 
+the power-down command similarly requires a grace period.
+
+Please at least fix the loop so that the last power-on command should it 
+succeed at the termination of your loop can be captured.
+
+> +	if (!handshake_done && handshake_busy)
+> +		dev_err(core->dev, "LPI handshake timeout\n");
+
+---
+bod
 
