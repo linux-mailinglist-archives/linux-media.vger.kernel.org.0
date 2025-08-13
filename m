@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-39839-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7996B255A6
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 23:39:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAABEB255A4
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 23:39:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E7B91C8540F
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:36:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E0EC3BB0B6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:36:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58E452F39A2;
-	Wed, 13 Aug 2025 21:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE1E3009D8;
+	Wed, 13 Aug 2025 21:35:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OFH2tCi9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XM6yJV9B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013632F39A4
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 21:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA8B3009C5
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 21:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755120830; cv=none; b=C/RBOE36sK1atEcK1JJS/f8fpExElZJoHOV4GZqcb96CNeghqGSajlv3NjhYJ90LHvuQxJAKleI+4DGjxUzaFxRUc0uSmCnYr1SieMjP5GiaE4/say74ZfyycE8B0zLlhfaTTBPe6Xcynsbs9OUB9ruqMix6tV0wzGmrJUYB5CI=
+	t=1755120928; cv=none; b=guofZmr6Mqp8oZawENxomI7HSvQ3dshT7dKGnb9sfQ/GQ+wCPrstNkvECWt3zWOWF+3l0H7u1JsP4P26YRuJGCvRzRdZDVksAq5hTkLpTHpeakSOYF+IH6HT1gZ+d2zJoKaFo2C3cu85DBbY4jw0FtktR5d4Sb5Hrtj8Yp/vKqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755120830; c=relaxed/simple;
-	bh=uTx6cOJQtxOfCRA/41WV7CyIUJyXISfLg3bbXqEPSrw=;
+	s=arc-20240116; t=1755120928; c=relaxed/simple;
+	bh=JGDu2T4AA+CwFqW1EWB3SqKUF4ftHO3YFhNGuUoTrXs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HlEOQIola0wbVRLMAuLPUeRHgjA8vpj11AY2iRDOhgpcZmo9rQmT1Dv/bdo6GVwfIhbnwmpinnWmFBDteJJBHObI4MqsEg2AUVo4Ub6jLkTQl3ed4oVMIBr7hRKxgQSgA3GSNspRTkmFJDrAoGYTU6DCILWRVBMwbjqFbrg2o24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OFH2tCi9; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:Content-Type; b=rI2WCRR3Gkxk51pduUZE0V61SKS/Ts0ymm+Zn70ptjq1ZDTXFXU83Sxe1dL15PIBGGUMlGr43HiVgPNPJDrjcvpa+FOhB1d5oUpBDVqTrOQyvPKoLVSCoE4ztUalysoGKdv3GgeNCDcdk3qBtO34m+CspnSQxgvZetyzN6yYrJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XM6yJV9B; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45a1b066b5eso1087495e9.1
-        for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 14:33:47 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b9d41c1963so160475f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 14:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755120826; x=1755725626; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1755120925; x=1755725725; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=mcsR2lpNDjubFi27+my/+Mvy0uMimCUXPssMeKK9hBQ=;
-        b=OFH2tCi9mQ1+W/+FczKPse7GMceU9IVGVn+0B+31sqL91iWd0eruGawnbmGTEmK5gs
-         957nVTD80EwQQNA8HSeRNqJA60K2OVqc+9sJvY3Q5EzllRFSQEgK8xGLt1FOwHyq6fdL
-         xZXVERSySw6OSj2/MGnowBvA5+McRuG6VeH4EnXA9sfWQjkprjRO/W9rzs8mLnEqz7gt
-         1WkCzGoNlXuY0wJnho5q6HGK6LR/DMDTXeyfsgcXORTQYl/yOKxoTGOFyoVPBhWdwgSs
-         YQvjfYqaA9KG6o/oWlorwvPm8dFaJYOhZp8/s8DY6xVV4XEbRQFzbP6DFuEUMPXoPCLH
-         QhnQ==
+        bh=1XmXvWLJhlSpXOiiF4u4DdYe3hF2nbQcNLrAb9SCIeY=;
+        b=XM6yJV9BoOnoRAkb5h86O8AqyjJ0vfzee/TziE2sAtZcEQi7STm390P1mSz5eCs8CO
+         /LYLBDbAneeruufG9ECE0OHRq2T8riYy+Oh3PCtVcdalXsKzF+V4/nC469rs+ICActbw
+         bI4/UiU4wXFdd7znphMoNbzv5/yBDedA+YdR+cweWw66w5FXc1CSXeMluDdrFB8tJAsh
+         x+3MkJX3+r43WGJJsSORTiOQJtpe4NsmDwLv+f0kwEvNQeLmV6TQls/abr6bBVCAhHOz
+         wmYjKrcMnwOed80/aeIvTeAIxLRN5vy2FpdiPnqfBTQBxXfI0BAL8ECWLNwXZP9E+71+
+         9xIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755120826; x=1755725626;
+        d=1e100.net; s=20230601; t=1755120925; x=1755725725;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mcsR2lpNDjubFi27+my/+Mvy0uMimCUXPssMeKK9hBQ=;
-        b=oPZ3jNJq6KY74YcJNyrabXgfFcgbnH+uIJYq/on0b074VEZyfr68HRBsi2q1b2r0Ps
-         ojBs4QhZRvklXAy4IgKBLwzeIohLNN8GcZUHvilUhfGPsR2gcZoN3EfxT4IPzvPzLkz1
-         BlFQv0KXX61jTW6x1LVtZe6HM5y6WL/T69HGA7KMGHkGzu8akYfgBTD5245B6JbICalO
-         JH+dZYcwF6cS+Msu3hWeTy3EsKzyfgVpC5pdxpacltUO6IKLEUrlf9E6/6N5PSsdH29d
-         bdEF3kmIbrYYvbj0qm/XL1SIWYHG3cxtgGthz5VUHHflXGFiX7IdiYJLE5gsdZeSM6xJ
-         gOCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVN3Mfn/0gKongDhWpjXl1Jhxf5Dh6L4Kzl3VE1uY4tnIyaRmB7F9nfkiglxdoo1+t+Xkw6YlQcn90XOA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJpzQTi5NVtji3lIMKoyQRBVen/4pI18N1hwwJSivijN23zvHB
-	gUIf7etK03JikWaKx8miZKMH92etA/GTS3hmUXo0/J1jPP07+DPhzIrTpjxZpV8mTbQ=
-X-Gm-Gg: ASbGncvBW+hKTpM37+Y7aNXVWb7So+yedFtYgsaoDfMiYEFFXEGSUj8C930Iq4R8zqV
-	ZR8uffVGi70ihYK+WQggM0VCUy0+vL9lX6aN4QG9opfTgWpH9KTekd02Bvt1ALyP4LHKdNKIJWc
-	KN+pr3g7inOqiI03o1rPv2CyMcsetFbXWmTYdLeUzVa9dSwZ2uVjsC/uAW06TQTKRsUTpDhPHox
-	ty5DlP8lIt4hDxZPHokkZIfFVbmEFsXpp8wNeFh9QJrv1w4clTkOIAVm0N4xOazVZhvVYuQNWbC
-	dRBKDwvWeZ/XXBeGmxY5ldnGV5pggNJFX+YqJ8xkla+w8GKMCaTU2yvfudHias2zEehohPmir+q
-	te1FH/DBcfoSBpb2iuQsEfkBhAaqGu1XS4dwdZ5R/up9RcU768IMW43fkFWaxR9+m
-X-Google-Smtp-Source: AGHT+IFQrbl5wtElBhTcltssVqQElSDpYxXU1Tfejew44z/pIJJpOOHXcbKrIs4k71QsMA33PxUImg==
-X-Received: by 2002:a05:600c:4708:b0:459:e025:8c5b with SMTP id 5b1f17b1804b1-45a1b674677mr2714735e9.30.1755120826249;
-        Wed, 13 Aug 2025 14:33:46 -0700 (PDT)
+        bh=1XmXvWLJhlSpXOiiF4u4DdYe3hF2nbQcNLrAb9SCIeY=;
+        b=oc7uFoPaAWl0V709IgHi8dJzdEV6bWa44bAf7nHHs3gj9p5IeD7JJ81ZoIMT+JHBWh
+         Vy8KD8mx+opEA7TR7wnBoG7lf4CaO69y02rsD9t8txDYCr9FTg6+9C5F3WDpmZUPR2Bd
+         7PLYk7jf7oPrU/m7lbdJwANQct1C6YDhN2B7c/WiCj60kFjejZN2FBvwhY74NZSbBmr1
+         DcYF4vf6fQ3JCVTWarNl9hyhe55MaTitDp36t851h+51gY3A86LLrYl4zPq6bWuE2lSy
+         ag5krFaNpIianUocmKZ/RrkWKo7D6DaodY8tOqQJdCKmObH6blzIsOEvU01ATSUmgh1r
+         xi4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWk9kRs2qJpOnm/XBzgnNfgdBHZa1MPqOqrWiyiNdbO1KcWaB7qqMN7Dw+sI1T2gTNWmjDFOuQkyPPCwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGAsgkjUgsS2vDUhHzcTXzxK51VAFLSXRMJHRXmN/051b1sQn4
+	gMplzv/oeQETF6bmHBh9tMIcfTAdmlyqMCdJ0v04xnyZj3/RVbCCa491JRegYr+v34w=
+X-Gm-Gg: ASbGncs4pHdz5Yi6wbv0qhyViMLJz8zMXs2YYnVMvANT+DhOl6vjkhavTRFcU8Rxnzv
+	FoFvw46HtyX6W/A/jYJJVb9NgsQK/7sQSb8T3RoG5DJ9dod6FNgzVWLDtlKaw6dWnBcZeCxmtsI
+	dkw9d7mCMujDoXYlmumN15kFG4ih4upW7dRmj7HdpEsReLHohIkLA/mbX3qucgYTP57th/d599R
+	DMr27DROE2oEjjTKEYhkxgqt9RJSJ8BxJc/a0433ABlzqgQPNfKxU2lnPAgFScIu48Clv/HagOn
+	ezsYRoj7R/yux0yQyoZm43J8G70g5Xg1bDRQ56/FpiYTkFXcNciUAqOIfEXb6fjJ7c0j0Y8xK/a
+	jouDtKToIZjYrj6T7CmefswHzz3//eOx474VG1YOzOdYWoM7EorzDUVW+shVu23vV
+X-Google-Smtp-Source: AGHT+IEXpcW7O5Udyxtt77HddjjtyRdwKlGTXAk1h299MQ76Ljg2rx6jkkZiaE782uOxs2v38udmMg==
+X-Received: by 2002:a05:6000:25c6:b0:3a4:dc2a:924e with SMTP id ffacd0b85a97d-3b9e7438457mr554485f8f.6.1755120925461;
+        Wed, 13 Aug 2025 14:35:25 -0700 (PDT)
 Received: from [192.168.0.13] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a53a5e3sm15602925e9.24.2025.08.13.14.33.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c45346asm48738067f8f.39.2025.08.13.14.35.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 14:33:45 -0700 (PDT)
-Message-ID: <c467e3a9-2c67-4231-9d64-d64de08ec2ce@linaro.org>
-Date: Wed, 13 Aug 2025 22:33:44 +0100
+        Wed, 13 Aug 2025 14:35:24 -0700 (PDT)
+Message-ID: <0a049417-6545-4cdb-95cb-cf41c810b57c@linaro.org>
+Date: Wed, 13 Aug 2025 22:35:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/7] media: qcom: camss: enable csid 690 for qcs8300
+Subject: Re: [PATCH v3 5/7] media: qcom: camss: enable vfe 690 for qcs8300
 To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
@@ -92,39 +92,63 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250813053724.232494-1-quic_vikramsa@quicinc.com>
- <20250813053724.232494-5-quic_vikramsa@quicinc.com>
+ <20250813053724.232494-6-quic_vikramsa@quicinc.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20250813053724.232494-5-quic_vikramsa@quicinc.com>
+In-Reply-To: <20250813053724.232494-6-quic_vikramsa@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 13/08/2025 06:37, Vikram Sharma wrote:
-> The CSID in qcs8300 is version 690, it is same as csid used in
-> lemans(sa8775p). csid gen3 have support for csid 690.
+> The vfe in qcs8300 is version 690, it is same as vfe used in
+> lemans(sa8775p). vfe gen3 have support for vfe 690.
 > 
 > Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 > ---
->   drivers/media/platform/qcom/camss/camss-csid-gen3.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/media/platform/qcom/camss/camss-vfe-gen3.c | 3 ++-
+>   drivers/media/platform/qcom/camss/camss-vfe.c      | 2 ++
+>   2 files changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-> index fc6a9787febe..664245cf6eb0 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-> @@ -45,7 +45,8 @@
->   #define CSID_CSI2_RX_IRQ_CLEAR		0xA4
->   #define CSID_CSI2_RX_IRQ_SET		0xA8
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen3.c b/drivers/media/platform/qcom/camss/camss-vfe-gen3.c
+> index f2001140ead1..22579617def7 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe-gen3.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-gen3.c
+> @@ -13,7 +13,8 @@
+>   #include "camss-vfe.h"
 >   
-> -#define IS_CSID_690(csid)	(csid->camss->res->version == CAMSS_8775P)
-> +#define IS_CSID_690(csid)	((csid->camss->res->version == CAMSS_8775P) \
-> +				 || (csid->camss->res->version == CAMSS_8300))
->   #define CSID_BUF_DONE_IRQ_STATUS	0x8C
->   #define BUF_DONE_IRQ_STATUS_RDI_OFFSET  (csid_is_lite(csid) ?\
->   						1 : (IS_CSID_690(csid) ?\
+>   #define IS_VFE_690(vfe) \
+> -	    (vfe->camss->res->version == CAMSS_8775P)
+> +	    ((vfe->camss->res->version == CAMSS_8775P) \
+> +	    || (vfe->camss->res->version == CAMSS_8300))
 
-This really feels like it should be a property of the CSID not of the 
-SoC but... anyway it'll do for now.
+I'd really prefer a patch setting the CSID and VFE versions as 
+properties of their respective data-structures.
+
+BUT, again this will do for now.
+
+>   
+>   #define BUS_REG_BASE_690 \
+>   	    (vfe_is_lite(vfe) ? 0x480 : 0x400)
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index 99cbe09343f2..1d40184d7d04 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -344,6 +344,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
+>   	case CAMSS_8x96:
+>   	case CAMSS_8250:
+>   	case CAMSS_8280XP:
+> +	case CAMSS_8300:
+>   	case CAMSS_845:
+>   	case CAMSS_8550:
+>   	case CAMSS_8775P:
+> @@ -1974,6 +1975,7 @@ static int vfe_bpl_align(struct vfe_device *vfe)
+>   	case CAMSS_7280:
+>   	case CAMSS_8250:
+>   	case CAMSS_8280XP:
+> +	case CAMSS_8300:
+>   	case CAMSS_845:
+>   	case CAMSS_8550:
+>   	case CAMSS_8775P:
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
