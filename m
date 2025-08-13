@@ -1,208 +1,267 @@
-Return-Path: <linux-media+bounces-39749-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39750-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32713B243D0
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 10:11:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 547E7B24419
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 10:20:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A03ED18847C9
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 08:11:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B260721DBE
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 08:17:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBF72D0C78;
-	Wed, 13 Aug 2025 08:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 305B62EF66C;
+	Wed, 13 Aug 2025 08:16:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDNzxUjV"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="f0nQY9eu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A0F23D287
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 08:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FF92D190C
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 08:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755072677; cv=none; b=RBAkmIT2lP2arHJHzc9enMgQi5BbrMi1zjZiWgOYead9g54cOaBYNnBmWmgw7y0dPqjmOXtpk8VDuH4ywri63aCrzC8T8O7fR1OSBa8EiTd6hyWtj6wYe0/gB/mJDKKrhbuCSoCFdqkhddVbsoLZo4Dovwdsk2ToQz/odOLFxgg=
+	t=1755072991; cv=none; b=NS/xHo9vSSYpNLRppFYfB19jGwphD/E1FQH7HmZvZJ+yBHPvDFpZPUCHjtz1L505no9BWCdBVkyyLIAjooaJH1KmgFIVoNAlG8AwnkjERjmNaw7hnLnaQ1O4ySdlmoRS1nydvYbmsCIOoFJ4NoXl7zeLN+MfBLdyIonzEF5PoCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755072677; c=relaxed/simple;
-	bh=lTWL7iTIp8UU/fA2pVXT8nKBkyLbstCLEBrTg9xbh1g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=k77tza++u+eUXE5S0NMwqmQvPB3V9hPoP/iwBJq7gSmCHdAhJHSgUz9G4HHfUxk/bY49q6vU+Hzg59kusF7eWm2K2HcYqOo5tYCXNmD20qGF4pVGr/hsETeRwLQjyCA/xkVb8DbdVZSjWleLtcfav4UctbPswRp4vIGBEnTfAIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDNzxUjV; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755072673; x=1786608673;
-  h=date:from:to:cc:subject:message-id;
-  bh=lTWL7iTIp8UU/fA2pVXT8nKBkyLbstCLEBrTg9xbh1g=;
-  b=KDNzxUjVedO444ESSYxhU7EJwBGOE9MEcfLElxU4PjPz6VfkerW3gVdu
-   jgYv7YhMskupvxaNOeFXSJdlKQjBR6cXUo894DA0Z8bKbFhVzdlkShV6r
-   kbkiPRAeLhSZXu/+y4kghG4Sxsa0hpqz083AmeTCJGaTHewqWt+9bnL4u
-   ottF1HoImrCkUI/ytnMYOGTaIJeoOkh5mBY+ifOHou6JaUo5c8Os78COX
-   mhHz0WA9fDgbEx04nWfP3Y6nlM8Q13SNCctHrqzYu37Ugh89EAw3xFE2t
-   Ovce5yydUmCk18PNcqCaQ1ng8zM/8zrI79t5NVdcURQdjv1wyrKzcaVB3
-   Q==;
-X-CSE-ConnectionGUID: JRc+xxrrTTKj3AVNusBeow==
-X-CSE-MsgGUID: 7gUWrK7pRLGHknl/YltUwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="44936992"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="44936992"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 01:11:12 -0700
-X-CSE-ConnectionGUID: N79KIV6sRl2VOmRZHfDYqA==
-X-CSE-MsgGUID: Ban1E/FERvKnxr/CXB4bIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="197408634"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2025 01:11:11 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1um6Zg-0009hO-2t;
-	Wed, 13 Aug 2025 08:11:08 +0000
-Date: Wed, 13 Aug 2025 16:10:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:eusb2] BUILD SUCCESS
- 28a27399acacda6f2fc631096b9e74897d023c0c
-Message-ID: <202508131611.DqLfhhlC-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1755072991; c=relaxed/simple;
+	bh=kXJMT0nycaMgZPz5mdj1eO+Qep1YB7Pln5s1cV9GRSs=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CrAMROHfcoM071Bt7HRqZtDS+OMAOTAZtQkusqOu2abx6iV3NIeunJPMuTlrCtfS6bWkVx/6zrFIZN6hBlbg1DxnAV/TLvnyulFX6K+8pbDw5EGlGjvCbA+PnB4RV0+2D9v9ZXnL6ZBOouGGKaXOvlDEvykHKuXGZImtl0tPpmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=f0nQY9eu; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4c21RW5rXhz9sNt;
+	Wed, 13 Aug 2025 10:16:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1755072983; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xbZQK/zeT/2elRvBh5ml84/ca45KuDEfKO34jKPUQwY=;
+	b=f0nQY9euicKbXrFIPze9gFKpAQcL4k4njInBPePvZ8ioj0umXgdXMFpbjsln5vfqRzD+vf
+	Rb+HBKJVhfJXDpFWhS1NpfmrMPbUAjId93OfkXQuyvlHIbzAjxT2zZ/xBFwupVzFMHMiCS
+	rt8N2gw1iwDaArmx/8oZjiMor3QeBZRxRRw7uYvGQQhll4xA/sfLqIVcfdN5deBFrHSYRt
+	17+ruOLra1kGOXDAVjuJvoZ74dnO6x95ivdqKKonKvNIVkWPtCPuuuwN+FnuA/qvgo52bZ
+	fJ1bzLxtMGK4EwO5iXL06wmwtxMmYX83wbIncVJg2STLkuezlAkvCgauLWAkqg==
+Message-ID: <76e9e1644fd9c9cb19b7da3626cd0a579ccf3d4a.camel@mailbox.org>
+Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled
+ from IOCTL
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+	simona.vetter@ffwll.ch, tvrtko.ursulin@igalia.com, airlied@gmail.com, 
+	dakr@kernel.org, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org
+Date: Wed, 13 Aug 2025 10:16:19 +0200
+In-Reply-To: <20250812143402.8619-2-christian.koenig@amd.com>
+References: <20250812143402.8619-1-christian.koenig@amd.com>
+	 <20250812143402.8619-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MBO-RS-ID: e19c1b2daa7bf6ca345
+X-MBO-RS-META: 9mzgtzati6httbm5u433tbnc4frkgeys
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git eusb2
-branch HEAD: 28a27399acacda6f2fc631096b9e74897d023c0c  media: uvcvideo: eUSB2 double isochronous bandwidth support
+On Tue, 2025-08-12 at 16:34 +0200, Christian K=C3=B6nig wrote:
+> From: Christian K=C3=B6nig <ckoenig@able.fritz.box>
 
-elapsed time: 1453m
+Is this the correct mail addr? :)
 
-configs tested: 115
-configs skipped: 5
+>=20
+> We have the re-occurring problem that people try to invent a
+> DMA-fences implementation which signals fences based on an userspace
+> IOCTL.
+>=20
+> This is well known as source of hard to track down crashes and is
+> documented to be an invalid approach. The problem is that it seems
+> to work during initial testing and only long term tests points out
+> why this can never work correctly.
+>=20
+> So give at least a warning when people try to signal a fence from
+> task context and not from interrupts or a work item. This check is
+> certainly not perfect but better than nothing.
+>=20
+> Signed-off-by: Christian K=C3=B6nig <ckoenig@able.fritz.box>
+> ---
+> =C2=A0drivers/dma-buf/dma-fence.c | 59 +++++++++++++++++++++++++++-------=
+---
+> =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 |=C2=A0 9 ++++--
+> =C2=A02 files changed, 51 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 3f78c56b58dc..2bce620eacac 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -345,33 +345,23 @@ void __dma_fence_might_wait(void)
+> =C2=A0}
+> =C2=A0#endif
+> =C2=A0
+> -
+> =C2=A0/**
+> - * dma_fence_signal_timestamp_locked - signal completion of a fence
+> + * dma_fence_signal_internal - internal signal completion of a fence
+> =C2=A0 * @fence: the fence to signal
+> =C2=A0 * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC t=
+ime domain
+> =C2=A0 *
+> - * Signal completion for software callbacks on a fence, this will unbloc=
+k
+> - * dma_fence_wait() calls and run all the callbacks added with
+> - * dma_fence_add_callback(). Can be called multiple times, but since a f=
+ence
+> - * can only go from the unsignaled to the signaled state and not back, i=
+t will
+> - * only be effective the first time. Set the timestamp provided as the f=
+ence
+> - * signal timestamp.
+> - *
+> - * Unlike dma_fence_signal_timestamp(), this function must be called wit=
+h
+> - * &dma_fence.lock held.
+> + * Internal signal the dma_fence without error checking. Should *NEVER* =
+be used
+> + * by drivers or external code directly.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+s/Internal/Internally
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250812    gcc-8.5.0
-arc                   randconfig-002-20250812    gcc-12.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                         assabet_defconfig    clang-18
-arm                            mps2_defconfig    clang-22
-arm                       multi_v4t_defconfig    clang-16
-arm                   randconfig-001-20250812    clang-22
-arm                   randconfig-002-20250812    clang-22
-arm                   randconfig-003-20250812    gcc-14.3.0
-arm                   randconfig-004-20250812    gcc-10.5.0
-arm                    vt8500_v6_v7_defconfig    gcc-15.1.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250812    gcc-8.5.0
-arm64                 randconfig-002-20250812    gcc-8.5.0
-arm64                 randconfig-003-20250812    gcc-14.3.0
-arm64                 randconfig-004-20250812    gcc-8.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250812    gcc-13.4.0
-csky                  randconfig-002-20250812    gcc-10.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250812    clang-22
-hexagon               randconfig-002-20250812    clang-22
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250812    gcc-12
-i386        buildonly-randconfig-002-20250812    gcc-12
-i386        buildonly-randconfig-003-20250812    gcc-12
-i386        buildonly-randconfig-004-20250812    clang-20
-i386        buildonly-randconfig-005-20250812    clang-20
-i386        buildonly-randconfig-006-20250812    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250812    gcc-15.1.0
-loongarch             randconfig-002-20250812    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250812    gcc-10.5.0
-nios2                 randconfig-002-20250812    gcc-11.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250812    gcc-10.5.0
-parisc                randconfig-002-20250812    gcc-14.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc               randconfig-001-20250812    clang-19
-powerpc               randconfig-002-20250812    clang-22
-powerpc               randconfig-003-20250812    gcc-12.5.0
-powerpc                     tqm8540_defconfig    gcc-15.1.0
-powerpc                     tqm8555_defconfig    gcc-15.1.0
-powerpc64             randconfig-001-20250812    clang-22
-powerpc64             randconfig-002-20250812    clang-16
-powerpc64             randconfig-003-20250812    clang-18
-riscv                             allnoconfig    gcc-15.1.0
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20250812    gcc-9.5.0
-riscv                 randconfig-002-20250812    gcc-8.5.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250812    clang-18
-s390                  randconfig-002-20250812    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                    randconfig-001-20250812    gcc-15.1.0
-sh                    randconfig-002-20250812    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250812    gcc-8.5.0
-sparc                 randconfig-002-20250812    gcc-8.5.0
-sparc64               randconfig-001-20250812    clang-22
-sparc64               randconfig-002-20250812    clang-22
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250812    gcc-11
-um                    randconfig-002-20250812    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250812    clang-20
-x86_64      buildonly-randconfig-002-20250812    gcc-12
-x86_64      buildonly-randconfig-003-20250812    gcc-12
-x86_64      buildonly-randconfig-004-20250812    gcc-12
-x86_64      buildonly-randconfig-005-20250812    clang-20
-x86_64      buildonly-randconfig-006-20250812    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250812    gcc-10.5.0
-xtensa                randconfig-002-20250812    gcc-12.5.0
+> =C2=A0 *
+> =C2=A0 * Returns 0 on success and a negative error value when @fence has =
+been
+> =C2=A0 * signalled already.
+> =C2=A0 */
+> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp)
+> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp=
+)
+> =C2=A0{
+> =C2=A0	struct dma_fence_cb *cur, *tmp;
+> =C2=A0	struct list_head cb_list;
+> =C2=A0
+> =C2=A0	lockdep_assert_held(fence->lock);
+> -
+> =C2=A0	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->flags)))
+> =C2=A0		return -EINVAL;
+> @@ -390,7 +380,46 @@ int dma_fence_signal_timestamp_locked(struct dma_fen=
+ce *fence,
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> -EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
+> +EXPORT_SYMBOL(dma_fence_signal_internal);
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+If it must only be used internally, can it be kept private, without
+exporting the symbol?
+
+> +
+> +/**
+> + * dma_fence_signal_timestamp_locked - signal completion of a fence
+> + * @fence: the fence to signal
+> + * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time d=
+omain
+> + *
+> + * Signal completion for software callbacks on a fence, this will unbloc=
+k
+> + * dma_fence_wait() calls and run all the callbacks added with
+> + * dma_fence_add_callback(). Can be called multiple times, but since a f=
+ence
+> + * can only go from the unsignaled to the signaled state and not back, i=
+t will
+> + * only be effective the first time. Set the timestamp provided as the f=
+ence
+> + * signal timestamp.
+> + *
+> + * Unlike dma_fence_signal_timestamp(), this function must be called wit=
+h
+> + * &dma_fence.lock held.
+> + *
+> + * Returns 0 on success and a negative error value when @fence has been
+> + * signalled already.
+> + */
+> +int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp)
+> +{
+> +	/*
+> +	 * We have the re-occurring problem that people try to invent a
+> +	 * DMA-fences implementation which signals fences based on an userspace
+> +	 * IOCTL.
+> +	 *
+> +	 * This is well known as source of hard to track down crashes and is
+> +	 * documented to be an invalid approach. The problem is that it seems
+> +	 * to work during initial testing and only long term tests points out
+> +	 * why this can never work correctly.
+> +	 *
+> +	 * So give at least a warning when people try to signal a fence from
+> +	 * task context and not from interrupts or a work item. This check is
+> +	 * certainly not perfect but better than nothing.
+> +	 */
+> +	WARN_ON_ONCE(!in_interrupt() && !current_work());
+> +	return dma_fence_signal_internal(fence, timestamp);
+> +}
+
+So this now is the point to decide what we want: do you want to *allow*
+drivers to do it, or want to *prohibit* it?
+
+If you want to prohibit it, then (additionally) returning an error code
+here would make sense.
+
+
+P.
+
+> =C2=A0
+> =C2=A0/**
+> =C2=A0 * dma_fence_signal_timestamp - signal completion of a fence
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 64639e104110..8dbcd66989b8 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -369,6 +369,7 @@ int dma_fence_signal_locked(struct dma_fence *fence);
+> =C2=A0int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t tim=
+estamp);
+> =C2=A0int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp);
+> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp=
+);
+> =C2=A0signed long dma_fence_default_wait(struct dma_fence *fence,
+> =C2=A0				=C2=A0=C2=A0 bool intr, signed long timeout);
+> =C2=A0int dma_fence_add_callback(struct dma_fence *fence,
+> @@ -422,7 +423,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+> =C2=A0		return true;
+> =C2=A0
+> =C2=A0	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> -		dma_fence_signal_locked(fence);
+> +		dma_fence_signal_internal(fence, ktime_get());
+> =C2=A0		return true;
+> =C2=A0	}
+> =C2=A0
+> @@ -448,11 +449,15 @@ dma_fence_is_signaled_locked(struct dma_fence *fenc=
+e)
+> =C2=A0static inline bool
+> =C2=A0dma_fence_is_signaled(struct dma_fence *fence)
+> =C2=A0{
+> +	unsigned long flags;
+> +
+> =C2=A0	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> =C2=A0		return true;
+> =C2=A0
+> =C2=A0	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> -		dma_fence_signal(fence);
+> +		spin_lock_irqsave(fence->lock, flags);
+> +		dma_fence_signal_internal(fence, ktime_get());
+> +		spin_unlock_irqrestore(fence->lock, flags);
+> =C2=A0		return true;
+> =C2=A0	}
+> =C2=A0
+
 
