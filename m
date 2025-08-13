@@ -1,230 +1,210 @@
-Return-Path: <linux-media+bounces-39747-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39748-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F4FB242DD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:36:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF26B24358
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 09:56:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBB7C681859
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 07:34:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B550117FAFA
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 07:54:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 882B52D948D;
-	Wed, 13 Aug 2025 07:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07C62C3261;
+	Wed, 13 Aug 2025 07:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IgS2znVO"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bpQP/MOo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D289A225762;
-	Wed, 13 Aug 2025 07:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A082E36F2;
+	Wed, 13 Aug 2025 07:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755070467; cv=none; b=cbWs90LIGOjNJHJkxmYTaBsrNcThLGDnnJxCMSA++wa9gawh7E+xr+xNYlj/YfjbtJqu8YeauclBkwI73TJTJw4JbyQVMCl+v0HWRbjEhn7RhgIuKZwsva5jmBoWhfADDXt0v9xTAPnGYJ2XNk6e+0BW/r/uFjFvBXyA6CayMVI=
+	t=1755071634; cv=none; b=hWVzXCSsExfXfN6NI8FTttYPY0NNWFO1Hx1l8oeLy32//5ZSxWdN/lGLvq6/LvdA3KcqN6Gj8msdwCK5sTksxXUoFR2UVphqsOqIwV7LvRWPFCGSbxmbeb7jeYSBrN/nEUIgjebQgxHrvyCSTuCApreyYgZgGOYD8X+EtpcgkmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755070467; c=relaxed/simple;
-	bh=LOw47lq3lTR3OffAqvYBcY7aTdLFREjOhrLME4xQV7k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KtXKoR/J9vRHrb43o52ajG9ZJz71mCO4Nt+ZzKTxwMhGLzO++x6rKyhRiBPthoHkNoxWwprH9A8/b9Vp7HbcKmboxAMECq8nYeuFTdTDpgkpd33oeaWnm9czlAHdQOL4MnrVKreObaH9U6c9h6wvC/ejJu0SEmsgYK8JqqndIh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IgS2znVO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C75BC4CEEB;
-	Wed, 13 Aug 2025 07:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755070466;
-	bh=LOw47lq3lTR3OffAqvYBcY7aTdLFREjOhrLME4xQV7k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IgS2znVOJsb/2yQQhCk1/XOsk+ALrk5kbMtqU25i8vDD5NQrfftFwFA/g+YUx1Lxr
-	 xvpbUjzDsFRLNZSQe4fyJZqyN48QvKuMCUdc7QP2dtGDlRp0CG/1HR1i60+JmYwhau
-	 Ts0bXuajM4QBb8Ah2QcyXbkvUAJ3tl+9P+Sl6Km+ZX+j5lcr5emk38sKtv3XZS/ywp
-	 6UkQQnhQXq/vKbSpiZ61ozXwQR6AeA19ov4U1UMQJ7hDK0+kmbzh/HfRZbFD+oejTY
-	 OGDhVwHorYMpMamFr8MorTN+w2urXI4l6gxkmWctNhW2bGuR9NEmtzgee5mdd8hw/n
-	 zh1Lhefw+iyCQ==
-Message-ID: <faf398eb-2be4-43cd-a5bf-2c688dd7bc18@kernel.org>
-Date: Wed, 13 Aug 2025 09:34:20 +0200
+	s=arc-20240116; t=1755071634; c=relaxed/simple;
+	bh=+ZKe1BOixJ/T80IcjTZOqL2H41Ct+rhNJSOCcroFnaQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=WYtCNa7aoRa3eeAQ2Q6zE6tK6bWCR/NzGhC67l8C+XnPYkfycU9DM3GowIhAEJI3X1ptLuocpNaJoYkO4iuexy1hV8dMvJ39PfETFwg6PHB+1Z7YbWJXH4EDVTT+dDoZwGkHoUmmD45qSmuKdeH6S0A+A4g3PrVEUHGTQyi7oG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bpQP/MOo; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6mhwe026809;
+	Wed, 13 Aug 2025 07:53:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=GtVPQO0nwKFPcGiaywgQA/
+	p6ZJu1iypkJEIbQuuw4ZA=; b=bpQP/MOo3yRrMFA2A57jnkNuazsVFdemkPNiiQ
+	DyY1qjEp7xxHcY7UWjh3acPM8JCmZ/qCiErhrsEi+9L9fa/eIRxyoNZvp5rccceg
+	myM2FhV+PJXG9xnQDIsq3RdA6RH+ZSNZ/JP9mlknwjQZ9UPqDdeCo7BupUz+ze1t
+	AalbV24jLHCJXjcBLvuFt02/5Rd/+YRkvWvh1y+2RyMxH5xYcjb5QXUWu4z3QSzL
+	OGUSpLTYCycB9msqOZoic8OpuHDG3VgrcAtPoJ2KRKFDKm7GOXeNDaL+3kuWsWqc
+	cdOKNvvLSkdN7Exqdtoa8dP7i1Ljn//cx098NLf1D0Mfp/ow==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9su6da-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 07:53:46 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57D7rjCg002007
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 07:53:45 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Wed, 13 Aug 2025 00:53:42 -0700
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Date: Wed, 13 Aug 2025 13:23:25 +0530
+Subject: [PATCH v2] media: iris: vpu3x: Add MNoC low power handshake during
+ hardware power-off
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: Add Sony IMX585 CMOS image
- sensor
-To: Will Whang <will@willwhang.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20250810220921.14307-1-will@willwhang.com>
- <20250810220921.14307-2-will@willwhang.com>
- <20250811-successful-military-dragon-d72486@kuoka>
- <CAFoNnrxWwqT9WA-h2WOsUe6Q-qEoz2mTHLpDogAyMwiXXZ9MrA@mail.gmail.com>
- <f12e6ff3-6ec3-487f-bf9c-0f8c06ee6444@kernel.org>
- <CAFoNnrxhUof8BBrefm1L1peTxg==Koz72TY+54G_8QUy-rrT8g@mail.gmail.com>
- <e695c61a-e183-4eea-a7f6-1b2861b2129f@kernel.org>
- <20250812095543.GJ30054@pendragon.ideasonboard.com>
- <CAFoNnrzWot_Bf=YZFac1GkZgOOnJycwpidvwL93p3p-C-zn8BA@mail.gmail.com>
- <6d6dc9e6-751f-4079-b21e-2e3461885b03@kernel.org>
- <CAFoNnrwoRbtvTHHnjarDTKEHnQMaMDERPKi_vnYym3n8tVpzOA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAFoNnrwoRbtvTHHnjarDTKEHnQMaMDERPKi_vnYym3n8tVpzOA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250813-sm8650-power-sequence-fix-v2-1-9ed0fc2c45cb@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAHREnGgC/42NQQ6CMBBFr0K6dkxbUqSuvIdhUcdBZkELraCG9
+ O5WTuDyveS/v4lEkSmJc7WJSCsnDr6APlQCB+cfBHwvLLTURrZKQxrbxkiYwosiJJoX8kjQ8xt
+ uzjqrpW11XYuynyIVvbevXeGB0zPEz361qp/9p7oqUOCMolNvLZoGL/PCyB6PGEbR5Zy/xsNZU
+ cQAAAA=
+X-Change-ID: 20250812-sm8650-power-sequence-fix-ba9a92098233
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        "Bryan
+ O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755071622; l=3451;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=+ZKe1BOixJ/T80IcjTZOqL2H41Ct+rhNJSOCcroFnaQ=;
+ b=1XtNOMWJVGhKN67HtmloY5f/5o+KsDu0KGsFBqpURMAXektsqzvA7SJGDFpRrPmIvoxPWf+ZB
+ FjKyKXTGIWPAO2Rk6OajYyRoY/5dkQ03j1V3qVMzGRXUoJrgnPfpyiv
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=689c448a cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=4jNVkGc5x75itkM4wVYA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: cOs5ibgnVZPU0SXTbdp6-BV5lamZt2W-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX+1DKYAykTviI
+ Le5qEokqnNow99GjvlBwPcHJDM+L3pc8LDuqaaSH3vYhNPdBbECVuFqd9dAl7x7PH74CrevaUut
+ 21kjZBvVrNPV3x0xXa4fud00lwWjfLpTlZe0RkXVRHbx2+TiFRn1NSzeWRI3G/+NzAcKOFaY0Ga
+ Ozv41fNtaEGPu3do7ywV1f6gCsTA5HLPlAZdo9RdjbM2XL8dMKpNbXXJBYt+NOxHTZ5sy2QhD1/
+ J0SaeR24H3DPmVsF9fdSqyl54UfyB6OK9bf1DUXvpSm3lKfTKp4ZWQlITKV1Hh7IBiwhGVmd9i9
+ SJl2QAcowKFITkUE9SZ5Q1Uafr1wuszjJc5uTRterNe1A5nL+5fMzKIrjX4WO/osT6idnf1iW8S
+ Jc8DUdIX
+X-Proofpoint-GUID: cOs5ibgnVZPU0SXTbdp6-BV5lamZt2W-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
+ phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090015
 
-On 13/08/2025 08:38, Will Whang wrote:
-> On Tue, Aug 12, 2025 at 11:08 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 13/08/2025 06:30, Will Whang wrote:
->>> On Tue, Aug 12, 2025 at 2:56 AM Laurent Pinchart
->>> <laurent.pinchart@ideasonboard.com> wrote:
->>>>
->>>> On Tue, Aug 12, 2025 at 08:47:12AM +0200, Krzysztof Kozlowski wrote:
->>>>> On 12/08/2025 08:31, Will Whang wrote:
->>>>>> On Mon, Aug 11, 2025 at 11:23 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>>>> On 12/08/2025 04:47, Will Whang wrote:
->>>>>>>> On Mon, Aug 11, 2025 at 1:01 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>>>>>> On Sun, Aug 10, 2025 at 11:09:18PM +0100, Will Whang wrote:
->>>>>>>>>> +description:
->>>>>>>>>> +  IMX585 sensor is a Sony CMOS sensor with 4K and FHD outputs.
->>>>>>>>>> +
->>>>>>>>>> +properties:
->>>>>>>>>> +  compatible:
->>>>>>>>>> +    enum:
->>>>>>>>>> +      - sony,imx585
->>>>>>>>>> +      - sony,imx585-mono
->>>>>>>>>
->>>>>>>>> I don't understand this second compatible. Is this different hardware?
->>>>>>>>> Can you point me to "mono" datasheet?
->>>>>>>>>
->>>>>>>>> Your description should explain this. Commit msg as well, instead of
->>>>>>>>> speaking about driver (in fact drop all driver related comments).
->>>>>>>>>
->>>>>>>> Mono version of this sensor is basically just removing the bayer
->>>>>>>> filter, so the sensor itself actually doesn't know if it is color or
->>>>>>>> mono and from my knowledge there are no registers programmed in the
->>>>>>>> factory that will show the variant and model number. (That is why when
->>>>>>>> the driver probing it only test blacklevel register because there are
->>>>>>>> no ID registers)
->>>>>>>> Originally in V1 patch I've made the switch between color and mono in
->>>>>>>> dtoverlay config but reviewer comments is to move it to compatible
->>>>>>>> string and not property.(https://lore.kernel.org/linux-media/20250703175121.GA17709@pendragon.ideasonboard.com/)
->>>>>>>
->>>>>>> You only partially answer and judging by mentioning driver below:
->>>>>>>
->>>>>>>> In this case, what would you recommend?
->>>>>>>>
->>>>>>>> compatible:
->>>>>>>>   enum:
->>>>>>>>     - sony,imx585
->>>>>>>>     - sony,imx585-mono
->>>>>>>>   description: IMX585 has two variants, color and mono which the
->>>>>>>> driver supports both.
->>>>>>>
->>>>>>> ... I still have doubts that you really understand what I am asking. Is
->>>>>>> this one device or two different devices?
->>>>>>
->>>>>> One device that has two variants: IMX585-AAMJ1 (Mono) and IMX585-AAQJ1
->>>>>> (Color). Silicon-wise the difference is just with or without bayer
->>>>>> filter.
->>>>>
->>>>> Then I would propose to use sony,imx585-aamj1 and -aaqj1 with short
->>>>> explanation either in comment or description about difference in RGB
->>>>> mosaic filter.
->>>>
->>>> Works for me. We could possibly omit the "j1" suffix too.
->>>>
->>> My thinking is that imx585 and imx585-mono are easier to comprehend
->>> than IMX585-AAM and IMX585-AAQ.
->>> Because in dtoverlay for the users/me they will have to know what is
->>> the exact name instead of easy to remember name.
->>>
->>> dtoverlay=imx585-aam
->>> is not as nice as
->>> dtoverlay=imx585-mono
->>
->> I have datasheet for AAQ, so how above is easier for me to figure out
->> which compatible I am using?
->>
-> I propose this:
-> 
-> compatible:
->   enum:
->     - sony,imx585
->     - sony,imx585-mono
->     - sony,imx585-AAQJ1
->     - sony,imx585-AAMJ1
-> 
->   description: IMX585 has two variants, color (IMX585-AAQ) and mono
-> (IMX585-AAM) which
-> the driver supports both.
+Add the missing write to AON_WRAPPER_MVP_NOC_LPI_CONTROL before
+reading the LPI status register. Introduce a handshake loop to ensure
+MNoC enters low power mode reliably during VPU3 hardware power-off with
+timeout handling.
 
-So why four compatibles? BTW, driver does not matter.
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Changes in v2:
+- Restructured loop for readability (Jorge)
+- Used defines for bits (Konrad, Jorge)
+- Used udelay for short waits (Konrad)
+- Link to v1: https://lore.kernel.org/r/20250812-sm8650-power-sequence-fix-v1-1-a51e7f99c56c@quicinc.com
 
-> 
-> Description is there for a reason, dtoverlay has description also. See
-> sony,imx296.yaml as an example.
-> If you are looking at AAQ you know it is a color sensor and all the
-> color sensors from sony can be used with imx+three numbers in the
-> current list.
-> This is following the established convention.
-Which? Sorry, point me anywhere to convention that we do not use proper
-full model names but shortened version for some variant of a device?
-Such approach lead to many issues in the past, for example current
-Risc-v reset mess where contributor wants to remove completely
-incomplete compatible :/
+Please note that I have not added "Tested-by" tag from Neil in this update,
+as the NOC handshake loop has been restructured.
+---
+ drivers/media/platform/qcom/iris/iris_vpu3x.c | 30 +++++++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+index 9b7c9a1495ee2f51c60b1142b2ed4680ff798f0a..a621878f02f7196de29c9e290a6c5acea34eba8c 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+@@ -19,6 +19,9 @@
+ #define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
+ #define REQ_POWER_DOWN_PREP			BIT(0)
+ #define WRAPPER_IRIS_CPU_NOC_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x60)
++#define NOC_LPI_STATUS_DONE			BIT(0) /* Indicates the NOC handshake is complete */
++#define NOC_LPI_STATUS_DENY			BIT(1) /* Indicates the NOC handshake is denied */
++#define NOC_LPI_STATUS_ACTIVE		BIT(2) /* Indicates the NOC is active */
+ #define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
+ #define CORE_CLK_RUN				0x0
+ 
+@@ -109,7 +112,9 @@ static void iris_vpu3_power_off_hardware(struct iris_core *core)
+ 
+ static void iris_vpu33_power_off_hardware(struct iris_core *core)
+ {
++	bool handshake_done = false, handshake_busy = false;
+ 	u32 reg_val = 0, value, i;
++	u32 count = 0;
+ 	int ret;
+ 
+ 	if (iris_vpu3x_hw_power_collapsed(core))
+@@ -128,13 +133,34 @@ static void iris_vpu33_power_off_hardware(struct iris_core *core)
+ 			goto disable_power;
+ 	}
+ 
++	/* set MNoC to low power */
++	writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++
++	do {
++		value = readl(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS);
++
++		handshake_done = value & NOC_LPI_STATUS_DONE;
++		handshake_busy = value & (NOC_LPI_STATUS_DENY | NOC_LPI_STATUS_ACTIVE);
++
++		if (handshake_done || !handshake_busy)
++			break;
++
++		writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++
++		udelay(15);
++
++		writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++	} while (++count < 1000);
++
++	if (!handshake_done && handshake_busy)
++		dev_err(core->dev, "LPI handshake timeout\n");
++
+ 	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
+ 				 reg_val, reg_val & BIT(0), 200, 2000);
+ 	if (ret)
+ 		goto disable_power;
+ 
+-	/* set MNoC to low power, set PD_NOC_QREQ (bit 0) */
+-	writel(BIT(0), core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++	writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+ 
+ 	writel(CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE,
+ 	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
+
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20250812-sm8650-power-sequence-fix-ba9a92098233
 
 Best regards,
-Krzysztof
+-- 
+Dikshita Agarwal <quic_dikshita@quicinc.com>
+
 
