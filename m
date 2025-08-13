@@ -1,263 +1,150 @@
-Return-Path: <linux-media+bounces-39813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DB5B24996
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 14:36:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 732F3B249C5
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 14:49:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6448316DF8C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 12:36:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 737A31AA75FD
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 12:47:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5373F23D7E3;
-	Wed, 13 Aug 2025 12:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526AD2E2657;
+	Wed, 13 Aug 2025 12:47:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="KbEYuWTR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ed7Ef53G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E2822259F
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 12:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4625A26A0EB
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 12:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755088574; cv=none; b=QemkFE0iRoo0AavvjFyeIiNaOxXQj1oPAISw4B3wZjKTdpDNucAkxxEVP8nFIm05kT01by8K5JrufetPKuCZ0xEuzujJ7tuHxmw/ZOGDmmBJCHyWy5xirV+Z7Wx08TkIW9HUpIc2IlG+mRaWVTNQgqsgVrkldlAbEdJVEpGVtrY=
+	t=1755089239; cv=none; b=SUTMsKxvlw0Z5Saynnb7ffFMpAfw+MIMA7Jjl46Rh+I36ulkXU5hQKCohAmPlQyPQBESK4zP/CNZBxUtuZg3j3PdCaTw465wE510hf4k7AlManxDqdAhAnykrCK7DOrlWBuDAsiufROLgQUJjdXwf35R0xVakf8ltXHMSE+Xy4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755088574; c=relaxed/simple;
-	bh=rjv/62VujAs6Sqn5q1QUkhjoU1XCW0uhLPuA6OFYXl0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=GorCa8WYx2retDpoDV+wIa4zbdTrib/fjEaih7icB1eivgr7XfQ7J4xRSobZ1rRp1DSjO80SeVC8GNvPJxf8YcEG50rOFL/DhBoTbYop/v7BjA+OKD6ceNxV8QcU02C/SMpNlxUxjLIOXXamXt4sPlPsxfcCFWRQDLyfPo71AGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=KbEYuWTR; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DCF9VX013789;
-	Wed, 13 Aug 2025 14:36:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=5uzkHKNY9qdKVb2rwtTZD8
-	wmImuVxqqmWZ6877y//Zk=; b=KbEYuWTR/f1sKxQpyC/XlKN6LEoLFHqQkPYd2+
-	gtM/HxMpXoaL8Vj39CsWtsBLt2uQ1mlVoTU3VvEmY3gSUHGtxu9mK3w47sgNY30q
-	Ow6JH4FeWSa1PGa5Y0RJqJzpoZgwUIrA2os2/ZG3uNbzetsriDJbhGSpsgG4VytL
-	trnTucriuSUxm3CdVy9ZvgeZ6Qr8nayGUAF+YC9cLdJwgTeegqS17Y5Im/wOzNym
-	0/fAUY1Qhu7mkx49JwKHwF/8BhLMZ7gzzCmCINNZolZOtUb4gJYXrQLvu127X/K0
-	bE/HMTeMmMTJIi1C4DQlxwT9IP9iF7vc9bT7X5hfJi3MUDeg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48dw7gepxh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Aug 2025 14:36:07 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 0A06E40045;
-	Wed, 13 Aug 2025 14:35:34 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5E76173D3F6;
-	Wed, 13 Aug 2025 14:35:25 +0200 (CEST)
-Received: from localhost (10.130.78.67) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 13 Aug
- 2025 14:35:25 +0200
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Date: Wed, 13 Aug 2025 14:34:57 +0200
-Subject: [PATCH v4l-utils] v4l2-ctl: Fix failure on controls starting with
- a digit
+	s=arc-20240116; t=1755089239; c=relaxed/simple;
+	bh=jSPWnVhmlrAgGBExm/iLthQMgTaMjQEtp3rqPporWQU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c61s4E10D5MF7bT8+/8YXAOvaynKSnPmWpsbOIQiKppxRqxLXwpAyIqpCh99xOo2AHphWtXC26dUrNxO8RsuQes4jO6xvmGPeNzGj9DymD1qJ5voSm+Ig9td/2/xC/nhzqmbFRZQJtgecCUPGf7t2L7Fb8WoCB3EwOZ94Lh7FAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ed7Ef53G; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755089238; x=1786625238;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=jSPWnVhmlrAgGBExm/iLthQMgTaMjQEtp3rqPporWQU=;
+  b=ed7Ef53GCQH4pU2TtYBU+oD0Kb2i7Lv/BX4ubrv6zpxtgNU0rJpaMimC
+   /bPNJSgLB0xHV+Ur1nhCLoDrkiKKburHnyxCmMD1UyMuiIEsPa0UXX1kV
+   JFnGV55TCnVZGbAwpBP//GNspzUULDG/36oZhnmUkDan0DNKw+u0qxuNV
+   mrDIFhXLjKNjA67WmvTbfhA+MoEPjCInlRGmPtOiauRXFVkPA1R9cOwzm
+   zAaNVkSchjSBmP3sNK0b0Uba1h9RKQVnbCsEA0u9rvodvy6R0JEvO5z4I
+   BBvTX6x/zWKCJ4C1gi4bb+hUpTmZCfXd9bSGqyCrqGM/4trIrqTMcfKWp
+   w==;
+X-CSE-ConnectionGUID: DkJeazHtRh+o8AUgP7gcDA==
+X-CSE-MsgGUID: Y3FUay96QOmy2Gl0S2M98A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="44958533"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="44958533"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 05:47:17 -0700
+X-CSE-ConnectionGUID: nwW/sGjqQOeYQbTW6r72Iw==
+X-CSE-MsgGUID: t3Ywg6MNQvy6dBC8KtdyRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="197318878"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.245.225])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 05:47:16 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Nitin Gote <nitin.r.gote@intel.com>, intel-gfx@lists.freedesktop.org,
+ chris.p.wilson@intel.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
+Date: Wed, 13 Aug 2025 14:43:47 +0200
+Message-ID: <7836906.EvYhyI6sBW@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <7a96d06d-54a9-42b4-84c7-0c262104ea5b@amd.com>
+References:
+ <20250226155534.1099538-1-nitin.r.gote@intel.com>
+ <2153999.KlZ2vcFHjT@jkrzyszt-mobl2.ger.corp.intel.com>
+ <7a96d06d-54a9-42b4-84c7-0c262104ea5b@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250813-fix_3alock-v1-1-7396410bac0b@foss.st.com>
-X-B4-Tracking: v=1; b=H4sIAHCGnGgC/x2MWwqAIBAAryL7neCjKLpKRIhttSQZWhKEd0/6H
- IaZFyIGwgg9eyFgokj+KCArBnYzx4qc5sKghGpEJzVf6Jm0cd7ufJmNVa0wqJWEEpwBi/1nA6T
- a8fsiF2HM+QM2wGxVZwAAAA==
-X-Change-ID: 20250813-fix_3alock-fdac270ae321
-To: <linux-media@vger.kernel.org>
-CC: <hverkuil@kernel.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
 
-Specifically querying the 3a_lock control from v4l2-ctl fails :
+Hi Christian,
 
-  $ v4l2-ctl -C 3a_lock
-  VIDIOC_G_EXT_CTRLS: failed: Invalid argument
-  : 0
+On Tuesday, 8 July 2025 12:09:58 CEST Christian K=C3=B6nig wrote:
+> On 08.07.25 10:56, Janusz Krzysztofik wrote:
+> >>
+> >> There is no reason to test enabling signaling each of the element in a=
+ loop. So there should be something like 4096 calls to the dma_fence_chain_=
+cb function each jumping to the next unsignaled fence and re-installing the=
+ callback.
+> >=20
+> > So how building a chain should look like in real use cases?  When a use=
+r=20
+> > builds a chained link of her fence with another fence then may she enab=
+le=20
+> > signaling on the new chain link?  If that other fence occurs a chain li=
+nk then=20
+> > who should take care of disabling signaling on it so signaling is enabl=
+ed only=20
+> > on the last link of the chain, not leading to a situation similar to wh=
+at we=20
+> > have now in the test case?  IOW, what's a correct use pattern of=20
+> > dma_fence_chain?  I can't find that documented anywhere, neither in inl=
+ine=20
+> > docs nor in commit descriptions.
+>=20
+> The dma_fence_chain container is basically a single linked list which all=
+ows to "chain" together multiple dma_fence objects.
+>=20
+> The use cases is to keep only a single fence even when multiple asynchron=
+ous operations have been started.
+>=20
+> So you usually keep only the most recently created dma_fence_chain and ev=
+entually ask that one to signal when you need to wait for all fences inside=
+ the container.
+>=20
+> The tricky part is that since the chain can get very long the implementat=
+ion can't use recursion or otherwise we would potentially overflow the kern=
+el stack. And that needs to be tested and made sure we don't accidentally b=
+reak the implementation somehow.
+>=20
+> Keeping all elements of a dma_fence_chain in an array and asking all of t=
+hem to signal individually makes no sense, for this use case we have the dm=
+a_fence_array in the first place.
 
-A similar issue occurs when setting the control :
+I'm going to submit a patch that drops enabling of signaling on each link o=
+f=20
+the tested chain, as you suggested.  Don't you mind if I add your Suggested-
+by:?
 
-  $ v4l2-ctl -c 3a_lock=0
-  VIDIOC_S_EXT_CTRLS: failed: Invalid argument
-  Error setting controls: Invalid argument
+Thanks,
+Janusz
 
-This does not happen with other controls. Internally, v4l2-ctl parses
-its arguments in order and differentiates a control name from a value
-using this check :
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Thanks,
+> > Janusz
+>=20
 
-  if (isdigit(s[0]))
 
-This means if the argument starts with a letter, it is a control
-name; otherwise, it is a control value. This works well for all controls
-except for 3a_lock, which starts with a digit and is wrongly detected as
-a control value.
 
-Currently, 3a_lock is the only control that starts with a digit.
-
-Introduce is_digits() to check if a string contains only digits, and
-therefore would return false when parsing '3a_lock'. Use is_digits() for
-control get and set operations, and expand its use to all other relevant
-cases.
-
-Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
----
- utils/v4l2-ctl/v4l2-ctl-common.cpp | 9 +++++----
- utils/v4l2-ctl/v4l2-ctl-stds.cpp   | 2 +-
- utils/v4l2-ctl/v4l2-ctl-vidcap.cpp | 4 ++--
- utils/v4l2-ctl/v4l2-ctl.cpp        | 4 ++--
- utils/v4l2-ctl/v4l2-ctl.h          | 9 +++++++++
- 5 files changed, 19 insertions(+), 9 deletions(-)
-
-diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-index 32dbe9de7162258ec19c49580bd36c0971fd7fe6..792f4c95266364a506f958d5544c6f06fa3b36b7 100644
---- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-@@ -1000,7 +1000,7 @@ void common_process_controls(cv4l_fd &fd)
- 	find_controls(fd);
- 	for (const auto &get_ctrl : get_ctrls) {
- 		std::string s = get_ctrl;
--		if (isdigit(s[0])) {
-+		if (is_digits(s)) {
- 			__u32 id = strtoul(s.c_str(), nullptr, 0);
- 			if (ctrl_id2str.find(id) != ctrl_id2str.end())
- 				s = ctrl_id2str[id];
-@@ -1012,7 +1012,7 @@ void common_process_controls(cv4l_fd &fd)
- 	}
- 	for (const auto &set_ctrl : set_ctrls) {
- 		std::string s = set_ctrl.first;
--		if (isdigit(s[0])) {
-+		if (is_digits(s)) {
- 			__u32 id = strtoul(s.c_str(), nullptr, 0);
- 			if (ctrl_id2str.find(id) != ctrl_id2str.end())
- 				s = ctrl_id2str[id];
-@@ -1212,9 +1212,10 @@ void common_set(cv4l_fd &_fd)
- 		memset(&ctrls, 0, sizeof(ctrls));
- 		for (const auto &set_ctrl : set_ctrls) {
- 			std::string s = set_ctrl.first;
--			if (isdigit(s[0])) {
-+			if (is_digits(s)) {
- 				__u32 id = strtoul(s.c_str(), nullptr, 0);
- 				s = ctrl_id2str[id];
-+				printf("%s\n", s.c_str());
- 			}
- 			struct v4l2_ext_control ctrl;
- 			struct v4l2_query_ext_ctrl &qc = ctrl_str2q[s];
-@@ -1359,7 +1360,7 @@ void common_get(cv4l_fd &_fd)
- 		memset(&ctrls, 0, sizeof(ctrls));
- 		for (const auto &get_ctrl : get_ctrls) {
- 			std::string s = get_ctrl;
--			if (isdigit(s[0])) {
-+			if (is_digits(s)) {
- 				__u32 id = strtoul(s.c_str(), nullptr, 0);
- 				s = ctrl_id2str[id];
- 			}
-diff --git a/utils/v4l2-ctl/v4l2-ctl-stds.cpp b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-index 8c9abf5df687d3aeaf68089e702566854bd34bd0..5e23cc5708b7c33e4cc8562d2ec1d13c3efcd70c 100644
---- a/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
-@@ -445,7 +445,7 @@ void stds_cmd(int ch, char *optarg)
- 			else
- 				standard = V4L2_STD_SECAM;
- 		}
--		else if (isdigit(optarg[0])) {
-+		else if (is_digits(optarg)) {
- 			standard = strtol(optarg, nullptr, 0) | (1ULL << 63);
- 		} else {
- 			fprintf(stderr, "Unknown standard '%s'\n", optarg);
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-index 498362217149df1b854f138fd642dc938e7a90fb..2384200248d567d14be0628aa2e1158b345fc57f 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-@@ -133,7 +133,7 @@ void vidcap_cmd(int ch, char *optarg)
- 							   optarg[2], optarg[3]);
- 			if (be_pixfmt)
- 				frmsize.pixel_format |= 1U << 31;
--		} else if (isdigit(optarg[0])) {
-+		} else if (is_digits(optarg)) {
- 			frmsize.pixel_format = strtol(optarg, nullptr, 0);
- 		} else {
- 			fprintf(stderr, "The pixelformat '%s' is invalid\n", optarg);
-@@ -165,7 +165,7 @@ void vidcap_cmd(int ch, char *optarg)
- 							    value[2], value[3]);
- 					if (be_pixfmt)
- 						frmival.pixel_format |= 1U << 31;
--				} else if (isdigit(optarg[0])) {
-+				} else if (is_digits(optarg)) {
- 					frmival.pixel_format = strtol(value, nullptr, 0);
- 				} else {
- 					fprintf(stderr, "The pixelformat '%s' is invalid\n", optarg);
-diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-index 0eb4bb5c9200a32c1fa056d73d2c1f4e050e7e23..cfe33f32f52286a5b23421ad4222918feafe03d2 100644
---- a/utils/v4l2-ctl/v4l2-ctl.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-@@ -812,7 +812,7 @@ int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
- 						    value[2], value[3]);
- 				if (be_pixfmt)
- 					pixelformat |= 1U << 31;
--			} else if (isdigit(value[0])) {
-+			} else if (is_digits(value)) {
- 				pixelformat = strtol(value, nullptr, 0);
- 			} else {
- 				fprintf(stderr, "The pixelformat '%s' is invalid\n", value);
-@@ -950,7 +950,7 @@ static __u32 parse_event(const char *e, const char **name)
- 	__u32 event = 0;
- 
- 	*name = "0";
--	if (isdigit(e[0])) {
-+	if (is_digits(e)) {
- 		event = strtoul(e, nullptr, 0);
- 		if (event == V4L2_EVENT_CTRL) {
- 			fprintf(stderr, "Missing control name for ctrl event, use ctrl=<name>\n");
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index b0d42110ca0fbbf05dc3957a6fe08f426947b871..132ac64a35414a9be47997ca1b26319ce5adc664 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -1,9 +1,11 @@
- #ifndef _V4L2_CTL_H
- #define _V4L2_CTL_H
- 
-+#include <algorithm>
- #include <cstdint>
- #include <linux/videodev2.h>
- #include <linux/v4l2-subdev.h>
-+#include <string>
- #include <v4l-getsubopt.h>
- 
- #include <v4l2-info.h>
-@@ -331,6 +333,13 @@ static inline bool subscribe_event(cv4l_fd &fd, __u32 type)
- 	return !fd.subscribe_event(sub);
- }
- 
-+static inline bool is_digits(const std::string &str)
-+{
-+	if (str.empty())
-+		return false;
-+	return std::all_of(str.begin(), str.end(), isdigit);
-+}
-+
- #define doioctl(n, r, p) doioctl_name(n, r, p, #r)
- 
- #define info(fmt, args...) 			\
-
----
-base-commit: 48316b8a20aac35f982991b617f84fb3c104e7b0
-change-id: 20250813-fix_3alock-fdac270ae321
-
-Best regards,
--- 
-Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
 
