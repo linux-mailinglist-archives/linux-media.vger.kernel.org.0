@@ -1,174 +1,361 @@
-Return-Path: <linux-media+bounces-39800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39801-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4E4B247BC
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 12:54:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D575B24814
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 13:11:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62332628AF4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 10:54:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B8211BC3C47
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 11:11:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F13D62F549A;
-	Wed, 13 Aug 2025 10:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F114E2F6578;
+	Wed, 13 Aug 2025 11:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wry3IkpT"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pA06+ZRo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2057.outbound.protection.outlook.com [40.107.100.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1345E2F4A11
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 10:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755082436; cv=none; b=S3qB7n+X1bURJ+A0N70fCH0EDKt7mssqHNzcT0pL1qnXdjlUbv5kK4T8KXAMSq4G3TH6fHeTyAQVAYvhEtu+tHHEOjq9+x0FRt13BOI0SAShQ3sGstIofqYfDkCkPBUgA2oc0nKd9zzydGT1XC09hCW4yTHOd81EWBuj14Wp1Zw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755082436; c=relaxed/simple;
-	bh=f6bhPAzulpBZBm8eJyq3oHN2cBWm1w6sm+gYxZ6GADI=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ia9M+2jrUB5HZSaCWtn+W6YF6pl3OseuOWfbNcpCeVDDixQfI1rbYzFrfqCUHXoM/1wKAQvTbJgYslBEyhvXcaecVRy+fjW2Fy+a+KcZ4dlU0KpthvPslN4Mgmnpc+sEw5a374/at4opK0clmMW8ieUr6v4XpuUPgNZS4hnRAxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wry3IkpT; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6mLBM015759
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 10:53:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=nqjEsIPEIdyvYPIHu3yUYsmv
-	aNWq7Oi2Q3FARabnu8Q=; b=Wry3IkpTmLqnFn5XCZAfTOZ4dxGvi/Bi7lu0m9ps
-	UczuTeUESdL22YOVck+NxtW5pQbgJaYZT3iKiDgBN4AiYuDwqpj7f5N6LD4MT6Cm
-	C8a62VFRHxX4RsXk2tFq14hsXuuT9zkmEC8lk1WjX7WV7G2TGcfaMyej5m1KYbtn
-	CUiNbah/LtHsCJ6oqxf5+UJRbCPFu9R7bfh1tlkiVYUXoSX7Ws/2zGrAgIxA1v8E
-	dVYSEf3jJQKVCYS9yccnlMLOBiYMi7djtEo8wqiXxUu4+BAmWRz1ikxdtMjUSccK
-	WkjyO/axBAlQ0QiGyIKyPU+N6lOpb08BMpnI59MhXPy2Aw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fjxbenw4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 10:53:54 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-709de26b1d6so17046516d6.3
-        for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 03:53:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755082433; x=1755687233;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nqjEsIPEIdyvYPIHu3yUYsmvaNWq7Oi2Q3FARabnu8Q=;
-        b=EnfzH9Obdjs4c/n3VXwCD4o11fd15aoB5fnbA6MvuTwRy7Axy7hngMBho9ysUSQlCi
-         pG4P5lIq2JcXClnrYm+uPQKwHLcvL4zfPXz7lnTU9j6UU3BSkXPMtgRboDZs/bTVYmEg
-         Dl2bSFtabgC346m8ixgHaxXMTa7YO0Vq0uqy+/D37vqELqmjoV/VnZQGiJgVKYnF6J68
-         B5B45XIqmuxkvHBQY8O1SJUQx/68BbDAjZldOQ0vfgntjgri+Q+18vAXV0e1tZkUf/yj
-         nEOhnjAgTs5XCDJtlWniY7Lx6no+64k5aos2mQJipblPuLuEhvl5SYJKlyX7vDxWYbSx
-         lwcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7Gajm38eBHxiBWAqvHYaunUDmoRid4gb6p79jgKajAhbULqGSdtEOsixKt7G5p1Gpy2YJiZzBV9F4ug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoOsemox1fXej4rE9FWv8YfdR2huFqiTVi4FWUS+zx6/MHJkL/
-	AhIbtZ9/yx6OkfAqCv1Yuy5EAFAlYs8XY0DBM7xyVxDRcgOFeOj9I6tykSTRG+tAg6Eydv1gJf1
-	JEALRJiF7xknqG5hZxmFH3NUKub1nJqFE+ipZbBTXVxuWoHBY0l5d7QTx4VpOkrsHqw==
-X-Gm-Gg: ASbGnctxbbW+tHR3vH0Q4PHHWDugFIlfnmmJfFHTlTgJn7PQvPgJ8SXQwNxW371OgxJ
-	5gp9j1UOmOES6mo2u0i+g/PlVUXrzcShTa10DFMRzCUVIzGkulrE0eYnOeespwlkcaEUjtcWvzE
-	eZR4yYXIo0i6c7wPPYoSXn1HJcxxey3Sse0cDVj/b+SfPjCo60EoQIUgC+dcUbHQ9q1F8CehU+a
-	5plzzMDPToPit3w/4CYF2HvN1zGyGqBKqWwQAvE/BhN87Y4xdXlWYhFpwcxyIhGsWgW6dlIOWdE
-	r6CMTNjkGFZ12G4i7b38Rs9NjiUSGo7u0c6TViNTW+ekDV2KFxKEejKRUY39RxUZzCQeiw==
-X-Received: by 2002:a05:6214:2aa8:b0:707:4b47:9b72 with SMTP id 6a1803df08f44-709e8834e1dmr29971336d6.12.1755082432820;
-        Wed, 13 Aug 2025 03:53:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH47b+mJ0uCpko6VXGUy7LfVcwVFUNwuMG6iAYYnK7TgjODRvBwuaRlczEPmStrUd3npamlaQ==
-X-Received: by 2002:a05:6214:2aa8:b0:707:4b47:9b72 with SMTP id 6a1803df08f44-709e8834e1dmr29971036d6.12.1755082432198;
-        Wed, 13 Aug 2025 03:53:52 -0700 (PDT)
-Received: from trex (205.red-83-60-94.dynamicip.rima-tde.net. [83.60.94.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a16deeb9asm25383705e9.19.2025.08.13.03.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 03:53:51 -0700 (PDT)
-From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
-Date: Wed, 13 Aug 2025 12:53:50 +0200
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Vedang Nagar <quic_vnagar@quicinc.com>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Renjiang Han <quic_renjiang@quicinc.com>,
-        Wangao Wang <quic_wangaow@quicinc.com>
-Subject: Re: [PATCH v2 02/24] media: iris: Report unreleased PERSIST buffers
- on session close
-Message-ID: <aJxuvm456i1PWOIM@trex>
-References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
- <20250813-iris-video-encoder-v2-2-c725ff673078@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0629F1A9F9E
+	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 11:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755083475; cv=fail; b=fJXEHjevuRV3AnZh0Wt15IaEwa0uXVLepNGysSDaGfPJieEmKG+We/qZn7VrtxDOTmbIG54x1xDpCJr8NpEi5UsYI5RR9zUVBPNZCyLaThqNbgZoglVe48fosCcTx0Im0dWLfxyRHBHaahx9q42pC83ivcml61BQGFdu/egleg4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755083475; c=relaxed/simple;
+	bh=5FDhY3igax55O8uFeEKSw1N9VeJfU6bEUniEKmuWFUs=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YL81QEIb2zy2YA69v4kZXyNlV/782kBnzn9xpDrZKnofqnR9/9X0wik9AlKF946BdzY3rez6BVb0mJaEPvaQSrzWr7yMTTFAlwPw7RQ7d+GqE9bNHgi70rTXJnMLLP6OdUZJE6smpMUO7fOmaKOLVYJgAY8MCGu0Fpi2WbASwlA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pA06+ZRo; arc=fail smtp.client-ip=40.107.100.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=B2c/hp2UfCFFSuowYUEYL/UMCUX0NnsRxP+bFXvqe7QHxruNw2XdKWroxOdyOlqRuqpRo1gGtBuY9mA66zbmeQL0KbBBeABQNatP1Ksm6JjkoIElzS+iOZxxXGeQzuC+6qeXdNVBxshqNT773W9xypkMzBo2w4zB3FZHAT8aC6T+EZI4GWMiHfgoTOcmVJYyPODlMak6N4nuxSpWIiXaDkLv+hNKULllXTEdidcnIYUKJMdtlLOm2skdkIvz9TYKrs85jpZn/Tw2YVbi2nIYXLJ1S4j1u7CSo3Zu0n1Gg9PUN50BYl9DFMSSXMvud6WjF2c2d/afb0YUv1lmrkNKqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NqdbBcwnFW9vAq0oHSaGGP33usj1jvwqLMZUGThB4wU=;
+ b=PylGLkvO2qJ+lp1KeaSjpySCiuOjp7aC8yjfMTLi6kgnVFYX0wEUz52V42G3zZeutxuofcz3mE78AXztREGwA2vpHuuQO+xr39iXpii1eaSB3uTowucrDxcZSK43Iy7NNiYBtnzoAImrrPoatT0jFWHhb8AZvuyoTNOVPWtm7kKe4b7gIUB7lZUD+YSMZZgVHy84fDiqYJZoyZHAqyQul0J9tjzpifF3L97y20BN3nXk7d4alHxgyvd0fUcySU5dxRX+pwv8/xdP/cPU0YxmuwrtjkfCsOYrRr2ODvQowSIQk0MAeCWPXVsnQAAF3FAMabaYrn/S38Grr3uMJbCH1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NqdbBcwnFW9vAq0oHSaGGP33usj1jvwqLMZUGThB4wU=;
+ b=pA06+ZRol/Z753W9IB/lP7L8ZThF0ZuqRMTPhpykAs9VqhriMhNBmFHe4BWD7LNQQNXJE2b8lPBJ/rPuzEtboEFkjk7cZK2Fe5BZcD4+muz1b/c8DtRtdMn0gB3/YH/Xj0Ay+raeMdiDCWKDUXCWwAaxKaCzeeOCO0Q8MbiSYok=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB7285.namprd12.prod.outlook.com (2603:10b6:303:22e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Wed, 13 Aug
+ 2025 11:11:07 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
+ 11:11:06 +0000
+Message-ID: <0a381201-3a73-48e9-ad5b-550abf141022@amd.com>
+Date: Wed, 13 Aug 2025 13:10:59 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from
+ IOCTL
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, simona.vetter@ffwll.ch,
+ phasta@mailbox.org, airlied@gmail.com, dakr@kernel.org,
+ sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+References: <20250812143402.8619-1-christian.koenig@amd.com>
+ <20250812143402.8619-2-christian.koenig@amd.com>
+ <125ecf34-4f9f-4310-8f87-586da9a78977@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <125ecf34-4f9f-4310-8f87-586da9a78977@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN2PR06CA0008.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813-iris-video-encoder-v2-2-c725ff673078@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=G6EcE8k5 c=1 sm=1 tr=0 ts=689c6ec2 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=Rr2dNH5/fcnoRoBmcVUeRg==:17
- a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=RE2RRPQ2WZmwf3aAuCMA:9
- a=CjuIK1q_8ugA:10 a=iYH6xdkBrDN1Jqds4HTS:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA5NyBTYWx0ZWRfXxM1vk9hFy89c
- SZeioo+XPga29d9rZdem5Lor4HAx7MwvZUfX3VC+7sJgfoQIrSbW5OGea6XRApwcTT+xBOHdTkb
- 8h/gWckF7ukuKP7agt11dgiDnDkA9Y3TU5bbLWcSy0GgeWEJgSjnDGziPUhOR+yJhvjINRshr91
- zoosp48rGgImBHEE8T2vxXLKMdB3iPRasr/s9koLG51ggkWoBg9wW4y/CgDP1VhunNeqLWq1jhh
- gZ/R50ursUgnyyMtdbjAg3uWBcWn/TLq+u/Ea+fXfmvcRNn/fMuJ4Ingme7vgPuSYFyfIDhIBFi
- GG5oO8OQ+kloEr1MU7pFKeMeee3/LFy27aSDDNgnF0BWtT1Tm+f29vRwr1cvnLF68cLD8s552JI
- RDodoUbK
-X-Proofpoint-ORIG-GUID: oo0AWLSA0eQInhHx2pUp4OcDsrO5Ym56
-X-Proofpoint-GUID: oo0AWLSA0eQInhHx2pUp4OcDsrO5Ym56
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0
- malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508110097
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB7285:EE_
+X-MS-Office365-Filtering-Correlation-Id: d15ff140-de38-4cc1-cbfe-08ddda5a1984
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?L0JCc0dVUzI2Mjh5MVpCc3lqenRuaThLMHExTWJyWE5COHZjNnc3Q1duS0ZS?=
+ =?utf-8?B?THgwOGdUWXkzaGNmTkN0UUFXS25SS0UzdmI4dWN2Qjg0SXRKREJPdDBWOVky?=
+ =?utf-8?B?OHZSYzE2VzN4cDgzckt3Q3FTd2MyUmV4Q0ZodTYxS2E3aGo0cndnNGFadm42?=
+ =?utf-8?B?ZWhXVk5CL3FrREJNRldXRVJDQkdxOE0xVmJXK0dUdXIzQWUxbnFhcklRYUov?=
+ =?utf-8?B?YkRaUG5SeUYzZ1MyaFY4U1B5dDRTU0NlditpSGl1RHNUbjZkQnBHNTQzYUtk?=
+ =?utf-8?B?dU9ZVVN3RWpoSlN6Z3ljbHR2eGN2NXRXUk0wRzJISTh4b0Q1bTl6K2xPdjFr?=
+ =?utf-8?B?RlJldThWbTZNZnlBZ0tzNm1Tc285Q0lJS1MwdW5rQ1dPenJud3V1bHlnQzBR?=
+ =?utf-8?B?SXhzVFdROXpmaUtDN2MyeXppdEYvdGtsU0tuSWhaMnduODJzeHRYVVpPSHZL?=
+ =?utf-8?B?dWhweUErdlFVaGVoUUlmSTRrdkRDQnFNNS9DNW1JbTRFNWhsQSsyWklvQi8r?=
+ =?utf-8?B?Si9KMCtSYThBTmE2bTNOT05HOU1sTjRoYUhjcnFDSExSMUdVa2IwRUhuQ21u?=
+ =?utf-8?B?SWVOWHF6cTV1Q0hwMkEwUk0xL2pTN0duNGdJSDN5NHlCVEk3WGFKbmtlNExt?=
+ =?utf-8?B?YU9OYWpVQitINXRyUUNldXI1cElWbDV3TXpwYjlDU2grZHdvTnlWeWlxS3Vz?=
+ =?utf-8?B?R09sNzB2a2ZHbFF6RGFhVG1kKzlPZCtONnJxcVMyczE5YW00MGJuejFqVzRZ?=
+ =?utf-8?B?WGpFVUhLY3kzbmFieXo5OWkzL29mYzJwODdqRFN3NHhodkx2YmpWRnFuN0pP?=
+ =?utf-8?B?UHNObUZ6NlBHRGdhUmJUVVRycWM5amU3VlZhNmZCWm1GUXdGQklQUmU5ZFlt?=
+ =?utf-8?B?K2JHb1lITU1tQWQ5U3JoQVl1Vit2U0tQSnZBU3AvVDJ2aExjMzhTaE5Ld1Rl?=
+ =?utf-8?B?NitQOWdjR0NVNllyQnJlQmFvRk5XZXk4UzBoSldWT0xJcmd4dWIvR1JMcGx0?=
+ =?utf-8?B?S3JpRW9XbGJLcmI4NWpKS3hQcVRVdFlKdDlBMVRqL1lTSUhCa25BWUhXTXdW?=
+ =?utf-8?B?ME41WVh5MUJmTmlHMHNaRFo2YjJqOFRUNnZDSEFjSnVWNmEzV013MWJEdHMx?=
+ =?utf-8?B?SnlieHRqZG1TZHlFRGpCTk9LQ0NuSHZYSmFiOVpxTUxwaVk2NzBUWFNZd1hR?=
+ =?utf-8?B?QlJlamxob1gvK2VlL0pUOHVIMUFYdG5HRDJ1ZkJ0OUUrYkpVSUJ5cnJXb2Nl?=
+ =?utf-8?B?OHM1QnFibldDNER5OXY3UmkzZTg0b09lTVN6Y0hIVG5PTlUyZzFPT0JCd1c4?=
+ =?utf-8?B?aUlEZHcwbGUyVHNUTHBPVGlRc1g3WGNSUEhraVNoM0p0M3huR2Z5amZqS0J2?=
+ =?utf-8?B?ZkRMM3cwMElNYlNwbmY1QitkOXBTRmhmOFFaTnZaRk1pSzU5Wjg0M1RGaEFa?=
+ =?utf-8?B?OGgzSGZ5K1B4THFXZDY2QWQyL1E5SGluTTFqdWQrVFlpS2k1bjJNT2tBem1o?=
+ =?utf-8?B?c2N5amVzM3U0NlRLOUJ1cnhvNXlBQW9ad1ZBMFpoRmtzL3YydllNSTFjak1a?=
+ =?utf-8?B?dlRGV1FlSGwwWmJzZ25QU1IxYXNKQVEvWEZMTlNkR3MzZ3VZV1lubGFSWTA4?=
+ =?utf-8?B?aktZS24zV1ZleFZGVndNd3pzYVBSSklpSE5UbEs3dUkvU0JjN0JYVGZoOHln?=
+ =?utf-8?B?aWZsZVJPUitKQk1pTkpDU2QrZC9kb3MyNFQzbGQyK0dTdDdwRTVCMFdGenc2?=
+ =?utf-8?B?Y3JzM3FIZEZpeXdDOU5NeThkSElPSkV5OUhLS05BbWJtWnNFa0haU2dHSXVo?=
+ =?utf-8?B?VVVZNUZBdjcvOE1jUWZVTVYzelZsZkcwMlZSakhWeDFrM0cxR1Yyd3FqU0VO?=
+ =?utf-8?B?WFZKTjBQTjAveEJ4V2dKaldYSFVoNk9FdnJEMUhnR2pkWGM0bDVHMlB6NDRy?=
+ =?utf-8?Q?RA399xbwF3o=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bkNtNVNyemhwVyt4bllOckFBYXNPSWpaTGxPNDYyMFZNak5HczlvaHRTcnc2?=
+ =?utf-8?B?dm9lWHg4RUNDQlZzdWFSMWVNc1RPeHpJNVVWOWh4WiswK0d3TUMrYWZlNFF5?=
+ =?utf-8?B?UUFzb0xhK1RjOHJod25iS1Q4YkVld2JMemVOa0FQL0I5WEhjNG4rTnpydVli?=
+ =?utf-8?B?NGh1cklUK3YzTlcwdVVqMVVmNnI1bWJpSTE0cnM1dEc4MG9Eemh2MGhNR09m?=
+ =?utf-8?B?T1FOZjVxVlprNXVaRGZQQ1ArZzJ5cDgyUU8yRlBIdFdlcVlhdUYxTTRoNXZD?=
+ =?utf-8?B?UTBnVi9iV1ExUXkwTzNMV0E0ZFhiTHRiWDdiaTE1Z0xtNTRWa2tWWWoxb1la?=
+ =?utf-8?B?S2pjS1dmV3dCK25ieERPT1pxSk5JVmRuTHVYdjBNdlQ5Y1NsYWIxWm96enVp?=
+ =?utf-8?B?cHdsTTZJWXl1d1FIQXQ4ZW14a1VYV0VFOEdiZE5OUXBMYS9aUlBKVGhSVTcr?=
+ =?utf-8?B?R0xsUFM2Zkk5L0E5RWV5VVk4ZHZXMTZ0cWlnZmovUGZaaEd5SkVWbDV6N3c3?=
+ =?utf-8?B?Z1A5VjdHVWxOa0F1d01ISFFLL2ZNejdPZDdMcmQxT0lvbUxNd1pja21KTDR1?=
+ =?utf-8?B?V1NQOGhzVExzbGpES3pzV2tPUTYwMm0yN2hYTDZiclBuT2lHaHZEVGEvMG5Z?=
+ =?utf-8?B?UW1PTGZ4SXZPZWFIUnlzRXhvQ0Qxb0ZqNjhPU2haVmtORzkwVlB1MXlDK3Zt?=
+ =?utf-8?B?MEZmSy9LWUc1T1ltQmo3MS9KdGlOWWJkaGJmVTlzdzAzcTBXUm1rQkI5ZVU1?=
+ =?utf-8?B?L1FEWGNmYzVSa2xEakR4Ry9YdkpRK1pRa3h0eEFVZzhqRkxDU2I5L290dURu?=
+ =?utf-8?B?bW1QWmkwTjJFY2NWR2gxdlh6aXR1bHdyRkNyN2xlTVU5NDlaSUZyNmpFZnN4?=
+ =?utf-8?B?dWg4V21NdzAvUVBEVmE4eDhNL2ZGVHNwNkp3ajQrWHpxZTBQcUlpNTBzQWJ6?=
+ =?utf-8?B?ZWF0a3FoTS81WVlIVTBBM0VMVERPakpNOExFVVFBYU5pRVUvc0NoUTY3TzlK?=
+ =?utf-8?B?MS9rZmo1MHpLWmpqK1VpUi9SS1BxckxBSFMzSld4MllGNk1LZ0N3OUNpQWVX?=
+ =?utf-8?B?OVJRRmhCbXg3RjdDaTd5OFJCYmNJODIyRmNvVU1icTBZUjVvQUxYTlBya1hh?=
+ =?utf-8?B?QnM1cFFlaHlMME5hS0U5VmhGVHB2NFpUT29wTWMxVE9zRnlQajhLbWVJdXJM?=
+ =?utf-8?B?N2RQVnEzUEwyTE5YSjNwTEd2THBhT1dHQjBNZjYzYXkwUEdQUUgwSHRFb2c3?=
+ =?utf-8?B?WXhxb0dDbm92Wk5oNml0V3I3WW9xc1doZk1lREZtMkMyUndobzdJdEVOK1BP?=
+ =?utf-8?B?aWkvSVRIOU5hQmR3a0xScFFQZTJIK29lWUg5TWJNY1dOeW81S2JtYkJBZE1N?=
+ =?utf-8?B?VVJ0RWJlRU5jWlZ6aFdiZFd5bzRYRGxiNm9NQXlSak1UNGtzSG1DVjFVU2U5?=
+ =?utf-8?B?QnllSStEQWZWbGZDakpXSmsvQ0N1YnBxMnJFRW4xUU04cHRyOEpHcDRmb1JJ?=
+ =?utf-8?B?a1diK2VqbVRydlBvVW8rajR5ZlJRM0kyTzcwTitiQWRMN3gxb1lTVzNrMEhK?=
+ =?utf-8?B?ZDUrajByNVpESGZrZUQ0NTJNK2JZU0RCTnoxdHRpWUVDNkt5ek5PcDVuVWg2?=
+ =?utf-8?B?aFMyekZZOHdCSDU3bE8vN2tEdFZSNVpWcFM1bkFRRW1mbGl0KzdGcDFrbnc5?=
+ =?utf-8?B?M2Rya0x1dlhUaHg4K3hDUVpZdWVhS2hZVzZVdGhhU3R2a0tBNytNK0lITGU1?=
+ =?utf-8?B?VWgxTEYwL2p0UE1PbldUdlhFMFNaMnVxKzhEMVRKL0xCU3lVdkFOWDkvbHNG?=
+ =?utf-8?B?SWEyTjVOMS9Pek8rbENSUWMrRUlmNytBK09jOXowMk5ZYzJHSFQ3ci9OYlJm?=
+ =?utf-8?B?cktXSkxzMkJVVUlCUkl2Q2h1Y0JSbi9KSjAwOXBYVVNHYXRNV1ZuVldjem54?=
+ =?utf-8?B?aHNTWDNDM2xnN1Z6cWxOZENrR280aHhLOXoyd1RBUHFFZVJXcjVkN1BxQmlL?=
+ =?utf-8?B?NUtRODhYSGppdUVxWk9ZWHoyWC94Y2g5TnJjUmNyTWlhQzUyVStMKzlsT3Zi?=
+ =?utf-8?B?UmkvVUlXVG4zL1NkZ1hjNmxjR1llWkVweS9ZUFkrSWhpVWF1TENQVTZrWUZa?=
+ =?utf-8?Q?4PyXYtfmGu2pal6UJi+z9sXi5?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d15ff140-de38-4cc1-cbfe-08ddda5a1984
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 11:11:06.8373
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XcnxZQPJ/d1ubOGps462uF+rmkBEK4w0IyzNWmY5GmxJdW5pvFhp5IfCWIH7UEfl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7285
 
-On 13/08/25 15:07:52, Dikshita Agarwal wrote:
-> Add error reporting for unreleased PERSIST internal buffers in
-> iris_check_num_queued_internal_buffers(). This ensures all buffer types
-> are checked and logged if not freed during session close, helping to
-> detect memory leaks and improve driver robustness. No change to buffer
-> lifecycle or allocation logic.
+On 13.08.25 10:20, Tvrtko Ursulin wrote:
 > 
-> Fixes: d2abb1ff5a3c ("media: iris: Verify internal buffer release on close")
-> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Tested-by: Vikash Garodia <quic_vgarodia@quicinc.com> # X1E80100
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_vidc.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> On 12/08/2025 15:34, Christian König wrote:
+>> From: Christian König <ckoenig@able.fritz.box>
+>>
+>> We have the re-occurring problem that people try to invent a
+>> DMA-fences implementation which signals fences based on an userspace
+>> IOCTL.
+>>
+>> This is well known as source of hard to track down crashes and is
+>> documented to be an invalid approach. The problem is that it seems
+>> to work during initial testing and only long term tests points out
+>> why this can never work correctly.
+>>
+>> So give at least a warning when people try to signal a fence from
+>> task context and not from interrupts or a work item. This check is
+>> certainly not perfect but better than nothing.
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-> index 8285bdaf9466d4bea0f89a3b1943ed7d6c014b7d..96313856a026efaff40da97eaaa63e847172cd57 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-> @@ -247,6 +247,14 @@ static void iris_check_num_queued_internal_buffers(struct iris_inst *inst, u32 p
->  			dev_err(inst->core->dev, "%d buffer of type %d not released",
->  				count, internal_buf_type[i]);
->  	}
-> +
-> +	buffers = &inst->buffers[BUF_PERSIST];
-> +
-> +	count = 0;
-> +	list_for_each_entry_safe(buf, next, &buffers->list, list)
-> +		count++;
+> I lack context as to why this should be disallowed so strongly (maybe cover letter is missing to better explain it all?)
 
-I believe at this point is not safe to dereference buf
+See here https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#indefinite-dma-fences
 
-> +	if (count)
-> +		dev_err(inst->core->dev, "%d buffer of type %d not released", count, buf->type);
->  }
->  
->  int iris_close(struct file *filp)
+I was hoping that this problem is so well known by now that it doesn't need more explanation.
+
+Going to expand the commit message a bit.
+
+>, but at least if feels overly restrictive to for example exclude threads and thread workers.
+
+Good point. Could be that someone is using a pure kernel thread for fence signaling. Going to check for that instead of a worker.
+
 > 
-> -- 
-> 2.34.1
+> Even the fact opportunistic signalling needs to bypass the assert makes it sound like there isn't anything fundamentally wrong with signalling from task context.
 > 
+
+Opportunistic signaling can happen from everywhere. But when an implementation tries to signal it from an IOCTL that is certainly invalid.
+
+> The first patch also feels a bit too much if it has no purpose apart from checking the new asserts would otherwise trigger.
+
+The sw_sync code is is only used for testing and debugging. See the Kconfig of it:
+
+          A sync object driver that uses a 32bit counter to coordinate
+          synchronization.  Useful when there is no hardware primitive backing
+          the synchronization.
+
+          WARNING: improper use of this can result in deadlocking kernel
+          drivers from userspace. Intended for test and debug only.
+
+Thanks,
+Christian.
+
 > 
+> Regards,
+> 
+> Tvrtko
+> 
+>> Signed-off-by: Christian König <ckoenig@able.fritz.box>
+>> ---
+>>   drivers/dma-buf/dma-fence.c | 59 +++++++++++++++++++++++++++----------
+>>   include/linux/dma-fence.h   |  9 ++++--
+>>   2 files changed, 51 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index 3f78c56b58dc..2bce620eacac 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -345,33 +345,23 @@ void __dma_fence_might_wait(void)
+>>   }
+>>   #endif
+>>   -
+>>   /**
+>> - * dma_fence_signal_timestamp_locked - signal completion of a fence
+>> + * dma_fence_signal_internal - internal signal completion of a fence
+>>    * @fence: the fence to signal
+>>    * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
+>>    *
+>> - * Signal completion for software callbacks on a fence, this will unblock
+>> - * dma_fence_wait() calls and run all the callbacks added with
+>> - * dma_fence_add_callback(). Can be called multiple times, but since a fence
+>> - * can only go from the unsignaled to the signaled state and not back, it will
+>> - * only be effective the first time. Set the timestamp provided as the fence
+>> - * signal timestamp.
+>> - *
+>> - * Unlike dma_fence_signal_timestamp(), this function must be called with
+>> - * &dma_fence.lock held.
+>> + * Internal signal the dma_fence without error checking. Should *NEVER* be used
+>> + * by drivers or external code directly.
+>>    *
+>>    * Returns 0 on success and a negative error value when @fence has been
+>>    * signalled already.
+>>    */
+>> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>> -                      ktime_t timestamp)
+>> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp)
+>>   {
+>>       struct dma_fence_cb *cur, *tmp;
+>>       struct list_head cb_list;
+>>         lockdep_assert_held(fence->lock);
+>> -
+>>       if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>>                         &fence->flags)))
+>>           return -EINVAL;
+>> @@ -390,7 +380,46 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>         return 0;
+>>   }
+>> -EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
+>> +EXPORT_SYMBOL(dma_fence_signal_internal);
+>> +
+>> +/**
+>> + * dma_fence_signal_timestamp_locked - signal completion of a fence
+>> + * @fence: the fence to signal
+>> + * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
+>> + *
+>> + * Signal completion for software callbacks on a fence, this will unblock
+>> + * dma_fence_wait() calls and run all the callbacks added with
+>> + * dma_fence_add_callback(). Can be called multiple times, but since a fence
+>> + * can only go from the unsignaled to the signaled state and not back, it will
+>> + * only be effective the first time. Set the timestamp provided as the fence
+>> + * signal timestamp.
+>> + *
+>> + * Unlike dma_fence_signal_timestamp(), this function must be called with
+>> + * &dma_fence.lock held.
+>> + *
+>> + * Returns 0 on success and a negative error value when @fence has been
+>> + * signalled already.
+>> + */
+>> +int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>> +                      ktime_t timestamp)
+>> +{
+>> +    /*
+>> +     * We have the re-occurring problem that people try to invent a
+>> +     * DMA-fences implementation which signals fences based on an userspace
+>> +     * IOCTL.
+>> +     *
+>> +     * This is well known as source of hard to track down crashes and is
+>> +     * documented to be an invalid approach. The problem is that it seems
+>> +     * to work during initial testing and only long term tests points out
+>> +     * why this can never work correctly.
+>> +     *
+>> +     * So give at least a warning when people try to signal a fence from
+>> +     * task context and not from interrupts or a work item. This check is
+>> +     * certainly not perfect but better than nothing.
+>> +     */
+>> +    WARN_ON_ONCE(!in_interrupt() && !current_work());
+>> +    return dma_fence_signal_internal(fence, timestamp);
+>> +}
+>>     /**
+>>    * dma_fence_signal_timestamp - signal completion of a fence
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 64639e104110..8dbcd66989b8 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -369,6 +369,7 @@ int dma_fence_signal_locked(struct dma_fence *fence);
+>>   int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
+>>   int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>                         ktime_t timestamp);
+>> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp);
+>>   signed long dma_fence_default_wait(struct dma_fence *fence,
+>>                      bool intr, signed long timeout);
+>>   int dma_fence_add_callback(struct dma_fence *fence,
+>> @@ -422,7 +423,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>           return true;
+>>         if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>> -        dma_fence_signal_locked(fence);
+>> +        dma_fence_signal_internal(fence, ktime_get());
+>>           return true;
+>>       }
+>>   @@ -448,11 +449,15 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>   static inline bool
+>>   dma_fence_is_signaled(struct dma_fence *fence)
+>>   {
+>> +    unsigned long flags;
+>> +
+>>       if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>           return true;
+>>         if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>> -        dma_fence_signal(fence);
+>> +        spin_lock_irqsave(fence->lock, flags);
+>> +        dma_fence_signal_internal(fence, ktime_get());
+>> +        spin_unlock_irqrestore(fence->lock, flags);
+>>           return true;
+>>       }
+>>   
+> 
+
 
