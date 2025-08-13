@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-39844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39845-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7988CB255EE
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 23:51:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A66DB255FA
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 23:53:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DDA5882E51
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:50:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C488D1C80ACE
+	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 21:52:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A4772EB5A7;
-	Wed, 13 Aug 2025 21:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699B82EF67D;
+	Wed, 13 Aug 2025 21:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OHdgNRXk"
+	dkim=pass (2048-bit key) header.d=nxsw.ie header.i=@nxsw.ie header.b="fIkFVMJ2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE20B2F39AE
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 21:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B72027FD46;
+	Wed, 13 Aug 2025 21:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755121812; cv=none; b=DuxjsPgbQVUMCvVdesrhpK9IHT4Ul98ySIhIo5i0Sjm+viM/rZgKCqQPegNftcLAHzRRIExAO1H7oTim8Mvdw5nCqX0FWTNU9BAEWLAMIbSmzvm2JnEB5jiRoWUSRIXZdjh3MHSZdPLLlik3Ht6wqFtULV9hx3fZ9vAgNHPz94I=
+	t=1755121929; cv=none; b=RWehvVslo21yvecbKbXKrG+2vZXYrhKq43cVV6N/XNvRB/P9jbC0fNHG+H7DcwQvZH/sI4CHaqcBbfYuKpwcuzATHJeA7eRHVtQmrDKuC4UbjAA0Aiwb4KyJpBvFf+VLC5if+liV7Pz94f6YIEVR1yV6/YisVvxvepMhXtKxHI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755121812; c=relaxed/simple;
-	bh=1SuDoKEnjV70ZpvNO56JyjTLz8swMJx19ufJhSPz1oM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sJZVigkLA+BdDtBn0UQmBSYRxdUbj2RPSgDAeweOs4IOu+w4gOdw+aZ0/t70A+8WVp6BSz2EVwkhRBY9OzrX4zFoQUFXIqKKaTeGtCC+L5Y2dUBS7oIqezf/nZTuYUnxJnxeHBDbwM9mKq+YFUBbqiM4wjs0yusB9CMOIVvNU0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OHdgNRXk; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 622C1F89;
-	Wed, 13 Aug 2025 23:49:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755121755;
-	bh=1SuDoKEnjV70ZpvNO56JyjTLz8swMJx19ufJhSPz1oM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OHdgNRXkKjeQIbUezT85WnpAe/1k602eHfULmMjxucAkvPnzJ4z4bzmDtDxXv9MXO
-	 goC1JT9gN6FE37YReG8At+9KS8HnN5zsTlKiLgLpAYxy28fgtsMjzb6BcR8ebiiuaQ
-	 BoQNJzgyet8rBUz7pPFkvd4pIBuqQKBVYWWGP7Mw=
-Date: Thu, 14 Aug 2025 00:49:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev
-Subject: Re: [PATCH v2 0/2] media: nxp: imx8-isi: fix streaming cleanup on
- release
-Message-ID: <20250813214949.GA22835@pendragon.ideasonboard.com>
-References: <20250813212451.22140-1-laurent.pinchart@ideasonboard.com>
- <5szbp7ae7sbfpzvfw73t2l5cwgd7i2hjmeljhmf4mxz32agwth@ycttzoi5ux46>
+	s=arc-20240116; t=1755121929; c=relaxed/simple;
+	bh=lIXowxk5a4rIlaGg+DnQioP9zBqh1RxBJ57rQxy097w=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NPFi5zzxzJx9MqMPLny5wFXXl6VSuV49gFU9JpdbvflFvjdPOWJbw+d+f0VRucAbZBV/ThyoWYIA44XZZi0uwExeHErB9EhYpLURDPxo/8Qy9M6ZcChD9I60/fWsqgHrus+l1q9kdhuOS1NXGGBnyoGj2gMg4n9Gl+FHJTDxnrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nxsw.ie; spf=pass smtp.mailfrom=nxsw.ie; dkim=pass (2048-bit key) header.d=nxsw.ie header.i=@nxsw.ie header.b=fIkFVMJ2; arc=none smtp.client-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nxsw.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxsw.ie
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxsw.ie;
+	s=protonmail2; t=1755121917; x=1755381117;
+	bh=lIXowxk5a4rIlaGg+DnQioP9zBqh1RxBJ57rQxy097w=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=fIkFVMJ2UcnMoRyUjMgeltmms3WgHaTwbysE16lB9pYAIOBEf6HAPVmpineGBdeoR
+	 UPCb56XXc3wapuyUwQSePFKdala1Dyw/6bE3OGQXfdKC3z6HgZ13cIHWPZPoQ36Cd/
+	 B/bm/gsK3HgdapcTt8wzvM0UEvi/n2W0Wb+82hvY1h/IzVYue1NBJlRKKT7yHQ1weW
+	 RK8aWLiZNWH35vGsz2ZB+/PiRfbg0+o66gfJdoDFYfKNlYp+dTgqcpDmIYfOiRjqOU
+	 8XblRALuJthMb1Ljyz+5/ISpYe2sYV37b504ELPEshUY2tnatCG3qIgqlmlR75wyZ7
+	 2dDZ7cUcmybvg==
+Date: Wed, 13 Aug 2025 21:51:51 +0000
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Stefan Schmidt <stefan.schmidt@linaro.org>, Vedang Nagar <quic_vnagar@quicinc.com>
+From: Bryan O'Donoghue <bod.linux@nxsw.ie>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, Renjiang Han <quic_renjiang@quicinc.com>, Wangao Wang <quic_wangaow@quicinc.com>
+Subject: Re: [PATCH v2 05/24] media: iris: Allow substate transition to load resources during output streaming
+Message-ID: <24714b00-cc15-4c9b-b0d4-8c76d702fcc2@nxsw.ie>
+In-Reply-To: <20250813-iris-video-encoder-v2-5-c725ff673078@quicinc.com>
+References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com> <20250813-iris-video-encoder-v2-5-c725ff673078@quicinc.com>
+Feedback-ID: 136405006:user:proton
+X-Pm-Message-ID: 675e31fb8d21994fa34a6f3cd1de48b3e17addfc
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,62 +60,35 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5szbp7ae7sbfpzvfw73t2l5cwgd7i2hjmeljhmf4mxz32agwth@ycttzoi5ux46>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 13, 2025 at 11:46:03PM +0200, Richard Leitner wrote:
-> Hi Laurent,
-> 
-> On Thu, Aug 14, 2025 at 12:24:49AM +0300, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > This patch series fixes an issue initially reported by Richard in [1],
-> > with a proposed fix. I've recommended an alternative approach, and gave
-> > it a try.
-> 
-> Thanks for reviewing that patch of mine [1].
-> And thank you for providing this alternative approach. It looks way
-> cleaner now :-) I previously tought of a similar approach as yours,
-> but then opted for the "less invasive" one. So again what learned for
-> me. Thanks!
-> 
-> As I've never had such a situation and wasn't able to find something in
-> the docs [2] about it: Do you need/want a Reviewed or Tested-By tag on
-> patch 1/2 of this series? (Altough there's also a SoB from me before
-> your Co-Developed tag)
+On 13/08/2025 10:37, Dikshita Agarwal wrote:
+> However, now after removing that restriction, the instance state can be
+> OUTPUT_STREAMING when firmware start is triggered and substate needs to
+> be moved to LOAD_RESOURCES.
+>=20
+> Fixes: 547f7b8c5090 ("media: iris: add check to allow sub states transiti=
+ons")
 
-Both tags are useful. Even if you're listes as the patch author, I've
-made modifications, so your review and tests are valuable.
+If a restriction has been removed, has that restriction been marked as a=20
+Fixes: ?
 
-> [2] https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-> 
-> regards;rl
-> 
-> > 
-> > Patch 1/2 fixes streaming cleanup on release. Patch 2/2 then cleans up
-> > the driver a bit by dropping an unneeded structure field.
-> > 
-> > The changes have been tested by opening and closing the video device
-> > while streaming in another process. I have also tested suspend/resume
-> > during streaming.
-> > 
-> > [1] https://lore.kernel.org/linux-media/20250709-imx8-isi-release-fix-v1-1-c47c659ce1a6@linux.dev/
-> > 
-> > Laurent Pinchart (1):
-> >   media: nxp: imx8-isi: Drop mxc_isi_video.is_streaming field
-> > 
-> > Richard Leitner (1):
-> >   media: nxp: imx8-isi: Fix streaming cleanup on release
-> > 
-> >  .../platform/nxp/imx8-isi/imx8-isi-core.h     |   3 +-
-> >  .../platform/nxp/imx8-isi/imx8-isi-video.c    | 156 +++++++-----------
-> >  2 files changed, 57 insertions(+), 102 deletions(-)
-> > 
-> > 
-> > base-commit: 078f1a7eb48eef9b3cb78bcd2254356f3a332358
+If not then we can't actually backport this fix as the dependency - the=20
+restriction removal has not been marked for backport.
 
--- 
-Regards,
+Please evaluate if the necessary change you have stipulated here has=20
+been marked for backport with Fixes: and if so mention the appropriate=20
+commit SHA in your commit log.
 
-Laurent Pinchart
+If you are referring to the commit immediately preceding this patch "Fix=20
+buffer count reporting in internal buffer check" then again you should=20
+mention that in the log so _which_ dependency you mean is clear.
+
+If I were trying to follow this series on some kind of -stable kernel, I=20
+don't think this commit log would reasonably tell me which depends I=20
+need as an antecedent.
+
+---
+bod
+
 
