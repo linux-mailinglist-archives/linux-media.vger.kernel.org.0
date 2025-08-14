@@ -1,301 +1,212 @@
-Return-Path: <linux-media+bounces-39894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39900-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD75FB2617D
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 11:52:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8424AB26291
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 12:26:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D3D7620CDE
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 09:47:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E14F5C756F
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 10:23:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08582ED165;
-	Thu, 14 Aug 2025 09:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C283074AE;
+	Thu, 14 Aug 2025 10:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iFMK5efK"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dEqMoNMS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8662ED169
-	for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 09:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FA72F83CC;
+	Thu, 14 Aug 2025 10:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755164869; cv=none; b=ralBji48Pr09TB0cXdO6dNGQwycxBfbaRMIUzhHegq4wRJcDxE8HGFMUiqrBfrHdPalrxiRLU/gQZGCzlO0NQ/e/+0CDjzdl1qr2UGWw8i3jyIe3LLzYyB2M2fAewLIJkC0M9eUSiHOaBY+x8ZvVkH1RUPjV39+2H2OHakBM0dA=
+	t=1755166624; cv=none; b=COZcFEYSOaE4ExsK5uj1z80foKbwxyB1Q631Kj+9Z5qACYFUe1ae4KRHWtcabRu8ypVfSE4UVcFAh8YYKU6R1TY/CJm7ppNx3I//Lnlw52+WxoIjqc5OcN+KnJ1ceye5TpePpX+/gK/DV1Gx52L6LN4pYWo2w2/yD1IvR6qQhrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755164869; c=relaxed/simple;
-	bh=v9C2ecqKzEtjQd1RNjsgQNhdCAyuEymNZb/w43UXQ4w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D2j1QvpRbIHiFi7f1viy4lxmLVdgRbn5E9FcOM9kDC3RZOjX389u7uZMhR8WVx7RtuLUtVth5hcd4OHTfhOKV4hKmecTPYKhTFZeRlTZAipAUvz0FrOGdcmiM/XgwvgdXQgAsWfNYyBZFpLGt6+fGQ01X93z1e8rlEoRYv4B+UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iFMK5efK; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-53b1738e8e3so605405e0c.1
-        for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 02:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1755164866; x=1755769666; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YiDCfbM3bTCVcLsZuPU1JDs4qEWT1BpZ2ztHAIDrKGI=;
-        b=iFMK5efKcF7HfhKZzhJKkPEVMGqEHMnNIqTAacT2L1KJWCN/fKWqRCoA0VPPKq3uh1
-         aqwQLjxUGlMiM3g85Kof//j5Xloxeq9Se+s+VoKGSOBBX+b8cAWml4b0TeBGSZU+TIEe
-         nfB/NOoc4O+rhO5WLJC726DqKhuh7hMtaFFns=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755164866; x=1755769666;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YiDCfbM3bTCVcLsZuPU1JDs4qEWT1BpZ2ztHAIDrKGI=;
-        b=PVH8SvYZ3WbY7ievliY1jJRkzV2+GDVcjTSqgF8BfV+5frE0RYkt2SYM91caisONM4
-         l+1eM+VvKGWwXiwSo4EhIgrbvGeUDYmwH6HprHPfeVxDYK9EQNG47YWqjH9Q/Gr6oYs+
-         htVK27zHvmAm0tvp0rFZyoSmSEzlXWv2wogNBknit0VP8phSKIHnX1YZbMHQNx6WNBh9
-         1wc/RDaNCuTE3lYzDY4G6MwJBb9ipveJSHIfZLrsop1nj5Nnf3+XVsdV/TE1iUIU1eLe
-         sdrFhr4bs22DqlX29ACKg1FZ5iwb9jX3bGmA9AAYkBFRHHltiSDOz3j3btkPQ201RT1d
-         1Etw==
-X-Forwarded-Encrypted: i=1; AJvYcCUau3bDOcjlNOlCKScsXQJcr5XrBi/wczwBnHc6VZleVjERKNSQSnaP7ZBrmIkZU6diSL8AuggrH30iSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4huwEKbhq0HfOSzp0ft44klE+vKydc7KgD/pl1lj873c3tRhm
-	w8/r5L5Isvw3aW0Faw2aBuwkBXwtmLb2C6OgpOkAN+Pt5chSiAFNcOUJkOHPlx1b4JBqgqsdhaG
-	7wws=
-X-Gm-Gg: ASbGncuY0Gu9Q0/nZgLo03S8co3BOAPPB4d/bxpvzJ/opOfTZIi2l4e3jdW2ihjLyVI
-	uJGJ9B+U/pNl8BAurU/McwMVU6YPUBYb3KU1R6EFbHaj6dXQzEKV/AtJJdlSNdhew8Za1GHHTqi
-	/89OuZ+Zy+5QEgkQZp3+xNw5B75Jln6JDnMiyfAU454DChd09AbYffOiZBubkzBSVhxNpqLUmvE
-	+uEReXoD0DYqkYrR+k2pRsRDAIVANNUhpk4w5kPNySqkojur5dvQ17fCkQkwmMKoVu9fhzNYx3X
-	AgVtVa7vpMK1+NqJTSYxz/GNOE5r7hJVVe5NZwmo56GSBfGxvvRcvBxJQCvvlkP+xvqOF0q6sHD
-	ezj+Xq4CVxixgOupNTNKUazCkuXxGHSPyN2aurCG8lWlHGhSlebq7LLxTg/mxPqV5YZY1qTo9
-X-Google-Smtp-Source: AGHT+IFH1L0eQfKk6UUm1l7pP1EO5zD9tGC7cE60xA47TBxJ+AOF0tp7AiqkoXV8a3s8q9yKqIEytg==
-X-Received: by 2002:a05:6122:3102:b0:539:1dd1:1d17 with SMTP id 71dfb90a1353d-53b189a746amr837838e0c.3.1755164865656;
-        Thu, 14 Aug 2025 02:47:45 -0700 (PDT)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b02a575bsm4423798e0c.29.2025.08.14.02.47.45
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Aug 2025 02:47:45 -0700 (PDT)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-53b1719b717so679653e0c.0
-        for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 02:47:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVeZqwzMPzig/cBdx+4Fl0yTjWkn1gqwlxOaSLU5Omxtuuo9JajXwOKe1uahp1bHN7XFacMontXKp8lVA==@vger.kernel.org
-X-Received: by 2002:a05:6122:82a3:b0:538:dbc9:17a6 with SMTP id
- 71dfb90a1353d-53b189eb471mr820629e0c.4.1755164864462; Thu, 14 Aug 2025
- 02:47:44 -0700 (PDT)
+	s=arc-20240116; t=1755166624; c=relaxed/simple;
+	bh=5C6A2etCAWerG0rmnrnHqZxn+WDNZ96iXOqPCUfg108=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Zt6OVN039zlKCwh4hWPRXBO43f18gZTSFLXC9Chj7YNUtQiNcUuAjx7YF7Nzxtgn0pv+YWMmVpFMG24PFvwK0AEoCVrNje57FeSHJTEB9brA+ouXj8iwzlkpYmC/9jjE/yEBfI3b0r0YVbz28oopzQx0YPq7VVYb64eqBl84GoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dEqMoNMS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57E9NHnW025666;
+	Thu, 14 Aug 2025 10:16:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=HHqTE40OeZMLliROMlhjzv
+	XOYxWvPRUMusZKV+Xmu40=; b=dEqMoNMSgPmtONmC30si4KNfKYRi8Y70573+nA
+	+z9TUT/1Yys+yR/nesKXEkdMsTaivxjwrAidEjG5jfjTgcbJt2/4GOj6kZJl+ewz
+	eMVaQzkuyW92S9Ot3CZneDC1fESm6lJ7CvhCYf9RjXM6xqZ6adji0xARTYvrbpLZ
+	tTc3eyXO4AuV+iKUl9qfkAZDMeB5udn20+Uf19h+fiBu9d4ZcZikfPyDGnIei5CW
+	pInNpR2oq114BgFk3d3zuwgiNvYDcM46MO/GGzVFtgcYYxKy+miZcIpvGven1xqG
+	glbKy9DtktpkiESlpyspWw6ihImUrZ8mxrc52YaB+b5vG/Rg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dy3gf7cq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 14 Aug 2025 10:16:50 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57EAGnrc028198
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 14 Aug 2025 10:16:49 GMT
+Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Thu, 14 Aug 2025 03:16:44 -0700
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <andersson@kernel.org>,
+        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <quic_svankada@quicinc.com>,
+        <quic_vikramsa@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 0/9] Add lemans(sa8775p) camss support
+Date: Thu, 14 Aug 2025 15:46:06 +0530
+Message-ID: <20250814101615.1102795-1-quic_vikramsa@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250814083144.191554-1-wenst@chromium.org> <CAC=S1nhz_ESY4VrgWs=dVinLtdOamh6to3EgD1w1Kx=4YBOD9A@mail.gmail.com>
- <CAGXv+5Hke6aEYdyc096_aeS9KHiOzcNqirB-rFT2odepaYhayQ@mail.gmail.com>
-In-Reply-To: <CAGXv+5Hke6aEYdyc096_aeS9KHiOzcNqirB-rFT2odepaYhayQ@mail.gmail.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Thu, 14 Aug 2025 17:47:08 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nheT46K+jkmtq4EJxOVO=nwasan0LCJwv-HTEK6P6DgxA@mail.gmail.com>
-X-Gm-Features: Ac12FXzvFfMabP6kQ3r7qgde36ENXvfds4n3oOTocQXTQlh5-zck0_vwf1VSQ1c
-Message-ID: <CAC=S1nheT46K+jkmtq4EJxOVO=nwasan0LCJwv-HTEK6P6DgxA@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Use spinlock for context list
- protection lock
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=X4lSKHTe c=1 sm=1 tr=0 ts=689db792 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=7F3gip01v3SWeLcEoC0A:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzMSBTYWx0ZWRfXweDiPgpSvyCy
+ cRawQZOSSmBQQN8NCAgSKlMI8RhtSkcUKZa5KuJQQEsUZB5PXxV4/Q8SZX+g0uRmddC9xTBUfx6
+ T/6/bQBjx2C2DdUS/iKr52XkygLPxdsI5lmXagFhjOZguzCLrSrgdij2+xm8iPtWFFGxsPSzLTz
+ qd1UhkkR2/9V5sI4pRjhpBEwXEDwMLK4SuiA9NAEuD/Cd94ftemvCdWWMdadpA81qrRYj+KKq4T
+ tiI9h5ym+kbn9xJSIgpNX0O1VoIG0aY3Vuw1LLy8VHLTUwQauW0069/xwz1rmfUY7D4ZB2Yeu9n
+ 2zJ/mL8WNT+2Vd9he1mDLCvP6HPN9TK+wFG2uF7vFj8KJHVCaOs7MD0ZX4D6iRwqamT5ihdGe+X
+ XPRn3hHF
+X-Proofpoint-GUID: tSfxV8QJNIEnt0AI7WY1bR-yfYcyu3tx
+X-Proofpoint-ORIG-GUID: tSfxV8QJNIEnt0AI7WY1bR-yfYcyu3tx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090031
 
-On Thu, Aug 14, 2025 at 5:06=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> On Thu, Aug 14, 2025 at 4:59=E2=80=AFPM Fei Shao <fshao@chromium.org> wro=
-te:
-> >
-> > On Thu, Aug 14, 2025 at 4:38=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.or=
-g> wrote:
-> > >
-> > > Previously a mutex was added to protect the encoder and decoder conte=
-xt
-> > > lists from unexpected changes originating from the SCP IP block, caus=
-ing
-> > > the context pointer to go invalid, resulting in a NULL pointer
-> > > dereference in the IPI handler.
-> > >
-> > > Turns out on the MT8173, the VPU IPI handler is called from hard IRQ
-> > > context. This causes a big warning from the scheduler. This was first
-> > > reported downstream on the ChromeOS kernels, but is also reproducible
-> > > on mainline using Fluster with the FFmpeg v4l2m2m decoders. Even thou=
-gh
-> > > the actual capture format is not supported, the affected code paths
-> > > are triggered.
-> > >
-> > > Since this lock just protects the context list and operations on it a=
-re
-> > > very fast, it should be OK to switch to a spinlock.
-> > >
-> > > Fixes: 6467cda18c9f ("media: mediatek: vcodec: adding lock to protect=
- decoder context list")
-> > > Fixes: afaaf3a0f647 ("media: mediatek: vcodec: adding lock to protect=
- encoder context list")
-> > > Cc: Yunfei Dong <yunfei.dong@mediatek.com>
-> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > ---
-> > >  .../mediatek/vcodec/common/mtk_vcodec_fw_vpu.c       | 10 ++++++----
-> > >  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c     | 12 +++++++---=
---
-> > >  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  2 +-
-> > >  .../platform/mediatek/vcodec/decoder/vdec_vpu_if.c   |  4 ++--
-> > >  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c     | 12 +++++++---=
---
-> > >  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h     |  2 +-
-> > >  .../platform/mediatek/vcodec/encoder/venc_vpu_if.c   |  4 ++--
-> > >  7 files changed, 26 insertions(+), 20 deletions(-)
-> > >
-> >
-> > [...]
-> >
-> > > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_=
-if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> > > index 145958206e38..e9b5cac9c63b 100644
-> > > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> > > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> > > @@ -77,14 +77,14 @@ static bool vpu_dec_check_ap_inst(struct mtk_vcod=
-ec_dec_dev *dec_dev, struct vde
-> > >         struct mtk_vcodec_dec_ctx *ctx;
-> > >         int ret =3D false;
-> > >
-> > > -       mutex_lock(&dec_dev->dev_ctx_lock);
-> > > +       spin_lock(&dec_dev->dev_ctx_lock);
-> >
-> > Do you mean spin_lock_irqsave()?
->
-> This function is only called from the handler below (outside the diff
-> context), which itself is called from hard IRQ context. This is mentioned
-> in the comment above the handler.
+From: Vikram Sharma <vikramsa@qti.qualcomm.com>
 
-I see. I only searched here but didn't check the full source.
-Leaving a comment would be clearer if a revision is made, but it's not
-worth resending just for that alone.
+Lemans is a Qualcomm SoC. Previously referred to as SA8775P. This series adds
+bindings and devicetree to bring up CSIPHY, TPG, CSID, VFE/RDI interfaces
+in Lemans.
 
-Reviewed-by: Fei Shao <fshao@chromium.org>
+Lemans provides
+- 2 x VFE, 3 RDI per VFE
+- 5 x VFE Lite, 6 RDI per VFE
+- 2 x CSID
+- 5 x CSID Lite
+- 3 x TPG
+- 4 x CSIPHY
 
+Changes in v5:
+- Update commit texts for almost all the patches to refer sa8775p soc
+  as lemans. This is required because sa8775p.dtsi is now changed to
+  lemans.dtsi for IOT platforms.
+  Name change is done as per:
+  https://lore.kernel.org/all/20250803110113.401927-1-wasim.nazir@oss.qualcomm.com/
+- Link to v4:
+  https://lore.kernel.org/all/20250807121105.710072-1-quic_vikramsa@quicinc.com/
 
-On Thu, Aug 14, 2025 at 5:06=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> On Thu, Aug 14, 2025 at 4:59=E2=80=AFPM Fei Shao <fshao@chromium.org> wro=
-te:
-> >
-> > On Thu, Aug 14, 2025 at 4:38=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.or=
-g> wrote:
-> > >
-> > > Previously a mutex was added to protect the encoder and decoder conte=
-xt
-> > > lists from unexpected changes originating from the SCP IP block, caus=
-ing
-> > > the context pointer to go invalid, resulting in a NULL pointer
-> > > dereference in the IPI handler.
-> > >
-> > > Turns out on the MT8173, the VPU IPI handler is called from hard IRQ
-> > > context. This causes a big warning from the scheduler. This was first
-> > > reported downstream on the ChromeOS kernels, but is also reproducible
-> > > on mainline using Fluster with the FFmpeg v4l2m2m decoders. Even thou=
-gh
-> > > the actual capture format is not supported, the affected code paths
-> > > are triggered.
-> > >
-> > > Since this lock just protects the context list and operations on it a=
-re
-> > > very fast, it should be OK to switch to a spinlock.
-> > >
-> > > Fixes: 6467cda18c9f ("media: mediatek: vcodec: adding lock to protect=
- decoder context list")
-> > > Fixes: afaaf3a0f647 ("media: mediatek: vcodec: adding lock to protect=
- encoder context list")
-> > > Cc: Yunfei Dong <yunfei.dong@mediatek.com>
-> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > ---
-> > >  .../mediatek/vcodec/common/mtk_vcodec_fw_vpu.c       | 10 ++++++----
-> > >  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c     | 12 +++++++---=
---
-> > >  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  2 +-
-> > >  .../platform/mediatek/vcodec/decoder/vdec_vpu_if.c   |  4 ++--
-> > >  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c     | 12 +++++++---=
---
-> > >  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h     |  2 +-
-> > >  .../platform/mediatek/vcodec/encoder/venc_vpu_if.c   |  4 ++--
-> > >  7 files changed, 26 insertions(+), 20 deletions(-)
-> > >
-> >
-> > [...]
-> >
-> > > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_=
-if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> > > index 145958206e38..e9b5cac9c63b 100644
-> > > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> > > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> > > @@ -77,14 +77,14 @@ static bool vpu_dec_check_ap_inst(struct mtk_vcod=
-ec_dec_dev *dec_dev, struct vde
-> > >         struct mtk_vcodec_dec_ctx *ctx;
-> > >         int ret =3D false;
-> > >
-> > > -       mutex_lock(&dec_dev->dev_ctx_lock);
-> > > +       spin_lock(&dec_dev->dev_ctx_lock);
-> >
-> > Do you mean spin_lock_irqsave()?
->
-> This function is only called from the handler below (outside the diff
-> context), which itself is called from hard IRQ context. This is mentioned
-> in the comment above the handler.
->
-> > >         list_for_each_entry(ctx, &dec_dev->ctx_list, list) {
-> > >                 if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu)=
- {
-> > >                         ret =3D true;
-> > >                         break;
-> > >                 }
-> > >         }
-> > > -       mutex_unlock(&dec_dev->dev_ctx_lock);
-> > > +       spin_unlock(&dec_dev->dev_ctx_lock);
-> > >
-> > >         return ret;
-> > >  }
-> >
-> > [...]
-> >
-> > > diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_=
-if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> > > index 51bb7ee141b9..79a91283da78 100644
-> > > --- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> > > +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> > > @@ -47,14 +47,14 @@ static bool vpu_enc_check_ap_inst(struct mtk_vcod=
-ec_enc_dev *enc_dev, struct ven
-> > >         struct mtk_vcodec_enc_ctx *ctx;
-> > >         int ret =3D false;
-> > >
-> > > -       mutex_lock(&enc_dev->dev_ctx_lock);
-> > > +       spin_lock(&enc_dev->dev_ctx_lock);
-> >
-> > Also here.
->
-> Same reasoning applies here as well.
->
-> ChenYu
->
-> > Regards,
-> > Fei
-> >
-> > >         list_for_each_entry(ctx, &enc_dev->ctx_list, list) {
-> > >                 if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu)=
- {
-> > >                         ret =3D true;
-> > >                         break;
-> > >                 }
-> > >         }
-> > > -       mutex_unlock(&enc_dev->dev_ctx_lock);
-> > > +       spin_unlock(&enc_dev->dev_ctx_lock);
-> > >
-> > >         return ret;
-> > >  }
-> > > --
-> > > 2.51.0.rc1.163.g2494970778-goog
-> > >
-> > >
+Changes in v4 compared to v3:
+- Bindings and Device Tree: Reordered the csid_wrapper to be the first
+  entry in the register list. (Suggested by Bryan)
+- CSIPHY Driver: Added comments indicating the CSIPHY process node number.
+- VFE Configuration: Defined bit fields for vfe_top_core_cfg.
+- Clock Optimization: Trimmed down the clock list for VFE.
+- Cleanup: Removed newly added deadlines from the CSIPHY, CSID, and VFE
+  files.
+- Link to v3:
+  https://lore.kernel.org/all/20250703171938.3606998-1-quic_vikramsa@quicinc.com/
+
+Changes compared to v2:
+- Renaming camss-vfe-780.c to camss-vfe-gen3.c and camss-csid-780 to
+  camss-csid-gen3 to avoid code duplication for SA8775P.SA877P have csid
+  690 and vfe 690 which is almost same as csid/vfe 780 with very minor
+  change in register bitfield.
+- Restructure vfe and csid addition to reuse existing files.
+- Updated commit text for Bindings patch.
+- renamed cpas_ife_lite clock to cpas_vfe_lite. 
+- added voltage rails for csiphy in documentation.
+- removed sf and icp clocks.
+- removed sf_0 interconnect.
+- Link to v2:
+  https://lore.kernel.org/linux-arm-msm/20250427070135.884623-1-quic_vikramsa@quicinc.com/
+
+Changes compared to v1:
+- Renaming camss-vfe-780.c to camss-vfe-gen2.c and camss-csid-780 to
+  camss-csid-gen3 to avoid code duplication for SA8775P.SA877P have csid
+  690 and vfe 690 which is almost same as csid/vfe 780 with very minor
+  change in register bitfield.
+- Restructure vfe and csid addition to reuse existing files.
+- Updated cisd-lite and vfe-lite interuppt names.
+- add enumeration changes as seprate patch. 
+- Update required fileds in bindings.
+- Link to v1:
+  DT: https://lore.kernel.org/linux-arm-msm/20250210155605.575367-1-quic_vikramsa@quicinc.com/
+  Driver: https://lore.kernel.org/linux-media/20250210162843.609337-1-quic_vikramsa@quicinc.com/
+
+Sanity check for these patches:
+- checkpatch.pl
+- Smatch: make CHECK="smatch --full-path" M=drivers/media/platform/qcom/camss/
+- Sparse: make C=2 M=drivers/media/platform/qcom/camss/
+- make -j32 W=1
+
+We have tested this on qcs9100-ride board with 'Test Pattern Generator'
+https://lore.kernel.org/all/20250717-lemans_tpg-v2-0-a2538659349c@quicinc.com/
+
+A rebased version of the TPG driver, built on top of this series, will be
+shared as v3 in a follow-up post.
+
+Vikram Sharma (9):
+  media: qcom: camss: Rename camss-csid-780.c to camss-csid-gen3.c
+  media: qcom: camss: Rename camss-vfe-780.c to camss-vfe-gen3.c
+  media: dt-bindings: Add qcom,sa8775p-camss compatible
+  media: qcom: camss: Add qcom,sa8775p-camss compatible
+  media: qcom: camss: Add support for CSIPHY (v1.3.0)
+  media: qcom: camss: Add support for CSID 690
+  media: qcom: camss: Add support for VFE 690
+  media: qcom: camss: Enumerate resources for lemans(sa8775p)
+  arm64: dts: qcom: lemans: Add support for camss
+
+ .../bindings/media/qcom,sa8775p-camss.yaml    | 361 +++++++++++++++
+ arch/arm64/boot/dts/qcom/lemans.dtsi          | 185 ++++++++
+ drivers/media/platform/qcom/camss/Makefile    |   4 +-
+ .../{camss-csid-780.c => camss-csid-gen3.c}   |  33 +-
+ .../{camss-csid-780.h => camss-csid-gen3.h}   |   8 +-
+ .../media/platform/qcom/camss/camss-csid.h    |   2 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |  84 ++++
+ .../{camss-vfe-780.c => camss-vfe-gen3.c}     |  75 ++-
+ drivers/media/platform/qcom/camss/camss-vfe.c |   5 +-
+ drivers/media/platform/qcom/camss/camss-vfe.h |   2 +-
+ drivers/media/platform/qcom/camss/camss.c     | 428 +++++++++++++++++-
+ drivers/media/platform/qcom/camss/camss.h     |   1 +
+ 12 files changed, 1138 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+ rename drivers/media/platform/qcom/camss/{camss-csid-780.c => camss-csid-gen3.c} (89%)
+ rename drivers/media/platform/qcom/camss/{camss-csid-780.h => camss-csid-gen3.h} (84%)
+ rename drivers/media/platform/qcom/camss/{camss-vfe-780.c => camss-vfe-gen3.c} (70%)
+
+Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+-- 
+2.25.1
+
 
