@@ -1,154 +1,200 @@
-Return-Path: <linux-media+bounces-39918-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39919-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5645DB26830
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 15:55:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1111AB2687B
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 16:05:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AFEA3AD774
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 13:50:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12F79A27E1C
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 13:58:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47FA63002B0;
-	Thu, 14 Aug 2025 13:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10432301012;
+	Thu, 14 Aug 2025 13:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f65VaF9g"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="dRCP630f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A052D46B6
-	for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 13:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6FC3002BE
+	for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 13:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755179419; cv=none; b=YCDo8IkjbcBIHa3KArE0O7rgwD4219DWODRNwHF47HqbNLrf+w0b8Mq/zHwm2DRmBUP0nOWoq5OYy+nvYpnfoYRUbKMFbmYsRBKeJbN8z18DGGZgbU9m8qRK6OHxcq+lGg+oGgTYfSSlV+gPdJrlWmmRVB5CphzFEWU66p+aOVY=
+	t=1755179869; cv=none; b=cYyi0L52yqvR4VpEB/kAoIxJIAdtRyw2y3FfJDXYl5202vOj8oCBAE4b8E7JbOsbOwDPKMPNtKA8U0cmQIheqdFIf4gqxQW5FBY5tBLB0F08qVBI86MFxFb46ilL97RHj/CW/a4+9RynMG0NJnMoMhSwmjJU6SwHGfnAsCJyWCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755179419; c=relaxed/simple;
-	bh=AoyDOydQQtOgHpKY1+RPEH1wHJ8mjYkSeOBG5gXUZ3g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eTaQcuy2LAGBDDJQHavaN6iI2zxfguHaV8be7HSs2xSCdHWg2bwgMtHZr4CWVH3PNxAgz91tq1/2QKQid+YHKXJngIGl5NKnNQQpY8nX9aBllkqgIUHpoC6zmGHg4O2l8bJe/F/n7zbLtKIu+qDpR6ztiNnpPTfwNaKpmbJUn0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f65VaF9g; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755179418; x=1786715418;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=AoyDOydQQtOgHpKY1+RPEH1wHJ8mjYkSeOBG5gXUZ3g=;
-  b=f65VaF9g+8qioA3bvDYxPmxk7dJG3hO8Q0XNtO1TNFkhBfO4GGknDZQT
-   aYMLSfM7Uni2sv3UcqnWIixxKNuNLLf4WzdzPcuFR9A9Z6ig8igcf+CRZ
-   GBhlhFVyQRq1mO4ydY4PAbTGMRMTTxr4sdw0ygtyP2kwEPCnqRe9GnqMH
-   N8iVtQjtimmtapim1DagXwD3KcutpMNUygx8jSm4rHEuu3sKk8sGmFX+T
-   czSSUHrlnUM2orl9eAo1K73m9H6EokYcKU+fNyZJT0FBaPCWDivzMhCWy
-   KPtXtwoaCwwzBcxWIlZjELaW5fGFssv+l8F+p8DbrdG5TbDw9V8rpi+jX
-   A==;
-X-CSE-ConnectionGUID: LbZEv4QjTeynqJABWe56RQ==
-X-CSE-MsgGUID: hPct7i+HRmKsF4TEQOxJfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57397535"
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="57397535"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:50:18 -0700
-X-CSE-ConnectionGUID: ePd0u76jTEqt9xgpVyDzLw==
-X-CSE-MsgGUID: PTKz20kxSv6ot/UcU/MIMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="167134069"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.197])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:50:10 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 20B1011F73C;
-	Thu, 14 Aug 2025 16:50:08 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1umYLI-00192m-04;
-	Thu, 14 Aug 2025 16:50:08 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	hdegoede@redhat.com,
-	arnd@arndb.de,
-	alain.volmat@foss.st.com,
-	andrzej.hajda@intel.com,
-	benjamin.mugnier@foss.st.com,
-	dave.stevenson@raspberrypi.com,
-	hansg@kernel.org,
-	jacopo.mondi@ideasonboard.com,
-	kieran.bingham@ideasonboard.com,
-	khalasa@piap.pl,
-	mani@kernel.org,
-	m.felsch@pengutronix.de,
-	matthias.fend@emfend.at,
-	mchehab@kernel.org,
-	michael.riesch@collabora.com,
-	naush@raspberrypi.com,
-	nicholas@rothemail.net,
-	nicolas.dufresne@collabora.com,
-	paul.elder@ideasonboard.com,
-	dan.scally@ideasonboard.com,
-	pavel@kernel.org,
-	rashanmu@gmail.com,
-	ribalda@chromium.org,
-	slongerbeam@gmail.com,
-	tomi.valkeinen@ideasonboard.com,
-	linux-media@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 1/1] media: v4l2-common: Improve devm_v4l2_sensor_clk_get() documentation
-Date: Thu, 14 Aug 2025 16:50:07 +0300
-Message-Id: <20250814135007.273084-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <46b76530-023f-4f36-bec3-1d3ab79c682c@kernel.org>
-References: <46b76530-023f-4f36-bec3-1d3ab79c682c@kernel.org>
+	s=arc-20240116; t=1755179869; c=relaxed/simple;
+	bh=Cgp/UzZGk5TSeJwqQbv8uw9KQWDXbiM8lVT7wHE47lQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jUuxaD2gW7U6saO5D1oyggjTsPSU4hXfTc2q6Od4THfEQ627FqOu4qV2clSHZQ2cIZ8aQTsaf+08VS8H0/Mf0h/PNv0wgLYx3QU2LAbsIXDhBRpIXCnDpUvG2xcbipCtqgUoVjCZSeVlkEi7nCWQoNYBDDb/id64cAdid380iWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=dRCP630f; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=W1E6lYXTOtYOdLICqJXEmH/mSFsGgZoONzpmV4Qyebs=; b=dRCP630fYPEiTWPs
+	NdWovFsaa9AvQn29wlOc4lBsoNFrWd9tnq17URrxq2ntP0kWw43r+h6w8JFYIa8WCndSCoVE02ezg
+	O9GEsY5ztTEcIZIMglYzjIDTU9PyDkbbhpBNgV5ZgNYYaMbflbJuF53ljzF43lxQ3Ek/dZrxpVjD7
+	nSjPKsIuaQrdKmQ9LL8On57R5I+Mx0/jF7y0cUzpxlR8VmhnSXBj9WXfzExaJEIEwVA6fBzzrfBIo
+	a15xdY6TfgMrhOdd5PAPbmB9uPxTKlOiWkTtHZxoCM0q25okC/SpuWiEDTfaz5SlDcUZjaESGFdCb
+	cdVbLUpWzvAlM2xQxg==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1umYSY-003vZN-2Q;
+	Thu, 14 Aug 2025 13:57:38 +0000
+Date: Thu, 14 Aug 2025 13:57:38 +0000
+From: "Dr. David Alan Gilbert" <dave@treblig.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [0/4] Remove the wl1273 FM Radio
+Message-ID: <aJ3rUqbqU-_FSo1P@gallifrey>
+References: <20250625133258.78133-1-linux@treblig.org>
+ <685c08d5.050a0220.350bff.01b0@mx.google.com>
+ <aF1CCjVmRruMORto@gallifrey>
+ <20250808140400.GA23187@pendragon.ideasonboard.com>
+ <aJYFNMO4W4dv2i6U@gallifrey>
+ <20250808160123.GE23187@pendragon.ideasonboard.com>
+ <aJaVH5eCDhLutPSn@gallifrey>
+ <20250809220146.GB17105@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20250809220146.GB17105@pendragon.ideasonboard.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 13:53:31 up 108 days, 22:07,  1 user,  load average: 0.00, 0.00,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-Remove the extra leading period and provide more elaborate explanation for
-why devm_v4l2_sensor_clk_get() is only allowed to be used on camera sensor
-devices.
+* Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
+> On Sat, Aug 09, 2025 at 12:23:59AM +0000, Dr. David Alan Gilbert wrote:
+> > * Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
+> > > On Fri, Aug 08, 2025 at 02:09:56PM +0000, Dr. David Alan Gilbert wrote:
+> > > > * Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
+> > > > > On Thu, Jun 26, 2025 at 12:50:18PM +0000, Dr. David Alan Gilbert wrote:
+> > > > > > * Patchwork Integration (patchwork@media-ci.org) wrote:
+> > > > > > > Dear Dr. David Alan Gilbert:
+> > > > > > > 
+> > > > > > > Thanks for your patches! Unfortunately the Media CI robot detected some
+> > > > > > > issues:
+> > > > > > > 
+> > > > > > > # Test checkpatch:./0001-media-radio-wl1273-Remove.patch checkpatch
+> > > > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > > > > > > #7: 
+> > > > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > > > > > > 
+> > > > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > > > > > > #61: 
+> > > > > > > deleted file mode 100644
+> > > > > > > 
+> > > > > > > total: 0 errors, 2 warnings, 0 checks, 30 lines checked
+> > > > > > 
+> > > > > > I did check that, couldn't find any appropriate MAINTAINERS entry anyway
+> > > > > > 
+> > > > > > > # Test checkpatch:./0002-ASoC-wl1273-Remove.patch checkpatch
+> > > > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > > > > > > #7: 
+> > > > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > > > > > 
+> > > > > > Yep, said that in my cover letter; suggestions on how to refer to that URL
+> > > > > > in a better way are welcome.
+> > > > > 
+> > > > > You can ignore those two warnings.
+> > > > 
+> > > > Thanks for confirming that.
+> > > > Could you (or some other -media maintainer) pick 1/4 for linux-media please;
+> > > > Generally I think Lee tends only to pick the mfd specific bit up, so I need
+> > > > to get the specifics in through the other trees.
+> > > 
+> > > We can take patch 1/4 in the media tree, but merging the different
+> > > pieces in an uncoordinated fashion will result in breakages in
+> > > linux-next :-/
+> > 
+> > It should be safe to go in order; so you taking patch 1/4 should move
+> > things forward.
+> 
+> 1/4 to 3/4 can be merged in any order, but 4/4 depends on the first
+> three patches getting merged first. The simplest option is to merge 1/4
+> to 3/4 for v6.18 through their respective trees, and 4/4 for v6.19. To
+> speed up merging 4/4 in v6.18 we need to coordinate between the three
+> subsystem maintainers.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- include/media/v4l2-common.h | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+I see you've picked 1/4 up in -next - thanks!
+I'll give the sound folk a prod for 2/4.
+For 3/4 and 4/4 probably the easiest thing if we can get 2 in is if 3/4 and 4/4
+go in as a pair in 6.19.
+All this coordination thing seems to be rare!
 
-diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-index 9d6c236e8f14..39dd0c78d70f 100644
---- a/include/media/v4l2-common.h
-+++ b/include/media/v4l2-common.h
-@@ -623,7 +623,7 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
- 
- /**
-  * devm_v4l2_sensor_clk_get - lookup and obtain a reference to a clock producer
-- *	for a camera sensor.
-+ *	for a camera sensor
-  *
-  * @dev: device for v4l2 sensor clock "consumer"
-  * @id: clock consumer ID
-@@ -643,6 +643,14 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
-  *
-  * In this case try to set the clock-frequency value to the provided clock.
-  *
-+ * As the name indicates, this function may only be used on camera sensor
-+ * devices. This is because generally only camera sensors do need a clock to
-+ * query the frequency from, due to the requirement to configure the PLL for a
-+ * given CSI-2 interface frequency where the sensor's external clock frequency
-+ * is a factor. Additionally, the clock frequency tends to be available on ACPI
-+ * firmware based systems for camera sensors specifically (if e.g. DisCo for
-+ * Imaging compliant).
-+ *
-  * Returns a pointer to a struct clk on success or an error pointer on failure.
-  */
- struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
+Dave
+
+> > > I think the simplest option would be to create a branch on top of v6.16
+> > > (or v6.17-rc1) with the 4 patches applied, and merge it in the media,
+> > > mfd and sound trees. That would require Lee to drop patches 3/4 and 4/4
+> > > that he already applied to the mfd tree though.
+> > > 
+> > > > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > > > > > > #71: 
+> > > > > > > deleted file mode 100644
+> > > > > > > 
+> > > > > > > total: 0 errors, 2 warnings, 0 checks, 36 lines checked
+> > > > > > > 
+> > > > > > > # Test checkpatch:./0003-mfd-wl1273-core-Remove.patch checkpatch
+> > > > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > > > > > > #8: 
+> > > > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > > > > > > 
+> > > > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > > > > > > #55: 
+> > > > > > > deleted file mode 100644
+> > > > > > > 
+> > > > > > > total: 0 errors, 2 warnings, 0 checks, 23 lines checked
+> > > > > > > 
+> > > > > > > # Test checkpatch:./0004-mfd-wl1273-core-Remove-the-header.patch checkpatch
+> > > > > > > WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> > > > > > > #7: 
+> > > > > > >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > > > > > > 
+> > > > > > > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> > > > > > > #35: 
+> > > > > > > deleted file mode 100644
+> > > > > > > 
+> > > > > > > total: 0 errors, 2 warnings, 0 checks, 7 lines checked
+> > > > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > Please fix your series, and upload a new version. If you have a patchwork
+> > > > > > > account, do not forget to mark the current series as Superseded.
+> > > > > > > 
+> > > > > > > For more details, check the full report at:
+> > > > > > > https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/79088843/artifacts/report.htm .
+> > > > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > Best regards, and Happy Hacking!
+> > > > > > > Media CI robot on behalf of the linux-media community.
+> > > > > > > 
+> > > > > > > ---
+> > > > > > > Check the latest rules for contributing your patches at:
+> > > > > > > https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
+> > > > > > > 
+> > > > > > > If you believe that the CI is wrong, kindly open an issue at
+> > > > > > > https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
+> > > > > > > to this message.
+> > > > > > > 
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 -- 
-2.39.5
-
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
 
