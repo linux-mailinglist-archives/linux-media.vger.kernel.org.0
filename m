@@ -1,180 +1,203 @@
-Return-Path: <linux-media+bounces-39888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0EAB2600C
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 11:04:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD08B2601E
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 11:06:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 562981CC05B6
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 09:01:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EAC355C0CDD
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 09:04:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9042E2FC874;
-	Thu, 14 Aug 2025 08:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 239332F83BE;
+	Thu, 14 Aug 2025 08:59:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="KZjGoFEw"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ik6EipQO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC2E2F99A9;
-	Thu, 14 Aug 2025 08:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C724A2E9EB3
+	for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 08:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755161827; cv=none; b=cco6kd6lZAzWlrNzAHMs8dxRKQ31PR5gRjxsSEaL4v9WFlYvm7qIq85acAAqt/XidMOAke3UllHINdApGSb/dhCJpSlhFse0BWU2D0LcvaULEOZahC+siJ5x4YUjdIqidNBmenjS+sZUwLLn/e4+O/yLWA9ESLSmuaAwQQ24mZY=
+	t=1755161942; cv=none; b=T6KMed+QkfahpLLoW7M2qdUIMYTbm1FaW7BcMTUcbEdrHXqnC/64q1BA6VN8O+xHuQ03RGfK+frGKOfJCktaAqxgzVSF1j9fdsymHl0bb8bsu81t7sANXy6t90ZFyhQQaLcfaVd81pLTK0S/wDSxpZc5zHVakw7z2ix0duGvBNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755161827; c=relaxed/simple;
-	bh=EZfLfR4t3cmDAxsqjP6o4DEMZpjlft7MYQxHoiklm0I=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HdX4rQhjUkwgqWb2WHo1nyzyxV9wg76A+86kSsWirhnv5TbYcXUyQf3V4uYe3/B8K4d7Ru7J23auaSh9h0iw0hgDhugS+vXEvGQJp517hFZxCq8t0YVD/aGinx3oYR3zlsxjmU/E8xWXsSgzsA+KhueCJJDO9Hph/8EMweYlPQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=KZjGoFEw; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: a20fd42c78ec11f08729452bf625a8b4-20250814
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=hiarOdkQkkcPVdpp4dqlsOkMDHB1Fp4L6Hv7zOVhgjc=;
-	b=KZjGoFEwMGqnihnGakixjf9TECNDi9MTZkTaQBg8Lx9NHbYwJHcMvlsaRxMEmcpIkJTzYFXXibP6wmDj+bIyoQO4aWA1TFYkyrCBNWt/NorJOneTo8t5U5oi/lrgL/e/Qk3pKfidz5OJYVUWETO0qzfW2dRbcbQ2RS8JASDyPSs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3,REQID:be8029bc-b332-4570-a9b5-757aea2a8bed,IP:0,UR
-	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-25
-X-CID-META: VersionHash:f1326cf,CLOUDID:4ba3edf3-66cd-4ff9-9728-6a6f64661009,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:-5,Content:0|15|50,EDM:
-	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: a20fd42c78ec11f08729452bf625a8b4-20250814
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
-	(envelope-from <kyrie.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1549134885; Thu, 14 Aug 2025 16:56:57 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Thu, 14 Aug 2025 16:56:55 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Thu, 14 Aug 2025 16:56:54 +0800
-From: Kyrie Wu <kyrie.wu@mediatek.com>
-To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
-	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>, Sebastian Fricke
-	<sebastian.fricke@collabora.com>, Nathan Hebert <nhebert@chromium.org>, "Arnd
- Bergmann" <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>, George Sun
-	<george.sun@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-CC: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
-	<andrzejtp2010@gmail.com>
-Subject: [PATCH v3 6/6] media: mediatek: encoder: Add MT8196 encoder compatible data
-Date: Thu, 14 Aug 2025 16:56:42 +0800
-Message-ID: <20250814085642.17343-7-kyrie.wu@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250814085642.17343-1-kyrie.wu@mediatek.com>
-References: <20250814085642.17343-1-kyrie.wu@mediatek.com>
+	s=arc-20240116; t=1755161942; c=relaxed/simple;
+	bh=QTIXtveDTMoEdRMxbTNvNq78eOmhb3+4Ay3C4Fd4UmY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CT3S6nLz1c4EBFAxx5X9ohT+wTeGLthY8yjESnc5SRV2/3wCq6L+Id0YCaylJ9UD+eT/h4QTfSHOTTo1WdqH78wGzQINyW8gUqwOOksqcNirZq/yuobKM2UkLQXdAjFuiAqxBl9n0Fwe/mHCL7okPqdeeE8c1mEoDA7/YYsuInA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ik6EipQO; arc=none smtp.client-ip=209.85.222.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-8900fcc0330so885183241.0
+        for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 01:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755161939; x=1755766739; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q7uH31UN91+fljH+roDUJZnayXqB6OvkipUsIFV6Wzs=;
+        b=Ik6EipQOM0NLDPPMxn4PP9DPO7k235PFnJxMG3tq3c3PxNbXTHOicsbq9Xa3Sm4Dtd
+         cF/Q3CXuOaFzCPiZ+gIK3pwNq0x7gqHd+kJPxPxGpWBSnhX+fhWr5gZOiXDafQBC/i+r
+         lMuVH5MdnOfanJFIxmxd/7jZnYkRup4ZGEfJg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755161939; x=1755766739;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q7uH31UN91+fljH+roDUJZnayXqB6OvkipUsIFV6Wzs=;
+        b=F3ZyIbherprY56gqCyJ7SqGwxE1TZexADQ23ETOw7ECDt1pLpxAC5O1uHonjKYxiVM
+         QSmlq5MaMERemYazz9VsSBkObSaU+VD98VAQUEF8On3l8XxxYq9+nomMZKQJicM88CO2
+         wJZEJopt9TqyN0jToPZICBdA6qAT1i8pvIIxSjOs6Yyb5Uq3MR9qOXWHLzX4vra/V95f
+         53SjBbqhY7+5jKtUFJGjlElTdXBOdFZl8LCrSbqJdscos0sM2NfBuXadZ8Rtj/k83fSZ
+         oeA1RGXBd1Qu5ywY6ZxYRJZIH587dX+0uG8b/Nv+VCXCx7iYRP0+6HmSNMNoYQofLhKs
+         dbyw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwzycaYxme2n864s/vQ3lpR8mbOTl50XGF+bHoKgdXxxhuAiJ5cGe7cXpADD+K/LjyNQMDDerS8tA9rQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxL9+7nqyCqniPv+llFKtl85U2cgUssHhGcoVO3MoBpjkX3GDrS
+	4GZ0qV77tH8Q3rdQVuGF6gaPrjnu3+SVhSXCDtexLiZ1UurTNfCaBa/sxFCq9K4fFQOuRNoGpc0
+	5bDY=
+X-Gm-Gg: ASbGncuHf6BfpigrmPJAwUuvajN/OqcwMZ0nNwozsZ/rOvWwrmGgzX3fJYcyR2465Fa
+	0rAOA0S9yoqYHCb8hhax0iIJd7wiBeZ8B7zjp9Ar5Vpaozn9ckwt52znchOS8a5a+T5Fbivl58o
+	VnxhORkfU2mSgRMTFoMhe+wWqApJgbPEIXUAfXJC0wzGlGf4WRDIeZPOyFh6ssjzlUo7bjDhbQX
+	XwSqgJmd4TNYYziqe2t4pQqb4uk8STg7pHqEq7AKq6xnAE3bdNMw3u3VGdAQy1AxZ2XRjR71E0/
+	OORSNDdzGTl9LTygBeyUahxTW8ggCeoebFz+WgfHKp/kqu6NptjsJSCS/Pz20froiX8vfN9IwLa
+	4LzR67mZB1EefY3ZQanJTjG0ttK+pRTlwbtiCmbRrrbqhCeihzS1fFpv8+eC+bJPB5Bpg
+X-Google-Smtp-Source: AGHT+IFYWf9u74Q8fy8n+knlGzBUdRWITDrV6Pa4zZMyRLN7506YvUEfBMAzzgd6YKpTYJi5eljhqw==
+X-Received: by 2002:a05:6122:a1e:b0:530:2c65:5bb8 with SMTP id 71dfb90a1353d-53b19f80144mr610133e0c.1.1755161939321;
+        Thu, 14 Aug 2025 01:58:59 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b02a39f5sm4408254e0c.27.2025.08.14.01.58.58
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Aug 2025 01:58:58 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-89018065338so610098241.0
+        for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 01:58:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV9jnvr35fLIB3/vLTZlMOkQ8C+yIPSrwBNw6CcFhUjtY8Xz88LAmY441PVunUS8yExj/DvLD2bajF6jw==@vger.kernel.org
+X-Received: by 2002:a05:6102:8083:b0:4e5:5c14:5937 with SMTP id
+ ada2fe7eead31-51058a87196mr673671137.1.1755161937736; Thu, 14 Aug 2025
+ 01:58:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+References: <20250814083144.191554-1-wenst@chromium.org>
+In-Reply-To: <20250814083144.191554-1-wenst@chromium.org>
+From: Fei Shao <fshao@chromium.org>
+Date: Thu, 14 Aug 2025 16:58:21 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nhz_ESY4VrgWs=dVinLtdOamh6to3EgD1w1Kx=4YBOD9A@mail.gmail.com>
+X-Gm-Features: Ac12FXyjQIDoUSwiVtyIticCvke0x3M57lwGIL10ez0LU-OLgFrmxrQr_qqqlnA
+Message-ID: <CAC=S1nhz_ESY4VrgWs=dVinLtdOamh6to3EgD1w1Kx=4YBOD9A@mail.gmail.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Use spinlock for context list
+ protection lock
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Irui Wang <irui.wang@mediatek.com>
+On Thu, Aug 14, 2025 at 4:38=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> Previously a mutex was added to protect the encoder and decoder context
+> lists from unexpected changes originating from the SCP IP block, causing
+> the context pointer to go invalid, resulting in a NULL pointer
+> dereference in the IPI handler.
+>
+> Turns out on the MT8173, the VPU IPI handler is called from hard IRQ
+> context. This causes a big warning from the scheduler. This was first
+> reported downstream on the ChromeOS kernels, but is also reproducible
+> on mainline using Fluster with the FFmpeg v4l2m2m decoders. Even though
+> the actual capture format is not supported, the affected code paths
+> are triggered.
+>
+> Since this lock just protects the context list and operations on it are
+> very fast, it should be OK to switch to a spinlock.
+>
+> Fixes: 6467cda18c9f ("media: mediatek: vcodec: adding lock to protect dec=
+oder context list")
+> Fixes: afaaf3a0f647 ("media: mediatek: vcodec: adding lock to protect enc=
+oder context list")
+> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  .../mediatek/vcodec/common/mtk_vcodec_fw_vpu.c       | 10 ++++++----
+>  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c     | 12 +++++++-----
+>  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  2 +-
+>  .../platform/mediatek/vcodec/decoder/vdec_vpu_if.c   |  4 ++--
+>  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c     | 12 +++++++-----
+>  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h     |  2 +-
+>  .../platform/mediatek/vcodec/encoder/venc_vpu_if.c   |  4 ++--
+>  7 files changed, 26 insertions(+), 20 deletions(-)
+>
 
-MT8196 encoder use common firmware interface, add compatible data to
-support MT8196 encoding, and need set dma mask to support 34bit.
+[...]
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
- .../vcodec/encoder/mtk_vcodec_enc_drv.c       | 19 +++++++++++++++++++
- .../vcodec/encoder/mtk_vcodec_enc_drv.h       |  2 ++
- 2 files changed, 21 insertions(+)
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c=
+ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> index 145958206e38..e9b5cac9c63b 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> @@ -77,14 +77,14 @@ static bool vpu_dec_check_ap_inst(struct mtk_vcodec_d=
+ec_dev *dec_dev, struct vde
+>         struct mtk_vcodec_dec_ctx *ctx;
+>         int ret =3D false;
+>
+> -       mutex_lock(&dec_dev->dev_ctx_lock);
+> +       spin_lock(&dec_dev->dev_ctx_lock);
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-index 50936949d527..c869c4245ebc 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-@@ -20,6 +20,8 @@
- #include "mtk_vcodec_enc_pm.h"
- #include "../common/mtk_vcodec_intr.h"
- 
-+#define VENC_DMA_BIT_MASK 34
-+
- static const struct mtk_video_fmt mtk_video_formats_output[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12M,
-@@ -299,6 +301,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		goto err_res;
- 	}
- 
-+	if (dev->venc_pdata->set_dma_bit_mask)
-+		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(VENC_DMA_BIT_MASK));
-+
- 	mutex_init(&dev->enc_mutex);
- 	mutex_init(&dev->dev_mutex);
- 	mutex_init(&dev->dev_ctx_lock);
-@@ -450,6 +455,19 @@ static const struct mtk_vcodec_enc_pdata mt8195_pdata = {
- 	.core_id = VENC_SYS,
- };
- 
-+static const struct mtk_vcodec_enc_pdata mt8196_pdata = {
-+	.venc_model_num = 8196,
-+	.capture_formats = mtk_video_formats_capture_h264,
-+	.num_capture_formats = ARRAY_SIZE(mtk_video_formats_capture_h264),
-+	.output_formats = mtk_video_formats_output,
-+	.num_output_formats = ARRAY_SIZE(mtk_video_formats_output),
-+	.min_bitrate = 64,
-+	.max_bitrate = 100000000,
-+	.core_id = VENC_SYS,
-+	.uses_common_fw_iface = true,
-+	.set_dma_bit_mask = true,
-+};
-+
- static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8173-vcodec-enc",
- 			.data = &mt8173_avc_pdata},
-@@ -459,6 +477,7 @@ static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8188-vcodec-enc", .data = &mt8188_pdata},
- 	{.compatible = "mediatek,mt8192-vcodec-enc", .data = &mt8192_pdata},
- 	{.compatible = "mediatek,mt8195-vcodec-enc", .data = &mt8195_pdata},
-+	{.compatible = "mediatek,mt8196-vcodec-enc", .data = &mt8196_pdata},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-index b3206a7b592d..ded794f1b37a 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-@@ -32,6 +32,7 @@
-  * @core_id: stand for h264 or vp8 encode index
-  * @uses_34bit: whether the encoder uses 34-bit iova
-  * @uses_common_fw_iface: whether the encoder uses common driver interface
-+ * @set_dma_bit_mask: whether the encoder need set extra DMA bit mask
-  */
- struct mtk_vcodec_enc_pdata {
- 	u16 venc_model_num;
-@@ -45,6 +46,7 @@ struct mtk_vcodec_enc_pdata {
- 	u8 core_id;
- 	bool uses_34bit;
- 	bool uses_common_fw_iface;
-+	bool set_dma_bit_mask;
- };
- 
- /*
--- 
-2.46.0
+Do you mean spin_lock_irqsave()?
 
+>         list_for_each_entry(ctx, &dec_dev->ctx_list, list) {
+>                 if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu) {
+>                         ret =3D true;
+>                         break;
+>                 }
+>         }
+> -       mutex_unlock(&dec_dev->dev_ctx_lock);
+> +       spin_unlock(&dec_dev->dev_ctx_lock);
+>
+>         return ret;
+>  }
+
+[...]
+
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c=
+ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+> index 51bb7ee141b9..79a91283da78 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+> @@ -47,14 +47,14 @@ static bool vpu_enc_check_ap_inst(struct mtk_vcodec_e=
+nc_dev *enc_dev, struct ven
+>         struct mtk_vcodec_enc_ctx *ctx;
+>         int ret =3D false;
+>
+> -       mutex_lock(&enc_dev->dev_ctx_lock);
+> +       spin_lock(&enc_dev->dev_ctx_lock);
+
+Also here.
+
+Regards,
+Fei
+
+>         list_for_each_entry(ctx, &enc_dev->ctx_list, list) {
+>                 if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu) {
+>                         ret =3D true;
+>                         break;
+>                 }
+>         }
+> -       mutex_unlock(&enc_dev->dev_ctx_lock);
+> +       spin_unlock(&enc_dev->dev_ctx_lock);
+>
+>         return ret;
+>  }
+> --
+> 2.51.0.rc1.163.g2494970778-goog
+>
+>
 
