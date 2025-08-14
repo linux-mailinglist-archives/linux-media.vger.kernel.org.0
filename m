@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-39933-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39936-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CB6B26C48
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 18:16:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD62B26C17
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 18:11:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E40A5E59E6
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 16:11:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E58027B91BF
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 16:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7ADB2561D9;
-	Thu, 14 Aug 2025 16:11:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083CE2E093E;
+	Thu, 14 Aug 2025 16:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="c0+a11b0"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="REiJyXhb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CB022422B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BE217D346;
 	Thu, 14 Aug 2025 16:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755187866; cv=none; b=hPrxqhrhYR/ACqNbBLwEji/vYnf5d0T7Ut8SjgTQ0IQZ62PY6dexgBl5q9FxJ3oP7QaVRY68n4quV1x6lYAndP2Jryva/U/+gGMPM84bzVZMTFTNgHEfdPg1L5A88cqB9P0mkfPkON9YaHxqL/eBj+0L3Zi9TaY1x1p9WZ/MgCE=
+	t=1755187867; cv=none; b=rDn6a0cPaimVkOSBkQB2bbCV3qSYXslckI/Mu/VHw2swsKt5YBG/jw5+WySH5EY/boFIqytoarU0lnABv63NPDkHO4Tunlq7mD0BZHkro9rxHeqbYNnzsyzjcPLXoPNuXr89nlPQcs/b5c/4lO9yzNtZTbZeuean4CId+snU1vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755187866; c=relaxed/simple;
-	bh=XHV9UrGEnitol49ftiO/ZNvDXQoRWNPkFOwiowa3AcI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oXONuczvWUmuJAztWuO9c8sXNMi9tctnU6XZo+Sfe9MbrcZTAsbIxo3wA5bfHQV373OV+6nEf4oYJh2FaxZoWIzp9KBO8J66EQBxqy0s4eGTlTIVBwEf47az2JxxbEmrA5Ox49BqlwPq3HoZvpXNUY9ByxLAYB0N74fIvPqAvgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=c0+a11b0; arc=none smtp.client-ip=198.47.19.245
+	s=arc-20240116; t=1755187867; c=relaxed/simple;
+	bh=A0jG8wOd7Hat1JLqO4ngknfrGOTBOMaGZuwjPaIHNTU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Kb6PHFcMvQXfnP+d8NuHQ5QeSv/qFNYuNpi7dYcsZJY51EWorIybNDVxJ1OoDdKfMEFEuWVZBeIYpYnuM8TvIWPt7xLc4ew8M09LCu6LzRHpJR7/9DRnWK2eMgUxLseOZPDjXsADwls51vHrYYQXGlbet9qiJdf50KDkQkHv1ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=REiJyXhb; arc=none smtp.client-ip=198.47.19.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57EGAokI1916355;
-	Thu, 14 Aug 2025 11:10:50 -0500
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57EGApFV1916359;
+	Thu, 14 Aug 2025 11:10:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755187850;
-	bh=LpgToupgEg8P8EBDABiEqZQeCDsv8DH/034a0fs0cvQ=;
-	h=From:To:CC:Subject:Date;
-	b=c0+a11b0yLEg+ccD8HKj+/j0zFUIHqh9owudS+mB9eqhfIKaS3T7ekVztpa7JcDjK
-	 w0q6bS0Z7zigiTFxe5WJ7nZpzZYs795fC2KacWctqRII1sRFo0twdVU3bM2Z2RHWBV
-	 oO0YCuP2gI10SD1zeNkyjSdQUWQY7edb6W8UC+jc=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57EGAoBo1823421
+	s=ti-com-17Q1; t=1755187851;
+	bh=2Ig6l3paNM4Nw8JsMQGv/kPeljj1hI9QWQbQPT8/jcE=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=REiJyXhb1QBaC7QWdN1cY2FkQId2g/WGpcR70iGO+x/FmqvaPIv8a+SE8BgyuA03N
+	 GPv15OjQ/ONcSn82Vm/QUl0TVJ9FpE3VBsDHWX71puodO6O7EBPP+qJV1TXrP/JmPW
+	 /PB/Y9VfNHPBMRNhF9acXaMzQGFUuDvSOJpw/sXQ=
+Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57EGApQ61264126
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 14 Aug 2025 11:10:50 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 14 Aug 2025 11:10:51 -0500
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 14
- Aug 2025 11:10:50 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2025 11:10:51 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
  Frontend Transport; Thu, 14 Aug 2025 11:10:50 -0500
 Received: from lelvem-mr06.itg.ti.com ([10.249.42.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57EGAndk4172380;
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57EGAndl4172380;
 	Thu, 14 Aug 2025 11:10:50 -0500
 From: Andrew Davis <afd@ti.com>
 To: Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
@@ -67,10 +68,12 @@ CC: <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
         <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
         Andrew
  Davis <afd@ti.com>
-Subject: [PATCH v2 0/3] udmabuf: Sync to attached devices
-Date: Thu, 14 Aug 2025 11:10:46 -0500
-Message-ID: <20250814161049.678672-1-afd@ti.com>
+Subject: [PATCH v2 1/3] udmabuf: Keep track current device mappings
+Date: Thu, 14 Aug 2025 11:10:47 -0500
+Message-ID: <20250814161049.678672-2-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20250814161049.678672-1-afd@ti.com>
+References: <20250814161049.678672-1-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,27 +84,92 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hello all,
+When a device attaches to and maps our buffer we need to keep track
+of this mapping/device. This is needed for synchronization with these
+devices when beginning and ending CPU access for instance. Add a list
+that tracks device mappings as part of {map,unmap}_udmabuf().
 
-This series makes it so the udmabuf will sync the backing buffer
-with the set of attached devices as required for DMA-BUFs when
-doing {begin,end}_cpu_access.
+Signed-off-by: Andrew Davis <afd@ti.com>
+---
+ drivers/dma-buf/udmabuf.c | 45 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 43 insertions(+), 2 deletions(-)
 
-Thanks
-Andrew
-
-Changes for v2:
- - fix attachment table use-after-free
- - rebased on v6.17-rc1
-
-Andrew Davis (3):
-  udmabuf: Keep track current device mappings
-  udmabuf: Sync buffer mappings for attached devices
-  udmabuf: Use module_misc_device() to register this device
-
- drivers/dma-buf/udmabuf.c | 133 +++++++++++++++++++-------------------
- 1 file changed, 67 insertions(+), 66 deletions(-)
-
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 40399c26e6be6..cc5c1cc42c7f2 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -42,6 +42,14 @@ struct udmabuf {
+ 	struct sg_table *sg;
+ 	struct miscdevice *device;
+ 	pgoff_t *offsets;
++	struct list_head attachments;
++	struct mutex lock; /* for attachments list */
++};
++
++struct udmabuf_attachment {
++	struct device *dev;
++	struct sg_table *table;
++	struct list_head list;
+ };
+ 
+ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+@@ -185,14 +193,44 @@ static void put_sg_table(struct device *dev, struct sg_table *sg,
+ static struct sg_table *map_udmabuf(struct dma_buf_attachment *at,
+ 				    enum dma_data_direction direction)
+ {
+-	return get_sg_table(at->dev, at->dmabuf, direction);
++	struct udmabuf *ubuf = at->dmabuf->priv;
++	struct udmabuf_attachment *a;
++	struct sg_table *table;
++
++	a = kzalloc(sizeof(*a), GFP_KERNEL);
++	if (!a)
++		return ERR_PTR(-ENOMEM);
++
++	table = get_sg_table(at->dev, at->dmabuf, direction);
++	if (IS_ERR(table)) {
++		kfree(a);
++		return table;
++	}
++
++	a->dev = at->dev;
++	a->table = table;
++
++	mutex_lock(&ubuf->lock);
++	list_add(&a->list, &ubuf->attachments);
++	mutex_unlock(&ubuf->lock);
++
++	return a->table;
+ }
+ 
+ static void unmap_udmabuf(struct dma_buf_attachment *at,
+ 			  struct sg_table *sg,
+ 			  enum dma_data_direction direction)
+ {
+-	return put_sg_table(at->dev, sg, direction);
++	struct udmabuf_attachment *a = at->priv;
++	struct udmabuf *ubuf = at->dmabuf->priv;
++
++	mutex_lock(&ubuf->lock);
++	list_del(&a->list);
++	mutex_unlock(&ubuf->lock);
++
++	put_sg_table(at->dev, sg, direction);
++
++	kfree(a);
+ }
+ 
+ static void unpin_all_folios(struct udmabuf *ubuf)
+@@ -384,6 +422,9 @@ static long udmabuf_create(struct miscdevice *device,
+ 	if (!ubuf)
+ 		return -ENOMEM;
+ 
++	INIT_LIST_HEAD(&ubuf->attachments);
++	mutex_init(&ubuf->lock);
++
+ 	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
+ 	for (i = 0; i < head->count; i++) {
+ 		pgoff_t subpgcnt;
 -- 
 2.39.2
 
