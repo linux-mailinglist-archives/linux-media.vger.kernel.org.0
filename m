@@ -1,178 +1,158 @@
-Return-Path: <linux-media+bounces-39854-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15251B25706
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 00:55:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E993AB25975
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 04:19:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C3E8C8863E6
-	for <lists+linux-media@lfdr.de>; Wed, 13 Aug 2025 22:55:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0070D5686BE
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 02:19:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1E542D738D;
-	Wed, 13 Aug 2025 22:55:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54816254855;
+	Thu, 14 Aug 2025 02:18:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mlm+B7aE"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="kR4YT+HZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE8F2FB993
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 22:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A609A15C0;
+	Thu, 14 Aug 2025 02:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755125719; cv=none; b=djR29VhYS6QRKWiu2dmeNw1N4BN/7SZorZKcBuj+Pqh94erBAghl96qdVZ0P2WnLn35BJ3KkxuR9aDIboJKLXG845qb5zYGJsXVtsQpEztPq9yJCrrmi2xAMIwc4Z0xS1AocM0nKDUZe2dFIP7HN8SE0LlI+eS0RNyuc3xEYwWI=
+	t=1755137934; cv=none; b=Y2ioU5ndrcjW15n/cXxkgVBlrncWDG3GbiUuQOzAaG1tqz3hOHGIokp6IY3gZvtbGmlrMAOvMbnJoOj51GSc67Xo3wGrChRcFspN99JhAN8xP+N/fwmHhxzTppMt4bSkPHsSOb5qvn4+8VObqopa9c8Ey5PcVpHC5un6EXuXB3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755125719; c=relaxed/simple;
-	bh=IRDBklKokVrxIJWgP3cNp+cQqYoCCFC1419AdZuqIVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DjTAxZQ+Koj7PbvTMrGVSSQaYLc454s40XkgCZQbaHIf4iZGxKuCQDefDP3ssFA9CF+Vni+qJfre/Wspt0JMT5aDXH9wuy23HA0N3WP4S27BOm7UGvTH7nbhJTUkcN/YjWuc7jtcjT5HrDTVN/nPGad7jDnfR3nOOdcxBsGroVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Mlm+B7aE; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DKixWS002790
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 22:55:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	15n6L+jgRmpWfdGPkRrYhdr4AzVdCA1CkGjZd9TinAk=; b=Mlm+B7aEgb/H2H/S
-	oDv3YBRw/IDZV4u3YHPb4tiivbTejs8GPnkna/krIBRVh/pIFY4rUu4grVJHgqxI
-	tyCk0xEe68+QpSiwZR/H93am6LkwTqizlc+IEMSmKTiw9CGfi4+oPMpZNlYMTDcC
-	pd+mGYXTRSEumRe9sesQrsP+thI5f9LQcAEfnWR9zB+3AfrBZEkCZ+pOFWCblIXy
-	KxHuGb2xwXHhuyFQmi/B8WSAq6nFS3P7E0aX6RdXF2OKpv9pIt8PMhFouaO200NX
-	oAuun39iIAzL4kWzThwUwVS9FFDlPiqdQ5Z7LtRvinBXV4kvryspzZ432NYi0cJe
-	6Ud24g==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxdv5fn7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 22:55:08 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7e87031ae5cso8755085a.0
-        for <linux-media@vger.kernel.org>; Wed, 13 Aug 2025 15:55:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755125707; x=1755730507;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=15n6L+jgRmpWfdGPkRrYhdr4AzVdCA1CkGjZd9TinAk=;
-        b=IxP6En66gQ8GRJ4tXesVSSLNSb6sYlmqGtVi8Q99sazdmR6+pJLFoxnqptcWBAHaGD
-         SOgrJwvUqoMYm0Wl7K/cI82LSGaE6Y64zvYsYwhp/xTZXvmFI+suhdU8CgxgArxIDR80
-         gzEMdgs/89zs6vRrZS5C8/h3SXYHsVj+e2J3000TjO017uDWoqA9mi6Vw2PqVxCiEkUM
-         R04t014EzWYy/ldubeJh1ZoFtZ4E1bjMe5ljgFs8LgQy309FBIr0BNknr+9dbxrweKCz
-         jZ9TEdp989rAM7z11eMdD5h/6Y8yYP+LVq3wv2xyxycLFITuivGuk4VGbOF3M8/Z9b5Z
-         0IuQ==
-X-Gm-Message-State: AOJu0YzxMvWFwMU2/cpyocvS+NH/Hsg30HlAcBC/5si6BAYtpinj8jDK
-	xUFs1/d8xY9MnjRA1+R6UAauNiURRhc58uo/vlt8457SNcbnZYgG8Dg1Zx0g3Vv5oFuRbHmZCxe
-	U3T0HUhH/CbqOw2Sy83S0LaDsGaC0D6nZx4Kuv3sRBaWlYvGWYcxIXjeI4z5kGpAc+Q==
-X-Gm-Gg: ASbGncvhDSSNyp3wXbUvk6L0rSdw2GoKE9gTFiuqeAhvegQ4E/roZRJ8u2TLfwyvPfZ
-	5N+Wk1YYLvs9BTAYNcji/CnGzd488sv3kWmjnenwu+IC4CSruD+13nPH0Cx/Cg2oZRio9NTUIrZ
-	7Tdu4Ru8jKE9/enfa5hepe0YxGKUMZtas/45GGVzWcwpkiYn8yPST4WN0RTK5EpJ3fkXEwrkqDC
-	blsEQwZpSTPus6lnY91ydwm/Dm1Y8YZ7dwi1o+gYtbH3HpsDgLvuzpbS2RKfsEZ6MRXKoER7MTq
-	CUouZ5Npu2NKcgOryvE/uq1WbfetUf7AvFFW3Jo3ncmhFXz7zm7QVWXmm7b+W3vhzRwENa0asaG
-	g4DArlRRsHS5WKM9zMQ==
-X-Received: by 2002:a05:620a:7114:b0:7e8:deb:2b88 with SMTP id af79cd13be357-7e8652610cdmr341649085a.5.1755125707355;
-        Wed, 13 Aug 2025 15:55:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHL+JE0kMKFEu4kSodVCBMSDyNOEdDfPuoTQBCZSYXiPZDVvx1jvbqJkcBjR+WKF+Ba2gnIkA==
-X-Received: by 2002:a05:620a:7114:b0:7e8:deb:2b88 with SMTP id af79cd13be357-7e8652610cdmr341646185a.5.1755125706781;
-        Wed, 13 Aug 2025 15:55:06 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0a3cecsm2470000066b.53.2025.08.13.15.55.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 15:55:06 -0700 (PDT)
-Message-ID: <cd2ded3a-ab91-4199-9edf-8acc8d6d11ba@oss.qualcomm.com>
-Date: Thu, 14 Aug 2025 00:55:03 +0200
+	s=arc-20240116; t=1755137934; c=relaxed/simple;
+	bh=hAxM88s/LxG7Pzpa+qCFm924ecvuOPt1VEZK+hfP+PU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=GT8ned//O+DMl+u7V7uVJqcBLjDN/fleKdQUdV577Zs7MY4YC6EL5fo8bxbrV/0xogmEYQ+ibpLi9jdRgPA6QFL2aRC6Wu4EKoNrRSF7BWAWhZk0pvgODDUMJy1ogLOyGR6XATSx4Wc3HUnPaV42JsLjIheiS1xn/0J6P6kbb7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=kR4YT+HZ; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1755137919;
+	bh=+UQNR87JqsiMWpi6tq6IQe50rNVzww3thLYixk1ylc0=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=kR4YT+HZbWpu0zMXQusQaHhTxoSfyrSFIbpWGPVaKRITZ6jUdlHPabxqryqgzDyty
+	 bxVOPglikdz7jnf+PUXOXMCRzMYKl9aSv/Nu2GBFfvM2DG3LOyPK3aue4uQwJLBAlx
+	 5+dyUjYTXWy9T1cN9zyfZfQtRVPr1D0ZqxkVe2fg=
+X-QQ-mid: zesmtpip3t1755137896ted227665
+X-QQ-Originating-IP: eE4LDs5ghrXBFwzxENbVumUifA4rBxyTWanOX1OmQyw=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 14 Aug 2025 10:18:13 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 11529315799065879670
+EX-QQ-RecipientCnt: 5
+From: tuhaowen <tuhaowen@uniontech.com>
+To: tuhaowen@uniontech.com,
+	mchehab@kernel.org
+Cc: huangbibo@uniontech.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH v3 RESEND] media: dvb-core: remove redundant new_node cleanup in dvb_register_device
+Date: Thu, 14 Aug 2025 10:18:07 +0800
+Message-Id: <20250814021807.13536-1-tuhaowen@uniontech.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20250804083908.17557-1-tuhaowen@uniontech.com>
+References: <20250804083908.17557-1-tuhaowen@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/24] media: iris: Allow substate transition to load
- resources during output streaming
-To: Bryan O'Donoghue <bod.linux@nxsw.ie>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil
- <hverkuil@xs4all.nl>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Vedang Nagar <quic_vnagar@quicinc.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Renjiang Han <quic_renjiang@quicinc.com>,
-        Wangao Wang <quic_wangaow@quicinc.com>
-References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
- <20250813-iris-video-encoder-v2-5-c725ff673078@quicinc.com>
- <24714b00-cc15-4c9b-b0d4-8c76d702fcc2@nxsw.ie>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <24714b00-cc15-4c9b-b0d4-8c76d702fcc2@nxsw.ie>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=IuYecK/g c=1 sm=1 tr=0 ts=689d17cc cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=rixuZvB9KV6YaslLPPsA:9
- a=QEXdDO2ut3YA:10 a=1R1Xb7_w0-cA:10 a=OREKyDgYLcYA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: 2e5JbewWj9o2Y6EkBQAIIsVlbXIaTBHS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNSBTYWx0ZWRfX3t9vbSOQChq9
- nHMGFU4YMBLdFjtgvPI0G1SECNurlgugUpI+fjCjsLXfz+L9vwkmUcby8CRKGGtqkh+PZvbU+9D
- HBOjHU53RskcE/Q8OM7xeti4uIBC6ee9sU+smDeTShM45dbsxU5CWno8funcV4hYZrnGUfl5F//
- lmQu4YmQHgfKq1o5UT9/inFaNYynMB2khzbK2Ktq3Pl9pEHEPyC3eAEaFCGE4R8Z+tR3BLxqbft
- E6J9d3VE5MkKXTVB8FPG+nljQsr7CFRBooRzGXrVAAZ0fz3/cz1eXwqlJw2h6YGov/XEHKC40z9
- BiCxZXsAJWErzB5fPz2AA1nxnSSdsaw5USf4dzyzu3JgznatAxVTNpzHKFl4L5bkyR6MGu1/lYX
- 5l6IeCrk
-X-Proofpoint-GUID: 2e5JbewWj9o2Y6EkBQAIIsVlbXIaTBHS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
- clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090025
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MP9Cvol/R4C0zzpL9FbRYkWGF9DubKZEdXCN4gE0f2Uooe92cLXL0Fpj
+	M9BE/Ipl6GgTV52kE9o8qpcWxBlx8aXhJnzhklC7S2P6cVvzoMA72ShiECeMop27qF6OhOm
+	1TIPhJmNpHRZ7SbtvLtvo8lm/z1l+oEgWYV0bHf2h/ZtcED+Id+rky5vosrULyDfmtgbP4T
+	kyZgjeIdHOZo3Q4hP5hXnLw6hgqHDgGwLvr2Iy2GRcZxvHB2yHXP9NKC/TN028/uHz0QDRv
+	fRsvjzjQgYy9MucyzALc5GqphBDF5+DfclYTUQJrFR/n8+68uq6YPDQytAiBLZ/+YGR9qIH
+	jNR3Tt0UpQHd7a/nW59HxqF3CyxqHWfypyLs5xOS8UCg5fYH5uMi0/L5yNjabQhjXYdym6m
+	FznC8jVyQ4jC9HjeJUt5MGz6xNLppWlgv/8ooUarjM7mCX2jYwVi+jDFtIObUACZ58ys88M
+	MoO/Jzj40aIXSj8APrjY9PZ8lKLtn+Ybwb1XKMkHrxQWB0YWG2ncytIjUyTnjEhQdjN1XWI
+	TibeZQSMXTxcOO/k4EE4cStnwjT9eH3mBdJ4bDMQMawfOC3iWoyyeifvtRQWPYcBSQQ2Qma
+	oNA81ry4hPQP3PtYcRTfd+LfnrhiGZOMeRmA7ZEEqpEqXXcej6CTRdSv8kMK2RnQ04tqD2F
+	izNjDf5ny0k/WENLFyBYTnmFuxBoxqvmSpd90X6AoNjjVVLLE2Vz2gYTiUnzHnONzi6euoy
+	7UkpI7UAE5DCcRbgT6GX69iYhTZ4UqJvpa4T4LNnvbsSUv8eMbccHZZLwMCD1y+d4qy28Y1
+	bawHWhzwDw+3DhQAkvCxx21b7McyRAhnh4oz9ghft0TO3J4IasWHZKgAvEpjuJ5JLUiOHq+
+	yhIVUAeZW5L8Gct2GpwV/3aSDs4moVT9ZlQ/OYuks625UmVzS9nL/7Lj5UPVIw+2qsHg70l
+	pLZl1bGa31mui5/myyMnCVSR8TU/vvkpCkZD6a2O6apBbREFcXs/c1HIDtrqV3b14rKLQJl
+	LXJ/ioXbKo1iekvpV50h78BwwTjrG6N0ngXS47cQ==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 
-On 8/13/25 11:51 PM, Bryan O'Donoghue wrote:
-> On 13/08/2025 10:37, Dikshita Agarwal wrote:
->> However, now after removing that restriction, the instance state can be
->> OUTPUT_STREAMING when firmware start is triggered and substate needs to
->> be moved to LOAD_RESOURCES.
->>
->> Fixes: 547f7b8c5090 ("media: iris: add check to allow sub states transitions")
-> 
-> If a restriction has been removed, has that restriction been marked as a 
-> Fixes: ?
-> 
-> If not then we can't actually backport this fix as the dependency - the 
-> restriction removal has not been marked for backport.
+The error handling paths in dvb_register_device repeatedly check
+if (new_node) before cleanup. However, if new_node allocation fails,
+the function returns immediately and does not reach these branches.
+Thus, these conditionals are redundant and can be removed for code
+clarity and maintainability.
 
-Please stop confusing fixes and backports..
+Signed-off-by: tuhaowen <tuhaowen@uniontech.com>
 
-If you're really paranoid about this commit getting autoselected, see
-'noautosel' under this section:
+---
+Changes in v3:
+- Modify the redundant logic
+- Link to v2: https://lore.kernel.org/all/20250804031553.4411-1-tuhaowen@uniontech.com/
+---
+ drivers/media/dvb-core/dvbdev.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
-https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 9df7c213716a..aa9b4b9c5846 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -534,11 +534,9 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	minor = nums2minor(adap->num, type, id);
+ #endif
+ 	if (minor >= MAX_DVB_MINORS) {
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
++		list_del(&new_node->list_head);
++		kfree(dvbdevfops);
++		kfree(new_node);
+ 		list_del(&dvbdev->list_head);
+ 		kfree(dvbdev);
+ 		*pdvbdev = NULL;
+@@ -554,11 +552,9 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	if (ret) {
+ 		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
+ 		       __func__);
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
++		list_del(&new_node->list_head);
++		kfree(dvbdevfops);
++		kfree(new_node);
+ 		dvb_media_device_free(dvbdev);
+ 		list_del(&dvbdev->list_head);
+ 		kfree(dvbdev);
+@@ -573,11 +569,9 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	if (IS_ERR(clsdev)) {
+ 		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
+ 		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
++		list_del(&new_node->list_head);
++		kfree(dvbdevfops);
++		kfree(new_node);
+ 		dvb_media_device_free(dvbdev);
+ 		list_del(&dvbdev->list_head);
+ 		kfree(dvbdev);
+-- 
+2.20.1
 
-Konrad
-
-> 
-> Please evaluate if the necessary change you have stipulated here has 
-> been marked for backport with Fixes: and if so mention the appropriate 
-> commit SHA in your commit log.
-> 
-> If you are referring to the commit immediately preceding this patch "Fix 
-> buffer count reporting in internal buffer check" then again you should 
-> mention that in the log so _which_ dependency you mean is clear.
-> 
-> If I were trying to follow this series on some kind of -stable kernel, I 
-> don't think this commit log would reasonably tell me which depends I 
-> need as an antecedent.
-> 
-> ---
-> bod
-> 
-> 
 
