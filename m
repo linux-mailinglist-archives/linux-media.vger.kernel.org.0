@@ -1,229 +1,178 @@
-Return-Path: <linux-media+bounces-39943-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39944-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BAA4B27095
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 23:12:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BB0B270D3
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 23:28:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C47D51B673B7
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 21:12:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52098587E5C
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 21:26:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE74F274B32;
-	Thu, 14 Aug 2025 21:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F157278772;
+	Thu, 14 Aug 2025 21:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FllSOPqY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtzwqwI9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FB83597B;
-	Thu, 14 Aug 2025 21:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F6226CE3B;
+	Thu, 14 Aug 2025 21:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755205921; cv=none; b=k9vByMbr1QNJ6XeZBhi6IYXcbtALfAhY+irCZrPOzKjY2ojuw/03E5C2qcU/eFP6yy6Bvkr1ECl6e6Cpfae5fKBEmPK86+906+IyA/XCtZLY5NpcmzRLFE/VwWQoxhoRdpYiMGw+7AR9g2Z6R1hU8yxJ1+1xOl6DoSDcXEfsEXs=
+	t=1755206763; cv=none; b=oL6KwoTqHf5pyz9H9NGWhPxgno/J9wiCnP0BFAmU4IiarOOkrHuy3pPXvZauS58nWpM5/6v5RWt8HUnVcg+tyIF7UhnVRyBCAymI21jbQ0k2UuhqW/MJGq/Baqj1tSL98cp3zxNPXPWtufrePZGUMoOU0Sy0v0naLqvv4Pn/5gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755205921; c=relaxed/simple;
-	bh=Z4EeFVPF1em/O3CNPJOKEevSnWIxuVv3NAboAYUqiqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovfUMOu4us6DGyfljEQ+gM6gfSEJsQnHnjFBRwd5G7khlK1x4THz064d0rWqox2KvvWY2Y5dZVzXC/5aYTnoELDeb4E3Lw0eN/UMqMaHqlNwkbS1DuBNvLgLp1BZQAjRPPkqetnHMNtHq7Y2NFSWyZ5SiAmh/BIV2ckyiWXi/ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FllSOPqY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 814A3C4CEED;
-	Thu, 14 Aug 2025 21:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755205920;
-	bh=Z4EeFVPF1em/O3CNPJOKEevSnWIxuVv3NAboAYUqiqE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FllSOPqYzIEsdidYZFcoLP93zCsufkrQeTD8A7A+WbcA8OTiPqPWDZWgcpX5xGgRl
-	 UbvR7VVGW+XURGpvx9YYudVYLylGQSQCxF9OQmBgw4NaK9lfGxuga6SZk7GQSaek2j
-	 tjy619s6UD97+Ar1ICc0OoqC7VPBCMgXMq9x2xtm292VY7XBZir+PYewdBq7M1uwXQ
-	 sBAaS7ui4P2kp2NMbxdJRVMBu4Ex+pqJohMJ1hNa/zZWH3uLaxNp4F2+LdooKnvaNt
-	 C3kk50O05TWXdYEk3R87AZ06FtnZS4Wy70ktEXVecWElAPXFLk/UID16grlCp2RoBg
-	 BcmaZe5HM+Rwg==
-Date: Thu, 14 Aug 2025 16:11:59 -0500
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kumar M <anil.mamidala@xilinx.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, "Guoniu.zhou" <guoniu.zhou@nxp.com>,
-	Stefan Hladnik <stefan.hladnik@gmail.com>,
-	Florian Rebaudo <frebaudo@witekio.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add bindings for AP1302
-Message-ID: <20250814211159.GA3912850-robh@kernel.org>
-References: <20250811-ap1302-v4-0-80cc41b91662@nxp.com>
- <20250811-ap1302-v4-1-80cc41b91662@nxp.com>
+	s=arc-20240116; t=1755206763; c=relaxed/simple;
+	bh=z5QOGpyUA1TCTWcqxoa5hcJTooYG8d4ZOicta7ZQhqE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PVHhK3Ame/KBGq5fOwSUuA/ug9euU758+yZsT7L2fTP1HsziyydNSOnjgOr75rNFaoCGw6fBSinb8xUFdxpo3Yux0idNNU/RavPoDltIoR5tkuthHOmYVmLlP30zeIltbwNt+7mJ/T0Zvw/wfjBmaME1u5Y+cSInjeYUPlzVx3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KtzwqwI9; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6188b5ae1e8so1521743a12.0;
+        Thu, 14 Aug 2025 14:26:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755206760; x=1755811560; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=patX2vIVx2VZdtOMO344MhTz8iIxU1BCXzaQwd8zvfA=;
+        b=KtzwqwI9TQiHoyxzu2UBgFsyBUcUcqoMsXzyv9kvbkpiQYt6n1JG2PmBFbmlGFmMzS
+         ypvw1rO9bwwkj67jZDSjgWwLzYN8zagD6g9WTqW8R/X/WG5exwlP/7LdpT2FvFbYNCn2
+         z7gGz/2R3mEaxljr+Lbf9FOx/hQH4tzeP0rGnS/uHl4QEOJXJ0egZ1ptaYEttn3GQNZ5
+         yFsFn84YSOCWD4VE1U9lubI0vH7x1M5WqEs0lZwQzoBPEhxup+pCFF45as8qfCYjChr8
+         /oNJYgTGu1mqjzmCUJvmswjHXDxQvKzsfo0ze/5OAKfoF3W6/IGndQ1NnrYhCT+zAMRV
+         t5Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755206760; x=1755811560;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=patX2vIVx2VZdtOMO344MhTz8iIxU1BCXzaQwd8zvfA=;
+        b=pkSklxrN06vu0FtUzxGwPSjp76ERG/mn8K7pAjJ+S4wkZFTzurs+Y+QPAZqnTF6Ozz
+         FMAGIe7x3Y8+YVzVH9+kspBXvmfR61MRp8dx5UKYvjbkOUWH9mwPDRZCXb/nZSeLh3io
+         eFo2XvPG38oOxoHmIodFEyBTVPAw+KzJB8xds1ABc80TZROQ6hTMYW6n2z5WT3Fb07ue
+         gPVBzZPUxbJAUsqRqesBQDXd8MfiOfZuHPliJCKBiI8Q5mipYRzMbNqMjmd2X194NBLd
+         LnYt2PFUWjgftIg2/dgYBnDOEKF+a/aTxi7z66gp76ckur48wTsanX3esunaRruN5wXM
+         s6Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCU57JBkm8QBsvDlbQm2DY8tx4A50s+aeR4ah/cRM8Q7zBIeeTvoZuxRO9nqUSr2hzlkjJMp8NrBX7F6cGva@vger.kernel.org, AJvYcCX9JVrWmys8G4W91fCTuQ3pttTFL7H40rYoT6lL61dj+wQ+duVkwAIpyEMV9Yl5Qu2uWicKKhjKuZek@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzza8Q/beBno1SwGJ9keylspCPOJd0oesGcPHh+trQPG2fLFNwv
+	LqQINnqERP4USf1VHoJVbmUJZfDXzCKQYstDTRuf2FzPS0h/uqOVGZs=
+X-Gm-Gg: ASbGnctM9Q7iDKVxKSGsgK9gUQRQihO3vTgi5yP5NhcQthn3dNeZDTl0AYO54v2TGns
+	dDvGmd7W9itapRdTdTc7gZzjglmf6izuvttuWIO7laXWOF8h9/2n9g6tqK/YlopVvLn6ruZLS0M
+	HagyaSOkVUKiiLWZ9iKEny1mZhU2DFMgniKA61I3nENjxCiw8EGL2J4fhJ4J1RXoNs2GiYRy/QN
+	HRojs0lXD7vzEjrDuc+86r5hcf333sFjb3xd+37HgN+KIUks06w7X/Y8XSV3fKfRqx4JPS4RkeW
+	QBy8iyeDrb4OxWEpcPvrVSfWqL3bRCosF6ikO5q5tmX/CiW7nhk7vGALj7e5ddZua9DQDGw1GRu
+	7cmyK+kCAJySvkDA3vaKxhl9/m/Jh4VElWf6kXu+YgpFSIa4nTI0TFxkW3o1UmIq4vGUw
+X-Google-Smtp-Source: AGHT+IGQBAOe9+pUmD246MgUsug2rRdBSlXKtIWuZA7wf0KueWL/EGJK62RMc4Ud1fidFL3HR4xItw==
+X-Received: by 2002:a17:907:3ea6:b0:aec:5a33:1549 with SMTP id a640c23a62f3a-afcb98a1765mr452734666b.40.1755206759611;
+        Thu, 14 Aug 2025 14:25:59 -0700 (PDT)
+Received: from ?IPV6:2a02:810b:f13:8500:a367:e001:3d74:b64a? ([2a02:810b:f13:8500:a367:e001:3d74:b64a])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0763d8sm2680294866b.2.2025.08.14.14.25.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Aug 2025 14:25:58 -0700 (PDT)
+Message-ID: <09030afe-553d-46d7-bf85-d1c1fa73c352@gmail.com>
+Date: Thu, 14 Aug 2025 23:25:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250811-ap1302-v4-1-80cc41b91662@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] media: rkvdec: Add HEVC backend
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Diederik de Haas <didi.debian@cknow.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250810212454.3237486-1-jonas@kwiboo.se>
+ <DC0FTXJNW0KB.3I8DLNHJVL21O@cknow.org> <DC0GRKB9V014.1J7A2PO1B7U8H@cknow.org>
+ <816fa42715e8bc4bf538371975f97b6d102a74f5.camel@collabora.com>
+Content-Language: en-US
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <816fa42715e8bc4bf538371975f97b6d102a74f5.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 11, 2025 at 04:42:30PM -0400, Frank Li wrote:
-> From: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
+Am 12.08.25 um 15:27 schrieb Nicolas Dufresne:
+> Le mardi 12 août 2025 à 14:55 +0200, Diederik de Haas a écrit :
+>> Hi again,
+>>
+>> On Tue Aug 12, 2025 at 2:11 PM CEST, Diederik de Haas wrote:
+>>> On Sun Aug 10, 2025 at 11:24 PM CEST, Jonas Karlman wrote:
+>>>> This series add a HEVC backend to the Rockchip Video Decoder driver.
+>>>>
+>>>> Patch 1 add the new HEVC backend.
+>>>> Patch 2-3 add variants support to the driver.
+>>>> Patch 4 add support for a rk3288 variant.
+>>>> Patch 5 add a rk3328 variant to work around hw quirks.
+>>>> Patch 6-7 add device tree node for rk3288.
+>>>
+>>> It looks like I had a previous version of linuxtv-rkvdec-hevc-v2 branch
+>>> locally and that also had this commit:
+>>> - media: rkvdec: Keep decoder clocks gated
+>>>
+>>> Is that one no longer needed/useful/etc ?
+>>>
+>>> And 'chewitt' also had a commit to fix 8/10-bit selection:
+>>> https://github.com/chewitt/linux/commit/4b93b05d2ca608bc23f1d52bcc32df926d435c7c
+>>> "WIP: media: rkvdec: fix 8-bit/10-bit format selection"
+>>>
+>>> I haven't tried that one (yet), but did  try an other variant with
+>>> changing the ordering in rkvdec_hevc_decoded_fmts but that didn't work
+>>> in my tests. (Can ofc be PEBKAC)
+>>>
+>>> Would that be useful? I do/did have consistent problems with playing
+>>> 10-bit encoded video files.
+>>
+>> nvm about the 10-bit problem. It exists, but it's not restricted to HEVC
+>> as it also exists with with H.264 files.
 > 
-> The AP1302 is a standalone ISP for ON Semiconductor sensors, which can
-> connect RAW sensors (AR0144).
+> The referred patch is against some out-dated kernel. In mainline linux with
+> have:
 > 
-> Add corresponding DT bindings.
+> 	if (sps->bit_depth_luma_minus8 == 0) {
+> 		if (sps->chroma_format_idc == 2)
+> 			return RKVDEC_IMG_FMT_422_8BIT;
+> 		else
+> 			return RKVDEC_IMG_FMT_420_8BIT;
+> 	} else if (sps->bit_depth_luma_minus8 == 2) {
+> 		if (sps->chroma_format_idc == 2)
+> 			return RKVDEC_IMG_FMT_422_10BIT;
+> 		else
+> 			return RKVDEC_IMG_FMT_420_10BIT;
+> 	}
 > 
-> Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Stefan Hladnik <stefan.hladnik@gmail.com>
-> Signed-off-by: Florian Rebaudo <frebaudo@witekio.com>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Previous try:
-> https://lore.kernel.org/linux-media/1631091372-16191-2-git-send-email-anil.mamidala@xilinx.com/
+> Which covers all cases supporte by the hardware. Chewitt seem to add a
+> previously missing 10bit case, and forcing downconversion from 422 to 420. A
+> downconversion is something to be chosen and applied by userspace, the kernel
+> should pick a non-destructive format by default.
+
+Please note that this patch is completely unrelated to this series, as it
+is for Detlev's WIP rkvdec2 driver [0] and for H.265 codec only - rkvdec2
+similar to rkvdec(1) only supports NV12 and NV15 for H.265 codec and
+perfectly matches what is defined at [1].
+
+[0] 
+https://gitlab.collabora.com/detlev/linux/-/tree/add-vdpu381-and-383-to-rkvdec-v2
+[1] 
+https://gitlab.collabora.com/detlev/linux/-/blob/15352e295a0d38bd0450f608e7bbcbf16dfefd6b/drivers/media/platform/rockchip/rkvdec/rkvdec.c#L333
+
+> Nicolas
 > 
-> Change in v4:
-> - base on discussion https://lore.kernel.org/imx/CAL_JsqLUj2h1OxUokOGFL34czroJnJ33cpvn9jO8b8=cu8Fz0g@mail.gmail.com/
->   change to use onnn,model property to descript connected raw sensor
-> - Overall roll back to v2, move raw sensor information under "sensor" from
->   ports.
-> - regs use enum [0, 1] to restrict address range
-> - add supply name from sensor
-> 
-> Change in v3:
-> - Move sensors under ports
-> - use compatible string to indentify connected raw sensors
-> - Add onnn,ar0144.yaml
-> ---
->  .../devicetree/bindings/media/i2c/onnn,ap1302.yaml | 184 +++++++++++++++++++++
->  MAINTAINERS                                        |   8 +
->  2 files changed, 192 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d66962d2eadca3f4d86c99a68d5ae7996bd1a522
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
-> @@ -0,0 +1,184 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/onnn,ap1302.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ON Semiconductor AP1302 Advanced Image Coprocessor
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +  - Frank Li <Frank.Li@nxp.com>
-> +
-> +description:
+>>
+>> Cheers,
+>>    Diederik
+>>
+>> _______________________________________________
+>> Linux-rockchip mailing list
+>> Linux-rockchip@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
-You need a '>'
-
-> +  The AP1302 is a standalone ISP for ON Semiconductor sensors. It interfaces to
-> +  up to two RAW CMOS sensors over MIPI CSI-2 connections, processes the two
-> +  video streams and outputs YUV frames to the host over a MIPI CSI-2 interface.
-> +  Frames are output side by side or on two virtual channels.
-> +
-> +  The sensors must be identical. They are connected to the AP1302 on dedicated
-> +  I2C buses, and are controlled by the AP1302 firmware. They are not accessible
-> +  from the host.
-> +
-> +properties:
-> +  compatible:
-> +    const: onnn,ap1302
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description:
-> +          Reference to the CLK clock.
-> +
-> +  enable-gpios:
-> +    items:
-> +      - description:
-> +          Reference to the GPIO connected to the EN pin (active high).
-> +
-> +  reset-gpios:
-> +    items:
-> +      - description:
-> +          Reference to the GPIO connected to the RST pin (active low).
-> +
-> +  standby-gpios:
-> +    items:
-> +      - description:
-> +          Reference to the GPIO connected to the STANDBY pin (active high).
-> +
-> +  dvdd-supply: true
-> +
-> +  hmisc-supply: true
-> +
-> +  smisc-supply: true
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +    description: MIPI CSI-2 output interface to the host.
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            oneOf:
-> +              - items:
-> +                  - const: 1
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +
-> +        required:
-> +          - data-lanes
-> +
-> +  sensors:
-> +    type: object
-> +    additionalProperties: false
-> +    description: List of connected sensors
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      onnn,model:
-> +        enum:
-> +          - onnn,ar0144
-> +          - onnn,ar0330
-> +          - onnn,ar1335
-> +        description:
-
-You need a '>'
-
-> +          Model of the connected sensors. Must be a valid compatible string.
-> +
-> +          If no sensor is connected, this property must no be specified, and
-> +          the AP1302 can be used with it's internal test pattern generator.
-> +
-> +    patternProperties:
-> +      "^sensor@[01]":
-
-"^sensor@[01]$"
-
-With those fixed,
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
