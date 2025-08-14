@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-39935-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39934-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C21B26C12
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 18:11:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E21B26C2D
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 18:13:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 230937B8E6B
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 16:10:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 087431CE16A9
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 16:11:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F684287513;
-	Thu, 14 Aug 2025 16:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE76A256C81;
+	Thu, 14 Aug 2025 16:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Mi25nH73"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="tydm61H8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5F91A9B24;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C4A21FF5D;
 	Thu, 14 Aug 2025 16:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755187867; cv=none; b=IR3FXxmF3YqVFWppg+o66oxw4Y7LQnL/wTWBJojLminL2FGtzdPFs8EbgGNF0qrsDnjiVMsmW+dqtxCJEo61c3Kf1JNK8w/keItlcXWeSfAyCWFO/PGLWQj9+o2qNpY1YR6/w5+SVjQosvbNuktNYHrivBkE2wb9cg7Q04cJQU8=
+	t=1755187866; cv=none; b=SgWoFmIWV0i/yjSVUIOw/CopInCaqrtMugGY6VebCftLmQKNCy6sjxKk1rNgnZ080n/WX3A2zpAfhxej09D7/MW70o5B2SMrc1YOM78L9/q354jrEOSNa3AOi3bcMemXswMnVvsfb4P8M0qawFqvfjLXl2g2VU1kd3P1wIAy5Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755187867; c=relaxed/simple;
-	bh=joOXsc0hwyb3szyRra1Y4zoHbocFT1qY+B89cpqC0RM=;
+	s=arc-20240116; t=1755187866; c=relaxed/simple;
+	bh=y9am9xltrW3534LcpckWsyuFtUZ4VO+0ecgGxs7lRAg=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YJK+CHjOTnZX0A2pXxPjy6aSXZc9q6wZ5buxJzV2CUDbXrIOBCZGusGtp44hvIacJ4Y8EflWh6W8lV/H8fuE4dHWNRrsDH9S/kb4vbwps+bNcFy6tWlNLXMtDFycyoKo+byScjSinq7EB+11UiZhzf3L/QThkW2qs7djRSlj+KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Mi25nH73; arc=none smtp.client-ip=198.47.19.246
+	 MIME-Version:Content-Type; b=PlG04p0E+101vWUbFe8LusjiSyoC1jiPgUynS6VD5snmg+4sUYWXDr3d/boVPBmnT0Px6Mvr1R0opogxwLrGhzI+QMmVhMwd+ITjhYNezGL1cmFGuOAPLw/qRHE8LAkhx2ymDXyjjRJ9oW5tclGS1S4qcgsN+HYC9229q4ye7jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=tydm61H8; arc=none smtp.client-ip=198.47.19.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57EGApTC2341387;
-	Thu, 14 Aug 2025 11:10:51 -0500
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57EGAq8q1916363;
+	Thu, 14 Aug 2025 11:10:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755187851;
-	bh=aVAhYkleVSv4ZtITWuhjhbqLUh5eZKiY9tFN77/BJTM=;
+	s=ti-com-17Q1; t=1755187852;
+	bh=zNxFBetvcy3aVTCoqvvC2GPeFMAlHszkPcmJmnZNL2U=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=Mi25nH73vhkTSs+fAIpuSpmrg0S/s1kq4+1VCYJn1uYFzVexATNk+M9HtWCpu3hKV
-	 QDIAwqLsW3t5krZHDQp8HOhXwzeVA9P52gViYKzvqPwonsejcNPONTeP9uHxt7OnLP
-	 f1L586FejvvP8PHcgA8Yc2cAFDbsRKfD3EN8OQrQ=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57EGAp8o1264129
+	b=tydm61H8/ZRDrdubLCHh+jz62yx6nUrLynUbWBpiV+QyoDpR8mA/PRpJAdi7GgsGP
+	 NRcsMHCa7oaYauG1Q56ewVBoIn6c3F/LXHPJy4irNk877td5QfE8Zta0iPgYKsVWii
+	 aJ3bZaaelJPT+8uECJL5bE3rHL7II/P3ihVoD8k0=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57EGAqLh1823425
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 14 Aug 2025 11:10:51 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 14 Aug 2025 11:10:52 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 14
  Aug 2025 11:10:51 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
  Frontend Transport; Thu, 14 Aug 2025 11:10:51 -0500
 Received: from lelvem-mr06.itg.ti.com ([10.249.42.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57EGAndm4172380;
-	Thu, 14 Aug 2025 11:10:50 -0500
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57EGAndn4172380;
+	Thu, 14 Aug 2025 11:10:51 -0500
 From: Andrew Davis <afd@ti.com>
 To: Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -68,9 +68,9 @@ CC: <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
         <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
         Andrew
  Davis <afd@ti.com>
-Subject: [PATCH v2 2/3] udmabuf: Sync buffer mappings for attached devices
-Date: Thu, 14 Aug 2025 11:10:48 -0500
-Message-ID: <20250814161049.678672-3-afd@ti.com>
+Subject: [PATCH v2 3/3] udmabuf: Use module_misc_device() to register this device
+Date: Thu, 14 Aug 2025 11:10:49 -0500
+Message-ID: <20250814161049.678672-4-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20250814161049.678672-1-afd@ti.com>
 References: <20250814161049.678672-1-afd@ti.com>
@@ -84,194 +84,53 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Currently this driver creates a SGT table using the CPU as the
-target device, then performs the dma_sync operations against
-that SGT. This is backwards to how DMA-BUFs are supposed to behave.
-This may have worked for the case where these buffers were given
-only back to the same CPU that produced them as in the QEMU case.
-And only then because the original author had the dma_sync
-operations also backwards, syncing for the "device" on begin_cpu.
-This was noticed and "fixed" in this patch[0].
+Now that we do not need to call dma_coerce_mask_and_coherent() on our
+miscdevice device, use the module_misc_device() helper for registering
+and module init/exit.
 
-That then meant we were sync'ing from the CPU to the CPU using
-a pseudo-device "miscdevice". Which then caused another issue
-due to the miscdevice not having a proper DMA mask (and why should
-it, the CPU is not a DMA device). The fix for that was an even
-more egregious hack[1] that declares the CPU is coherent with
-itself and can access its own memory space..
-
-Unwind all this and perform the correct action by doing the dma_sync
-operations for each device currently attached to the backing buffer.
-
-[0] commit 1ffe09590121 ("udmabuf: fix dma-buf cpu access")
-[1] commit 9e9fa6a9198b ("udmabuf: Set the DMA mask for the udmabuf device (v2)")
+While here, add module description and license, modules built with W=1
+warn if built without these.
 
 Signed-off-by: Andrew Davis <afd@ti.com>
+Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/dma-buf/udmabuf.c | 64 +++++++++++++--------------------------
- 1 file changed, 21 insertions(+), 43 deletions(-)
+ drivers/dma-buf/udmabuf.c | 24 +++---------------------
+ 1 file changed, 3 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index cc5c1cc42c7f2..8d71c3d72eb5e 100644
+index 8d71c3d72eb5e..d888e4d667c67 100644
 --- a/drivers/dma-buf/udmabuf.c
 +++ b/drivers/dma-buf/udmabuf.c
-@@ -39,8 +39,6 @@ struct udmabuf {
- 	pgoff_t nr_pinned;
- 	struct folio **pinned_folios;
- 
--	struct sg_table *sg;
--	struct miscdevice *device;
- 	pgoff_t *offsets;
- 	struct list_head attachments;
- 	struct mutex lock; /* for attachments list */
-@@ -272,10 +270,6 @@ static __always_inline void deinit_udmabuf(struct udmabuf *ubuf)
- static void release_udmabuf(struct dma_buf *buf)
- {
- 	struct udmabuf *ubuf = buf->priv;
--	struct device *dev = ubuf->device->this_device;
+@@ -566,26 +566,8 @@ static struct miscdevice udmabuf_misc = {
+ 	.name           = "udmabuf",
+ 	.fops           = &udmabuf_fops,
+ };
 -
--	if (ubuf->sg)
--		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
- 
- 	deinit_udmabuf(ubuf);
- 	kfree(ubuf);
-@@ -285,32 +279,27 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
- 			     enum dma_data_direction direction)
- {
- 	struct udmabuf *ubuf = buf->priv;
--	struct device *dev = ubuf->device->this_device;
--	int ret = 0;
+-static int __init udmabuf_dev_init(void)
+-{
+-	int ret;
 -
--	if (!ubuf->sg) {
--		ubuf->sg = get_sg_table(dev, buf, direction);
--		if (IS_ERR(ubuf->sg)) {
--			ret = PTR_ERR(ubuf->sg);
--			ubuf->sg = NULL;
--		}
--	} else {
--		dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
--	}
-+	struct udmabuf_attachment *a;
- 
--	return ret;
-+	guard(mutex)(&ubuf->lock);
-+
-+	list_for_each_entry(a, &ubuf->attachments, list)
-+		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
-+
-+	return 0;
- }
- 
- static int end_cpu_udmabuf(struct dma_buf *buf,
- 			   enum dma_data_direction direction)
- {
- 	struct udmabuf *ubuf = buf->priv;
--	struct device *dev = ubuf->device->this_device;
-+	struct udmabuf_attachment *a;
- 
--	if (!ubuf->sg)
--		return -EINVAL;
-+	guard(mutex)(&ubuf->lock);
-+
-+	list_for_each_entry(a, &ubuf->attachments, list)
-+		dma_sync_sgtable_for_device(a->dev, a->table, direction);
- 
--	dma_sync_sgtable_for_device(dev, ubuf->sg, direction);
- 	return 0;
- }
- 
-@@ -346,12 +335,10 @@ static int check_memfd_seals(struct file *memfd)
- 	return 0;
- }
- 
--static struct dma_buf *export_udmabuf(struct udmabuf *ubuf,
--				      struct miscdevice *device)
-+static struct dma_buf *export_udmabuf(struct udmabuf *ubuf)
- {
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 
--	ubuf->device = device;
- 	exp_info.ops  = &udmabuf_ops;
- 	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
- 	exp_info.priv = ubuf;
-@@ -406,8 +393,7 @@ static long udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
- 	return 0;
- }
- 
--static long udmabuf_create(struct miscdevice *device,
--			   struct udmabuf_create_list *head,
-+static long udmabuf_create(struct udmabuf_create_list *head,
- 			   struct udmabuf_create_item *list)
- {
- 	unsigned long max_nr_folios = 0;
-@@ -482,7 +468,7 @@ static long udmabuf_create(struct miscdevice *device,
- 	}
- 
- 	flags = head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
--	dmabuf = export_udmabuf(ubuf, device);
-+	dmabuf = export_udmabuf(ubuf);
- 	if (IS_ERR(dmabuf)) {
- 		ret = PTR_ERR(dmabuf);
- 		goto err;
-@@ -508,7 +494,7 @@ static long udmabuf_create(struct miscdevice *device,
- 	return ret;
- }
- 
--static long udmabuf_ioctl_create(struct file *filp, unsigned long arg)
-+static long udmabuf_ioctl_create(unsigned long arg)
- {
- 	struct udmabuf_create create;
- 	struct udmabuf_create_list head;
-@@ -524,10 +510,10 @@ static long udmabuf_ioctl_create(struct file *filp, unsigned long arg)
- 	list.offset = create.offset;
- 	list.size   = create.size;
- 
--	return udmabuf_create(filp->private_data, &head, &list);
-+	return udmabuf_create(&head, &list);
- }
- 
--static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
-+static long udmabuf_ioctl_create_list(unsigned long arg)
- {
- 	struct udmabuf_create_list head;
- 	struct udmabuf_create_item *list;
-@@ -543,7 +529,7 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
- 	if (IS_ERR(list))
- 		return PTR_ERR(list);
- 
--	ret = udmabuf_create(filp->private_data, &head, list);
-+	ret = udmabuf_create(&head, list);
- 	kfree(list);
- 	return ret;
- }
-@@ -555,10 +541,10 @@ static long udmabuf_ioctl(struct file *filp, unsigned int ioctl,
- 
- 	switch (ioctl) {
- 	case UDMABUF_CREATE:
--		ret = udmabuf_ioctl_create(filp, arg);
-+		ret = udmabuf_ioctl_create(arg);
- 		break;
- 	case UDMABUF_CREATE_LIST:
--		ret = udmabuf_ioctl_create_list(filp, arg);
-+		ret = udmabuf_ioctl_create_list(arg);
- 		break;
- 	default:
- 		ret = -ENOTTY;
-@@ -591,14 +577,6 @@ static int __init udmabuf_dev_init(void)
- 		return ret;
- 	}
- 
--	ret = dma_coerce_mask_and_coherent(udmabuf_misc.this_device,
--					   DMA_BIT_MASK(64));
+-	ret = misc_register(&udmabuf_misc);
 -	if (ret < 0) {
--		pr_err("Could not setup DMA mask for udmabuf device\n");
--		misc_deregister(&udmabuf_misc);
+-		pr_err("Could not initialize udmabuf device\n");
 -		return ret;
 -	}
 -
- 	return 0;
- }
+-	return 0;
+-}
+-
+-static void __exit udmabuf_dev_exit(void)
+-{
+-	misc_deregister(&udmabuf_misc);
+-}
+-
+-module_init(udmabuf_dev_init)
+-module_exit(udmabuf_dev_exit)
++module_misc_device(udmabuf_misc);
  
+ MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
++MODULE_DESCRIPTION("Userspace memfd to DMA-BUF misc Driver");
++MODULE_LICENSE("GPL");
 -- 
 2.39.2
 
