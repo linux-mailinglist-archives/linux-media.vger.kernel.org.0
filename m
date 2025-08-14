@@ -1,129 +1,147 @@
-Return-Path: <linux-media+bounces-39861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C41B25BA8
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 08:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35768B25BA9
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 08:13:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5D1A1C83AFE
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 06:13:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 009B71C831C4
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 06:14:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16BAF23A9A0;
-	Thu, 14 Aug 2025 06:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0971423ABA8;
+	Thu, 14 Aug 2025 06:13:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3lHu3ai"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aP7f8F4E"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7472523817D;
-	Thu, 14 Aug 2025 06:13:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7D3225779;
+	Thu, 14 Aug 2025 06:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755151984; cv=none; b=mKFAQjhSuNpDJ1GoN80Fdcdvwzfww2Xme69u6pdS6N8niJVa5FT3fvEE5ybXE/0FaK4tzwx+hDxeYiAUGtr5uVOpUxKVkkP/VSTAoiRVfwJH0XbZdeca5SjDuQXWg8NOocDtwgNm+AjNp41F2znV5GfMnC5mj303eDICy7fuCZs=
+	t=1755152028; cv=none; b=FIb6E2vLD3NFuukP3uJ5PzMV9f6drVdvPfhxsyvQHI6EPG2tU4yX2WVkjlyrealiCDHNV9sbKpoD0GyN5H14mVR0/ujkFbmUfimyLekl+p0oJLxtsd+NaTsR+WhW1hgZPLu8R+WUS7vNRfH5D7U/3PFC6VaOz8Wj/02kRpPr0QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755151984; c=relaxed/simple;
-	bh=DAGhSWQHXEHySMtrjXTOpoAjZ6wAwaqNMvo6ON2OJxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Di0wluHloW+l5qmrSB4TpkUGfOaebPFhz57M1QOMMsHskV4JKkstz5IgfEJouvNHzkepiCgtu8u/6wWhyM+avg2SXfTrKihuArwaOaBRAioi391G4xsUSwZQXVTF1QaxmFP/V9rqfYMBSiG4C+cKg3SAoocmzX10K28n5neQ928=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3lHu3ai; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A4E7C4CEEF;
-	Thu, 14 Aug 2025 06:12:55 +0000 (UTC)
+	s=arc-20240116; t=1755152028; c=relaxed/simple;
+	bh=yIp2L+cajNQG68HjJIF0uvyqNqDRxuvwiaue2yFMxWA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PNUx7cqdgPrgY20Ae8dovhmrIJ2Aj6PF5elVyNmciCoiiNc6kXkigX7DGrThc3HwbRt20im2saDm6s3NDdhVWzWJCAtHSOHm/4Tcf54XEgdvxh7PEzgMG4cpflnxH3XyI1CJUweBxQOG+cwVILIKcPZHH9QRgp8fufjhFbTMqDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aP7f8F4E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAC0C4CEEF;
+	Thu, 14 Aug 2025 06:13:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755151983;
-	bh=DAGhSWQHXEHySMtrjXTOpoAjZ6wAwaqNMvo6ON2OJxA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h3lHu3aiobL0T0fk/o90/lR7crHSA/3wZHAC0YA3sLLGB4v52FV10x7lKyMsDM1sY
-	 ReumTALeQkloTBu3I6tsjCabMWXzXx/TTYModh1h68VLWmUJuROoRfdM+XEQ9P+RzV
-	 UB8/LkiK08WUB14CsUUycZrb4Cr17AsakkaM3DGiPsQ42MVJSWy0IDk3LMydTjy9mb
-	 PsaDi8/RZptKDGWlrS1g3RQ4ZVHxtMj4ArPk5ZiGP8sf0UT4YOqTsb2xG9bcldG//j
-	 1znx2Lggvw/UgNIQt2PoA9yjcHRwJrbTFO3+tCdsojX5ToVSmZWRUvumraX1h9VpFO
-	 mkR2nWKX7robQ==
-Date: Thu, 14 Aug 2025 11:42:50 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	op-tee@lists.trustedfirmware.org,
-	linux-arm-kernel@lists.infradead.org,
-	Olivier Masse <olivier.masse@nxp.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
-	Daniel Stone <daniel@fooishbar.org>,
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>,
-	robin.murphy@arm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH v11 2/9] dma-buf: dma-heap: export declared functions
-Message-ID: <aJ1-YpgvGt4_6CFU@sumit-X1>
-References: <20250813060339.2977604-1-jens.wiklander@linaro.org>
- <20250813060339.2977604-3-jens.wiklander@linaro.org>
+	s=k20201202; t=1755152027;
+	bh=yIp2L+cajNQG68HjJIF0uvyqNqDRxuvwiaue2yFMxWA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aP7f8F4EENywxhhq8AdsEfGcx2cJ/Rli0gFNrMvwh/wMarZ6SmCiH32WxQy2tMdke
+	 z0sHjYhgE8CtrkHA/glzoM23iC9vIusiCzQPjxIQsYzMXncsNlstk+UlYyD20X5cJj
+	 p6mGCr6TkX013zk5eexLWNyqkeTQV3hJDseYKkC3riru1ZN9znZiMGkQ+fxEhpsGjf
+	 P4+4PBmw29Wyf1c60sB5zriX6l6Ubuk0ADvgrTGa8qoS5aAsPIAvLe9AquTOklLYBT
+	 L+rn7IDwaHC/Ybs8eTLcayrSaU7s6ZlLMCyQVXpYyjyUz8Weg7QWxiE6eF7ncbj8Jp
+	 KYjYxPNNDZ5ig==
+Message-ID: <11acb8fd-9d81-460e-ac2c-38f370324ea5@kernel.org>
+Date: Thu, 14 Aug 2025 08:13:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813060339.2977604-3-jens.wiklander@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/24] media: iris: Allow substate transition to load
+ resources during output streaming
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Stefan Schmidt <stefan.schmidt@linaro.org>,
+ Vedang Nagar <quic_vnagar@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Renjiang Han <quic_renjiang@quicinc.com>,
+ Wangao Wang <quic_wangaow@quicinc.com>
+References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
+ <20250813-iris-video-encoder-v2-5-c725ff673078@quicinc.com>
+ <24714b00-cc15-4c9b-b0d4-8c76d702fcc2@nxsw.ie>
+ <cd2ded3a-ab91-4199-9edf-8acc8d6d11ba@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <cd2ded3a-ab91-4199-9edf-8acc8d6d11ba@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 13, 2025 at 08:02:51AM +0200, Jens Wiklander wrote:
-> Export the dma-buf heap functions to allow them to be used by the OP-TEE
-> driver. The OP-TEE driver wants to register and manage specific secure
-> DMA heaps with it.
+On 14/08/2025 00:55, Konrad Dybcio wrote:
+> On 8/13/25 11:51 PM, Bryan O'Donoghue wrote:
+>> On 13/08/2025 10:37, Dikshita Agarwal wrote:
+>>> However, now after removing that restriction, the instance state can be
+>>> OUTPUT_STREAMING when firmware start is triggered and substate needs to
+>>> be moved to LOAD_RESOURCES.
+>>>
+>>> Fixes: 547f7b8c5090 ("media: iris: add check to allow sub states transitions")
+>>
+>> If a restriction has been removed, has that restriction been marked as a 
+>> Fixes: ?
+>>
+>> If not then we can't actually backport this fix as the dependency - the 
+>> restriction removal has not been marked for backport.
 > 
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> ---
->  drivers/dma-buf/dma-heap.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-
-Can we get an ack from DMAbuf maintainers here? With that we should be
-able to queue this patch-set for linux-next targetting the 6.18 merge
-window.
-
--Sumit
-
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index 3cbe87d4a464..cdddf0e24dce 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -202,6 +202,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
->  {
->  	return heap->priv;
->  }
-> +EXPORT_SYMBOL(dma_heap_get_drvdata);
->  
->  /**
->   * dma_heap_get_name - get heap name
-> @@ -214,6 +215,7 @@ const char *dma_heap_get_name(struct dma_heap *heap)
->  {
->  	return heap->name;
->  }
-> +EXPORT_SYMBOL(dma_heap_get_name);
->  
->  /**
->   * dma_heap_add - adds a heap to dmabuf heaps
-> @@ -303,6 +305,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->  	kfree(heap);
->  	return err_ret;
->  }
-> +EXPORT_SYMBOL(dma_heap_add);
->  
->  static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
->  {
-> -- 
-> 2.43.0
+> Please stop confusing fixes and backports..
 > 
+> If you're really paranoid about this commit getting autoselected, see
+> 'noautosel' under this section:
+> 
+> https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Commit still needs to explain what is the bug, what is observable issue
+being fixed here. Lack of feature is not a bug.
+
+Best regards,
+Krzysztof
 
