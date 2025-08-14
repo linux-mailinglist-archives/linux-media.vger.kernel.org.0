@@ -1,167 +1,172 @@
-Return-Path: <linux-media+bounces-39910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C00B26387
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 12:57:53 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72408B263EC
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 13:14:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 40DE99E71BD
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 10:53:21 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 236144E56F6
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 11:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C9CC2FC89D;
-	Thu, 14 Aug 2025 10:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8E602FAC1A;
+	Thu, 14 Aug 2025 11:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="LEwAwmld"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNpjrfeQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFF92FAC01
-	for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 10:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D472F39B2;
+	Thu, 14 Aug 2025 11:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755168718; cv=none; b=lJWH6Ba+/kv/oHqV+74YZmzjNIt2e4/Q2fNuyLaJq0jJiQG9EYr6q/x/jD5mUqQ4bl1uhbR4uUaSqUc/fh2SfoqyGnfkM5DH04m4net1Rozr+o/CtOXvaVypp4brQwbmkJzP86rH/DtRj4gfFo27R6LkmPnLwocd0zIEyHS12Y0=
+	t=1755170054; cv=none; b=Ut15ndK9suyWTvlPi7DRjKmO94cmLLVDWMaRypWKxuWA8pHu+VadjJ6yv6l6yEZp82zCdcyPcg7J2QmL6NLM/Mn/GPL9gb4POPCN2yXj2gwqSWNVcr1EyFTdvAOID7POMYFRvLQ3eEjz5vah/gFkgjO6Bm6y49ViemAkEAi2Xws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755168718; c=relaxed/simple;
-	bh=PNTx4CmRkSdUd0ZEOTO9fu2xfKKN1RKXSc8Ys7kT/1o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kZjcGG76qDcAiPb3ZpqUw7T5C8JIC+LcXIm3EWQZ+zNgirC7Yf7w3kQOB1xWBwAke+kyddshxe3E5dqTcjP0VQpO4fhbY5vYuu26lLwvulGeNChLZTkrXc9pErNahjQRLHR8U3bGuG7jUpcdyiV642ny2sH6UkMyjKRKv72r8oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=LEwAwmld; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7e87030df79so78908885a.0
-        for <linux-media@vger.kernel.org>; Thu, 14 Aug 2025 03:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1755168716; x=1755773516; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EyUvbzeFbhuIBv4W0x0po1vS1DTZvcEEYsQW7Y4FHOk=;
-        b=LEwAwmldPCTdR5S8wSeAK7U+tCZfASH6MVtSkQwrRn5/GaDjz1XZu6MYD3NCghr7km
-         Uzlx/j5eFeLGMowQYG9WvcsVAj+RHXY9hEdVgXONZ/jXqQdhcjvJaEgiuas6mpWZNBQl
-         RSlOQKsQXQ3cZPVoxj2lMEtMtBgH6xSTbbsyqVJBGrQ+rURAFciNE2wsjQKWAKtgi7W1
-         u9XfT3aCGmetPRPgM3MMkRcHnmUAnxoHd59mJDYkRCzX2lNr6CXC05X9mLvNJvaAxoPJ
-         0Zo3QnGsgCRIHKQ8nOgASSG4YDGl3569d3xdVuJZfHvKHQQiPfwjMA5DaGfBC8IRVR7m
-         tuSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755168716; x=1755773516;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EyUvbzeFbhuIBv4W0x0po1vS1DTZvcEEYsQW7Y4FHOk=;
-        b=BR6Fn3WaljAQs0MReqXEWyjuugQbQMdpK485eJTyr/B3szEtNBC0fETlmjgDPO4Fad
-         d3wS4EuPSDeGDgcp6QXGJJ3NC7+nqwSJPru14cs9ZxZr4BKkKE3KHAqOtpT7Los1tTW9
-         cTsYsn9RXNo7ECQrjBloYsdeE9SBeRVbnJck6/whm+ecq9qsSVG+3NQ7VAhHKWbXlrQQ
-         xIEAYvaekNZHxDVeINBcOaPDgNCjYc4wqJNOrWNsGZpfROqtgchxKsZAqv2NFFKGHozS
-         aO6jE4PjnSttiq6Au+cGfhALy3CvWq9cR6H/eCzvNos1vOQOq0zSs6H1n9Lvr22iOugy
-         gL5g==
-X-Forwarded-Encrypted: i=1; AJvYcCUaZZNezXnVnKafOHReLLQ+GgVBy6SV0jrf8yhEfG5kZKtPGi6NtfKmPrVHyo8ZDwLTqv8EKlU0J3l1BQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+nCAweMHVeGjR6DiPaQpR+T4ZTeRmXKFLdVKPCE0wnv/bJH9+
-	tc1opCixqzCmONFYXdqJoOapiFDI4l6Z/Z4ocbtY4s0Fy9XoXfldjJicRcLD/3eulfKJHJ486bj
-	bm6mCN7AIxr0m6i/eVRkWZsg5Mdq2zSzaFcU84xhhkA==
-X-Gm-Gg: ASbGncuwyurMuOJ4A7kr4uLN0vBMuA7M0SgOtlQ5KIxWFSLAOKY/peC3KqSzjY/1vx6
-	9BqSXnulz6j3pukkqJgGnEeFLvBiOGk76P+Lv5lC5Bhjjs8Wf1TxJc8ocNyiIHiWcGOkbGYpMWr
-	qFgSGDQli8jo/5JBtidl31kCMFJwjc64b88CX2SmQY6Uk7M5OU8OexpaDeWKJqBZRiO5fiBKRqW
-	U6Z1lsaifdDMYcHNR+5i+UcZvJaUGtl+5TdemiWrw==
-X-Google-Smtp-Source: AGHT+IFU90m48TZvu7emDeXfQb++9pXmCA/ExMi3L8cHu3e/h3aMjPcuvjlvwAbLWla/D0jCK64yfVaPIBbatOC3QzI=
-X-Received: by 2002:a05:620a:7088:b0:7e8:4693:4cf0 with SMTP id
- af79cd13be357-7e8705d8895mr317330585a.54.1755168715779; Thu, 14 Aug 2025
- 03:51:55 -0700 (PDT)
+	s=arc-20240116; t=1755170054; c=relaxed/simple;
+	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=f8zoWRljDaUtkBEG9jh9Akue/JgQHMQF2UYUfm6gU4hT/joe+akAkfpcd0ZHLLYz2KzJli0+FGfjLaIpZN4Vt1/8xS3graQCyQD/V4f92xGOE0q/i4rZPBfKTyrijFZMf6hOgat7utoV3U51SBti+RH3jtwtejtHqLftwZnUyC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNpjrfeQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF02C4CEED;
+	Thu, 14 Aug 2025 11:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755170053;
+	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nNpjrfeQtIacQG0WEX7mhSYTd7hQlnB7xgoGgJ3v0sCDCZTw/gWywOLfqOYZY4LEw
+	 5E1vCRzlD1L7yPW24oE8hMcbLDvBgKF7UglcpNWQtk+d21igAN/jkLiw4vfw95mmaO
+	 Wy7Aqpr6pD43wwMPVYuuHLtW+Bl/6xetkfjwBZUQFNWFgaJ0eeIdJk6JAFWM+nmE53
+	 +kHohC9FP8zxW9RrnA7dkwqqcgSuN4MKh4R6jlzu+aBiOCgoS1PQtvycwFenFDAKSf
+	 8NGwtU+raJOCaLGmFHJD4RvJXWWS3gsAOxCpMzRtcOJrdMPkcN8DQ2NiQbSAuAjRLj
+	 ccmAEOd0wNzVg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Adrian Hunter <adrian.hunter@intel.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Andrea della Porta <andrea.porta@suse.com>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>, 
+ Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Benjamin Fair <benjaminfair@google.com>, 
+ Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>, 
+ Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev, 
+ Iwona Winiarska <iwona.winiarska@intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, linux-actions@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org, 
+ Patrick Venture <venture@google.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+ Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Yangtao Li <tiny.windzz@gmail.com>, Zhang Rui <rui.zhang@intel.com>
+In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
+ parameter in regmap_config
+Message-Id: <175517003454.17441.365944262533574232.b4-ty@kernel.org>
+Date: Thu, 14 Aug 2025 12:13:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811-ethos-v2-0-a219fc52a95b@kernel.org> <20250811-ethos-v2-2-a219fc52a95b@kernel.org>
- <CAPj87rNG8gT-Wk+rQnFMsbCBqX6pL=qZY--_5=Z4XchLNsM5Ng@mail.gmail.com>
-In-Reply-To: <CAPj87rNG8gT-Wk+rQnFMsbCBqX6pL=qZY--_5=Z4XchLNsM5Ng@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 14 Aug 2025 11:51:44 +0100
-X-Gm-Features: Ac12FXwC6fsbGm2wMI2VtffK314czO8RhVctNAh3tnx01lPB-4vBApOS_6ocfcM
-Message-ID: <CAPj87rNDPQqTqj1LAdFYmd4Y12UHXWi5+65i0RepkcOX3wvEyA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] accel: Add Arm Ethos-U NPU driver
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-Hi Rob,
+On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
+> While working on a driver using regmap with MMIO, I wondered if I need
+> to set 'fast_io' in the config. Turned out I don't need to, so I added
+> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+> MMIO implies fast IO").
+> 
+> This series fixes the existing users in the tree which needlessly set
+> the flag. They have been found using this coccinelle script:
+> 
+> [...]
 
-On Tue, 12 Aug 2025 at 13:53, Daniel Stone <daniel@fooishbar.org> wrote:
-> On Mon, 11 Aug 2025 at 22:05, Rob Herring (Arm) <robh@kernel.org> wrote:
-> > +static int ethos_ioctl_submit_job(struct drm_device *dev, struct drm_file *file,
-> > +                                  struct drm_ethos_job *job)
-> > +{
-> > +       [...]
-> > +       ejob->cmd_bo = drm_gem_object_lookup(file, job->cmd_bo);
-> > +       cmd_info = to_ethos_bo(ejob->cmd_bo)->info;
-> > +       if (!ejob->cmd_bo)
-> > +               goto out_cleanup_job;
->
-> NULL deref here if this points to a non-command BO. Which is better
-> than wild DMA, but hey.
+Applied to
 
-Sorry this wasn't more clear. There are two NULL derefs here. If you
-pass an invalid BO, ejob->cmd_bo is dereferenced before the NULL
-check, effectively neutering it and winning you a mail from the other
-Dan when he runs sparse on it. Secondly you pass a BO which is valid
-but not a command BO, cmd_info gets unconditionally dereferenced so it
-will fall apart there too.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-> > +       for (int i = 0; i < NPU_BASEP_REGION_MAX; i++) {
-> > +               struct drm_gem_object *gem;
-> > +
-> > +               if (job->region_bo_handles[i] == 0)
-> > +                       continue;
-> > +
-> > +               /* Don't allow a region to point to the cmd BO */
-> > +               if (job->region_bo_handles[i] == job->cmd_bo) {
-> > +                       ret = -EINVAL;
-> > +                       goto out_cleanup_job;
-> > +               }
->
-> And here I suppose you want to check if the BO's info pointer is
-> non-NULL, i.e. disallow use of _any_ command BO instead of only
-> disallowing this job's own command BO.
+Thanks!
 
-This is the main security issue, since it would allow writes a
-cmdstream BO which has been created but is not _the_ cmdstream BO for
-this job. Fixing that is pretty straightforward, but given that
-someone will almost certainly try to add dmabuf support to this
-driver, it's also probably worth a comment in the driver flags telling
-anyone who tries to add DRIVER_PRIME that they need to disallow export
-of cmdbuf BOs.
+[19/21] spi: remove unneeded 'fast_io' parameter in regmap_config
+        commit: 48124569bbc6bfda1df3e9ee17b19d559f4b1aa3
 
-Relatedly, I think there's missing validity checks around the regions.
-AFAICT it would be possible to do wild memory access:
-* create a cmdstream BO which accesses one region
-* submit a job using that cmdstream with one data BO correctly
-attached to the region, execute the job and wait for completion
-* free the data BO
-* resubmit that job but declare zero BO handles
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-The first issue is that the job will be accepted by the processing
-ioctl, because it doesn't check that all the regions specified by the
-cmdstream are properly filled in by the job, which is definitely one
-to fix for validation. The second issue is that region registers are
-not cleared in any way, so in the above example, the second job will
-reuse the region configuration from the first. I'm not sure if
-clearing out unused job fields would be helpful defence in depth or
-not; your call.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> (There's also a NULL deref if an invalid GEM handle is specified.)
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-This one is similar to the first; drm_gem_object_lookup() return isn't
-checked so it gets dereferenced unconditionally.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Cheers,
-Daniel
+Thanks,
+Mark
+
 
