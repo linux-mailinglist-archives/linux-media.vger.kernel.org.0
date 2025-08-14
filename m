@@ -1,204 +1,205 @@
-Return-Path: <linux-media+bounces-39915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BFAB265AF
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 14:45:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8951B267DA
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 15:45:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D161B633B4
-	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 12:43:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29B1E189CB24
+	for <lists+linux-media@lfdr.de>; Thu, 14 Aug 2025 13:35:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B594E2FE04B;
-	Thu, 14 Aug 2025 12:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC3930E0CC;
+	Thu, 14 Aug 2025 13:30:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lw+cFdY7"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="ASjLcqab"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012063.outbound.protection.outlook.com [40.107.75.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC6E2FC87F;
-	Thu, 14 Aug 2025 12:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755175468; cv=none; b=RGgJPAUf9uW9jpfnOBHtI9infNrWJBuzWbkx+zdyJENggp/J+G51TtPUdOzFGT72EP1uOnh9bPa8qpOz1aZwSJZd4he+Q6V1tmQxM96srhKQ3VR2Kkg2s0ginHWrk5X4xnvZUG8WaZBOa97XVarjXqxXYiGH1BSCu1Q7OlMWdJE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755175468; c=relaxed/simple;
-	bh=kXIaBaS873y2D2WXihUjEr0NqSIM4mdvtSZEJ3LSO6g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=X2V6mKrJsNwW2+N2iESF1uYTk6pXb9AJPHtUpUi01GIu9k+6+2/uoG9XanKu5Zc9NY37/0wY/MVglbpgZevSgD0uB1mz+o/LBza35Hn1GJ3GugENt7bYeHhQTd8vnsbrhluCeIrmcJxJX8FTyFLkVZOZ2HdXYCnyp6K52NZdEVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lw+cFdY7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57E9MGUr020907;
-	Thu, 14 Aug 2025 12:44:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	eK/EYKVAg9GYGjtoxhSJ2Pz91r7M+ysqSVbKi+C+dqk=; b=lw+cFdY7oJabiN8x
-	mMBc24E+tEQU6t7KzLdDQWRezybyYaGK0lfN+wp0gQBH80uLI58FuLFQGRO5d6WT
-	1yMaqQxqX63XnZECTSukOwtnOiGK0o80x7izdai3J0D1Vai7iVYdG+f+Xw5ZuWVa
-	Ukrl5AWYvUXOMYr4vDfrjMKJa8rErGAcUog4tsLJRocWctkb2+JJ2TPY6mAVMuHs
-	QGev10wuKhXYPg5QfEVzaHUaHnJLqbfV0IsBi1iIW1otj8YW/RNo2+XTcw7c2NeL
-	Rf5ts+SUQQBEFjFjBq7N73GwrpW7+0bdbPYABfUZKBHp9V+/VmFbMi/2jCjtPfxi
-	jypuMg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9sywj3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Aug 2025 12:44:15 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57ECiE3G027496
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Aug 2025 12:44:15 GMT
-Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 14 Aug
- 2025 05:44:10 -0700
-Message-ID: <f71d0c56-13fa-49d5-859b-0f9b5891f2a4@quicinc.com>
-Date: Thu, 14 Aug 2025 18:14:07 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BBD307492;
+	Thu, 14 Aug 2025 13:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755178252; cv=fail; b=UToAKw3QSYpt5IIBiwtEg9GTLPAeHJjZtiAahEMwm8JOc73ak1geRhMQH1LPQsBE8DhF55R6dk411ZQ68d/BLOY9nf0LXXytyfseEW/EcwJXSzpVdVQnkhtzgHucVrLU5/ZeTGX9uFw9M+KXdfRHJ50ZEbv0NM7X66j7dac1qO0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755178252; c=relaxed/simple;
+	bh=gKSSAgmkySrLAkVUqzeaSenMwepIwiHfj93vhYtiI38=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=bSyQFQcuHs0Yu4UH18ZHbBS4YBrMYZKdRMymttvhShYNTXqCW8iGgj8Nq0uV9qRgauNmluaczAdvKRRMTH02+EmWDE2pQr7Dy6Kg6EkND39mhTi30FtA5gDVWjwWy4LNjyfQAqU2Nr2eg3yAU2/k3Oqfjv/1Asn1KxXecr+tY/M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=ASjLcqab; arc=fail smtp.client-ip=40.107.75.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Pe477L9BoHBudDvYc4xRnTJoEg+IJKRBhzdVQ2kN9Lb3omvYtEiupwlDwlG3VEJtOLILGBtzQzSRSNt7LJjUrnHMVq4B8eABPLb2wRKXQzebaVF3wpBvKm42vLG3cMuyRvID9EJXFQAMktiotXXV8HSdzYc8CAOsCFZAX58uUVnePLzK71kIdUWMI+TA4+ICbg/r1wAsSj9c0UJWmrInVvvgDMLW/v51m4lB9wnVFZEFKrrIW7arLfjvGxJMbBneC+27zlQcwt4tU4JdmU7jw5eb0+TQimeEIUNLsO/vwYCpyGcvtCnjO6cR+WdgMoVFRDSHTx8JUvvIikfbobM6Aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+/FhS+w0rZn61MZXATBH5umOL+/7ttnYZOVKLfAd354=;
+ b=o8y/N+FOiZRPT/PbIicwemAE+CY2q0rxnx9TbdSZYwhDCFvKLjly/THszgQNO7cOXXha0o71ROGbEb83ZtlCpYxfIdbn4LYictnsdd7Tro9+zSzCNQMLzNSJO8gIpF7RVWivDKs8J5p0QtpNvrhPAtO6+RpRcHCVJeokDlT9QWQaMvMFsh9/wXLPu036ZmfPljO5S86jvd9V3+hlx9I1N/AMiRsv//7+VCSHzJ3LkXmdE6QRHfOxZXpmJlkdsMtDMKRBNU1QVqdtKwpzTXpuKbpfELKAueA7+mvqEpUss6T4GJn8mnOVpoFPNhdnbJqotWvUrAz3Xcoq8K2aoO1y5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+/FhS+w0rZn61MZXATBH5umOL+/7ttnYZOVKLfAd354=;
+ b=ASjLcqabZN4SLQyhrDa2+BQ0lI8trdmQTyL1gdDyQnxOTl0MTzroxBl0/MlxTOeXdYLvvypojF4nGYw14DzbvXCioB/DOQwIMIpn7yAT8pAgVJRugXvIwXOgVO5SpkaKCQ7rdUfW/NBNH8gME4eAHktXq+er2XvPLpi0nFK2NLP04+sX8faIeHsrjcGCcCsd06stOQEZw0qeDPkard+DNLIhMTX/maoHrY7c0rrSAv8WpSL1BiY0XbtMMZRQEWWtxVqiWRmm9F09BaAqL04LCthkuv+TTGeGHY71hRMsxzUrK2gxexgHwsxjtivfqaNE9H8I5+exMAzRZ5HQwUs+AA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ PUZPR06MB5819.apcprd06.prod.outlook.com (2603:1096:301:f0::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9031.16; Thu, 14 Aug 2025 13:30:44 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 13:30:44 +0000
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Qianfeng Rong <rongqianfeng@vivo.com>
+Subject: [PATCH] media: atomisp: Use vmemdup_user() instead of open-coding
+Date: Thu, 14 Aug 2025 21:30:29 +0800
+Message-Id: <20250814133032.236533-1-rongqianfeng@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR06CA0014.apcprd06.prod.outlook.com
+ (2603:1096:4:186::11) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-To: Vinod Koul <vkoul@kernel.org>
-CC: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        "Mukesh Kumar
- Savaliya" <quic_msavaliy@quicinc.com>,
-        Viken Dadhaniya
-	<quic_vdadhani@quicinc.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
-References: <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
- <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
- <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
- <CAO9ioeXBwFYL8q7x7_fHvx5YO+qyAXk4wpnfPrku4iY9yBsk0Q@mail.gmail.com>
- <cac5e84b-fbdb-47a9-860d-16a7fa4dc773@quicinc.com>
- <4q3vlydi5xgltd3pcez54alxgrehhfn4pppg47ngwp6y5k7n33@d4d4htntj64k>
- <53dd18ec-9a65-4bf7-8490-ca3eb56ce2a5@quicinc.com>
- <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
- <aICMDROkyjzBZFHo@vaman> <8a149580-5044-4744-b432-9f0eef0a0d31@quicinc.com>
- <aJorE6bL2d8se6E4@vaman>
-Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-In-Reply-To: <aJorE6bL2d8se6E4@vaman>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=689dda1f cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
- a=h3vWmju1XmatY8WNfY0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: 1bHcCNvjIt6uhEaOSXKV5_It0Lpgiufb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX98pAXez6L9LL
- ZmshEQGiz0lwHoE6oHRDmOoXGiMurv3bvpzlufVgMpK7CHp+9z0UTNRFr6rPsCz8GdSRp4WnBSz
- hf0dpSmzpQ6RSdAPHb7AXAF7BI1th434uCulTauew9Ad5PEczE0mz29AlNqS1FeHmejWoZS3+Kn
- mI17RSAk65USCv5+z5P7dU0GiUM6MhcZP56fPbXWpyLvMRzqe04ajJvGAZXP38E3ybdB3am+K7t
- NhBr9Ux9CLn+K6VS0Q6fVOkEZwqXekaANFD3QlHr9SwFL2GCZRe/AYvD9XOUqvdMXTk/pstkdJJ
- mQk/SEqo3AlRrlRRu86+B++Vx4G8ODurnbu4uqafqY/TABVZgvEBSRCvnilyXwkBSpyYC34pLU+
- yIk1Dzo/
-X-Proofpoint-GUID: 1bHcCNvjIt6uhEaOSXKV5_It0Lpgiufb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090015
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|PUZPR06MB5819:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fb68d61-d82e-42fc-3751-08dddb36c525
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?g1TjJg7U81eRpbmRBHexB7JufZiDgevOikrbpGkthmD/aWP+ZvaIDYj3N3zz?=
+ =?us-ascii?Q?jAeVKEz6rrMSOnFYmU/MY3SlV1BKdVPUUOxTIgdA0z2q2BS4O6XcbZOXuCF+?=
+ =?us-ascii?Q?0AEaFqjrI1G2T3Os0IobfzkjtIL+9idzTRmkTP4Q3XbpS/ppprj4U/e8/Cpq?=
+ =?us-ascii?Q?VW29AprVHwEGQ9Qxhw18AknzvGmTUGk17Tv0hWmfchLOiP+HUGo6wAWs84xQ?=
+ =?us-ascii?Q?NMK4UVfVmr8WEE4bDInOP8eDFk1OFg5n9G3nH6kLBUTivCIZ/Gia8Fe73bqa?=
+ =?us-ascii?Q?97f3MFcYhGIq3q2QzarT3b/KaMeqFI8y7cRWX050Z/6QcT0HxWIXgZTB7QAv?=
+ =?us-ascii?Q?T0JsgHV66dzK3PTuc59C9QPtepDNDwy35Kub+bZe+T0gUsYv5IotbmGXyEzd?=
+ =?us-ascii?Q?JdD8VsBgrGpaeud4HvmE8J88QItTa+mgjMGzfQVzFs2/QM50qzNhE6ITGIFD?=
+ =?us-ascii?Q?9nAYMd8W9vu+A+9nC0+ij2iOZcqtvOQS3rN1eDP+byO5mtSK/rMYWGCD0o/i?=
+ =?us-ascii?Q?tedGrZywRu3ufyJkd3PbUjEFgDYVUWbhfqDRaDJr3vqmDQ5aYOtAqmnNUzZ7?=
+ =?us-ascii?Q?GpvqG0S9uVE3Jm2iHP/c42n0DDq9YxGgutv+11wQk6x1ii6uVupPGtlUcWc/?=
+ =?us-ascii?Q?ijcuizwUh4jgp4DBZLishUeNFDP9QyhJYDnxvxk5SiLCUot7e+p8VFL5y5Be?=
+ =?us-ascii?Q?byNJxb9LXFEScKNu9PzhoY17uEHy1XgkHpFsV+XYZVu0u3zgR4h46Ozj8RjH?=
+ =?us-ascii?Q?P78nZSPtGwyC/Xn6huPQ8qFObXvSODPvSU2gEa1X8qP7iDyayKvXoADtk9hR?=
+ =?us-ascii?Q?N214ZhqOCWN6BzSvkX+twt+d2aSi/314jim0O43u/8t87tAMg77ozGTkHlmj?=
+ =?us-ascii?Q?Xf5iEJdlu8VFHyKksBWM8ReLm/5da4VfWms2WNqPniBRDwXF4wvTS5gGo6XC?=
+ =?us-ascii?Q?7/F33/FB0j96dnNLWY2rSH11G4+MI4AYR05kcw53dUJXQLZ5+9v3XZXgfprI?=
+ =?us-ascii?Q?NWyCY2brAGeE/B/xi75pTZahSQEIHs6Lh5rw+rChsnrzLnK6zHE77Ifo/8PG?=
+ =?us-ascii?Q?wk9Jp/KfVze1LvJVCUQilpMsrUiu38U7FF+pQGptdsrmBGCt5FkB8uxotavq?=
+ =?us-ascii?Q?j6rd/DqPd1FOt3KK0skJXjbUI8Z9kkDYnLj5pnnGW5/9Np8Abe05i9mA8vvQ?=
+ =?us-ascii?Q?bRseekNtPJWhdb5nou/n8UNt7TGzYcXxGvnBJQCX8uml0ObpEk+nys7Ly+8f?=
+ =?us-ascii?Q?auR+NneSDH9Yd268uFPqZye0+PQFpJF5wFgFECGAhezLGqqWbbO5wal03QM2?=
+ =?us-ascii?Q?0c7CI3POjRd1+80zAQyGkNfpc9gUTs7ZRHsrntsiNKEb6eUWeIwA5VQF7zjl?=
+ =?us-ascii?Q?N6U9Wt/q6ItWRig5jXGqkW9Vioe6Q23Ph8BxZnoUwj1DCl+rqgLcXWcbZBGe?=
+ =?us-ascii?Q?M4Cm7E6RILNhPNcwPagnUnsb545A79+S00lZe+GkGSGS6BrCjut0PQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?53l8m4RPxRQsiei2ULYYFDtxHJMon1c4pwUiiCUyLCYL87Pf7ixViHagIa62?=
+ =?us-ascii?Q?tjUI/UcxaJOcL8iUEblIV0pGVydDINbCrK5jy1cvkmqrqfngw1S+2FnOyqN6?=
+ =?us-ascii?Q?EdfRKA/C3UuNrrpl5ce9Hst67jroHtq9nvqfPlT7D9MhowSlL5SAS4qtkRy2?=
+ =?us-ascii?Q?QtW62yRVTTmGiBX+m58Qa34TiMNMw2mHwnji5xxKxDddxD1H75mMIbG83/f7?=
+ =?us-ascii?Q?KVUG6P+OqI+bz10RYVoeCK144q7jWecmrXEh1MfGR/CemUPUpXUUvxeXHlW8?=
+ =?us-ascii?Q?9C3xMXDetWkGqm5y2fmvVRclePnCUItPJFfMpR52j1E0XI1dpdgTvsPRrSLw?=
+ =?us-ascii?Q?Bgymeu7yCiwlYRr+8oiMJNskIATU9S7yA4JuHTkmKriTwouyU2u4xAhg6NlY?=
+ =?us-ascii?Q?/dNGz4s/KSlruYucLk/8lCAwnbIVOAnV8ua3qUpADqCMfkwoC7iD1HyzRONM?=
+ =?us-ascii?Q?ueXiKb7xZIwHGZslE/u1FGTEUde0iwIqeZyobz7dhSzTalY+9XqltPiCoAE6?=
+ =?us-ascii?Q?N2tQjbe4SobeATz1xLT1g9xqtIa7t5uoYQ2GK1Vsbj13TAPnl6h20Rv95+ol?=
+ =?us-ascii?Q?8CdCa1YU40aFaijH7B26H39suCPjXxs8WsL4P5B10LKvaIMEkS4L+RJp4P40?=
+ =?us-ascii?Q?MLmBSQplH3OhFNdKdurf63K+6biXyU7MB6byxOFCdKlaptgDt2Rd35fLV7tf?=
+ =?us-ascii?Q?KkpwoFmanb12nk1nM5z6Xui7PKBidid81D0G/bdv1fgkNCxvJb9m6HOhcg9r?=
+ =?us-ascii?Q?HVWwZ7RA/yXnwGrFQKRxACjmoyFvtMoPPwiOzkzxOTDETrWrNXiu3KPBMdEp?=
+ =?us-ascii?Q?dsXUIoMHmr/4l9IOp4hBn/nTfPKfIKzp61yxrBkcIWHsTPMPapI3abogLFqD?=
+ =?us-ascii?Q?v35JEUsG+jqmiPBmsb/L1GwJYtoIZn2q0P11egVxJEM9nvQtUOE3I1YZNGfo?=
+ =?us-ascii?Q?6EAGDvTOvwDQgqWzDNkltFUZmrZNaTkmCcTuKLopHhVN9+NF696YD0/iYdPi?=
+ =?us-ascii?Q?QkZg7FJVExbweqyGvNWlj2I+6Yu/We8DYa62GQHIszQGpS+ss1XgDynouW1T?=
+ =?us-ascii?Q?M3z6A4D4K/xNzx0wgaFlQFNXG4ZX4X2DcVXgJDwX7Q9H42ApWJTQ2wkTgMGb?=
+ =?us-ascii?Q?r6SkDHcwv0fMeyv2JhOX0oPlsQ+82JUVX36qFGX8gu4/zlICKLZ0VbUpNWd2?=
+ =?us-ascii?Q?uIvOnzuqIwVU2gNhxCnFeDP+ZeY4FaWa37ZefWjWQmVFDhE/5PQN5DDEoSyr?=
+ =?us-ascii?Q?BNojFxmGm1DxPX1Z9h3TtUUqNSEF+KpSwRkDUQ5TqHI+2MNNy2Exqx5hmROo?=
+ =?us-ascii?Q?VhvinJ/+8w5o6EqiohUPiIU+c1891R/5j9/UTNTyNskg2qiKc7fM6g6mKnui?=
+ =?us-ascii?Q?3VR02yRd+patB43XN1hitQZCyepDvAa+vNm5sjcXaM39eE1hffIzbgn/UKVc?=
+ =?us-ascii?Q?tK8aoRHG0oPm1vpcJaAfy91r6IEp5i8Ir2/P3jILiInz7ZExsAhzC8JSaBo6?=
+ =?us-ascii?Q?rrUO8c0TM/kX3qsxdBfSxv2UXGzOU/y3gckM7DT7tIkrUYax4cJr9turq0L/?=
+ =?us-ascii?Q?Va7EqQmN79ZHD4kcqqoN6Rmmbfa3+keBd4M04UAd?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fb68d61-d82e-42fc-3751-08dddb36c525
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 13:30:44.0749
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pp95NEQ38afDCUV1YL22Ia0jJDe1Dwy/VYC/J1ag/Nc3loXxPUaZN7QhomDTDq3O/6Iwdq4N6000prbPYY7byw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5819
 
+Use vmemdup_user() to get a copy of the user buffer in
+atomisp_v4l2_framebuffer_to_css_frame().
 
+Compile-tested only.
 
-On 8/11/2025 11:10 PM, Vinod Koul wrote:
-> On 25-07-25, 16:20, Jyothi Kumar Seerapu wrote:
->>
->>
->> On 7/23/2025 12:45 PM, Vinod Koul wrote:
->>> On 22-07-25, 15:46, Dmitry Baryshkov wrote:
->>>> On Tue, Jul 22, 2025 at 05:50:08PM +0530, Jyothi Kumar Seerapu wrote:
->>>>> On 7/19/2025 3:27 PM, Dmitry Baryshkov wrote:
->>>>>> On Mon, Jul 07, 2025 at 09:58:30PM +0530, Jyothi Kumar Seerapu wrote:
->>>>>>> On 7/4/2025 1:11 AM, Dmitry Baryshkov wrote:
->>>>>>>> On Thu, 3 Jul 2025 at 15:51, Jyothi Kumar Seerapu
->>>
->>> [Folks, would be nice to trim replies]
->>>
->>>>>>> Could you please confirm if can go with the similar approach of unmap the
->>>>>>> processed TREs based on a fixed threshold or constant value, instead of
->>>>>>> unmapping them all at once?
->>>>>>
->>>>>> I'd still say, that's a bad idea. Please stay within the boundaries of
->>>>>> the DMA API.
->>>>>>
->>>>> I agree with the approach you suggested—it's the GPI's responsibility to
->>>>> manage the available TREs.
->>>>>
->>>>> However, I'm curious whether can we set a dynamic watermark value perhaps
->>>>> half the available TREs) to trigger unmapping of processed TREs ? This would
->>>>> allow the software to prepare the next set of TREs while the hardware
->>>>> continues processing the remaining ones, enabling better parallelism and
->>>>> throughput.
->>>>
->>>> Let's land the simple implementation first, which can then be improved.
->>>> However I don't see any way to return 'above the watermark' from the DMA
->>>> controller. You might need to enhance the API.
->>>
->>> Traditionally, we set the dma transfers for watermark level and we get a
->>> interrupt. So you might want to set the callback for watermark level
->>> and then do mapping/unmapping etc in the callback. This is typical model
->>> for dmaengines, we should follow that well
->>>
->>> BR
->>
->> Thanks Dmitry and Vinod, I will work on V7 patch for submitting the I2C
->> messages until they fit and and unmap all processed messages together for
->> now.
->>
->> Regarding the watermark mechanism, looks GENI SE DMA supports watermark
->> interrupts but it appears that GPI DMA doesn't have such provision of
->> watermark.
-> 
-> What is the mechanism to get interrupts from the GPI? If you submit 10
-> txn, can you ask it to interrupt when half of them are done?
+Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-GPI interrupts are triggered upon each transaction completion or when 
-error conditions occur.
-
-Using the Block Event Interrupt (BEI) mechanism, we can control when 
-interrupts are generated.
-For example, if there are 10 transactions (i.e., 10 I2C messages in a 
-transfer), it's possible to configure the GSI to generate an interrupt 
-after the completion of the 5th transaction.
-
-However, with the new design discussed above, I2C messages are submitted 
-dynamically based on available TREs.
-BEI is configured to generate interrupts either:
-   - After the last I2C message, if sufficient TREs are available, or
-   - After a specific I2C message, when no further TREs are available.
-	
-In this dynamic setup, there is no static way to configure BEI to 
-trigger interrupts at a fixed transaction count.
-The interrupt behavior is instead determined by runtime resource 
-availability.
-
-
-
-> 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 3a4eb4f6d3be..d6fa1605a096 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3326,14 +3326,10 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+ 		goto err;
+ 	}
+ 
+-	tmp_buf = vmalloc(arg->fmt.sizeimage);
+-	if (!tmp_buf) {
+-		ret = -ENOMEM;
+-		goto err;
+-	}
+-	if (copy_from_user(tmp_buf, (void __user __force *)arg->base,
+-			   arg->fmt.sizeimage)) {
+-		ret = -EFAULT;
++	tmp_buf = vmemdup_user((void __user __force *)arg->base,
++			       arg->fmt.sizeimage);
++	if (IS_ERR(tmp_buf)) {
++		ret = PTR_ERR(tmp_buf);
+ 		goto err;
+ 	}
+ 
+@@ -3345,7 +3341,8 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+ err:
+ 	if (ret && res)
+ 		ia_css_frame_free(res);
+-	vfree(tmp_buf);
++	if (!IS_ERR(tmp_buf))
++		kvfree(tmp_buf);
+ 	if (ret == 0)
+ 		*result = res;
+ 	return ret;
+-- 
+2.34.1
 
 
