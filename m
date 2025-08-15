@@ -1,196 +1,236 @@
-Return-Path: <linux-media+bounces-39986-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39987-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80940B27F47
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 13:37:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A902DB27F7F
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 13:47:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 356535E76C8
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 11:37:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 518FD7AF7A1
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 11:45:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB2302882D9;
-	Fri, 15 Aug 2025 11:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF4E288C1A;
+	Fri, 15 Aug 2025 11:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Y4e3KVOK"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="O7z/X96V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2062.outbound.protection.outlook.com [40.107.101.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD4A286417;
-	Fri, 15 Aug 2025 11:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755257817; cv=none; b=t3XJd7DeLcTkwxfw+aWTvkT4jYwd8gCsdWJwcsipZt+JuvRNj4EV7d5EG5gw+pjxRiXC2Kbdu4YugXymtU410TUEWatAVLfFHiP+ODtrFiL5ER9bXJFBzXKqypaOTgcxd2bA7ss/FxbcZ0hboSs4dn5HLy+nLp8e0O/VxDxO2Ew=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755257817; c=relaxed/simple;
-	bh=2GIMgu8NPtt6P2qI5ejUuahA1+6uQNRov1RsqwBWiqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjHoMddiuPx6BVQyoUPQpqAm73Q9geoOrQ9IDEXUUuETtV/oK1+qLjM5f2apmUJw2z0f2jLSDMMnzJV89Pqo1/Ym4IFfN4KzkU3XhJ5PGNGU7P04kSGI/RY6qQVtem96WYdGbAs59J3hvKuLCePNn1Y5TDZfXTAzj+8K5+AgAHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Y4e3KVOK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 26128605;
-	Fri, 15 Aug 2025 13:35:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755257758;
-	bh=2GIMgu8NPtt6P2qI5ejUuahA1+6uQNRov1RsqwBWiqI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y4e3KVOK2J0XXmCqgj9JJfIrcgYxrrI+rTidxCHGaWXadY1ai6uVWvVchaozmrBsU
-	 WmCsl4otPF8doCkfsyoLO18ZUHqBQUM1ngLtQE8HYes4PNC0qzwKnBsDjCx2iCGfHP
-	 b3fPKZ0X6xpvtJyKPqtNsM4xe44EmFHXQNmXLbY8=
-Date: Fri, 15 Aug 2025 14:36:33 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>, linux-media@vger.kernel.org,
-	rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
-	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] imx-mipi-csis: Get the number of active lanes from
- mbus_config
-Message-ID: <20250815113633.GM6201@pendragon.ideasonboard.com>
-References: <20250814113701.165644-1-isaac.scott@ideasonboard.com>
- <aJ77VTtZy96JJCHE@valkosipuli.retiisi.eu>
- <20250815103205.GJ6201@pendragon.ideasonboard.com>
- <aJ8ZJFSn5Wxhj2Aj@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E30E215F5C;
+	Fri, 15 Aug 2025 11:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755258425; cv=fail; b=rbmyDPsazoMNff9H2K6LTspVhS0anTt8TofDXEXwVw+cXY7znNZG6FBU/iO4bZIrhIdD+DQ1NggP2UpZ9gsPgE2/2/kyeIT54awNkKvLMz5U6FU3j9qxli9Y7lHilIqpeyGXDxqKUi51YOyJ0RwlR1TU/eSrjTHC6tNL74YIw7g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755258425; c=relaxed/simple;
+	bh=HzTBGa07Cfd97I+h4PK3QzqaXmKj+fPyVr3668qiKVg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=aEHtbc5j4zvcwzkE2LHj28/N+YlsxFow17Ujaq6UO7snBF6YrKKifkKVZcA6DvK1/0OgJTVLavf9I8irdJlUGS27kNGvT/sD/o/qAcKrCO9262zApfuzipRaHvYyNN/KOuxoG5mZINyV7cU2frPQSz4tuDZfW1kj0py1In8Jgv4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=O7z/X96V; arc=fail smtp.client-ip=40.107.101.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bQfjLFR4lx9SCGOD2hbLD09wMezyxn4grGhLTO3bie53diZUArBpjI7gfQ2G8wrYjRYvY40KckBwg3n3InofQZvwOS8l3qiRT+Ytog/LfcNvsvEeT2MP3dxweyxb2j4A6vl2BGCao96CI1kVTJJuRYXiEc7r58uYQ6Y3PWM5JRH85OQVVe1rn6JZBLJfJobmTT9zDrqu++47Kzwt+jeenqbIgkCM86u4Ia8IdSzq9oMz4Fmct5J+Wh5vDwB5X8O7uioHcLbL1qca23f7ylVXEcCiHXsmtxCSVswBxsPiCvXdCdTvPG8Z/7MnLnsAmht6uOObb2B9QMS3mca/sna47w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/hgQ/jQm5DUGeyAiHkH6qFWAuOIVbxj07Pp+6JlwnPo=;
+ b=yANJj87laspim4PQYPbSIVJfcAIngzKAmqznETeIF5wwqp+OgNFWA8tNPIFIHylaNdzP7Irl9T3CwHPCtPBkk+VNX36bxVjjcKyOumctGfGGTWTwJDcFTyJOxn5PnN+FctcZVHyuTNBi5Pz0abRFAxK8La3qVzN4M68I+PROX8QBMtkpKlovU5E7fQXl5Oz9mMx6bZlDTdr3cUFKGhuzZp/XrAYTFC5zQdoaVJD2jxwD1oRKC9SJzWLUiVWENFFv8ptdutf+PaMQcgXzhIZdQ3vbAnpcYfh+FqZCWhbfp9sYwOVlzQH00g7uXfGtn8uaHypAo09Y58ucfkwyTAWKHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/hgQ/jQm5DUGeyAiHkH6qFWAuOIVbxj07Pp+6JlwnPo=;
+ b=O7z/X96Vkg0QgfEQVmI/UYOU1pz82+mc89btcAqthI8EbBwf10A+HOeMvhbQ1oKLETJwbOnzfN0mpsg71ITgtrqx488c7c8jMbEbMi3dJOpxifTxpYqf27iMCHjqYZb+BvnHRcvwJwqCQZu+harPWIp41K1971619z7EA2B5mdU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB6257.namprd12.prod.outlook.com (2603:10b6:208:3e7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Fri, 15 Aug
+ 2025 11:47:00 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.014; Fri, 15 Aug 2025
+ 11:47:00 +0000
+Message-ID: <b057fb0a-5fe0-4cee-bbba-c4c88521bb86@amd.com>
+Date: Fri, 15 Aug 2025 13:46:54 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] accel: Add Arm Ethos-U NPU driver
+To: Daniel Stone <daniel@fooishbar.org>, Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Robin Murphy <robin.murphy@arm.com>,
+ Steven Price <steven.price@arm.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250811-ethos-v2-0-a219fc52a95b@kernel.org>
+ <20250811-ethos-v2-2-a219fc52a95b@kernel.org>
+ <CAPj87rNG8gT-Wk+rQnFMsbCBqX6pL=qZY--_5=Z4XchLNsM5Ng@mail.gmail.com>
+ <CAPj87rNDPQqTqj1LAdFYmd4Y12UHXWi5+65i0RepkcOX3wvEyA@mail.gmail.com>
+ <20250814161718.GA3117411-robh@kernel.org>
+ <CAPj87rN=Hod6GyA72x07yTvxL5X2q4UyUmPg-hyjjFA5KJvYGQ@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAPj87rN=Hod6GyA72x07yTvxL5X2q4UyUmPg-hyjjFA5KJvYGQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0070.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aJ8ZJFSn5Wxhj2Aj@valkosipuli.retiisi.eu>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB6257:EE_
+X-MS-Office365-Filtering-Correlation-Id: fab4282a-ea60-4618-9ca8-08dddbf17210
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Z0ptRmZOSWtjU28rM2NReHZXcEhvQXl0cDgyUlNNMFBYK3R1WGp1ckVhVDMv?=
+ =?utf-8?B?bUt6ZllyQ3I5OVRPbUNhc0xoNDFYSk1GbjhFMzRteEVIeDFSVzQxdk5pcENp?=
+ =?utf-8?B?RjVjZWgrS284KzE0VkIwdGR3WXhhczV1cWNMTUZwVk9LRDd1VnJVVkkySTdk?=
+ =?utf-8?B?di9uUVhZZERoa0tKMVo2dlIySzdaZVJhSW9oS0Q0WW1OTkdXcTZSdnBybEtk?=
+ =?utf-8?B?dHFuOERFdndMSFB5VnIwU2g2OEQwS2N0VXY4WUEvci80V0JEOUxQK0t2bUpx?=
+ =?utf-8?B?bFY4bXpYcC93Nm9CczFmYndHN3Zua1VOTnVIQ3h5SmdOT3NQbzJpaVg3K21B?=
+ =?utf-8?B?SjBFYkNHN3VIS2h2WStsQnVWS3U4L1o4SnhzeC9UTEZCU3hOeDhWaTVtcVJp?=
+ =?utf-8?B?OGcwSGRsOGZSUTJaTDBJbHhKdDVqZ2Z6SFl1VTc0eFNYVUZnK1BGaEMzMzJH?=
+ =?utf-8?B?RjN1UG9GU01WTjUzaEJ5SW5DMGtTU3RqQSs3eU9GbncycmxpUWhwam5sTFJt?=
+ =?utf-8?B?SDFvYzVQTCtXQy80dzIwZ20wdTJiVGtSQ2ZYN3kvTHU4LzhMMDU5MG5NcjJJ?=
+ =?utf-8?B?dk5naUUrUEdVY0Y4ZDBHRHdGcFl6V0FzTDVna1F1WFYyYXZDUy9ZeGhla0pT?=
+ =?utf-8?B?WWJtam14aFdKUCtBeHRsc1R2NTdRUkJodEcyK245TkdWWTdmTkVCcExyUGVU?=
+ =?utf-8?B?b1lLZUZXMVE3SEFHTU5CcW4rT1Q4WXVSYUhUM1FFdHpsRzlMaEZFMngzVDZx?=
+ =?utf-8?B?NFN4VWZIUnFLd1diR0E2bEdwbHlXc09iTGdxUkpvRmRtK0NoSGV3Y0R6ZkhB?=
+ =?utf-8?B?WUY4SmRudVZlVjVOUEMvcDRaQWJBMmlqR2VrTG0yYU8zZkQ4VG94NUFTcW1i?=
+ =?utf-8?B?SGpiV29IUTE1NGJpeXlXcStTRlZRREZrVnovOU1LYmZvSVlTaHBIQVp4eThM?=
+ =?utf-8?B?Qkt4NG5EL0RQU0pXQjUxRlljaVlIZ014bC9GbDVSelgrTkpwQ1NTdy81bEN2?=
+ =?utf-8?B?VnNLR0JMdHFSd3FCamd3WTcwMU10Y3lMYmRvTUFGUXdBc1NBd3grRHFLaGx0?=
+ =?utf-8?B?cmxMa0pOZ1VJeXNuampQNC9ZQlpHTGpGQUNobHZQTU5odjRTTE83dXVJOWNX?=
+ =?utf-8?B?VHVQWUVWNjZEV00yak42ejNvaFNlQ3NwcmJiazRaSlAxOGN1Sm0vQXpaVlJj?=
+ =?utf-8?B?Y2NhU0MzNnRqeWVVbHU2dmIvRWJlOHJERUpyQ3BoejFsUEtmQkx3cms2ZXJr?=
+ =?utf-8?B?NjNkZi9Hd09UWVN6MnVSTitEV1B4emlPVE9ydDc0ZitCM3F6Q3ZUTEgxdWNa?=
+ =?utf-8?B?c2JmeGRrZi9Dd0ZJVkVNS3EwTm84M1V2UTlmNEtuVzBKVjlyWDdGZ29rVWx0?=
+ =?utf-8?B?MndaUjk4QTBud3NNOW9DOE1zNkk1NW5leVR5Mml1bFplWVZKMkp0eVhQRzZ4?=
+ =?utf-8?B?aWsyLzVSbFVOV241eWVIUlNsTVAvb0ZEVDhNditNQi9MYW1WcFlIWXg3WWJR?=
+ =?utf-8?B?RDlLV3R6dVBiWkJjMm5ML05pU1VFbEJIUkUrc1QycFFiOWUwOUJwTWpna3cz?=
+ =?utf-8?B?UHkxOE5EQjFzSm5DS1V3UnNldjNYZlRyV2JZTy9nUEF5Z2JUa0VOOWlFejIy?=
+ =?utf-8?B?RlQyTlRtanRDRUZ5bFdEOWRGVVZPQTdRdmJHQ1huOVZlMTUzS0Jja3JsWjQv?=
+ =?utf-8?B?Q1hVdEc1YWZHMjUycGVKakhlQ2hOeVR6RWx4S0lsM1BVRmhqVGU1dFBYc3RB?=
+ =?utf-8?B?dWR0eHlZdzFXaHRNa3JkeHltck8rOUZ3TXhNQmRTSXJzL0YxZWZNZ0tDNGho?=
+ =?utf-8?B?dEdkZjJvdldnSU1PNFE2cXBjVEt5ZlQyZUpiOEw5bXFPeVk3Q2RqQS9Lc24y?=
+ =?utf-8?B?ZmhSZHQ5T1hWZTdlV3VFTUJvU3BwbUw3WTR2RStlUUZzbUxiWGZCSWVuOUpP?=
+ =?utf-8?Q?3/swlejDKz8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?a0pMSTNkeDVuazM3aHc4Y1dRUU84ZjFvSDF5UU5Cc2lOckZoYTRhdTNETHU2?=
+ =?utf-8?B?d095Mlc3ZEpoYlM2dERCRDN6TVdRc0sralNBZ1FBZ1NuRytudk82ZWVZalNl?=
+ =?utf-8?B?REl3bGJMYVVRU3NXMnh3SXMvdkwrQ29WamZ1ZDd1WFdwam1VZ0pHK0c5Y01n?=
+ =?utf-8?B?andpYklkOHdyV2hodVF3UHdlaWc3N0hzSjI4amZzV2xxUTdqaDBLdG91MTYw?=
+ =?utf-8?B?b2NEUU1sRFM5N2tXaWg3NWROYW1kWHpzOWdBcHFPUTZFUmF2Q2NLcnFtSnFp?=
+ =?utf-8?B?OUJCaUtRcmpyaE04Y2hqVjNrYURTRjk4R0RYYmU2QjlsTExPbG9FdzFuRzc0?=
+ =?utf-8?B?N2wyZkdseWdHM0QreTdMOWc1NXJkYitjZHMvZXJ6cllNZzJ1Y2ova1FTUTd5?=
+ =?utf-8?B?UnozTWswK0J5Y3NPUTRGU1dqUlFudExlUjNXUzUzaUM4L3ZILzVHc1ZaMXl1?=
+ =?utf-8?B?OWtPcEJKK2tDRGNDUTFnVGdISUQ1TUxsS044cEhjdkh5cFF1SjN4ZmpQaWtv?=
+ =?utf-8?B?c1V5aTN6Q3oxVUdLQWRPSGY2N0lCZkI2a1N0aHVhQlEwbm1RRWJ5R09xUDNk?=
+ =?utf-8?B?R3JFa3czOXZrTkZPemswVnV4d0Z5SGVQQWhxVDFWMWRHSzMyU3NvenNFZGN0?=
+ =?utf-8?B?TGJCMlhBdmZmTUJlcEl4cXlreUxrMUZZVEQvdmpEbUtkQ0hmZWFjeFNlUHVt?=
+ =?utf-8?B?Mkl1dVdUY3ZZS1pQc3pvc3pFUkhPbGMwNkQxTXI0UWtvdDVSVmxNQy93MS9m?=
+ =?utf-8?B?SnVzdy9XNWtRZFltVU5FakRMQm42dU82QjZkY3ppOHJTaWV3MjdraVhCYkRq?=
+ =?utf-8?B?ZlZxUEdVbUFCL3ZXKzN5ZEwrTy9TN1lFRXQwOWhPd0ZVTlE4aFg0cWx4YXV0?=
+ =?utf-8?B?TGNUd0p3dXNKNnZHOW5WcHBrWnFYVVVqcU84L2c4eXRKWHRrVDVEeDlFaFhx?=
+ =?utf-8?B?ZGxyT1ZkRktqV0VZZ3Y0dzZlMmQ2dk1KT05Ma3ZjY0pESDBlYWNORUR1VjZj?=
+ =?utf-8?B?RE5xc1Azam5sbDhSTXdRQ0lUM09aRzBKbzl3QUhubGptL0krZHFGbG1YYm52?=
+ =?utf-8?B?aVlUWlZXdWIveC9hWmluanhheGFkZDliTzBsMjlxQlh2SlVKeDVBUG56QVhN?=
+ =?utf-8?B?YzBtOGlwRXBjT25iVDB1dVd4WGQ3bDVMUDV4aDE2YW13RjJHTVFMMHZWYWdT?=
+ =?utf-8?B?YmZYSFJjYks3UzlxYWgzRUg0UlEzVEtyOTVnQUNKUE9FWU1EbmlJemtNT3J0?=
+ =?utf-8?B?UWtKN2UzbU5rQTJkdUZaNmRyVDJ5MnVLTVhsWHJFTVo5M0tLUnhHQ0dZZTAw?=
+ =?utf-8?B?Ri8ycXVieUYvMVNGWDk4MXdoNlI4VlRvckExNlp2Y2hPbkFJR2JFTEVKWXg1?=
+ =?utf-8?B?MXdsUWFSeHlSMVEyZ1dsZXZSVVVpS0RmdncwQ2ViS3VROXp1clF4elVHZ0Nu?=
+ =?utf-8?B?b3RHRnpSakVzNDZqV00rWWNiQXprcEI0MW9jcU9ZNGdoOUczUHQ3dFJYbVlq?=
+ =?utf-8?B?RmtYWlBkSzBQUGV4MGUyZTNNUjhpaDVUS2tmclFjQTQyeHoxbGNxTnNHUDRm?=
+ =?utf-8?B?ck55Rm02bEx1RGpjd29sSDRGYjdJSEZ1NE93VW1KTitqNVBteWxESTFEbGpK?=
+ =?utf-8?B?a2lURTN3YzhCeTZoaU9jMXhKVC9LeVlRZWl0NVF6NlMxcE5FcGw0ZThuME03?=
+ =?utf-8?B?QnlhZVF5SUxyT1I0ZWZOS3BSS1dpQzFTN2M5bWcxZFZJSTBYRm5kOHhZako0?=
+ =?utf-8?B?TDBta3lhRnNuTS81ZmJ1Um9aZ0JXU3AxdmZReWlFZFc5WmJXZ1VqQlA3L2xp?=
+ =?utf-8?B?aGU2QTFEZHlIM3JaNjgyQmVzVEg4UEJpcWJaT3dNNXljQXQxMVA2OE5jRnRj?=
+ =?utf-8?B?bTlBNnZGcFZhaWF3NWJmR3lldlZhQlFoVXRKWncweW9qWjhIZjU2a0xHd01p?=
+ =?utf-8?B?T2pjL25aNExITDZCZ3B3aGNvT3kxajNQZG9VWngxZng3RE5vVElmUnBBUk8x?=
+ =?utf-8?B?c3ZoUlNtMDlJdGpMc25wd0JqSFRoaDFYSTRhVzRsZ1JjcnQvWlVRdFlmTHFI?=
+ =?utf-8?B?VVlIMU03NFRaZ2pCbUI5TnF6L0pwVE96N3JGdXVyNVdOMzlvWTVTUUsySnlC?=
+ =?utf-8?Q?COiZIsDY8YcDOFJyA17mqqlJc?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fab4282a-ea60-4618-9ca8-08dddbf17210
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 11:47:00.5995
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QDFRqyHyChY5vcJ+iJOU3V6It3pDHlrPcch/6NdgEXQVDHfhD2wJX4rjNHSECgc1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6257
 
-On Fri, Aug 15, 2025 at 11:25:24AM +0000, Sakari Ailus wrote:
-> Hi Laurent,
+On 15.08.25 13:15, Daniel Stone wrote:
+> Hi Rob,
 > 
-> On Fri, Aug 15, 2025 at 01:32:05PM +0300, Laurent Pinchart wrote:
-> > On Fri, Aug 15, 2025 at 09:18:13AM +0000, Sakari Ailus wrote:
-> > > On Thu, Aug 14, 2025 at 12:37:01PM +0100, Isaac Scott wrote:
-> > > > Although 4 lanes may be physically available, we may not be using all of
-> > > > them. Get the number of configured lanes in the case a driver has
-> > > > implemented the get_mbus_config op.
-> > > > 
-> > > > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> > > > 
-> > > > ---
-> > > > 
-> > > > Currently, the imx-mipi-csis driver parses the device tree to determine
-> > > > the number of configured lanes for the CSI receiver. This may be
-> > > > incorrect in the case that the connected device only uses a subset of
-> > > > lanes, for example. Allow the drivers for these cameras to create a
-> > > > mbus_config to configure the number of lanes that are actually being
-> > > > used.
-> > > > 
-> > > > If the driver does not support the get_mbus_config op, this patch will
-> > > > have no functional change.
-> > > > 
-> > > > Compile tested against media-master (v6.17-rc1)
-> > > > ---
-> > > >  drivers/media/platform/nxp/imx-mipi-csis.c | 41 ++++++++++++++++++++++
-> > > >  1 file changed, 41 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > > index 2beb5f43c2c0..efe4e2ad0382 100644
-> > > > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > > @@ -939,6 +939,43 @@ static struct mipi_csis_device *sd_to_mipi_csis_device(struct v4l2_subdev *sdev)
-> > > >  	return container_of(sdev, struct mipi_csis_device, sd);
-> > > >  }
-> > > >  
-> > > > +static int mipi_csis_get_active_lanes(struct v4l2_subdev *sd)
-> > > > +{
-> > > > +	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> > > > +	struct v4l2_mbus_config mbus_config = { 0 };
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = v4l2_subdev_call(csis->source.sd, pad, get_mbus_config,
-> > > > +			       0, &mbus_config);
-> > > > +	if (ret == -ENOIOCTLCMD) {
-> > > > +		dev_dbg(csis->dev, "No remote mbus configuration available\n");
-> > > > +		return 0;
-> > > > +	}
-> > > > +
-> > > > +	if (ret) {
-> > > > +		dev_err(csis->dev, "Failed to get remote mbus configuration\n");
-> > > > +		return ret;
-> > > > +	}
-> > > > +
-> > > > +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> > > > +		dev_err(csis->dev, "Unsupported media bus type %u\n",
-> > > > +			mbus_config.type);
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > csis->bus.num_data_lanes) {
-> > > > +		dev_err(csis->dev,
-> > > > +			"Unsupported mbus config: too many data lanes %u\n",
-> > > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	csis->bus.num_data_lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
-> > 
-> > There's a bug here, you override the number of lanes retrieved from DT,
-> > which is the number of connected lanes, with the number of lanes used by
-> > the source for its particular configuration. You will never be able to
-> > then use more lanes in a different source configuration.
-> > 
-> > > > +	dev_dbg(csis->dev, "Number of lanes: %d\n", csis->bus.num_data_lanes);
-> > > 
-> > > None of the above is really specific to this driver. Could you instead
-> > > implement a function that parses the information from the fwnode endpoint
-> > > and uses mbus configuration on top?
-> > 
-> > That would need to parse the endpoint every time we start streaming, it
-> > doesn't sound ideal.
+> On Thu, 14 Aug 2025 at 17:17, Rob Herring <robh@kernel.org> wrote:
+>> On Thu, Aug 14, 2025 at 11:51:44AM +0100, Daniel Stone wrote:
+>>> This is the main security issue, since it would allow writes a
+>>> cmdstream BO which has been created but is not _the_ cmdstream BO for
+>>> this job. Fixing that is pretty straightforward, but given that
+>>> someone will almost certainly try to add dmabuf support to this
+>>> driver, it's also probably worth a comment in the driver flags telling
+>>> anyone who tries to add DRIVER_PRIME that they need to disallow export
+>>> of cmdbuf BOs.
+>>
+>> What would be the usecase for exporting BOs here?
+>>
+>> I suppose if one wants to feed in camera data and we need to do the
+>> allocation in the ethos driver since it likely has more constraints
+>> (i.e. must be contiguous). (Whatever happened on the universal allocator
+>> or constraint solver? I haven't been paying attention for a while...)
 > 
-> Perhaps not, but does that matter in practice? Parsing the endpoint is,
-> after all, fairly trivial. The advantage would be simplifying drivers.
+> Yeah, I guess it's just reasonably natural to allow export if you're
+> allowing import as well.
 
-It's trivial from a code point of view, but it's not a cheap operation.
-I'd like to avoid making starting streaming more expensive.
+I only partially agree, allowing export only makes sense if you have device memory which is not already covered by DMA-buf heaps.
 
-> Alternatively we could think of caching this information somewhere but I
-> don't think it's worth it.
+So if you have special on chip memory which is accessible by for example a PCIe BAR then go ahead and provide an exporter for that.
 
-Drivers likely need to parse endpoints for other reasons. I'd cache the
-value in drivers, like done today, and pass it to a get_active_lanes
-helper.
+But if your HW only needs CMA system memory then it is most likely better to use DMA-buf heaps instead and only provide an import functionality.
 
-> > > The function could take struct media_pad pointer as an argument, or struct
-> > > v4l2_subdev pointer and the pad number.
-> > > 
-> > > I wonder if any other parameters could change dynamically but I can't think
-> > > of that now, so perhaps just the number of lanes is what the function
-> > > should indeed return.
-> > > 
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > >  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
-> > > >  {
-> > > >  	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> > > > @@ -965,6 +1002,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
-> > > >  	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
-> > > >  	csis_fmt = find_csis_format(format->code);
-> > > >  
-> > > > +	ret = mipi_csis_get_active_lanes(sd);
-> > > > +	if (ret < 0)
-> > > > +		dev_dbg(csis->dev, "Failed to get active lanes: %d", ret);
-> > > > +
-> > > >  	ret = mipi_csis_calculate_params(csis, csis_fmt);
-> > > >  	if (ret < 0)
-> > > >  		goto err_unlock;
+You can of course directly use the CMA code from your driver as well if you still want to support standard DRM, V4L or accel interfaces.
 
--- 
 Regards,
+Christian.
 
-Laurent Pinchart
+> 
+>> Here's the reworked (but not yet tested) code which I think should solve
+>> all of the above issues. There was also an issue with the cleanup path
+>> that we wouldn't do a put on the last BO if there was a size error. We
+>> just need to set ejob->region_bo[ejob->region_cnt] and increment
+>> region_cnt before any checks.
+> 
+> Nice, thanks! That all looks good to me.
+> 
+> Using unchecked add/mul when calculating the sizes also made me raise
+> an eyebrow - it might be provably safe but perhaps it's better to use
+> all the helpers just to make sure undetected overflow can't occur.
+> 
+> Cheers,
+> Daniel
+
 
