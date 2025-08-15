@@ -1,160 +1,155 @@
-Return-Path: <linux-media+bounces-39996-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39997-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659E9B28683
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 21:40:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6A7B286D7
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 22:03:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D46C17B4426
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 19:39:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95E181CC4C54
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 20:03:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D540275105;
-	Fri, 15 Aug 2025 19:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 336042BD5B6;
+	Fri, 15 Aug 2025 20:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="WrPu03M4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B6fgctbJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5519327455;
-	Fri, 15 Aug 2025 19:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D1526F44D
+	for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 20:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755286833; cv=none; b=GGiYNX9muUbdxbXR5uUvS2YySCaXFrAdbiWFw/Hz2lK8jJjJgrEmdX74Hs0RhqWt4foZKrQpWmnuD5eyoBA38Jkt6d6KZWUXjXnrbPL1RccABRmH5ybJtQx42mVuil3h0eOfo6JfTKNecQu+3NAhdGjKZhBZsqU4uaEzRRU0qFI=
+	t=1755288194; cv=none; b=mUNpPyFeSzPxPm+7yPuwTfnYW5bniWqbDtxt+TRjLCk/ramJFO+9ud/WXDEt6GFljtLwzXMqym7wB/q8ooZfJ4hIXP0asr+zEA2cT1Z8TqvKTz/WupU0DloYglnGCYwNDLxT24hg0R6Zle0QaWRj7RXCuLFcHU5faRsWMpoF1Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755286833; c=relaxed/simple;
-	bh=fSx4nn9/FHV7lAK6AnFhPNP4Bdj1k7XAbfDUX7uBKG0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=K+VR6w9rYYNsriN/efvsrSZ4UalwM06wEJv+Gj5pz6FNKNCttWVXIJgTnSU0HtGiT460eTxinEZ0c2lIBb18DdCHhY0ioJi9Bbk+4GsKcAEnkpKmV7RDBwIYDrQw2XJGCZMRflzjzC9KLzJEj1NJcAz4xOuoCarueWGsdk2GYwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=WrPu03M4; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57FJeHx32669592;
-	Fri, 15 Aug 2025 14:40:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755286817;
-	bh=LfyjrME+xUKDBHxkGHQrFTfPrNu4/XhTDGMxhaMKngg=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=WrPu03M4QFirNu0si7nztZ4btKN3s2k4VEqyW6v2n8DfX/v5NQQYzlsMh+wHyVqun
-	 kcDWHrU60AMRZpdD2yCxi1a9geof6v7VSzkaMv1lvBjXNcFOLcv1qQzeW6JQ5lrYU2
-	 dEplDBLww9wpcixVmqELUJN7Kj4ZldOp6Em1TQsU=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57FJeH4t2806871
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 15 Aug 2025 14:40:17 -0500
-Received: from DLEE207.ent.ti.com (157.170.170.95) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 15
- Aug 2025 14:40:17 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.1748.24; Fri, 15 Aug
- 2025 14:40:16 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 15 Aug 2025 14:40:16 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57FJeG811752389;
-	Fri, 15 Aug 2025 14:40:16 -0500
-Message-ID: <008f6004-dcf0-42e8-b2df-f97c0ee5ba66@ti.com>
-Date: Fri, 15 Aug 2025 14:40:16 -0500
+	s=arc-20240116; t=1755288194; c=relaxed/simple;
+	bh=4STIYGI/Iyf15/bs41CGx8JzbIlb5YFgaQssWbnWL0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pcfxx0I/jlAnlYeHVf/aOs5BaNzGgmCYul6vmdtz7LmXr6v5BtcP43AfjMlq10Pkvv2XuTTmG8/8z66PhSyjQHcjOvBBXkBJ8BwM494pSmgcfKT7zO/3lvwSRrHFzQsIZ72QS5YAJblLaVR+fRQGlmY0m6ZMXGFr6vk30NavUTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B6fgctbJ; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3bb2fb3a436so729706f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 13:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755288190; x=1755892990; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l2kePfzDvFml6EXYBDwWfTvZ++1LxjVURGwo9pFDf5U=;
+        b=B6fgctbJFJ1lVivEsP8Ula+orcSNHuUNSyjrx32PeHIZT+wCXp5IQlFG21LfbE28+K
+         xN3XowFM2EsdlGIuXDbLlbEQCguLZ24X+Zwl3b0oDM31SNBlnrH5OabPWXB+yoF9eASd
+         YGxKdpTIlSFam1xZ+PjW1JSs2y1i3nuurwfDSLjawkTRXODFZPm/gqbsqw1AHHbYy7HA
+         4T6rk2NuNM7NUmrhpLE3RHzvplfD9VmZu76yiyGSFWKliJfeoU92cZpZRcTfyRVBxDPC
+         OtVNDvPIIaMxCkzJTWSvx2f9aiieogexAL2cBnnJjmW1uKPxxxbpbodeVV2tl1HahmSQ
+         KO3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755288190; x=1755892990;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l2kePfzDvFml6EXYBDwWfTvZ++1LxjVURGwo9pFDf5U=;
+        b=Lo+5KcrUlsj+AAT5+ZGvD9KSmb+5KZkU2h6HA4QfiobGTni4I1oaEa+R/FZh+iWEMV
+         OS+G95y2eikJbqQ+SGvK2edbpTy1Ezu8L9CtJUU//mvSs9gBbZvMQ9bozkt+fKUkLzFL
+         2E+dj8E85fZbxc4GeR+rZXLGzx48utOOB5GeXoL52oUBzcy6U1+YTnNGwL5t5RmRYFz7
+         FS4xJaAon/KEty2fSNTvgi7gDX+uWkuO9+OIPXEDrNhU5r9FV+oa3KxiRbjLU/CRTDHQ
+         cPr9lIqIcUvnQeTq6NOyKUc6AQ7J4jPbXL00I5J+HfB0brf55wr9rif1jjwOPDWKNhmu
+         o/Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCVbVX6MmYp8IezBCI5hZX0oaFdXOg7VQcWpUzTzl7ugy2op/MddiETzywa99T32iVw0/2DdFuEYcnAKmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGfJxoUVHzYO8ROyvTwycJJtoG1m/mVjGuqTcK5/vjrYjc/uQI
+	xiYkCXX4pdQKZTkZgNZHQUqib4m1UuhxgXluYMcypuO4IzdBFf774ZB3pclXq9fBVwY=
+X-Gm-Gg: ASbGnctZdy8iuxVkbhnPCAKP1UwVI5axeC/8tkV6LasyBQ2k9LessmZ+8rKPZs6fqFR
+	uTYo//AeIN5C7+RQTI6lTZ3OfrYtVLuwoBMyaQ12hgZYWmmIHKz3gkjDM4drCfRdVJoMEPV4zfs
+	lxUyJGmoJKIZUOFcHSa0RTPKl0c1Mv/7v2O8UJvJv6Lg1Fo0QSZgmF7ArMOmTYL4GLPNqYb+vng
+	bGx8DCujeHN2Mz4FjzgCjLVusvYyJt+gF90FGN+n/C8zTNTpmfscanqnQ6cRWeR3CBv8G3LSQdJ
+	OekU/cZqtqYL/x0beLUhCycCzT1MbrSUKdpyDwgTEuFOR0sW9PM/YaTUGL5hnLtwShq4egtDpju
+	CEjXdPBdeXo3JzhrvyOJGF3O5jTM=
+X-Google-Smtp-Source: AGHT+IHT14axeSHSDRiAFlW7o6Ist04KA+jLa97KTahHyBEMOM06qghEr+qt8YTS6r4n7TbhWi5LXg==
+X-Received: by 2002:a5d:5d09:0:b0:3b7:899c:e867 with SMTP id ffacd0b85a97d-3bc6a83c6a5mr227506f8f.59.1755288190201;
+        Fri, 15 Aug 2025 13:03:10 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb652f9debsm3174669f8f.28.2025.08.15.13.03.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 13:03:09 -0700 (PDT)
+Date: Fri, 15 Aug 2025 23:03:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH] staging: media: atomisp: Add lock asserts for mutex
+ protection
+Message-ID: <aJ-Sept8uMm2Opeq@stanley.mountain>
+References: <20250815170901.32105-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] udmabuf: Sync to attached devices
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Gerd Hoffmann
-	<kraxel@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Paul Cercueil
-	<paul@crapouillou.net>,
-        Vivek Kasireddy <vivek.kasireddy@intel.com>,
-        "Daniel
- Vetter" <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
-References: <20250814161049.678672-1-afd@ti.com>
- <0b963b02-dec0-4bf5-aea9-dbe3050716ee@amd.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <0b963b02-dec0-4bf5-aea9-dbe3050716ee@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250815170901.32105-1-abdelrahmanfekry375@gmail.com>
 
-On 8/15/25 4:41 AM, Christian König wrote:
-> On 14.08.25 18:10, Andrew Davis wrote:
->> Hello all,
->>
->> This series makes it so the udmabuf will sync the backing buffer
->> with the set of attached devices as required for DMA-BUFs when
->> doing {begin,end}_cpu_access.
+On Fri, Aug 15, 2025 at 08:09:01PM +0300, Abdelrahman Fekry wrote:
+> Add lockdep_assert_held(&isp->mutex) to critical functions accessing
+> shared device state. This enforces proper locking and detects violations.
 > 
-> Yeah the reason why we didn't do that is that this doesn't even work 100% reliable in theory. So this patchset here might make your use case work but is a bit questionable in general.
+> Suggested-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+> ---
+>  .../staging/media/atomisp/pci/atomisp_cmd.c   |  3 ++
+>  .../media/atomisp/pci/atomisp_compat_css20.c  | 31 +++++++++++++++++++
+>  2 files changed, 34 insertions(+)
 > 
-> udmabuf is about turning a file descriptor created by memfd_create() into a DMA-buf. Mapping that memory can happen through the memfd as well and so it is perfectly valid to skip the DMA-buf begin_access and end_access callbacks.
-> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> index 3a4eb4f6d3be..48ca33e1c92d 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -3794,6 +3794,7 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
+>  		    const struct atomisp_format_bridge **fmt_ret,
+>  		    const struct atomisp_format_bridge **snr_fmt_ret)
+>  {
+> +	lockdep_assert_held(&isp->mutex);
 
-If someone maps the memory backed by the DMA-buf outside of the DMA-APIs then we cannot really
-control that, but in this case if they do map with the DMA-API then it is *not* valid to skip
-these begin_access and end_access callbacks. And that is the case I am addressing here.
+This should go after the declarations.
 
-Right now we are not syncing the mapping for any attached device, we just zap it from
-the CPU caches using some hacky loopback and hope that is enough for the devices :/
+>  	const struct atomisp_format_bridge *fmt, *snr_fmt;
+>  	struct atomisp_sub_device *asd = &isp->asd;
+>  	struct v4l2_mbus_framefmt ffmt = { };
+> @@ -4324,6 +4325,8 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev, const struct v4l2_p
+>  int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+>  {
+>  	struct atomisp_device *isp = video_get_drvdata(vdev);
+> +	lockdep_assert_held(&isp->mutex);
 
-> Additional to that when CONFIG_DMABUF_DEBUG is enabled the DMA-buf code mangles the page addresses in the sg table to prevent importers from abusing it. That makes dma_sync_sgtable_for_cpu() and dma_sync_sgtable_for_device() on the exporter side crash.
-> 
+Same.  Etc...
 
-I was not aware of this mangle_sg_table() hack, must have been added while I was not looking :)
+> +
+>  	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+>  	struct atomisp_sub_device *asd = pipe->asd;
+>  	const struct atomisp_format_bridge *format_bridge;
 
-Seems very broken TBH, taking a quick look, I see on this line[0] you call it, then
-just a couple lines later you use that same mangled page_link to walk the SG table[1]..
+[ snip ]
 
-If anyone enables DMA_API_DEBUG and tried to attach/map a non-contiguous DMA-BUF with
-a chained sg I don't see how that doesn't crash out.
+> @@ -1726,6 +1746,10 @@ int atomisp_css_input_configure_port(
+>  {
+>  	int i;
+>  	struct atomisp_stream_env *stream_env;
+> +
 
-> That's the reason why DMA-buf heaps uses a copy of the sg table for calling dma_sync_sgtable_for_cpu()/dma_sync_sgtable_for_device().
-> 
+No blank line here.
 
-Could you point me to where Heaps uses a copy of the SG table? I see it using the
-exact same SG table for dma_sync_sgtable_for_*() that we created when mapping the
-device attachments.
+> +	struct atomisp_device *isp = asd->isp;
+> +
+> +	lockdep_assert_held(&isp->mutex);
+>  	/*
+>  	 * Calculate rx_count as follows:
+>  	 * Input: mipi_freq                 : CSI-2 bus frequency in Hz
 
-Thanks,
-Andrew
-
-[0] https://github.com/torvalds/linux/blob/master/drivers/dma-buf/dma-buf.c#L1142
-[1] https://github.com/torvalds/linux/blob/master/drivers/dma-buf/dma-buf.c#L1151
-
-> It's basically a hack and should be removed, but for this we need to change all clients which is tons of work.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Thanks
->> Andrew
->>
->> Changes for v2:
->>   - fix attachment table use-after-free
->>   - rebased on v6.17-rc1
->>
->> Andrew Davis (3):
->>    udmabuf: Keep track current device mappings
->>    udmabuf: Sync buffer mappings for attached devices
->>    udmabuf: Use module_misc_device() to register this device
->>
->>   drivers/dma-buf/udmabuf.c | 133 +++++++++++++++++++-------------------
->>   1 file changed, 67 insertions(+), 66 deletions(-)
->>
-> 
-
+regards,
+dan carpenter
 
