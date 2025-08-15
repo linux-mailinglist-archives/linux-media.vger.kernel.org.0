@@ -1,80 +1,36 @@
-Return-Path: <linux-media+bounces-39988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05335B27FC4
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 14:12:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A202CB28000
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 14:32:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B48444E2F5A
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 12:12:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 791021D00602
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 12:32:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF263009C8;
-	Fri, 15 Aug 2025 12:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GybUxoni"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19489301012;
+	Fri, 15 Aug 2025 12:32:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E51B2FD7B5
-	for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 12:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959F52836B5;
+	Fri, 15 Aug 2025 12:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755259960; cv=none; b=pMr9+R3VDzbuqTaPK3KO0incrGRgZztX8P83X+g6oIrg5bOHYeJJVF+vn/QTkZGtKzaTN3alxnMnQ4ZjJBSNLGGJnPZYejrR8pUfSGkNAWnjj818MQBKyq4xOEg85NODHbsSKAa7tAS5KTi4jl2r6CROWhm7AkFEKtQKkrMLiCE=
+	t=1755261138; cv=none; b=pzIrzHQByB7GL1M2OC8l+5do2F4VRT3mk7Fs6GuLYzgb7nVVeKi+vijBCBUGNMsGsJaR8iHUq/suNkH+LRu6eszW4bq+XWk5MqKM59woAeNHaXdY5kfBHST6m9ZhFbbQ1esxIfEvNSK0TKA8tNKjUqS5APweccvyLfbvdAutdhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755259960; c=relaxed/simple;
-	bh=i+iR6E/PZw2zvYS+1CSb3nvFYNeJhf1t0/Iolj8tVBE=;
+	s=arc-20240116; t=1755261138; c=relaxed/simple;
+	bh=VO8vFFyY0eZKk5I98k2yqDL3UriJ4hJkvdUXTxOBN8Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rG57THboIrUqFKmhpPySoJUBBOygrvC0G2ZLD3VlwUTqXUylBECclIpMneRqc4z5AJsBa0GEYgwXkfkShwW+SMbahS/VoU2WO5bOylsh8EM33QL7VXt7LRZMufLdUeMe4fDIyAX4j+3NQfVSjZncza3aMCWLWzFRZClJhEMRfg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GybUxoni; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b9e41669d6so1527200f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 05:12:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755259957; x=1755864757; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1Ilh/SLkuCJQN9VcNatiV3+rgy9qynKADomWo9vAL5U=;
-        b=GybUxoniXi3G1h5L6Te7EoAKJ8Jdw7g+Uf0w4n8MTy/xPN1DhQVREEZwSyt0VtapRE
-         qsDGKwXumwtRMkwEaYHc4wBMnHkqruycCRksuHyTNO/mhG3UU6u4peKHL5BLeQMxcSAT
-         rj6MCjOv70RMm/t+8e9LNpYINk3f1zUI2iIYUZP6HbIyPu5LndUP+lQRx1qCt59qhChk
-         YwymPxOOJfZry8YE0CB1yUK6nFa3yP/+PmsAXwGIS2UfOn2q6NcRjR6x88H4UxKONvNc
-         PfV3rRXZoa3ItwVyYP+yfSXLITeVE/d8yjSBq+9qBNdPQ6hCsUvY4Sylv/Sb6Aq3QL3+
-         2phA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755259957; x=1755864757;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Ilh/SLkuCJQN9VcNatiV3+rgy9qynKADomWo9vAL5U=;
-        b=ONgbY76PpfZNCFkp5Pwvh084X1LM9kfnVeHWEFoUs8TjmgX2HJySAAjYR4pivfLodJ
-         We8tImZKYoLnWUcpvHOSJebcZ7pQDJp4X3GMcmoAj17sfVOdVwwRQrn5Qdz5zm1DEEgd
-         XEloEC1SyIN2HbcrBHWzsuJ+gOQVvpM13BusVRPYzSCgy+zfpo1PON9h69pSRcDkD/4Y
-         rIuFje6AyVkxm9EP2RdeldZkGJKA2RYB07VcpDhDd7bWrt/nIyTGvTHOq/rBoVyehpsl
-         o0kZ5lJ6BM8CR4Cln5KRnXklHzelCNWYzQDtEC8ZNwGBBfFBYtUmvYzfjyDEuZ5dRNdX
-         HHtA==
-X-Forwarded-Encrypted: i=1; AJvYcCVV241DVn2Lg+crgdwzVhVOeiKh09Mc7Ezcalh2B9euSTEqI4eqyH7B5Hu36Nl8/1kl/GwiGVLZnnSnIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz91rJuXCm855gdktS+/8KsEYqg2qrdoUT6L9Lzwjp2vCJq0Eur
-	6dbKeg1y4EfYQk1RH9yDyYzh0Jfp2QcyAxtNoGboWLptdL6TfL6o8Yz8fN+HCuTu1d0=
-X-Gm-Gg: ASbGncvhGU8Q4AZc6HsohvJv1puHWLwxwrJYwy+6OKeXnJbJ/8Vz+XeVXlCltyPfyvC
-	BSCfjGtwlG8fP0ySIYYFRzuj8bqC1avgQzIG6o2VzpBdipHEbppib5rEVEeybjppmzaulR8WTP4
-	1002bzXXg4eBIZTvtsdORbNgVp4CVWZOUL9mFq0y7amQHKEfeJhgjxQv5B2s2/WfTwMwVUOH56z
-	GTl3l+lEp9qZAlev9eLbhrIyMqB8vZwdvhxp1nFhZlmYPdyq1cA5340bXvZdjD5+ipf9NstD/wU
-	l9bRem0pJjPM1MvbnkZ8lKemynE0FeY+nkCMFQjrXG26pYVcGaTMr+Dp55zi8s33xoB05ovfNp7
-	fKugq2CkU/P0uynvArd1ZaA85dWckhL2BFcH0T+W2Tn8jvV5H5grl8ST+z0m73jU=
-X-Google-Smtp-Source: AGHT+IGvp69pAPLytTZe7iuFR7JcPjlyWCX1GBiJgy4L0feBQoh8l6iIIeoFPH1e79guh8V80eaUNQ==
-X-Received: by 2002:a05:6000:2306:b0:3b7:9b3f:1e1d with SMTP id ffacd0b85a97d-3bb68a179c8mr1159936f8f.33.1755259957519;
-        Fri, 15 Aug 2025 05:12:37 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1cc22739sm59518835e9.27.2025.08.15.05.12.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Aug 2025 05:12:36 -0700 (PDT)
-Message-ID: <168788f0-4377-4b32-9730-23b2c4eca2a0@linaro.org>
-Date: Fri, 15 Aug 2025 13:12:35 +0100
+	 In-Reply-To:Content-Type; b=ij5cMiYLHzdoAsSQ1YDg6wxeMD5YYDWFOZQ5+h7uY9h0wFbekeaoCz//IhIV+BW6RfKQMdyOYOiwU2U6UUft8JYaH/S9FVG3SFv8oA1B4ouFEhRMGr2BoIuHIVaF2nSJQN+QFxcIKxADGWAarnWbHNRCfcw4crKx3covHlYR6/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F3DEC4CEEB;
+	Fri, 15 Aug 2025 12:32:14 +0000 (UTC)
+Message-ID: <ad6c9579-615c-4a58-a859-7df6df1c779f@nxsw.ie>
+Date: Fri, 15 Aug 2025 13:32:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,39 +38,166 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] media: qcom: camss: Add support for TPG common
-To: Wenmeng Liu <quic_wenmliu@quicinc.com>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20250717-lemans_tpg-v2-0-a2538659349c@quicinc.com>
- <20250717-lemans_tpg-v2-1-a2538659349c@quicinc.com>
- <6d43915b-756f-4ab3-accf-e0a5422db479@linaro.org>
- <d4c0736b-5c17-4bce-86cf-6c0c48645667@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: lemans-evk-camera: Add DT
+ overlay
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, bryan.odonoghue@linaro.org,
+ vladimir.zapolskiy@linaro.org, todor.too@gmail.com
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250815-rb8_camera-v2-0-6806242913ed@quicinc.com>
+ <s6KmkTeoT2yc0MQcaRgGrsgCd6Ft2s24UkEgOn9yqacWqpyBWmN66coGY4K9IM9yLSahsaxrpg5sTu3jI_K3aw==@protonmail.internalid>
+ <20250815-rb8_camera-v2-3-6806242913ed@quicinc.com>
+From: Bryan O'Donoghue <bod.linux@nxsw.ie>
 Content-Language: en-US
-In-Reply-To: <d4c0736b-5c17-4bce-86cf-6c0c48645667@quicinc.com>
+In-Reply-To: <20250815-rb8_camera-v2-3-6806242913ed@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 15/08/2025 09:52, Wenmeng Liu wrote:
->>
->> Which clock is it we are setting here i.e. do we really need to care 
->> about the rate at all ?
+On 15/08/2025 08:07, Wenmeng Liu wrote:
+> Enable IMX577 via CCI1 on Lemans EVK.
 > 
-> TPG generally uses the clocks from CSIPHY/CSID/AON. If we can ensure 
-> that the clocks required by TPG are enabled in CSID/VFE, then there's no 
-> need to configure them in the TPG node.
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+> ---
+>   arch/arm64/boot/dts/qcom/Makefile               |   4 +
+>   arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso | 105 ++++++++++++++++++++++++
+>   2 files changed, 109 insertions(+)
 > 
-> On Lemans (SA8775P), there's a special case where TPG requires the 
-> CAMNOC_AXI to be set to 400 MHz to function properly, while the sensor 
-> does not.
-
-No that's fine.
-
-The TPG should list the clocks _it_ depends on without assuming CSID or 
-VFE is running at all.
-
----
-bod
+> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> index 94a84770b0802a9dc0c56ce6c59eea20967a5d89..7efd113143013c6e9d211597a4c2defd44497c83 100644
+> --- a/arch/arm64/boot/dts/qcom/Makefile
+> +++ b/arch/arm64/boot/dts/qcom/Makefile
+> @@ -30,6 +30,10 @@ dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp449.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp453.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp454.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk.dtb
+> +
+> +lemans-evk-camera-dtbs	:= lemans-evk.dtb lemans-evk-camera.dtbo
+> +
+> +dtb-$(CONFIG_ARCH_QCOM) += lemans-evk-camera.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= msm8216-samsung-fortuna3g.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-acer-a1-724.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-alcatel-idol347.dtb
+> diff --git a/arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso b/arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..4600d5441cce4507734b2fdcdbffc1ad7c67c32d
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso
+> @@ -0,0 +1,105 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/*
+> + * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +/*
+> + * Camera Sensor overlay on top of leman evk core kit.
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/clock/qcom,sa8775p-camcc.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+> +&{/} {
+> +	vreg_cam1_1p8: vreg_cam1_1p8 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "vreg_cam1_1p8";
+> +		startup-delay-us = <10000>;
+> +		enable-active-high;
+> +		gpio = <&pmm8654au_0_gpios 8 GPIO_ACTIVE_HIGH>;
+> +	};
+> +};
+> +
+> +&camcc {
+> +	status = "okay";
+> +};
+> +
+> +&camss {
+> +	vdda-pll-supply = <&vreg_l1c>;
+> +	vdda-phy-supply = <&vreg_l4a>;
+> +
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@1 {
+> +			reg = <1>;
+> +
+> +			csiphy1_ep: endpoint {
+> +				clock-lanes = <7>;
+> +				data-lanes = <0 1 2 3>;
+> +				remote-endpoint = <&imx577_ep1>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&cci1 {
+> +	pinctrl-0 = <&cci1_0_default>;
+> +	pinctrl-1 = <&cci1_0_sleep>;
+> +
+> +	status = "okay";
+> +};
+> +
+> +&cci1_i2c0 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	camera@1a {
+> +		compatible = "sony,imx577";
+> +		reg = <0x1a>;
+> +
+> +		reset-gpios = <&tlmm 133 GPIO_ACTIVE_LOW>;
+> +		pinctrl-0 = <&cam1_default>;
+> +		pinctrl-names = "default";
+> +
+> +		clocks = <&camcc CAM_CC_MCLK1_CLK>;
+> +		assigned-clocks = <&camcc CAM_CC_MCLK1_CLK>;
+> +		assigned-clock-rates = <24000000>;
+> +
+> +		dovdd-supply = <&vreg_s4a>;
+> +		avdd-supply = <&vreg_cam1_1p8>;
+> +
+> +		port {
+> +			imx577_ep1: endpoint {
+> +				clock-lanes = <7>;
+> +				link-frequencies = /bits/ 64 <600000000>;
+> +				data-lanes = <0 1 2 3>;
+> +				remote-endpoint = <&csiphy1_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&tlmm {
+> +	cam1_default: cam1-default-state {
+> +		mclk-pins {
+> +			pins = "gpio73";
+> +			function = "cam_mclk";
+> +			drive-strength = <2>;
+> +			bias-disable;
+> +		};
+> +
+> +		rst-pins {
+> +			pins = "gpio133";
+> +			function = "gpio";
+> +			drive-strength = <2>;
+> +			bias-disable;
+> +		};
+> +	};
+> +};
+> 
+> --
+> 2.34.1
+> 
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
