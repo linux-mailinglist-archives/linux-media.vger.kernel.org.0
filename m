@@ -1,141 +1,169 @@
-Return-Path: <linux-media+bounces-39948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39949-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA230B278C1
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 08:05:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F04CB279C7
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 09:14:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C09BF189DA03
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 06:05:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46BA8B64E43
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 07:11:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB312571CD;
-	Fri, 15 Aug 2025 06:04:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83AF12D0C86;
+	Fri, 15 Aug 2025 07:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nflEetNp"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PmvH2tbs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1596218AAA;
-	Fri, 15 Aug 2025 06:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323602BE030;
+	Fri, 15 Aug 2025 07:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755237882; cv=none; b=Q2hQJ/p08zWROTzf75jMIGvc1MwZxbMy0QcFOM0/L8ekMApzgMQB9ABfq5oinVt6l9lY4fzGDx8U9RjRoMzc7DAtgdfYLpusciJD9tDFhrt3svCvoEjDfDRlBLwH2A/mvgcfcLdx+jxXpwFlJ240TWK+fmWcXgzAOdug8oiP/kk=
+	t=1755241671; cv=none; b=czoW0HbPXqbWfy3QFOsehNSRijWL+DJNg/WJmhKZEADZ0jIhPdAUd5l6dhf6LQ6cbH1DTbtnZo9t8bEc8K5wd7KJ+0SFsTlwNUt7o+QBgdIaMhSbG1PXvrqmNrGNbFwTsVjAoZoCcfqC4DWR89j/Vh5YLL77ohIxSzLd3wxZEoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755237882; c=relaxed/simple;
-	bh=d9VDI9bFuUtfWlPsQ9zIoZtYPWSYJZRj1s9zoh1a+NQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTpPObm1yMTGaayFZeojjq2+YHKis0RAe7pQ5M7wrOFoEmJ4l/hBB1uwNvyf/pC8D57SxRNkTeqXciotXnud6BWF1y9OKHOmL87lh5HLznXlKoXq3DbizDRmMscl5K4bkV6myTa7apJ3hBOInZuHM52Ik6Sk27bQsNn5Q9RhtHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nflEetNp; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755237881; x=1786773881;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d9VDI9bFuUtfWlPsQ9zIoZtYPWSYJZRj1s9zoh1a+NQ=;
-  b=nflEetNpslKtQFvld41RRLjZgTmD8eLi3H7wrIOYW685lV8jXpb3bO/F
-   42XbwrYawVQk6edqfie4qYWveZQjdbHRu/3QaqKW+EXb1f1WqdIhhKZLt
-   0dgtVu0McKRZbhnkGsKDeeZEWhP/4UXt60rZMzUHEXga5d6V1A7LfmKc+
-   gVQ+b6trzWWXkuSksht8DL0Okp3pwH4hl9QtLDeSI2ZUqX16RR9PT3xS7
-   YHreZvJqdbR9dHwF2AtWLUpNAXw+FSDQ3cYPE6din5zYqHlTyKsErL0TD
-   6rHafUGRaiebSdLo8Llp8fkM+9HSjzTXbIUiPGwSs89dDVfG7gm85iGxs
-   A==;
-X-CSE-ConnectionGUID: MR+CCXRvRtKy/2sa8lFFLA==
-X-CSE-MsgGUID: 4HFcmlAXRYeYYcrjoBmuPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="56770302"
-X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="56770302"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 23:04:39 -0700
-X-CSE-ConnectionGUID: uEkwpwp2Q/WE4peOaT+7Qg==
-X-CSE-MsgGUID: VA45CygoTgakeNPdKVQNZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="171189192"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 23:04:37 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id CB2F511FA72;
-	Fri, 15 Aug 2025 09:04:34 +0300 (EEST)
-Date: Fri, 15 Aug 2025 06:04:34 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: kernel@collabora.com, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: vgxy61: Report stream using frame descriptors
-Message-ID: <aJ7N8tAqEp5KSTGN@kekkonen.localdomain>
-References: <20250704-vgxy61-frame-desc-v1-1-0e62b9c4e260@collabora.com>
+	s=arc-20240116; t=1755241671; c=relaxed/simple;
+	bh=8z9gNAQPOCOGg9llxKiaSqdbeOZ5p/PpyiAKn1+7bKE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=qQtsaDd6Y3PK90wR7uEEVfKqixRyqbFwkb6iZxfSgD+yywlggMinJZdLhgKxHk8RIXo3KyXfMnSBwHHExoQXB2cYbiw0/cJV/0B02LkgFFhzUCd3ErUMITBx+H8B1dot1rIXeUlitpCj9EV4A+koRK2okymysuvo1+iDzt90Ofw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PmvH2tbs; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57F6Un2p002766;
+	Fri, 15 Aug 2025 07:07:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=ctRs0FyFpKqQcnKOjLGhIX
+	I4tGrV+8gL6x9+MxqQcsE=; b=PmvH2tbsGOM7PlC1I9Dzz5a+q6IXH3+9sFbuDV
+	Z2lNb0qcLBiGExaxHxletcuTuLQFN6Yax2TNfO9CEdZWIbD7tIyhVayWq9t2+euW
+	nlxUD/nLOBxuf7iGvKjYvXQcCSyQKT+PtA/73c/2cZsWGBhzetC8J/AvZjkK/Njv
+	UgSRtDg0wGgLIaLrWUgQNoVa1FrstsCGNjrfAzayBE6d9KN8Q9nIdxin/FU/i0z0
+	/svwaX9sgVzwD+m6ieeuPY5J+SbON46HM6Z2gZmJWcnArMOeuJnrE7C+vvepkey0
+	yElG5FM+GQwgRv7h9bWlUP23lARbGlQZfQor/yz6JyQd34YQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxdva8qy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Aug 2025 07:07:45 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57F77iBn019025
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Aug 2025 07:07:44 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Fri, 15 Aug 2025 00:07:39 -0700
+From: Wenmeng Liu <quic_wenmliu@quicinc.com>
+Subject: [PATCH v2 0/3] Add CCI and imx577 sensor support for lemans evk
+Date: Fri, 15 Aug 2025 15:07:16 +0800
+Message-ID: <20250815-rb8_camera-v2-0-6806242913ed@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250704-vgxy61-frame-desc-v1-1-0e62b9c4e260@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKXcnmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDI1MDC0NT3aIki/jkxNzUokRdC3NzU0PzZBNTYwsLJaCGgqLUtMwKsGHRsbW
+ 1AM4/yk5cAAAA
+X-Change-ID: 20250815-rb8_camera-877517c45388
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+	<rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>, <bryan.odonoghue@linaro.org>,
+        <vladimir.zapolskiy@linaro.org>, <todor.too@gmail.com>
+CC: <linux-i2c@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Wenmeng Liu
+	<quic_wenmliu@quicinc.com>, <linux-media@vger.kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755241658; l=1945;
+ i=quic_wenmliu@quicinc.com; s=20250211; h=from:subject:message-id;
+ bh=8z9gNAQPOCOGg9llxKiaSqdbeOZ5p/PpyiAKn1+7bKE=;
+ b=ngy/keYU0mK3ZaDBu5ybrBo4zExrhy3knC8caCEFci/VjyfUctuDAj67Izarfaxi2j/WeFUJF
+ W6+LdfXhoIWBT47/xR/m7j5AxAng3/Dl+0HsoCM1vedOlyywxiKEtwA
+X-Developer-Key: i=quic_wenmliu@quicinc.com; a=ed25519;
+ pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=IuYecK/g c=1 sm=1 tr=0 ts=689edcc1 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=qaHc40WDI1yFc38059wA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: aMwhDN7Ok_76CxBf6vd0Y7YYd3v1vH_n
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNSBTYWx0ZWRfX07A0OW/I0XaH
+ wHSDLiK9pPoZ1BbDqTnXwwn10pDqZJ5v56q7g+gEEb3OO3V5RSR5I0Fci0ibmyLGJ/lgOLR1AAz
+ //nwCMvsIMzYjiCrSe4xQpUMM7HpYxhFPMXmiAEp7Hj6VbKFLDok3IFD64erFc5niRKattI181p
+ sd88BAePLJ9CXkSbCVi4M8oS1sl7HzoUwy8eZ1VfBsFXSlyA+RN0aHq/Stz+KM0E1au4+oepq9s
+ FqZirEUcHyau0a1bZQJe73BZWz2RlTpsym2Rd6otMh4rLkpZJ8WdTkSNSaq2J5GIYU+G1/cE6aE
+ JvincRIbSlfZNQg2g1sBIB5T9JHe4ePnm1GsQsIsyxPEU1qUYN2cLN3I9ugZj6IZyE97e2HxAkw
+ YqBQoIzI
+X-Proofpoint-GUID: aMwhDN7Ok_76CxBf6vd0Y7YYd3v1vH_n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-15_02,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
+ clxscore=1011 phishscore=0 suspectscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090025
 
-Hi Julien,
+This series adds cci definition and imx577 sensor enablement
+via cci1 on lemans evk.
 
-On Fri, Jul 04, 2025 at 11:28:24AM +0200, Julien Massot wrote:
-> Add support for .get_frame_desc() to report CSI-2 virtual channel
-> and data type information. This allows CSI-2 receivers to properly
-> interpret the stream without inferring the data type from the pixel
-> format.
-> 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  drivers/media/i2c/vgxy61.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
-> index 5b0479f3a3c0592be430cefe5a1ab9a76812ba84..44d6c8d8fbf8d6182e42d44e129bc45945ee0da5 100644
-> --- a/drivers/media/i2c/vgxy61.c
-> +++ b/drivers/media/i2c/vgxy61.c
-> @@ -1181,6 +1181,21 @@ static int vgxy61_s_stream(struct v4l2_subdev *sd, int enable)
->  	return ret;
->  }
->  
-> +static int vgxy61_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> +				 struct v4l2_mbus_frame_desc *fd)
-> +{
-> +	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
-> +
-> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> +	fd->num_entries = 1;
-> +	fd->entry[0].pixelcode = sensor->fmt.code;
-> +	fd->entry[0].stream = 0;
-> +	fd->entry[0].bus.csi2.vc = 0;
-> +	fd->entry[0].bus.csi2.dt = get_data_type_by_code(sensor->fmt.code);
-> +
-> +	return 0;
-> +}
-> +
->  static int vgxy61_set_fmt(struct v4l2_subdev *sd,
->  			  struct v4l2_subdev_state *sd_state,
->  			  struct v4l2_subdev_format *format)
-> @@ -1402,6 +1417,7 @@ static const struct v4l2_subdev_pad_ops vgxy61_pad_ops = {
->  	.set_fmt = vgxy61_set_fmt,
->  	.get_selection = vgxy61_get_selection,
->  	.enum_frame_size = vgxy61_enum_frame_size,
-> +	.get_frame_desc = vgxy61_get_frame_desc,
->  };
->  
->  static const struct v4l2_subdev_ops vgxy61_subdev_ops = {
-> 
+An example media-ctl pipeline for the imx577 is:
 
-I guess this is correct as such, but does it provide any information that
-isn't already available? I.e. I wouldn't add it just for the sake of it.
+media-ctl -d /dev/media0 --reset
+media-ctl -d /dev/media0 -V '"imx577 0-001a":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -d /dev/media0 -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -l '"msm_csiphy1":1->"msm_csid0":0[1]'
+media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
 
+yavta -B capture-mplane  -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0 --capture=5
+
+Changes in V2:
+- Remove the patch that adds PHY supply documentation in the sa8775p CAMSS 
+  bindings. This change should be submitted together with the sa8775p bindings patch.
+- Fix the string ordering in the DTS file.
+- Remove the source clock from the CCI node.
+- Move the sensor enable configuration from lemans-evk.dts to lemans-evk-camera.dtso.
+- Remove the definitions for CCI and regulators that are not enabled.
+- Link to v1:
+  https://lore.kernel.org/all/20250514-rb8_camera-v1-0-bf4a39e304e9@quicinc.com/
+
+Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+---
+Wenmeng Liu (3):
+      dt-bindings: i2c: qcom-cci: Document sa8775p compatible
+      arm64: dts: qcom: sa8775p: Add CCI definitions
+      arm64: dts: qcom: lemans-evk-camera: Add DT overlay
+
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |   2 +
+ arch/arm64/boot/dts/qcom/Makefile                  |   4 +
+ arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso    | 105 ++++++++
+ arch/arm64/boot/dts/qcom/lemans.dtsi               | 268 +++++++++++++++++++++
+ 4 files changed, 379 insertions(+)
+---
+base-commit: f0d48d68b1e7323d253068c5d4f7b470c5e927de
+change-id: 20250815-rb8_camera-877517c45388
+
+Best regards,
 -- 
-Regards,
+Wenmeng Liu <quic_wenmliu@quicinc.com>
 
-Sakari Ailus
 
