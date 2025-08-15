@@ -1,120 +1,196 @@
-Return-Path: <linux-media+bounces-39985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39986-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34938B27F29
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 13:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80940B27F47
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 13:37:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46A906066B9
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 11:30:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 356535E76C8
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 11:37:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912CB3002BB;
-	Fri, 15 Aug 2025 11:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB2302882D9;
+	Fri, 15 Aug 2025 11:36:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="MIyfn7dr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Y4e3KVOK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4111225A4F;
-	Fri, 15 Aug 2025 11:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD4A286417;
+	Fri, 15 Aug 2025 11:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755257394; cv=none; b=ldnIHNg+OfrZe3hdlhsV8H9yMrGD5UOaRYvfBLfePhPjPr6y8rFG99x7JwSeYZRIjABLWgncigyen8ZmAilG8gzmp05P1dCYjrpe/UsrHghzn63sriszK5ck9+iY09IDSpDzCJlrYW6gXRbZ5arrfPXci6HUZykon2cauU9NWkc=
+	t=1755257817; cv=none; b=t3XJd7DeLcTkwxfw+aWTvkT4jYwd8gCsdWJwcsipZt+JuvRNj4EV7d5EG5gw+pjxRiXC2Kbdu4YugXymtU410TUEWatAVLfFHiP+ODtrFiL5ER9bXJFBzXKqypaOTgcxd2bA7ss/FxbcZ0hboSs4dn5HLy+nLp8e0O/VxDxO2Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755257394; c=relaxed/simple;
-	bh=gI06Gz3ALf3dHDSvJ+NUQiHzyaRnSA/3F1NlwQM+LHs=;
+	s=arc-20240116; t=1755257817; c=relaxed/simple;
+	bh=2GIMgu8NPtt6P2qI5ejUuahA1+6uQNRov1RsqwBWiqI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OqBbmzInpEJczFr9Hz7jpJlydVwlPUIkX9qmM0FFS2Psq7/MkyhQEf86JrC4JK+KFK/YOZFF3o0g9WgDE/6VbUQfX5MG8iALevdGU3TcIOBrFjVGCYFHbFS1POvg7Iw9x0FhNnDHT2W8yjZ3cfMkvJ/EsLwuyVUpMk42VxH8JEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=MIyfn7dr; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=gpGmTL9oaWZkJzI5RpIpiQ3peZ9wkoO5yOEMyS33WzU=; b=MIyfn7drCOtZB+Q+
-	ID96jCrka8HnkfzAgyC6thDNtJlN9X9jdar/cknzvjnUmMliIwQnPfEzj59ywi/MeEl/dHCEA/0OJ
-	ovsi0kSGtBWADnSapYYMsrRTE2wMQjXUrue6CF+bu6njSEyuuJcFLn3jM17P7eJ+JgqgxrBjFxWsr
-	JycoEkuBNyCcWng+h9ieNBF1AJCPhWbarvjnHQWob4DoXEGt3RaZgsJmCgtH/K8B71C3FIlw4MSnC
-	U2tRybIl44FUY2oZQXUWs7QpH00rcVoqScIXTdGLOFx3nvGvvWu92S4fD6ppmBfy1Uq2GyAxattr0
-	3evEWQDqPHMTZ5+JYg==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1umscz-004AXS-2P;
-	Fri, 15 Aug 2025 11:29:45 +0000
-Date: Fri, 15 Aug 2025 11:29:45 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: arnd@arndb.de, lee@kernel.org, mchehab@kernel.org, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/4] Remove the wl1273 FM Radio
-Message-ID: <aJ8aKbW65eYvHZ-0@gallifrey>
-References: <20250625133258.78133-1-linux@treblig.org>
- <175520208626.152171.10554357200062278681.b4-ty@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=jjHoMddiuPx6BVQyoUPQpqAm73Q9geoOrQ9IDEXUUuETtV/oK1+qLjM5f2apmUJw2z0f2jLSDMMnzJV89Pqo1/Ym4IFfN4KzkU3XhJ5PGNGU7P04kSGI/RY6qQVtem96WYdGbAs59J3hvKuLCePNn1Y5TDZfXTAzj+8K5+AgAHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Y4e3KVOK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 26128605;
+	Fri, 15 Aug 2025 13:35:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755257758;
+	bh=2GIMgu8NPtt6P2qI5ejUuahA1+6uQNRov1RsqwBWiqI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y4e3KVOK2J0XXmCqgj9JJfIrcgYxrrI+rTidxCHGaWXadY1ai6uVWvVchaozmrBsU
+	 WmCsl4otPF8doCkfsyoLO18ZUHqBQUM1ngLtQE8HYes4PNC0qzwKnBsDjCx2iCGfHP
+	 b3fPKZ0X6xpvtJyKPqtNsM4xe44EmFHXQNmXLbY8=
+Date: Fri, 15 Aug 2025 14:36:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Isaac Scott <isaac.scott@ideasonboard.com>, linux-media@vger.kernel.org,
+	rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
+	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] imx-mipi-csis: Get the number of active lanes from
+ mbus_config
+Message-ID: <20250815113633.GM6201@pendragon.ideasonboard.com>
+References: <20250814113701.165644-1-isaac.scott@ideasonboard.com>
+ <aJ77VTtZy96JJCHE@valkosipuli.retiisi.eu>
+ <20250815103205.GJ6201@pendragon.ideasonboard.com>
+ <aJ8ZJFSn5Wxhj2Aj@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <175520208626.152171.10554357200062278681.b4-ty@kernel.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 11:28:35 up 109 days, 19:42,  1 user,  load average: 0.01, 0.01,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <aJ8ZJFSn5Wxhj2Aj@valkosipuli.retiisi.eu>
 
-* Mark Brown (broonie@kernel.org) wrote:
-> On Wed, 25 Jun 2025 14:32:54 +0100, linux@treblig.org wrote:
-> > I noticed that the wl1273 radio had an unused symbol, but then noticed
-> > it is on Arnd's unused driver list:
-> >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+On Fri, Aug 15, 2025 at 11:25:24AM +0000, Sakari Ailus wrote:
+> Hi Laurent,
+> 
+> On Fri, Aug 15, 2025 at 01:32:05PM +0300, Laurent Pinchart wrote:
+> > On Fri, Aug 15, 2025 at 09:18:13AM +0000, Sakari Ailus wrote:
+> > > On Thu, Aug 14, 2025 at 12:37:01PM +0100, Isaac Scott wrote:
+> > > > Although 4 lanes may be physically available, we may not be using all of
+> > > > them. Get the number of configured lanes in the case a driver has
+> > > > implemented the get_mbus_config op.
+> > > > 
+> > > > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> > > > 
+> > > > ---
+> > > > 
+> > > > Currently, the imx-mipi-csis driver parses the device tree to determine
+> > > > the number of configured lanes for the CSI receiver. This may be
+> > > > incorrect in the case that the connected device only uses a subset of
+> > > > lanes, for example. Allow the drivers for these cameras to create a
+> > > > mbus_config to configure the number of lanes that are actually being
+> > > > used.
+> > > > 
+> > > > If the driver does not support the get_mbus_config op, this patch will
+> > > > have no functional change.
+> > > > 
+> > > > Compile tested against media-master (v6.17-rc1)
+> > > > ---
+> > > >  drivers/media/platform/nxp/imx-mipi-csis.c | 41 ++++++++++++++++++++++
+> > > >  1 file changed, 41 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > > > index 2beb5f43c2c0..efe4e2ad0382 100644
+> > > > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> > > > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > > > @@ -939,6 +939,43 @@ static struct mipi_csis_device *sd_to_mipi_csis_device(struct v4l2_subdev *sdev)
+> > > >  	return container_of(sdev, struct mipi_csis_device, sd);
+> > > >  }
+> > > >  
+> > > > +static int mipi_csis_get_active_lanes(struct v4l2_subdev *sd)
+> > > > +{
+> > > > +	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+> > > > +	struct v4l2_mbus_config mbus_config = { 0 };
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = v4l2_subdev_call(csis->source.sd, pad, get_mbus_config,
+> > > > +			       0, &mbus_config);
+> > > > +	if (ret == -ENOIOCTLCMD) {
+> > > > +		dev_dbg(csis->dev, "No remote mbus configuration available\n");
+> > > > +		return 0;
+> > > > +	}
+> > > > +
+> > > > +	if (ret) {
+> > > > +		dev_err(csis->dev, "Failed to get remote mbus configuration\n");
+> > > > +		return ret;
+> > > > +	}
+> > > > +
+> > > > +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
+> > > > +		dev_err(csis->dev, "Unsupported media bus type %u\n",
+> > > > +			mbus_config.type);
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > csis->bus.num_data_lanes) {
+> > > > +		dev_err(csis->dev,
+> > > > +			"Unsupported mbus config: too many data lanes %u\n",
+> > > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	csis->bus.num_data_lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
 > > 
-> > So, delete it.
-> > The components seem pretty separable, except for Kconfig dependencies.
+> > There's a bug here, you override the number of lanes retrieved from DT,
+> > which is the number of connected lanes, with the number of lanes used by
+> > the source for its particular configuration. You will never be able to
+> > then use more lanes in a different source configuration.
 > > 
-> > [...]
+> > > > +	dev_dbg(csis->dev, "Number of lanes: %d\n", csis->bus.num_data_lanes);
+> > > 
+> > > None of the above is really specific to this driver. Could you instead
+> > > implement a function that parses the information from the fwnode endpoint
+> > > and uses mbus configuration on top?
+> > 
+> > That would need to parse the endpoint every time we start streaming, it
+> > doesn't sound ideal.
 > 
-> Applied to
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> Perhaps not, but does that matter in practice? Parsing the endpoint is,
+> after all, fairly trivial. The advantage would be simplifying drivers.
 
-Thanks! I see that in next; so Lee can do 3/4-4/4 maybe in the following cycle
-or later in this one.
+It's trivial from a code point of view, but it's not a cheap operation.
+I'd like to avoid making starting streaming more expensive.
 
-Dave
+> Alternatively we could think of caching this information somewhere but I
+> don't think it's worth it.
 
-> Thanks!
-> 
-> [2/4] ASoC: wl1273: Remove
->       commit: a46e95c81e3a28926ab1904d9f754fef8318074d
-> 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-> 
-> Thanks,
-> Mark
-> 
+Drivers likely need to parse endpoints for other reasons. I'd cache the
+value in drivers, like done today, and pass it to a get_active_lanes
+helper.
+
+> > > The function could take struct media_pad pointer as an argument, or struct
+> > > v4l2_subdev pointer and the pad number.
+> > > 
+> > > I wonder if any other parameters could change dynamically but I can't think
+> > > of that now, so perhaps just the number of lanes is what the function
+> > > should indeed return.
+> > > 
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > >  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> > > >  {
+> > > >  	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+> > > > @@ -965,6 +1002,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> > > >  	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
+> > > >  	csis_fmt = find_csis_format(format->code);
+> > > >  
+> > > > +	ret = mipi_csis_get_active_lanes(sd);
+> > > > +	if (ret < 0)
+> > > > +		dev_dbg(csis->dev, "Failed to get active lanes: %d", ret);
+> > > > +
+> > > >  	ret = mipi_csis_calculate_params(csis, csis_fmt);
+> > > >  	if (ret < 0)
+> > > >  		goto err_unlock;
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Regards,
+
+Laurent Pinchart
 
