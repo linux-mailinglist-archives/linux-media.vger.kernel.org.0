@@ -1,133 +1,217 @@
-Return-Path: <linux-media+bounces-39983-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39984-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87BAB27EF1
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 13:15:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D40B27F25
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 13:26:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 453B21C21552
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 11:16:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 906951C8762E
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 11:26:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A2C7285071;
-	Fri, 15 Aug 2025 11:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AA692FC86D;
+	Fri, 15 Aug 2025 11:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="PIiTt0Eq"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="hzujG3oQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA692737FD
-	for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 11:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755256550; cv=none; b=fe1gmw52BP+dsyxBK6r5ary2WyDOe1HAvI4adJjl77Oqx2WhH357hoGIEm1gDUdbwXEyiBjT6D8M78Wf6P7AVnZOLKl7GGb8+DJZxspnT4VZBH1VoF8ylsKRTQiUaZGhKF/1AHxfFnG1n4h8mK6Oxdvr9EMmSfeqpKHQeBC/c74=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755256550; c=relaxed/simple;
-	bh=T/aoVi6AF3aVJ/uqRpoLaF29+CuY9MSd7NGZ1/77wPA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S4I8H7Ar1x/OYV6lE+3OIjwwGozwVzJs06MlbDB06Qe6LmCI41bLKRy90xvGK1UvbUuSMtYgEL/lmUZbj2pwD0nqhF27g5ATiNAfw6Wx3kMtAvoT+/az7PAVID9RH0km4BlwqvePfhuahKWtmAY6Irs+beN/521RsciL+tmtTjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=PIiTt0Eq; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7e87061d120so190975385a.2
-        for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 04:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar.org; s=google; t=1755256547; x=1755861347; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T/aoVi6AF3aVJ/uqRpoLaF29+CuY9MSd7NGZ1/77wPA=;
-        b=PIiTt0EqygxNkFvhm4MeLUq0V9koS18X0/cyH+rgN2euVQm+YuwZzkMzS2wZf+c+Xt
-         OmENiOLIvbxy13W2VdhWEj1+xzfdMr0gx0ytlvYeIr5QF3kAP9HOImDisosMRLoxDEhM
-         nSsowXzad4ESduQ0ibKIJpo6OhhXv3jarkPIYhOhyVt0yaBwRBGFBdaHOqSdIT9ISVLz
-         fhD8ghoRZ2Q6LGQnASfWOBUQY82pV6KPVdAGPu7Br+UKsZuaDjdl+fMGpfpyxwhccuxj
-         HS6zvuDFzdSM9oIlsIsz55OqySQGGF2ZNokGW5F95GVc7UjkeiLH+olt5kfMsxGuo0mS
-         7dVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755256547; x=1755861347;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T/aoVi6AF3aVJ/uqRpoLaF29+CuY9MSd7NGZ1/77wPA=;
-        b=EIFkAvuVfz4KFO2ePo7Cx1QqlRoPKJIYv7nQ5ybjbj2GJpOdjyDCUpkN7ACYZqig3z
-         WjxfPr2o6clWMVD7TEFW0ytbOTVKi1sbGlZR88nWSj2lyq8m9NhvqtGwQAOePgspb3lB
-         ZU01wTmmKH4UFN4jGKaWpIT/EdkUmbT8LN/z8eoTUY04kcAeKmESsNhyra10T45NtJrf
-         sqRzDpTg9fqG6+ie/2lymL8uOklMXabrRtuLqJILOLCAvTp1M6VQANWpstrwsXTbko1c
-         F6mkaHgNqpBzin+cXU6hyBILniIzcKevCilosvBDnRpfywRvktKikm82SxGb23XDGxA9
-         K2Zg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjg1o9NiU79f3XfqkKeJW2vqBtp3WE4yD5rpAmOruIiMhZCuSlce4a59qOTRFYwp6Cx8y6vP0H1SAzBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnhIQ5paJYHxBuh2xuo5/LLgtwiJpiV3F5uXROUbse3618cG9v
-	ksYS+zQV6z9DRsmW+5/GLQEcSZ532U4u0KL3h6bAB3hXT1IxgWfTKsS06nAC9mOviiDBueFb/Nu
-	VlCF1LO8D0ho4+yPMEfUti3gBD7oacE4A9PYkePWx6A==
-X-Gm-Gg: ASbGncvBb/oHmfUCI0SXlUhlTbaxsb1fuGbgmpcrlWDbjmkKcufv4BFH1mcE8cTyQBa
-	bRncRqgyFtflx89rn5OgfR3fh1DK24xL2zKdNtii20960cDGsHLwSo75u4Sd/Y+XYE9XQdCwBsk
-	ncZ2lmRx8di3cBXKMLSXcqfu7uH/6PwSM1tsvwvkdJxkTy/D/h3M+zVDoM8l55UwXxlj/uLkZlh
-	1SReh4=
-X-Google-Smtp-Source: AGHT+IEEYrgrzZzFQH7gJARNv39C5+Wwbco9I1459+Dntaj16EsMUXS27AwHprK/yA0fuMnmrf2M26jY7o7J1U606dI=
-X-Received: by 2002:a05:620a:7006:b0:7e6:391c:41ae with SMTP id
- af79cd13be357-7e87e0c7484mr195050185a.58.1755256547086; Fri, 15 Aug 2025
- 04:15:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9459521422B;
+	Fri, 15 Aug 2025 11:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755257188; cv=pass; b=BTh1QwmGKjIrV+W2GQZUHSK2bprkgezF/sF4TockFO/Mf2+JiCnUgFkF2wjZgZrXFXuA2wZa48zgLgDDy/FWOxHnsGSZHg+CPSoL3gA04mEnf1t9GFOiwJJTQzq+m/PQUA7eyrdQro9kvrvVnJPmt6LzUc7DO+sBHfX6ubjYNI8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755257188; c=relaxed/simple;
+	bh=bhzPRVHYbmtluN/IPh7GhJ6L0pwLcPcFqdB2gnLUhqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CmiuIXC0c70OyhVdYMGTeLJZLOjru8wqAX9VkF9/b9EUcM5Q6fPjvBDGs9Lx7uFsD8kAA4OmDjMy5fuhWOwrXn7eEwy8GOV6Ax9OMy1Q0N0pqU0q9zBmw+0a9cFynMaqDv0nCbDqqQMQ+/EVRtqTQzGadEuTJEmMnS16Zj8YDY8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=hzujG3oQ; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4c3KYp6mS5zyQq;
+	Fri, 15 Aug 2025 14:26:22 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1755257184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ys2vKnTb6cJREp0qwzs1Izhfo3++EtDqp5GeKI75fvM=;
+	b=hzujG3oQAB1dNQRmpyQy0aBbDRC4UkwnOZB6zKVfoll/mkd0vN8ACfPrZyY/Xdyl2qDIoZ
+	BcvlXDhUmDCPl3ojuPy5VsgFGbWQIAm2YYKQPoBC9i4AvTd9UdkxVQz9rmYc52m+yKivKY
+	5wailclwvDVJVMmHobgEoTW6lZLZkr8=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1755257184; a=rsa-sha256; cv=none;
+	b=vBlEjvcrooXrywqyWFErSTdFxG7s41RMaDvkZbEt0z5mnjOGGXVl2YEJrfwVvb3yYlVpmm
+	5jFDOysiXTB2Ewu2e+yUyraC46q2GQaqcqy2X9EkKS0wuActqCuDEGw5hhi6WfOeUPSaRJ
+	3e6sPBxkvP/4vIS3Nzc91FLbIyZHwhI=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1755257184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ys2vKnTb6cJREp0qwzs1Izhfo3++EtDqp5GeKI75fvM=;
+	b=VkEd/6RlyiH18u/l3Vd4PtvMATZ5OFHr0Fp1es9Vu+flhCSW9VqD3drqS2caRjLC22RKTO
+	f5qoM4VMvT/2hRG0KuqAInyeRBjUlMkMLD1cubDrYOaH7Q8q/bFoAS9awwR/Bin56jN2o/
+	s7qN6R/mLNo75M1mSYbSR7QrHFnBj5A=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3DEBA634C93;
+	Fri, 15 Aug 2025 14:25:23 +0300 (EEST)
+Date: Fri, 15 Aug 2025 11:25:24 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Isaac Scott <isaac.scott@ideasonboard.com>, linux-media@vger.kernel.org,
+	rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
+	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] imx-mipi-csis: Get the number of active lanes from
+ mbus_config
+Message-ID: <aJ8ZJFSn5Wxhj2Aj@valkosipuli.retiisi.eu>
+References: <20250814113701.165644-1-isaac.scott@ideasonboard.com>
+ <aJ77VTtZy96JJCHE@valkosipuli.retiisi.eu>
+ <20250815103205.GJ6201@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811-ethos-v2-0-a219fc52a95b@kernel.org> <20250811-ethos-v2-2-a219fc52a95b@kernel.org>
- <CAPj87rNG8gT-Wk+rQnFMsbCBqX6pL=qZY--_5=Z4XchLNsM5Ng@mail.gmail.com>
- <CAPj87rNDPQqTqj1LAdFYmd4Y12UHXWi5+65i0RepkcOX3wvEyA@mail.gmail.com> <20250814161718.GA3117411-robh@kernel.org>
-In-Reply-To: <20250814161718.GA3117411-robh@kernel.org>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 15 Aug 2025 12:15:35 +0100
-X-Gm-Features: Ac12FXyQS213pP_GudOiU8lJOx9k9Gscd8v3FBcgxsevLgT7o4PDTPSWp9SpRP4
-Message-ID: <CAPj87rN=Hod6GyA72x07yTvxL5X2q4UyUmPg-hyjjFA5KJvYGQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] accel: Add Arm Ethos-U NPU driver
-To: Rob Herring <robh@kernel.org>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250815103205.GJ6201@pendragon.ideasonboard.com>
 
-Hi Rob,
+Hi Laurent,
 
-On Thu, 14 Aug 2025 at 17:17, Rob Herring <robh@kernel.org> wrote:
-> On Thu, Aug 14, 2025 at 11:51:44AM +0100, Daniel Stone wrote:
-> > This is the main security issue, since it would allow writes a
-> > cmdstream BO which has been created but is not _the_ cmdstream BO for
-> > this job. Fixing that is pretty straightforward, but given that
-> > someone will almost certainly try to add dmabuf support to this
-> > driver, it's also probably worth a comment in the driver flags telling
-> > anyone who tries to add DRIVER_PRIME that they need to disallow export
-> > of cmdbuf BOs.
->
-> What would be the usecase for exporting BOs here?
->
-> I suppose if one wants to feed in camera data and we need to do the
-> allocation in the ethos driver since it likely has more constraints
-> (i.e. must be contiguous). (Whatever happened on the universal allocator
-> or constraint solver? I haven't been paying attention for a while...)
+On Fri, Aug 15, 2025 at 01:32:05PM +0300, Laurent Pinchart wrote:
+> On Fri, Aug 15, 2025 at 09:18:13AM +0000, Sakari Ailus wrote:
+> > On Thu, Aug 14, 2025 at 12:37:01PM +0100, Isaac Scott wrote:
+> > > Although 4 lanes may be physically available, we may not be using all of
+> > > them. Get the number of configured lanes in the case a driver has
+> > > implemented the get_mbus_config op.
+> > > 
+> > > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> > > 
+> > > ---
+> > > 
+> > > Currently, the imx-mipi-csis driver parses the device tree to determine
+> > > the number of configured lanes for the CSI receiver. This may be
+> > > incorrect in the case that the connected device only uses a subset of
+> > > lanes, for example. Allow the drivers for these cameras to create a
+> > > mbus_config to configure the number of lanes that are actually being
+> > > used.
+> > > 
+> > > If the driver does not support the get_mbus_config op, this patch will
+> > > have no functional change.
+> > > 
+> > > Compile tested against media-master (v6.17-rc1)
+> > > ---
+> > >  drivers/media/platform/nxp/imx-mipi-csis.c | 41 ++++++++++++++++++++++
+> > >  1 file changed, 41 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > > index 2beb5f43c2c0..efe4e2ad0382 100644
+> > > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> > > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > > @@ -939,6 +939,43 @@ static struct mipi_csis_device *sd_to_mipi_csis_device(struct v4l2_subdev *sdev)
+> > >  	return container_of(sdev, struct mipi_csis_device, sd);
+> > >  }
+> > >  
+> > > +static int mipi_csis_get_active_lanes(struct v4l2_subdev *sd)
+> > > +{
+> > > +	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+> > > +	struct v4l2_mbus_config mbus_config = { 0 };
+> > > +	int ret;
+> > > +
+> > > +	ret = v4l2_subdev_call(csis->source.sd, pad, get_mbus_config,
+> > > +			       0, &mbus_config);
+> > > +	if (ret == -ENOIOCTLCMD) {
+> > > +		dev_dbg(csis->dev, "No remote mbus configuration available\n");
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	if (ret) {
+> > > +		dev_err(csis->dev, "Failed to get remote mbus configuration\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
+> > > +		dev_err(csis->dev, "Unsupported media bus type %u\n",
+> > > +			mbus_config.type);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > csis->bus.num_data_lanes) {
+> > > +		dev_err(csis->dev,
+> > > +			"Unsupported mbus config: too many data lanes %u\n",
+> > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	csis->bus.num_data_lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
+> 
+> There's a bug here, you override the number of lanes retrieved from DT,
+> which is the number of connected lanes, with the number of lanes used by
+> the source for its particular configuration. You will never be able to
+> then use more lanes in a different source configuration.
+> 
+> > > +	dev_dbg(csis->dev, "Number of lanes: %d\n", csis->bus.num_data_lanes);
+> > 
+> > None of the above is really specific to this driver. Could you instead
+> > implement a function that parses the information from the fwnode endpoint
+> > and uses mbus configuration on top?
+> 
+> That would need to parse the endpoint every time we start streaming, it
+> doesn't sound ideal.
 
-Yeah, I guess it's just reasonably natural to allow export if you're
-allowing import as well.
+Perhaps not, but does that matter in practice? Parsing the endpoint is,
+after all, fairly trivial. The advantage would be simplifying drivers.
 
-> Here's the reworked (but not yet tested) code which I think should solve
-> all of the above issues. There was also an issue with the cleanup path
-> that we wouldn't do a put on the last BO if there was a size error. We
-> just need to set ejob->region_bo[ejob->region_cnt] and increment
-> region_cnt before any checks.
+Alternatively we could think of caching this information somewhere but I
+don't think it's worth it.
 
-Nice, thanks! That all looks good to me.
+> 
+> > The function could take struct media_pad pointer as an argument, or struct
+> > v4l2_subdev pointer and the pad number.
+> > 
+> > I wonder if any other parameters could change dynamically but I can't think
+> > of that now, so perhaps just the number of lanes is what the function
+> > should indeed return.
+> > 
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> > >  {
+> > >  	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+> > > @@ -965,6 +1002,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> > >  	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
+> > >  	csis_fmt = find_csis_format(format->code);
+> > >  
+> > > +	ret = mipi_csis_get_active_lanes(sd);
+> > > +	if (ret < 0)
+> > > +		dev_dbg(csis->dev, "Failed to get active lanes: %d", ret);
+> > > +
+> > >  	ret = mipi_csis_calculate_params(csis, csis_fmt);
+> > >  	if (ret < 0)
+> > >  		goto err_unlock;
+> 
 
-Using unchecked add/mul when calculating the sizes also made me raise
-an eyebrow - it might be provably safe but perhaps it's better to use
-all the helpers just to make sure undetected overflow can't occur.
+-- 
+Regards,
 
-Cheers,
-Daniel
+Sakari Ailus
 
