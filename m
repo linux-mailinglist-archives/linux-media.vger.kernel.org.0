@@ -1,177 +1,135 @@
-Return-Path: <linux-media+bounces-39980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39981-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A6FB27E49
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 12:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDC0B27EAD
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 12:49:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FF7B6881B1
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 10:32:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2CD7EAC5095
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 10:45:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9517D2FDC34;
-	Fri, 15 Aug 2025 10:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E54F2FFDCE;
+	Fri, 15 Aug 2025 10:44:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V7Ysf9D5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nyECjAGZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCBB27604E;
-	Fri, 15 Aug 2025 10:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2312FDC34
+	for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 10:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755253951; cv=none; b=JOsfwKMS6ZPORP6+wfwVqKfNHMPU8qBOBihTflvhogmB0dDLGsKCIaA0S6NUwgw5gXL0n3pWfZHkNycyZZcQ0h82gLiz17RRs4t+TD5tQCITOb7BdJJYzPhJO17s6+dc03+Tx52IIlEQNSZ0yna1C65gmv6d4a+yvyIq0ebwZLY=
+	t=1755254682; cv=none; b=d3j5pPxK5JV7nXx7n4i5zmqzaz/dZW63BsaO930LsCDYYdt8gjL2Emh59lYBrYB/hUUOg+ozzPXDDC17RSS8AIcd67YAHjbpWShjMLzw7ixrh6/nwjWA5NSQ/4rSN2Fvg9mhGnrUmlDR77YYFF8g7Ynx0Yrd5RoSiVRNR3uvjmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755253951; c=relaxed/simple;
-	bh=Tf06S22oGZwz4QF7IIkMPTnPInylNOcha5gpHU9syJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qL26yLtAyO+2+G+2IoOL9KNwWioGEzCHGLfPfut0+bTR4NKhpUgK9y1M0XXjj3iFPfYTUylybzaT8Xu9XEjqFH5Rzc8TVMN1J0hoCGyw5tX7jOwLWgtS/JedO4boT62XIVpMJ2I5NlhVy5O0sm/FF4sDt/xnOqaZt2gPFDBv6B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=V7Ysf9D5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ECEBD56D;
-	Fri, 15 Aug 2025 12:31:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755253891;
-	bh=Tf06S22oGZwz4QF7IIkMPTnPInylNOcha5gpHU9syJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V7Ysf9D5tktEaio/i6U2xspkdXxnp5hU0YBvOeLUAdQMu23AJ3fFGyWF1x2D9mK4Y
-	 U3/AgvCR06LNwzwhJf4TgGDJw1E1EYmvLXVCeriW6EdevB68Dyj/f3xZM1RWE6dL/2
-	 +hmQixZP0RPM/VmfoTG98thARprSrbdTcnQGySmk=
-Date: Fri, 15 Aug 2025 13:32:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>, linux-media@vger.kernel.org,
-	rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
-	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] imx-mipi-csis: Get the number of active lanes from
- mbus_config
-Message-ID: <20250815103205.GJ6201@pendragon.ideasonboard.com>
-References: <20250814113701.165644-1-isaac.scott@ideasonboard.com>
- <aJ77VTtZy96JJCHE@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1755254682; c=relaxed/simple;
+	bh=8LA+2kJNuPIw2fJF/HLy1WPGQ4k/QzgOM/5kdp6JFgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JV+rFwdSfnBNVDtzQla17Lwy9qTpVq+D7GYUtPu4d22WzIPQb2u8O52XI7lPRc5zLH+BV0VQMudQKkSRo3rB1sldqMT9ckZoA2Nidlv3F1vsEKcoohdP4XBb19cyCHM0MeOzWbFtHzOz99PeA5+vcZ8ku47Qf2sOy6YpZzdLKs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nyECjAGZ; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b916fda762so1369869f8f.0
+        for <linux-media@vger.kernel.org>; Fri, 15 Aug 2025 03:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755254678; x=1755859478; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9VXN7dyuqMDF593piqzOKDuFJ2+OEcBzrRSpDmpGS7k=;
+        b=nyECjAGZCoVzy/0AtH4YgMEvaxuJO8Zc4U/+dRSM6fRvVrTO5mByLq3BECjG1/3jmD
+         P8I/OtI5JjlQlvjz/gk6OzXP1wavt74YzBA+/gVlUrl+QnenkZpyWOB2Hj+yGckb0IJV
+         MV8HpfbN3gRpIRUU4SnSxinVNq3kdnyJTrYOjlOZXHjPa5x/IL26oRKnAv7hRi6OSbg4
+         DHRHftdfVRZIeg69irsGzY7x2E0LqS1aUQzVEa28o8WF34XgtdGSKp7SOs1QQ+EIyz42
+         rzACdYyhOfM+G8XjvWd7eU/Vpl95SDoG9QnMhGPW/irzSg6vnYj/rpa4cucCPnePxwGi
+         09uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755254678; x=1755859478;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9VXN7dyuqMDF593piqzOKDuFJ2+OEcBzrRSpDmpGS7k=;
+        b=JMFvL5CI+ly64kPh0uXqRizMfgxTYK78qaGK/q/xAC68CFKcMwDICcAXGwVPaToOFG
+         R48XrRtfDl+SJNbC6a/6qgecgJphTlz8HIiKOaUps04mZPiwKN+nTq42PZfMD6/vDWvp
+         ONo1/X1zrmtCuswz1a+bAt02+/5zyhx8FZtin7MAVGX8No5IxoG9Jwfpp/5sYQwKx1v5
+         0kt4zFnQbXh7OVy43RyWGgbJEHiTaWBw8XEU7N6Az9A35rR/gOAHr2G1r5XDEofgB0N6
+         jqb7PEX/xMR710P3o0AsLFnTertXODV/7QUPTzHH3L9x2L7+6eqz7GADi+bnJlXR+9CA
+         G9hw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhQIWvnnbvOrWGThU4OgAOikVT179FzdTTJPkoXYsoCDRsjRgqhaN0JDGG4QN+H6yJq8knTVtSE1Y2XQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvUglYGkMytRV9PMnfmQ/bTpUeni+YXyBqtvuwe3uP1NVwX4Dr
+	jkvormOBpVJ+99j/0H/hOIANpNM887ZVA6veIX2h40y74HSApZyRN2yAcuy1986gmaA=
+X-Gm-Gg: ASbGnctl40fxuJRuG6VBGKZFbJ2n1Cy5eg3wpy/PSB1g0ZU97ptsCJriOOtAJGKeCVw
+	uS9UBTw+wXirRYgRMzJiBdp2df5Ua3r8auXNyiRi8N+1ekdsEA39eLO28bZVi3IzhFKllDiyulj
+	TufyegMSgqanW/cjA+I2tLuihIFcd8h31ZGN4FGNDxOXr3712ZsfUWqnwwUBI/vHQUHmc19SdMS
+	PR29m45oF4TNP2Xm97apUWyfNYh8t1AAW1dj0dKimi1reBLhbT7tgh6oEJDXqGWdp79MuW6Ef1s
+	KjtWJZCzPQhx7ozVG9GDj4za+1qQVfd4E/DxMqRR0owFxAI9z+7Wh5ViyRocDLmNoLSFPqmQ8pl
+	lUfJ25vykT1QboB1UvU64u8bBZv741bw5wDZfTV4Ax8qZloJj/AKRFB60vlWB+zk=
+X-Google-Smtp-Source: AGHT+IG800cLWLqatWasBLVAd1JmHq64uktJOwC1nVkGq12rIf4uwmr3k1nR0sv0K30TYAXp61UV2Q==
+X-Received: by 2002:a5d:5f8e:0:b0:3ba:cfe3:ad98 with SMTP id ffacd0b85a97d-3bb4a1f88ccmr1707195f8f.4.1755254678411;
+        Fri, 15 Aug 2025 03:44:38 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb676c9b27sm1443907f8f.44.2025.08.15.03.44.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Aug 2025 03:44:37 -0700 (PDT)
+Message-ID: <75df9709-5778-4a71-bb55-1151c6c657dd@linaro.org>
+Date: Fri, 15 Aug 2025 11:44:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aJ77VTtZy96JJCHE@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: i2c: qcom-cci: Document sa8775p
+ compatible
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, vladimir.zapolskiy@linaro.org,
+ todor.too@gmail.com
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250815-rb8_camera-v2-0-6806242913ed@quicinc.com>
+ <20250815-rb8_camera-v2-1-6806242913ed@quicinc.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250815-rb8_camera-v2-1-6806242913ed@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 15, 2025 at 09:18:13AM +0000, Sakari Ailus wrote:
-> On Thu, Aug 14, 2025 at 12:37:01PM +0100, Isaac Scott wrote:
-> > Although 4 lanes may be physically available, we may not be using all of
-> > them. Get the number of configured lanes in the case a driver has
-> > implemented the get_mbus_config op.
-> > 
-> > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> > 
-> > ---
-> > 
-> > Currently, the imx-mipi-csis driver parses the device tree to determine
-> > the number of configured lanes for the CSI receiver. This may be
-> > incorrect in the case that the connected device only uses a subset of
-> > lanes, for example. Allow the drivers for these cameras to create a
-> > mbus_config to configure the number of lanes that are actually being
-> > used.
-> > 
-> > If the driver does not support the get_mbus_config op, this patch will
-> > have no functional change.
-> > 
-> > Compile tested against media-master (v6.17-rc1)
-> > ---
-> >  drivers/media/platform/nxp/imx-mipi-csis.c | 41 ++++++++++++++++++++++
-> >  1 file changed, 41 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > index 2beb5f43c2c0..efe4e2ad0382 100644
-> > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > @@ -939,6 +939,43 @@ static struct mipi_csis_device *sd_to_mipi_csis_device(struct v4l2_subdev *sdev)
-> >  	return container_of(sdev, struct mipi_csis_device, sd);
-> >  }
-> >  
-> > +static int mipi_csis_get_active_lanes(struct v4l2_subdev *sd)
-> > +{
-> > +	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> > +	struct v4l2_mbus_config mbus_config = { 0 };
-> > +	int ret;
-> > +
-> > +	ret = v4l2_subdev_call(csis->source.sd, pad, get_mbus_config,
-> > +			       0, &mbus_config);
-> > +	if (ret == -ENOIOCTLCMD) {
-> > +		dev_dbg(csis->dev, "No remote mbus configuration available\n");
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (ret) {
-> > +		dev_err(csis->dev, "Failed to get remote mbus configuration\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> > +		dev_err(csis->dev, "Unsupported media bus type %u\n",
-> > +			mbus_config.type);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > csis->bus.num_data_lanes) {
-> > +		dev_err(csis->dev,
-> > +			"Unsupported mbus config: too many data lanes %u\n",
-> > +			mbus_config.bus.mipi_csi2.num_data_lanes);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	csis->bus.num_data_lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
-
-There's a bug here, you override the number of lanes retrieved from DT,
-which is the number of connected lanes, with the number of lanes used by
-the source for its particular configuration. You will never be able to
-then use more lanes in a different source configuration.
-
-> > +	dev_dbg(csis->dev, "Number of lanes: %d\n", csis->bus.num_data_lanes);
+On 15/08/2025 08:07, Wenmeng Liu wrote:
+> Add the sa8775p CCI device string compatible.
 > 
-> None of the above is really specific to this driver. Could you instead
-> implement a function that parses the information from the fwnode endpoint
-> and uses mbus configuration on top?
-
-That would need to parse the endpoint every time we start streaming, it
-doesn't sound ideal.
-
-> The function could take struct media_pad pointer as an argument, or struct
-> v4l2_subdev pointer and the pad number.
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+> ---
+>   Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> I wonder if any other parameters could change dynamically but I can't think
-> of that now, so perhaps just the number of lanes is what the function
-> should indeed return.
+> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+> index 73144473b9b24e574bfc6bd7d8908f2f3895e087..54441a638da2b7feb44741264810d7a0de319858 100644
+> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+> @@ -25,6 +25,7 @@ properties:
+>   
+>         - items:
+>             - enum:
+> +              - qcom,sa8775p-cci
+>                 - qcom,sc7280-cci
+>                 - qcom,sc8280xp-cci
+>                 - qcom,sdm670-cci
+> @@ -223,6 +224,7 @@ allOf:
+>           compatible:
+>             contains:
+>               enum:
+> +              - qcom,sa8775p-cci
+>                 - qcom,sm8550-cci
+>                 - qcom,sm8650-cci
+>                 - qcom,x1e80100-cci
 > 
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> > @@ -965,6 +1002,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
-> >  	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
-> >  	csis_fmt = find_csis_format(format->code);
-> >  
-> > +	ret = mipi_csis_get_active_lanes(sd);
-> > +	if (ret < 0)
-> > +		dev_dbg(csis->dev, "Failed to get active lanes: %d", ret);
-> > +
-> >  	ret = mipi_csis_calculate_params(csis, csis_fmt);
-> >  	if (ret < 0)
-> >  		goto err_unlock;
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
