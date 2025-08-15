@@ -1,248 +1,188 @@
-Return-Path: <linux-media+bounces-39991-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39992-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9724EB28010
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 14:35:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20235B28246
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 16:44:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFB181B6707E
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 12:35:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A63F1C20F27
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 14:42:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB22287279;
-	Fri, 15 Aug 2025 12:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2157F23D2B1;
+	Fri, 15 Aug 2025 14:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="GlNwJ9iB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGhHpuiS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF90D278157;
-	Fri, 15 Aug 2025 12:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755261295; cv=pass; b=dkR9m+wo2CjYiOZ282q+I1tgZBnks85ftzoLCNPw3pta2b0tXxZpUBlxWg8NYOqsVJXOvsVcmhxwKbTm+f3mLyweT+usBnGW1x2jDEzKLWOoncAka2DdZyV5kgZucV3uEoN6JLZCEqDSejFvT3HQsHDFzspoUSWAq0BRfcMEnFI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755261295; c=relaxed/simple;
-	bh=tntn9cbIgPUt1BursIk5NYzmJyQ1zyzXYOnVlKbw8OM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O2dPULVp3WzmWdYyvzDO9kJBp9ZZ+qgFYo+yJVK/zV+wD4fC44o2ljUHk9/N4CYaGW7dnMW36d/DvKAokAtEJO3aadSX0bAHJ00GXrB+Oqfb7zDmIUZqzRGfIb79WoLq61TaKxZxgu/+KrEjbdHL712MYoHcAwI03U4opVMDlCo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=GlNwJ9iB; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4c3M4h4gHNz49PyD;
-	Fri, 15 Aug 2025 15:34:44 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1755261286;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/6Mcw8r3LsssT5hKIfF2I2kyTfi7DM26e0QtcBjbYI=;
-	b=GlNwJ9iBkw3glbp0ymIiCl63fTe5CZCe5pJslQbr1vG/kkI6fxWrY35JpmCqwJM/nz16Fm
-	xaO4q+bYwr8bKDJpEKt9Bvu0jD7j0PIIS8ivY6qOkq2o/C1sN6VdWjgUpg7whIbSqZzxna
-	FMpKOUZB1p2uopOxN+j7K+DU98KiqSerX3UkAqzN8OA5cv30EJw1ZEovF9LMAMRulfWy1h
-	9Nj51K92Df2RCEoiy0jUZMG1OtIIlLFgqkxwjgty5u03Y+olIueRWSgqsa01iNZjJDg4UV
-	9OcuGbzWCHKZJo+8tORvWJF+T3E84YvHGjnp7afMmpZEElhwOlBTaWqsRLLsRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1755261286;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/6Mcw8r3LsssT5hKIfF2I2kyTfi7DM26e0QtcBjbYI=;
-	b=kCSurF1hkNHj6s7D5U303HsLuULSF6jJxI0QR8Z760AtTzH2wH/1ziX34RATtcTI3JsWnp
-	c7mbgno8qs7Cib4xDHD7dt2PY5XsZ+U3wC5MFytag8YBNefdASUH5cLFebqlbcYFurUxCE
-	nL5aLhJ5xfb9ck9KRZckUHHttQKPMFNN57UBwaqLx1nDrUtf64I7sLWJwGP7+3bq9WlV3Z
-	Z46w/oq221jc+bVWPIsxEJI6aI+EI7hR/T/gihUGJecpFLY1IVfaGlCafAlE76zzJETe8a
-	IYiVbtm3m7LKNgjoeYYnfqIOp7hfWeIgF1TRCqB6V71EjUh7hr7RfntS1qYJKg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1755261286; a=rsa-sha256;
-	cv=none;
-	b=pef/pESmcs78EUdIVq28pz9/x/msj/tjvZJmM31B5rDcbrfLkPuYfFKBgocj7pffI6UBmX
-	6T/4H592XkX/LWtJJzbqNr87hTY3SMeZonwBikXXrrDPUpIBS1FyafXOb/fsAhtc0J6RYy
-	Hlw7K0JPH+qUzxvYGdJGHHmQ3bPuFuKrXI1+FaZ+yr5V+4Nn3i5anqq0ORdONI9ISjT9hW
-	b8LtQFgQNwHXMPvIJUcJj2XCoC2nfYU1cCDaSjhFaM3QEQPlSWbOY37lNW87rWnJfDIwY5
-	kPHyMOLL6Hjdrrch9pKVm5MQfeeGwdXDVYGs22vNwYG3vdblP6hhP5a3/p6c5g==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CBFB4634C93;
-	Fri, 15 Aug 2025 15:33:45 +0300 (EEST)
-Date: Fri, 15 Aug 2025 12:33:46 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>, linux-media@vger.kernel.org,
-	rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
-	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] imx-mipi-csis: Get the number of active lanes from
- mbus_config
-Message-ID: <aJ8pKs_6YpAiPjlq@valkosipuli.retiisi.eu>
-References: <20250814113701.165644-1-isaac.scott@ideasonboard.com>
- <aJ77VTtZy96JJCHE@valkosipuli.retiisi.eu>
- <20250815103205.GJ6201@pendragon.ideasonboard.com>
- <aJ8ZJFSn5Wxhj2Aj@valkosipuli.retiisi.eu>
- <20250815113633.GM6201@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DDD1DD9AC;
+	Fri, 15 Aug 2025 14:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755268932; cv=none; b=SNhpiggnkyeE9A40sTIS95MDv1GE+NrbqcxwEUJI6oJej7AM2cdvzeCFScha1rZK+f/f/Z3Vto/lRpVbPEEb0uvlbXjXrtna2B3INUDpqC6zffP78GwWZK+tg8NEm3lZorToO1CTgrz2utfyFe82d9NHJiBDnmdFLOYya1vf9As=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755268932; c=relaxed/simple;
+	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uoFmnoQUiiydNZvBSIwjw1eFMinxeq2dGKl6YT05B4duAUcyXIcx+CZ7jQuJ5taxR7mj7ziRg1uLszZAQ4/r/WbMrgUwP7rVOSMDZcEBij0JMWC0f41d7cXPPdoszmT7Q+eNY2Dl1gb2xUtotHKAg+E5n1JbABVeQWDAIsFn52o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGhHpuiS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B35C4CEEB;
+	Fri, 15 Aug 2025 14:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755268931;
+	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QGhHpuiSTtGAbt/6dlTCnnoTA4ZplxFC8Tro0GJAdbAh12tMNEUSLu07z11OvQBvk
+	 oHTf5TJS/YKStrrrPHeWRzwJ0jGE6j5AZ1tbRvaZy3dDmEE9KCuVb15MPpzSH6J/gw
+	 2nlRciQR5ILTUmZcjfPb8Wftcr9/dguuRdUZKw9cWJDeaG76YAPPH1GvTVv9P/kSEx
+	 wLYcS3eJZ7unChNgWOYh7wQNPjdRjal2zeZDCWKyPnLkisSlJQ+WGVCBgVhn2LIrAt
+	 +qG7XHhqCY/zS15DuM72YtrsT2tpKSGGxqzGtUU2p/oH3AF5g3+H8o04kc5YGhgMBJ
+	 knwp+/59e078g==
+From: Bjorn Andersson <andersson@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Andrea della Porta <andrea.porta@suse.com>,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	David Airlie <airlied@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Drew Fustini <fustini@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Fu Wei <wefu@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	imx@lists.linux.dev,
+	Iwona Winiarska <iwona.winiarska@intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-actions@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-pwm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rtc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Liu Ying <victor.liu@nxp.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	openbmc@lists.ozlabs.org,
+	Patrick Venture <venture@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>
+Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in regmap_config
+Date: Fri, 15 Aug 2025 09:42:02 -0500
+Message-ID: <175526892008.370600.8859545110801188375.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250815113633.GM6201@pendragon.ideasonboard.com>
 
-Hi Laurent,
 
-On Fri, Aug 15, 2025 at 02:36:33PM +0300, Laurent Pinchart wrote:
-> On Fri, Aug 15, 2025 at 11:25:24AM +0000, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Fri, Aug 15, 2025 at 01:32:05PM +0300, Laurent Pinchart wrote:
-> > > On Fri, Aug 15, 2025 at 09:18:13AM +0000, Sakari Ailus wrote:
-> > > > On Thu, Aug 14, 2025 at 12:37:01PM +0100, Isaac Scott wrote:
-> > > > > Although 4 lanes may be physically available, we may not be using all of
-> > > > > them. Get the number of configured lanes in the case a driver has
-> > > > > implemented the get_mbus_config op.
-> > > > > 
-> > > > > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> > > > > 
-> > > > > ---
-> > > > > 
-> > > > > Currently, the imx-mipi-csis driver parses the device tree to determine
-> > > > > the number of configured lanes for the CSI receiver. This may be
-> > > > > incorrect in the case that the connected device only uses a subset of
-> > > > > lanes, for example. Allow the drivers for these cameras to create a
-> > > > > mbus_config to configure the number of lanes that are actually being
-> > > > > used.
-> > > > > 
-> > > > > If the driver does not support the get_mbus_config op, this patch will
-> > > > > have no functional change.
-> > > > > 
-> > > > > Compile tested against media-master (v6.17-rc1)
-> > > > > ---
-> > > > >  drivers/media/platform/nxp/imx-mipi-csis.c | 41 ++++++++++++++++++++++
-> > > > >  1 file changed, 41 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > > > index 2beb5f43c2c0..efe4e2ad0382 100644
-> > > > > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > > > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > > > @@ -939,6 +939,43 @@ static struct mipi_csis_device *sd_to_mipi_csis_device(struct v4l2_subdev *sdev)
-> > > > >  	return container_of(sdev, struct mipi_csis_device, sd);
-> > > > >  }
-> > > > >  
-> > > > > +static int mipi_csis_get_active_lanes(struct v4l2_subdev *sd)
-> > > > > +{
-> > > > > +	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> > > > > +	struct v4l2_mbus_config mbus_config = { 0 };
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	ret = v4l2_subdev_call(csis->source.sd, pad, get_mbus_config,
-> > > > > +			       0, &mbus_config);
-> > > > > +	if (ret == -ENOIOCTLCMD) {
-> > > > > +		dev_dbg(csis->dev, "No remote mbus configuration available\n");
-> > > > > +		return 0;
-> > > > > +	}
-> > > > > +
-> > > > > +	if (ret) {
-> > > > > +		dev_err(csis->dev, "Failed to get remote mbus configuration\n");
-> > > > > +		return ret;
-> > > > > +	}
-> > > > > +
-> > > > > +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> > > > > +		dev_err(csis->dev, "Unsupported media bus type %u\n",
-> > > > > +			mbus_config.type);
-> > > > > +		return -EINVAL;
-> > > > > +	}
-> > > > > +
-> > > > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > csis->bus.num_data_lanes) {
-> > > > > +		dev_err(csis->dev,
-> > > > > +			"Unsupported mbus config: too many data lanes %u\n",
-> > > > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
-> > > > > +		return -EINVAL;
-> > > > > +	}
-> > > > > +
-> > > > > +	csis->bus.num_data_lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
-> > > 
-> > > There's a bug here, you override the number of lanes retrieved from DT,
-> > > which is the number of connected lanes, with the number of lanes used by
-> > > the source for its particular configuration. You will never be able to
-> > > then use more lanes in a different source configuration.
-> > > 
-> > > > > +	dev_dbg(csis->dev, "Number of lanes: %d\n", csis->bus.num_data_lanes);
-> > > > 
-> > > > None of the above is really specific to this driver. Could you instead
-> > > > implement a function that parses the information from the fwnode endpoint
-> > > > and uses mbus configuration on top?
-> > > 
-> > > That would need to parse the endpoint every time we start streaming, it
-> > > doesn't sound ideal.
-> > 
-> > Perhaps not, but does that matter in practice? Parsing the endpoint is,
-> > after all, fairly trivial. The advantage would be simplifying drivers.
+On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
+> While working on a driver using regmap with MMIO, I wondered if I need
+> to set 'fast_io' in the config. Turned out I don't need to, so I added
+> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+> MMIO implies fast IO").
 > 
-> It's trivial from a code point of view, but it's not a cheap operation.
-> I'd like to avoid making starting streaming more expensive.
-
-How cheap is "not cheap"? I'd be surprised if parsing an endpoint took more
-time than e.g. an I²C register write. Of course it depends on the CPU...
-
+> This series fixes the existing users in the tree which needlessly set
+> the flag. They have been found using this coccinelle script:
 > 
-> > Alternatively we could think of caching this information somewhere but I
-> > don't think it's worth it.
-> 
-> Drivers likely need to parse endpoints for other reasons. I'd cache the
-> value in drivers, like done today, and pass it to a get_active_lanes
-> helper.
+> [...]
 
-Then drivers presumably would also validate this against the endpoint
-configuration, wouldn't they? That's extra code in every CSI-2 receiver
-driver.
+Applied, thanks!
 
-> 
-> > > > The function could take struct media_pad pointer as an argument, or struct
-> > > > v4l2_subdev pointer and the pad number.
-> > > > 
-> > > > I wonder if any other parameters could change dynamically but I can't think
-> > > > of that now, so perhaps just the number of lanes is what the function
-> > > > should indeed return.
-> > > > 
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > >  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
-> > > > >  {
-> > > > >  	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> > > > > @@ -965,6 +1002,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
-> > > > >  	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
-> > > > >  	csis_fmt = find_csis_format(format->code);
-> > > > >  
-> > > > > +	ret = mipi_csis_get_active_lanes(sd);
-> > > > > +	if (ret < 0)
-> > > > > +		dev_dbg(csis->dev, "Failed to get active lanes: %d", ret);
-> > > > > +
-> > > > >  	ret = mipi_csis_calculate_params(csis, csis_fmt);
-> > > > >  	if (ret < 0)
-> > > > >  		goto err_unlock;
-> 
+[18/21] soc: remove unneeded 'fast_io' parameter in regmap_config
+        commit: 5d8a9c8401648d338d072a488d455ed4611c5d4b
 
+Best regards,
 -- 
-Regards,
-
-Sakari Ailus
+Bjorn Andersson <andersson@kernel.org>
 
