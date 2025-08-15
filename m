@@ -1,188 +1,233 @@
-Return-Path: <linux-media+bounces-39992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-39993-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20235B28246
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 16:44:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7158CB284B6
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 19:10:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A63F1C20F27
-	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 14:42:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17A701884275
+	for <lists+linux-media@lfdr.de>; Fri, 15 Aug 2025 17:10:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2157F23D2B1;
-	Fri, 15 Aug 2025 14:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F1B30E83E;
+	Fri, 15 Aug 2025 17:09:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGhHpuiS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YtdF0KCS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DDD1DD9AC;
-	Fri, 15 Aug 2025 14:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E83E304BBC;
+	Fri, 15 Aug 2025 17:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755268932; cv=none; b=SNhpiggnkyeE9A40sTIS95MDv1GE+NrbqcxwEUJI6oJej7AM2cdvzeCFScha1rZK+f/f/Z3Vto/lRpVbPEEb0uvlbXjXrtna2B3INUDpqC6zffP78GwWZK+tg8NEm3lZorToO1CTgrz2utfyFe82d9NHJiBDnmdFLOYya1vf9As=
+	t=1755277756; cv=none; b=aR9X4CkPmLtmIB49EYhVhm0DtGTOVSGvKU/fpX7clK3TPkC9qCNpLspbJiBmvW2JYpvBLOatWYhCN6iA8Jd1rFT+LFT0d6RxZdyYHDxLjBgw6LbttRMTdghTtJoU2z1Mbp1mI4jTw0ihbG3/mEX9f77VPus7doYeSl6y/tavw8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755268932; c=relaxed/simple;
-	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uoFmnoQUiiydNZvBSIwjw1eFMinxeq2dGKl6YT05B4duAUcyXIcx+CZ7jQuJ5taxR7mj7ziRg1uLszZAQ4/r/WbMrgUwP7rVOSMDZcEBij0JMWC0f41d7cXPPdoszmT7Q+eNY2Dl1gb2xUtotHKAg+E5n1JbABVeQWDAIsFn52o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGhHpuiS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B35C4CEEB;
-	Fri, 15 Aug 2025 14:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755268931;
-	bh=3eUf4UXirGpUX0gw3VvalDgnQQxUYuzOa7d+Bn86Fb0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QGhHpuiSTtGAbt/6dlTCnnoTA4ZplxFC8Tro0GJAdbAh12tMNEUSLu07z11OvQBvk
-	 oHTf5TJS/YKStrrrPHeWRzwJ0jGE6j5AZ1tbRvaZy3dDmEE9KCuVb15MPpzSH6J/gw
-	 2nlRciQR5ILTUmZcjfPb8Wftcr9/dguuRdUZKw9cWJDeaG76YAPPH1GvTVv9P/kSEx
-	 wLYcS3eJZ7unChNgWOYh7wQNPjdRjal2zeZDCWKyPnLkisSlJQ+WGVCBgVhn2LIrAt
-	 +qG7XHhqCY/zS15DuM72YtrsT2tpKSGGxqzGtUU2p/oH3AF5g3+H8o04kc5YGhgMBJ
-	 knwp+/59e078g==
-From: Bjorn Andersson <andersson@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	David Airlie <airlied@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Drew Fustini <fustini@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Fu Wei <wefu@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	imx@lists.linux.dev,
-	Iwona Winiarska <iwona.winiarska@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Lee Jones <lee@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-actions@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-pwm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-rtc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	Liu Ying <victor.liu@nxp.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Nancy Yuen <yuenn@google.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	openbmc@lists.ozlabs.org,
-	Patrick Venture <venture@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Vasily Khoruzhick <anarsoul@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Yangtao Li <tiny.windzz@gmail.com>,
-	Zhang Rui <rui.zhang@intel.com>
-Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in regmap_config
-Date: Fri, 15 Aug 2025 09:42:02 -0500
-Message-ID: <175526892008.370600.8859545110801188375.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1755277756; c=relaxed/simple;
+	bh=i39aS+ObywOPyCHHVYemcnYSe1Eb0V7lSuSL0TimfzM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WilDw0J3H/VfphN/VE/pHXs6IrddyzTvq+TlMTkwMpqvqgTsstlMqDa5vTPtCt6dPKaW5zROSxVH/kiojPyoWhKFpTAtp0yQuTfnRSH5TTQRFYrui75ffYEy/qqbY3oFiCRi7+Kto6MQ2Tie20fwUEcH2qUmkh4wmp7MxKkScis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YtdF0KCS; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b9dc5641f9so363733f8f.1;
+        Fri, 15 Aug 2025 10:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755277753; x=1755882553; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S9f02u3GqmQB3JIkPAoqZ4J3n/9mgpEYVfExN7OiRrE=;
+        b=YtdF0KCSkIbtJGzF6seIz0lQaZL/Ru3P1ElLC6mdBqd4aMb2wzHnmB7seYwVUEOUB7
+         GzT/4d31LqEPQQHF5umJX+CtH3XyKu5nZqHxYNbGz14VSvHHkKPolA51FW9sMF98oC9c
+         ugry1z1PZtz7Di3G6VgeZCAkZoZQpEUA/oR5uiTbSbUhHdXEOqB3a44jW7ZatlCgHEo/
+         EtvNF4wfEeVob4OnWcssEp4b0PziWj2pd9r6+RlagyTrq0yvKOH/kzX8tO1/QfmeG+8k
+         b2kqm3wdBqTsK7wWwi2kNqwf11eDVV2MIgeac/3RY5YC6bVQZ+kQKSbrwhJ6Cwz+P1u5
+         P6dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755277753; x=1755882553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S9f02u3GqmQB3JIkPAoqZ4J3n/9mgpEYVfExN7OiRrE=;
+        b=ueeoq6ZR64UhuB/HgZD4/F7Hj6uWrCfaBN8i8vPfwRJUEelZ9mztbJ6tcMnz6fvfGh
+         1iDmD9b0GC2bkmqP+FQwGrLiz7CtJ39/DCyTwij7yJHCykXiDe7UfP6Reb18WrtvUkXk
+         D5NY9QiU6YCkghuG6fAKjfyQlDWiiQSv/zIUrKCqxlgN/dQMtUhhZ/2edsZs/DsUYiI5
+         YVH3zAmxxWTZDFNo7ddsSxT1G8fV09kldCT0D9dQN9kkR25NRZ5ywBqIuwxyj7ydyEYv
+         vPMzDf3cEAVPDu0B6yLi7rct1d1DAXiGnh8cYJduWs/Mj7R2sT/Oall7QFkpbyPORpIE
+         Ac3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWlgeib45LgQq2e6S18iGAi4zvW4iEIFbJlziWYyKA9iyTyFHOhyI3XdkNsxZSuairXsS6zscIbNSQg4xE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeSp5dav1ssbDRBF1Ty5VSG9Q1PRNFXhr3LQ16u6U1xDocZWgK
+	UVTa39FVxXLzGzF+iKGaOBWZ3/DfAB/Cfj0kZ3/p1XNzii/5bmTMjxIS
+X-Gm-Gg: ASbGncuChVUKgDnRprO/oCPxnaiJM/T4iAhX93UgYQtMwR3EYXL1ZZ5MJIFw0tgN+9N
+	g52+/9ME5scS0ujFuK9KMqBTDj7hCPLySJ2J6jXUe+pEI12rDOpLImechtPkeVoFpf2rAxXZ9o0
+	Aj8X2wF0jgbwEi3pvxwjWlz5j/DZj65FlZ1xuj48srjr9cJn99p2rR6MSQhCZgNmQxDF3RNribd
+	rtqysYVc0jPew+9rZzAqzh638zgaC2DjlHyhNhRl6PNyrqzvhHzeDAbmRoEa9s97D4NtIGPTRd4
+	AHX9uQzR0yXef3ZOh36RbSHPLaSluyPxrMTbSdvdBjEUR2gxyzd9tDn4iCPM3KbycJAkZTvw/Kf
+	LToFm2qXfqy03onVz8GQkQfsyaPqmyzL0yV/1eTdG6Vns3Oi+K+n2M7ZUwrRGBetGAQNpU8vZfE
+	sf9l8zvg==
+X-Google-Smtp-Source: AGHT+IH2T8ITBmcU5I7J7F7gTLljdMAJMBGBNIMMZJDwQwmChaogZZpltoGJRKW+LVoQwndbI+PSsg==
+X-Received: by 2002:a05:6000:3113:b0:3b7:87be:d9fa with SMTP id ffacd0b85a97d-3bb63ac9bd3mr942743f8f.0.1755277752496;
+        Fri, 15 Aug 2025 10:09:12 -0700 (PDT)
+Received: from localhost.localdomain ([154.182.175.247])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb6863fc29sm2760083f8f.66.2025.08.15.10.09.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 10:09:12 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH] staging: media: atomisp: Add lock asserts for mutex protection
+Date: Fri, 15 Aug 2025 20:09:01 +0300
+Message-Id: <20250815170901.32105-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+Add lockdep_assert_held(&isp->mutex) to critical functions accessing
+shared device state. This enforces proper locking and detects violations.
 
-On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
-> While working on a driver using regmap with MMIO, I wondered if I need
-> to set 'fast_io' in the config. Turned out I don't need to, so I added
-> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
-> MMIO implies fast IO").
-> 
-> This series fixes the existing users in the tree which needlessly set
-> the flag. They have been found using this coccinelle script:
-> 
-> [...]
+Suggested-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+---
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  3 ++
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 31 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-Applied, thanks!
-
-[18/21] soc: remove unneeded 'fast_io' parameter in regmap_config
-        commit: 5d8a9c8401648d338d072a488d455ed4611c5d4b
-
-Best regards,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 3a4eb4f6d3be..48ca33e1c92d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3794,6 +3794,7 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
+ 		    const struct atomisp_format_bridge **fmt_ret,
+ 		    const struct atomisp_format_bridge **snr_fmt_ret)
+ {
++	lockdep_assert_held(&isp->mutex);
+ 	const struct atomisp_format_bridge *fmt, *snr_fmt;
+ 	struct atomisp_sub_device *asd = &isp->asd;
+ 	struct v4l2_mbus_framefmt ffmt = { };
+@@ -4324,6 +4325,8 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev, const struct v4l2_p
+ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ {
+ 	struct atomisp_device *isp = video_get_drvdata(vdev);
++	lockdep_assert_held(&isp->mutex);
++
+ 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+ 	struct atomisp_sub_device *asd = pipe->asd;
+ 	const struct atomisp_format_bridge *format_bridge;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index be5f37f4a6fd..915c4c9ea9e2 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1447,6 +1447,9 @@ int atomisp_css_input_set_resolution(struct atomisp_sub_device *asd,
+ 				     enum atomisp_input_stream_id stream_id,
+ 				     struct v4l2_mbus_framefmt *ffmt)
+ {
++	struct aromisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
+ 	struct ia_css_stream_config *s_config =
+ 		    &asd->stream_env[stream_id].stream_config;
+ 
+@@ -1519,6 +1522,10 @@ int atomisp_css_set_default_isys_config(struct atomisp_sub_device *asd,
+ 					enum atomisp_input_stream_id stream_id,
+ 					struct v4l2_mbus_framefmt *ffmt)
+ {
++	struct atomisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
++
+ 	int i;
+ 	struct ia_css_stream_config *s_config =
+ 		    &asd->stream_env[stream_id].stream_config;
+@@ -1621,6 +1628,9 @@ void atomisp_css_input_set_two_pixels_per_clock(
+ 
+ void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
+ {
++	struct atomisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
+ 	int i;
+ 
+ 	for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++)
+@@ -1631,6 +1641,9 @@ void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
+ void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
+ 				  enum ia_css_capture_mode mode)
+ {
++	struct atomisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
+ 	struct atomisp_stream_env *stream_env =
+ 		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
+ 
+@@ -1646,6 +1659,9 @@ void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
+ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
+ 				enum ia_css_input_mode mode)
+ {
++	struct aromisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
+ 	unsigned int size_mem_words;
+ 	int i;
+ 
+@@ -1690,6 +1706,10 @@ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
+ void atomisp_css_capture_enable_online(struct atomisp_sub_device *asd,
+ 				       unsigned short stream_index, bool enable)
+ {
++	struct atomisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
++
+ 	struct atomisp_stream_env *stream_env =
+ 		    &asd->stream_env[stream_index];
+ 
+@@ -1726,6 +1746,10 @@ int atomisp_css_input_configure_port(
+ {
+ 	int i;
+ 	struct atomisp_stream_env *stream_env;
++
++	struct atomisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
+ 	/*
+ 	 * Calculate rx_count as follows:
+ 	 * Input: mipi_freq                 : CSI-2 bus frequency in Hz
+@@ -1760,6 +1784,10 @@ int atomisp_css_input_configure_port(
+ 
+ void atomisp_css_stop(struct atomisp_sub_device *asd, bool in_reset)
+ {
++	struct atomisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
++
+ 	unsigned long irqflags;
+ 	unsigned int i;
+ 
+@@ -1815,6 +1843,9 @@ void atomisp_css_continuous_set_num_raw_frames(
+      struct atomisp_sub_device *asd,
+      int num_frames)
+ {
++	struct aromisp_device *isp = asd->isp;
++
++	lockdep_assert_held(&isp->mutex);
+ 	if (asd->enable_raw_buffer_lock->val) {
+ 		asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
+ 		.stream_config.init_num_cont_raw_buf =
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.25.1
+
 
