@@ -1,224 +1,166 @@
-Return-Path: <linux-media+bounces-40013-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40014-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534C8B28D32
-	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 12:59:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5B6B28D48
+	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 13:07:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE66DA268FE
-	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 10:58:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE8217BC1BD
+	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 11:05:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A624929D262;
-	Sat, 16 Aug 2025 10:58:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F19E2BD5B6;
+	Sat, 16 Aug 2025 11:07:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djfuH+3l"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="duG1dyx1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E92D29E111
-	for <linux-media@vger.kernel.org>; Sat, 16 Aug 2025 10:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78A054769
+	for <linux-media@vger.kernel.org>; Sat, 16 Aug 2025 11:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755341936; cv=none; b=U6vjA3twQPwHsmPI+2zw7BF0O7MO9yu20uKHCtryNXuF082ug/I3aFZuWvGZDg1QeGbuFoHlgim4qf+1d9Agh4sZw5XCIL5rBLdxpsWDN7yJD4IlPJQYJN/I0PY1aGLwY8Kr2l0KKp3IsEXyTT6yhB/YO+xlt6Xtwak/5CTsj9M=
+	t=1755342441; cv=none; b=ccr0VQevh9aDqhGO6JC2tF/F6FUyHe1igpmz60FiVf5ghXILgZU60abuaQq7Z9yjvS5C2eYawcHl4ErgDJzx9tnHLvBLug9TmSsnTVqKmMatkwe4xCC8QGjFI6zW6hFi4uSQaDy/mfb44wYjN7ujqFnPdBtzro1zfwrnC/+Jz5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755341936; c=relaxed/simple;
-	bh=xR11r1Waa3cXUShTKZFdONADTssQgCHKViefAXVd034=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lGRD1xofgOS2KDz8vwYt5fs4KIsRyKDLiSa/kUr133GEJSVzDSLmzI1P3zCLJ854piPvxmEdenWIjpgcp8RjhURGql8e2d1F/qNlwlqbPaC/97z3O0j6kM18xzWuQTDaPLY6RXTkiasg92wVFqRONK43e4KZ4d1pc2kbRv0jQLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djfuH+3l; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755341934; x=1786877934;
-  h=date:from:to:cc:subject:message-id;
-  bh=xR11r1Waa3cXUShTKZFdONADTssQgCHKViefAXVd034=;
-  b=djfuH+3lJy6Nr8QXX3hRUcBb1Pqf58iOJGKpsKclx76aKVSzK8Luuooz
-   ByD0BrnggvDkMb9zhv8LxIAYq/AH6ioUGBnPKnkwUhNpsg752v0jguoAa
-   lm5s4zl5h2a0gDu4iNhaXY6JouGAri9XjrRRYObUSvwBMgqaj6on/AURH
-   yMMx6UFpEEpSzHEN4tjCgwYDhWsFhrB5DyZdwrzpOFJfpyRxY6mi4bCC9
-   z1i+l2LBFLvk2m3B7nu2oSgwAAcQW+91ITULDsM4n8yJU3lEFeWH7Vxzv
-   9+a6epsUMjoeNlSUZvAjcZhTfwXUJam3eaKZq0jLMd3l9jXnCxzCblmaj
-   w==;
-X-CSE-ConnectionGUID: YymyZHwfTTKw6fdAYCHYhg==
-X-CSE-MsgGUID: VNC29+9CQpSIRJWNGE2zqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57502852"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57502852"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 03:58:54 -0700
-X-CSE-ConnectionGUID: +UmCMSDIR/eg9aXrRNQNXw==
-X-CSE-MsgGUID: L2m/g/xrStmNJbpbNAeJpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167445729"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 16 Aug 2025 03:58:53 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1unEcS-000Cpc-2N;
-	Sat, 16 Aug 2025 10:58:44 +0000
-Date: Sat, 16 Aug 2025 18:58:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- a75b8d198c55e9eb5feb6f6e155496305caba2dc
-Message-ID: <202508161824.MsYGUQf0-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1755342441; c=relaxed/simple;
+	bh=KcxmTblB171DN1VQVB74Vbu6xWumGzwIasu9gVQzsSE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DPonp55TAlRJ6FI/wxSmggDMc4GNI7w+SvxEvqOIBzAXRGfZdWgO7p1896B68c/7WmnJ0JrLvpxWW+ikbPNxj6BAPVE1b7v5Qe4/FrHRo1Z2QVRrDDEHroXhcjfAk/GUhArLVMDMFPE/LdCzAvcSu+JB5EC57IcnYPDgH2gSCgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=duG1dyx1; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3bb2fb3a436so1063772f8f.1
+        for <linux-media@vger.kernel.org>; Sat, 16 Aug 2025 04:07:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755342437; x=1755947237; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8I86yVIQyYfFhc/J2h2VClBRGhT4pZplj1eoh46kfZY=;
+        b=duG1dyx1PIGVIn5VoPY1YvCnU90gMvyPwk+2YuSDntmdVrSyZIfdInOosKZseQTeWF
+         mIGOik7YIUo9tGnpL2p8T1Ldb7r+KDWOSQ0+eRLwsvJEVWNE1y0Ib3QhfvWjDvYvr+Lb
+         lPj6NH0PlQnIWUbabUhtCfcT375QxRJysqYg/ZFRjO4rKkY63dYizVNE2bPbW82jlQaG
+         wclFdhdTvvlJXCfAornhbA2CDYj/6ZfuPtYMzKJex2+A3Ga6ccMi2cEqw6wWxkj6gX8u
+         6MKUM6Ps6Lc1X0q3hRAq2dYt1Faoi70DTEZm7kwEyag51OzEg0Y9Ycv5lLkmClnzdyhC
+         Wvpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755342437; x=1755947237;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8I86yVIQyYfFhc/J2h2VClBRGhT4pZplj1eoh46kfZY=;
+        b=hK7618Z+HQpszh/kZNZj7Jxm8c/EhkG/XrSF4Az38g9iGyL79Q7qa19+lViMhA5CMJ
+         LNnIqxP6qbx8t2F1PvX/H19nWNcqq3Asose31pR/80yHXUZt69cibHhlcY1ij+m7+N70
+         w6iE8aLpBrMEPnGSfmecZcD7dCLbXknAWj5C7XjmvI4Ljb4ODYJZWQwwPtDQujcSlym6
+         EbK45qixOc4M17PsTF88fJCrX8ybnV/mmLQEVuLMg8lrBEeyAuoXlYBeDhzRIzIc4aAG
+         ONJf7EeD68+nhe7xbZc5Brhe9VAZ3EodMm4L5bVKHJpbtv4EK16UHNsBHFax0s4MynJ5
+         gC7w==
+X-Gm-Message-State: AOJu0YxGXxz8kpYVaTh8jL7wNlteD43sp7QiQBvBPzla8QOC/MDleQKw
+	NHT+yBhmR7l9lykXeMSYoo3h3ZxYsm2M5lUaaPzDLtI6m3fJejesT1x827/QlSyCL5A=
+X-Gm-Gg: ASbGncsfQPTP+s+j2a+QfwCymmrSwHeFr/R6iQoOGjkFVoWhsiaeH6IEwUz9fRCNHM5
+	+nLvLdOja7tYErqSDwcQE1gewq6T9CvcZPx4gtRqz4dJfH4V/eurVwmENpXPgq/v+vIhyIt08oV
+	iXRbStOzfKJsyhBIN77OYwNBjdxpEIe/KF1hcPeUbabsvx8+FHyfbvFSokGl8Mq0qAKzBpVu46t
+	bfHJvAt1l2bh/G2S6uRZXP9Q08jdC7aMokDkHpHBVqFwOgp54nz9unHHSi+G1Z38NXCC9lstEJs
+	Lhpt/vvvQ7Q7oLj+q2iGIXtfrwiovSSN2jCPILyS4AoBNG/dfJ/DspPIlPgosnIa7kveA+CX4kJ
+	OJlC/z3QgYZH9dn/DqNnltsuzFX+Atk44xfe04wd4xfCH4NLwk4MlTWwMslQ2goXw
+X-Google-Smtp-Source: AGHT+IGdchvXBqZGo4Ml5Nl2HdqMdL+AQYswdvxJ0QVQNV+dSeNVe2USeW/HxwgsJqjVC02JrCNJPA==
+X-Received: by 2002:a05:6000:400b:b0:3b7:9b58:5b53 with SMTP id ffacd0b85a97d-3bc6a280040mr1747639f8f.45.1755342437185;
+        Sat, 16 Aug 2025 04:07:17 -0700 (PDT)
+Received: from [192.168.0.13] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb6863f84asm5283862f8f.65.2025.08.16.04.07.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Aug 2025 04:07:16 -0700 (PDT)
+Message-ID: <4fe5d966-f788-4fd7-9e74-6d63ecc8dcb3@linaro.org>
+Date: Sat, 16 Aug 2025 12:07:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/24] media: iris: Allow stop on firmware only if
+ start was issued.
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Stefan Schmidt <stefan.schmidt@linaro.org>,
+ Vedang Nagar <quic_vnagar@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Renjiang Han <quic_renjiang@quicinc.com>,
+ Wangao Wang <quic_wangaow@quicinc.com>
+References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
+ <20250813-iris-video-encoder-v2-8-c725ff673078@quicinc.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250813-iris-video-encoder-v2-8-c725ff673078@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: a75b8d198c55e9eb5feb6f6e155496305caba2dc  media: imon: Remove unused defines
+On 13/08/2025 10:37, Dikshita Agarwal wrote:
+> For HFI Gen1, the instances substate is changed to LOAD_RESOURCES only
+> when a START command is issues to the firmware. If STOP is called
+> without a prior START, the firmware may reject the command and throw
+> some erros.
+> Handle this by adding a substate check before issuing STOP command to
+> the firmware.
+> 
+> Fixes: 11712ce70f8e ("media: iris: implement vb2 streaming ops")
+> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Tested-by: Vikash Garodia <quic_vgarodia@quicinc.com> # X1E80100
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> index 5fc30d54af4dc34616cfd08813940aa0b7044a20..5f1748ab80f88393215fc2d82c5c6b4af1266090 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> @@ -184,11 +184,12 @@ static int iris_hfi_gen1_session_stop(struct iris_inst *inst, u32 plane)
+>   	u32 flush_type = 0;
+>   	int ret = 0;
+>   
+> -	if ((V4L2_TYPE_IS_OUTPUT(plane) &&
+> -	     inst->state == IRIS_INST_INPUT_STREAMING) ||
+> +	if (((V4L2_TYPE_IS_OUTPUT(plane) &&
+> +	      inst->state == IRIS_INST_INPUT_STREAMING) ||
 
-elapsed time: 1442m
+this is becoming a highly complex clause
 
-configs tested: 131
-configs skipped: 4
+         if (((V4L2_TYPE_IS_OUTPUT(plane) &&
+               inst->state == IRIS_INST_INPUT_STREAMING) ||
+             (V4L2_TYPE_IS_CAPTURE(plane) &&
+              inst->state == IRIS_INST_OUTPUT_STREAMING) ||
+             inst->state == IRIS_INST_ERROR) &&
+                 inst->sub_state & IRIS_INST_SUB_LOAD_RESOURCES) {
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+can we not reduce down the number of conjunctions and dis-junctions here ?
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                   randconfig-001-20250815    gcc-8.5.0
-arc                   randconfig-002-20250815    gcc-9.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-22
-arm                      jornada720_defconfig    clang-22
-arm                         lpc18xx_defconfig    clang-22
-arm                            mmp2_defconfig    gcc-15.1.0
-arm                          pxa168_defconfig    clang-19
-arm                   randconfig-001-20250815    clang-16
-arm                   randconfig-002-20250815    clang-18
-arm                   randconfig-003-20250815    gcc-14.3.0
-arm                   randconfig-004-20250815    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20250815    gcc-8.5.0
-arm64                 randconfig-002-20250815    gcc-8.5.0
-arm64                 randconfig-003-20250815    clang-22
-arm64                 randconfig-004-20250815    gcc-15.1.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250815    gcc-15.1.0
-csky                  randconfig-002-20250815    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-22
-hexagon               randconfig-001-20250815    clang-22
-hexagon               randconfig-002-20250815    clang-22
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250815    gcc-12
-i386        buildonly-randconfig-002-20250815    clang-20
-i386        buildonly-randconfig-003-20250815    clang-20
-i386        buildonly-randconfig-004-20250815    clang-20
-i386        buildonly-randconfig-005-20250815    clang-20
-i386        buildonly-randconfig-006-20250815    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250815    clang-22
-loongarch             randconfig-002-20250815    clang-20
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-m68k                        m5272c3_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250815    gcc-11.5.0
-nios2                 randconfig-002-20250815    gcc-11.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250815    gcc-8.5.0
-parisc                randconfig-002-20250815    gcc-14.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc               randconfig-001-20250815    gcc-11.5.0
-powerpc               randconfig-002-20250815    clang-19
-powerpc               randconfig-003-20250815    gcc-11.5.0
-powerpc64             randconfig-001-20250815    gcc-14.3.0
-powerpc64             randconfig-002-20250815    gcc-10.5.0
-powerpc64             randconfig-003-20250815    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20250815    gcc-12.5.0
-riscv                 randconfig-002-20250815    gcc-8.5.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-22
-s390                  randconfig-001-20250815    gcc-8.5.0
-s390                  randconfig-002-20250815    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250815    gcc-11.5.0
-sh                    randconfig-002-20250815    gcc-12.5.0
-sh                          rsk7203_defconfig    gcc-15.1.0
-sh                  sh7785lcr_32bit_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250815    gcc-11.5.0
-sparc                 randconfig-002-20250815    gcc-13.4.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250815    clang-22
-sparc64               randconfig-002-20250815    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250815    gcc-12
-um                    randconfig-002-20250815    clang-19
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250815    clang-20
-x86_64      buildonly-randconfig-002-20250815    gcc-12
-x86_64      buildonly-randconfig-003-20250815    gcc-12
-x86_64      buildonly-randconfig-004-20250815    clang-20
-x86_64      buildonly-randconfig-005-20250815    clang-20
-x86_64      buildonly-randconfig-006-20250815    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250815    gcc-8.5.0
-xtensa                randconfig-002-20250815    gcc-15.1.0
+Its getting hard to follow.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+For example pivot on if (inst->sub_state & IRIS_INST_SUB_LOAD_RESOURCES)
+
+or make it into a switch for inst->state... no that wouldn't work
+
+Either way the complexity of this clause is indicating to me we need to 
+do some decomposition.
+
+Please consider if you can rationalise the logic here and make the code 
+more readable.
+>   	    (V4L2_TYPE_IS_CAPTURE(plane) &&
+>   	     inst->state == IRIS_INST_OUTPUT_STREAMING) ||
+> -	    inst->state == IRIS_INST_ERROR) {
+> +	    inst->state == IRIS_INST_ERROR) &&
+> +		inst->sub_state & IRIS_INST_SUB_LOAD_RESOURCES) {
+>   		reinit_completion(&inst->completion);
+>   		iris_hfi_gen1_packet_session_cmd(inst, &pkt, HFI_CMD_SESSION_STOP);
+>   		ret = iris_hfi_queue_cmd_write(core, &pkt, pkt.shdr.hdr.size);
+> 
+
+---
+bod
 
