@@ -1,255 +1,215 @@
-Return-Path: <linux-media+bounces-40019-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40020-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE73B28FB2
-	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 19:07:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7516CB29040
+	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 21:44:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20D1C1C8591F
-	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 17:06:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0C851C876A8
+	for <lists+linux-media@lfdr.de>; Sat, 16 Aug 2025 19:44:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0E462FE046;
-	Sat, 16 Aug 2025 17:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IszcFlLr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCAD2213E6A;
+	Sat, 16 Aug 2025 19:44:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570191993B7;
-	Sat, 16 Aug 2025 17:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EB51A3166;
+	Sat, 16 Aug 2025 19:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755363985; cv=none; b=TyxBBbxW7gpX0KHSpAxxLxUphvXTO2b26mSfct0p1x97dXZMjIt5f6hxOmGdsHJqgMnS7WfWwUU/+LPUS9626x4lTfhKTlUbBU3Sbi+nqdKRhz/d9+aUMP/yEZdWBamIhQlgNoXAutRWdk0h+mRdAfPKt1KAsJHqnvp7tdBs2fM=
+	t=1755373463; cv=none; b=orCQ50s2u4ZMAT/L12iK1eufauLSHrlHZiieGKslYAYIB4U4rVqDOQdrJdkrr1VeuU0QyqYk2RbIxmJhDL1usFl8MCKkdZ446C+QfjJ8yvSR/XfBQudRhMQVlN9T6sFlbPzNqpzDEx7vtqomgvaJkB/c+9eHQnynXFOTVpWxh7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755363985; c=relaxed/simple;
-	bh=sB2cYu5+Jf0zWpRTQV5q+PheZ/lZktCmmZantthNZFQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=feWctZ0d2haFzm0mz9ErNFfCrvGE5WEKRC0vhz2oDLsRvWLmE98QPZjwT1CbS2vMckkFZ3daZb0+mMf2Ee0qVBrCSEIgSxH3OKqLz3OGmJPmv+momEu1+/D7A6k3s4cB+6P8mvt51LtXNaeXrk+vlNXXHu+M66YD7uN16F1anQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IszcFlLr; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1755373463; c=relaxed/simple;
+	bh=CxOkN5Im8aBXZWyAkD76EEsI08M13nbfFlULVi6mYiw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V9yYH8Q5P301P1w+cnB8NPtfInQRsjSNCFwYS/c3njDQ8WnfoArlTOndr6aPihb5YZt3xQXnAaSpfU1ccEeoL4x+cTLy84GTfFcz32XY20yhvRg9VdNouep7iRDgVCqkfG/1JyRRkuujMFLPCQrfcmZ62Ll5ODIQoFJgUSApbuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=willwhang.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b9dc5641f9so503840f8f.1;
-        Sat, 16 Aug 2025 10:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755363982; x=1755968782; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sgw7Gkb4p3y4ALqCmeQkgKUKoK0mG01yPSRfozmaBxU=;
-        b=IszcFlLrxPPkoab1+TNiJopZTerh3JOCbtZPh4w9fJNB1ZLpC4RhXapPZhDyZQcmg0
-         rsT1QFXCSzz7pnw2u6OZv8BMaEFcLuwpEVCFkw+/p0g3o3hc6RiPEXrAcR6bSue6C09E
-         ykbkSiSgugeWPzA3i+FLqExN6YZiWlsVCfrSUkqORKcMXtpBzA2IHyKzgNXPLeix0wg0
-         M7qHJjrzSa1vw6FOywbC9wC/Boh9ZFNspFGe1+MNq38WpB0otmrTqVC1xMI8G4JoE/un
-         YDwIpf+SvOTwK+WcgDSABzi9eM3rlkWXSpCUWMT5MzRWENG4noFUA8qMqV7Humj97VWW
-         Bzzg==
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6188b5ad681so4108542a12.0;
+        Sat, 16 Aug 2025 12:44:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755363982; x=1755968782;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sgw7Gkb4p3y4ALqCmeQkgKUKoK0mG01yPSRfozmaBxU=;
-        b=vAkPGsuT6IF+O72XxReRg0UIVEqfXCNkmKcpOqPXg30sKKnPcZzQX93C6IOyWUoVl2
-         w7v6GlB6g3FM1+d1FNKy7bbupKCXIBt8GKSxp6086Vv9PdCIJ8wX2R6o7eV1U0+AwTOP
-         fuBlKEFdkKA6WRWZ/QPK5NTan1fYat3MNzuWJlW8cKlfL1absBxQFLLJk8X9oq+kdppO
-         i7rZf26i5+NZapw8EW2r8uU5216GIMUXl4Pi6Lfrr5gEoGURfzgEt0IiWixUQVFG8lBW
-         aK0iLRdL2U5EA4CkiDpkMNSTrGA/i41LUIs/o5Mg4JHE3H9Y8/fH7djxJ6WP3uebSVzG
-         8VYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWcA0d62u4qsisIIU6QxaCPGmLjRsSFNKQVc2qbzPYcLPFAn5dmNMC53mh5uP5ivZtdja4MmB6x2Bq/B+0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIUzN6CKQgtjkcNaKtgx+2x4fKM9c55R1uXjWyvK+ljK7BpBRP
-	YLgOKbC3LgeG+0JleHAtXZUGeeQmUORAb+jKCN7qNOMpxcY9O7i4wJIW
-X-Gm-Gg: ASbGnct0fw1QhyY2CAC84rhhEyOynoTITv+tA6iuTuS8+iHw+PUqwRwgGl1I9cKcxjZ
-	L/FfmqsWQ3zWVQ7vBRvxt9m/zLF4SmOOFf9jfKK5oWn2uuLfP5h2LbxGuidQRWqsmBoYw6459R0
-	eTDce5732DvGMLgoDI7nX93fNbMzg74cjFTUFU1+uNHhSpLoz9qwezTzjsVxh0JoPniynUA1iUQ
-	M+8zs/AKbZpZ5ePDop5nfoJQVby/mt9zwldptDRvw7AxGsEXAd863C93MpHPz2SAe3PTj1oRRT7
-	HQr/r3YOT5kujbfRtvmoucIdqODHifecn0YgQtMM9wxkdyvRMPR6nqMliC34Bhu3Nh3492+weq3
-	i/JoJVxzU/eVI2qSdVFB+qQW28L2jMASm1lAOLaNyS5QtXvoiXfkxkQvK+Q==
-X-Google-Smtp-Source: AGHT+IH7o4mFvUskvJ8tgvRlrCg/v/TbnRR3ccsdkXgMqIiB9upLobfM18TFI+4x3gLQ0XPRzr2igA==
-X-Received: by 2002:a05:600c:4fd1:b0:456:1a00:c745 with SMTP id 5b1f17b1804b1-45a2185e3d6mr21491465e9.3.1755363981376;
-        Sat, 16 Aug 2025 10:06:21 -0700 (PDT)
-Received: from localhost.localdomain ([41.37.217.192])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6cf151sm101701315e9.8.2025.08.16.10.06.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 10:06:20 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v3] staging: media: atomisp: Add lock asserts for various functions
-Date: Sat, 16 Aug 2025 20:06:03 +0300
-Message-Id: <20250816170603.41051-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1755373459; x=1755978259;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xhNfRQTJCTHs8wZzyX52sBmas0EwpebMHyW2WLiU29g=;
+        b=gJG61+u8JIZab8zkSfVYatuTh8ggrV1uvAVroshRVIf60QVl+xDN9P5s+b3VW83k68
+         oNQNIydh/rZ/PIHjNepE29pvOu83a+qrpSHgjdvegQTFf6DCJ5xnFajcP10GKu13IQNA
+         PQK0BgQppHAbj9adQFUTV0lEdjRb9JsUG+uomIjSkEy29J0kQSEuk8Sm5lUGYT30tBoq
+         lwOdhe9Slgssme4MV5wm0RI3/lEQnb1vr7EYEkqkoOU1HLDEKSsvgyUW9CBmGzrG4yWX
+         d/2QLNac8SziSrj2k1Gg1Lx1MJW4y/T/NVQcQvf8d9IXNDoIMuoHVGfCP8+6trcU1Kak
+         Jq9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUE7eLKUbRBBilvt6i6FohonuQk5PKbLs26rkpfzJV1+a9KfjQn19bK/8BXX22+ZlG7CzcUVqXZXb+RAK++@vger.kernel.org, AJvYcCVYdzQ9gfIPjZyL+lmPuXk+qmJLfBCNL1OWihiRJcs8s+7dUjk8KIR5pnk4UE6r3odmKKXNPdF/zXdF@vger.kernel.org, AJvYcCVaLmKANxt8/1dbORUu1mRJgoSGcnyr9zIkgPn0HeFRw4+JzQEhV+TVgQWkYWSUGbfuOvgHZGPbAwnfWfs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDYADuoFEYVix2JLp/ZtcV37KWhJQysPBEo8+jObm3/UgKoS9C
+	SOrvtpbxBmY6b++yQugsakk/Bp7xgbTRSGk0nC9vKFGD8ZIOl0Ml6uIhG8U+aXGcKy8=
+X-Gm-Gg: ASbGncvfqV2qxogbMxruZseV1rnjG51DnxIB6+5wZByBYwc0qIyZL7as4NrBHuuqm8p
+	ZShXTjXD9XdD/9nD89KabAcnpdqXgh5tPKTixeeOGYewlR0YsErmkgsz4WkCMfVU5NQgnLRVRyP
+	CnaPki99pkbTuCtn9AYZIBTInxBmgGi7iLSDxTfwLQaTR/xo+4cMlApSUdK5/gOGicF2ng78kOE
+	bv+wcrzsZCPZBUiWQ9CFa/V08GjlrUorcqeqnxpvs9JhTIsH38KCNCkDJ+8D8eOjCn/zYB75QLk
+	rechTE3BpvS+1G9Yxxg1hsz5E6kHBlySpkVuaUfxL8rUXSANtitPATKXbo9SNWjBisgNbIpuV21
+	M1Z8zA9s/ZpClM1ZEou2m+69W9abqdZJw6V6Mu8+L5yMzjStSrkZQw7BUMQ==
+X-Google-Smtp-Source: AGHT+IF11+0kRNdzNVSkYd7J4a+gx/5oVsKz4/r1QtGu9V4+SCyBNATcWaR+MPKV/XHPcqLojimmbA==
+X-Received: by 2002:a05:6402:2102:b0:618:10c3:d799 with SMTP id 4fb4d7f45d1cf-619bf20ff00mr3560066a12.28.1755373458986;
+        Sat, 16 Aug 2025 12:44:18 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-618b02b0e42sm3785588a12.52.2025.08.16.12.44.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Aug 2025 12:44:18 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-618b62dba21so1805728a12.2;
+        Sat, 16 Aug 2025 12:44:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUP1IcS3O7jgMxSzu5iGLG/zEP9br3iXc7Id5t12d40PqJAklFVQdClsgmI0+tIZPUX8cXBDZjfADwRJngW@vger.kernel.org, AJvYcCW/PjHylU9c67IDIbJ0fPQ5kBhh1AsR9yGcIhmHp9X5eUTDiGTXjc+ZO1/eNuYxh8oTa8ZvrPynteIB@vger.kernel.org, AJvYcCWeKOT8+GTevppPN1jEbXchD1NdQxW92O3UFPoUHge/Ri1ekXRLuqjBKazUVWDtV55WxiTEg21BgE0FzAs=@vger.kernel.org
+X-Received: by 2002:a05:6402:3495:b0:615:5bec:1df with SMTP id
+ 4fb4d7f45d1cf-619bf1f7206mr3258270a12.25.1755373458280; Sat, 16 Aug 2025
+ 12:44:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250810220921.14307-1-will@willwhang.com> <20250810220921.14307-4-will@willwhang.com>
+ <20250811-cinnamon-tapir-of-music-0bda96@kuoka>
+In-Reply-To: <20250811-cinnamon-tapir-of-music-0bda96@kuoka>
+From: Will Whang <will@willwhang.com>
+Date: Sat, 16 Aug 2025 12:44:05 -0700
+X-Gmail-Original-Message-ID: <CAFoNnryfrJvoEHNgQDpSZBbGiGjPr-bwnhhg4cgpNK_hW=0EbQ@mail.gmail.com>
+X-Gm-Features: Ac12FXy-vY_C5easw1Tym_fd5E3dOtxKIqhJ9wZAZ5bar5LAous57hWKnWEIrdU
+Message-ID: <CAFoNnryfrJvoEHNgQDpSZBbGiGjPr-bwnhhg4cgpNK_hW=0EbQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] media: i2c: imx585: Add Sony IMX585 image-sensor driver
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add lockdep_assert_held(&isp->mutex) to critical functions accessing
-shared device state. This enforces proper locking and detects violations.
+On Mon, Aug 11, 2025 at 1:06=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On Sun, Aug 10, 2025 at 11:09:20PM +0100, Will Whang wrote:
+> > +
+> > +/* -------------------------------------------------------------------=
+-------
+> > + * Power / runtime PM
+> > + * -------------------------------------------------------------------=
+-------
+> > + */
+> > +
+> > +static int imx585_power_on(struct device *dev)
+> > +{
+> > +     struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> > +     struct imx585 *imx585 =3D to_imx585(sd);
+> > +     int ret;
+> > +
+> > +     dev_dbg(imx585->clientdev, "power_on\n");
+> > +
+> > +     ret =3D regulator_bulk_enable(IMX585_NUM_SUPPLIES, imx585->suppli=
+es);
+> > +     if (ret) {
+> > +             dev_err(imx585->clientdev, "Failed to enable regulators\n=
+");
+> > +             return ret;
+> > +     }
+> > +
+> > +     ret =3D clk_prepare_enable(imx585->xclk);
+> > +     if (ret) {
+> > +             dev_err(imx585->clientdev, "Failed to enable clock\n");
+> > +             goto reg_off;
+> > +     }
+> > +
+> > +     gpiod_set_value_cansleep(imx585->reset_gpio, 1);
+>
+> You asserted reset gpio causing it to enter reset and you call this
+> "power on"?
+>
+> > +     usleep_range(IMX585_XCLR_MIN_DELAY_US,
+> > +                  IMX585_XCLR_MIN_DELAY_US + IMX585_XCLR_DELAY_RANGE_U=
+S);
+> > +     return 0;
+> > +
+> > +reg_off:
+> > +     regulator_bulk_disable(IMX585_NUM_SUPPLIES, imx585->supplies);
+> > +     return ret;
+> > +}
+> > +
+> > +static int imx585_power_off(struct device *dev)
+> > +{
+> > +     struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> > +     struct imx585 *imx585 =3D to_imx585(sd);
+> > +
+> > +     dev_dbg(imx585->clientdev, "power_off\n");
+> > +
+> > +     gpiod_set_value_cansleep(imx585->reset_gpio, 0);
+>
+> And here device comes up, but you call it power off? Your functions or
+> reset gpio code are completely reversed/wrong.
 
-Suggested-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Reset pin High -> Run normally
+Reset pin Low -> Reset state
 
----
-v3:
-- modify declarations to match kernel style
+See drivers/media/i2c/imx219.c with the same logic:
 
-v2: https://lore.kernel.org/all/20250815182411.36092-1-abdelrahmanfekry375@gmail.com/
-- Fix Typos
-- tested by building the driver
+static int imx219_power_on(struct device *dev)
+{
+struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+struct imx219 *imx219 =3D to_imx219(sd);
+int ret;
 
-v1: https://lore.kernel.org/all/20250815170901.32105-1-abdelrahmanfekry375@gmail.com/
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  3 ++
- .../media/atomisp/pci/atomisp_compat_css20.c  | 28 +++++++++++++++++--
- 2 files changed, 29 insertions(+), 2 deletions(-)
+ret =3D regulator_bulk_enable(IMX219_NUM_SUPPLIES,
+   imx219->supplies);
+if (ret) {
+dev_err(dev, "%s: failed to enable regulators\n",
+__func__);
+return ret;
+}
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..fc5c8276b013 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3706,6 +3706,7 @@ static int atomisp_set_sensor_crop_and_fmt(struct atomisp_device *isp,
- 	struct v4l2_subdev_state *sd_state;
- 	int ret = 0;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	if (!input->sensor)
- 		return -EINVAL;
- 
-@@ -3800,6 +3801,7 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
- 	u32 padding_w, padding_h;
- 	int ret;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	fmt = atomisp_get_format_bridge(f->pixelformat);
- 	/* Currently, raw formats are broken!!! */
- 	if (!fmt || fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
-@@ -4334,6 +4336,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 	struct v4l2_rect isp_sink_crop;
- 	int ret;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	ret = atomisp_pipe_check(pipe, true);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..03067479dd69 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1447,9 +1447,11 @@ int atomisp_css_input_set_resolution(struct atomisp_sub_device *asd,
- 				     enum atomisp_input_stream_id stream_id,
- 				     struct v4l2_mbus_framefmt *ffmt)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	struct ia_css_stream_config *s_config =
--		    &asd->stream_env[stream_id].stream_config;
-+	&asd->stream_env[stream_id].stream_config;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	s_config->input_config.input_res.width = ffmt->width;
- 	s_config->input_config.input_res.height = ffmt->height;
- 	return 0;
-@@ -1519,6 +1521,10 @@ int atomisp_css_set_default_isys_config(struct atomisp_sub_device *asd,
- 					enum atomisp_input_stream_id stream_id,
- 					struct v4l2_mbus_framefmt *ffmt)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
-+
- 	int i;
- 	struct ia_css_stream_config *s_config =
- 		    &asd->stream_env[stream_id].stream_config;
-@@ -1621,6 +1627,9 @@ void atomisp_css_input_set_two_pixels_per_clock(
- 
- void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	int i;
- 
- 	for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++)
-@@ -1631,9 +1640,11 @@ void atomisp_css_enable_dz(struct atomisp_sub_device *asd, bool enable)
- void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
- 				  enum ia_css_capture_mode mode)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	struct atomisp_stream_env *stream_env =
--		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
-+	&asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
- 
-+	lockdep_assert_held(&isp->mutex);
- 	if (stream_env->pipe_configs[IA_CSS_PIPE_ID_CAPTURE]
- 	    .default_capture_config.mode == mode)
- 		return;
-@@ -1646,6 +1657,9 @@ void atomisp_css_capture_set_mode(struct atomisp_sub_device *asd,
- void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
- 				enum ia_css_input_mode mode)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	unsigned int size_mem_words;
- 	int i;
- 
-@@ -1690,9 +1704,11 @@ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
- void atomisp_css_capture_enable_online(struct atomisp_sub_device *asd,
- 				       unsigned short stream_index, bool enable)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	struct atomisp_stream_env *stream_env =
- 		    &asd->stream_env[stream_index];
- 
-+	lockdep_assert_held(&isp->mutex);
- 	if (stream_env->stream_config.online == !!enable)
- 		return;
- 
-@@ -1726,6 +1742,9 @@ int atomisp_css_input_configure_port(
- {
- 	int i;
- 	struct atomisp_stream_env *stream_env;
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	/*
- 	 * Calculate rx_count as follows:
- 	 * Input: mipi_freq                 : CSI-2 bus frequency in Hz
-@@ -1760,9 +1779,11 @@ int atomisp_css_input_configure_port(
- 
- void atomisp_css_stop(struct atomisp_sub_device *asd, bool in_reset)
- {
-+	struct atomisp_device *isp = asd->isp;
- 	unsigned long irqflags;
- 	unsigned int i;
- 
-+	lockdep_assert_held(&isp->mutex);
- 	/*
- 	 * CSS 2.0 API limitation: ia_css_stop_sp() can only be called after
- 	 * destroying all pipes.
-@@ -1815,6 +1836,9 @@ void atomisp_css_continuous_set_num_raw_frames(
-      struct atomisp_sub_device *asd,
-      int num_frames)
- {
-+	struct atomisp_device *isp = asd->isp;
-+
-+	lockdep_assert_held(&isp->mutex);
- 	if (asd->enable_raw_buffer_lock->val) {
- 		asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
- 		.stream_config.init_num_cont_raw_buf =
--- 
-2.25.1
+ret =3D clk_prepare_enable(imx219->xclk);
+if (ret) {
+dev_err(dev, "%s: failed to enable clock\n",
+__func__);
+goto reg_off;
+}
 
+gpiod_set_value_cansleep(imx219->reset_gpio, 1);
+usleep_range(IMX219_XCLR_MIN_DELAY_US,
+    IMX219_XCLR_MIN_DELAY_US + IMX219_XCLR_DELAY_RANGE_US);
+
+return 0;
+
+reg_off:
+regulator_bulk_disable(IMX219_NUM_SUPPLIES, imx219->supplies);
+
+return ret;
+}
+
+static int imx219_power_off(struct device *dev)
+{
+struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+struct imx219 *imx219 =3D to_imx219(sd);
+
+gpiod_set_value_cansleep(imx219->reset_gpio, 0);
+regulator_bulk_disable(IMX219_NUM_SUPPLIES, imx219->supplies);
+clk_disable_unprepare(imx219->xclk);
+
+return 0;
+}
+
+I really don't understand why this is a problem, it is up to the chip
+designer to decide
+what to do with reset behavior and not the reviewers.
+
+I'm simply writing the code following the datasheets here.
+
+
+> Best regards,
+> Krzysztof
+>
 
