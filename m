@@ -1,24 +1,24 @@
-Return-Path: <linux-media+bounces-40043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40044-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB469B29441
-	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 18:47:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16778B29444
+	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 18:49:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B6941963A39
-	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 16:47:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D8A93B1310
+	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 16:47:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5BCB3002DE;
-	Sun, 17 Aug 2025 16:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BF3F3009ED;
+	Sun, 17 Aug 2025 16:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
 	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="Sayp2sr7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253ED16CD33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF081AAE17
 	for <linux-media@vger.kernel.org>; Sun, 17 Aug 2025 16:46:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
