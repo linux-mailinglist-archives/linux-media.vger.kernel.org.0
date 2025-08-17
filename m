@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40029-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40030-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C618B29209
-	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 09:35:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035D0B29211
+	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 09:44:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC2D72078B3
-	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 07:35:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0BF32A09AF
+	for <lists+linux-media@lfdr.de>; Sun, 17 Aug 2025 07:44:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A76C5244186;
-	Sun, 17 Aug 2025 07:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 537D4244698;
+	Sun, 17 Aug 2025 07:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GnvRiM02"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AdGvgNel"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C901C862E;
-	Sun, 17 Aug 2025 07:35:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6694EEA8;
+	Sun, 17 Aug 2025 07:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755416148; cv=none; b=iRWSdbluULUvMz2gPUuYAIsJASAk9B4zFBNSskfyGVKVNooxbS8XR+dnq5G/SzmYqsnwNzpjWITdaZKZuEQiT0rKS8ydb1RAcyHj7cEaPkg013KfCjgvprOq4Nzij3FklY7eAmKWMt6V0o9I/4n7RrZnAT0VRh9MpMSOyMweIK4=
+	t=1755416653; cv=none; b=hbNbz9hsLhnXLHCGujcgx5/v/N9c0mvsLPZuThivSWdrzVT2qMxe7o7EO01MoGg3d7purLYwBsA0KOSKco1l+QKDLDbJ/7slQuZ/AY4WCcnMPPt0BRyHVEDb0tH/SS0+OG4yjarC58Avr5SGauNEKaIlO6oxnDfS0v6GRFtHm14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755416148; c=relaxed/simple;
-	bh=7oWUqe3YRLCl8fWxOlJHuRdN2B9vTNF9+E9VSGua+u0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CAJlMaubQRn7mJ4l3EBGvTTwh35HKxVAYNfkBOO7uVmmrpCeI0pY/WbCaCQbG5A5Er3G/sCEt2cG0qLMnN8SXQKpROLmPx6X9NdWk5rGC5YIHs4tKql9m9NVVaBA+y4S9UawSNIYadrsDsk2g8eTPbjGsb7tGUDsTzJneZS/Zjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GnvRiM02; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C223AC4CEEB;
-	Sun, 17 Aug 2025 07:35:44 +0000 (UTC)
+	s=arc-20240116; t=1755416653; c=relaxed/simple;
+	bh=RoUUZa5TBFd2V1vaLApIFJ+t3u7RtRS0RZJR2cIwQx8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UGskxGNC2DDJ/Vej8MHtvJuHJrGWLqmAroZiRMFBxJbpz/5dYLoRhpaEwBx1ktSnn4/9yUi3M9YXZXgxi0UJR81BRVWSLVgj/WsRzif1yPIF12DiZDo4KL2mFTaHg/zhpMX7qVN8A7ecATnRUgPgN+14g15tZqnfQ/0AFaLEva0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AdGvgNel; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C580BC4CEEB;
+	Sun, 17 Aug 2025 07:44:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755416147;
-	bh=7oWUqe3YRLCl8fWxOlJHuRdN2B9vTNF9+E9VSGua+u0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GnvRiM02cB4IP8EQ/xBKkuj6VK3r7Tqo/StzEOxAfMCeDKrgPZ2mluoxlP2LsT3uU
-	 5uCpwccikeS9UkimDwZuyE8VXZcRPb0SbnASp+2ODdhZbQBXB8l4Z9VPJ6/oV8eJbF
-	 L6Xvd2f+VzZq6abS+f+K9AkV6nIlrFD4mdVz63Qihfn4MyT5y893uvEzQGuzVsK2ut
-	 rGZ4xJtC4pbrBypTRkO6x4T5gIJHOP/PhgFJ19unMuPMS9TJnu8noPWgf2gvivjcn8
-	 f5Kxfbmla4jNK2O5sLNirW9X1U4myJzNlQF/ZUiU0YgL6SrB/OZHg9j8reuCFdqzZt
-	 1PoUgffhpVS2A==
-Message-ID: <11e35902-a19a-44b2-b816-15a495048d41@kernel.org>
-Date: Sun, 17 Aug 2025 09:35:42 +0200
+	s=k20201202; t=1755416653;
+	bh=RoUUZa5TBFd2V1vaLApIFJ+t3u7RtRS0RZJR2cIwQx8=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=AdGvgNelB87MJw5UcUK/gU/JZ0aUwnhbixgclibQwXABLSCekC5rXeoJAmu0zdYyb
+	 3ORGlCOO+lWy4IJapV5snzAEyLqcoVdTLxBQIfbvijvqgFKz+BB623+7Xum0y+EVWG
+	 IlVKGZO8xuxkCpBYrjcgqUZNApvJteZia/5V5ZCuqPj5pQE0afzpL3I2b2j7awE6E8
+	 x7941U4SNGsV8rAX6jBBoR14Kb+w0wPC7grTJZm7pUcSwJRU3t9IUbgENEMnb3bCLj
+	 c1dfHsNmqD/lF4iTGK9yPiGBbOQNtD+VfHTP2g2aCMp/y5foLN6wa6YBzN/j6/Hg96
+	 pho0cA4cz/mlg==
+Message-ID: <7edff62d-cf12-48f2-9b72-cc1f544aaee3@kernel.org>
+Date: Sun, 17 Aug 2025 09:44:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 2/2] media: i2c: imx585: Add Sony IMX585 image-sensor
  driver
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Will Whang <will@willwhang.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -66,7 +67,7 @@ References: <20250816055432.131912-1-will@willwhang.com>
  <CAFoNnrw4yRKGL_m0=g14C583o13ptC6e84TN---ABdyeg8jMhg@mail.gmail.com>
  <04fd00bb-beb4-4f35-88fb-bf1cc7691505@kernel.org>
  <CAFoNnrxd_2=9aJqo9yQ8bcDsyW9pVRCfmUU6tOHoeX5wEB2AhA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <11e35902-a19a-44b2-b816-15a495048d41@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -111,619 +112,631 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAFoNnrxd_2=9aJqo9yQ8bcDsyW9pVRCfmUU6tOHoeX5wEB2AhA@mail.gmail.com>
+In-Reply-To: <11e35902-a19a-44b2-b816-15a495048d41@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 17/08/2025 09:15, Will Whang wrote:
-> On Sun, Aug 17, 2025 at 12:02 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 17/08/2025 08:46, Will Whang wrote:
->>> On Sat, Aug 16, 2025 at 11:10 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>
->>>> On 16/08/2025 21:58, Will Whang wrote:
->>>>> On Sat, Aug 16, 2025 at 1:04 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On 17/08/2025 09:35, Krzysztof Kozlowski wrote:
+> On 17/08/2025 09:15, Will Whang wrote:
+>> On Sun, Aug 17, 2025 at 12:02 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>
+>>> On 17/08/2025 08:46, Will Whang wrote:
+>>>> On Sat, Aug 16, 2025 at 11:10 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>>
+>>>>> On 16/08/2025 21:58, Will Whang wrote:
+>>>>>> On Sat, Aug 16, 2025 at 1:04 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>>>>
+>>>>>>> On 16/08/2025 07:54, Will Whang wrote:
+>>>>>>>> +
+>>>>>>>> +static int imx585_set_ctrl(struct v4l2_ctrl *ctrl)
+>>>>>>>> +{
+>>>>>>>> +     struct imx585 *imx585 = container_of(ctrl->handler, struct imx585, ctrl_handler);
+>>>>>>>> +     const struct imx585_mode *mode, *mode_list;
+>>>>>>>> +     struct v4l2_subdev_state *state;
+>>>>>>>> +     struct v4l2_mbus_framefmt *fmt;
+>>>>>>>> +     unsigned int num_modes;
+>>>>>>>> +     int ret = 0;
+>>>>>>>> +
+>>>>>>>> +     state = v4l2_subdev_get_locked_active_state(&imx585->sd);
+>>>>>>>> +     fmt = v4l2_subdev_state_get_format(state, 0);
+>>>>>>>> +
+>>>>>>>> +     get_mode_table(imx585, fmt->code, &mode_list, &num_modes);
+>>>>>>>> +     mode = v4l2_find_nearest_size(mode_list, num_modes, width, height,
+>>>>>>>> +                                   fmt->width, fmt->height);
+>>>>>>>> +
+>>>>>>>> +     /* Apply control only when powered (runtime active). */
+>>>>>>>> +     if (!pm_runtime_get_if_active(imx585->clientdev))
+>>>>>>>> +             return 0;
+>>>>>>>> +
+>>>>>>>> +     switch (ctrl->id) {
+>>>>>>>> +     case V4L2_CID_EXPOSURE: {
+>>>>>>>> +             u32 shr = (imx585->vmax - ctrl->val) & ~1U; /* SHR always a multiple of 2 */
+>>>>>>>> +
+>>>>>>>> +             dev_dbg(imx585->clientdev, "EXPOSURE=%u -> SHR=%u (VMAX=%u HMAX=%u)\n",
+>>>>>>>> +                     ctrl->val, shr, imx585->vmax, imx585->hmax);
+>>>>>>>> +
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_SHR, shr, NULL);
+>>>>>>>> +             if (ret)
+>>>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "SHR write failed (%d)\n", ret);
+>>>>>>>> +             break;
+>>>>>>>> +     }
+>>>>>>>> +     case V4L2_CID_ANALOGUE_GAIN:
+>>>>>>>> +             dev_dbg(imx585->clientdev, "ANALOG_GAIN=%u\n", ctrl->val);
+>>>>>>>
+>>>>>>> Not much improved. Don't debug V4L2 calls.
+>>>>>>>
+>>>>>>> I already commented on this and you just send simialr code. Drop this
+>>>>>>> completely.
+>>>>>>>
 >>>>>>
->>>>>> On 16/08/2025 07:54, Will Whang wrote:
->>>>>>> +
->>>>>>> +static int imx585_set_ctrl(struct v4l2_ctrl *ctrl)
->>>>>>> +{
->>>>>>> +     struct imx585 *imx585 = container_of(ctrl->handler, struct imx585, ctrl_handler);
->>>>>>> +     const struct imx585_mode *mode, *mode_list;
->>>>>>> +     struct v4l2_subdev_state *state;
->>>>>>> +     struct v4l2_mbus_framefmt *fmt;
->>>>>>> +     unsigned int num_modes;
->>>>>>> +     int ret = 0;
->>>>>>> +
->>>>>>> +     state = v4l2_subdev_get_locked_active_state(&imx585->sd);
->>>>>>> +     fmt = v4l2_subdev_state_get_format(state, 0);
->>>>>>> +
->>>>>>> +     get_mode_table(imx585, fmt->code, &mode_list, &num_modes);
->>>>>>> +     mode = v4l2_find_nearest_size(mode_list, num_modes, width, height,
->>>>>>> +                                   fmt->width, fmt->height);
->>>>>>> +
->>>>>>> +     /* Apply control only when powered (runtime active). */
->>>>>>> +     if (!pm_runtime_get_if_active(imx585->clientdev))
->>>>>>> +             return 0;
->>>>>>> +
->>>>>>> +     switch (ctrl->id) {
->>>>>>> +     case V4L2_CID_EXPOSURE: {
->>>>>>> +             u32 shr = (imx585->vmax - ctrl->val) & ~1U; /* SHR always a multiple of 2 */
->>>>>>> +
->>>>>>> +             dev_dbg(imx585->clientdev, "EXPOSURE=%u -> SHR=%u (VMAX=%u HMAX=%u)\n",
->>>>>>> +                     ctrl->val, shr, imx585->vmax, imx585->hmax);
->>>>>>> +
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_SHR, shr, NULL);
->>>>>>> +             if (ret)
->>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "SHR write failed (%d)\n", ret);
->>>>>>> +             break;
->>>>>>> +     }
->>>>>>> +     case V4L2_CID_ANALOGUE_GAIN:
->>>>>>> +             dev_dbg(imx585->clientdev, "ANALOG_GAIN=%u\n", ctrl->val);
->>>>>>
->>>>>> Not much improved. Don't debug V4L2 calls.
->>>>>>
->>>>>> I already commented on this and you just send simialr code. Drop this
->>>>>> completely.
+>>>>>> I need to debug V4L2 calls for image quality debugging. I don't
+>>>>>> understand why I can not have dev_dbg().
+>>>>>> What I read from your comments on the previous patch is that you don't
+>>>>>> want to have a noisy driver and I sorta agree with that but for debug
+>>>>>> purposes this is not an issue.
+>>>>>> That is why I move it to dev_dbg instead of removing them, if you
+>>>>>> think this is too noisy, then just don't turn on debugging.
 >>>>>>
 >>>>>
->>>>> I need to debug V4L2 calls for image quality debugging. I don't
->>>>> understand why I can not have dev_dbg().
->>>>> What I read from your comments on the previous patch is that you don't
->>>>> want to have a noisy driver and I sorta agree with that but for debug
->>>>> purposes this is not an issue.
->>>>> That is why I move it to dev_dbg instead of removing them, if you
->>>>> think this is too noisy, then just don't turn on debugging.
 >>>>>
->>>>
->>>>
->>>> Because you do not debug useful parts of the driver, but only invocation
->>>> of v4l2 controls.
->>>>
->>>>
->>>>>>
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_ANALOG_GAIN, ctrl->val, NULL);
->>>>>>> +             if (ret)
->>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "Gain write failed (%d)\n", ret);
->>>>>>> +             break;
->>>>>>> +     case V4L2_CID_VBLANK: {
->>>>>>> +             u32 current_exposure = imx585->exposure->cur.val;
->>>>>>> +
->>>>>>> +             imx585->vmax = (mode->height + ctrl->val) & ~1U;
->>>>>>> +
->>>>>>> +             current_exposure = clamp_t(u32, current_exposure,
->>>>>>> +                                        IMX585_EXPOSURE_MIN, imx585->vmax - IMX585_SHR_MIN);
->>>>>>> +             __v4l2_ctrl_modify_range(imx585->exposure,
->>>>>>> +                                      IMX585_EXPOSURE_MIN, imx585->vmax - IMX585_SHR_MIN, 1,
->>>>>>> +                                      current_exposure);
->>>>>>> +
->>>>>>> +             dev_dbg(imx585->clientdev, "VBLANK=%u -> VMAX=%u\n", ctrl->val, imx585->vmax);
->>>>>>> +
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_VMAX, imx585->vmax, NULL);
->>>>>>> +             if (ret)
->>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "VMAX write failed (%d)\n", ret);
->>>>>>> +             break;
->>>>>>> +     }
->>>>>>> +     case V4L2_CID_HBLANK: {
->>>>>>> +             u64 pixel_rate = (u64)mode->width * IMX585_PIXEL_RATE;
->>>>>>> +             u64 hmax;
->>>>>>> +
->>>>>>> +             do_div(pixel_rate, mode->min_hmax);
->>>>>>> +             hmax = (u64)(mode->width + ctrl->val) * IMX585_PIXEL_RATE;
->>>>>>> +             do_div(hmax, pixel_rate);
->>>>>>> +             imx585->hmax = (u32)hmax;
->>>>>>> +
->>>>>>> +             dev_dbg(imx585->clientdev, "HBLANK=%u -> HMAX=%u\n", ctrl->val, imx585->hmax);
->>>>>>> +
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_HMAX, imx585->hmax, NULL);
->>>>>>> +             if (ret)
->>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "HMAX write failed (%d)\n", ret);
->>>>>>> +             break;
->>>>>>> +     }
->>>>>>> +     case V4L2_CID_HFLIP:
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_FLIP_WINMODEH, ctrl->val, NULL);
->>>>>>> +             if (ret)
->>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "HFLIP write failed (%d)\n", ret);
->>>>>>> +             break;
->>>>>>> +     case V4L2_CID_VFLIP:
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_FLIP_WINMODEV, ctrl->val, NULL);
->>>>>>> +             if (ret)
->>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "VFLIP write failed (%d)\n", ret);
->>>>>>> +             break;
->>>>>>> +     case V4L2_CID_BRIGHTNESS: {
->>>>>>> +             u16 blacklevel = min_t(u32, ctrl->val, 4095);
->>>>>>> +
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_BLKLEVEL, blacklevel, NULL);
->>>>>>> +             if (ret)
->>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "BLKLEVEL write failed (%d)\n", ret);
->>>>>>> +             break;
->>>>>>> +     }
->>>>>>> +     default:
->>>>>>> +             dev_dbg(imx585->clientdev, "Unhandled ctrl %s: id=0x%x, val=0x%x\n",
->>>>>>> +                     ctrl->name, ctrl->id, ctrl->val);
->>>>>>> +             break;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     pm_runtime_put(imx585->clientdev);
->>>>>>> +     return ret;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static const struct v4l2_ctrl_ops imx585_ctrl_ops = {
->>>>>>> +     .s_ctrl = imx585_set_ctrl,
->>>>>>> +};
->>>>>>> +
->>>>>>> +static int imx585_init_controls(struct imx585 *imx585)
->>>>>>> +{
->>>>>>> +     struct v4l2_ctrl_handler *hdl = &imx585->ctrl_handler;
->>>>>>> +     struct v4l2_fwnode_device_properties props;
->>>>>>> +     int ret;
->>>>>>> +
->>>>>>> +     ret = v4l2_ctrl_handler_init(hdl, 16);
->>>>>>> +
->>>>>>> +     /* Read-only, updated per mode */
->>>>>>> +     imx585->pixel_rate = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
->>>>>>> +                                            V4L2_CID_PIXEL_RATE,
->>>>>>> +                                            1, UINT_MAX, 1, 1);
->>>>>>> +
->>>>>>> +     imx585->link_freq =
->>>>>>> +             v4l2_ctrl_new_int_menu(hdl, &imx585_ctrl_ops, V4L2_CID_LINK_FREQ,
->>>>>>> +                                    0, 0, &link_freqs[imx585->link_freq_idx]);
->>>>>>> +     if (imx585->link_freq)
->>>>>>> +             imx585->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>>>>>> +
->>>>>>> +     imx585->vblank = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
->>>>>>> +                                        V4L2_CID_VBLANK, 0, 0xFFFFF, 1, 0);
->>>>>>> +     imx585->hblank = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
->>>>>>> +                                        V4L2_CID_HBLANK, 0, 0xFFFF, 1, 0);
->>>>>>> +     imx585->blacklevel = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
->>>>>>> +                                            V4L2_CID_BRIGHTNESS, 0, 0xFFFF, 1,
->>>>>>> +                                            IMX585_BLKLEVEL_DEFAULT);
->>>>>>> +
->>>>>>> +     imx585->exposure = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
->>>>>>> +                                          V4L2_CID_EXPOSURE,
->>>>>>> +                                          IMX585_EXPOSURE_MIN, IMX585_EXPOSURE_MAX,
->>>>>>> +                                          IMX585_EXPOSURE_STEP, IMX585_EXPOSURE_DEFAULT);
->>>>>>> +
->>>>>>> +     imx585->gain = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
->>>>>>> +                                      IMX585_ANA_GAIN_MIN, IMX585_ANA_GAIN_MAX,
->>>>>>> +                                      IMX585_ANA_GAIN_STEP, IMX585_ANA_GAIN_DEFAULT);
->>>>>>> +
->>>>>>> +     imx585->hflip = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
->>>>>>> +                                       V4L2_CID_HFLIP, 0, 1, 1, 0);
->>>>>>> +     imx585->vflip = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
->>>>>>> +                                       V4L2_CID_VFLIP, 0, 1, 1, 0);
->>>>>>> +
->>>>>>> +     if (hdl->error) {
->>>>>>> +             ret = hdl->error;
->>>>>>> +             dev_err(imx585->clientdev, "control init failed (%d)\n", ret);
->>>>>>> +             goto err_free;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     ret = v4l2_fwnode_device_parse(imx585->clientdev, &props);
->>>>>>> +     if (ret)
->>>>>>> +             goto err_free;
->>>>>>> +
->>>>>>> +     ret = v4l2_ctrl_new_fwnode_properties(hdl, &imx585_ctrl_ops, &props);
->>>>>>> +     if (ret)
->>>>>>> +             goto err_free;
->>>>>>> +
->>>>>>> +     imx585->sd.ctrl_handler = hdl;
->>>>>>> +     return 0;
->>>>>>> +
->>>>>>> +err_free:
->>>>>>> +     v4l2_ctrl_handler_free(hdl);
->>>>>>> +     return ret;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static void imx585_free_controls(struct imx585 *imx585)
->>>>>>> +{
->>>>>>> +     v4l2_ctrl_handler_free(imx585->sd.ctrl_handler);
->>>>>>> +}
->>>>>>> +
->>>>>>> +/* --------------------------------------------------------------------------
->>>>>>> + * Pad ops / formats
->>>>>>> + * --------------------------------------------------------------------------
->>>>>>> + */
->>>>>>> +
->>>>>>> +static int imx585_enum_mbus_code(struct v4l2_subdev *sd,
->>>>>>> +                              struct v4l2_subdev_state *sd_state,
->>>>>>> +                              struct v4l2_subdev_mbus_code_enum *code)
->>>>>>> +{
->>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
->>>>>>> +     unsigned int entries;
->>>>>>> +     const u32 *tbl;
->>>>>>> +
->>>>>>> +     if (imx585->mono) {
->>>>>>> +             if (code->index)
->>>>>>> +                     return -EINVAL;
->>>>>>> +             code->code = MEDIA_BUS_FMT_Y12_1X12;
->>>>>>> +             return 0;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     tbl = color_codes;
->>>>>>> +     entries = ARRAY_SIZE(color_codes) / 4;
->>>>>>> +
->>>>>>> +     if (code->index >= entries)
->>>>>>> +             return -EINVAL;
->>>>>>> +
->>>>>>> +     code->code = imx585_get_format_code(imx585, tbl[code->index * 4]);
->>>>>>> +     return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int imx585_enum_frame_size(struct v4l2_subdev *sd,
->>>>>>> +                               struct v4l2_subdev_state *sd_state,
->>>>>>> +                               struct v4l2_subdev_frame_size_enum *fse)
->>>>>>> +{
->>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
->>>>>>> +     const struct imx585_mode *mode_list;
->>>>>>> +     unsigned int num_modes;
->>>>>>> +
->>>>>>> +     get_mode_table(imx585, fse->code, &mode_list, &num_modes);
->>>>>>> +     if (fse->index >= num_modes)
->>>>>>> +             return -EINVAL;
->>>>>>> +     if (fse->code != imx585_get_format_code(imx585, fse->code))
->>>>>>> +             return -EINVAL;
->>>>>>> +
->>>>>>> +     fse->min_width  = mode_list[fse->index].width;
->>>>>>> +     fse->max_width  = fse->min_width;
->>>>>>> +     fse->min_height = mode_list[fse->index].height;
->>>>>>> +     fse->max_height = fse->min_height;
->>>>>>> +
->>>>>>> +     return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int imx585_set_pad_format(struct v4l2_subdev *sd,
->>>>>>> +                              struct v4l2_subdev_state *sd_state,
->>>>>>> +                              struct v4l2_subdev_format *fmt)
->>>>>>> +{
->>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
->>>>>>> +     const struct imx585_mode *mode_list, *mode;
->>>>>>> +     unsigned int num_modes;
->>>>>>> +     struct v4l2_mbus_framefmt *format;
->>>>>>> +
->>>>>>> +     get_mode_table(imx585, fmt->format.code, &mode_list, &num_modes);
->>>>>>> +     mode = v4l2_find_nearest_size(mode_list, num_modes, width, height,
->>>>>>> +                                   fmt->format.width, fmt->format.height);
->>>>>>> +
->>>>>>> +     fmt->format.width        = mode->width;
->>>>>>> +     fmt->format.height       = mode->height;
->>>>>>> +     fmt->format.field        = V4L2_FIELD_NONE;
->>>>>>> +     fmt->format.colorspace   = V4L2_COLORSPACE_RAW;
->>>>>>> +     fmt->format.ycbcr_enc    = V4L2_YCBCR_ENC_601;
->>>>>>> +     fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>>>>>> +     fmt->format.xfer_func    = V4L2_XFER_FUNC_NONE;
->>>>>>> +
->>>>>>> +     format = v4l2_subdev_state_get_format(sd_state, 0);
->>>>>>> +
->>>>>>> +     if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->>>>>>> +             imx585_set_framing_limits(imx585, mode);
->>>>>>> +
->>>>>>> +     *format = fmt->format;
->>>>>>> +     return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +/* --------------------------------------------------------------------------
->>>>>>> + * Stream on/off
->>>>>>> + * --------------------------------------------------------------------------
->>>>>>> + */
->>>>>>> +
->>>>>>> +static int imx585_enable_streams(struct v4l2_subdev *sd,
->>>>>>> +                              struct v4l2_subdev_state *state, u32 pad,
->>>>>>> +                              u64 streams_mask)
->>>>>>> +{
->>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
->>>>>>> +     const struct imx585_mode *mode_list, *mode;
->>>>>>> +     struct v4l2_subdev_state *st;
->>>>>>> +     struct v4l2_mbus_framefmt *fmt;
->>>>>>> +     unsigned int n_modes;
->>>>>>> +     int ret;
->>>>>>> +
->>>>>>> +     ret = pm_runtime_get_sync(imx585->clientdev);
->>>>>>> +     if (ret < 0) {
->>>>>>> +             pm_runtime_put_noidle(imx585->clientdev);
->>>>>>> +             return ret;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     ret = cci_multi_reg_write(imx585->regmap, common_regs,
->>>>>>> +                               ARRAY_SIZE(common_regs), NULL);
->>>>>>> +     if (ret) {
->>>>>>> +             dev_err(imx585->clientdev, "Failed to write common settings\n");
->>>>>>> +             goto err_rpm_put;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     ret = cci_write(imx585->regmap, IMX585_INCK_SEL, imx585->inck_sel_val, NULL);
->>>>>>> +     if (!ret)
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_BLKLEVEL, IMX585_BLKLEVEL_DEFAULT, NULL);
->>>>>>> +     if (!ret)
->>>>>>> +             ret = cci_write(imx585->regmap, IMX585_DATARATE_SEL,
->>>>>>> +                             link_freqs_reg_value[imx585->link_freq_idx], NULL);
->>>>>>> +     if (ret)
->>>>>>> +             goto err_rpm_put;
->>>>>>> +
->>>>>>> +     ret = cci_write(imx585->regmap, IMX585_LANEMODE,
->>>>>>> +                     (imx585->lane_count == 2) ? 0x01 : 0x03, NULL);
->>>>>>> +     if (ret)
->>>>>>> +             goto err_rpm_put;
->>>>>>> +
->>>>>>> +     /* Mono bin flag (datasheet: 0x01 mono, 0x00 color) */
->>>>>>> +     ret = cci_write(imx585->regmap, IMX585_BIN_MODE, imx585->mono ? 0x01 : 0x00, NULL);
->>>>>>> +     if (ret)
->>>>>>> +             goto err_rpm_put;
->>>>>>> +
->>>>>>> +     /* Sync configuration */
->>>>>>> +     if (imx585->sync_mode == SYNC_INT_FOLLOWER) {
->>>>>>> +             dev_dbg(imx585->clientdev, "Internal sync follower: XVS input\n");
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_EXTMODE, 0x01, NULL);
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_DRV, 0x03, NULL); /* XHS out, XVS in */
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_OUTSEL, 0x08, NULL); /* disable XVS OUT */
->>>>>>> +     } else if (imx585->sync_mode == SYNC_INT_LEADER) {
->>>>>>> +             dev_dbg(imx585->clientdev, "Internal sync leader: XVS/XHS output\n");
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_EXTMODE, 0x00, NULL);
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_DRV, 0x00, NULL); /* XHS/XVS out */
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_OUTSEL, 0x0A, NULL);
->>>>>>> +     } else {
->>>>>>> +             dev_dbg(imx585->clientdev, "Follower: XVS/XHS input\n");
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_DRV, 0x0F, NULL); /* inputs */
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_OUTSEL, 0x00, NULL);
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     imx585->common_regs_written = true;
->>>>>>> +
->>>>>>> +     /* Select mode */
->>>>>>> +     st  = v4l2_subdev_get_locked_active_state(&imx585->sd);
->>>>>>> +     fmt = v4l2_subdev_state_get_format(st, 0);
->>>>>>> +
->>>>>>> +     get_mode_table(imx585, fmt->code, &mode_list, &n_modes);
->>>>>>> +     mode = v4l2_find_nearest_size(mode_list, n_modes, width, height,
->>>>>>> +                                   fmt->width, fmt->height);
->>>>>>> +
->>>>>>> +     ret = cci_multi_reg_write(imx585->regmap, mode->reg_list.regs,
->>>>>>> +                               mode->reg_list.num_of_regs, NULL);
->>>>>>> +     if (ret) {
->>>>>>> +             dev_err(imx585->clientdev, "Failed to write mode registers\n");
->>>>>>> +             goto err_rpm_put;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     /* Disable digital clamp */
->>>>>>> +     cci_write(imx585->regmap, IMX585_REG_DIGITAL_CLAMP, 0x00, NULL);
->>>>>>> +
->>>>>>> +     /* Apply user controls after writing the base tables */
->>>>>>> +     ret = __v4l2_ctrl_handler_setup(imx585->sd.ctrl_handler);
->>>>>>> +     if (ret) {
->>>>>>> +             dev_err(imx585->clientdev, "Control handler setup failed\n");
->>>>>>> +             goto err_rpm_put;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     if (imx585->sync_mode != SYNC_EXTERNAL)
->>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XMSTA, 0x00, NULL);
->>>>>>> +
->>>>>>> +     ret = cci_write(imx585->regmap, IMX585_REG_MODE_SELECT, IMX585_MODE_STREAMING, NULL);
->>>>>>> +     if (ret)
->>>>>>> +             goto err_rpm_put;
->>>>>>> +
->>>>>>> +     dev_dbg(imx585->clientdev, "Streaming started\n");
->>>>>>> +     usleep_range(IMX585_STREAM_DELAY_US,
->>>>>>> +                  IMX585_STREAM_DELAY_US + IMX585_STREAM_DELAY_RANGE_US);
->>>>>>> +
->>>>>>> +     /* vflip, hflip cannot change during streaming */
->>>>>>> +     __v4l2_ctrl_grab(imx585->vflip, true);
->>>>>>> +     __v4l2_ctrl_grab(imx585->hflip, true);
->>>>>>> +
->>>>>>> +     return 0;
->>>>>>> +
->>>>>>> +err_rpm_put:
->>>>>>> +     pm_runtime_put_autosuspend(imx585->clientdev);
->>>>>>> +     return ret;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int imx585_disable_streams(struct v4l2_subdev *sd,
->>>>>>> +                               struct v4l2_subdev_state *state, u32 pad,
->>>>>>> +                               u64 streams_mask)
->>>>>>> +{
->>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
->>>>>>> +     int ret;
->>>>>>> +
->>>>>>> +     ret = cci_write(imx585->regmap, IMX585_REG_MODE_SELECT, IMX585_MODE_STANDBY, NULL);
->>>>>>> +     if (ret)
->>>>>>> +             dev_err(imx585->clientdev, "Failed to stop streaming\n");
->>>>>>> +
->>>>>>> +     __v4l2_ctrl_grab(imx585->vflip, false);
->>>>>>> +     __v4l2_ctrl_grab(imx585->hflip, false);
->>>>>>> +
->>>>>>> +     pm_runtime_put_autosuspend(imx585->clientdev);
->>>>>>> +
->>>>>>> +     return ret;
->>>>>>> +}
->>>>>>> +
->>>>>>> +/* --------------------------------------------------------------------------
->>>>>>> + * Power / runtime PM
->>>>>>> + * --------------------------------------------------------------------------
->>>>>>> + */
->>>>>>> +
->>>>>>> +static int imx585_power_on(struct device *dev)
->>>>>>> +{
->>>>>>> +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
->>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
->>>>>>> +     int ret;
->>>>>>> +
->>>>>>> +     dev_dbg(imx585->clientdev, "power_on\n");
->>>>>>> +
->>>>>>> +     ret = regulator_bulk_enable(IMX585_NUM_SUPPLIES, imx585->supplies);
->>>>>>> +     if (ret) {
->>>>>>> +             dev_err(imx585->clientdev, "Failed to enable regulators\n");
->>>>>>> +             return ret;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     ret = clk_prepare_enable(imx585->xclk);
->>>>>>> +     if (ret) {
->>>>>>> +             dev_err(imx585->clientdev, "Failed to enable clock\n");
->>>>>>> +             goto reg_off;
->>>>>>> +     }
->>>>>>> +
->>>>>>> +     gpiod_set_value_cansleep(imx585->reset_gpio, 1);
->>>>>>> +     usleep_range(IMX585_XCLR_MIN_DELAY_US,
->>>>>>> +                  IMX585_XCLR_MIN_DELAY_US + IMX585_XCLR_DELAY_RANGE_US);
->>>>>>> +     return 0;
->>>>>>> +
->>>>>>> +reg_off:
->>>>>>> +     regulator_bulk_disable(IMX585_NUM_SUPPLIES, imx585->supplies);
->>>>>>> +     return ret;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int imx585_power_off(struct device *dev)
->>>>>>> +{
->>>>>>> +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
->>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
->>>>>>> +
->>>>>>> +     dev_dbg(imx585->clientdev, "power_off\n");
->>>>>>> +
->>>>>>> +     gpiod_set_value_cansleep(imx585->reset_gpio, 0);
->>>>>>
->>>>>> NAK, I wrote you this is broken and you just ignored and sending the same.
->>>>>>
->>>>>> You are mixing line level with logical level.
->>>>>>
->>>>>> There is no way your code actually works, unless you have broken DTS.
->>>>>> Test your patches correctly (with proper, fixed DTS) and don't send the
->>>>>> same completely ignoring reviewers.
+>>>>> Because you do not debug useful parts of the driver, but only invocation
+>>>>> of v4l2 controls.
 >>>>>
->>>>> See how imx219.c works, ask Sony don't ask me.
+>>>>>
+>>>>>>>
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_ANALOG_GAIN, ctrl->val, NULL);
+>>>>>>>> +             if (ret)
+>>>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "Gain write failed (%d)\n", ret);
+>>>>>>>> +             break;
+>>>>>>>> +     case V4L2_CID_VBLANK: {
+>>>>>>>> +             u32 current_exposure = imx585->exposure->cur.val;
+>>>>>>>> +
+>>>>>>>> +             imx585->vmax = (mode->height + ctrl->val) & ~1U;
+>>>>>>>> +
+>>>>>>>> +             current_exposure = clamp_t(u32, current_exposure,
+>>>>>>>> +                                        IMX585_EXPOSURE_MIN, imx585->vmax - IMX585_SHR_MIN);
+>>>>>>>> +             __v4l2_ctrl_modify_range(imx585->exposure,
+>>>>>>>> +                                      IMX585_EXPOSURE_MIN, imx585->vmax - IMX585_SHR_MIN, 1,
+>>>>>>>> +                                      current_exposure);
+>>>>>>>> +
+>>>>>>>> +             dev_dbg(imx585->clientdev, "VBLANK=%u -> VMAX=%u\n", ctrl->val, imx585->vmax);
+>>>>>>>> +
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_VMAX, imx585->vmax, NULL);
+>>>>>>>> +             if (ret)
+>>>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "VMAX write failed (%d)\n", ret);
+>>>>>>>> +             break;
+>>>>>>>> +     }
+>>>>>>>> +     case V4L2_CID_HBLANK: {
+>>>>>>>> +             u64 pixel_rate = (u64)mode->width * IMX585_PIXEL_RATE;
+>>>>>>>> +             u64 hmax;
+>>>>>>>> +
+>>>>>>>> +             do_div(pixel_rate, mode->min_hmax);
+>>>>>>>> +             hmax = (u64)(mode->width + ctrl->val) * IMX585_PIXEL_RATE;
+>>>>>>>> +             do_div(hmax, pixel_rate);
+>>>>>>>> +             imx585->hmax = (u32)hmax;
+>>>>>>>> +
+>>>>>>>> +             dev_dbg(imx585->clientdev, "HBLANK=%u -> HMAX=%u\n", ctrl->val, imx585->hmax);
+>>>>>>>> +
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_HMAX, imx585->hmax, NULL);
+>>>>>>>> +             if (ret)
+>>>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "HMAX write failed (%d)\n", ret);
+>>>>>>>> +             break;
+>>>>>>>> +     }
+>>>>>>>> +     case V4L2_CID_HFLIP:
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_FLIP_WINMODEH, ctrl->val, NULL);
+>>>>>>>> +             if (ret)
+>>>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "HFLIP write failed (%d)\n", ret);
+>>>>>>>> +             break;
+>>>>>>>> +     case V4L2_CID_VFLIP:
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_FLIP_WINMODEV, ctrl->val, NULL);
+>>>>>>>> +             if (ret)
+>>>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "VFLIP write failed (%d)\n", ret);
+>>>>>>>> +             break;
+>>>>>>>> +     case V4L2_CID_BRIGHTNESS: {
+>>>>>>>> +             u16 blacklevel = min_t(u32, ctrl->val, 4095);
+>>>>>>>> +
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_BLKLEVEL, blacklevel, NULL);
+>>>>>>>> +             if (ret)
+>>>>>>>> +                     dev_err_ratelimited(imx585->clientdev, "BLKLEVEL write failed (%d)\n", ret);
+>>>>>>>> +             break;
+>>>>>>>> +     }
+>>>>>>>> +     default:
+>>>>>>>> +             dev_dbg(imx585->clientdev, "Unhandled ctrl %s: id=0x%x, val=0x%x\n",
+>>>>>>>> +                     ctrl->name, ctrl->id, ctrl->val);
+>>>>>>>> +             break;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     pm_runtime_put(imx585->clientdev);
+>>>>>>>> +     return ret;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static const struct v4l2_ctrl_ops imx585_ctrl_ops = {
+>>>>>>>> +     .s_ctrl = imx585_set_ctrl,
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +static int imx585_init_controls(struct imx585 *imx585)
+>>>>>>>> +{
+>>>>>>>> +     struct v4l2_ctrl_handler *hdl = &imx585->ctrl_handler;
+>>>>>>>> +     struct v4l2_fwnode_device_properties props;
+>>>>>>>> +     int ret;
+>>>>>>>> +
+>>>>>>>> +     ret = v4l2_ctrl_handler_init(hdl, 16);
+>>>>>>>> +
+>>>>>>>> +     /* Read-only, updated per mode */
+>>>>>>>> +     imx585->pixel_rate = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
+>>>>>>>> +                                            V4L2_CID_PIXEL_RATE,
+>>>>>>>> +                                            1, UINT_MAX, 1, 1);
+>>>>>>>> +
+>>>>>>>> +     imx585->link_freq =
+>>>>>>>> +             v4l2_ctrl_new_int_menu(hdl, &imx585_ctrl_ops, V4L2_CID_LINK_FREQ,
+>>>>>>>> +                                    0, 0, &link_freqs[imx585->link_freq_idx]);
+>>>>>>>> +     if (imx585->link_freq)
+>>>>>>>> +             imx585->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>>>>>>>> +
+>>>>>>>> +     imx585->vblank = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
+>>>>>>>> +                                        V4L2_CID_VBLANK, 0, 0xFFFFF, 1, 0);
+>>>>>>>> +     imx585->hblank = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
+>>>>>>>> +                                        V4L2_CID_HBLANK, 0, 0xFFFF, 1, 0);
+>>>>>>>> +     imx585->blacklevel = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
+>>>>>>>> +                                            V4L2_CID_BRIGHTNESS, 0, 0xFFFF, 1,
+>>>>>>>> +                                            IMX585_BLKLEVEL_DEFAULT);
+>>>>>>>> +
+>>>>>>>> +     imx585->exposure = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
+>>>>>>>> +                                          V4L2_CID_EXPOSURE,
+>>>>>>>> +                                          IMX585_EXPOSURE_MIN, IMX585_EXPOSURE_MAX,
+>>>>>>>> +                                          IMX585_EXPOSURE_STEP, IMX585_EXPOSURE_DEFAULT);
+>>>>>>>> +
+>>>>>>>> +     imx585->gain = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+>>>>>>>> +                                      IMX585_ANA_GAIN_MIN, IMX585_ANA_GAIN_MAX,
+>>>>>>>> +                                      IMX585_ANA_GAIN_STEP, IMX585_ANA_GAIN_DEFAULT);
+>>>>>>>> +
+>>>>>>>> +     imx585->hflip = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
+>>>>>>>> +                                       V4L2_CID_HFLIP, 0, 1, 1, 0);
+>>>>>>>> +     imx585->vflip = v4l2_ctrl_new_std(hdl, &imx585_ctrl_ops,
+>>>>>>>> +                                       V4L2_CID_VFLIP, 0, 1, 1, 0);
+>>>>>>>> +
+>>>>>>>> +     if (hdl->error) {
+>>>>>>>> +             ret = hdl->error;
+>>>>>>>> +             dev_err(imx585->clientdev, "control init failed (%d)\n", ret);
+>>>>>>>> +             goto err_free;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     ret = v4l2_fwnode_device_parse(imx585->clientdev, &props);
+>>>>>>>> +     if (ret)
+>>>>>>>> +             goto err_free;
+>>>>>>>> +
+>>>>>>>> +     ret = v4l2_ctrl_new_fwnode_properties(hdl, &imx585_ctrl_ops, &props);
+>>>>>>>> +     if (ret)
+>>>>>>>> +             goto err_free;
+>>>>>>>> +
+>>>>>>>> +     imx585->sd.ctrl_handler = hdl;
+>>>>>>>> +     return 0;
+>>>>>>>> +
+>>>>>>>> +err_free:
+>>>>>>>> +     v4l2_ctrl_handler_free(hdl);
+>>>>>>>> +     return ret;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static void imx585_free_controls(struct imx585 *imx585)
+>>>>>>>> +{
+>>>>>>>> +     v4l2_ctrl_handler_free(imx585->sd.ctrl_handler);
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +/* --------------------------------------------------------------------------
+>>>>>>>> + * Pad ops / formats
+>>>>>>>> + * --------------------------------------------------------------------------
+>>>>>>>> + */
+>>>>>>>> +
+>>>>>>>> +static int imx585_enum_mbus_code(struct v4l2_subdev *sd,
+>>>>>>>> +                              struct v4l2_subdev_state *sd_state,
+>>>>>>>> +                              struct v4l2_subdev_mbus_code_enum *code)
+>>>>>>>> +{
+>>>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
+>>>>>>>> +     unsigned int entries;
+>>>>>>>> +     const u32 *tbl;
+>>>>>>>> +
+>>>>>>>> +     if (imx585->mono) {
+>>>>>>>> +             if (code->index)
+>>>>>>>> +                     return -EINVAL;
+>>>>>>>> +             code->code = MEDIA_BUS_FMT_Y12_1X12;
+>>>>>>>> +             return 0;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     tbl = color_codes;
+>>>>>>>> +     entries = ARRAY_SIZE(color_codes) / 4;
+>>>>>>>> +
+>>>>>>>> +     if (code->index >= entries)
+>>>>>>>> +             return -EINVAL;
+>>>>>>>> +
+>>>>>>>> +     code->code = imx585_get_format_code(imx585, tbl[code->index * 4]);
+>>>>>>>> +     return 0;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static int imx585_enum_frame_size(struct v4l2_subdev *sd,
+>>>>>>>> +                               struct v4l2_subdev_state *sd_state,
+>>>>>>>> +                               struct v4l2_subdev_frame_size_enum *fse)
+>>>>>>>> +{
+>>>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
+>>>>>>>> +     const struct imx585_mode *mode_list;
+>>>>>>>> +     unsigned int num_modes;
+>>>>>>>> +
+>>>>>>>> +     get_mode_table(imx585, fse->code, &mode_list, &num_modes);
+>>>>>>>> +     if (fse->index >= num_modes)
+>>>>>>>> +             return -EINVAL;
+>>>>>>>> +     if (fse->code != imx585_get_format_code(imx585, fse->code))
+>>>>>>>> +             return -EINVAL;
+>>>>>>>> +
+>>>>>>>> +     fse->min_width  = mode_list[fse->index].width;
+>>>>>>>> +     fse->max_width  = fse->min_width;
+>>>>>>>> +     fse->min_height = mode_list[fse->index].height;
+>>>>>>>> +     fse->max_height = fse->min_height;
+>>>>>>>> +
+>>>>>>>> +     return 0;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static int imx585_set_pad_format(struct v4l2_subdev *sd,
+>>>>>>>> +                              struct v4l2_subdev_state *sd_state,
+>>>>>>>> +                              struct v4l2_subdev_format *fmt)
+>>>>>>>> +{
+>>>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
+>>>>>>>> +     const struct imx585_mode *mode_list, *mode;
+>>>>>>>> +     unsigned int num_modes;
+>>>>>>>> +     struct v4l2_mbus_framefmt *format;
+>>>>>>>> +
+>>>>>>>> +     get_mode_table(imx585, fmt->format.code, &mode_list, &num_modes);
+>>>>>>>> +     mode = v4l2_find_nearest_size(mode_list, num_modes, width, height,
+>>>>>>>> +                                   fmt->format.width, fmt->format.height);
+>>>>>>>> +
+>>>>>>>> +     fmt->format.width        = mode->width;
+>>>>>>>> +     fmt->format.height       = mode->height;
+>>>>>>>> +     fmt->format.field        = V4L2_FIELD_NONE;
+>>>>>>>> +     fmt->format.colorspace   = V4L2_COLORSPACE_RAW;
+>>>>>>>> +     fmt->format.ycbcr_enc    = V4L2_YCBCR_ENC_601;
+>>>>>>>> +     fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>>>>>>> +     fmt->format.xfer_func    = V4L2_XFER_FUNC_NONE;
+>>>>>>>> +
+>>>>>>>> +     format = v4l2_subdev_state_get_format(sd_state, 0);
+>>>>>>>> +
+>>>>>>>> +     if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+>>>>>>>> +             imx585_set_framing_limits(imx585, mode);
+>>>>>>>> +
+>>>>>>>> +     *format = fmt->format;
+>>>>>>>> +     return 0;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +/* --------------------------------------------------------------------------
+>>>>>>>> + * Stream on/off
+>>>>>>>> + * --------------------------------------------------------------------------
+>>>>>>>> + */
+>>>>>>>> +
+>>>>>>>> +static int imx585_enable_streams(struct v4l2_subdev *sd,
+>>>>>>>> +                              struct v4l2_subdev_state *state, u32 pad,
+>>>>>>>> +                              u64 streams_mask)
+>>>>>>>> +{
+>>>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
+>>>>>>>> +     const struct imx585_mode *mode_list, *mode;
+>>>>>>>> +     struct v4l2_subdev_state *st;
+>>>>>>>> +     struct v4l2_mbus_framefmt *fmt;
+>>>>>>>> +     unsigned int n_modes;
+>>>>>>>> +     int ret;
+>>>>>>>> +
+>>>>>>>> +     ret = pm_runtime_get_sync(imx585->clientdev);
+>>>>>>>> +     if (ret < 0) {
+>>>>>>>> +             pm_runtime_put_noidle(imx585->clientdev);
+>>>>>>>> +             return ret;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     ret = cci_multi_reg_write(imx585->regmap, common_regs,
+>>>>>>>> +                               ARRAY_SIZE(common_regs), NULL);
+>>>>>>>> +     if (ret) {
+>>>>>>>> +             dev_err(imx585->clientdev, "Failed to write common settings\n");
+>>>>>>>> +             goto err_rpm_put;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     ret = cci_write(imx585->regmap, IMX585_INCK_SEL, imx585->inck_sel_val, NULL);
+>>>>>>>> +     if (!ret)
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_REG_BLKLEVEL, IMX585_BLKLEVEL_DEFAULT, NULL);
+>>>>>>>> +     if (!ret)
+>>>>>>>> +             ret = cci_write(imx585->regmap, IMX585_DATARATE_SEL,
+>>>>>>>> +                             link_freqs_reg_value[imx585->link_freq_idx], NULL);
+>>>>>>>> +     if (ret)
+>>>>>>>> +             goto err_rpm_put;
+>>>>>>>> +
+>>>>>>>> +     ret = cci_write(imx585->regmap, IMX585_LANEMODE,
+>>>>>>>> +                     (imx585->lane_count == 2) ? 0x01 : 0x03, NULL);
+>>>>>>>> +     if (ret)
+>>>>>>>> +             goto err_rpm_put;
+>>>>>>>> +
+>>>>>>>> +     /* Mono bin flag (datasheet: 0x01 mono, 0x00 color) */
+>>>>>>>> +     ret = cci_write(imx585->regmap, IMX585_BIN_MODE, imx585->mono ? 0x01 : 0x00, NULL);
+>>>>>>>> +     if (ret)
+>>>>>>>> +             goto err_rpm_put;
+>>>>>>>> +
+>>>>>>>> +     /* Sync configuration */
+>>>>>>>> +     if (imx585->sync_mode == SYNC_INT_FOLLOWER) {
+>>>>>>>> +             dev_dbg(imx585->clientdev, "Internal sync follower: XVS input\n");
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_EXTMODE, 0x01, NULL);
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_DRV, 0x03, NULL); /* XHS out, XVS in */
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_OUTSEL, 0x08, NULL); /* disable XVS OUT */
+>>>>>>>> +     } else if (imx585->sync_mode == SYNC_INT_LEADER) {
+>>>>>>>> +             dev_dbg(imx585->clientdev, "Internal sync leader: XVS/XHS output\n");
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_EXTMODE, 0x00, NULL);
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_DRV, 0x00, NULL); /* XHS/XVS out */
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_OUTSEL, 0x0A, NULL);
+>>>>>>>> +     } else {
+>>>>>>>> +             dev_dbg(imx585->clientdev, "Follower: XVS/XHS input\n");
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_DRV, 0x0F, NULL); /* inputs */
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XXS_OUTSEL, 0x00, NULL);
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     imx585->common_regs_written = true;
+>>>>>>>> +
+>>>>>>>> +     /* Select mode */
+>>>>>>>> +     st  = v4l2_subdev_get_locked_active_state(&imx585->sd);
+>>>>>>>> +     fmt = v4l2_subdev_state_get_format(st, 0);
+>>>>>>>> +
+>>>>>>>> +     get_mode_table(imx585, fmt->code, &mode_list, &n_modes);
+>>>>>>>> +     mode = v4l2_find_nearest_size(mode_list, n_modes, width, height,
+>>>>>>>> +                                   fmt->width, fmt->height);
+>>>>>>>> +
+>>>>>>>> +     ret = cci_multi_reg_write(imx585->regmap, mode->reg_list.regs,
+>>>>>>>> +                               mode->reg_list.num_of_regs, NULL);
+>>>>>>>> +     if (ret) {
+>>>>>>>> +             dev_err(imx585->clientdev, "Failed to write mode registers\n");
+>>>>>>>> +             goto err_rpm_put;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     /* Disable digital clamp */
+>>>>>>>> +     cci_write(imx585->regmap, IMX585_REG_DIGITAL_CLAMP, 0x00, NULL);
+>>>>>>>> +
+>>>>>>>> +     /* Apply user controls after writing the base tables */
+>>>>>>>> +     ret = __v4l2_ctrl_handler_setup(imx585->sd.ctrl_handler);
+>>>>>>>> +     if (ret) {
+>>>>>>>> +             dev_err(imx585->clientdev, "Control handler setup failed\n");
+>>>>>>>> +             goto err_rpm_put;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     if (imx585->sync_mode != SYNC_EXTERNAL)
+>>>>>>>> +             cci_write(imx585->regmap, IMX585_REG_XMSTA, 0x00, NULL);
+>>>>>>>> +
+>>>>>>>> +     ret = cci_write(imx585->regmap, IMX585_REG_MODE_SELECT, IMX585_MODE_STREAMING, NULL);
+>>>>>>>> +     if (ret)
+>>>>>>>> +             goto err_rpm_put;
+>>>>>>>> +
+>>>>>>>> +     dev_dbg(imx585->clientdev, "Streaming started\n");
+>>>>>>>> +     usleep_range(IMX585_STREAM_DELAY_US,
+>>>>>>>> +                  IMX585_STREAM_DELAY_US + IMX585_STREAM_DELAY_RANGE_US);
+>>>>>>>> +
+>>>>>>>> +     /* vflip, hflip cannot change during streaming */
+>>>>>>>> +     __v4l2_ctrl_grab(imx585->vflip, true);
+>>>>>>>> +     __v4l2_ctrl_grab(imx585->hflip, true);
+>>>>>>>> +
+>>>>>>>> +     return 0;
+>>>>>>>> +
+>>>>>>>> +err_rpm_put:
+>>>>>>>> +     pm_runtime_put_autosuspend(imx585->clientdev);
+>>>>>>>> +     return ret;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static int imx585_disable_streams(struct v4l2_subdev *sd,
+>>>>>>>> +                               struct v4l2_subdev_state *state, u32 pad,
+>>>>>>>> +                               u64 streams_mask)
+>>>>>>>> +{
+>>>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
+>>>>>>>> +     int ret;
+>>>>>>>> +
+>>>>>>>> +     ret = cci_write(imx585->regmap, IMX585_REG_MODE_SELECT, IMX585_MODE_STANDBY, NULL);
+>>>>>>>> +     if (ret)
+>>>>>>>> +             dev_err(imx585->clientdev, "Failed to stop streaming\n");
+>>>>>>>> +
+>>>>>>>> +     __v4l2_ctrl_grab(imx585->vflip, false);
+>>>>>>>> +     __v4l2_ctrl_grab(imx585->hflip, false);
+>>>>>>>> +
+>>>>>>>> +     pm_runtime_put_autosuspend(imx585->clientdev);
+>>>>>>>> +
+>>>>>>>> +     return ret;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +/* --------------------------------------------------------------------------
+>>>>>>>> + * Power / runtime PM
+>>>>>>>> + * --------------------------------------------------------------------------
+>>>>>>>> + */
+>>>>>>>> +
+>>>>>>>> +static int imx585_power_on(struct device *dev)
+>>>>>>>> +{
+>>>>>>>> +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>>>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
+>>>>>>>> +     int ret;
+>>>>>>>> +
+>>>>>>>> +     dev_dbg(imx585->clientdev, "power_on\n");
+>>>>>>>> +
+>>>>>>>> +     ret = regulator_bulk_enable(IMX585_NUM_SUPPLIES, imx585->supplies);
+>>>>>>>> +     if (ret) {
+>>>>>>>> +             dev_err(imx585->clientdev, "Failed to enable regulators\n");
+>>>>>>>> +             return ret;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     ret = clk_prepare_enable(imx585->xclk);
+>>>>>>>> +     if (ret) {
+>>>>>>>> +             dev_err(imx585->clientdev, "Failed to enable clock\n");
+>>>>>>>> +             goto reg_off;
+>>>>>>>> +     }
+>>>>>>>> +
+>>>>>>>> +     gpiod_set_value_cansleep(imx585->reset_gpio, 1);
+>>>>>>>> +     usleep_range(IMX585_XCLR_MIN_DELAY_US,
+>>>>>>>> +                  IMX585_XCLR_MIN_DELAY_US + IMX585_XCLR_DELAY_RANGE_US);
+>>>>>>>> +     return 0;
+>>>>>>>> +
+>>>>>>>> +reg_off:
+>>>>>>>> +     regulator_bulk_disable(IMX585_NUM_SUPPLIES, imx585->supplies);
+>>>>>>>> +     return ret;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static int imx585_power_off(struct device *dev)
+>>>>>>>> +{
+>>>>>>>> +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>>>>>>>> +     struct imx585 *imx585 = to_imx585(sd);
+>>>>>>>> +
+>>>>>>>> +     dev_dbg(imx585->clientdev, "power_off\n");
+>>>>>>>> +
+>>>>>>>> +     gpiod_set_value_cansleep(imx585->reset_gpio, 0);
+>>>>>>>
+>>>>>>> NAK, I wrote you this is broken and you just ignored and sending the same.
+>>>>>>>
+>>>>>>> You are mixing line level with logical level.
+>>>>>>>
+>>>>>>> There is no way your code actually works, unless you have broken DTS.
+>>>>>>> Test your patches correctly (with proper, fixed DTS) and don't send the
+>>>>>>> same completely ignoring reviewers.
+>>>>>>
+>>>>>> See how imx219.c works, ask Sony don't ask me.
+>>>>>
+>>>>> So there is a bug, you claim that you may do the same bug and then say:
+>>>>>
+>>>>>> That is why I ignore your comments on this.
+>>>>>
+>>>>> and ignoring comments that your code is buggy. Great!
+>>>>>
+>>>>> If you ever decide to not follow reviewer's opinion, you MUST respond
+>>>>> and you MUST say WHY in the changelog.
+>>>>>
+>>>>> Nothing that happened.
+>>>>>
+>>>>> But regardless, this is still buggy and this is still NAK.
+>>>>>
+>>>>> NAK means: Don't send the same code.
 >>>>
->>>> So there is a bug, you claim that you may do the same bug and then say:
->>>>
->>>>> That is why I ignore your comments on this.
->>>>
->>>> and ignoring comments that your code is buggy. Great!
->>>>
->>>> If you ever decide to not follow reviewer's opinion, you MUST respond
->>>> and you MUST say WHY in the changelog.
->>>>
->>>> Nothing that happened.
->>>>
->>>> But regardless, this is still buggy and this is still NAK.
->>>>
->>>> NAK means: Don't send the same code.
+>>>> What on earth are you talking about?
 >>>
->>> What on earth are you talking about?
->>
->> Why are you sending me this in two copies?
-
-Respond here
-
->>
->> Do you understand the difference betweeen logical level and line level?
-
-Respond here
-
->>
->>> See imx274.c,imx283.c,imx334.c,imx335.c,imx412.c,imx415.c.
->>> Your claim that this is buggy doesn't make sense when all other Sony
->>> imx drivers are using the same logic.
->>>
->>>
->>> imx274.c:
->>> /*
->>>  * imx274_reset - Function called to reset the sensor
->>>  * @priv: Pointer to device structure
->>>  * @rst: Input value for determining the sensor's end state after reset
->>>  *
->>>  * Set the senor in reset and then
->>>  * if rst = 0, keep it in reset;
->>>  * if rst = 1, bring it out of reset.
->>
->> Buggy driver, another old poor code.
->>
->>
->>>  *
->>>  */
->>> static void imx274_reset(struct stimx274 *priv, int rst)
->>> {
->>> gpiod_set_value_cansleep(priv->reset_gpio, 0);
->>> usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
->>> gpiod_set_value_cansleep(priv->reset_gpio, !!rst);
->>> usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
->>> }
->>>
->>>
->>> imx283.c:
->>>
->>
->> Way you paste code makes it very unreadable. It's easier to point
->> web.git references.
->>
->>
->> Anyway, look also here:
->>
->>>
->>> static void imx415_power_off(struct imx415 *sensor)
->>> {
->>> clk_disable_unprepare(sensor->clk);
->>> gpiod_set_value_cansleep(sensor->reset, 1);
->>
->>
->> But if you claim that reset has to be asserted for this device to work -
->> and that's what your code is doing - then this is not a reset line.
->>
->> Do you understand what is the meaning of asserted reset (or to assert
->> reset line)?
-
-So you do not understand above and yet you keep arguing with maintainer.
-
+>>> Why are you sending me this in two copies?
 > 
-> And in all the examples I provided to you, this is the only IMX415
-> that has the logic inverted.
-
-And? All other drivers, camera sensors, hwmon, iio, codecs and whatnot?
-
-
-> I can apply the same logic and say this is buggy and wrong.
-
-We are not going to talk imaginary things.
-
+> Respond here
 > 
-> Do you understand this is writing the GPIO directly and has nothing to
-
-It is not. Again, you are mixing logical level with line level. You
-never responded to that part, you never used actual arguments except
-some vague statements like above.
-
-You do not write GPIO directly.
-
-Each driver is supposed to use logical level.
-
-
-> do with what you think it should be?
-> Ask Sony why they use logic high = normal mode and logic low = reset.
-
-Again you are mixing knowledge. Line level is completely irrelevant
-here. 99% of devices has active low reset line.
-
+>>>
+>>> Do you understand the difference betweeen logical level and line level?
 > 
-> Quote your previous comments:
->> This is not how resets work. Logical reset value high means it is
->> asserted and device does not work.
+> Respond here
 > 
->> Read carefully your datasheet. Because if you claim above this is not a
->> reset line, but some other.
+>>>
+>>>> See imx274.c,imx283.c,imx334.c,imx335.c,imx412.c,imx415.c.
+>>>> Your claim that this is buggy doesn't make sense when all other Sony
+>>>> imx drivers are using the same logic.
+>>>>
+>>>>
+>>>> imx274.c:
+>>>> /*
+>>>>  * imx274_reset - Function called to reset the sensor
+>>>>  * @priv: Pointer to device structure
+>>>>  * @rst: Input value for determining the sensor's end state after reset
+>>>>  *
+>>>>  * Set the senor in reset and then
+>>>>  * if rst = 0, keep it in reset;
+>>>>  * if rst = 1, bring it out of reset.
+>>>
+>>> Buggy driver, another old poor code.
+>>>
+>>>
+>>>>  *
+>>>>  */
+>>>> static void imx274_reset(struct stimx274 *priv, int rst)
+>>>> {
+>>>> gpiod_set_value_cansleep(priv->reset_gpio, 0);
+>>>> usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
+>>>> gpiod_set_value_cansleep(priv->reset_gpio, !!rst);
+>>>> usleep_range(IMX274_RESET_DELAY1, IMX274_RESET_DELAY2);
+>>>> }
+>>>>
+>>>>
+>>>> imx283.c:
+>>>>
+>>>
+>>> Way you paste code makes it very unreadable. It's easier to point
+>>> web.git references.
+>>>
+>>>
+>>> Anyway, look also here:
+>>>
+>>>>
+>>>> static void imx415_power_off(struct imx415 *sensor)
+>>>> {
+>>>> clk_disable_unprepare(sensor->clk);
+>>>> gpiod_set_value_cansleep(sensor->reset, 1);
+>>>
+>>>
+>>> But if you claim that reset has to be asserted for this device to work -
+>>> and that's what your code is doing - then this is not a reset line.
+>>>
+>>> Do you understand what is the meaning of asserted reset (or to assert
+>>> reset line)?
 > 
-> imx283.c is the latest one landed in 2024, can you read it carefully
-> and reply again?
+> So you do not understand above and yet you keep arguing with maintainer.
+> 
+>>
+>> And in all the examples I provided to you, this is the only IMX415
+>> that has the logic inverted.
+> 
+> And? All other drivers, camera sensors, hwmon, iio, codecs and whatnot?
+> 
+> 
+>> I can apply the same logic and say this is buggy and wrong.
+> 
+> We are not going to talk imaginary things.
+> 
+>>
+>> Do you understand this is writing the GPIO directly and has nothing to
+> 
+> It is not. Again, you are mixing logical level with line level. You
+> never responded to that part, you never used actual arguments except
+> some vague statements like above.
+> 
+> You do not write GPIO directly.
+> 
+> Each driver is supposed to use logical level.
+> 
+> 
+>> do with what you think it should be?
+>> Ask Sony why they use logic high = normal mode and logic low = reset.
+> 
+> Again you are mixing knowledge. Line level is completely irrelevant
+> here. 99% of devices has active low reset line.
+> 
+>>
+>> Quote your previous comments:
+>>> This is not how resets work. Logical reset value high means it is
+>>> asserted and device does not work.
+>>
+>>> Read carefully your datasheet. Because if you claim above this is not a
+>>> reset line, but some other.
+>>
+>> imx283.c is the latest one landed in 2024, can you read it carefully
+>> and reply again?
+> 
+> I will not because arguments "I found such code somewhere, so I will not
+> respond to actual arguments just use that code" are invalid.
+> 
+> You cannot make reset asserted and claim "this is operating stage". I
+> explained why: because it does not work with correct DTS. If it works
+> for you, then because your DTS is not correct.
+> 
+> Apparently you do not understand what is assertion and what is logical
+> state of GPIO (I asked this three times), but you keep disagreeing.
+> That's basic knowledge, so please kindly go to Wikipedia or
+> stackoverflow, because you are now wasting reviewers time. You do not
+> respond to reviewers arguments.
+> 
+> As I said: code is wrong so NAK.
+BTW,
 
-I will not because arguments "I found such code somewhere, so I will not
-respond to actual arguments just use that code" are invalid.
+I asked some emails ago:
+"Do you understand the difference betweeen logical level and line level?"
 
-You cannot make reset asserted and claim "this is operating stage". I
-explained why: because it does not work with correct DTS. If it works
-for you, then because your DTS is not correct.
+The question was on purpose, so you will think on the answer. If you
+thought about this and responded to this after that thinking, that
+process would lead you to the correct answer and correct code.
 
-Apparently you do not understand what is assertion and what is logical
-state of GPIO (I asked this three times), but you keep disagreeing.
-That's basic knowledge, so please kindly go to Wikipedia or
-stackoverflow, because you are now wasting reviewers time. You do not
-respond to reviewers arguments.
-
-As I said: code is wrong so NAK.
-
+You avoid doing research and learning this stuff, which is your right.
+Just like our right is not to accept buggy code. If you do not want to
+learn, then implement it like maintainer asks.
 
 Best regards,
 Krzysztof
