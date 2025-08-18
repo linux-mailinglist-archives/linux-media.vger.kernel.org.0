@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40102-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BD1B29C2A
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:28:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E2FB29C3D
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:30:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CFF571892F60
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:27:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 723253A702B
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:30:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1497E301472;
-	Mon, 18 Aug 2025 08:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB25730147C;
+	Mon, 18 Aug 2025 08:30:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFsv9ZC6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnGjhLjH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB2F22F01;
-	Mon, 18 Aug 2025 08:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE95B2F9C53;
+	Mon, 18 Aug 2025 08:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505604; cv=none; b=jy6hDaGgwuGBuCMZjfefYs4G4EJERIngIQ+CSD1oYUsndFy3mgfIx1V3CfrjQyXQahjE1s70PaErN65f1Uoh+ZBW0ju2AiJmnEW+VxOiezLFXHVwEmF7yz77qkl+zUdxwTf4YLuEYon4htQPUFyLGfQIkZnnso66IqI49J697bA=
+	t=1755505801; cv=none; b=pRjoBc7BMoQmIgetmo0h3rnCdq9rMjxqcZhDwqEu+BJrPzqq/oSHfrBjF1UrZDsF54za86XHBXxv2wT5I8pl1yGoDmucwbu71mick2wC3tAIDxF5xDyGFMmrkK71yA/qle3YF8JyHm0WS0Rfc/vVYut0lQJgRC/5griqsger5vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505604; c=relaxed/simple;
-	bh=Vm8cWvKgpjFAKW99yrjp0C+LOL3fJWGgMbbY76Ih1RY=;
+	s=arc-20240116; t=1755505801; c=relaxed/simple;
+	bh=exYibdCxTidtmiMn53gTLXZ7IWFOL/uqk+UPXBrBBwk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oXrLZ5wf/x0eZ4MuF8LOpJdCTLsA2YbQC62R5fXnguH3th7+lG0p67v12LWOj518BQXcLI9lgsU5HYSx8laYoVyTo+m7vElxua0VPp5VsOGTk5rKLfdqNskLM1+yShHjv9eFgLbPBVlU9xZscx242DPzPlp036ww85RJwnLoWH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFsv9ZC6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A772C4CEED;
-	Mon, 18 Aug 2025 08:26:36 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ntGHzGAv3WkIpvCZ7k39n9NgonSehq+odLR/+wAN+QjqM3AGIpawBgXCnQhRqecdP7HhJQrOLBUFHwYf/4NX9SLsdt1k8KFiC60WEjKnFiRFStAQiCDL9mZXI6Ego80idPz/f8ws6JuAub7rezABSzI40c9VGGc81JDMEZTfTNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnGjhLjH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9B71C4CEED;
+	Mon, 18 Aug 2025 08:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755505602;
-	bh=Vm8cWvKgpjFAKW99yrjp0C+LOL3fJWGgMbbY76Ih1RY=;
+	s=k20201202; t=1755505799;
+	bh=exYibdCxTidtmiMn53gTLXZ7IWFOL/uqk+UPXBrBBwk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FFsv9ZC6MF/RWiBx47eLyFD9CBfESKS/m7zZ90r6SnLHCScdp3+iudxbEnezGPWBd
-	 AsXQVeOqpXCQ61elmgUi8/QCp8aRkXglnamVhsmqxty9ZFtWIZFlWckKle8rgMXcKL
-	 xc77cPQ6M5AwyqFnc+tjARmMhuMpVFHH7eRSBa16aE9IOI3lJWilOdksaoTCGMaQEk
-	 nFsiU0jWFZkgY0/MY73Gp0cplRLHmTl3FaCpBvKRaT9Ubjm2pZgY7MYBXSS/oe4JTa
-	 WdIMwgcflSTu1e+cMbze+VRaUA12e3AGoVmNothVIG6NUHfAwdZruIB39D4aCoLFwJ
-	 xr5R9VC6Y5i9A==
-Message-ID: <1919de68-99ea-47f7-b3d2-cae4611f9c52@kernel.org>
-Date: Mon, 18 Aug 2025 10:26:34 +0200
+	b=cnGjhLjH5rRWZspYAD7FNglSmP/ZVMNIeQlf//xe39ldZUTuqTszI4xH/4sgmcrAQ
+	 Q6o85sEdCvArYxNdDEX7Ao/bo7Wds20DvGTTbulNGNN1/kRQfElyU+kn84HS6guvkp
+	 aiz/GKT5TBW31gdoZQ53ciLgsgmBjDk9M5heNSgOznXt7/KRmfLE6A6/X1/IVREVIa
+	 l+xSQxbH11gDVu+OKVxOlkCuacCR0dC3+E205ZX1SWRQrla7z3lflByf2eelGqoZ+6
+	 bCpw0of/mnHjWE7tgsvkYWDuZOgCSDggQHWvjmhg5lcjmGt2LNVRg/5QdnfBjlRFeG
+	 x2Xpi/Lze7bew==
+Message-ID: <67199625-13d2-4510-bbbd-3dd2f61c62fd@kernel.org>
+Date: Mon, 18 Aug 2025 10:29:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/12] arm64: dts: fsd: Add CSI nodes
+Subject: Re: [PATCH v2 10/12] dt-bindings: media: fsd: Document CSIS DMA
+ controller
 To: Inbaraj E <inbaraj.e@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
@@ -64,8 +65,8 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  festevam@gmail.com, linux-media@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
 References: <20250814140943.22531-1-inbaraj.e@samsung.com>
- <CGME20250814141019epcas5p2f957b934d5b60d4649cf9c6abd6969d5@epcas5p2.samsung.com>
- <20250814140943.22531-5-inbaraj.e@samsung.com>
+ <CGME20250814141051epcas5p14dccee388087372973988aeebcb872cf@epcas5p1.samsung.com>
+ <20250814140943.22531-11-inbaraj.e@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,275 +112,90 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250814140943.22531-5-inbaraj.e@samsung.com>
+In-Reply-To: <20250814140943.22531-11-inbaraj.e@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/08/2025 16:09, Inbaraj E wrote:
-> There is a csi dma and csis interface that bundles together to allow
-
-CSI DMA?
-What is CSIS?
-
-> csi2 capture.
-
-CSI2?
-
+> Document bindings for the FSD CSIS DMA controller.
 > 
 > Signed-off-by: Inbaraj E <inbaraj.e@samsung.com>
 > ---
->  arch/arm64/boot/dts/tesla/fsd-evb.dts |  96 +++++
->  arch/arm64/boot/dts/tesla/fsd.dtsi    | 552 ++++++++++++++++++++++++++
->  2 files changed, 648 insertions(+)
+>  .../bindings/media/tesla,fsd-csis-media.yaml  | 74 +++++++++++++++++++
+
+Your patchset is organized in total mess. First clock, then media
+bindings, then arm64,  then media drivers, then media bindings, then
+arm64... Please organize it in standard way - about independent
+subsystems I mentioned, so within media first bindings, then driver. Not
+intermixed.
+
+
+
+>  1 file changed, 74 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml
 > 
-> diff --git a/arch/arm64/boot/dts/tesla/fsd-evb.dts b/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> index 9ff22e1c8723..dcc9a138cdb9 100644
-> --- a/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> +++ b/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> @@ -130,3 +130,99 @@ &serial_0 {
->  &ufs {
->  	status = "okay";
->  };
+> diff --git a/Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml b/Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml
+> new file mode 100644
+> index 000000000000..ce6c2e58ed4e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml
+> @@ -0,0 +1,74 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/tesla,fsd-csis-media.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +&mipicsis0 {
-> +	status = "okay";
-> +};
+> +title: Tesla FSD SoC MIPI CSI-2 DMA (Bridge device) receiver
 > +
-> +&mipicsis1 {
-> +	status = "okay";
-> +};
+> +maintainers:
+> +  - Inbaraj E <inbaraj.e@samsung.com>
 > +
-> +&mipicsis2 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis3 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis4 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis5 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis6 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis7 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis8 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis9 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis10 {
-> +	status = "okay";
-> +};
-> +
-> +&mipicsis11 {
-> +	status = "okay";
-> +};
-> +
-> +&csis0 {
-> +	status = "okay";
-> +};
-> +
-> +&csis1 {
-> +	status = "okay";
-> +};
-> +
-> +&csis2 {
-> +	status = "okay";
-> +};
-> +
-> +&csis3 {
-> +	status = "okay";
-> +};
-> +
-> +&csis4 {
-> +	status = "okay";
-> +};
-> +
-> +&csis5 {
-> +	status = "okay";
-> +};
-> +
-> +&csis6 {
-> +	status = "okay";
-> +};
-> +
-> +&csis7 {
-> +	status = "okay";
-> +};
-> +
-> +&csis8 {
-> +	status = "okay";
-> +};
-> +
-> +&csis9 {
-> +	status = "okay";
-> +};
-> +
-> +&csis10 {
-> +	status = "okay";
-> +};
-> +
-> +&csis11 {
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm64/boot/dts/tesla/fsd.dtsi b/arch/arm64/boot/dts/tesla/fsd.dtsi
-> index a5ebb3f9b18f..a83503e9c502 100644
-> --- a/arch/arm64/boot/dts/tesla/fsd.dtsi
-> +++ b/arch/arm64/boot/dts/tesla/fsd.dtsi
-> @@ -493,6 +493,558 @@ clock_mfc: clock-controller@12810000 {
->  			clock-names = "fin_pll";
->  		};
->  
-> +		mipicsis0: mipi-csis@12640000 {
+> +description: |-
 
-Messed ordering. See DTS coding style.
+Drop |-
 
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> +  The FSD MIPI CSI-2 (Camera Serial Interface 2) have internal DMA engine to
+> +  capture frames originating from the sensor.
+> +
+> +properties:
+> +  compatible:
+> +    const: tesla,fsd-csis-media
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: pclk
+> +      - const: pll
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
 
-What is csis?
+Don't you need second port to CSIS block? I guess this one is input from
+the sensor?
 
-> +			compatible = "tesla,fsd-mipi-csi2";
-> +			reg = <0x0 0x12640000 0x0 0x124>;
-> +			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&clock_csi CAM_CSI0_0_IPCLKPORT_I_ACLK>,
-> +				<&clock_csi CAM_CSI0_0_IPCLKPORT_I_PCLK>;
-> +			clock-names = "aclk", "pclk";
-> +			samsung,syscon-csis = <&sysreg_cam 0x40c>;
-> +			status = "disabled";
 > +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +
-> +					mipi_csis_0_out: endpoint {
-> +						remote-endpoint = <&csis_in_0>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		csis0: csis@12641000 {
-> +			compatible = "tesla,fsd-csis-media";
-> +			reg = <0x0 0x12641000 0x0 0x44c>;
-> +			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&clock_csi CAM_CSI0_0_IPCLKPORT_I_ACLK>,
-> +				<&clock_csi CAM_CSI0_0_IPCLKPORT_I_PCLK>,
-> +				<&clock_csi CAM_CSI_PLL>;
-> +			clock-names = "aclk", "pclk", "pll";
-> +			iommus = <&smmu_isp 0x0 0x0>;
-> +			status = "disabled";
-> +
-> +			port {
-> +				csis_in_0: endpoint {
-> +					remote-endpoint = <&mipi_csis_0_out>;
-> +				};
-> +			};
-> +		};
-> +
-> +		mipicsis1: mipi-csis@12650000 {
-> +			compatible = "tesla,fsd-mipi-csi2";
-> +			reg = <0x0 0x12650000 0x0 0x124>;
-> +			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&clock_csi CAM_CSI0_1_IPCLKPORT_I_ACLK>,
-> +				<&clock_csi CAM_CSI0_1_IPCLKPORT_I_PCLK>;
-> +			clock-names = "aclk", "pclk";
-> +			samsung,syscon-csis = <&sysreg_cam 0x40c>;
-> +			status = "disabled";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +
-> +					mipi_csis_1_out: endpoint {
-> +						remote-endpoint = <&csis_in_1>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		csis1: csis@12651000 {
-> +			compatible = "tesla,fsd-csis-media";
-> +			reg = <0x0 0x12651000 0x0 0x44c>;
-> +			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&clock_csi CAM_CSI0_1_IPCLKPORT_I_ACLK>,
-> +				<&clock_csi CAM_CSI0_1_IPCLKPORT_I_PCLK>,
-> +				<&clock_csi CAM_CSI_PLL>;
-> +			clock-names = "aclk", "pclk", "pll";
-> +			iommus = <&smmu_isp 0x0 0x0>;
-> +			status = "disabled";
-> +
-> +			port {
-> +				csis_in_1: endpoint {
-> +					remote-endpoint = <&mipi_csis_1_out>;
-> +				};
-> +			};
-> +		};
-> +
-> +		mipicsis2: mipi-csis@12660000 {
-> +			compatible = "tesla,fsd-mipi-csi2";
-> +			reg = <0x0 0x12660000 0x0 0x124>;
-> +			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&clock_csi CAM_CSI0_2_IPCLKPORT_I_ACLK>,
-> +				<&clock_csi CAM_CSI0_2_IPCLKPORT_I_PCLK>;
-> +			clock-names = "aclk", "pclk";
-> +			samsung,syscon-csis = <&sysreg_cam 0x40c>;
-> +			status = "disabled";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +
-> +					mipi_csis_2_out: endpoint {
-> +						remote-endpoint = <&csis_in_2>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		csis2: csis@12661000 {
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - iommus
+> +  - port
 
-
-What is CSIS? Seems like copy paste from other Samsung code, but isn't
-this just CSI?
-
-What is the meaning of this CSIS acronym?
 
 
 Best regards,
