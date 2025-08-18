@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-40205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0DFB2B4E4
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FBCB2B4E6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:41:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B177E4E7261
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:40:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 810524E771C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39BDB283145;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AADF283159;
 	Mon, 18 Aug 2025 23:39:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdZV7uml"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mks4jQY4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFC527D77B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1885927E1C8;
 	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755560388; cv=none; b=g9IwHB51BR6hdFdIFh/zg0gwuDmm4ngugPPVDmy5xtJUgWRXrHQUlRvcj5jJRPUXgsBxBjeOxigVIYvp2/qDPmNKVuigFJhxOxlYjBPJQKOwrMEpJEgKTPRANvZHVy2OimF0RQYo9K0aIltsIYjONXncxqsJoHlrKNbFwZMa0m0=
+	t=1755560388; cv=none; b=Ulu8DtWm5Q4ErJO8Oc3Rg6Ssp2AwRwyF4g0S9MRhmC2P2tVJjIbd3r9vVD+1MDUdzgqq7teyb/4s76R2vPiuodPQJsagandaGnVloaXXpthu8w3VmxDrxOM86X9fsBvIFEUPFCRfgur5tx8R4Zzqez4tYyzxFE1/rQGF4WQKJIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755560388; c=relaxed/simple;
-	bh=F8Qdm9wRtPFj1FUfpuDc+eSbRNZ/9N7OZarf51+gRh0=;
+	bh=aZSdvEOrOWJ9ts5DS+UL4xKZ+hapoeLhXZAYdDekbBo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PUKhKL8FcVvMrbmeJg3UofI5dpLXLQZHybgKVkJvlcXVVgHNNRD62G13BzOSRGDdTyzJnbe7SSXlVUoAGamSXhawkvxCruC3CnaLnwfahScdds3fsfTf3Pj22l06GkXTH/qEqBkj1j0mGzj2OW0gs2LuWT9fAZa9ylNNddRxzRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdZV7uml; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B1A00C2BCC7;
+	 In-Reply-To:To:Cc; b=q2prGadXbW0G18sZWr06R0mr9Jf3BLuZDzeYeeTMvoXXGLop+42D6dSTAuHxLXW9QPE72n4xbtEnSyd4iiBUySGj1iFAdt5IxhIWIfXFYGIsbuLrIBW+iA4uqcsC/fCNxJ6sUWYj9mKhPf5SsLEFiscbSEu1ipR/TzinMOQQOh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mks4jQY4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BFE79C2BCFB;
 	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755560387;
-	bh=F8Qdm9wRtPFj1FUfpuDc+eSbRNZ/9N7OZarf51+gRh0=;
+	bh=aZSdvEOrOWJ9ts5DS+UL4xKZ+hapoeLhXZAYdDekbBo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=cdZV7umlOBwLb24CcXHqVtwUyNjPqsa/XF28CHvX8VKh9w9FVmMkjy1hjQz6cvqaG
-	 B+dmer9j8tY7B23GYNJQX6/rhB3G+rzKD5AYWkYD9rfwjdj2p/ESOCXkI4lJIYwH8B
-	 v7wWydqvav1Z/04uszkpiuZCawMlz2YgKfZxURDGvdDtasDxwerQk+aYmr0EM0OJ7U
-	 vzz9Vec7+hPocSDxbxT4+gQnyo+yV0Q88N2a79Oy75OK+Esk+Lcu2svhrKCMM4Iutz
-	 7zMk1HMzf1+EPFAHX0YGcyK91vZRZphvzSLSZeRgnihmChXDT5yHWFYoPsX2M8K2gn
-	 FpV1mBUPo0BNw==
+	b=Mks4jQY4XNXdVrboPyU63r7wcGAD149qAB9WLX2Ltrta95Ncg3pR2xtoGIPZE5oIz
+	 Da7gXlNW9I2b5HXufoxUnKiRaxFa2EBFbOB471pRCV7C3k01XiTM7xxzZbrxGv1Qfm
+	 eMvZ/93lW313+spZvb+8astv4+UjoBTTmMUsuvAMY0yp9zO4L0EOiQH4x1HT31oe57
+	 W0rRnIGQ5mPoa1vIWwqvfndt22es5hKm/0Yp7aXoNoZibWeEb9gMBdeO0M/0+Zgys0
+	 VvSW6+BVCBZqrUezAUsS7rc7LpLuOQ8kMA7IYYc7Uaho9B4x6iK66YK8OnfSr/u6fj
+	 BSRZZgeoBlh9w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8395CA0EF7;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E40CA0EE4;
 	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Tue, 19 Aug 2025 01:26:01 +0200
-Subject: [PATCH v10 09/13] arm64: defconfig: enable rockchip camera
- interface and mipi csi-2 receiver
+Date: Tue, 19 Aug 2025 01:26:02 +0200
+Subject: [PATCH v10 10/13] arm64: dts: rockchip: add the vip node to px30
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v10-9-62d8a7b209b4@collabora.com>
+Message-Id: <20240220-rk3568-vicap-v10-10-62d8a7b209b4@collabora.com>
 References: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
 In-Reply-To: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -83,13 +82,14 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-rockchip@lists.infradead.org, 
  Michael Riesch <michael.riesch@collabora.com>, 
- Michael Riesch <michael.riesch@collabora.com>
+ Michael Riesch <michael.riesch@collabora.com>, 
+ Mehdi Djait <mehdi.djait@bootlin.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755559554; l=834;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755559554; l=1272;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=ODTHuQlKuPRMOWRDe0uxoXXXqr9wwzui1kpqREL2WCM=;
- b=oOSjRvi11TmPA+x0kQ9FXOuacWH6jgGRCHVkESPgw1DTL00NYUCqTmnbjridOQh1GUTzJjKil
- Ugsof0WjXmUCmPrkcQ4HO0yAmp0rLbrwIq8NM6/fd1XyfmceXLUPdV+
+ bh=m3c8bukH8JH3mEv5rImUHD4w4Q0ojy92FXQmHLGEC/M=;
+ b=WkVFIPGSn7HJQ+fo0MG9h7XxAa6iGuRBWZxoSOPNxzPLu22KozfEllWyAlKKeYoICa6GMWkTz
+ 0Wz05qQCSr0B71gWrJOMdOs16SxmjIMbuL7rQwpEL2DwGbrIdykNyqQ
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -97,30 +97,41 @@ X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
 X-Original-From: Michael Riesch <michael.riesch@collabora.com>
 Reply-To: michael.riesch@collabora.com
 
-From: Michael Riesch <michael.riesch@collabora.com>
+From: Mehdi Djait <mehdi.djait@bootlin.com>
 
-The Rockchip Camera Interface (CIF) and the Rockchip MIPI CSI-2 Receiver
-are featured in many Rockchip SoCs in different variations.
-Enable the drivers for them in the default configuration.
+Add the device tree node for the PX30 Video Input Processor (VIP).
 
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+[added cosmetic changes]
+Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- arch/arm64/configs/defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 58f87d09366c..625cb5b47fb5 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -876,6 +876,8 @@ CONFIG_VIDEO_RENESAS_FCP=m
- CONFIG_VIDEO_RENESAS_FDP1=m
- CONFIG_VIDEO_RENESAS_VSP1=m
- CONFIG_VIDEO_RCAR_DRIF=m
-+CONFIG_VIDEO_ROCKCHIP_CIF=m
-+CONFIG_VIDEO_ROCKCHIP_CSI=m
- CONFIG_VIDEO_ROCKCHIP_RGA=m
- CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
- CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
+diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
+index 46f64cd33b9b..ef52879d6a73 100644
+--- a/arch/arm64/boot/dts/rockchip/px30.dtsi
++++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
+@@ -1280,6 +1280,18 @@ isp_mmu: iommu@ff4a8000 {
+ 		#iommu-cells = <0>;
+ 	};
+ 
++	cif: video-capture@ff490000 {
++		compatible = "rockchip,px30-vip";
++		reg = <0x0 0xff490000 0x0 0x200>;
++		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
++		clock-names = "aclk", "hclk", "pclk";
++		power-domains = <&power PX30_PD_VI>;
++		resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
++		reset-names = "axi", "ahb", "pclkin";
++		status = "disabled";
++	};
++
+ 	qos_gmac: qos@ff518000 {
+ 		compatible = "rockchip,px30-qos", "syscon";
+ 		reg = <0x0 0xff518000 0x0 0x20>;
 
 -- 
 2.39.5
