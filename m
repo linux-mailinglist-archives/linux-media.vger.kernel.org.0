@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-40206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40208-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10109B2B4E5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:41:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2B1B2B4E8
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:41:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3917D4E635C
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:40:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 560714E81AF
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:41:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41FE028314C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B32A283C82;
 	Mon, 18 Aug 2025 23:39:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+uef8M4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4ZwAlq6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F242527D780;
-	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDFA28002B;
+	Mon, 18 Aug 2025 23:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755560388; cv=none; b=t4vp4Eju8a39FfuZYOz7Lg7KnXd9UbJTCwJbZGi7NcLJ8bh6DsYCjov5hYnZ1f9hsLJYbyd5WdYNs7S7xrHBaSYqL2Mm8lio9W7y8HkLqP7QVN3QY6V9kiFTdIZgxdIOEsETsjHeTi8mZtMSD1Op4bgmB5NXtsHoiD0H/nriOD0=
+	t=1755560388; cv=none; b=V75hl+VetXKObJGFfb6xxqw7bEqMjiiJVL4+vzHLWmeikbyAXnE0cYErsu5kMZipooLC4KOr9R/eL4OZqCCaijJvyy8Nv/8PfWTBes/tna1Qr6fvXKVuRblWTaG9IH2bBT5alDHFfcY3wMrI7ga5xMAvBoApqMprAXrXrayMwow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755560388; c=relaxed/simple;
-	bh=00ySgDeY2SbqvhPX9kBYvU/RMgHNCrJd0O4BG6/GCrE=;
+	bh=otgrb/vF+atbB3mWxRg3GACduHocftu87TGfvm3zQwU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jnwp4X4FYsjHgtnGZCMDNlGKSTG6yEd6V/OKujTM0AFn0URjI9gMaffx9sDlAur1N6/ki4bu4HCtNy58qtQvZHBx/C348bN15bCrpEjsWNGhCZ76pDWwfy+Lr+iX/rgzokEoXf2iF1Ez5Vt41fHG9251axiQh5HcT9U8Oc4dIus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+uef8M4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D22DBC2BCFC;
-	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=K+TtxaczCMfU6MV2MshvTNhY0h7BgdYr9YyA86gMf6HbNkGM6sxkj008g/bA1m+XqcHB/FI62a0q3aFu9qjFbdl6hHNl1qsf3fGDCFG2Bs7uKXVs+HjaB69Sn6sLwdDXwEpaJXOgHawqkOujD2/NsqHkxPcPjOXC4QGa5DR7iaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4ZwAlq6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0B26BC4DDEB;
+	Mon, 18 Aug 2025 23:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755560387;
-	bh=00ySgDeY2SbqvhPX9kBYvU/RMgHNCrJd0O4BG6/GCrE=;
+	s=k20201202; t=1755560388;
+	bh=otgrb/vF+atbB3mWxRg3GACduHocftu87TGfvm3zQwU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=H+uef8M4PdR0kPeSDlUa5Z6WAcgzF2VDtQeCn6TtMGPd6r9ZEn339vjhtzwdqlUAE
-	 Fbei8Lm9e25f2LteyQJMwMyhH7SPdRxhrVS0gnuRUbmoGhhGQpIihDJmJc+wWnw2Gh
-	 z4/+oVu4Ut7irh7br4Fd0bQia92KIlGrwXLoGQuRdqkMWRiGEiIvbZ7J3x6bmlxK57
-	 hrpa8EY83jVUvcbs2fDIy4sHAROmxT4WEjn7jUqVe8k47CfB7peITnRPZOvB5P2OrW
-	 m5MzWvzNW+fdOJN9+Xe88E+7kiJCQ3NCBCWqAnlimterHqJu9M2RXQGh+7XDAjMvIo
-	 CMDl0fNaoLs5A==
+	b=j4ZwAlq62WgJ5Cd8JriFRmxdC1T91LWqojWxtn4zEKkvlaTiDflVvbpuO5/CY8zPg
+	 2vYRBcG5cORWJ+YXdhrxqUX9VM/JrjFy8Yg9la68Fb42EJvSVgnkWroqsfTBwlCs3g
+	 s4qyYyzxS6srMJlSuIOrTp9o8eNkHPxULdlmwMBkfJPxziT+hJf57nj6Re5twrxofx
+	 /4R0eGkBQnvSO/IlIJfBl9vxbfPK3j8CnlHO70Wpg5ePx0qAXwwNVmDNTwJ8iOhTFt
+	 eLNJoRYCwkru31N0PYKIVSuQ8dIA7Al/POBSfQwgrfPjIyGOcLLn25yx7P4o7DwmEz
+	 5joLRDxJufazA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C89C3CA0EF8;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3569CA0EE4;
 	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Tue, 19 Aug 2025 01:26:03 +0200
-Subject: [PATCH v10 11/13] arm64: dts: rockchip: add vicap node to rk356x
+Date: Tue, 19 Aug 2025 01:26:04 +0200
+Subject: [PATCH v10 12/13] arm64: dts: rockchip: add mipi csi-2 receiver
+ node to rk356x
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v10-11-62d8a7b209b4@collabora.com>
+Message-Id: <20240220-rk3568-vicap-v10-12-62d8a7b209b4@collabora.com>
 References: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
 In-Reply-To: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -84,11 +85,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Michael Riesch <michael.riesch@collabora.com>, 
  Michael Riesch <michael.riesch@collabora.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755559554; l=2050;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755559554; l=1644;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=lEu6UcdwUJ585mOVJj4+wXFbf1qt1nIxcP9Qq7FSezA=;
- b=3vSXnMKOO7deDL2GYgEDGPb3nyxx1Xb56NVlzPOD5ODiQEk2I/QbeZD+mXLZcPNK/bmEbFur+
- Sdi8D8ZBOF2ADBdFhNfk6ZsYlUBJvkqfIfiswpGCcezQjyclmiKF3ue
+ bh=mp3pf9RuqEGrye/HxgD+x+5GeyykIBGgvJ6m8tMl1hs=;
+ b=R48tifdHwsraUqtvtxoL3WvMMvmn2fq5td0ZCgMULr8WkjE9gXXsRwFY0vyS1qlKg0az5nwgN
+ WKdGMdV9XmkAvYFi73w4BauNenWIB9QFKjE0fHTD8OnH5NW9kLFwo9m
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -98,69 +99,66 @@ Reply-To: michael.riesch@collabora.com
 
 From: Michael Riesch <michael.riesch@collabora.com>
 
-Add the device tree node for the RK356x Video Capture (VICAP) unit.
+Add the device tree node for the RK356x MIPI CSI-2 Receiver.
 
 Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/rk356x-base.dtsi | 44 +++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk356x-base.dtsi | 34 +++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
-index fd2214b6fad4..e0e4dc85a3a9 100644
+index e0e4dc85a3a9..4c3dbcabd834 100644
 --- a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
-@@ -564,6 +564,50 @@ gpu: gpu@fde60000 {
+@@ -564,6 +564,36 @@ gpu: gpu@fde60000 {
  		status = "disabled";
  	};
  
-+	vicap: video-capture@fdfe0000 {
-+		compatible = "rockchip,rk3568-vicap";
-+		reg = <0x0 0xfdfe0000 0x0 0x200>;
-+		interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
-+		assigned-clocks = <&cru DCLK_VICAP>;
-+		assigned-clock-rates = <300000000>;
-+		clocks = <&cru ACLK_VICAP>, <&cru HCLK_VICAP>,
-+			 <&cru DCLK_VICAP>, <&cru ICLK_VICAP_G>;
-+		clock-names = "aclk", "hclk", "dclk", "iclk";
-+		iommus = <&vicap_mmu>;
++	csi: csi@fdfb0000 {
++		compatible = "rockchip,rk3568-mipi-csi";
++		reg = <0x0 0xfdfb0000 0x0 0x10000>;
++		interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-names = "irq1", "irq2";
++		clocks = <&cru PCLK_CSI2HOST1>;
++		phys = <&csi_dphy>;
 +		power-domains = <&power RK3568_PD_VI>;
-+		resets = <&cru SRST_A_VICAP>, <&cru SRST_H_VICAP>,
-+			 <&cru SRST_D_VICAP>, <&cru SRST_P_VICAP>,
-+			 <&cru SRST_I_VICAP>;
-+		reset-names = "arst", "hrst", "drst", "prst", "irst";
-+		rockchip,grf = <&grf>;
++		resets = <&cru SRST_P_CSI2HOST1>;
 +		status = "disabled";
 +
 +		ports {
 +			#address-cells = <1>;
 +			#size-cells = <0>;
 +
-+			vicap_dvp: port@0 {
++			csi_in: port@0 {
 +				reg = <0>;
 +			};
 +
-+			vicap_mipi: port@1 {
++			csi_out: port@1 {
 +				reg = <1>;
++
++				csi_output: endpoint {
++					remote-endpoint = <&vicap_mipi_input>;
++				};
 +			};
 +		};
 +	};
 +
-+	vicap_mmu: iommu@fdfe0800 {
-+		compatible = "rockchip,rk3568-iommu";
-+		reg = <0x0 0xfdfe0800 0x0 0x100>;
-+		interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_VICAP>, <&cru HCLK_VICAP>;
-+		clock-names = "aclk", "iface";
-+		#iommu-cells = <0>;
-+		power-domains = <&power RK3568_PD_VI>;
-+		rockchip,disable-mmu-reset;
-+		status = "disabled";
-+	};
+ 	vicap: video-capture@fdfe0000 {
+ 		compatible = "rockchip,rk3568-vicap";
+ 		reg = <0x0 0xfdfe0000 0x0 0x200>;
+@@ -592,6 +622,10 @@ vicap_dvp: port@0 {
+ 
+ 			vicap_mipi: port@1 {
+ 				reg = <1>;
 +
- 	vpu: video-codec@fdea0400 {
- 		compatible = "rockchip,rk3568-vpu";
- 		reg = <0x0 0xfdea0000 0x0 0x800>;
++				vicap_mipi_input: endpoint {
++					remote-endpoint = <&csi_output>;
++				};
+ 			};
+ 		};
+ 	};
 
 -- 
 2.39.5
