@@ -1,285 +1,237 @@
-Return-Path: <linux-media+bounces-40174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40175-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE098B2AC81
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 17:20:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB4B2ACD1
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 17:34:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7A3D7B01FB
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 15:18:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D2F81965850
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 15:31:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E4B255F5E;
-	Mon, 18 Aug 2025 15:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F8120B7ED;
+	Mon, 18 Aug 2025 15:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Os6WKQEs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y1dcXw5g";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="THw06Wya";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eu8Vdq0f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NDhK59G7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31A924C07F
-	for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 15:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1E9238C33;
+	Mon, 18 Aug 2025 15:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755530405; cv=none; b=rDWM4xg0CzXbXclDnp5M91/HFWpy485a/cnwQiW8berz8jVL6yTrMQSOJnokyaS91gMJBGJ/DzxIQn82ShQOES3VJGntDiX7tv0te7dLk1tK57IIcNDx7h2A4h7Dpox80IudqKlqnXl+XYqG5K9gm+DCj3nbTzPjTFoRgcrRXJo=
+	t=1755531029; cv=none; b=n1jQR19IDElGKmzCcNAGSLch1+TyhUpo3HTmeaAghCeXjZvgHs5/+YCI9ORKcg7lqMSYRN1vkr0Mz0W/8VTKixbn9EqsO71gQ3sleFhPLNeRqN5rTN9JZjcOPU6sw0yCkyEcx6nI5zzwQuZYDR8m7o5kHu8D8zoWw2L83RanPd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755530405; c=relaxed/simple;
-	bh=5z5dg2VCQqPfDYCibg7edaaz/hvO13XB8wDZ+QAdkvw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XdYWC54qUSSCI5NLwhBvkwY4mPiNafTUdtXN76GT9xSlBTCNjGc8RWXUtrv34BY7sH5LdcuzrHkRqJMe+w/2DCdo8vul6hz5LJPaA9ZMv7c1crjyTABixyVvxO6p3SPmStISmbOjVNFy7jxNi4ZIYy6rsqrd7BwGSDH8d/Xx+DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Os6WKQEs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y1dcXw5g; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=THw06Wya; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eu8Vdq0f; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C6CC81F387;
-	Mon, 18 Aug 2025 15:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755530402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gTGZcbGAhtvP7tJl3ZoYm8rrknDDxNGavt/SiFlcvKo=;
-	b=Os6WKQEslxwsA6G1+OlI0E+uK+XzSJyiBTEnWaLfUOjt8uTf4cuHmBCCA/gZwD6yfKJV6H
-	1nXurn8lxbgQHQcjf079fIt+EVQsYeLDp+nh7v3zADonYYVZF8RPm8gWIHSzBn+SrFdS4U
-	cKd3imiwsvkT6FRHtp/fKcrQaan154I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755530402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gTGZcbGAhtvP7tJl3ZoYm8rrknDDxNGavt/SiFlcvKo=;
-	b=y1dcXw5g1GE6xfu2POqaDgkZi+cdTx+mddRRmrhGjxJJNeNPqxkTNEzX9xaJ1TVigmgzlH
-	TW8CzdRc0ddcqCCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=THw06Wya;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Eu8Vdq0f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755530401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gTGZcbGAhtvP7tJl3ZoYm8rrknDDxNGavt/SiFlcvKo=;
-	b=THw06WyaVXwVwYexR54jkB62f+ewjw2T25y8UiooHJSCKLwgaUsS8abPo2WVFvtnSMO18w
-	uFA2VFYp/woG2JFIB778brbxCroAVqj6mDeJKE2pHg2M9WjYpKHZ/UXHih6af2Dd1otZCl
-	fMSXSfTXcfxd9ya/QgGBdXMxIgXtUqE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755530401;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gTGZcbGAhtvP7tJl3ZoYm8rrknDDxNGavt/SiFlcvKo=;
-	b=Eu8Vdq0fwoYKK/tCwXXBwcwnVa+V8rwf5u1lsO64zTAcNYDNZ/ec2DN5I0Mp1GKyGpM1l3
-	AuY59Ey5GrOuS/CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68EEB13A55;
-	Mon, 18 Aug 2025 15:20:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id L0ltGKFEo2hGLwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 18 Aug 2025 15:20:01 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	oushixiong@kylinos.cn,
-	alexander.deucher@amd.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2] drm/amdgpu: Pin buffers while vmap'ing exported dma-buf objects
-Date: Mon, 18 Aug 2025 17:17:05 +0200
-Message-ID: <20250818151710.284982-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1755531029; c=relaxed/simple;
+	bh=PAs2zYadfrbseuYPwD0Hazw8SUYlBpAdgjoSnNNJ3Y8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F1YaFGAHDD4T8kfx1019zyO/jef04pL0U8USLphNHcwBareZAo0h1D+EM2fHp/rqA6fWErFkaFAGqJlt9jZhQMUuq+JUZAUNhDHcyfAi4/wpzAMAjz6xrUtYkoaV+dZ0VtULXDsohiwikt7od88LMAkU8tKZKqnL+ynFhegm+Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NDhK59G7; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755531028; x=1787067028;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=PAs2zYadfrbseuYPwD0Hazw8SUYlBpAdgjoSnNNJ3Y8=;
+  b=NDhK59G7H1f9X1w734NI2YzTkAgnUCLlxogKFpRyQ1SXVyiQvjQdR+81
+   MVy2XwPbfc4hHFqoaWMfGkQC09+uODsqioLol+qNki8dEJSitXheBgeek
+   A6qdifMmGABtXQzpf1UL/Y3mYyr2W9eZTUnXyuqDrqsdaEaLnOzz69jMg
+   /cd1Efwt/bSPjW42OVZy7lQeS0VzGOTE6evfl4RlK6ViWelw+oUaC1uRj
+   r67+hhjsP75RC6E8hG9zR0vlPtaOeaT4SzlFs3VKyut8+dFBkHiFEiuae
+   RMs3iTKu3I445gORikjQJ5Uyn+RNMj/UBFkNzjkum2r0oRV0bdBeRosYU
+   g==;
+X-CSE-ConnectionGUID: YCagSAT0R1iTjdiswZEsuA==
+X-CSE-MsgGUID: 2x3j4BFpQNSbSaelnBvETA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57685440"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="57685440"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 08:30:27 -0700
+X-CSE-ConnectionGUID: Cs3JZOZ+QTuZc0ySPR1+aA==
+X-CSE-MsgGUID: +sHnTrqtQnicb2jz/9g5QA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="167115940"
+Received: from mnyman-desk.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2025 08:30:24 -0700
+Message-ID: <1096ce5c-ac0a-49e0-9030-31c87c71b3c0@linux.intel.com>
+Date: Mon, 18 Aug 2025 18:30:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] xhci: Add host support for eUSB2 double
+ isochronous bandwidth devices
+To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+ gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
+ hdegoede@redhat.com, Thinh.Nguyen@synopsys.com,
+ Amardeep Rai <amardeep.rai@intel.com>, Kannappan R <r.kannappan@intel.com>,
+ Alan Stern <stern@rowland.harvard.edu>
+References: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
+ <20250812132445.3185026-2-sakari.ailus@linux.intel.com>
+ <20250818115016.3611b910@foxbook>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20250818115016.3611b910@foxbook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[linaro.org,amd.com,kylinos.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,amd.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email,suse.de:mid,suse.de:dkim,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: C6CC81F387
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
 
-Current dma-buf vmap semantics require that the mapped buffer remains
-in place until the corresponding vunmap has completed.
+On 18.8.2025 12.50, Michał Pecio wrote:
+> On Tue, 12 Aug 2025 16:24:42 +0300, Sakari Ailus wrote:
+>> From: "Rai, Amardeep" <amardeep.rai@intel.com>
+>>
+>> Detect eUSB2 double isoc bw capable hosts and devices, and set the proper
+>> xhci endpoint context values such as 'Mult', 'Max Burst Size', and 'Max
+>> ESIT Payload' to enable the double isochronous bandwidth endpoints.
+>>
+>> Intel xHC uses the endpoint context 'Mult' field for eUSB2 isoc
+>> endpoints even if hosts supporting Large ESIT Payload Capability should
+>> normally ignore the mult field.
+>>
+>> Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
+>> Co-developed-by: Kannappan R <r.kannappan@intel.com>
+>> Signed-off-by: Kannappan R <r.kannappan@intel.com>
+>> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> Co-developed-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> ---
+>>   drivers/usb/host/xhci-caps.h |  2 ++
+>>   drivers/usb/host/xhci-mem.c  | 60 ++++++++++++++++++++++++++++--------
+>>   drivers/usb/host/xhci-ring.c |  6 ++--
+>>   drivers/usb/host/xhci.c      | 16 +++++++++-
+>>   drivers/usb/host/xhci.h      | 19 ++++++++++++
+>>   5 files changed, 87 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/xhci-caps.h b/drivers/usb/host/xhci-caps.h
+>> index 4b8ff4815644..89bc83e4f1eb 100644
+>> --- a/drivers/usb/host/xhci-caps.h
+>> +++ b/drivers/usb/host/xhci-caps.h
+>> @@ -89,3 +89,5 @@
+>>   #define HCC2_GSC(p)             ((p) & (1 << 8))
+>>   /* true: HC support Virtualization Based Trusted I/O Capability */
+>>   #define HCC2_VTC(p)             ((p) & (1 << 9))
+>> +/* true: HC support Double BW on a eUSB2 HS ISOC EP */
+>> +#define HCC2_EUSB2_DIC(p)       ((p) & (1 << 11))
+> 
+> I guess this bit is not defined in the original xHCI 1.2 spec which
+> predates BW doubling, any reference to where it is specified and what
+> it means exactly?
 
-For GEM-SHMEM, this used to be guaranteed by a pin operation while creating
-an S/G table in import. GEM-SHMEN can now import dma-buf objects without
-creating the S/G table, so the pin is missing. Leads to page-fault errors,
-such as the one shown below.
+USB 2.0 Double Isochronous IN Bandwidth Capability (DIC) – RO.
+This bit when set to 1, indicates that the xHC supports the USB 2.0 Double Isochronous IN
+Bandwidth Capability on a eUSB2 HS Isochronous Endpoint.
+This feature is only applicable to a directly connected inbox native eUSB2 device.
 
-[  102.101726] BUG: unable to handle page fault for address: ffffc90127000000
-[...]
-[  102.157102] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
-[...]
-[  102.243250] Call Trace:
-[  102.245695]  <TASK>
-[  102.2477V95]  ? validate_chain+0x24e/0x5e0
-[  102.251805]  ? __lock_acquire+0x568/0xae0
-[  102.255807]  udl_render_hline+0x165/0x341 [udl]
-[  102.260338]  ? __pfx_udl_render_hline+0x10/0x10 [udl]
-[  102.265379]  ? local_clock_noinstr+0xb/0x100
-[  102.269642]  ? __lock_release.isra.0+0x16c/0x2e0
-[  102.274246]  ? mark_held_locks+0x40/0x70
-[  102.278177]  udl_primary_plane_helper_atomic_update+0x43e/0x680 [udl]
-[  102.284606]  ? __pfx_udl_primary_plane_helper_atomic_update+0x10/0x10 [udl]
-[  102.291551]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
-[  102.297208]  ? lockdep_hardirqs_on+0x88/0x130
-[  102.301554]  ? _raw_spin_unlock_irq+0x24/0x50
-[  102.305901]  ? wait_for_completion_timeout+0x2bb/0x3a0
-[  102.311028]  ? drm_atomic_helper_calc_timestamping_constants+0x141/0x200
-[  102.317714]  ? drm_atomic_helper_commit_planes+0x3b6/0x1030
-[  102.323279]  drm_atomic_helper_commit_planes+0x3b6/0x1030
-[  102.328664]  drm_atomic_helper_commit_tail+0x41/0xb0
-[  102.333622]  commit_tail+0x204/0x330
-[...]
-[  102.529946] ---[ end trace 0000000000000000 ]---
-[  102.651980] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+The xHCI specification with this addition is on its way, we got permission from
+author(s) to start upstreaming the code already.
 
-In this stack strace, udl (based on GEM-SHMEM) imported and vmap'ed a
-dma-buf from amdgpu. Amdgpu relocated the buffer, thereby invalidating the
-mapping.
+> 
+>> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+>> index 6680afa4f596..ea51434c80fa 100644
+>> --- a/drivers/usb/host/xhci-mem.c
+>> +++ b/drivers/usb/host/xhci-mem.c
+>> @@ -1328,18 +1328,36 @@ static unsigned int xhci_get_endpoint_interval(struct usb_device *udev,
+>>   	return interval;
+>>   }
+>>   
+>> -/* The "Mult" field in the endpoint context is only set for SuperSpeed isoc eps.
+>> +/*
+>> + * xHCs without LEC use the "Mult" field in the endpoint context for SuperSpeed
+>> + * isoc eps, and High speed isoc eps that support bandwidth doubling. Standard
+>>    * High speed endpoint descriptors can define "the number of additional
+>>    * transaction opportunities per microframe", but that goes in the Max Burst
+>>    * endpoint context field.
+>>    */
+>> -static u32 xhci_get_endpoint_mult(struct usb_device *udev,
+>> -		struct usb_host_endpoint *ep)
+>> +static u32 xhci_get_endpoint_mult(struct xhci_hcd *xhci,
+>> +				  struct usb_device *udev,
+>> +				  struct usb_host_endpoint *ep)
+>>   {
+>> -	if (udev->speed < USB_SPEED_SUPER ||
+>> -			!usb_endpoint_xfer_isoc(&ep->desc))
+>> +	bool lec;
+>> +
+>> +	/* xHCI 1.1 with LEC set does not use mult field, except intel eUSB2 */
+>> +	lec = xhci->hci_version > 0x100 && HCC2_LEC(xhci->hcc_params2);
+>> +
+>> +	/* eUSB2 double isoc bw devices are the only USB2 devices using mult */
+>> +	if (xhci_eusb2_is_isoc_bw_double(udev, ep)) {
+>> +		if (!lec || xhci->quirks & XHCI_INTEL_HOST)
+>> +			return 1;
+>> +	}
+>> +
+>> +	/* Oherwise only isoc transfers on hosts without LEC uses mult field */
+>> +	if (!usb_endpoint_xfer_isoc(&ep->desc) || lec)
+>>   		return 0;
+>> -	return ep->ss_ep_comp.bmAttributes;
+>> +
+>> +	if (udev->speed >= USB_SPEED_SUPER)
+>> +		return ep->ss_ep_comp.bmAttributes;
+>> +
+>> +	return 0;
+>>   }
+> 
+> That's a complicated control flow. I think it could just be:
+>> +	/* SuperSpeed isoc transfers on hosts without LEC uses mult field */
+>> +	if (udev->speed >= USB_SPEED_SUPER && usb_endpoint_xfer_isoc(&ep->desc) && !lec)
+>> +		return ep->ss_ep_comp.bmAttributes;
+>> +	return 0;
 
-Provide a custom dma-buf vmap method in amdgpu that pins the object before
-mapping it's buffer's pages into kernel address space. Do the opposite in
-vunmap.
+Possibly, not sure there's much difference, especially if you break that line at
+80 columns
 
-Note that dma-buf vmap differs from GEM vmap in how it handles relocation.
-While dma-buf vmap keeps the buffer in place, GEM vmap requires the caller
-to keep the buffer in place. Hence, this fix is in amdgpu's dma-buf code
-instead of its GEM code.
+>> +/*
+>> + * USB 2.0 specification, chapter 5.6.4 Isochronous Transfer Bus Access
+>> + * Constraint. A high speed endpoint can move up to 3072 bytes per microframe
+>> + * (or 192Mb/s).
+>> + */
+>> +#define MAX_ISOC_XFER_SIZE_HS  3072
+>> +
+>> +static inline bool xhci_eusb2_is_isoc_bw_double(struct usb_device *udev,
+>> +						struct usb_host_endpoint *ep)
+>> +{
+>> +	return udev->speed == USB_SPEED_HIGH &&
+>> +		usb_endpoint_is_isoc_in(&ep->desc) &&
+>> +		le16_to_cpu(ep->desc.wMaxPacketSize) == 0 &&
+>> +		le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval) >
+>> +		MAX_ISOC_XFER_SIZE_HS;
+>> +}
+> 
+> It looks like eUSB2v2 is another spec which uses this descriptor for
+> larger isoc endpoints and this code might trigger on such devices once
+> USB core learns to parse them.
+> 
 
-A discussion of various approaches to solving the problem is available
-at [1].
+Could make sense to check that bcdUSB is 0x220 here to avoid that.
 
-v2:
-- only use mapable domains (Christian)
-- try pinning to domains in prefered order
+We could also check if ep->eusb2_isoc_ep_comp.bDescriptorType exists
+like in PATCH 2/4, and could then remove the wMaxPacketSize == 0 check as
+usb core descriptor parsing will already do that check for us, before copying
+the descriptor.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 660cd44659a0 ("drm/shmem-helper: Import dmabuf without mapping its sg_table")
-Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
-Closes: https://lore.kernel.org/dri-devel/ba1bdfb8-dbf7-4372-bdcb-df7e0511c702@suse.de/
-Cc: Shixiong Ou <oushixiong@kylinos.cn>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Link: https://lore.kernel.org/dri-devel/9792c6c3-a2b8-4b2b-b5ba-fba19b153e21@suse.de/ # [1]
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 41 ++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 2 deletions(-)
+The USB_SPEED_HIGH check could also be moved to descriptor parsing in usb core.
+This way we could remove the speed check hare and from PATCH 2/3
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index 5743ebb2f1b7..471b41bd3e29 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -285,6 +285,43 @@ static int amdgpu_dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
- 	return ret;
- }
- 
-+static int amdgpu_dma_buf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
-+{
-+	struct drm_gem_object *obj = dma_buf->priv;
-+	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
-+	int ret;
-+
-+	/*
-+	 * Pin to keep buffer in place while it's vmap'ed. The actual
-+	 * domain is not that important as long as it's mapable. Using
-+	 * GTT should be compatible with most use cases. VRAM and CPU
-+	 * are the fallbacks if the buffer has already been pinned there.
-+	 */
-+	ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
-+	if (ret) {
-+		ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_VRAM);
-+		if (ret) {
-+			ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_CPU);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+	ret = drm_gem_dmabuf_vmap(dma_buf, map);
-+	if (ret)
-+		amdgpu_bo_unpin(bo);
-+
-+	return ret;
-+}
-+
-+static void amdgpu_dma_buf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
-+{
-+	struct drm_gem_object *obj = dma_buf->priv;
-+	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
-+
-+	drm_gem_dmabuf_vunmap(dma_buf, map);
-+	amdgpu_bo_unpin(bo);
-+}
-+
- const struct dma_buf_ops amdgpu_dmabuf_ops = {
- 	.attach = amdgpu_dma_buf_attach,
- 	.pin = amdgpu_dma_buf_pin,
-@@ -294,8 +331,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
- 	.release = drm_gem_dmabuf_release,
- 	.begin_cpu_access = amdgpu_dma_buf_begin_cpu_access,
- 	.mmap = drm_gem_dmabuf_mmap,
--	.vmap = drm_gem_dmabuf_vmap,
--	.vunmap = drm_gem_dmabuf_vunmap,
-+	.vmap = amdgpu_dma_buf_vmap,
-+	.vunmap = amdgpu_dma_buf_vunmap,
- };
- 
- /**
--- 
-2.50.1
 
+> Would there be no issues with that? Or conversely, any chance that your
+> code could be trivially modified to support full 2v2, and "bw doubling"
+> removed from names and comments?
+
+Proably not, eUSB2v2 may have some odd burst and mult fields while double
+bandwidth has fixed values.
+
+Thanks
+Mathias
 
