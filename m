@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40099-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4646B29BEF
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:23:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEEFB29C1A
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:26:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FDD03B623F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:22:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCA05188CA25
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D549C3002DB;
-	Mon, 18 Aug 2025 08:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94DA13019D8;
+	Mon, 18 Aug 2025 08:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7NUkrR+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="df1PTFHI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E7F2FFDF1;
-	Mon, 18 Aug 2025 08:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72083002BA;
+	Mon, 18 Aug 2025 08:24:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505368; cv=none; b=CViigXi7i3ycA6x4jx2q6V/L44mJ1fqryXlkSVeREksA/t0EW5KDlXxnn1ElOazb7xckTRivQaFtlVRdgmYNDsjVDdnrg/8ADvCpgOS8BXN+jD+BGk2ri1/xDlnGbl2n8Oex2u3Fv4TbS8ScKgeTh3+JPDHzNVLUEtOHWpYbkzw=
+	t=1755505466; cv=none; b=g+3I7Q22C9YZdRWy177TrbGeAup2zPMzILx+Pj3ifpLSypMBEHFcxDupRvv0yrIV6tkJoB/G5TehzrQpFBI1Q2idu9aFSsYSXLiBYPGE/gHX1HRZIqy9m43qWkU/qjEB5jfLBQczaNzVOg7dGPZaixWBhIwU7nMK2/E76WB/cXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505368; c=relaxed/simple;
-	bh=G5KjcXCcfVMEVsjscb4Ys/l1/DUNqEaAxB7u6lNcs7A=;
+	s=arc-20240116; t=1755505466; c=relaxed/simple;
+	bh=MiQPrxEJ/teaQmDKrGY2HdIgF3uIH4Toe8Kn3G31yMc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NOK+OPhK2aY9WfrRQ9h8zTe+Z+/zDtYOIAXu3+jAEMNL1AL2iE29SCE/fVwbt6QEabkkH8IuxR9wdh+Dg34ZRZCa4PXUD85OBcSphiQraGry7EiEGUOoq2YUap2F7kV9IVXIO8cP7BQ99xDLe2OECewjSxxxTw4PMOUdhm4TcCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7NUkrR+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F8EC4CEEB;
-	Mon, 18 Aug 2025 08:22:40 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=oYEotcCwfd9R0CX6wY/nK0ruTvnOMlCEnuFGoitvxx9G41fhdvN76ZJtKHmGcR5IkJqd+s4UhN7rxQuDWhXiiAFvN6OpdVh+etibJdhb1knn7rqsMCbpseqsXz+vZ9FEMY+z3rhW5haiyvF0+djykFwsUn0CuFsw0Pq2YefDSFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=df1PTFHI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EFCDC4CEEB;
+	Mon, 18 Aug 2025 08:24:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755505366;
-	bh=G5KjcXCcfVMEVsjscb4Ys/l1/DUNqEaAxB7u6lNcs7A=;
+	s=k20201202; t=1755505465;
+	bh=MiQPrxEJ/teaQmDKrGY2HdIgF3uIH4Toe8Kn3G31yMc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q7NUkrR+lL70kb7FWfE7SwLKXc2u4ErdmJAmrympHHMqrMapsTnf7U+Vgm+n4sd27
-	 JaqV6b6fY2tBPOH+3jg0MZLlb1g2Bz2e5vm/KHs54+I0kOVk4/Dot0BLkHxoI3ADMu
-	 pbd5coJAVX5IoNOAW7N1NqHQY/ZzKiR6BKqOupptlnqhhFas93qCSlZaGBrnlRv/31
-	 y21sqMJu2mdvJn2GukyD80DW3fJzspHCZDuigNZlP4S9JwM3XdTKDDCBtAARSX75hi
-	 XJFzCTzwxFlGnSNQW5fSlc69q9ebc8HPPZH+YF0TwEnGofhmvkkBhEC9NmuCQSpHtH
-	 C8khRVzSe6P9Q==
-Message-ID: <05da83dd-2cd2-4f51-8169-e8cf0190d6c1@kernel.org>
-Date: Mon, 18 Aug 2025 10:22:38 +0200
+	b=df1PTFHIi6uTv0vhbGA3O8UNJwOvUdwLBcvzj24UVzXxsXIZgsyZsS/Kdw+qQZGxU
+	 Ys8tJAIYvHAS22Uvd9tUxKKKEEEikqqgbld4mBTnY4spxKxGzznPaFER/Ts3rDZ/Hh
+	 QMupsVPOTSGFiucJ3s9TpdQAFUsSOdD+pALA3J1LE5kJeL8Xqo8EDdpYZvRKSTvE2y
+	 9J/TyKTJUpP8XWDZR85L3+Bv8vIPuoDkgNiwH6CigycGmXo1aJboeAlsN3a2TMOdkE
+	 g+GrhNjH198aQO5V8eCfaZ2Qoict+ggphf+0X8Gb7FVo5JvCGeiicCcXiYQLdMhKgB
+	 uHVTONJkAR5Sw==
+Message-ID: <ac9769af-9ab6-4b48-9890-ec3bcda3b180@kernel.org>
+Date: Mon, 18 Aug 2025 10:24:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/12] Add FSD CSI support
+Subject: Re: [PATCH v2 03/12] dt-bindings: media: nxp: Add support for FSD SoC
 To: Inbaraj E <inbaraj.e@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
@@ -63,8 +63,9 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, kernel@puri.sm, kernel@pengutronix.de,
  festevam@gmail.com, linux-media@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
-References: <CGME20250814140956epcas5p480aa24441933523484da5c241a201d3c@epcas5p4.samsung.com>
- <20250814140943.22531-1-inbaraj.e@samsung.com>
+References: <20250814140943.22531-1-inbaraj.e@samsung.com>
+ <CGME20250814141014epcas5p410d41ede7e8ae4f3cf8db6d041d03946@epcas5p4.samsung.com>
+ <20250814140943.22531-4-inbaraj.e@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,45 +111,79 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250814140943.22531-1-inbaraj.e@samsung.com>
+In-Reply-To: <20250814140943.22531-4-inbaraj.e@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/08/2025 16:09, Inbaraj E wrote:
-> FSD CSI(Camera Serial Interface) IP bundles Link controller and DMA
-> controller for receiving frames. FSD SoC has 12 instances of CSI IP and
-> 3 D-PHY. 4 instances of CSI IP use 1 D-PHY.
+> Document the MIPI CSI2 controller device tree bindings for Tesla
+> FSD SoC
+
+Explain the hardware.
+
 > 
-> This patch series does the following:
-> 1) Refactor the imx-mipi-csis driver to support platform specific
-> clock names and interrupt handlers through device specific data
-> (struct mipi_csis_info).
-> 2) Add FSD CSI link controller support in imx-mipi-csis driver.
-> 3) Introduce a new media driver for FSD CSI DMA providing support for
-> video capture and streaming.
+> Signed-off-by: Inbaraj E <inbaraj.e@samsung.com>
+> ---
+>  .../bindings/media/nxp,imx-mipi-csi2.yaml     | 88 ++++++++++++++-----
+>  1 file changed, 68 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+> index 03a23a26c4f3..802fb1bd150d 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+> @@ -14,7 +14,7 @@ description: |-
+>    The NXP i.MX7 and i.MX8 families contain SoCs that include a MIPI CSI-2
+>    receiver IP core named CSIS. The IP core originates from Samsung, and may be
+>    compatible with some of the Exynos4 and S5P SoCs. i.MX7 SoCs use CSIS version
+> -  3.3, and i.MX8 SoCs use CSIS version 3.6.3.
+> +  3.3, i.MX8 SoCs use CSIS version 3.6.3 and FSD SoC uses CSIS version 4.3.
 >  
-> These patches were tested on the FSD platform using the
-> capture_raw_frames application.
-> 
-> Changes since v1:
-> 1. Addressed review comments from Laurent Pinchart to integrate the
-> with imx-mipi-csis.c to handle the CSIS and expose it as a subdev.
-> 
-> Here is the link to v1 patch for reference:
-> https://patchwork.kernel.org/project/linux-media/patch/7e7832c16925386b771ddb7e00e08661115aa0ea.1668963790.git.sathya@samsung.com/
+>    While the CSI-2 receiver is separate from the MIPI D-PHY IP core, the PHY is
+>    completely wrapped by the CSIS and doesn't expose a control interface of its
+> @@ -26,6 +26,7 @@ properties:
+>        - enum:
+>            - fsl,imx7-mipi-csi2
+>            - fsl,imx8mm-mipi-csi2
+> +          - tesla,fsd-mipi-csi2
 
-Use lore links. b4 gives them for free..
 
-> 
-> Inbaraj E (12):
->   dt-bindings: clock: Add CAM_CSI clock macro for FSD
->   clk: samsung: fsd: Add clk id for PCLK and PLL in CAM_CSI block
->   dt-bindings: media: nxp: Add support for FSD SoC
->   arm64: dts: fsd: Add CSI nodes
+Isn't this Samsung CSI IP? Why are you adding it to NXP? Nothing in
+commit msg helps me to understand that.
 
-Please split patches targeting different subsystems, since they are
-completely independent. There is little benefit in combining independent
-work into one huge patchset.
+>        - items:
+>            - enum:
+>                - fsl,imx8mp-mipi-csi2
+> @@ -38,24 +39,21 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    minItems: 3
+> -    items:
+> -      - description: The peripheral clock (a.k.a. APB clock)
+> -      - description: The external clock (optionally used as the pixel clock)
+> -      - description: The MIPI D-PHY clock
+> -      - description: The AXI clock
+> +    minItems: 2
+> +    maxItems: 4
+>  
+>    clock-names:
+> -    minItems: 3
+> -    items:
+> -      - const: pclk
+> -      - const: wrap
+> -      - const: phy
+> -      - const: axi
+> +    minItems: 2
+> +    maxItems: 4
+>  
+>    power-domains:
+>      maxItems: 1
+>  
+> +  samsung,syscon-csis:
+
+samsung, so not nxp. Even more confusing.
+
+
 Best regards,
 Krzysztof
 
