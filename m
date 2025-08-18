@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40102-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40103-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E2FB29C3D
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:30:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 683F1B29C4E
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:32:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 723253A702B
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:30:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF75C18945D6
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:32:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB25730147C;
-	Mon, 18 Aug 2025 08:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02DF25D549;
+	Mon, 18 Aug 2025 08:32:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnGjhLjH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFe21OFb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE95B2F9C53;
-	Mon, 18 Aug 2025 08:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155997E9;
+	Mon, 18 Aug 2025 08:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505801; cv=none; b=pRjoBc7BMoQmIgetmo0h3rnCdq9rMjxqcZhDwqEu+BJrPzqq/oSHfrBjF1UrZDsF54za86XHBXxv2wT5I8pl1yGoDmucwbu71mick2wC3tAIDxF5xDyGFMmrkK71yA/qle3YF8JyHm0WS0Rfc/vVYut0lQJgRC/5griqsger5vA=
+	t=1755505937; cv=none; b=cDZsArZbpGbok7Y6yttjlFCJ2hSwh6BvmIb2jw7nkXR9Bu7EZkpVhrzE9hjaJjp/cDyPPGWxcHW7JPRHoaigiS3Y8NDiB89eIA/Ph0M3j2dDST4tGaGlr16GY+lHX8toxOcgZZrhXJLnXdCJBmACRDnRVRa/vxngFNAl1qibjSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505801; c=relaxed/simple;
-	bh=exYibdCxTidtmiMn53gTLXZ7IWFOL/uqk+UPXBrBBwk=;
+	s=arc-20240116; t=1755505937; c=relaxed/simple;
+	bh=nNOBI0F8EkG+NeIt2D1S0Fuj4+shs+JG9u5tILSOhyU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ntGHzGAv3WkIpvCZ7k39n9NgonSehq+odLR/+wAN+QjqM3AGIpawBgXCnQhRqecdP7HhJQrOLBUFHwYf/4NX9SLsdt1k8KFiC60WEjKnFiRFStAQiCDL9mZXI6Ego80idPz/f8ws6JuAub7rezABSzI40c9VGGc81JDMEZTfTNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnGjhLjH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9B71C4CEED;
-	Mon, 18 Aug 2025 08:29:52 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=O5qRe7tdh0P48CgU3O4B4abRNCcSkW22KiHOnKg6drSLKSv6MPx4lLuKEWZttR5o5UsDZWEquUc/93SfU+bhaji5OqTONhs2AiQ45k3+52y+3wk1vwm5amSsHU74CbCK9Fb5YXlyBuPPjD4hbcimpU62CGtH3Q13P64/gqV5k4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFe21OFb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42BADC4CEEB;
+	Mon, 18 Aug 2025 08:32:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755505799;
-	bh=exYibdCxTidtmiMn53gTLXZ7IWFOL/uqk+UPXBrBBwk=;
+	s=k20201202; t=1755505936;
+	bh=nNOBI0F8EkG+NeIt2D1S0Fuj4+shs+JG9u5tILSOhyU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cnGjhLjH5rRWZspYAD7FNglSmP/ZVMNIeQlf//xe39ldZUTuqTszI4xH/4sgmcrAQ
-	 Q6o85sEdCvArYxNdDEX7Ao/bo7Wds20DvGTTbulNGNN1/kRQfElyU+kn84HS6guvkp
-	 aiz/GKT5TBW31gdoZQ53ciLgsgmBjDk9M5heNSgOznXt7/KRmfLE6A6/X1/IVREVIa
-	 l+xSQxbH11gDVu+OKVxOlkCuacCR0dC3+E205ZX1SWRQrla7z3lflByf2eelGqoZ+6
-	 bCpw0of/mnHjWE7tgsvkYWDuZOgCSDggQHWvjmhg5lcjmGt2LNVRg/5QdnfBjlRFeG
-	 x2Xpi/Lze7bew==
-Message-ID: <67199625-13d2-4510-bbbd-3dd2f61c62fd@kernel.org>
-Date: Mon, 18 Aug 2025 10:29:51 +0200
+	b=CFe21OFb+bEd+KZWrl1NSWnS6cBxbGJTHGeVk3t2pdcmgvkOK3Q7t71xKg41sFi97
+	 zAprJLG9Tw61IZDsSQYRSqPiEoegSTaFEREUt1/+EHJ+35WWpa5duIpNPUlpv6BcQ/
+	 inarCAhBDRTuWLL37wDbCJ6g85hFXO3mLbhJ0YUW4qY/icFdD+20sJxJQWubkyYWUI
+	 KhAtSR5L8Ls5mfbt66mDU8Yv2Cd466iMN8613YGj8tqJ9+xgF4KM4iyoXnvs9yPRmF
+	 M/3QMyn5BijD5GYnwMToSzLj3LBDbtybU8WinY56+m6jjiSoLtklVcLD7fcs9GN/57
+	 r9RG8sF92Jx6A==
+Message-ID: <1b37bc94-8f2b-4da3-be2e-4d0076672169@kernel.org>
+Date: Mon, 18 Aug 2025 10:32:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/12] dt-bindings: media: fsd: Document CSIS DMA
- controller
+Subject: Re: [PATCH v2 11/12] arm64: defconfig: Enable FSD CSIS DMA driver
 To: Inbaraj E <inbaraj.e@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
@@ -65,8 +64,8 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  festevam@gmail.com, linux-media@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
 References: <20250814140943.22531-1-inbaraj.e@samsung.com>
- <CGME20250814141051epcas5p14dccee388087372973988aeebcb872cf@epcas5p1.samsung.com>
- <20250814140943.22531-11-inbaraj.e@samsung.com>
+ <CGME20250814141057epcas5p21ca33641e42164886dc1bf404237876d@epcas5p2.samsung.com>
+ <20250814140943.22531-12-inbaraj.e@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -112,90 +111,17 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250814140943.22531-11-inbaraj.e@samsung.com>
+In-Reply-To: <20250814140943.22531-12-inbaraj.e@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/08/2025 16:09, Inbaraj E wrote:
-> Document bindings for the FSD CSIS DMA controller.
-> 
-> Signed-off-by: Inbaraj E <inbaraj.e@samsung.com>
-> ---
->  .../bindings/media/tesla,fsd-csis-media.yaml  | 74 +++++++++++++++++++
+> Enable CSIS DMA driver support for FSD based platforms.
 
-Your patchset is organized in total mess. First clock, then media
-bindings, then arm64,  then media drivers, then media bindings, then
-arm64... Please organize it in standard way - about independent
-subsystems I mentioned, so within media first bindings, then driver. Not
-intermixed.
+Tesla FSD
 
-
-
->  1 file changed, 74 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml b/Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml
-> new file mode 100644
-> index 000000000000..ce6c2e58ed4e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/tesla,fsd-csis-media.yaml
-> @@ -0,0 +1,74 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/tesla,fsd-csis-media.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Tesla FSD SoC MIPI CSI-2 DMA (Bridge device) receiver
-> +
-> +maintainers:
-> +  - Inbaraj E <inbaraj.e@samsung.com>
-> +
-> +description: |-
-
-Drop |-
-
-> +  The FSD MIPI CSI-2 (Camera Serial Interface 2) have internal DMA engine to
-> +  capture frames originating from the sensor.
-> +
-> +properties:
-> +  compatible:
-> +    const: tesla,fsd-csis-media
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: pclk
-> +      - const: pll
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-
-Don't you need second port to CSIS block? I guess this one is input from
-the sensor?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - iommus
-> +  - port
-
+You are changing defconfig for all platforms, it's not your personal or
+company defconfig.
 
 
 Best regards,
