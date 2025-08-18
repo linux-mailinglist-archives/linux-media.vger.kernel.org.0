@@ -1,134 +1,188 @@
-Return-Path: <linux-media+bounces-40117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F23FB29E0F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 11:36:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFBBB29E05
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 11:35:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD18218A85BC
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 09:32:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 193913BF73C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 09:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7BD030E0C5;
-	Mon, 18 Aug 2025 09:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81DCA30E856;
+	Mon, 18 Aug 2025 09:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LYRjG/UI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qFpZvREc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0525030DED0
-	for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 09:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C49D221FDC;
+	Mon, 18 Aug 2025 09:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755509530; cv=none; b=i0Nu30/BH23UhepGo05fYqX3FbKTLnxzIFVlazZexHiFPyzZshnhrVlgVprccIL2mbgwtHutH4t/migo1NrVPDLaIQjq8Cg5ibcIuWc7g15YNq2SUXGYtef4xl5SLDwcFrmGszvfvDdyvTQb8c+drbLbp0GHz44GBuTsdy+pMsE=
+	t=1755509657; cv=none; b=M+oFhntEkBI7Z2NsA2KW2KP7XztsLbZacZey8r4zcTq5kf3L2zDJLmbgTueN5b7Y59V0SndJQI0WM5TahDJYno4JE5UlT6c2xrKir4IqzENCmZgLaaidUc7SoNE8V1UMapDOqHvC3PWC7nS/gYcY40Rga13scEoEZQQHkWQwc4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755509530; c=relaxed/simple;
-	bh=yHL+XSbBNGsMKJsHH4Uy4eDS/KVeEkZxpkCETJV5GnM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FxmFmR/CpuDGTZnu7eWjECYT5y2szgD1/cJzv45ScJVjPT8fursCfeAxc2s2zN79ZSaNfBDUq2gVNTXjkxUcQbZEBbDJd3MhxHstD94kGmQ2yaGZw/UQwiftvz8ZK+5+ZBteHkht+pj7dEg/3wLIjJzKtxI0HnFeg6asACZzxDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LYRjG/UI; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2445827be70so42541575ad.3
-        for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 02:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755509528; x=1756114328; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xHfYVwbmP+gPFXz8CWcley05MtbRCnNcrivNbsDjwVo=;
-        b=LYRjG/UIPghbsufEkG0/n4cMP/MeZ7VGSVNfRF8JeyFx3cLTDuND9YTJHfHeb7SxO1
-         KaHDlP4canfOS6Me2L2KYbGakQL5TWgmd/mzlfCXLJrpS2HcA0WPKazutlbNTBTNB7q8
-         yZAugpXpZjtuQGVD5ZYWm8f3BwC1/y0StEYLZipi7LDnUFZ+8hiv8IenT9xQBxiJWXLa
-         4hGOL8qn0+m9f9mW6LmMm204TK3HCGTEXmr2jXcv762oMk1zEPtHDMR2urtL2t8IEnCb
-         PxWg9FFXqiABMJoUUmDGfbACjDQKZvkaSFns04jYFfJFxnb9RCN2nQ997mjvYLHvzUij
-         sGSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755509528; x=1756114328;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xHfYVwbmP+gPFXz8CWcley05MtbRCnNcrivNbsDjwVo=;
-        b=YzxZUd/7PWTSrTi+C1jkZTxjeQ+Drdu9+d81lrRNP0USqDz8I8U8ZI62MtVXOfC70A
-         onnrXiu1+fguC7h/xHdnZXpqzAF57x+ZAZmn1eFKw4NBPafk1g2+8XK2J5hI1apMQs+s
-         nsxZEYseFgj/NyveCLA2YsQsZH2pgUPmZveeJlkKf5QAuTELP87JYWobqOrRGHsCzbMl
-         AYNd6d/Rr3PaRNvNxZRTm4vMWWzXRCBfBpQjoYW7KxwNt6xnZq2Tn9nje84asAVQhe4K
-         +gl8G0qI2CPACsyuPkoPddgTFuL4O0VqAQBbfz84MqooYKoS1xVdtEQ876XDmkCrcDNv
-         /ZRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWrWx2pJul2lLDgumSBmVhHvK9Nav2ZQOedPBBrq8h0qXsjmsiMxy9rF/JYqP2vz6tkfRgk1vGZomc+cw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu6z6KSUn0lxZRYK9fPEON+l43Y0x6oLkgy+J8uQsSsk6Q85rT
-	Pdc7z38y/I5fG4DAcGKvWyDsZzwySse8zb4SfpSe/B8wjwR//8drnM/r
-X-Gm-Gg: ASbGncuWG02uDjJYoto2EbcU91iaLnWbgMkLh8bf8Mhi8Suz3eWgeKDl5ZNT7D40pRo
-	1sBPIas/9k4ZBdGi0Vd2d3LgS6s1Lu36y6WtM0ltRYWuGSAFRAAVi4NKywTzKOk6KySsrrpZ2dK
-	W6AlnZexlqnBQWpSp7dgJnp6e2U1mKzuFYrm13InfFMXsfs9QaYAfcSCuXaAjPmgufbstmgjykn
-	Q8DOzfDilF0mZJyBKkenA94/QJHloXQF0b3///nq1cQ+wKOYEvWoR7iKk1B6bWTng80h2Sqrpg4
-	9yc3KJLbCm/6A9vsmLNXQfxmSFcxCz5a3SVl2wFTt4PHAD16HgMAn9PfiHlB0zmP7qRCpQgiGCh
-	Ug7csGT6jr3Z/sO2+5K4VFeJlHkMcKxhL7mRU9BEZQAJRhxjwcQ/z
-X-Google-Smtp-Source: AGHT+IFCRtT2UOKN4GdguapaDt33D0B736i93LRmByQ1B2I3PXdFqVr/n+fJRYAuoJpHAa/pY3mMdw==
-X-Received: by 2002:a17:902:e88c:b0:234:b743:c7a4 with SMTP id d9443c01a7336-2446d8b67f5mr216185465ad.38.1755509528108;
-        Mon, 18 Aug 2025 02:32:08 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:1cb8:46d9:adba:d08d:ac6:8cbb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446cb0f007sm75092045ad.69.2025.08.18.02.32.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 02:32:07 -0700 (PDT)
-From: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
-To: alain.volmat@foss.st.com,
-	mchehab@kernel.org,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	shuah@kernel.org
-Cc: Chandra Mohan Sundar <chandramohan.explore@gmail.com>,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] media: v4l: Fix dereference before NULL check
-Date: Mon, 18 Aug 2025 15:01:57 +0530
-Message-ID: <20250818093159.612208-1-chandramohan.explore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1755509657; c=relaxed/simple;
+	bh=aXdSfAR4983BNp7JPSaitHLvzBXoEwpGjFaYcoiR100=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ph4VNcjmnntRuQIO6tdx9tnIzoHqm1FQGqMQpa5ldYtLTbADiCvdirm9VIP+dtCJOEfCzd06tpQHf3kHrGjswtqfmMJ0M42hUdtklgsneAvBat27gKfRAqU+IkgrAaaNvINMQEq8SGz8Exj+ndSU2uJ7K6TLXHATPJqlq3TBQ4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qFpZvREc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 820F12416;
+	Mon, 18 Aug 2025 11:33:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755509594;
+	bh=aXdSfAR4983BNp7JPSaitHLvzBXoEwpGjFaYcoiR100=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qFpZvREcnMuHPIGb3EM8skBbhb2ObaIU7jEuzNsB+cq8A5yVEnZH6ML/uK7/znBNF
+	 ao4NfQQ/eQUGGOmHDSeL/+4mOxSY7VyVPD7WBv/oRu4Oc2z/c4FjolrY3X0WDKejMC
+	 rbi9ExxsgMNJUcWGOMLNZrlaACJKMT0TQ3I4dz1s=
+Date: Mon, 18 Aug 2025 12:33:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Inbaraj E <inbaraj.e@samsung.com>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, krzk@kernel.org,
+	s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
+	cw00.choi@samsung.com, rmfrfs@gmail.com, martink@posteo.de,
+	mchehab@kernel.org, linux-fsd@tesla.com, will@kernel.org,
+	catalin.marinas@arm.com, pankaj.dubey@samsung.com,
+	shradha.t@samsung.com, ravi.patel@samsung.com,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alim.akhtar@samsung.com,
+	linux-samsung-soc@vger.kernel.org, kernel@puri.sm,
+	kernel@pengutronix.de, festevam@gmail.com,
+	linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 07/12] media: imx-mipi-csis: Add support to configure
+ specific vc
+Message-ID: <20250818093349.GC5862@pendragon.ideasonboard.com>
+References: <20250814140943.22531-1-inbaraj.e@samsung.com>
+ <CGME20250814141036epcas5p1fc02cea3f97534303673eb8453b6a18f@epcas5p1.samsung.com>
+ <20250814140943.22531-8-inbaraj.e@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250814140943.22531-8-inbaraj.e@samsung.com>
 
-In 'stm32_csi_start', 'csidev->s_subdev' is dereferenced directly while
-assigning a value to the 'src_pad'. However the same value is being
-checked against NULL at a later point of time indicating that there
-are chances that the value can be NULL.
+Hi Inbaraj,
 
-Move the dereference after the NULL check.
+On Thu, Aug 14, 2025 at 07:39:38PM +0530, Inbaraj E wrote:
+> MIPI_CSIS_V3_3 and MIPI_CSIS_V3_6_3 support streaming only on VC0.
 
-Fixes: e7bad98c205d1 ("media: v4l: Convert the users of v4l2_get_link_freq to call it on a pad")
-Signed-off-by: Chandra Mohan Sundar <chandramohan.explore@gmail.com>
----
- drivers/media/platform/st/stm32/stm32-csi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That doesn't appear to be true, at least for MIPI_CSIS_V3_6_3. I have a
+patch series that adds VC support for v3.6.3 in the i.MX8MP, and it has
+been susccessfully tested.
 
-diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/platform/st/stm32/stm32-csi.c
-index b69048144cc1..fd2b6dfbd44c 100644
---- a/drivers/media/platform/st/stm32/stm32-csi.c
-+++ b/drivers/media/platform/st/stm32/stm32-csi.c
-@@ -443,8 +443,7 @@ static void stm32_csi_phy_reg_write(struct stm32_csi_dev *csidev,
- static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 			   struct v4l2_subdev_state *state)
- {
--	struct media_pad *src_pad =
--		&csidev->s_subdev->entity.pads[csidev->s_subdev_pad_nb];
-+	struct media_pad *src_pad;
- 	const struct stm32_csi_mbps_phy_reg *phy_regs = NULL;
- 	struct v4l2_mbus_framefmt *sink_fmt;
- 	const struct stm32_csi_fmts *fmt;
-@@ -466,6 +465,7 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 	if (!csidev->s_subdev)
- 		return -EIO;
- 
-+	src_pad = &csidev->s_subdev->entity.pads[csidev->s_subdev_pad_nb];
- 	link_freq = v4l2_get_link_freq(src_pad,
- 				       fmt->bpp, 2 * csidev->num_lanes);
- 	if (link_freq < 0)
+> The
+> MIPI_CSIS_V4_3 present in the FSD SoC supports streaming on any one VC
+> out of four VCs. To extend support for the FSD SoC, add the ability to
+> configure a specific VC. The FSD CSI Rx can configure any one VC and
+> start streaming.
+> 
+> Signed-off-by: Inbaraj E <inbaraj.e@samsung.com>
+> ---
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> index a3e2c8ae332f..4f6c417fdf58 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -54,7 +54,7 @@
+>  
+>  /* CSIS common control */
+>  #define MIPI_CSIS_CMN_CTRL			0x04
+> -#define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW	BIT(16)
+> +#define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW(n)	BIT(((n) + 16))
+>  #define MIPI_CSIS_CMN_CTRL_INTER_MODE		BIT(10)
+>  #define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW_CTRL	BIT(2)
+>  #define MIPI_CSIS_CMN_CTRL_RESET		BIT(1)
+> @@ -319,6 +319,7 @@ struct mipi_csis_device {
+>  		u32 hs_settle;
+>  		u32 clk_settle;
+>  	} debug;
+> +	unsigned int vc;
+>  };
+>  
+>  /* -----------------------------------------------------------------------------
+> @@ -544,9 +545,10 @@ static void __mipi_csis_set_format(struct mipi_csis_device *csis,
+>  				   const struct csis_pix_format *csis_fmt)
+>  {
+>  	u32 val;
+> +	unsigned int vc = csis->vc;
+>  
+>  	/* Color format */
+> -	val = mipi_csis_read(csis, MIPI_CSIS_ISP_CONFIG_CH(0));
+> +	val = mipi_csis_read(csis, MIPI_CSIS_ISP_CONFIG_CH(vc));
+>  	val &= ~(MIPI_CSIS_ISPCFG_ALIGN_32BIT | MIPI_CSIS_ISPCFG_FMT_MASK
+>  		| MIPI_CSIS_ISPCFG_PIXEL_MASK);
+>  
+> @@ -567,11 +569,11 @@ static void __mipi_csis_set_format(struct mipi_csis_device *csis,
+>  		val |= MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL;
+>  
+>  	val |= MIPI_CSIS_ISPCFG_FMT(csis_fmt->data_type);
+> -	mipi_csis_write(csis, MIPI_CSIS_ISP_CONFIG_CH(0), val);
+> +	mipi_csis_write(csis, MIPI_CSIS_ISP_CONFIG_CH(vc), val);
+>  
+>  	/* Pixel resolution */
+>  	val = format->width | (format->height << 16);
+> -	mipi_csis_write(csis, MIPI_CSIS_ISP_RESOL_CH(0), val);
+> +	mipi_csis_write(csis, MIPI_CSIS_ISP_RESOL_CH(vc), val);
+>  }
+>  
+>  static int mipi_csis_calculate_params(struct mipi_csis_device *csis,
+> @@ -631,6 +633,7 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
+>  {
+>  	int lanes = csis->bus.num_data_lanes;
+>  	u32 val;
+> +	unsigned int vc = csis->vc;
+>  
+>  	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
+>  	val &= ~MIPI_CSIS_CMN_CTRL_LANE_NR_MASK;
+> @@ -648,7 +651,7 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
+>  	val = (0 << MIPI_CSIS_ISP_SYNC_HSYNC_LINTV_OFFSET)
+>  	    | (0 << MIPI_CSIS_ISP_SYNC_VSYNC_SINTV_OFFSET)
+>  	    | (0 << MIPI_CSIS_ISP_SYNC_VSYNC_EINTV_OFFSET);
+> -	mipi_csis_write(csis, MIPI_CSIS_ISP_SYNC_CH(0), val);
+> +	mipi_csis_write(csis, MIPI_CSIS_ISP_SYNC_CH(vc), val);
+>  
+>  	val = mipi_csis_read(csis, MIPI_CSIS_CLK_CTRL);
+>  	val |= MIPI_CSIS_CLK_CTRL_WCLK_SRC;
+> @@ -669,7 +672,7 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
+>  	/* Update the shadow register. */
+>  	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
+>  	mipi_csis_write(csis, MIPI_CSIS_CMN_CTRL,
+> -			val | MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW |
+> +			val | MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW(vc) |
+>  			MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW_CTRL);
+>  }
+>  
+> @@ -945,6 +948,8 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+>  	struct v4l2_subdev_state *state;
+>  	int ret;
+>  
+> +	csis->vc = 0;
+> +
+
+Dynamic VC selection belongs to this patch, not patch 09/12. 09/12 does
+too many different things, it has to be split into one patch per
+feature.
+
+>  	if (!enable) {
+>  		v4l2_subdev_disable_streams(csis->source.sd,
+>  					    csis->source.pad->index, BIT(0));
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
