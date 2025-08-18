@@ -1,129 +1,122 @@
-Return-Path: <linux-media+bounces-40103-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40104-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683F1B29C4E
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:32:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 093C6B29C6C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 10:38:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF75C18945D6
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:32:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECE5D204C2C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:37:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02DF25D549;
-	Mon, 18 Aug 2025 08:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3380830147B;
+	Mon, 18 Aug 2025 08:37:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFe21OFb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBbjtFNv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155997E9;
-	Mon, 18 Aug 2025 08:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C161448E0;
+	Mon, 18 Aug 2025 08:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505937; cv=none; b=cDZsArZbpGbok7Y6yttjlFCJ2hSwh6BvmIb2jw7nkXR9Bu7EZkpVhrzE9hjaJjp/cDyPPGWxcHW7JPRHoaigiS3Y8NDiB89eIA/Ph0M3j2dDST4tGaGlr16GY+lHX8toxOcgZZrhXJLnXdCJBmACRDnRVRa/vxngFNAl1qibjSM=
+	t=1755506265; cv=none; b=iQb64Vbz6A6IRRyvbzvrLxNzEWZILn7fzuVXVy2/LmNttW5StiIIQ0olx3wXs2OGaftdkPTcIUGquBp34kb4a0LyO9FECwj1CCBco8BmE27PA2ojy6UjUjOkGcHRAKyXejWTi58DA4/ekDLwdseNHu9/KFkxxk28lZ+0yWOGU8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505937; c=relaxed/simple;
-	bh=nNOBI0F8EkG+NeIt2D1S0Fuj4+shs+JG9u5tILSOhyU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O5qRe7tdh0P48CgU3O4B4abRNCcSkW22KiHOnKg6drSLKSv6MPx4lLuKEWZttR5o5UsDZWEquUc/93SfU+bhaji5OqTONhs2AiQ45k3+52y+3wk1vwm5amSsHU74CbCK9Fb5YXlyBuPPjD4hbcimpU62CGtH3Q13P64/gqV5k4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFe21OFb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42BADC4CEEB;
-	Mon, 18 Aug 2025 08:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755505936;
-	bh=nNOBI0F8EkG+NeIt2D1S0Fuj4+shs+JG9u5tILSOhyU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CFe21OFb+bEd+KZWrl1NSWnS6cBxbGJTHGeVk3t2pdcmgvkOK3Q7t71xKg41sFi97
-	 zAprJLG9Tw61IZDsSQYRSqPiEoegSTaFEREUt1/+EHJ+35WWpa5duIpNPUlpv6BcQ/
-	 inarCAhBDRTuWLL37wDbCJ6g85hFXO3mLbhJ0YUW4qY/icFdD+20sJxJQWubkyYWUI
-	 KhAtSR5L8Ls5mfbt66mDU8Yv2Cd466iMN8613YGj8tqJ9+xgF4KM4iyoXnvs9yPRmF
-	 M/3QMyn5BijD5GYnwMToSzLj3LBDbtybU8WinY56+m6jjiSoLtklVcLD7fcs9GN/57
-	 r9RG8sF92Jx6A==
-Message-ID: <1b37bc94-8f2b-4da3-be2e-4d0076672169@kernel.org>
-Date: Mon, 18 Aug 2025 10:32:07 +0200
+	s=arc-20240116; t=1755506265; c=relaxed/simple;
+	bh=N8VnjlPRnKqu/DSwOnID5+bTt9B/8Ll0cRHObBmy0ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fEVxwX6MYKUiMYo09McStLSOF+dCKBHC2WX0FvoCCWif6n+gY5z+XWBKjc005OG9k7Sb/D02GGb3QFzg6BVrbzqobPFpXn+ve3FO6sXvwzAwI1wMFWubQJJPpLphw+PUPzyqoMzafjnShNK7d+6YwxJg83FYRIxdB/eQLAWDDqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBbjtFNv; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55ce510b4ceso4437679e87.1;
+        Mon, 18 Aug 2025 01:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755506262; x=1756111062; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w+SQhFuW5HpL3OJ4FWRgstFW2ENkzZUAlwMGpRfdru8=;
+        b=aBbjtFNvWNnWh2mvjQTZP2svJt1IH8g/JDxH/LmwnnTw2j/SR4PEoTeFnzWsRuVHEj
+         TimhYcvwYuYZXjv8R4eqxAHQ+kLE3KVgw5gwZ//ursPjxa2eoOFjKV2ostXNooWlFFdQ
+         ig19D7jTqMeXMZMOaeZvs7IuFRWbS9dubglgzm/7gDWcM+uWLnBJv/5Q+LeoRkcp2kBc
+         xUzgYhqX+lGHPbryFeLDuxScjfX8z9+DpeiV0IgEa9qQ7d29YTqdf/brH7gr2AV4RdPQ
+         YTs0UK2DnztMCmiCdoKOy6wZ/5AnsBuPycw7qzYIsAspsmGSY2z8a4hGfNDFU0urevyh
+         VUww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755506262; x=1756111062;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w+SQhFuW5HpL3OJ4FWRgstFW2ENkzZUAlwMGpRfdru8=;
+        b=dsYCYc1LOWXNTPyFjKeiC9SGalXj1+O2zGrPRyq7eBo5wGITigQm/we4duzi6hhvc2
+         F90Rpqhb6G/NPXItnQtP2bDBMcy2dVBfkG2F4CsgF3TWzV000rGF1XECzFH0roocdV99
+         uYcz+N/peBPrudjr/g4COSA/CZctnnd7+vB1zu6AzNiS5PJP2XAlYCfLk7GhG6aXXWcy
+         K17cbrP7b/HulcYphaEf1JPCdL6ApPKfwZhxgBRI4gCKLJ4NrrtPiSFXOPWLz+1g+he3
+         SJDCAM1HHknwEvunjUO1MWPbqae6bMa/F07VTaTRdICBajiB9tR9JIoiSsggoVr1anMv
+         E8UQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUHuj7e5+OXkkePnXIJWaM9lA9aIOHGNXSkYMh+MezolqyAMr0XoGBTrUFQ0RE4bCUZuZ/vP0FkYnwb@vger.kernel.org, AJvYcCWecGcwpJsWfyeb/tzwaMRuyiW0nT2bhJZ0icr8gSi7e6hJoeXoxKuxLJAsqr5JJBJ4BHkt57tU6yVV5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFbdjpLa3xpYzxqnnH9ds+iDIzvTAKx6JTxKIQu7qn4Aplza1u
+	1BPWa/qB/UUtlxMKuRLIo7NCQNDcEdj+aX6VSTK17PbYnDEEPZap7AMGIlDB7w==
+X-Gm-Gg: ASbGnct5N49RuL7vSa44yITpZMS3zi1+fTnpWSl9lT5auoxgpxOnbSaJrzZzvs0yhaO
+	vTOn9qzQKfc0bCl9gJBKnBCyjkQAuIka1widNvKhPUM8+qBuiq9fkh48Q8sUfbPOxYNMlAu4ebd
+	yr1fPrJDRFrWpAFhxfbxQM5LUa4wpzi2TKIcZbluVQMe/Cfgjd8yDjry4naHp/3RjUcd5HS+n0Z
+	YCUv/qLHbBjh9k7X+mprXMlu+wPyatj3gMVqj084SVD4p3hObzu0HJe7nE+CIOWfDAIuCXZ7mYH
+	GmZnpDbRvKZIfQynFcNepLBwOHdWVARqm0n30JtAeP8HM47aZG3vYbGc0/DyMrFtOIhaufdURn/
+	AgfNcMXRjj49p99Xz9Ga0jtMIm/lM04uO1+8=
+X-Google-Smtp-Source: AGHT+IH8EWwSDmbDYhbwcw1H4Sve2jBWbulYVdOc5z1ZfHQvgKGrXE1heoo8VDNKPpg6c2fmUnradA==
+X-Received: by 2002:a05:6512:3b06:b0:55b:8d6a:be86 with SMTP id 2adb3069b0e04-55cf2bef24cmr1689982e87.0.1755506261594;
+        Mon, 18 Aug 2025 01:37:41 -0700 (PDT)
+Received: from foxbook (bfd208.neoplus.adsl.tpnet.pl. [83.28.41.208])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef43e52dsm1601758e87.152.2025.08.18.01.37.40
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 18 Aug 2025 01:37:41 -0700 (PDT)
+Date: Mon, 18 Aug 2025 10:37:37 +0200
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+ linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+ gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
+ hdegoede@redhat.com, Thinh.Nguyen@synopsys.com, Amardeep Rai
+ <amardeep.rai@intel.com>, Kannappan R <r.kannappan@intel.com>, Alan Stern
+ <stern@rowland.harvard.edu>
+Subject: Re: [PATCH v4 3/4] USB: Add a function to obtain USB version
+ independent maximum bpi value
+Message-ID: <20250818103737.487e4093@foxbook>
+In-Reply-To: <767ac1c3-f09c-47cf-947d-968ae574e577@linux.intel.com>
+References: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
+	<20250812132445.3185026-4-sakari.ailus@linux.intel.com>
+	<20250813164958.6c6c34a4@foxbook>
+	<aKLDXCchS20kaq20@kekkonen.localdomain>
+	<767ac1c3-f09c-47cf-947d-968ae574e577@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/12] arm64: defconfig: Enable FSD CSIS DMA driver
-To: Inbaraj E <inbaraj.e@samsung.com>, mturquette@baylibre.com,
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
- cw00.choi@samsung.com, rmfrfs@gmail.com, laurent.pinchart@ideasonboard.com,
- martink@posteo.de, mchehab@kernel.org, linux-fsd@tesla.com, will@kernel.org,
- catalin.marinas@arm.com, pankaj.dubey@samsung.com, shradha.t@samsung.com,
- ravi.patel@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, kernel@puri.sm, kernel@pengutronix.de,
- festevam@gmail.com, linux-media@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20250814140943.22531-1-inbaraj.e@samsung.com>
- <CGME20250814141057epcas5p21ca33641e42164886dc1bf404237876d@epcas5p2.samsung.com>
- <20250814140943.22531-12-inbaraj.e@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250814140943.22531-12-inbaraj.e@samsung.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 14/08/2025 16:09, Inbaraj E wrote:
-> Enable CSIS DMA driver support for FSD based platforms.
+On Mon, 18 Aug 2025 10:32:48 +0300, Mathias Nyman wrote:
+> I think the "ESIT" acronym (Endpoint Service Interval Time) is very xHCI spec
+> specific. Usb spec usually refers to isoc and interrupt endpoints as "periodic"
+> 
+> how about one of these:
+> usb_endpoint_max_periodic_bytes()
+> usb_endpoint_max_periodic_payload()
+> usb_endpoint_max_periodic_bpi()
 
-Tesla FSD
+I was thinking just drop "isoch" and leave usb_endpoint_max_bpi(),
+because USB specs call this "bytes per interval".
 
-You are changing defconfig for all platforms, it's not your personal or
-company defconfig.
+But Alan didn't like this 3LA so we can get creative. More ideas:
+
+usb_endpoint_interval_payload()
+usb_endpoint_interval_bytes()
 
 
-Best regards,
-Krzysztof
+Naming things and off-by-one errors...
 
