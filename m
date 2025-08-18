@@ -1,121 +1,122 @@
-Return-Path: <linux-media+bounces-40158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40159-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D47B2A6B7
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 15:46:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A92B4B2A87C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 16:05:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D07B77BACB0
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 13:40:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A79E4682F9B
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 13:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C557432144D;
-	Mon, 18 Aug 2025 13:39:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54158335BD3;
+	Mon, 18 Aug 2025 13:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="wRx2Mkv9"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="DsfDAcTj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC14220696
-	for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 13:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2559B335BA7;
+	Mon, 18 Aug 2025 13:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755524393; cv=none; b=ss7Umbgln8tZhkGpnQrkR3OVpt9LSIxIMrQzzV1vV/nNc6D2vGKJ6VxIKDfA1DmIPNkg4cJ5/vms9ewEOUaUW9ZwGYexw7HbdOEGZlAcA1LVlpFLmVMMLfEdbUpkL6qhspr1KLDCVMsMAMKX6cEjFONAxXhNPIAztrtxTIn+oqo=
+	t=1755525135; cv=none; b=EALiIDWVMQ8wlMGWFElgX0PxnmC9rulpxLASlaQ4u+xq3niBGoGteEE7TDud48kOyu5h5XkqZZbR8VQBdZf2IyJR9PhagkincqB7PZa1ow0ITA2IOVnS7Kow8cGKATKYhb7BAidXPBfrpf3Q0WPeomjoytMKIh8E3FJapSoBQU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755524393; c=relaxed/simple;
-	bh=AI6v7kPfWMA+miNg7wbOZdVUU4EmkESLIotA5sBin+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qyl1I8ucxWwMFC4+8vRUf9zpVGx2mO34sPLNix+F8HNsKxn7SZtsi4+CS6Ju950zI45v3qRLIM7x73ZySLcXTxsUG5JTTFQwMY7NoYHpp0FRbSr9Z7Yeqzvqy78ptNDySNwUKkuE+UqxTdbyVU6pQzWK0cL9+uhB6A9phV9X7u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=wRx2Mkv9; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7e8704c52b3so503326585a.1
-        for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 06:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1755524390; x=1756129190; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FJZQTHKlHSqbl45CU5FPQQ9yzybUQR3l/MQNkEVJRhY=;
-        b=wRx2Mkv9zLt0nIGnCW77nBfsTVYRAg2ety6hMo+mZfJE2rRcVM3JeOndPWXK4dIeoa
-         3mlgAVprmbr60nMjsQE4IDRt4jpJfbE8pWk+MtBhnB2pfPxv04+VHJjGt4OdpK2yTDx4
-         mmz/A9pboKrGcQB+T4iZnJ1SCnHE7STETDk98/ACUqHRRUIQVygjJtAbzcUcE7cU7Hej
-         m2652y+DijrCpYKTqIC7Fzg3/9QlvHNfSX48M9bTYqsBGUwLBdbrQyK3eDt/ddvT4BTx
-         04mFpDoLi0+ce1nLXkOMqfTrliuuwOZs6RrpuoMnVNrYjJn7xPsiZ+1IdeJ1Z/zsfp2h
-         CEMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755524390; x=1756129190;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FJZQTHKlHSqbl45CU5FPQQ9yzybUQR3l/MQNkEVJRhY=;
-        b=dHDe7GYQFvdT9zy8oewl9mIlBHz3NygmY/7nl4+OBjagQqPWo7cPPgLIkkLo43LyQ1
-         4Jbd+OtnnPeVT2Tm1Njc6VsCb7J9oRLlEuSqmhduQn6quuW3QuyFOX5YSTngQQETptbh
-         UJuM9un0hxFvd47mJPm1NXkeYDVS49PFaSyTf0ZwvuBX2V5tu9cm7lFlXPT/5chF7Nhw
-         NHllO4OaN73Kc+jSqsCKZNGd6dvGCCVtK4vkQ9uhpPnudh1Iutcsro8UKwf7Q7ZnxxKE
-         yvqDQS5ixQ07KAURuFToUiOS8V9DtSVRSLXflBV6ZWFHC29Egpq5lBr4/CLDqbFWSKjw
-         t79A==
-X-Forwarded-Encrypted: i=1; AJvYcCV9vLkKV/+8xhEn7YvSBPw1r8qtFYXDOtjXTtPT21cBk3c8QjQhhY6EaixBCvbzDCR2a5M+niDbnqXwGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxP6dQHvGp6kViZcuG5thTSf6ndW4agZUUXD68aGxKscfLq1qv
-	Ne4oAPv3d+3ucChbz0bm5m/NiHmdGNKouynarsb/ABst8jQHrSQy4rMfC9kCGIA+1Q==
-X-Gm-Gg: ASbGnctMst1mzfrqKl66mMQtDYXBuvm+/PDHsrULthj9bGkLJQ3fzMgIvE9fYfPht3k
-	gls7DuKdpaMs+d4NefhxXtCHl9xrrUesvSkJoM76Jp5FwC0J28o9QsPvyyofK7BWJzjHZPpCJlT
-	/8NuYY2DWU/Tlw9oP57yRxTvwUmKGjCAWanQNnOOrVawa17+GyxpiQlQ5ahrdC/u3pbqCNwrvC/
-	LVJ7l5iIIkiiPMTdaNV3Q2rm9NDo9YUJCh9PVS/HOjT50Mg/FNbCIXSgZRZk/yNpTKw0UIthuCd
-	r9QdxarL3eSE7bQM9gRUFNNHUJ0sptDH6q54RyZnDaHyvdGkt4u4Fp0uU3lnkNuBQ/zR+pIf9/h
-	2P84YKwR/F2lKHQTcTZEPGedQHSXD6clcjs2W12shWVcaK4OLV+A=
-X-Google-Smtp-Source: AGHT+IEgkXGuq4e7M7fWzb2YB+PMFX6Ym9FJYxEKg3lgYKU5qsCNHsFfMVtFsUYrPZpoT3cKqxi19A==
-X-Received: by 2002:a05:620a:700d:b0:7e8:911:2311 with SMTP id af79cd13be357-7e87e0ba56fmr1573344785a.53.1755524390460;
-        Mon, 18 Aug 2025 06:39:50 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ba90b8dc7sm52929266d6.30.2025.08.18.06.39.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 06:39:49 -0700 (PDT)
-Date: Mon, 18 Aug 2025 09:39:48 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
-	=?utf-8?Q?Micha=C5=82?= Pecio <michal.pecio@gmail.com>,
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com, Thinh.Nguyen@synopsys.com,
-	Amardeep Rai <amardeep.rai@intel.com>,
-	Kannappan R <r.kannappan@intel.com>
-Subject: Re: [PATCH v4 3/4] USB: Add a function to obtain USB version
- independent maximum bpi value
-Message-ID: <f8e186a9-015f-4df3-bc10-33eeef1146dd@rowland.harvard.edu>
-References: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
- <20250812132445.3185026-4-sakari.ailus@linux.intel.com>
- <20250813164958.6c6c34a4@foxbook>
- <aKLDXCchS20kaq20@kekkonen.localdomain>
- <767ac1c3-f09c-47cf-947d-968ae574e577@linux.intel.com>
- <aKMOBPTqZX_yJjOv@kekkonen.localdomain>
- <aKMY0XPLmK-TOWIt@kekkonen.localdomain>
+	s=arc-20240116; t=1755525135; c=relaxed/simple;
+	bh=wi+0QNkPOugT6JOMfzYD2wc4/e8/bx0qT57TNE32Q0E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=Yq8FlGVd+FRBUZ82zutUxP1i0cKiYbmaSJ1ZdxjwOU30VHdB2p+5Lck8nx7fi9CQNpGYvUngnfe4twNkGC9SGHV/E4Cmvb1JGe70W8qI2k+r+Q94fpI7D86zLFMNZU649HrZoif4pkl5TLMe1scd2XQ8LRloe6J72QzhqH9balQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=DsfDAcTj; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57ID1Ust028333;
+	Mon, 18 Aug 2025 15:52:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=lQsWtz3kZhHMqlwF/9KrdB
+	DL9HK4g/FK7O7sXljKnFY=; b=DsfDAcTjIfc38z2hOzkkQjZttx8JeyYf3fQdvK
+	zD6LG8ACaKNPyKZFR5TnvkgNdNW85+wX0f6KUgveqIxe6PO9rMMJXQ4X8kvlNBaJ
+	iRSXXgy/RCA2/X19YArGnVGxi7K3apq5AKqOdHYAmut7RrtNqUfF+NNiVV6x33/1
+	tqa2twIm398/1jYTL13SAFOaEq4OLVkrPfqOdlciHckp7Pa6JIkQHvdDFD4bgvZB
+	xi3NU5EtRY5K2ky2F3R6S8w/L5GyTEXoMKjDuR76QTk1WPr8WhZpJyaVhE3/44bf
+	JRysP1DGg+zxYFFuw4xbjjMOQ84Ak0a5bU5kXM6U5+toWDsg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48k4xmmd2j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Aug 2025 15:52:05 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id EB09F40046;
+	Mon, 18 Aug 2025 15:51:22 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B0AB3734218;
+	Mon, 18 Aug 2025 15:51:04 +0200 (CEST)
+Received: from localhost (10.130.78.67) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Aug
+ 2025 15:51:04 +0200
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Date: Mon, 18 Aug 2025 15:50:58 +0200
+Subject: [PATCH] media: i2c: vd55g1: Fix duster register address
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aKMY0XPLmK-TOWIt@kekkonen.localdomain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250818-vd55g1_fix_duster-v1-1-1b9d115dee87@foss.st.com>
+X-B4-Tracking: v=1; b=H4sIAMEvo2gC/x2MQQqAIBAAvyJ7TlBJs74SIZVb7aVCSwLp70nHY
+ ZjJEDEQRuhYhoCJIh17AVkxmLdxX5GTLwxKKC2stDx5rVfpFnqcv+OFgZvJtE2rrFC1hdKdAYv
+ 9n/3wvh+QFBdFYwAAAA==
+X-Change-ID: 20250818-vd55g1_fix_duster-6b6979280248
+To: Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Sakari Ailus
+	<sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Benjamin
+ Mugnier <benjamin.mugnier@foss.st.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
 
-On Mon, Aug 18, 2025 at 12:13:05PM +0000, Sakari Ailus wrote:
-> > > how about one of these:
-> > > usb_endpoint_max_periodic_bytes()
-> > > usb_endpoint_max_periodic_payload()
-> > > usb_endpoint_max_periodic_bpi()
-> > 
-> > How about usb_endpoint_max_si_payload() ("si" being for service interval)?
-> 
-> I somehow missed your latter sentence earlier. I'm totally fine with these,
-> perhaps I'm slightly leaning towards usb_endpoint_max_periodic_payload()
-> but let's see what others think.
+The duster register needs to be disabled on test patterns. While the
+code is correctly doing so, the register address contained a typo, thus
+not disabling the duster correctly. Fix the typo.
 
-I'm okay with either usb_endpoint_max_periodic_bytes() or 
-usb_endpoint_max_periodic_payload().
+Fixes: e56616d7b23c ("media: i2c: Add driver for ST VD55G1 camera sensor")
 
-Alan Stern
+Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+---
+ drivers/media/i2c/vd55g1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
+index b89fff7e11f891dea04a0085a9e7aac841b6643d..cf35f73fdd1086c6d4d76f67c2b6e4cf66eadff8 100644
+--- a/drivers/media/i2c/vd55g1.c
++++ b/drivers/media/i2c/vd55g1.c
+@@ -66,7 +66,7 @@
+ #define VD55G1_REG_READOUT_CTRL				CCI_REG8(0x052e)
+ #define VD55G1_READOUT_CTRL_BIN_MODE_NORMAL		0
+ #define VD55G1_READOUT_CTRL_BIN_MODE_DIGITAL_X2		1
+-#define VD55G1_REG_DUSTER_CTRL				CCI_REG8(0x03ea)
++#define VD55G1_REG_DUSTER_CTRL				CCI_REG8(0x03ae)
+ #define VD55G1_DUSTER_ENABLE				BIT(0)
+ #define VD55G1_DUSTER_DISABLE				0
+ #define VD55G1_DUSTER_DYN_ENABLE			BIT(1)
+
+---
+base-commit: 2412f16c9afa7710778fc032139a6df38b68fd7c
+change-id: 20250818-vd55g1_fix_duster-6b6979280248
+
+Best regards,
+-- 
+Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+
 
