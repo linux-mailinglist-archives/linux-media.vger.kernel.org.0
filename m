@@ -1,237 +1,329 @@
-Return-Path: <linux-media+bounces-40175-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40176-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB4B2ACD1
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 17:34:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C0AB2AD35
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 17:48:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D2F81965850
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 15:31:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 100F2685EE6
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 15:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F8120B7ED;
-	Mon, 18 Aug 2025 15:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EBF031813A;
+	Mon, 18 Aug 2025 15:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NDhK59G7"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4OLnLZ1G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2041.outbound.protection.outlook.com [40.107.102.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1E9238C33;
-	Mon, 18 Aug 2025 15:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755531029; cv=none; b=n1jQR19IDElGKmzCcNAGSLch1+TyhUpo3HTmeaAghCeXjZvgHs5/+YCI9ORKcg7lqMSYRN1vkr0Mz0W/8VTKixbn9EqsO71gQ3sleFhPLNeRqN5rTN9JZjcOPU6sw0yCkyEcx6nI5zzwQuZYDR8m7o5kHu8D8zoWw2L83RanPd0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755531029; c=relaxed/simple;
-	bh=PAs2zYadfrbseuYPwD0Hazw8SUYlBpAdgjoSnNNJ3Y8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F1YaFGAHDD4T8kfx1019zyO/jef04pL0U8USLphNHcwBareZAo0h1D+EM2fHp/rqA6fWErFkaFAGqJlt9jZhQMUuq+JUZAUNhDHcyfAi4/wpzAMAjz6xrUtYkoaV+dZ0VtULXDsohiwikt7od88LMAkU8tKZKqnL+ynFhegm+Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NDhK59G7; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755531028; x=1787067028;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PAs2zYadfrbseuYPwD0Hazw8SUYlBpAdgjoSnNNJ3Y8=;
-  b=NDhK59G7H1f9X1w734NI2YzTkAgnUCLlxogKFpRyQ1SXVyiQvjQdR+81
-   MVy2XwPbfc4hHFqoaWMfGkQC09+uODsqioLol+qNki8dEJSitXheBgeek
-   A6qdifMmGABtXQzpf1UL/Y3mYyr2W9eZTUnXyuqDrqsdaEaLnOzz69jMg
-   /cd1Efwt/bSPjW42OVZy7lQeS0VzGOTE6evfl4RlK6ViWelw+oUaC1uRj
-   r67+hhjsP75RC6E8hG9zR0vlPtaOeaT4SzlFs3VKyut8+dFBkHiFEiuae
-   RMs3iTKu3I445gORikjQJ5Uyn+RNMj/UBFkNzjkum2r0oRV0bdBeRosYU
-   g==;
-X-CSE-ConnectionGUID: YCagSAT0R1iTjdiswZEsuA==
-X-CSE-MsgGUID: 2x3j4BFpQNSbSaelnBvETA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57685440"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57685440"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 08:30:27 -0700
-X-CSE-ConnectionGUID: Cs3JZOZ+QTuZc0ySPR1+aA==
-X-CSE-MsgGUID: +sHnTrqtQnicb2jz/9g5QA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167115940"
-Received: from mnyman-desk.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2025 08:30:24 -0700
-Message-ID: <1096ce5c-ac0a-49e0-9030-31c87c71b3c0@linux.intel.com>
-Date: Mon, 18 Aug 2025 18:30:23 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D21C24A067;
+	Mon, 18 Aug 2025 15:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755531790; cv=fail; b=ON+fDWAijbWXx6VtvXvQkSrb4hrnSqqpvGvJYZ9swXSMAnBXKzw65M8k4AAUeAEg2artTzpEyX2Bu8yhb5sHmAFDYzt68MgOn25M9yX7gZ2ySou6dX3eQzeXtDRzqv09rhwsg4HWXiVKU5EVOKJRBXqfWfW2IOybRY5Ay5+UyHg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755531790; c=relaxed/simple;
+	bh=auJZQ6dtrGAW4sdB8OktjQZaEs/6SD8tqOxPFSo5ulI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=sTr+CNBc+tRI0i7Jt4npDKYOCLkRrauBJIuH/iXP+8qWatUXc9rgZCeD+OXhQ9gmV/aWNL8GWIQqQI8c8jMWNM6SZNUJlY0YH3i4KE38y8O+Rqub76ZlEdJj3b33CqMeqJzTatSJoek3c8ukDu/5p5AvA5IGpeRglgaT3LnjTfI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4OLnLZ1G; arc=fail smtp.client-ip=40.107.102.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ogR7VVF3PWLN0iK0SxYxBB4pYk2BonYpGiIstyEu78oTVmIedRG9LasPJZQEIh44/AXUe8sagamOwiO9ucg+xtceU33X+0SukvovSW/nNCvT0D13lEXzu8CbDlO4oCkONCJbkJIFq19kWhVF14xOY9+4FWR/puzwn+mcI5Doj+2Zfo22wRedx8P1EZ6pIxX4b3WMIl/h0CMz/66MFZK4HasMzt5Y2M3s5RdVAin/e8RBzlNFBFq3PJFzNCQ372reqKlDge1TJ1P3fRQjYgRWiUh9lPeLxs/Ng8TehWfwkYyBSIAnm0/V5xE6JtVT+HOp0jWv26AqSF//4pGcCFCYYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qG/dCZ54MUYhEKd4/WOpD4onsaBHG329usUpaRg66jM=;
+ b=ClFb2oa717DZ05hHdWi0LHhmLjw0aarpVXaq/tDFlc/QVB5Ax9PLrEKuvddNJwx5wKV6pA14JZvSZGb83aWJ/oqXcfGkgiMPbrVOZnmU/p4xDMp6+K5i/hA5aQ5YLitnnibkPkzkDcN+7BvoniWN8nUbCpL+VKXyExQGCMGcV7Jzmi5hkfhRYVJXVMJVTOx5BZzAykaNtLtbZvcmMAJkoXfiHWLRdOsx1a1ZTMExOlfSGNlpjykBZQ5JGuMYTSR3rwFeCx1FFjCug+Q23rKX+WVcf39Hik2ghBJys2ODN8rR87WC5va88FzEEfdF9mNZDgOwzjcsORKk9xL/cX+Jkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qG/dCZ54MUYhEKd4/WOpD4onsaBHG329usUpaRg66jM=;
+ b=4OLnLZ1GaLP9MV5E4zu9wtwCsKL8gP4bR11a+14geLtvP6sWexeR7YG8I0LkN0WIGmAXGkC+MQ2k3UA51fNwRFvc0iFu8I+e6TaPK3z/TP08mwXi6v3QeJi5iMksYhQb6ggGBqI4cjakOluTFPfaRdOBtRhgH5o//HS29E3pxQk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB6328.namprd12.prod.outlook.com (2603:10b6:8:a0::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.18; Mon, 18 Aug
+ 2025 15:43:05 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
+ 15:43:05 +0000
+Message-ID: <f31550b1-b89c-47d6-b012-99479ba12aeb@amd.com>
+Date: Mon, 18 Aug 2025 17:43:00 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amdgpu: Pin buffers while vmap'ing exported
+ dma-buf objects
+To: Thomas Zimmermann <tzimmermann@suse.de>, sumit.semwal@linaro.org,
+ oushixiong@kylinos.cn, alexander.deucher@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org
+References: <20250818151710.284982-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250818151710.284982-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0247.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] xhci: Add host support for eUSB2 double
- isochronous bandwidth devices
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
- gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
- hdegoede@redhat.com, Thinh.Nguyen@synopsys.com,
- Amardeep Rai <amardeep.rai@intel.com>, Kannappan R <r.kannappan@intel.com>,
- Alan Stern <stern@rowland.harvard.edu>
-References: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
- <20250812132445.3185026-2-sakari.ailus@linux.intel.com>
- <20250818115016.3611b910@foxbook>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20250818115016.3611b910@foxbook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6328:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3ab80a1-c43f-46dd-da36-08ddde6dec36
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RGhEdFlCQi90QUp4a0doTFFpck8wU1RHU0hKeUlvWkhmK2o0aXl6bmZPQzVz?=
+ =?utf-8?B?SHJ0OW1GdEgxVXRnYytIb21xRml3MVlNS0tINkdGM2tFdnlBbGVKUFU4eUxJ?=
+ =?utf-8?B?Mk1NKzc0dGxuVUI5dlVJL1NXQUZ5SVFTa3RjdmpZcFpXZnlxcVNEZnVZVVBJ?=
+ =?utf-8?B?dExBMDBuQlJiN0R3UEN3aTNISndOS0lYMjdGOXo0OW1yTThlZ1hzVzhVUVFK?=
+ =?utf-8?B?NnZNLzBtbS9VUWlWR1ZLejAvY2NtWURDOWlVVWN1T040cnpERnJxNTFKMkJC?=
+ =?utf-8?B?a0hxakozeGMrOUdZSjZpRnVFSDN3VEkrRVRuT0piYXdXcmVJcVJDU21RVmc0?=
+ =?utf-8?B?Q1krVE1pbzNnYUo4ZUF5TlhPcmtNY0pjYmVQbUpsS3FvNmxleWJSY21YTngx?=
+ =?utf-8?B?MDF3Wlp3V01BOWovQmZlc3c1NExOMzdNK1JHTFhUVkoyMDBteFF0anR3R2Jh?=
+ =?utf-8?B?OGo3Y2FiZC9QUHZnVkJNQ1hVQ3RrWmZmeWZ5Q09ycUtHZXI3VDdmRVVSQXlR?=
+ =?utf-8?B?Vk1NRnczd1ljYThSZjJmVFFrQmNUTjBWK2NOTzdTSnBIWm5DODdWTUhnWVkz?=
+ =?utf-8?B?RGRUNllmQUZiRFA1WHpXMTNaMGVTc1VIc01Ha0xnSmpaYzJFekg3UG9YNlRQ?=
+ =?utf-8?B?WklLZkNrZGtnZDdncFpTODBkS3RvdCtHTG5MSWhxWUlQZzBIT1oyRmpEQlRj?=
+ =?utf-8?B?alpWbnNNL0lXU1VmcDZJa2tDM0ZOdk00TnZSRlh3bW51Vk1IWllTcjNJdE9w?=
+ =?utf-8?B?KytXQXlETFBTTkxCY0N3UmZYV3pRY0hhQWdNSjRVeTdxL005S3JGYTB6aXZM?=
+ =?utf-8?B?SjdURTRMdFp0TjMvQU5lQUF5dGkvdGxKNTNMUzdUZm0zYzI4WE1hVWN3T0Rn?=
+ =?utf-8?B?T2ZqUkYyK0VsQ0czVzBlcHdIckxrcmxGL3ZLcDlvV0drcWYwb0pCQWhpYkpq?=
+ =?utf-8?B?Q3dhR3ZaSk44d0hVOG1HT3YzRFg4KzJSZTUzWUxoeWJrelNIQVRTTzYwYjJF?=
+ =?utf-8?B?RUlNMU5QWTlpaDVVOFdBVjdibjRjbHI0M1dvQVRjTHhqNzM4TUppS0hZeGt2?=
+ =?utf-8?B?WFc4S0RrcXdlTUZsbXpLYlBBSllNZFlYSmJUTFdzNFM1bi90dEV6aWl3clFj?=
+ =?utf-8?B?clVFdzZIaHRMM3gzUC9xQ1hKNGJCa0VjT3k2Slh5UmVqMDhnYlJNNHFhT1Ny?=
+ =?utf-8?B?Y2FQbHk3azhDQXV0Q3lWcmJTYmFKaStzMGFhVDBXRzlFaTR4MmFsOHFXSWxH?=
+ =?utf-8?B?dEZjT1E2OXliK2RWdkNXbzR5QXRpZGJFV2JkNWhPaTE0ZDVCck9McGZ4MmdR?=
+ =?utf-8?B?OUhKWnMrQU9lbnNuakFGc0o0SmI2V1JXMVN5aUROcjhFNGVxTzhkTkloNjlj?=
+ =?utf-8?B?dm5rbytNa3ZMbkRDdGZOUWtLM1NNVjdmeXZDci8rVHpjSHVocDJITDJDc1BO?=
+ =?utf-8?B?K0NsY1ZsekFqbGpUMGdSaDYyVUpYM3E3d294M2hRYXpKdHJ0MUkwNUhnRkg1?=
+ =?utf-8?B?ZmliMWUyU1ZxUVo2bmZHWVd2UEVveHNFa0FLOWJGUE5GQzNQcmdIb2JaN2ZO?=
+ =?utf-8?B?QzR6ekFIWUd6eXpsdmZUTmVYWVhNaFdpM0ZkV3dRZlQxdHlFbXIwT0VsWWFI?=
+ =?utf-8?B?cGQ2QVU1eW1Icys5SUpkL1E0Y3NUWkppOTNhWk1XWFFaMnZHcTBOdnExOWZ5?=
+ =?utf-8?B?YldtZi91ZUQxN1RFQ0g5bkxFR3Q3OFlWNFJWNU9zMU1pK0p0QysvYWRrd3VU?=
+ =?utf-8?B?cU5FN1BmbEZMQ1U3c2pVYmZQbHhXdE5USE9wRndsM1hMbzVTbGRNQVZXd1Rk?=
+ =?utf-8?B?d2hIRnY0WU9ldTFPeXBEOWZQL3JDQktMdDlWbnp6L3FUalg5eHJqRVd0aGZv?=
+ =?utf-8?Q?6ANwi9j+EpRRy?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RlBXVU9jKzNPdjZkMndMT2w5bzhkT2xNZldIbFBnbGQrdkllbW9kMkhDYStx?=
+ =?utf-8?B?ZTR1bVBzUTh0SEUvUUhRMStrMlV1K2E4a0J5NUJrd3FxRVBwdWRVWWozRmFB?=
+ =?utf-8?B?MEdmZ2FxNWpLNGFmN3dxU05ETGlpcEI1UkEvQzV5UG5NOW8wcDFDcG5NcVVj?=
+ =?utf-8?B?clNJdDRCNVUrQlZiZEdUSFlGS0tSRk5oYUg1clMzdXFnQkRoVEpiTWhPSDRJ?=
+ =?utf-8?B?OVlocjQ2QjFBSzMwZ1h1a0FPRW52OXlEdUVPVHRRYy9MMWFxdVlOTUlLdU9t?=
+ =?utf-8?B?WUt1bjJ5c2tOZ1QvaFJVZEgzWVEzenFJMGMrOHYyRklxUGNKeEI3YXZpYXRB?=
+ =?utf-8?B?d2FGRHlOcGtpVmU4N1FFaDN6K3B1Y1ZiaUxONGlORXNRRGs1OHZoYkhLeDRX?=
+ =?utf-8?B?YWdlbkxVKysraHV6QnoyS3hrdCs3YlBVcjlPZGNBRHdNNm1NZlM5VEdRN2gz?=
+ =?utf-8?B?dlNnbCtHMTlCM1l5RUZDTnVUaXVFLzI0aTBFN1EwZ1VHdnpaMDVzRS9kVXVK?=
+ =?utf-8?B?L1QySHJHQ1JUbEVGckh3aWxLZHErVVBjVHdBOTM2OFpYdFF6UlhkUHQyMjRo?=
+ =?utf-8?B?VTYzalh3RWtFS3E3UWdJekk5S0RhSk9IMFVjTmJMV1N1QVBHTm81THp6RDlX?=
+ =?utf-8?B?T09BSU55Zi9zZTBxcWFmM1d3VFhyWUlzTlk5K3p6RGVwMjhmNXdNNjQvWEtN?=
+ =?utf-8?B?WkJqOWlUY1Z4QndTdUtWMWlabzIzbysyNGxaOFZ6b2plMDE3NDV6WStoenIz?=
+ =?utf-8?B?MklqK3Uyd3Z6WlBjM2hNYVY4dlJ0OWNqWVRmano5L0UvSUY2ZFNKSmFQdEVX?=
+ =?utf-8?B?TktMYXRnSzY4aklOM0l0VWlGQ0dhMjVuY21wTW5RQStCajlOaEFkeHZDSWdi?=
+ =?utf-8?B?a3czNElubDdSTGpFNnU5OTErMG8vYWZwbjloMEx3blIzN25zTE54aHlRbUxl?=
+ =?utf-8?B?VFp1eis2SFRrZDJkQVNXQUs1dXVKeXJOTytMM2FlOUVmcjNRdEcweVNrTU50?=
+ =?utf-8?B?ZEdpUzczMGFTYmZxell6S1pEbTBCS1BOZkVXUG5HNG9sS01pekJYUnczSCtl?=
+ =?utf-8?B?aE1pNDFqMytZbjRieWtWK2dQcW00VjlxUlJ6YURhcXRWZXpRQzlibVh3aVBQ?=
+ =?utf-8?B?THMzR21NS3NkeWtYazU1cDZqOTdpOTdoSHI3V3JSWkJlc2VpbC9leCtFdFFU?=
+ =?utf-8?B?c0RJMDJ2YUhFdklUV2Npd2V4YTRITTZsNDZ6RTVrcTQweUMxWGd1bndlS21F?=
+ =?utf-8?B?RlJndDFFcVNlTit4aVhPRnRrRWdud2FMNkx4MThjbFZFVXFmNTdXTXRkb3NF?=
+ =?utf-8?B?aWRMYjUvV242RzNOTGthT2VJd3lvQkFpVjhFQitKOHZQNVZ3MHk5YjZEQzNO?=
+ =?utf-8?B?M25LWlZQcmx2aVBxQWt0WDFRejJ5dUhNbHBibE1TTnlVdkZHWUxKdlBNVDVn?=
+ =?utf-8?B?dGozSXREM2tuakJMZGprbk1UUHJ5a1lBSWkreklkRTlFd3FjdzdDc3hrZ3NK?=
+ =?utf-8?B?VnRHejZsVVBDTm80TS9mUGp3VnVEWmFybktVSGdEaEtUc3N0Vld1SGh0VjRP?=
+ =?utf-8?B?SmtPa0Naalpma3kwVHBIT3hoclErWmhPN1V3VmhkSWhCZ1l2WTVWMGNKdmJn?=
+ =?utf-8?B?TFlEeFpyMmlSYnBpYUNXK3RGSjdLYjZDUXo4a1FQVTZtR21HVVRhR1QwTy9W?=
+ =?utf-8?B?WHhoSXFEM2s1OUJIM3VPMFdPNE40TkpNWERucFN0OVpkU004YXd1S0hCK1gv?=
+ =?utf-8?B?dXh0WnVWUUF3b1RLbktpVDZKRzRaa2Q4TklETnlMeWZkMSt1bzBNbkZibWFv?=
+ =?utf-8?B?Y01yRDJlZVZ1Rk9pTG8vMElROXlVeVhDQ3NtY2dHbUxyWlVVTTAwQ2NXKzlL?=
+ =?utf-8?B?cnVzUk9ZejhvbW5sbmJMdFRkNVp4NmVaTEZSYnVwSjNWYjZVcno2b1BuN1FM?=
+ =?utf-8?B?T1pXcVBUUFRwZXFMMHVvR25URi9KMHg2RWZYVG9tUGNNMnN5bEdVR2RTNmxu?=
+ =?utf-8?B?ZEQyRTdaNGFkaG5XRG5HY3k0TGV3WllsYXJjYzliV0laZGhTV0NPTkgvQ0N4?=
+ =?utf-8?B?RVpQaHkvQ2JVN09oRkp4TUNyNnpOdUdOLytYWXprQ0Z5OWxkR3kvOXFDOXB2?=
+ =?utf-8?Q?/5KG1vWvXP4ZdNEkg1HPzsRxZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3ab80a1-c43f-46dd-da36-08ddde6dec36
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 15:43:05.4474
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Znyht2nrhWYP2fChyhX0iXyptAxXznqP4nB26aQ+onVnYmfG6ZL2KuPAMv2tZBpc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6328
 
-On 18.8.2025 12.50, Michał Pecio wrote:
-> On Tue, 12 Aug 2025 16:24:42 +0300, Sakari Ailus wrote:
->> From: "Rai, Amardeep" <amardeep.rai@intel.com>
->>
->> Detect eUSB2 double isoc bw capable hosts and devices, and set the proper
->> xhci endpoint context values such as 'Mult', 'Max Burst Size', and 'Max
->> ESIT Payload' to enable the double isochronous bandwidth endpoints.
->>
->> Intel xHC uses the endpoint context 'Mult' field for eUSB2 isoc
->> endpoints even if hosts supporting Large ESIT Payload Capability should
->> normally ignore the mult field.
->>
->> Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
->> Co-developed-by: Kannappan R <r.kannappan@intel.com>
->> Signed-off-by: Kannappan R <r.kannappan@intel.com>
->> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> Co-developed-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> ---
->>   drivers/usb/host/xhci-caps.h |  2 ++
->>   drivers/usb/host/xhci-mem.c  | 60 ++++++++++++++++++++++++++++--------
->>   drivers/usb/host/xhci-ring.c |  6 ++--
->>   drivers/usb/host/xhci.c      | 16 +++++++++-
->>   drivers/usb/host/xhci.h      | 19 ++++++++++++
->>   5 files changed, 87 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/usb/host/xhci-caps.h b/drivers/usb/host/xhci-caps.h
->> index 4b8ff4815644..89bc83e4f1eb 100644
->> --- a/drivers/usb/host/xhci-caps.h
->> +++ b/drivers/usb/host/xhci-caps.h
->> @@ -89,3 +89,5 @@
->>   #define HCC2_GSC(p)             ((p) & (1 << 8))
->>   /* true: HC support Virtualization Based Trusted I/O Capability */
->>   #define HCC2_VTC(p)             ((p) & (1 << 9))
->> +/* true: HC support Double BW on a eUSB2 HS ISOC EP */
->> +#define HCC2_EUSB2_DIC(p)       ((p) & (1 << 11))
+On 18.08.25 17:17, Thomas Zimmermann wrote:
+> Current dma-buf vmap semantics require that the mapped buffer remains
+> in place until the corresponding vunmap has completed.
 > 
-> I guess this bit is not defined in the original xHCI 1.2 spec which
-> predates BW doubling, any reference to where it is specified and what
-> it means exactly?
-
-USB 2.0 Double Isochronous IN Bandwidth Capability (DIC) – RO.
-This bit when set to 1, indicates that the xHC supports the USB 2.0 Double Isochronous IN
-Bandwidth Capability on a eUSB2 HS Isochronous Endpoint.
-This feature is only applicable to a directly connected inbox native eUSB2 device.
-
-The xHCI specification with this addition is on its way, we got permission from
-author(s) to start upstreaming the code already.
-
+> For GEM-SHMEM, this used to be guaranteed by a pin operation while creating
+> an S/G table in import. GEM-SHMEN can now import dma-buf objects without
+> creating the S/G table, so the pin is missing. Leads to page-fault errors,
+> such as the one shown below.
 > 
->> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
->> index 6680afa4f596..ea51434c80fa 100644
->> --- a/drivers/usb/host/xhci-mem.c
->> +++ b/drivers/usb/host/xhci-mem.c
->> @@ -1328,18 +1328,36 @@ static unsigned int xhci_get_endpoint_interval(struct usb_device *udev,
->>   	return interval;
->>   }
->>   
->> -/* The "Mult" field in the endpoint context is only set for SuperSpeed isoc eps.
->> +/*
->> + * xHCs without LEC use the "Mult" field in the endpoint context for SuperSpeed
->> + * isoc eps, and High speed isoc eps that support bandwidth doubling. Standard
->>    * High speed endpoint descriptors can define "the number of additional
->>    * transaction opportunities per microframe", but that goes in the Max Burst
->>    * endpoint context field.
->>    */
->> -static u32 xhci_get_endpoint_mult(struct usb_device *udev,
->> -		struct usb_host_endpoint *ep)
->> +static u32 xhci_get_endpoint_mult(struct xhci_hcd *xhci,
->> +				  struct usb_device *udev,
->> +				  struct usb_host_endpoint *ep)
->>   {
->> -	if (udev->speed < USB_SPEED_SUPER ||
->> -			!usb_endpoint_xfer_isoc(&ep->desc))
->> +	bool lec;
->> +
->> +	/* xHCI 1.1 with LEC set does not use mult field, except intel eUSB2 */
->> +	lec = xhci->hci_version > 0x100 && HCC2_LEC(xhci->hcc_params2);
->> +
->> +	/* eUSB2 double isoc bw devices are the only USB2 devices using mult */
->> +	if (xhci_eusb2_is_isoc_bw_double(udev, ep)) {
->> +		if (!lec || xhci->quirks & XHCI_INTEL_HOST)
->> +			return 1;
->> +	}
->> +
->> +	/* Oherwise only isoc transfers on hosts without LEC uses mult field */
->> +	if (!usb_endpoint_xfer_isoc(&ep->desc) || lec)
->>   		return 0;
->> -	return ep->ss_ep_comp.bmAttributes;
->> +
->> +	if (udev->speed >= USB_SPEED_SUPER)
->> +		return ep->ss_ep_comp.bmAttributes;
->> +
->> +	return 0;
->>   }
+> [  102.101726] BUG: unable to handle page fault for address: ffffc90127000000
+> [...]
+> [  102.157102] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+> [...]
+> [  102.243250] Call Trace:
+> [  102.245695]  <TASK>
+> [  102.2477V95]  ? validate_chain+0x24e/0x5e0
+> [  102.251805]  ? __lock_acquire+0x568/0xae0
+> [  102.255807]  udl_render_hline+0x165/0x341 [udl]
+> [  102.260338]  ? __pfx_udl_render_hline+0x10/0x10 [udl]
+> [  102.265379]  ? local_clock_noinstr+0xb/0x100
+> [  102.269642]  ? __lock_release.isra.0+0x16c/0x2e0
+> [  102.274246]  ? mark_held_locks+0x40/0x70
+> [  102.278177]  udl_primary_plane_helper_atomic_update+0x43e/0x680 [udl]
+> [  102.284606]  ? __pfx_udl_primary_plane_helper_atomic_update+0x10/0x10 [udl]
+> [  102.291551]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
+> [  102.297208]  ? lockdep_hardirqs_on+0x88/0x130
+> [  102.301554]  ? _raw_spin_unlock_irq+0x24/0x50
+> [  102.305901]  ? wait_for_completion_timeout+0x2bb/0x3a0
+> [  102.311028]  ? drm_atomic_helper_calc_timestamping_constants+0x141/0x200
+> [  102.317714]  ? drm_atomic_helper_commit_planes+0x3b6/0x1030
+> [  102.323279]  drm_atomic_helper_commit_planes+0x3b6/0x1030
+> [  102.328664]  drm_atomic_helper_commit_tail+0x41/0xb0
+> [  102.333622]  commit_tail+0x204/0x330
+> [...]
+> [  102.529946] ---[ end trace 0000000000000000 ]---
+> [  102.651980] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
 > 
-> That's a complicated control flow. I think it could just be:
->> +	/* SuperSpeed isoc transfers on hosts without LEC uses mult field */
->> +	if (udev->speed >= USB_SPEED_SUPER && usb_endpoint_xfer_isoc(&ep->desc) && !lec)
->> +		return ep->ss_ep_comp.bmAttributes;
->> +	return 0;
-
-Possibly, not sure there's much difference, especially if you break that line at
-80 columns
-
->> +/*
->> + * USB 2.0 specification, chapter 5.6.4 Isochronous Transfer Bus Access
->> + * Constraint. A high speed endpoint can move up to 3072 bytes per microframe
->> + * (or 192Mb/s).
->> + */
->> +#define MAX_ISOC_XFER_SIZE_HS  3072
->> +
->> +static inline bool xhci_eusb2_is_isoc_bw_double(struct usb_device *udev,
->> +						struct usb_host_endpoint *ep)
->> +{
->> +	return udev->speed == USB_SPEED_HIGH &&
->> +		usb_endpoint_is_isoc_in(&ep->desc) &&
->> +		le16_to_cpu(ep->desc.wMaxPacketSize) == 0 &&
->> +		le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval) >
->> +		MAX_ISOC_XFER_SIZE_HS;
->> +}
+> In this stack strace, udl (based on GEM-SHMEM) imported and vmap'ed a
+> dma-buf from amdgpu. Amdgpu relocated the buffer, thereby invalidating the
+> mapping.
 > 
-> It looks like eUSB2v2 is another spec which uses this descriptor for
-> larger isoc endpoints and this code might trigger on such devices once
-> USB core learns to parse them.
+> Provide a custom dma-buf vmap method in amdgpu that pins the object before
+> mapping it's buffer's pages into kernel address space. Do the opposite in
+> vunmap.
 > 
+> Note that dma-buf vmap differs from GEM vmap in how it handles relocation.
+> While dma-buf vmap keeps the buffer in place, GEM vmap requires the caller
+> to keep the buffer in place. Hence, this fix is in amdgpu's dma-buf code
+> instead of its GEM code.
+> 
+> A discussion of various approaches to solving the problem is available
+> at [1].
+> 
+> v2:
+> - only use mapable domains (Christian)
+> - try pinning to domains in prefered order
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 660cd44659a0 ("drm/shmem-helper: Import dmabuf without mapping its sg_table")
+> Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Closes: https://lore.kernel.org/dri-devel/ba1bdfb8-dbf7-4372-bdcb-df7e0511c702@suse.de/
+> Cc: Shixiong Ou <oushixiong@kylinos.cn>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Link: https://lore.kernel.org/dri-devel/9792c6c3-a2b8-4b2b-b5ba-fba19b153e21@suse.de/ # [1]
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 41 ++++++++++++++++++++-
+>  1 file changed, 39 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index 5743ebb2f1b7..471b41bd3e29 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -285,6 +285,43 @@ static int amdgpu_dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+>  	return ret;
+>  }
+>  
+> +static int amdgpu_dma_buf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
+> +{
+> +	struct drm_gem_object *obj = dma_buf->priv;
+> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+> +	int ret;
+> +
+> +	/*
+> +	 * Pin to keep buffer in place while it's vmap'ed. The actual
+> +	 * domain is not that important as long as it's mapable. Using
+> +	 * GTT should be compatible with most use cases. VRAM and CPU
+> +	 * are the fallbacks if the buffer has already been pinned there.
+> +	 */
+> +	ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
+> +	if (ret) {
+> +		ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_VRAM);
 
-Could make sense to check that bcdUSB is 0x220 here to avoid that.
+That makes even less sense :)
 
-We could also check if ep->eusb2_isoc_ep_comp.bDescriptorType exists
-like in PATCH 2/4, and could then remove the wMaxPacketSize == 0 check as
-usb core descriptor parsing will already do that check for us, before copying
-the descriptor.
+The values are a mask, try this:
 
-The USB_SPEED_HIGH check could also be moved to descriptor parsing in usb core.
-This way we could remove the speed check hare and from PATCH 2/3
+ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT | AMDGPU_GEM_DOMAIN_VRAM);
 
+Otherwise the pin code will try to move the buffer around to satisfy the contrain you given.
 
-> Would there be no issues with that? Or conversely, any chance that your
-> code could be trivially modified to support full 2v2, and "bw doubling"
-> removed from names and comments?
+And don't use the CPU domain here, this will otherwise potentially block submission later on.
 
-Proably not, eUSB2v2 may have some odd burst and mult fields while double
-bandwidth has fixed values.
+Regards,
+Christian.
 
-Thanks
-Mathias
+> +		if (ret) {
+> +			ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_CPU);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +	}
+> +	ret = drm_gem_dmabuf_vmap(dma_buf, map);
+> +	if (ret)
+> +		amdgpu_bo_unpin(bo);
+> +
+> +	return ret;
+> +}
+> +
+> +static void amdgpu_dma_buf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
+> +{
+> +	struct drm_gem_object *obj = dma_buf->priv;
+> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+> +
+> +	drm_gem_dmabuf_vunmap(dma_buf, map);
+> +	amdgpu_bo_unpin(bo);
+> +}
+> +
+>  const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>  	.attach = amdgpu_dma_buf_attach,
+>  	.pin = amdgpu_dma_buf_pin,
+> @@ -294,8 +331,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>  	.release = drm_gem_dmabuf_release,
+>  	.begin_cpu_access = amdgpu_dma_buf_begin_cpu_access,
+>  	.mmap = drm_gem_dmabuf_mmap,
+> -	.vmap = drm_gem_dmabuf_vmap,
+> -	.vunmap = drm_gem_dmabuf_vunmap,
+> +	.vmap = amdgpu_dma_buf_vmap,
+> +	.vunmap = amdgpu_dma_buf_vunmap,
+>  };
+>  
+>  /**
+
 
