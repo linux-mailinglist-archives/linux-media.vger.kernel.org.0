@@ -1,114 +1,134 @@
-Return-Path: <linux-media+bounces-40129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40130-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE185B2A02B
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 13:17:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B38EB2A048
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 13:25:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5B3B17A1D9
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 11:17:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1952D3BD3A9
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 11:25:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2048311590;
-	Mon, 18 Aug 2025 11:17:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332F5321442;
+	Mon, 18 Aug 2025 11:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JbQ8pWkm"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="eoyyS6nM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0476F261B6C
-	for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 11:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E8E31814C;
+	Mon, 18 Aug 2025 11:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755515837; cv=none; b=O53wFomeprr+swydouwF/TtpYDSDcVhl0VPdox9kL3+8U0axBadFvAXACF3muBK+3IeaBoMi4S7MLS0WVS1n+HhHQdNvJBJlYScGMIxjw+9Du2FfaNGG8ShbxMT9Da3QW5b5kAtN2783+kZOoYFoMd/6C/L6PrsdTvleTbeWgds=
+	t=1755516325; cv=none; b=tT3DOdXW7LtrWQ6sdj3QKR4S/2hGA0uz39HK1WzSuJynLP7rnaHgP/KOk4c7+En+waT/IWDAq0f4XdQXhbR66YMtBbGZwGGjJwk6AneKWw/TiwrN8noogyO2EjadnpqZ3GkpN8Rs5MepOfmCYBY3nHy7uUSNPu3T3P19mstb7Kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755515837; c=relaxed/simple;
-	bh=Wg1HIc/0XkahwP27trE3GBilos0oEq2g6hlRldbVm6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcT8A7te0/tDsYNygzP2HSGKTb9Uczyb7/dGZYQH1UiSPbSca+cEgWNavio5wxhySb8msc5OtB8Gnpdw4yRMHftmoWwKbvwE6yyX/5c/xikbKhT+GektQ/CyeWwf0f/M0kyY+bTBKRHyM677mICVKCVSBGlcIzEHGww59m7lUO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JbQ8pWkm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-51-68.net.vodafone.it [5.90.51.68])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B47B17D1;
-	Mon, 18 Aug 2025 13:16:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755515775;
-	bh=Wg1HIc/0XkahwP27trE3GBilos0oEq2g6hlRldbVm6U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JbQ8pWkm1UcLI7lwf0lHcJCar7g/vR6Dwpp3/+nILemBxC3mkGuLKczftMOPpLmA/
-	 yjLjRg68LS/PKko1LyydSkHaTm2U3hARqoRl6qE6HM1JfFSgIglrJ6kZJaxgZBuVQm
-	 HHJy/PJTkw7xKbeD9xiP3XLIjDro6T2qReEMbSP0=
-Date: Mon, 18 Aug 2025 13:17:06 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [bug report] media: cx18: Access v4l2_fh from file
-Message-ID: <3wa4mdkewrgsmt6bdhhm5kuhkpso5lltj6e3zpfpjz2qyizkkk@7e3wxcrgycqx>
-References: <aKL4OMWsESUdX8KQ@stanley.mountain>
+	s=arc-20240116; t=1755516325; c=relaxed/simple;
+	bh=vaW5aTGE+qefqD/NH6Ivaw/FuNGCH4FiZC4oY/qDm8k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dRuwv8rpY06vNk2fRuWOL/JULgAX087qZBCMN8wKvNg74ukv/2tjGBRyhMyJLxeEyLEx1MjHVzPdv6hwtJ1wTqLQpkq7kKsF4Cloi4vJKcurwXOAjvPSPNbXM235DIPrkb4Xef+E/+KV9zNIpSaKs0vAl6bUqE22MmK4V8Jnjw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=eoyyS6nM; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57IBOWiF2705411;
+	Mon, 18 Aug 2025 06:24:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755516272;
+	bh=90mC3YfXWKN74giepEOw1+2cwm+ae/kwLy7HbQ/iXSY=;
+	h=From:To:CC:Subject:Date;
+	b=eoyyS6nM4eDavWN/fCQubJRccfaSXee/fITxqMMEenm6T96qKTAwwee8QH/GkBhTw
+	 6BdKVe1Ahm4aVJdx6vH6AHsB0dkK3EqIG7ZN9qMVkoYov+UNvJZoAjtzRXFbe47qVI
+	 PCPaqOrAmBrNJnplh6gg/SKBRmaAku86+KgjUgRo=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57IBOWw7258313
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 18 Aug 2025 06:24:32 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 18
+ Aug 2025 06:24:31 -0500
+Received: from fllvem-mr08.itg.ti.com (10.64.41.88) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 18 Aug 2025 06:24:31 -0500
+Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
+	by fllvem-mr08.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57IBOVj93651277;
+	Mon, 18 Aug 2025 06:24:31 -0500
+Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+	by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 57IBOT19011654;
+	Mon, 18 Aug 2025 06:24:30 -0500
+From: Meghana Malladi <m-malladi@ti.com>
+To: <namcao@linutronix.de>, <jacob.e.keller@intel.com>, <m-malladi@ti.com>,
+        <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
+        <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
+        <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
+        <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
+        <andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>,
+        Vignesh Raghavendra
+	<vigneshr@ti.com>,
+        Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+Subject: [PATCH net-next 0/6] net: ti: icssg-prueth: Add AF_XDP zero copy support
+Date: Mon, 18 Aug 2025 16:54:18 +0530
+Message-ID: <20250818112424.3068643-1-m-malladi@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aKL4OMWsESUdX8KQ@stanley.mountain>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Dan
+This series adds AF_XDP zero coppy support to icssg driver.
 
-On Mon, Aug 18, 2025 at 12:54:00PM +0300, Dan Carpenter wrote:
-> Hello Jacopo Mondi,
->
-> Commit 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file") from
-> Aug 10, 2025 (linux-next), leads to the following Smatch static
-> checker warning:
->
-> drivers/media/pci/cx18/cx18-driver.c:1223 cx18_init_on_first_open() error: NULL dereference inside function
-> drivers/media/pci/cx18/cx18-driver.c:1229 cx18_init_on_first_open() error: NULL dereference inside function
-> drivers/media/pci/cx18/cx18-driver.c:1230 cx18_init_on_first_open() error: NULL dereference inside function
-> drivers/media/pci/ivtv/ivtv-driver.c:1313 ivtv_init_on_first_open() error: NULL dereference inside function
-> drivers/media/pci/ivtv/ivtv-driver.c:1319 ivtv_init_on_first_open() error: NULL dereference inside function
->
-> drivers/media/pci/cx18/cx18-driver.c
->     1214         /* Set initial frequency. For PAL/SECAM broadcasts no
->     1215            'default' channel exists AFAIK. */
->     1216         if (cx->std == V4L2_STD_NTSC_M_JP)
->     1217                 vf.frequency = 1460;        /* ch. 1 91250*16/1000 */
->     1218         else if (cx->std & V4L2_STD_NTSC_M)
->     1219                 vf.frequency = 1076;        /* ch. 4 67250*16/1000 */
->     1220
->     1221         video_input = cx->active_input;
->     1222         cx->active_input++;        /* Force update of input */
-> --> 1223         cx18_s_input(NULL, &fh, video_input);
->                               ^^^^
-> The patch adds a new dereference of "file" but some of the callers pass a
-> NULL pointer.
+Tests were performed on AM64x-EVM with xdpsock application [1].
 
-smart smatch! Indeed the DVB layer calls the ioctl operation handler
-directly, without a valid file *.
+A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+for 64 byte packets. 1500 byte test seems to be limited by line
+rate (1G link) so no improvement seen there in packet rate
 
->
->     1224
->     1225         /* Let the VIDIOC_S_STD ioctl do all the work, keeps the code
->     1226            in one place. */
->     1227         cx->std++;                /* Force full standard initialization */
->     1228         std = (cx->tuner_std == V4L2_STD_ALL) ? V4L2_STD_NTSC_M : cx->tuner_std;
->     1229         cx18_s_std(NULL, &fh, std);
->     1230         cx18_s_frequency(NULL, &fh, &vf);
+Having some issue with l2fwd as the benchmarking numbers show 0
+for 64 byte packets after forwading first batch packets and I am
+currently looking into it.
 
-And I guess the same reasoning applies to these two.
+AF_XDP performance using 64 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		259		462		645
+txonly		350		354		760
+l2fwd 		178		240		0
 
-I'll send a patch right away
+AF_XDP performance using 1500 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		82		82		82
+txonly		81		82		82
+l2fwd 		81		82		82
 
->     1231         return 0;
->     1232 }
->
-> regards,
-> dan carpenter
+[1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
+
+Meghana Malladi (6):
+  net: ti: icssg-prueth: Add functions to create and destroy Rx/Tx
+    queues
+  net: ti: icssg-prueth: Add XSK pool helpers
+  net: ti: icssg-prueth: Add AF_XDP zero copy for TX
+  net: ti: icssg-prueth: Make emac_run_xdp function independent of page
+  net: ti: icssg-prueth: Add AF_XDP zero copy for RX
+  net: ti: icssg-prueth: Enable zero copy in XDP features
+
+ drivers/net/ethernet/ti/icssg/icssg_common.c | 399 +++++++++++++++++--
+ drivers/net/ethernet/ti/icssg/icssg_prueth.c | 379 +++++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.h |  26 +-
+ 3 files changed, 696 insertions(+), 108 deletions(-)
+
+
+base-commit: 715c7a36d59f54162a26fac1d1ed8dc087a24cf1
+-- 
+2.43.0
+
 
