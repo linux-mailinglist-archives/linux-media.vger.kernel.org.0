@@ -1,207 +1,313 @@
-Return-Path: <linux-media+bounces-40147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40148-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44164B2A216
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 14:49:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A72DB2A21F
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 14:50:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 995AE170C33
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 12:41:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 653091721ED
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 12:41:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C9E31CA5C;
-	Mon, 18 Aug 2025 12:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABBA026F286;
+	Mon, 18 Aug 2025 12:41:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gmRvRENN"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lSDnxItp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2079.outbound.protection.outlook.com [40.107.237.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDE531984A;
-	Mon, 18 Aug 2025 12:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755520838; cv=none; b=qunm2PiuQnBPqoJlJoY0HWLZM6R24SncaX/Pn3snhOAH6rynl98acHM1ObHq6MgzxdhDO2sojsFTx7hhgE8nhjYLt/gkRbGQ+43kfTwul9qXIuEkdc2qrs5wTNfI73IOq8Bv7oGVFW31ZF80cc9NSvCEFHsLt5V8Fr3umuA/VgM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755520838; c=relaxed/simple;
-	bh=BNXVbwMGm5fu04k6qHCLn60AFGLZaaVlGTtlALJIPzQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TybDCWkXoLvVBe5TRQOcKWcksoS8keAbaoCPuy6zFd0A/1Rrd1dCH8frcEXn+jhQzY7dfzqhYiCSr55IX8fE7DD8CIHuFA5IYdTeRP05yAUJ6QdwmLR2QCIu5+Z3Hm0o7vuYuQradxf3dcHwJUDGWPzYeJVtl5yh0J+6UwaFaKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gmRvRENN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.172] (mob-5-90-51-68.net.vodafone.it [5.90.51.68])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 878262416;
-	Mon, 18 Aug 2025 14:39:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755520777;
-	bh=BNXVbwMGm5fu04k6qHCLn60AFGLZaaVlGTtlALJIPzQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=gmRvRENNy/D7xLF/9QiZtAN3ZHS7tHZr+q1ahjybfMTq8LVfBGhZLL9X4jIAR3EnT
-	 o7MLFOQtu1XiR8rmwyVSdxvZ5vFIzA4hyp86/x6vNPItwDkfZ+zl3s1lCLrvvmoNtR
-	 iAjy73IBbNNtn9+W1D2nhznl8i1GGJuET6wIDcDU=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Mon, 18 Aug 2025 14:40:12 +0200
-Subject: [PATCH 2/2] media: ivtv: Fix invalid access to file *
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345F23218D9;
+	Mon, 18 Aug 2025 12:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755520861; cv=fail; b=q1JPKxaHVJQ6uLTvKWgDoKtG9I2mVxG9skP1gzegvUmq9486l2zszGr6PdHaTjJFYNcExEtVNlk7vN/ipOlzshV9XcsU/rfdwn6967EdFnzXai+8cLzXLphiQdnZP2vJcAH8LBeUnci6UweMP7E7bsSG071aP+0l1i3VL5oIGUE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755520861; c=relaxed/simple;
+	bh=Ax1SMW39HrCtHIV+64KpFB079vsI+fTEm4dEpxU+cN0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cshuvpr8u/+m70MURXp0Hk64NWNlVoeLyDg85c376HvztOBtD2jNX4zUiiapxkDTz2UqEgTg7kYse2ewt2DqFicdAUjV4epVVtSfHtyVSTVGecKxsHPCJg2tOk8/JnnOZZPoNoLPiVMKK3Hm3cp9Yn3dgj+Q22RssLvkFjI3YQg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lSDnxItp; arc=fail smtp.client-ip=40.107.237.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c+J+mB1C/fSh7UJBybwS6YLrSQwdR/B3A2UYk5WjEyN2Lvt/mAAjm26QiipjmlfI39A6R28/MpYVnH3O5g4sylGSB2XU84uVlUXureC2GhexDRveHie4MuRX8zv6P0TR6appRrtamS+RDaLmkh5bcHzk/UBALUIhV77dh1E9tDfV/XV/kWqxdna9xsgW5cjGpuZBL3KvY6W3NdDJn5AnE5KhBAQQ6dGIrpnXjmy8dUE2tcV+h1kJEo6JwcRqpryhsCCf0Mtj2ytvUirW3ym1wi2E6bqIJpKpJdO8aOq/eKjAiyw0plNEPlXm4ElcwSd16RBjYF+Nlvlj3kjYaVMnww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BQ/gsfFS0c3uUivH5NKAhmDFAfXklvyd6tkZTjQFm08=;
+ b=rm3AZwrwus+B09CAfHw5fZ5ruBMEsnGrd7UaqeeA/VTQIpvAurSn9tQEKHJvvw6jau4eIpLk4XZ6w+IJ5Lcljsqosnq/ikyS0AnovXmw5k6+uu73dDF5tje2KXPewswq42hBG6QM+vfAcdQisk+AdavNvJz1hekvHOcrWeRhXIP06muD9JW2ZmKCzLyigekcGHBaIXw0ice2/BZQKa3FHZjw0J6dK390rVIfap90AIJfasSHBnciMeNRN1loZ2tWxJDFBDS02F2q+ZoBdFR7oFdc6Pt0rtQswsdI5Dru2t5StlX6QzmR0DrrtagRZtjexlAmbjf/qRWx2kYBOdDkCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BQ/gsfFS0c3uUivH5NKAhmDFAfXklvyd6tkZTjQFm08=;
+ b=lSDnxItpMjoettiL1RLIPnTPiuBOFWznLGbPfZEo5lm5hMkVe5b7lbObiiPZZ5Kr5FeOEZj5KTph1f42mpbzTvdEpsVXGWf+UYg5yMlRRYR/hBdyc9AXoR5Pm+t/9DroBcKM2nUHLAYX10wL1LQ+1x+vx1ryd1kwppDUQmfXW74=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB6768.namprd12.prod.outlook.com (2603:10b6:806:268::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Mon, 18 Aug
+ 2025 12:40:55 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
+ 12:40:55 +0000
+Message-ID: <6f409954-2e01-4e87-b8b7-5688bea837f6@amd.com>
+Date: Mon, 18 Aug 2025 14:40:45 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: Pin buffer while vmap'ing exported dma-buf
+ objects
+To: Thomas Zimmermann <tzimmermann@suse.de>, sumit.semwal@linaro.org,
+ oushixiong@kylinos.cn, alexander.deucher@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org
+References: <20250818084148.212443-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250818084148.212443-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0012.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250818-cx18-v4l2-fh-v1-2-6fe153760bce@ideasonboard.com>
-References: <20250818-cx18-v4l2-fh-v1-0-6fe153760bce@ideasonboard.com>
-In-Reply-To: <20250818-cx18-v4l2-fh-v1-0-6fe153760bce@ideasonboard.com>
-To: Andy Walls <awalls@md.metrocast.net>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4926;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=BNXVbwMGm5fu04k6qHCLn60AFGLZaaVlGTtlALJIPzQ=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoox88c6zeKhSAFR/KiQVNRLv1/ovYY5TCE+mWr
- LdvJqfDwlmJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaKMfPAAKCRByNAaPFqFW
- PI+wD/0RILKhfdNldYyfXZQEQOpt55dblJA0ON0aU8WolN9oCyzoeHQWoBk3ygbv5OiiUT+Gog2
- cfBzgFhiQjRFRr3hoKUI2Q4e+eDpGpaWsYKJOUrOXOmfOydyzZQ1kVTpeVMc0fIxFUcSd26FVfZ
- lfnuGnfrcCGmvFvUMoU9TA5JgBoCkjtFAttIll8Ut2DLvuMlBdtNK1OAlImr8Mby1YmC3snamSP
- biCIFA2mNwygYSizLKEuKUQp+OiD/d1B2T62lLD3yX7dJcGDgSfJe5hO0W2ZD5LILHs27oiVxii
- ZvJs3xPGVJY8gsZ9XmhQ2Arbpd74t6yeY93kLfSU/JqTrV97LiehcVj+GeWcbI8Z6XeL47M/8jl
- gDxyLYW2lWYsXUxNqgRYObdJl9ShAQrYfPqFDsfi+GrtUAZ+o9f7lQZHzad2CuE822BG4WcmN1S
- 2pZOrykLFeg0t1wkaMX1ADU7kd3xz2ix3TVN8uRXm/OCGXiNiTvbbeu8l5A7fNzATT/TuJK/vlT
- TDbxa9kEN/OCQJZecEdQPaJZdaZHM/Cz+hQU1I1QGP1H92MLyDDD/mjBUdt+oSJe0TAiiqIu1Pi
- EpjLoeM82kaBJ1fP8jP0L7QNRUfWOsTMcaRNOXe7FSs7CDZ48e/m+Jr8F4oHyVLrA0Z5RyelhU8
- bDB4EtubCyL1Mcg==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB6768:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b2923f7-6e1d-42ac-f399-08ddde547945
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QkFHc1FJdVJUbzlnVjJEd1Btc1I2TmN1a3p6dzdPQjRpNWZMZE1kdW1Mb2Jz?=
+ =?utf-8?B?ZFRMNUVjY3N4RngrRGdzYU1JbTUxNUh0WGx3eUxZamtPTmhWZGl4aUZaWG40?=
+ =?utf-8?B?VktDVGNyenN0ZTB5VW1TaTZrSDJyY0lWWm84d3JmNnBOMHlFTkxUZjlyT0pj?=
+ =?utf-8?B?enVEMlBvWHpsZHpQY1RxUkRTSjVuNEVoaW9hYzRnZFcyTnoyaDdGaWY5V1JN?=
+ =?utf-8?B?VGdMZmdzQXJmaWhBM2Q2UWdOemxRQ1BUWSs3eEtEZ280dXZNOHVic3NERTBp?=
+ =?utf-8?B?Y25uZ0V3bUs0bm10bTJUdm5EVHptd3pYRml5STY0Y3MwZDJrMkNPT0RPKzB6?=
+ =?utf-8?B?V3JMQ1FqaFBGd0k5M0lIK1RFeVBCd2tBL1BMMi9DMzhJYno1c1FUcUNjYTJ4?=
+ =?utf-8?B?UklTREpJRC82c3JXVW9VUWFESzE4Z1RrMkcwcTl2WmJQQjNCQUo4cGZFT0hN?=
+ =?utf-8?B?NEdKRGlFaU5rSkJuMDZ6MyszMEhNclF2NWs4T0Q5NWVLVkhvcDRSdHNTTVFC?=
+ =?utf-8?B?c3ZKck9sam5GKzFBMXpDSHFEb0o2aW8rcEtCMmRpaDJWL1Uxdk0zOUp6bTh4?=
+ =?utf-8?B?Y1h4SjdBZXRuakx3dzIyaUh1eEFRVFZ3dDR6dm1vdWxXblA5M1FjNG9NZWMv?=
+ =?utf-8?B?RVhCY0xyWlZFMGxoRExqSCtYZ0JGd0E5eEpGOUFDdENVUUNTdGZocndyM2kz?=
+ =?utf-8?B?cC9GZWFkT2xnUHd2QU54OTVWWmEvaDhRb250SmFnb0NjOUhiZStlS1I3NHIv?=
+ =?utf-8?B?QzJ1bit5UnhPbnJ3ZWlXR2hrN3JDcStQaTdtYmdNMW9aQ0xORmN5WW9uTHdS?=
+ =?utf-8?B?MkMzZ3JwZlBYa2YrYVhtSllkdXpGQUc5dmFtMHVITm1sVjhIeEJBcnpBa2VW?=
+ =?utf-8?B?T3BRMTFURVVJc0twUnZsK05BL3hWczdVRzF3a0ZLR3JYaU5Gck5jcndJbkVz?=
+ =?utf-8?B?S0RKMFNuUHhqVzdzWTVhYlVadjlUcjQwUFBubktmb2h4eEtrUmNZaEZUcDlY?=
+ =?utf-8?B?SzFqK2NiZUExQlhlbTV6eGVtcmJ4anNWNzNyVjZjNzNOS3VRTlJtVEJ6MW5C?=
+ =?utf-8?B?SThJQ0hhei9VRXV6RzEzSFRBcFNyTFJLemtmdW9ZYXpLSklkU3RtQ0pLWm50?=
+ =?utf-8?B?eThvOStaSDlsTm8zTG5Oa3RoVk9sUWdRRFBYWkdyTXczbTBQOUpYR3JISFN5?=
+ =?utf-8?B?RFBrZUEvMDJCdE02Y012S1BKSDN1VnNUSXhXRitua2pOc01lOWdKckhGOFNJ?=
+ =?utf-8?B?bmhKY2x6MTcyMTZSYll1Wnh1L1dqMXBySC9rQ2Q1MzBxaUJXSlVnWHV6Ky9z?=
+ =?utf-8?B?MG9kQmdiREU3LzMvc3JVTUdOa2h1aHBNRXpPd0duMGNIUFBDekhRNWkxanda?=
+ =?utf-8?B?NXQvZHpXTVBGSEhRYlh2N3JHYXNDUCtxa0hIVW0yd3UycEswOElzaEpLKzdp?=
+ =?utf-8?B?b2dDMmVUSHBpNDJ6a2hmTHp0RmRxYkdpYU8xdVBQWUxDNjdZbTJqaGFPaG40?=
+ =?utf-8?B?cEVGU3VzeFRHRDFKQlZDWWMzUXh0TmF3d0RsNE9TaGZuZ21aakh4U1loalNU?=
+ =?utf-8?B?REZ6ODVJazdWaDRJZHNZT00vT2ZMaFZHbUVnVXRoVDZ3eFNTVU1mVWgyMjY4?=
+ =?utf-8?B?QzVsLzhXSXVFK05VVm9rSzBOUG5laVFqUjN1ejVNYVFna0E0MHJvZ2FRaERX?=
+ =?utf-8?B?M3dLYk53VE5ZK3lDUElFOHk5dTBta2FDZm02QjhxeWJsNzFzNlBNWFFHK01u?=
+ =?utf-8?B?VFVFVGZudzZzMHM0S3RZd1pqYU5sdzZhb2c3VGlWZnZjODhwazlzT3A5VDM0?=
+ =?utf-8?B?UURwcFh4OEhrUUlaclowVjZkQVBVaktORjlYS1gzZStpNzlJdjdBekJsMFp6?=
+ =?utf-8?Q?5YG4LJIF3HTdG?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dGxOZzZheUI5R3NueDA1YngrM2VzeWdtazZLVmdFZGFMWmpMT0pxZFhmQ0NQ?=
+ =?utf-8?B?eTNlbE8xZWVtVkEvRnRXWlo2Y2FXbmhqKzRWWjhhdG1rUzkvNTZjc2xnOEtB?=
+ =?utf-8?B?R0ZZdlIyOVlqM1dEZGRQcDU2dHFWdWVPenByZkNiQlVDZFZ5TVg4SVRaMkcx?=
+ =?utf-8?B?UnIvSmFuVEllSzRrQ3N1cWFNSmZvbmdPaUlPMGcxKyt2b1l0VWhoY3ZhY1l1?=
+ =?utf-8?B?SVZDTGdzcm9QVlJKWG0yYlJ5WUZUUWQ2ZTUwZDBFL1NCWExnR2p2VzF0MExM?=
+ =?utf-8?B?U0NtcnF1RmdoRnlnMW0wQ3NjUlZBTERVVjhYMTVFVnp0QnY3SXpQQ3ZPZXVy?=
+ =?utf-8?B?NGhDVmc5ZnlWZ1FzSU1zeTI5MUtFdEs5WmxnaHVFK0V3SFlxZ3ljRU5nNFA1?=
+ =?utf-8?B?N2cvWkQ0RGlnMHJnVkZLWWdBM2VweUFRVFV6Q1g4S01Qa1VRNmczWWhmUUFk?=
+ =?utf-8?B?RUxKR0xGenRteUVleUF6VGcramFkTW9ydGlhOTd1WG1JWTF4dlBmdXN4a2pD?=
+ =?utf-8?B?akdNRkUzMFMybEdZbUxJMGEwYzMwYXFFWk1nODdiM3VaeGZjeU0wTlErcFRk?=
+ =?utf-8?B?NWZOT0ZkSm9IcHdJT2d0dGV1bnNzNEVIdlRoWE1XYUdoekhSRHduVSttSGZ3?=
+ =?utf-8?B?RDI1R1NSdWgvTmxLVGdRQ2R6Q3VLUy9GcDFzb2UxR29KREhDWkZoNTJRekVq?=
+ =?utf-8?B?OEJaVnZZQU5leWFRa2l2ODJjSXgyY1VselZ3VEZJYkhKSzFZQ1dGZ21JZTJk?=
+ =?utf-8?B?MFFJNjM2K1J0OEY2VVpub3Q0WUUvRzNHbE9ld211QkExQm0xKzBDVVJqTUp6?=
+ =?utf-8?B?ZEs4d01nU0FPK0lpUGJ3S1hHRlFkK1RuNmJKdlpRSlBUVDQyNnozd05VSFgr?=
+ =?utf-8?B?TUpLaVo4bnNQeTdpa2orWlFpdFBrUVpId0ZwazBqMGZFdnY3VzVYdnVjcnM4?=
+ =?utf-8?B?SkVnY3dtbDI0azFkNktOM01wUU1lQ0szMnRpRE9MWXAzN1RXMi9uS1pLS2pn?=
+ =?utf-8?B?WFdYTzBrdmZXc2dKTll0b3F1TDJDbW9ZK3FEcFhwVzBoMTNIKzc1REVZZEJP?=
+ =?utf-8?B?aENsQ2t2bWtwTUdUQUpmZVZHemNHVG5yRVV3WFQ2emE4WGgzQ2I4MzhjeGF6?=
+ =?utf-8?B?U28xUkR2eGhHYmR1MTdkWDhTNU43dXFaOFlsWHB6ZnlxMjhxTlRWZlF6OUVk?=
+ =?utf-8?B?RW96cFduKzMzL1AyY2JHRjlFQzZEejNRVDY2T3QrV2J2Q09aWEJxSUZ3cGk1?=
+ =?utf-8?B?cVh1a0srVGgzVUFKM0YwMEVudzVmbVJ6MS9Rd2o5aXJCMWIxVW1yb3ZoTlZN?=
+ =?utf-8?B?cmZSWlRHb2lhMm55SDcyWHlWSnVBaWpER0Q3TG5EYXFKd21kUm8zOFJNdkEz?=
+ =?utf-8?B?QnJybkpnTVlYVE0zenZzcnhkWVo0cm9VNjNST3hZd1AzNlIrbEJ1N3FxVW9o?=
+ =?utf-8?B?a0xMMkNLbGVRMzlsYjI3TXQzaFYyQ3FrUkMwV3I1TFJVYUFXLzc1dndYMlhy?=
+ =?utf-8?B?VEkwSkpxbmR0dkZ4aXZjNXVmM3JzWFN3Q3JrUEtJQ2c2aXl6LzdsUzVnZ2oy?=
+ =?utf-8?B?dlFmRnI4WDNkZkJFSXlJUWs4STM1bXFHamFUb25VZFE5dzZjdmVBbmdCb2Zq?=
+ =?utf-8?B?VG4wM2hTSzg4MGxySkxTbkthWUZrSHU3ZHI5SFVxR0ltRXF5UDNOWjRSZUZK?=
+ =?utf-8?B?c003VU45WFQ4RlJ1cVp5ei8yTHFuSEQxZ0craDIwZEQwT0NrWWpBNDEzcEE3?=
+ =?utf-8?B?Y3kvVnJZWUhpdDhmMnRaK3NrM04raUFZRWtRS3BlWkl0YnJRMkJVSmlOTkda?=
+ =?utf-8?B?M0RiZWVrc0JvWkhtR1hoN3FZUE1yV01qSXZyWGd3VVpTa0lsZ2pYWWd4QkZG?=
+ =?utf-8?B?YWNadEpJUm9vQWVxbGQzOVB5NmdGL1FreFNueEJMMWdoclNieXhaN2J1WkY1?=
+ =?utf-8?B?akRsejdmQmZjaXY1VFRPRVhWeWRuano5L0M1Ulg3R0ZJbzlDb1IrMFdySW9K?=
+ =?utf-8?B?d1krQUNUREhDemVxdi92NHNkbEltWVRoWXlsQlBoMUp6OVJOYTdlei9md0hO?=
+ =?utf-8?B?eFo3QXpqbzhTVUFLQzA4VGtKak9DQ0VnOTk5ZFRNQlNoR2dLek5yRjlkMFIr?=
+ =?utf-8?Q?X39FMmwC9Ur2FB4fiG73Ej/Wl?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b2923f7-6e1d-42ac-f399-08ddde547945
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 12:40:55.3228
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: arUt+UrG/Lv3110t3BGqaxSQav2MXIYITiLXcanNkdraL9BBWLk6Huuu3UxTrraL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6768
 
-Since commit 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
-all ioctl handlers have been ported to operate on the file * first
-function argument.
+On 18.08.25 10:41, Thomas Zimmermann wrote:
+> Current dma-buf vmap semantics require that the mapped buffer remains
+> in place until the corresponding vunmap has completed.
+> 
+> For GEM-SHMEM, this used to be guaranteed by a pin operation while creating
+> an S/G table in import. GEM-SHMEN can now import dma-buf objects without
+> creating the S/G table, so the pin is missing. Leads to page-fault errors,
+> such as the one shown below.
+> 
+> [  102.101726] BUG: unable to handle page fault for address: ffffc90127000000
+> [...]
+> [  102.157102] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+> [...]
+> [  102.243250] Call Trace:
+> [  102.245695]  <TASK>
+> [  102.2477V95]  ? validate_chain+0x24e/0x5e0
+> [  102.251805]  ? __lock_acquire+0x568/0xae0
+> [  102.255807]  udl_render_hline+0x165/0x341 [udl]
+> [  102.260338]  ? __pfx_udl_render_hline+0x10/0x10 [udl]
+> [  102.265379]  ? local_clock_noinstr+0xb/0x100
+> [  102.269642]  ? __lock_release.isra.0+0x16c/0x2e0
+> [  102.274246]  ? mark_held_locks+0x40/0x70
+> [  102.278177]  udl_primary_plane_helper_atomic_update+0x43e/0x680 [udl]
+> [  102.284606]  ? __pfx_udl_primary_plane_helper_atomic_update+0x10/0x10 [udl]
+> [  102.291551]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
+> [  102.297208]  ? lockdep_hardirqs_on+0x88/0x130
+> [  102.301554]  ? _raw_spin_unlock_irq+0x24/0x50
+> [  102.305901]  ? wait_for_completion_timeout+0x2bb/0x3a0
+> [  102.311028]  ? drm_atomic_helper_calc_timestamping_constants+0x141/0x200
+> [  102.317714]  ? drm_atomic_helper_commit_planes+0x3b6/0x1030
+> [  102.323279]  drm_atomic_helper_commit_planes+0x3b6/0x1030
+> [  102.328664]  drm_atomic_helper_commit_tail+0x41/0xb0
+> [  102.333622]  commit_tail+0x204/0x330
+> [...]
+> [  102.529946] ---[ end trace 0000000000000000 ]---
+> [  102.651980] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+> 
+> In this stack strace, udl (based on GEM-SHMEM) imported and vmap'ed a
+> dma-buf from amdgpu. Amdgpu relocated the buffer, thereby invalidating the
+> mapping.
+> 
+> Provide a custom dma-buf vmap method in amdgpu that pins the object before
+> mapping it's buffer's pages into kernel address space. Do the opposite in
+> vunmap.
+> 
+> Note that dma-buf vmap differs from GEM vmap in how it handles relocation.
+> While dma-buf vmap keeps the buffer in place, GEM vmap requires the caller
+> to keep the buffer in place. Hence, this fix is in amdgpu's dma-buf code
+> instead of its GEM code.
+> 
+> A discussion of various approaches to solving the problem is available
+> at [1].
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 660cd44659a0 ("drm/shmem-helper: Import dmabuf without mapping its sg_table")
+> Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Closes: https://lore.kernel.org/dri-devel/ba1bdfb8-dbf7-4372-bdcb-df7e0511c702@suse.de/
+> Cc: Shixiong Ou <oushixiong@kylinos.cn>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Link: https://lore.kernel.org/dri-devel/9792c6c3-a2b8-4b2b-b5ba-fba19b153e21@suse.de/ # [1]
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 36 +++++++++++++++++++--
+>  1 file changed, 34 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index 5743ebb2f1b7..5b33776eeece 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -285,6 +285,38 @@ static int amdgpu_dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+>  	return ret;
+>  }
+>  
+> +static int amdgpu_dma_buf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
+> +{
+> +	struct drm_gem_object *obj = dma_buf->priv;
+> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+> +	int ret;
+> +
+> +	/*
+> +	 * Pin to keep buffer in place while it's vmap'ed. The actual
+> +	 * location is not important as long as it's mapable.
 
-The ivtv DVB layer calls ivtv_init_on_first_open() when the driver
-needs to start streaming. This function calls the s_input() and
-s_frequency() ioctl handlers directly, but being called from the driver
-context, it doesn't have a valid file * to pass them. This causes the
-ioctl handlers to deference an invalid pointer.
+Yeah, exactly that won't work here. Most of the locations are not CPU accessible.
 
-Fix this by wrapping the ioctl handlers implementation in helper
-functions which accepts a ivtv_open_id pointer as first argument
-and make the ivtv_init_on_first_open() function call the helpers
-without going through the ioctl handlers.
+You could use AMDGPU_GEM_DOMAIN_GTT, that should most likely work in all cases but isn't necessarily the most optimal solution.
 
-The bug has been reported by Smatch.
+Regards,
+Christian.
 
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/all/aKL4OMWsESUdX8KQ@stanley.mountain/
-Fixes: 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/pci/ivtv/ivtv-driver.c |  4 ++--
- drivers/media/pci/ivtv/ivtv-ioctl.c  | 22 +++++++++++++++++-----
- drivers/media/pci/ivtv/ivtv-ioctl.h  |  6 ++++--
- 3 files changed, 23 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/media/pci/ivtv/ivtv-driver.c b/drivers/media/pci/ivtv/ivtv-driver.c
-index ecc20cd89926fe2ce4e472526a6b5fc0857615dd..bcbb03271047df9b127039759dbfefbaae67f9c3 100644
---- a/drivers/media/pci/ivtv/ivtv-driver.c
-+++ b/drivers/media/pci/ivtv/ivtv-driver.c
-@@ -1310,13 +1310,13 @@ int ivtv_init_on_first_open(struct ivtv *itv)
- 
- 	video_input = itv->active_input;
- 	itv->active_input++;	/* Force update of input */
--	ivtv_s_input(NULL, &fh, video_input);
-+	ivtv_do_s_input(&fh, video_input);
- 
- 	/* Let the VIDIOC_S_STD ioctl do all the work, keeps the code
- 	   in one place. */
- 	itv->std++;		/* Force full standard initialization */
- 	itv->std_out = itv->std;
--	ivtv_s_frequency(NULL, &fh, &vf);
-+	ivtv_do_s_frequency(&fh, &vf);
- 
- 	if (itv->card->v4l2_capabilities & V4L2_CAP_VIDEO_OUTPUT) {
- 		/* Turn on the TV-out: ivtv_init_mpeg_decoder() initializes
-diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
-index 8077a71d4850ec773caa20c3fca08f92f3117d69..ba1fce42a8d6d7d9a3779bfc9dfd310060e61103 100644
---- a/drivers/media/pci/ivtv/ivtv-ioctl.c
-+++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
-@@ -974,9 +974,9 @@ static int ivtv_g_input(struct file *file, void *fh, unsigned int *i)
- 	return 0;
- }
- 
--int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
-+int ivtv_do_s_input(struct ivtv_open_id *id, unsigned int inp)
- {
--	struct ivtv *itv = file2id(file)->itv;
-+	struct ivtv *itv = id->itv;
- 	v4l2_std_id std;
- 	int i;
- 
-@@ -1017,6 +1017,11 @@ int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
- 	return 0;
- }
- 
-+static int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
-+{
-+	return ivtv_do_s_input(file2id(file), inp);
-+}
-+
- static int ivtv_g_output(struct file *file, void *fh, unsigned int *i)
- {
- 	struct ivtv *itv = file2id(file)->itv;
-@@ -1065,10 +1070,11 @@ static int ivtv_g_frequency(struct file *file, void *fh, struct v4l2_frequency *
- 	return 0;
- }
- 
--int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
-+int ivtv_do_s_frequency(struct ivtv_open_id *id,
-+			const struct v4l2_frequency *vf)
- {
--	struct ivtv *itv = file2id(file)->itv;
--	struct ivtv_stream *s = &itv->streams[file2id(file)->type];
-+	struct ivtv *itv = id->itv;
-+	struct ivtv_stream *s = &itv->streams[id->type];
- 
- 	if (s->vdev.vfl_dir)
- 		return -ENOTTY;
-@@ -1082,6 +1088,12 @@ int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
- 	return 0;
- }
- 
-+static int ivtv_s_frequency(struct file *file, void *fh,
-+			    const struct v4l2_frequency *vf)
-+{
-+	return ivtv_do_s_frequency(file2id(file), vf);
-+}
-+
- static int ivtv_g_std(struct file *file, void *fh, v4l2_std_id *std)
- {
- 	struct ivtv *itv = file2id(file)->itv;
-diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.h b/drivers/media/pci/ivtv/ivtv-ioctl.h
-index 42c2516379fcbbd0640820ab0e3abe9bf00b57ea..7c91b8963b420761c2afcab1dece4d19a4ec0322 100644
---- a/drivers/media/pci/ivtv/ivtv-ioctl.h
-+++ b/drivers/media/pci/ivtv/ivtv-ioctl.h
-@@ -17,7 +17,9 @@ int ivtv_set_speed(struct ivtv *itv, int speed);
- void ivtv_set_funcs(struct video_device *vdev);
- void ivtv_s_std_enc(struct ivtv *itv, v4l2_std_id std);
- void ivtv_s_std_dec(struct ivtv *itv, v4l2_std_id std);
--int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf);
--int ivtv_s_input(struct file *file, void *fh, unsigned int inp);
-+
-+struct ivtv_open_id;
-+int ivtv_do_s_frequency(struct ivtv_open_id *id, const struct v4l2_frequency *vf);
-+int ivtv_do_s_input(struct ivtv_open_id *id, unsigned int inp);
- 
- #endif
-
--- 
-2.50.1
+> +	 *
+> +	 * This code is required for exporting to GEM-SHMEM without S/G table.
+> +	 * Once GEM-SHMEM supports dynamic imports, it should be dropped.
+> +	 */
+> +	ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_MASK);
+> +	if (ret)
+> +		return ret;
+> +	ret = drm_gem_dmabuf_vmap(dma_buf, map);
+> +	if (ret)
+> +		amdgpu_bo_unpin(bo);
+> +
+> +	return ret;
+> +}
+> +
+> +static void amdgpu_dma_buf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
+> +{
+> +	struct drm_gem_object *obj = dma_buf->priv;
+> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+> +
+> +	drm_gem_dmabuf_vunmap(dma_buf, map);
+> +	amdgpu_bo_unpin(bo);
+> +}
+> +
+>  const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>  	.attach = amdgpu_dma_buf_attach,
+>  	.pin = amdgpu_dma_buf_pin,
+> @@ -294,8 +326,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>  	.release = drm_gem_dmabuf_release,
+>  	.begin_cpu_access = amdgpu_dma_buf_begin_cpu_access,
+>  	.mmap = drm_gem_dmabuf_mmap,
+> -	.vmap = drm_gem_dmabuf_vmap,
+> -	.vunmap = drm_gem_dmabuf_vunmap,
+> +	.vmap = amdgpu_dma_buf_vmap,
+> +	.vunmap = amdgpu_dma_buf_vunmap,
+>  };
+>  
+>  /**
 
 
