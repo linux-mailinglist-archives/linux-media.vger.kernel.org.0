@@ -1,155 +1,249 @@
-Return-Path: <linux-media+bounces-40209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06FDB2B4E7
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:41:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F70B2B51D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:57:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59AB1521250
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:41:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 831403A61BC
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:57:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D99C283CA2;
-	Mon, 18 Aug 2025 23:39:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE1F27C842;
+	Mon, 18 Aug 2025 23:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XK1pX03r"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BjhAlDrn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB353280309;
-	Mon, 18 Aug 2025 23:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015621EB5B;
+	Mon, 18 Aug 2025 23:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755560388; cv=none; b=qO3I5LjwiXf/W+SJNrankOVlDmm4z4owxR16DrXaEV4W0x/nAlIUs2vOmLnNse6RKBj2cWcrpquWpZN+YNag1jBVKChh+c1EdoW3JjvkpkilxXonikjF4j1e6LnEKZ6IsQCY0rQ25lLw0NjCs/alR5G7n3IIuD9MREH8MT8c9pw=
+	t=1755561421; cv=none; b=PoSLKrBEgyEXn+IL240YUi4TAJpGMyYAYcQb8YRxZ7AhJohF1WS087kVPo1tnA4qzn02sZU4rqp3ngtjcpBZuhsYoov23nWSbLjjeqwLD11lpS88OtKA/ZFN0IwSM5C7+0BHkc9NvgvvwEOTC5KFQSPz4MkrpZM4VQ79IaopbAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755560388; c=relaxed/simple;
-	bh=rZujrf8cJQS+I89btYoSUMkKofWIINtOzhrn5MbArYQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pH5nR5y3z/I1RK6yUW5aBQRY6s5t7JfjDQfy2hfbO9uKqoRyvSrSEFTyNTQ35mWUEwc1+lbPaoJl883BvNZH0hMd0MssVqm5nv41UXys9ESWMXUlKtXrQugjK4O1lT53VSA2yQLu3fY7P0xSGplZSrH4EqKR9PQ4tn2sm+TND9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XK1pX03r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A823C4DDF5;
-	Mon, 18 Aug 2025 23:39:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755560388;
-	bh=rZujrf8cJQS+I89btYoSUMkKofWIINtOzhrn5MbArYQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=XK1pX03rLRYcRMpxhukRupNStyDu2FwYmK7K3b3JIyUWGYK1jOS3EuAMdOfcNfOJ6
-	 7WU5gHU6Ku9okGZQSG/gD+uNC0DZWhO1I3mf/CwEgQHAtblyauNc6I1rXVi7oDsyB9
-	 h38nWc+WQREdFGHzhwpMtYyc223mntq9gA51ykoHQ4tsUtMgiIms7o4JmJujRq7CR9
-	 rKrqLSQB/XAdU5JjdqzhKDdO/lXFVv9clKeVmpVRNXYX5Sfp+n1IPhGHaRPQ+a1ES2
-	 i9RoiRf3xho/JeCBNJlBLYF79EfWu38uY6kbtbfYH2rE3bHvvkLa/3lRmhp+38FCBg
-	 tHpZDUiJuy9uA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 108E0CA0EF5;
-	Mon, 18 Aug 2025 23:39:48 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Tue, 19 Aug 2025 01:26:05 +0200
-Subject: [PATCH v10 13/13] arm64: dts: rockchip: enable vicap dvp on
- wolfvision pf5 io expander
+	s=arc-20240116; t=1755561421; c=relaxed/simple;
+	bh=k2SOJJyZ30Tv1dCrQqDeA/Bl7Hdx/r6HItV5FdyXa3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q6nUvgNH2wmAlCbda5Jq6K/Brla8cZlMp96eAZPytEnIhHvsLKTQEr8yuJRXl/Tm9hV9h9RnVhVDsCsc9bmzbv03ga8ub4gTJntpG0aQ/dGdvEPxSjPGEz3ey55BD0KzL90I1w7LOeMasf/viD5iwb4LUVc8hE1UubxN1KUZKA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BjhAlDrn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5D7EDC6D;
+	Tue, 19 Aug 2025 01:55:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755561357;
+	bh=k2SOJJyZ30Tv1dCrQqDeA/Bl7Hdx/r6HItV5FdyXa3U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BjhAlDrnI0QJyWBu4TgPbu7luvx2WxXd8LXtVqe1pcq7TFf9HryTeiQLvws2W95fZ
+	 m4JlOW6S8fyK5blZkT2Fg4SLJzdAvzB/1ZVl3rg7VYtjZ16cU/zlyTeK+7GxAjCxJB
+	 wvFNJLfxkrFBkbPT46b5woUgHIv4NYGhQk1pdy7s=
+Date: Tue, 19 Aug 2025 02:56:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Andy Walls <awalls@md.metrocast.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] media: cx18: Fix invalid access to file *
+Message-ID: <20250818235632.GB10308@pendragon.ideasonboard.com>
+References: <20250818-cx18-v4l2-fh-v3-0-5e2f08f3cadc@ideasonboard.com>
+ <20250818-cx18-v4l2-fh-v3-1-5e2f08f3cadc@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v10-13-62d8a7b209b4@collabora.com>
-References: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
-In-Reply-To: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Markus Elfring <Markus.Elfring@web.de>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Alexander Shiyan <eagle.alexander923@gmail.com>, 
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755559554; l=1661;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=tkvGHWW1RXCremqXv1+qTo26zNWU0UHQFUaztf+p/DI=;
- b=j7qJwJlBp3s4+kXK3PuFrOiM+R/iCDEB6TlcYawUBljlPPawlDA1Zopg2v3jYZx4rFr2cv++X
- Mz+eZ2QuKJLAzjERg5Jahspc5+jStsww1EGia6J/crJ/+cYIUdiHDUo
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250818-cx18-v4l2-fh-v3-1-5e2f08f3cadc@ideasonboard.com>
 
-From: Michael Riesch <michael.riesch@collabora.com>
+On Mon, Aug 18, 2025 at 10:39:36PM +0200, Jacopo Mondi wrote:
+> Sice commit 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
 
-The Digital Video Port (DVP, the 16-bit variant) of the RK3568 VICAP
-is broken out to the PF5 mainboard expansion header.
-Enable it in the device tree overlay for the WolfVision PF5 IO
-Expander board.
+s/Sice/Since/
 
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-Reviewed-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-Tested-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- .../rockchip/rk3568-wolfvision-pf5-io-expander.dtso  | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+> all ioctl handlers have been ported to operate on the file * first
+> function argument.
+> 
+> The cx18 DVB layer calls cx18_init_on_first_open() when the driver needs
+> to start streaming. This function calls the s_input(), s_std() and
+> s_frequency() ioctl handlers directly, but being called from the driver
+> context, it doesn't have a valid file * to pass them. This causes
+> the ioctl handlers to deference an invalid pointer.
+> 
+> Fix this by wrapping the ioctl handlers implementation in helper
+> functions which accepts a cx18 pointer as first argument
+> and make the cx18_init_on_first_open() function call the helpers
+> without going through the ioctl handlers.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-index 048933de2943..8cfce71dd318 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-@@ -11,6 +11,7 @@
- #include <dt-bindings/clock/rk3568-cru.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/media/video-interfaces.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- 
- &{/} {
-@@ -134,3 +135,22 @@ &usb2phy0_host {
- 	phy-supply = <&usb_host_vbus>;
- 	status = "okay";
- };
-+
-+&vicap {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&cif_clk &cif_dvp_clk &cif_dvp_bus16>;
-+	status = "okay";
-+};
-+
-+&vicap_dvp {
-+	vicap_dvp_input: endpoint {
-+		bus-type = <MEDIA_BUS_TYPE_BT656>;
-+		bus-width = <16>;
-+		pclk-sample = <MEDIA_PCLK_SAMPLE_DUAL_EDGE>;
-+		rockchip,dvp-clk-delay = <10>;
-+	};
-+};
-+
-+&vicap_mmu {
-+	status = "okay";
-+};
+It's the other way around, the ioctl handlers are not wrapper. I'd write
+
+Fix this by moving the implementation of those ioctls to functions that
+take a cx18 pointer instead of a file pointer, and turn the V4L2 ioctl
+handlers into wrappers that get the cx18 from the file. When calling
+from cx18_init_on_first_open(), pass the cx18 pointer directly. This
+allows removing the fake fh in cx18_init_on_first_open().
+
+> 
+> The bug has been reported by Smatch:
+> 
+> --> 1223         cx18_s_input(NULL, &fh, video_input);
+> The patch adds a new dereference of "file" but some of the callers pass a
+> NULL pointer.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/all/aKL4OMWsESUdX8KQ@stanley.mountain/
+> Fixes: 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/pci/cx18/cx18-driver.c |  9 +++------
+>  drivers/media/pci/cx18/cx18-ioctl.c  | 30 +++++++++++++++++++-----------
+>  drivers/media/pci/cx18/cx18-ioctl.h  |  8 +++++---
+>  3 files changed, 27 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/media/pci/cx18/cx18-driver.c b/drivers/media/pci/cx18/cx18-driver.c
+> index 743fcc9613744bfc1edeffc51e908fe88520405a..cd84dfcefcf971a7adb9aac2bafb9089dbe0f33f 100644
+> --- a/drivers/media/pci/cx18/cx18-driver.c
+> +++ b/drivers/media/pci/cx18/cx18-driver.c
+> @@ -1136,11 +1136,8 @@ int cx18_init_on_first_open(struct cx18 *cx)
+>  	int video_input;
+>  	int fw_retry_count = 3;
+>  	struct v4l2_frequency vf;
+> -	struct cx18_open_id fh;
+>  	v4l2_std_id std;
+>  
+> -	fh.cx = cx;
+> -
+>  	if (test_bit(CX18_F_I_FAILED, &cx->i_flags))
+>  		return -ENXIO;
+>  
+> @@ -1220,14 +1217,14 @@ int cx18_init_on_first_open(struct cx18 *cx)
+>  
+>  	video_input = cx->active_input;
+>  	cx->active_input++;	/* Force update of input */
+> -	cx18_s_input(NULL, &fh, video_input);
+> +	cx18_do_s_input(cx, video_input);
+>  
+>  	/* Let the VIDIOC_S_STD ioctl do all the work, keeps the code
+>  	   in one place. */
+>  	cx->std++;		/* Force full standard initialization */
+>  	std = (cx->tuner_std == V4L2_STD_ALL) ? V4L2_STD_NTSC_M : cx->tuner_std;
+> -	cx18_s_std(NULL, &fh, std);
+> -	cx18_s_frequency(NULL, &fh, &vf);
+> +	cx18_do_s_std(cx, std);
+> +	cx18_do_s_frequency(cx, &vf);
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
+> index bf16d36448f888d9326b5f4a8f9c8f0e13d0c3a1..6e869c43cbd520feb720a71d8eb2dd60c05b0ae9 100644
+> --- a/drivers/media/pci/cx18/cx18-ioctl.c
+> +++ b/drivers/media/pci/cx18/cx18-ioctl.c
+> @@ -521,10 +521,8 @@ static int cx18_g_input(struct file *file, void *fh, unsigned int *i)
+>  	return 0;
+>  }
+>  
+> -int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+> +int cx18_do_s_input(struct cx18 *cx, unsigned int inp)
+>  {
+> -	struct cx18_open_id *id = file2id(file);
+> -	struct cx18 *cx = id->cx;
+>  	v4l2_std_id std = V4L2_STD_ALL;
+>  	const struct cx18_card_video_input *card_input =
+>  				cx->card->video_inputs + inp;
+> @@ -558,6 +556,11 @@ int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+>  	return 0;
+>  }
+>  
+> +static int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+> +{
+> +	return cx18_do_s_input(file2id(file)->cx, inp);
+> +}
+> +
+>  static int cx18_g_frequency(struct file *file, void *fh,
+>  				struct v4l2_frequency *vf)
+>  {
+> @@ -570,11 +573,8 @@ static int cx18_g_frequency(struct file *file, void *fh,
+>  	return 0;
+>  }
+>  
+> -int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
+> +int cx18_do_s_frequency(struct cx18 *cx, const struct v4l2_frequency *vf)
+>  {
+> -	struct cx18_open_id *id = file2id(file);
+> -	struct cx18 *cx = id->cx;
+> -
+>  	if (vf->tuner != 0)
+>  		return -EINVAL;
+>  
+> @@ -585,6 +585,12 @@ int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
+>  	return 0;
+>  }
+>  
+> +static int cx18_s_frequency(struct file *file, void *fh,
+> +			    const struct v4l2_frequency *vf)
+> +{
+> +	return cx18_do_s_frequency(file2id(file)->cx, vf);
+> +}
+> +
+>  static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
+>  {
+>  	struct cx18 *cx = file2id(file)->cx;
+> @@ -593,11 +599,8 @@ static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
+>  	return 0;
+>  }
+>  
+> -int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+> +int cx18_do_s_std(struct cx18 *cx, v4l2_std_id std)
+>  {
+> -	struct cx18_open_id *id = file2id(file);
+> -	struct cx18 *cx = id->cx;
+> -
+>  	if ((std & V4L2_STD_ALL) == 0)
+>  		return -EINVAL;
+>  
+> @@ -642,6 +645,11 @@ int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+>  	return 0;
+>  }
+>  
+> +static int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+> +{
+> +	return cx18_do_s_std(file2id(file)->cx, std);
+> +}
+> +
+>  static int cx18_s_tuner(struct file *file, void *fh, const struct v4l2_tuner *vt)
+>  {
+>  	struct cx18_open_id *id = file2id(file);
+> diff --git a/drivers/media/pci/cx18/cx18-ioctl.h b/drivers/media/pci/cx18/cx18-ioctl.h
+> index 221e2400fb3e2d817eaff7515fa89eb94f2d7f8a..7a42ac99312ab6502e1abe4f3d5c88c9c7f144f3 100644
+> --- a/drivers/media/pci/cx18/cx18-ioctl.h
+> +++ b/drivers/media/pci/cx18/cx18-ioctl.h
+> @@ -12,6 +12,8 @@ u16 cx18_service2vbi(int type);
+>  void cx18_expand_service_set(struct v4l2_sliced_vbi_format *fmt, int is_pal);
+>  u16 cx18_get_service_set(struct v4l2_sliced_vbi_format *fmt);
+>  void cx18_set_funcs(struct video_device *vdev);
+> -int cx18_s_std(struct file *file, void *fh, v4l2_std_id std);
+> -int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf);
+> -int cx18_s_input(struct file *file, void *fh, unsigned int inp);
+> +
+> +struct cx18;
+> +int cx18_do_s_std(struct cx18 *cx, v4l2_std_id std);
+> +int cx18_do_s_frequency(struct cx18 *cx, const struct v4l2_frequency *vf);
+> +int cx18_do_s_input(struct cx18 *cx, unsigned int inp);
+> 
 
 -- 
-2.39.5
+Regards,
 
-
+Laurent Pinchart
 
