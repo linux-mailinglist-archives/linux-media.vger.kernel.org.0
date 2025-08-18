@@ -1,220 +1,129 @@
-Return-Path: <linux-media+bounces-40115-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40116-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB581B29DD6
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 11:29:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3211B29DF3
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 11:32:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B1BC177F86
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 09:27:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A4A35E6037
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 09:31:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE5E30E0DD;
-	Mon, 18 Aug 2025 09:26:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F43A30E85C;
+	Mon, 18 Aug 2025 09:30:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZHvCZFN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WEvCwHrt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2BB25D527;
-	Mon, 18 Aug 2025 09:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3473B27A477;
+	Mon, 18 Aug 2025 09:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755509199; cv=none; b=IYohavx9dZY9yCUmyY6MzRkHNCkiFyrszw3KZmQ24BK3gLpeFAwmPoKk8sYRxW2jPbXpWW0nktvkFTiJ5QiOIJa1/96tDoYCdIqkt40+9pQ4gTFKnVfm3IO9NaD+0H0oyH543u3UFM9BWCvIOKr3qrr0cAe/UY2K/T1j+6QBNx0=
+	t=1755509457; cv=none; b=KRYGbxOwqnWvwz5ucan5hH/1kDFunZny6qQIEIdreCn+zqMC7B8ZdjEABPKBIJS/5JITHuL8vNMoGR0o+IgmFxBtIJ++iJeZg9IoxPn178JF2Wab5mylEGNSVBhS9dFBN4Aff8iWDSGJ6eQNu8nOEOSR3oUglyAy5W5oSKP1Ico=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755509199; c=relaxed/simple;
-	bh=xwaCdGIqBv3ZIaCKo+UTW/RslRxiy5n/C8Mi33WHmJo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=RnG474KFqXmTMjkZotbKi5E7FXAJZhZrYZtaqQzmoIcLyXXzIbO//i4n0IoK7Dk3fBdKQk5tKipSSFoqMDGoQcU84Uv+CaysGDqeth88R3ycK2V6n9u0msA22SMJrBY/Mxj65pBCxAEXtGebcFPUg+fh8l8lWjMlGUtIYC8Rjmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZHvCZFN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6658C4CEF1;
-	Mon, 18 Aug 2025 09:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755509196;
-	bh=xwaCdGIqBv3ZIaCKo+UTW/RslRxiy5n/C8Mi33WHmJo=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=mZHvCZFNs0FFE8bEjXjdTQN35k9IBTUhXjpU3XkKtLRtma4AbYpnbKRuDXWRbo6eY
-	 sxY9/VZKhOTXuRXZx3iWOfaQh95CKa1B3wSJSDl/0CuVk3jM5/OpQLLT1HpoftRKHl
-	 boyqNaTQjFSNVCgI+jphezovgBMpf/pwptgWIri/4MGea9giY57RGHbwn3PxXNRrfW
-	 5ofxbdLFvLsMGHP+CeIFxAVyz16k5IWPNT3lAKi1F0XOwS3gTd0FS8gNzTdUYPWJe/
-	 vW3qXYyhdMKhZtOHmcM1HlQyviK3n2C56YyMh6/2nz7UHXMzofJoQuEjROgb70pX9a
-	 SYHkef0boQPbg==
+	s=arc-20240116; t=1755509457; c=relaxed/simple;
+	bh=H/RXtCGHHBQ1De/TaksVJ3qWD5+W1hECG5Q6BNf8hho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kD/BnymMtDxQudn6FXKj0Kr99LOa1scjkxzQRUeFHDoQpgWYzwgS4P8bVmWAhu/QXArkxgW/Z7fGAJ87Sfor9yVu3T2dq4u+LXnyP+YWT7eBhKJqOHaRFn3NGRYqR3nFg7fmSeTIGYYrqUfQI6R7yEzEdR7mjnYNrwyk5j9ck04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WEvCwHrt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A84E817D1;
+	Mon, 18 Aug 2025 11:29:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755509395;
+	bh=H/RXtCGHHBQ1De/TaksVJ3qWD5+W1hECG5Q6BNf8hho=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WEvCwHrtO2zW5f35Nzm4LD1pik4x3m01g/rzVvq5amdOzMDfxcHEbM1SBjhuZlUbn
+	 cdHrFSzhbRD36iU9dU+fKvvVVshrRm+mbJ8cLFex0lqSZnIQV0Ha12azlU7PpeCFla
+	 GIGsF+cQc6JPBw8OXJRgPKDt1IUfesZndTSM1xpY=
+Date: Mon, 18 Aug 2025 12:30:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Inbaraj E <inbaraj.e@samsung.com>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, krzk@kernel.org,
+	s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
+	cw00.choi@samsung.com, rmfrfs@gmail.com, martink@posteo.de,
+	mchehab@kernel.org, linux-fsd@tesla.com, will@kernel.org,
+	catalin.marinas@arm.com, pankaj.dubey@samsung.com,
+	shradha.t@samsung.com, ravi.patel@samsung.com,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alim.akhtar@samsung.com,
+	linux-samsung-soc@vger.kernel.org, kernel@puri.sm,
+	kernel@pengutronix.de, festevam@gmail.com,
+	linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 08/12] media: imx-mipi-csis: Add support to dump all
+ vc regs
+Message-ID: <20250818093030.GB5862@pendragon.ideasonboard.com>
+References: <20250814140943.22531-1-inbaraj.e@samsung.com>
+ <CGME20250814141041epcas5p2b281659391a8e45c95e8db21d9867f98@epcas5p2.samsung.com>
+ <20250814140943.22531-9-inbaraj.e@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 18 Aug 2025 11:26:32 +0200
-Message-Id: <DC5G2LJGBN3D.8JSJY9U25IAW@kernel.org>
-To: "Daniel Almeida" <daniel.almeida@collabora.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 3/7] rust: v4l2: add support for video device nodes
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Alexandre Courbot"
- <acourbot@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <kernel@collabora.com>,
- <linux-media@vger.kernel.org>
-References: <20250818-v4l2-v1-0-6887e772aac2@collabora.com>
- <20250818-v4l2-v1-3-6887e772aac2@collabora.com>
-In-Reply-To: <20250818-v4l2-v1-3-6887e772aac2@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250814140943.22531-9-inbaraj.e@samsung.com>
 
-On Mon Aug 18, 2025 at 7:49 AM CEST, Daniel Almeida wrote:
-> Video device nodes back the actual /dev/videoX files. They expose a rich
-> ioctl interface for which we will soon add support for and allow for
-> modelling complex hardware through a topology of nodes, each modelling a
-> particular hardware function or component.
->
-> V4l2 drivers rely on video device nodes pretty extensively, so add a
-> minimal Rust abstraction for them. The abstraction currently does the
-> bare-minimum to let users register a V4L2 device node. It also
-> introduces the video::Driver trait that will be implemented by Rust v4l2
-> drivers. This trait will then be refined in future patches.
->
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+Hi Inbaraj,
+
+Please see [1] and in particular [2]. I would like to get that series
+merged for v6.18, but it's missing reviews. If you want to speed it up,
+you can review the patches :-)
+
+[1] https://lore.kernel.org/linux-media/20250608235840.23871-1-laurent.pinchart@ideasonboard.com
+[2] https://lore.kernel.org/linux-media/20250608235840.23871-9-laurent.pinchart@ideasonboard.com/
+
+On Thu, Aug 14, 2025 at 07:39:39PM +0530, Inbaraj E wrote:
+> Extend support to dump all 4 virtual channel register.
+> 
+> Signed-off-by: Inbaraj E <inbaraj.e@samsung.com>
 > ---
->  rust/helpers/v4l2-device.c       |  16 +++
->  rust/kernel/media/v4l2/device.rs |   1 -
->  rust/kernel/media/v4l2/mod.rs    |   3 +
->  rust/kernel/media/v4l2/video.rs  | 251 +++++++++++++++++++++++++++++++++=
-++++++
->  4 files changed, 270 insertions(+), 1 deletion(-)
->
-> diff --git a/rust/helpers/v4l2-device.c b/rust/helpers/v4l2-device.c
-> index d19b46e8283ce762b4259e3df5ecf8bb18e863e9..0ead52b9a1ccc0fbc4d7df635=
-78b334b17c05b70 100644
-> --- a/rust/helpers/v4l2-device.c
-> +++ b/rust/helpers/v4l2-device.c
-> @@ -6,3 +6,19 @@ void rust_helper_v4l2_device_get(struct v4l2_device *v4l=
-2_dev)
->  {
->      v4l2_device_get(v4l2_dev);
->  }
-> +
-> +void rust_helper_video_get(struct video_device *vdev)
-> +{
-> +    get_device(&vdev->dev);
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> index 4f6c417fdf58..c1653a738854 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -876,11 +876,26 @@ static int mipi_csis_dump_regs(struct mipi_csis_device *csis)
+>  		{ MIPI_CSIS_DPHY_SCTRL_L, "DPHY_SCTRL_L" },
+>  		{ MIPI_CSIS_DPHY_SCTRL_H, "DPHY_SCTRL_H" },
+>  		{ MIPI_CSIS_ISP_CONFIG_CH(0), "ISP_CONFIG_CH0" },
+> +		{ MIPI_CSIS_ISP_CONFIG_CH(1), "ISP_CONFIG_CH1" },
+> +		{ MIPI_CSIS_ISP_CONFIG_CH(2), "ISP_CONFIG_CH2" },
+> +		{ MIPI_CSIS_ISP_CONFIG_CH(3), "ISP_CONFIG_CH3" },
+>  		{ MIPI_CSIS_ISP_RESOL_CH(0), "ISP_RESOL_CH0" },
+> +		{ MIPI_CSIS_ISP_RESOL_CH(1), "ISP_RESOL_CH1" },
+> +		{ MIPI_CSIS_ISP_RESOL_CH(2), "ISP_RESOL_CH2" },
+> +		{ MIPI_CSIS_ISP_RESOL_CH(3), "ISP_RESOL_CH3" },
+>  		{ MIPI_CSIS_SDW_CONFIG_CH(0), "SDW_CONFIG_CH0" },
+> +		{ MIPI_CSIS_SDW_CONFIG_CH(1), "SDW_CONFIG_CH1" },
+> +		{ MIPI_CSIS_SDW_CONFIG_CH(2), "SDW_CONFIG_CH2" },
+> +		{ MIPI_CSIS_SDW_CONFIG_CH(3), "SDW_CONFIG_CH3" },
+>  		{ MIPI_CSIS_SDW_RESOL_CH(0), "SDW_RESOL_CH0" },
+> +		{ MIPI_CSIS_SDW_RESOL_CH(1), "SDW_RESOL_CH1" },
+> +		{ MIPI_CSIS_SDW_RESOL_CH(2), "SDW_RESOL_CH2" },
+> +		{ MIPI_CSIS_SDW_RESOL_CH(3), "SDW_RESOL_CH3" },
+>  		{ MIPI_CSIS_DBG_CTRL, "DBG_CTRL" },
+>  		{ MIPI_CSIS_FRAME_COUNTER_CH(0), "FRAME_COUNTER_CH0" },
+> +		{ MIPI_CSIS_FRAME_COUNTER_CH(1), "FRAME_COUNTER_CH1" },
+> +		{ MIPI_CSIS_FRAME_COUNTER_CH(2), "FRAME_COUNTER_CH2" },
+> +		{ MIPI_CSIS_FRAME_COUNTER_CH(3), "FRAME_COUNTER_CH3" },
+>  	};
+>  
+>  	unsigned int i;
 
-Rust helpers shouldn't encode semantics. I think you want to use video_get(=
-)
-instead.
+-- 
+Regards,
 
-> +}
-> +
-> +void rust_helper_video_put(struct video_device *vdev)
-> +{
-> +    put_device(&vdev->dev);
-
-video_put()
-
-> +/// Represents the registration of a V4L2 device node.
-> +pub struct Registration<T: Driver>(ARef<Device<T>>);
-> +
-> +impl<T: Driver> Registration<T> {
-> +    /// Returns a new `Registration` for the given device, which guarant=
-ees that
-> +    /// the underlying device node is properly initialized and registere=
-d, which
-> +    /// means that it can be safely used.
-> +    pub fn new(
-> +        dev: &v4l2::device::Device<T>,
-> +        data: impl PinInit<<T as Driver>::Data, Error>,
-> +        flags: alloc::Flags,
-> +    ) -> Result<Self> {
-
-Same comment regarding Device having its own constructor as for
-v4l::device::Registration. I don't see a reason why Registration::new() sho=
-uld
-serve as constructor for Device.
-
-Additionally, I think we should use devres::register() for the Registration=
-, such
-that you can provide &Device<Bound> cookies in the video callbacks / ioctls=
-.
-
-As far as I can see, video devices are synchronized when unregistered [1]
--- let's take advantage of that.
-
-We do the same thing in the PWM abstractions [2], which is a great optimiza=
-tion.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/drivers/media/v4l2-core/v4l2-dev.c?h=3Dv6.16#n1105
-[2] https://lore.kernel.org/linux-pwm/20250806-rust-next-pwm-working-fan-fo=
-r-sending-v13-3-690b669295b6@samsung.com/
-
-> +        let video_dev =3D try_pin_init!(Device {
-> +            inner <- Opaque::try_ffi_init(move |slot: *mut bindings::vid=
-eo_device| {
-> +                let opts: DeviceOptions<'_, T> =3D DeviceOptions {
-> +                    dev,
-> +                    _phantom: PhantomData
-> +                };
-> +
-> +                // SAFETY: `DeviceOptions::into_raw` produces a valid
-> +                // `bindings::video_device` that is ready for registrati=
-on.
-> +                unsafe { slot.write(opts.into_raw()) };
-> +
-> +
-> +                // SAFETY: It is OK to call this function on a zeroed
-> +                // `video_device` and a valid `v4l2::Device` reference.
-> +                to_result(unsafe { bindings::video_register_device(slot,=
- T::NODE_TYPE as c_uint, -1) })
-> +            }),
-> +            data <- data,
-> +        });
-> +
-> +        let video_dev =3D KBox::pin_init(video_dev, flags)?;
-> +
-> +        // SAFETY: We will be passing the ownership to ARef<T>, which tr=
-eats the
-> +        // underlying memory as pinned throughout its lifetime.
-> +        //
-> +        // This is true because:
-> +        //
-> +        // - ARef<T> does not expose a &mut T, so there is no way to mov=
-e the T
-> +        // (e.g.: via a `core::mem::swap` or similar).
-> +        // - ARef<T>'s member functions do not move the T either.
-> +        let ptr =3D KBox::into_raw(unsafe { Pin::into_inner_unchecked(vi=
-deo_dev) });
-> +
-> +        // SAFETY:
-> +        //
-> +        // - the refcount is one, and we are transfering the ownership o=
-f that
-> +        // increment to the ARef.
-> +        // - `ptr` is non-null as it came from `KBox::into_raw`, so it i=
-s safe
-> +        // to call `NonNulll::new_unchecked`.
-> +        Ok(Self(unsafe { ARef::from_raw(NonNull::new_unchecked(ptr)) }))
-> +    }
-> +
-> +    /// Returns a reference to the underlying video device.
-> +    pub fn device(&self) -> &video::Device<T> {
-> +        &self.0
-> +    }
-> +}
-> +
-> +impl<T: Driver> Drop for Registration<T> {
-> +    fn drop(&mut self) {
-> +        // SAFETY: `self.0` is a valid `video_device` that was registere=
-d in
-> +        // [`Registration::new`].
-> +        unsafe { bindings::video_unregister_device(self.0.as_raw()) };
-> +    }
-> +}
->
-> --=20
-> 2.50.1
-
+Laurent Pinchart
 
