@@ -1,158 +1,132 @@
-Return-Path: <linux-media+bounces-40143-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40144-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94D6B2A166
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 14:23:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3366B2A1F7
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 14:45:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10477189C800
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 12:14:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF76217CD16
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 12:33:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA93A31B131;
-	Mon, 18 Aug 2025 12:13:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0C8E31E0F2;
+	Mon, 18 Aug 2025 12:31:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5IVKfBJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sic9ij+C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BC731A079;
-	Mon, 18 Aug 2025 12:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175CB31B13D;
+	Mon, 18 Aug 2025 12:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755519193; cv=none; b=PlCHo4/NT+hpOJKtJN3n4Z/fkoBkuYekPkvxC7LcojoIbg+cLYuNSKWK5COlvt1ebg63GxtjDi+aarlZ4LTOjoBcUs8e+Hd0QH19SMIBXXdnnq1j1VkJ4JxVX0J75boRk7YjgVmVB3vTWF6RXK7N5M7TMXpuEmwV1fILSclpKiY=
+	t=1755520305; cv=none; b=SmgBeJw1tuhPNDO3TY35CwPscuYbN1qwtwLcUrlyEp8zGioDHf4qYmsQISh4XvxID4F5IMldZ3VP4lHX1rQzWrYKLPin+p4VXD1/HQgpxYObxB9Ef3/XxID8RihzbeqwVLXp3rutZZnpCQsivH7r1aIGrPymnS010Yers2EuHzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755519193; c=relaxed/simple;
-	bh=ckmz1PsxZyH5g+tpPTblcGbE5hcGe+F53rZFuMOOV3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AKl0jxb1yc8txDaeuOoJ74pXMqhFOveEVIuev5z1TKXhnNOkV4iMXwBAyMGluluQ6VmPSsds+Ue56OBWp7uhtmwsSzaoeMqD4W3MLr+apgeHY2KvK+9QL766CM7nCnduvhdmJFuDY/BI3dyEUhN0zJXxIIYcSP5Lm4SRkKgbdU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5IVKfBJ; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755519191; x=1787055191;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ckmz1PsxZyH5g+tpPTblcGbE5hcGe+F53rZFuMOOV3g=;
-  b=l5IVKfBJXSPPpwqgS+txmYvOJnTThEZcnq5G8GT+vc8rekItnINulX/l
-   cjuq3/F2KVzykBDaQ5SNx2G3ADH79Lo8OSoqqSGIoWopWAL+RIE3ho5Wa
-   6MCZ103PjnmTEcDoY36IjKuZpUD+uNx0930A+atRp3MnNnR7GAnzo0iwR
-   pHG8mfwlJGtlAATkpA+g7ghbXC+rAqT3kHiXqIWVmjwdv5LcMoUrVxdUh
-   B0KfK9JGVlJnrBdm3OkIgOULavg1vENpH4SCafMGSJPgXfMeODhwP5nZF
-   XnO3yioReIMXL6js1SCkonVDxwbC/66gEyZPjNnCrR47fk36nSPn4W2oV
-   w==;
-X-CSE-ConnectionGUID: Kq+TAfshQouX5ZfkyuDFZg==
-X-CSE-MsgGUID: 0xUGwLOPTMKRlsdlaqq3Rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57453776"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57453776"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 05:13:11 -0700
-X-CSE-ConnectionGUID: woPZVayaSR+QARnM86Kjnw==
-X-CSE-MsgGUID: 1d2tMHGhTBawckJq8giHJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="191249172"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.252])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 05:13:08 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id A1CEB1201E5;
-	Mon, 18 Aug 2025 15:13:05 +0300 (EEST)
-Date: Mon, 18 Aug 2025 12:13:05 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: =?utf-8?Q?Micha=C5=82?= Pecio <michal.pecio@gmail.com>,
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com, Thinh.Nguyen@synopsys.com,
-	Amardeep Rai <amardeep.rai@intel.com>,
-	Kannappan R <r.kannappan@intel.com>,
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v4 3/4] USB: Add a function to obtain USB version
- independent maximum bpi value
-Message-ID: <aKMY0XPLmK-TOWIt@kekkonen.localdomain>
-References: <20250812132445.3185026-1-sakari.ailus@linux.intel.com>
- <20250812132445.3185026-4-sakari.ailus@linux.intel.com>
- <20250813164958.6c6c34a4@foxbook>
- <aKLDXCchS20kaq20@kekkonen.localdomain>
- <767ac1c3-f09c-47cf-947d-968ae574e577@linux.intel.com>
- <aKMOBPTqZX_yJjOv@kekkonen.localdomain>
+	s=arc-20240116; t=1755520305; c=relaxed/simple;
+	bh=9xto1WGjpE7C25ii2gC6fdKuCEsKYv14TdNP1gsfLeA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aZ/pyBT0ZZiVHdMJJHIADKc+jQ92q2RoTz9JN9LuljHfwTEl7QXsCa6Cvb6+9GodJeZUYIvAccJgI8YWQhxSAx76DLy8FYVn95y5IkXg/Qfz6vqK64zYNLCpe+4IPOiGg8tPzXY8CqELqDj3YW5Wp9sWe7VZJt/9EV3vGK+uKrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sic9ij+C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 83DB5C4CEEB;
+	Mon, 18 Aug 2025 12:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755520304;
+	bh=9xto1WGjpE7C25ii2gC6fdKuCEsKYv14TdNP1gsfLeA=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=sic9ij+ChZgwPgrM4kF7yOqIFX1ILzVm8emfabxekhi61BRonHlxhP7bVRju6if/C
+	 mOxFmD+Et6kUwCxDaU2M4odiXi59m6NPTtwo0oIWEqPsm+DSp8ZCot2GlqKhiGG4/Y
+	 rHJSOCidV9FoHsBlZ1E5Ehilw0dYPg+mWf2n0I7rt6eXSWpw5+D2hTfVcxM+JUq536
+	 9/O5MHtE9IJBhQ7MT5e8onMR0MH5++RJty+ZqXYi4Nwh8rvTLJN0os57RwbK070Cge
+	 4L4BjP+cg12SjPIypzqrEdOCkSMf1mVUqcYDBcDUtCmIo1jzjtrRK8j7Y+qxovhWD3
+	 Oj1tk0YQe0zQA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A2FFCA0EE4;
+	Mon, 18 Aug 2025 12:31:44 +0000 (UTC)
+From: Maud Spierings via B4 Relay <devnull+maudspierings.gocontroll.com@kernel.org>
+Date: Mon, 18 Aug 2025 14:31:43 +0200
+Subject: [PATCH] media: nxp: imx8-isi: Check whether pad is non-NULL before
+ access
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aKMOBPTqZX_yJjOv@kekkonen.localdomain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250818-imx8_isi-v1-1-e9cfe994c435@gocontroll.com>
+X-B4-Tracking: v=1; b=H4sIAC4do2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDC0ML3czcCot4oDJdS1MTC0sLMyOLpCQzJaDygqLUtMwKsFHRsbW1ADT
+ i1PdaAAAA
+X-Change-ID: 20250818-imx8_isi-954898628bb6
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Stefan Riedmueller <s.riedmueller@phytec.de>, 
+ Jacopo Mondi <jacopo@jmondi.org>, Christian Hemp <c.hemp@phytec.de>, 
+ Guoniu Zhou <guoniu.zhou@nxp.com>
+Cc: Dong Aisheng <aisheng.dong@nxp.com>, linux-media@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Maud Spierings <maudspierings@gocontroll.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755520303; l=1552;
+ i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
+ bh=AcOnQUcEtLtKRIGyS551I2XQVk8kQXwsf7E/+Yff8TA=;
+ b=LxPyeY5OtSuWC0dqmLOomQR+CNhDogbAv7Ktm7eAvNyw3RLKGvRZnoWkjAVyF9zkpodT26fDt
+ BSNSf84OWnoCe6aD49C3B4Ijd31VQ5j0Tg6aujoKeWnTgkb3HIY05zI
+X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
+ pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
+X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
+ with auth_id=341
+X-Original-From: Maud Spierings <maudspierings@gocontroll.com>
+Reply-To: maudspierings@gocontroll.com
 
-Hi Mathias,
+From: Maud Spierings <maudspierings@gocontroll.com>
 
-On Mon, Aug 18, 2025 at 11:27:00AM +0000, Sakari Ailus wrote:
-> Hi Mathias,
-> 
-> On Mon, Aug 18, 2025 at 10:32:48AM +0300, Mathias Nyman wrote:
-> > Hi
-> > 
-> > On 18.8.2025 9.08, Sakari Ailus wrote:
-> > > Hi Michał,
-> > > 
-> > > Thank you for the review.
-> > > 
-> > > On Wed, Aug 13, 2025 at 04:49:58PM +0200, Michał Pecio wrote:
-> > > > On Tue, 12 Aug 2025 16:24:44 +0300, Sakari Ailus wrote:
-> > > > > From: "Rai, Amardeep" <amardeep.rai@intel.com>
-> > > > > 
-> > > > > Add usb_endpoint_max_isoc_bpi() to obtain maximum bytes per interval for
-> > > > > isochronous endpoints in a USB version independent way.
-> > > > > 
-> > > > > Signed-off-by: Rai, Amardeep <amardeep.rai@intel.com>
-> > > > > Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> > > > > Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > Reviewed-by: Hans de Goede <hansg@kernel.org>
-> > > > 
-> > > > Hi,
-> > > > 
-> > > > This is practically identical to xhci_get_max_esit_payload().
-> > > > 
-> > > > Couldn't xhci also use this helper now, to reduce duplication and
-> > > > ensure that it has the same idea of ESIT payload as class drivers?
-> > > > 
-> > > > Note that this here would need to also accept interrupt EPs:
-> > > > > +{
-> > > > > +	if (usb_endpoint_type(&ep->desc) != USB_ENDPOINT_XFER_ISOC)
-> > > > > +		return 0;
-> > > 
-> > > Sounds reasonable, I'll see how to best take that into account in v5.
-> > > 
-> > > I wonder if I should adopt the name from the xHCI variant as the function
-> > > would be also used for interrupt endpoints.
-> > > 
-> > 
-> > I think the "ESIT" acronym (Endpoint Service Interval Time) is very xHCI
-> > spec specific. Usb spec usually refers to isoc and interrupt endpoints as
-> > "periodic"
-> > 
-> > how about one of these:
-> > usb_endpoint_max_periodic_bytes()
-> > usb_endpoint_max_periodic_payload()
-> > usb_endpoint_max_periodic_bpi()
-> 
-> How about usb_endpoint_max_si_payload() ("si" being for service interval)?
+media_pad_remote_pad_first() can return NULL if no valid link is found.
+Check for this possibility before dereferencing it in the next line.
 
-I somehow missed your latter sentence earlier. I'm totally fine with these,
-perhaps I'm slightly leaning towards usb_endpoint_max_periodic_payload()
-but let's see what others think.
+Reported/investigated in [1]:
 
+Link: https://lore.kernel.org/all/1536a61b-b405-4762-9fb4-7e257f95e49e@gocontroll.com/ [1]
+Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+---
+I'm not sure if this should be a dev_dbg(), just following the pattern
+around it for now, also not sure if EPIPE is the correct error.
+---
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+index ede6cc74c0234049fa225ad82aaddaad64aa53d7..1ed8b031178b7d934b04a8752747f556bd1fc5a9 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+@@ -160,6 +160,13 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_crossbar *xbar,
+ 	}
+ 
+ 	pad = media_pad_remote_pad_first(&xbar->pads[sink_pad]);
++
++	if (pad == NULL) {
++		dev_dbg(xbar->isi->dev, "no valid link found to pad %u\n",
++			sink_pad);
++		return ERR_PTR(-EPIPE);
++	}
++
+ 	sd = media_entity_to_v4l2_subdev(pad->entity);
+ 	if (!sd) {
+ 		dev_dbg(xbar->isi->dev,
+
+---
+base-commit: 3ac864c2d9bb8608ee236e89bf561811613abfce
+change-id: 20250818-imx8_isi-954898628bb6
+
+Best regards,
 -- 
-Kind regards,
+Maud Spierings <maudspierings@gocontroll.com>
 
-Sakari Ailus
+
 
