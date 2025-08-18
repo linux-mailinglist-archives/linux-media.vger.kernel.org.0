@@ -1,235 +1,167 @@
-Return-Path: <linux-media+bounces-40183-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40184-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41E0B2ADB0
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 18:05:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 403F1B2AE83
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 18:49:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E103D683FE7
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 15:59:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A80F418831BB
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 16:49:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3BBC33A022;
-	Mon, 18 Aug 2025 15:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A240341AB4;
+	Mon, 18 Aug 2025 16:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="L8BFccHk"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="0clavAA2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013033.outbound.protection.outlook.com [40.107.159.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4FE3376B8;
-	Mon, 18 Aug 2025 15:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755532721; cv=fail; b=gMtl7FkmmofkSTwevHP0e9Qq7UXkVDzxZ+FVKBkKbpojnRiE2xydyBGyPk6bT/sGE/Hr/yRdS22TCFiEpcQuRiUi9bksVR3LViOvB2i+6Nlw/IgNvwhWIwLHFNEAZRYX4NI80BkOA2ijrDaE04zC8TE+RcDiKtRzPJhSr33rRM0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755532721; c=relaxed/simple;
-	bh=PUURog6llueML+dCSIbpfv65rK4Lyo/Azu3/VhTYRas=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=s8GE1zxWON3tdDSnYf+GNi47wtAK/06vE+inYwwU7/csyVIB0NJbzomeNqZ1ssQlgLueUpkrVmTxhOpabWSdMI3j7LG71lHL5H6qyZZUaOqibZ1LhPemTzJdADDEYgD8yelcyNJNxLzrtFM+IZ+Gxlz0QBuwGtXI4nrfCuQ42QA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=L8BFccHk; arc=fail smtp.client-ip=40.107.159.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QQU3oBGAXdEFS+9We0oVKZZhzHuz72gXfUoNJXbRkkhaBgpTeQ9EIlH6f8F4s03PjbjAoD/cAQ+XjL2NpVMwwiKoOcDsu8PpPZuD4xV9OszHI3WgsjZxqeuFoJqSDTuJC/AQriPPl+kocwBWkQt5DFE7d4faZnPwYgwXGRx+KKSHEZmU4HFvq6m1b7Jxn5Yhe1wReGWvQgHDDzD/pvZpZxV40deDDSp0gca5/QBSxZSwY82MXmLkFCY/e/Y/MzdGC2p9ZKI+pm/GitIxriayb1g5tgs3cAS7ar23DjUR1+I0JmdB2dT0W7mfD/zYLxHbsgDXQ93q0HLcDjkoSh3KCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u3UdjBB/XMxRalbAO3NVlpLboKYQUx3jlyvs7SB47MM=;
- b=EVVdtB5CsNrX8+e6ldjCBJZkYykjHGqNqaybebdAge9sp5+u011sbLqHumtRA2LFl/aWQkVvUJx7dqg9oVuvzR/wIN04qbVhULMosLTbbGiU2EFI4RT6ccQ3vkP+rNzUIWYaL+np+7sIytlqk5ZuwGRsgKgUBkLeTCXilJvqEMHrvhTBRYRQzrAEpTYpo3KdPIwL1AtMFQBT8Ezbb2tYqZTXBGn6I3afWqo6RDX1QdYB6xYgF9W/f2b1crXeRETGF0VuuFLnflrbF8Cx3TzSda1mykNcbmSaN8iArHRJKFcG3Fkf0p0YPsLfS86+r1yiLvObYgg6uqo/CeTuhSfdDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u3UdjBB/XMxRalbAO3NVlpLboKYQUx3jlyvs7SB47MM=;
- b=L8BFccHkPSPg5kEx4URdevL8DqC5BgYeSEG4MrpA8/lgpB6xh2pFq3FBwg2ACJ3TlIDTjMChyJEPZQNADrTQ2UvMSFied6YI/pa0mKMX1ykrPoR4hax+L8UpuV0sALc2tjA+dfv8ITgBMotAlonIQzHeuOP1X18ZYQhHBL1lmeWrDo5lcAxaldnKPPCzXhjzlMOCjCNwKv94Qi4m3j+EuubeASWBW6M70BbrAlw4VrnN9tYLbtAATr/0g33H0GyMiDPxEy8yi6LLSA9Jio1LDKw/ZllvWcIx4wFA+/DQn6uGt6TjiBqlzHyTrkR+ccbpr3WBIM0MMpPEusL2IP9xEw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
- by GV4PR04MB11305.eurprd04.prod.outlook.com (2603:10a6:150:297::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.12; Mon, 18 Aug
- 2025 15:58:32 +0000
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::7303:2cc8:d109:d7c1%5]) with mapi id 15.20.9052.011; Mon, 18 Aug 2025
- 15:58:32 +0000
-From: Mirela Rabulea <mirela.rabulea@nxp.com>
-To: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	hverkuil-cisco@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	ribalda@chromium.org,
-	jai.luthra@ideasonboard.com,
-	laurentiu.palcu@nxp.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	LnxRevLi@nxp.com,
-	julien.vuillaumier@nxp.com,
-	celine.laurencin@nxp.com
-Subject: [RFC v2 5/5] media: v4l2-ctrls: Add __v4l2_s_ctrl_single_to_multi helper function
-Date: Mon, 18 Aug 2025 18:58:09 +0300
-Message-ID: <20250818155809.469479-6-mirela.rabulea@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250818155809.469479-1-mirela.rabulea@nxp.com>
-References: <20250818155809.469479-1-mirela.rabulea@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0256.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e8::19) To AS4PR04MB9244.eurprd04.prod.outlook.com
- (2603:10a6:20b:4e3::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C172F254B1F
+	for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 16:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755535746; cv=none; b=R1WJwU61FmL1205BteGLABQ3FUFyin7OiBR0JmkFczd3gUVBTaG0VKr7p54jrFUH2jRTjKBaXUyrP+EUnlfi2IO2HWxxdc1uwNW3/3voTmUDWib2r+6xteQeMNODpV8LT2J+jhhB2xJfCrleZNeIjmV8O3s2ZNUNMFHZCkP2jVE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755535746; c=relaxed/simple;
+	bh=sIa05R0J/p/gvUlQdm/OCv2IWb3eNdcA65nc7xoccNA=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=oBrQbfE+Og0TZ1E4ide4nt8hPh5R/Fi41wUejCu9/+4SL8RF4/8QThcK3Tjg22INhGvT1uBibSCg6myMIQKxX3lz/yShHcvm6w+t/7hBRZleAZ6k8KLbcbR/W0yxKAci265jr6xbR07ojsITE+u9UFGZbWJHn60viQ2bdvMWKWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=0clavAA2; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7e8704c7a46so520351385a.1
+        for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 09:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1755535743; x=1756140543; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=sIa05R0J/p/gvUlQdm/OCv2IWb3eNdcA65nc7xoccNA=;
+        b=0clavAA2qP8OEnSkljGWBubheysE6suCf106ykC83NIoTHCZRH3OfxrOMrlkd0NvCL
+         fKDBLYBAi5Nxy+C28+p42FLMO11WYr8oNO7PNG9IAfD7nLbn8++iWZm2Btc77x/0xNzg
+         V6x28OHRSkAdovFmTCs1NRV1rz+U1oTaLLqGF/xN9HRb+7FOMsqf/kiIwU/2wtRfEqHS
+         1FV7jlGWEUHZmuqw4BDjSL5glNN44YPUSr8eYEpmLcTprx30er2Tj62inB0kzcZhhmGJ
+         l8XqFK5nJKj92UEgOmNEgTk/DKBVQbNMkU1SQElieJKXBdpbst0jzqZcUQHTueuoBoWF
+         A+xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755535743; x=1756140543;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIa05R0J/p/gvUlQdm/OCv2IWb3eNdcA65nc7xoccNA=;
+        b=mkzg0RefoNZzKOmmIQsv5PydY184lF/jPGNq4fXX5DTTYs8iCb65rKas9CY6pwVNgh
+         Tv+teFaApVoQFeBz3EgG8XdfoJU3U+CAAoI/792ZhHIQU7AbfdY4aciboy8TkQr01YSC
+         mkmVoVNHG6K54rZgMKJHtCoQU0kagKWQ9AevY8U1wYMowQRMjZrmVZ58EyQDfVSvQ97N
+         w/NyDnVXZO1EfA7IVlvE0w5k/zXkkQxNj03ijqjuDrXJPQwKIW1zgm4sRENG3fYoLbTR
+         HC74Q0t1tZgt6/xw/mZwly9cvynStKymlppUKInsCXMd0J/i0UgBmO92+Mk/aX3idP9t
+         DXAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMi9+gS1GGoT35fkF1gbUQtOscQiOhb+ElDtmjZ432EHp2zCwhJqR3G5Kg9feGbBudA4K2LcpIqa7npQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTsNu9QuNWpBXwyR+rMVnxlRLVc4lo+P+2xTVONoapgLPV+gN9
+	0fxHVOdTid4i2OKDQp/PYh3PgUbwH/8CrqCxy9R50i/euzdV6APsF9+4mrD8rNHThEWwKd1aUEX
+	nohvb
+X-Gm-Gg: ASbGnctWMgTGNyMaFiGkQLOtosd/RAyjakVtUhIajIq2+katMCak8vY1MTTIN2Fzyvy
+	vvY4z2QEWRjblon3QpUH7Y7Sc1fxPl/K9CM56MnVh94O8xfZsajf6BZNpo0AXVaKseiYe+Rbedc
+	vz9dJPkHrgvZVoPMSlE/aMOeKud8w05EmhI6Y5MPMOK7vnMmbtp0EfzRts8w3zA3nzHAL7vYksC
+	lZXsfgy+c479QcAVAndCQnjjoC+Mee74OGL+7R0Z4kQQ2OWT4CDHtFtQXFdfi9rKA9kSp8SggHX
+	4qFytRvO7Z2PAUz1M14OXxG7FPqPyfoTWjnRujisvTZmY2KnPrRmyTjjx41YgMjEcRJDQiPkTA1
+	ETln0MF5G7FWAnkZcncA6kgZpE2s=
+X-Google-Smtp-Source: AGHT+IHRV9UYYoFMmbsyOi7K7b5e5kdl/Y6v6JETPNaJGIFU2rDTZXhnrzz/YLs+Qb/laKu4ITGx8w==
+X-Received: by 2002:a05:620a:17a3:b0:7e8:46f8:6d5e with SMTP id af79cd13be357-7e87e12a2b3mr1594522485a.51.1755535743520;
+        Mon, 18 Aug 2025 09:49:03 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:5a76::5ac? ([2606:6d00:11:5a76::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e1c10f2sm613132985a.59.2025.08.18.09.49.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 09:49:02 -0700 (PDT)
+Message-ID: <2cd17949c94940377b1e2cd9879f88150fb798db.camel@ndufresne.ca>
+Subject: Re: How to construct a Gstreamer pipeline using crop feature for
+ v4l2
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, Linux Media Mailing List
+	 <linux-media@vger.kernel.org>
+Date: Mon, 18 Aug 2025 12:49:01 -0400
+In-Reply-To: <SLXP216MB1148BE257D9FDA62BA7680EFED31A@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+References: 
+	<SLXP216MB1148BE257D9FDA62BA7680EFED31A@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-ojSLfuFopnj0V6acntoS"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|GV4PR04MB11305:EE_
-X-MS-Office365-Filtering-Correlation-Id: 66e14593-f6c9-4312-94c5-08ddde701492
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|19092799006|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kyf6OOknCnVEUIL04AdE+N3RA7SdZSipe6BlY0+f6VgXiB4TE/hBzECaiCxO?=
- =?us-ascii?Q?pWk+yPJaiSqRDyPS6Dq2sm7C5ulmljq0pNQzZoOzHl4AFMU/WbxBjeGXEK9X?=
- =?us-ascii?Q?15m5CJXP1BZNR/QL1vxRh+mUDqy1ysAAr3sJV898ahjF9d/M1pZUofj+4xyM?=
- =?us-ascii?Q?wj2kJmQ+OAP7zvvYFsqM8vouqrUuQGtuce/6FfJXdAcQqDPydnb2wscW7E9f?=
- =?us-ascii?Q?w8+QpwnZyxQGy2RHZQl7er54DhI4VKkkC2wAiWfxydg6ExNsC6CQ14lBPWNz?=
- =?us-ascii?Q?GYRaj1XUl1y3HfoZIlUfbser3ix0zBCtDnTbekUUiUZxWTprFYI/9S9oguHd?=
- =?us-ascii?Q?fOeK0Ncst9LI3RX+uYkY4b+L+JyikQVOeJ3B+2Or6z0qgNYhvBpP+J8L2+aV?=
- =?us-ascii?Q?PzAOp1J6bvmniVkrbSTL8r8rXZWeWUXT7Rob4N2WJwAHELlctoOOVh/nvGoR?=
- =?us-ascii?Q?l25iakiOkFjo2Byv9dNAW2BgSYYOpnk5Z0QRNXsTnJSD/ZkXb7yV5bhVZ2eI?=
- =?us-ascii?Q?ABcg6cYyl2fjQ5rwMwrW+sjqydlXcLeR9rU3xyaqnwIUMOQ3k5zY6NZMzCT7?=
- =?us-ascii?Q?UTxCzOJZah+3M2n9nlvjFqBvjBZY6q952JBf6lUWFkI3+0cAnRjfR0f0AqRG?=
- =?us-ascii?Q?omj5V6ZyXTB1FDWNSU7MMm6QqeBIj9Wg/wgyWGoHmgjfEPdwm7z3gdKihUaP?=
- =?us-ascii?Q?6WW9NRVkTzf+TQBEav0anWpmTbpWgIrItjg3FcGOwY0dJD+BBeaMKujGlKyQ?=
- =?us-ascii?Q?MQMeCDTFl7UrXs+ptFGjHyywAiUYVXBUGdjEEnBfyV2cfBdlCYyLLY2Yyw1y?=
- =?us-ascii?Q?Ds63CitXB58P6YyoQ9dOkIT5tIpQTNvi1FGUYrPrmtwNrDZSQUUlvbz3eZus?=
- =?us-ascii?Q?E5b2XzQCt9lD12cn/qxFnFmZW/1WnlLsRXItBKAbtnTDvnEZ9ri3Jci2FdDk?=
- =?us-ascii?Q?/5/OFCKZeVCQUDbKO1Fda8nIZlQmwGxJ6NmkjG35PWR4/CHDMKqiuCnIR3q2?=
- =?us-ascii?Q?rTRepiWnJs6rMxLgJw8UK3RFFWuW8iKVKzTsHtCfnCijMVfWAHfYSReYBrz8?=
- =?us-ascii?Q?/poAAm8Za4uBEvD2gX135+sJ99u8H6w8ohHGMBzZQC3LWPkzYCEnY8EEIlPU?=
- =?us-ascii?Q?0pklIySZjfvWEPJ3ueQSS47Q8+m6Kf3RoRNt5Z3CIq5S9++sR21AlNIALf79?=
- =?us-ascii?Q?7PFLYsA8gIWtq25F/VNbnID5V7uPc4rDKVB/VvFt2Kje4jiBR1M7Y7xqATi5?=
- =?us-ascii?Q?GY4EXy7I/3on41zvVnLOXmjxqtv4RsXr/unylcZwGdSSZDlPRp/6hGc17lDw?=
- =?us-ascii?Q?IA2DyYPy/c4zxTVF/e6D3VVmd2iB+h5RMff/qAyhL/NYBplAGWd6puSUKRVv?=
- =?us-ascii?Q?JFLvBxDBHYHlplsE4TjSfxPz9fgJ5ny8Uv1vUE8VaSgiDZ9yCO343Ai/8tL8?=
- =?us-ascii?Q?ihfcJpD971FBaPZjH7eC+lALVF2Rw0qKGW8Hn+ebFYE9RRigldZS/g=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(19092799006)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MCmwUocif3imXOsUfYI3UZunOqvPBSAOomG8R6O7Np5tWXp45xi1Djux9wMj?=
- =?us-ascii?Q?P6d27LkoieueerwwEPVX/YDl4iR/YsYI+IRWw4Mc861ON97b1OSmCfdchKzL?=
- =?us-ascii?Q?hJ3MucsmZoMntoXRLkkIq/dh9gpbiBmbcQRz4VJrpWJcZ9sCbxN0ZOks0XrW?=
- =?us-ascii?Q?WwTNrKajqlwrRw3kviKcH3t7q3s/fiIk+E5+qdJPJzQU43Vwaj6ooW4ngkMk?=
- =?us-ascii?Q?HoRFBqIPh20EuThcG8lrxZWXPPGuA0/87MuwXHXDBJIZcuNM+VWXxlr0tWzl?=
- =?us-ascii?Q?tIWN9+3CHWN0Pc3n1IzOul6KfEIEE1TounSdtHsQgtMmE+6zKezny1xNtXya?=
- =?us-ascii?Q?Mz0rPUlb85kXLvmiw/dRKnH0MxSzlipy2CLewOff9iHKvuq/+KPZTz/2tnrb?=
- =?us-ascii?Q?1QrzI0KymDD67WHdnUahz4S+XOT29r52HfIP+lIMLQmkKCNDpS0Z4SNAFE4D?=
- =?us-ascii?Q?eFdVY89BMI9C+VoYeUW04TCs7tdWiuzsI8zWsj8zrEMKWnAml6x0AdHlEHD8?=
- =?us-ascii?Q?wPKyFfWGQoVKHooB6ZWN93ixFTXqQCD/a7BUDMlSobK+HrdHHovReocTllt3?=
- =?us-ascii?Q?MDue0myX9/50rK+UuMpRhC1A1oiy2KckEvKwAeT6kqqb/wTEFJ/Ub6wU3b9P?=
- =?us-ascii?Q?DsHIPLfuE2LKveTwcUNvFO2eFdFJtPiYLy3ez6Kjq4NqREBEweITCySfdXXu?=
- =?us-ascii?Q?utawSfKLWQEMNynRSkdLYlxwbEM9c5ye2uDIRunQswcHT3WiJzzazPuq6h/A?=
- =?us-ascii?Q?zzbmzSzepPo4J9m6nN1WGNlHH+1j/WyrSYjaabzc7n7K1MYFte0MPXLA+SAI?=
- =?us-ascii?Q?KC6js2x8O8pzQCXDwNoofvbZ3SSco6dfADaBUlGwCjYyTaQPFKU8mxgdcGkG?=
- =?us-ascii?Q?rogUNGl75iDCGVGaa6VgVvFvEOnnGsj1vtGim0+GRDvgIqFbjzkRF5ZJxNWF?=
- =?us-ascii?Q?Ost5NKYCRkfQx33HzLucjBrzNASJmUC2Z5p+XC8edeIn8H2BxxSYB1kIZjaL?=
- =?us-ascii?Q?9sVXciqBCvJfTVzSbSB83HCxCJIsVfIA4vTYJTw6ldK5/IaFF3+Pa3tASBZz?=
- =?us-ascii?Q?RshL9bQnfxqR1gJoZSg5eT/ZyuuiBW6p7yas5fJY2V1y9gawZ9O0tHzsrKjz?=
- =?us-ascii?Q?mKIHuq8oyzs4BGZkKQLlwJqGL5Be2wcuHRiwdozyTgc7WkcXhTwV9crmfo8d?=
- =?us-ascii?Q?SPMAt7WO6dLiwMRx5NP59WZ3IyKFzbV31F5zzpdJU4JCeCuV/YbhMfeK8jMT?=
- =?us-ascii?Q?uKCTClu1c7TA/RL52K1BW28keG4utC9CElqF5rIur7e1RBnZJqtAJTCScsJJ?=
- =?us-ascii?Q?81tDLUfWBGB8h6klQzCoAYsqVN4sJohzIlDXpjYpFLqv3QZ3OxOB6KM+Hz5S?=
- =?us-ascii?Q?Ah+Rj9jvCcgELWhAf7PjhHMg/HjSu1F4Ybt5BKV1BRBqqHqwZxekSkQDnANk?=
- =?us-ascii?Q?E0nU7YVTMTafBLa2lfuK27YZwA5umV1ObNDJfgu94RdnlPZ9PIppHL6r8Qk7?=
- =?us-ascii?Q?jxFnWcYEgZVeUCNhaksWVbvuIYq+Rr5UnjuYbd60s9MoeI9ui2kOK7BicDEa?=
- =?us-ascii?Q?n63FBYlxDR1m3LjALIyMQs8PvJ0SI7oo78xDjKfGMqqFWRsIWQDooMz9SzGz?=
- =?us-ascii?Q?wQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66e14593-f6c9-4312-94c5-08ddde701492
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 15:58:32.1895
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NCW2W1ikaQ1kLbd3Q3sDHlRNT2u7+qNgKIy3dQRq1FS88pvZ+BccgqQLn58gwK6B7Lk3TnWH6dCGJGPuBVlNhA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4PR04MB11305
 
-Helper function to be used in new sensor drivers to implement s_ctrl
-for single controls for backward compatibility.
 
-This function finds the corresponding multi-capture control for a given
-single-capture control, and updates only the value corresponding to the
-first capture with the same value as the single-capture control value.
+--=-ojSLfuFopnj0V6acntoS
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
----
+Hi Jackson,
 
-Changes in v2:
-	New patch
-	We need to choose either this patch or patch #4
+Le lundi 18 ao=C3=BBt 2025 =C3=A0 06:33 +0000, jackson.lee a =C3=A9crit=C2=
+=A0:
+> Hello All
+>=20
+> I am developing a V4L2 driver that uses hardware acceleration for CSC,
+> scaling, and crop. I am using the v4l2convert plugin in GStreamer for tes=
+ting.
+>=20
+> I was able to test CSC and scaling with v4l2convert using a GStreamer pip=
+eline
+> like the one below:
+>=20
+> gst-launch-1.0 filesrc location=3DBasketballPass_416x240_50_nv12.yuv !
+> rawvideoparse width=3D416 height=3D240 format=3Dnv12 framerate=3D30/1
+> colorimetry=3Dbt601 ! v4l2convert ! video/x-raw,format=3DNV24,width=3D416=
+,height=3D240
+> ! filesink location=3DNV24.yuv
+>=20
+> However, when I try to test the crop functionality, it seems that the
+> v4l2convert plugin does not support it directly. How can I construct a
+> GStreamer pipeline to test this?
 
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 12 ++++++++++++
- include/media/v4l2-ctrls.h                | 17 +++++++++++++++++
- 2 files changed, 29 insertions(+)
+The support for cropping, either the source or to the destination is only
+partially implemented in v4l2convert element code (./subprojects/gst-plugin=
+s-
+good/sys/v4l2/gstv4l2transform.c). Currently, its only used to handle paddi=
+ng
+due to alignment. To test this feature with GStreamer, you would have to
+implement source crop (usually done through GstVideoCropMeta support) and
+destination crop (usually done with properties).
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index 8d706070c041..f16809a04c29 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -2823,3 +2823,15 @@ int __v4l2_s_ctrl_multi_to_single(struct v4l2_ctrl *ctrl_multi)
- }
- EXPORT_SYMBOL(__v4l2_s_ctrl_multi_to_single);
- 
-+int __v4l2_s_ctrl_single_to_multi(struct v4l2_ctrl *ctrl_single)
-+{
-+	struct v4l2_ctrl *ctrl_multi = __v4l2_get_multi_ctrl(ctrl_single);
-+
-+	if (!ctrl_multi || !ctrl_single)
-+		return -EINVAL;
-+
-+	ctrl_multi->p_cur.p_u32[0] = ctrl_single->val;
-+	return __v4l2_ctrl_s_ctrl_compound(ctrl_multi, V4L2_CTRL_TYPE_U32,
-+					  ctrl_multi->p_cur.p_u32);
-+}
-+EXPORT_SYMBOL(__v4l2_s_ctrl_single_to_multi);
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index d3a9dde47349..ea9973178556 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -1663,6 +1663,23 @@ struct v4l2_ctrl *__v4l2_get_single_ctrl(struct v4l2_ctrl *ctrl_multi);
-  */
- int __v4l2_s_ctrl_multi_to_single(struct v4l2_ctrl *ctrl_multi);
- 
-+/**
-+ * __v4l2_s_ctrl_single_to_multi() - Set the multi-capture control for a
-+ *				     given single-capture control
-+ *
-+ * @ctrl_single: pointer to &struct v4l2_ctrl for the single-capture control
-+ *
-+ * This function finds the corresponding multi-capture control for a given
-+ * single-capture control, and updates only the value corresponding to the
-+ * first capture with the same value as the single-capture control value.
-+ *
-+ * This function assumes the control's handler is already locked,
-+ * allowing it to be used from within the &v4l2_ctrl_ops functions.
-+ *
-+ * Return: 0 on success, a negative error code on failure.
-+ */
-+int __v4l2_s_ctrl_single_to_multi(struct v4l2_ctrl *ctrl_single);
-+
- /**
-  * v4l2_ctrl_type_op_equal - Default v4l2_ctrl_type_ops equal callback.
-  *
--- 
-2.43.0
+There might be a way to test using v4l2-ctl, but I didn't find out myself y=
+et.
 
+regards,
+
+Nicolas
+
+--=-ojSLfuFopnj0V6acntoS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaKNZfQAKCRDZQZRRKWBy
+9F1XAQDR8vq8KF4sldfKJ7QI5KbqFIxVnZd+u9UZJjrqmHZ4/wEAlOIJDrLhICf5
+wCl/qN8/v5F41vqi4hEp8du+FM/qNwM=
+=OrfD
+-----END PGP SIGNATURE-----
+
+--=-ojSLfuFopnj0V6acntoS--
 
