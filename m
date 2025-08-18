@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-40203-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40201-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B27B2B4E0
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:40:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BDDB2B4E3
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:41:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16DCC521253
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:40:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E91694E8010
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:40:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4653528314D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 340F128313A;
 	Mon, 18 Aug 2025 23:39:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVHoT0mR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SwDyHzUK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A0327B4EB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47F827B4E5;
 	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755560387; cv=none; b=uKgej5LWl5CcWeOQoJRuM1s6wIL1ZAMjt77Wj9PK5abv1LgvlQE3a/hzK7KQROKfJbBZJpHoQ7n7eatXjzWggHsN4pwzu6L8O0jyPRtw1J4HcGY7CuPaCYf/KST6f6TkBqE6xdQhLtmS8YZ1YXiDKodRcFyVof3gWtUXkRbYNRU=
+	t=1755560387; cv=none; b=AYI72CBg39l6sEbLUrj9HHsSUvbGB3HF0FQL6zAXWOYGsjLeECDjd4HVQdxCTspr7lfICegFa3H4P9te7YR65rtY2TCXuF//lf+7ngIc0hRNpPSx4DtQUT7aBARx3AgAEHyMZWTJaM/z6MPxkuMVDkhTLQkA33S8JoXbavthxy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755560387; c=relaxed/simple;
-	bh=OfMi9Dgc7ML9eOoBcNgeUMyojDF6ArvdvE/QaI0A0TE=;
+	bh=bRHxjQQwZD/gPA3QUkzQoDYnrYQrbcnmj+9cjJXBqfA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GdjOy1jjpBALZI1yIbjZypy0+iqwn5keyxnjJ0WvLwJzbqHI2wOo039L5me4j9JCv0BAdHKdgoyqDyNnuoAFAo8feVduz/QNTgNfPWTvpIAqQ5pk6CZa74Sokg/6QjHgr4Kgvwm7X1zlxh1ozUVcn0V5lxuvf2nIWzLJRZMiEoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVHoT0mR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8C4C5C116C6;
+	 In-Reply-To:To:Cc; b=A/vi03LzSn1u7/UCQGuzBmfhxH1LyTYAN/4c/HUioHXhLvrZ2qfLKvvIePvEa2Jx13UDTlvb62FvU/h66nn7lrqjLpeNeHU5T9LsXdDdmH/A6uzPm1F9KTa6YgSgAvB4+t1gktChZatIzCADFWGOyQP302NXs6isHLLDYD1AT2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SwDyHzUK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A03C9C116D0;
 	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755560387;
-	bh=OfMi9Dgc7ML9eOoBcNgeUMyojDF6ArvdvE/QaI0A0TE=;
+	bh=bRHxjQQwZD/gPA3QUkzQoDYnrYQrbcnmj+9cjJXBqfA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=WVHoT0mRykJjHp2fQ5DSaqyH8zxqIbSaZFneDoIFmBOrMi/HX1FAYCebJOEzad5wm
-	 UqjgeJFzW39U8fd0d4fKmcrquz8FyQ8Wirweog2wqQWrwxdvKDLFAXjJzFV3Q0y+CE
-	 GQ8BnOIh+sfvJnC9sMCxqRbvLihop2CWItOWiJazWjwcoZ+BAe87y0jnuyAP/YViDZ
-	 piZvi/ogxw3ouEVakRmRoziXgRWxSlxVlK2+5lBFxXXrxxSMYjpRaQZPaunlG6k+Ks
-	 Q60CTZp3z2W2mN6h1CUeJxcOdVNRwvnNTcAXXQzSYX3+j3+r5GQNA8ZUO7xP8ym6Ku
-	 TzbC4//qjmlQw==
+	b=SwDyHzUK+aWClo0pmF5+unMFKbgJrDqtkJy8+3Njh9CxmmOGwVz2weOZXHL3TorAi
+	 IPMlVihLs785thl0+jIfC+dhMIDuAmSyYsTLqgGdFnR7eUOZo93tSUaWyZiOc1WJet
+	 7zVkDRTA0vTc/AsK32cScYBE1K7xKts9w6hUocHMfBmXtkra8jyPz2Wxlj0JyodInl
+	 itR6i11mPpIutyGA88Q691Ir7nA0Kww18XRrwOpYcvqFWkHtM90W701Vgygts6wAK6
+	 Ei198ToVF/wuV1HyeS+qIz9CjXkBTsBKGpcUv9UYxxVayZGX5xLrC94x1bo8Be17fm
+	 zxBQZEdWmveGg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 814DFCA0EF5;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96122CA0EEB;
 	Mon, 18 Aug 2025 23:39:47 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Tue, 19 Aug 2025 01:25:59 +0200
-Subject: [PATCH v10 07/13] media: rockchip: add driver for mipi csi-2
- receiver
+Date: Tue, 19 Aug 2025 01:26:00 +0200
+Subject: [PATCH v10 08/13] media: rockchip: rkcif: add support for mipi
+ csi-2 capture
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v10-7-62d8a7b209b4@collabora.com>
+Message-Id: <20240220-rk3568-vicap-v10-8-62d8a7b209b4@collabora.com>
 References: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
 In-Reply-To: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -85,11 +85,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Michael Riesch <michael.riesch@collabora.com>, 
  Michael Riesch <michael.riesch@collabora.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755559554; l=22621;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755559554; l=26195;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=Nyp9jY1pHHvJ5irKb0B5S67rpMTM0iAGZ7CXulGLqzM=;
- b=JrS0Dqm5Ad6zXDf2cHUX0gN1rJhA1anjewxYd7Sqs7jdJVf9RVj+986mSkrZ2Uc18Zo5DE3sX
- o/fY6s23JI/BDHC1bNAEVC5XISkRQMQ81sZBRH+C7peGFAFESYUOT0z
+ bh=hxQ+q6ZPMNF5cYjQE0CBwR/DiEOEKv+j6N8pYHvlpGA=;
+ b=l/Lvf/p0RH4kaxaUGMNZuaBD44Af9k2uP9PwxwpvF/eu4lJCOIoYEgOM+i27MzUNySNh/LCha
+ J2Emh+Ro2mSCze96J5zEjP1eTEmfezrUZxH0MCMEnzCY0jYn+47OKrF
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -99,836 +99,940 @@ Reply-To: michael.riesch@collabora.com
 
 From: Michael Riesch <michael.riesch@collabora.com>
 
-The Rockchip RK3568 MIPI CSI-2 Receiver is a CSI-2 bridge with one
-input port and one output port. It receives the data with the help
-of an external MIPI PHY (C-PHY or D-PHY) and passes it to the
-Rockchip RK3568 Video Capture (VICAP) block.
-
-Add a V4L2 subdevice driver for this unit.
+The RK3568 Video Capture (VICAP) unit features a MIPI CSI-2 capture
+interface that can receive video data and write it into system memory
+using the ping-pong scheme. Add support for it.
 
 Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- MAINTAINERS                                    |   1 +
- drivers/media/platform/rockchip/Kconfig        |   1 +
- drivers/media/platform/rockchip/Makefile       |   1 +
- drivers/media/platform/rockchip/rkcsi/Kconfig  |  16 +
- drivers/media/platform/rockchip/rkcsi/Makefile |   3 +
- drivers/media/platform/rockchip/rkcsi/rkcsi.c  | 741 +++++++++++++++++++++++++
- 6 files changed, 763 insertions(+)
+ .../platform/rockchip/rkcif/rkcif-capture-mipi.c   | 750 +++++++++++++++++++++
+ .../platform/rockchip/rkcif/rkcif-capture-mipi.h   |   2 +
+ .../media/platform/rockchip/rkcif/rkcif-common.h   |  29 +
+ drivers/media/platform/rockchip/rkcif/rkcif-dev.c  |   1 +
+ .../platform/rockchip/rkcif/rkcif-interface.c      |   6 +-
+ drivers/media/platform/rockchip/rkcif/rkcif-regs.h |  24 +-
+ 6 files changed, 809 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 419d89a4e452..6c023dc54ece 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21803,6 +21803,7 @@ M:	Michael Riesch <michael.riesch@collabora.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
-+F:	drivers/media/platform/rockchip/rkcsi/
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+index 0c3f7b8cfa18..f6c61e1a4c3a 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+@@ -6,22 +6,772 @@
+  * Copyright (C) 2025 Michael Riesch <michael.riesch@wolfvision.net>
+  */
  
- ROCKCHIP RK3568 RANDOM NUMBER GENERATOR SUPPORT
- M:	Daniel Golle <daniel@makrotopia.org>
-diff --git a/drivers/media/platform/rockchip/Kconfig b/drivers/media/platform/rockchip/Kconfig
-index ba401d32f01b..54b698c4cd2c 100644
---- a/drivers/media/platform/rockchip/Kconfig
-+++ b/drivers/media/platform/rockchip/Kconfig
-@@ -4,5 +4,6 @@ comment "Rockchip media platform drivers"
- 
- source "drivers/media/platform/rockchip/rga/Kconfig"
- source "drivers/media/platform/rockchip/rkcif/Kconfig"
-+source "drivers/media/platform/rockchip/rkcsi/Kconfig"
- source "drivers/media/platform/rockchip/rkisp1/Kconfig"
- source "drivers/media/platform/rockchip/rkvdec/Kconfig"
-diff --git a/drivers/media/platform/rockchip/Makefile b/drivers/media/platform/rockchip/Makefile
-index 0e0b2cbbd4bd..522a7d3e30b0 100644
---- a/drivers/media/platform/rockchip/Makefile
-+++ b/drivers/media/platform/rockchip/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-y += rga/
- obj-y += rkcif/
-+obj-y += rkcsi/
- obj-y += rkisp1/
- obj-y += rkvdec/
-diff --git a/drivers/media/platform/rockchip/rkcsi/Kconfig b/drivers/media/platform/rockchip/rkcsi/Kconfig
-new file mode 100644
-index 000000000000..d8004198c386
---- /dev/null
-+++ b/drivers/media/platform/rockchip/rkcsi/Kconfig
-@@ -0,0 +1,16 @@
-+config VIDEO_ROCKCHIP_CSI
-+	tristate "Rockchip MIPI CSI-2 Receiver"
-+	depends on VIDEO_DEV
-+	depends on ARCH_ROCKCHIP || COMPILE_TEST
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on PM && COMMON_CLK
-+	select MEDIA_CONTROLLER
-+	select V4L2_FWNODE
-+	select VIDEO_V4L2_SUBDEV_API
-+	help
-+	  This is a driver for Rockchip MIPI CSI-2 Receiver. It is featured
-+	  in various Rockchips SoCs, usually in combination with a Video
-+	  Capture (VICAP) unit (see Rockchip Camera Interface (CIF) driver).
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called rockchip-mipi-csi.
-diff --git a/drivers/media/platform/rockchip/rkcsi/Makefile b/drivers/media/platform/rockchip/rkcsi/Makefile
-new file mode 100644
-index 000000000000..147712cbb68a
---- /dev/null
-+++ b/drivers/media/platform/rockchip/rkcsi/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_VIDEO_ROCKCHIP_CSI) += rockchip-mipi-csi.o
-+rockchip-mipi-csi-objs += rkcsi.o
-diff --git a/drivers/media/platform/rockchip/rkcsi/rkcsi.c b/drivers/media/platform/rockchip/rkcsi/rkcsi.c
-new file mode 100644
-index 000000000000..5658ffb60769
---- /dev/null
-+++ b/drivers/media/platform/rockchip/rkcsi/rkcsi.c
-@@ -0,0 +1,741 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Rockchip MIPI CSI-2 Receiver Driver
-+ *
-+ * Copyright (C) 2019 Rockchip Electronics Co., Ltd.
-+ * Copyright (C) 2025 Michael Riesch <michael.riesch@wolfvision.net>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/of_platform.h>
-+#include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/reset.h>
++#include <linux/interrupt.h>
 +
 +#include <media/mipi-csi2.h>
-+#include <media/v4l2-ctrls.h>
++#include <media/v4l2-common.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-fh.h>
 +#include <media/v4l2-fwnode.h>
++#include <media/v4l2-ioctl.h>
++#include <media/v4l2-mc.h>
 +#include <media/v4l2-subdev.h>
 +
-+#define CSI2HOST_N_LANES     0x04
-+#define CSI2HOST_CSI2_RESETN 0x10
-+#define CSI2HOST_PHY_STATE   0x14
-+#define CSI2HOST_ERR1	     0x20
-+#define CSI2HOST_ERR2	     0x24
-+#define CSI2HOST_MSK1	     0x28
-+#define CSI2HOST_MSK2	     0x2c
-+#define CSI2HOST_CONTROL     0x40
+ #include "rkcif-capture-mipi.h"
+ #include "rkcif-common.h"
++#include "rkcif-interface.h"
++#include "rkcif-regs.h"
+ #include "rkcif-stream.h"
+ 
++#define RK3568_MIPI_CTRL0_HIGH_ALIGN  BIT(31)
++#define RK3568_MIPI_CTRL0_UV_SWAP_EN  BIT(7)
++#define RK3568_MIPI_CTRL0_COMPACT_EN  BIT(6)
++#define RK3568_MIPI_CTRL0_CROP_EN     BIT(5)
++#define RK3568_MIPI_CTRL0_WRDDR(type) ((type) << 1)
 +
-+#define SW_CPHY_EN(x)	     ((x) << 0)
-+#define SW_DSI_EN(x)	     ((x) << 4)
-+#define SW_DATATYPE_FS(x)    ((x) << 8)
-+#define SW_DATATYPE_FE(x)    ((x) << 14)
-+#define SW_DATATYPE_LS(x)    ((x) << 20)
-+#define SW_DATATYPE_LE(x)    ((x) << 26)
++#define RKCIF_MIPI_CTRL0_DT_ID(id)    ((id) << 10)
++#define RKCIF_MIPI_CTRL0_VC_ID(id)    ((id) << 8)
++#define RKCIF_MIPI_CTRL0_CAP_EN	      BIT(0)
 +
-+#define RKCSI_CLKS_MAX	     1
++#define RKCIF_MIPI_INT_FRAME0_END(id) BIT(8 + (id) * 2 + 0)
++#define RKCIF_MIPI_INT_FRAME1_END(id) BIT(8 + (id) * 2 + 1)
 +
-+enum {
-+	RKCSI_PAD_SINK,
-+	RKCSI_PAD_SRC,
-+	RKCSI_PAD_MAX,
-+};
-+
-+struct rkcsi_format {
-+	u32 code;
-+	u8 depth;
-+	u8 csi_dt;
-+};
-+
-+struct rkcsi_device {
-+	struct device *dev;
-+
-+	void __iomem *base_addr;
-+	struct clk_bulk_data *clks;
-+	unsigned int clks_num;
-+	struct phy *phy;
-+	struct reset_control *reset;
-+
-+	const struct rkcsi_format *formats;
-+	unsigned int formats_num;
-+
-+	struct media_pad pads[RKCSI_PAD_MAX];
-+	struct v4l2_async_notifier notifier;
-+	struct v4l2_fwnode_endpoint vep;
-+	struct v4l2_subdev sd;
-+
-+	struct v4l2_subdev *source_sd;
-+	u32 source_pad;
-+};
-+
-+static const struct v4l2_mbus_framefmt default_format = {
-+	.width = 3840,
-+	.height = 2160,
-+	.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-+	.field = V4L2_FIELD_NONE,
-+	.colorspace = V4L2_COLORSPACE_RAW,
-+	.ycbcr_enc = V4L2_YCBCR_ENC_601,
-+	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
-+	.xfer_func = V4L2_XFER_FUNC_NONE,
-+};
-+
-+static const struct rkcsi_format formats[] = {
++static const struct rkcif_output_fmt mipi_out_fmts[] = {
 +	/* YUV formats */
 +	{
-+		.code = MEDIA_BUS_FMT_YUYV8_1X16,
++		.fourcc = V4L2_PIX_FMT_YUYV,
++		.mbus_code = MEDIA_BUS_FMT_YUYV8_1X16,
 +		.depth = 16,
-+		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_YUV422_8B,
++			.type = RKCIF_MIPI_TYPE_RAW8,
++		},
 +	},
 +	{
-+		.code = MEDIA_BUS_FMT_UYVY8_1X16,
++		.fourcc = V4L2_PIX_FMT_UYVY,
++		.mbus_code = MEDIA_BUS_FMT_UYVY8_1X16,
 +		.depth = 16,
-+		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_YUV422_8B,
++			.type = RKCIF_MIPI_TYPE_RAW8,
++		},
 +	},
 +	{
-+		.code = MEDIA_BUS_FMT_YVYU8_1X16,
++		.fourcc = V4L2_PIX_FMT_YVYU,
++		.mbus_code = MEDIA_BUS_FMT_YVYU8_1X16,
 +		.depth = 16,
-+		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_YUV422_8B,
++			.type = RKCIF_MIPI_TYPE_RAW8,
++		},
 +	},
 +	{
-+		.code = MEDIA_BUS_FMT_VYUY8_1X16,
++		.fourcc = V4L2_PIX_FMT_VYUY,
++		.mbus_code = MEDIA_BUS_FMT_VYUY8_1X16,
 +		.depth = 16,
-+		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_YUV422_8B,
++			.type = RKCIF_MIPI_TYPE_RAW8,
++		},
 +	},
 +	/* RGB formats */
 +	{
-+		.code = MEDIA_BUS_FMT_RGB888_1X24,
++		.fourcc = V4L2_PIX_FMT_RGB24,
++		.mbus_code = MEDIA_BUS_FMT_RGB888_1X24,
 +		.depth = 24,
-+		.csi_dt = MIPI_CSI2_DT_RGB888,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RGB888,
++			.type = RKCIF_MIPI_TYPE_RGB888,
++		},
 +	},
 +	{
-+		.code = MEDIA_BUS_FMT_BGR888_1X24,
++		.fourcc = V4L2_PIX_FMT_BGR24,
++		.mbus_code = MEDIA_BUS_FMT_BGR888_1X24,
 +		.depth = 24,
-+		.csi_dt = MIPI_CSI2_DT_RGB888,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RGB888,
++			.type = RKCIF_MIPI_TYPE_RGB888,
++		},
 +	},
 +	/* Bayer formats */
 +	{
-+		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
++		.fourcc = V4L2_PIX_FMT_SBGGR8,
++		.mbus_code = MEDIA_BUS_FMT_SBGGR8_1X8,
 +		.depth = 8,
-+		.csi_dt = MIPI_CSI2_DT_RAW8,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.depth = 8,
-+		.csi_dt = MIPI_CSI2_DT_RAW8,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.depth = 8,
-+		.csi_dt = MIPI_CSI2_DT_RAW8,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.depth = 8,
-+		.csi_dt = MIPI_CSI2_DT_RAW8,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
-+		.depth = 10,
-+		.csi_dt = MIPI_CSI2_DT_RAW10,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
-+		.depth = 10,
-+		.csi_dt = MIPI_CSI2_DT_RAW10,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
-+		.depth = 10,
-+		.csi_dt = MIPI_CSI2_DT_RAW10,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-+		.depth = 10,
-+		.csi_dt = MIPI_CSI2_DT_RAW10,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
-+		.depth = 12,
-+		.csi_dt = MIPI_CSI2_DT_RAW12,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
-+		.depth = 12,
-+		.csi_dt = MIPI_CSI2_DT_RAW12,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
-+		.depth = 12,
-+		.csi_dt = MIPI_CSI2_DT_RAW12,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
-+		.depth = 12,
-+		.csi_dt = MIPI_CSI2_DT_RAW12,
-+	},
-+};
-+
-+static inline struct rkcsi_device *to_rkcsi(struct v4l2_subdev *sd)
-+{
-+	return container_of(sd, struct rkcsi_device, sd);
-+}
-+
-+static inline __maybe_unused void rkcsi_write(struct rkcsi_device *csi_dev,
-+					      unsigned int addr, u32 val)
-+{
-+	writel(val, csi_dev->base_addr + addr);
-+}
-+
-+static inline __maybe_unused u32 rkcsi_read(struct rkcsi_device *csi_dev,
-+					    unsigned int addr)
-+{
-+	return readl(csi_dev->base_addr + addr);
-+}
-+
-+static const struct rkcsi_format *
-+rkcsi_find_format(struct rkcsi_device *csi_dev, u32 mbus_code)
-+{
-+	const struct rkcsi_format *format;
-+
-+	WARN_ON(csi_dev->formats_num == 0);
-+
-+	for (int i = 0; i < csi_dev->formats_num; i++) {
-+		format = &csi_dev->formats[i];
-+		if (format->code == mbus_code)
-+			return format;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int rkcsi_start(struct rkcsi_device *csi_dev)
-+{
-+	struct media_pad *source_pad =
-+		&csi_dev->source_sd->entity.pads[csi_dev->source_pad];
-+	enum v4l2_mbus_type bus_type = csi_dev->vep.bus_type;
-+	union phy_configure_opts opts;
-+	s64 link_freq;
-+	u32 lanes = csi_dev->vep.bus.mipi_csi2.num_data_lanes;
-+	u32 control = 0;
-+	int ret;
-+
-+	if (lanes < 1 || lanes > 4)
-+		return -EINVAL;
-+
-+	/* set mult and div to 0, thus completely rely on V4L2_CID_LINK_FREQ */
-+	link_freq = v4l2_get_link_freq(source_pad, 0, 0);
-+	if (link_freq <= 0)
-+		return -EINVAL;
-+
-+	if (bus_type == V4L2_MBUS_CSI2_DPHY) {
-+		struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
-+
-+		ret = phy_mipi_dphy_get_default_config_for_hsclk(link_freq * 2,
-+								 lanes, cfg);
-+		if (ret)
-+			return ret;
-+
-+		ret = phy_set_mode(csi_dev->phy, PHY_MODE_MIPI_DPHY);
-+		if (ret)
-+			return ret;
-+
-+		ret = phy_configure(csi_dev->phy, &opts);
-+		if (ret)
-+			return ret;
-+
-+		control |= SW_CPHY_EN(0);
-+
-+	} else if (bus_type == V4L2_MBUS_CSI2_CPHY) {
-+		/* TODO: implement CPHY configuration */
-+		return -EOPNOTSUPP;
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	control |= SW_DATATYPE_FS(0x00) | SW_DATATYPE_FE(0x01) |
-+		   SW_DATATYPE_LS(0x02) | SW_DATATYPE_LE(0x03);
-+
-+	rkcsi_write(csi_dev, CSI2HOST_N_LANES, lanes - 1);
-+	rkcsi_write(csi_dev, CSI2HOST_CONTROL, control);
-+	rkcsi_write(csi_dev, CSI2HOST_CSI2_RESETN, 1);
-+
-+	ret = phy_power_on(csi_dev->phy);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static void rkcsi_stop(struct rkcsi_device *csi_dev)
-+{
-+	phy_power_off(csi_dev->phy);
-+
-+	rkcsi_write(csi_dev, CSI2HOST_CSI2_RESETN, 0);
-+	rkcsi_write(csi_dev, CSI2HOST_MSK1, ~0);
-+	rkcsi_write(csi_dev, CSI2HOST_MSK2, ~0);
-+}
-+
-+static const struct media_entity_operations rkcsi_media_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+static int rkcsi_enum_mbus_code(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct rkcsi_device *csi_dev = to_rkcsi(sd);
-+
-+	if (code->pad == RKCSI_PAD_SRC) {
-+		const struct v4l2_mbus_framefmt *sink_fmt;
-+
-+		if (code->index)
-+			return -EINVAL;
-+
-+		sink_fmt = v4l2_subdev_state_get_format(sd_state,
-+							RKCSI_PAD_SINK);
-+		code->code = sink_fmt->code;
-+
-+		return 0;
-+	} else if (code->pad == RKCSI_PAD_SINK) {
-+		if (code->index > csi_dev->formats_num)
-+			return -EINVAL;
-+
-+		code->code = csi_dev->formats[code->index].code;
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int rkcsi_set_fmt(struct v4l2_subdev *sd,
-+			 struct v4l2_subdev_state *state,
-+			 struct v4l2_subdev_format *format)
-+{
-+	struct rkcsi_device *csi_dev = to_rkcsi(sd);
-+	const struct rkcsi_format *fmt;
-+	struct v4l2_mbus_framefmt *sink, *src;
-+
-+	/* the format on the source pad always matches the sink pad */
-+	if (format->pad == RKCSI_PAD_SRC)
-+		return v4l2_subdev_get_fmt(sd, state, format);
-+
-+	sink = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-+	if (!sink)
-+		return -EINVAL;
-+
-+	fmt = rkcsi_find_format(csi_dev, format->format.code);
-+	if (fmt)
-+		*sink = format->format;
-+	else
-+		*sink = default_format;
-+
-+	/* propagate the format to the source pad */
-+	src = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-+							   format->stream);
-+	if (!src)
-+		return -EINVAL;
-+
-+	*src = *sink;
-+
-+	return 0;
-+}
-+
-+static int rkcsi_set_routing(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state,
-+			     enum v4l2_subdev_format_whence which,
-+			     struct v4l2_subdev_krouting *routing)
-+{
-+	int ret;
-+
-+	ret = v4l2_subdev_routing_validate(sd, routing,
-+					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
-+	if (ret)
-+		return ret;
-+
-+	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing,
-+					       &default_format);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int rkcsi_enable_streams(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *state, u32 pad,
-+				u64 streams_mask)
-+{
-+	struct rkcsi_device *csi_dev = to_rkcsi(sd);
-+	struct v4l2_subdev *remote_sd;
-+	struct media_pad *sink_pad, *remote_pad;
-+	struct device *dev = csi_dev->dev;
-+	u64 mask;
-+	int ret;
-+
-+	sink_pad = &sd->entity.pads[RKCSI_PAD_SINK];
-+	remote_pad = media_pad_remote_pad_first(sink_pad);
-+	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+
-+	mask = v4l2_subdev_state_xlate_streams(state, RKCSI_PAD_SINK,
-+					       RKCSI_PAD_SRC, &streams_mask);
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		goto err;
-+
-+	ret = rkcsi_start(csi_dev);
-+	if (ret) {
-+		dev_err(dev, "failed to enable CSI hardware\n");
-+		goto err_pm_runtime_put;
-+	}
-+
-+	ret = v4l2_subdev_enable_streams(remote_sd, remote_pad->index, mask);
-+	if (ret)
-+		goto err_csi_stop;
-+
-+	return 0;
-+
-+err_csi_stop:
-+	rkcsi_stop(csi_dev);
-+err_pm_runtime_put:
-+	pm_runtime_put_sync(dev);
-+err:
-+	return ret;
-+}
-+
-+static int rkcsi_disable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
-+{
-+	struct rkcsi_device *csi_dev = to_rkcsi(sd);
-+	struct v4l2_subdev *remote_sd;
-+	struct media_pad *sink_pad, *remote_pad;
-+	struct device *dev = csi_dev->dev;
-+	u64 mask;
-+	int ret;
-+
-+	sink_pad = &sd->entity.pads[RKCSI_PAD_SINK];
-+	remote_pad = media_pad_remote_pad_first(sink_pad);
-+	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+
-+	mask = v4l2_subdev_state_xlate_streams(state, RKCSI_PAD_SINK,
-+					       RKCSI_PAD_SRC, &streams_mask);
-+
-+	ret = v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
-+
-+	rkcsi_stop(csi_dev);
-+
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_pad_ops rkcsi_pad_ops = {
-+	.enum_mbus_code = rkcsi_enum_mbus_code,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = rkcsi_set_fmt,
-+	.set_routing = rkcsi_set_routing,
-+	.enable_streams = rkcsi_enable_streams,
-+	.disable_streams = rkcsi_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops rkcsi_ops = {
-+	.pad = &rkcsi_pad_ops,
-+};
-+
-+static int rkcsi_init_state(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state)
-+{
-+	struct v4l2_subdev_route routes[] = {
-+		{
-+			.sink_pad = RKCSI_PAD_SINK,
-+			.sink_stream = 0,
-+			.source_pad = RKCSI_PAD_SRC,
-+			.source_stream = 0,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW8,
++			.type = RKCIF_MIPI_TYPE_RAW8,
 +		},
-+	};
-+	struct v4l2_subdev_krouting routing = {
-+		.len_routes = ARRAY_SIZE(routes),
-+		.num_routes = ARRAY_SIZE(routes),
-+		.routes = routes,
-+	};
-+	int ret;
-+
-+	ret = v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
-+					       &default_format);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_internal_ops rkcsi_internal_ops = {
-+	.init_state = rkcsi_init_state,
-+};
-+
-+static int rkcsi_notifier_bound(struct v4l2_async_notifier *notifier,
-+				struct v4l2_subdev *sd,
-+				struct v4l2_async_connection *asd)
-+{
-+	struct rkcsi_device *csi_dev =
-+		container_of(notifier, struct rkcsi_device, notifier);
-+	int source_pad;
-+
-+	source_pad = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
-+						 MEDIA_PAD_FL_SOURCE);
-+	if (source_pad < 0) {
-+		dev_err(csi_dev->dev, "failed to find source pad for %s\n",
-+			sd->name);
-+		return source_pad;
-+	}
-+
-+	csi_dev->source_sd = sd;
-+	csi_dev->source_pad = source_pad;
-+
-+	return media_create_pad_link(&sd->entity, source_pad,
-+				     &csi_dev->sd.entity, RKCSI_PAD_SINK,
-+				     MEDIA_LNK_FL_ENABLED);
-+}
-+
-+static const struct v4l2_async_notifier_operations rkcsi_notifier_ops = {
-+	.bound = rkcsi_notifier_bound,
-+};
-+
-+static int rkcsi_register_notifier(struct rkcsi_device *csi_dev)
-+{
-+	struct v4l2_async_connection *asd;
-+	struct v4l2_async_notifier *ntf = &csi_dev->notifier;
-+	struct v4l2_fwnode_endpoint *vep = &csi_dev->vep;
-+	struct v4l2_subdev *sd = &csi_dev->sd;
-+	struct device *dev = csi_dev->dev;
-+	struct fwnode_handle *ep;
-+	int ret = 0;
-+
-+	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
-+	if (!ep)
-+		return dev_err_probe(dev, -ENODEV, "failed to get endpoint\n");
-+
-+	vep->bus_type = V4L2_MBUS_UNKNOWN;
-+	ret = v4l2_fwnode_endpoint_parse(ep, vep);
-+	if (ret) {
-+		ret = dev_err_probe(dev, ret, "failed to parse endpoint\n");
-+		goto out;
-+	}
-+
-+	if (vep->bus_type != V4L2_MBUS_CSI2_DPHY &&
-+	    vep->bus_type != V4L2_MBUS_CSI2_CPHY) {
-+		ret = dev_err_probe(dev, -EINVAL,
-+				    "invalid bus type of endpoint\n");
-+		goto out;
-+	}
-+
-+	v4l2_async_subdev_nf_init(ntf, sd);
-+	ntf->ops = &rkcsi_notifier_ops;
-+
-+	asd = v4l2_async_nf_add_fwnode_remote(ntf, ep,
-+					      struct v4l2_async_connection);
-+	if (IS_ERR(asd)) {
-+		ret = PTR_ERR(asd);
-+		goto err_nf_cleanup;
-+	}
-+
-+	ret = v4l2_async_nf_register(ntf);
-+	if (ret) {
-+		ret = dev_err_probe(dev, ret, "failed to register notifier\n");
-+		goto err_nf_cleanup;
-+	}
-+
-+	goto out;
-+
-+err_nf_cleanup:
-+	v4l2_async_nf_cleanup(ntf);
-+out:
-+	fwnode_handle_put(ep);
-+	return ret;
-+}
-+
-+static int rkcsi_register(struct rkcsi_device *csi_dev)
-+{
-+	struct media_pad *pads = csi_dev->pads;
-+	struct v4l2_subdev *sd = &csi_dev->sd;
-+	int ret;
-+
-+	ret = rkcsi_register_notifier(csi_dev);
-+	if (ret)
-+		goto err;
-+
-+	v4l2_subdev_init(sd, &rkcsi_ops);
-+	sd->dev = csi_dev->dev;
-+	sd->entity.ops = &rkcsi_media_ops;
-+	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
-+	sd->internal_ops = &rkcsi_internal_ops;
-+	sd->owner = THIS_MODULE;
-+	snprintf(sd->name, sizeof(sd->name), "rockchip-mipi-csi %s",
-+		 dev_name(csi_dev->dev));
-+
-+	pads[RKCSI_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
-+				     MEDIA_PAD_FL_MUST_CONNECT;
-+	pads[RKCSI_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&sd->entity, RKCSI_PAD_MAX, pads);
-+	if (ret)
-+		goto err_notifier_unregister;
-+
-+	ret = v4l2_subdev_init_finalize(sd);
-+	if (ret)
-+		goto err_entity_cleanup;
-+
-+	ret = v4l2_async_register_subdev(sd);
-+	if (ret) {
-+		dev_err(sd->dev, "failed to register CSI subdev\n");
-+		goto err_subdev_cleanup;
-+	}
-+
-+	return 0;
-+
-+err_subdev_cleanup:
-+	v4l2_subdev_cleanup(sd);
-+err_entity_cleanup:
-+	media_entity_cleanup(&sd->entity);
-+err_notifier_unregister:
-+	v4l2_async_nf_unregister(&csi_dev->notifier);
-+	v4l2_async_nf_cleanup(&csi_dev->notifier);
-+err:
-+	return ret;
-+}
-+
-+static void rkcsi_unregister(struct rkcsi_device *csi_dev)
-+{
-+	struct v4l2_subdev *sd = &csi_dev->sd;
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_async_nf_unregister(&csi_dev->notifier);
-+	v4l2_async_nf_cleanup(&csi_dev->notifier);
-+}
-+
-+static const struct of_device_id rkcsi_of_match[] = {
++	},
 +	{
-+		.compatible = "rockchip,rk3568-mipi-csi",
++		.fourcc = V4L2_PIX_FMT_SGBRG8,
++		.mbus_code = MEDIA_BUS_FMT_SGBRG8_1X8,
++		.depth = 8,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW8,
++			.type = RKCIF_MIPI_TYPE_RAW8,
++		},
 +	},
-+	{}
++	{
++		.fourcc = V4L2_PIX_FMT_SGRBG8,
++		.mbus_code = MEDIA_BUS_FMT_SGRBG8_1X8,
++		.depth = 8,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW8,
++			.type = RKCIF_MIPI_TYPE_RAW8,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SRGGB8,
++		.mbus_code = MEDIA_BUS_FMT_SRGGB8_1X8,
++		.depth = 8,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW8,
++			.type = RKCIF_MIPI_TYPE_RAW8,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SBGGR10,
++		.mbus_code = MEDIA_BUS_FMT_SBGGR10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SBGGR10P,
++		.mbus_code = MEDIA_BUS_FMT_SBGGR10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGBRG10,
++		.mbus_code = MEDIA_BUS_FMT_SGBRG10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGBRG10P,
++		.mbus_code = MEDIA_BUS_FMT_SGBRG10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGRBG10,
++		.mbus_code = MEDIA_BUS_FMT_SGRBG10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGRBG10P,
++		.mbus_code = MEDIA_BUS_FMT_SGRBG10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SRGGB10,
++		.mbus_code = MEDIA_BUS_FMT_SRGGB10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SRGGB10P,
++		.mbus_code = MEDIA_BUS_FMT_SRGGB10_1X10,
++		.depth = 10,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW10,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW10,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SBGGR12,
++		.mbus_code = MEDIA_BUS_FMT_SBGGR12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SBGGR12P,
++		.mbus_code = MEDIA_BUS_FMT_SBGGR12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGBRG12,
++		.mbus_code = MEDIA_BUS_FMT_SGBRG12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGBRG12P,
++		.mbus_code = MEDIA_BUS_FMT_SGBRG12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGRBG12,
++		.mbus_code = MEDIA_BUS_FMT_SGRBG12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SGRBG12P,
++		.mbus_code = MEDIA_BUS_FMT_SGRBG12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SRGGB12,
++		.mbus_code = MEDIA_BUS_FMT_SRGGB12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_SRGGB12P,
++		.mbus_code = MEDIA_BUS_FMT_SRGGB12_1X12,
++		.depth = 12,
++		.cplanes = 1,
++		.mipi = {
++			.dt = MIPI_CSI2_DT_RAW12,
++			.compact = true,
++			.type = RKCIF_MIPI_TYPE_RAW12,
++		},
++	},
 +};
-+MODULE_DEVICE_TABLE(of, rkcsi_of_match);
 +
-+static int rkcsi_probe(struct platform_device *pdev)
++static const struct rkcif_input_fmt mipi_in_fmts[] = {
++	/* YUV formats */
++	{
++		.mbus_code = MEDIA_BUS_FMT_YUYV8_1X16,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_UYVY8_1X16,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_YVYU8_1X16,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_VYUY8_1X16,
++	},
++	/* RGB formats */
++	{
++		.mbus_code = MEDIA_BUS_FMT_RGB888_1X24,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_BGR888_1X24,
++	},
++	/* Bayer formats */
++	{
++		.mbus_code = MEDIA_BUS_FMT_SBGGR8_1X8,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SGBRG8_1X8,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SGRBG8_1X8,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SRGGB8_1X8,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SBGGR10_1X10,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SGBRG10_1X10,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SGRBG10_1X10,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SRGGB10_1X10,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SBGGR12_1X12,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SGBRG12_1X12,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SGRBG12_1X12,
++	},
++	{
++		.mbus_code = MEDIA_BUS_FMT_SRGGB12_1X12,
++	},
++};
++
++static u32
++rkcif_rk3568_mipi_ctrl0(struct rkcif_stream *stream,
++			const struct rkcif_output_fmt *active_out_fmt)
 +{
-+	struct device *dev = &pdev->dev;
-+	struct rkcsi_device *csi_dev;
-+	int ret;
++	u32 ctrl0 = 0;
 +
-+	csi_dev = devm_kzalloc(dev, sizeof(*csi_dev), GFP_KERNEL);
-+	if (!csi_dev)
-+		return -ENOMEM;
-+	csi_dev->dev = dev;
-+	dev_set_drvdata(dev, csi_dev);
++	ctrl0 |= RKCIF_MIPI_CTRL0_DT_ID(active_out_fmt->mipi.dt);
++	ctrl0 |= RKCIF_MIPI_CTRL0_CAP_EN;
++	ctrl0 |= RK3568_MIPI_CTRL0_CROP_EN;
 +
-+	csi_dev->base_addr = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(csi_dev->base_addr))
-+		return PTR_ERR(csi_dev->base_addr);
++	if (active_out_fmt->mipi.compact)
++		ctrl0 |= RK3568_MIPI_CTRL0_COMPACT_EN;
 +
-+	ret = devm_clk_bulk_get_all(dev, &csi_dev->clks);
-+	if (ret != RKCSI_CLKS_MAX)
-+		return dev_err_probe(dev, -ENODEV, "failed to get clocks\n");
-+	csi_dev->clks_num = ret;
-+
-+	csi_dev->phy = devm_phy_get(dev, NULL);
-+	if (IS_ERR(csi_dev->phy))
-+		return dev_err_probe(dev, PTR_ERR(csi_dev->phy),
-+				     "failed to get MIPI CSI PHY\n");
-+
-+	csi_dev->reset = devm_reset_control_array_get_exclusive(dev);
-+	if (IS_ERR(csi_dev->reset))
-+		return dev_err_probe(dev, PTR_ERR(csi_dev->reset),
-+				     "failed to get reset\n");
-+
-+	csi_dev->formats = formats;
-+	csi_dev->formats_num = ARRAY_SIZE(formats);
-+
-+	pm_runtime_enable(dev);
-+
-+	ret = phy_init(csi_dev->phy);
-+	if (ret) {
-+		ret = dev_err_probe(dev, ret,
-+				    "failed to initialize MIPI CSI PHY\n");
-+		goto err_pm_runtime_disable;
++	switch (active_out_fmt->mipi.type) {
++	case RKCIF_MIPI_TYPE_RAW8:
++		break;
++	case RKCIF_MIPI_TYPE_RAW10:
++		ctrl0 |= RK3568_MIPI_CTRL0_WRDDR(0x1);
++		break;
++	case RKCIF_MIPI_TYPE_RAW12:
++		ctrl0 |= RK3568_MIPI_CTRL0_WRDDR(0x2);
++		break;
++	case RKCIF_MIPI_TYPE_RGB888:
++		ctrl0 |= RK3568_MIPI_CTRL0_WRDDR(0x3);
++		break;
++	case RKCIF_MIPI_TYPE_YUV422SP:
++		ctrl0 |= RK3568_MIPI_CTRL0_WRDDR(0x4);
++		break;
++	case RKCIF_MIPI_TYPE_YUV420SP:
++		ctrl0 |= RK3568_MIPI_CTRL0_WRDDR(0x5);
++		break;
++	case RKCIF_MIPI_TYPE_YUV400:
++		ctrl0 |= RK3568_MIPI_CTRL0_WRDDR(0x6);
++		break;
++	default:
++		break;
 +	}
 +
-+	ret = rkcsi_register(csi_dev);
-+	if (ret)
-+		goto err_phy_exit;
++	return ctrl0;
++}
 +
-+	return 0;
++const struct rkcif_mipi_match_data rkcif_rk3568_vicap_mipi_match_data = {
++	.mipi_num = 1,
++	.mipi_ctrl0 = rkcif_rk3568_mipi_ctrl0,
++	.regs = {
++		[RKCIF_MIPI_CTRL] = 0x20,
++		[RKCIF_MIPI_INTEN] = 0xa4,
++		[RKCIF_MIPI_INTSTAT] = 0xa8,
++	},
++	.regs_id = {
++		[RKCIF_ID0] = {
++			[RKCIF_MIPI_CTRL0] = 0x00,
++			[RKCIF_MIPI_CTRL1] = 0x04,
++			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x24,
++			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x2c,
++			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x34,
++			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x3c,
++			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x28,
++			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x30,
++			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x38,
++			[RKCIF_MIPI_FRAME1_VLW_UV] = 0x40,
++			[RKCIF_MIPI_CROP_START] = 0xbc,
++		},
++		[RKCIF_ID1] = {
++			[RKCIF_MIPI_CTRL0] = 0x08,
++			[RKCIF_MIPI_CTRL1] = 0x0c,
++			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x44,
++			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x4c,
++			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x54,
++			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x5c,
++			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x48,
++			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x50,
++			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x58,
++			[RKCIF_MIPI_FRAME1_VLW_UV] = 0x60,
++			[RKCIF_MIPI_CROP_START] = 0xc0,
++		},
++		[RKCIF_ID2] = {
++			[RKCIF_MIPI_CTRL0] = 0x10,
++			[RKCIF_MIPI_CTRL1] = 0x14,
++			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x64,
++			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x6c,
++			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x74,
++			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x7c,
++			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x68,
++			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x70,
++			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x78,
++			[RKCIF_MIPI_FRAME1_VLW_UV] = 0x80,
++			[RKCIF_MIPI_CROP_START] = 0xc4,
++		},
++		[RKCIF_ID3] = {
++			[RKCIF_MIPI_CTRL0] = 0x18,
++			[RKCIF_MIPI_CTRL1] = 0x1c,
++			[RKCIF_MIPI_FRAME0_ADDR_Y] = 0x84,
++			[RKCIF_MIPI_FRAME0_ADDR_UV] = 0x8c,
++			[RKCIF_MIPI_FRAME0_VLW_Y] = 0x94,
++			[RKCIF_MIPI_FRAME0_VLW_UV] = 0x9c,
++			[RKCIF_MIPI_FRAME1_ADDR_Y] = 0x88,
++			[RKCIF_MIPI_FRAME1_ADDR_UV] = 0x90,
++			[RKCIF_MIPI_FRAME1_VLW_Y] = 0x98,
++			[RKCIF_MIPI_FRAME1_VLW_UV] = 0xa0,
++			[RKCIF_MIPI_CROP_START] = 0xc8,
++		},
++	},
++	.blocks = {
++		{
++			.offset = 0x80,
++		},
++	},
++};
 +
-+err_phy_exit:
-+	phy_exit(csi_dev->phy);
-+err_pm_runtime_disable:
-+	pm_runtime_disable(dev);
++static inline unsigned int rkcif_mipi_get_reg(struct rkcif_interface *interface,
++					      unsigned int index)
++{
++	struct rkcif_device *rkcif = interface->rkcif;
++	unsigned int block, offset, reg;
++
++	block = interface->index - RKCIF_MIPI_BASE;
++
++	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
++	    WARN_ON_ONCE(index > RKCIF_MIPI_REGISTER_MAX))
++		return RKCIF_REGISTER_NOTSUPPORTED;
++
++	offset = rkcif->match_data->mipi->blocks[block].offset;
++	reg = rkcif->match_data->mipi->regs[index];
++	if (reg == RKCIF_REGISTER_NOTSUPPORTED)
++		return reg;
++
++	return offset + reg;
++}
++
++static inline unsigned int rkcif_mipi_id_get_reg(struct rkcif_stream *stream,
++						 unsigned int index)
++{
++	struct rkcif_device *rkcif = stream->rkcif;
++	unsigned int block, id, offset, reg;
++
++	block = stream->interface->index - RKCIF_MIPI_BASE;
++	id = stream->id;
++
++	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
++	    WARN_ON_ONCE(id > RKCIF_ID_MAX) ||
++	    WARN_ON_ONCE(index > RKCIF_MIPI_ID_REGISTER_MAX))
++		return RKCIF_REGISTER_NOTSUPPORTED;
++
++	offset = rkcif->match_data->mipi->blocks[block].offset;
++	reg = rkcif->match_data->mipi->regs_id[id][index];
++	if (reg == RKCIF_REGISTER_NOTSUPPORTED)
++		return reg;
++
++	return offset + reg;
++}
++
++static inline __maybe_unused void
++rkcif_mipi_write(struct rkcif_interface *interface, unsigned int index, u32 val)
++{
++	unsigned int addr = rkcif_mipi_get_reg(interface, index);
++
++	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
++		return;
++
++	writel(val, interface->rkcif->base_addr + addr);
++}
++
++static inline __maybe_unused void
++rkcif_mipi_stream_write(struct rkcif_stream *stream, unsigned int index,
++			u32 val)
++{
++	unsigned int addr = rkcif_mipi_id_get_reg(stream, index);
++
++	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
++		return;
++
++	writel(val, stream->rkcif->base_addr + addr);
++}
++
++static inline __maybe_unused u32
++rkcif_mipi_read(struct rkcif_interface *interface, unsigned int index)
++{
++	unsigned int addr = rkcif_mipi_get_reg(interface, index);
++
++	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
++		return 0;
++
++	return readl(interface->rkcif->base_addr + addr);
++}
++
++static inline __maybe_unused u32
++rkcif_mipi_stream_read(struct rkcif_stream *stream, unsigned int index)
++{
++	unsigned int addr = rkcif_mipi_id_get_reg(stream, index);
++
++	if (addr == RKCIF_REGISTER_NOTSUPPORTED)
++		return 0;
++
++	return readl(stream->rkcif->base_addr + addr);
++}
++
++static void rkcif_mipi_queue_buffer(struct rkcif_stream *stream,
++				    unsigned int index)
++{
++	struct rkcif_buffer *buffer = stream->buffers[index];
++	u32 frm_addr_y, frm_addr_uv;
++
++	frm_addr_y = index ? RKCIF_MIPI_FRAME1_ADDR_Y :
++			     RKCIF_MIPI_FRAME0_ADDR_Y;
++	frm_addr_uv = index ? RKCIF_MIPI_FRAME1_ADDR_UV :
++			      RKCIF_MIPI_FRAME0_ADDR_UV;
++
++	rkcif_mipi_stream_write(stream, frm_addr_y,
++				buffer->buff_addr[RKCIF_PLANE_Y]);
++	rkcif_mipi_stream_write(stream, frm_addr_uv,
++				buffer->buff_addr[RKCIF_PLANE_UV]);
++}
++
++static int rkcif_mipi_start_streaming(struct rkcif_stream *stream)
++{
++	struct rkcif_interface *interface = stream->interface;
++	const struct rkcif_output_fmt *active_out_fmt;
++	const struct rkcif_mipi_match_data *match_data;
++	struct v4l2_subdev_state *state;
++	u32 ctrl0 = 0, ctrl1 = 0, int_temp = 0, int_mask = 0, vlw = 0;
++	u16 height, width;
++	int ret = -EINVAL;
++
++	state = v4l2_subdev_lock_and_get_active_state(&interface->sd);
++
++	active_out_fmt = rkcif_stream_find_output_fmt(stream, false,
++						      stream->pix.pixelformat);
++	if (!active_out_fmt)
++		goto out;
++
++	height = stream->pix.height;
++	width = stream->pix.width;
++	/* TODO there may be different factors and/or alignment constraints */
++	vlw = ALIGN(width * 2, 8);
++
++	match_data = stream->rkcif->match_data->mipi;
++	if (match_data->mipi_ctrl0)
++		ctrl0 = match_data->mipi_ctrl0(stream, active_out_fmt);
++
++	ctrl1 = RKCIF_XY_COORD(width, height);
++
++	int_mask |= RKCIF_MIPI_INT_FRAME0_END(stream->id);
++	int_mask |= RKCIF_MIPI_INT_FRAME1_END(stream->id);
++
++	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTEN);
++	int_temp |= int_mask;
++	rkcif_mipi_write(interface, RKCIF_MIPI_INTEN, int_temp);
++
++	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
++	int_temp &= ~int_mask;
++	rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, int_temp);
++
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME0_VLW_Y, vlw);
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME1_VLW_Y, vlw);
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME0_VLW_UV, vlw);
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_FRAME1_VLW_UV, vlw);
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CROP_START, 0x0);
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CTRL1, ctrl1);
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CTRL0, ctrl0);
++
++	ret = 0;
++
++out:
++	v4l2_subdev_unlock_state(state);
 +	return ret;
 +}
 +
-+static void rkcsi_remove(struct platform_device *pdev)
++static void rkcif_mipi_stop_streaming(struct rkcif_stream *stream)
 +{
-+	struct rkcsi_device *csi_dev = platform_get_drvdata(pdev);
-+	struct device *dev = &pdev->dev;
++	struct rkcif_interface *interface = stream->interface;
++	struct v4l2_subdev_state *state;
++	u32 int_temp = 0, int_mask = 0;
 +
-+	rkcsi_unregister(csi_dev);
-+	phy_exit(csi_dev->phy);
-+	pm_runtime_disable(dev);
++	state = v4l2_subdev_lock_and_get_active_state(&interface->sd);
++
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CTRL0, 0);
++
++	int_mask |= RKCIF_MIPI_INT_FRAME0_END(stream->id);
++	int_mask |= RKCIF_MIPI_INT_FRAME1_END(stream->id);
++
++	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTEN);
++	int_temp &= ~int_mask;
++	rkcif_mipi_write(interface, RKCIF_MIPI_INTEN, int_temp);
++
++	int_temp = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
++	int_temp &= ~int_mask;
++	rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, int_temp);
++
++	stream->stopping = false;
++
++	v4l2_subdev_unlock_state(state);
 +}
 +
-+static int rkcsi_runtime_suspend(struct device *dev)
++static void rkcif_mipi_set_crop(struct rkcif_stream *stream, u16 left, u16 top)
 +{
-+	struct rkcsi_device *csi_dev = dev_get_drvdata(dev);
++	u32 val;
 +
-+	clk_bulk_disable_unprepare(csi_dev->clks_num, csi_dev->clks);
-+
-+	return 0;
++	val = RKCIF_XY_COORD(left, top);
++	rkcif_mipi_stream_write(stream, RKCIF_MIPI_CROP_START, val);
 +}
 +
-+static int rkcsi_runtime_resume(struct device *dev)
-+{
-+	struct rkcsi_device *csi_dev = dev_get_drvdata(dev);
+ irqreturn_t rkcif_mipi_isr(int irq, void *ctx)
+ {
++	struct device *dev = ctx;
++	struct rkcif_device *rkcif = dev_get_drvdata(dev);
+ 	irqreturn_t ret = IRQ_NONE;
++	u32 intstat;
++
++	for (unsigned int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
++		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
++		struct rkcif_interface *interface = &rkcif->interfaces[index];
++
++		intstat = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
++		rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, intstat);
++
++		for (unsigned int j = 0; j < interface->streams_num; j++) {
++			struct rkcif_stream *stream = &interface->streams[j];
++
++			if (intstat & RKCIF_MIPI_INT_FRAME0_END(stream->id) ||
++			    intstat & RKCIF_MIPI_INT_FRAME1_END(stream->id)) {
++				ret = IRQ_HANDLED;
++
++				if (stream->stopping) {
++					rkcif_mipi_stop_streaming(stream);
++					wake_up(&stream->wq_stopped);
++					continue;
++				}
++
++				rkcif_stream_pingpong(stream);
++			}
++		}
++	}
+ 
+ 	return ret;
+ }
+ 
+ int rkcif_mipi_register(struct rkcif_device *rkcif)
+ {
 +	int ret;
 +
-+	reset_control_assert(csi_dev->reset);
-+	udelay(5);
-+	reset_control_deassert(csi_dev->reset);
++	if (!rkcif->match_data->mipi)
++		return 0;
 +
-+	ret = clk_bulk_prepare_enable(csi_dev->clks_num, csi_dev->clks);
-+	if (ret) {
-+		dev_err(dev, "failed to enable clocks\n");
-+		return ret;
++	for (unsigned int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
++		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
++		struct rkcif_interface *interface = &rkcif->interfaces[index];
++
++		interface->index = index;
++		interface->type = RKCIF_IF_MIPI;
++		interface->in_fmts = mipi_in_fmts;
++		interface->in_fmts_num = ARRAY_SIZE(mipi_in_fmts);
++		interface->set_crop = rkcif_mipi_set_crop;
++		interface->streams_num = 0;
++		ret = rkcif_interface_register(rkcif, interface);
++		if (ret)
++			continue;
++
++		for (unsigned int j = 0; j < RKCIF_ID_MAX; j++) {
++			struct rkcif_stream *stream = &interface->streams[j];
++
++			stream->id = j;
++			stream->interface = interface;
++			stream->out_fmts = mipi_out_fmts;
++			stream->out_fmts_num = ARRAY_SIZE(mipi_out_fmts);
++			stream->queue_buffer = rkcif_mipi_queue_buffer;
++			stream->start_streaming = rkcif_mipi_start_streaming;
++			stream->stop_streaming = rkcif_mipi_stop_streaming;
++			ret = rkcif_stream_register(rkcif, stream);
++			if (ret)
++				goto err;
++			interface->streams_num++;
++		}
 +	}
 +
-+	return 0;
-+}
+ 	return 0;
 +
-+static const struct dev_pm_ops rkcsi_pm_ops = {
-+	.runtime_suspend = rkcsi_runtime_suspend,
-+	.runtime_resume = rkcsi_runtime_resume,
++err:
++	for (unsigned int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
++		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
++		struct rkcif_interface *interface = &rkcif->interfaces[index];
++
++		for (unsigned int j = 0; j < interface->streams_num; j++)
++			rkcif_stream_unregister(&interface->streams[j]);
++
++		rkcif_interface_unregister(interface);
++	}
++	return ret;
+ }
+ 
+ void rkcif_mipi_unregister(struct rkcif_device *rkcif)
+ {
++	if (!rkcif->match_data->mipi)
++		return;
++
++	for (unsigned int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
++		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
++		struct rkcif_interface *interface = &rkcif->interfaces[index];
++
++		for (unsigned int j = 0; j < interface->streams_num; j++)
++			rkcif_stream_unregister(&interface->streams[j]);
++
++		rkcif_interface_unregister(interface);
++	}
+ }
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h
+index ee1a50a59505..1248af70bdab 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.h
+@@ -11,6 +11,8 @@
+ 
+ #include "rkcif-common.h"
+ 
++extern const struct rkcif_mipi_match_data rkcif_rk3568_vicap_mipi_match_data;
++
+ int rkcif_mipi_register(struct rkcif_device *rkcif);
+ 
+ void rkcif_mipi_unregister(struct rkcif_device *rkcif);
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-common.h b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
+index 5e7bff585bca..a6c5cd2f01da 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-common.h
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
+@@ -34,6 +34,17 @@ enum rkcif_format_type {
+ 	RKCIF_FMT_TYPE_RAW,
+ };
+ 
++enum rkcif_mipi_format_type {
++	RKCIF_MIPI_TYPE_INVALID,
++	RKCIF_MIPI_TYPE_RAW8,
++	RKCIF_MIPI_TYPE_RAW10,
++	RKCIF_MIPI_TYPE_RAW12,
++	RKCIF_MIPI_TYPE_RGB888,
++	RKCIF_MIPI_TYPE_YUV422SP,
++	RKCIF_MIPI_TYPE_YUV420SP,
++	RKCIF_MIPI_TYPE_YUV400,
 +};
 +
-+static struct platform_driver rkcsi_drv = {
-+	.driver = {
-+		   .name = "rockchip-mipi-csi",
-+		   .of_match_table = rkcsi_of_match,
-+		   .pm = &rkcsi_pm_ops,
-+	},
-+	.probe = rkcsi_probe,
-+	.remove = rkcsi_remove,
+ enum rkcif_id_index {
+ 	RKCIF_ID0,
+ 	RKCIF_ID1,
+@@ -93,9 +104,15 @@ struct rkcif_output_fmt {
+ 	u32 fourcc;
+ 	u32 mbus_code;
+ 	u8 cplanes;
++	u8 depth;
+ 
+ 	union {
+ 		u32 dvp_fmt_val;
++		struct {
++			u8 dt;
++			bool compact;
++			enum rkcif_mipi_format_type type;
++		} mipi;
+ 	};
+ };
+ 
+@@ -183,6 +200,17 @@ struct rkcif_interface {
+ 	void (*set_crop)(struct rkcif_stream *stream, u16 left, u16 top);
+ };
+ 
++struct rkcif_mipi_match_data {
++	unsigned int mipi_num;
++	unsigned int regs[RKCIF_MIPI_REGISTER_MAX];
++	unsigned int regs_id[RKCIF_ID_MAX][RKCIF_MIPI_ID_REGISTER_MAX];
++	u32 (*mipi_ctrl0)(struct rkcif_stream *stream,
++			  const struct rkcif_output_fmt *active_out_fmt);
++	struct {
++		unsigned int offset;
++	} blocks[RKCIF_MIPI_MAX - RKCIF_MIPI_BASE];
 +};
-+module_platform_driver(rkcsi_drv);
 +
-+MODULE_DESCRIPTION("Rockchip MIPI CSI-2 Receiver platform driver");
-+MODULE_LICENSE("GPL");
+ struct rkcif_dvp_match_data {
+ 	const struct rkcif_input_fmt *in_fmts;
+ 	unsigned int in_fmts_num;
+@@ -198,6 +226,7 @@ struct rkcif_match_data {
+ 	const char *const *clks;
+ 	unsigned int clks_num;
+ 	const struct rkcif_dvp_match_data *dvp;
++	const struct rkcif_mipi_match_data *mipi;
+ };
+ 
+ struct rkcif_device {
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
+index b9463d135451..d857c4a5b5db 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
+@@ -49,6 +49,7 @@ static const struct rkcif_match_data rk3568_vicap_match_data = {
+ 	.clks = rk3568_vicap_clks,
+ 	.clks_num = ARRAY_SIZE(rk3568_vicap_clks),
+ 	.dvp = &rkcif_rk3568_vicap_dvp_match_data,
++	.mipi = &rkcif_rk3568_vicap_mipi_match_data,
+ };
+ 
+ static const struct of_device_id rkcif_plat_of_match[] = {
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
+index 45a232ea96e3..ef07759604a7 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
+@@ -188,8 +188,10 @@ static int rkcif_interface_enable_streams(struct v4l2_subdev *sd,
+ 		stream = &interface->streams[RKCIF_ID0];
+ 		rkcif_interface_apply_crop(stream, state);
+ 	} else {
+-		/* TODO implement for MIPI */
+-		return -EOPNOTSUPP;
++		for_each_active_route(&state->routing, route) {
++			stream = &interface->streams[route->sink_stream];
++			rkcif_interface_apply_crop(stream, state);
++		}
+ 	}
+ 
+ 	mask = v4l2_subdev_state_xlate_streams(state, RKCIF_IF_PAD_SINK,
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-regs.h b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
+index 07fd64174e80..3d1f0c45c638 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
+@@ -30,7 +30,29 @@ enum rkcif_dvp_register_index {
+ 	RKCIF_DVP_REGISTER_MAX
+ };
+ 
+-#define RKCIF_REGISTER_NOTSUPPORTED           0x420000
++enum rkcif_mipi_register_index {
++	RKCIF_MIPI_CTRL,
++	RKCIF_MIPI_INTEN,
++	RKCIF_MIPI_INTSTAT,
++	RKCIF_MIPI_REGISTER_MAX
++};
++
++enum rkcif_mipi_id_register_index {
++	RKCIF_MIPI_CTRL0,
++	RKCIF_MIPI_CTRL1,
++	RKCIF_MIPI_FRAME0_ADDR_Y,
++	RKCIF_MIPI_FRAME0_ADDR_UV,
++	RKCIF_MIPI_FRAME0_VLW_Y,
++	RKCIF_MIPI_FRAME0_VLW_UV,
++	RKCIF_MIPI_FRAME1_ADDR_Y,
++	RKCIF_MIPI_FRAME1_ADDR_UV,
++	RKCIF_MIPI_FRAME1_VLW_Y,
++	RKCIF_MIPI_FRAME1_VLW_UV,
++	RKCIF_MIPI_CROP_START,
++	RKCIF_MIPI_ID_REGISTER_MAX
++};
++
++#define RKCIF_REGISTER_NOTSUPPORTED	       0x420000
+ 
+ #define RKCIF_FETCH_Y(VAL)		       ((VAL) & 0x1fff)
+ 
 
 -- 
 2.39.5
