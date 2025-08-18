@@ -1,154 +1,116 @@
-Return-Path: <linux-media+bounces-40085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40086-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611BEB29976
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:12:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D69B29984
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 08:16:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A18FE3AF6B3
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 06:12:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 350B01891E5E
+	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 06:16:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 054062737E2;
-	Mon, 18 Aug 2025 06:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CD192741CB;
+	Mon, 18 Aug 2025 06:15:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gBwOfdvn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vwIdRPBI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7735272E57;
-	Mon, 18 Aug 2025 06:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640181A5B8B
+	for <linux-media@vger.kernel.org>; Mon, 18 Aug 2025 06:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755497531; cv=none; b=ThvPKTnTsOkeAic8qSi9qNO8LqAfij+huwLnfyqy0/V7oRBx6N7OzfA1jhSRsh/pfXCjYv6xxLlBcmc9q7tjPx/FJi3ygDxETr5V4dQqtlyWxAYCmOrDhyDyuow2a/eaoXwBWqV1ZtpCrrRriB4NFnCo0dJiZSiYu0m9zPUNlIc=
+	t=1755497747; cv=none; b=W7MgSbezWk189KnUorOsGEGDzfYrU458G9EpiLonqgAJSxTQicgCPRTEcqlM9nrnBzKQDYe0T8GcEMsPCMXtiIGvlK/9wdycgL85XpURobYnijB32nkTTpYUYFFT+lG4wkReCXJUjTvm0Wte/MWMVzdRRHBTjai7Pk2FKj996lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755497531; c=relaxed/simple;
-	bh=k5+lnZCy3bbJQWIQlZajAPBCXul72lc5YgzY0UiCoZ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=CPLvgeQL3IUFF9oeoxHnZreFuaWi4yXXZ2+MKxt3loGF34F4zQmaSkxeP0yVk0evi4OeP8rchih40JsUYSg9V6yC9chGl/pm4WnArPE+DgF4WeC/Ct58S0ljxXVvu8bU8+Iz8vWeX91leePXL8irYYrfBlNihhImFrJUusQTQvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gBwOfdvn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57HMK1ut029297;
-	Mon, 18 Aug 2025 06:12:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IAzgVjzlROh+WMlimNMYUi0EuuZ3Rm0ae5ucHon2lUU=; b=gBwOfdvnXaOjhzT6
-	laQs/RR04vodlSRotiYsNxmbVkHNyEcImJI+98GLrUesDKXLRylTg2Vr86eBKsm8
-	JBnANaw8ulHfL0Q7j3D2Sb2SblJIhVurBne8LASH+vuVtWT1209gujEHasHO2n0L
-	JUTsGlIA1djvuJ09oGse5nwWJBBNetCj4J+k9Vafw5soqxEIa4WVpBfqG+a4GJI9
-	aZW/+ZfAW/NP/SONmB97Qu4CFPV//Go/Rf4sR0aqI5nQMpVC+DvXEK+LhgYuoy5H
-	rQ1W4RSNjGmMItPSov50dmP7nwtf/BkuGwEosqFGGcvkz7w6vJIo3DQi1F1J+27e
-	hs3yiw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jj2ubgg5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Aug 2025 06:12:04 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57I6C3n0032142
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Aug 2025 06:12:03 GMT
-Received: from [10.216.58.185] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Sun, 17 Aug
- 2025 23:12:00 -0700
-Message-ID: <ae63b3c0-e3cb-b81e-6bf0-13818a5cc42e@quicinc.com>
-Date: Mon, 18 Aug 2025 11:41:57 +0530
+	s=arc-20240116; t=1755497747; c=relaxed/simple;
+	bh=MYHptY7qVMdCeYExxbFTjOvHEMfmgG75pzPebFLBE6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJc9ZW4gSVcam9i0nLEZYHrKSy0lXIS3U71LA67rjDpzFVb95jWtJ4BoQa5p5o/vt2/jH0JAHl9V47ZFgMg2X6ZlNh1/n081KvG++EhSEiGVonnj2THnkMcq/Mv5jBkFGEMtiol6/bSR8S+v5rVrpAgTiDazI/C8fbfBWoQEHs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vwIdRPBI; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3b9e418ba08so2123407f8f.3
+        for <linux-media@vger.kernel.org>; Sun, 17 Aug 2025 23:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755497743; x=1756102543; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+PSsAQl2WRt5OEtha/zrB/DgNNONu4LNMZgefW2fQN0=;
+        b=vwIdRPBIXyJyX4c8i7e5xek5IySSN81+B93ujq9hWLfGQa+1vgtekgEw+DUNC2oW0W
+         yugIWwWH1VbFjnqFzywZCMTSJKzqsDIgSqIjZQvRo5Nro0X92RunUIweXEI8Y3sbNUST
+         HnKF5vZTwjq35aAwa/NY5mJj4XAdCxXcNmZ/2ogB70zj9qondKjCTL1NJ7eDwuFoOdVb
+         aG7MJ227e8VEuRtInXYTq702kp9X8qzpa6oDAzB1oUs8UnY1rZnlos/hZPT3cq05Bbpa
+         b4VVnvVi2rvM8EnWibqBRLv0FgSHLf4QXx8SUooInwg7DuhAKOYH6bSNaPCEhOesl1L0
+         /5IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755497743; x=1756102543;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+PSsAQl2WRt5OEtha/zrB/DgNNONu4LNMZgefW2fQN0=;
+        b=JTzZm/8heLjt2ytHEwuCW6jZgScKfF+iW2wkhza5XpRkz9/EWsPC2USW76LFYfOTBr
+         m41KkR/WPrrr5TKILyf7G2bjSGjnXyFTYNsDXoeF2mda94PK+avz4jc5CRz9abMrYRL3
+         JaX4ImGpwcrjzFHtUOkTjvTPt6wn+1YsGnzOxRsV4yT8grOjUjiuukaa6HmxvPU1NDvM
+         LTepSJXKhSaQjPvAIhunRx0H2lhJFXIM/RUe50mqmVehcxumyMxkG+cn8+xDZzOECEzk
+         Jrlh9h8hb3jniWyrnh1klVrMZlnB/snEzL2STMlgLqGW/RbVerNOCwjO1X8WA/m7OZgo
+         IGhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrPL0tBadu36yF3ZBzZqjI/Pqz09CQEhcMOW0HHSkFGHqOkgqaDGYHD/cEgOotH23+LJf1tr5iZEeHcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBc08mPK3p9/j9SHKPAp+a40Tp2WvDc+I+RQ7j299SlJUAqxY9
+	iUfIc8hMDpmqlm9q6d3Sq0T0bD277UJyriNUxxtE6cGQE6S5pQHnIDVpAPBBo5CC9P4=
+X-Gm-Gg: ASbGnctUA4L4AG5RGD47p6OxScXldZNqgqSxXccADBy2G0q41VNVU2pWrUUWe/M/fTB
+	83zlTnNecYRHB6tEQYvXjRFzBIwyfmQSacG82BEGIkOmRmHPmCTIkLngmf5rPn3+CRAIUYddqSo
+	YPK7kvhXkK6HX+9BxUIxjB2oCMbgnmRp5k5AGLsi45MInK+QyOQiK5zTcreWbCM+U4GYASgiYj9
+	BEoIYidQf8HU8tNnD0qhfN9iwtDuRyixlOqdKor5YakX4pu0IxiMNDg8J50NdO0Q/ChNcy+1ec+
+	WKCd8xcLePb9dUGC+pZpwLv0WIoncJYpGgdyKjDZzx8Pz27c/+gMezxUNEEtThOYW4bFukG2Xw/
+	sPr9XD6jWnpxe0JTVANuB3S4d7IgFW44+Uiu94GZ/GDQ=
+X-Google-Smtp-Source: AGHT+IG09uXnf83+BxfTTXuZFbE6IWpXIJALIrxVKeBEh/KVAHcmGhBFx2Xg2Z9xfz9OU41mjepSqQ==
+X-Received: by 2002:a5d:5f54:0:b0:3b7:9af4:9c93 with SMTP id ffacd0b85a97d-3bc6a55e8cbmr5720130f8f.35.1755497742661;
+        Sun, 17 Aug 2025 23:15:42 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1ce9758asm155462025e9.15.2025.08.17.23.15.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 23:15:42 -0700 (PDT)
+Date: Mon, 18 Aug 2025 09:15:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: Add lock asserts for various
+ functions
+Message-ID: <aKLFCjIEEbEUqEXK@stanley.mountain>
+References: <20250816170603.41051-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 17/24] media: iris: Add support for G/S_SELECTION for
- encoder video device
-Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar
-	<abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil
-	<hverkuil@xs4all.nl>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        "Vedang
- Nagar" <quic_vnagar@quicinc.com>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Renjiang Han <quic_renjiang@quicinc.com>,
-        Wangao Wang <quic_wangaow@quicinc.com>
-References: <20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com>
- <20250813-iris-video-encoder-v2-17-c725ff673078@quicinc.com>
- <35023387-c0f3-8c55-c6e5-8e3faad31c34@quicinc.com>
- <95ccec65-585b-bfa8-f568-30d18fc2d65f@quicinc.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <95ccec65-585b-bfa8-f568-30d18fc2d65f@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=MJ9gmNZl c=1 sm=1 tr=0 ts=68a2c434 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
- a=Xin4P_2dbwo8wyik3rEA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: H9nUwhOUbSLNhiklG1zxoMqfaDqRdELo
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAzMSBTYWx0ZWRfX0L6a0Wi8HHHS
- 1lDwAOOJ+XCPCVs/CvKhr2NmsHXj0E8bdHy4k9g+QTyOsWFq1l2lFYFwfwuuaSzmVdH9umj89AO
- QasCApaeI5lEZ/fPFgFXqfMYuo/nsW4Cf2OoXWC6ZQ9DXF8rUVzJPMQQuRlqRax/xFt7XuyoFdl
- IBcvyUc3Ir62HP/mqSaP94NB4klKSS7ur7BDZkRT8Rm4/W5P5fRv2sr63pvFdo2+kN6tN2E2c01
- MobbRTQsd+agWFFqhBYIsEUx50fPeTbnWC5CmYqQ0MX9HEUirWpny4FY4wBa/3xfeFqVzYRAWau
- YU5DOvTGX5gFFYhIyP+uKtZNst2SCepQzHTh9Aa8lK8G2TEw2S7em3ISFlMWc1/GiLa4Sz29nN2
- /pl0IRLC
-X-Proofpoint-GUID: H9nUwhOUbSLNhiklG1zxoMqfaDqRdELo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-18_02,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160031
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250816170603.41051-1-abdelrahmanfekry375@gmail.com>
 
+On Sat, Aug 16, 2025 at 08:06:03PM +0300, Abdelrahman Fekry wrote:
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> index be5f37f4a6fd..03067479dd69 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> @@ -1447,9 +1447,11 @@ int atomisp_css_input_set_resolution(struct atomisp_sub_device *asd,
+>  				     enum atomisp_input_stream_id stream_id,
+>  				     struct v4l2_mbus_framefmt *ffmt)
+>  {
+> +	struct atomisp_device *isp = asd->isp;
+>  	struct ia_css_stream_config *s_config =
+> -		    &asd->stream_env[stream_id].stream_config;
+> +	&asd->stream_env[stream_id].stream_config;
 
-On 8/18/2025 8:55 AM, Dikshita Agarwal wrote:
->>> +int iris_venc_s_selection(struct iris_inst *inst, struct v4l2_selection *s)
->>> +{
->>> +	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->>> +		return -EINVAL;
->>> +
->>> +	switch (s->target) {
->>> +	case V4L2_SEL_TGT_CROP:
->>> +		s->r.left = 0;
->>> +		s->r.top = 0;
->>> +
->>> +		if (s->r.width > inst->fmt_src->fmt.pix_mp.width ||
->>> +		    s->r.height > inst->fmt_src->fmt.pix_mp.height)
->>> +			return -EINVAL;
->>> +
->>> +		inst->crop.left = s->r.left;
->>> +		inst->crop.top = s->r.top;
->>> +		inst->crop.width = s->r.width;
->>> +		inst->crop.height = s->r.height;
->>> +		inst->fmt_dst->fmt.pix_mp.width = inst->crop.width;
->>> +		inst->fmt_dst->fmt.pix_mp.height = inst->crop.height;
->>> +		return iris_venc_s_fmt_output(inst, inst->fmt_dst);
->>> +	default:
->>> +		return -EINVAL;
->>> +	}
->>> +
->>> +	return 0;
->> Why do you need a return here ?
-> We actually don't, it should be safe to remove this, will fix.
+Don't delete this whitespace.
 
-With that fixed,
+regards,
+dan carpenter
 
-Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 
