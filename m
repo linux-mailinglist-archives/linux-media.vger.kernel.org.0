@@ -1,501 +1,393 @@
-Return-Path: <linux-media+bounces-40279-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40280-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B133B2C3EA
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:40:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D0BB2C3F9
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:42:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77998A0187B
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:34:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EAB573BD0E0
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:36:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 732E333CE84;
-	Tue, 19 Aug 2025 12:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED3C4305070;
+	Tue, 19 Aug 2025 12:36:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="QMZQgCNP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Yi3q54he"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A893043B1;
-	Tue, 19 Aug 2025 12:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBA4305078;
+	Tue, 19 Aug 2025 12:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755606820; cv=none; b=UEm3ZexY0YxKtcBFRyjnOPCGFo/9XMlGnh+Pj5Alzv/b9Wdo6eb7oRtbD1vNRApt3nbcVrSyzVQOPA5XO5SkUi+7Wfw8HxlAInbTplS8M1dh5xVj5CPDZ73ua8gWy7wYXFCufCaJPftwO6ocydfjiLiwyKhhSSmQ+ONEanKRPFg=
+	t=1755606984; cv=none; b=s1ii2vxHD2fg5k1AznrzhGM55igTLkL6AQUIwz5qtTuaaKgobdhJpSEN9an36wTd2YyOSHa1TOkIknXASEP+DIH1rmkTPkE8en0UPptJlDMQkLhj/Klbp+XQHei57jTEFqW6JkrdnGbGcEbnwlcX9hejggI+VVPooS+zjziG83o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755606820; c=relaxed/simple;
-	bh=mR5vSAUEEEM5lagmPizn8AXsJCT6/43pvM0NXCLzTqY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=bRWfs0O6myIyVwr2z8G8mvWezgXuoXjMjUyGAKr344sdAbEJHMKMIwgpn2AOgAAjcQkO6FB3GHD7ZPU35la2XIlAPK7kiRvhQUFj5G6X579Mgn4HSUVqXTVAKX/J1I/lMtHJ5YjdLVzuDtlOWM2Rgq4qdrcHsvb0XQeNBC0rczs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=QMZQgCNP; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JCJYeh020025;
-	Tue, 19 Aug 2025 14:33:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	+LD4JsfPGvu1T10pwwHVDmxBk0TyKz/18vz+pVsyrrc=; b=QMZQgCNPGNGH3c5D
-	Pc1WtMz/o4v4THa/UiKIumJaNgn+CBi6brKPhaXFEhFqJm5YrGIVQCJdH0fhtBof
-	UtQGpm+NYiCy3Ao9rqt8oTU0DUYqbmLbuFKYnZIdU0ZfTZ+bPQUuxLlw7nBNVwUw
-	y6mIlt/lSJjjnm3Z7OQBUf9/Oz6JXBGZHGVR+T5zCZlGJIbPITuNqXK/p5mXXXi1
-	3nX37qCReSriZBEKhSolIppGB47gqwyZDcvxLYx2oECThJ+elfzZ83kPNgtwUrk6
-	DRzllAP4toQmfPoh0U/2TA9TaUkF+bL4gIEE+BADfhRIRF8MLD+2SaaWI4J/zg4f
-	LMV4wg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jgvf2hxf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 19 Aug 2025 14:33:20 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6EFE140055;
-	Tue, 19 Aug 2025 14:32:32 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3EF7B726F23;
-	Tue, 19 Aug 2025 14:32:00 +0200 (CEST)
-Received: from localhost (10.130.78.67) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 19 Aug
- 2025 14:31:59 +0200
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Date: Tue, 19 Aug 2025 14:31:47 +0200
-Subject: [PATCH 2/2] media: i2c: vd55g1: Add support for vd65g4 RGB variant
+	s=arc-20240116; t=1755606984; c=relaxed/simple;
+	bh=/rGoop9XG49muZw4XsXqHAlck2RRn3xA0mjBAy0IeC8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=A5ob9TaILbzoSIef9IrW5mFqkLk3DxwqOYA3AetXkvq5zgeWD7OBvrDPHWEAyGFhOm6mE0b97FuwfMt8oqOr2i13tgRuNodYRu8m+atQP5lbgrmazicvfZ3CIhjrSdEfFJ3vSf1DF0xpEQEkkUAepXhSvDDFodStumil/y0TQpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Yi3q54he; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1755606978;
+	bh=/rGoop9XG49muZw4XsXqHAlck2RRn3xA0mjBAy0IeC8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Yi3q54he6+HiHCeKQf+LDYXXL0TkOVP7uyjlmUHlInGHOM7ULln4O9vkGo7DJ7evh
+	 K3KR3FQqE8ay8BTNm74xwXgp3u0F5OulB85KlMHKQ0sJh0AUd8XSFoGv6MA694hils
+	 9b24J9ciR1iQOHz1r6WhxNGScqs9CiyLsj6jiiNFrHPHpP6SVor8ASu/2eN+hj6men
+	 cp+B53ORs8MeVeZ8X+vAlv02GMpY9b1CB8Ei3ATzPfUvPK9M21A1IOVgLAmdBNfF5B
+	 kvxkErmiALkBpDGaEKYar7hrr1ceP/lFuOYt6E6XLrE9bBWbPQKT6iwyn9+SBzMBR/
+	 pCdqPrmoivlCA==
+Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F0C7117E03B0;
+	Tue, 19 Aug 2025 14:36:15 +0200 (CEST)
+Message-ID: <1ecd2849e727a0a1fed52ef0a96c4ef45d81da44.camel@collabora.com>
+Subject: Re: [PATCH v2 0/8] Enable video decoder & encoder for MT8189
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Kyrie Wu =?UTF-8?Q?=28=E5=90=B4=E6=99=97=29?= <Kyrie.Wu@mediatek.com>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org"	 <linux-mediatek@lists.infradead.org>,
+ George Sun =?UTF-8?Q?=28=E5=AD=99=E6=9E=97=29?=	 <George.Sun@mediatek.com>,
+ Tiffany Lin =?UTF-8?Q?=28=E6=9E=97=E6=85=A7=E7=8F=8A=29?=	
+ <tiffany.lin@mediatek.com>, "nhebert@chromium.org" <nhebert@chromium.org>, 
+ "linux-media@vger.kernel.org"	 <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org"	 <devicetree@vger.kernel.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,  "hverkuil@xs4all.nl"	
+ <hverkuil@xs4all.nl>, Yunfei Dong
+ =?UTF-8?Q?=28=E8=91=A3=E4=BA=91=E9=A3=9E=29?=	 <Yunfei.Dong@mediatek.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,  Irui Wang
+ =?UTF-8?Q?=28=E7=8E=8B=E7=91=9E=29?=	 <Irui.Wang@mediatek.com>,
+ "robh@kernel.org" <robh@kernel.org>,  "sebastian.fricke@collabora.com"	
+ <sebastian.fricke@collabora.com>, "linux-arm-kernel@lists.infradead.org"	
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"	
+ <matthias.bgg@gmail.com>, "christophe.jaillet@wanadoo.fr"	
+ <christophe.jaillet@wanadoo.fr>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+  "arnd@arndb.de"	 <arnd@arndb.de>, Andrew-CT Chen
+ =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?=	
+ <Andrew-CT.Chen@mediatek.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>
+Cc: "andrzejtp2010@gmail.com" <andrzejtp2010@gmail.com>, 
+ "neil.armstrong@linaro.org"
+	 <neil.armstrong@linaro.org>, yunfei.dong@mediatek.com
+Date: Tue, 19 Aug 2025 08:36:14 -0400
+In-Reply-To: <39c4e3684a4821c057316259971387d5e6e1062a.camel@mediatek.com>
+References: <20250811032616.1385-1-kyrie.wu@mediatek.com>
+		 <d7fad954c7d564ad69769c23724131913539b0ca.camel@collabora.com>
+	 <39c4e3684a4821c057316259971387d5e6e1062a.camel@mediatek.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-1PXUQU7UfFJmj/iLGeJE"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+
+
+--=-1PXUQU7UfFJmj/iLGeJE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+RGVhciBLeXJpZSwKCkxlIG1hcmRpIDE5IGFvw7t0IDIwMjUgw6AgMDg6MjYgKzAwMDAsIEt5cmll
+IFd1ICjlkLTmmZcpIGEgw6ljcml0wqA6Cj4gT24gTW9uLCAyMDI1LTA4LTExIGF0IDEwOjQzIC0w
+NDAwLCBOaWNvbGFzIER1ZnJlc25lIHdyb3RlOgo+ID4gSGksCj4gPiAKPiA+IExlIGx1bmRpIDEx
+IGFvw7t0IDIwMjUgw6AgMTE6MjYgKzA4MDAsIEt5cmllIFd1IGEgw6ljcml0IDoKPiA+ID4gVGhp
+cyBzZXJpZXMgaGF2ZSB0aGUgZm9sbG93IGNoYW5naW5nOgo+ID4gPiBGaXJzdGx5IGFkZCBtdDgx
+ODkgdmlkZW8gZGVjb2RlciBjb21wYXRpYmxlLCBwcm9maWxlIGFuZCBsZXZlbCB0bwo+ID4gPiBz
+dXBwb3J0Cj4gPiA+IE1UODE4OSBrZXJuZWwgZHJpdmVyLgo+ID4gPiBTZWNvbmRseSBmaXggc29t
+ZSBidWdzLCBpbmNsdWRpbmcgdnAgNEsgcHJvZmlsZTIgYW5kIG1lZGlhIGRldmljZQo+ID4gPiBu
+b2RlCj4gPiA+IG51bWJlciBidWcuCj4gPiA+IExhc3RseSwgYWRkIG10ODE4OSB2aWRlbyBlbmNv
+ZGVyIGNvbXBhdGlibGUuCj4gPiA+IAo+ID4gPiBUaGlzIHNlcmllcyBoYXMgYmVlbiB0ZXN0ZWQg
+d2l0aCBNVDgxODkgdGFzdCB0ZXN0Lgo+ID4gCj4gPiBBcyByZXF1ZXN0ZWQgcHJldmlvdXNseSwg
+cGxlYXNlIHByb3ZpZGUgc3VtbWFyeSBvZiB0aGUgZmx1c3RlciB0ZXN0cwo+ID4gcmVzdWx0cy4K
+PiA+IFRoaXMgaGFzIGJlZW4gYSByZXF1aXJlbWVudCBmb3IgcXVpdGUgc29tZSB0aW1lIG5vdy4g
+VGhpcyB3aWxsIHNlcnZlCj4gPiBhcwo+ID4gcmVmZXJlbmNlIGlmIHRoaXMgYm9hcmQgZ2V0IGFk
+ZGVkIHRvIEtlcm5lbCBDSSwgd2hpY2ggdXRpbGl6ZSBmbHVzdGVyCj4gPiBmb3IKPiA+IGRlY29k
+ZXIgY292ZXJhZ2UuIFRoZSB0YXN0IHRlc3RzIGFyZSB1bmZvcnR1bmF0ZWx5IGJvdW5kIHRvIENo
+cm9tZU9TCj4gPiAob3IgQW5kcm9pZAo+ID4gZXZlbnR1YWxseSBhcyB0aGUgZmlyc3QgZ2V0IGRl
+Y29tbWlzc2lvbikgYW5kIGlzIHZlcnkgaGFyZCB0bwo+ID4gcmVwcm9kdWNlIHdpdGggYQo+ID4g
+bWFpbmxpbmUga2VybmVsLgo+ID4gCj4gPiByZWdhcmRzLAo+ID4gTmljb2xhcwo+IAo+IERlYXIg
+Tmljb2xhcywKPiAKPiBJIGhhdmUgZXhlY3V0ZWQgZmx1c3RlciB0ZXN0IG9mIEgyNjQgZGVjb2Rl
+ciwgYnV0IGFsbCBjYXNlcyBhcmUgZmFpbGVkLgo+IEhvd2V2ZXIsIEkgbm90aWNlZCB0aGF0IG1h
+bnkgYml0c3RyZWFtcyBhcmUgdXNlZCBpbiBib3RoIHRoZSB0YXN0IGFuZAo+IGZsdXN0ZXIgdGVz
+dHMuIFRoZSBkZWNvZGluZyB0ZXN0cyBmb3IgdGhlc2UgYml0c3RyZWFtcyBwYXNzIGluIHRoZSB0
+YXN0Cj4gdGVzdCBidXQgZmFpbCBpbiB0aGUgZmx1c3RlciB0ZXN0LiBJIGNvbXBhcmVkIHRoZSBt
+ZDVfY2hlY2tzdW0gdmFsdWVzCj4gZm9yIHRoZXNlIGJpdHN0cmVhbXMgaW4gdGhlIHh4eC5qc29u
+IGZpbGUgYW5kIGZvdW5kIHRoZW0gdG8gYmUKPiBjb21wbGV0ZWx5IGRpZmZlcmVudCBiZXR3ZWVu
+IHRoZSB0d28gdGVzdHMuCj4gCj4gVGhlIHRhc3QgdGVzdCByZXN1bHRzIGFyZSByZWNvZ25pemVk
+IGJ5IEdvb2dsZS4gQmFzZWQgb24gdGhlIGFib3ZlCj4gYW5hbHlzaXMsIEkgYmVsaWV2ZSB0aGUg
+Z29sZGVuIG1kNV9jaGVja3N1bSB2YWx1ZXMgaW4gdGhlIGZsdXN0ZXIgdGVzdAo+IGFyZSBpbmNv
+cnJlY3QuCj4gCj4gU2hvdWxkIEkgc3RpbGwgbmVlZCB0byBhdHRhY2ggYWxsIHRoZSBmbHVzdGVy
+IHRlc3QgcmVzdWx0cz8KClRoZSByZXF1aXJlbWVudCBhcmUgdGhlIHNhbWUgZm9yIGFsbCBzdWJt
+aXR0ZXJzLCBZb3UgbGlrZWx5IGhhdmUgYSBwcm9ibGVtIGluCnlvdXIgdGVzdCBzZXR1cC4gT3Ro
+ZXIgTWVkaWF0ZWsgZGV2ZWxvcGVycyBoYXZlIHN1Y2Nlc3NmdWxseSBydW4gdGhyb3VnaCB0aGlz
+CnRlc3QgdXNpbmcgR1N0cmVhbWVyIGFzIGEgYmFja2VuZCwgSSBhbHNvIGFjY2VwdCByZXN1bHRz
+IHVzaW5nIGZmbXBlZyBiYWNrZW5kCndpdGggTGlicmVFTEVDIHBhdGNoZXMsIG9yIG90aGVyIGJh
+Y2tlbmQgdXBzdHJlYW1lZCBpbnRvIGZsdXN0ZXIuIEdvb2dsZSBkaWQKd3JvdGUgYSBkZWNvZGVy
+IHV0aWxpemluZyB0aGUgQ2hyb21pdW0gaW50ZXJuYWxzLCBidXQgZGV2cyBsZWZ0IGJlZm9yZSB0
+aGlzIHdhcwptYWRlIHVwc3RyZWFtIGZsdXN0ZXIuCgpJIGJlbGlldmUgeW91IGNhbiBzZWVrIGhl
+bHAgZnJvbSBZdW5mZWkgRG9uZyA8eXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tPiB3aG8Kc3VjY2Vz
+c2Z1bGx5IHByb3ZpZGVkIHRoZXNlIHJlc3VsdHMgb24gbWFueSBvdGhlciB2YXJpYW50cy4gSSBi
+ZWxpZXZlIGhlIHVzZWQgYQpEZWJpYW4gdGVzdGluZyByb290IGZpbGUgc3lzdGVtIGZvciB0aGF0
+IHB1cnBvc2Ugc2luY2UgQ2hyb21lT1MgR2VudG9vIGZvcmsgd2FzCnRvbyBvbGQgKGFuZCBub3cg
+aW4gbWFpbnRlbmFuY2Ugb25seSBtb2RlKS4KCklmIHlvdSB3YW50IHN1cHBvcnQgZnJvbSB0aGlz
+IG1haWxpbmcgbGlzdCwgbWFrZSBzdXJlIHRvIGRlc2NyaWJlIGhvdyBpdCBmYWlsZWQsCmFuZCBz
+aG93IHRoYXQgeW91IGhhdmUgaW52ZXN0aWdhdGVkIHRoZSBwcm9ibGVtcywgYW5kIGhvdyBmYXIg
+eW91IGhhdmUgZ29uZQp0aHJvdWdoIGl0LiBBdCB0aGUgdmVyeSBtaW5pbXVtIHlvdSBzaG91bGQg
+aGF2ZSB2aXN1YWxseSBpbnNwZWN0ZWQgdGhlIHJhdwpvdXRwdXQgdXNpbmcgdGhlIC1rIChrZWVw
+KSBjb21tYW5kIGxpbmUgb3B0aW9uIG9uIGF0IGxlYXN0IG9uZSBvZiB0aGUgc3RyZWFtLgoKcmVn
+YXJkcywKTmljb2xhcwoKPiAKPiBUaGFua3MuCj4gCj4gUmVnYXJkcywKPiBLeXJpZS4KPiA+IAo+
+ID4gPiBFbmNvZGluZyBhbmQgZGVjb2Rpbmcgd29ya2VkIGZvciB0aGlzIGNoaXAuCj4gPiA+IAo+
+ID4gPiBQYXRjaGVzIDEtMiBBZGQgZGVjb2RlciBjb21wYXRpYmxlLgo+ID4gPiBQYXRjaGVzIDMg
+QWRkIHByb2ZpbGUgYW5kIGxldmVsIHN1cHBvcnRpbmcuCj4gPiA+IFBhdGNoZXMgNCBBZGQgY29y
+ZS1vbmx5IFZQOSBkZWNvZGluZyBzdXBwb3J0aW5nLgo+ID4gPiBQYXRjaGVzIDUtNiBmaXggc29t
+ZSBidWdzLgo+ID4gPiBQYXRjaGVzIDctOCBBZGRzIGVuY29kZXIgY29tcGF0aWJsZS4KPiA+ID4g
+Cj4gPiA+IC0tLQo+ID4gPiB2NGwyLWNvbXBsaWFuY2UgdGVzdCByZXN1bHRzOgo+ID4gPiB2NGwy
+LWNvbXBsaWFuY2UgLWQgL2Rldi92aWRlbzIKPiA+ID4gdjRsMi1jb21wbGlhbmNlIDEuMjguMSwg
+NjQgYml0cywgNjQtYml0IHRpbWVfdAo+ID4gPiAKPiA+ID4gQ29tcGxpYW5jZSB0ZXN0IGZvciBt
+dGstdmNvZGVjLWVuYyBkZXZpY2UgL2Rldi92aWRlbzI6Cj4gPiA+IAo+ID4gPiBEcml2ZXIgSW5m
+bzoKPiA+ID4gwqDCoMKgwqDCoMKgwqAgRHJpdmVyIG5hbWXCoMKgwqDCoMKgIDogbXRrLXZjb2Rl
+Yy1lbmMKPiA+ID4gwqDCoMKgwqDCoMKgwqAgQ2FyZCB0eXBlwqDCoMKgwqDCoMKgwqAgOiBNVDgx
+ODkgdmlkZW8gZW5jb2Rlcgo+ID4gPiDCoMKgwqDCoMKgwqDCoCBCdXMgaW5mb8KgwqDCoMKgwqDC
+oMKgwqAgOiBwbGF0Zm9ybToxNzAyMDAwMC52aWRlby1jb2RlYwo+ID4gPiDCoMKgwqDCoMKgwqDC
+oCBEcml2ZXIgdmVyc2lvbsKgwqAgOiA2LjYuODgKPiA+ID4gwqDCoMKgwqDCoMKgwqAgQ2FwYWJp
+bGl0aWVzwqDCoMKgwqAgOiAweDg0MjA0MDAwCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBWaWRlbyBNZW1vcnktdG8tTWVtb3J5IE11bHRpcGxhbmFyCj4gPiA+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBTdHJlYW1pbmcKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIEV4dGVuZGVkIFBpeCBGb3JtYXQKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIERldmljZSBDYXBhYmlsaXRpZXMKPiA+ID4gwqDCoMKgwqDCoMKgwqAgRGV2
+aWNlIENhcHPCoMKgwqDCoMKgIDogMHgwNDIwNDAwMAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgVmlkZW8gTWVtb3J5LXRvLU1lbW9yeSBNdWx0aXBsYW5hcgo+ID4gPiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgU3RyZWFtaW5nCj4gPiA+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBFeHRlbmRlZCBQaXggRm9ybWF0Cj4gPiA+IMKgwqDCoMKgwqDCoMKg
+IERldGVjdGVkIFN0YXRlZnVsIEVuY29kZXIKPiA+ID4gCj4gPiA+IFJlcXVpcmVkIGlvY3RsczoK
+PiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfUVVFUllDQVA6IE9LCj4gPiA+IMKgwqDC
+oMKgwqDCoMKgIHRlc3QgaW52YWxpZCBpb2N0bHM6IE9LCj4gPiA+IAo+ID4gPiBBbGxvdyBmb3Ig
+bXVsdGlwbGUgb3BlbnM6Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3Qgc2Vjb25kIC9kZXYvdmlk
+ZW8yIG9wZW46IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX1FVRVJZQ0FQOiBP
+Swo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HL1NfUFJJT1JJVFk6IE9LCj4gPiA+
+IMKgwqDCoMKgwqDCoMKgIHRlc3QgZm9yIHVubGltaXRlZCBvcGVuczogT0sKPiA+ID4gCj4gPiA+
+IERlYnVnIGlvY3RsczoKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfREJHX0cvU19S
+RUdJU1RFUjogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklE
+SU9DX0xPR19TVEFUVVM6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiAKPiA+ID4gSW5wdXQgaW9j
+dGxzOgo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HL1NfVFVORVIvRU5VTV9GUkVR
+X0JBTkRTOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJ
+T0NfRy9TX0ZSRVFVRU5DWTogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKg
+IHRlc3QgVklESU9DX1NfSFdfRlJFUV9TRUVLOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDC
+oMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRU5VTUFVRElPOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+
+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRy9TL0VOVU1JTlBVVDogT0sgKE5vdCBTdXBw
+b3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0cvU19BVURJTzogT0sgKE5v
+dCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIElucHV0czogMCBBdWRpbyBJbnB1dHM6
+IDAgVHVuZXJzOiAwCj4gPiA+IAo+ID4gPiBPdXRwdXQgaW9jdGxzOgo+ID4gPiDCoMKgwqDCoMKg
+wqDCoCB0ZXN0IFZJRElPQ19HL1NfTU9EVUxBVE9SOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4g
+wqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRy9TX0ZSRVFVRU5DWTogT0sgKE5vdCBTdXBwb3J0
+ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0VOVU1BVURPVVQ6IE9LIChOb3Qg
+U3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HL1MvRU5VTU9VVFBV
+VDogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0cv
+U19BVURPVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKgwqDCoCBPdXRwdXRz
+OiAwIEF1ZGlvIE91dHB1dHM6IDAgTW9kdWxhdG9yczogMAo+ID4gPiAKPiA+ID4gSW5wdXQvT3V0
+cHV0IGNvbmZpZ3VyYXRpb24gaW9jdGxzOgo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElP
+Q19FTlVNL0cvUy9RVUVSWV9TVEQ6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKg
+wqDCoCB0ZXN0IFZJRElPQ19FTlVNL0cvUy9RVUVSWV9EVl9USU1JTkdTOiBPSyAoTm90IFN1cHBv
+cnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRFZfVElNSU5HU19DQVA6IE9L
+IChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HL1NfRURJ
+RDogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IAo+ID4gPiBDb250cm9sIGlvY3RsczoKPiA+ID4g
+wqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfUVVFUllfRVhUX0NUUkwvUVVFUllNRU5VOiBPSwo+
+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19RVUVSWUNUUkw6IE9LCj4gPiA+IMKgwqDC
+oMKgwqDCoMKgIHRlc3QgVklESU9DX0cvU19DVFJMOiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0
+ZXN0IFZJRElPQ19HL1MvVFJZX0VYVF9DVFJMUzogT0sKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGZhaWw6IHY0bDItdGVzdC1jb250cm9scy5jcHAoMTE3MSk6IG5vZGUtCj4g
+PiA+ID4gY29kZWNfbWFzayAmCj4gPiA+IFNUQVRFRlVMX0VOQ09ERVIKPiA+ID4gwqDCoMKgwqDC
+oMKgwqAgdGVzdCBWSURJT0NfKFVOKVNVQlNDUklCRV9FVkVOVC9EUUVWRU5UOiBGQUlMCj4gPiA+
+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0cvU19KUEVHQ09NUDogT0sgKE5vdCBTdXBwb3J0
+ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIFN0YW5kYXJkIENvbnRyb2xzOiAxNiBQcml2YXRlIENv
+bnRyb2xzOiAwCj4gPiA+IAo+ID4gPiBGb3JtYXQgaW9jdGxzOgo+ID4gPiDCoMKgwqDCoMKgwqDC
+oCB0ZXN0IFZJRElPQ19FTlVNX0ZNVC9GUkFNRVNJWkVTL0ZSQU1FSU5URVJWQUxTOiBPSwo+ID4g
+PiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HL1NfUEFSTTogT0sKPiA+ID4gwqDCoMKgwqDC
+oMKgwqAgdGVzdCBWSURJT0NfR19GQlVGOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKg
+wqDCoMKgwqAgdGVzdCBWSURJT0NfR19GTVQ6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3Qg
+VklESU9DX1RSWV9GTVQ6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX1NfRk1U
+OiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HX1NMSUNFRF9WQklfQ0FQOiBP
+SyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBDcm9wcGluZzogT0sK
+PiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBDb21wb3Npbmc6IE9LIChOb3QgU3VwcG9ydGVkKQo+
+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFNjYWxpbmc6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4g
+PiAKPiA+ID4gQ29kZWMgaW9jdGxzOgo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ18o
+VFJZXylFTkNPREVSX0NNRDogT0sKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfR19F
+TkNfSU5ERVg6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJ
+RElPQ18oVFJZXylERUNPREVSX0NNRDogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IAo+ID4gPiBC
+dWZmZXIgaW9jdGxzOgo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19SRVFCVUZTL0NS
+RUFURV9CVUZTL1FVRVJZQlVGOiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IENSRUFURV9C
+VUZTIG1heGltdW0gYnVmZmVyczogT0sKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0Nf
+UkVNT1ZFX0JVRlM6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0VYUEJVRjog
+T0sKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBSZXF1ZXN0czogT0sgKE5vdCBTdXBwb3J0ZWQp
+Cj4gPiA+IAo+ID4gPiBUb3RhbCBmb3IgbXRrLXZjb2RlYy1lbmMgZGV2aWNlIC9kZXYvdmlkZW8y
+OiA0NywgU3VjY2VlZGVkOiA0NiwKPiA+ID4gRmFpbGVkOiAxLAo+ID4gPiBXYXJuaW5nczogMAo+
+ID4gPiAKPiA+ID4gdjRsMi1jb21wbGlhbmNlIC1kIC9kZXYvdmlkZW8zCj4gPiA+IHY0bDItY29t
+cGxpYW5jZSAxLjI4LjEsIDY0IGJpdHMsIDY0LWJpdCB0aW1lX3QKPiA+ID4gCj4gPiA+IENvbXBs
+aWFuY2UgdGVzdCBmb3IgbXRrLXZjb2RlYy1kZWMgZGV2aWNlIC9kZXYvdmlkZW8zOgo+ID4gPiAK
+PiA+ID4gRHJpdmVyIEluZm86Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIERyaXZlciBuYW1lwqDCoMKg
+wqDCoCA6IG10ay12Y29kZWMtZGVjCj4gPiA+IMKgwqDCoMKgwqDCoMKgIENhcmQgdHlwZcKgwqDC
+oMKgwqDCoMKgIDogTVQ4MTg5IHZpZGVvIGRlY29kZXIKPiA+ID4gwqDCoMKgwqDCoMKgwqAgQnVz
+IGluZm/CoMKgwqDCoMKgwqDCoMKgIDogcGxhdGZvcm06MTYwMDAwMDAudmlkZW8tY29kZWMKPiA+
+ID4gwqDCoMKgwqDCoMKgwqAgRHJpdmVyIHZlcnNpb27CoMKgIDogNi42Ljg4Cj4gPiA+IMKgwqDC
+oMKgwqDCoMKgIENhcGFiaWxpdGllc8KgwqDCoMKgIDogMHg4NDIwNDAwMAo+ID4gPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgVmlkZW8gTWVtb3J5LXRvLU1lbW9yeSBNdWx0aXBsYW5h
+cgo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgU3RyZWFtaW5nCj4gPiA+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBFeHRlbmRlZCBQaXggRm9ybWF0Cj4gPiA+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBEZXZpY2UgQ2FwYWJpbGl0aWVzCj4gPiA+IMKg
+wqDCoMKgwqDCoMKgIERldmljZSBDYXBzwqDCoMKgwqDCoCA6IDB4MDQyMDQwMDAKPiA+ID4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFZpZGVvIE1lbW9yeS10by1NZW1vcnkgTXVsdGlw
+bGFuYXIKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFN0cmVhbWluZwo+ID4g
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRXh0ZW5kZWQgUGl4IEZvcm1hdAo+ID4g
+PiDCoMKgwqDCoMKgwqDCoCBEZXRlY3RlZCBTdGF0ZWxlc3MgRGVjb2Rlcgo+ID4gPiBNZWRpYSBE
+cml2ZXIgSW5mbzoKPiA+ID4gwqDCoMKgwqDCoMKgwqAgRHJpdmVyIG5hbWXCoMKgwqDCoMKgIDog
+bXRrLXZjb2RlYy1kZWMKPiA+ID4gwqDCoMKgwqDCoMKgwqAgTW9kZWzCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIDogbXRrLXZjb2RlYy1kZWMKPiA+ID4gwqDCoMKgwqDCoMKgwqAgU2VyaWFswqDCoMKg
+wqDCoMKgwqDCoMKgwqAgOiAKPiA+ID4gwqDCoMKgwqDCoMKgwqAgQnVzIGluZm/CoMKgwqDCoMKg
+wqDCoMKgIDogcGxhdGZvcm06MTYwMDAwMDAudmlkZW8tY29kZWMKPiA+ID4gwqDCoMKgwqDCoMKg
+wqAgTWVkaWEgdmVyc2lvbsKgwqDCoCA6IDYuNi44OAo+ID4gPiDCoMKgwqDCoMKgwqDCoCBIYXJk
+d2FyZSByZXZpc2lvbjogMHgwMDAwMDAwMCAoMCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgRHJpdmVy
+IHZlcnNpb27CoMKgIDogNi42Ljg4Cj4gPiA+IEludGVyZmFjZSBJbmZvOgo+ID4gPiDCoMKgwqDC
+oMKgwqDCoCBJRMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgOiAweDAzMDAwMDBjCj4gPiA+
+IMKgwqDCoMKgwqDCoMKgIFR5cGXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgOiBWNEwgVmlkZW8K
+PiA+ID4gRW50aXR5IEluZm86Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIElEwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCA6IDB4MDAwMDAwMDEgKDEpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIE5hbWXC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgOiBtdGstdmNvZGVjLWRlYy1zb3VyY2UKPiA+ID4gwqDC
+oMKgwqDCoMKgwqAgRnVuY3Rpb27CoMKgwqDCoMKgwqDCoMKgIDogVjRMMiBJL08KPiA+ID4gwqDC
+oMKgwqDCoMKgwqAgUGFkIDB4MDEwMDAwMDLCoMKgIDogMDogU291cmNlCj4gPiA+IMKgwqDCoMKg
+wqDCoMKgwqDCoCBMaW5rIDB4MDIwMDAwMDg6IHRvIHJlbW90ZSBwYWQgMHgxMDAwMDA0IG9mIGVu
+dGl0eSAnbXRrLQo+ID4gPiB2Y29kZWMtZGVjLQo+ID4gPiBwcm9jJyAoVmlkZW8gRGVjb2Rlcik6
+IERhdGEsIEVuYWJsZWQsIEltbXV0YWJsZQo+ID4gPiAKPiA+ID4gUmVxdWlyZWQgaW9jdGxzOgo+
+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IE1DIGluZm9ybWF0aW9uIChzZWUgJ01lZGlhIERyaXZl
+ciBJbmZvJyBhYm92ZSk6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX1FVRVJZ
+Q0FQOiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IGludmFsaWQgaW9jdGxzOiBPSwo+ID4g
+PiAKPiA+ID4gQWxsb3cgZm9yIG11bHRpcGxlIG9wZW5zOgo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0
+ZXN0IHNlY29uZCAvZGV2L3ZpZGVvMyBvcGVuOiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0
+IFZJRElPQ19RVUVSWUNBUDogT0sKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRy9T
+X1BSSU9SSVRZOiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IGZvciB1bmxpbWl0ZWQgb3Bl
+bnM6IE9LCj4gPiA+IAo+ID4gPiBEZWJ1ZyBpb2N0bHM6Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRl
+c3QgVklESU9DX0RCR19HL1NfUkVHSVNURVI6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKg
+wqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19MT0dfU1RBVFVTOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+
+ID4gCj4gPiA+IElucHV0IGlvY3RsczoKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0Nf
+Ry9TX1RVTkVSL0VOVU1fRlJFUV9CQU5EUzogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDC
+oMKgwqDCoMKgIHRlc3QgVklESU9DX0cvU19GUkVRVUVOQ1k6IE9LIChOb3QgU3VwcG9ydGVkKQo+
+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19TX0hXX0ZSRVFfU0VFSzogT0sgKE5vdCBT
+dXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0VOVU1BVURJTzogT0sg
+KE5vdCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0cvUy9FTlVN
+SU5QVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElP
+Q19HL1NfQVVESU86IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKgwqDCoCBJbnB1
+dHM6IDAgQXVkaW8gSW5wdXRzOiAwIFR1bmVyczogMAo+ID4gPiAKPiA+ID4gT3V0cHV0IGlvY3Rs
+czoKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRy9TX01PRFVMQVRPUjogT0sgKE5v
+dCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0cvU19GUkVRVUVO
+Q1k6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19F
+TlVNQVVET1VUOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBW
+SURJT0NfRy9TL0VOVU1PVVRQVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiDCoMKgwqDCoMKg
+wqDCoCB0ZXN0IFZJRElPQ19HL1NfQVVET1VUOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDC
+oMKgwqDCoMKgwqAgT3V0cHV0czogMCBBdWRpbyBPdXRwdXRzOiAwIE1vZHVsYXRvcnM6IDAKPiA+
+ID4gCj4gPiA+IElucHV0L091dHB1dCBjb25maWd1cmF0aW9uIGlvY3RsczoKPiA+ID4gwqDCoMKg
+wqDCoMKgwqAgdGVzdCBWSURJT0NfRU5VTS9HL1MvUVVFUllfU1REOiBPSyAoTm90IFN1cHBvcnRl
+ZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRU5VTS9HL1MvUVVFUllfRFZfVElN
+SU5HUzogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9D
+X0RWX1RJTUlOR1NfQ0FQOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAg
+dGVzdCBWSURJT0NfRy9TX0VESUQ6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiAKPiA+ID4gQ29u
+dHJvbCBpb2N0bHM6Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX1FVRVJZX0VYVF9D
+VFJML1FVRVJZTUVOVTogT0sKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfUVVFUllD
+VFJMOiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HL1NfQ1RSTDogT0sKPiA+
+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRy9TL1RSWV9FWFRfQ1RSTFM6IE9LCj4gPiA+
+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DXyhVTilTVUJTQ1JJQkVfRVZFTlQvRFFFVkVOVDog
+T0sKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfRy9TX0pQRUdDT01QOiBPSyAoTm90
+IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgU3RhbmRhcmQgQ29udHJvbHM6IDE1IFBy
+aXZhdGUgQ29udHJvbHM6IDIKPiA+ID4gwqDCoMKgwqDCoMKgwqAgU3RhbmRhcmQgQ29tcG91bmQg
+Q29udHJvbHM6IDEzIFByaXZhdGUgQ29tcG91bmQgQ29udHJvbHM6IDAKPiA+ID4gCj4gPiA+IEZv
+cm1hdCBpb2N0bHM6Cj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0VOVU1fRk1UL0ZS
+QU1FU0laRVMvRlJBTUVJTlRFUlZBTFM6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklE
+SU9DX0cvU19QQVJNOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVz
+dCBWSURJT0NfR19GQlVGOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAg
+dGVzdCBWSURJT0NfR19GTVQ6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX1RS
+WV9GTVQ6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX1NfRk1UOiBPSwo+ID4g
+PiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19HX1NMSUNFRF9WQklfQ0FQOiBPSyAoTm90IFN1
+cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBDcm9wcGluZzogT0sgKE5vdCBTdXBw
+b3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgQ29tcG9zaW5nOiBPSwo+ID4gPiDCoMKg
+wqDCoMKgwqDCoCB0ZXN0IFNjYWxpbmc6IE9LIChOb3QgU3VwcG9ydGVkKQo+ID4gPiAKPiA+ID4g
+Q29kZWMgaW9jdGxzOgo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ18oVFJZXylFTkNP
+REVSX0NNRDogT0sgKE5vdCBTdXBwb3J0ZWQpCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklE
+SU9DX0dfRU5DX0lOREVYOiBPSyAoTm90IFN1cHBvcnRlZCkKPiA+ID4gwqDCoMKgwqDCoMKgwqAg
+dGVzdCBWSURJT0NfKFRSWV8pREVDT0RFUl9DTUQ6IE9LCj4gPiA+IAo+ID4gPiBCdWZmZXIgaW9j
+dGxzOgo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IFZJRElPQ19SRVFCVUZTL0NSRUFURV9CVUZT
+L1FVRVJZQlVGOiBPSwo+ID4gPiDCoMKgwqDCoMKgwqDCoCB0ZXN0IENSRUFURV9CVUZTIG1heGlt
+dW0gYnVmZmVyczogT0sKPiA+ID4gwqDCoMKgwqDCoMKgwqAgdGVzdCBWSURJT0NfUkVNT1ZFX0JV
+RlM6IE9LCj4gPiA+IMKgwqDCoMKgwqDCoMKgIHRlc3QgVklESU9DX0VYUEJVRjogT0sKPiA+ID4g
+wqDCoMKgwqDCoMKgwqAgdGVzdCBSZXF1ZXN0czogT0sKPiA+ID4gCj4gPiA+IFRvdGFsIGZvciBt
+dGstdmNvZGVjLWRlYyBkZXZpY2UgL2Rldi92aWRlbzM6IDQ4LCBTdWNjZWVkZWQ6IDQ4LAo+ID4g
+PiBGYWlsZWQ6IDAsCj4gPiA+IFdhcm5pbmdzOiAwCj4gPiA+IAo+ID4gPiBzY3AgdXBzdHJlYW0g
+bGluazoKPiA+ID4gCj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4
+LW1lZGlhdGVrL3BhdGNoLzIwMjUwODExMDE1OTIyLjMyNjgwLTEtaHVheXUuem9uZ0BtZWRpYXRl
+ay5jb20vCj4gPiA+IAo+ID4gPiBDaGFuZ2VzIGNvbXBhcmVkIHdpdGggdjE6Cj4gPiA+IC0tYWRk
+IHY0bDItY29tcGxpYW5jZSB0ZXN0IHJlc3VsdHMKPiA+ID4gLS1hZGQgc2NwIHVwc3RyZWFtIGxp
+bmsKPiA+ID4gLS1hZGQgSFcgZGlmZmVyZW5jZSBkaXNjcmlwdGlvbnMgZm9yIGR0LWJpbmRpbmdz
+IGNvbW1pdCBtZXNzYWdlcwo+ID4gPiAKPiA+ID4gVGhpcyBzZXJpZXMgcGF0Y2hlcyBkZXBlbmRl
+bnQgb246Cj4gPiA+IFsxXQo+ID4gPiAKPiBodHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9w
+cm9qZWN0L2xpbnV4LW1lZGlhL2NvdmVyLzIwMjUwNTEwMDc1MzU3LjExNzYxLTEteXVuZmVpLmRv
+bmdAbWVkaWF0ZWsuY29tLwo+ID4gPiBbMl0KPiA+ID4gCj4gaHR0cHM6Ly9wYXRjaHdvcmsubGlu
+dXh0di5vcmcvcHJvamVjdC9saW51eC1tZWRpYS9jb3Zlci8yMDI1MDUyODA2MzYzMy4xNDA1NC0x
+LWlydWkud2FuZ0BtZWRpYXRlay5jb20vCj4gPiA+IAo+ID4gPiBLeXJpZSBXdSAoOCk6Cj4gPiA+
+IMKgIGR0LWJpbmRpbmdzOiBtZWRpYTogbWVkaWF0ZWs6IGRlY29kZXI6IEFkZCBNVDgxODkKPiA+
+ID4gwqDCoMKgIG1lZGlhdGVrLHZjb2RlYy1kZWNvZGVyCj4gPiA+IMKgIG1lZGlhOiBtZWRpYXRl
+azogdmNvZGVjOiBhZGQgZGVjb2RlciBjb21wYXRpYmxlIHRvIHN1cHBvcnQgTVQ4MTg5Cj4gPiA+
+IMKgIG1lZGlhOiBtZWRpYXRlazogdmNvZGVjOiBhZGQgcHJvZmlsZSBhbmQgbGV2ZWwgc3VwcG9y
+dGluZyBmb3IKPiA+ID4gTVQ4MTg5Cj4gPiA+IMKgIG1lZGlhOiBtZWRpYXRlazogdmNvZGVjOiBB
+ZGQgY29yZS1vbmx5IFZQOSBkZWNvZGluZyBzdXBwb3J0IGZvcgo+ID4gPiBNVDgxODkKPiA+ID4g
+wqAgbWVkaWE6IG1lZGlhdGVrOiB2Y29kZWM6IGZpeCB2cDkgNDA5NngyMTc2IGZhaWwgZm9yIHBy
+b2ZpbGUyCj4gPiA+IMKgIG1lZGlhOiBtZWRpYXRlazogdmNvZGVjOiBmaXggbWVkaWEgZGV2aWNl
+IG5vZGUgbnVtYmVyCj4gPiA+IMKgIGR0LWJpbmRpbmdzOiBtZWRpYTogQWRkIE1UODE4OSBtZWRp
+YXRlayx2Y29kZWMtZW5jb2Rlcgo+ID4gPiDCoCBtZWRpYTogbWVkaWF0ZWs6IGVuY29kZXI6IEFk
+ZCBNVDgxODkgZW5jb2RlciBjb21wYXRpYmxlIGRhdGEKPiA+ID4gCj4gPiA+IMKgLi4uL21lZGlh
+L21lZGlhdGVrLHZjb2RlYy1lbmNvZGVyLnlhbWzCoMKgwqDCoMKgwqDCoCB8wqAgMiArKwo+ID4g
+PiDCoC4uLi9tZWRpYS9tZWRpYXRlayx2Y29kZWMtc3ViZGV2LWRlY29kZXIueWFtbCB8wqAgMSAr
+Cj4gPiA+IMKgLi4uL3Zjb2RlYy9kZWNvZGVyL210a192Y29kZWNfZGVjX2Rydi5jwqDCoMKgwqDC
+oMKgIHzCoCA5ICsrKysrLQo+ID4gPiDCoC4uLi92Y29kZWMvZGVjb2Rlci9tdGtfdmNvZGVjX2Rl
+Y19kcnYuaMKgwqDCoMKgwqDCoCB8wqAgMSArCj4gPiA+IMKgLi4uL3Zjb2RlYy9kZWNvZGVyL210
+a192Y29kZWNfZGVjX3N0YXRlbGVzcy5jIHzCoCA0ICsrKwo+ID4gPiDCoC4uLi92Y29kZWMvZGVj
+b2Rlci92ZGVjL3ZkZWNfdnA5X3JlcV9sYXRfaWYuYyB8IDMyICsrKysrKysrKysrKy0tLQo+ID4g
+PiAtLS0tCj4gPiA+IMKgLi4uL3Zjb2RlYy9lbmNvZGVyL210a192Y29kZWNfZW5jX2Rydi5jwqDC
+oMKgwqDCoMKgIHwgMTQgKysrKysrKysKPiA+ID4gwqA3IGZpbGVzIGNoYW5nZWQsIDUwIGluc2Vy
+dGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQo=
+
+
+--=-1PXUQU7UfFJmj/iLGeJE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250819-vd55g1_add_vd65g4-v1-2-b48646456c23@foss.st.com>
-References: <20250819-vd55g1_add_vd65g4-v1-0-b48646456c23@foss.st.com>
-In-Reply-To: <20250819-vd55g1_add_vd65g4-v1-0-b48646456c23@foss.st.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sylvain Petinot
-	<sylvain.petinot@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-19_02,2025-08-14_01,2025-03-28_01
 
-The vd65g4 is the bayer version of the vd55g1.
-As opposed to the vd55g1, the vd65g4 does not need any patch. Check the
-sensor id at probe and choose to patch or not on power_on() according to
-it.
-It's bayer matrix's order is RGGB. This commit handles hflip and vflip
-by switching the bayer pattern accordingly.
+-----BEGIN PGP SIGNATURE-----
 
-Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
----
- drivers/media/i2c/vd55g1.c | 231 ++++++++++++++++++++++++++++++++-------------
- 1 file changed, 164 insertions(+), 67 deletions(-)
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaKRvvgAKCRDZQZRRKWBy
+9LnmAQDPUb7Q2Ruaaao+65uYA1+hPL20w5xMC6/UR3UEK3hEMgEA+j5JqB8mwETn
+IGUY5McIESgxZ18rLPMBBedMQwS37wg=
+=NucY
+-----END PGP SIGNATURE-----
 
-diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
-index b89fff7e11f891dea04a0085a9e7aac841b6643d..4f8d4c0fbdafa0ea7e9a4e366cc1f49178f14e02 100644
---- a/drivers/media/i2c/vd55g1.c
-+++ b/drivers/media/i2c/vd55g1.c
-@@ -29,9 +29,11 @@
- 
- /* Register Map */
- #define VD55G1_REG_MODEL_ID				CCI_REG32_LE(0x0000)
--#define VD55G1_MODEL_ID					0x53354731
-+#define VD55G1_MODEL_ID_VD55G1				0x53354731 /* Mono */
-+#define VD55G1_MODEL_ID_VD65G4				0x53354733 /* RGB */
- #define VD55G1_REG_REVISION				CCI_REG16_LE(0x0004)
- #define VD55G1_REVISION_CCB				0x2020
-+#define VD55G1_REVISION_BAYER				0x3030
- #define VD55G1_REG_FWPATCH_REVISION			CCI_REG16_LE(0x0012)
- #define VD55G1_REG_FWPATCH_START_ADDR			CCI_REG8(0x2000)
- #define VD55G1_REG_SYSTEM_FSM				CCI_REG8(0x001c)
-@@ -39,7 +41,8 @@
- #define VD55G1_SYSTEM_FSM_SW_STBY			0x02
- #define VD55G1_SYSTEM_FSM_STREAMING			0x03
- #define VD55G1_REG_BOOT					CCI_REG8(0x0200)
--#define VD55G1_BOOT_PATCH_SETUP				2
-+#define VD55G1_BOOT_BOOT				1
-+#define VD55G1_BOOT_PATCH_AND_BOOT			2
- #define VD55G1_REG_STBY					CCI_REG8(0x0201)
- #define VD55G1_STBY_START_STREAM			1
- #define VD55G1_REG_STREAMING				CCI_REG8(0x0202)
-@@ -132,7 +135,10 @@
- #define VD55G1_MIPI_RATE_MIN				(250 * MEGA)
- #define VD55G1_MIPI_RATE_MAX				(1200 * MEGA)
- 
--static const u8 patch_array[] = {
-+#define VD55G1_MODEL_ID_NAME(id) \
-+	((id) == VD55G1_MODEL_ID_VD55G1 ? "vd55g1" : "vd65g4")
-+
-+static const u8 vd55g1_patch_array[] = {
- 	0x44, 0x03, 0x09, 0x02, 0xe6, 0x01, 0x42, 0x00, 0xea, 0x01, 0x42, 0x00,
- 	0xf0, 0x01, 0x42, 0x00, 0xe6, 0x01, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-@@ -466,22 +472,24 @@ struct vd55g1_mode {
- 	u32 height;
- };
- 
--struct vd55g1_fmt_desc {
--	u32 code;
--	u8 bpp;
--	u8 data_type;
-+static const u32 vd55g1_mbus_formats_mono[] = {
-+	MEDIA_BUS_FMT_Y8_1X8,
-+	MEDIA_BUS_FMT_Y10_1X10,
- };
- 
--static const struct vd55g1_fmt_desc vd55g1_mbus_codes[] = {
-+/* Format order is : no flip, hflip, vflip, both */
-+static const u32 vd55g1_mbus_formats_bayer[][5] = {
- 	{
--		.code = MEDIA_BUS_FMT_Y8_1X8,
--		.bpp = 8,
--		.data_type = MIPI_CSI2_DT_RAW8,
-+		MEDIA_BUS_FMT_SRGGB8_1X8,
-+		MEDIA_BUS_FMT_SGRBG8_1X8,
-+		MEDIA_BUS_FMT_SGBRG8_1X8,
-+		MEDIA_BUS_FMT_SBGGR8_1X8,
- 	},
- 	{
--		.code = MEDIA_BUS_FMT_Y10_1X10,
--		.bpp = 10,
--		.data_type = MIPI_CSI2_DT_RAW10,
-+		MEDIA_BUS_FMT_SRGGB10_1X10,
-+		MEDIA_BUS_FMT_SGRBG10_1X10,
-+		MEDIA_BUS_FMT_SGBRG10_1X10,
-+		MEDIA_BUS_FMT_SBGGR10_1X10,
- 	},
- };
- 
-@@ -524,6 +532,7 @@ struct vd55g1_vblank_limits {
- 
- struct vd55g1 {
- 	struct device *dev;
-+	unsigned int id;
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
- 	struct regulator_bulk_data supplies[ARRAY_SIZE(vd55g1_supply_name)];
-@@ -572,27 +581,75 @@ static inline struct vd55g1 *ctrl_to_vd55g1(struct v4l2_ctrl *ctrl)
- 	return to_vd55g1(sd);
- }
- 
--static const struct vd55g1_fmt_desc *vd55g1_get_fmt_desc(struct vd55g1 *sensor,
--							 u32 code)
-+static unsigned int vd55g1_get_fmt_bpp(u32 code)
- {
--	unsigned int i;
-+	switch (code) {
-+	case MEDIA_BUS_FMT_Y8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	default:
-+		return 8;
-+
-+	case MEDIA_BUS_FMT_Y10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+		return 10;
-+	}
-+}
- 
--	for (i = 0; i < ARRAY_SIZE(vd55g1_mbus_codes); i++) {
--		if (vd55g1_mbus_codes[i].code == code)
--			return &vd55g1_mbus_codes[i];
-+static unsigned int vd55g1_get_fmt_data_type(u32 code)
-+{
-+	switch (code) {
-+	case MEDIA_BUS_FMT_Y8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	default:
-+		return MIPI_CSI2_DT_RAW8;
-+
-+	case MEDIA_BUS_FMT_Y10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+		return MIPI_CSI2_DT_RAW10;
- 	}
-+}
-+
-+static u32 vd55g1_get_fmt_code(struct vd55g1 *sensor, u32 code)
-+{
-+	unsigned int i, j;
- 
--	/* Should never happen */
--	dev_warn(sensor->dev, "Unsupported code %d. default to 8 bpp\n", code);
-+	if (sensor->id == VD55G1_MODEL_ID_VD55G1)
-+		return code;
- 
--	return &vd55g1_mbus_codes[0];
-+	for (i = 0; i < ARRAY_SIZE(vd55g1_mbus_formats_bayer); i++) {
-+		for (j = 0; j < ARRAY_SIZE(vd55g1_mbus_formats_bayer[i]); j++) {
-+			if (vd55g1_mbus_formats_bayer[i][j] == code)
-+				goto adapt_bayer_pattern;
-+		}
-+	}
-+
-+adapt_bayer_pattern:
-+	j = 0;
-+	/* In first init_state() call, controls might not be initialized yet */
-+	if (sensor->hflip_ctrl && sensor->vflip_ctrl) {
-+		j = (sensor->hflip_ctrl->val ? 1 : 0) +
-+			(sensor->vflip_ctrl->val ? 2 : 0);
-+	}
-+
-+	return vd55g1_mbus_formats_bayer[i][j];
- }
- 
- static s32 vd55g1_get_pixel_rate(struct vd55g1 *sensor,
- 				 struct v4l2_mbus_framefmt *format)
- {
--	return sensor->mipi_rate /
--			vd55g1_get_fmt_desc(sensor, format->code)->bpp;
-+	return sensor->mipi_rate / vd55g1_get_fmt_bpp(format->code);
- }
- 
- static unsigned int vd55g1_get_hblank_min(struct vd55g1 *sensor,
-@@ -605,7 +662,7 @@ static unsigned int vd55g1_get_hblank_min(struct vd55g1 *sensor,
- 
- 	/* MIPI required time */
- 	mipi_req_line_time = (crop->width *
--			      vd55g1_get_fmt_desc(sensor, format->code)->bpp +
-+			      vd55g1_get_fmt_bpp(format->code) +
- 			      VD55G1_MIPI_MARGIN) /
- 			      (sensor->mipi_rate / MEGA);
- 	mipi_req_line_length = mipi_req_line_time * sensor->pixel_clock /
-@@ -887,7 +944,7 @@ static void vd55g1_update_pad_fmt(struct vd55g1 *sensor,
- 				  const struct vd55g1_mode *mode, u32 code,
- 				  struct v4l2_mbus_framefmt *fmt)
- {
--	fmt->code = code;
-+	fmt->code = vd55g1_get_fmt_code(sensor, code);
- 	fmt->width = mode->width;
- 	fmt->height = mode->height;
- 	fmt->colorspace = V4L2_COLORSPACE_RAW;
-@@ -951,10 +1008,9 @@ static int vd55g1_set_framefmt(struct vd55g1 *sensor,
- 	int ret = 0;
- 
- 	vd55g1_write(sensor, VD55G1_REG_FORMAT_CTRL,
--		     vd55g1_get_fmt_desc(sensor, format->code)->bpp, &ret);
-+		     vd55g1_get_fmt_bpp(format->code), &ret);
- 	vd55g1_write(sensor, VD55G1_REG_OIF_IMG_CTRL,
--		     vd55g1_get_fmt_desc(sensor, format->code)->data_type,
--		     &ret);
-+		     vd55g1_get_fmt_data_type(format->code), &ret);
- 
- 	switch (crop->width / format->width) {
- 	case 1:
-@@ -1115,26 +1171,45 @@ static int vd55g1_patch(struct vd55g1 *sensor)
- 	u64 patch;
- 	int ret = 0;
- 
--	vd55g1_write_array(sensor, VD55G1_REG_FWPATCH_START_ADDR,
--			   sizeof(patch_array), patch_array, &ret);
--	vd55g1_write(sensor, VD55G1_REG_BOOT, VD55G1_BOOT_PATCH_SETUP, &ret);
--	vd55g1_poll_reg(sensor, VD55G1_REG_BOOT, 0, &ret);
--	if (ret) {
--		dev_err(sensor->dev, "Failed to apply patch\n");
--		return ret;
--	}
-+	/* vd55g1 needs a patch while vd65g4 does not */
-+	if (sensor->id == VD55G1_MODEL_ID_VD55G1) {
-+		vd55g1_write_array(sensor, VD55G1_REG_FWPATCH_START_ADDR,
-+				   sizeof(vd55g1_patch_array),
-+				   vd55g1_patch_array, &ret);
-+		vd55g1_write(sensor, VD55G1_REG_BOOT,
-+			     VD55G1_BOOT_PATCH_AND_BOOT, &ret);
-+		vd55g1_poll_reg(sensor, VD55G1_REG_BOOT, 0, &ret);
-+		if (ret) {
-+			dev_err(sensor->dev, "Failed to apply patch\n");
-+			return ret;
-+		}
- 
--	vd55g1_read(sensor, VD55G1_REG_FWPATCH_REVISION, &patch, &ret);
--	if (patch != (VD55G1_FWPATCH_REVISION_MAJOR << 8) +
--	    VD55G1_FWPATCH_REVISION_MINOR) {
--		dev_err(sensor->dev, "Bad patch version expected %d.%d got %d.%d\n",
--			VD55G1_FWPATCH_REVISION_MAJOR,
--			VD55G1_FWPATCH_REVISION_MINOR,
-+		vd55g1_read(sensor, VD55G1_REG_FWPATCH_REVISION, &patch, &ret);
-+		if (patch != (VD55G1_FWPATCH_REVISION_MAJOR << 8) +
-+		    VD55G1_FWPATCH_REVISION_MINOR) {
-+			dev_err(sensor->dev, "Bad patch version expected %d.%d got %d.%d\n",
-+				VD55G1_FWPATCH_REVISION_MAJOR,
-+				VD55G1_FWPATCH_REVISION_MINOR,
-+				(u8)(patch >> 8), (u8)(patch & 0xff));
-+			return -ENODEV;
-+		}
-+		dev_dbg(sensor->dev, "patch %d.%d applied\n",
- 			(u8)(patch >> 8), (u8)(patch & 0xff));
--		return -ENODEV;
-+
-+	} else {
-+		vd55g1_write(sensor, VD55G1_REG_BOOT, VD55G1_BOOT_BOOT, &ret);
-+		vd55g1_poll_reg(sensor, VD55G1_REG_BOOT, 0, &ret);
-+		if (ret) {
-+			dev_err(sensor->dev, "Failed to boot\n");
-+			return ret;
-+		}
-+	}
-+
-+	ret = vd55g1_wait_state(sensor, VD55G1_SYSTEM_FSM_SW_STBY, NULL);
-+	if (ret) {
-+		dev_err(sensor->dev, "Sensor waiting after boot failed\n");
-+		return ret;
- 	}
--	dev_dbg(sensor->dev, "patch %d.%d applied\n",
--		(u8)(patch >> 8), (u8)(patch & 0xff));
- 
- 	return 0;
- }
-@@ -1166,10 +1241,19 @@ static int vd55g1_enum_mbus_code(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_state *sd_state,
- 				 struct v4l2_subdev_mbus_code_enum *code)
- {
--	if (code->index >= ARRAY_SIZE(vd55g1_mbus_codes))
--		return -EINVAL;
-+	struct vd55g1 *sensor = to_vd55g1(sd);
-+	u32 base_code;
- 
--	code->code = vd55g1_mbus_codes[code->index].code;
-+	if (sensor->id == VD55G1_MODEL_ID_VD55G1) {
-+		if (code->index >= ARRAY_SIZE(vd55g1_mbus_formats_mono))
-+			return -EINVAL;
-+		base_code = vd55g1_mbus_formats_mono[code->index];
-+	} else {
-+		if (code->index >= ARRAY_SIZE(vd55g1_mbus_formats_bayer))
-+			return -EINVAL;
-+		base_code = vd55g1_mbus_formats_bayer[code->index][0];
-+	}
-+	code->code = vd55g1_get_fmt_code(sensor, base_code);
- 
- 	return 0;
- }
-@@ -1276,7 +1360,7 @@ static int vd55g1_init_state(struct v4l2_subdev *sd,
- 		return ret;
- 
- 	vd55g1_update_pad_fmt(sensor, &vd55g1_supported_modes[VD55G1_MODE_DEF],
--			      vd55g1_mbus_codes[VD55G1_MBUS_CODE_DEF].code,
-+			      vd55g1_get_fmt_code(sensor, VD55G1_MBUS_CODE_DEF),
- 			      &fmt.format);
- 
- 	return vd55g1_set_pad_fmt(sd, sd_state, &fmt);
-@@ -1286,9 +1370,16 @@ static int vd55g1_enum_frame_size(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state,
- 				  struct v4l2_subdev_frame_size_enum *fse)
- {
-+	struct vd55g1 *sensor = to_vd55g1(sd);
-+	u32 code;
-+
- 	if (fse->index >= ARRAY_SIZE(vd55g1_supported_modes))
- 		return -EINVAL;
- 
-+	code = vd55g1_get_fmt_code(sensor, fse->code);
-+	if (fse->code != code)
-+		return -EINVAL;
-+
- 	fse->min_width = vd55g1_supported_modes[fse->index].width;
- 	fse->max_width = fse->min_width;
- 	fse->min_height = vd55g1_supported_modes[fse->index].height;
-@@ -1466,8 +1557,12 @@ static int vd55g1_init_ctrls(struct vd55g1 *sensor)
- 	/* Flip cluster */
- 	sensor->hflip_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HFLIP,
- 					       0, 1, 1, 0);
-+	if (sensor->hflip_ctrl)
-+		sensor->hflip_ctrl->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 	sensor->vflip_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VFLIP,
- 					       0, 1, 1, 0);
-+	if (sensor->vflip_ctrl)
-+		sensor->vflip_ctrl->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 	v4l2_ctrl_cluster(2, &sensor->hflip_ctrl);
- 
- 	/* Exposition cluster */
-@@ -1551,26 +1646,34 @@ static int vd55g1_init_ctrls(struct vd55g1 *sensor)
- 
- static int vd55g1_detect(struct vd55g1 *sensor)
- {
--	u64 device_rev;
--	u64 id;
-+	unsigned int dt_id = (uintptr_t)device_get_match_data(sensor->dev);
-+	u64 rev, id;
- 	int ret;
- 
- 	ret = vd55g1_read(sensor, VD55G1_REG_MODEL_ID, &id, NULL);
- 	if (ret)
- 		return ret;
- 
--	if (id != VD55G1_MODEL_ID) {
--		dev_warn(sensor->dev, "Unsupported sensor id %x\n", (u32)id);
-+	if (id != VD55G1_MODEL_ID_VD55G1 && id != VD55G1_MODEL_ID_VD65G4) {
-+		dev_warn(sensor->dev, "Unsupported sensor id 0x%x\n",
-+			 (u32)id);
-+		return -ENODEV;
-+	}
-+	if (id != dt_id) {
-+		dev_err(sensor->dev, "Probed sensor %s and device tree definition (%s) mismatch",
-+			VD55G1_MODEL_ID_NAME(id), VD55G1_MODEL_ID_NAME(dt_id));
- 		return -ENODEV;
- 	}
-+	sensor->id = id;
- 
--	ret = vd55g1_read(sensor, VD55G1_REG_REVISION, &device_rev, NULL);
-+	ret = vd55g1_read(sensor, VD55G1_REG_REVISION, &rev, NULL);
- 	if (ret)
- 		return ret;
- 
--	if (device_rev != VD55G1_REVISION_CCB) {
--		dev_err(sensor->dev, "Unsupported sensor revision (0x%x)\n",
--			(u16)device_rev);
-+	if ((id == VD55G1_MODEL_ID_VD55G1 && rev != VD55G1_REVISION_CCB) &&
-+	    (id == VD55G1_MODEL_ID_VD65G4 && rev != VD55G1_REVISION_BAYER)) {
-+		dev_err(sensor->dev, "Unsupported sensor revision 0x%x for sensor %s\n",
-+			(u16)rev, VD55G1_MODEL_ID_NAME(id));
- 		return -ENODEV;
- 	}
- 
-@@ -1619,13 +1722,6 @@ static int vd55g1_power_on(struct device *dev)
- 		goto disable_clock;
- 	}
- 
--	ret = vd55g1_wait_state(sensor, VD55G1_SYSTEM_FSM_SW_STBY, NULL);
--	if (ret) {
--		dev_err(dev, "Sensor waiting after patch failed %d\n",
--			ret);
--		goto disable_clock;
--	}
--
- 	return 0;
- 
- disable_clock:
-@@ -1938,7 +2034,8 @@ static void vd55g1_remove(struct i2c_client *client)
- }
- 
- static const struct of_device_id vd55g1_dt_ids[] = {
--	{ .compatible = "st,vd55g1" },
-+	{ .compatible = "st,vd55g1", .data = (void *)VD55G1_MODEL_ID_VD55G1 },
-+	{ .compatible = "st,vd65g4", .data = (void *)VD55G1_MODEL_ID_VD65G4 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, vd55g1_dt_ids);
-
--- 
-2.25.1
-
+--=-1PXUQU7UfFJmj/iLGeJE--
 
