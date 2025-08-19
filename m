@@ -1,202 +1,232 @@
-Return-Path: <linux-media+bounces-40317-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40318-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F25B2CD08
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 21:35:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BCFB2CDBD
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 22:25:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D8AF728311
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 19:34:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66FEE4E0A60
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 20:25:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0345B32C335;
-	Tue, 19 Aug 2025 19:34:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C4C326D48;
+	Tue, 19 Aug 2025 20:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxkWCNQ8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9mXTJyV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C61248F77
-	for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 19:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC0286337;
+	Tue, 19 Aug 2025 20:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755632094; cv=none; b=jolO5qtSC/tCxMrl6VSrK4+3U7ufpBiuWquQTEvgdLBOI9P8Ye0/ClouN1QJRlBXKeyK0Dv795cKDiJGqwLunkz1ONIGXfGErZ3VgDOP65HqnwMesghFejrKamtda2S5wgdyHpyyyQxdSYXm/XhLnUg3TK4qWv899F2TkMTdD7w=
+	t=1755635144; cv=none; b=TsitFnJZAks8MSJNNBlHoQ8MGgz0DcikZ6rhhJ6UlWMX6568+vNvx1V8/383vddK8ozN0bbjwgccwd0BE+Q/EEKG16JApCbu3lTtsgM0MzvykFBpW4V4unXZMN6QLX2SrcnK8g0Qa9++UI1nUiGI7pPoGBdbaBmHkl22IwEC4so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755632094; c=relaxed/simple;
-	bh=JgIIbB8i9SrmJ8ectsOPcCQ1KlVBnhnBYMUKtGFk72M=;
+	s=arc-20240116; t=1755635144; c=relaxed/simple;
+	bh=LVUaZqCxEUn+s6SnkVv9nwjEjzbR7xwmGoy2kx670yA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FAaBUlkpVsCXKhMCX94poOI1zcN/nEHUnVkkEIzmW8CAZ4F7G+a6L/7fnQw3qY+pSCIBWQII+nhoXhiCrL8rz4A0w4NzJ1k0Or2PtyHioOoJCuLCyvSr6by1xbBF8HZi6FF09DRkREBo+qJIajStLVbNmdL4LQg7wtenbKNYrIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxkWCNQ8; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755632093; x=1787168093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=JgIIbB8i9SrmJ8ectsOPcCQ1KlVBnhnBYMUKtGFk72M=;
-  b=RxkWCNQ8r1q23xYgM2U1CIdKq+5Dl3h7h302Pyn8FafSYJNHC9ZeOpBB
-   BcuhWh5qbg4Zy/ybdU5MeopjZuBxcGHhtWOaA2SdoybiwojgXK+vS4pz0
-   PwmYxT1dLn10QGPEWx2bc3HfBkuPwQtq4vbLHB4f9FYIKN21Sd2cDVF8u
-   C1fE0uXYQBtqFl67uCCRqy7kzovQzVOhdwGlLCUY9H0FJyRTnwHgkRSPw
-   DAaP9zU+JGc8a3JL2Sr+5gzCs1ofpS2n+wUWEqAn4Zpoavs4EJQYaiXBm
-   CQBaAOiAcPe5gRLNAekguumw/6zwAtua9PhFPEtDqnVqgF/8qMZdSzFNX
-   Q==;
-X-CSE-ConnectionGUID: EkTwRWwBT+OCcTw/Ia/idg==
-X-CSE-MsgGUID: 487Tk0HmTwurLw5UBo57mQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="75341477"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="75341477"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 12:34:52 -0700
-X-CSE-ConnectionGUID: 3rt/yZU6Q4OzHyHeWDe5kw==
-X-CSE-MsgGUID: OxgueF14REK1MB3OYSZwOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="198932941"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.235])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 12:34:49 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B4C79121F96;
-	Tue, 19 Aug 2025 22:34:46 +0300 (EEST)
-Date: Tue, 19 Aug 2025 22:34:46 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Keke Li <keke.li@amlogic.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 2/2] media: v4l2-common: Drop the workaround from
- v4l2_get_link_freq()
-Message-ID: <aKTR1rsDUDIZAU-l@kekkonen.localdomain>
-References: <20250819094533.2335-1-sakari.ailus@linux.intel.com>
- <20250819094533.2335-3-sakari.ailus@linux.intel.com>
- <20250819163843.GB25064@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KYukk/sMWM+e3ZxI9tssVQXfgvmIAMXVSbqoJOUDcytEcXurOKwpfvXA53kkakjkWZaP6Bk2xIMUOQqox25oWv75YE8A4B9vXFOfJ+VABpmJLdL6+THWGrabQCqC5z6ebMv+sJkNUZKI96BkgzL2oB3TwPLCl7e4eN7wpShMMkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9mXTJyV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41918C4CEF1;
+	Tue, 19 Aug 2025 20:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755635143;
+	bh=LVUaZqCxEUn+s6SnkVv9nwjEjzbR7xwmGoy2kx670yA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p9mXTJyVtAJW6EU2VyTFiBiQN6eyYhf23nYEiCWf35QpyZuCUlWB+EyeJHl3M1kb8
+	 seC4nUGGiHl+4JyD96/K9Uf4yWMU1cIomeRG3sH48VdN3uL24KdhOFcuDyf/Cnqx1R
+	 FPXutLIvX0ziKX22QMYXDLlMHHg6e9jZrtKonJpTcBDBkPfaOpIj3zBX6h+cNoK5l4
+	 UGP0gJ6q9cJpP6+mhbXDT6WNyxW02cmhfSRGjBgdDpztw7mkM12gvFamCoDrR14qqZ
+	 ET4HKev0mPOoe40QcunVUs0+D3Eus0JAiQosqFS+2IcTdtE7eO8IcP0D5BK7XxEJEs
+	 o5WCLjUEBjx0A==
+Date: Tue, 19 Aug 2025 15:25:42 -0500
+From: Rob Herring <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: media: i2c: document Sony IMX111
+ CMOS sensor
+Message-ID: <20250819202542.GA1254999-robh@kernel.org>
+References: <20250819120428.83437-1-clamor95@gmail.com>
+ <20250819120428.83437-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250819163843.GB25064@pendragon.ideasonboard.com>
+In-Reply-To: <20250819120428.83437-2-clamor95@gmail.com>
 
-Hi Laurent,
-
-Thanks for the review.
-
-On Tue, Aug 19, 2025 at 07:38:43PM +0300, Laurent Pinchart wrote:
-> On Tue, Aug 19, 2025 at 12:45:32PM +0300, Sakari Ailus wrote:
-> > Remove the workaround that allowed calling v4l2_get_link_freq() on the
-> > control handler.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-common.c | 17 ++++++++---------
-> >  include/media/v4l2-common.h           | 14 ++------------
-> >  2 files changed, 10 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > index a5334aa35992..0574f5d685f8 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -512,8 +512,9 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
-> >  
-> > -s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
-> > -			      unsigned int mul, unsigned int div)
-> > +#ifdef CONFIG_MEDIA_CONTROLLER
-> > +static s64 v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
-> > +				   unsigned int mul, unsigned int div)
-> >  {
-> >  	struct v4l2_ctrl *ctrl;
-> >  	s64 freq;
-> > @@ -548,11 +549,9 @@ s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
-> >  
-> >  	return freq > 0 ? freq : -EINVAL;
-> >  }
-> > -EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
-> >  
-> > -#ifdef CONFIG_MEDIA_CONTROLLER
-> > -s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> > -			     unsigned int div)
-> > +s64 v4l2_get_link_freq(struct media_pad *pad, unsigned int mul,
-> > +		       unsigned int div)
-> >  {
-> >  	struct v4l2_mbus_config mbus_config = {};
-> >  	struct v4l2_subdev *sd;
-> > @@ -571,10 +570,10 @@ s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> >  	 * Fall back to using the link frequency control if the media bus config
-> >  	 * doesn't provide a link frequency.
-> >  	 */
-> > -	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> > +	return v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> >  }
-> > -EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
-> > -#endif /* CONFIG_MEDIA_CONTROLLER */
-> > +EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
-> > +#endif
+On Tue, Aug 19, 2025 at 03:04:26PM +0300, Svyatoslav Ryhel wrote:
+> Add bindings for Sony IMX111 CMOS Digital Image Sensor found in LG
+> Optimus 4X (P880) and Optimus Vu (P895) smartphones.
 > 
-> You can now merge the two functions into one.
-
-I could do that but the end result would be somewhat less clear so I prefer
-keeping the two separate. I don't have a strong opinion though.
-
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../bindings/media/i2c/sony,imx111.yaml       | 126 ++++++++++++++++++
+>  1 file changed, 126 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
 > 
-> >  
-> >  /*
-> >   * Simplify a fraction using a simple continued fraction decomposition. The
-> > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > index 39dd0c78d70f..aedcfc81d12b 100644
-> > --- a/include/media/v4l2-common.h
-> > +++ b/include/media/v4l2-common.h
-> > @@ -578,19 +578,9 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
-> >   * * %-EINVAL: Invalid link frequency value
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
+> new file mode 100644
+> index 000000000000..52d88f5d477e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
+> @@ -0,0 +1,126 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx111.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony IMX111 8MP CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> +
+> +description:
+> +  IMX111 sensor is a Sony CMOS active pixel digital image sensor with an active
+> +  array size of 2464H x 3280V. It is programmable through I2C interface. Image
+> +  data is sent through MIPI CSI-2, through 1 or 2 lanes.
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx111
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: EXTCLK with possible frequency from 6 to 54 MHz
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  iovdd-supply:
+> +    description: Digital IO power supply (1.8V)
+> +
+> +  dvdd-supply:
+> +    description: Digital power supply (1.2V)
+> +
+> +  avdd-supply:
+> +    description: Analog power supply (2.7V)
+> +
+> +  eeprom:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      A phandle to the node of the eeprom, that holds sensors configuration data.
+
+This assumes the eeprom is dedicated to the sensor. What if it is just a 
+subset of some eeprom or other storage. Perhaps this should use nvmem 
+binding.
+
+> +
+> +  flash-leds: true
+> +  lens-focus: true
+> +
+> +  orientation: true
+> +  rotation: true
+
+Use 'unevaluatedProperties' instead and drop these.
+
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-rates: true
+> +  assigned-clock-parents: true
+
+Always allowed on nodes with 'clocks', so drop.
+
+> +
+> +  port:
+> +    additionalProperties: false
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes: true
+> +          bus-type: true
+> +          link-frequencies: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - bus-type
+> +          - link-frequencies
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/media/video-interfaces.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@10 {
+> +            compatible = "sony,imx111";
+> +            reg = <0x10>;
+> +
+> +            clocks = <&imx111_clk>;
+> +
+> +            iovdd-supply = <&camera_vddio_1v8>;
+> +            dvdd-supply = <&camera_vddd_1v2>;
+> +            avdd-supply = <&camera_vdda_2v7>;
+> +
+> +            orientation = <1>;
+> +            rotation = <90>;
+> +
+> +            eeprom = <&eeprom>;
+> +            flash-leds = <&led>;
+> +            lens-focus = <&vcm>;
+> +
+> +            reset-gpios = <&gpio 84 GPIO_ACTIVE_LOW>;
+> +
+> +            port {
+> +                imx111_output: endpoint {
+> +                    data-lanes = <1 2>;
+> +                    bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+> +                    link-frequencies = /bits/ 64 <271200000>;
+> +                    remote-endpoint = <&csi_input>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> -- 
+> 2.48.1
 > 
-> The function documentation needs an update, the pad argument's
-> description still mentions control handler. With that,
-
-What happens with that?
-
-I'll fix this for v3.
-
-> 
-> >   */
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > -#define v4l2_get_link_freq(pad, mul, div)				\
-> > -	_Generic(pad,							\
-> > -		 struct media_pad *: __v4l2_get_link_freq_pad,		\
-> > -		 struct v4l2_ctrl_handler *: __v4l2_get_link_freq_ctrl)	\
-> > -	(pad, mul, div)
-> > -s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> > -			     unsigned int div);
-> > -#else
-> > -#define v4l2_get_link_freq(handler, mul, div)		\
-> > -	__v4l2_get_link_freq_ctrl(handler, mul, div)
-> > +s64 v4l2_get_link_freq(struct media_pad *pad, unsigned int mul,
-> > +		       unsigned int div);
-> >  #endif
-> > -s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
-> > -			      unsigned int mul, unsigned int div);
-> >  
-> >  void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
-> >  		unsigned int n_terms, unsigned int threshold);
-> 
-
--- 
-Kind regards,
-
-Sakari Ailus
 
