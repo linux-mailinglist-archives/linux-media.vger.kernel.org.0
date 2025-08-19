@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-40258-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40259-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DFCB2C305
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:17:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDA1B2C31E
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:20:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9CD91B613F8
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 94C6D625BE0
 	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:17:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81DD8338F5B;
-	Tue, 19 Aug 2025 12:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DC3B33EB14;
+	Tue, 19 Aug 2025 12:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jN1vxb1Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZ4bi7lQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C19C33A02B;
-	Tue, 19 Aug 2025 12:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BDF33CE9C;
+	Tue, 19 Aug 2025 12:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755605806; cv=none; b=LiuMA7sk7iqGfAG2TlId5Z0EORSA+XYCU3wE6to9h8RIMASM1Un52XhQa1rntG7UNlfby+RNxxyfqyvUNl9mpEcXHv+dKhcNqRpORlTIS66iHDd5a5vwgkFSDZiuzJw4jibO+2GwVUYJzk8ELwNOldVd8Qma5CLuZAzb/k+yUyw=
+	t=1755605808; cv=none; b=ThXCTDcwzGQhDZfdRw7hH6DWNt2uRJ/eyUJQvV6E4BR29mE9ZiY1moiB5TK+ogzK7gVwVYhIfbOU4u8Z+KOOPt9JYNq22/7bPRA5qkk0s1Jy7Sd0rUtDnMOQfiAg47k0E6Fon+pKSZCQ5TjJ5gqUdp6bSqpVNCz1K6vUZ07FPS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755605806; c=relaxed/simple;
-	bh=jCks2FO351KgLe/fBb6hVWkS78U7RfPD0J2SavjybMY=;
+	s=arc-20240116; t=1755605808; c=relaxed/simple;
+	bh=J29OlXcWnov4zepEBMUdze8UQOIYB4NtqVr5tKZ7MHI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GNYQPDAiDw0BOVzSbnQF4gBa6BCy0WSwMhsq3/vO8RmllBTekLs5OKZDxp5CLFprsPxpaQ+Sc3H59cYZlPC+7Pby6mGfmmzNg5gI3VoNpVCntGQVYKjKWA7klO9k488UBCZK7Vclct16dCQfb5nH7Z1xCOyHSFIcerKrAXvCtyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jN1vxb1Y; arc=none smtp.client-ip=209.85.218.51
+	 MIME-Version; b=FIUF8aoCq54uf4n/ux47WjD8XCaI2eDIPh8bgZkRomWBB6US5TzAjxrCZfYPINh0+Iz1cnv8w88nGhJYs0xzWY/AvnHXER37v47Aa7essW3k9W1IJREDxJrteTgdrA1jTDkuiQlPmteStce1OkHBxuK7L+F8CExwYsNDrP81bZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZ4bi7lQ; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb7a3a085so804166666b.2;
-        Tue, 19 Aug 2025 05:16:44 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so696136866b.3;
+        Tue, 19 Aug 2025 05:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755605803; x=1756210603; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755605805; x=1756210605; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o/oKOTJz58St1gTwh/bBKNgiqYHP+xMc0H1/D5ORgpY=;
-        b=jN1vxb1Y5jbg+FFdGtGMlRRNiQH8hjKD0FOEo1oDFaNpfIWJfHDcHosP4jkxLuQ8x6
-         fVvTXIdPW/bq0LbVzPQH5aGxjrkd3qb3rX1LqRcrxfnWs6w7H3C9oBQvF9eEVMl8pFZe
-         gUdBodr6aKjQ29sK5ZF/9iHCCMjKlQuFWXDsQX3h5RphvRTV6RlijtJNIQJWGGbonMul
-         ltpRUxkKziAT034xQPukURcR6Idf/TnE9rpp3Zfdu/UAQSgzxjF3xcDsHZL8HiUJukJ5
-         PeszNJPHtxcjjN1Y4yZbExxMeKiQPra4il96mnMYDwPXMJRfqBv/mV8cHywYQKsZKD0a
-         WQWg==
+        bh=1wPpJDpKwCk8DlHPLkdpXMZ7CU88+N5YZ57h5JDdv0c=;
+        b=KZ4bi7lQMQYmCXLXt+gOrm6WV+HNV3rsbjk46G12h1WLnjCAyKjPbxL3exlrRoqftH
+         gpIALYU08RHHiHoCi8dARRTt3DYBD5819myRu2biBkzTXI+YiS0fzs8J+Dtz4VmQjRfA
+         P/8IurIUGOklTnzqMvEwtihnrMIIaLK34GUBoYejfaCvKGjTgi8keo1NzELhyKD5fqjP
+         K3hFumpuo0BbKVy8xTYzTSkT7Pyo+5kIstSFCbIZ8q3uYgYa7W2CZThVAXXMDEwmA2Yu
+         3bWzojTeDHmn1R+Y4kjuvFa/PnF+nOehqB40zcz0/vHMIoShKwMeS1XDJJpR3V/uW9lT
+         RLFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755605803; x=1756210603;
+        d=1e100.net; s=20230601; t=1755605805; x=1756210605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o/oKOTJz58St1gTwh/bBKNgiqYHP+xMc0H1/D5ORgpY=;
-        b=v3GlUQn/QKc7/dHmuNH49iw1XEfcI/VeqDimC02NMHkbbp46pciiiQAulwIwxutLqz
-         sFMYYEJHxmhwISiINDBCq7yYAOXa3FzLqIeNJKf1JtpgITqbvER/cvz5Ne7S/ed8KDx9
-         IAK2PSuM2qiNwXrq9s3I8PlRoGDRiargV3B93BWfwIBJgFejrATd6MBYKqE6jkdyk1+a
-         H/M7jRP0QvugGeva6RgJRXyvxU4ZIWPbmoQxE4HTcIaOCiH9TMAqQVY6DFf4bohxd0A+
-         PtkxlhdIJLUJt9npnX2gL+jY6fGRfNgE9qBg/k8ccqlqnORj+7X3vD7Zz8SIz7wXcZwz
-         41+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUviJm8+XVva/k7HFL9XrvJSVAv49xTzDPR5gWvhQ+kbOMy8wqZSYCCOPIAPCa55rIwGEHGRtoGorZugsVY@vger.kernel.org, AJvYcCV0SCfidGx4VW8njSeiPzSoDWXOf8ErE5lVjfPq57BXOB9zi+yIQKzkxGoomoSiJp3GtMB1gFlr/KPD@vger.kernel.org, AJvYcCVC4YIxt7bBtY0aSDSi3L7U5kns3YayX7hpy7R/bXjvsLZG/VuiEht6Oe1QQ9HgeU5JZJv3yErhHBXY@vger.kernel.org, AJvYcCWMGo0UkdIer5bm9Ah2WYf6aDf2UpYy4H8t/lBLHrgf5asgl2zlqkmPuxxbJvHUD//uACsJUaLvoZjaDvY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdMHvcDPGv8xmhmw8IY3Rq184pnClLCkgxZlKX3qY1sgwPYs5i
-	y2esaHopZt+Ohf+5HbJdT5iwh5BN46kN1dqB7X50riHe7Jl+I85bDDmN6LOieQ==
-X-Gm-Gg: ASbGncuo/xTvI7tcVoHb/R0okdoGJH4abqZuciPVdSUC8VSQhB9SyemjgUGOs8DNdE4
-	KS5FwvCT+3+WjTxMY1EhppqnaKodXjj+LrLXp/eXhqy0pFl4Qwe1aQ1oVeYa+gSLqyiI/UdlBOv
-	dBz9bzAifYGfFXr5EdUTsyv4p6DZfTuNFGWAA7HiT+Uwjm7qTHDmByuXySXtVHQZmrqjgvQ1N9W
-	2fbqBMIluoxBuDNyq5GBElTY+zPGjgr1wjHmd9dONhA7to1ce93Xy5JviXQZ4SOygwTDCb0SWI4
-	/eTI/TPk8omPbZF9AF1p3L5vt7coAB47pcK93bKrEB/IllMm0ZnV1t7Ylf9FFDmpl403bF39bkQ
-	rey9UiBe93WjSig==
-X-Google-Smtp-Source: AGHT+IH6gI4Wt9MTamNQRuZI3BgyK+3myche9xoYOBrZQHy1Q90e/zgSuCy2a+6/nFauZvLKfIttEw==
-X-Received: by 2002:a17:907:6d27:b0:af9:71fc:726 with SMTP id a640c23a62f3a-afddcbad953mr235796566b.17.1755605803433;
-        Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
+        bh=1wPpJDpKwCk8DlHPLkdpXMZ7CU88+N5YZ57h5JDdv0c=;
+        b=BvcfsoRkhIrFqdDlICguwjKKeGVNTTQkjSH5qvmymVAlIhRK1WK/1JmrJmIvmo9sLh
+         K4W4fTJZBwwTjmekMYZddszFce+V4vklD5kXkyUQnP79vij+fuRx5Z6umPDF7VG3fVen
+         YeLIsF8XxKvpVnhwn4j0JmSDC4TqCLz8WLGEzsFTnPQQGY5EbJBQ9PYe9NPPT8uqkG94
+         wCAcNrwKptHFDgNj5eEVtrGU5eu2o721BAarUfIE749vPvRvx8yRyHtRhD/tF0vDC/h8
+         +G0GORYFzVN3U/jA+hYgr4pwBNkWGten1eiC9w8VW2WCiyD0hCeH7hgQ/LuT18TWD8/j
+         UtYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUzlnotXacvCGnKZJx/gRYoFzG/lnk4ZhjSlfZMKNwnZFi0+aGzSK0cibDbDyvEbjSaX8ETo+FT4ysdOcA=@vger.kernel.org, AJvYcCViCAGREC1ypAOwRJLY1WFu6yXkqE67iWyShV0jfIdQsJu6SPjiYoLgpzAauSKZtG+9G7LGhgKpduifKRoC@vger.kernel.org, AJvYcCVkI4qrCgihnM27QG/YraKhLxD5c24xhWXYh2bqTR7IN1sEf7LnOtCoeo1OiKNUJR8MjiiTeddKHZ+2@vger.kernel.org, AJvYcCX7e8p3HuGYGmRtWWPglASZCue3/hhTHZLRlC1xI2H5nmTWyhBnn/XzQVHnbp/JBZ+RyVolhlJUkjSa@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxOHKLJIoLUoZA6zx3HM+MtuCp6mJwtDYXKfPBg4r5uGL+BQCF
+	aJeDh6JjlqqRZvFS9e3Q5tx8uXlHDETtAsJ9FTTE2ERHJ8y5QbP7Xa9W
+X-Gm-Gg: ASbGncvNovFW+s2PGafUmlVKYNeaE3zO0Gy2xpe3uqhtQdX3du0MYH5L6tUno1Z0P4D
+	OMuyY0ZkWSSCAbZhPbtEmw6FfzqNJbbSCwd4dkZwpqUwSFWPGS5cgIUEiLDROT7oeTJtRlc7v6+
+	nG+JvFE5JcmpYUoEGxHCqAuzdKI6vo6tibTq3HNuSp2/EcJI4A6jy2SKNwKB2hB6mymly7bG4cV
+	mUkdCvzAkp/isvjJHCZQeMpNUCRBVR3ZP9u5Q+gXOkfahnrVgfnnVyOc3VQLjBWNC9kiCkjccog
+	ZTj07vBeTTft8HacjuVoj7hrYCN+ia75RAyKynf62i3KLobrupronXbzYAthGT1/tni2QHEjN+w
+	4yyjYnHgyDFtTGA==
+X-Google-Smtp-Source: AGHT+IFmaPaAq/FduUBB1m9MQ2NkpWZueEPAYDNEeu+6/eKSUzGZ0f4FXW8JsCOBd9mrL2w0lEtK2g==
+X-Received: by 2002:a17:907:2d25:b0:afd:d994:cb2 with SMTP id a640c23a62f3a-afddd24961emr211057366b.64.1755605805046;
+        Tue, 19 Aug 2025 05:16:45 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.41
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
+        Tue, 19 Aug 2025 05:16:44 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Thierry Reding <treding@nvidia.com>,
@@ -104,9 +104,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 01/19] clk: tegra: init CSUS clock for Tegra20 and Tegra30
-Date: Tue, 19 Aug 2025 15:16:13 +0300
-Message-ID: <20250819121631.84280-2-clamor95@gmail.com>
+Subject: [PATCH v1 02/19] dt-bindings: clock: tegra20: Add IDs for CSI PAD clocks
+Date: Tue, 19 Aug 2025 15:16:14 +0300
+Message-ID: <20250819121631.84280-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250819121631.84280-1-clamor95@gmail.com>
 References: <20250819121631.84280-1-clamor95@gmail.com>
@@ -118,39 +118,28 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-CSUS clock is required to be enabled on camera device configuration or
-else camera module refuses to initiate properly.
+Tegra30 has CSI PAD clock enable bits embedded into PLLD/PLLD2 registers.
+Add ids for these clocks.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/clk/tegra/clk-tegra20.c | 1 +
- drivers/clk/tegra/clk-tegra30.c | 1 +
- 2 files changed, 2 insertions(+)
+ include/dt-bindings/clock/tegra30-car.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
-index 551ef0cf0c9a..42f8150c6110 100644
---- a/drivers/clk/tegra/clk-tegra20.c
-+++ b/drivers/clk/tegra/clk-tegra20.c
-@@ -1043,6 +1043,7 @@ static struct tegra_clk_init_table init_table[] = {
- 	{ TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
- 	{ TEGRA20_CLK_PWM, TEGRA20_CLK_PLL_P, 48000000, 0 },
-+	{ TEGRA20_CLK_CSUS, TEGRA20_CLK_CLK_MAX, 6000000, 1 },
- 	/* must be the last entry */
- 	{ TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
- };
-diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
-index 82a8cb9545eb..70e85e2949e0 100644
---- a/drivers/clk/tegra/clk-tegra30.c
-+++ b/drivers/clk/tegra/clk-tegra30.c
-@@ -1237,6 +1237,7 @@ static struct tegra_clk_init_table init_table[] = {
- 	{ TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
- 	{ TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 48000000, 0 },
- 	{ TEGRA30_CLK_PWM, TEGRA30_CLK_PLL_P, 48000000, 0 },
-+	{ TEGRA30_CLK_CSUS, TEGRA30_CLK_CLK_MAX, 6000000, 1 },
- 	/* must be the last entry */
- 	{ TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
- };
+diff --git a/include/dt-bindings/clock/tegra30-car.h b/include/dt-bindings/clock/tegra30-car.h
+index f193663e6f28..14b83e90a0fc 100644
+--- a/include/dt-bindings/clock/tegra30-car.h
++++ b/include/dt-bindings/clock/tegra30-car.h
+@@ -271,6 +271,8 @@
+ #define TEGRA30_CLK_AUDIO3_MUX 306
+ #define TEGRA30_CLK_AUDIO4_MUX 307
+ #define TEGRA30_CLK_SPDIF_MUX 308
+-#define TEGRA30_CLK_CLK_MAX 309
++#define TEGRA30_CLK_CSIA_PAD 309
++#define TEGRA30_CLK_CSIB_PAD 310
++#define TEGRA30_CLK_CLK_MAX 311
+ 
+ #endif	/* _DT_BINDINGS_CLOCK_TEGRA30_CAR_H */
 -- 
 2.48.1
 
