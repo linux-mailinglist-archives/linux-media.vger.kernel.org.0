@@ -1,177 +1,266 @@
-Return-Path: <linux-media+bounces-40221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40222-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FE0B2B8FA
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 07:54:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FBFB2BA0A
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 09:00:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1A1C5816A9
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 05:54:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F25E33B8FF5
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 07:00:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE25C257832;
-	Tue, 19 Aug 2025 05:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0AA726560A;
+	Tue, 19 Aug 2025 07:00:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="AHpiOaPo"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lpX8t8gy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6702B1FECD4;
-	Tue, 19 Aug 2025 05:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80DD25BEFE;
+	Tue, 19 Aug 2025 07:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755582874; cv=none; b=TU76UQJ+ffpV75bJVPjyE3d2P96tPEHe0VubomAhTnM7Q0Dg3f2gXrMSR2K4QCcawFzx5dhciA/Lt2id1hxVmTvbuqgeyS8w+x//FDrvVtBYNG0Gtw0bWL1lKyq8+RU8TtsGzsrDga+ZlsL/A3djkx6GZ8a4F9+Sl9feypSGb0U=
+	t=1755586820; cv=none; b=Ogqi7XITP1UC53pgUkxjjIaKZF+rrvZhmvZkHuF35j5he519N5YM8ytfeuLyQOjNQ0fpmXijn/lKhzHWOAMLi87usCLdm05ETb/Tc5YLKbd42PF6A5v1QTD2qUyaDpg57hMxODhyHWyp0ExweW5TMe4OObnk864maRcwh4ocRwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755582874; c=relaxed/simple;
-	bh=3P8uD5CNg/kUDpT4YXMlVJMBIcVMKgQRMzpleXZ0cks=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uvkO0VvgsF2h6SdfBYAg8y4gaiyh+HXFI7+6oc4bBTUCReTxFQsYVk1nrsROM/ePBE3X+6C1J7aI5wVu++I/S6aSVwj6alA7Kd1hZhJzalk6DX38t0bqKQl53CpL8lfUkoqSqOEJvyKFWEhuDYzVF7FLxd+T65B4C6GoLOmfNXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=AHpiOaPo; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57J5rK8s2883382;
-	Tue, 19 Aug 2025 00:53:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755582800;
-	bh=sTeiwFyBkdK6n6VB0SEmiukgw5hVXV2XEVJwlEkyGz0=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=AHpiOaPosSSV1LgvmY6r4AIuPoFppFdVEmb3eQ5q6xG+lojpRdrpdAVtov9ZWbw+T
-	 ZIqdYKYHksH8+GbHXerzPAeT/198tdUd3YCHqcttZ/GTvJKsbPxvY1I/nlD7M6t1c7
-	 SeDJxrGg99TofV1/zCNcia0xXHVUzzN/9mrDR4I4=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57J5rKHd824561
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 19 Aug 2025 00:53:20 -0500
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 19
- Aug 2025 00:53:19 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 19 Aug 2025 00:53:19 -0500
-Received: from [172.24.233.149] (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57J5rFav2511790;
-	Tue, 19 Aug 2025 00:53:16 -0500
-Message-ID: <9f700025-8a73-4e9f-acf5-6b5edf56d06d@ti.com>
-Date: Tue, 19 Aug 2025 11:23:15 +0530
+	s=arc-20240116; t=1755586820; c=relaxed/simple;
+	bh=E4+6SQn+0H0871MDRGuNeoo2nkDKzjeLbYdG/k+vKZk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aojlnaJ+jxNSDHo2tFjBZ1+WiDT85TRWD9YzkcQlEVhjUxeIKMLr/1thz2bvel8O+uF0g8Tey6y3/u596rzD3jJJo2gpR8N8lMZ6UUHW1ysK2pKU/Wduz2dQRiyYFCdGYi7WxDlAfoXv22U63ZZ+o7jSrq8TCZzgRCBWQ6MNDG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lpX8t8gy; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-52-92.net.vodafone.it [5.90.52.92])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E2F0596;
+	Tue, 19 Aug 2025 08:59:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755586758;
+	bh=E4+6SQn+0H0871MDRGuNeoo2nkDKzjeLbYdG/k+vKZk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lpX8t8gyaI0KZ6MwBblwSiECgnXoEY0HTkt4EUFWvNwgnz3GBb1KO0u2esLlcIDrF
+	 hhiNk5KP4lNa5KO8xj2m06ByaanV1VP13cgEopf7inmLYKty7L2XqNYlF51SyEzEzn
+	 GVh9sfN8YmoQsHhkxgQcDZcjldLsQkuHd0OJg/nY=
+Date: Tue, 19 Aug 2025 09:00:11 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Andy Walls <awalls@md.metrocast.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] media: cx18: Fix invalid access to file *
+Message-ID: <3h5oa7ziojahyq4uxlpfdkqqqz2h2fakahjmtyv5un5yhxhat4@gborrcjbwme5>
+References: <20250818-cx18-v4l2-fh-v3-0-5e2f08f3cadc@ideasonboard.com>
+ <20250818-cx18-v4l2-fh-v3-1-5e2f08f3cadc@ideasonboard.com>
+ <20250818235632.GB10308@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/6] media: ti, cdns: Multiple pixel support and misc
- fixes
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Maxime Ripard
-	<mripard@kernel.org>,
-        Hans Verkuil <hverkuil@kernel.org>
-CC: Devarsh Thakkar <devarsht@ti.com>,
-        Yemike Abhilash Chandra
-	<y-abhilashchandra@ti.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>,
-        Changhuang Liang
-	<changhuang.liang@starfivetech.com>
-References: <20250811-probe_fixes-v4-0-aae22290f1d0@ideasonboard.com>
-Content-Language: en-US
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-In-Reply-To: <20250811-probe_fixes-v4-0-aae22290f1d0@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250818235632.GB10308@pendragon.ideasonboard.com>
 
+Hi Laurent
 
-On 11/08/25 13:50, Jai Luthra wrote:
-> Hi,
+On Tue, Aug 19, 2025 at 02:56:32AM +0300, Laurent Pinchart wrote:
+> On Mon, Aug 18, 2025 at 10:39:36PM +0200, Jacopo Mondi wrote:
+> > Sice commit 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
+>
+> s/Sice/Since/
+>
+> > all ioctl handlers have been ported to operate on the file * first
+> > function argument.
+> >
+> > The cx18 DVB layer calls cx18_init_on_first_open() when the driver needs
+> > to start streaming. This function calls the s_input(), s_std() and
+> > s_frequency() ioctl handlers directly, but being called from the driver
+> > context, it doesn't have a valid file * to pass them. This causes
+> > the ioctl handlers to deference an invalid pointer.
+> >
+> > Fix this by wrapping the ioctl handlers implementation in helper
+> > functions which accepts a cx18 pointer as first argument
+> > and make the cx18_init_on_first_open() function call the helpers
+> > without going through the ioctl handlers.
+>
+> It's the other way around, the ioctl handlers are not wrapper. I'd write
 
+in facts
 
-Hi Jai,
-Thank you for the patches !
+"wrapping the ioctl handlers implementation in helpers functions"
 
+to me means wrapping the actual implementation in helpers
 
 >
-> The first four patches in this series are miscellaneous fixes and
-> improvements in the Cadence and TI CSI-RX drivers around probing, fwnode
-> and link creation.
+> Fix this by moving the implementation of those ioctls to functions that
+
+ah I should have used "moving" instead of "wrapping"
+
+> take a cx18 pointer instead of a file pointer, and turn the V4L2 ioctl
+> handlers into wrappers that get the cx18 from the file. When calling
+> from cx18_init_on_first_open(), pass the cx18 pointer directly. This
+> allows removing the fake fh in cx18_init_on_first_open().
 >
-> The last two patches add support for transmitting multiple pixels per
-> clock on the internal bus between Cadence CSI-RX bridge and TI CSI-RX
-> wrapper. As this internal bus is 32-bit wide, the maximum number of
-> pixels that can be transmitted per cycle depend upon the format's bit
-> width. Secondly, the downstream element must support unpacking of
-> multiple pixels.
+
+ok, if it's -that- different... thankfully we nowadays have b4 that
+makes sending new version easier
+
+> >
+> > The bug has been reported by Smatch:
+> >
+> > --> 1223         cx18_s_input(NULL, &fh, video_input);
+> > The patch adds a new dereference of "file" but some of the callers pass a
+> > NULL pointer.
+> >
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes: https://lore.kernel.org/all/aKL4OMWsESUdX8KQ@stanley.mountain/
+> > Fixes: 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 >
-> Thus we export a module function that can be used by the downstream
-> driver to negotiate the pixels per cycle on the output pixel stream of
-> the Cadence bridge.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 >
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-
-
-For the entire series,
-
-Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-
-Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
-
-
-Test Logs (SK-AM62A + IMX219) :
-
-https://gist.github.com/Rishikesh-D/cb1d06cf341c2327da0d38a6b21688d6
-
-
-Regards,
-
-Rishikesh
-
-> ---
-> Changes in v4:
-> - Rebase on top of v6.17-rc1
-> - Add missing include for linux/export.h in cdns-csi2rx.c
-> - Link to v3: https://lore.kernel.org/r/20250626-probe_fixes-v3-0-83e735ae466e@ideasonboard.com
+> > ---
+> >  drivers/media/pci/cx18/cx18-driver.c |  9 +++------
+> >  drivers/media/pci/cx18/cx18-ioctl.c  | 30 +++++++++++++++++++-----------
+> >  drivers/media/pci/cx18/cx18-ioctl.h  |  8 +++++---
+> >  3 files changed, 27 insertions(+), 20 deletions(-)
+> >
+> > diff --git a/drivers/media/pci/cx18/cx18-driver.c b/drivers/media/pci/cx18/cx18-driver.c
+> > index 743fcc9613744bfc1edeffc51e908fe88520405a..cd84dfcefcf971a7adb9aac2bafb9089dbe0f33f 100644
+> > --- a/drivers/media/pci/cx18/cx18-driver.c
+> > +++ b/drivers/media/pci/cx18/cx18-driver.c
+> > @@ -1136,11 +1136,8 @@ int cx18_init_on_first_open(struct cx18 *cx)
+> >  	int video_input;
+> >  	int fw_retry_count = 3;
+> >  	struct v4l2_frequency vf;
+> > -	struct cx18_open_id fh;
+> >  	v4l2_std_id std;
+> >
+> > -	fh.cx = cx;
+> > -
+> >  	if (test_bit(CX18_F_I_FAILED, &cx->i_flags))
+> >  		return -ENXIO;
+> >
+> > @@ -1220,14 +1217,14 @@ int cx18_init_on_first_open(struct cx18 *cx)
+> >
+> >  	video_input = cx->active_input;
+> >  	cx->active_input++;	/* Force update of input */
+> > -	cx18_s_input(NULL, &fh, video_input);
+> > +	cx18_do_s_input(cx, video_input);
+> >
+> >  	/* Let the VIDIOC_S_STD ioctl do all the work, keeps the code
+> >  	   in one place. */
+> >  	cx->std++;		/* Force full standard initialization */
+> >  	std = (cx->tuner_std == V4L2_STD_ALL) ? V4L2_STD_NTSC_M : cx->tuner_std;
+> > -	cx18_s_std(NULL, &fh, std);
+> > -	cx18_s_frequency(NULL, &fh, &vf);
+> > +	cx18_do_s_std(cx, std);
+> > +	cx18_do_s_frequency(cx, &vf);
+> >  	return 0;
+> >  }
+> >
+> > diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
+> > index bf16d36448f888d9326b5f4a8f9c8f0e13d0c3a1..6e869c43cbd520feb720a71d8eb2dd60c05b0ae9 100644
+> > --- a/drivers/media/pci/cx18/cx18-ioctl.c
+> > +++ b/drivers/media/pci/cx18/cx18-ioctl.c
+> > @@ -521,10 +521,8 @@ static int cx18_g_input(struct file *file, void *fh, unsigned int *i)
+> >  	return 0;
+> >  }
+> >
+> > -int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+> > +int cx18_do_s_input(struct cx18 *cx, unsigned int inp)
+> >  {
+> > -	struct cx18_open_id *id = file2id(file);
+> > -	struct cx18 *cx = id->cx;
+> >  	v4l2_std_id std = V4L2_STD_ALL;
+> >  	const struct cx18_card_video_input *card_input =
+> >  				cx->card->video_inputs + inp;
+> > @@ -558,6 +556,11 @@ int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+> >  	return 0;
+> >  }
+> >
+> > +static int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+> > +{
+> > +	return cx18_do_s_input(file2id(file)->cx, inp);
+> > +}
+> > +
+> >  static int cx18_g_frequency(struct file *file, void *fh,
+> >  				struct v4l2_frequency *vf)
+> >  {
+> > @@ -570,11 +573,8 @@ static int cx18_g_frequency(struct file *file, void *fh,
+> >  	return 0;
+> >  }
+> >
+> > -int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
+> > +int cx18_do_s_frequency(struct cx18 *cx, const struct v4l2_frequency *vf)
+> >  {
+> > -	struct cx18_open_id *id = file2id(file);
+> > -	struct cx18 *cx = id->cx;
+> > -
+> >  	if (vf->tuner != 0)
+> >  		return -EINVAL;
+> >
+> > @@ -585,6 +585,12 @@ int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
+> >  	return 0;
+> >  }
+> >
+> > +static int cx18_s_frequency(struct file *file, void *fh,
+> > +			    const struct v4l2_frequency *vf)
+> > +{
+> > +	return cx18_do_s_frequency(file2id(file)->cx, vf);
+> > +}
+> > +
+> >  static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
+> >  {
+> >  	struct cx18 *cx = file2id(file)->cx;
+> > @@ -593,11 +599,8 @@ static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
+> >  	return 0;
+> >  }
+> >
+> > -int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+> > +int cx18_do_s_std(struct cx18 *cx, v4l2_std_id std)
+> >  {
+> > -	struct cx18_open_id *id = file2id(file);
+> > -	struct cx18 *cx = id->cx;
+> > -
+> >  	if ((std & V4L2_STD_ALL) == 0)
+> >  		return -EINVAL;
+> >
+> > @@ -642,6 +645,11 @@ int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+> >  	return 0;
+> >  }
+> >
+> > +static int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
+> > +{
+> > +	return cx18_do_s_std(file2id(file)->cx, std);
+> > +}
+> > +
+> >  static int cx18_s_tuner(struct file *file, void *fh, const struct v4l2_tuner *vt)
+> >  {
+> >  	struct cx18_open_id *id = file2id(file);
+> > diff --git a/drivers/media/pci/cx18/cx18-ioctl.h b/drivers/media/pci/cx18/cx18-ioctl.h
+> > index 221e2400fb3e2d817eaff7515fa89eb94f2d7f8a..7a42ac99312ab6502e1abe4f3d5c88c9c7f144f3 100644
+> > --- a/drivers/media/pci/cx18/cx18-ioctl.h
+> > +++ b/drivers/media/pci/cx18/cx18-ioctl.h
+> > @@ -12,6 +12,8 @@ u16 cx18_service2vbi(int type);
+> >  void cx18_expand_service_set(struct v4l2_sliced_vbi_format *fmt, int is_pal);
+> >  u16 cx18_get_service_set(struct v4l2_sliced_vbi_format *fmt);
+> >  void cx18_set_funcs(struct video_device *vdev);
+> > -int cx18_s_std(struct file *file, void *fh, v4l2_std_id std);
+> > -int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf);
+> > -int cx18_s_input(struct file *file, void *fh, unsigned int inp);
+> > +
+> > +struct cx18;
+> > +int cx18_do_s_std(struct cx18 *cx, v4l2_std_id std);
+> > +int cx18_do_s_frequency(struct cx18 *cx, const struct v4l2_frequency *vf);
+> > +int cx18_do_s_input(struct cx18 *cx, unsigned int inp);
+> >
 >
-> Changes in v3:
-> - Move cdns-csi2rx header to include/media
-> - Export symbol from cdns-csi2rx.c to be used only through
->    the j721e-csi2rx.c module namespace
-> - Other minor fixes suggested by Sakari
-> - Add Abhilash's T-by tags
-> - Link to v2: https://lore.kernel.org/r/20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com
+> --
+> Regards,
 >
-> Changes in v2:
-> - Rebase on v6.15-rc1
-> - Fix lkp warnings in PATCH 5/6 missing header for FIELD_PREP
-> - Add R-By tags from Devarsh and Changhuang
-> - Link to v1: https://lore.kernel.org/r/20250324-probe_fixes-v1-0-5cd5b9e1cfac@ideasonboard.com
->
-> ---
-> Jai Luthra (6):
->        media: ti: j721e-csi2rx: Use devm_of_platform_populate
->        media: ti: j721e-csi2rx: Use fwnode_get_named_child_node
->        media: ti: j721e-csi2rx: Fix source subdev link creation
->        media: cadence: csi2rx: Implement get_fwnode_pad op
->        media: cadence: cdns-csi2rx: Support multiple pixels per clock cycle
->        media: ti: j721e-csi2rx: Support multiple pixels per clock
->
->   MAINTAINERS                                        |  1 +
->   drivers/media/platform/cadence/cdns-csi2rx.c       | 75 ++++++++++++++++------
->   drivers/media/platform/ti/Kconfig                  |  3 +-
->   .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 65 ++++++++++++++-----
->   include/media/cadence/cdns-csi2rx.h                | 19 ++++++
->   5 files changed, 128 insertions(+), 35 deletions(-)
-> ---
-> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-> change-id: 20250314-probe_fixes-7e0ec33c7fee
->
-> Best regards,
+> Laurent Pinchart
 
