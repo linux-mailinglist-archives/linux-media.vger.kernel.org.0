@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-40226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40227-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42261B2BA2E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 09:07:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBAFB2BA30
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 09:08:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C03AE1BA223B
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 07:07:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4294E568318
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 07:07:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A2AA28488B;
-	Tue, 19 Aug 2025 07:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06C412848B9;
+	Tue, 19 Aug 2025 07:07:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iLUDcTIy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wq0ROaY/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF9B26462E;
-	Tue, 19 Aug 2025 07:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E950284893;
+	Tue, 19 Aug 2025 07:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755587242; cv=none; b=K7cfNLdU4gwkoORP5q0/+QlrbstFxeTvlTAgFdW/NPEQw7JoV1wKMFGb10acVDQTeKo6MrSaBivbgJmmgb/TZWw+ePv3O85f93laFKefRmTelT9/7GbcwNJlovJQM8zGHTjUJQTfPvTEDkk4ba0yF70rxC5MokZq+DGZZbNPslU=
+	t=1755587245; cv=none; b=YcTckxGdK+jzHsgrtcQS46ljVlkBgwRuxYjowegGt1kCAUinNByfi5fNJBc+p8FQUOHt50dP01jbTRCV1HLU6M/yXxQrLfKj2auAD/ZhyV/p2FOfiSTQZT7ZCiJRnDVUz16WOpffFaw+bzkbD8dXwTnFvcG96Nb2Ml5WUIuzVTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755587242; c=relaxed/simple;
-	bh=ETf/u4Lpdc3XNRyiJ8tnjtoa9Gna6lhRAGwNIvHZTk4=;
+	s=arc-20240116; t=1755587245; c=relaxed/simple;
+	bh=rpTRn15G48rt3ExGDh09DluD8zO91EzisMrX6aCkyl8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=d6tZy9PtVFKRUFqv23u9Rou5WK6viXlhq1pdcKldzfozx0TpyRemn0Y1con0hdp5egodDzmrljkM4h55RgMoEu4M1jr1P8APijf15VVe7dQrQ/2AfiRBA5puXu4oYilTiNYWzqGlWWnLqrLsm0sR2WHlO5tgWbVRWnWycVCbESU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iLUDcTIy; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=JI9FR4pALUHYjDjJdoFM9d3yazSOcKr53FeYsU/dbBiyPpA3R7YAFCb05pE2SFYDKZTsE4lUWG7thwG7lOCMRPz2xGmn8vpYXKit1zsUsTKILr+IlW2zFXKKX63s9CDsspmp4pjOO4BaJwAvKRzk3dttpnKE1SUAWCi2Sj9kAWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wq0ROaY/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.1.106] (mob-5-90-52-92.net.vodafone.it [5.90.52.92])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 437CFC6D;
-	Tue, 19 Aug 2025 09:06:21 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 175DB22D2;
+	Tue, 19 Aug 2025 09:06:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755587181;
-	bh=ETf/u4Lpdc3XNRyiJ8tnjtoa9Gna6lhRAGwNIvHZTk4=;
+	s=mail; t=1755587182;
+	bh=rpTRn15G48rt3ExGDh09DluD8zO91EzisMrX6aCkyl8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=iLUDcTIyeMTco5Kikh2r+AdZoYZpVyq+9TUeMAizmGaJ+wQ/XazCscVqeAnO+TuF9
-	 zkYi1wdbr3ve5L/6EEUnXkdUNX47flQwQTD0ROt81if8PsLw62ildFaHZU6ekFzRfD
-	 lx/MqUgYtdTZNG/rcGwJj0LBwuKgWuV9DsomnLVk=
+	b=Wq0ROaY/AQLLbrlgeRbvVqXEIiMmzuuZ8Qqxb3H6ikbVDJDv3D7Px7Ju6bLsvbLvF
+	 eMpT1N3FrmMjUPJpo8Q9ZpYpA7L9uTEgvshBx4TtoCvzZ/kV+dNjsjX2XFTNm2wp/Z
+	 uXK7KcPfd9cWGNd58PVdeRmgSbEhqdA+l2F/zFto=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 19 Aug 2025 09:07:03 +0200
-Subject: [PATCH v4 1/2] media: cx18: Fix invalid access to file *
+Date: Tue, 19 Aug 2025 09:07:04 +0200
+Subject: [PATCH v4 2/2] media: ivtv: Fix invalid access to file *
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250819-cx18-v4l2-fh-v4-1-9db1635d6787@ideasonboard.com>
+Message-Id: <20250819-cx18-v4l2-fh-v4-2-9db1635d6787@ideasonboard.com>
 References: <20250819-cx18-v4l2-fh-v4-0-9db1635d6787@ideasonboard.com>
 In-Reply-To: <20250819-cx18-v4l2-fh-v4-0-9db1635d6787@ideasonboard.com>
 To: Andy Walls <awalls@md.metrocast.net>, 
@@ -63,188 +63,179 @@ Cc: Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6407;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6197;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=ETf/u4Lpdc3XNRyiJ8tnjtoa9Gna6lhRAGwNIvHZTk4=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBopCKlgkVzauhx0nA8uFPQC3lBbSY3hJsRG576m
- NwkqcbbLN6JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaKQipQAKCRByNAaPFqFW
- PFcDD/9VVNdjjVR+t8Kcr/E2UcYvMgSlmp8YjwOA4byzKCpSA21euTFU1wjxRO5sFlXoWmbtTL5
- Potr3H8QNW/Py1eHXQ8S8JwPbrq5XnoNSd57bAQE208QZljJo88m9iC8zAd+WnN9aMA4Wh7n9FK
- W8kQFy9vz0XdgK6vEk4V7xfjA5Y0JOl5uTuJXREDtkfca6bz+BmqJWmZ1EePfqxhlg9YKjjBnNJ
- TSA9xqtuw4vOKEfCiqwCkE6MnV7gmiRDRYaF51j08hamdgmdYgU4vJLxCEn6KACEFLTVsma8QCb
- lg+ypyC1Icd0weEvGSXZN17MunOlZNsNQDFr0bbYnL+9/BbnDRyNuknoUdBZTY3TlKRzOY5PCv1
- YiKddEOFfWvPu2JprUaICzTW8O1oenLzd8qzGm7pYrO74J/MaGlN6sBRM5MWyDEhn9jyvOWpQBv
- D50fPgX+KebYDgm3giFgeP/CUiyGK6CMuHAVmJkZisyYicZBK2g2tALtup98q0gTiOgxQwq/dsS
- u+ChIvSfJeN1AS7699APzL1yYLefnmfBE0PO1DKW5fFNZugJ+QZqRNfT+nkbH2WscT4yFVeBwSD
- BNk9KVIcdMkYpElMybjM7XSuHGVx/7wYjwq30DcT6nfmR+AdvS7eehAH1/iE+DHuI/zzP2RQM0n
- +RYhtyy9OMMVKWQ==
+ bh=rpTRn15G48rt3ExGDh09DluD8zO91EzisMrX6aCkyl8=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBopCKldmcft+/f1BpL22ywRh+erBRKgieZryU8e
+ 8Ii31SwKm+JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaKQipQAKCRByNAaPFqFW
+ PKhRD/9PMuD7V+auXbMYdvcCbCQRtcaQSdOn4ZLuJhUduylkPHyuN7sM31UpBwlG8mdRNPNE6f0
+ 2a1DM5N4/8FumKG1g1+Z+EimFEfZs36j0iJxnmwqRBvIwMwcXS9LWIp9OJatW275BG8FupJ6puE
+ stX5uqUY0w/MbNPRh8oXYea1eBeLszVIIFJ2x+TtsWsWhGDquRuCvql6GJbdc9VPz4HWkwuK3q4
+ Wg3uTjOBEtNMnyLxkoZGIHjsZLMSaxJWZCc9WXKfaneM5622LXH0E7MWVTbM0jXSvFKOHDh+Pxi
+ XrBQQacrRtpZRY/lS9NaITAmbq4SNi/p+WBQ3fHVkERov1DQYKKt5uN8EhXgK1VCStyVNSZxkij
+ cAvuUO4DVi4bPZnJSUZm0DuN8dW5aeUZ5TLf6OqA5MXozt+EjV/5U2waWNK6PeCIrxdXCMDcHSc
+ sWoI106KzcGZyxGEAEkUDyfS65Q//O1HRQPtS8KehChVy4YURRnDooXrGbpKmsygDpb91dIlArD
+ a2lDnJmZHfi/2qQIOccw13/Y0iGesu/Ui65P6To/iu0/SXmfCrm7RLUBrmc57ghBjL5P2VP4hLG
+ TfK4OVw79okVmj0sbSlAonyBOLJiykaOBOfb9Nn4qXp7Jv52hldmjFao91Y2dUaO3CmY8nEzKoO
+ JMKrDWcQgtvtS/A==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Sice commit 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
+Since commit 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
 all ioctl handlers have been ported to operate on the file * first
 function argument.
 
-The cx18 DVB layer calls cx18_init_on_first_open() when the driver needs
-to start streaming. This function calls the s_input(), s_std() and
+The ivtv DVB layer calls ivtv_init_on_first_open() when the driver
+needs to start streaming. This function calls the s_input() and
 s_frequency() ioctl handlers directly, but being called from the driver
-context, it doesn't have a valid file * to pass them. This causes
-the ioctl handlers to deference an invalid pointer.
+context, it doesn't have a valid file * to pass them. This causes the
+ioctl handlers to deference an invalid pointer.
 
-Fix this by moving the implementation of those ioctls to functions that
-take a cx18 pointer instead of a file pointer, and turn the V4L2 ioctl
-handlers into wrappers that get the cx18 from the file. When calling
-from cx18_init_on_first_open(), pass the cx18 pointer directly. This
-allows removing the fake fh in cx18_init_on_first_open().
+Fix this by moving the implementation of those ioctls to two helper
+functions.
 
-The bug has been reported by Smatch:
+The ivtv_do_s_input() helper accepts a struct ivtv * as first argument,
+which is easily accessible in ivtv_init_on_first_open() as well as from
+the file * argument of the ioctl handler.
 
---> 1223         cx18_s_input(NULL, &fh, video_input);
-The patch adds a new dereference of "file" but some of the callers pass a
-NULL pointer.
+The ivtv_s_frequency() takes an ivtv_stream * instead. The stream * can
+safely be accessed in ivtv_init_on_first_open() where it is hard-coded
+to the IVTV_ENC_STREAM_TYPE_MPG stream type, as well as from the ioctl
+handler as a valid stream type is associated to each open file handle
+depending on which video device node has been opened in the ivtv_open()
+file operation.
+
+The bug has been reported by Smatch.
 
 Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 Closes: https://lore.kernel.org/all/aKL4OMWsESUdX8KQ@stanley.mountain/
-Fixes: 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
+Fixes: 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
 Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/stable/20250818-cx18-v4l2-fh-v1-1-6fe153760bce%40ideasonboard.com
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/pci/cx18/cx18-driver.c |  9 +++------
- drivers/media/pci/cx18/cx18-ioctl.c  | 30 +++++++++++++++++++-----------
- drivers/media/pci/cx18/cx18-ioctl.h  |  8 +++++---
- 3 files changed, 27 insertions(+), 20 deletions(-)
+ drivers/media/pci/ivtv/ivtv-driver.c | 11 ++++-------
+ drivers/media/pci/ivtv/ivtv-ioctl.c  | 22 +++++++++++++++++-----
+ drivers/media/pci/ivtv/ivtv-ioctl.h  |  6 ++++--
+ 3 files changed, 25 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/pci/cx18/cx18-driver.c b/drivers/media/pci/cx18/cx18-driver.c
-index 743fcc9613744bfc1edeffc51e908fe88520405a..cd84dfcefcf971a7adb9aac2bafb9089dbe0f33f 100644
---- a/drivers/media/pci/cx18/cx18-driver.c
-+++ b/drivers/media/pci/cx18/cx18-driver.c
-@@ -1136,11 +1136,8 @@ int cx18_init_on_first_open(struct cx18 *cx)
- 	int video_input;
- 	int fw_retry_count = 3;
- 	struct v4l2_frequency vf;
--	struct cx18_open_id fh;
- 	v4l2_std_id std;
+diff --git a/drivers/media/pci/ivtv/ivtv-driver.c b/drivers/media/pci/ivtv/ivtv-driver.c
+index ecc20cd89926fe2ce4e472526a6b5fc0857615dd..7e2fb98cfccf02f701ceb4484dd1d330dd1dc867 100644
+--- a/drivers/media/pci/ivtv/ivtv-driver.c
++++ b/drivers/media/pci/ivtv/ivtv-driver.c
+@@ -1260,15 +1260,12 @@ static int ivtv_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
  
--	fh.cx = cx;
+ int ivtv_init_on_first_open(struct ivtv *itv)
+ {
+-	struct v4l2_frequency vf;
+ 	/* Needed to call ioctls later */
+-	struct ivtv_open_id fh;
++	struct ivtv_stream *s = &itv->streams[IVTV_ENC_STREAM_TYPE_MPG];
++	struct v4l2_frequency vf;
+ 	int fw_retry_count = 3;
+ 	int video_input;
+ 
+-	fh.itv = itv;
+-	fh.type = IVTV_ENC_STREAM_TYPE_MPG;
 -
- 	if (test_bit(CX18_F_I_FAILED, &cx->i_flags))
+ 	if (test_bit(IVTV_F_I_FAILED, &itv->i_flags))
  		return -ENXIO;
  
-@@ -1220,14 +1217,14 @@ int cx18_init_on_first_open(struct cx18 *cx)
+@@ -1310,13 +1307,13 @@ int ivtv_init_on_first_open(struct ivtv *itv)
  
- 	video_input = cx->active_input;
- 	cx->active_input++;	/* Force update of input */
--	cx18_s_input(NULL, &fh, video_input);
-+	cx18_do_s_input(cx, video_input);
+ 	video_input = itv->active_input;
+ 	itv->active_input++;	/* Force update of input */
+-	ivtv_s_input(NULL, &fh, video_input);
++	ivtv_do_s_input(itv, video_input);
  
  	/* Let the VIDIOC_S_STD ioctl do all the work, keeps the code
  	   in one place. */
- 	cx->std++;		/* Force full standard initialization */
- 	std = (cx->tuner_std == V4L2_STD_ALL) ? V4L2_STD_NTSC_M : cx->tuner_std;
--	cx18_s_std(NULL, &fh, std);
--	cx18_s_frequency(NULL, &fh, &vf);
-+	cx18_do_s_std(cx, std);
-+	cx18_do_s_frequency(cx, &vf);
+ 	itv->std++;		/* Force full standard initialization */
+ 	itv->std_out = itv->std;
+-	ivtv_s_frequency(NULL, &fh, &vf);
++	ivtv_do_s_frequency(s, &vf);
+ 
+ 	if (itv->card->v4l2_capabilities & V4L2_CAP_VIDEO_OUTPUT) {
+ 		/* Turn on the TV-out: ivtv_init_mpeg_decoder() initializes
+diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
+index 8077a71d4850ec773caa20c3fca08f92f3117d69..dfbc842b22453868a2075935a81db7ae313ee46c 100644
+--- a/drivers/media/pci/ivtv/ivtv-ioctl.c
++++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
+@@ -974,9 +974,8 @@ static int ivtv_g_input(struct file *file, void *fh, unsigned int *i)
  	return 0;
  }
  
-diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
-index bf16d36448f888d9326b5f4a8f9c8f0e13d0c3a1..6e869c43cbd520feb720a71d8eb2dd60c05b0ae9 100644
---- a/drivers/media/pci/cx18/cx18-ioctl.c
-+++ b/drivers/media/pci/cx18/cx18-ioctl.c
-@@ -521,10 +521,8 @@ static int cx18_g_input(struct file *file, void *fh, unsigned int *i)
- 	return 0;
- }
- 
--int cx18_s_input(struct file *file, void *fh, unsigned int inp)
-+int cx18_do_s_input(struct cx18 *cx, unsigned int inp)
+-int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
++int ivtv_do_s_input(struct ivtv *itv, unsigned int inp)
  {
--	struct cx18_open_id *id = file2id(file);
--	struct cx18 *cx = id->cx;
- 	v4l2_std_id std = V4L2_STD_ALL;
- 	const struct cx18_card_video_input *card_input =
- 				cx->card->video_inputs + inp;
-@@ -558,6 +556,11 @@ int cx18_s_input(struct file *file, void *fh, unsigned int inp)
+-	struct ivtv *itv = file2id(file)->itv;
+ 	v4l2_std_id std;
+ 	int i;
+ 
+@@ -1017,6 +1016,11 @@ int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
  	return 0;
  }
  
-+static int cx18_s_input(struct file *file, void *fh, unsigned int inp)
++static int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
 +{
-+	return cx18_do_s_input(file2id(file)->cx, inp);
++	return ivtv_do_s_input(file2id(file)->itv, inp);
 +}
 +
- static int cx18_g_frequency(struct file *file, void *fh,
- 				struct v4l2_frequency *vf)
+ static int ivtv_g_output(struct file *file, void *fh, unsigned int *i)
  {
-@@ -570,11 +573,8 @@ static int cx18_g_frequency(struct file *file, void *fh,
+ 	struct ivtv *itv = file2id(file)->itv;
+@@ -1065,10 +1069,9 @@ static int ivtv_g_frequency(struct file *file, void *fh, struct v4l2_frequency *
  	return 0;
  }
  
--int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
-+int cx18_do_s_frequency(struct cx18 *cx, const struct v4l2_frequency *vf)
+-int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
++int ivtv_do_s_frequency(struct ivtv_stream *s, const struct v4l2_frequency *vf)
  {
--	struct cx18_open_id *id = file2id(file);
--	struct cx18 *cx = id->cx;
--
- 	if (vf->tuner != 0)
- 		return -EINVAL;
+-	struct ivtv *itv = file2id(file)->itv;
+-	struct ivtv_stream *s = &itv->streams[file2id(file)->type];
++	struct ivtv *itv = s->itv;
  
-@@ -585,6 +585,12 @@ int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
+ 	if (s->vdev.vfl_dir)
+ 		return -ENOTTY;
+@@ -1082,6 +1085,15 @@ int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
  	return 0;
  }
  
-+static int cx18_s_frequency(struct file *file, void *fh,
++static int ivtv_s_frequency(struct file *file, void *fh,
 +			    const struct v4l2_frequency *vf)
 +{
-+	return cx18_do_s_frequency(file2id(file)->cx, vf);
++	struct ivtv_open_id *id = file2id(file);
++	struct ivtv *itv = id->itv;
++
++	return ivtv_do_s_frequency(&itv->streams[id->type], vf);
 +}
 +
- static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
+ static int ivtv_g_std(struct file *file, void *fh, v4l2_std_id *std)
  {
- 	struct cx18 *cx = file2id(file)->cx;
-@@ -593,11 +599,8 @@ static int cx18_g_std(struct file *file, void *fh, v4l2_std_id *std)
- 	return 0;
- }
+ 	struct ivtv *itv = file2id(file)->itv;
+diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.h b/drivers/media/pci/ivtv/ivtv-ioctl.h
+index 42c2516379fcbbd0640820ab0e3abe9bf00b57ea..edc05eb8e060fd64d7ff94f8f7f5c315a2fa6298 100644
+--- a/drivers/media/pci/ivtv/ivtv-ioctl.h
++++ b/drivers/media/pci/ivtv/ivtv-ioctl.h
+@@ -9,6 +9,8 @@
+ #ifndef IVTV_IOCTL_H
+ #define IVTV_IOCTL_H
  
--int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
-+int cx18_do_s_std(struct cx18 *cx, v4l2_std_id std)
- {
--	struct cx18_open_id *id = file2id(file);
--	struct cx18 *cx = id->cx;
--
- 	if ((std & V4L2_STD_ALL) == 0)
- 		return -EINVAL;
- 
-@@ -642,6 +645,11 @@ int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
- 	return 0;
- }
- 
-+static int cx18_s_std(struct file *file, void *fh, v4l2_std_id std)
-+{
-+	return cx18_do_s_std(file2id(file)->cx, std);
-+}
++struct ivtv;
 +
- static int cx18_s_tuner(struct file *file, void *fh, const struct v4l2_tuner *vt)
- {
- 	struct cx18_open_id *id = file2id(file);
-diff --git a/drivers/media/pci/cx18/cx18-ioctl.h b/drivers/media/pci/cx18/cx18-ioctl.h
-index 221e2400fb3e2d817eaff7515fa89eb94f2d7f8a..7a42ac99312ab6502e1abe4f3d5c88c9c7f144f3 100644
---- a/drivers/media/pci/cx18/cx18-ioctl.h
-+++ b/drivers/media/pci/cx18/cx18-ioctl.h
-@@ -12,6 +12,8 @@ u16 cx18_service2vbi(int type);
- void cx18_expand_service_set(struct v4l2_sliced_vbi_format *fmt, int is_pal);
- u16 cx18_get_service_set(struct v4l2_sliced_vbi_format *fmt);
- void cx18_set_funcs(struct video_device *vdev);
--int cx18_s_std(struct file *file, void *fh, v4l2_std_id std);
--int cx18_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf);
--int cx18_s_input(struct file *file, void *fh, unsigned int inp);
-+
-+struct cx18;
-+int cx18_do_s_std(struct cx18 *cx, v4l2_std_id std);
-+int cx18_do_s_frequency(struct cx18 *cx, const struct v4l2_frequency *vf);
-+int cx18_do_s_input(struct cx18 *cx, unsigned int inp);
+ u16 ivtv_service2vbi(int type);
+ void ivtv_expand_service_set(struct v4l2_sliced_vbi_format *fmt, int is_pal);
+ u16 ivtv_get_service_set(struct v4l2_sliced_vbi_format *fmt);
+@@ -17,7 +19,7 @@ int ivtv_set_speed(struct ivtv *itv, int speed);
+ void ivtv_set_funcs(struct video_device *vdev);
+ void ivtv_s_std_enc(struct ivtv *itv, v4l2_std_id std);
+ void ivtv_s_std_dec(struct ivtv *itv, v4l2_std_id std);
+-int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf);
+-int ivtv_s_input(struct file *file, void *fh, unsigned int inp);
++int ivtv_do_s_frequency(struct ivtv_stream *s, const struct v4l2_frequency *vf);
++int ivtv_do_s_input(struct ivtv *itv, unsigned int inp);
+ 
+ #endif
 
 -- 
 2.50.1
