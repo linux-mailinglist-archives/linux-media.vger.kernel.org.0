@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-40270-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40271-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990A0B2C351
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:22:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6D2B2C32B
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:20:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B96541BA489D
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:20:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 163747B4E2A
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 071CF33CE94;
-	Tue, 19 Aug 2025 12:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B248C350837;
+	Tue, 19 Aug 2025 12:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W5r4WLdK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efcaqOLp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB1433CE99;
-	Tue, 19 Aug 2025 12:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E84346A05;
+	Tue, 19 Aug 2025 12:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755605828; cv=none; b=gVrBPRRppP2TyFNkpGRiPTMAIHn3S8yI8W7jAvj6y0L4egJQfJ1Mv+Aa9RWNvxxhhfYbzJuWCuoGgk/PcMN9aNPCJwDV/sYLA0eTRX5G1HoKSuy8xEFVN7g7HnF1zBtKFegUqeyvxLBtVpq1fStAReGjmpaALSccY/oxRyDssi4=
+	t=1755605830; cv=none; b=kXVP/uwQXgUtfKHoKUInMewOJE0UAuX/Re2klu/mJy0dGd5H/uDLEZY0Uz3pqAD17wyVGumyRMoLRbijEJWsjtohZlSe48aJ3WCZpunUIh8e1H7eo2qbbuKTZf/CcMNWhWjngFyviHFH+FRzLxT/FnJh71yjEovR+WY2vCyEYG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755605828; c=relaxed/simple;
-	bh=ft/dLkIS/1WUaPOdmoRieYoqNnk73c+JMHBuBcnRkAo=;
+	s=arc-20240116; t=1755605830; c=relaxed/simple;
+	bh=MSZYGNJEFcpn6E15xp6m+06imWAuOLjbBEWI9PBWdeU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TWIvg6nftOg5I92D+JKChIjRshJEnQaK4MWF0ypdjnWsjl/VZ3t0+cu0+HMNTFl41FzEzdb5Uq6sDFlXfLwhTdWIiL+PCGDjKbT2mjMcTarDQhBLim3v60raeMxVLzuAcVkVp56s3gyxRmY2KBV1qSE0ak2NuWF/2hY41uNy6yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W5r4WLdK; arc=none smtp.client-ip=209.85.218.50
+	 MIME-Version; b=ldrHvBfHoMJHY4vOF0PPKWJBMZDaWVjn3SAfIminy8TtNrJdPFR5mReCiVEyB7UVqyZrRD+L0R4EO18YIN3rayRCd6gqnVBR8kttz+Vi5rVhBotKHtxCUGhmFmICGXCuIUlbqKx6dmq6T0+AWwEuXrYalXiUUTJgf/310bf3SNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efcaqOLp; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-afcb78c77ebso843774966b.1;
-        Tue, 19 Aug 2025 05:17:06 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afcb7a16441so804951066b.2;
+        Tue, 19 Aug 2025 05:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755605825; x=1756210625; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755605826; x=1756210626; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+5pmXNI7SBH6aSov89/sVK+QopJtVJ4TfTd5orkCdOs=;
-        b=W5r4WLdKcPyJ/Em8ceO5a1DC0AwKB5SZ0wd7riKd21PPwKAgQPHMZSGjiBnfDkdaHY
-         vQvzuzJYQrhto45Wh8tNGVLIo4Gn9OioRIZ/5+D6nlKaTbnlsITzMaAQ/4SFZwrQUnel
-         qcZDATZA02Z5HCvySTCWsmg15yna/NEFYqky8W6ybPIoY66L0Pvftzh+RdkgKBHSC+kY
-         Ki78QI3YQgNaRfpx/JndMyK4Htl5EkvXyf7fPUrb9lfO9aBTSQQyOUP+vY86v4rgHTtc
-         qYDIUsn8fVAqGhSns4IIKV4R03OxKr9gMnpfukMn1aKpb1x0c2B3kqGYR9ESoKBdl8kC
-         +dwA==
+        bh=ruw0ucM84Yq0/DRMCy2d/jkgPYOwi3Fpd3K2L5RAUSk=;
+        b=efcaqOLpgeA0gAZB6kyN7csLNT9FY2bqENiLWSwvS+Y/H9iuagrvl5HVZqR6WTsYEj
+         Uv4uO0Mz6GqWQ6sqrubIGIZfVhgyFd5Dw0DUTUtQWsRcRKXCH9mP27y5kIgU83Ct67lt
+         nJic2zH5mbRun+IVBIkw0UQH0tkj2eaxhwOgcnQT3id2Z4gVSHQ+wvOz/bTP1eN+MlMc
+         7ZdU/8A2EKMTswOjZvSE0jLDggRuwsnzYshn0JN688HXtlW6XW7JGAwwkxGoJI7GbqC5
+         R4V0/lXuRRkhdHeCyGngG90/3zNdfvZFAiHs85HFDW+dvI1MPp6DcjRW0HeKdrs3u2iP
+         7Y+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755605825; x=1756210625;
+        d=1e100.net; s=20230601; t=1755605826; x=1756210626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+5pmXNI7SBH6aSov89/sVK+QopJtVJ4TfTd5orkCdOs=;
-        b=c+9yD3bcMONPqDZMYmUUdul6if+gN90WYAleiguxaVjqyR0Qoka7tAwRFOxJIYrDdO
-         bMQmQQvg3KTVwP7Z81by6rHOOMTCLrljBlOqEGp7lDZUqhRVe1zJgqwSeYe6W0BG5oBU
-         Sz9H7rf1AVtYCW04mpdzONpnVE5YrO27JI6HQBfcp9abIleJJWIrMQrRpmj+Ew+nQwWJ
-         HouOaFWGUewVJAwObGQhZeJbd3hM8pQhBY6xLqywyRhO14vUkymB4QUe9+M9D4l+AWle
-         SooA+0gu3O5eUIhC+2OdW1/CNtpgRp5oBKzqDoCUY09NzOJe/otRg2KLEp9LAG7m3msc
-         8nTw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+tZX3x9H/HNg7gN5JdrTo/u8OR/z4yQLXp93JG+K5+ySCAgCBd1h/upxIKLF+HU28huAUsCzaZtCaP82E@vger.kernel.org, AJvYcCUmaUD2i98buellC5q3O3Uoe1+wy+bIREGSsMc2fv0IUZXwPp0dm+/5Dz8eWj8xLu+mgaylo+8PhZv5@vger.kernel.org, AJvYcCVFragBH9druhniQjITBNLvZyjRmQN1XSdC3p/G7aAaiVqOGKyMurEXPxewNMyNYUawaj32RhZKtfIB@vger.kernel.org, AJvYcCVdNeAasfVHu5tQXFXmM312rHtz/ptcmX/AYsBx8rjk18k6YQKDMPLv6zda0O3S4nINKPvUPfMP1IupXBw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywmfe0AGOYmnoxCMZV3PDrA6v8xL5rTJM9nGdjsYgodefnJBQhd
-	JEFdUuHuzpHNugnx01SN/NBJe1uq2WtLFN/ETwpSsW7NcES05qUDn3jQ0MxcMQ==
-X-Gm-Gg: ASbGncvDsvYn6MMc/SbwIjXIMAIz2qRsTRbyaI63rn/LLqIfAoa7pyqVpif8IEEEgb5
-	JfcIXj9fR8tg2TjL+LLRSkphB/+qlfRwmpTObsyLthn6VEjRDK6tonaTgwie3LwwvorGTgGEcLH
-	ikTp0PHVURXYf3J/QnWIp/tThNnd5woXCT6fROB42ilP/t+CDGBZO8sGeAeQSzGkUbh50xfcsQ8
-	CeHb1JPkllDCnZaljR0XjX6Finarq3w9+WRqDDAyUlbU+BP0Y6JpLv8N0zcLEly4OpJpDNTqsq5
-	c3VmQO24V2ReZIasIywSrHb19iblk8XLB7lsUXd0E+sJslAvyhTQg8Vk10Uios10Mm4N3WtrYNp
-	hydcDKMhaO7uMEg==
-X-Google-Smtp-Source: AGHT+IEVo/Sm60jtHnDPZrIJ1ilYsVW3g5Tb0BNqa7Jgnw9wyoMrN/mFE25imQZIxkI+sm+CModZVQ==
-X-Received: by 2002:a17:907:97ca:b0:af9:5a60:3319 with SMTP id a640c23a62f3a-afddcb8f929mr222020966b.19.1755605824830;
-        Tue, 19 Aug 2025 05:17:04 -0700 (PDT)
+        bh=ruw0ucM84Yq0/DRMCy2d/jkgPYOwi3Fpd3K2L5RAUSk=;
+        b=iDWjxOYkQAOg7bHeBkiQyTY+SOZtJ75K07piYvOM4C29Md17PjUSZVU2W4rb4sjPi4
+         vZSmBSHMz4llHuyDKlKPNqb7XQ92gDTQRkxC/+eZB/tMBOs2wHyhTziLrR9yYaRCYLvQ
+         1dLeKjyMTQKPrvIrb2GRTTBuyrM9zMKzEbYaTPICqj/bK7obHZD7XDLKbISY8sDI9o/H
+         uJFMc4fEtHr2lVd3DG6tiKO60DCjZQII0C5WvsHIZ5IlRqsPT77pniQxROVwETvPufB6
+         qxF2CELuWEuitGd6Byv8X3yexU81i7v5uxTbq1GtQhrCZy34oIKT50w08MJTHKwXxRuI
+         ahgw==
+X-Forwarded-Encrypted: i=1; AJvYcCVR3u2SWfGv8SCu6hK2E5Rb8eSvACAWaZMKaKpS8vEhNmN9rZRLk87x4lyc89U7rnN+MB9rybORXrOg@vger.kernel.org, AJvYcCVoZV1YjO7jGsf2dnSXJeW+lqbFMJys7KYYoZ24QeRMnSUPiRbpq/SuM0QEuoDzslCwL4RVUNqFMzSW@vger.kernel.org, AJvYcCWdz1Oc/y8455+mu0EXF8rgCMTzHkHjknWbOcfG5xVwRParCGwSILQWDeScM7GVVQDswbe5oqO4kOiYSdth@vger.kernel.org, AJvYcCXm3XB9W7nxNhz2ZTIKFcMnUaQ0nuWT6GfAq7avNafOntS7CzGhzzUdutetuIvzLatp74r1TXOrBVyhj5k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywa47NKypTykwj0a7yZE+TOI8NWLk8SStbGYmd0Tf61lxTyOh/u
+	oSMLoyzLhGzCcFO9VOvsUqin7ynav/YavbUZ+jE+rKReg2Xrq8A3FC9T
+X-Gm-Gg: ASbGnctZ0ZsgY8sjPaDQUyfVWy6VxgFVYcQrcywbHNxaj03eMch/AeD9EcAW05p0sG3
+	pbZcUds+A7eNqEovWIN3kyJpgdVkV2oshWiSXPKhD3K/BNTcDynwm9J6PJx91bBkO4k2PyWDl0s
+	NYV/fqCd4zC8NRj09ArMhqG/oJ9YuOjbFAFlP9UvCz82UkutJKw3seRQ/WH+JaPw+TWu+LKJjGF
+	qkcmNzO33eV9UEwwiqBK2/mXZXl3E147+we6Ri9FMcAaImc9YWmZIv8vY9qEnOGId6F2rvivUvu
+	l3NjapE+s4uAygD8j68XXI9skuPAsPw7h2pevRkv6J2hZ6Yolx7fjDoqPTflDXVnwIwezx3HiCX
+	CYWGy/vA9K6a+vQ==
+X-Google-Smtp-Source: AGHT+IEaH+8GjnNNMFbsi7+SYVJyxwBXDv0Ziy+pvr7sQlX7uGXafFVlDGk7vl7NvUBiWatUvLDKKw==
+X-Received: by 2002:a17:907:d2a:b0:add:fb01:c64a with SMTP id a640c23a62f3a-afddd1e72d9mr235789366b.43.1755605826436;
+        Tue, 19 Aug 2025 05:17:06 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.17.03
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.17.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 05:17:04 -0700 (PDT)
+        Tue, 19 Aug 2025 05:17:06 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Thierry Reding <treding@nvidia.com>,
@@ -104,9 +104,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 13/19] staging: media: tegra-video: tegra20: set VI HW revision
-Date: Tue, 19 Aug 2025 15:16:25 +0300
-Message-ID: <20250819121631.84280-14-clamor95@gmail.com>
+Subject: [PATCH v1 14/19] staging: media: tegra-video: tegra20: increase maximum VI clock frequency
+Date: Tue, 19 Aug 2025 15:16:26 +0300
+Message-ID: <20250819121631.84280-15-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250819121631.84280-1-clamor95@gmail.com>
 References: <20250819121631.84280-1-clamor95@gmail.com>
@@ -118,25 +118,27 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tegra20, Tegra30 and Tegra114 have VI revision 1.
+Increase maximum VI clock frequency to 450MHz to allow correct work with
+high resolution camera sensors.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/tegra-video/tegra20.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 735611c3c47d..71dcb982c97b 100644
+index 71dcb982c97b..67631e0c9ffc 100644
 --- a/drivers/staging/media/tegra-video/tegra20.c
 +++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -587,6 +587,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
- 	.nformats = ARRAY_SIZE(tegra20_video_formats),
- 	.default_video_format = &tegra20_video_formats[0],
+@@ -589,7 +589,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
  	.ops = &tegra20_vi_ops,
-+	.hw_revision = 1,
+ 	.hw_revision = 1,
  	.vi_max_channels = 1, /* parallel input (VIP) */
- 	.vi_max_clk_hz = 150000000,
+-	.vi_max_clk_hz = 150000000,
++	.vi_max_clk_hz = 450000000,
  	.has_h_v_flip = true,
+ };
+ 
 -- 
 2.48.1
 
