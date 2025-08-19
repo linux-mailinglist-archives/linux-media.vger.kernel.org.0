@@ -1,240 +1,280 @@
-Return-Path: <linux-media+bounces-40211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FE6B2B529
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 01:59:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A96B2B59E
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 02:58:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1088526CB9
-	for <lists+linux-media@lfdr.de>; Mon, 18 Aug 2025 23:59:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D46933B9272
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 00:58:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B753B27CCF0;
-	Mon, 18 Aug 2025 23:59:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C620B18FC92;
+	Tue, 19 Aug 2025 00:58:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gFnuselq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TLtP6A2Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402C81EB5B;
-	Mon, 18 Aug 2025 23:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA693451D0
+	for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 00:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755561573; cv=none; b=k8g0qMR1AwA2NAz811Es+1QnVlovYJw+sVijgqJ8T/pn8DXLZaiBoYO+ZKji4Qy/l/Zpp8rqw+IibBoPEcG1c/Gkm6eLkUuRIyjls9I4m9KvrLE0cSwmcgHohukFxYaoQfwLMk8Xs3MkPR7l8ih8luAZ8EvaAfG8V0bx7uveooc=
+	t=1755565100; cv=none; b=NEheYnDAvwgpTS4ZF+K99Y337M7WedmymReA+oYt9BbZNdbh0DBnT/HIJEe8xSdnzduPXkZnm3Hum4+w6ppRVqB3VwjrT/EVpYPBuDJVeOgr9Yn67WqqzY50r+aB5gTfI5B4/s/OyGEOoCfV7FpiDyXrvRZKZzhXfq5aSj42og0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755561573; c=relaxed/simple;
-	bh=kLg7XbYIsk9Q7gmAQl8rX7a/NLVyPEC6NZAox6CGTm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z1ctfnQFIJay2rb9B/q4/XJY2Q5evndqFui4nhaAI8p9m5hnCGCl4M230Dc1gfWQ/gD9tpSTolDwy9lgj9NcGSW/MGPZ9VXElZaMZ0u5qU6VcF9u6AE9DQJkY17vhoRfFXrTOKgYOJrUw5ljQcP60G7+Ebb188gtdVDbIPJC2ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gFnuselq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8E8DDC6D;
-	Tue, 19 Aug 2025 01:58:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755561511;
-	bh=kLg7XbYIsk9Q7gmAQl8rX7a/NLVyPEC6NZAox6CGTm4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gFnuselqMyrKeAnAzHveK3dtBfn8bkgX6bdU7LhEzHw4W/qyM/hdFy4IwOfRM0O9A
-	 1ICJ4BzrI34GewR8tXvT/492PBFaly+cUDtihJWjq0Rv3WFUEg6ePrvBh2xI89xna+
-	 h0b43taL5ZgECPA9Ya3tlE3OwkidnLoZRfgjjxEI=
-Date: Tue, 19 Aug 2025 02:59:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Andy Walls <awalls@md.metrocast.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] media: ivtv: Fix invalid access to file *
-Message-ID: <20250818235906.GC10308@pendragon.ideasonboard.com>
-References: <20250818-cx18-v4l2-fh-v3-0-5e2f08f3cadc@ideasonboard.com>
- <20250818-cx18-v4l2-fh-v3-2-5e2f08f3cadc@ideasonboard.com>
+	s=arc-20240116; t=1755565100; c=relaxed/simple;
+	bh=JcDu8OHlBt214AZMgSF6rdCDAjFCT4DpKt56AMM1Ppw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lnFtmKZPcUL6+JSF3KpOEiepFKnx264eAitQ+Ysy50vsN1vpu3z3dP1MQ5XzoxrYeMkh9z+OcZ+n18YLXLBkI6QYJ6fcsIIXhEqEaManDa7s5skeRxE9cLLdtFjlsxJwQQNl152y105RmIWDVLdl+CF0d5/C4sFvrioMsPPS7T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TLtP6A2Y; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755565098; x=1787101098;
+  h=date:from:to:cc:subject:message-id;
+  bh=JcDu8OHlBt214AZMgSF6rdCDAjFCT4DpKt56AMM1Ppw=;
+  b=TLtP6A2YkpgoojHOioW0YSG5eNlxf3njVLweCFj7BeyXkhWssiOrl7Qe
+   YHqxdqTpFfvgHU4FSXOpjvP88c2Jhbs18nXMCmsG/VCiO1xGK0oS8Ksf/
+   n8kk6RBcEJqaPFytH/ZikycEt8eqfuV7oZELdXWga3po3w2uZgGAMhjpC
+   Dk9k3ioH+8AtpH3X78U9jWahlCdbuzMKax2qeU3YnSr1jiOTKslliiZXv
+   GxrM6kCua/U68GqQ/clfX3O7MlQjUexBlEPs7SdKj/1ORg3Xoc9EF/u2E
+   sbKTm1ubBUXsUdn+wZn0hXrrFoxeJpM4hpDK4DCKe5zdV148UkeHn/tzj
+   g==;
+X-CSE-ConnectionGUID: Tm2u4gNjQoCAXhzckO0k0Q==
+X-CSE-MsgGUID: mMcgeu/zSFumS/N01gfQvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="69173293"
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="69173293"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 17:58:18 -0700
+X-CSE-ConnectionGUID: CxW2HXu2QBa+ZqFGh0DLXQ==
+X-CSE-MsgGUID: oq0Dj3UrTiSZdphXHCUHEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="171955421"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 18 Aug 2025 17:58:16 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uoAff-000GMd-2f;
+	Tue, 19 Aug 2025 00:57:57 +0000
+Date: Tue, 19 Aug 2025 08:56:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:fixes] BUILD SUCCESS
+ 6f6fbd9a0c5a75eee0618c1499cf73cc770b3f52
+Message-ID: <202508190822.dERr4SMl-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250818-cx18-v4l2-fh-v3-2-5e2f08f3cadc@ideasonboard.com>
 
-Hi Jacopo,
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git fixes
+branch HEAD: 6f6fbd9a0c5a75eee0618c1499cf73cc770b3f52  media: Remove redundant pm_runtime_mark_last_busy() calls
 
-Thank you for the patch.
+elapsed time: 933m
 
-On Mon, Aug 18, 2025 at 10:39:37PM +0200, Jacopo Mondi wrote:
-> Since commit 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
-> all ioctl handlers have been ported to operate on the file * first
-> function argument.
-> 
-> The ivtv DVB layer calls ivtv_init_on_first_open() when the driver
-> needs to start streaming. This function calls the s_input() and
-> s_frequency() ioctl handlers directly, but being called from the driver
-> context, it doesn't have a valid file * to pass them. This causes the
-> ioctl handlers to deference an invalid pointer.
-> 
-> Fix this by wrapping the ioctl handlers implementation in helper
-> functions.
+configs tested: 187
+configs skipped: 6
 
-You may want to reword this in a similar way as proposed in 1/2.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> The ivtv_do_s_input() helper accepts a struct ivtv * as first argument,
-> which is easily accessible from the DVB layer as well as from the file *
-> argument of the ioctl handler.
-> 
-> The ivtv_s_frequency() takes an ivtv_stream * instead. The stream * can
-> safely be accessed from the DVB layer which hard-codes it to the
-> IVTV_ENC_STREAM_TYPE_MPG stream type, as well as from the ioctl handler
-> a valid stream type is associated to each open file handle depending on
-> which video device node has been opened in the ivtv_open() file
-> operation.
-> 
-> The bug has been reported by Smatch.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/all/aKL4OMWsESUdX8KQ@stanley.mountain/
-> Fixes: 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/pci/ivtv/ivtv-driver.c | 11 ++++-------
->  drivers/media/pci/ivtv/ivtv-ioctl.c  | 22 +++++++++++++++++-----
->  drivers/media/pci/ivtv/ivtv-ioctl.h  |  6 ++++--
->  3 files changed, 25 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtv-driver.c b/drivers/media/pci/ivtv/ivtv-driver.c
-> index ecc20cd89926fe2ce4e472526a6b5fc0857615dd..7e2fb98cfccf02f701ceb4484dd1d330dd1dc867 100644
-> --- a/drivers/media/pci/ivtv/ivtv-driver.c
-> +++ b/drivers/media/pci/ivtv/ivtv-driver.c
-> @@ -1260,15 +1260,12 @@ static int ivtv_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
->  
->  int ivtv_init_on_first_open(struct ivtv *itv)
->  {
-> -	struct v4l2_frequency vf;
->  	/* Needed to call ioctls later */
+tested configs:
+alpha                             allnoconfig    clang-22
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    clang-19
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    clang-22
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250818    gcc-13.4.0
+arc                   randconfig-001-20250819    gcc-8.5.0
+arc                   randconfig-002-20250818    gcc-12.5.0
+arc                   randconfig-002-20250819    gcc-8.5.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                         lpc32xx_defconfig    clang-17
+arm                   randconfig-001-20250818    gcc-12.5.0
+arm                   randconfig-001-20250819    gcc-8.5.0
+arm                   randconfig-002-20250818    clang-22
+arm                   randconfig-002-20250819    gcc-8.5.0
+arm                   randconfig-003-20250818    clang-18
+arm                   randconfig-003-20250819    gcc-8.5.0
+arm                   randconfig-004-20250818    gcc-10.5.0
+arm                   randconfig-004-20250819    gcc-8.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    clang-22
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250818    gcc-11.5.0
+arm64                 randconfig-001-20250819    gcc-8.5.0
+arm64                 randconfig-002-20250818    gcc-12.5.0
+arm64                 randconfig-002-20250819    gcc-8.5.0
+arm64                 randconfig-003-20250818    gcc-8.5.0
+arm64                 randconfig-003-20250819    gcc-8.5.0
+arm64                 randconfig-004-20250818    clang-22
+arm64                 randconfig-004-20250819    gcc-8.5.0
+csky                              allnoconfig    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250818    gcc-15.1.0
+csky                  randconfig-002-20250818    gcc-9.5.0
+hexagon                          allmodconfig    clang-19
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-19
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250818    clang-22
+hexagon               randconfig-002-20250818    clang-22
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250818    clang-20
+i386        buildonly-randconfig-001-20250819    gcc-12
+i386        buildonly-randconfig-002-20250818    clang-20
+i386        buildonly-randconfig-002-20250819    gcc-12
+i386        buildonly-randconfig-003-20250818    gcc-12
+i386        buildonly-randconfig-003-20250819    gcc-12
+i386        buildonly-randconfig-004-20250818    clang-20
+i386        buildonly-randconfig-004-20250819    gcc-12
+i386        buildonly-randconfig-005-20250818    gcc-12
+i386        buildonly-randconfig-005-20250819    gcc-12
+i386        buildonly-randconfig-006-20250818    gcc-12
+i386        buildonly-randconfig-006-20250819    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250818    gcc-15.1.0
+loongarch             randconfig-002-20250818    clang-22
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                          atari_defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                  cavium_octeon_defconfig    gcc-15.1.0
+mips                           gcw0_defconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                             allnoconfig    gcc-15.1.0
+nios2                               defconfig    gcc-11.5.0
+nios2                               defconfig    gcc-15.1.0
+nios2                 randconfig-001-20250818    gcc-9.5.0
+nios2                 randconfig-002-20250818    gcc-9.5.0
+openrisc                          allnoconfig    clang-22
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    clang-22
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250818    gcc-10.5.0
+parisc                randconfig-002-20250818    gcc-8.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    clang-22
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc               randconfig-001-20250818    gcc-8.5.0
+powerpc               randconfig-002-20250818    gcc-9.5.0
+powerpc               randconfig-003-20250818    clang-22
+powerpc64             randconfig-001-20250818    gcc-8.5.0
+powerpc64             randconfig-002-20250818    clang-17
+powerpc64             randconfig-003-20250818    gcc-10.5.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250818    gcc-10.5.0
+riscv                 randconfig-001-20250819    gcc-8.5.0
+riscv                 randconfig-002-20250818    clang-22
+riscv                 randconfig-002-20250819    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250818    clang-22
+s390                  randconfig-001-20250819    gcc-8.5.0
+s390                  randconfig-002-20250818    gcc-8.5.0
+s390                  randconfig-002-20250819    gcc-8.5.0
+s390                       zfcpdump_defconfig    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250818    gcc-12.5.0
+sh                    randconfig-001-20250819    gcc-8.5.0
+sh                    randconfig-002-20250818    gcc-13.4.0
+sh                    randconfig-002-20250819    gcc-8.5.0
+sh                          sdk7780_defconfig    gcc-15.1.0
+sparc                            alldefconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250818    gcc-12.5.0
+sparc                 randconfig-001-20250819    gcc-8.5.0
+sparc                 randconfig-002-20250818    gcc-15.1.0
+sparc                 randconfig-002-20250819    gcc-8.5.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250818    clang-22
+sparc64               randconfig-001-20250819    gcc-8.5.0
+sparc64               randconfig-002-20250818    gcc-12.5.0
+sparc64               randconfig-002-20250819    gcc-8.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    clang-19
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250818    gcc-11
+um                    randconfig-001-20250819    gcc-8.5.0
+um                    randconfig-002-20250818    gcc-12
+um                    randconfig-002-20250819    gcc-8.5.0
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250818    gcc-12
+x86_64      buildonly-randconfig-001-20250819    clang-20
+x86_64      buildonly-randconfig-002-20250818    gcc-12
+x86_64      buildonly-randconfig-002-20250819    clang-20
+x86_64      buildonly-randconfig-003-20250818    gcc-12
+x86_64      buildonly-randconfig-003-20250819    clang-20
+x86_64      buildonly-randconfig-004-20250818    gcc-12
+x86_64      buildonly-randconfig-004-20250819    clang-20
+x86_64      buildonly-randconfig-005-20250818    gcc-12
+x86_64      buildonly-randconfig-005-20250819    clang-20
+x86_64      buildonly-randconfig-006-20250818    clang-20
+x86_64      buildonly-randconfig-006-20250819    clang-20
+x86_64                              defconfig    gcc-11
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20250819    gcc-12
+x86_64                randconfig-002-20250819    gcc-12
+x86_64                randconfig-003-20250819    gcc-12
+x86_64                randconfig-004-20250819    gcc-12
+x86_64                randconfig-005-20250819    gcc-12
+x86_64                randconfig-006-20250819    gcc-12
+x86_64                randconfig-007-20250819    gcc-12
+x86_64                randconfig-008-20250819    gcc-12
+x86_64                               rhel-9.4    clang-20
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250818    gcc-14.3.0
+xtensa                randconfig-001-20250819    gcc-8.5.0
+xtensa                randconfig-002-20250818    gcc-14.3.0
+xtensa                randconfig-002-20250819    gcc-8.5.0
 
-I'd drop the comment.
-
-> -	struct ivtv_open_id fh;
-> +	struct ivtv_stream *s = &itv->streams[IVTV_ENC_STREAM_TYPE_MPG];
-> +	struct v4l2_frequency vf;
->  	int fw_retry_count = 3;
->  	int video_input;
->  
-> -	fh.itv = itv;
-> -	fh.type = IVTV_ENC_STREAM_TYPE_MPG;
-> -
->  	if (test_bit(IVTV_F_I_FAILED, &itv->i_flags))
->  		return -ENXIO;
->  
-> @@ -1310,13 +1307,13 @@ int ivtv_init_on_first_open(struct ivtv *itv)
->  
->  	video_input = itv->active_input;
->  	itv->active_input++;	/* Force update of input */
-> -	ivtv_s_input(NULL, &fh, video_input);
-> +	ivtv_do_s_input(itv, video_input);
->  
->  	/* Let the VIDIOC_S_STD ioctl do all the work, keeps the code
->  	   in one place. */
->  	itv->std++;		/* Force full standard initialization */
->  	itv->std_out = itv->std;
-> -	ivtv_s_frequency(NULL, &fh, &vf);
-> +	ivtv_do_s_frequency(s, &vf);
-
-	ivtv_do_s_frequency(&itv->streams[IVTV_ENC_STREAM_TYPE_MPG], &vf);
-
-would work too. Up to you.
-
->  
->  	if (itv->card->v4l2_capabilities & V4L2_CAP_VIDEO_OUTPUT) {
->  		/* Turn on the TV-out: ivtv_init_mpeg_decoder() initializes
-> diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> index 8077a71d4850ec773caa20c3fca08f92f3117d69..dfbc842b22453868a2075935a81db7ae313ee46c 100644
-> --- a/drivers/media/pci/ivtv/ivtv-ioctl.c
-> +++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> @@ -974,9 +974,8 @@ static int ivtv_g_input(struct file *file, void *fh, unsigned int *i)
->  	return 0;
->  }
->  
-> -int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
-> +int ivtv_do_s_input(struct ivtv *itv, unsigned int inp)
->  {
-> -	struct ivtv *itv = file2id(file)->itv;
->  	v4l2_std_id std;
->  	int i;
->  
-> @@ -1017,6 +1016,11 @@ int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
->  	return 0;
->  }
->  
-> +static int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
-> +{
-> +	return ivtv_do_s_input(file2id(file)->itv, inp);
-> +}
-> +
->  static int ivtv_g_output(struct file *file, void *fh, unsigned int *i)
->  {
->  	struct ivtv *itv = file2id(file)->itv;
-> @@ -1065,10 +1069,9 @@ static int ivtv_g_frequency(struct file *file, void *fh, struct v4l2_frequency *
->  	return 0;
->  }
->  
-> -int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
-> +int ivtv_do_s_frequency(struct ivtv_stream *s, const struct v4l2_frequency *vf)
->  {
-> -	struct ivtv *itv = file2id(file)->itv;
-> -	struct ivtv_stream *s = &itv->streams[file2id(file)->type];
-> +	struct ivtv *itv = s->itv;
->  
->  	if (s->vdev.vfl_dir)
->  		return -ENOTTY;
-> @@ -1082,6 +1085,15 @@ int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
->  	return 0;
->  }
->  
-> +static int ivtv_s_frequency(struct file *file, void *fh,
-> +			    const struct v4l2_frequency *vf)
-> +{
-> +	struct ivtv_open_id *id = file2id(file);
-> +	struct ivtv *itv = id->itv;
-> +
-> +	return ivtv_do_s_frequency(&itv->streams[id->type], vf);
-> +}
-> +
->  static int ivtv_g_std(struct file *file, void *fh, v4l2_std_id *std)
->  {
->  	struct ivtv *itv = file2id(file)->itv;
-> diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.h b/drivers/media/pci/ivtv/ivtv-ioctl.h
-> index 42c2516379fcbbd0640820ab0e3abe9bf00b57ea..dd713a6b095e5ebca45a234dd6c9a90df0928596 100644
-> --- a/drivers/media/pci/ivtv/ivtv-ioctl.h
-> +++ b/drivers/media/pci/ivtv/ivtv-ioctl.h
-> @@ -17,7 +17,9 @@ int ivtv_set_speed(struct ivtv *itv, int speed);
->  void ivtv_set_funcs(struct video_device *vdev);
->  void ivtv_s_std_enc(struct ivtv *itv, v4l2_std_id std);
->  void ivtv_s_std_dec(struct ivtv *itv, v4l2_std_id std);
-> -int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf);
-> -int ivtv_s_input(struct file *file, void *fh, unsigned int inp);
-> +
-> +struct ivtv;
-
-I'd drop this, as the structure is already used above.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +int ivtv_do_s_frequency(struct ivtv_stream *s, const struct v4l2_frequency *vf);
-> +int ivtv_do_s_input(struct ivtv *itv, unsigned int inp);
->  
->  #endif
-> 
-
--- 
-Regards,
-
-Laurent Pinchart
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
