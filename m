@@ -1,200 +1,239 @@
-Return-Path: <linux-media+bounces-40302-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40304-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92288B2C9F6
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 18:46:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5FDB2CA0A
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 18:55:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C867D3B3547
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 16:46:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC11C7ABB0F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 16:54:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923BA1DED77;
-	Tue, 19 Aug 2025 16:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0131B2D2481;
+	Tue, 19 Aug 2025 16:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eyCEA3rR"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VjrqhiJ1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67944283C87;
-	Tue, 19 Aug 2025 16:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B902C11FC
+	for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 16:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755622005; cv=none; b=LLAlkNwO4K57bEhBKaqS3TqogPC4mHE99le/XdR1NlsN+gJazP7nwMRAGQzexHpblrWqdmhJVrBQSCBiiAA5kpy74FD0/k4wcZm+lXt1QS9106I1Gyc3bz+IlbEZ2gVdvm4s95A6nAIRJiYbdxx5ZA8hRNzDqOBhsFAlyTubIm4=
+	t=1755622530; cv=none; b=BVCVeZWSadLajLCMgl7lcszVCwsU8Sv2bMoYM61IzSaRMZr31r1LRrSQ7njNPzuc+v9g1YcBzYXVAAIxVuMSiULbAwmhxPI8YVazcf+bqItt8vlewDL2BoEi1yNQEaX6ShGPNzP+DaknWF1LWQYAXO/ask/Jph7KMfV2PflQkks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755622005; c=relaxed/simple;
-	bh=gJlCbtML3/hYLPe1GeD4TuTAglGALBUIYnsjaTlV7b4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gMzt8ukFTna0pb+uTj5NYofBXHymQkJDdhqlB7mg4O9MrQcKnD+rajQdSJ1/PoP5u0arBm7/ET0upqFaNnVpy3jgun5eCDgYTlOAnPXPNsnK0jLw1/7ngqW8j4CLNKV9iMmrhK96X2tAf6ag2TBbul8X3UtWLE9x0oElmfouhDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eyCEA3rR; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755622004; x=1787158004;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gJlCbtML3/hYLPe1GeD4TuTAglGALBUIYnsjaTlV7b4=;
-  b=eyCEA3rROmmN2FsjLM69oXtYtuEa7rmGSieeFwpNawu1bCjWyE8bOqoT
-   ggEyDrLsqm5jt9HibkXFccAgeggype/5wusCgQCQnxcKHLf2SlkROgXC6
-   uf4fJiHaH/7doYL6PZclK8I8sfyqoYa9Xq30ze1AkIbEgtGkZ+zvkbGkd
-   zX07Al66wNDdm6P1L67WrMzZijVx8O65qT68voJkI4ksQsApBd6M/ScT+
-   IJbAvrhVEHjseFC3AmMCtzxklOOtcUgllo8zDZ1AE4sXEtOcSFUyzBCh6
-   qt6kuNkuCOzmx7otflbqLq/ofTpgmow0EI8Y8SN/991H5ATfAtnnNl/Ul
-   g==;
-X-CSE-ConnectionGUID: zBNFfusJT8KG3/muG3iBUQ==
-X-CSE-MsgGUID: GhhwPI3cSXqyI3gnH+qCqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="61706165"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="61706165"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 09:46:43 -0700
-X-CSE-ConnectionGUID: R+JSMxuVTImX1WWpIWSi/A==
-X-CSE-MsgGUID: hNi8ogtaSYuLdJCpLMDC7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="205044336"
-Received: from johunt-mobl9.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.222])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 09:46:37 -0700
-Date: Tue, 19 Aug 2025 18:46:29 +0200
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: michael.riesch@collabora.com
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Gerald Loacker <gerald.loacker@wolfvision.net>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Markus Elfring <Markus.Elfring@web.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Kever Yang <kever.yang@rock-chips.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Collabora Kernel Team <kernel@collabora.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v10 08/13] media: rockchip: rkcif: add support for mipi
- csi-2 capture
-Message-ID: <rpaa2jspgmw3do5y367kq4pvvtpboeu7gjd4chmh6pgztmj6ar@ckh7jxvfuhlg>
-References: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
- <20240220-rk3568-vicap-v10-8-62d8a7b209b4@collabora.com>
+	s=arc-20240116; t=1755622530; c=relaxed/simple;
+	bh=2ZRbuPvYC6oRzM87T9GeGlPgKgqCWbckD2/C4WLdouc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hXSx+Ca98g/VBEshj3Ax9J0NkH9DIhJjYWNztfSjoK+ErOBjlasjL6JGWQISR5WZAqjq3u/B3DFYRjAz9Yk9wJwFlLzftNWvcPa9pSrHzDIdBX4toamwYsrXIW7wyBtxm4TZdoenHV3WSOR2FO8qIUYMhGaQaG1BEkny61CDuRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VjrqhiJ1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J91D77019196
+	for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 16:55:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=lxGdvDmpMuyotVw7HhhrfP
+	F8xBOSTfUPJO1/oKHwM50=; b=VjrqhiJ1vOc5Ku3qDEw2J5jgIVOOGOqoZvRCds
+	0SHJzYc8fyyJmbwhEQh0P45KWT5ZFhE7cjlvHa5l7GrPPJGOr9POwhsdS/C+JE/z
+	FfLnCK4g0eRdBufZ+Dy1uEzoRvNDmHMqKulx1URPdMIrLw7bx9GJpAYDXbe8r9Wb
+	DBTiFuNbQcY+ZJRmzm44KCpe31Fa+N8AaP9H/wphD0TTeQsXaN2/AlZMu6VO06Wh
+	4ZfdfyrAswK+d8BEna4rDUi491PVAG3bZvF7BQ21yMThS8NOd3UlVJZLbek0N/ZF
+	tU2N4PF1s9wiaWR3d5Tsrgp6WUyRrL22cqtfJD48q9CBKliQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jh0798wf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 16:55:21 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-24457f4f3ecso65910885ad.0
+        for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 09:55:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755622520; x=1756227320;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lxGdvDmpMuyotVw7HhhrfPF8xBOSTfUPJO1/oKHwM50=;
+        b=gFUnd6IN8xKV7U/C3DcaAsIXTrEcXpeJ8YSuZVP3XzvjEAhvWOC9E1Zhap0gGUnTmG
+         62OKjVaujFAjdfbeM2n0qByn5dnorOUrmRsaYdOv8LlEHWoCZL9sLhFnc+WpG2Vc5nr9
+         DGEJ5QVzqzC9puvrLkaSyrBlpTVNG0i9+X3jh/eBJU4CvdkrQciTmBI5MgTA4Xtt6eAn
+         eE+73GSx1PwXqrBRRs+TMKYc9tB78tu/A5cct7Dz/bDwJMlS6nl8RffsazEug0Mk6C54
+         8bXDidu0HDiAy16Kn4KSNYRZD+KsrKknu+JhT1eaw7c6CEGB+0TNHJGrIRor5y6Sn5Bp
+         sJww==
+X-Forwarded-Encrypted: i=1; AJvYcCWZFdzfuhHA/pbp4HWCAUnDdmTyevIck8kNuEUlkaPAqr/+EulPU4FIUJy3mVrmvn1l2d0GhudfeBTBmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXj6H8Du1poydDxpv0hiFAATlvjMerSFf2aVRtcxtsWr3c1rdU
+	Gak/xRBYM8v1LuzgFyFRQJkazFAaX2/7gTKMzpVj6L3fMLdnErKD4rgv7baQfDlU8KTG6gxn8cK
+	d2TjeFTeef13CsvR2/D8Iw3uIefNa05wcygX7FqF3xw/Wwz7XGLtFy2PJZrqELgKGow==
+X-Gm-Gg: ASbGncvImEkBEmK9dniYJoNr4mZUkCtzScAJdUrQRiN6Zj7MVlzw/uVK1epNyidSrRO
+	d8GPraeYXXSEjlCYBaMju1w4Fwyms+HCtH5gl/RYYbXErBpnkD+X9iNQWtHYa3Ategu1AOkiBCl
+	vfm7clza9Ow5HP8xGFHgc/1GgjVoWx3J9r4jSCoybZYwBBCKuQxUlSmTJM4MA3N+KqRIGsZFHoq
+	q7nn5Vsb88zuKyyORc2KZEPzIiB9+dNDpFxpkls6gJOmrPnDf0Q3xJn7gRJRNfwWvONIHeScIDM
+	NPwfdNCp3CsQyLbXsxOkj+Ug4M/Vt0ytbM9MLPJMbBobHXfbb7HBW4X8RqoARE4RTOc=
+X-Received: by 2002:a17:902:f682:b0:240:3e73:6df with SMTP id d9443c01a7336-245e045ce13mr36796215ad.14.1755622519751;
+        Tue, 19 Aug 2025 09:55:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBqUj+M1IP/W9sLHQS6YdJGjWFVd4K75u/YtqS2UBdv1Sz8Bxe21w4wybcIi+r90GeTOFKAA==
+X-Received: by 2002:a17:902:f682:b0:240:3e73:6df with SMTP id d9443c01a7336-245e045ce13mr36795815ad.14.1755622519236;
+        Tue, 19 Aug 2025 09:55:19 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed33aa3esm2273885ad.24.2025.08.19.09.55.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 09:55:18 -0700 (PDT)
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Subject: [PATCH v2 00/11] Peripheral Image Loader support for Qualcomm SoCs running Linux host at EL2 
+Date: Tue, 19 Aug 2025 22:24:35 +0530
+Message-ID: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240220-rk3568-vicap-v10-8-62d8a7b209b4@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: PfzdWUEyRSsXEbIUuMZvwFYzXeNl0OPA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyMCBTYWx0ZWRfX6kJz4egcMWhU
+ ctjRjiTb7x2fqJRrlj6oDLI1xDLdIoIGkEN21ObkPxmBLqC4terXzb67BgyYrSNok7wxMov106M
+ laBoz21OsF8WFaGtBnTWrr/QNW3ZmZAcvfwITLlXV8oNmfjX3IE7kLSDQOhn2NmyD2kp5nyz56b
+ v5fCFI6VhfdwNS8zfGpbvxb1GnWcX6RersTjQ2t4Ffm5DMasIv9o471CEKoKHL9wIC3bpi5Pqsc
+ IbP1DyHdmdYJMs/NLZ/7Wy2KLSzyRt8XucBZuLmFKujdYrcpmpA/xQx6eZgS4Q4LEIRrDqXl77t
+ F+ou1y5H+6DplS2LDQCUSfVUrWEbemuLHnCHDAMyRdKtrD3qCP/VicVwKy1qLJgt+8ezAf/CeG/
+ Qzbjr8T9
+X-Authority-Analysis: v=2.4 cv=a+Mw9VSF c=1 sm=1 tr=0 ts=68a4ac79 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=R_P8mzuY8g6UZThHr3UA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=TjNXssC_j7lpFel5tvFf:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: PfzdWUEyRSsXEbIUuMZvwFYzXeNl0OPA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-19_02,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160020
 
-Hi Michael,
+This is a further continuation with a new approach to the topic
+discussed in [1] regarding the enablement of Secure Peripheral Image
+Loader support on Qualcomm SoCs when Linux runs at EL2.
 
-I am seeing IOMMU page faults: See below.
+A few months ago, we also discussed the challenges at Linaro Connect
+2025 [2] related to enabling remoteproc when Linux is running at EL2.
 
-On Tue, Aug 19, 2025 at 01:26:00AM +0200, Michael Riesch via B4 Relay wrote:
-> From: Michael Riesch <michael.riesch@collabora.com>
-> 
-> The RK3568 Video Capture (VICAP) unit features a MIPI CSI-2 capture
-> interface that can receive video data and write it into system memory
-> using the ping-pong scheme. Add support for it.
-> 
-> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+[1]
+https://lore.kernel.org/lkml/20241004212359.2263502-1-quic_mojha@quicinc.com/
 
-[..]
+[2]
+https://resources.linaro.org/en/resource/sF8jXifdb9V1mUefdbfafa
 
->  irqreturn_t rkcif_mipi_isr(int irq, void *ctx)
->  {
-> +	struct device *dev = ctx;
-> +	struct rkcif_device *rkcif = dev_get_drvdata(dev);
->  	irqreturn_t ret = IRQ_NONE;
-> +	u32 intstat;
-> +
-> +	for (unsigned int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
-> +		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
-> +		struct rkcif_interface *interface = &rkcif->interfaces[index];
-> +
-> +		intstat = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
-> +		rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, intstat);
-> +
-> +		for (unsigned int j = 0; j < interface->streams_num; j++) {
-> +			struct rkcif_stream *stream = &interface->streams[j];
+Below, is the summary of the discussion.
 
-In the TRM you can see in the MIPI_INTSTAT interrupts to detect
-overflows: why not activate them ?
+Qualcomm is working to enable remote processors on the SA8775p SoC with
+a Linux host running at EL2. In doing so, it has encountered several
+challenges related to how the remoteproc framework is handled when Linux
+runs at EL1.
 
-something like this:
+One of the main challenges arises from differences in how IOMMU
+translation is currently managed on SoCs running the Qualcomm EL2
+hypervisor (QHEE), where IOMMU translation for any device is entirely
+owned by the hypervisor. Additionally, the firmware for remote
+processors does not contain a resource table, which would typically
+include the necessary IOMMU configuration settings.
 
-#define RKCIF_MIPI_INT_Y_OVERFLOW(id)          BIT(16)
-#define RKCIF_MIPI_INT_UV_OVERFLOW(id)         BIT(17)
-#define RKCIF_MIPI_INT_FIFO_OVERFLOW(id)       BIT(18)
-#define RKCIF_MIPI_INT_CSI2RX_FIFO_OVERFLOW(id)        BIT(20)
+Qualcomm SoCs running with QHEE (EL2) have been utilizing the Peripheral
+Authentication Service (PAS) from TrustZone (TZ) firmware to securely
+authenticate and reset remote processors via a single SMC call,
+_auth_and_reset_. This call is first trapped by QHEE, which then invokes
+TZ for authentication. Once authentication is complete, the call returns
+to QHEE, which sets up the IOMMU translation scheme for the remote
+processors and subsequently brings them out of reset. The design of the
+Qualcomm EL2 hypervisor dictates that the Linux host OS running at EL1
+is not permitted to configure IOMMU translation for remote processors,
+and only a single-stage translation is configured.
 
-and then OR them with the int_mask in rkcif_mipi_start_streaming()
+To make the remote processor bring-up (PAS) sequence
+hypervisor-independent, the auth_and_reset SMC call is now handled
+entirely by TZ. However, the issue of IOMMU configuration remains
+unresolved, for example a scenario, when KVM host at EL2 has no
+knowledge of the remote processors’ IOMMU settings.  This is being
+addressed by overlaying the IOMMU properties when the SoC runs a Linux
+host at EL2. SMC call is being provided from the TrustZone firmware to
+retrieve the resource table for a given subsystem.
 
-and then you can log the err if something happened ?
+There are also remote processors—such as those for video, camera, and
+graphics—that do not use the remoteproc framework to manage their
+lifecycle. Instead, they rely on the Qualcomm PAS service to
+authenticate their firmware. These processors also need to be brought
+out of reset when Linux is running at EL2. The client drivers for these
+processors use the MDT loader function to load and authenticate
+firmware. Similar to the Qualcomm remoteproc PAS driver, they also need
+to retrieve the resource table, create a shared memory bridge
+(shmbridge), and map the resources before bringing the processors out of
+reset.
 
-> +
-> +			if (intstat & RKCIF_MIPI_INT_FRAME0_END(stream->id) ||
-> +			    intstat & RKCIF_MIPI_INT_FRAME1_END(stream->id)) {
-> +				ret = IRQ_HANDLED;
-> +
-> +				if (stream->stopping) {
-> +					rkcif_mipi_stop_streaming(stream);
-> +					wake_up(&stream->wq_stopped);
-> +					continue;
-> +				}
-> +
-> +				rkcif_stream_pingpong(stream);
-> +			}
-> +		}
-> +	}
->  
->  	return ret;
->  }
+This series has dependency on below patch for creating SHMbridge over
+carveout memory.
+https://lore.kernel.org/lkml/20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-7-ce7a1a774803@oss.qualcomm.com/
 
-Now to the IOMMU page faults:
+Series is tested on SA8775p which is now called Lemans IOT platform and
+the series does not addresses DMA problem discussed at [2] which is future
+scope of the series.
 
-Camera Sensor: IMX219
-Frame Size: 1920x1080
-Format: SRGGB10P
+Changes in v2: https://lore.kernel.org/lkml/20241004212359.2263502-1-quic_mojha@quicinc.com/
+ - A lot has changed from the V1 and a fresh look would be preferred.
+ - Removed approach where device tree contain devmem resources in
+   remoteproc node.
+ - SHMbridge need to created for both carveout and metadata memory
+   shared to TZ in a new way.
+ - Now, resource table would be given by SMC call which need to mapped
+   along with carveout before triggering _auth_and_reset_.
+ - IOMMU properties need to be added to firmware devices tree node when Linux
+   control IOMMU.
 
-Packed SRGGB10
---> Every four consecutive samples are packed into 5 bytes
---> Stride = 2400 bytes (1920 * 5/4)
+Mukesh Ojha (11):
+  firmware: qcom_scm: Introduce PAS context initialization helper
+  soc: qcom: mdtloader: Add context aware qcom_mdt_pas_load() helper
+  firmware: qcom_scm: Add a prep version of auth_and_reset function
+  firmware: qcom_scm: Simplify qcom_scm_pas_init_image()
+  firmware: qcom_scm: Add shmbridge support to pas_init/release function
+  remoteproc: Move resource table data structure to its own header
+  firmware: qcom_scm: Add qcom_scm_pas_get_rsc_table() to get resource
+    table
+  soc: qcom: mdt_loader: Add helper functions to map and unmap resources
+  remoteproc: pas: Extend parse_fw callback to parse resource table
+  remoteproc: qcom: pas: Enable Secure PAS support with IOMMU managed by
+    Linux
+  media: iris: Enable Secure PAS support with IOMMU managed by Linux
 
-So the imagesize = 1080 * 2400 = 2 592 000
+ drivers/firmware/qcom/qcom_scm.c              | 360 ++++++++++++++++--
+ drivers/firmware/qcom/qcom_scm.h              |   1 +
+ drivers/media/platform/qcom/iris/iris_core.c  |   9 +-
+ drivers/media/platform/qcom/iris/iris_core.h  |   6 +
+ .../media/platform/qcom/iris/iris_firmware.c  | 156 +++++++-
+ .../media/platform/qcom/iris/iris_firmware.h  |   2 +
+ drivers/remoteproc/qcom_q6v5_pas.c            | 147 +++++--
+ drivers/soc/qcom/mdt_loader.c                 | 199 +++++++++-
+ include/linux/firmware/qcom/qcom_scm.h        |  27 +-
+ include/linux/remoteproc.h                    | 269 +------------
+ include/linux/rsc_table.h                     | 306 +++++++++++++++
+ include/linux/soc/qcom/mdt_loader.h           |  41 +-
+ 12 files changed, 1144 insertions(+), 379 deletions(-)
+ create mode 100644 include/linux/rsc_table.h
 
-in __vb2_buf_mem_alloc() the size of the buf will be PAGE_ALIGNED in:
-PAGE_ALIGN(vb->planes[plane].length);
+-- 
+2.50.1
 
-So we allocate a buffer with the size: 2 592 768 -> hex = 0x297000
-
-In rkcif_mipi_queue_buffer():
-We will queue a total of two buffers to the HW (2 because of pingpong)
-The first buffer will have the address: 0x00000000ffc00000
-
-We start to capture and then this happens:
-
-rk_iommu fdfe0800.iommu: Page fault at 0x00000000ffe79000 of type write
-rk_iommu fdfe0800.iommu: iova = 0x00000000ffe79000: dte_index: 0x3ff pte_index: 0x279 page_offset: 0x0
-rk_iommu fdfe0800.iommu: mmu_dte_addr: 0x0000000012cc8000 dte@0x0000000012cc8ffc: 0x11a0d001 valid: 1 pte@0x0000000011a0d9e4: 0x31b79006 valid: 0 page@0x0000000000000000 flags: 0x0
-
-With:
-0xffe79000 = 0xffc00000 (buffer address) + 0x297000 (buffersize)
-
---> So the VICAP is overflowing the buffer even though everything was
-correctly configured ?! (If I understood everything correctly ofc.)
-
-I also see the same problem with the SRGGB8 format. It also happens in
-the downstream Radxa/Rockchip Kernel.
-
-Do you see the same problem ?
-
---
-Kind Regards
-Mehdi Djait
 
