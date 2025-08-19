@@ -1,119 +1,160 @@
-Return-Path: <linux-media+bounces-40233-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40234-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36C6B2BADE
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 09:35:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0EAB2BB15
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 09:50:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DE97626645
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 07:35:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A7133B21AB
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 07:49:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96B8E2F9C3E;
-	Tue, 19 Aug 2025 07:35:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C3063112B0;
+	Tue, 19 Aug 2025 07:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YgDNdJ0N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mp3JamPX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437322D7809
-	for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 07:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4366C310655;
+	Tue, 19 Aug 2025 07:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755588937; cv=none; b=B1UB1CcQ0roLDSDLfc0k84yx1eS/BIIck2GAhF4NzPAxjp+OJ98OBjVj9wkgltlOZFWUhlLL8Izcjh89lIYrs8q9dAc6CwUlWofa3MghO2dxb7EyUYt6aX9gLpnDSwOSJBDK7OCmAdqwr7CgSCTIdczItEWR5Ap3bwqolviD864=
+	t=1755589769; cv=none; b=fjnGAAtgrJ8sebTYwPXFt7VbH8gXVw6LBfOZoNCC1zOuAC1eUvJ+mZXL6AaqdpLMfJMsBmFSzb160VOLUN+D0vRB3EeFUVR290z6KZKbS/abl+CeKwLlohCsxBwMpQsRx7qD8I2NTH3uYYNPSA8zslTjm2Dcp07uhA+iAkz8AFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755588937; c=relaxed/simple;
-	bh=6muHT8Vz7FWBM7IxWQ7FJ7BNFmydgV6AQcSNIRRp0a4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kYBMDMZgrJQlgoakuVhsJ+yxu+z6dQXH38kux9HjkRhG9FZ8eJs5otafeKawPpjhPXQBne2NCU1xwwmwjplnQMwSRzZMqU6k4F/V6bExh8axDSzv0hMpYBTpzevqYWsDnftTZ+TdRwHxZfA1Fji6yoNh5+/+Z6rhBL+LM6KyXo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YgDNdJ0N; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-52-92.net.vodafone.it [5.90.52.92])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58B9C596;
-	Tue, 19 Aug 2025 09:34:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755588871;
-	bh=6muHT8Vz7FWBM7IxWQ7FJ7BNFmydgV6AQcSNIRRp0a4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YgDNdJ0Ny4UAaCIt6zhpAREx+3G5hjZxBzRz2HdAdeNqcfa7WCikjt1QiMRcmxI1C
-	 8AAyhcIQBAxIHcipPUptMETYezNSzo0ctuidu9zhNs55Gmbb+gCgFwTKct6RWXNsBL
-	 UpQ9KkcQi6u3ruz9r+cib+lEc9LZXD+PpjuUiuVY=
-Date: Tue, 19 Aug 2025 09:35:21 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Keke Li <keke.li@amlogic.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH 1/2] media: amlogic: c3-mipi-csi2: Call
- v4l2_get_link_freq() on source pad
-Message-ID: <rnlb6bowvqy5yyzhhqdpqgpp4o4m4c6qkfyywggcpqnmdgl7ft@picz2hkvjth6>
-References: <20250818141444.1160565-1-sakari.ailus@linux.intel.com>
- <20250818141444.1160565-2-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1755589769; c=relaxed/simple;
+	bh=o9TySSLEBxV1vBVKUolgwGhPErtzbRBzHso3BUuOW6I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pSvlEQDB0TjFxu7hJeCF/Nyb3mv+PErsdCJhIVGt0wroo5RRXKUP1pqjVx8DBmN4Nn0FW7xsHjQWDgdPY9vliJHJssxeMKSq/Pcgz57xDCSS0uyGWqMMeBlVTty2DGmpNjG/qJ7VSYcApKRtCKbstV4/zB8Oam258rLZ4FzBjcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mp3JamPX; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b9e41101d4so2599598f8f.2;
+        Tue, 19 Aug 2025 00:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755589766; x=1756194566; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tktl11pfy3/Yp1aBg2B/XJPwdXr6OR9NrbROhrLFKOA=;
+        b=mp3JamPXTzZiP7m1Sa3TepFMZzt7i/GO3TBiH0aoHgJ5vzIh/YOtoAw1j1X3M9DgMb
+         BzccNJy69w86Ccy7Q+Cvz0zxrKeYKTla1BjsbxIyBdynsMXCuYGwnkMP3LX81Jfe2wvY
+         Laqd8zG1R00N8uDMtKWm+m7JVR/iBHTYg97uy2JjNfdq+C2xzBgt8pvsiRYB8FZCyEJW
+         y+ZAsMArarcOWi6iu+tgPscxIhi3Q4cqNexbAQuCKF8d7Vl4lx1878MsIjcIIGjUTa+p
+         DdE9+3O2Nht1S/JTNl0IJ8jaNuAdBbX1xEfd369BmwT+qgOo4Cj8k8EMUvdRes1UZe3n
+         R2pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755589766; x=1756194566;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tktl11pfy3/Yp1aBg2B/XJPwdXr6OR9NrbROhrLFKOA=;
+        b=n9R9E70kUslf9Y43vwHnCLjHXit+iiztcLivD6ClAsZAKNkDH/UnK7qked9vXZOTs+
+         OjmeZW0nRMGojG4kmnPmUKlaRzZEghYR5oUAYJQjwGZcCyf3bJjjgQCMK4vl1Q47EKJp
+         siPeI2JhnBL64+RGKoJmwWjVnrDlHUzXMzRSglTaVSPNRpruYdp9WmKNDLp1ZicydeFj
+         7OemhmxZvshEv3FP/eUNQFgmuW8d267llGW8JxuO0XmEHhht+KWFPeJ2EApqsYtCvnVm
+         miyABJJs26f+vUgrIHjabco4T61DC0LPJEOJuzO+85lCAu0KlhjaTZDj8Gwu0HQKKxJm
+         Kjdg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3uiQlzsxUS3O/L3gdxDs0VMtf9DFn+sfc51p33Aeajxm5eBfZB4IZ2rYxA7w/t1S5VMIRU41l8yQwkH4=@vger.kernel.org, AJvYcCUrHBLM64WKVdTo7ErCWQy87Gn8zhSMKVskFgHiiM3QNg5SmIH5sVY4RffGVZpcq2ZSRtcgX6gb76AsFT2s@vger.kernel.org, AJvYcCVxfj0hkAvaAJfS/UQit82cwdpPEldBQpqwoX+OBBHPfTD+ADCkNghkIy81SuU+BrkM0R5L/Z7DdUTX@vger.kernel.org, AJvYcCWgl7ZGZx/keJSQ7fmFkpI3O5qwV4r4/ToVssJOTSEHIEOZDm29dP5kz7p3rcqdM2iSI7CCcTWpu8txVx4WYe7IDTc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9Or3whlchQSgFv5omOxlODgwKqExTVleFj9Nl08VF0LJNeVzf
+	rFlWhtfBaPK/7bl+DqkLId+/BXOi9XBJucYuvB9hcX9fQ0GME1sCD8s5
+X-Gm-Gg: ASbGnctfliA9hmLHQwt1vjHjxR/AiL+dzPQesxvf63lvUZ+mNsadotUXaJmvP4QcmcN
+	Cjad2ell43L/aCp+ugYa6BiiRHnr6cpp09YHwdepTTq1rjQSM/TXvT1AzMEE5O5Cg1Htw73A0Fa
+	mc51iU0GgeyO/JS82mAqe4l/s9giQcrsFvyzC1irTYRVBpLgIXvWYgtrTHRwrOaAIlfLdmwE6hW
+	7FA/hGxhhaI5Stnp/aAhWodYAkRabfnLuQcVm7AYsROpF+jCmWMvB1Lo7fDzBQtnt3psnOE2/Q7
+	xgGFzZBp4DcYMnlVwVcliXJ4lm7xFADHGIVgLl+dOvxjTJaugSowYPNdOHQKCrNaW797UxM0npC
+	8ET8Jf3SrY1coylKojUB+rWQPGF/PmFsC9gUf7RMvpL06HGSTLv43eSAhlG5aKUwE47xtcZCvjg
+	==
+X-Google-Smtp-Source: AGHT+IHUAZmruvo89s8w/TDHSQbTq0A+T1xiSAxrWAoBmrBQ1XVkEezpiCS1g5v9Gm3xgk+kjze3nw==
+X-Received: by 2002:a05:6000:188f:b0:3b9:2960:bf92 with SMTP id ffacd0b85a97d-3c0ddd0f2e2mr1097338f8f.0.1755589766111;
+        Tue, 19 Aug 2025 00:49:26 -0700 (PDT)
+Received: from biju.lan (host31-53-6-191.range31-53.btcentralplus.com. [31.53.6.191])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b42a6d59dsm29351215e9.2.2025.08.19.00.49.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 00:49:25 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2] media: dt-bindings: renesas,rzg2l-cru: Improve documentation
+Date: Tue, 19 Aug 2025 08:48:42 +0100
+Message-ID: <20250819074849.18696-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250818141444.1160565-2-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-On Mon, Aug 18, 2025 at 05:14:43PM +0300, Sakari Ailus wrote:
-> Call v4l2_get_link_freq() on the source pad so we can remove the
-> workaround allowing doing that.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c b/drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c
-> index 1011ab3ebac7..d56525d5fd74 100644
-> --- a/drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c
-> +++ b/drivers/media/platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c
-> @@ -389,12 +389,12 @@ static void c3_mipi_csi_cfg_host(struct c3_csi_device *csi)
->  }
->
->  static int c3_mipi_csi_start_stream(struct c3_csi_device *csi,
-> -				    struct v4l2_subdev *src_sd)
-> +				    struct media_pad *src_pad)
+Drop CRU prefix from clocks and interrupts description.
 
-You could also pass 'csi' only and retrieve 'src_pad' from there.
-Nit apart:
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Ref: https://lore.kernel.org/all/20240909143358.GA2013-robh@kernel.org/
+v1->v2:
+ * Updated commit description
+ * Dropped CRU prefixes from clocks and interrupts description.
+---
+ .../bindings/media/renesas,rzg2l-cru.yaml     | 22 +++++++++----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Thanks
-  j
+diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+index 47e18690fa57..0a57b9d15318 100644
+--- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+@@ -32,15 +32,15 @@ properties:
+   interrupts:
+     oneOf:
+       - items:
+-          - description: CRU Interrupt for image_conv
+-          - description: CRU Interrupt for image_conv_err
+-          - description: CRU AXI master error interrupt
++          - description: Interrupt for image_conv
++          - description: Interrupt for image_conv_err
++          - description: AXI master error interrupt
+       - items:
+-          - description: CRU Interrupt for image_conv
+-          - description: CRU AXI master error interrupt
+-          - description: CRU Video Data AXI Master Address 0 Write End interrupt
+-          - description: CRU Statistics data AXI master addr 0 write end interrupt
+-          - description: CRU Video statistics data AXI master addr 0 write end interrupt
++          - description: Interrupt for image_conv
++          - description: AXI master error interrupt
++          - description: Video Data AXI Master Address 0 Write End interrupt
++          - description: Statistics data AXI master addr 0 write end interrupt
++          - description: Video statistics data AXI master addr 0 write end interrupt
+ 
+   interrupt-names:
+     oneOf:
+@@ -57,9 +57,9 @@ properties:
+ 
+   clocks:
+     items:
+-      - description: CRU Main clock
+-      - description: CRU Register access clock
+-      - description: CRU image transfer clock
++      - description: Main clock
++      - description: Register access clock
++      - description: Image transfer clock
+ 
+   clock-names:
+     items:
+-- 
+2.43.0
 
->  {
->  	s64 link_freq;
->  	s64 lane_rate;
->
-> -	link_freq = v4l2_get_link_freq(src_sd->ctrl_handler, 0, 0);
-> +	link_freq = v4l2_get_link_freq(src_pad, 0, 0);
->  	if (link_freq < 0) {
->  		dev_err(csi->dev,
->  			"Unable to obtain link frequency: %lld\n", link_freq);
-> @@ -434,7 +434,7 @@ static int c3_mipi_csi_enable_streams(struct v4l2_subdev *sd,
->
->  	pm_runtime_resume_and_get(csi->dev);
->
-> -	c3_mipi_csi_start_stream(csi, src_sd);
-> +	c3_mipi_csi_start_stream(csi, csi->src_pad);
->
->  	ret = v4l2_subdev_enable_streams(src_sd, csi->src_pad->index, BIT(0));
->  	if (ret) {
-> --
-> 2.39.5
->
->
 
