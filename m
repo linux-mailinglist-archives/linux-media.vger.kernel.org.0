@@ -1,95 +1,123 @@
-Return-Path: <linux-media+bounces-40253-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40254-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D6CB2C098
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 13:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D197EB2C2A6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:05:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5017816D5D4
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 11:32:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA33A17F332
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:05:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01AC32BF25;
-	Tue, 19 Aug 2025 11:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30A14334716;
+	Tue, 19 Aug 2025 12:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n6OYW1j2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L/010uyn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AB530F813;
-	Tue, 19 Aug 2025 11:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3CD3112AE;
+	Tue, 19 Aug 2025 12:05:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755603121; cv=none; b=BT6iN3/c3GMv6TEoBZ6D5rVPWouTOVSRAUFdxm5C+hg704XYimjTlklJcPmJaoXKCOgNDKwp3Nt6mTsnxT0piGqatTGZoaZ3GVA0JSS8kkckV8FVkrsbeCwBqL6LylQc3dTlPiAlHRZa/faBC5jzfLCtoq4hHufm3085j9C4P7U=
+	t=1755605115; cv=none; b=lmdJILGiiCCKAw/uRjPWeTf5BxCQDYDIutyTIIV8/xBdoVZgfINEr44YOMe8dxQjeSq+TDSzoB0bRfrMfmkaOBVSQ8LLtrcr/u0cQkgwnzyZvUDnebKdfNzw5dObipetaU669VvQZMiQ8q47pRGH77lgIKl2MvEieVuXbkQiG0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755603121; c=relaxed/simple;
-	bh=xk21yYxTPrpJlQW1zpMfkatIUVFMuWMI1dlu7eQZ/Ds=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=To0N9DMjgycrOLatLZ/NrRl48/kbRWF/cqM5NqqXTZW7aL/Ek/vtVSi8HhIULL77nuyGiQ+WYD6zwnHWyJMhqaEamm8PrcHptU4AQIY0d6UVrTNtna7ZUaNrU2h/wVkFPnDeqBy7xeAA2IVFDFHjtx5oXQ2Cx6NlcpsOd1E8vcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n6OYW1j2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50A1EC4CEF1;
-	Tue, 19 Aug 2025 11:31:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755603120;
-	bh=xk21yYxTPrpJlQW1zpMfkatIUVFMuWMI1dlu7eQZ/Ds=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=n6OYW1j2RqLKw6TyxArRNH26G93qpiwO6sRXgeCNldIveXwLltxRkGLtMabet3CkR
-	 wQunkdQE7q5QiwMJCbpYdt8O6DObyoAjcwi+NUpVdD1LWVLiRvR3Xl04sBvA9cOdwe
-	 zALJ2IKZK7SnG+TPAJ+dQ47ImZU51W9t4818hC0egbkeKD7mpoRahPNYYsyY3JMv6e
-	 abDHF2GE5nEXgrC8hNA2fepVnxx3yAFN86vfXmymXazAq0XpeJ5sKLI/6aAUdQuEie
-	 wcQZDTNNUFjyWbFVjQ0iBGgEZmTJhzc7j8DRl84kLsy1FvRZs7s4Icfd17Eq2CoDLv
-	 ZsuAuvAhyxUSQ==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
- sumit.semwal@linaro.org, christian.koenig@amd.com, 
- thierry.escande@linaro.org, quic_vgattupa@quicinc.com, 
- Ling Xu <quic_lxu5@quicinc.com>
-Cc: quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com, 
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250807100420.1163967-1-quic_lxu5@quicinc.com>
-References: <20250807100420.1163967-1-quic_lxu5@quicinc.com>
-Subject: Re: [PATCH v3 0/4] Add missing fixes to FastRPC driver
-Message-Id: <175560311807.1303568.7881475983315661805.b4-ty@kernel.org>
-Date: Tue, 19 Aug 2025 12:31:58 +0100
+	s=arc-20240116; t=1755605115; c=relaxed/simple;
+	bh=IIq1mvH6OtqAv0YaH8ERmi2vjWmybv3ZiNk5fkOAWlI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gknVSBCjg23vHsLdLDZmr29tY/wxtsLQRI/SV2WxKbZMTz0RpL+GvGSUaQdoBZ5m5NykZOaBLveFHckOiA+H/Q9moa/yHR+t2824YEKWcnoHdqC2bilTryz1W4rGaIsX+4DTeizjQa0MTLire1wdBMgAwS1OynmwFjqbdTRI/jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L/010uyn; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61a8b640e34so345961a12.1;
+        Tue, 19 Aug 2025 05:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755605112; x=1756209912; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IfzT05dM2baYISOQU6tgyWeATeoow59nz2/0T9K5+y8=;
+        b=L/010uyn+Ro7rrRKxWdf4ED//isi5DDpuY5YEu1aNrJzfTjYY3FCENxOM3T5gYe4fE
+         Rbpu+IHbq33p7Ijy5ONEZhzWSJjBxBu2pPJqAENuE7tmxNYMjqVCmiHI9YyFSxXT78eY
+         3KQC1jrMyuKV5gWTLhUbeYzMr0oDYZPZd3IcdRMiStnQHkim4VWEZqufUUX4CIAZQZNl
+         AHUuI2HywmdmlAPg7YUY+68ZNW98XwiC5X1xQQ0VCAJX8Q3TLQgL9OjkQ4AkyeJHWAfG
+         3GrwD/QUqCJ/tCTdv5g6wgnVQOfYCWAz4xxLikUslpNrTk2+ZNBBP9ndzvAsunuC4E6W
+         xtLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755605112; x=1756209912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IfzT05dM2baYISOQU6tgyWeATeoow59nz2/0T9K5+y8=;
+        b=NNcEwfe60P9lAAuCAg/0gFJv0mO6LhotQ7zKK4YB+aH5OJb1KSkOrxQB4XH8lcUrFu
+         rHDyvYWZ0DAizv42e7evytQS/F5a1JXeUi0bTBs6UiY/BcA9/mW3/ZUaMBch871PtmGw
+         vsQTgfONE+aazvu5cm+/WBdTTJihCtZymSIsY+9GXdFe3dq8LSMAXWVCY+vmq/ti56Ts
+         ZbJfruHAQ38m97ReM0HuWSFTdOrWtbImztyRyuYLSev0I63Wd649R+l4m2x5FCh9NFw3
+         Xozy/sRhdcPvkgPH0FOkFUjfmtXUh0uPYYWwFN6ocsKKJNMQAyGTMvzSH06/No1T4YkU
+         Fmmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWfzGwpZG9N/Ae355kg8hU5BcPpaFaVWvL9h1GfRn7t8htXEEBNyOee4Vi5evieGA+ArFeyiq8LpGny@vger.kernel.org, AJvYcCXF06l/3H6aKzbwmdw3n7w3Cs0xhz5pqCBacQclXZvZoEzRKLvggpW07aLk9ir4wmt0YmGYTO1FaHYkGYvc@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPK8TL9cF3+VWgW0d15FDog8NnzGTmzcHnAdKN/oqgRFb2fkFI
+	pI+5by8gYBBEqveaTMZ1dKvmScAlSUep9stk//jN3IBJ3NjhXehgKoFh
+X-Gm-Gg: ASbGnct1O18ak4fsB/dGBf1YzcUwV1S4NasPghzSkZ230chFAS14M3T3xc6qNSD0niS
+	iM1S6I7WWnqbleCG56WtFmjxp7+hCik3Rp8qCtweWTF8EY1ZoGoanpi9zODeso6c3uzNtqt9t2b
+	adC30zslML3RvM5ElWT0DknJ0A2jytqJOe1HzeOuyhXKOkQeGyok4zaJRS2COtPEuzRNcMcg8aS
+	xLdrLTs8NReFvsOCyWiXCB2WwlqG0oZPbzMkYftgLQ4Ba6orDd01pYtrHoe48Swnvp6Z61kPA7y
+	yrvs1CK0mxMT7w3awVDhukQqmMkCNPtPbJOCV4/eZ0lD+x+NAHim2tS+e4AnU0FgoqRngouuYHc
+	aM1CSa5gl1eAMmw==
+X-Google-Smtp-Source: AGHT+IFkG7xgD6HHzsfzf2LOGMtIPjRGO8JyKFfA0/NwtGyIhEoWN1bx0VCJTRYR+V8llaKfV/9zGA==
+X-Received: by 2002:a05:6402:52c8:b0:60e:23d:43b1 with SMTP id 4fb4d7f45d1cf-61a7e747d21mr1741214a12.16.1755605112020;
+        Tue, 19 Aug 2025 05:05:12 -0700 (PDT)
+Received: from xeon.. ([188.163.112.76])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61a755d9f3bsm1657741a12.1.2025.08.19.05.05.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 05:05:11 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] media: i2c: add Sony IMX111 CMOS camera sensor driver
+Date: Tue, 19 Aug 2025 15:04:25 +0300
+Message-ID: <20250819120428.83437-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
+Add driver for Sony IMX111 CMOS sensor found in LG Optimus 4X and Vu
+smartphones.
 
-On Thu, 07 Aug 2025 15:34:16 +0530, Ling Xu wrote:
-> This patch series adds the listed bug fixes that have been missing
-> in upstream fastRPC driver.
-> - Store actual size of map and check it against the user passed size.
-> - Consider map buf for map lookup.
-> - Fix possible map leak in fastrpc_put_args.
-> - Skip refcount increment for DMA handles.
-> Patch [v2]: https://lore.kernel.org/linux-arm-msm/20250806115114.688814-1-quic_lxu5@quicinc.com/
-> 
-> [...]
+Svyatoslav Ryhel (2):
+  dt-bindings: media: i2c: document Sony IMX111 CMOS sensor
+  media: i2c: add Sony IMX111 CMOS camera sensor driver
 
-Applied, thanks!
+ .../bindings/media/i2c/sony,imx111.yaml       |  126 ++
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/imx111.c                    | 1616 +++++++++++++++++
+ 4 files changed, 1753 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
+ create mode 100644 drivers/media/i2c/imx111.c
 
-[1/4] misc: fastrpc: Save actual DMA size in fastrpc_map structure
-      commit: 69fb36431c5e1bd09981f931b3030296cdc6c7b5
-[2/4] misc: fastrpc: Fix fastrpc_map_lookup operation
-      commit: a8b2a851e3f9a8497ff857d9a152659988612af4
-[3/4] misc: fastrpc: fix possible map leak in fastrpc_put_args
-      commit: ba7a9771f1e3a622d51f95a1f5a4ff9958ca5c64
-[4/4] misc: fastrpc: Skip reference for DMA handles
-      commit: cbf27dd4e98e5a3b71dbe89972461ce5bb4c188c
-
-Best regards,
 -- 
-Srinivas Kandagatla <srini@kernel.org>
+2.48.1
 
 
