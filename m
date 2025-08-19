@@ -1,65 +1,66 @@
-Return-Path: <linux-media+bounces-40277-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40278-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2159BB2C3E2
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:39:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC13B2C3D8
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 14:38:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0277E72800F
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:34:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B227B173ED7
+	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 12:34:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91047322C7B;
-	Tue, 19 Aug 2025 12:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B0FD334719;
+	Tue, 19 Aug 2025 12:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="XRj2aeV8"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="lnlyNMqU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEBA2C11E9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF2A2DE1FC;
 	Tue, 19 Aug 2025 12:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755606817; cv=none; b=X8SvVhIK/9aX170vJIFI39gkWPDcg0xscR6v4PTPPlXyDV+JKHKemLgrwPWJ1YzF9kpXeyNX+B7K64sBgiiG++l9nldSV9wln99jGX1fbnPyH9P2rWuidfQ6bxT9NImwLR2UZXrdFoJ7fGr9EJrX8L9NMwFHvtFX3+cAL4uK0rA=
+	t=1755606818; cv=none; b=UOQjUudKcf9VBg4Mr/zqxTPeRq7iLPG0JsuvY81aFCrY8wUDppv8eCaiBHFBmHD1j8cQm4UFc+yN6rLYXSGH0Vkwm50fkM21rm9dmc4SXqp8Igd8IX6RE2eO+xh+p3Vauh3gOl5MhXctTHfvrZrxoXF2JbZOp6EYt8zV+E/+TUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755606817; c=relaxed/simple;
-	bh=5Q8wKkN1BFWMQtiLANhqCY01k5G7FAcOMZ/6z6by0PA=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=qPqRbeWbmNFHPjkdT1T7bMPV5l7x3Cjfke3YwlqrWRRTR8qonWbhbq45JpuchK1QrZ7VvBMrK2u1jJxCPsIcIv5ibj/U6l9r2519AalaaUUnsrpTBfnNR7BVJtfaAAYwrElCt/NOBEkg2tNmusPm6xx3u4o7sT5bvqhIRwlPCPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=XRj2aeV8; arc=none smtp.client-ip=91.207.212.93
+	s=arc-20240116; t=1755606818; c=relaxed/simple;
+	bh=Mxuevp6bNGyl6fcD68OMxQ2LPG0IAnTU/AsVDo2gQ+M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=XLXFROAkgtSzLTMBjplOueY3cO1U6mUktLNbtvJ8xicq3oaS683VYRxZnwhQHz4FgkyxdourjuTXibBeAFJyU6qAezoVMcMvzDygjnHuOvfgxg2FxN1AuVlq3TG7YfD9JMM2ESL0H/rPGoXeqAhMFMv4yg3I4ZLU7xB9weGo7qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=lnlyNMqU; arc=none smtp.client-ip=91.207.212.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JCR9kv000924;
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JB3B4C026151;
 	Tue, 19 Aug 2025 14:33:15 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=yyPJPTWPG9UP0Ftt6BiwEb
-	Sp7VaW4eUIrh5+Kdg+yVs=; b=XRj2aeV8PxOTMubcEQyjENAU5ICLA6SsJhvoi7
-	bo22guxvhTrqokVGghOX1EUx4FZZXDU2GNcnOb6NaFYXCX/HLTX5w+BnTAl12wqS
-	T3v2YPfkf3mF8I9Nm6jaDhkc6OVhe+RIBH1N2awnEpcTl9hZs060kv6leWQ3ocqE
-	ajctIhxgJnLz27kC3dcFTiIz/IDNjf6rsYdRmCK+0yrW2YiHQXJNb+5OJz+8bQEx
-	yBQu/PkUDyWRGZNc3BCM+4sxP0qBhdq+Oid2iO529RVGmgVldh9qdYFy6GLiNKKy
-	nkCuYEG0qEd566ytTwI6/swKTKTzCpD3OH9FVr3O5VUJzfiw==
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	h3jS/JC3i/+u2/S/uLHPpVffeWG5GKuLkz0xOuyVmcs=; b=lnlyNMqU/oE1Hnfp
+	6xkPanl7xYZeUOxief18qFYKPti5RelwWpiCa+ocVzPFBoQpPUWmFJh+5MGHuk7p
+	2ve5eZTh6Q9APOMvkA/4pgJhwjZ3DUG8VnPkeMtBKjd7gPG/RncWkxdnqO1FfTa7
+	rf4BYzyiBHMPmcjNgBUmEgcB9WRzo80g3/Q9hVUf2sw+TEA7zA9QcDbydWK4F+9Z
+	9BNIM9DoTvI8p7Sn4VmuyltE7NAF+auSuhNqasxGEOUfKFjZPB3KIgb8Utay2Yuz
+	N9fDl+IJ//IUQKXTMiY0XKLc24wqhJbnU6IZ3/gFM2k30DVYepVSjYX/74hVZHdO
+	p6872g==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jf47tpqt-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jgvf2hx7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Tue, 19 Aug 2025 14:33:15 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C922840054;
-	Tue, 19 Aug 2025 14:32:31 +0200 (CEST)
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id BB95D40056;
+	Tue, 19 Aug 2025 14:32:32 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 15A527269FF;
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9FDD9724713;
 	Tue, 19 Aug 2025 14:31:59 +0200 (CEST)
 Received: from localhost (10.130.78.67) by SHFDAG1NODE1.st.com (10.75.129.69)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 19 Aug
- 2025 14:31:58 +0200
+ 2025 14:31:59 +0200
 From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Subject: [PATCH 0/2] media: i2c: vd55g1: Support vd65g4 RGB variant
-Date: Tue, 19 Aug 2025 14:31:45 +0200
-Message-ID: <20250819-vd55g1_add_vd65g4-v1-0-b48646456c23@foss.st.com>
+Date: Tue, 19 Aug 2025 14:31:46 +0200
+Subject: [PATCH 1/2] media: dt-bindings: vd55g1: Add vd65g4 compatible
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,10 +69,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALFupGgC/x3MQQqAIBBA0avErBM0Ghm6SkRIM9lsLBQkiO6et
- HyL/x8oklUKTN0DWaoWPVOD6zvYjpCiGOVmGOyAlhyZyojRrYF5rewxjoaE0JHsHq2H1l1Zdr3
- /57y87wfgTJYLYwAAAA==
-X-Change-ID: 20250818-vd55g1_add_vd65g4-8e8518ef6506
+Message-ID: <20250819-vd55g1_add_vd65g4-v1-1-b48646456c23@foss.st.com>
+References: <20250819-vd55g1_add_vd65g4-v1-0-b48646456c23@foss.st.com>
+In-Reply-To: <20250819-vd55g1_add_vd65g4-v1-0-b48646456c23@foss.st.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
         Sylvain Petinot
 	<sylvain.petinot@foss.st.com>,
@@ -89,27 +89,33 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-19_02,2025-08-14_01,2025-03-28_01
 
-This serie adds the support for the vd65g4, the color variant of the
-vd55g1.
-
-First patch is the device tree bindings update, while the second is the
-driver support per se.
+Switch compatible from a const to an enum to accommodate both the vd55g1
+and the vd65g4, which is the color variant.
 
 Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 ---
-Benjamin Mugnier (2):
-      media: dt-bindings: vd55g1: Add vd65g4 compatible
-      media: i2c: vd55g1: Add support for vd65g4 RGB variant
+ Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
- .../devicetree/bindings/media/i2c/st,vd55g1.yaml   |   6 +-
- drivers/media/i2c/vd55g1.c                         | 231 +++++++++++++++------
- 2 files changed, 169 insertions(+), 68 deletions(-)
----
-base-commit: 2412f16c9afa7710778fc032139a6df38b68fd7c
-change-id: 20250818-vd55g1_add_vd65g4-8e8518ef6506
+diff --git a/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml b/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
+index 3c071e6fbea613e560f63d38af579421daee0efb..060ac6829b661dc50ee30a43eadb60173ff93814 100644
+--- a/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
+@@ -25,7 +25,11 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: st,vd55g1
++    enum:
++      - st,vd55g1
++      - st,vd65g4
++    description:
++      VD55G1 is the monochrome variant, while VD65G4 is the color one.
+ 
+   reg:
+     maxItems: 1
 
-Best regards,
 -- 
-Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+2.25.1
 
 
