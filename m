@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-40441-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B43DB2DFBA
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:42:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA99B2DF9D
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:39:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 622FF3BB820
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:39:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6411E1888FEB
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:39:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7986A283FD3;
-	Wed, 20 Aug 2025 14:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BC9928641E;
+	Wed, 20 Aug 2025 14:38:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRY5HAs0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VT9zGo78"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C81927A92B;
-	Wed, 20 Aug 2025 14:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E842C27D771;
+	Wed, 20 Aug 2025 14:38:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755700718; cv=none; b=A4gKPwAgkSK4fpXDBO45JgLtnMLJdcJpYgox4lkfzCZ99BfxJPUxM9/yKkvCEkNTg5cPVmTfnOveH7/Y1WlLzzjx2KVVV+2kyrQY4GL9oEozJpoGg1808xNga3LbaIsVPCn6MDjYWAPpWMuzikAe1sndwBrsT5kdO+EkCZKOJqA=
+	t=1755700719; cv=none; b=pezbi4cA8lKZ9OCpWB9725OFtOXNPhxf4hd04/kjdPnqa3eEKdHOWMdi9Hwg4dRy3JeoiKy5Er00EWxaEdlNUS2Wt7AX+oOraV16sjfUAGKbYISbFc5Hjnta764DSe7nbc0CnHbMsHO7iA9HK+CFSERCxpfdU2t5lDYZ/htE2gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755700718; c=relaxed/simple;
-	bh=C+o3YjOTbmhlBjQbakMAQhXFMWRNCHKOXQ7EpWSF5qg=;
+	s=arc-20240116; t=1755700719; c=relaxed/simple;
+	bh=BWLA8NyQymYqgp4W4q1/N6dJ7i3U2k10OE+hF7iKINY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WWtr9e55/HaCc7jbvLQN3LiW0R4QbXk/yE82wsgBYjJwOKvybatpQlo3oFaKA9KGYKkAkelJU+rWYC5CmMK8hXNooYr4iOr3BpX8Ii2nF0dCn/zHdExzCgUlg2iT2PYb8T0aRMmAL34VC88CKmcdqDTFhMYIf4TuZppbbPrgutg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRY5HAs0; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=Iq/O83+0rud3qB2yWzLA6UkNe9vNjxU4qxGOAixC7DhVHBCn4IKIJlBKmPIt6ZZHYCrUSpZf9L2IIsXPVYGD5bi8w5Yg/gvdDF8xE2RuB6Yy1PeXSt3v81Nbb4sdhEn6Mlp2WGhR6DWmlJPk+eCO02JOR71pmhvZW2ciP5hrYHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VT9zGo78; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755700717; x=1787236717;
+  t=1755700718; x=1787236718;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=C+o3YjOTbmhlBjQbakMAQhXFMWRNCHKOXQ7EpWSF5qg=;
-  b=TRY5HAs0SCX7d2gIdB4aIa+6QZMkflJ0eXpB2IYR3VUh98xyrpn2Gc3c
-   c8dM6jOu4Lrv6/CR/sB6HXNReRbYPzNhdz7P+HeRbAYMh5uWQ04EbDBs2
-   CcaydW4pGybEOOVGHa6zyijU6T/kFYUo0qEOh5K9AVQQWa4D56asFv9pf
-   EP1Q7vxWaZNBA1pZw+vR4jYXn/b/bouxMajlWN+HHMZyAjpz6zczxhDHQ
-   53jk4lCsUP9OVwP43K0zILjNNfZmwUXHezD6AwdMXnGp8OHowNPVUKqjg
-   ROPfblfZba0YLbuHfeRjADEKVsGIKZby4/qKJ20v0AZjS5xZ/dQw2q5F2
-   w==;
-X-CSE-ConnectionGUID: 261SqqC2TtO4miPYTKYXLA==
-X-CSE-MsgGUID: feLIQ24VTyKkYgFTHeCWcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57167786"
+  bh=BWLA8NyQymYqgp4W4q1/N6dJ7i3U2k10OE+hF7iKINY=;
+  b=VT9zGo78bblLMLeTmNihfXw7Ho7IOkAmxw/mp9f2hhksK6zo6o6EaeiL
+   jdPVATWMMWVqdG2iRETYs7Vxy4Q7d44Wgp+wtPD0teF6FjGP8Cs+6QKrS
+   uxCuZxh9qjxgSoZU6QSyVlZlvjLtfjqm86rb81x/9x69+7TYb2aVZi+ad
+   xJlSFsmT2WjYlGw3weo/J2RvbxJzYbwx6WzQ5xs3/KSK4GDRLvmg8WwsH
+   3GFWvKRRmk4gdlFwj9KNDfhZX/8p4Ldgf6btKVfgQSOPAilxPEH18zEi8
+   RRBwcIuEyiHfX74HiXAhkofXia+KCFHb33J+jjS+17xRrTU7cuN1GFcoB
+   A==;
+X-CSE-ConnectionGUID: jczU4iNJQvizAV9R3AQtbw==
+X-CSE-MsgGUID: OlHM+gnYROW8g9gUldeRHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57167774"
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="57167786"
+   d="scan'208";a="57167774"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 07:38:35 -0700
-X-CSE-ConnectionGUID: maZuz23URrOYUi1uLSP1jA==
-X-CSE-MsgGUID: aO9WQP9aTVCR2cjhI//jrw==
+X-CSE-ConnectionGUID: 0QYJhf53S7GQygS/QccVSw==
+X-CSE-MsgGUID: wScCQPMVT5+iFPw9QjPzCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="167368834"
+   d="scan'208";a="167368830"
 Received: from ettammin-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.19])
   by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 07:38:33 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id D9F3B121FA9;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id DE3F1121FAA;
 	Wed, 20 Aug 2025 17:38:24 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uojxI-00000002JYQ-3bwG;
+	id 1uojxI-00000002JYY-3gNl;
 	Wed, 20 Aug 2025 17:38:24 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -78,9 +78,9 @@ Cc: linux-media@vger.kernel.org,
 	Mathias Nyman <mathias.nyman@linux.intel.com>,
 	Alan Stern <stern@rowland.harvard.edu>,
 	=?UTF-8?q?Micha=C5=82=20Pecio?= <michal.pecio@gmail.com>
-Subject: [PATCH v5 5/9] usb: xhci: Use usb_endpoint_max_periodic_payload()
-Date: Wed, 20 Aug 2025 17:38:20 +0300
-Message-ID: <20250820143824.551777-6-sakari.ailus@linux.intel.com>
+Subject: [PATCH v5 6/9] usb: core: Introduce usb_endpoint_is_hs_isoc_double()
+Date: Wed, 20 Aug 2025 17:38:21 +0300
+Message-ID: <20250820143824.551777-7-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250820143824.551777-1-sakari.ailus@linux.intel.com>
 References: <20250820143824.551777-1-sakari.ailus@linux.intel.com>
@@ -92,66 +92,59 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the newly added usb_endpoint_max_periodic_payload() to obtain the
-maximum number of bytes to transfer during a service interval for
-isochronous and interrupt endpoints. This will replace the xhci-specific
-xhci_get_max_esit_payload() which is removed as redundant.
+Introduce usb_endpoint_is_hs_isoc_double() tell whether an endpoint
+conforms to USB 2.0 Isochronous Double IN Bandwidth ECN.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/usb/host/xhci-mem.c | 32 +-------------------------------
- 1 file changed, 1 insertion(+), 31 deletions(-)
+ drivers/usb/core/usb.c | 19 +++++++++++++++++++
+ include/linux/usb.h    |  3 +++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 07289333a1e8..d2c04811191f 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1378,36 +1378,6 @@ static u32 xhci_get_endpoint_type(struct usb_host_endpoint *ep)
- 	return 0;
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index ca9ff6ad8e73..939dc4aafb89 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -1139,6 +1139,25 @@ u32 usb_endpoint_max_periodic_payload(struct usb_device *udev,
  }
+ EXPORT_SYMBOL_GPL(usb_endpoint_max_periodic_payload);
  
--/* Return the maximum endpoint service interval time (ESIT) payload.
-- * Basically, this is the maxpacket size, multiplied by the burst size
-- * and mult size.
-- */
--static u32 xhci_get_max_esit_payload(struct usb_device *udev,
--		struct usb_host_endpoint *ep)
--{
--	int max_burst;
--	int max_packet;
--
--	/* Only applies for interrupt or isochronous endpoints */
--	if (usb_endpoint_xfer_control(&ep->desc) ||
--			usb_endpoint_xfer_bulk(&ep->desc))
--		return 0;
--
--	/* SuperSpeedPlus Isoc ep sending over 48k per esit */
--	if ((udev->speed >= USB_SPEED_SUPER_PLUS) &&
--	    USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes))
--		return le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
--
--	/* SuperSpeed or SuperSpeedPlus Isoc ep with less than 48k per esit */
--	if (udev->speed >= USB_SPEED_SUPER)
--		return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
--
--	max_packet = usb_endpoint_maxp(&ep->desc);
--	max_burst = usb_endpoint_maxp_mult(&ep->desc);
--	/* A 0 in max burst means 1 transfer per ESIT */
--	return max_packet * max_burst;
--}
--
- /* Set up an endpoint with one ring segment.  Do not allocate stream rings.
-  * Drivers will have to call usb_alloc_streams() to do that.
++/**
++ * usb_endpoint_is_hs_isoc_double - Tell whether an endpoint uses USB 2
++ *                                  Isochronous Double IN Bandwidth
++ * @udev: The USB device
++ * @ep: The endpoint
++ *
++ * Returns: true if an endpoint @ep conforms to USB 2 Isochronous Double IN
++ * Bandwidth ECN, false otherwise.
++ */
++bool usb_endpoint_is_hs_isoc_double(struct usb_device *udev,
++				    const struct usb_host_endpoint *ep)
++{
++	return ep->eusb2_isoc_ep_comp.bDescriptorType &&
++		le16_to_cpu(udev->descriptor.bcdUSB) == 0x220 &&
++		usb_endpoint_is_isoc_in(&ep->desc) &&
++		!le16_to_cpu(ep->desc.wMaxPacketSize);
++}
++EXPORT_SYMBOL_GPL(usb_endpoint_is_hs_isoc_double);
++
+ /*
+  * Notifications of device and interface registration
   */
-@@ -1445,7 +1415,7 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
- 	 * have no clue on scatter gather list entry size. For Isoc and Int,
- 	 * set it to max available. See xHCI 1.1 spec 4.14.1.1 for details.
- 	 */
--	max_esit_payload = xhci_get_max_esit_payload(udev, ep);
-+	max_esit_payload = usb_endpoint_max_periodic_payload(udev, ep);
- 	interval = xhci_get_endpoint_interval(udev, ep);
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index e9cf2786d8bd..70ef00c42d22 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -2042,6 +2042,9 @@ static inline u16 usb_maxpacket(struct usb_device *udev, int pipe)
+ u32 usb_endpoint_max_periodic_payload(struct usb_device *udev,
+ 				      const struct usb_host_endpoint *ep);
  
- 	/* Periodic endpoint bInterval limit quirk */
++bool usb_endpoint_is_hs_isoc_double(struct usb_device *udev,
++				    const struct usb_host_endpoint *ep);
++
+ /* translate USB error codes to codes user space understands */
+ static inline int usb_translate_errors(int error_code)
+ {
 -- 
 2.47.2
 
