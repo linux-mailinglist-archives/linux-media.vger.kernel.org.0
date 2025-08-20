@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-40369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40368-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6CFB2D7CD
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 11:17:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE81B2D7BE
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 11:15:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB0F05C03C6
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 09:15:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59CC67BA94A
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 09:13:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3EB02EA734;
-	Wed, 20 Aug 2025 09:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DFDF2DE702;
+	Wed, 20 Aug 2025 09:08:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JMzDyiaH"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VwMSxhLA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544E12EA14D;
-	Wed, 20 Aug 2025 09:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CD92D8DB9;
+	Wed, 20 Aug 2025 09:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755680940; cv=none; b=ZDlHNVLCR+YR5BwGUO67pfOqOmfsDEkA9tZdVRQNMMmePrfPusI/uZnf+5eFewS3Z3HIT31Vq9POGg/gpv5dSoDrmVJyi7uLxuPV2007etGTLoPpC6O6aSkj3aOhi5nJDnd2NjUviC5fJY2YWIuEryUAcKiK+Df1qzPFXtQKDBY=
+	t=1755680938; cv=none; b=H20rVyz4r9RTcCiGs2k177VB1ViTk7OKAmFf50Ohyz7QqIJqo672nF66CCWO1Q+KfyKEJ+xno78C333o+9qesQAYbo7bJnaKmB/aVDUiqmuI77F8lJRg7V405sBrZYI0gUb6cHu+WB4t98DZO7p/OjoU6CG/JD0eDhd/7+Uw8gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755680940; c=relaxed/simple;
-	bh=qTJ1SrAz4XpbbTMKkHjmUxIT2PNQs4gBWLtdpY8W5aY=;
+	s=arc-20240116; t=1755680938; c=relaxed/simple;
+	bh=7WScUCCmB9CCY9siOSRyrb7DXeZbVOFWaFmSKzi015w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=DRd2fxQ59ebD9+S5I/ux5xoeiP8wzJIEJP9SqGmXdNPitrsjObcSSsEazyEGLTsFIYWXGDrSSTrFdjADlOogpt/mLL8Iyn/sFsCltO+4OXyI7JKTOSBBbhzHrovq/CClnRakR0RLXYT3+cgchSHLmPUTQ0OaU6Wye5S15xSjKlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JMzDyiaH; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=jxZb+r2U+7U2SAfuwTGVxLOZttiakRPW54Q10FkTu1XsZ5kA3en8tfa4J9ndWaqDQHbkTe7RAfwcXjDw+FwC0uDltnNyWQwTBFK0Wyj7fZE7nwGnP2gb3Bo7AZxbd80PPd2P6qWtrp/nyLNRempT6ZCL8bTdPB1Q3J9uM19ou8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VwMSxhLA; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K1oUl2010407;
-	Wed, 20 Aug 2025 09:08:47 GMT
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K1oxMx005872;
+	Wed, 20 Aug 2025 09:08:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	133yvOaIoBbccoktAOCUVjcNrOAd8IgTXOT095msf7A=; b=JMzDyiaH9W6zZjTi
-	Of1ghUdF5+KKfisLsMupv4hmw/pO3OYdNQQKh+RgZFou8MgHMf+GTjkAZ8ShdXn2
-	Sof2gB8KcPwlGArOcF4ik3zl+zVDLrtTKkzIswud072BTC0EitWKE0VJsCIXM20a
-	PK+5Gpsg8nNAvTvocfksJMDJhxc5I4vLnniWjyJAs775rwfWEXW8wwQKyk5sHsqt
-	1ReuvZWmQRnGKc/seoyVhbTrmTDJ3F1yI7RG1rQfNeNMxphoRpkiDAqpQnsHOzRJ
-	cqGPJHzqWmkJWU3FZvMJGGuJVUTfFJX4TJWPkxBCfwOqPySxTQ69SR1Y07TiXZyB
-	9YQ/rQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n528s45c-1
+	gKMIHmy1E4znslLhlwwBsl4qqyJ1waWE3XIx5fIbaf0=; b=VwMSxhLAU+LjTgEu
+	z4FvKXhhWKtku7CwaBN2FsXpedWfuQ/cDBf+Kc0Pngj+jWQieBFBT3G7v2rexEIg
+	wX1K9/gHmC9Td5JuiCr6evtKeVd7H5UjrvkPVQyW7qoCQMsXrwbZqFl0sh4oXVo/
+	HLt+jEeLepILHEfS0adJtavd3dR745gzAGKwHmShNCHVo1aJ4cs4zwqyQS5uBA4r
+	+ZLZ56LSkLo1LYwV//iR1JrCU9X27G4+czFfr/WeGevblrdr3P8Jh7pxCAQbmZsw
+	qcfk7L/RUfA8wVrpAHYldRM1PUPT8Wjj3C/oCiaxK60/RtccuBMiqm7wqejj6Ro3
+	GtqgNQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52ch3qv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Aug 2025 09:08:47 +0000 (GMT)
+	Wed, 20 Aug 2025 09:08:51 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57K98k9K022532
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57K98okS005299
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Aug 2025 09:08:46 GMT
+	Wed, 20 Aug 2025 09:08:50 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Wed, 20 Aug 2025 02:08:42 -0700
+ 15.2.1748.10; Wed, 20 Aug 2025 02:08:46 -0700
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Wed, 20 Aug 2025 14:37:52 +0530
-Subject: [PATCH v3 14/26] media: iris: Initialize and deinitialize encoder
- instance structure
+Date: Wed, 20 Aug 2025 14:37:53 +0530
+Subject: [PATCH v3 15/26] media: iris: Add support for ENUM_FMT,
+ S/G/TRY_FMT encoder
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250820-iris-video-encoder-v3-14-80ab0ba58b3d@quicinc.com>
+Message-ID: <20250820-iris-video-encoder-v3-15-80ab0ba58b3d@quicinc.com>
 References: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
 In-Reply-To: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -89,419 +89,483 @@ CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         Dikshita Agarwal
 	<quic_dikshita@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755680867; l=14439;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755680867; l=15716;
  i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=qTJ1SrAz4XpbbTMKkHjmUxIT2PNQs4gBWLtdpY8W5aY=;
- b=dzJa1NgpwU6i6bt/DKu88rm68VgeyYSfXzmerPHRp+SCOFUU12BuSYkSqIzZvDtQJSLFNwmxv
- 57J0dOvnichBY2CfVSRBiwQFflkQHpC9D5m0fQixNq0neyV+Fyhsj93
+ bh=7WScUCCmB9CCY9siOSRyrb7DXeZbVOFWaFmSKzi015w=;
+ b=yGi35cW0GD5CT+RuownDJpXPPywYWXevdAe8ye19O3X95n2DbKGcRxG8sALkCrSw1TG0gpQBd
+ VgkGL1KJkNkAxsvW+EUnpKZhxz9Y++EHvAqC90hCCv374xXoUFjhSDl
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=I4c8hNgg c=1 sm=1 tr=0 ts=68a5909f cx=c_pps
+X-Proofpoint-GUID: LkBgbT0ngwxOkragY4nRqxhOZN2jvoTj
+X-Proofpoint-ORIG-GUID: LkBgbT0ngwxOkragY4nRqxhOZN2jvoTj
+X-Authority-Analysis: v=2.4 cv=Xpij+VF9 c=1 sm=1 tr=0 ts=68a590a3 cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
- a=KKAkSRfTAAAA:8 a=Nv3RiTZIhyedlSIdZdEA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: YsSPYjezwRF2R5VXr5G-kSg1GEgnv_XM
-X-Proofpoint-ORIG-GUID: YsSPYjezwRF2R5VXr5G-kSg1GEgnv_XM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfXw5GZWia05JT+
- sT5Gqm9GhNnZi0iMLKpzNbjOdP2LxnVYrc9tXonjls5CSIb/JgaWM52MlGk7OQtWDmNDvkcQqB6
- nNTNdJ2p5lBIrfsmD+7ABjhs/i5Vkhj+hVPduCF1t4J6J3l7GhMNV9pbD+c5YJPVdfD5wU7Srt6
- lwQ9TZ6rYwJBzSRxJtOphj5yPy/mgv1V4Ovf6/AyHD/frvuvdYQqjwEhLbFOTczaJIc+owJ0dRy
- paFXBOzDuzjjq0Hpu9+hj65MvrTjsD7pcJPlCAg3f6AdZxa0+rLcwdJkT+10Mi4Q+saIJhl/UnK
- dzybVykk5Mbysqx0RPIAapFxWkBIeI2eX5W2SYcF7XvF5zdvVt+6gZCEHejxmdjRznIg7nbJGqc
- WSKYniNiJMrwZ2iyQ74dSzm0n+xf2A==
+ a=Le57Ke0m5vrr5mqLr9EA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX04vKTTkcLr1X
+ snd03NbmqsZJLaR2c0IqGrKutfoFUSX3M2DtMU0JhKUCDs8VjjAhZzvEeRr2mysZfmqBh3qwYMh
+ v0ajtB1XrfcSj7R4cQK02G4M1YdtKMwF8UdD8exug+sIVwXI33FAfq6QJGwfIwjjbuuxs70y3Zp
+ IH/fhIRNV8+f7Ww59BcIzNKrRELvkCNdBvMtFCzBplmIX1SgTDGRQYWEh3iLYr/OhztILvhOdTG
+ pS1bB4meu6gz4C0xpsWSYJ09gf7sv0l68kHr7jOsU3rAOzY5DOaZUW8NH86B3+tCQjupuGjPDew
+ 0pZn43qWk9eQe1Ok7+Do8/ZW0elQjpfm950AcZhH8qzH5F4gFi1Vg5FWbv067K30K2ZaevcBRnx
+ gW5gNWf2+Bz4M+y0Ptoy3Yn5s85qJg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-20_03,2025-08-20_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1011 malwarescore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ suspectscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ adultscore=0 spamscore=0 phishscore=0 malwarescore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
 
-Introduce initialization and deinitialization for internal encoder
-instance structure with necessary hooks.
+Add V4L2 format handling support for the encoder by adding
+implementation of ENUM/S/G/TRY_FMT with necessary hooks.
+
+This ensures that the encoder supports format negotiation consistent
+with V4L2 expectation, enabling userspace applications to configure
+resolution, pixel format and buffer layout properly.
 
 Tested-by: Vikash Garodia <quic_vgarodia@quicinc.com> # X1E80100
 Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/platform/qcom/iris/Makefile          |  1 +
- drivers/media/platform/qcom/iris/iris_buffer.c     | 59 ++++++++++++++++----
- .../platform/qcom/iris/iris_hfi_gen1_command.c     |  7 ++-
- .../platform/qcom/iris/iris_hfi_gen1_defines.h     |  1 +
- drivers/media/platform/qcom/iris/iris_instance.h   |  7 +++
- drivers/media/platform/qcom/iris/iris_vdec.c       |  2 -
- drivers/media/platform/qcom/iris/iris_venc.c       | 65 ++++++++++++++++++++++
- drivers/media/platform/qcom/iris/iris_venc.h       | 14 +++++
- drivers/media/platform/qcom/iris/iris_vidc.c       | 27 ++++++++-
- drivers/media/platform/qcom/iris/iris_vpu_buffer.c |  5 +-
- 10 files changed, 170 insertions(+), 18 deletions(-)
+ drivers/media/platform/qcom/iris/iris_core.h     |   6 +-
+ drivers/media/platform/qcom/iris/iris_instance.h |  11 ++
+ drivers/media/platform/qcom/iris/iris_probe.c    |   3 +-
+ drivers/media/platform/qcom/iris/iris_vdec.h     |  11 --
+ drivers/media/platform/qcom/iris/iris_venc.c     | 212 ++++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_venc.h     |   3 +
+ drivers/media/platform/qcom/iris/iris_vidc.c     |  41 ++++-
+ 7 files changed, 265 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-index e86d00ee6f15dda8bae2f25f726feb0d427b7684..ec32145e081b1fc3538dfa7d5113162a76a6068c 100644
---- a/drivers/media/platform/qcom/iris/Makefile
-+++ b/drivers/media/platform/qcom/iris/Makefile
-@@ -19,6 +19,7 @@ qcom-iris-objs += \
-              iris_vidc.o \
-              iris_vb2.o \
-              iris_vdec.o \
-+             iris_venc.o \
-              iris_vpu2.o \
-              iris_vpu3x.o \
-              iris_vpu_buffer.o \
-diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
-index 38548ee4749ea7dd1addf2c9d0677cf5217e3546..6bf9b0b35d206d51b927c824d5a5b327596251c6 100644
---- a/drivers/media/platform/qcom/iris/iris_buffer.c
-+++ b/drivers/media/platform/qcom/iris/iris_buffer.c
-@@ -63,7 +63,12 @@
- static u32 iris_yuv_buffer_size_nv12(struct iris_inst *inst)
- {
- 	u32 y_plane, uv_plane, y_stride, uv_stride, y_scanlines, uv_scanlines;
--	struct v4l2_format *f = inst->fmt_dst;
-+	struct v4l2_format *f;
-+
-+	if (inst->domain == DECODER)
-+		f = inst->fmt_dst;
-+	else
-+		f = inst->fmt_src;
- 
- 	y_stride = ALIGN(f->fmt.pix_mp.width, Y_STRIDE_ALIGN);
- 	uv_stride = ALIGN(f->fmt.pix_mp.width, UV_STRIDE_ALIGN);
-@@ -194,7 +199,7 @@ static u32 iris_yuv_buffer_size_qc08c(struct iris_inst *inst)
- 	return ALIGN(y_meta_plane + y_plane + uv_meta_plane + uv_plane, PIXELS_4K);
- }
- 
--static u32 iris_bitstream_buffer_size(struct iris_inst *inst)
-+static u32 iris_dec_bitstream_buffer_size(struct iris_inst *inst)
- {
- 	struct platform_inst_caps *caps = inst->core->iris_platform_data->inst_caps;
- 	u32 base_res_mbs = NUM_MBS_4K;
-@@ -219,18 +224,50 @@ static u32 iris_bitstream_buffer_size(struct iris_inst *inst)
- 	return ALIGN(frame_size, PIXELS_4K);
- }
- 
-+static u32 iris_enc_bitstream_buffer_size(struct iris_inst *inst)
-+{
-+	u32 aligned_width, aligned_height, bitstream_size, yuv_size;
-+	struct v4l2_format *f;
-+
-+	f = inst->fmt_dst;
-+
-+	aligned_width = ALIGN(f->fmt.pix_mp.width, 32);
-+	aligned_height = ALIGN(f->fmt.pix_mp.height, 32);
-+	bitstream_size = aligned_width * aligned_height * 3;
-+	yuv_size = (aligned_width * aligned_height * 3) >> 1;
-+	if (aligned_width * aligned_height > (4096 * 2176))
-+		/* bitstream_size = 0.25 * yuv_size; */
-+		bitstream_size = (bitstream_size >> 3);
-+	else if (aligned_width * aligned_height > (1280 * 720))
-+		/* bitstream_size = 0.5 * yuv_size; */
-+		bitstream_size = (bitstream_size >> 2);
-+
-+	return ALIGN(bitstream_size, 4096);
-+}
-+
- int iris_get_buffer_size(struct iris_inst *inst,
- 			 enum iris_buffer_type buffer_type)
- {
--	switch (buffer_type) {
--	case BUF_INPUT:
--		return iris_bitstream_buffer_size(inst);
--	case BUF_OUTPUT:
--		return iris_yuv_buffer_size_nv12(inst);
--	case BUF_DPB:
--		return iris_yuv_buffer_size_qc08c(inst);
--	default:
--		return 0;
-+	if (inst->domain == DECODER) {
-+		switch (buffer_type) {
-+		case BUF_INPUT:
-+			return iris_dec_bitstream_buffer_size(inst);
-+		case BUF_OUTPUT:
-+			return iris_yuv_buffer_size_nv12(inst);
-+		case BUF_DPB:
-+			return iris_yuv_buffer_size_qc08c(inst);
-+		default:
-+			return 0;
-+		}
-+	} else {
-+		switch (buffer_type) {
-+		case BUF_INPUT:
-+			return iris_yuv_buffer_size_nv12(inst);
-+		case BUF_OUTPUT:
-+			return iris_enc_bitstream_buffer_size(inst);
-+		default:
-+			return 0;
-+		}
- 	}
- }
- 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-index 3f4f93b779ced5d2c7f646006bad936658be1b24..86ed414861e58c7c8567e7259924b2efe6f76e07 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-@@ -109,7 +109,12 @@ static int iris_hfi_gen1_session_open(struct iris_inst *inst)
- 	packet.shdr.hdr.size = sizeof(struct hfi_session_open_pkt);
- 	packet.shdr.hdr.pkt_type = HFI_CMD_SYS_SESSION_INIT;
- 	packet.shdr.session_id = inst->session_id;
--	packet.session_domain = HFI_SESSION_TYPE_DEC;
-+
-+	if (inst->domain == DECODER)
-+		packet.session_domain = HFI_SESSION_TYPE_DEC;
-+	else
-+		packet.session_domain = HFI_SESSION_TYPE_ENC;
-+
- 	packet.session_codec = codec;
- 
- 	reinit_completion(&inst->completion);
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-index d4d119ca98b0cb313db351f3794bf278216bd539..5b7c641b727a16c3aa7196a6d49786133653279f 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-@@ -10,6 +10,7 @@
- 
- #define HFI_VIDEO_ARCH_OX				0x1
- 
-+#define HFI_SESSION_TYPE_ENC				1
- #define HFI_SESSION_TYPE_DEC				2
- 
- #define HFI_VIDEO_CODEC_H264				0x00000002
+diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+index 09e83be4e00efb456b7098a499b6cce850134a06..827aee8dcec3ee17af5a90f5594b9315f663c0b3 100644
+--- a/drivers/media/platform/qcom/iris/iris_core.h
++++ b/drivers/media/platform/qcom/iris/iris_core.h
+@@ -40,7 +40,8 @@ enum domain_type {
+  * @vdev_dec: iris video device structure for decoder
+  * @vdev_enc: iris video device structure for encoder
+  * @iris_v4l2_file_ops: iris v4l2 file ops
+- * @iris_v4l2_ioctl_ops: iris v4l2 ioctl ops
++ * @iris_v4l2_ioctl_ops_dec: iris v4l2 ioctl ops for decoder
++ * @iris_v4l2_ioctl_ops_enc: iris v4l2 ioctl ops for encoder
+  * @iris_vb2_ops: iris vb2 ops
+  * @icc_tbl: table of iris interconnects
+  * @icc_count: count of iris interconnects
+@@ -81,7 +82,8 @@ struct iris_core {
+ 	struct video_device			*vdev_dec;
+ 	struct video_device			*vdev_enc;
+ 	const struct v4l2_file_operations	*iris_v4l2_file_ops;
+-	const struct v4l2_ioctl_ops		*iris_v4l2_ioctl_ops;
++	const struct v4l2_ioctl_ops		*iris_v4l2_ioctl_ops_dec;
++	const struct v4l2_ioctl_ops		*iris_v4l2_ioctl_ops_enc;
+ 	const struct vb2_ops			*iris_vb2_ops;
+ 	struct icc_bulk_data			*icc_tbl;
+ 	u32					icc_count;
 diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
-index 0e1f5799b72d993b25820608969e0011eabdb6bc..ff90f010f1d36690cbadeff0787b1fb7458d7f75 100644
+index ff90f010f1d36690cbadeff0787b1fb7458d7f75..55cf9702111829ef24189986ba5245c7684bfe11 100644
 --- a/drivers/media/platform/qcom/iris/iris_instance.h
 +++ b/drivers/media/platform/qcom/iris/iris_instance.h
-@@ -12,6 +12,9 @@
- #include "iris_core.h"
- #include "iris_utils.h"
+@@ -15,6 +15,17 @@
+ #define DEFAULT_WIDTH 320
+ #define DEFAULT_HEIGHT 240
  
-+#define DEFAULT_WIDTH 320
-+#define DEFAULT_HEIGHT 240
++enum iris_fmt_type {
++	IRIS_FMT_H264,
++	IRIS_FMT_HEVC,
++	IRIS_FMT_VP9,
++};
++
++struct iris_fmt {
++	u32 pixfmt;
++	u32 type;
++};
 +
  /**
   * struct iris_inst - holds per video instance parameters
   *
-@@ -24,7 +27,9 @@
-  * @fmt_src: structure of v4l2_format for source
-  * @fmt_dst: structure of v4l2_format for destination
-  * @ctrl_handler: reference of v4l2 ctrl handler
-+ * @domain: domain type: encoder or decoder
-  * @crop: structure of crop info
-+ * @compose: structure of compose info
-  * @completion: structure of signal completions
-  * @flush_completion: structure of signal completions for flush cmd
-  * @flush_responses_pending: counter to track number of pending flush responses
-@@ -57,7 +62,9 @@ struct iris_inst {
- 	struct v4l2_format		*fmt_src;
- 	struct v4l2_format		*fmt_dst;
- 	struct v4l2_ctrl_handler	ctrl_handler;
-+	enum domain_type		domain;
- 	struct iris_hfi_rect_desc	crop;
-+	struct iris_hfi_rect_desc	compose;
- 	struct completion		completion;
- 	struct completion		flush_completion;
- 	u32				flush_responses_pending;
-diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-index 0f5adaac829f2263fae9ff0fa49bb17bad2edecb..b4ad5df62bcd1ee390ce4f7c1c58c8693d0ab0ca 100644
---- a/drivers/media/platform/qcom/iris/iris_vdec.c
-+++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-@@ -13,8 +13,6 @@
- #include "iris_vdec.h"
- #include "iris_vpu_buffer.h"
+diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+index 324ffc5035bc0ecfd9d7491ee07fd9333917455b..85b34a649c70597bcbc4747de553ccd09c09923a 100644
+--- a/drivers/media/platform/qcom/iris/iris_probe.c
++++ b/drivers/media/platform/qcom/iris/iris_probe.c
+@@ -157,16 +157,17 @@ static int iris_register_video_device(struct iris_core *core, enum domain_type t
  
--#define DEFAULT_WIDTH 320
--#define DEFAULT_HEIGHT 240
- #define DEFAULT_CODEC_ALIGNMENT 16
+ 	vdev->release = video_device_release;
+ 	vdev->fops = core->iris_v4l2_file_ops;
+-	vdev->ioctl_ops = core->iris_v4l2_ioctl_ops;
+ 	vdev->vfl_dir = VFL_DIR_M2M;
+ 	vdev->v4l2_dev = &core->v4l2_dev;
+ 	vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
  
- int iris_vdec_inst_init(struct iris_inst *inst)
+ 	if (type == DECODER) {
+ 		strscpy(vdev->name, "qcom-iris-decoder", sizeof(vdev->name));
++		vdev->ioctl_ops = core->iris_v4l2_ioctl_ops_dec;
+ 		core->vdev_dec = vdev;
+ 	} else if (type == ENCODER) {
+ 		strscpy(vdev->name, "qcom-iris-encoder", sizeof(vdev->name));
++		vdev->ioctl_ops = core->iris_v4l2_ioctl_ops_enc;
+ 		core->vdev_enc = vdev;
+ 	} else {
+ 		ret = -EINVAL;
+diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
+index cd7aab66dc7c82dc50acef9e654a3d6c1ddb088f..b24932dc511a65017b1cadbcb984544475bd0723 100644
+--- a/drivers/media/platform/qcom/iris/iris_vdec.h
++++ b/drivers/media/platform/qcom/iris/iris_vdec.h
+@@ -8,17 +8,6 @@
+ 
+ struct iris_inst;
+ 
+-enum iris_fmt_type {
+-	IRIS_FMT_H264,
+-	IRIS_FMT_HEVC,
+-	IRIS_FMT_VP9,
+-};
+-
+-struct iris_fmt {
+-	u32 pixfmt;
+-	u32 type;
+-};
+-
+ int iris_vdec_inst_init(struct iris_inst *inst);
+ void iris_vdec_inst_deinit(struct iris_inst *inst);
+ int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
 diff --git a/drivers/media/platform/qcom/iris/iris_venc.c b/drivers/media/platform/qcom/iris/iris_venc.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..e418d347ac111c1bc48304adafa259d697e49fed
---- /dev/null
+index e418d347ac111c1bc48304adafa259d697e49fed..40f7990cd162ad400711d729917b7e2577d562b2 100644
+--- a/drivers/media/platform/qcom/iris/iris_venc.c
 +++ b/drivers/media/platform/qcom/iris/iris_venc.c
-@@ -0,0 +1,65 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
+@@ -3,6 +3,8 @@
+  * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+  */
+ 
++#include <media/v4l2-mem2mem.h>
 +
-+#include "iris_buffer.h"
-+#include "iris_instance.h"
-+#include "iris_venc.h"
-+#include "iris_vpu_buffer.h"
+ #include "iris_buffer.h"
+ #include "iris_instance.h"
+ #include "iris_venc.h"
+@@ -14,8 +16,11 @@ int iris_venc_inst_init(struct iris_inst *inst)
+ 
+ 	inst->fmt_src = kzalloc(sizeof(*inst->fmt_src), GFP_KERNEL);
+ 	inst->fmt_dst  = kzalloc(sizeof(*inst->fmt_dst), GFP_KERNEL);
+-	if (!inst->fmt_src || !inst->fmt_dst)
++	if (!inst->fmt_src || !inst->fmt_dst) {
++		kfree(inst->fmt_src);
++		kfree(inst->fmt_dst);
+ 		return -ENOMEM;
++	}
+ 
+ 	f = inst->fmt_dst;
+ 	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+@@ -63,3 +68,208 @@ void iris_venc_inst_deinit(struct iris_inst *inst)
+ 	kfree(inst->fmt_dst);
+ 	kfree(inst->fmt_src);
+ }
 +
-+int iris_venc_inst_init(struct iris_inst *inst)
++static const struct iris_fmt iris_venc_formats[] = {
++	[IRIS_FMT_H264] = {
++		.pixfmt = V4L2_PIX_FMT_H264,
++		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
++	},
++	[IRIS_FMT_HEVC] = {
++		.pixfmt = V4L2_PIX_FMT_HEVC,
++		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
++	},
++};
++
++static const struct iris_fmt *
++find_format(struct iris_inst *inst, u32 pixfmt, u32 type)
 +{
-+	struct v4l2_format *f;
++	const struct iris_fmt *fmt = iris_venc_formats;
++	unsigned int size = ARRAY_SIZE(iris_venc_formats);
++	unsigned int i;
 +
-+	inst->fmt_src = kzalloc(sizeof(*inst->fmt_src), GFP_KERNEL);
-+	inst->fmt_dst  = kzalloc(sizeof(*inst->fmt_dst), GFP_KERNEL);
-+	if (!inst->fmt_src || !inst->fmt_dst)
-+		return -ENOMEM;
++	for (i = 0; i < size; i++) {
++		if (fmt[i].pixfmt == pixfmt)
++			break;
++	}
 +
-+	f = inst->fmt_dst;
-+	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-+	f->fmt.pix_mp.width = DEFAULT_WIDTH;
-+	f->fmt.pix_mp.height = DEFAULT_HEIGHT;
-+	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_H264;
-+	inst->codec = f->fmt.pix_mp.pixelformat;
-+	f->fmt.pix_mp.num_planes = 1;
-+	f->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
-+	f->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_OUTPUT);
-+	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
-+	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_DEFAULT;
-+	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-+	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
-+	inst->buffers[BUF_OUTPUT].min_count = iris_vpu_buf_count(inst, BUF_OUTPUT);
-+	inst->buffers[BUF_OUTPUT].size = f->fmt.pix_mp.plane_fmt[0].sizeimage;
++	if (i == size || fmt[i].type != type)
++		return NULL;
 +
-+	f = inst->fmt_src;
-+	f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-+	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_NV12;
-+	f->fmt.pix_mp.width = ALIGN(DEFAULT_WIDTH, 128);
-+	f->fmt.pix_mp.height = ALIGN(DEFAULT_HEIGHT, 32);
-+	f->fmt.pix_mp.num_planes = 1;
-+	f->fmt.pix_mp.plane_fmt[0].bytesperline = ALIGN(DEFAULT_WIDTH, 128);
-+	f->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_INPUT);
-+	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
-+	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_DEFAULT;
-+	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-+	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
-+	inst->buffers[BUF_INPUT].min_count = iris_vpu_buf_count(inst, BUF_INPUT);
-+	inst->buffers[BUF_INPUT].size = f->fmt.pix_mp.plane_fmt[0].sizeimage;
++	return &fmt[i];
++}
 +
-+	inst->crop.left = 0;
-+	inst->crop.top = 0;
-+	inst->crop.width = f->fmt.pix_mp.width;
-+	inst->crop.height = f->fmt.pix_mp.height;
++static const struct iris_fmt *
++find_format_by_index(struct iris_inst *inst, u32 index, u32 type)
++{
++	const struct iris_fmt *fmt = iris_venc_formats;
++	unsigned int size = ARRAY_SIZE(iris_venc_formats);
++
++	if (index >= size || fmt[index].type != type)
++		return NULL;
++
++	return &fmt[index];
++}
++
++int iris_venc_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f)
++{
++	const struct iris_fmt *fmt;
++
++	switch (f->type) {
++	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
++		if (f->index)
++			return -EINVAL;
++		f->pixelformat = V4L2_PIX_FMT_NV12;
++		break;
++	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
++		fmt = find_format_by_index(inst, f->index, f->type);
++		if (!fmt)
++			return -EINVAL;
++
++		f->pixelformat = fmt->pixfmt;
++		f->flags = V4L2_FMT_FLAG_COMPRESSED | V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL;
++		break;
++	default:
++		return -EINVAL;
++	}
 +
 +	return 0;
 +}
 +
-+void iris_venc_inst_deinit(struct iris_inst *inst)
++int iris_venc_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
 +{
-+	kfree(inst->fmt_dst);
-+	kfree(inst->fmt_src);
++	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
++	const struct iris_fmt *fmt;
++	struct v4l2_format *f_inst;
++
++	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
++	fmt = find_format(inst, pixmp->pixelformat, f->type);
++	switch (f->type) {
++	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
++		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12) {
++			f_inst = inst->fmt_src;
++			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
++			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
++			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
++		}
++		break;
++	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
++		if (!fmt) {
++			f_inst = inst->fmt_dst;
++			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
++			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
++			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
++		}
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (pixmp->field == V4L2_FIELD_ANY)
++		pixmp->field = V4L2_FIELD_NONE;
++
++	pixmp->num_planes = 1;
++
++	return 0;
 +}
-diff --git a/drivers/media/platform/qcom/iris/iris_venc.h b/drivers/media/platform/qcom/iris/iris_venc.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..8a4cbddd0114b6d0e4ea895362b01c302250c78b
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_venc.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
 +
-+#ifndef _IRIS_VENC_H_
-+#define _IRIS_VENC_H_
++static int iris_venc_s_fmt_output(struct iris_inst *inst, struct v4l2_format *f)
++{
++	struct v4l2_format *fmt;
 +
-+struct iris_inst;
++	iris_venc_try_fmt(inst, f);
 +
-+int iris_venc_inst_init(struct iris_inst *inst);
-+void iris_venc_inst_deinit(struct iris_inst *inst);
-+
-+#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-index 5fe7699c611583463231a60058d6960b6749edf5..cecc41a137271762d7622ab2637c4cce2c74a506 100644
---- a/drivers/media/platform/qcom/iris/iris_vidc.c
-+++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-@@ -12,6 +12,7 @@
- #include "iris_vidc.h"
- #include "iris_instance.h"
- #include "iris_vdec.h"
-+#include "iris_venc.h"
- #include "iris_vb2.h"
- #include "iris_vpu_buffer.h"
- #include "iris_platform_common.h"
-@@ -23,7 +24,10 @@
- 
- static void iris_v4l2_fh_init(struct iris_inst *inst, struct file *filp)
- {
--	v4l2_fh_init(&inst->fh, inst->core->vdev_dec);
-+	if (inst->domain == ENCODER)
-+		v4l2_fh_init(&inst->fh, inst->core->vdev_enc);
-+	else if (inst->domain == DECODER)
-+		v4l2_fh_init(&inst->fh, inst->core->vdev_dec);
- 	inst->fh.ctrl_handler = &inst->ctrl_handler;
- 	v4l2_fh_add(&inst->fh, filp);
- }
-@@ -126,9 +130,19 @@ iris_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_
- int iris_open(struct file *filp)
- {
- 	struct iris_core *core = video_drvdata(filp);
-+	struct video_device *vdev;
- 	struct iris_inst *inst;
-+	u32 session_type;
- 	int ret;
- 
-+	vdev = video_devdata(filp);
-+	if (strcmp(vdev->name, "qcom-iris-decoder") == 0)
-+		session_type = DECODER;
-+	else if (strcmp(vdev->name, "qcom-iris-encoder") == 0)
-+		session_type = ENCODER;
-+	else
++	if (!(find_format(inst, f->fmt.pix_mp.pixelformat, f->type)))
 +		return -EINVAL;
 +
- 	ret = pm_runtime_resume_and_get(core->dev);
- 	if (ret < 0)
- 		return ret;
-@@ -147,6 +161,7 @@ int iris_open(struct file *filp)
- 		return -ENOMEM;
++	fmt = inst->fmt_dst;
++	fmt->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
++	fmt->fmt.pix_mp.num_planes = 1;
++	fmt->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
++	fmt->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_OUTPUT);
++
++	if (f->fmt.pix_mp.colorspace != V4L2_COLORSPACE_DEFAULT &&
++	    f->fmt.pix_mp.colorspace != V4L2_COLORSPACE_REC709)
++		f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_DEFAULT;
++	fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
++	fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
++	fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
++	fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
++
++	inst->buffers[BUF_OUTPUT].min_count = iris_vpu_buf_count(inst, BUF_OUTPUT);
++	inst->buffers[BUF_OUTPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
++	fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
++	inst->codec = f->fmt.pix_mp.pixelformat;
++	memcpy(f, fmt, sizeof(struct v4l2_format));
++
++	return 0;
++}
++
++static int iris_venc_s_fmt_input(struct iris_inst *inst, struct v4l2_format *f)
++{
++	struct v4l2_format *fmt, *output_fmt;
++
++	iris_venc_try_fmt(inst, f);
++
++	if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12)
++		return -EINVAL;
++
++	fmt = inst->fmt_src;
++	fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
++	fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
++	fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 32);
++	fmt->fmt.pix_mp.num_planes = 1;
++	fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
++	fmt->fmt.pix_mp.plane_fmt[0].bytesperline = ALIGN(f->fmt.pix_mp.width, 128);
++	fmt->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_INPUT);
++
++	fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
++	fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
++	fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
++	fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
++
++	output_fmt = inst->fmt_dst;
++	output_fmt->fmt.pix_mp.width = fmt->fmt.pix_mp.width;
++	output_fmt->fmt.pix_mp.height = fmt->fmt.pix_mp.height;
++	output_fmt->fmt.pix_mp.colorspace = fmt->fmt.pix_mp.colorspace;
++	output_fmt->fmt.pix_mp.xfer_func = fmt->fmt.pix_mp.xfer_func;
++	output_fmt->fmt.pix_mp.ycbcr_enc = fmt->fmt.pix_mp.ycbcr_enc;
++	output_fmt->fmt.pix_mp.quantization = fmt->fmt.pix_mp.quantization;
++
++	inst->buffers[BUF_INPUT].min_count = iris_vpu_buf_count(inst, BUF_INPUT);
++	inst->buffers[BUF_INPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
++
++	if (f->fmt.pix_mp.width != inst->crop.width ||
++	    f->fmt.pix_mp.height != inst->crop.height) {
++		inst->crop.top = 0;
++		inst->crop.left = 0;
++		inst->crop.width = fmt->fmt.pix_mp.width;
++		inst->crop.height = fmt->fmt.pix_mp.height;
++
++		iris_venc_s_fmt_output(inst, output_fmt);
++	}
++
++	memcpy(f, fmt, sizeof(struct v4l2_format));
++
++	return 0;
++}
++
++int iris_venc_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
++{
++	struct vb2_queue *q;
++
++	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
++	if (!q)
++		return -EINVAL;
++
++	if (vb2_is_busy(q))
++		return -EBUSY;
++
++	switch (f->type) {
++	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
++		return iris_venc_s_fmt_input(inst, f);
++	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
++		return iris_venc_s_fmt_output(inst, f);
++	default:
++		return -EINVAL;
++	}
++}
+diff --git a/drivers/media/platform/qcom/iris/iris_venc.h b/drivers/media/platform/qcom/iris/iris_venc.h
+index 8a4cbddd0114b6d0e4ea895362b01c302250c78b..eb26a3ecbd98b3f02dfdea0dfc41bcd3a90904b6 100644
+--- a/drivers/media/platform/qcom/iris/iris_venc.h
++++ b/drivers/media/platform/qcom/iris/iris_venc.h
+@@ -10,5 +10,8 @@ struct iris_inst;
  
- 	inst->core = core;
-+	inst->domain = session_type;
- 	inst->session_id = hash32_ptr(inst);
- 	inst->state = IRIS_INST_DEINIT;
+ int iris_venc_inst_init(struct iris_inst *inst);
+ void iris_venc_inst_deinit(struct iris_inst *inst);
++int iris_venc_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
++int iris_venc_try_fmt(struct iris_inst *inst, struct v4l2_format *f);
++int iris_venc_s_fmt(struct iris_inst *inst, struct v4l2_format *f);
  
-@@ -178,7 +193,10 @@ int iris_open(struct file *filp)
- 		goto fail_m2m_release;
- 	}
+ #endif
+diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+index cecc41a137271762d7622ab2637c4cce2c74a506..7adb82186cac540919463fd6d6be85b42eeb73db 100644
+--- a/drivers/media/platform/qcom/iris/iris_vidc.c
++++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+@@ -306,16 +306,26 @@ static int iris_enum_fmt(struct file *filp, void *fh, struct v4l2_fmtdesc *f)
+ {
+ 	struct iris_inst *inst = iris_get_inst(filp);
  
--	ret = iris_vdec_inst_init(inst);
+-	return iris_vdec_enum_fmt(inst, f);
 +	if (inst->domain == DECODER)
-+		ret = iris_vdec_inst_init(inst);
++		return iris_vdec_enum_fmt(inst, f);
 +	else if (inst->domain == ENCODER)
-+		ret = iris_venc_inst_init(inst);
- 	if (ret)
- 		goto fail_m2m_ctx_release;
++		return iris_venc_enum_fmt(inst, f);
++	else
++		return -EINVAL;
+ }
  
-@@ -264,7 +282,10 @@ int iris_close(struct file *filp)
- 	v4l2_m2m_ctx_release(inst->m2m_ctx);
- 	v4l2_m2m_release(inst->m2m_dev);
+ static int iris_try_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
+ {
+ 	struct iris_inst *inst = iris_get_inst(filp);
+-	int ret;
++	int ret = 0;
+ 
  	mutex_lock(&inst->lock);
--	iris_vdec_inst_deinit(inst);
+-	ret = iris_vdec_try_fmt(inst, f);
++
 +	if (inst->domain == DECODER)
-+		iris_vdec_inst_deinit(inst);
++		ret = iris_vdec_try_fmt(inst, f);
 +	else if (inst->domain == ENCODER)
-+		iris_venc_inst_deinit(inst);
- 	iris_session_close(inst);
- 	iris_inst_change_state(inst, IRIS_INST_DEINIT);
- 	iris_v4l2_fh_deinit(inst, filp);
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-index f92fd39fe310b9661f892dcf1ff036ebbc102270..06d5afc3c641f0dfca3967e55273c4fa2614fdff 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-+++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-@@ -628,7 +628,10 @@ int iris_vpu_buf_count(struct iris_inst *inst, enum iris_buffer_type buffer_type
- 	case BUF_INPUT:
- 		return MIN_BUFFERS;
- 	case BUF_OUTPUT:
--		return output_min_count(inst);
-+		if (inst->domain == ENCODER)
-+			return MIN_BUFFERS;
-+		else
-+			return output_min_count(inst);
- 	case BUF_BIN:
- 	case BUF_COMV:
- 	case BUF_NON_COMV:
++		ret = iris_venc_try_fmt(inst, f);
++
+ 	mutex_unlock(&inst->lock);
+ 
+ 	return ret;
+@@ -324,10 +334,15 @@ static int iris_try_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_form
+ static int iris_s_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
+ {
+ 	struct iris_inst *inst = iris_get_inst(filp);
+-	int ret;
++	int ret = 0;
+ 
+ 	mutex_lock(&inst->lock);
+-	ret = iris_vdec_s_fmt(inst, f);
++
++	if (inst->domain == DECODER)
++		ret = iris_vdec_s_fmt(inst, f);
++	else if (inst->domain == ENCODER)
++		ret = iris_venc_s_fmt(inst, f);
++
+ 	mutex_unlock(&inst->lock);
+ 
+ 	return ret;
+@@ -471,7 +486,7 @@ static const struct vb2_ops iris_vb2_ops = {
+ 	.buf_queue                      = iris_vb2_buf_queue,
+ };
+ 
+-static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
++static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops_dec = {
+ 	.vidioc_enum_fmt_vid_cap        = iris_enum_fmt,
+ 	.vidioc_enum_fmt_vid_out        = iris_enum_fmt,
+ 	.vidioc_try_fmt_vid_cap_mplane  = iris_try_fmt_vid_mplane,
+@@ -499,9 +514,21 @@ static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
+ 	.vidioc_decoder_cmd             = iris_dec_cmd,
+ };
+ 
++static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops_enc = {
++	.vidioc_enum_fmt_vid_cap        = iris_enum_fmt,
++	.vidioc_enum_fmt_vid_out        = iris_enum_fmt,
++	.vidioc_try_fmt_vid_cap_mplane  = iris_try_fmt_vid_mplane,
++	.vidioc_try_fmt_vid_out_mplane  = iris_try_fmt_vid_mplane,
++	.vidioc_s_fmt_vid_cap_mplane    = iris_s_fmt_vid_mplane,
++	.vidioc_s_fmt_vid_out_mplane    = iris_s_fmt_vid_mplane,
++	.vidioc_g_fmt_vid_cap_mplane    = iris_g_fmt_vid_mplane,
++	.vidioc_g_fmt_vid_out_mplane    = iris_g_fmt_vid_mplane,
++};
++
+ void iris_init_ops(struct iris_core *core)
+ {
+ 	core->iris_v4l2_file_ops = &iris_v4l2_file_ops;
+ 	core->iris_vb2_ops = &iris_vb2_ops;
+-	core->iris_v4l2_ioctl_ops = &iris_v4l2_ioctl_ops;
++	core->iris_v4l2_ioctl_ops_dec = &iris_v4l2_ioctl_ops_dec;
++	core->iris_v4l2_ioctl_ops_enc = &iris_v4l2_ioctl_ops_enc;
+ }
 
 -- 
 2.34.1
