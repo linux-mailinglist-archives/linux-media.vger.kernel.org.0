@@ -1,385 +1,351 @@
-Return-Path: <linux-media+bounces-40342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40343-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CFCB2D4D7
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 09:28:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36184B2D536
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 09:54:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80E731C4360E
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 07:28:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95C5A4E87B7
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 07:54:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07A32D6630;
-	Wed, 20 Aug 2025 07:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAAE2D8396;
+	Wed, 20 Aug 2025 07:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A64imgfl"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FSXw55u6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB382C2343
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 07:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755674885; cv=fail; b=H1fU0eEuBIVEMyjZFqf3jNpR9q5Plcx8zelP+Rsjdzxid/BAX3ROJBSHwXP4XOxMKieT8ST1K80xak4pnWECXimIpnIMWb7nYLj+7ej7YUO181Ci1klnWJG24K8swdqjxPqc0H45JXlLS9T/ZtZVzEJ4a48/kEVIUbIMX7hU7Gs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755674885; c=relaxed/simple;
-	bh=MDOcAXSnzWBCU0cKUjcotjcSDSGhHkkyCi699hzVt5Q=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=JTUUTpNRCNAG8xzVzffmBwHHmCGBsWq1AmPClA3s5Zet1EnktsUB6xaYabuXWgoNOxKYlykVzmiWckbRZEnFHqLqCCgjms/dhYrjLk3rZLfkkj4hzM6SrEjQC5RJh6JkK+82GvR2qwp8YqVn6dgxAklX3XVAsS4bCwZrSliTU7s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A64imgfl; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755674883; x=1787210883;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=MDOcAXSnzWBCU0cKUjcotjcSDSGhHkkyCi699hzVt5Q=;
-  b=A64imgflvdrB8cg4gG/HnZ4T5urK2982iq6yXfrfV1th4514GLImja3L
-   gqJws+ZwfMeKW/kSXwOCtpUYMqNRis5Ip+ol49DcfEGXmKUCDeh6EIMcr
-   k2uBD/sCDAoGFU53jy46dLMmFIF05q/UwxGi1NaA280TGu2lNm0jCL9Ta
-   CPmENKoi0cwaPNW8Vwwy/q7udYS71qwZLggKR5qnAF04S0x+tHqRig5r8
-   daf9mNjbn/phLvRMgQZ+DqjC1TNBy81KfP1CsH6r/T45kuEcWifCmdLUM
-   TvjgOOthZrEE2Gn850sdviRg3umMt/TKHjgXr8x4zHTQSq1VsJC5UnKr0
-   A==;
-X-CSE-ConnectionGUID: yA2hLHBMRX6h/TfckuFvMg==
-X-CSE-MsgGUID: o4m8u71pT+SoaPuYTW/FCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69382063"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="69382063"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 00:28:02 -0700
-X-CSE-ConnectionGUID: aXMup+BQQa++hCfE3nVtuQ==
-X-CSE-MsgGUID: fsM5h8rQTHSSJl29GJ88RA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="199058321"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 00:28:02 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 20 Aug 2025 00:28:00 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Wed, 20 Aug 2025 00:28:00 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (40.107.96.80) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 20 Aug 2025 00:28:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZKFkGoKkXWfkcCs5q4ZsMaM32tEfOhUU5iQ1NNkcxBp7ExN55BvYWrb86W1hafG7nYCfWaiWAroVjAGaNRoTfl9un0ZejzO1GrzhykicoDtapBqJGaBJnVaiQ7SzROohsqOLS2dnUxhDSkW/wNkMsG+xBBMX7ZAXbbh37VBwy91MAHcAGR9tEyJ9p9ZwWHQThdHGQeTayMPiMJU9Fb1gnI0JD41OjpdNzr3jHIcGvvCHpm6kWGmpEFJZYjCCXJJznHKRZICCgLzFGrb62lo8+fHWwqA1uXxWOjhRtI1haqviKJk0ThtNjr5dY/mUeLWUh8B+q7/CbXfjs7Ao2y6bfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NzHe7TCnQ2N/5qagXF1NICuSNu20ywpV4qrjXG7qpPc=;
- b=pSmWNbwJOPfHSQJcAL3aGGVn2b6ioOq2smUszudOKX77STHN9yOVh52HAeX5esOBDPZ88geNC8yVr/Ub+jrRwn2CVHBOTAeAO7apK8JbnZANjKJCnYex1IOj5oqsfsa7BkwKNiG9YgBmHCLuB7op+w9AK+bKdVIFuMaoevxH+8Yrl6dzIMFbAuPY4mm7BmRzR7awXyepKGeSho+bq/E/0Zx/EXAFmb0PDBEge0YOovJIPrHkD91klktwe76G1L6FX0qwcu0+cWCiJMFwpCtAeRgBlCs3ktfi1MeoNX4KSkOrwSSdPW3SO6NdJworXung9FFLuxDJWP2ODZNG2tUgBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by DS7PR11MB6151.namprd11.prod.outlook.com (2603:10b6:8:9c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Wed, 20 Aug
- 2025 07:27:57 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.9052.013; Wed, 20 Aug 2025
- 07:27:57 +0000
-Date: Wed, 20 Aug 2025 15:27:47 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-	<ltp@lists.linux.it>, <simona.vetter@ffwll.ch>, <tvrtko.ursulin@igalia.com>,
-	<phasta@mailbox.org>, <airlied@gmail.com>, <dakr@kernel.org>,
-	<sumit.semwal@linaro.org>, <oliver.sang@intel.com>
-Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from
- IOCTL
-Message-ID: <202508200843.8b006132-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250812143402.8619-2-christian.koenig@amd.com>
-X-ClientProxiedBy: SG2PR04CA0191.apcprd04.prod.outlook.com
- (2603:1096:4:14::29) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0182C11D1
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 07:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755676456; cv=none; b=DJom9hnVuXohiZGdEttBRrXRuKcbJGx6O2HZ0TidJTCobERyaOk24PY6U3cMQaxEDsH3SoJeKdWhQTpoM0vbQUDLZsST3ikiBILZLJTmsWB2lSsqpajIqnBHKqQNVv7A9d2RiImj8PyP0g46Hr2haV2AXULOIVpKiNnxP9O9I4k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755676456; c=relaxed/simple;
+	bh=ntFIgaL02srWXrd27KTUirbWqr2GvntCST8bEnN1u10=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P90rMeNpI1s18JCmmURBcdw/CfBIS9evSK5CI9NM9vxrTExUJ9a26Gjd3PTDmozaj4VYBf+Zfea7EI8OlD0becKjIQ+ZzoSqus3OMnq6OnPP8tm2OtyHDIcvvyxviPt9wZ3taBY92RgYcOOEnJkCWSpXpTC0BwvefawEwwY8wpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FSXw55u6; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2e614b84so5876876b3a.0
+        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 00:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755676454; x=1756281254; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b6MrObmZF0W3Iz/7ouACW2WJ6KhbE+Mk18toMzH5Rik=;
+        b=FSXw55u6dgG59+5EoNNnlEp2jy3afuJENKS0DjmLxM+tyGdBz1Vh0TY0Se5ZgIbLo0
+         ExAkdsk4BLdnxLmy58YMcw9gqDFf758PtEAnULa3xWq8Txun3dFi9IGz6QFj5Xu0VCav
+         nvjw9M8Cw7OucuvjsOBTQUHHNA8lY+UWk2bmk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755676454; x=1756281254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b6MrObmZF0W3Iz/7ouACW2WJ6KhbE+Mk18toMzH5Rik=;
+        b=S6POgOvmqTRoWaysDTDvKUFj44KuJjrLZf2/mu60ywHms/lyJ7W4nBj0LAFZh/UMCt
+         AsbSTdaTgK0kSo9Wpa9rdhLIawbYLhoSnpDps/3Z7v1UyOT59IQC/d5rcupfJSsE9kfA
+         XOWeBTGZVXjUWNkJDE1aWfBCb71mQrDFe2F0dPru2Yxaq6XF/Uzw2B4x6qZ/tNQkFh3M
+         RTSzcruvx2fmcWgNo/Ohr81v9GRS10Fk2yaC8wWzu+6CNhmTd0hVWR+ORMpGfxpCNdWg
+         6VbdZ0OQ5H4Y5/KL8X2kNPipOeAy31F0wFUte+fUBR74qOmNnTg86+Qt0Zh71bSibpTk
+         h/+g==
+X-Forwarded-Encrypted: i=1; AJvYcCXPRFSw2qjwW6FsDt8/uZ9wOzXREI3iGIbF4pB5k6EJ9yL7EXR4zrpGYg35Eb8L3krzbs4NJV77/0Mf6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxy1Fx5/HeohzmU2FpEfJnpzTHXDP2rzNOH9cMv9u0HifGdtoTq
+	XOl1gD3kDGygX4+olNiPywxnn72/EewZKjIL/SafTv7l/1zBVu4l3Oc/LjfMLPJ8BQ==
+X-Gm-Gg: ASbGnctB0VxkVrtIoJkKyvmwAaRsrHiPb1hQA2hA0/H2EXol9ZwkZsFietwukdeXMrs
+	9T4YEMbcC5y/Gl2GhhljP2Eiid2jDyTwirfwbxoqcmpBrm3IukTICk1/trnzoOBjSgb8937j3Ag
+	z9jgyB81M6paxTp0ojX6JFIAZAGZ8JsaeI+Y7ty1MaL5f50gJPN4lHpB3BQhvl18/FcrC7RxlWo
+	bhojtV+75RHvyLqZrcOZfYeJZpFvvOwYD5GqtsaJxty3+gmnZvEy42gW1DTOkMR4kYhluMsLLI6
+	IeT184aYD19vL4ujBhi3QRtNDVmxWepeABI8IBrY02I4mOzgiKsH7tMT0N4qDq1gcrlYqzShmsx
+	3vYiQqkBs1a9cnyW8FqQLw/xEbJ4zTkuZTNYqETKl
+X-Google-Smtp-Source: AGHT+IHvJjrk2TtQqpsyJ1Ye0D3Ld8eJPj/J3yAc/mNjIWdy7fiHoTPy/AdpxRywfbk04Kizt/1zwQ==
+X-Received: by 2002:a05:6a20:389d:b0:23f:f431:9f64 with SMTP id adf61e73a8af0-2431b829560mr2427344637.25.1755676454152;
+        Wed, 20 Aug 2025 00:54:14 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:53f4:ede0:803f:9a86])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4764090714sm1547298a12.32.2025.08.20.00.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Aug 2025 00:54:13 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH v2] media: mediatek: vcodec: Use spinlock for context list protection lock
+Date: Wed, 20 Aug 2025 15:54:05 +0800
+Message-ID: <20250820075405.1041838-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.51.0.rc1.167.g924127e9c0-goog
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DS7PR11MB6151:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1581b411-860e-492a-dd3d-08dddfbb15a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?X0R9v52VPvoGVUiwlzROkEk3W4zhNIgDLAibFGz+CzSnYQbZFTWLTaCxDc9T?=
- =?us-ascii?Q?j/aj0HUpyWdDFAKlYoTvZDLiAd0JlUE2Jp76xVEV8hk+UphxzvpJxIQ38ZQ8?=
- =?us-ascii?Q?CFw6nKFWDm6QbTzhzEPbbUwhkLyxXlmeLwbaPkrgXt1UR9apzaW+l0YF0fEn?=
- =?us-ascii?Q?4OWwEUtkX2FNZQGZ0jyG+D8C90ksU/caQGeReRXYS/lFAVkgKEBA+oxbQ91Y?=
- =?us-ascii?Q?3mWTi/sXhIRFLFdLb9V+VSz7DcJwtosMP3ZjMWN0j31fXrF7NymzkaGBhnBW?=
- =?us-ascii?Q?AFVyvB12qCpVWPhaHZPOu2XHSVidnXtYM+HAS3FdXl7pABR93tOmVJ08KrdX?=
- =?us-ascii?Q?S98putHWoKfPuYnpbwNEdP/r2AeTpCUPGyj2WVvio+AkEuLtTb3QTjshb85y?=
- =?us-ascii?Q?toq8HMpoQvRjCdYm0lvQ3M5d3cnFfNgEdZm2jwEbuLVjpAErSmOQK65Iztff?=
- =?us-ascii?Q?wB2sZODpZQYF4FiR67tRK4Kv8lyn89E19pH4/H8Yc5rj6cv93jw8RhLvB4UV?=
- =?us-ascii?Q?jTom+eJsV6/o3ePzzE/u6g6jL4KaPPqWC5f7i2wObSN0Ne2/7siy362v8uhm?=
- =?us-ascii?Q?ZLnGkl+H6m7KqQk7evL7RkyHkjONOMrnwYyPB7UD2j40+MAOhQMxwRLStPzc?=
- =?us-ascii?Q?mgZeHae5Jp90xsc0L4cLey3vBqyjY85Sh59l2PeqB0Tf5UqPKkFALmqeE0mj?=
- =?us-ascii?Q?XcXouLUBTP0JPFlu9eULxB/Wy9lcfvV4gzPAvWPGmkmLMOmWDQFOeENYVboB?=
- =?us-ascii?Q?+Bv0col6WRnewJhOf4SoTcfB8jEJ4hHwshprXNAErIdeYSXMC/LEEwBD1Oc3?=
- =?us-ascii?Q?pZmt+TnwXhDP1uib/a1ILlVgsABw8MjiyWXMmIur3E7U5ZVSE64TQ8jk+rZ1?=
- =?us-ascii?Q?A/DAQeGKPh7M7oUGpihrPpUHlZoqMdE8rEHDnr+iOmScMLZwI2fC59h4V3iD?=
- =?us-ascii?Q?ug6lnMaMCUPRfb/+lNxeY+YezxjE0MerrPkxDbBmPAs3wyHtMnWIfxNyvCRt?=
- =?us-ascii?Q?Ygq86omnSZSJH2G4XFACDX9KmOxE/VtOC6wJvA1U1Z3b/AB1D5Nh3i09+7BA?=
- =?us-ascii?Q?05PD667o6A2L9yxB1cTVzsEW0IIJi/EMe3kb6wK0Ffmy4AdDsb7V9EcJrYGD?=
- =?us-ascii?Q?Q+ScVchXrTn93y96121JjFPjqNLg7PUT9HJTZqw8lhM5g/NkrbI2ccNUrSdg?=
- =?us-ascii?Q?fKwUZcEkvNqfLFEIUerAJEHK6xXNY7xB/umX/6SI0rL+wwRN5Gq+ZVGLAGPa?=
- =?us-ascii?Q?TX3Ru2yt73yXDtzJc62Bk0txZNtgnqs/p1hsf4p541sXUiwu92CDAxLx6CGk?=
- =?us-ascii?Q?RIsiG1Y0xXLQXK9sQ/9ep+ZOO8jQO9wT6gTCRwttgPpE56KI67AItO41P0uW?=
- =?us-ascii?Q?cZ1Tsu3YoPc6DGBIL15CMNABRSZW?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0+ywhKjjuCbhVzdffArqh32MkJJKk4WbI8tA/BpWrzBPc1EnU/zNTLPkwEl6?=
- =?us-ascii?Q?VSarzDLYEhIpEyrdcvl2DfaKW/IUXT3weP4Wn+Pq1q2Af61KrXJRh1dMuebY?=
- =?us-ascii?Q?hc9pzx15QpLtJrzHhHRjdOBI9kIijpIx4xxz+xUOmlWzneX4KaOEEGCxu4y8?=
- =?us-ascii?Q?UL5X7ZzeQwTwNwgwmCCbcWSXD4G3BiGLf+0Lfajpq789zODgXgeMnGR8nHVa?=
- =?us-ascii?Q?ZKgQD2E1pzggMjLz/gXmwH1a28dvwtWg34RkXjdLroYlOmZe9IGHZzZelvz/?=
- =?us-ascii?Q?+O3SnNfF6yEW8VUvvP/Kl/we96KYDwgmF/NRSgwVDe3E1VeyiZ2+k/6oH5Q4?=
- =?us-ascii?Q?P9rF6mwuvQFnCVwMrDUZw3fKcaUwP5qxZM19NjpXXewnh1QSOz3sT04GfKmo?=
- =?us-ascii?Q?Ljp8ZQlJB3g2R4EmKTkyfEpJrlzrTMG3QFD+zmKY/6y1u2tZA3MQpb8URyAr?=
- =?us-ascii?Q?N7i+BJlIVNG6BgeyptrtNCbL9of4cDB05VjJ/xr0N37HhOgQFogqplYTKfqh?=
- =?us-ascii?Q?D1D2LNJmrU9YKxNzs1iw7cyxc98JkTAgMIVv3XU8Mjtxd+hsGW/f/Zd8KEZ0?=
- =?us-ascii?Q?PGvd46WglQrX35Gt5vP47tatGB99sgo0oehcpAbfAG3HldkQFF6TbMjPIf6x?=
- =?us-ascii?Q?l5AdXZmMhFcEAjNdfdK0C30z17X7Xsw2MWtFxyGv5CRa8KmoJGJDX+/71NO2?=
- =?us-ascii?Q?X/enTLjcld2iTpy9990SOsoGGU0EoYkaEpZ+fUFqmeJ94yFSzYCfk4thxAAW?=
- =?us-ascii?Q?z9XAcj6404cp7J0G5B3Mc4JfZ8KXCkxN5+LWA1cGKgdW0MwWbqltsXK6GsNG?=
- =?us-ascii?Q?vFXzF1Ih1dZol7ku9okTDNsDQ98A/bA8LuPz0XfXbhFY7FVtBOsnhdwsAl0B?=
- =?us-ascii?Q?OMTnrUaFsMda/GKNWOlS8VrJ80bGm0kFDC3eH7mh2oqSIg06ghfLQluzgYNO?=
- =?us-ascii?Q?1DIdQq3bags9tacZRKgwiX/5PDgm/BvMYW6bmP1rwfY3h5yO0yLhGt7NP3Th?=
- =?us-ascii?Q?vVndcYrhcLZp+/6IN9sMmSvRI66ABRRoSL6pkTMrdCDmNqZkt36Javhbif/9?=
- =?us-ascii?Q?qjNvo/sF8/wSqVwVxAa17GeEE2pmftVhFYT7pcBiyiB8BxQ9sao+IrcsOSlw?=
- =?us-ascii?Q?cO6M809aSS+NK24qF3i0GAcOicfoi5VvXDuy651V2M83EDsoZKGf7Os2NjS8?=
- =?us-ascii?Q?J1Sjc26gCWh7I3Za/rHUrQuw92mYCWQi33gT+AgM2WHpQOD713SwJbGHiOD4?=
- =?us-ascii?Q?14NkJdhsL3YkxL11JmZXfFXSrlx7r6e7og3zMvpWuUzUXNBIQIqV/Lh2g+O9?=
- =?us-ascii?Q?P+nNL9RwFBwg1dZNr9vk3URX67mjMUIhreCZ1EskYNPkW6dDTTMm+8VWVBuv?=
- =?us-ascii?Q?rCzajHuT+Rwnd8aGKRJLspGSv2ocfrhz600u07DAt9Ecx9z+t9ZXF93XhMvw?=
- =?us-ascii?Q?hLtS73xi6HJWB4vlm8mZXGfvWk/4heGYaorwxO5iy1DvMWgRgb0VVctKJ9vO?=
- =?us-ascii?Q?DiwSLfyAsvRBgyP21ZQgqCREFT8AsC1/f5CJ/w6G6/6IE8pAFCMw5LosqzyQ?=
- =?us-ascii?Q?WFmyX8zYyqncHpqzn9K9l1mTmLlPRFZr/LOj1i7VqDUAPIkNE9FbEYtxEY08?=
- =?us-ascii?Q?/w=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1581b411-860e-492a-dd3d-08dddfbb15a7
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2025 07:27:57.2659
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Yu0tJxzqhttjT2c9nqyieqWO5bbqPONo93cONKEoA6mWvpmp8zzPoKjtSG0D9qRX8AMVptwdoJus2R71GUndQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6151
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
+Previously a mutex was added to protect the encoder and decoder context
+lists from unexpected changes originating from the SCP IP block, causing
+the context pointer to go invalid, resulting in a NULL pointer
+dereference in the IPI handler.
 
+Turns out on the MT8173, the VPU IPI handler is called from hard IRQ
+context. This causes a big warning from the scheduler. This was first
+reported downstream on the ChromeOS kernels, but is also reproducible
+on mainline using Fluster with the FFmpeg v4l2m2m decoders. Even though
+the actual capture format is not supported, the affected code paths
+are triggered.
 
-Hello,
+Since this lock just protects the context list and operations on it are
+very fast, it should be OK to switch to a spinlock.
 
-kernel test robot noticed "WARNING:at_drivers/dma-buf/dma-fence.c:#dma_fence_signal" on:
+Fixes: 6467cda18c9f ("media: mediatek: vcodec: adding lock to protect decoder context list")
+Fixes: afaaf3a0f647 ("media: mediatek: vcodec: adding lock to protect encoder context list")
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+Changes since v1:
+- Switched to _irqsave / _irqrestore variants even in helper only called
+  by IRQ handler (Tomasz)
 
-commit: 409db68e04bdf052bc03f620e70339764b598ade ("[PATCH 2/2] dma-buf: add warning when dma_fence is signaled from IOCTL")
-url: https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/dma-buf-add-warning-when-dma_fence-is-signaled-from-IOCTL/20250812-223543
-base: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git 53e760d8949895390e256e723e7ee46618310361
-patch link: https://lore.kernel.org/all/20250812143402.8619-2-christian.koenig@amd.com/
-patch subject: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from IOCTL
+ .../mediatek/vcodec/common/mtk_vcodec_fw_vpu.c       | 10 ++++++----
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c     | 12 +++++++-----
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  2 +-
+ .../platform/mediatek/vcodec/decoder/vdec_vpu_if.c   |  5 +++--
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c     | 12 +++++++-----
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h     |  2 +-
+ .../platform/mediatek/vcodec/encoder/venc_vpu_if.c   |  5 +++--
+ 7 files changed, 28 insertions(+), 20 deletions(-)
 
-in testcase: ltp
-version: ltp-x86_64-9f512c1d8-1_20250809
-with following parameters:
-
-	test: syscalls-ipc-msgstress
-
-
-
-config: x86_64-rhel-9.4-ltp
-compiler: gcc-12
-test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz (Haswell) with 16G memory
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202508200843.8b006132-lkp@intel.com
-
-
-[   51.636268][  T218] ------------[ cut here ]------------
-[ 51.636273][ T218] WARNING: CPU: 3 PID: 218 at drivers/dma-buf/dma-fence.c:420 dma_fence_signal (drivers/dma-buf/dma-fence.c:420 drivers/dma-buf/dma-fence.c:502) 
-[   51.636292][  T218] Modules linked in: coretemp sd_mod snd_hda_codec_realtek_lib snd_hda_codec_generic sg ipmi_devintf kvm_intel snd_hda_intel ipmi_msghandler platform_profile i915(+) kvm snd_hda_codec intel_gtt dell_wmi snd_hda_core drm_buddy binfmt_misc dell_smbios snd_intel_dspcfg ttm dell_wmi_descriptor snd_intel_sdw_acpi snd_hwdep mei_wdt sparse_keymap irqbypass drm_display_helper ahci ghash_clmulni_intel snd_pcm libahci rfkill cec mei_me rapl intel_cstate dcdbas snd_timer drm_client_lib libata intel_uncore mei snd drm_kms_helper i2c_i801 i2c_smbus pcspkr lpc_ich soundcore video wmi fuse drm loop dm_mod
-[   51.636385][  T218] CPU: 3 UID: 0 PID: 218 Comm: (udev-worker) Not tainted 6.17.0-rc1-00006-g409db68e04bd #1 PREEMPT(voluntary)
-[   51.636395][  T218] Hardware name: Dell Inc. OptiPlex 9020/0DNKMN, BIOS A05 12/05/2013
-[ 51.636399][ T218] RIP: 0010:dma_fence_signal (drivers/dma-buf/dma-fence.c:420 drivers/dma-buf/dma-fence.c:502) 
-[ 51.636415][ T218] Code: 00 fc ff df 80 3c 02 00 75 36 48 8b 3b 4c 89 e6 e8 10 33 27 01 89 e8 5b 5d 41 5c c3 cc cc cc cc e8 b0 2e 77 fe 48 85 c0 75 bc <0f> 0b eb b8 0f 0b bd ea ff ff ff 5b 89 e8 5d 41 5c c3 cc cc cc cc
-All code
-========
-   0:	00 fc                	add    %bh,%ah
-   2:	ff                   	(bad)
-   3:	df 80 3c 02 00 75    	filds  0x7500023c(%rax)
-   9:	36 48 8b 3b          	ss mov (%rbx),%rdi
-   d:	4c 89 e6             	mov    %r12,%rsi
-  10:	e8 10 33 27 01       	call   0x1273325
-  15:	89 e8                	mov    %ebp,%eax
-  17:	5b                   	pop    %rbx
-  18:	5d                   	pop    %rbp
-  19:	41 5c                	pop    %r12
-  1b:	c3                   	ret
-  1c:	cc                   	int3
-  1d:	cc                   	int3
-  1e:	cc                   	int3
-  1f:	cc                   	int3
-  20:	e8 b0 2e 77 fe       	call   0xfffffffffe772ed5
-  25:	48 85 c0             	test   %rax,%rax
-  28:	75 bc                	jne    0xffffffffffffffe6
-  2a:*	0f 0b                	ud2		<-- trapping instruction
-  2c:	eb b8                	jmp    0xffffffffffffffe6
-  2e:	0f 0b                	ud2
-  30:	bd ea ff ff ff       	mov    $0xffffffea,%ebp
-  35:	5b                   	pop    %rbx
-  36:	89 e8                	mov    %ebp,%eax
-  38:	5d                   	pop    %rbp
-  39:	41 5c                	pop    %r12
-  3b:	c3                   	ret
-  3c:	cc                   	int3
-  3d:	cc                   	int3
-  3e:	cc                   	int3
-  3f:	cc                   	int3
-
-Code starting with the faulting instruction
-===========================================
-   0:	0f 0b                	ud2
-   2:	eb b8                	jmp    0xffffffffffffffbc
-   4:	0f 0b                	ud2
-   6:	bd ea ff ff ff       	mov    $0xffffffea,%ebp
-   b:	5b                   	pop    %rbx
-   c:	89 e8                	mov    %ebp,%eax
-   e:	5d                   	pop    %rbp
-   f:	41 5c                	pop    %r12
-  11:	c3                   	ret
-  12:	cc                   	int3
-  13:	cc                   	int3
-  14:	cc                   	int3
-  15:	cc                   	int3
-[   51.636420][  T218] RSP: 0018:ffffc90000a9ed30 EFLAGS: 00010046
-[   51.636428][  T218] RAX: 0000000000000000 RBX: ffff88811750fc00 RCX: 0000000000000018
-[   51.636437][  T218] RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffff88810691512c
-[   51.636440][  T218] RBP: 0000000be56b1408 R08: 0000000000000001 R09: fffff52000153d9a
-[   51.636445][  T218] R10: 0000000000000003 R11: ffff888108145000 R12: 0000000000000246
-[   51.636452][  T218] R13: ffffffffc1c9b060 R14: ffff88810406ba0c R15: 1ffff92000153dc2
-[   51.636455][  T218] FS:  00007efd90c038c0(0000) GS:ffff8883e4077000(0000) knlGS:0000000000000000
-[   51.636459][  T218] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   51.636462][  T218] CR2: 00007f5bd8238c20 CR3: 000000040ed8a005 CR4: 00000000001726f0
-[   51.636466][  T218] Call Trace:
-[   51.636469][  T218]  <TASK>
-[ 51.636477][ T218] fence_work (include/linux/dma-fence.h:272 drivers/gpu/drm/i915/i915_sw_fence_work.c:23) i915 
-[ 51.637304][ T218] fence_notify (drivers/gpu/drm/i915/i915_sw_fence_work.c:39) i915 
-[ 51.637827][ T218] __i915_sw_fence_complete (drivers/gpu/drm/i915/i915_sw_fence.c:201) i915 
-[ 51.638300][ T218] i915_vma_pin_ww (drivers/gpu/drm/i915/i915_vma.c:1601) i915 
-[ 51.638763][ T218] ? __pfx_i915_vma_pin_ww (drivers/gpu/drm/i915/i915_vma.c:1434) i915 
-[ 51.639218][ T218] ? i915_gem_object_make_unshrinkable (include/linux/list.h:215 include/linux/list.h:287 drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:500) i915 
-[ 51.639648][ T218] ? i915_vma_make_unshrinkable (drivers/gpu/drm/i915/i915_vma.c:2292) i915 
-[ 51.640091][ T218] ? intel_ring_pin (drivers/gpu/drm/i915/gt/intel_ring.c:73) i915 
-[ 51.640505][ T218] intel_ring_submission_setup (drivers/gpu/drm/i915/gt/intel_ring_submission.c:1290 drivers/gpu/drm/i915/gt/intel_ring_submission.c:1421) i915 
-[ 51.640918][ T218] ? __pfx_intel_ring_submission_setup (drivers/gpu/drm/i915/gt/intel_ring_submission.c:1349) i915 
-[   51.641232][   T65] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
-[ 51.641321][ T218] ? intel_engine_init_whitelist (drivers/gpu/drm/i915/gt/intel_workarounds.c:2104) i915 
-[ 51.641735][ T218] ? __intel_wakeref_init (arch/x86/include/asm/atomic.h:28 include/linux/atomic/atomic-arch-fallback.h:503 include/linux/atomic/atomic-instrumented.h:68 drivers/gpu/drm/i915/intel_wakeref.c:109) i915 
-[ 51.642126][ T218] intel_engines_init (drivers/gpu/drm/i915/gt/intel_engine_cs.c:1514) i915 
-[ 51.642521][ T218] ? i915_gem_object_make_unshrinkable (arch/x86/include/asm/atomic.h:93 include/linux/atomic/atomic-arch-fallback.h:667 include/linux/atomic/atomic-arch-fallback.h:1119 include/linux/atomic/atomic-instrumented.h:524 drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:498) i915 
-[ 51.642929][ T218] ? __pfx_intel_ring_submission_setup (drivers/gpu/drm/i915/gt/intel_ring_submission.c:1349) i915 
-[ 51.643331][ T218] intel_gt_init (drivers/gpu/drm/i915/gt/intel_gt.c:719) i915 
-[ 51.643728][ T218] i915_gem_init (drivers/gpu/drm/i915/i915_gem.c:1191) i915 
-[ 51.644140][ T218] i915_driver_probe (drivers/gpu/drm/i915/i915_driver.c:831) i915 
-[ 51.644524][ T218] ? __pfx_i915_driver_probe (drivers/gpu/drm/i915/i915_driver.c:780) i915 
-[ 51.644903][ T218] ? drm_privacy_screen_get (drivers/gpu/drm/drm_privacy_screen.c:169) drm 
-[ 51.645047][ T218] ? intel_display_driver_probe_defer (drivers/gpu/drm/i915/display/intel_display_driver.c:84) i915 
-[ 51.645483][ T218] ? i915_pci_probe (drivers/gpu/drm/i915/i915_pci.c:995) i915 
-[ 51.645876][ T218] ? __pfx_i915_pci_probe (drivers/gpu/drm/i915/i915_pci.c:956) i915 
-[ 51.646267][ T218] local_pci_probe (drivers/pci/pci-driver.c:324) 
-[ 51.646283][ T218] pci_call_probe (drivers/pci/pci-driver.c:392) 
-[ 51.646295][ T218] ? _raw_spin_lock (arch/x86/include/asm/atomic.h:107 include/linux/atomic/atomic-arch-fallback.h:2170 include/linux/atomic/atomic-instrumented.h:1302 include/asm-generic/qspinlock.h:111 include/linux/spinlock.h:187 include/linux/spinlock_api_smp.h:134 kernel/locking/spinlock.c:154) 
-[ 51.646308][ T218] ? __pfx_pci_call_probe (drivers/pci/pci-driver.c:352) 
-[ 51.646321][ T218] ? kernfs_add_one (fs/kernfs/dir.c:834) 
-[ 51.646337][ T218] ? pci_assign_irq (drivers/pci/irq.c:149) 
-[ 51.646350][ T218] ? pci_match_device (drivers/pci/pci-driver.c:159 (discriminator 1)) 
-[ 51.646362][ T218] ? kernfs_put (arch/x86/include/asm/atomic.h:67 (discriminator 1) include/linux/atomic/atomic-arch-fallback.h:2278 (discriminator 1) include/linux/atomic/atomic-instrumented.h:1384 (discriminator 1) fs/kernfs/dir.c:569 (discriminator 1)) 
-[ 51.646368][ T218] pci_device_probe (drivers/pci/pci-driver.c:452) 
-[ 51.646377][ T218] really_probe (drivers/base/dd.c:581 drivers/base/dd.c:659) 
-[ 51.646391][ T218] __driver_probe_device (drivers/base/dd.c:801) 
-[ 51.646404][ T218] driver_probe_device (drivers/base/dd.c:831) 
-[ 51.646416][ T218] __driver_attach (drivers/base/dd.c:1218) 
-[ 51.646424][ T218] ? __pfx___driver_attach (drivers/base/dd.c:1158) 
-[ 51.646428][ T218] bus_for_each_dev (drivers/base/bus.c:369) 
-[ 51.646441][ T218] ? __pfx_bus_for_each_dev (drivers/base/bus.c:358) 
-[ 51.646444][ T218] ? __kmalloc_cache_noprof (arch/x86/include/asm/jump_label.h:46 include/linux/memcontrol.h:1714 mm/slub.c:2210 mm/slub.c:4190 mm/slub.c:4229 mm/slub.c:4391) 
-[ 51.646456][ T218] ? klist_add_tail (include/linux/list.h:150 include/linux/list.h:183 lib/klist.c:104 lib/klist.c:137) 
-[ 51.646468][ T218] bus_add_driver (drivers/base/bus.c:678) 
-[ 51.646482][ T218] driver_register (drivers/base/driver.c:249) 
-[ 51.646490][ T218] i915_init (drivers/gpu/drm/i915/i915_driver.c:1428) i915 
-[ 51.646891][ T218] ? __pfx_i915_init (drivers/gpu/drm/i915/i915_config.c:13) i915 
-[   51.647101][   T67] sd 2:0:0:0: [sdb] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[ 51.647277][ T218] do_one_initcall (init/main.c:1269) 
-[ 51.647292][ T218] ? kfree (mm/slub.c:4680 mm/slub.c:4879) 
-[ 51.647304][ T218] ? __pfx_do_one_initcall (init/main.c:1260) 
-[ 51.647315][ T218] ? kasan_unpoison (mm/kasan/shadow.c:156 mm/kasan/shadow.c:182) 
-[ 51.647327][ T218] ? __kasan_slab_alloc (mm/kasan/common.c:329 mm/kasan/common.c:356) 
-[ 51.647340][ T218] ? __kmalloc_cache_noprof (mm/slub.c:4180 mm/slub.c:4229 mm/slub.c:4391) 
-[ 51.647352][ T218] ? kasan_save_track (arch/x86/include/asm/current.h:25 mm/kasan/common.c:60 mm/kasan/common.c:69) 
-[ 51.647365][ T218] ? kasan_unpoison (mm/kasan/shadow.c:156 mm/kasan/shadow.c:182) 
-[ 51.647377][ T218] do_init_module (kernel/module/main.c:3039) 
-[ 51.647388][ T218] ? __pfx_do_init_module (kernel/module/main.c:3011) 
-[ 51.647402][ T218] ? kfree (mm/slub.c:4680 mm/slub.c:4879) 
-[ 51.647414][ T218] ? klp_module_coming (kernel/livepatch/core.c:1317) 
-[ 51.647426][ T218] ? load_module (kernel/module/main.c:2468 kernel/module/main.c:2463 kernel/module/main.c:3504) 
-[ 51.647441][ T218] load_module (kernel/module/main.c:3509) 
-[ 51.647449][ T218] ? ima_post_read_file (security/integrity/ima/ima_main.c:896 security/integrity/ima/ima_main.c:878) 
-[ 51.647466][ T218] ? __pfx_load_module (kernel/module/main.c:3353) 
-[ 51.647478][ T218] ? __pfx_kernel_read_file (fs/kernel_read_file.c:38) 
-[ 51.647489][ T218] ? init_module_from_file (kernel/module/main.c:3701) 
-[ 51.647499][ T218] init_module_from_file (kernel/module/main.c:3701) 
-[ 51.647514][ T218] ? __pfx_init_module_from_file (kernel/module/main.c:3677) 
-[ 51.647525][ T218] ? mm_get_unmapped_area (arch/x86/include/asm/bitops.h:206 arch/x86/include/asm/bitops.h:238 include/asm-generic/bitops/instrumented-non-atomic.h:142 mm/mmap.c:805 mm/mmap.c:871) 
-[ 51.647540][ T218] ? _raw_spin_lock (arch/x86/include/asm/atomic.h:107 include/linux/atomic/atomic-arch-fallback.h:2170 include/linux/atomic/atomic-instrumented.h:1302 include/asm-generic/qspinlock.h:111 include/linux/spinlock.h:187 include/linux/spinlock_api_smp.h:134 kernel/locking/spinlock.c:154) 
-[ 51.647547][ T218] ? __pfx__raw_spin_lock (kernel/locking/spinlock.c:153) 
-[ 51.647560][ T218] idempotent_init_module (kernel/module/main.c:3713) 
-[ 51.647573][ T218] ? __pfx_idempotent_init_module (kernel/module/main.c:3705) 
-[ 51.647582][ T218] ? __pfx___seccomp_filter (kernel/seccomp.c:1244) 
-[ 51.647590][ T218] ? fdget (include/linux/atomic/atomic-arch-fallback.h:479 include/linux/atomic/atomic-instrumented.h:50 fs/file.c:1167 fs/file.c:1181) 
-[ 51.647607][ T218] ? security_capable (security/security.c:1142) 
-[ 51.647615][ T218] __x64_sys_finit_module (include/linux/file.h:62 include/linux/file.h:83 kernel/module/main.c:3736 kernel/module/main.c:3723 kernel/module/main.c:3723) 
-[ 51.647627][ T218] ? syscall_trace_enter (kernel/entry/syscall-common.c:44) 
-[ 51.647640][ T218] do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94) 
-[ 51.647657][ T218] ? fput (arch/x86/include/asm/atomic64_64.h:79 include/linux/atomic/atomic-arch-fallback.h:2913 include/linux/atomic/atomic-arch-fallback.h:3364 include/linux/atomic/atomic-long.h:698 include/linux/atomic/atomic-instrumented.h:3767 include/linux/file_ref.h:157 fs/file_table.c:544) 
-[ 51.647668][ T218] ? ksys_mmap_pgoff (mm/mmap.c:609) 
-[ 51.647682][ T218] ? do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94) 
-[ 51.647694][ T218] ? from_kgid_munged (kernel/user_namespace.c:535) 
-[ 51.647708][ T218] ? _copy_to_user (arch/x86/include/asm/uaccess_64.h:126 arch/x86/include/asm/uaccess_64.h:147 include/linux/uaccess.h:197 lib/usercopy.c:26) 
-[ 51.647722][ T218] ? cp_new_stat (fs/stat.c:471) 
-[ 51.647732][ T218] ? __pfx_cp_new_stat (fs/stat.c:471) 
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20250820/202508200843.8b006132-lkp@intel.com
-
-
-
+diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+index d7027d600208..223fb2294894 100644
+--- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
++++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+@@ -47,30 +47,32 @@ static void mtk_vcodec_vpu_reset_dec_handler(void *priv)
+ {
+ 	struct mtk_vcodec_dec_dev *dev = priv;
+ 	struct mtk_vcodec_dec_ctx *ctx;
++	unsigned long flags;
+ 
+ 	dev_err(&dev->plat_dev->dev, "Watchdog timeout!!");
+ 
+-	mutex_lock(&dev->dev_ctx_lock);
++	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
+ 	list_for_each_entry(ctx, &dev->ctx_list, list) {
+ 		ctx->state = MTK_STATE_ABORT;
+ 		mtk_v4l2_vdec_dbg(0, ctx, "[%d] Change to state MTK_STATE_ABORT", ctx->id);
+ 	}
+-	mutex_unlock(&dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&dev->dev_ctx_lock, flags);
+ }
+ 
+ static void mtk_vcodec_vpu_reset_enc_handler(void *priv)
+ {
+ 	struct mtk_vcodec_enc_dev *dev = priv;
+ 	struct mtk_vcodec_enc_ctx *ctx;
++	unsigned long flags;
+ 
+ 	dev_err(&dev->plat_dev->dev, "Watchdog timeout!!");
+ 
+-	mutex_lock(&dev->dev_ctx_lock);
++	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
+ 	list_for_each_entry(ctx, &dev->ctx_list, list) {
+ 		ctx->state = MTK_STATE_ABORT;
+ 		mtk_v4l2_vdec_dbg(0, ctx, "[%d] Change to state MTK_STATE_ABORT", ctx->id);
+ 	}
+-	mutex_unlock(&dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&dev->dev_ctx_lock, flags);
+ }
+ 
+ static const struct mtk_vcodec_fw_ops mtk_vcodec_vpu_msg = {
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+index 46d176e6de63..3b81fae9f913 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+@@ -198,6 +198,7 @@ static int fops_vcodec_open(struct file *file)
+ 	struct mtk_vcodec_dec_ctx *ctx = NULL;
+ 	int ret = 0, i, hw_count;
+ 	struct vb2_queue *src_vq;
++	unsigned long flags;
+ 
+ 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+@@ -267,9 +268,9 @@ static int fops_vcodec_open(struct file *file)
+ 
+ 	ctx->dev->vdec_pdata->init_vdec_params(ctx);
+ 
+-	mutex_lock(&dev->dev_ctx_lock);
++	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
+ 	list_add(&ctx->list, &dev->ctx_list);
+-	mutex_unlock(&dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&dev->dev_ctx_lock, flags);
+ 	mtk_vcodec_dbgfs_create(ctx);
+ 
+ 	mutex_unlock(&dev->dev_mutex);
+@@ -294,6 +295,7 @@ static int fops_vcodec_release(struct file *file)
+ {
+ 	struct mtk_vcodec_dec_dev *dev = video_drvdata(file);
+ 	struct mtk_vcodec_dec_ctx *ctx = file_to_dec_ctx(file);
++	unsigned long flags;
+ 
+ 	mtk_v4l2_vdec_dbg(0, ctx, "[%d] decoder", ctx->id);
+ 	mutex_lock(&dev->dev_mutex);
+@@ -312,9 +314,9 @@ static int fops_vcodec_release(struct file *file)
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ 
+ 	mtk_vcodec_dbgfs_remove(dev, ctx->id);
+-	mutex_lock(&dev->dev_ctx_lock);
++	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
+ 	list_del_init(&ctx->list);
+-	mutex_unlock(&dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&dev->dev_ctx_lock, flags);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+ 	return 0;
+@@ -407,7 +409,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 	for (i = 0; i < MTK_VDEC_HW_MAX; i++)
+ 		mutex_init(&dev->dec_mutex[i]);
+ 	mutex_init(&dev->dev_mutex);
+-	mutex_init(&dev->dev_ctx_lock);
++	spin_lock_init(&dev->dev_ctx_lock);
+ 	spin_lock_init(&dev->irqlock);
+ 
+ 	snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name), "%s",
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+index d047d7c580fb..9d68808e8f9c 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+@@ -285,7 +285,7 @@ struct mtk_vcodec_dec_dev {
+ 	/* decoder hardware mutex lock */
+ 	struct mutex dec_mutex[MTK_VDEC_HW_MAX];
+ 	struct mutex dev_mutex;
+-	struct mutex dev_ctx_lock;
++	spinlock_t dev_ctx_lock;
+ 	struct workqueue_struct *decode_workqueue;
+ 
+ 	spinlock_t irqlock;
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+index 145958206e38..40b97f114cf6 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+@@ -75,16 +75,17 @@ static void handle_get_param_msg_ack(const struct vdec_vpu_ipi_get_param_ack *ms
+ static bool vpu_dec_check_ap_inst(struct mtk_vcodec_dec_dev *dec_dev, struct vdec_vpu_inst *vpu)
+ {
+ 	struct mtk_vcodec_dec_ctx *ctx;
++	unsigned long flags;
+ 	int ret = false;
+ 
+-	mutex_lock(&dec_dev->dev_ctx_lock);
++	spin_lock_irqsave(&dec_dev->dev_ctx_lock, flags);
+ 	list_for_each_entry(ctx, &dec_dev->ctx_list, list) {
+ 		if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst == vpu) {
+ 			ret = true;
+ 			break;
+ 		}
+ 	}
+-	mutex_unlock(&dec_dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&dec_dev->dev_ctx_lock, flags);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
+index fb1c3bdc2dae..82b8ff38e8f1 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
+@@ -117,6 +117,7 @@ static int fops_vcodec_open(struct file *file)
+ 	struct mtk_vcodec_enc_ctx *ctx = NULL;
+ 	int ret = 0;
+ 	struct vb2_queue *src_vq;
++	unsigned long flags;
+ 
+ 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+@@ -176,9 +177,9 @@ static int fops_vcodec_open(struct file *file)
+ 	mtk_v4l2_venc_dbg(2, ctx, "Create instance [%d]@%p m2m_ctx=%p ",
+ 			  ctx->id, ctx, ctx->m2m_ctx);
+ 
+-	mutex_lock(&dev->dev_ctx_lock);
++	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
+ 	list_add(&ctx->list, &dev->ctx_list);
+-	mutex_unlock(&dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&dev->dev_ctx_lock, flags);
+ 
+ 	mutex_unlock(&dev->dev_mutex);
+ 	mtk_v4l2_venc_dbg(0, ctx, "%s encoder [%d]", dev_name(&dev->plat_dev->dev),
+@@ -203,6 +204,7 @@ static int fops_vcodec_release(struct file *file)
+ {
+ 	struct mtk_vcodec_enc_dev *dev = video_drvdata(file);
+ 	struct mtk_vcodec_enc_ctx *ctx = file_to_enc_ctx(file);
++	unsigned long flags;
+ 
+ 	mtk_v4l2_venc_dbg(1, ctx, "[%d] encoder", ctx->id);
+ 	mutex_lock(&dev->dev_mutex);
+@@ -213,9 +215,9 @@ static int fops_vcodec_release(struct file *file)
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+ 
+-	mutex_lock(&dev->dev_ctx_lock);
++	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
+ 	list_del_init(&ctx->list);
+-	mutex_unlock(&dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&dev->dev_ctx_lock, flags);
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
+ 	return 0;
+@@ -297,7 +299,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 
+ 	mutex_init(&dev->enc_mutex);
+ 	mutex_init(&dev->dev_mutex);
+-	mutex_init(&dev->dev_ctx_lock);
++	spin_lock_init(&dev->dev_ctx_lock);
+ 	spin_lock_init(&dev->irqlock);
+ 
+ 	snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name), "%s",
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
+index 5b304a551236..0cddfa13594f 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
+@@ -206,7 +206,7 @@ struct mtk_vcodec_enc_dev {
+ 	/* encoder hardware mutex lock */
+ 	struct mutex enc_mutex;
+ 	struct mutex dev_mutex;
+-	struct mutex dev_ctx_lock;
++	spinlock_t dev_ctx_lock;
+ 	struct workqueue_struct *encode_workqueue;
+ 
+ 	int enc_irq;
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+index 51bb7ee141b9..3c229b1f6b21 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
+@@ -45,16 +45,17 @@ static void handle_enc_encode_msg(struct venc_vpu_inst *vpu, const void *data)
+ static bool vpu_enc_check_ap_inst(struct mtk_vcodec_enc_dev *enc_dev, struct venc_vpu_inst *vpu)
+ {
+ 	struct mtk_vcodec_enc_ctx *ctx;
++	unsigned long flags;
+ 	int ret = false;
+ 
+-	mutex_lock(&enc_dev->dev_ctx_lock);
++	spin_lock_irqsave(&enc_dev->dev_ctx_lock, flags);
+ 	list_for_each_entry(ctx, &enc_dev->ctx_list, list) {
+ 		if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst == vpu) {
+ 			ret = true;
+ 			break;
+ 		}
+ 	}
+-	mutex_unlock(&enc_dev->dev_ctx_lock);
++	spin_unlock_irqrestore(&enc_dev->dev_ctx_lock, flags);
+ 
+ 	return ret;
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0.rc1.167.g924127e9c0-goog
 
 
