@@ -1,282 +1,129 @@
-Return-Path: <linux-media+bounces-40325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40326-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAE0B2CF94
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 00:58:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAEAB2D093
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 02:14:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D02DB1C2069A
-	for <lists+linux-media@lfdr.de>; Tue, 19 Aug 2025 22:58:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 879AF2A84E7
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 00:14:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA71023F26A;
-	Tue, 19 Aug 2025 22:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gnQEnlDT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1E7208A7;
+	Wed, 20 Aug 2025 00:14:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ring0.de (ring0.de [152.53.19.228])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351EE1F0E53
-	for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 22:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0A44A1E;
+	Wed, 20 Aug 2025 00:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=152.53.19.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755644291; cv=none; b=TbgRyLua/Sf+WM/bJfBiwMQpK+F0McTEusxrEObnHNXdJkXirlpW2yjqzzpRAq1uw0wYvjK0Hz6/lWFqw0qtHsX8noSasFLh0xMadiG0o6mn1SazKm0+16LVQrYqeRXkpbrUNuJ8Jpb4VtVmwHYDEAoSDyvItqPlAT4/bo6wAYg=
+	t=1755648843; cv=none; b=kBeW3tgHJAInRzmgNC+pq5xRuRy8ZBa/JVu6zceSaWJnb6O4Vceytc1/md1sXUmliopkN1KH5g83VJxM1aSNbH/UsUq5lqAtacpbHCaNyHNV1+eT7NXmI7TvjFCsF+0TyEB7V2v4hMBY5fiNuUnpCznRBjsYUCL8Pp3sy7LcxGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755644291; c=relaxed/simple;
-	bh=E4LX9dPz6lz1RHQaIxgEI9CY+59ZNo0/n5RaGhDo6T4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PUJXaufJDdHE7rpP39ZIKy4D5DVH81bYk3DAwTzR9G16fmYlLZkOK/Pya0Lrnzmgyn4hM0wYR6sHIr1q7OHSlKxd3VB9ZTmmwypI5dm4mbGT9kxIxTAVc7TAiMOtPK7rN2jHzfeIXZfJs2Tkxaq4ITrYz5dBSRv/KtUI0TkSCaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gnQEnlDT; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55ce50afeceso499667e87.0
-        for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 15:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755644287; x=1756249087; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HdsFwPUZXdwZTKthKuPOn3mlFq/GkAaD0f0ovHBevv4=;
-        b=gnQEnlDTxXoX9jA439bA3NPZif1yq9l9KKhxg4bDm0XELYXOzSOSVslsgZgMzb1Jke
-         P/pbu9oj4iq3j9du+9dFT+j5pRAdMh1mqOr++nb5MYl0nWQU4EBfb9CIFTOPockV4BI+
-         Zl9lLiJAn/z+7xgdNZPHsILbHIVp3vRNRlhjeotvZXvThVh129l4jGIKnkZYYRtmWQBl
-         CxZgkvIY5Wb6M7ulTGWXic6zxLnTBu24ZW6RzRNPDbJ3u+PrsPDQIRyUw8wlulKbjwhE
-         B0UVIG3w8eOBqZ9pMN+Tm2KB3p6UiBAZAvuEHU8PwEdiWQ88KJAlfzBsy/pBnz7WTVHk
-         9XMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755644287; x=1756249087;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HdsFwPUZXdwZTKthKuPOn3mlFq/GkAaD0f0ovHBevv4=;
-        b=VLZnuf0YTSBPzWjA46Pz/D1iVT8AimEwGuN+kaSvb8EoDUkpayCyueV60kjSZRDAvb
-         lYoIIN/UxTmF0bPQH2Bhv/5WIvprm89tecxUeEJQuEWNrGLiC6OroHZYw7Ip5RA+tdR6
-         tb/U9v6p9vEJ5ORoFwjQf5IRnGWGXrKhlLVHtGRHarnooVQNHI6D6Wgj4bE+q6nm+dGG
-         9HYSLTmCiniDkORqLS952M4aUtPF5A/XToIZSYEqUVBYDwJ35yNKw+yfSnx7n1Kdfuox
-         5WJbYqZixRILgcYPt1uzLTySDhOXQ2gjcHfuQ51RycliE7ZI92TxpbZRN+UCKTxYz0a3
-         W+Lw==
-X-Forwarded-Encrypted: i=1; AJvYcCXSq35JMQg16BEot3FD5q6yBeYiyS/kgz4u/5Rx1KZlZ0b9neSQlghPcaVaj5kWPySvPKfe5K6i99R2Yw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4BX4uCuyRX30UWcA/ig+2RfiomBinM61sA1cPfyBhnLTy8INr
-	8OqB7+iN1Nsvg5SL0wNGATukAougrrAUx4t1AF4evtPQgMoATe0m7O86sJhMaoEn67VeR/zFP3A
-	h9lfx
-X-Gm-Gg: ASbGnctsRdbR6BhNYNHl2fOn/uhlMUxql+ga04lHa4LrFZv9z/WjsbK2W+pp5DAKt4V
-	Uh6qV5en82TPC5buXHj0QX/AW2WZrht8HQ6g+XvfKsJsltzBCQdIIB+MOJDemMuEDkCshLPZVIn
-	BiXnrcIU/BVITaVCl6I7ZD7esz7wyxzivaBb1nTC1J4THjrXR8CVUWXICsPYl2o663Ju3Bz2XKX
-	v1qU+6zCqkDJ7UO0PtEFqgXYohej3cgCAKMrCoRs9RXEg6Tmr0ZOGrqzoyMIq0oItRq5EJnWUUr
-	jv6LiTg+9j2MQeKji3kcjUVqbFJuOh6Cl+hVDLMwioGOFz4w1lFzRHLjj7EsXzmlYatNL/ikb+I
-	L9R5lH+40TPQcMuZE2NIjtNIo5CUdXDkzDJeIhyGulE3lJTgXc1HoOwqiEE11d5891LbaMC8TT4
-	NG
-X-Google-Smtp-Source: AGHT+IFgVtLfnI+yZbajjW0ShH/nw4lyqgYozKMTqpeh1jbUqnzxV+DizeAW9/HhLvwBJAkIq/WQDQ==
-X-Received: by 2002:a05:6512:3f1e:b0:55b:8f40:32c9 with SMTP id 2adb3069b0e04-55e06bce5efmr77401e87.6.1755644287217;
-        Tue, 19 Aug 2025 15:58:07 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef3f3e91sm2259731e87.124.2025.08.19.15.58.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 15:58:06 -0700 (PDT)
-Message-ID: <03690367-aff0-4128-86aa-65a6d489b6cb@linaro.org>
-Date: Wed, 20 Aug 2025 01:57:52 +0300
+	s=arc-20240116; t=1755648843; c=relaxed/simple;
+	bh=gJaHiADsO/QRPphzLO0hDvFSeItdJMuHJblV73GwIg0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bpuZN2Qcn/VjuWejn6e//7mAzmpXkrCofCMqjz8kr0zTZlBFnbpL+cHzo5RgkWrup5ra6E3/zFeU91DqYzHGoNacBjEA9HNV685j6CCKDq1dglxrTN6Xi18B1zFbCF+XzcNz64EGrSvpLh/+r6ByLSWJvzR7x3rP+21vOq4rHLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=ring0.de; arc=none smtp.client-ip=152.53.19.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ring0.de
+From: Sebastian Reichel <sre@kernel.org>
+Authentication-Results: ring0.de;
+	auth=pass smtp.mailfrom=sre@ring0.de
+Subject: [PATCH 0/2] media: ov02c10: fix orientation on Thinkpad T14s Gen6
+ (Snapdragon)
+Date: Wed, 20 Aug 2025 02:13:18 +0200
+Message-Id: <20250820-ov02c10-fix-v1-0-3fcca2cfbfbf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] media: i2c: Add OmniVision OV6211 image sensor
- driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
- Tarang Raval <tarang.raval@siliconsignals.io>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250812213024.361267-1-vladimir.zapolskiy@linaro.org>
- <20250812213024.361267-3-vladimir.zapolskiy@linaro.org>
- <aKMXy_L0eBRJRcsn@kekkonen.localdomain>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <aKMXy_L0eBRJRcsn@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB4TpWgC/32MSw6DIBQAr2Leuhh4gp+uvEfjQuFVSRsw0JA2x
+ rsXXTddziQzG0QKliJciw0CJRutdxnEpQC9jG4mZk1mQI6Kt6JhPnHUgrO7fTNdt8grMUolR8j
+ FGijr83YbMi82vnz4nPMkDvv7kwTjTBthJqxV10jqg3UzLw3BsUn4J8WcdoZkW+GktZL9g4KjZ
+ +nDDMO+71//QCg44gAAAA==
+X-Change-ID: 20250817-ov02c10-fix-c682031a454a
+To: Hans de Goede <hansg@kernel.org>, Bryan O'Donoghue <bod@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: Frederic Stuyk <fstuyk@runbox.com>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=sre@kernel.org;
+ h=from:subject:message-id; bh=gJaHiADsO/QRPphzLO0hDvFSeItdJMuHJblV73GwIg0=;
+ b=owEBbQKS/ZANAwAKAdju1/PIO/qaAcsmYgBopRM3LmpoItMXAKgpQjaLtKxZ6vSmumqUw0u5C
+ qycylY+e1eJAjMEAAEKAB0WIQTvZg0HRj+Lcmp5VBPY7tfzyDv6mgUCaKUTNwAKCRDY7tfzyDv6
+ mpFqD/9WcDKMRuJx4wghlFgpQTnGr2/xMRQD5lR62a774+7aOkeDgeB1S4wW6OtD54fvTmFW3Tb
+ Dbhw3lhWz5Itgp1o1s0/qPMw7S77oSVmnIGtaFiOUMjlw35l9IqQx3czoyMp51TfnHl90a63//z
+ Au8QxDYPEDUVxdt2SDjw+lQjl8367yIikgx4o8NcnKrMzaLciZTauevaYimmpE0a9xH4tPx23Wf
+ J60f7J14YjAqW4qpqddBy0ofgPw35w31YYT8/3O3E5jp+Dqd/ZqE5zRga7n8bGf++cHC9i6Gh5o
+ 4+BfKFDDOUq1hNw/xwwCoaTlAxr3RkqQA6QpE0qA5Ok4fdaIxBNy9kccAjnpu9R51bcNghf0ICN
+ nDg/EKsDLNfr1Bt9X7EQ8brL79j0kskdtEuZ2lCSKvP6CGpNDK5rUXDuiJe6kfKo69hh/Z/kS1A
+ mRq2O7io12syU5cXqcTuho+hzrF2rKvFE5MxCftfdjiJnQVG/4u2Qg98Mj7wsI1MapdtkBkZlLR
+ ga7bhXM/DzzChxH4exHYx9Cv3hd+No4FbFcbYb34WheEgkksVF/yFbn/qx00aydBuE+InMASbTV
+ PFbTxLoJXLV/94rXuv5dfFzlfaFDjqhK8kcrkQ6Lliz6jaxa5P8kO3ynwTnCulDBih7JKPHTCYT
+ qpRNXadwDA7PI/Q==
+X-Developer-Key: i=sre@kernel.org; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
+X-Rspamd-Server: antispam
+X-Rspamd-Queue-Id: 9ADDAE31F7
+X-Spamd-Result: default: False [-1.30 / 15.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	FORGED_SENDER(0.30)[sre@kernel.org,sre@ring0.de];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	ASN(0.00)[asn:39351, ipnet:193.32.248.0/24, country:SE];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_ZERO(0.00)[0];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[runbox.com,vger.kernel.org,kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	IS_LOCAL_DOMAIN_E(0.00)[ring0.de];
+	FROM_NEQ_ENVFROM(0.00)[sre@kernel.org,sre@ring0.de];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,runbox.com]
+X-Rspamd-Action: no action
+X-Spamd-Bar: -
 
-Hi Sakari,
+When testing the camera patches for Snapdragon X1E I noticed the
+image is upside-down on my T14s Gen6. After some investigation
+it looks like issues with the sensor driver have recently been
+reported, but not yet been fixed. It seems sensible to do this
+ASAP (while the driver is not yet used much) to avoid potential
+regressions when changing the VFLIP default.
 
-thank you so much for review. Please find a few comments below.
+P.S.: I accidentally sent this from my private mail address first
+and apparently the server address was listed by spamhaus.org (whole
+subnet). It does not look like anything came through due to this,
+so I'm resending as v1 from my kernel.org account. Sorry if anyone
+received multiple copies now :)
 
-On 8/18/25 15:08, Sakari Ailus wrote:
-> Hi Vladimir,
-> 
-> Thanks for the update.
-> 
-> On Wed, Aug 13, 2025 at 12:30:24AM +0300, Vladimir Zapolskiy wrote:
->> OmniVision OV6211 is a monochrome image sensor, which produces frames in
->> 8/10-bit raw output format and supports 400x400, 200x200 and 100x100
->> output image resolution modes.
->>
->> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Signed-off-by: Sebastian Reichel <sre@kernel.org>
+---
+Sebastian Reichel (2):
+      media: ov02c10: Fix default vertical flip
+      media: ov02c10: Support hflip and vflip
 
-<snip>
+ drivers/media/i2c/ov02c10.c | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250817-ov02c10-fix-c682031a454a
 
->> +static int ov6211_set_ctrl(struct v4l2_ctrl *ctrl)
->> +{
->> +	struct ov6211 *ov6211 = container_of(ctrl->handler, struct ov6211,
->> +					     ctrl_handler);
->> +	int ret;
->> +
->> +	/* V4L2 controls values will be applied only when power is already up */
->> +	if (!pm_runtime_get_if_in_use(ov6211->dev))
-> 
-> I think this should be pm_runtime_get_if_active() as no writes will now
-> take place even if the sensor is powered on.
-
-Ack.
-
->> +		return 0;
->> +
->> +	switch (ctrl->id) {
->> +	case V4L2_CID_ANALOGUE_GAIN:
->> +		ret = cci_write(ov6211->regmap, OV6211_REG_ANALOGUE_GAIN,
->> +				ctrl->val, NULL);
->> +		break;
->> +	case V4L2_CID_EXPOSURE:
->> +		ret = cci_write(ov6211->regmap, OV6211_REG_EXPOSURE,
->> +				ctrl->val << 4, NULL);
->> +		break;
->> +	default:
->> +		ret = -EINVAL;
->> +		break;
->> +	}
->> +
->> +	pm_runtime_put(ov6211->dev);
->> +
->> +	return ret;
->> +}
->> +
->> +static const struct v4l2_ctrl_ops ov6211_ctrl_ops = {
->> +	.s_ctrl = ov6211_set_ctrl,
->> +};
->> +
->> +static int ov6211_init_controls(struct ov6211 *ov6211)
->> +{
->> +	struct v4l2_ctrl_handler *ctrl_hdlr = &ov6211->ctrl_handler;
->> +	const struct ov6211_mode *mode = &supported_modes[0];
->> +	struct v4l2_fwnode_device_properties props;
->> +	s64 exposure_max, pixel_rate, h_blank;
->> +	struct v4l2_ctrl *ctrl;
->> +	int ret;
->> +
->> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
->> +	if (ret)
->> +		return ret;
-> 
-> This check can be omitted. Up to you.
-
-This check I would prefer to keep, otherwise I have a feeling that under
-ENOMEM the following code would make an attempt to insert the controls
-data over an NULL pointer...
-
-I'll mock it to check it explicitly though, but I'm inclined to keep it.
-
-<snip>
-
->> +
->> +	ret = cci_write(ov6211->regmap, OV6211_REG_MODE_SELECT,
->> +			OV6211_MODE_STREAMING, NULL);
->> +	if (ret) {
->> +		dev_err(ov6211->dev, "failed to start streaming: %d\n", ret);
->> +		goto error;
->> +	}
->> +
->> +	return 0;
->> +
->> +error:
->> +	pm_runtime_mark_last_busy(ov6211->dev);
-> 
-> Please omit direct calls to pm_runtime_mark_last_busy(); this is now called
-> via the runtime PM put autosuspend etc. functions.
-> 
-
-Ack.
-
-<snip>
-
->> +	if (bus_cfg.nr_of_link_frequencies != 1 ||
->> +	    bus_cfg.link_frequencies[0] != link_freq_menu_items[0]) {
-> 
-> Could you use v4l2_link_freq_to_bitmap()? I think it'd simplify the
-> function and possibly error handling, too.
-> 
-
-Ack, let it be so.
-
->> +		dev_err(ov6211->dev, "Unsupported MIPI CSI2 link frequency\n");
->> +		ret = -EINVAL;
->> +		goto error;
->> +	}
->> +
->> +error:
->> +	v4l2_fwnode_endpoint_free(&bus_cfg);
->> +
->> +	return ret;
->> +}
->> +
->> +static int ov6211_power_on(struct device *dev)
->> +{
->> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->> +	struct ov6211 *ov6211 = to_ov6211(sd);
->> +	int ret;
->> +
->> +	if (ov6211->avdd) {
->> +		ret = regulator_enable(ov6211->avdd);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->> +	if (ov6211->dovdd) {
->> +		ret = regulator_enable(ov6211->dovdd);
->> +		if (ret)
->> +			goto avdd_disable;
->> +	}
->> +
->> +	if (ov6211->dvdd) {
->> +		ret = regulator_enable(ov6211->dvdd);
->> +		if (ret)
->> +			goto dovdd_disable;
->> +	}
-> 
-> Can you use the regulator bulk functions? Or if the order is required, add
-> a comment about it? Otherwise someone will provide a "fix" soon afterwards.
-> :-)
-
-I've already responded to a similar review comment from Krzysztof on v1,
-here the rationale is to follow a deliberately selected model of having
-some of regulators as optional. Moreover the "digital core" DVDD regulator
-is truly optional, there is a working sensor configuration to omit it.
-
-Unfortunately so far there is no bulk regulator helper, which deals properly
-with optional regulators, so I would prefer to keep it registered this way.
-
->> +
->> +	gpiod_set_value_cansleep(ov6211->reset_gpio, 0);
->> +	usleep_range(10 * USEC_PER_MSEC, 15 * USEC_PER_MSEC);
->> +
->> +	ret = clk_prepare_enable(ov6211->xvclk);
-> 
-> Is the clock really supposed to be enabled here, and not e.g. before
-> lifting reset?
-> 
-
-The so called "gated" mode of XVCLK clock says that is should be enabled
-after releasing XSHUTDOWN pin, so I don't see a mistake here.
-
-Please note, it's basically a common part with other OmniVision sensors,
-for instance you may get a reference from OG01A1B product specification etc.
-
-Thank you for review. Shortly I'll send another new but very similar
-image sensor driver acknowledging your given comments.
-
+Best regards,
 -- 
-Best wishes,
-Vladimir
+Sebastian Reichel <sre@kernel.org>
+
 
