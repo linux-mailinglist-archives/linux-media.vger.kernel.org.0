@@ -1,179 +1,127 @@
-Return-Path: <linux-media+bounces-40405-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40406-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FA1B2DD03
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:50:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6916B2DD0F
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:55:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 238D61C22DC9
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:46:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7475174019
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:55:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 118633090EF;
-	Wed, 20 Aug 2025 12:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AC4D31985A;
+	Wed, 20 Aug 2025 12:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k0xhhcAL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QMhgQCTn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94CE1FF7D7
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 12:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA3B306D49
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 12:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755693955; cv=none; b=Yra5RMswR4edLndZt1faphmG4oAEVZoWiBHAermh4vKYObyqH7UThSZydcvvAwD40UntoZrle4M9TvtdtzX6X53wUGHjREQUljQSl1lvtl1qCCLmIUv/EOuHehOdwra4t6D+VfQn9JacVP2Y/6wYtcYWb1TE1o6rcYsCDLB/aFg=
+	t=1755694530; cv=none; b=KTG6b+tzUYPLqYbkKqK3FoyBKlNk3ze97zSx7aGyTRnSi18tIqDS+5smURpFVsUhtJzLhfiTNrOJfNTY3K2Y08zE2FkTkuLu80afrbLosqBKfKg6KXkzaFgaYQRk3Sx91yLupaiAgQHGvpFrXQjWUvdyDpBt0u4iVUqOBGdVkS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755693955; c=relaxed/simple;
-	bh=7AZ0eI9TlHe52bT1lMC6WLW7ZECYFMBF31lbfocuWEQ=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=nzJLHJ/k6mScSrPE4NiRLQjvZzrU2i7Rgtw0whNmT+C9eY5C9AXlOTMk4uB5B7Yf/Qceig0Pv88R7xx0uU4fw5ZS0T6yZDEDmI5FVbp5+MXTPHqon2dDuwU63FwlRcdOtePEHR4Em4CtS9uKWHHbm6BXL9Zi1uTMmvRFEco+8A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k0xhhcAL; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-45a15f10f31so4969625e9.0
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 05:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755693952; x=1756298752; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L5gozRnSQkDuhLJMwdLaWw1qElhIPtCo1zd2N9em84E=;
-        b=k0xhhcALSzIxnzXDW6H2v68LeNjJM/wx81RAUBhhs1kCM6Jm5F7ZxN6yczEEf07v74
-         qyf6oaLFvDdRKBja+mjWt2SUdDZeDSOz6fYdkky9n8Z5iEb/WPnhCsuiCKP7pfp/OXK2
-         qFhud2VEr2ReYqVYA43BUHHGJ+iBBAmE3NSu59P9fjPmfhBeXThZUXuVFeF57CrTCl4f
-         ngdXRD52FFX5AOebDmFWA+kOZ0Rc15xZozj1ZMZXQ+w8ji0ZsZBTuwNAx/j6+FmeTH6d
-         8D05WKTzcL888+X8ttQ+gKSt44IF6yus6S6JE7+h3gqioCMpCckrxVVyla5GuIWr/dCG
-         rAaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755693952; x=1756298752;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L5gozRnSQkDuhLJMwdLaWw1qElhIPtCo1zd2N9em84E=;
-        b=CLbYpP59VC+i/+7LDVVE/DBfAcIB8KTiKzDQCJhFsfy/mOiIanxO0LndSVWMzrtGwy
-         hB9LA8ZiRsHOFNjqpUrLQZAbuBgJhrD2ksuW0IB2YGc1jmPjMPSY9jsXHSEk0y6y7mJI
-         ym5UyM0C5Rk2vCOjNYQg59b3mAIwl6uApb6fAaSfP9JpJKYsVZx90w2ENuHfNrQHeF0f
-         ayDB3bcalShAQd/fTFUCiDDm8Cya56WtGg8aby+8h5fxTZYTLVvlZLsaPcBJBW9lqQLq
-         gq/YceZ74G+juRt8cWQJ63VrDFfEyKyLmlHgCedPqTrfCfd9FRV8jJhOcLbSbkdi/OeL
-         8LOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDpgLG/lauib36IN8PraS1XwDz+aX/VE6bj8L72U7rVakLO40sMLNGAd4WmuvgvFlbsX0SIsagJOdaQg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxrl9JliKswuk+DZGS/AxgJp9z542fOPuwpLiQARuQY/mLPGWtW
-	/RwTPTP667dkpW4sgRWUFO3VR5pk64hmyy7NpupvRU6fLBqXhu5eWSc9Dm+9TotVZ5g/joLYSmh
-	NrzXoJZxM5Q==
-X-Google-Smtp-Source: AGHT+IHVetR1KhaNo7u3MMikYnmy6Ccr19qtqBiiIGbBQ8eluV+r4wxJSlvm1cyFFrRG2yeAI2VhAGBN2H78
-X-Received: from wmbds11.prod.google.com ([2002:a05:600c:628b:b0:458:bfa7:dd5b])
- (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:4a9d:b0:45a:2686:dda2
- with SMTP id 5b1f17b1804b1-45b43e6e738mr35344485e9.5.1755693952214; Wed, 20
- Aug 2025 05:45:52 -0700 (PDT)
-Date: Wed, 20 Aug 2025 12:45:19 +0000
+	s=arc-20240116; t=1755694530; c=relaxed/simple;
+	bh=lL8x/9KDpVicQ/pWxB+BmbZOpVSGoD7P8hoG3VKVMYw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bZDQqDBTGTvU012woJGzA+OB2vWmEk2MICXVI+nEhzH05+zNUsFM76DZuxzZbbk0e3EA6M/avlttV0eAjb3s9RG59YAgC5l6YMrGG0w8f+G1+rO19740F3SN13BeaRvUbDnyBLSPj56ZJg6ZUCIbQ8sq0DLBxskWfKOtM5V1jO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QMhgQCTn; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755694528;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dm1NRLchXLDSQBjMe4pkfY+BF3IXkVG44fzPD1wqdVQ=;
+	b=QMhgQCTnK3Fgr9dKcCrrk/iASPHJq+I8A0Gyf+rI8oOWBKbHRUQFRPp+cpc5MmFeoKNGnc
+	8pFqOddGGhlPaW2FjDBDH/MwiMhJYqgD/m0KCjEpKLrUKonvD07YxziDvwk6+uk/+iSqqp
+	mYFaN/DuQLOHJfWwJdApoRbn28HDE8M=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-613-SzdwF1EAPnCny74lnWenmA-1; Wed,
+ 20 Aug 2025 08:55:24 -0400
+X-MC-Unique: SzdwF1EAPnCny74lnWenmA-1
+X-Mimecast-MFC-AGG-ID: SzdwF1EAPnCny74lnWenmA_1755694522
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 767321800370;
+	Wed, 20 Aug 2025 12:55:22 +0000 (UTC)
+Received: from thuth-p1g4.redhat.com (unknown [10.44.32.164])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A84A219560B0;
+	Wed, 20 Aug 2025 12:55:18 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-spdx@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: mxl5005s: Replace GPLv2 boilerplate text with SPDX
+Date: Wed, 20 Aug 2025 14:55:16 +0200
+Message-ID: <20250820125516.494408-1-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.51.0.rc1.167.g924127e9c0-goog
-Message-ID: <20250820124519.2287171-1-abarnas@google.com>
-Subject: [PATCH] staging: media: atomisp: Whitespaces style cleanup in gdc.c
-From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
-To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-NFC: This patch cleans up coding style whitespace issues
-in drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
+From: Thomas Huth <thuth@redhat.com>
 
-Fixes include:
- - removal of unnecessary line breaks
- - correcting spacing around operators
- - correcting spaces between types and names
+The FSF does not reside in "675 Mass Ave" anymore, so we should
+not ask the people to write to that address in case they need a
+copy of the GPL.
 
-Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
+Anyway, all other mxl* files in this directory (including the
+corresponding header mxl5005s.h) already had their boilerplate
+text replaced by a proper SPDX tag in the earlier commits, so
+let's do the same in the remaining mxl5005s.c file now, too.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .../pci/hive_isp_css_common/host/gdc.c        | 33 +++++++------------
- 1 file changed, 12 insertions(+), 21 deletions(-)
+ drivers/media/tuners/mxl5005s.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc=
-.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-index 8bb78b4d7c677..69d709888c05a 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-@@ -14,10 +14,8 @@
+diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
+index 0e811c5eae6cb..eeacebf0a8752 100644
+--- a/drivers/media/tuners/mxl5005s.c
++++ b/drivers/media/tuners/mxl5005s.c
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
  /*
-  * Local function declarations
-  */
--static inline void gdc_reg_store(
--    const gdc_ID_t		ID,
--    const unsigned int	reg,
--    const hrt_data		value);
-+static inline void gdc_reg_store(const gdc_ID_t ID, const unsigned int reg=
-,
-+				 const hrt_data value);
-=20
- #ifndef __INLINE_GDC__
- #include "gdc_private.h"
-@@ -26,9 +24,7 @@ static inline void gdc_reg_store(
+     MaxLinear MXL5005S VSB/QAM/DVBT tuner driver
+ 
+@@ -20,21 +21,6 @@
+     Copyright (C) 2008 Jan Hoogenraad
+       Functions:
+ 	mxl5005s_SetRfFreqHz()
+-
+-    This program is free software; you can redistribute it and/or modify
+-    it under the terms of the GNU General Public License as published by
+-    the Free Software Foundation; either version 2 of the License, or
+-    (at your option) any later version.
+-
+-    This program is distributed in the hope that it will be useful,
+-    but WITHOUT ANY WARRANTY; without even the implied warranty of
+-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-    GNU General Public License for more details.
+-
+-    You should have received a copy of the GNU General Public License
+-    along with this program; if not, write to the Free Software
+-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+-
+ */
+ 
  /*
-  * Exported function implementations
-  */
--void gdc_lut_store(
--    const gdc_ID_t		ID,
--    const int			data[4][HRT_GDC_N])
-+void gdc_lut_store(const gdc_ID_t ID, const int data[4][HRT_GDC_N])
- {
- 	unsigned int i, lut_offset =3D HRT_GDC_LUT_IDX;
-=20
-@@ -36,15 +32,13 @@ void gdc_lut_store(
- 	assert(HRT_GDC_LUT_COEFF_OFFSET <=3D (4 * sizeof(hrt_data)));
-=20
- 	for (i =3D 0; i < HRT_GDC_N; i++) {
--		hrt_data	entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
--		hrt_data	entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
--		hrt_data	entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
--		hrt_data	entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
-=20
--		hrt_data	word_0 =3D entry_0 |
--				     (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
--		hrt_data	word_1 =3D entry_2 |
--				     (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
-+		hrt_data word_0 =3D entry_0 | (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
-+		hrt_data word_1 =3D entry_2 | (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
-=20
- 		gdc_reg_store(ID, lut_offset++, word_0);
- 		gdc_reg_store(ID, lut_offset++, word_1);
-@@ -85,8 +79,7 @@ void gdc_lut_convert_to_isp_format(const int in_lut[4][HR=
-T_GDC_N],
- 	}
- }
-=20
--int gdc_get_unity(
--    const gdc_ID_t		ID)
-+int gdc_get_unity(const gdc_ID_t ID)
- {
- 	assert(ID < N_GDC_ID);
- 	(void)ID;
-@@ -96,10 +89,8 @@ int gdc_get_unity(
- /*
-  * Local function implementations
-  */
--static inline void gdc_reg_store(
--    const gdc_ID_t		ID,
--    const unsigned int	reg,
--    const hrt_data		value)
-+static inline void gdc_reg_store(const gdc_ID_t ID, const unsigned int	reg=
-,
-+				 const hrt_data value)
- {
- 	ia_css_device_store_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data), value);
- 	return;
---=20
-2.51.0.rc1.167.g924127e9c0-goog
+-- 
+2.50.1
 
 
