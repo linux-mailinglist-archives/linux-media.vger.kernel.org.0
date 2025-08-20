@@ -1,126 +1,79 @@
-Return-Path: <linux-media+bounces-40463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40464-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9430BB2E2D6
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 19:03:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F05FB2E2F3
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 19:08:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CD9518936F0
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 17:03:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 881371687B6
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 17:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9D6E33472E;
-	Wed, 20 Aug 2025 17:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3805533470A;
+	Wed, 20 Aug 2025 17:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dr1d03/z"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zraZ3qC+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41FF221F2F;
-	Wed, 20 Aug 2025 17:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EDA32A3D5
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 17:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755709380; cv=none; b=I76Kx4ye36sfgAxHK6r4H42NVC0LQIRlQbOnTawxGVEsh713QYk8nj2vkEGoz16tOtOvVIRjyjViunSklbRJryLfRjTXExhTAgvpGLUyuGSh7yUlmdLtKxhdgjtE0PE1mifwp/cO/wXiTuroQzQ04ohSdL5B1kQqFAz9SR5vGN0=
+	t=1755709584; cv=none; b=e/NWXfUFNVSxruIeyQwGzJ9xg1sB/HDmbF3DaVmOaZ0ooqLgV3FVDmQTIoRyzw8acU1E10cAOQiA1tJbhzDm1AV0R+eks+SYiAkaXSOxT2XHCSwTibFynCEAkfowsxzHfIGqc/xHR5kbslB5QbS7uSBKT49kJ67PtUUfOuVCZ8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755709380; c=relaxed/simple;
-	bh=Zv4ujPO3KQCQ/S/zZ+87yMEeTHGtDtwjmsw35eFBLPg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GJeKu3gn/6repjJ2Tilsx8ObkFzt3ZlNB8lv0AdCbKsv3nJDGWP6bkp8t5bVVAacMd/DPFGlnZEQgz9CoeLBGJ3w+qUhW+e4gwleM8BlFaSX4VU+tc4tQS1wiR7PRw4YAqwHkYNsp3abWm86rAQt+Q3szir5y4AiBa5c8JjHUW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dr1d03/z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A73AC113CF;
-	Wed, 20 Aug 2025 17:02:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755709379;
-	bh=Zv4ujPO3KQCQ/S/zZ+87yMEeTHGtDtwjmsw35eFBLPg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Dr1d03/ztQZzehnuA3pVpw7eG2apfzSIzXWZn4V8PSF/oxOnzaMyj6VZxDgQ3XY0C
-	 nca+A2IJDoLbxKo30R/YmbItPPf92i6LVVRW7LTdmYn+yLP3bLCTrV977h9BaHEtKx
-	 NXa2PCl2PJ+9sKMlIBp1C0l2xmBSHRNp1Ot+Slf6644+zsAzHmD5BYUvfwKZ1SqBPg
-	 b3bNilTK6GPtQRkA2c0x0ltTwqwessPnwFUwQuinpUV1sWYrBj8/SGJJQ8Wlda48Mw
-	 vcZIdxxAkqbQkwlZ9DlQZ/Zs8lvh3SMTfcqlJlRdXT5KDCZbCRFgNoX/rafdY4my5h
-	 Ujim+Xbb9lOhA==
-From: Vinod Koul <vkoul@kernel.org>
-To: linux-kernel@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Mark Brown <broonie@kernel.org>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Andrea della Porta <andrea.porta@suse.com>, 
- =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>, 
- Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Benjamin Fair <benjaminfair@google.com>, 
- Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org, 
- Fabio Estevam <festevam@gmail.com>, 
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>, 
- Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev, 
- Iwona Winiarska <iwona.winiarska@intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-actions@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Nicolin Chen <nicoleotsuka@gmail.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org, 
- Patrick Venture <venture@google.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- Tali Perry <tali.perry1@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
- Xiubo Li <Xiubo.Lee@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
- Zhang Rui <rui.zhang@intel.com>
-In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
- parameter in regmap_config
-Message-Id: <175570934550.66459.15951444863822303407.b4-ty@kernel.org>
-Date: Wed, 20 Aug 2025 22:32:25 +0530
+	s=arc-20240116; t=1755709584; c=relaxed/simple;
+	bh=5iUUGbp0UEqA3sYC7B+A5Qe7tp8RdReahVomvnfNEyc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TLPNsIEooC4O0Cm3OGocPSQlGU8VCtAsq+kJ0y1x1OJkXLEkPf1NdA0VmCzirFHwV6ou7C6kpkz7WYEM7oSIv9/h1zyi0o1epAvfLFsK/QzKah2rnUKwKdDbDJqObng9rvowvw2KmhKwtImqxm3AMs9qL/rPZGzc9JNVWHJca+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zraZ3qC+; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3b9dc52c430so114105f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 10:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755709579; x=1756314379; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CTDrNslUzosAJ4OswUc9P9uVR9h2bZ9JPrOTDIuKEL8=;
+        b=zraZ3qC+eGZI2eHaK/secVvubFtkad2JIE3169iqXzuv5PN1ZiA1/rc4uVe4Otp5Kw
+         o4E2sJ4a9rGwnH3d0IHkVmDlArFP7AXBEsZ5NQ1l37+nyG5/jngyUQjozdQDEz6U0gM/
+         LYfxOWkuMuL6n3wJyN11MXjOtD2/pPtn3aegjrTOU+bbPUzm8t0J1QvJrcmmIHFx41Qs
+         2+wtUTUuM5oLLyl7rdAKCl4tr9eDqRDU1BP9tgzqDXCpPEr4RZj1j4gm9YIP6rnJL251
+         Py1ViMSY5stvDOItUXL/9a/J6tDeI7x+yOFo/QaolvuTXdKglY/EGmoxXF7ulObYZUN1
+         x9jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755709579; x=1756314379;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CTDrNslUzosAJ4OswUc9P9uVR9h2bZ9JPrOTDIuKEL8=;
+        b=MWE2BJry9m2PPHuPjBktmit8TlwCWcR+MW3B8VUbPxPDRmhCXsTQlvH93jlf+DTFW/
+         0xbRq+xMkBzOQiPVCZEIIpQ4AA2mlCZ3KrI7Ck2QKXnNUPYXiD7jMF349jKm9D93Nyqj
+         Ggt2RDUsB3lfwe0hgQosGFPo8n5Q17kOQWryozqeoFX3c/ZbqBZX/UVW9gTS+9WV79Ht
+         wH/DAH8YExaFAACdt7Vo/l67f3jsLHbAOn/pPED5puSrA/jXp87/mP+upb35PFVqTBv5
+         4IpoPzIwtL2s2UBNcCrCnwgBIxn3/YDVv26QEiGH/PDlzpyvLTiEDeKnTfqA65dtCBIQ
+         El9Q==
+X-Gm-Message-State: AOJu0Yxz+ME/sljv8ljbMHc6Mi4HkfBGZ9Dx1JWVjTXULtAA3fqzoEBG
+	DVsoPQ0iWTNaS+0J0tFlhdgJRyXsSBTmJDhDNqP3VT0NONU/YULBIqvHpSG09hHTU8g=
+X-Gm-Gg: ASbGnctYSaXMCaE2AfWpYMNjKRS8f7TqqykzAeOEBqtMP8bSy5S4FQhjP3Vv/mk7nAc
+	kj1YHCWNOCmPSy4e8+/5XGiMXayz4JBO2lkJrFRL0mRUMEVEHlsB02lK39iRwSTeTEMYb872UWe
+	6Ht+KItbxOlHAhkzatxo2fFxyxvg4eTfqSFxAzP1dDhkK/KLICcqPT/GekkcQEE1yHi1xsMUE95
+	s7ioJ5flMmCml94pZX1hNY+l28/Da06tRTiKHTIJIbUZxk9IzxEkMLQku6btpAm+ocTMGHFmAIL
+	9jbI6+8px7U3xGfYI5bmHrbxHZZB6xWuQ4WTKsyGrC7i3Pmw3FMcZH3FqZ5Vf6QhThNzH35cfBZ
+	0qB1f5EjL/SFe/GE3PovT3OAg76EyFzxvXiwKmA64X50=
+X-Google-Smtp-Source: AGHT+IFJwyODGkZR7lyWiHT3k8+qVTuyLmko5x5VPCzv77rUklSw+eaI+mTSJDBYV4fzQCGFCOfQuA==
+X-Received: by 2002:a05:6000:250d:b0:3b7:905e:2a32 with SMTP id ffacd0b85a97d-3c32c434671mr2808528f8f.12.1755709578915;
+        Wed, 20 Aug 2025 10:06:18 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c0748797acsm8085516f8f.10.2025.08.20.10.06.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Aug 2025 10:06:18 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Wed, 20 Aug 2025 19:06:16 +0200
+Subject: [PATCH] media: iris: fix module removal if firmware download
+ failed
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -129,28 +82,160 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Message-Id: <20250820-topic-sm8x50-iris-remove-fix-v1-1-07b23a0bd8fc@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAIcApmgC/x3MMQqAMAxA0atIZgO1YC1eRRykjZqhVhIRQXp3i
+ +P7w39BSZgUxuYFoZuV81HRtQ2EfTk2Qo7VYI3tjbcGr3xyQE3+6Q2ysKJQyjfhyg8ObvXO2S6
+ 6JUBdnEI1//tpLuUDFiEBUm4AAAA=
+X-Change-ID: 20250820-topic-sm8x50-iris-remove-fix-76f86621d6ac
+To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4334;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=5iUUGbp0UEqA3sYC7B+A5Qe7tp8RdReahVomvnfNEyc=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBopgCJ91L7+RPvPhE4YwiK5+meNevOZjvfkx86kLqN
+ f8vrL9SJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaKYAiQAKCRB33NvayMhJ0a3MEA
+ DQy4aIePCaQAZRp8hTs3iLR1/MZae95DXA53KZ8oEbr7izD6jrlq2v2J2I4D6sn79sniUmBlv7Zl03
+ dlXnoBC0EXfXSSX91YW54v8/w/KberFcrk0fk2fv17rvN9a4TTYd+W94ddOK0iQStR2M370zVQ95Ch
+ ID3iHoWzCgCbw9Opd0Ryk3/RZLGo5rAft1yIO9mnYFoyUhd7HwSKg3CZF6ZuIEdLbKz2Es9mqxS7WM
+ JwbfhYM9LC8OacAr1xCh8ocQzpI6o0cn7xM+AA5fDnbnPsY/aPEJFAYEMfOkafi+wJaaOGZe7Qi3gs
+ SVCpe3lIO5c+y6LmKtgrhc2T69emF8+eCRi7o+OzYwRrZkN0LLNu7Ac3pFX9be2NotODks4A0Dki9f
+ gdDuDvfr4z8h+1ptiR7S2MC/Xa22ZtBJ+W7Z8Fm7/+P9UTz1bxJ+12t6NexXzXmNGIxujSyIakBzf1
+ O0WWQVD3IKhN5Q2vp6YS4vVx/puD1gnS0mhPiDL/8E1CNRTLbXfm64awXOYtM3cQHtZ43hpyWaQrbr
+ E8CzXSE6RT4CoTtqPo/wW8bk39MOcTK4rvQUOI3iVt1p5okWCpXeTyKe/sbG9jMIrsvr8St4veAL0E
+ i5B/lGPkdyuzC9UhR4MvER4pHilGdyb6Gd6HQLmx3uVn4xw1egpiuKZS62Fw==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
+Fix remove if firmware failed to load:
+qcom-iris aa00000.video-codec: Direct firmware load for qcom/vpu/vpu33_p4.mbn failed with error -2
+qcom-iris aa00000.video-codec: firmware download failed
+qcom-iris aa00000.video-codec: core init failed
 
-On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
-> While working on a driver using regmap with MMIO, I wondered if I need
-> to set 'fast_io' in the config. Turned out I don't need to, so I added
-> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
-> MMIO implies fast IO").
-> 
-> This series fixes the existing users in the tree which needlessly set
-> the flag. They have been found using this coccinelle script:
-> 
-> [...]
+then:
+$ echo aa00000.video-codec > /sys/bus/platform/drivers/qcom-iris/unbind
 
-Applied, thanks!
+Triggers:
+genpd genpd:1:aa00000.video-codec: Runtime PM usage count underflow!
+------------[ cut here ]------------
+video_cc_mvs0_clk already disabled
+WARNING: drivers/clk/clk.c:1206 at clk_core_disable+0xa4/0xac, CPU#1: sh/542
+<snip>
+pc : clk_core_disable+0xa4/0xac
+lr : clk_core_disable+0xa4/0xac
+<snip>
+Call trace:
+ clk_core_disable+0xa4/0xac (P)
+ clk_disable+0x30/0x4c
+ iris_disable_unprepare_clock+0x20/0x48 [qcom_iris]
+ iris_vpu_power_off_hw+0x48/0x58 [qcom_iris]
+ iris_vpu33_power_off_hardware+0x44/0x230 [qcom_iris]
+ iris_vpu_power_off+0x34/0x84 [qcom_iris]
+ iris_core_deinit+0x44/0xc8 [qcom_iris]
+ iris_remove+0x20/0x48 [qcom_iris]
+ platform_remove+0x20/0x30
+ device_remove+0x4c/0x80
+<snip>
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+video_cc_mvs0_clk already unprepared
+WARNING: drivers/clk/clk.c:1065 at clk_core_unprepare+0xf0/0x110, CPU#2: sh/542
+<snip>
+pc : clk_core_unprepare+0xf0/0x110
+lr : clk_core_unprepare+0xf0/0x110
+<snip>
+Call trace:
+ clk_core_unprepare+0xf0/0x110 (P)
+ clk_unprepare+0x2c/0x44
+ iris_disable_unprepare_clock+0x28/0x48 [qcom_iris]
+ iris_vpu_power_off_hw+0x48/0x58 [qcom_iris]
+ iris_vpu33_power_off_hardware+0x44/0x230 [qcom_iris]
+ iris_vpu_power_off+0x34/0x84 [qcom_iris]
+ iris_core_deinit+0x44/0xc8 [qcom_iris]
+ iris_remove+0x20/0x48 [qcom_iris]
+ platform_remove+0x20/0x30
+ device_remove+0x4c/0x80
+<snip>
+---[ end trace 0000000000000000 ]---
+genpd genpd:0:aa00000.video-codec: Runtime PM usage count underflow!
+------------[ cut here ]------------
+gcc_video_axi0_clk already disabled
+WARNING: drivers/clk/clk.c:1206 at clk_core_disable+0xa4/0xac, CPU#4: sh/542
+<snip>
+pc : clk_core_disable+0xa4/0xac
+lr : clk_core_disable+0xa4/0xac
+<snip>
+Call trace:
+ clk_core_disable+0xa4/0xac (P)
+ clk_disable+0x30/0x4c
+ iris_disable_unprepare_clock+0x20/0x48 [qcom_iris]
+ iris_vpu33_power_off_controller+0x17c/0x428 [qcom_iris]
+ iris_vpu_power_off+0x48/0x84 [qcom_iris]
+ iris_core_deinit+0x44/0xc8 [qcom_iris]
+ iris_remove+0x20/0x48 [qcom_iris]
+ platform_remove+0x20/0x30
+ device_remove+0x4c/0x80
+<snip>
+------------[ cut here ]------------
+gcc_video_axi0_clk already unprepared
+WARNING: drivers/clk/clk.c:1065 at clk_core_unprepare+0xf0/0x110, CPU#4: sh/542
+<snip>
+pc : clk_core_unprepare+0xf0/0x110
+lr : clk_core_unprepare+0xf0/0x110
+<snip>
+Call trace:
+ clk_core_unprepare+0xf0/0x110 (P)
+ clk_unprepare+0x2c/0x44
+ iris_disable_unprepare_clock+0x28/0x48 [qcom_iris]
+ iris_vpu33_power_off_controller+0x17c/0x428 [qcom_iris]
+ iris_vpu_power_off+0x48/0x84 [qcom_iris]
+ iris_core_deinit+0x44/0xc8 [qcom_iris]
+ iris_remove+0x20/0x48 [qcom_iris]
+ platform_remove+0x20/0x30
+ device_remove+0x4c/0x80
+<snip>
+---[ end trace 0000000000000000 ]---
 
-[12/21] phy: remove unneeded 'fast_io' parameter in regmap_config
-        commit: e1e1e77f7df7cbee959ba024e5475907fe561c98
+Skip deinit if initialization never succeeded.
+
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ drivers/media/platform/qcom/iris/iris_core.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/iris/iris_core.c b/drivers/media/platform/qcom/iris/iris_core.c
+index 0fa0a3b549a23877af57c9950a5892e821b9473a..8406c48d635b6eba0879396ce9f9ae2292743f09 100644
+--- a/drivers/media/platform/qcom/iris/iris_core.c
++++ b/drivers/media/platform/qcom/iris/iris_core.c
+@@ -15,10 +15,12 @@ void iris_core_deinit(struct iris_core *core)
+ 	pm_runtime_resume_and_get(core->dev);
+ 
+ 	mutex_lock(&core->lock);
+-	iris_fw_unload(core);
+-	iris_vpu_power_off(core);
+-	iris_hfi_queues_deinit(core);
+-	core->state = IRIS_CORE_DEINIT;
++	if (core->state != IRIS_CORE_DEINIT) {
++		iris_fw_unload(core);
++		iris_vpu_power_off(core);
++		iris_hfi_queues_deinit(core);
++		core->state = IRIS_CORE_DEINIT;
++	}
+ 	mutex_unlock(&core->lock);
+ 
+ 	pm_runtime_put_sync(core->dev);
+
+---
+base-commit: 5303936d609e09665deda94eaedf26a0e5c3a087
+change-id: 20250820-topic-sm8x50-iris-remove-fix-76f86621d6ac
 
 Best regards,
 -- 
-~Vinod
-
+Neil Armstrong <neil.armstrong@linaro.org>
 
 
