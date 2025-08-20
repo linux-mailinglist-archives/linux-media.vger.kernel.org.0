@@ -1,208 +1,269 @@
-Return-Path: <linux-media+bounces-40454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40455-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0385DB2E128
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 17:32:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7457AB2E130
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 17:33:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B11A01CC3E2C
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 15:25:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 443213A404D
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 15:26:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B0583277A5;
-	Wed, 20 Aug 2025 15:18:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A87A2236F7;
+	Wed, 20 Aug 2025 15:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GuIKBIbS"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="E1hxzdyH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A622E8B81
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 15:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA58820297E
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 15:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755703114; cv=none; b=PbJnvksaHsmKzFG8BcFOqByrjJn78JO3hFHUZjgEAvMRaE8kYh+9kBnFTNvtSbSNQqZcUle4dmhB0r4XD62RjwZAfb0iLPoRMJLSmDx2LIu/tTDRmY+fif1WNFoEEOt9vNqrKL/1tInmAtDi4Rcw8msLUhXwA4zZBRGnAXLboP8=
+	t=1755703330; cv=none; b=n1I9q++7/uk+eZppdESUzME9FaPy+UKwfDQeCw9K9mfaF6a0d1+ykZd6CiQ5Bu0oMfwphBjGEygx/f9LHC1B07L2NBeVpR3+y4EGAli+RL/4+qnmUC4uzCssxdPzO58LJaBbhED3acm/NBVRJon6+HgbysJUGa0VEFoTFbzK9oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755703114; c=relaxed/simple;
-	bh=DtQjcbMNvcByxf+0zZY1naeHA3tbiB/xArykXaaUpLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xo27dZjjFrvbEm/ok7XiDKQFBJZe665umtb9zJqFKs4COgrIl5scjVIs1hPqZ25gZzc2pWFyAxISA785V9Oie8g3/5oIbUAhtjyAk3h3uD+aBIJkxqm2wC2kVIrNJ9W+yqFu+MiNjt0CQUzhCejkTst0BnTZT6rP0o0fgRuf84g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GuIKBIbS; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57KA5JSZ028580
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 15:18:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hlCeQ88Snci0AxZIyBl3l26zn9aHH0uhjgkXgI9gCMA=; b=GuIKBIbSbDq7X2qG
-	Tq2AtzWu4ZvKaJ6q476gogBr4bJL8h91UGpYCiYzEf4JVOqla8AyZd58F6fgMgfK
-	563T8OSGnqqxMDTcyRcGEgb2UXRSworDMqXlmnS0rlkjZ9vm9cG2v+sgLQXWC69o
-	i4nWQ/exP9Ej9kjTN7IwpZQcRFsmPTKu64ws/P4Qxl3j2PffoMfqXmsz6Phm452q
-	B+OKWJV9FFfIRTVe+33/Q6NuVd/kYvMIsTc3dfi9qf5HygcxkJlUcvkJ78G2f7O+
-	+Lx0W7H7c5oK+5wsEIISXZLi6A5x7eOQ7QXV0A6I9RGa3rq861auU1095NbqsvdA
-	VvUoHg==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52at3vb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 15:18:31 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2445806eab4so70123425ad.1
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 08:18:31 -0700 (PDT)
+	s=arc-20240116; t=1755703330; c=relaxed/simple;
+	bh=ve8TblAuMSCb6tU4athNRxufJKZ6IUExRK3RK/OuyCM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sRQ61Qn1SP9LsRqmzoQVByZ9Npm7Bb5cyY0g65Mzdvg/cyA9+aPqY5mnwI6fMX9R2V8xSzvjeFO3/bhIJnU/KlIbNL7CukB8YxCNMhfR1n2byFH/xUw1DvtPmOBRkUGEZhW4tpFeyG+H7MpM53jDq1/Ujao/BBPW62ufEeQ+mcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=E1hxzdyH; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-333f9160c21so48468321fa.2
+        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 08:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755703326; x=1756308126; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N1FpvzU4/OcZ3HFncGYXGBLrDfBsRLvX6s4xeHQww4w=;
+        b=E1hxzdyHBx7+yg1AjXld3xFXSLhO6cZ59PNAimkvQ/cyvwRJ+a5198B+C8t4oxZzJM
+         kIkpfALK34tSs9XpGxU/fmzIGT6li/JoR3IRB3OM6X8nCWOmgtG9v/NGpixBJzuQ4Lc4
+         GdHZj0n2O4WIstqPcgrGEEz/INP7QMKBe1sDo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755703110; x=1756307910;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hlCeQ88Snci0AxZIyBl3l26zn9aHH0uhjgkXgI9gCMA=;
-        b=rBD6sxkZuMCbl8xo9EqDP6lzgk6xI72viCZDPbAjlEQNLgFs9yyvYFLPiDS2rwjOKI
-         tCnijVUCb9dXKvlk2QaxrnY+FqpaV7tOwiAV5IC3/no/Lb5d/aBsH3FVEh+yMOREODxn
-         X9dsRjFejCcWLtnF5edW/EwC0Ydj/Ttc5muV2xkCRAO4Q8YAveNIpZ+6GagKMcHCtc2u
-         vLp6Ws5Mv+s7fLOinMgRxWPdMZKJ/Wl/qLBL0XUg5kVQslTL5eECLWVdEGF785n6x2vM
-         kfLhRbEbroQ3eYEQw7tk8wQGTjC52p/EFaykc4fo0QcfdAg2VR12O91pEGLMVNgFebQA
-         j+SA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTfVQtXMVj6NxAxDMGgDQcQsIBgfwNEidfPEm/XvSAxxh+zXM2go1erAod0rsuRIulKFivdLbOq9AxUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLX1NRLC5L+m2rvRpmCQjpMsEu9kUPW/sfveGc0j8xDnhBTgSb
-	3K/pDSbzAAQ3Fu6jBzv0uQHzWVmgZcwKwSefCfW1e8UQqrxrX1UdOjpdhvqxEyUmSgY5gdfRIu2
-	wOpd1qItJ90IsG0RezJkONhfuzTNENiBpVWuIY5XRw+FLIkrbld+XQKgbeR55sbBtEg==
-X-Gm-Gg: ASbGncuCnrZp4N+FFhd0Z4wAo1QHtLUp0ktsvosbCqXCAaeSRZMfS1OwJUEI7/jc2F8
-	lxgC+11Z5l0R4F9se5EVymBbXEX41WhNuiyCHYXPMM4smMDE50zQy73+Uh58qD2YeCqD14NLRZ9
-	6DpGXnsxfC9vxJdVt+jn/3iGJ75TunK7KWKqci8gXizY1/XxGdXkf1nlCVoLWSP3D5QQ4Nug6XK
-	MBUSQQBZPthhyqxsHIoJiKkTMZsYWPTBXfWM7K/yXfKh/qvafbX7UCgJZwl7ZlYr51SvQAT3Gi0
-	w5agLrNRitv9ME8O3+RGEG7whbNJ3aeEiT7htvn7dgcuJeoleOs9PEdkAtaKIYnrE10=
-X-Received: by 2002:a17:902:e750:b0:234:a139:11fb with SMTP id d9443c01a7336-245ef22704cmr37010815ad.27.1755703110144;
-        Wed, 20 Aug 2025 08:18:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFvgrjEM45iEXFzZdFgh90MepofgKG2tYDHkeGY0eIX8zylArW1Zrd7Fk7SrPTDwjAl/RsWbw==
-X-Received: by 2002:a17:902:e750:b0:234:a139:11fb with SMTP id d9443c01a7336-245ef22704cmr37010415ad.27.1755703109682;
-        Wed, 20 Aug 2025 08:18:29 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed50352esm29255935ad.128.2025.08.20.08.18.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 08:18:28 -0700 (PDT)
-Date: Wed, 20 Aug 2025 20:48:22 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 06/11] remoteproc: Move resource table data structure
- to its own header
-Message-ID: <20250820151822.6cmowxfsheqxfrnb@hu-mojha-hyd.qualcomm.com>
-Mail-Followup-To: Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-7-mukesh.ojha@oss.qualcomm.com>
- <aKWDXySSt57tXHVP@linaro.org>
+        d=1e100.net; s=20230601; t=1755703326; x=1756308126;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N1FpvzU4/OcZ3HFncGYXGBLrDfBsRLvX6s4xeHQww4w=;
+        b=hWjKKYFCOC1Bk5hhV4U7kng3Z/qsg65s8EDydcqb3wBctsxkRn8X8EWuiYWgQ8pWa4
+         +FDzMyFXN80Q581U8ZjUHK3x217+iA7CSlr5gPhxTwlNUZGo2CqZCh2YVy4AR5bCDtGg
+         i/5Qh1pnmwCFlX5LtKvQ//NJcyitZo6trGgA2YDrliVQDlyvRQ1+aPXBjiDnG7V6d+tG
+         VbWuz0ZnTOEfwBSLKkRX/tLrTj3xIyWsW7uboMTSssdZ3yrZ8Nf9PVNzkprbsAC7+siv
+         2OLv7aqbVMNlSYbGUTPdYsbaUZZ+qhx9w2HdTZ77oPj4OCex8ivGNVRN1AvLErQo8+VO
+         3ySQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVoj8aqpU+4Sn8XH++s9oiXChu4mQAclmM8/B5XSyE9msi4oMY2eiM9B9NSYxvu+A7J05rHOgJ7pcc5+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzknIzRzmJ/mwAhJzJp4mqfzQNfEryl9Mgi5KJHQbl+C8pEplBS
+	QHZ9mTQ05upU+B3uq6PogWU3IwKloAbUftiAePeBqiGfSpgs3IG2ugyifm27n3tw4y2BF0EoGOI
+	Y6Jc=
+X-Gm-Gg: ASbGncsQA1/3/M3/Nhrnq+DWRQ5fzrD41iLzTSBrCvTmWoAUIScZwaA+DGm+cji1emB
+	d5HwN7iIrewVUaaSPlckrV0g2eLLR15nfuFyjKIkWsu6p4SB3YbSSgCJLIHMtks5FbZuMHbiprK
+	OIClHsCrbswogoCqpaoSk0l7uoIz811/GSNIwd2oVekAjMymCAM7YxM+gIHQ2f1hbphkQh9v6KL
+	TQU1buNS9W5HJXaR7/A1DaJE+hfw5+D/+iqn8qXgJtkBQISGDyt404kQW7cDpVSkKr8nCp/D1av
+	cy5+B4dh4b424/h4aUU2rmZZCk2CU0UL5NFtbLkn0XlD5wQfPwLIk3g+VZ+BylwqDjP/bfupYnz
+	EY7OCsWzejWHZeFxWqSKtF8a1CDQKukhCWkFCCpIRPycSOUIWnsxxH/CChriLdkms
+X-Google-Smtp-Source: AGHT+IEG1ymsJOjdsRxqK3J4GaOOuo7j+GehuO6K7fbNe7VpN2VGIXMrFJBr0iOJVA57GzfsiTI45Q==
+X-Received: by 2002:a2e:8a8f:0:b0:332:5a0e:fed with SMTP id 38308e7fff4ca-3353be4ad32mr6662591fa.30.1755703325713;
+        Wed, 20 Aug 2025 08:22:05 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef3f3e91sm2609596e87.124.2025.08.20.08.22.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Aug 2025 08:22:04 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-333f92d60ddso46829061fa.3
+        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 08:22:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWdkTXB7q8nRkNIwssemD2YFWHNq/EYv3iRKTJqJkPPPnwQtXUEnRgF+DqBB4EaAETIOigy2yQkMzmqCw==@vger.kernel.org
+X-Received: by 2002:a05:651c:1118:20b0:335:16a4:cfe1 with SMTP id
+ 38308e7fff4ca-3353bcd5c50mr7339211fa.6.1755703323895; Wed, 20 Aug 2025
+ 08:22:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aKWDXySSt57tXHVP@linaro.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfXwCtsnTQTmjRk
- v/EvsZ/UxnBXNHXrW53CeRblnX5jOUE1RrhBWD00YlCd95OwN9UTmI7GI47uU+x8BAVNmrwwlo6
- bx1b6NBfmbS6X0oUSVSeyiWA6TvjeOx+Y3taHL0XNugBak2/kxrQ5aMwK2kYJD3UJpIznG0UUZe
- /SS3s2Oc2iwbR0Q8BNHo+HGgQIoSQx9zKo1efb1d9pvUanU89TsiZScC73TlS9DXFhuBS72Ibnt
- +L6fUFx+kBJA8g+4BPwRBHX9LgDOAy73wALYQfs+TOpnJCDv69NFx7ZKqsDqSyQn5mh3FErEjxC
- SX1EWlywvxMWq+XHRRFDw8X8lC3RxhHuKgz6lsDx8PDxPila3u/zqs2Gu2Y8FJqMjCalL+qYE16
- /zI04Xpmhw3wJ4gVIf9/K61HEKongw==
-X-Authority-Analysis: v=2.4 cv=TIIci1la c=1 sm=1 tr=0 ts=68a5e747 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=r3SgeffVVk19ujrvIvAA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-ORIG-GUID: W4QF1iJ9jAuMAxRa6l_AWY3MKRWAwdpF
-X-Proofpoint-GUID: W4QF1iJ9jAuMAxRa6l_AWY3MKRWAwdpF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_04,2025-08-20_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+References: <20250820143824.551777-1-sakari.ailus@linux.intel.com> <20250820143824.551777-10-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250820143824.551777-10-sakari.ailus@linux.intel.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 20 Aug 2025 17:21:50 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuBNsRq45J6RZibD=fWxWuUKBWJfW=7addXK8g7J8R8mw@mail.gmail.com>
+X-Gm-Features: Ac12FXwwGHcJ2y9cwGTilVIHefPWT6Ic00MsCu97CZsAIXOY28DZX-cIYltqB3s
+Message-ID: <CANiDSCuBNsRq45J6RZibD=fWxWuUKBWJfW=7addXK8g7J8R8mw@mail.gmail.com>
+Subject: Re: [PATCH v5 9/9] media: uvcvideo: eUSB2 double isochronous
+ bandwidth support
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
+	gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com, 
+	hdegoede@redhat.com, Thinh.Nguyen@synopsys.com, 
+	Amardeep Rai <amardeep.rai@intel.com>, Kannappan R <r.kannappan@intel.com>, 
+	Mathias Nyman <mathias.nyman@linux.intel.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	=?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 20, 2025 at 10:12:15AM +0200, Stephan Gerhold wrote:
-> On Tue, Aug 19, 2025 at 10:24:41PM +0530, Mukesh Ojha wrote:
-> > The resource table data structure has traditionally been associated with
-> > the remoteproc framework, where the resource table is included as a
-> > section within the remote processor firmware binary. However, it is also
-> > possible to obtain the resource table through other means—such as from a
-> > reserved memory region populated by the boot firmware, statically
-> > maintained driver data, or via a secure SMC call—when it is not embedded
-> > in the firmware.
-> > 
-> > There are multiple Qualcomm remote processors (e.g., Venus, Iris, GPU,
-> > etc.) in the upstream kernel that do not use the remoteproc framework to
-> > manage their lifecycle for various reasons.
-> > 
-> > When Linux is running at EL2, similar to the Qualcomm PAS driver
-> > (qcom_q6v5_pas.c), client drivers for subsystems like video and GPU may
-> > also want to use the resource table SMC call to retrieve and map
-> > resources before they are used by the remote processor.
-> > 
-> 
-> All the examples you give here (Venus/Iris, GPU) have some sort of EL2
-> support already for older platforms:
+Hi Sakari
 
-Example was taken from perspective of remote processor life-cycle management.
-You are right they have worked before in non-secure way for Chrome.
+I believe you have missed my previous email.
 
-> 
->  - For GPU, we just skip loading the ZAP shader and access the protected
->    registers directly. I would expect the ZAP shader does effectively
->    the same, perhaps with some additional handling for secure mode. Is
->    this even a real remote processor that has a separate IOMMU domain?
-> 
+https://lore.kernel.org/linux-media/CANiDSCsocBBQRPRFAbAovkzauThgN8Qd1u8kjJ=
+_af-83Nd4wvw@mail.gmail.com/
 
-I don't think it is the case and think the same that they can skip
-loading and Hence, I have not yet added support for it.
+re-posting here
 
-Will check internally before doing anything on GPU.
+On Wed, 20 Aug 2025 at 16:39, Sakari Ailus <sakari.ailus@linux.intel.com> w=
+rote:
+>
+> From: Tao Q Tao <tao.q.tao@intel.com>
+>
+> Use usb_endpoint_max_esit_payload() from the USB framework to find the
+> maximum bytes per interval for the endpoint. Consequently this adds eUSB2
+> isochronous mode and SuperSpeedPlus Isochronous Endpoint Companion suppor=
+t
+> where larger payloads within a service interval are possible.
+>
+>
 
->  - For Venus/Iris, there is code upstream similar to your PATCH 11/11
->    that maps the firmware with the IOMMU (but invokes reset directly
->    using the registers, without using PAS). There is no resource table
->    used for that either, so at least all Venus/Iris versions so far
->    apparently had no need for any mappings aside from the firmware
->    binary.
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 
-You are absolutely right
+Co-developed-by: Amardeep Rai <amardeep.rai@intel.com>
+> Signed-off-by: Amardeep Rai <amardeep.rai@intel.com>
+> Signed-off-by: Tao Q Tao <tao.q.tao@intel.com>
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> 
-> I understand that you want to continue using PAS for these, but I'm a
-> bit confused what kind of mappings we would expect to have in the
-> resource table for video and GPU. Could you give an example?
+nit: I believe the last tag should be: Signed-off-by:
 
-We have some debug hw tracing available for video for lemans, which is
-optional However, I believe infra is good to have incase we need some
-required resources to be map for Video to work for a SoC.
 
-> 
-> Thanks,
-> Stephan
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c |  4 ++--
+>  drivers/media/usb/uvc/uvc_video.c  | 24 +++---------------------
+>  drivers/media/usb/uvc/uvcvideo.h   |  4 +---
+>  3 files changed, 6 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
+vc_driver.c
+> index 775bede0d93d..d06ca79ae2d9 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -539,7 +539,7 @@ static int uvc_parse_streaming(struct uvc_device *dev=
+,
+>         unsigned int nformats =3D 0, nframes =3D 0, nintervals =3D 0;
+>         unsigned int size, i, n, p;
+>         u32 *interval;
+> -       u16 psize;
+> +       u32 psize;
+>         int ret =3D -EINVAL;
+>
+>         if (intf->cur_altsetting->desc.bInterfaceSubClass
+> @@ -775,7 +775,7 @@ static int uvc_parse_streaming(struct uvc_device *dev=
+,
+>                                 streaming->header.bEndpointAddress);
+>                 if (ep =3D=3D NULL)
+>                         continue;
+> -               psize =3D uvc_endpoint_max_bpi(dev->udev, ep);
+> +               psize =3D usb_endpoint_max_periodic_payload(dev->udev, ep=
+);
+>                 if (psize > streaming->maxpsize)
+>                         streaming->maxpsize =3D psize;
+>         }
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uv=
+c_video.c
+> index a5013a7fbca4..1a0cc937de9b 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -1869,24 +1869,6 @@ static void uvc_video_stop_transfer(struct uvc_str=
+eaming *stream,
+>                 uvc_free_urb_buffers(stream);
+>  }
+>
+> -/*
+> - * Compute the maximum number of bytes per interval for an endpoint.
+> - */
+> -u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoin=
+t *ep)
+> -{
+> -       u16 psize;
+> -
+> -       switch (dev->speed) {
+> -       case USB_SPEED_SUPER:
+> -       case USB_SPEED_SUPER_PLUS:
+> -               return le16_to_cpu(ep->ss_ep_comp.wBytesPerInterval);
+> -       default:
+> -               psize =3D usb_endpoint_maxp(&ep->desc);
+> -               psize *=3D usb_endpoint_maxp_mult(&ep->desc);
+> -               return psize;
+> -       }
+> -}
+> -
+>  /*
+>   * Initialize isochronous URBs and allocate transfer buffers. The packet=
+ size
+>   * is given by the endpoint.
+> @@ -1897,10 +1879,10 @@ static int uvc_init_video_isoc(struct uvc_streami=
+ng *stream,
+>         struct urb *urb;
+>         struct uvc_urb *uvc_urb;
+>         unsigned int npackets, i;
+> -       u16 psize;
+> +       u32 psize;
+>         u32 size;
+>
+> -       psize =3D uvc_endpoint_max_bpi(stream->dev->udev, ep);
+> +       psize =3D usb_endpoint_max_periodic_payload(stream->dev->udev, ep=
+);
+>         size =3D stream->ctrl.dwMaxVideoFrameSize;
+>
+>         npackets =3D uvc_alloc_urb_buffers(stream, size, psize, gfp_flags=
+);
+> @@ -2043,7 +2025,7 @@ static int uvc_video_start_transfer(struct uvc_stre=
+aming *stream,
+>                                 continue;
+>
+>                         /* Check if the bandwidth is high enough. */
+> -                       psize =3D uvc_endpoint_max_bpi(stream->dev->udev,=
+ ep);
+> +                       psize =3D usb_endpoint_max_periodic_payload(strea=
+m->dev->udev, ep);
+>                         if (psize >=3D bandwidth && psize < best_psize) {
+>                                 altsetting =3D alts->desc.bAlternateSetti=
+ng;
+>                                 best_psize =3D psize;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvc=
+video.h
+> index 757254fc4fe9..ac19ca721f29 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -456,7 +456,7 @@ struct uvc_streaming {
+>
+>         struct usb_interface *intf;
+>         int intfnum;
+> -       u16 maxpsize;
+> +       u32 maxpsize;
+>
+>         struct uvc_streaming_header header;
+>         enum v4l2_buf_type type;
+> @@ -798,8 +798,6 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
+>  /* Utility functions */
+>  struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *a=
+lts,
+>                                             u8 epaddr);
+> -u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoin=
+t *ep);
+> -
+>  /* Quirks support */
+>  void uvc_video_decode_isight(struct uvc_urb *uvc_urb,
+>                              struct uvc_buffer *buf,
+> --
+> 2.47.2
+>
+>
 
--- 
--Mukesh Ojha
+
+--=20
+Ricardo Ribalda
 
