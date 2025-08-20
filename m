@@ -1,209 +1,227 @@
-Return-Path: <linux-media+bounces-40402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40403-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD50B2DC74
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:29:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3233B2DCDE
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:43:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 191C81C468A1
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:28:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B0E33B84F5
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:39:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF7D22E5B3C;
-	Wed, 20 Aug 2025 12:28:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FC1C31813E;
+	Wed, 20 Aug 2025 12:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q3gOilB5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dfoXGp5d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2B42E4242
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 12:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0886311C16;
+	Wed, 20 Aug 2025 12:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755692899; cv=none; b=CtIDRzU4yFv3VrHiXxnYeyV0r8+0nbk1ltDNcuga8DoEBaZ4riK8jR09een8cz+maWaaAnFXiIjeSq5zMq1WsRIEkXQ113945vOUcCbC+ByXQtotOq17p2ZXcrkGKiV0ZlY0t7Bmi3ETsTav/bt5BFaMaJ7DetI9Gih9KhEFayU=
+	t=1755693555; cv=none; b=kTwEocrOUqSM/5sxlcD42hyxIpnieZMhPdNgGyb/KV4nDq+o5kDYFMMlxFDXp2osikGnbq0aCAZDOlnzf0UZne2sBPlZy9zTpGOSXUtCleVmhofYKBWm9BnqwRde7g69gW7eEuaudXm+n/i8bzlQh7Fa/hvuRJty5eG9OT+yeNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755692899; c=relaxed/simple;
-	bh=rJdlCHBrlZ/o45yDrigphA7AjLNPAeczhfu0gO1zE5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qrtXCQpF1p5N6iBpvUMFHsOEYfsKHfAy9NcRArqwHdZixDnipe+VfX81G/1v9NkCpKjFylKLL6ALrGMBBm43sai7tfFJih+L7TcuqAcn+EGyQ75t9+uF/d7KdoQtB/iSQdeZ7jrG6HWxx2criY8kxquBj3WJoMdxazG0Bl7L390=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Q3gOilB5; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K9ZDa8025135
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 12:28:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Ce4VLkPKV5TZEb5EONN8uvbG
-	X/xFYWgwLomRh5TEyEA=; b=Q3gOilB5j6uFHYhlktP2wPWAng6fP1kJls6t4R3m
-	RWjdyegmyc4E7/0MKvD19u7Pmvv83XJeuCWVhYMolSeT3CGDGMYMMEN29cgjr4GN
-	MC6wnBWSB5fSkbyMWFVFiojfN8pINbaJpmB9GgEmAA0LMwSskT3RUF6saGFaZbcW
-	vQsRp46pvmiu4JQbmZOk8MXaS62uVbl2IMc5hsFynoDtMNUjxawpELmMTik0ow4I
-	yhf0QnOyM7DMk8Km9x4sNPozse6cwcXX2PsCDS/jV1FCwaYmld6DvpdPxRaeL2KE
-	2NGQ1B+VvAwbuwn3fIJqUCd2CUInTc+FNBmKdMb87tfG7w==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52a9q5c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 12:28:17 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-76e2ea91aa9so10573101b3a.2
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 05:28:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755692896; x=1756297696;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ce4VLkPKV5TZEb5EONN8uvbGX/xFYWgwLomRh5TEyEA=;
-        b=mQRfv7b7SNLOaLfmyzvm1BNPU1cyyICZTR//Lk6uJd3rOZl5hf8CKFqLFY4Xl402uj
-         b83hRrnsTB/TbqaYi9935ckOeds280yP43GabCmqEUJpuBRP+czqFUVUdIlc6JvWDM+Q
-         WUHvc5rNbyU0M2+6EVBXnXrX/tur4R4m7MssKp1BkQwpbLuhLmprxUOBuiKdNo62MIUn
-         0sZIH2j8PkoZ5hu/rliqgIVYKQFy31hnPGlbRd3YtTq3VFpjA36NmFW3cMkwI0ZYsRKD
-         DUc92XOyWUGiSdBokyfL0y9LFZVUJ2ZanxgLnZSLAZo94rVvcUA6HFj1Ji5+AJg0Ict+
-         hmWg==
-X-Forwarded-Encrypted: i=1; AJvYcCWv+EHmbDC6QlmCjerv1DxsGmpxi85g1JEwvSkCysy53n9zUuWJpybc7rKKbZGPaRXSrVEcpOmtbIcONQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRMt17glHPttlD1jtjbrPQSkK/fVT6r2j/oQvvI3ExtjaItQXP
-	hNB6LJiyCVjDmiQmWEFBtFaFe1aDkoHVcSAyJ+OOrHocKRUlM4XuS2WEyj/wdBfIzuz9tMdYWcv
-	UMZniq0hmyYaSXPXrMsniaSMSHh5C0IuWF1Ot+k8YBeGzogkDbNST2yKc9TdKpTZnJw==
-X-Gm-Gg: ASbGnct7xyOYYDz4JIajtF+kXj+IAYaYd4Rb+TaN6PlgCLI8Kvrl3j1ulZ+eG05aDMP
-	ium5TngWOTQyRlfenZuEYCMIH3XcpNCcXBE3lULWyNm2wKGNfOfRwtyMzzJ/QTTK1C37HklHv8l
-	wiPJFfuxGPhNa4xC6ZmmSqrR/2imb5UfNC+avX+RF8HUM/2ExK2aXb6do89UlP9w33yREMkqnWH
-	FVHmVcBrcLLgAxAQApFW3Y89mZoJp+6gazZtXv1AN13ZCmzkn5KwbRdqxb6RZslRDExbx72QP1H
-	SgSxiYv6OhvFzl2wNuY+pg+dLtYfQd70DbJaTp1fLvoGgfIgyzrFHN/eq9IlJS4zVYY=
-X-Received: by 2002:a05:6a00:9a5:b0:736:2a73:6756 with SMTP id d2e1a72fcca58-76e8dd28c76mr4061004b3a.21.1755692896263;
-        Wed, 20 Aug 2025 05:28:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IENuG0ujSyO2XRCgCMev8QpXq7lHdpgJcPk/1/3NKxVVqhxwvXVT5ke47GbaJlC5AglhLJvTQ==
-X-Received: by 2002:a05:6a00:9a5:b0:736:2a73:6756 with SMTP id d2e1a72fcca58-76e8dd28c76mr4060972b3a.21.1755692895833;
-        Wed, 20 Aug 2025 05:28:15 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e8ab7b100sm3007322b3a.40.2025.08.20.05.28.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 05:28:15 -0700 (PDT)
-Date: Wed, 20 Aug 2025 17:58:09 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] firmware: qcom_scm: Introduce PAS context
- initialization helper
-Message-ID: <20250820122809.unhhusuqks3phtji@hu-mojha-hyd.qualcomm.com>
-Mail-Followup-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-2-mukesh.ojha@oss.qualcomm.com>
- <c000aaa8-209c-43d2-8f41-701cfdecbce2@linaro.org>
+	s=arc-20240116; t=1755693555; c=relaxed/simple;
+	bh=xco3Udl1suekPK0UFddEJ38lh+tXRE7xtaAHP4EtBMs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=SfwpHrzaklhSt/HAkGVmQlz+v9rEHp1quo6TjPD+/gGnEZ/mQHpT3rLJCgaXO/TMNLDYXMMor4Z0BCWq/uDGSxhgXcZHWccpS4Nk1FSlTUmm9ok3xVpQ1PJGqvbLxmDbn54AE0D0n4Ac+SPuySmZ+ggBDnlnf9zEDih2C3/CCXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dfoXGp5d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CEF4C4CEEB;
+	Wed, 20 Aug 2025 12:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755693555;
+	bh=xco3Udl1suekPK0UFddEJ38lh+tXRE7xtaAHP4EtBMs=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+	b=dfoXGp5dAFeT2tenVtZplTmd5+uez1aNLHEAj/jMh48hAzl6pUw3cb2J6Zet++xXi
+	 WyDVsNiFb7Lrms3XjFz8WtzRQm+EdjS463OMa4U7oxbeYH+KZA817Efe/8rzv25PXR
+	 p2x9ucMR/EhEMgwIRn59f8FHrGm9JKV+bXMTwj60KhyvS6gG3/x9aN+nwQD9xaKvXd
+	 MjZxb1vTyWWwDoMZIOpgq3cTc1if9F2S6VouM/2EWpwul69OTKibuLeT3Vl+6zwSvv
+	 C4e0wfbEDEnqJ2/wfa8XG7sjNlZWLtdMaxHWwvYFSFDMPG1m9wqQy94VfLLzt18Vgs
+	 2agjPEQhNOaHA==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c000aaa8-209c-43d2-8f41-701cfdecbce2@linaro.org>
-X-Proofpoint-ORIG-GUID: Yygv6IPmUDe1bAgYWQ_5L-hKF-q3iEEp
-X-Authority-Analysis: v=2.4 cv=B83gEOtM c=1 sm=1 tr=0 ts=68a5bf61 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=s6mQ1NoBmtD1KJKpJbMA:9
- a=CjuIK1q_8ugA:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-GUID: Yygv6IPmUDe1bAgYWQ_5L-hKF-q3iEEp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfXxuvNZFZeu7U+
- 6YkDSViv8QtX4h8zZXejNFtKfSmeMaeOd2sCvw1rcYekJZF8a6XTOtFJW3efaUgFhzxGf8k5gP5
- e3SyBPK1npc4HVsH1qfNNg2AVZmgP5pvI9O+kQrmY+duNnfxArqHbXyRSKa/Zo3fkMQi3etu0Aa
- ceHrH6w2xP6Uv7IE9R7hCLf2JcTTX4Z/0IlXJxkSz96ZJjm0MG7JZpbJqSG6EfVQUXMhKs9vCw2
- E8Jp0lsM7A8iuTUhap2o/Z0YzTiPtj+TsacyyKEcwSsZzoVN8aIFEGvPn9KlOEMKfdGTh/NtbMW
- GHL6VnbF9XeRUwsUre2O8l+gG9O7gQS0ZBMUP7W/rceWckSH/eu49yshOzN3upCdmsMukP2IPeb
- Q0Du3Tno44zaZX/6M4nL3fFtSZPRBg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_04,2025-08-20_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 Aug 2025 14:39:10 +0200
+Message-Id: <DC79F6AXATLL.JWGLJC42CXAN@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 7/7] rust: samples: add the v4l2 sample driver
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <kernel@collabora.com>,
+ <linux-media@vger.kernel.org>
+To: "Daniel Almeida" <daniel.almeida@collabora.com>
+References: <20250818-v4l2-v1-0-6887e772aac2@collabora.com>
+ <20250818-v4l2-v1-7-6887e772aac2@collabora.com>
+In-Reply-To: <20250818-v4l2-v1-7-6887e772aac2@collabora.com>
 
-On Wed, Aug 20, 2025 at 12:40:51PM +0100, Bryan O'Donoghue wrote:
-> On 19/08/2025 17:54, Mukesh Ojha wrote:
-> > Currently, remoteproc and non-remoteproc subsystems use different
-> > variants of the MDT loader helper API, primarily due to the handling of
-> > the metadata context. Remoteproc subsystems retain this context until
-> > authentication and reset, while non-remoteproc subsystems (e.g., video,
-> > graphics) do not require it.
-> > 
-> > Unify the metadata loading process for both remoteproc and
-> > non-remoteproc subsystems by introducing a dedicated PAS context
-> > initialization function.
-> 
-> You've introduced what PAS is in the cover letter but you haven't done so in
-> the commit log where you use it.
-> 
-> "Peripheral Authentication Service (PAS)" should be defined in this patch
-> somewhere so we know what PAS means.
+On Mon Aug 18, 2025 at 7:49 AM CEST, Daniel Almeida wrote:
+> +/// The private data associated with the V4L2 device.
+> +#[pin_data]
+> +struct Data {}
 
-Ack.
+I think you don't need #[pin_data] on this and the other empty structs. The=
+re
+should be a blanket implementation for PinInit that got you covered.
 
-> 
-> > 
-> > By introducing qcom_scm_pas_ctx_init(), we can standardize the API usage
-> > across subsystems and reduce the number of parameters passed to MDT
-> > loader functions, improving code clarity and maintainability.
-> > 
-> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> > ---
-> >   drivers/firmware/qcom/qcom_scm.c       | 26 ++++++++++++++++++++++++++
-> >   include/linux/firmware/qcom/qcom_scm.h | 11 +++++++++++
-> >   2 files changed, 37 insertions(+)
-> > 
-> > diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
-> > index 96d5cf40a74c..33187d4f4aef 100644
-> > --- a/drivers/firmware/qcom/qcom_scm.c
-> > +++ b/drivers/firmware/qcom/qcom_scm.c
-> > @@ -558,6 +558,32 @@ static void qcom_scm_set_download_mode(u32 dload_mode)
-> >   		dev_err(__scm->dev, "failed to set download mode: %d\n", ret);
-> >   }
-> > +void *qcom_scm_pas_ctx_init(struct device *dev, u32 peripheral, phys_addr_t mem_phys,
-> > +			    size_t mem_size, bool save_mdt_ctx)
-> > +{
-> > +	struct qcom_scm_pas_ctx *ctx;
-> > +
-> > +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> > +	if (!ctx)
-> > +		return NULL;
-> > +
-> > +	ctx->dev = dev;
-> > +	ctx->peripheral = peripheral;
-> > +	ctx->mem_phys = mem_phys;
-> > +	ctx->mem_size = mem_size;
-> > +	ctx->save_mdt_ctx = save_mdt_ctx;
-> > +	ctx->metadata = NULL;
-> > +
-> > +	if (save_mdt_ctx) {
-> 
-> You could check metadata != NULL and drop the bool ctx->save_mdt_ctx
-> entirely.
+> +/// The private data associated with a V4L2 device node, i.e. `struct
+> +/// video_device`.
+> +#[pin_data]
+> +struct VideoData {}
+> +
+> +/// The private data associated with a V4L2 file, i.e. `struct v4l2_fh`.
+> +#[pin_data]
+> +struct File {}
+> +
+> +impl v4l2::file::DriverFile for File {
+> +    type Driver =3D SampleDriver;
+> +
+> +    const MODULE: &'static ThisModule =3D &THIS_MODULE;
+> +
+> +    fn open(_vdev: &v4l2::video::Device<Self::Driver>) -> impl PinInit<S=
+elf, Error> {
+> +        try_pin_init!(Self {})
+> +    }
+> +}
+> +
+> +struct SampleDriver {
+> +    _pdev: ARef<platform::Device>,
+> +    _v4l2_reg: v4l2::device::Registration<Self>,
+> +    video_reg: video::Registration<Self>,
 
-Ack.
+Is the drop order of those registrations relevant? (If so, it shouldn't be =
+on
+the driver to get that right.)
 
-> 
-> ---
-> bod
+> +}
+> +
+> +impl v4l2::device::Driver for SampleDriver {
+> +    type Data =3D Data;
+> +}
+> +
+> +#[vtable]
+> +impl video::Driver for SampleDriver {
+> +    type Data =3D VideoData;
+> +    type File =3D File;
+> +
+> +    const NODE_TYPE: video::NodeType =3D video::NodeType::Video;
+> +    const DIRECTION: video::Direction =3D video::Direction::Rx;
+> +    const NAME: &'static CStr =3D c_str!("rv4l2");
+> +    const CAPS: DeviceCaps =3D caps::device_caps::VIDEO_CAPTURE;
+> +
+> +    fn querycap(
+> +        _file: &v4l2::file::File<Self::File>,
+> +        _data: &<Self as video::Driver>::Data,
+> +        cap: &mut caps::Capabilities,
+> +    ) -> Result {
+> +        cap.set_driver(c_str!("rv4l2"))?;
+> +        cap.set_card(c_str!("rv4l2"))?;
+> +        cap.set_bus_info(c_str!("platform:rv4l2"))?;
+> +
+> +        cap.set_device_caps(Self::CAPS);
+> +        Ok(())
+> +    }
+> +}
+> +
+> +kernel::of_device_table!(
+> +    OF_TABLE,
+> +    MODULE_OF_TABLE,
+> +    <SampleDriver as platform::Driver>::IdInfo,
+> +    [(of::DeviceId::new(c_str!("test, rust-v4l2")), ())]
+> +);
+> +
+> +impl platform::Driver for SampleDriver {
+> +    type IdInfo =3D ();
+> +    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> =3D Some(&OF_TA=
+BLE);
+> +
+> +    fn probe(
+> +        pdev: &platform::Device<Core>,
+> +        _info: Option<&Self::IdInfo>,
+> +    ) -> Result<Pin<KBox<Self>>> {
+> +        let dev =3D pdev.as_ref();
+> +
+> +        let v4l2_reg =3D
+> +            v4l2::device::Registration::<Self>::new(dev, try_pin_init!(D=
+ata {}), GFP_KERNEL)?;
 
--- 
--Mukesh Ojha
+As mentioned on the struct already, you shouldn't need try_pin_init!() here=
+,
+since there should be a blanket implementation for PinInit.
+
+> +
+> +        let video_reg =3D video::Registration::<Self>::new(
+> +            v4l2_reg.device(),
+> +            try_pin_init!(VideoData {}),
+> +            GFP_KERNEL,
+> +        )?;
+> +
+> +        let this =3D KBox::new(
+> +            Self {
+> +                _pdev: pdev.into(),
+> +                _v4l2_reg: v4l2_reg,
+> +                video_reg,
+> +            },
+> +            GFP_KERNEL,
+> +        )?;
+> +
+> +        dev_info!(
+> +            dev,
+> +            "Registered /dev/video{}\n",
+> +            this.video_reg.device().num()
+> +        );
+> +        Ok(this.into())
+> +    }
+> +
+> +    fn unbind(pdev: &platform::Device<Core>, _this: Pin<&Self>) {
+> +        dev_info!(pdev.as_ref(), "Unbinding Rust V4L2 sample driver\n");
+> +    }
+> +}
+> +
+> +impl Drop for SampleDriver {
+> +    fn drop(&mut self) {
+> +        dev_dbg!(self._pdev.as_ref(), "Rust V4L2 sample driver removed\n=
+");
+
+A driver being unbound / removed is the same thing.
+
+unbind() is the correct callback for this. SampleDriver::drop() is for
+additional cleanup needed for the driver's private data. It's just that thi=
+s
+cleanup also happens on driver unbind.
+
+(I think I need to fix up the existing sample drivers that date from before=
+ we
+had unbind() in place.)
+
+I'd just remove this drop() implementation and the ARef<platform::Device> f=
+rom
+SampleDriver.
+
+> +    }
+> +}
+> +
+> +kernel::module_platform_driver! {
+> +    type: SampleDriver,
+> +    name: "rust_driver_v4l2",
+> +    authors: ["Daniel Almeida"],
+> +    description: "Rust V4L2 sample video driver",
+> +    license: "GPL v2",
+> +}
+>
+> --=20
+> 2.50.1
+
 
