@@ -1,252 +1,262 @@
-Return-Path: <linux-media+bounces-40339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B7FB2D3C4
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 07:55:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1939DB2D3FB
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 08:20:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 512F6627918
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 05:55:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7EACE1BC31ED
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 06:20:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAB42BDC14;
-	Wed, 20 Aug 2025 05:55:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8896027B335;
+	Wed, 20 Aug 2025 06:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MaYnT4m0"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ONd+zipw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7895236124;
-	Wed, 20 Aug 2025 05:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B7DE555
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 06:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755669347; cv=none; b=DIjKHKQc9q51CPzQcFOhMnQuT800IIljPLfrAfbiA6fZVRSNXa/ykRoptm2ku2J9q0TK4xgQkkJIe8X3hN3Q1VfpoCeEmjjuMlTJrlpokq2bbeAbGKNDOGdLeS1cu8G97EIdwHtC0RdAd+nb3tp4hhmmJHULImmdXNejtmpdhwM=
+	t=1755670801; cv=none; b=t6bQL8AyfsJ9bWBK4WJgcO8Fl2VoUAet7o0Eyo01YHnEqWRMK1kfcj+NFjdFfVpgLgLnmbP4SYNOkpIMdZRNMTzuFTutu2rIaU1LJa36sHjjNrIYurLvKUmjaV5D58/zMdCP51FAPVJ9405urMRYwLraDG9b1bsvSilIREVSXuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755669347; c=relaxed/simple;
-	bh=E0+N2wRZMXrF5z7DzstfXp7XFzQUZ047KHqMx/8n9/c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SdqRqRnLnrVdCyVhnEt1wrEzPzIVMj2o1w0eqTRr15w7C+gkOGlUgActd0kBWLMrXzE+2YEZo3UB3jayrM61yv2gPo+uMwQkgtbzh5HL5wUxwIDJNGYDCNS14kJCz2YLdc+JGX9hk1te8Eg5q5CrHIw/ZJe4B/vcHvbZ/RwduEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MaYnT4m0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF70FC4CEEB;
-	Wed, 20 Aug 2025 05:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755669346;
-	bh=E0+N2wRZMXrF5z7DzstfXp7XFzQUZ047KHqMx/8n9/c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MaYnT4m0WN5eTjiALC52eebZA7CkBr3MIQgRikIjOLXsB1N/2HNI44GM7HjYB0eMO
-	 35d8QG8sppzDG/FQA4DJ6YRhE7zFvBRcsPPnZFxLuWdKGqWLyfk+r4OETZLoOlbpU2
-	 2I9MGCNJJBp0HStJczx2UvAveNeXt6dZLsH3ssUbSD5zn0zklCvyFEeAUI8LpglyA8
-	 16AGF6zKHv0PlLhuPRhiuugUPQX/nNMUS0Cg1Y0gPf/zwP0PNIDRweRbQGDURyY1L+
-	 2KOz61EailChCTvdMFzZtvnqRVGNJiYk8P9Amq95gVlQUL85iysu9N0n1aRha0lE14
-	 YGCMqKkRc5l0Q==
-Message-ID: <aab06f96-83c9-4e1c-9e1b-6148a3055e67@kernel.org>
-Date: Wed, 20 Aug 2025 07:55:38 +0200
+	s=arc-20240116; t=1755670801; c=relaxed/simple;
+	bh=Il8EIAg1QfxzNI0BfdWour3oPDvc6yu7jWmA2XyppAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oR0Lc4zX6YOnZyXiNUEJrhZIhdD9oYKH0Ugp921gLa4TSzR55EM9NCm3fH1785QbcvtjBGjoiP8DoT+GvY0IKRU6d+hrKAAlUYn0iCDNnrJJ8/BypYMQXR+SzumoGu+ArSvDca+7z0gJbAe1dAvW+RPqlF19QsiokCKRv0b269E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ONd+zipw; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K1ojik025650
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 06:19:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=uNKU1Frwft226LHp/hY7w5oY
+	RJNUWwbLNrcXicahC3A=; b=ONd+zipwKnNSwK9V/LODsmfaSYK6HjIXDMRmFrPI
+	UCd6REa4r+K3y1w6XzKWpuun5Pxw+ghmWONHsRtHXVOCEOOlEhey/U2X6YF2YU3g
+	LvsXo+KwnsiHz23ZIp87JZRTD4tHxucNssPuPH48JPl0RiPrSC7YMvACxvwOr6nD
+	j24uTmbb+FFwr6Z9aisfZO5K4vGZ4VFFxmJpGXUoE5LBZoHRGCLQLl95/pIiSMZS
+	QoB98yj+6Huy3BvE62fBcUuZJ61gn1rxPUwhcTIWU+LXNmQ05yw7yZ6YIB+dGae7
+	0Y+AtoAvUcaYSQQfug6ZnbtW1932hHxAdrLGiFJScaoWxA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52a8m8f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 06:19:58 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-76e2eb9bb19so10748689b3a.3
+        for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 23:19:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755670798; x=1756275598;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uNKU1Frwft226LHp/hY7w5oYRJNUWwbLNrcXicahC3A=;
+        b=ONpkJhlyqmpURHjsn097WwnnKa06JjXIYx4HlsOrBV/9wKG5jaM0mVKZPk5ZYmYk9A
+         BD5aiNLZuMH6cx2phXeTlMEDDGgsywpCD9dGQ9hP/DHIggYNekDZ0Hz9ErXoiYfLXouv
+         lUXD7R7vq7gJw+r+0+mT1FMENDqf8FrizZhD9mZZ5tgMgjJ59cNnCCM/B+QXIHArhhQG
+         G8SuKOYMmq4iz9bEKJsX9OF+sqLwM0VuSJOb113oUi36sdxXTmPovOhZxhDrJLqkib6E
+         a4kybWzEPFOTjPPGiv8ZTAJgFGqYVbRtk4o5Py1aHVZYc3T+5uyO16MS4x59SVSeMsjw
+         9Y0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWexXVUhj1YR0nYHROQq+Qa3X/dPgPPQpPDg44/DuVusnEuRo7UGTtn4MGvC7kFmCpswDpZ5PgctKZQaA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxxf1Eu/zMQsSETmqqkePdihXWxXhZYdnU5ZOCIyMIyzJesFsX+
+	9uWm4ShVCiLj/IZFfY7dJ99PA8sYMPdiT5OAq9UIuUH6OFBNNJ8HCdOamttY+n4gjEasS9eynbl
+	n86xnp4panDh5TNm9rfCbPjtRYGz3rZG8+5pBee9eQhKr5JylCKYwUNMZ3XWyFrNe2A==
+X-Gm-Gg: ASbGncvNLm6tUr+01sG4javb5NN5t4v051U6Js3BODvi94PVTDBjMUbfSPLHiiM3ewA
+	Z9ECf0dKk//Hl0eGxd74n63mckmV3vNCrszZeNRemwRSkVXUjjN0ammN7SAAkAhjhARSHeCiRcd
+	DdfanvJIFfU2e1huOMvsjUG0PwlyO827yax6NFmsFLt7LqSx+xOukSliKvxKLY5wmSD18OfGNHX
+	8GAsZREOkwHAdSbyJ3KnXz3NtPHw8JAVnzD7QOeBWlXuvHMRLIQUZRO9vUMH3Osejl/6CCuC5sA
+	ruWAucFlpUg5LKhzx3ZrSJYKTf1nFFBOCJ2V+GAFKpN9iNygRO4YUrA2QDbXR2uQbHg=
+X-Received: by 2002:a05:6a00:1989:b0:76b:d8f7:d30b with SMTP id d2e1a72fcca58-76e8dbaa401mr1993141b3a.10.1755670797771;
+        Tue, 19 Aug 2025 23:19:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFVWVmutWphmCS82Rcwj2tmZT39j3z+E7I3LxdsVVCYqR8vLEcV2M7wRqe6Vip/Yxu0WHvoGQ==
+X-Received: by 2002:a05:6a00:1989:b0:76b:d8f7:d30b with SMTP id d2e1a72fcca58-76e8dbaa401mr1993117b3a.10.1755670797336;
+        Tue, 19 Aug 2025 23:19:57 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d4fd29fsm4335862b3a.72.2025.08.19.23.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 23:19:57 -0700 (PDT)
+Date: Wed, 20 Aug 2025 11:49:50 +0530
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Pavan Kondeti <pavan.kondeti@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v2 01/11] firmware: qcom_scm: Introduce PAS context
+ initialization helper
+Message-ID: <20250820061950.lqsuoj7u7se75mmj@hu-mojha-hyd.qualcomm.com>
+Mail-Followup-To: Pavan Kondeti <pavan.kondeti@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-2-mukesh.ojha@oss.qualcomm.com>
+ <3b74157a-3f2a-4533-acf6-7cab8154709c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] dt-bindings: media: Add MT8196
- mediatek,vcodec-encoder
-To: =?UTF-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>,
- =?UTF-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- =?UTF-8?B?R2VvcmdlIFN1biAo5a2Z5p6XKQ==?= <George.Sun@mediatek.com>,
- =?UTF-8?B?VGlmZmFueSBMaW4gKOael+aFp+ePiik=?= <tiffany.lin@mediatek.com>,
- "andrzejtp2010@gmail.com" <andrzejtp2010@gmail.com>,
- "nhebert@chromium.org" <nhebert@chromium.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
- "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
- =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?=
- <Andrew-CT.Chen@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>
-References: <20250814085642.17343-1-kyrie.wu@mediatek.com>
- <20250814085642.17343-6-kyrie.wu@mediatek.com>
- <20250815-meek-porcelain-oarfish-1411e3@kuoka>
- <cff7beabdfce15b014597f6fbb0ea23375ecb902.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <cff7beabdfce15b014597f6fbb0ea23375ecb902.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b74157a-3f2a-4533-acf6-7cab8154709c@quicinc.com>
+X-Proofpoint-ORIG-GUID: u1TsLoTKreuYXkyYvCgp7gRCia_zSaSy
+X-Authority-Analysis: v=2.4 cv=B83gEOtM c=1 sm=1 tr=0 ts=68a5690e cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=c7pJEiSHkIStB_RkOCEA:9
+ a=CjuIK1q_8ugA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-GUID: u1TsLoTKreuYXkyYvCgp7gRCia_zSaSy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX25EmVcMJR/Nt
+ q+XItGsIUZ2HVrUFVHb75oFffM+2hVjYN2iRlJHjkV5cKgfV9u1A1dIWTCvwdH86wuXNlqRVAU7
+ Q+j+/b8giCCiAtBnwVlIADxsWSJzcobJ2yazovOn7PMM9uAP6WS245qee/hoPl9Q2gTFl/cG4TQ
+ rLCI63DrlRCy3pvOHRchfokaAhoApxC4gOMf0gBw8Y46upU4vvyKcFIMGI+4XNtuTBL0pAq7L33
+ 1DwSRlsktakICRdAhkgDEAG0TrrhqD0gRUF9Dfa+Z2pZXAt86xUL6ASv3dUW82RUPMA/alMxNaI
+ NsICNn6URzW6R5vyICTQ0mDpXaf1ABdV1MUSaFYop9UvVIMfsTeTlb8LTGnpWVtx9aOruMrmZdP
+ 25Lb3OgBcYz3ykSWNtMOroGXvThcsA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-20_02,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 adultscore=0 impostorscore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
 
-On 20/08/2025 04:55, Irui Wang (王瑞) wrote:
-> Dear Krzysztof,
+On Tue, Aug 19, 2025 at 10:47:45PM +0530, Pavan Kondeti wrote:
+> On Tue, Aug 19, 2025 at 10:24:36PM +0530, Mukesh Ojha wrote:
+> > Currently, remoteproc and non-remoteproc subsystems use different
+> > variants of the MDT loader helper API, primarily due to the handling of
+> > the metadata context. Remoteproc subsystems retain this context until
+> > authentication and reset, while non-remoteproc subsystems (e.g., video,
+> > graphics) do not require it.
+> > 
+> > Unify the metadata loading process for both remoteproc and
+> > non-remoteproc subsystems by introducing a dedicated PAS context
+> > initialization function.
+> > 
+> > By introducing qcom_scm_pas_ctx_init(), we can standardize the API usage
+> > across subsystems and reduce the number of parameters passed to MDT
+> > loader functions, improving code clarity and maintainability.
+> > 
+> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> > ---
+> >  drivers/firmware/qcom/qcom_scm.c       | 26 ++++++++++++++++++++++++++
+> >  include/linux/firmware/qcom/qcom_scm.h | 11 +++++++++++
+> >  2 files changed, 37 insertions(+)
+> > 
+> > diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+> > index 96d5cf40a74c..33187d4f4aef 100644
+> > --- a/drivers/firmware/qcom/qcom_scm.c
+> > +++ b/drivers/firmware/qcom/qcom_scm.c
+> > @@ -558,6 +558,32 @@ static void qcom_scm_set_download_mode(u32 dload_mode)
+> >  		dev_err(__scm->dev, "failed to set download mode: %d\n", ret);
+> >  }
+> >  
+> > +void *qcom_scm_pas_ctx_init(struct device *dev, u32 peripheral, phys_addr_t mem_phys,
+> > +			    size_t mem_size, bool save_mdt_ctx)
 > 
-> Thanks for your reviewing.
+> Since we export this for other drivers/module, consider adding kerneldoc
+> comments.
 > 
-> On Fri, 2025-08-15 at 10:54 +0200, Krzysztof Kozlowski wrote:
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> On Thu, Aug 14, 2025 at 04:56:41PM +0800, Kyrie Wu wrote:
->>> From: Irui Wang <irui.wang@mediatek.com>
->>>
->>> Add MT8196 encoder compatible string, which will reference VCP
->>> device.
->>
->> You ignored comments from v2.
+
+Sure.
+
+> > +{
+> > +	struct qcom_scm_pas_ctx *ctx;
+> > +
+> > +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> > +	if (!ctx)
+> > +		return NULL;
+> > +
+> > +	ctx->dev = dev;
+> > +	ctx->peripheral = peripheral;
+> > +	ctx->mem_phys = mem_phys;
+> > +	ctx->mem_size = mem_size;
+> > +	ctx->save_mdt_ctx = save_mdt_ctx;
+> > +	ctx->metadata = NULL;
 > 
-> I think I misunderstood the v2 comments, I rewrote the title because it
-> said dt-bindings and encoder twice, this is not enough, right? we need
-> to describe more information in Body text?
+> This seems unnecessary.
 
-where are lore links in the changelog? Why aren't you using b4 to submit
-patches?
+Yes, it is redundant.
 
+> > +
+> > +	if (save_mdt_ctx) {
+> > +		ctx->metadata = devm_kzalloc(dev, sizeof(*ctx->metadata), GFP_KERNEL);
+> > +		if (!ctx->metadata)
+> > +			return NULL;
 > 
->>
->>>
->>> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
->>
->> Incorrect SoB chain.
->>
->>> ---
->>>  .../bindings/media/mediatek,vcodec-encoder.yaml | 17
->>> +++++++++++++++++
->>>  1 file changed, 17 insertions(+)
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/media/mediatek,vcodec-
->>> encoder.yaml
->>> b/Documentation/devicetree/bindings/media/mediatek,vcodec-
->>> encoder.yaml
->>> index ebc615584f92..bb4dbf23ccc5 100644
->>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-
->>> encoder.yaml
->>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
->>> encoder.yaml
->>> @@ -24,6 +24,7 @@ properties:
->>>                - mediatek,mt8188-vcodec-enc
->>>                - mediatek,mt8192-vcodec-enc
->>>                - mediatek,mt8195-vcodec-enc
->>> +              - mediatek,mt8196-vcodec-enc
->>>        - items:
->>>            - const: mediatek,mt8186-vcodec-enc
->>>            - const: mediatek,mt8183-vcodec-enc
->>> @@ -58,6 +59,11 @@ properties:
->>>      description:
->>>        Describes point to scp.
->>>
->>> +  mediatek,vcp:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      Describes point to vcp.
->>
->> For what? You just repeated the property name. You must say here
->> something useful instead: why this is needed, what is its purpose.
+> Do we really need to pass this burden to the caller to pass save_mdt_ctx
+> as true/false? What happens if we always keep metadata in qcom_scm_pas_ctx struct
+> and let clients use it if needed.
 > 
-> I would like to say:
-> "define this 'mediatek,vcp' property here, this is a phandle point to
 
-Don't explain to us what DT is. Above is 100% redundant.
+Do not wanted to be aggressive like changing every driver which uses
+qcom_mdt_load(), Hence, taken this safe approach of adapting the current
+way.
 
-> vcp device, for platforms using vcp firmware."
+Obviously, it is the one approach where I was looking to unify API's
+across remoteproc or non-remoteproc subsystems and that's why I have
+put comment in the 2/11 if we feel fine to do it for other drivers too.
 
-Explain what is the purpose of this in hardware, how hardware uses it,
-what problem for hardware this addresses.
-
-
+> > +	}
+> > +
+> > +	return ctx;
+> > +}
+> > +EXPORT_SYMBOL_GPL(qcom_scm_pas_ctx_init);
 > 
-> Is this OK for you?
->>
->>
+> Is there an equivalant ctx_destroy() function? It would be confusing for
+> drivers to call this in their probe and not doing anything upon error or
+> in their bus::remove callbacks. I don't know if we really want to
+> convert the whole function under devres or just provide a destroy
+> callback.
 > 
->>> +
->>>    power-domains:
->>>      maxItems: 1
->>>
->>> @@ -76,6 +82,17 @@ required:
->>>    - iommus
->>>
->>>  allOf:
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            enum:
->>> +              - mediatek,mt8196-vcodec-enc
->>> +
->>> +    then:
->>> +      required:
->>> +        - mediatek,vcp
->>
->> else
->>
->> mediatek,vcp: false
+
+I dont disagree., will wait for some more comments.
+
+> > +
+> >  /**
+> >   * qcom_scm_pas_init_image() - Initialize peripheral authentication service
+> >   *			       state machine for a given peripheral, using the
+> > diff --git a/include/linux/firmware/qcom/qcom_scm.h b/include/linux/firmware/qcom/qcom_scm.h
+> > index a55ca771286b..b7eb206561a9 100644
+> > --- a/include/linux/firmware/qcom/qcom_scm.h
+> > +++ b/include/linux/firmware/qcom/qcom_scm.h
+> > @@ -72,6 +72,17 @@ struct qcom_scm_pas_metadata {
+> >  	ssize_t size;
+> >  };
+> >  
+> > +struct qcom_scm_pas_ctx {
+> > +	struct device *dev;
+> > +	u32 peripheral;
+> > +	phys_addr_t mem_phys;
+> > +	size_t mem_size;
+> > +	struct qcom_scm_pas_metadata *metadata;
+> > +	bool save_mdt_ctx;
 > 
-> I think the else statement is no need here. Different platforms are
-> using different firmware phandle, vpu, scp, and vcp. so we use if-then
-> to describe the required property for these platforms. 
+> As mentioned above, can we just include qcom_scm_pas_metadata struct all
+> the time?
+> 
+> Thanks,
+> Pavan
 
-Hm? I just told you it is needed. Otherwise, explain why each
-variant/device has now VCP.
-
-You have entire commit msg to explain all this.
-
-
-Best regards,
-Krzysztof
+-- 
+-Mukesh Ojha
 
