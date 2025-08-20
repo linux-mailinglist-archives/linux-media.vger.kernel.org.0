@@ -1,197 +1,156 @@
-Return-Path: <linux-media+bounces-40462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7CAB2E2B5
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 18:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9430BB2E2D6
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 19:03:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBB60188A6A0
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:54:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CD9518936F0
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 17:03:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E1F2326D4A;
-	Wed, 20 Aug 2025 16:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9D6E33472E;
+	Wed, 20 Aug 2025 17:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BRQKINB6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dr1d03/z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10328322DD3
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 16:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41FF221F2F;
+	Wed, 20 Aug 2025 17:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755708825; cv=none; b=UjxGr2ruYpRUnvwoz7JFHMhU/c1G0C/6yCS2cethMhhRRzwR4BVHLOXzeNu445zjN4zGxwZbJcf0wc6og7IZX+ttjrbiV76eJ4IW0v33O+PISeJ3/7zva+EIRNeqcKtqwLa8acv2+fjKqO0r0gLgyanSbFHuVIMtOI4yZIjsTQk=
+	t=1755709380; cv=none; b=I76Kx4ye36sfgAxHK6r4H42NVC0LQIRlQbOnTawxGVEsh713QYk8nj2vkEGoz16tOtOvVIRjyjViunSklbRJryLfRjTXExhTAgvpGLUyuGSh7yUlmdLtKxhdgjtE0PE1mifwp/cO/wXiTuroQzQ04ohSdL5B1kQqFAz9SR5vGN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755708825; c=relaxed/simple;
-	bh=YFh9tQlkjzT5yWM+TmV6WOeSwu9NitbNMXsAdBpXl6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RpU3xQifIZ0GjFh1RbG5uJnC8xF5kDDCj59RSdYNDhyufDpJNy24R2327Cf4Apn6+SQnpb0MNKJSktUxS3heBRe84qMAj18fPbaKlrKnxfk71lAjufyKUZd0P2a61qoGgZuZoDWnQdqN6if6a0HvrAIol3r9KdVXzLm7E9ipMHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BRQKINB6; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3b9e4193083so131178f8f.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 09:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755708822; x=1756313622; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WpCvOUEy9gt+e1INXVvX+QS4u6BMKssFhZFYzWXcaY4=;
-        b=BRQKINB6EYU/nvEofIbXMeVTiAR3hU2Qld1wLO1hHns/hq2ZrF8FDGoXgSg9j8HzDM
-         Kh8pmP8NT34Sa3k8O9iyOVN9RRwjwwNR4aJKt7aK/oqcwHNdMpDtC1KUzOJ73rjMnH1P
-         cvV5K2zdw6wOEsbnCPqlPm18N4S1mWvCEEn+lRbhM7YKS515xKmkrJrzry5KFGl3Af5X
-         T12UcOZi9pGCcIVx0DqeNc4yGkmu3hlDDrjNRCTb4qPKyMSZmpgDre6Oni8E4qXuVCYt
-         hazFXzj79iWiGI/lu46k7Cj++DZUsodiiramULzVjCCNP9ABzdGIfuh3OuJQMyPkEB4K
-         nq6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755708822; x=1756313622;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WpCvOUEy9gt+e1INXVvX+QS4u6BMKssFhZFYzWXcaY4=;
-        b=DYIrVKm9bYxyeUb4oLqf4Ue83lOCVACLDSIjPx6uQLs+PGwoH8w9WMGs7dIJNs9hhO
-         QRXWexujjBqIbZmw3NdK14zZzFkBjsAtFMT4bkJhRejWt/KsXHFo0k6YWiDQAqwTVk/m
-         7BVo24zHugUZosOcbiQKea5w8Jvlm/WxS40POlra0ZGJN6C4PjJzkUHTexuMbtvp8FG7
-         0NELemxnkAA2Z7tNAJwje7uMg01CuE+jvfvgis3SmzUjuGn9Cs1ecdwt4LtR0FAXvBV8
-         YDuNmgebqCttX8vt7JgQ6sUVgmhCcKrPA3ahRvkM1xdYnmR4ApQ0tkSVCJolkkxw1S6y
-         Y1zQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5safn8s4o06ldd515XCqmqsZcUacBTkJRDln6VeXmqrcn918sdV5nxVZ5RgOfc3xIBTkag3gcP2F0jw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyRcyTycbCRlqir4WfytKOqZ3/YGaCmZ7GDWhrnsmzUVkeCBUU
-	rfH0ANl8DDnH08QHRAScyQJV2LyO3GsxDQ2PoAEFDKeNVDHZ0S4FtRdYgPzQJSTR9QY=
-X-Gm-Gg: ASbGnct8jIH3xJiDdKykoiMaGUEBSZ28Ls4Nw7qUZi3mNWgSX0gDn0aKmWmzs8ruExd
-	hh8k4Z07cFP+XFRY6xphy9IZ5BHW5PNmFTC2URdrKwiFYCXLwj41yEkoRcqPkxA+JTTHHpGko9A
-	zAT8zh5tX5uV0qk3B6Lk2tVu9IWm3c/wS4Rr1kko1/zl0ZqQeDy3VUbWIWpSS+i0kLaqXTeyim/
-	ie0KRd6ZTDKlNIMXBJEez5LEeTSOAZN+BHV2uROXP5QgCNeGY55D/7q+8NGPjaHqsK+2Wr9fO8X
-	6UdWtn70AskVf8e/kelvNeCd56ZOs9XD+2B5r6VBFI0JZZobsCqDxshd7GA1TusoywpVOe2QXsQ
-	hPgGHRXOigKVJfvFsQygQSBB57tmcMZ0j9WU=
-X-Google-Smtp-Source: AGHT+IGB0p+aULag9mfdU8eRn3hjRaFkMxyv9kzuYWAqcbOyx1VfevBG2Noz2dFjBb5RNTesRx0DXg==
-X-Received: by 2002:a05:6000:4308:b0:3b7:994b:8438 with SMTP id ffacd0b85a97d-3c32e709bd2mr2518257f8f.46.1755708822180;
-        Wed, 20 Aug 2025 09:53:42 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:d9eb:6295:cf25:b839])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077788b39sm8447524f8f.47.2025.08.20.09.53.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 09:53:41 -0700 (PDT)
-Date: Wed, 20 Aug 2025 18:53:36 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 06/11] remoteproc: Move resource table data structure
- to its own header
-Message-ID: <aKX9kO5eHUp40oRj@linaro.org>
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-7-mukesh.ojha@oss.qualcomm.com>
- <aKWDXySSt57tXHVP@linaro.org>
- <20250820151822.6cmowxfsheqxfrnb@hu-mojha-hyd.qualcomm.com>
- <20250820163250.hszey3i2gtd3o2i6@hu-mojha-hyd.qualcomm.com>
+	s=arc-20240116; t=1755709380; c=relaxed/simple;
+	bh=Zv4ujPO3KQCQ/S/zZ+87yMEeTHGtDtwjmsw35eFBLPg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GJeKu3gn/6repjJ2Tilsx8ObkFzt3ZlNB8lv0AdCbKsv3nJDGWP6bkp8t5bVVAacMd/DPFGlnZEQgz9CoeLBGJ3w+qUhW+e4gwleM8BlFaSX4VU+tc4tQS1wiR7PRw4YAqwHkYNsp3abWm86rAQt+Q3szir5y4AiBa5c8JjHUW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dr1d03/z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A73AC113CF;
+	Wed, 20 Aug 2025 17:02:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755709379;
+	bh=Zv4ujPO3KQCQ/S/zZ+87yMEeTHGtDtwjmsw35eFBLPg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Dr1d03/ztQZzehnuA3pVpw7eG2apfzSIzXWZn4V8PSF/oxOnzaMyj6VZxDgQ3XY0C
+	 nca+A2IJDoLbxKo30R/YmbItPPf92i6LVVRW7LTdmYn+yLP3bLCTrV977h9BaHEtKx
+	 NXa2PCl2PJ+9sKMlIBp1C0l2xmBSHRNp1Ot+Slf6644+zsAzHmD5BYUvfwKZ1SqBPg
+	 b3bNilTK6GPtQRkA2c0x0ltTwqwessPnwFUwQuinpUV1sWYrBj8/SGJJQ8Wlda48Mw
+	 vcZIdxxAkqbQkwlZ9DlQZ/Zs8lvh3SMTfcqlJlRdXT5KDCZbCRFgNoX/rafdY4my5h
+	 Ujim+Xbb9lOhA==
+From: Vinod Koul <vkoul@kernel.org>
+To: linux-kernel@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Andrea della Porta <andrea.porta@suse.com>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>, 
+ Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Benjamin Fair <benjaminfair@google.com>, 
+ Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>, 
+ Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev, 
+ Iwona Winiarska <iwona.winiarska@intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, linux-actions@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org, 
+ Patrick Venture <venture@google.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Vasily Khoruzhick <anarsoul@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+ Xiubo Li <Xiubo.Lee@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+ Zhang Rui <rui.zhang@intel.com>
+In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
+ parameter in regmap_config
+Message-Id: <175570934550.66459.15951444863822303407.b4-ty@kernel.org>
+Date: Wed, 20 Aug 2025 22:32:25 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250820163250.hszey3i2gtd3o2i6@hu-mojha-hyd.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Wed, Aug 20, 2025 at 10:02:50PM +0530, Mukesh Ojha wrote:
-> On Wed, Aug 20, 2025 at 08:48:22PM +0530, Mukesh Ojha wrote:
-> > On Wed, Aug 20, 2025 at 10:12:15AM +0200, Stephan Gerhold wrote:
-> > > On Tue, Aug 19, 2025 at 10:24:41PM +0530, Mukesh Ojha wrote:
-> > > > The resource table data structure has traditionally been associated with
-> > > > the remoteproc framework, where the resource table is included as a
-> > > > section within the remote processor firmware binary. However, it is also
-> > > > possible to obtain the resource table through other means—such as from a
-> > > > reserved memory region populated by the boot firmware, statically
-> > > > maintained driver data, or via a secure SMC call—when it is not embedded
-> > > > in the firmware.
-> > > > 
-> > > > There are multiple Qualcomm remote processors (e.g., Venus, Iris, GPU,
-> > > > etc.) in the upstream kernel that do not use the remoteproc framework to
-> > > > manage their lifecycle for various reasons.
-> > > > 
-> > > > When Linux is running at EL2, similar to the Qualcomm PAS driver
-> > > > (qcom_q6v5_pas.c), client drivers for subsystems like video and GPU may
-> > > > also want to use the resource table SMC call to retrieve and map
-> > > > resources before they are used by the remote processor.
-> > > > 
-> > > 
-> > > All the examples you give here (Venus/Iris, GPU) have some sort of EL2
-> > > support already for older platforms:
-> > 
-> > Example was taken from perspective of remote processor life-cycle management.
-> > You are right they have worked before in non-secure way for Chrome.
-> > 
-> > > 
-> > >  - For GPU, we just skip loading the ZAP shader and access the protected
-> > >    registers directly. I would expect the ZAP shader does effectively
-> > >    the same, perhaps with some additional handling for secure mode. Is
-> > >    this even a real remote processor that has a separate IOMMU domain?
-> > > 
-> > 
-> > I don't think it is the case and think the same that they can skip
-> > loading and Hence, I have not yet added support for it.
-> > 
-> > Will check internally before doing anything on GPU.
-> > 
-> > >  - For Venus/Iris, there is code upstream similar to your PATCH 11/11
-> > >    that maps the firmware with the IOMMU (but invokes reset directly
-> > >    using the registers, without using PAS). There is no resource table
-> > >    used for that either, so at least all Venus/Iris versions so far
-> > >    apparently had no need for any mappings aside from the firmware
-> > >    binary.
-> > 
-> > You are absolutely right
-> > 
-> > > 
-> > > I understand that you want to continue using PAS for these, but I'm a
-> > > bit confused what kind of mappings we would expect to have in the
-> > > resource table for video and GPU. Could you give an example?
-> > 
-> > We have some debug hw tracing available for video for lemans, which is
-> > optional However, I believe infra is good to have incase we need some
-> > required resources to be map for Video to work for a SoC.
-> > 
-> > > 
-> > > Thanks,
-> > > Stephan
-> > 
-> > -- 
-> > -Mukesh Ojha
-> 
-> Since I am not subscribed to any of the mailing lists to which this
-> series was sent, I am not receiving emails from the list. As a result,
-> your recent messages did not reach my inbox. Additionally, it seems your
-> reply inadvertently removed me from the To-list.
-> 
-> 
-> https://lore.kernel.org/lkml/aKXqSU-487b6Je2B@linaro.org/
-> 
-> https://lore.kernel.org/lkml/aKXQAoXZyR6SRPAA@linaro.org/
-> 
 
-Indeed, but I don't think this is my fault: You have a strange
-"Mail-Followup-To:" list in the email header of your reply [1] and my
-email client honors it when I press "group reply". Your email client or
-server seems to produce this header without including you in the follow
-up list, as if you don't want to receive any replies. :-)
+On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
+> While working on a driver using regmap with MMIO, I wondered if I need
+> to set 'fast_io' in the config. Turned out I don't need to, so I added
+> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+> MMIO implies fast IO").
+> 
+> This series fixes the existing users in the tree which needlessly set
+> the flag. They have been found using this coccinelle script:
+> 
+> [...]
 
-I fixed it up manually this time, but perhaps you should look into the
-source of this weird header in your replies, I'm probably not the only
-person using mutt and just hitting "group reply" all the time ...
+Applied, thanks!
 
-Stephan
+[12/21] phy: remove unneeded 'fast_io' parameter in regmap_config
+        commit: e1e1e77f7df7cbee959ba024e5475907fe561c98
 
-[1]: https://lore.kernel.org/linux-arm-msm/20250820163250.hszey3i2gtd3o2i6@hu-mojha-hyd.qualcomm.com/raw
+Best regards,
+-- 
+~Vinod
+
+
 
