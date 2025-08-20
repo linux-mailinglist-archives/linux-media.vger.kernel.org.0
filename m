@@ -1,144 +1,303 @@
-Return-Path: <linux-media+bounces-40383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82925B2DA2C
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:37:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEEBB2DA50
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:48:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E3341C4656F
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 10:38:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C52A01758FA
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 10:48:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E052E2DF1;
-	Wed, 20 Aug 2025 10:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C6522E2DD5;
+	Wed, 20 Aug 2025 10:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TI2qX7Er"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OSrK9gsK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC1A2E285C
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 10:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81001C3F0C;
+	Wed, 20 Aug 2025 10:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755686256; cv=none; b=NepcZrDJlnzVPFAeqHc186QIFAjaa0nih2ImdScTlIx42iHrSFzFRrh0tyzcPAOfCYK4N2FMDTyNMnBA2T4YhfJZoSJMyXgRK06hNzuhSyRDGY14RZF8ganEythrtvM96adsKHzH8K388GhQgSykRKNHPhE6t2lcbfZ5F9VQVnM=
+	t=1755686880; cv=none; b=a9Y2j4PVjLTTOzbxfE5K6Yx+hi3543VWh6+xZlsuBrnKF4cYrpHgx822Niqe6hbNIRdELwUG03tiLkUfdjMhl7O+O3WMbpeUSEKflN2UxaDurFUQG5Lhd4XwpZbz1ur+WCXMYP0mduvZh0R2VVZib1VfZ4+IQs2jf/q4sI4WRWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755686256; c=relaxed/simple;
-	bh=OFo08HW/KntH/I83D/UysFYPhvG9LOa+MqmK//stgcY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C+BeRA8YYnFf6EpNNAHkbIkFSeNGMk5WuN1OeJ+suqFZUXtbo2rv3pZQykPYwDSsILA4bZF+o65wNDxRjXlsh6MTqH3sKnZ1Ia++lzqUzkM9lhcezsButhLTcHZwdVSDnjXT4kDf2y3Q6TkdS2MLTBWBlhtI+FAcy6rAN/3+szg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TI2qX7Er; arc=none smtp.client-ip=209.85.217.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-50f85c8a9f8so2453132137.0
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 03:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1755686253; x=1756291053; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WGbsuPE+0ODe6PuJ1PHV7gxJ5+99ZGIndY0/S7JkxJw=;
-        b=TI2qX7ErOX6/ux8LjBozZEpW8ZIq7CT0tV05bBWakADb+/EJwy3mdWqqTpoxmp/rsm
-         xtNmWK6C5EI3lQSdCWJnHJhVNFxO+mG9iknEIC+ySh/TnmRa8v9jXou4Ifbh7QSYfMfb
-         C2oboOrN3H/a6vCH0NnUVPwNoy27AS7lDYsww=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755686253; x=1756291053;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WGbsuPE+0ODe6PuJ1PHV7gxJ5+99ZGIndY0/S7JkxJw=;
-        b=DuDy/R3Kx52YKv4e4gQt5coPZ2aUR0bpB4694kx1ZCkGBNATxAXkr36/1dsdxPGXpO
-         wJhbx4EbqHjL9UIonOollX8sZThMLKSrq82wJrCco0A9AxEMgqsG7FEvtloIa67gaHYO
-         aTVNaTYaH85u929es21OFt96jqR+jfb8kM8PxuSOCOuVwSpaxObEb086xMwBnDinpiQr
-         NJdiHbjYxKi7hmMIG4vIYY6bOSt0+NmemNZZ/yGNDHyY/4bZZ9kmdUaPVWCDsfATGsPA
-         9CGQTn3GxfPXSourQ8qJAe+87QXseMJCE0xQH38thC5fms/DPAj7vXuqwC7U80vtEdrf
-         m1rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYeyHW7+Vb6x+1UQuf7bIbjn0V13Cpn8uodQ/Q03P76Z7xdncWuxRckG0dQRU57YbxqLQ5bsGKqCdwPQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzX6+AXQiDBZOU5S9LpTjVWgUQpcH0+xgqDDxLx0bDfxs7F6xrH
-	kUHJlYqmxjjjM/uENDA4/DWuIImQz7r5eCKHmqulWr9umhO5TFTQXddmKXyG/VvYGkQz8+bA1xN
-	Qwvk=
-X-Gm-Gg: ASbGncsZrz90j3qPqdcQLztysCwpfa8CNtEg0Ngk/PgcuVTUgXxwtRb6W1Vep1X1l8k
-	MGhC1DOYQcGggn2nrCRTXe+O/eUuIb+DBbzlpw2x4LZdMUshlpirFliPZ2N3kcph9SUfsTe0MIc
-	svxK4YLRzfzHz/tQJXWpKEmK7zrxBqUwr0Hrp4z/HO0jd+wSsKYh8MOIdhh7tqXT8TDi0XHq5ZI
-	EZo7L/bt2Lw+po99oAeYOLtS+KeDfAUwVu4HPW7l0H7iJLZ8UjZ0OzikT9doXazR9aC8C1szhyA
-	//RXVtDWtJg6ITaEsi1aPeZh1QxOglQiqI9B37mQL2woYrvKZzXb5Rs5kJB6eC29xXwSRF5IQH1
-	iGDDtofDEJQBZXInEwUYgXROZgCzlIAapO9QTsvogDc/hp/CmY4g/uREHernWKZThcLMN
-X-Google-Smtp-Source: AGHT+IH8WRPkja5N6EKf0mmjueicJ2hbhil3QlYLhuN29kXu6TNtFhn9zXH3kXDStqXncEC6fqfnSA==
-X-Received: by 2002:a05:6102:6a8c:b0:4e5:9380:9c20 with SMTP id ada2fe7eead31-51a4f53ba28mr646548137.2.1755686252937;
-        Wed, 20 Aug 2025 03:37:32 -0700 (PDT)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-51713f939edsm1934032137.15.2025.08.20.03.37.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Aug 2025 03:37:32 -0700 (PDT)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-50f88bd4b96so4276494137.1
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 03:37:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVJkRZYH0Lh85IfdG2RhI7YqWR59cELfpV5YTeN5isGt2aSBaws7RoE1OnY1FYQU2FJuSubs+Ix6Ji/uQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:d8a:b0:4ec:c513:f3d with SMTP id
- ada2fe7eead31-51a519bb1b2mr649649137.25.1755686251925; Wed, 20 Aug 2025
- 03:37:31 -0700 (PDT)
+	s=arc-20240116; t=1755686880; c=relaxed/simple;
+	bh=oRmxz6sCrDBEVI9hEkCWNXBiflwkluoQLt2izmd/Pe8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RHc27Z+enjdzYaqXih2dsV4TSezfXOU2Jq4Up/b9eL8iUe4nfYnhB4nK/YMY6vMY5tF8pbfolO+XWT/IEsZEinMZzTyzXQn8bdaA8oLv5+gNhMyriSWsjcZI8/ZzHVQ7T77FSDGPhxfvlJKVQ280/IQXHIqPNLMNMHJhbEBvuY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OSrK9gsK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4491B666;
+	Wed, 20 Aug 2025 12:46:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755686816;
+	bh=oRmxz6sCrDBEVI9hEkCWNXBiflwkluoQLt2izmd/Pe8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OSrK9gsKGfeMtFy9C7KBku9ZgD8imKvIawbMHSncqFmFRIXZwV65F+X9Dla+vK1r+
+	 r4ONrT205osLvuQBjjtFfISj4JnusJwYzvI9pDMr8BgvDk22CSH/3GkwC6wDohuFIn
+	 hR574FBtfNRiRpIR92OHOxa+7D4K2vdYncKOSn6c=
+Message-ID: <cf9bb518-58f9-42bf-bcb8-5727d2f9abef@ideasonboard.com>
+Date: Wed, 20 Aug 2025 11:47:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250820075405.1041838-1-wenst@chromium.org>
-In-Reply-To: <20250820075405.1041838-1-wenst@chromium.org>
-From: Fei Shao <fshao@chromium.org>
-Date: Wed, 20 Aug 2025 18:36:55 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njQ5z2Ezz2OXDJ6Pk_9EEPgG3gu=Os7uFv6Lmdq0X77og@mail.gmail.com>
-X-Gm-Features: Ac12FXxxuLvE-_OGknatHaznIwKXRs2-9K8o-wweiJyigK7q1-hAihk8TkEg5BU
-Message-ID: <CAC=S1njQ5z2Ezz2OXDJ6Pk_9EEPgG3gu=Os7uFv6Lmdq0X77og@mail.gmail.com>
-Subject: Re: [PATCH v2] media: mediatek: vcodec: Use spinlock for context list
- protection lock
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 01/19] media: mc: entity: Add pipeline_started/stopped
+ ops
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+ nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20250714-c55-v11-0-bc20e460e42a@ideasonboard.com>
+ <20250714-c55-v11-1-bc20e460e42a@ideasonboard.com>
+ <wgve5k52jxfiscon77trvg6iyyc3k7ud6agz7czydgefmbvpha@56jbro6w4yqa>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <wgve5k52jxfiscon77trvg6iyyc3k7ud6agz7czydgefmbvpha@56jbro6w4yqa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 20, 2025 at 3:54=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> Previously a mutex was added to protect the encoder and decoder context
-> lists from unexpected changes originating from the SCP IP block, causing
-> the context pointer to go invalid, resulting in a NULL pointer
-> dereference in the IPI handler.
->
-> Turns out on the MT8173, the VPU IPI handler is called from hard IRQ
-> context. This causes a big warning from the scheduler. This was first
-> reported downstream on the ChromeOS kernels, but is also reproducible
-> on mainline using Fluster with the FFmpeg v4l2m2m decoders. Even though
-> the actual capture format is not supported, the affected code paths
-> are triggered.
->
-> Since this lock just protects the context list and operations on it are
-> very fast, it should be OK to switch to a spinlock.
->
-> Fixes: 6467cda18c9f ("media: mediatek: vcodec: adding lock to protect dec=
-oder context list")
-> Fixes: afaaf3a0f647 ("media: mediatek: vcodec: adding lock to protect enc=
-oder context list")
-> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v1:
-> - Switched to _irqsave / _irqrestore variants even in helper only called
->   by IRQ handler (Tomasz)
->
->  .../mediatek/vcodec/common/mtk_vcodec_fw_vpu.c       | 10 ++++++----
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c     | 12 +++++++-----
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  2 +-
->  .../platform/mediatek/vcodec/decoder/vdec_vpu_if.c   |  5 +++--
->  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c     | 12 +++++++-----
->  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h     |  2 +-
->  .../platform/mediatek/vcodec/encoder/venc_vpu_if.c   |  5 +++--
->  7 files changed, 28 insertions(+), 20 deletions(-)
+Hi Jacopo
 
-Reviewed-by: Fei Shao <fshao@chromium.org>
+On 05/08/2025 08:45, Jacopo Mondi wrote:
+> Hi Dan
+> 
+> On Mon, Jul 14, 2025 at 04:06:27PM +0100, Daniel Scally wrote:
+>> Add two new members to struct media_entity_operations, along with new
+>> functions in media-entity.c to traverse a media pipeline and call the
+>> new operations. The new functions are intended to be used to signal
+>> to a media pipeline that it has fully started, with the entity ops
+>> allowing drivers to define some action to be taken when those
+>> conditions are met.
+>>
+>> The combination of the new functions and operations allows drivers
+>> which are part of a multi-driver pipeline to delay actually starting
+>> streaming until all of the conditions for streaming succcessfully are
+>> met across all drivers.
+>>
+>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>> ---
+>> Changes in v5:
+>>
+>> 	- Update kerneldoc comments with Optional statement in the
+>> 	  right place
+>>
+>> Changes in v4:
+>>
+>> 	- Reverted to having the iter variable
+>>
+>> Changes in v3:
+>>
+>> 	- Dropped the iter variable now that the pipeline entity
+>> 	  iterator functions don't need it.
+>> 	- Updated documentation to specify Optional and return
+>> 	  values
+>>
+>> Changes in v2:
+>>
+>> 	- Refactored media_pipeline_started() such that the cleanup
+>> 	  function for media_pipeline_entity_iter is unconditionally
+>> 	  called
+>> 	- Avoided using media_entity_call() helper for operation that
+>> 	  has return type void to avoid compiler warnings
+>> ---
+>>   drivers/media/mc/mc-entity.c | 46 ++++++++++++++++++++++++++++++++++++++++++++
+>>   include/media/media-entity.h | 29 ++++++++++++++++++++++++++++
+>>   2 files changed, 75 insertions(+)
+>>
+>> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+>> index 045590905582054c46656e20463271b1f93fa6b4..d3443537d4304e12cb015630101efba22375c011 100644
+>> --- a/drivers/media/mc/mc-entity.c
+>> +++ b/drivers/media/mc/mc-entity.c
+>> @@ -1053,6 +1053,52 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
+>>   }
+>>   EXPORT_SYMBOL_GPL(__media_pipeline_entity_iter_next);
+>>
+>> +int media_pipeline_started(struct media_pipeline *pipe)
+>> +{
+>> +	struct media_pipeline_entity_iter iter;
+>> +	struct media_entity *entity;
+>> +	int ret;
+>> +
+>> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	media_pipeline_for_each_entity(pipe, &iter, entity) {
+>> +		ret = media_entity_call(entity, pipeline_started);
+>> +		if (ret && ret != -ENOIOCTLCMD)
+>> +			break;
+>> +	}
+>> +
+>> +	media_pipeline_entity_iter_cleanup(&iter);
+>> +
+>> +	ret = ret == -ENOIOCTLCMD ? 0 : ret;
+>> +	if (ret)
+>> +		media_pipeline_stopped(pipe);
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(media_pipeline_started);
+>> +
+>> +int media_pipeline_stopped(struct media_pipeline *pipe)
+>> +{
+>> +	struct media_pipeline_entity_iter iter;
+>> +	struct media_entity *entity;
+>> +	int ret;
+>> +
+>> +	ret = media_pipeline_entity_iter_init(pipe, &iter);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	media_pipeline_for_each_entity(pipe, &iter, entity)
+>> +		if (entity->ops && entity->ops->pipeline_stopped)
+>> +			entity->ops->pipeline_stopped(entity);
+> 
+> I was sure I asked this already, but I wasn't able to find any
+> reference to this in the review of the previous version, so I'll
+> re-ask (sorry if it's the second time):
+> 
+> why can't you use media_entity_call() here as well ?
+
+It causes compilation errors because media_entity_call() explicitly assumes that the callback will 
+return an integer, and .pipeline_stopped() returns void.
+
+> 
+>> +
+>> +	media_pipeline_entity_iter_cleanup(&iter);
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(media_pipeline_stopped);
+>> +
+>>   /* -----------------------------------------------------------------------------
+>>    * Links management
+>>    */
+>> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+>> index 64cf590b11343f68a456c5870ca2f32917c122f9..1e1026f65f2050bb9aa39bde68794da8d2d0a669 100644
+>> --- a/include/media/media-entity.h
+>> +++ b/include/media/media-entity.h
+>> @@ -269,6 +269,10 @@ struct media_pad {
+>>    *			media_entity_has_pad_interdep().
+>>    *			Optional: If the operation isn't implemented all pads
+>>    *			will be considered as interdependent.
+>> + * @pipeline_started:	Optional: Notify this entity that the pipeline it is a
+>> + *			part of has been started.
+>> + * @pipeline_stopped:	Optional: Notify this entity that the pipeline it is a
+>> + *			part of has been stopped.
+> 
+> Why not use the same style as the other entries ?
+
+Poor reading comprehension - I thought I had! Thanks, I'll adopt your suggestion.
+
+> 
+>   * @get_fwnode_pad:	Return the pad number based on a fwnode endpoint or
+>   *			a negative value on error. This operation can be used
+>   *			to map a fwnode to a media pad number. Optional.
+> 
+>   Or
+>   * @has_pad_interdep:	Return whether two pads of the entity are
+>   *			interdependent. If two pads are interdependent they are
+>   *			part of the same pipeline and enabling one of the pads
+>   *			means that the other pad will become "locked" and
+>   *			doesn't allow configuration changes. pad0 and pad1 are
+>   *			guaranteed to not both be sinks or sources. Never call
+>   *			the .has_pad_interdep() operation directly, always use
+>   *			media_entity_has_pad_interdep().
+>   *			Optional: If the operation isn't implemented all pads
+>   *			will be considered as interdependent.
+> 
+> Also, the existing doc uses "the entity" and not "this entity"
+> 
+> 
+> These would then be
+> 
+> * @pipeline_started:	Notify the entity that the pipeline it is a
+> *			part of has been started. Optional.
+> * @pipeline_stopped:	Notify the entity that the pipeline it is a
+> *			part of has been stopped. Optional
+> 
+> Question from a non-native speaker: "it is a part of" or "it is part
+> of" ?
+
+I think either would be acceptable; I can switch if it's clearer to you?
+
+> 
+>>    *
+>>    * .. note::
+>>    *
+>> @@ -284,6 +288,8 @@ struct media_entity_operations {
+>>   	int (*link_validate)(struct media_link *link);
+>>   	bool (*has_pad_interdep)(struct media_entity *entity, unsigned int pad0,
+>>   				 unsigned int pad1);
+>> +	int (*pipeline_started)(struct media_entity *entity);
+>> +	void (*pipeline_stopped)(struct media_entity *entity);
+>>   };
+>>
+>>   /**
+>> @@ -1261,6 +1267,29 @@ __media_pipeline_entity_iter_next(struct media_pipeline *pipe,
+>>   	     entity != NULL;							\
+>>   	     entity = __media_pipeline_entity_iter_next((pipe), iter, entity))
+>>
+>> +/**
+>> + * media_pipeline_started - Inform entities in a pipeline that it has started
+>> + * @pipe:	The pipeline
+>> + *
+>> + * Iterate on all entities in a media pipeline and call their pipeline_started
+>> + * member of media_entity_operations.
+>> + *
+>> + * Return: zero on success, or a negative error code passed through from an
+>> + * entity's .pipeline_started() operation.
+> 
+> If you don't have specific return codes to document you could consider
+> a simpler
+> 
+>   * Returns zero on success or a negative error code otherwise.
+> 
+> Up to you on this one.
+> 
+> With the above documentation aligned to the existing one and a
+> clarification on the media_entity_call usage:
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks!
+> 
+> Thanks
+> 
+>> + */
+>> +int media_pipeline_started(struct media_pipeline *pipe);
+>> +
+>> +/**
+>> + * media_pipeline_stopped - Inform entities in a pipeline that it has stopped
+>> + * @pipe:	The pipeline
+>> + *
+>> + * Iterate on all entities in a media pipeline and call their pipeline_stopped
+>> + * member of media_entity_operations.
+>> + *
+>> + * Return: zero on success, or -ENOMEM if the iterator initialisation failed.
+>> + */
+>> +int media_pipeline_stopped(struct media_pipeline *pipe);
+>> +
+>>   /**
+>>    * media_pipeline_alloc_start - Mark a pipeline as streaming
+>>    * @pad: Starting pad
+>>
+>> --
+>> 2.34.1
+>>
+>>
+
 
