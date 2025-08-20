@@ -1,127 +1,183 @@
-Return-Path: <linux-media+bounces-40406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40407-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6916B2DD0F
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:55:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F154B2DD1A
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:57:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7475174019
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:55:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C59071893C46
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 12:57:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AC4D31985A;
-	Wed, 20 Aug 2025 12:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52BF831A053;
+	Wed, 20 Aug 2025 12:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QMhgQCTn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="onRefnT6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA3B306D49
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 12:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AE521ABB0;
+	Wed, 20 Aug 2025 12:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755694530; cv=none; b=KTG6b+tzUYPLqYbkKqK3FoyBKlNk3ze97zSx7aGyTRnSi18tIqDS+5smURpFVsUhtJzLhfiTNrOJfNTY3K2Y08zE2FkTkuLu80afrbLosqBKfKg6KXkzaFgaYQRk3Sx91yLupaiAgQHGvpFrXQjWUvdyDpBt0u4iVUqOBGdVkS0=
+	t=1755694606; cv=none; b=E+RWZMe5VjVAAUMP1erSo9NF2uI59YLUUyx+nxkh8aHdsnvVOzVLg+AMiJ4xuEuY18HEInyOn7aSMW42kDqtPDu2FklyV2n8LS04nNF6xQSnNEsg0FOsuc9onB/aOrHZmHYrTpRJPhh/9158M2HCJdgoU32zP2ws2ERYc/FsF8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755694530; c=relaxed/simple;
-	bh=lL8x/9KDpVicQ/pWxB+BmbZOpVSGoD7P8hoG3VKVMYw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bZDQqDBTGTvU012woJGzA+OB2vWmEk2MICXVI+nEhzH05+zNUsFM76DZuxzZbbk0e3EA6M/avlttV0eAjb3s9RG59YAgC5l6YMrGG0w8f+G1+rO19740F3SN13BeaRvUbDnyBLSPj56ZJg6ZUCIbQ8sq0DLBxskWfKOtM5V1jO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QMhgQCTn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755694528;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dm1NRLchXLDSQBjMe4pkfY+BF3IXkVG44fzPD1wqdVQ=;
-	b=QMhgQCTnK3Fgr9dKcCrrk/iASPHJq+I8A0Gyf+rI8oOWBKbHRUQFRPp+cpc5MmFeoKNGnc
-	8pFqOddGGhlPaW2FjDBDH/MwiMhJYqgD/m0KCjEpKLrUKonvD07YxziDvwk6+uk/+iSqqp
-	mYFaN/DuQLOHJfWwJdApoRbn28HDE8M=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-613-SzdwF1EAPnCny74lnWenmA-1; Wed,
- 20 Aug 2025 08:55:24 -0400
-X-MC-Unique: SzdwF1EAPnCny74lnWenmA-1
-X-Mimecast-MFC-AGG-ID: SzdwF1EAPnCny74lnWenmA_1755694522
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 767321800370;
-	Wed, 20 Aug 2025 12:55:22 +0000 (UTC)
-Received: from thuth-p1g4.redhat.com (unknown [10.44.32.164])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A84A219560B0;
-	Wed, 20 Aug 2025 12:55:18 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-spdx@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: mxl5005s: Replace GPLv2 boilerplate text with SPDX
-Date: Wed, 20 Aug 2025 14:55:16 +0200
-Message-ID: <20250820125516.494408-1-thuth@redhat.com>
+	s=arc-20240116; t=1755694606; c=relaxed/simple;
+	bh=sRLP8uWIXlFBFWspOK+jP+grjVNRkERyBQLI1QwsgAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ncRXFwlAe0mszTlRws7IvHR5GOirvp3MvG35QzDWmINolfZFxsdwkoBaxe3GJOaNJGdrw+wmIpoqAZsArcSeenhApUbx1Y3S+eTos6LDW309sHNe6XdmqLJyE7/rVcB0CZpWb8jPPbZQHDYUUwy63Hh9XfFPAQ4STA0sRsL+nQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=onRefnT6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-62-213.net.vodafone.it [5.90.62.213])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18666606;
+	Wed, 20 Aug 2025 14:55:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755694544;
+	bh=sRLP8uWIXlFBFWspOK+jP+grjVNRkERyBQLI1QwsgAg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=onRefnT6f30y52EvmkxgBRSnUq0H0g9RrMmNzR3HILYC4uIypuh2U68PGD1bkmKpT
+	 IOPbJDQVeGY3NQV9Bcsis5XbeixWkis+VBq/zP/upJ9/PDctnGwqr7Az8hxkvylkcE
+	 khM+GSQzt+KzTIoTkVxTdSJQZ6xGqnPeFm4yigR4=
+Date: Wed, 20 Aug 2025 14:56:38 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Aliaksandr Smirnou <support@pinefeat.co.uk>, 
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: jacopo.mondi@ideasonboard.com, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, mchehab@kernel.org, robh@kernel.org
+Subject: Re: [PATCH v3 2/2] media: i2c: Pinefeat cef168 lens control board
+ driver
+Message-ID: <d2ka3glpjiisjs7ydx7knzzfb2dzi2lyc2r7d4hppqor33xate@2evtuolz6wah>
+References: <4qxxvvzxbbdukjn5ykjxhgj6kp2yqd4bidpl74ozbrwtt2jgjj@ipleqjgnnpys>
+ <20250819213234.18378-1-support@pinefeat.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250819213234.18378-1-support@pinefeat.co.uk>
 
-From: Thomas Huth <thuth@redhat.com>
+Hello
+  +cc Hans
 
-The FSF does not reside in "675 Mass Ave" anymore, so we should
-not ask the people to write to that address in case they need a
-copy of the GPL.
+On Tue, Aug 19, 2025 at 10:32:34PM +0100, Aliaksandr Smirnou wrote:
+> Hi Jacopo,
+>
+> Thank you for the review. Your remarks are very helpful. While I'll apply
+> most of them, could you clarify the one regarding pm_runtime_ for me?
+>
+> On Tue, 19 Aug 2025 15:47:54 +0200, Jacopo Mondi wrote:
+> > > +#include <linux/crc8.h>
+> >
+> > Do you need to "select CRC8" in Kconfig then ?
+>
+> Yes, I'll include it.
+>
+> > > +#include "cef168.h"
+> >
+> > Why an header file ?
+>
+> Ok, I'll remove the header moving everying in the .c file.
+>
+> > > +	for (retry = 0; retry < 3; retry++) {
+> >
+> > This seems a bit random, why do you need to retry three times ?
+>
+> The driver retries writes to work around an issue in the Raspberry
+> Pi's I2C hardware, where the BCM2835 mishandles clock stretching.
+> When the slave stretches the clock, the Pi can misread the SCL line
+> or sample data too early, making it think the write failed. To
+> improve reliability, the kernel driver automatically retries the
+> write, effectively compensating for the hardware's timing bug.
+>
 
-Anyway, all other mxl* files in this directory (including the
-corresponding header mxl5005s.h) already had their boilerplate
-text replaced by a proper SPDX tag in the earlier commits, so
-let's do the same in the remaining mxl5005s.c file now, too.
+mmm, usually a mainline driver is not the right place for introducing in
+workarounds for a specific host/soc, as the assumption is that the
+driver should work on all platforms equally.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- drivers/media/tuners/mxl5005s.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+Your case is certainly different as this product is pi-specific...
 
-diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
-index 0e811c5eae6cb..eeacebf0a8752 100644
---- a/drivers/media/tuners/mxl5005s.c
-+++ b/drivers/media/tuners/mxl5005s.c
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
- /*
-     MaxLinear MXL5005S VSB/QAM/DVBT tuner driver
- 
-@@ -20,21 +21,6 @@
-     Copyright (C) 2008 Jan Hoogenraad
-       Functions:
- 	mxl5005s_SetRfFreqHz()
--
--    This program is free software; you can redistribute it and/or modify
--    it under the terms of the GNU General Public License as published by
--    the Free Software Foundation; either version 2 of the License, or
--    (at your option) any later version.
--
--    This program is distributed in the hope that it will be useful,
--    but WITHOUT ANY WARRANTY; without even the implied warranty of
--    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--    GNU General Public License for more details.
--
--    You should have received a copy of the GNU General Public License
--    along with this program; if not, write to the Free Software
--    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
--
- */
- 
- /*
--- 
-2.50.1
+With a comment I wouldn't mind too much. Maybe others do :)
 
+> > > +	    ctrl->id != CEF168_V4L2_CID_CUSTOM(data) &&
+> > > +	    ctrl->id != CEF168_V4L2_CID_CUSTOM(focus_range) &&
+> > > +	    ctrl->id != CEF168_V4L2_CID_CUSTOM(lens_id))
+> > > +		return -EINVAL;
+> >
+> > If you mark them WRITE_ONLY wouldn't the core take care of this ?
+>
+> These controls are read-only. The data they return depens on the lens.
+>
+
+Sorry, I wasn't clear.
+
+If you mark as WO the controls you don't accept here, will the core
+handle this for you ?
+
+> > > +	struct cef168_data data;
+> >
+> > I thought the compiler would complain for variables declared not at
+> > the beginning of the function
+>
+> Ok, I'll move the variable at the beginning.
+>
+> > > +	pm_runtime_set_active(&client->dev);
+> >
+> > Is the device powered up at this point ?
+> > If you depend on the pm_runtime_resume_and_get() call in open() to
+> > power the device up, then you need to depend on PM in KConfig ?
+>
+> Yes, the device powers from 3v3 rail of a SBC, which makes it powered
+> up as soon as the SBC is up. Given that, should I remove all code
+> around Power Management Runtime (pm_runtime_*) as redundant?
+>
+
+Yes, I overlooked the fact you don't regiser any resume/suspend
+routine, so your calls to pm_runtime_set_active/pm_runtime_put are
+nops (they do at least provide usage counting, but I would anyway
+remove them).
+
+> > > +#define CEF168_V4L2_CID_CUSTOM(ctrl) \
+> > > +	((V4L2_CID_USER_BASE | 168) + custom_##ctrl)
+> >
+> > I think you need to reserve space for your controls in
+> > include/uapi/linux/v4l2-controls.h
+> >
+> > otherwise this will never be visible to applications ?
+>
+> I found there is no need for that. Custom control become available
+> automatically by name via the v4l2-ctl utility. For example, the focus
+> range can be read directly in the terminal as follows:
+>
+> v4l2-ctl -d $DEV_LENS -C focus_range
+>
+
+Yes the driver enuemrates them, but you need to add them to the main
+header, otherwise USER_BASE | 168 will be take by someone else.
+
+See in example 7c8c957ef12c41968adb66d785ce1dd5fb2f96e7 which is the
+latest commit that adds a custom control space.
+
+Hans, do we need a uapi header file with the definition of the custom
+controls registered by this driver ?
+
+Thanks
+  j
+
+> > > +/**
+> > > + * cef168 data structure
+> >
+> > No need to kerneldoc unless you properly document all fields and
+> > include the file in some of the Documentation/
+>
+> OK, I'll remove the comment above the structure.
+>
+> Kind regards,
+>   Aliaksandr
 
