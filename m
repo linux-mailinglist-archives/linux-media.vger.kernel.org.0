@@ -1,424 +1,196 @@
-Return-Path: <linux-media+bounces-40458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40459-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261B4B2E1E1
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 18:08:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0221B2E265
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 18:34:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73F887AA6ED
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:06:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B8423BD0D9
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0168C322A2D;
-	Wed, 20 Aug 2025 16:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEF3F3314C7;
+	Wed, 20 Aug 2025 16:30:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FdohNpdr"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VFHsKdWN";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OvTKxUqt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E4A32276B
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 16:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A918732BF2D
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 16:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755706101; cv=none; b=UeZNatc6HN5CxnukU9TrSncOQDAOxRlQZdXmkC949UI9RFLbszLqbUINC3eAPzETVOOSrmp1MU0fYdBP897XBfQ54sg6GihjF9TK1XmRFQ+hqxa0i0iMMqQhUMhD1yfhO5MbNnn0E3UsgZM/iTrqgFAqfuds12pwpLWbAHkzcjI=
+	t=1755707401; cv=none; b=EF6jbJGCiqphmKzonbzv619O0miZzbODX7tc932QvT7JEMg9qQ077AlkPS/cZVRn981hrUNwT+YbFUSQwEkRmOftIpTIafQmWKIq7siFO04Wg0YkHLOPyr3ZhEejYyMk0K+mVDAiIl2hA4WLfIo9QmOgxCuguOApbexDGRwpqSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755706101; c=relaxed/simple;
-	bh=Joi+VD0aGP9Qp7wvbaFgL6hxUVpcpa4mf92KvPAn9Y8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=K0ot1Vcix9t+UUeZEdqP5PqOTaftV+fDOUetPtPm7It7NY1iXHGoxV6ZsVUxhwPFEok9bxw1XzFa3KCfKxMPYJxkRmkc0/zIg6Hxq5ki8R4m6eoMANxK6/3C0E0jGuWJzHLPEy6dLokxVDt6EdHcE0zMsP2JBFAuE9fzy+7NqcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FdohNpdr; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-55ce5095c8fso5612257e87.0
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 09:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1755706097; x=1756310897; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SCA0GXWqslWPlIIYtcPCyKFfUKJ/jlnGVJn23J9v8Ng=;
-        b=FdohNpdrB/itwRpX//KfSpESC/9q+UIvFuXc1Pj6qUbPrvylRqd+xbbc7h++eAXwYB
-         wTaOLkMB8KYGXz1Zawn8qGQOaDSJP6MbwSLwtJbzQg1aOddZqAY+CTugL/wuw4ZAL8z2
-         OgYiebn5yngPCE2ECJmijFQEjwJsOXuaM3S5A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755706097; x=1756310897;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SCA0GXWqslWPlIIYtcPCyKFfUKJ/jlnGVJn23J9v8Ng=;
-        b=GTGK5U077Y37BZSOMGyQLzynO//pm/M4JosTNl1jrB42xYUB3LA9NEsjBpBNLU3/ec
-         XwQtol7Rt4Vgsn1AzEj9SvZd6PSQXQdn3g156puWi1usSgtmLCEVFHrdNUs/SPO3KvUC
-         6GoHV3F20p8H9F28GvFRKJ7E467QaIiohJ7RxK5A2d2rfVCumdgmpcwVRbI0p0e55Rg1
-         OgUh0ves2r+1DxpbQrql09NON6Cf1HE331MNgry93+IDhGJ83dfc93Tyz/M6umOxKFDc
-         lYS8CEoJWstaxCdrgebkXSrWwHoQZaEXbNW+3D9fDKYpfuayRaGpBKVDbf50Yg2Djz8a
-         f/UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVI9kl0J4ZDba9oRSgMNR4sYHk8Yj9P6TQKWPG+vSGyeO4GKZsEA+jMdpYysLfpPuBS4Wve+ZTgF2odHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHinymG64G4wN7k7co+5dsQ1MWdPRBBoWngX0GhU5paenHW63s
-	W0XePNJtoOglRu8d/fEWnnvkEYbj4WRQB8r7pnHF8rkKyahST/q+yjm4eHdytAeCxQ==
-X-Gm-Gg: ASbGncvKh86iKG1/RX/jMImsnpbZqbxji5T90xxcPHZSTA6LIiFhTGpeDwn40n25i6/
-	d6jns9E1VdPICmbJ5BsaOrilAQjJBcAFuJ9v2+dh5ooVFYUoUqM8+FORa57Q0MNQ2zCYexrLsc2
-	2eoQ584yfM+uPIjFppKtSvBiKpzpRVmW0aivlL05s9Gmc7BdhggvvLjVWeTJX4EPRVFBIrjECDA
-	XImcxjg+kZy3a/r4BpTe00cfMnUgefU+16+DjWdQe3pwfI9QlTHfqE/wHDM7aSp3v6LFbr00vwe
-	gq38gLp6f6Gb/ohRCDCoNoYxJOK9XL2nvg5VZ3zvlMUqspLfju/3RDRqvg8nWN+XphSzUfHkXV4
-	vDRo/WLCBlpiD0ZavoIJ+7JuRI/ccHQ1HnNTWr2B/+C3wLtLvCoHL+/t+2ZjFK7gwqvtDfQySSh
-	o=
-X-Google-Smtp-Source: AGHT+IG3Ua4dwjt3C3BSfjIEc2IRj/OKFU4R89H2pBomdw9n97PiQdv1HpbI5uTvG4Nv/mwFNWEonQ==
-X-Received: by 2002:ac2:4cb1:0:b0:554:f72c:819d with SMTP id 2adb3069b0e04-55e06bb45efmr797158e87.43.1755706097116;
-        Wed, 20 Aug 2025 09:08:17 -0700 (PDT)
-Received: from ribalda.c.googlers.com (237.65.88.34.bc.googleusercontent.com. [34.88.65.237])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef42625dsm2647562e87.144.2025.08.20.09.08.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 09:08:16 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 20 Aug 2025 16:08:16 +0000
-Subject: [PATCH] media: uvcvideo: Mark invalid entities with id
- UVC_INVALID_ENTITY_ID
+	s=arc-20240116; t=1755707401; c=relaxed/simple;
+	bh=rGpspVxhSNOfNYJcQmYWjT78tub2GfjShRMsUYKMZGs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hcJPEVrNaUuZnHy+C5rW5B2x1KuHa970/jbcZPnufX1Q+3JL7to8OQyTBXEuk0Q4P/UFraNiYSXRdSF8agqFfB93llvADDR6zpxvM0IlWXdZRZRockInj4fr/NOyibxBYtquxzSqf50/DOZJlyGbQvkPVxUqzZJjMifm72vVXy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VFHsKdWN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OvTKxUqt; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4c6X3g5FF9z9vMs;
+	Wed, 20 Aug 2025 18:29:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1755707391;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DIcJXdY0bFOT+K5fxLDoNnlzrIjJ8KNGGAkp25jXns0=;
+	b=VFHsKdWNItDfUTvE68vx6ei2gdB20WBIeJlmbaKup6cmFzcRD8QWEgrK+SGoaiXJHmG2Kd
+	iPdTMXgh0iDZBEqRzh+lzFUQsLlFbdaI4YYdbyUSGapWXPr7Mwt/Br2ZOGPHDY2batxBJj
+	xzU2Qd6kUsnwFanbkjS4vqeklbUbI7dyJwkb9ANNx0xa1Vz03usMt41iTWKbOEP08L5M82
+	yF6vAmsFJL4n9rTTFw6mOZgTMS16h3vTnTVzI/onWO3/fnrzMb3OG/E2EW7VzWlK1eoGZi
+	qVHnMkZA+Tmya7YqOi+93RiwTcBevd6Dp6/H1Pe8eE7yci6S0OnCVcwA6/YKfw==
+From: Marek Vasut <marek.vasut@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1755707389;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DIcJXdY0bFOT+K5fxLDoNnlzrIjJ8KNGGAkp25jXns0=;
+	b=OvTKxUqt4oP+waZA2q9EhhmDKB6kUFOnsF8WZvqfopnmsjvcnLndZmFlH8c5+90wr08PtV
+	nC386+xfxenQrMjLPB1NZqCdXxy8n6EGS5cw7N4nyHU19qx10TVTB0mTn8CPLG+oZRRYTZ
+	Rdw+EafXbCx5009LvywQkxKWEVM1qimYteBmHSTrko0HOo+FTVMXJMD287PB1aTg2BlnQc
+	szwsG+XWyy9fblqBNHa5a3zIA/p11ZUc7oPLDJdYfpfVTEZMDNUQqTKVCRtRynkKO3da5r
+	akyy3NgNYSRiu2SY8zfd6xKx3GGd2HdaeCh+PH74cCkdA/cWgSNIB8C3sJ2MkQ==
+To: linux-media@vger.kernel.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ming Qian <ming.qian@oss.nxp.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: imx-jpeg: Fix JPEG encoder ready race condition
+Date: Wed, 20 Aug 2025 18:29:25 +0200
+Message-ID: <20250820162938.209892-1-marek.vasut@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-uvc-thadeu2-v1-1-a04a7cc8fc76@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAO/ypWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDCyMD3dKyZN2SjMSU1FIjXSNTcyPjREszw6QUCyWgjoKi1LTMCrBp0bG
- 1tQDxHDxFXQAAAA==
-X-Change-ID: 20250820-uvc-thadeu2-25723a961bd8
-To: Tomasz Sikora <sikora.tomus@gmail.com>, 
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hverkuil@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, 
- syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com, 
- syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 1ff6a9bf43c2ac3d2b1
+X-MBO-RS-META: di1e7ameqb8sumcpdd3daidariamhnpu
 
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+The current mxc_jpeg_job_ready() implementation works for JPEG decode
+side of this IP, it does not work at all for the JPEG encode side. The
+JPEG encode side does not change ctx->source_change at all, therefore
+the mxc_jpeg_source_change() always returns right away and the encode
+side somehow works.
 
-Per UVC 1.1+ specification 3.7.2, units and terminals must have a non-zero
-unique ID.
+However, this is susceptible to a race condition between mxc_jpeg_dec_irq()
+and mxc_jpeg_start_streaming(), where mxc_jpeg_start_streaming() might
+start decoding another frame before mxc_jpeg_dec_irq() indicates completion
+of encoding of current frame. Add new state, MXC_JPEG_ENC_DONE, which is
+set in three locations, first when streaming starts to indicate the encoder
+is ready to start processing a frame, second in mxc_jpeg_dec_irq() when the
+encoder finishes encoding current frame, and third in mxc_jpeg_dec_irq() in
+case of an error so the encoder can proceed with encoding another frame.
 
-```
-Each Unit and Terminal within the video function is assigned a unique
-identification number, the Unit ID (UID) or Terminal ID (TID), contained in
-the bUnitID or bTerminalID field of the descriptor. The value 0x00 is
-reserved for undefined ID,
-```
+Update mxc_jpeg_job_ready() to check whether the encoder is in this new
+MXC_JPEG_ENC_DONE state before reporting the encoder is ready to encode
+new frame.
 
-If we add a new entity with id 0 or a duplicated ID, it will be marked
-as UVC_INVALID_ENTITY_ID.
-
-In a previous attempt commit 3dd075fe8ebb ("media: uvcvideo: Require
-entities to have a non-zero unique ID"), we ignored all the invalid units,
-this broke a lot of non-compatible cameras. Hopefully we are more lucky
-this time.
-
-This also prevents some syzkaller reproducers from triggering warnings due
-to a chain of entities referring to themselves. In one particular case, an
-Output Unit is connected to an Input Unit, both with the same ID of 1. But
-when looking up for the source ID of the Output Unit, that same entity is
-found instead of the input entity, which leads to such warnings.
-
-In another case, a backward chain was considered finished as the source ID
-was 0. Later on, that entity was found, but its pads were not valid.
-
-Here is a sample stack trace for one of those cases.
-
-[   20.650953] usb 1-1: new high-speed USB device number 2 using dummy_hcd
-[   20.830206] usb 1-1: Using ep0 maxpacket: 8
-[   20.833501] usb 1-1: config 0 descriptor??
-[   21.038518] usb 1-1: string descriptor 0 read error: -71
-[   21.038893] usb 1-1: Found UVC 0.00 device <unnamed> (2833:0201)
-[   21.039299] uvcvideo 1-1:0.0: Entity type for entity Output 1 was not initialized!
-[   21.041583] uvcvideo 1-1:0.0: Entity type for entity Input 1 was not initialized!
-[   21.042218] ------------[ cut here ]------------
-[   21.042536] WARNING: CPU: 0 PID: 9 at drivers/media/mc/mc-entity.c:1147 media_create_pad_link+0x2c4/0x2e0
-[   21.043195] Modules linked in:
-[   21.043535] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.11.0-rc7-00030-g3480e43aeccf #444
-[   21.044101] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
-[   21.044639] Workqueue: usb_hub_wq hub_event
-[   21.045100] RIP: 0010:media_create_pad_link+0x2c4/0x2e0
-[   21.045508] Code: fe e8 20 01 00 00 b8 f4 ff ff ff 48 83 c4 30 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc 0f 0b eb e9 0f 0b eb 0a 0f 0b eb 06 <0f> 0b eb 02 0f 0b b8 ea ff ff ff eb d4 66 2e 0f 1f 84 00 00 00 00
-[   21.046801] RSP: 0018:ffffc9000004b318 EFLAGS: 00010246
-[   21.047227] RAX: ffff888004e5d458 RBX: 0000000000000000 RCX: ffffffff818fccf1
-[   21.047719] RDX: 000000000000007b RSI: 0000000000000000 RDI: ffff888004313290
-[   21.048241] RBP: ffff888004313290 R08: 0001ffffffffffff R09: 0000000000000000
-[   21.048701] R10: 0000000000000013 R11: 0001888004313290 R12: 0000000000000003
-[   21.049138] R13: ffff888004313080 R14: ffff888004313080 R15: 0000000000000000
-[   21.049648] FS:  0000000000000000(0000) GS:ffff88803ec00000(0000) knlGS:0000000000000000
-[   21.050271] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   21.050688] CR2: 0000592cc27635b0 CR3: 000000000431c000 CR4: 0000000000750ef0
-[   21.051136] PKRU: 55555554
-[   21.051331] Call Trace:
-[   21.051480]  <TASK>
-[   21.051611]  ? __warn+0xc4/0x210
-[   21.051861]  ? media_create_pad_link+0x2c4/0x2e0
-[   21.052252]  ? report_bug+0x11b/0x1a0
-[   21.052540]  ? trace_hardirqs_on+0x31/0x40
-[   21.052901]  ? handle_bug+0x3d/0x70
-[   21.053197]  ? exc_invalid_op+0x1a/0x50
-[   21.053511]  ? asm_exc_invalid_op+0x1a/0x20
-[   21.053924]  ? media_create_pad_link+0x91/0x2e0
-[   21.054364]  ? media_create_pad_link+0x2c4/0x2e0
-[   21.054834]  ? media_create_pad_link+0x91/0x2e0
-[   21.055131]  ? _raw_spin_unlock+0x1e/0x40
-[   21.055441]  ? __v4l2_device_register_subdev+0x202/0x210
-[   21.055837]  uvc_mc_register_entities+0x358/0x400
-[   21.056144]  uvc_register_chains+0x1fd/0x290
-[   21.056413]  uvc_probe+0x380e/0x3dc0
-[   21.056676]  ? __lock_acquire+0x5aa/0x26e0
-[   21.056946]  ? find_held_lock+0x33/0xa0
-[   21.057196]  ? kernfs_activate+0x70/0x80
-[   21.057533]  ? usb_match_dynamic_id+0x1b/0x70
-[   21.057811]  ? find_held_lock+0x33/0xa0
-[   21.058047]  ? usb_match_dynamic_id+0x55/0x70
-[   21.058330]  ? lock_release+0x124/0x260
-[   21.058657]  ? usb_match_one_id_intf+0xa2/0x100
-[   21.058997]  usb_probe_interface+0x1ba/0x330
-[   21.059399]  really_probe+0x1ba/0x4c0
-[   21.059662]  __driver_probe_device+0xb2/0x180
-[   21.059944]  driver_probe_device+0x5a/0x100
-[   21.060170]  __device_attach_driver+0xe9/0x160
-[   21.060427]  ? __pfx___device_attach_driver+0x10/0x10
-[   21.060872]  bus_for_each_drv+0xa9/0x100
-[   21.061312]  __device_attach+0xed/0x190
-[   21.061812]  device_initial_probe+0xe/0x20
-[   21.062229]  bus_probe_device+0x4d/0xd0
-[   21.062590]  device_add+0x308/0x590
-[   21.062912]  usb_set_configuration+0x7b6/0xaf0
-[   21.063403]  usb_generic_driver_probe+0x36/0x80
-[   21.063714]  usb_probe_device+0x7b/0x130
-[   21.063936]  really_probe+0x1ba/0x4c0
-[   21.064111]  __driver_probe_device+0xb2/0x180
-[   21.064577]  driver_probe_device+0x5a/0x100
-[   21.065019]  __device_attach_driver+0xe9/0x160
-[   21.065403]  ? __pfx___device_attach_driver+0x10/0x10
-[   21.065820]  bus_for_each_drv+0xa9/0x100
-[   21.066094]  __device_attach+0xed/0x190
-[   21.066535]  device_initial_probe+0xe/0x20
-[   21.066992]  bus_probe_device+0x4d/0xd0
-[   21.067250]  device_add+0x308/0x590
-[   21.067501]  usb_new_device+0x347/0x610
-[   21.067817]  hub_event+0x156b/0x1e30
-[   21.068060]  ? process_scheduled_works+0x48b/0xaf0
-[   21.068337]  process_scheduled_works+0x5a3/0xaf0
-[   21.068668]  worker_thread+0x3cf/0x560
-[   21.068932]  ? kthread+0x109/0x1b0
-[   21.069133]  kthread+0x197/0x1b0
-[   21.069343]  ? __pfx_worker_thread+0x10/0x10
-[   21.069598]  ? __pfx_kthread+0x10/0x10
-[   21.069908]  ret_from_fork+0x32/0x40
-[   21.070169]  ? __pfx_kthread+0x10/0x10
-[   21.070424]  ret_from_fork_asm+0x1a/0x30
-[   21.070737]  </TASK>
-
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0584f746fde3d52b4675
-Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-Fixes: a3fbc2e6bb05 ("media: mc-entity.c: use WARN_ON, validate link pads")
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Co-developed-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Fixes: b4e1fb8643da ("media: imx-jpeg: Support dynamic resolution change")
+Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 ---
-This is a new attempt to land a Thadeu's patch, but being a bit more
-benevolent on the non-compliant cameras.
-
-I have kept most of Thadeu's code, but instead of returning an error
-when trying to allocate an invalid entity, I replace its id with a
-special ID.
-
-Thadeu can you validate this new version?
-
-Tomasz can you also check this patch with your non compliant camera?
-
-Thanks!
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Ming Qian <ming.qian@oss.nxp.com>
+Cc: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-media@vger.kernel.org
 ---
- drivers/media/usb/uvc/uvc_driver.c | 73 ++++++++++++++++++++++++--------------
- drivers/media/usb/uvc/uvcvideo.h   |  2 ++
- 2 files changed, 48 insertions(+), 27 deletions(-)
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 18 ++++++++++++++++--
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h |  1 +
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 775bede0d93d9b3e5391914aa395326d3de6a3b1..46923cd85f0b6790f01ae6b393571ca7660900f7 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -137,6 +137,9 @@ struct uvc_entity *uvc_entity_by_id(struct uvc_device *dev, int id)
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index df3ccdf767baf..aef1d6473eb8d 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -1009,6 +1009,7 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
+ 
+ 		dev_err(dev, "Encoder/decoder error, dec_ret = 0x%08x, status=0x%08x",
+ 			dec_ret, ret);
++		ctx->enc_state = MXC_JPEG_ENC_DONE;
+ 		mxc_jpeg_clr_desc(reg, slot);
+ 		mxc_jpeg_sw_reset(reg);
+ 		buf_state = VB2_BUF_STATE_ERROR;
+@@ -1062,9 +1063,16 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
+ 
+ buffers_done:
+ 	mxc_jpeg_job_finish(ctx, buf_state, false);
+-	spin_unlock(&jpeg->hw_lock);
+ 	cancel_delayed_work(&ctx->task_timer);
++
++	if (jpeg->mode == MXC_JPEG_ENCODE && ctx->enc_state == MXC_JPEG_ENCODING)
++		ctx->enc_state = MXC_JPEG_ENC_DONE;
++
+ 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
++
++	spin_unlock(&jpeg->hw_lock);
++
++
+ 	return IRQ_HANDLED;
+ job_unlock:
+ 	spin_unlock(&jpeg->hw_lock);
+@@ -1488,8 +1496,12 @@ static bool mxc_jpeg_source_change(struct mxc_jpeg_ctx *ctx,
+ static int mxc_jpeg_job_ready(void *priv)
  {
- 	struct uvc_entity *entity;
+ 	struct mxc_jpeg_ctx *ctx = priv;
++	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
  
-+	if (id == UVC_INVALID_ENTITY_ID)
-+		return NULL;
-+
- 	list_for_each_entry(entity, &dev->entities, list) {
- 		if (entity->id == id)
- 			return entity;
-@@ -795,14 +798,27 @@ static const u8 uvc_media_transport_input_guid[16] =
- 	UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
- static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
+-	return ctx->source_change ? 0 : 1;
++	if (jpeg->mode == MXC_JPEG_ENCODE)
++		return ctx->enc_state == MXC_JPEG_ENC_DONE;
++	else
++		return ctx->source_change ? 0 : 1;
+ }
  
--static struct uvc_entity *uvc_alloc_entity(u16 type, u16 id,
--		unsigned int num_pads, unsigned int extra_size)
-+static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
-+					       u16 id, unsigned int num_pads,
-+					       unsigned int extra_size)
- {
- 	struct uvc_entity *entity;
- 	unsigned int num_inputs;
- 	unsigned int size;
- 	unsigned int i;
+ static void mxc_jpeg_device_run_timeout(struct work_struct *work)
+@@ -1713,6 +1725,8 @@ static int mxc_jpeg_start_streaming(struct vb2_queue *q, unsigned int count)
  
-+	/* Per UVC 1.1+ spec 3.7.2, the ID should be non-zero. */
-+	if (id == 0) {
-+		dev_err(&dev->intf->dev, "Found Unit with invalid ID 0.\n");
-+		id = UVC_INVALID_ENTITY_ID;
-+	}
-+
-+	/* Per UVC 1.1+ spec 3.7.2, the ID is unique. */
-+	if (uvc_entity_by_id(dev, id)) {
-+		dev_err(&dev->intf->dev, "Found multiple Units with ID %u\n", id);
-+		id = UVC_INVALID_ENTITY_ID;
-+	}
-+
- 	extra_size = roundup(extra_size, sizeof(*entity->pads));
- 	if (num_pads)
- 		num_inputs = type & UVC_TERM_OUTPUT ? num_pads : num_pads - 1;
-@@ -812,7 +828,7 @@ static struct uvc_entity *uvc_alloc_entity(u16 type, u16 id,
- 	     + num_inputs;
- 	entity = kzalloc(size, GFP_KERNEL);
- 	if (entity == NULL)
--		return NULL;
-+		return ERR_PTR(-ENOMEM);
+ 	if (ctx->mxc_jpeg->mode == MXC_JPEG_DECODE && V4L2_TYPE_IS_CAPTURE(q->type))
+ 		ctx->source_change = 0;
++	if (ctx->mxc_jpeg->mode == MXC_JPEG_ENCODE)
++		ctx->enc_state = MXC_JPEG_ENC_DONE;
+ 	dev_dbg(ctx->mxc_jpeg->dev, "Start streaming ctx=%p", ctx);
+ 	q_data->sequence = 0;
  
- 	entity->id = id;
- 	entity->type = type;
-@@ -924,10 +940,10 @@ static int uvc_parse_vendor_control(struct uvc_device *dev,
- 			break;
- 		}
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+index 44e46face6d1d..7f0910fc9b47e 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+@@ -35,6 +35,7 @@
+ enum mxc_jpeg_enc_state {
+ 	MXC_JPEG_ENCODING	= 0, /* jpeg encode phase */
+ 	MXC_JPEG_ENC_CONF	= 1, /* jpeg encoder config phase */
++	MXC_JPEG_ENC_DONE	= 2, /* jpeg encoder done/ready phase */
+ };
  
--		unit = uvc_alloc_entity(UVC_VC_EXTENSION_UNIT, buffer[3],
--					p + 1, 2*n);
--		if (unit == NULL)
--			return -ENOMEM;
-+		unit = uvc_alloc_new_entity(dev, UVC_VC_EXTENSION_UNIT,
-+					    buffer[3], p + 1, 2 * n);
-+		if (IS_ERR(unit))
-+			return PTR_ERR(unit);
- 
- 		memcpy(unit->guid, &buffer[4], 16);
- 		unit->extension.bNumControls = buffer[20];
-@@ -1036,10 +1052,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 			return -EINVAL;
- 		}
- 
--		term = uvc_alloc_entity(type | UVC_TERM_INPUT, buffer[3],
--					1, n + p);
--		if (term == NULL)
--			return -ENOMEM;
-+		term = uvc_alloc_new_entity(dev, type | UVC_TERM_INPUT,
-+					    buffer[3], 1, n + p);
-+		if (IS_ERR(term))
-+			return PTR_ERR(term);
- 
- 		if (UVC_ENTITY_TYPE(term) == UVC_ITT_CAMERA) {
- 			term->camera.bControlSize = n;
-@@ -1095,10 +1111,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 			return 0;
- 		}
- 
--		term = uvc_alloc_entity(type | UVC_TERM_OUTPUT, buffer[3],
--					1, 0);
--		if (term == NULL)
--			return -ENOMEM;
-+		term = uvc_alloc_new_entity(dev, type | UVC_TERM_OUTPUT,
-+					    buffer[3], 1, 0);
-+		if (IS_ERR(term))
-+			return PTR_ERR(term);
- 
- 		memcpy(term->baSourceID, &buffer[7], 1);
- 
-@@ -1117,9 +1133,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 			return -EINVAL;
- 		}
- 
--		unit = uvc_alloc_entity(buffer[2], buffer[3], p + 1, 0);
--		if (unit == NULL)
--			return -ENOMEM;
-+		unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3],
-+					    p + 1, 0);
-+		if (IS_ERR(unit))
-+			return PTR_ERR(unit);
- 
- 		memcpy(unit->baSourceID, &buffer[5], p);
- 
-@@ -1139,9 +1156,9 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 			return -EINVAL;
- 		}
- 
--		unit = uvc_alloc_entity(buffer[2], buffer[3], 2, n);
--		if (unit == NULL)
--			return -ENOMEM;
-+		unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3], 2, n);
-+		if (IS_ERR(unit))
-+			return PTR_ERR(unit);
- 
- 		memcpy(unit->baSourceID, &buffer[4], 1);
- 		unit->processing.wMaxMultiplier =
-@@ -1168,9 +1185,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 			return -EINVAL;
- 		}
- 
--		unit = uvc_alloc_entity(buffer[2], buffer[3], p + 1, n);
--		if (unit == NULL)
--			return -ENOMEM;
-+		unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3],
-+					    p + 1, n);
-+		if (IS_ERR(unit))
-+			return PTR_ERR(unit);
- 
- 		memcpy(unit->guid, &buffer[4], 16);
- 		unit->extension.bNumControls = buffer[20];
-@@ -1315,9 +1333,10 @@ static int uvc_gpio_parse(struct uvc_device *dev)
- 		return dev_err_probe(&dev->intf->dev, irq,
- 				     "No IRQ for privacy GPIO\n");
- 
--	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
--	if (!unit)
--		return -ENOMEM;
-+	unit = uvc_alloc_new_entity(dev, UVC_EXT_GPIO_UNIT,
-+				    UVC_EXT_GPIO_UNIT_ID, 0, 1);
-+	if (IS_ERR(unit))
-+		return PTR_ERR(unit);
- 
- 	unit->gpio.gpio_privacy = gpio_privacy;
- 	unit->gpio.irq = irq;
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 70dc80e2b213dff333665022b3410b175d072793..881bfa0caab22714c26a3260cc843bda8e2706a4 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -41,6 +41,8 @@
- #define UVC_EXT_GPIO_UNIT		0x7ffe
- #define UVC_EXT_GPIO_UNIT_ID		0x100
- 
-+#define UVC_INVALID_ENTITY_ID          0xffff
-+
- /* ------------------------------------------------------------------------
-  * Driver specific constants.
-  */
-
----
-base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
-change-id: 20250820-uvc-thadeu2-25723a961bd8
-
-Best regards,
+ enum mxc_jpeg_mode {
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.50.1
 
 
