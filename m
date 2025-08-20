@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-40349-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40350-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507D9B2D6CC
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 10:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA2EB2D6D2
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 10:40:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30C975A7985
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 08:37:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6D64161CE5
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 08:40:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFE8827147D;
-	Wed, 20 Aug 2025 08:36:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 039712D8DDD;
+	Wed, 20 Aug 2025 08:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IzdfKpyE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mzmhAOh1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615652D3ED0
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 08:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0502C2343
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 08:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755678979; cv=none; b=hJdgriP7FyOY64hswX0ZQNw7Vc0+Cy17Oyh4uWE6sQqEX2ypckNTmzxRyfhdSt87OValH273J7WPnVX+Ps5bknHRGBCA7zv8eCg4CGvcQQGb0MXrYBdrwEsDE/tlyeXrNFD63oQ8Iiumoj4aALI+N2zY7CrW5PR9QsiQi9FrEjI=
+	t=1755679231; cv=none; b=CAyASIF1nNii9pFU7/3NzQbuOujuGIvFZv11JUBkoRDjZmcFDMj/nft5fGvkv3d/6L4s+xZcUWGy2jAifAlmXkDTuM+hTP3w0KTvgtXPbKgd1y7jwUVqO/mjYxRhacFqKpeq902pvhsMnSfOaBCR3a6NIEsKokQag1/89QGfMyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755678979; c=relaxed/simple;
-	bh=+qSVbXUS/clmIdfv3OXHciTtkLmQKmbi6XRnW5pvU3E=;
+	s=arc-20240116; t=1755679231; c=relaxed/simple;
+	bh=2Bf5pSIDeaXdAnMClIAwjBEtZlm5MH5beZ6hVM9tf1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m5L2J6MAWz+KqMGlkkDfJBmSgG5bfXJUyMtqPTyd4BqkQpJ9/53BRAtpO4heqat2ZFLvWVhq9nU3gS5wT/Q6McbFThbZ2a1APoLReydaa6/A3mUznC0OjdP+ZUgJnPa5ygtnapfZmOYwlJWrEqZGSEtnu5KsKQIVKOKmFMNtn2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IzdfKpyE; arc=none smtp.client-ip=209.85.221.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=tNcNknYIla7XhMQ41uhfvayTjT6vpGSIhGPCWY9/xynaT3wr4FaCz9kghgJfZVYUv73Mw6h86HbZCxc7WcsuO64wyvslkdtnrLYZUkMLOrhHS6FI0kA/iUz+NcVK5CXMuVVSwHF/K2FELGwshhKabQTBbY6rbF7Xcc+5mZmyMNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mzmhAOh1; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b9ba300cb9so461993f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 01:36:17 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a1b00a65fso32333055e9.0
+        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 01:40:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755678976; x=1756283776; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1755679228; x=1756284028; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YAr6jehsKiHEOUhuldij9V65ueaJsFRa/9UyVncK9fg=;
-        b=IzdfKpyEBOYk1Vpro1pk4mjX1StKeqYl5RURFsPu+nyW2sHQWJxL3qgkOYv0PpIReh
-         0wRlgtqdasHieIBPCR7jNRIiHNyRFOzHYWYqEQ6NmDJ2pTCsb9AOZFTJrRfuj3ZGJdMq
-         Rjup9nZGwXhparjpCmTLce9nBm29YepRBN7nVDJlyODZUYeXNH5djPXfe18mEsBK065K
-         a1J8o88MI0iCX0HbRqBtzJc8ivwwVU2915u5ujE1jCtimjfxMptgc0DOlVyYay4ElDBK
-         IbffjBHoX89beIcOazhzcVma57/vuOjCqCsLyuvDvl6uDVfIn/cIB6di327gu/GaRy1g
-         WX/w==
+        bh=uDAEpI+NfZxgApYknmtsZIG8RB0U0WX8Cx+vFwuFF1Y=;
+        b=mzmhAOh1OZTSIW+yj55LRwhSnj5zBlU0mZaXWQQQ6qtSZhosqNQr3nX9njKQELyB/o
+         OwNHlAwN0cv4NoLko2EehhMrAuSZvh+96/r4kBkewwRGOmiRLl807QV0nqrRjX3k3q/+
+         KIIOwykItEKnMVsS7k0kb1a4+pZ/jvXQ7k/BvnCvbAjTexVxUKwTMBsyywIqv/MBaxmA
+         xmgHOY1T1a22tYuK+IZGmByBAthYXn3KVVP1XIB/y8icDJcdhCHXjjJi9wLgoSLLR6Br
+         xA1LWzssreysvY60tBnnBP8y9rOlDgfCzLjqX17u7bB71KPh4TDZsnInOSl8K/BPBgs/
+         VwWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755678976; x=1756283776;
+        d=1e100.net; s=20230601; t=1755679228; x=1756284028;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YAr6jehsKiHEOUhuldij9V65ueaJsFRa/9UyVncK9fg=;
-        b=dQeh1710/qdY356WGJrpLyrPaj5UB8vKIrMqVr/Jsz9HRlApcjpQ122FXj95Ay5Y3W
-         uJMDvP7nF6/uv0hRxdWsCLtuCcyGA47j1+4ArUuk0EHG0I3JxtncD6TyyDwVJfhwyNz+
-         k4AD0bN71C5sqvxwSnk0EdL2ePSbXMbjiY/4XRlBKVgypSCzCjHon2NwnbEJNyFy35ti
-         lvjE43GzFM7/lR7dKuYHx41nmIFGMpokrjBYpFZfHlxBXRZ/P4O1VmZUEYODUxZG/uz4
-         Tv/5y+LVK1qlz04iBGd1VepV+t6OedHbWyc8/DZL/wG7GxU22Y8LT1La/UwvyL61Y0zt
-         PMGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUH4Teq/D2rtK5MrAxTm9FGELzQm/NXplgJg0Ff5FU/Q9stwS3TO8KNYo+SoUcOdQqaVYo45Gmbdg+Gvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywaix8xuBByR0fidIwRvLUpYHithcXbbQL058s3Q3c5po215Cki
-	84g0wsqMW6U25Luhc9DrKqPwpSnzZnrJtT0eqLGZRmUYW2OzVLNROhKl3P65jkVUifA=
-X-Gm-Gg: ASbGnctdSmAnYMICK4SOOHEoS56bmOPEDecN6cCd4t//ddOmANuHwRX018WUYgDZKln
-	h4XdLHaxhsX1HX4O0uEW1p9LLGcUmb8kughDtvQm+JwmBfJcwhTnSQY1BVVd8vrXiNObREf03Bw
-	r0XLsPaIF7ed8aMUitLiZ3sUwMIggQuJ+fNS6adGuLOjo6E5aDK/mg3tM9OGmt7dNc2sYFuPw3Z
-	tiwafAFgcv9ApSo1SZgmydmkEeEDYYaJ7Bnj22OdxhjIvW/sd3pz65dauUoEkcejqF0TsWGPk9K
-	odAJxcQEqK0Z5qCW6E7rS6ZOJlVKF28YignvqGTyFTMxjJGs55o4poPrWDnyaHYVKlAaDWoXiJX
-	wVXkeC2VC3IFh2TTS+wnm7h68OClHafr4hGo=
-X-Google-Smtp-Source: AGHT+IGi+nraIikmoF7WftFp0em6MhyjlDmSPu86zOKlpKavPilVFf76gYO+pgNSjEXMVIEPdoHeBA==
-X-Received: by 2002:a05:6000:2c0d:b0:3b7:775d:e923 with SMTP id ffacd0b85a97d-3c12a803871mr4177431f8f.4.1755678975484;
-        Wed, 20 Aug 2025 01:36:15 -0700 (PDT)
+        bh=uDAEpI+NfZxgApYknmtsZIG8RB0U0WX8Cx+vFwuFF1Y=;
+        b=Ju9gU8jcihik7Ud6purB1G+vsd/sPgPP3JLEnX99DjmAKPgX3TNY1y4Yj1aCmJP8N/
+         nWOBrzophyCw7g2LObFHZCH2J+C8AQtufSnFiz6Iy8VMxtxAnqdGrg8lqrbUN7DQD1OT
+         LX+ZIYf8KSiezjsOynv9FWcBSGXUoXjt4CFd0PhhTqgg14FM4ZfKZBRceSzfH2TH81vX
+         Q3ZiZ98pPpsYsxYTPrrE6gHeREnSnqBuIg4RHC9uQxirrnp7IO6e2ZaDowSQMDuikbKy
+         Q7pgDs7eAh/TaOzKHgj05MS2ccyy/hwRcNswLNgzxvBPeiNNql5v3JZ/hpQWbaNskRRe
+         LMPw==
+X-Forwarded-Encrypted: i=1; AJvYcCURCYq+rPc3I+WV9dVBvkfwNYrp3MT5E77i7bIZGoiQ0VKDarR7D1kBUVkBvLHZni68yBtHPjCxW68pkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUqP5b0UtpDRONf8N2RJ63YEM49RavPNDiMUGXK+WK3BfUUlXZ
+	HjzV+vQFU4xy+2gNXzaEzAxS0nkA8DJU1xrJa1tde7qIa2edp11ImPr87835P6jIWNE=
+X-Gm-Gg: ASbGncurAdQSW3FR36jIArJh59kEiT0p/r9FSAt0cvR6SUhOftNp+wWmHPIbDTPgduW
+	SMCjlKY4jOXs7vMeCGLEfcxAdfY1V8eDkKXDYxYJwwEi4qHxN/dPrj9kHLf8zI4ArvhKo4XByOZ
+	Fvj+if71tGSnI8gv00jSGDNHeBoojEL9Td8eFe+0g8kpI97vI+7unZ79HrnAk7naxCIaXmthA54
+	U2gTfnWSrmhhUgCFXwfXZzRnEf4XbSpf+HkTgNFFsLMghzMoqW5mBVaTRLhwqou9XanbeTQGdhx
+	EjG4qtu2gUIb8ZWEZVuzwX2bi5Oq3cFp6nCUkoljx/TRGAPMmZ+y7Lo5wEpYmzvZ7rh8RYoWrnJ
+	1zEgKPHeuXjojJeok7AyMGbEOexA8CXe4mVlX/7bQHQ+QwQ==
+X-Google-Smtp-Source: AGHT+IHakuPXJb6UDVHhwXpy7g5RVnX29BC7QeSWaXwaUg59mxu2UH0QUGlOgcXzbq0X2DsjOIEiJA==
+X-Received: by 2002:a5d:5f81:0:b0:3b8:d15f:45a2 with SMTP id ffacd0b85a97d-3c32c52bb4dmr1325595f8f.14.1755679227764;
+        Wed, 20 Aug 2025 01:40:27 -0700 (PDT)
 Received: from linaro.org ([2a02:2454:ff21:ef30:8a2d:c0da:b2f2:1f41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b4976bc73sm16131425e9.6.2025.08.20.01.36.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c0771c1715sm7255505f8f.36.2025.08.20.01.40.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 01:36:15 -0700 (PDT)
-Date: Wed, 20 Aug 2025 10:36:10 +0200
+        Wed, 20 Aug 2025 01:40:27 -0700 (PDT)
+Date: Wed, 20 Aug 2025 10:40:25 +0200
 From: Stephan Gerhold <stephan.gerhold@linaro.org>
 To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
@@ -85,11 +85,11 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
 	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 09/11] remoteproc: pas: Extend parse_fw callback to
- parse resource table
-Message-ID: <aKWI-izL5BooL61p@linaro.org>
+Subject: Re: [PATCH v2 10/11] remoteproc: qcom: pas: Enable Secure PAS
+ support with IOMMU managed by Linux
+Message-ID: <aKWJ-c6B5Pvjw_jx@linaro.org>
 References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-10-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-11-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -98,129 +98,89 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819165447.4149674-10-mukesh.ojha@oss.qualcomm.com>
+In-Reply-To: <20250819165447.4149674-11-mukesh.ojha@oss.qualcomm.com>
 
-On Tue, Aug 19, 2025 at 10:24:44PM +0530, Mukesh Ojha wrote:
-> Extend parse_fw callback to include SMC call to get resource
-> table from TrustZone to leverage resource table parse and
-> mapping and unmapping code reuse from the framework.
+On Tue, Aug 19, 2025 at 10:24:45PM +0530, Mukesh Ojha wrote:
+> Most Qualcomm platforms feature a proprietary hypervisor (such as Gunyah
+> or QHEE), which typically handles IOMMU configuration. This includes
+> mapping memory regions and device memory resources for remote processors
+> by intercepting qcom_scm_pas_auth_and_reset() calls. These mappings are
+> later removed during teardown. Additionally, SHM bridge setup is
+> required to enable memory protection for both remoteproc metadata and
+> its memory regions.
+> 
+> When the aforementioned hypervisor is absent, the operating system must
+> perform these configurations instead.
+> 
+> When Linux runs as the hypervisor (at EL2) on a SoC, it will have its
+> own device tree overlay file that specifies the firmware stream ID now
+> managed by Linux for a particular remote processor. If the iommus
+> property is specified in the remoteproc device tree node, it indicates
+> that IOMMU configuration must be handled by Linux. In this case, the
+> has_iommu flag is set for the remote processor, which ensures that the
+> resource table, carveouts, and SHM bridge are properly configured before
+> memory is passed to TrustZone for authentication. Otherwise, the
+> has_iommu flag remains unset, which is the default behavior.
+> 
+> Enables Secure PAS support for remote processors when IOMMU configuration
+> is managed by Linux.
 > 
 > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 > ---
->  drivers/remoteproc/qcom_q6v5_pas.c  | 33 +++++++++++++++++++++++++++--
->  drivers/soc/qcom/mdt_loader.c       |  1 -
->  include/linux/soc/qcom/mdt_loader.h |  2 ++
->  3 files changed, 33 insertions(+), 3 deletions(-)
+>  drivers/remoteproc/qcom_q6v5_pas.c | 63 +++++++++++++++++++++++++++---
+>  1 file changed, 57 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
-> index 09cada92dfd5..1e0f09bf1ef2 100644
+> index 1e0f09bf1ef2..180528bcd57c 100644
 > --- a/drivers/remoteproc/qcom_q6v5_pas.c
 > +++ b/drivers/remoteproc/qcom_q6v5_pas.c
-> @@ -408,6 +408,35 @@ static void *qcom_pas_da_to_va(struct rproc *rproc, u64 da, size_t len, bool *is
->  	return pas->mem_region + offset;
->  }
+> [...]
+> @@ -424,7 +459,8 @@ static int qcom_pas_parse_firmware(struct rproc *rproc, const struct firmware *f
+>  	if (!rproc->has_iommu)
+>  		return ret;
 >  
-> +static int qcom_pas_parse_firmware(struct rproc *rproc, const struct firmware *fw)
-> +{
-> +	struct qcom_pas *pas = rproc->priv;
-> +	size_t output_rt_size = MAX_RSCTABLE_SIZE;
-> +	void *output_rt;
-> +	int ret;
+> -	ret = qcom_scm_pas_get_rsc_table(pas->pas_id, NULL, 0, &output_rt, &output_rt_size);
+> +	ret = qcom_scm_pas_get_rsc_table(pas->pas_ctx, NULL, 0,
+> +					 &output_rt, &output_rt_size);
+
+Unrelated formatting change, should be in previous commit.
+
+>  	if (ret) {
+>  		dev_err(pas->dev, "error %d getting resource_table\n", ret);
+>  		return ret;
+> @@ -726,6 +762,20 @@ static int qcom_pas_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  	}
+>  
+> +	if (of_property_present(pdev->dev.of_node, "iommus")) {
+
+I think you need a dt-bindings change for this? You had one in v1, but
+dropped it entirely for some reason.
+
+> +		struct of_phandle_args args;
 > +
-> +	ret = qcom_register_dump_segments(rproc, fw);
-> +	if (ret) {
-> +		dev_err(pas->dev, "Error in registering dump segments\n");
-> +		return ret;
+> +		ret = of_parse_phandle_with_args(pdev->dev.of_node, "iommus",
+> +						 "#iommu-cells", 0, &args);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		rproc->has_iommu = true;
+> +		of_node_put(args.np);
+> +	} else {
+> +		rproc->has_iommu = false;
 > +	}
 > +
-> +	if (!rproc->has_iommu)
-> +		return ret;
-> +
-> +	ret = qcom_scm_pas_get_rsc_table(pas->pas_id, NULL, 0, &output_rt, &output_rt_size);
-
-In PATCH 07/11 you have support for "static" resources that can be part
-of the firmware binary, but then you never make use of it. Like in the
-iris patch you just give in NULL, 0 for input_rt, even though,
-(presumably?) the remoteproc framework has support for parsing the
-resource table from the ELF firmware image.
-
-I would suggest adding a comment here justifying this and perhaps
-something to the commit message. I do see value in having the
-qcom_scm_pas_get_rsc_table() properly defined with input RT support, but
-it's not obvious from the description of your patches that this is
-effectively dead code right now(?).
-
-> +	if (ret) {
-> +		dev_err(pas->dev, "error %d getting resource_table\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	rproc->cached_table = output_rt;
-> +	rproc->table_ptr = rproc->cached_table;
-> +	rproc->table_sz = output_rt_size;
-> +
-> +	return ret;
-> +}
-> +
->  static unsigned long qcom_pas_panic(struct rproc *rproc)
->  {
->  	struct qcom_pas *pas = rproc->priv;
-> @@ -420,7 +449,7 @@ static const struct rproc_ops qcom_pas_ops = {
->  	.start = qcom_pas_start,
->  	.stop = qcom_pas_stop,
->  	.da_to_va = qcom_pas_da_to_va,
-> -	.parse_fw = qcom_register_dump_segments,
-> +	.parse_fw = qcom_pas_parse_firmware,
->  	.load = qcom_pas_load,
->  	.panic = qcom_pas_panic,
->  };
-> @@ -430,7 +459,7 @@ static const struct rproc_ops qcom_pas_minidump_ops = {
->  	.start = qcom_pas_start,
->  	.stop = qcom_pas_stop,
->  	.da_to_va = qcom_pas_da_to_va,
-> -	.parse_fw = qcom_register_dump_segments,
-> +	.parse_fw = qcom_pas_parse_firmware,
->  	.load = qcom_pas_load,
->  	.panic = qcom_pas_panic,
->  	.coredump = qcom_pas_minidump,
-> diff --git a/drivers/soc/qcom/mdt_loader.c b/drivers/soc/qcom/mdt_loader.c
-> index ea7034c4b996..8456cca3f3e0 100644
-> --- a/drivers/soc/qcom/mdt_loader.c
-> +++ b/drivers/soc/qcom/mdt_loader.c
-> @@ -22,7 +22,6 @@
->  #include <linux/slab.h>
->  #include <linux/soc/qcom/mdt_loader.h>
+>  	rproc->auto_boot = desc->auto_boot;
+>  	rproc_coredump_set_elf_info(rproc, ELFCLASS32, EM_NONE);
 >  
-> -#define MAX_RSCTABLE_SIZE	SZ_16K;
-
-I'm confused why there is a semicolon here suddenly. Did you edit this
-patch by hand?
-
-Applying: remoteproc: pas: Extend parse_fw callback to parse resource table
-Patch failed at 0009 remoteproc: pas: Extend parse_fw callback to parse resource table
-error: patch failed: drivers/soc/qcom/mdt_loader.c:22
-error: drivers/soc/qcom/mdt_loader.c: patch does not apply
-
->  #define RSC_TABLE_HASH_BITS	     5  // 32 buckets
+> @@ -800,6 +850,7 @@ static int qcom_pas_probe(struct platform_device *pdev)
+>  	if (!pas->dtb_pas_ctx)
+>  		goto remove_ssr_sysmon;
 >  
->  DEFINE_HASHTABLE(qcom_pas_rsc_table_map, RSC_TABLE_HASH_BITS);
-> diff --git a/include/linux/soc/qcom/mdt_loader.h b/include/linux/soc/qcom/mdt_loader.h
-> index 62f239f64dfb..92ad862e733e 100644
-> --- a/include/linux/soc/qcom/mdt_loader.h
-> +++ b/include/linux/soc/qcom/mdt_loader.h
-> @@ -8,6 +8,8 @@
->  #define QCOM_MDT_TYPE_HASH	(2 << 24)
->  #define QCOM_MDT_RELOCATABLE	BIT(27)
->  
-> +#define MAX_RSCTABLE_SIZE	SZ_16K
-> +
->  struct device;
->  struct firmware;
->  struct qcom_scm_pas_ctx;
+> +	pas->pas_ctx->has_iommu = pas->dtb_pas_ctx->has_iommu = rproc->has_iommu;
 
-You added this define yourself in PATCH 08/11, so just add it in the
-right place directly. Make sure you scroll through your patch set before
-sending to make sure all changes are in the right commit. :-)
+Nitpick: I think this would look cleaner if you separate it into two
+lines (only one assignment on each line).
 
 Thanks,
 Stephan
