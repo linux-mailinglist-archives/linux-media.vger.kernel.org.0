@@ -1,296 +1,356 @@
-Return-Path: <linux-media+bounces-40352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40353-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3F4B2D6FA
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 10:48:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65424B2D77B
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 11:06:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A47BD188ABF0
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 08:47:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C77ED4E64E8
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 09:05:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4E92D9ECA;
-	Wed, 20 Aug 2025 08:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1503A2D9EDF;
+	Wed, 20 Aug 2025 09:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UO1Mh796"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rW8LlTp5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TNJr8Cbe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f2pomFcH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GAlbcD52"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51884211A28
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 08:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814B82D979D
+	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 09:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755679597; cv=none; b=k/IRAWIsTgT58EaxmxU7EbbUweJMI5utsqbyicuf51UsS2Wy/88/nCD83/7SEibrw1wshNPCi7k+be/ibtNILcFLx/g4i5Z+L8tdjPfqdxCAZibwrJjHw09a2zIZiRg3/0AT8krexr1o12hNegNtP85aVrK3YiaCwxSRUf/RKCs=
+	t=1755680698; cv=none; b=ot+O04SeXNhOX3vQ4XjXgcpcx9D/MRe/IoWfg7ZdRajF4UKcwqlBh8SUMQUM5VKdaZ+e3UwFVsFrl7m1/tECdssrgqB8yiApyF7GXoMODHiz81qcI0ym4QtJPog9swAxjS6kZZ+xjuYczoItme9btdODIsgACvqYYMGF7RnLmFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755679597; c=relaxed/simple;
-	bh=suO3hfcniDB5uSnEPobTeKpDgdZMFT9bBbV1Qjkc+eQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kjMXU3jmVU4KM14ofStZaVuIO1NKj+iw6eURqGAhFMX6pRiSrKn6+NZUc/Zq4UhhdJ3QwWU9HWqSvJ1lpUL3X5ugXIUzOsQTuUWhGnxKrEP1Nx40Sy7k5FA9ZOXBpfKJR+FYxwg5NV6qILdMiDwIwBT7P+weCboJf5XdFnwNDeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UO1Mh796; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b0c8867so51278955e9.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 01:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755679594; x=1756284394; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y4AG+oO4F/Ul30Mp0ZZuJ5uNspts20DrHUTMHBfmexc=;
-        b=UO1Mh796fr9lHkvdKfYmEW+1c3NRTUh9hhF1Hbf8KOkSIUwDuDRr2hphttu+DszraG
-         wwzIO1zWVJKfvva4q6yw1MV97MQMW8EbdCou3iaVzXC94X18chFV4ewNIYbWtWQsKv8f
-         wN/lE61YUc3dz8pc3w/3bMcJo0KwdfGvdfeqSFW1heGEDdMPbwp+rv2/grkLFV3ibgxO
-         yxYtdwtJ+6Fl25GgJ0u83Dgu062ASXMVskcju0fmRy9uL3IpVBUAeq15R67Xbvl710Lr
-         Sfpfglal0mi5c8oJpavY6iHxKLK62GhL6wCVAU+yda5Qm7ahB5kWlT5ThfDIWq6P0Gvl
-         gc4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755679594; x=1756284394;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y4AG+oO4F/Ul30Mp0ZZuJ5uNspts20DrHUTMHBfmexc=;
-        b=Z3KswT7PqhZJoY5Ns+xexmcqzhvVIm3A/ThWFvs+SWwsZEoTAenPG0+v8ci/NizCa7
-         Vom5Brv0ETs2TFRI64QjSePA23o9ACJp05LyB261VymP4Vss1fYHh057DKzZokMCanf6
-         qX79LVoufuz53EtAWA+JClRifjiW7EudzZtDYbTFkmGgq3IlDDnQlbN+xhtqJlh5xwHw
-         ayrmdjvzV/sXm6s9rcLciKBW/YIrqQhoKlRw1qFDaehOUrWTnMPrXW+q3usaSgrq7R2a
-         n/BukAAsdSwvLU4sVbdwU0nUOLmzmpfgXhicHUfX6iuq0uBUur9HZKjCyN97kKEaTh7y
-         RUEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaNHo/Pov8FXEQWtLWsOYiyGUepvZ44eatZYqS0hd1G8Lsl0S/zy0MM6MjeEz42+QFa7VNJNum7TxKmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqHEsWAVZCSO+EQPaMw08iUlTFxJT0sstE/elFVxH+z2/GET0p
-	6p35q0VgC/7lDv9CpdczOuNAKRfqEfAMmSJeRPmJmJPu7ZraL7jH1FnoX3rsi0vdwNQ=
-X-Gm-Gg: ASbGnctVOyk5AxLCYBxkBp8sMCpYrVG7BtaOGc+BPoOZdAI0B0z/90EBQFnT7Ma2Urh
-	+JsttESr9NC7CaPJmXLKpD8Z5Ujfk5pxBNifHl0wjnw/ObblElrJx02j/+uXtLgB2Vm2/PppNT/
-	ZP8KsnLa6G8kQxAP0R8Lza1HjRkBzeXBsD4NVMn2MxP7ajcPozXb0YsyNHIL38Y6mNAJMW5cM+4
-	QYX2ivIDO5a39Vd10FRT4ltRZdGfU0jih8HHcHfj55zDubldIf+iMBtvrJLzMK2fpkhHF1lyF/n
-	7aVnem8VY3wInTVOMxpGW8CQH6KLn1ShOwjYVu+HHTonP6gDxBpAPNuW7WMRUdaUphFbmNVIBth
-	wMpqcbKwMKdwC2YgVcxEFtltzEGFIFB1gXyw=
-X-Google-Smtp-Source: AGHT+IFTiUzC8MVfqThCet8G8O0hQZ4w5t+sTa+meRVQrJvcqjhv55BgfhXIw/O1Al9qTLlBTTZ8Zg==
-X-Received: by 2002:a05:600c:4fcd:b0:458:add2:d4b4 with SMTP id 5b1f17b1804b1-45b479a3e26mr15612005e9.12.1755679593431;
-        Wed, 20 Aug 2025 01:46:33 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:8a2d:c0da:b2f2:1f41])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c0771c1aa3sm6541401f8f.32.2025.08.20.01.46.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 01:46:33 -0700 (PDT)
-Date: Wed, 20 Aug 2025 10:46:31 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 11/11] media: iris: Enable Secure PAS support with
- IOMMU managed by Linux
-Message-ID: <aKWLZwYVPJBABhRI@linaro.org>
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
+	s=arc-20240116; t=1755680698; c=relaxed/simple;
+	bh=lsIvUMKikDBhwn3JuuUM/hbec5podOwUspKHJHPhHCs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cAsyc2mZOJVsLpINC6jWSuhDgXYrt6NN4ptOuHA7i99cEW9FGkfGoGWRWyhYFH0XxhCV1ESQwACMONgmdj9yxyStOl4RSvGo5OyzWS8SvvVxBMZfu2aDYjuk3RbkQCnNscQqpL7MPF0h1KMDSdRCTXe1vR5Nylj37+aq8NIuvYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rW8LlTp5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TNJr8Cbe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f2pomFcH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GAlbcD52; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 335F81F7B0;
+	Wed, 20 Aug 2025 09:04:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755680694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=nZ//gYY6UXXsx8QcVxJZiYWNUdOZeg7R6DnSFft/9ko=;
+	b=rW8LlTp5Ius2uMmiWYqVwjeWp+YC2tYAXBljI9+eeJ0JmFnW5tylR0DNB8x8Z+4yJ9IIVO
+	YrWSReN62jrRzUiHDjSrWYOWRQB2+JDl5VBs4i+g6Zw4qGHL+O14vRKbV4F08zhuhcxJpp
+	t5aTBOq0KeGaPJUGUvCVXCQ9BI4gHIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755680694;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=nZ//gYY6UXXsx8QcVxJZiYWNUdOZeg7R6DnSFft/9ko=;
+	b=TNJr8Cbe8WiZNrEobLpZEppNUMiLfbnxJrDdSJcIB0jRWHFi9vANAh0ptiW40NQFAWno3W
+	yFzkVbCGxfWkxuAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=f2pomFcH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GAlbcD52
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755680693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=nZ//gYY6UXXsx8QcVxJZiYWNUdOZeg7R6DnSFft/9ko=;
+	b=f2pomFcHTALt76PEmDQKAAWWh/vx1Hy6018RNVGOx9Ejrw/sfEde/Y7l1G9iaBEzw4eJlT
+	oxtNRHZsAuW9aUzJVGYruT+WHhT3ZivO5IWRIq/ytPo8Bs4tW8GyI83WpD9QOWOdqLXTmn
+	AwcmXp6jD5msYuCurUQJnTOF+EYB+ME=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755680693;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=nZ//gYY6UXXsx8QcVxJZiYWNUdOZeg7R6DnSFft/9ko=;
+	b=GAlbcD52iVotZJkLmCBtrtGaL2bcOF3GBEearKbQ1jwn4JNiLKWkUYkT7SBy+B3KC4kNyA
+	e2kClt2La73YPfDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF4271368B;
+	Wed, 20 Aug 2025 09:04:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id N/xoMbSPpWigdgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 20 Aug 2025 09:04:52 +0000
+Message-ID: <1dcb967f-4e7f-4a6b-957c-924d2dec55fc@suse.de>
+Date: Wed, 20 Aug 2025 11:04:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amdgpu: Pin buffers while vmap'ing exported
+ dma-buf objects
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ sumit.semwal@linaro.org, oushixiong@kylinos.cn, alexander.deucher@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org
+References: <20250818151710.284982-1-tzimmermann@suse.de>
+ <f31550b1-b89c-47d6-b012-99479ba12aeb@amd.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <f31550b1-b89c-47d6-b012-99479ba12aeb@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 335F81F7B0
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[amd.com,linaro.org,kylinos.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,amd.com:email,suse.de:dkim,suse.de:mid,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.51
 
-On Tue, Aug 19, 2025 at 10:24:46PM +0530, Mukesh Ojha wrote:
-> Most Qualcomm platforms feature a proprietary hypervisor (such as Gunyah
-> or QHEE), which typically handles IOMMU configuration. This includes
-> mapping memory regions and device memory resources for remote processors
-> by intercepting qcom_scm_pas_auth_and_reset() calls. These mappings are
-> later removed during teardown. Additionally, SHM bridge setup is required
-> to enable memory protection for both remoteproc metadata and its memory
-> regions.
-> 
-> When the hypervisor is absent, the operating system must perform these
-> configurations instead.
-> 
-> Support for handling IOMMU and SHM setup in the absence of a hypervisor
-> is now in place. Extend the Iris driver to enable this functionality on
-> platforms where IOMMU is managed by Linux (i.e., non-Gunyah, non-QHEE).
-> 
-> Additionally, the Iris driver must map the firmware and its required
-> resources to the firmware SID, which is now specified via the device tree.
-> 
-> Co-developed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_core.c  |   9 +-
->  drivers/media/platform/qcom/iris/iris_core.h  |   6 +
->  .../media/platform/qcom/iris/iris_firmware.c  | 156 ++++++++++++++++--
->  .../media/platform/qcom/iris/iris_firmware.h  |   2 +
->  4 files changed, 155 insertions(+), 18 deletions(-)
-> 
-> [...]
-> diff --git a/drivers/media/platform/qcom/iris/iris_firmware.c b/drivers/media/platform/qcom/iris/iris_firmware.c
-> index f1b5cd56db32..e3f2fe5c9d7a 100644
-> --- a/drivers/media/platform/qcom/iris/iris_firmware.c
-> +++ b/drivers/media/platform/qcom/iris/iris_firmware.c
-> @@ -3,10 +3,18 @@
->   * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->   */
->  
-> +#include <linux/device.h>
->  #include <linux/firmware.h>
-> -#include <linux/firmware/qcom/qcom_scm.h>
-> +#include <linux/kernel.h>
-> +#include <linux/iommu.h>
-> +#include <linux/io.h>
-> +#include <linux/of.h>
->  #include <linux/of_address.h>
->  #include <linux/of_reserved_mem.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/of_device.h>
-> +#include <linux/firmware/qcom/qcom_scm.h>
-> +#include <linux/sizes.h>
->  #include <linux/soc/qcom/mdt_loader.h>
->  
->  #include "iris_core.h"
-> @@ -17,15 +25,14 @@
->  static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
->  {
->  	u32 pas_id = core->iris_platform_data->pas_id;
-> +	struct qcom_scm_pas_ctx *ctx;
->  	const struct firmware *firmware = NULL;
->  	struct device *dev = core->dev;
-> -	struct reserved_mem *rmem;
-> -	struct device_node *node;
-> -	phys_addr_t mem_phys;
-> -	size_t res_size;
-> -	ssize_t fw_size;
-> -	void *mem_virt;
-> -	int ret;
-> +	struct reserved_mem *rmem = NULL;
-> +	struct device_node *node = NULL;
-> +	ssize_t fw_size = 0;
-> +	void *mem_virt = NULL;
-> +	int ret = 0;
->  
->  	if (strlen(fw_name) >= MAX_FIRMWARE_NAME_SIZE - 4)
->  		return -EINVAL;
-> @@ -39,36 +46,64 @@ static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
->  	if (!rmem)
->  		return -EINVAL;
->  
-> -	mem_phys = rmem->base;
-> -	res_size = rmem->size;
-> +	if (core->has_iommu)
-> +		dev = core->fw.dev;
->  
-> +	ctx = qcom_scm_pas_ctx_init(dev, pas_id, rmem->base, rmem->size, false);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	ctx->has_iommu = core->has_iommu;
->  	ret = request_firmware(&firmware, fw_name, dev);
->  	if (ret)
->  		return ret;
->  
->  	fw_size = qcom_mdt_get_size(firmware);
-> -	if (fw_size < 0 || res_size < (size_t)fw_size) {
-> +	if (fw_size < 0 || rmem->size < (size_t)fw_size) {
->  		ret = -EINVAL;
->  		goto err_release_fw;
->  	}
->  
-> -	mem_virt = memremap(mem_phys, res_size, MEMREMAP_WC);
-> +	mem_virt = memremap(rmem->base, rmem->size, MEMREMAP_WC);
->  	if (!mem_virt) {
->  		ret = -ENOMEM;
->  		goto err_release_fw;
->  	}
->  
-> -	ret = qcom_mdt_load(dev, firmware, fw_name,
-> -			    pas_id, mem_virt, mem_phys, res_size, NULL);
-> +	ret = qcom_mdt_pas_load(ctx, firmware, fw_name, mem_virt, NULL);
->  	if (ret)
->  		goto err_mem_unmap;
->  
-> -	ret = qcom_scm_pas_auth_and_reset(pas_id);
-> +	if (core->has_iommu) {
-> +		ret = iommu_map(core->fw.iommu_domain, 0, rmem->base, rmem->size,
-> +				IOMMU_READ | IOMMU_WRITE | IOMMU_PRIV, GFP_KERNEL);
+Hi
 
-What is the use case for IOMMU_PRIV here? You don't have this flag for
-the qcom_q6v5_pas change.
+Am 18.08.25 um 17:43 schrieb Christian König:
+> On 18.08.25 17:17, Thomas Zimmermann wrote:
+>> Current dma-buf vmap semantics require that the mapped buffer remains
+>> in place until the corresponding vunmap has completed.
+>>
+>> For GEM-SHMEM, this used to be guaranteed by a pin operation while creating
+>> an S/G table in import. GEM-SHMEN can now import dma-buf objects without
+>> creating the S/G table, so the pin is missing. Leads to page-fault errors,
+>> such as the one shown below.
+>>
+>> [  102.101726] BUG: unable to handle page fault for address: ffffc90127000000
+>> [...]
+>> [  102.157102] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+>> [...]
+>> [  102.243250] Call Trace:
+>> [  102.245695]  <TASK>
+>> [  102.2477V95]  ? validate_chain+0x24e/0x5e0
+>> [  102.251805]  ? __lock_acquire+0x568/0xae0
+>> [  102.255807]  udl_render_hline+0x165/0x341 [udl]
+>> [  102.260338]  ? __pfx_udl_render_hline+0x10/0x10 [udl]
+>> [  102.265379]  ? local_clock_noinstr+0xb/0x100
+>> [  102.269642]  ? __lock_release.isra.0+0x16c/0x2e0
+>> [  102.274246]  ? mark_held_locks+0x40/0x70
+>> [  102.278177]  udl_primary_plane_helper_atomic_update+0x43e/0x680 [udl]
+>> [  102.284606]  ? __pfx_udl_primary_plane_helper_atomic_update+0x10/0x10 [udl]
+>> [  102.291551]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
+>> [  102.297208]  ? lockdep_hardirqs_on+0x88/0x130
+>> [  102.301554]  ? _raw_spin_unlock_irq+0x24/0x50
+>> [  102.305901]  ? wait_for_completion_timeout+0x2bb/0x3a0
+>> [  102.311028]  ? drm_atomic_helper_calc_timestamping_constants+0x141/0x200
+>> [  102.317714]  ? drm_atomic_helper_commit_planes+0x3b6/0x1030
+>> [  102.323279]  drm_atomic_helper_commit_planes+0x3b6/0x1030
+>> [  102.328664]  drm_atomic_helper_commit_tail+0x41/0xb0
+>> [  102.333622]  commit_tail+0x204/0x330
+>> [...]
+>> [  102.529946] ---[ end trace 0000000000000000 ]---
+>> [  102.651980] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+>>
+>> In this stack strace, udl (based on GEM-SHMEM) imported and vmap'ed a
+>> dma-buf from amdgpu. Amdgpu relocated the buffer, thereby invalidating the
+>> mapping.
+>>
+>> Provide a custom dma-buf vmap method in amdgpu that pins the object before
+>> mapping it's buffer's pages into kernel address space. Do the opposite in
+>> vunmap.
+>>
+>> Note that dma-buf vmap differs from GEM vmap in how it handles relocation.
+>> While dma-buf vmap keeps the buffer in place, GEM vmap requires the caller
+>> to keep the buffer in place. Hence, this fix is in amdgpu's dma-buf code
+>> instead of its GEM code.
+>>
+>> A discussion of various approaches to solving the problem is available
+>> at [1].
+>>
+>> v2:
+>> - only use mapable domains (Christian)
+>> - try pinning to domains in prefered order
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: 660cd44659a0 ("drm/shmem-helper: Import dmabuf without mapping its sg_table")
+>> Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Closes: https://lore.kernel.org/dri-devel/ba1bdfb8-dbf7-4372-bdcb-df7e0511c702@suse.de/
+>> Cc: Shixiong Ou <oushixiong@kylinos.cn>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>> Cc: "Christian König" <christian.koenig@amd.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-media@vger.kernel.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> Link: https://lore.kernel.org/dri-devel/9792c6c3-a2b8-4b2b-b5ba-fba19b153e21@suse.de/ # [1]
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 41 ++++++++++++++++++++-
+>>   1 file changed, 39 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> index 5743ebb2f1b7..471b41bd3e29 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> @@ -285,6 +285,43 @@ static int amdgpu_dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+>>   	return ret;
+>>   }
+>>   
+>> +static int amdgpu_dma_buf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
+>> +{
+>> +	struct drm_gem_object *obj = dma_buf->priv;
+>> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * Pin to keep buffer in place while it's vmap'ed. The actual
+>> +	 * domain is not that important as long as it's mapable. Using
+>> +	 * GTT should be compatible with most use cases. VRAM and CPU
+>> +	 * are the fallbacks if the buffer has already been pinned there.
+>> +	 */
+>> +	ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
+>> +	if (ret) {
+>> +		ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_VRAM);
+> That makes even less sense :)
 
-> +		if (ret)
-> +			goto err_mem_unmap;
-> +
-> +		/*
-> +		 * Firmware has no support for resource table for now, so, lets
-> +		 * pass NULL and zero for input resource table and input resource
-> +		 * table respectively.
-> +		 */
-> +		ret = qcom_mdt_pas_map_devmem_rscs(ctx, core->fw.iommu_domain, NULL, 0);
-> +		if (ret)
-> +			goto err_unmap_carveout;
-> +	}
-> +
-> +	ret = qcom_scm_pas_prepare_and_auth_reset(ctx);
->  	if (ret)
-> -		goto err_mem_unmap;
-> +		goto err_unmap_devmem_rscs;
-> +
-> +	core->fw.ctx = ctx;
->  
->  	return ret;
->  
-> +err_unmap_devmem_rscs:
-> +	if (core->has_iommu)
-> +		qcom_mdt_pas_unmap_devmem_rscs(ctx, core->fw.iommu_domain);
-> +err_unmap_carveout:
-> +	if (core->has_iommu)
-> +		iommu_unmap(core->fw.iommu_domain, 0, rmem->size);
->  err_mem_unmap:
->  	memunmap(mem_virt);
->  err_release_fw:
-> @@ -109,10 +144,97 @@ int iris_fw_load(struct iris_core *core)
->  
->  int iris_fw_unload(struct iris_core *core)
->  {
-> -	return qcom_scm_pas_shutdown(core->iris_platform_data->pas_id);
-> +	struct qcom_scm_pas_ctx *ctx;
-> +	int ret;
-> +
-> +	ctx = core->fw.ctx;
-> +	ret = qcom_scm_pas_shutdown(ctx->peripheral);
-> +	if (core->has_iommu) {
-> +		iommu_unmap(core->fw.iommu_domain, 0, ctx->mem_size);
-> +		qcom_mdt_pas_unmap_devmem_rscs(ctx, core->fw.iommu_domain);
-> +	}
-> +
-> +	return ret;
->  }
->  
->  int iris_set_hw_state(struct iris_core *core, bool resume)
->  {
->  	return qcom_scm_set_remote_state(resume, 0);
->  }
-> +
-> +int iris_fw_init(struct iris_core *core)
-> +{
-> +	struct platform_device_info info;
-> +	struct iommu_domain *iommu_dom;
-> +	struct platform_device *pdev;
-> +	struct device_node *np;
-> +	int ret;
-> +
-> +	np = of_get_child_by_name(core->dev->of_node, "video-firmware");
-> +	if (!np)
-> +		return 0;
+This is intentional so that amdgpu first tries the most compatible 
+domain GTT and VRAM only as a second option.
 
-You need a dt-bindings change for this as well. This is documented only
-for Venus.
+>
+> The values are a mask, try this:
+>
+> ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT | AMDGPU_GEM_DOMAIN_VRAM);
 
-Thanks,
-Stephan
+I'm aware that it's a bitmask. But IIUC 
+amdgpu_bo_placement_from_domain() [1] prefers VRAM over GTT if both are 
+given. If another importer now comes that requires the BO in GTT, it 
+would fail the pin.
+
+[1] 
+https://elixir.bootlin.com/linux/v6.16.1/source/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c#L109
+
+>
+> Otherwise the pin code will try to move the buffer around to satisfy the contrain you given.
+
+>
+> And don't use the CPU domain here, this will otherwise potentially block submission later on.
+
+Ok.
+
+Best regards
+Thomas
+
+>
+> Regards,
+> Christian.
+>
+>> +		if (ret) {
+>> +			ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_CPU);
+>> +			if (ret)
+>> +				return ret;
+>> +		}
+>> +	}
+>> +	ret = drm_gem_dmabuf_vmap(dma_buf, map);
+>> +	if (ret)
+>> +		amdgpu_bo_unpin(bo);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void amdgpu_dma_buf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
+>> +{
+>> +	struct drm_gem_object *obj = dma_buf->priv;
+>> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>> +
+>> +	drm_gem_dmabuf_vunmap(dma_buf, map);
+>> +	amdgpu_bo_unpin(bo);
+>> +}
+>> +
+>>   const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>>   	.attach = amdgpu_dma_buf_attach,
+>>   	.pin = amdgpu_dma_buf_pin,
+>> @@ -294,8 +331,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>>   	.release = drm_gem_dmabuf_release,
+>>   	.begin_cpu_access = amdgpu_dma_buf_begin_cpu_access,
+>>   	.mmap = drm_gem_dmabuf_mmap,
+>> -	.vmap = drm_gem_dmabuf_vmap,
+>> -	.vunmap = drm_gem_dmabuf_vunmap,
+>> +	.vmap = amdgpu_dma_buf_vmap,
+>> +	.vunmap = amdgpu_dma_buf_vunmap,
+>>   };
+>>   
+>>   /**
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
 
