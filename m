@@ -1,142 +1,186 @@
-Return-Path: <linux-media+bounces-40431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40432-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD97B2DEE0
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:16:01 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C697B2DF43
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:29:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0992B7B13E6
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:14:15 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D163C4E4A61
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:29:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E18BD275AF2;
-	Wed, 20 Aug 2025 14:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BDA426E17F;
+	Wed, 20 Aug 2025 14:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v8PeiQWJ"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="eMBm/pJp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012030.outbound.protection.outlook.com [52.101.66.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4DF26E179;
-	Wed, 20 Aug 2025 14:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755699307; cv=none; b=JdrfhAYdGs6hOq+YGd7WG9tHrRH0baEEJwd5AnWieDpUylYV98iymo67A5kjgSyGb3/Fr7n8gs2N5Sft0sNoDhI9G3kH6cMyQSeMmvE2p2CCQNaO1ick6+LbgJINeJ1MaZyrrOzABlwmXXR9js2AmA81FmYnKTzaKMvxmMKRt90=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755699307; c=relaxed/simple;
-	bh=g/rGbdSPbqrHGAoJ1YXWtvncYfbQMQU0610yMszQsao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dh9vJgNjKtQuBys3/ocHNQhK4vNCFjkj8zYn4dBpIkXyDsw61S5nBtj220OQns9uK6rcszeSl61Acz7IMH4/TxyqgUfyS6O9maYwoJhDliRKpaN87WQTSfCNrT4NEH6Bu9boexVfXJotd0Y0PH1Ev4WQalEuIhaJYfc+EXETlpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=v8PeiQWJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ED109606;
-	Wed, 20 Aug 2025 16:14:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755699244;
-	bh=g/rGbdSPbqrHGAoJ1YXWtvncYfbQMQU0610yMszQsao=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=v8PeiQWJ5magojmvPcL8N9BMO1Nw4Od86lgD6VmPaPtyQrmtJTBVG0t+Ne+qTg52g
-	 5FjWp8TZqeu3Bz6oVKlAE9v5ajtYX6LeKfsTSMpxzQVMsuiIgdesWAKEFe6MfFbMT1
-	 0HEvzrk9Z1DepufHLl2XdR1mOKefL+vxnI+4dLPs=
-Date: Wed, 20 Aug 2025 17:14:39 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maud Spierings <maudspierings@gocontroll.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487BD27510E;
+	Wed, 20 Aug 2025 14:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755700043; cv=fail; b=kcbbpJX9ExtRFHoru3ZKvewUSYOGoRKctAHxv90eh/nYKQacPnTAc1fqxpuewBnxp/CbWoFSzQ3PWpSqH8pMhrLmzJFB+AOOANbAZwnEWYCMwV/tVX1tCfwrbkgzBOJkX16y4vjzvjrXTDgSAE4hBZR73VqSeqRuPaSt1JfIpYw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755700043; c=relaxed/simple;
+	bh=ZwCjQpnaiQKDn/T8TRawJaTHFeu19Mo73z26YR/me1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=moHDm2keqbenPiVwPiag3BuTjp9ysDX9f+vq1nChJ2r/fRWnAkMHRlUM0IgODTQBk5sJqe2Fp9Vrfq0kbf1KDAT/X0Io3LHstOG3VQtZ/8SiHkIvLMd8Np/MOOR13T3ddAiW4+OnP4ktfLq3j8bli3CEHQsovYNvnYJp7Nmok3g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=eMBm/pJp; arc=fail smtp.client-ip=52.101.66.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hqFFU81RfNVvtSzCTVaOrbg+R7Q8OwjuSafePmEEgcSjnRnT3RN9y5/MigVIMG/zDr7CM4FHuDh+B0ajvvh2K1jJ8+eld3XyUXL+JheZYiW33yF6NwPAAJdm8SofOQN70Ea6x1QDEp/BAqZcvZwWpC5YtgbubqEkaX6khZ7pf3oy092c7QFJe8o6aiggSrbqkGJAD5HizAlY282CR01667U9v1aVJMPSdf60WsysGdKSK2fvZ3eQWyzZ3jtfwWA44olt4G2CZrF2jj3JzZiGm/dDDC8/MnrR05SHj/4SM8A416wH7uQ4bOnDJ1xQi2Fw8MpB7lbTb+a938rVB/UvFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O0y9+S+0/oGs/jRLQ8Wbum1MkKzM8lvngx2r14lP66Y=;
+ b=sGpAj1ZOk4oRfWxJdBaesJx5WyZJMStx3H86xk9QzSf4XUqGSA2arLz+fyKgUFnunNJlwY7h5k8Q+gDS8GntSP8Uh+WeyYVmODaTHvGz5NSLXSp8TmKKw5S9HF3YpbTvDzDnCXuZRJRW9lOjog/kcM/6aNmEHCwXsYK0jog4nB2sgruD8IrqVncgpdcspvTQJv6rSag96XEjvCL3Wm8C32blFgeGR0RREpzIxdOAmzlkH3aot+6f0mae6jeElCPs90R7mtNy39vwyNwidWrriNh5r94zjM/9YpODaNfxwsgfP3FYVrk+FtzcnKgjJ2lw9WKOHcUftqcyjL0WfQkFag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O0y9+S+0/oGs/jRLQ8Wbum1MkKzM8lvngx2r14lP66Y=;
+ b=eMBm/pJpTHxcRevH1xjyjd2WVx6q10z8945MWVC1YDYPFoDfAKfrtGuTCbFn70VBgdhsZt/c0aVVr+b9aEooYW0/yfknyUbbQZ9HnHYODexjWvu/esrrmLJ3oMkOxNWvhmkuxYOJwfj54C9jRdShlEvmYWHpM9QQ9QqkENGIc0UdPrHqWBeU3OM7oqSv0TXYdhBKK3/09IGnWd87mtT+4ciby1W4WFk4hbUP4jH2RZGIehz6vDtzUuyXUe1JJ9Kgvl+UEK4WjdVX6JZR7ThvKFQVcKmHcjLHohEUmIZ4EyG+l8l+Hj/TVKxNIw4AHgUSTo8aVC00Ydz75yDkMFsHiQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
+ by AS8PR04MB8069.eurprd04.prod.outlook.com (2603:10a6:20b:3f5::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.13; Wed, 20 Aug
+ 2025 14:27:18 +0000
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::e81:b393:ebc5:bc3d%5]) with mapi id 15.20.9052.012; Wed, 20 Aug 2025
+ 14:27:18 +0000
+Date: Wed, 20 Aug 2025 10:27:07 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Guoniu Zhou <guoniu.zhou@nxp.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Stefan Riedmueller <s.riedmueller@phytec.de>,
-	Jacopo Mondi <jacopo@jmondi.org>, Christian Hemp <c.hemp@phytec.de>,
-	Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>, linux-media@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
 	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: nxp: imx8-isi: Check whether pad is non-NULL
- before access
-Message-ID: <20250820141439.GA10547@pendragon.ideasonboard.com>
-References: <20250818-imx8_isi-v1-1-e9cfe994c435@gocontroll.com>
- <20250820140154.GB6190@pendragon.ideasonboard.com>
- <a9283349-c58d-47e6-ac33-77b5a6b893fe@gocontroll.com>
+Subject: Re: [PATCH v5 1/4] media: imx8mq-mipi-csi2: Remove width field in
+ csi2_pix_format
+Message-ID: <aKXbO+P1az2HiB8i@lizhi-Precision-Tower-5810>
+References: <20250820-csi2_imx8mq-v5-0-e04a6fc593bd@nxp.com>
+ <20250820-csi2_imx8mq-v5-1-e04a6fc593bd@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820-csi2_imx8mq-v5-1-e04a6fc593bd@nxp.com>
+X-ClientProxiedBy: BYAPR06CA0003.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::16) To DB9PR04MB9626.eurprd04.prod.outlook.com
+ (2603:10a6:10:309::18)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a9283349-c58d-47e6-ac33-77b5a6b893fe@gocontroll.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|AS8PR04MB8069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6368639f-7a0c-4efb-6464-08dddff5aa93
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|19092799006|366016|1800799024|7416014|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?QsKOWynkCc7rPtEsmwajHgPd45PZdLcTsV1qOE2iTg/P4WMm3VM+0vtLCoZb?=
+ =?us-ascii?Q?udC9Mr7CkrWhaU4C9U/BLAUKGG3K/bEBnl571EcZjkZ6dV82FoILKuP+m031?=
+ =?us-ascii?Q?5sxalbfWM1MEFsu1AovwpHJDg8qFO47V7Yc//2pDjoT8AGNKHBZ8fiQ3iKnN?=
+ =?us-ascii?Q?/jdDDhCpGsylfZWC8kZlNPU65MMvZEnVjLUgeOYD55y264qtbmCkh5NXLxO6?=
+ =?us-ascii?Q?Bbv8HhnD9g1y6JWYc+pf+vIFY3ap7VNQvo1+u1ybECpDsTbWAtAEK4IROg8y?=
+ =?us-ascii?Q?A8IAIuJT9OcS39ZQxN2kxvLYAM0lUIv88tC6QvdjhssD3JQW07/uqwbZeaZ2?=
+ =?us-ascii?Q?JrkpZ9CswqxIiqyw64uXv+NKq2fIz7CYx+19FobvX62DcjQgS1bmgfFUgjBZ?=
+ =?us-ascii?Q?5RvxCKyNF0Uq8MxG773+tMmBLDJ2aJHfn9Kiq0BUelnK38gl4QApw7F0HlIv?=
+ =?us-ascii?Q?AnSidXqCVDIRLd3Bf7z7zXX9bex0+GcBIuAqK7hTi2oS0a3q+YdEVXbGtLt7?=
+ =?us-ascii?Q?mkfCnV0a6J6xCFMl3rFQRjl0bO9SuLekayXMejAUDU38GwJK+KcvO0NgaA11?=
+ =?us-ascii?Q?XxtpxY5gc0AfZPUIFPhjy376tHIN7FqJBReiEXYWlD6onfPH5T0cNYNMrap5?=
+ =?us-ascii?Q?KdLl91QSrejSXaoOeVN/3JopyH5fFKUl/B613BGVFElm8/OXWq1Uzy/xl8uf?=
+ =?us-ascii?Q?2ADmI8fHh0JtFUUp4XY6+fbmLoNGSO2yzUUvFaYFwhkHmFuCV71EXvy9NFGq?=
+ =?us-ascii?Q?EjLHGkX/Z3SFXK76VzafSK+BYjwfauDDmLnvGPMyzyyix9bcVLROzxPZ7Ecq?=
+ =?us-ascii?Q?LXBHMq0dMAEIeWGP9Sn+kqEGCFupx+VfuJ6/JhieOTcP/ZD26r395oRDSbYE?=
+ =?us-ascii?Q?KNUa4n92JZmQCD5vBTryXIE/1418YaMfOF8RRoVymVuBFv6i5fGb9c/CIb0t?=
+ =?us-ascii?Q?8lDHIH9ooNmB9CGUw2GxUXRUNs2t+K95le2ESjAkavy9qt/gn0Vpe9fDiXQm?=
+ =?us-ascii?Q?o9CT844BReUu7S7Le3ABM+j4FGDzV7tgfknpotz/VNe3efiXQ2cjITBbmDZT?=
+ =?us-ascii?Q?rgHx9AgvBaZwB8i8WnrEYpqXTXWPTQkytXuQdDbGPVbCowGD+0mNTk05RHRL?=
+ =?us-ascii?Q?fL3JI4QOUKtKwjNXjcOMwmIWzDd2s4r/e3sGwyrSGNvQEvM1/VweAliRrSPu?=
+ =?us-ascii?Q?6k1/bh7xS15pUtdmxtmWN6yYCcBouYmJsUoidkLAKgq7jg32B+eu5SVaeaeP?=
+ =?us-ascii?Q?mnJ9O6DGw07tB2emBDratxDqpE4jEpDTjII9+J8faWlccGNahZghRDOW2ejY?=
+ =?us-ascii?Q?whn9rzJMcqN5tXl8PwaUhivvBp2bdMEoKeYYBLbl9VJE1V1RWeWZxkGMuBxv?=
+ =?us-ascii?Q?nm7d9FWRPp+r9KeZnJLf8mtQZ+0DkHcjxUSuII+ecwj/YD0XwsCajfaxcnTk?=
+ =?us-ascii?Q?81M2kCmBdRoKq/xu+/qcLiV1s+xLLw5KRN5lXdggY8+Kfe4PNvGkLA=3D=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(1800799024)(7416014)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?4jHiaUyvYySAlJitFro4hFE18v1qqm5UhONBCESKDNmHBkqiEIBU4ElwcWPG?=
+ =?us-ascii?Q?qXmfB7n6D5UOlcfOGqbdnSRn7yel35IUdXqS5tZ3KOBNCpfvLypTAf96iNJU?=
+ =?us-ascii?Q?9iIxWZNvgh1tuJly6YNVtMN6F9+qZW7gMrMNpMW1bFwwQmgGQ8Gt258bhiFf?=
+ =?us-ascii?Q?h3hrt+JmnNsk4z3kx4YFFstonvB4mkzG2GN4MMNkhjfKuoIgu6J/F/U4T5CU?=
+ =?us-ascii?Q?u0KSB5z0p/WhvrI2KybtokBFIcSpZV/Y4aOcZDBHPAE2BkVWLZqFwWlLP12D?=
+ =?us-ascii?Q?IEBW//Wu45aYKj7n5PJpILvXkv4cZEKEO9v/Yjvc+tuKFCxvRunpPKusjhZ/?=
+ =?us-ascii?Q?yieKbAIz03KW0u5kM9BT8eaSrZaKPgqQ7aVH2hCGJfEwHJND1WbjhPo4tI9q?=
+ =?us-ascii?Q?Lcg3i9th6aMwhnLKJSBqYxqcFo5vd9VY0LpMp8viLclLEwT2fUitbUnxo+/B?=
+ =?us-ascii?Q?E+1AHcezKdAUQ1an5XsjDF+d6pIYO+5HG6Kw3UaADRR/k5jEyqQMyZ/eTFv2?=
+ =?us-ascii?Q?x35FRCGzt0GFBdIGcGqA+mExAV+vllBdamcFif6PRiG5D9t6BFJ59U4XyGTa?=
+ =?us-ascii?Q?J7Eta9/oY6Wund+NAV9cBh4io/FwoEMcDf5weEJ4F6bCWK/ulQWR5xHTS6md?=
+ =?us-ascii?Q?X4F9ao3jO98Y4ZZiK1aTIkHkoaDem2A1DsD0Ai25iHa2k/HU1s9opRyvWyPV?=
+ =?us-ascii?Q?altIyf70AJ5BaY1n1H9kYmxIn87vkwADpeKowjhfCT+1XRgQI/Pt1bCe/ZM7?=
+ =?us-ascii?Q?t30APtBGl5kPEqwUBSOfo3KQ08qM6rluBnlyvksSvpKDwv1Ejo/WYwlaRtGX?=
+ =?us-ascii?Q?8cipD6ifTHBaE8VEQXDXV4xzUmHdrUngfRz2tf9LVv6pfOL68DlSDKpzCEaU?=
+ =?us-ascii?Q?F5EzshcyEb1DNTnWA66wmUQBdZegbm7vxJ9J/Ro2ZSWIjjoyBmujRVehBcpX?=
+ =?us-ascii?Q?pw0nc7+a8VJn9NMXiClM+G5lCYQxJUQ/K68cj84bwqxdhHU49uovZYrll46r?=
+ =?us-ascii?Q?UDEytAEG8aZiCRtAOLZDoC8dxapFlpDvqrZdSTzSPu1S2XmDgQXFloOatq6K?=
+ =?us-ascii?Q?lVs0pUDQ6wHIo7ZQFG/0if2JZZ2COHcMfSVCNWP1VqF5tn1llFl0OdzTgtsS?=
+ =?us-ascii?Q?APtozlc9dw2mo26rxNoaZa7I/rarA0SdS17aqDoBpV/el1HH0kfY0gRibSnX?=
+ =?us-ascii?Q?nULb+ilG7IPjD3eMEmGnY74TtpBwxuC6ygCmDYwEmP7R+evkk7o2okZvW+46?=
+ =?us-ascii?Q?7zESVBelqosgKVwjs05A1d6muyaMjK+s+txXR+ufeNeWnwgkpRXbOOV4wb3R?=
+ =?us-ascii?Q?sdjGA4itzOM75qOoglKoAEbT5bcsitNNHRVh0fokO+pVaZ7zZnrH7bUAD/kp?=
+ =?us-ascii?Q?W/beEIfuMmdu3n2exTB/VdzAngweYWZGSdopJIzbXGqcIui39/x4EELE6gNZ?=
+ =?us-ascii?Q?arAULHTyZKU0dv6WzWh4Gv3Aa5Qf13e5U1x1sLoyje4yY8z98+MHXxSjpE9P?=
+ =?us-ascii?Q?s2RMfx9axzUt4T3fOUWaqZIpf10+7Wfeyx+ohG+XrIKY7K/dHxPPMRwm6WNm?=
+ =?us-ascii?Q?sDQ4r0d7hmZZkrVqWJnSGE86Oa+J6E8zQd4IZhJy?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6368639f-7a0c-4efb-6464-08dddff5aa93
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2025 14:27:18.1418
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jnymbaxKWsAFweJrrm8moKpkfuyoJaSkflrICnLSRIrP0DVgznzc8UVoHu9kz7weshEm7GspLIOznLHrcdM9OA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8069
 
-On Wed, Aug 20, 2025 at 04:07:55PM +0200, Maud Spierings wrote:
-> On 8/20/25 16:01, Laurent Pinchart wrote:
-> > On Mon, Aug 18, 2025 at 02:31:43PM +0200, Maud Spierings via B4 Relay wrote:
-> >> From: Maud Spierings <maudspierings@gocontroll.com>
-> >>
-> >> media_pad_remote_pad_first() can return NULL if no valid link is found.
-> >> Check for this possibility before dereferencing it in the next line.
-> >>
-> >> Reported/investigated in [1]:
-> >>
-> >> Link: https://lore.kernel.org/all/1536a61b-b405-4762-9fb4-7e257f95e49e@gocontroll.com/ [1]
-> >> Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
-> >> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> >> ---
-> >> I'm not sure if this should be a dev_dbg(), just following the pattern
-> >> around it for now, also not sure if EPIPE is the correct error.
-> > 
-> > I've submitted
-> > https://lore.kernel.org/linux-media/20250820140021.8026-1-laurent.pinchart@ideasonboard.com,
-> > which should fix this issue in a more generic way.
-> 
-> Saw it, but I think my patch technically is still correct as the 
-> function documentation states it can potentially return NULL right? [1]
+On Wed, Aug 20, 2025 at 07:04:56PM +0800, Guoniu Zhou wrote:
+> Simplify the code by using helper function media_bus_fmt_to_csi2_bpp()
+> to get width for supported format.
+>
+> No functions changed.
+>
+> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
 
-The function documentation states
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-"returns a pointer to the pad at the remote end of the first found
-enabled link, or NULL if no enabled link has been found."
-
-The MUST_CONNECT flag ensures that there is an enabled link, so the
-function can't return NULL.
-
-> Link: 
-> https://www.kernel.org/doc/html/latest/driver-api/media/mc-core.html [1]
-> 
-> I will test you patches tomorrow.
-> 
-> >> ---
-> >>   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c | 7 +++++++
-> >>   1 file changed, 7 insertions(+)
-> >>
-> >> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> >> index ede6cc74c0234049fa225ad82aaddaad64aa53d7..1ed8b031178b7d934b04a8752747f556bd1fc5a9 100644
-> >> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> >> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> >> @@ -160,6 +160,13 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_crossbar *xbar,
-> >>   	}
-> >>   
-> >>   	pad = media_pad_remote_pad_first(&xbar->pads[sink_pad]);
-> >> +
-> >> +	if (pad == NULL) {
-> >> +		dev_dbg(xbar->isi->dev, "no valid link found to pad %u\n",
-> >> +			sink_pad);
-> >> +		return ERR_PTR(-EPIPE);
-> >> +	}
-> >> +
-> >>   	sd = media_entity_to_v4l2_subdev(pad->entity);
-> >>   	if (!sd) {
-> >>   		dev_dbg(xbar->isi->dev,
-> >>
-> >> ---
-> >> base-commit: 3ac864c2d9bb8608ee236e89bf561811613abfce
-> >> change-id: 20250818-imx8_isi-954898628bb6
-
--- 
-Regards,
-
-Laurent Pinchart
+> ---
+>  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 29 +++++----------------------
+>  1 file changed, 5 insertions(+), 24 deletions(-)
+>
+...
+>
+> --
+> 2.34.1
+>
 
