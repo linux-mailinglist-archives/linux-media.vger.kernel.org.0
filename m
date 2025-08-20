@@ -1,262 +1,460 @@
-Return-Path: <linux-media+bounces-40340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1939DB2D3FB
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 08:20:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 933CCB2D48B
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 09:12:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7EACE1BC31ED
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 06:20:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C1741C40A9E
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 07:11:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8896027B335;
-	Wed, 20 Aug 2025 06:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 908A92D321A;
+	Wed, 20 Aug 2025 07:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ONd+zipw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RaawwEbZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B7DE555
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 06:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68138277C80;
+	Wed, 20 Aug 2025 07:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755670801; cv=none; b=t6bQL8AyfsJ9bWBK4WJgcO8Fl2VoUAet7o0Eyo01YHnEqWRMK1kfcj+NFjdFfVpgLgLnmbP4SYNOkpIMdZRNMTzuFTutu2rIaU1LJa36sHjjNrIYurLvKUmjaV5D58/zMdCP51FAPVJ9405urMRYwLraDG9b1bsvSilIREVSXuI=
+	t=1755673876; cv=none; b=QkSXO6JnW65AkBF1WDJzGJx0DFGA/GM+xWcooOfjOsKa4DmH5eYnfL+q4KiOGw50CfpUZUsRkGLTuKlK/Qr/z/RZ9jarT9g/niydw4IRBEJp6KuNysr+hk3ANaTFNJBYvw8ztkYSrhx3aLuXu1ntgx8VWiiVAKHQSpMuUCaLHPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755670801; c=relaxed/simple;
-	bh=Il8EIAg1QfxzNI0BfdWour3oPDvc6yu7jWmA2XyppAk=;
+	s=arc-20240116; t=1755673876; c=relaxed/simple;
+	bh=+nPe9KNqlZjfnxvyXPzg1Sjt967lb1R44z+fl1a+1GY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oR0Lc4zX6YOnZyXiNUEJrhZIhdD9oYKH0Ugp921gLa4TSzR55EM9NCm3fH1785QbcvtjBGjoiP8DoT+GvY0IKRU6d+hrKAAlUYn0iCDNnrJJ8/BypYMQXR+SzumoGu+ArSvDca+7z0gJbAe1dAvW+RPqlF19QsiokCKRv0b269E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ONd+zipw; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K1ojik025650
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 06:19:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=uNKU1Frwft226LHp/hY7w5oY
-	RJNUWwbLNrcXicahC3A=; b=ONd+zipwKnNSwK9V/LODsmfaSYK6HjIXDMRmFrPI
-	UCd6REa4r+K3y1w6XzKWpuun5Pxw+ghmWONHsRtHXVOCEOOlEhey/U2X6YF2YU3g
-	LvsXo+KwnsiHz23ZIp87JZRTD4tHxucNssPuPH48JPl0RiPrSC7YMvACxvwOr6nD
-	j24uTmbb+FFwr6Z9aisfZO5K4vGZ4VFFxmJpGXUoE5LBZoHRGCLQLl95/pIiSMZS
-	QoB98yj+6Huy3BvE62fBcUuZJ61gn1rxPUwhcTIWU+LXNmQ05yw7yZ6YIB+dGae7
-	0Y+AtoAvUcaYSQQfug6ZnbtW1932hHxAdrLGiFJScaoWxA==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52a8m8f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 06:19:58 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-76e2eb9bb19so10748689b3a.3
-        for <linux-media@vger.kernel.org>; Tue, 19 Aug 2025 23:19:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755670798; x=1756275598;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uNKU1Frwft226LHp/hY7w5oYRJNUWwbLNrcXicahC3A=;
-        b=ONpkJhlyqmpURHjsn097WwnnKa06JjXIYx4HlsOrBV/9wKG5jaM0mVKZPk5ZYmYk9A
-         BD5aiNLZuMH6cx2phXeTlMEDDGgsywpCD9dGQ9hP/DHIggYNekDZ0Hz9ErXoiYfLXouv
-         lUXD7R7vq7gJw+r+0+mT1FMENDqf8FrizZhD9mZZ5tgMgjJ59cNnCCM/B+QXIHArhhQG
-         G8SuKOYMmq4iz9bEKJsX9OF+sqLwM0VuSJOb113oUi36sdxXTmPovOhZxhDrJLqkib6E
-         a4kybWzEPFOTjPPGiv8ZTAJgFGqYVbRtk4o5Py1aHVZYc3T+5uyO16MS4x59SVSeMsjw
-         9Y0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWexXVUhj1YR0nYHROQq+Qa3X/dPgPPQpPDg44/DuVusnEuRo7UGTtn4MGvC7kFmCpswDpZ5PgctKZQaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxxf1Eu/zMQsSETmqqkePdihXWxXhZYdnU5ZOCIyMIyzJesFsX+
-	9uWm4ShVCiLj/IZFfY7dJ99PA8sYMPdiT5OAq9UIuUH6OFBNNJ8HCdOamttY+n4gjEasS9eynbl
-	n86xnp4panDh5TNm9rfCbPjtRYGz3rZG8+5pBee9eQhKr5JylCKYwUNMZ3XWyFrNe2A==
-X-Gm-Gg: ASbGncvNLm6tUr+01sG4javb5NN5t4v051U6Js3BODvi94PVTDBjMUbfSPLHiiM3ewA
-	Z9ECf0dKk//Hl0eGxd74n63mckmV3vNCrszZeNRemwRSkVXUjjN0ammN7SAAkAhjhARSHeCiRcd
-	DdfanvJIFfU2e1huOMvsjUG0PwlyO827yax6NFmsFLt7LqSx+xOukSliKvxKLY5wmSD18OfGNHX
-	8GAsZREOkwHAdSbyJ3KnXz3NtPHw8JAVnzD7QOeBWlXuvHMRLIQUZRO9vUMH3Osejl/6CCuC5sA
-	ruWAucFlpUg5LKhzx3ZrSJYKTf1nFFBOCJ2V+GAFKpN9iNygRO4YUrA2QDbXR2uQbHg=
-X-Received: by 2002:a05:6a00:1989:b0:76b:d8f7:d30b with SMTP id d2e1a72fcca58-76e8dbaa401mr1993141b3a.10.1755670797771;
-        Tue, 19 Aug 2025 23:19:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVWVmutWphmCS82Rcwj2tmZT39j3z+E7I3LxdsVVCYqR8vLEcV2M7wRqe6Vip/Yxu0WHvoGQ==
-X-Received: by 2002:a05:6a00:1989:b0:76b:d8f7:d30b with SMTP id d2e1a72fcca58-76e8dbaa401mr1993117b3a.10.1755670797336;
-        Tue, 19 Aug 2025 23:19:57 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d4fd29fsm4335862b3a.72.2025.08.19.23.19.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 23:19:57 -0700 (PDT)
-Date: Wed, 20 Aug 2025 11:49:50 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Pavan Kondeti <pavan.kondeti@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] firmware: qcom_scm: Introduce PAS context
- initialization helper
-Message-ID: <20250820061950.lqsuoj7u7se75mmj@hu-mojha-hyd.qualcomm.com>
-Mail-Followup-To: Pavan Kondeti <pavan.kondeti@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-2-mukesh.ojha@oss.qualcomm.com>
- <3b74157a-3f2a-4533-acf6-7cab8154709c@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pniLmM//nqSI+1nvuaKKApVtxfyqpm9VV0gP3uICIvAKjl0lbFXdMf6S2A2m+wfSSJ2CW7FZl7Eeq3A4U+zdAhwPlU15TFcx9tHa85MpYJWuou+NidK43cXuP/n4STgTDVhkyorfsEr/6Cq83Ub1yv6CiIBGmBSBww2kv9PEUqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RaawwEbZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-62-213.net.vodafone.it [5.90.62.213])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDEA8446;
+	Wed, 20 Aug 2025 09:10:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755673813;
+	bh=+nPe9KNqlZjfnxvyXPzg1Sjt967lb1R44z+fl1a+1GY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RaawwEbZphnua0H9cQiZGucV8yvXK59thQS9TviXL8ElEdWZm2LBFG2pvmmsYTsRq
+	 FydP14fwyk2EXa7cxzuRstbc6UVGW8xCW3f5tcDTn4TrZSTQJRaZJ1y5mE6AHHO9V3
+	 dvpPhUUHJSZGcAnhXQAvAGkBAs+YPkC0uYDlA6os=
+Date: Wed, 20 Aug 2025 09:11:06 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Dafna Hirschfeld <dafna@fastmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 5/8] media: v4l2-common: Introduce v4l2-params.c
+Message-ID: <bl4xncjiy3b777xdni7kb22hwxgm5sqrpd2jrctmdi2valtrec@zr2bfen5drx5>
+References: <20250819-extensible-parameters-validation-v3-0-9dc008348b30@ideasonboard.com>
+ <20250819-extensible-parameters-validation-v3-5-9dc008348b30@ideasonboard.com>
+ <aKT4vz-XeTgSo125@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3b74157a-3f2a-4533-acf6-7cab8154709c@quicinc.com>
-X-Proofpoint-ORIG-GUID: u1TsLoTKreuYXkyYvCgp7gRCia_zSaSy
-X-Authority-Analysis: v=2.4 cv=B83gEOtM c=1 sm=1 tr=0 ts=68a5690e cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=c7pJEiSHkIStB_RkOCEA:9
- a=CjuIK1q_8ugA:10 a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-GUID: u1TsLoTKreuYXkyYvCgp7gRCia_zSaSy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX25EmVcMJR/Nt
- q+XItGsIUZ2HVrUFVHb75oFffM+2hVjYN2iRlJHjkV5cKgfV9u1A1dIWTCvwdH86wuXNlqRVAU7
- Q+j+/b8giCCiAtBnwVlIADxsWSJzcobJ2yazovOn7PMM9uAP6WS245qee/hoPl9Q2gTFl/cG4TQ
- rLCI63DrlRCy3pvOHRchfokaAhoApxC4gOMf0gBw8Y46upU4vvyKcFIMGI+4XNtuTBL0pAq7L33
- 1DwSRlsktakICRdAhkgDEAG0TrrhqD0gRUF9Dfa+Z2pZXAt86xUL6ASv3dUW82RUPMA/alMxNaI
- NsICNn6URzW6R5vyICTQ0mDpXaf1ABdV1MUSaFYop9UvVIMfsTeTlb8LTGnpWVtx9aOruMrmZdP
- 25Lb3OgBcYz3ykSWNtMOroGXvThcsA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_02,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+In-Reply-To: <aKT4vz-XeTgSo125@kekkonen.localdomain>
 
-On Tue, Aug 19, 2025 at 10:47:45PM +0530, Pavan Kondeti wrote:
-> On Tue, Aug 19, 2025 at 10:24:36PM +0530, Mukesh Ojha wrote:
-> > Currently, remoteproc and non-remoteproc subsystems use different
-> > variants of the MDT loader helper API, primarily due to the handling of
-> > the metadata context. Remoteproc subsystems retain this context until
-> > authentication and reset, while non-remoteproc subsystems (e.g., video,
-> > graphics) do not require it.
-> > 
-> > Unify the metadata loading process for both remoteproc and
-> > non-remoteproc subsystems by introducing a dedicated PAS context
-> > initialization function.
-> > 
-> > By introducing qcom_scm_pas_ctx_init(), we can standardize the API usage
-> > across subsystems and reduce the number of parameters passed to MDT
-> > loader functions, improving code clarity and maintainability.
-> > 
-> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Hi Sakari
+
+On Wed, Aug 20, 2025 at 01:20:47AM +0300, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> In the subject:
+>
+> s/common/params/
+
+I actually meant "media: v4l2-core:"
+
+>
+> On Tue, Aug 19, 2025 at 04:54:46PM +0200, Jacopo Mondi wrote:
+> > Add to the v4l2 framework an helper function to support drivers
+> > when validating a buffer of extensible parameters.
+> >
+> > Introduce new types in include/media/v4l2-params.h that drivers shall
+> > use in order to comply with the v4l2-params validation procedure, and
+> > add a helper functions to v4l2-params.c to perform block and buffer
+> > validation.
+> >
+> > Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > > ---
-> >  drivers/firmware/qcom/qcom_scm.c       | 26 ++++++++++++++++++++++++++
-> >  include/linux/firmware/qcom/qcom_scm.h | 11 +++++++++++
-> >  2 files changed, 37 insertions(+)
-> > 
-> > diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
-> > index 96d5cf40a74c..33187d4f4aef 100644
-> > --- a/drivers/firmware/qcom/qcom_scm.c
-> > +++ b/drivers/firmware/qcom/qcom_scm.c
-> > @@ -558,6 +558,32 @@ static void qcom_scm_set_download_mode(u32 dload_mode)
-> >  		dev_err(__scm->dev, "failed to set download mode: %d\n", ret);
-> >  }
-> >  
-> > +void *qcom_scm_pas_ctx_init(struct device *dev, u32 peripheral, phys_addr_t mem_phys,
-> > +			    size_t mem_size, bool save_mdt_ctx)
-> 
-> Since we export this for other drivers/module, consider adding kerneldoc
-> comments.
-> 
-
-Sure.
-
+> >  MAINTAINERS                           |   2 +
+> >  drivers/media/v4l2-core/Makefile      |   3 +-
+> >  drivers/media/v4l2-core/v4l2-params.c | 123 +++++++++++++++++++++++++
+> >  include/media/v4l2-params.h           | 165 ++++++++++++++++++++++++++++++++++
+> >  4 files changed, 292 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 91df04e5d9022ccf2aea4445247369a8b86a4264..008f984c0769691f6ddec8d8f0f461fde056ddb3 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -26385,6 +26385,8 @@ M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >  L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> >  F:	Documentation/userspace-api/media/v4l/extensible-parameters.rst
+> > +F:	drivers/media/v4l2-core/v4l2-params.c
+> > +F:	include/media/v4l2-params.h
+> >  F:	include/uapi/linux/media/v4l2-extensible-params.h
+> >
+> >  VF610 NAND DRIVER
+> > diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> > index 2177b9d63a8ffc1127c5a70118249a2ff63cd759..323330dd359f95c1ae3d0c35bd6fcb8291a33a07 100644
+> > --- a/drivers/media/v4l2-core/Makefile
+> > +++ b/drivers/media/v4l2-core/Makefile
+> > @@ -11,7 +11,8 @@ tuner-objs	:=	tuner-core.o
+> >  videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+> >  			v4l2-event.o v4l2-subdev.o v4l2-common.o \
+> >  			v4l2-ctrls-core.o v4l2-ctrls-api.o \
+> > -			v4l2-ctrls-request.o v4l2-ctrls-defs.o
+> > +			v4l2-ctrls-request.o v4l2-ctrls-defs.o \
+> > +			v4l2-params.o
+> >
+> >  # Please keep it alphabetically sorted by Kconfig name
+> >  # (e. g. LC_ALL=C sort Makefile)
+> > diff --git a/drivers/media/v4l2-core/v4l2-params.c b/drivers/media/v4l2-core/v4l2-params.c
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..8eeb12414c0981c13725a59d1668c5798b9fcf50
+> > --- /dev/null
+> > +++ b/drivers/media/v4l2-core/v4l2-params.c
+> > @@ -0,0 +1,123 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * Video4Linux2 extensible parameters helpers
+> > + *
+> > + * Copyright (C) 2025 Ideas On Board Oy
+> > + * Author: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > + */
+> > +
+> > +#include <media/v4l2-params.h>
+> > +
+> > +int v4l2_params_buffer_validate(struct device *dev, struct vb2_buffer *vb,
+> > +				size_t max_size,
+> > +				v4l2_params_validate_buffer buffer_validate)
 > > +{
-> > +	struct qcom_scm_pas_ctx *ctx;
+> > +	size_t header_size = offsetof(struct v4l2_params_buffer, data);
+> > +	struct v4l2_params_buffer *buffer = vb2_plane_vaddr(vb, 0);
+> > +	size_t payload_size = vb2_get_plane_payload(vb, 0);
+> > +	size_t buffer_size;
+> > +	int ret;
 > > +
-> > +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> > +	if (!ctx)
-> > +		return NULL;
-> > +
-> > +	ctx->dev = dev;
-> > +	ctx->peripheral = peripheral;
-> > +	ctx->mem_phys = mem_phys;
-> > +	ctx->mem_size = mem_size;
-> > +	ctx->save_mdt_ctx = save_mdt_ctx;
-> > +	ctx->metadata = NULL;
-> 
-> This seems unnecessary.
-
-Yes, it is redundant.
-
-> > +
-> > +	if (save_mdt_ctx) {
-> > +		ctx->metadata = devm_kzalloc(dev, sizeof(*ctx->metadata), GFP_KERNEL);
-> > +		if (!ctx->metadata)
-> > +			return NULL;
-> 
-> Do we really need to pass this burden to the caller to pass save_mdt_ctx
-> as true/false? What happens if we always keep metadata in qcom_scm_pas_ctx struct
-> and let clients use it if needed.
-> 
-
-Do not wanted to be aggressive like changing every driver which uses
-qcom_mdt_load(), Hence, taken this safe approach of adapting the current
-way.
-
-Obviously, it is the one approach where I was looking to unify API's
-across remoteproc or non-remoteproc subsystems and that's why I have
-put comment in the 2/11 if we feel fine to do it for other drivers too.
-
+> > +	/* Payload size can't be greater than the destination buffer size */
+> > +	if (payload_size > max_size) {
+> > +		dev_dbg(dev, "Payload size is too large: %zu\n", payload_size);
+> > +		return -EINVAL;
 > > +	}
 > > +
-> > +	return ctx;
+> > +	/* Payload size can't be smaller than the header size */
+> > +	if (payload_size < header_size) {
+> > +		dev_dbg(dev, "Payload size is too small: %zu\n", payload_size);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	/* Validate the size reported in the parameter buffer header */
+> > +	buffer_size = header_size + buffer->data_size;
+> > +	if (buffer_size != payload_size) {
+> > +		dev_dbg(dev, "Data size %zu and payload size %zu are different\n",
+> > +			buffer_size, payload_size);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	/* Driver-specific buffer validation. */
+> > +	if (buffer_validate) {
+> > +		ret = buffer_validate(dev, buffer);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	return 0;
 > > +}
-> > +EXPORT_SYMBOL_GPL(qcom_scm_pas_ctx_init);
-> 
-> Is there an equivalant ctx_destroy() function? It would be confusing for
-> drivers to call this in their probe and not doing anything upon error or
-> in their bus::remove callbacks. I don't know if we really want to
-> convert the whole function under devres or just provide a destroy
-> callback.
-> 
+> > +EXPORT_SYMBOL_GPL(v4l2_params_buffer_validate);
+> > +
+> > +int v4l2_params_blocks_validate(struct device *dev,
+> > +				const struct v4l2_params_buffer *buffer,
+> > +				const struct v4l2_params_handler *handlers,
+> > +				size_t num_handlers,
+> > +				v4l2_params_validate_block block_validate)
+> > +{
+> > +	size_t block_offset = 0;
+> > +	size_t buffer_size;
+> > +	int ret;
+> > +
+> > +	/* Walk the list of parameter blocks and validate them. */
+> > +	buffer_size = buffer->data_size;
+> > +	while (buffer_size >= sizeof(struct v4l2_params_block_header)) {
+> > +		const struct v4l2_params_handler *handler;
+> > +		const struct v4l2_params_block_header *block;
+> > +
+> > +		/* Validate block sizes and types against the handlers. */
+> > +		block = (const struct v4l2_params_block_header *)
+> > +			(buffer->data + block_offset);
+> > +
+> > +		if (block->type >= num_handlers) {
+> > +			dev_dbg(dev, "Invalid parameters block type\n");
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		if (block->size > buffer_size) {
+> > +			dev_dbg(dev, "Premature end of parameters data\n");
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		/* It's invalid to specify both ENABLE and DISABLE. */
+> > +		if ((block->flags & (V4L2_PARAMS_FL_BLOCK_ENABLE |
+> > +				     V4L2_PARAMS_FL_BLOCK_DISABLE)) ==
+> > +		     (V4L2_PARAMS_FL_BLOCK_ENABLE |
+> > +		     V4L2_PARAMS_FL_BLOCK_DISABLE)) {
+> > +			dev_dbg(dev, "Invalid parameters block flags\n");
+>
+> There's also hweight*(); up to you.
+>
 
-I dont disagree., will wait for some more comments.
+Better, yes
+
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		/*
+> > +		 * Match the block reported size against the handler's expected
+> > +		 * one, but allow the block to only contain the header in
+> > +		 * case it is going to be disabled.
+> > +		 */
+> > +		handler = &handlers[block->type];
+> > +		if (block->size != handler->size) {
+> > +			if (!(block->flags & V4L2_PARAMS_FL_BLOCK_DISABLE) ||
+> > +			      block->size != sizeof(*block)) {
+>
+> You could merge the two conditions.
+>
+
+Indeed
+
+> > +				dev_dbg(dev, "Invalid parameters block size\n");
+> > +				return -EINVAL;
+> > +			}
+> > +		}
+> > +
+> > +		/* Driver-specific per-block validation. */
+> > +		if (block_validate) {
+> > +			ret = block_validate(dev, block);
+> > +			if (ret)
+> > +				return ret;
+> > +		}
+> > +
+> > +		block_offset += block->size;
+> > +		buffer_size -= block->size;
+> > +	}
+> > +
+> > +	if (buffer_size) {
+> > +		dev_dbg(dev, "Unexpected data after the parameters buffer end\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_params_blocks_validate);
+> > diff --git a/include/media/v4l2-params.h b/include/media/v4l2-params.h
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..a8a4cc721bc4a51d8a6f9c7c009b34dfa3579229
+> > --- /dev/null
+> > +++ b/include/media/v4l2-params.h
+> > @@ -0,0 +1,165 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> > +/*
+> > + * Video4Linux2 extensible parameters helpers
+> > + *
+> > + * Copyright (C) 2025 Ideas On Board Oy
+> > + * Author: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > + */
+> > +
+> > +#ifndef V4L2_PARAMS_H_
+> > +#define V4L2_PARAMS_H_
+> > +
+> > +#include <linux/media/v4l2-extensible-params.h>
+> > +
+> > +#include <linux/device.h>
+>
+> Alphabetic order?
+>
+
+I thought the rule was to include the header that corresponds to the
+.c file first to make sure it's self-contained...
 
 > > +
-> >  /**
-> >   * qcom_scm_pas_init_image() - Initialize peripheral authentication service
-> >   *			       state machine for a given peripheral, using the
-> > diff --git a/include/linux/firmware/qcom/qcom_scm.h b/include/linux/firmware/qcom/qcom_scm.h
-> > index a55ca771286b..b7eb206561a9 100644
-> > --- a/include/linux/firmware/qcom/qcom_scm.h
-> > +++ b/include/linux/firmware/qcom/qcom_scm.h
-> > @@ -72,6 +72,17 @@ struct qcom_scm_pas_metadata {
-> >  	ssize_t size;
-> >  };
-> >  
-> > +struct qcom_scm_pas_ctx {
-> > +	struct device *dev;
-> > +	u32 peripheral;
-> > +	phys_addr_t mem_phys;
-> > +	size_t mem_size;
-> > +	struct qcom_scm_pas_metadata *metadata;
-> > +	bool save_mdt_ctx;
-> 
-> As mentioned above, can we just include qcom_scm_pas_metadata struct all
-> the time?
-> 
-> Thanks,
-> Pavan
+> > +#include <media/videobuf2-core.h>
+>
+> Please use forward declarations instead of including the entire header
+> here.
+>
 
--- 
--Mukesh Ojha
+Good idea
+
+Thanks
+  j
+
+> > +
+> > +/**
+> > + * typedef v4l2_params_block_handler - V4L2 extensible format block handler
+> > + * @arg: pointer the driver-specific argument
+> > + * @block: the ISP configuration block to handle
+> > + *
+> > + * Defines the function signature of the functions that handle an ISP block
+> > + * configuration.
+> > + */
+> > +typedef void (*v4l2_params_block_handler)(void *arg,
+> > +					  const struct v4l2_params_block_header *block);
+> > +
+> > +/**
+> > + * struct v4l2_params_handler - V4L2 extensible format handler
+> > + * @size: the block expected size
+> > + * @handler: the block handler function
+> > + * @group: the device-specific group id the block belongs to (optional)
+> > + * @features: the device-specific features flags (optional)
+> > + *
+> > + * The v4l2_params_handler defines the type that driver making use of the
+> > + * V4L2 extensible parameters shall use to define their own ISP block
+> > + * handlers.
+> > + *
+> > + * Drivers shall prepare a list of handlers, one for each supported ISP block
+> > + * and correctly populate the structure's field with the expected block @size
+> > + * (used for validation), a pointer to each block @handler function and an
+> > + * optional @group and @feature flags, the driver can use to differentiate which
+> > + * ISP blocks are present on the ISP implementation.
+> > + *
+> > + * The @group field is intended to be used as a bitmask of driver-specific
+> > + * flags to allow the driver to setup certain blocks at different times. As an
+> > + * example an ISP driver can divide its block handlers in "pre-configure" blocks
+> > + * and "run-time" blocks and use the @group bitmask to identify the ISP blocks
+> > + * that have to be pre-configured from the ones that only have to be handled at
+> > + * run-time. The usage and definition of the @group field is totally
+> > + * driver-specific.
+> > + *
+> > + * The @features flag can instead be used to differentiate between blocks
+> > + * implemented in different revisions of the ISP design. In example some ISP
+> > + * blocks might be present on more recent revision than others. Populating the
+> > + * @features bitmask with the ISP/SoC machine identifier allows the driver to
+> > + * correctly ignore the blocks not supported on the ISP revision it is running
+> > + * on. As per the @group bitmask, the usage and definition of the @features
+> > + * field is totally driver-specific.
+> > + */
+> > +struct v4l2_params_handler {
+> > +	size_t size;
+> > +	v4l2_params_block_handler handler;
+> > +	unsigned int group;
+> > +	unsigned int features;
+> > +};
+> > +
+> > +/**
+> > + * typedef v4l2_params_validate_buffer - V4L2 extensible parameters buffer
+> > + *					 validation callback
+> > + * @dev: the driver's device pointer (as passed by the driver to
+> > + *	 v4l2_params_buffer_validate())
+> > + * @buffer: the extensible parameters buffer
+> > + *
+> > + * Defines the function prototype for the driver's callback to perform
+> > + * driver-specific validation on the extensible parameters buffer
+> > + */
+> > +typedef int (*v4l2_params_validate_buffer)(struct device *dev,
+> > +					   const struct v4l2_params_buffer *buffer);
+> > +
+> > +/**
+> > + * v4l2_params_buffer_validate - Validate a V4L2 extensible parameters buffer
+> > + * @dev: the driver's device pointer
+> > + * @vb: the videobuf2 buffer
+> > + * @max_size: the maximum allowed buffer size
+> > + * @buffer_validate: callback to the driver-specific buffer validation
+> > + *
+> > + * Helper function that performs validation of an extensible parameters buffer.
+> > + *
+> > + * The helper is meant to be used by drivers to perform validation of the
+> > + * extensible parameters buffer size correctness.
+> > + *
+> > + * The @vb buffer as received from the vb2 .buf_prepare() operation is checked
+> > + * against @max_size and its validated to be large enough to accommodate at
+> > + * least one ISP configuration block. The effective buffer size is compared
+> > + * with the reported data size to make sure they match.
+> > + *
+> > + * If provided, the @buffer_validate callback function is invoked to allow
+> > + * drivers to perform driver-specific validation (such as checking that the
+> > + * buffer version is supported).
+> > + *
+> > + * Drivers should use this function to validate the buffer size correctness
+> > + * before performing a copy of the user-provided videobuf2 buffer content into a
+> > + * kernel-only memory buffer to prevent userspace from modifying the buffer
+> > + * content after it has been submitted to the driver.
+> > + *.
+> > + * Examples of users of this function can be found in
+> > + * rkisp1_params_prepare_ext_params() and in c3_isp_params_vb2_buf_prepare().
+> > + */
+> > +int v4l2_params_buffer_validate(struct device *dev, struct vb2_buffer *vb,
+> > +				size_t max_size,
+> > +				v4l2_params_validate_buffer buffer_validate);
+> > +
+> > +/**
+> > + * typedef v4l2_params_validate_block - V4L2 extensible parameters block
+> > + *					validation callback
+> > + * @dev: the driver's device pointer (as passed by the driver to
+> > + *	 v4l2_params_validate())
+> > + * @block: the ISP configuration block to validate
+> > + *
+> > + * Defines the function prototype for the driver's callback to perform
+> > + * driver-specific validation on each ISP block.
+> > + */
+> > +typedef int (*v4l2_params_validate_block)(struct device *dev,
+> > +					  const struct v4l2_params_block_header *block);
+> > +
+> > +/**
+> > + * v4l2_params_blocks_validate - Validate V4L2 extensible parameters ISP
+> > + *				 configuration blocks
+> > + * @dev: the driver's device pointer
+> > + * @buffer: the extensible parameters configuration buffer
+> > + * @handlers: the list of block handlers
+> > + * @num_handlers: the number of block handlers
+> > + * @block_validate: callback to the driver-specific per-block validation
+> > + *		    function
+> > + *
+> > + * Helper function that performs validation of the ISP configuration blocks in
+> > + * an extensible parameters buffer.
+> > + *
+> > + * The helper is meant to be used by drivers to perform validation of the
+> > + * ISP configuration data blocks. For each block in the extensible parameters
+> > + * buffer, its size and correctness are validated against its associated handler
+> > + * in the @handlers list. Additionally, if provided, the @block_validate
+> > + * callback is invoked on each block to allow drivers to perform driver-specific
+> > + * validation.
+> > + *
+> > + * Drivers should use this function to validate the ISP configuration blocks
+> > + * after having validated the correctness of the vb2 buffer sizes by using the
+> > + * v4l2_params_buffer_validate() helper first. Once the buffer size has been
+> > + * validated, drivers should perform a copy of the user-provided buffer into a
+> > + * kernel-only memory buffer to prevent userspace from modifying the buffer
+> > + * content after it has been submitted to the driver, and then call this
+> > + * function to perform per-block validation.
+> > + *
+> > + * Examples of users of this function can be found in
+> > + * rkisp1_params_prepare_ext_params() and in c3_isp_params_vb2_buf_prepare().
+> > + */
+> > +int v4l2_params_blocks_validate(struct device *dev,
+> > +				const struct v4l2_params_buffer *buffer,
+> > +				const struct v4l2_params_handler *handlers,
+> > +				size_t num_handlers,
+> > +				v4l2_params_validate_block block_validate);
+> > +
+> > +#endif /* V4L2_PARAMS_H_ */
+> >
+>
+> --
+> Regards,
+>
+> Sakari Ailus
 
