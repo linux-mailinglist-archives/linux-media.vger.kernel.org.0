@@ -1,96 +1,96 @@
-Return-Path: <linux-media+bounces-40427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40428-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51925B2DEA3
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:05:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E30CB2DE8A
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 16:02:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9626166958
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:01:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 70AC57B769E
+	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 14:00:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F38264A86;
-	Wed, 20 Aug 2025 14:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E313A262815;
+	Wed, 20 Aug 2025 14:02:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vj7mZ4Oz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="clcud02i"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5029E25D540
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 14:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E72525A341;
+	Wed, 20 Aug 2025 14:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755698452; cv=none; b=HDPBSj5xrjhiUIvk5cMUWSPYTteIpE3Gs8RqKKsls+F2zhR+Sb4rayyJfojSXPW8curOtP6A6c9CfLO+8LJfVtkfBaQEf08aPg1XYIW6jXAnWdVHPy8cbXx0D130fS7108D4W4MK8y61W5u6C0ZoMRNlisvNo92T2DrEmuG4u94=
+	t=1755698521; cv=none; b=j+wTHDhcDm2EKhc6/McUfm8cb+uJjjM10yGIlReJavwGl5pfvRN+nAeJtI++AwIAOKzgXLpMy50duDh5WzoAI8IG/oV2HNC6bFIBSzVNi75jd9+F9yrRF6Uaqp2+hJdkVddJrqFyoMudKqCU/eauvU5SyNxWXAyVdfn9KNgHdTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755698452; c=relaxed/simple;
-	bh=S2EDmzB/CfFMSgy6B8jOkW2Qyh8R/aJX9Xxf5ZzcoZA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZjE0Psxt0Z41esgnzgD/AEWymz/OyZI9iKjvqXIUePXAeKPklDfDkd7PmcT0hNJSEV7GFw1WRuijjF58YquF+TrEC9SvQOCQ7NT2a3klyYo5FX6F4+BLqgLInvbZVpRSwz1bVt4eqxP7F6GD/f0L1yQhn3G2rJxK8GLuhVYfFAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vj7mZ4Oz; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1755698521; c=relaxed/simple;
+	bh=Z176GSQLSegavImp3En2033NP/ktqan4wx0wmAMGZXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBJYC5BVSUq6EQfbzdYDwPBMgdY4tynVjkS0JfQiCpyh6PDrPeoMcGyBtK6tazyODmF4mVtYzpHniB22zSr+16lS95p/QToU8OMOIcrs9CEsgQbVWoWDn4Qf281DM0rdVfKVNpRm/AZ+GIA9wGroDQrW9qzJWPGOKN9MnlUXe18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=clcud02i; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 29D191737;
-	Wed, 20 Aug 2025 15:59:49 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1D7016AF;
+	Wed, 20 Aug 2025 16:00:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755698389;
-	bh=S2EDmzB/CfFMSgy6B8jOkW2Qyh8R/aJX9Xxf5ZzcoZA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vj7mZ4OzeQ/UjyBuFuLSn/tF03pi0+y+FsgBRlzeFHDMxCrw5EwGgrgs+vORnKS+v
-	 z4U6vbCWSMBER5I/YXnjTTQO7UXBda69ZmjPD57HTH7TUP5bplsmvfTyyi1NJaghul
-	 syAWtN4E+f8gG0w8NwQHGUIsOtvJZ67ztijNat+Y=
+	s=mail; t=1755698459;
+	bh=Z176GSQLSegavImp3En2033NP/ktqan4wx0wmAMGZXk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=clcud02inuNkyRl4ngZzWp5wKICyIAFK6bn5DZCZxqzkyQRTM/i6Lshq9oICXC8xF
+	 I01mZ5IQpT7NVy4HJuy8eeAICMdXUey/XXnXONZ+ARfSpnctHclxYeddS4OA02+3NL
+	 UzN0JESW/9NEQTxUqClkUklyGcuMZns50ga3NGxo=
+Date: Wed, 20 Aug 2025 17:01:35 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hans@jjverkuil.nl>,
-	Maud Spierings <maudspierings@gocontroll.com>,
-	=?UTF-8?q?Martin=20Kepplinger-Novakovi=C4=87?= <martink@posteo.de>
-Subject: [PATCH 2/2] media: mc: Improve unconnected pads debugging message in link exploration
-Date: Wed, 20 Aug 2025 17:00:21 +0300
-Message-ID: <20250820140021.8026-3-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20250820140021.8026-1-laurent.pinchart@ideasonboard.com>
-References: <20250820140021.8026-1-laurent.pinchart@ideasonboard.com>
+To: Martin Kepplinger <martink@posteo.de>
+Cc: mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com,
+	linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: nxp: imx8-isi: check return value of
+ media_pad_remote_pad_first()
+Message-ID: <20250820140135.GA6190@pendragon.ideasonboard.com>
+References: <20250205172957.182362-1-martink@posteo.de>
+ <1f4b4e707762c0926c0acece18cb9cc3ecc242bc.camel@posteo.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1f4b4e707762c0926c0acece18cb9cc3ecc242bc.camel@posteo.de>
 
-When exploring links, a message is printed to indicate unconnected pads
-being added. The message prints the entity name only. Print the origin
-pad number as well to help with debugging pipeline start issues. While
-at it, get the entity name from origin->entity instead of local->entity.
-Both point to the same entity, but the former conveys the meaning
-better.
+Hi Martin,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/mc/mc-entity.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu, Feb 06, 2025 at 08:49:37AM +0000, Martin Kepplinger wrote:
+> Am Mittwoch, dem 05.02.2025 um 17:29 +0000 schrieb Martin Kepplinger-
+> Novaković:
+> > media_pad_remote_pad_first() return NULL if "no enabled link has been
+> > found".
+> > Check for that.
+> > 
+> > backstory
+> > =========
+> > While trying to get a (Y10 grey) sensor working on imx8mp (v6.12.12
+> > now and
+> > I know the hardware works on an ancient nxp-kernel),
+> > I tried to enable the sensor link, set formats and stream:
+> 
+> btw, that's roughly the
+> driver: https://github.com/VC-MIPI-modules/vc_mipi_nxp/tree/master/src
+> that might need additions to with recent mainline kernels. Will the
+> sensor be the reason for the link not being found here?
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 928613d60e8f..df20356fa98b 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -687,8 +687,8 @@ static int media_pipeline_explore_next_link(struct media_pipeline *pipe,
- 		return 0;
- 
- 	dev_dbg(walk->mdev->dev,
--		"media pipeline: adding unconnected pads of '%s'\n",
--		local->entity->name);
-+		"media pipeline: adding unconnected pads of '%s' reachable from pad %u\n",
-+		origin->entity->name, origin->index);
- 
- 	media_entity_for_each_pad(origin->entity, local) {
- 		/*
+I've submitted
+https://lore.kernel.org/linux-media/20250820140021.8026-1-laurent.pinchart@ideasonboard.com,
+which should fix this issue in a more generic way.
+
 -- 
 Regards,
 
 Laurent Pinchart
-
 
