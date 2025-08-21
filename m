@@ -1,114 +1,111 @@
-Return-Path: <linux-media+bounces-40608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40609-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313DEB2FBB5
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:04:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D26B2FBC7
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:06:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AE43AE5DF9
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 13:55:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 565AF16DF0F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B5012DF709;
-	Thu, 21 Aug 2025 13:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F9D11A9FB7;
+	Thu, 21 Aug 2025 14:00:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vq+mtYly"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DpuhgHNs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1732EC55C
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 13:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E4D1A9FAD
+	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 14:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755784458; cv=none; b=TCgbT9g1ycBJgZjKLeKAgJvdShWj6zyYHX7eAsomk0m/xinfw/XYYAszd9PVXAXZBYC4jL/FsAx4natanyRBMCoFfNL3cP3T9QFpHUlW1OwoaQsO340fVk23z6iG4QdyLOpX5O51e+6hO90VHSqPWU0NlwqmvP7nBJTNsddI0CA=
+	t=1755784857; cv=none; b=rUdPaSDj0V3DlvnU1mCWIaC2/JCOJWtGB3pBNpEFS1f2q0iFCoqrpsZH1fEPoD9T82caK7a1BFTGr0gpPQn4kBnIzR+719PvVTmhX6uQOdHD198dhrHfrOrK+fQgH8Mzg5ZEHCrwP+c/O2os4eOs0oV8JRJaAKS/dyotdE8C1hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755784458; c=relaxed/simple;
-	bh=zC7C7olZcUe9Z8cx+F7Mg0Zp4tUGSbUZ1HeIK5G/2j4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qml8nSEuzVg51J8jmnuRAwUAEi19SXZsEZPrs/GttooGLg8e537fHAaFVOU/5JvN2UBBqa99XSucT6itZxMTirtJy3IM9FuyzpKlgJicghM4uREf77yY8BygVf3uzNPOjH/+avFNfAVwKASgBNHkus1PZ5AKhcwnRqQ8blxMUMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vq+mtYly; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1755784857; c=relaxed/simple;
+	bh=n8EeR8AlRHg9lyRDsjg6aUEaZNeYvKvFAxGGH0Dl8PE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XNXiei8HZ0jhOPsXxlEgwfXCYNN4OQlMViyRhS2uqTGsThTUJFvlcZkQAUzz+lbLkEXC5SxWmJ+fVfm8s9MNz2b9tfoSORNTvt9ys8011h8Fa+9BHV4KEPbFVBLrjrdg5Sy/keAbHjV6fRSxHf+8hsdkkjYpdK1VO/kef+USp+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DpuhgHNs; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45a1b0bd237so8062885e9.2
-        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 06:54:16 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45a1b0c8867so7702705e9.3
+        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 07:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755784455; x=1756389255; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+3RckpGmvYMoNZtx01O704Cre8/z3CXAKxswJRZI57k=;
-        b=Vq+mtYlydc4DJS3Wh8vI6AkjUANpazuFOYPc8s/WtPjyTdYtH5sT6E44B1T44P4o4e
-         7n40aZo+lwKT9FQbFjXNSfXevC1u5thmFiv9skaltmPxMJhvXpN3C3CofA0q2srkD4HB
-         RCghNBuS9F+xSABmnj1t1Eoi0bQLuA26PJcIe3JuyeBa5NbJYS0hpT62tYyWPOc5cv1w
-         EmtVXrooDDIwY9EXNhElfZzFl45IHR91NXPBSESWNxnao7nQXINv7DTxJg9c9yRsdZ4p
-         xXpx3xVGZtNYvUQItc3bE+rP/RCpwqXyc+ub3SbUjKxwKfwbibVcj81wivkyh++5/L98
-         sM0Q==
+        d=linaro.org; s=google; t=1755784854; x=1756389654; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n8EeR8AlRHg9lyRDsjg6aUEaZNeYvKvFAxGGH0Dl8PE=;
+        b=DpuhgHNsOHT65Vei5tB/ZB30cwg4KJLeNLOztB1MDSGorv5MCbJZlG++uRsV3H5Jr2
+         gVYqtrxDLBrDh/CtasgWJXUeUetYIHNlY+A7L/fNEDmk5kJnhW0LYXEWP29JW1f8zzek
+         KEM47op/Swxzfy/AJtcWq0Owfv974khND0fm6evYn4qOicuahcyEYvGYrk0bi0kRzDHZ
+         710hALMOUbWX8HPfxWwNX7U6JIULGluTl7U5yHVxb1FOejycOwyESTQDTNYiI3SdUpC0
+         DRcek3NXySP78HjLtk0W3x1UuS1pyGOmTWHmnruE4AqkOsOKWoxbMH0YIBoKKAmVxM0q
+         Li5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755784455; x=1756389255;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1755784854; x=1756389654;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+3RckpGmvYMoNZtx01O704Cre8/z3CXAKxswJRZI57k=;
-        b=O5eDt9Sr/Lj+BKNwKTHAVwO06HMNA6oyqLmh1pHvrQNa8tHgQimi0P1U3zOfjBQjmP
-         vOiUi5NmOqkGFCuYBalt0zyeanBrjQEXTOQSJOj89lI3ttGoxw3MDqyKrCN48OpM1DSX
-         1OCwBA7A4foM+Ou0IAbbjR4waEmUUevpxBVLFpfVXgadQXCvvKB5Oq6/2LHT+Jh06MZG
-         0YsBwvvEpN0S+U1BW4YV8cQJja4FgjS29U3wlOcUyNQslF6xdzELT5l9Vtp7UrV2TzBH
-         xo+p/+bNZdRqr8bpmD+t7oyyS7RRLPnZPoOt7qEowPVhzCzB1KxC1ID1CQAb5mGLKG0A
-         967Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVw5xWHYRxp5kBdPa1w1w+NCBU741QrtVO5LuQqdKasLOeGSzpaCK34qm/bc2BoQV014lIvyPUqC6VHjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQljWH7qY9zOljMEL8FjUbjE6Y2LXM6TjI4slj6YJ7Mky6iPfa
-	5jcs3QM6OJB9Q65hkj/RUNlF0sBCDQBH0vk1WKe8P9JwjHxb5UAFCa73gyy7ddVWKhQ=
-X-Gm-Gg: ASbGnctImCMXEnmZB816GpXIjXCqmeWiux/YXjxm2RhX+O3pb2XO4GpuVg7R8k2vbas
-	KwGPZ0zIKsohTOztkH/na90Gp5si0P23Q+WA6FCCsqipnqySG5+Rig+1c7ico/kuKIB4xSh4jkK
-	OnRQgpzrDgtOAxkWNMAlUZZl46NdowZU0Mu3kQZPe5n5iRwKGDlQsb51F1jjbH/6pTekTaLCgJ7
-	R+Z9YTnLxeqptByPNu3VppxTlLvuIuzBPpuXjx5bwAlmlEoIsrD3f4VLCyrnEqz/e4WHslkUPMn
-	NwDIp3B/9cefj72wASbSx3GqW/aLRy+apSoJLQx1olrgkdKqqMC/+JvTqrr8La/97pKBBbXcvCw
-	PNVn5+EdWphYxKqQN7F2QbBRWJrY=
-X-Google-Smtp-Source: AGHT+IHiR4UgXlDVbxv/WGTxxHwGZcE5uF0kFr14Nzs0vJdVHWLv9FD7z21HRn/vBRYJKN0FFsSjWA==
-X-Received: by 2002:a05:600c:458a:b0:43d:fa59:af97 with SMTP id 5b1f17b1804b1-45b4d85d764mr20115275e9.32.1755784455144;
-        Thu, 21 Aug 2025 06:54:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b4dbfe2ecsm28935915e9.13.2025.08.21.06.54.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 06:54:14 -0700 (PDT)
-Date: Thu, 21 Aug 2025 16:54:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/3] staging: media: atomisp: Remove unnecessary
- forward declaration in gdc.c
-Message-ID: <aKclAywjKpHBd7QR@stanley.mountain>
-References: <20250821133521.2665734-1-abarnas@google.com>
+        bh=n8EeR8AlRHg9lyRDsjg6aUEaZNeYvKvFAxGGH0Dl8PE=;
+        b=sku7cJdaEZtpPLhhF8HyZmJi26nPmSvkejG6jEEuKxSVwBTFRremRZnQMfMJ7sWLKa
+         N1H/2WK2jV1saM6dXaV+RitM689s13oAWT8TKapNXCAPIth+uvhg4rXDEXXRpLrdc9Z2
+         Eki6VyvQBNrRp+q9qOXTbkbM2216R6TZIreppgQy1M5WZ/lsoIzsgEGnBY2NfnB2A6A2
+         CFOBrB3ahgh0x/UO4kJz5NJwW3lwBvJ8BYdI8ElqgDkG85z/2ax3MmoazLUA8ldb+lvk
+         UaodNnuQM89pS6z1vZej+EDZe2frXDSY2T3+LF2tXxl3CZi5afpU/OrxT6ANAXr8KKRg
+         YF2Q==
+X-Gm-Message-State: AOJu0YzcDb6SYhbQkeOUSUC68PZHAgN+4xxE4ckXShlFpgVqrZwn2dOt
+	XM7mCZzcajdaW9NI+defMysty7d5VAuu0hgwF7amRI3qaxKeDD61SbMHmjYJSz9zT6Y=
+X-Gm-Gg: ASbGnct6BqhKm8ZF25BhI6ScAddjCqzn5J4a+YZ88c/GXHmNRyOkAR3zUPYuaw9vt6F
+	7cu7hFUIGlY+u37s8NqA8lcegqbyqZFhAPmMnex5VKtq4xZ9iGouArsK+I3mYW5vBarZc8xlaXZ
+	OTJGgjr0yLbjYJlbUVssSu5DqcT9bkJr6mvYRs24q+GjJgPUgHbLxzqfm4KgdJO9ZoukHo0q3Sb
+	6AhY98NGBbBbln4b7wj+bO/Qcs2w7giqBo3/Rr2exXLeqsYkgwiFsy7Vj3BbRT3UrOlhab5TreW
+	WpmEgYRIu3i5Ruaj6zvGchrlXxYBbsd9edoKL2SJfve4NdRikpqjn1qtxQxOcWfLs8utCAoXT1I
+	Pn6FNbdUBCuJWDahHajBY41hf0jo9bAHbz2DBYUXdwo8hklElz9ibZWGJ8QsPqgTg
+X-Google-Smtp-Source: AGHT+IHkgchaFKWj5e1UqRbNztw1zXa8xxHeaBCgL2s4YsQqE8YJMTF31NEBDYvPnsH/XtrEWLoDDw==
+X-Received: by 2002:a05:600c:a43:b0:456:1d4e:c127 with SMTP id 5b1f17b1804b1-45b4d7d687amr24197735e9.8.1755784854158;
+        Thu, 21 Aug 2025 07:00:54 -0700 (PDT)
+Received: from [192.168.0.13] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b4e8de85bsm12008615e9.7.2025.08.21.07.00.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Aug 2025 07:00:53 -0700 (PDT)
+Message-ID: <9863f7e7-ef3e-4f57-bbbe-9ac4aa88a426@linaro.org>
+Date: Thu, 21 Aug 2025 15:00:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250821133521.2665734-1-abarnas@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: iris: vpu3x: Add MNoC low power handshake
+ during hardware power-off
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250821-sm8650-power-sequence-fix-v3-1-645816ba3826@quicinc.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250821-sm8650-power-sequence-fix-v3-1-645816ba3826@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 21, 2025 at 01:35:19PM +0000, Adrian Barnaś wrote:
-> Get rid of gdc_reg_store() forward declaration because it brings no value.
-> 
-> Signed-off-by: Adrian Barnaś <abarnas@google.com>
-> ---
+On 21/08/2025 11:54, Dikshita Agarwal wrote:
+> Add the missing write to AON_WRAPPER_MVP_NOC_LPI_CONTROL before
+> reading the LPI status register. Introduce a handshake loop to ensure
+> MNoC enters low power mode reliably during VPU3 hardware power-off with
+> timeout handling.
 
-Thanks.
+So right now upstream we have an incorrect power-off sequence.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+In which case this is a bug fix and needs a Fixes: tag.
 
-regards,
-dan carpenter
-
+---
+bod
 
