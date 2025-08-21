@@ -1,1357 +1,216 @@
-Return-Path: <linux-media+bounces-40618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E98EB2FD40
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:48:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E08B2FD1A
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:44:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A35F1BA7AB2
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:34:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9188EB003DD
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:36:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 749AA2EDD67;
-	Thu, 21 Aug 2025 14:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67122A1B2;
+	Thu, 21 Aug 2025 14:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xPwungZ5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021125.outbound.protection.outlook.com [40.107.57.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C6C2EDD59;
-	Thu, 21 Aug 2025 14:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.125
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786751; cv=fail; b=tdg9ubbx8ePR6Yl3IItFwx1N8MkP8vgw+DGwbedR+YClkMz5xC62bY8BxT0/OUjZiIAf3N5yAUB8WeN2HM+rbEWjgc52pMzrcY8sgMYDi5dC+ZzJqZQvOAnlHV8yM42x/+O4gespu9O6fvbpw+sxNAEpKaM69cdIRdBdTlvMuNs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755786751; c=relaxed/simple;
-	bh=jcwjYGp/hd2NG7T9To6D6k+3tpWfEzEMtVAWeXn74I4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O3A1HrakIY0quGt4Ye1fX7MInxj3JIgl4z4PlruQu9OYSrOlaYeImYCPmSJGk5Dwq4mkiljVQz/ZUNI+wroPzKEK15V+gtN2EhSSIOTObljJ+lUmiERe0c/p82cT/7HSWfzDAZVSDXG351Z8BxsN3N5Dtz9AOrU/PGY2327ehRs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a4v2rv29T6GZE4iOsYn5haNFZ1siE1jnonKbFs/3C6+Q5UM9X8tKDWwhdQd5QvJqqi+uYG/NeASLJlcF2TUYxMowYn6hZLar8y2P2S89oyL6Wo14NNCL77h6xs6Fllc75jKGyySP53zC4v2ShYfkFz2CQ3iC0A8MAjxn1cVR916W/ebooZfsLUH1WdGI7A5jNkHIt+O8ndhPE/5fXj2j/epPRbTEYSAK2Olx7Oe5khfCpN0qq14ClshMTVlje0JOgcvy6E9pEl5fP0wGuJJabiqeGqYXa+XfH5oDjcVLcoawvKBod0jR0Y3UDwKMzlTjHkz0mv2gSE9MbHV42tPO3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=btp39k39ygYxcHjIVj9ujOiLiq101R41V6KwhgNw6eA=;
- b=Xztf3z3CWEvGR6LPNveCd7V58QJLpu5/ChgjOig3yC7gD2FxbzL2MgoTeJzqCRjowIuGlMdqkcdbLTP2BQC/W1p996xld4HUReHN71wHIxk7Y1uyEOi9TyApFcczEI88hNbCFWWV5xaTd3Fog7Y/HtXyNyxa+HSmPxZwR2/5YYcqTOEpbF4Zt5rhzxvCGRqiw+26Tx6hcqd895QKxf+45G+qCRlY8zPDh9evLWfSnqk8MQ7ahHs5UpicHhTIhLIfvuJuSBm3eGBYcD98n+MkImaPms1NCNlRVM7DslWt8NLsAiKHk7VgSAMVvsCUoC1S7qTVIH0t75+ctneXEcHvkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:229::21)
- by PN0P287MB1572.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:17d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Thu, 21 Aug
- 2025 14:32:25 +0000
-Received: from PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418]) by PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- ([fe80::5c9a:906e:318b:c418%6]) with mapi id 15.20.9052.014; Thu, 21 Aug 2025
- 14:32:25 +0000
-From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-To: sakari.ailus@linux.intel.com
-Cc: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Jim Lai <jim.lai@intel.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 2/2] media: i2c: add ov2735 image sensor driver
-Date: Thu, 21 Aug 2025 20:01:13 +0530
-Message-Id: <20250821143126.319470-3-hardevsinh.palaniya@siliconsignals.io>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250821143126.319470-1-hardevsinh.palaniya@siliconsignals.io>
-References: <20250821143126.319470-1-hardevsinh.palaniya@siliconsignals.io>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PN4PR01CA0035.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:273::16) To PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:229::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41CB1E0DE2
+	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 14:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755786992; cv=none; b=bki6gAxEeC8ZMigHkfEpz88R91S5QEc4sOLljG25l/cHTuO4t67kEPoS0P7+ONclVpuP0cnJ4+DqSqsz/n1JhOAeX3YX7xwzoTSfv3TCTcaedFwqhAiiQxUm+8WXe2iif8ymizNPAK2jLesGZOmkTVk3LxWFMiAug2s6ijhyjaY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755786992; c=relaxed/simple;
+	bh=UBlYzUJ4FmYyAooFdHdqeTiLBdFaC2VrjAGBHRLG4F0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ea5Zr+6JOLjj0ZPV1oGUwjmeIM2ZlQzhcV9+j7gXPuVKzJY4zVHviFn9Apf2cYkrhP2PXxTlFJ9dq3YWNlAfRuRuPtCsNInpb41KxRrYVo0t89Z4Aafb18uRHR9Q92hLfyOqKfzRJgiUXuziY2K/RKgiwCyqh5u3X75QoJqmpvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xPwungZ5; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3c51f0158d8so455234f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 07:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755786988; x=1756391788; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f4Onvppsk2UmToKKQQaTYJ0EBQL62taZl700qE9YITc=;
+        b=xPwungZ5CsrwgX7KWsWfH1oleXion/Gy2CF/079BRnUBxTN1P1yX1eSW/spi6PV+e2
+         N03sgtZ2qj7mta7EN5mCgeNRtbK44pa7r1f/B29RV0VCampYkBfXHX2FBl8FRcpLM1xV
+         Yf/FckxScB9fOhBzbeqfqribc7gDf0Z1nLfaPKWTicgNMPbnddyNIFYUExBHOUgfF2k6
+         NhFbrgWEDRSZTNzUJ9lOYtJlOhQvZ8B+anORRtOkxj/mTarV+z7v9sHkFhO0K7iIDWQT
+         QRrgihcXcEmIl7KNGV/CV6cuww2FWAyHwMrqO2d5ywSPwn2f+nUHDdMlndo6uJsFDZv5
+         tUQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755786988; x=1756391788;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f4Onvppsk2UmToKKQQaTYJ0EBQL62taZl700qE9YITc=;
+        b=K5Yg/YZVjL+Xe1uKnfMsxAIt1tQ5lY46k5xAaSqT9DK1ciu5LuCYrSYAW/VS80ha56
+         7KlXr1d09JQDKwhsE+n7HSk6Re0j50ZiMpQ7gkK+IcEXikvhdw7DxKB+sZvTKij9UG3P
+         12lacAWx0M9MTSvIzAHcdjyCsdbC1JIsyJg8X7UY8RI/+5ysEQlo3nmg8v46tX8skGvT
+         iTXjPAcQhmpvDZDavyK5YtsykSP8HhNdNbZKE6L1enTWjCGS95PMU86eI3WkYTxNq6zN
+         39/XoZki00PU6ypcH/aNy61MD+4Zl63TJRA5yDPDVPs+/T7JbgLqYBbK0krZKY7gAmW+
+         kbQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVhR04VMQk2q5RrIZ8HbtcFawICVSzblH7j5QGmORYAx5iPRGyUQdDlnFTAXYI8myEhXeXlzisB1csePg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+co/63JBdzVhN4h41AwMW0muNimoigVraAmS43S6yP83rggWP
+	AuYAaroL5x43SCaLkAwfLjWAykGEFd5X/bwxB4jG5WCEp1dLGjNFrIkLEsy40PmJ3b8=
+X-Gm-Gg: ASbGncv8Gw0uHYpizMhx10GL0FpI531pBUTYskQlsVus3tLemRIlgaPgZvg/ENklRel
+	KQ9W22nHp+n/3NifUWnjJ2ZIBRZu3jVLh8tnoavMn+ojBtooc+q/9CKNgadRqlv+Mq9qO9pxbKX
+	wnN9WmDHKlJUS+x0aGVhJOQHKjewAkdlWgrpA+BIfqNU4hMyydrmrgk4ip6TJ7XkDAmTP4gESjJ
+	dJFW1ydrdaa+yMuRzKqZsPD33AkFBkVrkkEyz7YmxA96keMKHPpwKaLx6eQ8w9Cxu1jjdxnAYup
+	2a1rWo0eStxhLUrOrcViemWEay2cEd+lTwvtbfSuJuAd7G+LtKJiUCuhxrjrmZlRtIk41fFtt0I
+	09Df5ZYGM7e5ZNElY6sVSd21MnjTzCe9PcjNc7A0GDHcFUDX812aEuJRWFFIHjvE=
+X-Google-Smtp-Source: AGHT+IFrPdNVzXKGYHkklfqmyT52yOcqOHYvQHtEZu0vu47qp+5Bjqo/zqZyTjClQ4QBnpI30P7Ymw==
+X-Received: by 2002:a05:6000:20c6:b0:3c4:edee:bcfc with SMTP id ffacd0b85a97d-3c4edeebe3dmr1420443f8f.56.1755786988177;
+        Thu, 21 Aug 2025 07:36:28 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c074879fe5sm11882578f8f.2.2025.08.21.07.36.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Aug 2025 07:36:27 -0700 (PDT)
+Message-ID: <10d91d9d-b6d6-4a83-a697-909f97abc503@linaro.org>
+Date: Thu, 21 Aug 2025 15:36:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3P287MB3519:EE_|PN0P287MB1572:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8effb09f-f2c9-431b-a0fd-08dde0bf8bf6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?pNDKwM/+yHB8jtfps4InLTE0nzJ7zf3RhZtjZ5aWi1K3GXBYI9nutBJVtQLJ?=
- =?us-ascii?Q?rVWAoXkXGKGH/4d3VL99YaTHiKJcSIh0yPvw0SuUZEFL8JJLOqAuDpAsMRLO?=
- =?us-ascii?Q?RoG4ldgdNkb6QS65CYMcbG2FjTbEcUpjKoIxs4437GSNFoF9Zx1PYSpPukBE?=
- =?us-ascii?Q?3Vrdk7yXFVF65voTYV4PcPhg+8m1YPv0uO7nbaX5TOpGpiIY/9HmUzz5OgNQ?=
- =?us-ascii?Q?vuAOpZgUtjPJOhgk+B6fw72fAxKOtxpwKjaqxsL8Ui2uXlzcisp+dYQtIoDq?=
- =?us-ascii?Q?HD6oDP4kdtCamJXZ7scYgaAASfh6EmkhBCKqcE7gqHr44DDL9A9JD/2YwUYJ?=
- =?us-ascii?Q?YF9EvR+Y/8h3Pr5Rxp+MstSzkmpJ8qjtQh9bntOWCbhq6rtA4LzDrbrkTVxN?=
- =?us-ascii?Q?kXnV8sWvoLHge9WXkW059t9WK8WbSW2JY5cHnCauI06t9RldB3vQ18NYbanw?=
- =?us-ascii?Q?NJEXTbUUHTcYCPArXt4NF4uxgMDP2uI/ZWQ+C/yf6ySS0t4feRdA3p0XCNFe?=
- =?us-ascii?Q?dT6fywSp6m1rxYSGcpdloJGW75N6MKHK/NIjOm9N0LPEJ3fjixCTDC7uVhBB?=
- =?us-ascii?Q?Lx1gSoz+B71OZjV+WTglUw+fGG1KogBYjbT3GKm9pfvM8/IA0wo1eXroEIWO?=
- =?us-ascii?Q?JW931017j7vKVfQvWM6LM3mAkxWbXQh4+MnI4slE4K5t9nSRNrvOHpnj7Sdw?=
- =?us-ascii?Q?Xr+K6BtU/Xwoiiq8MaQ+p9UEiVJLJmVZwx0Qz5XEXMD9IjNJaMtpSayQnrBf?=
- =?us-ascii?Q?+NKXcUZG+1lnt6zg7Tr9HLJGXjcG3aX7kb0RcZWz1+Q0bcE9vUOsX7zAoDYI?=
- =?us-ascii?Q?COfys08rrgV1AyOFs5+9TKz0TU1yATJ2/3PQIiS3UyHchbgY5hOrSauuiQHM?=
- =?us-ascii?Q?jQfX2+Pf1FFWAn608BOmdRzUmY/8hlQpLtXdhAzfajoEYY8Dx1NrsYgHu5/D?=
- =?us-ascii?Q?euGALCEk9cXK1CVxwFzM+WnyYmtabdjqxPiQkCsspPNdO56ZTXAMO84vwFkY?=
- =?us-ascii?Q?9U08ixQxXtEHA+BUGDVsOAilt8g5/aAb7T19FnkQbSPMJk11iSk96ghEqFrB?=
- =?us-ascii?Q?n2gyYSy5gbJZG2W4h+Qq6lftVE/SM/f8m1qDEKmwX+ZEOOevkoXMLSLBdHkj?=
- =?us-ascii?Q?iQAaPgPrgEpONQVDA79+pjTD9ogp5joCI5BKS3MyQwLgYA9vUKvEX/RWVgYE?=
- =?us-ascii?Q?L+xTy+dlAIy0P0A0BWT7LXg+EAeE76rSkAP+29Nib+uUWcL24Fz+KrOEUURW?=
- =?us-ascii?Q?YtfWMPjLe/yjpcTTC/gX1lXlQ+vemiyFBAYGf8EWRqz4LnMgOGeB0iZHRYYd?=
- =?us-ascii?Q?Ovr45AuR66iNFmOCQyorbr9Rmwp98PYZ9FGTYFHph6hKk0GCSbmH1SHLFyAn?=
- =?us-ascii?Q?Ba7Cn28kl78UpiARIi2GufQvQetidLJ1ffqM+OTa/TKKlXabVMEJ8ugQ21B1?=
- =?us-ascii?Q?DOvwISMDKgXlZiuSb1qkFLmosJMiDFuPDEjsKbWgUqdAObttb+OsvA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB3519.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?EfUnmWF7GGFgSf28xIw8EGvCvMfqj21c0WfHeccjvaoa67Awx0/+5n2j/of0?=
- =?us-ascii?Q?AAxyETFlkFi8Qg89TN40CqFG0/N/+6KFlkcC77d4otre5ekI+dAhqdV4JoDQ?=
- =?us-ascii?Q?kGtmSmPoSCRXrZ/azSfWpVp1oR8A2FfCDrBPvlHCPJvxSTMcMvBviZmd6KxX?=
- =?us-ascii?Q?Y/XOi5/yfnfAQOcbAeV/iuM4VPWPlxBEOL7U9kn84c0BRcCRYEFjKI4BJj2E?=
- =?us-ascii?Q?+W2yitq/FokMkXTm/a2KNcZJIh4jhh3B9ConF5BAx4GF4prJGj2PaUS7OItU?=
- =?us-ascii?Q?0j1RJESshZ4KVvC0mR8qbxX3opNc/JXDV67QHjHqYB+J4Er5BOwaPhRL11/j?=
- =?us-ascii?Q?QtM+4Ccwlj7vcyxlqI5dDG6iJELUI78wamGIluRDAVdA6+Lt3A6PbnBmfAam?=
- =?us-ascii?Q?jwT3cLGxoMWNq7UC2cAiPeQWx2k0sSAmx6QdAQanKCE12ZBvKShnSGnCP8DY?=
- =?us-ascii?Q?xWHWm61DuxxLJGUiNaaXKQbc0mCS58EW62c+HrYQOq28dZWyez/qFPt65sGr?=
- =?us-ascii?Q?XDXwtpXKF/NET1beDxkJbiS5kgv9aAdmCd+raYMEXdn+6G2jmKSaxKqQNXYO?=
- =?us-ascii?Q?aJMyPbT8ARDo2SRoGp8qpy54iDcPptR6rapw5ozN5NoqAJ2nSWsFSZuflyxw?=
- =?us-ascii?Q?gZQarv6J8CWyt3Z+0m1f4TgiTfY0rIyWkA5FTulV0VQdTib1y9gdl4Uf46+7?=
- =?us-ascii?Q?P/tLtSe8Id+kniNaYgU2SVuhhWe6s7UKhhOWMH9qySAvMqXXwNtVmtWlsTZR?=
- =?us-ascii?Q?G/Kp8j/R0eXhiNns7wBeHtAIDHcimWECitdpUCSNhznIJ3wc8QQPZhYAtM8u?=
- =?us-ascii?Q?ZMc/7eNfx57tXPJnUwJwPmCIahYisdU15iFRV/bs0EwQ4nHkRFRymWNw8T8u?=
- =?us-ascii?Q?Pcx4fKXpGnPv/Bwi2LP6UQxk4UVX5PpPECbGrInheJzDHgOWOTU5QJDTrl3y?=
- =?us-ascii?Q?u9EvJUSUeyz08/Sxyq0xKiEDfvge8cbeYqIWNyyqmjiAra2i6OmZhuXVafLD?=
- =?us-ascii?Q?37rMCj6tX9Ugo7SrlaH+ltPXBbg9hGPP5cHpdiyJ3uJ8rdwMdx9vXTVNVaFK?=
- =?us-ascii?Q?SPSp62RQMvmcpMhYKA+1Nb/UnNBz/wO5qrZHEZ8aGtIwf7kBZAcG3j2M73nw?=
- =?us-ascii?Q?SbXbAZv6/LHS5Pqr1N1YuF5J4qGKNwE9qyjInNbO5VWqz7Jdvbw5Q8A7uJkR?=
- =?us-ascii?Q?LGqPFVzLBU+4IS6BgGEYxmwWbAHiiI73XnHpffVXZG0eGm24wt17bDt0U+v/?=
- =?us-ascii?Q?QYfDww1jm24cmzEN14Py72kpxBI/adrvL1kEz//LFIjZAuuKjpD+k9uq7bq5?=
- =?us-ascii?Q?wYVM1claASCdaT5+y8j/hpQ0wVjM2P1Ey6T8HJU17Z0K8cehfymDYUJqttV2?=
- =?us-ascii?Q?jpAmaW8x/7LAoeYXQXNunM8Ow2NCQ9TfYv/Rkmm8PsZMF/pGOc7wbVK6zACy?=
- =?us-ascii?Q?PGenlnZSwWIIkP3gPhKYZ2yrOj1MzyPpTOdIJtvWUGdFxWGvYmgum3wsMcpy?=
- =?us-ascii?Q?lPjtcmrUtGJWzKopcsDbDB3LjjGA0TOY/2aIrUlOf05x0KSFWZtpsnXim/B9?=
- =?us-ascii?Q?DZCGekiVFuHEKyxuhWmF8Z21s6SMSnnrObvGYMo/dKWOgQ+GUNi0bxKcJqoC?=
- =?us-ascii?Q?8jPPjgSbJSy9K2+HUVpD4Yo=3D?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8effb09f-f2c9-431b-a0fd-08dde0bf8bf6
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB3519.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 14:32:25.1969
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wVRW+MJy4nHI18XGlMNLuAl67W86/0IPTW00xvSoh9jqcvq319O822y2tImrlM7PIm0waXfSYBzcUWpQAguSBUG4i4ns+MFFMOgnaaKAICuxRspDjb/XpwJUfldscLDx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB1572
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/11] firmware: qcom_scm: Simplify
+ qcom_scm_pas_init_image()
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-5-mukesh.ojha@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250819165447.4149674-5-mukesh.ojha@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add a v4l2 subdevice driver for the Omnivision OV2735 sensor.
+On 19/08/2025 17:54, Mukesh Ojha wrote:
+> Simplify qcom_scm_pas_init_image() by making the memory
+> allocation, copy and free work in a separate function
+> then the actual SMC call.
 
-The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an
-active array size of 1920 x 1080.
+then is temporal
+than is disjunctive
 
-The following features are supported:
-- Manual exposure an gain control support
-- vblank/hblank control support
-- Test pattern support control
-- Supported resolution: 1920 x 1080 @ 30fps (SGRBG10)
+you mean than here, not then.
 
-Co-developed-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
----
- MAINTAINERS                |    1 +
- drivers/media/i2c/Kconfig  |   10 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/ov2735.c | 1109 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 1121 insertions(+)
- create mode 100644 drivers/media/i2c/ov2735.c
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>   drivers/firmware/qcom/qcom_scm.c | 59 ++++++++++++++++++--------------
+>   1 file changed, 34 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+> index 9a5b34f5bacb..7827699e277c 100644
+> --- a/drivers/firmware/qcom/qcom_scm.c
+> +++ b/drivers/firmware/qcom/qcom_scm.c
+> @@ -584,6 +584,38 @@ void *qcom_scm_pas_ctx_init(struct device *dev, u32 peripheral, phys_addr_t mem_
+>   }
+>   EXPORT_SYMBOL_GPL(qcom_scm_pas_ctx_init);
+>   
+> +static int __qcom_scm_pas_init_image(u32 peripheral, dma_addr_t mdata_phys,
+> +				     void *metadata, size_t size,
+> +				     struct qcom_scm_res *res)
+> +{
+> +	int ret;
+> +	struct qcom_scm_desc desc = {
+> +		.svc = QCOM_SCM_SVC_PIL,
+> +		.cmd = QCOM_SCM_PIL_PAS_INIT_IMAGE,
+> +		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_VAL, QCOM_SCM_RW),
+> +		.args[0] = peripheral,
+> +		.owner = ARM_SMCCC_OWNER_SIP,
+> +	};
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 474eefbd1363..058bbfd9523b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18478,6 +18478,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
- F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
-+F:	drivers/media/i2c/ov2735.c
- 
- OMNIVISION OV2740 SENSOR DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 4b4c199da6ea..9646eab1b177 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -446,6 +446,16 @@ config VIDEO_OV2685
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ov2685.
- 
-+config VIDEO_OV2735
-+	tristate "OmniVision OV2735 sensor support"
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  OV2735 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ov2735.
-+
- config VIDEO_OV2740
- 	tristate "OmniVision OV2740 sensor support"
- 	depends on ACPI || COMPILE_TEST
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 5873d29433ee..1adb27743fa1 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -93,6 +93,7 @@ obj-$(CONFIG_VIDEO_OV2640) += ov2640.o
- obj-$(CONFIG_VIDEO_OV2659) += ov2659.o
- obj-$(CONFIG_VIDEO_OV2680) += ov2680.o
- obj-$(CONFIG_VIDEO_OV2685) += ov2685.o
-+obj-$(CONFIG_VIDEO_OV2735) += ov2735.o
- obj-$(CONFIG_VIDEO_OV2740) += ov2740.o
- obj-$(CONFIG_VIDEO_OV4689) += ov4689.o
- obj-$(CONFIG_VIDEO_OV5640) += ov5640.o
-diff --git a/drivers/media/i2c/ov2735.c b/drivers/media/i2c/ov2735.c
-new file mode 100644
-index 000000000000..955c03bab1a4
---- /dev/null
-+++ b/drivers/media/i2c/ov2735.c
-@@ -0,0 +1,1109 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * V4L2 Support for the OV2735
-+ *
-+ * Copyright (C) 2025 Silicon Signals Pvt. Ltd.
-+ *
-+ * Based on Rockchip ov2735 Camera Driver
-+ * Copyright (C) 2017 Fuzhou Rockchip Electronics Co., Ltd.
-+ *
-+ * Inspired from ov8858, imx219, imx283 camera drivers.
-+ */
-+
-+#include <linux/array_size.h>
-+#include <linux/bitops.h>
-+#include <linux/cleanup.h>
-+#include <linux/clk.h>
-+#include <linux/container_of.h>
-+#include <linux/delay.h>
-+#include <linux/device/devres.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/property.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/units.h>
-+#include <linux/types.h>
-+#include <linux/time.h>
-+
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-mediabus.h>
-+
-+#define OV2735_XCLK_FREQ			(24 * HZ_PER_MHZ)
-+
-+/* Add page number in CCI private bits [31:28] of the register address */
-+#define OV2735_PAGE_REG8(p, x)	(((p) << CCI_REG_PRIVATE_SHIFT) | CCI_REG8(x))
-+#define OV2735_PAGE_REG16(p, x)	(((p) << CCI_REG_PRIVATE_SHIFT) | CCI_REG16(x))
-+
-+#define OV2735_REG_PAGE_SELECT			CCI_REG8(0xfd)
-+
-+/* Page 0 */
-+#define OV2735_REG_CHIPID			OV2735_PAGE_REG16(0x00, 0x02)
-+#define OV2735_CHIPID				0x2735
-+
-+#define OV2735_REG_SOFT_RESET			OV2735_PAGE_REG8(0x00, 0x20)
-+
-+/* Clock Settings */
-+#define OV2735_REG_PLL_CTRL			OV2735_PAGE_REG8(0x00, 0x2f)
-+#define OV2735_PLL_CTRL_ENABLE			0x7f
-+#define OV2735_REG_PLL_OUTDIV			OV2735_PAGE_REG8(0x00, 0x34)
-+#define OV2735_REG_CLK_MODE			OV2735_PAGE_REG8(0x00, 0x30)
-+#define OV2735_REG_CLOCK_REG1			OV2735_PAGE_REG8(0x00, 0x33)
-+#define OV2735_REG_CLOCK_REG2			OV2735_PAGE_REG8(0x00, 0x35)
-+
-+/* Page 1 */
-+#define OV2735_REG_STREAM_CTRL			OV2735_PAGE_REG8(0x01, 0xa0)
-+#define OV2735_STREAM_CTRL_ON			0x01
-+#define OV2735_STREAM_CTRL_OFF			0x00
-+
-+#define OV2735_REG_UPDOWN_MIRROR		OV2735_PAGE_REG8(0x01, 0x3f)
-+#define OV2735_REG_BINNING_DAC_CODE_MODE	OV2735_PAGE_REG8(0x01, 0x30)
-+#define OV2735_REG_FRAME_LENGTH			OV2735_PAGE_REG16(0x01, 0x0e)
-+#define OV2735_FRAME_LENGTH_MAX			0x0fff
-+#define OV2735_REG_FRAME_EXP_SEPERATE_EN	OV2735_PAGE_REG8(0x01, 0x0d)
-+#define OV2735_FRAME_EXP_SEPERATE_EN		0x10
-+#define OV2735_REG_FRAME_SYNC			OV2735_PAGE_REG8(0x01, 0x01)
-+
-+#define OV2735_REG_HBLANK			OV2735_PAGE_REG16(0x01, 0x09)
-+
-+#define OV2735_REG_HS_MIPI			OV2735_PAGE_REG8(0x01, 0xb1)
-+#define OV2735_REG_MIPI_CTRL1			OV2735_PAGE_REG8(0x01, 0x92)
-+#define OV2735_REG_MIPI_CTRL2			OV2735_PAGE_REG8(0x01, 0x94)
-+#define OV2735_REG_MIPI_CTRL3			OV2735_PAGE_REG8(0x01, 0xa1)
-+#define OV2735_REG_MIPI_CTRL4			OV2735_PAGE_REG8(0x01, 0xb2)
-+#define OV2735_REG_MIPI_CTRL5			OV2735_PAGE_REG8(0x01, 0xb3)
-+#define OV2735_REG_MIPI_CTRL6			OV2735_PAGE_REG8(0x01, 0xb4)
-+#define OV2735_REG_MIPI_CTRL7			OV2735_PAGE_REG8(0x01, 0xb5)
-+#define OV2735_REG_HIGH_SPEED			OV2735_PAGE_REG8(0x01, 0x9d)
-+#define OV2735_REG_PREPARE			OV2735_PAGE_REG8(0x01, 0x95)
-+#define OV2735_REG_R_HS_ZERO			OV2735_PAGE_REG8(0x01, 0x96)
-+#define OV2735_REG_TRAIL			OV2735_PAGE_REG8(0x01, 0x98)
-+#define OV2735_REG_R_CLK_ZERO			OV2735_PAGE_REG8(0x01, 0x9c)
-+#define OV2735_REG_MIPI_COLOMN_NUMBER		OV2735_PAGE_REG16(0x01, 0x8e)
-+#define OV2735_REG_MIPI_LINE_NUMBER		OV2735_PAGE_REG16(0x01, 0x90)
-+
-+/* Timing control registers */
-+#define OV2735_REG_TIMING_CTRL2			OV2735_PAGE_REG8(0x01, 0x1a)
-+#define OV2735_REG_TIMING_CTRL3			OV2735_PAGE_REG8(0x01, 0x1c)
-+#define OV2735_REG_TIMING_CTRL1			OV2735_PAGE_REG8(0x01, 0x16)
-+#define OV2735_REG_RST_NUM			OV2735_PAGE_REG16(0x01, 0x10)
-+#define OV2735_REG_RST_NUM2			OV2735_PAGE_REG16(0x01, 0x32)
-+#define OV2735_REG_BOOST_EN			OV2735_PAGE_REG8(0x01, 0xd0)
-+#define OV2735_REG_B2_NUM			OV2735_PAGE_REG16(0x01, 0xd1)
-+#define OV2735_REG_B4_NUM			OV2735_PAGE_REG16(0x01, 0xd3)
-+#define OV2735_REG_PIXEL_CYCLE_P0		OV2735_PAGE_REG8(0x01, 0x50)
-+#define OV2735_REG_PIXEL_CYCLE_P1		OV2735_PAGE_REG8(0x01, 0x51)
-+#define OV2735_REG_PIXEL_CYCLE_P2		OV2735_PAGE_REG8(0x01, 0x52)
-+#define OV2735_REG_PIXEL_CYCLE_P3		OV2735_PAGE_REG8(0x01, 0x53)
-+#define OV2735_REG_PIXEL_CYCLE_P5		OV2735_PAGE_REG8(0x01, 0x55)
-+#define OV2735_REG_PIXEL_CYCLE_P7		OV2735_PAGE_REG16(0x01, 0x57)
-+#define OV2735_REG_PIXEL_CYCLE_P9		OV2735_PAGE_REG8(0x01, 0x5a)
-+#define OV2735_REG_PIXEL_CYCLE_P10		OV2735_PAGE_REG8(0x01, 0x5b)
-+#define OV2735_REG_PIXEL_CYCLE_P12		OV2735_PAGE_REG8(0x01, 0x5d)
-+#define OV2735_REG_PIXEL_CYCLE_P18		OV2735_PAGE_REG8(0x01, 0x64)
-+#define OV2735_REG_PIXEL_CYCLE_P20		OV2735_PAGE_REG8(0x01, 0x66)
-+#define OV2735_REG_PIXEL_CYCLE_P22		OV2735_PAGE_REG8(0x01, 0x68)
-+#define OV2735_REG_PIXEL_CYCLE_P33		OV2735_PAGE_REG8(0x01, 0x74)
-+#define OV2735_REG_PIXEL_CYCLE_P34		OV2735_PAGE_REG8(0x01, 0x76)
-+#define OV2735_REG_PIXEL_CYCLE_P35_P36		OV2735_PAGE_REG8(0x01, 0x77)
-+#define OV2735_REG_PIXEL_CYCLE_P37_P38		OV2735_PAGE_REG8(0x01, 0x78)
-+#define OV2735_REG_PIXEL_CYCLE_P31		OV2735_PAGE_REG8(0x01, 0x72)
-+#define OV2735_REG_PIXEL_CYCLE_P32		OV2735_PAGE_REG8(0x01, 0x73)
-+#define OV2735_REG_PIXEL_CYCLE_P44		OV2735_PAGE_REG8(0x01, 0x7d)
-+#define OV2735_REG_PIXEL_CYCLE_P45		OV2735_PAGE_REG8(0x01, 0x7e)
-+#define OV2735_REG_PIXEL_BIAS_CTRL_RH_RL	OV2735_PAGE_REG8(0x01, 0x8a)
-+#define OV2735_REG_PIXEL_BIAS_CTRL_SH_SL	OV2735_PAGE_REG8(0x01, 0x8b)
-+
-+/* Analog Control registers */
-+#define OV2735_REG_ICOMP			OV2735_PAGE_REG8(0x01, 0x19)
-+#define OV2735_REG_PCP_RST_SEL			OV2735_PAGE_REG8(0x01, 0x21)
-+#define OV2735_REG_VNCP				OV2735_PAGE_REG8(0x01, 0x20)
-+#define OV2735_REG_ANALOG_CTRL3			OV2735_PAGE_REG8(0x01, 0x25)
-+#define OV2735_REG_ANALOG_CTRL4			OV2735_PAGE_REG8(0x01, 0x26)
-+#define OV2735_REG_ANALOG_CTRL5			OV2735_PAGE_REG8(0x01, 0x29)
-+#define OV2735_REG_ANALOG_CTRL6			OV2735_PAGE_REG8(0x01, 0x2a)
-+#define OV2735_REG_ANALOG_CTRL8			OV2735_PAGE_REG8(0x01, 0x2c)
-+
-+/* BLC registers */
-+#define OV2735_REG_BLC_GAIN_BLUE		OV2735_PAGE_REG8(0x01, 0x86)
-+#define OV2735_REG_BLC_GAIN_RED			OV2735_PAGE_REG8(0x01, 0x87)
-+#define OV2735_REG_BLC_GAIN_GR			OV2735_PAGE_REG8(0x01, 0x88)
-+#define OV2735_REG_BLC_GAIN_GB			OV2735_PAGE_REG8(0x01, 0x89)
-+#define OV2735_REG_GB_SUBOFFSET			OV2735_PAGE_REG8(0x01, 0xf0)
-+#define OV2735_REG_BLUE_SUBOFFSET		OV2735_PAGE_REG8(0x01, 0xf1)
-+#define OV2735_REG_RED_SUBOFFSET		OV2735_PAGE_REG8(0x01, 0xf2)
-+#define OV2735_REG_GR_SUBOFFSET			OV2735_PAGE_REG8(0x01, 0xf3)
-+#define OV2735_REG_BLC_BPC_TH_P			OV2735_PAGE_REG8(0x01, 0xfc)
-+#define OV2735_REG_BLC_BPC_TH_N			OV2735_PAGE_REG8(0x01, 0xfe)
-+#define OV2735_REG_ABL				OV2735_PAGE_REG8(0x01, 0xfb)
-+
-+#define OV2735_REG_TEST_PATTERN			OV2735_PAGE_REG8(0x01, 0xb2)
-+#define OV2735_TEST_PATTERN_ENABLE		0x01
-+#define OV2735_TEST_PATTERN_DISABLE		0xfe
-+
-+#define OV2735_REG_LONG_EXPOSURE		OV2735_PAGE_REG16(0x01, 0x03)
-+#define OV2735_EXPOSURE_MIN			4
-+#define OV2735_EXPOSURE_STEP			1
-+#define OV2735_EXPOSURE_MARGIN			4
-+
-+#define OV2735_REG_ANALOG_GAIN			OV2735_PAGE_REG8(0x01, 0x24)
-+#define OV2735_ANALOG_GAIN_MIN			0x10
-+#define OV2735_ANALOG_GAIN_MAX			0xff
-+#define OV2735_ANALOG_GAIN_STEP			1
-+#define OV2735_ANALOG_GAIN_DEFAULT		0x10
-+
-+/* Page 2 */
-+#define OV2735_REG_V_START			OV2735_PAGE_REG16(0x02, 0xa0)
-+#define OV2735_REG_V_SIZE			OV2735_PAGE_REG16(0x02, 0xa2)
-+#define OV2735_REG_H_START			OV2735_PAGE_REG16(0x02, 0xa4)
-+#define OV2735_REG_H_SIZE			OV2735_PAGE_REG16(0x02, 0xa6)
-+
-+#define OV2735_LINK_FREQ_420MHZ			(420 * HZ_PER_MHZ)
-+#define OV2735_PIXEL_RATE			(168 * HZ_PER_MHZ)
-+
-+/* OV2735 native and active pixel array size */
-+static const struct v4l2_rect ov2735_native_area = {
-+	.top = 0,
-+	.left = 0,
-+	.width = 1936,
-+	.height = 1096,
-+};
-+
-+static const struct v4l2_rect ov2735_active_area = {
-+	.top = 8,
-+	.left = 8,
-+	.width = 1920,
-+	.height = 1080,
-+};
-+
-+static const char * const ov2735_supply_name[] = {
-+	"avdd",		/* Analog power */
-+	"dovdd",	/* Digital I/O power */
-+	"dvdd",		/* Digital core power */
-+};
-+
-+/* PLL_OUT = [PLL_IN * (pll_nc +3)] / [(pll_mc + 1) * (pll_outdiv + 1)] */
-+struct ov2735_pll_parameters {
-+	u8 pll_nc;
-+	u8 pll_mc;
-+	u8 pll_outdiv;
-+};
-+
-+struct ov2735 {
-+	struct device *dev;
-+	struct regmap *cci;
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+	struct clk *xclk;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *enable_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(ov2735_supply_name)];
-+
-+	/* V4L2 Controls */
-+	struct v4l2_ctrl_handler handler;
-+	struct v4l2_ctrl *link_freq;
-+	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *gain;
-+	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *test_pattern;
-+
-+	u32 link_freq_index;
-+
-+	u8 current_page;
-+	struct mutex page_lock;
-+};
-+
-+struct ov2735_mode {
-+	u32 width;
-+	u32 height;
-+	u32 hts_def;
-+	u32 vts_def;
-+	u32 exp_def;
-+	struct v4l2_rect crop;
-+};
-+
-+static const struct cci_reg_sequence ov2735_common_regs[] = {
-+	{ OV2735_REG_CLK_MODE,			0x15 },
-+	{ OV2735_REG_CLOCK_REG1,		0x01 },
-+	{ OV2735_REG_CLOCK_REG2,		0x20 },
-+	{ OV2735_REG_BINNING_DAC_CODE_MODE,	0x00 },
-+	{ OV2735_REG_ABL,			0x73 },
-+	{ OV2735_REG_FRAME_SYNC,		0x01 },
-+
-+	/* Timing ctrl */
-+	{ OV2735_REG_TIMING_CTRL2,		0x6b },
-+	{ OV2735_REG_TIMING_CTRL3,		0xea },
-+	{ OV2735_REG_TIMING_CTRL1,		0x0c },
-+	{ OV2735_REG_RST_NUM,			0x0063 },
-+	{ OV2735_REG_RST_NUM2,			0x006f },
-+	{ OV2735_REG_BOOST_EN,			0x02 },
-+	{ OV2735_REG_B2_NUM,			0x0120 },
-+	{ OV2735_REG_B4_NUM,			0x042a },
-+	{ OV2735_REG_PIXEL_CYCLE_P0,		0x00 },
-+	{ OV2735_REG_PIXEL_CYCLE_P1,		0x2c },
-+	{ OV2735_REG_PIXEL_CYCLE_P2,		0x29 },
-+	{ OV2735_REG_PIXEL_CYCLE_P3,		0x00 },
-+	{ OV2735_REG_PIXEL_CYCLE_P5,		0x44 },
-+	{ OV2735_REG_PIXEL_CYCLE_P7,		0x0029 },
-+	{ OV2735_REG_PIXEL_CYCLE_P9,		0x00 },
-+	{ OV2735_REG_PIXEL_CYCLE_P10,		0x00 },
-+	{ OV2735_REG_PIXEL_CYCLE_P12,		0x00 },
-+	{ OV2735_REG_PIXEL_CYCLE_P18,		0x2f },
-+	{ OV2735_REG_PIXEL_CYCLE_P20,		0x62 },
-+	{ OV2735_REG_PIXEL_CYCLE_P22,		0x5b },
-+	{ OV2735_REG_PIXEL_CYCLE_P33,		0x0046 },
-+	{ OV2735_REG_PIXEL_CYCLE_P34,		0x36 },
-+	{ OV2735_REG_PIXEL_CYCLE_P35_P36,	0x4f },
-+	{ OV2735_REG_PIXEL_CYCLE_P37_P38,	0xef },
-+	{ OV2735_REG_PIXEL_CYCLE_P31,		0xcf },
-+	{ OV2735_REG_PIXEL_CYCLE_P32,		0x36 },
-+	{ OV2735_REG_PIXEL_CYCLE_P44,		0x0d },
-+	{ OV2735_REG_PIXEL_CYCLE_P45,		0x0d },
-+	{ OV2735_REG_PIXEL_BIAS_CTRL_RH_RL,	0x77 },
-+	{ OV2735_REG_PIXEL_BIAS_CTRL_SH_SL,	0x77 },
-+
-+	/* Analog ctrl */
-+	{ OV2735_REG_ANALOG_CTRL4,		0x5a },
-+	{ OV2735_REG_ANALOG_CTRL5,		0x01 },
-+	{ OV2735_REG_ANALOG_CTRL6,		0xd2 },
-+	{ OV2735_REG_ANALOG_CTRL8,		0x40 },
-+	{ OV2735_REG_PCP_RST_SEL,		0x00 },
-+	{ OV2735_REG_ICOMP,			0xc3 },
-+
-+	{ OV2735_REG_HS_MIPI,			0x83 },
-+	{ OV2735_REG_MIPI_CTRL5,		0x0b },
-+	{ OV2735_REG_MIPI_CTRL6,		0x14 },
-+	{ OV2735_REG_HIGH_SPEED,		0x40 },
-+	{ OV2735_REG_MIPI_CTRL3,		0x05 },
-+	{ OV2735_REG_MIPI_CTRL2,		0x44 },
-+	{ OV2735_REG_PREPARE,			0x33 },
-+	{ OV2735_REG_R_HS_ZERO,			0x1f },
-+	{ OV2735_REG_TRAIL,			0x45 },
-+	{ OV2735_REG_R_CLK_ZERO,		0x10 },
-+	{ OV2735_REG_MIPI_CTRL7,		0x70 },
-+	{ OV2735_REG_ANALOG_CTRL3,		0xe0 },
-+	{ OV2735_REG_VNCP,			0x7b },
-+
-+	/* BLC */
-+	{ OV2735_REG_BLC_GAIN_BLUE,		0x77 },
-+	{ OV2735_REG_BLC_GAIN_GB,		0x77 },
-+	{ OV2735_REG_BLC_GAIN_RED,		0x74 },
-+	{ OV2735_REG_BLC_GAIN_GR,		0x74 },
-+	{ OV2735_REG_BLC_BPC_TH_P,		0xe0 },
-+	{ OV2735_REG_BLC_BPC_TH_N,		0xe0 },
-+	{ OV2735_REG_GB_SUBOFFSET,		0x40 },
-+	{ OV2735_REG_BLUE_SUBOFFSET,		0x40 },
-+	{ OV2735_REG_RED_SUBOFFSET,		0x40 },
-+	{ OV2735_REG_GR_SUBOFFSET,		0x40 },
-+};
-+
-+static const struct ov2735_mode supported_modes[] = {
-+	{
-+		.width = 1920,
-+		.height = 1080,
-+		.exp_def = 399,
-+		.hts_def = 2200,
-+		.vts_def = 2545,
-+		.crop = {
-+			.top = 8,
-+			.left = 8,
-+			.width = 1920,
-+			.height = 1080,
-+		},
-+	},
-+};
-+
-+static const s64 link_freq_menu_items[] = {
-+	OV2735_LINK_FREQ_420MHZ,
-+};
-+
-+static const struct ov2735_pll_parameters pll_configs[] = {
-+	/* For 420MHz pll_configs */
-+	{
-+		.pll_nc = 4,
-+		.pll_mc = 0,
-+		.pll_outdiv = 1,
-+	},
-+};
-+
-+static const char * const ov2735_test_pattern_menu[] = {
-+	"Disabled",
-+	"Vertical Color",
-+};
-+
-+static int ov2735_page_access(struct ov2735 *ov2735, u32 reg, int *err)
-+{
-+	u8 page = reg >> CCI_REG_PRIVATE_SHIFT;
-+	int ret = 0;
-+
-+	if (err && *err)
-+		return *err;
-+
-+	guard(mutex)(&ov2735->page_lock);
-+
-+	/* Perform page access before read/write */
-+	if (ov2735->current_page == page)
-+		return ret;
-+
-+	ret = cci_write(ov2735->cci, OV2735_REG_PAGE_SELECT, page, err);
-+	if (!ret)
-+		ov2735->current_page = page;
-+
-+	return ret;
-+}
-+
-+static int ov2735_read(struct ov2735 *ov2735, u32 reg, u64 *val, int *err)
-+{
-+	u32 addr = reg & ~CCI_REG_PRIVATE_MASK;
-+	int ret;
-+
-+	ret = ov2735_page_access(ov2735, reg, err);
-+	if (ret)
-+		return ret;
-+
-+	return cci_read(ov2735->cci, addr, val, err);
-+}
-+
-+static int ov2735_write(struct ov2735 *ov2735, u32 reg, u64 val, int *err)
-+{
-+	u32 addr = reg & ~CCI_REG_PRIVATE_MASK;
-+	int ret;
-+
-+	ret = ov2735_page_access(ov2735, reg, err);
-+	if (ret)
-+		return ret;
-+
-+	return cci_write(ov2735->cci, addr, val, err);
-+}
-+
-+static int ov2735_multi_reg_write(struct ov2735 *ov2735,
-+				  const struct cci_reg_sequence *regs,
-+				  unsigned int num_regs, int *err)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < num_regs; i++) {
-+		ret = ov2735_write(ov2735, regs[i].reg, regs[i].val, err);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline struct ov2735 *to_ov2735(struct v4l2_subdev *_sd)
-+{
-+	return container_of(_sd, struct ov2735, sd);
-+}
-+
-+static int ov2735_enable_test_pattern(struct ov2735 *ov2735, u32 pattern)
-+{
-+	int ret;
-+	u64 val;
-+
-+	ret = ov2735_read(ov2735, OV2735_REG_TEST_PATTERN, &val, NULL);
-+	if (ret)
-+		return ret;
-+
-+	switch (pattern) {
-+	case 0:
-+		val &= ~OV2735_TEST_PATTERN_ENABLE;
-+		break;
-+	case 1:
-+		val |= OV2735_TEST_PATTERN_ENABLE;
-+		break;
-+	}
-+
-+	return ov2735_write(ov2735, OV2735_REG_TEST_PATTERN, val, NULL);
-+}
-+
-+static int ov2735_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct ov2735 *ov2735 = container_of(ctrl->handler, struct ov2735,
-+					     handler);
-+	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_subdev_state *state;
-+	u64 vts;
-+	int ret = 0;
-+
-+	state = v4l2_subdev_get_locked_active_state(&ov2735->sd);
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		/* Honour the VBLANK limits when setting exposure */
-+		s64 max = fmt->height + ctrl->val - OV2735_EXPOSURE_MARGIN;
-+
-+		ret = __v4l2_ctrl_modify_range(ov2735->exposure,
-+					       ov2735->exposure->minimum, max,
-+					       ov2735->exposure->step,
-+					       ov2735->exposure->default_value);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (pm_runtime_get_if_in_use(ov2735->dev) == 0)
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_EXPOSURE:
-+		ov2735_write(ov2735, OV2735_REG_LONG_EXPOSURE, ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ov2735_write(ov2735, OV2735_REG_ANALOG_GAIN, ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_HBLANK:
-+		ov2735_write(ov2735, OV2735_REG_HBLANK, ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_VBLANK:
-+		vts = ctrl->val + fmt->height;
-+		ov2735_write(ov2735, OV2735_REG_FRAME_EXP_SEPERATE_EN,
-+			     OV2735_FRAME_EXP_SEPERATE_EN, &ret);
-+		ov2735_write(ov2735, OV2735_REG_FRAME_LENGTH, vts, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = ov2735_enable_test_pattern(ov2735, ctrl->val);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	ov2735_write(ov2735, OV2735_REG_FRAME_SYNC, 0x01, &ret);
-+
-+	pm_runtime_put(ov2735->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops ov2735_ctrl_ops = {
-+	.s_ctrl = ov2735_set_ctrl,
-+};
-+
-+static int ov2735_init_controls(struct ov2735 *ov2735)
-+{
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	struct v4l2_fwnode_device_properties props;
-+	const struct ov2735_mode *mode = &supported_modes[0];
-+	u64 hblank_def, vblank_def, exp_max;
-+	int ret;
-+
-+	ctrl_hdlr = &ov2735->handler;
-+	v4l2_ctrl_handler_init(ctrl_hdlr, 9);
-+
-+	ov2735->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
-+					       V4L2_CID_PIXEL_RATE, 0,
-+					       OV2735_PIXEL_RATE, 1,
-+					       OV2735_PIXEL_RATE);
-+
-+	ov2735->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &ov2735_ctrl_ops,
-+						   V4L2_CID_LINK_FREQ,
-+						   ov2735->link_freq_index,
-+						   0, link_freq_menu_items);
-+	if (ov2735->link_freq)
-+		ov2735->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	hblank_def = mode->hts_def - mode->width;
-+	ov2735->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
-+					   V4L2_CID_HBLANK, hblank_def,
-+					   hblank_def, 1, hblank_def);
-+
-+	vblank_def = mode->vts_def - mode->height;
-+	ov2735->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
-+					   V4L2_CID_VBLANK, vblank_def,
-+					   OV2735_FRAME_LENGTH_MAX - mode->height,
-+					   1, vblank_def);
-+
-+	exp_max = mode->vts_def - OV2735_EXPOSURE_MARGIN;
-+	ov2735->exposure =
-+		v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
-+				  V4L2_CID_EXPOSURE,
-+				  OV2735_EXPOSURE_MIN, exp_max,
-+				  OV2735_EXPOSURE_STEP, mode->exp_def);
-+
-+	ov2735->gain =
-+		v4l2_ctrl_new_std(ctrl_hdlr, &ov2735_ctrl_ops,
-+				  V4L2_CID_ANALOGUE_GAIN, OV2735_ANALOG_GAIN_MIN,
-+				  OV2735_ANALOG_GAIN_MAX, OV2735_ANALOG_GAIN_STEP,
-+				  OV2735_ANALOG_GAIN_DEFAULT);
-+
-+	ov2735->test_pattern =
-+		v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov2735_ctrl_ops,
-+					     V4L2_CID_TEST_PATTERN,
-+					     ARRAY_SIZE(ov2735_test_pattern_menu) - 1,
-+					     0, 0, ov2735_test_pattern_menu);
-+
-+	if (ctrl_hdlr->error) {
-+		ret = ctrl_hdlr->error;
-+		dev_err(ov2735->dev, "control init failed (%d)\n", ret);
-+		goto err_handler_free;
-+	}
-+
-+	ret = v4l2_fwnode_device_parse(ov2735->dev, &props);
-+	if (ret)
-+		goto err_handler_free;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr,
-+					      &ov2735_ctrl_ops, &props);
-+	if (ret)
-+		goto err_handler_free;
-+
-+	ov2735->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+err_handler_free:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ret;
-+}
-+
-+static int ov2735_set_pll_ctrl(struct ov2735 *ov2735)
-+{
-+	const struct ov2735_pll_parameters *pll_parameters;
-+	u8 pll_ctrl;
-+	u8 pll_outdiv;
-+	int ret = 0;
-+
-+	pll_parameters = &pll_configs[ov2735->link_freq_index];
-+
-+	/* BIT[7]: pll_clk_sel, BIT[6:2]: pll_nc, BIT[1:0]: pll_mc */
-+	pll_ctrl = ((pll_parameters->pll_nc << 2) | (pll_parameters->pll_mc << 0)) &
-+		    OV2735_PLL_CTRL_ENABLE;
-+
-+	pll_outdiv = pll_parameters->pll_outdiv;
-+
-+	ov2735_write(ov2735, OV2735_REG_PLL_CTRL, pll_ctrl, &ret);
-+	ov2735_write(ov2735, OV2735_REG_PLL_OUTDIV, pll_outdiv, &ret);
-+
-+	return ret;
-+}
-+
-+static int ov2735_set_framefmt(struct ov2735 *ov2735,
-+			       struct v4l2_subdev_state *state)
-+{
-+	const struct v4l2_mbus_framefmt *format;
-+	const struct v4l2_rect *crop;
-+	int ret = 0;
-+
-+	format = v4l2_subdev_state_get_format(state, 0);
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+
-+	ov2735_write(ov2735, OV2735_REG_V_START, crop->top, &ret);
-+	ov2735_write(ov2735, OV2735_REG_V_SIZE, format->height, &ret);
-+	ov2735_write(ov2735, OV2735_REG_MIPI_LINE_NUMBER, format->height, &ret);
-+	ov2735_write(ov2735, OV2735_REG_H_START, crop->left, &ret);
-+	/* OV2735_REG_H_SIZE: Image half horizontal size */
-+	ov2735_write(ov2735, OV2735_REG_H_SIZE, (format->width / 2), &ret);
-+	ov2735_write(ov2735, OV2735_REG_MIPI_COLOMN_NUMBER, format->width, &ret);
-+
-+	return ret;
-+}
-+
-+static int ov2735_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
-+{
-+	struct ov2735 *ov2735 = to_ov2735(sd);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(ov2735->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Apply pll settings */
-+	ret = ov2735_set_pll_ctrl(ov2735);
-+	if (ret) {
-+		dev_err(ov2735->dev, "failed to set frame format: %d\n", ret);
-+		goto err_rpm_put;
-+	}
-+
-+	ret = ov2735_multi_reg_write(ov2735, ov2735_common_regs,
-+				     ARRAY_SIZE(ov2735_common_regs), NULL);
-+	if (ret) {
-+		dev_err(ov2735->dev, "failed to write common registers\n");
-+		goto err_rpm_put;
-+	}
-+
-+	/* Apply format settings */
-+	ret = ov2735_set_framefmt(ov2735, state);
-+	if (ret) {
-+		dev_err(ov2735->dev, "failed to set frame format: %d\n", ret);
-+		goto err_rpm_put;
-+	}
-+
-+	/* Apply customized values from user */
-+	ret = __v4l2_ctrl_handler_setup(ov2735->sd.ctrl_handler);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	ret = ov2735_write(ov2735, OV2735_REG_STREAM_CTRL,
-+			   OV2735_STREAM_CTRL_ON, NULL);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	return 0;
-+
-+err_rpm_put:
-+	pm_runtime_put(ov2735->dev);
-+	return ret;
-+}
-+
-+static int ov2735_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
-+{
-+	struct ov2735 *ov2735 = to_ov2735(sd);
-+	int ret;
-+
-+	ret = ov2735_write(ov2735, OV2735_REG_STREAM_CTRL,
-+			   OV2735_STREAM_CTRL_OFF, NULL);
-+	if (ret)
-+		dev_err(ov2735->dev, "%s failed to set stream\n", __func__);
-+
-+	pm_runtime_put(ov2735->dev);
-+
-+	return ret;
-+}
-+
-+static int ov2735_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
-+		return 0;
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r = ov2735_native_area;
-+		return 0;
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r = ov2735_active_area;
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int ov2735_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index >= 0)
-+		return -EINVAL;
-+
-+	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-+
-+	return 0;
-+}
-+
-+static int ov2735_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(supported_modes))
-+		return -EINVAL;
-+
-+	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-+		return -EINVAL;
-+
-+	fse->min_width = supported_modes[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = supported_modes[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static int ov2735_set_framing_limits(struct ov2735 *ov2735,
-+				     const struct ov2735_mode *mode)
-+{
-+	u32 hblank, vblank_def;
-+	int ret;
-+
-+	hblank = mode->hts_def - mode->width;
-+	ret = __v4l2_ctrl_modify_range(ov2735->hblank, hblank, hblank, 1,
-+				       hblank);
-+	if (ret)
-+		return ret;
-+
-+	vblank_def = mode->vts_def - mode->height;
-+	return __v4l2_ctrl_modify_range(ov2735->vblank, vblank_def,
-+					OV2735_FRAME_LENGTH_MAX - mode->height,
-+					1, vblank_def);
-+}
-+
-+static int ov2735_set_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_format *fmt)
-+{
-+	struct v4l2_mbus_framefmt *format;
-+	const struct ov2735_mode *mode;
-+	struct v4l2_rect *crop;
-+	struct ov2735 *ov2735 = to_ov2735(sd);
-+	int ret;
-+
-+	format = v4l2_subdev_state_get_format(sd_state, 0);
-+
-+	mode = v4l2_find_nearest_size(supported_modes,
-+				      ARRAY_SIZE(supported_modes),
-+				      width, height,
-+				      fmt->format.width, fmt->format.height);
-+
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-+		ret = ov2735_set_framing_limits(ov2735, mode);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	*format = fmt->format;
-+
-+	/* Initialize crop rectangle */
-+	crop = v4l2_subdev_state_get_crop(sd_state, 0);
-+	*crop = mode->crop;
-+
-+	return 0;
-+}
-+
-+static int ov2735_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state)
-+{
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.format = {
-+			.code = MEDIA_BUS_FMT_SGRBG10_1X10,
-+			.width = supported_modes[0].width,
-+			.height = supported_modes[0].height,
-+		},
-+	};
-+
-+	ov2735_set_pad_format(sd, state, &fmt);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops ov2735_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops ov2735_pad_ops = {
-+	.enum_mbus_code = ov2735_enum_mbus_code,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = ov2735_set_pad_format,
-+	.get_selection = ov2735_get_selection,
-+	.enum_frame_size = ov2735_enum_frame_size,
-+	.enable_streams = ov2735_enable_streams,
-+	.disable_streams = ov2735_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops ov2735_subdev_ops = {
-+	.video = &ov2735_video_ops,
-+	.pad = &ov2735_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops ov2735_internal_ops = {
-+	.init_state = ov2735_init_state,
-+};
-+
-+static int ov2735_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov2735 *ov2735 = to_ov2735(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ov2735_supply_name),
-+				    ov2735->supplies);
-+	if (ret) {
-+		dev_err(ov2735->dev, "failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(ov2735->enable_gpio, 1);
-+	/* T4: delay from PWDN pulling low to RSTB pulling high */
-+	fsleep(4 * USEC_PER_MSEC);
-+
-+	ret = clk_prepare_enable(ov2735->xclk);
-+	if (ret) {
-+		dev_err(ov2735->dev, "failed to enable clock\n");
-+		goto err_regulator_off;
-+	}
-+
-+	gpiod_set_value_cansleep(ov2735->reset_gpio, 0);
-+	/* T5: delay from RSTB pulling high to first I2C command */
-+	fsleep(5 * USEC_PER_MSEC);
-+
-+	return 0;
-+
-+err_regulator_off:
-+	regulator_bulk_disable(ARRAY_SIZE(ov2735_supply_name), ov2735->supplies);
-+	return ret;
-+}
-+
-+static int ov2735_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov2735 *ov2735 = to_ov2735(sd);
-+
-+	gpiod_set_value_cansleep(ov2735->enable_gpio, 0);
-+	clk_disable_unprepare(ov2735->xclk);
-+	gpiod_set_value_cansleep(ov2735->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(ov2735_supply_name), ov2735->supplies);
-+
-+	return 0;
-+}
-+
-+static int ov2735_get_regulators(struct ov2735 *ov2735)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ov2735_supply_name); i++)
-+		ov2735->supplies[i].supply = ov2735_supply_name[i];
-+
-+	return devm_regulator_bulk_get(ov2735->dev,
-+				       ARRAY_SIZE(ov2735_supply_name),
-+				       ov2735->supplies);
-+}
-+
-+static int ov2735_identify_module(struct ov2735 *ov2735)
-+{
-+	u64 chip_id;
-+	int ret;
-+
-+	ret = ov2735_read(ov2735, OV2735_REG_CHIPID, &chip_id, NULL);
-+	if (ret)
-+		return dev_err_probe(ov2735->dev, ret,
-+				     "failed to read chip id %x\n",
-+				     OV2735_CHIPID);
-+
-+	if (chip_id != OV2735_CHIPID)
-+		return dev_err_probe(ov2735->dev, -EIO,
-+				     "chip id mismatch: %x!=%llx\n",
-+				     OV2735_CHIPID, chip_id);
-+
-+	return 0;
-+}
-+
-+static int ov2735_parse_endpoint(struct ov2735 *ov2735)
-+{
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	struct fwnode_handle *ep;
-+	unsigned long link_freq_bitmap;
-+	int ret;
-+
-+	ep = fwnode_graph_get_next_endpoint(dev_fwnode(ov2735->dev), NULL);
-+	if (!ep)
-+		return dev_err_probe(ov2735->dev, -ENXIO,
-+				     "Failed to get next endpoint\n");
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return ret;
-+
-+	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2) {
-+		ret = dev_err_probe(ov2735->dev, -EINVAL,
-+				    "only 2 data lanes are supported\n");
-+		goto error_out;
-+	}
-+
-+	ret = v4l2_link_freq_to_bitmap(ov2735->dev, bus_cfg.link_frequencies,
-+				       bus_cfg.nr_of_link_frequencies,
-+				       link_freq_menu_items,
-+				       ARRAY_SIZE(link_freq_menu_items),
-+				       &link_freq_bitmap);
-+	if (ret) {
-+		ret = dev_err_probe(ov2735->dev, -EINVAL,
-+				    "only 420MHz frequency is available\n");
-+		goto error_out;
-+	}
-+
-+	ov2735->link_freq_index = __ffs(link_freq_bitmap);
-+
-+error_out:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+};
-+
-+static int ov2735_probe(struct i2c_client *client)
-+{
-+	struct ov2735 *ov2735;
-+	unsigned int xclk_freq;
-+	int ret;
-+
-+	ov2735 = devm_kzalloc(&client->dev, sizeof(*ov2735), GFP_KERNEL);
-+	if (!ov2735)
-+		return -ENOMEM;
-+
-+	ov2735->dev = &client->dev;
-+
-+	v4l2_i2c_subdev_init(&ov2735->sd, client, &ov2735_subdev_ops);
-+	ov2735->sd.internal_ops = &ov2735_internal_ops;
-+
-+	ov2735->cci = devm_cci_regmap_init_i2c(client, 8);
-+	if (IS_ERR(ov2735->cci))
-+		return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->cci),
-+				     "failed to initialize CCI\n");
-+
-+	/* Set Current page to 0 */
-+	ov2735->current_page = 0;
-+
-+	ret = devm_mutex_init(ov2735->dev, &ov2735->page_lock);
-+	if (ret)
-+		return dev_err_probe(ov2735->dev, ret,
-+				     "Failed to initialize lock\n");
-+
-+	/* Get system clock (xvclk) */
-+	ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
-+	if (IS_ERR(ov2735->xclk))
-+		return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->xclk),
-+				     "failed to get xclk\n");
-+
-+	xclk_freq = clk_get_rate(ov2735->xclk);
-+	if (xclk_freq != OV2735_XCLK_FREQ)
-+		return dev_err_probe(ov2735->dev, -EINVAL,
-+				     "xclk frequency not supported: %u Hz\n",
-+				     xclk_freq);
-+
-+	ret = ov2735_get_regulators(ov2735);
-+	if (ret)
-+		return dev_err_probe(ov2735->dev, ret,
-+				     "failed to get regulators\n");
-+
-+	ret = ov2735_parse_endpoint(ov2735);
-+	if (ret)
-+		return dev_err_probe(ov2735->dev, ret,
-+				     "failed to parse endpoint configuration\n");
-+
-+	ov2735->reset_gpio = devm_gpiod_get_optional(ov2735->dev,
-+						     "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ov2735->reset_gpio))
-+		return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->reset_gpio),
-+				     "failed to get reset GPIO\n");
-+
-+	ov2735->enable_gpio = devm_gpiod_get_optional(ov2735->dev,
-+						      "enable", GPIOD_OUT_LOW);
-+	if (IS_ERR(ov2735->enable_gpio))
-+		return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->enable_gpio),
-+				     "failed to get enable GPIO\n");
-+
-+	ret = ov2735_power_on(ov2735->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov2735_identify_module(ov2735);
-+	if (ret)
-+		goto error_power_off;
-+
-+	ret = ov2735_init_controls(ov2735);
-+	if (ret)
-+		goto error_power_off;
-+
-+	/* Initialize subdev */
-+	ov2735->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ov2735->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+	ov2735->pad.flags = MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&ov2735->sd.entity, 1, &ov2735->pad);
-+	if (ret) {
-+		dev_err_probe(ov2735->dev, ret, "failed to init entity pads\n");
-+		goto error_handler_free;
-+	}
-+
-+	ov2735->sd.state_lock = ov2735->handler.lock;
-+	ret = v4l2_subdev_init_finalize(&ov2735->sd);
-+	if (ret) {
-+		dev_err_probe(ov2735->dev, ret, "subdev init error\n");
-+		goto error_media_entity;
-+	}
-+
-+	ret = devm_pm_runtime_get_noresume(ov2735->dev);
-+	if (ret) {
-+		dev_err_probe(ov2735->dev, ret,
-+			      "failed to get runtime PM noresume\n");
-+		goto error_subdev_cleanup;
-+	}
-+
-+	ret = devm_pm_runtime_set_active_enabled(ov2735->dev);
-+	if (ret) {
-+		dev_err_probe(ov2735->dev, ret,
-+			      "failed to set runtime PM active+enabled\n");
-+		goto error_subdev_cleanup;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&ov2735->sd);
-+	if (ret) {
-+		dev_err_probe(ov2735->dev, ret,
-+			      "failed to register ov2735 sub-device\n");
-+		goto error_subdev_cleanup;
-+	}
-+
-+	return 0;
-+
-+error_subdev_cleanup:
-+	v4l2_subdev_cleanup(&ov2735->sd);
-+
-+error_media_entity:
-+	media_entity_cleanup(&ov2735->sd.entity);
-+
-+error_handler_free:
-+	v4l2_ctrl_handler_free(ov2735->sd.ctrl_handler);
-+
-+error_power_off:
-+	ov2735_power_off(ov2735->dev);
-+
-+	return ret;
-+}
-+
-+static void ov2735_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ov2735 *ov2735 = to_ov2735(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(&ov2735->sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(ov2735->sd.ctrl_handler);
-+}
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(ov2735_pm_ops,
-+				 ov2735_power_off, ov2735_power_on, NULL);
-+
-+static const struct of_device_id ov2735_id[] = {
-+	{ .compatible = "ovti,ov2735" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ov2735_id);
-+
-+static struct i2c_driver ov2735_driver = {
-+	.driver = {
-+		.name = "ov2735",
-+		.pm = pm_ptr(&ov2735_pm_ops),
-+		.of_match_table = ov2735_id,
-+	},
-+	.probe = ov2735_probe,
-+	.remove = ov2735_remove,
-+};
-+module_i2c_driver(ov2735_driver);
-+
-+MODULE_DESCRIPTION("OV2735 Camera Sensor Driver");
-+MODULE_AUTHOR("Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>");
-+MODULE_AUTHOR("Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>");
-+MODULE_LICENSE("GPL");
--- 
-2.34.1
+A minor detail but please reverse christmas tree your defintions and try 
+to make int ret come last.
 
+> +
+> +	ret = qcom_scm_clk_enable();
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = qcom_scm_bw_enable();
+> +	if (ret)
+> +		goto disable_clk;
+> +
+> +	desc.args[1] = mdata_phys;
+> +
+> +	ret = qcom_scm_call(__scm->dev, &desc, res);
+> +	qcom_scm_bw_disable();
+> +
+> +disable_clk:
+> +	qcom_scm_clk_disable();
+> +
+> +	return ret;
+> +}
+> +
+>   /**
+>    * qcom_scm_pas_init_image() - Initialize peripheral authentication service
+>    *			       state machine for a given peripheral, using the
+> @@ -604,17 +636,10 @@ EXPORT_SYMBOL_GPL(qcom_scm_pas_ctx_init);
+>   int qcom_scm_pas_init_image(u32 peripheral, const void *metadata, size_t size,
+>   			    struct qcom_scm_pas_metadata *ctx)
+>   {
+> +	struct qcom_scm_res res;
+>   	dma_addr_t mdata_phys;
+>   	void *mdata_buf;
+>   	int ret;
+> -	struct qcom_scm_desc desc = {
+> -		.svc = QCOM_SCM_SVC_PIL,
+> -		.cmd = QCOM_SCM_PIL_PAS_INIT_IMAGE,
+> -		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_VAL, QCOM_SCM_RW),
+> -		.args[0] = peripheral,
+> -		.owner = ARM_SMCCC_OWNER_SIP,
+> -	};
+> -	struct qcom_scm_res res;
+>   
+>   	/*
+>   	 * During the scm call memory protection will be enabled for the meta
+> @@ -635,23 +660,7 @@ int qcom_scm_pas_init_image(u32 peripheral, const void *metadata, size_t size,
+>   
+>   	memcpy(mdata_buf, metadata, size);
+>   
+> -	ret = qcom_scm_clk_enable();
+> -	if (ret)
+> -		goto out;
+> -
+> -	ret = qcom_scm_bw_enable();
+> -	if (ret)
+> -		goto disable_clk;
+> -
+> -	desc.args[1] = mdata_phys;
+> -
+> -	ret = qcom_scm_call(__scm->dev, &desc, &res);
+> -	qcom_scm_bw_disable();
+> -
+> -disable_clk:
+> -	qcom_scm_clk_disable();
+> -
+> -out:
+> +	ret = __qcom_scm_pas_init_image(peripheral, mdata_phys, mdata_buf, size, &res);
+>   	if (ret < 0 || !ctx) {
+>   		dma_free_coherent(__scm->dev, size, mdata_buf, mdata_phys);
+>   	} else if (ctx) {
+
+With those changes.
+
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
