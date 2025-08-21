@@ -1,61 +1,63 @@
-Return-Path: <linux-media+bounces-40613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF4AB2FC87
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702E3B2FC80
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:28:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B620FAA3EF0
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:22:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE9AD720E07
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:22:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F9BC28BABE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 280EB2882C9;
 	Thu, 21 Aug 2025 14:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMoln9ch"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGd/ulva"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B232280A4B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB38279DB6;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786099; cv=none; b=PGqdnmRTdQFfokEHP0mp9Y+PjWWYj1FMVkKO0zy/FGarAfeJVi6894vn/ZcjRbdn0zq+EJ3koSdosoMKG78ilL6Yvcggo6QCeAX+8U+j7igMyCikzjCBodnzt8GUt4QsJYgVAiG4N8c89SKfms/syPzg8pH07ORkukNXTe6nI/Y=
+	t=1755786099; cv=none; b=YpWPVzZllUlvxqabbZrPp6W4GjB6LuZupkXVhb/w3JlwcTbsGdKSUGimevHLokUOw+xc5zJTV1MXlssBK/lAq2zIBCtIRNE7ofCfy2vC7p6FZul81L3wVAPuOHbS4Zn6jr0YIIe1H84yRmlrc9ax0wxKowkbDi7K1GczLP2L/Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755786099; c=relaxed/simple;
-	bh=7D8ImbQ64qRP/VowwgAm1Rn3cTSGFFW/kfcVSm7ahHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SHcVqzdszplt8kLaKHGV4/f4qqlzdMtw18yfgejYpAF2lnJ10eRUkmmvFim1PzuZveo5Ni9HuThpXv49f4Uj0kRdJl6RoqHaywEpoehlHqOXuz08NAhykAbRv1YUU3GAQ9BmyjEu7LnV2H/pLsf/Waejj4SRtjh7QLCyhYxPBe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMoln9ch; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 224A0C19423;
+	bh=6KNyilChtfEfKAJL2KTz7S3+EmJ+UL4s3OTBvprovpQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=k+PunpL4vdGsXE/aGQdU2km4QF4xJ7EyaGijHfV74GJF16pUKn945Hxt/sroxbtP4BVt5Xo72ZxIZyy5x+/d357XetwaAniwjETa5nd/OG2xpfp8vMuKcJm3o89w9U12z57fJ+Y+X2UG9E75pEKcJXnR3TOOLpALIw5R6rVUkKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGd/ulva; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FE08C4CEF4;
 	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755786099;
-	bh=7D8ImbQ64qRP/VowwgAm1Rn3cTSGFFW/kfcVSm7ahHI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=RMoln9chByuA9HzKbsT2GkLLsIMipkSxktB1G0OdhOnmY4Mn3j5wg7HAEp2+4Bqbo
-	 lLHL2LoD7jMxt397NSYatwYeQhhT0D7FrojNI4fT9ktLy3FuEpaovMcmhFw8EUQCkk
-	 Mv7l2pu3+Hp24ZMf8Y6dIsGESyaw5ASQi/QcHMCP8u5Qxs9odRmzrDOm/4rFeMLpB4
-	 cn6PWX79+gYjkDA4IqqIFbNafXT3odqPQK//oNiEszc7uTPO0HGgPEkEgF3tkNw+iI
-	 T5w8d0kvp4+hfjuOQyxvEfg0EqLk5R9nj6+ahMPPZRAOISF1X0G1iujMwt+ia7PMiZ
-	 E/98q137XhI6A==
+	bh=6KNyilChtfEfKAJL2KTz7S3+EmJ+UL4s3OTBvprovpQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MGd/ulvamzFNYwH8HntAI+wJCTDGmKqFD+/O6YmHkSRqjxWmSOl1kFLxtf1xUhCiB
+	 j6egBehk81HRFuGoVZ79wloy7jC7cLXZZN6jZ2wmICNfpy6wCJpnyzsqv4AM2f2Q3k
+	 7ztjg83kBZG8lZ8L07tuB1ewqXKPrwBbHgK0qSSkqtvSt+yEeFGm4lBOwhtDZm7CHH
+	 Cq9Dh0nohIYuD72buLaK1YwjK/tdjPF1M1vHQwKSbIr5mlrdn8YfVxqto4slbXfBJN
+	 1D98HLM2zqrwUjZczkMH4HLrr0iEO1FE0nF/ZRrJvoprbx4NG0jntmR/LoER/veBFu
+	 v/ZrC2xoz1wlA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Aa-0000000BT81-44nX;
-	Thu, 21 Aug 2025 16:21:36 +0200
+	id 1up6Ab-0000000BT8a-0uCv;
+	Thu, 21 Aug 2025 16:21:37 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Sean Young <sean@mess.org>,
+	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH 00/24] better handle media headers
-Date: Thu, 21 Aug 2025 16:21:06 +0200
-Message-ID: <cover.1755784929.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 09/24] docs: uapi: media: Makefile: use parse-headers.py
+Date: Thu, 21 Aug 2025 16:21:15 +0200
+Message-ID: <a1530f4abe90fe86de97e4515d566619e624868a.1755784930.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
+References: <cover.1755784929.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,120 +67,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+Now that we have a new parser, use it.
 
-Sorry for the big series. I wanted it to be smaller, by still this
-is still only the first half of the history. I have a pile of other
-patches on the top of this one to be sent - part of them to media.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/userspace-api/media/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This series comes after:
-	https://lore.kernel.org/linux-doc/cover.1755258303.git.mchehab+huawei@kernel.org/
-
-Its goal is to drop one of the most ancient and ugliest hack from
-the documentation build system.
-
-Before migrating to Sphinx, the media subsystem already had
-a very comprehensive uAPI book, together with a build time
-system to detect and point for any documentation gaps.
-
-When migrating to Sphinx, we ported the logic to a Perl script
-(parse-headers.pl) and Markus came up with a Sphinx extension
-(kernel_include.py). We also added some files to control how
-parse-headers produce results, and a Makefile.
-
-At the initial Sphinx versions (1.4.1 if I recall correctly), when
-a new symbol is added to videodev2.h, a new warning were
-produced at documentatiion time, it the patchset didn't have
-the corresponding documentation path.
-
-While kernel-include is generic, the only user at the moment
-is the media subsystem.
-
-This series gets rid of the Python script, replacing it by a
-command line script and a class. The parse header class
-can optionally be used by kernel-include to produce an
-enriched code that will contain cross-references.
-
-As the other conversions, it starts with a bug-compatible
-version of parse-headers, but the subsequent patches
-add more functionalities and fix bugs.
-
-It should be noticed that modern of Sphinx disabled the
-cross-reference warnings. So, at the next series, I'll be
-re-adding it in a controlled way (e.g. just for the
-references from kernel-include that has an special
-argument).
-
-The script also supports now generating a "toc" output,
-which will be used at the next series.
-
-Mauro Carvalho Chehab (24):
-  docs: parse-headers.pl: improve its debug output format
-  docs: parse-headers.py: convert parse-headers.pl
-  docs: parse-headers.py: improve --help logic
-  docs: parse-headers.py: better handle @var arguments
-  docs: parse-headers.py: simplify the rules for hashes
-  tools: docs: parse-headers.py: move it from sphinx dir
-  tools: docs: parse_data_structs.py: add methods to return output
-  MAINTAINERS: add files from tools/docs to documentation entry
-  docs: uapi: media: Makefile: use parse-headers.py
-  docs: : Update its coding style
-  docs: kernel_include.py: allow cross-reference generation
-  docs: kernel_include.py: generate warnings for broken refs
-  docs: kernel_include.py: move rawtext logic to separate functions
-  docs: kernel_include.py: move range logic to a separate function
-  docs: kernel_include.py: remove range restriction for gen docs
-  docs: kernel_include.py: move code and literal functions
-  docs: kernel_include.py: add support to generate a TOC table
-  docs: kernel_include.py: append line numbers to better report errors
-  docs: kernel_include.py: move apply_range() and add a docstring
-  docs: kernel_include.py: remove line numbers from parsed-literal
-  docs: kernel_include.py: remove Include class inheritance
-  docs: kernel_include.py: document all supported parameters
-  scripts: sphinx-build-wrapper: get rid of uapi/media Makefile
-  docs: sphinx: drop parse-headers.pl
-
- .pylintrc                                     |   2 +-
- Documentation/sphinx/kernel_include.py        | 519 +++++++++++++-----
- Documentation/sphinx/parse-headers.pl         | 404 --------------
- Documentation/userspace-api/media/Makefile    |  64 ---
- .../userspace-api/media/cec/cec-header.rst    |   5 +-
- .../media/{ => cec}/cec.h.rst.exceptions      |   0
- .../media/{ => dvb}/ca.h.rst.exceptions       |   0
- .../media/{ => dvb}/dmx.h.rst.exceptions      |   0
- .../media/{ => dvb}/frontend.h.rst.exceptions |   0
- .../userspace-api/media/dvb/headers.rst       |  17 +-
- .../media/{ => dvb}/net.h.rst.exceptions      |   0
- .../media/mediactl/media-header.rst           |   5 +-
- .../{ => mediactl}/media.h.rst.exceptions     |   0
- .../userspace-api/media/rc/lirc-header.rst    |   4 +-
- .../media/{ => rc}/lirc.h.rst.exceptions      |   0
- .../userspace-api/media/v4l/videodev.rst      |   4 +-
- .../{ => v4l}/videodev2.h.rst.exceptions      |   0
- MAINTAINERS                                   |   1 +
- scripts/sphinx-build-wrapper                  |  48 --
- tools/docs/lib/__init__.py                    |   0
- tools/docs/lib/enrich_formatter.py            |  70 +++
- tools/docs/lib/parse_data_structs.py          | 452 +++++++++++++++
- tools/docs/parse-headers.py                   |  60 ++
- 23 files changed, 984 insertions(+), 671 deletions(-)
- delete mode 100755 Documentation/sphinx/parse-headers.pl
- delete mode 100644 Documentation/userspace-api/media/Makefile
- rename Documentation/userspace-api/media/{ => cec}/cec.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/ca.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/dmx.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/frontend.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/net.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => mediactl}/media.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => rc}/lirc.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => v4l}/videodev2.h.rst.exceptions (100%)
- create mode 100644 tools/docs/lib/__init__.py
- create mode 100644 tools/docs/lib/enrich_formatter.py
- create mode 100755 tools/docs/lib/parse_data_structs.py
- create mode 100755 tools/docs/parse-headers.py
-
+diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+index 3d8aaf5c253b..accc734d045a 100644
+--- a/Documentation/userspace-api/media/Makefile
++++ b/Documentation/userspace-api/media/Makefile
+@@ -3,7 +3,7 @@
+ # Rules to convert a .h file to inline RST documentation
+ 
+ SRC_DIR=$(srctree)/Documentation/userspace-api/media
+-PARSER = $(srctree)/Documentation/sphinx/parse-headers.pl
++PARSER = $(srctree)/tools/docs/parse-headers.py
+ UAPI = $(srctree)/include/uapi/linux
+ KAPI = $(srctree)/include/linux
+ 
 -- 
 2.50.1
-
 
 
