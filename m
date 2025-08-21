@@ -1,235 +1,184 @@
-Return-Path: <linux-media+bounces-40549-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40550-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AED5B2F44A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 11:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761C5B2F484
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 11:49:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD0C0189A273
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 09:43:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 001211CE1CFA
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 09:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B7342ED16B;
-	Thu, 21 Aug 2025 09:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227E22D46AB;
+	Thu, 21 Aug 2025 09:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Uz4esGfx"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XzDtKrlf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010036.outbound.protection.outlook.com [52.101.84.36])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FE02E8E10
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 09:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755769384; cv=fail; b=lEannLLh1YxK38+DLG+eSm9xyEhhGhpsw3Bo7jkt4eUYz+x+CbtieDnFU0mcLo+yb+EikzbM70jflCqmbY38cxazukS0wN8TlyDQ2kyDw84lJewV+74JkJ9oQ0+oajbpSoqb8ansJ0w1yxRt90rJgkAEphS5Q/HkuEVrwKCBeUo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755769384; c=relaxed/simple;
-	bh=OfSkHRrKSHXz0IzYQ2Ofx+Vb9taaqXjUQoBvG/8kt14=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=B/i9vTH44sQRPB1jSqI6IVH7ny1JH9tt9EhlNZb0EMz8tcPmXGBwkPrzmHqH/Tg1KSQ+caLHETE5GqGG6OoECD3IrPeQY2EsuUDDTDNFriXQvjPGFYt7Aqd0imiQ01ihy8nbbKrRFAn/Kud0EcyxlIadsoN1krbKiOpRMEyNxvk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Uz4esGfx; arc=fail smtp.client-ip=52.101.84.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L49Ns7awsKjBNAHPPc7aPJqqTa6NnlJ2pzYQaxWcd1IPHEKDLOPZTKPWCibjWz/Yp+Ssf9pHniUKV/ca+DswfpaEl51K3RyT+ocJnRIlDsJTX7gJNxayneD7JTkzCSLLlIGf4cJJbo5K5z7YgKZUkgkevKftZGRZ8HG4fXXmcJt6JNYtwxiuuUmz4b8HZwAzShoGCgeGqwCV7CsHm2AOB+yKumCDSqu1C+6QuoVokSKa0Zz9BiHFpTj6w1oGP5XomKVcFQNB6Acnf2BoOqLP3meDpxc60PHMUokinvLKn0JAIEZrhqND0t0wegRkbpnCreJ9PtwK0kVfJXiQdajf0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W99MidA4iU8erJxLsGd9YIN74vkG17kZJ1XVd9UKvQk=;
- b=xF3++JwZB0uZHsLZdoeofNkqsErHbzIgNN43+bV3kvuP3Sc4Wh3f3EQokpEjkKaNcaPZU49jT/MwQrLsBPplXjQVboZnM+SXDD3BpI4fqdRrmMrrxvGEiR1onGJ2D6O0xW71NHvnB66+hw9fF8mXUvN7GnHbjdoJ+pRdURyFwNriKQBBVqSNk8AGlPvefEe50mt8aondLVegiS6iteA2K+a6gzWSuxgRX4Us52iqrhjK6xixkDEokETjwbDvLQyxcGYDcC0m6AvfhsFwPODoElJIXtdKT07fT7kUX1uD+GcTT2u4iNdbA/+5iLiT9cku/w2AYrJYNmGjCAth0b1CBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W99MidA4iU8erJxLsGd9YIN74vkG17kZJ1XVd9UKvQk=;
- b=Uz4esGfxeci2JQvoDtQVk2NNFBYJkkwsjGN2OTxnIEuZSqYt1aOQJxcSK//U4dX8eOXNkaGIka2w3dxMO8oManirQebGpLANWTp2RjY9lskW/uN8uiQoClyVrVP6q48u1OtPiezGSjJf+jdu/rl72N3WSaKuXGM9WAPdMvaoEIMMjIVxPrvn1fnZsKxGbMwerhf91dXrrTRZhQgej0gK7FTQnPVA2jMZ3Ms0U4SSi10TL27FCSNOP9MAtZPnOWO2cG7qswC4ZUpsEfayZdqFKkH38ZWscZgMy2Gus2j8qJ7dRtxyUEBxVIcPkSCb2MPbOmgBZw1g8gSp/JL/EYCmBA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by AM9PR04MB8209.eurprd04.prod.outlook.com (2603:10a6:20b:3e4::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Thu, 21 Aug
- 2025 09:42:56 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.9052.013; Thu, 21 Aug 2025
- 09:42:56 +0000
-Message-ID: <6f6a149e-846a-45ca-b516-09482c87ea1a@oss.nxp.com>
-Date: Thu, 21 Aug 2025 17:42:48 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: imx-jpeg: Add support for descriptor allocation
- from SRAM
-To: Marek Vasut <marek.vasut@mailbox.org>, linux-media@vger.kernel.org
-Cc: Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mirela Rabulea <mirela.rabulea@nxp.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20250820163046.209917-1-marek.vasut@mailbox.org>
- <8d38e622-a743-41f9-81e6-d8608e3c60ec@oss.nxp.com>
- <83a65b18-76e8-4ad4-9d4d-c1ef68d3d181@mailbox.org>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <83a65b18-76e8-4ad4-9d4d-c1ef68d3d181@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI1PR02CA0014.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::9) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C964B2797A5;
+	Thu, 21 Aug 2025 09:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755769697; cv=none; b=DJEPua2c27xloi5HLPEx1C6QIhPRoMAGl1oqbzhMqNBIsvIVdRYQIUUnufMx7/2XBnM7Pa3xewVB2HmqfK+bIP8sPyVHilvHp/BxGQy2THVY5b/bUOgW8iraUO4oZDZwKRpD0H7KnFeuqYze9IPWkB+mtyJ9X6tnK6hVO5O+PfY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755769697; c=relaxed/simple;
+	bh=UQVO6N7adw0yAk/8xO9tJGI+/p8dNbC9LHEk2Znmfy8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hJaf0Ietievao/3D16ny705r851/hAZWJd0/9ztyX3s64HNrEvhf087zaBsqvCXIuuzyoxuZDC6Oiv81O2TIc7PYqgEJb4fdufr0ibWbSvjoSsXnIs+TlzmoK0lgO163BEJsmzE3PUms7yTvF72aROFf2YA8LUAv2JsHNTd56yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XzDtKrlf; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L9bDx1027108;
+	Thu, 21 Aug 2025 09:48:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	HyJzaTdgmo+1GtlzA5hdtallp9EqJkR4eDWztKTpFVw=; b=XzDtKrlfEk1elitL
+	wY09ANDZUJ76qTxmAfsZWjGBoCwZACMVFqE/IkdLl0/mVu0ipjpjpHy7bAA+6JxK
+	fzbDCtW633J6gGzAJEBlts7/LYowolvPROeR/0fc38tX/+WdfPW/uhD9W5v4u9ND
+	uoqRXj0QADN8Au+vm7Cq6GqQy/KYQcgpwBh+ZgiNesQsyd8nzfo/H4dmPAgqYmu7
+	TOQLC4RgkxH5D7aT/ycNM1s1fRfaCum3RpL1m6DLx57gDFU3pUZHak2Y3a6Us1Dq
+	JHr9wWoA0GDI/zy11opCmyJlM4SddgkUilB+Cb3PD5C6a4qQRcv/gwDMCorW5xfZ
+	F15O2g==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n528vxs5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Aug 2025 09:48:12 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57L9mBWW018376
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Aug 2025 09:48:11 GMT
+Received: from [10.50.10.127] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 21 Aug
+ 2025 02:48:08 -0700
+Message-ID: <b277a521-acb8-00f7-19c7-32931cfdc181@quicinc.com>
+Date: Thu, 21 Aug 2025 15:18:05 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|AM9PR04MB8209:EE_
-X-MS-Office365-Filtering-Correlation-Id: eaf67f97-ff34-4032-6907-08dde0971b71
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|19092799006|1800799024|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?ZzJUbEd6ejRTUWpJSXJpTUtUOWZFQXdFcURFWG83TURaUGRRYnp0dUNHQjYw?=
- =?utf-8?B?RG8yQk9yMmdtTXRWemJ2aGgvY1F5SGVEOUptdnZxam1wa2NwNGkybmczbDVI?=
- =?utf-8?B?NEU5WUxQbmlHWkRQVk9mY0ZlWlR2SWtyWVFxZHp2clRlS25MTWdtRWFla0hr?=
- =?utf-8?B?WnNvNjQxcFlhK1NTbzFVNlg1OUNzT2FuTW1rTnZIUC9xdUs3VjVUMjZnbXFG?=
- =?utf-8?B?djNKaWdzdkVKVGJ1Y2xTQ2I1WGliczdaMVozOGJJZ2ZOcnNkZVYwOCswMkRh?=
- =?utf-8?B?NU55OURmampycUxTLzJKNVBqM1RmaHEvQW5MOURXTGc0TWkwaStUT2tJeFAw?=
- =?utf-8?B?ajFhN1hyV29XcDk1YUl0K21BUTNIdlhuQk96MWJibzloaEJYbHhENTZSUUlx?=
- =?utf-8?B?WVlLUTkvamcyY1EvT2pXZWszV2pEN3A5cmx2bDNoZGxxbXRKZE9WWTE1dVd2?=
- =?utf-8?B?OXN0dUlmZ2RDREtwdzRHUVlZcmlFSWNQWkFOOWE5RHVGVFlBVnhvbjhLM1lF?=
- =?utf-8?B?U2NmcTc1NWpZMmVwQ1hYSUZGNm1YYXErbHJzLzNIdHp1R1FvdmpzaDQ2eTJj?=
- =?utf-8?B?T1BUWDBIQU1YajRTNHdvSVNhZzhLcWhKVlRjSitYMFJzRjg0YjdKMk4renYv?=
- =?utf-8?B?UGNYMXE0dGJ0aG14Vm9JYmlzVGE0SGVGOUlkQjF5enAxMlpuZ2lITU80RGhl?=
- =?utf-8?B?dERxVmFYUFhEeFNuSW1ZRDlmNzJ1b3cvdTg4TnVneFJlNkxiSFZ6LzJQTlU3?=
- =?utf-8?B?NVJRNTlVN09UcFpsL0s5OVE1TmdVZ0l0cFFzZytBdnZxcThzZ1dDM3MxUWZs?=
- =?utf-8?B?NU4xSXJNK0dqbWN2TDRoZmo2K2ExUGhDcGZSWGswalpSeVpxcVZKUktwS1Fr?=
- =?utf-8?B?VEVYSjdoRVNlUzd1eTJ3eHlZdHl6TEp0N1NlMGNxN2dUOFVqR2Y3WGRoUGYz?=
- =?utf-8?B?KzQyRWUzeDdPQ25sTXVqenlrYmZ1TUpBNTRDZmJFN0Y5SjF1LzlqT2FPOXBH?=
- =?utf-8?B?anBHajkwUXcrWmdXZE5QNEdxZkJpU3BadmpBOGR0TWlvMXNaemJVVEl2TGpV?=
- =?utf-8?B?dWhqWVFTSkNUNnYrcCttSTgvSEtXRTArUGs1S05OaEdiK1VwOHhKRXdQL1p5?=
- =?utf-8?B?RFpyc3RRODVZL2tqR0ErV1Z3dVE4QmJWakxlUXR4VG0xSXFKNkpmRXNMbCtC?=
- =?utf-8?B?d0RWOU0ycGxwZmVzT292dHJQUHFKdGYxVFBPby9ITTg3R2xpOFd0eUR4SWtx?=
- =?utf-8?B?ZEQyb0EwR2E5YitTekdMWVpxeHNDQk5LWFUra2EyL1l2T1habTFHc016MmhZ?=
- =?utf-8?B?SGRDbnU1aW5qUG9GUzlVR0FsTDVSQXdCZ1ozdndaYlg2RTduY2ZKQVhFS010?=
- =?utf-8?B?d3JzTzZHdzRiT2pWS0NjOWNjOHdzKy9iTVRKVUhTSjRBZ1htMTFNd2FrNW1H?=
- =?utf-8?B?SGRLaFI1VnJFeWUxZGFudFRZb2hoV0VGQXkvZXpDeEZuRzhBZmlaVk5TdWpC?=
- =?utf-8?B?VTJsSlhPeUkrN25OQ09pdkYyaWRLZkZHVWNycUlaWGU4ZlBpclIrajJNUHpj?=
- =?utf-8?B?RG5ENWozM1M4bUtpMTBhM2lKczRGR1NOL3NSVkJaNUpaajhQNm1ObFA0VG1G?=
- =?utf-8?B?Ump6dGQrOFZJYXFYZ1pjMUZKMzNiNVNRT1N3UTRPakNWY0Y2T2tuT2lUeTdV?=
- =?utf-8?B?TzFIZER6Z2hhSG5razdRcEw1b3ZqRjZROXZlNVZhdDlwM1FIVzNhZGMyOEpy?=
- =?utf-8?B?U0l2eDF0Q3VScFk3bVNoVExlTksrMGQxQzNENnZOUk5iN3MvZ3lxWGlRN2JR?=
- =?utf-8?B?Y2FtREhOSTF3ZXhKVEs1c1oxVlNQMGY4dVJSSEx1WHNvRGF2WEJ6UVo5VXRK?=
- =?utf-8?B?Q2tSMFVJei92MlZWVWE2NWJmaUUvRGNtT2dkdWM0bVRObjZVMytpa2pZNmlN?=
- =?utf-8?Q?eimau5m7qDo=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?UzdwSm5sdlJORzZVSXNFUWQrQ0pnTVcvcGhuR2hnd2pZTlNSa1JXaW8yZFp4?=
- =?utf-8?B?UW5Xc1RXMUpVcUhKN1NKTjYyNTIvRTBZY0ZkWjVXNC9jVEpMU0had3BRSHJG?=
- =?utf-8?B?azhRd2NwMmxSV1YwdkxzTjIzOHFJV1M2VTlRWUpjWkVHSFRFM3lXUk5VL0Zm?=
- =?utf-8?B?U3VZRDQxaVZOSnZVcWV0Sld1QmMyQ1Y0RDRMaEh0ZkQ3dWxmQVFvWUN0Y05i?=
- =?utf-8?B?WWhQaTJwUVVTZEtVWWhKMVFxUTVxakhiTlh2T0RpeUJzVW9PaThDUXRzaUxm?=
- =?utf-8?B?M2hidi9tdkI1NHhVVFVTRVNxQUduc2l2aGpEMzEzR3hTU2FySEUxMUJURG5Y?=
- =?utf-8?B?cDJ6N1h2WE1RcEg2ZGQ1WXJwazlBWTVVWWhHKzhtRGw3S1VHbGJnZ0g0TGFt?=
- =?utf-8?B?LzB5TWVQWEFLTFpzblFlME9xQW9BSk1GaHkrSTkvOWJpTDBVMHRoV2ZZb1h4?=
- =?utf-8?B?aDk2UVZaK0hzd21VTS9Ua0RmWTNMMldESlpjdW16K1FWQWd3Qks3cGFOUGRI?=
- =?utf-8?B?V0I1UTc5MnBnWEsxeGxndFpkMzhNV1ZFMm81VXJ3VkF5bGw4MzFnR0RMUVF5?=
- =?utf-8?B?SUdPOU5tYy9WaE5PZVQ5SVplbkVsajczUkd5M2dKWE1yNVFURTY5YTMzWTVW?=
- =?utf-8?B?amVFdHJvalU5R1RoZU9aM3FqRktENUhIeE1oUWI3azkvbXRDejRNVWc0MVp2?=
- =?utf-8?B?RmE4MDVjbWdrdGtYYlFSSEMvRmlzY3FMTnp4aVhMcDNJRWlrWmJsWnBXbHl2?=
- =?utf-8?B?QWgvU0VhdkV5RG4yb2MwUHNqN09JT2dlVnFrNXE3S2RYSU1WdDNVa01HY0VP?=
- =?utf-8?B?dG92eXdwdnBvRkxRd0dsbWVZOWVtVVgzcncyWmpwZnBlSVlTQ01kSWhuMHBh?=
- =?utf-8?B?bTdVUEJBMndPS0dqTkFCRXR4SE1IL1NHalI1OGFPRWFqTFFtNTExdGRka29u?=
- =?utf-8?B?Q3pKVGVlc29xQUVtV0RHT3BrMmY5OCtRNHhaSDVPdisrWWh1SjlmZHdtWlhE?=
- =?utf-8?B?bXVtQ0xZdXlncmNYMVJKZWlxdXMxMVEvUjQrR0Y0Y0RWQkkweDd5bXEzZ01n?=
- =?utf-8?B?ZzBRQmg2c0J2eVdLV2xuaTZPTHU2T1VaTUdHL0lmYzh1TCtLRmFSSEdyejhW?=
- =?utf-8?B?VUt5M1dEODZQblNhcXFUMTJKR1VIWGhrYmcyQk9mUzFNVWNtdHVGa1NqZFg4?=
- =?utf-8?B?SkJIdjMrQnBVSW9TN1hJMzBOY1pqWVc0TW1sR1hBalBwcmh2YzVlbE9wdk5o?=
- =?utf-8?B?MjVsQUxJWnFqTkhHUHJsRkVTNkNCUDRITzRxMENMVk9xbE1nb2huejFCZjlT?=
- =?utf-8?B?MVY5dUdQNmw3QlJHK0U5SVRESDVSVS9TbWkrTWY3eDFDQ2tPVWh2K1YwbnlO?=
- =?utf-8?B?Y09aQnRab2pIT20vMmhyL2RxS2ZiY1VSQkdMcUgxQnYvT21YWWtkR0VBQUxY?=
- =?utf-8?B?WWR2QThGaWtwQVdpbkRiSDZVbXRXVllhZnYvWmlwSkNUSklONjZzaXdCOEcz?=
- =?utf-8?B?RUZtNXJHSm15ZmtFSVhmYjlvSkJWb1NOL1JqUjFKd0NiSHk3SFJON0kveDE0?=
- =?utf-8?B?VlJZOUNtc01UTUh1Qk9DdVBIalJQelVmRXZlZW5DN2VWNUdUalg3YklmWkZx?=
- =?utf-8?B?Q0xGRjFEUGc0L0gwT1ZLTGdpMk1TRlBZcHA2QW05WExKWVd6TllrUEJDSXVh?=
- =?utf-8?B?ZndkeDhMeXlTZENlUnQzeVE3TkVLNFBXd1FzSlViYXNDZUMvYnc4K0E2OGc4?=
- =?utf-8?B?b0hxR0RCUDkrTTl3RnlsODB3SkpoVWswNEpyOHU5K0VGc1RlbXFndWVCenM5?=
- =?utf-8?B?M3d6eDU1Q1QzOFJsQ3hmUmFNZzloSHlYbUlkdi90dWlUZXY0VEFyQmNkWm5u?=
- =?utf-8?B?R1dIQ2lKcmVYQXFzejlra2ppRUdibFB1OTFWMno1R3k0dDN5Nkl5U1VvMGJF?=
- =?utf-8?B?S0FnUGNHUGZ4RTJ3UmV5bHRFMDNUbXlDQnlOSFU3Qzl2SlQ3Q3RobDRFOFBS?=
- =?utf-8?B?N28vY01KVmJKMnlhZWpNVjNuVnlVbjIxYTlxRDBrZFdCRHZXQ1FoQkVtWG1T?=
- =?utf-8?B?eUZXdnBIbDZZR2I4a0VOMUhIeFlsa0x5eVhPYWtIYU5JbnNuWVgybGRFakcy?=
- =?utf-8?Q?C0gfJnLn1aOtqErWWIvE9wk72?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eaf67f97-ff34-4032-6907-08dde0971b71
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 09:42:56.4760
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S30qBCVG+yOLOTVJ+GlW6cRIYXrNmdSQUr9SkDeHYPyH8ud8fmwHqeigaqEUOG+SLJJnG7U9GVwYAmHEKauqqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8209
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: venus: firmware: Use correct reset sequence for
+ IRIS2
+Content-Language: en-US
+To: Stephan Gerhold <stephan.gerhold@linaro.org>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>
+CC: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Hans Verkuil
+	<hverkuil@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250820-venus-iris2-no-tz-v1-1-9ebcc343195a@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250820-venus-iris2-no-tz-v1-1-9ebcc343195a@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=I4c8hNgg c=1 sm=1 tr=0 ts=68a6eb5c cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8
+ a=COk6AnOGAAAA:8 a=xVNrxXhrsQtHBxWYos8A:9 a=QEXdDO2ut3YA:10
+ a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: hcWK-m61zkAJz5noYorrTl6AzUdmja_e
+X-Proofpoint-ORIG-GUID: hcWK-m61zkAJz5noYorrTl6AzUdmja_e
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX5AEAwkv+0cab
+ t3DhqmZvi1NIJjtG7FP/+YYYWvfI4NgkAxGL2eJPn07t9lLKFV4sYnJQf8mgPfdjOW4gVfzdDGw
+ bBCiUUZBng7VDNWyGY3KaFPP+5dIMqh+KIkVtCJte5LQpMzgp3NN//Wk+e6vG5DEkP9d575lxf8
+ 6y8MDlu9XUjbRD9Jgts/vlWDg11QpYMq0xQHWpN3gwOH3PPFgSocE2L8Gyc/Dst1GihFxOioP4g
+ lkfxL1oU3ZDyHhegJG7T43AZKi5zE59HXkHw9QUuLgDAyr2EYNl3Ab6g6/2/zJVCy13n4hNKuy0
+ bYoUoC4eobLnHp70151piU1myHnGwVqb7DSEp21Zh0RSaveuIdZz0BaR7OnHjqQL20DhsRWdcxN
+ b2/6V0gi4zR33P90Tyhw8xZxts8ROA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_02,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 malwarescore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
 
-Hi Marek,
 
-On 8/21/2025 5:03 PM, Marek Vasut wrote:
-> On 8/21/25 8:28 AM, Ming Qian(OSS) wrote:
->> Hi Marek,
+
+On 8/20/2025 8:46 PM, Stephan Gerhold wrote:
+> When starting venus with the "no_tz" code path, IRIS2 needs the same
+> boot/reset sequence as IRIS2_1. This is because most of the registers were
+> moved to the "wrapper_tz_base", which is already defined for both IRIS2 and
+> IRIS2_1 inside core.c. Add IRIS2 to the checks inside firmware.c as well to
+> make sure that it uses the correct reset sequence.
 > 
-> Hello Ming,
+> Both IRIS and IRIS2_1 are HFI v6 variants, so the correct sequence was used
+> before commit c38610f8981e ("media: venus: firmware: Sanitize
+> per-VPU-version").
 > 
->> On 8/21/2025 12:29 AM, Marek Vasut wrote:
->>> [You don't often get email from marek.vasut@mailbox.org. Learn why 
->>> this is important at https://aka.ms/LearnAboutSenderIdentification ]
->>>
->>> Add support for optional allocation of bitstream descriptors from SRAM
->>> instead of DRAM. In case the encoder/decoder DT node contains 'sram'
->>> property which points to 'mmio-sram', the driver will attempt to use
->>> the SRAM instead of DRAM for descriptor allocation, which might improve
->>> performance.
->>>
->>> This however helps on i.MX95 with sporadic SLOTn_STATUS IMG_RD_ERR 
->>> bit 11
->>> being triggered during JPEG encoding. The following pipeline triggers 
->>> the
->>> problem when descriptors get allocated from DRAM, the pipeline often 
->>> hangs
->>> after a few seconds and the encoder driver indicates "timeout, cancel 
->>> it" :
->>
->> It's a hardware bug in i.MX95 A0, and the i.MX95 B0 has fixed this issue.
+> Fixes: c38610f8981e ("media: venus: firmware: Sanitize per-VPU-version")
+> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/firmware.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> Ahh, this helps, thank you.
+> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> index 66a18830e66dac2acbe11751a8c250876e20d795..4e2636b0536693a86dc51503d01dc2bca40b532a 100644
+> --- a/drivers/media/platform/qcom/venus/firmware.c
+> +++ b/drivers/media/platform/qcom/venus/firmware.c
+> @@ -30,7 +30,7 @@ static void venus_reset_cpu(struct venus_core *core)
+>  	u32 fw_size = core->fw.mapped_mem_size;
+>  	void __iomem *wrapper_base;
+>  
+> -	if (IS_IRIS2_1(core))
+> +	if (IS_IRIS2(core) || IS_IRIS2_1(core))
+>  		wrapper_base = core->wrapper_tz_base;
+>  	else
+>  		wrapper_base = core->wrapper_base;
+> @@ -42,7 +42,7 @@ static void venus_reset_cpu(struct venus_core *core)
+>  	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
+>  	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
+>  
+> -	if (IS_IRIS2_1(core)) {
+> +	if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
+>  		/* Bring XTSS out of reset */
+>  		writel(0, wrapper_base + WRAPPER_TZ_XTSS_SW_RESET);
+>  	} else {
+> @@ -68,7 +68,7 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
+>  	if (resume) {
+>  		venus_reset_cpu(core);
+>  	} else {
+> -		if (IS_IRIS2_1(core))
+> +		if (IS_IRIS2(core) || IS_IRIS2_1(core))
+>  			writel(WRAPPER_XTSS_SW_RESET_BIT,
+>  			       core->wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+>  		else
+> @@ -181,7 +181,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
+>  	void __iomem *wrapper_base = core->wrapper_base;
+>  	void __iomem *wrapper_tz_base = core->wrapper_tz_base;
+>  
+> -	if (IS_IRIS2_1(core)) {
+> +	if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
+>  		/* Assert the reset to XTSS */
+>  		reg = readl(wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+>  		reg |= WRAPPER_XTSS_SW_RESET_BIT;
 > 
->> Using sram instead of dram only improves timing, but doesn't 
->> completely circumvent the hardware bug
-> Does it make sense to upstream this patch anyway ?
+> ---
+> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+> change-id: 20250815-venus-iris2-no-tz-f9b52f33c4d0
+> 
+> Best regards,
 
-I think this patch is helpful.
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-But so far, we don't have any SRAM resources for jpeg.
-The i.MX95 does have sram, but it is very limited, and it has been
-assigned to arm_scmi and VPU.
-
-This patch makes the jpeg can support SRAM. Maybe in some scenarios, we
-can assign the SRAM to jpeg instead of VPU.
-
-So for me, I welcome this patch.
-
-Regards,
-Ming
-
+Thanks,
+Dikshita
 
