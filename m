@@ -1,366 +1,350 @@
-Return-Path: <linux-media+bounces-40614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40615-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37ABB2FC8E
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2802FB2FCE2
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:37:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F00F13AC55B
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:22:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F138A726B95
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:32:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CD1929E105;
-	Thu, 21 Aug 2025 14:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F2112EDD57;
+	Thu, 21 Aug 2025 14:28:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ExsOIfGY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cRWFxu/B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7277228CF49;
-	Thu, 21 Aug 2025 14:21:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A69E2E7F3F;
+	Thu, 21 Aug 2025 14:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755786100; cv=none; b=kx7UYxjKnVS++k9OrgTG/JIpZLdmXueBGxX4F7/Ysgky8TGqxvKITAlKDOjI6cNrdyMFUKTCHSYb7jJ7gjfc+UX3psqQgTUrevheu/LSRh4qhQuqLqKNryf8x0oJpHkJhUvHG0dA+m5l9MmAJVH+56oBDHTyxi0FELc/vF9kAOc=
+	t=1755786517; cv=none; b=sEOx8Zn5Ds2KHZ8c2im3NGR+v8VF7vkP2/5WN7hl5enR5jn6ytyLAOE+zC4+VP9hyLTwcFO4D22zPXXSnApvmOnDSySRELzioN42aVlr/tBHABGK1u+v4LbAsSIYmqEtX9HvEuxu41pcAC7mDE0b5oTR/uv8+LE7unfyxVNM2oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755786100; c=relaxed/simple;
-	bh=KsD1vNVCtNtIDrdngUGcQADwaGx5iOiHWVt8kHIS/5Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KM3fBZGJVn873cMptQJXkrXnZjsjCYZ6v/bMUohEz1hYdRTr7y7Rd9uesCvhs32CTOeIHTuIx8GM6pG/GLmoGlM9ACPOYIIEy2HYoRoAR5J3oDFr5jY4Y+4hz4FXvn5sLHA1U8tLgJAtv5crK2X+o4jfkTjPnlDh1cUqgxrQgjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ExsOIfGY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1A7C4CEF4;
-	Thu, 21 Aug 2025 14:21:40 +0000 (UTC)
+	s=arc-20240116; t=1755786517; c=relaxed/simple;
+	bh=EMbz8+HtiX+wFGU2pxupJmg8opMHOLpXmJiRY9CoOkI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AHRcQvlpNbOVndltqYFkaGlpKLAesjDtBAWIuUFgqRlqlP+aHexZ+UAGp8xHxDb4WbI1o5GLRzQb0qydk0RKSLJkkgMtlKuz1a0OwmW4Cgz4NqGUhb4AGATAGSiFRjxuI3TyZcm/2qTexoCdnWzCUkuXg/gwBtfHS/Yt6X19Qww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cRWFxu/B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B29C19425;
+	Thu, 21 Aug 2025 14:28:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755786100;
-	bh=KsD1vNVCtNtIDrdngUGcQADwaGx5iOiHWVt8kHIS/5Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ExsOIfGYWwOaZ5MoutZDuMpVbAfW2+2P6Snm8/PlalBhiMJuxudAABK0DOTLiHK2L
-	 ehTj9R2/5GjSPN7ipKhryQfAfOH8w3/Mt1Y2Kj6C4GtMs/qK7DhQ+mhhE9K2G5rW/C
-	 fIcRPdV6ZYw9mEy2fUjhcKv8Pp1LdGD5y09MMPrMxBpQraMsXBTxEy8iLpvy5jvt5F
-	 T4V9X7n1xWvgJjuaB1exw+ZmnHONTkLfaquuoiJghBclOlToR9bOefjBxxm01Tzhs8
-	 5huvuWg1s2IbOIHfdK32ckJ6QocptTJlxpxLlJ8BOd4VMGMdzHJiyYOFhXr+TSalPY
-	 S3BwYpixHvN3w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1up6Ab-0000000BT9U-2R6C;
-	Thu, 21 Aug 2025 16:21:37 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Erling Ljunggren <hljunggr@cisco.com>,
-	Hans Verkuil <mchehab+huawei@kernel.org>,
-	Hans de Goede <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Sean Young <sean@mess.org>,
-	Yunke Cao <yunkec@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH 23/24] scripts: sphinx-build-wrapper: get rid of uapi/media Makefile
-Date: Thu, 21 Aug 2025 16:21:29 +0200
-Message-ID: <72c95996d5202b467ad55b5948cc8e70d99ac5cd.1755784930.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
-References: <cover.1755784929.git.mchehab+huawei@kernel.org>
+	s=k20201202; t=1755786517;
+	bh=EMbz8+HtiX+wFGU2pxupJmg8opMHOLpXmJiRY9CoOkI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cRWFxu/BPNpqodDqvt1FLl5BcGeujMeWAQcrQgctw9TvOthgFPwJv1EskTamU7fst
+	 mQzi80HtrNlWRLg8/x71MRaPtHwEuWMxVGi67R1kGUrxlAA6QFv8jFd5QoSlaTNJc9
+	 VsHsCf5X8u9pKEhGkTtbvc8EN3W6Ae2VU/fRH/Ow3b4FO95fADdG3ogjEWMdNd/lD/
+	 MQ5A6HSKcraqM1G8VqbvE9p2wcJmdnN5Lcp9SHT1IF+AJxNJwqIz3ABs1IVIbYmzES
+	 o/3J9fZQXk4/j33zoTvzyRiIXVcQsND7pDp6sn7sm1vM2daBOnRpjj8tQfvpxPSGjL
+	 0VVxJB8bhvpIw==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61a8c134533so2243276a12.3;
+        Thu, 21 Aug 2025 07:28:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+x20Y+PsnfxC9k37MQQLbpSZirPWr8ydUr9xX74F/GbaJg5+fcqUYlauM9dIW2fzCMVMmjQPr@vger.kernel.org, AJvYcCUP49j4TgZCZ7h9FcC1KjbOon8RRi7SeR/ac96WFypXUbjB1AAo0e5pEoMdf9IipCA+Ml+SYAbjAOaQYB0=@vger.kernel.org, AJvYcCUcuPn2jZeAQXSs9ZPq9LW70oo0mTVYF+sTCMV/UOKNYM5PvnjPe861ArFJh9gjMOWPwSAjgDli7t65p54=@vger.kernel.org, AJvYcCUlTdFCrAgvjbHP6bmuMggi3iPOeiduZtibDETnwh2n7MJ5GoZpqRqtErsYmy0Gq333vQGECZhMF8kQ4ZQ=@vger.kernel.org, AJvYcCV9sBcHFRbihGWgc0nxUHkjdj1cnwl08WF8W2hqHHw+7BVGfYWEh4bK2/VrOrIW6S/R5pYrzxoL+KYz@vger.kernel.org, AJvYcCVce0ywP6wF/Jwx44DlbRT2yMiqp60+aGrjyhFpNM7RnBsx4Y4EvQy0EG5ULWMc/A6DBSLgxl+qr3cJpHoU@vger.kernel.org, AJvYcCWsGbRPb6gnze0u3cNVZFEaqNi8lQvh0MNW9Y0jGekMJ0NcBtNABQxBOWE/v6JXu2rF4cWH4G9NY5vo@vger.kernel.org, AJvYcCXuQimHS2Gi0AIgAiPK3MU+Z22Nul6ytz0C3FC8VoP/UpjdcqJPmfHFh6tcfQb+Eq0KoXl4zxvPVheqfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuPEb1BYhWn7jB14Ov2vu8frAwlOq9oZG6AMShUcEHJA0S148E
+	6T9a298BTyRkgAYlRYWTR6LB6VEgPDg7XJhiPu3rEN5ANP8CLMtjWVMDLm8gYjioEgj9iUUAeFY
+	WMRMLe9aGOwvHJ+HxHKRqCBA+wsXsew==
+X-Google-Smtp-Source: AGHT+IFBppYBOkX44YlxMo5/Wkh7Q5eWgNuxdz5vrG5HqTxZPVhTa0iHjCUIJQBUOqi7fhL4+BSSlpYJWfsZYnSvbZ0=
+X-Received: by 2002:a05:6402:1ece:b0:61a:9385:c798 with SMTP id
+ 4fb4d7f45d1cf-61bf8747b36mr1919506a12.37.1755786515468; Thu, 21 Aug 2025
+ 07:28:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com> <20250820171302.324142-5-ariel.dalessandro@collabora.com>
+In-Reply-To: <20250820171302.324142-5-ariel.dalessandro@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 21 Aug 2025 09:28:23 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+K72Kof-Z3q2DSh3FKO64npLF6hDJnqnTzNBUoOoVQFA@mail.gmail.com>
+X-Gm-Features: Ac12FXyETnp9uvywF5eryvs_DLFHAynyRYtV9sBUVnGCpXqqypbV2hkfxFtEdCo
+Message-ID: <CAL_Jsq+K72Kof-Z3q2DSh3FKO64npLF6hDJnqnTzNBUoOoVQFA@mail.gmail.com>
+Subject: Re: [PATCH v1 04/14] net: dt-bindings: Convert Marvell 8897/8997
+ bindings to YAML
+To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
+	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, 
+	broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com, 
+	conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com, 
+	edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com, 
+	jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com, 
+	krzk+dt@kernel.org, kuba@kernel.org, 
+	kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com, 
+	linus.walleij@linaro.org, louisalexis.eyraud@collabora.com, 
+	maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, mchehab@kernel.org, 
+	minghsiu.tsai@mediatek.com, mripard@kernel.org, p.zabel@pengutronix.de, 
+	pabeni@redhat.com, sean.wang@kernel.org, simona@ffwll.ch, 
+	support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that kernel-include directive supports parsing data
-structs directly, we can finally get rid of the horrible hack
-we added to support parsing media uAPI symbols.
+On Wed, Aug 20, 2025 at 12:15=E2=80=AFPM Ariel D'Alessandro
+<ariel.dalessandro@collabora.com> wrote:
+>
+> Convert the existing text-based DT bindings for Marvell 8897/8997
+> (sd8897/sd8997) bluetooth devices controller to a YAML schema.
+>
+> While here, bindings for "usb1286,204e" (USB interface) are dropped from
+> the YAML definition as these are currently documented in file:
+>
+> - Documentation/devicetree/bindings/net/btusb.txt
+>
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../bindings/net/marvell,sd8897-bt.yaml       | 91 +++++++++++++++++++
 
-As a side effect, Documentation/output doesn't have anymore
-media auto-generated .rst files on it.
+This needs to move to net/bluetooth/
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/userspace-api/media/Makefile    | 64 -------------------
- .../userspace-api/media/cec/cec-header.rst    |  5 +-
- .../media/{ => cec}/cec.h.rst.exceptions      |  0
- .../media/{ => dvb}/ca.h.rst.exceptions       |  0
- .../media/{ => dvb}/dmx.h.rst.exceptions      |  0
- .../media/{ => dvb}/frontend.h.rst.exceptions |  0
- .../userspace-api/media/dvb/headers.rst       | 17 +++--
- .../media/{ => dvb}/net.h.rst.exceptions      |  0
- .../media/mediactl/media-header.rst           |  5 +-
- .../{ => mediactl}/media.h.rst.exceptions     |  0
- .../userspace-api/media/rc/lirc-header.rst    |  4 +-
- .../media/{ => rc}/lirc.h.rst.exceptions      |  0
- .../userspace-api/media/v4l/videodev.rst      |  4 +-
- .../{ => v4l}/videodev2.h.rst.exceptions      |  0
- scripts/sphinx-build-wrapper                  | 48 --------------
- 15 files changed, 25 insertions(+), 122 deletions(-)
- delete mode 100644 Documentation/userspace-api/media/Makefile
- rename Documentation/userspace-api/media/{ => cec}/cec.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/ca.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/dmx.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/frontend.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => dvb}/net.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => mediactl}/media.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => rc}/lirc.h.rst.exceptions (100%)
- rename Documentation/userspace-api/media/{ => v4l}/videodev2.h.rst.exceptions (100%)
+>  .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------
+>  2 files changed, 91 insertions(+), 83 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/net/marvell,sd8897-=
+bt.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/net/marvell-bt-8xxx=
+.txt
+>
+> diff --git a/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml=
+ b/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
+> new file mode 100644
+> index 0000000000000..6539868c08b8a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
+> @@ -0,0 +1,91 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/marvell,sd8897-bt.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Marvell 8897/8997 (sd8897/sd8997) bluetooth devices (SDIO)
+> +
+> +maintainers:
+> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> +
 
-diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-deleted file mode 100644
-index accc734d045a..000000000000
---- a/Documentation/userspace-api/media/Makefile
-+++ /dev/null
-@@ -1,64 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--
--# Rules to convert a .h file to inline RST documentation
--
--SRC_DIR=$(srctree)/Documentation/userspace-api/media
--PARSER = $(srctree)/tools/docs/parse-headers.py
--UAPI = $(srctree)/include/uapi/linux
--KAPI = $(srctree)/include/linux
--
--FILES = ca.h.rst dmx.h.rst frontend.h.rst net.h.rst \
--	videodev2.h.rst media.h.rst cec.h.rst lirc.h.rst
--
--TARGETS := $(addprefix $(BUILDDIR)/, $(FILES))
--
--gen_rst = \
--	echo ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions; \
--	${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
--
--quiet_gen_rst = echo '  PARSE   $(patsubst $(srctree)/%,%,$<)'; \
--	${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
--
--silent_gen_rst = ${gen_rst}
--
--$(BUILDDIR)/ca.h.rst: ${UAPI}/dvb/ca.h ${PARSER} $(SRC_DIR)/ca.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--$(BUILDDIR)/dmx.h.rst: ${UAPI}/dvb/dmx.h ${PARSER} $(SRC_DIR)/dmx.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--$(BUILDDIR)/frontend.h.rst: ${UAPI}/dvb/frontend.h ${PARSER} $(SRC_DIR)/frontend.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--$(BUILDDIR)/net.h.rst: ${UAPI}/dvb/net.h ${PARSER} $(SRC_DIR)/net.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--$(BUILDDIR)/videodev2.h.rst: ${UAPI}/videodev2.h ${PARSER} $(SRC_DIR)/videodev2.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--$(BUILDDIR)/media.h.rst: ${UAPI}/media.h ${PARSER} $(SRC_DIR)/media.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--$(BUILDDIR)/cec.h.rst: ${UAPI}/cec.h ${PARSER} $(SRC_DIR)/cec.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--$(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.exceptions
--	@$($(quiet)gen_rst)
--
--# Media build rules
--
--.PHONY: all html texinfo epub xml latex
--
--all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
--html: all
--texinfo: all
--epub: all
--xml: all
--latex: $(IMGPDF) all
--linkcheck:
--
--clean:
--	-rm -f $(DOTTGT) $(IMGTGT) ${TARGETS} 2>/dev/null
--
--$(BUILDDIR):
--	$(Q)mkdir -p $@
-diff --git a/Documentation/userspace-api/media/cec/cec-header.rst b/Documentation/userspace-api/media/cec/cec-header.rst
-index d70736ac2b1d..f67003bb8740 100644
---- a/Documentation/userspace-api/media/cec/cec-header.rst
-+++ b/Documentation/userspace-api/media/cec/cec-header.rst
-@@ -6,5 +6,6 @@
- CEC Header File
- ***************
- 
--.. kernel-include:: $BUILDDIR/cec.h.rst
--
-+.. kernel-include:: include/uapi/linux/cec.h
-+    :generate-cross-refs:
-+    :exception-file: cec.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/cec.h.rst.exceptions b/Documentation/userspace-api/media/cec/cec.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/cec.h.rst.exceptions
-rename to Documentation/userspace-api/media/cec/cec.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/ca.h.rst.exceptions b/Documentation/userspace-api/media/dvb/ca.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/ca.h.rst.exceptions
-rename to Documentation/userspace-api/media/dvb/ca.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/dmx.h.rst.exceptions b/Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/dmx.h.rst.exceptions
-rename to Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/frontend.h.rst.exceptions b/Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/frontend.h.rst.exceptions
-rename to Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/dvb/headers.rst b/Documentation/userspace-api/media/dvb/headers.rst
-index 88c3eb33a89e..c75f64cf21d5 100644
---- a/Documentation/userspace-api/media/dvb/headers.rst
-+++ b/Documentation/userspace-api/media/dvb/headers.rst
-@@ -7,10 +7,19 @@ Digital TV uAPI header files
- Digital TV uAPI headers
- ***********************
- 
--.. kernel-include:: $BUILDDIR/frontend.h.rst
-+.. kernel-include:: include/uapi/linux/dvb/frontend.h
-+    :generate-cross-refs:
-+    :exception-file: frontend.h.rst.exceptions
- 
--.. kernel-include:: $BUILDDIR/dmx.h.rst
-+.. kernel-include:: include/uapi/linux/dvb/dmx.h
-+    :generate-cross-refs:
-+    :exception-file: dmx.h.rst.exceptions
- 
--.. kernel-include:: $BUILDDIR/ca.h.rst
-+.. kernel-include:: include/uapi/linux/dvb/ca.h
-+    :generate-cross-refs:
-+    :exception-file: ca.h.rst.exceptions
-+
-+.. kernel-include:: include/uapi/linux/dvb/net.h
-+    :generate-cross-refs:
-+    :exception-file: net.h.rst.exceptions
- 
--.. kernel-include:: $BUILDDIR/net.h.rst
-diff --git a/Documentation/userspace-api/media/net.h.rst.exceptions b/Documentation/userspace-api/media/dvb/net.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/net.h.rst.exceptions
-rename to Documentation/userspace-api/media/dvb/net.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/mediactl/media-header.rst b/Documentation/userspace-api/media/mediactl/media-header.rst
-index c674271c93f5..d561d2845f3d 100644
---- a/Documentation/userspace-api/media/mediactl/media-header.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-header.rst
-@@ -6,5 +6,6 @@
- Media Controller Header File
- ****************************
- 
--.. kernel-include:: $BUILDDIR/media.h.rst
--
-+.. kernel-include:: include/uapi/linux/media.h
-+    :generate-cross-refs:
-+    :exception-file: media.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/media.h.rst.exceptions b/Documentation/userspace-api/media/mediactl/media.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/media.h.rst.exceptions
-rename to Documentation/userspace-api/media/mediactl/media.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/rc/lirc-header.rst b/Documentation/userspace-api/media/rc/lirc-header.rst
-index 54cb40b8a065..a53328327847 100644
---- a/Documentation/userspace-api/media/rc/lirc-header.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-header.rst
-@@ -6,5 +6,7 @@
- LIRC Header File
- ****************
- 
--.. kernel-include:: $BUILDDIR/lirc.h.rst
-+.. kernel-include:: include/uapi/linux/lirc.h
-+    :generate-cross-refs:
-+    :exception-file: lirc.h.rst.exceptions
- 
-diff --git a/Documentation/userspace-api/media/lirc.h.rst.exceptions b/Documentation/userspace-api/media/rc/lirc.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/lirc.h.rst.exceptions
-rename to Documentation/userspace-api/media/rc/lirc.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/v4l/videodev.rst b/Documentation/userspace-api/media/v4l/videodev.rst
-index c866fec417eb..cde485bc9a5f 100644
---- a/Documentation/userspace-api/media/v4l/videodev.rst
-+++ b/Documentation/userspace-api/media/v4l/videodev.rst
-@@ -6,4 +6,6 @@
- Video For Linux Two Header File
- *******************************
- 
--.. kernel-include:: $BUILDDIR/videodev2.h.rst
-+.. kernel-include:: include/uapi/linux/videodev2.h
-+    :generate-cross-refs:
-+    :exception-file: videodev2.h.rst.exceptions
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
-similarity index 100%
-rename from Documentation/userspace-api/media/videodev2.h.rst.exceptions
-rename to Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
-diff --git a/scripts/sphinx-build-wrapper b/scripts/sphinx-build-wrapper
-index 0d13c19f6df3..abe8c26ae137 100755
---- a/scripts/sphinx-build-wrapper
-+++ b/scripts/sphinx-build-wrapper
-@@ -463,56 +463,10 @@ class SphinxBuilder:
-             except subprocess.CalledProcessError as e:
-                 sys.exit(f"Error generating info docs: {e}")
- 
--    def get_make_media(self):
--        """
--        The media uAPI requires an additional Makefile target.
--        """
--
--        mediadir = f"{self.obj}/userspace-api/media"
--
--        make = os.environ.get("MAKE", "make")
--        build = os.environ.get("build", "-f $(srctree)/scripts/Makefile.build obj")
--
--        # Check if the script was started outside docs Makefile
--        if not os.environ.get("obj"):
--            mediadir = os.path.abspath(mediadir)
--
--        # the build makefile var contains macros that require expand
--        make_media = f"{make} {build}={mediadir}"
--        make_media = make_media.replace("$(", "${").replace(")", "}")
--        make_media = os.path.expandvars(make_media)
--
--        # As it also contains multiple arguments, use shlex to split it
--        return shlex.split(make_media)
--
--    def prepare_media(self, builder):
--        """
--        Run userspace-api/media Makefile.
--
--        The logic behind it are from the initial ports to Sphinx.
--        They're old and need to be replaced by a proper Sphinx extension.
--        While we don't do that, we need to explicitly call media Makefile
--        to build some files.
--        """
--
--        cmd = self.get_make_media() + [builder]
--
--        if self.verbose:
--            print(" ".join(cmd))
--
--        with JobserverExec() as jobserver:
--            rc = jobserver.run(cmd, env=self.env)
--
--        if rc:
--            cmd_str = " ".join(cmd)
--            sys.exit(f"Failed to run {cmd_str}")
--
-     def cleandocs(self, builder):
- 
-         shutil.rmtree(self.builddir, ignore_errors=True)
- 
--        self.prepare_media(builder)
--
-     def build(self, target, sphinxdirs=None, conf="conf.py",
-               theme=None, css=None, paper=None):
-         """
-@@ -533,8 +487,6 @@ class SphinxBuilder:
-         if not sphinxbuild:
-             sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
- 
--        self.prepare_media(builder)
--
-         if builder == "latex":
-             if not self.pdflatex_cmd and not self.latexmk_cmd:
-                 sys.exit("Error: pdflatex or latexmk required for PDF generation")
--- 
-2.50.1
+Needs a $ref to bluetooth-controller.yaml
 
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - marvell,sd8897-bt
+> +      - marvell,sd8997-bt
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  marvell,cal-data:
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    description:
+> +      Calibration data downloaded to the device during initialization.
+> +    minItems: 28
+
+Just: maxItems: 28
+
+> +
+> +  marvell,wakeup-pin:
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Wakeup pin number of the bluetooth chip. Used by firmware to wakeu=
+p host
+> +      system.
+> +
+> +  marvell,wakeup-gap-ms:
+
+This unfortunately needs a uint16 type. That will cause a warning
+which has to be fixed on the dtschema side.
+
+> +    description:
+> +      Wakeup latency of the host platform. Required by the chip sleep fe=
+ature.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/pinctrl/rockchip.h>
+
+Please drop this and just use a number below.
+
+> +
+> +    sdio0 {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        btmrvl: btmrvl@2 {
+> +            compatible =3D "marvell,sd8897-bt";
+> +            reg =3D <2>;
+> +            interrupt-parent =3D <&gpio4>;
+> +            interrupts =3D <RK_PD7 IRQ_TYPE_LEVEL_LOW>;
+> +            marvell,wakeup-pin =3D /bits/ 16 <13>;
+> +            pinctrl-names =3D "default";
+> +            pinctrl-0 =3D <&bt_host_wake_l>;
+> +        };
+> +    };
+
+I would drop this example.
+
+> +
+> +    mmc3 {
+
+mmc {
+
+> +        vmmc-supply =3D <&wlan_en_reg>;
+> +        bus-width =3D <4>;
+> +        cap-power-off-card;
+> +        keep-power-in-suspend;
+> +
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        bluetooth: bluetooth@2 {
+
+Drop the label.
+
+> +            compatible =3D "marvell,sd8897-bt";
+> +            reg =3D <2>;
+> +            interrupt-parent =3D <&pio>;
+> +            interrupts =3D <119 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +            marvell,cal-data =3D /bits/ 8 <
+> +                0x37 0x01 0x1c 0x00 0xff 0xff 0xff 0xff 0x01 0x7f 0x04 0=
+x02
+> +                0x00 0x00 0xba 0xce 0xc0 0xc6 0x2d 0x00 0x00 0x00 0x00 0=
+x00
+> +                0x00 0x00 0xf0 0x00>;
+> +            marvell,wakeup-pin =3D /bits/ 16 <0x0d>;
+> +            marvell,wakeup-gap-ms =3D /bits/ 16 <0x64>;
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt b/=
+Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+> deleted file mode 100644
+> index 957e5e5c2927c..0000000000000
+> --- a/Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+> +++ /dev/null
+> @@ -1,83 +0,0 @@
+> -Marvell 8897/8997 (sd8897/sd8997) bluetooth devices (SDIO or USB based)
+> -------
+> -The 8997 devices supports multiple interfaces. When used on SDIO interfa=
+ces,
+> -the btmrvl driver is used and when used on USB interface, the btusb driv=
+er is
+> -used.
+> -
+> -Required properties:
+> -
+> -  - compatible : should be one of the following:
+> -       * "marvell,sd8897-bt" (for SDIO)
+> -       * "marvell,sd8997-bt" (for SDIO)
+> -       * "usb1286,204e"      (for USB)
+> -
+> -Optional properties:
+> -
+> -  - marvell,cal-data: Calibration data downloaded to the device during
+> -                     initialization. This is an array of 28 values(u8).
+> -                     This is only applicable to SDIO devices.
+> -
+> -  - marvell,wakeup-pin: It represents wakeup pin number of the bluetooth=
+ chip.
+> -                       firmware will use the pin to wakeup host system (=
+u16).
+> -  - marvell,wakeup-gap-ms: wakeup gap represents wakeup latency of the h=
+ost
+> -                     platform. The value will be configured to firmware.=
+ This
+> -                     is needed to work chip's sleep feature as expected =
+(u16).
+> -  - interrupt-names: Used only for USB based devices (See below)
+> -  - interrupts : specifies the interrupt pin number to the cpu. For SDIO=
+, the
+> -                driver will use the first interrupt specified in the int=
+errupt
+> -                array. For USB based devices, the driver will use the in=
+terrupt
+> -                named "wakeup" from the interrupt-names and interrupt ar=
+rays.
+> -                The driver will request an irq based on this interrupt n=
+umber.
+> -                During system suspend, the irq will be enabled so that t=
+he
+> -                bluetooth chip can wakeup host platform under certain
+> -                conditions. During system resume, the irq will be disabl=
+ed
+> -                to make sure unnecessary interrupt is not received.
+> -
+> -Example:
+> -
+> -IRQ pin 119 is used as system wakeup source interrupt.
+> -wakeup pin 13 and gap 100ms are configured so that firmware can wakeup h=
+ost
+> -using this device side pin and wakeup latency.
+> -
+> -Example for SDIO device follows (calibration data is also available in
+> -below example).
+> -
+> -&mmc3 {
+> -       vmmc-supply =3D <&wlan_en_reg>;
+> -       bus-width =3D <4>;
+> -       cap-power-off-card;
+> -       keep-power-in-suspend;
+> -
+> -       #address-cells =3D <1>;
+> -       #size-cells =3D <0>;
+> -       btmrvl: bluetooth@2 {
+> -               compatible =3D "marvell,sd8897-bt";
+> -               reg =3D <2>;
+> -               interrupt-parent =3D <&pio>;
+> -               interrupts =3D <119 IRQ_TYPE_LEVEL_LOW>;
+> -
+> -               marvell,cal-data =3D /bits/ 8 <
+> -                       0x37 0x01 0x1c 0x00 0xff 0xff 0xff 0xff 0x01 0x7f=
+ 0x04 0x02
+> -                       0x00 0x00 0xba 0xce 0xc0 0xc6 0x2d 0x00 0x00 0x00=
+ 0x00 0x00
+> -                       0x00 0x00 0xf0 0x00>;
+> -               marvell,wakeup-pin =3D /bits/ 16 <0x0d>;
+> -               marvell,wakeup-gap-ms =3D /bits/ 16 <0x64>;
+> -       };
+> -};
+> -
+> -Example for USB device:
+> -
+> -&usb_host1_ohci {
+> -    #address-cells =3D <1>;
+> -    #size-cells =3D <0>;
+> -
+> -    mvl_bt1: bt@1 {
+> -       compatible =3D "usb1286,204e";
+> -       reg =3D <1>;
+> -       interrupt-parent =3D <&gpio0>;
+> -       interrupt-names =3D "wakeup";
+> -       interrupts =3D <119 IRQ_TYPE_LEVEL_LOW>;
+> -       marvell,wakeup-pin =3D /bits/ 16 <0x0d>;
+> -       marvell,wakeup-gap-ms =3D /bits/ 16 <0x64>;
+> -    };
+> -};
+> --
+> 2.50.1
+>
 
