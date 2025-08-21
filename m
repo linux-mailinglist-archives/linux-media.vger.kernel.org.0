@@ -1,269 +1,421 @@
-Return-Path: <linux-media+bounces-40629-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40630-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE1DB2FE34
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 17:23:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4438BB2FE86
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 17:36:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C04C917B4F0
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 15:17:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 844E71CE775A
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 15:29:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE19B26E71E;
-	Thu, 21 Aug 2025 15:17:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E63212BE7D9;
+	Thu, 21 Aug 2025 15:24:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mU7eVO2C"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HanrNcOX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013050.outbound.protection.outlook.com [52.101.72.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2198424466C;
-	Thu, 21 Aug 2025 15:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755789461; cv=fail; b=jbIGbHr7daEUNyUxLSkFpeiHj0sduEe2o0003iVk0foO6xv08wdqJ4FgruB9PIvFCXJ+pf4lRihmBSQZ8RI1yGRsKUfhNwUvi0mGWBIKYiV9ngE47CkVLdqo7GS+BKeXGcGY+fO3DzO4cwvDFsK3p7R1XTF8vbPmi3FryUowVLk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755789461; c=relaxed/simple;
-	bh=Bp/7Yl9W3i1VyTnrtJqVwGMXNZqmBp3vGmpCBIEWnjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=eF2Ys5fCGTpZP2hJm8+xRJI82SyCIDl6zuC3pf7Iah86yXyDqgFk+z5tXtzSQ6qjQ4FdgAFWiG6CpEo6hscJ1zeV12IlTrDgNcND3qFQk380tWIccnJsNT4CJXoUreYmqhxIl9x2+DWw0GmcPKwGTyNNCKTxfSL6/tfOgzwpqfo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mU7eVO2C; arc=fail smtp.client-ip=52.101.72.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VZxXaS+8wxjCRFLQEZDZOlcMHj8Z3QA4a9K8l0yme6NuMBH/RqnXl16juSE62m4hmctZDBVZz8DxVYe8IYVYqCThkxJ5jnojTkdQthSSFcW9gvflhEVEvaU7TZFSi24deb1ROpGuhPxJ3EZJDbzxHnX1ms9dXqBvJlfTVV7RqRbNjsgAoQrQm4K2PWBcuR1yPMpXEXBQwWCopmsjz248iHvlXMW5KpDWGpLgRKJWGxFOzzbBDHc/eYDb09H0Fnrb9SXYXKDpdL5Mne59aLaBiw4+I+pF6g3QqyLc1PBk62OHw4gG1N5kmzhOGaSHj+QMvdlijD3Z4WP523gNvdDEfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l9A5r3pAPRE4RAEw49RJijJBWD4fj7aG831Fv2dBq0c=;
- b=KPKt1G5OlBpDM0Jd55pBDqiXjdWAayW07pJWY986aCjs1aspUg7F7rNzfiDKtaIPcb4eT8cEK/AHOnmJkD/0zortXbibVh553ZZ6f12vQqZ0f5wS/kp2cGZjGxQHu+602H8kFlHVuhxehbn6ShKbs6Z+2q5B1EGTqzsFlD524X9U/weqqtIisK/d3bzjCydIP62L7NZKPmrSnDmoPP/mJImJNKybyZlwBQyEu2wnb/T8GZVOhTDxLFQ+YItHFuftf9Ijh80uX7ma6jTchxNqtMiIx7F94nP61vMM1sgjAnGotJzCPu02k50NXcuHqOuqYzkE9qIyJbB0YexYvKztbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l9A5r3pAPRE4RAEw49RJijJBWD4fj7aG831Fv2dBq0c=;
- b=mU7eVO2CmQ19qD5shRFXEXHFGJnKKhXaAiH16zr/EAYiqfci7G0kgJI0Rrc+XH4fnfHPS4CPFCYarCynYLa8xIROjSoSqAOgJHuTVxekd6elHEvxrusijtabKaMpcTR+IKpmIlFLoyiS2meK7hfEzqTTywsMYalVRNgRbXsXTK2L/4+dxSQyVs8N0gOpJhap7eJvw67ilWwlXO2MS1ihybXsw1OpplKUfP6GPZNKUc+T2XRhpo0T6K7bZsQ7pHTjQSm6qOJCJLFdsdZL5FhPS4i5bP2eTcTW85SEcEmnu10gPSmrvoRZh/38A9vsCNEOJ5JRtBBz8tHQ3m0SF4AI5A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by AM9PR04MB8699.eurprd04.prod.outlook.com (2603:10a6:20b:43e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.13; Thu, 21 Aug
- 2025 15:17:35 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d%5]) with mapi id 15.20.9052.012; Thu, 21 Aug 2025
- 15:17:35 +0000
-Date: Thu, 21 Aug 2025 11:17:29 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Isaac Scott <isaac.scott@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 04/12] media: imx-mipi-csis: Shorten name of subdev
- state variables
-Message-ID: <aKc4iQ+BQjn6vGGO@lizhi-Precision-Tower-5810>
-References: <20250821000944.27849-1-laurent.pinchart@ideasonboard.com>
- <20250821000944.27849-5-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821000944.27849-5-laurent.pinchart@ideasonboard.com>
-X-ClientProxiedBy: AS4P189CA0034.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5dd::12) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1481829B8D9
+	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 15:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755789840; cv=none; b=oivmT7kuYoj9meJnKQnhEt262GpjxtJOJKVGUn8VVpTmQ8pjoD2uhwL6wUIc2/WZO+5ERBT8ujUGfpRtQyOVPngK7OblDAwz2buR4PxoEYOceyqpq8fdXztBaNWRxm2cI+Kl0yWf2vSsuc6hvAqGjGttKokPkqIg0k+hB55R4SQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755789840; c=relaxed/simple;
+	bh=UpTeEvUXde2h/y0MlnHYEKbLGSvOfX1ukwlLXrY6NaY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G8wU2BWfjYFuJGzurA1xuOIXsxIv+Wg/0QJSt7xtZDnnzK/f5uDkfsR9tkuDWnAKig06v8NIiysYkAkoPiN8xOSSkxv+ssJzTgJ1jnyRt67emSUswhOzKJbEpebczbaa/ehoV0A8sNkeNi1vQKi0yXsuqsVLpNOlD7+ohgaKiK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HanrNcOX; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45a1b0c52f3so6992605e9.3
+        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 08:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755789835; x=1756394635; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QEUJcXv9UThk/7nFPP7IYyDbZugqau7Nfg+gBaYyVKo=;
+        b=HanrNcOXNLp8pzZnEMU2FzTF55Ju5EUz2Qj5N6kXq1+IYSIyM5DHzr09wlneMPjS0D
+         sIpxhFgOsJpVMWjRixfQmPxsj768rr/HYL9Bgws+zC44qTrqRrxnMM+Xlh6igl73Zhjf
+         W9XLhSc1tYtBP0WJ9jlbKnp0uI71d+y8EiffC0d3In2F/jaOfm5y0E7C/h/5zVjn1JxG
+         zFz4ivQjyqbPddIsnDWUOyhf60A6T+qfy1hvSxy/OsjnJU56sFeZWOAJE45P1zGttdPP
+         gsWui3wuwkJrmIh5eCEwf35FR+MtQBoiJQudExooA1gI/Xo7EFXDs+icAthVjSPCBs/U
+         7GGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755789835; x=1756394635;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QEUJcXv9UThk/7nFPP7IYyDbZugqau7Nfg+gBaYyVKo=;
+        b=LYQR9F+TRIIq0h2V/QhsOs/9+9YrPBoUCREmQSR6DACGQrdOEhwUBhtPTJOMLnlXRP
+         2+yRETmp/W0yCfKanctQXJgeaaQwv8Q7hUQUZUIJdTRCBaHhb5iQ6sryM0sFl1eIxzNj
+         f0ThZgAwk/oNNy9Bjj+Mq8SY3rg8ENZjmYNLU60BJ+PapX6XoplJRVHEpBUQ0BKOWRng
+         SLZl5kLQ3ZB/Ekoqo8znpwiQJocUsyaUHsHEl03u2/bKbZ1yBxbIs4wQ884R4rzpodO4
+         bGe+G57sIjCGO24AWVAzVG2aZZUjyWdijLxJEVCgF95eWgvglTmmfPxX7y9NAeEbHVMt
+         /Dvg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7IecovY20x+FDPlyZKA3N0E70+OhJkQ/M4iT2e7N4UWx674O/b2dXDv3YZE4g9xl4G9pYIZ6+McBSww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzE/YFDmDjn5TWH/Pa5zHfWrUv/x9sN+UJyR9/dyqX2tLn4IhtP
+	lQbDkbD25k/4pgWmmshjA33Vd1Vi6LgufXe12zZFM9UEsxx8TSCX0irMwWQkLTB4BJI=
+X-Gm-Gg: ASbGncvYxy8A9JJllVon+kn0jKsa4GQ8K5PQX63SPJnGGJhwJDA5rC9UfVVMBfcGIjG
+	FO4GwLxND4HPlyU4B/49oHAgLIljRHcAGYRn40GrjrtcVvAGAd09192w+Ojs8booneRnG8dxz6l
+	ssjvio3Ch4ppFeA9VHq4ii0c+1T47mnJrWSglRFdyOxsDqxN71rTmnxCsbiltdJY3UJ4B4ISEUJ
+	Rz6gptJ4qlvgUC2X2adkRx2qntD+U85vHyXrYSNdqFlmK3NV1PgMroPP/PLjT5rMO48SH0Ul3hM
+	dTWPcBePxKqlEEZvNDg/in1YRojVqbJeCirNdDOKYa1FWev3mcVqkpnp52dBCH0AdueuCcQkqDg
+	A/e5TqmxfXT1k2ipDcYLqE5r9Q8kgCBYbgOMoiva8JmYyMi3l8LTPOtIZu/d5VLI=
+X-Google-Smtp-Source: AGHT+IEAPnZCQDkPxSmOQov4pdPzH4Z/tAtdFg/6SCypTbPD1PCqkc15LUvKOSl6OYscew3c8+ILrg==
+X-Received: by 2002:a05:600c:1f0e:b0:456:1b6f:c888 with SMTP id 5b1f17b1804b1-45b4d84bbd4mr29561495e9.23.1755789835209;
+        Thu, 21 Aug 2025 08:23:55 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c07487986fsm13207272f8f.1.2025.08.21.08.23.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Aug 2025 08:23:54 -0700 (PDT)
+Message-ID: <de4b4872-061c-4f03-ae1d-1ad93b35ed71@linaro.org>
+Date: Thu, 21 Aug 2025 16:23:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|AM9PR04MB8699:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5e510d6-c01b-41c0-a37b-08dde0c5db4d
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|52116014|366016|7416014|376014|19092799006|1800799024|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?1yuvDJd2n18UfEy3LkHRNsUXULmq5ZaDaxWi1eaoJE8TOF1umGJCkzP8Qcdr?=
- =?us-ascii?Q?D72nfUY5oOKrM3GtILFTgsgUqMHAtubaMrazHxCjPy1YQh47SB+J2t3PQhHy?=
- =?us-ascii?Q?Ip+R7vvtZT8tAZwSF1OS74GcyqrzKWDRZ8Y6HA+0oZRJrBKh1KC/TDzqJt8R?=
- =?us-ascii?Q?2lm7S7DPftMoxS+7ekMfkRuwpPimtSpx3bABugSuWgCZhHRTa2fuFo1EfH3D?=
- =?us-ascii?Q?YM54CIHwPwOVmv0SzRhnqLxf0byRApJWNSqBfh4eQeN9omD24HivbPY1prgC?=
- =?us-ascii?Q?5pjFkj4Ts6FX9z7dm0AVmJ2vJy8NNBmrzOb8CdHWj3HmT5xW4YcQaagL4594?=
- =?us-ascii?Q?jHGYMC8eK4pkXRCQGMEAtwQGGd5rccZCub/lPDyWtMzivVxGZ2Av3NXJn1vb?=
- =?us-ascii?Q?VFIzf8TBpE9iP3tswqtHuaAWyALDuaV9fyFKvwPiooqD2TACwMnQqlzzjy3H?=
- =?us-ascii?Q?yuwxlk1Vu1wuqT6R8uoX31gjgZRyXfRDmC1I+2LkOrVmF5QPr+J+hJfaTKOw?=
- =?us-ascii?Q?zu3uaNTnxdA0LhH2DAzLDyrDpln1+h0mv7qYCAUj7N1ZJWh6nMk24N6a3WQF?=
- =?us-ascii?Q?f2g+n9MZUhQe2MZ2xGjTuXFYhswVhKBH9DKOFBbGtZcXrHBrJXy9Xrh+rKX5?=
- =?us-ascii?Q?yWlyRdwxCUsSn5Q/qobvqB/3j5QqOdvdWnByn3bAtxQ83+wZnJmmzmA2Bp+O?=
- =?us-ascii?Q?y3bcRwtz1AvquqBqIAYp16Zb3IEU/AVNhxOQpuRjOcOBA+W4epC09BvIHXyC?=
- =?us-ascii?Q?KlhQoNrGKF1/nvcfu/D/mf4hnL4k4Qi5KGlsvtGdonmJjaLMj5fwmEQ0bF2j?=
- =?us-ascii?Q?ygq/2+xuyB6ImD6OQx4CKMfUB7quoeBy+mc9Z8LgSIFn8ST+3niNsOwrNoPF?=
- =?us-ascii?Q?IvzkVYU8Y9uUiBFo4yp9gYujXKP+UNpuRLGn3kPlWIZjcat67TWBrqSKLkAq?=
- =?us-ascii?Q?Y5a4pefe4WfXQl8QPPhvbv5AV8BWVz0Po9mwrjTRSxwpdnEV/4bYYEOAT46p?=
- =?us-ascii?Q?MgNhC+g1Hdw0ha04waXBmh54CyFlcitE9GnSStO8L87M0xjKFYCaztkXlFCp?=
- =?us-ascii?Q?IrKKNZuMjDU2m6aDmZoD+Vm2I4sqbyb0GLy6zr82wCsGyIlZiT3v04v0aXBT?=
- =?us-ascii?Q?cuuEdwHcsWU/TxSVB/hMtvh69CKzlycST4R2o9ASsT21z0MbmVDc2DmvwZnV?=
- =?us-ascii?Q?8aV6ps+emS7NCuprG731lyCZtpvKPNIxYcJDd4b23Pu1HLrVmQnALT9lIGlJ?=
- =?us-ascii?Q?Wd9pU2vgNdE+dZjXE1FX/6KLPz/kFiBSequBu58ULgHuDFy7R3x8+WtgjcPx?=
- =?us-ascii?Q?09lZvn4hJZbP5vcTW1GMRMk/xAKF5LLw71Q+vTFGmoHEoMHhOQjnSFUnDz1y?=
- =?us-ascii?Q?ouOUBqnPjgg/VmcAdD0MboEZBeCMpNKRKAi9iBLJ3Gs1OHX7q6S6qsMZCbPY?=
- =?us-ascii?Q?7AlcnYRtkdYugCQHzNz5P5DCtudDU8/EP/+KU6tWtx+VHQDfq+Md9g=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(7416014)(376014)(19092799006)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?40g68149cGQcok2vHeIInbu3/0ZuwbOEEMIcBv2V9+NaLzpsD3Gc5bPk7WsH?=
- =?us-ascii?Q?1zArh7IVLvLChMq5gflf7BkRw2RDQt50CELHT/liboyOb6YlCf82OxEkz3J0?=
- =?us-ascii?Q?Tg0J+ZPodbDc/Dc8d8tFgbR3PHYHkI5BNZ+nT7ATFZ+3je07AMO5sb4QvO89?=
- =?us-ascii?Q?9x6kjUDAz2sH1s4OTBvPYqFZwMWcS9hfNpFcEMdVrksWe4aSBXmQRGgC9J59?=
- =?us-ascii?Q?oYhuwx7x7+I/VZH4YdljWPXy0wU7XQCqJ3BiVRv95IVhXHNYttrb7cj3EbtF?=
- =?us-ascii?Q?0KELXVeAiFswDVQt4AmYY7SZIM8f1WKvd5a2GY2kLgT7ljZxm1Fz8/weDOXL?=
- =?us-ascii?Q?ieEXVT9s55MzVWb9tMeEo/Eg4Dobm5WjhdpNkiE/bEIap9RnLouW8YeB4rR2?=
- =?us-ascii?Q?Y6LmFtrQvicX9CdxK5I+MzuIuoLeZHvvB4HtGrgYWyaGL9gN/8k4iWBWmTT1?=
- =?us-ascii?Q?O7sk4uwTF+p+CkHAB/KFgZ5+atBQH+Z5l4UtlCVrkxmvVtrhrVjI866JWwua?=
- =?us-ascii?Q?bdAyz2G8wgIt1lQf/UMtzZn1wu3d7CxY2h7IjFHGLgMIZTsnrEARjwt/jH/B?=
- =?us-ascii?Q?ZqzEXb+X4ipCCiZ5w3LcXrwUH5OqSQ+k1tcW/80H75KK39ww4Q40UizQw2SW?=
- =?us-ascii?Q?uWTFyGp7I2dg8+qIp1D4HiRX4M4rLrB6s1ff2nLAEj3xExNSIk21vma3V2/3?=
- =?us-ascii?Q?z0FhYzOZYXy7dQf/EVy2ZavukgQtQXuvyOifr2XAZtd//66Pwts/4Au/Mp/2?=
- =?us-ascii?Q?2bd/idwVQoq4Z+/GwMbC7+1My/lh32z+Z3QaxI1Kc0nS9cC+C133AJLVPBQr?=
- =?us-ascii?Q?/0GMtAMwT3ifOeJjFwdbLRuld75ZbVz1K/MSNR4emzy65/NW3DWtmQz+hypW?=
- =?us-ascii?Q?hs+Xa93lqwoF5TJjmx5FtwI+5Gl87hTC99PtY99LFK+oNO5oWycDhxKPPPDw?=
- =?us-ascii?Q?uL6XuR22+U3bUhsZ0oFHTp2q/gIpzgQXG/6RqKv5wYe/xCWWZHA2y7PMQ+j8?=
- =?us-ascii?Q?vPAV0JSHdYHfkWgrKRkyRyhpd7V1JFRVtyibZYDvgDLUhBDy4IVTIpLFY6Jt?=
- =?us-ascii?Q?jN7Orlb7f0MRvhXbDVE9G4sG8A+d+b3UONn6pleELiBPWWN/yUM2QyhG/C3i?=
- =?us-ascii?Q?n92dDwyEKq/AVNZ24j0XbAucot8ZkVjuUGlx1Fh0yU19+wsw78jNBgfZ7TC/?=
- =?us-ascii?Q?euotHl1lYMFEeP/UBZb0dWIbYXNRz8aqol6m/xmvxrP7OCz4QManMpndia64?=
- =?us-ascii?Q?84zxIlvER8Mt+4CUeUwH+ndeqfrrCIOK0+Awwvqo+w9r09dgusidHHmA88aa?=
- =?us-ascii?Q?D0TLB690aWBW0BK/pui3ZFZTQTWcdsxKyFT6MD7LHQQ+pANIgjyGoQV33qZj?=
- =?us-ascii?Q?pOi1Wpg/3ouC7zYYvF/iO9Q8OZQjbbNGVzMqlsJXKNM5lmalbQk9xmFaGlF6?=
- =?us-ascii?Q?HF2ENrjC0i6Q1BoTvGtRvQzJOYMQIU/pL7ffGS9gg36G9UjjdMtf7qeByfcG?=
- =?us-ascii?Q?zA0dBcSmtCfGWQ+t45XXNw0WSJW/75ErJLroVklnoLob4OnKCAFMonJipB0t?=
- =?us-ascii?Q?BI6lygTqifFaX3j02vejfAQFNhVX+4Ne5YIf9g9p?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5e510d6-c01b-41c0-a37b-08dde0c5db4d
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 15:17:35.1050
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SIrqiC5gWHr7c6u0Jd+SoAOPDu0ND/rJypXUF7SW1dNnzRQuPXHeJLUcKTt9RJRPjMdXcV3ZpPNpur0B2aM44Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8699
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/11] firmware: qcom_scm: Add shmbridge support to
+ pas_init/release function
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-6-mukesh.ojha@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250819165447.4149674-6-mukesh.ojha@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 21, 2025 at 03:09:36AM +0300, Laurent Pinchart wrote:
-> Rename subdev state parameters passed to subdev operations from sd_state
-> to state. This standardizes the naming of the subdev state variables
-> through the driver, and helps shortening lines.
+On 19/08/2025 17:54, Mukesh Ojha wrote:
+> Qualcomm SoCs running with QHEE (Qualcomm Hypervisor Execution
+> Environment—a library present in the Gunyah hypervisor) utilize the
+> Peripheral Authentication Service (PAS) from Qualcomm TrustZone (TZ)
+> also called QTEE(Qualcomm Trusted Execution Environment firmware)
+> to securely authenticate and reset remote processors via a sequence
+> of SMC calls such as qcom_scm_pas_init_image(), qcom_scm_pas_mem_setup(),
+> and qcom_scm_pas_auth_and_reset().
+> 
+> For memory passed to Qualcomm TrustZone, it must either be part of a
+> pool registered with TZ or be directly registered via SHMbridge SMC
+> calls.
+> 
+> When QHEE is present, PAS SMC calls from Linux running at EL1 are
+> trapped by QHEE (running at EL2), which then creates or retrieves memory
+> from the SHM bridge for both metadata and remoteproc carveout memory
+> before passing them to TZ. However, when the SoC runs with a
+> non-QHEE-based hypervisor, Linux must create the SHM bridge for both
+> metadata (before it is passed to TZ in qcom_scm_pas_init_image()) and
+> for remoteproc memory (before the call is made to TZ in
+> qcom_scm_pas_auth_and_reset()).
+> 
+> For the qcom_scm_pas_init_image() call, metadata content must be copied
+> to a buffer allocated from the SHM bridge before making the SMC call.
+> This buffer should be freed either immediately after the call or during
+> the qcom_scm_pas_metadata_release() function, depending on the context
+> parameter passed to qcom_scm_pas_init_image(). Convert the metadata
+> context parameter to use PAS context data structure so that it will also
+> be possible to decide whether to get memory from SHMbridge pool or not.
+> 
+> When QHEE is present, it manages the IOMMU translation context so, in
+> absence of it device driver will be aware through device tree that its
+> translation context is managed by Linux and it need to create SHMbridge
+> before passing any buffer to TZ, So, remote processor driver should
+> appropriately set ctx->has_iommu to let PAS SMC function to take care of
+> everything ready for the call to work.
+> 
+> Lets convert qcom_scm_pas_init_image() and qcom_scm_pas_metadata_release()
+> to have these awareness.
 
-Nit: I like simple sentence.
+I like the effort in the commit log here but its also a bit too long.
 
-Rename sd_state to state to standardize the naming of the subdev state
-variables and help shortening lines.
+Please go through these paragraphs and try to reduce down the amount of 
+text you are generating.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
-Frank
-
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 > ---
->  drivers/media/platform/nxp/imx-mipi-csis.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> index 0f0863011230..894d12fef519 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -996,7 +996,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
->  }
->
->  static int mipi_csis_enum_mbus_code(struct v4l2_subdev *sd,
-> -				    struct v4l2_subdev_state *sd_state,
-> +				    struct v4l2_subdev_state *state,
->  				    struct v4l2_subdev_mbus_code_enum *code)
->  {
->  	/*
-> @@ -1009,7 +1009,7 @@ static int mipi_csis_enum_mbus_code(struct v4l2_subdev *sd,
->  		if (code->index > 0)
->  			return -EINVAL;
->
-> -		fmt = v4l2_subdev_state_get_format(sd_state, code->pad);
-> +		fmt = v4l2_subdev_state_get_format(state, code->pad);
->  		code->code = fmt->code;
->  		return 0;
->  	}
-> @@ -1026,7 +1026,7 @@ static int mipi_csis_enum_mbus_code(struct v4l2_subdev *sd,
->  }
->
->  static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
-> -			     struct v4l2_subdev_state *sd_state,
-> +			     struct v4l2_subdev_state *state,
->  			     struct v4l2_subdev_format *sdformat)
->  {
->  	const struct csis_pix_format *csis_fmt;
-> @@ -1038,7 +1038,7 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
->  	 * modified.
->  	 */
->  	if (sdformat->pad == CSIS_PAD_SOURCE)
-> -		return v4l2_subdev_get_fmt(sd, sd_state, sdformat);
-> +		return v4l2_subdev_get_fmt(sd, state, sdformat);
->
->  	if (sdformat->pad != CSIS_PAD_SINK)
->  		return -EINVAL;
-> @@ -1076,7 +1076,7 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
->  			      &sdformat->format.height, 1,
->  			      CSIS_MAX_PIX_HEIGHT, 0, 0);
->
-> -	fmt = v4l2_subdev_state_get_format(sd_state, sdformat->pad);
-> +	fmt = v4l2_subdev_state_get_format(state, sdformat->pad);
->
->  	fmt->code = csis_fmt->code;
->  	fmt->width = sdformat->format.width;
-> @@ -1090,7 +1090,7 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
->  	sdformat->format = *fmt;
->
->  	/* Propagate the format from sink to source. */
-> -	fmt = v4l2_subdev_state_get_format(sd_state, CSIS_PAD_SOURCE);
-> +	fmt = v4l2_subdev_state_get_format(state, CSIS_PAD_SOURCE);
->  	*fmt = sdformat->format;
->
->  	/* The format on the source pad might change due to unpacking. */
-> @@ -1130,7 +1130,7 @@ static int mipi_csis_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
->  }
->
->  static int mipi_csis_init_state(struct v4l2_subdev *sd,
-> -				struct v4l2_subdev_state *sd_state)
-> +				struct v4l2_subdev_state *state)
->  {
->  	struct v4l2_subdev_format fmt = {
->  		.pad = CSIS_PAD_SINK,
-> @@ -1147,7 +1147,7 @@ static int mipi_csis_init_state(struct v4l2_subdev *sd,
->  		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt.format.colorspace,
->  					      fmt.format.ycbcr_enc);
->
-> -	return mipi_csis_set_fmt(sd, sd_state, &fmt);
-> +	return mipi_csis_set_fmt(sd, state, &fmt);
->  }
->
->  static int mipi_csis_log_status(struct v4l2_subdev *sd)
-> --
-> Regards,
->
-> Laurent Pinchart
->
+>   drivers/firmware/qcom/qcom_scm.c       | 71 +++++++++++++++++++++-----
+>   drivers/remoteproc/qcom_q6v5_pas.c     | 14 ++---
+>   drivers/soc/qcom/mdt_loader.c          |  4 +-
+>   include/linux/firmware/qcom/qcom_scm.h |  9 ++--
+>   4 files changed, 73 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+> index 7827699e277c..301d440f62f3 100644
+> --- a/drivers/firmware/qcom/qcom_scm.c
+> +++ b/drivers/firmware/qcom/qcom_scm.c
+> @@ -616,6 +616,35 @@ static int __qcom_scm_pas_init_image(u32 peripheral, dma_addr_t mdata_phys,
+>   	return ret;
+>   }
+>   
+> +static int qcom_scm_pas_prep_and_init_image(struct qcom_scm_pas_ctx *ctx,
+> +					    const void *metadata, size_t size)
+> +{
+> +	struct qcom_scm_pas_metadata *mdt_ctx;
+> +	struct qcom_scm_res res;
+> +	phys_addr_t mdata_phys;
+> +	void *mdata_buf;
+> +	int ret;
+> +
+> +	mdt_ctx = ctx->metadata;
+> +	mdata_buf = qcom_tzmem_alloc(__scm->mempool, size, GFP_KERNEL);
+> +	if (!mdata_buf)
+> +		return -ENOMEM;
+> +
+> +	memcpy(mdata_buf, metadata, size);
+> +	mdata_phys = qcom_tzmem_to_phys(mdata_buf);
+> +
+> +	ret = __qcom_scm_pas_init_image(ctx->peripheral, mdata_phys, mdata_buf, size, &res);
+> +	if (ret < 0 || !mdt_ctx) {
+
+if ret is an error or mdt_ctx is null free the memory
+
+> +		qcom_tzmem_free(mdata_buf);
+> +	} else if (mdt_ctx) {
+
+if mdt_ctx is valid do this
+
+> +		mdt_ctx->ptr = mdata_buf;
+> +		mdt_ctx->addr.phys_addr = mdata_phys;
+> +		mdt_ctx->size = size;
+> +	}
+> +
+> +	return ret ? : res.result[0];
+
+so we can have ctx_mtd valid but return the value at ret but also mtd 
+valid and return the res.result[0]
+
+That seems like an odd choice - surely if you are enumerating the 
+data-structure the result code we care about is res.result[0] instead of 
+ret ?
+
+OK I see this return logic comes from below..
+
+But
+
+drivers/soc/qcom/mdt_loader.c::qcom_mdt_pas_init
+
+ret = qcom_scm_pas_init_image(pas_id, metadata, metadata_len, ctx);
+kfree(metadata);
+if (ret) {
+     /* Invalid firmware metadata */
+     dev_err(dev, "error %d initializing firmware %s\n", ret, fw_name);
+     goto out;
+}
+
+So if ret as returned from your function is > 0 you will leak the memory 
+allocated @ mdata_buf ..
+
+Do you expect something else to come along and call 
+qcom_scm_pas_metadata_release() ?
+
+> +}
+> +
+>   /**
+>    * qcom_scm_pas_init_image() - Initialize peripheral authentication service
+>    *			       state machine for a given peripheral, using the
+> @@ -625,7 +654,7 @@ static int __qcom_scm_pas_init_image(u32 peripheral, dma_addr_t mdata_phys,
+>    *		and optional blob of data used for authenticating the metadata
+>    *		and the rest of the firmware
+>    * @size:	size of the metadata
+> - * @ctx:	optional metadata context
+> + * @ctx:	optional pas context
+>    *
+>    * Return: 0 on success.
+>    *
+> @@ -634,13 +663,19 @@ static int __qcom_scm_pas_init_image(u32 peripheral, dma_addr_t mdata_phys,
+>    * qcom_scm_pas_metadata_release() by the caller.
+>    */
+>   int qcom_scm_pas_init_image(u32 peripheral, const void *metadata, size_t size,
+> -			    struct qcom_scm_pas_metadata *ctx)
+> +			    struct qcom_scm_pas_ctx *ctx)
+>   {
+> +	struct qcom_scm_pas_metadata *mdt_ctx;
+>   	struct qcom_scm_res res;
+>   	dma_addr_t mdata_phys;
+>   	void *mdata_buf;
+>   	int ret;
+>   
+> +	if (ctx && ctx->has_iommu) {
+> +		ret = qcom_scm_pas_prep_and_init_image(ctx, metadata, size);
+> +		return ret;
+> +	}
+> +
+>   	/*
+>   	 * During the scm call memory protection will be enabled for the meta
+>   	 * data blob, so make sure it's physically contiguous, 4K aligned and
+> @@ -663,10 +698,11 @@ int qcom_scm_pas_init_image(u32 peripheral, const void *metadata, size_t size,
+>   	ret = __qcom_scm_pas_init_image(peripheral, mdata_phys, mdata_buf, size, &res);
+>   	if (ret < 0 || !ctx) {
+>   		dma_free_coherent(__scm->dev, size, mdata_buf, mdata_phys);
+> -	} else if (ctx) {
+> -		ctx->ptr = mdata_buf;
+> -		ctx->phys = mdata_phys;
+> -		ctx->size = size;
+> +	} else if (ctx->metadata) {
+> +		mdt_ctx = ctx->metadata;
+> +		mdt_ctx->ptr = mdata_buf;
+> +		mdt_ctx->addr.dma_addr = mdata_phys;
+> +		mdt_ctx->size = size;
+>   	}
+>   
+>   	return ret ? : res.result[0];
+
+is this return path still valid now that you've functionally decomposed 
+into qcom_sm_pas_prep_and_init ?
+
+> @@ -675,18 +711,27 @@ EXPORT_SYMBOL_GPL(qcom_scm_pas_init_image);
+>   
+>   /**
+>    * qcom_scm_pas_metadata_release() - release metadata context
+> - * @ctx:	metadata context
+> + * @ctx:	pas context
+>    */
+> -void qcom_scm_pas_metadata_release(struct qcom_scm_pas_metadata *ctx)
+> +void qcom_scm_pas_metadata_release(struct qcom_scm_pas_ctx *ctx)
+>   {
+> -	if (!ctx->ptr)
+> +	struct qcom_scm_pas_metadata *mdt_ctx;
+> +
+> +	mdt_ctx = ctx->metadata;
+> +	if (!mdt_ctx->ptr)
+>   		return;
+>   
+> -	dma_free_coherent(__scm->dev, ctx->size, ctx->ptr, ctx->phys);
+> +	if (ctx->has_iommu) {
+> +		qcom_tzmem_free(mdt_ctx->ptr);
+> +		mdt_ctx->addr.phys_addr = 0;
+> +	} else {
+> +		dma_free_coherent(__scm->dev, mdt_ctx->size, mdt_ctx->ptr,
+> +				  mdt_ctx->addr.dma_addr);
+> +		mdt_ctx->addr.dma_addr = 0;
+> +	}
+>   
+> -	ctx->ptr = NULL;
+> -	ctx->phys = 0;
+> -	ctx->size = 0;
+> +	mdt_ctx->ptr = NULL;
+> +	mdt_ctx->size = 0;
+>   }
+>   EXPORT_SYMBOL_GPL(qcom_scm_pas_metadata_release);
+>   
+> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+> index e376c0338576..09cada92dfd5 100644
+> --- a/drivers/remoteproc/qcom_q6v5_pas.c
+> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
+> @@ -209,9 +209,9 @@ static int qcom_pas_unprepare(struct rproc *rproc)
+>   	 * auth_and_reset() was successful, but in other cases clean it up
+>   	 * here.
+>   	 */
+> -	qcom_scm_pas_metadata_release(pas->pas_ctx->metadata);
+> +	qcom_scm_pas_metadata_release(pas->pas_ctx);
+>   	if (pas->dtb_pas_id)
+> -		qcom_scm_pas_metadata_release(pas->dtb_pas_ctx->metadata);
+> +		qcom_scm_pas_metadata_release(pas->dtb_pas_ctx);
+>   
+>   	return 0;
+>   }
+> @@ -244,7 +244,7 @@ static int qcom_pas_load(struct rproc *rproc, const struct firmware *fw)
+>   	return 0;
+>   
+>   release_dtb_metadata:
+> -	qcom_scm_pas_metadata_release(pas->dtb_pas_ctx->metadata);
+> +	qcom_scm_pas_metadata_release(pas->dtb_pas_ctx);
+>   	release_firmware(pas->dtb_firmware);
+>   
+>   	return ret;
+> @@ -313,9 +313,9 @@ static int qcom_pas_start(struct rproc *rproc)
+>   		goto release_pas_metadata;
+>   	}
+>   
+> -	qcom_scm_pas_metadata_release(pas->pas_ctx->metadata);
+> +	qcom_scm_pas_metadata_release(pas->pas_ctx);
+>   	if (pas->dtb_pas_id)
+> -		qcom_scm_pas_metadata_release(pas->dtb_pas_ctx->metadata);
+> +		qcom_scm_pas_metadata_release(pas->dtb_pas_ctx);
+>   
+>   	/* firmware is used to pass reference from qcom_pas_start(), drop it now */
+>   	pas->firmware = NULL;
+> @@ -323,9 +323,9 @@ static int qcom_pas_start(struct rproc *rproc)
+>   	return 0;
+>   
+>   release_pas_metadata:
+> -	qcom_scm_pas_metadata_release(pas->pas_ctx->metadata);
+> +	qcom_scm_pas_metadata_release(pas->pas_ctx);
+>   	if (pas->dtb_pas_id)
+> -		qcom_scm_pas_metadata_release(pas->dtb_pas_ctx->metadata);
+> +		qcom_scm_pas_metadata_release(pas->dtb_pas_ctx);
+>   disable_px_supply:
+>   	if (pas->px_supply)
+>   		regulator_disable(pas->px_supply);
+> diff --git a/drivers/soc/qcom/mdt_loader.c b/drivers/soc/qcom/mdt_loader.c
+> index 509ff85d9bf6..a1718db91b3e 100644
+> --- a/drivers/soc/qcom/mdt_loader.c
+> +++ b/drivers/soc/qcom/mdt_loader.c
+> @@ -240,7 +240,7 @@ EXPORT_SYMBOL_GPL(qcom_mdt_read_metadata);
+>    */
+>   static int __qcom_mdt_pas_init(struct device *dev, const struct firmware *fw,
+>   			       const char *fw_name, int pas_id, phys_addr_t mem_phys,
+> -			       struct qcom_scm_pas_metadata *ctx)
+> +			       struct qcom_scm_pas_ctx *ctx)
+>   {
+>   	const struct elf32_phdr *phdrs;
+>   	const struct elf32_phdr *phdr;
+> @@ -491,7 +491,7 @@ int qcom_mdt_pas_load(struct qcom_scm_pas_ctx *ctx, const struct firmware *fw,
+>   	int ret;
+>   
+>   	ret = __qcom_mdt_pas_init(ctx->dev, fw, firmware, ctx->peripheral,
+> -				  ctx->mem_phys, ctx->metadata);
+> +				  ctx->mem_phys, ctx);
+>   	if (ret)
+>   		return ret;
+>   
+> diff --git a/include/linux/firmware/qcom/qcom_scm.h b/include/linux/firmware/qcom/qcom_scm.h
+> index a31006fe49a9..bd3417d9c3f9 100644
+> --- a/include/linux/firmware/qcom/qcom_scm.h
+> +++ b/include/linux/firmware/qcom/qcom_scm.h
+> @@ -68,7 +68,10 @@ int qcom_scm_set_remote_state(u32 state, u32 id);
+>   
+>   struct qcom_scm_pas_metadata {
+>   	void *ptr;
+> -	dma_addr_t phys;
+> +	union {
+> +		dma_addr_t dma_addr;
+> +		phys_addr_t phys_addr;
+> +	} addr;
+>   	ssize_t size;
+>   };
+>   
+> @@ -85,8 +88,8 @@ struct qcom_scm_pas_ctx {
+>   void *qcom_scm_pas_ctx_init(struct device *dev, u32 peripheral, phys_addr_t mem_phys,
+>   			    size_t mem_size, bool save_mdt_ctx);
+>   int qcom_scm_pas_init_image(u32 peripheral, const void *metadata, size_t size,
+> -			    struct qcom_scm_pas_metadata *ctx);
+> -void qcom_scm_pas_metadata_release(struct qcom_scm_pas_metadata *ctx);
+> +			    struct qcom_scm_pas_ctx *ctx);
+> +void qcom_scm_pas_metadata_release(struct qcom_scm_pas_ctx *ctx);
+>   int qcom_scm_pas_mem_setup(u32 peripheral, phys_addr_t addr, phys_addr_t size);
+>   int qcom_scm_pas_prepare_and_auth_reset(struct qcom_scm_pas_ctx *ctx);
+>   int qcom_scm_pas_auth_and_reset(u32 peripheral);
+
+Please review the error paths here especially WRT to qcom_mdt_pas_init();
+
+---
+bod
 
