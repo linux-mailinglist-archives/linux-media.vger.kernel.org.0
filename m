@@ -1,193 +1,408 @@
-Return-Path: <linux-media+bounces-40605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FB7B2FB8C
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 15:59:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD76B2FB8A
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 15:59:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00ACAAE3C41
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 13:49:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 686A91D02E3F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 13:54:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6832520B80B;
-	Thu, 21 Aug 2025 13:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E85BF2EC55C;
+	Thu, 21 Aug 2025 13:51:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kZtgsXTS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DS5ITwgL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C429D198E9B
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 13:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFFF2EC54C;
+	Thu, 21 Aug 2025 13:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755783940; cv=none; b=cOqAhauysiC02XagEDOjnX4imyTO5hXP8vs1IMd03FzRsLLgNKHZVntCmA77qxCV4ZctBgNg8fs/wpXCAGd8HM6dyjuAg7lsFvB34owb9q1aIjz1j7KJGtqa/ChKnzHrqwFOrTxfx3Vt+kP7rCcNPFFHsrHCC0HzPyI1iXXHgsQ=
+	t=1755784311; cv=none; b=TLv4ods6GfPuDRMjGPEbFOod6a0H4I2TQGTiQKAgxY7itKJs8vDcmFAkdB5y+MYzzJ5h+LXuXyma8DvmO0R854yIUQg7ZqvdFCw1yPrWXLgZA1FDStPxUV9u7eZtTh1eKiQqY71cbos7l1V27N5d7e4iC061fyOFM1s6wIt65Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755783940; c=relaxed/simple;
-	bh=W5OpRpgQZSAYng9DpP2P+lhbg+Ejeokss/8tz9pCB5I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NRATcYXdyf45Fn51XKDkQLcp6pc5VD+GuFLqd0SFSFkkTcmGGQWnnept0UpYb0EGqb4Yb4h+tekhqS8HspHIxZ2NG2FT5yP20x74ZvxhhrBtb2yGND3OAMChVJuC9+UMnrRfcNmVQ2tjOXYQ3Fq2ZKPtsiPVzDA+JPQxWSwd9Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kZtgsXTS; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b9e413a219so759155f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 06:45:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755783937; x=1756388737; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2htF7UYkLJf9Z7CPGicbBUD/Z2w4PEBts+j2YgNwTZo=;
-        b=kZtgsXTS6BBRX0H/XH68AeKv692CNdEZ246xQpqaRjdlSCXkNT+7pv6AsdyoldwkIT
-         t4CsLnIyheKK8BJfMNB1XJCd//CtMvDdTVOkZuOTdWOJy9HiMva5TwTC4mStiz6jgZAV
-         NRQx1Pjz9fnwKrHnbETV6/zyfbkl+BOGypV3HdkA5EaKoBceVOPbsdnw9IJcez5s7FsD
-         AGqjp3omZg27KFX/q6VXccfw1C7p9lNo+p+iQtC7mKBebtcz0YbE4CNgutnSlZYqbsVO
-         OIPHzlDZ7a3ZijkXoaE44qWgfuJ7UpOLqe3iPRmfFBtF0ZdOwe6HtU5mqiYVyZjUKWyp
-         Y3/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755783937; x=1756388737;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2htF7UYkLJf9Z7CPGicbBUD/Z2w4PEBts+j2YgNwTZo=;
-        b=V+QEhiCm1PcmxsWvQKTaU7kRySZbsiDTBx6RVp3BPBl86sUEd10j3rVzfT7Wn07hxU
-         oUUczcRPwvielzTL0M33vflZBJpEEK1Sb3HwjvF28lBzvuuNABmsn/TVP1MlWCD6ln5S
-         H/am41nq0WF/1DIbSbD+VqpFlqz2yW2rsXvM0zpe2LiIojB4fp/P6F7TGybnGJk6jC7q
-         Nz85oR/cpQubzw42PG/wPx0Bol+pcv9QXplhfEnsn0hLwPL25u7dbWm9PaqTdZ9biJxu
-         c/HXsQDdawFNvkzpi3SNLG+Qu7stfhPaCmw7ffkISsDp0AWGsHE4erND16USLN8xLMYS
-         bX0Q==
-X-Gm-Message-State: AOJu0Ywkbi6SAS4Ch2irqCPpDXc1ESmQZZ/mH6XxYLI+c3jKT/mBj638
-	RwfBg9/mYzzyHJgK53WCPoNlgHZftAaXUc9XTFpjd9XS7gk783+kbIEgKaUJm3Vss69OZrTgQc8
-	Jpj/NFIc=
-X-Gm-Gg: ASbGnct24ZLacFF3lSf5+QZ8dM9DpzaY0uDOpX2k251at49p0s3r4OKiCRnoQ+DEQQP
-	Ex5uIk2eZggdmArKm66Eiw1LuBcT4bUWW8EYo4zWjtjw37UrGyzUSvnQdMHXfRnecXS9eqMof8k
-	Qiumcf10s2cifMBdaCl69tV9Mw1Q6UOVoBBfrsww0a8cZjjVm1KBwXy5a9aElCqxiu7rrBplBXy
-	cNoaVT1ePkxNaV1jWEUTEZSv9bq/BOSAmVqOpuqapF5zNB4Fh/WR0ZiOtEWzTtPbVehSd5Gn9fL
-	+MhdQPn5qkxECDhE7IOSd6EYdX9Siq/obrPLjhzaAI5ZOw1ZGS/44tliyyDy3fvJ+3WCaH6EUKO
-	TJbts1abt3tBtGnQu+QiGkiO/XNye9aB0AHAzyUfNR6HZdxoeCF9O2dK9wyfohftC
-X-Google-Smtp-Source: AGHT+IGrfdqa8HYNFWMTlms4ECBMzRvLwkRwupDy9hYePkEXxbabsC2NpkM7F7VGAfJ6CBe0qSalDw==
-X-Received: by 2002:a05:6000:40dd:b0:3b4:9721:2b2b with SMTP id ffacd0b85a97d-3c494fc7fe2mr2403420f8f.12.1755783936977;
-        Thu, 21 Aug 2025 06:45:36 -0700 (PDT)
-Received: from [192.168.0.13] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b4e269d20sm14683405e9.2.2025.08.21.06.45.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Aug 2025 06:45:36 -0700 (PDT)
-Message-ID: <30e1e803-0218-4841-a73b-5c19d8bf48cb@linaro.org>
-Date: Thu, 21 Aug 2025 14:45:35 +0100
+	s=arc-20240116; t=1755784311; c=relaxed/simple;
+	bh=zkqErrvv+wDH7BaphH3gZ0s60p5go2t61ZS8R7ytl4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fCd/6GZWENr9t6EcCHfzwNEwMvMrIqxLa7UhFybMpUuVNMHGPLwsCvZuGW+6qwLDJRmZiUYyixNjgDk4NORhIuW0j361ojYHCfKrBrHrW8OpyLaBDSjGHh1rWmwM8UbRYmJiaFqa9tHSDW1n4GpvOnPfIL5wN7mDAekf0RIr8vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DS5ITwgL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3A175C7B;
+	Thu, 21 Aug 2025 15:50:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755784248;
+	bh=zkqErrvv+wDH7BaphH3gZ0s60p5go2t61ZS8R7ytl4U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DS5ITwgLGz/sxvYg/cDap/s0iIDvU/MNzfzsTs00VB2ud5swQWHLGT3XlWQFhohl4
+	 8WhxVWHfyohFua6uazPnxN9y4cOb69AoUK2WLKRxgVkYmcZ9Qc9z8HpYGO30ypJcmG
+	 +vR21Ay1H488d4tGe0TYjVhnB9u1/62+BtvbiCrE=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Guoniu Zhou <guoniu.zhou@nxp.com>,
+	Christian Hemp <c.hemp@phytec.de>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Stefan Riedmueller <s.riedmueller@phytec.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	imx@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/2] media: nxp: imx8-isi: m2m: Fix streaming cleanup on release
+Date: Thu, 21 Aug 2025 16:51:22 +0300
+Message-ID: <20250821135123.29462-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] media: iris: vpu3x: Add MNoC low power handshake
- during hardware power-off
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-References: <20250821-sm8650-power-sequence-fix-v3-1-645816ba3826@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20250821-sm8650-power-sequence-fix-v3-1-645816ba3826@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 21/08/2025 11:54, Dikshita Agarwal wrote:
-> Add the missing write to AON_WRAPPER_MVP_NOC_LPI_CONTROL before
-> reading the LPI status register. Introduce a handshake loop to ensure
-> MNoC enters low power mode reliably during VPU3 hardware power-off with
-> timeout handling.
-> 
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
-> Changes in v3:
-> - Fixed the loop to capture the  success of the last power-on command (Bryan)
-> - Link to v2: https://lore.kernel.org/r/20250813-sm8650-power-sequence-fix-v2-1-9ed0fc2c45cb@quicinc.com
-> 
-> Changes in v2:
-> - Restructured loop for readability (Jorge)
-> - Used defines for bits (Konrad, Jorge)
-> - Used udelay for short waits (Konrad)
-> - Link to v1: https://lore.kernel.org/r/20250812-sm8650-power-sequence-fix-v1-1-a51e7f99c56c@quicinc.com
-> ---
->   drivers/media/platform/qcom/iris/iris_vpu3x.c | 32 +++++++++++++++++++++++++--
->   1 file changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> index 9b7c9a1495ee2f51c60b1142b2ed4680ff798f0a..bfc52eb04ed0e1c88efe74a8d27bb95e8a0ca331 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> @@ -19,6 +19,9 @@
->   #define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
->   #define REQ_POWER_DOWN_PREP			BIT(0)
->   #define WRAPPER_IRIS_CPU_NOC_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x60)
-> +#define NOC_LPI_STATUS_DONE			BIT(0) /* Indicates the NOC handshake is complete */
-> +#define NOC_LPI_STATUS_DENY			BIT(1) /* Indicates the NOC handshake is denied */
-> +#define NOC_LPI_STATUS_ACTIVE		BIT(2) /* Indicates the NOC is active */
->   #define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
->   #define CORE_CLK_RUN				0x0
->   
-> @@ -109,7 +112,9 @@ static void iris_vpu3_power_off_hardware(struct iris_core *core)
->   
->   static void iris_vpu33_power_off_hardware(struct iris_core *core)
->   {
-> +	bool handshake_done = false, handshake_busy = false;
->   	u32 reg_val = 0, value, i;
-> +	u32 count = 0;
->   	int ret;
->   
->   	if (iris_vpu3x_hw_power_collapsed(core))
-> @@ -128,13 +133,36 @@ static void iris_vpu33_power_off_hardware(struct iris_core *core)
->   			goto disable_power;
->   	}
->   
-> +	/* Retry up to 1000 times as recommended by hardware documentation */
-> +	do {
-> +		/* set MNoC to low power */
-> +		writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-> +
-> +		udelay(15);
-> +
-> +		value = readl(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS);
-> +
-> +		handshake_done = value & NOC_LPI_STATUS_DONE;
-> +		handshake_busy = value & (NOC_LPI_STATUS_DENY | NOC_LPI_STATUS_ACTIVE);
-> +
-> +		if (handshake_done || !handshake_busy)
-> +			break;
-> +
-> +		writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-> +
-> +		udelay(15);
-> +
-> +	} while (++count < 1000);
-> +
-> +	if (!handshake_done && handshake_busy)
-> +		dev_err(core->dev, "LPI handshake timeout\n");
-> +
->   	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
->   				 reg_val, reg_val & BIT(0), 200, 2000);
->   	if (ret)
->   		goto disable_power;
->   
-> -	/* set MNoC to low power, set PD_NOC_QREQ (bit 0) */
-> -	writel(BIT(0), core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-> +	writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
->   
->   	writel(CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE,
->   	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
-> 
-> ---
-> base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
-> change-id: 20250812-sm8650-power-sequence-fix-ba9a92098233
-> 
-> Best regards,
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+From: Guoniu Zhou <guoniu.zhou@nxp.com>
+
+If streamon/streamoff calls are imbalanced, such as when exiting an
+application with Ctrl+C when streaming, the m2m usage_count will never
+reach zero and the ISI channel won't be freed. Besides from that, if the
+input line width is more than 2K, it will trigger a WARN_ON():
+
+[ 59.222120] ------------[ cut here ]------------
+[ 59.226758] WARNING: drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c:631 at mxc_isi_channel_chain+0xa4/0x120, CPU#4: v4l2-ctl/654
+[ 59.238569] Modules linked in: ap1302
+[ 59.242231] CPU: 4 UID: 0 PID: 654 Comm: v4l2-ctl Not tainted 6.16.0-rc4-next-20250704-06511-gff0e002d480a-dirty #258 PREEMPT
+[ 59.253597] Hardware name: NXP i.MX95 15X15 board (DT)
+[ 59.258720] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[ 59.265669] pc : mxc_isi_channel_chain+0xa4/0x120
+[ 59.270358] lr : mxc_isi_channel_chain+0x44/0x120
+[ 59.275047] sp : ffff8000848c3b40
+[ 59.278348] x29: ffff8000848c3b40 x28: ffff0000859b4c98 x27: ffff800081939f00
+[ 59.285472] x26: 000000000000000a x25: ffff0000859b4cb8 x24: 0000000000000001
+[ 59.292597] x23: ffff0000816f4760 x22: ffff0000816f4258 x21: ffff000084ceb780
+[ 59.299720] x20: ffff000084342ff8 x19: ffff000084340000 x18: 0000000000000000
+[ 59.306845] x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffffdb369e1c
+[ 59.313969] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+[ 59.321093] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+[ 59.328217] x8 : ffff8000848c3d48 x7 : ffff800081930b30 x6 : ffff800081930b30
+[ 59.335340] x5 : ffff0000859b6000 x4 : ffff80008193ae80 x3 : ffff800081022420
+[ 59.342464] x2 : ffff0000852f6900 x1 : 0000000000000001 x0 : ffff000084341000
+[ 59.349590] Call trace:
+[ 59.352025]  mxc_isi_channel_chain+0xa4/0x120 (P)
+[ 59.356722]  mxc_isi_m2m_streamon+0x160/0x20c
+[ 59.361072]  v4l_streamon+0x24/0x30
+[ 59.364556]  __video_do_ioctl+0x40c/0x4a0
+[ 59.368560]  video_usercopy+0x2bc/0x690
+[ 59.372382]  video_ioctl2+0x18/0x24
+[ 59.375857]  v4l2_ioctl+0x40/0x60
+[ 59.379168]  __arm64_sys_ioctl+0xac/0x104
+[ 59.383172]  invoke_syscall+0x48/0x104
+[ 59.386916]  el0_svc_common.constprop.0+0xc0/0xe0
+[ 59.391613]  do_el0_svc+0x1c/0x28
+[ 59.394915]  el0_svc+0x34/0xf4
+[ 59.397966]  el0t_64_sync_handler+0xa0/0xe4
+[ 59.402143]  el0t_64_sync+0x198/0x19c
+[ 59.405801] ---[ end trace 0000000000000000 ]---
+
+Address this issue by moving the streaming preparation and cleanup to
+the vb2 .prepare_streaming() and .unprepare_streaming() operations. This
+also simplifies the driver by allowing direct usage of the
+v4l2_m2m_ioctl_streamon() and v4l2_m2m_ioctl_streamoff() helpers.
+
+Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ .../platform/nxp/imx8-isi/imx8-isi-m2m.c      | 224 +++++++-----------
+ 1 file changed, 92 insertions(+), 132 deletions(-)
+
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+index 6bdd13b3048f..a8b10d944d69 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+@@ -43,7 +43,6 @@ struct mxc_isi_m2m_ctx_queue_data {
+ 	struct v4l2_pix_format_mplane format;
+ 	const struct mxc_isi_format_info *info;
+ 	u32 sequence;
+-	bool streaming;
+ };
+ 
+ struct mxc_isi_m2m_ctx {
+@@ -236,6 +235,65 @@ static void mxc_isi_m2m_vb2_buffer_queue(struct vb2_buffer *vb2)
+ 	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+ }
+ 
++static int mxc_isi_m2m_vb2_prepare_streaming(struct vb2_queue *q)
++{
++	struct mxc_isi_m2m_ctx *ctx = vb2_get_drv_priv(q);
++	const struct v4l2_pix_format_mplane *out_pix = &ctx->queues.out.format;
++	const struct v4l2_pix_format_mplane *cap_pix = &ctx->queues.cap.format;
++	const struct mxc_isi_format_info *cap_info = ctx->queues.cap.info;
++	const struct mxc_isi_format_info *out_info = ctx->queues.out.info;
++	struct mxc_isi_m2m *m2m = ctx->m2m;
++	int ret;
++
++	guard(mutex)(&m2m->lock);
++
++	if (m2m->usage_count == INT_MAX)
++		return -EOVERFLOW;
++
++	/*
++	 * Acquire the pipe and initialize the channel with the first user of
++	 * the M2M device.
++	 */
++	if (m2m->usage_count == 0) {
++		bool bypass = cap_pix->width == out_pix->width &&
++			      cap_pix->height == out_pix->height &&
++			      cap_info->encoding == out_info->encoding;
++
++		ret = mxc_isi_channel_acquire(m2m->pipe,
++					      &mxc_isi_m2m_frame_write_done,
++					      bypass);
++		if (ret)
++			return ret;
++
++		mxc_isi_channel_get(m2m->pipe);
++	}
++
++	m2m->usage_count++;
++
++	/*
++	 * Allocate resources for the channel, counting how many users require
++	 * buffer chaining.
++	 */
++	if (!ctx->chained && out_pix->width > MXC_ISI_MAX_WIDTH_UNCHAINED) {
++		ret = mxc_isi_channel_chain(m2m->pipe);
++		if (ret)
++			goto err_deinit;
++
++		m2m->chained_count++;
++		ctx->chained = true;
++	}
++
++	return 0;
++
++err_deinit:
++	if (--m2m->usage_count == 0) {
++		mxc_isi_channel_put(m2m->pipe);
++		mxc_isi_channel_release(m2m->pipe);
++	}
++
++	return ret;
++}
++
+ static int mxc_isi_m2m_vb2_start_streaming(struct vb2_queue *q,
+ 					   unsigned int count)
+ {
+@@ -265,13 +323,44 @@ static void mxc_isi_m2m_vb2_stop_streaming(struct vb2_queue *q)
+ 	}
+ }
+ 
++static void mxc_isi_m2m_vb2_unprepare_streaming(struct vb2_queue *q)
++{
++	struct mxc_isi_m2m_ctx *ctx = vb2_get_drv_priv(q);
++	struct mxc_isi_m2m *m2m = ctx->m2m;
++
++	guard(mutex)(&m2m->lock);
++
++	/*
++	 * If the last context is this one, reset it to make sure the device
++	 * will be reconfigured when streaming is restarted.
++	 */
++	if (m2m->last_ctx == ctx)
++		m2m->last_ctx = NULL;
++
++	/* Free the channel resources if this is the last chained context. */
++	if (ctx->chained && --m2m->chained_count == 0)
++		mxc_isi_channel_unchain(m2m->pipe);
++	ctx->chained = false;
++
++	/* Turn off the light with the last user. */
++	if (--m2m->usage_count == 0) {
++		mxc_isi_channel_disable(m2m->pipe);
++		mxc_isi_channel_put(m2m->pipe);
++		mxc_isi_channel_release(m2m->pipe);
++	}
++
++	WARN_ON(m2m->usage_count < 0);
++}
++
+ static const struct vb2_ops mxc_isi_m2m_vb2_qops = {
+ 	.queue_setup		= mxc_isi_m2m_vb2_queue_setup,
+ 	.buf_init		= mxc_isi_m2m_vb2_buffer_init,
+ 	.buf_prepare		= mxc_isi_m2m_vb2_buffer_prepare,
+ 	.buf_queue		= mxc_isi_m2m_vb2_buffer_queue,
++	.prepare_streaming	= mxc_isi_m2m_vb2_prepare_streaming,
+ 	.start_streaming	= mxc_isi_m2m_vb2_start_streaming,
+ 	.stop_streaming		= mxc_isi_m2m_vb2_stop_streaming,
++	.unprepare_streaming	= mxc_isi_m2m_vb2_unprepare_streaming,
+ };
+ 
+ static int mxc_isi_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+@@ -481,135 +570,6 @@ static int mxc_isi_m2m_s_fmt_vid(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
+-static int mxc_isi_m2m_streamon(struct file *file, void *fh,
+-				enum v4l2_buf_type type)
+-{
+-	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+-	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
+-	const struct v4l2_pix_format_mplane *out_pix = &ctx->queues.out.format;
+-	const struct v4l2_pix_format_mplane *cap_pix = &ctx->queues.cap.format;
+-	const struct mxc_isi_format_info *cap_info = ctx->queues.cap.info;
+-	const struct mxc_isi_format_info *out_info = ctx->queues.out.info;
+-	struct mxc_isi_m2m *m2m = ctx->m2m;
+-	int ret;
+-
+-	if (q->streaming)
+-		return 0;
+-
+-	mutex_lock(&m2m->lock);
+-
+-	if (m2m->usage_count == INT_MAX) {
+-		ret = -EOVERFLOW;
+-		goto unlock;
+-	}
+-
+-	/*
+-	 * Acquire the pipe and initialize the channel with the first user of
+-	 * the M2M device.
+-	 */
+-	if (m2m->usage_count == 0) {
+-		bool bypass = cap_pix->width == out_pix->width &&
+-			      cap_pix->height == out_pix->height &&
+-			      cap_info->encoding == out_info->encoding;
+-
+-		ret = mxc_isi_channel_acquire(m2m->pipe,
+-					      &mxc_isi_m2m_frame_write_done,
+-					      bypass);
+-		if (ret)
+-			goto unlock;
+-
+-		mxc_isi_channel_get(m2m->pipe);
+-	}
+-
+-	m2m->usage_count++;
+-
+-	/*
+-	 * Allocate resources for the channel, counting how many users require
+-	 * buffer chaining.
+-	 */
+-	if (!ctx->chained && out_pix->width > MXC_ISI_MAX_WIDTH_UNCHAINED) {
+-		ret = mxc_isi_channel_chain(m2m->pipe);
+-		if (ret)
+-			goto deinit;
+-
+-		m2m->chained_count++;
+-		ctx->chained = true;
+-	}
+-
+-	/*
+-	 * Drop the lock to start the stream, as the .device_run() operation
+-	 * needs to acquire it.
+-	 */
+-	mutex_unlock(&m2m->lock);
+-	ret = v4l2_m2m_ioctl_streamon(file, fh, type);
+-	if (ret) {
+-		/* Reacquire the lock for the cleanup path. */
+-		mutex_lock(&m2m->lock);
+-		goto unchain;
+-	}
+-
+-	q->streaming = true;
+-
+-	return 0;
+-
+-unchain:
+-	if (ctx->chained && --m2m->chained_count == 0)
+-		mxc_isi_channel_unchain(m2m->pipe);
+-	ctx->chained = false;
+-
+-deinit:
+-	if (--m2m->usage_count == 0) {
+-		mxc_isi_channel_put(m2m->pipe);
+-		mxc_isi_channel_release(m2m->pipe);
+-	}
+-
+-unlock:
+-	mutex_unlock(&m2m->lock);
+-	return ret;
+-}
+-
+-static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
+-				 enum v4l2_buf_type type)
+-{
+-	struct mxc_isi_m2m_ctx *ctx = file_to_isi_m2m_ctx(file);
+-	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
+-	struct mxc_isi_m2m *m2m = ctx->m2m;
+-
+-	v4l2_m2m_ioctl_streamoff(file, fh, type);
+-
+-	if (!q->streaming)
+-		return 0;
+-
+-	mutex_lock(&m2m->lock);
+-
+-	/*
+-	 * If the last context is this one, reset it to make sure the device
+-	 * will be reconfigured when streaming is restarted.
+-	 */
+-	if (m2m->last_ctx == ctx)
+-		m2m->last_ctx = NULL;
+-
+-	/* Free the channel resources if this is the last chained context. */
+-	if (ctx->chained && --m2m->chained_count == 0)
+-		mxc_isi_channel_unchain(m2m->pipe);
+-	ctx->chained = false;
+-
+-	/* Turn off the light with the last user. */
+-	if (--m2m->usage_count == 0) {
+-		mxc_isi_channel_disable(m2m->pipe);
+-		mxc_isi_channel_put(m2m->pipe);
+-		mxc_isi_channel_release(m2m->pipe);
+-	}
+-
+-	WARN_ON(m2m->usage_count < 0);
+-
+-	mutex_unlock(&m2m->lock);
+-
+-	q->streaming = false;
+-
+-	return 0;
+-}
+-
+ static const struct v4l2_ioctl_ops mxc_isi_m2m_ioctl_ops = {
+ 	.vidioc_querycap		= mxc_isi_m2m_querycap,
+ 
+@@ -630,8 +590,8 @@ static const struct v4l2_ioctl_ops mxc_isi_m2m_ioctl_ops = {
+ 	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
+ 	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
+ 
+-	.vidioc_streamon		= mxc_isi_m2m_streamon,
+-	.vidioc_streamoff		= mxc_isi_m2m_streamoff,
++	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
++	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
+ 
+ 	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
+ 	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
+
+base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
+prerequisite-patch-id: 9581e075a75aef4b16218280c8dd5788840fad41
+prerequisite-patch-id: 74bfb3e362032eae530395b10471ad86175fe592
+prerequisite-patch-id: 6c7220d0c283111ab3027086f6ce2d17447e5d07
+prerequisite-patch-id: ebefea609f3bd3aacb344701c9971afef5be48ad
+-- 
+Regards,
+
+Laurent Pinchart
+
 
