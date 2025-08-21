@@ -1,295 +1,184 @@
-Return-Path: <linux-media+bounces-40611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F07B2FC26
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:18:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF4AB2FC87
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:29:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 273283B5537
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:13:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B620FAA3EF0
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:22:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89F02239085;
-	Thu, 21 Aug 2025 14:13:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F9BC28BABE;
+	Thu, 21 Aug 2025 14:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HpCX2yFf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMoln9ch"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9F42DF6E3;
-	Thu, 21 Aug 2025 14:13:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B232280A4B;
+	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755785604; cv=none; b=TrkB1n6YIBMALHr9/khiunKLiaDkfLj7tHe7o5z3BAgy6r0SyaOo9KodX7WjgTpOGejdzu3srkOCBQx60ga7qoa0lD2JE1W0aQG3Wcu0cg5CFIxJOZY+SSkJyGIo95FiaaaJL47m2uPECx+DdNvxkSI8reBPuOiHiJhvz9N2DQM=
+	t=1755786099; cv=none; b=PGqdnmRTdQFfokEHP0mp9Y+PjWWYj1FMVkKO0zy/FGarAfeJVi6894vn/ZcjRbdn0zq+EJ3koSdosoMKG78ilL6Yvcggo6QCeAX+8U+j7igMyCikzjCBodnzt8GUt4QsJYgVAiG4N8c89SKfms/syPzg8pH07ORkukNXTe6nI/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755785604; c=relaxed/simple;
-	bh=WHdUVjufBqfHKq93sJXoVmYd22ty4m33YEtd3uPMaZk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lyj8KqeVxn4Dn4RIgkvap67vR6bcA3AyjTOU0wRJwKe6FXAvjUBvJ16GuiomZp4iDjqzkr89vkY9wxdoT/gm6WFwpcv48NRFXaNrKwkMCb9B9GnOT+AFi6PzAzTkcNj0tXoNBXYqs+9DUuAHIn/FP4ah56pNJs281xHZeEvRvEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HpCX2yFf; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2447d607b70so1541035ad.3;
-        Thu, 21 Aug 2025 07:13:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755785601; x=1756390401; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ewQnvlqhN4ny32MfAw6z/qV7rnt0Pvo8EUPrCTIPPWU=;
-        b=HpCX2yFf67oVCT87jqW53JAaS9ZgjxvvTLjDlqS5c5cEZrRtVFH1OclcAaDp+oeOeu
-         BlIGxyeXHIrsTrsUbCs+exXQLy7c6JHWomPPNLsmGq4S/NvbmDmnXogqFgdJ5/Z2qS0B
-         QfoPDNjfxY6i/E4CSkKe0GA+VA7tNvhe7FC3iNh8aKwDKgIn8kC/WFSbZkxyEb0CPUFa
-         7+rRBXF7waqmRbsJRNfMZZUZMyB3u1Ga1cOB8xsFR72mp9nA71Ijhp1evCSVKPaeWrMU
-         krM9G/k3qCIBT8UMk0o+9jb2ZHua1HIr69isJYHU0mmtXZkiOpQiRj6OQoiZbVit0C2y
-         /4sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755785601; x=1756390401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ewQnvlqhN4ny32MfAw6z/qV7rnt0Pvo8EUPrCTIPPWU=;
-        b=gCbWcvDClv/Kiv82Y+mdE46WqUTq8wYxN4YsKxxhQFE1gdKeB7AaUJlQdkZsYPTrM6
-         U0OGHxzwv2JC+60CWoiNPbd8+b/UxKDsEipLRJw6YvoJbL6sLy1LhWpWd17zcZaAx69I
-         8YrhmyH2ltPrHZgcoRAeo4agfroC1Zpg77IIlf64g367z5FbvadAnNZJFUA00olqyLZU
-         eMvcBEgQEsfZ7xBUV7FmGvw+32ZQ1qO/mUQpoUZiaKmb13sEcPncpIu3BSF4gdnOMVDG
-         tfCwYfN4EGnt3ABafknaeJS2UYMsavka1D5nePU4WKGqlV6wiGtGx45gb3A2Q+BQWdw8
-         zRGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgqpvAb0LuUQaTDpHR7MeaFMpT+ZRsblxbNPH55eb/Zav3IHnZ2Fls7lftHiFAfrdxf3doCboZj1pMyMw=@vger.kernel.org, AJvYcCVeGLu2Izkg8flaiReW7WUjCv+WoqN2nxl063w08++WZxXuGsLDXFH72bL/oBkE7AeMM534hXlquaHSQgg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDs7er51i1G0+33C6cwU3q3QWpW7/R1QYYFDCgJJOey2C0yE8n
-	56XP7hz9ySL0Vule7ssps1DX7u3s7jtF3fpi0RWiDVc7KY0XoknBIG0tMsSAnffEYKBVobIiyGa
-	820CKrAoyORkYuYdJSHBwFjUz+ORVoCc=
-X-Gm-Gg: ASbGnctqOESZ29mDEEMfXEv9UVMRvp888hAVlHlh6nTAZPS6fbuz8n2eun5ztKcO6lF
-	wSKFH+TZcIwErQrGKY6bE+YhY1DjSfbeZ/NYjuiGxNROr/BlLlc9j73fdOSqZPIavYk+rUhMzux
-	M3PHO5r3u8IQVGPPASCTRE7jnBPHWKNym4tRW5N1bFTYsii7Sp5EEFWP4c63Ta7JC6RdesVyre1
-	IaE+zQ=
-X-Google-Smtp-Source: AGHT+IHRc2aUrbiGENoV07AwMCzaGJhLBFchXgZtLS6TVE0HemOCZi8CwvOia3zy48LcLGITV96Y1WlMOkrR+BKq3g4=
-X-Received: by 2002:a17:902:f542:b0:240:4d65:508f with SMTP id
- d9443c01a7336-245fed79629mr24717095ad.6.1755785601462; Thu, 21 Aug 2025
- 07:13:21 -0700 (PDT)
+	s=arc-20240116; t=1755786099; c=relaxed/simple;
+	bh=7D8ImbQ64qRP/VowwgAm1Rn3cTSGFFW/kfcVSm7ahHI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SHcVqzdszplt8kLaKHGV4/f4qqlzdMtw18yfgejYpAF2lnJ10eRUkmmvFim1PzuZveo5Ni9HuThpXv49f4Uj0kRdJl6RoqHaywEpoehlHqOXuz08NAhykAbRv1YUU3GAQ9BmyjEu7LnV2H/pLsf/Waejj4SRtjh7QLCyhYxPBe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMoln9ch; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 224A0C19423;
+	Thu, 21 Aug 2025 14:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755786099;
+	bh=7D8ImbQ64qRP/VowwgAm1Rn3cTSGFFW/kfcVSm7ahHI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RMoln9chByuA9HzKbsT2GkLLsIMipkSxktB1G0OdhOnmY4Mn3j5wg7HAEp2+4Bqbo
+	 lLHL2LoD7jMxt397NSYatwYeQhhT0D7FrojNI4fT9ktLy3FuEpaovMcmhFw8EUQCkk
+	 Mv7l2pu3+Hp24ZMf8Y6dIsGESyaw5ASQi/QcHMCP8u5Qxs9odRmzrDOm/4rFeMLpB4
+	 cn6PWX79+gYjkDA4IqqIFbNafXT3odqPQK//oNiEszc7uTPO0HGgPEkEgF3tkNw+iI
+	 T5w8d0kvp4+hfjuOQyxvEfg0EqLk5R9nj6+ahMPPZRAOISF1X0G1iujMwt+ia7PMiZ
+	 E/98q137XhI6A==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1up6Aa-0000000BT81-44nX;
+	Thu, 21 Aug 2025 16:21:36 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sean Young <sean@mess.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH 00/24] better handle media headers
+Date: Thu, 21 Aug 2025 16:21:06 +0200
+Message-ID: <cover.1755784929.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250821064031.39090-1-tzimmermann@suse.de> <b92c072b-a302-47c8-b2c2-f4b2e3954165@amd.com>
- <CADnq5_PxpsXkzzpa8KJoZL-pBaM2ViVBOaXuYkYyd_xHBNLt9A@mail.gmail.com> <37cacb29-e382-400c-b4fb-bed733ce480b@suse.de>
-In-Reply-To: <37cacb29-e382-400c-b4fb-bed733ce480b@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 21 Aug 2025 10:13:09 -0400
-X-Gm-Features: Ac12FXxO3lpLz4bRGPBuj6tXGU7_OsrxRgedUV-m31__xMMSMjZ2TdDfFe7M8D8
-Message-ID: <CADnq5_PEXW9J=yVaXEA0VoKPZW48SQj7inLM=wq-nQX+xLP_og@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v3] drm/amdgpu: Pin buffers while
- vmap'ing exported dma-buf objects
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	sumit.semwal@linaro.org, oushixiong@kylinos.cn, alexander.deucher@amd.com, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
-	simona@ffwll.ch, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Thu, Aug 21, 2025 at 10:10=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
-e.de> wrote:
->
-> Hi
->
-> Am 21.08.25 um 15:13 schrieb Alex Deucher:
-> > On Thu, Aug 21, 2025 at 4:52=E2=80=AFAM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >>
-> >>
-> >> On 21.08.25 08:40, Thomas Zimmermann wrote:
-> >>> Current dma-buf vmap semantics require that the mapped buffer remains
-> >>> in place until the corresponding vunmap has completed.
-> >>>
-> >>> For GEM-SHMEM, this used to be guaranteed by a pin operation while cr=
-eating
-> >>> an S/G table in import. GEM-SHMEN can now import dma-buf objects with=
-out
-> >>> creating the S/G table, so the pin is missing. Leads to page-fault er=
-rors,
-> >>> such as the one shown below.
-> >>>
-> >>> [  102.101726] BUG: unable to handle page fault for address: ffffc901=
-27000000
-> >>> [...]
-> >>> [  102.157102] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
-> >>> [...]
-> >>> [  102.243250] Call Trace:
-> >>> [  102.245695]  <TASK>
-> >>> [  102.2477V95]  ? validate_chain+0x24e/0x5e0
-> >>> [  102.251805]  ? __lock_acquire+0x568/0xae0
-> >>> [  102.255807]  udl_render_hline+0x165/0x341 [udl]
-> >>> [  102.260338]  ? __pfx_udl_render_hline+0x10/0x10 [udl]
-> >>> [  102.265379]  ? local_clock_noinstr+0xb/0x100
-> >>> [  102.269642]  ? __lock_release.isra.0+0x16c/0x2e0
-> >>> [  102.274246]  ? mark_held_locks+0x40/0x70
-> >>> [  102.278177]  udl_primary_plane_helper_atomic_update+0x43e/0x680 [u=
-dl]
-> >>> [  102.284606]  ? __pfx_udl_primary_plane_helper_atomic_update+0x10/0=
-x10 [udl]
-> >>> [  102.291551]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
-> >>> [  102.297208]  ? lockdep_hardirqs_on+0x88/0x130
-> >>> [  102.301554]  ? _raw_spin_unlock_irq+0x24/0x50
-> >>> [  102.305901]  ? wait_for_completion_timeout+0x2bb/0x3a0
-> >>> [  102.311028]  ? drm_atomic_helper_calc_timestamping_constants+0x141=
-/0x200
-> >>> [  102.317714]  ? drm_atomic_helper_commit_planes+0x3b6/0x1030
-> >>> [  102.323279]  drm_atomic_helper_commit_planes+0x3b6/0x1030
-> >>> [  102.328664]  drm_atomic_helper_commit_tail+0x41/0xb0
-> >>> [  102.333622]  commit_tail+0x204/0x330
-> >>> [...]
-> >>> [  102.529946] ---[ end trace 0000000000000000 ]---
-> >>> [  102.651980] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
-> >>>
-> >>> In this stack strace, udl (based on GEM-SHMEM) imported and vmap'ed a
-> >>> dma-buf from amdgpu. Amdgpu relocated the buffer, thereby invalidatin=
-g the
-> >>> mapping.
-> >>>
-> >>> Provide a custom dma-buf vmap method in amdgpu that pins the object b=
-efore
-> >>> mapping it's buffer's pages into kernel address space. Do the opposit=
-e in
-> >>> vunmap.
-> >>>
-> >>> Note that dma-buf vmap differs from GEM vmap in how it handles reloca=
-tion.
-> >>> While dma-buf vmap keeps the buffer in place, GEM vmap requires the c=
-aller
-> >>> to keep the buffer in place. Hence, this fix is in amdgpu's dma-buf c=
-ode
-> >>> instead of its GEM code.
-> >>>
-> >>> A discussion of various approaches to solving the problem is availabl=
-e
-> >>> at [1].
-> >>>
-> >>> v3:
-> >>> - try (GTT | VRAM); drop CPU domain (Christian)
-> >>> v2:
-> >>> - only use mapable domains (Christian)
-> >>> - try pinning to domains in preferred order
-> >>>
-> >>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>> Fixes: 660cd44659a0 ("drm/shmem-helper: Import dmabuf without mapping=
- its sg_table")
-> >>> Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>> Closes: https://lore.kernel.org/dri-devel/ba1bdfb8-dbf7-4372-bdcb-df7=
-e0511c702@suse.de/
-> >>> Cc: Shixiong Ou <oushixiong@kylinos.cn>
-> >>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>> Cc: Maxime Ripard <mripard@kernel.org>
-> >>> Cc: David Airlie <airlied@gmail.com>
-> >>> Cc: Simona Vetter <simona@ffwll.ch>
-> >>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> >>> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> >>> Cc: dri-devel@lists.freedesktop.org
-> >>> Cc: linux-media@vger.kernel.org
-> >>> Cc: linaro-mm-sig@lists.linaro.org
-> >>> Link: https://lore.kernel.org/dri-devel/9792c6c3-a2b8-4b2b-b5ba-fba19=
-b153e21@suse.de/ # [1]
-> >> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Thomas did you want to take this through drm-misc or do you want me to
-> > pick this up?
->
-> If you haven't send out this week's fixes for amdgpu, you're welcome to
-> pick it up. Otherwise I can merge it via drm-misc-fixes next week.
+Hi Jon,
 
-Please go ahead.  I've already sent out my -fixes PR this week.
+Sorry for the big series. I wanted it to be smaller, by still this
+is still only the first half of the history. I have a pile of other
+patches on the top of this one to be sent - part of them to media.
 
-Alex
+This series comes after:
+	https://lore.kernel.org/linux-doc/cover.1755258303.git.mchehab+huawei@kernel.org/
 
->
-> Best regards
-> Thomas
->
-> >
-> > Thanks,
-> >
-> > Alex
-> >
-> >>> ---
-> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 34 ++++++++++++++++++=
-+--
-> >>>   1 file changed, 32 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_dma_buf.c
-> >>> index 5743ebb2f1b7..ce27cb5bb05e 100644
-> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> >>> @@ -285,6 +285,36 @@ static int amdgpu_dma_buf_begin_cpu_access(struc=
-t dma_buf *dma_buf,
-> >>>        return ret;
-> >>>   }
-> >>>
-> >>> +static int amdgpu_dma_buf_vmap(struct dma_buf *dma_buf, struct iosys=
-_map *map)
-> >>> +{
-> >>> +     struct drm_gem_object *obj =3D dma_buf->priv;
-> >>> +     struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(obj);
-> >>> +     int ret;
-> >>> +
-> >>> +     /*
-> >>> +      * Pin to keep buffer in place while it's vmap'ed. The actual
-> >>> +      * domain is not that important as long as it's mapable. Using
-> >>> +      * GTT and VRAM should be compatible with most use cases.
-> >>> +      */
-> >>> +     ret =3D amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT | AMDGPU_GEM_DO=
-MAIN_VRAM);
-> >>> +     if (ret)
-> >>> +             return ret;
-> >>> +     ret =3D drm_gem_dmabuf_vmap(dma_buf, map);
-> >>> +     if (ret)
-> >>> +             amdgpu_bo_unpin(bo);
-> >>> +
-> >>> +     return ret;
-> >>> +}
-> >>> +
-> >>> +static void amdgpu_dma_buf_vunmap(struct dma_buf *dma_buf, struct io=
-sys_map *map)
-> >>> +{
-> >>> +     struct drm_gem_object *obj =3D dma_buf->priv;
-> >>> +     struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(obj);
-> >>> +
-> >>> +     drm_gem_dmabuf_vunmap(dma_buf, map);
-> >>> +     amdgpu_bo_unpin(bo);
-> >>> +}
-> >>> +
-> >>>   const struct dma_buf_ops amdgpu_dmabuf_ops =3D {
-> >>>        .attach =3D amdgpu_dma_buf_attach,
-> >>>        .pin =3D amdgpu_dma_buf_pin,
-> >>> @@ -294,8 +324,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops =3D {
-> >>>        .release =3D drm_gem_dmabuf_release,
-> >>>        .begin_cpu_access =3D amdgpu_dma_buf_begin_cpu_access,
-> >>>        .mmap =3D drm_gem_dmabuf_mmap,
-> >>> -     .vmap =3D drm_gem_dmabuf_vmap,
-> >>> -     .vunmap =3D drm_gem_dmabuf_vunmap,
-> >>> +     .vmap =3D amdgpu_dma_buf_vmap,
-> >>> +     .vunmap =3D amdgpu_dma_buf_vunmap,
-> >>>   };
-> >>>
-> >>>   /**
-> >> _______________________________________________
-> >> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> >> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
->
+Its goal is to drop one of the most ancient and ugliest hack from
+the documentation build system.
+
+Before migrating to Sphinx, the media subsystem already had
+a very comprehensive uAPI book, together with a build time
+system to detect and point for any documentation gaps.
+
+When migrating to Sphinx, we ported the logic to a Perl script
+(parse-headers.pl) and Markus came up with a Sphinx extension
+(kernel_include.py). We also added some files to control how
+parse-headers produce results, and a Makefile.
+
+At the initial Sphinx versions (1.4.1 if I recall correctly), when
+a new symbol is added to videodev2.h, a new warning were
+produced at documentatiion time, it the patchset didn't have
+the corresponding documentation path.
+
+While kernel-include is generic, the only user at the moment
+is the media subsystem.
+
+This series gets rid of the Python script, replacing it by a
+command line script and a class. The parse header class
+can optionally be used by kernel-include to produce an
+enriched code that will contain cross-references.
+
+As the other conversions, it starts with a bug-compatible
+version of parse-headers, but the subsequent patches
+add more functionalities and fix bugs.
+
+It should be noticed that modern of Sphinx disabled the
+cross-reference warnings. So, at the next series, I'll be
+re-adding it in a controlled way (e.g. just for the
+references from kernel-include that has an special
+argument).
+
+The script also supports now generating a "toc" output,
+which will be used at the next series.
+
+Mauro Carvalho Chehab (24):
+  docs: parse-headers.pl: improve its debug output format
+  docs: parse-headers.py: convert parse-headers.pl
+  docs: parse-headers.py: improve --help logic
+  docs: parse-headers.py: better handle @var arguments
+  docs: parse-headers.py: simplify the rules for hashes
+  tools: docs: parse-headers.py: move it from sphinx dir
+  tools: docs: parse_data_structs.py: add methods to return output
+  MAINTAINERS: add files from tools/docs to documentation entry
+  docs: uapi: media: Makefile: use parse-headers.py
+  docs: : Update its coding style
+  docs: kernel_include.py: allow cross-reference generation
+  docs: kernel_include.py: generate warnings for broken refs
+  docs: kernel_include.py: move rawtext logic to separate functions
+  docs: kernel_include.py: move range logic to a separate function
+  docs: kernel_include.py: remove range restriction for gen docs
+  docs: kernel_include.py: move code and literal functions
+  docs: kernel_include.py: add support to generate a TOC table
+  docs: kernel_include.py: append line numbers to better report errors
+  docs: kernel_include.py: move apply_range() and add a docstring
+  docs: kernel_include.py: remove line numbers from parsed-literal
+  docs: kernel_include.py: remove Include class inheritance
+  docs: kernel_include.py: document all supported parameters
+  scripts: sphinx-build-wrapper: get rid of uapi/media Makefile
+  docs: sphinx: drop parse-headers.pl
+
+ .pylintrc                                     |   2 +-
+ Documentation/sphinx/kernel_include.py        | 519 +++++++++++++-----
+ Documentation/sphinx/parse-headers.pl         | 404 --------------
+ Documentation/userspace-api/media/Makefile    |  64 ---
+ .../userspace-api/media/cec/cec-header.rst    |   5 +-
+ .../media/{ => cec}/cec.h.rst.exceptions      |   0
+ .../media/{ => dvb}/ca.h.rst.exceptions       |   0
+ .../media/{ => dvb}/dmx.h.rst.exceptions      |   0
+ .../media/{ => dvb}/frontend.h.rst.exceptions |   0
+ .../userspace-api/media/dvb/headers.rst       |  17 +-
+ .../media/{ => dvb}/net.h.rst.exceptions      |   0
+ .../media/mediactl/media-header.rst           |   5 +-
+ .../{ => mediactl}/media.h.rst.exceptions     |   0
+ .../userspace-api/media/rc/lirc-header.rst    |   4 +-
+ .../media/{ => rc}/lirc.h.rst.exceptions      |   0
+ .../userspace-api/media/v4l/videodev.rst      |   4 +-
+ .../{ => v4l}/videodev2.h.rst.exceptions      |   0
+ MAINTAINERS                                   |   1 +
+ scripts/sphinx-build-wrapper                  |  48 --
+ tools/docs/lib/__init__.py                    |   0
+ tools/docs/lib/enrich_formatter.py            |  70 +++
+ tools/docs/lib/parse_data_structs.py          | 452 +++++++++++++++
+ tools/docs/parse-headers.py                   |  60 ++
+ 23 files changed, 984 insertions(+), 671 deletions(-)
+ delete mode 100755 Documentation/sphinx/parse-headers.pl
+ delete mode 100644 Documentation/userspace-api/media/Makefile
+ rename Documentation/userspace-api/media/{ => cec}/cec.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/ca.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/dmx.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/frontend.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => dvb}/net.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => mediactl}/media.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => rc}/lirc.h.rst.exceptions (100%)
+ rename Documentation/userspace-api/media/{ => v4l}/videodev2.h.rst.exceptions (100%)
+ create mode 100644 tools/docs/lib/__init__.py
+ create mode 100644 tools/docs/lib/enrich_formatter.py
+ create mode 100755 tools/docs/lib/parse_data_structs.py
+ create mode 100755 tools/docs/parse-headers.py
+
+-- 
+2.50.1
+
+
 
